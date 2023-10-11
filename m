@@ -2,500 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA9A17C4DC0
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 10:56:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36B407C4E3A
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 11:10:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345539AbjJKI4v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 04:56:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36788 "EHLO
+        id S232397AbjJKJKa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Oct 2023 05:10:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40438 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230256AbjJKI4u (ORCPT
+        with ESMTP id S231143AbjJKJK1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 04:56:50 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BA0594;
-        Wed, 11 Oct 2023 01:56:48 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2AA2C433C8;
-        Wed, 11 Oct 2023 08:56:44 +0000 (UTC)
-Message-ID: <757cbd5d-b099-4a84-8e05-51adfb2332f6@xs4all.nl>
-Date:   Wed, 11 Oct 2023 10:56:43 +0200
+        Wed, 11 Oct 2023 05:10:27 -0400
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2069.outbound.protection.outlook.com [40.107.21.69])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8459394;
+        Wed, 11 Oct 2023 02:10:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hNTHMit2AZTygELs4yPCav/YeRgCMMWfLAj9DgeNv/rF338+c9AdgZLSOD7XNElsCv7lozwD6Vv9yTSRn1WfjTj5W+Jjj9TuNuIIzZXs9auSUQF6+Y15KANf3uWKjPiugIoy+WHFXYZXn/M/pWF21Rb/6/pQGpWOTuMvRINAr9rNz1W3/2Wa5YpeSUv12kqzyUs7DyOakjNjppv2VEKAKvwYEdBDMhYy2/pmH7Rc0ejA45FNGyFX+5r1cp1Jw5Qx0nsBsbSWzioRz7M9UEeyN05aXfPWH9DSU41nZnTFkJR2xDd0Jf1dhAVgV/xlPlLZh4fsqp5JeVJ7ommq/eiQuQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YdGGHPBjSSNHg/upVv6hExLMwdEQgD6j/22W5/NgLJA=;
+ b=C5ESDnwvdpMQKQCKWZRg+jw67lMSBDOQwOj0NaWxqAnFtC0RhJjEYK1kAcyvVOBbiTFgxL/limMtqjoOS8dEhF31wmgd0ZphYsA935AzxZ8OkMR04fQMMXe9sULNqFihJkvMJDXYijEWfP7OFSueGV0zYcy5OCY1RPMBkRk21yv/0lHqXQmIU3INbn44oodCshMO8K62We13ZokzzhgGgKadJVQJ75fK0DS5g7DTo0BXMAXf1w2ZtwwMjka+ZDDQcLaKP0HimiSFuDATw+HQr4DZVLRYakV7c18WcQXTpd6xUJJEi+okxO+Bf8D3YNCiEiCo3PZWhL2W+Q2hicgRbQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=piap.lukasiewicz.gov.pl; dmarc=pass action=none
+ header.from=piap.pl; dkim=pass header.d=piap.pl; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lukasiewiczgov.onmicrosoft.com; s=selector1-lukasiewiczgov-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YdGGHPBjSSNHg/upVv6hExLMwdEQgD6j/22W5/NgLJA=;
+ b=yGPSWK1jiQEXZEdYTha39ZR4NnMwrEdQL99Xra85P3ezRIKTw9Qvl87xrinwvy9v8lXB/3jBQYzuPmEtLd7UP40wfzmYX+N4DdpPdEY+OKnGQJnI8os1hMl5mJXezNI0WBDYgamPL1kxTuoV3lI+/wCl6NHN1utltfpPpek1Z9c=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=piap.pl;
+Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:155::18)
+ by AM9P193MB1047.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:1ff::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.41; Wed, 11 Oct
+ 2023 09:10:21 +0000
+Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+ ([fe80::1bd8:1a5d:e69:d1a7]) by VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+ ([fe80::1bd8:1a5d:e69:d1a7%3]) with mapi id 15.20.6863.041; Wed, 11 Oct 2023
+ 09:10:20 +0000
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     linux-media <linux-media@vger.kernel.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: Sony IMX290/462 image sensors I2C xfer peculiarity
+References: <m3y1gpw8ri.fsf@t19.piap.pl>
+        <CAPY8ntASwh3AcRqE+2zF4Df=u+=wJ5K9icAeOrXTMJGDd1+caw@mail.gmail.com>
+        <m3o7hfx3ob.fsf@t19.piap.pl> <m37cnuvmhn.fsf@t19.piap.pl>
+Date:   Wed, 11 Oct 2023 11:10:20 +0200
+In-Reply-To: <m37cnuvmhn.fsf@t19.piap.pl> ("Krzysztof =?utf-8?Q?Ha=C5=82as?=
+ =?utf-8?Q?a=22's?= message of
+        "Tue, 10 Oct 2023 11:46:12 +0200")
+Message-ID: <m3o7h5tthf.fsf@t19.piap.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: WA2P291CA0044.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1f::20) To VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:155::18)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 21/54] media: core: Add helper to get queue number of
- buffers
-Content-Language: en-US, nl
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20231003080704.43911-1-benjamin.gaignard@collabora.com>
- <20231003080704.43911-22-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231003080704.43911-22-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0685:EE_|AM9P193MB1047:EE_
+X-MS-Office365-Filtering-Correlation-Id: 29c4ad58-e5ee-4da5-b229-08dbca39e4f7
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: txN5jWWxfBmjSBRbX5c1sQGVs9ZQSwekkh2sIU1swTjC5rnDJ00EeO9jDMAp1GHpr9YoDzth17bn0ysn2RbPNAYlE0yb0UwAwdk1hC2FjK8+Ut3I2kfjpwvanC3cj7FhlVZpiIRLbxAdMzLANEVBTy4EQ3Okb0/5hLC27znUt/uMtIozFkZHFrBSOjS5C1grp2jl5Xly4Zx5Rn9axs9Xc6NUpI3QgQpKDx9SfuW5P5yD1/zPuvLAf7R6qMTccHCQxiqvvhvUumm8hQbVmR+gr39MgX3onde8masi/b6YDpat2VbmhlxcOlS6UDWD88tsOxX2x1Hhap0cK7xai1G/mRowJEmYhSJfB8rVMdJ1OkvSt2jRROEqpXT40K+TZ9KTxisesP9XvV2wBCQkETf52gmceObAcpZ90gkrUXmFD8581cMHzgCvtlbmOd+Ff1KLnnyQgPpRmMXhg7+Lb0fZtEswuX7dwqFzH4Q9ct9jrU/zyYtGghB66Dpr5KVGSIYcv9DasQjFmKfxZOeHLlO8OqEg1H5pU2U/GZ9kBF33KYoD3MZxl2olkaxmkGio1lZTMlKYq9ng9cHTqUkoBklh9G0o5S6zqzcxdzpKpsqOl0yJK9IPtMFw9qB/NuPqV75p
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1P193MB0685.EURP193.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(376002)(136003)(396003)(366004)(39850400004)(346002)(1800799009)(64100799003)(186009)(451199024)(2906002)(52116002)(66574015)(83170400001)(6512007)(6506007)(42882007)(26005)(66556008)(6916009)(786003)(54906003)(66946007)(478600001)(316002)(66476007)(6486002)(38100700002)(38350700002)(83380400001)(4326008)(41300700001)(8676002)(8936002)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?d090bndiZXpUOVRRaEl2QWVOc1QxVGFMTkxvcjZESUU2bW1HZ05rODV3bzZD?=
+ =?utf-8?B?MnNMaVNOK3VWM05OaGpjeXVDc1ROM2FYcjBaTUNHNEYyeUYvUVpwQzNsR0Fv?=
+ =?utf-8?B?ZFpjT2Fxd2pjK3FVM0Z3ajBId2dkTVVyYlQveWZ5ME04QzkrcUsrT2c4MEk5?=
+ =?utf-8?B?WTNwK0IzT3IvNUJQM1diSHBUejhEb1RnZ2FVZ2FUZzJWWHNIN0NvMU1qUVhj?=
+ =?utf-8?B?V0p3elB4eDBpWG15bmk5U2JiMnV2QmV4am1sRytMSElRMFQwc0ZHNmVXeE9a?=
+ =?utf-8?B?ZUsrRXZtb2dTSDhpR1ZKcUtJb0YyN2VYUWMveTBnS0pod0RQRVhvMWNaTkZT?=
+ =?utf-8?B?UVRWQllQbkQxeDJsOHh1YjZGbFdxZkJJS0RVa2RlKzVGSFM2VUhDM0ZucUJn?=
+ =?utf-8?B?TFdWd2dhMDZsT1VUQml3SnBDajRhZlNBTXpBZUdQcHdIcFV2U2FEKzNZa0F5?=
+ =?utf-8?B?UVlaL1M0L0NleGhiWkZ2YUh3MmdEbWZqbDFtTlFJd0Vab2ZhYzRSTk9icWt6?=
+ =?utf-8?B?RjZhcmQvQmFucEFRanFzWlF3MldVT0FGTWZ2S3hhYWtCTy9qTlRqczJwaXNz?=
+ =?utf-8?B?RnlPS0hiQVpNV1BWRTVpeXNab1c4dTRmR21iK0orMnJxWXg3MXQxeUU0OFh5?=
+ =?utf-8?B?TVNVTFRUZ2lpRjVqTnhPSHlyN244T3QxUFk2SXJDWlE0bnhDcDdOcjZLVEtW?=
+ =?utf-8?B?ODg3TGZ1Q3dGclQra284aXh2SThYTFROVlFqQ0xMYkpWZUY0bUlnRE5ReXdG?=
+ =?utf-8?B?UUYrdUZSMzU0Y1l5YlE4K0tMQmZlbW96dWNWMXVnYkR3eS9UVmlRR3h5MHNt?=
+ =?utf-8?B?SC9uNm40MXVuZWlGKy92ZVh1Y2hqejlmTlJEb0ZaTnpKUU5UZkN4UmdHU0Yw?=
+ =?utf-8?B?N0xsMkpIWloyYXorakxvSkcvVS95c0dQMG85RW1oYUdjQ0lYM04rSEhoWFhR?=
+ =?utf-8?B?M3BSaGxCWkVJYlJjZlhncGNVS2doblYyRTJlUHN3SjlzY1hRR0IwSlI2OWdN?=
+ =?utf-8?B?d0ZDQ29kUXd6N05BVEhQVXlwWkFQN0dyamE3QVlJZFFGbzJLT2ZUTGFWSUFy?=
+ =?utf-8?B?cms3RGw1TC8rWDRlQ0I3K3BiZC92bjh1cjFvZ1N1N0xISFVqZU1DZkQ5dFpl?=
+ =?utf-8?B?UmFEVi8yVHZQcnF2ZDR4Tk91bTZhRlBuL2dTRGNmZCs2c1hBcm5zc0pEWE0r?=
+ =?utf-8?B?clZZWWRUOVY4andwbnBXM21NUUNzQUhGdzhUZGg1dWZxVWJ1UU5hTlYzR1B5?=
+ =?utf-8?B?L0lwRkpGaWJ6WTJ1aEFMSHFrdTdFVjBickF6NU1Xak9JOWhldUE2bjhYRGNs?=
+ =?utf-8?B?dzRFL0x5Tm5sSUdiRmZqQTBtS2VXMkdpVjVmNVRnM3dKYnIweWN0MnR2YlVF?=
+ =?utf-8?B?bllHRlE0bVYzbXFvVnZJVzZRL2FOZGdnREYySzZmTHk0YUFBRHprL1RhK2Fu?=
+ =?utf-8?B?S0NaWlRVK0doMjJCQm16TTlkbyt6cVBjSWg4aUJaaWo3NFM1SlgxK0ozUDJj?=
+ =?utf-8?B?bjRSeWZxQ2hVbHlWaFJhZEpvZXJ6Q3VmQVJYUmNrdEFmK1BML0pHU3ZoVWlJ?=
+ =?utf-8?B?c1FmLzdyalY4bmpaVUVhRWk1SkdGMFlrL05DWXJhVE1rblJ6VTU2TXhyUkJ0?=
+ =?utf-8?B?bjdWSEtHdFlOei9XcmVTZWdjVG9BdDd1STljTENMT2ZlMU1LU0cybE80OE5N?=
+ =?utf-8?B?aEVJcVh0Qk5oU0V6dDdPYXVDQWxBcUk1cGloQTgxczdLcU8za1l5eUY4NnNK?=
+ =?utf-8?B?Y1prVmRldmsxY3pTWUcwUlYzeUtRNVRKSmhpS21QL2Z5RWMrT2lpQm52azBh?=
+ =?utf-8?B?L3hRZG5TOFZsVlFSRXRPZkZyOVNBS09QeTQ3K1ZvOG9PNytrUlpldGhrQXph?=
+ =?utf-8?B?T3A5VURrZUVyakdZTEt5WXhnRUttbEoraytkSXdIcDZWR1RCTm84K2lsSHkr?=
+ =?utf-8?B?dngwU2ZWUmdDNUFmT3JmZGlFMGFxMVZQRDZiOGVHUUVDUDZ6ZHBCWC9HN2Rl?=
+ =?utf-8?B?ZmNnSTNwRkJOUEFkVDFjSWcxWGVYMW41VUJVTVp5WmtnY2liVnQzcGx4M2dY?=
+ =?utf-8?B?UkFSZEVNM3Y3VCtYQnAxalJJYjZ4WVFGMm56YW5rVlBjUlo4TTlRUnA2NVN0?=
+ =?utf-8?B?V1NJOGI5Ti9ZNW5XUm5tQjlTOGtVenk4d2hnSUlNSlZyUXRkeWNXOFduMFpa?=
+ =?utf-8?Q?ICdMtveN/pY1Pg494MSfPzD84N3+QG1X4GSQn3jHwNBy?=
+X-OriginatorOrg: piap.pl
+X-MS-Exchange-CrossTenant-Network-Message-Id: 29c4ad58-e5ee-4da5-b229-08dbca39e4f7
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2023 09:10:20.8283
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3e05b101-c6fe-47e5-82e1-c6a410bb95c0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rg+SD6WIqPUvdJo0em5vJihs1ryRZ20oEVpm6/PH3msx8l6Zp6PPa0GUu0PpAMgUdYd3+UwJzscfhFf97d3+7b9imR2I9+fRoT+0AM+VzC+WakoBGuco+IVmccvXIcUKtzzIE6ijbmApvjF2qC+ehw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9P193MB1047
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Subject should start with: "media: videobuf2:".
+Hi,
 
-There is another comment at the end...
+For the record, I think I will use the following. This way reading
+a register from Sony IMX290 and IMX462 image sensors (which behave
+exactly the same on I2C bus) takes up to ca. 270 us, and writing
+a register takes up to ca. 230 us. While still slow, this means the
+sensor won't disconnect itself from the I2C bus on 7 ms timeout
+(I wonder if the timeout is 3.5 ms on sensors running at 74.250 MHz).
 
-On 03/10/2023 10:06, Benjamin Gaignard wrote:
-> In the future a side effect of introducing DELETE_BUFS ioctl is
-> the create of 'holes' (i.e. unused buffers) in bufs arrays.
-> To know which entries of the bufs arrays are used a bitmap will
-> be added in struct vb2_queue. That will also mean that the number
-> of buffers will be computed given the number of bit set in this bitmap.
-> To smoothly allow this evolution all drives must stop using
-> directly num_buffers field from struct vb2_queue.
-> Let do it in 4 steps:
-> - Introduce vb2_get_num_buffers() helper
-> - Rework how create_bufs first buffer index is computed
-> - Rework all drivers to remove direct calls to queue num_buffers
-> - Replace num_buffers by a bitmap.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 109 ++++++++++--------
->  .../media/common/videobuf2/videobuf2-v4l2.c   |   4 +-
->  include/media/videobuf2-core.h                |  11 +-
->  3 files changed, 73 insertions(+), 51 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index c0104f824577..62e987ad9b33 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -426,6 +426,8 @@ static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
->   */
->  static void vb2_queue_remove_buffer(struct vb2_buffer *vb)
->  {
-> +	if (vb->vb2_queue->num_buffers)
-> +		vb->vb2_queue->num_buffers--;
->  	vb->vb2_queue->bufs[vb->index] = NULL;
->  	vb->vb2_queue = NULL;
->  }
-> @@ -509,12 +511,12 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->   */
->  static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
->  {
-> -	unsigned int buffer;
-> +	unsigned int buffer = 0;
-> +	long i = q->max_num_buffers;
->  	struct vb2_buffer *vb;
->  
-> -	for (buffer = q->num_buffers - buffers; buffer < q->num_buffers;
-> -	     ++buffer) {
-> -		vb = vb2_get_buffer(q, buffer);
-> +	for (i = q->max_num_buffers; i >= 0 && buffer < buffers; i--) {
-> +		vb = vb2_get_buffer(q, i);
->  		if (!vb)
->  			continue;
->  
-> @@ -525,6 +527,7 @@ static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
->  			__vb2_buf_dmabuf_put(vb);
->  		else
->  			__vb2_buf_userptr_put(vb);
-> +		buffer++;
->  	}
->  }
->  
-> @@ -536,16 +539,20 @@ static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
->  static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->  {
->  	unsigned int buffer;
-> +	long i = q->max_num_buffers;
->  
->  	lockdep_assert_held(&q->mmap_lock);
->  
->  	/* Call driver-provided cleanup function for each buffer, if provided */
-> -	for (buffer = q->num_buffers - buffers; buffer < q->num_buffers;
-> -	     ++buffer) {
-> -		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
-> +	for (i = q->max_num_buffers, buffer = 0; i >= 0 && buffer < buffers; i--) {
-> +		struct vb2_buffer *vb = vb2_get_buffer(q, i);
->  
-> -		if (vb && vb->planes[0].mem_priv)
-> +		if (!vb)
-> +			continue;
-> +		if (vb->planes[0].mem_priv) {
->  			call_void_vb_qop(vb, buf_cleanup, vb);
-> +			buffer++;
-> +		}
->  	}
->  
->  	/* Release video buffer memory */
-> @@ -556,7 +563,7 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->  	 * Check that all the calls were balanced during the life-time of this
->  	 * queue. If not then dump the counters to the kernel log.
->  	 */
-> -	if (q->num_buffers) {
-> +	if (vb2_get_num_buffers(q)) {
->  		bool unbalanced = q->cnt_start_streaming != q->cnt_stop_streaming ||
->  				  q->cnt_prepare_streaming != q->cnt_unprepare_streaming ||
->  				  q->cnt_wait_prepare != q->cnt_wait_finish;
-> @@ -582,7 +589,7 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->  		q->cnt_stop_streaming = 0;
->  		q->cnt_unprepare_streaming = 0;
->  	}
-> -	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
-> +	for (buffer = 0; buffer < q->max_num_buffers; buffer++) {
->  		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
->  		bool unbalanced;
->  
-> @@ -634,19 +641,18 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
->  #endif
->  
->  	/* Free vb2 buffers */
-> -	for (buffer = q->num_buffers - buffers; buffer < q->num_buffers;
-> -	     ++buffer) {
-> -		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
-> +	for (i = q->max_num_buffers, buffer = 0; i >= 0 && buffer < buffers; i--) {
-> +		struct vb2_buffer *vb = vb2_get_buffer(q, i);
->  
->  		if (!vb)
->  			continue;
->  
->  		vb2_queue_remove_buffer(vb);
->  		kfree(vb);
-> +		buffer++;
->  	}
->  
-> -	q->num_buffers -= buffers;
-> -	if (!q->num_buffers) {
-> +	if (!vb2_get_num_buffers(q)) {
->  		q->memory = VB2_MEMORY_UNKNOWN;
->  		INIT_LIST_HEAD(&q->queued_list);
->  	}
-> @@ -677,7 +683,7 @@ EXPORT_SYMBOL(vb2_buffer_in_use);
->  static bool __buffers_in_use(struct vb2_queue *q)
->  {
->  	unsigned int buffer;
-> -	for (buffer = 0; buffer < q->num_buffers; ++buffer) {
-> +	for (buffer = 0; buffer < q->max_num_buffers; ++buffer) {
->  		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
->  
->  		if (!vb)
-> @@ -803,6 +809,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  		     unsigned int flags, unsigned int *count)
->  {
->  	unsigned int num_buffers, allocated_buffers, num_planes = 0;
-> +	unsigned int q_num_bufs = vb2_get_num_buffers(q);
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
->  	unsigned int i;
-> @@ -818,7 +825,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  		return -EBUSY;
->  	}
->  
-> -	if (*count == 0 || q->num_buffers != 0 ||
-> +	if (*count == 0 || q_num_bufs != 0 ||
->  	    (q->memory != VB2_MEMORY_UNKNOWN && q->memory != memory) ||
->  	    !verify_coherency_flags(q, non_coherent_mem)) {
->  		/*
-> @@ -836,7 +843,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  		 * queued without ever calling STREAMON.
->  		 */
->  		__vb2_queue_cancel(q);
-> -		__vb2_queue_free(q, q->num_buffers);
-> +		__vb2_queue_free(q, q_num_bufs);
->  		mutex_unlock(&q->mmap_lock);
->  
->  		/*
-> @@ -936,7 +943,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	if (ret < 0) {
->  		/*
->  		 * Note: __vb2_queue_free() will subtract 'allocated_buffers'
-> -		 * from q->num_buffers and it will reset q->memory to
-> +		 * from already queued buffers and it will reset q->memory to
->  		 * VB2_MEMORY_UNKNOWN.
->  		 */
->  		__vb2_queue_free(q, allocated_buffers);
-> @@ -970,10 +977,11 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	unsigned int num_planes = 0, num_buffers, allocated_buffers;
->  	unsigned plane_sizes[VB2_MAX_PLANES] = { };
->  	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
-> -	bool no_previous_buffers = !q->num_buffers;
-> +	unsigned int q_num_bufs = vb2_get_num_buffers(q);
-> +	bool no_previous_buffers = !q_num_bufs;
->  	int ret = 0;
->  
-> -	if (q->num_buffers == q->max_num_buffers) {
-> +	if (q_num_bufs == q->max_num_buffers) {
->  		dprintk(q, 1, "maximum number of buffers already allocated\n");
->  		return -ENOBUFS;
->  	}
-> @@ -1008,7 +1016,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  			return -EINVAL;
->  	}
->  
-> -	num_buffers = min(*count, q->max_num_buffers - q->num_buffers);
-> +	num_buffers = min(*count, q->max_num_buffers - q_num_bufs);
->  
->  	if (requested_planes && requested_sizes) {
->  		num_planes = requested_planes;
-> @@ -1040,7 +1048,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  		num_buffers = allocated_buffers;
->  
->  		/*
-> -		 * q->num_buffers contains the total number of buffers, that the
-> +		 * num_buffers contains the total number of buffers, that the
->  		 * queue driver has set up
->  		 */
->  		ret = call_qop(q, queue_setup, q, &num_buffers,
-> @@ -1061,7 +1069,7 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
->  	if (ret < 0) {
->  		/*
->  		 * Note: __vb2_queue_free() will subtract 'allocated_buffers'
-> -		 * from q->num_buffers and it will reset q->memory to
-> +		 * from already queued buffers and it will reset q->memory to
->  		 * VB2_MEMORY_UNKNOWN.
->  		 */
->  		__vb2_queue_free(q, allocated_buffers);
-> @@ -1678,7 +1686,7 @@ static int vb2_start_streaming(struct vb2_queue *q)
->  		 * Forcefully reclaim buffers if the driver did not
->  		 * correctly return them to vb2.
->  		 */
-> -		for (i = 0; i < q->num_buffers; ++i) {
-> +		for (i = 0; i < q->max_num_buffers; ++i) {
->  			vb = vb2_get_buffer(q, i);
->  
->  			if (!vb)
-> @@ -2084,9 +2092,8 @@ static void __vb2_queue_cancel(struct vb2_queue *q)
->  	 * to vb2 in stop_streaming().
->  	 */
->  	if (WARN_ON(atomic_read(&q->owned_by_drv_count))) {
-> -		for (i = 0; i < q->num_buffers; ++i) {
-> +		for (i = 0; i < q->max_num_buffers; i++) {
->  			struct vb2_buffer *vb = vb2_get_buffer(q, i);
-> -
->  			if (!vb)
->  				continue;
->  
-> @@ -2128,10 +2135,9 @@ static void __vb2_queue_cancel(struct vb2_queue *q)
->  	 * call to __fill_user_buffer() after buf_finish(). That order can't
->  	 * be changed, so we can't move the buf_finish() to __vb2_dqbuf().
->  	 */
-> -	for (i = 0; i < q->num_buffers; ++i) {
-> +	for (i = 0; i < q->max_num_buffers; i++) {
->  		struct vb2_buffer *vb;
->  		struct media_request *req;
-> -
->  		vb = vb2_get_buffer(q, i);
->  		if (!vb)
->  			continue;
-> @@ -2176,6 +2182,7 @@ static void __vb2_queue_cancel(struct vb2_queue *q)
->  
->  int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
->  {
-> +	unsigned int q_num_bufs = vb2_get_num_buffers(q);
->  	int ret;
->  
->  	if (type != q->type) {
-> @@ -2188,12 +2195,12 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
->  		return 0;
->  	}
->  
-> -	if (!q->num_buffers) {
-> +	if (!q_num_bufs) {
->  		dprintk(q, 1, "no buffers have been allocated\n");
->  		return -EINVAL;
->  	}
->  
-> -	if (q->num_buffers < q->min_buffers_needed) {
-> +	if (q_num_bufs < q->min_buffers_needed) {
->  		dprintk(q, 1, "need at least %u allocated buffers\n",
->  				q->min_buffers_needed);
->  		return -EINVAL;
-> @@ -2531,9 +2538,10 @@ void vb2_core_queue_release(struct vb2_queue *q)
->  	__vb2_cleanup_fileio(q);
->  	__vb2_queue_cancel(q);
->  	mutex_lock(&q->mmap_lock);
-> -	__vb2_queue_free(q, q->num_buffers);
-> +	__vb2_queue_free(q, q->max_num_buffers);
->  	kfree(q->bufs);
->  	q->bufs = NULL;
-> +	q->num_buffers = 0;
->  	mutex_unlock(&q->mmap_lock);
->  }
->  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
-> @@ -2562,7 +2570,7 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
->  	/*
->  	 * Start file I/O emulator only if streaming API has not been used yet.
->  	 */
-> -	if (q->num_buffers == 0 && !vb2_fileio_is_active(q)) {
-> +	if (vb2_get_num_buffers(q) == 0 && !vb2_fileio_is_active(q)) {
->  		if (!q->is_output && (q->io_modes & VB2_READ) &&
->  				(req_events & (EPOLLIN | EPOLLRDNORM))) {
->  			if (__vb2_init_fileio(q, 1))
-> @@ -2600,7 +2608,7 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
->  	 * For output streams you can call write() as long as there are fewer
->  	 * buffers queued than there are buffers available.
->  	 */
-> -	if (q->is_output && q->fileio && q->queued_count < q->num_buffers)
-> +	if (q->is_output && q->fileio && q->queued_count < vb2_get_num_buffers(q))
->  		return EPOLLOUT | EPOLLWRNORM;
->  
->  	if (list_empty(&q->done_list)) {
-> @@ -2649,8 +2657,8 @@ struct vb2_fileio_buf {
->   * struct vb2_fileio_data - queue context used by file io emulator
->   *
->   * @cur_index:	the index of the buffer currently being read from or
-> - *		written to. If equal to q->num_buffers then a new buffer
-> - *		must be dequeued.
-> + *		written to. If equal to number of already queues buffers
-> + *		then a new buffer must be dequeued.
->   * @initial_index: in the read() case all buffers are queued up immediately
->   *		in __vb2_init_fileio() and __vb2_perform_fileio() just cycles
->   *		buffers. However, in the write() case no buffers are initially
-> @@ -2660,7 +2668,7 @@ struct vb2_fileio_buf {
->   *		buffers. This means that initially __vb2_perform_fileio()
->   *		needs to know what buffer index to use when it is queuing up
->   *		the buffers for the first time. That initial index is stored
-> - *		in this field. Once it is equal to q->num_buffers all
-> + *		in this field. Once it is equal to num_buffers all
->   *		available buffers have been queued and __vb2_perform_fileio()
->   *		should start the normal dequeue/queue cycle.
->   *
-> @@ -2710,7 +2718,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->  	/*
->  	 * Check if streaming api has not been already activated.
->  	 */
-> -	if (q->streaming || q->num_buffers > 0)
-> +	if (q->streaming || vb2_get_num_buffers(q) > 0)
->  		return -EBUSY;
->  
->  	/*
-> @@ -2760,7 +2768,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->  	/*
->  	 * Get kernel address of each buffer.
->  	 */
-> -	for (i = 0; i < q->num_buffers; i++) {
-> +	for (i = 0; i < vb2_get_num_buffers(q); i++) {
->  		vb = vb2_get_buffer(q, i);
->  		WARN_ON_ONCE(!vb);
->  
-> @@ -2779,18 +2787,23 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->  		/*
->  		 * Queue all buffers.
->  		 */
-> -		for (i = 0; i < q->num_buffers; i++) {
-> -			ret = vb2_core_qbuf(q, q->bufs[i], NULL, NULL);
-> +		for (i = 0; i < vb2_get_num_buffers(q); i++) {
-> +			struct vb2_buffer *vb2 = vb2_get_buffer(q, i);
-> +
-> +			if (!vb2)
-> +				continue;
-> +
-> +			ret = vb2_core_qbuf(q, vb2, NULL, NULL);
->  			if (ret)
->  				goto err_reqbufs;
->  			fileio->bufs[i].queued = 1;
->  		}
->  		/*
->  		 * All buffers have been queued, so mark that by setting
-> -		 * initial_index to q->num_buffers
-> +		 * initial_index to num_buffers
->  		 */
-> -		fileio->initial_index = q->num_buffers;
-> -		fileio->cur_index = q->num_buffers;
-> +		fileio->initial_index = vb2_get_num_buffers(q);
-> +		fileio->cur_index = fileio->initial_index;
->  	}
->  
->  	/*
-> @@ -2984,12 +2997,12 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
->  		 * If we are queuing up buffers for the first time, then
->  		 * increase initial_index by one.
->  		 */
-> -		if (fileio->initial_index < q->num_buffers)
-> +		if (fileio->initial_index < vb2_get_num_buffers(q))
->  			fileio->initial_index++;
->  		/*
->  		 * The next buffer to use is either a buffer that's going to be
-> -		 * queued for the first time (initial_index < q->num_buffers)
-> -		 * or it is equal to q->num_buffers, meaning that the next
-> +		 * queued for the first time (initial_index < num_buffers)
-> +		 * or it is equal to num_buffers, meaning that the next
->  		 * time we need to dequeue a buffer since we've now queued up
->  		 * all the 'first time' buffers.
->  		 */
-> @@ -3036,7 +3049,7 @@ static int vb2_thread(void *data)
->  	int ret = 0;
->  
->  	if (q->is_output) {
-> -		prequeue = q->num_buffers;
-> +		prequeue = vb2_get_num_buffers(q);
->  		copy_timestamp = q->copy_timestamp;
->  	}
->  
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index cf881c8d8d4d..a4ebef82d94e 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -628,7 +628,7 @@ struct vb2_buffer *vb2_find_buffer(struct vb2_queue *q, u64 timestamp)
->  	 * This loop doesn't scale if there is a really large number of buffers.
->  	 * Maybe something more efficient will be needed in this case.
->  	 */
-> -	for (i = 0; i < q->num_buffers; i++) {
-> +	for (i = 0; i < q->max_num_buffers; i++) {
->  		vb2 = vb2_get_buffer(q, i);
->  
->  		if (!vb2)
-> @@ -765,7 +765,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->  	validate_memory_flags(q, create->memory, &create->flags);
->  
->  	create->max_buffers = q->max_num_buffers;
-> -	create->index = q->num_buffers;
-> +	create->index = vb2_get_num_buffers(q);
->  
->  	if (create->count == 0)
->  		return ret != -EBUSY ? ret : 0;
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 1d6d68e8a711..dffb9647d4d1 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -1141,6 +1141,15 @@ static inline bool vb2_fileio_is_active(struct vb2_queue *q)
->  	return q->fileio;
->  }
->  
-> +/**
-> + * vb2_get_num_buffers() - get the number of buffer in a queue
-> + * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-> + */
-> +static inline unsigned int vb2_get_num_buffers(struct vb2_queue *q)
-> +{
-> +	return q->num_buffers;
-> +}
-> +
->  /**
->   * vb2_is_busy() - return busy status of the queue.
->   * @q:		pointer to &struct vb2_queue with videobuf2 queue.
-> @@ -1149,7 +1158,7 @@ static inline bool vb2_fileio_is_active(struct vb2_queue *q)
->   */
->  static inline bool vb2_is_busy(struct vb2_queue *q)
->  {
-> -	return (q->num_buffers > 0);
-> +	return (vb2_get_num_buffers(q) > 0);
+The times are on i.MX8MP at 1600 MHz.
 
-You can drop the outer parenthesis here.
+0x30a50000 and 0x30ae0000 are I2C controllers connected to the
+IMX290/462 sensors.
 
->  }
->  
->  /**
+Not very nice, but works. Obviously, long transfers (like reading 0x100
+registers at once) won't work (0xC0 seems fine), but the sensor driver
+only does 1-byte reads/writes (resp. 5 or 4 bytes on the bus).
 
-Regards,
+diff --git a/drivers/i2c/busses/i2c-imx.c b/drivers/i2c/busses/i2c-imx.c
+index 97455283ef0cf..ffffb0d50ebd9 100644
+--- a/drivers/i2c/busses/i2c-imx.c
++++ b/drivers/i2c/busses/i2c-imx.c
+@@ -275,6 +275,7 @@ struct imx_i2c_struct {
+=20
+ 	struct i2c_client	*slave;
+ 	enum i2c_slave_event last_slave_event;
++	bool			no_sleep;
+ };
+=20
+ static const struct imx_i2c_hwdata imx1_i2c_hwdata =3D {
+@@ -1249,8 +1250,15 @@ static int i2c_imx_xfer_common(struct i2c_adapter *a=
+dapter,
+ 	unsigned int i, temp;
+ 	int result;
+ 	bool is_lastmsg =3D false;
++	bool really_atomic =3D atomic;
+ 	struct imx_i2c_struct *i2c_imx =3D i2c_get_adapdata(adapter);
++	unsigned long flags;
+=20
++	if (i2c_imx->no_sleep)
++		atomic =3D true; // IMX290 and IMX462 sensors disconnect after ca. 2^18 =
+MCLK cycles
++
++	if (atomic)
++		local_irq_save(flags);
+ 	/* Start I2C transfer */
+ 	result =3D i2c_imx_start(i2c_imx, atomic);
+ 	if (result) {
+@@ -1258,8 +1266,12 @@ static int i2c_imx_xfer_common(struct i2c_adapter *a=
+dapter,
+ 		 * Bus recovery uses gpiod_get_value_cansleep() which is not
+ 		 * allowed within atomic context.
+ 		 */
+-		if (!atomic && i2c_imx->adapter.bus_recovery_info) {
++		if (!really_atomic && i2c_imx->adapter.bus_recovery_info) {
++			if (atomic)
++				local_irq_restore(flags);
+ 			i2c_recover_bus(&i2c_imx->adapter);
++			if (atomic)
++				local_irq_save(flags);
+ 			result =3D i2c_imx_start(i2c_imx, atomic);
+ 		}
+ 	}
+@@ -1318,6 +1330,8 @@ static int i2c_imx_xfer_common(struct i2c_adapter *ad=
+apter,
+ fail0:
+ 	/* Stop I2C transfer */
+ 	i2c_imx_stop(i2c_imx, atomic);
++	if (atomic)
++		local_irq_restore(flags);
+=20
+ 	dev_dbg(&i2c_imx->adapter.dev, "<%s> exit with: %s: %d\n", __func__,
+ 		(result < 0) ? "error" : "success msg",
+@@ -1627,6 +1641,7 @@ static int i2c_imx_probe(struct platform_device *pdev=
+)
+ 	i2c_imx->adapter.nr		=3D pdev->id;
+ 	i2c_imx->adapter.dev.of_node	=3D pdev->dev.of_node;
+ 	i2c_imx->base			=3D base;
++	i2c_imx->no_sleep		=3D phy_addr =3D=3D 0x30a50000 || phy_addr =3D=3D 0x30=
+ae0000; // IMX290/462 hack
+ 	ACPI_COMPANION_SET(&i2c_imx->adapter.dev, ACPI_COMPANION(&pdev->dev));
+=20
+ 	/* Get I2C clock */
 
-	Hans
+--=20
+Krzysztof "Chris" Ha=C5=82asa
+
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
