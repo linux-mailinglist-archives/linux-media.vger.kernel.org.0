@@ -2,124 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D5AB7C513F
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 13:12:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A14327C51FA
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 13:26:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234713AbjJKLMZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 07:12:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37782 "EHLO
+        id S232023AbjJKL0F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Oct 2023 07:26:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231264AbjJKLMX (ORCPT
+        with ESMTP id S231312AbjJKL0E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 07:12:23 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8DF0A7;
-        Wed, 11 Oct 2023 04:12:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697022742; x=1728558742;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=6X17CQk262SF6/jtSrC9+lvmvN3o4Ya/8mawpifctfY=;
-  b=Uz0f/eNlcyqTalTISzq3YeTdlPf7GgcjiitXhbHsV2uP4/hEZAvzGLY9
-   O6Jomj50TyQUyeiTFI9Kq/1nhelw2qrCsEtECHK1LO7E8UvwDw4AFm3Px
-   lebvcKMut+C/yZVt22FkwC6xTPvD+JuR6pDbnZayM/dKKdO2nHMpQ/T/5
-   Iu76zTZfEun+2DskjZnH51wbnJMmluW/SkCI8n/DI+YAi4B2Khfp+J38h
-   2EZyywyjLs6V8SWvFtPBpUHNYmIZr3BW2dEPhHnBARVDCNpup/K2Ur4Db
-   AJeoGWswd3RnxCo2PhIOIN0bsIgg+DA9IYPzMyZs94Iyv+rmKYOCGycE2
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="3224774"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="3224774"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 04:12:22 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10859"; a="730459248"
-X-IronPort-AV: E=Sophos;i="6.03,214,1694761200"; 
-   d="scan'208";a="730459248"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Oct 2023 04:12:18 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 07C9011F835;
-        Wed, 11 Oct 2023 14:12:15 +0300 (EEST)
-Date:   Wed, 11 Oct 2023 11:12:14 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl
-Subject: Re: [PATCH 3/5] media: i2c: imx335: Implement get selection API
-Message-ID: <ZSaDDqrpX4LeoLqX@kekkonen.localdomain>
-References: <20231010005126.3425444-1-kieran.bingham@ideasonboard.com>
- <20231010005126.3425444-4-kieran.bingham@ideasonboard.com>
- <ZSTrse7OeKIA+k2t@valkosipuli.retiisi.eu>
- <169701831889.277971.6656559808677876108@ping.linuxembedded.co.uk>
+        Wed, 11 Oct 2023 07:26:04 -0400
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2043.outbound.protection.outlook.com [40.107.104.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AA3C9D;
+        Wed, 11 Oct 2023 04:25:59 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Eu0VaQzRisPu39LTzmDj2BR3cC1nuYDdTGIpayZZwM7W7J8lyhuIjAXBIzjPTR6EnGG3FaCfssp2acIxrd4jK11+Qh+VRXxV3WNgPe3kiVNPnl2cW3kQxsOX4fj0b4iI0aK2a80SwEi9TADYrmQQId0Y6bVrxSSqY7y6ySYWJ9aQMzNMnStpIJ7/PgFKvkINPT5UTrCO8K76NZINZ3HzsZVIGSwVt3snHkFdEw3ZBSmHTIHX/ajuGRPaak4t9txrNqM4UlaMM4xoqEYW8ul6rIPwr/w0p8IpniydsgreoeXRmv1v+3q8qSW2CJd0DI08BDE+BoqSlhX7zMzzCpF0YA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ukLRF1HXskwIN+N/ohzWVbbOFwxa4A/S+jmFd6Lj+/E=;
+ b=ciev8V4mB1ndQKTRDqepk56jmHsrq5uwx1bdZVfVBm2Fb40C3qCCtY/MzPLPY5hICfTvgkQa5Zt4Eu4Uo/SKu2UdF054dqT4Qu3Gw9Yzt4zw3aw4AaIgGaYTQktcpAt0GdM4+6Ti8EWbgYGFi+MZTJk4GrfDw6y0y30UtqSwyC9tVez9nZQxb4Le/NTp37FQ5mh3buhZexTVM+WAzERjsEDlKBM6paIvNaWcyUFYgEi2pGBrCq8Sf8HRej24QUP/kSQPsmr8JNe+VAJzaRNhT8bEz8iXsxBeGUFxBf03hJ4wL3gjPISQ93rVKlcwElaMaRkld8YRC2c+d2VavqzLEw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=piap.lukasiewicz.gov.pl; dmarc=pass action=none
+ header.from=piap.pl; dkim=pass header.d=piap.pl; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=lukasiewiczgov.onmicrosoft.com; s=selector1-lukasiewiczgov-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ukLRF1HXskwIN+N/ohzWVbbOFwxa4A/S+jmFd6Lj+/E=;
+ b=Hxy8McxU0/kPh76aLASs3V+tGxPlACPwYs1MVqLRCUWuFlZEj7HTUiJ7HqIHk2SJPANA8k0mTzepRIcwUQzxUPTaMMcv7Dc+/uwE2jkpMAeoSvdTrpRQDFGsX2BVwQDNln6zAABhRdVvUwPzvV7cBF1NdklBDaRT4aX9wsqfoR4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=piap.pl;
+Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:155::18)
+ by AS8P193MB1176.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:336::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.43; Wed, 11 Oct
+ 2023 11:25:57 +0000
+Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+ ([fe80::1bd8:1a5d:e69:d1a7]) by VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+ ([fe80::1bd8:1a5d:e69:d1a7%3]) with mapi id 15.20.6863.041; Wed, 11 Oct 2023
+ 11:25:56 +0000
+From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
+To:     Stefan Lengfeld <contact@stefanchrist.eu>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>, linux-i2c@vger.kernel.org
+Subject: Re: Sony IMX290/462 image sensors I2C xfer peculiarity
+References: <m3y1gpw8ri.fsf@t19.piap.pl>
+        <CAPY8ntASwh3AcRqE+2zF4Df=u+=wJ5K9icAeOrXTMJGDd1+caw@mail.gmail.com>
+        <m3o7hfx3ob.fsf@t19.piap.pl> <m37cnuvmhn.fsf@t19.piap.pl>
+        <m3o7h5tthf.fsf@t19.piap.pl> <m3jzrttrmz.fsf@t19.piap.pl>
+        <20231011101553.we3r73xejvqdql5j@porty>
+Date:   Wed, 11 Oct 2023 13:25:55 +0200
+In-Reply-To: <20231011101553.we3r73xejvqdql5j@porty> (Stefan Lengfeld's
+        message of "Wed, 11 Oct 2023 12:15:53 +0200")
+Message-ID: <m3fs2htn7g.fsf@t19.piap.pl>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: WA1P291CA0017.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:19::17) To VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+ (2603:10a6:800:155::18)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <169701831889.277971.6656559808677876108@ping.linuxembedded.co.uk>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI1P193MB0685:EE_|AS8P193MB1176:EE_
+X-MS-Office365-Filtering-Correlation-Id: 767bc278-32c3-48a3-00a4-08dbca4cd660
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: HFvfLQ68hN7dvg4n+/i6tZRrvhCtzwyJvEO/cF+4d9kWRne/lavag2zjyKEByiZPMdnHUe9mNT9bv7DzFBySWdubgDfto6QYYsjYNc9WKwnSGAbxGOBvEFd1MLv5U1isq9tW6OVvymAhUbznrzQyNl2mm/xnQ21OHIf9rnbLZct5/VivPCiNBrwLL9RGsjt5X8UoDFdeMdD1JnXFYtxBbKwGYS0CM5jtAB+kC/S50ZIlmvYlgq85+V+qBIH16JhSspduCMHViI36VUwyDhePfcpWXnGfqGjVmsMyI0lXrhi1KgDzwGe/35UDVaR6NTwU3IEDBtwbBdXr2gKhBOMxcHVAINBjS4WrZyB/vV/icq7V0ks2dPvt1jsupzZRGX/J7x1IAOR4xsWkfOag5t20y2h6d8DGNFc1MGGCsYPOBdbul9Iuf/ASYpd1NuEFPZKJeCKWcwEdurVKHDgbzqC1Fy31jzmMfH3U0O9AFscGfQisyYt+irN2PDGngZsXysAyfRgx5T2VWtoGVgyMPgM9myVm3X63yhyenhOcjHSAiU3PmueXPpbaCcytRw7tPZTrROsFlnBg9mnGdJx8RuJwiQHdXyaNuX2/9P8HpQZjiO8V7d549Mcvn1Bd9siJP9gH
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1P193MB0685.EURP193.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(396003)(376002)(136003)(346002)(39860400002)(366004)(64100799003)(186009)(451199024)(1800799009)(52116002)(6512007)(6506007)(478600001)(6486002)(38100700002)(38350700002)(83170400001)(2906002)(83380400001)(42882007)(26005)(66556008)(66476007)(54906003)(7416002)(66946007)(6916009)(786003)(316002)(5660300002)(41300700001)(8936002)(4326008)(8676002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?OGxWZ1dsb0o2N3RkWEhvcjAvcEhkZEdkaFFlelRxdTd0WUZZZTc2YTVGMTg1?=
+ =?utf-8?B?RGVDcC9CQVE1RGR1WndqalgwbWRpS0FJZXFqSFMvM2VNalhud3d0eGZMOXJI?=
+ =?utf-8?B?N082ejI2dmlmQlVhMWgvZ2srdzdpUTV2VlFZYThuTWRUTUpoNnB6M2krSGRV?=
+ =?utf-8?B?UTRHZVV3WjhKOUZib0RmTzgvTWx1dWx0Zm5UQXNGQjF1YUJjSWlYeHBlSkpt?=
+ =?utf-8?B?cGFNU0JJZzJGTDg4WXJzcHYrRkRlUjB2OFVjRkl6NTNqWDZLNHNacTdyM3F0?=
+ =?utf-8?B?TVdYWFBtZFFjZFN1ZWNIWEoxRCtxeW1SbDhpdzEvTVh6elVubGpkaG1mc3Jr?=
+ =?utf-8?B?WHNYSVY2NjM2WDVlUTN4MHRlbXBWcy9nTzR1RDF1RjVnR2tDVVhqb3M4azYv?=
+ =?utf-8?B?UUwrSGhXWnJJQ0NaTkptbmt3RzltcGdoemcvMWpCRXpSdzBTVWF1cTRXL1pV?=
+ =?utf-8?B?amxHaWY4dmpsS2NjZFk2TnZrT29aQmUxWXF2VnM1VE03a2c1SlJyeU5VeERM?=
+ =?utf-8?B?QzVyMlhVd2tuUzF3ZEx5K2x4RVhJcGhFNitoS0NXNUVsZURINnJpTVJUc3M5?=
+ =?utf-8?B?a21YVzkrWUl4TWVXOXJqMy9CdEdUWHBuRThYRDV5dEYyR05DSUErU29mSG92?=
+ =?utf-8?B?ZlJSQzhUbVMyZWUyaDdKblRaekt0emppUW5QZWRmeExiakJtS1dPdmw0Zmlk?=
+ =?utf-8?B?VFRLQzgxVnU0QTVBdEVJdGlvK3RlY3JFMmw5VkxVM0R1L1lPUEZPV0l1V1Vw?=
+ =?utf-8?B?UStmY0ZMcmJWZ0EwcExzQkFwNjN4LzZvbEx5RlpBa3A2VjdyZkJwaURKeTQ4?=
+ =?utf-8?B?enJoZUFrUEVvdjEzRHlkSkc3WU9sWXovcTFtRm5PZTgyak1DbGxtQTVKSEZa?=
+ =?utf-8?B?OGVpT2w1WVFwSHFxRmg2SzVpM2o5ZWJ0Z1IrMGYyTUUydE54WW9DL1ZWN0Jh?=
+ =?utf-8?B?Wi9XZjhjRm4xeVhLcDQrVGFLbk5IdE5wQUIzcjhCZSsvTHkvQVdMTC9rY0hG?=
+ =?utf-8?B?WWVRSjhJMkxlR2Y0ZFpsc2xvOVl2M1RuVTBtMGh4OXNrdjdiWFN1YzZyM3ho?=
+ =?utf-8?B?R3dhTkdndWVwZFdxQlU2MTJVV3hRS0hvakxxVXo5LzNBbU1ITnRSVVJ6S2tu?=
+ =?utf-8?B?bkdsRHhWSUpkYVVnQ3FKb01KM242RkRtbGRvQVNEc09jSEFwOEk2V1NqK1g2?=
+ =?utf-8?B?bUV3Ukdobmp0bHRvZkcwUGRmZW13WE9TTC9URXIxN1FmbnI0UEEyVVFidkMy?=
+ =?utf-8?B?bWVCTWhqaWtwb3dtUnYrQjdsaVVaRVRQM0pGY1luRjcxS3FMVWFMYnExTU1l?=
+ =?utf-8?B?ZmJHY0pLYzIwMFlqTXI5WTRoNlJKeTgxY1AwWm9TQk9hZ1dQTitkZ2Nmd2pN?=
+ =?utf-8?B?UmFTdHdTTHppZ2U5WUE5OUhuL0wrdlU4Wnk5TmhXcVBwbTNpS2UySWtzbUtJ?=
+ =?utf-8?B?QnpVTTR3aVNSRC9qL2o5U1UzTWdXblFFRGo5eCthb2svaWhjcUhrREtmYzhT?=
+ =?utf-8?B?ZGl0bEtMRGhnTU1LMUhLSHB1SDZ6amI1bjYyL2d2SERpcWJpN1U3U3pnR3NX?=
+ =?utf-8?B?a21UK29nU3JDQmZRLzhZam9hblNSUDZ1Tkk5YVNhcFNtdzYzTk03MDkrR0VF?=
+ =?utf-8?B?dDljckFDeVZaak9HbVR3b1BDaDZKTlN6UGhjZVRIY2p0SGh0SEN1WUxHaFF3?=
+ =?utf-8?B?Q1VXeEJhcTVhKy9NWXBGUkhuQVYrbFlYMXBqVFhCMGpIVUtWOW1kbG5nVmJF?=
+ =?utf-8?B?YkVsVzZoQ2huekdMeCtHVWVhdU9vUDdmdmJEYWRuUWZYT2QxcUd6ZmVWeEJy?=
+ =?utf-8?B?akRjcnF5M1hyZDNuOHV3ZVZMY1YwVy9QWFJoeEg3S09zcDRGeHFxdlRaaHFD?=
+ =?utf-8?B?VWRkaWExa056WHVxVlA0WFVxb2MzTk5IZnR1RGVMYTdCajJKeTJtSDBzcFJj?=
+ =?utf-8?B?TXkxM3doZGwvVkVaVjlmNk5FSVJ4RHNhY0o2YkRuZzcvbVVFZWpZRCtpSHU5?=
+ =?utf-8?B?RmgvSGd6Y1JRaHpGcnJ5bitoTWl5Q0xWNkRvcDMxeVNydGwyb1FqeDFmU0M2?=
+ =?utf-8?B?SmNtVmUxU1hzb3JpT2drY1V6cFlieVMzT21VOU5Kdis5Qmd3RkJ3SVpmV0FL?=
+ =?utf-8?B?UEMzQzZuN01MYlVVdXNDMGJnZUNXMk5xQ2RTVGt4ZTdVd3ErMURBV3ZCenps?=
+ =?utf-8?Q?E84cEhvjiJ/2Nz4s05C2t17KECzidcKsXwJuUbsr1k1l?=
+X-OriginatorOrg: piap.pl
+X-MS-Exchange-CrossTenant-Network-Message-Id: 767bc278-32c3-48a3-00a4-08dbca4cd660
+X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Oct 2023 11:25:56.7257
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3e05b101-c6fe-47e5-82e1-c6a410bb95c0
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: chnB0sWvtOyRTZwoU9Uktc5SyUybPPRewqPWbZhb6yBwjCVFEG+CtDOQ+DOxesrT5j9W+nrSm48R6oDjSwMiggttzd8Q3j/pPftK3FlttPkumIKWV6NXlH1fnzJj+LFeV2E4P82hnr5B59zaHSIU9g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P193MB1176
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+Stefan,
 
-On Wed, Oct 11, 2023 at 10:58:38AM +0100, Kieran Bingham wrote:
-> Quoting Sakari Ailus (2023-10-10 07:14:09)
-> > Hi Kieran,
-> > 
-> > On Tue, Oct 10, 2023 at 01:51:24AM +0100, Kieran Bingham wrote:
-> > > Support reporting of the Sensor Native and Active pixel array areas
-> > > through the Selection API.
-> > > 
-> > > The implementation reports a single target crop only for the mode that
-> > > is presently exposed by the driver.
-> > > 
-> > > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > 
-> > Shouldn't you use the same callback for .set_selection? I guess this is
-> > somewhat grey area but doing so would be in line with how V4L2 API works in
-> > general.
-> 
-> Hrm ... I didn't think it was needed as it's not possible to /set/
-> anything.
+> I cannot answer whether the delay is needed for atomic transfer or not.
+> But I can give a bit of context for I2C atomic transfers in general.
+>
+> These where only introduced for a very narrow and special uses shutting
+> down the device/power with external PMICs in the kernel's shutdown
+> handlers.
 
-Similarly, VIDIOC_SUBDEV_S_FMT is available even if you can't change the
-format.
+Well, I guess I'm abusing this code a bit.
 
-> 
-> I expect to change this once I add support for setting crops later
-> though. It was going to be something I'd add when it is used.
-> 
-> Only the 'get_selection' call is necessary to make this camera operate
-> on both i.MX8MP and RPi5 platforms with libcamera, so that's what I've
-> done so far. My goal of this series was to bring the existing driver up
-> to a point that it can be used, before I start making new feature
-> additions.
+The problem is I use Sony IMX290 and IMX462 image sensors, and they have
+an apparently hard-coded timeout of about 2^18 their master clock cycles
+(=3D ca. 7 ms with my setup). After the timeout they simply disconnect
+from the I2C bus. Of course, this isn't mentioned in the docs.
+Unfortunately, "normal" I2C accesses take frequently more than those
+7 ms (mostly due to scheduling when all CPU cores are in use). So I
+hacked the IMX I2C driver a bit and now all accesses to the sensor use
+the atomic paths and local_irq_save() (inside the driver only).
 
-I don't have concerns with that, just that we implement the IOCTLs
-consitently. This has been discussed before but AFAIR without any firm
-conclusions.
+> My understand is that an ordinary I2C device would just use normal (and
+> sleepable) I2C transfers while the device is in use.
 
-Additionally, some targets are settable while some won't be, and it may
-well depend on the driver.
+You are spot-on here :-) Now I use IMX 290 and 462.
 
-v4l2-compliance appears to be happy with G_SELECTION without S_SELECTION
-though.
+OTOH I wonder if such issues are limited to those sensors only.
 
-Also cc Hans.
+Thanks for your immediate response,
+--=20
+Krzysztof "Chris" Ha=C5=82asa
 
--- 
-Regards,
-
-Sakari Ailus
+Sie=C4=87 Badawcza =C5=81ukasiewicz
+Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+Al. Jerozolimskie 202, 02-486 Warszawa
