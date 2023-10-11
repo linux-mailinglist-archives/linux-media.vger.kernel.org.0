@@ -2,99 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 544237C50B4
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 13:01:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCE5F7C5116
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 13:08:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234802AbjJKLBg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 07:01:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49694 "EHLO
+        id S234763AbjJKLIX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Oct 2023 07:08:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231946AbjJKLBe (ORCPT
+        with ESMTP id S231892AbjJKLIM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 07:01:34 -0400
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B19B94;
-        Wed, 11 Oct 2023 04:01:32 -0700 (PDT)
+        Wed, 11 Oct 2023 07:08:12 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A33D919B1;
+        Wed, 11 Oct 2023 04:06:27 -0700 (PDT)
 Received: from hillosipuli.retiisi.eu (185-9-11-240.cust.suomicom.net [185.9.11.240])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sailus)
-        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4S58w70C2dz49Pwn;
-        Wed, 11 Oct 2023 14:01:24 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-        t=1697022089;
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4S591q2dYSzyYQ;
+        Wed, 11 Oct 2023 14:06:20 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1697022385;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=//xw1oKncXx8ruRws2n7MrScj5Aevzl+XjGbNm2925Q=;
-        b=NtAEihIKHoUL8qFZa7TrWhLIUZzrkAYMwOdCri29SqMZWQvl+X8pua6n6HyvBR8n6aHlRY
-        PvLa8KpOSfNKuGGmnc9Dlbbj2Z3UqdkcY72kWciyXBtGZWY3Jlv9xsJAjVdDyxJlCEBPTt
-        62LxgkZ176NFt+P6NzgQVY8+IzpuuU3xmpte/yBa+O/Bng0jXxfdWtqj5+orgjOSyPPL31
-        513xZzXo+qEs6wyri3I0TJPvueu1+s+2kZxC9NmO/lAGlsjCvwHxFh+ZvGjTXSJIZQihcD
-        3sCnZU3QMiWX0azHBlDI0scAZfoU4en/7wuwBFvektF2hG1p1L6XMeklUiugGw==
+        bh=EmaAL5usRi4Ui8WzfPSbnayZGHaVdfiIz8XXq6gkdbU=;
+        b=N6jTUMCMfg8Y3c7+PejgtPAw3RFu0E4jkLF0fzcjQhcK5Un94dqeXfXeZhbCoWfGoihQ5D
+        0b65U5jjfkwLrKV1/p/hvTuopz3DZ0IwGG+Wgp+6beO2yjjAAzGAzU6ugogEQ0nkpZXXFc
+        DDNmDooyda2L0yV8foAkfCm2bFdHpHs=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=lahtoruutu; t=1697022089;
+        s=meesny; t=1697022385;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=//xw1oKncXx8ruRws2n7MrScj5Aevzl+XjGbNm2925Q=;
-        b=MxTG+Jjbt+pMFRlblr4TyXXbi0zleo6fmwJuwzFW/QlKbwG98fcpwdc26U5D4yP1y0FdlW
-        vZpEjuKnGjEd2ZQXlIhU/Qp8aDZeAvRFqwjHs/se4FRdk0cpfJwCOqT1aR/RFBLy5gsPkl
-        WQ2Fx1nbbKcz49yjcvXGaudHIHMrtG3ngQen2zcUB/mxfVhbllyYzEu74lttpsze87Qeiy
-        T3Fi2Yz4aTiAXS6AsRX9mH0LeSNDzyjscC+rkjueKjYS8xij94fumaTP1FGB2+V+S0sVoE
-        WT0uLqEU5yl7ZghdD7hPVfuLRUHNidN4wmt6J0HZ7s8TsQBmkYs0bKDMx/JFWg==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1697022089; a=rsa-sha256;
-        cv=none;
-        b=hDtJ3DvjeklP1GRFzEcKO0SuH35K/RuRR4iBGryQ22RjsIevgVdAXrpTLIlHCNg1My2l/d
-        r16zEGuCme1HLpL6vAWO6OLRE+JkfZ61cJkUfjmegw3xA7EdJdOfDMhZN9jWIIZZ7ehBPh
-        tDWIYe+Oxa1FImGL7ti/htYEi5C/fd7h9s746v33WkXJDitCLn3BrT5LHR9FE+s8dqVFcf
-        NhSwuL0i8YRbRw6dy/J0O2UMWlZ/Ys9fSiRNF59B12zKgnZ/PbzOrhWIEEcoyZ+rCyniWD
-        OZuyzoJ+4w/wnkH81OVRdofxO05TERiJDL16lfdiOEj23JRg2sWyAQ0OaCb/uA==
+        bh=EmaAL5usRi4Ui8WzfPSbnayZGHaVdfiIz8XXq6gkdbU=;
+        b=cG6uMzlEyMOE4Ul9TnEN51ooSdzjqOyv33TAvdfPJFGoxloNDi6ss3Bt6kwaIAWcDeNCP9
+        CJx0GergxhJqHFZUdNwPWPsehmjBTqPcugSw5mUEQ64gZ/T/wjKejNQ2GGbB6zRyTXhKk2
+        SpMnYURxaEC4Nr+KTPRTNwxDfifk124=
 ARC-Authentication-Results: i=1;
         ORIGINATING;
         auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1697022385; a=rsa-sha256; cv=none;
+        b=C7cQiaw4zJHiDxcmmMMlUHfz1iw4VurZsgMNccMINm4n1n3m0No5Bbx9xJVMbVgOg9tIP9
+        /RSXcpdiPljQIdKiw0KueNqSYfIqY3IUouMEJkslHT2UPiWbtNOzeG5qJBfDDUIS24Y64x
+        jughi7PbcHTO392tpihY4HZHBQVd+tk=
 Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 013E3634CA9;
-        Wed, 11 Oct 2023 14:01:23 +0300 (EEST)
-Date:   Wed, 11 Oct 2023 11:01:23 +0000
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8963D634CA9;
+        Wed, 11 Oct 2023 14:06:19 +0300 (EEST)
+Date:   Wed, 11 Oct 2023 11:06:19 +0000
 From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         "Paul J. Murphy" <paul.j.murphy@intel.com>,
         Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>, moderated list:
-        ARM/FREESCALE IMX / MXC ARM ARCHITECTURE 
-        <linux-arm-kernel@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>, ;
-Illegal-Object: Syntax error in Cc: address found on vger.kernel.org:
-        Cc:     ;
-                        ^-missing semicolon to end mail group, extraneous tokens in mailbox, missing end of mailbox
-Subject: Re: [PATCH 1/5] media: dt-bindings: media: imx335: Add supply
- bindings
-Message-ID: <ZSaAg8aSZAfxEDpM@valkosipuli.retiisi.eu>
+        open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/5] media: i2c: imx335: Enable regulator supplies
+Message-ID: <ZSaBq5ucJ5PrxI00@valkosipuli.retiisi.eu>
 References: <20231010005126.3425444-1-kieran.bingham@ideasonboard.com>
- <20231010005126.3425444-2-kieran.bingham@ideasonboard.com>
- <ZSTp4jXKPVrbo5oU@valkosipuli.retiisi.eu>
- <169694430967.3973464.6599459439831458834@ping.linuxembedded.co.uk>
+ <20231010005126.3425444-3-kieran.bingham@ideasonboard.com>
+ <ZSTrOB10pDhJq6gG@valkosipuli.retiisi.eu>
+ <169701731909.277971.10840095252716847805@ping.linuxembedded.co.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <169694430967.3973464.6599459439831458834@ping.linuxembedded.co.uk>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <169701731909.277971.10840095252716847805@ping.linuxembedded.co.uk>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -103,63 +86,59 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Kieran,
 
-On Tue, Oct 10, 2023 at 02:25:09PM +0100, Kieran Bingham wrote:
-> Hi Sakari,
-> 
-> Quoting Sakari Ailus (2023-10-10 07:06:26)
+On Wed, Oct 11, 2023 at 10:41:59AM +0100, Kieran Bingham wrote:
+> Quoting Sakari Ailus (2023-10-10 07:12:08)
 > > Hi Kieran,
 > > 
-> > On Tue, Oct 10, 2023 at 01:51:22AM +0100, Kieran Bingham wrote:
-> > > Add the bindings for the supply references used on the IMX335.
+> > On Tue, Oct 10, 2023 at 01:51:23AM +0100, Kieran Bingham wrote:
+> > > Provide support for enabling and disabling regulator supplies to control
+> > > power to the camera sensor.
 > > > 
 > > > Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 > > > ---
-> > >  .../bindings/media/i2c/sony,imx335.yaml          | 16 ++++++++++++++++
-> > >  1 file changed, 16 insertions(+)
+> > >  drivers/media/i2c/imx335.c | 41 ++++++++++++++++++++++++++++++++++++--
+> > >  1 file changed, 39 insertions(+), 2 deletions(-)
 > > > 
-> > > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> > > index a167dcdb3a32..1863b5608a5c 100644
-> > > --- a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> > > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-> > > @@ -32,6 +32,15 @@ properties:
-> > >      description: Clock frequency from 6 to 27 MHz, 37.125MHz, 74.25MHz
-> > >      maxItems: 1
+> > > diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+> > > index ec729126274b..bf12b9b69fce 100644
+> > > --- a/drivers/media/i2c/imx335.c
+> > > +++ b/drivers/media/i2c/imx335.c
+> > > @@ -75,6 +75,19 @@ struct imx335_reg_list {
+> > >       const struct imx335_reg *regs;
+> > >  };
 > > >  
-> > > +  avdd-supply:
-> > > +    description: Analog power supply (2.9V)
-> > > +
-> > > +  ovdd-supply:
-> > > +    description: Interface power supply (1.8V)
-> > > +
-> > > +  dvdd-supply:
-> > > +    description: Digital power supply (1.2V)
+> > > +static const char * const imx335_supply_name[] = {
+> > > +     /*
+> > > +      * Turn on the power supplies so that they rise in order of
+> > > +      *           1.2v,-> 1.8 -> 2.9v
 > > 
-> > I wonder what's the policy in this case --- some of the regulators are
-> > often hard-wired and the bindings didn't have them previously either (I
-> > wonder why, maybe they were all hard wired in the board??).
-> > 
-> > Could they be optional? The driver will need to be able to do without these
-> > in any case.
+> > This won't happen with regulator_bulk_enable(). Does the spec require this?
 > 
-> Indeed - many devices do not need to define how they are powered up.
+> Every camera I've ever seen handles this in hardware. (I know that's not
+> an excuse as somewhere there could be a device that routes each of these
+> separately).
 > 
-> But Krzysztof stated that supplies should be required by the bindings on
-> my recent posting for a VCM driver:
+> Perhaps I shouldn't have added the comment ;-) But I thought it was
+> useful while I was working through anyway, and could be important for
+> other devices indeed.
 > 
->  - https://lore.kernel.org/all/6e163f4d-061d-3c20-4c2e-44c74d529f10@linaro.org/
+> The datasheet states:
 > 
-> So based on that I have made these 'required'.
+> ```
+> 1. Turn On the power supplies so that the power supplies rise in order
+> of 1.2 V power supply (DVDD1, DVDD2) → 1.8 V power supply (OVDD) → 2.9 V
+> power supply (AVDD1, AVDD2). In addition, all power supplies should
+> finish rising within 200 ms.
 
-I guess it's good to align bindings regarding this, in practice the driver
-will need to work without regulators (or with dummies), too.
+That's an annoying requirement but I'd presume this to work just fine in
+practice. The device is reset in any case (as you describe below). Some
+boards might not wire the reset GPIO though, and then it's when it gets
+interesting.
 
-> 
-> Even in my case here, with a camera module that is compatible with the
-> Raspberry Pi camera connector - there isn't really 3 supplies. It's just
-> a single gpio enable pin to bring this device up for me. Of course
-> that's specific to the module not the sensor.
+To literally implement the documented sequence, you should separately
+enable the regulators one by one.
 
-How do you declare that in DT? One of the regulators will be a GPIO one?
+Although I don't object just removing the comment either.
 
 -- 
 Regards,
