@@ -2,129 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 020287C4810
-	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 05:00:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 22F067C489F
+	for <lists+linux-media@lfdr.de>; Wed, 11 Oct 2023 05:55:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344915AbjJKDAv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Oct 2023 23:00:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39478 "EHLO
+        id S1345026AbjJKDy6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Oct 2023 23:54:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343612AbjJKDAt (ORCPT
+        with ESMTP id S229457AbjJKDy5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Oct 2023 23:00:49 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15EE194;
-        Tue, 10 Oct 2023 20:00:47 -0700 (PDT)
-X-UUID: 5d26760867e211eea33bb35ae8d461a2-20231011
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=pQ3H7eMV35hy7ja7ums4idnErqHQoC8PfzxJOKFzSow=;
-        b=SrWkQsG9MY4WOgoCuXWQT5YAWmjFx9Re4PtxcSlAzRbhoDNRZpWZZM7CLJ6pVqjP23c5pVXITF8SDmLOsmNfCjE2DHuKCeOEqzPcWa0Sw/XtTY3S/yKVYeqjxum02uqneA/hsEUkokoTGszrhmOa6JWLQbN1vxSR/PerAvW+ZS4=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32,REQID:b5b04fbd-cb32-4c1c-98fd-ed8b45f822c8,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:5f78ec9,CLOUDID:196ce314-4929-4845-9571-38c601e9c3c9,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
-        DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 5d26760867e211eea33bb35ae8d461a2-20231011
-Received: from mtkmbs11n2.mediatek.inc [(172.21.101.187)] by mailgw01.mediatek.com
-        (envelope-from <moudy.ho@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1032919163; Wed, 11 Oct 2023 11:00:41 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 11 Oct 2023 11:00:40 +0800
-Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 11 Oct 2023 11:00:40 +0800
-From:   Moudy Ho <moudy.ho@mediatek.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     daoyuan huang <daoyuan.huang@mediatek.com>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        Moudy Ho <moudy.ho@mediatek.com>
-Subject: [PATCH v1] media: platform: mtk-mdp3: fix uninitialized variable in mdp_path_config()
-Date:   Wed, 11 Oct 2023 11:00:37 +0800
-Message-ID: <20231011030037.22337-1-moudy.ho@mediatek.com>
-X-Mailer: git-send-email 2.18.0
+        Tue, 10 Oct 2023 23:54:57 -0400
+Received: from out1-smtp.messagingengine.com (out1-smtp.messagingengine.com [66.111.4.25])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CA7793;
+        Tue, 10 Oct 2023 20:54:54 -0700 (PDT)
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id E5B4C5C04BF;
+        Tue, 10 Oct 2023 23:54:53 -0400 (EDT)
+Received: from imap50 ([10.202.2.100])
+  by compute4.internal (MEProxy); Tue, 10 Oct 2023 23:54:53 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aj.id.au; h=cc
+        :content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm1; t=1696996493; x=1697082893; bh=XU
+        RNCAmC4EG85LJ2IwA8ijWYMJfISUOpWhPozcDFZr8=; b=I4UD5POOswSYS2Ai/K
+        u4uZeq39hxS7F3fe24y2CPrcfQCN/BBUVXZvoTp/KcGTg/vxtcwcMgOo5mNzuNER
+        s4pRLhoVfXqDlaBymn79w2/NBslB1rLHOW+2iRbtjHw7VRnUBNShoNVud3qzr9o1
+        2HrgtYFU7gnIyaFs/KeujclwuCgOOnA1GjqLJ7+Z+pOK/ZQ0smtQwI2WyB83Kmbp
+        x2mrIM2CAuFoYWKmUGDKKbv+/G3B62TDtFzOn1pT9776ZMKgaH79MUFqwOOMwrx9
+        LCJHRj4fptWj50k0phtjf30NyVxYN+zTqHwaIfBQgC5kzijP1M6gceKRsl1NsSGe
+        /IuA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm2; t=1696996493; x=1697082893; bh=XURNCAmC4EG85
+        LJ2IwA8ijWYMJfISUOpWhPozcDFZr8=; b=QHUlcq9MO51x7HVjc2ccHXcQ1YyKC
+        pl4AgEkhHjIW7j7QFL2hy5XzQMNIcqDGGuqldovtl227u3z64SSyRoM7NZh4P0eg
+        NifzRow1zI0xk/N71/4+DtGRi+mpg32XczwaheA8usozHIVuyqUUJeHn/fQatnQS
+        r+l5/9wKx8rjpYNd8dX2M4VM6LtYc8cu0OSruM5EFhthk5lKuTwb5Lg89qXbeDQh
+        68aQl06iVeqD9e1pKJ56vuff2kh0EPntMCQbV6sQCNBt5fSMlLGCWevOQsiO+GXO
+        XPRe2wzAgtECx4ww+z63iO2JxUpqXRgGbiugWri7gjapZQEsmRUO5tQ5w==
+X-ME-Sender: <xms:jRwmZZOqOQxcZjnPVBzP4z_d52iIX7z4pUYecTzkTzzNYoEuLkF5AA>
+    <xme:jRwmZb_ORwVuaujEz4FAZHmlQm-x6jXR9kKJr-4JSRyTPY36lkGSRhR6Hli2MQ86q
+    S7ntvD9f2AJC6NTog>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrheejgdefiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvufgtsehttdertderredtnecuhfhrohhmpedftehnughr
+    vgifucflvghffhgvrhihfdcuoegrnhgurhgvfiesrghjrdhiugdrrghuqeenucggtffrrg
+    htthgvrhhnpeegtdejteetkeeiueegffehveeiudekheeihfellefhkefguefhudejleef
+    gffffeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgpdhgihhthhhusgdrtghomhenuc
+    evlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrnhgurhgv
+    fiesrghjrdhiugdrrghu
+X-ME-Proxy: <xmx:jRwmZYT5xvQBS5l381o9e_zSYwKnU-oROqWda20uid5IrXhxahPLoQ>
+    <xmx:jRwmZVtBeL_JPJc5v3xxCoZ7UsMvABRQDWDzSG-UDacgXDDJg6J-7g>
+    <xmx:jRwmZRdaE_fgUXZOhuZDAxvJZ6w6XXj5x7byYC7rWgU-s9KSGo2cTw>
+    <xmx:jRwmZR12b82Gs-ptcISXiqraaPnr6XAtNl4UGUpKSk9k1W_BAERfdQ>
+Feedback-ID: idfb84289:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id 4ED5A1700093; Tue, 10 Oct 2023 23:54:53 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1019-ged83ad8595-fm-20231002.001-ged83ad85
 MIME-Version: 1.0
+Message-Id: <0db41eaa-34dc-40c9-a28f-cfde39c6b48a@app.fastmail.com>
+In-Reply-To: <125cac30-b83d-4530-885b-5008fc3045af@roeck-us.net>
+References: <20231009211420.3454026-1-lakshmiy@us.ibm.com>
+ <ZSUaDIfWmEn5edrE@shikoro>
+ <1284830f-025e-4e25-8ed0-50a6cc00d223@roeck-us.net>
+ <ZSWevlHzu6kVcGWA@shikoro>
+ <125cac30-b83d-4530-885b-5008fc3045af@roeck-us.net>
+Date:   Wed, 11 Oct 2023 14:24:10 +1030
+From:   "Andrew Jeffery" <andrew@aj.id.au>
+To:     "Guenter Roeck" <linux@roeck-us.net>,
+        "Wolfram Sang" <wsa@kernel.org>,
+        "Lakshmi Yadlapati" <lakshmiy@us.ibm.com>, sumit.semwal@linaro.org,
+        christian.koenig@amd.com, "Jean Delvare" <jdelvare@suse.com>,
+        "Joel Stanley" <joel@jms.id.au>,
+        "Eddie James" <eajames@linux.ibm.com>,
+        "Ninad Palsule" <ninad@linux.ibm.com>, linux-i2c@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v1 0/2] [PATCH] hwmon: (pmbus/max31785) Add minimum delay between
+ bus accesses
 Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--1.284500-8.000000
-X-TMASE-MatchedRID: bY/LIBxtflqhL93N5VXnFISvKOGqLLPKFKliqHKCaOkqNag3uuW+4vhT
-        6/pHvNpJzmy+RYEtL0m0k1objFiL4GGN6M1vhJ4HXP5rFAucBUG4vBuE2X0HlVxTR00Ss4P6+Vi
-        hXqn9xLHGUnHlYVkOyLEivwZSlRnNGbjm5ZdalUGeAiCmPx4NwBnUJ0Ek6yhjxEHRux+uk8ifEz
-        J5hPndGReGaqZX6qKuiwzXnJrC++m6MyiN7oOAsXqfy2ud4VgwTKhkjXNSrgLRCxYxv/T7kv9Lo
-        A0/wXk89cAlb/C44ftWe8HxcmwrG3mVKZusLp922v9OjYWA2uMMswg45VMfPadst5iAforfVlxr
-        1FJij9s=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--1.284500-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: CFF5A348E27B8ED8314AC7FD146001B5EB4CB8BE0F65BFDF7A204414EE8423BE2000:8
-X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix the build warnings that were detected by the linux-media
-build scripts tool:
+On Wed, 11 Oct 2023, at 09:29, Guenter Roeck wrote:
+> On Tue, Oct 10, 2023 at 08:58:06PM +0200, Wolfram Sang wrote:
+>> Hi Guenter,
+>> 
+>> > > > Reference to Andrew's previous proposal:
+>> > > > https://lore.kernel.org/all/20200914122811.3295678-1-andrew@aj.id.au/
+>> > > 
+>> > > I do totally agree with Guenter's comment[1], though. This just affects
+>> > > a few drivers and this patch is way too intrusive for the I2C core. The
+>> > > later suggested prepare_device() callback[2] sounds better to me. I
+>> > > still haven't fully understood why this all cannot be handled in the
+>> > > driver's probe. Could someone give me a small summary about that?
+>> > > 
+>> > 
+>> > Lots of PMBus devices have the same problem, we have always handled
+>> > it in PMBus drivers by implementing local wait code, and your references
+>> > point that out.
+>> 
+>> I am confused now. Reading your reply:
+>> 
+>> "I am not sure if an implementation in the i2c core is desirable. It
+>> looks quite invasive to me, and it won't solve the problem for all
+>> devices since it isn't always a simple "wait <n> microseconds between
+>> accesses". For example, some devices may require a wait after a write
+>> but not after a read, or a wait only after certain commands (such as
+>> commands writing to an EEPROM)."
+>> 
+>> I get the impression you don't prefer to have a generic mechanism in the
+>> I2C core. This I share. Your response now sounds like you do support
+>> that idea now?
+>> 
+>
+> I didn't (want to) say that. I am perfectly happy with driver specific
+> code, and I would personally still very much prefer it. I only wanted to
+> suggest that _if_ a generic solution is implemented, it should cover all
+> existing use cases and not just this one. But, really, I'd rather leave
+> that alone and not risk introducing regressions to existing drivers.
 
-drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:
-	In function 'mdp_path_config.isra':
-drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:
-	warning: 'ctx' may be used uninitialized [-Wmaybe-uninitialized]
-      |                    out = CFG_COMP(MT8195, ctx->param, outputs[0]);
-      |                                           ~~~^~~~~~~
-drivers/media/platform/mediatek/mdp3/mtk-img-ipi.h: note:
-	in definition of macro 'CFG_COMP'
-      |         (IS_ERR_OR_NULL(comp) ? 0 : _CFG_COMP(plat, comp, mem))
-      |                         ^~~~
-drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c:
-	note: 'ctx' was declared here
-      |         struct mdp_comp_ctx *ctx;
-      |
+We had an out-of-tree patch for the max31785[1] that I wrote a little 
+after the initial discussion on this generic throttling and possibly 
+somewhat before the other drivers had their delays added. Recently Joel 
+pointed out the addition of the delays in the other drivers and I 
+raised the idea that we could get rid of that out-of-tree patch by 
+doing the same. Guenter's point about the work-arounds being very 
+particular to the device is good justification for not trying to 
+fix drivers that we can't immediately test - not that the series did 
+that, but arguably if we're shooting for the generic solution then it 
+should.
 
-Fixes: 61890ccaefaf ("media: platform: mtk-mdp3: add MediaTek MDP3 driver")
-Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
----
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+So I agree with Guenter that we probably want to do down the path of 
+adding the delays directly into the max31785 driver and not trying to 
+over-generalise.
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-index 3177592490be..6adac857a477 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-@@ -261,11 +261,11 @@ static int mdp_path_config(struct mdp_dev *mdp, struct mdp_cmdq_cmd *cmd,
- 		const struct v4l2_rect *compose;
- 		u32 out = 0;
- 
-+		ctx = &path->comps[index];
- 		if (CFG_CHECK(MT8183, p_id))
- 			out = CFG_COMP(MT8183, ctx->param, outputs[0]);
- 
- 		compose = path->composes[out];
--		ctx = &path->comps[index];
- 		ret = call_op(ctx, config_frame, cmd, compose);
- 		if (ret)
- 			return ret;
--- 
-2.18.0
+Lakshmi: Apologies for misleading you in some way there - unfortunately 
+I can't go back to understand exactly what I suggested as I've changed 
+jobs in the mean time.
 
+Andrew
+
+[1]: https://github.com/openbmc/linux/commit/44e1397368a70ffe9cdad1f9212ffdef8c16b9be
