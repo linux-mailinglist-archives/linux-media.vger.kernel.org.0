@@ -2,72 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 061467C759A
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 20:02:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E26817C76A9
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 21:24:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1379652AbjJLSCy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 14:02:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34062 "EHLO
+        id S1379705AbjJLTYO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 15:24:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57562 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231566AbjJLSCx (ORCPT
+        with ESMTP id S1442135AbjJLTYM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 14:02:53 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EEB4BB
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 11:02:48 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-32d80ae19f8so1026783f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 11:02:48 -0700 (PDT)
+        Thu, 12 Oct 2023 15:24:12 -0400
+Received: from mail-ed1-x533.google.com (mail-ed1-x533.google.com [IPv6:2a00:1450:4864:20::533])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F521DE
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 12:24:10 -0700 (PDT)
+Received: by mail-ed1-x533.google.com with SMTP id 4fb4d7f45d1cf-536b39daec1so2275911a12.2
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 12:24:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697133766; x=1697738566; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697138649; x=1697743449; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=+0KO0S9Itb4GRpzCnjWOP0fOw9fM5kuT8tU3Kcgbz6I=;
-        b=SuyP9x5fD2NpbL9mb5rEPWY6/J+qnQoXxdA7YjHDNpmtkDrjcwVTNIRm33KH0oGd6S
-         ykMWgqH0gRi71R/QkMu5S3BF+L1RvkaRZ9tyx4sdU92hStjsoRGqREIIyTyqSKN2OE1P
-         H9WsjnAHD+W1M2Wx4A39H+mgSeaz8nWokM0IqhT1nzSYP8mjoWGzX8h1Sgi4bx5MuzVS
-         bwp/fgqfHwylz1rBmGfbPpxLy/ujBXdGA5wl0PawlspWxEezKJ3Q7sXIEhI9EhNuUH6+
-         cBDR2Fq67H/CxnNoOMDOhcr+nTNFQe8Vs57TtPeMP6ZYcgW9d35oWZtbqfcMDdRhlEO1
-         2udQ==
+        bh=kTk/R71Vt3AQuH5i1ACSv7R5cbcEeRSQsZ1wa963EHI=;
+        b=ZxLXupU1daSSFhZ0W4RvoDNTm6l8SgQeuTH98cZasuKwpfnCE9NoXT85k2D5N92LvY
+         hek+34pTfZ4ExpYeJiTotjOzKnLgBkWfi43F+IGnCdgMw2BaixXoaP0NdTKIKsiBvZMy
+         GvheaW2ljD2bRxW2VQgmN50pa4DoaRKy0XqIqsqT3rPX8gjw9L6EnFErzzsbpO3CzPHK
+         R1+3cgseUFYnrNLxgwj2ldC76Y3JyRSvGeoLd2XAeWzpnZXEqrApXeZU0msEMrnMmeku
+         erLdABiosNohXUCI7KPIYIkXRF4nplXIwN1ItwhCrkBTboxxzsXkOYJf0ennY1uioTuP
+         h6/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697133766; x=1697738566;
+        d=1e100.net; s=20230601; t=1697138649; x=1697743449;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+0KO0S9Itb4GRpzCnjWOP0fOw9fM5kuT8tU3Kcgbz6I=;
-        b=vC56o0Kw+lk6bw/aJVmdIMl8qk1XSzz4ZDc3yeYlLorYzChZLUjoDUSDtxj12m97Iu
-         ZQA7mWsyDVhBIOJsyEJdn21YE3E1wi7wt19B4FkCo5OEOOHq0msvwiYECp2MoGewGqJr
-         ipdLcsOypqk90xYcPyxCK8YiF5/rnIaFV7yXKBEjBzlasWuHkfu2zGslVQmnkCNmWkaF
-         t8e+MRHcCzllon/Hwri0C3OPYtkV6OpoeE2Qw5gIZp0+K7gf0q0S6TdqKS125pr33MEm
-         4tzA2mIvaT4KeogyR5VCJYtm2I2lZAZ5V/3pE+h0+FMm/St5ouHRM0rGDD3zqPKdnGkq
-         zbHQ==
-X-Gm-Message-State: AOJu0YyXTNnvZSSLjhW0viD/UlaEzFayGY/ZJyOQQcIPjEqjK1efBcFf
-        f036qlC8MpopPuZsnl76LqpH+A==
-X-Google-Smtp-Source: AGHT+IEbgYgoY/lEnyREDVN/dKQWvPgE2od6NdoqK0dpWjNKL6IP3knDe15nH1XHrLtWFjF7rTf9DQ==
-X-Received: by 2002:a5d:460e:0:b0:31f:f1f4:ca85 with SMTP id t14-20020a5d460e000000b0031ff1f4ca85mr23745863wrq.37.1697133766540;
-        Thu, 12 Oct 2023 11:02:46 -0700 (PDT)
+        bh=kTk/R71Vt3AQuH5i1ACSv7R5cbcEeRSQsZ1wa963EHI=;
+        b=mvxfPucFw6Qn+lErFjieLyrrwVJWK+F4bjR3pvR8SSarQRCBcC2HrLzGThZXxGFQo8
+         gJgIl4gD5AXpz4Hh/FResSeOSmpedHiifwrFi9zkcQg4zs1E9wkyz8KB16dZs/GrZOas
+         MBTBjfUXzt6DM/KU3SqwZvd3wXieCqFTgxHeOaOexGqiG8TFCqQVY92x3t0TDYR/t+FG
+         dqSp+IOB5QHgdzlPU32mcdZtCxpHrE7/Xh4mWSjJu6Q+cLKrW8YSqxtWGFlZMKAGGy+6
+         fmCjhwK4f9yHlwUmsdLssGF2evJPpsBfSQI6vK4j+8ZsqTnQN6GDqF3lep/jQWkweg9S
+         twmw==
+X-Gm-Message-State: AOJu0YwY8fbPLV2B08UYWCiSqkTYdBe4Bu8zakdTOMCRnX1uRTmhDyAa
+        IcrgcbdjqFOs2n+pfDZBgxMaHg==
+X-Google-Smtp-Source: AGHT+IHHp0azqZLK3hxQtXH+yZsGeEAsawMidpyM1aewZMA7OEoFqq2jA48u6BX3b4p7O+BZ7gobBg==
+X-Received: by 2002:a05:6402:3213:b0:53d:eb53:4d0c with SMTP id g19-20020a056402321300b0053deb534d0cmr5275717eda.37.1697138649089;
+        Thu, 12 Oct 2023 12:24:09 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id t9-20020a05600001c900b0032179c4a46dsm18940895wrx.100.2023.10.12.11.02.44
+        by smtp.gmail.com with ESMTPSA id n17-20020a05640204d100b00533dd4d2947sm10492686edw.74.2023.10.12.12.24.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 11:02:46 -0700 (PDT)
-Message-ID: <7b8b782c-2131-4837-9be5-cca012004274@linaro.org>
-Date:   Thu, 12 Oct 2023 20:02:43 +0200
+        Thu, 12 Oct 2023 12:24:08 -0700 (PDT)
+Message-ID: <73ee0d43-9317-4e0e-949c-8fb302e21e68@linaro.org>
+Date:   Thu, 12 Oct 2023 21:24:06 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/3] dt-bindings: vendor-prefixes: Add prefix for
- GalaxyCore Inc.
+Subject: Re: [PATCH v9 1/5] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti Video Input Interface
 Content-Language: en-US
-To:     Alain Volmat <alain.volmat@foss.st.com>,
+To:     Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231011175735.1824782-1-alain.volmat@foss.st.com>
- <20231011175735.1824782-2-alain.volmat@foss.st.com>
+        Conor Dooley <conor+dt@kernel.org>,
+        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20231012071329.2542003-1-yuji2.ishikawa@toshiba.co.jp>
+ <20231012071329.2542003-2-yuji2.ishikawa@toshiba.co.jp>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -113,11 +114,11 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231011175735.1824782-2-alain.volmat@foss.st.com>
+In-Reply-To: <20231012071329.2542003-2-yuji2.ishikawa@toshiba.co.jp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -125,13 +126,14 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/10/2023 19:57, Alain Volmat wrote:
-> Add a vendor prefix entry for galaxycore (https://www.gcoreinc.com)
+On 12/10/2023 09:13, Yuji Ishikawa wrote:
+> Adds the Device Tree binding documentation that allows to describe
+> the Video Input Interface found in Toshiba Visconti SoCs.
 > 
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> ---
+> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> Reviewed-by: Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
