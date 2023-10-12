@@ -2,234 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A4D997C7898
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 23:27:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 093B27C795C
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 00:18:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442890AbjJLV1h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 17:27:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56820 "EHLO
+        id S1442995AbjJLWST (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 18:18:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442824AbjJLV1g (ORCPT
+        with ESMTP id S1442960AbjJLWST (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 17:27:36 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCC3FA9
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 14:27:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697146054; x=1728682054;
-  h=date:from:to:cc:subject:message-id;
-  bh=vAlRYx3UgKjWDL3OHkfbSOi2rGDWjM1+Xy7iVLyTUtM=;
-  b=Yqybz23+oQtmev9eXyL9WHiPiBBMZEvN5cRRnGP4PLLp5fE5K66S8TJA
-   0gZrbExS+TGKSjq+umO7KUr6BPRDcycdtxnJZj4EQHc5ZfhWjNoEt83PB
-   4RaHoPBZop+Z6XoKuBH8JJvEU2FhUDlAuW9LZSUoiaGWnHOHBbADsjN9F
-   888U+GUSfmOGjlljeoIE4L7ecHPInN7kgq502fU+kV/kbT2PVzs26rNoC
-   uveZHDkU3+1oxaf1DJulGA8yhqcDDL1Lf9YJ8iWSRYkCT/AIGvU15iC+F
-   WPr8JXayA4xPYOB6YYhBOOk3uvpE8Ku3iMBA3dbx0d/7K+QkanmdyFjmL
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="471280525"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="471280525"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 14:27:33 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="748059132"
-X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
-   d="scan'208";a="748059132"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 12 Oct 2023 14:27:28 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qr3DL-0003u3-1f;
-        Thu, 12 Oct 2023 21:27:27 +0000
-Date:   Fri, 13 Oct 2023 05:26:58 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: [sailus-media-tree:master] BUILD SUCCESS
- f4f5a574664f77796613401ccb9cc1d01a546dbd
-Message-ID: <202310130555.dqklCS9Z-lkp@intel.com>
-User-Agent: s-nail v14.9.24
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+        Thu, 12 Oct 2023 18:18:19 -0400
+X-Greylist: delayed 999 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 Oct 2023 15:18:17 PDT
+Received: from stcim.de (stcim.de [IPv6:2a01:4f8:151:40c4::2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B72BB8;
+        Thu, 12 Oct 2023 15:18:17 -0700 (PDT)
+Received: from stc by stcim with local (Exim 4.92)
+        (envelope-from <stc@stcim.de>)
+        id 1qr3kF-0007rM-Hb; Fri, 13 Oct 2023 00:01:27 +0200
+Date:   Fri, 13 Oct 2023 00:01:27 +0200
+From:   Stefan Lengfeld <stefan@lengfeld.xyz>
+To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Oleksij Rempel <linux@rempel-privat.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>, linux-i2c@vger.kernel.org
+Subject: Re: Sony IMX290/462 image sensors I2C xfer peculiarity
+Message-ID: <20231012220127.GB27838@stcim.de>
+References: <m3y1gpw8ri.fsf@t19.piap.pl>
+ <CAPY8ntASwh3AcRqE+2zF4Df=u+=wJ5K9icAeOrXTMJGDd1+caw@mail.gmail.com>
+ <m3o7hfx3ob.fsf@t19.piap.pl>
+ <m37cnuvmhn.fsf@t19.piap.pl>
+ <m3o7h5tthf.fsf@t19.piap.pl>
+ <m3jzrttrmz.fsf@t19.piap.pl>
+ <20231011101553.we3r73xejvqdql5j@porty>
+ <m3fs2htn7g.fsf@t19.piap.pl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <m3fs2htn7g.fsf@t19.piap.pl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git master
-branch HEAD: f4f5a574664f77796613401ccb9cc1d01a546dbd  media: ccs: Fix a (harmless) lockdep warning
+Hi Chris,
 
-elapsed time: 1899m
+> > My understand is that an ordinary I2C device would just use normal (and
+> > sleepable) I2C transfers while the device is in use.
+> 
+> You are spot-on here :-) Now I use IMX 290 and 462.
+> 
+> OTOH I wonder if such issues are limited to those sensors only.
 
-configs tested: 157
-configs skipped: 2
+Hmm, yes. I know no other I2C device that has these timeout issues. (*)
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+> The problem is I use Sony IMX290 and IMX462 image sensors, and they have
+> an apparently hard-coded timeout of about 2^18 their master clock cycles
+> (= ca. 7 ms with my setup). After the timeout they simply disconnect
+> from the I2C bus. Of course, this isn't mentioned in the docs.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                      axs103_smp_defconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231011   gcc  
-arc                   randconfig-001-20231012   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                         orion5x_defconfig   clang
-arm                   randconfig-001-20231012   gcc  
-arm                         wpcm450_defconfig   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20231011   gcc  
-i386         buildonly-randconfig-001-20231012   gcc  
-i386         buildonly-randconfig-002-20231011   gcc  
-i386         buildonly-randconfig-002-20231012   gcc  
-i386         buildonly-randconfig-003-20231011   gcc  
-i386         buildonly-randconfig-003-20231012   gcc  
-i386         buildonly-randconfig-004-20231011   gcc  
-i386         buildonly-randconfig-004-20231012   gcc  
-i386         buildonly-randconfig-005-20231011   gcc  
-i386         buildonly-randconfig-005-20231012   gcc  
-i386         buildonly-randconfig-006-20231011   gcc  
-i386         buildonly-randconfig-006-20231012   gcc  
-i386                              debian-10.3   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231012   gcc  
-i386                  randconfig-002-20231012   gcc  
-i386                  randconfig-003-20231012   gcc  
-i386                  randconfig-004-20231012   gcc  
-i386                  randconfig-005-20231012   gcc  
-i386                  randconfig-006-20231012   gcc  
-i386                  randconfig-011-20231012   gcc  
-i386                  randconfig-012-20231012   gcc  
-i386                  randconfig-013-20231012   gcc  
-i386                  randconfig-014-20231012   gcc  
-i386                  randconfig-015-20231012   gcc  
-i386                  randconfig-016-20231012   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231011   gcc  
-loongarch             randconfig-001-20231012   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-mips                      loongson3_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc64                         alldefconfig   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-powerpc                      pcm030_defconfig   gcc  
-powerpc                     tqm8560_defconfig   clang
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                         apsh4a3a_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                ecovec24-romimage_defconfig   gcc  
-sh                        edosk7705_defconfig   gcc  
-sh                           se7750_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc                 randconfig-001-20231012   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20231012   gcc  
-x86_64       buildonly-randconfig-002-20231012   gcc  
-x86_64       buildonly-randconfig-003-20231012   gcc  
-x86_64       buildonly-randconfig-004-20231012   gcc  
-x86_64       buildonly-randconfig-005-20231012   gcc  
-x86_64       buildonly-randconfig-006-20231012   gcc  
-x86_64                              defconfig   gcc  
-x86_64                                  kexec   gcc  
-x86_64                randconfig-001-20231012   gcc  
-x86_64                randconfig-002-20231012   gcc  
-x86_64                randconfig-003-20231012   gcc  
-x86_64                randconfig-004-20231012   gcc  
-x86_64                randconfig-005-20231012   gcc  
-x86_64                randconfig-006-20231012   gcc  
-x86_64                randconfig-011-20231012   gcc  
-x86_64                randconfig-012-20231012   gcc  
-x86_64                randconfig-013-20231012   gcc  
-x86_64                randconfig-014-20231012   gcc  
-x86_64                randconfig-015-20231012   gcc  
-x86_64                randconfig-016-20231012   gcc  
-x86_64                randconfig-071-20231012   gcc  
-x86_64                randconfig-072-20231012   gcc  
-x86_64                randconfig-073-20231012   gcc  
-x86_64                randconfig-074-20231012   gcc  
-x86_64                randconfig-075-20231012   gcc  
-x86_64                randconfig-076-20231012   gcc  
-x86_64                           rhel-8.3-bpf   gcc  
-x86_64                          rhel-8.3-func   gcc  
-x86_64                    rhel-8.3-kselftests   gcc  
-x86_64                         rhel-8.3-kunit   gcc  
-x86_64                           rhel-8.3-ltp   gcc  
-x86_64                          rhel-8.3-rust   clang
-x86_64                               rhel-8.3   gcc  
-xtensa                  cadence_csp_defconfig   gcc  
+hmm. I have no idea about this sensor and your setup. So I can just give hints:
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+This timeout seems strange. If this 7 ms timeout is required, it would mean
+that I2C masters require to fullfill real-time/deadline requirements.  For
+"small" I2C master in microcontrolles this seems ok-ish, but for general
+operating systems real-time requirements are hard.  The real-time patches for
+linux just landed recently and it still requires fine tuning the system for the
+required deadlines.
+
+Maybe you just hit a corner case or a bug, that can be avoid, in the I2C
+device.  Maybe check with the manufacturer directly?
+
+> Unfortunately, "normal" I2C accesses take frequently more than those
+> 7 ms (mostly due to scheduling when all CPU cores are in use).
+
+Yes, correctly. There are multiple cases in which I2C transactions to the same
+device can be preempted/delayed: A busy system, as you said, or when some other driver
+in the kernel accesses another I2C device on the same bus. This will lock the
+bus/I2C adapter for the duration of its transfer.
+
+Do you know the I2C repeated start feature [1]? This allows to batch together
+multiple I2C read/writes in a single transfer. And in the best case, this
+transfer is executed in one go without a delay in between. At least in the
+kernel it's guaranteed that no other driver can go in between with another
+transfer.
+
+Kind regards,
+Stefan
+
+[1]: https://www.i2c-bus.org/repeated-start-condition/
+
+(*) Fun answer: Actually external watchdogs have timeouts. But the timeout
+duration is in the range of seconds, not milliseconds. And timeout expiration
+is expected (in error cases ;-).
