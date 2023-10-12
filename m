@@ -2,112 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B9A8D7C6260
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 03:45:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B57EF7C6543
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 08:17:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233269AbjJLBpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Oct 2023 21:45:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38618 "EHLO
+        id S1377237AbjJLGRy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 02:17:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47614 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235259AbjJLBpn (ORCPT
+        with ESMTP id S1347063AbjJLGRv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Oct 2023 21:45:43 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40DF5B8
-        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 18:45:42 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80E19C433C7
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 01:45:41 +0000 (UTC)
-Date:   Thu, 12 Oct 2023 03:45:39 +0200
-Message-ID: <79a4e1e32a57cb022157ad3440769215.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Thu, 12 Oct 2023 02:17:51 -0400
+Received: from mail-qt1-x82e.google.com (mail-qt1-x82e.google.com [IPv6:2607:f8b0:4864:20::82e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6BA3B8
+        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 23:17:49 -0700 (PDT)
+Received: by mail-qt1-x82e.google.com with SMTP id d75a77b69052e-4197fa36b6aso3721761cf.3
+        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 23:17:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1697091468; x=1697696268; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gosZTOF28yl4wwi+fp2cOIVguAXJ0rCtZc43mP/3F5M=;
+        b=lxOQX5jR3Mpykz+9C4LauGfYwquVsjPSGrkSKbPf+VJlZo6QieIqDxfiK541ElETP5
+         hK69YDT6angl9A5fbxDXXj5QyRw7L7RAX3TzcCSv2R3MW386fvgVtbWrT4LhiDpHHrnX
+         HDe4ulaQI1xz06hMuMkoTCnoXqEwQEhlXxrtI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697091468; x=1697696268;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gosZTOF28yl4wwi+fp2cOIVguAXJ0rCtZc43mP/3F5M=;
+        b=SXrXYuQXPEvfQslihL3GqFizvuRloX//mnOfjhCO2KLa0FCSz6q4aNeS5z+vafRd1P
+         7/gvHYIPIG66JPU3eMyLauCWGW3Mt+XQAUBGugb7RiN1drJqhJVrOWaaj2pdu7Zr40y2
+         jZIRKqexut+STIMr6TXZh/R+wcQQCL8WQnYqIAExxa5zbc7m5v3kzhiM0Ed89TLNC4Ie
+         z03H2SauVs/Dv4amwV809mg5B+KLPFI9ojBQhGaUTxnbdXuVazDA0/e+pz/KHhYKwqqO
+         4iN14gwQU3OFySQpvhqNskbnd96a9e0/8arAOSaksw7v1cgJorJeoz+QIqT8g/E0axLX
+         GCAA==
+X-Gm-Message-State: AOJu0YyX8RjJLzMzc+FZdptJ6EcO7wvjMHCyfKQQKMKmsJctz0WZguID
+        JV1etFdf7DE37kHxqSLGCJbJexPWqA5+cx2JcOs=
+X-Google-Smtp-Source: AGHT+IGA7p22GR7o/JLt0ybrkwTS1vRr4/ED/62TVQK2qTfmrGEVLf7xWQbftfdV15Fn5GfTvzRtxQ==
+X-Received: by 2002:ac8:5a88:0:b0:412:2d22:2aab with SMTP id c8-20020ac85a88000000b004122d222aabmr27901382qtc.53.1697091468184;
+        Wed, 11 Oct 2023 23:17:48 -0700 (PDT)
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com. [209.85.219.54])
+        by smtp.gmail.com with ESMTPSA id bb36-20020a05622a1b2400b00403ad6ec2e8sm5933940qtb.26.2023.10.11.23.17.47
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 11 Oct 2023 23:17:47 -0700 (PDT)
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-66cfd35f595so3679136d6.2
+        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 23:17:47 -0700 (PDT)
+X-Received: by 2002:a0c:ef05:0:b0:656:55b0:6f55 with SMTP id
+ t5-20020a0cef05000000b0065655b06f55mr20856812qvr.6.1697091466966; Wed, 11 Oct
+ 2023 23:17:46 -0700 (PDT)
+MIME-Version: 1.0
+References: <20231003091315.3919528-1-make_ruc2021@163.com>
+In-Reply-To: <20231003091315.3919528-1-make_ruc2021@163.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 12 Oct 2023 15:17:31 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5A4w5N4GwdJ0x+Rw=EM_J1Nf=6M2XmUi-ZcoyW5L8J-zg@mail.gmail.com>
+Message-ID: <CAAFQd5A4w5N4GwdJ0x+Rw=EM_J1Nf=6M2XmUi-ZcoyW5L8J-zg@mail.gmail.com>
+Subject: Re: [PATCH v2] media: videobuf2: Fix IS_ERR checking in vb2_vmalloc_put_userptr()
+To:     Ma Ke <make_ruc2021@163.com>
+Cc:     m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+On Tue, Oct 3, 2023 at 6:13=E2=80=AFPM Ma Ke <make_ruc2021@163.com> wrote:
+>
+> In order to avoid error pointers from frame_vector_pages(), we could
+> use IS_ERR() to check the return value to fix this. This checking
+> operation could make sure that vector contains pages.
+>
+> Signed-off-by: Ma Ke <make_ruc2021@163.com>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-vmalloc.c | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-vmalloc.c b/drivers=
+/media/common/videobuf2/videobuf2-vmalloc.c
+> index 7c635e292106..5aa66305546d 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-vmalloc.c
+> @@ -133,13 +133,15 @@ static void vb2_vmalloc_put_userptr(void *buf_priv)
+>
+>         if (!buf->vec->is_pfns) {
+>                 n_pages =3D frame_vector_count(buf->vec);
+> -               pages =3D frame_vector_pages(buf->vec);
+>                 if (vaddr)
+>                         vm_unmap_ram((void *)vaddr, n_pages);
+>                 if (buf->dma_dir =3D=3D DMA_FROM_DEVICE ||
+> -                   buf->dma_dir =3D=3D DMA_BIDIRECTIONAL)
+> -                       for (i =3D 0; i < n_pages; i++)
+> -                               set_page_dirty_lock(pages[i]);
+> +                   buf->dma_dir =3D=3D DMA_BIDIRECTIONAL){
 
-Results of the daily build of media_tree:
+Missing space between ) and { .
 
-date:			Thu Oct 12 03:00:08 CEST 2023
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	c8a489f820179fb12251e262b50303c29de991ac
-v4l-utils git hash:	e77d513ecff8d085c388f95894363f946f92a3fe
-edid-decode git hash:	e59b8a2ffd690d6576639365a67e890d91ca443d
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8471-g6f3cce86
-sparse version:		v0.5.0-8471-g6f3cce86
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5fbdd0cd18addab429b722067d3a3db6e3779df1
-host hardware:		x86_64
-host os:		6.5.0-1-amd64
+> +                       pages =3D frame_vector_pages(buf->vec);
+> +                       if (!WARN_ON_ONCE(IS_ERR(pages)))
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+I still think this cannot happen, but the frame vector code is a mess,
+so being a bit more defensive here is probably fine, until someone can
+clean up that code (probably by removing the PFN-only code path
+completely).
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+> +                               for (i =3D 0; i < n_pages; i++)
+> +                                       set_page_dirty_lock(pages[i]);
+> +               }
+>         } else {
+>                 iounmap((__force void __iomem *)buf->vaddr);
+>         }
+> --
+> 2.37.2
+>
 
-smatch: WARNINGS:
+With that one formatting issue fixed: (Mauro, Hans, maybe it could be
+fixed up when applying?)
 
-drivers/media/i2c/adp1653.c:444 adp1653_of_init() warn: missing unwind goto?
-drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
-  Locked on  : 326,387
-  Unlocked on: 465,467
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/i2c/mt9m114.c:2381 mt9m114_probe() warn: missing unwind goto?
-drivers/media/platform/qcom/venus/pm_helpers.c:873 vcodec_domains_get() warn: passing zero to 'PTR_ERR'
-drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c:2792 mxc_jpeg_probe() warn: missing unwind goto?
-drivers/media/pci/mgb4/mgb4_sysfs_out.c:118 video_source_store() warn: potential spectre issue 'mgbdev->vin' [r] (local cap)
-drivers/media/pci/mgb4/mgb4_sysfs_out.c:122 video_source_store() warn: possible spectre second half.  'loopin_new'
+Acked-by: Tomasz Figa <tfiga@chromium.org>
 
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Thu Oct 12 03:16:56 CEST 2023
-virtme-64: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 5
-
-date:			Thu Oct 12 03:44:25 CEST 2023
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Best regards,
+Tomasz
