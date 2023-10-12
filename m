@@ -2,106 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 093B27C795C
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 00:18:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A2147C793A
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 00:07:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442995AbjJLWST (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 18:18:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41574 "EHLO
+        id S1442946AbjJLWHb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 18:07:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46806 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1442960AbjJLWST (ORCPT
+        with ESMTP id S234509AbjJLWHa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 18:18:19 -0400
-X-Greylist: delayed 999 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 12 Oct 2023 15:18:17 PDT
-Received: from stcim.de (stcim.de [IPv6:2a01:4f8:151:40c4::2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B72BB8;
-        Thu, 12 Oct 2023 15:18:17 -0700 (PDT)
-Received: from stc by stcim with local (Exim 4.92)
-        (envelope-from <stc@stcim.de>)
-        id 1qr3kF-0007rM-Hb; Fri, 13 Oct 2023 00:01:27 +0200
-Date:   Fri, 13 Oct 2023 00:01:27 +0200
-From:   Stefan Lengfeld <stefan@lengfeld.xyz>
-To:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>, linux-i2c@vger.kernel.org
-Subject: Re: Sony IMX290/462 image sensors I2C xfer peculiarity
-Message-ID: <20231012220127.GB27838@stcim.de>
-References: <m3y1gpw8ri.fsf@t19.piap.pl>
- <CAPY8ntASwh3AcRqE+2zF4Df=u+=wJ5K9icAeOrXTMJGDd1+caw@mail.gmail.com>
- <m3o7hfx3ob.fsf@t19.piap.pl>
- <m37cnuvmhn.fsf@t19.piap.pl>
- <m3o7h5tthf.fsf@t19.piap.pl>
- <m3jzrttrmz.fsf@t19.piap.pl>
- <20231011101553.we3r73xejvqdql5j@porty>
- <m3fs2htn7g.fsf@t19.piap.pl>
+        Thu, 12 Oct 2023 18:07:30 -0400
+Received: from mail-ot1-x330.google.com (mail-ot1-x330.google.com [IPv6:2607:f8b0:4864:20::330])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7920DB8;
+        Thu, 12 Oct 2023 15:07:29 -0700 (PDT)
+Received: by mail-ot1-x330.google.com with SMTP id 46e09a7af769-6c620883559so973571a34.0;
+        Thu, 12 Oct 2023 15:07:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697148449; x=1697753249;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:dkim-signature:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=wj8bxxmMdfTdWcmOthiPcD4f/E2nZ5CmP0hi2ncm2JY=;
+        b=OUDizIfCWGGTGGK+SkCtg9S4aakkLJKtRkjJy320BMUuBYN42sqpVpwj0BXQrNVRVG
+         vt6oxwLwo5PxI9wUKA9+pAcropa0tfv2nK1TR98XqkM/scvnCAkXm4DZX6quKvfQfpAy
+         MujN1vH4K8DIEV6m7peF5J7S/bI1wsyDF3JmZdhWbhjCpGycIeb73DAafm/9zh4oA5N+
+         tisl5EJYIAdlDiHv470wxUOm3y4Nn8PEg42G4J9op2W+WOExlF9nK/ns0iX3AFLtEWEZ
+         t6e3y3QYtjOCTFAkcH/oa1SsImbdwsGtWw9O2UO5jTEVn+8AlyZLWBHiVz8/ha8oHkAU
+         dxog==
+X-Gm-Message-State: AOJu0YyQwOVjyk10JlCEkBJTHnTev4H6GB5k0SWpCzBpduWdwtMJb3dw
+        PRj0LgiaeHkhMr2uiPc2dbsRv9SyZiTm83tx
+X-Google-Smtp-Source: AGHT+IF3ETYErezb1wVlMe3A6ctvCLcDHQy9K6fJw58TEfcbRXqIVetzumpEtlejMblEpd2RKXJmDw==
+X-Received: by 2002:a05:6830:1087:b0:6c4:a42b:9cd8 with SMTP id y7-20020a056830108700b006c4a42b9cd8mr26584088oto.1.1697148448593;
+        Thu, 12 Oct 2023 15:07:28 -0700 (PDT)
+Received: from mail.marliere.net ([24.199.118.162])
+        by smtp.gmail.com with ESMTPSA id fe1-20020a056a002f0100b00690c52267easm12225670pfb.40.2023.10.12.15.07.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Oct 2023 15:07:27 -0700 (PDT)
+Date:   Thu, 12 Oct 2023 19:07:34 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+        s=2023; t=1697148446;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=wj8bxxmMdfTdWcmOthiPcD4f/E2nZ5CmP0hi2ncm2JY=;
+        b=shsa4lg5x46ZuiVFyR2F5z2If28ls8/ezrObv+/KyRopymSkYgc5T2S4DLHX3MHphMVs6Y
+        XwoC0v4KX5tFuzgzpTvD2c0m8RQEkfm2068zPF4y+nwkT/7ybxB+1KyV0Pve8TlM0slua6
+        VxWBvXSvXn1LwfHriB5sXx6OqTX+HI6EVHCTZ+OKZypr01BJj0LdnCd1NBAogI7ekNia1m
+        55o7NaPqoocNk9xxglYBfjmwdhxcTI8feFqegITpnsOqYzdVH5Zr0LwN3e53E1GJ1ESt4C
+        BBnBSugmC38WE3fhwzolY9kqDuXnwe9FPM5/5LuwFDmF9KoHG/fYWkkgM4bsbA==
+Authentication-Results: ORIGINATING;
+        auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+From:   "Ricardo B. Marliere" <ricardo@marliere.net>
+To:     syzbot <syzbot+621409285c4156a009b3@syzkaller.appspotmail.com>
+Cc:     isely@pobox.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, pvrusb2@isely.net,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: [syzbot] [pvrusb2?] [usb?] KASAN: slab-use-after-free Read in
+ pvr2_context_set_notify
+Message-ID: <cwc32sg4vzz6akduyvze6tu2dkzpljtvpycuhz43t7lmbzbyvb@jgywtsrcvuzw>
+References: <000000000000a02a4205fff8eb92@google.com>
+ <gugiuvjgpoogf3k5cm4px4jwevg5torsu3d7afbbhvnrxho4zu@wkcxeb5sr5ez>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/mixed; boundary="g4hznxqvzwwzlnny"
 Content-Disposition: inline
-In-Reply-To: <m3fs2htn7g.fsf@t19.piap.pl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <gugiuvjgpoogf3k5cm4px4jwevg5torsu3d7afbbhvnrxho4zu@wkcxeb5sr5ez>
+X-Spam-Status: No, score=1.3 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SORTED_RECIPS,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Chris,
 
-> > My understand is that an ordinary I2C device would just use normal (and
-> > sleepable) I2C transfers while the device is in use.
-> 
-> You are spot-on here :-) Now I use IMX 290 and 462.
-> 
-> OTOH I wonder if such issues are limited to those sensors only.
+--g4hznxqvzwwzlnny
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hmm, yes. I know no other I2C device that has these timeout issues. (*)
+#syz test: https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git ce9ecca0238b140b88f43859b211c9fdfd8e5b70
 
-> The problem is I use Sony IMX290 and IMX462 image sensors, and they have
-> an apparently hard-coded timeout of about 2^18 their master clock cycles
-> (= ca. 7 ms with my setup). After the timeout they simply disconnect
-> from the I2C bus. Of course, this isn't mentioned in the docs.
+--g4hznxqvzwwzlnny
+Content-Type: text/x-diff; charset=us-ascii
+Content-Disposition: attachment;
+	filename="0001-media-pvrusb2-fix-use-after-free-on-context-disconne.patch"
 
-hmm. I have no idea about this sensor and your setup. So I can just give hints:
+From cf7c3b08f80c4cdb7dd08cb977f29d41efebcf79 Mon Sep 17 00:00:00 2001
+From: "Ricardo B. Marliere" <ricardo@marliere.net>
+Date: Thu, 12 Oct 2023 18:26:47 -0300
+Subject: [PATCH] media: pvrusb2: fix use after free on context disconnection
 
-This timeout seems strange. If this 7 ms timeout is required, it would mean
-that I2C masters require to fullfill real-time/deadline requirements.  For
-"small" I2C master in microcontrolles this seems ok-ish, but for general
-operating systems real-time requirements are hard.  The real-time patches for
-linux just landed recently and it still requires fine tuning the system for the
-required deadlines.
+Upon module load, a kthread is created targeting the
+pvr2_context_thread_func function, which may call pvr2_context_destroy
+and thus call kfree() on the context object. However, that might happen
+before the usb hub_event handler is able to notify the driver. This
+patch adds a sanity check before the invalid read reported by syzbot,
+within the context disconnection call stack.
 
-Maybe you just hit a corner case or a bug, that can be avoid, in the I2C
-device.  Maybe check with the manufacturer directly?
+Fixes: e5be15c63804 ("V4L/DVB (7711): pvrusb2: Fix race on module unload")
+Reported-by: syzbot+621409285c4156a009b3@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/000000000000a02a4205fff8eb92@google.com/
+Signed-off-by: Ricardo B. Marliere <ricardo@marliere.net>
+---
+ drivers/media/usb/pvrusb2/pvrusb2-context.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-> Unfortunately, "normal" I2C accesses take frequently more than those
-> 7 ms (mostly due to scheduling when all CPU cores are in use).
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-context.c b/drivers/media/usb/pvrusb2/pvrusb2-context.c
+index 14170a5d72b3..1764674de98b 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-context.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-context.c
+@@ -268,7 +268,8 @@ void pvr2_context_disconnect(struct pvr2_context *mp)
+ {
+ 	pvr2_hdw_disconnect(mp->hdw);
+ 	mp->disconnect_flag = !0;
+-	pvr2_context_notify(mp);
++	if (!pvr2_context_shutok())
++		pvr2_context_notify(mp);
+ }
+ 
+ 
+-- 
+2.42.0
 
-Yes, correctly. There are multiple cases in which I2C transactions to the same
-device can be preempted/delayed: A busy system, as you said, or when some other driver
-in the kernel accesses another I2C device on the same bus. This will lock the
-bus/I2C adapter for the duration of its transfer.
 
-Do you know the I2C repeated start feature [1]? This allows to batch together
-multiple I2C read/writes in a single transfer. And in the best case, this
-transfer is executed in one go without a delay in between. At least in the
-kernel it's guaranteed that no other driver can go in between with another
-transfer.
-
-Kind regards,
-Stefan
-
-[1]: https://www.i2c-bus.org/repeated-start-condition/
-
-(*) Fun answer: Actually external watchdogs have timeouts. But the timeout
-duration is in the range of seconds, not milliseconds. And timeout expiration
-is expected (in error cases ;-).
+--g4hznxqvzwwzlnny--
