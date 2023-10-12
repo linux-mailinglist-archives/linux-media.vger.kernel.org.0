@@ -2,130 +2,261 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 494EF7C6553
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 08:19:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44F0D7C65E0
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 08:49:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347067AbjJLGTl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 02:19:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55902 "EHLO
+        id S1377382AbjJLGtG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 02:49:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57536 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347066AbjJLGTk (ORCPT
+        with ESMTP id S1343579AbjJLGtF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 02:19:40 -0400
-Received: from mail-vs1-xe36.google.com (mail-vs1-xe36.google.com [IPv6:2607:f8b0:4864:20::e36])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44B4BDB
-        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 23:19:38 -0700 (PDT)
-Received: by mail-vs1-xe36.google.com with SMTP id ada2fe7eead31-45767f1482cso228104137.1
-        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 23:19:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1697091577; x=1697696377; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PLM4xkY5G5L1mZIDRFqUS5SrNnKzFAKa0pa3/SYT/44=;
-        b=ckujpouajMNNKZmCQ7fTW4KB+6vy74LUt4oWzW0chCUTMQAWQQwtF4D2WFbgZ6v7g5
-         +za6D7ye1H+4xGHDEWxpE1yxgxWkmNsUaNSim/LA86g4BHSq2BC+1NxrI5XbSif/S4dC
-         7IIhluTBEWu1ikQ8+rgpLUrhfv27y4JyibDWg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697091577; x=1697696377;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=PLM4xkY5G5L1mZIDRFqUS5SrNnKzFAKa0pa3/SYT/44=;
-        b=b4UogT4kwfxX0dk9PB11rojYHG4doZgYHeOg3Z/qtT/ZDA244v158VZdEd5W/Pxegz
-         pVDrraa7yWtdksfAMA5uhI+w/KX6I/dK85IaQtAwd8HPt0sRtZjlEkcrAW94xSm0l2dr
-         n6RMjz5Tqw4KWEipi5THwVMbb0/nlpu0cX+sz6YnghgdxBdVQFqGfPnUJpfsq1d3Gd+3
-         oh+irksJm8Vuaf0aCNnoX9zK4OgPcutQ0JaEbeJuY4hVmgnGfZY+b/J/vNv+mwYHatyV
-         NIAthKjtY+YHpoLGow2VRUvUle+7Xlx10JLmzr8M4OqLPPeZuTSNdzZBIy15ehwvUe5c
-         F+xw==
-X-Gm-Message-State: AOJu0Yxoviiqawy7XwbA1y8RTg72dYZrVqxvoXRzS2AXT340sIY1hZ6j
-        1AxGpC+jyeGPs0CplPd8joef1uPrE+QC7PVCHfOiBg==
-X-Google-Smtp-Source: AGHT+IGYlTfXVRedGeXmMNTLpHTqkDg6pe4MbkemUsR1u2GuA2VGzrSg5uJ3CaUseMHtKgJlkQYyqQ==
-X-Received: by 2002:a67:f58a:0:b0:452:7eb8:f452 with SMTP id i10-20020a67f58a000000b004527eb8f452mr15909152vso.18.1697091576808;
-        Wed, 11 Oct 2023 23:19:36 -0700 (PDT)
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com. [209.85.221.178])
-        by smtp.gmail.com with ESMTPSA id o8-20020a67e148000000b00452539f5ea8sm317430vsl.19.2023.10.11.23.19.36
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 11 Oct 2023 23:19:36 -0700 (PDT)
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-49abb53648aso229218e0c.0
-        for <linux-media@vger.kernel.org>; Wed, 11 Oct 2023 23:19:36 -0700 (PDT)
-X-Received: by 2002:a1f:c305:0:b0:49a:b737:4df7 with SMTP id
- t5-20020a1fc305000000b0049ab7374df7mr17368863vkf.5.1697091575791; Wed, 11 Oct
- 2023 23:19:35 -0700 (PDT)
+        Thu, 12 Oct 2023 02:49:05 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2044.outbound.protection.outlook.com [40.107.220.44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 780C490;
+        Wed, 11 Oct 2023 23:49:02 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=GcRhC4D1g3VY55Ij2nI6a1OPENLt2wKtjjDu16WySuohqNBkx432ww8wUVJ01kSltH2Ww/cXZyFpqEme/2bLfQfVd2UH9rGPawS0ouPtjAT7SoF9Njg3he2JbpY1EwkgmxKVIPrCFy4OW84lD2TrCNb0zd7pbPCvuro5RIqu/eS7V3VHjpNWl5CDjJs5f7fiE8njEAqj57q2kCBgN5l3+v0OfMrYPAH4JZMJnZ0EdvH3PGnASa7xuAWvAm07gxctOi76okyZvviIJCWanrIPjIrDJ2rb/9Wsv22GoeMcdXMQADZ9RozJ/80//4VCLP4CKe0KkOSTlAhF3JP04ttb1g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=b0rcKqqRnLr3rgbHxWwdaXYBjoSWRTeCAVTBFXarmrM=;
+ b=mp6sDFOorb9RVpUtdK0AGlntv5sSJ5C2swOHVgD9GHq6cSDtzo2MzDu+bEekdVsOHYCkcDaAr4cnvZSL7y88WRSl7t0YaHGTB2uGhJgZ/s/+wEFMOggB0EYKOm5/dTFDHVLLFZwGQxiBdNX9MMuk/NlKrMf1WvsZ9L7hRw7WQ1oPZp2bhC1a+yTcu/Zg5/Gv3I0cry3vsmVIvX00IgBFZ0i5GQWAwyL013gNGy5OxhrXH42iv7wIGVG0hFd99kX8SrdkoqOhHY6EhZkKG59o4gKSSGea3Ro+5foLeHIwIU5NpHU5sL4N+H9SZfyW82SIn80z0YsO1zBR4H/Dp3A0Aw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=b0rcKqqRnLr3rgbHxWwdaXYBjoSWRTeCAVTBFXarmrM=;
+ b=RtRNy4A2+OW7HoFbxOsXtNMhY2p5eTHSQJAnN7QPieB3Q65MiU3GohCQMwSRk5uNznnfSOQGilZPRyY2A+Df8AXe82eqkkbnCzqGIr6BULjxOxnOqq22O+AZXoG++6SrpWJ0hmp8eDZFUuhUOUFS0C+KMnsob9gxSiRoZb8Bvcw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by CY8PR12MB8216.namprd12.prod.outlook.com (2603:10b6:930:78::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.44; Thu, 12 Oct
+ 2023 06:48:59 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a7fa:4411:67a3:131d]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a7fa:4411:67a3:131d%4]) with mapi id 15.20.6863.043; Thu, 12 Oct 2023
+ 06:48:59 +0000
+Message-ID: <067ee7e8-6dc3-4e84-84fe-bc00e1193848@amd.com>
+Date:   Thu, 12 Oct 2023 08:48:54 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH][next] dma-buf: Fix NULL pointer dereference in
+ dma_fence_enable_sw_signaling()
+Content-Language: en-US
+To:     "Gustavo A. R. Silva" <gustavo@embeddedor.com>,
+        Kees Cook <keescook@chromium.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Arvind Yadav <Arvind.Yadav@amd.com>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org
+References: <ZSarP0/+hG8/87//@work> <202310110903.FE533CBCD@keescook>
+ <0d63e8aa-5836-40e7-8f8a-2be10fbaac4a@embeddedor.com>
+From:   =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <0d63e8aa-5836-40e7-8f8a-2be10fbaac4a@embeddedor.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR2P281CA0064.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:93::12) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 MIME-Version: 1.0
-References: <20231003092329.3919828-1-make_ruc2021@163.com>
-In-Reply-To: <20231003092329.3919828-1-make_ruc2021@163.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 12 Oct 2023 15:19:19 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AgK0ZmOABxnvtUHLJ7nPzPL7cZp_ezUifpSJWEDVFHWQ@mail.gmail.com>
-Message-ID: <CAAFQd5AgK0ZmOABxnvtUHLJ7nPzPL7cZp_ezUifpSJWEDVFHWQ@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2: Fix IS_ERR checking in vb2_dc_put_userptr()
-To:     Ma Ke <make_ruc2021@163.com>
-Cc:     m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|CY8PR12MB8216:EE_
+X-MS-Office365-Filtering-Correlation-Id: fd69f58b-3cc5-43a7-09fa-08dbcaef4ff9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: Yz0x1Z0if7U3mtcZIZQyxZtyZUcOgRVjCBzGS9fLCxBw7P4O2gEI9wqKac0P9TEOXr7Yj//D4k64YMhq1oA6muds55a+4AhMCvy3bnEwNkh1FgLx1io+Z6n9aqNU8E+W5fNEP9rGPOH/rYyFVzsbEPGVWCp0zULTJJOGiZ8ahYMLeP6CwwS6xXfebgGoPw3IxICxUV1kB7Sz2OqOoD9dnjRgpTkajM2H8Wi29EGMCXTKhsvq20f6iw9yvXxUwdpp9AwbjBQ38nsShXp69aVI1axFEJBlo11Y1CXLboN3wA7lRW1sKC8pJwrfqigymFEt+vjnzXXBqu4LvzXH5kvq1PcBZqKpp/vTLoDNTmVjsN/1pc+EmycZqjw1MS29XyLyQEpsKnTBHwzhAr5NS1v7MFf943D1g4NNnYziENmaTIwE7rXaWi1TrsTpr6NgTw3ZHo3O2AQNT7RgYcE0GdWiD7GUf02uWs1Ezq1Oo/IW1sbQ3TqigNvcjESaSNs1d1PE83FP0lKGp4vbvix3Q7B/xdD6KaQQ08BIQkxQy0XQ/7n/zYVk3obiPo8Asak2opSV5QgOM+YzvNJyuIH1vZWKZzoS8aH++qM5e6EwLAthFIUwwJ1rIoDbBdVjU7IJ7y8uo9zMvyseW6adccmaTSYZZA==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(376002)(346002)(396003)(366004)(136003)(230922051799003)(1800799009)(64100799003)(451199024)(186009)(6486002)(478600001)(38100700002)(6666004)(8936002)(66556008)(66476007)(54906003)(110136005)(316002)(7416002)(66946007)(2906002)(31696002)(41300700001)(8676002)(36756003)(5660300002)(4326008)(86362001)(26005)(6512007)(2616005)(83380400001)(31686004)(6506007)(53546011)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UnNseFdSMVh4SU9vdng3cVB0eHcxdlVNREpySno2elEvVUloT2Frczk0bU1y?=
+ =?utf-8?B?QVNHbUNKYUFCTGQyKzFDMEM4VkNGeEorOW1QK0ZRN0ZsRmtNRUlqd0UybFVY?=
+ =?utf-8?B?aFdBV200bEJOZjB3bWg1NEV1eDlwTkwwcGM3QXQ1Mm0xOC9qZWQvTnBBMTgr?=
+ =?utf-8?B?TjVjR0lZT1hqSGJDcGhGOVVNRkY4bVZpQTc5YXVydFBpSVpTV1Z6c3dpaEtK?=
+ =?utf-8?B?Zit0eEkvdW5rMXJNYmo2aGdVajE5V3ptaUhBaFRXc1NXMk1JaGN0YVgrZGE5?=
+ =?utf-8?B?b2h1SW9ncFp2dTQ3WnlNdkZObTlaSGJ6VEpYOVJyRFRhcVY4cjNYblpCMksx?=
+ =?utf-8?B?NWliQzBpTjVrMkpxLzIzdy9Yd09FamJxREovK1liRWxYa2dmSGptR2RWRVZl?=
+ =?utf-8?B?Z3EzZWdMZFgrdG1ReFhFUDBOOHZycDhLV0RZYVBOSDNWbjF1L3hwVVc4Sk1m?=
+ =?utf-8?B?VFh6LzY4RmNyaTg0aTBNWVh0aVplU29yNkU5QzhrMWJnRnVWWnc0bW5OWEtW?=
+ =?utf-8?B?MWhPdTU2VGFtMHZLRXNqZGc2TUpEZTZ3TUozRTlmZEdGcXpKUlBFMy8vZm1x?=
+ =?utf-8?B?QThwdW1lT3lVZS95L0VhdkdrMFJYNDRPU1QzaFlnbXF1TkhqZk1SNXNtckxL?=
+ =?utf-8?B?WGNCelNtUkczQ3dvZmtmSHVidEo5S1JVczBISldlanFBajZMYm1nMldZM1Ja?=
+ =?utf-8?B?ZlRIbWF2bWpGWnQ5ZWFXU1RyajJGQWdDVHV0YkNPeVVFVFVndElaaHowaXhy?=
+ =?utf-8?B?OS9zN0xDMjFmNlFORlNTMWFCbDhWU0RoZEsxWW4yT3VSK2JmbENNKzJwWnRi?=
+ =?utf-8?B?Vmg0NXJRTld1a0ZzNk1nNml5Q1lKdU5mNlNsVVdyOWYrdzE1WkZaUkJlaEI5?=
+ =?utf-8?B?ZkxmaWIzWWR5K0hsNDZ5Q1VLa2pDZk5Nc01LdDhmaWdYc2JXNndPRldGSTZK?=
+ =?utf-8?B?a1dXSzR5cG1ablRseDhxN0d2TWQ4eGs5N1ltR0xqU1NKSkRicUxmNG9JQ3I1?=
+ =?utf-8?B?RWpsa0NJWHhESUJKaWx4eUo1bVRtQ0s4MFpIWnd6dEZXUldpQm5mSGE1ZVc0?=
+ =?utf-8?B?MGd6eHRLWkRFMGVjZzI5bCtYdjVRVVJ1NWZPWGN3ZjNyVnZONFZMdXMrREdz?=
+ =?utf-8?B?dkFGb1JsWW8xVTBta1Q1MXQvaHJ1RENzYXVBcHhOaVYyejV3N0h1WThFS1J1?=
+ =?utf-8?B?Y3M1QVNURHFJU2srQzRwUGtxbTZqU3Y0NThMMlk4Y0Y1Vlkxd05PQWQ4am5i?=
+ =?utf-8?B?K21WdkdSK3NVNk12ZXFTL3A4MENuaElJME9YK3U3eEpXQWJTZUQxWUFzL0ZO?=
+ =?utf-8?B?MVNURWZMaGI3QXFyUTg2S2ZkWURXQWhIMys2OE1Ob1dDODMwOTJjaGJ1LzZX?=
+ =?utf-8?B?MEhFRFlsQW1EeDdLRFRTUHE2QnNidWxlZDA4SytkWC9nc0JUMWZ5dko0eXBH?=
+ =?utf-8?B?RlZwU3huM0pxMjhwdWlxaE1TS3lLQUxMd212Skp0dlBhNzBndGw2RXdxM1Zp?=
+ =?utf-8?B?VEJuY0t0SUczejBZMXE3cStNL1FRd0QvWTNsQ2pjUVV5eDQvSmkyZklUMWN6?=
+ =?utf-8?B?dFhZSnk1bkZkRk1VNHdISm9iZS8zZUM5R0VXRitobE9vS0ZJQ3FaNXFXcW1N?=
+ =?utf-8?B?bUVReDd6bHJtS2U3K3N4bkVMaGpjeHhBZlRGYWxCdmhWbnkxZmNNWklZZVZu?=
+ =?utf-8?B?Slo1T092dzJTTk9zYWVBc0pKUHBIRm5hanoxWVlPSTRXdGNzVVl5cUpBaXVK?=
+ =?utf-8?B?VkY3K3p5WVlaU2pCaGFzb2JBTnNpZ0IvZWU5U0d1TCtEL3Nqb1Y5dldxc1ZI?=
+ =?utf-8?B?cldRaGROMjErTTAyejJ0dDJza1E5SlN1QTVhUG9ZS3Frd2UwZXFoQkM3clJx?=
+ =?utf-8?B?ckl2S0RQQUxnb2U5UUxOaVQySFczOXJhemZkWmpHQmgwbTliUkJqWnRyU0d0?=
+ =?utf-8?B?TWdFRXZ1aTVDbmR6akx6Y2lRV3dOQkdVays4SHJYajRUMHN6aWFxTkR5NnJ0?=
+ =?utf-8?B?Vnh2YjB3eVlOU3Z2MkNPTmVOWHRDQlNOcGNQMUNLcFlKa3FaQTVsQnBUaTVX?=
+ =?utf-8?B?c3JMUjJJVWJyR0VQbXNPV2FnMExjazk2WTRMODhWVGFXbVhHVGh3L1psdkdw?=
+ =?utf-8?Q?qLeU=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fd69f58b-3cc5-43a7-09fa-08dbcaef4ff9
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Oct 2023 06:48:59.2053
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: o5H1w3RP/Cu4mytWgZq5HBboMKLluJOe0gPdqSfxkt3GO0U0Chk1OIeJr5SZKxA2
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR12MB8216
+X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_NONE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 3, 2023 at 6:23=E2=80=AFPM Ma Ke <make_ruc2021@163.com> wrote:
+
+
+Am 11.10.23 um 18:13 schrieb Gustavo A. R. Silva:
 >
-> In order to avoid error pointers from frame_vector_pages(), we could
-> use IS_ERR() to check the return value to fix this. This checking
-> operation could make sure that vector contains pages.
 >
-> Signed-off-by: Ma Ke <make_ruc2021@163.com>
-> ---
->  .../media/common/videobuf2/videobuf2-dma-contig.c   | 13 +++++++------
->  1 file changed, 7 insertions(+), 6 deletions(-)
+> On 10/11/23 10:03, Kees Cook wrote:
+>> On Wed, Oct 11, 2023 at 08:03:43AM -0600, Gustavo A. R. Silva wrote:
+>>> Currently, a NULL pointer dereference will happen in function
+>>> `dma_fence_enable_sw_signaling()` (at line 615), in case `chain`
+>>> is not allocated in `mock_chain()` and this function returns
+>>> `NULL` (at line 86). See below:
+>>>
+>>> drivers/dma-buf/st-dma-fence-chain.c:
+>>>   86         chain = mock_chain(NULL, f, 1);
+>>>   87         if (!chain)
+>>>   88                 err = -ENOMEM;
+>>>   89
+>>>   90         dma_fence_enable_sw_signaling(chain);
+>>
+>> Instead of the larger patch, should line 88 here just do a "return
+>> -ENOMEM" instead?
 >
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/driv=
-ers/media/common/videobuf2/videobuf2-dma-contig.c
-> index 2fa455d4a048..5001f2a258dd 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
-> @@ -542,13 +542,14 @@ static void vb2_dc_put_userptr(void *buf_priv)
->                  */
->                 dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
->                                   DMA_ATTR_SKIP_CPU_SYNC);
-> -               pages =3D frame_vector_pages(buf->vec);
-> -               /* sgt should exist only if vector contains pages... */
-> -               BUG_ON(IS_ERR(pages));
->                 if (buf->dma_dir =3D=3D DMA_FROM_DEVICE ||
-> -                   buf->dma_dir =3D=3D DMA_BIDIRECTIONAL)
-> -                       for (i =3D 0; i < frame_vector_count(buf->vec); i=
-++)
-> -                               set_page_dirty_lock(pages[i]);
-> +                   buf->dma_dir =3D=3D DMA_BIDIRECTIONAL){
-
-Missing space between ) and { .
-
-Otherwise:
-
-Acked-by: Tomasz Figa <tfiga@chromium.org>
-
-Best regards,
-Tomasz
-
-> +                       pages =3D frame_vector_pages(buf->vec);
-> +                       /* sgt should exist only if vector contains pages=
-... */
-> +                       if (!WARN_ON_ONCE(IS_ERR(pages)))
-> +                               for (i =3D 0; i < frame_vector_count(buf-=
->vec); i++)
-> +                                       set_page_dirty_lock(pages[i]);
-> +               }
->                 sg_free_table(sgt);
->                 kfree(sgt);
->         } else {
-> --
-> 2.37.2
+> Nope. I would have to add a `goto` to skip 
+> `dma_fence_enable_sw_signaling(chain)`.
 >
+> I originally thought of that, but as other _signaling() functions have
+> sanity-checks inside, I decided to go with that solution.
+>
+> This bug has been there since Sep 2022. So, adding a sanity check 
+> inside that
+> function should prevent any other issue of this same kind to enter the 
+> codebase
+> and stay there for years.
+
+I'm trying to remove those sanity checks for years since they are hiding 
+problems instead of getting them fixed.
+
+Calling dma_fence_enable_sw_signaling with a NULL pointer is a coding 
+error and not a recoverable runtime error.
+
+The test case should be fixed instead.
+
+Regards,
+Christian.
+
+>
+> -- 
+> Gustavo
+>
+>>
+>> -Kees
+>>
+>>>
+>>> drivers/dma-buf/dma-fence.c:
+>>>   611 void dma_fence_enable_sw_signaling(struct dma_fence *fence)
+>>>   612 {
+>>>   613         unsigned long flags;
+>>>   614
+>>>   615         spin_lock_irqsave(fence->lock, flags);
+>>>                    ^^^^^^^^^^^
+>>>                     |
+>>>               NULL pointer reference
+>>>               if fence == NULL
+>>>
+>>>   616         __dma_fence_enable_signaling(fence);
+>>>   617         spin_unlock_irqrestore(fence->lock, flags);
+>>>   618 }
+>>>
+>>> Fix this by adding a NULL check before dereferencing `fence` in
+>>> `dma_fence_enable_sw_signaling()`. This will prevent any other NULL
+>>> pointer dereference when the `fence` passed as an argument is `NULL`.
+>>>
+>>> Addresses-Coverity: ("Dereference after null check")
+>>> Fixes: d62c43a953ce ("dma-buf: Enable signaling on fence for 
+>>> selftests")
+>>> Cc: stable@vger.kernel.org
+>>> Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
+>>> ---
+>>>   drivers/dma-buf/dma-fence.c | 9 ++++++++-
+>>>   include/linux/dma-fence.h   | 2 +-
+>>>   2 files changed, 9 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+>>> index 8aa8f8cb7071..4d2f13560d0f 100644
+>>> --- a/drivers/dma-buf/dma-fence.c
+>>> +++ b/drivers/dma-buf/dma-fence.c
+>>> @@ -607,14 +607,21 @@ static bool 
+>>> __dma_fence_enable_signaling(struct dma_fence *fence)
+>>>    * This will request for sw signaling to be enabled, to make the 
+>>> fence
+>>>    * complete as soon as possible. This calls 
+>>> &dma_fence_ops.enable_signaling
+>>>    * internally.
+>>> + *
+>>> + * Returns 0 on success and a negative error value when @fence is 
+>>> NULL.
+>>>    */
+>>> -void dma_fence_enable_sw_signaling(struct dma_fence *fence)
+>>> +int dma_fence_enable_sw_signaling(struct dma_fence *fence)
+>>>   {
+>>>       unsigned long flags;
+>>>   +    if (!fence)
+>>> +        return -EINVAL;
+>>> +
+>>>       spin_lock_irqsave(fence->lock, flags);
+>>>       __dma_fence_enable_signaling(fence);
+>>>       spin_unlock_irqrestore(fence->lock, flags);
+>>> +
+>>> +    return 0;
+>>>   }
+>>>   EXPORT_SYMBOL(dma_fence_enable_sw_signaling);
+>>>   diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>>> index ebe78bd3d121..1e4025e925e6 100644
+>>> --- a/include/linux/dma-fence.h
+>>> +++ b/include/linux/dma-fence.h
+>>> @@ -399,7 +399,7 @@ int dma_fence_add_callback(struct dma_fence *fence,
+>>>                  dma_fence_func_t func);
+>>>   bool dma_fence_remove_callback(struct dma_fence *fence,
+>>>                      struct dma_fence_cb *cb);
+>>> -void dma_fence_enable_sw_signaling(struct dma_fence *fence);
+>>> +int dma_fence_enable_sw_signaling(struct dma_fence *fence);
+>>>     /**
+>>>    * dma_fence_is_signaled_locked - Return an indication if the fence
+>>> -- 
+>>> 2.34.1
+>>>
+>>>
+>>
+
