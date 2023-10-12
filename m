@@ -2,172 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 305CE7C6DEE
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 14:23:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E112F7C6E34
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 14:35:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378198AbjJLMXu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 08:23:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50642 "EHLO
+        id S1378293AbjJLMfk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 08:35:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34818 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343869AbjJLMXt (ORCPT
+        with ESMTP id S1347164AbjJLMfg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 08:23:49 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CEE4B7
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 05:23:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1697113380;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=aYDuBmS6dJ7clLQo4ci/vZJcyZt1Gee23BbEWs4NHGk=;
-        b=h+7QtHE816s3nwjboNWdeHMNCJM9RAwsQiZ8FmPpIVIByg9TZJBwMzUNOM4E4VNJrQIDKa
-        nzArbZynZLFVBcPeM6gMBuF/2GM4OC8HMOMCGThHvc/u7wmXTOFo/D9AesRsCA8omAa9Gr
-        Ey10Icqoj6jW5C9DasR4NNI9ivNpq+8=
-Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
- [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-329-GEVuaC2ZNF-iimNtan76VQ-1; Thu, 12 Oct 2023 08:22:49 -0400
-X-MC-Unique: GEVuaC2ZNF-iimNtan76VQ-1
-Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-9b98bbf130cso59986266b.2
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 05:22:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697113368; x=1697718168;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aYDuBmS6dJ7clLQo4ci/vZJcyZt1Gee23BbEWs4NHGk=;
-        b=Q6SzG4IzS0hE2whRfUEsU8xHX529+2PLMu1XNA39SknYCX3CorgogeEvtEkKB4T7ly
-         yR3Yv/c7rk3ZaIFxbh8DTOK7X1daG2strTaUXP/llsWcCc/Ghnx/V669eRVDJGAcBR3N
-         Ce0cfqnVW4fzaLUo2X8x+o9YW9oqxD4eDGJMjFH4K/bwWkxp9uk/D67oZtJfHPl9xFBH
-         C3xq0LYnsuRHlQrSN2wFGQCrhbLUE8AidJNtkw5oQ7Zd/g2Un86Dt2GNLMMiV6Jhxixy
-         mRzP5C3V1Lqki8N2tIUJvvpNAc16X2CUQQ3RwOhMVZUv1g77WLRblx0Cs994xtN5mCLm
-         uHWw==
-X-Gm-Message-State: AOJu0YzLJ9txL3zt7GV71r4Ku3UOsloKi6sspKo5gNqL3xuCrR57Zj4k
-        hicisbioVGk2EIfwSrRMz8zQ/6ayvJTW5pxl6seJiYTlNIMcJt+g813lV2OFqniXmgFX9Hkkb7w
-        2wa7yAQvrOP/+K0PkbEoMA5U=
-X-Received: by 2002:a17:906:7484:b0:9b9:f980:8810 with SMTP id e4-20020a170906748400b009b9f9808810mr14864442ejl.34.1697113367988;
-        Thu, 12 Oct 2023 05:22:47 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEzEJaBOOZo+55cnnNNZwd/v4zyLlu4YXN7lBsNC6XaPyIDnnFGbMXPBrbDB9OsE7DPnQjMTg==
-X-Received: by 2002:a17:906:7484:b0:9b9:f980:8810 with SMTP id e4-20020a170906748400b009b9f9808810mr14864423ejl.34.1697113367673;
-        Thu, 12 Oct 2023 05:22:47 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id p26-20020a1709060dda00b0099bc08862b6sm11219830eji.171.2023.10.12.05.22.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 05:22:46 -0700 (PDT)
-Message-ID: <186830d2-dd18-7948-b2c5-bcda934ad3e8@redhat.com>
-Date:   Thu, 12 Oct 2023 14:22:45 +0200
+        Thu, 12 Oct 2023 08:35:36 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE970C0;
+        Thu, 12 Oct 2023 05:35:34 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id C5776660733F;
+        Thu, 12 Oct 2023 13:35:32 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1697114133;
+        bh=9YwrfxspUnb7imS3HOKEtNqbSdskF65SOc98nxt5Q60=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=DD0jWufzf2Jb+8PBpFQg3JL3LMJXE/jZPx+1hghxyJ/1FWsByQccKV50tHxcZtolj
+         2U+eaP0yAJDigMDweHV/VLIQi/304DfbEn99rDuYWwsYtWhNLKBPfCOjlsLlfDXg3j
+         rMVnDRUH/1u8RraORenVNeWvKBZatHTIp20A9YupE/tmyCUpJn3EY4ZWHN7Ue9rXyj
+         4koTJWKPEKpmBDVYd6j33LB8bFYwtTPpdBGes0SbfhSX3Gq+KpSZOrP+m1QS6BrZ87
+         UIy8fJb11mjYb1iBuZUrcEyrWb/z7HBcBcPc9HiFrl7wWz+rFAg0eOZwAUPg8Fztc5
+         DKBVX71CZZWTQ==
+Message-ID: <49a4be76-e389-c6aa-6176-41b351c6446a@collabora.com>
+Date:   Thu, 12 Oct 2023 14:35:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] platform/x86: int3472: Add handshake GPIO function
-Content-Language: en-US, nl
-To:     Hao Yao <hao.yao@intel.com>,
-        Dan Scally <dan.scally@ideasonboard.com>, djrscally@gmail.com,
-        Sakari Ailus <sakari.ailus@intel.com>
-Cc:     Bingbu Cao <bingbu.cao@intel.com>,
-        platform-driver-x86@vger.kernel.org, linux-media@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-References: <20231007021225.9240-1-hao.yao@intel.com>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <20231007021225.9240-1-hao.yao@intel.com>
-Content-Type: text/plain; charset=UTF-8
+ Thunderbird/102.15.0
+Subject: Re: [PATCH v7 16/16] dt-bindings: display: mediatek: padding: add
+ compatible for MT8195
+Content-Language: en-US
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     dri-devel@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20231012084037.19376-1-moudy.ho@mediatek.com>
+ <20231012084037.19376-17-moudy.ho@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231012084037.19376-17-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
+        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-On 10/7/23 04:12, Hao Yao wrote:
-> Handshake pin is used for Lattice MIPI aggregator to enable the
-> camera sensor. After pulled up, recommend to wail ~250ms to get
-> everything ready.
-
-If this is a pin on the "Lattice MIPI aggregator" and
-not on the sensor itself then this really should be
-modeled as such and should not be registered as a GPIO
-consumed by the sensor since the actual sensor does not
-have a handshake pin at all.
-
-Also we really don't want to need to patch all involved
-sensor drivers to toggle a handshake pin, especially since
-the sensor itself does not physically have this pin.
-
-Can you explain a bit more:
-
-1. What the "Lattice MIPI aggregator" is 
-2. What its functions are, does this control reset + pwdn
-   GPIOs for the sensor? Voltages to the sensor? Clk
-   to the sensor ?
-3. How the aggregator is connected to both the main
-   CPU/SoC as well as how it is connected to the sensor ?
-   Some example diagram would be really helpful here.
-
-Then with this info in hand we can try to come up
-with a way how to model this.
-
-Assuming this controls the entire power-up sequence
-for the sensor then I think it could be modelled
-as a GPIO regulator. This also allows making the
-regulator core take care of the necessary delay
-between setting the GPIO and trying to talk to
-the sensor.
-
-Regards,
-
-Hans
-
-
-
+Il 12/10/23 10:40, Moudy Ho ha scritto:
+> Add a compatible string for the PAD block in MediaTek MT8195 that
+> is controlled by MDP3.
 > 
-> Signed-off-by: Hao Yao <hao.yao@intel.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > ---
->  drivers/platform/x86/intel/int3472/common.h   | 1 +
->  drivers/platform/x86/intel/int3472/discrete.c | 5 +++++
->  2 files changed, 6 insertions(+)
+>   .../bindings/display/mediatek/mediatek,padding.yaml           | 4 +++-
+>   1 file changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
-> index 655ae3ec0593..3ad4c72afb45 100644
-> --- a/drivers/platform/x86/intel/int3472/common.h
-> +++ b/drivers/platform/x86/intel/int3472/common.h
-> @@ -23,6 +23,7 @@
->  #define INT3472_GPIO_TYPE_POWER_ENABLE				0x0b
->  #define INT3472_GPIO_TYPE_CLK_ENABLE				0x0c
->  #define INT3472_GPIO_TYPE_PRIVACY_LED				0x0d
-> +#define INT3472_GPIO_TYPE_HANDSHAKE				0x12
->  
->  #define INT3472_PDEV_MAX_NAME_LEN				23
->  #define INT3472_MAX_SENSOR_GPIOS				3
-> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
-> index b644ce65c990..4753161b4080 100644
-> --- a/drivers/platform/x86/intel/int3472/discrete.c
-> +++ b/drivers/platform/x86/intel/int3472/discrete.c
-> @@ -111,6 +111,10 @@ static void int3472_get_func_and_polarity(u8 type, const char **func, u32 *polar
->  		*func = "power-enable";
->  		*polarity = GPIO_ACTIVE_HIGH;
->  		break;
-> +	case INT3472_GPIO_TYPE_HANDSHAKE:
-> +		*func = "handshake";
-> +		*polarity = GPIO_ACTIVE_HIGH;
-> +		break;
->  	default:
->  		*func = "unknown";
->  		*polarity = GPIO_ACTIVE_HIGH;
-> @@ -201,6 +205,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->  	switch (type) {
->  	case INT3472_GPIO_TYPE_RESET:
->  	case INT3472_GPIO_TYPE_POWERDOWN:
-> +	case INT3472_GPIO_TYPE_HANDSHAKE:
->  		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
->  		if (ret)
->  			err_msg = "Failed to map GPIO pin to sensor\n";
+> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml
+> index db24801ebc48..636b69133acc 100644
+> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml
+> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,padding.yaml
+> @@ -20,7 +20,9 @@ description:
+>   
+>   properties:
+>     compatible:
+> -    const: mediatek,mt8188-padding
+> +    enum:
+> +      - mediatek,mt8188-padding
+> +      - mediatek,mt8195-mdp3-pad
+
+mediatek,mt8195-mdp3-padding please!
+
+Thanks,
+Angelo
+
+>   
+>     reg:
+>       maxItems: 1
+
 
