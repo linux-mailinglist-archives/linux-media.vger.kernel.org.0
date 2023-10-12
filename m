@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44FFB7C69F3
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 11:46:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77A827C69FA
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 11:47:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235578AbjJLJqN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 05:46:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57984 "EHLO
+        id S235621AbjJLJrK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 05:47:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235480AbjJLJqL (ORCPT
+        with ESMTP id S235594AbjJLJrJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 05:46:11 -0400
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3878A9D
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 02:46:08 -0700 (PDT)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-4075c58ac39so8015775e9.3
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 02:46:08 -0700 (PDT)
+        Thu, 12 Oct 2023 05:47:09 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42657BB
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 02:47:07 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-32167a4adaaso704170f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 02:47:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=nexus-software-ie.20230601.gappssmtp.com; s=20230601; t=1697103966; x=1697708766; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697104025; x=1697708825; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=1LrQiAxqlGKNF6MEwrNjQTS6wOHahnzLIVbZnvTgWfQ=;
-        b=Bu3hiDsmqhDTlKZnbLYT2URaDHmCmyTefQ4xXUC0bwU2bSJRl4LXUKJkzqxiqyBA6U
-         ERR26mEN++xCQbfBWzcENX2Yghre82F4ZFFZkJJ4L3zdyB2YGQsyidQtWZA7Q3pTMdM2
-         G9m3rqljmKEjEUg8Yd/riCQJb6s9POsG6oESp+vVeQciMsZCpk2B1iHo+DSP/m1c3NRP
-         BDJEDGZrKpTyUaeLQJ6Ccq1h7e+UlBgKFRDE2zGeNk/pJXJQVjhU5C5OtQvTqpQLb4Tq
-         /9768Poa/Z7m4yDFKxeNJB+YKExY27NGAq4OY/EsKZUzAYw7+XL4R69ZetrumQE7PUp8
-         0vqg==
+        bh=UeXq+sUDC3iybMZQ272ShVYmOdXvv1Ct1/FwJd1aa9o=;
+        b=edqsYuxkZLbFD+hkob0yMwXHAQH1QcpASHOLBr+z2wvwZpSr/uIKyiAH2FR9RFo5jw
+         LuhECETq7JNP1R338vO0M8pnP0gpBZwaOJZcfUc2fH6O4tvv+ModYFsYY86SIT5LThTU
+         ld46b+Uer2B60gzK3gFVdusCbV/l6a1ObMnvNoKzub2Yyhd4MRj+4EPZAP/7nklMVNAV
+         BAUtAiYWgfAVr/pSEd8sxqqdGdF2ZiGMsCE5fUtsl+3eDBF7+FeAEhUnntCKQgKmlIne
+         74zESbY0VmiDMlzRd8av4gBHin5ZBiLvVA4EmRVE4tzcrTwl1P5k5ummMcdTJ2UJbfU9
+         K9Iw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697103966; x=1697708766;
+        d=1e100.net; s=20230601; t=1697104025; x=1697708825;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=1LrQiAxqlGKNF6MEwrNjQTS6wOHahnzLIVbZnvTgWfQ=;
-        b=Bz2NXji2a1E6r/a8Forri159z59vVSP/+CWCF9JtPe1S65BHBiM2fXIbRJRuyqGFqn
-         NjGly/9/juPdSWItFkn7GBRzOEun32szh9Ow8LLJDYInEEWtby08d8bYTANTyXUbbrjG
-         5wh4VJOuWrg/5jJaBoYN87AfsuRcDzcrc2WWFp8xkYqPDJ5TLm8EVV6LMNZ+/kM+7Qx1
-         M1aTTnQQEQg3PimaZdSIhpyPkIBSZvEddjik8peMgQfzFXJYlRUy2hi97S+LdUN9OaE1
-         27N4DDkIybGfHjYq18jTWb1mZSCev4rrqieKt8q3HFyTzFOOdATEb9LKQbydBC/fnLFx
-         Ll/g==
-X-Gm-Message-State: AOJu0YwEzfnxu+1oytbZ5W57OrvEwSpN0+vp/9e8iYM3lZN6bqJfw1Q2
-        t0fdJHkMjtU/Ir3qTVvf+yzEO9OcS+ieqi4M37U=
-X-Google-Smtp-Source: AGHT+IFiLtT5Nc0mO1wfsGHF5m6vzalYohuo0bIDDh8rXBL43WWU0SIWdS8LTByNnHO2zC5j3VmHbw==
-X-Received: by 2002:a05:600c:4686:b0:405:95ae:4a94 with SMTP id p6-20020a05600c468600b0040595ae4a94mr19961294wmo.5.1697103966588;
-        Thu, 12 Oct 2023 02:46:06 -0700 (PDT)
+        bh=UeXq+sUDC3iybMZQ272ShVYmOdXvv1Ct1/FwJd1aa9o=;
+        b=bG4yhxsR3WOHwf5uUUBz1zM/oXdHRsCe16kCWGMdKpG0Bef/vc7INVeOCSUQ6Z1p71
+         WDT0BLXNNtEo0ztdGUidCjhEr2cIp59XnIt9z1MYveabOHGUTFJx252KEnH/IBum4fsI
+         UGzjkpA0WAMclyr4viEWMJqTC61ADFuYOuF0PVg24Uvc6LP2Hy5mha4EqKPKtRmpK/6F
+         Gw6+pI2cbncJr22yGU7wJKoHDVCFLqApCdep7BScNK2zmwQbH1sSYJ79U2KTROKBC8+E
+         EQf5tk5Lpu8IyhetMQB4/MIdpfhPT2XFFAXsi9bBtXbBXzIsZyBybU79gU0pRO7Yh2Un
+         Qb1Q==
+X-Gm-Message-State: AOJu0YwmmXQ61ZlGQyORZoZZH6X6K/d82z+7O8klwdEUQrJNU4NwySUu
+        tQID0T6oUvTK8h5deCyNslXcuQ==
+X-Google-Smtp-Source: AGHT+IF6r7I9r42k4ezEvRypqI+xNwUcQQhDvwzlcBBRZUMp2y+pZPHzECAyVxIq0q1oNpYu8Z0E/g==
+X-Received: by 2002:adf:c805:0:b0:329:6bfa:dc8c with SMTP id d5-20020adfc805000000b003296bfadc8cmr13510782wrh.46.1697104025557;
+        Thu, 12 Oct 2023 02:47:05 -0700 (PDT)
 Received: from [192.168.100.102] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id z7-20020a7bc7c7000000b003fee567235bsm21408076wmk.1.2023.10.12.02.46.05
+        by smtp.gmail.com with ESMTPSA id e14-20020adffd0e000000b00315af025098sm18065099wrr.46.2023.10.12.02.47.04
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 02:46:05 -0700 (PDT)
-Message-ID: <f1d86cdc-d423-41bd-9b1e-43c6fec25dc5@nexus-software.ie>
-Date:   Thu, 12 Oct 2023 10:46:04 +0100
+        Thu, 12 Oct 2023 02:47:05 -0700 (PDT)
+Message-ID: <4fb9f4e8-2b6d-46ae-bf7a-cc21a3ea2366@linaro.org>
+Date:   Thu, 12 Oct 2023 10:47:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] media: qcom: camss: clean up a check
@@ -67,13 +67,14 @@ Cc:     Todor Tomov <todor.too@gmail.com>,
         linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         kernel-janitors@vger.kernel.org
 References: <f11b1d6b-5800-4d75-9732-506be3f8458d@moroto.mountain>
-From:   Bryan O'Donoghue <pure.logic@nexus-software.ie>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 In-Reply-To: <f11b1d6b-5800-4d75-9732-506be3f8458d@moroto.mountain>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -102,5 +103,7 @@ On 12/10/2023 10:42, Dan Carpenter wrote:
 >   		dev_err(camss->dev,
 >   			"Error: asked reset for invalid VFE%d\n", vfe_id);
 >   		return -ENOENT;
+
+ From my @linaro.org address
 
 Acked-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
