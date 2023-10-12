@@ -2,97 +2,188 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0823B7C6F01
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 15:17:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 552D07C6F14
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 15:24:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347197AbjJLNR3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 09:17:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46140 "EHLO
+        id S1347250AbjJLNYU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 09:24:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49822 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378679AbjJLNRX (ORCPT
+        with ESMTP id S1347230AbjJLNYT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 09:17:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A91D94;
-        Thu, 12 Oct 2023 06:17:22 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2B50A8C2;
-        Thu, 12 Oct 2023 15:17:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1697116634;
-        bh=SHqSTjMJAKJCUyMA7YjRflobJpz3Ueijw67vwsmyHKc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=LJYeT28laRlwHOq2Gl0MeegcFMAPno6rI+8MlWZT98H97AhxQd18e+f/GE+bl8mev
-         Fy3aqlTmHVlf4SoVjen3WqcTxNhqAiomYnH9eeYzZ9QkgE1ZQMf12Q44TKWL1NQqyF
-         j2ue6dUzYNULtwINE54DXkIksYXJZTd7xUWWhcSc=
-Date:   Thu, 12 Oct 2023 16:17:24 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-media@vger.kernel.org,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Julien Stephan <jstephan@baylibre.com>,
-        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: media: Add bindings for THine
- THP7312 ISP
-Message-ID: <20231012131724.GA23177@pendragon.ideasonboard.com>
-References: <20231012012016.11535-1-laurent.pinchart@ideasonboard.com>
- <20231012012016.11535-2-laurent.pinchart@ideasonboard.com>
- <b214e763-2175-4de1-af54-43961ff94afb@linaro.org>
- <20231012130544.GA31878@pendragon.ideasonboard.com>
- <0aeaa158-d56a-4d3b-a0c4-25b25f031a51@linaro.org>
+        Thu, 12 Oct 2023 09:24:19 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0437C6
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 06:24:16 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-4066241289bso10221585e9.0
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 06:24:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697117055; x=1697721855; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n2poSp/kjuPJKWDomFLYc2D93YohPdfk/qXfzOwtaKs=;
+        b=xzomjfMv0/VbB76fZmLkmDTC7sYEQ929AR6YnrLRuht+V+0nurWJMV0KGsqUr+gLaL
+         wCIl21cJdPq8Hi2l3Pyp3oQ5Bb1pA4ID4NeZX4eSLKiaZyJaSq70SMg37Qs8LW9DTjXd
+         TL86zjSfJeEVHJ+RmdUyzlv9+uy/S+pe2h7qwnSlC0QME4pVJ3hUkuM6LyxYCCdC3T5U
+         v/73dzyTZyE0LWOAzGb0YSuyaFa0OMIzUA6TVvflb8sEatXvSoidxnftx7EE6HLGceBE
+         gQym+UM9faQZhALN/ADeXA2Oa+T47MkP+0BFxQYzroFDomzwxR9Ut+/XAgCE8WNsAz9G
+         iikg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697117055; x=1697721855;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=n2poSp/kjuPJKWDomFLYc2D93YohPdfk/qXfzOwtaKs=;
+        b=I0yVzzgB63NhQQwsWIaKY1QZe8l37x0sm1ah63GkH+k/c1n307z2Z0HVfHyNUpzoEF
+         qvb4PCVOtgAyoYz/sNFzTSy4dKccTrhgg4a9T6Osrvo2FzmK/1fBeoghxoga04WFCqFN
+         vlD6LTF0b5PTGX9FSHWBRMieEBObWhK40t/NU1vnGy8SCludyG7PWqGbW7ycxocaZo8S
+         DTxCwlFqIDxFksbW/C2oGlMfpODzIq8FO1PJ49K46RWysPmcCrhFG6r9UDU+z5rUNgum
+         s0ygxQH0CUVENBU5ys5EhS6gG+2TMaROKIEqP2ZaVaex1OLl42l82iCgHmex67J0IiZg
+         Ss8A==
+X-Gm-Message-State: AOJu0YwkdvbNrQ0jbTdn9zSdP8Kg3lTQLpKoKqGIcQlo1NvwqK64Fv2U
+        H57GjdgrbRypxp1Not1otPvoRA==
+X-Google-Smtp-Source: AGHT+IH61/xF/2mfIO4IGYaBspLhBdWNk8frCcdSVLHnqdCC5UUY0eCgmtpFWzz+SMpjnPyRkahkHg==
+X-Received: by 2002:a7b:ce85:0:b0:405:4a78:a890 with SMTP id q5-20020a7bce85000000b004054a78a890mr20870001wmj.8.1697117055043;
+        Thu, 12 Oct 2023 06:24:15 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.100])
+        by smtp.gmail.com with ESMTPSA id m19-20020a7bcb93000000b003fe61c33df5sm21958784wmi.3.2023.10.12.06.24.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Oct 2023 06:24:14 -0700 (PDT)
+Message-ID: <b94e3561-f5ef-443f-98c7-9b79a8bbceec@linaro.org>
+Date:   Thu, 12 Oct 2023 15:24:12 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <0aeaa158-d56a-4d3b-a0c4-25b25f031a51@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 6/8] media: dt-bindings: wave5: add Chips&Media 521c
+ codec IP support
+Content-Language: en-US
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jackson Lee <jackson.lee@chipsnmedia.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        Fabio Estevam <festevam@gmail.com>
+Cc:     linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        linux-kernel@vger.kernel.org,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        kernel@collabora.com, Robert Beckett <bob.beckett@collabora.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Darren Etheridge <detheridge@ti.com>
+References: <20230929-wave5_v13_media_master-v13-0-5ac60ccbf2ce@collabora.com>
+ <20230929-wave5_v13_media_master-v13-6-5ac60ccbf2ce@collabora.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20230929-wave5_v13_media_master-v13-6-5ac60ccbf2ce@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 12, 2023 at 03:16:02PM +0200, Krzysztof Kozlowski wrote:
-> On 12/10/2023 15:05, Laurent Pinchart wrote:
+On 12/10/2023 13:01, Sebastian Fricke wrote:
+> From: Robert Beckett <bob.beckett@collabora.com>
 > 
-> >>> +
-> >>> +  clocks:
-> >>> +    maxItems: 1
-> >>> +    description: CLKI clock input
-> >>> +
-> >>> +  thine,boot-mode:
-> >>> +    $ref: /schemas/types.yaml#/definitions/uint32
-> >>> +    description:
-> >>> +      Boot mode of the THP7312. 0 is for standard streaming mode, for the
-> >>> +      THP7312 to be used as an ISP. 1 is for firmware flashing mode.
-> >>
-> >> Why, for a given board, would you always boot device in one specific
-> >> mode but not the other? This does not look like property of DT.
-> > 
-> > The device has two boot mode pins, and it operates differently depending
-> > on its boot mode. The pins are typically hardwired, on development
-> > boards you commonly have DIP switches, and on production systems test
-> > pads that allow modifying the boot mode on the production line. The
-> > driver needs to know the boot mode to interact with the device
-> > appropriately. I haven't found a good way to interogate the device at
-> > runtime to figure out the boot mode, but I'm still trying. If that
-> > doesn't succeed, we need to convey it through the device tree.
+> Add bindings for the chips&media wave5 codec driver
 > 
-> Hm, that's okay then, but please describe that it is expected
-> bootstrapped boot mode of a device, because now it sounds like
-> configuring some boot mode in the device.
+> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> ---
+>  .../devicetree/bindings/media/cnm,wave5.yaml       | 60 ++++++++++++++++++++++
+>  1 file changed, 60 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/cnm,wave5.yaml b/Documentation/devicetree/bindings/media/cnm,wave5.yaml
+> new file mode 100644
+> index 000000000000..b31d34aec05b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/cnm,wave5.yaml
+> @@ -0,0 +1,60 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/cnm,wave5.yaml#
 
-OK, I'll improve the description.
+Filename matching compatible, so: cnm,cm521c-vpu.yaml
 
--- 
-Regards,
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Chips&Media Wave 5 Series multi-standard codec IP
+> +
+> +maintainers:
+> +  - Nas Chung <nas.chung@chipsnmedia.com>
+> +  - Jackson Lee <jackson.lee@chipsnmedia.com>
+> +
+> +description:
+> +  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - cnm,cm521c-vpu
 
-Laurent Pinchart
+Can this device be anything else? Why VPU suffix?
+
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+Best regards,
+Krzysztof
+
