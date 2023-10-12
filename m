@@ -2,116 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CDC27C6708
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 09:57:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C51C27C66F9
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 09:57:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347098AbjJLHVM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 03:21:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49518 "EHLO
+        id S1377892AbjJLHqS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 03:46:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57166 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343609AbjJLHVF (ORCPT
+        with ESMTP id S1347176AbjJLHqQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 03:21:05 -0400
-Received: from mo-csw.securemx.jp (mo-csw1801.securemx.jp [210.130.202.135])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 054A2BA;
-        Thu, 12 Oct 2023 00:21:02 -0700 (PDT)
-Received: by mo-csw.securemx.jp (mx-mo-csw1801) id 39C7KNoR494726; Thu, 12 Oct 2023 16:20:24 +0900
-X-Iguazu-Qid: 2yAbIh4tauXUF3Sx6o
-X-Iguazu-QSIG: v=2; s=0; t=1697095223; q=2yAbIh4tauXUF3Sx6o; m=67wGgEapaJ/fwJyDfXsshyrFu7oVJ3EkD1jwBCxdIq8=
-Received: from imx12-a.toshiba.co.jp ([38.106.60.135])
-        by relay.securemx.jp (mx-mr1801) id 39C7KKJL1872873
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-        Thu, 12 Oct 2023 16:20:21 +0900
-X-SA-MID: 8623576
-From:   Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Nobuhiro Iwamatsu <nobuhiro1.iwamatsu@toshiba.co.jp>,
-        Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v9 5/5] MAINTAINERS: Add entries for Toshiba Visconti Video Input Interface
-Date:   Thu, 12 Oct 2023 16:13:29 +0900
-X-TSB-HOP2: ON
-Message-Id: <20231012071329.2542003-6-yuji2.ishikawa@toshiba.co.jp>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231012071329.2542003-1-yuji2.ishikawa@toshiba.co.jp>
-References: <20231012071329.2542003-1-yuji2.ishikawa@toshiba.co.jp>
+        Thu, 12 Oct 2023 03:46:16 -0400
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.217])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 75BB1B7;
+        Thu, 12 Oct 2023 00:46:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=qWbjv
+        CWf8Co8w4DvJ4AlzsjUwC+Safue0OWpCEcLtK8=; b=fWnV1ncFn19Z/tXYqIq8p
+        YWD6OUNuJSF4fwbIijOBfyhwQJvxIxnu6DsAU1XeZX24ByT4dbxlkprDbCYJx1n1
+        eHcXd3w5U6/Mce6vly0MdOIF6HGRFcc/qbVrqMySgVCwpfGBXqF0Osuri6cSswSM
+        JjPT1JYDOgdD/Ju/tYpuQA=
+Received: from icess-ProLiant-DL380-Gen10.. (unknown [183.174.60.14])
+        by zwqz-smtp-mta-g4-3 (Coremail) with SMTP id _____wDnz8wQpCdlbUFfAQ--.57375S4;
+        Thu, 12 Oct 2023 15:45:29 +0800 (CST)
+From:   Ma Ke <make_ruc2021@163.com>
+To:     tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Ma Ke <make_ruc2021@163.com>
+Subject: [PATCH v2] media: videobuf2: Fix IS_ERR checking in vb2_dc_put_userptr()
+Date:   Thu, 12 Oct 2023 15:45:19 +0800
+Message-Id: <20231012074519.597651-1-make_ruc2021@163.com>
+X-Mailer: git-send-email 2.37.2
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_LOW,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-CM-TRANSID: _____wDnz8wQpCdlbUFfAQ--.57375S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7WrWDZw45tFykWFW3trWfGrg_yoW8XrWUpF
+        WFyF9IyFWUJrW3uwnrtw4Duay5Ka95XFW0k3y7G3Z5Cwn8CFyIvryUt34DWrWDGrZ2vFs0
+        yayjqr13JF4UuFUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_NtxrUUUUU=
+X-Originating-IP: [183.174.60.14]
+X-CM-SenderInfo: 5pdnvshuxfjiisr6il2tof0z/xtbBFQIHC2B9oe1JLgABss
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_BL,RCVD_IN_MSPIKE_L4,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Added entries for visconti Video Input Interface driver, including;
-* device tree bindings
-* source files
-* documentation files
+In order to avoid error pointers from frame_vector_pages(), we could
+use IS_ERR() to check the return value to fix this. This checking
+operation could make sure that vector contains pages.
 
-Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+Signed-off-by: Ma Ke <make_ruc2021@163.com>
 ---
-Changelog v2:
-- no change
+ .../media/common/videobuf2/videobuf2-dma-contig.c   | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-Changelog v3:
-- added entry for driver API documentation
-
-Changelog v4:
-- added entry for header file
-
-Changelog v5:
-- no change
-
-Changelog v6:
-- update path to VIIF driver source files
-
-Changelog v7:
-- no change
-
-Changelog v8:
-- rename bindings description file
-
-Changelog v9:
-- no change
-
- MAINTAINERS | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index eaa1a28a9d54..6035f711b3fb 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -2902,17 +2902,21 @@ F:	Documentation/devicetree/bindings/arm/toshiba.yaml
- F:	Documentation/devicetree/bindings/clock/toshiba,tmpv770x-pipllct.yaml
- F:	Documentation/devicetree/bindings/clock/toshiba,tmpv770x-pismu.yaml
- F:	Documentation/devicetree/bindings/gpio/toshiba,gpio-visconti.yaml
-+F:	Documentation/devicetree/bindings/media/toshiba,visconti5-viif.yaml
- F:	Documentation/devicetree/bindings/net/toshiba,visconti-dwmac.yaml
- F:	Documentation/devicetree/bindings/pci/toshiba,visconti-pcie.yaml
- F:	Documentation/devicetree/bindings/pinctrl/toshiba,visconti-pinctrl.yaml
- F:	Documentation/devicetree/bindings/watchdog/toshiba,visconti-wdt.yaml
-+F:	Documentation/driver-api/media/drivers/visconti-viif.rst
- F:	arch/arm64/boot/dts/toshiba/
- F:	drivers/clk/visconti/
- F:	drivers/gpio/gpio-visconti.c
-+F:	drivers/media/platform/toshiba/visconti/
- F:	drivers/net/ethernet/stmicro/stmmac/dwmac-visconti.c
- F:	drivers/pci/controller/dwc/pcie-visconti.c
- F:	drivers/pinctrl/visconti/
- F:	drivers/watchdog/visconti_wdt.c
-+F:	include/uapi/linux/visconti_viif.h
- N:	visconti
- 
- ARM/UNIPHIER ARCHITECTURE
+diff --git a/drivers/media/common/videobuf2/videobuf2-dma-contig.c b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+index 2fa455d4a048..3d4fd4ef5310 100644
+--- a/drivers/media/common/videobuf2/videobuf2-dma-contig.c
++++ b/drivers/media/common/videobuf2/videobuf2-dma-contig.c
+@@ -542,13 +542,14 @@ static void vb2_dc_put_userptr(void *buf_priv)
+ 		 */
+ 		dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+ 				  DMA_ATTR_SKIP_CPU_SYNC);
+-		pages = frame_vector_pages(buf->vec);
+-		/* sgt should exist only if vector contains pages... */
+-		BUG_ON(IS_ERR(pages));
+ 		if (buf->dma_dir == DMA_FROM_DEVICE ||
+-		    buf->dma_dir == DMA_BIDIRECTIONAL)
+-			for (i = 0; i < frame_vector_count(buf->vec); i++)
+-				set_page_dirty_lock(pages[i]);
++				buf->dma_dir == DMA_BIDIRECTIONAL) {
++			pages = frame_vector_pages(buf->vec);
++			/* sgt should exist only if vector contains pages... */
++			if (!WARN_ON_ONCE(IS_ERR(pages)))
++				for (i = 0; i < frame_vector_count(buf->vec); i++)
++					set_page_dirty_lock(pages[i]);
++		}
+ 		sg_free_table(sgt);
+ 		kfree(sgt);
+ 	} else {
 -- 
-2.34.1
-
+2.37.2
 
