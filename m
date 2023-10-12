@@ -2,129 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 14ABB7C71AC
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 17:37:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B80047C7232
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 18:13:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343696AbjJLPhj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 11:37:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53814 "EHLO
+        id S235751AbjJLQNg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 12:13:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232023AbjJLPhi (ORCPT
+        with ESMTP id S235780AbjJLQN3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 11:37:38 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B12BB8
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 08:37:37 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E69F5C433C8;
-        Thu, 12 Oct 2023 15:37:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697125056;
-        bh=ML/ItAhL36ApIhxTi+3W4IYUm7EIERSRXtCwbBcLfCc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=KUa9IbTgCoqpTvU++heQIdq4I240gcIfvieNWQpfdGD+PIR77+dxnOrwjQD+/eKVA
-         1Sv6NOvaDsKwzy8jY0RtidZaieb0+H5DmsS5VioUWmAkStXuxFmVeO7Q5+pAu77JpM
-         kcE/0Zs73AbnQMRTpp1F5faMlpmhcnJHqzSo3dRts+66VzU0ayHF9NKHbRYaixDlH2
-         NaE1yjZFPQoN07qCBoNB3gDedgUXBRGxhJCv42sKFsrKlb6cwmS21fPmiv/+ozLxzd
-         ri1h+7x2j6k7Ld7q5rps95jyMp9QXRjgVeQCNJkglh2u2RZuq2fw7a9Mm8D7gSV8u6
-         +OnouuvXbcLOA==
-Received: (nullmailer pid 891148 invoked by uid 1000);
-        Thu, 12 Oct 2023 15:37:34 -0000
-Date:   Thu, 12 Oct 2023 10:37:34 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Conor Dooley <conor@kernel.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        devicetree@vger.kernel.org, Lee Jackson <lee.jackson@arducam.com>
-Subject: Re: [PATCH 1/2] media: dt-bindings: Add OmniVision OV64A40
-Message-ID: <20231012153734.GA826122-robh@kernel.org>
-References: <20231010151208.29564-1-jacopo.mondi@ideasonboard.com>
- <20231010151208.29564-2-jacopo.mondi@ideasonboard.com>
- <20231011-conflict-monument-75379ef495cc@spud>
- <ar5rf3mas33vvg47jflmhajpyx2pypdjdf3x522x3a3v5cva2a@gjmr5cjv6dyd>
- <20231011-deserve-platonic-0beb72c94661@spud>
- <20231011162454.GB5306@pendragon.ideasonboard.com>
+        Thu, 12 Oct 2023 12:13:29 -0400
+Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0448EA
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 09:13:24 -0700 (PDT)
+Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-9b6559cbd74so203544566b.1
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 09:13:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697127203; x=1697732003; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MnFQr6jYAWszvBkm1ZQBSlRvBAO0cVodRWwMD84lNmo=;
+        b=g5/kzYwX0+W5cx1T3YboYvLDu0ueSn4Bsf3UZ0wiEUY1R41Ti1Z0gZY/0hPtuuOiTa
+         nTE2jP+K2cyR3qKAXPFjM18mG2vWBr0Lb0jSzlfq8g9YwDJryCH/DcbgBNhZ/UoGchki
+         thLvJxE9hn/kp2uRH81XVUZ/XSf5qWtKF0KHDylF1R+NEmwad9yIlws7wupTEKu6FRVl
+         DcEtJMMggSM/AifeWS3D0h2fshtu/sdYLPlcizl36BID9zmlEKEnoMRGzm0iYlTm3PoQ
+         f52/PXpLnOpWEBv4ShFPn48l3xZH1Vc6aWqBRIhITPea73OetuQJaXCcrs3PUj8MMLDx
+         WxXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697127203; x=1697732003;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=MnFQr6jYAWszvBkm1ZQBSlRvBAO0cVodRWwMD84lNmo=;
+        b=stM2NJVUvXsdYOwXkvDkI2Lni5zMEDhZwFxHzkgs5MBYz0PVs35fsHCSTD8uQu6QDB
+         b7m3MUFvTuFmpR4NTkDDtOGkQZbzBDB7vf1HfWdjk4ZRvEdo1Je8rvDiV2LDtS/DSXps
+         Yxzq13LJyc9ccoJf3sMwdXLz1lmgHDQQ5AeBl1Gb7SwUugJYFnhNOZrpJ/0YE4bmNh5Z
+         ypLYHzPfP86h+6edMbZRYLUfqSUNR/OxZfwxuAvrMRfY/JWxnJ2XftUdRqMXBCIiS+Kf
+         cFrvjyiq7Svf/qCRkwJ/pun3kzz2/YTfAk8ybuo9+MbBU8ZPYjh7OZZOo3xw9ywpTFnE
+         mkCQ==
+X-Gm-Message-State: AOJu0YwQlhmoJ+k6Q1EkF6qG4nyi21YpRIGgNRcPT5V2sAoY2oFMrL/Y
+        OVyru8jyKcs5LL2VEHChzgcG/g==
+X-Google-Smtp-Source: AGHT+IFOiYf0k5d4B4vLBtX0oIcpHRdtEKqYYefcW1oOnsQ3xCONkHjy1mgRmErlEYAkDMqxvkKKsg==
+X-Received: by 2002:a17:907:b12:b0:9ba:246c:1fa9 with SMTP id h18-20020a1709070b1200b009ba246c1fa9mr8958480ejl.10.1697127203087;
+        Thu, 12 Oct 2023 09:13:23 -0700 (PDT)
+Received: from [172.30.204.175] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
+        by smtp.gmail.com with ESMTPSA id lc16-20020a170906dff000b0099c53c44083sm11162480ejc.79.2023.10.12.09.13.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Oct 2023 09:13:22 -0700 (PDT)
+Message-ID: <0b51b73b-8ead-400f-bf66-1df1fde23b56@linaro.org>
+Date:   Thu, 12 Oct 2023 18:13:19 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231011162454.GB5306@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: qcom: camss: clean up a check
+To:     Dan Carpenter <dan.carpenter@linaro.org>,
+        Robert Foss <rfoss@kernel.org>
+Cc:     Todor Tomov <todor.too@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+References: <f11b1d6b-5800-4d75-9732-506be3f8458d@moroto.mountain>
+Content-Language: en-US
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <f11b1d6b-5800-4d75-9732-506be3f8458d@moroto.mountain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 11, 2023 at 07:24:54PM +0300, Laurent Pinchart wrote:
-> On Wed, Oct 11, 2023 at 05:16:50PM +0100, Conor Dooley wrote:
-> > On Wed, Oct 11, 2023 at 06:12:28PM +0200, Jacopo Mondi wrote:
-> > > On Wed, Oct 11, 2023 at 04:53:34PM +0100, Conor Dooley wrote:
-> > > > On Tue, Oct 10, 2023 at 05:12:07PM +0200, Jacopo Mondi wrote:
-> > > > > Add bindings for OmniVision OV64A40.
-> > > > >
-> > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > > Signed-off-by: Lee Jackson <lee.jackson@arducam.com>
-> > > >
-> > > > What does Lee's SoB indicate here?
-> > > 
-> > > Lee has contributed to the development of the driver and validation of
-> > > bindings.
-> > 
-> > Then you're missing a Co-developed-by: from Lee :)
-> > 
-> > > > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > > > index b19995690904..df089d68b58c 100644
-> > > > > --- a/MAINTAINERS
-> > > > > +++ b/MAINTAINERS
-> > > > > @@ -15821,6 +15821,13 @@ S:	Maintained
-> > > > >  T:	git git://linuxtv.org/media_tree.git
-> > > > >  F:	drivers/media/i2c/ov5695.c
-> > > > >
-> > > > > +OMNIVISION OV64A40 SENSOR DRIVER
-> > > > > +M:	Jacopo Mondi <jacopo.mondi@ideasonboard.org>
-> > > > > +L:	linux-media@vger.kernel.org
-> > > > > +S:	Maintained
-> > > > > +T:	git git://linuxtv.org/media_tree.git
-> > > >
-> > > > Binding looks fine to me, my question is here. Usually having a tree
-> > > > here means that you apply the patches yourself. Do you?
-> > > >
-> > > 
-> > > No, and only Mauro has commit rights on the media tree.
-> > > 
-> > > All i2c sensor drivers have a tree listed, regardless who commits
-> > > there. What should I put there ?
-> > 
-> > IMO, nothing. The media tree entry should cover the parent directory,
-> > no?
-> 
-> There's little documentation for the T: tag. In MAINTAINERS, we have
-> 
->         T: *SCM* tree type and location.
->            Type is one of: git, hg, quilt, stgit, topgit
-> 
-> which doesn't tell much. In Documentation/sbumitting-patches.rst,
-> there's ona additional paragraph:
-> 
->   Note, however, that you may not want to develop against the mainline
->   tree directly.  Most subsystem maintainers run their own trees and
->   want to see patches prepared against those trees.  See the **T:**
->   entry for the subsystem in the MAINTAINERS file to find that tree, or
->   simply ask the maintainer if the tree is not listed there.
-> 
-> If the purpose of the T: tag is to tell which tree patches for this
-> driver should be developed against, the above tree seems right.
 
-No, it says 'T' would be in the subsystem entry, not the driver entry.
 
-It is somewhat frequently suggested to use 'T' entries as the way to 
-find maintainers who apply patches vs. maintainers for a file. I would 
-like something more explicit, but that's what we have ATM.
+On 10/12/23 11:42, Dan Carpenter wrote:
+> Imagine that "->vfe_num" is zero, then the subtraction will underflow to
+> UINT_MAX.  Plus it's just cleaner to use >= instead.
+> 
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+> ---
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
-Rob
+Konrad
