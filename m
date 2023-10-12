@@ -2,214 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E05607C778A
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 22:00:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 139667C77A8
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 22:09:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1442453AbjJLUA6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 16:00:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48598 "EHLO
+        id S1442438AbjJLUJY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 16:09:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38934 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347375AbjJLUA5 (ORCPT
+        with ESMTP id S1442340AbjJLUJX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 16:00:57 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B114B7
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 13:00:55 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163d.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163d])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4S60r218jTzyYt;
-        Thu, 12 Oct 2023 23:00:46 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1697140851;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7hOxSULt4XYNPxlF/p34C0DMDO9CIAdsYx1ItYjtoWw=;
-        b=RF6EYaNDXKuC5iDeKABgDwMaiN43f5V6rVsvkp2/LvK0LJ2LjpprCUW8DoaTTfP3/rxCjh
-        mzlID5TZPoEmZRf6KJeGhbNPb1/x9BXTMIK7iOXCTzDqps7dijPT0jYKLxaLJ4kiX/KXzq
-        WTk8PBZJXCNC4mHqC9Kp9Xv+3YwAVgc=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1697140851;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7hOxSULt4XYNPxlF/p34C0DMDO9CIAdsYx1ItYjtoWw=;
-        b=wvsNwNayENnnUyIVl2hICDZUVRmWqUbDjVSEMJRst+Mc4J84Ova8g7bwB1ivwfPsrzp+D+
-        J/wVs3lvPuGSs7ulKuPgzG9h0JgOAR0OmMsvd4Ywv2lruBCfXlbyfhlo7sHbyNLhLt3D0d
-        X+3QZsuMjHvhhSWnVoOzUjCs8XaLkCQ=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1697140851; a=rsa-sha256; cv=none;
-        b=PDcr7/cgh/sa7hMLg8Gn3csSg1vy7ahMAk+gGvCAZ3wDVuB01MUv4q9j2RSTOuMCyyhZf7
-        htbcy+R5+54XjOWwoUcC34lmOggroH2KhW28pWvmTBQNEraWBECXNN7Pg4vj9LNCzhbkD+
-        HErwB1gynRtHLIQpyWjbo424pRTYerA=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 282A8634CA4;
-        Thu, 12 Oct 2023 23:00:45 +0300 (EEST)
-Date:   Thu, 12 Oct 2023 20:00:45 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org,
+        Thu, 12 Oct 2023 16:09:23 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D72AC0
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 13:09:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697141362; x=1728677362;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=RO4bZYY7ZxfQjs5OtbIatzJWdxbN3XSNBZrqltJYfmM=;
+  b=lzziArRPHPqRM+9CAiD5JCP7PM1I9drDHRZfBhAnjTiOg+RgeaRw3dSl
+   RyVGTRAQ0lqaYGh9hzq2YrOms8b8My6QqtjImw4TJe8mvJk8A3u/bV3o0
+   sRd+BMRcThaj4J1/hJ6/spRY50VAl92ReggiOkz6685lIEIP/P/mcExhK
+   Ke6b++JsWSixEgcn1O4YkXwiQWMqPcq3o0Fv5cMLs+LULqG+OQ+/WjfoC
+   OkbZTj/l9qr3UGbFtWHd3Zp6MVX143Uwzq1ErGwXHmHaR6OAyxIE6bKlK
+   XCiGBPXUM2oNZoHK8996c2jK8tYouUZ2U8yMx72qaUExVJ3o+fWkx08LN
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="370100916"
+X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
+   d="scan'208";a="370100916"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 13:09:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="824748334"
+X-IronPort-AV: E=Sophos;i="6.03,219,1694761200"; 
+   d="scan'208";a="824748334"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 13:09:19 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 8C8BB120AE5;
+        Thu, 12 Oct 2023 23:09:16 +0300 (EEST)
+Date:   Thu, 12 Oct 2023 20:09:16 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com,
         Andrey Konovalov <andrey.konovalov@linaro.org>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: Re: [PATCH v6 11/28] media: Documentation: Document S_ROUTING
- behaviour
-Message-ID: <ZShQbRECoaruDkpJ@valkosipuli.retiisi.eu>
+Subject: Re: [PATCH v6 15/28] media: v4l: subdev: Copy argument back to user
+ also for S_ROUTING
+Message-ID: <ZShSbBaDwf8iVtdd@kekkonen.localdomain>
 References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
- <20231003120813.77726-2-sakari.ailus@linux.intel.com>
- <f31d9f76-4156-c79b-0cbc-0c5450656312@ideasonboard.com>
+ <20231003120813.77726-6-sakari.ailus@linux.intel.com>
+ <794135ff-3e59-40c7-842d-4cb5336af6e2@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f31d9f76-4156-c79b-0cbc-0c5450656312@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <794135ff-3e59-40c7-842d-4cb5336af6e2@xs4all.nl>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi,
+Hi Hans,
 
-On Thu, Oct 05, 2023 at 03:59:05PM +0300, Tomi Valkeinen wrote:
-> On 03/10/2023 15:07, Sakari Ailus wrote:
-> > Document S_ROUTING behaviour for different devices.
-> > 
-> > Generally in devices that produce streams the streams are static and some
-> 
-> I'm not sure what "static" means here. "Generally in devices that produce
-> streams there is a fixed amount of streams..."?
-
-Perhaps this Wordnet definition fits:
-
-     3: showing little if any change; "a static population" [syn:
-         {static}, {stable}, {unchanging}]
-
-Similarly, we have static links in MC.
-
-> 
-> > can be enabled and disabled, whereas in devices that just transport them
-> > or write them to memory, more configurability is allowed. Document this.
+On Thu, Oct 05, 2023 at 12:37:41PM +0200, Hans Verkuil wrote:
+> On 03/10/2023 14:08, Sakari Ailus wrote:
+> > As the user needs to know what went wrong for S_ROUTING, copy array
+> > arguments back to the user.
 > > 
 > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > > ---
-> >   .../userspace-api/media/v4l/dev-subdev.rst    | 21 +++++++++++++++++++
-> >   1 file changed, 21 insertions(+)
+> >  drivers/media/v4l2-core/v4l2-ioctl.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
 > > 
-> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > index fb73a95401c3..83993775237f 100644
-> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > @@ -593,6 +593,27 @@ Any configurations of a stream within a pad, such as format or selections,
-> >   are independent of similar configurations on other streams. This is
-> >   subject to change in the future.
-> > +Device types and routing setup
-> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > +Different kinds of sub-devices have differing behaviour for route inactivation,
+> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > index fb453b7d0c91..6921a72566df 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > @@ -3419,7 +3419,8 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
+> >  	 * in case of failure, but it is not defined here as part of the
+> >  	 * 'v4l2_ioctls' array, insert an ad-hoc check to address that.
+> >  	 */
+> > -	if (err < 0 && !always_copy && cmd != VIDIOC_SUBDEV_G_ROUTING)
+> > +	if (err < 0 && !always_copy && cmd != VIDIOC_SUBDEV_G_ROUTING &&
+> > +	    cmd != VIDIOC_SUBDEV_S_ROUTING)
+> >  		goto out;
+> >  
+> >  	if (has_array_args) {
 > 
-> Would "activation" convey the same, but be a bit clearer?
-
-I'd think so.
-
+> This is ugly.
 > 
-> > +depending on the hardware. Devices generating the streams may often allow
+> How about this:
 > 
-> Maybe drop the "often".
-
-Seems fine.
-
+> 	if (cmd == VIDIOC_SUBDEV_G_ROUTING || cmd == VIDIOC_SUBDEV_S_ROUTING)
+> 		always_copy = true;
 > 
-> > +enabling and disabling some of these or the configuration is fixed. If these
+> 	if (err < 0 && !always_copy)
+> 		goto out;
 > 
-> "some of these" -> "some of the routes".
-
-Yes.
-
+> The first 'if' can also be a 'switch', I have no preference.
 > 
-> > +routes can be disabled, not declaring these routes (or declaring them without
-> 
-> Here also, I think "the routes" is more readable than repeating "these
-> routes".
+> This cmd check can also be done earlier in the function, right after
+> the call to video_get_user(). It might be a better place.
 
-Works for me.
-
-> 
-> > +``VIDIOC_SUBDEV_STREAM_FL_ACTIVE`` flag set) in ``VIDIOC_SUBDEV_S_ROUTING`` will
-> 
-> Why is the flag sentence in parenthesis? Aren't both options of the same
-> value?
-
-It's a long sentence. This is an alternative, indeed, and I think it's
-easier to read this way.
-
-> 
-> > +disable the routes while the sub-device driver retain the streams and their
-> 
-> What does this mean? That even if the user disables a route, the driver must
-> keep the configuration that was set earlier related to that route?
-
-Yes. As the routes remain, so does the sub-device state.
-
-Would you instead prefer to reset it to (some) defaults? I think driver
-implementation will need some code in that case.
-
-> 
-> > +configuration. The ``VIDIOC_SUBDEV_S_ROUTING`` will still return such routes
-> > +back to the user in the routes array, with the ``V4L2_SUBDEV_STREAM_FL_ACTIVE``
-> > +flag unset.
-> 
-> So a generating device should always return all its routes with both
-> G_ROUTING and S_ROUTING, right? But with disabled routes not having
-
-Correct.
-
-> VIDIOC_SUBDEV_STREAM_FL_ACTIVE. The text doesn't mention G_ROUTING at all.
-
-G_ROUTING is sort of trivial in this sense --- it just returns the routes
-to the user, and this is documented in the IOCTL documentation.
-
-> 
-> > +Devices transporting the streams almost always have more configurability with
-> > +respect to routing. Typically any route between the sub-device's sink and source
-> > +pads is possible, and multiple routes (usually up to certain limited number) may
-> > +be active simultaneously. For such devices, no routes are created by the driver
-> > +and user-created routes are fully replaced when ``VIDIOC_SUBDEV_S_ROUTING`` is
-> > +called on the sub-device. Such newly created routes have the device's default
-> > +configuration for format and selection rectangles.
-> > +
-> 
-> I think this paragraph is ok. But could this whole section be restructured a
-> bit, as the previous paragraph gets quite confusing. Maybe:
-> 
-> First paragraph to explain the two different kinds of devices, and perhaps a
-> mention that a route is considered disabled if either it does not exist in
-> the routing table or if VIDIOC_SUBDEV_STREAM_FL_ACTIVE is not set.
-
-If there's no route, the route isn't disabled. Or did you mean the routes
-array for S_ROUTING IOCTL?
-
-> 
-> Then a paragraph for generating devices, and then a paragraph for
-> transporting devices.
-
-I'll see what I can do.
+[GS]_ROUTING are already handled here (plus the related comment is right
+above) so I prefer this location, i.e. exact lines above you suggested.
+It's indeed cleaner.
 
 -- 
-Terveisin,
+Regards,
 
 Sakari Ailus
