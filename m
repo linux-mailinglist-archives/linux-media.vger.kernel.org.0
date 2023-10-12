@@ -2,98 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 755157C6B58
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 12:42:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2B9D7C6B7D
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 12:51:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377813AbjJLKma (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 06:42:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55728 "EHLO
+        id S235683AbjJLKvT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 06:51:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58460 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232490AbjJLKm3 (ORCPT
+        with ESMTP id S235665AbjJLKvR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 06:42:29 -0400
-Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93F43B7
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 03:42:27 -0700 (PDT)
-X-KPN-MessageId: 07d0f0e1-68ec-11ee-91e6-005056994fde
-Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
-        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
-        id 07d0f0e1-68ec-11ee-91e6-005056994fde;
-        Thu, 12 Oct 2023 12:42:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=xs4all.nl; s=xs4all01;
-        h=content-type:from:to:subject:mime-version:date:message-id;
-        bh=xJ2VZjbyRRo/9Xc9+PzqHozw9ZgL0m4qDsRrGQFquIM=;
-        b=afU9gTeEjgwKRZdV2qISx9oU6BI6/N4/ud23NoQAPH+8UVZOkVtC/TN06IPksstQK7F+LC+xJVYI2
-         O6RrNgrzF6S91nQJbezf83/fw1SQnj3IQsfB6OgPhl7c8VHHG+rTIZa/GJriZKlEqdm8yXwa57k8Bp
-         EX19ctbLG86IaHBhMFjoJQv7J7zVQtvcTbb/1GFdfHPaHUNj631FjY/i4BOOw8wwyjWF+AKJcGYk/r
-         9CFRjPoUMsVY/coyAKNb5rL8cQ4stRbqInsu6P2R5kXuuP9O/nv9Ma0djrCa+OEpYCuV2DsHw3C13v
-         vntAVbCjy2r28gCfoCFvV8R09fSGCLg==
-X-KPN-MID: 33|3aLzn2ZM7BUaBuoHlspM8oOZDFyTq5riljZ1CiqDVCYnzPCR+V1NL8YQZwJMU7y
- MwTFc1IkLaJRPrwCn0vOhd0maKj6Qfkq5J7zgfHB3NF4=
-X-KPN-VerifiedSender: Yes
-X-CMASSUN: 33|bhQQ12pbBiL8NqqBsbTz5Zd1i9m1lZqVCs8MlDlVYzWjFXn+wKGL7yFVpnUvtmM
- zXtsD3u9M7Mjj22Cl5Qcwbw==
-X-Originating-IP: 173.38.220.40
-Received: from [10.47.78.242] (unknown [173.38.220.40])
-        by smtp.xs4all.nl (Halon) with ESMTPSA
-        id 07521cae-68ec-11ee-ad2d-005056998788;
-        Thu, 12 Oct 2023 12:42:24 +0200 (CEST)
-Message-ID: <788e7ae5-1560-4f6f-b6b8-930ce6a9cedb@xs4all.nl>
-Date:   Thu, 12 Oct 2023 12:42:23 +0200
+        Thu, 12 Oct 2023 06:51:17 -0400
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9399D94
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 03:51:13 -0700 (PDT)
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20231012105112euoutp0258bff9029d100b9afb6009ac16a6764c~NVp433wTT2387623876euoutp02Z
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 10:51:12 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20231012105112euoutp0258bff9029d100b9afb6009ac16a6764c~NVp433wTT2387623876euoutp02Z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1697107872;
+        bh=yM6GesTFGNN6wdIAfDvDUqkTsSxaBB0xHy+wg5fuqa8=;
+        h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
+        b=Fs66bgOwXT0iqOrj66gar/Si1oEbFiXewEaPFQJj403u2CM2wpnpAvTmO41zTaWJD
+         UE3oq1rM0YjdKyPDdG5yXWf7e5c4BFJJ4KrWFkfczbktjHY8Pkd5CfmwOuGP9/7IfK
+         y5QeCiwDjLjaGZNFBlPNq1b+CLh64rgRDEOHVCQ8=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20231012105111eucas1p27c6f0c3c5d4a1aee82addf53ea79b070~NVp4e6oz80057000570eucas1p2U;
+        Thu, 12 Oct 2023 10:51:11 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 1A.55.42423.F9FC7256; Thu, 12
+        Oct 2023 11:51:11 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20231012105111eucas1p237cf93ecbccf99b5360ca67caad1a59a~NVp4MQvns0074100741eucas1p2C;
+        Thu, 12 Oct 2023 10:51:11 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20231012105111eusmtrp1bcf19385802fd10df766d52131dde64f~NVp4Lt-FO3058330583eusmtrp1t;
+        Thu, 12 Oct 2023 10:51:11 +0000 (GMT)
+X-AuditID: cbfec7f2-a3bff7000002a5b7-62-6527cf9fb3e6
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 3E.B4.25043.F9FC7256; Thu, 12
+        Oct 2023 11:51:11 +0100 (BST)
+Received: from [106.210.134.192] (unknown [106.210.134.192]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20231012105111eusmtip16fdf470ddaf0ef66f05476dff31274c1~NVp31gUEA2941729417eusmtip1p;
+        Thu, 12 Oct 2023 10:51:10 +0000 (GMT)
+Message-ID: <14c0a0b4-e752-4e6a-98d9-52f230060103@samsung.com>
+Date:   Thu, 12 Oct 2023 12:51:10 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: cec: meson: always include meson sub-directory in
- Makefile
+Subject: Re: [PATCH] media: cec: meson: always include meson sub-directory
+ in Makefile
 Content-Language: en-US
-To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-amlogic@lists.infradead.org, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>
-References: <CGME20231012103531eucas1p1f370bddcb690aa421498e961f4081f2b@eucas1p1.samsung.com>
- <20231012103525.3381314-1-m.szyprowski@samsung.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231012103525.3381314-1-m.szyprowski@samsung.com>
-Content-Type: text/plain; charset=UTF-8
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+In-Reply-To: <788e7ae5-1560-4f6f-b6b8-930ce6a9cedb@xs4all.nl>
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFuphleLIzCtJLcpLzFFi42LZduzned3559VTDZ4fU7e4OPMui8WC2dwW
+        l3fNYbPo2bCV1WLZpj9MDqwem1Z1snlsXlLv8XmTnMepr5/ZA1iiuGxSUnMyy1KL9O0SuDJe
+        35zJVrCXpeL12WbmBsabzF2MnBwSAiYSe7/dYuti5OIQEljBKHHl43Z2kISQwBdGiQM7iiES
+        nxkl/l75yAbTsW/vQWaIxHJGiZmnFkI5HxklNkz8xAhSxStgJ7HrwTSwUSwCqhJf7/5lgYgL
+        Spyc+QTMFhWQl7h/awZQDQeHsECExN6jiSBhZgFxiVtP5jOBzBQR6GWU+LLsGhtEQk/iXdMh
+        JhCbTcBQouttFxtIL6eArcTpU2oQJfIS29/OAbtHQuAAh8Tz1z8ZIa52kfiz7QYThC0s8er4
+        FnYIW0bi9OQeFoiGdkaJBb/vM0E4ExglGp7fguq2lrhz7hfYNmYBTYn1u/Qhwo4Sf9ZeZwUJ
+        SwjwSdx4KwhxBJ/EpG3TmSHCvBIdbUIQ1WoSs46vg1t78MIl5gmMSrOQQmUWkvdnIXlnFsLe
+        BYwsqxjFU0uLc9NTiw3zUsv1ihNzi0vz0vWS83M3MQITzOl/xz/tYJz76qPeIUYmDsZDjBIc
+        zEoivI8yVVKFeFMSK6tSi/Lji0pzUosPMUpzsCiJ86qmyKcKCaQnlqRmp6YWpBbBZJk4OKUa
+        mGY1TYts7Ly+Te1EW8URBdbPufPPLNN/7hJnP/ngFb3j0zPFnc2Mpz3Rso7cPL/lnp5kgtHu
+        qfp1h2uXp5ffebZ+zfQcc+nCtd+S7pSvZV1jd/pt1vq9TRkHO2dXTFfoUXyiPf2hYRVrhJmG
+        56/bymcnVi2TK/vMYpTTMOGA8btfdV9vGE25dGyd1e6LHvfKPgiJeKhdXFkd27JB9/5Pyb7K
+        TRMP1Jq+nblPvUHarYy5+O73iy+YtdZ118ll1bw42RHceqJ9snG/WIhQn/vung6rNj5VBbOk
+        9YI1hqVicw7oub449O8Di/Wv+ffk5qQKRk/y8j+p96zn3cWDizfluAnpMH77HsTzbqNb2976
+        N0osxRmJhlrMRcWJAEl/8AefAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrAIsWRmVeSWpSXmKPExsVy+t/xu7rzz6unGvS/E7a4OPMui8WC2dwW
+        l3fNYbPo2bCV1WLZpj9MDqwem1Z1snlsXlLv8XmTnMepr5/ZA1ii9GyK8ktLUhUy8otLbJWi
+        DS2M9AwtLfSMTCz1DI3NY62MTJX07WxSUnMyy1KL9O0S9DJe35zJVrCXpeL12WbmBsabzF2M
+        nBwSAiYS+/YeBLK5OIQEljJKbDv3jQUiISNxcloDK4QtLPHnWhcbRNF7RonzTZ/BErwCdhK7
+        HkxjB7FZBFQlvt79ywIRF5Q4OfMJmC0qIC9x/9YMsBphgQiJP0u7wHqZBcQlbj2ZzwQyVESg
+        l1GivX05I0RCT+Jd0yEmiG3HGCW2tLwDm8QmYCjR9RbkDA4OTgFbidOn1CDqzSS6tnZB9cpL
+        bH87h3kCo9AsJHfMQrJvFpKWWUhaFjCyrGIUSS0tzk3PLTbSK07MLS7NS9dLzs/dxAiMqm3H
+        fm7Zwbjy1Ue9Q4xMHIyHGCU4mJVEeB9lqqQK8aYkVlalFuXHF5XmpBYfYjQFBsZEZinR5Hxg
+        XOeVxBuaGZgamphZGphamhkrifN6FnQkCgmkJ5akZqemFqQWwfQxcXBKNTAtceL8XhIofyTW
+        6GbpMo+pvw1ntLwx7tgqpmCrq/xTtePl4obvB7wkXgZ1lUmLeOT937mxOt2+ofnTX5+UNk/p
+        wlNZV403b9LL1tkapiSlOmf9jSJ3zq/mNdqzyr9mPLG4VZ+xNLjR9VaozM2j65iddXae0Nkt
+        dbfySteb3rKY37ExWiEaV07yfluqfn6qPnN6WuK3XXdENn59ffWToP8RhttJ92T1kpL0Z8bc
+        FyhO+FtudWbNsurOy2tkRFpMPV93TJQ3De7s2/4+83IVey3HpuUME6ZvVON5ZKaltoHxyyT5
+        /4H3jszfNr/s3rHH52S09vSmNPvKJc9nWn498HLkyZz7OgZ/NhSaKsr0z1NiKc5INNRiLipO
+        BABBGx0QMwMAAA==
+X-CMS-MailID: 20231012105111eucas1p237cf93ecbccf99b5360ca67caad1a59a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20231012103531eucas1p1f370bddcb690aa421498e961f4081f2b
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20231012103531eucas1p1f370bddcb690aa421498e961f4081f2b
+References: <CGME20231012103531eucas1p1f370bddcb690aa421498e961f4081f2b@eucas1p1.samsung.com>
+        <20231012103525.3381314-1-m.szyprowski@samsung.com>
+        <788e7ae5-1560-4f6f-b6b8-930ce6a9cedb@xs4all.nl>
+X-Spam-Status: No, score=-7.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_HI,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/12/23 12:35, Marek Szyprowski wrote:
-> 'meson' directory contains two separate drivers, so it should be added
-> to Makefile compilation hierarchy unconditionally, because otherwise the
-> meson-ao-cec-g12a won't be compiled if meson-ao-cec is not selected.
-> 
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+On 12.10.2023 12:42, Hans Verkuil wrote:
+> On 10/12/23 12:35, Marek Szyprowski wrote:
+>> 'meson' directory contains two separate drivers, so it should be added
+>> to Makefile compilation hierarchy unconditionally, because otherwise the
+>> meson-ao-cec-g12a won't be compiled if meson-ao-cec is not selected.
+>>
+>> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Does this need a Fixes tag?
 
-Does this need a Fixes tag?
+Fixes: 4be5e8648b0c ("media: move CEC platform drivers to a separate 
+directory")
 
-Regards,
-
-	Hans
-
-> ---
->  drivers/media/cec/platform/Makefile | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/cec/platform/Makefile b/drivers/media/cec/platform/Makefile
-> index 26d2bc778394..a51e98ab4958 100644
-> --- a/drivers/media/cec/platform/Makefile
-> +++ b/drivers/media/cec/platform/Makefile
-> @@ -6,7 +6,7 @@
->  # Please keep it in alphabetic order
->  obj-$(CONFIG_CEC_CROS_EC) += cros-ec/
->  obj-$(CONFIG_CEC_GPIO) += cec-gpio/
-> -obj-$(CONFIG_CEC_MESON_AO) += meson/
-> +obj-y += meson/
->  obj-$(CONFIG_CEC_SAMSUNG_S5P) += s5p/
->  obj-$(CONFIG_CEC_SECO) += seco/
->  obj-$(CONFIG_CEC_STI) += sti/
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
