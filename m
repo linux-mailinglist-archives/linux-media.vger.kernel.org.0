@@ -2,79 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B80047C7232
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 18:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D8B47C73EB
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 19:15:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235751AbjJLQNg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 12:13:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51318 "EHLO
+        id S1344158AbjJLRP4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 13:15:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235780AbjJLQN3 (ORCPT
+        with ESMTP id S1344113AbjJLRPz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 12:13:29 -0400
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0448EA
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 09:13:24 -0700 (PDT)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-9b6559cbd74so203544566b.1
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 09:13:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697127203; x=1697732003; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MnFQr6jYAWszvBkm1ZQBSlRvBAO0cVodRWwMD84lNmo=;
-        b=g5/kzYwX0+W5cx1T3YboYvLDu0ueSn4Bsf3UZ0wiEUY1R41Ti1Z0gZY/0hPtuuOiTa
-         nTE2jP+K2cyR3qKAXPFjM18mG2vWBr0Lb0jSzlfq8g9YwDJryCH/DcbgBNhZ/UoGchki
-         thLvJxE9hn/kp2uRH81XVUZ/XSf5qWtKF0KHDylF1R+NEmwad9yIlws7wupTEKu6FRVl
-         DcEtJMMggSM/AifeWS3D0h2fshtu/sdYLPlcizl36BID9zmlEKEnoMRGzm0iYlTm3PoQ
-         f52/PXpLnOpWEBv4ShFPn48l3xZH1Vc6aWqBRIhITPea73OetuQJaXCcrs3PUj8MMLDx
-         WxXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697127203; x=1697732003;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MnFQr6jYAWszvBkm1ZQBSlRvBAO0cVodRWwMD84lNmo=;
-        b=stM2NJVUvXsdYOwXkvDkI2Lni5zMEDhZwFxHzkgs5MBYz0PVs35fsHCSTD8uQu6QDB
-         b7m3MUFvTuFmpR4NTkDDtOGkQZbzBDB7vf1HfWdjk4ZRvEdo1Je8rvDiV2LDtS/DSXps
-         Yxzq13LJyc9ccoJf3sMwdXLz1lmgHDQQ5AeBl1Gb7SwUugJYFnhNOZrpJ/0YE4bmNh5Z
-         ypLYHzPfP86h+6edMbZRYLUfqSUNR/OxZfwxuAvrMRfY/JWxnJ2XftUdRqMXBCIiS+Kf
-         cFrvjyiq7Svf/qCRkwJ/pun3kzz2/YTfAk8ybuo9+MbBU8ZPYjh7OZZOo3xw9ywpTFnE
-         mkCQ==
-X-Gm-Message-State: AOJu0YwQlhmoJ+k6Q1EkF6qG4nyi21YpRIGgNRcPT5V2sAoY2oFMrL/Y
-        OVyru8jyKcs5LL2VEHChzgcG/g==
-X-Google-Smtp-Source: AGHT+IFOiYf0k5d4B4vLBtX0oIcpHRdtEKqYYefcW1oOnsQ3xCONkHjy1mgRmErlEYAkDMqxvkKKsg==
-X-Received: by 2002:a17:907:b12:b0:9ba:246c:1fa9 with SMTP id h18-20020a1709070b1200b009ba246c1fa9mr8958480ejl.10.1697127203087;
-        Thu, 12 Oct 2023 09:13:23 -0700 (PDT)
-Received: from [172.30.204.175] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id lc16-20020a170906dff000b0099c53c44083sm11162480ejc.79.2023.10.12.09.13.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 09:13:22 -0700 (PDT)
-Message-ID: <0b51b73b-8ead-400f-bf66-1df1fde23b56@linaro.org>
-Date:   Thu, 12 Oct 2023 18:13:19 +0200
+        Thu, 12 Oct 2023 13:15:55 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7369B8;
+        Thu, 12 Oct 2023 10:15:52 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4415EC433C7;
+        Thu, 12 Oct 2023 17:15:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697130952;
+        bh=8B3mEtytGQ+9P80dsC6mkeTmemAtP8wbmzaGzdq4EJw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JNiv9Xw1pfSgZ32ckrZdEsMpW/dLxy6OQ9kjwLXyXSCLCsKNI0dWOu7x58IXC7xvR
+         KC4xYBnN1xD0HrRtJZh0n+I5MmmhAFlVijHTwGuGLcLvN2EY52xDrWjWa+XFQc3uSo
+         SHnL7bKHIlI9ObROkvmIu3+n5ySSNG+G9T34lZs+f5vervcqw25HZA1j99ikHduqOP
+         K0x1K3r7TO1G4dHZAEbDwKOKhRh1+YsVPgo8ATF+1RQd1LSLhx06QmtIdk47VNncLz
+         s0RXoLtay9qIgBeI2g/XVoCvfDUdyxCKiBx+wPjvjiDeMjDRqO5KfDqRIiXchZb2Ui
+         h2LMRvCgvFX7g==
+Date:   Thu, 12 Oct 2023 18:15:47 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Alain Volmat <alain.volmat@foss.st.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] dt-bindings: media: i2c: add galaxycore,gc2145
+ dt-bindings
+Message-ID: <20231012-marrow-bladder-9efc4354e9bd@spud>
+References: <20231011175735.1824782-1-alain.volmat@foss.st.com>
+ <20231011175735.1824782-3-alain.volmat@foss.st.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: clean up a check
-To:     Dan Carpenter <dan.carpenter@linaro.org>,
-        Robert Foss <rfoss@kernel.org>
-Cc:     Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        kernel-janitors@vger.kernel.org
-References: <f11b1d6b-5800-4d75-9732-506be3f8458d@moroto.mountain>
-Content-Language: en-US
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <f11b1d6b-5800-4d75-9732-506be3f8458d@moroto.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: *
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="noVBr97ToKNg5osG"
+Content-Disposition: inline
+In-Reply-To: <20231011175735.1824782-3-alain.volmat@foss.st.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -82,13 +58,156 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
+--noVBr97ToKNg5osG
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 10/12/23 11:42, Dan Carpenter wrote:
-> Imagine that "->vfe_num" is zero, then the subtraction will underflow to
-> UINT_MAX.  Plus it's just cleaner to use >= instead.
-> 
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+On Wed, Oct 11, 2023 at 07:57:29PM +0200, Alain Volmat wrote:
+> Introduction of the Galaxy Core GC2145 XVGA CMOS camera sensor.
+>=20
+> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+
+This seems okay to me.
+Reviewed-by: Conor Dooley <conor.dooley@microchip.com>
+Thanks,
+Conor.
+
 > ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>  .../bindings/media/i2c/galaxycore,gc2145.yaml | 104 ++++++++++++++++++
+>  1 file changed, 104 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycor=
+e,gc2145.yaml
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc214=
+5.yaml b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
+> new file mode 100644
+> index 000000000000..94d194cf5452
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
+> @@ -0,0 +1,104 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/galaxycore,gc2145.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Galaxy Core 1/5'' UXGA CMOS Image Sensor
+> +
+> +maintainers:
+> +  - Alain Volmat <alain.volmat@foss.st.com>
+> +
+> +description:
+> +  The Galaxy Core GC2145 is a high quality 2 Mega CMOS image sensor, for=
+ mobile
+> +  phone camera applications and digital camera products. GC2145 incorpor=
+ates a
+> +  1616V x 1232H active pixel array, on-chip 10-bit ADC, and image signal
+> +  processor. It is programmable through an I2C interface. Image data is =
+sent
+> +  either through a parallel interface or through MIPI CSI-2.
+> +
+> +allOf:
+> +  - $ref: ../video-interface-devices.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: galaxycore,gc2145
+> +
+> +  reg:
+> +    const: 0x3c
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  powerdown-gpios:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  iovdd-supply:
+> +    description: Power Supply for I/O circuits (1.7 - 3V).
+> +
+> +  avdd-supply:
+> +    description: Power for analog circuit/sensor array (2.7 - 3V).
+> +
+> +  dvdd-supply:
+> +    description: Power for digital core (1.7 - 1.9V).
+> +
+> +  orientation: true
+> +
+> +  rotation: true
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +    required:
+> +      - endpoint
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - powerdown-gpios
+> +  - reset-gpios
+> +  - iovdd-supply
+> +  - avdd-supply
+> +  - dvdd-supply
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells =3D <1>;
+> +        #size-cells =3D <0>;
+> +
+> +        camera@3c {
+> +            compatible =3D "galaxycore,gc2145";
+> +            reg =3D <0x3c>;
+> +            clocks =3D <&clk_ext_camera>;
+> +            iovdd-supply =3D <&scmi_v3v3_sw>;
+> +            avdd-supply =3D <&scmi_v3v3_sw>;
+> +            dvdd-supply =3D <&scmi_v3v3_sw>;
+> +            powerdown-gpios =3D <&mcp23017 3 (GPIO_ACTIVE_LOW | GPIO_PUS=
+H_PULL)>;
+> +            reset-gpios =3D <&mcp23017 4 (GPIO_ACTIVE_LOW | GPIO_PUSH_PU=
+LL)>;
+> +
+> +            port {
+> +                endpoint {
+> +                    remote-endpoint =3D <&mipid02_0>;
+> +                    data-lanes =3D <1 2>;
+> +                };
+> +            };
+> +        };
+> +    };
+> +
+> +...
+> --=20
+> 2.25.1
+>=20
 
-Konrad
+--noVBr97ToKNg5osG
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZSgpwwAKCRB4tDGHoIJi
+0lRiAQCnJJxKQjT/BHIQ2uhbewNOGqJKgULV2cuD6zhX9Qg8bgEAgENNN/SEhBsh
+lglB9jAXyAFQwNLjBTvEjI6s7S29rQQ=
+=N/2r
+-----END PGP SIGNATURE-----
+
+--noVBr97ToKNg5osG--
