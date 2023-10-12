@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 72CD67C6CCF
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 13:47:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0522B7C6CB9
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 13:47:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378696AbjJLLrO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 07:47:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55298 "EHLO
+        id S1378795AbjJLLrQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 07:47:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378398AbjJLLq7 (ORCPT
+        with ESMTP id S1378399AbjJLLq7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 12 Oct 2023 07:46:59 -0400
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D25DCC;
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD0B2D6;
         Thu, 12 Oct 2023 04:46:57 -0700 (PDT)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:7ae7:b86d:c19a:877e])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 99D886607359;
-        Thu, 12 Oct 2023 12:46:55 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3379E6607360;
+        Thu, 12 Oct 2023 12:46:56 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
         s=mail; t=1697111216;
-        bh=LFTEg/R/Wor/QN2odw5Z+gHhYekb/C2BteTgt/nxpjI=;
+        bh=Zz1JpVQW0VlREf/hRiNNIL1yZp9YSUV1Bv2nIqpcIz8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YW55GPuiNAo1nw5erBfgCCEKO1clLvGNiedo9r43ueQ6UvP4U/glJh2RXx4j9HFXc
-         A8YqtaHCe53j68YuaVmPDgxDS9V/YBbGRDuCIB59vKMuHRABdjQzPnBhNuGVznZFRO
-         5buTjaiW5trxoTqgo6O2+6jLQG3NPgIas2KlC+TVpAxhH5QPJotUKwHX9UC/6s1ULN
-         9+UlEOfJ7/8QOxjcA5UqRS9/6pNLrJrSG5wnOsQK68z8fW6RyiQXTf/wXgkuQWc/g0
-         leTBSXi1j6a4JmymT+lNdj1dM1jnsT6LotrrSUf0BfdnxHNmTXrrMqBqStNM39WUbV
-         CI/NBJI/Sl/eA==
+        b=LfKNONkE71F9KwTT+xG4nOO2wifyo0MmJf3Es5F9t6ugm7UeB0dePbu7IXqPUumeC
+         y1EYiqrSSv9Ly7qT6QmRjwNf86grM9ro93QN30crPCN/wJt8m+xdV7QfgfgEl5VNhU
+         x639PQKNR370CFkHK11OjZLuyyxeQg13pfLJple8BPzGQuqUwoFZwNeX4Uuae7Vje7
+         E4/ksubU0JacHGFrAKUJoBtefsVN9+YSWJ6ptHYIRaLkz3vw/MKr0GzeHWCVkx1R0e
+         S5ugM5y7Bx/gbwrRpy99IlULx00nvDgN1wZ2KIYALO9pE6uUV/TMAXEWJBbM6cifhE
+         PguiSqz9/JD4g==
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
         ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
@@ -45,9 +45,9 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         Bin Liu <bin.liu@mediatek.com>,
         Matthias Brugger <matthias.bgg@gmail.com>
-Subject: [PATCH v11 12/56] media: mediatek: vdec: Remove useless loop
-Date:   Thu, 12 Oct 2023 13:45:58 +0200
-Message-Id: <20231012114642.19040-13-benjamin.gaignard@collabora.com>
+Subject: [PATCH v11 13/56] media: mediatek: vcodec: Stop direct calls to queue num_buffers field
+Date:   Thu, 12 Oct 2023 13:45:59 +0200
+Message-Id: <20231012114642.19040-14-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
 References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
@@ -62,35 +62,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Simplify code by removing useless loop by using video buffer index.
+se vb2_get_num_buffers() to avoid using queue num_buffers field directly.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 CC: Bin Liu <bin.liu@mediatek.com>
 CC: Matthias Brugger <matthias.bgg@gmail.com>
 ---
- .../mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c   | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-index e393e3e668f8..69d37b93bd35 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-@@ -1695,13 +1695,8 @@ static int vdec_vp9_slice_setup_core_buffer(struct vdec_vp9_slice_instance *inst
- 		return -EINVAL;
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+index eb381fa6e7d1..181884e798fd 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+@@ -912,7 +912,7 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	return 0;
  
- 	/* update internal buffer's width/height */
--	for (i = 0; i < vq->num_buffers; i++) {
--		if (vb == vq->bufs[i]) {
--			instance->dpb[i].width = w;
--			instance->dpb[i].height = h;
--			break;
--		}
--	}
-+	instance->dpb[vb->index].width = w;
-+	instance->dpb[vb->index].height = h;
+ err_start_stream:
+-	for (i = 0; i < q->num_buffers; ++i) {
++	for (i = 0; i < vb2_get_num_buffers(q); ++i) {
+ 		struct vb2_buffer *buf = vb2_get_buffer(q, i);
  
- 	/*
- 	 * get buffer's width/height from instance
+ 		/*
 -- 
 2.39.2
 
