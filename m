@@ -2,212 +2,266 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D8C77C6E5A
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 14:39:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94CBF7C6E82
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 14:53:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1378293AbjJLMjN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 08:39:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35878 "EHLO
+        id S1343995AbjJLMx2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 08:53:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51778 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1378517AbjJLMjL (ORCPT
+        with ESMTP id S1343867AbjJLMx1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 08:39:11 -0400
-Received: from mail-wr1-x42b.google.com (mail-wr1-x42b.google.com [IPv6:2a00:1450:4864:20::42b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F80AC6
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 05:39:10 -0700 (PDT)
-Received: by mail-wr1-x42b.google.com with SMTP id ffacd0b85a97d-323168869daso882297f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 05:39:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697114348; x=1697719148; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=SKYKtF8Rs4Df9JqahwPF42+aeaV4P03MLBBouRg8VCs=;
-        b=lBeelQmy8Jp8v3LkBLBjIzze0RVfupV6jscYc+Il2wYZvU8cKHvo2nuzQX+It9MnjS
-         NAA5l9DGk43hLKiWEnq85gS3h1/9EbwtNVx+OENgFBBAEZGHRdRJLkuBIzVy1UXi+PhJ
-         MSqeeFtXHI62tvW4/LDx6Q6ritAxhX2p7ZaqilN6QVrLwGmHIeeGNlxHt0j2wBwDL5QI
-         xMv+rnYTK8JjUEIN3JotdE0TvAirf5XAlFzD0ZkcDrgPfN2OsrNiN6GRuNwz2hnJcptj
-         AfBc9S82RGSdIVmFKpGtcjaxZW/I1uenBAHJH4mRmsqs9nwuCeWMMqptVPpwGfDPqBbB
-         PyQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697114348; x=1697719148;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=SKYKtF8Rs4Df9JqahwPF42+aeaV4P03MLBBouRg8VCs=;
-        b=rFon6ENGhQpd7Da4BFm6+Fw/uf6bv5uGICIRX8oJ4n+yX3P90ntB5DKKum3TiAGuvg
-         P+Z/10oqxwZFq+6YPlou6wA3zbzvnoTWC7ZfI1m1oy9KmstkDucFE4JTbq4ypQmnpKYD
-         pJSIylRwPvBY45bWKIvSpO1Rcppy291VeVBANYW/t1p36Gyt7JzjLDMoA/ttcNWqNxm1
-         LBZeP3J50BRTq8RcD88l93j2HPiFVP15w8h0OcxHRZkQppeJVKnWvo/b/MlUDcTz8V4q
-         hOr1/PYWnwmjNPkQ04cw4iiO+wDuO0BrYMpcLUEVY1yeLeFAQ6uaxG3DOaMO/U/K7YzB
-         FaQg==
-X-Gm-Message-State: AOJu0YwjUGFkQNnYxQDd6/bWb4GrkEepO8OMbhdmHOxtLuJb7DEsA5u3
-        JksxEZOxNy7fCigxFa4B19B0ww==
-X-Google-Smtp-Source: AGHT+IFBWgt+00+f3S0x0ai2M74aG+SX8T3vAsi59DA/kcaO81wHegEjRyQgxUJBa/frUcvaQZKWIg==
-X-Received: by 2002:a5d:55ce:0:b0:32d:8ac4:d23f with SMTP id i14-20020a5d55ce000000b0032d8ac4d23fmr2836947wrw.29.1697114348486;
-        Thu, 12 Oct 2023 05:39:08 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id n4-20020a5d4004000000b003197c7d08ddsm18412766wrp.71.2023.10.12.05.39.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 05:39:08 -0700 (PDT)
-Message-ID: <315c152a-da9f-4df8-aa91-9f641a33f1e2@linaro.org>
-Date:   Thu, 12 Oct 2023 14:39:00 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] dt-bindings: media: Document STM32MP25 VDEC & VENC
- video codecs
-Content-Language: en-US
-To:     Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Daniel Almeida <daniel.almeida@collabora.com>,
-        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        linux-stm32@st-md-mailman.stormreply.com,
+        Thu, 12 Oct 2023 08:53:27 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8ACE91;
+        Thu, 12 Oct 2023 05:53:25 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 544B47FC;
+        Thu, 12 Oct 2023 14:53:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1697115200;
+        bh=jfmNcgh7uAOZlzRx94YU82ELNUgJ5za28cq9/WfJDEs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=JnQIH0og0gU+Fl0dFwNKehs8GCN39qgCkBW6BWRWYkg61xco5cYbi0UYKuVlVDoKg
+         r6fI+oDiqF+j+1FjNEDzrppPMDWQI6ZnXjLqrDJuhVP3mbJjSB9UkK1b6WbGvX93cC
+         EOThTVZJR1YNSqQstdPqJiurm8YqrLex00CIVTlA=
+Date:   Thu, 12 Oct 2023 15:53:30 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Paul Elder <paul.elder@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-rockchip@lists.infradead.org
-Cc:     Marco Felsch <m.felsch@pengutronix.de>,
-        Adam Ford <aford173@gmail.com>
-References: <20231010091643.3666290-1-hugues.fruchet@foss.st.com>
- <20231010091643.3666290-2-hugues.fruchet@foss.st.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231010091643.3666290-2-hugues.fruchet@foss.st.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Julien Stephan <jstephan@baylibre.com>,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v2 0/3] media: i2c: Add driver for THine THP7312 ISP
+Message-ID: <20231012125330.GB11243@pendragon.ideasonboard.com>
+References: <20231012012016.11535-1-laurent.pinchart@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231012012016.11535-1-laurent.pinchart@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/10/2023 11:16, Hugues Fruchet wrote:
-> Add STM32MP25 VDEC video decoder & VENC video encoder bindings.
+On Thu, Oct 12, 2023 at 04:20:13AM +0300, Laurent Pinchart wrote:
+> Hello,
 > 
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> ---
->  .../media/st,stm32mp25-video-codec.yaml       | 58 +++++++++++++++++++
->  1 file changed, 58 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml
+> This patch series adds a new driver for the THine THP7312 ISP. It has
+> been tested on an OLogic Pumpkin i350, which has a Mediatek MT8365 SoC,
+> with the THine THSCG101 camera module.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml b/Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml
-> new file mode 100644
-> index 000000000000..479566171568
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/st,stm32mp25-video-codec.yaml
-> @@ -0,0 +1,58 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/st,stm32mp25-video-codec.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: STMicroelectronics STM32MP25 VDEC video decoder & VENC video encoder
-> +
-> +maintainers:
-> +  - Hugues Fruchet <hugues.fruchet@foss.st.com>
-> +
-> +description:
-> +  The STMicroelectronics STM32MP25 SOCs embeds a VDEC video hardware
-> +  decoder peripheral based on Verisilicon VC8000NanoD IP (former Hantro G1)
-> +  and a VENC video hardware encoder peripheral based on Verisilicon
-> +  VC8000NanoE IP (former Hantro H1).
-> +
-> +properties:
-> +  compatible:
-> +    items:
+> Technically the driver itself (and its bindings) have no dependencies,
+> but to run/test this on the Pumpkin i350 with the mainline kernel, a
+> large number of patches are needed to support the board and the MT8365
+> SoC. Some of those patches are on their way to mainline, and some, like
+> the Pumpkin i350 board device tree, will require more work. For
+> convenience and reference, the needed patches are available in [1].
+> Example overlays for DT integration of the THP7312 are available in that
+> branch, in [2].
+> 
+> [1] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/log/?h=mtk/v6.6/pumpkin/camera
+> [2] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/commit/?h=mtk/v6.6/pumpkin/camera&id=e5fd74796c3e0973991bab2692a3534ed1a23d86
+> 
+> Compared to v1, this is a near complete rewrite of the driver that has
+> taken (to my knowledge) all review comments into account.
+> 
+> Below is the mandatory v4l2-compliance report. Careful readers may
+> notice that my v4l2-utils version is three commits behind upstream, but
+> that makes no practical difference as those commits are not related to
+> v4l2-compliance.
+> 
+> The mainline kernel is currently fairly unstable on the Pumpkin i350
+> board. For this reason, the driver has primarily been developed against
+> the Mediatek v5.15-based BSP, and successfully tested there. I managed
+> to test it on mainline as well, but that requires close to hundred boots
+> to get a userspace that doesn't segfault. This is why the
+> v4l2-compliance report below is from a run against the BSP. The thp7312
+> driver is identical to this version, except for the usage of
+> .probe_new() on v5.15 that has since been dropped from mainline, and the
+> return type of the .remove() function that was `int` back then.
+> 
+> If anyone would like to help with getting mainline to run better on the
+> Pumpkin i350 board, I would  be grateful :-) It would certainly help
+> maintaining this driver going forward.
 
-Drop "items", we keep simple enum in such case.
+It turned out not to be too complex after all:
 
-> +      - enum:
-> +          - st,stm32mp25-vdec
-> +          - st,stm32mp25-venc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
+commit f39c64ed01f56dbac5a3a3570cb3214f18a3ffec
+Author: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date:   Thu Oct 12 04:21:49 2023 +0300
 
-...
+    arm64: dts: mediatek: mt8365-pumpkin: Add reserved memory region for BL31
 
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    vdec: video-codec@580d0000 {
-> +        compatible = "st,stm32mp25-vdec";
-> +        reg = <0x580d0000 0x3c8>;
-> +        interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ck_icn_p_vdec>;
-> +    };
-> +  - |
-> +    venc: video-codec@580e0000 {
-> +        compatible = "st,stm32mp25-venc";
-> +        reg = <0x580e0000 0x800>;
-> +        interrupts = <GIC_SPI 167 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ck_icn_p_venc>;
-> +    };
+    The Pumpkin i350 boot loader doesn't seem to populate reserved memory
+    regions in the device tree, forcing them to be described statically. The
+    mt8365-pumpkin device tree already includes a reserved memory region for
+    BL32, which seems enough for proper operation with the Mediatek
+    v5.15-based BSP kernel.
 
-You can drop second example - it is the same as the first.
+    With the mainline kernel, however, userspace processes currently crash
+    very randomly. Adding a reserved memory region for BL31, copied from the
+    mt8365-evk device tree, fixes the issue.
 
-Best regards,
-Krzysztof
+    Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+diff --git a/arch/arm64/boot/dts/mediatek/mt8365-pumpkin.dts b/arch/arm64/boot/dts/mediatek/mt8365-pumpkin.dts
+index 8924bb8dae17..465c20e174da 100644
+--- a/arch/arm64/boot/dts/mediatek/mt8365-pumpkin.dts
++++ b/arch/arm64/boot/dts/mediatek/mt8365-pumpkin.dts
+@@ -52,6 +52,12 @@ reserved-memory {
+ 		#size-cells = <2>;
+ 		ranges;
+
++		/* 192 KiB reserved for ARM Trusted Firmware (BL31) */
++		bl31_secmon_reserved: secmon@43000000 {
++			no-map;
++			reg = <0 0x43000000 0 0x30000>;
++		};
++
+ 		/* 12 MiB reserved for OP-TEE (BL32)
+ 		 * +-----------------------+ 0x43e0_0000
+ 		 * |      SHMEM 2MiB       |
+
+
+I've updated the mtk/v6.6/pumpkin/camera branch linked above, and can
+now run v4l2-compliance reliably on v6.6-rc5. Apart from the driver
+version now being 6.6.0, the output is the same.
+
+> # v4l2-compliance -u /dev/v4l-subdev2
+> v4l2-compliance 1.25.0-5097, 64 bits, 64-bit time_t
+> v4l2-compliance SHA: b79e00a74fde 2023-09-13 07:19:23
+> 
+> Compliance test for device /dev/v4l-subdev2:
+> 
+> Driver Info:
+>         Driver version   : 5.15.37
+>         Capabilities     : 0x00000000
+> 
+> Required ioctls:
+>         test VIDIOC_SUDBEV_QUERYCAP: OK
+>         test invalid ioctls: OK
+> 
+> Allow for multiple opens:
+>         test second /dev/v4l-subdev2 open: OK
+>         test VIDIOC_SUBDEV_QUERYCAP: OK
+>         test for unlimited opens: OK
+> 
+> Debug ioctls:
+> [  353.331499] thp7312 2-0061: =================  START STATUS  =================
+> [  353.332515] thp7312 2-0061: Focus, Automatic Continuous: true
+> [  353.333460] thp7312 2-0061: Focus, Absolute: 0
+> [  353.334074] thp7312 2-0061: Auto-Focus Method: 2
+> [  353.334700] thp7312 2-0061: White Balance, Automatic: true
+> [  353.335432] thp7312 2-0061: Red Balance: 64
+> [  353.335998] thp7312 2-0061: Blue Balance: 50
+> [  353.337065] thp7312 2-0061: Brightness: 0
+> [  353.337627] thp7312 2-0061: Saturation: 10
+> [  353.338182] thp7312 2-0061: Contrast: 10
+> [  353.338712] thp7312 2-0061: Sharpness: 8
+> [  353.339242] thp7312 2-0061: Rotate: 0
+> [  353.339742] thp7312 2-0061: Auto Exposure, Bias: 0
+> [  353.340453] thp7312 2-0061: Power Line Frequency: 50 Hz
+> [  353.341160] thp7312 2-0061: Camera Orientation: Front
+> [  353.341835] thp7312 2-0061: Camera Sensor Rotation: 0
+> [  353.342504] thp7312 2-0061: Low Light Compensation: true
+> [  353.343204] thp7312 2-0061: Noise Reduction Auto: true
+> [  353.343882] thp7312 2-0061: Noise Reduction Level: 0
+> [  353.344636] thp7312 2-0061: ==================  END STATUS  ==================
+>         test VIDIOC_LOG_STATUS: OK
+> 
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>         test VIDIOC_QUERYCTRL: OK
+>         test VIDIOC_G/S_CTRL: OK
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 17 Private Controls: 4
+> 
+> Format ioctls:
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK (Not Supported)
+>         test VIDIOC_TRY_FMT: OK (Not Supported)
+>         test VIDIOC_S_FMT: OK (Not Supported)
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK (Not Supported)
+>         test Composing: OK (Not Supported)
+>         test Scaling: OK (Not Supported)
+> 
+> Codec ioctls:
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> 
+> Buffer ioctls:
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+>         test VIDIOC_EXPBUF: OK (Not Supported)
+>         test Requests: OK (Not Supported)
+> 
+> Total for device /dev/v4l-subdev2: 43, Succeeded: 43, Failed: 0, Warnings: 0
+> 
+> Laurent Pinchart (1):
+>   media: uapi: Add controls for the THP7312 ISP
+> 
+> Paul Elder (2):
+>   dt-bindings: media: Add bindings for THine THP7312 ISP
+>   media: i2c: Add driver for THine THP7312
+> 
+>  .../bindings/media/i2c/thine,thp7312.yaml     |  225 ++
+>  .../userspace-api/media/drivers/index.rst     |    1 +
+>  .../userspace-api/media/drivers/thp7312.rst   |   32 +
+>  MAINTAINERS                                   |   10 +
+>  drivers/media/i2c/Kconfig                     |   16 +
+>  drivers/media/i2c/Makefile                    |    1 +
+>  drivers/media/i2c/thp7312.c                   | 2386 +++++++++++++++++
+>  include/uapi/linux/thp7312.h                  |   19 +
+>  include/uapi/linux/v4l2-controls.h            |    6 +
+>  9 files changed, 2696 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
+>  create mode 100644 Documentation/userspace-api/media/drivers/thp7312.rst
+>  create mode 100644 drivers/media/i2c/thp7312.c
+>  create mode 100644 include/uapi/linux/thp7312.h
+> 
+> 
+> base-commit: a1766a4fd83befa0b34d932d532e7ebb7fab1fa7
+
+-- 
+Regards,
+
+Laurent Pinchart
