@@ -2,82 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A9F777C6B42
-	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 12:37:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 755157C6B58
+	for <lists+linux-media@lfdr.de>; Thu, 12 Oct 2023 12:42:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343807AbjJLKhg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Oct 2023 06:37:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
+        id S1377813AbjJLKma (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Oct 2023 06:42:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55728 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235644AbjJLKhf (ORCPT
+        with ESMTP id S232490AbjJLKm3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Oct 2023 06:37:35 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23A5490;
-        Thu, 12 Oct 2023 03:37:32 -0700 (PDT)
-Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits))
-        (No client certificate requested)
-        (Authenticated sender: kholk11)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 08666660733F;
-        Thu, 12 Oct 2023 11:37:29 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1697107050;
-        bh=lNyFtEdQTDuc65MqDEMsAQSJCURe+5Hc0l5j1I+nClk=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=DY1opsTgYfOqAY8qFy2hg8GrEoAO+EuqCr6eiOsIX7kahRCO9NeYsDOkRL++LM2+5
-         pYwsdZTydV+3c+D9aiC89n2ZdVbD75x1yLpQ6gfs4JpSpJhuZrr5oaRo2oEYnOcnlS
-         B5zdVWt/vGDtuu7KGPU7VC38/eWQ/a1g99Hv1puyinQcm8FVMs6GulWGOSRuLbQcvl
-         oV0Kfs2A3UPoOeSFSAo8bdTOAUQ+cxCimjm/ZdUwc702CZmXGDGF6uW+hGHxYCDnEt
-         n+8HJgbe1VFusuXZj3exjWFUxN39PDEzfOhkAnQfds2Uvf6KQmcsK0quvxCs/AJi7S
-         lBuFyDvXYQPbQ==
-Message-ID: <6d9bdf5d-e741-038e-3c5a-589b54d15846@collabora.com>
-Date:   Thu, 12 Oct 2023 12:37:28 +0200
+        Thu, 12 Oct 2023 06:42:29 -0400
+Received: from ewsoutbound.kpnmail.nl (ewsoutbound.kpnmail.nl [195.121.94.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93F43B7
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 03:42:27 -0700 (PDT)
+X-KPN-MessageId: 07d0f0e1-68ec-11ee-91e6-005056994fde
+Received: from smtp.kpnmail.nl (unknown [10.31.155.7])
+        by ewsoutbound.so.kpn.org (Halon) with ESMTPS
+        id 07d0f0e1-68ec-11ee-91e6-005056994fde;
+        Thu, 12 Oct 2023 12:42:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=xs4all.nl; s=xs4all01;
+        h=content-type:from:to:subject:mime-version:date:message-id;
+        bh=xJ2VZjbyRRo/9Xc9+PzqHozw9ZgL0m4qDsRrGQFquIM=;
+        b=afU9gTeEjgwKRZdV2qISx9oU6BI6/N4/ud23NoQAPH+8UVZOkVtC/TN06IPksstQK7F+LC+xJVYI2
+         O6RrNgrzF6S91nQJbezf83/fw1SQnj3IQsfB6OgPhl7c8VHHG+rTIZa/GJriZKlEqdm8yXwa57k8Bp
+         EX19ctbLG86IaHBhMFjoJQv7J7zVQtvcTbb/1GFdfHPaHUNj631FjY/i4BOOw8wwyjWF+AKJcGYk/r
+         9CFRjPoUMsVY/coyAKNb5rL8cQ4stRbqInsu6P2R5kXuuP9O/nv9Ma0djrCa+OEpYCuV2DsHw3C13v
+         vntAVbCjy2r28gCfoCFvV8R09fSGCLg==
+X-KPN-MID: 33|3aLzn2ZM7BUaBuoHlspM8oOZDFyTq5riljZ1CiqDVCYnzPCR+V1NL8YQZwJMU7y
+ MwTFc1IkLaJRPrwCn0vOhd0maKj6Qfkq5J7zgfHB3NF4=
+X-KPN-VerifiedSender: Yes
+X-CMASSUN: 33|bhQQ12pbBiL8NqqBsbTz5Zd1i9m1lZqVCs8MlDlVYzWjFXn+wKGL7yFVpnUvtmM
+ zXtsD3u9M7Mjj22Cl5Qcwbw==
+X-Originating-IP: 173.38.220.40
+Received: from [10.47.78.242] (unknown [173.38.220.40])
+        by smtp.xs4all.nl (Halon) with ESMTPSA
+        id 07521cae-68ec-11ee-ad2d-005056998788;
+        Thu, 12 Oct 2023 12:42:24 +0200 (CEST)
+Message-ID: <788e7ae5-1560-4f6f-b6b8-930ce6a9cedb@xs4all.nl>
+Date:   Thu, 12 Oct 2023 12:42:23 +0200
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.0
-Subject: Re: [PATCH v7 01/16] dt-bindings: media: mediatek: mdp3: correct RDMA
- and WROT node with generic names
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: cec: meson: always include meson sub-directory in
+ Makefile
 Content-Language: en-US
-To:     Moudy Ho <moudy.ho@mediatek.com>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     dri-devel@lists.freedesktop.org,
-        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-2-moudy.ho@mediatek.com>
-From:   AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>
-In-Reply-To: <20231012084037.19376-2-moudy.ho@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        linux-amlogic@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <CGME20231012103531eucas1p1f370bddcb690aa421498e961f4081f2b@eucas1p1.samsung.com>
+ <20231012103525.3381314-1-m.szyprowski@samsung.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231012103525.3381314-1-m.szyprowski@samsung.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Il 12/10/23 10:40, Moudy Ho ha scritto:
-> The DMA-related nodes RDMA/WROT in MDP3 should be changed to generic names.
-> In addition, fix improper space indent in example.
+On 10/12/23 12:35, Marek Szyprowski wrote:
+> 'meson' directory contains two separate drivers, so it should be added
+> to Makefile compilation hierarchy unconditionally, because otherwise the
+> meson-ao-cec-g12a won't be compiled if meson-ao-cec is not selected.
 > 
-> Fixes: 4ad7b39623ab ("media: dt-binding: mediatek: add bindings for MediaTek MDP3 components")
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> Acked-by: Rob Herring <robh@kernel.org>
+> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 
-Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Does this need a Fixes tag?
+
+Regards,
+
+	Hans
+
+> ---
+>  drivers/media/cec/platform/Makefile | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/cec/platform/Makefile b/drivers/media/cec/platform/Makefile
+> index 26d2bc778394..a51e98ab4958 100644
+> --- a/drivers/media/cec/platform/Makefile
+> +++ b/drivers/media/cec/platform/Makefile
+> @@ -6,7 +6,7 @@
+>  # Please keep it in alphabetic order
+>  obj-$(CONFIG_CEC_CROS_EC) += cros-ec/
+>  obj-$(CONFIG_CEC_GPIO) += cec-gpio/
+> -obj-$(CONFIG_CEC_MESON_AO) += meson/
+> +obj-y += meson/
+>  obj-$(CONFIG_CEC_SAMSUNG_S5P) += s5p/
+>  obj-$(CONFIG_CEC_SECO) += seco/
+>  obj-$(CONFIG_CEC_STI) += sti/
 
