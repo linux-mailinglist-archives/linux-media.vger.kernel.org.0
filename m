@@ -2,183 +2,273 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 120807C8CC2
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 20:04:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC5307C8D8B
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 21:11:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230260AbjJMSEy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 14:04:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53134 "EHLO
+        id S231583AbjJMTLM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 15:11:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjJMSEx (ORCPT
+        with ESMTP id S229958AbjJMTLL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 14:04:53 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C09EBB
-        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 11:04:52 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qrMWo-00083i-4x; Fri, 13 Oct 2023 20:04:50 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qrMWn-001Rlc-Hm; Fri, 13 Oct 2023 20:04:49 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qrMWn-00FjD1-8T; Fri, 13 Oct 2023 20:04:49 +0200
-Date:   Fri, 13 Oct 2023 20:04:49 +0200
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-        linux-pwm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] pwm: make it possible to apply pwm changes in
- atomic context
-Message-ID: <20231013180449.mcdmklbsz2rlymzz@pengutronix.de>
-References: <cover.1697193646.git.sean@mess.org>
- <9c0f1616fca5b218336b9321bfefe7abb7e1749f.1697193646.git.sean@mess.org>
- <ZSkvTKr42sUZImiM@orome.fritz.box>
- <ZSlbFukZKGNpR5PM@gofer.mess.org>
- <ZSljioc2OfPfxVeB@orome.fritz.box>
+        Fri, 13 Oct 2023 15:11:11 -0400
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DBF5A9
+        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 12:11:09 -0700 (PDT)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1c9c145bb5bso23875ad.1
+        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 12:11:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1697224269; x=1697829069; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OIApqMtAf+eEfCsXpXLPAMDeUbkWbPlPHXxQvDgA8ZU=;
+        b=bNtl/9EBTlrnmRKO6KYrBKa3ODSTOYlD4lA1mZP0yNG99hyljV23AX9f6uqB7tylb1
+         YYWY5pExEmkBCv/GhX03l2ztot23iUldjWlYAZMFL7ocirgBV4R0Zp74uofXUuaqz2SG
+         RsDMUb8kQqUt/pr1dRCR5noL/AHEhks0R6YQ6ymW7x9HGSJkqrsiXiFgb9S98ghs2DVs
+         OszM5MbkTWzRz830j6Fort5evh/9xTArO1v6ibviQA3ALgKrF/G67tKG9yWRoRG3izo5
+         E2XCzSQhBgVEtGe+QNOrTQP8Ku4AoOfsxnztOuT5p0GZVMJrMX1flL6I+EIg/gUADgm8
+         pd9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697224269; x=1697829069;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OIApqMtAf+eEfCsXpXLPAMDeUbkWbPlPHXxQvDgA8ZU=;
+        b=TAnMCGD32wuEmdkKGohzQG+fxEOy2rP0uGb0pgvSAoGuAPaJ0c/ZrLCeba82yCxo7Q
+         GOFoTgqipm/M4YfWJzokd3icKOXtcpJVT9jxnxSJq78vjlZjrESxOs2/2Tx+4kZbQuYs
+         sZ8L3IefJ/XLOB7dwX7RdbnsBmDbbchoyX2A6BIFwJbiBskc0TZxfchshnv40MglcODB
+         C96X0eJqeMDzONOi8x6SsXl/jhplGLuAG7X/s+9g6YhvyhYav9IJRaB1WeM4z45J7ua2
+         y43tf8dtjtwiTn+EsHiFEsgKyuI+7wxJqhwGHbasyvRPk/D1iZkT7XR1CDWyzo7m2RpZ
+         AI4Q==
+X-Gm-Message-State: AOJu0YxfCvjRPXVLA8jNskiGw3oFWVnEo2k7KQ278V2Ehl7iOdgW7bGq
+        fuPvYI+RtPLObSMl0er3FebxLj75fOGpnPXBEzCd
+X-Google-Smtp-Source: AGHT+IEbp+zs59rwJa1MDe1tv5wsWi8dFryOgKdUJ954CEvyw0oPHsE6G9aZGZSlQ2dzDzA0ijsFPKGAHWeYvLgdlco=
+X-Received: by 2002:a17:902:d544:b0:1c5:ca8d:136b with SMTP id
+ z4-20020a170902d54400b001c5ca8d136bmr14874plf.14.1697224268678; Fri, 13 Oct
+ 2023 12:11:08 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="vcxtukqygxnpby24"
-Content-Disposition: inline
-In-Reply-To: <ZSljioc2OfPfxVeB@orome.fritz.box>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+References: <20230911023038.30649-1-yong.wu@mediatek.com> <20230911023038.30649-6-yong.wu@mediatek.com>
+ <d0373c02-9b22-661f-9930-ca720053c2a0@collabora.com> <a115a2a5d3ac218e6db65ccdb0a1876f9cfca02b.camel@mediatek.com>
+ <d798b15b-6f35-96db-e3f7-5c0bcc5d46a2@collabora.com> <a4ecc2792f3a4d3159e34415be984ff7d5f5e263.camel@mediatek.com>
+ <20230927134614.kp27moxdw72jiu4y@pop-os.localdomain> <3aaafe47-3733-a4d5-038d-a7e439309282@collabora.com>
+ <CA+ddPcP4=p37cV5Tbn5zTUbiL4ou+Yqb=5rS+O_ff8ZUw64D3Q@mail.gmail.com>
+ <80695726-1a98-12d4-ad7d-d731f2f3caeb@collabora.com> <CA+ddPcPES=4FcQRkvVnW=C9mL6hCxVfCcoLDJSjb58UiDmS_Mg@mail.gmail.com>
+ <32e515e1-b7a2-de3c-723b-ade3ec760b4d@collabora.com>
+In-Reply-To: <32e515e1-b7a2-de3c-723b-ade3ec760b4d@collabora.com>
+From:   Jeffrey Kardatzke <jkardatzke@google.com>
+Date:   Fri, 13 Oct 2023 12:10:56 -0700
+Message-ID: <CA+ddPcNMBhXPNie3XUzbnCME_KccOxsNsWREmO80nwhSskN7JQ@mail.gmail.com>
+Subject: Re: [PATCH 5/9] dma-buf: heaps: mtk_sec_heap: Initialise tee session
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     Joakim Bech <joakim.bech@linaro.org>,
+        =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "jstultz@google.com" <jstultz@google.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
+        <Jianjiao.Zeng@mediatek.com>,
+        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
+        <kuohong.wang@mediatek.com>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+        "tjmercier@google.com" <tjmercier@google.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-17.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        ENV_AND_HDR_SPF_MATCH,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        USER_IN_DEF_DKIM_WL,USER_IN_DEF_SPF_WL autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Sorry for the delayed reply, needed to get some more info. This really
+wouldn't be possible due to the limitation on the number of
+regions...for example only 32 regions can be defined on some SoCs, and
+you'd run out of regions really fast trying to do this. That's why
+this is creating heaps for those regions and then allocations are
+performed within the defined region is the preferred strategy.
 
---vcxtukqygxnpby24
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-Hello,
-
-On Fri, Oct 13, 2023 at 05:34:34PM +0200, Thierry Reding wrote:
-> On Fri, Oct 13, 2023 at 03:58:30PM +0100, Sean Young wrote:
-> > On Fri, Oct 13, 2023 at 01:51:40PM +0200, Thierry Reding wrote:
-> > > On Fri, Oct 13, 2023 at 11:46:14AM +0100, Sean Young wrote:
-> > > [...]
-> > > > diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-> > > > index d2f9f690a9c1..93f166ab03c1 100644
-> > > > --- a/include/linux/pwm.h
-> > > > +++ b/include/linux/pwm.h
-> > > > @@ -267,6 +267,7 @@ struct pwm_capture {
-> > > >   * @get_state: get the current PWM state. This function is only
-> > > >   *	       called once per PWM device when the PWM chip is
-> > > >   *	       registered.
-> > > > + * @atomic: can the driver execute pwm_apply_state in atomic conte=
-xt
-> > > >   * @owner: helps prevent removal of modules exporting active PWMs
-> > > >   */
-> > > >  struct pwm_ops {
-> > > > @@ -278,6 +279,7 @@ struct pwm_ops {
-> > > >  		     const struct pwm_state *state);
-> > > >  	int (*get_state)(struct pwm_chip *chip, struct pwm_device *pwm,
-> > > >  			 struct pwm_state *state);
-> > > > +	bool atomic;
-> > > >  	struct module *owner;
-> > > >  };
-> > >=20
-> > > As I mentioned earlier, this really belongs in struct pwm_chip rather
-> > > than struct pwm_ops. I know that Uwe said this is unlikely to happen,
-> > > and that may be true, but at the same time it's not like I'm asking
-> > > much. Whether you put this in struct pwm_ops or struct pwm_chip is
-> > > about the same amount of code, and putting it into pwm_chip is much
-> > > more flexible, so it's really a no-brainer.
-> >=20
-> > Happy to change this of course. I changed it and then changed it back a=
-fter
-> > Uwe's comment, I'll fix this in the next version.
-> >=20
-> > One tiny advantage is that pwm_ops is static const while pwm_chip is
-> > allocated per-pwm, so will need instructions for setting the value. Hav=
-ing
-> > said that, the difference is tiny, it's a single bool.
->=20
-> Yeah, it's typically a single assignment, so from a code point of view
-> it should be pretty much the same. I suppose from an instruction level
-> point of view, yes, this might add a teeny-tiny bit of overhead.
->=20
-> On the other hand it lets us do interesting things like initialize
-> chip->atomic =3D !regmap_might_sleep() for those drivers that use regmap
-> and then not worry about it any longer.
->=20
-> Given that, I'm also wondering if we should try to keep the terminology
-> a bit more consistent. "Atomic" is somewhat overloaded because ->apply()
-> and ->get_state() are part of the "atomic" PWM API (in the sense that
-> applying changes are done as a single, atomic operation, rather than in
-> the sense of "non-sleeping" operation).
->=20
-> So pwm_apply_state_atomic() is then doubly atomic, which is a bit weird.
-> On the other hand it's a bit tedious to convert all existing users to
-> pwm_apply_state_might_sleep().
->=20
-> Perhaps as a compromise we can add pwm_apply_state_might_sleep() and
-> make pwm_apply_state() a (deprecated) alias for that, so that existing
-> drivers can be converted one by one.
-
-To throw in my green for our bike shed: I'd pick
-
-	pwm_apply_state_cansleep()
-
-to match what gpio does (with gpiod_set_value_cansleep()). (Though I
-have to admit that semantically Thierry's might_sleep is nicer as it
-matches might_sleep().)
-
-If we don't want to have an explicit indicator for the atomic/fast
-variant (again similar to the gpio framework), maybe we can drop
-"_state" which I think is somehow redundant and go for:
-
-	pwm_apply (fast)
-	pwm_apply_cansleep (sleeping)
-	pwm_apply_state (compat alias for pwm_apply_cansleep())
-
-(maybe replace cansleep with might_sleep). Similar for pwm_get_state()
-we could use the opportunity and make
-
-	pwm_get()
-
-actually call ->get_state() and introduce
-
-	pwm_get_lastapplied()
-
-with the semantic of todays pwm_get_state(). Do we need a
-pwm_get_cansleep/might_sleep()?
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---vcxtukqygxnpby24
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUphsAACgkQj4D7WH0S
-/k6Exgf/SslgJkq9wxqIrotIrMj9NqpF1D4hMBxPW0FePgl21tJ23I4t2YyHT2MW
-x5S8hPckkkhVD+rKMbdTLO2J5ixU/ems11N+Cz5ScrA6JM9lX1UvXcm8VEppCbuf
-upnqeEPb+lzyBgtD1/dBz72xJOQXkpCtfOTHjQatE4Uo05tf8ntYLmByvHmMnoIb
-MkfKcDXQwmLJheS3pqG0RpBTtdWXhm+6BqCHR+fwHeHhpsUoFYzQCxVmWh+FX7LC
-P1Yup1ajVGxDIJtM/+Q1HBAUw+OYq1YgQQnPy7zAljwh0mRA+r7t/6heFdZP1+9f
-EdMtfXZAsOjYFAYqHoHd5FUBTynyfA==
-=t7Yp
------END PGP SIGNATURE-----
-
---vcxtukqygxnpby24--
+On Thu, Sep 28, 2023 at 11:54=E2=80=AFPM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+>
+> Le 28/09/2023 =C3=A0 19:48, Jeffrey Kardatzke a =C3=A9crit :
+> > On Thu, Sep 28, 2023 at 1:30=E2=80=AFAM Benjamin Gaignard
+> > <benjamin.gaignard@collabora.com> wrote:
+> >>
+> >> Le 27/09/2023 =C3=A0 20:56, Jeffrey Kardatzke a =C3=A9crit :
+> >>> On Wed, Sep 27, 2023 at 8:18=E2=80=AFAM Benjamin Gaignard
+> >>> <benjamin.gaignard@collabora.com> wrote:
+> >>>> Le 27/09/2023 =C3=A0 15:46, Joakim Bech a =C3=A9crit :
+> >>>>> On Mon, Sep 25, 2023 at 12:49:50PM +0000, Yong Wu (=E5=90=B4=E5=8B=
+=87) wrote:
+> >>>>>> On Tue, 2023-09-12 at 11:32 +0200, AngeloGioacchino Del Regno wrot=
+e:
+> >>>>>>> Il 12/09/23 08:17, Yong Wu (=E5=90=B4=E5=8B=87) ha scritto:
+> >>>>>>>> On Mon, 2023-09-11 at 11:29 +0200, AngeloGioacchino Del Regno
+> >>>>>>>> wrote:
+> >>>>>>>>> Il 11/09/23 04:30, Yong Wu ha scritto:
+> >>>>>>>>>> The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't
+> >>>>>>>>>> work
+> >>>>>>>>>> here since this is not a platform driver, therefore initialise
+> >>>>>>>>>> the
+> >>>>>>>>>> TEE
+> >>>>>>>>>> context/session while we allocate the first secure buffer.
+> >>>>>>>>>>
+> >>>>>>>>>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> >>>>>>>>>> ---
+> >>>>>>>>>>       drivers/dma-buf/heaps/mtk_secure_heap.c | 61
+> >>>>>>>>>> +++++++++++++++++++++++++
+> >>>>>>>>>>       1 file changed, 61 insertions(+)
+> >>>>>>>>>>
+> >>>>>>>>>> diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c
+> >>>>>>>>>> b/drivers/dma-
+> >>>>>>>>>> buf/heaps/mtk_secure_heap.c
+> >>>>>>>>>> index bbf1c8dce23e..e3da33a3d083 100644
+> >>>>>>>>>> --- a/drivers/dma-buf/heaps/mtk_secure_heap.c
+> >>>>>>>>>> +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
+> >>>>>>>>>> @@ -10,6 +10,12 @@
+> >>>>>>>>>>       #include <linux/err.h>
+> >>>>>>>>>>       #include <linux/module.h>
+> >>>>>>>>>>       #include <linux/slab.h>
+> >>>>>>>>>> +#include <linux/tee_drv.h>
+> >>>>>>>>>> +#include <linux/uuid.h>
+> >>>>>>>>>> +
+> >>>>>>>>>> +#define TZ_TA_MEM_UUID          "4477588a-8476-11e2-ad15-
+> >>>>>>>>>> e41f1390d676"
+> >>>>>>>>>> +
+> >>>>>>>>> Is this UUID the same for all SoCs and all TZ versions?
+> >>>>>>>> Yes. It is the same for all SoCs and all TZ versions currently.
+> >>>>>>>>
+> >>>>>>> That's good news!
+> >>>>>>>
+> >>>>>>> Is this UUID used in any userspace component? (example: Android
+> >>>>>>> HALs?)
+> >>>>>> No. Userspace never use it. If userspace would like to allocate th=
+is
+> >>>>>> secure buffer, it can achieve through the existing dmabuf IOCTL vi=
+a
+> >>>>>> /dev/dma_heap/mtk_svp node.
+> >>>>>>
+> >>>>> In general I think as mentioned elsewhere in comments, that there i=
+sn't
+> >>>>> that much here that seems to be unique for MediaTek in this patch
+> >>>>> series, so I think it worth to see whether this whole patch set can=
+ be
+> >>>>> made more generic. Having said that, the UUID is always unique for =
+a
+> >>>>> certain Trusted Application. So, it's not entirely true saying that=
+ the
+> >>>>> UUID is the same for all SoCs and all TrustZone versions. It might =
+be
+> >>>>> true for a family of MediaTek devices and the TEE in use, but not
+> >>>>> generically.
+> >>>>>
+> >>>>> So, if we need to differentiate between different TA implementation=
+s,
+> >>>>> then we need different UUIDs. If it would be possible to make this =
+patch
+> >>>>> set generic, then it sounds like a single UUID would be sufficient,=
+ but
+> >>>>> that would imply that all TA's supporting such a generic UUID would=
+ be
+> >>>>> implemented the same from an API point of view. Which also means th=
+at
+> >>>>> for example Trusted Application function ID's needs to be the same =
+etc.
+> >>>>> Not impossible to achieve, but still not easy (different TEE follow=
+s
+> >>>>> different specifications) and it's not typically something we've do=
+ne in
+> >>>>> the past.
+> >>>>>
+> >>>>> Unfortunately there is no standardized database of TA's describing =
+what
+> >>>>> they implement and support.
+> >>>>>
+> >>>>> As an alternative, we could implement a query call in the TEE answe=
+ring,
+> >>>>> "What UUID does your TA have that implements secure unmapped heap?"=
+.
+> >>>>> I.e., something that reminds of a lookup table. Then we wouldn't ha=
+ve to
+> >>>>> carry this in UAPI, DT or anywhere else.
+> >>>> Joakim does a TA could offer a generic API and hide the hardware spe=
+cific
+> >>>> details (like kernel uAPI does for drivers) ?
+> >>> It would have to go through another layer (like the tee driver) to be
+> >>> a generic API. The main issue with TAs is that they have UUIDs you
+> >>> need to connect to and specific codes for each function; so we should
+> >>> abstract at a layer above where those exist in the dma-heap code.
+> >>>> Aside that question I wonder what are the needs to perform a 'secure=
+' playback.
+> >>>> I have in mind 2 requirements:
+> >>>> - secure memory regions, which means configure the hardware to ensur=
+e that only
+> >>>> dedicated hardware blocks and read or write into it.
+> >>>> - set hardware blocks in secure modes so they access to secure memor=
+y.
+> >>>> Do you see something else ?
+> >>> This is more or less what is required, but this is out of scope for
+> >>> the Linux kernel since it can't be trusted to do these things...this
+> >>> is all done in firmware or the TEE itself.
+> >> Yes kernel can't be trusted to do these things but know what we need c=
+ould help
+> >> to define a API for a generic TA.
+> >>
+> >> Just to brainstorm on mailing list:
+> >> What about a TA API like
+> >> TA_secure_memory_region() and TA_unsecure_memory_region() with paramet=
+ers like:
+> >> - device identifier (an ID or compatible string maybe)
+> >> - memory region (physical address, size, offset)
+> >> - requested access rights (read, write)
+> >>
+> >> and on kernel side a IOMMU driver because it basically have all this i=
+nformation already
+> >> (device attachment, kernel map/unmap).
+> >>
+> >> In my mind it sound like a solution to limit the impact (new controls,=
+ new memory type)
+> >> inside v4l2. Probably we won't need new heap either.
+> >> All hardware dedicated implementations could live inside the TA which =
+can offer a generic
+> >> API.
+> > The main problem with that type of design is the limitations of
+> > TrustZone memory protection. Usually there is a limit to the number of
+> > regions you can define for memory protection (and there is on
+> > Mediatek). So you can't pass an arbitrary memory region and mark it
+> > protected/unprotected at a given time. You need to establish these
+> > regions in the firmware instead and then configure those regions for
+> > protection in the firmware or the TEE.
+>
+> The TEE iommu could be aware of these limitations and merge the regions w=
+hen possible
+> plus we can define a CMA region for each device to limit the secured memo=
+ry fragmentation.
+>
+> >
+> >>>> Regards,
+> >>>> Benjamin
+> >>>>
