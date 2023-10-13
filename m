@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C93527C7E1D
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:51:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CA0A27C7E20
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:51:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230001AbjJMGv1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 02:51:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44444 "EHLO
+        id S229916AbjJMGvh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 02:51:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229879AbjJMGvS (ORCPT
+        with ESMTP id S229897AbjJMGvZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 02:51:18 -0400
-Received: from mail-wr1-x42d.google.com (mail-wr1-x42d.google.com [IPv6:2a00:1450:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FFB0B7
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:51:16 -0700 (PDT)
-Received: by mail-wr1-x42d.google.com with SMTP id ffacd0b85a97d-31c5cac3ae2so1607881f8f.3
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:51:15 -0700 (PDT)
+        Fri, 13 Oct 2023 02:51:25 -0400
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 423F2116
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:51:23 -0700 (PDT)
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-31f71b25a99so1662045f8f.2
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:51:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697179874; x=1697784674; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697179881; x=1697784681; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=s8E9hQMBjUvduWHykLFBxAseu8Rry4N0oJF7HrFvKPA=;
-        b=g2qPX8JT1KzgpmUhCyg6dlPLpZUHZ1YYTi0Rpfr5pIVh6p9JLsydbGhgjru2Ou3FUH
-         QKQa2RFezMM1my69LtYkwLnlsuQOSSkV2bGpjPzXtDxOR2Z9dfplxfM9Yi6fWuJUbyio
-         7XVCi+5w0UWjuL3HrXgFiuysTHICLS8yH0/NmeDMiidtb0yWPPBsB16wnVKpzJzWakxr
-         ufe6HrMGSOKCm8OZWYNatP91JTV2+8+i0riZ4wCM6Vqr/atSIhN2jzS00DSVz5tlzPwE
-         LGMyHSCsmD89SQKXHuXezsrOhu0mnCp14I+YAQk46VqLxpKc7tLtuqKNcYyQWJjHcSK3
-         6WNA==
+        bh=yr9OA9Fvu0/9yxqhZ2QqO0V8x/0Ut9Q5jcjDY8COuQ8=;
+        b=JFjUcN3Rk2XghLciNe6fJDrVm4o5uA0CVoQi5+onCOnQZUhVTiqHsaooeAYahe/lxm
+         MEc4ZaQfUOHeDTXW4pVdwlr4eozMr0aEDWZ2SDhQUR/gGw5fEx0C/e2qfIHHxDngR4KF
+         6TeQzk53GaOgj3xmpiwBTO14qbibTVtPJ4OOZbkQIo8n+dcGRgGXujylg6zlF34zbjLy
+         UvMoZBS2zvruByRTxHWkOztER09lDjP8YwSDCkvtE9ItTkzpeTHznUQFY4UZPAapCs5p
+         YvYSCtIhuDVPV6zILZ2G4rLDL3MMEFl8+ZB3JgwzvXeOfYWab0cEZBhH2PoCSHX9GJcx
+         e4lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697179874; x=1697784674;
+        d=1e100.net; s=20230601; t=1697179881; x=1697784681;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s8E9hQMBjUvduWHykLFBxAseu8Rry4N0oJF7HrFvKPA=;
-        b=rCywiSauJEEQtiWDBz1W27R3++IDqbmVwwySp5C1us/x+qRPGZyqs+rlyZuizRhXw7
-         yP9CjKV1ddLIx574Ys63VDNf9EayNME3qMmKvWIK/TfXDS572FODgx5wkqqyC4uoCSiR
-         KWw4buG6x7Lv+emh8CaIj0EYqfIUjj09IT7tHnK7noD6T5TlIYt5GTZWSha666v9+FmC
-         7Kj/4TLI5WeQ5B0KS2+QABNQJclxFTu79PZI6vkV4xxYmD8diWer/14NieeFUFsp/lkD
-         Dvk0gKIH5hZrVbQGzWQ79IGfsh11dKx6pdrO1C8IBgQsFcmlaF5AQG5RZ4ojsLG45p2L
-         pRQQ==
-X-Gm-Message-State: AOJu0YzHYTIIdoevG+ziRGOM2/WXtAKTw0NYwAQAYIB3f4W4lT/OTipN
-        8WOdGHRjfFzefFhmWVN/xybktg==
-X-Google-Smtp-Source: AGHT+IEqTCYgq+qiAJja3NHNuHy8+zdpPd29+KymLpP341TGCVbAsLzDWHasOx/fHqX4DwWbLkKNjQ==
-X-Received: by 2002:adf:e606:0:b0:317:6314:96e2 with SMTP id p6-20020adfe606000000b00317631496e2mr21176346wrm.14.1697179874400;
-        Thu, 12 Oct 2023 23:51:14 -0700 (PDT)
+        bh=yr9OA9Fvu0/9yxqhZ2QqO0V8x/0Ut9Q5jcjDY8COuQ8=;
+        b=QuLZ047oSoxpHzO4LxlxiBjBr3t/VLVy2qH9c5xt+mGnneEhAdUpYB7xYma01G20hc
+         czgeClol1CwXhwJe8A/PCYD7fJKf6iMgAtE6gvXHd/dTf32x3PijK+KVMw3+kThXRS0w
+         8YoQD41ZPUN5puYyE6Ub3CKBWt+TKnR37RAooz1OpS6IHBisgAFZHAJv+vOnE+FLwoQm
+         Yov1E5BaH6Seb+rI2jmHmiRueFMYL6VCwWSy87aYvYJLwbeOfk0MHdT+9lNwxpSbplSg
+         O77yCa2K8UD8aRESyNS+XhuTapO0l9Pcqjj1jaeL+C7L2S5RkES4XBKBYCCTf98oDt+4
+         ikGw==
+X-Gm-Message-State: AOJu0Yy83SSpEhiGbLO/sqDVNT3gAQ4Pbb8h5oMjx/31VzS00I96qot9
+        FRoSg1NlgUc4/oBj520GIJOeyw==
+X-Google-Smtp-Source: AGHT+IEQOWDUboPu09LSwSLyoKmfT9ayCDjgk100S/Ar9nNG8RfAizs/L7/3sTVfvxhosEpiec7bdA==
+X-Received: by 2002:adf:f882:0:b0:32d:8830:ee2 with SMTP id u2-20020adff882000000b0032d88300ee2mr5318572wrp.43.1697179881651;
+        Thu, 12 Oct 2023 23:51:21 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.51.12
+        by smtp.gmail.com with ESMTPSA id n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.51.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 23:51:14 -0700 (PDT)
-Message-ID: <ebf52a65-3cd5-4713-bbbb-5062dccf5ce5@linaro.org>
-Date:   Fri, 13 Oct 2023 08:51:12 +0200
+        Thu, 12 Oct 2023 23:51:21 -0700 (PDT)
+Message-ID: <73886ae8-9f35-4d16-9ec3-5e01c51ae488@linaro.org>
+Date:   Fri, 13 Oct 2023 08:51:20 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 13/16] dt-bindings: display: mediatek: merge: add
+Subject: Re: [PATCH v7 14/16] dt-bindings: display: mediatek: ovl: add
  compatible for MT8195
 Content-Language: en-US
 To:     Moudy Ho <moudy.ho@mediatek.com>,
@@ -75,7 +75,7 @@ Cc:     dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-14-moudy.ho@mediatek.com>
+ <20231012084037.19376-15-moudy.ho@mediatek.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -121,12 +121,13 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231012084037.19376-14-moudy.ho@mediatek.com>
+In-Reply-To: <20231012084037.19376-15-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -134,11 +135,10 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 12/10/2023 10:40, Moudy Ho wrote:
-> Add a compatible string for the MERGE block in MediaTek MT8195 that
+> Add a compatible string for the OVL block in MediaTek MT8195 that
 > is controlled by MDP3.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
