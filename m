@@ -2,74 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFE967C7E77
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 09:17:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0CBDE7C8164
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 11:09:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229898AbjJMHR3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 03:17:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55078 "EHLO
+        id S230491AbjJMJJJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 05:09:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43178 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229843AbjJMHR2 (ORCPT
+        with ESMTP id S230441AbjJMJJD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 03:17:28 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF9DDBC;
-        Fri, 13 Oct 2023 00:17:26 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0115FC433CB;
-        Fri, 13 Oct 2023 07:17:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697181446;
-        bh=mZzYynmfJ2/pdsSnnLB7cuavYnApPnZfzHGYj9nCAeA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IVoeRbExMYaVYqOlZ0E8lBzZCXXY1JbAget/P8s277Z4fb0gx7WIb1qebIwGCY1IJ
-         h9+RlBxTjpMHU+QGDK+xK0cIE4HpVPEjn3DX8RpRLBXFLTD9DmNZ8Y2xHQAVYmMjxV
-         zytHQGwaKWn4P5a2325k49h7ZiBI2s+N2XYzMt6wM/rVgKre84QrYF0DViIU1ytMd7
-         VfArELQIqtToaHjPtoTAvY8n3GcR/eoFQMbjTHu1l699yX99pLwFNg9UhFxkHIysst
-         0uOq71xzAiyIVBIG853S3Os9ftzvPGv/woCU5U6WfkrFesxc9ATonOrZGcWYEdd4GO
-         aK2T7umF31aTQ==
-Date:   Fri, 13 Oct 2023 09:17:23 +0200
-From:   Wolfram Sang <wsa@kernel.org>
-To:     Stefan Lengfeld <stefan@lengfeld.xyz>
-Cc:     Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        linux-media <linux-media@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>, linux-i2c@vger.kernel.org
-Subject: Re: Sony IMX290/462 image sensors I2C xfer peculiarity
-Message-ID: <ZSjvA3QpY1T9McjN@ninjato>
-Mail-Followup-To: Wolfram Sang <wsa@kernel.org>,
-        Stefan Lengfeld <stefan@lengfeld.xyz>,
-        Krzysztof =?utf-8?Q?Ha=C5=82asa?= <khalasa@piap.pl>,
-        linux-media <linux-media@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>, linux-i2c@vger.kernel.org
-References: <m3y1gpw8ri.fsf@t19.piap.pl>
- <CAPY8ntASwh3AcRqE+2zF4Df=u+=wJ5K9icAeOrXTMJGDd1+caw@mail.gmail.com>
- <m3o7hfx3ob.fsf@t19.piap.pl>
- <m37cnuvmhn.fsf@t19.piap.pl>
- <m3o7h5tthf.fsf@t19.piap.pl>
- <m3jzrttrmz.fsf@t19.piap.pl>
- <20231011101553.we3r73xejvqdql5j@porty>
- <m3fs2htn7g.fsf@t19.piap.pl>
- <20231012220127.GB27838@stcim.de>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="u/l8M5o0YMZg682I"
-Content-Disposition: inline
-In-Reply-To: <20231012220127.GB27838@stcim.de>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        Fri, 13 Oct 2023 05:09:03 -0400
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5D4DCE;
+        Fri, 13 Oct 2023 02:09:00 -0700 (PDT)
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 57DF51A19EE;
+        Fri, 13 Oct 2023 11:08:59 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+        by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id F0E601A1558;
+        Fri, 13 Oct 2023 11:08:58 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+        by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 060431802200;
+        Fri, 13 Oct 2023 17:08:56 +0800 (+08)
+From:   Shengjiu Wang <shengjiu.wang@nxp.com>
+To:     hverkuil@xs4all.nl, sakari.ailus@iki.fi, tfiga@chromium.org,
+        m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+        nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+        perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: [RFC PATCH v6 00/11] Add audio support in v4l2 framework
+Date:   Fri, 13 Oct 2023 16:30:54 +0800
+Message-Id: <1697185865-27528-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -78,41 +46,122 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Audio signal processing also has the requirement for memory to
+memory similar as Video.
 
---u/l8M5o0YMZg682I
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+This asrc memory to memory (memory ->asrc->memory) case is a non
+real time use case.
 
+User fills the input buffer to the asrc module, after conversion, then asrc
+sends back the output buffer to user. So it is not a traditional ALSA playback
+and capture case.
 
-> Do you know the I2C repeated start feature [1]? This allows to batch together
-> multiple I2C read/writes in a single transfer. And in the best case, this
-> transfer is executed in one go without a delay in between. At least in the
-> kernel it's guaranteed that no other driver can go in between with another
-> transfer.
+It is a specific use case,  there is no reference in current kernel.
+v4l2 memory to memory is the closed implementation,  v4l2 current
+support video, image, radio, tuner, touch devices, so it is not
+complicated to add support for this specific audio case.
 
-If the HW does rep_start properly, it is even guaranteed on the bus
-because the bus is never seen as free by other participants. Check
-"START and STOP" conditions in the I2C specs.
+Because we had implemented the "memory -> asrc ->i2s device-> codec"
+use case in ALSA.  Now the "memory->asrc->memory" needs
+to reuse the code in asrc driver, so the first 3 patches is for refining
+the code to make it can be shared by the "memory->asrc->memory"
+driver.
 
+The main change is in the v4l2 side, A /dev/vl4-audioX will be created,
+user applications only use the ioctl of v4l2 framework.
 
---u/l8M5o0YMZg682I
-Content-Type: application/pgp-signature; name="signature.asc"
+Other change is to add memory to memory support for two kinds of i.MX ASRC
+module.
 
------BEGIN PGP SIGNATURE-----
+changes in v6:
+- use m2m_prepare/m2m_unprepare/m2m_start/m2m_stop to replace
+  m2m_start_part_one/m2m_stop_part_one, m2m_start_part_two/m2m_stop_part_two.
+- change V4L2_CTRL_TYPE_ASRC_RATE to V4L2_CTRL_TYPE_FIXED_POINT
+- fix warning by kernel test rebot
+- remove some unused format V4L2_AUDIO_FMT_XX
+- Get SNDRV_PCM_FORMAT from V4L2_AUDIO_FMT in driver.
+- rename audm2m to viaudm2m.
 
-iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmUo7wMACgkQFA3kzBSg
-KbZs4xAAiGla3VYW4LK+tWuDufXr/zrNHbwb0pU1zty0q+93Yp9riCln24vQ8VdN
-QbtOpwcHb+aZOh5wfz8IqL8DTgAtC1Z5h2qxUXv2vYA/V6t5jirybkOg/iR+moG4
-61V8ov437G4iAaL4xcObmtW6F6Gse/dlm8Q2JGg2eVIZqNr7mgcgJeyPTR38pWjS
-1FjP9NYoY1Xu/JhFEwar2LbLLYQqNtrT1AuPXAll2GlfDrBtfxSWZAG6ywDIXU34
-oEaMuAZDVIzhltMLgXzBQhMgef9l0naVuo/myB+htVwA7oAn45ImyDc1fGyAUMlC
-x2E7zL54CYGpon4FclA74Sgp0AjlWa3RWCkPZ+oQzL7HyjKYwM62cb3aPWkMCaV7
-57KkLtKwUb5SmTRGryNYivEXta7adBo7HvIrYeuO0paGDw65NpzeKP4rMSQHo+XX
-LWTirx18kOKA4T+r9xKvIdKiDly+R26dBln6nK5cbM2bkmIn6TIo7i2fITPbTInA
-Y94MFb/0Ifa97tNRD0VQbv89dnzogx0HP8BkVqwdpshIoIifmYSm9X33n5Nb0cT1
-YifunACQYgdt3vxnJjFPiUB3KE8Px/Wp/vvkWEacvbgnxfrID8zVMAhhsvinCrhQ
-hHh/id1kvsXrsrs8POeU0KrsQDarFZUAf42lJtPcXoY2rd9FoBU=
-=pVqj
------END PGP SIGNATURE-----
+changes in v5:
+- remove V4L2_AUDIO_FMT_LPCM
+- define audio pixel format like V4L2_AUDIO_FMT_S8...
+- remove rate and format in struct v4l2_audio_format.
+- Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE controls
+- updata document accordingly.
 
---u/l8M5o0YMZg682I--
+changes in v4:
+- update document style
+- separate V4L2_AUDIO_FMT_LPCM and V4L2_CAP_AUDIO_M2M in separate commit
+
+changes in v3:
+- Modify documents for adding audio m2m support
+- Add audio virtual m2m driver
+- Defined V4L2_AUDIO_FMT_LPCM format type for audio.
+- Defined V4L2_CAP_AUDIO_M2M capability type for audio m2m case.
+- with modification in v4l-utils, pass v4l2-compliance test.
+
+changes in v2:
+- decouple the implementation in v4l2 and ALSA
+- implement the memory to memory driver as a platfrom driver
+  and move it to driver/media
+- move fsl_asrc_common.h to include/sound folder
+
+Shengjiu Wang (11):
+  ASoC: fsl_asrc: define functions for memory to memory usage
+  ASoC: fsl_easrc: define functions for memory to memory usage
+  ASoC: fsl_asrc: move fsl_asrc_common.h to include/sound
+  ASoC: fsl_asrc: register m2m platform device
+  ASoC: fsl_easrc: register m2m platform device
+  media: uapi: Add V4L2_CAP_AUDIO_M2M capability flag
+  media: v4l2: Add audio capture and output support
+  media: uapi: define audio sample format fourcc type
+  media: uapi: Add audio rate controls support
+  media: imx-asrc: Add memory to memory driver
+  media: viaudm2m: add virtual driver for audio memory to memory
+
+ .../userspace-api/media/v4l/buffer.rst        |    6 +
+ .../userspace-api/media/v4l/common.rst        |    1 +
+ .../media/v4l/dev-audio-mem2mem.rst           |   71 +
+ .../userspace-api/media/v4l/devices.rst       |    1 +
+ .../media/v4l/ext-ctrls-fixed-point.rst       |   36 +
+ .../userspace-api/media/v4l/pixfmt-audio.rst  |  202 +++
+ .../userspace-api/media/v4l/pixfmt.rst        |    1 +
+ .../media/v4l/vidioc-enum-fmt.rst             |    2 +
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |    4 +
+ .../userspace-api/media/v4l/vidioc-g-fmt.rst  |    4 +
+ .../media/v4l/vidioc-querycap.rst             |    3 +
+ .../media/v4l/vidioc-queryctrl.rst            |    7 +
+ .../media/videodev2.h.rst.exceptions          |    4 +
+ .../media/common/videobuf2/videobuf2-v4l2.c   |    4 +
+ drivers/media/platform/nxp/Kconfig            |   12 +
+ drivers/media/platform/nxp/Makefile           |    1 +
+ drivers/media/platform/nxp/imx-asrc.c         | 1248 +++++++++++++++++
+ drivers/media/test-drivers/Kconfig            |    9 +
+ drivers/media/test-drivers/Makefile           |    1 +
+ drivers/media/test-drivers/viaudm2m.c         |  707 ++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |    5 +
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |    4 +
+ drivers/media/v4l2-core/v4l2-dev.c            |   17 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   89 ++
+ include/media/v4l2-ctrls.h                    |    2 +
+ include/media/v4l2-dev.h                      |    2 +
+ include/media/v4l2-ioctl.h                    |   34 +
+ .../fsl => include/sound}/fsl_asrc_common.h   |   60 +
+ include/uapi/linux/v4l2-controls.h            |   13 +
+ include/uapi/linux/videodev2.h                |   69 +
+ sound/soc/fsl/fsl_asrc.c                      |  144 ++
+ sound/soc/fsl/fsl_asrc.h                      |    4 +-
+ sound/soc/fsl/fsl_asrc_dma.c                  |    2 +-
+ sound/soc/fsl/fsl_easrc.c                     |  212 +++
+ sound/soc/fsl/fsl_easrc.h                     |    6 +-
+ 35 files changed, 2984 insertions(+), 3 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem2mem.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-fixed-point.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.rst
+ create mode 100644 drivers/media/platform/nxp/imx-asrc.c
+ create mode 100644 drivers/media/test-drivers/viaudm2m.c
+ rename {sound/soc/fsl => include/sound}/fsl_asrc_common.h (60%)
+
+-- 
+2.34.1
+
