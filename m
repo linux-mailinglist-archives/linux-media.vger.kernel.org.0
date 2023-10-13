@@ -2,54 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56EE37C8705
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 15:39:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C27937C8826
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 16:59:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231984AbjJMNjj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 09:39:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32824 "EHLO
+        id S232218AbjJMO6g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 10:58:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34140 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231968AbjJMNji (ORCPT
+        with ESMTP id S231913AbjJMO6e (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 09:39:38 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA97B95;
-        Fri, 13 Oct 2023 06:39:36 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2B98C433C8;
-        Fri, 13 Oct 2023 13:39:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1697204376;
-        bh=Daw0oV8avVvs3EF+zKAfgZ1+IJkL9210R2usowvEsyQ=;
+        Fri, 13 Oct 2023 10:58:34 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC68D95;
+        Fri, 13 Oct 2023 07:58:32 -0700 (PDT)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 8D93A1000C4; Fri, 13 Oct 2023 15:58:30 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1697209110; bh=1WNpZCcvkShVfOmoZ1FtkNn5Y5oSEIRDiZYxsfcBt/A=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=ecS4BIyRUjVKqpOSwmbEMFgD2mkLOzob8z36DLk5NsjL5pWRpaaju8vuB9gNGo6/7
-         INLiteok8petspSUsj39GF9S+2co8eF0YKXXl7EB7A5b5GBCxf3fTgbxMOUB3dn15Y
-         TY0i9gTt+bG41cpVQP3Dgi0zNFwa3uJBa++LH96mWvHpSn4minfwop6nMhtvOCXCc0
-         2px4dX0/TIek+xAxyTwYjsfWVBYnRdgWOR4TZ75Optn1KfAcMBBoSiNOlzQassi019
-         vuw1EJuhmlIA9YKgpXDKKCcb8orSY35b3hbRQH9hu3myUUj9qGOUuKnYK0LW5acBri
-         fn/2gS7YyC5aQ==
-Date:   Fri, 13 Oct 2023 14:39:27 +0100
-From:   Mark Brown <broonie@kernel.org>
-To:     Shengjiu Wang <shengjiu.wang@nxp.com>
-Cc:     hverkuil@xs4all.nl, sakari.ailus@iki.fi, tfiga@chromium.org,
-        m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-        nicoleotsuka@gmail.com, lgirdwood@gmail.com, perex@perex.cz,
-        tiwai@suse.com, alsa-devel@alsa-project.org,
-        linuxppc-dev@lists.ozlabs.org
-Subject: Re: [RFC PATCH v6 05/11] ASoC: fsl_easrc: register m2m platform
- device
-Message-ID: <ZSlH8BW8yr+WJFK0@finisterre.sirena.org.uk>
-References: <1697185865-27528-1-git-send-email-shengjiu.wang@nxp.com>
- <1697185865-27528-6-git-send-email-shengjiu.wang@nxp.com>
+        b=G10jsopKsKYCgKCiyQthEgGH54hFDWr5Q5RLcir9PVaDE7NOSoHx4FBmloL3nGwy5
+         NKyDncoxuFMMPyn2BfFHBiHFyng7pVG+ya4mRky75SmUFlznpoKznyUhc4zhm9YHNQ
+         /CvBnQXxK6srhJLUyj13EUm9CdyfrJ0bnsDeKHZ6qj3SSQDekNpL5rcFxRPkqHHpCr
+         PLQF95mHK66Zm6zMn/gKl/nu8svw8kFRGujcV9A34R1J80Z4d0PRiliX3xeK4bVxL4
+         NxXsr7z7OZ2gLundHYyTQy0iyibFWpy0yQ3sTopVU1XpIxMTWs//geZSR4kPp5o5QT
+         Wj8tay2uNQ7nA==
+Date:   Fri, 13 Oct 2023 15:58:30 +0100
+From:   Sean Young <sean@mess.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-media@vger.kernel.org,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-pwm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
+Message-ID: <ZSlbFukZKGNpR5PM@gofer.mess.org>
+References: <cover.1697193646.git.sean@mess.org>
+ <9c0f1616fca5b218336b9321bfefe7abb7e1749f.1697193646.git.sean@mess.org>
+ <ZSkvTKr42sUZImiM@orome.fritz.box>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="UKDVDCqpnMS86zNZ"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1697185865-27528-6-git-send-email-shengjiu.wang@nxp.com>
-X-Cookie: Save energy:  Drive a smaller shell.
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+In-Reply-To: <ZSkvTKr42sUZImiM@orome.fritz.box>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,30 +53,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Fri, Oct 13, 2023 at 01:51:40PM +0200, Thierry Reding wrote:
+> On Fri, Oct 13, 2023 at 11:46:14AM +0100, Sean Young wrote:
+> [...]
+> > diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+> > index d2f9f690a9c1..93f166ab03c1 100644
+> > --- a/include/linux/pwm.h
+> > +++ b/include/linux/pwm.h
+> > @@ -267,6 +267,7 @@ struct pwm_capture {
+> >   * @get_state: get the current PWM state. This function is only
+> >   *	       called once per PWM device when the PWM chip is
+> >   *	       registered.
+> > + * @atomic: can the driver execute pwm_apply_state in atomic context
+> >   * @owner: helps prevent removal of modules exporting active PWMs
+> >   */
+> >  struct pwm_ops {
+> > @@ -278,6 +279,7 @@ struct pwm_ops {
+> >  		     const struct pwm_state *state);
+> >  	int (*get_state)(struct pwm_chip *chip, struct pwm_device *pwm,
+> >  			 struct pwm_state *state);
+> > +	bool atomic;
+> >  	struct module *owner;
+> >  };
+> 
+> As I mentioned earlier, this really belongs in struct pwm_chip rather
+> than struct pwm_ops. I know that Uwe said this is unlikely to happen,
+> and that may be true, but at the same time it's not like I'm asking
+> much. Whether you put this in struct pwm_ops or struct pwm_chip is
+> about the same amount of code, and putting it into pwm_chip is much
+> more flexible, so it's really a no-brainer.
 
---UKDVDCqpnMS86zNZ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Happy to change this of course. I changed it and then changed it back after
+Uwe's comment, I'll fix this in the next version.
 
-On Fri, Oct 13, 2023 at 04:30:59PM +0800, Shengjiu Wang wrote:
-> Register m2m platform device,that user can
-> use M2M feature.
+One tiny advantage is that pwm_ops is static const while pwm_chip is
+allocated per-pwm, so will need instructions for setting the value. Having
+said that, the difference is tiny, it's a single bool.
 
-Acked-by: Mark Brown <broonie@kernel.org>
 
---UKDVDCqpnMS86zNZ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmUpSI4ACgkQJNaLcl1U
-h9D3Mgf+PDdKi3n9C0kflM9CvsKjX5j3rfiOo6oGsIA4yaHNFonDmjLM+iJAGM0x
-QTPAK5TwHUOu2fZ9wQHo7FKNTV7OPH5h8VuU+wQjWc9Ftg4kgmqbAEfFsw/EEjaz
-k4J8zpD1c+B4iF3NNAKaJu+6HIkx6bcffkDCaUqtFEjewvc7mjNZNBnsL+rilyhy
-z7/tS6VfFD5Skjl5xG1x+Kh9XO0ziRJSfUNNEGzRFFzK73GngtE0Reh8qN4aNNXg
-1BhBUoDRS0Qczjt/Cb9YXTaicRJBvHEMTLz/6vl/sMlUhweBrLXWuX0rwDwR6MT5
-2tMlxCViUMgG/ug9JJOB6acfEQVwBw==
-=3R9J
------END PGP SIGNATURE-----
-
---UKDVDCqpnMS86zNZ--
+Sean
