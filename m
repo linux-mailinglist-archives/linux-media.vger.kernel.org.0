@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA0A27C7E20
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:51:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42F117C7E28
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:52:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229916AbjJMGvh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 02:51:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44434 "EHLO
+        id S229845AbjJMGw0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 02:52:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54144 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229897AbjJMGvZ (ORCPT
+        with ESMTP id S229820AbjJMGwY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 02:51:25 -0400
-Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 423F2116
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:51:23 -0700 (PDT)
-Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-31f71b25a99so1662045f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:51:23 -0700 (PDT)
+        Fri, 13 Oct 2023 02:52:24 -0400
+Received: from mail-lj1-x233.google.com (mail-lj1-x233.google.com [IPv6:2a00:1450:4864:20::233])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 884E7BE
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:52:21 -0700 (PDT)
+Received: by mail-lj1-x233.google.com with SMTP id 38308e7fff4ca-2c28e35752cso22797271fa.0
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:52:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697179881; x=1697784681; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697179940; x=1697784740; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=yr9OA9Fvu0/9yxqhZ2QqO0V8x/0Ut9Q5jcjDY8COuQ8=;
-        b=JFjUcN3Rk2XghLciNe6fJDrVm4o5uA0CVoQi5+onCOnQZUhVTiqHsaooeAYahe/lxm
-         MEc4ZaQfUOHeDTXW4pVdwlr4eozMr0aEDWZ2SDhQUR/gGw5fEx0C/e2qfIHHxDngR4KF
-         6TeQzk53GaOgj3xmpiwBTO14qbibTVtPJ4OOZbkQIo8n+dcGRgGXujylg6zlF34zbjLy
-         UvMoZBS2zvruByRTxHWkOztER09lDjP8YwSDCkvtE9ItTkzpeTHznUQFY4UZPAapCs5p
-         YvYSCtIhuDVPV6zILZ2G4rLDL3MMEFl8+ZB3JgwzvXeOfYWab0cEZBhH2PoCSHX9GJcx
-         e4lg==
+        bh=wRvzuM3dXYzryQCk7xWcNKlO4Iw1AA1aiww1cz8HI1c=;
+        b=vThq0d5qwoZXPLqrOB0G1rcQTQQTAWKnLagpQVfhwOxlp9kqbdClcjxDtyvU6MlXp5
+         V5tx+3lVsQBNGh/1wi9GwgMulN51KFTHo+FgrVeq5Qv/2bpEsnhs7A2oMDujhLsJpnVU
+         E1/PYvjRZMsAYcDqC/jNpOBmiNYYR0Wiq9qW3joiD6qRoIeDqVnKgxX8qSJTYpGeo0ud
+         9AbcyyoDxJDgYQHlYxkunkLixgw0nH1xBb12yRtUSVb09u8P5DH1vtc9gvRh+F3lf56L
+         R2Y7oD8743mLF+HOHuchIh0qpO6plCcLSQr/3eWzTwt7m1/v7xRlFqcRVCV9LSI+/Yhm
+         KaBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697179881; x=1697784681;
+        d=1e100.net; s=20230601; t=1697179940; x=1697784740;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yr9OA9Fvu0/9yxqhZ2QqO0V8x/0Ut9Q5jcjDY8COuQ8=;
-        b=QuLZ047oSoxpHzO4LxlxiBjBr3t/VLVy2qH9c5xt+mGnneEhAdUpYB7xYma01G20hc
-         czgeClol1CwXhwJe8A/PCYD7fJKf6iMgAtE6gvXHd/dTf32x3PijK+KVMw3+kThXRS0w
-         8YoQD41ZPUN5puYyE6Ub3CKBWt+TKnR37RAooz1OpS6IHBisgAFZHAJv+vOnE+FLwoQm
-         Yov1E5BaH6Seb+rI2jmHmiRueFMYL6VCwWSy87aYvYJLwbeOfk0MHdT+9lNwxpSbplSg
-         O77yCa2K8UD8aRESyNS+XhuTapO0l9Pcqjj1jaeL+C7L2S5RkES4XBKBYCCTf98oDt+4
-         ikGw==
-X-Gm-Message-State: AOJu0Yy83SSpEhiGbLO/sqDVNT3gAQ4Pbb8h5oMjx/31VzS00I96qot9
-        FRoSg1NlgUc4/oBj520GIJOeyw==
-X-Google-Smtp-Source: AGHT+IEQOWDUboPu09LSwSLyoKmfT9ayCDjgk100S/Ar9nNG8RfAizs/L7/3sTVfvxhosEpiec7bdA==
-X-Received: by 2002:adf:f882:0:b0:32d:8830:ee2 with SMTP id u2-20020adff882000000b0032d88300ee2mr5318572wrp.43.1697179881651;
-        Thu, 12 Oct 2023 23:51:21 -0700 (PDT)
+        bh=wRvzuM3dXYzryQCk7xWcNKlO4Iw1AA1aiww1cz8HI1c=;
+        b=Mv3uLv0MWWgSFyeMiYRMZy+efICdiQKHWvqJmu7bRPw5Y7Cvj4KHyPfYjlkuVx7VCw
+         2NLL1Rw++HFhlL5ziPZPlqKxPJBn2+VREDqdPKmsLD4DAjevk8ZfajeWhEMjxV24p03d
+         LKP4miKEKYhGhze/8h59o41FvZqdwMlVMQp6rFTUQp6T5tp2pHy8nPCkWky4f9aj2UjO
+         C/oXcw95IhrEFzBcoQedPAyu026t9V7aRrA74lD3Xyv6qDqbL8P1hZz7g2kbQ0rF7e/7
+         4zdS6x6YqySujdQleVAQoDDMRabmWXnbCGfEwZclnkv7L7KIy4yMw8U5WF6VTZah6yN5
+         qICQ==
+X-Gm-Message-State: AOJu0YxEdde8qF5eDyEYJawFm3Kc69JPpFHmhJ+F1NOhTLw7vLz9Ps5I
+        coz+v5Cm7hu3C08Hc+rohnd05w==
+X-Google-Smtp-Source: AGHT+IFADddCYZ38EnTUlRm0EqHQtivs9ca8CdPuf4zS7leyOacZHyyn6vDZMQw0pAQ1qx77VWhF+g==
+X-Received: by 2002:a2e:9a84:0:b0:2c2:8e57:24a7 with SMTP id p4-20020a2e9a84000000b002c28e5724a7mr24109272lji.21.1697179939751;
+        Thu, 12 Oct 2023 23:52:19 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.51.20
+        by smtp.gmail.com with ESMTPSA id n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.52.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 23:51:21 -0700 (PDT)
-Message-ID: <73886ae8-9f35-4d16-9ec3-5e01c51ae488@linaro.org>
-Date:   Fri, 13 Oct 2023 08:51:20 +0200
+        Thu, 12 Oct 2023 23:52:18 -0700 (PDT)
+Message-ID: <e58ecc95-5133-4542-8178-338583bca2ab@linaro.org>
+Date:   Fri, 13 Oct 2023 08:52:17 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 14/16] dt-bindings: display: mediatek: ovl: add
+Subject: Re: [PATCH v7 15/16] dt-bindings: display: mediatek: split: add
  compatible for MT8195
 Content-Language: en-US
 To:     Moudy Ho <moudy.ho@mediatek.com>,
@@ -75,7 +75,7 @@ Cc:     dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-15-moudy.ho@mediatek.com>
+ <20231012084037.19376-16-moudy.ho@mediatek.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -121,7 +121,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231012084037.19376-15-moudy.ho@mediatek.com>
+In-Reply-To: <20231012084037.19376-16-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -135,12 +135,31 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 12/10/2023 10:40, Moudy Ho wrote:
-> Add a compatible string for the OVL block in MediaTek MT8195 that
-> is controlled by MDP3.
+> Add compatible string and GCE property for MT8195 SPLIT, of
+> which is operated by MDP3.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 
-Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8195-mdp3-split
+> +
+> +    then:
+> +      required:
+> +        - mediatek,gce-client-reg
+
+else:
+  mediatek,gce-client-reg: false
+
+
+> +
+>  additionalProperties: false
+>  
+>  examples:
 
 Best regards,
 Krzysztof
