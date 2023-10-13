@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CEC117C7DD3
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:46:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DD8E67C7DD9
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:47:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229726AbjJMGqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 02:46:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43226 "EHLO
+        id S229804AbjJMGrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 02:47:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57470 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbjJMGqO (ORCPT
+        with ESMTP id S229741AbjJMGrS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 02:46:14 -0400
-Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37143BD
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:46:12 -0700 (PDT)
-Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-3231dff4343so1097833f8f.0
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:46:12 -0700 (PDT)
+        Fri, 13 Oct 2023 02:47:18 -0400
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACE21D7
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:47:16 -0700 (PDT)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-4065dea9a33so18208295e9.3
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:47:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697179570; x=1697784370; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=VfuCZ1aZoqluUffIFaghB+5m1laq1jm/KJJ3FY8NzhI=;
-        b=sl+/Z2Wz0INFGfX+TEbfE5C/+KkSvjLg5yN21Jis6BXaHmiLq07QplkPfh0uMuROAr
-         qHoY6B498QlnNpK69ID94DqBlgSzEa28rkHyLSo75jSVps7GSoULOTS3PMm0nlbPOrWY
-         LGQRLtQt4WD1lb/64QhR0fJj6xq7LQm/q4prWRGUgmr4UbJzPuHpZ5Eo8o8LtwJDR/VT
-         kr3ykBLXKeMVaIUhEvqj3jN2YYCCLFkWIi5ZS2zTGEFmH46yChKfSrsIqE7tMvLQ1/Bi
-         UTQCJbMuzsRahQlW9jiK4ZBJOxg4mWS+H61HIVdQq5++oixfkLBihmXzq0RCH+RP0XtI
-         94Mw==
+        d=linaro.org; s=google; t=1697179635; x=1697784435; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9zUq+Fpo8hofAyxUMN6IML8iePFOZ34qIGUiNuN117s=;
+        b=iQX6uc5i+XpoCjq+UcHJnsHzVBnB+h29hf7DagOXfGURaeqVPjv9YZFmqPochake6r
+         goSy9sNcl8rm+Z/TVcf5W5yERyELbHDvgCZCZj/xvnOBmfS5SYekL9Vl4mmewoYzcEEZ
+         o02Ej16y0dAKOzFZblhDvcXeVdMrYzzwVvvSydVkRtM72u2j7eze61lO+mRJvpsa07Nx
+         xHlKHi1lrBtZeq+AjreZab6ydVJBPb8VsdW+a6U+3oT5SJimMUPl50KBJd/JvXDRERkH
+         ktnALF8gAw9ZDgn4aEa4IDPmDZqJjqB5Y15GSvtyvbrfCYiYpqheukxELSmKB3ZBPRdn
+         c3iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697179570; x=1697784370;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VfuCZ1aZoqluUffIFaghB+5m1laq1jm/KJJ3FY8NzhI=;
-        b=DbVoOFoDJLXeFAUV1UBrGIAT0EgY+93/CeIVNhbQU1SXeW/882HTdyfa0YK13hMj7O
-         qoMzWj0rj3qt4/2BUX+khHq3+HRPf0REw2gN5674lgA++n3AUbbH0a9YESDg8DqSD7HH
-         o9QaU5PZS6WFoFc6OmZJycmImq2bYPMiNAWr7c7MS/I7dpuUkMny359XR8AvUCZ7u1em
-         qxl3KxkimGqtsQ4D3pjSDzk56J6mJLA4cu9UhCkF/mCfWm6JR9ZUgiQXWTKVlwlOgu+M
-         ryuFuolt5GjZOxLBXhe7k+B0CApz6+4zQgl589iQ02eOCwUiqXak3or+Junk03LOKXza
-         +7iA==
-X-Gm-Message-State: AOJu0YxhwnODXo0K3UV74aYtfBUhL3zI2pdUUev9oBREaRMCVovI4w4e
-        pdiLBiJ+OKOKW46HVuoWYpzfdg==
-X-Google-Smtp-Source: AGHT+IERgsLgQ3Jk7JTMsv5Fzp2ccPiuC/UAkG2yPXHZxR4WbChOgg4cZSXJ7MFTS+paUXgbuQ5bXw==
-X-Received: by 2002:a5d:5c07:0:b0:31f:d50e:a14f with SMTP id cc7-20020a5d5c07000000b0031fd50ea14fmr26160325wrb.10.1697179570612;
-        Thu, 12 Oct 2023 23:46:10 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697179635; x=1697784435;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9zUq+Fpo8hofAyxUMN6IML8iePFOZ34qIGUiNuN117s=;
+        b=TB+YWFzdauTzQ9OEsnFGv+we9sMQl27ZNobnLPhL5X7dVftaYUvR+gKt7O/ffLGkXQ
+         HYeM9kf4fWImR2S4ikovIy64+zaxAyh1PRF+BgujanyDo7AB3fCDgMJXjDbPO+ysDAjm
+         pjqFAOXaK2VUQmTz9+JkZgGgIQcmg8VeTfoABg7Jzovnk4OgQ5rF6ZwnPMQ8bwldnlea
+         SndY2khpnAmkAC93/x9WLddMhukNT4IDGaNjsewzq64O5FHwWnRh3Z26Aq80hfeaga1W
+         y2ssRifRXrziaPtODKPUjA+IHUJRtVZFrTEyhTb+K/GFvqApEWkUl08+r6GWMlWe51zu
+         CDSA==
+X-Gm-Message-State: AOJu0YzSrkAcIHtU9YCZ90kOxaQn4aHxTy1pBpeZ4bHwCxD6MqYAkQAD
+        pSTh0ukkthrm0TLUQDLRZhIwhw==
+X-Google-Smtp-Source: AGHT+IGoFR/Z0YhXX5G6tR6vbzZHoBDPmPhYB6SQX+8E/WKMlTYQTswVuNMMHz1iiB/jUUewH+N/Ug==
+X-Received: by 2002:a05:6000:49:b0:32d:5cc0:2f0c with SMTP id k9-20020a056000004900b0032d5cc02f0cmr8531095wrx.40.1697179635147;
+        Thu, 12 Oct 2023 23:47:15 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.46.08
+        by smtp.gmail.com with ESMTPSA id n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.47.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 23:46:09 -0700 (PDT)
-Message-ID: <0e972a0a-af27-4837-a80c-cbab0002d368@linaro.org>
-Date:   Fri, 13 Oct 2023 08:46:07 +0200
+        Thu, 12 Oct 2023 23:47:14 -0700 (PDT)
+Message-ID: <f13be1b0-f78c-4684-9af1-16b176587182@linaro.org>
+Date:   Fri, 13 Oct 2023 08:47:13 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 02/16] dt-bindings: media: mediatek: mdp3: merge the
- indentical RDMA under display
+Subject: Re: [PATCH v7 03/16] dt-bindings: media: mediatek: mdp3: add config
+ for MT8195 RDMA
+Content-Language: en-US
 To:     Moudy Ho <moudy.ho@mediatek.com>,
         Chun-Kuang Hu <chunkuang.hu@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
@@ -75,8 +75,7 @@ Cc:     dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-3-moudy.ho@mediatek.com>
-Content-Language: en-US
+ <20231012084037.19376-4-moudy.ho@mediatek.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -122,7 +121,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231012084037.19376-3-moudy.ho@mediatek.com>
+In-Reply-To: <20231012084037.19376-4-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -136,59 +135,60 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 12/10/2023 10:40, Moudy Ho wrote:
-
+> Added the configuration for MT8195 RDMA. In comparison to MT8183, it
+> no longer shares SRAM with RSZ, and there are now preconfigured 5 mbox.
+> 
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,mdp3-rdma.yaml    | 26 ++++++++++++++++++-
+>  1 file changed, 25 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> index c043204cf210..504334a76fb3 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> @@ -22,6 +22,7 @@ properties:
+>    compatible:
+>      enum:
+>        - mediatek,mt8183-mdp3-rdma
+> +      - mediatek,mt8195-mdp3-rdma
+>        - mediatek,mt8195-vdo1-rdma
 >  
-> +allOf:
+>    reg:
+> @@ -58,7 +59,7 @@ properties:
+>  
+>    mboxes:
+>      minItems: 1
+> -    maxItems: 2
+> +    maxItems: 5
+>  
+>    interrupts:
+>      maxItems: 1
+> @@ -98,6 +99,29 @@ allOf:
+>          - mboxes
+>          - mediatek,gce-events
+>  
 > +  - if:
 > +      properties:
 > +        compatible:
 > +          contains:
-> +            const: mediatek,mt8183-mdp3-rdma
+> +            const: mediatek,mt8195-mdp3-rdma
 > +
 > +    then:
 > +      properties:
 > +        clocks:
 > +          items:
 > +            - description: RDMA clock
-> +            - description: RSZ clock (shared SRAM with RDMA)
 > +
 > +        mboxes:
 > +          items:
 > +            - description: used for 1st data pipe from RDMA
 > +            - description: used for 2nd data pipe from RDMA
+> +            - description: used for 3rd data pipe from RDMA
+> +            - description: used for 4th data pipe from RDMA
+> +            - description: used for the data pipe from SPLIT
 
-interrupts:
-  false
-
-> +
-> +      required:
-> +        - mboxes
-> +        - mediatek,gce-events
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            const: mediatek,mt8195-vdo1-rdma
-> +
-> +    then:
-> +      properties:
-> +        clocks:
-> +          items:
-> +            - description: RDMA clock
-
-mboxes: false
-mediatek,gce-events: false
-
-I am not so sure it is actually "simpler" to merge these. They are quite
-different. You will end up with unmanageable allOf  with a lot of
-branches (which supposedly you want to remove).
-
-
-> +
->  additionalProperties: false
->  
->  examples:
+Missing interrupts
 
 Best regards,
 Krzysztof
