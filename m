@@ -2,187 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D56F7C8351
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 12:39:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC7137C8387
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 12:45:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230235AbjJMKjf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 06:39:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45818 "EHLO
+        id S230281AbjJMKox (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 06:44:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230429AbjJMKjb (ORCPT
+        with ESMTP id S231300AbjJMKok (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 06:39:31 -0400
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2083.outbound.protection.outlook.com [40.107.6.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5F7F10B;
-        Fri, 13 Oct 2023 03:39:15 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=aJIiPxcj/F0L/Vwlpdv1kKpoiyQtki06QGl8GI0MQk4MjOWlITRUvBqlPqwjeBCjNLeM+rxQyooubEMw2H1/t2XJnZB1V+9pbuYZmzS+ZwHHWZYSxUGai17tYZdsiNGPpm65na1aq951L9HP5dcD0UWxGmF6sirlcqPIQQj4fhUWDXSwqr377hAWbEJbPoUk5J1qa3+Z5JSHTwkMLPWFws9zA9gJhTZx1uo25prxLargo33jwiJDhfZMlqc1t2fIK0Of+hMcuYD69Lw7Tpr9aqJgYYTi6dNeOOnppeFvfPqlqAfaKIqCroJrNs+z0t+vDbEQXzFhivhVMEpSXE0Y4A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/q/Q4y6ab/DuhdpLXSBA9//nauFzjd98lt9HvmG6hoE=;
- b=eS/CspCCS17eaW/MdjwMan/K2W5usKla/nuMRbdllkbTdd3WQlHGGyXrfxLUxte2mWhr5q1/d4H0zm5X/sDisJporsWc0rnESbAseF5tmrMYAag8aaJ5u4lH9gS2/4evLqByOPPju4Qomu62h8tDbNp1KzWHwO7rDF6URK3oddUiZE9JVqb2WkvAFUunukhqMM3Y7E+dKMDnXReXOcXKyzKPN3Y6S0NuJJjWLhRlXycKqD67oqJEU6/wWqRf9CjExrblj4QkX6jBayQncSk1WCwhA7cxiz3AKGM2xAskSw43irI2bRUZ55qHyXPJQbOiN536q+/3PoL891Lff+X12A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=piap.lukasiewicz.gov.pl; dmarc=pass action=none
- header.from=piap.pl; dkim=pass header.d=piap.pl; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=lukasiewiczgov.onmicrosoft.com; s=selector1-lukasiewiczgov-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/q/Q4y6ab/DuhdpLXSBA9//nauFzjd98lt9HvmG6hoE=;
- b=sfmus0UprdqtMnm3mdcTsjAtWTIDILOOVB9XREuY+hMzvr+5t+g4ADxMDn3XSr/oMdFRYNawqfXv2M15evHXQdiYgA5s6mE5uBZOFU79aoR4E2Zk5geaPUxYv6VNNjZlRjHMFS4fHXC/sBXKqv06ZA9x9WjTSAas9NgFidADZj0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=piap.pl;
-Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM (2603:10a6:800:155::18)
- by AS8P193MB2302.EURP193.PROD.OUTLOOK.COM (2603:10a6:20b:44f::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.46; Fri, 13 Oct
- 2023 10:39:11 +0000
-Received: from VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
- ([fe80::bd36:39a7:40e3:c90e]) by VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
- ([fe80::bd36:39a7:40e3:c90e%4]) with mapi id 15.20.6863.046; Fri, 13 Oct 2023
- 10:39:11 +0000
-From:   =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To:     Stefan Lengfeld <stefan@lengfeld.xyz>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Oleksij Rempel <linux@rempel-privat.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>, linux-i2c@vger.kernel.org
-Subject: Re: Sony IMX290/462 image sensors I2C xfer peculiarity
-References: <m3y1gpw8ri.fsf@t19.piap.pl>
-        <CAPY8ntASwh3AcRqE+2zF4Df=u+=wJ5K9icAeOrXTMJGDd1+caw@mail.gmail.com>
-        <m3o7hfx3ob.fsf@t19.piap.pl> <m37cnuvmhn.fsf@t19.piap.pl>
-        <m3o7h5tthf.fsf@t19.piap.pl> <m3jzrttrmz.fsf@t19.piap.pl>
-        <20231011101553.we3r73xejvqdql5j@porty> <m3fs2htn7g.fsf@t19.piap.pl>
-        <20231012220127.GB27838@stcim.de>
-Date:   Fri, 13 Oct 2023 12:39:09 +0200
-In-Reply-To: <20231012220127.GB27838@stcim.de> (Stefan Lengfeld's message of
-        "Fri, 13 Oct 2023 00:01:27 +0200")
-Message-ID: <m3y1g6st6a.fsf@t19.piap.pl>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: WA2P291CA0010.POLP291.PROD.OUTLOOK.COM
- (2603:10a6:1d0:1e::16) To VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
- (2603:10a6:800:155::18)
+        Fri, 13 Oct 2023 06:44:40 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3862D129
+        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 03:44:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697193871; x=1728729871;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=02f2Gg4jINzCSEwjhfvTu2QK92+716tMpZrF3G2XsH4=;
+  b=cExfcK677IKVwVB7hvBNXDSqX4RC+5iSygblyYVrfWLWkHNDSMu2/a64
+   60+And/TmM4zNlDvNrd2EyfjRSRlrWgoXkmmOAWgKHz3oxgDfwU014jtP
+   j1U/plcVcC4CXsGOSAv+XjZ74FG3vLAcFBg7kxXbQX9RJ6WKWmx0aze4L
+   9QsikV7LH3gQvFyJoREv7kfvq6syIJJ4hj8jYtLYM33+FFOuYEw+nWoMK
+   PjVnetiuuj/qfprTzy798qPtR8jHGnx/7Hb+PLu4bqTcce+RyBf0DkMT1
+   nupNO80HQHSfVKxThLpuj7JezBMumNsr4S2uT3ybU5UP3UT3nbXx3AdYQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="388004007"
+X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
+   d="scan'208";a="388004007"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 03:44:30 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="825016430"
+X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
+   d="scan'208";a="825016430"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 03:44:28 -0700
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id AB000120A2E;
+        Fri, 13 Oct 2023 13:44:24 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com
+Subject: [PATCH 0/6] Unify sub-device state access functions
+Date:   Fri, 13 Oct 2023 13:44:18 +0300
+Message-Id: <20231013104424.404768-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: VI1P193MB0685:EE_|AS8P193MB2302:EE_
-X-MS-Office365-Filtering-Correlation-Id: f212bc5f-a398-4047-a585-08dbcbd8a2c9
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: MbYYD/c0RG5gyd1TC7a6jm2RwmCeu6Wm613/oUd1j9F5jYgJLaBGOMJvLwdo9W62sXERC7euKTK0bZwTuZY9XcgS5eNHFQtTBVqFESh2Jj2sgL8Zq1TDYpzIYK6Kn99SN1yPCLK1+zEZoibY+YAgI1u86BtU9V1F58YE63J6M7rzosyFUAI8YN7SKbaSz++zdlsu0OoDxoKaYgftHOrTgegVSmIVZzreLr3We725Ut+OJUEPe4jHF/+EBKv4DIj43L9iQbsUNpwm6qjCayTPvhBiCSYT0SOZKOjQ1WlXsJHgAqyefRtHucw8Zsyp7n8Pl6/A8H2cU95oBh7MpUWUPt/yzGnq4ot7SUCzAHOxCz8fmuTdqagBUcO+VPZUA4ZIC0JH0g0WsyCwU2Bd00m/1OSOZC6wVnFv1kFTNmjc0HLLf5nHzvtzrEUFv5TSwAj3vJK5j+qH4AW6TeGQ0mp4ZWZGg8yAcyjNsyYcLf9XWnrE9OAJtSa1A4UgnG6AmdT4ElzqguKTtKW2elxAt/lRLaEH3yVN+JpffYNSrqPpGn0EIqVBPUVKGTSb7UyxCklZ3LePBPdE71NbQJbH3Cq/5YNbkUvxcUX39HAM+1pZei7tVTWKuXKbGllJJsFOvImj
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1P193MB0685.EURP193.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230031)(39860400002)(366004)(376002)(396003)(136003)(346002)(1800799009)(186009)(64100799003)(451199024)(6506007)(52116002)(6512007)(478600001)(6486002)(26005)(83380400001)(66574015)(316002)(42882007)(7416002)(2906002)(6916009)(54906003)(66476007)(66556008)(5660300002)(41300700001)(8676002)(66946007)(786003)(4326008)(8936002)(83170400001)(38100700002)(38350700002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eDlSNlBQNVZjSkZScXZMbnEvWFk3aDhUOHpnS1QwUGl5YWlUenFwakE4aEhH?=
- =?utf-8?B?ZnAyRjlHVWVUMEk3OWNLdHUvZDZhQ3dBbGgxQkdtcTdpYXZwZSs1aDZlOHNu?=
- =?utf-8?B?aVNHeUhJUDhFQ0trZitKc00rQVBOVGRBcThOb2l4elBMMWYyeWJLR2dDODV0?=
- =?utf-8?B?NkRJdWVkTit5OFlMTVp5ZTlCeDRGOUV4WVhSSE9TU05pQjlzem5MY1NYaHUv?=
- =?utf-8?B?SzNCQmcxMEV1SDdWS1k1UmFZMkx2ZEhOcE5GT3NKNDVESkhxWGdNODl1MkIx?=
- =?utf-8?B?Ujd4VkF2R1pzb1lrM1NEMHMrcnVVWmVSNnBuNGtwTVdsemN2S0dZOWQ0RzNQ?=
- =?utf-8?B?UDZvVWhBWXJGOGNOcVE3bXZnZ1NIS25lOWtFRzhWUVJEek01bzVTUG50VGlV?=
- =?utf-8?B?WVlqT2VGR2Zncm8zdGdRaTZ4QmZ4SHpjblR0Z1F0c3ZTSFlkYlQ3UW04Ym96?=
- =?utf-8?B?cDBXbXdKSzdHR3I3djJQZENDQ0xPS0xYdXNUWlRyMFhYODN1cG1lQXg0Q05w?=
- =?utf-8?B?N2g3UVVyNTNKRk9Hc2Q2VlhLQ3hrMERvUE9SVlN1TXdxd3FjOXdyU1ZpcS95?=
- =?utf-8?B?eEp1MDVwNXJNVWxlMW9vZU9nSElNdlVhK1VJclgxNSt6dUJxWS9ZV1ZVY1Bh?=
- =?utf-8?B?am03NEwyQ3dPNzlobGpKOWdYYjk3WXdCQ0JqOXdQTmM5S1d4ekViUWxFYUpO?=
- =?utf-8?B?alhibjZOMFNzVHFXWVl2R1FDbGp3d2E1cDlMRFZLOWtzY0dJWnZtVldYMld4?=
- =?utf-8?B?YWFsUDR2SmxtRFRzTjIyMjJDVXh3ckFJMWxvRy96cTdlWVRCRGlGZ1VQVlgz?=
- =?utf-8?B?b1o1NTJYN201RTl2eDZmdWQydFFrZkdFNmgxT0RSUmRmWDk4TTVaQmFQeE1m?=
- =?utf-8?B?TTQ0a09Hejh2S1kydG9EY3dHMXdWSDhlS2Q3eWg4MTdvWm5GN2dqTkxLYXpU?=
- =?utf-8?B?VHZndXNaMC9MQkxOYW1KOEo5ZjVsRlBIYnR4QXJxN2pMVGV1aS9XWk9COFFF?=
- =?utf-8?B?N3g3QVVnQURXWWtiQVVROU1BRGQ3RDFxeW16VERpTHEreWhFakJud2ZyazBi?=
- =?utf-8?B?MEM4OEorellmWXhuZ0RiamVLby94UDE4R0E2eFJLbk4rZGp3MVQ2T3RSOEdn?=
- =?utf-8?B?Rkt3SFNjWWJLaGllQjRSbzlxTWVMdW0wUVVZUzBMRitMVXhRb1hqem4xeVlz?=
- =?utf-8?B?NnFQcHM3aklMV1B2ZTVYRVlPUWljU0N6L0lTTGFpWmYvaGpsSnVkZ0hOYVRt?=
- =?utf-8?B?cUp2M3ZFb0dsU3ZTOEZYcnlab3JQWGZEeWNMQjF1SlNraGVBaUJZaDVkNGNq?=
- =?utf-8?B?NlRLdlZrN3pzNTdJaHUyOTlPUzcyM2p6MllYSE9SSHJPVUhXZit0dmtBcU41?=
- =?utf-8?B?cGw4MXYyZ3Zpekt2UmFjL05Tanh0MHJKNGFIbjJrakZhNGpXdGc2OFdGRCtv?=
- =?utf-8?B?SEFOc0YwVzVyOXRiWUdwMnJ2dzlIdm5LUHFFNHRReGh2RWhNcEtjcWoxN09w?=
- =?utf-8?B?b1ZZYUNTbWovTFZXMkhUMXNTcW1tWjcyTXBIM2RCZlNXSW1GVlBmSzJtL0Rx?=
- =?utf-8?B?SFZSdDBtT2JSeXNiTi9RaSsxdE8yZzFaOHFiMGxDeEUwQW1GZWZGa2VxSDJl?=
- =?utf-8?B?cDVFWFpnR0YvUkV0QmhJT3lucFdaUlZrQ1NYKzZrOXcyU01GL2hVZnZtdzZF?=
- =?utf-8?B?bEIyWms2KzdnU2dwdFdXQmlPVG5PU0FUQyt3emxnVkMzemZjdFVLL0VZeUJP?=
- =?utf-8?B?WjJsMGVlK04wLzVBU3hsWVQvWGxuMFhmMHdYNHZsUm1qNW9GNW9vZlhLVnll?=
- =?utf-8?B?aFNVUFp4bWFkZ3F2VUNpSERhYjJHQlUrL0VTeXJDZ2w2UVJVdVByRXlHTW5Y?=
- =?utf-8?B?d0tWcEJSdTh0cVBrOGdaMmxUTmcyLzdEV1crNHVOc0FuTkF2aUM1dTBqRUtl?=
- =?utf-8?B?NHB4c05GWW9qM09EY2xwYU1HZ0RyVXdkbHBGUHlDQytxZVlROVlEc1pIK0pj?=
- =?utf-8?B?ZWZFd1JzeGo0SnpnVTRLRkxKKzhDWTdvR0V2ZEJQa0FtcWJJb1FsQ2tZSUNU?=
- =?utf-8?B?Zm1WaXFzZ2hseUJieVo1d3BuRURsM2NIS2lPSFdFK2F0dk1GWXhiQzE2TEtp?=
- =?utf-8?B?VXJwZmtHR2JzTUEwWXBRM1Nzdk8rTXYvUXBob05sS01JcjAvREdYbVF1TGJS?=
- =?utf-8?Q?WACJ3cNuFAlwE2jCIWYlzzWXd9hdfLyYNDphWvu3rHZj?=
-X-OriginatorOrg: piap.pl
-X-MS-Exchange-CrossTenant-Network-Message-Id: f212bc5f-a398-4047-a585-08dbcbd8a2c9
-X-MS-Exchange-CrossTenant-AuthSource: VI1P193MB0685.EURP193.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Oct 2023 10:39:11.0252
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3e05b101-c6fe-47e5-82e1-c6a410bb95c0
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: p2Mx+LKWUrEtPlDH8DIClLugtcFyimSCZM5FdxMEgMCWctdbFiziAF21GpGMfGel69Uw4B/Fw1gh+mbzgtLzqs/evM/yhYDx0S2lmTfBPYIXuVKT+xTA5QTzyo8qAg6my7p3KZrMB5H9i2N5DvDHug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P193MB2302
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stefan,
+Hi folks,
 
-> Maybe you just hit a corner case or a bug, that can be avoid, in the I2C
-> device.  Maybe check with the manufacturer directly?
+This set unifies historical and stream-aware sub-device state access
+functions into one set of functions called
+v4l2_subdev_get_{format,crop,compose}. No functional change is intended.
 
-I don't have direct contact at Sony, I guess I can try to escalate this
-through the part supplier, but I won't hold my breath.
+This happened after Tomi suggested adding a num_pads field to struct
+v4l2_subdev_state.
 
-> Do you know the I2C repeated start feature [1]? This allows to batch toge=
-ther
-> multiple I2C read/writes in a single transfer. And in the best case, this
-> transfer is executed in one go without a delay in between. At least in th=
-e
-> kernel it's guaranteed that no other driver can go in between with anothe=
-r
-> transfer.
+I'd like to merge these somewhat soon, assuming there's a rough consensus
+on them, as this is a fairly hot set, touching 136 files.
 
-Sure, imx290.c sensor driver use repeated STARTs. In fact, it only makes
-things worse.
+Sakari Ailus (6):
+  media: v4l: subdev: Store the number of pads in sub-device state
+  media: v4l: subdev: Also return pads array information on stream
+    functions
+  media: v4l: subdev: Rename sub-device state information access
+    functions
+  media: v4l: subdev: v4l2_subdev_get_format always returns format now
+  media: v4l: subdev: Switch to stream-aware state functions
+  media: v4l: subdev: Remove stream-unaware sub-device state access
 
-The timeout counter seems to start with the regular START (falling edge
-of SDA), repeated STARTs don't reset it. After 2^18 + 8 or + 9 MCLK
-cycles, the sensor simply disconnects from the bus, generating
-pseudo-STOP if it was in the middle of its 0 bit (0->1 SDA change while
-SCL high) or starting sending pseudo-1 bits otherwise (0xFF data on read
-or negative ACK on write). This way repeated START -> longer transfer ->
-higher probability of failure. Not that it really matters.
+ drivers/media/i2c/adv7180.c                   |   4 +-
+ drivers/media/i2c/adv748x/adv748x-afe.c       |   6 +-
+ drivers/media/i2c/adv748x/adv748x-csi2.c      |   2 +-
+ drivers/media/i2c/adv748x/adv748x-hdmi.c      |   6 +-
+ drivers/media/i2c/adv7511-v4l2.c              |   4 +-
+ drivers/media/i2c/adv7604.c                   |   4 +-
+ drivers/media/i2c/adv7842.c                   |   4 +-
+ drivers/media/i2c/ar0521.c                    |   5 +-
+ drivers/media/i2c/ccs/ccs-core.c              |  21 ++--
+ drivers/media/i2c/et8ek8/et8ek8_driver.c      |   3 +-
+ drivers/media/i2c/hi556.c                     |  12 +-
+ drivers/media/i2c/hi846.c                     |  11 +-
+ drivers/media/i2c/hi847.c                     |   8 +-
+ drivers/media/i2c/imx208.c                    |   8 +-
+ drivers/media/i2c/imx214.c                    |   4 +-
+ drivers/media/i2c/imx219.c                    |  12 +-
+ drivers/media/i2c/imx258.c                    |   8 +-
+ drivers/media/i2c/imx290.c                    |   8 +-
+ drivers/media/i2c/imx296.c                    |  18 +--
+ drivers/media/i2c/imx319.c                    |   7 +-
+ drivers/media/i2c/imx334.c                    |   4 +-
+ drivers/media/i2c/imx335.c                    |   4 +-
+ drivers/media/i2c/imx355.c                    |   7 +-
+ drivers/media/i2c/imx412.c                    |   4 +-
+ drivers/media/i2c/imx415.c                    |   6 +-
+ drivers/media/i2c/isl7998x.c                  |   6 +-
+ drivers/media/i2c/max9286.c                   |   4 +-
+ drivers/media/i2c/mt9m001.c                   |   4 +-
+ drivers/media/i2c/mt9m111.c                   |   4 +-
+ drivers/media/i2c/mt9m114.c                   |  58 +++++-----
+ drivers/media/i2c/mt9p031.c                   |   6 +-
+ drivers/media/i2c/mt9v032.c                   |  10 +-
+ drivers/media/i2c/mt9v111.c                   |   2 +-
+ drivers/media/i2c/og01a1b.c                   |   9 +-
+ drivers/media/i2c/ov01a10.c                   |   2 +-
+ drivers/media/i2c/ov02a10.c                   |   5 +-
+ drivers/media/i2c/ov08d10.c                   |   8 +-
+ drivers/media/i2c/ov08x40.c                   |   7 +-
+ drivers/media/i2c/ov13858.c                   |  10 +-
+ drivers/media/i2c/ov13b10.c                   |  10 +-
+ drivers/media/i2c/ov2640.c                    |   4 +-
+ drivers/media/i2c/ov2659.c                    |   6 +-
+ drivers/media/i2c/ov2680.c                    |   6 +-
+ drivers/media/i2c/ov2685.c                    |   4 +-
+ drivers/media/i2c/ov2740.c                    |   4 +-
+ drivers/media/i2c/ov4689.c                    |   2 +-
+ drivers/media/i2c/ov5640.c                    |   9 +-
+ drivers/media/i2c/ov5645.c                    |   4 +-
+ drivers/media/i2c/ov5647.c                    |  12 +-
+ drivers/media/i2c/ov5648.c                    |   6 +-
+ drivers/media/i2c/ov5670.c                    |  12 +-
+ drivers/media/i2c/ov5675.c                    |   8 +-
+ drivers/media/i2c/ov5693.c                    |   4 +-
+ drivers/media/i2c/ov5695.c                    |   7 +-
+ drivers/media/i2c/ov7251.c                    |   4 +-
+ drivers/media/i2c/ov7670.c                    |   7 +-
+ drivers/media/i2c/ov7740.c                    |   7 +-
+ drivers/media/i2c/ov8856.c                    |   8 +-
+ drivers/media/i2c/ov8858.c                    |   6 +-
+ drivers/media/i2c/ov8865.c                    |   8 +-
+ drivers/media/i2c/ov9282.c                    |   6 +-
+ drivers/media/i2c/ov9650.c                    |   7 +-
+ drivers/media/i2c/ov9734.c                    |   8 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  35 +++---
+ drivers/media/i2c/s5k5baf.c                   |  30 +++--
+ drivers/media/i2c/s5k6a3.c                    |   8 +-
+ drivers/media/i2c/st-mipid02.c                |  11 +-
+ drivers/media/i2c/st-vgxy61.c                 |   5 +-
+ drivers/media/i2c/tc358746.c                  |  12 +-
+ drivers/media/i2c/tda1997x.c                  |   6 +-
+ drivers/media/i2c/tvp5150.c                   |   2 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c      |   9 +-
+ drivers/media/pci/intel/ivsc/mei_csi.c        |   4 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c  |   4 +-
+ drivers/media/platform/cadence/cdns-csi2tx.c  |   3 +-
+ .../platform/microchip/microchip-csi2dc.c     |  15 ++-
+ .../platform/microchip/microchip-isc-scaler.c |  17 +--
+ drivers/media/platform/nxp/imx-mipi-csis.c    |  10 +-
+ drivers/media/platform/nxp/imx7-media-csi.c   |  15 ++-
+ .../platform/nxp/imx8-isi/imx8-isi-pipe.c     |  18 +--
+ .../platform/nxp/imx8-isi/imx8-isi-video.c    |   2 +-
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c |  12 +-
+ .../media/platform/qcom/camss/camss-csid.c    |   3 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |   3 +-
+ .../media/platform/qcom/camss/camss-ispif.c   |   3 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c |   9 +-
+ drivers/media/platform/renesas/rcar-isp.c     |   4 +-
+ .../platform/renesas/rcar-vin/rcar-csi2.c     |   4 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |   6 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-ip.c     |   6 +-
+ .../media/platform/renesas/vsp1/vsp1_brx.c    |   2 +-
+ .../media/platform/renesas/vsp1/vsp1_entity.c |   8 +-
+ .../media/platform/renesas/vsp1/vsp1_rwpf.c   |   3 +-
+ .../platform/rockchip/rkisp1/rkisp1-csi.c     |  16 ++-
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 103 ++++++++---------
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c |  53 ++++-----
+ .../samsung/exynos4-is/fimc-capture.c         |  12 +-
+ .../platform/samsung/exynos4-is/fimc-isp.c    |  23 ++--
+ .../platform/samsung/exynos4-is/fimc-lite.c   |  17 ++-
+ .../platform/samsung/exynos4-is/mipi-csis.c   |   3 +-
+ .../samsung/s3c-camif/camif-capture.c         |   8 +-
+ .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |   8 +-
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |   7 +-
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   |   7 +-
+ .../sun8i_a83t_mipi_csi2.c                    |   7 +-
+ drivers/media/platform/ti/cal/cal-camerarx.c  |  13 +--
+ drivers/media/platform/ti/cal/cal-video.c     |   2 +-
+ drivers/media/platform/ti/omap3isp/ispccdc.c  |   6 +-
+ drivers/media/platform/ti/omap3isp/ispccp2.c  |   3 +-
+ drivers/media/platform/ti/omap3isp/ispcsi2.c  |   3 +-
+ .../media/platform/ti/omap3isp/isppreview.c   |   6 +-
+ .../media/platform/ti/omap3isp/ispresizer.c   |   5 +-
+ drivers/media/platform/video-mux.c            |  18 +--
+ .../media/platform/xilinx/xilinx-csi2rxss.c   |   5 +-
+ drivers/media/platform/xilinx/xilinx-tpg.c    |   9 +-
+ drivers/media/platform/xilinx/xilinx-vip.c    |   4 +-
+ .../media/test-drivers/vimc/vimc-debayer.c    |  10 +-
+ drivers/media/test-drivers/vimc/vimc-scaler.c |   9 +-
+ drivers/media/test-drivers/vimc/vimc-sensor.c |   6 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         |  73 ++++++++----
+ .../media/atomisp/i2c/atomisp-gc0310.c        |   2 +-
+ .../staging/media/atomisp/pci/atomisp_csi2.c  |   3 +-
+ .../media/atomisp/pci/atomisp_subdev.c        |   6 +-
+ drivers/staging/media/imx/imx-ic-prp.c        |   2 +-
+ drivers/staging/media/imx/imx-ic-prpencvf.c   |   2 +-
+ drivers/staging/media/imx/imx-media-csi.c     |   8 +-
+ drivers/staging/media/imx/imx-media-utils.c   |   2 +-
+ drivers/staging/media/imx/imx-media-vdic.c    |   2 +-
+ drivers/staging/media/imx/imx6-mipi-csi2.c    |   2 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c        |  14 +--
+ drivers/staging/media/omap4iss/iss_csi2.c     |   3 +-
+ drivers/staging/media/omap4iss/iss_ipipe.c    |   3 +-
+ drivers/staging/media/omap4iss/iss_ipipeif.c  |   3 +-
+ drivers/staging/media/omap4iss/iss_resizer.c  |   3 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    |   7 +-
+ include/media/v4l2-subdev.h                   | 107 +++---------------
+ 136 files changed, 597 insertions(+), 751 deletions(-)
 
-I don't know about in-sensor race conditions, for example on WRITE to
-the chip, when the ACK it interrupted by the timeout (this can be
-detected by the CPU, but not reliably, depending on actual timings).
+-- 
+2.39.2
 
-OTOH with my "always use atomic xfers with these sensors" hack to the
-i.MX I2C driver, it seems to work correctly (at least as far as I2C is
-concerned).
-
-I wonder if we could/should add some special handling of these sensors
-in the mainline kernel. local_irq_save() and the atomic path do the
-trick, but it would have to be done in all I2C drivers (or at least in
-ones used with these sensors). If no other devices need such treatment,
-well... Everyone can (possibly) use a non-official hack.
-
-Thanks for your input,
---=20
-Krzysztof "Chris" Ha=C5=82asa
-
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
