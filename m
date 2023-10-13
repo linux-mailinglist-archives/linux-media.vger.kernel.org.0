@@ -2,30 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 825537C83E4
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 13:01:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C9B87C83DE
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 13:01:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230039AbjJMLBT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 07:01:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49894 "EHLO
+        id S229947AbjJMLBR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 07:01:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229839AbjJMLBQ (ORCPT
+        with ESMTP id S229688AbjJMLBP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 07:01:16 -0400
+        Fri, 13 Oct 2023 07:01:15 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1293BF
-        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 04:01:14 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D103BBD
+        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 04:01:13 -0700 (PDT)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
         by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <m.tretter@pengutronix.de>)
-        id 1qrFuU-0006xJ-8e; Fri, 13 Oct 2023 13:00:50 +0200
+        id 1qrFuU-0006xJ-AV; Fri, 13 Oct 2023 13:00:50 +0200
 From:   Michael Tretter <m.tretter@pengutronix.de>
-Date:   Fri, 13 Oct 2023 13:00:27 +0200
-Subject: [PATCH v2 06/13] media: rockchip: rga: set dma mask to 32 bits
+Date:   Fri, 13 Oct 2023 13:00:28 +0200
+Subject: [PATCH v2 07/13] media: rockchip: rga: use clamp() to clamp size
+ to limits
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230914-rockchip-rga-multiplanar-v2-6-bbfa6abf8bbf@pengutronix.de>
+Message-Id: <20230914-rockchip-rga-multiplanar-v2-7-bbfa6abf8bbf@pengutronix.de>
 References: <20230914-rockchip-rga-multiplanar-v2-0-bbfa6abf8bbf@pengutronix.de>
 In-Reply-To: <20230914-rockchip-rga-multiplanar-v2-0-bbfa6abf8bbf@pengutronix.de>
 To:     Jacob Chen <jacob-chen@iotwrt.com>,
@@ -54,54 +55,40 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The RGA DMA descriptor list contains only 32-bit addresses. Set the
-dma_mask to only allocate memory that is addressable by the descriptors.
-
-This prevents errors when preparing vb2 buffers that were allocated by
-the RGA.
+The try_fmt should limit the width and height to the know limits of the
+RGA. Use the clamp() helper instead of open coding the clamping.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
-Changes in v2:
-- Add mask for DMA coherent
-- Set gfp_flags to DMA32
+Changes in v2: None
 ---
- drivers/media/platform/rockchip/rga/rga.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ drivers/media/platform/rockchip/rga/rga.c | 13 ++++---------
+ 1 file changed, 4 insertions(+), 9 deletions(-)
 
 diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-index f18fccc7b204..ea566c11734a 100644
+index ea566c11734a..792084918798 100644
 --- a/drivers/media/platform/rockchip/rga/rga.c
 +++ b/drivers/media/platform/rockchip/rga/rga.c
-@@ -98,6 +98,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
- 	src_vq->drv_priv = ctx;
- 	src_vq->ops = &rga_qops;
- 	src_vq->mem_ops = &vb2_dma_sg_memops;
-+	dst_vq->gfp_flags = __GFP_DMA32;
- 	src_vq->buf_struct_size = sizeof(struct rga_vb_buffer);
- 	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	src_vq->lock = &ctx->rga->mutex;
-@@ -112,6 +113,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
- 	dst_vq->drv_priv = ctx;
- 	dst_vq->ops = &rga_qops;
- 	dst_vq->mem_ops = &vb2_dma_sg_memops;
-+	dst_vq->gfp_flags = __GFP_DMA32;
- 	dst_vq->buf_struct_size = sizeof(struct rga_vb_buffer);
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = &ctx->rga->mutex;
-@@ -824,6 +826,12 @@ static int rga_probe(struct platform_device *pdev)
- 		goto err_put_clk;
- 	}
+@@ -482,15 +482,10 @@ static int vidioc_try_fmt(struct file *file, void *prv, struct v4l2_format *f)
  
-+	ret = dma_set_mask_and_coherent(rga->dev, DMA_BIT_MASK(32));
-+	if (ret) {
-+		dev_err(rga->dev, "32-bit DMA not supported");
-+		goto err_put_clk;
-+	}
-+
- 	ret = v4l2_device_register(&pdev->dev, &rga->v4l2_dev);
- 	if (ret)
- 		goto err_put_clk;
+ 	f->fmt.pix.field = V4L2_FIELD_NONE;
+ 
+-	if (f->fmt.pix.width > MAX_WIDTH)
+-		f->fmt.pix.width = MAX_WIDTH;
+-	if (f->fmt.pix.height > MAX_HEIGHT)
+-		f->fmt.pix.height = MAX_HEIGHT;
+-
+-	if (f->fmt.pix.width < MIN_WIDTH)
+-		f->fmt.pix.width = MIN_WIDTH;
+-	if (f->fmt.pix.height < MIN_HEIGHT)
+-		f->fmt.pix.height = MIN_HEIGHT;
++	f->fmt.pix.width = clamp(f->fmt.pix.width,
++				 (u32)MIN_WIDTH, (u32)MAX_WIDTH);
++	f->fmt.pix.height = clamp(f->fmt.pix.height,
++				  (u32)MIN_HEIGHT, (u32)MAX_HEIGHT);
+ 
+ 	if (fmt->hw_format >= RGA_COLOR_FMT_YUV422SP)
+ 		f->fmt.pix.bytesperline = f->fmt.pix.width;
 
 -- 
 2.39.2
