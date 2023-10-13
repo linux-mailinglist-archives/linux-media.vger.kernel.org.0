@@ -2,97 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F5987C7D6C
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:06:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEC117C7DD3
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:46:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229688AbjJMGF6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 02:05:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60514 "EHLO
+        id S229726AbjJMGqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 02:46:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43226 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229487AbjJMGF5 (ORCPT
+        with ESMTP id S229688AbjJMGqO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 02:05:57 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC96ABE
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:05:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697177156; x=1728713156;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=LpKmAAifIH6NmZmVZw/ZcDEEoQJEtLWGmfvCAgYq6ek=;
-  b=mW6hzMPDLqxQhsl25tWhYMsfKQkZkQRARSe2V7lfMcnlwpgq6FDqzVox
-   MYIS5/oHmLwh161rANFjCp3MDHvpEbGJQv2FE2e7A9EjOhP7+OPzp20eX
-   Q8dtag0IlK32EuP9bRfMjx7h4qr1fvpiHzqNULWW0CUAnM5+3Ts5Z11Dn
-   scQPHbseAzUk8+JzatTniLGqyQCO54xUSTUGDYwKFRTpuuMZqLdSMkUNk
-   s16tCrj1w+AfxSSTvPZqjVRf3vM2eMn9gAAHjHHxQG3nBgpc2vm2tGnjg
-   j8K/woU6sIbgB1X6aQwspDPs0bN1pPlQBFwyCUTiT4NccgfWzETFWi9rB
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="6670408"
-X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="6670408"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 23:05:56 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="824907400"
-X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="824907400"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2023 23:05:53 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id E94BB120A2E;
-        Fri, 13 Oct 2023 09:05:50 +0300 (EEST)
-Date:   Fri, 13 Oct 2023 06:05:50 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-        Andrey Konovalov <andrey.konovalov@linaro.org>,
-        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Dmitry Perchanov <dmitry.perchanov@intel.com>,
-        "Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: Re: [PATCH v6 12/28] media: v4l: subdev: Add helpers for format,
- crop and compose pointers
-Message-ID: <ZSjePuWl+ellnNVc@kekkonen.localdomain>
-References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
- <20231003120813.77726-3-sakari.ailus@linux.intel.com>
- <8e843fa6-ac89-9c53-2a69-55e2bb82d928@ideasonboard.com>
+        Fri, 13 Oct 2023 02:46:14 -0400
+Received: from mail-wr1-x432.google.com (mail-wr1-x432.google.com [IPv6:2a00:1450:4864:20::432])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37143BD
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:46:12 -0700 (PDT)
+Received: by mail-wr1-x432.google.com with SMTP id ffacd0b85a97d-3231dff4343so1097833f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:46:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697179570; x=1697784370; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=VfuCZ1aZoqluUffIFaghB+5m1laq1jm/KJJ3FY8NzhI=;
+        b=sl+/Z2Wz0INFGfX+TEbfE5C/+KkSvjLg5yN21Jis6BXaHmiLq07QplkPfh0uMuROAr
+         qHoY6B498QlnNpK69ID94DqBlgSzEa28rkHyLSo75jSVps7GSoULOTS3PMm0nlbPOrWY
+         LGQRLtQt4WD1lb/64QhR0fJj6xq7LQm/q4prWRGUgmr4UbJzPuHpZ5Eo8o8LtwJDR/VT
+         kr3ykBLXKeMVaIUhEvqj3jN2YYCCLFkWIi5ZS2zTGEFmH46yChKfSrsIqE7tMvLQ1/Bi
+         UTQCJbMuzsRahQlW9jiK4ZBJOxg4mWS+H61HIVdQq5++oixfkLBihmXzq0RCH+RP0XtI
+         94Mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697179570; x=1697784370;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VfuCZ1aZoqluUffIFaghB+5m1laq1jm/KJJ3FY8NzhI=;
+        b=DbVoOFoDJLXeFAUV1UBrGIAT0EgY+93/CeIVNhbQU1SXeW/882HTdyfa0YK13hMj7O
+         qoMzWj0rj3qt4/2BUX+khHq3+HRPf0REw2gN5674lgA++n3AUbbH0a9YESDg8DqSD7HH
+         o9QaU5PZS6WFoFc6OmZJycmImq2bYPMiNAWr7c7MS/I7dpuUkMny359XR8AvUCZ7u1em
+         qxl3KxkimGqtsQ4D3pjSDzk56J6mJLA4cu9UhCkF/mCfWm6JR9ZUgiQXWTKVlwlOgu+M
+         ryuFuolt5GjZOxLBXhe7k+B0CApz6+4zQgl589iQ02eOCwUiqXak3or+Junk03LOKXza
+         +7iA==
+X-Gm-Message-State: AOJu0YxhwnODXo0K3UV74aYtfBUhL3zI2pdUUev9oBREaRMCVovI4w4e
+        pdiLBiJ+OKOKW46HVuoWYpzfdg==
+X-Google-Smtp-Source: AGHT+IERgsLgQ3Jk7JTMsv5Fzp2ccPiuC/UAkG2yPXHZxR4WbChOgg4cZSXJ7MFTS+paUXgbuQ5bXw==
+X-Received: by 2002:a5d:5c07:0:b0:31f:d50e:a14f with SMTP id cc7-20020a5d5c07000000b0031fd50ea14fmr26160325wrb.10.1697179570612;
+        Thu, 12 Oct 2023 23:46:10 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.100])
+        by smtp.gmail.com with ESMTPSA id n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.46.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Oct 2023 23:46:09 -0700 (PDT)
+Message-ID: <0e972a0a-af27-4837-a80c-cbab0002d368@linaro.org>
+Date:   Fri, 13 Oct 2023 08:46:07 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8e843fa6-ac89-9c53-2a69-55e2bb82d928@ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 02/16] dt-bindings: media: mediatek: mdp3: merge the
+ indentical RDMA under display
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     dri-devel@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20231012084037.19376-1-moudy.ho@mediatek.com>
+ <20231012084037.19376-3-moudy.ho@mediatek.com>
+Content-Language: en-US
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231012084037.19376-3-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Moi,
+On 12/10/2023 10:40, Moudy Ho wrote:
 
-On Thu, Oct 05, 2023 at 04:12:00PM +0300, Tomi Valkeinen wrote:
-> On 03/10/2023 15:07, Sakari Ailus wrote:
-> > Add a helper for obtaining format, crop and compose pointers. These are
-> > convenient for drivers, independently of the driver uses streams or not.
-> 
-> If we go with these, should we deprecate
-> v4l2_subdev_state_get_stream_format() and v4l2_subdev_get_pad_format()?
-> 
-> Having three different ways to get the fmt seems a bit excessive.
-> 
-> Should we add 'num_pads' to the state? That would remove the need pass the
-> subdevice to these functions.
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8183-mdp3-rdma
+> +
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: RDMA clock
+> +            - description: RSZ clock (shared SRAM with RDMA)
+> +
+> +        mboxes:
+> +          items:
+> +            - description: used for 1st data pipe from RDMA
+> +            - description: used for 2nd data pipe from RDMA
 
-Good question. This would make it easier to refactor the code later,
-drivers would still need to begin calling v4l2_subdev_init_finalize(). But
-it's one step forward I think.
+interrupts:
+  false
 
-I'll add this earlier in the set.
+> +
+> +      required:
+> +        - mboxes
+> +        - mediatek,gce-events
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8195-vdo1-rdma
+> +
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: RDMA clock
 
--- 
-Terveisin,
+mboxes: false
+mediatek,gce-events: false
 
-Sakari Ailus
+I am not so sure it is actually "simpler" to merge these. They are quite
+different. You will end up with unmanageable allOf  with a lot of
+branches (which supposedly you want to remove).
+
+
+> +
+>  additionalProperties: false
+>  
+>  examples:
+
+Best regards,
+Krzysztof
+
