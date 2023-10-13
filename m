@@ -2,30 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 537827C83E0
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 13:01:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36E2A7C83E6
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 13:01:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230299AbjJMLB2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 07:01:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49956 "EHLO
+        id S230041AbjJMLBb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 07:01:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229839AbjJMLBT (ORCPT
+        with ESMTP id S230103AbjJMLBT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 13 Oct 2023 07:01:19 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8630AB7
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAF1EBD
         for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 04:01:17 -0700 (PDT)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
         by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <m.tretter@pengutronix.de>)
-        id 1qrFuU-0006xJ-ID; Fri, 13 Oct 2023 13:00:50 +0200
+        id 1qrFuU-0006xJ-KE; Fri, 13 Oct 2023 13:00:50 +0200
 From:   Michael Tretter <m.tretter@pengutronix.de>
-Date:   Fri, 13 Oct 2023 13:00:32 +0200
-Subject: [PATCH v2 11/13] media: rockchip: rga: switch to multi-planar API
+Date:   Fri, 13 Oct 2023 13:00:33 +0200
+Subject: [PATCH v2 12/13] media: rockchip: rga: rework buffer handling for
+ multi-planar formats
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230914-rockchip-rga-multiplanar-v2-11-bbfa6abf8bbf@pengutronix.de>
+Message-Id: <20230914-rockchip-rga-multiplanar-v2-12-bbfa6abf8bbf@pengutronix.de>
 References: <20230914-rockchip-rga-multiplanar-v2-0-bbfa6abf8bbf@pengutronix.de>
 In-Reply-To: <20230914-rockchip-rga-multiplanar-v2-0-bbfa6abf8bbf@pengutronix.de>
 To:     Jacob Chen <jacob-chen@iotwrt.com>,
@@ -54,172 +55,173 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Switch to the multi-planar API, which allows to handle buffers with
-separate planes.
+Multi-planar formats may have multiple planes that must be handled and
+correctly mapped into a continuous buffer for the RGA by using the DMA
+descriptors.
 
-The RGA driver doesn't expose multi-planar formats, yet. The existing
-contiguous planar formats can be used with the multi-planar API as well,
-but the multi-planar API is required for multi-planar formats.
+The plane offsets in the continuous mapping may now start at page
+boundaries and the previous calculation based on the frame sizes is only
+valid for planar buffers in a single memory. Therefore, the offsets must
+be detected and set while creating the mapping.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
-Changes in v2: None
+Changes in v2:
+- Add size check for descriptor table when mapping video buffer
 ---
- drivers/media/platform/rockchip/rga/rga.c | 60 +++++++++++++++----------------
- 1 file changed, 29 insertions(+), 31 deletions(-)
+ drivers/media/platform/rockchip/rga/rga-buf.c | 61 ++++++++++++++++++++++-----
+ drivers/media/platform/rockchip/rga/rga.c     |  7 +++
+ drivers/media/platform/rockchip/rga/rga.h     |  1 +
+ 3 files changed, 58 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-index 91be87e01dab..f549966c3649 100644
---- a/drivers/media/platform/rockchip/rga/rga.c
-+++ b/drivers/media/platform/rockchip/rga/rga.c
-@@ -93,7 +93,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
- 	struct rga_ctx *ctx = priv;
- 	int ret;
+diff --git a/drivers/media/platform/rockchip/rga/rga-buf.c b/drivers/media/platform/rockchip/rga/rga-buf.c
+index d6774a844d9b..662c81b6d0b5 100644
+--- a/drivers/media/platform/rockchip/rga/rga-buf.c
++++ b/drivers/media/platform/rockchip/rga/rga-buf.c
+@@ -7,6 +7,7 @@
+ #include <linux/pm_runtime.h>
+ #include <linux/scatterlist.h>
  
--	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-+	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
- 	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
- 	src_vq->drv_priv = ctx;
- 	src_vq->ops = &rga_qops;
-@@ -108,7 +108,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
- 	if (ret)
- 		return ret;
++#include <media/v4l2-common.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ioctl.h>
+ #include <media/v4l2-mem2mem.h>
+@@ -16,7 +17,8 @@
+ #include "rga-hw.h"
+ #include "rga.h"
  
--	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-+	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
- 	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
- 	dst_vq->drv_priv = ctx;
- 	dst_vq->ops = &rga_qops;
-@@ -445,7 +445,7 @@ static int vidioc_enum_fmt(struct file *file, void *prv, struct v4l2_fmtdesc *f)
- 
- static int vidioc_g_fmt(struct file *file, void *prv, struct v4l2_format *f)
+-static size_t fill_descriptors(struct rga_dma_desc *desc, struct sg_table *sgt)
++static ssize_t fill_descriptors(struct rga_dma_desc *desc, size_t max_desc,
++				struct sg_table *sgt)
  {
--	struct v4l2_pix_format *pix_fmt = &f->fmt.pix;
-+	struct v4l2_pix_format_mplane *pix_fmt = &f->fmt.pix_mp;
- 	struct rga_ctx *ctx = prv;
- 	struct vb2_queue *vq;
- 	struct rga_frame *frm;
-@@ -457,12 +457,9 @@ static int vidioc_g_fmt(struct file *file, void *prv, struct v4l2_format *f)
- 	if (IS_ERR(frm))
- 		return PTR_ERR(frm);
+ 	struct sg_dma_page_iter iter;
+ 	struct rga_dma_desc *tmp = desc;
+@@ -24,6 +26,8 @@ static size_t fill_descriptors(struct rga_dma_desc *desc, struct sg_table *sgt)
+ 	dma_addr_t addr;
  
--	pix_fmt->width = frm->width;
--	pix_fmt->height = frm->height;
-+	v4l2_fill_pixfmt_mp(pix_fmt, frm->fmt->fourcc, frm->width, frm->height);
-+
- 	pix_fmt->field = V4L2_FIELD_NONE;
--	pix_fmt->pixelformat = frm->fmt->fourcc;
--	pix_fmt->bytesperline = frm->stride;
--	pix_fmt->sizeimage = frm->size;
- 	pix_fmt->colorspace = frm->colorspace;
- 
- 	return 0;
-@@ -470,41 +467,33 @@ static int vidioc_g_fmt(struct file *file, void *prv, struct v4l2_format *f)
- 
- static int vidioc_try_fmt(struct file *file, void *prv, struct v4l2_format *f)
+ 	for_each_sgtable_dma_page(sgt, &iter, 0) {
++		if (n_desc > max_desc)
++			return -EINVAL;
+ 		addr = sg_page_iter_dma_address(&iter);
+ 		tmp->addr = lower_32_bits(addr);
+ 		tmp++;
+@@ -40,15 +44,29 @@ rga_queue_setup(struct vb2_queue *vq,
  {
--	struct v4l2_pix_format *pix_fmt = &f->fmt.pix;
-+	struct v4l2_pix_format_mplane *pix_fmt = &f->fmt.pix_mp;
- 	struct rga_fmt *fmt;
- 
--	fmt = rga_fmt_find(f->fmt.pix.pixelformat);
-+	fmt = rga_fmt_find(pix_fmt->pixelformat);
- 	if (!fmt)
- 		fmt = &formats[0];
- 
--	pix_fmt->pixelformat = fmt->fourcc;
--
--	pix_fmt->field = V4L2_FIELD_NONE;
--
- 	pix_fmt->width = clamp(pix_fmt->width,
- 			       (u32)MIN_WIDTH, (u32)MAX_WIDTH);
- 	pix_fmt->height = clamp(pix_fmt->height,
- 				(u32)MIN_HEIGHT, (u32)MAX_HEIGHT);
- 
--	if (fmt->hw_format >= RGA_COLOR_FMT_YUV422SP)
--		pix_fmt->bytesperline = pix_fmt->width;
--	else
--		pix_fmt->bytesperline = (pix_fmt->width * fmt->depth) >> 3;
--
--	pix_fmt->sizeimage =
--		pix_fmt->height * (pix_fmt->width * fmt->depth) >> 3;
-+	v4l2_fill_pixfmt_mp(pix_fmt, fmt->fourcc, pix_fmt->width, pix_fmt->height);
-+	pix_fmt->field = V4L2_FIELD_NONE;
- 
- 	return 0;
- }
- 
- static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
- {
--	struct v4l2_pix_format *pix_fmt = &f->fmt.pix;
-+	struct v4l2_pix_format_mplane *pix_fmt = &f->fmt.pix_mp;
- 	struct rga_ctx *ctx = prv;
- 	struct rockchip_rga *rga = ctx->rga;
- 	struct vb2_queue *vq;
- 	struct rga_frame *frm;
- 	int ret = 0;
+ 	struct rga_ctx *ctx = vb2_get_drv_priv(vq);
+ 	struct rga_frame *f = rga_get_frame(ctx, vq->type);
++	const struct v4l2_pix_format_mplane *pix_fmt;
 +	int i;
  
- 	/* Adjust all values accordingly to the hardware capabilities
- 	 * and chosen format.
-@@ -522,9 +511,11 @@ static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
- 		return PTR_ERR(frm);
- 	frm->width = pix_fmt->width;
- 	frm->height = pix_fmt->height;
--	frm->size = pix_fmt->sizeimage;
-+	frm->size = 0;
-+	for (i = 0; i < pix_fmt->num_planes; i++)
-+		frm->size += pix_fmt->plane_fmt[i].sizeimage;
- 	frm->fmt = rga_fmt_find(pix_fmt->pixelformat);
--	frm->stride = pix_fmt->bytesperline;
-+	frm->stride = pix_fmt->plane_fmt[0].bytesperline;
- 	frm->colorspace = pix_fmt->colorspace;
+ 	if (IS_ERR(f))
+ 		return PTR_ERR(f);
  
- 	/* Reset crop settings */
-@@ -539,6 +530,13 @@ static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
- 		  &frm->fmt->fourcc, frm->width, frm->height,
- 		  frm->stride, frm->size);
+-	if (*nplanes)
+-		return sizes[0] < f->size ? -EINVAL : 0;
++	pix_fmt = &f->pix;
  
-+	for (i = 0; i < pix_fmt->num_planes; i++) {
-+		v4l2_dbg(debug, 1, &rga->v4l2_dev,
-+			 "plane[%d]: size %d, bytesperline %d\n",
-+			 i, pix_fmt->plane_fmt[i].sizeimage,
-+			 pix_fmt->plane_fmt[i].bytesperline);
+-	sizes[0] = f->size;
+-	*nplanes = 1;
++	if (*nplanes) {
++		if (*nplanes != pix_fmt->num_planes)
++			return -EINVAL;
++
++		for (i = 0; i < pix_fmt->num_planes; i++)
++			if (sizes[i] < pix_fmt->plane_fmt[i].sizeimage)
++				return -EINVAL;
++
++		return 0;
 +	}
 +
++	*nplanes = pix_fmt->num_planes;
++
++	for (i = 0; i < pix_fmt->num_planes; i++)
++		sizes[i] = pix_fmt->plane_fmt[i].sizeimage;
+ 
  	return 0;
  }
+@@ -92,18 +110,39 @@ static int rga_buf_prepare(struct vb2_buffer *vb)
+ 	struct rga_vb_buffer *rbuf = vb_to_rga(vbuf);
+ 	struct rga_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
+ 	struct rga_frame *f = rga_get_frame(ctx, vb->vb2_queue->type);
++	ssize_t n_desc = 0;
++	size_t curr_desc = 0;
++	int i;
++	const struct v4l2_format_info *info;
++	unsigned int offsets[VIDEO_MAX_PLANES];
  
-@@ -649,14 +647,14 @@ static const struct v4l2_ioctl_ops rga_ioctl_ops = {
- 	.vidioc_querycap = vidioc_querycap,
+ 	if (IS_ERR(f))
+ 		return PTR_ERR(f);
  
- 	.vidioc_enum_fmt_vid_cap = vidioc_enum_fmt,
--	.vidioc_g_fmt_vid_cap = vidioc_g_fmt,
--	.vidioc_try_fmt_vid_cap = vidioc_try_fmt,
--	.vidioc_s_fmt_vid_cap = vidioc_s_fmt,
-+	.vidioc_g_fmt_vid_cap_mplane = vidioc_g_fmt,
-+	.vidioc_try_fmt_vid_cap_mplane = vidioc_try_fmt,
-+	.vidioc_s_fmt_vid_cap_mplane = vidioc_s_fmt,
+-	vb2_set_plane_payload(vb, 0, f->size);
++	for (i = 0; i < vb->num_planes; i++) {
++		vb2_set_plane_payload(vb, i, f->pix.plane_fmt[i].sizeimage);
++
++		/* Create local MMU table for RGA */
++		n_desc = fill_descriptors(&rbuf->dma_desc[curr_desc],
++					  rbuf->n_desc - curr_desc,
++					  vb2_dma_sg_plane_desc(vb, i));
++		if (n_desc < 0) {
++			v4l2_err(&ctx->rga->v4l2_dev,
++				 "Failed to map video buffer to RGA\n");
++			return n_desc;
++		}
++		offsets[i] = curr_desc << PAGE_SHIFT;
++		curr_desc += n_desc;
++	}
  
- 	.vidioc_enum_fmt_vid_out = vidioc_enum_fmt,
--	.vidioc_g_fmt_vid_out = vidioc_g_fmt,
--	.vidioc_try_fmt_vid_out = vidioc_try_fmt,
--	.vidioc_s_fmt_vid_out = vidioc_s_fmt,
-+	.vidioc_g_fmt_vid_out_mplane = vidioc_g_fmt,
-+	.vidioc_try_fmt_vid_out_mplane = vidioc_try_fmt,
-+	.vidioc_s_fmt_vid_out_mplane = vidioc_s_fmt,
+-	/* Create local MMU table for RGA */
+-	fill_descriptors(rbuf->dma_desc, vb2_dma_sg_plane_desc(vb, 0));
++	/* Fill the remaining planes */
++	info = v4l2_format_info(f->fmt->fourcc);
++	for (i = info->mem_planes; i < info->comp_planes; i++)
++		offsets[i] = get_plane_offset(f, i);
  
- 	.vidioc_reqbufs = v4l2_m2m_ioctl_reqbufs,
- 	.vidioc_querybuf = v4l2_m2m_ioctl_querybuf,
-@@ -683,7 +681,7 @@ static const struct video_device rga_videodev = {
- 	.minor = -1,
- 	.release = video_device_release,
- 	.vfl_dir = VFL_DIR_M2M,
--	.device_caps = V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING,
-+	.device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING,
- };
+-	rbuf->offset.y_off = get_plane_offset(f, 0);
+-	rbuf->offset.u_off = get_plane_offset(f, 1);
+-	rbuf->offset.v_off = get_plane_offset(f, 2);
++	rbuf->offset.y_off = offsets[0];
++	rbuf->offset.u_off = offsets[1];
++	rbuf->offset.v_off = offsets[2];
  
- static int rga_enable_clocks(struct rockchip_rga *rga)
+ 	return 0;
+ }
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index f549966c3649..57d845c57d7d 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -365,6 +365,11 @@ static int rga_open(struct file *file)
+ 	ctx->in = def_frame;
+ 	ctx->out = def_frame;
+ 
++	v4l2_fill_pixfmt_mp(&ctx->in.pix,
++			    ctx->in.fmt->fourcc, ctx->out.width, ctx->out.height);
++	v4l2_fill_pixfmt_mp(&ctx->out.pix,
++			    ctx->out.fmt->fourcc, ctx->out.width, ctx->out.height);
++
+ 	if (mutex_lock_interruptible(&rga->mutex)) {
+ 		kfree(ctx);
+ 		return -ERESTARTSYS;
+@@ -524,6 +529,8 @@ static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
+ 	frm->crop.width = frm->width;
+ 	frm->crop.height = frm->height;
+ 
++	frm->pix = *pix_fmt;
++
+ 	v4l2_dbg(debug, 1, &rga->v4l2_dev,
+ 		 "[%s] fmt - %p4cc %dx%d (stride %d, sizeimage %d)\n",
+ 		  V4L2_TYPE_IS_OUTPUT(f->type) ? "OUTPUT" : "CAPTURE",
+diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/platform/rockchip/rga/rga.h
+index f3953a07d9e7..3502dff6055c 100644
+--- a/drivers/media/platform/rockchip/rga/rga.h
++++ b/drivers/media/platform/rockchip/rga/rga.h
+@@ -34,6 +34,7 @@ struct rga_frame {
+ 
+ 	/* Image format */
+ 	struct rga_fmt *fmt;
++	struct v4l2_pix_format_mplane pix;
+ 
+ 	/* Variables that can calculated once and reused */
+ 	u32 stride;
 
 -- 
 2.39.2
