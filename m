@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79BDF7C8383
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 12:45:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8648D7C8386
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 12:45:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230393AbjJMKo6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S229903AbjJMKo6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 13 Oct 2023 06:44:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50814 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231172AbjJMKol (ORCPT
+        with ESMTP id S231189AbjJMKol (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 13 Oct 2023 06:44:41 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BC61FB
-        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 03:44:33 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09C3F186
+        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 03:44:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697193873; x=1728729873;
+  t=1697193874; x=1728729874;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=tFVkzDkPCOkFBGXilblK56d8aGaXmWpOo5TcYYWxBcs=;
-  b=JRDjAyyQ0T1CRcbR+DwPU+Ei9bI2i8XzLVzuPONKhcIWh7KwtZ2ArGm3
-   HIfYlEY10zUnq873jG1VPG66cKehEz6/GX6weJsIkKzUQ9cqkEh1SxiRZ
-   bUaAgkiyIvjcGZQ3os9sTXB7pMgicEM3yLNnRc4gin7PT80cY79Ku1QPU
-   JgjToACZBYyKBJeRl8857NjeYrMCqm4g8gWGmRm6ndaxSSQMk57iCU8Ny
-   qjHi6AERuKPvmhzxeXB4O9UwjeU5+GzH4v7O8Dm3OD1n8uWE0nTAdVLoM
-   IgrfwjAiKTOwFuY+W9OLJX+WPFh+M4+CyLIWz43SmLf4g9fJAP0bcNSoa
+  bh=eGJyFS7yCJdXl+dWkZsOAgAeoYvgHGD/GNIxrgE37lY=;
+  b=QsnI5ueZRUyurd3g1J4+btz1tqt4UkFwZeJaRJk2Aww+kYa1RFMNcB2N
+   rCUYEAG80vy5kiS8SUqwyARQS29AaJlq8UenSvlA8TOt3fRFSH6ckFFL0
+   jYpXVl+/kyc279eaVXeON+vu0leU7faFLi5rqTENsSiJEN69qWV37tZhV
+   6q/anqNzf8Y9guPfjiSmy5Hg/8d7udSdEIRJj2ct53VgeO3rm9Gdrkkbt
+   phf5tueAnvr4ii/yCp8n3Rxq/S56154GAgc1QI8rSoYEB8hqo2S9UnLqI
+   GBjpEpGOnOelkay+9boNW/g8jtV49GMlz5Fqi/ckr0VUsa8ll2M/lLrBZ
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="388004016"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="388004020"
 X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="388004016"
+   d="scan'208";a="388004020"
 Received: from fmsmga004.fm.intel.com ([10.253.24.48])
   by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 03:44:33 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="825016439"
+X-IronPort-AV: E=McAfee;i="6600,9927,10861"; a="825016441"
 X-IronPort-AV: E=Sophos;i="6.03,221,1694761200"; 
-   d="scan'208";a="825016439"
+   d="scan'208";a="825016441"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2023 03:44:31 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id B1F37120A92;
-        Fri, 13 Oct 2023 13:44:27 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id C6C66120AB3;
+        Fri, 13 Oct 2023 13:44:28 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
         tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
         bingbu.cao@intel.com, hongju.wang@intel.com
-Subject: [PATCH 3/6] media: v4l: subdev: Rename sub-device state information access functions
-Date:   Fri, 13 Oct 2023 13:44:21 +0300
-Message-Id: <20231013104424.404768-4-sakari.ailus@linux.intel.com>
+Subject: [PATCH 4/6] media: v4l: subdev: v4l2_subdev_get_format always returns format now
+Date:   Fri, 13 Oct 2023 13:44:22 +0300
+Message-Id: <20231013104424.404768-5-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231013104424.404768-1-sakari.ailus@linux.intel.com>
 References: <20231013104424.404768-1-sakari.ailus@linux.intel.com>
@@ -65,171 +65,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Rename the sub-devices state information access functions, removing
-"_state" and "_stream" from them. This makes them shorter and so more
-convenient to use. No other functions will be needed to access this
-information.
+Now that v4l2_subdev_get_format() always returns format, don't call
+alternative v4l2_subdev_get_pad_format() anymore.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 27 +++++++++++++-------------
- include/media/v4l2-subdev.h           | 28 ++++++++++++++-------------
- 2 files changed, 28 insertions(+), 27 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 9 +--------
+ 1 file changed, 1 insertion(+), 8 deletions(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 7d0ce8c8aab4..a522cd8096cf 100644
+index a522cd8096cf..153e9b1958d6 100644
 --- a/drivers/media/v4l2-core/v4l2-subdev.c
 +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -177,7 +177,7 @@ static int check_state(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+@@ -1580,14 +1580,7 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
  {
- 	if (sd->flags & V4L2_SUBDEV_FL_STREAMS) {
- #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
--		if (!v4l2_subdev_state_get_stream_format(state, pad, stream))
-+		if (!v4l2_subdev_get_format(state, pad, stream))
- 			return -EINVAL;
- 		return 0;
- #else
-@@ -1581,8 +1581,8 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
  	struct v4l2_mbus_framefmt *fmt;
  
- 	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
--		fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
--							  format->stream);
-+		fmt = v4l2_subdev_get_format(state, format->pad,
-+					     format->stream);
- 	else if (format->pad < sd->entity.num_pads && format->stream == 0)
- 		fmt = v4l2_subdev_get_pad_format(sd, state, format->pad);
- 	else
-@@ -1678,8 +1678,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
- EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
+-	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
+-		fmt = v4l2_subdev_get_format(state, format->pad,
+-					     format->stream);
+-	else if (format->pad < sd->entity.num_pads && format->stream == 0)
+-		fmt = v4l2_subdev_get_pad_format(sd, state, format->pad);
+-	else
+-		fmt = NULL;
+-
++	fmt = v4l2_subdev_get_format(state, format->pad, format->stream);
+ 	if (!fmt)
+ 		return -EINVAL;
  
- struct v4l2_mbus_framefmt *
--v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
--				    unsigned int pad, u32 stream)
-+v4l2_subdev_get_format(struct v4l2_subdev_state *state, unsigned int pad,
-+		       u32 stream)
- {
- 	struct v4l2_subdev_stream_configs *stream_configs;
- 	unsigned int i;
-@@ -1709,11 +1709,11 @@ v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
- 
- 	return NULL;
- }
--EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_format);
-+EXPORT_SYMBOL_GPL(v4l2_subdev_get_format);
- 
- struct v4l2_rect *
--v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
--				  unsigned int pad, u32 stream)
-+v4l2_subdev_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-+		     u32 stream)
- {
- 	struct v4l2_subdev_stream_configs *stream_configs;
- 	unsigned int i;
-@@ -1743,11 +1743,11 @@ v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
- 
- 	return NULL;
- }
--EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_crop);
-+EXPORT_SYMBOL_GPL(v4l2_subdev_get_crop);
- 
- struct v4l2_rect *
--v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
--				     unsigned int pad, u32 stream)
-+v4l2_subdev_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
-+			u32 stream)
- {
- 	struct v4l2_subdev_stream_configs *stream_configs;
- 	unsigned int i;
-@@ -1777,7 +1777,7 @@ v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
- 
- 	return NULL;
- }
--EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_compose);
-+EXPORT_SYMBOL_GPL(v4l2_subdev_get_compose);
- 
- int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
- 					  u32 pad, u32 stream, u32 *other_pad,
-@@ -1823,8 +1823,7 @@ v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
- 	if (ret)
- 		return NULL;
- 
--	return v4l2_subdev_state_get_stream_format(state, other_pad,
--						   other_stream);
-+	return v4l2_subdev_get_format(state, other_pad, other_stream);
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_opposite_stream_format);
- 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 5e5499a2fb0e..a5b819a3be1c 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1542,7 +1542,7 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
- 				     const struct v4l2_mbus_framefmt *fmt);
- 
- /**
-- * v4l2_subdev_state_get_stream_format() - Get pointer to a stream format
-+ * v4l2_subdev_get_format() - Get pointer to a stream format
-  * @state: subdevice state
-  * @pad: pad id
-  * @stream: stream id
-@@ -1550,14 +1550,15 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
-  * This returns a pointer to &struct v4l2_mbus_framefmt for the given pad +
-  * stream in the subdev state.
-  *
-- * If the state does not contain the given pad + stream, NULL is returned.
-+ * For stream-unaware drivers the format for the corresponding pad is returned.
-+ * If the pad does not exist, NULL is returned.
-  */
- struct v4l2_mbus_framefmt *
--v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
--				    unsigned int pad, u32 stream);
-+v4l2_subdev_get_format(struct v4l2_subdev_state *state, unsigned int pad,
-+		       u32 stream);
- 
- /**
-- * v4l2_subdev_state_get_stream_crop() - Get pointer to a stream crop rectangle
-+ * v4l2_subdev_get_crop() - Get pointer to a stream crop rectangle
-  * @state: subdevice state
-  * @pad: pad id
-  * @stream: stream id
-@@ -1565,15 +1566,15 @@ v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
-  * This returns a pointer to crop rectangle for the given pad + stream in the
-  * subdev state.
-  *
-- * If the state does not contain the given pad + stream, NULL is returned.
-+ * For stream-unaware drivers the crop rectangle for the corresponding pad is
-+ * returned. If the pad does not exist, NULL is returned.
-  */
- struct v4l2_rect *
--v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
--				  unsigned int pad, u32 stream);
-+v4l2_subdev_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-+		     u32 stream);
- 
- /**
-- * v4l2_subdev_state_get_stream_compose() - Get pointer to a stream compose
-- *					    rectangle
-+ * v4l2_subdev_get_compose() - Get pointer to a stream compose rectangle
-  * @state: subdevice state
-  * @pad: pad id
-  * @stream: stream id
-@@ -1581,11 +1582,12 @@ v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
-  * This returns a pointer to compose rectangle for the given pad + stream in the
-  * subdev state.
-  *
-- * If the state does not contain the given pad + stream, NULL is returned.
-+ * For stream-unaware drivers the compose rectangle for the corresponding pad is
-+ * returned. If the pad does not exist, NULL is returned.
-  */
- struct v4l2_rect *
--v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
--				     unsigned int pad, u32 stream);
-+v4l2_subdev_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
-+			u32 stream);
- 
- /**
-  * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
 -- 
 2.39.2
 
