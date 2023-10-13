@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A47F77C7DDF
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:47:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 624A27C7DF5
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:48:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229801AbjJMGr4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 02:47:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49648 "EHLO
+        id S229929AbjJMGsT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 02:48:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229726AbjJMGrz (ORCPT
+        with ESMTP id S229880AbjJMGsQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 02:47:55 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23C91B7
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:47:54 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-40651a726acso17843195e9.1
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:47:54 -0700 (PDT)
+        Fri, 13 Oct 2023 02:48:16 -0400
+Received: from mail-wm1-x332.google.com (mail-wm1-x332.google.com [IPv6:2a00:1450:4864:20::332])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2745AC0
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:48:11 -0700 (PDT)
+Received: by mail-wm1-x332.google.com with SMTP id 5b1f17b1804b1-40684f53ef3so20305995e9.3
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697179672; x=1697784472; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697179690; x=1697784490; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=xUk88pXA4HbgocOi/3GyNd+MEZIumOgfSFsnVzW7HfY=;
-        b=t4IsncehTjjw3Du/v4IhlUWehV+UpUfzKuSEnWaZVaXsR7VaqUKXlEDpDr9lIndVIS
-         E63y5LiPvtKpkZCOwNlTLSiFeV3vSrE8CTIq7oMYIQDKxq8QGOv6Y3jFsCDTNcZ+BOFf
-         Co/k0hq5t7rO3Kyxl8d+/PeJNFg4SuW3zUqP0Y+Iusbyw4m6F2xbI9bs9op3TFZoV6V4
-         GOM2lBbA0ZEAPpPBoxtkQZnfAF09Gj/tk8+Y8kphnI6LOFYOzhrf7Dht0a8FA1jCEjYJ
-         8BQLFerv2MKrPbbSORA1nlFD4y/0GN69fnQ1Ja3vsGSKmTi25gAT5k4N9LXPIDu3QqCv
-         +BbQ==
+        bh=dE5sPNJlVdxdAJaUOgccJq38ol73+4SQGHVkAzb1X1g=;
+        b=nZqqbYU9zcPYycqO1CfFusZaE3xx6raCFqTde1zwBrUTo6sXvm8nl6Ub0MLxd7ulLJ
+         /if9WT1KKcZFISZ3eQ8rcjFr3ToroVk2Bs9vdxtcoa3VlSAla81ubxzT59jnXz4v19In
+         +alqzNXz/UkU5w7pbuMFGC13mKnfpv2Lryc78OA7gp8WBa6+OmZuOh6qwWz0Z/h7FDfD
+         +nSka6OIRZbQf9RRePKDLYZEHASAPJtSog23eBB63GeYLFSWQjjGT9uE8ujTsV15r547
+         41eV4z7mRzuUrfNZaK5XcdbSLOuBaGNEX4hpLW7OKc2tEcY2IhBcZ130heYYVOfOE1n/
+         XiPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697179672; x=1697784472;
+        d=1e100.net; s=20230601; t=1697179690; x=1697784490;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xUk88pXA4HbgocOi/3GyNd+MEZIumOgfSFsnVzW7HfY=;
-        b=bcb+zTHeorv4vrkiqe97lzMQmumBioRI8Zc3B8PR6HiSyh9JwHZVOz06VzOLtI2wpW
-         TurXZPg82rDRB1U1el7PSgiwX0l5ncwPRHZjjZmSIuDOWb7jtVaPwo5y9T36kCRiu9DH
-         QB8xmJngHBQ/pMGPChP894eE4LO9wLBzzlgeDOoU2l/6cdePVSHhpc5aQraEO5Y7MIiy
-         CtdXA3iJ3lgkyRhqh2+QOPlTd+AkfspAfcKBFt0qU9w/fc3TVqM74PbIhVuTgrbYSQpr
-         ZF6qEZm4+KKTV3K/NV6TyA+kLxSmOphSJE7Cg9WjDp5S8/NTT5WYZdtAbGy4k84tfdCc
-         NP9Q==
-X-Gm-Message-State: AOJu0Yye8oRrWlF1OaUN/8HAlJ3QDTIaKALgU8vt7kjpAqFAubtyJDQx
-        860ejIXmhO9lEo3EsZAei6l6cw==
-X-Google-Smtp-Source: AGHT+IFeYGhP+sg7PVhbgM3EK7/9AfDwnxbXSEaNenfXCyTHtqUSExhxPJOqPg+/T2XC+KjSGQYFaQ==
-X-Received: by 2002:adf:ea4f:0:b0:32d:8958:c570 with SMTP id j15-20020adfea4f000000b0032d8958c570mr4870366wrn.29.1697179672591;
-        Thu, 12 Oct 2023 23:47:52 -0700 (PDT)
+        bh=dE5sPNJlVdxdAJaUOgccJq38ol73+4SQGHVkAzb1X1g=;
+        b=EuaBRU5gaLVjm1iEOJS6DFZySlhS/0jawxUqQOBQ3arVVYH0qXKfXsQe/CFNPeKCCV
+         LdC6WmxZ1mQ1A2CLQ02gtFAVZYpR97t76EH8/LhQWqy/Bss9rxtR0SYMHMGJclqcnvnH
+         mPpbzELpnnZCFtjTagIHQ0ZCfA333U20RiBrwNJ7o51JUCvEKwR6qLBjN+nr/w72/bCV
+         nrK7ymTuAmNoFVsWhKdhAQQfrhAtimrqeywzIek07epAeuET2ehyweLU46+A+Y1Sj12U
+         8UFlir7+DcrmR2tyJD/jsPjC/HqYdjj4a/EA8yZaZjN6BKi1E0//qr40lxX2BGgokn4A
+         M0DQ==
+X-Gm-Message-State: AOJu0YyOYg6G5B8IrlTcxGKKh/xLy0M7tPGBLUFYeHiTveC8yz1F8CVu
+        6EsU2Kc2PtiBv0pIc2eKtLnz5w==
+X-Google-Smtp-Source: AGHT+IEv0AtEHCE1fGbMzoA+JvtfPUy9NicLV4sqVjpMnptsodFzu3q2UMDl3x7wS9itz6dNciAVQw==
+X-Received: by 2002:adf:e947:0:b0:32d:8c57:b4f2 with SMTP id m7-20020adfe947000000b0032d8c57b4f2mr4019386wrn.37.1697179690280;
+        Thu, 12 Oct 2023 23:48:10 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.47.51
+        by smtp.gmail.com with ESMTPSA id n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.48.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 23:47:52 -0700 (PDT)
-Message-ID: <4d43cabf-c350-48c8-b1ef-cd6842d86ce6@linaro.org>
-Date:   Fri, 13 Oct 2023 08:47:50 +0200
+        Thu, 12 Oct 2023 23:48:09 -0700 (PDT)
+Message-ID: <a97a94c3-1c1d-4a6e-a637-a40d18fc37b8@linaro.org>
+Date:   Fri, 13 Oct 2023 08:48:08 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 04/16] dt-bindings: media: mediatek: mdp3: add
- compatible for MT8195 RSZ
+Subject: Re: [PATCH v7 05/16] dt-bindings: media: mediatek: mdp3: add
+ compatible for MT8195 WROT
 Content-Language: en-US
 To:     Moudy Ho <moudy.ho@mediatek.com>,
         Chun-Kuang Hu <chunkuang.hu@kernel.org>,
@@ -75,7 +75,7 @@ Cc:     dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-5-moudy.ho@mediatek.com>
+ <20231012084037.19376-6-moudy.ho@mediatek.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -121,12 +121,13 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231012084037.19376-5-moudy.ho@mediatek.com>
+In-Reply-To: <20231012084037.19376-6-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -134,10 +135,11 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 12/10/2023 10:40, Moudy Ho wrote:
-> MT8195 RSZ inherited from MT8183, add the corresponding
+> MT8195 WROT inherited from MT8183, add the corresponding
 > compatible name to it.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> ---
 
 Acked-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
