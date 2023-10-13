@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 929FD7C83EA
+	by mail.lfdr.de (Postfix) with ESMTP id 3E8BC7C83E9
 	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 13:01:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230229AbjJMLBY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 07:01:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49924 "EHLO
+        id S230088AbjJMLBT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 07:01:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229886AbjJMLBS (ORCPT
+        with ESMTP id S229988AbjJMLBR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 07:01:18 -0400
+        Fri, 13 Oct 2023 07:01:17 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7777CC0
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D62FB7
         for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 04:01:16 -0700 (PDT)
 Received: from dude05.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::54])
         by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
         (envelope-from <m.tretter@pengutronix.de>)
-        id 1qrFuU-0006xJ-EI; Fri, 13 Oct 2023 13:00:50 +0200
+        id 1qrFuU-0006xJ-GA; Fri, 13 Oct 2023 13:00:50 +0200
 From:   Michael Tretter <m.tretter@pengutronix.de>
-Date:   Fri, 13 Oct 2023 13:00:30 +0200
-Subject: [PATCH v2 09/13] media: rockchip: rga: add local variable for
- pix_format
+Date:   Fri, 13 Oct 2023 13:00:31 +0200
+Subject: [PATCH v2 10/13] media: rockchip: rga: use macros for testing
+ buffer type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20230914-rockchip-rga-multiplanar-v2-9-bbfa6abf8bbf@pengutronix.de>
+Message-Id: <20230914-rockchip-rga-multiplanar-v2-10-bbfa6abf8bbf@pengutronix.de>
 References: <20230914-rockchip-rga-multiplanar-v2-0-bbfa6abf8bbf@pengutronix.de>
 In-Reply-To: <20230914-rockchip-rga-multiplanar-v2-0-bbfa6abf8bbf@pengutronix.de>
 To:     Jacob Chen <jacob-chen@iotwrt.com>,
@@ -55,127 +55,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The local variable allows to simplify the accessed to the format and
-makes it easier to change the type of the format.
+Use the provided V4L2_TYPE_IS_{OUTPUT,CAPTURE} macros to check if the
+buffer or queue is OUTPUT or CAPTURE. The macros work also work for the
+_MPLANE buffer and queue types and make it easier to switch to the
+multi-planar API.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
 Changes in v2: None
 ---
- drivers/media/platform/rockchip/rga/rga.c | 55 ++++++++++++++++++-------------
- 1 file changed, 32 insertions(+), 23 deletions(-)
+ drivers/media/platform/rockchip/rga/rga.c | 21 +++++++++------------
+ 1 file changed, 9 insertions(+), 12 deletions(-)
 
 diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
-index 8ae68890a8f7..f5d0d87cce22 100644
+index f5d0d87cce22..91be87e01dab 100644
 --- a/drivers/media/platform/rockchip/rga/rga.c
 +++ b/drivers/media/platform/rockchip/rga/rga.c
-@@ -448,6 +448,7 @@ static int vidioc_enum_fmt(struct file *file, void *prv, struct v4l2_fmtdesc *f)
+@@ -344,14 +344,11 @@ static struct rga_frame def_frame = {
  
- static int vidioc_g_fmt(struct file *file, void *prv, struct v4l2_format *f)
+ struct rga_frame *rga_get_frame(struct rga_ctx *ctx, enum v4l2_buf_type type)
  {
-+	struct v4l2_pix_format *pix_fmt = &f->fmt.pix;
- 	struct rga_ctx *ctx = prv;
- 	struct vb2_queue *vq;
- 	struct rga_frame *frm;
-@@ -459,47 +460,49 @@ static int vidioc_g_fmt(struct file *file, void *prv, struct v4l2_format *f)
- 	if (IS_ERR(frm))
- 		return PTR_ERR(frm);
- 
--	f->fmt.pix.width = frm->width;
--	f->fmt.pix.height = frm->height;
--	f->fmt.pix.field = V4L2_FIELD_NONE;
--	f->fmt.pix.pixelformat = frm->fmt->fourcc;
--	f->fmt.pix.bytesperline = frm->stride;
--	f->fmt.pix.sizeimage = frm->size;
--	f->fmt.pix.colorspace = frm->colorspace;
-+	pix_fmt->width = frm->width;
-+	pix_fmt->height = frm->height;
-+	pix_fmt->field = V4L2_FIELD_NONE;
-+	pix_fmt->pixelformat = frm->fmt->fourcc;
-+	pix_fmt->bytesperline = frm->stride;
-+	pix_fmt->sizeimage = frm->size;
-+	pix_fmt->colorspace = frm->colorspace;
- 
- 	return 0;
+-	switch (type) {
+-	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
++	if (V4L2_TYPE_IS_OUTPUT(type))
+ 		return &ctx->in;
+-	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
++	if (V4L2_TYPE_IS_CAPTURE(type))
+ 		return &ctx->out;
+-	default:
+-		return ERR_PTR(-EINVAL);
+-	}
++	return ERR_PTR(-EINVAL);
  }
  
- static int vidioc_try_fmt(struct file *file, void *prv, struct v4l2_format *f)
- {
-+	struct v4l2_pix_format *pix_fmt = &f->fmt.pix;
- 	struct rga_fmt *fmt;
- 
- 	fmt = rga_fmt_find(f->fmt.pix.pixelformat);
- 	if (!fmt)
- 		fmt = &formats[0];
- 
--	f->fmt.pix.pixelformat = fmt->fourcc;
-+	pix_fmt->pixelformat = fmt->fourcc;
- 
--	f->fmt.pix.field = V4L2_FIELD_NONE;
-+	pix_fmt->field = V4L2_FIELD_NONE;
- 
--	f->fmt.pix.width = clamp(f->fmt.pix.width,
--				 (u32)MIN_WIDTH, (u32)MAX_WIDTH);
--	f->fmt.pix.height = clamp(f->fmt.pix.height,
--				  (u32)MIN_HEIGHT, (u32)MAX_HEIGHT);
-+	pix_fmt->width = clamp(pix_fmt->width,
-+			       (u32)MIN_WIDTH, (u32)MAX_WIDTH);
-+	pix_fmt->height = clamp(pix_fmt->height,
-+				(u32)MIN_HEIGHT, (u32)MAX_HEIGHT);
- 
- 	if (fmt->hw_format >= RGA_COLOR_FMT_YUV422SP)
--		f->fmt.pix.bytesperline = f->fmt.pix.width;
-+		pix_fmt->bytesperline = pix_fmt->width;
- 	else
--		f->fmt.pix.bytesperline = (f->fmt.pix.width * fmt->depth) >> 3;
-+		pix_fmt->bytesperline = (pix_fmt->width * fmt->depth) >> 3;
- 
--	f->fmt.pix.sizeimage =
--		f->fmt.pix.height * (f->fmt.pix.width * fmt->depth) >> 3;
-+	pix_fmt->sizeimage =
-+		pix_fmt->height * (pix_fmt->width * fmt->depth) >> 3;
- 
- 	return 0;
- }
- 
- static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
- {
-+	struct v4l2_pix_format *pix_fmt = &f->fmt.pix;
- 	struct rga_ctx *ctx = prv;
- 	struct rockchip_rga *rga = ctx->rga;
- 	struct vb2_queue *vq;
-@@ -520,12 +523,12 @@ static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
- 	frm = rga_get_frame(ctx, f->type);
- 	if (IS_ERR(frm))
- 		return PTR_ERR(frm);
--	frm->width = f->fmt.pix.width;
--	frm->height = f->fmt.pix.height;
--	frm->size = f->fmt.pix.sizeimage;
--	frm->fmt = rga_fmt_find(f->fmt.pix.pixelformat);
--	frm->stride = f->fmt.pix.bytesperline;
--	frm->colorspace = f->fmt.pix.colorspace;
-+	frm->width = pix_fmt->width;
-+	frm->height = pix_fmt->height;
-+	frm->size = pix_fmt->sizeimage;
-+	frm->fmt = rga_fmt_find(pix_fmt->pixelformat);
-+	frm->stride = pix_fmt->bytesperline;
-+	frm->colorspace = pix_fmt->colorspace;
- 
- 	/* Reset crop settings */
- 	frm->crop.left = 0;
-@@ -533,6 +536,12 @@ static int vidioc_s_fmt(struct file *file, void *prv, struct v4l2_format *f)
- 	frm->crop.width = frm->width;
- 	frm->crop.height = frm->height;
- 
-+	v4l2_dbg(debug, 1, &rga->v4l2_dev,
-+		 "[%s] fmt - %p4cc %dx%d (stride %d, sizeimage %d)\n",
-+		  V4L2_TYPE_IS_OUTPUT(f->type) ? "OUTPUT" : "CAPTURE",
-+		  &frm->fmt->fourcc, frm->width, frm->height,
-+		  frm->stride, frm->size);
-+
- 	return 0;
- }
- 
+ static int rga_open(struct file *file)
+@@ -559,21 +556,21 @@ static int vidioc_g_selection(struct file *file, void *prv,
+ 	switch (s->target) {
+ 	case V4L2_SEL_TGT_COMPOSE_DEFAULT:
+ 	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
+-		if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		if (!V4L2_TYPE_IS_CAPTURE(s->type))
+ 			return -EINVAL;
+ 		break;
+ 	case V4L2_SEL_TGT_CROP_DEFAULT:
+ 	case V4L2_SEL_TGT_CROP_BOUNDS:
+-		if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
++		if (!V4L2_TYPE_IS_OUTPUT(s->type))
+ 			return -EINVAL;
+ 		break;
+ 	case V4L2_SEL_TGT_COMPOSE:
+-		if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		if (!V4L2_TYPE_IS_CAPTURE(s->type))
+ 			return -EINVAL;
+ 		use_frame = true;
+ 		break;
+ 	case V4L2_SEL_TGT_CROP:
+-		if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
++		if (!V4L2_TYPE_IS_OUTPUT(s->type))
+ 			return -EINVAL;
+ 		use_frame = true;
+ 		break;
+@@ -611,7 +608,7 @@ static int vidioc_s_selection(struct file *file, void *prv,
+ 		 * COMPOSE target is only valid for capture buffer type, return
+ 		 * error for output buffer type
+ 		 */
+-		if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
++		if (!V4L2_TYPE_IS_CAPTURE(s->type))
+ 			return -EINVAL;
+ 		break;
+ 	case V4L2_SEL_TGT_CROP:
+@@ -619,7 +616,7 @@ static int vidioc_s_selection(struct file *file, void *prv,
+ 		 * CROP target is only valid for output buffer type, return
+ 		 * error for capture buffer type
+ 		 */
+-		if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
++		if (!V4L2_TYPE_IS_OUTPUT(s->type))
+ 			return -EINVAL;
+ 		break;
+ 	/*
 
 -- 
 2.39.2
