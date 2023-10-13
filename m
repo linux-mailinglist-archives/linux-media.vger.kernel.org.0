@@ -2,229 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F266E7C83FE
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 13:04:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F9F67C8400
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 13:05:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229743AbjJMLEh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 07:04:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59902 "EHLO
+        id S229947AbjJMLFI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 07:05:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38080 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229721AbjJMLEg (ORCPT
+        with ESMTP id S229721AbjJMLFH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 07:04:36 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 93766BD
-        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 04:04:34 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49B14480;
-        Fri, 13 Oct 2023 13:04:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1697195069;
-        bh=wYrfjimePrNiv3EN9MaGDKAnw42Gt3KOHj7Ixkwo4Nc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gaVssAC4NS4ceVph5fC7sNTyVIeYPj1JaQvukpkgRh1sF68Gcy6MFO/XuHCHrr39v
-         xul2giR2IwCMr8is/Kg2FxMzSVMWykHDs34vfpQJrRnETrWrYa7jHeNiPG5P1n1dLe
-         Jb/XBN8cHbsaWC+uDsnHwdhGyowaQL8Dk3pNltDs=
-Date:   Fri, 13 Oct 2023 14:04:39 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com
-Subject: Re: [PATCH 3/6] media: v4l: subdev: Rename sub-device state
- information access functions
-Message-ID: <20231013110439.GB11101@pendragon.ideasonboard.com>
-References: <20231013104424.404768-1-sakari.ailus@linux.intel.com>
- <20231013104424.404768-4-sakari.ailus@linux.intel.com>
+        Fri, 13 Oct 2023 07:05:07 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3E3591;
+        Fri, 13 Oct 2023 04:05:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net; s=s31663417;
+ t=1697195089; x=1697799889; i=wahrenst@gmx.net;
+ bh=BGxj+BwMX9nFZ+QPVqdfKu6nxPXMvN1ZFDE1ETwj/UU=;
+ h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:In-Reply-To;
+ b=mGNc8fGN5CFeBrf3cMJZzlYQTA4Pi2mSo0gw/iPmCtfXr13qfASRS4IcyOxuNakIa5kV4RVK0Mp
+ G0e1h5eMPzqnZijHg3SpSNI+R+YVeHL91NiR75L8J+KxwdLSVVfO4Mj11g/BlNV4/kHxhAyFjrLYq
+ 2ljqwHW0Xgem/klc/7OEOkS/fWrptAthLoR1A+Zepvyo4ZqGpMgFhwJUoU2l2nwNjYa/zYDS/fGN/
+ 4dJ5qQurQ9LCfmgjyWpiyuH4X/aLppXxVIUUkIbhw5FLIU+RNPa6ExnQKvLsi4nk7ah5zMW/h1sSE
+ wqoRZXI0ADrjt59UoXIL59vQQJAATnYzqSlA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MMofW-1rA1HJ33Q4-00Imbj; Fri, 13
+ Oct 2023 13:04:49 +0200
+Message-ID: <84429d39-aa54-462d-85cd-c5d06a614a0e@gmx.net>
+Date:   Fri, 13 Oct 2023 13:04:48 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231013104424.404768-4-sakari.ailus@linux.intel.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/3] pwm: bcm2835: allow pwm driver to be used in
+ atomic context
+To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>
+Cc:     linux-pwm@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <cover.1697193646.git.sean@mess.org>
+ <6ce73b2688f059e7169935699044104cf37b2425.1697193646.git.sean@mess.org>
+Content-Language: en-US
+From:   Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <6ce73b2688f059e7169935699044104cf37b2425.1697193646.git.sean@mess.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:qLjsyI169mT2Sk8ihgWYDKWaaLC2Zmt0vdXtIJHfIiv4kXkywJG
+ syJfFn2v0iHRui5dbQGZHr479RFRHmsOWrv6Qd0i4Xh08z+s+T6A9bXTQaEBb1YZEpS5sTg
+ 53qpWTB2FkzxVvcyYflc05Bx3IRo2ILYbTKUmNNIdCLNYSHg7699SOyMoJonAn/f/P16fHL
+ AVTsmZY9YBgyemHPMcxRA==
+UI-OutboundReport: notjunk:1;M01:P0:6u7BShyK3YU=;XcAGJXx8/appX345MJkquVx85SW
+ HszGBOWCfqRjahvehWV1nhDEvcrLrc1/YG/HOe71Q1Gn7dSvC569fWzY4ol4q5TQ4v+2bEERA
+ OVfPBle8rf/6tAb3gmR6Cw1rguSgRJ92QXQna4wTfWK1DkZ1Q8pclm2EZsfuWs+1biLTnMQsD
+ pP0uXKAIgLBkwGlkyzLGU9CXGCLtWl/3WNgwRjGp8rZgVNqYQMcD9Jem6YWmxjnu3QqqsvpuI
+ fccTftjU2yyVjoLg3FxMb9ZQEmjr45AJTyURsx5iJhtNgJpi/4xjw7zBmISGzHXU+EKp1I2Mm
+ TtNhPIuMrzUwkAPlhunGcKKy1Ob5NGYCY/V0m5Qj+WumyAARE4bzuCzBByI8Bj1gbinFAsX+U
+ 9fFL2iNgcvclQi24ExAul5abBK9AeIaEshHP1dxUjJhFz8o/RkRS7RpwIK4SmJw5+77OQ0Q4a
+ P7/IdEobmDlIKspP0WofOgpSHjP0JOIF6wWyzhVuUFRYk9QyhT3vqTYYGxJiWtuHmDyTzKphm
+ rHH2+cYfd2JMlI6BVjZbOeHdtyJHX/2462KpoHvFjmJTZFpHvVBWsKZdPUyJmscJ9r3lIGW9+
+ 8RiBkfQeKz4j0JPxESVe40ZIC6VTJKXQ4RzRlC+Ik9W6V4eSMOfavX1OdrAYNSSPJCWc2tcSA
+ ObIn0sBhspd8EBYzzjwsvfNMR8nLOK+CBwe6QXu2FsUtYYNaHTQlBNmWjHtlNtGAH6epFVbcg
+ oniqfApzCsdRoPvIKWaw5QmSw10Xo++iPjGP7ghVqC/9JplFKD782E+Veqe4U22S5Oq3vZwCd
+ 5OAI5TBxS/lQZF51K/GbP4zaL47UU9X786Qq/Q9vCO5eNziIWLv/j7QmnDK04PMSx/vUSOAij
+ MXuSO2GlVSvI1msf4R0BSFCAo1dtAMB+w/Gv9q+sBE3lXp6N1vVF0QpQvfvtjYbJsptGUsAhn
+ 5Ikx846gpTBCmw1JMRWcBrtygvs=
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Sean,
 
-Thank you for the patch.
+Am 13.10.23 um 12:46 schrieb Sean Young:
+> clk_get_rate() may do a mutex lock. Since the clock rate cannot change o=
+n
+> an rpi, simply fetch it once.
+does it mean you checked all possible SoCs (BCM2835, BCM2836, BCM2837,
+BCM2711, BCM2712) for this change?
 
-On Fri, Oct 13, 2023 at 01:44:21PM +0300, Sakari Ailus wrote:
-> Rename the sub-devices state information access functions, removing
-> "_state" and "_stream" from them. This makes them shorter and so more
-> convenient to use. No other functions will be needed to access this
-> information.
+Is it impossible that the real clock can never be influenced by turbo
+mode like SPI?
 
-The new names are too generic, and thus confusing. For instance,
-v4l2_subdev_get_format() is way too close to v4l2_subdev_get_fmt(). I'm
-fine dropping "_stream", but I would like to keep "_state".
-
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Best regards
+>
+> Signed-off-by: Sean Young <sean@mess.org>
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 27 +++++++++++++-------------
->  include/media/v4l2-subdev.h           | 28 ++++++++++++++-------------
->  2 files changed, 28 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 7d0ce8c8aab4..a522cd8096cf 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -177,7 +177,7 @@ static int check_state(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
->  {
->  	if (sd->flags & V4L2_SUBDEV_FL_STREAMS) {
->  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-> -		if (!v4l2_subdev_state_get_stream_format(state, pad, stream))
-> +		if (!v4l2_subdev_get_format(state, pad, stream))
->  			return -EINVAL;
->  		return 0;
->  #else
-> @@ -1581,8 +1581,8 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
->  	struct v4l2_mbus_framefmt *fmt;
->  
->  	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
-> -		fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
-> -							  format->stream);
-> +		fmt = v4l2_subdev_get_format(state, format->pad,
-> +					     format->stream);
->  	else if (format->pad < sd->entity.num_pads && format->stream == 0)
->  		fmt = v4l2_subdev_get_pad_format(sd, state, format->pad);
->  	else
-> @@ -1678,8 +1678,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
->  EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
->  
->  struct v4l2_mbus_framefmt *
-> -v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
-> -				    unsigned int pad, u32 stream)
-> +v4l2_subdev_get_format(struct v4l2_subdev_state *state, unsigned int pad,
-> +		       u32 stream)
->  {
->  	struct v4l2_subdev_stream_configs *stream_configs;
->  	unsigned int i;
-> @@ -1709,11 +1709,11 @@ v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
->  
->  	return NULL;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_format);
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_format);
->  
->  struct v4l2_rect *
-> -v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
-> -				  unsigned int pad, u32 stream)
-> +v4l2_subdev_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-> +		     u32 stream)
->  {
->  	struct v4l2_subdev_stream_configs *stream_configs;
->  	unsigned int i;
-> @@ -1743,11 +1743,11 @@ v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
->  
->  	return NULL;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_crop);
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_crop);
->  
->  struct v4l2_rect *
-> -v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
-> -				     unsigned int pad, u32 stream)
-> +v4l2_subdev_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
-> +			u32 stream)
->  {
->  	struct v4l2_subdev_stream_configs *stream_configs;
->  	unsigned int i;
-> @@ -1777,7 +1777,7 @@ v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
->  
->  	return NULL;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_compose);
-> +EXPORT_SYMBOL_GPL(v4l2_subdev_get_compose);
->  
->  int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
->  					  u32 pad, u32 stream, u32 *other_pad,
-> @@ -1823,8 +1823,7 @@ v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
->  	if (ret)
->  		return NULL;
->  
-> -	return v4l2_subdev_state_get_stream_format(state, other_pad,
-> -						   other_stream);
-> +	return v4l2_subdev_get_format(state, other_pad, other_stream);
->  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_opposite_stream_format);
->  
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 5e5499a2fb0e..a5b819a3be1c 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1542,7 +1542,7 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
->  				     const struct v4l2_mbus_framefmt *fmt);
->  
->  /**
-> - * v4l2_subdev_state_get_stream_format() - Get pointer to a stream format
-> + * v4l2_subdev_get_format() - Get pointer to a stream format
->   * @state: subdevice state
->   * @pad: pad id
->   * @stream: stream id
-> @@ -1550,14 +1550,15 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
->   * This returns a pointer to &struct v4l2_mbus_framefmt for the given pad +
->   * stream in the subdev state.
->   *
-> - * If the state does not contain the given pad + stream, NULL is returned.
-> + * For stream-unaware drivers the format for the corresponding pad is returned.
-> + * If the pad does not exist, NULL is returned.
->   */
->  struct v4l2_mbus_framefmt *
-> -v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
-> -				    unsigned int pad, u32 stream);
-> +v4l2_subdev_get_format(struct v4l2_subdev_state *state, unsigned int pad,
-> +		       u32 stream);
->  
->  /**
-> - * v4l2_subdev_state_get_stream_crop() - Get pointer to a stream crop rectangle
-> + * v4l2_subdev_get_crop() - Get pointer to a stream crop rectangle
->   * @state: subdevice state
->   * @pad: pad id
->   * @stream: stream id
-> @@ -1565,15 +1566,15 @@ v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
->   * This returns a pointer to crop rectangle for the given pad + stream in the
->   * subdev state.
->   *
-> - * If the state does not contain the given pad + stream, NULL is returned.
-> + * For stream-unaware drivers the crop rectangle for the corresponding pad is
-> + * returned. If the pad does not exist, NULL is returned.
->   */
->  struct v4l2_rect *
-> -v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
-> -				  unsigned int pad, u32 stream);
-> +v4l2_subdev_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-> +		     u32 stream);
->  
->  /**
-> - * v4l2_subdev_state_get_stream_compose() - Get pointer to a stream compose
-> - *					    rectangle
-> + * v4l2_subdev_get_compose() - Get pointer to a stream compose rectangle
->   * @state: subdevice state
->   * @pad: pad id
->   * @stream: stream id
-> @@ -1581,11 +1582,12 @@ v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
->   * This returns a pointer to compose rectangle for the given pad + stream in the
->   * subdev state.
->   *
-> - * If the state does not contain the given pad + stream, NULL is returned.
-> + * For stream-unaware drivers the compose rectangle for the corresponding pad is
-> + * returned. If the pad does not exist, NULL is returned.
->   */
->  struct v4l2_rect *
-> -v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
-> -				     unsigned int pad, u32 stream);
-> +v4l2_subdev_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
-> +			u32 stream);
->  
->  /**
->   * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
+>   drivers/pwm/pwm-bcm2835.c | 21 ++++++++++++---------
+>   1 file changed, 12 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/pwm/pwm-bcm2835.c b/drivers/pwm/pwm-bcm2835.c
+> index bdfc2a5ec0d6..59ea154dd657 100644
+> --- a/drivers/pwm/pwm-bcm2835.c
+> +++ b/drivers/pwm/pwm-bcm2835.c
+> @@ -28,6 +28,7 @@ struct bcm2835_pwm {
+>   	struct device *dev;
+>   	void __iomem *base;
+>   	struct clk *clk;
+> +	unsigned long rate;
+>   };
+>
+>   static inline struct bcm2835_pwm *to_bcm2835_pwm(struct pwm_chip *chip=
+)
+> @@ -63,17 +64,11 @@ static int bcm2835_pwm_apply(struct pwm_chip *chip, =
+struct pwm_device *pwm,
+>   {
+>
+>   	struct bcm2835_pwm *pc =3D to_bcm2835_pwm(chip);
+> -	unsigned long rate =3D clk_get_rate(pc->clk);
+>   	unsigned long long period_cycles;
+>   	u64 max_period;
+>
+>   	u32 val;
+>
+> -	if (!rate) {
+> -		dev_err(pc->dev, "failed to get clock rate\n");
+> -		return -EINVAL;
+> -	}
+> -
+>   	/*
+>   	 * period_cycles must be a 32 bit value, so period * rate / NSEC_PER_=
+SEC
+>   	 * must be <=3D U32_MAX. As U32_MAX * NSEC_PER_SEC < U64_MAX the
+> @@ -88,13 +83,13 @@ static int bcm2835_pwm_apply(struct pwm_chip *chip, =
+struct pwm_device *pwm,
+>   	 * <=3D> period < ((U32_MAX * NSEC_PER_SEC + NSEC_PER_SEC/2) / rate
+>   	 * <=3D> period <=3D ceil((U32_MAX * NSEC_PER_SEC + NSEC_PER_SEC/2) /=
+ rate) - 1
+>   	 */
+> -	max_period =3D DIV_ROUND_UP_ULL((u64)U32_MAX * NSEC_PER_SEC + NSEC_PER=
+_SEC / 2, rate) - 1;
+> +	max_period =3D DIV_ROUND_UP_ULL((u64)U32_MAX * NSEC_PER_SEC + NSEC_PER=
+_SEC / 2, pc->rate) - 1;
+>
+>   	if (state->period > max_period)
+>   		return -EINVAL;
+>
+>   	/* set period */
+> -	period_cycles =3D DIV_ROUND_CLOSEST_ULL(state->period * rate, NSEC_PER=
+_SEC);
+> +	period_cycles =3D DIV_ROUND_CLOSEST_ULL(state->period * pc->rate, NSEC=
+_PER_SEC);
+>
+>   	/* don't accept a period that is too small */
+>   	if (period_cycles < PERIOD_MIN)
+> @@ -103,7 +98,7 @@ static int bcm2835_pwm_apply(struct pwm_chip *chip, s=
+truct pwm_device *pwm,
+>   	writel(period_cycles, pc->base + PERIOD(pwm->hwpwm));
+>
+>   	/* set duty cycle */
+> -	val =3D DIV_ROUND_CLOSEST_ULL(state->duty_cycle * rate, NSEC_PER_SEC);
+> +	val =3D DIV_ROUND_CLOSEST_ULL(state->duty_cycle * pc->rate, NSEC_PER_S=
+EC);
+>   	writel(val, pc->base + DUTY(pwm->hwpwm));
+>
+>   	/* set polarity */
+> @@ -129,6 +124,7 @@ static const struct pwm_ops bcm2835_pwm_ops =3D {
+>   	.request =3D bcm2835_pwm_request,
+>   	.free =3D bcm2835_pwm_free,
+>   	.apply =3D bcm2835_pwm_apply,
+> +	.atomic =3D true,
+>   	.owner =3D THIS_MODULE,
+>   };
+>
+> @@ -156,6 +152,13 @@ static int bcm2835_pwm_probe(struct platform_device=
+ *pdev)
+>   	if (ret)
+>   		return ret;
+>
+> +	pc->rate =3D clk_get_rate(pc->clk);
+> +	if (!pc->rate) {
+> +		dev_err(pc->dev, "failed to get clock rate\n");
+> +		ret =3D -EINVAL;
+> +		goto add_fail;
+> +	}
+> +
+>   	pc->chip.dev =3D &pdev->dev;
+>   	pc->chip.ops =3D &bcm2835_pwm_ops;
+>   	pc->chip.npwm =3D 2;
 
--- 
-Regards,
-
-Laurent Pinchart
