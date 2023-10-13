@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E08C17C7E09
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:50:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 941167C7E0D
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 08:50:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229797AbjJMGui (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 02:50:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38828 "EHLO
+        id S229843AbjJMGuu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 02:50:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39012 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229657AbjJMGug (ORCPT
+        with ESMTP id S229804AbjJMGut (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 02:50:36 -0400
-Received: from mail-wm1-x32a.google.com (mail-wm1-x32a.google.com [IPv6:2a00:1450:4864:20::32a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B61DFBF
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:50:34 -0700 (PDT)
-Received: by mail-wm1-x32a.google.com with SMTP id 5b1f17b1804b1-405361bb9f7so18809175e9.2
-        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:50:34 -0700 (PDT)
+        Fri, 13 Oct 2023 02:50:49 -0400
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE04EBD
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:50:46 -0700 (PDT)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-32caaa1c493so1437738f8f.3
+        for <linux-media@vger.kernel.org>; Thu, 12 Oct 2023 23:50:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697179833; x=1697784633; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697179845; x=1697784645; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=iuH+Duh9OTii+AidIZbSqKnXyvvFbuXJTJ8yLhtzmZ0=;
-        b=oUhxI4AWCvZqTIZEDUZp5If4DMzeNhdgpAwgG9jCtJfYJRRVWGLJrpF1RI86PP58Qn
-         PHPftEgsHnj6U5jhrOXu3cBaUpjjLUK8bWVwiqsvFhHr1C1JY1dePwC6qYqIvNcS1Gei
-         PdNRrzTWIY4ECNTl41gRxpP5PbwFSSp1gYrnqLKUVBwjgI5sk5prSTnJJ99m86eyEmom
-         3/3d2BVGwAbCOSUtGr5hA5FIQ28Ty8z9WhCvwe3ei9oHvRKCTYiKUClQD84oppzw6S/S
-         rrw0aFe96MQdX8uUkPPV0GvdQycSKp8BSWhcEeiBrfdwdTdwlSOZUfJPhCvTBCZ+rjZC
-         iouQ==
+        bh=TFuRNGVhAqNTFM80/BKZUt73EVJAwdzXpQQj7uGhqRk=;
+        b=ELAByzJKLUJIY1Ijxug/QRe4lTVPyXB1LTTztDSzq0QC0kKGw4yyw4CaVGddncMQGS
+         1KcdnR9FMcpWzWMXxQUDJSWJ/9w2A1ih6mJebilmqhxkTKKLj+hJb2EsNlDGPGhxZf2N
+         ui1XquujFL8exsU9I6d+1PSF4tOJUZX6r2ySH8N0MDs9Uu3caJMkSACZZEVEV6NVU/yY
+         GjoUIncDhY/ti4CQdp6yKiJFfD1WZgJHQ7k6CawRfT7YCKIdaO/D3J7PB04WHDfnMqKE
+         RWTgQqQbhGgGbkW2v8U0rHQPdAXmq9S/pF2cEcHLIF2LMJqZMB062N2Iu/4II53YjZOf
+         FlxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697179833; x=1697784633;
+        d=1e100.net; s=20230601; t=1697179845; x=1697784645;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iuH+Duh9OTii+AidIZbSqKnXyvvFbuXJTJ8yLhtzmZ0=;
-        b=rDkoGGw0BT/WfwAZmSGc2+Kzo9GnsyefzccPbVIYDNMmHoorY/gyPq1pu51ApGzmdz
-         xBhe6enBiCdZxucBrzPgaFcqURCAIC09xMFU+nBGGxARq2lqgbvwkEbMb0d1Q8uKpoLc
-         c5IhB8j8z4vX/hPTVysaVrnVRsAwPdcekomVX4lor0DS8VpeEkHj/omZFLU/lIRMKidO
-         ZeKwKM4w1EnCc1LDNNxJMREwy7l4RHAYOgqQ01rsuABwxQ3dnsB2jXTvMj+QlXmQSqw2
-         O0CS3ydCjc6FrEZLXDW+MSSVJAgtXCBwazyRIioIUdItf0mcnWgPqyO7xUuRjs7bpk2A
-         08nQ==
-X-Gm-Message-State: AOJu0YzTBfrZyfRCvFo9r26I/hRxfGImSe8pU9W9wLlrRoxT+NvRqAaj
-        ngP00fnROqj6NZ95F9mHB2p6Lg==
-X-Google-Smtp-Source: AGHT+IEUKUhf3hQt8VEqE1hjfrEAqDWNqwWrcDRpDPhcZrcvALW9EFXuCHe0zVS2aSeQaP1xhjYFdw==
-X-Received: by 2002:a5d:4d12:0:b0:31f:f9a9:a742 with SMTP id z18-20020a5d4d12000000b0031ff9a9a742mr21230290wrt.23.1697179833228;
-        Thu, 12 Oct 2023 23:50:33 -0700 (PDT)
+        bh=TFuRNGVhAqNTFM80/BKZUt73EVJAwdzXpQQj7uGhqRk=;
+        b=xOF6xM7xzj48DTKFnoNFUOd78ZwkSc6TirrlulWE+jcUBBDAdrfRou6qReMx7xpvKW
+         QXna+btfLKPMFk3BjEFkTKjzOYr4OhHlPazlm5ZUhNMfDGBo3lTlJQF9UITAoPKB/khF
+         DQaUaaFRyPHX2vDTDEClaq+IY7ZDfC1yzBGdsq5Dslquud9Vd9hw91WfNH7md+vNKNxE
+         u7SIWNW73qpwRq+3TjvFErsjcOTV7+J02h9/WU720M7QOkj0l+txMNq09gUWWhtp9u91
+         5bWOwBRFhjBdlNEABSZq/VKhHirHcnIbTbJ0vDy6MXcT3L5b0zL4GO4nr9LBUCwDGkRu
+         dC3w==
+X-Gm-Message-State: AOJu0Yyi8uJ7c/xJmMog2F/+Run07oeLrc5IBVAjNVzMb6CR5MA9zMZc
+        Sceey+CvZ6cAWuN5nOunX228Qg==
+X-Google-Smtp-Source: AGHT+IFTCy6eETAhfFhEbJ+BV0dA/XIF/fyrtJ3VEBNbC2klFyfI/+/jCISa2D2lADTZsmzX/Xst8A==
+X-Received: by 2002:a5d:5f04:0:b0:32d:8872:aacb with SMTP id cl4-20020a5d5f04000000b0032d8872aacbmr6198531wrb.53.1697179845305;
+        Thu, 12 Oct 2023 23:50:45 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.219.100])
-        by smtp.gmail.com with ESMTPSA id n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.50.31
+        by smtp.gmail.com with ESMTPSA id n9-20020adff089000000b0031ad2f9269dsm19962518wro.40.2023.10.12.23.50.43
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 12 Oct 2023 23:50:32 -0700 (PDT)
-Message-ID: <ba6c9e65-6d46-467c-b834-a4dde332ae91@linaro.org>
-Date:   Fri, 13 Oct 2023 08:50:31 +0200
+        Thu, 12 Oct 2023 23:50:44 -0700 (PDT)
+Message-ID: <4ae958a1-fbb6-4a55-aaa7-b43de17f0463@linaro.org>
+Date:   Fri, 13 Oct 2023 08:50:43 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 09/16] dt-bindings: media: mediatek: mdp3: add
- component TCC for MT8195
+Subject: Re: [PATCH v7 10/16] dt-bindings: media: mediatek: mdp3: add
+ component TDSHP for MT8195
 Content-Language: en-US
 To:     Moudy Ho <moudy.ho@mediatek.com>,
         Chun-Kuang Hu <chunkuang.hu@kernel.org>,
@@ -75,7 +75,7 @@ Cc:     dri-devel@lists.freedesktop.org,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <20231012084037.19376-1-moudy.ho@mediatek.com>
- <20231012084037.19376-10-moudy.ho@mediatek.com>
+ <20231012084037.19376-11-moudy.ho@mediatek.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -121,12 +121,13 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231012084037.19376-10-moudy.ho@mediatek.com>
+In-Reply-To: <20231012084037.19376-11-moudy.ho@mediatek.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -134,12 +135,11 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 12/10/2023 10:40, Moudy Ho wrote:
-> Add the fundamental hardware configuration of component TCC,
+> Add the fundamental hardware configuration of component TDSHP,
 > which is controlled by MDP3 on MT8195.
 > 
 > Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 > ---
->  .../bindings/media/mediatek,mdp3-tcc.yaml     | 62 +++++++++++++++++++
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
