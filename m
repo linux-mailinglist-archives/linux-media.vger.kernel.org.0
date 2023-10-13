@@ -2,72 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33E257C8041
-	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 10:31:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C49347C8050
+	for <lists+linux-media@lfdr.de>; Fri, 13 Oct 2023 10:32:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230033AbjJMIbS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Oct 2023 04:31:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38432 "EHLO
+        id S230073AbjJMIcf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Oct 2023 04:32:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50156 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229743AbjJMIbQ (ORCPT
+        with ESMTP id S230122AbjJMIcd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Oct 2023 04:31:16 -0400
+        Fri, 13 Oct 2023 04:32:33 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FF2791
-        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 01:31:15 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 98007C433C8
-        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 08:31:14 +0000 (UTC)
-Message-ID: <8ee42f1f-e874-488e-bd26-5a17b579d66b@xs4all.nl>
-Date:   Fri, 13 Oct 2023 10:31:12 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF23CE0
+        for <linux-media@vger.kernel.org>; Fri, 13 Oct 2023 01:32:30 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08B1CC433C7;
+        Fri, 13 Oct 2023 08:32:29 +0000 (UTC)
+Message-ID: <27b00133-040f-496b-b597-85e1e42e0e9a@xs4all.nl>
+Date:   Fri, 13 Oct 2023 10:32:29 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/9] media: dvb-usb-v2: af9035: fix missing unlock
 Content-Language: en-US, nl
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: pci: cx18: if cx == NULL, then don't use it.
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
+To:     linux-media@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <cover.1696586632.git.hverkuil-cisco@xs4all.nl>
+ <cae6602b2c8789239a3d302b3ffc21f5e09d1189.1696586632.git.hverkuil-cisco@xs4all.nl>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <cae6602b2c8789239a3d302b3ffc21f5e09d1189.1696586632.git.hverkuil-cisco@xs4all.nl>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
@@ -79,32 +40,65 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the cx NULL pointer check is true, then it reports
-an error with CX18_ERR, but that uses cx. Replace it with
-pr_err.
+On 06/10/2023 12:08, Hans Verkuil wrote:
+> Instead of returning an error, goto the mutex unlock at
+> the end of the function.
+> 
+> Fixes smatch warning:
+> 
+> drivers/media/usb/dvb-usb-v2/af9035.c:467 af9035_i2c_master_xfer() warn: inconsistent returns '&d->i2c_mutex'.
+>   Locked on  : 326,387
+>   Unlocked on: 465,467
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Reported by smatch:
+Fixes: 7bf744f2de0a ("media: dvb-usb-v2: af9035: Fix null-ptr-deref in af9035_i2c_master_xfer")
 
-drivers/media/pci/cx18/cx18-mailbox.c:834 cx18_vapi() error: we previously assumed 'cx' could be null (see line 833)
+Regards,
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/pci/cx18/cx18-mailbox.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+	Hans
 
-diff --git a/drivers/media/pci/cx18/cx18-mailbox.c b/drivers/media/pci/cx18/cx18-mailbox.c
-index 3b283f3c6726..a6457c23d18c 100644
---- a/drivers/media/pci/cx18/cx18-mailbox.c
-+++ b/drivers/media/pci/cx18/cx18-mailbox.c
-@@ -831,7 +831,7 @@ int cx18_vapi(struct cx18 *cx, u32 cmd, int args, ...)
- 	int i;
-
- 	if (cx == NULL) {
--		CX18_ERR("cx == NULL (cmd=%x)\n", cmd);
-+		pr_err("cx == NULL (cmd=%x)\n", cmd);
- 		return 0;
- 	}
- 	if (args > MAX_MB_ARGUMENTS) {
--- 
-2.42.0
+> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+> ---
+>  drivers/media/usb/dvb-usb-v2/af9035.c | 13 +++++++++----
+>  1 file changed, 9 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/usb/dvb-usb-v2/af9035.c b/drivers/media/usb/dvb-usb-v2/af9035.c
+> index 33a2aa8907e6..4eb7dd4599b7 100644
+> --- a/drivers/media/usb/dvb-usb-v2/af9035.c
+> +++ b/drivers/media/usb/dvb-usb-v2/af9035.c
+> @@ -322,8 +322,10 @@ static int af9035_i2c_master_xfer(struct i2c_adapter *adap,
+>  			ret = -EOPNOTSUPP;
+>  		} else if ((msg[0].addr == state->af9033_i2c_addr[0]) ||
+>  			   (msg[0].addr == state->af9033_i2c_addr[1])) {
+> -			if (msg[0].len < 3 || msg[1].len < 1)
+> -				return -EOPNOTSUPP;
+> +			if (msg[0].len < 3 || msg[1].len < 1) {
+> +				ret = -EOPNOTSUPP;
+> +				goto unlock;
+> +			}
+>  			/* demod access via firmware interface */
+>  			u32 reg = msg[0].buf[0] << 16 | msg[0].buf[1] << 8 |
+>  					msg[0].buf[2];
+> @@ -383,8 +385,10 @@ static int af9035_i2c_master_xfer(struct i2c_adapter *adap,
+>  			ret = -EOPNOTSUPP;
+>  		} else if ((msg[0].addr == state->af9033_i2c_addr[0]) ||
+>  			   (msg[0].addr == state->af9033_i2c_addr[1])) {
+> -			if (msg[0].len < 3)
+> -				return -EOPNOTSUPP;
+> +			if (msg[0].len < 3) {
+> +				ret = -EOPNOTSUPP;
+> +				goto unlock;
+> +			}
+>  			/* demod access via firmware interface */
+>  			u32 reg = msg[0].buf[0] << 16 | msg[0].buf[1] << 8 |
+>  					msg[0].buf[2];
+> @@ -459,6 +463,7 @@ static int af9035_i2c_master_xfer(struct i2c_adapter *adap,
+>  		ret = -EOPNOTSUPP;
+>  	}
+>  
+> +unlock:
+>  	mutex_unlock(&d->i2c_mutex);
+>  
+>  	if (ret < 0)
 
