@@ -2,66 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FAEC7C937D
-	for <lists+linux-media@lfdr.de>; Sat, 14 Oct 2023 10:36:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CA2E7C938B
+	for <lists+linux-media@lfdr.de>; Sat, 14 Oct 2023 10:47:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232750AbjJNIgU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Oct 2023 04:36:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41902 "EHLO
+        id S232931AbjJNIrT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Oct 2023 04:47:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229830AbjJNIgT (ORCPT
+        with ESMTP id S231377AbjJNIrS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Oct 2023 04:36:19 -0400
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C0F2BB;
-        Sat, 14 Oct 2023 01:36:16 -0700 (PDT)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-503056c8195so3792254e87.1;
-        Sat, 14 Oct 2023 01:36:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697272574; x=1697877374; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=W9Daja05OoueSFXSKgaA2RDObCdOKO/kxeq5hi1gOh8=;
-        b=GcYdKXPK98KFaRNNlG5TEgGedPcpsDazv23fsEOg0LCwb57UwX9t5cPrQNKiEz6zhL
-         +7CnxpkhiTh5sVlu8Rll+iLXEczpcsnuncof88FhljdVgqmZdz3ZLQ4D5C+qqlEdQmmw
-         UxTRdBhFH/rJgSFxk201WC/M5NradisxXWt1mIYQnrNoqkH7ml7RbspRKdOZhc3jqAU3
-         usXjV/S80q14vx7jCMmnOzZwY7YbjsdGh/PphCcUafjCzteYgykUoUxQnQDsIRallk3b
-         wfDAxxmw+9QMAzKkBJ7yuozG52Z8CqeV0jiGDT5cVLYa0lw4Pcj/GYxAyLiInb5aMEnL
-         eqig==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697272574; x=1697877374;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=W9Daja05OoueSFXSKgaA2RDObCdOKO/kxeq5hi1gOh8=;
-        b=F+hyIyqFel0ezzfT0cn3pn55XnzgSG2TJAi0HMPfkQulGkSzW/UkedKoTJNVYtDFmx
-         dqU2HKQFqCfme1sFzR8G8S/F3tERRj1/myA+RLrcuyyyNBDFAbwWePZcZqNDT06nIEN8
-         VIznquUaQCweZp3EShX8BGe4LPxykLlRa5MZsqCaJotW7nQWKZG85Bp6FMZxwNWEnddl
-         VAQE/rl0asvC2K/S6ADwz5RjreAhspwDSfaJ5TdES4xDGxUZzbpZlZ2BLFKHgvfl+Gaj
-         /pVNZaU9h+jWRRw6T3WzquuTyQdcfLu2RrxheNZDCZM5Bg0G6SP8uRwNkX+5BQW0+BOb
-         YbMQ==
-X-Gm-Message-State: AOJu0Yw4ZQlxAYjHOb0gPEbdBZZJKYyHcwvFDgodn8d8NnTz012Qteh3
-        OPhkO0tMJ9rbohhOMrsFhUayxGROY1EJqPmB
-X-Google-Smtp-Source: AGHT+IGvLscpO9yWdAIJJ13Cw6iCySJGJ4wD4sXRZaN/KqdyAi/3XNVRnoXWFffILua0zQVXuSAVHg==
-X-Received: by 2002:a05:6512:328f:b0:503:1c07:f7f9 with SMTP id p15-20020a056512328f00b005031c07f7f9mr21864177lfe.29.1697272574265;
-        Sat, 14 Oct 2023 01:36:14 -0700 (PDT)
-Received: from HP-ENVY-Notebook.lan (81-229-94-10-no68.tbcn.telia.com. [81.229.94.10])
-        by smtp.googlemail.com with ESMTPSA id s8-20020ac25fa8000000b0050482b29ac9sm3700940lfe.212.2023.10.14.01.36.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Oct 2023 01:36:13 -0700 (PDT)
-From:   Jonathan Bergh <bergh.jonathan@gmail.com>
-To:     hdegoede@redhat.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Jonathan Bergh <bergh.jonathan@gmail.com>
-Subject: [PATCH] staging: media: atomisp: Removed duplicate comment and fixed comment format
-Date:   Sat, 14 Oct 2023 10:35:45 +0200
-Message-Id: <20231014083545.173238-1-bergh.jonathan@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Sat, 14 Oct 2023 04:47:18 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 934C3BB
+        for <linux-media@vger.kernel.org>; Sat, 14 Oct 2023 01:47:16 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qraIZ-0000cq-7e; Sat, 14 Oct 2023 10:47:03 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qraIX-001aEA-Vi; Sat, 14 Oct 2023 10:47:01 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qraIX-00G784-Ls; Sat, 14 Oct 2023 10:47:01 +0200
+Date:   Sat, 14 Oct 2023 10:47:01 +0200
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To:     Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Stefan Wahren <wahrenst@gmx.net>, linux-pwm@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/3] pwm: bcm2835: allow pwm driver to be used in
+ atomic context
+Message-ID: <20231014084701.6fuuwcu4pknm7jju@pengutronix.de>
+References: <cover.1697193646.git.sean@mess.org>
+ <6ce73b2688f059e7169935699044104cf37b2425.1697193646.git.sean@mess.org>
+ <84429d39-aa54-462d-85cd-c5d06a614a0e@gmx.net>
+ <5203415.ElGaqSPkdT@steina-w>
+ <20231013175140.dzlz4grrgngoyxbc@pengutronix.de>
+ <e3e1bca1-bffa-d97a-d4af-27a10c43c064@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="giqnk66nh3wiw3cc"
+Content-Disposition: inline
+In-Reply-To: <e3e1bca1-bffa-d97a-d4af-27a10c43c064@gmail.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -69,38 +69,69 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixed the following issues:
- * Removed a duplicate comment
- * Fixed up minor comment format issue
 
-Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
----
- drivers/staging/media/atomisp/i2c/gc2235.h | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+--giqnk66nh3wiw3cc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/staging/media/atomisp/i2c/gc2235.h b/drivers/staging/media/atomisp/i2c/gc2235.h
-index 55ea422291ba..ade28950db73 100644
---- a/drivers/staging/media/atomisp/i2c/gc2235.h
-+++ b/drivers/staging/media/atomisp/i2c/gc2235.h
-@@ -74,9 +74,6 @@
- #define GC2235_COARSE_INTG_TIME_MIN 1
- #define GC2235_COARSE_INTG_TIME_MAX_MARGIN 6
- 
--/*
-- * GC2235 System control registers
-- */
- /*
-  * GC2235 System control registers
-  */
-@@ -167,7 +164,7 @@ enum gc2235_tok_type {
- 	GC2235_TOK_MASK = 0xfff0
- };
- 
--/**
-+/*
-  * struct gc2235_reg - MI sensor  register format
-  * @type: type of the register
-  * @reg: 8-bit offset to register
--- 
-2.34.1
+Hello Ivaylo,
 
+On Sat, Oct 14, 2023 at 09:51:12AM +0300, Ivaylo Dimitrov wrote:
+> On 13.10.23 =D0=B3. 20:51 =D1=87., Uwe Kleine-K=C3=B6nig wrote:
+> > Hello,
+> >=20
+> > On Fri, Oct 13, 2023 at 01:13:50PM +0200, Alexander Stein wrote:
+> > > Am Freitag, 13. Oktober 2023, 13:04:48 CEST schrieb Stefan Wahren:
+> > > > Am 13.10.23 um 12:46 schrieb Sean Young:
+> > > > > clk_get_rate() may do a mutex lock. Since the clock rate cannot c=
+hange on
+> > > > > an rpi, simply fetch it once.
+> > > >=20
+> > > > does it mean you checked all possible SoCs (BCM2835, BCM2836, BCM28=
+37,
+> > > > BCM2711, BCM2712) for this change?
+> > > >=20
+> > > > Is it impossible that the real clock can never be influenced by tur=
+bo
+> > > > mode like SPI?
+> > >=20
+> > > Assuming the clock can change, which I would, then a clock notifier s=
+eems
+> > > appropriate. See [1] for an example.
+> >=20
+> > I'm not a fan. If the clock changes, the output also changes. With a
+> > clock notifier you can soften the issue and reconfigure to something
+> > similar as the original wave form, but a glitch happens for sure.
+> >=20
+>=20
+> Right, but without notifier, everything rate related after the change will
+> be wrong
+
+So we agree clk_rate_exclusive_get() is the way to go?! It's simple, no
+need for a notifier and no glitches.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=C3=B6nig         =
+   |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--giqnk66nh3wiw3cc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmUqVYUACgkQj4D7WH0S
+/k4wigf9HHL4tqjTV1EyBXB1X+oKJKBONPLDUgJ+rE5Gw+/6EoqDq+HBK1UMKuaT
+PojCSO0QM0v7tHpApWQ51j9mZxkFWF9UJZCURBEP5mPSr4zVBrpa4oMh7E8Ga/2P
+SL7R9xAZxpl2TJbF5FnMQUlsRNP0LJf/KKjW0nknisJeqbziyeXcVVaLEBh+B84v
+OzpgTugHJhfb+T4T0842KaI4sVm2yLGlY4L75EssrwWWEBIYWLknh5VPb1G1my1f
+sP7n71Z6FbqLR1Jk5o3TTWdsJiD0whcTkbUgfFsVUO18Pat9LzYksSOK8zP6+TSn
+LPcN7mgljq64D0MtjOPK7lYfGkoZcA==
+=YY+P
+-----END PGP SIGNATURE-----
+
+--giqnk66nh3wiw3cc--
