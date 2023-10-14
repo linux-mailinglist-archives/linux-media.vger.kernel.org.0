@@ -2,70 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07B367C9535
-	for <lists+linux-media@lfdr.de>; Sat, 14 Oct 2023 17:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C53BD7C95DB
+	for <lists+linux-media@lfdr.de>; Sat, 14 Oct 2023 20:13:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233218AbjJNPvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Oct 2023 11:51:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45320 "EHLO
+        id S233317AbjJNSLL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Oct 2023 14:11:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231712AbjJNPva (ORCPT
+        with ESMTP id S233305AbjJNSLK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Oct 2023 11:51:30 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1EBFA2
-        for <linux-media@vger.kernel.org>; Sat, 14 Oct 2023 08:51:26 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2c515527310so4851921fa.2
-        for <linux-media@vger.kernel.org>; Sat, 14 Oct 2023 08:51:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1697298685; x=1697903485; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=tJ2bDCdkLDh8kympsU2RLtUY/ancw/4Exu+OPYeI8Ps=;
-        b=hvhJn8WpBSRKz9BDpvhF0Dg1HMJuMtcGNjAVkUKngIPSg8Mx3kdwxCl2wKnVaXmnKX
-         +7f1W9ZkK9ce2H7e3AlHyB3JHpMnanyoTosCEX2wNsmq7haAdLFdW4mcYumIWeg/B7HZ
-         z6GEHOF8C8L7XuU50k7xEk74+EnlcEJ3zEoxgY9D6a6283QfvSNVBY2nc9fvHpPZzTAn
-         qrwXGU7oAjunE1OCrTkQW6TIftZafuX85hDRF3yc7cgZcsSBNpLXGSuxwf68gje7G+iC
-         BXEJD8gWqKCCLALl+GyvVXRjUZ3OKM/2TUYT1QvElhgJiLXI/288ygct3jjwblusKo+0
-         VVrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697298685; x=1697903485;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tJ2bDCdkLDh8kympsU2RLtUY/ancw/4Exu+OPYeI8Ps=;
-        b=icR42ijxyzade2Ry6f8oPQkK7ukpraB2fW3l5afbeD3dLaR+3iFkpO2VMvlvuTW3En
-         L/Z5dLs06wbrrnJmN1k4sFaeypAJiWEooJm8ujGDfKO5GOkEofP8Uz/b81LtabDqz/6r
-         QC2rAPNwiks52RpC2OYxtZGfeXNSoePlGJmW0q3bBqChb96ak/EsfseX8xd9ujVOujCa
-         igGC5p+eW103Ykn0OYIyyrQxBWFhJRelep258FIAO5dtbVubHQbYoBiO9Hep/J+EvBAq
-         kUYwj0HrLO6cNM7IVX5jqAzPauyjS03zWmqgmaZJ7rULgBYROv/30tMyMaHnSn11YQHu
-         KMMA==
-X-Gm-Message-State: AOJu0YwUoKmfxOA5poclBoOwhXnFB8csxaAURjibtAjc/pxh//Oe/XLl
-        aagdZ4zFVQRvSV2djTp7CLw3zw==
-X-Google-Smtp-Source: AGHT+IFhOogOnFFdym6CReJqhNSEhoSNYZt6skC0F/7Rv3GeMoPWCzmhdk79ikXV98i1YSJWoOKM0w==
-X-Received: by 2002:a05:651c:216:b0:2b9:e831:f16a with SMTP id y22-20020a05651c021600b002b9e831f16amr24580129ljn.26.1697298684897;
-        Sat, 14 Oct 2023 08:51:24 -0700 (PDT)
-Received: from localhost (h-46-59-36-206.A463.priv.bahnhof.se. [46.59.36.206])
-        by smtp.gmail.com with ESMTPSA id f23-20020a2eb5b7000000b002bce38190a3sm416371ljn.34.2023.10.14.08.51.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 14 Oct 2023 08:51:24 -0700 (PDT)
-Date:   Sat, 14 Oct 2023 17:51:23 +0200
-From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-To:     ihor.matushchak@foobox.net
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: staging: max96712: fix copy-paste error
-Message-ID: <ZSq4-7W_ke5XKsrE@oden.dyn.berto.se>
-References: <20231014143843.3409-1-ihor.matushchak@foobox.net>
+        Sat, 14 Oct 2023 14:11:10 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 365F6BB;
+        Sat, 14 Oct 2023 11:11:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697307068; x=1728843068;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eiDmfD8lwVIVrPcqy/x65+noFv8kPKYhkxxPejyvs4k=;
+  b=NdDXoOA6p8UlKvJp2H/F583IP853etkFxXZyaVJrNYP790eGqvchvbXK
+   5Br7oPTbRcJASY6cGIyIAn9jzCBm3DL+YSyDrXFsaNTNejJo+AHlcsakc
+   qMaiFdVCdxbegRqNpjKCRPkSiRhdDGmgFlnd4BDs6dfHWJGYWby/8M+a1
+   SGTDIYKzqC//ejY4AhpRcQiB6C5T+4gq+gVYTmGAm9BNXUpZvcO5Si8+Y
+   fgCchV7DxJASUI/Al+IExJboSN920bquHS8uVeRE1L+0gS2JrD71rfysA
+   SdjoN47aretMAZs1TOfnikjFmbc/2tiuWPDOyF9NOdLYVgm42zMPMb8h+
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="385180115"
+X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
+   d="scan'208";a="385180115"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 11:11:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="898928706"
+X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
+   d="scan'208";a="898928706"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 14 Oct 2023 11:09:10 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qrj6L-0006U4-3D;
+        Sat, 14 Oct 2023 18:11:02 +0000
+Date:   Sun, 15 Oct 2023 02:11:01 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
+        maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com,
+        Mehdi Djait <mehdi.djait@bootlin.com>
+Subject: Re: [PATCH v6 3/3] media: i2c: Introduce a driver for the Techwell
+ TW9900 decoder
+Message-ID: <202310150123.XoLU3dcO-lkp@intel.com>
+References: <857baa8073f0b8051720959ef8fb1d49a6161d36.1696608809.git.mehdi.djait@bootlin.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231014143843.3409-1-ihor.matushchak@foobox.net>
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+In-Reply-To: <857baa8073f0b8051720959ef8fb1d49a6161d36.1696608809.git.mehdi.djait@bootlin.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,39 +73,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ihor,
+Hi Mehdi,
 
-Thanks for your work.
+kernel test robot noticed the following build errors:
 
-On 2023-10-14 15:38:43 +0100, ihor.matushchak@foobox.net wrote:
-> From: Ihor Matushchak <ihor.matushchak@foobox.net>
+[auto build test ERROR on media-tree/master]
+[also build test ERROR on robh/for-next linus/master v6.6-rc5 next-20231013]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-I agree this is a copy-past error and the fix is correct. But you need 
-to add a commit message describing this. I know it can feel a bit silly 
-for a simple fix like this, but we can't have an empty commit message.
+url:    https://github.com/intel-lab-lkp/linux/commits/Mehdi-Djait/dt-bindings-vendor-prefixes-Add-techwell-vendor-prefix/20231007-002623
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/857baa8073f0b8051720959ef8fb1d49a6161d36.1696608809.git.mehdi.djait%40bootlin.com
+patch subject: [PATCH v6 3/3] media: i2c: Introduce a driver for the Techwell TW9900 decoder
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231015/202310150123.XoLU3dcO-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310150123.XoLU3dcO-lkp@intel.com/reproduce)
 
-> 
-> Signed-off-by: Ihor Matushchak <ihor.matushchak@foobox.net>
-> ---
->  drivers/staging/media/max96712/max96712.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/max96712/max96712.c b/drivers/staging/media/max96712/max96712.c
-> index c44145284aa1..ea67bcf69c9d 100644
-> --- a/drivers/staging/media/max96712/max96712.c
-> +++ b/drivers/staging/media/max96712/max96712.c
-> @@ -1,6 +1,6 @@
->  // SPDX-License-Identifier: GPL-2.0
->  /*
-> - * Maxim MAX9286 Quad GMSL2 Deserializer Driver
-> + * Maxim MAX96712 Quad GMSL2 Deserializer Driver
->   *
->   * Copyright (C) 2021 Renesas Electronics Corporation
->   * Copyright (C) 2021 Niklas Söderlund
-> -- 
-> 2.30.2
-> 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310150123.XoLU3dcO-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+   drivers/media/i2c/tw9900.c: In function 'tw9900_get_stream_std':
+>> drivers/media/i2c/tw9900.c:359:15: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
+     359 |         std = FIELD_GET(TW9900_STDNOW_MASK, ret);
+         |               ^~~~~~~~~
+   cc1: some warnings being treated as errors
+
+
+vim +/FIELD_GET +359 drivers/media/i2c/tw9900.c
+
+   347	
+   348	static int tw9900_get_stream_std(struct tw9900 *tw9900,
+   349					 v4l2_std_id *std_id)
+   350	{
+   351		int std, ret;
+   352	
+   353		ret = tw9900_read_reg(tw9900->client, TW9900_REG_STD_SEL);
+   354		if (ret < 0) {
+   355			*std_id = V4L2_STD_UNKNOWN;
+   356			return ret;
+   357		}
+   358	
+ > 359		std = FIELD_GET(TW9900_STDNOW_MASK, ret);
+   360	
+   361		switch (std) {
+   362		case TW9900_STD_NTSC_M:
+   363			*std_id = V4L2_STD_NTSC;
+   364			break;
+   365		case TW9900_STD_PAL_BDGHI:
+   366			*std_id = V4L2_STD_PAL;
+   367			break;
+   368		case TW9900_STD_AUTO:
+   369			*std_id = V4L2_STD_UNKNOWN;
+   370			break;
+   371		default:
+   372			*std_id = V4L2_STD_UNKNOWN;
+   373			break;
+   374		}
+   375	
+   376		return 0;
+   377	}
+   378	
 
 -- 
-Kind Regards,
-Niklas Söderlund
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
