@@ -2,106 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DBDE87C9761
-	for <lists+linux-media@lfdr.de>; Sun, 15 Oct 2023 02:19:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CAA177C97C6
+	for <lists+linux-media@lfdr.de>; Sun, 15 Oct 2023 05:37:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229872AbjJOATy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Oct 2023 20:19:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40618 "EHLO
+        id S233451AbjJODhw convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sat, 14 Oct 2023 23:37:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229555AbjJOATy (ORCPT
+        with ESMTP id S233390AbjJODhu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Oct 2023 20:19:54 -0400
-Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F54CC;
-        Sat, 14 Oct 2023 17:19:52 -0700 (PDT)
-Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-5ac87af634aso955473a12.2;
-        Sat, 14 Oct 2023 17:19:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697329192; x=1697933992; darn=vger.kernel.org;
-        h=user-agent:content-disposition:mime-version:message-id:subject:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=/DYEp35qic1kAb3LmlymDoS6bjtxg7Oyn8w01vjbBN0=;
-        b=ELJDb99tMgN0ApjHP7BMtZrntVnM26SwfSv/HQ1oMrQCVKTM3yiB8n92qbPzbYmvfC
-         nXnbIhqDr7FWaZpz5G7cVDgDgJcMtzCDzZJa+BV2uTr2HfvZsrmm50eUXVyXacQQ5NgC
-         1EJrZeTXi6WR6kl3xRqAYlIQaNoHqkGE4YuxF38YbkGfnNWeQdlG0dBiNQS802Xx+GZl
-         oIp/dMM7tHweSkRUWkLiVyDSAUv7WBPQ788bY7gNtrAwSIgjtxNrrkb3FY/CQhLuT+uQ
-         6sit1IuT69AxTdI7G2l06G+zQGFi4uHpVArwSBrIW6XeXO8l1tbANESqLil43XKo/sOw
-         rXCA==
+        Sat, 14 Oct 2023 23:37:50 -0400
+Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72828A6
+        for <linux-media@vger.kernel.org>; Sat, 14 Oct 2023 20:37:48 -0700 (PDT)
+Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-3ae12e140f7so5446930b6e.0
+        for <linux-media@vger.kernel.org>; Sat, 14 Oct 2023 20:37:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697329192; x=1697933992;
-        h=user-agent:content-disposition:mime-version:message-id:subject:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1697341067; x=1697945867;
+        h=content-transfer-encoding:to:from:subject:message-id:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/DYEp35qic1kAb3LmlymDoS6bjtxg7Oyn8w01vjbBN0=;
-        b=faNyT77KIPUnMaFwZinsSNqk6NBx+q119zqiCL7i3luDxbZwnqYgirNp1emJybY6cE
-         Z5jhOwjR6397TB4hyLNmEYHP/SV2SUk8g2Ud3MOBSpr/GHL+nkjKo9TY+h7RgaVAPv1Q
-         yLAfIx3sDEJ1jLMVLDj29zScSbo95Kc2hfkfDZBWUoOUCsBNxwC/+nyhIh7VkgyqBdSN
-         pKWcN8R3TXIvVXtcD94BPKj/aFwab8AkO9mvGv2rdsNfE1XMKeheDJ4WQ4u7kcLyZ05a
-         km25+9bNyD6TgUxpvgKl8D9h6CTdbSUIx6VGX2T16jLjuqL3vuacgaZEwzK4f12ZzvAa
-         fLeA==
-X-Gm-Message-State: AOJu0YwksTnRvcgfFcMqHMFkAtyecOuLJ2um4rB9ZcvAVkXFucD6zmXh
-        bNs59sJSI/RX2kuDs9/h8rsHDQ+ytG+x6RYx
-X-Google-Smtp-Source: AGHT+IH3+9qB9tQfEMwULFJwZFYHCZFV657ZMANCg9S81xDJCZW2dlV2hePQNq2UJNwzGIfP3AYO3A==
-X-Received: by 2002:a17:902:ecc5:b0:1c6:e8d:29ea with SMTP id a5-20020a170902ecc500b001c60e8d29eamr33123528plh.60.1697329192135;
-        Sat, 14 Oct 2023 17:19:52 -0700 (PDT)
-Received: from fpga ([2405:4802:1d8b:d300:e43c:5ed2:5abb:2c02])
-        by smtp.gmail.com with ESMTPSA id x4-20020a170902ea8400b001c5076ae6absm6001685plb.126.2023.10.14.17.19.50
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Sat, 14 Oct 2023 17:19:51 -0700 (PDT)
-Date:   Sat, 14 Oct 2023 20:19:46 -0400
-From:   "Duc-Long, Le" <duclong.linux@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: tc358746: fix the pll calculating function
-Message-ID: <20231015001946.GA10485@fpga>
+        bh=foF8w8a+Sc3aMYEjJANWw1plNPjcJQbPnL865dnxUWo=;
+        b=TwLcXFPkato55oe74690OtxGwWfderYAH+ZTH3oeoTsCJOXmA39seGjZdcNfiA5YKF
+         mN39SfQqeADxRmLSC/SFFICwgrzVHy+5QyfMtIfOWNd5bS8WJlw61+u7xbGwg1XD2xlR
+         vPfCaItjmYqjQfsmFQk3DC1mOiyeFucUJ5DcJ4dcjrSgd3o7Hf21+SGV+TtrTQN4+yYk
+         8RiUMVVJR5scP7Cw183F6O7ma+Jm7+muI0OmbuNt1Hz/7rSXQRSnZ27fUoVs6Dp/i2PS
+         7cg6weZjaHilavp//Y2+lQeYeCFVgFdTXwIS52e+PbG0AycGTjp3cf/R/CbRhKAvDthL
+         JJoA==
+X-Gm-Message-State: AOJu0YzxtpxVpgdSnzhbO8cL1sf9s04Q+FD8fXX67WmZQpQvNMVi2JdD
+        QqKsR+dyS54dgJG4Skty0S6ZXn76cH5Oqg5sAPedK5hwjtnB
+X-Google-Smtp-Source: AGHT+IGsyZ0CVZPQIKSBXE2Ngyt2bDz2pyzbCDr2Xsmei5tIBjt7D/9dE16CAQNT9YtnIs7GTSb7j6pgJXBjgsVW/asO6sA1JIcf
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Received: by 2002:a05:6808:2091:b0:3a1:c163:6022 with SMTP id
+ s17-20020a056808209100b003a1c1636022mr1741075oiw.4.1697341067805; Sat, 14 Oct
+ 2023 20:37:47 -0700 (PDT)
+Date:   Sat, 14 Oct 2023 20:37:47 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000068c7730607b903b7@google.com>
+Subject: [syzbot] [dri?] WARNING in drm_prime_fd_to_handle_ioctl
+From:   syzbot <syzbot+0da81ccba2345eeb7f48@syzkaller.appspotmail.com>
+To:     airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
+        tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Following formula of Pll_clk in 5.2 section, 50th page of
-TC358746AXBG/748XBG/748IXBG Functional Specification Rev 1.1 document.
-The formula of fout is as below:
-	fout = refclk * mul / (prediv * postdiv)
+Hello,
 
-Remove "p" to avoid using 2 times of prediv in pll calculating function.
+syzbot found the following issue on:
 
-Signed-off-by: Duc-Long, Le <duclong.linux@gmail.com>
+HEAD commit:    1c8b86a3799f Merge tag 'xsa441-6.6-tag' of git://git.kerne..
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=13005e31680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=32d0b9b42ceb8b10
+dashboard link: https://syzkaller.appspot.com/bug?extid=0da81ccba2345eeb7f48
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13c48345680000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=101b3679680000
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/45e9377886e9/disk-1c8b86a3.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/9511a41a6d1e/vmlinux-1c8b86a3.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/fac07e1c3c1a/bzImage-1c8b86a3.xz
+
+The issue was bisected to:
+
+commit 85e26dd5100a182bf8448050427539c0a66ab793
+Author: Christian König <christian.koenig@amd.com>
+Date:   Thu Jan 26 09:24:26 2023 +0000
+
+    drm/client: fix circular reference counting issue
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14cf17f1680000
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=16cf17f1680000
+console output: https://syzkaller.appspot.com/x/log.txt?x=12cf17f1680000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+0da81ccba2345eeb7f48@syzkaller.appspotmail.com
+Fixes: 85e26dd5100a ("drm/client: fix circular reference counting issue")
+
+------------[ cut here ]------------
+WARNING: CPU: 0 PID: 5040 at drivers/gpu/drm/drm_prime.c:326 drm_gem_prime_fd_to_handle drivers/gpu/drm/drm_prime.c:326 [inline]
+WARNING: CPU: 0 PID: 5040 at drivers/gpu/drm/drm_prime.c:326 drm_prime_fd_to_handle_ioctl+0x555/0x600 drivers/gpu/drm/drm_prime.c:374
+Modules linked in:
+CPU: 0 PID: 5040 Comm: syz-executor405 Not tainted 6.6.0-rc5-syzkaller-00055-g1c8b86a3799f #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/06/2023
+RIP: 0010:drm_gem_prime_fd_to_handle drivers/gpu/drm/drm_prime.c:326 [inline]
+RIP: 0010:drm_prime_fd_to_handle_ioctl+0x555/0x600 drivers/gpu/drm/drm_prime.c:374
+Code: 89 df e8 0e 9b 26 fd f0 48 ff 03 e9 7e fd ff ff e8 b0 dc d0 fc 4c 89 f7 44 89 eb e8 75 73 8b 05 e9 da fe ff ff e8 9b dc d0 fc <0f> 0b e9 5d fd ff ff e8 3f 94 26 fd e9 3a fc ff ff 48 8b 7c 24 08
+RSP: 0018:ffffc90003a5fc70 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888018f14c00 RCX: 0000000000000000
+RDX: ffff88801d691dc0 RSI: ffffffff84b6ea15 RDI: ffff8881476f3928
+RBP: ffff88801fac5400 R08: 0000000000000007 R09: fffffffffffff000
+R10: ffff8881476f3800 R11: 0000000000000000 R12: ffffc90003a5fe10
+R13: ffff8881476f3800 R14: ffff88801c590c10 R15: 0000000000000000
+FS:  00005555555d6380(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 0000555db75f4058 CR3: 0000000072209000 CR4: 0000000000350ef0
+Call Trace:
+ <TASK>
+ drm_ioctl_kernel+0x280/0x4c0 drivers/gpu/drm/drm_ioctl.c:789
+ drm_ioctl+0x5cb/0xbf0 drivers/gpu/drm/drm_ioctl.c:892
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:871 [inline]
+ __se_sys_ioctl fs/ioctl.c:857 [inline]
+ __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:857
+ do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+ do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
+ entry_SYSCALL_64_after_hwframe+0x63/0xcd
+RIP: 0033:0x7f0c8214be69
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 c1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007fff6f4156f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f0c8214be69
+RDX: 0000000020000000 RSI: 00000000c00c642e RDI: 0000000000000003
+RBP: 0000000000000000 R08: 00000000000000a0 R09: 00000000000000a0
+R10: 00000000000000a0 R11: 0000000000000246 R12: 0000000000000000
+R13: 00007f0c821c3820 R14: 00007fff6f415720 R15: 00007fff6f415710
+ </TASK>
+
+
 ---
- drivers/media/i2c/tc358746.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-diff --git a/drivers/media/i2c/tc358746.c b/drivers/media/i2c/tc358746.c
-index 566f5eaddd57..4f54773886cc 100644
---- a/drivers/media/i2c/tc358746.c
-+++ b/drivers/media/i2c/tc358746.c
-@@ -839,14 +839,14 @@ static unsigned long tc358746_find_pll_settings(struct tc358746 *tc358746,
- 		if (fin < 4 * HZ_PER_MHZ || fin > 40 * HZ_PER_MHZ)
- 			continue;
- 
--		tmp = fout * p * postdiv;
-+		tmp = fout * postdiv;
- 		do_div(tmp, fin);
- 		mul = tmp;
- 		if (mul > 511)
- 			continue;
- 
- 		tmp = mul * fin;
--		do_div(tmp, p * postdiv);
-+		do_div(tmp, postdiv);
- 
- 		delta = abs(fout - tmp);
- 		if (delta < min_delta) {
--- 
-2.17.1
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
 
+If the bug is already fixed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite bug's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the bug is a duplicate of another bug, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
