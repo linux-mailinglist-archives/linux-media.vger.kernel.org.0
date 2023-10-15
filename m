@@ -2,70 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C53BD7C95DB
-	for <lists+linux-media@lfdr.de>; Sat, 14 Oct 2023 20:13:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DBDE87C9761
+	for <lists+linux-media@lfdr.de>; Sun, 15 Oct 2023 02:19:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233317AbjJNSLL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Oct 2023 14:11:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39128 "EHLO
+        id S229872AbjJOATy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Oct 2023 20:19:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233305AbjJNSLK (ORCPT
+        with ESMTP id S229555AbjJOATy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Oct 2023 14:11:10 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 365F6BB;
-        Sat, 14 Oct 2023 11:11:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697307068; x=1728843068;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=eiDmfD8lwVIVrPcqy/x65+noFv8kPKYhkxxPejyvs4k=;
-  b=NdDXoOA6p8UlKvJp2H/F583IP853etkFxXZyaVJrNYP790eGqvchvbXK
-   5Br7oPTbRcJASY6cGIyIAn9jzCBm3DL+YSyDrXFsaNTNejJo+AHlcsakc
-   qMaiFdVCdxbegRqNpjKCRPkSiRhdDGmgFlnd4BDs6dfHWJGYWby/8M+a1
-   SGTDIYKzqC//ejY4AhpRcQiB6C5T+4gq+gVYTmGAm9BNXUpZvcO5Si8+Y
-   fgCchV7DxJASUI/Al+IExJboSN920bquHS8uVeRE1L+0gS2JrD71rfysA
-   SdjoN47aretMAZs1TOfnikjFmbc/2tiuWPDOyF9NOdLYVgm42zMPMb8h+
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="385180115"
-X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="385180115"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2023 11:11:07 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="898928706"
-X-IronPort-AV: E=Sophos;i="6.03,224,1694761200"; 
-   d="scan'208";a="898928706"
-Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 14 Oct 2023 11:09:10 -0700
-Received: from kbuild by f64821696465 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qrj6L-0006U4-3D;
-        Sat, 14 Oct 2023 18:11:02 +0000
-Date:   Sun, 15 Oct 2023 02:11:01 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-        maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com,
-        Mehdi Djait <mehdi.djait@bootlin.com>
-Subject: Re: [PATCH v6 3/3] media: i2c: Introduce a driver for the Techwell
- TW9900 decoder
-Message-ID: <202310150123.XoLU3dcO-lkp@intel.com>
-References: <857baa8073f0b8051720959ef8fb1d49a6161d36.1696608809.git.mehdi.djait@bootlin.com>
+        Sat, 14 Oct 2023 20:19:54 -0400
+Received: from mail-pg1-x52c.google.com (mail-pg1-x52c.google.com [IPv6:2607:f8b0:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1F54CC;
+        Sat, 14 Oct 2023 17:19:52 -0700 (PDT)
+Received: by mail-pg1-x52c.google.com with SMTP id 41be03b00d2f7-5ac87af634aso955473a12.2;
+        Sat, 14 Oct 2023 17:19:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697329192; x=1697933992; darn=vger.kernel.org;
+        h=user-agent:content-disposition:mime-version:message-id:subject:to
+         :from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=/DYEp35qic1kAb3LmlymDoS6bjtxg7Oyn8w01vjbBN0=;
+        b=ELJDb99tMgN0ApjHP7BMtZrntVnM26SwfSv/HQ1oMrQCVKTM3yiB8n92qbPzbYmvfC
+         nXnbIhqDr7FWaZpz5G7cVDgDgJcMtzCDzZJa+BV2uTr2HfvZsrmm50eUXVyXacQQ5NgC
+         1EJrZeTXi6WR6kl3xRqAYlIQaNoHqkGE4YuxF38YbkGfnNWeQdlG0dBiNQS802Xx+GZl
+         oIp/dMM7tHweSkRUWkLiVyDSAUv7WBPQ788bY7gNtrAwSIgjtxNrrkb3FY/CQhLuT+uQ
+         6sit1IuT69AxTdI7G2l06G+zQGFi4uHpVArwSBrIW6XeXO8l1tbANESqLil43XKo/sOw
+         rXCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697329192; x=1697933992;
+        h=user-agent:content-disposition:mime-version:message-id:subject:to
+         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/DYEp35qic1kAb3LmlymDoS6bjtxg7Oyn8w01vjbBN0=;
+        b=faNyT77KIPUnMaFwZinsSNqk6NBx+q119zqiCL7i3luDxbZwnqYgirNp1emJybY6cE
+         Z5jhOwjR6397TB4hyLNmEYHP/SV2SUk8g2Ud3MOBSpr/GHL+nkjKo9TY+h7RgaVAPv1Q
+         yLAfIx3sDEJ1jLMVLDj29zScSbo95Kc2hfkfDZBWUoOUCsBNxwC/+nyhIh7VkgyqBdSN
+         pKWcN8R3TXIvVXtcD94BPKj/aFwab8AkO9mvGv2rdsNfE1XMKeheDJ4WQ4u7kcLyZ05a
+         km25+9bNyD6TgUxpvgKl8D9h6CTdbSUIx6VGX2T16jLjuqL3vuacgaZEwzK4f12ZzvAa
+         fLeA==
+X-Gm-Message-State: AOJu0YwksTnRvcgfFcMqHMFkAtyecOuLJ2um4rB9ZcvAVkXFucD6zmXh
+        bNs59sJSI/RX2kuDs9/h8rsHDQ+ytG+x6RYx
+X-Google-Smtp-Source: AGHT+IH3+9qB9tQfEMwULFJwZFYHCZFV657ZMANCg9S81xDJCZW2dlV2hePQNq2UJNwzGIfP3AYO3A==
+X-Received: by 2002:a17:902:ecc5:b0:1c6:e8d:29ea with SMTP id a5-20020a170902ecc500b001c60e8d29eamr33123528plh.60.1697329192135;
+        Sat, 14 Oct 2023 17:19:52 -0700 (PDT)
+Received: from fpga ([2405:4802:1d8b:d300:e43c:5ed2:5abb:2c02])
+        by smtp.gmail.com with ESMTPSA id x4-20020a170902ea8400b001c5076ae6absm6001685plb.126.2023.10.14.17.19.50
+        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
+        Sat, 14 Oct 2023 17:19:51 -0700 (PDT)
+Date:   Sat, 14 Oct 2023 20:19:46 -0400
+From:   "Duc-Long, Le" <duclong.linux@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: tc358746: fix the pll calculating function
+Message-ID: <20231015001946.GA10485@fpga>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <857baa8073f0b8051720959ef8fb1d49a6161d36.1696608809.git.mehdi.djait@bootlin.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -73,73 +69,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mehdi,
+Following formula of Pll_clk in 5.2 section, 50th page of
+TC358746AXBG/748XBG/748IXBG Functional Specification Rev 1.1 document.
+The formula of fout is as below:
+	fout = refclk * mul / (prediv * postdiv)
 
-kernel test robot noticed the following build errors:
+Remove "p" to avoid using 2 times of prediv in pll calculating function.
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on robh/for-next linus/master v6.6-rc5 next-20231013]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Signed-off-by: Duc-Long, Le <duclong.linux@gmail.com>
+---
+ drivers/media/i2c/tc358746.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mehdi-Djait/dt-bindings-vendor-prefixes-Add-techwell-vendor-prefix/20231007-002623
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/857baa8073f0b8051720959ef8fb1d49a6161d36.1696608809.git.mehdi.djait%40bootlin.com
-patch subject: [PATCH v6 3/3] media: i2c: Introduce a driver for the Techwell TW9900 decoder
-config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20231015/202310150123.XoLU3dcO-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231015/202310150123.XoLU3dcO-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310150123.XoLU3dcO-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
-   drivers/media/i2c/tw9900.c: In function 'tw9900_get_stream_std':
->> drivers/media/i2c/tw9900.c:359:15: error: implicit declaration of function 'FIELD_GET' [-Werror=implicit-function-declaration]
-     359 |         std = FIELD_GET(TW9900_STDNOW_MASK, ret);
-         |               ^~~~~~~~~
-   cc1: some warnings being treated as errors
-
-
-vim +/FIELD_GET +359 drivers/media/i2c/tw9900.c
-
-   347	
-   348	static int tw9900_get_stream_std(struct tw9900 *tw9900,
-   349					 v4l2_std_id *std_id)
-   350	{
-   351		int std, ret;
-   352	
-   353		ret = tw9900_read_reg(tw9900->client, TW9900_REG_STD_SEL);
-   354		if (ret < 0) {
-   355			*std_id = V4L2_STD_UNKNOWN;
-   356			return ret;
-   357		}
-   358	
- > 359		std = FIELD_GET(TW9900_STDNOW_MASK, ret);
-   360	
-   361		switch (std) {
-   362		case TW9900_STD_NTSC_M:
-   363			*std_id = V4L2_STD_NTSC;
-   364			break;
-   365		case TW9900_STD_PAL_BDGHI:
-   366			*std_id = V4L2_STD_PAL;
-   367			break;
-   368		case TW9900_STD_AUTO:
-   369			*std_id = V4L2_STD_UNKNOWN;
-   370			break;
-   371		default:
-   372			*std_id = V4L2_STD_UNKNOWN;
-   373			break;
-   374		}
-   375	
-   376		return 0;
-   377	}
-   378	
-
+diff --git a/drivers/media/i2c/tc358746.c b/drivers/media/i2c/tc358746.c
+index 566f5eaddd57..4f54773886cc 100644
+--- a/drivers/media/i2c/tc358746.c
++++ b/drivers/media/i2c/tc358746.c
+@@ -839,14 +839,14 @@ static unsigned long tc358746_find_pll_settings(struct tc358746 *tc358746,
+ 		if (fin < 4 * HZ_PER_MHZ || fin > 40 * HZ_PER_MHZ)
+ 			continue;
+ 
+-		tmp = fout * p * postdiv;
++		tmp = fout * postdiv;
+ 		do_div(tmp, fin);
+ 		mul = tmp;
+ 		if (mul > 511)
+ 			continue;
+ 
+ 		tmp = mul * fin;
+-		do_div(tmp, p * postdiv);
++		do_div(tmp, postdiv);
+ 
+ 		delta = abs(fout - tmp);
+ 		if (delta < min_delta) {
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.17.1
+
