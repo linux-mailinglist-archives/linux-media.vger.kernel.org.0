@@ -2,160 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CAA177C97C6
-	for <lists+linux-media@lfdr.de>; Sun, 15 Oct 2023 05:37:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E3337C982D
+	for <lists+linux-media@lfdr.de>; Sun, 15 Oct 2023 08:31:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233451AbjJODhw convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 14 Oct 2023 23:37:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56530 "EHLO
+        id S230371AbjJOGbv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Oct 2023 02:31:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233390AbjJODhu (ORCPT
+        with ESMTP id S229554AbjJOGbu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Oct 2023 23:37:50 -0400
-Received: from mail-oi1-f208.google.com (mail-oi1-f208.google.com [209.85.167.208])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72828A6
-        for <linux-media@vger.kernel.org>; Sat, 14 Oct 2023 20:37:48 -0700 (PDT)
-Received: by mail-oi1-f208.google.com with SMTP id 5614622812f47-3ae12e140f7so5446930b6e.0
-        for <linux-media@vger.kernel.org>; Sat, 14 Oct 2023 20:37:48 -0700 (PDT)
+        Sun, 15 Oct 2023 02:31:50 -0400
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0386D8;
+        Sat, 14 Oct 2023 23:31:47 -0700 (PDT)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-5384975e34cso6153241a12.0;
+        Sat, 14 Oct 2023 23:31:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697351506; x=1697956306; darn=vger.kernel.org;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=V7BjF49jhYcIOnOxtIyZhIJ7GyT/yGc0vCgKZxiCb78=;
+        b=SgH8L9GWA7hmfllNyi+XUiEhSvIC1AdQ8xyKp4CO/jQ96TtlsDE8dLLZ+196o3xIyc
+         P80H3Jhz1DggDNHTJBC2KkxQVNAZyeV52TNT0++kjubmHUJbx7Qf3ZwxCSTI0wEZwi1v
+         K1g9FJDCvI05SV1MqMajtfeXgaIdWCnFCD8WApw1AjZ5aTi8DpbuNUUwyhRIHb0AiRZ4
+         vpAhRMf0xxPXlD2muPxG+/GZcC0uk+OLEh7tr/QLhU5UdsDzZ+v7Lyuc2EjU6drO7ioU
+         4lNs4bjOYW7hGFHs6G4kKDiAYKdzPN6HBOc7+Ki0BXaXBcWipt6X+AlI6wptnb5JMBrd
+         BRDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697341067; x=1697945867;
-        h=content-transfer-encoding:to:from:subject:message-id:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=foF8w8a+Sc3aMYEjJANWw1plNPjcJQbPnL865dnxUWo=;
-        b=TwLcXFPkato55oe74690OtxGwWfderYAH+ZTH3oeoTsCJOXmA39seGjZdcNfiA5YKF
-         mN39SfQqeADxRmLSC/SFFICwgrzVHy+5QyfMtIfOWNd5bS8WJlw61+u7xbGwg1XD2xlR
-         vPfCaItjmYqjQfsmFQk3DC1mOiyeFucUJ5DcJ4dcjrSgd3o7Hf21+SGV+TtrTQN4+yYk
-         8RiUMVVJR5scP7Cw183F6O7ma+Jm7+muI0OmbuNt1Hz/7rSXQRSnZ27fUoVs6Dp/i2PS
-         7cg6weZjaHilavp//Y2+lQeYeCFVgFdTXwIS52e+PbG0AycGTjp3cf/R/CbRhKAvDthL
-         JJoA==
-X-Gm-Message-State: AOJu0YzxtpxVpgdSnzhbO8cL1sf9s04Q+FD8fXX67WmZQpQvNMVi2JdD
-        QqKsR+dyS54dgJG4Skty0S6ZXn76cH5Oqg5sAPedK5hwjtnB
-X-Google-Smtp-Source: AGHT+IGsyZ0CVZPQIKSBXE2Ngyt2bDz2pyzbCDr2Xsmei5tIBjt7D/9dE16CAQNT9YtnIs7GTSb7j6pgJXBjgsVW/asO6sA1JIcf
+        d=1e100.net; s=20230601; t=1697351506; x=1697956306;
+        h=content-transfer-encoding:content-language:in-reply-to:mime-version
+         :user-agent:date:message-id:from:references:cc:to:subject
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V7BjF49jhYcIOnOxtIyZhIJ7GyT/yGc0vCgKZxiCb78=;
+        b=R2SQ+YY7BaGv+Hb9FAGS+S9uFmNMv2w6i4pmisIvc6XuWLUyKVshRJntyoEF8OtoNf
+         gHLW2JYswrSCTeGxroCE6chb7D3KGsGkTYkRoPUnemjj2hLwuqgWYxF2x/yD+TuztZJ/
+         Nn3nzW8YpukNhAhjyLnWLBRLwbHslV+yHel++aCD8uwk1ROSl44IJJNYOOnruOBippCr
+         S5kluxSgR8SJXmRiX9UeYki8S1Me0lEwL3jW2M2kew6d63HDk0Hbms+eu25ezz3qAs0Z
+         Iy48h+2IxWmEr7UpJ1Bm7hBVGsbcKlb6oPQ01MYH3nMXDFGBGTESE1zHe/bDUoJyRCx8
+         hb0A==
+X-Gm-Message-State: AOJu0YyZKvJSZuNC0gZBLo7SivZ0zUzcOTfPn9ii03mcBtliyCO47RGR
+        v5Hxw5w4yCBHCl9wpg9BPMTOceusQvo=
+X-Google-Smtp-Source: AGHT+IG5GU6Vbn9iHhOSKlxeHGHBMvSeePpqmhHFbwMiiUjBMcRLHfjQuUnfIsI+FpGNZ7dQECfxhQ==
+X-Received: by 2002:a05:6402:354c:b0:53e:5a90:e57 with SMTP id f12-20020a056402354c00b0053e5a900e57mr4820970edd.37.1697351506027;
+        Sat, 14 Oct 2023 23:31:46 -0700 (PDT)
+Received: from [192.168.1.10] ([95.43.220.235])
+        by smtp.googlemail.com with ESMTPSA id cx16-20020a05640222b000b0053dbb214d96sm5714642edb.13.2023.10.14.23.31.45
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 14 Oct 2023 23:31:45 -0700 (PDT)
+Subject: Re: [PATCH v2 3/3] media: pwm-ir-tx: trigger edges from hrtimer
+ interrupt context
+To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
+Cc:     linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
+References: <cover.1697193646.git.sean@mess.org>
+ <1560b474f7d426bc77100665c14c3a29c3af3e75.1697193646.git.sean@mess.org>
+From:   Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
+Message-ID: <e47d4d33-4689-915d-3169-5c122075df05@gmail.com>
+Date:   Sun, 15 Oct 2023 09:31:34 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Firefox/60.0 Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:2091:b0:3a1:c163:6022 with SMTP id
- s17-20020a056808209100b003a1c1636022mr1741075oiw.4.1697341067805; Sat, 14 Oct
- 2023 20:37:47 -0700 (PDT)
-Date:   Sat, 14 Oct 2023 20:37:47 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000068c7730607b903b7@google.com>
-Subject: [syzbot] [dri?] WARNING in drm_prime_fd_to_handle_ioctl
-From:   syzbot <syzbot+0da81ccba2345eeb7f48@syzkaller.appspotmail.com>
-To:     airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
-        tzimmermann@suse.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
+In-Reply-To: <1560b474f7d426bc77100665c14c3a29c3af3e75.1697193646.git.sean@mess.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-
-syzbot found the following issue on:
-
-HEAD commit:    1c8b86a3799f Merge tag 'xsa441-6.6-tag' of git://git.kerne..
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=13005e31680000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=32d0b9b42ceb8b10
-dashboard link: https://syzkaller.appspot.com/bug?extid=0da81ccba2345eeb7f48
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13c48345680000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=101b3679680000
-
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/45e9377886e9/disk-1c8b86a3.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/9511a41a6d1e/vmlinux-1c8b86a3.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/fac07e1c3c1a/bzImage-1c8b86a3.xz
-
-The issue was bisected to:
-
-commit 85e26dd5100a182bf8448050427539c0a66ab793
-Author: Christian König <christian.koenig@amd.com>
-Date:   Thu Jan 26 09:24:26 2023 +0000
-
-    drm/client: fix circular reference counting issue
-
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14cf17f1680000
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=16cf17f1680000
-console output: https://syzkaller.appspot.com/x/log.txt?x=12cf17f1680000
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+0da81ccba2345eeb7f48@syzkaller.appspotmail.com
-Fixes: 85e26dd5100a ("drm/client: fix circular reference counting issue")
-
-------------[ cut here ]------------
-WARNING: CPU: 0 PID: 5040 at drivers/gpu/drm/drm_prime.c:326 drm_gem_prime_fd_to_handle drivers/gpu/drm/drm_prime.c:326 [inline]
-WARNING: CPU: 0 PID: 5040 at drivers/gpu/drm/drm_prime.c:326 drm_prime_fd_to_handle_ioctl+0x555/0x600 drivers/gpu/drm/drm_prime.c:374
-Modules linked in:
-CPU: 0 PID: 5040 Comm: syz-executor405 Not tainted 6.6.0-rc5-syzkaller-00055-g1c8b86a3799f #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/06/2023
-RIP: 0010:drm_gem_prime_fd_to_handle drivers/gpu/drm/drm_prime.c:326 [inline]
-RIP: 0010:drm_prime_fd_to_handle_ioctl+0x555/0x600 drivers/gpu/drm/drm_prime.c:374
-Code: 89 df e8 0e 9b 26 fd f0 48 ff 03 e9 7e fd ff ff e8 b0 dc d0 fc 4c 89 f7 44 89 eb e8 75 73 8b 05 e9 da fe ff ff e8 9b dc d0 fc <0f> 0b e9 5d fd ff ff e8 3f 94 26 fd e9 3a fc ff ff 48 8b 7c 24 08
-RSP: 0018:ffffc90003a5fc70 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff888018f14c00 RCX: 0000000000000000
-RDX: ffff88801d691dc0 RSI: ffffffff84b6ea15 RDI: ffff8881476f3928
-RBP: ffff88801fac5400 R08: 0000000000000007 R09: fffffffffffff000
-R10: ffff8881476f3800 R11: 0000000000000000 R12: ffffc90003a5fe10
-R13: ffff8881476f3800 R14: ffff88801c590c10 R15: 0000000000000000
-FS:  00005555555d6380(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 0000555db75f4058 CR3: 0000000072209000 CR4: 0000000000350ef0
-Call Trace:
- <TASK>
- drm_ioctl_kernel+0x280/0x4c0 drivers/gpu/drm/drm_ioctl.c:789
- drm_ioctl+0x5cb/0xbf0 drivers/gpu/drm/drm_ioctl.c:892
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:871 [inline]
- __se_sys_ioctl fs/ioctl.c:857 [inline]
- __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:857
- do_syscall_x64 arch/x86/entry/common.c:50 [inline]
- do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
- entry_SYSCALL_64_after_hwframe+0x63/0xcd
-RIP: 0033:0x7f0c8214be69
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 c1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007fff6f4156f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f0c8214be69
-RDX: 0000000020000000 RSI: 00000000c00c642e RDI: 0000000000000003
-RBP: 0000000000000000 R08: 00000000000000a0 R09: 00000000000000a0
-R10: 00000000000000a0 R11: 0000000000000246 R12: 0000000000000000
-R13: 00007f0c821c3820 R14: 00007fff6f415720 R15: 00007fff6f415710
- </TASK>
 
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+On 13.10.23 г. 13:46 ч., Sean Young wrote:
+> This makes the driver much more precise.
+> 
+> Signed-off-by: Sean Young <sean@mess.org>
+> ---
+>   drivers/media/rc/pwm-ir-tx.c | 79 ++++++++++++++++++++++++++++++++++--
+>   1 file changed, 76 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
+> index c5f37c03af9c..3e801fa8ee2c 100644
+> --- a/drivers/media/rc/pwm-ir-tx.c
+> +++ b/drivers/media/rc/pwm-ir-tx.c
+> @@ -10,6 +10,8 @@
+>   #include <linux/slab.h>
+>   #include <linux/of.h>
+>   #include <linux/platform_device.h>
+> +#include <linux/hrtimer.h>
+> +#include <linux/completion.h>
+>   #include <media/rc-core.h>
+>   
+>   #define DRIVER_NAME	"pwm-ir-tx"
+> @@ -17,8 +19,14 @@
+>   
+>   struct pwm_ir {
+>   	struct pwm_device *pwm;
+> -	unsigned int carrier;
+> -	unsigned int duty_cycle;
+> +	struct hrtimer timer;
+> +	struct completion completion;
 
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+what about 'struct completion tx_done'?
 
-If the bug is already fixed, let syzbot know by replying with:
-#syz fix: exact-commit-title
+> +	struct pwm_state *state;
+> +	uint carrier;
+> +	uint duty_cycle;
 
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
+With my c++ developer hat on, I think either 'u32' or 'unsigned int' is 
+more proper type for carrier and duty_cycle. Both s_tx_duty_cycle and 
+s_tx_carrier are declared with second parameter of type u32, maybe 
+that's what have to be used all over the place if you are to change from 
+'unsigned int'. But better leave as it is, pwm_set_relative_duty_cycle() 
+takes 'unsigned int' anyway.
 
-If you want to overwrite bug's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
+> +	uint *txbuf;
+> +	uint txbuf_len;
+> +	uint txbuf_index;
 
-If the bug is a duplicate of another bug, reply with:
-#syz dup: exact-subject-of-another-report
+OTOH, it is (*tx_ir)(struct rc_dev *dev, unsigned *txbuf, unsigned n), 
+so maybe you should use 'unsigned' or 'unsigned int' for those.
 
-If you want to undo deduplication, reply with:
-#syz undup
+I know at the end all those will be compiled to same type, but still :)
+
+>   };
+>   
+>   static const struct of_device_id pwm_ir_of_match[] = {
+> @@ -82,6 +90,62 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
+>   	return count;
+>   }
+>   
+> +static int pwm_ir_tx_atomic(struct rc_dev *dev, unsigned int *txbuf,
+> +			    unsigned int count)
+> +{
+> +	struct pwm_ir *pwm_ir = dev->priv;
+> +	struct pwm_device *pwm = pwm_ir->pwm;
+> +	struct pwm_state state;
+> +
+> +	pwm_init_state(pwm, &state);
+> +
+> +	state.period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
+> +	pwm_set_relative_duty_cycle(&state, pwm_ir->duty_cycle, 100);
+> +
+> +	pwm_ir->txbuf = txbuf;
+> +	pwm_ir->txbuf_len = count;
+> +	pwm_ir->txbuf_index = 0;
+> +	pwm_ir->state = &state;
+> +
+> +	hrtimer_start(&pwm_ir->timer, 0, HRTIMER_MODE_REL);
+> +
+> +	wait_for_completion(&pwm_ir->completion);
+> +
+> +	return count;
+> +}
+> +
+> +static enum hrtimer_restart pwm_ir_timer(struct hrtimer *timer)
+> +{
+> +	struct pwm_ir *pwm_ir = container_of(timer, struct pwm_ir, timer);
+> +	ktime_t now;
+> +
+> +	/*
+> +	 * If we happen to hit an odd latency spike, loop through the
+> +	 * pulses until we catch up.
+> +	 */
+> +	do {
+> +		u64 ns;
+> +
+> +		pwm_ir->state->enabled = !(pwm_ir->txbuf_index % 2);
+> +		pwm_apply_state_atomic(pwm_ir->pwm, pwm_ir->state);
+> +
+> +		if (pwm_ir->txbuf_index >= pwm_ir->txbuf_len) {
+> +			complete(&pwm_ir->completion);
+> +
+> +			return HRTIMER_NORESTART;
+> +		}
+> +
+> +		ns = US_TO_NS(pwm_ir->txbuf[pwm_ir->txbuf_index]);
+> +		hrtimer_add_expires_ns(timer, ns);
+> +
+> +		pwm_ir->txbuf_index++;
+> +
+> +		now = timer->base->get_time();
+> +	} while (hrtimer_get_expires_tv64(timer) < now);
+> +
+> +	return HRTIMER_RESTART;
+> +}
+> +
+>   static int pwm_ir_probe(struct platform_device *pdev)
+>   {
+>   	struct pwm_ir *pwm_ir;
+> @@ -103,10 +167,19 @@ static int pwm_ir_probe(struct platform_device *pdev)
+>   	if (!rcdev)
+>   		return -ENOMEM;
+>   
+> +	if (pwm_is_atomic(pwm_ir->pwm)) {
+> +		init_completion(&pwm_ir->completion);
+> +		hrtimer_init(&pwm_ir->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
+> +		pwm_ir->timer.function = pwm_ir_timer;
+> +		rcdev->tx_ir = pwm_ir_tx_atomic;
+> +	} else {
+> +		dev_info(&pdev->dev, "tx will not be accurate as pwm device does not support atomic mode");
+> +		rcdev->tx_ir = pwm_ir_tx;
+> +	}
+> +
+>   	rcdev->priv = pwm_ir;
+>   	rcdev->driver_name = DRIVER_NAME;
+>   	rcdev->device_name = DEVICE_NAME;
+> -	rcdev->tx_ir = pwm_ir_tx;
+>   	rcdev->s_tx_duty_cycle = pwm_ir_set_duty_cycle;
+>   	rcdev->s_tx_carrier = pwm_ir_set_carrier;
+>   
+> 
