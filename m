@@ -2,222 +2,239 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E3337C982D
-	for <lists+linux-media@lfdr.de>; Sun, 15 Oct 2023 08:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 00A137C9902
+	for <lists+linux-media@lfdr.de>; Sun, 15 Oct 2023 14:39:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230371AbjJOGbv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Oct 2023 02:31:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51120 "EHLO
+        id S229649AbjJOMjW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Oct 2023 08:39:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229554AbjJOGbu (ORCPT
+        with ESMTP id S229561AbjJOMjV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Oct 2023 02:31:50 -0400
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0386D8;
-        Sat, 14 Oct 2023 23:31:47 -0700 (PDT)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-5384975e34cso6153241a12.0;
-        Sat, 14 Oct 2023 23:31:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697351506; x=1697956306; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=V7BjF49jhYcIOnOxtIyZhIJ7GyT/yGc0vCgKZxiCb78=;
-        b=SgH8L9GWA7hmfllNyi+XUiEhSvIC1AdQ8xyKp4CO/jQ96TtlsDE8dLLZ+196o3xIyc
-         P80H3Jhz1DggDNHTJBC2KkxQVNAZyeV52TNT0++kjubmHUJbx7Qf3ZwxCSTI0wEZwi1v
-         K1g9FJDCvI05SV1MqMajtfeXgaIdWCnFCD8WApw1AjZ5aTi8DpbuNUUwyhRIHb0AiRZ4
-         vpAhRMf0xxPXlD2muPxG+/GZcC0uk+OLEh7tr/QLhU5UdsDzZ+v7Lyuc2EjU6drO7ioU
-         4lNs4bjOYW7hGFHs6G4kKDiAYKdzPN6HBOc7+Ki0BXaXBcWipt6X+AlI6wptnb5JMBrd
-         BRDw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697351506; x=1697956306;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=V7BjF49jhYcIOnOxtIyZhIJ7GyT/yGc0vCgKZxiCb78=;
-        b=R2SQ+YY7BaGv+Hb9FAGS+S9uFmNMv2w6i4pmisIvc6XuWLUyKVshRJntyoEF8OtoNf
-         gHLW2JYswrSCTeGxroCE6chb7D3KGsGkTYkRoPUnemjj2hLwuqgWYxF2x/yD+TuztZJ/
-         Nn3nzW8YpukNhAhjyLnWLBRLwbHslV+yHel++aCD8uwk1ROSl44IJJNYOOnruOBippCr
-         S5kluxSgR8SJXmRiX9UeYki8S1Me0lEwL3jW2M2kew6d63HDk0Hbms+eu25ezz3qAs0Z
-         Iy48h+2IxWmEr7UpJ1Bm7hBVGsbcKlb6oPQ01MYH3nMXDFGBGTESE1zHe/bDUoJyRCx8
-         hb0A==
-X-Gm-Message-State: AOJu0YyZKvJSZuNC0gZBLo7SivZ0zUzcOTfPn9ii03mcBtliyCO47RGR
-        v5Hxw5w4yCBHCl9wpg9BPMTOceusQvo=
-X-Google-Smtp-Source: AGHT+IG5GU6Vbn9iHhOSKlxeHGHBMvSeePpqmhHFbwMiiUjBMcRLHfjQuUnfIsI+FpGNZ7dQECfxhQ==
-X-Received: by 2002:a05:6402:354c:b0:53e:5a90:e57 with SMTP id f12-20020a056402354c00b0053e5a900e57mr4820970edd.37.1697351506027;
-        Sat, 14 Oct 2023 23:31:46 -0700 (PDT)
-Received: from [192.168.1.10] ([95.43.220.235])
-        by smtp.googlemail.com with ESMTPSA id cx16-20020a05640222b000b0053dbb214d96sm5714642edb.13.2023.10.14.23.31.45
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sat, 14 Oct 2023 23:31:45 -0700 (PDT)
-Subject: Re: [PATCH v2 3/3] media: pwm-ir-tx: trigger edges from hrtimer
- interrupt context
-To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     linux-kernel@vger.kernel.org, linux-pwm@vger.kernel.org
-References: <cover.1697193646.git.sean@mess.org>
- <1560b474f7d426bc77100665c14c3a29c3af3e75.1697193646.git.sean@mess.org>
-From:   Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>
-Message-ID: <e47d4d33-4689-915d-3169-5c122075df05@gmail.com>
-Date:   Sun, 15 Oct 2023 09:31:34 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
- Firefox/60.0 Thunderbird/60.6.1
+        Sun, 15 Oct 2023 08:39:21 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A88FD6;
+        Sun, 15 Oct 2023 05:39:18 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB896327;
+        Sun, 15 Oct 2023 14:39:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1697373551;
+        bh=dzjnCjwfcqMfcNNHqBSajU7MAd1Z/q6f1+jISiGq4wc=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lWTA4B8ogveTLdw4KUrBd92ZacGUfzAzx2gzJrDfDJ/16yA/g2TGCCHhyvM2P68qH
+         h3Qg+CWBdsF8xgm9KIiiVa5VvB59fB98tyuRRSlSus/PJLOGaPy//rLMiMPgfRkIBJ
+         RWqATi8lPV9zVrOGPW76Wwg/zk0sURwIQGQhPcLY=
+Date:   Sun, 15 Oct 2023 15:39:23 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     linux-media@vger.kernel.org,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Julien Stephan <jstephan@baylibre.com>,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v3 1/3] dt-bindings: media: Add bindings for THine
+ THP7312 ISP
+Message-ID: <20231015123923.GB23177@pendragon.ideasonboard.com>
+References: <20231012193737.7251-1-laurent.pinchart@ideasonboard.com>
+ <20231012193737.7251-2-laurent.pinchart@ideasonboard.com>
+ <aaa41ff2-d2e3-4c25-9654-065a02275619@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <1560b474f7d426bc77100665c14c3a29c3af3e75.1697193646.git.sean@mess.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aaa41ff2-d2e3-4c25-9654-065a02275619@linaro.org>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Krzysztof,
 
-
-On 13.10.23 г. 13:46 ч., Sean Young wrote:
-> This makes the driver much more precise.
+On Thu, Oct 12, 2023 at 09:57:38PM +0200, Krzysztof Kozlowski wrote:
+> On 12/10/2023 21:37, Laurent Pinchart wrote:
 > 
-> Signed-off-by: Sean Young <sean@mess.org>
-> ---
->   drivers/media/rc/pwm-ir-tx.c | 79 ++++++++++++++++++++++++++++++++++--
->   1 file changed, 76 insertions(+), 3 deletions(-)
+> Thanks for the changes
+
+You're welcome. Sorry again for missing some of your review comments on
+v1.
+
+> > +
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > +    additionalProperties: false
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        $ref: /schemas/media/video-interfaces.yaml#
+> > +        unevaluatedProperties: false
+> > +
+> > +        properties:
+> > +          data-lanes:
+> > +            description:
+> > +              This property is for lane reordering between the THP7312 and the
+> > +              SoC. The sensor supports either two-lane, or four-lane operation.
+> > +              If this property is omitted four-lane operation is assumed. For
+> > +              two-lane operation the property must be set to <1 2>.
+> > +            minItems: 2
+> > +            maxItems: 4
+> > +            items:
+> > +              maximum: 4
+> > +
+> > +  sensors:
+> > +    type: object
+> > +    description: List of connected sensors
 > 
-> diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
-> index c5f37c03af9c..3e801fa8ee2c 100644
-> --- a/drivers/media/rc/pwm-ir-tx.c
-> +++ b/drivers/media/rc/pwm-ir-tx.c
-> @@ -10,6 +10,8 @@
->   #include <linux/slab.h>
->   #include <linux/of.h>
->   #include <linux/platform_device.h>
-> +#include <linux/hrtimer.h>
-> +#include <linux/completion.h>
->   #include <media/rc-core.h>
->   
->   #define DRIVER_NAME	"pwm-ir-tx"
-> @@ -17,8 +19,14 @@
->   
->   struct pwm_ir {
->   	struct pwm_device *pwm;
-> -	unsigned int carrier;
-> -	unsigned int duty_cycle;
-> +	struct hrtimer timer;
-> +	struct completion completion;
+> I don't understand why do you list sensors here. From the binding
+> description I understood these are external sensors, which usually sit
+> on I2C bus.
 
-what about 'struct completion tx_done'?
+Good question :-)
 
-> +	struct pwm_state *state;
-> +	uint carrier;
-> +	uint duty_cycle;
+The sensors connected to the THP7312 input are controlled over I2C by
+the THP7312 itself. The host operating system doesn't have access to
+that I2C bus. The sensors are listed here because their power supplies
+need to be controlled by the host operating system.
 
-With my c++ developer hat on, I think either 'u32' or 'unsigned int' is 
-more proper type for carrier and duty_cycle. Both s_tx_duty_cycle and 
-s_tx_carrier are declared with second parameter of type u32, maybe 
-that's what have to be used all over the place if you are to change from 
-'unsigned int'. But better leave as it is, pwm_set_relative_duty_cycle() 
-takes 'unsigned int' anyway.
-
-> +	uint *txbuf;
-> +	uint txbuf_len;
-> +	uint txbuf_index;
-
-OTOH, it is (*tx_ir)(struct rc_dev *dev, unsigned *txbuf, unsigned n), 
-so maybe you should use 'unsigned' or 'unsigned int' for those.
-
-I know at the end all those will be compiled to same type, but still :)
-
->   };
->   
->   static const struct of_device_id pwm_ir_of_match[] = {
-> @@ -82,6 +90,62 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
->   	return count;
->   }
->   
-> +static int pwm_ir_tx_atomic(struct rc_dev *dev, unsigned int *txbuf,
-> +			    unsigned int count)
-> +{
-> +	struct pwm_ir *pwm_ir = dev->priv;
-> +	struct pwm_device *pwm = pwm_ir->pwm;
-> +	struct pwm_state state;
-> +
-> +	pwm_init_state(pwm, &state);
-> +
-> +	state.period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
-> +	pwm_set_relative_duty_cycle(&state, pwm_ir->duty_cycle, 100);
-> +
-> +	pwm_ir->txbuf = txbuf;
-> +	pwm_ir->txbuf_len = count;
-> +	pwm_ir->txbuf_index = 0;
-> +	pwm_ir->state = &state;
-> +
-> +	hrtimer_start(&pwm_ir->timer, 0, HRTIMER_MODE_REL);
-> +
-> +	wait_for_completion(&pwm_ir->completion);
-> +
-> +	return count;
-> +}
-> +
-> +static enum hrtimer_restart pwm_ir_timer(struct hrtimer *timer)
-> +{
-> +	struct pwm_ir *pwm_ir = container_of(timer, struct pwm_ir, timer);
-> +	ktime_t now;
-> +
-> +	/*
-> +	 * If we happen to hit an odd latency spike, loop through the
-> +	 * pulses until we catch up.
-> +	 */
-> +	do {
-> +		u64 ns;
-> +
-> +		pwm_ir->state->enabled = !(pwm_ir->txbuf_index % 2);
-> +		pwm_apply_state_atomic(pwm_ir->pwm, pwm_ir->state);
-> +
-> +		if (pwm_ir->txbuf_index >= pwm_ir->txbuf_len) {
-> +			complete(&pwm_ir->completion);
-> +
-> +			return HRTIMER_NORESTART;
-> +		}
-> +
-> +		ns = US_TO_NS(pwm_ir->txbuf[pwm_ir->txbuf_index]);
-> +		hrtimer_add_expires_ns(timer, ns);
-> +
-> +		pwm_ir->txbuf_index++;
-> +
-> +		now = timer->base->get_time();
-> +	} while (hrtimer_get_expires_tv64(timer) < now);
-> +
-> +	return HRTIMER_RESTART;
-> +}
-> +
->   static int pwm_ir_probe(struct platform_device *pdev)
->   {
->   	struct pwm_ir *pwm_ir;
-> @@ -103,10 +167,19 @@ static int pwm_ir_probe(struct platform_device *pdev)
->   	if (!rcdev)
->   		return -ENOMEM;
->   
-> +	if (pwm_is_atomic(pwm_ir->pwm)) {
-> +		init_completion(&pwm_ir->completion);
-> +		hrtimer_init(&pwm_ir->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> +		pwm_ir->timer.function = pwm_ir_timer;
-> +		rcdev->tx_ir = pwm_ir_tx_atomic;
-> +	} else {
-> +		dev_info(&pdev->dev, "tx will not be accurate as pwm device does not support atomic mode");
-> +		rcdev->tx_ir = pwm_ir_tx;
-> +	}
-> +
->   	rcdev->priv = pwm_ir;
->   	rcdev->driver_name = DRIVER_NAME;
->   	rcdev->device_name = DEVICE_NAME;
-> -	rcdev->tx_ir = pwm_ir_tx;
->   	rcdev->s_tx_duty_cycle = pwm_ir_set_duty_cycle;
->   	rcdev->s_tx_carrier = pwm_ir_set_carrier;
->   
+> > +
+> > +    properties:
+> > +      "#address-cells":
+> > +        const: 1
+> > +
+> > +      "#size-cells":
+> > +        const: 0
+> > +
+> > +    patternProperties:
+> > +      "^sensor@[01]":
+> > +        type: object
+> > +        description:
+> > +          Sensors connected to the first and second input, with one node per
+> > +          sensor.
+> > +
+> > +        properties:
+> > +          thine,model:
+> > +            $ref: /schemas/types.yaml#/definitions/string
+> > +            description:
+> > +              Model of the connected sensors. Must be a valid compatible string.
 > 
+> Then why this isn't compatible?
+
+We picked a vendor-specific property to avoid implying that the sensor
+nodes will result in devices being created by the host operating system.
+I don't mind using "compatible" instead, but as far as I understand, a
+compatible string implies that corresponding device DT bindings should
+exist, and that won't be the case here necessarily.
+
+> > +
+> > +          reg:
+> > +            maxItems: 1
+> > +            description: THP7312 input port number
+> > +
+> > +          data-lanes:
+> > +            $ref: /schemas/media/video-interfaces.yaml#/properties/data-lanes
+> > +            items:
+> > +              maxItems: 4
+> > +            description:
+> > +              This property is for lane reordering between the THP7312 and the imaging
+> > +              sensor that it is connected to.
+> > +
+> > +        patternProperties:
+> > +          ".*-supply":
+> > +            description: Power supplies for the sensor
+> > +
+> > +        required:
+> > +          - reg
+> > +          - data-lanes
+> > +
+> > +        additionalProperties: false
+> > +
+> > +    required:
+> > +      - "#address-cells"
+> > +      - "#size-cells"
+> > +
+> > +    additionalProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - reset-gpios
+> > +  - clocks
+> > +  - vddcore-supply
+> > +  - vhtermrx-supply
+> > +  - vddtx-supply
+> > +  - vddhost-supply
+> > +  - vddcmos-supply
+> > +  - vddgpio-0-supply
+> > +  - vddgpio-1-supply
+> > +  - sensors
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c {
+> > +        #address-cells = <1>;
+> > +        #size-cells = <0>;
+> > +
+> > +        camera@61 {
+> > +            compatible = "thine,thp7312";
+> > +            reg = <0x61>;
+> > +
+> > +            pinctrl-names = "default";
+> > +            pinctrl-0 = <&cam1_pins_default>;
+> > +
+> > +            reset-gpios = <&pio 119 GPIO_ACTIVE_LOW>;
+> > +            clocks = <&camera61_clk>;
+> > +
+> > +            vddcore-supply = <&vsys_v4p2>;
+> > +            vhtermrx-supply = <&vsys_v4p2>;
+> > +            vddtx-supply = <&vsys_v4p2>;
+> > +            vddhost-supply = <&vsys_v4p2>;
+> > +            vddcmos-supply = <&vsys_v4p2>;
+> > +            vddgpio-0-supply = <&vsys_v4p2>;
+> > +            vddgpio-1-supply = <&vsys_v4p2>;
+> > +
+> > +            orientation = <0>;
+> > +            rotation = <0>;
+> > +
+> > +            sensors {
+> > +                #address-cells = <1>;
+> > +                #size-cells = <0>;
+> > +
+> > +                sensor@0 {
+> > +                    thine,model = "sony,imx258";
+> > +                    reg = <0>;
+> > +
+> > +                    data-lanes = <4 1 3 2>;
+> > +
+> > +                    dovdd-supply = <&vsys_v4p2>;
+> > +                    avdd-supply = <&vsys_v4p2>;
+> > +                    dvdd-supply = <&vsys_v4p2>;
+> > +                };
+> > +            };
+> > +
+> > +            port {
+> > +                thp7312_2_endpoint: endpoint {
+> > +                    remote-endpoint = <&mipi_thp7312_2>;
+> > +                    data-lanes = <4 2 1 3>;
+> > +                };
+> > +            };
+> > +    	  };
+> > +    };
+
+-- 
+Regards,
+
+Laurent Pinchart
