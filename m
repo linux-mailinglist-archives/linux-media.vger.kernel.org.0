@@ -2,239 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 00A137C9902
-	for <lists+linux-media@lfdr.de>; Sun, 15 Oct 2023 14:39:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0C41D7C99F7
+	for <lists+linux-media@lfdr.de>; Sun, 15 Oct 2023 18:18:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229649AbjJOMjW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Oct 2023 08:39:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40870 "EHLO
+        id S229893AbjJOQSA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Oct 2023 12:18:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229561AbjJOMjV (ORCPT
+        with ESMTP id S229522AbjJOQSA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Oct 2023 08:39:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A88FD6;
-        Sun, 15 Oct 2023 05:39:18 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB896327;
-        Sun, 15 Oct 2023 14:39:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1697373551;
-        bh=dzjnCjwfcqMfcNNHqBSajU7MAd1Z/q6f1+jISiGq4wc=;
+        Sun, 15 Oct 2023 12:18:00 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A20E0A3
+        for <linux-media@vger.kernel.org>; Sun, 15 Oct 2023 09:17:58 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02604C433C8;
+        Sun, 15 Oct 2023 16:17:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1697386678;
+        bh=JjwR3Iik7yapto6dZBJQNmf0aTKZs2ObMm2rWIEIAv0=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lWTA4B8ogveTLdw4KUrBd92ZacGUfzAzx2gzJrDfDJ/16yA/g2TGCCHhyvM2P68qH
-         h3Qg+CWBdsF8xgm9KIiiVa5VvB59fB98tyuRRSlSus/PJLOGaPy//rLMiMPgfRkIBJ
-         RWqATi8lPV9zVrOGPW76Wwg/zk0sURwIQGQhPcLY=
-Date:   Sun, 15 Oct 2023 15:39:23 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     linux-media@vger.kernel.org,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Julien Stephan <jstephan@baylibre.com>,
-        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v3 1/3] dt-bindings: media: Add bindings for THine
- THP7312 ISP
-Message-ID: <20231015123923.GB23177@pendragon.ideasonboard.com>
-References: <20231012193737.7251-1-laurent.pinchart@ideasonboard.com>
- <20231012193737.7251-2-laurent.pinchart@ideasonboard.com>
- <aaa41ff2-d2e3-4c25-9654-065a02275619@linaro.org>
+        b=lxPPuJVssZgz9N8vnb7K0yqgihdBkeBkf1s4LgrGKPCKla3QnZaPSgydmKC0LHV4/
+         24KSAA5TUc8AvM4RchPLogC02WW4bbwKc3j+P/mBJzBqsRYt0nyhbMacpFforE9pZx
+         TkVMSSq61pPUbYU+zIrIFhbvp4HF+M/MHqJDox2k=
+Date:   Sun, 15 Oct 2023 18:17:53 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Umang Jain <umang.jain@ideasonboard.com>
+Cc:     linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-rpi-kernel@lists.infradead.org,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v2] staging: vc04_services: vchiq_bus: Do not kfree device
+Message-ID: <2023101540-treason-unbounded-47b6@gregkh>
+References: <20231009104714.142880-1-umang.jain@ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aaa41ff2-d2e3-4c25-9654-065a02275619@linaro.org>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231009104714.142880-1-umang.jain@ideasonboard.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Krzysztof,
-
-On Thu, Oct 12, 2023 at 09:57:38PM +0200, Krzysztof Kozlowski wrote:
-> On 12/10/2023 21:37, Laurent Pinchart wrote:
+On Mon, Oct 09, 2023 at 04:17:14PM +0530, Umang Jain wrote:
+> As per device_register() documentation, this kfree() on error path will
+> crash. The call to put_device() is all that is needed here to free the
+> memory.
 > 
-> Thanks for the changes
-
-You're welcome. Sorry again for missing some of your review comments on
-v1.
-
-> > +
-> > +  port:
-> > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > +    additionalProperties: false
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        $ref: /schemas/media/video-interfaces.yaml#
-> > +        unevaluatedProperties: false
-> > +
-> > +        properties:
-> > +          data-lanes:
-> > +            description:
-> > +              This property is for lane reordering between the THP7312 and the
-> > +              SoC. The sensor supports either two-lane, or four-lane operation.
-> > +              If this property is omitted four-lane operation is assumed. For
-> > +              two-lane operation the property must be set to <1 2>.
-> > +            minItems: 2
-> > +            maxItems: 4
-> > +            items:
-> > +              maximum: 4
-> > +
-> > +  sensors:
-> > +    type: object
-> > +    description: List of connected sensors
+> Fixes: 027e5703de6b ("staging: vc04_services: vchiq_arm: Add new bus type and device type")
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> I don't understand why do you list sensors here. From the binding
-> description I understood these are external sensors, which usually sit
-> on I2C bus.
-
-Good question :-)
-
-The sensors connected to the THP7312 input are controlled over I2C by
-the THP7312 itself. The host operating system doesn't have access to
-that I2C bus. The sensors are listed here because their power supplies
-need to be controlled by the host operating system.
-
-> > +
-> > +    properties:
-> > +      "#address-cells":
-> > +        const: 1
-> > +
-> > +      "#size-cells":
-> > +        const: 0
-> > +
-> > +    patternProperties:
-> > +      "^sensor@[01]":
-> > +        type: object
-> > +        description:
-> > +          Sensors connected to the first and second input, with one node per
-> > +          sensor.
-> > +
-> > +        properties:
-> > +          thine,model:
-> > +            $ref: /schemas/types.yaml#/definitions/string
-> > +            description:
-> > +              Model of the connected sensors. Must be a valid compatible string.
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> index 4ac3491efe45..0076d091b9b2 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+> @@ -73,7 +73,6 @@ vchiq_device_register(struct device *parent, const char *name)
+>  	if (ret) {
+>  		dev_err(parent, "Cannot register %s: %d\n", name, ret);
+>  		put_device(&device->dev);
+> -		kfree(device);
+>  		return NULL;
+>  	}
+>  
+> -- 
+> 2.40.1
 > 
-> Then why this isn't compatible?
+> 
 
-We picked a vendor-specific property to avoid implying that the sensor
-nodes will result in devices being created by the host operating system.
-I don't mind using "compatible" instead, but as far as I understand, a
-compatible string implies that corresponding device DT bindings should
-exist, and that won't be the case here necessarily.
+Hi,
 
-> > +
-> > +          reg:
-> > +            maxItems: 1
-> > +            description: THP7312 input port number
-> > +
-> > +          data-lanes:
-> > +            $ref: /schemas/media/video-interfaces.yaml#/properties/data-lanes
-> > +            items:
-> > +              maxItems: 4
-> > +            description:
-> > +              This property is for lane reordering between the THP7312 and the imaging
-> > +              sensor that it is connected to.
-> > +
-> > +        patternProperties:
-> > +          ".*-supply":
-> > +            description: Power supplies for the sensor
-> > +
-> > +        required:
-> > +          - reg
-> > +          - data-lanes
-> > +
-> > +        additionalProperties: false
-> > +
-> > +    required:
-> > +      - "#address-cells"
-> > +      - "#size-cells"
-> > +
-> > +    additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - reset-gpios
-> > +  - clocks
-> > +  - vddcore-supply
-> > +  - vhtermrx-supply
-> > +  - vddtx-supply
-> > +  - vddhost-supply
-> > +  - vddcmos-supply
-> > +  - vddgpio-0-supply
-> > +  - vddgpio-1-supply
-> > +  - sensors
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        camera@61 {
-> > +            compatible = "thine,thp7312";
-> > +            reg = <0x61>;
-> > +
-> > +            pinctrl-names = "default";
-> > +            pinctrl-0 = <&cam1_pins_default>;
-> > +
-> > +            reset-gpios = <&pio 119 GPIO_ACTIVE_LOW>;
-> > +            clocks = <&camera61_clk>;
-> > +
-> > +            vddcore-supply = <&vsys_v4p2>;
-> > +            vhtermrx-supply = <&vsys_v4p2>;
-> > +            vddtx-supply = <&vsys_v4p2>;
-> > +            vddhost-supply = <&vsys_v4p2>;
-> > +            vddcmos-supply = <&vsys_v4p2>;
-> > +            vddgpio-0-supply = <&vsys_v4p2>;
-> > +            vddgpio-1-supply = <&vsys_v4p2>;
-> > +
-> > +            orientation = <0>;
-> > +            rotation = <0>;
-> > +
-> > +            sensors {
-> > +                #address-cells = <1>;
-> > +                #size-cells = <0>;
-> > +
-> > +                sensor@0 {
-> > +                    thine,model = "sony,imx258";
-> > +                    reg = <0>;
-> > +
-> > +                    data-lanes = <4 1 3 2>;
-> > +
-> > +                    dovdd-supply = <&vsys_v4p2>;
-> > +                    avdd-supply = <&vsys_v4p2>;
-> > +                    dvdd-supply = <&vsys_v4p2>;
-> > +                };
-> > +            };
-> > +
-> > +            port {
-> > +                thp7312_2_endpoint: endpoint {
-> > +                    remote-endpoint = <&mipi_thp7312_2>;
-> > +                    data-lanes = <4 2 1 3>;
-> > +                };
-> > +            };
-> > +    	  };
-> > +    };
+This is the friendly patch-bot of Greg Kroah-Hartman.  You have sent him
+a patch that has triggered this response.  He used to manually respond
+to these common problems, but in order to save his sanity (he kept
+writing the same thing over and over, yet to different people), I was
+created.  Hopefully you will not take offence and will fix the problem
+in your patch and resubmit it so that it can be accepted into the Linux
+kernel tree.
 
--- 
-Regards,
+You are receiving this message because of the following common error(s)
+as indicated below:
 
-Laurent Pinchart
+- This looks like a new version of a previously submitted patch, but you
+  did not list below the --- line any changes from the previous version.
+  Please read the section entitled "The canonical patch format" in the
+  kernel file, Documentation/process/submitting-patches.rst for what
+  needs to be done here to properly describe this.
+
+If you wish to discuss this problem further, or you have questions about
+how to resolve this issue, please feel free to respond to this email and
+Greg will reply once he has dug out from the pending patches received
+from other developers.
+
+thanks,
+
+greg k-h's patch email bot
