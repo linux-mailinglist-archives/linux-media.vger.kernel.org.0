@@ -2,68 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B54D7CA532
-	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 12:21:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A071F7CA554
+	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 12:28:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232090AbjJPKVx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Oct 2023 06:21:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50504 "EHLO
+        id S230219AbjJPK2B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Oct 2023 06:28:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230090AbjJPKVw (ORCPT
+        with ESMTP id S229666AbjJPK2A (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Oct 2023 06:21:52 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07401B4
-        for <linux-media@vger.kernel.org>; Mon, 16 Oct 2023 03:21:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697451710; x=1728987710;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=77WYDDHliirvKq+pEFu+/jhd0KTcJWN2qNVk2yUZoC0=;
-  b=jQg0UwJpBRk7xVEek4P0f6VAYVfly3ZWgYPxc+FzsfLFh4g8xp4bQe0a
-   6s9sv54rmFMLJ7q5ueDb5MWhXYSN5XO0hNXmtcjUo85nkQlfJ/LRetVPl
-   ISDZb5T1SWguZb81YPcok9SKyP+5hP1ds7IHYe3E5nr0+D9jBF7LbKt7m
-   1e0BedpQEEpqYAQD7NadSc7oy2b7NN4s2kGT/CzenO9w2IbyydtiLy+or
-   aeg9SVo9LulwzkJNnGEEU9+S4CziQXemi4pAw7OUOkwopwfsDMZbPDtar
-   Lpq3+1RLQBTe7XbqimOM7ok/yfyUYjYZgtvgeKH/Bsgw5uJtwuEQkwnMP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="416562133"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="416562133"
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 03:21:50 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="1002880295"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="1002880295"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 03:21:48 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id D1ECC11F82E;
-        Mon, 16 Oct 2023 13:21:45 +0300 (EEST)
-Date:   Mon, 16 Oct 2023 10:21:45 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com
-Subject: Re: [PATCH 2/6] media: v4l: subdev: Also return pads array
- information on stream functions
-Message-ID: <ZS0OuWiG7qHO21Xn@kekkonen.localdomain>
-References: <20231013104424.404768-1-sakari.ailus@linux.intel.com>
- <20231013104424.404768-3-sakari.ailus@linux.intel.com>
- <20231013110741.GD11101@pendragon.ideasonboard.com>
- <ZSkmPJdxlxeSzYeZ@kekkonen.localdomain>
- <20231016082452.GH23177@pendragon.ideasonboard.com>
- <ZSz7Y0lYrywH8/Jz@kekkonen.localdomain>
+        Mon, 16 Oct 2023 06:28:00 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD78A83;
+        Mon, 16 Oct 2023 03:27:58 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56797C433C8;
+        Mon, 16 Oct 2023 10:27:55 +0000 (UTC)
+Message-ID: <0b47f43b-1eba-48f3-b3a2-7b5ef441311a@xs4all.nl>
+Date:   Mon, 16 Oct 2023 12:27:53 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZSz7Y0lYrywH8/Jz@kekkonen.localdomain>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 44/56] media: core: Report the maximum possible number
+ of buffers for the queue
+Content-Language: en-US, nl
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
+ <20231012114642.19040-45-benjamin.gaignard@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231012114642.19040-45-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -71,57 +49,138 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 16, 2023 at 08:59:15AM +0000, Sakari Ailus wrote:
-> On Mon, Oct 16, 2023 at 11:24:52AM +0300, Laurent Pinchart wrote:
-> > Hi Sakari,
-> > 
-> > On Fri, Oct 13, 2023 at 11:13:00AM +0000, Sakari Ailus wrote:
-> > > On Fri, Oct 13, 2023 at 02:07:41PM +0300, Laurent Pinchart wrote:
-> > > > On Fri, Oct 13, 2023 at 01:44:20PM +0300, Sakari Ailus wrote:
-> > > > > There are two sets of functions that return information from sub-device
-> > > > > state, one for stream-unaware users and another for stream-aware users.
-> > > > > Add support for stream-aware functions to return format, crop and compose
-> > > > > information from pad-based array that are functionally equivalent to the
-> > > > > old, stream-unaware ones.
-> > > > > 
-> > > > > Also check state is non-NULL, in order to guard against old drivers
-> > > > > potentially calling this with NULL state for active formats or selection
-> > > > > rectangles.
-> > > > 
-> > > > I'm not too keen on this I'm afraid :-( I think it gets confusing for
-> > > > drivers that are not stream-aware to have to call a function that takes
-> > > > a stream number. I don't see a problem with keeping two different sets
-> > > > of functions, one for stream-aware drivers, and one for other drivers.
-> > > 
-> > > This becomes a nuisance in drivers such as CCS that work with sub-devices
-> > > some of which have streams and others which don't. I don't see why we
-> > > should have two sets of functions to access the same information, even
-> > > though it's stored differently.
-> > > 
-> > > I can add a wrapper using C11 _Generic to make the stream number go away.
-> > 
-> > That could possibly be interesting.
+On 12/10/2023 13:46, Benjamin Gaignard wrote:
+> Use one of the struct v4l2_create_buffers reserved bytes to report
+> the maximum possible number of buffers for the queue.
+> V4l2 framework set V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS flags in queue
+
+Ah, that's not a correct cap name. That suggests that userspace can
+set the max number of buffers. Instead it should be:
+
+V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS
+
+indicating that userspace can use the max_num_buffers field.
+
+> capabilities so userland can know when the field is valid.
 > 
-> I'll add this for v2.
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> 
+> # Conflicts:
+> #	drivers/media/common/videobuf2/videobuf2-v4l2.c
+> ---
+>  .../userspace-api/media/v4l/vidioc-create-bufs.rst        | 8 ++++++--
+>  Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst  | 1 +
+>  drivers/media/common/videobuf2/videobuf2-v4l2.c           | 2 ++
+>  drivers/media/v4l2-core/v4l2-ioctl.c                      | 4 ++--
+>  include/uapi/linux/videodev2.h                            | 7 ++++++-
+>  5 files changed, 17 insertions(+), 5 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+> index a048a9f6b7b6..1a46549e7462 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+> @@ -116,9 +116,13 @@ than the number requested.
+>        - ``flags``
+>        - Specifies additional buffer management attributes.
+>  	See :ref:`memory-flags`.
+> -
+>      * - __u32
+> -      - ``reserved``\ [6]
+> +      - ``max_buffers``
 
-C11 _Generic() isn't up to the task as it only deals with argument types. On
-the other hand, variadic arguments supports this. It'll look like:
+Call it max_num_buffers. It clearly indicates that it is about the maximum
+number of buffers, and not e.g. maximum buffer size or some other buffer
+property. It is also consistent with the internal field name.
 
-#define v4l2_subdev_get_crop(state, pad, ...)	      \
-	__v4l2_subdev_get_crop_ ## __VA_OPT__(stream) \
-	(state, pad __VA_OPT__(,) __VA_ARGS__)
-#define __v4l2_subdev_get_crop_(state, pad)	\
-	__v4l2_subdev_get_crop(state, pad, 0)
-#define __v4l2_subdev_get_crop_stream(state, pad, stream)	\
-	__v4l2_subdev_get_crop(state, pad, stream)
-struct v4l2_rect *
-__v4l2_subdev_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-		       u32 stream);
+> +      - If V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS capability flag is set
+> +        this field indicate the maximum possible number of buffers
+> +        for this queue.
+> +    * - __u32
+> +      - ``reserved``\ [5]
+>        - A place holder for future extensions. Drivers and applications
+>  	must set the array to zero.
+>  
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> index 099fa6695167..0395187e1a5a 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> @@ -120,6 +120,7 @@ aborting or finishing any DMA in progress, an implicit
+>  .. _V4L2-BUF-CAP-SUPPORTS-ORPHANED-BUFS:
+>  .. _V4L2-BUF-CAP-SUPPORTS-M2M-HOLD-CAPTURE-BUF:
+>  .. _V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS:
+> +.. _V4L2-BUF-CAP-SUPPORTS-SET-MAX-BUFS:
+>  
+>  .. raw:: latex
+>  
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index 799dd43b4aa9..5f4ea4485223 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -681,6 +681,7 @@ EXPORT_SYMBOL(vb2_querybuf);
+>  static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
+>  {
+>  	*caps = V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS;
+> +	*caps |= V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS;
+>  	if (q->io_modes & VB2_MMAP)
+>  		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP;
+>  	if (q->io_modes & VB2_USERPTR)
+> @@ -763,6 +764,7 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>  	fill_buf_caps(q, &create->capabilities);
+>  	validate_memory_flags(q, create->memory, &create->flags);
+>  	create->index = vb2_get_num_buffers(q);
+> +	create->max_buffers = q->max_num_buffers;
+>  	if (create->count == 0)
+>  		return ret != -EBUSY ? ret : 0;
+>  
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 9b1de54ce379..da355355a869 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -483,9 +483,9 @@ static void v4l_print_create_buffers(const void *arg, bool write_only)
+>  {
+>  	const struct v4l2_create_buffers *p = arg;
+>  
+> -	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, ",
+> +	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, max buffers=%u",
+>  		p->index, p->count, prt_names(p->memory, v4l2_memory_names),
+> -		p->capabilities);
+> +		p->capabilities, p->max_buffers);
+>  	v4l_print_format(&p->format, write_only);
+>  }
+>  
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index c3d4e490ce7c..ef1402537395 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1035,6 +1035,7 @@ struct v4l2_requestbuffers {
+>  #define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS		(1 << 4)
+>  #define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
+>  #define V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS		(1 << 6)
+> +#define V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS		(1 << 7)
+>  
+>  /**
+>   * struct v4l2_plane - plane info for multi-planar buffers
+> @@ -2605,6 +2606,9 @@ struct v4l2_dbg_chip_info {
+>   * @flags:	additional buffer management attributes (ignored unless the
+>   *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
+>   *		and configured for MMAP streaming I/O).
+> + * @max_buffers: if V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS capability flag is set
+> + *		 this field indicate the maximum possible number of buffers
+> + *		 for this queue.
+>   * @reserved:	future extensions
+>   */
+>  struct v4l2_create_buffers {
+> @@ -2614,7 +2618,8 @@ struct v4l2_create_buffers {
+>  	struct v4l2_format	format;
+>  	__u32			capabilities;
+>  	__u32			flags;
+> -	__u32			reserved[6];
+> +	__u32			max_buffers;
+> +	__u32			reserved[5];
+>  };
+>  
+>  /*
 
-Which I'd say is tolerable, given the result is a single function to access
-format, crop and compose information in the sub-device state.
+Regards,
 
-Any thoughts on this?
-
--- 
-Sakari Ailus
+	Hans
