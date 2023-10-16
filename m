@@ -2,47 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E76187CA525
-	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 12:18:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B54D7CA532
+	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 12:21:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233263AbjJPKSg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Oct 2023 06:18:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51652 "EHLO
+        id S232090AbjJPKVx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Oct 2023 06:21:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50504 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232828AbjJPKSP (ORCPT
+        with ESMTP id S230090AbjJPKVw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Oct 2023 06:18:15 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1E37131;
-        Mon, 16 Oct 2023 03:18:04 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 896D5C433C8;
-        Mon, 16 Oct 2023 10:18:00 +0000 (UTC)
-Message-ID: <1b49bfc4-808a-48fe-97b3-b49067e5e18e@xs4all.nl>
-Date:   Mon, 16 Oct 2023 12:17:58 +0200
+        Mon, 16 Oct 2023 06:21:52 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07401B4
+        for <linux-media@vger.kernel.org>; Mon, 16 Oct 2023 03:21:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697451710; x=1728987710;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=77WYDDHliirvKq+pEFu+/jhd0KTcJWN2qNVk2yUZoC0=;
+  b=jQg0UwJpBRk7xVEek4P0f6VAYVfly3ZWgYPxc+FzsfLFh4g8xp4bQe0a
+   6s9sv54rmFMLJ7q5ueDb5MWhXYSN5XO0hNXmtcjUo85nkQlfJ/LRetVPl
+   ISDZb5T1SWguZb81YPcok9SKyP+5hP1ds7IHYe3E5nr0+D9jBF7LbKt7m
+   1e0BedpQEEpqYAQD7NadSc7oy2b7NN4s2kGT/CzenO9w2IbyydtiLy+or
+   aeg9SVo9LulwzkJNnGEEU9+S4CziQXemi4pAw7OUOkwopwfsDMZbPDtar
+   Lpq3+1RLQBTe7XbqimOM7ok/yfyUYjYZgtvgeKH/Bsgw5uJtwuEQkwnMP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="416562133"
+X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
+   d="scan'208";a="416562133"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 03:21:50 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="1002880295"
+X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
+   d="scan'208";a="1002880295"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 03:21:48 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id D1ECC11F82E;
+        Mon, 16 Oct 2023 13:21:45 +0300 (EEST)
+Date:   Mon, 16 Oct 2023 10:21:45 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com
+Subject: Re: [PATCH 2/6] media: v4l: subdev: Also return pads array
+ information on stream functions
+Message-ID: <ZS0OuWiG7qHO21Xn@kekkonen.localdomain>
+References: <20231013104424.404768-1-sakari.ailus@linux.intel.com>
+ <20231013104424.404768-3-sakari.ailus@linux.intel.com>
+ <20231013110741.GD11101@pendragon.ideasonboard.com>
+ <ZSkmPJdxlxeSzYeZ@kekkonen.localdomain>
+ <20231016082452.GH23177@pendragon.ideasonboard.com>
+ <ZSz7Y0lYrywH8/Jz@kekkonen.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 40/56] sample: v4l: Stop direct calls to queue
- num_buffers field
-Content-Language: en-US, nl
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
- <20231012114642.19040-41-benjamin.gaignard@collabora.com>
- <21864437-bfdd-4d39-91fa-f24fc1c7cf97@xs4all.nl>
-In-Reply-To: <21864437-bfdd-4d39-91fa-f24fc1c7cf97@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZSz7Y0lYrywH8/Jz@kekkonen.localdomain>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -50,91 +71,57 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/10/2023 10:23, Hans Verkuil wrote:
-> On 12/10/2023 13:46, Benjamin Gaignard wrote:
->> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>  samples/v4l/v4l2-pci-skeleton.c | 5 +++--
->>  1 file changed, 3 insertions(+), 2 deletions(-)
->>
->> diff --git a/samples/v4l/v4l2-pci-skeleton.c b/samples/v4l/v4l2-pci-skeleton.c
->> index a61f94db18d9..a65aa9d1e9da 100644
->> --- a/samples/v4l/v4l2-pci-skeleton.c
->> +++ b/samples/v4l/v4l2-pci-skeleton.c
->> @@ -155,6 +155,7 @@ static int queue_setup(struct vb2_queue *vq,
->>  		       unsigned int sizes[], struct device *alloc_devs[])
->>  {
->>  	struct skeleton *skel = vb2_get_drv_priv(vq);
->> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
->>  
->>  	skel->field = skel->format.field;
->>  	if (skel->field == V4L2_FIELD_ALTERNATE) {
->> @@ -167,8 +168,8 @@ static int queue_setup(struct vb2_queue *vq,
->>  		skel->field = V4L2_FIELD_TOP;
->>  	}
->>  
->> -	if (vq->num_buffers + *nbuffers < 3)
->> -		*nbuffers = 3 - vq->num_buffers;
->> +	if (q_num_bufs + *nbuffers < 3)
->> +		*nbuffers = 3 - q_num_bufs;
+On Mon, Oct 16, 2023 at 08:59:15AM +0000, Sakari Ailus wrote:
+> On Mon, Oct 16, 2023 at 11:24:52AM +0300, Laurent Pinchart wrote:
+> > Hi Sakari,
+> > 
+> > On Fri, Oct 13, 2023 at 11:13:00AM +0000, Sakari Ailus wrote:
+> > > On Fri, Oct 13, 2023 at 02:07:41PM +0300, Laurent Pinchart wrote:
+> > > > On Fri, Oct 13, 2023 at 01:44:20PM +0300, Sakari Ailus wrote:
+> > > > > There are two sets of functions that return information from sub-device
+> > > > > state, one for stream-unaware users and another for stream-aware users.
+> > > > > Add support for stream-aware functions to return format, crop and compose
+> > > > > information from pad-based array that are functionally equivalent to the
+> > > > > old, stream-unaware ones.
+> > > > > 
+> > > > > Also check state is non-NULL, in order to guard against old drivers
+> > > > > potentially calling this with NULL state for active formats or selection
+> > > > > rectangles.
+> > > > 
+> > > > I'm not too keen on this I'm afraid :-( I think it gets confusing for
+> > > > drivers that are not stream-aware to have to call a function that takes
+> > > > a stream number. I don't see a problem with keeping two different sets
+> > > > of functions, one for stream-aware drivers, and one for other drivers.
+> > > 
+> > > This becomes a nuisance in drivers such as CCS that work with sub-devices
+> > > some of which have streams and others which don't. I don't see why we
+> > > should have two sets of functions to access the same information, even
+> > > though it's stored differently.
+> > > 
+> > > I can add a wrapper using C11 _Generic to make the stream number go away.
+> > 
+> > That could possibly be interesting.
 > 
-> This should be dropped, and instead update q->min_buffers_needed from
-> 2 to 3.
+> I'll add this for v2.
 
-Actually, that's not quite true. I realized that there is a subtle bug in
-the vb2 core and a general misunderstanding of min_buffers_needed in a lot
-of drivers.
+C11 _Generic() isn't up to the task as it only deals with argument types. On
+the other hand, variadic arguments supports this. It'll look like:
 
-The min_buffers_needed field describes the minimum number of buffers needed
-before the DMA engine can start. This is typically 0, 1 or 2. Once that many
-buffers have been queued, then start_streaming callback is called. With fewer
-buffers queued the DMA engine cannot start, so this represents a DMA engine
-limitation.
+#define v4l2_subdev_get_crop(state, pad, ...)	      \
+	__v4l2_subdev_get_crop_ ## __VA_OPT__(stream) \
+	(state, pad __VA_OPT__(,) __VA_ARGS__)
+#define __v4l2_subdev_get_crop_(state, pad)	\
+	__v4l2_subdev_get_crop(state, pad, 0)
+#define __v4l2_subdev_get_crop_stream(state, pad, stream)	\
+	__v4l2_subdev_get_crop(state, pad, stream)
+struct v4l2_rect *
+__v4l2_subdev_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+		       u32 stream);
 
-Currently vb2 also uses this field as the minimum number of buffers to
-allocate. However, that should be one more, so min_buffers_needed+1:
-'min_buffers_needed' buffers are in-flight, and you need one more that is
-owned by userspace, otherwise you would never be able to dequeue a buffer
-if you only created 'min_buffers_needed' buffers.
+Which I'd say is tolerable, given the result is a single function to access
+format, crop and compose information in the sub-device state.
 
-But I noticed a lot of drivers that misinterpret this value as 'the minimum
-number of buffers to allocate', unrelated to any DMA engine limitations.
-This is most likely a bug, since this would unnecessarily delay the call to
-start_streaming().
+Any thoughts on this?
 
-In other words, it is a mess.
-
-I think my earlier advice to change min_buffers_needed and drop the check
-in queue_setup should be disregarded. If the min_buffers_needed value
-is >= the value checked in queue_setup, then you can drop the check. In all
-other cases it is safer to keep it.
-
-So in other words, this patch is fine. But e.g. patch 21 needs to keep the
-check (although with a fix: *nbuffers = 2 - q_num_bufs).
-
-When this work is done, then I think I need to take a close review at all the
-drivers that set min_buffers_needed and/or check the number of buffers in
-queue_setup and fix it properly.
-
-Likely we need two different fields: one for the minimum number of buffers
-that need to be allocated, and one for the minimum number of buffers that
-need to be queued before start_streaming can be called. But that raises
-the question how the 'minimum number of buffers that need to be allocated'
-would interact with deleting buffers. It's actually not all that easy.
-
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>  
->>  	if (*nplanes)
->>  		return sizes[0] < skel->format.sizeimage ? -EINVAL : 0;
-> 
-
+-- 
+Sakari Ailus
