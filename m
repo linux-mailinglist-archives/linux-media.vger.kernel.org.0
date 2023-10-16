@@ -2,311 +2,251 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FD337CA7A0
-	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 14:04:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 464C67CA7B5
+	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 14:06:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233309AbjJPMEA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Oct 2023 08:04:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48346 "EHLO
+        id S231442AbjJPMGY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Oct 2023 08:06:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229501AbjJPMD7 (ORCPT
+        with ESMTP id S229621AbjJPMGX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Oct 2023 08:03:59 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC86FEA;
-        Mon, 16 Oct 2023 05:03:56 -0700 (PDT)
-Received: from [IPV6:2a01:e0a:120:3210:e07f:e79d:cb73:481b] (unknown [IPv6:2a01:e0a:120:3210:e07f:e79d:cb73:481b])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 83AFA66072A4;
-        Mon, 16 Oct 2023 13:03:54 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1697457834;
-        bh=iYgCzRqO6Qa3b4Tby41RH9rHWkNCrR9Sd3PxDUSIk6o=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ZUsQXsRU/ZWAEB4W4JKw1q3xUkwMwYOmTpWwRgsajebGDLCxwm+kVy7Z8LHRoEJWc
-         5xfTJWVevl///r91HTXqTFRlg2mweYUJztF0ccs2bsZEIePq19LseIg8R9byveKZHZ
-         JbcGz+MEQ9d6S0R4tUVpUp3OJLfaU5g8DYvqax3062YQJK1vHL5B+c4w3TMyl/Z4Gx
-         B4lq9C5gerNoy4Ky5ooCfhYEAZm4muUQ79ilmpWpEQgEVRwtvc5SAo+9OKUWMI/s58
-         tWntcL/E8dKCwDg5jHDVMVHlsqObqv+ORG6QItg94/Vss/pud2pohKIX766C7z9UhY
-         rsFwLTKpU8NNQ==
-Message-ID: <3a4f6fc1-6632-43f0-a5ab-55694c3de55f@collabora.com>
-Date:   Mon, 16 Oct 2023 14:03:52 +0200
-MIME-Version: 1.0
+        Mon, 16 Oct 2023 08:06:23 -0400
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2064.outbound.protection.outlook.com [40.107.220.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BEA4E1;
+        Mon, 16 Oct 2023 05:06:21 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=iorwbmsaDMr6NYe3Q3nGMbKQTrtxPaV4x0nAq9c976ZDXp1foreO2xtkr3HXFa/ORuqvD3YJ6j6xi2yWjUQFukqPuo7oB0Z/Hx7UC+ucqlldLNDxF4H8eZJBxTWePmkTX4JrUSYHng+wdMP7yJtQq02wiP2CPMWdM1IdZj/Ucy0QlL1FBa+P0kVun7FjQ+Zx8ugA1bF5cyvM56Y3p3Z2eirtJtFcg8q88moIQyV7ScH5KAA6iL2f7kQk8d5LCl7ak7rkUBa/H/X8ScNic9wnPMAcxU9uTreTe0obuvPDi/iSbL7tXi01HLPYgaTi5WxjCBqZuYvLnQ/+Pnj/HU8a2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OoC+QB6MSLe1po473X3M9zp/J30WrLznpU+wZG+QnJE=;
+ b=dtz48ffFZVU7jbGrC/MUB/Lnup11Wg7G1WfqB5LSy22jZqQM69oWhAdq2ExwcsUYpGxLprRJYAsKe3vphxmiE19e4vbyqA8/wGtLwC+Jay18gtqUhD4/smIwNNnq7KLNb+QVXcRD1OCmIFHNCIHslwq0xnf0E9GSpUYzELKPTx3ff9o0p2+KNfBVAJmiUUfNuAL4y8IFMCaQPclsPmWpjhbPX6KvXKx70ojhoflTFPR5BPYy3MuJYwUDbi2d1lR5w6GzpaicV6Vk7E9WPOasO9j6Cfpa8I0M++G6jkAzRLzLXnxl934iJBi2dkoM7NPuiraVIbwG5vCDz+tOg/hvfg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OoC+QB6MSLe1po473X3M9zp/J30WrLznpU+wZG+QnJE=;
+ b=2y2WMf34OSs/SGgL/KoSQQG5U/tlQK1iAMSxAIiMySl4TApjndBAO1tkAjxHCh5ll8H7wX7KlyOwwzScVT4vagkHeoQbv+Au/IuAeLNyJ4sNLdy6feRf86kWw7T/BEgt86Q+EewXzdl66HZRRFA6ZkDTcIqO2Y9/1NXiE1FBga0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by PH8PR12MB6795.namprd12.prod.outlook.com (2603:10b6:510:1c6::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.43; Mon, 16 Oct
+ 2023 12:06:19 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a7fa:4411:67a3:131d]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::a7fa:4411:67a3:131d%4]) with mapi id 15.20.6886.034; Mon, 16 Oct 2023
+ 12:06:18 +0000
+Message-ID: <fca23e1f-b2cc-4965-b844-975ba0f2366e@amd.com>
+Date:   Mon, 16 Oct 2023 14:06:12 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 00/56] Add DELETE_BUF ioctl
+Subject: Re: [syzbot] [dri?] WARNING in drm_prime_fd_to_handle_ioctl
 Content-Language: en-US
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>, mchehab@kernel.org,
-        tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
- <14198188-3519-46fb-abb6-0b1376f30b9d@xs4all.nl>
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <14198188-3519-46fb-abb6-0b1376f30b9d@xs4all.nl>
+To:     airlied@gmail.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
+        tzimmermann@suse.de
+References: <00000000000068c7730607b903b7@google.com>
+From:   =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <00000000000068c7730607b903b7@google.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+X-ClientProxiedBy: FR3P281CA0110.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a3::7) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|PH8PR12MB6795:EE_
+X-MS-Office365-Filtering-Correlation-Id: a7938acd-645d-470a-8a01-08dbce404e19
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 6RmhHdzApoVWi1fbQR5uzw+DDIdr9Mf/1UW3CMM24ayjYGlUQy7pWGKy9O9tm5g0vvaqcsGIG04EOC6gU9gAthEQ7uyhJ03SSZyozNFKDq/biM8IUlZvSeZwFpYlzKBZ2AvJePyS01QNX+R9KkeTlcjytW2gH4eojP9uSRp+1YoHfOpWFCVZZf03zJ+LS8xnAgzGyzyUiRg1diuBU6PCl9QJgNIuAmLND20MNNmMrrw8qn5gG1lKS2oNmA7s5hZcKMJte7EjrBM+9r2YqsPICjJ8eDzgkOw1plycXOu88s/8dtON2zuABLQwygiViZAteyTXXq2gIxTg9rg1XLiXeFYD+uuFEJflSfQhGx+NEbZ1yKadHqt3D9Ef38wuGPiaZuXwfTZ1tzu+t/h1uqSwiSaNSnonnICmUaFus8pxgVakP0k7Hx5CJdUQbDe81XHTTQyxZ7NEpbctfUE+746y6QBo3xd8CgM/WtyzEkGWnsHRFrZCnJ7x7DbLhLCf+BzVZ5Ed6l83bvVK9QT4mRMoboEhQ5kbRAwGQCzvgGM5xeHIvICjIlmDnzXJy95dHih+2wDaX/MAXB8SkBEj0x7lNrUfUeDwUWdnDWSfnLn47vCbnPs44K992X60d9IXNAJZ72XTxO4A/BPWoJ3zbcirjdbuU7NngiJm6yQohRzClmjRIcosF116RQ100R5Uqc7mqVHDU5pM0y4AleyWCLaPmugoAziANeTanZZ9Rirdwjs=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(396003)(39860400002)(346002)(230922051799003)(451199024)(186009)(1800799009)(64100799003)(478600001)(966005)(38100700002)(5660300002)(6486002)(921005)(6666004)(36756003)(66946007)(66556008)(66476007)(41300700001)(8936002)(45080400002)(8676002)(316002)(7416002)(6512007)(26005)(83380400001)(31686004)(66574015)(2906002)(2616005)(86362001)(31696002)(6506007)(99710200001)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?SklCUStMOURuR0lJUXBZTXJPS1l1dXl3WE9JMnRnVTZuQXBzVDRZSmJiMlU1?=
+ =?utf-8?B?TG9WVHMzNm5IcHdSNjAzSFFJN1pYVCs1YkZBckJtUllkOXRacTdYUGpOclZy?=
+ =?utf-8?B?djl5T0V4M1dQYjNKTDZDWEU4RkR2TWxCVElTR00rNHNTbG5QdTFsQzBBZzNp?=
+ =?utf-8?B?ZFE5Q3ErcW1PbDZFNXV4V3M0azlBUFJ2eTJNMWRGUWtUZ05aQlJsUmRXcVl2?=
+ =?utf-8?B?em5BZGJLOExUWCtzcDZ1ci9GWjlLSnBXK0xkd3FOSmlnMHVMT1BseXNWd0ZO?=
+ =?utf-8?B?RWVzcXlNRWVLWmRXZ0U3RkhIVTBQdkVkMXpHdmh3WjJPd25lUEt0R0g0ME1Q?=
+ =?utf-8?B?RExaeVBIeWF2NDFsRTZkOTNqcms3ZUdwTUJUK21WdTNFc25HMUVNUVhiSXor?=
+ =?utf-8?B?Q2hHU1RxZCtvbUowVTFpeHp6Z1ZsMktsM2IwakJINWhSNWc1a1NhZVcxS2Ns?=
+ =?utf-8?B?SnErQnBqQjFIQ2plL2RqeXB4cDJpZzdvVVlVQkIwTFZaMTBLY3BpcVRSdllk?=
+ =?utf-8?B?YU1NRXVuRkQrY0dwekgzTFlQQmRVMVRLVy9Sb0tVbG5rdmI4d2FkcHU3SnhL?=
+ =?utf-8?B?YkZoS1pVRDBWcmdVRE9ZNGczNXNiQ2d6NXo5L2F2SFkyYkdiQzRONGo2c0tx?=
+ =?utf-8?B?SXp2U0JTcjhFWU03d0x3aUdEb3o0SzRHM0kyN3lhV09JZS92Y3dZdmRkRmNO?=
+ =?utf-8?B?bEtINk82S21kWHREQmZKenpzZnVoSjJGeUhrVjkyaHhrNTNnYUI2RE5VRkRZ?=
+ =?utf-8?B?TUZZVWg1cHFLZE44R2xUdWRZUXlMZXVuc1V3Rkc0Z011YzZVQ0M1OFlwa2gr?=
+ =?utf-8?B?Tlp0bHJONkNNaWliTUhSK20xZEU3c1FzRXJnWHUyNTdtbDlpMzNqWmNDWFpX?=
+ =?utf-8?B?ZFA3a0NQb1dOTW9MTkpWTDIwVUFMWm50M1ZpVmVzTmtST0hla2JSc3E0bGJa?=
+ =?utf-8?B?YVF0TGprM3d5TG16eHIvNFU0UkRFZkpOMjUwalNheW91dDRqQkkvQjNKUVQ2?=
+ =?utf-8?B?QjNzM3pDU3k2Ky8xMDJSRzVWNnAvS1BXQU5wYnlCbENNSm83OVNhRDdhTGQ5?=
+ =?utf-8?B?bkRtcTNCbm9XZVBxbFNZTlJVU0dYOHFmd2g0K3VNcU8yVC84T2V0b1RtUVM4?=
+ =?utf-8?B?dFZoUkdodkVyYVZtZldmK25UMzNKRnMxaDlwRWh2YU5GM1FpcUZNcE9iYnRx?=
+ =?utf-8?B?ZDFYVVRhcDRNZ01pMDZnT0hxOEFMOVA1SFVaVzZxbEppV3JUUDNLVFlZbUNF?=
+ =?utf-8?B?Q2ZKdUlsUS85TzJZMUx4L3EzODUzR245WFREbVJNNTBtWjcrV09qcWk5c2hQ?=
+ =?utf-8?B?cWF6dWRpTnRoZm50WlJFMEFCUmd0TDFOYnU4ekUwN0ZBVU9tWE95NU00ZFpv?=
+ =?utf-8?B?NmRCSG8zSy9qdDJkbER4TmE0MitXaEk3ejlKTzFhdExNb1l3S0lGd2taWWs0?=
+ =?utf-8?B?Qjdnd2FjUStMOFlZVlQvcTBPN0k4RTFFZW1qWW1raVVqWmg5d2l5dElVNUNW?=
+ =?utf-8?B?eU03UFFkMERJZ1lvME5obzJGbnFubGVocmZ0UTNlWTl3T3ZFVWVjTWs5Y0hv?=
+ =?utf-8?B?bkRBS0xxb1RoRU94TmZNNFgxdnJLblRXbDk4TEQ4UGZTZEkreitGeXYyUFFN?=
+ =?utf-8?B?aUlXbnBQTVlrRVBScmhUdWhHaFdrYzBjbUF2QnRUZmJFN3NEMng3Ui9CbEZL?=
+ =?utf-8?B?RXg4THJFS1BHUGRrRi9PMFRSWFhQU2JKVmJvbFRyZXBNaS80OTNMUlVORU5Y?=
+ =?utf-8?B?UFc1dVp0ZU15WmVkN1pYMnVzY1VxdUpKaVdNeGw4UFcxUDlXR1BzNWY3L3pP?=
+ =?utf-8?B?TXZFT1NTOS95OWltQk16U1IrVldlWDRpVXVkZFM3QWpSeEN5S2VxM1ZJUldJ?=
+ =?utf-8?B?VUMxeWhRS3piK0R5UWdza0RXeDY1SFJsRkdDRFNtUHhGNFNjYXVueW9qdyto?=
+ =?utf-8?B?MWliNmpWald3dEppSHRZWE5DMDNrblZQK2JsdnN1S2tkbmFmWkpObnhaVC9w?=
+ =?utf-8?B?aW4yY05scHhWeTRXRU1YV3ROcU1qazFwS0s3Y0h5V092SWdzUlNwWUZoU1N2?=
+ =?utf-8?B?OXNnVDFnbVdIUW5FbFhuZVh2YUhYcWgxZzdaWCttcVROOWpmbWRoTzRLdzhr?=
+ =?utf-8?Q?56Rk=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a7938acd-645d-470a-8a01-08dbce404e19
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2023 12:06:18.7500
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +190kTdCAPZDVpj0GcapNqbfRf9KcA/6u/xBBeBDbNc8c2df7vAdmPG3U9fSye1G
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6795
+X-Spam-Status: No, score=1.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FORGED_SPF_HELO,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SORTED_RECIPS,SPF_HELO_PASS,
+        SPF_NONE autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi guys,
 
-Le 16/10/2023 à 12:39, Hans Verkuil a écrit :
-> Hi Benjamin,
->
-> On 12/10/2023 13:45, Benjamin Gaignard wrote:
->> Unlike when resolution change on keyframes, dynamic resolution change
->> on inter frames doesn't allow to do a stream off/on sequence because
->> it is need to keep all previous references alive to decode inter frames.
->> This constraint have two main problems:
->> - more memory consumption.
->> - more buffers in use.
->> To solve these issue this series introduce DELETE_BUFS ioctl and remove
->> the 32 buffers limit per queue.
->>
->> VP9 conformance tests using fluster give a score of 210/305.
->> The 20 resize inter tests (vp90-2-21-resize_inter_* files) are ok
->> but require to use postprocessor.
->>
->> Kernel branch is available here:
->> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v11
->>
->> GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
->> change is here:
->> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
-> I did another review. Mainly small stuff, but I realized in my review of 40/56 that
-> the use of min_buffers_needed is a mess, and you will need to revisit any driver
-> patches where you change that value, or where you drop the number of buffers check
-> in queue_setup because you rely on min_buffers_needed.
+I think I know what's going on here. The syzbot bisect is actually not 
+100% correct, the patch in question just makes the problem appear for 
+the console buffer as well.
 
-Ok I will comeback to the version where I only use vb2_get_num_buffers() is these drivers.
+What seems to happen is that we export some BO as DMA-buf and then close 
+all handles to the buffer.
+
+The DMA-buf of the BO then gets destroyed, but the BO can be kept around 
+because it is referenced by the console (for example) or used as plane 
+in KMS etc....
+
+If we then create a new GEM handle for that BO again and re-export it by 
+DMA-buf we run into the warning below because the object already has 
+some DMA-buf assigned to it.
+
+Any ideas how to fix this?
 
 Regards,
-Benjamin
+Christian.
 
+Am 15.10.23 um 05:37 schrieb syzbot:
+> Hello,
 >
-> I think it is likely that we need to take another very good look at this before we
-> implement VIDIOC_DELETE_BUFS.
+> syzbot found the following issue on:
 >
-> I have also posted a PR where I ask Mauro to merge patch 07/56 for 6.7 to get
-> the vb2_get_num_buffers helper in. We'll see if that will happen since it is a
-> bit late for that.
+> HEAD commit:    1c8b86a3799f Merge tag 'xsa441-6.6-tag' of git://git.kerne..
+> git tree:       upstream
+> console+strace: https://syzkaller.appspot.com/x/log.txt?x=13005e31680000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=32d0b9b42ceb8b10
+> dashboard link: https://syzkaller.appspot.com/bug?extid=0da81ccba2345eeb7f48
+> compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=13c48345680000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=101b3679680000
 >
-> Regards,
+> Downloadable assets:
+> disk image: https://storage.googleapis.com/syzbot-assets/45e9377886e9/disk-1c8b86a3.raw.xz
+> vmlinux: https://storage.googleapis.com/syzbot-assets/9511a41a6d1e/vmlinux-1c8b86a3.xz
+> kernel image: https://storage.googleapis.com/syzbot-assets/fac07e1c3c1a/bzImage-1c8b86a3.xz
 >
-> 	Hans
+> The issue was bisected to:
 >
->> changes in version 11:
->> - Patches ordering:
->>    1 to 3: clean up
->>    3 to 42: use vb2_get_buffer() and vb2_get_num_buffers()
->>    43 to 46: allow to use more than 32 buffers per queue
->>    47 to 50: allow verisilicon driver to do VP9 dynamic resolution change
->>              (which was the main purpose of this work)
->>    51 to 56: prepare and introduce delete buffers feature.
->> - Add a patch to rename 'off' to offset.
->> - Add maintainers CC to drivers patches
->>
->> changes in version 10:
->> - Make BUFFER_INDEX_MASK definition more readable
->> - Rebase on media_stage/master branch and add a patch for nuvoton
->>    driver.
->> - Fix issue on patch 13
->>
->> changes in version 9:
->> - BUFFER_INDEX_MASK now depends on PAGE_SHIFT value to match
->>    architectures requirements.
->> - Correctly initialize max_num_buffers in vb2_core_queue_init()
->> - run 'test-media -kmemleak mc' on top of the series and on patches 1 to 47 without failures.
->> - fix compilation issue in patch 50
->>
->> changes in version 8:
->> - Add V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS and new 'max_buffers' field in v4l2_create_buffers
->>    structure to report the maximum number of buffers that a queue could allocate.
->> - Add V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS to indicate that a queue support
->>    DELETE_BUFS ioctl.
->> - Make some test drivers use more than 32 buffers and DELETE_BUFS ioctl.
->> - Fix remarks done by Hans
->> - Move "media: core: Rework how create_buf index returned value is
->>    computed" patch to the top of the serie.
->>
->> changes in version 7:
->> - Use a bitmap to know which entries are valid in queue bufs array.
->>    The number of buffers in the queue could must calculated from the
->>    bitmap so num_buffers becomes useless. This led to add quite few
->>    patches to remove it from all the drivers.
->>    Note: despiste my attention I may have miss some calls to
->>    num_buffers...
->> - Split patches to make them more readable.
->> - Run v4l2-compliance with additional delete-bufs tests.
->> - Run ./test-media -kmemleak vivid and no more failures.
->>    Note: I had to remove USERPTR streaming test because they to much
->>    frequentely hit get_framevec bug. It is not related to my series
->>    since this happens all the time on master branch.
->> - Fix Hans remarks on v6
->>
->> changes in version 6:
->> - Get a patch per driver to use vb2_get_buffer() instead of directly access
->>    to queue buffers array.
->> - Add lock in vb2_core_delete_buf()
->> - Use vb2_buffer instead of index
->> - Fix various comments
->> - Change buffer index name to BUFFER_INDEX_MASK
->> - Stop spamming kernel log with unbalanced counters
->>
->> Benjamin Gaignard (56):
->>    media: videobuf2: Rename offset parameter
->>    media: videobuf2: Rework offset 'cookie' encoding pattern
->>    media: videobuf2: Stop spamming kernel log with all queue counter
->>    media: videobuf2: Use vb2_buffer instead of index
->>    media: videobuf2: Access vb2_queue bufs array through helper functions
->>    media: videobuf2: Remove duplicated index vs q->num_buffers check
->>    media: videobuf2: Add helper to get queue number of buffers
->>    media: videobuf2: Use vb2_get_num_buffers() helper
->>    media: amphion: Use vb2_get_buffer() instead of directly access to
->>      buffers array
->>    media: amphion: Stop direct calls to queue num_buffers field
->>    media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access
->>      to buffers array
->>    media: mediatek: vdec: Remove useless loop
->>    media: mediatek: vcodec: Stop direct calls to queue num_buffers field
->>    media: sti: hva: Use vb2_get_buffer() instead of directly access to
->>      buffers array
->>    media: visl: Use vb2_get_buffer() instead of directly access to
->>      buffers array
->>    media: atomisp: Use vb2_get_buffer() instead of directly access to
->>      buffers array
->>    media: atomisp: Stop direct calls to queue num_buffers field
->>    media: dvb-core: Use vb2_get_buffer() instead of directly access to
->>      buffers array
->>    media: dvb-core: Do not initialize twice queue num_buffer field
->>    media: dvb-frontends: rtl2832_srd: Use queue min_buffers_needed field
->>    media: video-i2c: Set min_buffers_needed to 2
->>    media: pci: cx18: Set correct value to min_buffers_needed field
->>    media: pci: dt3155: Remove useless check
->>    media: pci: netup_unidvb: Remove useless number of buffers check
->>    media: pci: tw68: Stop direct calls to queue num_buffers field
->>    media: pci: tw686x: Set min_buffers_needed to 3
->>    media: coda: Stop direct calls to queue num_buffers field
->>    media: nxp: Stop direct calls to queue num_buffers field
->>    media: renesas: Set min_buffers_needed to 16
->>    media: ti: Use queue min_buffers_needed field to set the min number of
->>      buffers
->>    media: verisilicon: Stop direct calls to queue num_buffers field
->>    media: test-drivers: Stop direct calls to queue num_buffers field
->>    media: usb: airspy: Set min_buffers_needed to 8
->>    media: usb: cx231xx: Set min_buffers_needed to CX231XX_MIN_BUF
->>    media: usb: hackrf: Set min_buffers_needed to 8
->>    media: usb: usbtv: Set min_buffers_needed to 2
->>    media: imx: Stop direct calls to queue num_buffers field
->>    media: meson: vdec: Stop direct calls to queue num_buffers field
->>    touchscreen: sur40: Stop direct calls to queue num_buffers field
->>    sample: v4l: Stop direct calls to queue num_buffers field
->>    media: cedrus: Stop direct calls to queue num_buffers field
->>    media: nuvoton: Stop direct calls to queue num_buffers field
->>    media: videobuf2: Be more flexible on the number of queue stored
->>      buffers
->>    media: core: Report the maximum possible number of buffers for the
->>      queue
->>    media: test-drivers: vivid: Increase max supported buffers for capture
->>      queues
->>    media: test-drivers: vicodec: Increase max supported capture queue
->>      buffers
->>    media: verisilicon: Refactor postprocessor to store more buffers
->>    media: verisilicon: Store chroma and motion vectors offset
->>    media: verisilicon: g2: Use common helpers to compute chroma and mv
->>      offsets
->>    media: verisilicon: vp9: Allow to change resolution while streaming
->>    media: core: Rework how create_buf index returned value is computed
->>    media: core: Add bitmap manage bufs array entries
->>    media: core: Free range of buffers
->>    media: v4l2: Add DELETE_BUFS ioctl
->>    media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
->>    media: test-drivers: Use helper for DELETE_BUFS ioctl
->>
->>   .../userspace-api/media/v4l/user-func.rst     |   1 +
->>   .../media/v4l/vidioc-create-bufs.rst          |   8 +-
->>   .../media/v4l/vidioc-delete-bufs.rst          |  80 +++
->>   .../media/v4l/vidioc-reqbufs.rst              |   2 +
->>   drivers/input/touchscreen/sur40.c             |   5 +-
->>   .../media/common/videobuf2/videobuf2-core.c   | 567 +++++++++++-------
->>   .../media/common/videobuf2/videobuf2-v4l2.c   | 116 +++-
->>   drivers/media/dvb-core/dvb_vb2.c              |  17 +-
->>   drivers/media/dvb-frontends/rtl2832_sdr.c     |   9 +-
->>   drivers/media/i2c/video-i2c.c                 |   5 +-
->>   drivers/media/pci/cx18/cx18-streams.c         |  13 +-
->>   drivers/media/pci/dt3155/dt3155.c             |   2 -
->>   .../pci/netup_unidvb/netup_unidvb_core.c      |   4 +-
->>   drivers/media/pci/tw68/tw68-video.c           |   6 +-
->>   drivers/media/pci/tw686x/tw686x-video.c       |  13 +-
->>   drivers/media/platform/amphion/vpu_dbg.c      |  30 +-
->>   drivers/media/platform/amphion/vpu_v4l2.c     |   4 +-
->>   .../media/platform/chips-media/coda-common.c  |   2 +-
->>   .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   7 +-
->>   .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c |   9 +-
->>   .../mediatek/vcodec/encoder/mtk_vcodec_enc.c  |   2 +-
->>   drivers/media/platform/nuvoton/npcm-video.c   |   2 +-
->>   drivers/media/platform/nxp/imx7-media-csi.c   |   7 +-
->>   drivers/media/platform/renesas/rcar_drif.c    |   8 +-
->>   drivers/media/platform/st/sti/hva/hva-v4l2.c  |   9 +-
->>   .../media/platform/ti/am437x/am437x-vpfe.c    |   7 +-
->>   drivers/media/platform/ti/cal/cal-video.c     |   5 +-
->>   .../media/platform/ti/davinci/vpif_capture.c  |   5 +-
->>   .../media/platform/ti/davinci/vpif_display.c  |   5 +-
->>   drivers/media/platform/ti/omap/omap_vout.c    |   5 +-
->>   drivers/media/platform/verisilicon/hantro.h   |   9 +-
->>   .../media/platform/verisilicon/hantro_drv.c   |   5 +-
->>   .../media/platform/verisilicon/hantro_g2.c    |  14 +
->>   .../platform/verisilicon/hantro_g2_hevc_dec.c |  18 +-
->>   .../platform/verisilicon/hantro_g2_vp9_dec.c  |  28 +-
->>   .../media/platform/verisilicon/hantro_hw.h    |   7 +-
->>   .../platform/verisilicon/hantro_postproc.c    |  93 ++-
->>   .../media/platform/verisilicon/hantro_v4l2.c  |  27 +-
->>   .../media/test-drivers/vicodec/vicodec-core.c |   3 +
->>   drivers/media/test-drivers/vim2m.c            |   2 +
->>   .../media/test-drivers/vimc/vimc-capture.c    |   2 +
->>   drivers/media/test-drivers/visl/visl-dec.c    |  32 +-
->>   drivers/media/test-drivers/visl/visl-video.c  |   2 +
->>   drivers/media/test-drivers/vivid/vivid-core.c |  14 +
->>   .../media/test-drivers/vivid/vivid-meta-cap.c |   3 -
->>   .../media/test-drivers/vivid/vivid-meta-out.c |   5 +-
->>   .../test-drivers/vivid/vivid-touch-cap.c      |   5 +-
->>   .../media/test-drivers/vivid/vivid-vbi-cap.c  |   5 +-
->>   .../media/test-drivers/vivid/vivid-vbi-out.c  |   5 +-
->>   .../media/test-drivers/vivid/vivid-vid-cap.c  |   5 +-
->>   .../media/test-drivers/vivid/vivid-vid-out.c  |   5 +-
->>   drivers/media/usb/airspy/airspy.c             |   9 +-
->>   drivers/media/usb/cx231xx/cx231xx-417.c       |   4 +-
->>   drivers/media/usb/cx231xx/cx231xx-video.c     |   4 +-
->>   drivers/media/usb/hackrf/hackrf.c             |   9 +-
->>   drivers/media/usb/usbtv/usbtv-video.c         |   3 +-
->>   drivers/media/v4l2-core/v4l2-dev.c            |   1 +
->>   drivers/media/v4l2-core/v4l2-ioctl.c          |  21 +-
->>   drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 +
->>   .../staging/media/atomisp/pci/atomisp_ioctl.c |   4 +-
->>   drivers/staging/media/imx/imx-media-capture.c |   7 +-
->>   drivers/staging/media/meson/vdec/vdec.c       |  13 +-
->>   .../staging/media/sunxi/cedrus/cedrus_h264.c  |   8 +-
->>   .../staging/media/sunxi/cedrus/cedrus_h265.c  |   9 +-
->>   include/media/v4l2-ioctl.h                    |   4 +
->>   include/media/v4l2-mem2mem.h                  |  12 +
->>   include/media/videobuf2-core.h                |  65 +-
->>   include/media/videobuf2-v4l2.h                |  13 +
->>   include/uapi/linux/videodev2.h                |  24 +-
->>   samples/v4l/v4l2-pci-skeleton.c               |   5 +-
->>   70 files changed, 972 insertions(+), 507 deletions(-)
->>   create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
->>
+> commit 85e26dd5100a182bf8448050427539c0a66ab793
+> Author: Christian König <christian.koenig@amd.com>
+> Date:   Thu Jan 26 09:24:26 2023 +0000
 >
+>      drm/client: fix circular reference counting issue
+>
+> bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=14cf17f1680000
+> final oops:     https://syzkaller.appspot.com/x/report.txt?x=16cf17f1680000
+> console output: https://syzkaller.appspot.com/x/log.txt?x=12cf17f1680000
+>
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+0da81ccba2345eeb7f48@syzkaller.appspotmail.com
+> Fixes: 85e26dd5100a ("drm/client: fix circular reference counting issue")
+>
+> ------------[ cut here ]------------
+> WARNING: CPU: 0 PID: 5040 at drivers/gpu/drm/drm_prime.c:326 drm_gem_prime_fd_to_handle drivers/gpu/drm/drm_prime.c:326 [inline]
+> WARNING: CPU: 0 PID: 5040 at drivers/gpu/drm/drm_prime.c:326 drm_prime_fd_to_handle_ioctl+0x555/0x600 drivers/gpu/drm/drm_prime.c:374
+> Modules linked in:
+> CPU: 0 PID: 5040 Comm: syz-executor405 Not tainted 6.6.0-rc5-syzkaller-00055-g1c8b86a3799f #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 09/06/2023
+> RIP: 0010:drm_gem_prime_fd_to_handle drivers/gpu/drm/drm_prime.c:326 [inline]
+> RIP: 0010:drm_prime_fd_to_handle_ioctl+0x555/0x600 drivers/gpu/drm/drm_prime.c:374
+> Code: 89 df e8 0e 9b 26 fd f0 48 ff 03 e9 7e fd ff ff e8 b0 dc d0 fc 4c 89 f7 44 89 eb e8 75 73 8b 05 e9 da fe ff ff e8 9b dc d0 fc <0f> 0b e9 5d fd ff ff e8 3f 94 26 fd e9 3a fc ff ff 48 8b 7c 24 08
+> RSP: 0018:ffffc90003a5fc70 EFLAGS: 00010293
+> RAX: 0000000000000000 RBX: ffff888018f14c00 RCX: 0000000000000000
+> RDX: ffff88801d691dc0 RSI: ffffffff84b6ea15 RDI: ffff8881476f3928
+> RBP: ffff88801fac5400 R08: 0000000000000007 R09: fffffffffffff000
+> R10: ffff8881476f3800 R11: 0000000000000000 R12: ffffc90003a5fe10
+> R13: ffff8881476f3800 R14: ffff88801c590c10 R15: 0000000000000000
+> FS:  00005555555d6380(0000) GS:ffff8880b9800000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000555db75f4058 CR3: 0000000072209000 CR4: 0000000000350ef0
+> Call Trace:
+>   <TASK>
+>   drm_ioctl_kernel+0x280/0x4c0 drivers/gpu/drm/drm_ioctl.c:789
+>   drm_ioctl+0x5cb/0xbf0 drivers/gpu/drm/drm_ioctl.c:892
+>   vfs_ioctl fs/ioctl.c:51 [inline]
+>   __do_sys_ioctl fs/ioctl.c:871 [inline]
+>   __se_sys_ioctl fs/ioctl.c:857 [inline]
+>   __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:857
+>   do_syscall_x64 arch/x86/entry/common.c:50 [inline]
+>   do_syscall_64+0x38/0xb0 arch/x86/entry/common.c:80
+>   entry_SYSCALL_64_after_hwframe+0x63/0xcd
+> RIP: 0033:0x7f0c8214be69
+> Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 c1 17 00 00 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 73 01 c3 48 c7 c1 b8 ff ff ff f7 d8 64 89 01 48
+> RSP: 002b:00007fff6f4156f8 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+> RAX: ffffffffffffffda RBX: 0000000000000000 RCX: 00007f0c8214be69
+> RDX: 0000000020000000 RSI: 00000000c00c642e RDI: 0000000000000003
+> RBP: 0000000000000000 R08: 00000000000000a0 R09: 00000000000000a0
+> R10: 00000000000000a0 R11: 0000000000000246 R12: 0000000000000000
+> R13: 00007f0c821c3820 R14: 00007fff6f415720 R15: 00007fff6f415710
+>   </TASK>
+>
+>
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+>
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+> For information about bisection process see: https://goo.gl/tpsmEJ#bisection
+>
+> If the bug is already fixed, let syzbot know by replying with:
+> #syz fix: exact-commit-title
+>
+> If you want syzbot to run the reproducer, reply with:
+> #syz test: git://repo/address.git branch-or-commit-hash
+> If you attach or paste a git patch, syzbot will apply it before testing.
+>
+> If you want to overwrite bug's subsystems, reply with:
+> #syz set subsystems: new-subsystem
+> (See the list of subsystem names on the web dashboard)
+>
+> If the bug is a duplicate of another bug, reply with:
+> #syz dup: exact-subject-of-another-report
+>
+> If you want to undo deduplication, reply with:
+> #syz undup
+
