@@ -2,141 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 234767CA461
-	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 11:39:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4057A7CA4A3
+	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 11:59:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231318AbjJPJjy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Oct 2023 05:39:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42382 "EHLO
+        id S232090AbjJPJ7R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Oct 2023 05:59:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38062 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230104AbjJPJjy (ORCPT
+        with ESMTP id S229459AbjJPJ7Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Oct 2023 05:39:54 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33B4697
-        for <linux-media@vger.kernel.org>; Mon, 16 Oct 2023 02:39:51 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-53d8320f0easo7217234a12.3
-        for <linux-media@vger.kernel.org>; Mon, 16 Oct 2023 02:39:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697449189; x=1698053989; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=kybSKlG/0oacD/q1txbiY/sE74DSfCpeT4GLjagSgZU=;
-        b=JfpIe9842ybIxKNYllCx/xNngTnCiPqD51+K2++pbN8wN2zxnoc5od+Xsi9tR8XKSG
-         xK9j+7ku24Sn4jJpDdnzQWCR8v3T+O7ZRLo0oJUMhwS3adc+hm/jjy+oQP96QDFh7jyM
-         4UgCxv/tWt3p67IfxBZFxc3KTXNTdhY1FV7TKr3A7ACezHNMMIkREOuK+MGhZJ++jQnv
-         wcqylQD5dywyQ6mw0gGJQZesRcJGRLyF+VocR6Qv0ZKQ0YrBUsdKbXKPJGMB8PYpX2rZ
-         hwxsI2JndJhCT2CKAoA03l6LRvILazarPIg8EzWYzD7LkvSQX0g7roqhE0xx4HBW6z9f
-         uMyw==
+        Mon, 16 Oct 2023 05:59:16 -0400
+Received: from mail-yb1-f179.google.com (mail-yb1-f179.google.com [209.85.219.179])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C4F59C;
+        Mon, 16 Oct 2023 02:59:14 -0700 (PDT)
+Received: by mail-yb1-f179.google.com with SMTP id 3f1490d57ef6-d77ad095f13so4279981276.2;
+        Mon, 16 Oct 2023 02:59:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697449189; x=1698053989;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kybSKlG/0oacD/q1txbiY/sE74DSfCpeT4GLjagSgZU=;
-        b=gdwc3IP1ub0mwES1FKzMiZEr2JOmx8pmHZDiop4O6mG+ktjeQ5eeojXqFXFTc6MsvU
-         VVzyer/7vN17U24fzr2JiFkKWR4Z8hwEo7WGHEizVzH2tizV9cqvPRBpRUSEm5+8nUz/
-         LaBXDcGmfqGqtq+VfCLenViVRQff+gAsV2SeguBgI5V4A3zxTNs59sVxQ6JteqYpozMA
-         SDmf2Fz6PsprUsUM6HCIP9jNXMCLArP5pPXnFrByhjmbam1F/bleBML224vPtnTsKdDp
-         U/vIt+I/3JBH65udTodLPxBsl5rtUvEfEiL9GnxrpYrKuE4essBxPhSlctK41u96FYPA
-         /QYQ==
-X-Gm-Message-State: AOJu0YxYpLCoS1DypTr3pThDlEAcB9tSb44StgWW2kUQFKAgbPJgu/Z/
-        +5KylYWG2M/rtfnqHBzIsXQ=
-X-Google-Smtp-Source: AGHT+IETbpNCSJf4sYd3EiL+2w5PigiskDtXHqEq8q4+YUlEECZnsM8VgH5kyQP0vZ01dewPPY/FXg==
-X-Received: by 2002:a17:906:478a:b0:9be:7de2:927a with SMTP id cw10-20020a170906478a00b009be7de2927amr5430625ejc.74.1697449189423;
-        Mon, 16 Oct 2023 02:39:49 -0700 (PDT)
-Received: from [10.9.136.59] ([87.62.83.1])
-        by smtp.gmail.com with ESMTPSA id lu9-20020a170906fac900b0099bcf9c2ec6sm3678226ejb.75.2023.10.16.02.39.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Oct 2023 02:39:48 -0700 (PDT)
-Message-ID: <2cbd6b6e2d9ecefae822ed7b4915b52b10c2bcd3.camel@gmail.com>
-Subject: Re: [PATCH 01/15] media: intel/ipu6: add Intel IPU6 PCI device
- driver
-From:   Andreas Helbech Kleist <andreaskleist@gmail.com>
-To:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
-        hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-        hongju.wang@intel.com
-Date:   Mon, 16 Oct 2023 11:39:47 +0200
-In-Reply-To: <c071d5b55ac369f039c180685742560b4a5d03cf.camel@gmail.com>
-References: <20230727071558.1148653-1-bingbu.cao@intel.com>
-         <20230727071558.1148653-2-bingbu.cao@intel.com>
-         <c071d5b55ac369f039c180685742560b4a5d03cf.camel@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.44.4-0ubuntu2 
+        d=1e100.net; s=20230601; t=1697450353; x=1698055153;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i9GLVUGKessKoslJIZpAI7+l//jryIRXWw3bJSWd/JU=;
+        b=YpDAPKeVaVk1om3qEAtzdITkpkguvsjgbnlLajX5IRwq2TkM9TxIcL1p0S0ZmmVckF
+         A0x+ofvsJMYjROMp2PtTgDf1CU1Fo0Ylz+dq+We7gyYjX4h8UQH8zeTVJqsmn2DRLTJ5
+         SswsTJEzJxsypsRZ2hORFL680Cc9wtTQeHWr9p40xJ5JY22csfxEAvUDsPUe6hQ4marD
+         iNcRBKzq5hJ2cPl5VotwkrC1h6tCsn0EKlz5saQ29r7B2rR43Q1DSmGo/9ifiCRFj4c/
+         xXIh3fEKUTDXPvJjrh3kynCkyZqINJ52l4fZcn3c+bTTZBXWPBq+EU7/rhPr3VnsPTA8
+         f5lA==
+X-Gm-Message-State: AOJu0Yzmn5aPl+3Sq+cW4aiMGD9x2AQwmBanQ5emqVFkWnZmXJZbenrm
+        v8diF7JUoDbSZYE/rWdWJ4idOe8NfGvpAQ==
+X-Google-Smtp-Source: AGHT+IHDifpYoVg377WaVlCQbyVtL075I/N8OSBwyoKSlQwbzsy4Q39TGatkdfof4lMFOPSU9W6aXg==
+X-Received: by 2002:a25:a044:0:b0:d32:cd49:2469 with SMTP id x62-20020a25a044000000b00d32cd492469mr30483446ybh.24.1697450353351;
+        Mon, 16 Oct 2023 02:59:13 -0700 (PDT)
+Received: from mail-yw1-f171.google.com (mail-yw1-f171.google.com. [209.85.128.171])
+        by smtp.gmail.com with ESMTPSA id s10-20020a056902120a00b00d800eb5ac2asm2501003ybu.65.2023.10.16.02.59.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Oct 2023 02:59:12 -0700 (PDT)
+Received: by mail-yw1-f171.google.com with SMTP id 00721157ae682-5a2536adaf3so58366447b3.2;
+        Mon, 16 Oct 2023 02:59:12 -0700 (PDT)
+X-Received: by 2002:a81:b661:0:b0:5a7:b9b1:c0bd with SMTP id
+ h33-20020a81b661000000b005a7b9b1c0bdmr19215902ywk.11.1697450352391; Mon, 16
+ Oct 2023 02:59:12 -0700 (PDT)
 MIME-Version: 1.0
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <cover.1694767208.git.geert+renesas@glider.be> <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
+In-Reply-To: <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 16 Oct 2023 11:59:01 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdUF61V5qNyKbrTGxZfEJvCVuLO7q2R5MqZYkzRC_cNr0w@mail.gmail.com>
+Message-ID: <CAMuHMdUF61V5qNyKbrTGxZfEJvCVuLO7q2R5MqZYkzRC_cNr0w@mail.gmail.com>
+Subject: [GIT PULL v2] drm: renesas: shmobile: Atomic conversion + DT support
+ (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion + DT support)
+To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2023-10-03 at 12:12 +0200, Andreas Helbech Kleist wrote:
-> On Thu, 2023-07-27 at 15:15 +0800, bingbu.cao@intel.com=C2=A0wrote:
-> > From: Bingbu Cao <bingbu.cao@intel.com>
-...
-> > +static void ipu6_pci_remove(struct pci_dev *pdev)
-> > +{
-> ...
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ipu6_bus_del_devices(pdev);
-> ...
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ipu6_mmu_cleanup(isp->psys->=
-mmu);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ipu6_mmu_cleanup(isp->isys->=
-mmu);
->=20
-> I think ipu6_mmu_cleanup() should be done before
-> ipu6_bus_del_devices()
-> like in the ipu6_pci_probe() error path.
+        Hi David, Daniel,
 
-Scratch that, it also causes issues (because isys_remove frees stuff in
-the MMU).
+The following changes since commit 389af786f92ecdff35883551d54bf4e507ffcccb:
 
-A fix that seems to work for me is to save the isp->isys->mmu pointer
-before calling ipu6_bus_del_devices, and then use that pointer when
-calling ipu6_mmu_cleanup.
+  Merge tag 'drm-intel-next-2023-09-29' of
+git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-10-04
+13:55:19 +1000)
 
-diff --git
-a/drivers/media/pci/intel/ipu6/ipu6.cqb/drivers/media/pci/intel/ipu6/ip
-u6.c
-index 59ecefbcb56c..6333a4674d33 100644
---- a/drivers/media/pci/intel/ipu6/ipu6.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6.c
-@@ -812,11 +812,13 @@ static int ipu6_pci_probe(struct pci_dev *pdev,
-const struct pci_device_id *id)
- static void ipu6_pci_remove(struct pci_dev *pdev)
- {
-        struct ipu6_device *isp =3D pci_get_drvdata(pdev);
-+       struct ipu6_mmu *isys_mmu =3D isp->isys->mmu;
-=20
-        ipu6_cpd_free_pkg_dir(isp->psys);
-=20
-        ipu6_buttress_unmap_fw_image(isp->psys, &isp->psys->fw_sgt);
-=20
-+
-        ipu6_bus_del_devices(pdev);
-=20
-        pm_runtime_forbid(&pdev->dev);
-@@ -830,7 +832,7 @@ static void ipu6_pci_remove(struct pci_dev *pdev)
-        release_firmware(isp->cpd_fw);
-=20
-        ipu6_mmu_cleanup(isp->psys->mmu);
--       ipu6_mmu_cleanup(isp->isys->mmu);
-+       ipu6_mmu_cleanup(isys_mmu);
- }
-=20
- static void ipu6_pci_reset_prepare(struct pci_dev *pdev)
+are available in the Git repository at:
 
---=20
+  git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+tags/shmob-drm-atomic-dt-tag2
 
-/Andreas
+for you to fetch changes up to 1399ebacbf590dfbac4fbba181dd1595b2fa10ba:
 
+  drm: renesas: shmobile: Add DT support (2023-10-16 11:47:48 +0200)
+
+----------------------------------------------------------------
+drm: renesas: shmobile: Atomic conversion + DT support
+
+Currently, there are two drivers for the LCD controller on Renesas
+SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+  1. sh_mobile_lcdcfb, using the fbdev framework,
+  2. shmob_drm, using the DRM framework.
+However, only the former driver is used, as all platform support
+integrates the former.  None of these drivers support DT-based systems.
+
+Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
+support, complemented by the customary set of fixes and improvements.
+
+Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@glider.be/
+
+Changes compared to v1:
+  - Rebase to drm-next,
+  - Add Acked-by.
+
+Thanks for pulling!
+
+----------------------------------------------------------------
+Geert Uytterhoeven (36):
+      MAINTAINER: Create entry for Renesas SH-Mobile DRM drivers
+      dt-bindings: display: Add Renesas SH-Mobile LCDC bindings
+      media: uapi: Add MEDIA_BUS_FMT_RGB666_2X9_BE format
+      drm: renesas: shmobile: Fix overlay plane disable
+      drm: renesas: shmobile: Fix ARGB32 overlay format typo
+      drm: renesas: shmobile: Correct encoder/connector types
+      drm: renesas: shmobile: Add support for Runtime PM
+      drm: renesas: shmobile: Restore indentation of shmob_drm_setup_clocks()
+      drm: renesas: shmobile: Use %p4cc to print fourcc code
+      drm: renesas: shmobile: Add missing YCbCr formats
+      drm: renesas: shmobile: Improve shmob_drm_format_info table
+      drm: renesas: shmobile: Improve error handling
+      drm: renesas: shmobile: Convert to use devm_request_irq()
+      drm: renesas: shmobile: Remove custom plane destroy callback
+      drm: renesas: shmobile: Use drmm_universal_plane_alloc()
+      drm: renesas: shmobile: Embed drm_device in shmob_drm_device
+      drm: renesas: shmobile: Convert container helpers to static
+inline functions
+      drm: renesas: shmobile: Replace .dev_private with container_of()
+      drm: renesas: shmobile: Use media bus formats in platform data
+      drm: renesas: shmobile: Move interface handling to connector setup
+      drm: renesas: shmobile: Unify plane allocation
+      drm: renesas: shmobile: Rename shmob_drm_crtc.crtc
+      drm: renesas: shmobile: Rename shmob_drm_connector.connector
+      drm: renesas: shmobile: Rename shmob_drm_plane.plane
+      drm: renesas: shmobile: Use drm_crtc_handle_vblank()
+      drm: renesas: shmobile: Move shmob_drm_crtc_finish_page_flip()
+      drm: renesas: shmobile: Wait for page flip when turning CRTC off
+      drm: renesas: shmobile: Turn vblank on/off when enabling/disabling CRTC
+      drm: renesas: shmobile: Shutdown the display on remove
+      drm: renesas: shmobile: Cleanup encoder
+      drm: renesas: shmobile: Atomic conversion part 1
+      drm: renesas: shmobile: Atomic conversion part 2
+      drm: renesas: shmobile: Use suspend/resume helpers
+      drm: renesas: shmobile: Remove internal CRTC state tracking
+      drm: renesas: shmobile: Atomic conversion part 3
+      drm: renesas: shmobile: Add DT support
+
+Laurent Pinchart (5):
+      drm: renesas: shmobile: Remove backlight support
+      drm: renesas: shmobile: Don't set display info width and height twice
+      drm: renesas: shmobile: Rename input clocks
+      drm: renesas: shmobile: Remove support for SYS panels
+      drm: renesas: shmobile: Use struct videomode in platform data
+
+ .../bindings/display/renesas,shmobile-lcdc.yaml    | 130 +++++
+ .../userspace-api/media/v4l/subdev-formats.rst     |  72 +++
+ MAINTAINERS                                        |  13 +-
+ drivers/gpu/drm/renesas/shmobile/Kconfig           |   3 +-
+ drivers/gpu/drm/renesas/shmobile/Makefile          |   3 +-
+ .../gpu/drm/renesas/shmobile/shmob_drm_backlight.c |  82 ---
+ .../gpu/drm/renesas/shmobile/shmob_drm_backlight.h |  19 -
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.c  | 650 +++++++++------------
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_crtc.h  |  27 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.c   | 179 +++---
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_drv.h   |  18 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.c   |  77 ++-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_kms.h   |   9 +-
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.c | 326 ++++++-----
+ drivers/gpu/drm/renesas/shmobile/shmob_drm_plane.h |   5 +-
+ include/linux/platform_data/shmob_drm.h            |  57 +-
+ include/uapi/linux/media-bus-format.h              |   3 +-
+ 17 files changed, 860 insertions(+), 813 deletions(-)
+ create mode 100644
+Documentation/devicetree/bindings/display/renesas,shmobile-lcdc.yaml
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.c
+ delete mode 100644 drivers/gpu/drm/renesas/shmobile/shmob_drm_backlight.h
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
