@@ -2,124 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3BA557CAB8C
-	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 16:33:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 878387CAF6B
+	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 18:33:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233542AbjJPOdR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Oct 2023 10:33:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52906 "EHLO
+        id S234015AbjJPQdQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Oct 2023 12:33:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231321AbjJPOdQ (ORCPT
+        with ESMTP id S234122AbjJPQcq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Oct 2023 10:33:16 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD38EA;
-        Mon, 16 Oct 2023 07:33:14 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 364EBC433C8;
-        Mon, 16 Oct 2023 14:33:11 +0000 (UTC)
-Message-ID: <953e9c30-0060-45b7-b6e3-8f03d331b6b8@xs4all.nl>
-Date:   Mon, 16 Oct 2023 16:33:09 +0200
+        Mon, 16 Oct 2023 12:32:46 -0400
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 306C359E3
+        for <linux-media@vger.kernel.org>; Mon, 16 Oct 2023 09:21:29 -0700 (PDT)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-53ebf429b4fso2349440a12.1
+        for <linux-media@vger.kernel.org>; Mon, 16 Oct 2023 09:21:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1697473287; x=1698078087; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CAb17pgGDskHnlY2AqE/p0VY3rCVGX3pMGwKXCOl8EM=;
+        b=Y8Kj/Y3Wl6ETaNvDp3wz591NvWdwVayoVHrXlBA9Gpbj8MJWdZDXhnwyptPjq9YSw6
+         IOEm2So0m1GNM9S5gNdQxO+5EkgY77GWdEGev6OblNsCuHjGrKVuHTwAA0ADWXBAZHh3
+         Jyg1rxI+W2f3b0ZExtXYSaCxAt/VrwIjZEUu4gRPe3sfqW2NMkrXkrSj52qnMTwmufCQ
+         4re4fOc6puIDOcsEVzwtK5fCisxVimLzw+uois64+EGoVuPrUVyRZq+Fcb1jn1ejtSKA
+         smSz2LWHVkvtQ80btjMVWC9M5NI/Q1AGVLu/AWY97BEWmslcIZnMRGZXHu5qVVMjjIS2
+         gMwQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697473287; x=1698078087;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CAb17pgGDskHnlY2AqE/p0VY3rCVGX3pMGwKXCOl8EM=;
+        b=SIoLC82kEGScwH2gpdwxkSElbVIr+NTnxYcVJ/YGeARI4ZB+ujxno0XYVcmhpzkoK8
+         YlwkEb+6GvCBfP7Y1nXANXJgCkBFHZ9Qbjn+6WYr1rwl3Wdmr1tPm46qKeKYsh9i7NHe
+         A44FEXCYHbVfsYDTmYA9GF7DeUmRvo9jJrnQ0SPiOiCC0yHzSpuRzDZSxLY6o3fL8oBu
+         NyNPS+8ehcSuMl/sq2RzeyYeePYL/lRqcDd7kzSKH6kUlq+kWfLzReSVoM4dvZt8Xt3q
+         teWpFF9wdqifiz2XbZROu6wbhIGol9sTXncln0bmXseoNS3rC1p5qembgkwCckcFTEYp
+         s59Q==
+X-Gm-Message-State: AOJu0Yxr6KNiKA85MTq1VhzKgUrkGwAQyI3uU801aGbSM4+50CA//oLo
+        0FaDjIHqilpJyQT/V+kFiIjL5g==
+X-Google-Smtp-Source: AGHT+IHPIUPjeF01O0GQgMCM2cew1xETlz6uhpvJFH0yFiqhszt94wZ14RmTaFjPFS+FHUOWvaT1Hg==
+X-Received: by 2002:a05:6402:2314:b0:53e:1741:d76b with SMTP id l20-20020a056402231400b0053e1741d76bmr9725656eda.39.1697473287208;
+        Mon, 16 Oct 2023 09:21:27 -0700 (PDT)
+Received: from [192.168.1.20] ([178.197.219.154])
+        by smtp.gmail.com with ESMTPSA id g7-20020a056402114700b0053da777f7d1sm107223edw.10.2023.10.16.09.21.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 16 Oct 2023 09:21:26 -0700 (PDT)
+Message-ID: <ebfa6770-059c-4a9b-980a-3447ea9cf404@linaro.org>
+Date:   Mon, 16 Oct 2023 18:21:23 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 45/56] media: test-drivers: vivid: Increase max
- supported buffers for capture queues
-Content-Language: en-US, nl
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
- <20231012114642.19040-46-benjamin.gaignard@collabora.com>
- <0ca82921-b71a-4d87-a1f1-6a6158f07c8c@xs4all.nl>
- <b689e7d2-ff87-499e-a165-d227b1865488@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <b689e7d2-ff87-499e-a165-d227b1865488@collabora.com>
+Subject: Re: [PATCH v7 15/16] dt-bindings: display: mediatek: split: add
+ compatible for MT8195
+Content-Language: en-US
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Moudy Ho <moudy.ho@mediatek.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     dri-devel@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20231012084037.19376-1-moudy.ho@mediatek.com>
+ <20231012084037.19376-16-moudy.ho@mediatek.com>
+ <e58ecc95-5133-4542-8178-338583bca2ab@linaro.org>
+ <b1f42bab-7670-c099-8c7a-882f7268b358@collabora.com>
+From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
+ m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
+ HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
+ XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
+ mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
+ v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
+ cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
+ rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
+ qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
+ aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
+ gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
+ dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
+ NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
+ hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
+ oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
+ H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
+ yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
+ 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
+ 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
+ +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
+ FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
+ 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
+ DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
+ oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
+ 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
+ Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
+ qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
+ /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
+ qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
+ EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
+ KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
+ fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <b1f42bab-7670-c099-8c7a-882f7268b358@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/10/2023 16:20, Benjamin Gaignard wrote:
-> 
-> Le 16/10/2023 à 12:32, Hans Verkuil a écrit :
->> On 12/10/2023 13:46, Benjamin Gaignard wrote:
->>> Change the maximum number of buffers of some capture queues in order
->>> to test max_num_buffers field.
+On 16/10/2023 10:01, AngeloGioacchino Del Regno wrote:
+> Il 13/10/23 08:52, Krzysztof Kozlowski ha scritto:
+>> On 12/10/2023 10:40, Moudy Ho wrote:
+>>> Add compatible string and GCE property for MT8195 SPLIT, of
+>>> which is operated by MDP3.
 >>>
->>> Allow to allocate up to:
->>> - 64 buffers for video capture queue.
->>> - 1024 buffers for sdr capture queue.
->>> - 32768 buffers for vbi capture queue.
->>>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> ---
->>>   drivers/media/test-drivers/vivid/vivid-core.c | 7 +++++++
->>>   1 file changed, 7 insertions(+)
->>>
->>> diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
->>> index 394c9f81ea72..b5656330578d 100644
->>> --- a/drivers/media/test-drivers/vivid/vivid-core.c
->>> +++ b/drivers/media/test-drivers/vivid/vivid-core.c
->>> @@ -876,6 +876,13 @@ static int vivid_create_queue(struct vivid_dev *dev,
->>>       q->type = buf_type;
->>>       q->io_modes = VB2_MMAP | VB2_DMABUF;
->>>       q->io_modes |= V4L2_TYPE_IS_OUTPUT(buf_type) ?  VB2_WRITE : VB2_READ;
->>> +    if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
->>> +        q->max_num_buffers = 64;
->>> +    if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE)
->>> +        q->max_num_buffers = 1024;
->>> +    if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE)
->>> +        q->max_num_buffers = 32768;
->> This should use the same calculation as MAX_BUFFER_INDEX.
+>>> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 >>
->> I wonder if those defines should move to videobuf2-core.h instead.
-> 
-> I'm not sure about what you want here, q->max_num_buffers is clamped in vb2_core_queue_init():
-> 
-> /* The maximum is limited by offset cookie encoding pattern */
-> q->max_num_buffers = min_t(unsigned int, q->max_num_buffers, MAX_BUFFER_INDEX);
-> 
-> Do you want to reuse MAX_BUFFER_INDEX for these drivers ?
-
-Ah, I forgot about the clamping.
-
-Add a comment like this:
-
-/*
- * The maximum number of buffers is 32768 if PAGE_SHIFT == 12,
- * see also MAX_BUFFER_INDEX in videobuf2-core.c. It will be less if
- * PAGE_SHIFT > 12, but then max_num_buffers will be clamped by
- * videobuf2-core.c to MAX_BUFFER_INDEX.
- */
-
-Regards,
-
-	Hans
-
-> 
-> Regards,
-> Benjamin
-> 
 >>
->> Regards,
->>
->>     Hans
->>
+>>> +allOf:
+>>> +  - if:
+>>> +      properties:
+>>> +        compatible:
+>>> +          contains:
+>>> +            const: mediatek,mt8195-mdp3-split
 >>> +
->>>       if (allocators[dev->inst] != 1)
->>>           q->io_modes |= VB2_USERPTR;
->>>       q->drv_priv = dev;
+>>> +    then:
+>>> +      required:
+>>> +        - mediatek,gce-client-reg
 >>
+>> else:
+>>    mediatek,gce-client-reg: false
+>>
+>>
+> 
+> Technically, all of the display components do support GCE, using it is
+> a matter of preference, so disallowing gce-client-reg on anything that
+> is not mt8195-mdp3-split is *technically* wrong, as much as not having
+> that from the beginning was also technically wrong... :-)
+> 
+> P.S.: The driver for the display split component doesn't use GCE yet,
+> only mdp3 for now, but again, it's the driver - while the HW is actually
+> capable of using that
+
+Hm, fine with me then.
+
+Best regards,
+Krzysztof
 
