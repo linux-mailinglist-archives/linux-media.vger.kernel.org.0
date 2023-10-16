@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB7367CA178
-	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 10:22:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A9207CA17C
+	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 10:23:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230104AbjJPIWx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Oct 2023 04:22:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57108 "EHLO
+        id S230126AbjJPIXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Oct 2023 04:23:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230112AbjJPIWw (ORCPT
+        with ESMTP id S229636AbjJPIXp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Oct 2023 04:22:52 -0400
+        Mon, 16 Oct 2023 04:23:45 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16475E5;
-        Mon, 16 Oct 2023 01:22:51 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6CED5C433C7;
-        Mon, 16 Oct 2023 08:22:47 +0000 (UTC)
-Message-ID: <453d929b-0d6d-4e52-aa7f-454bbf4cac7c@xs4all.nl>
-Date:   Mon, 16 Oct 2023 10:22:45 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 73744A1;
+        Mon, 16 Oct 2023 01:23:43 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3440CC433C8;
+        Mon, 16 Oct 2023 08:23:40 +0000 (UTC)
+Message-ID: <21864437-bfdd-4d39-91fa-f24fc1c7cf97@xs4all.nl>
+Date:   Mon, 16 Oct 2023 10:23:39 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 39/56] touchscreen: sur40: Stop direct calls to queue
+Subject: Re: [PATCH v11 40/56] sample: v4l: Stop direct calls to queue
  num_buffers field
 Content-Language: en-US, nl
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
@@ -33,12 +33,11 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com, Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Henrik Rydberg <rydberg@bitmath.org>
+        kernel@collabora.com
 References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
- <20231012114642.19040-40-benjamin.gaignard@collabora.com>
+ <20231012114642.19040-41-benjamin.gaignard@collabora.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231012114642.19040-40-benjamin.gaignard@collabora.com>
+In-Reply-To: <20231012114642.19040-41-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
@@ -54,28 +53,33 @@ On 12/10/2023 13:46, Benjamin Gaignard wrote:
 > Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> CC: Henrik Rydberg <rydberg@bitmath.org>
 > ---
->  drivers/input/touchscreen/sur40.c | 5 +++--
+>  samples/v4l/v4l2-pci-skeleton.c | 5 +++--
 >  1 file changed, 3 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/input/touchscreen/sur40.c b/drivers/input/touchscreen/sur40.c
-> index 8ddb3f7d307a..e7d2a52169a0 100644
-> --- a/drivers/input/touchscreen/sur40.c
-> +++ b/drivers/input/touchscreen/sur40.c
-> @@ -847,9 +847,10 @@ static int sur40_queue_setup(struct vb2_queue *q,
+> diff --git a/samples/v4l/v4l2-pci-skeleton.c b/samples/v4l/v4l2-pci-skeleton.c
+> index a61f94db18d9..a65aa9d1e9da 100644
+> --- a/samples/v4l/v4l2-pci-skeleton.c
+> +++ b/samples/v4l/v4l2-pci-skeleton.c
+> @@ -155,6 +155,7 @@ static int queue_setup(struct vb2_queue *vq,
 >  		       unsigned int sizes[], struct device *alloc_devs[])
 >  {
->  	struct sur40_state *sur40 = vb2_get_drv_priv(q);
-> +	unsigned int q_num_bufs = vb2_get_num_buffers(q);
+>  	struct skeleton *skel = vb2_get_drv_priv(vq);
+> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
 >  
-> -	if (q->num_buffers + *nbuffers < 3)
-> -		*nbuffers = 3 - q->num_buffers;
+>  	skel->field = skel->format.field;
+>  	if (skel->field == V4L2_FIELD_ALTERNATE) {
+> @@ -167,8 +168,8 @@ static int queue_setup(struct vb2_queue *vq,
+>  		skel->field = V4L2_FIELD_TOP;
+>  	}
+>  
+> -	if (vq->num_buffers + *nbuffers < 3)
+> -		*nbuffers = 3 - vq->num_buffers;
 > +	if (q_num_bufs + *nbuffers < 3)
 > +		*nbuffers = 3 - q_num_bufs;
 
-This can just be dropped since this driver sets min_buffers_needed to 3.
+This should be dropped, and instead update q->min_buffers_needed from
+2 to 3.
 
 Regards,
 
@@ -83,5 +87,5 @@ Regards,
 
 >  
 >  	if (*nplanes)
->  		return sizes[0] < sur40->pix_fmt.sizeimage ? -EINVAL : 0;
+>  		return sizes[0] < skel->format.sizeimage ? -EINVAL : 0;
 
