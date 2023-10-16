@@ -2,104 +2,252 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D7F47CA2FE
-	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 10:59:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8D777CA310
+	for <lists+linux-media@lfdr.de>; Mon, 16 Oct 2023 11:00:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230219AbjJPI7s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Oct 2023 04:59:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57634 "EHLO
+        id S233135AbjJPJAk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Oct 2023 05:00:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229621AbjJPI7r (ORCPT
+        with ESMTP id S233112AbjJPJAi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Oct 2023 04:59:47 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F98E6
-        for <linux-media@vger.kernel.org>; Mon, 16 Oct 2023 01:59:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697446784; x=1728982784;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=RQkNC/Fvf75Clq+0GClBykc7BLTjTDCRa34Qcl6Z1gA=;
-  b=QCEKnLI/gfKC6TQuAiyORNmSG+LYltwsz4PkSecvwYM/5veG3/ZRPYeU
-   WUNmct147XfX494+ZzgKmL7RKV2hUX7BVJXdrLsUQm5nTLDzSfSVNB7oj
-   gxHsUfTlC3Efcmcg0t7HB7AtbXmlWEtl2Ld/ym35GsKN3hRaX7F457nuj
-   ed3R/28M/AcY5f0/OIr1CGbozgfAwuvT7g1oMveGULHSFiiqdQ3RHJHxs
-   e0QlNLuh3fpxMrMpKyr3gjMu+kFxDpBrQR3ChJAOcx+YLNlF3Gm985Pzf
-   xnYINmWVHh3HnUQgfr4+bqkX403cG0JvPih49MflqRJrWfgGFJHgU7CMN
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="449688895"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="449688895"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 01:59:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10863"; a="929280213"
-X-IronPort-AV: E=Sophos;i="6.03,229,1694761200"; 
-   d="scan'208";a="929280213"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2023 01:59:18 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 73F2111F82E;
-        Mon, 16 Oct 2023 11:59:15 +0300 (EEST)
-Date:   Mon, 16 Oct 2023 08:59:15 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com
-Subject: Re: [PATCH 2/6] media: v4l: subdev: Also return pads array
- information on stream functions
-Message-ID: <ZSz7Y0lYrywH8/Jz@kekkonen.localdomain>
-References: <20231013104424.404768-1-sakari.ailus@linux.intel.com>
- <20231013104424.404768-3-sakari.ailus@linux.intel.com>
- <20231013110741.GD11101@pendragon.ideasonboard.com>
- <ZSkmPJdxlxeSzYeZ@kekkonen.localdomain>
- <20231016082452.GH23177@pendragon.ideasonboard.com>
+        Mon, 16 Oct 2023 05:00:38 -0400
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 529E7F7;
+        Mon, 16 Oct 2023 02:00:35 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 77386FF821;
+        Mon, 16 Oct 2023 09:00:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1697446833;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=R7Cz4gMkKtHSEbn9b4AaEiwai8L2LYY05rNv81sPeAU=;
+        b=C17z9Rr2WN4k6+gn1+GPlFPBLsKWBEQ9EcaWIB7lDUVaeIzBU1RC8SEEyzxyPE2/D5Qnpu
+        E7NCn8X7ALrMVgILvDtYu8syu1QDnbBQGNTxSoWJVGlGVgc92aO1+Vy6IwQg30R5ewJ0vA
+        SVlpDEitLpIJQyv578V+VVnvXJWYvyntyrCT0V5oUmsxzsyV3vqoNHiaL4Pkb0xO6uiO7v
+        FqhZh3ICd0wvCdKduZhGre9tsezq7UAmgi2wUSq3d8tjPNe+SdmCQaBwgLcm39Clb3Petd
+        YkxDIrb8DsKtTvbmyqSFzpatWJSWN1yg75KFEq//pbkmEfKJNqyVyER3gz+alg==
+From:   Mehdi Djait <mehdi.djait@bootlin.com>
+To:     mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org, ezequiel@vanguardiasur.com.ar
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
+        paul.kocialkowski@bootlin.com,
+        Mehdi Djait <mehdi.djait@bootlin.com>
+Subject: [PATCH v8 0/3] media: rockchip: Add a driver for Rockchip's camera interface
+Date:   Mon, 16 Oct 2023 11:00:02 +0200
+Message-ID: <cover.1697446303.git.mehdi.djait@bootlin.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231016082452.GH23177@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: mehdi.djait@bootlin.com
+X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS,URI_HEX autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 16, 2023 at 11:24:52AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Fri, Oct 13, 2023 at 11:13:00AM +0000, Sakari Ailus wrote:
-> > On Fri, Oct 13, 2023 at 02:07:41PM +0300, Laurent Pinchart wrote:
-> > > On Fri, Oct 13, 2023 at 01:44:20PM +0300, Sakari Ailus wrote:
-> > > > There are two sets of functions that return information from sub-device
-> > > > state, one for stream-unaware users and another for stream-aware users.
-> > > > Add support for stream-aware functions to return format, crop and compose
-> > > > information from pad-based array that are functionally equivalent to the
-> > > > old, stream-unaware ones.
-> > > > 
-> > > > Also check state is non-NULL, in order to guard against old drivers
-> > > > potentially calling this with NULL state for active formats or selection
-> > > > rectangles.
-> > > 
-> > > I'm not too keen on this I'm afraid :-( I think it gets confusing for
-> > > drivers that are not stream-aware to have to call a function that takes
-> > > a stream number. I don't see a problem with keeping two different sets
-> > > of functions, one for stream-aware drivers, and one for other drivers.
-> > 
-> > This becomes a nuisance in drivers such as CCS that work with sub-devices
-> > some of which have streams and others which don't. I don't see why we
-> > should have two sets of functions to access the same information, even
-> > though it's stored differently.
-> > 
-> > I can add a wrapper using C11 _Generic to make the stream number go away.
-> 
-> That could possibly be interesting.
+Hello everyone,
 
-I'll add this for v2.
+V8 for basic support of the Video Input Processor found on the Rockchip PX30 SoC
+
+The v6 is based on the fifth iteration of the series introducing the
+driver: sent 29 Dec 2020 [1]
+
+Most of this driver was written following the BSP driver from rockchip,
+removing the parts that either didn't fit correctly the guidelines, or
+that couldn't be tested.
+
+In the BSP, this driver is known as the "cif" driver, but this was
+renamed to "vip" to better fit the controller denomination in the
+datasheet.
+
+This version of the driver supports ONLY the parallel interface BT656
+and was tested/implemented using an SDTV video decoder
+
+media_tree, base-commit: 2c1bae27df787c9535e48cc27bbd11c3c3e0a235
+
+V7 => V8:
+vip/capture.c:
+- fixed a warning: unused variable reported by the kernel test robot
+
+V6 => V7:
+vip/capture.c vip/dev.c vip/dev.h
+- renamed all struct rk_vip_dev dev => struct rk_vip_dev vip_dev
+- added some error when rk_vip_get_buffer() returns NULL
+- removed a WARN_ON
+- made the irq NOT shared
+- dropped of_match_ptr
+- added the rk_vip_get_resource() function
+
+rockchip,px30-vip.yaml:
+- changed filename to match the compatible
+- dropped the mention of the other rockchip SoC in the dt-binding
+  description and added a more detailed description of VIP
+- removed unused labels in the example
+
+
+V5 [1] => V6:
+vip/capture.c vip/dev.c vip/dev.h
+- added a video g_input_status subdev call, V4L2_IN_CAP_STD and the
+  supported stds in rk_vip_enum_input callback
+- added rk_vip_g_std, rk_vip_s_std and rk_vip_querystd callbacks
+- added the supported video_device->tvnorms
+- s_std will now update the format as this depends on the standard
+  NTSC/PAL (as suggested by Hans in [1])
+- removed STD_ATSC
+- moved the colorimetry information to come from the subdev
+- removed the core s_power subdev calls
+- dropped cropping in rk_vip_stream struct
+
+rockchip-vip.yaml:
+- fixed a mistake in the name of third clock plckin -> plck
+- changed the reg maxItems 2 -> 1
+
+[1] https://lore.kernel.org/linux-media/20201229161724.511102-1-maxime.chevallier@bootlin.com/
+
+I used v4l-utils with HEAD: commit 1ee258e5bb91a12df378e19eb255c5219d6bc36b
+
+# v4l2-compliance 
+v4l2-compliance 1.25.0, 64 bits, 64-bit time_t
+
+Compliance test for rk_vip device /dev/video0:
+
+Driver Info:
+        Driver name      : rk_vip
+        Card type        : rk_vip
+        Bus info         : platform:ff490000.vip
+        Driver version   : 6.6.0
+        Capabilities     : 0x84201000
+                Video Capture Multiplanar
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04201000
+                Video Capture Multiplanar
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : rk_vip
+        Model            : rk_vip
+        Serial           : 
+        Bus info         : platform:ff490000.vip
+        Media version    : 6.6.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.6.0
+Interface Info:
+        ID               : 0x03000002
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000001 (1)
+        Name             : video_rkvip
+        Function         : V4L2 I/O
+        Pad 0x01000004   : 0: Sink
+          Link 0x02000009: from remote pad 0x1000006 of entity 'tw9900 2-0044' (Digital Video Decoder): Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for rk_vip device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+Mehdi Djait (3):
+  media: dt-bindings: media: add bindings for Rockchip VIP
+  media: rockchip: Add a driver for Rockhip's camera interface
+  arm64: dts: rockchip: Add the camera interface
+
+ .../bindings/media/rockchip,px30-vip.yaml     |   93 ++
+ arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
+ drivers/media/platform/rockchip/Kconfig       |    1 +
+ drivers/media/platform/rockchip/Makefile      |    1 +
+ drivers/media/platform/rockchip/vip/Kconfig   |   14 +
+ drivers/media/platform/rockchip/vip/Makefile  |    3 +
+ drivers/media/platform/rockchip/vip/capture.c | 1210 +++++++++++++++++
+ drivers/media/platform/rockchip/vip/dev.c     |  346 +++++
+ drivers/media/platform/rockchip/vip/dev.h     |  163 +++
+ drivers/media/platform/rockchip/vip/regs.h    |  260 ++++
+ 10 files changed, 2103 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+ create mode 100644 drivers/media/platform/rockchip/vip/Kconfig
+ create mode 100644 drivers/media/platform/rockchip/vip/Makefile
+ create mode 100644 drivers/media/platform/rockchip/vip/capture.c
+ create mode 100644 drivers/media/platform/rockchip/vip/dev.c
+ create mode 100644 drivers/media/platform/rockchip/vip/dev.h
+ create mode 100644 drivers/media/platform/rockchip/vip/regs.h
 
 -- 
-Sakari Ailus
+2.41.0
+
