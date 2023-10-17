@@ -2,44 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BE7D7CC1E0
-	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 13:36:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5CEE67CC1E7
+	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 13:38:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234605AbjJQLgJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Oct 2023 07:36:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41408 "EHLO
+        id S1343611AbjJQLit (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Oct 2023 07:38:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234469AbjJQLgI (ORCPT
+        with ESMTP id S234147AbjJQLit (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Oct 2023 07:36:08 -0400
+        Tue, 17 Oct 2023 07:38:49 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B76EA
-        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 04:36:04 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C61DF9F
+        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 04:38:47 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A43A4E4;
-        Tue, 17 Oct 2023 13:35:55 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4D87E4;
+        Tue, 17 Oct 2023 13:38:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1697542555;
-        bh=oGRrubbwn8uAnGZHvMKk6CYwKWd6loxL2RN4CGCNxW8=;
+        s=mail; t=1697542720;
+        bh=pZrBX4NP7FM0o6v85FmepitZUi1+gWLWgJSzVvNlOQo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=F5ONDhQql9pjxKOR9Gh5oApOXkGnHL6EJ84M1xmVZksuGxLPKncJsuowd+Q/fOAsY
-         01VCYkJVSa1dZMnHNaQ0DAdh1pJ4FW6vms4A5RFs/oA+oYRD2okBDg86ys3dXmmUsX
-         5mIwrQErpIZo4nyxfAwAqx4w9I4Kp3SIMNHxAW84=
-Date:   Tue, 17 Oct 2023 14:36:09 +0300
+        b=HoAnpr6tuRaHU2mOlf7YEJ2HvuoVa4xG0c6FFMaL1kkE2swdLRtSEPn1tQrZufspJ
+         kvysc9WOrPnJxlv5zJYJvUG4ifFaTwmWF1CmKT6dJtUPVlaroHY1fn4vYbhvWFi0cD
+         xtqE2SrZe+MVYijaQOrZ9ExVGu6nSlmZ5vanfRSc=
+Date:   Tue, 17 Oct 2023 14:38:53 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com,
         dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 3/3] media: Documentation: LP-11 and LP-111 are
- states, not modes
-Message-ID: <20231017113609.GA14832@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 2/3] media: Documentation: BT.601 is not a bus
+Message-ID: <20231017113853.GB14832@pendragon.ideasonboard.com>
 References: <20231017105630.558089-1-sakari.ailus@linux.intel.com>
- <20231017105630.558089-4-sakari.ailus@linux.intel.com>
+ <20231017105630.558089-3-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231017105630.558089-4-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231017105630.558089-3-sakari.ailus@linux.intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -53,76 +51,56 @@ Hi Sakari,
 
 Thank you for the patch.
 
-On Tue, Oct 17, 2023 at 01:56:30PM +0300, Sakari Ailus wrote:
-> LP-11 and LP-111 are CSI-2 bus states, not modes. Fix this.
-> 
+On Tue, Oct 17, 2023 at 01:56:29PM +0300, Sakari Ailus wrote:
+> BT.601 is not actually a bus specification, leaving parallel bus without a
+> specification to refer to. Fix this.
+
+I'm really annoyed there's no standard name for parallel buses :-(
+
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  Documentation/driver-api/media/tx-rx.rst | 16 ++++++++--------
->  1 file changed, 8 insertions(+), 8 deletions(-)
+>  Documentation/driver-api/media/camera-sensor.rst | 4 ++--
+>  Documentation/driver-api/media/tx-rx.rst         | 3 +--
+>  2 files changed, 3 insertions(+), 4 deletions(-)
 > 
+> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> index 0de5c86cbd1f..19f2feeecc91 100644
+> --- a/Documentation/driver-api/media/camera-sensor.rst
+> +++ b/Documentation/driver-api/media/camera-sensor.rst
+> @@ -9,8 +9,8 @@ This document covers the in-kernel APIs only. For the best practices on
+>  userspace API implementation in camera sensor drivers, please see
+>  :ref:`media_using_camera_sensor_drivers`.
+>  
+> -CSI-2 and parallel (BT.601 and BT.656) busses
+> ----------------------------------------------
+> +CSI-2 and parallel and BT.656 buses
+
+CSI-2, parallel and BT.656 buses
+
+> +-----------------------------------
+>  
+>  Please see :ref:`transmitter-receiver`.
+>  
 > diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-> index 7e115e3c4735..bc1b94cffdd9 100644
+> index e1e9258dd862..7e115e3c4735 100644
 > --- a/Documentation/driver-api/media/tx-rx.rst
 > +++ b/Documentation/driver-api/media/tx-rx.rst
-> @@ -89,13 +89,13 @@ where
->  	pixel rate on the camera sensor's pixel array which is indicated by the
->  	:ref:`V4L2_CID_PIXEL_RATE <v4l2-cid-pixel-rate>` control.
+> @@ -25,9 +25,8 @@ the host SoC. It is defined by the `MIPI alliance`_.
+>  Parallel
+>  ^^^^^^^^
 >  
-> -LP-11 and LP-111 modes
-> -^^^^^^^^^^^^^^^^^^^^^^
-> +LP-11 and LP-111 states
-> +^^^^^^^^^^^^^^^^^^^^^^^
+> -`BT.601`_ and `BT.656`_ are the most common parallel busses.
+> +The parallel bus and its `BT.656`_ variant are the most common parallel busses.
 
-Indeed.
-
->  
-> -As part of transitioning to high speed mode, a CSI-2 transmitter typically
-> +As part of transitioning to high speed state, a CSI-2 transmitter typically
-
-"high speed" is a mode according to the D-PHY specification.
-
->  briefly sets the bus to LP-11 or LP-111 state, depending on the PHY. This period
->  may be as short as 100 µs, during which the receiver observes this state and
-> -proceeds its own part of high speed mode transition.
-> +proceeds its own part of high speed state transition.
-
-Same here.
+We use "parallel" to mean explicit sync signals in many places
+(including APIs), and here it covers BT.656 too :-( This sentence is
+fairly bad.
 
 >  
->  Most receivers are capable of autonomously handling this once the software has
->  configured them to do so, but there are receivers which require software
-> @@ -104,7 +104,7 @@ in software, especially when there is no interrupt telling something is
->  happening.
+> -.. _`BT.601`: https://en.wikipedia.org/wiki/Rec._601
+>  .. _`BT.656`: https://en.wikipedia.org/wiki/ITU-R_BT.656
 >  
->  One way to address this is to configure the transmitter side explicitly to LP-11
-> -or LP-111 mode, which requires support from the transmitter hardware. This is
-> +or LP-111 state, which requires support from the transmitter hardware. This is
-
-Ack.
-
-With the two changes referring to high speed state dropped,
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->  not universally available. Many devices return to this state once streaming is
->  stopped while the state after power-on is LP-00 or LP-000.
->  
-> @@ -115,11 +115,11 @@ transitioning to streaming state, but not yet start streaming. Similarly, the
->  to call ``.post_streamoff()`` for each successful call of ``.pre_streamon()``.
->  
->  In the context of CSI-2, the ``.pre_streamon()`` callback is used to transition
-> -the transmitter to the LP-11 or LP-111 mode. This also requires powering on the
-> +the transmitter to the LP-11 or LP-111 state. This also requires powering on the
->  device, so this should be only done when it is needed.
->  
-> -Receiver drivers that do not need explicit LP-11 or LP-111 mode setup are waived
-> -from calling the two callbacks.
-> +Receiver drivers that do not need explicit LP-11 or LP-111 state setup are
-> +waived from calling the two callbacks.
->  
->  Stopping the transmitter
->  ^^^^^^^^^^^^^^^^^^^^^^^^
+>  Transmitter drivers
 
 -- 
 Regards,
