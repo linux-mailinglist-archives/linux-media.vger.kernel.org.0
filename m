@@ -2,42 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5CEE67CC1E7
-	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 13:38:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BF08B7CC209
+	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 13:52:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343611AbjJQLit (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Oct 2023 07:38:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33720 "EHLO
+        id S234635AbjJQLwS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Oct 2023 07:52:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57418 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234147AbjJQLit (ORCPT
+        with ESMTP id S233761AbjJQLwR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Oct 2023 07:38:49 -0400
+        Tue, 17 Oct 2023 07:52:17 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C61DF9F
-        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 04:38:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A33F3B0
+        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 04:52:15 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E4D87E4;
-        Tue, 17 Oct 2023 13:38:39 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 76DD8E4;
+        Tue, 17 Oct 2023 13:52:07 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1697542720;
-        bh=pZrBX4NP7FM0o6v85FmepitZUi1+gWLWgJSzVvNlOQo=;
+        s=mail; t=1697543527;
+        bh=D1p579MtML/v6OVr1FWv5CGJkrjI1/kTypTwVvEH7w8=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HoAnpr6tuRaHU2mOlf7YEJ2HvuoVa4xG0c6FFMaL1kkE2swdLRtSEPn1tQrZufspJ
-         kvysc9WOrPnJxlv5zJYJvUG4ifFaTwmWF1CmKT6dJtUPVlaroHY1fn4vYbhvWFi0cD
-         xtqE2SrZe+MVYijaQOrZ9ExVGu6nSlmZ5vanfRSc=
-Date:   Tue, 17 Oct 2023 14:38:53 +0300
+        b=H69orSK7e6d/ylgFXVNmIxeNCRxnUD0hG2U4dtRd1f6wf+PuZ2WK5n5m1UOaLCo3n
+         zmXXcjywAbwj0gUH40Y2I4GUndi1FOMA754Io4G7hdswqfGu/U3Q/sMU09oOkafNQ0
+         aMHTWsxqed+QhXb6NWAjjgxUP6jb50H/m6YV6e3Q=
+Date:   Tue, 17 Oct 2023 14:52:21 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com,
         dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com
-Subject: Re: [PATCH v2 2/3] media: Documentation: BT.601 is not a bus
-Message-ID: <20231017113853.GB14832@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 1/3] media: Documentation: Document how link
+ frequencies can be chosen
+Message-ID: <20231017115221.GC10076@pendragon.ideasonboard.com>
 References: <20231017105630.558089-1-sakari.ailus@linux.intel.com>
- <20231017105630.558089-3-sakari.ailus@linux.intel.com>
+ <20231017105630.558089-2-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231017105630.558089-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231017105630.558089-2-sakari.ailus@linux.intel.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -51,56 +52,79 @@ Hi Sakari,
 
 Thank you for the patch.
 
-On Tue, Oct 17, 2023 at 01:56:29PM +0300, Sakari Ailus wrote:
-> BT.601 is not actually a bus specification, leaving parallel bus without a
-> specification to refer to. Fix this.
-
-I'm really annoyed there's no standard name for parallel buses :-(
-
+On Tue, Oct 17, 2023 at 01:56:28PM +0300, Sakari Ailus wrote:
+> Document how link frequencies can be selected for the link-frequencies
+> property.
+> 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  Documentation/driver-api/media/camera-sensor.rst | 4 ++--
->  Documentation/driver-api/media/tx-rx.rst         | 3 +--
->  2 files changed, 3 insertions(+), 4 deletions(-)
+>  Documentation/driver-api/media/camera-sensor.rst   | 14 ++++++++++++++
+>  .../userspace-api/media/drivers/camera-sensor.rst  |  2 ++
+>  2 files changed, 16 insertions(+)
 > 
 > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> index 0de5c86cbd1f..19f2feeecc91 100644
+> index 6456145f96ed..0de5c86cbd1f 100644
 > --- a/Documentation/driver-api/media/camera-sensor.rst
 > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> @@ -9,8 +9,8 @@ This document covers the in-kernel APIs only. For the best practices on
->  userspace API implementation in camera sensor drivers, please see
->  :ref:`media_using_camera_sensor_drivers`.
+> @@ -29,6 +29,20 @@ used in the system. Using another frequency may cause harmful effects
+>  elsewhere. Therefore only the pre-determined frequencies are configurable by the
+>  user.
 >  
-> -CSI-2 and parallel (BT.601 and BT.656) busses
-> ----------------------------------------------
-> +CSI-2 and parallel and BT.656 buses
+> +On choosing link frequencies
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +Choosing link frequencies for a board is generally a part of the hardware design
+> +process as one needs to ensure an EMC-safe frequency the sensor supports with
+> +the given external clock frequency exists.
 
-CSI-2, parallel and BT.656 buses
+This is a bit hard to parse. I would write
 
-> +-----------------------------------
->  
->  Please see :ref:`transmitter-receiver`.
->  
-> diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-> index e1e9258dd862..7e115e3c4735 100644
-> --- a/Documentation/driver-api/media/tx-rx.rst
-> +++ b/Documentation/driver-api/media/tx-rx.rst
-> @@ -25,9 +25,8 @@ the host SoC. It is defined by the `MIPI alliance`_.
->  Parallel
->  ^^^^^^^^
->  
-> -`BT.601`_ and `BT.656`_ are the most common parallel busses.
-> +The parallel bus and its `BT.656`_ variant are the most common parallel busses.
+Choosing link frequencies for a board is generally a part of the hardware design
+process as one needs to select EMC-safe frequencies that the sensor supports with
+the given external clock frequency.
 
-We use "parallel" to mean explicit sync signals in many places
-(including APIs), and here it covers BT.656 too :-( This sentence is
-fairly bad.
+> On development systems this may be
+> +less than an immediate concern, so more or less anything that sensor and the
+> +rest of the applicable hardware supports can be used.
 
+True, but it still doesn't say what to pick :-)
+
+Q: What link frequency do I put in DT for a development board?
+A: Any frequency will do.
+Q: 1Hz?
+A: No, it has to be supported by the sensor
+Q: How do I figure that out?
+A: ...
+
+And once the range (or list) of frequencies the driver supports (for a
+given input clock frequency) will be known, the selection process is
+still not totally straightforward, as it will have implications on what
+resolutions and frame rates the sensor will be able to output. This is
+complicated even further if the sensor can support different number of
+data lanes.
+
+> +
+> +If the sensor's PLL tree is not documented and all that is available are
+> +register lists, even knowing the frequency a driver uses may be difficult. This
+> +could still be :ref:`calculated from the number of lanes, sensor's output image
+> +size, blanking values and frame rate <media_camera_raw_frame_interval>`.
+> +
+>  ACPI
+>  ~~~~
 >  
-> -.. _`BT.601`: https://en.wikipedia.org/wiki/Rec._601
->  .. _`BT.656`: https://en.wikipedia.org/wiki/ITU-R_BT.656
+> diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> index 919a50e8b9d9..e0596b85e7ec 100644
+> --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> @@ -44,6 +44,8 @@ There are two different methods for obtaining possibilities for different frame
+>  intervals as well as configuring the frame interval. Which one to implement
+>  depends on the type of the device.
 >  
->  Transmitter drivers
+> +.. _media_camera_raw_frame_interval:
+> +
+>  Raw camera sensors
+>  ~~~~~~~~~~~~~~~~~~
+>  
 
 -- 
 Regards,
