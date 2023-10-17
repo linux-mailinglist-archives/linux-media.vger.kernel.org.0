@@ -2,53 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D2F8A7CC11F
-	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 12:54:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E7AB7CC121
+	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 12:54:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343754AbjJQKy2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Oct 2023 06:54:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57636 "EHLO
+        id S1343755AbjJQKy3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Oct 2023 06:54:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57664 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234846AbjJQKy1 (ORCPT
+        with ESMTP id S1343752AbjJQKy2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Oct 2023 06:54:27 -0400
+        Tue, 17 Oct 2023 06:54:28 -0400
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A01A8F0
-        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 03:54:25 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68E4DF7
+        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 03:54:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697540065; x=1729076065;
+  t=1697540066; x=1729076066;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=KwDff5sG1NRZj1g945uvs/MVhFJTv5pO+16/21zU7wo=;
-  b=RKvoAjjRQWq5MU2ASxwOqWoId9w2+NZmpKncb+cEUUJZoSM76kLbRvs8
-   Z9Lf1SreXb4CbcB2jaqCxAHKDwJxESl0pmHhCwbwKMC9q7nb+1kGiZpwK
-   W5u9bCL5VbElOQXp31ZtPAG9YtKSKuauM+Q2X328KbC0FictQX6ZPx4WR
-   Qczwa3m5uQcRrfQ81CagM/yQlh7Og92z9VnEZzc85xC7elg1MhWZg1OrG
-   k2H7UcYQS7PDPOaIR6R2am332914h4BG0Dw4yUEZpaypqRwMt2OjNBpgQ
-   edjqNSjIQ3nEIf7uD09LsGABO/A0mGe5Y4OL36cLEQkozEPW9yN/ZlCn2
+  bh=KK+/ngxS1QlO1CIYeGaHUFVbor7X7a5HzfPlewRZSPo=;
+  b=gCsAwOvblge+iN8oXeqzKNi2aB8lRhRGujmIx4ILoFA9OaFJWZWSvW6L
+   jN4RfggkYJABRpz48Uar5AK9dk+JIwvBky/jaOf5W1WSXmsRaCmYdgVWx
+   EQ1m0afCOpwH26JaJypy7MMOUdoePL9Fu59FD/0bQrYnWVCl9vO/K6Coz
+   lIi7yJqeLgUqKAWZX256fs0m4BuPLMf7f+DFCrHv+fgoghY8sGW56ouxx
+   b2ggKGmCOWFaTAOjmTG/H3cj9akdQ61jCLI/8gLQ0pER7JBKrPcJSKHaf
+   TnNTUbfrcQf9izEJK8fFyn5aMyUzTDG0bz+Tj2ft4fh3ksAS1mn2e4kxq
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="449973941"
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="449973946"
 X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="449973941"
+   d="scan'208";a="449973946"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 03:54:25 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="929749715"
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="929749718"
 X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
-   d="scan'208";a="929749715"
+   d="scan'208";a="929749718"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 03:54:23 -0700
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 54FA612072F;
-        Tue, 17 Oct 2023 13:54:20 +0300 (EEST)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 1DCB11207A3;
+        Tue, 17 Oct 2023 13:54:21 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     laurent.pinchart@ideasonboard.com, jacopo.mondi@ideasonboard.com,
         dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com
-Subject: [PATCH 1/3] media: Documentation: Document how link frequencies can be chosen
-Date:   Tue, 17 Oct 2023 13:54:17 +0300
-Message-Id: <20231017105419.557486-2-sakari.ailus@linux.intel.com>
+Subject: [PATCH 2/3] media: Documentation: BT.601 is not a bus
+Date:   Tue, 17 Oct 2023 13:54:18 +0300
+Message-Id: <20231017105419.557486-3-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231017105419.557486-1-sakari.ailus@linux.intel.com>
 References: <20231017105419.557486-1-sakari.ailus@linux.intel.com>
@@ -63,53 +63,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document how link frequencies can be selected for the link-frequencies
-property.
+BT.601 is not actually a bus specification, leaving parallel bus without a
+specification to refer to. Fix this.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- Documentation/driver-api/media/camera-sensor.rst   | 14 ++++++++++++++
- .../userspace-api/media/drivers/camera-sensor.rst  |  2 ++
- 2 files changed, 16 insertions(+)
+ Documentation/driver-api/media/camera-sensor.rst | 4 ++--
+ Documentation/driver-api/media/tx-rx.rst         | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
 
 diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-index 6456145f96ed..0de5c86cbd1f 100644
+index 0de5c86cbd1f..19f2feeecc91 100644
 --- a/Documentation/driver-api/media/camera-sensor.rst
 +++ b/Documentation/driver-api/media/camera-sensor.rst
-@@ -29,6 +29,20 @@ used in the system. Using another frequency may cause harmful effects
- elsewhere. Therefore only the pre-determined frequencies are configurable by the
- user.
+@@ -9,8 +9,8 @@ This document covers the in-kernel APIs only. For the best practices on
+ userspace API implementation in camera sensor drivers, please see
+ :ref:`media_using_camera_sensor_drivers`.
  
-+On choosing link frequencies
-+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-+
-+Choosing link frequencies for a board is generally a part of the hardware design
-+process as one needs to ensure an EMC-safe frequency the sensor supports with
-+the given external clock frequency exists. On development systems this may be
-+less than an immediate concern, so more or less anything that sensor and the
-+rest of the applicable hardware supports can be used.
-+
-+If the sensor's PLL tree is not documented and all that is available are
-+register lists, even knowing the frequency a driver uses may be difficult. This
-+could still be :ref:`calculated from the number of lanes, sensor's output image
-+size, blanking values and frame rate <media_camera_raw_frame_interval>`.
-+
- ACPI
- ~~~~
+-CSI-2 and parallel (BT.601 and BT.656) busses
+----------------------------------------------
++CSI-2 and parallel and BT.656 buses
++-----------------------------------
  
-diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-index 919a50e8b9d9..7ffed5c2338c 100644
---- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-+++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-@@ -54,6 +54,8 @@ less all modern raw camera sensors.
+ Please see :ref:`transmitter-receiver`.
  
- The frame interval is calculated using the following equation::
+diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
+index e1e9258dd862..7e115e3c4735 100644
+--- a/Documentation/driver-api/media/tx-rx.rst
++++ b/Documentation/driver-api/media/tx-rx.rst
+@@ -25,9 +25,8 @@ the host SoC. It is defined by the `MIPI alliance`_.
+ Parallel
+ ^^^^^^^^
  
-+.. _media_camera_raw_frame_interval:
-+
- 	frame interval = (analogue crop width + horizontal blanking) *
- 			 (analogue crop height + vertical blanking) / pixel rate
+-`BT.601`_ and `BT.656`_ are the most common parallel busses.
++The parallel bus and its `BT.656`_ variant are the most common parallel busses.
  
+-.. _`BT.601`: https://en.wikipedia.org/wiki/Rec._601
+ .. _`BT.656`: https://en.wikipedia.org/wiki/ITU-R_BT.656
+ 
+ Transmitter drivers
 -- 
 2.39.2
 
