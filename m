@@ -2,217 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C96317CBCCC
-	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 09:51:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 388847CBCE7
+	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 09:56:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234749AbjJQHvY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Oct 2023 03:51:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41212 "EHLO
+        id S234642AbjJQH4i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Oct 2023 03:56:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38396 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234717AbjJQHvS (ORCPT
+        with ESMTP id S232300AbjJQH4h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Oct 2023 03:51:18 -0400
-Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 666AAF0
-        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 00:51:16 -0700 (PDT)
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 39H7oug8091124;
-        Tue, 17 Oct 2023 02:50:56 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1697529056;
-        bh=L1LbFBJTr5mBUWSxF1OTPnqg5A8zw+lFcIS4nzFRULI=;
-        h=Date:From:To:CC:Subject:References:In-Reply-To;
-        b=bIFQbO/+J/fYR06I3OrtBZ60fQv8rPaEAa0YSbet0lPEvfzInOMrdztbLBCK57cs/
-         PiVCvyT+MOzjX7rZkCwLKocVzJSJ+kJJ/G/MEEP/YFXX1x4UTICQTDboe2SJ/GIqv6
-         zBjP4JJsGAEA6dKygr5i/X9NcYQ8Uqv9gH/tJrJs=
-Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
-        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 39H7ou7g034328
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 17 Oct 2023 02:50:56 -0500
-Received: from DFLE115.ent.ti.com (10.64.6.36) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 17
- Oct 2023 02:50:56 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 17 Oct 2023 02:50:56 -0500
-Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 39H7otIS077269;
-        Tue, 17 Oct 2023 02:50:56 -0500
-Date:   Tue, 17 Oct 2023 13:20:56 +0530
-From:   Jai Luthra <j-luthra@ti.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>
+        Tue, 17 Oct 2023 03:56:37 -0400
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9171193
+        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 00:56:36 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (185-9-10-242.cust.suomicom.net [185.9.10.242])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4S8mX05TxTz49Q5T;
+        Tue, 17 Oct 2023 10:56:29 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+        t=1697529393;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9iOvkUt/O4JFIQq6fWlLU8YisvkXY/lziZivTgp10Cw=;
+        b=YQmNhW6nvePM3PL1Mgd98xeE6tZIpDhVCprQ+CMDc+ONdicnGUPEXkbh2+od/04Yo/QKhI
+        ad3CEMjRMDl/3fi/b2fHdYRZtMyftLfHBJW9/K5NRN/FqVsBg4opsiMl10IqoKRUWNr/tW
+        gUw/8vwPS0bgPuRohNsRp+kyZhZ5/cMf07DGonXjPjHa5GksZNtQeWM+S3v1RdNF2y7T4B
+        suS3VNkAVqdFcF6ZtffnA+5vuz8i74jQoEH8EmDZs0a5sAeZllUZ7FNAvylFFDFbWgsyeN
+        FA18CAJHByE1ThMy3dn8LldhhZrTdCfOb8nR3mhcEXVi+UJpPESnXjgX0sX+wA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=lahtoruutu; t=1697529393;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9iOvkUt/O4JFIQq6fWlLU8YisvkXY/lziZivTgp10Cw=;
+        b=IzhZLpv/NEvrqv8S/i22zuPk+ZQOPDcmQ+1FlFcnMOmLXLa9ALtG4K+0Ym5SciD+BsU5lK
+        p9BWcKowwYU81eJxLMTLwP0ValBkDpla2GF+DJVvFXjiKHmab8SDE6JU/G7tDZBH3y0svq
+        tNxBUG8SachvYORNLUhp7iw5dw9fTrG5yoppI1g/OOG45fVfZGwRlR7FyZhme1Z2/4IlhO
+        y4jsBW3EJ602OakLpN8N5p9hokAfeSrSQdXov9QXXUYUYqxAN+S9hS/ASrw2eUuRS8HvJC
+        KoWa5+u02PdJuiTewWCaLP51RDJmU+Fd4C23lMv2By9vxYELAv8GJvnoo2wYdQ==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1697529393; a=rsa-sha256;
+        cv=none;
+        b=pS1KfXkMZB/bytSZsTwGmi2UEkBxvgqcSD//WjM3DvxB041egLf+Z2dXdr08jK/dDb/J6C
+        FcW0iOOBmFEopSF+WJtQF2AVL5dI20RFxzsso0ip4VCLQ1/2p+JTDt0XMlaIeRLAUtpnlG
+        O0xQZvr3W/bamZ+KF01JsZt7sOvGdC14UW5Dgo1YwTSxttDuwO0/nUsRJ0NNhzlABBubIz
+        9tvcV4L5iUS7uwAQUbO4x3SBiWtewu/qY4vOb5y0jL4gt/TbBuqDM20R6OHrX/v4QbLw8n
+        eU2NgVBNZFJRv+rWxirMnkqiRNYhGHd4UgMO4j4ks00PrddNyk5dkKW2y4zurA==
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B79EA634CBF;
+        Tue, 17 Oct 2023 10:56:28 +0300 (EEST)
+Date:   Tue, 17 Oct 2023 07:56:28 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jai Luthra <j-luthra@ti.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
 Subject: Re: [GIT PULL FOR 6.7] CSI2RX, mostly camera sensor sensor patches
-Message-ID: <oke7s4zbyy4kmou6v2jm3hl7zap47t2b3rb5d7zscjttakpn6t@vpan6qdzqytc>
+Message-ID: <ZS4+LOmNMzI/HlZv@valkosipuli.retiisi.eu>
 References: <ZSaXrKkhP4AOH+Rh@valkosipuli.retiisi.eu>
+ <oke7s4zbyy4kmou6v2jm3hl7zap47t2b3rb5d7zscjttakpn6t@vpan6qdzqytc>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="gipcwnop7bpcduea"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <ZSaXrKkhP4AOH+Rh@valkosipuli.retiisi.eu>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <oke7s4zbyy4kmou6v2jm3hl7zap47t2b3rb5d7zscjttakpn6t@vpan6qdzqytc>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---gipcwnop7bpcduea
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Jai,
 
-Hi Sakari, Hans, Mauro,
+On Tue, Oct 17, 2023 at 01:20:56PM +0530, Jai Luthra wrote:
+> Hi Sakari, Hans, Mauro,
+> 
+> On Oct 11, 2023 at 12:40:12 +0000, Sakari Ailus wrote:
+> > Hi Hans, Mauro,
+> > 
+> > Here's another set of patches for 6.7. Included are, in particular:
+> > 
+> > - DT binding improvements by Jacopo,
+> > - Pratyush's nand Jai's CSI2RX driver
+> 
+> I have posted two minor fixes for warnings reported by Intel LKP bot 
+> introduced by my CSI series.
+> 
+> 1. https://lore.kernel.org/linux-media/20231013-maintainers_path-v1-1-e28bdcc96ef2@ti.com/
+> 2. https://lore.kernel.org/linux-media/20231017-cdns_phy_config-v1-1-583243d1c187@ti.com/
+> 
+> Hopefully these can be applied before the PR is sent out for 6.7-rc1.
 
-On Oct 11, 2023 at 12:40:12 +0000, Sakari Ailus wrote:
-> Hi Hans, Mauro,
->=20
-> Here's another set of patches for 6.7. Included are, in particular:
->=20
-> - DT binding improvements by Jacopo,
-> - Pratyush's nand Jai's CSI2RX driver
+I'll pick these later today.
 
-I have posted two minor fixes for warnings reported by Intel LKP bot=20
-introduced by my CSI series.
-
-1. https://lore.kernel.org/linux-media/20231013-maintainers_path-v1-1-e28bd=
-cc96ef2@ti.com/
-2. https://lore.kernel.org/linux-media/20231017-cdns_phy_config-v1-1-583243=
-d1c187@ti.com/
-
-Hopefully these can be applied before the PR is sent out for 6.7-rc1.
-
---
-Thanks,
-Jai
-
-GPG Fingerprint: 4DE0 D818 E5D5 75E8 D45A AFC5 43DE 91F9 249A 7145
-
-> - Fixes for recently merged CCS patches and mt9m114 driver
-> - Miscellaneous small stuff
->=20
-> Please pull.
->=20
->=20
-> The following changes since commit a1766a4fd83befa0b34d932d532e7ebb7fab1f=
-a7:
->=20
->   media: imon: fix access to invalid resource for the second interface (2=
-023-10-07 10:55:48 +0200)
->=20
-> are available in the Git repository at:
->=20
->   git://linuxtv.org/sailus/media_tree.git tags/for-6.7-3.1-signed
->=20
-> for you to fetch changes up to f4f5a574664f77796613401ccb9cc1d01a546dbd:
->=20
->   media: ccs: Fix a (harmless) lockdep warning (2023-10-11 15:37:41 +0300)
->=20
-> ----------------------------------------------------------------
-> V4L2 patches for 6.7
->=20
-> ----------------------------------------------------------------
-> Jacopo Mondi (6):
->       media: dt-bindings: hynix,hi846: Add video-interface-devices proper=
-ties
->       media: dt-bindings: ovti,ov02a10: Allow props from video-interface-=
-devices
->       media: dt-bindings: ovti,ov4689: Allow props from video-interface-d=
-evices
->       media: dt-bindings: ovti,ov5640: Allow props from video-interface-d=
-evices
->       media: dt-bindings: sony,imx214: Allow props from video-interface-d=
-evices
->       media: dt-bindings: sony,imx415: Allow props from video-interface-d=
-evices
->=20
-> Jai Luthra (2):
->       media: dt-bindings: cadence-csi2rx: Add TI compatible string
->       media: ti: Add CSI2RX support for J721E
->=20
-> Laurent Pinchart (1):
->       media: i2c: mt9m114: Fix missing error unwind in probe()
->=20
-> Pratyush Yadav (11):
->       media: dt-bindings: Make sure items in data-lanes are unique
->       media: cadence: csi2rx: Unregister v4l2 async notifier
->       media: cadence: csi2rx: Cleanup media entity properly
->       media: cadence: csi2rx: Add get_fmt and set_fmt pad ops
->       media: cadence: csi2rx: Configure DPHY using link freq
->       media: cadence: csi2rx: Soft reset the streams before starting capt=
-ure
->       media: cadence: csi2rx: Set the STOP bit when stopping a stream
->       media: cadence: csi2rx: Fix stream data configuration
->       media: cadence: csi2rx: Populate subdev devnode
->       media: cadence: csi2rx: Add link validation
->       media: dt-bindings: Add TI J721E CSI2RX
->=20
-> Ricardo B. Marliere (1):
->       staging: media: ipu3: remove ftrace-like logging
->=20
-> Sakari Ailus (2):
->       media: ccs: Rework initialising sub-device state
->       media: ccs: Fix a (harmless) lockdep warning
->=20
-> Umang Jain (1):
->       media: Documentation: ccs: Fix spelling mistake
->=20
->  .../devicetree/bindings/media/cdns,csi2rx.yaml     |    1 +
->  .../devicetree/bindings/media/i2c/hynix,hi846.yaml |    7 +-
->  .../bindings/media/i2c/ovti,ov02a10.yaml           |    8 +-
->  .../devicetree/bindings/media/i2c/ovti,ov4689.yaml |    6 +-
->  .../devicetree/bindings/media/i2c/ovti,ov5640.yaml |    7 +-
->  .../devicetree/bindings/media/i2c/sony,imx214.yaml |    2 +-
->  .../devicetree/bindings/media/i2c/sony,imx415.yaml |   10 +-
->  .../bindings/media/ti,j721e-csi2rx-shim.yaml       |  100 ++
->  .../bindings/media/video-interfaces.yaml           |    1 +
->  Documentation/driver-api/media/drivers/ccs/ccs.rst |    2 +-
->  MAINTAINERS                                        |    7 +
->  drivers/media/i2c/ccs/ccs-core.c                   |   62 +-
->  drivers/media/i2c/mt9m114.c                        |    4 +-
->  drivers/media/platform/cadence/cdns-csi2rx.c       |  176 ++-
->  drivers/media/platform/ti/Kconfig                  |   12 +
->  drivers/media/platform/ti/Makefile                 |    1 +
->  drivers/media/platform/ti/j721e-csi2rx/Makefile    |    2 +
->  .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 1159 ++++++++++++++=
-++++++
->  drivers/staging/media/ipu3/ipu3.c                  |    6 -
->  19 files changed, 1506 insertions(+), 67 deletions(-)
->  create mode 100644 Documentation/devicetree/bindings/media/ti,j721e-csi2=
-rx-shim.yaml
->  create mode 100644 drivers/media/platform/ti/j721e-csi2rx/Makefile
->  create mode 100644 drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
->=20
-> --=20
-> Sakari Ailus
-
-
---gipcwnop7bpcduea
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmUuPN8ACgkQQ96R+SSa
-cUUf/Q//cCit1VWsQ1uWtE8aOUPviskF+JsvSRAruc8dmXg0wVeo+a0Js/yh4y76
-466Q+CEDzG93y0TlP/azcITcuDKe4Rw5E6zpHFxpT7uxT1OWNr1bOQXuVgpQTJhn
-4/9hLTdLB6Nfeoa/15bx6LuVo6albFJrtK2GgAV4BofPy8JdCwBGjM9R6oyTLevu
-lelm3Axu8oo8LofsCFNX+3huo6cgAZ1C/siyxmP4ZZF04FlimBw3MAMdVLJSUG7a
-PPrg50RRf1yLZAhqnbMivA8aXiPESwRmapPfTWOnO6i5bMpUGbIfm2gLkbnDZlVe
-ma5u1k3Uxyn8ndk9HACggGLeQgQhB2cfwDFLHpmDW/nmoug7Cotvq45o7ooHg06b
-Ya6rz1280qpXb7n8i4Txac/IiQx9vlfEUBFv+6zhjIGHNvVwt2foyTGzsSOcWp66
-gAKPcZFD5skRaD2sPcMaBsICc0vF/F0/RTij5LXcUOJp4SGjkjeGwho1QX0Kn0Lq
-in29Bg6kKTJtAz3Q4/FpeH4Png9gGEd61wQX0fiV/ltj64Lv46cJI3VwT470/bWU
-EbWSwjmo9kjlWvJfpWuVC2++LF0cB7vIZSJNQthG6BfnjbAyAfbqLk+OELku8LAQ
-P39uLomSkKgh9oPZVYzXebEOIWAPUVv0KXR+daE2vjDj0JynXYo=
-=Qwm7
------END PGP SIGNATURE-----
-
---gipcwnop7bpcduea--
+-- 
+Sakari Ailus
