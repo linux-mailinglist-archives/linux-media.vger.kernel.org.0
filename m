@@ -2,58 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B75A67CBE37
-	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 10:55:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 641B67CBECE
+	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 11:18:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234751AbjJQIzK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Oct 2023 04:55:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45658 "EHLO
+        id S234839AbjJQJSd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Oct 2023 05:18:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35938 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232134AbjJQIzK (ORCPT
+        with ESMTP id S1343518AbjJQJSS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Oct 2023 04:55:10 -0400
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10A168E;
-        Tue, 17 Oct 2023 01:55:06 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 59F8C60012;
-        Tue, 17 Oct 2023 08:54:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1697532905;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=7iqwM5opDjnD+ixELUSySOVNyUQv89SINtLl3/UxmFE=;
-        b=YLPmSv2BCtXDB0ajUoTbluwBFmwofXadtU+GsY+4Sr2bStC/+57qJWEqHQxugCysJoJknP
-        /xES24Lgh/2iCrJ6gc7yDMdmhyFcxsPClA+nGs1zBJbYjmdnMazWn/GFZ5Ij1hd1/iYEOE
-        rnGM6Lou0DwZIc0pn6ZJD1neN06P0aE0s9hFnJ2NWCTv4jEGZeXwQLDI8oLcKrCQmu51Es
-        7Jaiw6FtcmzGD+tpz84+I5MJUp7c7og8dHm3VZNJP0PnF+sH4k76GF8Z+2YN+Oz/ROwvGD
-        z2Tzp5Q1gVXIAkN0JI1fQPn1a/bIY4ituL/pt69IiaEMm5cR9NQcbCEJEEXjLA==
-Date:   Tue, 17 Oct 2023 10:54:58 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com, Maxime Ripard <mripard@kernel.org>
-Subject: Re: [PATCH v11 41/56] media: cedrus: Stop direct calls to queue
- num_buffers field
-Message-ID: <ZS5L4l2PzQgpJXua@aptenodytes>
-References: <20231012114642.19040-1-benjamin.gaignard@collabora.com>
- <20231012114642.19040-42-benjamin.gaignard@collabora.com>
+        Tue, 17 Oct 2023 05:18:18 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83D6CF1
+        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 02:18:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697534296; x=1729070296;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8qNZyg8MQxFEAeC3CWlx0Lj1zmmdVpGxYpOFT74a7rQ=;
+  b=ge7Ntz8qcM1oCMi4uodYOcOiA1s7bOTn8pFJCnTQmVNPYVjC6S6fUS6i
+   OXKanXGaSzXHUCzAz0gaiUxKoVP2AdEefM8RyEBEeohiBERHNxINtNPgq
+   O6GBYrrA8M9tYDVNkuLa04JoUH5nXORkA4cI+piw0fLh4qC1HPvfl7/kX
+   /xSWRmnJ1yk0eF72VYZ0+kw7cQsfXWKRp2AubHJWHKiFLcix4OgP7wuw3
+   uVYJ8Mhj5qGLyDkHb673Bxg5HDp30r/6319nujlN1PvT4i/jVvoWqdJ+S
+   rk32gRFJcJG1dX6au7JPjwpHCxlrFaJW53hXeQTMsR0y+U0XJ9EyUHiuq
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="376107722"
+X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
+   d="scan'208";a="376107722"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2023 02:18:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10865"; a="791175270"
+X-IronPort-AV: E=Sophos;i="6.03,231,1694761200"; 
+   d="scan'208";a="791175270"
+Received: from lkp-server02.sh.intel.com (HELO f64821696465) ([10.239.97.151])
+  by orsmga001.jf.intel.com with ESMTP; 17 Oct 2023 02:18:12 -0700
+Received: from kbuild by f64821696465 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qsgDK-0009Ob-1Y;
+        Tue, 17 Oct 2023 09:18:10 +0000
+Date:   Tue, 17 Oct 2023 17:17:26 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev, hverkuil@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
+        jacopo.mondi@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com
+Subject: Re: [PATCH 5/6] media: v4l: subdev: Switch to stream-aware state
+ functions
+Message-ID: <202310171702.b4KH205d-lkp@intel.com>
+References: <20231013104424.404768-6-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="5XMse7FBKsXwfxlj"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231012114642.19040-42-benjamin.gaignard@collabora.com>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+In-Reply-To: <20231013104424.404768-6-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -61,104 +69,63 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sakari,
 
---5XMse7FBKsXwfxlj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-Hi Benjamin,
+[auto build test WARNING on next-20231016]
+[cannot apply to media-tree/master rockchip/for-next sailus-media-tree/streams v6.6-rc6 v6.6-rc5 v6.6-rc4 linus/master v6.6-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-On Thu 12 Oct 23, 13:46, Benjamin Gaignard wrote:
-> Use vb2_get_num_buffers() and queue max_num_buffers field
-> to avoid using queue num_buffer field directly.
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-subdev-Also-return-pads-array-information-on-stream-functions/20231017-120800
+base:   next-20231016
+patch link:    https://lore.kernel.org/r/20231013104424.404768-6-sakari.ailus%40linux.intel.com
+patch subject: [PATCH 5/6] media: v4l: subdev: Switch to stream-aware state functions
+config: sparc-allyesconfig (https://download.01.org/0day-ci/archive/20231017/202310171702.b4KH205d-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231017/202310171702.b4KH205d-lkp@intel.com/reproduce)
 
-Thanks for the patch, this is indeed a nice cleanup and safer usage.
-Maybe the commit message needs to reflect why this change is welcome,
-not just what is being changed.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310171702.b4KH205d-lkp@intel.com/
 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> CC: Maxime Ripard <mripard@kernel.org>
-> CC: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 8 ++++++--
->  drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 9 +++++++--
->  2 files changed, 13 insertions(+), 4 deletions(-)
->=20
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h264.c
-> index dfb401df138a..95e490532a87 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
-> @@ -653,8 +653,12 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
-> =20
->  	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
-> =20
-> -	for (i =3D 0; i < vq->num_buffers; i++) {
-> -		buf =3D vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
-> +	for (i =3D 0; i < vb2_get_num_buffers(vq); i++) {
-> +		struct vb2_buffer *vb =3D vb2_get_buffer(vq, i);
-> +
-> +		if (!vb)
-> +			continue;
+All warnings (new ones prefixed by >>):
 
-Please add a newline here to be consistent with the other block being chang=
-ed.
+   drivers/staging/media/imx/imx-ic-prp.c: In function '__prp_get_fmt':
+>> drivers/staging/media/imx/imx-ic-prp.c:85:29: warning: unused variable 'ic_priv' [-Wunused-variable]
+      85 |         struct imx_ic_priv *ic_priv = priv->ic_priv;
+         |                             ^~~~~~~
+--
+   drivers/staging/media/imx/imx-ic-prpencvf.c: In function '__prp_get_fmt':
+>> drivers/staging/media/imx/imx-ic-prpencvf.c:793:29: warning: unused variable 'ic_priv' [-Wunused-variable]
+     793 |         struct imx_ic_priv *ic_priv = priv->ic_priv;
+         |                             ^~~~~~~
+--
+   drivers/media/platform/ti/cal/cal-camerarx.c: In function 'cal_camerarx_sd_enum_mbus_code':
+>> drivers/media/platform/ti/cal/cal-camerarx.c:624:30: warning: unused variable 'phy' [-Wunused-variable]
+     624 |         struct cal_camerarx *phy = to_cal_camerarx(sd);
+         |                              ^~~
 
-With this change and the commit log reworked, you can consider this:
-Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Thanks!
+vim +/ic_priv +85 drivers/staging/media/imx/imx-ic-prp.c
 
-Paul
+f0d9c8924e2c33 Steve Longerbeam 2017-06-07  80  
+f0d9c8924e2c33 Steve Longerbeam 2017-06-07  81  static struct v4l2_mbus_framefmt *
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  82  __prp_get_fmt(struct prp_priv *priv, struct v4l2_subdev_state *sd_state,
+f0d9c8924e2c33 Steve Longerbeam 2017-06-07  83  	      unsigned int pad, enum v4l2_subdev_format_whence which)
+f0d9c8924e2c33 Steve Longerbeam 2017-06-07  84  {
+f0d9c8924e2c33 Steve Longerbeam 2017-06-07 @85  	struct imx_ic_priv *ic_priv = priv->ic_priv;
+f0d9c8924e2c33 Steve Longerbeam 2017-06-07  86  
+f0d9c8924e2c33 Steve Longerbeam 2017-06-07  87  	if (which == V4L2_SUBDEV_FORMAT_TRY)
+95c1b021ae1138 Sakari Ailus     2023-10-13  88  		return v4l2_subdev_get_format(sd_state, pad, 0);
+f0d9c8924e2c33 Steve Longerbeam 2017-06-07  89  	else
+f0d9c8924e2c33 Steve Longerbeam 2017-06-07  90  		return &priv->format_mbus;
+f0d9c8924e2c33 Steve Longerbeam 2017-06-07  91  }
+f0d9c8924e2c33 Steve Longerbeam 2017-06-07  92  
 
-> +		buf =3D vb2_to_cedrus_buffer(vb);
-> =20
->  		if (buf->codec.h264.mv_col_buf_size > 0) {
->  			dma_free_attrs(dev->dev,
-> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/s=
-taging/media/sunxi/cedrus/cedrus_h265.c
-> index fc9297232456..52e94c8f2f01 100644
-> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
-> @@ -869,8 +869,13 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
-> =20
->  	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
-> =20
-> -	for (i =3D 0; i < vq->num_buffers; i++) {
-> -		buf =3D vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
-> +	for (i =3D 0; i < vb2_get_num_buffers(vq); i++) {
-> +		struct vb2_buffer *vb =3D vb2_get_buffer(vq, i);
-> +
-> +		if (!vb)
-> +			continue;
-> +
-> +		buf =3D vb2_to_cedrus_buffer(vb);
-> =20
->  		if (buf->codec.h265.mv_col_buf_size > 0) {
->  			dma_free_attrs(dev->dev,
-> --=20
-> 2.39.2
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---5XMse7FBKsXwfxlj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmUuS+IACgkQ3cLmz3+f
-v9GV5wf/TYcN6gfAAjC5SFlkLJBI/nxR5YwIXXCHBgPuQD+SDdeQNLb/OK6/EjCw
-N8zdNrQdsMqz+Hm6oO5qJqU/MLD8+HLPgnFNSA/+tK7uynPhFwNaJ29bDaONj9KA
-kPiJruAS/e5SXFfEdhWnHxSz+OQWvqrOBAZj/WV/OVvm/Azl9oXg67oLddms1HV7
-5Gv7y0H2u60hmsjfTptTA1MwOKjZfKDpyuSr2iENNAiJTP1H6zjnY3f7aB5JjlP5
-kWrZG+P/x6WrrX62qyWdHVq366vg9bNyLrkDyxMxz/tcjShPcfyQQ7cU/15IKpGi
-uLOnI40+m0H1qMX4rElL2jp59ZfMLQ==
-=Xf+i
------END PGP SIGNATURE-----
-
---5XMse7FBKsXwfxlj--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
