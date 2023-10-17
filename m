@@ -2,29 +2,29 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B22E7CCDB6
-	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 22:16:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 06C3F7CCDAF
+	for <lists+linux-media@lfdr.de>; Tue, 17 Oct 2023 22:15:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235204AbjJQUQx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Oct 2023 16:16:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33338 "EHLO
+        id S235196AbjJQUPl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Oct 2023 16:15:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51884 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235205AbjJQUQl (ORCPT
+        with ESMTP id S235132AbjJQUPf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Oct 2023 16:16:41 -0400
+        Tue, 17 Oct 2023 16:15:35 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CDC449E3
-        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 13:05:56 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0712B49ED
+        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 13:05:58 -0700 (PDT)
 Received: from umang.jainideasonboard.com (unknown [103.251.226.39])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7281B291;
-        Tue, 17 Oct 2023 22:05:15 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B5F92327;
+        Tue, 17 Oct 2023 22:05:18 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1697573118;
-        bh=fSTwgeBv4Z3p87X/FYECfDVA2ALKAroeIFkV1pa1/fk=;
-        h=From:To:Cc:Subject:Date:From;
-        b=lKXbdFFyAt5QbanJcsYoeihxc4u3NgUBVpdleZF1zaqsDrRLUj08VufyD7kEf3gTP
-         Is2ssPPEPHQc2XYrbyl0aSr89/aNii3rUKWo5MC4cYxiHyaqaycGNwYeF3wr6KuTtO
-         9Y6DpW829fNGjuweNoFecp1MJf08YQ+ridGMkZ/s=
+        s=mail; t=1697573121;
+        bh=iQUiruD5/axO9qzXMiXGdAfCw49ZKlu1tk/e62H4f3k=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=TSYk0vj48Sn4OYrjoN9r/1ZfhlvDn0HJE/8xxSvZ6QAdBMJI0pcwsMYl8DCCBJLVx
+         pPElnuG4Sa510MCPUJxOMspnFff/08g61JxVUuxsdea9HP5vfhP0qF7/CBQBfcuCib
+         Ryr3Gdtr3R9tyu6twnnCaQUeZ2skWdh7rqLmkh3Y=
 From:   Umang Jain <umang.jain@ideasonboard.com>
 To:     linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org,
@@ -35,10 +35,12 @@ Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH 0/3] vc04_services: Tweak module autoloading support
-Date:   Wed, 18 Oct 2023 01:35:08 +0530
-Message-Id: <20231017200511.678223-1-umang.jain@ideasonboard.com>
+Subject: [PATCH 1/3] staging: vc04_services: Support module autoloading using MODULE_DEVICE_TABLE
+Date:   Wed, 18 Oct 2023 01:35:09 +0530
+Message-Id: <20231017200511.678223-2-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.40.1
+In-Reply-To: <20231017200511.678223-1-umang.jain@ideasonboard.com>
+References: <20231017200511.678223-1-umang.jain@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -50,36 +52,119 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As explained by Greg KH in [1], we should not be using MODULE_ALIAS
-to auto load modules within VC04. Drop that, in favour of
-MODULE_DEVICE_TABLE. This series addresses the suggestion.
+VC04 has now a independent bus vchiq_bus to register its devices.
+However, the module auto-loading for bcm2835-audio and bcm2835-camera
+currently happens through MODULE_ALIAS() macro specified explicitly.
 
-Patch 1/3 adds vchiq_bus_device_id and supporting entries in 
-script/mod/file2alias.c
+The correct way to auto-load a module, is when the alias is picked
+out from MODULE_DEVICE_TABLE(). In order to get there, we need to
+introduce  vchiq_device_id and add relevant entries in file2alias.c
+infrastructure so that aliases can be generated. This patch targets
+adding vchiq_bus_device_id and do_vchiq_bus_entry, in order to
+generate those alias using the /script/mod/file2alias.c.
 
-Patch 2/3 drops MODULE_ALIAS from bcm2835-audio in favour
-of MODULE_DEVICE_TABLE.
+Going forward the MODULE_ALIAS() from bcm2835-camera and bcm2835-audio
+will be dropped, in favour of MODULE_DEVICE_TABLE being used there.
 
-Patch 3/3 drops MODULE_ALIAS from bcm2835-camera in favour
-of MODULE_DEVICE_TABLE.
+The alias format for vchiq_bus devices will be "vchiq_bus:<dev_name>".
+Adjust the vchiq_bus_uevent() to reflect that.
 
-[1]:  https://lore.kernel.org/linux-media/2023100955-stunt-equate-c6fa@gregkh/
-
-Umang Jain (3):
-  staging: vc04_services: Support module autoloading using
-    MODULE_DEVICE_TABLE
-  staging: vc04_services: bcm2835-audio: Drop MODULE_ALIAS
-  staging: vc04_services: bcm2835-camera: Drop MODULE_ALIAS
-
- drivers/staging/vc04_services/bcm2835-audio/bcm2835.c    | 7 ++++++-
- .../vc04_services/bcm2835-camera/bcm2835-camera.c        | 7 ++++++-
+Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+---
  .../vc04_services/interface/vchiq_arm/vchiq_bus.c        | 2 +-
  .../vc04_services/interface/vchiq_arm/vchiq_bus.h        | 3 +++
  include/linux/mod_devicetable.h                          | 4 ++++
  scripts/mod/devicetable-offsets.c                        | 3 +++
  scripts/mod/file2alias.c                                 | 9 +++++++++
- 7 files changed, 32 insertions(+), 3 deletions(-)
+ 5 files changed, 20 insertions(+), 1 deletion(-)
 
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+index 0076d091b9b2..5930eb6a86cd 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.c
+@@ -26,7 +26,7 @@ static int vchiq_bus_uevent(const struct device *dev, struct kobj_uevent_env *en
+ {
+ 	const struct vchiq_device *device = container_of_const(dev, struct vchiq_device, dev);
+ 
+-	return add_uevent_var(env, "MODALIAS=%s", dev_name(&device->dev));
++	return add_uevent_var(env, "MODALIAS=vchiq_bus:%s", dev_name(&device->dev));
+ }
+ 
+ static int vchiq_bus_probe(struct device *dev)
+diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+index 7eaaf9a91cda..6e1fbee4b078 100644
+--- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
++++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+@@ -7,6 +7,7 @@
+ #define _VCHIQ_DEVICE_H
+ 
+ #include <linux/device.h>
++#include <linux/mod_devicetable.h>
+ 
+ struct vchiq_device {
+ 	struct device dev;
+@@ -18,6 +19,8 @@ struct vchiq_driver {
+ 	int		(*resume)(struct vchiq_device *device);
+ 	int		(*suspend)(struct vchiq_device *device,
+ 				   pm_message_t state);
++
++	const struct vchiq_bus_device_id *id_table;
+ 	struct device_driver driver;
+ };
+ 
+diff --git a/include/linux/mod_devicetable.h b/include/linux/mod_devicetable.h
+index b0678b093cb2..f01e175f7f3d 100644
+--- a/include/linux/mod_devicetable.h
++++ b/include/linux/mod_devicetable.h
+@@ -946,4 +946,8 @@ struct cdx_device_id {
+ 	__u32 override_only;
+ };
+ 
++struct vchiq_bus_device_id {
++	char name[32];
++};
++
+ #endif /* LINUX_MOD_DEVICETABLE_H */
+diff --git a/scripts/mod/devicetable-offsets.c b/scripts/mod/devicetable-offsets.c
+index abe65f8968dd..c9a02d2c4f9e 100644
+--- a/scripts/mod/devicetable-offsets.c
++++ b/scripts/mod/devicetable-offsets.c
+@@ -267,5 +267,8 @@ int main(void)
+ 	DEVID_FIELD(cdx_device_id, device);
+ 	DEVID_FIELD(cdx_device_id, override_only);
+ 
++	DEVID(vchiq_bus_device_id);
++	DEVID_FIELD(vchiq_bus_device_id, name);
++
+ 	return 0;
+ }
+diff --git a/scripts/mod/file2alias.c b/scripts/mod/file2alias.c
+index 38120f932b0d..6908dc70b649 100644
+--- a/scripts/mod/file2alias.c
++++ b/scripts/mod/file2alias.c
+@@ -1478,6 +1478,14 @@ static int do_cdx_entry(const char *filename, void *symval,
+ 	return 1;
+ }
+ 
++static int do_vchiq_bus_entry(const char *filename, void *symval, char *alias)
++{
++	DEF_FIELD_ADDR(symval, vchiq_bus_device_id, name);
++	sprintf(alias, "vchiq_bus:%s", *name);
++
++	return 1;
++}
++
+ /* Does namelen bytes of name exactly match the symbol? */
+ static bool sym_is(const char *name, unsigned namelen, const char *symbol)
+ {
+@@ -1558,6 +1566,7 @@ static const struct devtable devtable[] = {
+ 	{"dfl", SIZE_dfl_device_id, do_dfl_entry},
+ 	{"ishtp", SIZE_ishtp_device_id, do_ishtp_entry},
+ 	{"cdx", SIZE_cdx_device_id, do_cdx_entry},
++	{"vchiq_bus", SIZE_vchiq_bus_device_id, do_vchiq_bus_entry},
+ };
+ 
+ /* Create MODULE_ALIAS() statements.
 -- 
 2.40.1
 
