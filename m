@@ -2,82 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F0617CD488
-	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 08:35:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D42857CD4DA
+	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 09:03:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229782AbjJRGe7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 02:34:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33396 "EHLO
+        id S1344587AbjJRHDD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Oct 2023 03:03:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229665AbjJRGe6 (ORCPT
+        with ESMTP id S235032AbjJRHDB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 02:34:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C869EFD
-        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 23:34:55 -0700 (PDT)
-Received: from umang.jainideasonboard.com (unknown [103.251.226.39])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C4D14666;
-        Wed, 18 Oct 2023 08:34:45 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1697610887;
-        bh=QY9SVQam6tF/yFaOJiTeZdjxlGNO0mODJhjOpNKaEnQ=;
-        h=Date:From:To:Cc:Subject:From;
-        b=Agb9qhATfj4GvA65gzjXFZgAF131Uk9SIe4Tfrr79UnttIOECGCYsZTwFkKO3891V
-         Ma0iQlenRuT5eTcKmEghL35+exdbJ1CKvmmHP0GK8bdf5zeUq20cqJZNpPPGDP88vk
-         wSFYYztfEhmHvIfFFbGfTG8kZmw8mnCq0Lmdpz4o=
-Date:   Wed, 18 Oct 2023 12:04:46 +0530
-From:   Umang Jain <umang.jain@ideasonboard.com>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Sensor driver support with CCS
-Message-ID: <54ntzswkt2eyhjdrrr4yk5fnru4msoc2fn6esuxffa6obp3met@mw2jqxtivbtp>
+        Wed, 18 Oct 2023 03:03:01 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B2B610D
+        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 00:02:58 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16471C433C8;
+        Wed, 18 Oct 2023 07:02:56 +0000 (UTC)
+Message-ID: <1ec4075c-b359-4545-93b3-c44c73280e71@xs4all.nl>
+Date:   Wed, 18 Oct 2023 09:02:55 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] v4l2-tracer: fix autogen script for AV1
+Content-Language: en-US, nl
+To:     Deborah Brouwer <deborah.brouwer@collabora.com>,
+        linux-media@vger.kernel.org
+References: <20231017165819.18634-1-deborah.brouwer@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231017165819.18634-1-deborah.brouwer@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello everyone,
+Hi Deb,
 
-Past few weeks I have been working to support IMX519 sensor with CCS
-driver. The highlight is that I can capture frames with CCS driver now,
-with a few workarounds. This thread summarises the issues that we faced
-and act as placeholder for more open and structured discussion.
+On 17/10/2023 18:58, Deborah Brouwer wrote:
+> The AV1 uAPI introduced some new enums and also defined
+> two array sizes arithmetically e.g.
+> __u32 mi_col_starts[V4L2_AV1_MAX_TILE_COLS + 1];
+> 
+> Adjust the autogeneration scripts to handle these changes.
 
-- First open question is regarding the upstream support of a sensor
-  driver with CCS. How should we term that a sensor is 'mainline-supported'
-  if it is getting supported by CCS. How can one use a sensor out of the box
-  with mainline kernel, when supported by CCS?
+Thank you for the quick fix! Applied, and I've now synced up v4l-utils
+with the latest staging tree.
 
-- Continued from the previous discusion point, the more specific question is
-  about the sensor-specific static data that is composed of
-  manfacturer-specific-registers (MSRs) and (maybe) overridden
-  sensor-read-only-regs which are created as part of ccs-tools [1].
-  This becomes part of firmware? which needs to live /lib/firmware and
-  then picked up by CCS driver.
+Regards,
 
-  Where can they be centralized ? is linux-firmware an option? [2].
+	Hans
 
-- It was noticed that with current version of CCS - I was only able to
-  get 1/3 buffer filled. This was due to the fact that LINE_LENGTH_PCK
-  and FRAME_LENGTH_LINES registers are not getting updated to permissible
-  values in / before ccs_start_streaming() starts. Hence they are stuck
-  with values from probe time.
+> 
+> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+> ---
+>  utils/v4l2-tracer/v4l2-tracer-gen.pl | 18 +++++++++++++++---
+>  1 file changed, 15 insertions(+), 3 deletions(-)
+> 
+> diff --git a/utils/v4l2-tracer/v4l2-tracer-gen.pl b/utils/v4l2-tracer/v4l2-tracer-gen.pl
+> index cbfdfbe0..e8f9d71e 100755
+> --- a/utils/v4l2-tracer/v4l2-tracer-gen.pl
+> +++ b/utils/v4l2-tracer/v4l2-tracer-gen.pl
+> @@ -32,7 +32,9 @@ EOF
+>  
+>  sub convert_type_to_json_type {
+>  	my $type = shift;
+> -	if ($type eq __u8 || $type eq char || $type eq __u16 || $type eq __s8 || $type eq __s16 || $type eq __s32 || $type eq 'int') {
+> +	if ($type eq __u8 || $type eq char || $type eq __u16 || $type eq __s8 || $type eq __s16 || $type eq __s32 || $type eq 'int' ||
+> +		$type eq 'v4l2_av1_warp_model' || $type eq 'v4l2_av1_frame_restoration_type' || $type eq 'v4l2_av1_frame_type' ||
+> +		$type eq 'v4l2_av1_interpolation_filter' || $type eq 'v4l2_av1_tx_mode') {
+>  		return "int";
+>  	}
+>  	if ($type eq __u32 || $type eq __le32 || $type eq __s64) {
+> @@ -658,19 +660,29 @@ sub struct_gen_ctrl {
+>  		@words = grep  {!/\]/} @words; # remove values with brackets e.g. V4L2_H264_REF_LIST_LEN]
+>  
+>  		($type) = $words[0];
+> +		if ($type eq 'enum') {
+> +			$type = $words[1];
+> +		}
+>  		$json_type = convert_type_to_json_type($type);
+>  
+>  		($member) = $words[scalar @words - 1];
+>  
+>  		# generate members that are arrays
+>  		if ($line =~ /.*\[.*/) {
+> +
+> +			# e.g. two dimensional array [x][y]
+> +			my @dimensions = ($line) =~ /\[(.*?)\]/g;
+> +
+> +			#for struct v4l2_av1_tile_info [V4L2_AV1_MAX_TILE_ROWS + 1]
+> +			if (grep {$_ =~ /\+/} @dimensions) {
+> +				$member = $words[scalar @words - 3];
+> +			}
+> +
+>  			printf $fh_trace_cpp "\t\/\* %s \*\/\n", $line; # add comment
+>  			printf $fh_trace_cpp "\tjson_object *%s_obj = json_object_new_array();\n", $member;
+>  			printf $fh_retrace_cpp "\n\t\/\* %s \*\/\n", $line; # add comment
+>  
+> -			my @dimensions = ($line) =~ /\[(\w+)\]/g;
+>  			$dimensions_count = scalar @dimensions;
+> -
+>  			if ($dimensions_count > 1) {
+>  				printf $fh_retrace_cpp "\tint count_%s = 0;\n", $member;
+>  			}
 
-These are top issues we faced while trying to support IMX519. This thread
-will act as placeholder to have more discussions in the open and/or help
-other sensors that can be supported with CCS.
-
-[1]: https://github.com/MIPI-Alliance/ccs-tools
-[2]: https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/
-
-thanks,
-uajain
