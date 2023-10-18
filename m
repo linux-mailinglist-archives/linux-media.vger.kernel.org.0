@@ -2,87 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9781D7CD93A
-	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 12:32:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D79D47CD93D
+	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 12:32:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230428AbjJRKcU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 06:32:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49478 "EHLO
+        id S230488AbjJRKce (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Oct 2023 06:32:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49518 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229563AbjJRKcT (ORCPT
+        with ESMTP id S229563AbjJRKcY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 06:32:19 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15756BA;
-        Wed, 18 Oct 2023 03:32:18 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DA133C433C7;
-        Wed, 18 Oct 2023 10:32:14 +0000 (UTC)
-Message-ID: <ae494e9e-63da-4644-8653-b29d76021907@xs4all.nl>
-Date:   Wed, 18 Oct 2023 12:32:14 +0200
+        Wed, 18 Oct 2023 06:32:24 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CC3495
+        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 03:32:22 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2BDE65AA;
+        Wed, 18 Oct 2023 12:32:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1697625133;
+        bh=EBf2gRrszUNCydXCkkM3v3+LORpm47xrdkN2cij8+xM=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=hURoJUX41BKctgjwEblg7g4piptIV9el1jMtoJGq2LkcKtIYu3pZuGcx/HOw/hgXh
+         sv1jRQdDb069dUbdlay1KTk0aRxP5DtsiuCgSbLDJCEGjnynqtypOWvSPHEDFuOVnD
+         7X8GlLpeaZelw5BKja+qJ5f7AGCzcKooFj1SM5zs=
+Date:   Wed, 18 Oct 2023 13:32:27 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Umang Jain <umang.jain@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: Sensor driver support with CCS
+Message-ID: <20231018103227.GC11118@pendragon.ideasonboard.com>
+References: <54ntzswkt2eyhjdrrr4yk5fnru4msoc2fn6esuxffa6obp3met@mw2jqxtivbtp>
+ <ZS+lH9G/SR2L2lGX@kekkonen.localdomain>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v12 39/56] media: usb: Stop direct calls to queue
- num_buffers field
-Content-Language: en-US, nl
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20231017144756.34719-1-benjamin.gaignard@collabora.com>
- <20231017144756.34719-40-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231017144756.34719-40-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZS+lH9G/SR2L2lGX@kekkonen.localdomain>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Subject line doesn't mention 'airspy:'
+On Wed, Oct 18, 2023 at 09:27:59AM +0000, Sakari Ailus wrote:
+> On Wed, Oct 18, 2023 at 12:04:46PM +0530, Umang Jain wrote:
+> > Hello everyone,
+> > 
+> > Past few weeks I have been working to support IMX519 sensor with CCS
+> > driver. The highlight is that I can capture frames with CCS driver now,
+> > with a few workarounds. This thread summarises the issues that we faced
+> > and act as placeholder for more open and structured discussion.
+> > 
+> > - First open question is regarding the upstream support of a sensor
+> >   driver with CCS. How should we term that a sensor is 'mainline-supported'
+> >   if it is getting supported by CCS. How can one use a sensor out of the box
+> >   with mainline kernel, when supported by CCS?
+> 
+> If the sensor is fully compliant, it should "just work", but then there's
+> the question of CCS static data if the sensor needs it.
+> 
+> For devices that aren't fully compliant this is a more complicated
+> question. Some devices might work with some parameters only, in particular
+> horizontal blanking is a sensitive value. The approach here should be to
+> set minimum and maximum to the same value to force horizontal blanking
+> value that is known to work. The if rules could be used for this as well.
+> 
+> > 
+> > - Continued from the previous discusion point, the more specific question is
+> >   about the sensor-specific static data that is composed of
+> >   manfacturer-specific-registers (MSRs) and (maybe) overridden
+> >   sensor-read-only-regs which are created as part of ccs-tools [1].
+> >   This becomes part of firmware? which needs to live /lib/firmware and
+> >   then picked up by CCS driver.
+> > 
+> >   Where can they be centralized ? is linux-firmware an option? [2].
+> 
+> I'd favour this.
 
+linux-firmware could host the binary files, but how about the YAML
+sources ?
+
+> > - It was noticed that with current version of CCS - I was only able to
+> >   get 1/3 buffer filled. This was due to the fact that LINE_LENGTH_PCK
+> >   and FRAME_LENGTH_LINES registers are not getting updated to permissible
+> >   values in / before ccs_start_streaming() starts. Hence they are stuck
+> >   with values from probe time.
+> 
+> If you're not changing vertical or horizontal blanking, these are likely
+> the correct values from driver perspective. If these values do not work
+> however, then you most likely have an issue with sensor provided limit and
+> capability information. This should be fixed using CCS static data.
+
+I may have understood Umang incorrectly, but I thought he meant that the
+driver doesn't program those registers if the controls are not changed
+by userspace, and the register power-up default values are not right.
+Umang, is my understanding wrong ?
+
+> > These are top issues we faced while trying to support IMX519. This thread
+> > will act as placeholder to have more discussions in the open and/or help
+> > other sensors that can be supported with CCS.
+> 
+> I'm happy to see you using the CCS driver on a sensor I haven't used
+> before. The above issues, while they prevent meaningfully using the sensor
+> right now, they also seem easy to resolve.
+> 
+> Additionally --- if the sensor does not provide meaningful values for its
+> vendor and model, we could use the device's compatible string as the basis
+> for the firmware file name. I can post a patch for this.
+
+-- 
 Regards,
 
-	Hans
-
-On 17/10/2023 16:47, Benjamin Gaignard wrote:
-> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
-> This allows us to change how the number of buffers is computed in the
-> futur.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/media/usb/airspy/airspy.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/airspy/airspy.c b/drivers/media/usb/airspy/airspy.c
-> index 462eb8423506..e24e655fb1db 100644
-> --- a/drivers/media/usb/airspy/airspy.c
-> +++ b/drivers/media/usb/airspy/airspy.c
-> @@ -482,12 +482,13 @@ static int airspy_queue_setup(struct vb2_queue *vq,
->  		unsigned int *nplanes, unsigned int sizes[], struct device *alloc_devs[])
->  {
->  	struct airspy *s = vb2_get_drv_priv(vq);
-> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
->  
->  	dev_dbg(s->dev, "nbuffers=%d\n", *nbuffers);
->  
->  	/* Need at least 8 buffers */
-> -	if (vq->num_buffers + *nbuffers < 8)
-> -		*nbuffers = 8 - vq->num_buffers;
-> +	if (q_num_bufs + *nbuffers < 8)
-> +		*nbuffers = 8 - q_num_bufs;
->  	*nplanes = 1;
->  	sizes[0] = PAGE_ALIGN(s->buffersize);
->  
-
+Laurent Pinchart
