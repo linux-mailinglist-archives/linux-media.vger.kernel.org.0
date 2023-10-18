@@ -2,136 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F4F87CD6F4
-	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 10:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 218397CD753
+	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 10:59:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229840AbjJRIum (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 04:50:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45542 "EHLO
+        id S229529AbjJRI7x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Oct 2023 04:59:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38100 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229579AbjJRIui (ORCPT
+        with ESMTP id S229753AbjJRI7V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 04:50:38 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A366EFD;
-        Wed, 18 Oct 2023 01:50:36 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A00BEC433C8;
-        Wed, 18 Oct 2023 08:50:33 +0000 (UTC)
-Message-ID: <4a74a40c-ee3c-4563-87d1-27e859eb6982@xs4all.nl>
-Date:   Wed, 18 Oct 2023 10:50:31 +0200
+        Wed, 18 Oct 2023 04:59:21 -0400
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF77AEA
+        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 01:59:19 -0700 (PDT)
+Received: from hillosipuli.retiisi.eu (185-9-10-242.cust.suomicom.net [185.9.10.242])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4S9Psw55M5zyYm
+        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 11:59:12 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1697619556;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=mJuWNu1pItZ/YjCSxqSFAI2j3tkUguUoelhch15m58E=;
+        b=Fr2yT4L+An3m17JH3AuZ854TWzME2X3qoBc1DM8pdn+j3dqljFr6c69HPaME48Cb12RT2I
+        svwg+Lu8xHgGYcA1oKS2RxH+yPb1QACKBVBLwzaAFuIpZw0OK1ukcaSDlYXVewrF5vMo8o
+        edv0oCfyM76fHR1TzQ2LTW/1dMxX48A=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1697619556;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=mJuWNu1pItZ/YjCSxqSFAI2j3tkUguUoelhch15m58E=;
+        b=oniW2em539kP2TGTZbaByeYEYAOOBzXH88SVvnF4QlO80ufyU4kLZ1wPJgPmK/LMCY3i69
+        ekWjKgLPzGca3597pkk+Lr47tsqd1RKAlA7IpDAH9+E72d2QYi2oXkOR/ZR6h/WO8GhSTr
+        Zt77gBgFgdmZxBulzYqQw21tOiHZmsw=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1697619556; a=rsa-sha256; cv=none;
+        b=q3rcxgsIHTzKeflBcZA6OS0VyVUb4IMe7Tk9idzMGguLV1MW+WTnpS/C4inW0VgLOPEW9J
+        Bj0ekO/5epILqBre8aXNnJT4b8VA9g3ZKiChv//aMjPm3QfHet768sSeYzLoAOD++nNjRr
+        VDzr8AjR/cI1oNYdTcITyOaNd5Tgi50=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 38F11634CBD
+        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 11:59:11 +0300 (EEST)
+Date:   Wed, 18 Oct 2023 08:59:11 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.7] Cadence CSI2RX fixes
+Message-ID: <ZS+eXz1eNTixlBIO@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 0/8] Add StarFive Camera Subsystem driver
-Content-Language: en-US, nl
-To:     Jack Zhu <jack.zhu@starfivetech.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-        changhuang.liang@starfivetech.com
-References: <20231008085154.6757-1-jack.zhu@starfivetech.com>
- <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
- <bb5b776c-f1dd-f53e-079c-8048af2e73f1@starfivetech.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <bb5b776c-f1dd-f53e-079c-8048af2e73f1@starfivetech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jack,
+Hi Mauro, Hans,
 
-On 18/10/2023 04:37, Jack Zhu wrote:
+Here are a few fixes for the Cadence CSI2RX driver recently merged.
 
-<snip>
+Please pull.
 
->>> --------------------------------------------------------------------------------
->>> Compliance test for device /dev/v4l-subdev1:
->>>
->>> Driver Info:
->>> 	Driver version   : 6.6.0
->>> 	Capabilities     : 0x00000000
->>
->> But this does not appear for v4l-subdev1.
->>
->> I can't really tell why it doesn't show that. Can you debug a little bit?
->> The code is in v4l2-compliance.cpp, line 1086:
->>
->> ent_id = mi_media_info_for_fd(media_fd, node.g_fd(), &is_invalid, &node.function);
->>
->> The mi_media_info_for_fd() function calls ioctl(media_fd, MEDIA_IOC_DEVICE_INFO, &mdinfo),
->> and that fails for some reason. It could be that media_fd is invalid (would be weird).
->>
->> This could well be a v4l2-compliance bug that you hit with this driver.
->>
-> 
-> On the test board, /dev/v4l-subdev1 is imx219, and the corresponding directory is
-> /sys/dev/char/81:3/device. Media0 does not exist in this directory. Therefore, the media_fd
-> obtained through mi_get_media_fd(node.g_fd(), node.bus_info) is invalid.
-> 
-> I don't know why media0 does not exist in /sys/dev/char/81:3/device?
-> 
 
-Can you try again with this v4l2-compliance patch?
+The following changes since commit 94e27fbeca27d8c772fc2bc807730aaee5886055:
 
-I need to dig a bit deeper as to why media0 is missing, but for now try this.
+  media: cec: meson: always include meson sub-directory in Makefile (2023-10-13 11:33:22 +0200)
 
-Regards,
+are available in the Git repository at:
 
-	Hans
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.7-4-signed
 
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index 7169eefe..29475d6b 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -968,7 +968,7 @@ err:
- }
+for you to fetch changes up to 26400386ca8a8f8cf5ed59142a9bdd0181d17c69:
 
- void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
--	      unsigned frame_count, unsigned all_fmt_frame_count)
-+	      unsigned frame_count, unsigned all_fmt_frame_count, int parent_media_fd)
- {
- 	struct node node2;
- 	struct v4l2_capability vcap = {};
-@@ -997,8 +997,12 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 		memset(&vcap, 0, sizeof(vcap));
- 	}
+  media: platform: cadence: select MIPI_DPHY dependency (2023-10-17 11:07:52 +0300)
 
--	if (!node.is_media())
--		media_fd = mi_get_media_fd(node.g_fd(), node.bus_info);
-+	if (!node.is_media()) {
-+		if (parent_media_fd >= 0)
-+			media_fd = parent_media_fd;
-+		else
-+			media_fd = mi_get_media_fd(node.g_fd(), node.bus_info);
-+	}
+----------------------------------------------------------------
+Cadence CSI2RX fixes for 6.7
 
- 	int fd = node.is_media() ? node.g_fd() : media_fd;
- 	if (fd >= 0) {
-diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-index 7caf254b..c47f25f5 100644
---- a/utils/v4l2-compliance/v4l2-compliance.h
-+++ b/utils/v4l2-compliance/v4l2-compliance.h
-@@ -308,7 +308,7 @@ int check_ustring(const __u8 *s, int len);
- int check_0(const void *p, int len);
- int restoreFormat(struct node *node);
- void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_node, media_type type,
--	      unsigned frame_count, unsigned all_fmt_frame_count);
-+	      unsigned frame_count, unsigned all_fmt_frame_count, int parent_media_fd = -1);
- std::string stream_from(const std::string &pixelformat, bool &use_hdr);
+----------------------------------------------------------------
+Jai Luthra (2):
+      media: MAINTAINERS: Fix path for J721E CSI2RX bindings
+      media: platform: cadence: select MIPI_DPHY dependency
 
- // Media Controller ioctl tests
+ MAINTAINERS                            | 2 +-
+ drivers/media/platform/cadence/Kconfig | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
+-- 
+Sakari Ailus
