@@ -2,107 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 541FA7CD792
-	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 11:10:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 552DB7CD7CF
+	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 11:24:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229461AbjJRJJ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 05:09:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60646 "EHLO
+        id S229529AbjJRJYF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Oct 2023 05:24:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36964 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229570AbjJRJJ6 (ORCPT
+        with ESMTP id S229437AbjJRJYE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 05:09:58 -0400
-Received: from mail-vk1-xa2e.google.com (mail-vk1-xa2e.google.com [IPv6:2607:f8b0:4864:20::a2e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7228EFD
-        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 02:09:56 -0700 (PDT)
-Received: by mail-vk1-xa2e.google.com with SMTP id 71dfb90a1353d-4a19dac27c4so2832722e0c.1
-        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 02:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697620195; x=1698224995; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=bWn0AWQ8ZcYk91YSThLsJriDDFUVLU+dA3zLGJoEjvk=;
-        b=RUlCEvKNiaRgTMAWphM3N2nPVxtmtTR+U8nnjHcAUgxS9qpzLn+2ir5NmpK6Hd92YS
-         pRx3d3xuROU8ToUWarETKa/rhcucgyA96wAyGFrY9NN2sdoTuLmHjzbtph4vNdaNnBMC
-         fCKVZLpOpap+v2oIrnB/e2/0CZthSeXrfqaUrHfcOezC+s+jasVvBBLlf8dYHmBL5Xn3
-         nZQ343C2pILEqOqhWWkcxOR8hcgTC65GzqnNsHgP6vHQ60q7ESgl/QubnqsQCoY8OUya
-         kN6Yen25TrBbInUcv+FiP23avu5RTqYuE6TWkxu6F84uolGrnvd25SIPnzhABM7dc0lT
-         mmqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697620195; x=1698224995;
-        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=bWn0AWQ8ZcYk91YSThLsJriDDFUVLU+dA3zLGJoEjvk=;
-        b=ooYGMd8b2AimNKxX125nCZ/OcLVk207niV1LLEKlK0JakNsKlZlffQ9qkO7dPjmG0X
-         CQSNwODRuExoapZVVXhovRsz5G5M9C5KGijYFCTvNYZcYUszvVSblLISey7QiTHrfZBt
-         N/QtDeEQgo/G1uIPafoGZ8AX6aWsbx2QCRYDWjnQ56sTlkVZwiFBjdd0DTP4bcaBc8a8
-         fs7QuYyy/oJnZAqO7+UWeR70kojaL/guurcnjpfn85SKeuxvaQNeHcO+krNDmTqhxyb5
-         x6eCLaV8R6n3VcA0nx+bFTPgkqo/j3wTVAAO4ykeG7qVM2rgIkd2QIJPEaTxOiM5VOqT
-         VzwQ==
-X-Gm-Message-State: AOJu0YwsTLpFzifTU5095CSPSg3cuGbEKsAfmWC92Mrp3egC6fe829JD
-        AisfyuXgrOnUR90QaPTKJD1eAQaDnzhUV1UXEj7gxgrBCyE=
-X-Google-Smtp-Source: AGHT+IH5mMmdVktm97VhLQVLs1BG14+aCYuWaNoCob6d6rqZbj7XjZd6++nEXh8rzjGiG79xvR4jEx0Q3Gc+i7k40dQ=
-X-Received: by 2002:a05:6122:a09:b0:495:db2f:f4e7 with SMTP id
- 9-20020a0561220a0900b00495db2ff4e7mr5030985vkn.1.1697620195392; Wed, 18 Oct
- 2023 02:09:55 -0700 (PDT)
+        Wed, 18 Oct 2023 05:24:04 -0400
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29DB1F9
+        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 02:24:03 -0700 (PDT)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qt2mX-001d5u-65; Wed, 18 Oct 2023 09:24:01 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1qt2mU-00AFTV-25;
+        Wed, 18 Oct 2023 09:23:58 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR 6.7] Cadence CSI2RX fixes (#96010)
+Date:   Wed, 18 Oct 2023 09:23:57 +0000
+Message-Id: <20231018092357.2442756-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <ZS+eXz1eNTixlBIO@valkosipuli.retiisi.eu>
+References: 
 MIME-Version: 1.0
-From:   Kostyantyn Sushchyk <ksushchyk@gmail.com>
-Date:   Wed, 18 Oct 2023 12:09:44 +0300
-Message-ID: <CAKx9isKAtha1QAgKLrFbkyQwpvWipEzTCH33XVqw3rYxtM+wYg@mail.gmail.com>
-Subject: DVB-T2 channels for Lviv, Ukraine
-To:     linux-media@vger.kernel.org
-Content-Type: multipart/mixed; boundary="000000000000b5ee660607fa00b8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,UPPERCASE_50_75 autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.2 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_MED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
---000000000000b5ee660607fa00b8
-Content-Type: text/plain; charset="UTF-8"
+From: builder@linuxtv.org
 
-Hello
-Please find a patch file with DVB-T2 channels for Lviv, Ukraine
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZS+eXz1eNTixlBIO@valkosipuli.retiisi.eu/
+Build log: https://builder.linuxtv.org/job/patchwork/349249/
+Build time: 00:20:52
+Link: https://lore.kernel.org/linux-media/ZS+eXz1eNTixlBIO@valkosipuli.retiisi.eu
 
-Regards,
-Kostyantyn
+gpg: Signature made Wed 18 Oct 2023 08:57:19 AM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Good signature from "Sakari Ailus <sakari.ailus@linux.intel.com>" [full]
 
---000000000000b5ee660607fa00b8
-Content-Type: text/x-patch; charset="US-ASCII"; 
-	name="0001-dtv-scan-tables-added-channels-for-Lviv-Ukraine.patch"
-Content-Disposition: attachment; 
-	filename="0001-dtv-scan-tables-added-channels-for-Lviv-Ukraine.patch"
-Content-Transfer-Encoding: base64
-Content-ID: <f_lnvj6zni0>
-X-Attachment-Id: f_lnvj6zni0
+Summary: got 1/2 patches with issues, being 1 at build time
 
-RnJvbTogS29zdHlhbnR5biBTdXNoY2h5ayA8a3N1c2hjaHlrQGdtYWlsLmNvbT4KRGF0ZTogVHVl
-LCAxNyBPY3QgMjAyMyAxMTowNzoxNSArMDMwMApTdWJqZWN0OiBbUEFUQ0hdIGR0di1zY2FuLXRh
-YmxlczogYWRkZWQgY2hhbm5lbHMgZm9yIEx2aXYsIFVrcmFpbmUKCi0tLQogZHZiLXQvdWEtTHZp
-diB8IDM2ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKwogMSBmaWxlIGNoYW5n
-ZWQsIDM2IGluc2VydGlvbnMoKykKIGNyZWF0ZSBtb2RlIDEwMDY0NCBkdmItdC91YS1Mdml2Cgpk
-aWZmIC0tZ2l0IGEvZHZiLXQvdWEtTHZpdiBiL2R2Yi10L3VhLUx2aXYKbmV3IGZpbGUgbW9kZSAx
-MDA2NDQKaW5kZXggMDAwMDAwMDAuLmYwOWZkYWJmCi0tLSAvZGV2L251bGwKKysrIGIvZHZiLXQv
-dWEtTHZpdgpAQCAtMCwwICsxLDM2IEBACisjIFVrcmFpbmUsIEx2aXYKK1tDSEFOTkVMXQorICAg
-ICAgICBERUxJVkVSWV9TWVNURU0gPSBEVkJUMgorICAgICAgICBGUkVRVUVOQ1kgPSA0ODIwMDAw
-MDAKKyAgICAgICAgQkFORFdJRFRIX0haID0gODAwMDAwMAorICAgICAgICBDT0RFX1JBVEVfSFAg
-PSAzLzUKKyAgICAgICAgQ09ERV9SQVRFX0xQID0gTk9ORQorICAgICAgICBNT0RVTEFUSU9OID0g
-UUFNLzI1NgorICAgICAgICBUUkFOU01JU1NJT05fTU9ERSA9IDMySworICAgICAgICBHVUFSRF9J
-TlRFUlZBTCA9IDEvMTYKKyAgICAgICAgSElFUkFSQ0hZID0gTk9ORQorICAgICAgICBJTlZFUlNJ
-T04gPSBBVVRPCisKK1tDSEFOTkVMXQorICAgICAgICBERUxJVkVSWV9TWVNURU0gPSBEVkJUMgor
-ICAgICAgICBGUkVRVUVOQ1kgPSA1MzAwMDAwMDAKKyAgICAgICAgQkFORFdJRFRIX0haID0gODAw
-MDAwMAorICAgICAgICBDT0RFX1JBVEVfSFAgPSAzLzUKKyAgICAgICAgQ09ERV9SQVRFX0xQID0g
-Tk9ORQorICAgICAgICBNT0RVTEFUSU9OID0gUUFNLzI1NgorICAgICAgICBUUkFOU01JU1NJT05f
-TU9ERSA9IDMySworICAgICAgICBHVUFSRF9JTlRFUlZBTCA9IDEvMTYKKyAgICAgICAgSElFUkFS
-Q0hZID0gTk9ORQorICAgICAgICBJTlZFUlNJT04gPSBBVVRPCisKK1tDSEFOTkVMXQorICAgICAg
-ICBERUxJVkVSWV9TWVNURU0gPSBEVkJUMgorICAgICAgICBGUkVRVUVOQ1kgPSA2MjYwMDAwMDAK
-KyAgICAgICAgQkFORFdJRFRIX0haID0gODAwMDAwMAorICAgICAgICBDT0RFX1JBVEVfSFAgPSAz
-LzUKKyAgICAgICAgQ09ERV9SQVRFX0xQID0gTk9ORQorICAgICAgICBNT0RVTEFUSU9OID0gUUFN
-LzI1NgorICAgICAgICBUUkFOU01JU1NJT05fTU9ERSA9IDMySworICAgICAgICBHVUFSRF9JTlRF
-UlZBTCA9IDEvMTYKKyAgICAgICAgSElFUkFSQ0hZID0gTk9ORQorICAgICAgICBJTlZFUlNJT04g
-PSBBVVRPCi0tIAoyLjI1LjEKCg==
---000000000000b5ee660607fa00b8--
+Error/warnings:
+
+patches/0001-media-MAINTAINERS-Fix-path-for-J721E-CSI2RX-bindings.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: OOM: 3014560Kb sm_state_count = 1757213
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 52 seconds
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: OOM: 3003988Kb sm_state_count = 2158
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: __split_smt: function too hairy.  Giving up after 4 seconds
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2854 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+
