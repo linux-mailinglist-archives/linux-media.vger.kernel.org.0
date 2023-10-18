@@ -2,126 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E40AD7CDD1A
-	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 15:23:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE7577CDD36
+	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 15:27:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231582AbjJRNXV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 09:23:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41240 "EHLO
+        id S1344563AbjJRN1u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Oct 2023 09:27:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231577AbjJRNXU (ORCPT
+        with ESMTP id S231637AbjJRN1t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 09:23:20 -0400
+        Wed, 18 Oct 2023 09:27:49 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB92683
-        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 06:23:18 -0700 (PDT)
-Received: from [192.168.1.110] (unknown [103.251.226.39])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0EF312B3;
-        Wed, 18 Oct 2023 15:23:08 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 239BAB0
+        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 06:27:47 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8BF6F2B3;
+        Wed, 18 Oct 2023 15:27:38 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1697635390;
-        bh=Chv+HK51PTcc2rswhoSfyMs/h2svT+uSHYzuhFLtNiE=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=whQbop8Pd2aMNNpJpuh3Vvzo0MpeY3LwK7oYo4ObqUH+q0q+4X9KraTr2Z5WN9cQb
-         Nwda9c36Fjo1VPCGS8hQNJlN4o6ZoPBDkTvbHUyfU0fMHTiDYgPgv8vpVVkUz7Z230
-         9iHyjpJ2ZBH/xZH0NCeIv96D+JqfDf9EUg+Cv3uM=
-Message-ID: <fc124e30-70ea-c47d-9151-1cbeace557d4@ideasonboard.com>
-Date:   Wed, 18 Oct 2023 18:53:10 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: Sensor driver support with CCS
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
+        s=mail; t=1697635658;
+        bh=auI5vdoChSMPWluOriZD8S8nrW6YW3t8jTPjdss5ZW4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=RJN2eP355kkdYYDwzvj3xzeROeZ4BuAI7SuRD7LtrEJ7a5WVkUkflRtqz4twAVZd+
+         Wp1zXaGJrRwDxheryshr2v7ITPZ9Vd7N5aJYXS+Bl7SDJ4vFNcivA6vDDm+iU41PWZ
+         B9Wi9f3NyK3bsRvCONUnXWaTjvOMQsaUoNWqwpC8=
+Date:   Wed, 18 Oct 2023 16:27:52 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Umang Jain <umang.jain@ideasonboard.com>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-References: <54ntzswkt2eyhjdrrr4yk5fnru4msoc2fn6esuxffa6obp3met@mw2jqxtivbtp>
- <ZS+lH9G/SR2L2lGX@kekkonen.localdomain>
- <20231018103227.GC11118@pendragon.ideasonboard.com>
-From:   Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20231018103227.GC11118@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        kieran.bingham@ideasonboard.com,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH] media: css: Write LINE_LENGTH_PCK correctly
+Message-ID: <20231018132752.GA28214@pendragon.ideasonboard.com>
+References: <20231018131729.1022521-1-umang.jain@ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231018131729.1022521-1-umang.jain@ideasonboard.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Umang,
 
-On 10/18/23 4:02 PM, Laurent Pinchart wrote:
-> On Wed, Oct 18, 2023 at 09:27:59AM +0000, Sakari Ailus wrote:
->> On Wed, Oct 18, 2023 at 12:04:46PM +0530, Umang Jain wrote:
->>> Hello everyone,
->>>
->>> Past few weeks I have been working to support IMX519 sensor with CCS
->>> driver. The highlight is that I can capture frames with CCS driver now,
->>> with a few workarounds. This thread summarises the issues that we faced
->>> and act as placeholder for more open and structured discussion.
->>>
->>> - First open question is regarding the upstream support of a sensor
->>>    driver with CCS. How should we term that a sensor is 'mainline-supported'
->>>    if it is getting supported by CCS. How can one use a sensor out of the box
->>>    with mainline kernel, when supported by CCS?
->> If the sensor is fully compliant, it should "just work", but then there's
->> the question of CCS static data if the sensor needs it.
->>
->> For devices that aren't fully compliant this is a more complicated
->> question. Some devices might work with some parameters only, in particular
->> horizontal blanking is a sensitive value. The approach here should be to
->> set minimum and maximum to the same value to force horizontal blanking
->> value that is known to work. The if rules could be used for this as well.
->>
->>> - Continued from the previous discusion point, the more specific question is
->>>    about the sensor-specific static data that is composed of
->>>    manfacturer-specific-registers (MSRs) and (maybe) overridden
->>>    sensor-read-only-regs which are created as part of ccs-tools [1].
->>>    This becomes part of firmware? which needs to live /lib/firmware and
->>>    then picked up by CCS driver.
->>>
->>>    Where can they be centralized ? is linux-firmware an option? [2].
->> I'd favour this.
-> linux-firmware could host the binary files, but how about the YAML
-> sources ?
->
->>> - It was noticed that with current version of CCS - I was only able to
->>>    get 1/3 buffer filled. This was due to the fact that LINE_LENGTH_PCK
->>>    and FRAME_LENGTH_LINES registers are not getting updated to permissible
->>>    values in / before ccs_start_streaming() starts. Hence they are stuck
->>>    with values from probe time.
->> If you're not changing vertical or horizontal blanking, these are likely
->> the correct values from driver perspective. If these values do not work
->> however, then you most likely have an issue with sensor provided limit and
->> capability information. This should be fixed using CCS static data.
-> I may have understood Umang incorrectly, but I thought he meant that the
-> driver doesn't program those registers if the controls are not changed
-> by userspace, and the register power-up default values are not right.
-> Umang, is my understanding wrong ?
+On Wed, Oct 18, 2023 at 06:47:29PM +0530, Umang Jain wrote:
+> According to MIPI CCS v1.1 specification, the LINE_LENGTH_PCK
+> units is in VT pixel clocks (Section 8.2.6).
+> 
+> To compute how many pixel clocks it takes, simply divide the
+> VT pixel clock frequency by the number of pixels in a single line.
 
-Tested everything again, so.. it does seem invoke through ccs_set_ctrl() 
-before start streaming but write with the same values as defaults, so it 
-appeared to me nothing changed before stream start to me.
+Have you hard of dimensional analysis
+(https://en.wikipedia.org/wiki/Dimensional_analysis) ? It's a very good
+and simple way of checking the validity of mathematical formulas.
 
-So I can say, it wasn't a issue with the values, but the units implied. 
-LINE_LENGTH_PCK wasn't written correctly in terms of units. Fixed that 
-as part of
-[PATCH] media: css: Write LINE_LENGTH_PCK correctly on linux-media.
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+> Testing:
+> 
+> The patch is tested using IMX519 with CCS.
+> This patch makes the frame buffer being filled to the fullest
+> (instead of getting 1/3rd only previously) - without any workarounds.
+> ---
+>  drivers/media/i2c/ccs/ccs-core.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> index 16de66a37fad..12c75a843dfe 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -734,9 +734,11 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
+>  
+>  		break;
+>  	case V4L2_CID_HBLANK:
+> -		rval = ccs_write(sensor, LINE_LENGTH_PCK,
+> -				 sensor->pixel_array->crop[CCS_PA_PAD_SRC].width
+> -				 + ctrl->val);
+> +		/* LINE_LENGTH_PCK units are in VT pixel clocks. */
+> +		u16 line_length_pck =
+> +			sensor->pll.vt_bk.pix_clk_freq_hz /
+> +			(sensor->pixel_array->crop[CCS_PA_PAD_SRC].width + ctrl->val);
+> +		rval = ccs_write(sensor, LINE_LENGTH_PCK, line_length_pck);
+>  
+>  		break;
+>  	case V4L2_CID_TEST_PATTERN:
 
+-- 
+Regards,
 
->
->>> These are top issues we faced while trying to support IMX519. This thread
->>> will act as placeholder to have more discussions in the open and/or help
->>> other sensors that can be supported with CCS.
->> I'm happy to see you using the CCS driver on a sensor I haven't used
->> before. The above issues, while they prevent meaningfully using the sensor
->> right now, they also seem easy to resolve.
->>
->> Additionally --- if the sensor does not provide meaningful values for its
->> vendor and model, we could use the device's compatible string as the basis
->> for the firmware file name. I can post a patch for this.
-
+Laurent Pinchart
