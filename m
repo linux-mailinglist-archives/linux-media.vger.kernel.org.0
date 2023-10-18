@@ -2,85 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E4907CDD0C
-	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 15:17:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AF017CDD17
+	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 15:22:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231344AbjJRNRl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 09:17:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56690 "EHLO
+        id S231278AbjJRNW0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Oct 2023 09:22:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230480AbjJRNRk (ORCPT
+        with ESMTP id S230338AbjJRNWZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 09:17:40 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1226195
-        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 06:17:39 -0700 (PDT)
-Received: from umang.jainideasonboard.com (unknown [103.251.226.39])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D918B2B3;
-        Wed, 18 Oct 2023 15:17:28 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1697635050;
-        bh=+ozrzQQSGP1QwCylozlA5ZbUcJOXCNAT1SFWc6r4OSs=;
-        h=From:To:Cc:Subject:Date:From;
-        b=hlL2jDrukXKNObAzAqjvT8I53hEiykGwkaiQJHWKnHmKiPiDMGw+wXo6JSOmtAd6B
-         n3pZJw6kEqoLOMyI5ybWlEynniLQqYLt4xZzedG6DXPAMUC8FRDEBnVZC+/G9sfC8V
-         L9ddnI9ZrAVj42cCUGCscgwFyIyrasMKAdS2By24=
-From:   Umang Jain <umang.jain@ideasonboard.com>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH] media: css: Write LINE_LENGTH_PCK correctly
-Date:   Wed, 18 Oct 2023 18:47:29 +0530
-Message-Id: <20231018131729.1022521-1-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.40.1
+        Wed, 18 Oct 2023 09:22:25 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58A8E95
+        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 06:22:23 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61BEBC433C8;
+        Wed, 18 Oct 2023 13:22:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1697635342;
+        bh=8+Um29cxdKQH99k0YCMYU1lmGY+TvNwv0ssEVKJ1ujQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=P++VYR7rtIcMPQDptRNHO/xcDdDJAAqe9fNh9/3YUa3XS1cOFIkiYMREZ+KQSwTsy
+         YZzEW3UAUmfiohQGH7U3R8vyRYCHoKhih46E2htgtnoaVuCHoZT8LuVPOjklOHnzsB
+         VwoVeBN9581zsUuL6fwRSHYUy5yfKqzCEKPKZiTk=
+Date:   Wed, 18 Oct 2023 15:22:18 +0200
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Umang Jain <umang.jain@ideasonboard.com>,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org,
+        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Dan Carpenter <error27@gmail.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v2 1/3] staging: vc04_services: Support module
+ autoloading using MODULE_DEVICE_TABLE
+Message-ID: <2023101803-blank-relative-aa47@gregkh>
+References: <20231018054214.824296-1-umang.jain@ideasonboard.com>
+ <20231018054214.824296-2-umang.jain@ideasonboard.com>
+ <20231018123856.GG11118@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231018123856.GG11118@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-According to MIPI CCS v1.1 specification, the LINE_LENGTH_PCK
-units is in VT pixel clocks (Section 8.2.6).
+On Wed, Oct 18, 2023 at 03:38:56PM +0300, Laurent Pinchart wrote:
+> On Wed, Oct 18, 2023 at 11:12:12AM +0530, Umang Jain wrote:
+> > VC04 has now a independent bus vchiq_bus to register its devices.
+> > However, the module auto-loading for bcm2835-audio and bcm2835-camera
+> > currently happens through MODULE_ALIAS() macro specified explicitly.
+> > 
+> > The correct way to auto-load a module, is when the alias is picked
+> > out from MODULE_DEVICE_TABLE(). In order to get there, we need to
+> > introduce  vchiq_device_id and add relevant entries in file2alias.c
+> > infrastructure so that aliases can be generated. This patch targets
+> > adding vchiq_bus_device_id and do_vchiq_bus_entry, in order to
+> > generate those alias using the /script/mod/file2alias.c.
+> > 
+> > Going forward the MODULE_ALIAS() from bcm2835-camera and bcm2835-audio
+> > will be dropped, in favour of MODULE_DEVICE_TABLE being used there.
+> > 
+> > The alias format for vchiq_bus devices will be "vchiq_bus:<dev_name>".
+> > Adjust the vchiq_bus_uevent() to reflect that.
+> 
+> None of the other buses have a "_bus" suffix in the alias or in the
+> *_device_id structure name. Is there a reason to make an exception here?
 
-To compute how many pixel clocks it takes, simply divide the
-VT pixel clock frequency by the number of pixels in a single line.
+No, it should be dropped, good catch.
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
-Testing:
+thanks,
 
-The patch is tested using IMX519 with CCS.
-This patch makes the frame buffer being filled to the fullest
-(instead of getting 1/3rd only previously) - without any workarounds.
----
- drivers/media/i2c/ccs/ccs-core.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 16de66a37fad..12c75a843dfe 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -734,9 +734,11 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
- 
- 		break;
- 	case V4L2_CID_HBLANK:
--		rval = ccs_write(sensor, LINE_LENGTH_PCK,
--				 sensor->pixel_array->crop[CCS_PA_PAD_SRC].width
--				 + ctrl->val);
-+		/* LINE_LENGTH_PCK units are in VT pixel clocks. */
-+		u16 line_length_pck =
-+			sensor->pll.vt_bk.pix_clk_freq_hz /
-+			(sensor->pixel_array->crop[CCS_PA_PAD_SRC].width + ctrl->val);
-+		rval = ccs_write(sensor, LINE_LENGTH_PCK, line_length_pck);
- 
- 		break;
- 	case V4L2_CID_TEST_PATTERN:
--- 
-2.40.1
-
+greg k-h
