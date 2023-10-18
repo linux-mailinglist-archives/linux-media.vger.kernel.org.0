@@ -2,488 +2,893 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F3287CDDD4
-	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 15:51:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B42D7CDE1F
+	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 15:59:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344732AbjJRNvG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 09:51:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37492 "EHLO
+        id S1344837AbjJRN7G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Oct 2023 09:59:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231824AbjJRNvE (ORCPT
+        with ESMTP id S1344792AbjJRN7E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 09:51:04 -0400
-Received: from mail-pj1-x1036.google.com (mail-pj1-x1036.google.com [IPv6:2607:f8b0:4864:20::1036])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81CB395;
-        Wed, 18 Oct 2023 06:51:01 -0700 (PDT)
-Received: by mail-pj1-x1036.google.com with SMTP id 98e67ed59e1d1-27d3c886671so4548527a91.3;
-        Wed, 18 Oct 2023 06:51:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697637061; x=1698241861; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SOVN+NhhXOaI1O7xnj1Ib+HKxkuz7xr2nPaNZ+hG0YA=;
-        b=Zc9Qn6Qrx1a7koO+8yIiJmwohTbNj4LVLOY/2f3YHrN+KAbHMn8eY9rF/r5k4tjZzN
-         qJjojQn4+UzFpBEX7tB8MDKDSvi0hZNMlEzYs3bY5SS5MH/TQzEWp8RpRaHA9j7K8kgC
-         Z8vASPyjxqPRnQm7fllBsevAgpT1RXM4kN57RrfAbXIVP+2RiRahftPQYq/fOag8pzDl
-         il/t8lcZTlYcoFzrNrlLyXBJlThcs1R09GKhntf+gFyYp4yHI19DA6DvCGXP3Sv0r5fl
-         hD7o1wCoAiCfy2TC7JJfIBuCZLFoa/3UTCLbYzOj/h++0alrl4zzNIELMNamP0bUUaOK
-         H0aQ==
+        Wed, 18 Oct 2023 09:59:04 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96B82106
+        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 06:58:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1697637490;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=isuz98/JAz0u/mEAHLn6kE4xhSX9/DpJkE4+UfVWd9M=;
+        b=U32vLxj24coK5A65JcjnBwcsBQBD9G2Va4WB2nQn6A3KwBiSRhGM2lRmoZCPw/DRml/fzQ
+        lcgjyb1kQ2njHVjFeHcn0WxemQaqVYnLoAZv950KWhmpB45gpR4aG37XR6A44qbc+JToML
+        YcWNzBn11Rd9upYkGSkcG1pzLjRjrOI=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-575-SNPEuCATO8-LNm1dLMh_Zw-1; Wed, 18 Oct 2023 09:57:54 -0400
+X-MC-Unique: SNPEuCATO8-LNm1dLMh_Zw-1
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-99c8bbc902eso518743166b.1
+        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 06:57:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697637061; x=1698241861;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SOVN+NhhXOaI1O7xnj1Ib+HKxkuz7xr2nPaNZ+hG0YA=;
-        b=MjGEGjBVArq/eatECiA8XicPx9JrvA/rSxS/Z2ZGHTLj9JN2d/oreNGeQtlvasjS9o
-         g9VsmH1Wose6pdGV7CrP+TS7HEsnVu2XhiQ6wcPmoYLUXOZUAJTy4QVHlxxAG2lpey0H
-         Ahj734PbrsFG9hqf2pJkkdqkxZy9yuSxOzPAXcltTFibei/UOwCiTSUOpHjrD7bIXvY7
-         iRT/aMfxyQeCL1cA6Ab7sp+GEggqlf8MgVe6ujKoU1Kz89oBGyNZKhWDV5rV58pt2Ihs
-         lqoWqL3aJTK8gvYJc45+ezJY/aoaVGNOzkEQ8DVPjONK2OR3m471Xcch1dR+8CztW7xI
-         Zzfg==
-X-Gm-Message-State: AOJu0Yw2iB956BoE3bC3V12+q0M7w+CJJK0oUH9GnCWKBpOgXsu4R2/e
-        3j9vp1gaqhgrvUp1rIt5d6gXXwGHqf5buRvEQEo=
-X-Google-Smtp-Source: AGHT+IEvQRa4AWJcABn/YC32TZLjdGFql43bijQhx9HC725gmA+wgi4txjrj3aNGOA409K6WBuqXR6sCl5Au1SkBOEM=
-X-Received: by 2002:a17:90a:1e:b0:27d:3f93:c148 with SMTP id
- 30-20020a17090a001e00b0027d3f93c148mr5203558pja.13.1697637060749; Wed, 18 Oct
- 2023 06:51:00 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1697637473; x=1698242273;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=isuz98/JAz0u/mEAHLn6kE4xhSX9/DpJkE4+UfVWd9M=;
+        b=woWRoWwh7LlEtqmVgzTr4+m6Q4SrOSTja77U3zlXsWDjGQlbt7lpjWEzfjw46dCWWD
+         /JQ9ntqLV2/5id2usnEwLmHpQWEtVY/cqDFmhmhjq2F5vTcc/muTiIBovxJ8++rhMADh
+         Wpkv/64jbXeIYQAAKpFhNtVCjnLfX8clq3uPPNln0dUROn7E1sEaGKbkUtMVyXLJVlKo
+         RJNQHc9JVgknxy7aeTKdHQvNQgEq0DM0fj0CeqNOihlXBgvp6dRls1GkCqTCl+Ym2520
+         wbL5gcjQ5sLv13Nt8Bd8P6EJC1Bdw/kN4HHDbkL1w33OLtcBXllz0CW5xvam3KudORfZ
+         ln5Q==
+X-Gm-Message-State: AOJu0YwAd2QMJWFbk9Lgaq3Li+sKPm5PSPDhyXb5qeSrkrc4qRiMs16K
+        vHb+Qpw1qYW2gQH39soJIU/zGAsr65AN/uDL7wPjsGlhdSewFMhyfzqrDtgE4i5t/gIcM65F6kg
+        Et7FckF1rXbI4FZToqnsvZI4=
+X-Received: by 2002:a17:907:3fa0:b0:9bf:60f9:9b7c with SMTP id hr32-20020a1709073fa000b009bf60f99b7cmr4284310ejc.62.1697637472359;
+        Wed, 18 Oct 2023 06:57:52 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHEdb7/QYlJReEJUWnEivoUhvF0N/eYHLq7wVCtf4KIHDopWLXG9GgBJRWiFB9fuKzYOdcJmA==
+X-Received: by 2002:a17:907:3fa0:b0:9bf:60f9:9b7c with SMTP id hr32-20020a1709073fa000b009bf60f99b7cmr4284247ejc.62.1697637471565;
+        Wed, 18 Oct 2023 06:57:51 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id mc8-20020a170906eb4800b0098d2d219649sm1748399ejb.174.2023.10.18.06.57.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Oct 2023 06:57:50 -0700 (PDT)
+Message-ID: <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
+Date:   Wed, 18 Oct 2023 15:57:48 +0200
 MIME-Version: 1.0
-References: <1697185865-27528-1-git-send-email-shengjiu.wang@nxp.com>
- <1697185865-27528-10-git-send-email-shengjiu.wang@nxp.com>
- <a0dfe959-3b32-4d03-9f1b-8f3c1054ecf7@xs4all.nl> <CAA+D8AP1a-Vioy2Cr7dZ4wErXpkm7g9Caw-yPKc9jbWpPnN0JQ@mail.gmail.com>
- <0ae6d9e1-bdd9-45ab-9749-8b0cb5c624ff@xs4all.nl> <CAA+D8AMa9tpMq08XsUuAtV0DLWbLOwsfYjd30NJ3OBezkTs5YA@mail.gmail.com>
- <CAA+D8AOJ=Akp5AmE4PCy=O=TGYaP3Cn0jLveL-aoqV3tFAVPSg@mail.gmail.com>
- <36360a55-4cb4-4494-aa69-96837ba7750d@xs4all.nl> <CAA+D8APMRpWXPy3VHPev5A+g8o6m5Tj4BKivSGk_SZAZsMoBAw@mail.gmail.com>
- <90873bfe-f5c2-44b3-834e-2cea82cb3c48@xs4all.nl> <CAA+D8APZVjF-JqHWLdD0bwN_W7rs_gAzHq9PYVvPc9KabeRCxg@mail.gmail.com>
- <28cce9d0-f22c-48b3-8029-78bdaa787839@xs4all.nl>
-In-Reply-To: <28cce9d0-f22c-48b3-8029-78bdaa787839@xs4all.nl>
-From:   Shengjiu Wang <shengjiu.wang@gmail.com>
-Date:   Wed, 18 Oct 2023 21:50:49 +0800
-Message-ID: <CAA+D8APNYRADpsXn65zpVvP4AP_afVQNmH7S_a28kAnVmz7bZw@mail.gmail.com>
-Subject: Re: [RFC PATCH v6 09/11] media: uapi: Add audio rate controls support
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
-        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-        lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-        tiwai@suse.com, alsa-devel@alsa-project.org,
-        linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
+Content-Language: en-US, nl
+To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        =?UTF-8?Q?Ilpo_J=c3=a4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>
+Cc:     linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+References: <cover.1697534024.git.sean@mess.org>
+ <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 18, 2023 at 9:09=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> w=
-rote:
->
-> On 18/10/2023 14:52, Shengjiu Wang wrote:
-> > On Wed, Oct 18, 2023 at 3:58=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.n=
-l> wrote:
-> >>
-> >> On 18/10/2023 09:40, Shengjiu Wang wrote:
-> >>> On Wed, Oct 18, 2023 at 3:31=E2=80=AFPM Hans Verkuil <hverkuil@xs4all=
-.nl> wrote:
-> >>>>
-> >>>> On 18/10/2023 09:23, Shengjiu Wang wrote:
-> >>>>> On Wed, Oct 18, 2023 at 10:27=E2=80=AFAM Shengjiu Wang <shengjiu.wa=
-ng@gmail.com> wrote:
-> >>>>>>
-> >>>>>> On Tue, Oct 17, 2023 at 9:37=E2=80=AFPM Hans Verkuil <hverkuil@xs4=
-all.nl> wrote:
-> >>>>>>>
-> >>>>>>> On 17/10/2023 15:11, Shengjiu Wang wrote:
-> >>>>>>>> On Mon, Oct 16, 2023 at 9:16=E2=80=AFPM Hans Verkuil <hverkuil@x=
-s4all.nl> wrote:
-> >>>>>>>>>
-> >>>>>>>>> Hi Shengjiu,
-> >>>>>>>>>
-> >>>>>>>>> On 13/10/2023 10:31, Shengjiu Wang wrote:
-> >>>>>>>>>> Fixed point controls are used by the user to configure
-> >>>>>>>>>> the audio sample rate to driver.
-> >>>>>>>>>>
-> >>>>>>>>>> Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE
-> >>>>>>>>>> new IDs for ASRC rate control.
-> >>>>>>>>>>
-> >>>>>>>>>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> >>>>>>>>>> ---
-> >>>>>>>>>>  .../userspace-api/media/v4l/common.rst        |  1 +
-> >>>>>>>>>>  .../media/v4l/ext-ctrls-fixed-point.rst       | 36 ++++++++++=
-+++++++++
-> >>>>>>>>>>  .../media/v4l/vidioc-g-ext-ctrls.rst          |  4 +++
-> >>>>>>>>>>  .../media/v4l/vidioc-queryctrl.rst            |  7 ++++
-> >>>>>>>>>>  .../media/videodev2.h.rst.exceptions          |  1 +
-> >>>>>>>>>>  drivers/media/v4l2-core/v4l2-ctrls-core.c     |  5 +++
-> >>>>>>>>>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  4 +++
-> >>>>>>>>>>  include/media/v4l2-ctrls.h                    |  2 ++
-> >>>>>>>>>>  include/uapi/linux/v4l2-controls.h            | 13 +++++++
-> >>>>>>>>>>  include/uapi/linux/videodev2.h                |  3 ++
-> >>>>>>>>>>  10 files changed, 76 insertions(+)
-> >>>>>>>>>>  create mode 100644 Documentation/userspace-api/media/v4l/ext-=
-ctrls-fixed-point.rst
-> >>>>>>>>>>
-> >>>>>>>>>> diff --git a/Documentation/userspace-api/media/v4l/common.rst =
-b/Documentation/userspace-api/media/v4l/common.rst
-> >>>>>>>>>> index ea0435182e44..35707edffb13 100644
-> >>>>>>>>>> --- a/Documentation/userspace-api/media/v4l/common.rst
-> >>>>>>>>>> +++ b/Documentation/userspace-api/media/v4l/common.rst
-> >>>>>>>>>> @@ -52,6 +52,7 @@ applicable to all devices.
-> >>>>>>>>>>      ext-ctrls-fm-rx
-> >>>>>>>>>>      ext-ctrls-detect
-> >>>>>>>>>>      ext-ctrls-colorimetry
-> >>>>>>>>>> +    ext-ctrls-fixed-point
-> >>>>>>>>>
-> >>>>>>>>> Rename this to ext-ctrls-audio-m2m.
-> >>>>>>>>>
-> >>>>>>>>>>      fourcc
-> >>>>>>>>>>      format
-> >>>>>>>>>>      planar-apis
-> >>>>>>>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-f=
-ixed-point.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-fixed-poin=
-t.rst
-> >>>>>>>>>> new file mode 100644
-> >>>>>>>>>> index 000000000000..2ef6e250580c
-> >>>>>>>>>> --- /dev/null
-> >>>>>>>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-fixed-po=
-int.rst
-> >>>>>>>>>> @@ -0,0 +1,36 @@
-> >>>>>>>>>> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> >>>>>>>>>> +
-> >>>>>>>>>> +.. _fixed-point-controls:
-> >>>>>>>>>> +
-> >>>>>>>>>> +***************************
-> >>>>>>>>>> +Fixed Point Control Reference
-> >>>>>>>>>
-> >>>>>>>>> This is for audio controls. "Fixed Point" is just the type, and=
- it doesn't make
-> >>>>>>>>> sense to group fixed point controls. But it does make sense to =
-group the audio
-> >>>>>>>>> controls.
-> >>>>>>>>>
-> >>>>>>>>> V4L2 controls can be grouped into classes. Basically it is a wa=
-y to put controls
-> >>>>>>>>> into categories, and for each category there is also a control =
-that gives a
-> >>>>>>>>> description of the class (see 2.15.15 in
-> >>>>>>>>> https://linuxtv.org/downloads/v4l-dvb-apis-new/driver-api/v4l2-=
-controls.html#introduction)
-> >>>>>>>>>
-> >>>>>>>>> If you use e.g. 'v4l2-ctl -l' to list all the controls, then yo=
-u will see that
-> >>>>>>>>> they are grouped based on what class of control they are.
-> >>>>>>>>>
-> >>>>>>>>> So I think it would be a good idea to create a new control clas=
-s for M2M audio controls,
-> >>>>>>>>> instead of just adding them to the catch-all 'User Controls' cl=
-ass.
-> >>>>>>>>>
-> >>>>>>>>> Search e.g. for V4L2_CTRL_CLASS_COLORIMETRY and V4L2_CID_COLORI=
-METRY_CLASS to see how
-> >>>>>>>>> it is done.
-> >>>>>>>>>
-> >>>>>>>>> M2M_AUDIO would probably be a good name for the class.
-> >>>>>>>>>
-> >>>>>>>>>> +***************************
-> >>>>>>>>>> +
-> >>>>>>>>>> +These controls are intended to support an asynchronous sample
-> >>>>>>>>>> +rate converter.
-> >>>>>>>>>
-> >>>>>>>>> Add ' (ASRC).' at the end to indicate the common abbreviation f=
-or
-> >>>>>>>>> that.
-> >>>>>>>>>
-> >>>>>>>>>> +
-> >>>>>>>>>> +.. _v4l2-audio-asrc:
-> >>>>>>>>>> +
-> >>>>>>>>>> +``V4L2_CID_ASRC_SOURCE_RATE``
-> >>>>>>>>>> +    sets the resampler source rate.
-> >>>>>>>>>> +
-> >>>>>>>>>> +``V4L2_CID_ASRC_DEST_RATE``
-> >>>>>>>>>> +    sets the resampler destination rate.
-> >>>>>>>>>
-> >>>>>>>>> Document the unit (Hz) for these two controls.
-> >>>>>>>>>
-> >>>>>>>>>> +
-> >>>>>>>>>> +.. c:type:: v4l2_ctrl_fixed_point
-> >>>>>>>>>> +
-> >>>>>>>>>> +.. cssclass:: longtable
-> >>>>>>>>>> +
-> >>>>>>>>>> +.. tabularcolumns:: |p{1.5cm}|p{5.8cm}|p{10.0cm}|
-> >>>>>>>>>> +
-> >>>>>>>>>> +.. flat-table:: struct v4l2_ctrl_fixed_point
-> >>>>>>>>>> +    :header-rows:  0
-> >>>>>>>>>> +    :stub-columns: 0
-> >>>>>>>>>> +    :widths:       1 1 2
-> >>>>>>>>>> +
-> >>>>>>>>>> +    * - __u32
-> >>>>>>>>>
-> >>>>>>>>> Hmm, shouldn't this be __s32?
-> >>>>>>>>>
-> >>>>>>>>>> +      - ``integer``
-> >>>>>>>>>> +      - integer part of fixed point value.
-> >>>>>>>>>> +    * - __s32
-> >>>>>>>>>
-> >>>>>>>>> and this __u32?
-> >>>>>>>>>
-> >>>>>>>>> You want to be able to use this generic type as a signed value.
-> >>>>>>>>>
-> >>>>>>>>>> +      - ``fractional``
-> >>>>>>>>>> +      - fractional part of fixed point value, which is Q31.
-> >>>>>>>>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ex=
-t-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >>>>>>>>>> index f9f73530a6be..1811dabf5c74 100644
-> >>>>>>>>>> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls=
-.rst
-> >>>>>>>>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls=
-.rst
-> >>>>>>>>>> @@ -295,6 +295,10 @@ still cause this situation.
-> >>>>>>>>>>        - ``p_av1_film_grain``
-> >>>>>>>>>>        - A pointer to a struct :c:type:`v4l2_ctrl_av1_film_gra=
-in`. Valid if this control is
-> >>>>>>>>>>          of type ``V4L2_CTRL_TYPE_AV1_FILM_GRAIN``.
-> >>>>>>>>>> +    * - struct :c:type:`v4l2_ctrl_fixed_point` *
-> >>>>>>>>>> +      - ``p_fixed_point``
-> >>>>>>>>>> +      - A pointer to a struct :c:type:`v4l2_ctrl_fixed_point`=
-. Valid if this control is
-> >>>>>>>>>> +        of type ``V4L2_CTRL_TYPE_FIXED_POINT``.
-> >>>>>>>>>>      * - void *
-> >>>>>>>>>>        - ``ptr``
-> >>>>>>>>>>        - A pointer to a compound type which can be an N-dimens=
-ional array
-> >>>>>>>>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-quer=
-yctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> >>>>>>>>>> index 4d38acafe8e1..9285f4f39eed 100644
-> >>>>>>>>>> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.r=
-st
-> >>>>>>>>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.r=
-st
-> >>>>>>>>>> @@ -549,6 +549,13 @@ See also the examples in :ref:`control`.
-> >>>>>>>>>>        - n/a
-> >>>>>>>>>>        - A struct :c:type:`v4l2_ctrl_av1_film_grain`, containi=
-ng AV1 Film Grain
-> >>>>>>>>>>          parameters for stateless video decoders.
-> >>>>>>>>>> +    * - ``V4L2_CTRL_TYPE_FIXED_POINT``
-> >>>>>>>>>> +      - n/a
-> >>>>>>>>>> +      - n/a
-> >>>>>>>>>> +      - n/a
-> >>>>>>>>>> +      - A struct :c:type:`v4l2_ctrl_fixed_point`, containing =
-parameter which has
-> >>>>>>>>>> +        integer part and fractional part, i.e. audio sample r=
-ate.
-> >>>>>>>>>> +
-> >>>>>>>>>>
-> >>>>>>>>>>  .. raw:: latex
-> >>>>>>>>>>
-> >>>>>>>>>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst=
-.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> >>>>>>>>>> index e61152bb80d1..2faa5a2015eb 100644
-> >>>>>>>>>> --- a/Documentation/userspace-api/media/videodev2.h.rst.except=
-ions
-> >>>>>>>>>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.except=
-ions
-> >>>>>>>>>> @@ -167,6 +167,7 @@ replace symbol V4L2_CTRL_TYPE_AV1_SEQUENCE=
- :c:type:`v4l2_ctrl_type`
-> >>>>>>>>>>  replace symbol V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY :c:type:`v=
-4l2_ctrl_type`
-> >>>>>>>>>>  replace symbol V4L2_CTRL_TYPE_AV1_FRAME :c:type:`v4l2_ctrl_ty=
-pe`
-> >>>>>>>>>>  replace symbol V4L2_CTRL_TYPE_AV1_FILM_GRAIN :c:type:`v4l2_ct=
-rl_type`
-> >>>>>>>>>> +replace symbol V4L2_CTRL_TYPE_FIXED_POINT :c:type:`v4l2_ctrl_=
-type`
-> >>>>>>>>>>
-> >>>>>>>>>>  # V4L2 capability defines
-> >>>>>>>>>>  replace define V4L2_CAP_VIDEO_CAPTURE device-capabilities
-> >>>>>>>>>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drive=
-rs/media/v4l2-core/v4l2-ctrls-core.c
-> >>>>>>>>>> index a662fb60f73f..7a616ac91059 100644
-> >>>>>>>>>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >>>>>>>>>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >>>>>>>>>> @@ -1168,6 +1168,8 @@ static int std_validate_compound(const s=
-truct v4l2_ctrl *ctrl, u32 idx,
-> >>>>>>>>>>               if (!area->width || !area->height)
-> >>>>>>>>>>                       return -EINVAL;
-> >>>>>>>>>>               break;
-> >>>>>>>>>> +     case V4L2_CTRL_TYPE_FIXED_POINT:
-> >>>>>>>>>> +             break;
-> >>>>>>>>>
-> >>>>>>>>> Hmm, this would need this patch 'v4l2-ctrls: add support for V4=
-L2_CTRL_WHICH_MIN/MAX_VAL':
-> >>>>>>>>>
-> >>>>>>>>> https://patchwork.linuxtv.org/project/linux-media/patch/2023101=
-0022136.1504015-7-yunkec@google.com/
-> >>>>>>>>>
-> >>>>>>>>> since min and max values are perfectly fine for a fixed point v=
-alue.
-> >>>>>>>>>
-> >>>>>>>>> Even a step value (currently not supported in that patch) would=
- make sense.
-> >>>>>>>>>
-> >>>>>>>>> But I wonder if we couldn't simplify this: instead of creating =
-a v4l2_ctrl_fixed_point,
-> >>>>>>>>> why not represent the fixed point value as a Q31.32. Then the s=
-tandard
-> >>>>>>>>> minimum/maximum/step values can be used, and it acts like a reg=
-ular V4L2_TYPE_INTEGER64.
-> >>>>>>>>>
-> >>>>>>>>> Except that both userspace and drivers need to multiply it with=
- 2^-32 to get the actual
-> >>>>>>>>> value.
-> >>>>>>>>>
-> >>>>>>>>> So in enum v4l2_ctrl_type add:
-> >>>>>>>>>
-> >>>>>>>>>         V4L2_CTRL_TYPE_FIXED_POINT =3D 10,
-> >>>>>>>>>
-> >>>>>>>>> (10, because it is no longer a compound type).
-> >>>>>>>>
-> >>>>>>>> Seems we don't need V4L2_CTRL_TYPE_FIXED_POINT, just use V4L2_TY=
-PE_INTEGER64?
-> >>>>>>>>
-> >>>>>>>> The reason I use the 'integer' and 'fractional' is that I want
-> >>>>>>>> 'integer' to be the normal sample
-> >>>>>>>> rate, for example 48kHz.  The 'fractional' is the difference wit=
-h
-> >>>>>>>> normal sample rate.
-> >>>>>>>>
-> >>>>>>>> For example, the rate =3D 47998.12345.  so integer =3D 48000,  f=
-ractional=3D -1.87655.
-> >>>>>>>>
-> >>>>>>>> So if we use s64 for rate, then in driver need to convert the ra=
-te to
-> >>>>>>>> the closed normal
-> >>>>>>>> sample rate + fractional.
-> >>>>>>>
-> >>>>>>> That wasn't what the documentation said :-)
-> >>>>>>>
-> >>>>>>> So this is really two controls: one for the 'normal sample rate' =
-(whatever 'normal'
-> >>>>>>> means in this context) and the offset to the actual sample rate.
-> >>>>>>>
-> >>>>>>> Presumably the 'normal' sample rate is set once, while the offset=
- changes
-> >>>>>>> regularly.
-> >>>>>>>
-> >>>>>>> But why do you need the 'normal' sample rate? With audio resampli=
-ng I assume
-> >>>>>>> you resample from one rate to another, so why do you need a third=
- 'normal'
-> >>>>>>> rate?
-> >>>>>>>
-> >>>>>>
-> >>>>>> 'Normal' rate is used to select the prefilter table.
-> >>>>>>
-> >>>>>
-> >>>>> Currently I think we may define
-> >>>>> V4L2_CID_M2M_AUDIO_SOURCE_RATE
-> >>>>> V4L2_CID_M2M_AUDIO_DEST_RATE
-> >>>>
-> >>>> That makes sense.
-> >>>>
-> >>>>> V4L2_CID_M2M_AUDIO_ASRC_RATIO_MOD
-> >>>>
-> >>>> OK, can you document this control? Just write it down in the reply, =
-I just want
-> >>>> to understand how the integer value you set here is used.
-> >>>>
-> >>>
-> >>> It is Q31 value.   It is equal to:
-> >>> in_rate_new / out_rate_new -  in_rate_old / out_rate_old
-> >>
-> >> So that's not an integer. Also, Q31 is limited to -1...1, and I think
-> >> that's too limiting.
-> >>
-> >> For this having a Q31.32 fixed point type still makes a lot of sense.
-> >>
-> >> I still feel this is a overly complicated API.
-> >>
-> >> See more below...
-> >>
-> >>>
-> >>> Best regards
-> >>> Wang shengjiu
-> >>>
-> >>>> Regards,
-> >>>>
-> >>>>         Hans
-> >>>>
-> >>>>>
-> >>>>> All of them can be V4L2_CTRL_TYPE_INTEGER.
-> >>>>>
-> >>>>> RATIO_MOD was defined in the very beginning version.
-> >>>>> I think it is better to let users calculate this value.
-> >>>>>
-> >>>>> The reason is:
-> >>>>> if we define the offset for source rate and dest rate in
-> >>>>> driver separately,  when offset of source rate is set,
-> >>>>> driver don't know if it needs to wait or not the dest rate
-> >>>>> offset,  then go to calculate the ratio_mod.
-> >>
-> >> Ah, in order to update the ratio mod userspace needs to set both sourc=
-e and
-> >> dest rate at the same time to avoid race conditions.
-> >>
-> >> That is perfectly possible in the V4L2 control framework. See:
-> >>
-> >> https://linuxtv.org/downloads/v4l-dvb-apis-new/driver-api/v4l2-control=
-s.html#control-clusters
-> >>
-> >> In practice, isn't it likely that you would fix either the source or
-> >> destination rate, and let the other rate fluctuate? It kind of feels w=
-eird
-> >> to me that both source AND destination rates can fluctuate over time.
-> >>
-> > Right, the source and dest rates needn't change in same time.
-> >
-> >> In any case, with a control cluster it doesn't really matter, you can =
-set
-> >> one rate or both rates, and it will be handled atomically.
-> >>
-> >> I feel that the RATIO_MOD control is too hardware specific. This is so=
-mething
-> >> that should be hidden in the driver.
-> >>
-> >
-> > I will use:
-> >
-> > V4L2_CID_M2M_AUDIO_SOURCE_RATE
-> > V4L2_CID_M2M_AUDIO_DEST_RATE
-> > V4L2_CID_M2M_AUDIO_SOURCE_RATE_OFFSET
-> > V4L2_CID_M2M_AUDIO_DEST_RATE_OFFSET
-> >
-> > 'OFFSET' is V4L2_CTRL_TYPE_FIXED_POINT, which is Q31.32.
->
-> So now I come back to my original question: why do you need both
-> the rate and the offset? Isn't it enough to set just the rates,
-> as long as that is in fixed point format?
->
-> Why does the driver need both the 'ideal' rate + the offset?
->
-> I'm not opposed to this, I'm just trying to understand whether this
-> makes sense.
->
-> Can't you take e.g. the source and dest rate as starting points
-> when you start streaming? And every time userspace updates one or both
-> of these rates you calculate the ratio_mod compared to the previous rates=
-?
->
-> Or is there a reason why you need the ideal rates as well? E.g. 48000 or
-> 44100, etc.
->
+Hi Sean,
 
-ideal rates is used to select prefilter table. the prefilter table is index=
-ed by
-ideal rates.
+On 10/17/23 11:17, Sean Young wrote:
+> Some drivers require sleeping, for example if the pwm device is connected
+> over i2c. The pwm-ir-tx requires precise timing, and sleeping causes havoc
+> with the generated IR signal when sleeping occurs.
+> 
+> This patch makes it possible to use pwm when the driver does not sleep,
+> by introducing the pwm_can_sleep() function.
+> 
+> Signed-off-by: Sean Young <sean@mess.org>
 
-The asrc has two part: prefilter and resampler filter.  The convert ratio i=
-s
-applied to rasampler filter part.
+I have no objection to this patch by itself, but it seems a bit
+of unnecessary churn to change all current callers of pwm_apply_state()
+to a new API.
 
-best regards
-wang shengjiu
+Why not just keep pwm_apply_state() as is and introduce a new
+pwm_apply_state_atomic() for callers which want to apply state
+in a case where sleeping is not allowed ?
+
+Regards,
+
+Hans
+
+
+
+> ---
+>  Documentation/driver-api/pwm.rst              | 16 +++-
+>  .../gpu/drm/i915/display/intel_backlight.c    |  6 +-
+>  drivers/gpu/drm/solomon/ssd130x.c             |  2 +-
+>  drivers/hwmon/pwm-fan.c                       |  8 +-
+>  drivers/input/misc/da7280.c                   |  4 +-
+>  drivers/input/misc/pwm-beeper.c               |  4 +-
+>  drivers/input/misc/pwm-vibra.c                |  8 +-
+>  drivers/leds/leds-pwm.c                       |  2 +-
+>  drivers/leds/rgb/leds-pwm-multicolor.c        |  4 +-
+>  drivers/media/rc/pwm-ir-tx.c                  |  4 +-
+>  drivers/platform/x86/lenovo-yogabook.c        |  2 +-
+>  drivers/pwm/core.c                            | 75 ++++++++++++++-----
+>  drivers/pwm/pwm-renesas-tpu.c                 |  1 -
+>  drivers/pwm/pwm-twl-led.c                     |  2 +-
+>  drivers/pwm/pwm-vt8500.c                      |  2 +-
+>  drivers/pwm/sysfs.c                           | 10 +--
+>  drivers/regulator/pwm-regulator.c             |  4 +-
+>  drivers/video/backlight/lm3630a_bl.c          |  2 +-
+>  drivers/video/backlight/lp855x_bl.c           |  2 +-
+>  drivers/video/backlight/pwm_bl.c              |  6 +-
+>  drivers/video/fbdev/ssd1307fb.c               |  2 +-
+>  include/linux/pwm.h                           | 57 ++++++++++----
+>  22 files changed, 147 insertions(+), 76 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
+> index 3fdc95f7a1d15..a2fb5f8f6e1f8 100644
+> --- a/Documentation/driver-api/pwm.rst
+> +++ b/Documentation/driver-api/pwm.rst
+> @@ -41,7 +41,15 @@ the getter, devm_pwm_get() and devm_fwnode_pwm_get(), also exist.
+>  
+>  After being requested, a PWM has to be configured using::
+>  
+> -	int pwm_apply_state(struct pwm_device *pwm, struct pwm_state *state);
+> +	int pwm_apply_cansleep(struct pwm_device *pwm, struct pwm_state *state);
+> +
+> +If the PWM support atomic mode, which can be determined with::
+> +
+> +        bool pwm_is_atomic(struct pwm_device *pwm);
+> +
+> +Then the PWM can be configured with::
+> +
+> +	int pwm_apply(struct pwm_device *pwm, struct pwm_state *state);
+>  
+>  This API controls both the PWM period/duty_cycle config and the
+>  enable/disable state.
+> @@ -57,13 +65,13 @@ If supported by the driver, the signal can be optimized, for example to improve
+>  EMI by phase shifting the individual channels of a chip.
+>  
+>  The pwm_config(), pwm_enable() and pwm_disable() functions are just wrappers
+> -around pwm_apply_state() and should not be used if the user wants to change
+> +around pwm_apply_cansleep() and should not be used if the user wants to change
+>  several parameter at once. For example, if you see pwm_config() and
+>  pwm_{enable,disable}() calls in the same function, this probably means you
+> -should switch to pwm_apply_state().
+> +should switch to pwm_apply_cansleep().
+>  
+>  The PWM user API also allows one to query the PWM state that was passed to the
+> -last invocation of pwm_apply_state() using pwm_get_state(). Note this is
+> +last invocation of pwm_apply_cansleep() using pwm_get_state(). Note this is
+>  different to what the driver has actually implemented if the request cannot be
+>  satisfied exactly with the hardware in use. There is currently no way for
+>  consumers to get the actually implemented settings.
+> diff --git a/drivers/gpu/drm/i915/display/intel_backlight.c b/drivers/gpu/drm/i915/display/intel_backlight.c
+> index 2e8f17c045222..cf516190cde8f 100644
+> --- a/drivers/gpu/drm/i915/display/intel_backlight.c
+> +++ b/drivers/gpu/drm/i915/display/intel_backlight.c
+> @@ -274,7 +274,7 @@ static void ext_pwm_set_backlight(const struct drm_connector_state *conn_state,
+>  	struct intel_panel *panel = &to_intel_connector(conn_state->connector)->panel;
+>  
+>  	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
+> -	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+> +	pwm_apply_cansleep(panel->backlight.pwm, &panel->backlight.pwm_state);
+>  }
+>  
+>  static void
+> @@ -427,7 +427,7 @@ static void ext_pwm_disable_backlight(const struct drm_connector_state *old_conn
+>  	intel_backlight_set_pwm_level(old_conn_state, level);
+>  
+>  	panel->backlight.pwm_state.enabled = false;
+> -	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+> +	pwm_apply_cansleep(panel->backlight.pwm, &panel->backlight.pwm_state);
+>  }
+>  
+>  void intel_backlight_disable(const struct drm_connector_state *old_conn_state)
+> @@ -749,7 +749,7 @@ static void ext_pwm_enable_backlight(const struct intel_crtc_state *crtc_state,
+>  
+>  	pwm_set_relative_duty_cycle(&panel->backlight.pwm_state, level, 100);
+>  	panel->backlight.pwm_state.enabled = true;
+> -	pwm_apply_state(panel->backlight.pwm, &panel->backlight.pwm_state);
+> +	pwm_apply_cansleep(panel->backlight.pwm, &panel->backlight.pwm_state);
+>  }
+>  
+>  static void __intel_backlight_enable(const struct intel_crtc_state *crtc_state,
+> diff --git a/drivers/gpu/drm/solomon/ssd130x.c b/drivers/gpu/drm/solomon/ssd130x.c
+> index 5a80b228d18ca..5045966d43039 100644
+> --- a/drivers/gpu/drm/solomon/ssd130x.c
+> +++ b/drivers/gpu/drm/solomon/ssd130x.c
+> @@ -267,7 +267,7 @@ static int ssd130x_pwm_enable(struct ssd130x_device *ssd130x)
+>  
+>  	pwm_init_state(ssd130x->pwm, &pwmstate);
+>  	pwm_set_relative_duty_cycle(&pwmstate, 50, 100);
+> -	pwm_apply_state(ssd130x->pwm, &pwmstate);
+> +	pwm_apply_cansleep(ssd130x->pwm, &pwmstate);
+>  
+>  	/* Enable the PWM */
+>  	pwm_enable(ssd130x->pwm);
+> diff --git a/drivers/hwmon/pwm-fan.c b/drivers/hwmon/pwm-fan.c
+> index 6e4516c2ab894..f68deb1f236b7 100644
+> --- a/drivers/hwmon/pwm-fan.c
+> +++ b/drivers/hwmon/pwm-fan.c
+> @@ -151,7 +151,7 @@ static int pwm_fan_power_on(struct pwm_fan_ctx *ctx)
+>  	}
+>  
+>  	state->enabled = true;
+> -	ret = pwm_apply_state(ctx->pwm, state);
+> +	ret = pwm_apply_cansleep(ctx->pwm, state);
+>  	if (ret) {
+>  		dev_err(ctx->dev, "failed to enable PWM\n");
+>  		goto disable_regulator;
+> @@ -181,7 +181,7 @@ static int pwm_fan_power_off(struct pwm_fan_ctx *ctx)
+>  
+>  	state->enabled = false;
+>  	state->duty_cycle = 0;
+> -	ret = pwm_apply_state(ctx->pwm, state);
+> +	ret = pwm_apply_cansleep(ctx->pwm, state);
+>  	if (ret) {
+>  		dev_err(ctx->dev, "failed to disable PWM\n");
+>  		return ret;
+> @@ -207,7 +207,7 @@ static int  __set_pwm(struct pwm_fan_ctx *ctx, unsigned long pwm)
+>  
+>  		period = state->period;
+>  		state->duty_cycle = DIV_ROUND_UP(pwm * (period - 1), MAX_PWM);
+> -		ret = pwm_apply_state(ctx->pwm, state);
+> +		ret = pwm_apply_cansleep(ctx->pwm, state);
+>  		if (ret)
+>  			return ret;
+>  		ret = pwm_fan_power_on(ctx);
+> @@ -278,7 +278,7 @@ static int pwm_fan_update_enable(struct pwm_fan_ctx *ctx, long val)
+>  						    state,
+>  						    &enable_regulator);
+>  
+> -			pwm_apply_state(ctx->pwm, state);
+> +			pwm_apply_cansleep(ctx->pwm, state);
+>  			pwm_fan_switch_power(ctx, enable_regulator);
+>  			pwm_fan_update_state(ctx, 0);
+>  		}
+> diff --git a/drivers/input/misc/da7280.c b/drivers/input/misc/da7280.c
+> index ce82548916bbc..f10be2cdba803 100644
+> --- a/drivers/input/misc/da7280.c
+> +++ b/drivers/input/misc/da7280.c
+> @@ -352,7 +352,7 @@ static int da7280_haptic_set_pwm(struct da7280_haptic *haptics, bool enabled)
+>  		state.duty_cycle = period_mag_multi;
+>  	}
+>  
+> -	error = pwm_apply_state(haptics->pwm_dev, &state);
+> +	error = pwm_apply_cansleep(haptics->pwm_dev, &state);
+>  	if (error)
+>  		dev_err(haptics->dev, "Failed to apply pwm state: %d\n", error);
+>  
+> @@ -1175,7 +1175,7 @@ static int da7280_probe(struct i2c_client *client)
+>  		/* Sync up PWM state and ensure it is off. */
+>  		pwm_init_state(haptics->pwm_dev, &state);
+>  		state.enabled = false;
+> -		error = pwm_apply_state(haptics->pwm_dev, &state);
+> +		error = pwm_apply_cansleep(haptics->pwm_dev, &state);
+>  		if (error) {
+>  			dev_err(dev, "Failed to apply PWM state: %d\n", error);
+>  			return error;
+> diff --git a/drivers/input/misc/pwm-beeper.c b/drivers/input/misc/pwm-beeper.c
+> index 1e731d8397c6f..1d6c4fb5f0caf 100644
+> --- a/drivers/input/misc/pwm-beeper.c
+> +++ b/drivers/input/misc/pwm-beeper.c
+> @@ -39,7 +39,7 @@ static int pwm_beeper_on(struct pwm_beeper *beeper, unsigned long period)
+>  	state.period = period;
+>  	pwm_set_relative_duty_cycle(&state, 50, 100);
+>  
+> -	error = pwm_apply_state(beeper->pwm, &state);
+> +	error = pwm_apply_cansleep(beeper->pwm, &state);
+>  	if (error)
+>  		return error;
+>  
+> @@ -138,7 +138,7 @@ static int pwm_beeper_probe(struct platform_device *pdev)
+>  	/* Sync up PWM state and ensure it is off. */
+>  	pwm_init_state(beeper->pwm, &state);
+>  	state.enabled = false;
+> -	error = pwm_apply_state(beeper->pwm, &state);
+> +	error = pwm_apply_cansleep(beeper->pwm, &state);
+>  	if (error) {
+>  		dev_err(dev, "failed to apply initial PWM state: %d\n",
+>  			error);
+> diff --git a/drivers/input/misc/pwm-vibra.c b/drivers/input/misc/pwm-vibra.c
+> index acac79c488aa1..6552ce712d8dc 100644
+> --- a/drivers/input/misc/pwm-vibra.c
+> +++ b/drivers/input/misc/pwm-vibra.c
+> @@ -56,7 +56,7 @@ static int pwm_vibrator_start(struct pwm_vibrator *vibrator)
+>  	pwm_set_relative_duty_cycle(&state, vibrator->level, 0xffff);
+>  	state.enabled = true;
+>  
+> -	err = pwm_apply_state(vibrator->pwm, &state);
+> +	err = pwm_apply_cansleep(vibrator->pwm, &state);
+>  	if (err) {
+>  		dev_err(pdev, "failed to apply pwm state: %d\n", err);
+>  		return err;
+> @@ -67,7 +67,7 @@ static int pwm_vibrator_start(struct pwm_vibrator *vibrator)
+>  		state.duty_cycle = vibrator->direction_duty_cycle;
+>  		state.enabled = true;
+>  
+> -		err = pwm_apply_state(vibrator->pwm_dir, &state);
+> +		err = pwm_apply_cansleep(vibrator->pwm_dir, &state);
+>  		if (err) {
+>  			dev_err(pdev, "failed to apply dir-pwm state: %d\n", err);
+>  			pwm_disable(vibrator->pwm);
+> @@ -160,7 +160,7 @@ static int pwm_vibrator_probe(struct platform_device *pdev)
+>  	/* Sync up PWM state and ensure it is off. */
+>  	pwm_init_state(vibrator->pwm, &state);
+>  	state.enabled = false;
+> -	err = pwm_apply_state(vibrator->pwm, &state);
+> +	err = pwm_apply_cansleep(vibrator->pwm, &state);
+>  	if (err) {
+>  		dev_err(&pdev->dev, "failed to apply initial PWM state: %d\n",
+>  			err);
+> @@ -174,7 +174,7 @@ static int pwm_vibrator_probe(struct platform_device *pdev)
+>  		/* Sync up PWM state and ensure it is off. */
+>  		pwm_init_state(vibrator->pwm_dir, &state);
+>  		state.enabled = false;
+> -		err = pwm_apply_state(vibrator->pwm_dir, &state);
+> +		err = pwm_apply_cansleep(vibrator->pwm_dir, &state);
+>  		if (err) {
+>  			dev_err(&pdev->dev, "failed to apply initial PWM state: %d\n",
+>  				err);
+> diff --git a/drivers/leds/leds-pwm.c b/drivers/leds/leds-pwm.c
+> index 419b710984ab6..e1fe1fd8f189a 100644
+> --- a/drivers/leds/leds-pwm.c
+> +++ b/drivers/leds/leds-pwm.c
+> @@ -54,7 +54,7 @@ static int led_pwm_set(struct led_classdev *led_cdev,
+>  
+>  	led_dat->pwmstate.duty_cycle = duty;
+>  	led_dat->pwmstate.enabled = duty > 0;
+> -	return pwm_apply_state(led_dat->pwm, &led_dat->pwmstate);
+> +	return pwm_apply_cansleep(led_dat->pwm, &led_dat->pwmstate);
+>  }
+>  
+>  __attribute__((nonnull))
+> diff --git a/drivers/leds/rgb/leds-pwm-multicolor.c b/drivers/leds/rgb/leds-pwm-multicolor.c
+> index 46cd062b8b24c..8114adcdad9bb 100644
+> --- a/drivers/leds/rgb/leds-pwm-multicolor.c
+> +++ b/drivers/leds/rgb/leds-pwm-multicolor.c
+> @@ -51,8 +51,8 @@ static int led_pwm_mc_set(struct led_classdev *cdev,
+>  
+>  		priv->leds[i].state.duty_cycle = duty;
+>  		priv->leds[i].state.enabled = duty > 0;
+> -		ret = pwm_apply_state(priv->leds[i].pwm,
+> -				      &priv->leds[i].state);
+> +		ret = pwm_apply_cansleep(priv->leds[i].pwm,
+> +					 &priv->leds[i].state);
+>  		if (ret)
+>  			break;
+>  	}
+> diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
+> index c5f37c03af9c9..ccb86890adcea 100644
+> --- a/drivers/media/rc/pwm-ir-tx.c
+> +++ b/drivers/media/rc/pwm-ir-tx.c
+> @@ -68,7 +68,7 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
+>  
+>  	for (i = 0; i < count; i++) {
+>  		state.enabled = !(i % 2);
+> -		pwm_apply_state(pwm, &state);
+> +		pwm_apply_cansleep(pwm, &state);
+>  
+>  		edge = ktime_add_us(edge, txbuf[i]);
+>  		delta = ktime_us_delta(edge, ktime_get());
+> @@ -77,7 +77,7 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
+>  	}
+>  
+>  	state.enabled = false;
+> -	pwm_apply_state(pwm, &state);
+> +	pwm_apply_cansleep(pwm, &state);
+>  
+>  	return count;
+>  }
+> diff --git a/drivers/platform/x86/lenovo-yogabook.c b/drivers/platform/x86/lenovo-yogabook.c
+> index b8d0239192cbf..cbc285f77c2bd 100644
+> --- a/drivers/platform/x86/lenovo-yogabook.c
+> +++ b/drivers/platform/x86/lenovo-yogabook.c
+> @@ -435,7 +435,7 @@ static int yogabook_pdev_set_kbd_backlight(struct yogabook_data *data, u8 level)
+>  		.enabled = level,
+>  	};
+>  
+> -	pwm_apply_state(data->kbd_bl_pwm, &state);
+> +	pwm_apply_cansleep(data->kbd_bl_pwm, &state);
+>  	gpiod_set_value(data->kbd_bl_led_enable, level ? 1 : 0);
+>  	return 0;
+>  }
+> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+> index dc66e3405bf50..99896a59a25aa 100644
+> --- a/drivers/pwm/core.c
+> +++ b/drivers/pwm/core.c
+> @@ -382,8 +382,8 @@ struct pwm_device *pwm_request_from_chip(struct pwm_chip *chip,
+>  }
+>  EXPORT_SYMBOL_GPL(pwm_request_from_chip);
+>  
+> -static void pwm_apply_state_debug(struct pwm_device *pwm,
+> -				  const struct pwm_state *state)
+> +static void pwm_apply_cansleep_debug(struct pwm_device *pwm,
+> +				     const struct pwm_state *state)
+>  {
+>  	struct pwm_state *last = &pwm->last;
+>  	struct pwm_chip *chip = pwm->chip;
+> @@ -489,24 +489,15 @@ static void pwm_apply_state_debug(struct pwm_device *pwm,
+>  }
+>  
+>  /**
+> - * pwm_apply_state() - atomically apply a new state to a PWM device
+> + * pwm_apply_unchecked() - atomically apply a new state to a PWM device
+>   * @pwm: PWM device
+>   * @state: new state to apply
+>   */
+> -int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state)
+> +static int pwm_apply_unchecked(struct pwm_device *pwm, const struct pwm_state *state)
+>  {
+>  	struct pwm_chip *chip;
+>  	int err;
+>  
+> -	/*
+> -	 * Some lowlevel driver's implementations of .apply() make use of
+> -	 * mutexes, also with some drivers only returning when the new
+> -	 * configuration is active calling pwm_apply_state() from atomic context
+> -	 * is a bad idea. So make it explicit that calling this function might
+> -	 * sleep.
+> -	 */
+> -	might_sleep();
+> -
+>  	if (!pwm || !state || !state->period ||
+>  	    state->duty_cycle > state->period)
+>  		return -EINVAL;
+> @@ -527,15 +518,63 @@ int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state)
+>  
+>  	pwm->state = *state;
+>  
+> +	return 0;
+> +}
+> +
+> +/**
+> + * pwm_apply_cansleep() - atomically apply a new state to a PWM device
+> + * Cannot be used in atomic context.
+> + * @pwm: PWM device
+> + * @state: new state to apply
+> + */
+> +int pwm_apply_cansleep(struct pwm_device *pwm, const struct pwm_state *state)
+> +{
+> +	int err;
+> +
+> +	/*
+> +	 * Some lowlevel driver's implementations of .apply() make use of
+> +	 * mutexes, also with some drivers only returning when the new
+> +	 * configuration is active calling pwm_apply_cansleep() from atomic context
+> +	 * is a bad idea. So make it explicit that calling this function might
+> +	 * sleep.
+> +	 */
+> +	might_sleep();
+> +
+> +	if (IS_ENABLED(CONFIG_PWM_DEBUG) && pwm->chip->atomic) {
+> +		/*
+> +		 * Catch any sleeping drivers when atomic is set.
+> +		 */
+> +		non_block_start();
+> +		err = pwm_apply_unchecked(pwm, state);
+> +		non_block_end();
+> +	} else {
+> +		err = pwm_apply_unchecked(pwm, state);
+> +	}
+> +
+>  	/*
+>  	 * only do this after pwm->state was applied as some
+>  	 * implementations of .get_state depend on this
+>  	 */
+> -	pwm_apply_state_debug(pwm, state);
+> +	pwm_apply_cansleep_debug(pwm, state);
+>  
+> -	return 0;
+> +	return err;
+> +}
+> +EXPORT_SYMBOL_GPL(pwm_apply_cansleep);
+> +
+> +/**
+> + * pwm_apply() - atomically apply a new state to a PWM device
+> + * Can be used from atomic context.
+> + * @pwm: PWM device
+> + * @state: new state to apply
+> + */
+> +int pwm_apply(struct pwm_device *pwm, const struct pwm_state *state)
+> +{
+> +	WARN_ONCE(!pwm->chip->atomic,
+> +		  "sleeping pwm driver used in atomic context");
+> +
+> +	return pwm_apply_unchecked(pwm, state);
+>  }
+> -EXPORT_SYMBOL_GPL(pwm_apply_state);
+> +EXPORT_SYMBOL_GPL(pwm_apply);
+>  
+>  /**
+>   * pwm_capture() - capture and report a PWM signal
+> @@ -593,7 +632,7 @@ int pwm_adjust_config(struct pwm_device *pwm)
+>  		state.period = pargs.period;
+>  		state.polarity = pargs.polarity;
+>  
+> -		return pwm_apply_state(pwm, &state);
+> +		return pwm_apply_cansleep(pwm, &state);
+>  	}
+>  
+>  	/*
+> @@ -616,7 +655,7 @@ int pwm_adjust_config(struct pwm_device *pwm)
+>  		state.duty_cycle = state.period - state.duty_cycle;
+>  	}
+>  
+> -	return pwm_apply_state(pwm, &state);
+> +	return pwm_apply_cansleep(pwm, &state);
+>  }
+>  EXPORT_SYMBOL_GPL(pwm_adjust_config);
+>  
+> diff --git a/drivers/pwm/pwm-renesas-tpu.c b/drivers/pwm/pwm-renesas-tpu.c
+> index d7311614c846d..96797a33d8c62 100644
+> --- a/drivers/pwm/pwm-renesas-tpu.c
+> +++ b/drivers/pwm/pwm-renesas-tpu.c
+> @@ -11,7 +11,6 @@
+>  #include <linux/init.h>
+>  #include <linux/ioport.h>
+>  #include <linux/module.h>
+> -#include <linux/mutex.h>
+>  #include <linux/of.h>
+>  #include <linux/platform_device.h>
+>  #include <linux/pm_runtime.h>
+> diff --git a/drivers/pwm/pwm-twl-led.c b/drivers/pwm/pwm-twl-led.c
+> index 8fb84b4418538..a1fc2fa0d03e0 100644
+> --- a/drivers/pwm/pwm-twl-led.c
+> +++ b/drivers/pwm/pwm-twl-led.c
+> @@ -172,7 +172,7 @@ static int twl4030_pwmled_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>  	 * We cannot skip calling ->config even if state->period ==
+>  	 * pwm->state.period && state->duty_cycle == pwm->state.duty_cycle
+>  	 * because we might have exited early in the last call to
+> -	 * pwm_apply_state because of !state->enabled and so the two values in
+> +	 * pwm_apply_cansleep because of !state->enabled and so the two values in
+>  	 * pwm->state might not be configured in hardware.
+>  	 */
+>  	ret = twl4030_pwmled_config(pwm->chip, pwm,
+> diff --git a/drivers/pwm/pwm-vt8500.c b/drivers/pwm/pwm-vt8500.c
+> index 6d46db51daacc..3a815dfbf31ce 100644
+> --- a/drivers/pwm/pwm-vt8500.c
+> +++ b/drivers/pwm/pwm-vt8500.c
+> @@ -206,7 +206,7 @@ static int vt8500_pwm_apply(struct pwm_chip *chip, struct pwm_device *pwm,
+>  	 * We cannot skip calling ->config even if state->period ==
+>  	 * pwm->state.period && state->duty_cycle == pwm->state.duty_cycle
+>  	 * because we might have exited early in the last call to
+> -	 * pwm_apply_state because of !state->enabled and so the two values in
+> +	 * pwm_apply_cansleep because of !state->enabled and so the two values in
+>  	 * pwm->state might not be configured in hardware.
+>  	 */
+>  	err = vt8500_pwm_config(pwm->chip, pwm, state->duty_cycle, state->period);
+> diff --git a/drivers/pwm/sysfs.c b/drivers/pwm/sysfs.c
+> index 8d1254761e4dd..eca9cad3be765 100644
+> --- a/drivers/pwm/sysfs.c
+> +++ b/drivers/pwm/sysfs.c
+> @@ -62,7 +62,7 @@ static ssize_t period_store(struct device *child,
+>  	mutex_lock(&export->lock);
+>  	pwm_get_state(pwm, &state);
+>  	state.period = val;
+> -	ret = pwm_apply_state(pwm, &state);
+> +	ret = pwm_apply_cansleep(pwm, &state);
+>  	mutex_unlock(&export->lock);
+>  
+>  	return ret ? : size;
+> @@ -97,7 +97,7 @@ static ssize_t duty_cycle_store(struct device *child,
+>  	mutex_lock(&export->lock);
+>  	pwm_get_state(pwm, &state);
+>  	state.duty_cycle = val;
+> -	ret = pwm_apply_state(pwm, &state);
+> +	ret = pwm_apply_cansleep(pwm, &state);
+>  	mutex_unlock(&export->lock);
+>  
+>  	return ret ? : size;
+> @@ -144,7 +144,7 @@ static ssize_t enable_store(struct device *child,
+>  		goto unlock;
+>  	}
+>  
+> -	ret = pwm_apply_state(pwm, &state);
+> +	ret = pwm_apply_cansleep(pwm, &state);
+>  
+>  unlock:
+>  	mutex_unlock(&export->lock);
+> @@ -194,7 +194,7 @@ static ssize_t polarity_store(struct device *child,
+>  	mutex_lock(&export->lock);
+>  	pwm_get_state(pwm, &state);
+>  	state.polarity = polarity;
+> -	ret = pwm_apply_state(pwm, &state);
+> +	ret = pwm_apply_cansleep(pwm, &state);
+>  	mutex_unlock(&export->lock);
+>  
+>  	return ret ? : size;
+> @@ -401,7 +401,7 @@ static int pwm_class_apply_state(struct pwm_export *export,
+>  				 struct pwm_device *pwm,
+>  				 struct pwm_state *state)
+>  {
+> -	int ret = pwm_apply_state(pwm, state);
+> +	int ret = pwm_apply_cansleep(pwm, state);
+>  
+>  	/* release lock taken in pwm_class_get_state */
+>  	mutex_unlock(&export->lock);
+> diff --git a/drivers/regulator/pwm-regulator.c b/drivers/regulator/pwm-regulator.c
+> index 2aff6db748e2c..c19d37a479d43 100644
+> --- a/drivers/regulator/pwm-regulator.c
+> +++ b/drivers/regulator/pwm-regulator.c
+> @@ -90,7 +90,7 @@ static int pwm_regulator_set_voltage_sel(struct regulator_dev *rdev,
+>  	pwm_set_relative_duty_cycle(&pstate,
+>  			drvdata->duty_cycle_table[selector].dutycycle, 100);
+>  
+> -	ret = pwm_apply_state(drvdata->pwm, &pstate);
+> +	ret = pwm_apply_cansleep(drvdata->pwm, &pstate);
+>  	if (ret) {
+>  		dev_err(&rdev->dev, "Failed to configure PWM: %d\n", ret);
+>  		return ret;
+> @@ -216,7 +216,7 @@ static int pwm_regulator_set_voltage(struct regulator_dev *rdev,
+>  
+>  	pwm_set_relative_duty_cycle(&pstate, dutycycle, duty_unit);
+>  
+> -	ret = pwm_apply_state(drvdata->pwm, &pstate);
+> +	ret = pwm_apply_cansleep(drvdata->pwm, &pstate);
+>  	if (ret) {
+>  		dev_err(&rdev->dev, "Failed to configure PWM: %d\n", ret);
+>  		return ret;
+> diff --git a/drivers/video/backlight/lm3630a_bl.c b/drivers/video/backlight/lm3630a_bl.c
+> index 8fcb62be597b8..5cb702989ef61 100644
+> --- a/drivers/video/backlight/lm3630a_bl.c
+> +++ b/drivers/video/backlight/lm3630a_bl.c
+> @@ -180,7 +180,7 @@ static int lm3630a_pwm_ctrl(struct lm3630a_chip *pchip, int br, int br_max)
+>  
+>  	pchip->pwmd_state.enabled = pchip->pwmd_state.duty_cycle ? true : false;
+>  
+> -	return pwm_apply_state(pchip->pwmd, &pchip->pwmd_state);
+> +	return pwm_apply_cansleep(pchip->pwmd, &pchip->pwmd_state);
+>  }
+>  
+>  /* update and get brightness */
+> diff --git a/drivers/video/backlight/lp855x_bl.c b/drivers/video/backlight/lp855x_bl.c
+> index da1f124db69c0..b7edbaaa169a4 100644
+> --- a/drivers/video/backlight/lp855x_bl.c
+> +++ b/drivers/video/backlight/lp855x_bl.c
+> @@ -234,7 +234,7 @@ static int lp855x_pwm_ctrl(struct lp855x *lp, int br, int max_br)
+>  	state.duty_cycle = div_u64(br * state.period, max_br);
+>  	state.enabled = state.duty_cycle;
+>  
+> -	return pwm_apply_state(lp->pwm, &state);
+> +	return pwm_apply_cansleep(lp->pwm, &state);
+>  }
+>  
+>  static int lp855x_bl_update_status(struct backlight_device *bl)
+> diff --git a/drivers/video/backlight/pwm_bl.c b/drivers/video/backlight/pwm_bl.c
+> index a51fbab963680..f2568aaae4769 100644
+> --- a/drivers/video/backlight/pwm_bl.c
+> +++ b/drivers/video/backlight/pwm_bl.c
+> @@ -103,7 +103,7 @@ static int pwm_backlight_update_status(struct backlight_device *bl)
+>  		pwm_get_state(pb->pwm, &state);
+>  		state.duty_cycle = compute_duty_cycle(pb, brightness, &state);
+>  		state.enabled = true;
+> -		pwm_apply_state(pb->pwm, &state);
+> +		pwm_apply_cansleep(pb->pwm, &state);
+>  
+>  		pwm_backlight_power_on(pb);
+>  	} else {
+> @@ -120,7 +120,7 @@ static int pwm_backlight_update_status(struct backlight_device *bl)
+>  		 * inactive output.
+>  		 */
+>  		state.enabled = !pb->power_supply && !pb->enable_gpio;
+> -		pwm_apply_state(pb->pwm, &state);
+> +		pwm_apply_cansleep(pb->pwm, &state);
+>  	}
+>  
+>  	if (pb->notify_after)
+> @@ -528,7 +528,7 @@ static int pwm_backlight_probe(struct platform_device *pdev)
+>  	if (!state.period && (data->pwm_period_ns > 0))
+>  		state.period = data->pwm_period_ns;
+>  
+> -	ret = pwm_apply_state(pb->pwm, &state);
+> +	ret = pwm_apply_cansleep(pb->pwm, &state);
+>  	if (ret) {
+>  		dev_err(&pdev->dev, "failed to apply initial PWM state: %d\n",
+>  			ret);
+> diff --git a/drivers/video/fbdev/ssd1307fb.c b/drivers/video/fbdev/ssd1307fb.c
+> index 5ae48e36fccb4..e5cca01af55f3 100644
+> --- a/drivers/video/fbdev/ssd1307fb.c
+> +++ b/drivers/video/fbdev/ssd1307fb.c
+> @@ -347,7 +347,7 @@ static int ssd1307fb_init(struct ssd1307fb_par *par)
+>  
+>  		pwm_init_state(par->pwm, &pwmstate);
+>  		pwm_set_relative_duty_cycle(&pwmstate, 50, 100);
+> -		pwm_apply_state(par->pwm, &pwmstate);
+> +		pwm_apply_cansleep(par->pwm, &pwmstate);
+>  
+>  		/* Enable the PWM */
+>  		pwm_enable(par->pwm);
+> diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+> index d2f9f690a9c14..373b5a4fe27dc 100644
+> --- a/include/linux/pwm.h
+> +++ b/include/linux/pwm.h
+> @@ -95,8 +95,8 @@ struct pwm_device {
+>   * @state: state to fill with the current PWM state
+>   *
+>   * The returned PWM state represents the state that was applied by a previous call to
+> - * pwm_apply_state(). Drivers may have to slightly tweak that state before programming it to
+> - * hardware. If pwm_apply_state() was never called, this returns either the current hardware
+> + * pwm_apply_cansleep(). Drivers may have to slightly tweak that state before programming it to
+> + * hardware. If pwm_apply_cansleep() was never called, this returns either the current hardware
+>   * state (if supported) or the default settings.
+>   */
+>  static inline void pwm_get_state(const struct pwm_device *pwm,
+> @@ -160,20 +160,20 @@ static inline void pwm_get_args(const struct pwm_device *pwm,
+>  }
+>  
+>  /**
+> - * pwm_init_state() - prepare a new state to be applied with pwm_apply_state()
+> + * pwm_init_state() - prepare a new state to be applied with pwm_apply_cansleep()
+>   * @pwm: PWM device
+>   * @state: state to fill with the prepared PWM state
+>   *
+>   * This functions prepares a state that can later be tweaked and applied
+> - * to the PWM device with pwm_apply_state(). This is a convenient function
+> + * to the PWM device with pwm_apply_cansleep(). This is a convenient function
+>   * that first retrieves the current PWM state and the replaces the period
+>   * and polarity fields with the reference values defined in pwm->args.
+>   * Once the function returns, you can adjust the ->enabled and ->duty_cycle
+> - * fields according to your needs before calling pwm_apply_state().
+> + * fields according to your needs before calling pwm_apply_cansleep().
+>   *
+>   * ->duty_cycle is initially set to zero to avoid cases where the current
+>   * ->duty_cycle value exceed the pwm_args->period one, which would trigger
+> - * an error if the user calls pwm_apply_state() without adjusting ->duty_cycle
+> + * an error if the user calls pwm_apply_cansleep() without adjusting ->duty_cycle
+>   * first.
+>   */
+>  static inline void pwm_init_state(const struct pwm_device *pwm,
+> @@ -229,7 +229,7 @@ pwm_get_relative_duty_cycle(const struct pwm_state *state, unsigned int scale)
+>   *
+>   * pwm_init_state(pwm, &state);
+>   * pwm_set_relative_duty_cycle(&state, 50, 100);
+> - * pwm_apply_state(pwm, &state);
+> + * pwm_apply_cansleep(pwm, &state);
+>   *
+>   * This functions returns -EINVAL if @duty_cycle and/or @scale are
+>   * inconsistent (@scale == 0 or @duty_cycle > @scale).
+> @@ -289,6 +289,7 @@ struct pwm_ops {
+>   * @npwm: number of PWMs controlled by this chip
+>   * @of_xlate: request a PWM device given a device tree PWM specifier
+>   * @of_pwm_n_cells: number of cells expected in the device tree PWM specifier
+> + * @atomic: can the driver execute pwm_apply_cansleep in atomic context
+>   * @list: list node for internal use
+>   * @pwms: array of PWM devices allocated by the framework
+>   */
+> @@ -301,6 +302,7 @@ struct pwm_chip {
+>  	struct pwm_device * (*of_xlate)(struct pwm_chip *chip,
+>  					const struct of_phandle_args *args);
+>  	unsigned int of_pwm_n_cells;
+> +	bool atomic;
+>  
+>  	/* only used internally by the PWM framework */
+>  	struct list_head list;
+> @@ -309,7 +311,8 @@ struct pwm_chip {
+>  
+>  #if IS_ENABLED(CONFIG_PWM)
+>  /* PWM user APIs */
+> -int pwm_apply_state(struct pwm_device *pwm, const struct pwm_state *state);
+> +int pwm_apply_cansleep(struct pwm_device *pwm, const struct pwm_state *state);
+> +int pwm_apply(struct pwm_device *pwm, const struct pwm_state *state);
+>  int pwm_adjust_config(struct pwm_device *pwm);
+>  
+>  /**
+> @@ -337,7 +340,7 @@ static inline int pwm_config(struct pwm_device *pwm, int duty_ns,
+>  
+>  	state.duty_cycle = duty_ns;
+>  	state.period = period_ns;
+> -	return pwm_apply_state(pwm, &state);
+> +	return pwm_apply_cansleep(pwm, &state);
+>  }
+>  
+>  /**
+> @@ -358,7 +361,7 @@ static inline int pwm_enable(struct pwm_device *pwm)
+>  		return 0;
+>  
+>  	state.enabled = true;
+> -	return pwm_apply_state(pwm, &state);
+> +	return pwm_apply_cansleep(pwm, &state);
+>  }
+>  
+>  /**
+> @@ -377,7 +380,18 @@ static inline void pwm_disable(struct pwm_device *pwm)
+>  		return;
+>  
+>  	state.enabled = false;
+> -	pwm_apply_state(pwm, &state);
+> +	pwm_apply_cansleep(pwm, &state);
+> +}
+> +
+> +/**
+> + * pwm_is_atomic() - is pwm_apply() supported?
+> + * @pwm: PWM device
+> + *
+> + * Returns: true pwm_apply() can be called from atomic context.
+> + */
+> +static inline bool pwm_is_atomic(struct pwm_device *pwm)
+> +{
+> +	return pwm->chip->atomic;
+>  }
+>  
+>  /* PWM provider APIs */
+> @@ -408,16 +422,27 @@ struct pwm_device *devm_fwnode_pwm_get(struct device *dev,
+>  				       struct fwnode_handle *fwnode,
+>  				       const char *con_id);
+>  #else
+> -static inline int pwm_apply_state(struct pwm_device *pwm,
+> -				  const struct pwm_state *state)
+> +static inline bool pwm_is_atomic(struct pwm_device *pwm)
+> +{
+> +	return false;
+> +}
+> +
+> +static inline int pwm_apply_cansleep(struct pwm_device *pwm,
+> +				     const struct pwm_state *state)
+>  {
+>  	might_sleep();
+> -	return -ENOTSUPP;
+> +	return -EOPNOTSUPP;
+> +}
+> +
+> +static inline int pwm_apply(struct pwm_device *pwm,
+> +			    const struct pwm_state *state)
+> +{
+> +	return -EOPNOTSUPP;
+>  }
+>  
+>  static inline int pwm_adjust_config(struct pwm_device *pwm)
+>  {
+> -	return -ENOTSUPP;
+> +	return -EOPNOTSUPP;
+>  }
+>  
+>  static inline int pwm_config(struct pwm_device *pwm, int duty_ns,
+> @@ -536,7 +561,7 @@ static inline void pwm_apply_args(struct pwm_device *pwm)
+>  	state.period = pwm->args.period;
+>  	state.usage_power = false;
+>  
+> -	pwm_apply_state(pwm, &state);
+> +	pwm_apply_cansleep(pwm, &state);
+>  }
+>  
+>  struct pwm_lookup {
+
