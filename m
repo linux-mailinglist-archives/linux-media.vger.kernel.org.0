@@ -2,147 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D0E687CE09E
-	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 17:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D55817CE51B
+	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 19:43:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344678AbjJRPCL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 11:02:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32796 "EHLO
+        id S232471AbjJRRnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Oct 2023 13:43:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56224 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229552AbjJRPCK (ORCPT
+        with ESMTP id S232475AbjJRRmo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 11:02:10 -0400
-Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4AB994
-        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 08:02:08 -0700 (PDT)
-Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9c5b313b3ffso357592766b.0
-        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 08:02:08 -0700 (PDT)
+        Wed, 18 Oct 2023 13:42:44 -0400
+Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC517D56;
+        Wed, 18 Oct 2023 10:42:08 -0700 (PDT)
+Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-6bd96cfb99cso3032440b3a.2;
+        Wed, 18 Oct 2023 10:42:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697641327; x=1698246127; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=c/6U3CyTHsUumkRwVEzUp6LhHWqIJdrCtLCaAe6x3O4=;
-        b=kBpWYS8AknMpboaFQrSQLGVq30Pqq+1SYow2jq+j4TTqMxgKMwb02u9aszLhYzJ7Bo
-         B3jQJdToE5qc8weBvDLSKtASz2vWgWmkrNOba4KfpbSJniAPLVcQjjVaxU42f6Bx73L2
-         4bDpPrGKRBlOL2pFRFoiyIP4VPFL1G/lgQEEQL5UfcDfGpeyFtrEOl7iaNBFhmSMrDhD
-         5Xg0ySo+iNZdgsVMW3zVnUDryRYKTK8U7tZHDpevWoPJA0pTp7WiFeQZwy61hZqddjm0
-         4YNv5ZDJHFINh72ZoQ3cQWzHq56CyPdKm3u8TcHZE0jaWVEPZrUNsN5x31CsnbF/4R7d
-         G3EA==
+        d=gmail.com; s=20230601; t=1697650928; x=1698255728; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dKaWOPnAN5si+yKYBlPOMxbvgqGw6FhfRCUPuhXRLW4=;
+        b=DJ2Flso8Fhadvkiy9PtnH9bJCHhUqGXXhJZQR3Wp4lnxs78jHryj6CaczQkQucQJws
+         8PeAkB7ushmkG6WMxnPBo6xX5NA8iarpJmQUneL3PxIlaMtG+Fu0u8doIgbOWEjt39hw
+         d89td4OuQjaWZdgevRP3Eji4L0NNqF2sXwGG5Oj/r1tTPyULiL0G4/Cl2KH+JbXPATOb
+         p8WIcgeEYqU1+GFu4Lz6cWxVoSuObaFKpkGPqOqJTPZwPfObSTmpPkKw6PsU6pUKQQQN
+         fB76JWOsaQHRI+3rIQPZx7d8WBNuNx2YXt8OJdIdGmrJdCmnha5Hz9FQpt4l5sFj31T0
+         /yrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697641327; x=1698246127;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c/6U3CyTHsUumkRwVEzUp6LhHWqIJdrCtLCaAe6x3O4=;
-        b=BcfDnxIaQodSx3ky1RWilwWuymbtnUSDQNCRCVX5nn36ytB/XR4XzXgals67DVa9hG
-         GRGyoDHaZj5Qc6gPIHcad1h9+3MLPwh/2bH/a8MYxhSNJ9aBJgZ+a2aSmOpRpNjDNqnO
-         7apm/EuCyWA4TTynU7PzJYqgsZsHOm6JnkcsMkGCmEXjC+wGoveA/bStGky7WllcLtkQ
-         V11DplkIVRXhPjQDWOwQxo99b1Gp96e0lHoe00CoFvVvYI6h5Junx8TOJyxsMJolMp0M
-         VHngn9GpER9IxUpRzLDw7eS8m0Y96wwnUdPFMbNjDjfReNG4LpCdPB91yC0AjWj/w5yg
-         LEOw==
-X-Gm-Message-State: AOJu0YyQZTEu2Rd/r/hsy/u/DuOb8KO9DuEI3WfSMuoE2uEmdtB3fnrv
-        5I637Nr34X9hxVtRjTirtqpDdg==
-X-Google-Smtp-Source: AGHT+IE3OlhK3yZLEyeqqWkWDudcB9XOKu6IPuZGwzCKcn122W9X0vhLGEEOIpOYVvV2M/qzdu3Cfw==
-X-Received: by 2002:a17:907:9348:b0:9ae:5212:e3b with SMTP id bv8-20020a170907934800b009ae52120e3bmr4175327ejc.5.1697641327276;
-        Wed, 18 Oct 2023 08:02:07 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.219.154])
-        by smtp.gmail.com with ESMTPSA id j18-20020a170906535200b009ad778a68c5sm1891851ejo.60.2023.10.18.08.02.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 18 Oct 2023 08:02:06 -0700 (PDT)
-Message-ID: <148d4c89-0110-422d-adb7-0f8660505190@linaro.org>
-Date:   Wed, 18 Oct 2023 17:02:05 +0200
+        d=1e100.net; s=20230601; t=1697650928; x=1698255728;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dKaWOPnAN5si+yKYBlPOMxbvgqGw6FhfRCUPuhXRLW4=;
+        b=RZ9OT9IeY64ArMVSrfwryDdzgfcTa8fC2Ymri3yDYccV1yYzsC4Lq7BWxy0NonvZgp
+         i+11OLsw+7kqLAd9FdcU6ZGi5shKD0m9Sqlngx+298OJIqw/2lPqCI1KwIFJv8gnsEok
+         C2uw5VLU0khsLdKI5oRxulksmMUfSPs9S3nyIR0va3YoMpCV+h7QIclAq9uHSJAa362P
+         NEjI9wlsweas0SLgSSX3C6OGh+XGit7wBbi/THiPt44DdNEEQmgcgKfjmNMqSqDY3C/t
+         Nv2xj/foFQGe9Hgvi41Q/7W2/lqHrc6gqdaPKwhzmRF/G/Amnt2nBREm+3mBXzciTymz
+         B3pw==
+X-Gm-Message-State: AOJu0YwRcEOAEAXZ2xDYe68aNkZeb5ki4fjiPG9KJwb6Y9YKoZQBqNdU
+        dSVCFC4sYnltlgxycCKBdIzjJabkB17bFW5RSJyfKYjs
+X-Google-Smtp-Source: AGHT+IEjXdG0uazktIdJ2eY6IhbN0NzOFSm9EJCpnpHhp0AWWgfdJLWXmtsXSGCki65me2aNbLPA8vfrpKQqWto4VAA=
+X-Received: by 2002:a05:6a21:7906:b0:16b:d137:de5a with SMTP id
+ bg6-20020a056a21790600b0016bd137de5amr5314040pzc.28.1697650928075; Wed, 18
+ Oct 2023 10:42:08 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] dt-bindings: media: Add bindings for THine THP7312
- ISP
-Content-Language: en-US
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Paul Elder <paul.elder@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+References: <20221118093931.1284465-1-paul.elder@ideasonboard.com> <20221118093931.1284465-5-paul.elder@ideasonboard.com>
+In-Reply-To: <20221118093931.1284465-5-paul.elder@ideasonboard.com>
+From:   Adam Ford <aford173@gmail.com>
+Date:   Wed, 18 Oct 2023 12:41:56 -0500
+Message-ID: <CAHCN7xJcKw5RRS0siyYEwJws049YFkh-zkyRQJsb8dgiLVoh3A@mail.gmail.com>
+Subject: Re: [PATCH v3 04/14] media: rkisp1: Add match data for i.MX8MP ISP
+To:     Paul Elder <paul.elder@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Julien Stephan <jstephan@baylibre.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>, devicetree@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-References: <20231017132103.9914-1-laurent.pinchart@ideasonboard.com>
- <20231017132103.9914-2-laurent.pinchart@ideasonboard.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231017132103.9914-2-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        Heiko Stuebner <heiko@sntech.de>,
+        Helen Koike <helen.koike@collabora.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
+        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/10/2023 15:21, Laurent Pinchart wrote:
-> From: Paul Elder <paul.elder@ideasonboard.com>
-> 
-> The THP7312 is an external ISP from THine. Add DT bindings for it.
-> 
+On Fri, Nov 18, 2022 at 3:44=E2=80=AFAM Paul Elder <paul.elder@ideasonboard=
+.com> wrote:
+>
+> Add match data to the rkisp1 driver to match the i.MX8MP ISP.
+>
+> Although the new version number isn't very precise, it ought to be fine
+> as the other version numbers aren't precise either, and we have separate
+> feature flags for important version-specific features. Despite this
+> version number being seemingly unimportant, it is added to distinguish
+> it from the ISP versions integrated in rockchip SoCs.
+>
 > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+>
+
+Paul,
+
+It's been nearly a year since this commit was sent.  I noticed it
+hasn't been applied, and I was curious to know if there is any
+movement here?  I'm happy to test on my 8MP if necessary.
+
+Thanks!
+
+adam
+
 > ---
-> Changes since v2:
-> 
-
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
-Best regards,
-Krzysztof
-
+> Changes in v3:
+> - Remove todo for improving the version number
+> - Expand the commit message to address the version number
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 22 +++++++++++++++++++
+>  include/uapi/linux/rkisp1-config.h            |  2 ++
+>  2 files changed, 24 insertions(+)
+>
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/driver=
+s/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index e348d8c86861..69464ce91d59 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -496,6 +496,24 @@ static const struct rkisp1_info rk3399_isp_info =3D =
+{
+>         .features =3D RKISP1_FEATURE_MIPI_CSI2,
+>  };
+>
+> +static const char * const imx8mp_isp_clks[] =3D {
+> +       "isp",
+> +       "hclk",
+> +       "aclk",
+> +};
+> +
+> +static const struct rkisp1_isr_data imx8mp_isp_isrs[] =3D {
+> +       { NULL, rkisp1_isr },
+> +};
+> +
+> +static const struct rkisp1_info imx8mp_isp_info =3D {
+> +       .clks =3D imx8mp_isp_clks,
+> +       .clk_size =3D ARRAY_SIZE(imx8mp_isp_clks),
+> +       .isrs =3D imx8mp_isp_isrs,
+> +       .isr_size =3D ARRAY_SIZE(imx8mp_isp_isrs),
+> +       .isp_ver =3D IMX8MP_V10,
+> +};
+> +
+>  static const struct of_device_id rkisp1_of_match[] =3D {
+>         {
+>                 .compatible =3D "rockchip,px30-cif-isp",
+> @@ -505,6 +523,10 @@ static const struct of_device_id rkisp1_of_match[] =
+=3D {
+>                 .compatible =3D "rockchip,rk3399-cif-isp",
+>                 .data =3D &rk3399_isp_info,
+>         },
+> +       {
+> +               .compatible =3D "fsl,imx8mp-isp",
+> +               .data =3D &imx8mp_isp_info,
+> +       },
+>         {},
+>  };
+>  MODULE_DEVICE_TABLE(of, rkisp1_of_match);
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkis=
+p1-config.h
+> index 730673ecc63d..f602442c2018 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -179,12 +179,14 @@
+>   * @RKISP1_V11: declared in the original vendor code, but not used
+>   * @RKISP1_V12: used at least in rk3326 and px30
+>   * @RKISP1_V13: used at least in rk1808
+> + * @IMX8MP_V10: used in at least imx8mp
+>   */
+>  enum rkisp1_cif_isp_version {
+>         RKISP1_V10 =3D 10,
+>         RKISP1_V11,
+>         RKISP1_V12,
+>         RKISP1_V13,
+> +       IMX8MP_V10,
+>  };
+>
+>  enum rkisp1_cif_isp_histogram_mode {
+> --
+> 2.35.1
+>
