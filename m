@@ -2,115 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD6AC7CD5E5
-	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 10:03:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6302D7CD6E4
+	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 10:48:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344542AbjJRIC7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 04:02:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37894 "EHLO
+        id S230115AbjJRIsg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Oct 2023 04:48:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229897AbjJRIC6 (ORCPT
+        with ESMTP id S229957AbjJRIse (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 04:02:58 -0400
-Received: from mickerik.phytec.de (mickerik.phytec.de [91.26.50.163])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 155EFBC
-        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 01:02:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a4; c=relaxed/simple;
-        q=dns/txt; i=@phytec.de; t=1697616173; x=1700208173;
-        h=From:Sender:Reply-To:Subject:Date:Message-ID:To:CC:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=+c5hQQZnUqwJW5VgfrtARDCsUaBoc+gy6NkUrro9jFY=;
-        b=jwxpmzZpwLr0BkNm6GnloFHrQ/r+2Pc1YeThnlGEUUr3SBnUqFxJbQ9yCXZqwDVY
-        whgtYa8unn4OKnNgOOtKQKAwYLlnI/psI4h1grtQQ5hc3MT91+dyNN9gMQfhfV87
-        9CWPkWMY6K1w7NFPhVoPZA8lwyaaf+PlUs7R0nQdQjI=;
-X-AuditID: ac14000a-6e25770000001e37-ad-652f912d9a67
-Received: from florix.phytec.de (Unknown_Domain [172.25.0.13])
-        (using TLS with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (Client did not present a certificate)
-        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 70.F8.07735.D219F256; Wed, 18 Oct 2023 10:02:53 +0200 (CEST)
-Received: from Berlix.phytec.de (172.25.0.12) by Florix.phytec.de
- (172.25.0.13) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.6; Wed, 18 Oct
- 2023 10:02:53 +0200
-Received: from Berlix.phytec.de ([fe80::197e:d26b:2ca:c7b4]) by
- berlix.phytec.de ([fe80::197e:d26b:2ca:c7b4%4]) with mapi id 15.01.2507.006;
- Wed, 18 Oct 2023 10:02:53 +0200
-From:   =?utf-8?B?U3RlZmFuIFJpZWRtw7xsbGVy?= <S.Riedmueller@phytec.de>
-To:     "festevam@gmail.com" <festevam@gmail.com>
-CC:     "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "kernel@pengutronix.de" <kernel@pengutronix.de>,
-        "martink@posteo.de" <martink@posteo.de>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>,
-        "linux-imx@nxp.com" <linux-imx@nxp.com>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "upstream@phytec.de" <upstream@phytec.de>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "kernel@puri.sm" <kernel@puri.sm>,
-        "rmfrfs@gmail.com" <rmfrfs@gmail.com>
-Subject: Re: [PATCH] media: imx: imx7-media-csi: Sync frames to start of frame
- for MIPI
-Thread-Topic: [PATCH] media: imx: imx7-media-csi: Sync frames to start of
- frame for MIPI
-Thread-Index: AQHaAREcHXWyo39OBkqeluC/+qfsL7BPD1GA
-Date:   Wed, 18 Oct 2023 08:02:53 +0000
-Message-ID: <42d4b23505b300be9f3263865d8539a3aecda553.camel@phytec.de>
-References: <20231017150854.270003-1-s.riedmueller@phytec.de>
-         <CAOMZO5CcseMy+JmBM2R=NZR0UfiLCdHwAsTv4_JqPqtaXf6Ypw@mail.gmail.com>
-In-Reply-To: <CAOMZO5CcseMy+JmBM2R=NZR0UfiLCdHwAsTv4_JqPqtaXf6Ypw@mail.gmail.com>
-Accept-Language: en-US, de-DE
-Content-Language: de-DE
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [172.25.0.11]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <0ACDB782C96B6A47B437CDFD057A4CE0@phytec.de>
-Content-Transfer-Encoding: base64
+        Wed, 18 Oct 2023 04:48:34 -0400
+Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D38C5B6;
+        Wed, 18 Oct 2023 01:48:31 -0700 (PDT)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by ex01.ufhost.com (Postfix) with ESMTP id C481B24E269;
+        Wed, 18 Oct 2023 16:48:27 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 18 Oct
+ 2023 16:48:28 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 18 Oct
+ 2023 16:48:27 +0800
+Message-ID: <d4df5c0a-07b1-449c-3c08-aa57da7fb3d7@starfivetech.com>
+Date:   Wed, 18 Oct 2023 16:48:26 +0800
 MIME-Version: 1.0
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrKIsWRmVeSWpSXmKPExsWyRpKBV1d3on6qwcUF0hYPr/pbrJq6k8Vi
-        ftsMFovOiUvYLbp+rWS26NmwldXi2oqJrBbLNv1hsmhc8J7F4u/2TSwWL7aIO3B77Jx1l91j
-        dsdMVo9NqzrZPDa+28Hk0f/XwOPXYVGPRztuMXp83iQXwBHFZZOSmpNZllqkb5fAldF6yrag
-        hbfi08OpLA2MN3i6GDk5JARMJLp+PGQEsYUEljBJNGx27GLkArLvM0osuDSbHcLZwCgx98on
-        ZpAqNgEXic9t39hAbBEBXYkVJ7oYQYqYBWaySGy+cJcFJCEsEClx+9sXZoiiKIm/Kz9A2UYS
-        pxf0gK1jEVCV2LH3JxOIzSvgJrHh7Bk2iG2tjBIzW8+BFXEKBEpM2XgCbCijgKxEZ8M7sAZm
-        AXGJTc++s0L8ICCxZM95ZghbVOLl439QcXmJE7emAdVzANVrSqzfpQ/RaiHx5eh0ZghbUWJK
-        90N2iBsEJU7OfMIygVF8FpINsxC6ZyHpnoWkexaS7gWMrKsYhXIzk7NTizKz9QoyKktSk/VS
-        UjcxgqJehIFrB2PfHI9DjEwcjIcYJTiYlUR404N1UoV4UxIrq1KL8uOLSnNSiw8xSnOwKInz
-        3u9hShQSSE8sSc1OTS1ILYLJMnFwSjUw8lXfyvWqetJSnphVr3Diy9yEK2zzPjTvqLdWux2v
-        +07wSW73iW/x38/M9S4SXR1eHDOtZNIT/vdJPMGPOFo/y/dL6J7RUvqbeVNCTnSlMve0hPiW
-        B5s5WtfdOmm0pFH2W+USj4JVjHuuukRHnuv9ISproXp39XzxCh2ZoBeqc39dEtxQ5PNEiaU4
-        I9FQi7moOBEAZz7eeOgCAAA=
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v10 0/8] Add StarFive Camera Subsystem driver
+Content-Language: en-US
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        <bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+        <changhuang.liang@starfivetech.com>
+References: <20231008085154.6757-1-jack.zhu@starfivetech.com>
+ <98297bfc-ab81-4bb5-acc3-619fdf879276@xs4all.nl>
+ <bb5b776c-f1dd-f53e-079c-8048af2e73f1@starfivetech.com>
+In-Reply-To: <bb5b776c-f1dd-f53e-079c-8048af2e73f1@starfivetech.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS064.cuchost.com (172.16.6.24) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+X-Spam-Status: No, score=-5.2 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgRmFiaW8sDQoNCk9uIFR1ZSwgMjAyMy0xMC0xNyBhdCAxMjo0NiAtMDMwMCwgRmFiaW8gRXN0
-ZXZhbSB3cm90ZToNCj4gSGkgU3RlZmFuLA0KPiANCj4gT24gVHVlLCBPY3QgMTcsIDIwMjMgYXQg
-MTI6MDnigK9QTSBTdGVmYW4gUmllZG3DvGxsZXINCj4gPHMucmllZG11ZWxsZXJAcGh5dGVjLmRl
-PiB3cm90ZToNCj4gPiANCj4gPiBUaGUgZGVmYXVsdCBiZWhhdmlvciBmb3IgYSBiYXNlIGFkZHJl
-c3MgY2hhbmdlIGlzIHRvIGRvIGl0IGF1dG9tYXRpY2FsbHkNCj4gPiBhZnRlciBhIERNQSBjb21w
-bGV0aW9uLiBUaGlzIGNhbiBsZWFkIHRvIHRoZSBzaXR1YXRpb24sIHdlcmUgb25lDQo+ID4gY29y
-cnVwdGVkIGZyYW1lLCB3aXRoIGxlc3MgbGluZXMgdGhhbiBjb25maWd1cmVkLCByZXN1bHRzIGlu
-IGFsbA0KPiA+IGZvbGxvd2luZyBmcmFtZXMgYmVpbmcgY29ycnVwdGVkIGFzIHdlbGwsIGR1ZSB0
-byBhIG1pc3NpbmcNCj4gPiByZS1zeW5jaHJvbml6YXRpb24gdG8gdGhlIGJlZ2lubmluZyBvZiB0
-aGUgbmV4dCBmcmFtZS4NCj4gPiANCj4gPiBGaXggdGhpcyBieSBjb25maWd1cmluZyB0aGUgYmFz
-ZSBhZGRyZXNzIHN3aXRjaCB0byBiZSBzeW5jZWQgd2l0aCB0aGUNCj4gPiBzdGFydCBvZiBmcmFt
-ZSBldmVudC4NCj4gPiANCj4gPiBDdXJyZW50bHkgdGhpcyBpcyBhbHJlYWR5IGltcGxlbWVudGVk
-IGZvciB0aGUgcGFyYWxsZWwgaW50ZXJmYWNlLiBUbw0KPiA+IGhhdmUgaXQgd2l0aCBNSVBJIGFz
-IHdlbGwsIHNpbXBseSBjb25maWd1cmUgaXQgdW5jb25kaXRpb25hbGx5Lg0KPiA+IA0KPiA+IFRl
-c3RlZCBvbiBpLk1YIDhNTS4NCj4gDQo+IFNob3VsZCB0aGlzIGNvbnRhaW4gYSBGaXhlcyB0YWc/
-IFRoYW5rcw0KDQpOb3cgdGhhdCB5b3UgbWVudGlvbiBpdCwgSSBndWVzcyBpdCBjb3VsZC4gSSdt
-IGp1c3Qgbm90IHN1cmUgd2hpY2ggY29tbWl0IHRvDQpzZWxlY3QgZm9yIHRoZSBmaXhlcyB0YWcu
-IEkgdGhpbmsgdGhpcyBpc3N1ZSBpcyB0aGVyZSBzaW5jZSBkYXkgb25lIG9mIHRoZQ0KZHJpdmVy
-LCBidXQgSSBkb3VidCB0aGF0IGl0IHdvdWxkIGFwcGx5IG9uIGV2ZXJ5IHZlcnNpb24gb2YgaXQu
-IFRoZSBmaXhlcyB0YWcNCmlzIHRvIHRyaWdnZXIgYSBzdGFibGUgZml4LCByaWdodD8gT3IgaXMg
-aXQganVzdCBtZWFudCBhcyBhIG5vdGU/DQoNCkRvIHlvdSBoYXZlIGFueSBzdWdnZXN0aW9ucz8N
-Cg0KVGhhbmtzLA0KU3RlZmFuDQo=
+
+
+On 2023/10/18 10:37, Jack Zhu wrote:
+> Hi Hans,
+> 
+> Thank you for your comments.
+> 
+> On 2023/10/16 19:40, Hans Verkuil wrote:
+>> Hi Jack,
+>> 
+>> On 08/10/2023 10:51, Jack Zhu wrote:
+>>> Hi,
+>>> 
+>>> This series is the v10 series that attempts to support the Camera Subsystem
+>>> found on StarFive JH7110 SoC.
+>>> 
+>>> This series is based on top of the master branch of media_stage repository,
+>>> which is tested with a v4l2-compliance compiled from the git repo
+>>> (git://linuxtv.org/v4l-utils.git).
+>> 
+>> I get one smatch warning:
+>> 
+>> drivers/staging/media/starfive/camss/stf-isp.c:122 isp_enum_mbus_code() warn: unsigned 'code->index' is never less than zero.
+>> 
+>> And I also notice that there is no TODO file: staging drivers should have a
+>> TODO file explaining what needs to be done to get them out of staging.
+>> 
+>> I'm curious to know that as well :-)
+>> 
+>> It looks like there is a lot of additional development that can be done, since
+>> most of the ISP parameters appear to be hardcoded.
+>> 
+>> I also notice something weird in the compliance test output for v4l-subdev0 vs
+>> v4l-subdev1:
+>> 
+>>> Compliance test for starfive-camss device /dev/v4l-subdev0:
+>>> 
+>>> Driver Info:
+>>> 	Driver version   : 6.6.0
+>>> 	Capabilities     : 0x00000000
+>>> Media Driver Info:
+>>> 	Driver name      : starfive-camss
+>>> 	Model            : Starfive Camera Subsystem
+>>> 	Serial           : 
+>>> 	Bus info         : platform:19840000.camss
+>>> 	Media version    : 6.6.0
+>>> 	Hardware revision: 0x00000000 (0)
+>>> 	Driver version   : 6.6.0
+>>> Interface Info:
+>>> 	ID               : 0x0300001c
+>>> 	Type             : V4L Sub-Device
+>>> Entity Info:
+>>> 	ID               : 0x00000001 (1)
+>>> 	Name             : stf_isp
+>>> 	Function         : Image Signal Processor
+>>> 	Pad 0x01000002   : 0: Sink
+>>> 	  Link 0x02000014: from remote pad 0x1000010 of entity 'cdns_csi2rx.19800000.csi-bridge' (Video Interface Bridge): Data, Enabled
+>>> 	Pad 0x01000003   : 1: Source
+>>> 	  Link 0x0200000c: to remote pad 0x1000009 of entity 'capture_yuv' (V4L2 I/O): Data, Enabled
+>> 
+>> Here it shows the Media Driver Info for v4l-subdev0.
+>> 
+>> <snip>
+>> 
+>>> --------------------------------------------------------------------------------
+>>> Compliance test for device /dev/v4l-subdev1:
+>>> 
+>>> Driver Info:
+>>> 	Driver version   : 6.6.0
+>>> 	Capabilities     : 0x00000000
+>> 
+>> But this does not appear for v4l-subdev1.
+>> 
+>> I can't really tell why it doesn't show that. Can you debug a little bit?
+>> The code is in v4l2-compliance.cpp, line 1086:
+>> 
+>> ent_id = mi_media_info_for_fd(media_fd, node.g_fd(), &is_invalid, &node.function);
+>> 
+>> The mi_media_info_for_fd() function calls ioctl(media_fd, MEDIA_IOC_DEVICE_INFO, &mdinfo),
+>> and that fails for some reason. It could be that media_fd is invalid (would be weird).
+>> 
+>> This could well be a v4l2-compliance bug that you hit with this driver.
+>> 
+> 
+> On the test board, /dev/v4l-subdev1 is imx219, and the corresponding directory is
+> /sys/dev/char/81:3/device. Media0 does not exist in this directory. Therefore, the media_fd
+> obtained through mi_get_media_fd(node.g_fd(), node.bus_info) is invalid.
+> 
+> I don't know why media0 does not exist in /sys/dev/char/81:3/device?
+> 
+
+Hi Hans,
+
+Could you please comment on this issue? imx219 directly uses the driver file in the
+media_stage repository.
+
+Thank you for your time!
+
+-- 
+Regards,
+
+Jack Zhu
