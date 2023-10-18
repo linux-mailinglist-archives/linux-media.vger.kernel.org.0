@@ -2,36 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DB6A27CD36E
-	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 07:12:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1374A7CD398
+	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 07:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229594AbjJRFMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 01:12:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37936 "EHLO
+        id S229585AbjJRFm1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Oct 2023 01:42:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229529AbjJRFMe (ORCPT
+        with ESMTP id S229575AbjJRFm0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 01:12:34 -0400
+        Wed, 18 Oct 2023 01:42:26 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC03C109
-        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 22:12:30 -0700 (PDT)
-Received: from [192.168.1.110] (unknown [103.251.226.39])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 47259741;
-        Wed, 18 Oct 2023 07:12:17 +0200 (CEST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EA4BBA
+        for <linux-media@vger.kernel.org>; Tue, 17 Oct 2023 22:42:25 -0700 (PDT)
+Received: from umang.jainideasonboard.com (unknown [103.251.226.39])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1FC74741;
+        Wed, 18 Oct 2023 07:42:13 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1697605940;
-        bh=wsmtERZwIFOBVXxcFTwMkwcV7zq3XaigmBQeJgWbczg=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=Vlv6iVJl+raNcZQj0rJx5CoPDgveppdyKIWckqyXxLecNgF5szVmLirOBh0Lx5J1E
-         ciq85RFQWpl5PC1LpSENtzYBt80Epwm+E3odmDHA4CU9el/tuXXn5slyx0yDERaVV8
-         Yvix/wIAO/Yz/bcDqjlu9kYCfOhrr65Z8gAaFeTw=
-Message-ID: <c1a71689-3541-f07b-c390-06f176d9ab5a@ideasonboard.com>
-Date:   Wed, 18 Oct 2023 10:42:18 +0530
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH 3/3] staging: vc04_services: bcm2835-camera: Drop
- MODULE_ALIAS
+        s=mail; t=1697607736;
+        bh=/EyFN8/bdjJajsbpQvuQvWRlcHT4qLY5CfmEYT+KqDE=;
+        h=From:To:Cc:Subject:Date:From;
+        b=NebgRnPZGBTnECnRTLYVfNLbS28w9JH0QDAeQ+uCctDWy6lCeGq8sUr80a7S+/2K0
+         cqoTO4og0RKPfFqj2L1TMQat12P3BTPzNJi38v7dNAuNYO4DAOFPfIIRAXpdpCU0ne
+         vr/0q5U9rTydxgnKggvLi0CNcP24+xmmfqGd/Mo4=
+From:   Umang Jain <umang.jain@ideasonboard.com>
 To:     linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org,
         linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org
@@ -39,60 +33,59 @@ Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Dan Carpenter <error27@gmail.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20231017200511.678223-1-umang.jain@ideasonboard.com>
- <20231017200511.678223-4-umang.jain@ideasonboard.com>
-Content-Language: en-US
-From:   Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <20231017200511.678223-4-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v2 0/3] vc04_services: Tweak module autoloading support
+Date:   Wed, 18 Oct 2023 11:12:11 +0530
+Message-Id: <20231018054214.824296-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.40.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+As explained by Greg KH in [1], we should not be using MODULE_ALIAS
+to auto load modules within VC04. Drop that, in favour of
+MODULE_DEVICE_TABLE. This series addresses the suggestion.
 
-On 10/18/23 1:35 AM, Umang Jain wrote:
-> Drop MODULE_ALIAS in favour of MODULE_DEVICE_TABLE as the module
-> alias should be picked from there.
->
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->   .../staging/vc04_services/bcm2835-camera/bcm2835-camera.c  | 7 ++++++-
->   1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> index c873eace1437..3c18376003ff 100644
-> --- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> +++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
-> @@ -1995,9 +1995,15 @@ static void bcm2835_mmal_remove(struct vchiq_device *device)
->   	vchiq_mmal_finalise(instance);
->   }
->   
-> +static const struct vchiq_bus_device_id id_table[] = {
-> +	{ .name = "bcm2835-camera" }
+Patch 1/3 adds vchiq_bus_device_id and supporting entries in 
+script/mod/file2alias.c
 
-This should be terminated with a NULL entry, sending v2 shortly.
-> +};
-> +MODULE_DEVICE_TABLE(vchiq_bus, id_table);
-> +
->   static struct vchiq_driver bcm2835_camera_driver = {
->   	.probe		= bcm2835_mmal_probe,
->   	.remove		= bcm2835_mmal_remove,
-> +	.id_table	= id_table,
->   	.driver		= {
->   		.name	= "bcm2835-camera",
->   	},
-> @@ -2008,4 +2014,3 @@ module_vchiq_driver(bcm2835_camera_driver)
->   MODULE_DESCRIPTION("Broadcom 2835 MMAL video capture");
->   MODULE_AUTHOR("Vincent Sanders");
->   MODULE_LICENSE("GPL");
-> -MODULE_ALIAS("bcm2835-camera");
+Patch 2/3 drops MODULE_ALIAS from bcm2835-audio in favour
+of MODULE_DEVICE_TABLE.
+
+Patch 3/3 drops MODULE_ALIAS from bcm2835-camera in favour
+of MODULE_DEVICE_TABLE.
+
+[1]:  https://lore.kernel.org/linux-media/2023100955-stunt-equate-c6fa@gregkh/
+
+--
+Changes in v2: 
+- NULL terminate device_id_table arrays (in 2/3 and 3/3)
+
+Umang Jain (3):
+  staging: vc04_services: Support module autoloading using
+    MODULE_DEVICE_TABLE
+  staging: vc04_services: bcm2835-audio: Drop MODULE_ALIAS
+  staging: vc04_services: bcm2835-camera: Drop MODULE_ALIAS
+
+ drivers/staging/vc04_services/bcm2835-audio/bcm2835.c    | 8 +++++++-
+ .../vc04_services/bcm2835-camera/bcm2835-camera.c        | 8 +++++++-
+ .../vc04_services/interface/vchiq_arm/vchiq_bus.c        | 2 +-
+ .../vc04_services/interface/vchiq_arm/vchiq_bus.h        | 3 +++
+ include/linux/mod_devicetable.h                          | 4 ++++
+ scripts/mod/devicetable-offsets.c                        | 3 +++
+ scripts/mod/file2alias.c                                 | 9 +++++++++
+ 7 files changed, 34 insertions(+), 3 deletions(-)
+
+
+base-commit: a2fc3e8215313c8e4e42d4b2062830aaf1ef49c0
+-- 
+2.40.1
 
