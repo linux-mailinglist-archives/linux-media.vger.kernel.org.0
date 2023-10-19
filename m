@@ -2,62 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 481AC7CF0FC
-	for <lists+linux-media@lfdr.de>; Thu, 19 Oct 2023 09:19:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AB537CF170
+	for <lists+linux-media@lfdr.de>; Thu, 19 Oct 2023 09:38:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232825AbjJSHTS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Oct 2023 03:19:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47130 "EHLO
+        id S235102AbjJSHiy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Oct 2023 03:38:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41262 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232326AbjJSHTR (ORCPT
+        with ESMTP id S235109AbjJSHit (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Oct 2023 03:19:17 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB40D9F
-        for <linux-media@vger.kernel.org>; Thu, 19 Oct 2023 00:19:14 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-4056ce55e7eso69753545e9.2
-        for <linux-media@vger.kernel.org>; Thu, 19 Oct 2023 00:19:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697699953; x=1698304753; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=oMk48fNPeMbwiPT4mA/TH80iCg6Ebj3s0QIfDkvnauE=;
-        b=rregEQjI6w88i14szei2X1wO719KaM6zQQxiw3NH/zDgQxHbt38LeKjF3I+p1URybQ
-         VVyVrQ5nCqqeJ+tcqO2iQ5xEL/yA/pbKn2hrPLMqj1RVG0YrHEHsjy3spyyAwfDAFxBK
-         wQ/md2esX+gwA5NVM4iiTQjWowPM9S7bLOePNpq372TYJsYQXKUiTLPJ1YbSE0ip87zC
-         WjVJSCdqtk9LG5thTRxTB2aE3QQWuqK/P2V2geRQtPsBOZUmKFFt7eDqgFlut1qB8/44
-         oMKrBiPhBMoiyodhGW2Hwx2YdERwa5VFERDQA5F0BKKhOIXQAyBpjwykoK9cU6qDi6+Y
-         eloQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697699953; x=1698304753;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oMk48fNPeMbwiPT4mA/TH80iCg6Ebj3s0QIfDkvnauE=;
-        b=bPJsZOWwtv0i8eZ2Y5D0sBlnLl24qCffOTLLdLKAYZpfcvUMkV+8y7uED4YW/uhT5z
-         PUYAVh+gepJElPn+aOvGZ3FqptiD9MC2kD6e5g6FB9arHVx1bmJGM3XCEl8gQ09IDKxm
-         pCgGHRMT3kM2E9QRCst/4Fn3P+DbRL3tpTKzGBhm1/Gs6EfS+7OLVLEkBKi+K8ScfwPC
-         bPE4zQwsJkUTB2/D0rdefrTAIGcG2lNz/FEH2zrutxW1yMR+5UNbrRNg1P9TM4Zs5CvB
-         0VnL84EKXS/g3mkC91G2hDIjJ11dF39r9xbtsZgF43vkSRioHaLiFNOOlWCrAnKkZTWr
-         i2Rw==
-X-Gm-Message-State: AOJu0YzNKb2yiPo0ix5vOHgPYoGvfE6MQz2FMf+qlTauKz45E4mp4kgh
-        sHA09y+CLj/8Qe4j5Q2l2TgzZ4uABCohc6BV/S4=
-X-Google-Smtp-Source: AGHT+IH22H7cf3TKJw7PfKcUyvqMF1SQ8wGA+P4mbnIzVYBkIArA77tzRFNnMvM3wv80vuC9ESCtYw==
-X-Received: by 2002:a05:600c:4f02:b0:405:3885:490a with SMTP id l2-20020a05600c4f0200b004053885490amr1177060wmq.0.1697699953215;
-        Thu, 19 Oct 2023 00:19:13 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.223.49])
-        by smtp.gmail.com with ESMTPSA id o30-20020a05600c511e00b004063cd8105csm3683692wms.22.2023.10.19.00.19.11
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Oct 2023 00:19:12 -0700 (PDT)
-Message-ID: <d640f5c2-8af5-4402-a981-0e962d4f2aca@linaro.org>
-Date:   Thu, 19 Oct 2023 09:19:09 +0200
-MIME-Version: 1.0
+        Thu, 19 Oct 2023 03:38:49 -0400
+Received: from EUR01-DB5-obe.outbound.protection.outlook.com (mail-db5eur01on2070.outbound.protection.outlook.com [40.107.15.70])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01E6012D;
+        Thu, 19 Oct 2023 00:38:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TTMNqvMCEauLgdBMXScCsQD90anXBs/nFETCMH6GBtKJeZvWd3jIZkzAUmPH0SrkAv7CQFAIO1t+t/WaYaYOJjlGsTcoPCaxdbndfeevhT5FSqZU70JyMdaWzgVsjcnVT290cdsJqTtNGNdLELISAcxRKkuby7laZ+5hqwIGUVXf8NL6cr3Aiv/DhcmdxGuAxN9Qq+kMELmgT3gDYwBy/tVpB4ZEskMrMYn9RzZr4WwATGOBzDNwmH9NSBIU+ChYlfRtr7vw1pXPXyHXjsn0hdd2KwLzMzNxkF639qOfJ7NQwBxCZLJmLpEwxJyhRRVOU7n8IRect3BvYLE5UWWk7w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=L3BCI3lym728kYCpT5flP3/OJRYBcYoaUjBTv32zM34=;
+ b=Ci27fctoX7HiJLUCN93Sv3LW9cBKJ6Au9ou2u5TOAY0jrKMFTK9y4Uf0yT+i7yaMJiV/FYQ34cSA/YOilj8wiZ8mfKXWvmO9oDe98WS+h4rlSTuWrmdz+6iIAcCNW4mJAGC9+1bTQ80sy/sE5nlkJFX2aYNS2IQbeCpFnxhnQWP1TiGUcfH148praPtDXpRRBkOnJG8+K7lmJi6fPPXxBWFBPWw4ieF8jOALRPXdXJTNo08jsEjvI/2XJ2HkuGsihDhRimjLpO9UbDgv3WZITAqnVIL39H3MfJBEweNaTaKWDZxGYipRfu/nG37lrSzAAAETPXnGMbPzafkzPdpI/g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=L3BCI3lym728kYCpT5flP3/OJRYBcYoaUjBTv32zM34=;
+ b=iDPwcJNJi2VfOaBKH+9Bn/0Iyn8nPFzAR7coeds1jEnZPCvdS/6ZjMPkzlkoQ37hVCIv3oXd2PJchaLmb87PZvM/BtZZrOu9DKDJKtABN/R98WTDgF8ltwqinDb0OrNYZAH3idt8W4r/UNsmkgbcVZqgTpMj/vbytsOUngHaoJ8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=oss.nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by AM8PR04MB7795.eurprd04.prod.outlook.com (2603:10a6:20b:24f::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.7; Thu, 19 Oct
+ 2023 07:38:43 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::6e53:39fc:f010:30d5]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::6e53:39fc:f010:30d5%4]) with mapi id 15.20.6907.021; Thu, 19 Oct 2023
+ 07:38:43 +0000
+Message-ID: <41efe9cd-7574-4827-85c3-845cb3dd3d65@oss.nxp.com>
+Date:   Thu, 19 Oct 2023 15:41:06 +0800
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] dt-bindings: media: imx-jpeg: Assign slot for imx
- jpeg encoder/decoder
+Subject: Re: [PATCH v5 3/3] media: imx-jpeg: Add vendor prefix in slot
+ property
 Content-Language: en-US
-To:     "Ming Qian (OSS)" <ming.qian@oss.nxp.com>,
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
         mirela.rabulea@oss.nxp.com, robh+dt@kernel.org, shawnguo@kernel.org
 Cc:     krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
         mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
@@ -67,154 +57,129 @@ Cc:     krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <cover.1697597713.git.ming.qian@nxp.com>
- <c7995af1f91733626ff4e86f0575dea5d2ff0bb8.1697597713.git.ming.qian@nxp.com>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <c7995af1f91733626ff4e86f0575dea5d2ff0bb8.1697597713.git.ming.qian@nxp.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+ <be1f8907582ea344f8826f7888b277534859e0c4.1697597713.git.ming.qian@nxp.com>
+ <9b853b5f-b3e6-4aea-b99a-51a490a29f9d@linaro.org>
+From:   ming qian <ming.qian@oss.nxp.com>
+In-Reply-To: <9b853b5f-b3e6-4aea-b99a-51a490a29f9d@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SG3P274CA0004.SGPP274.PROD.OUTLOOK.COM (2603:1096:4:be::16)
+ To AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|AM8PR04MB7795:EE_
+X-MS-Office365-Filtering-Correlation-Id: 32296594-c707-47bd-6253-08dbd0766baa
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: R1G8DtsVet/dVZ+Q8cpWd6BG96ch4wEpE/EyLVWuzBVx70RkRiSDu/VCMgzZjuszNkAHVCxcRhwcyY3oJDpfk0qOAlAUIDlP6sTWjmaeL+R+G5OfBglfER9bnwyMZC1Jnot6ebG5WRvTePH52bvAceAe20t3rEBDHVYxfHwjRaiRl1b2xtjiZt1aNRxR+heKTQdnl32qHLNmP2ajG6aCemcDaAj4cGWreKHvA/9bWyTANItsFhKtsqyqYTxFHooBNF1aBULJ0TVUncN9qndHKPuozgufcTW5WSKd7MKN69i7W4lGzsHZv5LXaQE2dsuJdYSgbtKkc4pmolbheW+30b4UlBiKJcPe+W88cX17mPtHIx63NKUNmLNmc52T+r1jrakjRJMYWbLXWdkVpQBmQlhHUqbb51yr9XHl/GiSXSweErfrXjFVylIycU7SQy67m/5YoZEpvnxPZr/F0xl/0ANg6E5VqwooTkSQ8z2n/PsnPKSjpwuSx1kr7/CHa7VmMV9L75yoZ6knVojEBNY4Or+Tb312K19Qe2eVWrCu2HVf2Fxg4OBF6iHUbcJOVxUhX2gTsnLK+py87oJi6DI0wNpiSrtM7NuBnfkHnwmZG+9uCjKoC/hCT2Sn7jy2P00C1laIp935ztxQaJRDkrX8aQ==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(366004)(396003)(136003)(376002)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(31686004)(66946007)(66556008)(86362001)(38100700002)(31696002)(26005)(2616005)(83380400001)(6666004)(6506007)(6512007)(6486002)(2906002)(478600001)(66476007)(316002)(4326008)(41300700001)(7416002)(5660300002)(8936002)(8676002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?clRQQVl6WVVnU2loZjRjeHZ0Yml5RUo4Ym83eW9CNStrTS8zNVgrOHlUU1lV?=
+ =?utf-8?B?NUlhdnRKNUNnVk1hR3VaTTl4OUk1Si91WU03VFh6UDVQcllTaXBzdUliTk9F?=
+ =?utf-8?B?Q2NHZEtuU282cG5uQTdOZnJvbjh2aUhlczl0Qk5nZFRoR0dpQUMyeXlFUmcy?=
+ =?utf-8?B?b1RJeXRsZFFSVHJhRFRBOUd6YXV5MkhuZGNWUnl3QlFGcXA1b0xjMkU0d0Y3?=
+ =?utf-8?B?ckx2OGUrMDBDOFBVWDVPWElvWDdKbmNYNmJGcmVzVGV6ZnBLRm9DRWpIM24r?=
+ =?utf-8?B?NlM3OHNIYjZ1SkRCR2xwSk5uR3BEZXYybmhaNW1KVDloT1lOWmpCTjZYYTBV?=
+ =?utf-8?B?UWpmRi9wSlA2bmdoS0dGNzZwRmRFbkJoeWh4RnRxb0Y4LzY0QzNCUDk2TS91?=
+ =?utf-8?B?RWorbnA1d1lNbzlBMGh4bVhCUXlGRHIzMXBNc1h6QW8zc2c1ODdabDFwZlZr?=
+ =?utf-8?B?ZHdBRVl5azRRTldWOE1XbEpvWmlQZ00wYjJLYWtLZDZPbVQ2K2ljdmpkS1RM?=
+ =?utf-8?B?QXFHQ2w0aGQ1S0x0U2hzeXJSMGp3a1BJNENzRU9uVC9WVXpFZkIxeUxpcWhI?=
+ =?utf-8?B?b010QjlSUTVsUitidFZPaU5YVEdLU2VmRzZnV3BkaEdHZk5WYStDNE9ISmV3?=
+ =?utf-8?B?RW90NGxVSFQ0OFVQRTFiZzVwa0Q4ZU8zWUxlY0lEMCtjWGpLaTRmVS9FT0lG?=
+ =?utf-8?B?NUpmSk43cldZOGJBVmQwd1NlTmRuV1FxYWU0M21FRDZoejVBS1RBUFBDZWl1?=
+ =?utf-8?B?WlF5ejVsbWtHbnplaVdRMzhmdW9KeXpOSG9Lb0JKWnpETVU2Q3UrS2grc1Nt?=
+ =?utf-8?B?NC8vNUg5bkF0N3BBNVhzUzdLdzRwMEcrRHFUTUdpOEZiUUpqUEhyNURSdk9j?=
+ =?utf-8?B?U2x5NUtkZ1pSUFFTeVJ3dEFBQUxXK2VaQUlCbjRQaExNUlN0Nk1oWk1FUmVy?=
+ =?utf-8?B?MzJNN0c0am03cFV5bGFnbVExMlNDOVF2RGh3TExJWXY4ODh2aU5sdVRhbzZm?=
+ =?utf-8?B?SFFYYTJUeUxlbnJ2UmsrdXNVbXIrUU1Ccm1jdW90dTREZnZyL1FGY2JaVUNp?=
+ =?utf-8?B?RzVYak1GUzFpKzR1Qk9QRnhnbVRwOXR1cVB1d25xNFN6dVdSdnNzZ2tkSlIy?=
+ =?utf-8?B?c3FCbm5lcmJVcitzS1JZRVovTTdDaFA4UzdhLzEyblErVXdNYi9qQ042MEVt?=
+ =?utf-8?B?eXRieUVTUDRuVlZrbDlOUmorUnpuUzFSbEozWjhROGI0ZU9reXlVSDZyRG5Q?=
+ =?utf-8?B?ZUtlRmx0bWlQK0NPV0lSM0dRTUFUaGdPODNpV0JYWUt5NTRhVXVSd1Y1dFQ5?=
+ =?utf-8?B?ODd0eDBsek5kd3hHRHlMTlVYNldMNkFuajJjQmsvcHF5NHV0QitSajhHNVVy?=
+ =?utf-8?B?WGcrZ2JoNHFKTFdWZ2d6T2hTd0xoNzVCaFQxL00vRUM3Uy95VGwrQVRyeDZn?=
+ =?utf-8?B?YS9aU1k1aUM2SGxleDlqbkZkTmYrSmVIcHZaY3JzK2FRR01ZSDhEcHB5aTg4?=
+ =?utf-8?B?Mzk4cm9aQUJ2TzdBcVZrczV0cElxb3h3MWhLS1pkQm5Ob25YYktqbVoyRGpi?=
+ =?utf-8?B?U1lkelBQODFMMDFBMW9GREJWRFlCVmcvUkU3dTg4VjZ1cllCeXJXVGk0ZUFZ?=
+ =?utf-8?B?Yis1eGlQTnZ6K1FKTUJEYzlDVW9Rejd5SmRlUEh3MEsrVWlWaytUZkVqa29N?=
+ =?utf-8?B?SkdGK2VONmJGTlYwZTRlWURsLzlCVy9VZWhnb1Y4c054MGxxTC9TdG50TEpQ?=
+ =?utf-8?B?MnZYVDA1cDNTNnRxQm02OHVxZ0NScEJkdUUyaW1ESjhkUUhjV2w3dnhIeFpk?=
+ =?utf-8?B?MEk0bVMxMEYrbkw3R3p6WEk2T2RWVEpLTThxM1YwVktwQ1VTMTU3RTUyejZa?=
+ =?utf-8?B?YjBIQUUyUDJ4bVBQdXFqbkRnMGloZ0dhR05Ed1M3aHZ0Y3ZRWTJSbkczMDFH?=
+ =?utf-8?B?ZFBnSi9CSDg3V3EyOGI3WTJKWjJGdElKVUI4MWV3WTEvMElUQzdtMS9FVzlM?=
+ =?utf-8?B?a0pRUmlSRGJkMHJiWFlmRW9iNWNpdzVYWWVyeG1hRGM0ODZobjdoUDlxYlEr?=
+ =?utf-8?B?OUQ1RG94ZzNtY0VHMDNMVTluS0pUdVlLRTQ3YVdIbUlGUEcxSHFXMEJDeER3?=
+ =?utf-8?Q?kdYJGn6buRBzZPW+y6OrzKShu?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32296594-c707-47bd-6253-08dbd0766baa
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2023 07:38:43.6729
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: CvbDfiSIkRVHjfWg0qZ5bVfp+9eZLQJivFvmGGjUi0SXZncRprRU2BbDREDPQMOUxVqW5WJzMlRapr0gbMs1QA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7795
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/10/2023 04:48, Ming Qian (OSS) wrote:
-> From: Ming Qian <ming.qian@nxp.com>
-> 
-> This IP includes a jpeg wrapper and a jpeg engine, the wrapper is
-> working on descriptor based manner. It supports up to 4 slots, each slot
-> can have its own chained descriptors. Host won't configure the engine
-> directly, but fill some descriptors to encode or decode one jpeg
-> picture. Then configure the descriptors to certain slot register. The
-> jpeg wrapper will schedule between different slots. When some slot is
-> finished, the slot interrupt will be triggered. The purpose of slot is
-> that engine can be shared across multiple VMS and os.
-> 
-> Currently, power domains and interrupts are enabled for all 4 slots, but
-> only one slot is used. There is no benefit in using more that one slot
-> from within the same OS, as the slots are scheduled in round-robin
-> manner and not executed in parallel.
-> 
-> Use the property "nxp,slot" to assign a single slot, and just expose the
-> parts of the h/w for the assigned slot. For example, only put slot 1's
-> power-domains entry in the DT when slot 1 is assigned. If not specified,
-> 0 is used by default.
-> 
-> Signed-off-by: Ming Qian <ming.qian@nxp.com>
-> ---
-> v5
-> - improve commit message
-> - improve property description
-> 
-> v4
-> - improve commit message
-> - drop line making the property required, to avoid ABI break
-> 
-> v3
-> - add vender prefix, change property slot to nxp,slot
-> - add type for property slot
-> 
-> v2
-> - add a new property in bindings document
-> 
->  .../bindings/media/nxp,imx8-jpeg.yaml         | 46 +++++++++----------
->  1 file changed, 22 insertions(+), 24 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> index 3d9d1db37040..0961856bdcab 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> @@ -32,19 +32,27 @@ properties:
->      maxItems: 1
->  
->    interrupts:
-> -    description: |
-> -      There are 4 slots available in the IP, which the driver may use
-> -      If a certain slot is used, it should have an associated interrupt
-> -      The interrupt with index i is assumed to be for slot i
-> -    minItems: 1               # At least one slot is needed by the driver
-> -    maxItems: 4               # The IP has 4 slots available for use
-> +    description:
-> +      Interrupt number for slot
-> +    maxItems: 1
+Hi Krzysztof,
 
-The device still has four interrupts, so we should allow up to four of
-them. One given OS might want to use two or all four slots.
+>> From: Ming Qian <ming.qian@nxp.com>
+>>
+>> The slot property isn't generic property, add vendor prefix. Change the
+>> property name to nxp,slot.
+>>
+>> Fixes: 53ebeea50599 ("media: imx-jpeg: Support to assign slot for encoder/decoder")
+>> Signed-off-by: Ming Qian <ming.qian@nxp.com>
+>> ---
+>> v5
+>> - add vender prefix, change property slot to nxp,slot
+>>
+>> v4
+>> - nothing changed here, just modify the bindings and dts
+>>
+>> v3
+>> - nothing changed here, just modify the bindings and dts
+>>
+>> v2
+>> - nothing changed here, just modify the bindings and dts
+>>
+>>   drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 2 +-
+>>   1 file changed, 1 insertion(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+>> index 64112b63298c..f8b99a292ad1 100644
+>> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+>> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+>> @@ -2762,7 +2762,7 @@ static int mxc_jpeg_probe(struct platform_device *pdev)
+>>   	if (IS_ERR(jpeg->base_reg))
+>>   		return PTR_ERR(jpeg->base_reg);
+>>   
+>> -	ret = of_property_read_u32_index(pdev->dev.of_node, "slot", 0, &jpeg->slot_data.slot);
+> 
+> How did it appear in the code and in the DTS without bindings...
+> 
+> Best regards,
+> Krzysztof
+> 
 
+In the beginning, I only made the patch set of code and dts, the code
+patch can work without dts patch due to the default value. The code
+patch is merged to media_tree, but mark the dts patch as ´Not
+Applicable´. After that, I sent the dts patch again, but maintainer
+reminds me that I need to change the binding too. So I made this patch
+set. And I guess the dts patch was merged by mistake.
 
->  
->    power-domains:
->      description:
->        List of phandle and PM domain specifier as documented in
->        Documentation/devicetree/bindings/power/power_domain.txt
-> -    minItems: 2               # Wrapper and 1 slot
-> -    maxItems: 5               # Wrapper and 4 slots
-> +    minItems: 1               # Mixed power domain
-> +    maxItems: 2               # Wrapper and 1 slot
-> +
-> +  nxp,slot:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    description:
-> +      Integer number of slot index used. This IP includes a jpeg wrapper, the
-> +      wrapper is working on descriptor based manner. It supports up to 4 slots,
-> +      each slot can have its own chained descriptors. The purpose is to share
-> +      the jpeg engine across multiple VMS and os. We use this property to
-> +      assign a single slot. If not specified, 0 is used by default.
-> +    minimum: 0
-> +    maximum: 3
-
-default: 0
-
-
-
-Best regards,
-Krzysztof
-
+best regards,
+Ming
