@@ -2,178 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D55817CE51B
-	for <lists+linux-media@lfdr.de>; Wed, 18 Oct 2023 19:43:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 662A07CEDAE
+	for <lists+linux-media@lfdr.de>; Thu, 19 Oct 2023 03:45:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232471AbjJRRnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 13:43:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56224 "EHLO
+        id S231950AbjJSBpI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Oct 2023 21:45:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232475AbjJRRmo (ORCPT
+        with ESMTP id S229632AbjJSBpH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 13:42:44 -0400
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EC517D56;
-        Wed, 18 Oct 2023 10:42:08 -0700 (PDT)
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-6bd96cfb99cso3032440b3a.2;
-        Wed, 18 Oct 2023 10:42:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1697650928; x=1698255728; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dKaWOPnAN5si+yKYBlPOMxbvgqGw6FhfRCUPuhXRLW4=;
-        b=DJ2Flso8Fhadvkiy9PtnH9bJCHhUqGXXhJZQR3Wp4lnxs78jHryj6CaczQkQucQJws
-         8PeAkB7ushmkG6WMxnPBo6xX5NA8iarpJmQUneL3PxIlaMtG+Fu0u8doIgbOWEjt39hw
-         d89td4OuQjaWZdgevRP3Eji4L0NNqF2sXwGG5Oj/r1tTPyULiL0G4/Cl2KH+JbXPATOb
-         p8WIcgeEYqU1+GFu4Lz6cWxVoSuObaFKpkGPqOqJTPZwPfObSTmpPkKw6PsU6pUKQQQN
-         fB76JWOsaQHRI+3rIQPZx7d8WBNuNx2YXt8OJdIdGmrJdCmnha5Hz9FQpt4l5sFj31T0
-         /yrQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697650928; x=1698255728;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dKaWOPnAN5si+yKYBlPOMxbvgqGw6FhfRCUPuhXRLW4=;
-        b=RZ9OT9IeY64ArMVSrfwryDdzgfcTa8fC2Ymri3yDYccV1yYzsC4Lq7BWxy0NonvZgp
-         i+11OLsw+7kqLAd9FdcU6ZGi5shKD0m9Sqlngx+298OJIqw/2lPqCI1KwIFJv8gnsEok
-         C2uw5VLU0khsLdKI5oRxulksmMUfSPs9S3nyIR0va3YoMpCV+h7QIclAq9uHSJAa362P
-         NEjI9wlsweas0SLgSSX3C6OGh+XGit7wBbi/THiPt44DdNEEQmgcgKfjmNMqSqDY3C/t
-         Nv2xj/foFQGe9Hgvi41Q/7W2/lqHrc6gqdaPKwhzmRF/G/Amnt2nBREm+3mBXzciTymz
-         B3pw==
-X-Gm-Message-State: AOJu0YwRcEOAEAXZ2xDYe68aNkZeb5ki4fjiPG9KJwb6Y9YKoZQBqNdU
-        dSVCFC4sYnltlgxycCKBdIzjJabkB17bFW5RSJyfKYjs
-X-Google-Smtp-Source: AGHT+IEjXdG0uazktIdJ2eY6IhbN0NzOFSm9EJCpnpHhp0AWWgfdJLWXmtsXSGCki65me2aNbLPA8vfrpKQqWto4VAA=
-X-Received: by 2002:a05:6a21:7906:b0:16b:d137:de5a with SMTP id
- bg6-20020a056a21790600b0016bd137de5amr5314040pzc.28.1697650928075; Wed, 18
- Oct 2023 10:42:08 -0700 (PDT)
-MIME-Version: 1.0
-References: <20221118093931.1284465-1-paul.elder@ideasonboard.com> <20221118093931.1284465-5-paul.elder@ideasonboard.com>
-In-Reply-To: <20221118093931.1284465-5-paul.elder@ideasonboard.com>
-From:   Adam Ford <aford173@gmail.com>
-Date:   Wed, 18 Oct 2023 12:41:56 -0500
-Message-ID: <CAHCN7xJcKw5RRS0siyYEwJws049YFkh-zkyRQJsb8dgiLVoh3A@mail.gmail.com>
-Subject: Re: [PATCH v3 04/14] media: rkisp1: Add match data for i.MX8MP ISP
-To:     Paul Elder <paul.elder@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Helen Koike <helen.koike@collabora.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Wed, 18 Oct 2023 21:45:07 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 231929F
+        for <linux-media@vger.kernel.org>; Wed, 18 Oct 2023 18:45:05 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5B040C433C9
+        for <linux-media@vger.kernel.org>; Thu, 19 Oct 2023 01:45:04 +0000 (UTC)
+Date:   Thu, 19 Oct 2023 03:45:02 +0200
+Message-ID: <e3dff0c9b4ee29105182ba25e6cd0c25.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 18, 2022 at 3:44=E2=80=AFAM Paul Elder <paul.elder@ideasonboard=
-.com> wrote:
->
-> Add match data to the rkisp1 driver to match the i.MX8MP ISP.
->
-> Although the new version number isn't very precise, it ought to be fine
-> as the other version numbers aren't precise either, and we have separate
-> feature flags for important version-specific features. Despite this
-> version number being seemingly unimportant, it is added to distinguish
-> it from the ISP versions integrated in rockchip SoCs.
->
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> Reviewed-by: Rob Herring <robh@kernel.org>
->
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Paul,
+Results of the daily build of media_tree:
 
-It's been nearly a year since this commit was sent.  I noticed it
-hasn't been applied, and I was curious to know if there is any
-movement here?  I'm happy to test on my 8MP if necessary.
+date:			Thu Oct 19 03:00:08 CEST 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	48016737a9af47328dd321df4dd3479ed5e2041d
+v4l-utils git hash:	627c68a0d2749c389fb168eb548e276d2be81ee1
+edid-decode git hash:	5920bf2a756b2f748c49ff6a08b9f421026473c5
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8490-g8b29de04
+sparse version:		v0.5.0-8490-g8b29de04
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 4ea9496484e974bb46354c0bc783832182128194
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
-Thanks!
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-adam
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
-> ---
-> Changes in v3:
-> - Remove todo for improving the version number
-> - Expand the commit message to address the version number
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-dev.c     | 22 +++++++++++++++++++
->  include/uapi/linux/rkisp1-config.h            |  2 ++
->  2 files changed, 24 insertions(+)
->
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/driver=
-s/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> index e348d8c86861..69464ce91d59 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> @@ -496,6 +496,24 @@ static const struct rkisp1_info rk3399_isp_info =3D =
-{
->         .features =3D RKISP1_FEATURE_MIPI_CSI2,
->  };
->
-> +static const char * const imx8mp_isp_clks[] =3D {
-> +       "isp",
-> +       "hclk",
-> +       "aclk",
-> +};
-> +
-> +static const struct rkisp1_isr_data imx8mp_isp_isrs[] =3D {
-> +       { NULL, rkisp1_isr },
-> +};
-> +
-> +static const struct rkisp1_info imx8mp_isp_info =3D {
-> +       .clks =3D imx8mp_isp_clks,
-> +       .clk_size =3D ARRAY_SIZE(imx8mp_isp_clks),
-> +       .isrs =3D imx8mp_isp_isrs,
-> +       .isr_size =3D ARRAY_SIZE(imx8mp_isp_isrs),
-> +       .isp_ver =3D IMX8MP_V10,
-> +};
-> +
->  static const struct of_device_id rkisp1_of_match[] =3D {
->         {
->                 .compatible =3D "rockchip,px30-cif-isp",
-> @@ -505,6 +523,10 @@ static const struct of_device_id rkisp1_of_match[] =
-=3D {
->                 .compatible =3D "rockchip,rk3399-cif-isp",
->                 .data =3D &rk3399_isp_info,
->         },
-> +       {
-> +               .compatible =3D "fsl,imx8mp-isp",
-> +               .data =3D &imx8mp_isp_info,
-> +       },
->         {},
->  };
->  MODULE_DEVICE_TABLE(of, rkisp1_of_match);
-> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkis=
-p1-config.h
-> index 730673ecc63d..f602442c2018 100644
-> --- a/include/uapi/linux/rkisp1-config.h
-> +++ b/include/uapi/linux/rkisp1-config.h
-> @@ -179,12 +179,14 @@
->   * @RKISP1_V11: declared in the original vendor code, but not used
->   * @RKISP1_V12: used at least in rk3326 and px30
->   * @RKISP1_V13: used at least in rk1808
-> + * @IMX8MP_V10: used in at least imx8mp
->   */
->  enum rkisp1_cif_isp_version {
->         RKISP1_V10 =3D 10,
->         RKISP1_V11,
->         RKISP1_V12,
->         RKISP1_V13,
-> +       IMX8MP_V10,
->  };
->
->  enum rkisp1_cif_isp_histogram_mode {
-> --
-> 2.35.1
->
+smatch: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Thu Oct 19 03:16:00 CEST 2023
+virtme-64: WARNINGS: Final Summary: 3080, Succeeded: 3080, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 3193, Succeeded: 3193, Failed: 0, Warnings: 2
+
+date:			Thu Oct 19 03:43:30 CEST 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
