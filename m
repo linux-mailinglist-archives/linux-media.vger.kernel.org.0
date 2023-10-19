@@ -2,60 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 201747CF0D5
-	for <lists+linux-media@lfdr.de>; Thu, 19 Oct 2023 09:14:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 481AC7CF0FC
+	for <lists+linux-media@lfdr.de>; Thu, 19 Oct 2023 09:19:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232942AbjJSHOI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Oct 2023 03:14:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51532 "EHLO
+        id S232825AbjJSHTS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Oct 2023 03:19:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232858AbjJSHOH (ORCPT
+        with ESMTP id S232326AbjJSHTR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Oct 2023 03:14:07 -0400
-Received: from mail-ej1-x633.google.com (mail-ej1-x633.google.com [IPv6:2a00:1450:4864:20::633])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5C5B129
-        for <linux-media@vger.kernel.org>; Thu, 19 Oct 2023 00:14:04 -0700 (PDT)
-Received: by mail-ej1-x633.google.com with SMTP id a640c23a62f3a-9becde9ea7bso102275166b.0
-        for <linux-media@vger.kernel.org>; Thu, 19 Oct 2023 00:14:04 -0700 (PDT)
+        Thu, 19 Oct 2023 03:19:17 -0400
+Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DB40D9F
+        for <linux-media@vger.kernel.org>; Thu, 19 Oct 2023 00:19:14 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-4056ce55e7eso69753545e9.2
+        for <linux-media@vger.kernel.org>; Thu, 19 Oct 2023 00:19:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697699643; x=1698304443; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697699953; x=1698304753; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=KE1QiGAJ7bITD/Cz3miBk0K7U5aD4ctLyvqdV7MzBAo=;
-        b=EEaAATciUU/R+h+390A2bNlJYb4d2Xd044yfUiCu5Yeaw84Os+FBBYzFNHsUKS1A/a
-         bBlSVx0j5DgtMH+23RDU0GwCuTiZdjRVBNCPbYGOw6T9/VgYP5b4ZEG2hL8IN+SUhsso
-         KrtOC+NKHu4OlfIOtoAMLICcrILzX+xNlMBPdHgMa+Y2AeDpyBmUlAJv3PyK/741NSQV
-         XUC5Jp8syqZziRWfFI+xzHNrSmcRh30UvVbkHnxu1xarT0uhbC5aBf4VjKKH0PQ6exSF
-         HmCz+Ag64EZvvSTqgE04LTNL9M/Bak01BQbWFYCIyHfuJkje7zOww5EYxPMD+ncPp7AW
-         43gw==
+        bh=oMk48fNPeMbwiPT4mA/TH80iCg6Ebj3s0QIfDkvnauE=;
+        b=rregEQjI6w88i14szei2X1wO719KaM6zQQxiw3NH/zDgQxHbt38LeKjF3I+p1URybQ
+         VVyVrQ5nCqqeJ+tcqO2iQ5xEL/yA/pbKn2hrPLMqj1RVG0YrHEHsjy3spyyAwfDAFxBK
+         wQ/md2esX+gwA5NVM4iiTQjWowPM9S7bLOePNpq372TYJsYQXKUiTLPJ1YbSE0ip87zC
+         WjVJSCdqtk9LG5thTRxTB2aE3QQWuqK/P2V2geRQtPsBOZUmKFFt7eDqgFlut1qB8/44
+         oMKrBiPhBMoiyodhGW2Hwx2YdERwa5VFERDQA5F0BKKhOIXQAyBpjwykoK9cU6qDi6+Y
+         eloQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697699643; x=1698304443;
+        d=1e100.net; s=20230601; t=1697699953; x=1698304753;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KE1QiGAJ7bITD/Cz3miBk0K7U5aD4ctLyvqdV7MzBAo=;
-        b=kaeVWkrvIiHHgfuOFuiMdy+GHMqwstXDjJ55yBq4K+jRLScrBnKkS7KH8UpkWdC6Rd
-         ogT7HMbW7YEi1dCYt1sQHbLaeiarKRRgifP928SYzZ5V4dH6qBzzOvSIi1492BoCb9rf
-         PcgbCpvHK9ech3Rfs/blJ2KNt+WHxfvoqlWsIVISfeal/yOVaP9UfN6lCEiBDZq+qnvw
-         oatPZHGPZL9CwHpiKa2eiakJuAMlf2/kKaFIToPAx7OYCx+e4UvAPJB1xdnjB7Ih8bpW
-         SzH6Pi2wj16IflYxpE2B5pNYAi0w4//oJsV1S6VB/Y6lGgDKgwPQ0mJ8PWPzlkiVcDPe
-         sUTw==
-X-Gm-Message-State: AOJu0Yzr/VgDpdwYLHMGRssm19b7m8GOVYqZLg4nhCKYDqI88UW69mlK
-        oWMwQueWt/JCvBOkepeOBMehCg==
-X-Google-Smtp-Source: AGHT+IGoKPN8YdTHVyrcBa2S2vi3ub9KOfcI6fRijgZHl3zYUKEQ7a9vK2oXJfe1KJe+/86D2h/wTg==
-X-Received: by 2002:a17:907:d88:b0:9b2:b37d:17ff with SMTP id go8-20020a1709070d8800b009b2b37d17ffmr1065705ejc.19.1697699643351;
-        Thu, 19 Oct 2023 00:14:03 -0700 (PDT)
+        bh=oMk48fNPeMbwiPT4mA/TH80iCg6Ebj3s0QIfDkvnauE=;
+        b=bPJsZOWwtv0i8eZ2Y5D0sBlnLl24qCffOTLLdLKAYZpfcvUMkV+8y7uED4YW/uhT5z
+         PUYAVh+gepJElPn+aOvGZ3FqptiD9MC2kD6e5g6FB9arHVx1bmJGM3XCEl8gQ09IDKxm
+         pCgGHRMT3kM2E9QRCst/4Fn3P+DbRL3tpTKzGBhm1/Gs6EfS+7OLVLEkBKi+K8ScfwPC
+         bPE4zQwsJkUTB2/D0rdefrTAIGcG2lNz/FEH2zrutxW1yMR+5UNbrRNg1P9TM4Zs5CvB
+         0VnL84EKXS/g3mkC91G2hDIjJ11dF39r9xbtsZgF43vkSRioHaLiFNOOlWCrAnKkZTWr
+         i2Rw==
+X-Gm-Message-State: AOJu0YzNKb2yiPo0ix5vOHgPYoGvfE6MQz2FMf+qlTauKz45E4mp4kgh
+        sHA09y+CLj/8Qe4j5Q2l2TgzZ4uABCohc6BV/S4=
+X-Google-Smtp-Source: AGHT+IH22H7cf3TKJw7PfKcUyvqMF1SQ8wGA+P4mbnIzVYBkIArA77tzRFNnMvM3wv80vuC9ESCtYw==
+X-Received: by 2002:a05:600c:4f02:b0:405:3885:490a with SMTP id l2-20020a05600c4f0200b004053885490amr1177060wmq.0.1697699953215;
+        Thu, 19 Oct 2023 00:19:13 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.223.49])
-        by smtp.gmail.com with ESMTPSA id gr24-20020a170906e2d800b009c762d89c76sm122698ejb.0.2023.10.19.00.14.01
+        by smtp.gmail.com with ESMTPSA id o30-20020a05600c511e00b004063cd8105csm3683692wms.22.2023.10.19.00.19.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 19 Oct 2023 00:14:02 -0700 (PDT)
-Message-ID: <9b853b5f-b3e6-4aea-b99a-51a490a29f9d@linaro.org>
-Date:   Thu, 19 Oct 2023 09:14:01 +0200
+        Thu, 19 Oct 2023 00:19:12 -0700 (PDT)
+Message-ID: <d640f5c2-8af5-4402-a981-0e962d4f2aca@linaro.org>
+Date:   Thu, 19 Oct 2023 09:19:09 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/3] media: imx-jpeg: Add vendor prefix in slot
- property
+Subject: Re: [PATCH v5 1/3] dt-bindings: media: imx-jpeg: Assign slot for imx
+ jpeg encoder/decoder
 Content-Language: en-US
 To:     "Ming Qian (OSS)" <ming.qian@oss.nxp.com>,
         mirela.rabulea@oss.nxp.com, robh+dt@kernel.org, shawnguo@kernel.org
@@ -67,7 +67,7 @@ Cc:     krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org
 References: <cover.1697597713.git.ming.qian@nxp.com>
- <be1f8907582ea344f8826f7888b277534859e0c4.1697597713.git.ming.qian@nxp.com>
+ <c7995af1f91733626ff4e86f0575dea5d2ff0bb8.1697597713.git.ming.qian@nxp.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -113,7 +113,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <be1f8907582ea344f8826f7888b277534859e0c4.1697597713.git.ming.qian@nxp.com>
+In-Reply-To: <c7995af1f91733626ff4e86f0575dea5d2ff0bb8.1697597713.git.ming.qian@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -129,38 +129,91 @@ X-Mailing-List: linux-media@vger.kernel.org
 On 19/10/2023 04:48, Ming Qian (OSS) wrote:
 > From: Ming Qian <ming.qian@nxp.com>
 > 
-> The slot property isn't generic property, add vendor prefix. Change the
-> property name to nxp,slot.
+> This IP includes a jpeg wrapper and a jpeg engine, the wrapper is
+> working on descriptor based manner. It supports up to 4 slots, each slot
+> can have its own chained descriptors. Host won't configure the engine
+> directly, but fill some descriptors to encode or decode one jpeg
+> picture. Then configure the descriptors to certain slot register. The
+> jpeg wrapper will schedule between different slots. When some slot is
+> finished, the slot interrupt will be triggered. The purpose of slot is
+> that engine can be shared across multiple VMS and os.
 > 
-> Fixes: 53ebeea50599 ("media: imx-jpeg: Support to assign slot for encoder/decoder")
+> Currently, power domains and interrupts are enabled for all 4 slots, but
+> only one slot is used. There is no benefit in using more that one slot
+> from within the same OS, as the slots are scheduled in round-robin
+> manner and not executed in parallel.
+> 
+> Use the property "nxp,slot" to assign a single slot, and just expose the
+> parts of the h/w for the assigned slot. For example, only put slot 1's
+> power-domains entry in the DT when slot 1 is assigned. If not specified,
+> 0 is used by default.
+> 
 > Signed-off-by: Ming Qian <ming.qian@nxp.com>
 > ---
 > v5
-> - add vender prefix, change property slot to nxp,slot
+> - improve commit message
+> - improve property description
 > 
 > v4
-> - nothing changed here, just modify the bindings and dts
+> - improve commit message
+> - drop line making the property required, to avoid ABI break
 > 
 > v3
-> - nothing changed here, just modify the bindings and dts
+> - add vender prefix, change property slot to nxp,slot
+> - add type for property slot
 > 
 > v2
-> - nothing changed here, just modify the bindings and dts
+> - add a new property in bindings document
 > 
->  drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../bindings/media/nxp,imx8-jpeg.yaml         | 46 +++++++++----------
+>  1 file changed, 22 insertions(+), 24 deletions(-)
 > 
-> diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> index 64112b63298c..f8b99a292ad1 100644
-> --- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> +++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-> @@ -2762,7 +2762,7 @@ static int mxc_jpeg_probe(struct platform_device *pdev)
->  	if (IS_ERR(jpeg->base_reg))
->  		return PTR_ERR(jpeg->base_reg);
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> index 3d9d1db37040..0961856bdcab 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+> @@ -32,19 +32,27 @@ properties:
+>      maxItems: 1
 >  
-> -	ret = of_property_read_u32_index(pdev->dev.of_node, "slot", 0, &jpeg->slot_data.slot);
+>    interrupts:
+> -    description: |
+> -      There are 4 slots available in the IP, which the driver may use
+> -      If a certain slot is used, it should have an associated interrupt
+> -      The interrupt with index i is assumed to be for slot i
+> -    minItems: 1               # At least one slot is needed by the driver
+> -    maxItems: 4               # The IP has 4 slots available for use
+> +    description:
+> +      Interrupt number for slot
+> +    maxItems: 1
 
-How did it appear in the code and in the DTS without bindings...
+The device still has four interrupts, so we should allow up to four of
+them. One given OS might want to use two or all four slots.
+
+
+>  
+>    power-domains:
+>      description:
+>        List of phandle and PM domain specifier as documented in
+>        Documentation/devicetree/bindings/power/power_domain.txt
+> -    minItems: 2               # Wrapper and 1 slot
+> -    maxItems: 5               # Wrapper and 4 slots
+> +    minItems: 1               # Mixed power domain
+> +    maxItems: 2               # Wrapper and 1 slot
+> +
+> +  nxp,slot:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Integer number of slot index used. This IP includes a jpeg wrapper, the
+> +      wrapper is working on descriptor based manner. It supports up to 4 slots,
+> +      each slot can have its own chained descriptors. The purpose is to share
+> +      the jpeg engine across multiple VMS and os. We use this property to
+> +      assign a single slot. If not specified, 0 is used by default.
+> +    minimum: 0
+> +    maximum: 3
+
+default: 0
+
+
 
 Best regards,
 Krzysztof
