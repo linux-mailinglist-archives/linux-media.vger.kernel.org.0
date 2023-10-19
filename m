@@ -2,160 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5C277CEE3A
-	for <lists+linux-media@lfdr.de>; Thu, 19 Oct 2023 04:48:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD6137CEEBB
+	for <lists+linux-media@lfdr.de>; Thu, 19 Oct 2023 06:45:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232569AbjJSCst (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Oct 2023 22:48:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59226 "EHLO
+        id S232566AbjJSEpJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Oct 2023 00:45:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52886 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232562AbjJSCsr (ORCPT
+        with ESMTP id S232571AbjJSEpI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Oct 2023 22:48:47 -0400
-Received: from EUR05-AM6-obe.outbound.protection.outlook.com (mail-am6eur05on2040.outbound.protection.outlook.com [40.107.22.40])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4EF2193;
-        Wed, 18 Oct 2023 19:48:40 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KXAU2Xd9wutNj01XC6RB364kzfd182KmKdVjsaxq/rxKi9hAxjZjrGP69azfIKxewwOGhp+RL+nnca5MC5W7nRjJMOMBra/d5DgkOIB0jyNOfYwwPdzFR9seK1Y4wCyzE4klvxd2uvaPdKz9XLLXekrcyPW6tjDrZwKncIjDZOcW7q7TgXvifEe1VAf4G+cyCLXHkgUHIjCyavJtO05BMPlcMB1KdpoJX6wAf/pzf6ZCuG240D5jq8iAmJ7yHQz+ubqmtBeFDUIMa+YgGRoW4cw8EKG99p8LxB+w3Lwfwlup7EjSF8yiANnQvtSmgOxzGwqWwjXhAxmTQ8fL2bMDwA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gEWFVWZKinvQdrxYcIrxatj85NQhW7EW8uxc7yEPn2Y=;
- b=S1s3/B6OdN4MOmaSBPF6IJ6uVIzMdQYKut4yP3i/vns1JldOOQ5U3gqcNIR8WRydeMkCHZag00P+1aBNe+fRH0RaIKjNOhqmze+7Gn8c+OADgC213xLIgiles6bPrMzyBhvCNlIQgcpH7836rW24AkXi4PaMKzHLmI/GfGlRfJHk+cu7unWKbNg8fNJrd+/uEJa0ESTy8cVkK7it/YI6bO01x/Pu7avARrTTiCfUIh+z7ZzkKmjDagQTAvQE1ygvXPzVH3bJKTREtm0QHCKzaqdlWqFkcGU9QMTK7U45yn5z2ri27VHVosD9KsgB0R7RjqDatx267T0VtoZNaGuL8w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
- dkim=pass header.d=oss.nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
- s=selector2-NXP1-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gEWFVWZKinvQdrxYcIrxatj85NQhW7EW8uxc7yEPn2Y=;
- b=Rl053gx+1W87jVOf0uNrjg5GgC3z5ksBTwEYv4x3WjG3aawmvLnqtNAJWWAznzSs/qmWX136kp/hHcNxA472pVuuU0lIVGwFGWLVdJX0VcxYzXckr2hgWWXf5nRtr6SHPbaSWHkkkaDi7Bs7hhM3FOvqFk03VvbZogvUERDwkF8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=oss.nxp.com;
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
- by AS5PR04MB10000.eurprd04.prod.outlook.com (2603:10a6:20b:682::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6863.46; Thu, 19 Oct
- 2023 02:48:38 +0000
-Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::6e53:39fc:f010:30d5]) by AM6PR04MB6341.eurprd04.prod.outlook.com
- ([fe80::6e53:39fc:f010:30d5%4]) with mapi id 15.20.6907.021; Thu, 19 Oct 2023
- 02:48:38 +0000
-From:   "Ming Qian (OSS)" <ming.qian@oss.nxp.com>
-To:     mirela.rabulea@oss.nxp.com, robh+dt@kernel.org, shawnguo@kernel.org
-Cc:     krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
-        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
-        ming.qian@nxp.com, linux-imx@nxp.com, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v5 3/3] media: imx-jpeg: Add vendor prefix in slot property
-Date:   Thu, 19 Oct 2023 10:48:02 +0800
-Message-Id: <be1f8907582ea344f8826f7888b277534859e0c4.1697597713.git.ming.qian@nxp.com>
-X-Mailer: git-send-email 2.38.1
-In-Reply-To: <cover.1697597713.git.ming.qian@nxp.com>
-References: <cover.1697597713.git.ming.qian@nxp.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR01CA0168.apcprd01.prod.exchangelabs.com
- (2603:1096:4:28::24) To AM6PR04MB6341.eurprd04.prod.outlook.com
- (2603:10a6:20b:d8::14)
+        Thu, 19 Oct 2023 00:45:08 -0400
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 657E1129;
+        Wed, 18 Oct 2023 21:45:04 -0700 (PDT)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39J4N061015623;
+        Thu, 19 Oct 2023 04:44:42 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=+ugDTtE0N5pIP+bbxhOpFwqhGnBHp8dix51AVdVNmjI=;
+ b=nXh8jcJMjbwNDlgTbyO4nJVcjRiJc/JawzpuRc0IrUlnQUYa743bURCiUPGUdZXKghUe
+ sFv6JARIsxdhvzuTvfCmwILcxHvnCTWRQwwFkbFwKAsm1WeFGhhIuvvZaAsIjfexmxT/
+ XLKvOloHIsj0h596xV05Yb7j5gqMxfkU3iKnUab5ssaUXl9e1Dz59e8YEesPodfso2ic
+ 7J48ll5bv1UaRcXGenNxuOi+ChpoLkL/pkloCxTOc34pgT2T6ohwHHo4+YyAjrPI4k7P
+ PTRUwjG/lTGhkBhQBaf57GTmtfRWBX6NzqxWONInX9Rtr3xAson5hsNvxDg7X8yaj0nr xw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tth2f1pm9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 19 Oct 2023 04:44:42 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39J4ifLU003377
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 19 Oct 2023 04:44:41 GMT
+Received: from [10.216.19.246] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 18 Oct
+ 2023 21:44:33 -0700
+Message-ID: <423c28cc-e6b0-4e82-8f38-3f4fe22076c2@quicinc.com>
+Date:   Thu, 19 Oct 2023 10:14:13 +0530
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|AS5PR04MB10000:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3400576c-bb36-414f-1f05-08dbd04de53d
-X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: laW823mHqSxU+aq8ctS78uwJloTjbBZO4xCWew5AqduA2+1K97SwBELiJkPfv3xhfzXZeRuByX0LAhkPxpSBj1EcCnQ+fjBFAT4dwmRtx4aZZOFNr6+7qrso4vHMB5P8CDuMmkhunojju6WDQASFMlGF4/aBden7CODynCAkW9IuWvlG4aavbxv1zMTMgN5g/+pKmacDNdwbDR74sS8tw4FIDUn/w8xSNSrt9tTk5NLcT6LwCfCg7iUuYwUqsAOsAs4JZq3ly+g7N1EpPbsIeGoupvdh0BbCKupLFQmXwdZFGAShBDfzIKByknfA6MAa7X4kEA+75PE2V7qWA9RDMfYZeylJqO+NrcqfD3jd/kIyKLBFyCOf/RDhddkrkERi7/Wm21x0M9E4+F6MjUULaBh9N8/M+HF3WppZnj2cXSPEko72/eYOF5fclhVeUubAO7629X/vhoPLF4FAiYLrzf+Cb66DD55/kqeBdpVi90oLKrUBiNCZbb9eQEnQk17b1qfFVNiYC/ErRTV4ODwFDKmkaP6hOp0Wt75m6K/6Je/Mor/E7zLvmLYCFPy9YrN0lA+uN3l3FS5CkAPrWlt//BCos4Pqlj4iYZ+4d+YfW1eG+GhUxYLdGbgtcskZsYBi
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(376002)(136003)(366004)(396003)(230922051799003)(1800799009)(186009)(64100799003)(451199024)(38350700005)(6512007)(86362001)(36756003)(9686003)(8676002)(66476007)(66946007)(38100700002)(316002)(83380400001)(52116002)(6506007)(6666004)(66556008)(41300700001)(6486002)(478600001)(8936002)(7416002)(5660300002)(4326008)(2906002)(26005);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Qv/PK6Osxi/z4zpK7ghbD+EWV3da5u81+PCUC/gVNdODbCHdw1VHBdi2lHWh?=
- =?us-ascii?Q?YeUADxI/tbbn2OJ+oURhAwavHEHrjB8l9ew3L2gutABYNWWcOznVrWSmxAAp?=
- =?us-ascii?Q?lKge7GVBweiaf7IjCPAGiMejjwYm6XQBMZuA0sK2lOU5aIT6Aq+k2MQJa3CT?=
- =?us-ascii?Q?kMYDY5CA3K0gutvvEouugrxhkhDwiw2A86PvFo2zyeHCeyaxvEfp+UXyEKI5?=
- =?us-ascii?Q?ZuINHF7lMTc37GF9+gTlpAmuii9VfgOH5tMCEjPHoNxmTGL/jGS84DnJ2ktC?=
- =?us-ascii?Q?3/D8sG126cek+l9fw6mTU/C8Wzc/sP5vsTe00BI55b7xhyPDrV3o0Qi28B9o?=
- =?us-ascii?Q?ibOkXyVspp/MT2hLTS3Sj9OW3rK3oRcLw70Ks7JCLp5DRDK7lqz/m7rcnnbu?=
- =?us-ascii?Q?n6O0kaLa2V5G+jBL6ELFQBMPIwvobU1TwHHfLQxLCfaz/XjqEB5zvMlmyyKJ?=
- =?us-ascii?Q?y7rdQtylKYZBztfC6LBipx68AMABMbSfMAghG7Ihg9nyf0mxrwjgh2my5+bf?=
- =?us-ascii?Q?cDT56LbT2QxnYoT8v+hdlr7P4S54/kYKI82+a//I8sNZ0tK66Ryczj9a0nuh?=
- =?us-ascii?Q?SzjXjTBlZcXVqeTIpjv0pdFR3gh/Gosmpgr6JJygA1aMaXzXBnn4DXsaR89Y?=
- =?us-ascii?Q?bZFNXxvpKlJxDXMh6AqNUmxNDXX0gqWc4K6tOeWag3HJnT+kDlvKmagY1KeN?=
- =?us-ascii?Q?UNv2sPt/+K+OLrOvf7ZtuohbBh5dMg/Ss/j4gIhk4L0cHQ1aroakG4HeWK8C?=
- =?us-ascii?Q?fZyF5ihfYuNVWkQSDExF+rQLvMtPaMtw+Yj1yOSufwhtnHl4MZjrRCir6A6t?=
- =?us-ascii?Q?5USFunAk0xwoBvtMDOlF7bSYB1PH5+1CkGIVMI0GlJcnRUxlRiyZkbZ91T0S?=
- =?us-ascii?Q?g7SFsTr+KbkEVwXwzF14GEugua9gLcXBD1oLZuId10dPGCdcge7dhzWHBmoR?=
- =?us-ascii?Q?EiQ9ujScrZgFiGv6D5/smMEKEZg35WKXMaozF60jMh6g3PGZlXRoLlVc4gr5?=
- =?us-ascii?Q?eQ+2+xLuvRfNlZPzWqeTO8Czn3uU+x9dzHbqnqb9Mr/j+aWLV4A7c5C12+mR?=
- =?us-ascii?Q?YRpp5sIatcY8EjwuYRqwJJTAT506bCe+OMw+jLe5fFotWWeLOZQddacUJ0iI?=
- =?us-ascii?Q?CG9WHQzhBX3kALWn9acH3JjHwtqC7KSi7NK2WTNLv/g1MKU0mdZPKOTXFhX4?=
- =?us-ascii?Q?XYieS8OJs6hEOEgYPbupVUWyISmiE3vXHE1mzUPYqwQd/KCDUBeJXXx5ewJ0?=
- =?us-ascii?Q?E/3PECGWqJmgh0dWr68ufShd9r8sJqsDnzgxxop/VR3qwxqtB7/eYhdFi2go?=
- =?us-ascii?Q?zHOZ0Ln8e6H+X6kR8ofIkn0Raws7yy6u/syYSgClgFE0AsgYBBCe8dRNmXSi?=
- =?us-ascii?Q?al36EN2BopE7C/xMg7eBPeXRsF/dqk8sezvkAiRZcC1b68XTVVEdSsjvH3mu?=
- =?us-ascii?Q?HgnEeIIj8t/fjbb/VQrf4cTwCChMfZVWVUWOk/4CNBvjwRAZWDq3B7xkYcp/?=
- =?us-ascii?Q?PcDKybVFGw1ltjwavdTxRQTAd1nq1J/D1s9RHLXCH4cMIuOOV38mqaH67Q9S?=
- =?us-ascii?Q?A6uGVZiAPwUnNp1sjWu/XMrIboeVlvu8SIwjLoch?=
-X-OriginatorOrg: oss.nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3400576c-bb36-414f-1f05-08dbd04de53d
-X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2023 02:48:38.1451
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: CbR3gqLD+7IZjDaOU0O4BPvqO9+DXI4/nplvyqh50TC0x4PTK1sATMBWpwEsdtofO6+WqAU6lkeEXOOM6Ks54A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR04MB10000
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/9] dma-buf: heaps: Add MediaTek secure heap
+Content-Language: en-US
+To:     Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        <christian.koenig@amd.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>
+CC:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        John Stultz <jstultz@google.com>, <tjmercier@google.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <jianjiao.zeng@mediatek.com>,
+        <kuohong.wang@mediatek.com>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+From:   Vijayanand Jitta <quic_vjitta@quicinc.com>
+In-Reply-To: <20230911023038.30649-1-yong.wu@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: Lc4B_SAVgouSoZ-DK34n-SzwIOaz_pQs
+X-Proofpoint-GUID: Lc4B_SAVgouSoZ-DK34n-SzwIOaz_pQs
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-19_02,2023-10-18_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxscore=0
+ mlxlogscore=943 spamscore=0 malwarescore=0 suspectscore=0
+ lowpriorityscore=0 impostorscore=0 priorityscore=1501 clxscore=1011
+ adultscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2309180000 definitions=main-2310190039
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Ming Qian <ming.qian@nxp.com>
 
-The slot property isn't generic property, add vendor prefix. Change the
-property name to nxp,slot.
 
-Fixes: 53ebeea50599 ("media: imx-jpeg: Support to assign slot for encoder/decoder")
-Signed-off-by: Ming Qian <ming.qian@nxp.com>
----
-v5
-- add vender prefix, change property slot to nxp,slot
+On 9/11/2023 8:00 AM, Yong Wu wrote:
+> This patchset consists of two parts, the first is from John and TJ.
+> It adds some heap interfaces, then our kernel users could allocate buffer
+> from special heap. The second part is adding MTK secure heap for SVP
+> (Secure Video Path). A total of two heaps are added, one is mtk_svp and
+> the other is mtk_svp_cma. The mtk_svp buffer is reserved for the secure
+> world after bootup and it is used for ES/working buffer, while the
+> mtk_svp_cma buffer is dynamically reserved for the secure world and will
+> be get ready when we start playing secure videos, this heap is used for the
+> frame buffer. Once the security video playing is complete, the CMA will be
+> released.
+> 
+> For easier viewing, I've split the new heap file into several patches.
+> 
+> The consumers of new heap and new interfaces are our codec and drm which
+> will send upstream soon, probably this week.
+> 
+> Base on v6.6-rc1.
+> 
+> John Stultz (2):
+>   dma-heap: Add proper kref handling on dma-buf heaps
+>   dma-heap: Provide accessors so that in-kernel drivers can allocate
+>     dmabufs from specific heaps
+> 
+> T.J. Mercier (1):
+>   dma-buf: heaps: Deduplicate docs and adopt common format
+> 
+> Yong Wu (6):
+>   dma-buf: heaps: Initialise MediaTek secure heap
+>   dma-buf: heaps: mtk_sec_heap: Initialise tee session
+>   dma-buf: heaps: mtk_sec_heap: Add tee service call for buffer
+>     allocating/freeing
+>   dma-buf: heaps: mtk_sec_heap: Add dma_ops
+>   dt-bindings: reserved-memory: MediaTek: Add reserved memory for SVP
+>   dma_buf: heaps: mtk_sec_heap: Add a new CMA heap
+> 
+>  .../mediatek,secure_cma_chunkmem.yaml         |  42 ++
+>  drivers/dma-buf/dma-heap.c                    | 127 +++--
+>  drivers/dma-buf/heaps/Kconfig                 |   8 +
+>  drivers/dma-buf/heaps/Makefile                |   1 +
+>  drivers/dma-buf/heaps/mtk_secure_heap.c       | 458 ++++++++++++++++++
+>  include/linux/dma-heap.h                      |  42 +-
+>  6 files changed, 630 insertions(+), 48 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/reserved-memory/mediatek,secure_cma_chunkmem.yaml
+>  create mode 100644 drivers/dma-buf/heaps/mtk_secure_heap.c
+> 
 
-v4
-- nothing changed here, just modify the bindings and dts
+Thanks for this patch series.
 
-v3
-- nothing changed here, just modify the bindings and dts
+In Qualcomm as well we have similar usecases which need secure heap. We are working on
+posting them upstream, would share more details on usecases soon.
 
-v2
-- nothing changed here, just modify the bindings and dts
+Have few comments on the current implementation.
 
- drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+1) I see most the implementation here is mtk specific, even file names ,heap names etc.
+   But secure heap is a common requirement, can we keep naming as well generic may be secure_heap ?
 
-diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-index 64112b63298c..f8b99a292ad1 100644
---- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-+++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-@@ -2762,7 +2762,7 @@ static int mxc_jpeg_probe(struct platform_device *pdev)
- 	if (IS_ERR(jpeg->base_reg))
- 		return PTR_ERR(jpeg->base_reg);
- 
--	ret = of_property_read_u32_index(pdev->dev.of_node, "slot", 0, &jpeg->slot_data.slot);
-+	ret = of_property_read_u32_index(pdev->dev.of_node, "nxp,slot", 0, &jpeg->slot_data.slot);
- 	if (ret)
- 		jpeg->slot_data.slot = 0;
- 	dev_info(&pdev->dev, "choose slot %d\n", jpeg->slot_data.slot);
--- 
-2.38.1
+2) secure heap has two parts, one is allocation and other one is securing the memory.
+   Have few comments on making these interfaces generic, would post those on corresponding 
+   patches.
+
+Thanks,
+Vijay
+   
 
