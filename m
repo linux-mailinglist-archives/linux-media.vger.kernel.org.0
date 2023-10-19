@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 469287CF29E
-	for <lists+linux-media@lfdr.de>; Thu, 19 Oct 2023 10:31:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C71D7CF2A3
+	for <lists+linux-media@lfdr.de>; Thu, 19 Oct 2023 10:32:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232935AbjJSIbU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Oct 2023 04:31:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58838 "EHLO
+        id S235314AbjJSIcE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Oct 2023 04:32:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232852AbjJSIbT (ORCPT
+        with ESMTP id S235225AbjJSIb6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Oct 2023 04:31:19 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B83B912F
-        for <linux-media@vger.kernel.org>; Thu, 19 Oct 2023 01:31:16 -0700 (PDT)
+        Thu, 19 Oct 2023 04:31:58 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5528F183
+        for <linux-media@vger.kernel.org>; Thu, 19 Oct 2023 01:31:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1697704277; x=1729240277;
+  t=1697704316; x=1729240316;
   h=subject:to:cc:references:from:message-id:date:
    mime-version:in-reply-to:content-transfer-encoding;
-  bh=X4iGSXBx+JWu6WfHSYYQkN/4Z1pdbv3nARXw88rfDfU=;
-  b=aQlIWd8+EZMtypeqAdlxXFB7ORfIx1OygWKlo1iWbh/1CUMmK91bWKwR
-   hRfYMax710JSn2gotgkTnC9+HRCXoueNAJhqzlknJVSV/crvCPL5OksfA
-   ofm0GdEuGZebxcsKnaNKRMV0xj3PS9WZVcfl17UT8eCHXquLpjP6WNJIk
-   0PlDWyTUvufmNEO3abVZ9XI9ug8qD878pyndmyBBXZDhbLzAYWyqY/RVU
-   lOIA8MRQ50bS4w5J58lLixsDb9UYy3EqucZ69gMd3GENKTWfykYJ5ooIm
-   OMsFUIZTu/z9aKW0Z5xaV3r+b58zoGiui77//TqSoQ0MuHNO4qhPMu6UW
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="7756467"
+  bh=t2XXawFXdtGUyINF/KSIj17ode99crz5cTk31LwFE6E=;
+  b=SKQa++Yqimf2EnoU7IV0Wg/Qr8HNTZeWAxOxZwgUrTNw56p+Xk86AkRQ
+   QsDdFdSpWbl+/hBJabLJp1cu42lAj5OJmEzbki2Val9F6EomB+0jtj/cM
+   r20YQTgMaemsTu+lLzzNJskmpe5dSX9wMCDk0V+mJU+wbOmRdrTaIsw72
+   NQ5TJLdzmZ4zAy9d+MEgqksMn2o4SGpevD8qOKqimvgI1EpyYf4Hq1ddS
+   TUX6WRMUxsIysKoUzc8CjEJkGPG0/ABhOvddlkOPnyHCIqOz6X9ma1wDl
+   3N2DSRc5ZzmVEmofX4PlYcaQF1unFWHDyAq9DFhPl4FQL74vtfSi7HS4B
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="371265707"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="7756467"
+   d="scan'208";a="371265707"
 Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 01:31:16 -0700
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 01:31:53 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="786274786"
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="786275162"
 X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
-   d="scan'208";a="786274786"
+   d="scan'208";a="786275162"
 Received: from ipu5-build.bj.intel.com (HELO [10.238.232.146]) ([10.238.232.146])
-  by orsmga008.jf.intel.com with ESMTP; 19 Oct 2023 01:31:12 -0700
-Subject: Re: [PATCH 10/15] media: intel/ipu6: add input system driver
+  by orsmga008.jf.intel.com with ESMTP; 19 Oct 2023 01:31:48 -0700
+Subject: Re: [PATCH 12/15] media: add Kconfig and Makefile for IPU6
 To:     Andreas Helbech Kleist <andreaskleist@gmail.com>,
         bingbu.cao@intel.com, linux-media@vger.kernel.org,
         sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
@@ -48,18 +48,18 @@ Cc:     ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
         hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
         tian.shu.qiu@intel.com, hongju.wang@intel.com
 References: <20230727071558.1148653-1-bingbu.cao@intel.com>
- <20230727071558.1148653-11-bingbu.cao@intel.com>
- <1ce2242844b3e1348d7343b84b15dd87e0f66e6a.camel@gmail.com>
+ <20230727071558.1148653-13-bingbu.cao@intel.com>
+ <069207da98e6445f0c70c74ba1e1bdb7c46ba25a.camel@gmail.com>
 From:   Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <ea3cc241-4074-2b53-359f-360ca45a7b1f@linux.intel.com>
-Date:   Thu, 19 Oct 2023 16:28:16 +0800
+Message-ID: <bcb23c29-a269-6865-fdcf-20f184fe0897@linux.intel.com>
+Date:   Thu, 19 Oct 2023 16:28:52 +0800
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <1ce2242844b3e1348d7343b84b15dd87e0f66e6a.camel@gmail.com>
+In-Reply-To: <069207da98e6445f0c70c74ba1e1bdb7c46ba25a.camel@gmail.com>
 Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
@@ -77,53 +77,28 @@ On 10/3/23 6:13 PM, Andreas Helbech Kleist wrote:
 > On Thu, 2023-07-27 at 15:15 +0800, bingbu.cao@intel.com wrote:
 >> From: Bingbu Cao <bingbu.cao@intel.com>
 >>
->> Input system driver do basic isys hardware setup and irq handling
->> and work with fwnode and v4l2 to register the ISYS v4l2 devices.
+>> Add IPU6 support in Kconfig and Makefile, with this patch you can
+>> build the Intel IPU6 and input system modules by select the
+>> CONFIG_VIDEO_INTEL_IPU6 in config.
 > 
->> +       media_device_pci_init(&isys->media_dev,
->> +                             pdev, IPU6_MEDIA_DEV_MODEL_NAME);
->> +
->> +       strscpy(isys->v4l2_dev.name, isys->media_dev.model,
->> +               sizeof(isys->v4l2_dev.name));
->> +
->> +       ret = media_device_register(&isys->media_dev);
->> +       if (ret < 0)
->> +               goto out_media_device_unregister;
-> ...
->> +out_media_device_unregister:
->> +       media_device_unregister(&isys->media_dev);
->> +       media_device_cleanup(&isys->media_dev);
+>> +++ b/drivers/media/pci/intel/ipu6/Kconfig
+>> @@ -0,0 +1,15 @@
+>> +config VIDEO_INTEL_IPU6
+>> +       tristate "Intel IPU6 driver"
+>> +       depends on ACPI || COMPILE_TEST
+>> +       depends on MEDIA_SUPPORT
+>> +       depends on MEDIA_PCI_SUPPORT
+>> +       depends on X86 && X86_64
+>> +       select IOMMU_IOVA
+>> +       select VIDEOBUF2_DMA_CONTIG
+>> +       select V4L2_FWNODE
 > 
-> You should only call media_device_cleanup() if media_device_register()
-> fails.
-> 
-> 
->> +static const struct pci_device_id isys_pci_tbl[] = {
->> +       { PCI_VDEVICE(INTEL, IPU6_PCI_ID) },
->> +       { PCI_VDEVICE(INTEL, IPU6SE_PCI_ID) },
->> +       { PCI_VDEVICE(INTEL, IPU6EP_ADL_P_PCI_ID) },
->> +       { PCI_VDEVICE(INTEL, IPU6EP_ADL_N_PCI_ID) },
->> +       { PCI_VDEVICE(INTEL, IPU6EP_RPL_P_PCI_ID) },
->> +       { PCI_VDEVICE(INTEL, IPU6EP_MTL_PCI_ID) },
->> +       { }
->> +};
-> 
-> Unused
+> This is still missing VIDEO_V4L2_SUBDEV_API as mentioned in the RFC
+> series:
+> https://lore.kernel.org/all/20230706085736.1915096-1-andreaskleist@gmail.com/
 
-Have you tried that whether isys driver can be auto-loaded w/o
-this pci id table? It cannot on my side.
+Ack, thanks!
 
-> 
->> +static const struct auxiliary_device_id ipu6_isys_id_table[] = {
->> +       {
->> +               .name = "intel_ipu6.isys",
->> +               .driver_data =
->> (kernel_ulong_t)&ipu6_isys_auxdrv_data,
->> +       },
->> +};
-> 
-> Missing sentinel {}.
-> 
 > 
 > Best regards,
 > Andreas
