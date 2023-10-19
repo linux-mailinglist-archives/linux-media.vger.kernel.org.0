@@ -2,50 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E13957CF42A
-	for <lists+linux-media@lfdr.de>; Thu, 19 Oct 2023 11:39:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 50DF27CF4B6
+	for <lists+linux-media@lfdr.de>; Thu, 19 Oct 2023 12:08:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233023AbjJSJjd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Oct 2023 05:39:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55862 "EHLO
+        id S1345187AbjJSKIJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Oct 2023 06:08:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37096 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbjJSJjc (ORCPT
+        with ESMTP id S1345115AbjJSKII (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Oct 2023 05:39:32 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 338C9106;
-        Thu, 19 Oct 2023 02:39:29 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 0BD41240006;
-        Thu, 19 Oct 2023 09:39:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1697708367;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-        bh=cGl5byPyRt4Dyc2mGkICLZ0WP6tf30bsG6wfqqctHUs=;
-        b=ZU/TPnonJbEQlFzVZayq14Wdoh9JXqo0H6KNMkR+kmJ/pGabHBZLnpP4P9NCD0ULK4TpLr
-        sf1ObDGbw4+q0hyQiuUdmues9dbkrvcQApb0Ko82egOE8g3KvH332cujb4sX5+J25si37/
-        wzDOZOSHs4PGL/JBw7FVK6TismXIjvxWUUgYAE+tWm4hv5AIXsb29wkGh/h/dTLz2a4jRn
-        vqAGEe+4pOiSQbjEs60fmJaTq4uwmntORvYPP8GZsTl6QrXvDaosfL/ciPMxcV5FinQ/w5
-        MR/iuhqv9pm0YmjpEG+TfucwnYFAEMFlj7s3Iuay1u1xPrvtxQeJgu7BuAk4lw==
-Date:   Thu, 19 Oct 2023 11:39:25 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: V4L2 Encoders Pre-Processing Support Questions
-Message-ID: <ZTD5TXND4R7JqvCD@aptenodytes>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="WgtQJeX6hvjvRJCr"
-Content-Disposition: inline
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        Thu, 19 Oct 2023 06:08:08 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BBA5119
+        for <linux-media@vger.kernel.org>; Thu, 19 Oct 2023 03:08:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1697710087; x=1729246087;
+  h=date:from:to:cc:subject:message-id;
+  bh=lJcSk22u2PLAVKVmV8T7jKBeEFCUYLoG2PCb28MSU88=;
+  b=C9hGGjoycG0uNGjq0ngukzr9xrDqY/YKgZE4SW8lF37Hqz+TN3RYTEHX
+   kN6a0GMnVfNu+WC2PZSfk3AJ4pkQHzYAkKBRahkf9DArkle5/4RjFB9l1
+   LyNaBf3X7H9tYhhOGqtPfTKzWweU4demMCqyz5EL4SZrZvKlX4N5+h+nO
+   INDiDb9Ub6rMpNlGGFGRWy9982+WQLB5brJNHqZ0Dsa4QpLEMnUgik97K
+   XxDbNPzEU9VHLgPlea/n++SwIHILgv7HzthwGLtFi4OUgAJvU1qpJ4ueM
+   ndgk6U5qGCKVIiWYsahAmqR2g36kjokykLQ5oGxHHPHLgM2GP6VMTumnW
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="383439063"
+X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
+   d="scan'208";a="383439063"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Oct 2023 03:08:05 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10867"; a="827272353"
+X-IronPort-AV: E=Sophos;i="6.03,236,1694761200"; 
+   d="scan'208";a="827272353"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by fmsmga004.fm.intel.com with ESMTP; 19 Oct 2023 03:08:04 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qtPwg-0001xM-0q;
+        Thu, 19 Oct 2023 10:08:02 +0000
+Date:   Thu, 19 Oct 2023 18:07:44 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ c9a1b0b583db82d025c0bd4d13c85e3d585d1ad1
+Message-ID: <202310191841.VTFOoj76-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -53,119 +60,184 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: c9a1b0b583db82d025c0bd4d13c85e3d585d1ad1  media: Documentation: LP-11 and LP-111 are states, not modes
 
---WgtQJeX6hvjvRJCr
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 1556m
 
-Hello,
+configs tested: 165
+configs skipped: 2
 
-While working on the Allwinner Video Engine H.264 encoder, I found that it =
-has
-some pre-processing capabilities. This includes things like chroma
-down-sampling, colorspace conversion and scaling.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-For example this means that you can feed the encoder with YUV 4:2:2 data and
-it will downsample it to 4:2:0 since that's the only thing the hardware can=
- do.
-It can also happen when e.g. providing RGB source pictures which will be
-converted to YUV 4:2:0 internally.
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231018   gcc  
+arc                   randconfig-001-20231019   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                   randconfig-001-20231019   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20231019   gcc  
+i386         buildonly-randconfig-002-20231019   gcc  
+i386         buildonly-randconfig-003-20231019   gcc  
+i386         buildonly-randconfig-004-20231019   gcc  
+i386         buildonly-randconfig-005-20231019   gcc  
+i386         buildonly-randconfig-006-20231019   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231018   gcc  
+i386                  randconfig-001-20231019   gcc  
+i386                  randconfig-002-20231018   gcc  
+i386                  randconfig-002-20231019   gcc  
+i386                  randconfig-003-20231018   gcc  
+i386                  randconfig-003-20231019   gcc  
+i386                  randconfig-004-20231018   gcc  
+i386                  randconfig-004-20231019   gcc  
+i386                  randconfig-005-20231018   gcc  
+i386                  randconfig-005-20231019   gcc  
+i386                  randconfig-006-20231018   gcc  
+i386                  randconfig-006-20231019   gcc  
+i386                  randconfig-011-20231019   gcc  
+i386                  randconfig-012-20231019   gcc  
+i386                  randconfig-013-20231019   gcc  
+i386                  randconfig-014-20231019   gcc  
+i386                  randconfig-015-20231019   gcc  
+i386                  randconfig-016-20231019   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231018   gcc  
+loongarch             randconfig-001-20231019   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                       bvme6000_defconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                          sun3x_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                           xway_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                         alldefconfig   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                     akebono_defconfig   clang
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+powerpc                 mpc8315_rdb_defconfig   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231018   gcc  
+riscv                 randconfig-001-20231019   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231018   gcc  
+s390                  randconfig-001-20231019   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                           se7780_defconfig   gcc  
+sh                        sh7757lcr_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20231018   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20231019   gcc  
+x86_64       buildonly-randconfig-002-20231019   gcc  
+x86_64       buildonly-randconfig-003-20231019   gcc  
+x86_64       buildonly-randconfig-004-20231019   gcc  
+x86_64       buildonly-randconfig-005-20231019   gcc  
+x86_64       buildonly-randconfig-006-20231019   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231018   gcc  
+x86_64                randconfig-001-20231019   gcc  
+x86_64                randconfig-002-20231018   gcc  
+x86_64                randconfig-002-20231019   gcc  
+x86_64                randconfig-003-20231018   gcc  
+x86_64                randconfig-003-20231019   gcc  
+x86_64                randconfig-004-20231018   gcc  
+x86_64                randconfig-004-20231019   gcc  
+x86_64                randconfig-005-20231018   gcc  
+x86_64                randconfig-005-20231019   gcc  
+x86_64                randconfig-006-20231018   gcc  
+x86_64                randconfig-006-20231019   gcc  
+x86_64                randconfig-011-20231019   gcc  
+x86_64                randconfig-012-20231019   gcc  
+x86_64                randconfig-013-20231019   gcc  
+x86_64                randconfig-014-20231019   gcc  
+x86_64                randconfig-015-20231019   gcc  
+x86_64                randconfig-016-20231019   gcc  
+x86_64                randconfig-071-20231019   gcc  
+x86_64                randconfig-072-20231019   gcc  
+x86_64                randconfig-073-20231019   gcc  
+x86_64                randconfig-074-20231019   gcc  
+x86_64                randconfig-075-20231019   gcc  
+x86_64                randconfig-076-20231019   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                    rhel-8.3-kselftests   gcc  
+x86_64                           rhel-8.3-ltp   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                  audio_kc705_defconfig   gcc  
+xtensa                       common_defconfig   gcc  
 
-I was wondering how all of this is dealt with currently and whether this sh=
-ould
-be a topic of attention. As far as I can see there is currently no practica=
-l way
-for userspace to know that such downsampling will take place, although this=
- is
-useful to know.
-
-Would it make sense to have an additional media entity between the source v=
-ideo
-node and the encoder proc and have the actual pixel format configured in th=
-at
-link (this would still be a video-centric device so userspace would not be
-expected to configure that link). But then what if the hardware can either
-down-sample or keep the provided sub-sampling? How would userspace indicate
-which behavior to select? It is maybe not great to let userspace configure =
-the
-pads when this is a video-node-centric driver.
-
-Perhaps this could be a control or the driver could decide to pick the least
-destructive sub-sampling available based on the selected codec profile
-(but this is still a guess that may not match the use case). With a control
-we probably don't need an extra media entity.
-
-Another topic is scaling. We can generally support scaling by allowing a
-different size for the coded queue after configuring the picture queue.
-However there would be some interaction with the selection rectangle, which=
- is
-used to set the cropping rectangle from the *source*. So the driver will ne=
-ed
-to take this rectangle and scale it to match with the coded size.
-
-The main inconsistency here is that the rectangle would no longer correspon=
-d to
-what will be set in the bitstream, nor would the destination size since it =
-does
-not count the cropping rectangle by definition. It might be more sensible to
-have the selection rectangle operate on the coded/destination queue instead,
-but things are already specified to be the other way round.
-
-Maybe a selection rectangle could be introduced for the coded queue too, wh=
-ich
-would generally be propagated from the picture-side one, except in the case=
- of
-scaling where it would be used to clarify the actual final size (coded size
-taking the cropping in account). It this case the source selection rectangle
-would be understood as an actual source crop (may not be supported by hardw=
-are)
-instead of an indication for the codec metadata crop fields. And the coded
-queue dimensions would need to take in account this source cropping, which =
-is
-kinda contradictory with the current semantics. Perhaps we could define that
-the source crop rectangle should be entirely ignored when scaling is used,
-which would simplify things (although we lose the ability to support source
-cropping if the hardware can do it).
-
-If operating on the source selection rectangle only (no second rectangle on=
- the
-coded queue) some cases would be impossible to reach, for instance going fr=
-om
-some aligned dimensions to unaligned ones (e.g. 1280x720 source scaled to
-1920x1088 and we want the codec cropping fields to indicate 1920x1080).
-
-Anyway just wanted to check if people have already thought about these topi=
-cs,
-but I'm mostly thinking out loud and I'm of course not saying we need to so=
-lve
-these problems now.
-
-Sorry again for the long email, I hope the points I'm making are somewhat
-understandable.
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---WgtQJeX6hvjvRJCr
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmUw+U0ACgkQ3cLmz3+f
-v9GLIAf/V2WamAA+X64t4+tHKp2M6Vt+DWHzYUa0ykf+2nsdgutynZBs9hbSBfcv
-Gq7AdeD28O40eIH7jGC7LUEMjVRCxeXHNSWWSqmvhtiJDU2qQL6FVwyXjU3SSqVb
-CKj3HG+ZhSdEVl+c8HigpdmylFCKJTSIlyIFA3RmZuu/A6hPRacq3fXP42HD0q7E
-Ou+cPmoOf5CHx8Ew9nyUPRDaHTDwr1/r/y0GukXOg0KnyBvuJp/ns7rq5B1rwxF9
-C+kD+jkBa7BlJjRjEcQDse+tMGxWiqfGR+eG0lWN9dZM6WCrAIfeWxh522RbxRJe
-0isYOxAZHJ8AD6ny84gj4Kd3n4xv6w==
-=qz3U
------END PGP SIGNATURE-----
-
---WgtQJeX6hvjvRJCr--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
