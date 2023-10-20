@@ -2,73 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 365E67D1547
-	for <lists+linux-media@lfdr.de>; Fri, 20 Oct 2023 19:56:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DDEFA7D1994
+	for <lists+linux-media@lfdr.de>; Sat, 21 Oct 2023 01:23:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230008AbjJTR4b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Oct 2023 13:56:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58966 "EHLO
+        id S230200AbjJTXXq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Oct 2023 19:23:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55398 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230046AbjJTR43 (ORCPT
+        with ESMTP id S229559AbjJTXXp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Oct 2023 13:56:29 -0400
-Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9B00D5B
-        for <linux-media@vger.kernel.org>; Fri, 20 Oct 2023 10:56:26 -0700 (PDT)
-Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-66d0252578aso6072116d6.0
-        for <linux-media@vger.kernel.org>; Fri, 20 Oct 2023 10:56:26 -0700 (PDT)
+        Fri, 20 Oct 2023 19:23:45 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27D9AD46;
+        Fri, 20 Oct 2023 16:23:44 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2c4fdf94666so18486641fa.2;
+        Fri, 20 Oct 2023 16:23:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1697824586; x=1698429386; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=hbkkUKQ9rVszrJk3+DYjUAAjOhmB5UW1peE3XGvWZbw=;
-        b=xwKCNyp097moqUXYegtMUiyYDgkyioHFs+NeuTuGCTHpteVlhwhmbaqTJLgW230r8u
-         bot0rT1uhokkkS8+99aynJ6FXpPHGZsiZXYu44z20w+afgLW+X5UqT0MmnmPuKpg5WTu
-         3HKYxiWqDYTLxxCineIRKCu4wVNuetsmaEfCDPkehmyciWgq0cwmMoU4/9cGcMSjXC/3
-         /nFFz2SyMABUHU1r/6J/MNP1AXU0IN5trSs8/OZjCZffO/+W9N98I+hlyqnJUm4kdoQZ
-         IKg6tJF5VaPVtpDkfJSPmDWGy+lo8wLmQrcKakBNaQeouro1VRCYSelCV9kU1rK3SHaq
-         Nrpg==
+        d=gmail.com; s=20230601; t=1697844222; x=1698449022; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tA0wMNcNERqG1nwtTkGl0joUZs+Fa3lyRNyXvmPuo8A=;
+        b=nSveuJ7uP/hhVXkuQeKWcnpWcx3v3H4eUzlVIkBMcEBx+aS+TJV883tljMRtb2DSOt
+         eSb/fWW4isboSeieZqZxIF1n8Bv37i1F0tDEn4V6jQCByRXwzoDP0OppAIuf2xHBSmjb
+         Xvxx4MnNaTXF1VBbphKs7IjJqffDopkz8BVFRvCWCUHeNO9H991vqwFQYlt7cMRkD5Wy
+         /J4aAsp1gD9xh5/SL360UAePmkXbkfGBN5aivUTMIf3WJ0bt7kgSVli5acYgzh9ccsUk
+         e2P3syXjovOs+bkSTuLj++9TUBekCXc8mb2pfrtUy3QM0FYsolqITqoTZjFga8DILrU0
+         9HbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697824586; x=1698429386;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hbkkUKQ9rVszrJk3+DYjUAAjOhmB5UW1peE3XGvWZbw=;
-        b=Bm7T90X9xgJTxmjXRQYKsPgvNmAE+x7HCUdRY/othidTlZSsVmXh679QU4wrrv+/XD
-         iul2Z8b5XipTTdFFV6IbBAxmFJ3gQl7ymyIPBgCky17pA4kpccv4TWcQyHMcMKR3Xpw3
-         KMGU5nJFRBl08DS6DWr3xPw1MKGZ+QOo3pC1ZH9PKkNScWzh7tOn20zvtcS2UJW9UPRE
-         LolGC7PcqL53dijDjAQo5X8qdo0wdfpuOpp/Vw7SMii2TA1o/R39SuPAa/Y//vx4UwLE
-         c0ogvQ8qmNq/3lcCRY5d0KkHmuYrvcETeSUicTuSOKD8IAwASXDZtDEu78L8uaTsBdlS
-         tRag==
-X-Gm-Message-State: AOJu0YyjPvzqZXF0ziNLYP6XlBUToFv/aVKgP5q6T8eg5kqY3AURInJP
-        kM8MdZn9KzoqKDAYiOH8CJYcQQ==
-X-Google-Smtp-Source: AGHT+IH5Tt4h+q22iOzKEQi1leENzRlNyYmJoxaEV8glb2XUtndT8bKzXZppV16rc1iDSjFYl98nnw==
-X-Received: by 2002:a05:6214:2129:b0:66d:6705:5c50 with SMTP id r9-20020a056214212900b0066d67055c50mr2972282qvc.44.1697824585741;
-        Fri, 20 Oct 2023 10:56:25 -0700 (PDT)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:17:6dc0::580])
-        by smtp.gmail.com with ESMTPSA id w9-20020a0cfc49000000b0066d11c1f578sm854225qvp.97.2023.10.20.10.56.24
+        d=1e100.net; s=20230601; t=1697844222; x=1698449022;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tA0wMNcNERqG1nwtTkGl0joUZs+Fa3lyRNyXvmPuo8A=;
+        b=pWyo7sMAoRZKq7JqntJ8dF4zaB3rRZRdaKoLjeM7zIDol65HI08KycsUPCjTTsE8gq
+         tvCr8BmcaRnc7njWm6bR3A3nNIWoFtl7wmcKttpmrDgRosKKjQ9iiKW4+WS2gu/YlaKC
+         BXAddU/pNOHlv+GfgQoGfKUPdm+6FKteH06IORgMdbquQQyyLEyfSTOlTOburDov3O1C
+         wVzQIDA92cg0RAftPOaa0QqLBDtJg01J6cR4g5fCd0T58y10ht7prvF2xOUsVeUzvK6f
+         R58t0N4dTSpdXzm/c5NMuejtsNX2QNYYymLPt9ggjU3izIF3FCF8zWgMsftIhsryYSBO
+         HM/A==
+X-Gm-Message-State: AOJu0YwPbTowbySmrD3Vp8Oi1UhKNC8QW3QT0SFAEeUOQ6gLjcsb+Q7w
+        QQPbxUWsuBKmBEa2BxFopoM=
+X-Google-Smtp-Source: AGHT+IHZGy4hFw7sOwzF8cc2MWGCxLuUe9zs/pEzRv+NcaT5SFOm5DEbigsLc9Xt1jfKjVkjcsGMEg==
+X-Received: by 2002:a2e:964e:0:b0:2bf:ab17:d48b with SMTP id z14-20020a2e964e000000b002bfab17d48bmr2245279ljh.34.1697844222079;
+        Fri, 20 Oct 2023 16:23:42 -0700 (PDT)
+Received: from HP-ENVY-Notebook.lan (81-229-94-10-no68.tbcn.telia.com. [81.229.94.10])
+        by smtp.googlemail.com with ESMTPSA id s5-20020a05651c048500b002ba586d27a2sm567571ljc.26.2023.10.20.16.23.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Oct 2023 10:56:25 -0700 (PDT)
-Message-ID: <437e4ea0c2c2681c1b333ad109f8f02fc229537f.camel@ndufresne.ca>
-Subject: Re: V4L2 Encoders Pre-Processing Support Questions
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Jernej Skrabec <jernej.skrabec@gmail.com>,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Michael Tretter <m.tretter@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Fri, 20 Oct 2023 13:56:23 -0400
-In-Reply-To: <ZTD5TXND4R7JqvCD@aptenodytes>
-References: <ZTD5TXND4R7JqvCD@aptenodytes>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+        Fri, 20 Oct 2023 16:23:41 -0700 (PDT)
+From:   Jonathan Bergh <bergh.jonathan@gmail.com>
+To:     mchehab@kernel.org
+Cc:     gregkh@linuxfoundation.org, error27@gmail.com,
+        linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Jonathan Bergh <bergh.jonathan@gmail.com>
+Subject: [PATCH 0/5] staging: media: av7110: Fix various formatting and small code issues
+Date:   Sat, 21 Oct 2023 01:23:27 +0200
+Message-Id: <20231020232332.55024-1-bergh.jonathan@gmail.com>
+X-Mailer: git-send-email 2.40.1
 MIME-Version: 1.0
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -76,154 +71,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+These patches cover various formatting and small code issues. Formatting
+issues include missing newlines, whitespace and miscellaneous formatting 
+issues. The series also fixes small code issues including using preferred 
+integer types ('long' instead of 'long int') and ('unsigned int' instead 
+of 'unsigned').
 
-Le jeudi 19 octobre 2023 =C3=A0 11:39 +0200, Paul Kocialkowski a =C3=A9crit=
-=C2=A0:
-> Hello,
->=20
-> While working on the Allwinner Video Engine H.264 encoder, I found that i=
-t has
-> some pre-processing capabilities. This includes things like chroma
-> down-sampling, colorspace conversion and scaling.
+Jonathan Bergh (5):
+  staging: media: av7110: Fix missing newlines after declaration
+    warnings
+  staging: media: av7110: Fix various whitespace checkpatch errors
+  staging: media: av7110: Remove unnecessary whitespace before quoted
+    newlines
+  staging: media: av7110: Fix 'long int' and 'unsigned' variable
+    declarations
+  staging: media: av7110: Fix various formating issues
 
-Similar with Hantro H1.
+ drivers/staging/media/av7110/av7110_av.c | 114 +++++++++++++----------
+ 1 file changed, 64 insertions(+), 50 deletions(-)
 
->=20
-> For example this means that you can feed the encoder with YUV 4:2:2 data =
-and
-> it will downsample it to 4:2:0 since that's the only thing the hardware c=
-an do.
-> It can also happen when e.g. providing RGB source pictures which will be
-> converted to YUV 4:2:0 internally.
->=20
-> I was wondering how all of this is dealt with currently and whether this =
-should
-> be a topic of attention. As far as I can see there is currently no practi=
-cal way
-> for userspace to know that such downsampling will take place, although th=
-is is
-> useful to know.
-
-Userspace already know that the driver will be downsample through the selec=
-ted
-profile. The only issue would be if a users want to force a profile with 42=
-2
-support, but have its  422 data downsampled anyway. This is legal in the sp=
-ec,
-but I'd question myself if its worth supporting.
-
->=20
-> Would it make sense to have an additional media entity between the source=
- video
-> node and the encoder proc and have the actual pixel format configured in =
-that
-> link (this would still be a video-centric device so userspace would not b=
-e
-> expected to configure that link). But then what if the hardware can eithe=
-r
-> down-sample or keep the provided sub-sampling? How would userspace indica=
-te
-> which behavior to select? It is maybe not great to let userspace configur=
-e the
-> pads when this is a video-node-centric driver.
->=20
-> Perhaps this could be a control or the driver could decide to pick the le=
-ast
-> destructive sub-sampling available based on the selected codec profile
-> (but this is still a guess that may not match the use case). With a contr=
-ol
-> we probably don't need an extra media entity.
-
-Yes, for the cases not covered by the profile, I'd consider a control to fo=
-rce
-downsampling. A menu, so we can use the available menu items to get enumera=
-te
-what is supported.
-
->=20
-> Another topic is scaling. We can generally support scaling by allowing a
-> different size for the coded queue after configuring the picture queue.
-> However there would be some interaction with the selection rectangle, whi=
-ch is
-> used to set the cropping rectangle from the *source*. So the driver will =
-need
-> to take this rectangle and scale it to match with the coded size.
->=20
-> The main inconsistency here is that the rectangle would no longer corresp=
-ond to
-> what will be set in the bitstream, nor would the destination size since i=
-t does
-> not count the cropping rectangle by definition. It might be more sensible=
- to
-> have the selection rectangle operate on the coded/destination queue inste=
-ad,
-> but things are already specified to be the other way round.
->=20
-> Maybe a selection rectangle could be introduced for the coded queue too, =
-which
-> would generally be propagated from the picture-side one, except in the ca=
-se of
-> scaling where it would be used to clarify the actual final size (coded si=
-ze
-> taking the cropping in account). It this case the source selection rectan=
-gle
-> would be understood as an actual source crop (may not be supported by har=
-dware)
-> instead of an indication for the codec metadata crop fields. And the code=
-d
-> queue dimensions would need to take in account this source cropping, whic=
-h is
-> kinda contradictory with the current semantics. Perhaps we could define t=
-hat
-> the source crop rectangle should be entirely ignored when scaling is used=
-,
-> which would simplify things (although we lose the ability to support sour=
-ce
-> cropping if the hardware can do it).
-
-Yes, we should use selection on both queue (fortunately there is a v4l2_buf=
-_type
-in that API). Otherwise we cannot model all the scaling and cropping option=
-s.
-What the spec must do is define the configuration sequence, so that a
-negotiation is possible. We need a convention regarding the order, so that =
-there
-is a way to converge with the driver, and also to conclude if the driver ca=
-nnot
-handle it.
-
->=20
-> If operating on the source selection rectangle only (no second rectangle =
-on the
-> coded queue) some cases would be impossible to reach, for instance going =
-from
-> some aligned dimensions to unaligned ones (e.g. 1280x720 source scaled to
-> 1920x1088 and we want the codec cropping fields to indicate 1920x1080).
->=20
-> Anyway just wanted to check if people have already thought about these to=
-pics,
-> but I'm mostly thinking out loud and I'm of course not saying we need to =
-solve
-> these problems now.
-
-We might find extra corner case by implementing the spec, but I think the A=
-PI we
-have makes most of this possible already. Remember that we have fwht sw cod=
-ec in
-kernel for the purpose of developing this kind of feature. A simple bob sca=
-ler
-can be added for testing scaling.
-
->=20
-> Sorry again for the long email, I hope the points I'm making are somewhat
-> understandable.
->=20
-> Cheers,
->=20
-> Paul
->=20
-
-regards,
-Nicolas
+-- 
+2.40.1
 
