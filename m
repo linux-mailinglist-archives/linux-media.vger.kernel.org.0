@@ -2,117 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 08E247D092F
-	for <lists+linux-media@lfdr.de>; Fri, 20 Oct 2023 09:07:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 182857D0A74
+	for <lists+linux-media@lfdr.de>; Fri, 20 Oct 2023 10:20:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376382AbjJTHH2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Oct 2023 03:07:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52550 "EHLO
+        id S235691AbjJTIUS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Oct 2023 04:20:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376379AbjJTHH1 (ORCPT
+        with ESMTP id S230217AbjJTIUR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Oct 2023 03:07:27 -0400
-Received: from mail-ua1-x92a.google.com (mail-ua1-x92a.google.com [IPv6:2607:f8b0:4864:20::92a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A82A51A3
-        for <linux-media@vger.kernel.org>; Fri, 20 Oct 2023 00:07:25 -0700 (PDT)
-Received: by mail-ua1-x92a.google.com with SMTP id a1e0cc1a2514c-7b7115a3e7fso211777241.3
-        for <linux-media@vger.kernel.org>; Fri, 20 Oct 2023 00:07:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ribalda-com.20230601.gappssmtp.com; s=20230601; t=1697785644; x=1698390444; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IK/RRLIe/hxouNAb6WRUSJAoLaakncyrIiV6V98QQKI=;
-        b=NguvVG5dx0lNLMlr7mMtDVVSA8/sSOkTrJowaBy3yszIxYCY07Iybrue0tU3wXDjmZ
-         UZlsrxe4b64OAxk18pb9gmvmHdwrKeQgDIL426ojnLRNhqM98zPzoW7rbJ/SHONQhQyk
-         WYqlbS6xD4Mkx1HCig2JckzVJ3bMXkiOJYUbulue1CjzK8O36SwloX9EKqcEoAJLOk1Q
-         B7J9PnsVBg55SdMuLaStB0l1XsDFGuFF006VVEota4p7jmzyYx3ThIwax1W+kFnDwlyi
-         Snz9ROfYeBRAh+xEqQqN6pz5h1p/vgSXBEbhBSaYMdDXyc08EsEjBluMkM76W8l0ICHH
-         EWxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697785644; x=1698390444;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IK/RRLIe/hxouNAb6WRUSJAoLaakncyrIiV6V98QQKI=;
-        b=uzvyeE740WwHy9j+VQ+LkrIzhrH+xE4HGNTvNAXQnl8uyQZaiPc6sBkksu0cI19xs0
-         QLxwSy+xEG4mMPQASF2du8UeYewYYaJhcVqLdAJ3zCQVbSo9oRaz1QlTKb0BATnmQ+Au
-         EWZHVEjrvVUwWjM/vEti7xLl+h9mItZuiwgSd8fwVsezQJEV3mM4uUjC+3DDjX0/lEyI
-         wQ2fXrrCZ1IgetVrC8zrVyqAPEQmZcXGGdTqzBU2c817gcyekOFal2yTeJZSygfGKLAT
-         4eftzLpAItrhQ+/Tlm/SbexmDw+5yQVR+1MJ+/KFxaehNVHNwu7KPJ2uNpGdHGiujaTK
-         V7hA==
-X-Gm-Message-State: AOJu0Yyh3VADT4hFoUPV43WPqMOAiexecXycz8U7nU9tdqSowLly2hbp
-        qY6/QwOzbw9ynkF0N8nsYnoHq1ET/J9LPYtoqck=
-X-Google-Smtp-Source: AGHT+IHwedZcSTkTkyuvrhnuFTc6si00SQBdws5F0o+vGeVbzExXogCrZ3BGXFV3w6kcFxuws7N3lA==
-X-Received: by 2002:a67:c38f:0:b0:452:4e56:5e19 with SMTP id s15-20020a67c38f000000b004524e565e19mr1139534vsj.13.1697785644565;
-        Fri, 20 Oct 2023 00:07:24 -0700 (PDT)
-Received: from mail-vs1-f49.google.com (mail-vs1-f49.google.com. [209.85.217.49])
-        by smtp.gmail.com with ESMTPSA id bi15-20020a05610234ef00b00452539f5ea8sm142336vsb.19.2023.10.20.00.07.23
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 20 Oct 2023 00:07:23 -0700 (PDT)
-Received: by mail-vs1-f49.google.com with SMTP id ada2fe7eead31-457c4e4a392so178399137.0
-        for <linux-media@vger.kernel.org>; Fri, 20 Oct 2023 00:07:23 -0700 (PDT)
-X-Received: by 2002:a67:cb8c:0:b0:452:67fd:e5c1 with SMTP id
- h12-20020a67cb8c000000b0045267fde5c1mr1077449vsl.4.1697785643505; Fri, 20 Oct
- 2023 00:07:23 -0700 (PDT)
+        Fri, 20 Oct 2023 04:20:17 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EEEAB0;
+        Fri, 20 Oct 2023 01:20:15 -0700 (PDT)
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 60F966607352;
+        Fri, 20 Oct 2023 09:20:13 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1697790014;
+        bh=RSQ5/DMeBnjdqm4h5GEDNo41Y8NPcwqWmF2hl3CzU4Y=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=LTr/BwXEXjwM28l/WBLy3g4Y6rSO7GmucFVzcI6oDTvGsGkpsDiWKWtxsyA/UVPgO
+         godKZqiaTA8xWdepYuPjuEOg1rJ8pG7MrICvM7PLNO8wrymvthXDzPCKoWtZj39ts4
+         XxNQez3PUaVRWnI1iMFG6nJp7yYgnckhziuZ8yAJ5J9SHiW2m6z1cV0f7eDMT2IZ/i
+         56Ykk4SQwQoFQHUAxA2Ce2pGKQxe5iIOcGD1X96lNDl+3daRKbujVdr+ZmJ8f/SQ+C
+         43fnemdqYE1JnQRm2rxKJsly8AdjEh+0TT9H3iXfIvL4Hv5isgvxMUVb3h1i1Mg3km
+         Vr7OwHYB0r7Xw==
+Message-ID: <8b799079-fd98-46ba-a2cd-04ecf0c0df1d@collabora.com>
+Date:   Fri, 20 Oct 2023 10:20:13 +0200
 MIME-Version: 1.0
-References: <20230920125939.1478-1-ricardo@ribalda.com> <ZQruPPVjqbWXAGmL@valkosipuli.retiisi.eu>
-In-Reply-To: <ZQruPPVjqbWXAGmL@valkosipuli.retiisi.eu>
-From:   Ricardo Ribalda Delgado <ricardo@ribalda.com>
-Date:   Fri, 20 Oct 2023 16:07:07 +0900
-X-Gmail-Original-Message-ID: <CAPybu_04iU75nFm3Misv9qQajzGKu9jmLvTX2nwsLn3AAZcdtg@mail.gmail.com>
-Message-ID: <CAPybu_04iU75nFm3Misv9qQajzGKu9jmLvTX2nwsLn3AAZcdtg@mail.gmail.com>
-Subject: Re: [PATCH] yavta: Format type errors for non x86 arches
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: mtk-jpeg: Fix use after free bug due to error path
+ handling in mtk_jpeg_dec_device_run
+Content-Language: en-US
+To:     Zheng Wang <zyytlz.wz@163.com>, dmitry.osipenko@collabora.com
+Cc:     Kyrie.Wu@mediatek.com, bin.liu@mediatek.com, mchehab@kernel.org,
+        matthias.bgg@gmail.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, Irui.Wang@mediatek.com,
+        security@kernel.org, hackerzheng666@gmail.com,
+        1395428693sheep@gmail.com, alex000young@gmail.com,
+        amergnat@baylibre.com, wenst@chromium.org, stable@vger.kernel.org
+References: <20231020040732.2499269-1-zyytlz.wz@163.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231020040732.2499269-1-zyytlz.wz@163.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-@Laurent Pinchart
+Il 20/10/23 06:07, Zheng Wang ha scritto:
+> In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
+> mtk_jpeg_job_timeout_work.
+> 
+> In mtk_jpeg_dec_device_run, if error happens in
+> mtk_jpeg_set_dec_dst, it will finally start the worker while
+> mark the job as finished by invoking v4l2_m2m_job_finish.
+> 
+> There are two methods to trigger the bug. If we remove the
+> module, it which will call mtk_jpeg_remove to make cleanup.
+> The possible sequence is as follows, which will cause a
+> use-after-free bug.
+> 
+> CPU0                  CPU1
+> mtk_jpeg_dec_...    |
+>    start worker	    |
+>                      |mtk_jpeg_job_timeout_work
+> mtk_jpeg_remove     |
+>    v4l2_m2m_release  |
+>      kfree(m2m_dev); |
+>                      |
+>                      | v4l2_m2m_get_curr_priv
+>                      |   m2m_dev->curr_ctx //use
+> 
+> If we close the file descriptor, which will call mtk_jpeg_release,
+> it will have a similar sequence.
+> 
+> Fix this bug by start timeout worker only if started jpegdec worker
+> successfully so the v4l2_m2m_job_finish will only be called on
+> either mtk_jpeg_job_timeout_work or mtk_jpeg_dec_device_run.
+> 
+> This patch also reverts commit c677d7ae8314
+> ("media: mtk-jpeg: Fix use after free bug due to uncanceled work")
+> for this patch also fixed the use-after-free bug mentioned before.
+> Before mtk_jpeg_remove is invoked, mtk_jpeg_release must be invoked
+> to close opened files. And it will call v4l2_m2m_cancel_job to wait
+> for the timeout worker finished so the canceling in mtk_jpeg_remove
+> is unnecessary.
+> 
+> Fixes: b2f0d2724ba4 ("[media] vcodec: mediatek: Add Mediatek JPEG Decoder Driver")
+> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
+> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
 
-Friendly Ping :)
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-On Wed, Sep 20, 2023 at 10:06=E2=80=AFPM Sakari Ailus <sakari.ailus@iki.fi>=
- wrote:
->
-> Hi Ricardo,
->
-> Thanks for the update.
->
-> On Wed, Sep 20, 2023 at 02:59:39PM +0200, Ricardo Ribalda wrote:
-> > mipsel64el, ppc64el, ia64, ppc64, sparc64 and x32 have different lenght=
-s
-> > for long long ints, which result in some compilation errors.
-> >
-> > Lets add some castings and inttypes macros to help the compiler deal wi=
-th
-> > this.
-> >
-> > We have to use the castings, because kernel types (__u64 et al) does no=
-t
-> > seem to be compatible with inttypes macros.
-> >
-> > Signed-off-by: Ricardo Ribalda <ricardo@ribalda.com>
->
-> It'd be great to address this in the kernel. The kernel UAPI integer type=
-s
-> have been around for a very long time so there could be issues in doing
-> that, too.
->
-> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+
