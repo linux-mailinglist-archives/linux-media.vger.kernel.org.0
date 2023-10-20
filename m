@@ -2,142 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 994AF7D113C
-	for <lists+linux-media@lfdr.de>; Fri, 20 Oct 2023 16:11:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64E947D1149
+	for <lists+linux-media@lfdr.de>; Fri, 20 Oct 2023 16:14:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1377520AbjJTOLA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Oct 2023 10:11:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49242 "EHLO
+        id S1377521AbjJTOOc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Oct 2023 10:14:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377495AbjJTOK7 (ORCPT
+        with ESMTP id S1377482AbjJTOOb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Oct 2023 10:10:59 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7306193;
-        Fri, 20 Oct 2023 07:10:56 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D7E31240009;
-        Fri, 20 Oct 2023 14:10:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1697811055;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=52lH+GkBwc41ljxBF1Kw4WZBdBsZqH5YByG4eJJ9tVk=;
-        b=VGyxoBcacZ+ZUyB68YjKdlo3eeT+/vshs1EhL1OmNxtrAVdkR+8mNSbmJ+DeV8N0Cycf34
-        3pKohd7EgfyKwdyB04xBx+kJwaCEVRurOWCyBq4lSHc2XE0DT1w5A5pRW5rnnpMaQKlAxs
-        h8OFGJ7MHBtNQhcTO4UU9/jspVnRn+GORYZQ5JTT4PDm8U9bwFnbnn+E9inXg/2WlB96ZN
-        Hn25HWYlilZZHkHW3rZUpYFPnsftBj2wY7fyUfxRXaNx/zR2GDiVrwBz5SGOk/auRYdeQJ
-        8Zhd4KsSjs4mOB7DHB68hm+4qy6/NkhonywrIIZ2YzM9QEwpvA5SFsRDdqco3Q==
-Date:   Fri, 20 Oct 2023 16:10:53 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Mehdi Djait <mehdi.djait@bootlin.com>
-Cc:     mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, ezequiel@vanguardiasur.com.ar,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com
-Subject: Re: [PATCH v8 3/3] arm64: dts: rockchip: Add the camera interface
-Message-ID: <ZTKKbckxeQda07rP@aptenodytes>
-References: <cover.1697446303.git.mehdi.djait@bootlin.com>
- <936393d5f2d4b583efbb1ac81f21e8d41fb452cb.1697446303.git.mehdi.djait@bootlin.com>
+        Fri, 20 Oct 2023 10:14:31 -0400
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5A6819E;
+        Fri, 20 Oct 2023 07:14:29 -0700 (PDT)
+Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9b95622c620so135988266b.0;
+        Fri, 20 Oct 2023 07:14:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697811268; x=1698416068; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JD6mwhJo/tCFNUNjBKLMUK7FnEMFViJbfce3FCLQYtQ=;
+        b=InkirstUr6E8D1dE9yUQ4MJafSx2exke+1vbcYqZN/UMEnvgWFe/1Mj0XAjtAqiRiz
+         iDPXouySnaGHIPSb3ZFVcI1qpNCgDIajfI6K05xDUFf50s7a75dQLDkt85xs8sIc6+d5
+         7T4M/Vw1Tbz3/oy6dunLkyL6DmONL08p4GdzFvtdiMX9mT8i1Z5/QkDP6V5zHVpYB61M
+         rwdl9HKtB4T3mTHCRNyGhYTBocRM+d/MGE6KEOVbPuWoIHgiKl5d7JyQ4X2CodylBqHY
+         jUOGGxTuec31oOjwd0yQW0XNwZYfCV8hsMMqzeoA82svu5bI/FVECN8DN7kLYbJ1IP4f
+         qRrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697811268; x=1698416068;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=JD6mwhJo/tCFNUNjBKLMUK7FnEMFViJbfce3FCLQYtQ=;
+        b=vyyXcjy+h1A/CXC5w09XsGGJXaDVlRhlxWEZJkDZdcLpzG2vS0X5kAaaoNwHfb5LqH
+         26Db+6s9ZvO9GfcyhYN3vFgkccvhPxf4mZNp7xAB+gDDd7lz1DWBEuIQTEF0+7jvnbPo
+         PN8nJoSIAZH+KX5sm8Um/KuTDAOeEG4OhND8dzNJTiJywfDYOKKimdanYgbJ7FPWKd87
+         /TOwrsZFDaB1HcB7uq9p5e2sitsotsG6xvjcIfkwBM8XpgzjBQe61c5KJdqgAisIL2c1
+         oXVVkzq1QMB7zquZp2l9S3kpJjFkMxM1GiJcOEjS1LvhjbYkdpuA5LH6CE4UhTwmcVfP
+         FCtQ==
+X-Gm-Message-State: AOJu0YxolzKQiwg7zZCYiQWr/CfwtdDYv04lfCJEOovUFQl4uM5ld4vr
+        iq5IN2syTU/5k/9jtIl0F+o=
+X-Google-Smtp-Source: AGHT+IGmERrWAay7b+If8tZoAmQ4S1RFkTpTIwEll3L/kV+G3BUQR3yqTiTtQf3iRMsSXt4vd4rJ6g==
+X-Received: by 2002:a17:907:3183:b0:9bd:7f40:caa5 with SMTP id xe3-20020a170907318300b009bd7f40caa5mr1208771ejb.77.1697811268005;
+        Fri, 20 Oct 2023 07:14:28 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.station (net-188-217-59-109.cust.vodafonedsl.it. [188.217.59.109])
+        by smtp.gmail.com with ESMTPSA id i6-20020a17090671c600b009ada9f7217asm1562914ejk.88.2023.10.20.07.14.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Oct 2023 07:14:26 -0700 (PDT)
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     sakari.ailus@linux.intel.com, martin.hecht@avnet.eu,
+        michael.roeder@avnet.eu, mhecht73@gmail.com,
+        linuxfancy@googlegroups.com,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v10 0/3] media: i2c: Add support for alvium camera
+Date:   Fri, 20 Oct 2023 16:13:48 +0200
+Message-Id: <20231020141354.2500602-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="cEW6dqGFLbs7lmqa"
-Content-Disposition: inline
-In-Reply-To: <936393d5f2d4b583efbb1ac81f21e8d41fb452cb.1697446303.git.mehdi.djait@bootlin.com>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi all,
 
---cEW6dqGFLbs7lmqa
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+This series add support for Allied Vision Alvium camera.
+The Alvium camera is shipped with sensor + isp in the same housing.
+The camera can be equipped with one out of various sensor and abstract
+the user from this. Camera is connected via MIPI CSI-2.
 
-Hi Mehdi,
+Driver use latest V4L2_CCI_I2C API.
 
-On Mon 16 Oct 23, 11:00, Mehdi Djait wrote:
-> The PX30 has a camera interface, supporting CSI2 and BT656
-> modes. Add a DT description for this interface.
+https://www.alliedvision.com/en/products/embedded-vision-solutions/
 
-The "vip" node name is not very standard but the generic names recommendati=
-on
-doesn't have anything that really fits video capture:
-https://devicetree-specification.readthedocs.io/en/v0.3/devicetree-basics.h=
-tml#generic-names-recommendation
+Tested the following alvium models:
+ - alvium 1500 C-500c
+ - alvium 1800 C-2050c
+ - alvium 1800 C-1240c
+ - alvium 1800 C-040c
+ - alvium 1800 C-052c
+ - alvium 1800 C-240m
 
-You might want to call it "video-capture" or "camera-controller" which seems
-like a good middle-ground that could be included in the list.
+Note:
+ - Driver is rebased on top of [1], commit [2].
 
-Please keep the name (vip/cif) as label though.
+Thanks & Regards,
+Tommaso
 
-Other than that, please rename vip to cif and this will be:
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+ - [1] https://git.linuxtv.org/sailus/media_tree.git/log/
+ - [2] media: Documentation: LP-11 and LP-111 are states, not modes (c9a1b0b583db)
 
-Cheers,
+Tommaso Merciai (3):
+  dt-bindings: vendor-prefixes: Add prefix alliedvision
+  media: dt-bindings: alvium: add document YAML binding
+  media: i2c: Add support for alvium camera
 
-Paul
+ .../media/i2c/alliedvision,alvium-csi2.yaml   |   81 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |    9 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/alvium-csi2.c               | 2666 +++++++++++++++++
+ drivers/media/i2c/alvium-csi2.h               |  489 +++
+ 7 files changed, 3258 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
+ create mode 100644 drivers/media/i2c/alvium-csi2.c
+ create mode 100644 drivers/media/i2c/alvium-csi2.h
 
-> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> ---
->  arch/arm64/boot/dts/rockchip/px30.dtsi | 12 ++++++++++++
->  1 file changed, 12 insertions(+)
->=20
-> diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts=
-/rockchip/px30.dtsi
-> index 42ce78beb413..7aaa88a15d07 100644
-> --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-> @@ -1281,6 +1281,18 @@ isp_mmu: iommu@ff4a8000 {
->  		#iommu-cells =3D <0>;
->  	};
-> =20
-> +	vip: vip@ff490000 {
-> +		compatible =3D "rockchip,px30-vip";
-> +		reg =3D <0x0 0xff490000 0x0 0x200>;
-> +		interrupts =3D <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks =3D <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
-> +		clock-names =3D "aclk", "hclk", "pclk";
-> +		power-domains =3D <&power PX30_PD_VI>;
-> +		resets =3D <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN=
->;
-> +		reset-names =3D "axi", "ahb", "pclkin";
-> +		status =3D "disabled";
-> +	};
-> +
->  	qos_gmac: qos@ff518000 {
->  		compatible =3D "rockchip,px30-qos", "syscon";
->  		reg =3D <0x0 0xff518000 0x0 0x20>;
-> --=20
-> 2.41.0
->=20
+-- 
+2.34.1
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---cEW6dqGFLbs7lmqa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmUyim0ACgkQ3cLmz3+f
-v9G2twf/SeumhpY637dwLFwp9ThP8+5B/p+8/pUDkYTjoRWYc9+f2h4x+Q+DxV5A
-XroPIep0qSAaEcSElIY+xmQrGxT6aOvG75J+RvzL4NZEqmNIGshYjkijsZ/xIn0Q
-4CggUE46UhTw1rkHkW8rMl9eHFEQYd2Fpv2rz5D6pUBpHPhVZ1Tfx7e4sNdgl7kQ
-T7fLi0ldX6Q4AppmqAeIsi3M6V5BbZSDGYb9eVAv2kvEWEUwLHC3l71VBz2LnNCJ
-sHbSSfIa5Yk/9GZgiVPjvM3cUzc4neV2V/vx4a83NJ0yf/lgE74qDpUG5ZLkvyk5
-A7rBvnl9zGXA1SZulOQyJK1A7Fm/Aw==
-=+ix9
------END PGP SIGNATURE-----
-
---cEW6dqGFLbs7lmqa--
