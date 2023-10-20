@@ -2,261 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EAB977D0C9F
-	for <lists+linux-media@lfdr.de>; Fri, 20 Oct 2023 12:02:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9C447D0CB4
+	for <lists+linux-media@lfdr.de>; Fri, 20 Oct 2023 12:09:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376796AbjJTKCg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Oct 2023 06:02:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41818 "EHLO
+        id S1376715AbjJTKJC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Oct 2023 06:09:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51784 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376648AbjJTKCf (ORCPT
+        with ESMTP id S1376868AbjJTKIz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Oct 2023 06:02:35 -0400
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E3B4D8;
-        Fri, 20 Oct 2023 03:02:32 -0700 (PDT)
-X-UUID: c4f6dbac6f2f11eea33bb35ae8d461a2-20231020
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=ukCOhZTg1cMbzr0HUQZWo5sBjxxbqsjmw4GQljFbAf0=;
-        b=C/MM9gfxSZo7/iQmz1JV+kPgv5JAnBkXVfGeffIi2hXAhyk8aV/Sv7O4QM+KG5hX6E4rEV59SH3PgQ6CXGDvYUNfHhuTmpwaP8aYpES696uEqO+qPj8JnG7vkzEN7Z/0X47p2wti+QOJ0Ub6MWIJ2A2cgkQBVtwnzfrykBulrCw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.32,REQID:c4f1c5e8-5e68-4052-ac40-28168dc75209,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:5f78ec9,CLOUDID:ead7393b-9667-4160-9f3e-e63ef4a1118c,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
-        DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: c4f6dbac6f2f11eea33bb35ae8d461a2-20231020
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
-        (envelope-from <yong.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 1308785481; Fri, 20 Oct 2023 18:02:25 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Fri, 20 Oct 2023 18:02:24 +0800
-Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Fri, 20 Oct 2023 18:02:23 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=N9iMnYSlu82fO0BiSGBjSaKx41XCjpeiKqTGbCdYuIWq/kIB2tU9wHV2kyJYn05ZUnu0J7l8j8nagmmZN9sYTP8zQh+pdLd5U8DhO/ssy87xPxxpV3xBeDx6K00dTw57c2UEMlKPjJzrSAqqFS/gky2LReNXtWUkgImcRdxSAOkGGKW5J9GAwSm9rlQNJSGu8TemlA8xZqtIYHvO/p0SbBBojzvYqV0FrXTtK4KAXSgDY1YKVEGWd5/FKdHgc8ujHrJdPGyVeQE/Vz+PjX/akPYVFcGvewIL3HezZ3saQ7nRVgF5n7h3Uf4obqhSnpLyiO0bADfRA4FXABDYq9qgAw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ukCOhZTg1cMbzr0HUQZWo5sBjxxbqsjmw4GQljFbAf0=;
- b=F0JqFuXypzlwiA+cuZXut0ZgiZtRvvdGGx4my5KlyTcCWQHlG2HkVF6USVOu22KxVtDmXlbp9PAUkmECggZ8jpOm3xGM3QAY6iPFQfjeVa8NpjD0QIRnXGrzbO25irCP8Gx81rIBFt8JTehnJCCRXT62MvhFgcrxih0qy/T0saK8NrlYynQjzCqG0wi6XKJoD3gN8oOD89UVf5XfWjnWK5mySTDRp6j2anFTPGy7/P3L9c6L2FY9QwGt03xNlK/urNj9ngtE0mbjJlwpP4fiwy4Ks88Aq6PQD5lslhcfAJJMOT1bTQMhr2e2FtHH73T9Ef6WYOO8IheErEvwSMXkkw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ukCOhZTg1cMbzr0HUQZWo5sBjxxbqsjmw4GQljFbAf0=;
- b=ldfAOyeElrv5A8lvELaRSknQif1sKwYz055hwDvjD6Db4YSPPtmNRlQkvBAwg4IlLN2XnN7cowg3SVOpUBSaiHuE27p4dtgxtOrgLmTjWmzChuLG46cXCfUr/FaOSXJG4PyiSZKjPPAGvDPffGtEXNcBPwau1vmCDJ7cOMNvML4=
-Received: from SI2PR03MB5885.apcprd03.prod.outlook.com (2603:1096:4:142::7) by
- TYZPR03MB5408.apcprd03.prod.outlook.com (2603:1096:400:35::14) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6907.24; Fri, 20 Oct 2023 10:01:19 +0000
-Received: from SI2PR03MB5885.apcprd03.prod.outlook.com
- ([fe80::3dfd:5783:26bf:c189]) by SI2PR03MB5885.apcprd03.prod.outlook.com
- ([fe80::3dfd:5783:26bf:c189%4]) with mapi id 15.20.6907.025; Fri, 20 Oct 2023
- 10:01:19 +0000
-From:   =?utf-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>
-To:     "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "jstultz@google.com" <jstultz@google.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        =?utf-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
-        <Jianjiao.Zeng@mediatek.com>,
-        =?utf-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
-        <kuohong.wang@mediatek.com>,
-        =?utf-8?B?QW5hbiBTdW4gKOWtmeWuieWuiSk=?= <Anan.Sun@mediatek.com>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "tjmercier@google.com" <tjmercier@google.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH 6/9] dma-buf: heaps: mtk_sec_heap: Add tee service call
- for buffer allocating/freeing
-Thread-Topic: [PATCH 6/9] dma-buf: heaps: mtk_sec_heap: Add tee service call
- for buffer allocating/freeing
-Thread-Index: AQHZ5FgqDwsDNAc9xUe5kPjiMIdpmrBQxZ0AgAHqcIA=
-Date:   Fri, 20 Oct 2023 10:01:19 +0000
-Message-ID: <7a2995de23c24ef22c071c6976c02b97e9b50126.camel@mediatek.com>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
-         <20230911023038.30649-7-yong.wu@mediatek.com>
-         <e7d72a94-4804-4297-8d3a-2191e2886bfc@quicinc.com>
-In-Reply-To: <e7d72a94-4804-4297-8d3a-2191e2886bfc@quicinc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SI2PR03MB5885:EE_|TYZPR03MB5408:EE_
-x-ms-office365-filtering-correlation-id: 7fbe873a-6f36-4e7a-66d9-08dbd1538209
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: UhV2OQ1f9P8KvOVJmY6XdSUV5JVZKXws4dvA6WU/wj8WY9kDkhu3TPDA8sjGjL/+des78qj7D6LOBiXtI87Qj8nKXlGcLwqerWxjUiM/uRxKvDjpbJwnOFqkQVkazr6SlflHW5bPzFOeSQlqncXtAeqTvxM+m7d2tbQcApRy7W6R2WZBIN4Nu27um/w1w7WK0qxCTWHqWRC+FPKF9KRAky51l6e/5LgSluJwCGFCjWC57QHTKrfZyNhvGUjLsgFTaeYvN5CqnahjGrpeN+b3JeIDuHbP2cKok84UgtMQbsmfh9JEsllO5MEhcrT7L6VMPkXO5yQkGqggM2gepcMcCVtK5K1ergA0Qe6SSXOMex3kofM/toBw0Iqc3xgbmbOiRRhYYG5DSFRRCkVm3tk80cJCVUTTN4AbLfgfXbiHfvBaFWjCAA7u3skk6iKVpQU8DrB4gB/wQWsSL9oy30OORDxSaqMoU9o05jjiRQnBBxIDuphZifdDjnt8Ns4wuYp9DAm5wBsn1OtzoDOfDAyGMvEjI1pE3RbxQXTMYSHeNtrCP58+VieZjtrhv4bXpmWKkYBk8oWaDkeSdeV4Dcb/NgcGLHRu0x6OxoQtScLPsSCPoyVuvYpOnwqDOlz7AjVHQV+AP/pzzzyxMipkifRJ4+Ax00UPAiYtzmunagIgLd12sAEZ7MmJVvuOickIwtsh
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR03MB5885.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(346002)(366004)(376002)(39860400002)(396003)(230922051799003)(451199024)(186009)(64100799003)(1800799009)(76116006)(66946007)(64756008)(66476007)(66446008)(54906003)(66556008)(110136005)(6486002)(478600001)(83380400001)(6512007)(53546011)(71200400001)(6506007)(122000001)(316002)(36756003)(85182001)(4001150100001)(38100700002)(38070700009)(7416002)(2906002)(86362001)(4326008)(8936002)(26005)(8676002)(41300700001)(2616005)(5660300002)(99106002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?RGpoRnVYYW52SloxQnpXRk91WFZLY1o2dzc0N3ZOZ3Z0QVNtMWIrVzBHMUNx?=
- =?utf-8?B?eWZPd21TREVXczI4Y0I2SkM5aXQyUmVZL0tHV0xnL3lnWFpTNlJsUDlnR05V?=
- =?utf-8?B?MGt5K3lHWWRLc2ZMUEZDTmlOWG9taXhkMkM4bXFBY0NzWUwxMVdnZ2toMUR6?=
- =?utf-8?B?djNqbTUwL3Jkb0FCYXpCUnFyYWVRNVpsMEdkOHJKZUpWWVVXclYxb1k2WEF0?=
- =?utf-8?B?ZzVwZjcxcTRhdlZwVE5xWkpqTlFTTEJ4a2V0YVEyTUIyb2t1S3VMTUhhV0E2?=
- =?utf-8?B?NTNzVkJYRHV0cGxnc2xidmZtZ1pMRlNIUDZuMjd6NGJRQkxtZlBpVVRTK2V1?=
- =?utf-8?B?ekk4czFPRmEraThEM3NFZlNjSEUxdStmT3JlUWdwSURRS2xUZXFrYjJnQnJm?=
- =?utf-8?B?amNCZ3U4Qm5RZVlYalJxMkxIQ0NJelh2MDI2YzVoMGlZcVdEdm9FMXljTkFs?=
- =?utf-8?B?Q2lrS0hGWjBHK0dXcml6OWVKL1lXa3ZoN0pBZFJoWGNNOE0rckx3Y05peTJE?=
- =?utf-8?B?NVdGcFRRcEFUT0psdktFTStVRFZmYWRQSmVxaTZCclFJV3ZJOEZHSkUvT05J?=
- =?utf-8?B?VDFUS1FRbVJjL1dKRzdRS09mREdxVFdnb0JKVnF2VW0vSlYwbkJaMFhJWW5G?=
- =?utf-8?B?d0ZqUGhmLzBSSTFMQUh0ZStWaWR0dnlsaUU0QjNyK21BT2RaOXoyN2ZDS25q?=
- =?utf-8?B?YUFkclFIWDFud2x6bjMzL2YxY084T0ZmWWJvYXp6UzVEeit1d1VZZmZwOVZ6?=
- =?utf-8?B?L2ZIbHIxVTRlSGFHM2ZTbUcrZTNmcEc5U0ZlYWd3Q1E0aFNaTUlJWFNBYUE3?=
- =?utf-8?B?ajJDREpPeFpjMk9LajJvU3FuZld6Y2IvejMram9ta2ZzajZBY0VUOFczMWhv?=
- =?utf-8?B?Umt3TTIwSEM1L2VBbjJkbGNld2lCb2t4NUZkU0QrRVNwT1MxUXVnc3IveHNI?=
- =?utf-8?B?czh4U2JYdks1TmdxNSt3VVM4VU9UNHRWejU4bjNKNWNrYmFNRGU3eCttVWhD?=
- =?utf-8?B?S29QM21sSmhsTnZYd3hjYndGeWZDT3V5MmdiT0MyNVJ4T2dNU1ZoZ2Q3eEZX?=
- =?utf-8?B?RUFPa0RpdGg2NVR2UjFkNkZldFR5bEJXWTN0VDRPZjNlbGs2dnI3bVUvSzFm?=
- =?utf-8?B?TGNqZjRRN25DUDg2NGlWRStpL2JzS3RBZHNtb2lNMXEyS3VBSXFCbGhmbTQ0?=
- =?utf-8?B?TG41STJ4ckdISUFiVmxaaitiVnVoZWZWblR3QTdzZGpMeVo5bWc0NTVuTitC?=
- =?utf-8?B?QlJTWW5kQWxmbFYwazZmb3laR3VVK0d5SXFYL2tpWkpCV3R5ai9CNExTZnBa?=
- =?utf-8?B?WFphRWJYdzkrSHlLbUlHRis0Y3QrbDBZYWRqalFYYlUrVGY4QUFTL2NldDJJ?=
- =?utf-8?B?dlFLUTRQQlpTWmU4SlZMOVlOb1FCV2o0cVliR01STUhaRklPMTlKVVhOK1g5?=
- =?utf-8?B?UWllMDVFMU5XRHo1ekFhWkczNVBhNjZFSC9NM25kVGJzOUVGSjFVc0hOMEpG?=
- =?utf-8?B?QWpKK2RLaTRzMWZjQk13bksrZGtIU2ZPaGlPQ0h0bjFuYlBxL3cyek9NSlhY?=
- =?utf-8?B?TVpkR2swWXFZQlBKSUlVRSswM1VRaTR0b2ZKaVN0T2pXK3FkeE4wb1ZnY3FB?=
- =?utf-8?B?TXg5YStnalJPd3dqSllxbm05aDBVNTlkOVEvNTgyS05qWlRVZlhvTmIycVZO?=
- =?utf-8?B?TVVOT1NrUDVBN2NyNHcyUVV4dU8xR0JTZk5zWVkrZVZOWnRieUtJcXEwYTd1?=
- =?utf-8?B?UnRKY1BqZnlCTEZlTUl5bldzTi9SUVEwcUFoOU0zY0x0TEpSdlhPc3BLMTBw?=
- =?utf-8?B?OUpaenFtOGZNdGNZNVVJY3RLaFltS1FaOXlIdSt5SlFZejZsVnFvMUZRVEJ0?=
- =?utf-8?B?WU4rSkxidWhjbVo5dTgrTUdBRHo4MWFKOGxkQ2lxbEphbFVHTXZCRkR3ME1B?=
- =?utf-8?B?akZjRDBsZlUxRjRuR0w5Y1JkTGx2d1lJMEFXSFc2aW5jV2U5TEo5VzNzTmVX?=
- =?utf-8?B?eWlEek1uWHU3b1AybHNHTnpFQ3FKZzJoaCtYVDdud24vY1pKVTJ4WjY2K0RX?=
- =?utf-8?B?YUJkb2NyWmo5VGQxNXkrM0Rna09lZjZJTUFQeXE2YmlYQisxS0QrQWhlMzF1?=
- =?utf-8?B?OWxjd3VEeTh4aENUeWVmckNwZ0hEWjh1WWhxMnNnSWFROFhiSnNoTjV6NE9U?=
- =?utf-8?B?aEE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A120DE4D9B11BB4E9A25C442F4B6D15B@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR03MB5885.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7fbe873a-6f36-4e7a-66d9-08dbd1538209
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2023 10:01:19.7163
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7MeeWuS896n1WsAm/I6sioC0+v6q86WcZnmRcnpskzhqOTMCDaZOS5Y1UJ4XRce68EGX9DykS6qTfL4xiH6UqQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB5408
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--24.656400-8.000000
-X-TMASE-MatchedRID: gIwa0kWWszLUL3YCMmnG4uYAh37ZsBDC1kqyrcMalqUNcckEPxfz2DEU
-        xl1gE1bkfdd9BtGlLLzx1uczIHKx54/qvvWxLCnegOqr/r0d+Cx+Mk6ACsw4JlwpnAAvAwazCS6
-        IUmxCo5HtLocRZnnK+tsIe/TXUbL1idh40yl3wZCVOwZbcOalS4fsPVs/8Vw6CqIJhrrDy28bOO
-        kcH9zseSrlq6rYWJgzqYoaR830XIVxzwb0rKc346ngbqTYC4GHmGSSol4Uei26pZ/o2Hu2YZ/ih
-        Jrtaz9W4vM1YF6AJbY9l7H+TFQgdbew1twePJJB3QfwsVk0Ubv+efAnnZBiLyF6bSSak9kx
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--24.656400-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: 7A2BC4B9017573CE1F2DA9D4E1799009D5A7FD0A1250DB93FFCAA19CCFA931152000:8
-X-MTK:  N
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        UNPARSEABLE_RELAY autolearn=ham autolearn_force=no version=3.4.6
+        Fri, 20 Oct 2023 06:08:55 -0400
+Received: from inva021.nxp.com (inva021.nxp.com [92.121.34.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28781CC;
+        Fri, 20 Oct 2023 03:08:51 -0700 (PDT)
+Received: from inva021.nxp.com (localhost [127.0.0.1])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id 12BD9200895;
+        Fri, 20 Oct 2023 12:08:49 +0200 (CEST)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+        by inva021.eu-rdc02.nxp.com (Postfix) with ESMTP id A2CA62008B4;
+        Fri, 20 Oct 2023 12:08:48 +0200 (CEST)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+        by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id B00E4181D0E5;
+        Fri, 20 Oct 2023 18:08:46 +0800 (+08)
+From:   Shengjiu Wang <shengjiu.wang@nxp.com>
+To:     hverkuil@xs4all.nl, sakari.ailus@iki.fi, tfiga@chromium.org,
+        m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+        nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+        perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+Subject: [RFC PATCH v7 00/13] Add audio support in v4l2 framework
+Date:   Fri, 20 Oct 2023 17:30:19 +0800
+Message-Id: <1697794232-2607-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgVmlqYXlhbmFuZCwNCg0KVGhhbmtzIHZlcnkgbXVjaCBmb3IgeW91ciByZXZpZXcuDQoNCk9u
-IFRodSwgMjAyMy0xMC0xOSBhdCAxMDoxNSArMDUzMCwgVmlqYXlhbmFuZCBKaXR0YSB3cm90ZToN
-Cj4gIAkgDQo+IEV4dGVybmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBv
-cGVuIGF0dGFjaG1lbnRzIHVudGlsDQo+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3Ig
-dGhlIGNvbnRlbnQuDQo+ICANCj4gDQo+IE9uIDkvMTEvMjAyMyA4OjAwIEFNLCBZb25nIFd1IHdy
-b3RlOg0KPiA+IEFkZCBURUUgc2VydmljZSBjYWxsIGZvciBzZWN1cmUgbWVtb3J5IGFsbG9jYXRp
-bmcvZnJlZWluZy4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5OiBBbmFuIFN1biA8YW5hbi5zdW5A
-bWVkaWF0ZWsuY29tPg0KPiA+IFNpZ25lZC1vZmYtYnk6IFlvbmcgV3UgPHlvbmcud3VAbWVkaWF0
-ZWsuY29tPg0KPiA+IC0tLQ0KPiA+ICBkcml2ZXJzL2RtYS1idWYvaGVhcHMvbXRrX3NlY3VyZV9o
-ZWFwLmMgfCA2OQ0KPiArKysrKysrKysrKysrKysrKysrKysrKystDQo+ID4gIDEgZmlsZSBjaGFu
-Z2VkLCA2OCBpbnNlcnRpb25zKCspLCAxIGRlbGV0aW9uKC0pDQo+ID4gDQo+ID4gZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZG1hLWJ1Zi9oZWFwcy9tdGtfc2VjdXJlX2hlYXAuYyBiL2RyaXZlcnMvZG1h
-LQ0KPiBidWYvaGVhcHMvbXRrX3NlY3VyZV9oZWFwLmMNCj4gPiBpbmRleCBlM2RhMzNhM2QwODMu
-LjE0YzJhMTZhNzE2NCAxMDA2NDQNCj4gPiAtLS0gYS9kcml2ZXJzL2RtYS1idWYvaGVhcHMvbXRr
-X3NlY3VyZV9oZWFwLmMNCj4gPiArKysgYi9kcml2ZXJzL2RtYS1idWYvaGVhcHMvbXRrX3NlY3Vy
-ZV9oZWFwLmMNCj4gPiBAQCAtMTcsNiArMTcsOSBAQA0KPiA+ICANCj4gPiAgI2RlZmluZSBNVEtf
-VEVFX1BBUkFNX05VTTQNCj4gPiAgDQo+ID4gKyNkZWZpbmUgVFpDTURfTUVNX1NFQ1VSRUNNX1VO
-UkVGNw0KPiA+ICsjZGVmaW5lIFRaQ01EX01FTV9TRUNVUkVDTV9aQUxMT0MxNQ0KPiA+ICsNCj4g
-PiAgLyoNCj4gPiAgICogTWVkaWFUZWsgc2VjdXJlIChjaHVuaykgbWVtb3J5IHR5cGUNCj4gPiAg
-ICoNCj4gPiBAQCAtMjksNiArMzIsOCBAQCBlbnVtIGtyZWVfbWVtX3R5cGUgew0KPiA+ICBzdHJ1
-Y3QgbXRrX3NlY3VyZV9oZWFwX2J1ZmZlciB7DQo+ID4gIHN0cnVjdCBkbWFfaGVhcCpoZWFwOw0K
-PiA+ICBzaXplX3RzaXplOw0KPiA+ICsNCj4gPiArdTMyc2VjX2hhbmRsZTsNCj4gPiAgfTsNCj4g
-PiAgDQo+ID4gIHN0cnVjdCBtdGtfc2VjdXJlX2hlYXAgew0KPiA+IEBAIC04MCw2ICs4NSw2MyBA
-QCBzdGF0aWMgaW50IG10a19rcmVlX3NlY3VyZV9zZXNzaW9uX2luaXQoc3RydWN0DQo+IG10a19z
-ZWN1cmVfaGVhcCAqc2VjX2hlYXApDQo+ID4gIHJldHVybiByZXQ7DQo+ID4gIH0NCj4gPiAgDQo+
-ID4gK3N0YXRpYyBpbnQNCj4gPiArbXRrX3NlY19tZW1fdGVlX3NlcnZpY2VfY2FsbChzdHJ1Y3Qg
-dGVlX2NvbnRleHQgKnRlZV9jdHgsIHUzMg0KPiBzZXNzaW9uLA0KPiA+ICsgICAgIHVuc2lnbmVk
-IGludCBjb21tYW5kLCBzdHJ1Y3QgdGVlX3BhcmFtICpwYXJhbXMpDQo+ID4gK3sNCj4gPiArc3Ry
-dWN0IHRlZV9pb2N0bF9pbnZva2VfYXJnIGFyZyA9IHswfTsNCj4gPiAraW50IHJldDsNCj4gPiAr
-DQo+ID4gK2FyZy5udW1fcGFyYW1zID0gTVRLX1RFRV9QQVJBTV9OVU07DQo+ID4gK2FyZy5zZXNz
-aW9uID0gc2Vzc2lvbjsNCj4gPiArYXJnLmZ1bmMgPSBjb21tYW5kOw0KPiA+ICsNCj4gPiArcmV0
-ID0gdGVlX2NsaWVudF9pbnZva2VfZnVuYyh0ZWVfY3R4LCAmYXJnLCBwYXJhbXMpOw0KPiA+ICtp
-ZiAocmV0IDwgMCB8fCBhcmcucmV0KSB7DQo+ID4gK3ByX2VycigiJXM6IGNtZCAlZCByZXQgJWQ6
-JXguXG4iLCBfX2Z1bmNfXywgY29tbWFuZCwgcmV0LA0KPiBhcmcucmV0KTsNCj4gPiArcmV0ID0g
-LUVPUE5PVFNVUFA7DQo+ID4gK30NCj4gPiArcmV0dXJuIHJldDsNCj4gPiArfQ0KPiA+ICsNCj4g
-PiArc3RhdGljIGludCBtdGtfc2VjX21lbV9hbGxvY2F0ZShzdHJ1Y3QgbXRrX3NlY3VyZV9oZWFw
-ICpzZWNfaGVhcCwNCj4gPiArc3RydWN0IG10a19zZWN1cmVfaGVhcF9idWZmZXIgKnNlY19idWYp
-DQo+ID4gK3sNCj4gPiArc3RydWN0IHRlZV9wYXJhbSBwYXJhbXNbTVRLX1RFRV9QQVJBTV9OVU1d
-ID0gezB9Ow0KPiA+ICt1MzIgbWVtX3Nlc3Npb24gPSBzZWNfaGVhcC0+bWVtX3Nlc3Npb247DQo+
-ID4gK2ludCByZXQ7DQo+ID4gKw0KPiA+ICtwYXJhbXNbMF0uYXR0ciA9IFRFRV9JT0NUTF9QQVJB
-TV9BVFRSX1RZUEVfVkFMVUVfSU5QVVQ7DQo+ID4gK3BhcmFtc1swXS51LnZhbHVlLmEgPSBTWl80
-SzsvKiBhbGlnbm1lbnQgKi8NCj4gPiArcGFyYW1zWzBdLnUudmFsdWUuYiA9IHNlY19oZWFwLT5t
-ZW1fdHlwZTsvKiBtZW1vcnkgdHlwZSAqLw0KPiA+ICtwYXJhbXNbMV0uYXR0ciA9IFRFRV9JT0NU
-TF9QQVJBTV9BVFRSX1RZUEVfVkFMVUVfSU5QVVQ7DQo+ID4gK3BhcmFtc1sxXS51LnZhbHVlLmEg
-PSBzZWNfYnVmLT5zaXplOw0KPiA+ICtwYXJhbXNbMl0uYXR0ciA9IFRFRV9JT0NUTF9QQVJBTV9B
-VFRSX1RZUEVfVkFMVUVfSU5PVVQ7DQo+ID4gKw0KPiA+ICsvKiBBbHdheXMgcmVxdWVzdCB6ZXJv
-ZWQgYnVmZmVyICovDQo+ID4gK3JldCA9IG10a19zZWNfbWVtX3RlZV9zZXJ2aWNlX2NhbGwoc2Vj
-X2hlYXAtPnRlZV9jdHgsIG1lbV9zZXNzaW9uLA0KPiA+ICsgICBUWkNNRF9NRU1fU0VDVVJFQ01f
-WkFMTE9DLCBwYXJhbXMpOw0KPiANCj4gSSBzZWUgaGVyZSBvcHRlZSBjYWxscyBhcmUgYmVpbmcg
-dXNlZCB0byBzZWN1cmUgbWVtb3J5Lg0KPiANCj4gRm9yIGEgc2VjdXJlIGhlYXAsIHRoZXJlIGNh
-biBiZSBtdWx0aXBsZSB3YXlzIG9uIGhvdyB3ZSB3YW50IHRvDQo+IHNlY3VyZSBtZW1vcnksDQo+
-IGZvciBlZyA6IGJ5IHVzaW5nIHFjb21fc2NtX2Fzc2lnbl9tZW0uDQo+IA0KPiBUaGlzIGludGVy
-ZmFjZSByZXN0cmljdHMgc2VjdXJpbmcgbWVtb3J5IHRvIG9ubHkgb3B0ZWUgY2FsbHMuDQo+IGNh
-biB3ZSBoYXZlIGEgd2F5IHRvIGNob29zZSBvcHMgdGhhdCB3ZSB3YW50IHRvIHNlY3VyZSBtZW1v
-cnkgPyANCg0KVGhhbmtzIGZvciB0aGlzIHN1Z2dlc3Rpb24uIFNvIGl0IGxvb2tzIGxpa2UgdGhl
-cmUgYXJlIGZvdXIgb3BlcmF0aW9ucw0KaW4gdGhlIGFic3RyYWN0IG9wcy4gU29tZXRoaW5nIGxp
-a2UgdGhpcz8NCg0Kc3RydWN0IHNlY19tZW1vcnlfb3BzIHsNCiAgIGludCAoKnNlY19tZW1vcnlf
-aW5pdCkoKSAgIC8vd2UgbmVlZCBpbml0aWFsaXNlIHRlZSBzZXNzaW9uIGhlcmUuDQogICBpbnQg
-KCpzZWNfbWVtb3J5X2FsbG9jKSgpDQogICBpbnQgKCpzZWNfbWVtb3J5X2ZyZWUpKCkNCiAgIHZv
-aWQgKCpzZWNfbWVtb3J5X3VuaW5pdCkoKQ0KfQ0KICAgDQpEbyB5b3UgYWxzbyBuZWVkIHRlZSBv
-cGVyYXRpb24gbGlrZSB0ZWVfY2xpZW50X29wZW5fc2Vzc2lvbiBhbmQNCnRlZV9jbGllbnRfaW52
-b2tlX2Z1bmM/DQppZiBzbywgeW91ciBVVUlEIGFuZCBURUUgY29tbWFuZCBJRCB2YWx1ZSBhcmUg
-YWxzbyBkaWZmZXJlbnQsIHJpZ2h0Pw0KICAgDQpXZSBtYXkgYWxzbyBuZWVkIG5ldyBtYWNyb3Mg
-b24gaG93IHRvIGNob29zZSBkaWZmZXJlbnQgc2VjX21lbW9yeV9vcHMNCnNpbmNlIHdlIGRvbid0
-IGhhdmUgZGlmZmVyZW50IGJpbmRpbmdzLg0KDQo+IA0KPiBUaGFua3MsDQo+IFZpamF5DQo=
+Audio signal processing also has the requirement for memory to
+memory similar as Video.
+
+This asrc memory to memory (memory ->asrc->memory) case is a non
+real time use case.
+
+User fills the input buffer to the asrc module, after conversion, then asrc
+sends back the output buffer to user. So it is not a traditional ALSA playback
+and capture case.
+
+It is a specific use case,  there is no reference in current kernel.
+v4l2 memory to memory is the closed implementation,  v4l2 current
+support video, image, radio, tuner, touch devices, so it is not
+complicated to add support for this specific audio case.
+
+Because we had implemented the "memory -> asrc ->i2s device-> codec"
+use case in ALSA.  Now the "memory->asrc->memory" needs
+to reuse the code in asrc driver, so the first 3 patches is for refining
+the code to make it can be shared by the "memory->asrc->memory"
+driver.
+
+The main change is in the v4l2 side, A /dev/vl4-audioX will be created,
+user applications only use the ioctl of v4l2 framework.
+
+Other change is to add memory to memory support for two kinds of i.MX ASRC
+module.
+
+changes in v7:
+- add acked-by from Mark
+- separate commit for fixed point, m2m audio class, audio rate controls
+- use INTEGER_MENU for rate,  FIXED_POINT for rate offset
+- remove used fmts
+- address other comments for Hans
+
+changes in v6:
+- use m2m_prepare/m2m_unprepare/m2m_start/m2m_stop to replace
+  m2m_start_part_one/m2m_stop_part_one, m2m_start_part_two/m2m_stop_part_two.
+- change V4L2_CTRL_TYPE_ASRC_RATE to V4L2_CTRL_TYPE_FIXED_POINT
+- fix warning by kernel test rebot
+- remove some unused format V4L2_AUDIO_FMT_XX
+- Get SNDRV_PCM_FORMAT from V4L2_AUDIO_FMT in driver.
+- rename audm2m to viaudm2m.
+
+changes in v5:
+- remove V4L2_AUDIO_FMT_LPCM
+- define audio pixel format like V4L2_AUDIO_FMT_S8...
+- remove rate and format in struct v4l2_audio_format.
+- Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE controls
+- updata document accordingly.
+
+changes in v4:
+- update document style
+- separate V4L2_AUDIO_FMT_LPCM and V4L2_CAP_AUDIO_M2M in separate commit
+
+changes in v3:
+- Modify documents for adding audio m2m support
+- Add audio virtual m2m driver
+- Defined V4L2_AUDIO_FMT_LPCM format type for audio.
+- Defined V4L2_CAP_AUDIO_M2M capability type for audio m2m case.
+- with modification in v4l-utils, pass v4l2-compliance test.
+
+changes in v2:
+- decouple the implementation in v4l2 and ALSA
+- implement the memory to memory driver as a platfrom driver
+  and move it to driver/media
+- move fsl_asrc_common.h to include/sound folder
+
+Shengjiu Wang (13):
+  ASoC: fsl_asrc: define functions for memory to memory usage
+  ASoC: fsl_easrc: define functions for memory to memory usage
+  ASoC: fsl_asrc: move fsl_asrc_common.h to include/sound
+  ASoC: fsl_asrc: register m2m platform device
+  ASoC: fsl_easrc: register m2m platform device
+  media: uapi: Add V4L2_CAP_AUDIO_M2M capability flag
+  media: v4l2: Add audio capture and output support
+  media: uapi: define audio sample format fourcc type
+  media: uapi: Add V4L2_CTRL_CLASS_M2M_AUDIO
+  media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
+  media: uapi: Add audio rate controls support
+  media: imx-asrc: Add memory to memory driver
+  media: vim2m_audio: add virtual driver for audio memory to memory
+
+ .../userspace-api/media/v4l/buffer.rst        |    6 +
+ .../userspace-api/media/v4l/common.rst        |    1 +
+ .../media/v4l/dev-audio-mem2mem.rst           |   71 +
+ .../userspace-api/media/v4l/devices.rst       |    1 +
+ .../media/v4l/ext-ctrls-audio-m2m.rst         |   39 +
+ .../userspace-api/media/v4l/pixfmt-audio.rst  |   87 ++
+ .../userspace-api/media/v4l/pixfmt.rst        |    1 +
+ .../media/v4l/vidioc-enum-fmt.rst             |    2 +
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |    4 +
+ .../userspace-api/media/v4l/vidioc-g-fmt.rst  |    4 +
+ .../media/v4l/vidioc-querycap.rst             |    3 +
+ .../media/v4l/vidioc-queryctrl.rst            |    6 +
+ .../media/videodev2.h.rst.exceptions          |    4 +
+ .../media/common/videobuf2/videobuf2-v4l2.c   |    4 +
+ drivers/media/platform/nxp/Kconfig            |   12 +
+ drivers/media/platform/nxp/Makefile           |    1 +
+ drivers/media/platform/nxp/imx-asrc.c         | 1207 +++++++++++++++++
+ drivers/media/test-drivers/Kconfig            |    9 +
+ drivers/media/test-drivers/Makefile           |    1 +
+ drivers/media/test-drivers/vim2m_audio.c      |  680 ++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      |    5 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     |    2 +
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   16 +
+ drivers/media/v4l2-core/v4l2-dev.c            |   17 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   66 +
+ include/media/v4l2-dev.h                      |    2 +
+ include/media/v4l2-ioctl.h                    |   34 +
+ .../fsl => include/sound}/fsl_asrc_common.h   |   60 +
+ include/uapi/linux/v4l2-controls.h            |    9 +
+ include/uapi/linux/videodev2.h                |   42 +
+ sound/soc/fsl/fsl_asrc.c                      |  144 ++
+ sound/soc/fsl/fsl_asrc.h                      |    4 +-
+ sound/soc/fsl/fsl_asrc_dma.c                  |    2 +-
+ sound/soc/fsl/fsl_easrc.c                     |  233 ++++
+ sound/soc/fsl/fsl_easrc.h                     |    6 +-
+ 35 files changed, 2781 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem2mem.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-audio-m2m.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.rst
+ create mode 100644 drivers/media/platform/nxp/imx-asrc.c
+ create mode 100644 drivers/media/test-drivers/vim2m_audio.c
+ rename {sound/soc/fsl => include/sound}/fsl_asrc_common.h (60%)
+
+-- 
+2.34.1
+
