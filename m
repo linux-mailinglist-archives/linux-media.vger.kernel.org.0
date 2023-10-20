@@ -2,90 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9470B7D147F
-	for <lists+linux-media@lfdr.de>; Fri, 20 Oct 2023 19:02:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 365E67D1547
+	for <lists+linux-media@lfdr.de>; Fri, 20 Oct 2023 19:56:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229836AbjJTRCj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Oct 2023 13:02:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40268 "EHLO
+        id S230008AbjJTR4b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Oct 2023 13:56:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229692AbjJTRCi (ORCPT
+        with ESMTP id S230046AbjJTR43 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Oct 2023 13:02:38 -0400
-Received: from mail-oi1-f180.google.com (mail-oi1-f180.google.com [209.85.167.180])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B545CA;
-        Fri, 20 Oct 2023 10:02:37 -0700 (PDT)
-Received: by mail-oi1-f180.google.com with SMTP id 5614622812f47-3b2e07e5f3aso1114621b6e.0;
-        Fri, 20 Oct 2023 10:02:37 -0700 (PDT)
+        Fri, 20 Oct 2023 13:56:29 -0400
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9B00D5B
+        for <linux-media@vger.kernel.org>; Fri, 20 Oct 2023 10:56:26 -0700 (PDT)
+Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-66d0252578aso6072116d6.0
+        for <linux-media@vger.kernel.org>; Fri, 20 Oct 2023 10:56:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1697824586; x=1698429386; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=hbkkUKQ9rVszrJk3+DYjUAAjOhmB5UW1peE3XGvWZbw=;
+        b=xwKCNyp097moqUXYegtMUiyYDgkyioHFs+NeuTuGCTHpteVlhwhmbaqTJLgW230r8u
+         bot0rT1uhokkkS8+99aynJ6FXpPHGZsiZXYu44z20w+afgLW+X5UqT0MmnmPuKpg5WTu
+         3HKYxiWqDYTLxxCineIRKCu4wVNuetsmaEfCDPkehmyciWgq0cwmMoU4/9cGcMSjXC/3
+         /nFFz2SyMABUHU1r/6J/MNP1AXU0IN5trSs8/OZjCZffO/+W9N98I+hlyqnJUm4kdoQZ
+         IKg6tJF5VaPVtpDkfJSPmDWGy+lo8wLmQrcKakBNaQeouro1VRCYSelCV9kU1rK3SHaq
+         Nrpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697821356; x=1698426156;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=em6W/wKA5nIven/0xrneSCPDb3lC+lDEs9feH0KsLuc=;
-        b=jYAWQrJfyCEvReJyDSzWDzTQD8MzrzgrO4kQ8vUN1okbkwLza7YTP0Dpxm5D8hHseE
-         lWxTAN1pEIEA3HAclamwDp6lsmzt+qvbipB13P0NC59vpquiKI8kXOarq2CjX2OWI0fS
-         zMun2v78Nmdb4yIcPa90LKifUF045tpec0lok00aUIvoMjmbIw7XPE9rrXSeTtHAY6qs
-         zozVu8OFXSt8QIoII9zhPLhlJFfWvOayJdT7bzJjHS1shkMVdoKV6Oh7SSiEGMGcF2J/
-         dX5UH8ROFb8fQ+xxhZ9ojG8gccgwchKWvQNVglIR8by93wlSMj/c+3M2qIXntw9ASsWC
-         itYw==
-X-Gm-Message-State: AOJu0YzfJMIFrK4pbw4EzTLZ9zSPLodbLe4IqVafPfa39UuTZt2lx7tf
-        e5IwU2660Pglc0NEbrvFRg==
-X-Google-Smtp-Source: AGHT+IEfleuQMGHz1zdXCLu0snW6Wqv3IOe8sAN1Y4wVWkLk99mTuPYTskpRl6S/76Krg/jY48JnJA==
-X-Received: by 2002:a05:6808:1588:b0:3b2:f461:b31e with SMTP id t8-20020a056808158800b003b2f461b31emr1299538oiw.29.1697821356485;
-        Fri, 20 Oct 2023 10:02:36 -0700 (PDT)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id t9-20020a05680800c900b003af569ad2c6sm394737oic.3.2023.10.20.10.02.35
+        d=1e100.net; s=20230601; t=1697824586; x=1698429386;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=hbkkUKQ9rVszrJk3+DYjUAAjOhmB5UW1peE3XGvWZbw=;
+        b=Bm7T90X9xgJTxmjXRQYKsPgvNmAE+x7HCUdRY/othidTlZSsVmXh679QU4wrrv+/XD
+         iul2Z8b5XipTTdFFV6IbBAxmFJ3gQl7ymyIPBgCky17pA4kpccv4TWcQyHMcMKR3Xpw3
+         KMGU5nJFRBl08DS6DWr3xPw1MKGZ+QOo3pC1ZH9PKkNScWzh7tOn20zvtcS2UJW9UPRE
+         LolGC7PcqL53dijDjAQo5X8qdo0wdfpuOpp/Vw7SMii2TA1o/R39SuPAa/Y//vx4UwLE
+         c0ogvQ8qmNq/3lcCRY5d0KkHmuYrvcETeSUicTuSOKD8IAwASXDZtDEu78L8uaTsBdlS
+         tRag==
+X-Gm-Message-State: AOJu0YyjPvzqZXF0ziNLYP6XlBUToFv/aVKgP5q6T8eg5kqY3AURInJP
+        kM8MdZn9KzoqKDAYiOH8CJYcQQ==
+X-Google-Smtp-Source: AGHT+IH5Tt4h+q22iOzKEQi1leENzRlNyYmJoxaEV8glb2XUtndT8bKzXZppV16rc1iDSjFYl98nnw==
+X-Received: by 2002:a05:6214:2129:b0:66d:6705:5c50 with SMTP id r9-20020a056214212900b0066d67055c50mr2972282qvc.44.1697824585741;
+        Fri, 20 Oct 2023 10:56:25 -0700 (PDT)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:17:6dc0::580])
+        by smtp.gmail.com with ESMTPSA id w9-20020a0cfc49000000b0066d11c1f578sm854225qvp.97.2023.10.20.10.56.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Oct 2023 10:02:35 -0700 (PDT)
-Received: (nullmailer pid 3633193 invoked by uid 1000);
-        Fri, 20 Oct 2023 17:02:34 -0000
-From:   Rob Herring <robh@kernel.org>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] media: dt-bindings: ti,ds90ub960: Add missing type for "i2c-alias"
-Date:   Fri, 20 Oct 2023 12:02:24 -0500
-Message-ID: <20231020170225.3632933-1-robh@kernel.org>
-X-Mailer: git-send-email 2.42.0
+        Fri, 20 Oct 2023 10:56:25 -0700 (PDT)
+Message-ID: <437e4ea0c2c2681c1b333ad109f8f02fc229537f.camel@ndufresne.ca>
+Subject: Re: V4L2 Encoders Pre-Processing Support Questions
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date:   Fri, 20 Oct 2023 13:56:23 -0400
+In-Reply-To: <ZTD5TXND4R7JqvCD@aptenodytes>
+References: <ZTD5TXND4R7JqvCD@aptenodytes>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Every DT property needs a type defined, but "i2c-alias" is missing any
-type definition. It's a "uint32", so add a type reference.
+Hi Paul,
 
-Fixes: 313e8b32c616 ("media: dt-bindings: media: add TI DS90UB960 FPD-Link III Deserializer")
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml | 1 +
- 1 file changed, 1 insertion(+)
+Le jeudi 19 octobre 2023 =C3=A0 11:39 +0200, Paul Kocialkowski a =C3=A9crit=
+=C2=A0:
+> Hello,
+>=20
+> While working on the Allwinner Video Engine H.264 encoder, I found that i=
+t has
+> some pre-processing capabilities. This includes things like chroma
+> down-sampling, colorspace conversion and scaling.
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-index 289737721c2c..0b71e6f911a8 100644
---- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-@@ -69,6 +69,7 @@ properties:
-             maxItems: 1
- 
-           i2c-alias:
-+            $ref: /schemas/types.yaml#/definitions/uint32
-             description:
-               The I2C address used for the serializer. Transactions to this
-               address on the I2C bus where the deserializer resides are
--- 
-2.42.0
+Similar with Hantro H1.
+
+>=20
+> For example this means that you can feed the encoder with YUV 4:2:2 data =
+and
+> it will downsample it to 4:2:0 since that's the only thing the hardware c=
+an do.
+> It can also happen when e.g. providing RGB source pictures which will be
+> converted to YUV 4:2:0 internally.
+>=20
+> I was wondering how all of this is dealt with currently and whether this =
+should
+> be a topic of attention. As far as I can see there is currently no practi=
+cal way
+> for userspace to know that such downsampling will take place, although th=
+is is
+> useful to know.
+
+Userspace already know that the driver will be downsample through the selec=
+ted
+profile. The only issue would be if a users want to force a profile with 42=
+2
+support, but have its  422 data downsampled anyway. This is legal in the sp=
+ec,
+but I'd question myself if its worth supporting.
+
+>=20
+> Would it make sense to have an additional media entity between the source=
+ video
+> node and the encoder proc and have the actual pixel format configured in =
+that
+> link (this would still be a video-centric device so userspace would not b=
+e
+> expected to configure that link). But then what if the hardware can eithe=
+r
+> down-sample or keep the provided sub-sampling? How would userspace indica=
+te
+> which behavior to select? It is maybe not great to let userspace configur=
+e the
+> pads when this is a video-node-centric driver.
+>=20
+> Perhaps this could be a control or the driver could decide to pick the le=
+ast
+> destructive sub-sampling available based on the selected codec profile
+> (but this is still a guess that may not match the use case). With a contr=
+ol
+> we probably don't need an extra media entity.
+
+Yes, for the cases not covered by the profile, I'd consider a control to fo=
+rce
+downsampling. A menu, so we can use the available menu items to get enumera=
+te
+what is supported.
+
+>=20
+> Another topic is scaling. We can generally support scaling by allowing a
+> different size for the coded queue after configuring the picture queue.
+> However there would be some interaction with the selection rectangle, whi=
+ch is
+> used to set the cropping rectangle from the *source*. So the driver will =
+need
+> to take this rectangle and scale it to match with the coded size.
+>=20
+> The main inconsistency here is that the rectangle would no longer corresp=
+ond to
+> what will be set in the bitstream, nor would the destination size since i=
+t does
+> not count the cropping rectangle by definition. It might be more sensible=
+ to
+> have the selection rectangle operate on the coded/destination queue inste=
+ad,
+> but things are already specified to be the other way round.
+>=20
+> Maybe a selection rectangle could be introduced for the coded queue too, =
+which
+> would generally be propagated from the picture-side one, except in the ca=
+se of
+> scaling where it would be used to clarify the actual final size (coded si=
+ze
+> taking the cropping in account). It this case the source selection rectan=
+gle
+> would be understood as an actual source crop (may not be supported by har=
+dware)
+> instead of an indication for the codec metadata crop fields. And the code=
+d
+> queue dimensions would need to take in account this source cropping, whic=
+h is
+> kinda contradictory with the current semantics. Perhaps we could define t=
+hat
+> the source crop rectangle should be entirely ignored when scaling is used=
+,
+> which would simplify things (although we lose the ability to support sour=
+ce
+> cropping if the hardware can do it).
+
+Yes, we should use selection on both queue (fortunately there is a v4l2_buf=
+_type
+in that API). Otherwise we cannot model all the scaling and cropping option=
+s.
+What the spec must do is define the configuration sequence, so that a
+negotiation is possible. We need a convention regarding the order, so that =
+there
+is a way to converge with the driver, and also to conclude if the driver ca=
+nnot
+handle it.
+
+>=20
+> If operating on the source selection rectangle only (no second rectangle =
+on the
+> coded queue) some cases would be impossible to reach, for instance going =
+from
+> some aligned dimensions to unaligned ones (e.g. 1280x720 source scaled to
+> 1920x1088 and we want the codec cropping fields to indicate 1920x1080).
+>=20
+> Anyway just wanted to check if people have already thought about these to=
+pics,
+> but I'm mostly thinking out loud and I'm of course not saying we need to =
+solve
+> these problems now.
+
+We might find extra corner case by implementing the spec, but I think the A=
+PI we
+have makes most of this possible already. Remember that we have fwht sw cod=
+ec in
+kernel for the purpose of developing this kind of feature. A simple bob sca=
+ler
+can be added for testing scaling.
+
+>=20
+> Sorry again for the long email, I hope the points I'm making are somewhat
+> understandable.
+>=20
+> Cheers,
+>=20
+> Paul
+>=20
+
+regards,
+Nicolas
 
