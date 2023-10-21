@@ -2,155 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3AF917D1CF7
-	for <lists+linux-media@lfdr.de>; Sat, 21 Oct 2023 14:05:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F0327D1D16
+	for <lists+linux-media@lfdr.de>; Sat, 21 Oct 2023 14:14:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230361AbjJUMFh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Oct 2023 08:05:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50154 "EHLO
+        id S229831AbjJUMOQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Oct 2023 08:14:16 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35766 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229583AbjJUMFg (ORCPT
+        with ESMTP id S229765AbjJUMOP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Oct 2023 08:05:36 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EA221A4;
-        Sat, 21 Oct 2023 05:05:31 -0700 (PDT)
-Received: from localhost (89-26-75-29.dyn.cablelink.at [89.26.75.29])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id B2A09660734B;
-        Sat, 21 Oct 2023 13:05:29 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1697889929;
-        bh=gQiUDCIXsORWlCdDXjOiPPc1M08qgxbtKkFrrvPre/M=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Mw2uSNCqgJe1DNmZxFDBfWUlzMEPXrYIBuOK8dxmeCYe1Rz/2GwyDbIBWjbWx77Da
-         rfUfsKcUZ4qWfDaLs41M57Hw9zN9VJHPCdY/pJwJ6LO62cnVZ9EIacybJ/WhkmjKOL
-         yNVaX/NLX43ctI2SLnZoo1pc671uk5ELg5gYH8gjP4iuVvDASV28NGKzsMRE1Sbvw/
-         6rzLPWThxLui5Jrb7POx4pqF3i4a0P0pis4pcQ5oZamCr9mC9KCydAPBmNR5t3y/rH
-         g+1hCFpw0Fqx+dOiStVVxarHi8GU7KOrAwY3/sXRSuf8ooMLky/YpokODXFWI4mFL7
-         LdWTSg8WPUmUg==
-Date:   Sat, 21 Oct 2023 14:05:26 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        kernel@collabora.com, Robert Beckett <bob.beckett@collabora.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Darren Etheridge <detheridge@ti.com>
-Subject: Re: [PATCH v13 6/8] media: dt-bindings: wave5: add Chips&Media 521c
- codec IP support
-Message-ID: <20231021120526.eqe3esyxyi5b3e5d@basti-XPS-13-9310>
-References: <20230929-wave5_v13_media_master-v13-0-5ac60ccbf2ce@collabora.com>
- <20230929-wave5_v13_media_master-v13-6-5ac60ccbf2ce@collabora.com>
- <b94e3561-f5ef-443f-98c7-9b79a8bbceec@linaro.org>
- <20231016134720.GA2650973-robh@kernel.org>
+        Sat, 21 Oct 2023 08:14:15 -0400
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F262D63;
+        Sat, 21 Oct 2023 05:14:13 -0700 (PDT)
+Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2c503dbe50dso26950831fa.1;
+        Sat, 21 Oct 2023 05:14:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1697890451; x=1698495251; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=z1hgO9nuruEPiuqumF8sjkjB66g/Fe7TKQqbXRKwxJw=;
+        b=dvL3NwNGYjKs/PKra5PB7r+puslo4QsFPYZIb73PxhTgROabM9oXLjbCF1rMbYWr6t
+         v3DIABE9eiwG0MhL7GPBFxM0pZM6wFIzlNmTlDUh5aafZ5+Da3bg7YS1dqyf9giOQ1ns
+         WF+l99EEKzGoY6uXoGY/UTWGpGfQC917pcHCcxRaCwMufkOb1ciDck+sudnEAbgjJLlS
+         3YRrcqiIo6fOZTQKkigdwQWeb55x0vQnfSwDSeW9F77eCKM/4OvHygbF6+Deo+qrTId4
+         R79gFeZRxtCGsWuX/LB8XRK6Gk5O/KzdOLAKVnJMpEcT92HNo6cL3VewYMkp4Mv8+9Ve
+         z8sA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697890451; x=1698495251;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z1hgO9nuruEPiuqumF8sjkjB66g/Fe7TKQqbXRKwxJw=;
+        b=gVPHuxrya/tRNDcyPtHmZ9coGDNkgHCU7+m8HQLDSiAXS4612zaRFzs913Ck73xcNU
+         NtuSx8n8AA2im0OUQ0vPwxFEvEA3lo56xI4x3sZsekiBkGMyWku9DQ07SbTe0oSfl3jf
+         THIYGehK65d8yzyOvnH1B36D1ANIgZnw5PogiKW4lUa7ETO4sOpfSGG4ATfNMjKZJPHD
+         11WJceDEl+Fk9bMCOd9Moeb36myjKEWOXBDRB3GapzJfbITCa+VMfzKyj5wfg4vTEseG
+         TwUcndTB0UQ+fakglAQ9l80BjpyJvjRwtStceEPtPARWpxhvin1flx7ZFYSs2c86ZOII
+         ttuQ==
+X-Gm-Message-State: AOJu0YwllvP+wR+HDdeDgzk7/m/h3FenvwKJeDUBUXtrkhUyTDWaMs7R
+        Pqp0y5cTwcyF+GAsicKK+M0=
+X-Google-Smtp-Source: AGHT+IHcaUBqaa9y/JY77Ly0qeRzu7cZNMMZA9tzpGfIS2zW6AE8M/fagm+xE+mBNmWtazC5eFoAsA==
+X-Received: by 2002:a05:6512:2808:b0:507:aad2:96af with SMTP id cf8-20020a056512280800b00507aad296afmr3567348lfb.21.1697890451104;
+        Sat, 21 Oct 2023 05:14:11 -0700 (PDT)
+Received: from HP-ENVY-Notebook (81-229-94-10-no68.tbcn.telia.com. [81.229.94.10])
+        by smtp.gmail.com with ESMTPSA id s5-20020a197705000000b00504358a9423sm857780lfc.280.2023.10.21.05.14.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Oct 2023 05:14:10 -0700 (PDT)
+Date:   Sat, 21 Oct 2023 14:14:08 +0200
+From:   Jonathan Bergh <bergh.jonathan@gmail.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH RESEND] staging: media: atomisp: Removed duplicate
+ comment and fixed comment format
+Message-ID: <ZTPAkFCIjgWNBY2u@HP-ENVY-Notebook>
+References: <20231021110058.85013-1-bergh.jonathan@gmail.com>
+ <acf1fade-7693-9332-03b1-626f4949f9ff@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231016134720.GA2650973-robh@kernel.org>
+In-Reply-To: <acf1fade-7693-9332-03b1-626f4949f9ff@redhat.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Rob and Krzysztof,
+On Sat, Oct 21, 2023 at 01:57:05PM +0200, Hans de Goede wrote:
+> Hi Jonathan,
+> 
+> On 10/21/23 13:00, Jonathan Bergh wrote:
+> > Fixed the following issues:
+> >  * Removed a duplicate comment
+> >  * Fixed up minor comment format issue
+> > 
+> > Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
 
-On 16.10.2023 08:47, Rob Herring wrote:
->On Thu, Oct 12, 2023 at 03:24:12PM +0200, Krzysztof Kozlowski wrote:
->> On 12/10/2023 13:01, Sebastian Fricke wrote:
->> > From: Robert Beckett <bob.beckett@collabora.com>
->> >
->> > Add bindings for the chips&media wave5 codec driver
->> >
->> > Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->> > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->> > ---
->> >  .../devicetree/bindings/media/cnm,wave5.yaml       | 60 ++++++++++++++++++++++
->> >  1 file changed, 60 insertions(+)
->> >
->> > diff --git a/Documentation/devicetree/bindings/media/cnm,wave5.yaml b/Documentation/devicetree/bindings/media/cnm,wave5.yaml
->> > new file mode 100644
->> > index 000000000000..b31d34aec05b
->> > --- /dev/null
->> > +++ b/Documentation/devicetree/bindings/media/cnm,wave5.yaml
->> > @@ -0,0 +1,60 @@
->> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> > +%YAML 1.2
->> > +---
->> > +$id: http://devicetree.org/schemas/media/cnm,wave5.yaml#
->>
->> Filename matching compatible, so: cnm,cm521c-vpu.yaml
+Hi Hans, thanks for the msg. 
 
-With which compatible should the filename match? (see below)
-And just to be sure, this means that I rename the file to:
-`.../devicetree/bindings/media/cnm,wave521c.yaml`
+> 
+> Thank you for your patch, but please don't resend
+> it every week.
 
->>
->> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> > +
->> > +title: Chips&Media Wave 5 Series multi-standard codec IP
->> > +
->> > +maintainers:
->> > +  - Nas Chung <nas.chung@chipsnmedia.com>
->> > +  - Jackson Lee <jackson.lee@chipsnmedia.com>
->> > +
->> > +description:
->> > +  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
->> > +
->> > +properties:
->> > +  compatible:
->> > +    enum:
->> > +      - cnm,cm521c-vpu
->>
->> Can this device be anything else? Why VPU suffix?
->
->It needs an SoC specific compatible (TI something...) as well (or
->instead). Unless there's a public spec with details on how many
->clocks, resets, interrupts, etc. there are.
+Apologies. I dont remember when i sent the original but I was cleaning 
+up today and thought i would resend it. (I dont recall resending prior to 
+today (?) but if so, apologies). 
+ 
+> I did see the original patch and it looks fine but
+> I have not had any time to work in atomisp support
+> recently and this does not seem like something
+> which needs to get merged urgently.
+> 
+> I'll pick this up next time I have time to do
+> a bunch of atomisp work.
 
-Okay so how about this, a bit similar to the Coda driver supplying both
-a general option and a SoC specific version:
-
-properties:
-   compatible:
-     enum:
-       - ti,k3-j721sX-wave521c
-       - cnm,wave521c
-
-(ti,k3-j721sX-wave521c = manufacturer,SoC-codec)
-(tested on j721s2 but should work on other variations as well)
-
-Another alternative could be: ti,k3-wave521c (less specific on a single
-SoC series but connected to a bigger range of devices)
-
->
->Rob
-
-Regards,
-Sebastian
-
->_______________________________________________
->Kernel mailing list -- kernel@mailman.collabora.com
->To unsubscribe send an email to kernel-leave@mailman.collabora.com
+Yes, for sure, it was just a small thing.
+Thanks Hans
+br
+Jonathan
