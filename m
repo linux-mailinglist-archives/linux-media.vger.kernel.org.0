@@ -2,195 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D532A7D1CE6
-	for <lists+linux-media@lfdr.de>; Sat, 21 Oct 2023 13:53:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5BB47D1CEF
+	for <lists+linux-media@lfdr.de>; Sat, 21 Oct 2023 13:57:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230504AbjJULxu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Oct 2023 07:53:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58390 "EHLO
+        id S230507AbjJUL56 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Oct 2023 07:57:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229478AbjJULxu (ORCPT
+        with ESMTP id S230200AbjJUL55 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Oct 2023 07:53:50 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C699A1A4;
-        Sat, 21 Oct 2023 04:53:44 -0700 (PDT)
-Received: from localhost (89-26-75-29.dyn.cablelink.at [89.26.75.29])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sebastianfricke)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 04A88660734B;
-        Sat, 21 Oct 2023 12:53:42 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1697889223;
-        bh=6RRGq7dtsDUYF+lQ+Zt4IpjIt/PofZwGotEJ0ImmOQU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Lt4imCyUAXHE/aVO8kWHutl7uB1wKalMAHhy4/9VY8jSanNaXzNkTQAlh1CPY+DrT
-         iU2gjiOKYrDyHLoEaqIzyWv8u7Q1nBXLGS9W4foa2I4zkY4jVggfehJjWDyVfhsYaG
-         wweOoUAfg2OaewES/D6nQ8lvO+AnMvZd0M4U00KVvqFgqeaQ71fyhIJfN0SyojpY8m
-         tbwuLD1VbqYXzudaCgVAaQnt2Z90JOMgPZk4+wMrGc4kdM4AoOFPCxdvPCDid2hSCe
-         O5BUM5ksgwrCVaKp3wbyHnmKoUtmUMOztIFl0LUy0GEE6A/h+OvhteVA3LdYSbl6qy
-         OmobyL3K8WgtQ==
-Date:   Sat, 21 Oct 2023 13:53:40 +0200
-From:   Sebastian Fricke <sebastian.fricke@collabora.com>
-To:     Devarsh Thakkar <devarsht@ti.com>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        kernel@collabora.com, Robert Beckett <bob.beckett@collabora.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Darren Etheridge <detheridge@ti.com>,
-        "Bajjuri, Praneeth" <praneeth@ti.com>,
-        "Raghavendra, Vignesh" <vigneshr@ti.com>,
-        "Bhatia, Aradhya" <a-bhatia1@ti.com>,
-        "Luthra, Jai" <j-luthra@ti.com>,
-        "Brnich, Brandon" <b-brnich@ti.com>,
-        "Pothukuchi, Vijay" <vijayp@ti.com>
-Subject: Re: [PATCH v13 6/8] media: dt-bindings: wave5: add Chips&Media 521c
- codec IP support
-Message-ID: <20231021115340.kgjmz6fr5av6ne6s@basti-XPS-13-9310>
-References: <20230929-wave5_v13_media_master-v13-0-5ac60ccbf2ce@collabora.com>
- <20230929-wave5_v13_media_master-v13-6-5ac60ccbf2ce@collabora.com>
- <4c557cbd-33e9-a0df-3431-04ade12b6f07@ti.com>
+        Sat, 21 Oct 2023 07:57:57 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08FF21BF
+        for <linux-media@vger.kernel.org>; Sat, 21 Oct 2023 04:57:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1697889434;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=8A5YPNn+IwEItuJ1G2OC4z10xXdMM8+6p/08c4lncco=;
+        b=VFlp+yuJRX5nJDCVrSOs11MBGS7peuCCCwCwb2mMbcAC/MnN8U/gnl8bXKexBd2LxqLtuJ
+        i2CMalBELAho6IN6tCkoeIRLQU/G5xcOD4V8TO+dcv6ZhlNTs8Lh9Y6UsmTYdUfys/A6L3
+        gI2KttUeEYtCHXXdMsZaypnM2arBagI=
+Received: from mail-lf1-f72.google.com (mail-lf1-f72.google.com
+ [209.85.167.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-213-YGk78GehN7uw0zHb2S86DA-1; Sat, 21 Oct 2023 07:57:10 -0400
+X-MC-Unique: YGk78GehN7uw0zHb2S86DA-1
+Received: by mail-lf1-f72.google.com with SMTP id 2adb3069b0e04-5079a8c68c6so1623774e87.1
+        for <linux-media@vger.kernel.org>; Sat, 21 Oct 2023 04:57:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1697889429; x=1698494229;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=8A5YPNn+IwEItuJ1G2OC4z10xXdMM8+6p/08c4lncco=;
+        b=a4ovHfnlc0FySFkZB+/iRQXHyiqjfbaUtMfLCOI8IaERYXL+0L9/sKeNAxVKR6MLXF
+         4Auj+6OJ9kjtbGDN6qqf62E/FkuhrQTHc+9daQJ59CVl0xX0UIOMORgnlL7JwCTFg5Hs
+         6MFtreFDm45k2W/1mVF6qcGilDfHR9CGAdgV4RaBB3deQpobHznxB3gPAVKtx9bdV+Y6
+         nM2iYdMISFNuz3ETGbDA2Rw1D7W7MNv4xkJ+ulVp6dtNrNQ+3Etm3+Ao3lks7H54WmDZ
+         HGt6dq9k8UJMDrJezrY7tCpJomvKyHqqCyU3KrkbCDi9JzL4LXsLmo4kaZWUK0488GMq
+         1XoA==
+X-Gm-Message-State: AOJu0Yx52BcX1YFZ8rgoHBgs6weJW8BT6ZgiqNSN1+Dc1QzWz/GCSdNX
+        kzRcHQaC8D21dAxKqATVxXfRFzsfEOMKBYhga2H/lCnPrhi0PlzeSy6lQNrKrzqo64u1qz7eFBj
+        2ZNE3LYdNN80zd9egOT9kJG0=
+X-Received: by 2002:a19:6742:0:b0:507:9a00:c169 with SMTP id e2-20020a196742000000b005079a00c169mr3461930lfj.5.1697889428947;
+        Sat, 21 Oct 2023 04:57:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGRg2tiyoJnYcPUczv2CKzX9otDeCiprhYPsEiOsrC6j2ShP6Mn99ICxaoSBra/sl4K9VMnBw==
+X-Received: by 2002:a19:6742:0:b0:507:9a00:c169 with SMTP id e2-20020a196742000000b005079a00c169mr3461922lfj.5.1697889428601;
+        Sat, 21 Oct 2023 04:57:08 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id w21-20020a50d795000000b0053e4d1cbc6esm3392994edi.55.2023.10.21.04.57.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 21 Oct 2023 04:57:06 -0700 (PDT)
+Message-ID: <acf1fade-7693-9332-03b1-626f4949f9ff@redhat.com>
+Date:   Sat, 21 Oct 2023 13:57:05 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <4c557cbd-33e9-a0df-3431-04ade12b6f07@ti.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH RESEND] staging: media: atomisp: Removed duplicate comment
+ and fixed comment format
+To:     Jonathan Bergh <bergh.jonathan@gmail.com>,
+        gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <20231021110058.85013-1-bergh.jonathan@gmail.com>
+Content-Language: en-US, nl
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <20231021110058.85013-1-bergh.jonathan@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Krzysztof and Rob,
+Hi Jonathan,
 
-this question is quite important for our next version and for the
-overall direction of the DT bindings, could you have a look at this?
+On 10/21/23 13:00, Jonathan Bergh wrote:
+> Fixed the following issues:
+>  * Removed a duplicate comment
+>  * Fixed up minor comment format issue
+> 
+> Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
 
-Thank you and Regards,
-Sebastian
+Thank you for your patch, but please don't resend
+it every week.
 
-On 17.10.2023 19:09, Devarsh Thakkar wrote:
->Hi Sebastian, Krzysztof, Rob,
->
->On 12/10/23 16:31, Sebastian Fricke wrote:
->> From: Robert Beckett <bob.beckett@collabora.com>
->>
->> Add bindings for the chips&media wave5 codec driver
->>
->> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->> ---
->>  .../devicetree/bindings/media/cnm,wave5.yaml       | 60 ++++++++++++++++++++++
->>  1 file changed, 60 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/cnm,wave5.yaml b/Documentation/devicetree/bindings/media/cnm,wave5.yaml
->> new file mode 100644
->> index 000000000000..b31d34aec05b
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/cnm,wave5.yaml
->> @@ -0,0 +1,60 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/cnm,wave5.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Chips&Media Wave 5 Series multi-standard codec IP
->> +
->> +maintainers:
->> +  - Nas Chung <nas.chung@chipsnmedia.com>
->> +  - Jackson Lee <jackson.lee@chipsnmedia.com>
->> +
->> +description:
->> +  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
->> +
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - cnm,cm521c-vpu
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks:
->> +    items:
->> +      - description: VCODEC clock
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +  sram:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description:
->> +      The VPU uses the SRAM to store some of the reference data instead of
->> +      storing it on DMA memory. It is mainly used for the purpose of reducing
->> +      bandwidth.
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - interrupts
->> +
->
->Is it possible to keep interrupts property as optional given HW can still work
->without it if SW does polling of ISR using registers?
->
->The reason to ask is in TI AM62A SoC (which also uses this codec) there is an
->SoC errata of missing interrupt line to A53 and we are using SW based polling
->locally to run the driver.
->
->We were planning to upstream that SW based polling support patch in CnM driver
->once this base initial driver patch series gets merged, but just wanted to
->check if upfront it is possible to have interrupts property as optional so
->that we don't have to change the binding doc again to make it optional later on.
->
->Also note that the polling patch won't be specific to AM62A, other SoC's too
->which use this wave5 hardware if they want can enable polling by choice (by
->removing interrupt property)
->
->Could you please share your opinion on this ?
->
->Regards
->Devarsh
->
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    vpu: video-codec@12345678 {
->> +        compatible = "cnm,cm521c-vpu";
->> +        reg = <0x12345678 0x1000>;
->> +        clocks = <&clks 42>;
->> +        interrupts = <42>;
->> +        sram = <&sram>;
->> +    };
->>
->_______________________________________________
->Kernel mailing list -- kernel@mailman.collabora.com
->To unsubscribe send an email to kernel-leave@mailman.collabora.com
+I did see the original patch and it looks fine but
+I have not had any time to work in atomisp support
+recently and this does not seem like something
+which needs to get merged urgently.
+
+I'll pick this up next time I have time to do
+a bunch of atomisp work.
+
+Regards,
+
+Hans
+
+
+> ---
+>  drivers/staging/media/atomisp/i2c/gc2235.h | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/drivers/staging/media/atomisp/i2c/gc2235.h b/drivers/staging/media/atomisp/i2c/gc2235.h
+> index 55ea422291ba..ade28950db73 100644
+> --- a/drivers/staging/media/atomisp/i2c/gc2235.h
+> +++ b/drivers/staging/media/atomisp/i2c/gc2235.h
+> @@ -74,9 +74,6 @@
+>  #define GC2235_COARSE_INTG_TIME_MIN 1
+>  #define GC2235_COARSE_INTG_TIME_MAX_MARGIN 6
+>  
+> -/*
+> - * GC2235 System control registers
+> - */
+>  /*
+>   * GC2235 System control registers
+>   */
+> @@ -167,7 +164,7 @@ enum gc2235_tok_type {
+>  	GC2235_TOK_MASK = 0xfff0
+>  };
+>  
+> -/**
+> +/*
+>   * struct gc2235_reg - MI sensor  register format
+>   * @type: type of the register
+>   * @reg: 8-bit offset to register
+
