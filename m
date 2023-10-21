@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B26F7D1C1F
-	for <lists+linux-media@lfdr.de>; Sat, 21 Oct 2023 11:30:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1BD37D1C2C
+	for <lists+linux-media@lfdr.de>; Sat, 21 Oct 2023 11:40:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230154AbjJUJaE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Oct 2023 05:30:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59080 "EHLO
+        id S229980AbjJUJkZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Oct 2023 05:40:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229574AbjJUJaD (ORCPT
+        with ESMTP id S229803AbjJUJkY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Oct 2023 05:30:03 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F9E01FD7;
-        Sat, 21 Oct 2023 02:29:10 -0700 (PDT)
+        Sat, 21 Oct 2023 05:40:24 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3341DD6B;
+        Sat, 21 Oct 2023 02:40:19 -0700 (PDT)
 Received: from localhost (89-26-75-29.dyn.cablelink.at [89.26.75.29])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: sebastianfricke)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id ABD166607314;
-        Sat, 21 Oct 2023 10:29:08 +0100 (BST)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6AC846607314;
+        Sat, 21 Oct 2023 10:40:17 +0100 (BST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1697880548;
-        bh=aQtNimE6rMiK4hkbZev8rihShUq7g5Dtf27fF9JILH8=;
+        s=mail; t=1697881217;
+        bh=SHLD0rEJI0NmsmsXyArE+2lz+5Be5FbgqrbTnMFX+uM=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Erh31D8SWBe5fAxVy+TVG8eZhahyevoC9CyPijcL+n8XVxF7E3y2/6PHu4cabcEet
-         GCMwNwNP3GsxxUewiOaP9qjGSxAcWMbq+pBLpqq6XlNsGHwzVJGqrtdxu8nBiJ2boh
-         YtpZ7J+cyc0Rq3sYORA+UrIm8OYPn9GNYdLQrr2n2xO+THygeeBIWf/MtWbvfn46oA
-         Y3Imy0GelxjATRBWZ0yKPqXbQORHpvtILiDhNDNWiPJrP3XmGplWuKfQvuGQx4wzqe
-         cwTK8j5g2bN+RUwlhv2kK98+VzkAg15dDMXLlQc0Mb0dNRob+6laxO28AN62PfM/zY
-         D+/AWprsG83Dg==
-Date:   Sat, 21 Oct 2023 11:29:05 +0200
+        b=YsVF4fCLLntBXs7eKN+oc/Lg6wAyAXrzgEPCw/yrbajMdmNSwcrD3wxfsZeCachRU
+         E/R/7UNoDj9vXVwdV6ULiM6hAGnjxRsGwOlWBhCesyvyOw0z1jy0jMqHkbrg2OM1ck
+         9FmTVqNQfv24kyz9wIUgCfRjvaHogz+ToISpVAecMmiF93Cmu4sT6JjLGxblaC2cex
+         IXBfYqe6nE1HMUHPjWIlVYo959QewzlTEq5yN3qN4kQz0Ou3GOl0AJPh6JL3S360GC
+         mLKJ3VLfih9jqpSc0JI1nM2TuPf8vVTomRIhW3KCaP4kjPcUkX2m6xOf7bjqFsdPfv
+         87UN/UnHAjFoQ==
+Date:   Sat, 21 Oct 2023 11:40:14 +0200
 From:   Sebastian Fricke <sebastian.fricke@collabora.com>
 To:     Yunfei Dong <yunfei.dong@mediatek.com>
 Cc:     =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado 
@@ -52,15 +52,15 @@ Cc:     =?utf-8?B?TsOtY29sYXMgRiAuIFIgLiBBIC4=?= Prado
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org,
         Project_Global_Chrome_Upstream_Group@mediatek.com
-Subject: Re: [PATCH 4/7] media: mediatek: vcodec: Setting the supported h264
+Subject: Re: [PATCH 5/7] media: mediatek: vcodec: Setting the supported h265
  profile for each platform
-Message-ID: <20231021092905.3uxfwckgn5ndon6x@basti-XPS-13-9310>
+Message-ID: <20231021094014.7pzdvgouhxjf2pvo@basti-XPS-13-9310>
 References: <20231016064346.31451-1-yunfei.dong@mediatek.com>
- <20231016064346.31451-4-yunfei.dong@mediatek.com>
+ <20231016064346.31451-5-yunfei.dong@mediatek.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20231016064346.31451-4-yunfei.dong@mediatek.com>
+In-Reply-To: <20231016064346.31451-5-yunfei.dong@mediatek.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -72,13 +72,15 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hey Yunfei,
 
+Please replace Setting with Set in the title.
+
 On 16.10.2023 14:43, Yunfei Dong wrote:
 >The supported format type of different platforms are not the
 >same. Need to set the supported profile according to the chip name.
 
 I would suggest the following rewording:
 
-Set the maximum H264 codec profile for each platform.
+Set the maximum H265 codec profile for each platform.
 The various mediatek platforms support different profiles for decoding,
 the profile of the codec limits the capabilities for decoding.
 
@@ -95,37 +97,37 @@ Sebastian
 > 1 file changed, 19 insertions(+)
 >
 >diff --git a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->index 1fdb21dbacb8..84c0bed577ed 100644
+>index 84c0bed577ed..b15ed773374f 100644
 >--- a/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
 >+++ b/drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_stateless.c
->@@ -559,6 +559,20 @@ static void mtk_vcodec_dec_fill_h264_level(struct v4l2_ctrl_config *cfg,
+>@@ -587,6 +587,20 @@ static void mtk_vcodec_dec_fill_h265_level(struct v4l2_ctrl_config *cfg,
 > 	};
 > }
 >
->+static void mtk_vcodec_dec_fill_h264_profile(struct v4l2_ctrl_config *cfg,
+>+static void mtk_vcodec_dec_fill_h265_profile(struct v4l2_ctrl_config *cfg,
 >+					     struct mtk_vcodec_dec_ctx *ctx)
 >+{
 >+	switch (ctx->dev->chip_name) {
 >+	case MTK_VDEC_MT8188:
 >+	case MTK_VDEC_MT8195:
->+		cfg->max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_10;
+>+		cfg->max = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_10;
 >+		break;
 >+	default:
->+		cfg->max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH;
+>+		cfg->max = V4L2_MPEG_VIDEO_HEVC_PROFILE_MAIN_STILL_PICTURE;
 >+		break;
 >+	};
 >+}
 >+
-> static void mtk_vcodec_dec_fill_h265_level(struct v4l2_ctrl_config *cfg,
-> 					   struct mtk_vcodec_dec_ctx *ctx)
+> static void mtk_vcodec_dec_reset_controls(struct v4l2_ctrl_config *cfg,
+> 					  struct mtk_vcodec_dec_ctx *ctx)
 > {
->@@ -585,6 +599,11 @@ static void mtk_vcodec_dec_reset_controls(struct v4l2_ctrl_config *cfg,
-> 		mtk_vcodec_dec_fill_h265_level(cfg, ctx);
-> 		mtk_v4l2_vdec_dbg(3, ctx, "h265 supported level: %lld %lld", cfg->max, cfg->def);
+>@@ -604,6 +618,11 @@ static void mtk_vcodec_dec_reset_controls(struct v4l2_ctrl_config *cfg,
+> 		mtk_v4l2_vdec_dbg(3, ctx, "h264 supported profile: %lld %lld", cfg->max,
+> 				  cfg->menu_skip_mask);
 > 		break;
->+	case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
->+		mtk_vcodec_dec_fill_h264_profile(cfg, ctx);
->+		mtk_v4l2_vdec_dbg(3, ctx, "h264 supported profile: %lld %lld", cfg->max,
+>+	case V4L2_CID_MPEG_VIDEO_HEVC_PROFILE:
+>+		mtk_vcodec_dec_fill_h265_profile(cfg, ctx);
+>+		mtk_v4l2_vdec_dbg(3, ctx, "h265 supported profile: %lld %lld", cfg->max,
 >+				  cfg->menu_skip_mask);
 >+		break;
 > 	default:
