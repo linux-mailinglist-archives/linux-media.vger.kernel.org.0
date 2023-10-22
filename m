@@ -2,167 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AE31A7D248B
-	for <lists+linux-media@lfdr.de>; Sun, 22 Oct 2023 18:28:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B75D7D24F4
+	for <lists+linux-media@lfdr.de>; Sun, 22 Oct 2023 19:35:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232101AbjJVQ2F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Oct 2023 12:28:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34278 "EHLO
+        id S232578AbjJVRfC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Oct 2023 13:35:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231833AbjJVQ2E (ORCPT
+        with ESMTP id S229500AbjJVRfB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Oct 2023 12:28:04 -0400
-Received: from smtp.smtpout.orange.fr (smtp-13.smtpout.orange.fr [80.12.242.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1998E1
-        for <linux-media@vger.kernel.org>; Sun, 22 Oct 2023 09:28:01 -0700 (PDT)
-Received: from [192.168.1.18] ([86.243.2.178])
-        by smtp.orange.fr with ESMTPA
-        id ubIvqzpaN1gtMubIvqacuc; Sun, 22 Oct 2023 18:27:59 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-        s=t20230301; t=1697992079;
-        bh=INIIQaK5X3fnI0W54Dh7daNnY2U6zqvjTPzA48XdS3U=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To;
-        b=k3rhCkHSS4P2p8LFRggKoz/tyuAJkojsl/19c2MH44v/hcbQtSK4umtesyAzbrIhy
-         PHTKJKv18seaEU11ZZecTK+RFeWXK3me6n1qDFyBUUy4qXHpEQXw1ryoFvxItmfYFj
-         orJDoKTHU0t/8s6c7N0Ek/3sAv8xiP8pXPmhN/XeMYSvTwMHGULAYNO4vvKGTX4800
-         2mD3K7Tv+golLqpnDaeAAiU5yg6NvmsFCKF+0KXdR2AkvOMaYN6lczwIPDEsEEtRGV
-         74bsZJoRGXr+zHeRPxDv7r80B54FGZSaSbXUipvIth5tiRfK0FCj6Cn0/CPl1Oxmpk
-         oxLw0/8Z7XRJg==
-X-ME-Helo: [192.168.1.18]
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Sun, 22 Oct 2023 18:27:59 +0200
-X-ME-IP: 86.243.2.178
-Message-ID: <a836dc4d-99e3-494d-b374-594f53287bae@wanadoo.fr>
-Date:   Sun, 22 Oct 2023 18:27:52 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 4/8] media: chips-media: wave5: Add vpuapi layer
-Content-Language: fr
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Conor Dooley <conor+dt@kernel.org>,
+        Sun, 22 Oct 2023 13:35:01 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 696B1E6;
+        Sun, 22 Oct 2023 10:34:59 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D4341C433C7;
+        Sun, 22 Oct 2023 17:34:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1697996098;
+        bh=2Cum5Lnb9QFyJyDRCwFuomJRiUxeMw85rd8TM5XEc5M=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bwRhM6OhL/UzUY3iRwNcKgZSyT+SdgOK25HOL9+9zcYzLYzRcEq4fMy/6LxRReFeW
+         3/no7ChgSmxCcyp2W8NeTzlWRQX51UxfuOhoG5N2FZz+wwPLPy0Zzj7KPKXau2yeXx
+         S8IorDwgc4g4tztIOYIAZlO9rUwx7RctA2D8jCB7UE14mdiTo6KWVNpTGlZA5kB9GM
+         w++dJ8XJgdHVmj4daGLGFVZ4SW6PROuEtJ897yDKOEY1aAGDheHkHWPFdHZ8Eq6a9h
+         aQm4J7oggqnmQCGDioapJWRbLZuu5WCk0mZcU0g4+2rPFycpEAsueRa5UX9bO23h5i
+         ucetX5WUzR3Rw==
+Date:   Sun, 22 Oct 2023 18:34:54 +0100
+From:   Conor Dooley <conor@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        Fabio Estevam <festevam@gmail.com>
-Cc:     linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        kernel@collabora.com, Robert Beckett <bob.beckett@collabora.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Darren Etheridge <detheridge@ti.com>
-References: <20230929-wave5_v13_media_master-v13-0-5ac60ccbf2ce@collabora.com>
- <20230929-wave5_v13_media_master-v13-4-5ac60ccbf2ce@collabora.com>
-From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20230929-wave5_v13_media_master-v13-4-5ac60ccbf2ce@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: dt-bindings: ti,ds90ub960: Add missing type for
+ "i2c-alias"
+Message-ID: <20231022-dice-plywood-a51e476eb07a@spud>
+References: <20231020170225.3632933-1-robh@kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="w0aP+RuQEiHwXrIZ"
+Content-Disposition: inline
+In-Reply-To: <20231020170225.3632933-1-robh@kernel.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le 12/10/2023 à 13:01, Sebastian Fricke a écrit :
-> From: Nas Chung <nas.chung@chipsnmedia.com>
-> 
-> Add the vpuapi layer of the wave5 codec driver.
-> This layer is used to configure the hardware according
-> to the parameters.
-> 
-> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+
+--w0aP+RuQEiHwXrIZ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, Oct 20, 2023 at 12:02:24PM -0500, Rob Herring wrote:
+> Every DT property needs a type defined, but "i2c-alias" is missing any
+> type definition. It's a "uint32", so add a type reference.
+>=20
+> Fixes: 313e8b32c616 ("media: dt-bindings: media: add TI DS90UB960 FPD-Lin=
+k III Deserializer")
+> Signed-off-by: Rob Herring <robh@kernel.org>
+
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+
+Thanks,
+Conor.
+
 > ---
+>  Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yam=
+l b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> index 289737721c2c..0b71e6f911a8 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
+> @@ -69,6 +69,7 @@ properties:
+>              maxItems: 1
+> =20
+>            i2c-alias:
+> +            $ref: /schemas/types.yaml#/definitions/uint32
+>              description:
+>                The I2C address used for the serializer. Transactions to t=
+his
+>                address on the I2C bus where the deserializer resides are
+> --=20
+> 2.42.0
+>=20
 
-...
+--w0aP+RuQEiHwXrIZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> +int wave5_vpu_dec_clr_disp_flag(struct vpu_instance *inst, int index)
-> +{
-> +	struct dec_info *p_dec_info = &inst->codec_info->dec_info;
-> +	int ret = 0;
+-----BEGIN PGP SIGNATURE-----
 
-Nit: No need to init.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZTVdPgAKCRB4tDGHoIJi
+0rJ+AQDTCcR8mZ1cxKZlr5M4bP8/RBkCSESXsvYiQEnAGVNHNQEA3aM6sI6VJ6NI
+NERweUroAYMdMOIM8ZyGxaJPRdfojgw=
+=Lk19
+-----END PGP SIGNATURE-----
 
-> +	struct vpu_device *vpu_dev = inst->dev;
-> +
-> +	if (index >= p_dec_info->num_of_display_fbs)
-> +		return -EINVAL;
-> +
-> +	ret = mutex_lock_interruptible(&vpu_dev->hw_lock);
-> +	if (ret)
-> +		return ret;
-> +	ret = wave5_dec_clr_disp_flag(inst, index);
-> +	mutex_unlock(&vpu_dev->hw_lock);
-> +
-> +	return ret;
-> +}
-
-...
-
-> +int wave5_vpu_dec_give_command(struct vpu_instance *inst, enum codec_command cmd, void *parameter)
-> +{
-> +	struct dec_info *p_dec_info = &inst->codec_info->dec_info;
-> +	int ret = 0;
-> +
-> +	switch (cmd) {
-> +	case DEC_GET_QUEUE_STATUS: {
-> +		struct queue_status_info *queue_info = parameter;
-> +
-> +		queue_info->instance_queue_count = p_dec_info->instance_queue_count;
-> +		queue_info->report_queue_count = p_dec_info->report_queue_count;
-> +		break;
-> +	}
-> +	case DEC_RESET_FRAMEBUF_INFO: {
-> +		int i;
-> +
-> +		for (i = 0; i < MAX_REG_FRAME; i++) {
-> +			ret = wave5_vpu_dec_reset_framebuffer(inst, i);
-> +			if (ret)
-> +				break;
-> +		}
-> +
-> +		for (i = 0; i < MAX_REG_FRAME; i++) {
-> +			ret = reset_auxiliary_buffers(inst, i);
-> +			if (ret)
-> +				break;
-> +		}
-> +
-> +		wave5_vdi_free_dma_memory(inst->dev, &p_dec_info->vb_task);
-> +		break;
-> +	}
-> +	case DEC_GET_SEQ_INFO: {
-> +		struct dec_initial_info *seq_info = parameter;
-> +
-> +		*seq_info = p_dec_info->initial_info;
-> +		break;
-> +	}
-> +
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-
-return ret;
-?
-
-CJ
-
-> +}
-
-...
-
+--w0aP+RuQEiHwXrIZ--
