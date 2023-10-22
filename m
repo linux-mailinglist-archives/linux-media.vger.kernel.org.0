@@ -2,86 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 75DDA7D2414
-	for <lists+linux-media@lfdr.de>; Sun, 22 Oct 2023 18:01:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BA9E7D2442
+	for <lists+linux-media@lfdr.de>; Sun, 22 Oct 2023 18:12:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232284AbjJVQBl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Oct 2023 12:01:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58070 "EHLO
+        id S231981AbjJVQMY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Oct 2023 12:12:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231974AbjJVQBk (ORCPT
+        with ESMTP id S231638AbjJVQMX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Oct 2023 12:01:40 -0400
-Received: from mail-lj1-x22c.google.com (mail-lj1-x22c.google.com [IPv6:2a00:1450:4864:20::22c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27430F7
-        for <linux-media@vger.kernel.org>; Sun, 22 Oct 2023 09:01:37 -0700 (PDT)
-Received: by mail-lj1-x22c.google.com with SMTP id 38308e7fff4ca-2c50cf61f6dso37759871fa.2
-        for <linux-media@vger.kernel.org>; Sun, 22 Oct 2023 09:01:37 -0700 (PDT)
+        Sun, 22 Oct 2023 12:12:23 -0400
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65855F4
+        for <linux-media@vger.kernel.org>; Sun, 22 Oct 2023 09:12:20 -0700 (PDT)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-99c1c66876aso368749266b.2
+        for <linux-media@vger.kernel.org>; Sun, 22 Oct 2023 09:12:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1697990495; x=1698595295; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1697991139; x=1698595939; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=XF8bZOPJInqq5OxQpnzQxfKIpWa2JL/vX2kovDuHNpI=;
-        b=Z/Loa9RWaONqFJyCGdaoAcXlUNJX6RrKBk8Ah4sGPY6569tKJ5nFZSbAHVnsWe0zq6
-         ZTuIKBY3ZS3/gnMfVYA289/dCAKYh1XVbNLCmSqk+DSD1CiODDO+tyR1dodoZQ7Mbgd9
-         5m2kA9wWF9e0ru7vkfXmZ6x090R6nJBakmBsuXfBK5olzB0mIWD+od8ux4TaDgjNZizM
-         0oe7HsoYyP61yM9IsKgXktyzm/mOdyewLm4owC7zCMh/DOcXP8gTaJMiDkM7h8pbMUao
-         28anNrrWHEK5iegGR/8u7vqJ2LEHcldTw9w0okzcZi5bD2l9VXCDFE75aHz0tadlXuNo
-         zbGQ==
+        bh=GIP6QYPQ0gMLC3Rz4H2bjfCK8p7pgS1S5b1y0RTf/38=;
+        b=aJHqr0vcEL5Phi0ebN79dGkTgZof37nxBokF061HrRCmL6MtpLZ8f/b/9m7cEAs15o
+         sAnSW6u44zlruUuhliNGaF1ORSwGXmyu7bY/lvETDidJmAietQReQi6ek/EQjUtbbZs5
+         bAtg1y8wfYu8xHI1H5oQHwehcsV3hoe5tMC/8UFjdpEeiwzzHIdBOGmYfw5IMy/mueZ6
+         2s+y0ZQEQTkXP7SetaRLWbFhoWo2Q1nsYLnnMwZw7morDPUHOhm+KPNaXyCyhhHnHcSp
+         /Hj2fXVGaJipDcsveMNk6cXU0zdeyO88obLUy6dyPTyD21LEIOOi8J/V0/Vyof2325/E
+         j9Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1697990495; x=1698595295;
+        d=1e100.net; s=20230601; t=1697991139; x=1698595939;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XF8bZOPJInqq5OxQpnzQxfKIpWa2JL/vX2kovDuHNpI=;
-        b=C6KehOKkC99ttVvVop9Ze09wZLSoQ4kEVflbjdt6wVoKSCASZk6aLZeReOfx+DAnCo
-         A9xu+kmSNqWD35IhARctisBuxT5qXkHxJeLdjINp7qApgyRhn7891sXr5VEvIxHIvnAM
-         ng1I5rAJCDVCZIM7CPNZpMC2d51w13JVDurtx7HeojXvNRKrekTKljrXLb60NdYwDxyq
-         JBfT30mBPZxQlTJX3/jXWkabzz+7QgBnvRNKe3OR33JXDfWdvrUTgOtyz93kDf4jdGFl
-         1UTB5h+bmNFKQME7jhLX2EbhAJpwzShxTEkpW4U62aOAXxwtP8t3FQqGqdbgELUU6q6h
-         ChRA==
-X-Gm-Message-State: AOJu0YywpUk56ZQMKzQlr1TLv48HPtzcVh4ky1e7RPp00MJSmPufeNal
-        CfHDzAYqrOwOKTF3DWWgSVjttw==
-X-Google-Smtp-Source: AGHT+IFThnnzT+oJdgMufKxYNUWxEEEv0x9joP7CgeWVHgINJI/Vzi8Ek8niFS6PfGRnZJVwbmmSYg==
-X-Received: by 2002:a05:651c:211d:b0:2bf:e61b:c980 with SMTP id a29-20020a05651c211d00b002bfe61bc980mr6172749ljq.8.1697990495328;
-        Sun, 22 Oct 2023 09:01:35 -0700 (PDT)
+        bh=GIP6QYPQ0gMLC3Rz4H2bjfCK8p7pgS1S5b1y0RTf/38=;
+        b=b4+H5kOtPUqpTgozgqH+k2hbAukuuXJDcpXUzK8486OYYkkGWnBDA6bZONq1deHVWD
+         wQq2jPvvvUBND4F2olanueIJ28rhyeUdEUlKrL+ny/KM08dQT+mxUZlzIL81kySpz1WI
+         b9fbvGY0BI7k6758l2pN/LhOCwzjE/54eagejQO4ZxIsxbgqnqiwsqdf3nTRWBBTF032
+         c22R1OmfVfM9LxL7a6hG1018fwFSpG8ENw51gnuA1Ht0vPq4O0cnwGfkwIV85M5Drg4o
+         H1kKKXrFjuumJ/NNYgMujIc68f8ncWyT2d4DR+DQWkyfcEFymZUwBshQscdPqtI+hoB/
+         TtxA==
+X-Gm-Message-State: AOJu0YwsCWXfBUzJoXqe33vB9+ptQeDCvhWqkMyxd8s8S7CEd7/srZrP
+        WrsjJJhAbi0zOpUwpiIjtkJnHQ==
+X-Google-Smtp-Source: AGHT+IFF9W9HrvIHEk0M7O67l4RMkNX2j3714GN3iwXBtTNQ7kese24W/M7Lafg6hJMeoyNpZ0QaHQ==
+X-Received: by 2002:a17:907:a49:b0:9c7:4d51:af08 with SMTP id be9-20020a1709070a4900b009c74d51af08mr5519507ejc.43.1697991138784;
+        Sun, 22 Oct 2023 09:12:18 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id c8-20020a05600c0a4800b0040775fd5bf9sm7345301wmq.0.2023.10.22.09.01.32
+        by smtp.gmail.com with ESMTPSA id s16-20020a170906bc5000b009b95b46bbd1sm5253139ejv.133.2023.10.22.09.12.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Oct 2023 09:01:34 -0700 (PDT)
-Message-ID: <3d465d3c-386d-467b-87e9-806962464ac5@linaro.org>
-Date:   Sun, 22 Oct 2023 18:01:31 +0200
+        Sun, 22 Oct 2023 09:12:18 -0700 (PDT)
+Message-ID: <7d40c242-7779-45de-83c5-06db9983dae1@linaro.org>
+Date:   Sun, 22 Oct 2023 18:12:15 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v13 6/8] media: dt-bindings: wave5: add Chips&Media 521c
  codec IP support
 Content-Language: en-US
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Rob Herring <robh@kernel.org>
-Cc:     Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+To:     Devarsh Thakkar <devarsht@ti.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         NXP Linux Team <linux-imx@nxp.com>,
         Conor Dooley <conor+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Jackson Lee <jackson.lee@chipsnmedia.com>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Sascha Hauer <s.hauer@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Shawn Guo <shawnguo@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Nas Chung <nas.chung@chipsnmedia.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        Fabio Estevam <festevam@gmail.com>
+Cc:     linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
         linux-kernel@vger.kernel.org,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         kernel@collabora.com, Robert Beckett <bob.beckett@collabora.com>,
         devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Darren Etheridge <detheridge@ti.com>
+        Darren Etheridge <detheridge@ti.com>,
+        "Bajjuri, Praneeth" <praneeth@ti.com>,
+        "Raghavendra, Vignesh" <vigneshr@ti.com>,
+        "Bhatia, Aradhya" <a-bhatia1@ti.com>,
+        "Luthra, Jai" <j-luthra@ti.com>,
+        "Brnich, Brandon" <b-brnich@ti.com>,
+        "Pothukuchi, Vijay" <vijayp@ti.com>
 References: <20230929-wave5_v13_media_master-v13-0-5ac60ccbf2ce@collabora.com>
  <20230929-wave5_v13_media_master-v13-6-5ac60ccbf2ce@collabora.com>
- <b94e3561-f5ef-443f-98c7-9b79a8bbceec@linaro.org>
- <20231016134720.GA2650973-robh@kernel.org>
- <20231021120526.eqe3esyxyi5b3e5d@basti-XPS-13-9310>
+ <4c557cbd-33e9-a0df-3431-04ade12b6f07@ti.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -127,11 +132,11 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231021120526.eqe3esyxyi5b3e5d@basti-XPS-13-9310>
+In-Reply-To: <4c557cbd-33e9-a0df-3431-04ade12b6f07@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -140,84 +145,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/10/2023 14:05, Sebastian Fricke wrote:
-> Hey Rob and Krzysztof,
+On 17/10/2023 15:39, Devarsh Thakkar wrote:
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +  - interrupts
+>> +
 > 
-> On 16.10.2023 08:47, Rob Herring wrote:
->> On Thu, Oct 12, 2023 at 03:24:12PM +0200, Krzysztof Kozlowski wrote:
->>> On 12/10/2023 13:01, Sebastian Fricke wrote:
->>>> From: Robert Beckett <bob.beckett@collabora.com>
->>>>
->>>> Add bindings for the chips&media wave5 codec driver
->>>>
->>>> Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
->>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->>>> ---
->>>>  .../devicetree/bindings/media/cnm,wave5.yaml       | 60 ++++++++++++++++++++++
->>>>  1 file changed, 60 insertions(+)
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/media/cnm,wave5.yaml b/Documentation/devicetree/bindings/media/cnm,wave5.yaml
->>>> new file mode 100644
->>>> index 000000000000..b31d34aec05b
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/media/cnm,wave5.yaml
->>>> @@ -0,0 +1,60 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/media/cnm,wave5.yaml#
->>>
->>> Filename matching compatible, so: cnm,cm521c-vpu.yaml
+> Is it possible to keep interrupts property as optional given HW can still work
+> without it if SW does polling of ISR using registers?
 > 
-> With which compatible should the filename match? (see below)
-> And just to be sure, this means that I rename the file to:
-> `.../devicetree/bindings/media/cnm,wave521c.yaml`
+> The reason to ask is in TI AM62A SoC (which also uses this codec) there is an
+> SoC errata of missing interrupt line to A53 and we are using SW based polling
+> locally to run the driver.
+> 
+> We were planning to upstream that SW based polling support patch in CnM driver
+> once this base initial driver patch series gets merged, but just wanted to
+> check if upfront it is possible to have interrupts property as optional so
+> that we don't have to change the binding doc again to make it optional later on.
+> 
+> Also note that the polling patch won't be specific to AM62A, other SoC's too
+> which use this wave5 hardware if they want can enable polling by choice (by
+> removing interrupt property)
+> 
+> Could you please share your opinion on this ?
 
-With the fallback compatible.
-
-> 
->>>
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: Chips&Media Wave 5 Series multi-standard codec IP
->>>> +
->>>> +maintainers:
->>>> +  - Nas Chung <nas.chung@chipsnmedia.com>
->>>> +  - Jackson Lee <jackson.lee@chipsnmedia.com>
->>>> +
->>>> +description:
->>>> +  The Chips&Media WAVE codec IP is a multi format video encoder/decoder
->>>> +
->>>> +properties:
->>>> +  compatible:
->>>> +    enum:
->>>> +      - cnm,cm521c-vpu
->>>
->>> Can this device be anything else? Why VPU suffix?
->>
->> It needs an SoC specific compatible (TI something...) as well (or
->> instead). Unless there's a public spec with details on how many
->> clocks, resets, interrupts, etc. there are.
-> 
-> Okay so how about this, a bit similar to the Coda driver supplying both
-> a general option and a SoC specific version:
-
-Can generic compatible be used alone in board designs? If it is licensed
-block, then most likely you want a fallback.
-
-> 
-> properties:
->    compatible:
->      enum:
->        - ti,k3-j721sX-wave521c
->        - cnm,wave521c
-> 
-> (ti,k3-j721sX-wave521c = manufacturer,SoC-codec)
-> (tested on j721s2 but should work on other variations as well)
-> 
-> Another alternative could be: ti,k3-wave521c (less specific on a single
-> SoC series but connected to a bigger range of devices)
+You know, if you do not have interrupt line connected, how could it be
+required, right? If the hardware does not require interrupt to be
+connected then bindings should not require it.
 
 Best regards,
 Krzysztof
