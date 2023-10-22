@@ -2,47 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C0F637D25CD
-	for <lists+linux-media@lfdr.de>; Sun, 22 Oct 2023 22:17:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AF397D25D5
+	for <lists+linux-media@lfdr.de>; Sun, 22 Oct 2023 22:22:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232268AbjJVURq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Oct 2023 16:17:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46294 "EHLO
+        id S231903AbjJVUWt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Oct 2023 16:22:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53194 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229500AbjJVURp (ORCPT
+        with ESMTP id S229452AbjJVUWs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Oct 2023 16:17:45 -0400
+        Sun, 22 Oct 2023 16:22:48 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6C55F2;
-        Sun, 22 Oct 2023 13:17:42 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B3C5E5
+        for <linux-media@vger.kernel.org>; Sun, 22 Oct 2023 13:22:47 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DB9A33D6;
-        Sun, 22 Oct 2023 22:17:30 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F00E43D6;
+        Sun, 22 Oct 2023 22:22:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698005851;
-        bh=ddEPPlK70H204Yy7br9DdHH0Cq7Twvu7MQBse/6FuaU=;
+        s=mail; t=1698006156;
+        bh=9KgD1okmgCpMFAkrYqnz0z+3wVYMwcwVR107Jsntluw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=h5TcbvBjibMR0naRzrjrdlDAqSoThlYtSEuOMphlpFfQuMbes6fk80e94UBOYdeE6
-         IntMxOoZBX82NPLE8eLpdNogRJE5JjbXpj/7wvXQ5/oCWjLiRBnbxbvG4vCSgmVQbs
-         rDjZaniStSy6XG4s6MWhpEqbWQjAYkpjjvOZKip0=
-Date:   Sun, 22 Oct 2023 23:17:48 +0300
+        b=WLmDUig/HWJcU2Puiu1JhcKLwS0AnFkGeTiW47ECbtBVP9dbQbEPB22cLmBnhW/O9
+         nh/c6X+YKniDFOUhZWTQHC4PGhdR8+lQRIa0tVL8p28ia+Yt31vpW7xdmyGQik4nqz
+         RYeOF5mLXY/R41tTJ0ssnJZ5MRJli172RCbDWJOk=
+Date:   Sun, 22 Oct 2023 23:22:53 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: dt-bindings: ti,ds90ub960: Add missing type for
- "i2c-alias"
-Message-ID: <20231022201748.GA32105@pendragon.ideasonboard.com>
-References: <20231020170225.3632933-1-robh@kernel.org>
+To:     Jules Irenge <jbi.octave@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re:
+Message-ID: <20231022202253.GA5445@pendragon.ideasonboard.com>
+References: <CAOuULM555ZNXbsbZywJ8qkcNGbP+hdgBihqqEBYF_oA-FK2fxQ@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231020170225.3632933-1-robh@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAOuULM555ZNXbsbZywJ8qkcNGbP+hdgBihqqEBYF_oA-FK2fxQ@mail.gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
         autolearn=ham autolearn_force=no version=3.4.6
@@ -52,38 +46,22 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Hello Jules,
 
-Thank you for the patch.
+(CC'ing the linux-media mailing list, as discussions about the driver
+should happen there, in public)
 
-On Fri, Oct 20, 2023 at 12:02:24PM -0500, Rob Herring wrote:
-> Every DT property needs a type defined, but "i2c-alias" is missing any
-> type definition. It's a "uint32", so add a type reference.
-> 
-> Fixes: 313e8b32c616 ("media: dt-bindings: media: add TI DS90UB960 FPD-Link III Deserializer")
-> Signed-off-by: Rob Herring <robh@kernel.org>
+On Sun, Oct 22, 2023 at 05:46:59PM +0100, Jules Irenge wrote:
+> Hi 
+> I have some time I would like to volunteer contributing to the omap4iss.
+> If it's fine with you, would you give me more info about it
 
-This is something I should have paid more attention when reviewing the
-bindings. I'll try to keep it in mind for the future.
+The driver has most likely bit-rotten over the last few years, as to my
+knowledge nobody has really tested it recently. The first step would
+thus be to try to capture images and see how it behaves (or doesn't
+behave).
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-> index 289737721c2c..0b71e6f911a8 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml
-> @@ -69,6 +69,7 @@ properties:
->              maxItems: 1
->  
->            i2c-alias:
-> +            $ref: /schemas/types.yaml#/definitions/uint32
->              description:
->                The I2C address used for the serializer. Transactions to this
->                address on the I2C bus where the deserializer resides are
+What hardware will you use for testing ?
 
 -- 
 Regards,
