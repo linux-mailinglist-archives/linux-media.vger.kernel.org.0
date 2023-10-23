@@ -2,83 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCD7D7D3AE0
-	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 17:34:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C83A07D3BB8
+	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 18:05:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229570AbjJWPeF convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 23 Oct 2023 11:34:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57656 "EHLO
+        id S231938AbjJWQFs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Oct 2023 12:05:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44278 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229448AbjJWPeE (ORCPT
+        with ESMTP id S230519AbjJWQFr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Oct 2023 11:34:04 -0400
-X-Greylist: delayed 537 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 Oct 2023 08:34:02 PDT
-Received: from relay.hostedemail.com (smtprelay0015.hostedemail.com [216.40.44.15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E5F1DE
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 08:34:02 -0700 (PDT)
-Received: from omf06.hostedemail.com (a10.router.float.18 [10.200.18.1])
-        by unirelay08.hostedemail.com (Postfix) with ESMTP id 4292C14017E;
-        Mon, 23 Oct 2023 15:25:03 +0000 (UTC)
-Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf06.hostedemail.com (Postfix) with ESMTPA id 76D6220016;
-        Mon, 23 Oct 2023 15:25:00 +0000 (UTC)
-Message-ID: <15f45bbde3f4289b012db7adb8166cf0d45e4fec.camel@perches.com>
-Subject: Re: [PATCH 2/5] staging: media: av7110: Fix various whitespace
- checkpatch errors
-From:   Joe Perches <joe@perches.com>
-To:     Dan Carpenter <dan.carpenter@linaro.org>,
-        Jonathan Bergh <bergh.jonathan@gmail.com>
-Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, error27@gmail.com,
-        linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
+        Mon, 23 Oct 2023 12:05:47 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F78510A;
+        Mon, 23 Oct 2023 09:05:45 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D854C433C8;
+        Mon, 23 Oct 2023 16:05:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698077145;
+        bh=rC/hNZ7Bswy153IHNZJNcZBlr9hop+G6Sg6aUKxjdIg=;
+        h=From:To:Cc:Subject:Date:From;
+        b=YOvXabiOgl0nH2oPF9hfgJhkEJP+UUFp0h9KGCfx88oPj6u6WfzTBffoVLAWwFkUQ
+         /r6lXvTN2pi/mjokglO3uUrDRNCuIxaAkmOL1L4egSVv0boGU9kmN/e0BVksgEngpK
+         rj3xv41RK+MXX1QUkSdbNjV3b1Wq88e+qakIoWJFdGNEk5behSD1BBk6txm7dcEIqm
+         xa45GHtj1Umi4uRUAfmXpyQV/udasf+RYsglGut5t9DB7D+FRfFCE9FpkjG6Mk+lTi
+         RnF3PYmo5ccnkN7Ua77vb+Rx16ZTpNsFNgyCASyd3HjN4BAAhiVPVC2uJEV6QjfNpJ
+         KbCskka5IO7Yg==
+From:   Arnd Bergmann <arnd@kernel.org>
+To:     Martin Tuma <martin.tuma@digiteqautomotive.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Date:   Mon, 23 Oct 2023 08:24:58 -0700
-In-Reply-To: <b301c9a1-7536-46c5-878e-7cd79e3a4742@kadam.mountain>
-References: <20231020232332.55024-1-bergh.jonathan@gmail.com>
-         <20231020232332.55024-3-bergh.jonathan@gmail.com>
-         <b301c9a1-7536-46c5-878e-7cd79e3a4742@kadam.mountain>
-Content-Type: text/plain; charset="ISO-8859-1"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Subject: [PATCH 1/2] media: pci: mgb4: add COMMON_CLK dependency
+Date:   Mon, 23 Oct 2023 18:05:31 +0200
+Message-Id: <20231023160539.1537355-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.39.2
 MIME-Version: 1.0
-X-Rspamd-Server: rspamout03
-X-Rspamd-Queue-Id: 76D6220016
-X-Stat-Signature: uso4t8asunecfddpd7xeyg65ftr14cyg
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        UNPARSEABLE_RELAY autolearn=unavailable autolearn_force=no
-        version=3.4.6
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Session-ID: U2FsdGVkX1+VkWPLyvgXZZWw+/cT5gjzEt416nU2p+8=
-X-HE-Tag: 1698074700-308232
-X-HE-Meta: U2FsdGVkX19fOFgBMW+1i6LvtS8bVOiijCHMn6WgWz8Hz2LBWy2SGm/KH4KlWZY5Tjj9fn5jVr9T7rjtmAXNl0J+d4kYioCx7/gyh/4mJ3+vUGI6Z/3y4W/7bFnTs3LRuhJvaYLvefim2tJalYxzyUSf1mg+Qgn1lGyGQOOlOiMuXDXC17h9ZHbB5/C1Kz0vysWKzUPnbpbbzlyYQdYbaXYZ/SJsyqjQi6ZCbx0b6+NMxUTeBuKL+RBdYdGRhYNAW9a6+v6i+6Ju2Mi4Od0m7Jsc6VIW/PKE8v/yEXmtTqY3p0eVBunu7/Ty6sGwxNLQ2MoCpl1eP+JZT7UkWD9gv4rAKocc6Y6M
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 2023-10-23 at 17:26 +0300, Dan Carpenter wrote:
-> On Sat, Oct 21, 2023 at 01:23:29AM +0200, Jonathan Bergh wrote:
-[]
-> > diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
-[]
-> > @@ -241,8 +241,8 @@ int av7110_pes_play(void *dest, struct dvb_ringbuffer *buf, int dlen)
-> >  		sync |= DVB_RINGBUFFER_PEEK(buf, 2) << 8;
-> >  		sync |= DVB_RINGBUFFER_PEEK(buf, 3);
-> >  
-> > -		if (((sync &~ 0x0f) == 0x000001e0) ||
-> > -		    ((sync &~ 0x1f) == 0x000001c0) ||
-> > +		if (((sync &~0x0f) == 0x000001e0) ||
-> > +		    ((sync &~0x1f) == 0x000001c0) ||
-> 
-> These should be:
-> 
-> 	if (((sync & ~0x0f) == 0x000001e0) ||
-> 	    ((sync & ~0x1f) == 0x000001c0) ||
+From: Arnd Bergmann <arnd@arndb.de>
 
-Generally, I believe it would be better to avoid '& ~constant'
-and use the positive form instead
+This driver fails to build when HAVE_CLK and COMMON_CLK are disabled:
 
-	if ((sync & 0xfffffff0) == 0x000001e0) ||
-	    (sync & 0xffffffe0) == 0x000001c0)
+x86_64-linux-ld: vmlinux.o: in function `mgb4_remove':
+mgb4_core.c:(.text+0x1915e8c): undefined reference to `clkdev_drop'
+x86_64-linux-ld: mgb4_core.c:(.text+0x1915e98): undefined reference to `clk_hw_unregister'
 
+Add a Kconfig dependency to enforce a clean build.
+
+Fixes: 0ab13674a9bd ("media: pci: mgb4: Added Digiteq Automotive MGB4 driver")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/media/pci/mgb4/Kconfig | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/media/pci/mgb4/Kconfig b/drivers/media/pci/mgb4/Kconfig
+index 13fad15a434c..f2a05a1c8ffa 100644
+--- a/drivers/media/pci/mgb4/Kconfig
++++ b/drivers/media/pci/mgb4/Kconfig
+@@ -2,6 +2,7 @@
+ config VIDEO_MGB4
+ 	tristate "Digiteq Automotive MGB4 support"
+ 	depends on VIDEO_DEV && PCI && I2C && DMADEVICES && SPI && MTD && IIO
++	depends on COMMON_CLK
+ 	select VIDEOBUF2_DMA_SG
+ 	select IIO_BUFFER
+ 	select IIO_TRIGGERED_BUFFER
+-- 
+2.39.2
 
