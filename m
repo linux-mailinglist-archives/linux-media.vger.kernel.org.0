@@ -2,33 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAA9A7D41EB
-	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 23:50:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2621E7D41ED
+	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 23:50:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232119AbjJWVun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Oct 2023 17:50:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53718 "EHLO
+        id S231862AbjJWVuo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Oct 2023 17:50:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53786 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230356AbjJWVuk (ORCPT
+        with ESMTP id S232053AbjJWVun (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Oct 2023 17:50:40 -0400
+        Mon, 23 Oct 2023 17:50:43 -0400
 Received: from smtprelay01.ispgateway.de (smtprelay01.ispgateway.de [80.67.18.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4409ED7C
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 14:50:38 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0157E10C
+        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 14:50:40 -0700 (PDT)
 Received: from [92.206.139.21] (helo=note-book.lan)
         by smtprelay01.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.96.1)
         (envelope-from <git@apitzsch.eu>)
-        id 1qv2nh-0004Kz-0O;
+        id 1qv2nh-0004Kz-1P;
         Mon, 23 Oct 2023 23:49:29 +0200
 From:   =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-Date:   Mon, 23 Oct 2023 23:47:52 +0200
-Subject: [PATCH 3/4] media: i2c: imx214: Read orientation and rotation from
- system firmware
+Date:   Mon, 23 Oct 2023 23:47:53 +0200
+Subject: [PATCH 4/4] media: i2c: imx214: Add sensor's pixel matrix size
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-Message-Id: <20231023-imx214-v1-3-b33f1bbd1fcf@apitzsch.eu>
+Message-Id: <20231023-imx214-v1-4-b33f1bbd1fcf@apitzsch.eu>
 References: <20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu>
 In-Reply-To: <20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu>
 To:     Ricardo Ribalda <ribalda@kernel.org>,
@@ -39,52 +38,85 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
 X-Mailer: b4 0.12.3
 X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,
+X-Spam-Status: No, score=1.4 required=5.0 tests=BAYES_00,PDS_OTHER_BAD_TLD,
         RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
         RCVD_IN_VALIDITY_RPBL,SPF_HELO_PASS,SPF_PASS autolearn=no
         autolearn_force=no version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Obtain rotation and orientation information from system firmware and
-register the appropriate controls.
+Set effictive and active sensor pixel sizes as shown in product
+brief[1].
+
+[1]: https://www.mouser.com/datasheet/2/897/ProductBrief_IMX214_20150428-1289331.pdf
 
 Signed-off-by: André Apitzsch <git@apitzsch.eu>
 ---
- drivers/media/i2c/imx214.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/media/i2c/imx214.c | 39 ++++++++++++++++++++++++++++++++-------
+ 1 file changed, 32 insertions(+), 7 deletions(-)
 
 diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 554fc4733128..bef8dc36e2d0 100644
+index bef8dc36e2d0..a2d441cd8dcd 100644
 --- a/drivers/media/i2c/imx214.c
 +++ b/drivers/media/i2c/imx214.c
-@@ -704,9 +704,14 @@ static int imx214_ctrls_init(struct imx214 *imx214)
- 		.width = 1120,
- 		.height = 1120,
- 	};
-+	struct v4l2_fwnode_device_properties props;
- 	struct v4l2_ctrl_handler *ctrl_hdlr;
- 	int ret;
+@@ -36,6 +36,14 @@
+ #define IMX214_EXPOSURE_STEP		1
+ #define IMX214_EXPOSURE_DEFAULT		0x0c70
  
-+	ret = v4l2_fwnode_device_parse(imx214->dev, &props);
-+	if (ret < 0)
-+		return ret;
++/* IMX214 native and active pixel array size */
++#define IMX214_NATIVE_WIDTH		4224U
++#define IMX214_NATIVE_HEIGHT		3136U
++#define IMX214_PIXEL_ARRAY_LEFT		8U
++#define IMX214_PIXEL_ARRAY_TOP		8U
++#define IMX214_PIXEL_ARRAY_WIDTH	4208U
++#define IMX214_PIXEL_ARRAY_HEIGHT	3120U
 +
- 	ctrl_hdlr = &imx214->ctrls;
- 	ret = v4l2_ctrl_handler_init(&imx214->ctrls, 3);
- 	if (ret)
-@@ -746,6 +751,8 @@ static int imx214_ctrls_init(struct imx214 *imx214)
- 				V4L2_CID_UNIT_CELL_SIZE,
- 				v4l2_ctrl_ptr_create((void *)&unit_size));
+ static const char * const imx214_supply_name[] = {
+ 	"vdda",
+ 	"vddd",
+@@ -634,14 +642,31 @@ static int imx214_get_selection(struct v4l2_subdev *sd,
+ {
+ 	struct imx214 *imx214 = to_imx214(sd);
  
-+	v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx214_ctrl_ops, &props);
+-	if (sel->target != V4L2_SEL_TGT_CROP)
+-		return -EINVAL;
++	switch (sel->target) {
++	case V4L2_SEL_TGT_CROP:
++		mutex_lock(&imx214->mutex);
++		sel->r = *__imx214_get_pad_crop(imx214, sd_state, sel->pad,
++						sel->which);
++		mutex_unlock(&imx214->mutex);
++		return 0;
+ 
+-	mutex_lock(&imx214->mutex);
+-	sel->r = *__imx214_get_pad_crop(imx214, sd_state, sel->pad,
+-					sel->which);
+-	mutex_unlock(&imx214->mutex);
+-	return 0;
++	case V4L2_SEL_TGT_NATIVE_SIZE:
++		sel->r.top = 0;
++		sel->r.left = 0;
++		sel->r.width = IMX214_NATIVE_WIDTH;
++		sel->r.height = IMX214_NATIVE_HEIGHT;
++		return 0;
 +
- 	ret = ctrl_hdlr->error;
- 	if (ret) {
- 		v4l2_ctrl_handler_free(ctrl_hdlr);
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++	case V4L2_SEL_TGT_CROP_BOUNDS:
++		sel->r.top = IMX214_PIXEL_ARRAY_TOP;
++		sel->r.left = IMX214_PIXEL_ARRAY_LEFT;
++		sel->r.width = IMX214_PIXEL_ARRAY_WIDTH;
++		sel->r.height = IMX214_PIXEL_ARRAY_HEIGHT;
++		return 0;
++	}
++
++	return -EINVAL;
+ }
+ 
+ static int imx214_entity_init_cfg(struct v4l2_subdev *subdev,
 
 -- 
 2.42.0
