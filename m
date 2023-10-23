@@ -2,84 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BDDC7D372B
-	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 14:49:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 71FEC7D3768
+	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 15:06:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229615AbjJWMtb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Oct 2023 08:49:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33710 "EHLO
+        id S229835AbjJWNGf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Oct 2023 09:06:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55544 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229613AbjJWMta (ORCPT
+        with ESMTP id S229575AbjJWNGe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Oct 2023 08:49:30 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84635102
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 05:49:26 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E356FD20;
-        Mon, 23 Oct 2023 14:49:11 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698065352;
-        bh=ivFz5GFg4SiRlS3hwzXr5N8KSMhAH2Cto/Y5YfdiWWU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=f0dhWMP/wcYlkkN4J5SPeA2rxvldD8HRStmjiemJL/RUGkSGoI6hnnXSX9n+xtpHk
-         GyvW66KlJDUkY1W5A3vZBxtGQh9WLh8Qy05QL3cW42JRRB1GCLnHdYiD31v5U4UJ9m
-         t8RLxKCmELynMvKoBu8J+fCxS2O9Zw5fGpBbqr7M=
-Date:   Mon, 23 Oct 2023 15:49:30 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Jules Irenge <jbi.octave@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re:
-Message-ID: <20231023124930.GM3336@pendragon.ideasonboard.com>
-References: <CAOuULM555ZNXbsbZywJ8qkcNGbP+hdgBihqqEBYF_oA-FK2fxQ@mail.gmail.com>
- <20231022202253.GA5445@pendragon.ideasonboard.com>
- <ZTZhVY0Qa_03srJK@octux.home>
+        Mon, 23 Oct 2023 09:06:34 -0400
+X-Greylist: delayed 586 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 23 Oct 2023 06:06:31 PDT
+Received: from out-197.mta1.migadu.com (out-197.mta1.migadu.com [IPv6:2001:41d0:203:375::c5])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A551F97
+        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 06:06:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZTZhVY0Qa_03srJK@octux.home>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+        t=1698065801;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=DibBT+Cxaspvrrd75l4t/nEOTmiyvO/k87QOeRksta4=;
+        b=AWLfGLB5z/RmfcU++nipn2//MwZtuA2DZ+LXveRszl6H821gYpKH5MhhNkZnmAw10f8hoU
+        3MYFhD4F8XkMNkGISplDeOtwCWkSggvPeRdXrttSRhNbwwhzyiTZoxCImv9nTTo02uGATB
+        bK3lODWOHRh2gkcX66EjTciY4fpzO7I=
+Date:   Mon, 23 Oct 2023 12:56:37 +0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From:   qu.huang@linux.dev
+Message-ID: <4a687c592b0f1b04f4bbf684129f5ce02b2b6f7b@linux.dev>
+TLS-Required: No
+Subject: [PATCH] drm/amdgpu: Fix a null pointer access when the smc_rreg 
+ pointer is NULL
+To:     alexander.deucher@amd.com
+Cc:     christian.koenig@amd.com, Xinhui.Pan@amd.com, airlied@gmail.com,
+        daniel@ffwll.ch, sumit.semwal@linaro.org,
+        srinivasan.shanmugam@amd.com, Hawking.Zhang@amd.com,
+        Harish.Kasiviswanathan@amd.com, amd-gfx@lists.freedesktop.org,
+        Praful.Swarnakar@amd.com, le.ma@amd.com, victorchengchi.lu@amd.com,
+        tom.stdenis@amd.com, suhui@nfschina.com, dan.carpenter@linaro.org,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        qu.huang@linux.dev
+X-Migadu-Flow: FLOW_OUT
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Jules,
+In certain types of chips, such as VEGA20, reading the amdgpu_regs_smc fi=
+le could result in an abnormal null pointer access when the smc_rreg poin=
+ter is NULL. Below are the steps to reproduce this issue and the correspo=
+nding exception log:
 
-On Mon, Oct 23, 2023 at 01:04:37PM +0100, Jules Irenge wrote:
-> On Sun, Oct 22, 2023 at 11:22:53PM +0300, Laurent Pinchart wrote:
-> Hi Laurent,
-> 
-> Thanks for replying.
-> 
-> > The driver has most likely bit-rotten over the last few years, as to my
-> > knowledge nobody has really tested it recently. The first step would
-> > thus be to try to capture images and see how it behaves (or doesn't
-> > behave).
-> 
-> This looks like an opportunity for me.  
-> 
-> > What hardware will you use for testing ?
-> 
-> About that, I have my PC and a rasberry pi. Would you have an advise
-> on which device  I can best use to test ?
+1. Navigate to the directory: /sys/kernel/debug/dri/0
+2. Execute command: cat amdgpu_regs_smc
+3. Exception Log::
+[4005007.702554] BUG: kernel NULL pointer dereference, address: 000000000=
+0000000
+[4005007.702562] #PF: supervisor instruction fetch in kernel mode
+[4005007.702567] #PF: error_code(0x0010) - not-present page
+[4005007.702570] PGD 0 P4D 0
+[4005007.702576] Oops: 0010 [#1] SMP NOPTI
+[4005007.702581] CPU: 4 PID: 62563 Comm: cat Tainted: G           OE     =
+5.15.0-43-generic #46-Ubunt       u
+[4005007.702590] RIP: 0010:0x0
+[4005007.702598] Code: Unable to access opcode bytes at RIP 0xfffffffffff=
+fffd6.
+[4005007.702600] RSP: 0018:ffffa82b46d27da0 EFLAGS: 00010206
+[4005007.702605] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffa82=
+b46d27e68
+[4005007.702609] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffff994=
+0656e0000
+[4005007.702612] RBP: ffffa82b46d27dd8 R08: 0000000000000000 R09: ffff994=
+060c07980
+[4005007.702615] R10: 0000000000020000 R11: 0000000000000000 R12: 00007f5=
+e06753000
+[4005007.702618] R13: ffff9940656e0000 R14: ffffa82b46d27e68 R15: 00007f5=
+e06753000
+[4005007.702622] FS:  00007f5e0755b740(0000) GS:ffff99479d300000(0000) kn=
+lGS:0000000000000000
+[4005007.702626] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[4005007.702629] CR2: ffffffffffffffd6 CR3: 00000003253fc000 CR4: 0000000=
+0003506e0
+[4005007.702633] Call Trace:
+[4005007.702636]  <TASK>
+[4005007.702640]  amdgpu_debugfs_regs_smc_read+0xb0/0x120 [amdgpu]
+[4005007.703002]  full_proxy_read+0x5c/0x80
+[4005007.703011]  vfs_read+0x9f/0x1a0
+[4005007.703019]  ksys_read+0x67/0xe0
+[4005007.703023]  __x64_sys_read+0x19/0x20
+[4005007.703028]  do_syscall_64+0x5c/0xc0
+[4005007.703034]  ? do_user_addr_fault+0x1e3/0x670
+[4005007.703040]  ? exit_to_user_mode_prepare+0x37/0xb0
+[4005007.703047]  ? irqentry_exit_to_user_mode+0x9/0x20
+[4005007.703052]  ? irqentry_exit+0x19/0x30
+[4005007.703057]  ? exc_page_fault+0x89/0x160
+[4005007.703062]  ? asm_exc_page_fault+0x8/0x30
+[4005007.703068]  entry_SYSCALL_64_after_hwframe+0x44/0xae
+[4005007.703075] RIP: 0033:0x7f5e07672992
+[4005007.703079] Code: c0 e9 b2 fe ff ff 50 48 8d 3d fa b2 0c 00 e8 c5 1d=
+ 02 00 0f 1f 44 00 00 f3 0f        1e fa 64 8b 04 25 18 00 00 00 85 c0 75=
+ 10 0f 05 <48> 3d 00 f0 ff ff 77 56 c3 0f 1f 44 00 00 48 83 e       c 28 =
+48 89 54 24
+[4005007.703083] RSP: 002b:00007ffe03097898 EFLAGS: 00000246 ORIG_RAX: 00=
+00000000000000
+[4005007.703088] RAX: ffffffffffffffda RBX: 0000000000020000 RCX: 00007f5=
+e07672992
+[4005007.703091] RDX: 0000000000020000 RSI: 00007f5e06753000 RDI: 0000000=
+000000003
+[4005007.703094] RBP: 00007f5e06753000 R08: 00007f5e06752010 R09: 00007f5=
+e06752010
+[4005007.703096] R10: 0000000000000022 R11: 0000000000000246 R12: 0000000=
+000022000
+[4005007.703099] R13: 0000000000000003 R14: 0000000000020000 R15: 0000000=
+000020000
+[4005007.703105]  </TASK>
+[4005007.703107] Modules linked in: nf_tables libcrc32c nfnetlink algif_h=
+ash af_alg binfmt_misc nls_       iso8859_1 ipmi_ssif ast intel_rapl_msr =
+intel_rapl_common drm_vram_helper drm_ttm_helper amd64_edac t       tm ed=
+ac_mce_amd kvm_amd ccp mac_hid k10temp kvm acpi_ipmi ipmi_si rapl sch_fq_=
+codel ipmi_devintf ipm       i_msghandler msr parport_pc ppdev lp parport=
+ mtd pstore_blk efi_pstore ramoops pstore_zone reed_solo       mon ip_tab=
+les x_tables autofs4 ib_uverbs ib_core amdgpu(OE) amddrm_ttm_helper(OE) a=
+mdttm(OE) iommu_v       2 amd_sched(OE) amdkcl(OE) drm_kms_helper syscopy=
+area sysfillrect sysimgblt fb_sys_fops cec rc_core        drm igb ahci xh=
+ci_pci libahci i2c_piix4 i2c_algo_bit xhci_pci_renesas dca
+[4005007.703184] CR2: 0000000000000000
+[4005007.703188] ---[ end trace ac65a538d240da39 ]---
+[4005007.800865] RIP: 0010:0x0
+[4005007.800871] Code: Unable to access opcode bytes at RIP 0xfffffffffff=
+fffd6.
+[4005007.800874] RSP: 0018:ffffa82b46d27da0 EFLAGS: 00010206
+[4005007.800878] RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffffa82=
+b46d27e68
+[4005007.800881] RDX: 0000000000000001 RSI: 0000000000000000 RDI: ffff994=
+0656e0000
+[4005007.800883] RBP: ffffa82b46d27dd8 R08: 0000000000000000 R09: ffff994=
+060c07980
+[4005007.800886] R10: 0000000000020000 R11: 0000000000000000 R12: 00007f5=
+e06753000
+[4005007.800888] R13: ffff9940656e0000 R14: ffffa82b46d27e68 R15: 00007f5=
+e06753000
+[4005007.800891] FS:  00007f5e0755b740(0000) GS:ffff99479d300000(0000) kn=
+lGS:0000000000000000
+[4005007.800895] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[4005007.800898] CR2: ffffffffffffffd6 CR3: 00000003253fc000 CR4: 0000000=
+0003506e0
 
-You will need a development board with an OMAP4 SoC, and a compatible
-camera module. I've used the PandaBoard ([1]) personally back when I
-worked on the driver, but I don't recall what camera module I was using.
-Looking at ancient git branches, it may have been based on an AR0330,
-possibly using a module from Leopard Imaging. This was nearly 10 years
-ago though, sourcing the hardware may be fairly difficult.
+Signed-off-by: Qu Huang <qu.huang@linux.dev>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-[1] https://www.digikey.fi/en/product-highlight/t/texas-instruments/pandaboard
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c b/drivers/gpu/dr=
+m/amd/amdgpu/amdgpu_debugfs.c
+index a4faea4..05405da 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c
+@@ -748,6 +748,9 @@ static ssize_t amdgpu_debugfs_regs_smc_read(struct fi=
+le *f, char __user *buf,
+ 	ssize_t result =3D 0;
+ 	int r;
 
-> If I have to purchase, I can do that as this is just for my learning
-> and contribution purpose.
++	if (!adev->smc_rreg)
++		return -EPERM;
++
+ 	if (size & 0x3 || *pos & 0x3)
+ 		return -EINVAL;
 
--- 
-Regards,
+@@ -804,6 +807,9 @@ static ssize_t amdgpu_debugfs_regs_smc_write(struct f=
+ile *f, const char __user *
+ 	ssize_t result =3D 0;
+ 	int r;
 
-Laurent Pinchart
++	if (!adev->smc_wreg)
++		return -EPERM;
++
+ 	if (size & 0x3 || *pos & 0x3)
+ 		return -EINVAL;
+
+--
+1.8.3.1
