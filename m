@@ -2,111 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 182A17D281F
-	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 03:45:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77F1F7D28C9
+	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 05:07:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233032AbjJWBpt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Oct 2023 21:45:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34900 "EHLO
+        id S229491AbjJWDG6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Oct 2023 23:06:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38750 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229457AbjJWBpt (ORCPT
+        with ESMTP id S229451AbjJWDG4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Oct 2023 21:45:49 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA55FF7
-        for <linux-media@vger.kernel.org>; Sun, 22 Oct 2023 18:45:46 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E83B5C433C7
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 01:45:45 +0000 (UTC)
-Date:   Mon, 23 Oct 2023 03:45:43 +0200
-Message-ID: <5995185aa1d2b86aef4e604a6cf92a47.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        Sun, 22 Oct 2023 23:06:56 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A4CF119;
+        Sun, 22 Oct 2023 20:06:49 -0700 (PDT)
+X-UUID: 31ed50b0715111ee8051498923ad61e6-20231023
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Xp1z/ij/6MEXRS02xVyH+bWbshJokuMQpgZ/n9ooiu0=;
+        b=jandzS9H9xMBJ0liixBGr1LMN+qNjRp39HFwYlG8xqUNffW4KDhRBntcwul5Mzr0xk+9LumjeO18+IGeMbbWH5app9dJ8dOrQhG5z3GlX7d9AXSGVKQNtBc6wAM1iY+eA9isiBfrcj5L2fsNpIDHVOqKyOUre5fAIfbCwQfdb/0=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.32,REQID:24a925c6-64ad-4594-aac4-ec59daba7907,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+        release,TS:0
+X-CID-META: VersionHash:5f78ec9,CLOUDID:1e6230d7-04a0-4e50-8742-3543eab8cb8e,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+        DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 31ed50b0715111ee8051498923ad61e6-20231023
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 834352821; Mon, 23 Oct 2023 11:06:43 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 23 Oct 2023 11:06:42 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 23 Oct 2023 11:06:41 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= 
+        <nfraprado@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+CC:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Steve Cho <stevecho@chromium.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v2,0/7] media: mediatek: vcodec: Set the correct profile and level for each platform
+Date:   Mon, 23 Oct 2023 11:06:33 +0800
+Message-ID: <20231023030640.16393-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK:  N
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,
+        SPF_HELO_PASS,T_SPF_TEMPERROR,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+The supported maximum resolution, bit and frame rate of different platform
+for each spec are not always the same, need to set the correct level and
+and profile values according to the chip name.
 
-Results of the daily build of media_tree:
+patch 1 get the chip name for each platform
+patch 2~3 set h264 and h265 level
+patch 4~5 set h264 and h265 profile
+patch 6~7 set vp9 level and profile
 
-date:			Mon Oct 23 03:00:06 CEST 2023
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	48016737a9af47328dd321df4dd3479ed5e2041d
-v4l-utils git hash:	3d6682746de535d1f7aa71b43a30af40d52a539c
-edid-decode git hash:	5920bf2a756b2f748c49ff6a08b9f421026473c5
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8494-gc4f4869a
-sparse version:		v0.5.0-8494-gc4f4869a
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 4ea9496484e974bb46354c0bc783832182128194
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+changed with v1:
+- Change the commit message for each patch.
+- Change the supported level for mt8195 and mt8192
+---
+Yunfei Dong (7):
+  media: mediatek: vcodec: Get the chip name for each platform
+  media: mediatek: vcodec: Set the supported h264 level for each
+    platform
+  media: mediatek: vcodec: Set the supported h265 level for each
+    platform
+  media: mediatek: vcodec: Set the supported h264 profile for each
+    platform
+  media: mediatek: vcodec: Set the supported h265 profile for each
+    platform
+  media: mediatek: vcodec: Set the supported vp9 level for each platform
+  media: mediatek: vcodec: Set the supported vp9 profile for each
+    platform
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  |  24 +--
+ .../vcodec/decoder/mtk_vcodec_dec_drv.c       |  26 +++
+ .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  14 ++
+ .../vcodec/decoder/mtk_vcodec_dec_stateless.c | 168 +++++++++++++++++-
+ 4 files changed, 208 insertions(+), 24 deletions(-)
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+-- 
+2.18.0
 
-smatch: WARNINGS:
-
-drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/staging/media/meson/vdec/vdec_1.c:239 vdec_1_start() warn: 'core->vdec_1_clk' from clk_prepare_enable() not released on lines: 239.
-drivers/staging/media/meson/vdec/vdec_hevc.c:227 vdec_hevc_start() warn: 'core->vdec_hevc_clk' from clk_prepare_enable() not released on lines: 227.
-drivers/staging/media/meson/vdec/vdec_hevc.c:227 vdec_hevc_start() warn: 'core->vdec_hevcf_clk' from clk_prepare_enable() not released on lines: 227.
-drivers/media/pci/solo6x10/solo6x10-core.c:631 solo_pci_probe() warn: 'pdev->irq' from request_irq() not released on lines: 631.
-drivers/media/pci/solo6x10/solo6x10-core.c:631 solo_pci_probe() warn: 'pdev' from pci_request_regions() not released on lines: 631.
-drivers/media/pci/saa7134/saa7134-alsa.c:1186 alsa_card_saa7134_create() warn: 'dev->pci->irq' from request_irq() not released on lines: 1186.
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Mon Oct 23 03:15:53 CEST 2023
-virtme-64: WARNINGS: Final Summary: 3218, Succeeded: 3218, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3342, Succeeded: 3342, Failed: 0, Warnings: 3
-
-date:			Mon Oct 23 03:44:31 CEST 2023
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Monday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Monday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Monday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Monday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Monday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
