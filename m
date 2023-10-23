@@ -2,433 +2,362 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 211D87D3CCF
-	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 18:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 549177D3CE9
+	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 18:54:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230025AbjJWQqr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Oct 2023 12:46:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36720 "EHLO
+        id S229844AbjJWQyc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Oct 2023 12:54:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbjJWQqq (ORCPT
+        with ESMTP id S229650AbjJWQyb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Oct 2023 12:46:46 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6C6ADE
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 09:45:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1698079556;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding;
-        bh=bDdV6vKEwynTtIWNDDANhowwMTEJWz/8nr/BNp+GhQo=;
-        b=Hw8Nrc4MYSkO+I/taKJqvF2ksYwfcXITkY848eYFwP4srUWY5JHuSWxJmgcNU9xfxWT+ew
-        BstyHM/PiDvZh6wVOzp8zXp6JBnw5VWaAS1jh5SOfO/bFkq9O+re7MDKp2a0nvylgc1nIL
-        pieNGdkAyuaOnjhLneFp/FdKKv/Dy5I=
-Received: from mail-vs1-f70.google.com (mail-vs1-f70.google.com
- [209.85.217.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-436-WL3MeyqAOQO69eM-0usViQ-1; Mon, 23 Oct 2023 12:45:55 -0400
-X-MC-Unique: WL3MeyqAOQO69eM-0usViQ-1
-Received: by mail-vs1-f70.google.com with SMTP id ada2fe7eead31-457c02bfb64so1734664137.0
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 09:45:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698079555; x=1698684355;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=bDdV6vKEwynTtIWNDDANhowwMTEJWz/8nr/BNp+GhQo=;
-        b=nxjNt7l9+czkOqATen8RADDJRfUHD2ezpdWSQ31vhVFBw3+ngG412oyVPqj7DV1OSh
-         buGMWy+pg0PvHgvwr12eWwyZdZqn+T0aDm/RlSzfzWvjh0b3ICeUCLcSwuc/JfBJmmQa
-         V2AcvwQoQlOLX8K57IGl76ucyZtVCpsuPamEzWPAFnDldaQCrlbKPWBOv7GnR5IqTFTM
-         igTEqJyvPSfv6g6rHZNEOLFT5DcXj2vl+QbYIa14ORGHfuPWl22geHbXOdt152kvPMJ0
-         Po48vGaqrE2nt0DAPToFqGgpwHlq+qfIDu0asVjrvNYLDXXoxU8fU6TzU/D9k/70ua6+
-         0aLg==
-X-Gm-Message-State: AOJu0YyrqluFx3Tic4zvuZZjhFayMSky1a/g7CZNXfCEaw96ZCeNwW3c
-        qGJZX4xMn2ABAay5gf+UwdKeirR7zPHMZVB37ggeuOpNfz0KFinHnrW8tdR7f5il0ggqK42LHpB
-        KuyKNvROzv3uvwLjRZpu55I4atdRfVA==
-X-Received: by 2002:a67:e114:0:b0:457:6cf4:6fa2 with SMTP id d20-20020a67e114000000b004576cf46fa2mr8099891vsl.4.1698079554656;
-        Mon, 23 Oct 2023 09:45:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFLwoQjwceKkUAwDMJn4avaZIKfK6c04KakeBVIIXjNnuuHhT8ZNUyX6L0ek48c5MBmVurGyw==
-X-Received: by 2002:a67:e114:0:b0:457:6cf4:6fa2 with SMTP id d20-20020a67e114000000b004576cf46fa2mr8099865vsl.4.1698079554286;
-        Mon, 23 Oct 2023 09:45:54 -0700 (PDT)
-Received: from klayman.redhat.com (net-2-34-31-107.cust.vodafonedsl.it. [2.34.31.107])
-        by smtp.gmail.com with ESMTPSA id g21-20020a05620a109500b0077580becd52sm2812885qkk.103.2023.10.23.09.45.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Oct 2023 09:45:54 -0700 (PDT)
-From:   Marco Pagani <marpagan@redhat.com>
-To:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>
-Cc:     Marco Pagani <marpagan@redhat.com>, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [RFC PATCH] drm/test: add a test suite for GEM objects backed by shmem
-Date:   Mon, 23 Oct 2023 18:45:40 +0200
-Message-ID: <20231023164541.92913-1-marpagan@redhat.com>
-X-Mailer: git-send-email 2.41.0
+        Mon, 23 Oct 2023 12:54:31 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ECA9FD
+        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 09:54:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698080069; x=1729616069;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/WhiTDARhLjx98ZSaklS4N+KeJcITNIEsxo6rkVkG54=;
+  b=HcFEWyMk62gExsLGddTsXU7AJzI7iahYSuSLLzNuY7lKWvTmguFNlHKb
+   lBAw/N9jWedLYoAaGGaaJnrUZCAHT3XDT9zSlhGZkugNK4m/4VKmOj3d3
+   cyGN0j+GGJ5Ur5qAzBN/aruyu1b/Sb9nBA+azghSBFIfn5V1Vt/ZQ/o01
+   6Q8Tvt9UI/InC2RU7TpY6yil22YJu3DZP64t4m7hwn48NoqgUxlyzYZ9G
+   so79SCYQ0tweFz9ZUZOVHmcKNJTRMnBqPAt+/R4tUFm9UOivGysDd04Iw
+   JnCNrhUNi+veHJi7AjGuTCnpZUNNGohGbwuwnZI1GCXBbtSc6nzg2fopo
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="367112311"
+X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
+   d="scan'208";a="367112311"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 09:54:28 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="761798027"
+X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
+   d="scan'208";a="761798027"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 09:54:26 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 7ED5011F82E;
+        Mon, 23 Oct 2023 19:54:23 +0300 (EEST)
+Date:   Mon, 23 Oct 2023 16:54:23 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com
+Subject: Re: [PATCH v2 2/6] media: v4l: subdev: Rename sub-device state
+ information access functions
+Message-ID: <ZTalPwAlCau3IgMK@kekkonen.localdomain>
+References: <20231023123308.782592-1-sakari.ailus@linux.intel.com>
+ <20231023123308.782592-3-sakari.ailus@linux.intel.com>
+ <20231023133204.GR3336@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231023133204.GR3336@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch introduces an initial KUnit test suite for GEM objects
-backed by shmem buffers.
+Hi Laurent,
 
-Signed-off-by: Marco Pagani <marpagan@redhat.com>
----
- drivers/gpu/drm/Kconfig                    |   1 +
- drivers/gpu/drm/tests/Makefile             |   3 +-
- drivers/gpu/drm/tests/drm_gem_shmem_test.c | 303 +++++++++++++++++++++
- 3 files changed, 306 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/tests/drm_gem_shmem_test.c
+Thanks for the review.
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 3eee8636f847..f0a77e3e04d7 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -84,6 +84,7 @@ config DRM_KUNIT_TEST
- 	select DRM_EXPORT_FOR_TESTS if m
- 	select DRM_KUNIT_TEST_HELPERS
- 	select DRM_EXEC
-+	select DRM_GEM_SHMEM_HELPER
- 	default KUNIT_ALL_TESTS
- 	help
- 	  This builds unit tests for DRM. This option is not useful for
-diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-index ba7baa622675..b8227aab369e 100644
---- a/drivers/gpu/drm/tests/Makefile
-+++ b/drivers/gpu/drm/tests/Makefile
-@@ -18,6 +18,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
- 	drm_plane_helper_test.o \
- 	drm_probe_helper_test.o \
- 	drm_rect_test.o	\
--	drm_exec_test.o
-+	drm_exec_test.o \
-+	drm_gem_shmem_test.o
- 
- CFLAGS_drm_mm_test.o := $(DISABLE_STRUCTLEAK_PLUGIN)
-diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-new file mode 100644
-index 000000000000..0bf6727f08d2
---- /dev/null
-+++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-@@ -0,0 +1,303 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit test suite for GEM objects backed by shmem buffers
-+ *
-+ * Copyright (C) 2023 Red Hat, Inc.
-+ *
-+ * Author: Marco Pagani <marpagan@redhat.com>
-+ */
-+
-+#include <linux/dma-buf.h>
-+#include <linux/iosys-map.h>
-+#include <linux/sizes.h>
-+
-+#include <kunit/test.h>
-+
-+#include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_gem.h>
-+#include <drm/drm_gem_shmem_helper.h>
-+#include <drm/drm_kunit_helpers.h>
-+
-+#define TEST_SIZE		SZ_1M
-+#define TEST_BYTE		0xae
-+
-+struct fake_dev {
-+	struct drm_device drm_dev;
-+	struct device *dev;
-+};
-+
-+/* Test creating a shmem GEM object */
-+static void drm_gem_shmem_test_obj_create(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_ASSERT_EQ(test, shmem->base.size, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->base.filp);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->base.funcs);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test creating a private shmem GEM object from a scatter/gather table */
-+static void drm_gem_shmem_test_obj_create_private(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct drm_gem_object *gem_obj;
-+	struct dma_buf buf_mock;
-+	struct dma_buf_attachment attach_mock;
-+	struct sg_table *sgt;
-+	char *buf;
-+	int ret;
-+
-+	/* Create a mock scatter/gather table */
-+	buf = kunit_kzalloc(test, TEST_SIZE, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, buf);
-+
-+	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, sgt);
-+
-+	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	sg_init_one(sgt->sgl, buf, TEST_SIZE);
-+
-+	/* Init a mock DMA-BUF */
-+	buf_mock.size = TEST_SIZE;
-+	attach_mock.dmabuf = &buf_mock;
-+
-+	gem_obj = drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach_mock, sgt);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
-+	KUNIT_ASSERT_EQ(test, gem_obj->size, TEST_SIZE);
-+	KUNIT_ASSERT_NULL(test, gem_obj->filp);
-+	KUNIT_ASSERT_NOT_NULL(test, gem_obj->funcs);
-+
-+	shmem = to_drm_gem_shmem_obj(gem_obj);
-+	KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
-+
-+	/* The scatter/gather table is freed by drm_gem_shmem_free */
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test pinning backing pages */
-+static void drm_gem_shmem_test_pin_pages(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	int i, ret;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_ASSERT_NULL(test, shmem->pages);
-+	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 0);
-+
-+	ret = drm_gem_shmem_pin(shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->pages);
-+	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 1);
-+
-+	for (i = 0; i < (shmem->base.size >> PAGE_SHIFT); i++)
-+		KUNIT_ASSERT_NOT_NULL(test, shmem->pages[i]);
-+
-+	drm_gem_shmem_unpin(shmem);
-+	KUNIT_ASSERT_NULL(test, shmem->pages);
-+	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 0);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test creating a virtual mapping */
-+static void drm_gem_shmem_test_vmap(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct iosys_map map;
-+	int ret, i;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_ASSERT_NULL(test, shmem->vaddr);
-+	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 0);
-+
-+	ret = drm_gem_shmem_vmap(shmem, &map);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->vaddr);
-+	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 1);
-+	KUNIT_ASSERT_FALSE(test, iosys_map_is_null(&map));
-+
-+	iosys_map_memset(&map, 0, TEST_BYTE, TEST_SIZE);
-+	for (i = 0; i < TEST_SIZE; i++)
-+		KUNIT_ASSERT_EQ(test, iosys_map_rd(&map, i, u8), TEST_BYTE);
-+
-+	drm_gem_shmem_vunmap(shmem, &map);
-+	KUNIT_ASSERT_NULL(test, shmem->vaddr);
-+	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 0);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test exporting a scatter/gather table */
-+static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	struct scatterlist *sg;
-+	unsigned int si, len = 0;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	ret = drm_gem_shmem_pin(shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	sgt = drm_gem_shmem_get_sg_table(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+	KUNIT_ASSERT_NULL(test, shmem->sgt);
-+
-+	for_each_sgtable_sg(sgt, sg, si) {
-+		KUNIT_ASSERT_NOT_NULL(test, sg);
-+		len += sg->length;
-+	}
-+	KUNIT_ASSERT_GE(test, len, TEST_SIZE);
-+
-+	kfree(sgt);
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test exporting a scatter/gather pinned table for PRIME */
-+static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	struct scatterlist *sg;
-+	unsigned int si, len = 0;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	sgt = drm_gem_shmem_get_pages_sgt(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+	KUNIT_ASSERT_PTR_EQ(test, sgt, shmem->sgt);
-+
-+	for_each_sgtable_sg(sgt, sg, si) {
-+		KUNIT_ASSERT_NOT_NULL(test, sg);
-+		len += sg->length;
-+	}
-+	KUNIT_ASSERT_GE(test, len, TEST_SIZE);
-+
-+	/* The scatter/gather table is freed by drm_gem_shmem_free */
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test updating madvise status */
-+static void drm_gem_shmem_test_madvise(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, 0);
-+
-+	ret = drm_gem_shmem_madvise(shmem, 1);
-+	KUNIT_ASSERT_TRUE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, 1);
-+
-+	ret = drm_gem_shmem_madvise(shmem, -1);
-+	KUNIT_ASSERT_FALSE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-+
-+	ret = drm_gem_shmem_madvise(shmem, 0);
-+	KUNIT_ASSERT_FALSE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/* Test purging */
-+static void drm_gem_shmem_test_purge(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	ret = drm_gem_shmem_is_purgeable(shmem);
-+	KUNIT_ASSERT_FALSE(test, ret);
-+
-+	ret = drm_gem_shmem_madvise(shmem, 1);
-+	KUNIT_ASSERT_TRUE(test, ret);
-+
-+	sgt = drm_gem_shmem_get_pages_sgt(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+
-+	ret = drm_gem_shmem_is_purgeable(shmem);
-+	KUNIT_ASSERT_TRUE(test, ret);
-+
-+	drm_gem_shmem_purge(shmem);
-+	KUNIT_ASSERT_TRUE(test, ret);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+static int drm_gem_shmem_test_init(struct kunit *test)
-+{
-+	struct fake_dev *fdev;
-+	struct device *dev;
-+
-+	/* Allocate a parent device */
-+	dev = drm_kunit_helper_alloc_device(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	/*
-+	 * The DRM core will automatically initialize the GEM core and create
-+	 * a DRM Memory Manager object which provides an address space pool
-+	 * for GEM objects allocation.
-+	 */
-+	fdev = drm_kunit_helper_alloc_drm_device(test, dev, struct fake_dev,
-+						 drm_dev, DRIVER_GEM);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fdev);
-+
-+	fdev->dev = dev;
-+	test->priv = fdev;
-+
-+	return 0;
-+}
-+
-+static void drm_gem_shmem_test_exit(struct kunit *test)
-+{
-+	struct fake_dev *fdev = test->priv;
-+
-+	drm_kunit_helper_free_device(test, fdev->dev);
-+}
-+
-+static struct kunit_case drm_gem_shmem_test_cases[] = {
-+	KUNIT_CASE(drm_gem_shmem_test_obj_create),
-+	KUNIT_CASE(drm_gem_shmem_test_obj_create_private),
-+	KUNIT_CASE(drm_gem_shmem_test_pin_pages),
-+	KUNIT_CASE(drm_gem_shmem_test_vmap),
-+	KUNIT_CASE(drm_gem_shmem_test_get_pages_sgt),
-+	KUNIT_CASE(drm_gem_shmem_test_get_sg_table),
-+	KUNIT_CASE(drm_gem_shmem_test_madvise),
-+	KUNIT_CASE(drm_gem_shmem_test_purge),
-+	{}
-+};
-+
-+static struct kunit_suite drm_gem_shmem_suite = {
-+	.name = "drm_gem_shmem",
-+	.init = drm_gem_shmem_test_init,
-+	.exit = drm_gem_shmem_test_exit,
-+	.test_cases = drm_gem_shmem_test_cases
-+};
-+
-+kunit_test_suite(drm_gem_shmem_suite);
+On Mon, Oct 23, 2023 at 04:32:04PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Oct 23, 2023 at 03:33:04PM +0300, Sakari Ailus wrote:
+> > Rename the sub-devices state information access functions, removing
+> > "_stream" from them. This makes them shorter and so more convenient to
+> > use. No other sets of functions will be needed to access this information.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/i2c/ds90ub913.c                 |  3 +-
+> >  drivers/media/i2c/ds90ub953.c                 |  3 +-
+> >  drivers/media/i2c/ds90ub960.c                 | 12 ++++----
+> >  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c | 10 +++----
+> >  drivers/media/v4l2-core/v4l2-subdev.c         | 27 +++++++++---------
+> >  include/media/v4l2-subdev.h                   | 28 ++++++++++---------
+> >  6 files changed, 40 insertions(+), 43 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
+> > index 8e9ebed09f64..8bb6be956780 100644
+> > --- a/drivers/media/i2c/ds90ub913.c
+> > +++ b/drivers/media/i2c/ds90ub913.c
+> > @@ -424,8 +424,7 @@ static int ub913_set_fmt(struct v4l2_subdev *sd,
+> >  	}
+> >  
+> >  	/* Set sink format */
+> > -	fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
+> > -						  format->stream);
+> > +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+> >  	if (!fmt)
+> >  		return -EINVAL;
+> >  
+> > diff --git a/drivers/media/i2c/ds90ub953.c b/drivers/media/i2c/ds90ub953.c
+> > index 644022312833..4eb08e3a31c7 100644
+> > --- a/drivers/media/i2c/ds90ub953.c
+> > +++ b/drivers/media/i2c/ds90ub953.c
+> > @@ -558,8 +558,7 @@ static int ub953_set_fmt(struct v4l2_subdev *sd,
+> >  		return v4l2_subdev_get_fmt(sd, state, format);
+> >  
+> >  	/* Set sink format */
+> > -	fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
+> > -						  format->stream);
+> > +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+> >  	if (!fmt)
+> >  		return -EINVAL;
+> >  
+> > diff --git a/drivers/media/i2c/ds90ub960.c b/drivers/media/i2c/ds90ub960.c
+> > index b8f3e5ca03ef..1d1476098c92 100644
+> > --- a/drivers/media/i2c/ds90ub960.c
+> > +++ b/drivers/media/i2c/ds90ub960.c
+> > @@ -2451,9 +2451,8 @@ static int ub960_configure_ports_for_streaming(struct ub960_data *priv,
+> >  		if (rx_data[nport].num_streams > 2)
+> >  			return -EPIPE;
+> >  
+> > -		fmt = v4l2_subdev_state_get_stream_format(state,
+> > -							  route->sink_pad,
+> > -							  route->sink_stream);
+> > +		fmt = v4l2_subdev_state_get_format(state, route->sink_pad,
+> > +						   route->sink_stream);
+> >  		if (!fmt)
+> >  			return -EPIPE;
+> >  
+> > @@ -2842,8 +2841,8 @@ static int ub960_get_frame_desc(struct v4l2_subdev *sd, unsigned int pad,
+> >  			const struct ub960_format_info *ub960_fmt;
+> >  			struct v4l2_mbus_framefmt *fmt;
+> >  
+> > -			fmt = v4l2_subdev_state_get_stream_format(state, pad,
+> > -								  route->source_stream);
+> > +			fmt = v4l2_subdev_state_get_format(state, pad,
+> > +							   route->source_stream);
+> >  
+> >  			if (!fmt) {
+> >  				ret = -EINVAL;
+> > @@ -2891,8 +2890,7 @@ static int ub960_set_fmt(struct v4l2_subdev *sd,
+> >  	if (!ub960_find_format(format->format.code))
+> >  		format->format.code = ub960_formats[0].code;
+> >  
+> > -	fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
+> > -						  format->stream);
+> > +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+> >  	if (!fmt)
+> >  		return -EINVAL;
+> >  
+> > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> > index 792f031e032a..9401261eb239 100644
+> > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> > @@ -58,7 +58,7 @@ static int mxc_isi_crossbar_gasket_enable(struct mxc_isi_crossbar *xbar,
+> >  		return -EINVAL;
+> >  	}
+> >  
+> > -	fmt = v4l2_subdev_state_get_stream_format(state, port, 0);
+> > +	fmt = v4l2_subdev_state_get_format(state, port, 0);
+> >  	if (!fmt)
+> >  		return -EINVAL;
+> >  
+> > @@ -281,8 +281,7 @@ static int mxc_isi_crossbar_set_fmt(struct v4l2_subdev *sd,
+> >  	 * Set the format on the sink stream and propagate it to the source
+> >  	 * streams.
+> >  	 */
+> > -	sink_fmt = v4l2_subdev_state_get_stream_format(state, fmt->pad,
+> > -						       fmt->stream);
+> > +	sink_fmt = v4l2_subdev_state_get_format(state, fmt->pad, fmt->stream);
+> >  	if (!sink_fmt)
+> >  		return -EINVAL;
+> >  
+> > @@ -296,8 +295,9 @@ static int mxc_isi_crossbar_set_fmt(struct v4l2_subdev *sd,
+> >  		    route->sink_stream != fmt->stream)
+> >  			continue;
+> >  
+> > -		source_fmt = v4l2_subdev_state_get_stream_format(state, route->source_pad,
+> > -								 route->source_stream);
+> > +		source_fmt = v4l2_subdev_state_get_format(state,
+> > +							  route->source_pad,
+> > +							  route->source_stream);
+> >  		if (!source_fmt)
+> >  			return -EINVAL;
+> >  
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index 955ee9a6c91f..9c267aaef56b 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -177,7 +177,7 @@ static int check_state(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> >  {
+> >  	if (sd->flags & V4L2_SUBDEV_FL_STREAMS) {
+> >  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+> > -		if (!v4l2_subdev_state_get_stream_format(state, pad, stream))
+> > +		if (!v4l2_subdev_state_get_format(state, pad, stream))
+> >  			return -EINVAL;
+> >  		return 0;
+> >  #else
+> > @@ -1581,8 +1581,8 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> >  	struct v4l2_mbus_framefmt *fmt;
+> >  
+> >  	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
+> > -		fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
+> > -							  format->stream);
+> > +		fmt = v4l2_subdev_state_get_format(state, format->pad,
+> > +						   format->stream);
+> >  	else if (format->pad < sd->entity.num_pads && format->stream == 0)
+> >  		fmt = v4l2_subdev_get_pad_format(sd, state, format->pad);
+> >  	else
+> > @@ -1678,8 +1678,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> >  EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
+> >  
+> >  struct v4l2_mbus_framefmt *
+> > -v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
+> > -				    unsigned int pad, u32 stream)
+> > +v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
+> > +			     u32 stream)
+> >  {
+> >  	struct v4l2_subdev_stream_configs *stream_configs;
+> >  	unsigned int i;
+> > @@ -1709,11 +1709,11 @@ v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
+> >  
+> >  	return NULL;
+> >  }
+> > -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_format);
+> > +EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_format);
+> >  
+> >  struct v4l2_rect *
+> > -v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
+> > -				  unsigned int pad, u32 stream)
+> > +v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+> > +			   u32 stream)
+> >  {
+> >  	struct v4l2_subdev_stream_configs *stream_configs;
+> >  	unsigned int i;
+> > @@ -1743,11 +1743,11 @@ v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
+> >  
+> >  	return NULL;
+> >  }
+> > -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_crop);
+> > +EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_crop);
+> >  
+> >  struct v4l2_rect *
+> > -v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
+> > -				     unsigned int pad, u32 stream)
+> > +v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
+> > +			      u32 stream)
+> >  {
+> >  	struct v4l2_subdev_stream_configs *stream_configs;
+> >  	unsigned int i;
+> > @@ -1777,7 +1777,7 @@ v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
+> >  
+> >  	return NULL;
+> >  }
+> > -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_compose);
+> > +EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_compose);
+> >  
+> >  int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
+> >  					  u32 pad, u32 stream, u32 *other_pad,
+> > @@ -1823,8 +1823,7 @@ v4l2_subdev_state_get_opposite_stream_format(struct v4l2_subdev_state *state,
+> >  	if (ret)
+> >  		return NULL;
+> >  
+> > -	return v4l2_subdev_state_get_stream_format(state, other_pad,
+> > -						   other_stream);
+> > +	return v4l2_subdev_state_get_format(state, other_pad, other_stream);
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_opposite_stream_format);
+> >  
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index 6a02a565035c..71cb35133b4a 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -1542,7 +1542,7 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> >  				     const struct v4l2_mbus_framefmt *fmt);
+> >  
+> >  /**
+> > - * v4l2_subdev_state_get_stream_format() - Get pointer to a stream format
+> > + * v4l2_subdev_state_get_format() - Get pointer to a stream format
+> >   * @state: subdevice state
+> >   * @pad: pad id
+> >   * @stream: stream id
+> > @@ -1550,14 +1550,15 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> >   * This returns a pointer to &struct v4l2_mbus_framefmt for the given pad +
+> >   * stream in the subdev state.
+> >   *
+> > - * If the state does not contain the given pad + stream, NULL is returned.
+> > + * For stream-unaware drivers the format for the corresponding pad is returned.
+> > + * If the pad does not exist, NULL is returned.
+> 
+> This belongs to patch 1/6. Same below.
 
-base-commit: 3f5ba636d6987ddffeaa056dea1c524da63912f3
+Oops. I'lls fix this for v3.
+
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thanks!
+
+> 
+> >   */
+> >  struct v4l2_mbus_framefmt *
+> > -v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
+> > -				    unsigned int pad, u32 stream);
+> > +v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
+> > +			     u32 stream);
+> >  
+> >  /**
+> > - * v4l2_subdev_state_get_stream_crop() - Get pointer to a stream crop rectangle
+> > + * v4l2_subdev_state_get_crop() - Get pointer to a stream crop rectangle
+> >   * @state: subdevice state
+> >   * @pad: pad id
+> >   * @stream: stream id
+> > @@ -1565,15 +1566,15 @@ v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
+> >   * This returns a pointer to crop rectangle for the given pad + stream in the
+> >   * subdev state.
+> >   *
+> > - * If the state does not contain the given pad + stream, NULL is returned.
+> > + * For stream-unaware drivers the crop rectangle for the corresponding pad is
+> > + * returned. If the pad does not exist, NULL is returned.
+> >   */
+> >  struct v4l2_rect *
+> > -v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
+> > -				  unsigned int pad, u32 stream);
+> > +v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+> > +			   u32 stream);
+> >  
+> >  /**
+> > - * v4l2_subdev_state_get_stream_compose() - Get pointer to a stream compose
+> > - *					    rectangle
+> > + * v4l2_subdev_state_get_compose() - Get pointer to a stream compose rectangle
+> >   * @state: subdevice state
+> >   * @pad: pad id
+> >   * @stream: stream id
+> > @@ -1581,11 +1582,12 @@ v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
+> >   * This returns a pointer to compose rectangle for the given pad + stream in the
+> >   * subdev state.
+> >   *
+> > - * If the state does not contain the given pad + stream, NULL is returned.
+> > + * For stream-unaware drivers the compose rectangle for the corresponding pad is
+> > + * returned. If the pad does not exist, NULL is returned.
+> >   */
+> >  struct v4l2_rect *
+> > -v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
+> > -				     unsigned int pad, u32 stream);
+> > +v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
+> > +			      u32 stream);
+> >  
+> >  /**
+> >   * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
+
 -- 
-2.41.0
+Regards,
 
+Sakari Ailus
