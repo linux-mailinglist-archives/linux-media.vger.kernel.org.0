@@ -2,90 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EA7307D353E
-	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 13:46:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C3C2E7D3611
+	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 14:04:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234526AbjJWLqk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Oct 2023 07:46:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48866 "EHLO
+        id S234647AbjJWMEq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Oct 2023 08:04:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234530AbjJWLq0 (ORCPT
+        with ESMTP id S234641AbjJWMEp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Oct 2023 07:46:26 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10FE9170F
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 04:46:15 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id ED268E45;
-        Mon, 23 Oct 2023 13:46:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698061563;
-        bh=c8OBA2tMxcWtZ98YfkIaXH3jLDxr6zN99ZDa0ZCrO0o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=T7DyTEeEPzlx1p6S3BMNIXvkoJ9eciAYSqNiI7TjHjrdgUzdexcVKIq+pVCfD+G7y
-         meot7/CMTvor6/Gnt89vZgzN3wJPi3ht0zfH2/eORenTV0ID/lyuZ214GKIK5GXgeW
-         pa/5/44mPa6v5EPCoFkVP4Em2lz7fTyTNJFn6H24=
-Date:   Mon, 23 Oct 2023 14:46:21 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        jacopo.mondi@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com
-Subject: Re: [PATCH 1/6] media: v4l: subdev: Store the number of pads in
- sub-device state
-Message-ID: <20231023114621.GL3336@pendragon.ideasonboard.com>
-References: <20231013104424.404768-1-sakari.ailus@linux.intel.com>
- <20231013104424.404768-2-sakari.ailus@linux.intel.com>
- <20231013105749.GA11101@pendragon.ideasonboard.com>
- <ZSkkoG7vjzMUXeOI@kekkonen.localdomain>
- <20231013111507.GE11101@pendragon.ideasonboard.com>
- <ZSknVGSWjNG2qwTa@kekkonen.localdomain>
- <380a79ea-0b68-4ec7-aa37-83e19f239968@ideasonboard.com>
+        Mon, 23 Oct 2023 08:04:45 -0400
+Received: from mail-lf1-x12d.google.com (mail-lf1-x12d.google.com [IPv6:2a00:1450:4864:20::12d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2309BE9
+        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 05:04:42 -0700 (PDT)
+Received: by mail-lf1-x12d.google.com with SMTP id 2adb3069b0e04-507975d34e8so4696542e87.1
+        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 05:04:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698062680; x=1698667480; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=lq7f2g+bjaiSzuPyWJJqUdRyvymp3eX58HZ6bXA1qHA=;
+        b=GB2ZJyToq5mbvQ8B2TDm1xyid725QEJ0edax7xohAP+k158TYiqAwnBLes445/YgCm
+         xSGmPaE34ZrQ/Zjq9LMZmZ38Lp9lY0J6AcTszYB71ysDgRRD03wMBlU+o1KIzRjHlEvp
+         uBDicRB10eF04H2+++lXaWNv5uhYzOauekR90DXErdBzsQG+CeylP2/7x2Q/F4x4Zzzg
+         d3CpsjnFc0eQoPkApqWhj5W5yBZaRIVbNMOF9gcP/v3ZMD5pCMalLzWwn1YMCrHpY3UR
+         6ik/X9kr1iywUze0qJnVwmvrx7CxrE/jcjvQdYpukBDv3eSqU0+Lx7+SsaWTTE/KE6S7
+         e2mw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698062680; x=1698667480;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=lq7f2g+bjaiSzuPyWJJqUdRyvymp3eX58HZ6bXA1qHA=;
+        b=f1M/6pG3g/ij0AslPo+mkVycLvYeSFsth5KhcQunA+JyOFFe60nJ0dI1+v/ktYG9tH
+         /dSoTDosbCVwNSZIN6EzUguHJ8Lk0gyRXyUL1/emWm0Y67PFJZpll/ARi37ADwJNQUxX
+         NBuXZgytIVpdNPapKAVH/IFWKZArCE3lZUjbuwnEFh+J3ZOz3/yKIvw0KQ84SIsSOjZF
+         yv6nxe+WPgnxfq40pG1Dt9mVCJszwA10WE5PC8JWNGR7WBYcUf1BiyD5BHutSU0CceRK
+         BSHYYIK8hULUEo2i3+PaK01oC+pdeUDj2RMyBEb5WFuJAeK99XKCdHysy8Y8McUvHU/0
+         5JlQ==
+X-Gm-Message-State: AOJu0YxLDcOAiR9K74OT+Ch48hTwefPqDyCOXZFUv/glhe/gVVbeqWcm
+        f64dDrnD/MOb/PCYopJZsI/JTaiwgypi
+X-Google-Smtp-Source: AGHT+IEgnBbCYgtIuL1vC3YheE+Rg3DQU5gFAiWcHRjO96d2yO22IftaIhD68A2RYWaGub/vvAY5cw==
+X-Received: by 2002:a05:6512:50b:b0:507:b35d:833b with SMTP id o11-20020a056512050b00b00507b35d833bmr5941787lfb.14.1698062679580;
+        Mon, 23 Oct 2023 05:04:39 -0700 (PDT)
+Received: from octux.home ([2a00:23c8:881a:8601:d29:30a8:9a8e:f4a6])
+        by smtp.gmail.com with ESMTPSA id h17-20020a05600c499100b0040772138bb7sm13943802wmp.2.2023.10.23.05.04.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Oct 2023 05:04:39 -0700 (PDT)
+Date:   Mon, 23 Oct 2023 13:04:37 +0100
+From:   Jules Irenge <jbi.octave@gmail.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: 
+Message-ID: <ZTZhVY0Qa_03srJK@octux.home>
+References: <CAOuULM555ZNXbsbZywJ8qkcNGbP+hdgBihqqEBYF_oA-FK2fxQ@mail.gmail.com>
+ <20231022202253.GA5445@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <380a79ea-0b68-4ec7-aa37-83e19f239968@ideasonboard.com>
+In-Reply-To: <20231022202253.GA5445@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 23, 2023 at 11:34:25AM +0300, Tomi Valkeinen wrote:
-> On 13/10/2023 14:17, Sakari Ailus wrote:
-> > On Fri, Oct 13, 2023 at 02:15:07PM +0300, Laurent Pinchart wrote:
-> >> On Fri, Oct 13, 2023 at 11:06:08AM +0000, Sakari Ailus wrote:
-> >>> On Fri, Oct 13, 2023 at 01:57:49PM +0300, Laurent Pinchart wrote:
-> >>>> On Fri, Oct 13, 2023 at 01:44:19PM +0300, Sakari Ailus wrote:
-> >>>>> Store the number of pads in the sub-device state. This will be needed to
-> >>>>> validate pad when retrieving information for non-stream-aware users.
-> >>>>
-> >>>> I'd rather store a pointer to the subdev. You can get the number of pads
-> >>>> from there.
-> >>>
-> >>> The value is initialised after the array is allocated so this won't change.
-> >>>
-> >>> I don't have a strong opinion either way. It's still more efficient to
-> >>> store just the value.
-> >>
-> >> Slightly so, but I don't think it will matter in practice. I believe
-> >> we'll have more needs to access the subdev from the state in the future,
-> >> which is why I'd rather store the pointer already.
-> > 
-> > Fair enough, I'll make it a sub-device pointer.
-> 
-> I have to say like the num_pads more here. We have a pointer to the pads 
-> array in the struct v4l2_subdev_state, and it'd be logical to also have 
-> the number of elements in that array in struct v4l2_subdev_state.
+On Sun, Oct 22, 2023 at 11:22:53PM +0300, Laurent Pinchart wrote:
+Hi Laurent,
 
-Yes, but we'll likely need access to the subdev in the future, and it
-would then duplicate the information.
+Thanks for replying.
 
--- 
-Regards,
+> The driver has most likely bit-rotten over the last few years, as to my
+> knowledge nobody has really tested it recently. The first step would
+> thus be to try to capture images and see how it behaves (or doesn't
+> behave).
 
-Laurent Pinchart
+This looks like an opportunity for me.  
+
+> What hardware will you use for testing ?
+
+About that, I have my PC and a rasberry pi. Would you have an advise on which device  I can best use to test ?
+
+If I have to purchase, I can do that as this is just for my learning and contribution purpose.
+
+Thanks,
+Jules
