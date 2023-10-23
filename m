@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C56A87D41CB
-	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 23:40:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B6D17D41CC
+	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 23:40:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231848AbjJWVkN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Oct 2023 17:40:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33960 "EHLO
+        id S231292AbjJWVkO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Oct 2023 17:40:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231352AbjJWVkM (ORCPT
+        with ESMTP id S229853AbjJWVkN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Oct 2023 17:40:12 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A24CADE
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 14:40:10 -0700 (PDT)
+        Mon, 23 Oct 2023 17:40:13 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E5C6FD
+        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 14:40:11 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BB093EEE;
-        Mon, 23 Oct 2023 23:39:56 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07CA3118C;
+        Mon, 23 Oct 2023 23:39:57 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698097196;
-        bh=nSNZHPn2nBXSvsMqBefH+9xDOuFvUy21+C2bwlYHLFw=;
+        s=mail; t=1698097198;
+        bh=ePvhFkmrMuiJ/MlB7Lxi9MAm8P3OyiXvK+u8+9WOW2Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XYQKq0CMjE1/LRiKVS3ttD/5ZqES9YwQd3ONoQSqp/hqxLFRNCeMH9LprIJUWV6Tn
-         T78lYHjjBK7SDGNCQB8zIFmk0ydZXSCnz9E/FRVIT3TGHKU40+HdS6UGU0rXvdbydB
-         lRASSZzth4GrgQgnMgteI73KCpErXIAQybqyfIqY=
+        b=J2WORY5Sy163cagBNboXDoBgVzq6lK1eAt2PJdAOyUtOfCHFu9KFeD4P8Gr1LuEpx
+         4jn3YlpOlOwXqX9bVXRA69/QYPBlcwCIbs/RIyrYDiAWaPybrwUweTYbjC3u2fOUGV
+         njfq3NE/mOFXnEbOPo3dPjv/nvj1I43r1t/6LM0I=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Eugen Hristev <eugen.hristev@collabora.com>,
         Nicolas Ferre <nicolas.ferre@microchip.com>
-Subject: [PATCH 2/7] media: microchip-isc: Use accessors for pad config 'try_*' fields
-Date:   Tue, 24 Oct 2023 00:40:06 +0300
-Message-ID: <20231023214011.17730-3-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH 3/7] media: atmel-isc: Use accessors for pad config 'try_*' fields
+Date:   Tue, 24 Oct 2023 00:40:07 +0300
+Message-ID: <20231023214011.17730-4-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231023214011.17730-1-laurent.pinchart@ideasonboard.com>
 References: <20231023214011.17730-1-laurent.pinchart@ideasonboard.com>
@@ -55,14 +55,14 @@ v4l2_subdev_get_pad_compose() helpers.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/microchip/microchip-isc-base.c | 10 ++++++----
+ .../staging/media/deprecated/atmel/atmel-isc-base.c    | 10 ++++++----
  1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
-index 1f8528844497..a901be02e2f6 100644
---- a/drivers/media/platform/microchip/microchip-isc-base.c
-+++ b/drivers/media/platform/microchip/microchip-isc-base.c
-@@ -854,6 +854,8 @@ static int isc_try_configure_pipeline(struct isc_device *isc)
+diff --git a/drivers/staging/media/deprecated/atmel/atmel-isc-base.c b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
+index 8e26663cecb6..b63eea8f4fc0 100644
+--- a/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
++++ b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
+@@ -820,6 +820,8 @@ static int isc_try_configure_pipeline(struct isc_device *isc)
  static void isc_try_fse(struct isc_device *isc,
  			struct v4l2_subdev_state *sd_state)
  {
@@ -71,7 +71,7 @@ index 1f8528844497..a901be02e2f6 100644
  	struct v4l2_subdev_frame_size_enum fse = {
  		.which = V4L2_SUBDEV_FORMAT_TRY,
  	};
-@@ -875,11 +877,11 @@ static void isc_try_fse(struct isc_device *isc,
+@@ -841,11 +843,11 @@ static void isc_try_fse(struct isc_device *isc,
  	 * just use the maximum ISC can receive.
  	 */
  	if (ret) {
