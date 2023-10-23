@@ -2,99 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F32D7D3947
-	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 16:27:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 342497D395F
+	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 16:32:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230356AbjJWO1L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Oct 2023 10:27:11 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34850 "EHLO
+        id S233381AbjJWOcx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Oct 2023 10:32:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230274AbjJWO1K (ORCPT
+        with ESMTP id S230158AbjJWOcw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Oct 2023 10:27:10 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97211D78
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 07:27:08 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-4083f613272so28911195e9.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 07:27:08 -0700 (PDT)
+        Mon, 23 Oct 2023 10:32:52 -0400
+Received: from mail-lj1-x232.google.com (mail-lj1-x232.google.com [IPv6:2a00:1450:4864:20::232])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E68E10C
+        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 07:32:50 -0700 (PDT)
+Received: by mail-lj1-x232.google.com with SMTP id 38308e7fff4ca-2c50cf61f6dso50621841fa.2
+        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 07:32:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698071227; x=1698676027; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1698071568; x=1698676368; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=EwAfBCzyEL9M9CAS9M5go7qNbD/H8dJ1LrQUAE2nRV4=;
-        b=euHkdPwbVhDYCgRDAUjXfPZWd5ZDSrTU6IGdEzOACrOzNUQSvQg541RRBoOJog24sW
-         NG5YuX9+CuDBD0jJkKM+wdBYg8uk5x6VJt/ctSBGcSv9mISTugovMpFV3LQtBNPuEG5P
-         xnRAMrrzpQoIHS8uYC74DjjLjApLOYhIoVdAmRZ0RCiqUWnttSV3Iw33eGaMXS4JKq8b
-         LYQ6wR44Y9q8c+rdMAE4AXUoWEyePeiidzEbLOjIgT0+Xuzc+1kv25c5M8M1pFxcAa7t
-         j8hH86EaQF6aUkWf8MVFs3uuB/sLEKf9CmaNGX4XcH6m23CbID6DzVuKnDC6Tcth7HSt
-         o2fA==
+        bh=4zLfZKHxVydtU/EGWqXKarc7iejpbu5G0JHAWOhD6zo=;
+        b=JMza0nv10PyH1JNzrqXrSfm2Dn4ei2SwL54trvXuUnbGLSdKNus+5Fc0Vc6PYHIh0J
+         p/XXqqxiR4LK94U43ZtcOwngmZsvBgXFtAFigg7fS8RdOYDh8AvG0VDqjeZmL1jiEkT5
+         ZMJWDeB669/w7BRuCrSdNA0hSkw3r+WZNVfa0EEkBCH/+k1Y602SvB12DzpSK1TJ1YK/
+         jdIi9BYxP1zwfV3qmKX3X1R1wfMh5gL0mYciyIASvD7thAGdCehAbgt4g6lqYRrkMcVK
+         BA+HvVjSWRkjiF5qiwurwcEkVs819edIE8+EQvvymcxUMbT4M1vXYYIW1iZO93kzjHV9
+         mHLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698071227; x=1698676027;
+        d=1e100.net; s=20230601; t=1698071568; x=1698676368;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EwAfBCzyEL9M9CAS9M5go7qNbD/H8dJ1LrQUAE2nRV4=;
-        b=moh5YZ1eFXNSAKIDl8op9ZwQpNtbL+48QycwbqY1nTVOGOqDf57Uph2/1UeriP7X2T
-         rPZFMuzIX/QTsPr0Ql89mYfpq0K9UNR0BhG39z62c0F9wbcQKUuhXagW/9tsb+tdwsrJ
-         W4QoCywIF04q+cWCsG8CW3m46BzNhg1bQ9Gq3uI+Yxss8lsI4UV6QwM92Ho+stHMN0bJ
-         BFpyDGt5drC0AdBkF6sWK3m7EyrrC9K3HdTGdFvYo25lysres/WLiIDP1DBbz77jtrWc
-         KY2+Qvsl7ZuZz/gceg4HNYhQc1wUIB3nUMHRRDW3P3GfguAw0p3pSy8yfnp7l1Hj/hXa
-         b+yg==
-X-Gm-Message-State: AOJu0YwgKedw8JzTzzo3QsKKj0+tjU2d940v80HNZTowrESiIdyU1w1M
-        jHGUnti6UXk11N9i/WDB9QeghQ==
-X-Google-Smtp-Source: AGHT+IGsPviJvYb+Qa0YPg1rlRYHeafkFn9M5YrEypyA+svUk2pOnU8f56Un06MUp/IZG22EqE/hTw==
-X-Received: by 2002:a05:600c:5115:b0:403:cc64:2dbf with SMTP id o21-20020a05600c511500b00403cc642dbfmr8051547wms.27.1698071227028;
-        Mon, 23 Oct 2023 07:27:07 -0700 (PDT)
+        bh=4zLfZKHxVydtU/EGWqXKarc7iejpbu5G0JHAWOhD6zo=;
+        b=IqWQeGb0LISxXw6h6XnC/8KP8WUAiyqiVVpVCZI0jP93fNvPBe0Rn2UlJNmaeTOfyj
+         c8/AeYzkg1/YoVgNCezESB2ESuKuKe4xpFlut68c8B7J3Uf61QWheXeNJOOwKjRB6aZK
+         Vx8hYTl85rPhQi/7Jk70MQ2AsG7yFVOpUscIpaGqZw0By27RM+WP4AXjcBJJMpUKwvLi
+         9HvI3K5NdYlcsAN+SI69Mn1rO0tRx5XrtXcKR5uslOzElPAAmp1HDDYpImOQIMLmhbKh
+         MMgvy2SBbSvIKrvfEpF8y8Mo5lVMUYZCiec73yjlkqXa2H9PVU9SOf44P2AD0MCPqNrO
+         jL1A==
+X-Gm-Message-State: AOJu0Yy8bQhDJDt5w5x7c+l6ppzZ3gPl3tR9a2gOY3kRHWrzywYaLsXp
+        K65KtPL6NsoZbZNwcfeildcIUg==
+X-Google-Smtp-Source: AGHT+IHWAvcn3DtHE1zZNxaFAmobec0SjV+b2xWBbgNDrpNvHCcScjtF3CCZpq1XsfYEUllNhe1Dyg==
+X-Received: by 2002:a2e:a7c7:0:b0:2c5:1867:b0bd with SMTP id x7-20020a2ea7c7000000b002c51867b0bdmr6020677ljp.23.1698071568320;
+        Mon, 23 Oct 2023 07:32:48 -0700 (PDT)
 Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id h17-20020a05600c499100b0040772138bb7sm14226886wmp.2.2023.10.23.07.27.06
+        by smtp.gmail.com with ESMTPSA id r5-20020a056000014500b0032db4825495sm7854704wrx.22.2023.10.23.07.32.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Oct 2023 07:27:06 -0700 (PDT)
-Date:   Mon, 23 Oct 2023 17:27:01 +0300
+        Mon, 23 Oct 2023 07:32:47 -0700 (PDT)
+Date:   Mon, 23 Oct 2023 17:32:44 +0300
 From:   Dan Carpenter <dan.carpenter@linaro.org>
 To:     Jonathan Bergh <bergh.jonathan@gmail.com>
 Cc:     mchehab@kernel.org, gregkh@linuxfoundation.org, error27@gmail.com,
         linux-staging@lists.linux.dev, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/5] staging: media: av7110: Remove unnecessary
- whitespace before quoted newlines
-Message-ID: <68f20f25-d612-473d-8dcf-a5dfc1ae6279@kadam.mountain>
+Subject: Re: [PATCH 5/5] staging: media: av7110: Fix various formating issues
+Message-ID: <052d566b-574a-439c-8113-b894406a4407@kadam.mountain>
 References: <20231020232332.55024-1-bergh.jonathan@gmail.com>
- <20231020232332.55024-4-bergh.jonathan@gmail.com>
+ <20231020232332.55024-6-bergh.jonathan@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231020232332.55024-4-bergh.jonathan@gmail.com>
+In-Reply-To: <20231020232332.55024-6-bergh.jonathan@gmail.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Oct 21, 2023 at 01:23:30AM +0200, Jonathan Bergh wrote:
-> Fixed multiple instances where whitespaces were placed before quoted
-> newlines
-> 
-> Signed-off-by: Jonathan Bergh <bergh.jonathan@gmail.com>
-> ---
->  drivers/staging/media/av7110/av7110_av.c | 40 ++++++++++++------------
->  1 file changed, 20 insertions(+), 20 deletions(-)
+On Sat, Oct 21, 2023 at 01:23:32AM +0200, Jonathan Bergh wrote:
+>  drivers/staging/media/av7110/av7110_av.c | 29 +++++++++++++-----------
+>  1 file changed, 16 insertions(+), 13 deletions(-)
 > 
 > diff --git a/drivers/staging/media/av7110/av7110_av.c b/drivers/staging/media/av7110/av7110_av.c
-> index 482dfc548b16..880fa8a314ba 100644
+> index 82d4c02ae3ef..bdef95244121 100644
 > --- a/drivers/staging/media/av7110/av7110_av.c
 > +++ b/drivers/staging/media/av7110/av7110_av.c
-> @@ -150,7 +150,7 @@ int av7110_av_start_play(struct av7110 *av7110, int av)
->  {
->  	int ret = 0;
+> @@ -241,8 +241,8 @@ int av7110_pes_play(void *dest, struct dvb_ringbuffer *buf, int dlen)
+>  		sync |= DVB_RINGBUFFER_PEEK(buf, 2) << 8;
+>  		sync |= DVB_RINGBUFFER_PEEK(buf, 3);
 >  
-> -	dprintk(2, "av7110:%p, \n", av7110);
-> +	dprintk(2, "av7110:%p,\n", av7110);
+> -		if (((sync &~0x0f) == 0x000001e0) ||
+> -		    ((sync &~0x1f) == 0x000001c0) ||
+> +		if (((sync & ~0x0f) == 0x000001e0) ||
+> +		    ((sync & ~0x1f) == 0x000001c0) ||
 
-Just delete all these printks.  They are useless.
+You introduced this yourself earlier.  Which is good.  But better to
+not create the issue in the first place.
 
 regards,
 dan carpenter
