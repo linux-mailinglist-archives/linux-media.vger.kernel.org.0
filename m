@@ -2,122 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2621E7D41ED
-	for <lists+linux-media@lfdr.de>; Mon, 23 Oct 2023 23:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A8BB7D4288
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 00:04:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231862AbjJWVuo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Oct 2023 17:50:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53786 "EHLO
+        id S231187AbjJWWEg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Oct 2023 18:04:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46578 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232053AbjJWVun (ORCPT
+        with ESMTP id S230483AbjJWWEf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Oct 2023 17:50:43 -0400
-Received: from smtprelay01.ispgateway.de (smtprelay01.ispgateway.de [80.67.18.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0157E10C
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 14:50:40 -0700 (PDT)
-Received: from [92.206.139.21] (helo=note-book.lan)
-        by smtprelay01.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.96.1)
-        (envelope-from <git@apitzsch.eu>)
-        id 1qv2nh-0004Kz-1P;
-        Mon, 23 Oct 2023 23:49:29 +0200
-From:   =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-Date:   Mon, 23 Oct 2023 23:47:53 +0200
-Subject: [PATCH 4/4] media: i2c: imx214: Add sensor's pixel matrix size
+        Mon, 23 Oct 2023 18:04:35 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DEA1DE
+        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 15:04:33 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 04C11AE;
+        Tue, 24 Oct 2023 00:04:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1698098661;
+        bh=DHQN9FjWU0IMJm1FM1HF2LbQEv6M8dFkYeNWFhvx97Q=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=dCqRHVx8/guEk31Rr4e+IGri1ghQenhksmt57Fr8q7IpiREBcXq+tojDoAnvnLTFT
+         ubZWBtbDqDTBXtWZLojAizC7AEUt1zhY4gBsLUGE79hZHCpY4YQlP1quICybvfbVLq
+         BrpDkoWQl/LWEWiguMUoY56MWDSGzTlNFEALCvqE=
+Date:   Tue, 24 Oct 2023 01:04:39 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com
+Subject: Re: [PATCH v3 1/8] media: v4l: subdev: Store the sub-device in the
+ sub-device state
+Message-ID: <20231023220439.GC18687@pendragon.ideasonboard.com>
+References: <20231023174408.803874-1-sakari.ailus@linux.intel.com>
+ <20231023174408.803874-2-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20231023-imx214-v1-4-b33f1bbd1fcf@apitzsch.eu>
-References: <20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu>
-In-Reply-To: <20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu>
-To:     Ricardo Ribalda <ribalda@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht,
-        =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
-X-Mailer: b4 0.12.3
-X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
-X-Spam-Status: No, score=1.4 required=5.0 tests=BAYES_00,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        RCVD_IN_VALIDITY_RPBL,SPF_HELO_PASS,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
-X-Spam-Level: *
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231023174408.803874-2-sakari.ailus@linux.intel.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Set effictive and active sensor pixel sizes as shown in product
-brief[1].
+Hi Sakari,
 
-[1]: https://www.mouser.com/datasheet/2/897/ProductBrief_IMX214_20150428-1289331.pdf
+Thank you for the patch.
 
-Signed-off-by: André Apitzsch <git@apitzsch.eu>
----
- drivers/media/i2c/imx214.c | 39 ++++++++++++++++++++++++++++++++-------
- 1 file changed, 32 insertions(+), 7 deletions(-)
+On Mon, Oct 23, 2023 at 08:44:01PM +0300, Sakari Ailus wrote:
+> Store the sub-device in the sub-device state. This will be needed in e.g.
+> validating pad number when retrieving information for non-stream-aware
+> users. There are expected to be more needs for this in the future.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index bef8dc36e2d0..a2d441cd8dcd 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -36,6 +36,14 @@
- #define IMX214_EXPOSURE_STEP		1
- #define IMX214_EXPOSURE_DEFAULT		0x0c70
- 
-+/* IMX214 native and active pixel array size */
-+#define IMX214_NATIVE_WIDTH		4224U
-+#define IMX214_NATIVE_HEIGHT		3136U
-+#define IMX214_PIXEL_ARRAY_LEFT		8U
-+#define IMX214_PIXEL_ARRAY_TOP		8U
-+#define IMX214_PIXEL_ARRAY_WIDTH	4208U
-+#define IMX214_PIXEL_ARRAY_HEIGHT	3120U
-+
- static const char * const imx214_supply_name[] = {
- 	"vdda",
- 	"vddd",
-@@ -634,14 +642,31 @@ static int imx214_get_selection(struct v4l2_subdev *sd,
- {
- 	struct imx214 *imx214 = to_imx214(sd);
- 
--	if (sel->target != V4L2_SEL_TGT_CROP)
--		return -EINVAL;
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP:
-+		mutex_lock(&imx214->mutex);
-+		sel->r = *__imx214_get_pad_crop(imx214, sd_state, sel->pad,
-+						sel->which);
-+		mutex_unlock(&imx214->mutex);
-+		return 0;
- 
--	mutex_lock(&imx214->mutex);
--	sel->r = *__imx214_get_pad_crop(imx214, sd_state, sel->pad,
--					sel->which);
--	mutex_unlock(&imx214->mutex);
--	return 0;
-+	case V4L2_SEL_TGT_NATIVE_SIZE:
-+		sel->r.top = 0;
-+		sel->r.left = 0;
-+		sel->r.width = IMX214_NATIVE_WIDTH;
-+		sel->r.height = IMX214_NATIVE_HEIGHT;
-+		return 0;
-+
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r.top = IMX214_PIXEL_ARRAY_TOP;
-+		sel->r.left = IMX214_PIXEL_ARRAY_LEFT;
-+		sel->r.width = IMX214_PIXEL_ARRAY_WIDTH;
-+		sel->r.height = IMX214_PIXEL_ARRAY_HEIGHT;
-+		return 0;
-+	}
-+
-+	return -EINVAL;
- }
- 
- static int imx214_entity_init_cfg(struct v4l2_subdev *subdev,
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 2 ++
+>  include/media/v4l2-subdev.h           | 2 ++
+>  2 files changed, 4 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index d295a4e87b66..ee4fe8f33a41 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1441,6 +1441,8 @@ __v4l2_subdev_state_alloc(struct v4l2_subdev *sd, const char *lock_name,
+>  	else
+>  		state->lock = &state->_lock;
+>  
+> +	state->sd = sd;
+> +
+>  	/* Drivers that support streams do not need the legacy pad config */
+>  	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS) && sd->entity.num_pads) {
+>  		state->pads = kvcalloc(sd->entity.num_pads,
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index c1f90c1223a7..6a02a565035c 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -756,6 +756,7 @@ struct v4l2_subdev_krouting {
+>   *
+>   * @_lock: default for 'lock'
+>   * @lock: mutex for the state. May be replaced by the user.
+> + * @sd: the sub-device which the state is related to
+>   * @pads: &struct v4l2_subdev_pad_config array
+>   * @routing: routing table for the subdev
+>   * @stream_configs: stream configurations (only for V4L2_SUBDEV_FL_STREAMS)
+> @@ -768,6 +769,7 @@ struct v4l2_subdev_state {
+>  	/* lock for the struct v4l2_subdev_state fields */
+>  	struct mutex _lock;
+>  	struct mutex *lock;
+> +	struct v4l2_subdev *sd;
+>  	struct v4l2_subdev_pad_config *pads;
+>  	struct v4l2_subdev_krouting routing;
+>  	struct v4l2_subdev_stream_configs stream_configs;
 
 -- 
-2.42.0
+Regards,
 
+Laurent Pinchart
