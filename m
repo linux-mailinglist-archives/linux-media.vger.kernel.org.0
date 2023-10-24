@@ -2,176 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C338A7D513F
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 15:18:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 15FC27D51F6
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 15:38:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234280AbjJXNSW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 09:18:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50606 "EHLO
+        id S234675AbjJXNh7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 09:37:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45138 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234255AbjJXNSV (ORCPT
+        with ESMTP id S234671AbjJXNhm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 09:18:21 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0437DE8;
-        Tue, 24 Oct 2023 06:18:17 -0700 (PDT)
-Received: from [192.168.2.43] (109-252-153-31.dynamic.spd-mgts.ru [109.252.153.31])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dmitry.osipenko)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id E7E0A6606F65;
-        Tue, 24 Oct 2023 14:18:14 +0100 (BST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1698153496;
-        bh=ZdNDKOXjLrdi253ASqG3On1nms5VdNUTOFAf7syjdvQ=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=J9AOWejTF4j3Axawxdi6Wese0sV0Fgpn1yfckKxnBdUMW9QbJ4aXHxWPq24gSILSI
-         TWA1G3NavJBoB0+HoRgbISU9iHdWULRDF89dYFpMCs83a/lrtAstQrBuOoEuf/MZq9
-         mwPlx6EbSW9dzk+I3aaPxRSKlfk6GvxrocDsuRxS/UMkgjPVfXKh2wH5EhHayCdwpu
-         qfe7hoXfms7HHUgh0znYH0vvU+NVW24crg++n5pVMw7//VS65gFjTjfO7Uhlqmh1bh
-         39zvb35EdAq9PZVGQts+k5ToyDyexWRc3HM0Nu926LXPdpMdQtVWWGIAdXFe1QmUJA
-         H/zfqim9qdkug==
-Message-ID: <46f704c2-ba42-4e16-d798-ea2171e5ba16@collabora.com>
-Date:   Tue, 24 Oct 2023 16:18:11 +0300
+        Tue, 24 Oct 2023 09:37:42 -0400
+Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC736A6A;
+        Tue, 24 Oct 2023 06:27:52 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.nyi.internal (Postfix) with ESMTP id 5F12E5C0216;
+        Tue, 24 Oct 2023 09:27:52 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Tue, 24 Oct 2023 09:27:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-type:content-type:date:date:from:from:in-reply-to
+        :in-reply-to:message-id:mime-version:references:reply-to:sender
+        :subject:subject:to:to; s=fm2; t=1698154072; x=1698240472; bh=mZ
+        Ic3ODqVfmRDC8OmnbKWJpKU+qowmrOocKwZsiY3KQ=; b=N2SBD4tqmXJ4l+91e6
+        AZFyVBxgNWMLBFtvzB30CRePi0TAgMxwUbAqeWtFIuhxhYz68kjMvDz+YyPSAwNW
+        7Ns+9zv87wrxdidXC0/b6vUXEF1RJz6Mi0CiF1NLC1VuIdHcZIlFU0V+3NmbAGh8
+        8zNg9sOFELaOeOZ0qQQ+Qy+S3st874WjXYH+9P3ekX98DJCertkx9m4XjlmPIofj
+        +ARnWrQ6EdGgfjc+DEImDfc3FeCyFCIpPoJfU93eJNONADQG4+Z6NDz7Wem8N9D+
+        csI6WVtNQA1s5BwvtuKFvHSzis91VePf+Ca8DVlSR+FzaTjlDRkqMeLtK2Vo/s1l
+        +Rww==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-type:content-type:date:date
+        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
+        :message-id:mime-version:references:reply-to:sender:subject
+        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm3; t=1698154072; x=1698240472; bh=mZIc3ODqVfmRD
+        C8OmnbKWJpKU+qowmrOocKwZsiY3KQ=; b=n/lsjlFFRx6bOPjJKnOKg1uL6b/vM
+        KHNj7gagIRbS3iVK+OtV5dx2bo1ooZYtuoPbXyo/jNExhql+vwytKUp3grQtVaDQ
+        oblgJkQOFdptTjmuCTxrbdgx0X2QZVC3yPw74Lt938x/vgCKZnQ9+qlpnQsmq+nU
+        j3tZ2j0Wg1WJgWxZybFlsheVnG1zf4rMQzFDYflwwQciMJS1LapCEln6oozabXRY
+        QJdIz2Ob8muP+42zZTXtDAehcOzLc0FpMp0fN3FmftKwvtVlcHb5eK33N1rQhICA
+        nRyg3Uikgmt7VnfmldrZK4ev3LGT/tjPB6/4fceAVIByc++cjXfwo2i9A==
+X-ME-Sender: <xms:V8Y3ZQokJPmgs8ujhS_wU_xZZ-Q3nAHPCLd5Zqi8LtHrLhG-qF7riQ>
+    <xme:V8Y3ZWpw8rk-B10ghN4gwUem6yr_dDASbmWL__hYG0UIWx0JNpeKd8fV5-wJy540R
+    MlzcJAhR6PuwHB08vk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrkeekgdeifecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
+    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
+    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
+    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
+    hnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:V8Y3ZVNxUYJT52DG2H2Gf7pBL2Eg10nM313D0RYr39v1Z2wKfORkew>
+    <xmx:V8Y3ZX4-5V8tt3L78tqMcZWOaqnbC0LJTKXCdDj5AcbEOkPkSd9lQg>
+    <xmx:V8Y3Zf6TLOeIsQOhGN8vHJVT3Bmsz4AiscGKRW7gDuDkbcDDFzPpbg>
+    <xmx:WMY3ZZtU22rjjXit3OegHog0M1AvB2Za-q4CaDtvEcOzFxShRnaxtw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id AEBEFB60089; Tue, 24 Oct 2023 09:27:51 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1048-g9229b632c5-fm-20231019.001-g9229b632
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] media: mtk-jpeg: Fix use after free bug due to error path
- handling in mtk_jpeg_dec_device_run
-Content-Language: en-US
-To:     Zheng Wang <zyytlz.wz@163.com>
-Cc:     Kyrie.Wu@mediatek.com, bin.liu@mediatek.com, mchehab@kernel.org,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, Irui.Wang@mediatek.com,
-        security@kernel.org, hackerzheng666@gmail.com,
-        1395428693sheep@gmail.com, alex000young@gmail.com,
-        amergnat@baylibre.com, wenst@chromium.org, stable@vger.kernel.org
-References: <20231020040732.2499269-1-zyytlz.wz@163.com>
-From:   Dmitry Osipenko <dmitry.osipenko@collabora.com>
-In-Reply-To: <20231020040732.2499269-1-zyytlz.wz@163.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Message-Id: <78427021-ddc0-45b6-a16b-bf8bc8f84003@app.fastmail.com>
+In-Reply-To: <20231023160539.1537355-2-arnd@kernel.org>
+References: <20231023160539.1537355-1-arnd@kernel.org>
+ <20231023160539.1537355-2-arnd@kernel.org>
+Date:   Tue, 24 Oct 2023 15:27:30 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Arnd Bergmann" <arnd@kernel.org>,
+        "Martin Tuma" <martin.tuma@digiteqautomotive.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
+        dmaengine@vger.kernel.org, "Lizhi Hou" <lizhi.hou@amd.com>,
+        "Brian Xu" <brian.xu@amd.com>,
+        "Raj Kumar Rampelli" <raj.kumar.rampelli@amd.com>,
+        "Vinod Koul" <vkoul@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: pci: mgb4: remove bogus 'select' statements
+Content-Type: text/plain
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/20/23 07:07, Zheng Wang wrote:
-> In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
-> mtk_jpeg_job_timeout_work.
-> 
-> In mtk_jpeg_dec_device_run, if error happens in
-> mtk_jpeg_set_dec_dst, it will finally start the worker while
-> mark the job as finished by invoking v4l2_m2m_job_finish.
-> 
-> There are two methods to trigger the bug. If we remove the
-> module, it which will call mtk_jpeg_remove to make cleanup.
-> The possible sequence is as follows, which will cause a
-> use-after-free bug.
-> 
-> CPU0                  CPU1
-> mtk_jpeg_dec_...    |
->   start worker	    |
->                     |mtk_jpeg_job_timeout_work
-> mtk_jpeg_remove     |
->   v4l2_m2m_release  |
->     kfree(m2m_dev); |
->                     |
->                     | v4l2_m2m_get_curr_priv
->                     |   m2m_dev->curr_ctx //use
-> 
-> If we close the file descriptor, which will call mtk_jpeg_release,
-> it will have a similar sequence.
-> 
-> Fix this bug by start timeout worker only if started jpegdec worker
-> successfully so the v4l2_m2m_job_finish will only be called on
-> either mtk_jpeg_job_timeout_work or mtk_jpeg_dec_device_run.
-> 
-> This patch also reverts commit c677d7ae8314 
-> ("media: mtk-jpeg: Fix use after free bug due to uncanceled work")
-> for this patch also fixed the use-after-free bug mentioned before.
-> Before mtk_jpeg_remove is invoked, mtk_jpeg_release must be invoked
-> to close opened files. And it will call v4l2_m2m_cancel_job to wait
-> for the timeout worker finished so the canceling in mtk_jpeg_remove
-> is unnecessary.
-> 
-> Fixes: b2f0d2724ba4 ("[media] vcodec: mediatek: Add Mediatek JPEG Decoder Driver")
-> Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> Cc: stable@vger.kernel.org
+On Mon, Oct 23, 2023, at 18:05, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> As this is just a regular device driver, it has no business force-enabling
+> other drivers in the system, it should be entirely independent of the
+> implementation of the spi-nor layer or the specific DMA engine.
+>
+> The IIO symbols that are selected here are library modules that
+> are legitimately used.
+>
+> Fixes: 0ab13674a9bd ("media: pci: mgb4: Added Digiteq Automotive MGB4 driver")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 > ---
->  .../media/platform/mediatek/jpeg/mtk_jpeg_core.c    | 13 ++++++-------
->  1 file changed, 6 insertions(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> index 7194f88edc0f..c3456c700c07 100644
-> --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> @@ -1021,13 +1021,13 @@ static void mtk_jpeg_dec_device_run(void *priv)
->  	if (ret < 0)
->  		goto dec_end;
->  
-> -	schedule_delayed_work(&jpeg->job_timeout_work,
-> -			      msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC));
-> -
->  	mtk_jpeg_set_dec_src(ctx, &src_buf->vb2_buf, &bs);
->  	if (mtk_jpeg_set_dec_dst(ctx, &jpeg_src_buf->dec_param, &dst_buf->vb2_buf, &fb))
->  		goto dec_end;
->  
-> +	schedule_delayed_work(&jpeg->job_timeout_work,
-> +			      msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC));
-> +
->  	spin_lock_irqsave(&jpeg->hw_lock, flags);
->  	mtk_jpeg_dec_reset(jpeg->reg_base);
->  	mtk_jpeg_dec_set_config(jpeg->reg_base,
-> @@ -1403,7 +1403,6 @@ static void mtk_jpeg_remove(struct platform_device *pdev)
->  {
->  	struct mtk_jpeg_dev *jpeg = platform_get_drvdata(pdev);
->  
-> -	cancel_delayed_work_sync(&jpeg->job_timeout_work);
->  	pm_runtime_disable(&pdev->dev);
->  	video_unregister_device(jpeg->vdev);
->  	v4l2_m2m_release(jpeg->m2m_dev);
-> @@ -1750,9 +1749,6 @@ static void mtk_jpegdec_worker(struct work_struct *work)
->  	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
->  	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
->  
-> -	schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
-> -			      msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC));
-> -
->  	mtk_jpeg_set_dec_src(ctx, &src_buf->vb2_buf, &bs);
->  	if (mtk_jpeg_set_dec_dst(ctx,
->  				 &jpeg_src_buf->dec_param,
-> @@ -1762,6 +1758,9 @@ static void mtk_jpegdec_worker(struct work_struct *work)
->  		goto setdst_end;
->  	}
->  
-> +	schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
-> +			      msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC));
-> +
->  	spin_lock_irqsave(&comp_jpeg[hw_id]->hw_lock, flags);
->  	ctx->total_frame_num++;
->  	mtk_jpeg_dec_reset(comp_jpeg[hw_id]->reg_base);
+>  drivers/media/pci/mgb4/Kconfig | 4 ----
+>  1 file changed, 4 deletions(-)
+>
+> diff --git a/drivers/media/pci/mgb4/Kconfig b/drivers/media/pci/mgb4/Kconfig
+> index f2a05a1c8ffa..b90347c7f19b 100644
+> --- a/drivers/media/pci/mgb4/Kconfig
+> +++ b/drivers/media/pci/mgb4/Kconfig
+> @@ -6,10 +6,6 @@ config VIDEO_MGB4
+>  	select VIDEOBUF2_DMA_SG
+>  	select IIO_BUFFER
+>  	select IIO_TRIGGERED_BUFFER
+> -	select I2C_XILINX
+> -	select SPI_XILINX
+> -	select MTD_SPI_NOR
+> -	select XILINX_XDMA
 
-What about to split this patch into 3 patches:
+Apparently, the XDMA reference was in fact needed, as MGB4
+calls some exported symbols from that particular dmaengine
+driver:
 
-1. will remove cancel_delayed_work_sync()
-2. will update mtk_jpeg_dec_device_run()
-3. will update mtk_jpegdec_worker()
+aarch64-linux-ld: drivers/media/pci/mgb4/mgb4_core.o: in function `init_i2c': mgb4_core.c:(.text+0x3ec): undefined reference to `xdma_get_user_irq'
+aarch64-linux-ld: mgb4_core.c:(.text+0x404): undefined reference to `xdma_enable_user_irq'
 
-The reason for splitting is because the multi-core mtk_jpegdec_worker()
-doesn't present in older stable kernels, and thus, the patch isn't
-backportable as-is.
+I couldn't easily figure out what a 'user_irq' is here,
+but I wonder if this is the expected way to use the DMA engine
+layer. Maybe this should have been a nested irqchip instead,
+or it should be encoded in the DMA request specifier?
 
--- 
-Best regards,
-Dmitry
-
+     Arnd
