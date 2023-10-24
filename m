@@ -2,115 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B6387D4D6D
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 12:14:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 54CE57D4EB1
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 13:20:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234428AbjJXKOV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 06:14:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44228 "EHLO
+        id S229829AbjJXLUL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 07:20:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54296 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234316AbjJXKOU (ORCPT
+        with ESMTP id S229583AbjJXLUK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 06:14:20 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4525F109
-        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 03:13:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1698142413;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=Jhf+zih70iLYmxsfOGmu6Bkx6txhyZ4Vq4nAhrEWTdA=;
-        b=do12yd8+aG4c8CkPKD1n90TFEq1QHYezmeTUnIZVbBeXpepQ/K/YK8NcTri4cI3cT93M8z
-        YssfZT8rZxJVmQ1HciO8S+5nb0vAn5X9kAAcW7qk4qKcOBOo/4H3GzrpNk1q/InAMTrkqE
-        p9uiMq7uF92o+wphHyupr0EmqrnaFWY=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-539-EmnB8n_zOdCjSI4iha6BKg-1; Tue, 24 Oct 2023 06:13:24 -0400
-X-MC-Unique: EmnB8n_zOdCjSI4iha6BKg-1
-Received: from smtp.corp.redhat.com (int-mx10.intmail.prod.int.rdu2.redhat.com [10.11.54.10])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by mimecast-mx02.redhat.com (Postfix) with ESMTPS id 9C6A9891F21;
-        Tue, 24 Oct 2023 10:13:23 +0000 (UTC)
-Received: from shalem.redhat.com (unknown [10.39.194.214])
-        by smtp.corp.redhat.com (Postfix) with ESMTP id BA66F492BFB;
-        Tue, 24 Oct 2023 10:13:22 +0000 (UTC)
-From:   Hans de Goede <hdegoede@redhat.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Wentong Wu <wentong.wu@intel.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>, Kate Hsuan <hpa@redhat.com>,
-        linux-media@vger.kernel.org
-Subject: [PATCH 2/2] media: mei_ace: Fix driver modalias not matching device modalias
-Date:   Tue, 24 Oct 2023 12:13:19 +0200
-Message-ID: <20231024101319.11878-3-hdegoede@redhat.com>
-In-Reply-To: <20231024101319.11878-1-hdegoede@redhat.com>
-References: <20231024101319.11878-1-hdegoede@redhat.com>
+        Tue, 24 Oct 2023 07:20:10 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F053EFE
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 04:20:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698146408; x=1729682408;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BNwS3Cdjfo3FOMWUugS63ru6ODG5ofOfRnOg/Bq0X8Y=;
+  b=ZE4E4y+eYFkZyD7TEQTnyM4K8hu8VfZbCIwU/Dx4VunXpbkKKGcgLJ6G
+   m4ARaPcVVPY+OR1ZQ1XLO4gziTd0Da3/u3jXcy+uezNxeyxUh9F1dfeQG
+   63iqw8ZA8Ru+AXj2LrQzQE5gMXGaZncR5YClgBeXKt5rY5ykKwLJ/IF0l
+   wmnhzb+Qs0GuUy7NkgVoiJ7as1ccfdmta6kSwxWYS6hi1pK+C16FQC7XV
+   WD17b8WwePYIoSFNyy3naTfVScoROgMrNt10tP8g5yuS3tX0BT3ift9Og
+   Au7H/FyVyMRzQPrAP8yMxupmQ6MPdcY1O0lSGk4YD2nUMJEal8tkpnKq/
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="473258665"
+X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
+   d="scan'208";a="473258665"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 04:20:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="762069803"
+X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
+   d="scan'208";a="762069803"
+Received: from icg-kernel3.bj.intel.com ([172.16.126.174])
+  by fmsmga007.fm.intel.com with ESMTP; 24 Oct 2023 04:20:03 -0700
+From:   bingbu.cao@intel.com
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com
+Cc:     andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
+        ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
+        claus.stovgaard@gmail.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
+        bingbu.cao@intel.com, bingbu.cao@linux.intel.com,
+        tian.shu.qiu@intel.com, hongju.wang@intel.com
+Subject: [PATCH v2 00/15] Intel IPU6 and IPU6 input system drivers
+Date:   Tue, 24 Oct 2023 19:29:09 +0800
+Message-ID: <20231024112924.3934228-1-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.10
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The name field of struct mei_cl_device_id is only intended for use
-with NFC devices where different devices share the same GUID,
-see drivers/misc/mei/bus-fixup.c which sets the name field to
-"microread" or "pn544".
+From: Bingbu Cao <bingbu.cao@intel.com>
 
-For all other mei devices the name field is unset and specifying
-it in the drivers mei_cl_device_id MODULE_DEVICE_TABLE() leads
-to the driver not properly being autoloaded by modprobe since
-it causes the module's alias to not match:
+This patch series adds a driver for Intel IPU6 input system.
+IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
+device which can be found in some Intel Client Platforms. User can use
+IPU6 to capture images from MIPI camera sensors.
 
-cat .../spi-INTC1094:00-5db76cf6-0a68-4ed6-9b78-0361635e2447/modalias
-mei::5db76cf6-0a68-4ed6-9b78-0361635e2447:01:
+IPU6 has its own firmware which exposes ABIs to driver, and communicates
+with CSE to do firmware authentication. IPU6 has its MMU hardware, so
+the driver sets up a page table to allow IPU6 DMA to access the system
+memory.
 
-modinfo mei_ace | grep alias
-mei:vsc_ace:5db76cf6-0a68-4ed6-9b78-0361635e2447:*:*
-
-Things still work when manually loading the module because
-mei_cl_device_find() only matches the name when the *device* has a name
-set, so setting it in the id_table of the driver does not matter.
-
-Drop setting the name in mei_ace_tbl[] so that modprobe will
-properly autoload the module.
-
-This makes the mei_cl_device_id use identical to all
-the other non NFC mei drivers:
-drivers/misc/mei/gsc_proxy/mei_gsc_proxy.c
-drivers/misc/mei/hdcp/mei_hdcp.c
-drivers/misc/mei/pxp/mei_pxp.c
-drivers/watchdog/mei_wdt.c
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
 ---
- drivers/media/pci/intel/ivsc/mei_ace.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/pci/intel/ivsc/mei_ace.c b/drivers/media/pci/intel/ivsc/mei_ace.c
-index a0491f307831..e0a4deb9dc16 100644
---- a/drivers/media/pci/intel/ivsc/mei_ace.c
-+++ b/drivers/media/pci/intel/ivsc/mei_ace.c
-@@ -554,7 +554,7 @@ static const struct dev_pm_ops mei_ace_pm_ops = {
- 			     0x9B, 0x78, 0x03, 0x61, 0x63, 0x5E, 0x24, 0x47)
- 
- static const struct mei_cl_device_id mei_ace_tbl[] = {
--	{ MEI_ACE_DRIVER_NAME, MEI_ACE_UUID, MEI_CL_VERSION_ANY },
-+	{ .uuid = MEI_ACE_UUID, .version = MEI_CL_VERSION_ANY },
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(mei, mei_ace_tbl);
+v1 -> v2:
+  - Add support with latest v4l2 async API
+  - Add support for latest bridge and Intel ivsc driver
+  - Fix lots of coding style issues not covered by checkpatch.pl
+  - Fix several bugs
+  - Fix several code issues found by Sparse and cppcheck
+
+RFC -> v1:
+  - Add multiplexed streams support
+  - Use auxiliary bus to register IPU6 devices
+  - Add IPU6 hardware and driver overview documentation
+  - Updata IPU6 admin-guide documentation
+  - Update number of source pads and video nodes to support
+    multiplexed streams
+
+Bingbu Cao (15):
+  media: intel/ipu6: add Intel IPU6 PCI device driver
+  media: intel/ipu6: add IPU auxiliary devices
+  media: intel/ipu6: add IPU6 buttress interface driver
+  media: intel/ipu6: CPD parsing for get firmware components
+  media: intel/ipu6: add IPU6 DMA mapping API and MMU table
+  media: intel/ipu6: add syscom interfaces between firmware and driver
+  media: intel/ipu6: input system ABI between firmware and driver
+  media: intel/ipu6: add IPU6 CSI2 receiver v4l2 sub-device
+  media: intel/ipu6: add the CSI2 DPHY implementation
+  media: intel/ipu6: add input system driver
+  media: intel/ipu6: input system video capture nodes
+  media: add Kconfig and Makefile for IPU6
+  MAINTAINERS: add maintainers for Intel IPU6 input system driver
+  Documentation: add Intel IPU6 ISYS driver admin-guide doc
+  Documentation: add documentation of Intel IPU6 driver and hardware
+    overview
+
+ Documentation/admin-guide/media/ipu6-isys.rst |  159 ++
+ .../admin-guide/media/ipu6_isys_graph.svg     |  338 +++++
+ .../admin-guide/media/ipu6_isys_multi.svg     | 1124 ++++++++++++++
+ .../admin-guide/media/v4l-drivers.rst         |    1 +
+ .../driver-api/media/drivers/index.rst        |    1 +
+ .../driver-api/media/drivers/ipu6.rst         |  205 +++
+ MAINTAINERS                                   |   10 +
+ drivers/media/pci/intel/Kconfig               |    1 +
+ drivers/media/pci/intel/Makefile              |    1 +
+ drivers/media/pci/intel/ipu6/Kconfig          |   17 +
+ drivers/media/pci/intel/ipu6/Makefile         |   23 +
+ drivers/media/pci/intel/ipu6/ipu6-bus.c       |  157 ++
+ drivers/media/pci/intel/ipu6/ipu6-bus.h       |   50 +
+ drivers/media/pci/intel/ipu6/ipu6-buttress.c  |  900 +++++++++++
+ drivers/media/pci/intel/ipu6/ipu6-buttress.h  |  107 ++
+ drivers/media/pci/intel/ipu6/ipu6-cpd.c       |  355 +++++
+ drivers/media/pci/intel/ipu6/ipu6-cpd.h       |  104 ++
+ drivers/media/pci/intel/ipu6/ipu6-dma.c       |  491 ++++++
+ drivers/media/pci/intel/ipu6/ipu6-dma.h       |   20 +
+ drivers/media/pci/intel/ipu6/ipu6-fw-com.c    |  411 +++++
+ drivers/media/pci/intel/ipu6/ipu6-fw-com.h    |   47 +
+ drivers/media/pci/intel/ipu6/ipu6-fw-isys.c   |  484 ++++++
+ drivers/media/pci/intel/ipu6/ipu6-fw-isys.h   |  570 +++++++
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c |  654 ++++++++
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h |   81 +
+ .../media/pci/intel/ipu6/ipu6-isys-dwc-phy.c  |  533 +++++++
+ .../media/pci/intel/ipu6/ipu6-isys-jsl-phy.c  |  237 +++
+ .../media/pci/intel/ipu6/ipu6-isys-mcd-phy.c  |  712 +++++++++
+ .../media/pci/intel/ipu6/ipu6-isys-queue.c    |  846 +++++++++++
+ .../media/pci/intel/ipu6/ipu6-isys-queue.h    |   94 ++
+ .../media/pci/intel/ipu6/ipu6-isys-subdev.c   |  379 +++++
+ .../media/pci/intel/ipu6/ipu6-isys-subdev.h   |   58 +
+ .../media/pci/intel/ipu6/ipu6-isys-video.c    | 1239 +++++++++++++++
+ .../media/pci/intel/ipu6/ipu6-isys-video.h    |  129 ++
+ drivers/media/pci/intel/ipu6/ipu6-isys.c      | 1345 +++++++++++++++++
+ drivers/media/pci/intel/ipu6/ipu6-isys.h      |  201 +++
+ drivers/media/pci/intel/ipu6/ipu6-mmu.c       |  828 ++++++++++
+ drivers/media/pci/intel/ipu6/ipu6-mmu.h       |   67 +
+ .../intel/ipu6/ipu6-platform-buttress-regs.h  |  230 +++
+ .../intel/ipu6/ipu6-platform-isys-csi2-reg.h  |  187 +++
+ .../media/pci/intel/ipu6/ipu6-platform-regs.h |  179 +++
+ drivers/media/pci/intel/ipu6/ipu6.c           |  955 ++++++++++++
+ drivers/media/pci/intel/ipu6/ipu6.h           |  352 +++++
+ 43 files changed, 14882 insertions(+)
+ create mode 100644 Documentation/admin-guide/media/ipu6-isys.rst
+ create mode 100644 Documentation/admin-guide/media/ipu6_isys_graph.svg
+ create mode 100644 Documentation/admin-guide/media/ipu6_isys_multi.svg
+ create mode 100644 Documentation/driver-api/media/drivers/ipu6.rst
+ create mode 100644 drivers/media/pci/intel/ipu6/Kconfig
+ create mode 100644 drivers/media/pci/intel/ipu6/Makefile
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-bus.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-bus.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-buttress.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-buttress.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-cpd.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-cpd.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-dma.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-dma.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-com.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-com.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-isys.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-isys.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-dwc-phy.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-jsl-phy.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-mcd-phy.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-queue.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-video.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-video.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-mmu.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-mmu.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-buttress-regs.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-isys-csi2-reg.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-regs.h
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6.c
+ create mode 100644 drivers/media/pci/intel/ipu6/ipu6.h
+
 -- 
-2.41.0
+2.42.0
 
