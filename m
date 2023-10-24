@@ -2,192 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01CE17D5E60
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 00:43:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 01D217D5EB8
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 01:34:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344620AbjJXWnY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 18:43:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35574 "EHLO
+        id S1344604AbjJXXea (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 19:34:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47948 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344591AbjJXWnU (ORCPT
+        with ESMTP id S1343883AbjJXXe3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 18:43:20 -0400
-Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E69FA10CB
-        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 15:43:15 -0700 (PDT)
-Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-40806e4106dso1377855e9.1
-        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 15:43:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698187394; x=1698792194; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SrD6kKZF7oe0EGz2m2BzMlSzxhpuIf6zdpgGnAoBqe0=;
-        b=RHEOHoJzJFJArR915qg0a07zoxtYPHOcfW64btcAsV3T3nqme2vbZFmmgql02eXOr2
-         P5MJJnE7NE3gG1cxgJw3/kspr9hGS9WboqNNC04aPuFPVIj3JV+PWLvXUTBt/g9vTSCW
-         S4VLy7GS+mcGBeeM9fzCOn+ViZ2Uc+xB2uVlQBc6StdX9QiefvqyD1toUNUDMQDyIacz
-         RHzjr5XBZRiPUoHWFN9+NDpAqLpYlSVyafPdVU7q4r965vZrUVU4LHnaqB5V0/WJcbkU
-         vrgH39kyTsezYSFIT5aC+xwdzRWZuKMg2wynefvQ6wFdLRb789jxVq0MrEHI95G90DLn
-         WQKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698187394; x=1698792194;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=SrD6kKZF7oe0EGz2m2BzMlSzxhpuIf6zdpgGnAoBqe0=;
-        b=XbjLkE6bGrxRcSa8kuPc1S/kuA3PbvRGivHGf54t3JrenZJfkSRSZOhPCldwz2JAR6
-         hfJvGowkxSUaBeOWW4iTl5K60tn9AtXOKJpTptGWHr2ynH0PSxrqDBVD1/1WeEsV39OR
-         D3d+bL4G6/k4gdAV8lkLjxWe70rpFeOKrwFy1T1WozJKLx5pV1B85GJcIVrQqkel8tFO
-         8tQVWRU65n4smue/jAElbVP7/RfVKqyKN3x98nLOW9l477ZqMMCiW0m0xOY4ii2XP5dB
-         ke/ggiMBVWbxFw2wuxBqhxtdFUIGLbQDf2RqI9C/Mddi6dZZPODvnZI8pPGJbT1TBIGb
-         6ecw==
-X-Gm-Message-State: AOJu0Yz1hG0T+ZMBRW+31aDCc/+uh/Va+mSelv08hUcdC7+SuRzfqLSt
-        n2wRD9wACm9qunar0lbBXhjV+RPTuuTvXOYvucaTVQ==
-X-Google-Smtp-Source: AGHT+IEYf4pOVluKThmKF4lza0zIsYrPshinEKC/xI+uP8ok92ga7euV1fdER2WyFhm8p6FlDFgF6A==
-X-Received: by 2002:a05:600c:3414:b0:401:c7ec:b930 with SMTP id y20-20020a05600c341400b00401c7ecb930mr15349644wmp.10.1698187394317;
-        Tue, 24 Oct 2023 15:43:14 -0700 (PDT)
-Received: from sagittarius-a.nxsw.local ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id j6-20020a05600c190600b0040641a9d49bsm13049531wmq.17.2023.10.24.15.43.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Oct 2023 15:43:13 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
-        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [PATCH 4/4] media: qcom: camss: Add support for named power-domains
-Date:   Tue, 24 Oct 2023 23:42:55 +0100
-Message-ID: <20231024224255.754779-5-bryan.odonoghue@linaro.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231024224255.754779-1-bryan.odonoghue@linaro.org>
-References: <20231024224255.754779-1-bryan.odonoghue@linaro.org>
+        Tue, 24 Oct 2023 19:34:29 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 907D110C6
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 16:34:27 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9024FD8B;
+        Wed, 25 Oct 2023 01:34:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1698190452;
+        bh=HFB1gygcBtdGaT3GgeooTHW8WXKUrVaVDc45JjsCrSo=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SereU1WuF/EaX2M9f4xuzCXKK/lcVaR/86xHYgswQHEEODjxDrLT4G0FHJggOlmPA
+         DYVNzVeRWpAD2WnYkERkdjbCx04r53e8PGEMV+zMfPIIR8KjZK7C1DQGsfWhjgXL+w
+         Q7XP150VUGv/T+DaGsBC7ErDb4/spMdop6LM7A20=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Eugen Hristev <eugen.hristev@collabora.com>
+Subject: [PATCH] media: microchip-isc: Remove dead code in pipeline validation
+Date:   Wed, 25 Oct 2023 02:34:30 +0300
+Message-ID: <20231024233430.1488-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Right now we use fixed indexes to assign power-domains, with a
-requirement for the TOP GDSC to come last in the list.
+The isc_try_fse() function, called from isc_validate(), takes two
+parameters, an isc_device pointer, and a v4l2_subdev_state pointer. The
+isc_device is accessed but not modified by the function. The state is
+modified, including the struct v4l2_subdev_pad_config array it points
+to, but they are then never used by the caller. Furthermore, the V4L2
+subdev operation called by isc_try_fse() doesn't modify the subdev it is
+called on. The isc_try_fse() function has thus no effect, and can just
+be dropped.
 
-Adding support for named power-domains means the declaration in the dtsi
-can come in any order.
-
-After this change we continue to support the old indexing - if a SoC
-resource declration or the in-use dtb doesn't declare power-domain names
-we fall back to the default legacy indexing.
-
-From this point on though new SoC additions should contain named
-power-domains, eventually we will drop support for legacy indexing.
-
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/qcom/camss/camss-vfe.c | 24 ++++++++++++++++-
- drivers/media/platform/qcom/camss/camss.c     | 26 +++++++++++++++----
- drivers/media/platform/qcom/camss/camss.h     |  2 ++
- 3 files changed, 46 insertions(+), 6 deletions(-)
+This patch has been compile-tested only. Eugen, would you be able to
+test it on hardware ?
+---
+ .../platform/microchip/microchip-isc-base.c   | 39 -------------------
+ 1 file changed, 39 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index bc14ae4771e31..12c64c505befd 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -1381,7 +1381,29 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
- 	if (!res->line_num)
- 		return -EINVAL;
+diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
+index 1f8528844497..540cb1378289 100644
+--- a/drivers/media/platform/microchip/microchip-isc-base.c
++++ b/drivers/media/platform/microchip/microchip-isc-base.c
+@@ -851,38 +851,6 @@ static int isc_try_configure_pipeline(struct isc_device *isc)
+ 	return 0;
+ }
  
--	if (camss->genpd) {
-+	/* Power domain */
-+
-+	if (res->pd_name) {
-+		vfe->genpd = dev_pm_domain_attach_by_name(camss->dev,
-+							  res->pd_name);
-+		if (IS_ERR(vfe->genpd)) {
-+			ret = PTR_ERR(vfe->genpd);
-+			return ret;
-+		}
-+	}
-+
-+	if (camss->genpd && !vfe->genpd) {
-+		/*
-+		 * Legacy magic index.
-+		 * Requires
-+		 * power-domain = <VFE_X>,
-+		 *                <VFE_Y>,
-+		 *                <TITAN_TOP>
-+		 * id must correspondng to the index of the VFE which must
-+		 * come before the TOP GDSC. VFE Lite has no individually
-+		 * collapasible domain which is why id < vfe_num is a valid
-+		 * check.
-+		 */
- 		vfe->genpd = dev_pm_domain_attach_by_id(camss->dev, id);
- 		if (IS_ERR(vfe->genpd)) {
- 			ret = PTR_ERR(vfe->genpd);
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 523b36d86f6cf..fb5276f4d9448 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -1506,12 +1506,28 @@ static int camss_configure_pd(struct camss *camss)
- 		return 0;
+-static void isc_try_fse(struct isc_device *isc,
+-			struct v4l2_subdev_state *sd_state)
+-{
+-	struct v4l2_subdev_frame_size_enum fse = {
+-		.which = V4L2_SUBDEV_FORMAT_TRY,
+-	};
+-	int ret;
+-
+-	/*
+-	 * If we do not know yet which format the subdev is using, we cannot
+-	 * do anything.
+-	 */
+-	if (!isc->config.sd_format)
+-		return;
+-
+-	fse.code = isc->try_config.sd_format->mbus_code;
+-
+-	ret = v4l2_subdev_call(isc->current_subdev->sd, pad, enum_frame_size,
+-			       sd_state, &fse);
+-	/*
+-	 * Attempt to obtain format size from subdev. If not available,
+-	 * just use the maximum ISC can receive.
+-	 */
+-	if (ret) {
+-		sd_state->pads->try_crop.width = isc->max_width;
+-		sd_state->pads->try_crop.height = isc->max_height;
+-	} else {
+-		sd_state->pads->try_crop.width = fse.max_width;
+-		sd_state->pads->try_crop.height = fse.max_height;
+-	}
+-}
+-
+ static int isc_try_fmt(struct isc_device *isc, struct v4l2_format *f)
+ {
+ 	struct v4l2_pix_format *pixfmt = &f->fmt.pix;
+@@ -944,10 +912,6 @@ static int isc_validate(struct isc_device *isc)
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 		.pad = isc->remote_pad,
+ 	};
+-	struct v4l2_subdev_pad_config pad_cfg = {};
+-	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg,
+-	};
  
- 	/*
--	 * VFE power domains are in the beginning of the list, and while all
--	 * power domains should be attached, only if TITAN_TOP power domain is
--	 * found in the list, it should be linked over here.
-+	 * If a power-domain name is defined try to use it.
-+	 * It is possible we are running a new kernel with an old dtb so
-+	 * fallback to indexes even if a pd_name is defined but not found.
- 	 */
--	camss->genpd = dev_pm_domain_attach_by_id(camss->dev, camss->genpd_num - 1);
--	if (IS_ERR(camss->genpd)) {
-+	if (camss->res->pd_name) {
-+		camss->genpd = dev_pm_domain_attach_by_name(camss->dev,
-+							    camss->res->pd_name);
-+		if (IS_ERR(camss->genpd)) {
-+			ret = PTR_ERR(camss->genpd);
-+			goto fail_pm;
-+		}
-+	}
-+
-+	if (!camss->genpd) {
-+		/*
-+		 * Legacy magic index. TITAN_TOP GDSC must be the last
-+		 * item in the power-domain list.
-+		 */
-+		camss->genpd = dev_pm_domain_attach_by_id(camss->dev,
-+							  camss->genpd_num - 1);
-+	}
-+	if (IS_ERR_OR_NULL(camss->genpd)) {
- 		ret = PTR_ERR(camss->genpd);
- 		goto fail_pm;
- 	}
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index 95486c494afc6..6762ce9631476 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -48,6 +48,7 @@ struct camss_subdev_resources {
- 	u32 clock_rate[CAMSS_RES_MAX][CAMSS_RES_MAX];
- 	char *reg[CAMSS_RES_MAX];
- 	char *interrupt[CAMSS_RES_MAX];
-+	char *pd_name;
- 	u8 line_num;
- 	const void *ops;
- };
-@@ -83,6 +84,7 @@ enum icc_count {
+ 	/* Get current format from subdev */
+ 	ret = v4l2_subdev_call(isc->current_subdev->sd, pad, get_fmt, NULL,
+@@ -1008,9 +972,6 @@ static int isc_validate(struct isc_device *isc)
+ 	if (ret)
+ 		return ret;
  
- struct camss_resources {
- 	enum camss_version version;
-+	const char *pd_name;
- 	const struct camss_subdev_resources *csiphy_res;
- 	const struct camss_subdev_resources *csid_res;
- 	const struct camss_subdev_resources *ispif_res;
+-	/* Obtain frame sizes if possible to have crop requirements ready */
+-	isc_try_fse(isc, &pad_state);
+-
+ 	/* Configure ISC pipeline for the config */
+ 	ret = isc_try_configure_pipeline(isc);
+ 	if (ret)
 -- 
-2.42.0
+Regards,
+
+Laurent Pinchart
 
