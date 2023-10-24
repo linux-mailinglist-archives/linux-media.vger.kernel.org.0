@@ -2,220 +2,255 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 859AF7D46E4
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 07:28:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 609C37D471E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 07:54:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232177AbjJXF2B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 01:28:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59854 "EHLO
+        id S232470AbjJXFyu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 01:54:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229688AbjJXF2A (ORCPT
+        with ESMTP id S232458AbjJXFyr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 01:28:00 -0400
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09078E5;
-        Mon, 23 Oct 2023 22:27:57 -0700 (PDT)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-        by mx0a-0064b401.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39O56CdN016449;
-        Mon, 23 Oct 2023 22:27:38 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-         h=from:to:cc:subject:date:message-id:content-transfer-encoding
-        :content-type:mime-version; s=PPS06212021; bh=GgdTh2oB2emLCoArAw
-        kVenO7JEyih2rjUDHhGJFe9Eg=; b=euXwo59N5AhEVcyC4Hzef2tn8TcVZ10mXm
-        WJAqO6z1E/U11ef3lpystnfyl9ff3gQ8zUYw8bLkvIQUclW2wGGCjm8h19ACsDkm
-        Kwi8iI3iJdsPOs7NkNTfWrCu3LYqoL55rB2MAjkLcBq2JHiW3uZ23xqa9Yv26S5X
-        gqngy+3sxwGs+WuaWcFhPpggZUdWablvjD1Kz1NV+dXsLpCHIM6GZY7IYKOwmxeU
-        SN2nxbsyQrDcy25ypOy8jSH9vjaSw3EakZ59hx0A15JZUX4XAvLz4l5PB4Yihw2N
-        wzwOHaERGFgbgdrHnz+T1NwcSvrE1RYOxgq26Pi1qH5udlylRmGQ==
-Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2040.outbound.protection.outlook.com [104.47.66.40])
-        by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 3tv9x02q61-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 23 Oct 2023 22:27:38 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=GiiXw3WeEtMkFo2IL1gvj5Mkjf6T+1QCt4tlMQuC+VOHbRaJ4ugm9lLWYvRBk+z9KjamS+H93TbmDGLLxMx5JEd0hDb7upGLAC1bt6yszAChM6PmN1n8/sS9CfMyU7cDBEDFxJ+6lvK18Ha0sJpQQAMmk0jIcFx/jGGjRFB53lgVgxu0FmO5ODpbkZ8IqvVutgMXI2ZbTW92OoiYA4wbCSp249GbZQbvxc0Cn+Q/X1SNoTevwykamM5oUsIhxuaKvueJC7qy1vWSasMDfBSCTzM3ibEHATrO/usNohUYbrWg5fQYTOmpOUPK5mZ6hsbvpwITeszRdG6a+k8ZOen7Uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GgdTh2oB2emLCoArAwkVenO7JEyih2rjUDHhGJFe9Eg=;
- b=J27dYTPKvuwdQHc0EXAsFtrDq1xMPwZgiPsToEo9n7ezigF03bzlAGrK1PNMIcUVTUPEp4vVF2Drypssjq95/nTw54Uj8JgyXlmAhOtIfvFZ/S9A705rgAlCOT4qjr0z1sH3APTztp9UV0eFmIU1yKq119oz/uSXU+DXxPBLDB3C6c3Fzadp5V85HvZ8mvv7V4wy+e1iru1ub0tzgr/DEp/O/t0jD2JrPKg7STYBc2FA6njj36Ncxidvef18gA6oP43s9PMcZ+ioElCShrXJOpCVFKNt3d+gya7xMIK0llflJorxSjOSSPAmLJlYge0K1OWJ4laFN+KCWdwKF0AIaw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from SJ0PR11MB5769.namprd11.prod.outlook.com (2603:10b6:a03:420::8)
- by SJ2PR11MB7715.namprd11.prod.outlook.com (2603:10b6:a03:4f4::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6886.35; Tue, 24 Oct
- 2023 05:27:34 +0000
-Received: from SJ0PR11MB5769.namprd11.prod.outlook.com
- ([fe80::45f0:7e91:2172:3179]) by SJ0PR11MB5769.namprd11.prod.outlook.com
- ([fe80::45f0:7e91:2172:3179%2]) with mapi id 15.20.6907.030; Tue, 24 Oct 2023
- 05:27:34 +0000
-From:   Xiaolei Wang <xiaolei.wang@windriver.com>
-To:     ming.qian@nxp.com, eagle.zhou@nxp.com, hverkuil-cisco@xs4all.nl,
-        mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: amphion: Move the blocking check_is_responsed() out of wait event loop
-Date:   Tue, 24 Oct 2023 13:27:09 +0800
-Message-Id: <20231024052709.2897714-1-xiaolei.wang@windriver.com>
-X-Mailer: git-send-email 2.25.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR02CA0083.apcprd02.prod.outlook.com
- (2603:1096:4:90::23) To SJ0PR11MB5769.namprd11.prod.outlook.com
- (2603:10b6:a03:420::8)
+        Tue, 24 Oct 2023 01:54:47 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E8A89D
+        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 22:54:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698126885; x=1729662885;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xbpl6AbZCCnqQeVzNUEyQcgVpOw+N7TGe4RF6TGACwI=;
+  b=iWlxOA3guh51viRcQ44NsedEl2Q2hx9kkJBUJvaaaSFqsDP4h43nDdeT
+   pdm29iqN+dSHwYRNINwVuzhPWBKtFz9kBXjiYpj2tVimcwXytuD3WPd2n
+   HWpDLuHHnkJaTU7a9+hVnDE3DUxZiExBR/Mh0fbJCXOV4cHIRbdSjESoI
+   vN17lIMFSg8F6TEOEMN5FtETt+fW7ZlqDgWCrDm8wvum8AKLiSdUOq0Vm
+   FDmZENPzvnmSY5AkF40TzbX5XlBKJ5GONHbH5PkdLwbEYkv8/2FIog8HZ
+   D2IZE/oDwZkWS+X+OLQA89WrsOV45WeozlJV3cfk7Qjm1sg7qkqfnsxcI
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="367220323"
+X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
+   d="scan'208";a="367220323"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 22:54:44 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10872"; a="793381519"
+X-IronPort-AV: E=Sophos;i="6.03,246,1694761200"; 
+   d="scan'208";a="793381519"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2023 22:54:41 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 1C7661202BB;
+        Tue, 24 Oct 2023 08:54:39 +0300 (EEST)
+Date:   Tue, 24 Oct 2023 05:54:39 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com
+Subject: Re: [PATCH v3 6/8] media: v4l: subdev: Switch to stream-aware state
+ functions
+Message-ID: <ZTdcHwhwNwCm3Q_r@kekkonen.localdomain>
+References: <20231023174408.803874-1-sakari.ailus@linux.intel.com>
+ <20231023174408.803874-7-sakari.ailus@linux.intel.com>
+ <20231023221339.GE18687@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ0PR11MB5769:EE_|SJ2PR11MB7715:EE_
-X-MS-Office365-Filtering-Correlation-Id: 85393b05-9065-4582-af0e-08dbd451ed47
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: utqJYwOvUBzqp0HGQl7WsLPXI5WWkQ0iJgqbD4pUJXEQeylBVgdpEsnplX/521wkN90GJyEV/mbZe2L1YeMhE1RxGLn5NZTQtQYKXNHJ32JXkpBFBAqIlPiHzMIbs0CBycioIK9vQNVyrdursICRcZH8DaV+460yxRAQAeuV8cJU0xuCgGAg2+8d9nrzcbz1nMjLQMN2WQy3vuxkZ71xf1UW9+IJcJeErlUHiHr3TtgZKa9QlflciKyvtqyUD+NiRhyBEF6c97w+nOHEaaE4dl+xKrNa9ez9vJRg/kgiqWFDI/dSRrteW95sJCnftHH/f1QigycnoWgzDcekPENvH2GaYIEMAh24wHIwlD8el/dDsozfnnJ1c2J6B+iVI/eolA5QjPaUHxVXpsc7M3etAAme5nRToTStWfWJ5BNTFeg7XmzUUlKECKTUnUlTqsUA8hMPZdT0ID1SCfFdhu5KFfICaFCmkEhxLDZjs/Hkq2eGoV5B9IB4GADC8U3FhpsrjfhNKvaIsWEL1iUt7fOhIkTKPQvZfnDVSwWepUKAJB6j9F549QOPoI/zFVeC+vs/FMVcI/o1Bne67Y5Rg9VAhE6Pj0QlBuoB0TnCadlDrU62IKfwNf/0SdYTUaXzr1t0
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR11MB5769.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(346002)(376002)(39850400004)(136003)(230922051799003)(451199024)(64100799003)(1800799009)(186009)(6512007)(38350700005)(36756003)(26005)(86362001)(478600001)(41300700001)(2906002)(6486002)(44832011)(6666004)(38100700002)(1076003)(2616005)(52116002)(83380400001)(8936002)(316002)(66476007)(66556008)(5660300002)(4326008)(66946007)(8676002)(6506007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?zU8sDkW1/SZzEbBfo6AjmGhHxWB7LdJZt4e9FhqSwbyowoEbDqQUl3pyOA40?=
- =?us-ascii?Q?4Chh4xvSBRqrTm1TNm3p0U1OwtmvS4FyEKNolokslvhj3FDRQdKzm4tiGu3t?=
- =?us-ascii?Q?LOu38DDsyGLXXh1Q8DkYtqXdbV4TSy42eEeFkseFwANvjTHYktmfh1uLjiuU?=
- =?us-ascii?Q?zDYHRsbAyLKiV/ojF2jo9vfQkXPya0Q0g/AR50rXxQuSAbbGoWeafXxJTF5R?=
- =?us-ascii?Q?i35bg8rQdh04bWQHuu8XSXe2/Di8wTx2otC/zmfd7gDHmdanJB2CIWST+Jtm?=
- =?us-ascii?Q?kf5yJkli1uKDsFWEWaQ3AIhe+OFLyXClhupb2hX5D8GlXr3ZTUKiRZLjPz3G?=
- =?us-ascii?Q?qM1dQ8klv/1TIsti8dJvgzbYFefhc+AD/R3AHTFrX6U51FXVNl6C1RVrlhdI?=
- =?us-ascii?Q?prCBB7QgKAGGSa92yzUEy2qTUTHbvdcOWJ1NRpayP3MPePxAA824FoF68b1n?=
- =?us-ascii?Q?7z7yi97B49CKkpSdHtZK8jlSTVci96Qd7VlqmeqzkN2x/t10KHnzcVEEvsIW?=
- =?us-ascii?Q?JWSnKsCNFI9sJl/2/kpAz3wlMCYYOlZvksig94ShJijMVwfvvGbLEpAmFx0/?=
- =?us-ascii?Q?jzr67615uF74OS3vq+/6GHnGqYPibT1Qx8jVxtOVbEV5liEpUzIqHXqd4RzC?=
- =?us-ascii?Q?9JYc9PhQytAkVLHJ9YsHoyKoWQFnjaHfSU/loa567S4MnGO17WW3462B4T2Z?=
- =?us-ascii?Q?MEMKq2o7nDwkYTSH5j6EMq6fX3JXPihqWhHntgj4kKNEotXqtnZ3xmbFQawn?=
- =?us-ascii?Q?qoMcb8hQJx7rqfH8eD6xWqwIT8Hk4GrTB+5+EJJgRAObNFs3BbXQZz4AWS93?=
- =?us-ascii?Q?bH0O1LOMwFwdnYxUp76qk9el8tBsUiXGSGMHuGVniJkTMdy4v+kQeHvda7+b?=
- =?us-ascii?Q?5bj5WYo0cUv9JNnIuXyiXEFV1OGv74a1uUKxBJ498sVN68emop3n7N0sIcDA?=
- =?us-ascii?Q?Zkbk+igZWSLElugcZqSaLzb4XlzggMIG5fpuJK9txc9uXklPh6sL6MnZBKjs?=
- =?us-ascii?Q?xoNDXgHJScoKxNibFqoLE72caWYqLhfjicUsAPT3k8Q+jdwQxg/7ma6HosGf?=
- =?us-ascii?Q?F3C89KChrGYWx4GgFLiqXNz1DsbILO+1lXPV1xJlbpBE3QetdaK/+1sszM0t?=
- =?us-ascii?Q?CIwRCOK0978/ONd6BtpmBKCYrCpsxfNcjxR/KZG3eipxyDSewvNiQ13ghjyf?=
- =?us-ascii?Q?rJohcOPp25NnAqpcEzkzRb2NpmMLa/6djP7y7gnz6TmKHfhw9kE6JQ8hbVKI?=
- =?us-ascii?Q?SV6eH6juNyVKgCs7rsuls9dBKlWVyVdwKRPkWlr/HyMiJVMlfzAFv/c/DaDb?=
- =?us-ascii?Q?Smctqh/137zHLRvJq55h4vwOW4QWDD2xcbWciXA+j1t4Pl+DWSWiXCgelJkz?=
- =?us-ascii?Q?FFd1fryEvJ7UwTufO/Jn5cCg/2iXJ/0i3ZLXBZh6isGXRzKp9TwJ6zLqhoNf?=
- =?us-ascii?Q?9WOZtc54bSadwye17ViMQ66Hh/3XtrKEDIekapKSSDU1I0QHb7bo+vupo9rl?=
- =?us-ascii?Q?MJzlM8xo6UB3qgnoiMFDbpZ177WG1lKd2znqIBHuC5se/DPmZ7tjtrALUCye?=
- =?us-ascii?Q?Z8Vr8WXt7+XOcJU1FKF2KCTn2s0fI+kwDj0oU19a5airgjh6O3gUXxoXOiaD?=
- =?us-ascii?Q?7g=3D=3D?=
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 85393b05-9065-4582-af0e-08dbd451ed47
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR11MB5769.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Oct 2023 05:27:34.3266
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: iUn18fKumkLVuil83VLc7GMv6zx5ypHk902gwpA7WJvw2i7guAQqUz+wi8Dl94jg82Au3PqzOJ/7QvgL33EFcf9tW/uoDbs49a1sT3U8gWg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR11MB7715
-X-Proofpoint-ORIG-GUID: iFbGE4I9Ha3GghAuaTG-slN8gMnLpkyP
-X-Proofpoint-GUID: iFbGE4I9Ha3GghAuaTG-slN8gMnLpkyP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-24_04,2023-10-19_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 priorityscore=1501
- lowpriorityscore=0 suspectscore=0 adultscore=0 bulkscore=0 mlxlogscore=999
- spamscore=0 phishscore=0 malwarescore=0 impostorscore=0 clxscore=1011
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2310170000 definitions=main-2310240045
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231023221339.GE18687@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The blocking ops can't be used as a condition parameter of
-wait_event_timeout(), otherwise we would get a warning like below:
+Hi Laurent,
 
- do not call blocking ops when !TASK_RUNNING; state=2
- WARNING: CPU: 5 PID: 741 at kernel/sched/core.c:9859 __might_sleep+0x80/0xa4
- CPU: 5 PID: 741 Comm: mxc_v4l2_vpu_te Tainted: G         C         6.1.55-yocto-standard #1
- Hardware name: Freescale i.MX8QM MEK (DT)
- pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
- pc : __might_sleep+0x80/0xa4
- lr : __might_sleep+0x80/0xa4
- sp : ffffffc0123738a0
- x29: ffffffc0123738a0 x28: ffffffc009194c48 x27: ffffffc00bbc1050
- x26: ffffff8814b282f0 x25: ffffff8814b280d0 x24: ffffff8814b28080
- x23: 0000000000000001 x22: 0000000000000032 x21: ffffffc00bbc1000
- x20: 000000000000011b x19: ffffffc009324670 x18: 00000000fffffffd
- x17: 30303c5b20746120 x16: 74657320323d6574 x15: 617473203b474e49
- x14: 00058b5b8b9aa1f1 x13: ffffffc00903cda0 x12: 00000000d744fcc9
- x11: 000000000000001c x10: 00000000000009a0 x9 : ffffffc0090201f4
- x8 : ffffff8828245000 x7 : 0000000000000001 x6 : 0000000000000001
- x5 : 00000000410fd080 x4 : 0000000000000002 x3 : ffffff8815aab4c8
- x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff8828244600
-  Call trace:
-  __might_sleep+0x80/0xa4
-  mutex_lock+0x2c/0x80
-  sync_session_response+0x110/0x310
-  vpu_session_send_cmd+0x18c/0x244
-  vpu_session_start+0x38/0x70
-  vdec_start_session+0x1b4/0x3e0
-  vpu_vb2_start_streaming+0xa0/0x1c4
-  vb2_start_streaming+0x74/0x160
-  vb2_core_qbuf+0x488/0x650
-  vb2_qbuf+0x9c/0x100
-  v4l2_m2m_qbuf+0x7c/0x224
-  v4l2_m2m_ioctl_qbuf+0x20/0x2c
-  v4l_qbuf+0x50/0x6c
-  __video_do_ioctl+0x174/0x3f0
-  video_usercopy+0x210/0x7cc
-  video_ioctl2+0x20/0x30
-  v4l2_ioctl+0x48/0x6c
+On Tue, Oct 24, 2023 at 01:13:39AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Mon, Oct 23, 2023 at 08:44:06PM +0300, Sakari Ailus wrote:
+> > Switch all drivers accessing sub-device state to use the stream-aware
+> > functions. We will soon remove the old ones.
+> > 
+> > This patch has been generated using the following Coccinelle script:
+> > 
+> > ---------8<------------
+> > @@
+> > expression E1, E2, E3;
+> > 
+> > @@
+> > 
+> > - v4l2_subdev_get_pad_format(E1, E2, E3)
+> > + v4l2_subdev_state_get_format(E2, E3)
+> > 
+> > @@
+> > expression E1, E2, E3;
+> > 
+> > @@
+> > 
+> > - v4l2_subdev_get_pad_crop(E1, E2, E3)
+> > + v4l2_subdev_state_get_crop(E2, E3)
+> > 
+> > @@
+> > expression E1, E2, E3;
+> > 
+> > @@
+> > 
+> > - v4l2_subdev_get_pad_compose(E1, E2, E3)
+> > + v4l2_subdev_state_get_compose(E2, E3)
+> > 
+> > @@
+> > expression E1, E2, E3;
+> > 
+> > @@
+> > 
+> > - v4l2_subdev_get_try_format(E1, E2, E3)
+> > + v4l2_subdev_state_get_format(E2, E3)
+> > 
+> > @@
+> > expression E1, E2, E3;
+> > 
+> > @@
+> > 
+> > - v4l2_subdev_get_try_crop(E1, E2, E3)
+> > + v4l2_subdev_state_get_crop(E2, E3)
+> > 
+> > @@
+> > expression E1, E2, E3;
+> > 
+> > @@
+> > 
+> > - v4l2_subdev_get_try_compose(E1, E2, E3)
+> > + v4l2_subdev_state_get_compose(E2, E3)
+> > ---------8<------------
+> > 
+> > Additionally drivers/media/i2c/s5k5baf.c and
+> > drivers/media/platform/samsung/s3c-camif/camif-capture.c have been
+> > manually changed as Coccinelle didn't.
+> 
+> Strange, I wonder why.
 
-It is not easy to convert the check_is_responsed() to a non-block
-function. In order to fix this issue, use a unwinding implementation
-of wait_event_timeout().
+I wondered that, too, and I guess in some cases Coccinelle doesn't
+recognise these as function calls as they're in variable declaration but
+some are just odd.
 
-Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
+> 
+> > Further local variables have been
+> > removed as they became unused as a result of the other changes. The diff
+> > from Coccinelle-generated changes are:
+> > 
+> > diff --git b/drivers/media/i2c/imx319.c a/drivers/media/i2c/imx319.c
+> > index e549692ff478..420984382173 100644
+> > --- b/drivers/media/i2c/imx319.c
+> > +++ a/drivers/media/i2c/imx319.c
+> 
+> I can imagine git am getting confused :-)
 
-squash! media: amphion: Move the blocking check_is_responsed() out of wait event loop
----
- drivers/media/platform/amphion/vpu_cmds.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+Hopefully no-one uses it with this patch.
 
-diff --git a/drivers/media/platform/amphion/vpu_cmds.c b/drivers/media/platform/amphion/vpu_cmds.c
-index c2337812573e..1abec8d9dad5 100644
---- a/drivers/media/platform/amphion/vpu_cmds.c
-+++ b/drivers/media/platform/amphion/vpu_cmds.c
-@@ -271,6 +271,7 @@ static bool check_is_responsed(struct vpu_inst *inst, unsigned long key)
- static int sync_session_response(struct vpu_inst *inst, unsigned long key, long timeout, int try)
- {
- 	struct vpu_core *core;
-+	struct wait_queue_entry wq_entry;
- 
- 	if (!inst || !inst->core)
- 		return -EINVAL;
-@@ -278,7 +279,19 @@ static int sync_session_response(struct vpu_inst *inst, unsigned long key, long
- 	core = inst->core;
- 
- 	call_void_vop(inst, wait_prepare);
--	wait_event_timeout(core->ack_wq, check_is_responsed(inst, key), timeout);
-+	init_wait_entry(&wq_entry, 0);
-+	for (;;) {
-+		if (check_is_responsed(inst, key))
-+			break;
-+
-+		prepare_to_wait_event(&core->ack_wq, &wq_entry, TASK_UNINTERRUPTIBLE);
-+
-+		timeout = schedule_timeout(timeout);
-+		if (!timeout)
-+			break;
-+	}
-+
-+	finish_wait(&core->ack_wq, &wq_entry);
- 	call_void_vop(inst, wait_finish);
- 
- 	if (!check_is_responsed(inst, key)) {
+> 
+> > @@ -2001,7 +2001,6 @@ static int imx319_do_get_pad_format(struct imx319 *imx319,
+> >  				    struct v4l2_subdev_format *fmt)
+> >  {
+> >  	struct v4l2_mbus_framefmt *framefmt;
+> > -	struct v4l2_subdev *sd = &imx319->sd;
+> > 
+> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> >  		framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
+> > diff --git b/drivers/media/i2c/imx355.c a/drivers/media/i2c/imx355.c
+> > index 96bdde685d65..e1b1d2fc79dd 100644
+> > --- b/drivers/media/i2c/imx355.c
+> > +++ a/drivers/media/i2c/imx355.c
+> > @@ -1299,7 +1299,6 @@ static int imx355_do_get_pad_format(struct imx355 *imx355,
+> >  				    struct v4l2_subdev_format *fmt)
+> >  {
+> >  	struct v4l2_mbus_framefmt *framefmt;
+> > -	struct v4l2_subdev *sd = &imx355->sd;
+> > 
+> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> >  		framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
+> > diff --git b/drivers/media/i2c/ov08x40.c a/drivers/media/i2c/ov08x40.c
+> > index ca799bbcfdb7..abbb0b774d43 100644
+> > --- b/drivers/media/i2c/ov08x40.c
+> > +++ a/drivers/media/i2c/ov08x40.c
+> > @@ -2774,7 +2774,6 @@ static int ov08x40_do_get_pad_format(struct ov08x40 *ov08x,
+> >  				     struct v4l2_subdev_format *fmt)
+> >  {
+> >  	struct v4l2_mbus_framefmt *framefmt;
+> > -	struct v4l2_subdev *sd = &ov08x->sd;
+> > 
+> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> >  		framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
+> > diff --git b/drivers/media/i2c/ov13858.c a/drivers/media/i2c/ov13858.c
+> > index 7816d9787c61..09387e335d80 100644
+> > --- b/drivers/media/i2c/ov13858.c
+> > +++ a/drivers/media/i2c/ov13858.c
+> > @@ -1316,7 +1316,6 @@ static int ov13858_do_get_pad_format(struct ov13858 *ov13858,
+> >  				     struct v4l2_subdev_format *fmt)
+> >  {
+> >  	struct v4l2_mbus_framefmt *framefmt;
+> > -	struct v4l2_subdev *sd = &ov13858->sd;
+> > 
+> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> >  		framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
+> > diff --git b/drivers/media/i2c/ov13b10.c a/drivers/media/i2c/ov13b10.c
+> > index 268cd4b03f9c..c06411d5ee2b 100644
+> > --- b/drivers/media/i2c/ov13b10.c
+> > +++ a/drivers/media/i2c/ov13b10.c
+> > @@ -1001,7 +1001,6 @@ static int ov13b10_do_get_pad_format(struct ov13b10 *ov13b,
+> >  				     struct v4l2_subdev_format *fmt)
+> >  {
+> >  	struct v4l2_mbus_framefmt *framefmt;
+> > -	struct v4l2_subdev *sd = &ov13b->sd;
+> > 
+> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> >  		framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
+> > diff --git b/drivers/media/i2c/s5c73m3/s5c73m3-core.c a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+> > index 47605e36bc60..8f9b5713daf7 100644
+> > --- b/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+> > +++ a/drivers/media/i2c/s5c73m3/s5c73m3-core.c
+> > @@ -819,7 +819,6 @@ static void s5c73m3_oif_try_format(struct s5c73m3 *state,
+> >  				   struct v4l2_subdev_format *fmt,
+> >  				   const struct s5c73m3_frame_size **fs)
+> >  {
+> > -	struct v4l2_subdev *sd = &state->sensor_sd;
+> >  	u32 code;
+> > 
+> >  	switch (fmt->pad) {
+> > diff --git b/drivers/media/i2c/s5k5baf.c a/drivers/media/i2c/s5k5baf.c
+> > index a36b310b32e1..3f3005cca9d0 100644
+> > --- b/drivers/media/i2c/s5k5baf.c
+> > +++ a/drivers/media/i2c/s5k5baf.c
+> > @@ -1473,12 +1473,10 @@ static int s5k5baf_set_selection(struct v4l2_subdev *sd,
+> >  	if (sel->which == V4L2_SUBDEV_FORMAT_TRY) {
+> >  		rects = (struct v4l2_rect * []) {
+> >  				&s5k5baf_cis_rect,
+> > -				v4l2_subdev_get_try_crop(sd, sd_state,
+> > -							 PAD_CIS),
+> > -				v4l2_subdev_get_try_compose(sd, sd_state,
+> > -							    PAD_CIS),
+> > -				v4l2_subdev_get_try_crop(sd, sd_state,
+> > -							 PAD_OUT)
+> > +				v4l2_subdev_state_get_crop(sd_state, PAD_CIS),
+> > +				v4l2_subdev_state_get_compose(sd_state,
+> > +							      PAD_CIS),
+> 
+> A single line would be more readable I think.
+
+But over 80.
+
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thank you!
+
 -- 
-2.25.1
+Kind regards,
 
+Sakari Ailus
