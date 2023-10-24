@@ -2,54 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD1827D5CED
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 23:11:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 33E467D5D1D
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 23:24:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344302AbjJXVLn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 17:11:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55572 "EHLO
+        id S234958AbjJXVYd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 17:24:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344160AbjJXVLn (ORCPT
+        with ESMTP id S234943AbjJXVYb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 17:11:43 -0400
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 404A110D4
-        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 14:11:40 -0700 (PDT)
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-581e2c9197bso6870265eaf.3
-        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 14:11:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698181899; x=1698786699;
-        h=to:from:subject:message-id:in-reply-to:date:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=DZWvcvFWT3P94ESec92OyEYUrt6Ss1wkXtTKq4rDYxM=;
-        b=GvLCzSsgapIBghDPZom6Bsxa/AcMaJI0guvg8UAbsftkbO5lrFCXqv/46eLD8vtH6y
-         ayWo4JqaHGg9LLJbWr/Yl1+A4E9WXRzZW9WVxnRoPDEML+zHlxiP8pzzZ48jOVbKRCBk
-         jxJ+l7cbfBzIDeHH7HXF4cn0npAkbW/9oGIeJkWjZjs0j625zBAYhF1ZJjej5PQGoCHs
-         cPsQrXPrA1ZNLDeKZbjviO1vVcoXg72BkFXc1pVqR1+Kv4ehiSP8ZPVayHWmPsMUu5uz
-         NaQDEHdq8wdPoQap7NkRZNXazzzyCz7kfleVlRNdl3LjWOHzjlsRL5p291du1WRYIPGC
-         tS+Q==
-X-Gm-Message-State: AOJu0YzoqfQyg7BVb1maM+gNSH22WL5fWkg6aQT0q9sl+S4NXtkxoDfp
-        B3Hq3HPaxC/vtgLo7eZY1Xw6FXfTIKOiAJ7+wYV1t5UbByc9
-X-Google-Smtp-Source: AGHT+IFIGdjAGzKoTrnYimPKPHmDG1kjuJTZCw+8fwLQZBt4HO+eQF/KgxqQt+0nli6xsdzu/gL97sZ4XmiD0ErEiKHID+MmReGv
+        Tue, 24 Oct 2023 17:24:31 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6D4798
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 14:24:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698182669; x=1729718669;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=PC3i9yzvs7aCd13dZRkKM7CJkXGn/giqHzc9WFJ6NWA=;
+  b=Vna2Mh1rH925soz7wLhBIVx0K9BeKASqwwmeQiXTFJ62YHGFmiHoBJxh
+   weyurKH17rzfSWccyQrZFdVgUz15dEbIv4H88leRJaJ1xEhTl22kPvQHL
+   msxeXiZxcqG7namBKE357SDoS3vLLbpgiFSos0qb04Th2HYJc7CEASG3+
+   wWn39eC9Qmnrt+TlhC2qEo8pWJ3iZmdBsyj1tTSCDlbBgJbsakd4nwYjL
+   qbOy93y5jWOUUzBA/YKKzezNsqOv8eKmPVK2jzCbONnh6gVVxirdCVGCe
+   ij4sJK3DcQB0T2dNkuPdjKfYMl/BIgdas42YG/5QDUuWX2MFUXHzwwf/v
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="391042346"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
+   d="scan'208";a="391042346"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 14:24:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="932169463"
+X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
+   d="scan'208";a="932169463"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orsmga005.jf.intel.com with ESMTP; 24 Oct 2023 14:24:27 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qvOsz-0008Ib-0c;
+        Tue, 24 Oct 2023 21:24:25 +0000
+Date:   Wed, 25 Oct 2023 05:24:13 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 6/42]
+ drivers/staging/media/ipu3/ipu3-v4l2.c:200:1: error: control reaches end of
+ non-void function
+Message-ID: <202310250538.rAiAP4fr-lkp@intel.com>
 MIME-Version: 1.0
-X-Received: by 2002:a4a:350f:0:b0:581:def4:738d with SMTP id
- l15-20020a4a350f000000b00581def4738dmr3989735ooa.0.1698181899638; Tue, 24 Oct
- 2023 14:11:39 -0700 (PDT)
-Date:   Tue, 24 Oct 2023 14:11:39 -0700
-In-Reply-To: <0000000000003ee3610599d20096@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000e45f1006087cc8ea@google.com>
-Subject: Re: [syzbot] KASAN: use-after-free Read in __media_entity_remove_links
-From:   syzbot <syzbot+0b0095300dfeb8a83dc8@syzkaller.appspotmail.com>
-To:     andreyknvl@google.com, laurent.pinchart@ideasonboard.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-usb@vger.kernel.org, mchehab@kernel.org, nogikh@google.com,
-        sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,
-        RCVD_IN_MSPIKE_WL,SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS autolearn=no
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,34 +63,156 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This bug is marked as fixed by commit:
-media: uvcvideo: Avoid cyclic entity chains due to malformed USB descriptors
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   9d9606b3c96b65b0cdc5978ffa2699de5c5d6feb
+commit: 664ffe0ad78d9dc70a40fbf51ad5d9aeda061d23 [6/42] media: v4l: subdev: Switch to stream-aware state functions
+config: x86_64-randconfig-003-20231025 (https://download.01.org/0day-ci/archive/20231025/202310250538.rAiAP4fr-lkp@intel.com/config)
+compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310250538.rAiAP4fr-lkp@intel.com/reproduce)
 
-But I can't find it in the tested trees[1] for more than 90 days.
-Is it a correct commit? Please update it by replying:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202310250538.rAiAP4fr-lkp@intel.com/
 
-#syz fix: exact-commit-title
+All errors (new ones prefixed by >>):
 
-Until then the bug is still considered open and new crashes with
-the same signature are ignored.
+   In file included from include/media/v4l2-device.h:13:0,
+                    from drivers/staging/media/ipu3/ipu3.h:11,
+                    from drivers/staging/media/ipu3/ipu3-v4l2.c:10:
+   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_open':
+   include/media/v4l2-subdev.h:1557:9: error: implicit declaration of function '__v4l2_subdev_state_get_format___VA_OPT__'; did you mean '__v4l2_subdev_state_get_format_'? [-Werror=implicit-function-declaration]
+            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+            ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:39:4: note: in expansion of macro 'v4l2_subdev_state_get_format'
+       v4l2_subdev_state_get_format(fh->state, i);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1557:55: error: 'stream' undeclared (first use in this function); did you mean 'strim'?
+            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+                                                          ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:39:4: note: in expansion of macro 'v4l2_subdev_state_get_format'
+       v4l2_subdev_state_get_format(fh->state, i);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1557:55: note: each undeclared identifier is reported only once for each function it appears in
+            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+                                                          ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:39:4: note: in expansion of macro 'v4l2_subdev_state_get_format'
+       v4l2_subdev_state_get_format(fh->state, i);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1558:21: error: expected ')' before '__VA_OPT__'
+            (state, pad __VA_OPT__(,) __VA_ARGS__)
+                        ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:39:4: note: in expansion of macro 'v4l2_subdev_state_get_format'
+       v4l2_subdev_state_get_format(fh->state, i);
+       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1580:9: error: implicit declaration of function '__v4l2_subdev_state_get_crop___VA_OPT__'; did you mean '__v4l2_subdev_state_get_crop_stream'? [-Werror=implicit-function-declaration]
+            __v4l2_subdev_state_get_crop_ ## __VA_OPT__(stream) \
+            ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:47:3: note: in expansion of macro 'v4l2_subdev_state_get_crop'
+     *v4l2_subdev_state_get_crop(fh->state, IMGU_NODE_IN) = try_crop;
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1581:21: error: expected ')' before '__VA_OPT__'
+            (state, pad __VA_OPT__(,) __VA_ARGS__)
+                        ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:47:3: note: in expansion of macro 'v4l2_subdev_state_get_crop'
+     *v4l2_subdev_state_get_crop(fh->state, IMGU_NODE_IN) = try_crop;
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~
+>> include/media/v4l2-subdev.h:1603:9: error: implicit declaration of function '__v4l2_subdev_state_get_compose___VA_OPT__'; did you mean '__v4l2_subdev_state_get_compose_stream'? [-Werror=implicit-function-declaration]
+            __v4l2_subdev_state_get_compose_ ## __VA_OPT__(stream) \
+            ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:48:3: note: in expansion of macro 'v4l2_subdev_state_get_compose'
+     *v4l2_subdev_state_get_compose(fh->state, IMGU_NODE_IN) = try_crop;
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1604:21: error: expected ')' before '__VA_OPT__'
+            (state, pad __VA_OPT__(,) __VA_ARGS__)
+                        ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:48:3: note: in expansion of macro 'v4l2_subdev_state_get_compose'
+     *v4l2_subdev_state_get_compose(fh->state, IMGU_NODE_IN) = try_crop;
+      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_get_fmt':
+   include/media/v4l2-subdev.h:1557:55: error: 'stream' undeclared (first use in this function); did you mean 'strim'?
+            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+                                                          ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:139:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
+      mf = v4l2_subdev_state_get_format(sd_state, pad);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1558:21: error: expected ')' before '__VA_OPT__'
+            (state, pad __VA_OPT__(,) __VA_ARGS__)
+                        ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:139:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
+      mf = v4l2_subdev_state_get_format(sd_state, pad);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_set_fmt':
+   include/media/v4l2-subdev.h:1557:55: error: 'stream' undeclared (first use in this function); did you mean 'strim'?
+            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+                                                          ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:164:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
+      mf = v4l2_subdev_state_get_format(sd_state, pad);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1558:21: error: expected ')' before '__VA_OPT__'
+            (state, pad __VA_OPT__(,) __VA_ARGS__)
+                        ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:164:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
+      mf = v4l2_subdev_state_get_format(sd_state, pad);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_get_crop':
+   include/media/v4l2-subdev.h:1580:53: error: 'stream' undeclared (first use in this function); did you mean 'strim'?
+            __v4l2_subdev_state_get_crop_ ## __VA_OPT__(stream) \
+                                                        ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:197:10: note: in expansion of macro 'v4l2_subdev_state_get_crop'
+      return v4l2_subdev_state_get_crop(sd_state, pad);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1581:21: error: expected ')' before '__VA_OPT__'
+            (state, pad __VA_OPT__(,) __VA_ARGS__)
+                        ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:197:10: note: in expansion of macro 'v4l2_subdev_state_get_crop'
+      return v4l2_subdev_state_get_crop(sd_state, pad);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_get_compose':
+   include/media/v4l2-subdev.h:1603:56: error: 'stream' undeclared (first use in this function); did you mean 'strim'?
+            __v4l2_subdev_state_get_compose_ ## __VA_OPT__(stream) \
+                                                           ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:208:10: note: in expansion of macro 'v4l2_subdev_state_get_compose'
+      return v4l2_subdev_state_get_compose(sd_state, pad);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/media/v4l2-subdev.h:1604:21: error: expected ')' before '__VA_OPT__'
+            (state, pad __VA_OPT__(,) __VA_ARGS__)
+                        ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c:208:10: note: in expansion of macro 'v4l2_subdev_state_get_compose'
+      return v4l2_subdev_state_get_compose(sd_state, pad);
+             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_get_crop':
+>> drivers/staging/media/ipu3/ipu3-v4l2.c:200:1: error: control reaches end of non-void function [-Werror=return-type]
+    }
+    ^
+   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_get_compose':
+   drivers/staging/media/ipu3/ipu3-v4l2.c:211:1: error: control reaches end of non-void function [-Werror=return-type]
+    }
+    ^
+   cc1: some warnings being treated as errors
 
-Kernel: Linux
-Dashboard link: https://syzkaller.appspot.com/bug?extid=0b0095300dfeb8a83dc8
 
----
-[1] I expect the commit to be present in:
+vim +200 drivers/staging/media/ipu3/ipu3-v4l2.c
 
-1. for-kernelci branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+a0ca1627b4501d Yong Zhi       2018-12-06  190  
+dc608edf7d45ba Maximilian Luz 2022-09-08  191  static struct v4l2_rect *
+dc608edf7d45ba Maximilian Luz 2022-09-08  192  imgu_subdev_get_crop(struct imgu_v4l2_subdev *sd,
+dc608edf7d45ba Maximilian Luz 2022-09-08  193  		     struct v4l2_subdev_state *sd_state, unsigned int pad,
+dc608edf7d45ba Maximilian Luz 2022-09-08  194  		     enum v4l2_subdev_format_whence which)
+dc608edf7d45ba Maximilian Luz 2022-09-08  195  {
+dc608edf7d45ba Maximilian Luz 2022-09-08  196  	if (which == V4L2_SUBDEV_FORMAT_TRY)
+664ffe0ad78d9d Sakari Ailus   2023-10-13  197  		return v4l2_subdev_state_get_crop(sd_state, pad);
+dc608edf7d45ba Maximilian Luz 2022-09-08  198  	else
+dc608edf7d45ba Maximilian Luz 2022-09-08  199  		return &sd->rect.eff;
+dc608edf7d45ba Maximilian Luz 2022-09-08 @200  }
+dc608edf7d45ba Maximilian Luz 2022-09-08  201  
 
-2. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+:::::: The code at line 200 was first introduced by commit
+:::::: dc608edf7d45ba0c2ad14c06eccd66474fec7847 ipu3-imgu: Fix NULL pointer dereference in imgu_subdev_set_selection()
 
-3. master branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
+:::::: TO: Maximilian Luz <luzmaximilian@gmail.com>
+:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-4. main branch of
-git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
-
-The full list of 9 trees can be found at
-https://syzkaller.appspot.com/upstream/repos
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
