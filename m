@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4617E7D48A8
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 09:36:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8380A7D48B0
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 09:37:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232853AbjJXHgB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 03:36:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52492 "EHLO
+        id S232399AbjJXHhL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 03:37:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233247AbjJXHf4 (ORCPT
+        with ESMTP id S231694AbjJXHhK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 03:35:56 -0400
+        Tue, 24 Oct 2023 03:37:10 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33A5490
-        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 00:35:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9755F90
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 00:37:08 -0700 (PDT)
 Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3BFF8B53;
-        Tue, 24 Oct 2023 09:35:41 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 27A7CB53;
+        Tue, 24 Oct 2023 09:36:56 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698132941;
-        bh=LbVvP+dnXUZWm4NzjeJDyNE+qbIq2TVWOSu74jDFG60=;
+        s=mail; t=1698133016;
+        bh=MNpn4vXRVU1sk+jkH5xhOxEaBDAvwtLkKkKvgkoIzf0=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=cFKzpx4AqXG2PyaAQJYG1al+G8beQTT5V58zJ0FJ7GYkEUsuzefRjM/rljuw8xFVD
-         64zz9//oavloLQR60Y9hGh6ItgER2VGkdUOm4ggyicxnSQtRWCwMo2ett6Ph6+k7ni
-         szFo07Pq8Ja0RdmUxQrfjJKBHuRUaIm/VJ1hr3fU=
-Message-ID: <9c6747ff-2c4e-436e-bac6-9dce6ec83f6c@ideasonboard.com>
-Date:   Tue, 24 Oct 2023 10:35:49 +0300
+        b=hRMqTh5XPZFPnXVnIkknFKpYcQQ4GfGPVgBuM+nkw0TYFMbFyiQ2Fft7iPJQRHrsD
+         A2/rVdtv38wmtQGtAp9h9MdgVWbiOPT5OAr+NtsYisLlJeGluT7Q0ZUgo3fcmg/btc
+         dF06oZ92pituKFiidAGOKKgWD2SmeS5x7LmcEMYc=
+Message-ID: <a61bf761-248e-483a-83b5-e0a2ea2fbd36@ideasonboard.com>
+Date:   Tue, 24 Oct 2023 10:37:06 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/8] media: v4l: subdev: Store the sub-device in the
- sub-device state
+Subject: Re: [PATCH v3 3/8] media: v4l: subdev: Rename sub-device state
+ information access functions
 Content-Language: en-US
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org
@@ -38,7 +38,7 @@ Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
         jacopo.mondi@ideasonboard.com, bingbu.cao@intel.com,
         hongju.wang@intel.com
 References: <20231023174408.803874-1-sakari.ailus@linux.intel.com>
- <20231023174408.803874-2-sakari.ailus@linux.intel.com>
+ <20231023174408.803874-4-sakari.ailus@linux.intel.com>
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -83,7 +83,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20231023174408.803874-2-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231023174408.803874-4-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -96,53 +96,22 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 23/10/2023 20:44, Sakari Ailus wrote:
-> Store the sub-device in the sub-device state. This will be needed in e.g.
-> validating pad number when retrieving information for non-stream-aware
-> users. There are expected to be more needs for this in the future.
+> Rename the sub-devices state information access functions, removing
+> "_stream" from them. This makes them shorter and so more convenient to
+> use. No other sets of functions will be needed to access this information.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->   drivers/media/v4l2-core/v4l2-subdev.c | 2 ++
->   include/media/v4l2-subdev.h           | 2 ++
->   2 files changed, 4 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index d295a4e87b66..ee4fe8f33a41 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1441,6 +1441,8 @@ __v4l2_subdev_state_alloc(struct v4l2_subdev *sd, const char *lock_name,
->   	else
->   		state->lock = &state->_lock;
->   
-> +	state->sd = sd;
-> +
->   	/* Drivers that support streams do not need the legacy pad config */
->   	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS) && sd->entity.num_pads) {
->   		state->pads = kvcalloc(sd->entity.num_pads,
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index c1f90c1223a7..6a02a565035c 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -756,6 +756,7 @@ struct v4l2_subdev_krouting {
->    *
->    * @_lock: default for 'lock'
->    * @lock: mutex for the state. May be replaced by the user.
-> + * @sd: the sub-device which the state is related to
->    * @pads: &struct v4l2_subdev_pad_config array
->    * @routing: routing table for the subdev
->    * @stream_configs: stream configurations (only for V4L2_SUBDEV_FL_STREAMS)
-> @@ -768,6 +769,7 @@ struct v4l2_subdev_state {
->   	/* lock for the struct v4l2_subdev_state fields */
->   	struct mutex _lock;
->   	struct mutex *lock;
-> +	struct v4l2_subdev *sd;
->   	struct v4l2_subdev_pad_config *pads;
->   	struct v4l2_subdev_krouting routing;
->   	struct v4l2_subdev_stream_configs stream_configs;
+>   drivers/media/i2c/ds90ub913.c                 |  3 +--
+>   drivers/media/i2c/ds90ub953.c                 |  3 +--
+>   drivers/media/i2c/ds90ub960.c                 | 12 ++++-----
+>   .../platform/nxp/imx8-isi/imx8-isi-crossbar.c | 10 +++----
+>   drivers/media/v4l2-core/v4l2-subdev.c         | 27 +++++++++----------
+>   include/media/v4l2-subdev.h                   | 19 +++++++------
+>   6 files changed, 34 insertions(+), 40 deletions(-)
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
-(I still like 'num_pads' better, as we don't have any other use for the sd).
 
   Tomi
 
