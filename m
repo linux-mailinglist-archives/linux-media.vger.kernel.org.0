@@ -2,40 +2,43 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 879B07D47CE
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 08:57:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 185677D4814
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 09:11:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232672AbjJXG5K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 02:57:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51890 "EHLO
+        id S232560AbjJXHLt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 03:11:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33382 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232667AbjJXG5J (ORCPT
+        with ESMTP id S232507AbjJXHLs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 02:57:09 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6842810C
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 23:57:07 -0700 (PDT)
+        Tue, 24 Oct 2023 03:11:48 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C468110
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 00:11:45 -0700 (PDT)
 Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A95B3AE;
-        Tue, 24 Oct 2023 08:56:54 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2BDBCB53;
+        Tue, 24 Oct 2023 09:11:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698130614;
-        bh=2opnRpy1cTorKSycZDX11cucvDMKExvkU1RpVEU9/gE=;
+        s=mail; t=1698131492;
+        bh=cWP+BS9T8ydGmisJ/GKyx1p7lXsnRFB08DoSh4SoaVg=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=RQFCc90ntcSNKdakGHnCNYGZf1pyY1y0dU4qi3fFSeiCqtwoEFNenuqQ2kZIqxneQ
-         RTJxwJptpJZzA10INXL0YFvmbsb+hflzd3IdEZ8sxiFBP3NjTNLv5QoMpgkQWXsBmL
-         Agy/k5GSi6HVFY+GmouhdT0ypC++4N/Ep5aHEBKk=
-Message-ID: <f4b64103-9388-4afe-bc82-8e636d20c1e3@ideasonboard.com>
-Date:   Tue, 24 Oct 2023 09:57:02 +0300
+        b=o0AbfwCiMxJXRr5oJNPmtgrkr55764+sCb5sfjWFMkrhiO+GrwMCTVHlPJXxd7MGH
+         whQShOD4IuNA8prplbJd/630v0MaLqhUrBUTZAotTeV+PQqTzpxcCa07C4fQa726ZV
+         x8cN6XAEU2SHd8OF8+9wpqgqugyqoY9OpbjLUf6k=
+Message-ID: <e71ab7fb-eaac-45de-b31c-27d9ba5f5744@ideasonboard.com>
+Date:   Tue, 24 Oct 2023 10:11:39 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: v4l2-subdev: Drop outdated comment for
- v4l2_subdev_pad_config
+Subject: Re: [RFC PATCH v1 2/4] media: v4l2-subdev: Add which field to struct
+ v4l2_subdev_frame_interval
 Content-Language: en-US
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>
-References: <20231023221712.20352-1-laurent.pinchart@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Hans de Goede <hansg@kernel.org>
+References: <20231024005130.28026-1-laurent.pinchart@ideasonboard.com>
+ <20231024005130.28026-3-laurent.pinchart@ideasonboard.com>
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -80,7 +83,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20231023221712.20352-1-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20231024005130.28026-3-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -92,32 +95,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/10/2023 01:17, Laurent Pinchart wrote:
-> The v4l2_subdev_pad_config structure is not passed to subdev operations
-> anymore. Drop an outdated comment to refers to that old mechanism.
+On 24/10/2023 03:51, Laurent Pinchart wrote:
+> Due to a historical mishap, the v4l2_subdev_frame_interval structure
+> is the only part of the V4L2 subdev userspace API that doesn't contain a
+> 'which' field. This prevents trying frame intervals using the subdev
+> 'TRY' state mechanism.
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->   include/media/v4l2-subdev.h | 4 ----
->   1 file changed, 4 deletions(-)
-> 
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index bb1aad264756..bbcee4f3da1e 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -691,10 +691,6 @@ struct v4l2_subdev_ir_ops {
->    * @format: &struct v4l2_mbus_framefmt
->    * @crop: &struct v4l2_rect to be used for crop
->    * @compose: &struct v4l2_rect to be used for compose
-> - *
-> - * This structure only needs to be passed to the pad op if the 'which' field
-> - * of the main argument is set to %V4L2_SUBDEV_FORMAT_TRY. For
-> - * %V4L2_SUBDEV_FORMAT_ACTIVE it is safe to pass %NULL.
->    */
->   struct v4l2_subdev_pad_config {
->   	struct v4l2_mbus_framefmt format;
+> Add a 'which' field is simple as the structure has 8 reserved fields.
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+"Adding"
+
+> This would however break userspace as the field is currently set to 0,
+> corresponding to V4L2_SUBDEV_FORMAT_TRY, while the corresponding ioctls
+> currently operate on the 'ACTIVE' state. We thus need to add a new
+
+That's not the only problem. It wouldn't work even if 0 would be 
+'ACTIVE'. The userspace is required to clear the reserved fields, but 
+the newly added 'which' field is no longer a reserved field, and thus 
+the userspace might not clear it, leading to it being uninitialized. But 
+this is solved with the V4L2_SUBDEV_CLIENT_CAP_WHICH_INTERVAL.
+
+> subdev client cap, V4L2_SUBDEV_CLIENT_CAP_WHICH_INTERVAL, to indicate
+> that userspace is aware of this new field.
+> 
+> All drivers that implement the subdev .g_frame_interval() and
+> .s_frame_interval() operations are updated to return -EINVAL when
+
+.get_frame_interval() and .set_frame_interval() now =).
 
   Tomi
 
