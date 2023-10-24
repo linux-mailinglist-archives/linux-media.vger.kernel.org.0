@@ -2,133 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 15FC27D51F6
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 15:38:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 717E97D51FA
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 15:38:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234675AbjJXNh7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 09:37:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45138 "EHLO
+        id S234693AbjJXNiR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 09:38:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234671AbjJXNhm (ORCPT
+        with ESMTP id S234691AbjJXNiC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 09:37:42 -0400
-Received: from out5-smtp.messagingengine.com (out5-smtp.messagingengine.com [66.111.4.29])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBC736A6A;
-        Tue, 24 Oct 2023 06:27:52 -0700 (PDT)
-Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
-        by mailout.nyi.internal (Postfix) with ESMTP id 5F12E5C0216;
-        Tue, 24 Oct 2023 09:27:52 -0400 (EDT)
-Received: from imap51 ([10.202.2.101])
-  by compute5.internal (MEProxy); Tue, 24 Oct 2023 09:27:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-        :cc:content-type:content-type:date:date:from:from:in-reply-to
-        :in-reply-to:message-id:mime-version:references:reply-to:sender
-        :subject:subject:to:to; s=fm2; t=1698154072; x=1698240472; bh=mZ
-        Ic3ODqVfmRDC8OmnbKWJpKU+qowmrOocKwZsiY3KQ=; b=N2SBD4tqmXJ4l+91e6
-        AZFyVBxgNWMLBFtvzB30CRePi0TAgMxwUbAqeWtFIuhxhYz68kjMvDz+YyPSAwNW
-        7Ns+9zv87wrxdidXC0/b6vUXEF1RJz6Mi0CiF1NLC1VuIdHcZIlFU0V+3NmbAGh8
-        8zNg9sOFELaOeOZ0qQQ+Qy+S3st874WjXYH+9P3ekX98DJCertkx9m4XjlmPIofj
-        +ARnWrQ6EdGgfjc+DEImDfc3FeCyFCIpPoJfU93eJNONADQG4+Z6NDz7Wem8N9D+
-        csI6WVtNQA1s5BwvtuKFvHSzis91VePf+Ca8DVlSR+FzaTjlDRkqMeLtK2Vo/s1l
-        +Rww==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:cc:content-type:content-type:date:date
-        :feedback-id:feedback-id:from:from:in-reply-to:in-reply-to
-        :message-id:mime-version:references:reply-to:sender:subject
-        :subject:to:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
-        :x-sasl-enc; s=fm3; t=1698154072; x=1698240472; bh=mZIc3ODqVfmRD
-        C8OmnbKWJpKU+qowmrOocKwZsiY3KQ=; b=n/lsjlFFRx6bOPjJKnOKg1uL6b/vM
-        KHNj7gagIRbS3iVK+OtV5dx2bo1ooZYtuoPbXyo/jNExhql+vwytKUp3grQtVaDQ
-        oblgJkQOFdptTjmuCTxrbdgx0X2QZVC3yPw74Lt938x/vgCKZnQ9+qlpnQsmq+nU
-        j3tZ2j0Wg1WJgWxZybFlsheVnG1zf4rMQzFDYflwwQciMJS1LapCEln6oozabXRY
-        QJdIz2Ob8muP+42zZTXtDAehcOzLc0FpMp0fN3FmftKwvtVlcHb5eK33N1rQhICA
-        nRyg3Uikgmt7VnfmldrZK4ev3LGT/tjPB6/4fceAVIByc++cjXfwo2i9A==
-X-ME-Sender: <xms:V8Y3ZQokJPmgs8ujhS_wU_xZZ-Q3nAHPCLd5Zqi8LtHrLhG-qF7riQ>
-    <xme:V8Y3ZWpw8rk-B10ghN4gwUem6yr_dDASbmWL__hYG0UIWx0JNpeKd8fV5-wJy540R
-    MlzcJAhR6PuwHB08vk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrkeekgdeifecutefuodetggdotefrodftvf
-    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
-    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpefofgggkfgjfhffhffvvefutgesthdtredtreertdenucfhrhhomhepfdetrhhn
-    ugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtth
-    gvrhhnpeffheeugeetiefhgeethfejgfdtuefggeejleehjeeutefhfeeggefhkedtkeet
-    ffenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrh
-    hnugesrghrnhgusgdruggv
-X-ME-Proxy: <xmx:V8Y3ZVNxUYJT52DG2H2Gf7pBL2Eg10nM313D0RYr39v1Z2wKfORkew>
-    <xmx:V8Y3ZX4-5V8tt3L78tqMcZWOaqnbC0LJTKXCdDj5AcbEOkPkSd9lQg>
-    <xmx:V8Y3Zf6TLOeIsQOhGN8vHJVT3Bmsz4AiscGKRW7gDuDkbcDDFzPpbg>
-    <xmx:WMY3ZZtU22rjjXit3OegHog0M1AvB2Za-q4CaDtvEcOzFxShRnaxtw>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id AEBEFB60089; Tue, 24 Oct 2023 09:27:51 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.9.0-alpha0-1048-g9229b632c5-fm-20231019.001-g9229b632
+        Tue, 24 Oct 2023 09:38:02 -0400
+Received: from mail.ispras.ru (mail.ispras.ru [83.149.199.84])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B2119B5;
+        Tue, 24 Oct 2023 06:35:19 -0700 (PDT)
+Received: from [10.7.3.24] (unknown [188.44.42.48])
+        by mail.ispras.ru (Postfix) with ESMTPSA id AA8E440737AC;
+        Tue, 24 Oct 2023 13:35:14 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.ispras.ru AA8E440737AC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ispras.ru;
+        s=default; t=1698154514;
+        bh=7HNeu/MV34IVS85aYM097IKQ++VlPDiOfhF0NIarsMc=;
+        h=Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=o9tWK3CdkIT6QRXTB8yEbbJrehQkB4ePAjJq6C/KcJFxuoOC34qovawad9FzvL2JM
+         mRXj4PRsWLY9oAwmhgnyqjph3N+XzYhjDuhYB+8NPAaoi8c+YAum1kP0+GdcpcWzWf
+         N8nEBHZo34rRgCwQa1+O0GDfeKRAxhdGJmIAyDRY=
+Subject: Re: [lvc-project] [PATCH] media: marvell: Added function return value
+ check clk_prepare
+To:     Denis Arefev <arefev@swemel.ru>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     lvc-project@linuxtesting.org, linux-kernel@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+References: <20231024130916.19419-1-arefev@swemel.ru>
+From:   Alexey Khoroshilov <khoroshilov@ispras.ru>
+Autocrypt: addr=khoroshilov@ispras.ru; prefer-encrypt=mutual; keydata=
+ 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
+ kK2E04Fb+Zk1eJvHYRc=
+Message-ID: <18793215-83f3-51d8-4f13-74e0f59a7cb5@ispras.ru>
+Date:   Tue, 24 Oct 2023 16:35:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Message-Id: <78427021-ddc0-45b6-a16b-bf8bc8f84003@app.fastmail.com>
-In-Reply-To: <20231023160539.1537355-2-arnd@kernel.org>
-References: <20231023160539.1537355-1-arnd@kernel.org>
- <20231023160539.1537355-2-arnd@kernel.org>
-Date:   Tue, 24 Oct 2023 15:27:30 +0200
-From:   "Arnd Bergmann" <arnd@arndb.de>
-To:     "Arnd Bergmann" <arnd@kernel.org>,
-        "Martin Tuma" <martin.tuma@digiteqautomotive.com>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        dmaengine@vger.kernel.org, "Lizhi Hou" <lizhi.hou@amd.com>,
-        "Brian Xu" <brian.xu@amd.com>,
-        "Raj Kumar Rampelli" <raj.kumar.rampelli@amd.com>,
-        "Vinod Koul" <vkoul@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: pci: mgb4: remove bogus 'select' statements
-Content-Type: text/plain
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231024130916.19419-1-arefev@swemel.ru>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 23, 2023, at 18:05, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
->
-> As this is just a regular device driver, it has no business force-enabling
-> other drivers in the system, it should be entirely independent of the
-> implementation of the spi-nor layer or the specific DMA engine.
->
-> The IIO symbols that are selected here are library modules that
-> are legitimately used.
->
-> Fixes: 0ab13674a9bd ("media: pci: mgb4: Added Digiteq Automotive MGB4 driver")
-> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+Dear Denis,
+
+On 24.10.2023 16:09, Denis Arefev wrote:
+> 	Return value of function 'clk_prepare', called at mcam-core.c:905,
+> 	is not checked, but it is usually checked for this function.
+
+Something is wrong with the indents in the commit message.
+
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Signed-off-by: Denis Arefev <arefev@swemel.ru>
 > ---
->  drivers/media/pci/mgb4/Kconfig | 4 ----
->  1 file changed, 4 deletions(-)
->
-> diff --git a/drivers/media/pci/mgb4/Kconfig b/drivers/media/pci/mgb4/Kconfig
-> index f2a05a1c8ffa..b90347c7f19b 100644
-> --- a/drivers/media/pci/mgb4/Kconfig
-> +++ b/drivers/media/pci/mgb4/Kconfig
-> @@ -6,10 +6,6 @@ config VIDEO_MGB4
->  	select VIDEOBUF2_DMA_SG
->  	select IIO_BUFFER
->  	select IIO_TRIGGERED_BUFFER
-> -	select I2C_XILINX
-> -	select SPI_XILINX
-> -	select MTD_SPI_NOR
-> -	select XILINX_XDMA
+>  drivers/media/platform/marvell/mcam-core.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/platform/marvell/mcam-core.c b/drivers/media/platform/marvell/mcam-core.c
+> index 66688b4aece5..afb7f4009d96 100644
+> --- a/drivers/media/platform/marvell/mcam-core.c
+> +++ b/drivers/media/platform/marvell/mcam-core.c
+> @@ -901,9 +901,10 @@ static void mcam_ctlr_power_down(struct mcam_camera *cam)
+>  static int mclk_prepare(struct clk_hw *hw)
+>  {
+>  	struct mcam_camera *cam = container_of(hw, struct mcam_camera, mclk_hw);
+> -
+> -	clk_prepare(cam->clk[0]);
+> -	return 0;
+> +	int ret;
+> +
+> +	ret = clk_prepare(cam->clk[0]);
+> +	return ret;
 
-Apparently, the XDMA reference was in fact needed, as MGB4
-calls some exported symbols from that particular dmaengine
-driver:
 
-aarch64-linux-ld: drivers/media/pci/mgb4/mgb4_core.o: in function `init_i2c': mgb4_core.c:(.text+0x3ec): undefined reference to `xdma_get_user_irq'
-aarch64-linux-ld: mgb4_core.c:(.text+0x404): undefined reference to `xdma_enable_user_irq'
+Why do we need to introduce an intermediate variable?
 
-I couldn't easily figure out what a 'user_irq' is here,
-but I wonder if this is the expected way to use the DMA engine
-layer. Maybe this should have been a nested irqchip instead,
-or it should be encoded in the DMA request specifier?
-
-     Arnd
+--
+Alexey
