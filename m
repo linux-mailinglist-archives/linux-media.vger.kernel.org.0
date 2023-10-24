@@ -2,439 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D903B7D4CC5
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 11:42:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C101C7D4D4F
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 12:08:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234285AbjJXJm5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 05:42:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55014 "EHLO
+        id S234208AbjJXKId convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 24 Oct 2023 06:08:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234113AbjJXJmx (ORCPT
+        with ESMTP id S233977AbjJXKIc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 05:42:53 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A13AB10C6;
-        Tue, 24 Oct 2023 02:42:49 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D283AC433C7;
-        Tue, 24 Oct 2023 09:42:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698140569;
-        bh=DFU09WW0O+MtYz9p3d26Rzb6brsgn66oo9v1uvK0fH0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=DcmICqZsThEMf0zt35VEjzkAUhcHCb4OOhpUVRZtG6Q3QiOyO64ChSSWa7tsSIjvu
-         dM19FaD2UBHfywYmAP92cznf4/aUd/EPBrNKopEGjXSz+pLmJjCYmPajyoWw6bh3Eg
-         6jjtQc+NKhZwJGnuzI8qaQquPrGTJZ9KtvOrZJHTic3n/mcwM9l9+25YJ1Uwha4913
-         DR13Gam8EDbO7vMjqUHpODWUzaFQndG6LClgV1NoBI0NzBMADnj/S9fFBJBlG1KbJV
-         q/moxhhwwy9F3F8Gn/r7Xi5BszyBlA8In9bFDjMShpRgf3moIrWu5dBBl4V/y2032B
-         cZQsMBRx+YS0g==
-Date:   Tue, 24 Oct 2023 11:23:42 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Marco Pagani <marpagan@redhat.com>
-Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@gmail.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [RFC PATCH] drm/test: add a test suite for GEM objects backed by
- shmem
-Message-ID: <zakappnhljtx3axi2ovvis3evhju4cwqrena7j6gqn5kjdjtsb@mgrhkn5oboid>
-References: <20231023164541.92913-1-marpagan@redhat.com>
+        Tue, 24 Oct 2023 06:08:32 -0400
+Received: from mail-ot1-f43.google.com (mail-ot1-f43.google.com [209.85.210.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83B53DA;
+        Tue, 24 Oct 2023 03:08:30 -0700 (PDT)
+Received: by mail-ot1-f43.google.com with SMTP id 46e09a7af769-6ce2c71c61fso2537693a34.1;
+        Tue, 24 Oct 2023 03:08:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698142109; x=1698746909;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fgLdb8aZYAs0Y0vcAtZXYMnjVSNSuVBAYZU46oMnylE=;
+        b=vwrkjQTjaojTWw7p75D+HbOiDJpgkiM8+oe3JjT24O1jhS5a9lYFnJ+lMNWHPYStXG
+         CDUJ0ZSGG9s85FtDib4VwFubUbzyM9+6NwPN/bYhcDd25yTIc+27n7f9IxEEfsfAWmw+
+         iHd19rZCxu7aNt5iIB/d2tBCygFjzlQTCC05ZqZWUY+8r9ZeX7mmQVbLkLbpy5X0MtJE
+         arFsDYOomgwDTi5AcTnZH/FG8Hv0T89SkUyxAc42mefDmPMhWzcUnzqTCzswJmZWQbQC
+         frP5iwk5/TiZxhwMMEnHLhy9WMQLad7LAcfOlvW1mYvstZvFV/AZDmK73RS6KiFbwCU2
+         PE/Q==
+X-Gm-Message-State: AOJu0YzJ6gJZT1XZDGBeVbxDyzutw+UhR+S8c4okP4MYsupTaRBFPOpG
+        0utpiZrgH5Y+ZB/14SVh5CAZi6ajEaV5IQ==
+X-Google-Smtp-Source: AGHT+IFwbmfZEtB6EjV7plAjBjiMSKS8WA0uiSTZMc8xtF5/VyWVAhFyE31uIrTnpoR2++LVtkQnkw==
+X-Received: by 2002:a05:6830:6b45:b0:6c4:e8ff:9e7d with SMTP id dc5-20020a0568306b4500b006c4e8ff9e7dmr10664744otb.23.1698142109494;
+        Tue, 24 Oct 2023 03:08:29 -0700 (PDT)
+Received: from mail-yb1-f172.google.com (mail-yb1-f172.google.com. [209.85.219.172])
+        by smtp.gmail.com with ESMTPSA id b190-20020a0dd9c7000000b005a23ab90366sm3924244ywe.11.2023.10.24.03.08.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Oct 2023 03:08:28 -0700 (PDT)
+Received: by mail-yb1-f172.google.com with SMTP id 3f1490d57ef6-d9c66e70ebdso3950886276.2;
+        Tue, 24 Oct 2023 03:08:28 -0700 (PDT)
+X-Received: by 2002:a25:b9cf:0:b0:d9a:5908:a29 with SMTP id
+ y15-20020a25b9cf000000b00d9a59080a29mr10249227ybj.64.1698142108080; Tue, 24
+ Oct 2023 03:08:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="zwjf7egz7fyx5jnl"
-Content-Disposition: inline
-In-Reply-To: <20231023164541.92913-1-marpagan@redhat.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <cover.1694767208.git.geert+renesas@glider.be> <CAMuHMdWfBTKdXvZutg4LvWqBjuz-X=ZjzX0LKPqD=JxYuLoPRw@mail.gmail.com>
+ <CAMuHMdUF61V5qNyKbrTGxZfEJvCVuLO7q2R5MqZYkzRC_cNr0w@mail.gmail.com>
+In-Reply-To: <CAMuHMdUF61V5qNyKbrTGxZfEJvCVuLO7q2R5MqZYkzRC_cNr0w@mail.gmail.com>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Tue, 24 Oct 2023 12:08:15 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdXTpMYqdFzro3kX-3wXYC8N6z2abiMTiXXpV9xn1ohj0Q@mail.gmail.com>
+Message-ID: <CAMuHMdXTpMYqdFzro3kX-3wXYC8N6z2abiMTiXXpV9xn1ohj0Q@mail.gmail.com>
+Subject: Re: [GIT PULL v2] drm: renesas: shmobile: Atomic conversion + DT
+ support (was: Re: [PATCH v4 00/41] drm: renesas: shmobile: Atomic conversion
+ + DT support)
+To:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Fbdev development list <linux-fbdev@vger.kernel.org>,
+        Linux-sh list <linux-sh@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Oct 16, 2023 at 11:59 AM Geert Uytterhoeven
+<geert@linux-m68k.org> wrote:
+>
+>         Hi David, Daniel,
+>
+> The following changes since commit 389af786f92ecdff35883551d54bf4e507ffcccb:
+>
+>   Merge tag 'drm-intel-next-2023-09-29' of
+> git://anongit.freedesktop.org/drm/drm-intel into drm-next (2023-10-04
+> 13:55:19 +1000)
+>
+> are available in the Git repository at:
+>
+>   git://git.kernel.org/pub/scm/linux/kernel/git/geert/renesas-drivers.git
+> tags/shmob-drm-atomic-dt-tag2
+>
+> for you to fetch changes up to 1399ebacbf590dfbac4fbba181dd1595b2fa10ba:
+>
+>   drm: renesas: shmobile: Add DT support (2023-10-16 11:47:48 +0200)
+>
+> ----------------------------------------------------------------
+> drm: renesas: shmobile: Atomic conversion + DT support
+>
+> Currently, there are two drivers for the LCD controller on Renesas
+> SuperH-based and ARM-based SH-Mobile and R-Mobile SoCs:
+>   1. sh_mobile_lcdcfb, using the fbdev framework,
+>   2. shmob_drm, using the DRM framework.
+> However, only the former driver is used, as all platform support
+> integrates the former.  None of these drivers support DT-based systems.
+>
+> Convert the SH-Mobile DRM driver to atomic modesetting, and add DT
+> support, complemented by the customary set of fixes and improvements.
+>
+> Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Link: https://lore.kernel.org/r/cover.1694767208.git.geert+renesas@glider.be/
+>
+> Changes compared to v1:
+>   - Rebase to drm-next,
+>   - Add Acked-by.
+>
+> Thanks for pulling!
 
---zwjf7egz7fyx5jnl
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Ping?
+Thanks!
 
-Hi Marco,
+Gr{oetje,eeting}s,
 
-On Mon, Oct 23, 2023 at 06:45:40PM +0200, Marco Pagani wrote:
-> This patch introduces an initial KUnit test suite for GEM objects
-> backed by shmem buffers.
->=20
-> Signed-off-by: Marco Pagani <marpagan@redhat.com>
-> ---
->  drivers/gpu/drm/Kconfig                    |   1 +
->  drivers/gpu/drm/tests/Makefile             |   3 +-
->  drivers/gpu/drm/tests/drm_gem_shmem_test.c | 303 +++++++++++++++++++++
->  3 files changed, 306 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/tests/drm_gem_shmem_test.c
->=20
-> diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-> index 3eee8636f847..f0a77e3e04d7 100644
-> --- a/drivers/gpu/drm/Kconfig
-> +++ b/drivers/gpu/drm/Kconfig
-> @@ -84,6 +84,7 @@ config DRM_KUNIT_TEST
->  	select DRM_EXPORT_FOR_TESTS if m
->  	select DRM_KUNIT_TEST_HELPERS
->  	select DRM_EXEC
-> +	select DRM_GEM_SHMEM_HELPER
+                        Geert
 
-I know that DRM_EXEC already stands out, but these should be ordered
-alphabetically, so it should be before DRM_KUNIT_TEST_HELPERS.
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
->  	default KUNIT_ALL_TESTS
->  	help
->  	  This builds unit tests for DRM. This option is not useful for
-> diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makef=
-ile
-> index ba7baa622675..b8227aab369e 100644
-> --- a/drivers/gpu/drm/tests/Makefile
-> +++ b/drivers/gpu/drm/tests/Makefile
-> @@ -18,6 +18,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) +=3D \
->  	drm_plane_helper_test.o \
->  	drm_probe_helper_test.o \
->  	drm_rect_test.o	\
-> -	drm_exec_test.o
-> +	drm_exec_test.o \
-> +	drm_gem_shmem_test.o
-
-Ditto.
-
->  CFLAGS_drm_mm_test.o :=3D $(DISABLE_STRUCTLEAK_PLUGIN)
-> diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm=
-/tests/drm_gem_shmem_test.c
-> new file mode 100644
-> index 000000000000..0bf6727f08d2
-> --- /dev/null
-> +++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-> @@ -0,0 +1,303 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * KUnit test suite for GEM objects backed by shmem buffers
-> + *
-> + * Copyright (C) 2023 Red Hat, Inc.
-> + *
-> + * Author: Marco Pagani <marpagan@redhat.com>
-> + */
-> +
-> +#include <linux/dma-buf.h>
-> +#include <linux/iosys-map.h>
-> +#include <linux/sizes.h>
-> +
-> +#include <kunit/test.h>
-> +
-> +#include <drm/drm_device.h>
-> +#include <drm/drm_drv.h>
-> +#include <drm/drm_gem.h>
-> +#include <drm/drm_gem_shmem_helper.h>
-> +#include <drm/drm_kunit_helpers.h>
-> +
-> +#define TEST_SIZE		SZ_1M
-> +#define TEST_BYTE		0xae
-> +
-> +struct fake_dev {
-> +	struct drm_device drm_dev;
-> +	struct device *dev;
-> +};
-> +
-> +/* Test creating a shmem GEM object */
-> +static void drm_gem_shmem_test_obj_create(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +	KUNIT_ASSERT_EQ(test, shmem->base.size, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_NULL(test, shmem->base.filp);
-> +	KUNIT_ASSERT_NOT_NULL(test, shmem->base.funcs);
-> +
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test creating a private shmem GEM object from a scatter/gather table =
-*/
-
-Thanks for documenting those tests. I believe we should also document
-what we expect from the test: should the test succeed? fail? if it
-fails, what is the cause of failure?
-
-Based on the following test, I think something like the following would
-be good:
-
-Test that creating a private shmem GEM object from a previously
-allocated sg_table succeeds and is properly initialized
-
-Feel free to change it to something else if you find something missing.
-
-> +static void drm_gem_shmem_test_obj_create_private(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	struct drm_gem_object *gem_obj;
-> +	struct dma_buf buf_mock;
-> +	struct dma_buf_attachment attach_mock;
-> +	struct sg_table *sgt;
-> +	char *buf;
-> +	int ret;
-> +
-> +	/* Create a mock scatter/gather table */
-> +	buf =3D kunit_kzalloc(test, TEST_SIZE, GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, buf);
-> +
-> +	sgt =3D kzalloc(sizeof(*sgt), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_NULL(test, sgt);
-> +
-> +	ret =3D sg_alloc_table(sgt, 1, GFP_KERNEL);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +	sg_init_one(sgt->sgl, buf, TEST_SIZE);
-> +
-> +	/* Init a mock DMA-BUF */
-> +	buf_mock.size =3D TEST_SIZE;
-> +	attach_mock.dmabuf =3D &buf_mock;
-> +
-> +	gem_obj =3D drm_gem_shmem_prime_import_sg_table(&fdev->drm_dev, &attach=
-_mock, sgt);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
-> +	KUNIT_ASSERT_EQ(test, gem_obj->size, TEST_SIZE);
-> +	KUNIT_ASSERT_NULL(test, gem_obj->filp);
-> +	KUNIT_ASSERT_NOT_NULL(test, gem_obj->funcs);
-> +
-> +	shmem =3D to_drm_gem_shmem_obj(gem_obj);
-> +	KUNIT_ASSERT_PTR_EQ(test, shmem->sgt, sgt);
-> +
-> +	/* The scatter/gather table is freed by drm_gem_shmem_free */
-> +	drm_gem_shmem_free(shmem);
-> +}
-
-KUNIT_ASSERT_* will stop the execution of the test on failure, you
-should probably use a bit more of KUNIT_EXPECT_* calls otherwise you'll
-leak resources.
-
-You also probably want to use a kunit_action to clean up and avoid that
-whole discussion
-
-> +
-> +/* Test pinning backing pages */
-> +static void drm_gem_shmem_test_pin_pages(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	int i, ret;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +	KUNIT_ASSERT_NULL(test, shmem->pages);
-> +	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 0);
-> +
-> +	ret =3D drm_gem_shmem_pin(shmem);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +	KUNIT_ASSERT_NOT_NULL(test, shmem->pages);
-> +	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 1);
-> +
-> +	for (i =3D 0; i < (shmem->base.size >> PAGE_SHIFT); i++)
-> +		KUNIT_ASSERT_NOT_NULL(test, shmem->pages[i]);
-> +
-> +	drm_gem_shmem_unpin(shmem);
-> +	KUNIT_ASSERT_NULL(test, shmem->pages);
-> +	KUNIT_ASSERT_EQ(test, shmem->pages_use_count, 0);
-> +
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test creating a virtual mapping */
-> +static void drm_gem_shmem_test_vmap(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	struct iosys_map map;
-> +	int ret, i;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +	KUNIT_ASSERT_NULL(test, shmem->vaddr);
-> +	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 0);
-> +
-> +	ret =3D drm_gem_shmem_vmap(shmem, &map);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +	KUNIT_ASSERT_NOT_NULL(test, shmem->vaddr);
-> +	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 1);
-> +	KUNIT_ASSERT_FALSE(test, iosys_map_is_null(&map));
-> +
-> +	iosys_map_memset(&map, 0, TEST_BYTE, TEST_SIZE);
-> +	for (i =3D 0; i < TEST_SIZE; i++)
-> +		KUNIT_ASSERT_EQ(test, iosys_map_rd(&map, i, u8), TEST_BYTE);
-> +
-> +	drm_gem_shmem_vunmap(shmem, &map);
-> +	KUNIT_ASSERT_NULL(test, shmem->vaddr);
-> +	KUNIT_ASSERT_EQ(test, shmem->vmap_use_count, 0);
-> +
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test exporting a scatter/gather table */
-> +static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	struct sg_table *sgt;
-> +	struct scatterlist *sg;
-> +	unsigned int si, len =3D 0;
-> +	int ret;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +
-> +	ret =3D drm_gem_shmem_pin(shmem);
-> +	KUNIT_ASSERT_EQ(test, ret, 0);
-> +
-> +	sgt =3D drm_gem_shmem_get_sg_table(shmem);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-> +	KUNIT_ASSERT_NULL(test, shmem->sgt);
-> +
-> +	for_each_sgtable_sg(sgt, sg, si) {
-> +		KUNIT_ASSERT_NOT_NULL(test, sg);
-> +		len +=3D sg->length;
-> +	}
-> +	KUNIT_ASSERT_GE(test, len, TEST_SIZE);
-> +
-> +	kfree(sgt);
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test exporting a scatter/gather pinned table for PRIME */
-> +static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	struct sg_table *sgt;
-> +	struct scatterlist *sg;
-> +	unsigned int si, len =3D 0;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +
-> +	sgt =3D drm_gem_shmem_get_pages_sgt(shmem);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-> +	KUNIT_ASSERT_PTR_EQ(test, sgt, shmem->sgt);
-> +
-> +	for_each_sgtable_sg(sgt, sg, si) {
-> +		KUNIT_ASSERT_NOT_NULL(test, sg);
-> +		len +=3D sg->length;
-> +	}
-> +	KUNIT_ASSERT_GE(test, len, TEST_SIZE);
-> +
-> +	/* The scatter/gather table is freed by drm_gem_shmem_free */
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test updating madvise status */
-> +static void drm_gem_shmem_test_madvise(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	int ret;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +	KUNIT_ASSERT_EQ(test, shmem->madv, 0);
-> +
-> +	ret =3D drm_gem_shmem_madvise(shmem, 1);
-> +	KUNIT_ASSERT_TRUE(test, ret);
-> +	KUNIT_ASSERT_EQ(test, shmem->madv, 1);
-> +
-> +	ret =3D drm_gem_shmem_madvise(shmem, -1);
-> +	KUNIT_ASSERT_FALSE(test, ret);
-> +	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-> +
-> +	ret =3D drm_gem_shmem_madvise(shmem, 0);
-> +	KUNIT_ASSERT_FALSE(test, ret);
-> +	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-> +
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +/* Test purging */
-> +static void drm_gem_shmem_test_purge(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +	struct drm_gem_shmem_object *shmem;
-> +	struct sg_table *sgt;
-> +	int ret;
-> +
-> +	shmem =3D drm_gem_shmem_create(&fdev->drm_dev, TEST_SIZE);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-> +
-> +	ret =3D drm_gem_shmem_is_purgeable(shmem);
-> +	KUNIT_ASSERT_FALSE(test, ret);
-> +
-> +	ret =3D drm_gem_shmem_madvise(shmem, 1);
-> +	KUNIT_ASSERT_TRUE(test, ret);
-> +
-> +	sgt =3D drm_gem_shmem_get_pages_sgt(shmem);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-> +
-> +	ret =3D drm_gem_shmem_is_purgeable(shmem);
-> +	KUNIT_ASSERT_TRUE(test, ret);
-> +
-> +	drm_gem_shmem_purge(shmem);
-> +	KUNIT_ASSERT_TRUE(test, ret);
-> +
-> +	drm_gem_shmem_free(shmem);
-> +}
-> +
-> +static int drm_gem_shmem_test_init(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev;
-> +	struct device *dev;
-> +
-> +	/* Allocate a parent device */
-> +	dev =3D drm_kunit_helper_alloc_device(test);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-> +
-> +	/*
-> +	 * The DRM core will automatically initialize the GEM core and create
-> +	 * a DRM Memory Manager object which provides an address space pool
-> +	 * for GEM objects allocation.
-> +	 */
-> +	fdev =3D drm_kunit_helper_alloc_drm_device(test, dev, struct fake_dev,
-> +						 drm_dev, DRIVER_GEM);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, fdev);
-> +
-> +	fdev->dev =3D dev;
-> +	test->priv =3D fdev;
-> +
-> +	return 0;
-> +}
-> +
-> +static void drm_gem_shmem_test_exit(struct kunit *test)
-> +{
-> +	struct fake_dev *fdev =3D test->priv;
-> +
-> +	drm_kunit_helper_free_device(test, fdev->dev);
-> +}
-
-You don't need to call drm_kunit_helper_free_device() anymore
-
-Maxime
-
---zwjf7egz7fyx5jnl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTeNHgAKCRDj7w1vZxhR
-xR+TAP9fGvnUSmgc17mDQSUA00Sty25BMPIWkcJCvBHpWSbJ0wD/SpZr2g3IdxkL
-d2XMp9/PXzFV1RrNOhVyhCQ1Qc4ABQQ=
-=wPem
------END PGP SIGNATURE-----
-
---zwjf7egz7fyx5jnl--
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
