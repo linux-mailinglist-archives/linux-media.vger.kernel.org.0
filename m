@@ -2,217 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 33E467D5D1D
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 23:24:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 16DF27D5E5B
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 00:43:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234958AbjJXVYd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 17:24:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41788 "EHLO
+        id S1344466AbjJXWnP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 18:43:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43332 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234943AbjJXVYb (ORCPT
+        with ESMTP id S1344484AbjJXWnO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 17:24:31 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6D4798
-        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 14:24:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698182669; x=1729718669;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=PC3i9yzvs7aCd13dZRkKM7CJkXGn/giqHzc9WFJ6NWA=;
-  b=Vna2Mh1rH925soz7wLhBIVx0K9BeKASqwwmeQiXTFJ62YHGFmiHoBJxh
-   weyurKH17rzfSWccyQrZFdVgUz15dEbIv4H88leRJaJ1xEhTl22kPvQHL
-   msxeXiZxcqG7namBKE357SDoS3vLLbpgiFSos0qb04Th2HYJc7CEASG3+
-   wWn39eC9Qmnrt+TlhC2qEo8pWJ3iZmdBsyj1tTSCDlbBgJbsakd4nwYjL
-   qbOy93y5jWOUUzBA/YKKzezNsqOv8eKmPVK2jzCbONnh6gVVxirdCVGCe
-   ij4sJK3DcQB0T2dNkuPdjKfYMl/BIgdas42YG/5QDUuWX2MFUXHzwwf/v
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="391042346"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="391042346"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 14:24:29 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="932169463"
-X-IronPort-AV: E=Sophos;i="6.03,248,1694761200"; 
-   d="scan'208";a="932169463"
-Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
-  by orsmga005.jf.intel.com with ESMTP; 24 Oct 2023 14:24:27 -0700
-Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qvOsz-0008Ib-0c;
-        Tue, 24 Oct 2023 21:24:25 +0000
-Date:   Wed, 25 Oct 2023 05:24:13 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 6/42]
- drivers/staging/media/ipu3/ipu3-v4l2.c:200:1: error: control reaches end of
- non-void function
-Message-ID: <202310250538.rAiAP4fr-lkp@intel.com>
+        Tue, 24 Oct 2023 18:43:14 -0400
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE7B110C3
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 15:43:11 -0700 (PDT)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-408382da7f0so40995975e9.0
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 15:43:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698187390; x=1698792190; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=pJhmv+TQSjKHEo0DycCEGNE2CWl5ZIeQ2W8fUwi7t7A=;
+        b=dw97K+ntoUbQBcsfLDVTvMWA3gofaLKOjXBJ2fZ+bp3fkgU4EV24+/p6oR9Ft0PYpc
+         msFadSNfqXj9mGEK/ZxV7Y7soPbWTQ9eYf72Q9ZvzPpd/pUWwS0pdrHjyZAa0pEY7HIb
+         DoO0530KVMBchwrtY7gn7rNwGhhBTrd8908D/+NDLow+K+bqZCCPofo/VOWCxSeZyT3k
+         kOWHuO0fQI6WhCbXvRDgztojhf5ZcUk9z9lsCOd1DFP0EURFOCrYfQvJHNnaG2mYQvbe
+         b+2Xik3v/CwZ12CMk9JrcO3O4x2K3yBGsFLcWnk078FQ81HJrSTf64ht3AEjgX9LlbYC
+         tfew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698187390; x=1698792190;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=pJhmv+TQSjKHEo0DycCEGNE2CWl5ZIeQ2W8fUwi7t7A=;
+        b=rT9c52Z4C0s32xkY0+Ppm+C3wSwS7KZIknwor3tNgwo5CYVVeJPSigmmVPGzzsNJPG
+         y2+947yK8zrE+SRNBeUgu/t1svrs7rb6I/xq51KxcKS539DFW7/t8Nv9EmBXV2PFn5JF
+         WZm9J5GEl5Ynp+zQ9hKSP8K0Lx0gKLDFtnKv50Dd76siax4uH+Ppry7gvXHhA1a+FngV
+         WJFiUVNsOnw67gwrhNBPifsXxZ64LV++uEn8HA7zTrQqdySfNlxVOhYW/ZQfj5Eze4+x
+         IWfeRJ/cvH2UjSytkhg0vjWbqRPSbHmYAcggfUs8yIOkpw44Hqf18vLEgp6av7XR7tNr
+         X9aA==
+X-Gm-Message-State: AOJu0Yxe2hhUNA7HsKiY9fiPg5SBgROVbig+QhX7q4dDasCxSqBTMwMW
+        QvQotZM9v4I6QhI+v0AFE7za+pwtumkIjPg/JSXkbw==
+X-Google-Smtp-Source: AGHT+IG4zV9bbHEG0COlZgIjz9Ddl+HZ6m3yJbeEiXmsOGqHi650xa+ImIgOsPZzHvsbNAUXkbrFHQ==
+X-Received: by 2002:a05:600c:1911:b0:409:351:873d with SMTP id j17-20020a05600c191100b004090351873dmr5266406wmq.31.1698187390277;
+        Tue, 24 Oct 2023 15:43:10 -0700 (PDT)
+Received: from sagittarius-a.nxsw.local ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id j6-20020a05600c190600b0040641a9d49bsm13049531wmq.17.2023.10.24.15.43.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Oct 2023 15:43:09 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
+        andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH 0/4] media: qcom: camss: Introduce support for named power-domains
+Date:   Tue, 24 Oct 2023 23:42:51 +0100
+Message-ID: <20231024224255.754779-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   9d9606b3c96b65b0cdc5978ffa2699de5c5d6feb
-commit: 664ffe0ad78d9dc70a40fbf51ad5d9aeda061d23 [6/42] media: v4l: subdev: Switch to stream-aware state functions
-config: x86_64-randconfig-003-20231025 (https://download.01.org/0day-ci/archive/20231025/202310250538.rAiAP4fr-lkp@intel.com/config)
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231025/202310250538.rAiAP4fr-lkp@intel.com/reproduce)
+At the moment the Qcom CAMSS driver relies on the declaration order of
+power-domains within the dtsi to determine which power-domain relates to a
+VFE and which power-domain relates to the top-level (top) CAMSS
+power-domain.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202310250538.rAiAP4fr-lkp@intel.com/
+VFE power-domains must be declared prior to the top power-domain. The top
+power-domain must be declared last. Early SoCs have just one top
+power-domain with later SoCs introducing VFE specific power-domains.
 
-All errors (new ones prefixed by >>):
+Differentiating between the number of power-domains results in lots of code
+which is brittle and which we can mostly get rid of with named
+power-domains.
 
-   In file included from include/media/v4l2-device.h:13:0,
-                    from drivers/staging/media/ipu3/ipu3.h:11,
-                    from drivers/staging/media/ipu3/ipu3-v4l2.c:10:
-   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_open':
-   include/media/v4l2-subdev.h:1557:9: error: implicit declaration of function '__v4l2_subdev_state_get_format___VA_OPT__'; did you mean '__v4l2_subdev_state_get_format_'? [-Werror=implicit-function-declaration]
-            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
-            ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:39:4: note: in expansion of macro 'v4l2_subdev_state_get_format'
-       v4l2_subdev_state_get_format(fh->state, i);
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1557:55: error: 'stream' undeclared (first use in this function); did you mean 'strim'?
-            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
-                                                          ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:39:4: note: in expansion of macro 'v4l2_subdev_state_get_format'
-       v4l2_subdev_state_get_format(fh->state, i);
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1557:55: note: each undeclared identifier is reported only once for each function it appears in
-            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
-                                                          ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:39:4: note: in expansion of macro 'v4l2_subdev_state_get_format'
-       v4l2_subdev_state_get_format(fh->state, i);
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1558:21: error: expected ')' before '__VA_OPT__'
-            (state, pad __VA_OPT__(,) __VA_ARGS__)
-                        ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:39:4: note: in expansion of macro 'v4l2_subdev_state_get_format'
-       v4l2_subdev_state_get_format(fh->state, i);
-       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1580:9: error: implicit declaration of function '__v4l2_subdev_state_get_crop___VA_OPT__'; did you mean '__v4l2_subdev_state_get_crop_stream'? [-Werror=implicit-function-declaration]
-            __v4l2_subdev_state_get_crop_ ## __VA_OPT__(stream) \
-            ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:47:3: note: in expansion of macro 'v4l2_subdev_state_get_crop'
-     *v4l2_subdev_state_get_crop(fh->state, IMGU_NODE_IN) = try_crop;
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1581:21: error: expected ')' before '__VA_OPT__'
-            (state, pad __VA_OPT__(,) __VA_ARGS__)
-                        ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:47:3: note: in expansion of macro 'v4l2_subdev_state_get_crop'
-     *v4l2_subdev_state_get_crop(fh->state, IMGU_NODE_IN) = try_crop;
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~
->> include/media/v4l2-subdev.h:1603:9: error: implicit declaration of function '__v4l2_subdev_state_get_compose___VA_OPT__'; did you mean '__v4l2_subdev_state_get_compose_stream'? [-Werror=implicit-function-declaration]
-            __v4l2_subdev_state_get_compose_ ## __VA_OPT__(stream) \
-            ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:48:3: note: in expansion of macro 'v4l2_subdev_state_get_compose'
-     *v4l2_subdev_state_get_compose(fh->state, IMGU_NODE_IN) = try_crop;
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1604:21: error: expected ')' before '__VA_OPT__'
-            (state, pad __VA_OPT__(,) __VA_ARGS__)
-                        ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:48:3: note: in expansion of macro 'v4l2_subdev_state_get_compose'
-     *v4l2_subdev_state_get_compose(fh->state, IMGU_NODE_IN) = try_crop;
-      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_get_fmt':
-   include/media/v4l2-subdev.h:1557:55: error: 'stream' undeclared (first use in this function); did you mean 'strim'?
-            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
-                                                          ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:139:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
-      mf = v4l2_subdev_state_get_format(sd_state, pad);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1558:21: error: expected ')' before '__VA_OPT__'
-            (state, pad __VA_OPT__(,) __VA_ARGS__)
-                        ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:139:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
-      mf = v4l2_subdev_state_get_format(sd_state, pad);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_set_fmt':
-   include/media/v4l2-subdev.h:1557:55: error: 'stream' undeclared (first use in this function); did you mean 'strim'?
-            __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
-                                                          ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:164:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
-      mf = v4l2_subdev_state_get_format(sd_state, pad);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1558:21: error: expected ')' before '__VA_OPT__'
-            (state, pad __VA_OPT__(,) __VA_ARGS__)
-                        ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:164:8: note: in expansion of macro 'v4l2_subdev_state_get_format'
-      mf = v4l2_subdev_state_get_format(sd_state, pad);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_get_crop':
-   include/media/v4l2-subdev.h:1580:53: error: 'stream' undeclared (first use in this function); did you mean 'strim'?
-            __v4l2_subdev_state_get_crop_ ## __VA_OPT__(stream) \
-                                                        ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:197:10: note: in expansion of macro 'v4l2_subdev_state_get_crop'
-      return v4l2_subdev_state_get_crop(sd_state, pad);
-             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1581:21: error: expected ')' before '__VA_OPT__'
-            (state, pad __VA_OPT__(,) __VA_ARGS__)
-                        ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:197:10: note: in expansion of macro 'v4l2_subdev_state_get_crop'
-      return v4l2_subdev_state_get_crop(sd_state, pad);
-             ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_get_compose':
-   include/media/v4l2-subdev.h:1603:56: error: 'stream' undeclared (first use in this function); did you mean 'strim'?
-            __v4l2_subdev_state_get_compose_ ## __VA_OPT__(stream) \
-                                                           ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:208:10: note: in expansion of macro 'v4l2_subdev_state_get_compose'
-      return v4l2_subdev_state_get_compose(sd_state, pad);
-             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/media/v4l2-subdev.h:1604:21: error: expected ')' before '__VA_OPT__'
-            (state, pad __VA_OPT__(,) __VA_ARGS__)
-                        ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c:208:10: note: in expansion of macro 'v4l2_subdev_state_get_compose'
-      return v4l2_subdev_state_get_compose(sd_state, pad);
-             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_get_crop':
->> drivers/staging/media/ipu3/ipu3-v4l2.c:200:1: error: control reaches end of non-void function [-Werror=return-type]
-    }
-    ^
-   drivers/staging/media/ipu3/ipu3-v4l2.c: In function 'imgu_subdev_get_compose':
-   drivers/staging/media/ipu3/ipu3-v4l2.c:211:1: error: control reaches end of non-void function [-Werror=return-type]
-    }
-    ^
-   cc1: some warnings being treated as errors
+The reliance on declaration ordering is in-effect magic number indexing.
 
+This series introduces named power-domains for CAMSS and refactors some of
+the code in CAMSS to support the new named power-domains. We continue to
+support the legacy indexing model with an intention to remove after a
+reasonable transition period.
 
-vim +200 drivers/staging/media/ipu3/ipu3-v4l2.c
+New SoC additions should use named power-domains from now on.
 
-a0ca1627b4501d Yong Zhi       2018-12-06  190  
-dc608edf7d45ba Maximilian Luz 2022-09-08  191  static struct v4l2_rect *
-dc608edf7d45ba Maximilian Luz 2022-09-08  192  imgu_subdev_get_crop(struct imgu_v4l2_subdev *sd,
-dc608edf7d45ba Maximilian Luz 2022-09-08  193  		     struct v4l2_subdev_state *sd_state, unsigned int pad,
-dc608edf7d45ba Maximilian Luz 2022-09-08  194  		     enum v4l2_subdev_format_whence which)
-dc608edf7d45ba Maximilian Luz 2022-09-08  195  {
-dc608edf7d45ba Maximilian Luz 2022-09-08  196  	if (which == V4L2_SUBDEV_FORMAT_TRY)
-664ffe0ad78d9d Sakari Ailus   2023-10-13  197  		return v4l2_subdev_state_get_crop(sd_state, pad);
-dc608edf7d45ba Maximilian Luz 2022-09-08  198  	else
-dc608edf7d45ba Maximilian Luz 2022-09-08  199  		return &sd->rect.eff;
-dc608edf7d45ba Maximilian Luz 2022-09-08 @200  }
-dc608edf7d45ba Maximilian Luz 2022-09-08  201  
+Tested on x13s, rb5, db410c
 
-:::::: The code at line 200 was first introduced by commit
-:::::: dc608edf7d45ba0c2ad14c06eccd66474fec7847 ipu3-imgu: Fix NULL pointer dereference in imgu_subdev_set_selection()
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-10-23-camss-named-power-domains
 
-:::::: TO: Maximilian Luz <luzmaximilian@gmail.com>
-:::::: CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+Bryan O'Donoghue (4):
+  media: qcom: camss: Convert to per-VFE pointer for power-domain
+    linkages
+  media: qcom: camss: Use common VFE pm_domain_on/pm_domain_off where
+    applicable
+  media: qcom: camss: Move VFE power-domain specifics into vfe.c
+  media: qcom: camss: Add support for named power-domains
+
+ .../media/platform/qcom/camss/camss-vfe-170.c | 36 ---------
+ .../media/platform/qcom/camss/camss-vfe-4-1.c |  8 +-
+ .../media/platform/qcom/camss/camss-vfe-4-7.c | 36 ---------
+ .../media/platform/qcom/camss/camss-vfe-4-8.c | 31 --------
+ .../media/platform/qcom/camss/camss-vfe-480.c | 36 ---------
+ drivers/media/platform/qcom/camss/camss-vfe.c | 79 +++++++++++++++++++
+ drivers/media/platform/qcom/camss/camss-vfe.h | 16 ++++
+ drivers/media/platform/qcom/camss/camss.c     | 79 +++++++++++--------
+ drivers/media/platform/qcom/camss/camss.h     |  6 +-
+ 9 files changed, 149 insertions(+), 178 deletions(-)
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.42.0
+
