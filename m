@@ -2,134 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AEF67D5050
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 14:53:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B3297D507E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 14:58:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234374AbjJXMxC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 08:53:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33194 "EHLO
+        id S234428AbjJXM6K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 08:58:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34400 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234343AbjJXMxC (ORCPT
+        with ESMTP id S234385AbjJXM6J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 08:53:02 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74DE490;
-        Tue, 24 Oct 2023 05:52:59 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5CC0CAE;
-        Tue, 24 Oct 2023 14:52:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698151966;
-        bh=Z8lGk3CLn172c1awVm68bNMBIr+yFrYRyprU4D+J9gM=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=mha+FND4nmKh74daFUIU4wshVjn7alJPLszWBvaDkp4xQC34SQrBomYQhzWrHmy74
-         yn+nuqCufcnyD4I5owfKfuc5azIlW9VY11zWut+RARP/Nr3YEVgbl+n+K9WLHc4AsM
-         3c4aRSL6191tRTOdE32ul5XYlrKXiusUIHIbyQ94=
-Content-Type: text/plain; charset="utf-8"
+        Tue, 24 Oct 2023 08:58:09 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF71190
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 05:58:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698152287; x=1729688287;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=D+E2NXQoXcpgUq/GiKi1LAh0/rTSX6U6MEULxLjcaf0=;
+  b=K6n4yvTa7MAgR7UuBaEH2mdqEVtfEARlZ67JdB6UUhbmHl/SeYhElSMI
+   OZH0dQmIiBjOoFZcAECV6NcvNW1/auoYg3kerQtS3dQB86vh2y9/JlV19
+   0jJTff5PIH96X+ZOlEPzdXmWU/xmD5sMt8EesX/fZFfz0ztB7AJ/qPGSx
+   OrFkFomVeLsSOeW7i2WAX5IsKeb9c2diWnxgkK9UAhEi+c012hnFPGTRO
+   bUaGx+WrT+D2fpF07b6um8Q3EAwuuI2fV54xV+nPCw0yNGoTsntu0yf4T
+   2XNohEOYR8+4/8+jZdJOtCT1RctkXasIvZANiZDTXhmHlHxaRoEdLkCgZ
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="385942988"
+X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
+   d="scan'208";a="385942988"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 05:58:07 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="735018062"
+X-IronPort-AV: E=Sophos;i="6.03,247,1694761200"; 
+   d="scan'208";a="735018062"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2023 05:58:03 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qvGyu-00000008Hqk-2xXa;
+        Tue, 24 Oct 2023 15:58:00 +0300
+Date:   Tue, 24 Oct 2023 15:58:00 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     bingbu.cao@intel.com
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com, hdegoede@redhat.com,
+        ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
+        claus.stovgaard@gmail.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
+        bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
+        hongju.wang@intel.com
+Subject: Re: [PATCH v2 02/15] media: intel/ipu6: add IPU auxiliary devices
+Message-ID: <ZTe/WBM/kPB+GWKk@smile.fi.intel.com>
+References: <20231024112924.3934228-1-bingbu.cao@intel.com>
+ <20231024112924.3934228-3-bingbu.cao@intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <9117e551a4a4dd0e94a1395817d89cb18ac11b24.camel@apitzsch.eu>
-References: <20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu> <20231023-imx214-v1-1-b33f1bbd1fcf@apitzsch.eu> <169810104910.2245571.16606813523946813634@ping.linuxembedded.co.uk> <9117e551a4a4dd0e94a1395817d89cb18ac11b24.camel@apitzsch.eu>
-Subject: Re: [PATCH 1/4] media: i2c: imx214: Explain some magic numbers
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-To:     =?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Date:   Tue, 24 Oct 2023 13:52:54 +0100
-Message-ID: <169815197462.630990.3330310524563366908@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231024112924.3934228-3-bingbu.cao@intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Andr=C3=A9 Apitzsch (2023-10-24 08:30:01)
-> Am Montag, dem 23.10.2023 um 23:44 +0100 schrieb Kieran Bingham:
-> > Quoting Andr=C3=A9 Apitzsch (2023-10-23 22:47:50)
-> > > Code refinement, no functional changes.
-> > >=20
-> > > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
-> > > ---
-> > > =C2=A0drivers/media/i2c/imx214.c | 24 +++++++++++++++++++-----
-> > > =C2=A01 file changed, 19 insertions(+), 5 deletions(-)
-> > >=20
-> > > diff --git a/drivers/media/i2c/imx214.c
-> > > b/drivers/media/i2c/imx214.c
-> > > index 4f77ea02cc27..9218c149d4c8 100644
-> > > --- a/drivers/media/i2c/imx214.c
-> > > +++ b/drivers/media/i2c/imx214.c
-> > > @@ -19,12 +19,23 @@
-> > > =C2=A0#include <media/v4l2-fwnode.h>
-> > > =C2=A0#include <media/v4l2-subdev.h>
-> > > =C2=A0
-> > > +#define IMX214_REG_MODE_SELECT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 0x0100
-> > > +#define IMX214_MODE_STANDBY=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x00
-> > > +#define IMX214_MODE_STREAMING=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 0x01
-> > > +
-> > > =C2=A0#define IMX214_DEFAULT_CLK_FREQ=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 24000000
-> > > =C2=A0#define IMX214_DEFAULT_LINK_FREQ 480000000
-> > > =C2=A0#define IMX214_DEFAULT_PIXEL_RATE ((IMX214_DEFAULT_LINK_FREQ *
-> > > 8LL) / 10)
-> > > =C2=A0#define IMX214_FPS 30
-> > > =C2=A0#define IMX214_MBUS_CODE MEDIA_BUS_FMT_SRGGB10_1X10
-> > > =C2=A0
-> > > +/* Exposure control */
-> > > +#define IMX214_REG_EXPOSURE=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x0202
-> > > +#define IMX214_EXPOSURE_MIN=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 0
-> > > +#define IMX214_EXPOSURE_MAX=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 3184
-> > > +#define IMX214_EXPOSURE_STEP=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 1
-> > > +#define IMX214_EXPOSURE_DEFAULT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 0x0c70
-> >=20
-> > I like this change, and I see that 0x0c70 was directly moved here
-> > from
-> > the code below. But could we replace 0xc70 here with 3184 please so
-> > that
-> > it's /far/ clearer that the Exposure Default =3D=3D Exposure Max which =
-is
-> > otherwise hidden?
-> >=20
-> Hi Kieran,
->=20
-> I can do that. But I propose to replace 3184 with 0x0c70 instead.
-> Because that matches the entries used in the reg_8 lists
-> mode_4096x2304[] and mode_1920x1080[].
->=20
->         {0x0202, 0x0C},
->         {0x0203, 0x70},=20
->=20
-> What do you think?
+On Tue, Oct 24, 2023 at 07:29:11PM +0800, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
+> 
+> Even the IPU input system and processing system are in a single PCI
+> device, each system has its own power sequence, the processing system
+> power up depends on the input system power up.
+> 
+> Besides, input system and processing system have their own MMU
+> hardware for IPU DMA address mapping.
+> 
+> Register the IS/PS devices on auxiliary bus and attach power domain
+> to implement the power sequence dependency.
 
-I think exposure values are easier to read as integers than hex values.
+...
 
-This is the 'Coarse Integration Time' register with a unit of 'lines'.
+Seems again poor / random list of header inclusions...
+Please, go through your files and use IWYU (Include What You Use) principle
+in them.
 
-If you have lots of time, or wish to delve deeper - we could talk about
-splitting out those register tables to use CCI and/or more readable
-functions ;-)
+> +#include <linux/pci.h>
 
-Do you have the datasheet for this sensor - or are you just working from
-the information within this driver?
+auxiliary_bus.h, err.h, list.h, mutex.h, dev_printk.h, slab.h, dma-mapping.h are missing.
+You are lucky it does compile.
 
-What device are you using to test this driver?
+...
 
---
-Kieran
+> +#ifndef IPU6_BUS_H
+> +#define IPU6_BUS_H
+> +
+> +#include <linux/auxiliary_bus.h>
 
-> Regards,
-> Andr=C3=A9
+...Especially for headers which will affect the compilation time.
+
+> +#include <linux/pci.h>
+
+This is not used.
+
+...
+
+> +	struct list_head list;
+
++ types.h
+
+> +	struct sg_table fw_sgt;
+
++ scatterlist.h
+
+> +	dma_addr_t pkg_dir_dma_addr;
+
+types.h
+
+...
+
+> +struct ipu6_auxdrv_data {
+> +	irqreturn_t (*isr)(struct ipu6_bus_device *adev);
+> +	irqreturn_t (*isr_threaded)(struct ipu6_bus_device *adev);
+
+irqreturn.h
+
+> +	bool wake_isr_thread;
+> +};
+
+...
+
+> +#define to_ipu6_bus_device(_dev) container_of(to_auxiliary_dev(_dev), \
+> +					      struct ipu6_bus_device, auxdev)
+> +#define auxdev_to_adev(_auxdev) container_of(_auxdev, \
+> +					     struct ipu6_bus_device, auxdev)
+
+container_of.h
+
+Also, can you reformat to be more readable like
+
+#define auxdev_to_adev(_auxdev)					\
+	container_of(_auxdev, struct ipu6_bus_device, auxdev)
+
+> +#define ipu6_bus_get_drvdata(adev) dev_get_drvdata(&(adev)->auxdev.dev)
+
+device.h
+
+...
+
+> +	ret = dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+> +	if (ret)
+> +		return dev_err_probe(&pdev->dev, ret,
+> +				     "Failed to set max_seg_size\n");
+
+With the help of
+
+	struct device *dev = &pdev->dev;
+
+this and other lines become neater
+
+
+	ret = dma_set_max_seg_size(dev, _DMA_SEGMENT_SIZE); // as I commented earlier about
+	if (ret)
+		return dev_err_probe(dev, ret, "Failed to set max_seg_size\n");
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
