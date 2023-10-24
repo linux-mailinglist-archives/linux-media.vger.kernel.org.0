@@ -2,102 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 220367D5481
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 16:57:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BFEC07D54E8
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 17:11:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343651AbjJXO5B convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 24 Oct 2023 10:57:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39178 "EHLO
+        id S231656AbjJXPLx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 11:11:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48528 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234469AbjJXO5A (ORCPT
+        with ESMTP id S232198AbjJXPLu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 10:57:00 -0400
-Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B58EE8;
-        Tue, 24 Oct 2023 07:56:55 -0700 (PDT)
-Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-6cd33d51852so3023775a34.2;
-        Tue, 24 Oct 2023 07:56:55 -0700 (PDT)
+        Tue, 24 Oct 2023 11:11:50 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E15310FF
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 08:11:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1698160262;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=TKUuV3D2MzzYmMyJQKVSNNUSleO8nx/GbxJ06/jy1bc=;
+        b=gJBPYuiV/8Q5DX0EYuZvujpmsmaXiu/mIO6WwkkowYij6bgZkikML6TY6LK7Csn++mSzel
+        C1n71AEoug15jNJfl/Zz1wejRv0ojzwsZU2EPSYlPKut2wL4/y/W9vMhiQpXFHCzaNsfD5
+        wFfIkJCYmaIsaamF6PiVX5ivyA3vcdA=
+Received: from mail-ed1-f69.google.com (mail-ed1-f69.google.com
+ [209.85.208.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-114-bODA0nq0NY-Lw0AhDeYjZg-1; Tue, 24 Oct 2023 11:11:01 -0400
+X-MC-Unique: bODA0nq0NY-Lw0AhDeYjZg-1
+Received: by mail-ed1-f69.google.com with SMTP id 4fb4d7f45d1cf-533d8a785a5so3174478a12.3
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 08:11:00 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698159415; x=1698764215;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OfKu34kdtOKhfx7YdMUZjS0/Dm/XegFB8rQ/XeKhU/U=;
-        b=COvrZAuJ+ehm7jBcPU6uUrzhN99liB35f80oMt3tE/YgZsQinunwVOJqukO7ObGFML
-         nSljR1spat0AeCzm8RRRU9KGxz8whkEhWEKONSGHbcU5WuM3WYJ2ip6is8x/1YF/z2qg
-         JcHI+3POOi69lup+mSHEiBioUbE4iIbEeY/z7WqjI1mxPihMPMHx6uXJoHmZY2DKsdHg
-         wHTzCzu4hhe+Lo5fUplv1jPK4ZgN3Pz0y5CP1DSf+SHrkb8RaDxakzZjn6qDvAyuik5E
-         2hACUxV5C0qGCGaLSXIttTKxxOL7if8i67ibGTOuViTGK5A4BfrMX+VXqlCuleoefuRp
-         go+Q==
-X-Gm-Message-State: AOJu0YwH47bN7mHq+a//lN6IZLuD2LNPL33Oi1/q6gx06YHZrmp4B8+m
-        fwfxNppR//sr1CH5IHNy8COcC3CzeJ/Wcg==
-X-Google-Smtp-Source: AGHT+IFZOw+g3SZTPsJkgfmnscFLy0vPhGAcFc4HXH2sj9go3w66jM/ngrqAe2DqFv/JGLIH5QjX8w==
-X-Received: by 2002:a05:6830:4407:b0:6b9:e35e:8dd with SMTP id q7-20020a056830440700b006b9e35e08ddmr15683804otv.2.1698159414687;
-        Tue, 24 Oct 2023 07:56:54 -0700 (PDT)
-Received: from mail-yb1-f171.google.com (mail-yb1-f171.google.com. [209.85.219.171])
-        by smtp.gmail.com with ESMTPSA id z65-20020a814c44000000b005a8eadbadbesm399547ywa.19.2023.10.24.07.56.54
+        d=1e100.net; s=20230601; t=1698160260; x=1698765060;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TKUuV3D2MzzYmMyJQKVSNNUSleO8nx/GbxJ06/jy1bc=;
+        b=SEsdc/a2g6VMDkALFdAWh6M14/BhsVEX4AFxEg5D1R8d8fCRqujE/e/wcuo05JoyaQ
+         GVQYLDBo0OAXdrdKz0d0pHOR/XjJtCT3I3OE2BfQZ5hgzodOtw+3P1kYIKwKEEUUwJWG
+         f8LhkIlivLJFm0DBHI6VTdLOUi734U+aAsy6Dz24WhKC64+j0SQHfUhaKQjxLJZZTExq
+         p6fWCalCxECDn0xCrF5ELY8b6iUpI8p6pfD04c3ljXzhQrbiim233/7XKsycSyg1cZDF
+         qK8XM+2LEuBoeH/HRoUplIhALxh/WEQox9A7CQ4dE9ts49Ave5RMUeQoxjgbHV97x4bG
+         b6DA==
+X-Gm-Message-State: AOJu0Yxa4e7qDyz2YSwUWxgbhZwBaEOlw5z1IjoegTmccsA1KhLfwb1T
+        WqbeMv1pjoDNBlnp14Bpnyh7hder9pOoKf1CBKxzH3z8xZyBgGoWpfLS+DXGh13E8K0d5McawSH
+        XDGWqSFoxB6Mn3CsSRKDT3QY=
+X-Received: by 2002:a17:907:a45:b0:9b2:ccd8:2d42 with SMTP id be5-20020a1709070a4500b009b2ccd82d42mr8630151ejc.32.1698160259951;
+        Tue, 24 Oct 2023 08:10:59 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHN0azaOZH4gSh6rFxEA6Jy6IC6rhNntf7FeqOIS6807N5EKl2K7zLGXjUGdQcH6jFCZLfmeA==
+X-Received: by 2002:a17:907:a45:b0:9b2:ccd8:2d42 with SMTP id be5-20020a1709070a4500b009b2ccd82d42mr8630136ejc.32.1698160259605;
+        Tue, 24 Oct 2023 08:10:59 -0700 (PDT)
+Received: from [192.168.43.127] ([109.38.146.165])
+        by smtp.gmail.com with ESMTPSA id g1-20020a1709063b0100b0099b8234a9fesm8398663ejf.1.2023.10.24.08.10.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 24 Oct 2023 07:56:54 -0700 (PDT)
-Received: by mail-yb1-f171.google.com with SMTP id 3f1490d57ef6-d9caf5cc948so4250895276.0;
-        Tue, 24 Oct 2023 07:56:54 -0700 (PDT)
-X-Received: by 2002:a25:25c9:0:b0:da0:478a:940 with SMTP id
- l192-20020a2525c9000000b00da0478a0940mr1687254ybl.41.1698159413978; Tue, 24
- Oct 2023 07:56:53 -0700 (PDT)
+        Tue, 24 Oct 2023 08:10:58 -0700 (PDT)
+Message-ID: <7f624c9a-d9bf-0b41-7709-99f29cf0bc54@redhat.com>
+Date:   Tue, 24 Oct 2023 17:10:56 +0200
 MIME-Version: 1.0
-References: <20231024142522.29658-1-laurent.pinchart+renesas@ideasonboard.com>
-In-Reply-To: <20231024142522.29658-1-laurent.pinchart+renesas@ideasonboard.com>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Tue, 24 Oct 2023 16:56:41 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdXfn__=z9RQgxo_Rnmm3x5CbNxvqp1+g+vcQZZQggO=Zg@mail.gmail.com>
-Message-ID: <CAMuHMdXfn__=z9RQgxo_Rnmm3x5CbNxvqp1+g+vcQZZQggO=Zg@mail.gmail.com>
-Subject: Re: [PATCH] media: vsp1: Remove unbalanced .s_stream(0) calls
-To:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        linux-renesas-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 0/2] media: mei_csi/mei_ace: Fix driver modalias not
+ matching device modalias
+To:     "Wu, Wentong" <wentong.wu@intel.com>
+Cc:     Kate Hsuan <hpa@redhat.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <20231024101319.11878-1-hdegoede@redhat.com>
+ <MN2PR11MB431803D884CE96CEC12CF9278DDFA@MN2PR11MB4318.namprd11.prod.outlook.com>
+Content-Language: en-US
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <MN2PR11MB431803D884CE96CEC12CF9278DDFA@MN2PR11MB4318.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
         RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi,
 
-On Tue, Oct 24, 2023 at 4:25 PM Laurent Pinchart
-<laurent.pinchart+renesas@ideasonboard.com> wrote:
-> The VSP1 driver uses the subdev .s_stream() operation to stop WPF
-> instances, without a corresponding call to start them. The V4L2 subdev
-> core started warning about unbalanced .s_stream() calls in commit
-> 009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream()
-> requirements"), causing a regression with this driver.
->
-> Fix the problem by replacing the .s_stream() operation with an explicit
-> function call for WPF instances. This allows sharing an additional data
-> structure between RPF and WPF instances.
->
-> Fixes: 009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream() requirements")
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Closes: https://lore.kernel.org/linux-media/2221395-6a9b-9527-d697-e76aebc6af@linux-m68k.org/
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+On 10/24/23 16:00, Wu, Wentong wrote:
+> Hi Hans,
+> 
+> Thanks for your patch, but I think this has been fixed by below commit
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/media/pci/intel/ivsc/mei_csi.c?id=18e35ba0d89f89bdda8001c6b34b18f62917d10d
+> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commit/drivers/media/pci/intel/ivsc/mei_ace.c?id=6b6f41791b443e9d141ae254ec0de833841497a9
 
-Thanks for your patch!
+Ah right it looks like this is already fixed, so this patch
+series can be dropped.
 
-The warning splat is gone, so
-Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Regards,
 
-Gr{oetje,eeting}s,
+Hans
 
-                        Geert
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+
+>> From: Hans de Goede <hdegoede>
+>>
+>> Hi All,
+>>
+>> This fixes an issue with the mei device-id matching which I noticed while
+>> debugging an out of tree IPU6 driver issue which a Fedora user was seeing with
+>> kernels >= 6.5 on a Dell Precision 5470 which uses the VSC chip.
+>>
+>> Note the root cause there was a different issue and these patches have been
+>> compile tested only, please test.
+>>
+>> Regards,
+>>
+>> Hans
+>>
+>>
+>> Hans de Goede (2):
+>>   media: mei_csi: Fix driver modalias not matching device modalias
+>>   media: mei_ace: Fix driver modalias not matching device modalias
+>>
+>>  drivers/media/pci/intel/ivsc/mei_ace.c | 2 +-
+>> drivers/media/pci/intel/ivsc/mei_csi.c | 2 +-
+>>  2 files changed, 2 insertions(+), 2 deletions(-)
+>>
+>> --
+>> 2.41.0
+> 
+
