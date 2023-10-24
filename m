@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 047BD7D543E
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 16:45:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 484827D5444
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 16:47:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234495AbjJXOpg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 10:45:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37034 "EHLO
+        id S234495AbjJXOri (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 10:47:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234482AbjJXOpe (ORCPT
+        with ESMTP id S234482AbjJXOrh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 10:45:34 -0400
+        Tue, 24 Oct 2023 10:47:37 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A374DC
-        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 07:45:32 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DCBB8B3
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 07:47:35 -0700 (PDT)
 Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0BDDA9CC;
-        Tue, 24 Oct 2023 16:45:18 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9349E9CC;
+        Tue, 24 Oct 2023 16:47:22 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698158719;
-        bh=f46+E6Iv1ttoGsVWNePYtxU087HNQngaqXpqAmQEiII=;
+        s=mail; t=1698158843;
+        bh=R/crIX+NLKUDjt/Dg+ncy8yyxWCZY5041+icpJ+QlU4=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=I696VDGrctvm91rVdFALWcLZgUEtnAIOlY+59LyWsR+8rZkqdJV7SAqP9jaAQG0zt
-         BZVjKgqkR5IdOXr10CVN0/pboJUxPzv04DlHYlIKOb94EoqPbzLEpYPVKULZOAiWL8
-         c3FBZSOAZwi0t3V2UBdxyyEKFqCh59M+i0EZvmxk=
-Message-ID: <f5af7581-8128-4848-b932-5997e4cdb475@ideasonboard.com>
-Date:   Tue, 24 Oct 2023 17:45:27 +0300
+        b=c0PhxO/bZ6y3cKlV9u2h9rR87AxKWJE1Cxx4lxgWQo/KBIqFy50Lkmx7vvirC2KvG
+         +frl8F/x8xJaY/3Co+WOnoESd5rehNjfzHdRxv0DyzhL56mweh1Fo9FHJNFD0GJ5F+
+         z8vW72qaoKkS9eCT6F+PYuydqGmoo0C22h5xIWqA=
+Message-ID: <14524ed2-0d96-4afc-8c7e-e4092a40e463@ideasonboard.com>
+Date:   Tue, 24 Oct 2023 17:47:31 +0300
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/8] media: v4l: subdev: Also return pads array
- information on stream functions
+Subject: Re: [PATCH v3 4/8] media: v4l: subdev: v4l2_subdev_state_get_format
+ always returns format now
 Content-Language: en-US
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org
@@ -38,7 +38,7 @@ Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
         jacopo.mondi@ideasonboard.com, bingbu.cao@intel.com,
         hongju.wang@intel.com
 References: <20231023174408.803874-1-sakari.ailus@linux.intel.com>
- <20231023174408.803874-3-sakari.ailus@linux.intel.com>
+ <20231023174408.803874-5-sakari.ailus@linux.intel.com>
 From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
@@ -83,7 +83,7 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20231023174408.803874-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231023174408.803874-5-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -96,125 +96,37 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 23/10/2023 20:44, Sakari Ailus wrote:
-> There are two sets of functions that return information from sub-device
-> state, one for stream-unaware users and another for stream-aware users.
-> Add support for stream-aware functions to return format, crop and compose
-> information from pad-based array that are functionally equivalent to the
-> old, stream-unaware ones.
-> 
-> Also check state is non-NULL, in order to guard against old drivers
-> potentially calling this with NULL state for active formats or selection
-> rectangles.
+> Now that v4l2_subdev_state_get_format() always returns format, don't call
+> alternative v4l2_subdev_get_pad_format() anymore.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
->   drivers/media/v4l2-core/v4l2-subdev.c | 39 +++++++++++++++++++++++++++
->   include/media/v4l2-subdev.h           |  9 ++++---
->   2 files changed, 45 insertions(+), 3 deletions(-)
+>   drivers/media/v4l2-core/v4l2-subdev.c | 9 +--------
+>   1 file changed, 1 insertion(+), 8 deletions(-)
 > 
 > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index ee4fe8f33a41..955ee9a6c91f 100644
+> index 9c267aaef56b..f0f0af48730f 100644
 > --- a/drivers/media/v4l2-core/v4l2-subdev.c
 > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1684,6 +1684,19 @@ v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
->   	struct v4l2_subdev_stream_configs *stream_configs;
->   	unsigned int i;
+> @@ -1580,14 +1580,7 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+>   {
+>   	struct v4l2_mbus_framefmt *fmt;
 >   
-> +	if (WARN_ON(!state))
-> +		return NULL;
-> +
-> +	if (state->pads) {
-> +		if (stream)
-> +			return NULL;
-
-If this happens, is it a driver error? WARN_ON()?
+> -	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
+> -		fmt = v4l2_subdev_state_get_format(state, format->pad,
+> -						   format->stream);
+> -	else if (format->pad < sd->entity.num_pads && format->stream == 0)
+> -		fmt = v4l2_subdev_get_pad_format(sd, state, format->pad);
+> -	else
+> -		fmt = NULL;
+> -
+> +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
+>   	if (!fmt)
+>   		return -EINVAL;
+>   
 
 Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
   Tomi
-
-> +
-> +		if (WARN_ON(pad >= state->sd->entity.num_pads))
-> +			pad = 0;
-> +
-> +		return &state->pads[pad].try_fmt;
-> +	}
-> +
->   	lockdep_assert_held(state->lock);
->   
->   	stream_configs = &state->stream_configs;
-> @@ -1705,6 +1718,19 @@ v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
->   	struct v4l2_subdev_stream_configs *stream_configs;
->   	unsigned int i;
->   
-> +	if (WARN_ON(!state))
-> +		return NULL;
-> +
-> +	if (state->pads) {
-> +		if (stream)
-> +			return NULL;
-> +
-> +		if (WARN_ON(pad >= state->sd->entity.num_pads))
-> +			pad = 0;
-> +
-> +		return &state->pads[pad].try_crop;
-> +	}
-> +
->   	lockdep_assert_held(state->lock);
->   
->   	stream_configs = &state->stream_configs;
-> @@ -1726,6 +1752,19 @@ v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
->   	struct v4l2_subdev_stream_configs *stream_configs;
->   	unsigned int i;
->   
-> +	if (WARN_ON(!state))
-> +		return NULL;
-> +
-> +	if (state->pads) {
-> +		if (stream)
-> +			return NULL;
-> +
-> +		if (WARN_ON(pad >= state->sd->entity.num_pads))
-> +			pad = 0;
-> +
-> +		return &state->pads[pad].try_compose;
-> +	}
-> +
->   	lockdep_assert_held(state->lock);
->   
->   	stream_configs = &state->stream_configs;
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 6a02a565035c..0ba1cd8c3ac7 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1550,7 +1550,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
->    * This returns a pointer to &struct v4l2_mbus_framefmt for the given pad +
->    * stream in the subdev state.
->    *
-> - * If the state does not contain the given pad + stream, NULL is returned.
-> + * For stream-unaware drivers the format for the corresponding pad is returned.
-> + * If the pad does not exist, NULL is returned.
->    */
->   struct v4l2_mbus_framefmt *
->   v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
-> @@ -1565,7 +1566,8 @@ v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
->    * This returns a pointer to crop rectangle for the given pad + stream in the
->    * subdev state.
->    *
-> - * If the state does not contain the given pad + stream, NULL is returned.
-> + * For stream-unaware drivers the crop rectangle for the corresponding pad is
-> + * returned. If the pad does not exist, NULL is returned.
->    */
->   struct v4l2_rect *
->   v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
-> @@ -1581,7 +1583,8 @@ v4l2_subdev_state_get_stream_crop(struct v4l2_subdev_state *state,
->    * This returns a pointer to compose rectangle for the given pad + stream in the
->    * subdev state.
->    *
-> - * If the state does not contain the given pad + stream, NULL is returned.
-> + * For stream-unaware drivers the compose rectangle for the corresponding pad is
-> + * returned. If the pad does not exist, NULL is returned.
->    */
->   struct v4l2_rect *
->   v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
 
