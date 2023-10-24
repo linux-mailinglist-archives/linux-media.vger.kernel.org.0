@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC6767D447D
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 03:07:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4113F7D447E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 03:07:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230284AbjJXBHw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Oct 2023 21:07:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39612 "EHLO
+        id S231152AbjJXBHx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Oct 2023 21:07:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39538 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231820AbjJXAvf (ORCPT
+        with ESMTP id S231824AbjJXAvf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 23 Oct 2023 20:51:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD41120
-        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 17:51:33 -0700 (PDT)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F319910E
+        for <linux-media@vger.kernel.org>; Mon, 23 Oct 2023 17:51:32 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 184B1F02;
-        Tue, 24 Oct 2023 02:51:16 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 744B7128D;
+        Tue, 24 Oct 2023 02:51:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698108676;
-        bh=RFN+QpDv46gm2oi8tWpGpzjCGwNhdN1m5dt/qS0Z/5o=;
+        s=mail; t=1698108677;
+        bh=To/N0JtBBDNKSyDB9ylDmIGcJHGess6jPoj9ixGYWCw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=q8a4dH/1te6E9Lj2FApBx5/bM40AmTT31tIdL0/UQJN7DxHJ5Fwsfx6dOBdiEcHl/
-         oyHdCW+KMEQnruFm0iERPknagPawDP7rOflvgmk2qI+rObKRfvKIXu8GSFujm0Cc9g
-         3UfPaWFg+XqBdFJtTDAHb052iE2RnAaMBaqQ2SsM=
+        b=J1qZa/FkKjVmP6QLor2A4ycvKO9HU+cByn5Hw/eNeZ9y2ITZpMGJZHWrQouvE96hP
+         sJShbTtVmrZE198AHFA2NTD9XpFnCtj4oh71McJEEnkzcsevAeknNOPnGOA1qlnegV
+         1OZC9siIWVZFAjoENhFWOkDQej/7kARH772EmVVM=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
         Hans de Goede <hansg@kernel.org>
-Subject: [RFC PATCH v1 3/4] media: v4l2-subdev: Store frame interval in subdev state
-Date:   Tue, 24 Oct 2023 03:51:29 +0300
-Message-ID: <20231024005130.28026-4-laurent.pinchart@ideasonboard.com>
+Subject: [RFC PATCH v1 4/4] media: i2c: thp7312: Store frame interval in subdev state
+Date:   Tue, 24 Oct 2023 03:51:30 +0300
+Message-ID: <20231024005130.28026-5-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231024005130.28026-1-laurent.pinchart@ideasonboard.com>
 References: <20231024005130.28026-1-laurent.pinchart@ideasonboard.com>
@@ -48,188 +48,268 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Subdev states store all standard pad configuration data, except for
-frame intervals. Fix it by adding interval fields in the
-v4l2_subdev_pad_config and v4l2_subdev_stream_config structures, with
-corresponding accessor functions and a helper function to implement the
-.get_frame_interval() operation.
+Use the newly added storage for frame interval in the subdev state to
+simplify the driver.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-subdev.c | 44 +++++++++++++++++++++
- include/media/v4l2-subdev.h           | 57 +++++++++++++++++++++++++++
- 2 files changed, 101 insertions(+)
+ drivers/media/i2c/thp7312.c | 145 ++++++++++++++++++++----------------
+ 1 file changed, 79 insertions(+), 66 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index c45d60a87701..518f2f35c68d 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1618,6 +1618,29 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
+diff --git a/drivers/media/i2c/thp7312.c b/drivers/media/i2c/thp7312.c
+index c5b1b6321633..28f869f69d02 100644
+--- a/drivers/media/i2c/thp7312.c
++++ b/drivers/media/i2c/thp7312.c
+@@ -278,10 +278,6 @@ struct thp7312_device {
  
-+int v4l2_subdev_get_frame_interval(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *state,
-+				   struct v4l2_subdev_frame_interval *fi)
+ 	struct v4l2_ctrl_handler ctrl_handler;
+ 
+-	/* These are protected by v4l2 active state */
+-	const struct thp7312_mode_info *current_mode;
+-	const struct thp7312_frame_rate *current_rate;
+-
+ 	struct {
+ 		struct v4l2_ctrl *focus_auto;
+ 		struct v4l2_ctrl *focus_absolute;
+@@ -329,6 +325,47 @@ static inline struct thp7312_device *to_thp7312_dev(struct v4l2_subdev *sd)
+ 	return container_of(sd, struct thp7312_device, sd);
+ }
+ 
++static const struct thp7312_mode_info *
++thp7312_find_mode(unsigned int width, unsigned int height, bool nearest)
 +{
-+	struct v4l2_fract *interval;
++	const struct thp7312_mode_info *mode;
 +
-+	if (sd->flags & V4L2_SUBDEV_FL_STREAMS)
-+		interval = v4l2_subdev_state_get_stream_interval(state, fi->pad,
-+								 fi->stream);
-+	else if (fi->pad < sd->entity.num_pads && fi->stream == 0)
-+		interval = v4l2_subdev_get_pad_interval(sd, state, fi->pad);
-+	else
-+		interval = NULL;
++	mode = v4l2_find_nearest_size(thp7312_mode_info_data,
++				      ARRAY_SIZE(thp7312_mode_info_data),
++				      width, height, width, height);
 +
-+	if (!interval)
-+		return -EINVAL;
++	if (!nearest && (mode->width != width || mode->height != height))
++		return NULL;
 +
-+	fi->interval = *interval;
-+
-+	return 0;
++	return mode;
 +}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_get_frame_interval);
 +
- int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
- 			    struct v4l2_subdev_state *state,
- 			    const struct v4l2_subdev_krouting *routing)
-@@ -1761,6 +1784,27 @@ v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_compose);
- 
-+struct v4l2_fract *
-+v4l2_subdev_state_get_stream_interval(struct v4l2_subdev_state *state,
-+				      unsigned int pad, u32 stream)
++static const struct thp7312_frame_rate *
++thp7312_find_rate(const struct thp7312_mode_info *mode, unsigned int fps,
++		  bool nearest)
 +{
-+	struct v4l2_subdev_stream_configs *stream_configs;
-+	unsigned int i;
++	const struct thp7312_frame_rate *best_rate = NULL;
++	const struct thp7312_frame_rate *rate;
++	unsigned int best_delta = UINT_MAX;
 +
-+	lockdep_assert_held(state->lock);
++	if (!mode)
++		return NULL;
 +
-+	stream_configs = &state->stream_configs;
++	for (rate = mode->rates; rate->fps && best_delta; ++rate) {
++		unsigned int delta = abs(rate->fps - fps);
 +
-+	for (i = 0; i < stream_configs->num_configs; ++i) {
-+		if (stream_configs->configs[i].pad == pad &&
-+		    stream_configs->configs[i].stream == stream)
-+			return &stream_configs->configs[i].interval;
++		if (delta <= best_delta) {
++			best_delta = delta;
++			best_rate = rate;
++		}
 +	}
 +
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_stream_interval);
++	if (!nearest && best_delta)
++		return NULL;
 +
- int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
- 					  u32 pad, u32 stream, u32 *other_pad,
- 					  u32 *other_stream)
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index 962b546d0e3b..363f9a8a084c 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -681,11 +681,13 @@ struct v4l2_subdev_ir_ops {
-  * @format: &struct v4l2_mbus_framefmt
-  * @crop: &struct v4l2_rect to be used for crop
-  * @compose: &struct v4l2_rect to be used for compose
-+ * @interval: frame interval
++	return best_rate;
++}
++
+ /* -----------------------------------------------------------------------------
+  * Device Access & Configuration
   */
- struct v4l2_subdev_pad_config {
- 	struct v4l2_mbus_framefmt format;
- 	struct v4l2_rect crop;
- 	struct v4l2_rect compose;
-+	struct v4l2_fract interval;
- };
+@@ -475,17 +512,30 @@ static int thp7312_set_framefmt(struct thp7312_device *thp7312,
+ static int thp7312_init_mode(struct thp7312_device *thp7312,
+ 			     struct v4l2_subdev_state *sd_state)
+ {
++	const struct thp7312_mode_info *mode;
++	const struct thp7312_frame_rate *rate;
+ 	struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_fract *interval;
+ 	int ret;
  
- /**
-@@ -697,6 +699,7 @@ struct v4l2_subdev_pad_config {
-  * @fmt: &struct v4l2_mbus_framefmt
-  * @crop: &struct v4l2_rect to be used for crop
-  * @compose: &struct v4l2_rect to be used for compose
-+ * @interval: frame interval
-  *
-  * This structure stores configuration for a stream.
-  */
-@@ -708,6 +711,7 @@ struct v4l2_subdev_stream_config {
- 	struct v4l2_mbus_framefmt fmt;
- 	struct v4l2_rect crop;
- 	struct v4l2_rect compose;
-+	struct v4l2_fract interval;
- };
++	/*
++	 * TODO: The mode and rate should be cached in the subdev state, once
++	 * support for extending states will be available.
++	 */
+ 	fmt = v4l2_subdev_get_pad_format(&thp7312->sd, sd_state, 0);
++	interval = v4l2_subdev_get_pad_interval(&thp7312->sd, sd_state, 0);
++
++	mode = thp7312_find_mode(fmt->width, fmt->height, false);
++	rate = thp7312_find_rate(mode, interval->denominator, false);
++
++	if (WARN_ON(!mode || !rate))
++		return -EINVAL;
  
- /**
-@@ -1199,6 +1203,26 @@ v4l2_subdev_get_pad_compose(struct v4l2_subdev *sd,
- 	return &state->pads[pad].compose;
+ 	ret = thp7312_set_framefmt(thp7312, fmt);
+ 	if (ret)
+ 		return ret;
+ 
+-	return thp7312_change_mode(thp7312, thp7312->current_mode,
+-				   thp7312->current_rate);
++	return thp7312_change_mode(thp7312, mode, rate);
  }
  
-+/**
-+ * v4l2_subdev_get_pad_interval - ancillary routine to get
-+ *	&struct v4l2_subdev_pad_config->interval
-+ *
-+ * @sd: pointer to &struct v4l2_subdev
-+ * @state: pointer to &struct v4l2_subdev_state.
-+ * @pad: index of the pad in the &struct v4l2_subdev_state->pads array.
-+ */
-+static inline struct v4l2_fract *
-+v4l2_subdev_get_pad_interval(struct v4l2_subdev *sd,
-+			     struct v4l2_subdev_state *state,
-+			     unsigned int pad)
-+{
-+	if (WARN_ON(!state))
-+		return NULL;
-+	if (WARN_ON(pad >= sd->entity.num_pads))
-+		pad = 0;
-+	return &state->pads[pad].interval;
-+}
-+
- /*
-  * Temprary helpers until uses of v4l2_subdev_get_try_* functions have been
-  * renamed
-@@ -1489,6 +1513,24 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
- int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
- 			struct v4l2_subdev_format *format);
+ static int thp7312_stream_enable(struct thp7312_device *thp7312, int enable)
+@@ -703,21 +753,6 @@ static bool thp7312_find_bus_code(u32 code)
+ 	return false;
+ }
  
-+/**
-+ * v4l2_subdev_get_frame_interval() - Fill frame interval based on state
-+ * @sd: subdevice
-+ * @state: subdevice state
-+ * @fi: pointer to &struct v4l2_subdev_frame_interval
-+ *
-+ * Fill @fi->interval field based on the information in the @fi struct.
-+ *
-+ * This function can be used by the subdev drivers which support active state to
-+ * implement v4l2_subdev_pad_ops.get_frame_interval if the subdev driver does
-+ * not need to do anything special in their get_frame_interval op.
-+ *
-+ * Returns 0 on success, error value otherwise.
-+ */
-+int v4l2_subdev_get_frame_interval(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *state,
-+				   struct v4l2_subdev_frame_interval *fi);
-+
- /**
-  * v4l2_subdev_set_routing() - Set given routing to subdev state
-  * @sd: The subdevice
-@@ -1580,6 +1622,21 @@ struct v4l2_rect *
- v4l2_subdev_state_get_stream_compose(struct v4l2_subdev_state *state,
- 				     unsigned int pad, u32 stream);
+-static const struct thp7312_mode_info *
+-thp7312_find_mode(unsigned int width, unsigned int height, bool nearest)
+-{
+-	const struct thp7312_mode_info *mode;
+-
+-	mode = v4l2_find_nearest_size(thp7312_mode_info_data,
+-				      ARRAY_SIZE(thp7312_mode_info_data),
+-				      width, height, width, height);
+-
+-	if (!nearest && (mode->width != width || mode->height != height))
+-		return NULL;
+-
+-	return mode;
+-}
+-
+ static int thp7312_enum_mbus_code(struct v4l2_subdev *sd,
+ 				  struct v4l2_subdev_state *sd_state,
+ 				  struct v4l2_subdev_mbus_code_enum *code)
+@@ -781,6 +816,7 @@ static int thp7312_set_fmt(struct v4l2_subdev *sd,
+ 	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
+ 	struct v4l2_mbus_framefmt *mbus_fmt = &format->format;
+ 	struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_fract *interval;
+ 	const struct thp7312_mode_info *mode;
  
-+/**
-+ * v4l2_subdev_state_get_stream_interval() - Get pointer to a stream frame interval
-+ * @state: subdevice state
-+ * @pad: pad id
-+ * @stream: stream id
-+ *
-+ * This returns a pointer to the frame interval for the given pad + stream in
-+ * the subdev state.
-+ *
-+ * If the state does not contain the given pad + stream, NULL is returned.
-+ */
-+struct v4l2_fract *
-+v4l2_subdev_state_get_stream_interval(struct v4l2_subdev_state *state,
-+				      unsigned int pad, u32 stream);
+ 	if (!thp7312_find_bus_code(mbus_fmt->code))
+@@ -800,37 +836,22 @@ static int thp7312_set_fmt(struct v4l2_subdev *sd,
+ 
+ 	*mbus_fmt = *fmt;
+ 
+-	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+-		thp7312->current_mode = mode;
+-		thp7312->current_rate = &mode->rates[0];
+-	}
++	interval = v4l2_subdev_get_pad_interval(sd, sd_state, 0);
++	interval->numerator = 1;
++	interval->denominator = mode->rates[0].fps;
+ 
+ 	return 0;
+ }
+ 
+-static int thp7312_g_frame_interval(struct v4l2_subdev *sd,
+-				    struct v4l2_subdev_frame_interval *fi)
+-{
+-	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
+-	struct v4l2_subdev_state *sd_state;
+-
+-	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+-	fi->interval.numerator = 1;
+-	fi->interval.denominator = thp7312->current_rate->fps;
+-	v4l2_subdev_unlock_state(sd_state);
+-
+-	return 0;
+-}
+-
+-static int thp7312_s_frame_interval(struct v4l2_subdev *sd,
+-				    struct v4l2_subdev_frame_interval *fi)
++static int thp7312_set_frame_interval(struct v4l2_subdev *sd,
++				      struct v4l2_subdev_state *sd_state,
++				      struct v4l2_subdev_frame_interval *fi)
+ {
+ 	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
+ 	const struct thp7312_mode_info *mode;
+-	const struct thp7312_frame_rate *best_rate = NULL;
+ 	const struct thp7312_frame_rate *rate;
+-	struct v4l2_subdev_state *sd_state;
+-	unsigned int best_delta = UINT_MAX;
++	const struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_fract *interval;
+ 	unsigned int fps;
+ 
+ 	/* Avoid divisions by 0, pick the highest frame if the interval is 0. */
+@@ -838,25 +859,15 @@ static int thp7312_s_frame_interval(struct v4l2_subdev *sd,
+ 	    ? DIV_ROUND_CLOSEST(fi->interval.denominator, fi->interval.numerator)
+ 	    : UINT_MAX;
+ 
+-	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
++	fmt = v4l2_subdev_get_pad_format(&thp7312->sd, sd_state, 0);
++	mode = thp7312_find_mode(fmt->width, fmt->height, false);
++	rate = thp7312_find_rate(mode, fps, true);
+ 
+-	mode = thp7312->current_mode;
++	interval = v4l2_subdev_get_pad_interval(sd, sd_state, 0);
++	interval->numerator = 1;
++	interval->denominator = rate->fps;
+ 
+-	for (rate = mode->rates; rate->fps && best_delta; ++rate) {
+-		unsigned int delta = abs(rate->fps - fps);
+-
+-		if (delta <= best_delta) {
+-			best_delta = delta;
+-			best_rate = rate;
+-		}
+-	}
+-
+-	thp7312->current_rate = best_rate;
+-
+-	v4l2_subdev_unlock_state(sd_state);
+-
+-	fi->interval.numerator = 1;
+-	fi->interval.denominator = best_rate->fps;
++	fi->interval = *interval;
+ 
+ 	return 0;
+ }
+@@ -911,8 +922,10 @@ static int thp7312_init_cfg(struct v4l2_subdev *sd,
+ {
+ 	const struct thp7312_mode_info *default_mode = &thp7312_mode_info_data[0];
+ 	struct v4l2_mbus_framefmt *fmt;
++	struct v4l2_fract *interval;
+ 
+ 	fmt = v4l2_subdev_get_pad_format(sd, sd_state, 0);
++	interval = v4l2_subdev_get_pad_interval(sd, sd_state, 0);
+ 
+ 	/*
+ 	 * default init sequence initialize thp7312 to
+@@ -927,6 +940,9 @@ static int thp7312_init_cfg(struct v4l2_subdev *sd,
+ 	fmt->height = default_mode->height;
+ 	fmt->field = V4L2_FIELD_NONE;
+ 
++	interval->numerator = 1;
++	interval->denominator = default_mode->rates[0].fps;
 +
- /**
-  * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
-  * @routing: routing used to find the opposite side
+ 	return 0;
+ }
+ 
+@@ -937,8 +953,6 @@ static const struct v4l2_subdev_core_ops thp7312_core_ops = {
+ };
+ 
+ static const struct v4l2_subdev_video_ops thp7312_video_ops = {
+-	.g_frame_interval = thp7312_g_frame_interval,
+-	.s_frame_interval = thp7312_s_frame_interval,
+ 	.s_stream = thp7312_s_stream,
+ };
+ 
+@@ -947,6 +961,8 @@ static const struct v4l2_subdev_pad_ops thp7312_pad_ops = {
+ 	.init_cfg = thp7312_init_cfg,
+ 	.get_fmt = v4l2_subdev_get_fmt,
+ 	.set_fmt = thp7312_set_fmt,
++	.get_frame_interval = v4l2_subdev_get_frame_interval,
++	.set_frame_interval = thp7312_set_frame_interval,
+ 	.enum_frame_size = thp7312_enum_frame_size,
+ 	.enum_frame_interval = thp7312_enum_frame_interval,
+ };
+@@ -2234,9 +2250,6 @@ static int thp7312_probe(struct i2c_client *client)
+ 	if (thp7312->boot_mode == THP7312_BOOT_MODE_2WIRE_SLAVE)
+ 		return thp7312_register_flash_mode(thp7312);
+ 
+-	thp7312->current_mode = &thp7312_mode_info_data[0];
+-	thp7312->current_rate = &thp7312->current_mode->rates[0];
+-
+ 	ret = thp7312_init_sensors(thp7312);
+ 	if (ret < 0)
+ 		return ret;
 -- 
 Regards,
 
