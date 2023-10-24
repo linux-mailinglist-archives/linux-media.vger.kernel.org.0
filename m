@@ -2,123 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01C567D53DF
-	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 16:24:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 369917D53ED
+	for <lists+linux-media@lfdr.de>; Tue, 24 Oct 2023 16:25:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343754AbjJXOYy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Oct 2023 10:24:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33412 "EHLO
+        id S1343757AbjJXOZW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Oct 2023 10:25:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37336 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234716AbjJXOYy (ORCPT
+        with ESMTP id S1343770AbjJXOZT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 10:24:54 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BB3F120;
-        Tue, 24 Oct 2023 07:24:52 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 570D0C433C7;
-        Tue, 24 Oct 2023 14:24:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698157491;
-        bh=JiAgJPKemF9Wi2E3Nn7vBcVAiqFYF94P9jyQ6bRIssY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=GVjYHRiP6+XxzVH7PcvA+cqVtDnX8XjFr68MPXEr15HWpNxUubJZCvRUsGdSYooIB
-         96TTfcHjGLsQqmO1T/idyHpCLQAReQYVEHrT07OtneqwvON7jrBfaQgWr95vLuPB0Z
-         de2nNZifq44lq9aPDX3UXBBMf3N5vSxPvGY9mYyRvjNTz0pmvwQ+5qa2o8abfRAIUh
-         1ZGa4qjYnbCThn/DunhPbmAAcvqtUV1zGKMad0cd+AcGL9EtLouUkTgForBJ5hE4sx
-         09h28lmevoSWX3HbXOqTM+1X8xATWi7uw6BirOy+44AR+mwIVoNeSidc26ZQ+lAnYm
-         YNikKsPR4ggpA==
-Date:   Tue, 24 Oct 2023 16:24:49 +0200
-From:   Maxime Ripard <mripard@kernel.org>
-To:     Doug Anderson <dianders@chromium.org>
-Cc:     Yuran Pereira <yuran.pereira@hotmail.com>, airlied@gmail.com,
-        neil.armstrong@linaro.org, sam@ravnborg.org, daniel@ffwll.ch,
-        maarten.lankhorst@linux.intel.com, tzimmermann@suse.de,
-        corbet@lwn.net, sumit.semwal@linaro.org, christian.koenig@amd.com,
-        dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] drm: docs: Remove item from TODO list
-Message-ID: <c6kwqxz2xgl64qb6dzetjjh6j2a6hj7mvbkeg57f5ulfs2hrib@ocjjsoxw3ns6>
-References: <DB3PR10MB683528B8252ED2A802A0E154E8D8A@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
- <CAD=FV=W0G6C-=99viHMQaW2REGRQr2xgaejnJmadOdZkoE7AjA@mail.gmail.com>
+        Tue, 24 Oct 2023 10:25:19 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EE6AB6;
+        Tue, 24 Oct 2023 07:25:16 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6E8D69CC;
+        Tue, 24 Oct 2023 16:25:03 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1698157503;
+        bh=3oku6C+GG9cPGZA7hJgl/BDLhXRdGDjJ7lRFk8t7noQ=;
+        h=From:To:Cc:Subject:Date:From;
+        b=so9oTYiZi83azn1FU1DQotqQ3Ej9FcEZb2otyNJDBOaev87xlziB1e+NNeYaf0v9B
+         H/ghi25nRRKfYEKt7j53IhCMdRm+chKmy5cBCzEOr9EDBFpsj64nn1hMjVpBm8CHvb
+         NaqHDP3bWvX68LXnW0MreV/v/48eJR7wcFgTUp1Q=
+From:   Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-renesas-soc@vger.kernel.org,
+        Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: [PATCH] media: vsp1: Remove unbalanced .s_stream(0) calls
+Date:   Tue, 24 Oct 2023 17:25:22 +0300
+Message-ID: <20231024142522.29658-1-laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="hybcvdpiqm52svmj"
-Content-Disposition: inline
-In-Reply-To: <CAD=FV=W0G6C-=99viHMQaW2REGRQr2xgaejnJmadOdZkoE7AjA@mail.gmail.com>
-X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The VSP1 driver uses the subdev .s_stream() operation to stop WPF
+instances, without a corresponding call to start them. The V4L2 subdev
+core started warning about unbalanced .s_stream() calls in commit
+009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream()
+requirements"), causing a regression with this driver.
 
---hybcvdpiqm52svmj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fix the problem by replacing the .s_stream() operation with an explicit
+function call for WPF instances. This allows sharing an additional data
+structure between RPF and WPF instances.
 
-Hi,
+Fixes: 009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream() requirements")
+Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+Closes: https://lore.kernel.org/linux-media/2221395-6a9b-9527-d697-e76aebc6af@linux-m68k.org/
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+---
+ .../media/platform/renesas/vsp1/vsp1_pipe.c   |  2 +-
+ .../media/platform/renesas/vsp1/vsp1_rpf.c    | 10 +------
+ .../media/platform/renesas/vsp1/vsp1_rwpf.c   |  8 +++--
+ .../media/platform/renesas/vsp1/vsp1_rwpf.h   |  4 ++-
+ .../media/platform/renesas/vsp1/vsp1_wpf.c    | 29 ++-----------------
+ 5 files changed, 14 insertions(+), 39 deletions(-)
 
-On Mon, Oct 23, 2023 at 10:25:50AM -0700, Doug Anderson wrote:
-> On Mon, Oct 23, 2023 at 9:31=E2=80=AFAM Yuran Pereira <yuran.pereira@hotm=
-ail.com> wrote:
-> >
-> > Since "Clean up checks for already prepared/enabled in panels" has
-> > already been done and merged [1], I think there is no longer a need
-> > for this item to be in the gpu TODO.
-> >
-> > [1] https://patchwork.freedesktop.org/patch/551421/
-> >
-> > Signed-off-by: Yuran Pereira <yuran.pereira@hotmail.com>
-> > ---
-> >  Documentation/gpu/todo.rst | 25 -------------------------
-> >  1 file changed, 25 deletions(-)
->=20
-> It's not actually all done. It's in a bit of a limbo state right now,
-> unfortunately. I landed all of the "simple" cases where panels were
-> needlessly tracking prepare/enable, but the less simple cases are
-> still outstanding.
->=20
-> Specifically the issue is that many panels have code to properly power
-> cycle themselves off at shutdown time and in order to do that they
-> need to keep track of the prepare/enable state. After a big, long
-> discussion [1] it was decided that we could get rid of all the panel
-> code handling shutdown if only all relevant DRM KMS drivers would
-> properly call drm_atomic_helper_shutdown().
->=20
-> I made an attempt to get DRM KMS drivers to call
-> drm_atomic_helper_shutdown() [2] [3] [4]. I was able to land the
-> patches that went through drm-misc, but currently many of the
-> non-drm-misc ones are blocked waiting for attention.
->=20
-> ...so things that could be done to help out:
->=20
-> a) Could review patches that haven't landed in [4]. Maybe adding a
-> Reviewed-by tag would help wake up maintainers?
->=20
-> b) Could see if you can identify panels that are exclusively used w/
-> DRM drivers that have already been converted and then we could post
-> patches for just those panels. I have no idea how easy this task would
-> be. Is it enough to look at upstream dts files by "compatible" string?
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+index f8093ba9539e..68d05243c3ee 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+@@ -373,7 +373,7 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
+ 			   (7 << VI6_DPR_SMPPT_TGW_SHIFT) |
+ 			   (VI6_DPR_NODE_UNUSED << VI6_DPR_SMPPT_PT_SHIFT));
+ 
+-	v4l2_subdev_call(&pipe->output->entity.subdev, video, s_stream, 0);
++	vsp1_wpf_stop(pipe->output);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+index 3b17f5fa4067..ea12c3f12c92 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+@@ -43,14 +43,6 @@ static inline void vsp1_rpf_write(struct vsp1_rwpf *rpf,
+ 			       data);
+ }
+ 
+-/* -----------------------------------------------------------------------------
+- * V4L2 Subdevice Operations
+- */
+-
+-static const struct v4l2_subdev_ops rpf_ops = {
+-	.pad    = &vsp1_rwpf_pad_ops,
+-};
+-
+ /* -----------------------------------------------------------------------------
+  * VSP1 Entity Operations
+  */
+@@ -411,7 +403,7 @@ struct vsp1_rwpf *vsp1_rpf_create(struct vsp1_device *vsp1, unsigned int index)
+ 	rpf->entity.index = index;
+ 
+ 	sprintf(name, "rpf.%u", index);
+-	ret = vsp1_entity_init(vsp1, &rpf->entity, name, 2, &rpf_ops,
++	ret = vsp1_entity_init(vsp1, &rpf->entity, name, 2, &vsp1_rwpf_subdev_ops,
+ 			       MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER);
+ 	if (ret < 0)
+ 		return ERR_PTR(ret);
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+index 22a82d218152..e0f87c8103ca 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+@@ -24,7 +24,7 @@ struct v4l2_rect *vsp1_rwpf_get_crop(struct vsp1_rwpf *rwpf,
+ }
+ 
+ /* -----------------------------------------------------------------------------
+- * V4L2 Subdevice Pad Operations
++ * V4L2 Subdevice Operations
+  */
+ 
+ static int vsp1_rwpf_enum_mbus_code(struct v4l2_subdev *subdev,
+@@ -243,7 +243,7 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
+ 	return ret;
+ }
+ 
+-const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops = {
++static const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops = {
+ 	.init_cfg = vsp1_entity_init_cfg,
+ 	.enum_mbus_code = vsp1_rwpf_enum_mbus_code,
+ 	.enum_frame_size = vsp1_rwpf_enum_frame_size,
+@@ -253,6 +253,10 @@ const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops = {
+ 	.set_selection = vsp1_rwpf_set_selection,
+ };
+ 
++const struct v4l2_subdev_ops vsp1_rwpf_subdev_ops = {
++	.pad    = &vsp1_rwpf_pad_ops,
++};
++
+ /* -----------------------------------------------------------------------------
+  * Controls
+  */
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+index eac5c04c2239..e0d212c70b2f 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+@@ -79,9 +79,11 @@ static inline struct vsp1_rwpf *entity_to_rwpf(struct vsp1_entity *entity)
+ struct vsp1_rwpf *vsp1_rpf_create(struct vsp1_device *vsp1, unsigned int index);
+ struct vsp1_rwpf *vsp1_wpf_create(struct vsp1_device *vsp1, unsigned int index);
+ 
++void vsp1_wpf_stop(struct vsp1_rwpf *wpf);
++
+ int vsp1_rwpf_init_ctrls(struct vsp1_rwpf *rwpf, unsigned int ncontrols);
+ 
+-extern const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops;
++extern const struct v4l2_subdev_ops vsp1_rwpf_subdev_ops;
+ 
+ struct v4l2_rect *vsp1_rwpf_get_crop(struct vsp1_rwpf *rwpf,
+ 				     struct v4l2_subdev_state *sd_state);
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+index d0074ca00920..cab4445eca69 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+@@ -186,17 +186,13 @@ static int wpf_init_controls(struct vsp1_rwpf *wpf)
+ }
+ 
+ /* -----------------------------------------------------------------------------
+- * V4L2 Subdevice Core Operations
++ * VSP1 Entity Operations
+  */
+ 
+-static int wpf_s_stream(struct v4l2_subdev *subdev, int enable)
++void vsp1_wpf_stop(struct vsp1_rwpf *wpf)
+ {
+-	struct vsp1_rwpf *wpf = to_rwpf(subdev);
+ 	struct vsp1_device *vsp1 = wpf->entity.vsp1;
+ 
+-	if (enable)
+-		return 0;
+-
+ 	/*
+ 	 * Write to registers directly when stopping the stream as there will be
+ 	 * no pipeline run to apply the display list.
+@@ -204,27 +200,8 @@ static int wpf_s_stream(struct v4l2_subdev *subdev, int enable)
+ 	vsp1_write(vsp1, VI6_WPF_IRQ_ENB(wpf->entity.index), 0);
+ 	vsp1_write(vsp1, wpf->entity.index * VI6_WPF_OFFSET +
+ 		   VI6_WPF_SRCRPF, 0);
+-
+-	return 0;
+ }
+ 
+-/* -----------------------------------------------------------------------------
+- * V4L2 Subdevice Operations
+- */
+-
+-static const struct v4l2_subdev_video_ops wpf_video_ops = {
+-	.s_stream = wpf_s_stream,
+-};
+-
+-static const struct v4l2_subdev_ops wpf_ops = {
+-	.video	= &wpf_video_ops,
+-	.pad    = &vsp1_rwpf_pad_ops,
+-};
+-
+-/* -----------------------------------------------------------------------------
+- * VSP1 Entity Operations
+- */
+-
+ static void vsp1_wpf_destroy(struct vsp1_entity *entity)
+ {
+ 	struct vsp1_rwpf *wpf = entity_to_rwpf(entity);
+@@ -583,7 +560,7 @@ struct vsp1_rwpf *vsp1_wpf_create(struct vsp1_device *vsp1, unsigned int index)
+ 	wpf->entity.index = index;
+ 
+ 	sprintf(name, "wpf.%u", index);
+-	ret = vsp1_entity_init(vsp1, &wpf->entity, name, 2, &wpf_ops,
++	ret = vsp1_entity_init(vsp1, &wpf->entity, name, 2, &vsp1_rwpf_subdev_ops,
+ 			       MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER);
+ 	if (ret < 0)
+ 		return ERR_PTR(ret);
 
-I think it is, yes.
+base-commit: 19e67e01eb1e84f3529770d084b93f16a4894c42
+-- 
+Regards,
 
-Maxime
+Laurent Pinchart
 
---hybcvdpiqm52svmj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZTfTsAAKCRDj7w1vZxhR
-xcQLAQDLOftRXQ2lHJ/6tZ1C2DlWodIPleYTRFzDQVKVJDBTtQEAvg5gQvFvDTgw
-ic2BwYSSUUEriwl/ml0eDvtollJE0gM=
-=HH4h
------END PGP SIGNATURE-----
-
---hybcvdpiqm52svmj--
