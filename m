@@ -2,167 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D9457D676E
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 11:48:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F01EC7D6796
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 11:53:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233496AbjJYJsR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 05:48:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46718 "EHLO
+        id S233303AbjJYJxn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 05:53:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39128 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229606AbjJYJsQ (ORCPT
+        with ESMTP id S234684AbjJYJxf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 05:48:16 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0FCD9D;
-        Wed, 25 Oct 2023 02:48:12 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 399E2C0012;
-        Wed, 25 Oct 2023 09:48:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1698227290;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=1k2YPUzWcOkEagcDThcHO9wlMohvRnn0bjyNb8MXgl0=;
-        b=LTvFjk7ru7UkIs9uW/KET6ghc50QAERqTyVRBn2khbb2K7m4F49+ChD2Azxt9feWIyQb2T
-        vJwtrXSaA7BMxp0cpTuB1L+6khhVbMYWIhlMGwH+c9yGOzqhfAHLKFk5LyrafZMIiuS6/8
-        XQlcV2xRb4lzS0UhDzyOBQc7cBmkhHiG28Ytdqm2FF2KPM7w0yRVD8mNyBt2FMzfHWZTQL
-        Uvsw7y3E3wGqUfMGCx3S6LjTOUZ7NlIF4YJwaQ0bpM1aFPxoQ1Gx/Q2BSwYLVrBPr6M+w5
-        K4Dj6pFCie03LwOpfeIA60So2qTBctC8eqdZ9F4ypOdHw8UAubUPyRE6RLOGtg==
-Date:   Wed, 25 Oct 2023 11:48:08 +0200
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Michael Riesch <michael.riesch@wolfvision.net>
-Cc:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, ezequiel@vanguardiasur.com.ar,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com
-Subject: Re: [PATCH v8 2/3] media: rockchip: Add a driver for Rockhip's
- camera interface
-Message-ID: <ZTjkWIbhV0OsvepD@aptenodytes>
-References: <cover.1697446303.git.mehdi.djait@bootlin.com>
- <3790470ff7606fc075ec742d43254e52dde5d120.1697446303.git.mehdi.djait@bootlin.com>
- <ee4034b9-85f6-42cc-abca-d61004aa0a6c@wolfvision.net>
- <ZTjWsf69QdXoJNKj@aptenodytes>
- <a57db26a-704f-4859-a528-26d87c555576@wolfvision.net>
+        Wed, 25 Oct 2023 05:53:35 -0400
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B85B311F;
+        Wed, 25 Oct 2023 02:53:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1698227607; bh=H1wJkMmM3RLGtqBxcD2SkPsFMAkzEk6Lnx1q4pd00ZY=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Dp64/GGqXplxAhkDT3gedu+Sab+eb/+Hyj0bIZlSKcMYYtDGIKUDEQN6fzQa/xlWi
+         o9URUD2793P3Pd8XVPtqKqWTRAWhOiLBqiz+Xj3KOS85yfdWFhDot+7gzeuGebU2Zt
+         /vOhlmP3zxX9lj7KLBn6IJmZx0z20dln14S9n2x6Yzk09UxcjqI8woHLHXZemEA+ms
+         G8jMY417JT8CLRviQBvZbEnnBRm31/RRtknULdvrSajNWMWruQnWO0D1WntEXQ4bp8
+         kXnb1OiHoBPIJf1LDgFRQcbonrgHZyPUe6PZDp5u9XAfU2Yp3uI/3Mm8Uw7e0+5TWN
+         CKIORt/Tz/lNg==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id DD4071000FC; Wed, 25 Oct 2023 10:53:27 +0100 (BST)
+Date:   Wed, 25 Oct 2023 10:53:27 +0100
+From:   Sean Young <sean@mess.org>
+To:     Daniel Thompson <daniel.thompson@linaro.org>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
+        linux-pwm@vger.kernel.org,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+        Rodrigo Vivi <rodrigo.vivi@intel.com>,
+        Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Javier Martinez Canillas <javierm@redhat.com>,
+        Jean Delvare <jdelvare@suse.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Support Opensource <support.opensource@diasemi.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+        Mark Gross <markgross@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Helge Deller <deller@gmx.de>, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
+        dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+Subject: Re: [PATCH v3 1/3] pwm: make it possible to apply pwm changes in
+ atomic context
+Message-ID: <ZTjll7oTNVWqygbD@gofer.mess.org>
+References: <cover.1697534024.git.sean@mess.org>
+ <a7fcd19938d5422abc59c968ff7b3d5c275577ed.1697534024.git.sean@mess.org>
+ <90728c06-4c6c-b3d2-4723-c24711be2fa5@redhat.com>
+ <20231019105118.64gdzzixwqrztjir@pengutronix.de>
+ <01a505ac-320f-3819-a58d-2b82c1bf2a86@redhat.com>
+ <ZTT9fvEF+lqfzGJ/@gofer.mess.org>
+ <20231023133417.GE49511@aspen.lan>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="fBirLtQySHnjwSRc"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <a57db26a-704f-4859-a528-26d87c555576@wolfvision.net>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231023133417.GE49511@aspen.lan>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Oct 23, 2023 at 02:34:17PM +0100, Daniel Thompson wrote:
+> On Sun, Oct 22, 2023 at 11:46:22AM +0100, Sean Young wrote:
+> > On Sat, Oct 21, 2023 at 11:08:22AM +0200, Hans de Goede wrote:
+> > > On 10/19/23 12:51, Uwe Kleine-König wrote:
+> > > > On Wed, Oct 18, 2023 at 03:57:48PM +0200, Hans de Goede wrote:
+> > > >> On 10/17/23 11:17, Sean Young wrote:
+> > > > I think it's very subjective if you consider this
+> > > > churn or not.
+> > >
+> > > I consider it churn because I don't think adding a postfix
+> > > for what is the default/expected behavior is a good idea
+> > > (with GPIOs not sleeping is the expected behavior).
+> > >
+> > > I agree that this is very subjective and very much goes
+> > > into the territory of bikeshedding. So please consider
+> > > the above my 2 cents on this and lets leave it at that.
+> >
+> > You have a valid point. Let's focus on having descriptive function names.
+> 
+> For a couple of days I've been trying to resist the bikeshedding (esp.
+> given the changes to backlight are tiny) so I'll try to keep it as
+> brief as I can:
+> 
+> 1. I dislike the do_it() and do_it_cansleep() pairing. It is
+>    difficult to detect when a client driver calls do_it() by mistake.
+>    In fact a latent bug of this nature can only be detected by runtime
+>    testing with the small number of PWMs that do not support
+>    configuration from an atomic context.
+> 
+>    In contrast do_it() and do_it_atomic()[*] means that although
+>    incorrectly calling do_it() from an atomic context can be pretty
+>    catastrophic it is also trivially detected (with any PWM driver)
+>    simply by running with CONFIG_DEBUG_ATOMIC_SLEEP.
+> 
+>    No objections (beyond churn) to fully spelt out pairings such as
+>    do_it_cansleep() and do_it_atomic()[*]!
 
---fBirLtQySHnjwSRc
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I must say I do like the look of this. Uwe, how do you feel about:
+pwm_apply_cansleep() and pwm_apply_atomic()? I know we've talked about
+pwm_apply_atomic in the past, however I think this this the best 
+option I've seen so far.
 
-Michael,
+> 2. If there is an API rename can we make sure the patch contains no
+>    other changes (e.g. don't introduce any new API in the same patch).
+>    Seperating renames makes the patches easier to review!
+>    It makes each one smaller and easier to review!
 
-On Wed 25 Oct 23, 11:38, Michael Riesch wrote:
-> Hi Paul,
->=20
-> On 10/25/23 10:49, Paul Kocialkowski wrote:
-> > Hi,
-> >=20
-> > On Mon 23 Oct 23, 15:28, Michael Riesch wrote:
-> >> Typo in the subject: "Rockhip's" -> "Rockchip's"
-> >> I think this typo has been in there for a while now ;-)
-> >=20
-> > Great hips make for great dancing!
->=20
-> ...to rock music, obviously.
-
-:)
-
-> > [...]
-> >>> +#define write_vip_reg(base, addr, val)  writel(val, (addr) + (base))
-> >>> +#define read_vip_reg(base, addr) readl((addr) + (base))
-> >>
-> >> Please provide those helpers as proper inline functions. As to the
-> >> naming, the "_reg" suffix seems unnecessary.
-> >>
-> >> Alternatively, you could consider converting the driver to use regmap.
-> >=20
-> > Come to think of it, I feel like it would make more sense to have an in=
-line
-> > function which is given a struct rk_vip_device instead of having to der=
-eference
-> > it every time in the caller to access the base address.
->=20
-> Indeed. Either using regmap, e.g.,
->=20
-> int regmap_write(struct regmap *map, unsigned int reg, unsigned int val);
->=20
-> or something equivalant
->=20
-> static inline int cif_write(struct cif_device *device, unsigned int reg,
-> unsigned int val);
-
-Looks good to me!
-
-> Not sure what you agreed on in terms of a method prefix. The Rockchip
-> RGA driver uses "rga_something", the Rockchip ISP driver uses
-> "rkisp1_something". This would mean either "cif_something" or
-> "rkcif_something", right?
-
-Yeah I don't really have strong opinions on this so I'll let Mehdi decide
-(as long as it's consistent everywhere in the code).
-
-I guess there is a slight readability advantage in using "cif_" instead of
-"rkcif_".
-
-> > [...]
-> >>> +	struct rk_vip_sensor_info	sensor;
-> >>
-> >> Using "sensor" as name does not seem correct. As pointed out above it
-> >> could be a video decoder just as well. Something with "subdevice" mayb=
-e?
-> >=20
-> > Agreed. I suggest renaming the struct "rk_vip_sensor_info" -> "rk_cif_r=
-emote"
-> > and just calling the member "remote".
->=20
-> "remote" sounds reasonable. Prefix to be bikeshedded, see comment above.
->=20
-> In the future, we may add an array with mipi_remotes that represents the
-> subdevices attached wia MIPI CSI-2.
-
-Sounds good!
+Yes, this should have been separated out. Will fix for next version.
 
 Thanks,
 
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---fBirLtQySHnjwSRc
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmU45FgACgkQ3cLmz3+f
-v9FojAf+IytRfPPzjE8k2tDfOt43W+J5DlDw5ygYN5c877ywwBi+bZDgapHTZWo6
-arsbbgPIJqQpb7mz3bHRTzzm8COFbFO6PWrO0WKVGB6Rzm/N0kSY9rN4GGpgbT+2
-ZA7eIWJ8eJza0pfp2JG/MYBznMFCuiJhta/j+4Hgz3iQH9h64UKycPfl+eiWZdZD
-SaEc07LkpYZZIOrPZtGVQKDiAqQX5lrCyA5YhadGs+P1BVukq2yTSM/O5nk4N8ds
-1AR6hRVMy65rGrSLagXj0enP1GFYPDoYLFRO4lfbh/CU0yriNtSkecyz2k9q4NgW
-NPRaBti9VhIeNutHheCCKZyoeWPBEA==
-=zaqo
------END PGP SIGNATURE-----
-
---fBirLtQySHnjwSRc--
+Sean
