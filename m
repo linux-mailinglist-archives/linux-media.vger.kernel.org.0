@@ -2,68 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CE9D7D6D6D
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 15:38:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98EC27D6E3A
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 16:04:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233953AbjJYNiT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 09:38:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33000 "EHLO
+        id S1344575AbjJYNx5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 09:53:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233065AbjJYNiR (ORCPT
+        with ESMTP id S235025AbjJYNxw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 09:38:17 -0400
+        Wed, 25 Oct 2023 09:53:52 -0400
 Received: from smtp-relay-internal-1.canonical.com (smtp-relay-internal-1.canonical.com [185.125.188.123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25382131
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 06:38:15 -0700 (PDT)
-Received: from mail-qt1-f197.google.com (mail-qt1-f197.google.com [209.85.160.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8C8132
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 06:51:59 -0700 (PDT)
+Received: from mail-vk1-f197.google.com (mail-vk1-f197.google.com [209.85.221.197])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 891FE420B5
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 13:38:11 +0000 (UTC)
+        by smtp-relay-internal-1.canonical.com (Postfix) with ESMTPS id 48D17413B8
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 13:50:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canonical.com;
-        s=20210705; t=1698241091;
-        bh=4kZetE1rdZ7P5Qi3G+jzZsycI0EzhJ2peFQaOTjHG8s=;
+        s=20210705; t=1698241818;
+        bh=W1x37B91j9+69z88CpRerUtWigBjNUnfhOj4SQBIvW4=;
         h=From:In-Reply-To:References:Mime-Version:Date:Message-ID:Subject:
          To:Cc:Content-Type;
-        b=Zbm7JNN2Kn7owckCN61T9VLnq7JznyG0uypYpg7GhfIVzNywEinmhNxr1xJtZ573f
-         IIq6YSNAkpkpiOIPz6Ubg6qJz5QC5uqdXSVOUppYeQQIKWQ1GCwE0EyQN3O0pGpx6Z
-         WLzsPhjE/EouOaakO0m8TMcbrgNLl0kqyoAwyuGojTwNliBn8lUdUBYYl7P4SvgOVS
-         xOjPEvPQs3QXzvDbN24KXy3hsfTLn7YtZDzYzEhTCLg+xvOyStKnAGS5aIWmB6XQwW
-         OF+1jq0sKV4PE4Qq8wcNZH8Av2oMgXQFrl21ViaN+VDrQXdpR0Tswq7t/cZMLG2fi2
-         n1UXxIuKw3aBw==
-Received: by mail-qt1-f197.google.com with SMTP id d75a77b69052e-41cc6fa3ea4so63997451cf.1
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 06:38:11 -0700 (PDT)
+        b=vS+12Q40AQ4TZ0QJz97o+VvWhbM+rqyeHwG+1ZD+Ih8mEMUEE8DoQjwmMIsgVMZTc
+         GRM4mUkK6H6/qKxgwcbVsHIpKMlGOUewITUboL59t5wtXNriDvTxFx9Yn1VWJH4olL
+         sSs6Va3B3mjbT5hy/2xEjh1E99qDgI8tGviExP4LEQPo/F7+2KyEuWPvxdL2Q/RIf2
+         jB4LWj8G67cKC11NE8f8z2CVaGGSWC+D1HzLf0ptDTq5nc/zmuhFlYKOKJxaDiQ6/3
+         TMpt0ttlunlbci+q1eSnxI05nJ/e1Yshlm6mTvtzNuew0gcCZ7qmpsZ/9Gfx3DtLVN
+         mkExeCxE4l/5g==
+Received: by mail-vk1-f197.google.com with SMTP id 71dfb90a1353d-49da52a5356so1805504e0c.2
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 06:50:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698241090; x=1698845890;
+        d=1e100.net; s=20230601; t=1698241817; x=1698846617;
         h=cc:to:subject:message-id:date:mime-version:references:in-reply-to
          :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4kZetE1rdZ7P5Qi3G+jzZsycI0EzhJ2peFQaOTjHG8s=;
-        b=huxNWUfEUaKqVI0zUCpVpuXK2Qg9qtIF+j2LQgqGQLXpjGVaILStqvDRyw7cFP8hYA
-         n7hvhq9DCcDxExLL5tcEYBI6ET2uuZFEjQ84t8zOE+b0aMQooCw3O+SFwjbH8ICwD9ct
-         YCdzjxa64Wydxpzk4LIFsqd7XCmrIZyq1Umw48v+lY8YEC1z4Os4QhTpiOkdwQ84af4+
-         a8XCKA4EFaSAbtdcD7876d1gLU9yOhC5fZqClr/bJMTr5pxJlRwl6n/wXmc4HMjc95E5
-         j/u1CJnDuHQoUWt/GC378m9YByw/aFPefNzwGM6y2MCG8dJi30cl85zDeOz0NlOdrwLm
-         PRjw==
-X-Gm-Message-State: AOJu0YyRM0GEuQCJQt+dmTLKmirFL6c7uDRrHNgZbLw3tDALL2ROcTlm
-        sW7tmpNkCP0GWx05mBHpnEGqdKC8wY+dkUVX93IzWuUAvDWpX7maR4ztkLOJAyJcrLHNNADl76i
-        STTdGfb/yAOUk5ovwwIDc9E3fHi94zNzQNoOgJqZq6xq3TvIhn2+ATS3Z
-X-Received: by 2002:a05:622a:1b9f:b0:417:bd2c:2683 with SMTP id bp31-20020a05622a1b9f00b00417bd2c2683mr16970915qtb.19.1698241090314;
-        Wed, 25 Oct 2023 06:38:10 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE9sqk9O9NSffONLMLkF62MheH44KULbbJziO/VE+15eqK7tXOWni0WrQFzdn8ozLKmF0Jvc5dWLHw93tWI6nk=
-X-Received: by 2002:a05:622a:1b9f:b0:417:bd2c:2683 with SMTP id
- bp31-20020a05622a1b9f00b00417bd2c2683mr16970883qtb.19.1698241090030; Wed, 25
- Oct 2023 06:38:10 -0700 (PDT)
+        bh=W1x37B91j9+69z88CpRerUtWigBjNUnfhOj4SQBIvW4=;
+        b=vYWSIrXyUZ2H89UZJ7H9TtObhoXAgPbHcerX7AYMa1lM57tZ9gocVHdSVD75cHLwpg
+         xVTo5vXCBYTVPSVvud92HL4RndJ1TXZ6+npw2xsC/YHpc7myxSGv077CX6bjJPes5aRC
+         wrLQfQtlNLPHaxLRIlh5zKU+SeDZxTmbw0BORAany364cpj+D7aKnflTHLoRT0jT2Q1S
+         PHqWTi+mcR1J0m4XsdFGVORSlQUbmQITK6C+86DIr4YI+bdnKP7zVmrYLj+FT3Kb/RCl
+         WUKoN6ObQeMvL2+Wj+SlwH5Z8p2tzh8hINZ7zunrYiQo1/lt7W4CbpQHXFRfKxAhKZ4h
+         YYZQ==
+X-Gm-Message-State: AOJu0Yx4kzLDGgPmbYoy0T2FlPP6LM+YNyIzMk+0pxCWJiH630kpXN42
+        9tRrXvxeQewhtqecUjlJxGOht+adg/RIQDfl7q3Ab8OtSARG1oSIz/b5rswvJr9uCQEAVW57ywX
+        kSHMqS8FIBBAxwTNckzmJs/4S/RNCvA3W1TXSS/fhRist0uok6qh+r2Nv
+X-Received: by 2002:a1f:2413:0:b0:496:b3b7:5d4c with SMTP id k19-20020a1f2413000000b00496b3b75d4cmr9124781vkk.16.1698241817330;
+        Wed, 25 Oct 2023 06:50:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG9zDnpBEjkuG+zK5+I3md5OYseNj7+FyeAufjrHbMrkjT4o0+aAODqiZVHTJv2jiFeyLuyYUPzrjH27o2gXYU=
+X-Received: by 2002:a1f:2413:0:b0:496:b3b7:5d4c with SMTP id
+ k19-20020a1f2413000000b00496b3b75d4cmr9124773vkk.16.1698241817037; Wed, 25
+ Oct 2023 06:50:17 -0700 (PDT)
 Received: from 348282803490 named unknown by gmailapi.google.com with
- HTTPREST; Wed, 25 Oct 2023 06:38:09 -0700
+ HTTPREST; Wed, 25 Oct 2023 06:50:16 -0700
 From:   Emil Renner Berthing <emil.renner.berthing@canonical.com>
-In-Reply-To: <20231025103957.3776-3-keith.zhao@starfivetech.com>
-References: <20231025103957.3776-1-keith.zhao@starfivetech.com> <20231025103957.3776-3-keith.zhao@starfivetech.com>
+In-Reply-To: <20231025103957.3776-4-keith.zhao@starfivetech.com>
+References: <20231025103957.3776-1-keith.zhao@starfivetech.com> <20231025103957.3776-4-keith.zhao@starfivetech.com>
 Mime-Version: 1.0
-Date:   Wed, 25 Oct 2023 06:38:09 -0700
-Message-ID: <CAJM55Z_Y_qp0J5FmWDPdziCRY7duNBhHnvM0Zza2pG-vK0etbw@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] riscv: dts: starfive: jh7110: add dc controller
- and hdmi node
+Date:   Wed, 25 Oct 2023 06:50:16 -0700
+Message-ID: <CAJM55Z_SS351YyudUkiS3YvBx7O9OM=MGL6PpgVZZjaYjLy3+w@mail.gmail.com>
+Subject: Re: [PATCH v2 3/6] drm/fourcc: Add drm/vs tiled modifiers
 To:     Keith Zhao <keith.zhao@starfivetech.com>,
         dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
@@ -91,7 +90,7 @@ Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
 Content-Type: text/plain; charset="UTF-8"
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -100,197 +99,92 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Keith Zhao wrote:
-> Add the dc controller and hdmi node for the Starfive JH7110 SoC.
+> For each modifier, add the corresponding description
 >
 > Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
 > ---
->  .../jh7110-starfive-visionfive-2.dtsi         | 91 +++++++++++++++++++
->  arch/riscv/boot/dts/starfive/jh7110.dtsi      | 41 +++++++++
->  2 files changed, 132 insertions(+)
+>  include/uapi/drm/drm_fourcc.h | 57 +++++++++++++++++++++++++++++++++++
+>  1 file changed, 57 insertions(+)
 >
-> diff --git a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-> index de0f40a8b..97909b6d2 100644
-> --- a/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-> +++ b/arch/riscv/boot/dts/starfive/jh7110-starfive-visionfive-2.dtsi
-> @@ -31,6 +31,25 @@ memory@40000000 {
->  		reg = <0x0 0x40000000 0x1 0x0>;
->  	};
+> diff --git a/include/uapi/drm/drm_fourcc.h b/include/uapi/drm/drm_fourcc.h
+> index 8db7fd3f7..a580a848c 100644
+> --- a/include/uapi/drm/drm_fourcc.h
+> +++ b/include/uapi/drm/drm_fourcc.h
+> @@ -419,6 +419,7 @@ extern "C" {
+>  #define DRM_FORMAT_MOD_VENDOR_ARM     0x08
+>  #define DRM_FORMAT_MOD_VENDOR_ALLWINNER 0x09
+>  #define DRM_FORMAT_MOD_VENDOR_AMLOGIC 0x0a
+> +#define DRM_FORMAT_MOD_VENDOR_VERISILICON 0x0b
 >
-> +	reserved-memory {
-> +		#address-cells = <2>;
-> +		#size-cells = <2>;
-> +		ranges;
-> +
-> +		/* vout applies for space from this CMA
-> +		 * Without this CMA reservation,
-> +		 * vout may not work properly.
-> +		 */
-> +		linux,cma {
-> +			compatible = "shared-dma-pool";
-> +			reusable;
-> +			size = <0x0 0x20000000>;
-> +			alignment = <0x0 0x1000>;
-> +			alloc-ranges = <0x0 0x70000000 0x0 0x20000000>;
-> +			linux,cma-default;
-> +		};
-> +	};
-> +
->  	gpio-restart {
->  		compatible = "gpio-restart";
->  		gpios = <&sysgpio 35 GPIO_ACTIVE_HIGH>;
-> @@ -231,6 +250,41 @@ GPOEN_DISABLE,
->  			slew-rate = <0>;
->  		};
->  	};
-> +
-> +	hdmi_pins: hdmi-0 {
-> +		hdmi-scl-pins {
-> +			pinmux = <GPIOMUX(0, GPOUT_SYS_HDMI_DDC_SCL,
-> +					     GPOEN_SYS_HDMI_DDC_SCL,
-> +					     GPI_SYS_HDMI_DDC_SCL)>;
-> +			input-enable;
-> +			bias-pull-up;
-> +		};
-> +
-> +		hdmi-sda-pins {
-> +			pinmux = <GPIOMUX(1, GPOUT_SYS_HDMI_DDC_SDA,
-> +					     GPOEN_SYS_HDMI_DDC_SDA,
-> +					     GPI_SYS_HDMI_DDC_SDA)>;
-> +			input-enable;
-> +			bias-pull-up;
-> +		};
-> +
-> +		hdmi-cec-pins {
-> +			pinmux = <GPIOMUX(14, GPOUT_SYS_HDMI_CEC_SDA,
-> +					     GPOEN_SYS_HDMI_CEC_SDA,
-> +					     GPI_SYS_HDMI_CEC_SDA)>;
-> +			input-enable;
-> +			bias-pull-up;
-> +		};
-> +
-> +		hdmi-hpd-pins {
-> +			pinmux = <GPIOMUX(15, GPOUT_HIGH,
-> +					     GPOEN_ENABLE,
-> +					     GPI_SYS_HDMI_HPD)>;
-> +			input-enable;
-> +			bias-disable; /* external pull-up */
-> +		};
-> +	};
-> +
-
-Please don't break the alphabetical ordering of these nodes.
-
->  };
+>  /* add more to the end as needed */
 >
->  &uart0 {
-> @@ -254,3 +308,40 @@ &U74_3 {
->  &U74_4 {
->  	cpu-supply = <&vdd_cpu>;
->  };
-> +
-> +&voutcrg {
-> +	status = "okay";
-> +};
-> +
-> +&display {
-> +	status = "okay";
-> +};
-> +
-> +&hdmi {
-> +	status = "okay";
-> +	pinctrl-names = "default";
-> +	pinctrl-0 = <&hdmi_pins>;
-> +
-> +	hdmi_in: port {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		hdmi_in_dc: endpoint@0 {
-> +			reg = <0>;
-> +			remote-endpoint = <&dc_out_hdmi>;
-> +		};
-> +	};
-> +};
-> +
-> +&dc8200 {
-> +	status = "okay";
-> +
-> +	dc_out: port {
-> +		#address-cells = <1>;
-> +		#size-cells = <0>;
-> +		dc_out_hdmi: endpoint@0 {
-> +			reg = <0>;
-> +			remote-endpoint = <&hdmi_in_dc>;
-> +		};
-> +
-> +	};
-> +};
-
-Some goes for these node references. The order is /-node, clocks, node refences
-sorted alphabetically.
-
-
-> diff --git a/arch/riscv/boot/dts/starfive/jh7110.dtsi b/arch/riscv/boot/dts/starfive/jh7110.dtsi
-> index 0005fa163..1670452fb 100644
-> --- a/arch/riscv/boot/dts/starfive/jh7110.dtsi
-> +++ b/arch/riscv/boot/dts/starfive/jh7110.dtsi
-> @@ -282,6 +282,11 @@ tdm_ext: tdm-ext-clock {
->  		#clock-cells = <0>;
->  	};
+> @@ -1562,6 +1563,62 @@ drm_fourcc_canonicalize_nvidia_format_mod(__u64 modifier)
+>  #define AMD_FMT_MOD_CLEAR(field) \
+>  	(~((__u64)AMD_FMT_MOD_##field##_MASK << AMD_FMT_MOD_##field##_SHIFT))
 >
-> +	display: display-subsystem {
-> +		compatible = "starfive,display-subsystem";
-> +		ports = <&dc_out>;
-> +	};
+> +#define DRM_FORMAT_MOD_VERISILICON_TYPE_NORMAL					0x00
+> +#define DRM_FORMAT_MOD_VERISILICON_TYPE_MASK					((__u64)0x3 << 54)
 > +
->  	soc {
->  		compatible = "simple-bus";
->  		interrupt-parent = <&plic>;
-> @@ -613,5 +618,41 @@ voutcrg: clock-controller@295c0000 {
->  			#reset-cells = <1>;
->  			power-domains = <&pwrc JH7110_PD_VOUT>;
->  		};
+> +#define fourcc_mod_vs_code(type, val) \
+> +	fourcc_mod_code(VERISILICON, ((((__u64)type) << 54) | (val)))
 > +
-> +		dc8200: lcd-controller@29400000 {
-> +			compatible = "starfive,jh7110-dc8200";
-> +			reg = <0x0 0x29400000 0x0 0x100>,
-> +			      <0x0 0x29400800 0x0 0x2000>;
-> +			interrupts = <95>;
-> +			clocks = <&syscrg JH7110_SYSCLK_NOC_BUS_DISP_AXI>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_PIX0>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_PIX1>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_CORE>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_AXI>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_AHB>,
-> +				<&hdmitx0_pixelclk>,
-> +				<&voutcrg JH7110_VOUTCLK_DC8200_PIX>;
-> +			clock-names = "noc_bus", "channel0", "channel1",
-> +				      "dc_core", "axi_core", "ahb",
-> +				      "hdmi_tx", "dc_parent";
-> +			resets = <&voutcrg JH7110_VOUTRST_DC8200_AXI>,
-> +				 <&voutcrg JH7110_VOUTRST_DC8200_AHB>,
-> +				 <&voutcrg JH7110_VOUTRST_DC8200_CORE>;
-> +			reset-names = "axi","ahb", "core";
-> +		};
+> +#define DRM_FORMAT_MOD_VERISILICON_NORM_MODE_MASK				0x1F
 > +
-> +		hdmi: hdmi@29590000 {
-> +			compatible = "starfive,jh7110-inno-hdmi";
-> +			reg = <0x0 0x29590000 0x0 0x4000>;
-> +			interrupts = <99>;
+> +/*
+> + * An x-major 8x8 super tile consists of 64 8x8 sub-tiles in total.
+> + * Each 8x8 sub-tile consists of four standard tiles .
+> + * standard tiles (see Vivante 4x4 tiling layout)
+> + */
+> +#define DRM_FORMAT_MOD_VERISILICON_SUPER_TILED_XMAJOR_8X8		0x02
 > +
-> +			clocks = <&voutcrg JH7110_VOUTCLK_HDMI_TX_SYS>,
-> +				 <&voutcrg JH7110_VOUTCLK_HDMI_TX_MCLK>,
-> +				 <&voutcrg JH7110_VOUTCLK_HDMI_TX_BCLK>,
-> +				 <&hdmitx0_pixelclk>;
-> +			clock-names = "sysclk", "mclk", "bclk", "pclk";
-> +			resets = <&voutcrg JH7110_VOUTRST_HDMI_TX_HDMI>;
-> +			#sound-dai-cells = <0>;
-> +		};
+> +/*
+> + * A y-major 8x8 super tile consists of 64 8x8 sub-tiles in total.
+> + * Each 8x8 sub-tile consists of four standard tiles .
+> + * standard tiles (see Vivante 4x4 tiling layout)
+> + */
+> +#define DRM_FORMAT_MOD_VERISILICON_SUPER_TILED_YMAJOR_8X8		0x03
+> +
+> +/*
+> + * An 8x8 tile consists of four standard tiles
+> + * that are organized in Z-order.
+> + * standard tiles (see Vivante 4x4 tiling layout)
+> + */
+> +#define DRM_FORMAT_MOD_VERISILICON_TILE_8X8						0x04
+> +
+> +/*
+> + * An 8x4 tile consists of two standard tiles
+> + * that are organized in Z-order.
+> + * standard tiles (see Vivante 4x4 tiling layout)
+> + */
+> +#define DRM_FORMAT_MOD_VERISILICON_TILE_8X4						0x07
+> +
+> +/*
+> + * An x-major 8x4 super tile consists of 128 8x4 sub-tiles in total.
+> + * Each 8x4 sub-tile consists of two standard tiles.
+> + * two standard tiles also same with DRM_FORMAT_MOD_VS_TILE_8X4
+> + * standard tiles (see Vivante 4x4 tiling layout)
+> + */
+> +#define DRM_FORMAT_MOD_VERISILICON_SUPER_TILED_XMAJOR_8X4		0x0B
 
-These nodes, however, are sorted by their address which you alse break in this
-patch :(
+These indents are all over the place. Please either align them with tabs or use
+a single space like the AMD defines above.
 
->  	};
->  };
+> +
+> +/*
+> + * A y-major 4x8 super tile consists of 128 4x8 sub-tiles in total.
+> + * Each 4x8 sub-tile consists of two standard tiles.
+> + * two standard tiles also same with DRM_FORMAT_MOD_VS_TILE_8X4
+> + * standard tiles (see Vivante 4x4 tiling layout)
+> + */
+> +#define DRM_FORMAT_MOD_VERISILICON_SUPER_TILED_YMAJOR_4X8    0x0C
+> +
+> +#define fourcc_mod_vs_norm_code(tile) \
+> +	fourcc_mod_vs_code(DRM_FORMAT_MOD_VERISILICON_TYPE_NORMAL, \
+> +				(tile))
+> +
+>  #if defined(__cplusplus)
+>  }
+>  #endif
 > --
 > 2.34.1
 >
