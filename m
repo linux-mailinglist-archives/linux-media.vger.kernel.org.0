@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 752917D6580
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 10:43:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0828A7D65C2
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 10:50:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233435AbjJYInr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 04:43:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44484 "EHLO
+        id S234241AbjJYIuJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 04:50:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53894 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232666AbjJYIno (ORCPT
+        with ESMTP id S234235AbjJYIuF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 04:43:44 -0400
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 78C32136;
-        Wed, 25 Oct 2023 01:43:40 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2A1BA24000F;
-        Wed, 25 Oct 2023 08:43:37 +0000 (UTC)
+        Wed, 25 Oct 2023 04:50:05 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F0718C;
+        Wed, 25 Oct 2023 01:49:56 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 299B61BF205;
+        Wed, 25 Oct 2023 08:49:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1698223418;
+        t=1698223795;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=8dwSdxHIJn3ZyeOZmZSaHhAlqFcMlkH/mIddYKFIi0k=;
-        b=A/4onKJAc9cgGu2Wqk9DbD7S5vCVceplcdt/PiPPj8crRrMBe5hj1VlEOAYZbZSlNtQSya
-        Q7hINkXTzzjWXhjm0IrK0qoJHK9XtfyLykY9kKXokNg9DuniRXsIJt349L3kphezL9fnqb
-        Zc55zdiPeo8CxpKE1RXAUJXvVF+aqgfKaNZ4WY9DDWsIX6fCVybcCGBr6WWKg464zAKZua
-        /SjrOUj+UWoAChaNG/F2SIdMa/qIrLwlJBOBHmb1O66NPSDsrKnFCRJmsKWgs2B/NK6JNq
-        thVntjMgJl/dw5yJ/R2kqI5ciISChE99xv9/B/SHIBRVvMMw2oH+BZdHdJovjw==
-Date:   Wed, 25 Oct 2023 10:43:36 +0200
+        bh=kDKzSwobFKhvPb/S7FCw9CUUuZRhjo3hWw2I68BBVaY=;
+        b=Uf/Ua3orfZI1c+SkYBr68sRjaF4DhtsrTNk9WD9Z5StYN8qvR7Uy+08duhBLMTFV6JQj8v
+        aySWILmMdvmyNHjvzOJ636mC2pEjy0NHAlTxmL5Vkzm6/Wh5vAudTspmNHqmEid+BQWJh9
+        o95X3xvKTcrGcuqX/XvGQU5KyDLyaPp5si+x5NLCMR6EmdRXvwN/nFcn+38kN9YaoHzOHG
+        Rck3Au7Udt5s3YJNLK3FjJD6MGTzwTsQMFKfTEuqlJLwiCr8TEKUfozN9sLETe0Mr7LGbR
+        kWPFqFe9Jr/O1MnVtAC1W+vFyzN+1Pr2jct0yfqOyBnGZFww1mEmT7UiGc8J/g==
+Date:   Wed, 25 Oct 2023 10:49:53 +0200
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     Michael Riesch <michael.riesch@wolfvision.net>
 Cc:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
@@ -38,22 +38,21 @@ Cc:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
         alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com
-Subject: Re: [PATCH v8 0/3] media: rockchip: Add a driver for Rockchip's
+Subject: Re: [PATCH v8 2/3] media: rockchip: Add a driver for Rockhip's
  camera interface
-Message-ID: <ZTjVOAPnXEj9LgOE@aptenodytes>
+Message-ID: <ZTjWsf69QdXoJNKj@aptenodytes>
 References: <cover.1697446303.git.mehdi.djait@bootlin.com>
- <ZTFMR7PlcQXpeoQO@aptenodytes>
- <11cccad3-e665-41dc-89c2-5ddc22b1e2fe@wolfvision.net>
+ <3790470ff7606fc075ec742d43254e52dde5d120.1697446303.git.mehdi.djait@bootlin.com>
+ <ee4034b9-85f6-42cc-abca-d61004aa0a6c@wolfvision.net>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="1B4a3ySiv1gPrIKF"
+        protocol="application/pgp-signature"; boundary="IqvARDLe+FQx9dTB"
 Content-Disposition: inline
-In-Reply-To: <11cccad3-e665-41dc-89c2-5ddc22b1e2fe@wolfvision.net>
+In-Reply-To: <ee4034b9-85f6-42cc-abca-d61004aa0a6c@wolfvision.net>
 X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-Spam-Status: No, score=-0.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URI_HEX autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -61,322 +60,263 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---1B4a3ySiv1gPrIKF
+--IqvARDLe+FQx9dTB
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Michael,
+Hi,
 
-On Mon 23 Oct 23, 15:07, Michael Riesch wrote:
-> > So I have spent a bit of time trying to figure out the history of this =
-unit
-> > and in which platform in was used. The takeaway is that the earliest Ro=
-ckchip
-> > SoC that uses it is the RK3066 (2012) and the latest SoC is the RK3566/=
-RK3568
-> > (2020). Earlier SoCs (RK29) do mention VIP but seems quite clear that t=
-his is
-> > a whole different unit and the recent RK3588 (2021) has a new VICAP_DVP=
- unit
-> > (mixed with VICAP_MIPI) which also seems significantly different.
->=20
-> The RK3588 VICAP may be significantly more complex, but it is supported
-> by the same driver in the downstream kernel [0]. The DVP part (which is
-> in the scope of this series) should be more or less the same deal
-> (although Rockchip mixed the register positions once again, the
-> registers itself are similar to e.g., RK356X when it comes to DVP).
+On Mon 23 Oct 23, 15:28, Michael Riesch wrote:
+> Typo in the subject: "Rockhip's" -> "Rockchip's"
+> I think this typo has been in there for a while now ;-)
 
-After a closer look I tend to agree with you: they moved some registers aro=
-und
-but it still seems to be the same base unit.
+Great hips make for great dancing!
 
-> > Over the course of the existence of this unit, it is most often referre=
-d to
-> > as CIF. Since this is also the name for the driver in the Rockchip tree,
-> > I feel like it is best to use CIF as the mainline terminology instead o=
-f VIP.
-> > Note that the unit is also called VICAP in RK3566/RK3568.
->=20
-> But even if we take the RK3588 VICAP unit into account, I'd agree that
-> CIF seems to be the better name (precisly because the downstream driver
-> is called "cif").
->=20
-> The individual compatibles can be named "rockchip,px30-vip",
-> "rockchip,rk3568-vicap", ..., right? This would be in contrast to the
-> downstream driver (which uses "-cif" for all units) but here the
-> alignment with the respective data sheet comes into play (which will be
-> helpful).
-
-Yeah I think it would make sense to keep the SoC-specific terminology in the
-compatible, so I agree that "rockchip,px30-vip" and "rockchip,rk3568-vicap"
-feel like the most relevant choices here.
-
-> > Here is the detail of my research on the concerned chips. The + at the =
-beginning
-> > of the line indicate support in Rockchip's 4.4 tree:
+> On 10/16/23 11:00, Mehdi Djait wrote:
+> > Introduce a driver for the camera interface on some Rockchip platforms.
 > >=20
-> > - RK3566/RK3568 (2020): CIF pins + VICAP terminology
-> > + RK1808 (2019): CIF pins + VIP registers + VIP_MIPI registers
-> > + PX30 (2017): VIP pins + VIP registers
-> > + RK3328 (2017): CIF pins + VIP terminology
-> > - RK3326 (2017): CIF pins + VIP terminology
-> > - RK3399 (2016): CIF pins
-> > - RK3368 (2015): CIF pins
-> > - PX2 (2014-11): CIF pins + CIF registers
-> > + RK3126/RK3128 (2014-10): CIF pins + registers
-> > + RK3288 (2014-05): CIF pins + VIP terminology
-> > - RK3026 (2013): CIF pins + CIF registers
-> > - RK3168/RK3188/PX3 (2012): CIF pins + CIF registers
-> > - RK3066 (2012): CIF pins + CIF registers
-> >=20
-> > Note that there are a few variations over time (added/removed registers=
-), but
-> > the offsets of crucial registers are always the same, so we can safely
-> > assume this is the same unit in different generations.
-> >=20
-> > Since the RK3066 is the first model starting the RK30 lineup I think we=
- can
-> > safely use that for the "base" compatible to be used for e.g. the bindi=
-ngs
-> > document, instead of px30 which is just one of the many SoCs that use t=
-his unit.
+> > This controller supports CSI2 and BT656 interfaces, but for
+> > now only the BT656 interface could be tested, hence it's the only one
+> > that's supported in the first version of this driver.
 >=20
-> Once the name of the driver is defined and adjusted in v9, I can try to
-> give the series a shot on my RK3568 board. First attempts to do so
-> basing on Maxime's v5 showed that with a few modifications the DVP
-> feature works fine. In a subsequent step, we could discuss the inclusion
-> of the MIPI CSI-2 things in order to keep the driver sufficiently general.
+> "CSI2" -> "MIPI CSI-2" ?
+> "BT656" -> "BT.656" ?
+> Also, additional interfaces are supported by some units, e.g., the
+> RK3568 VICAP also supports BT.1120.
+>=20
+> But most likely it becomes too complex to list everything, and it would
+> be better if you simply described the unit in the PX30. I think this
+> would clarify the commit message a lot.
 
-Nice! I guess there will be a need to introduce a variant structure associa=
-ted
-to each compatible to express the differences betweens these different
-generations.
+For now I would just stick to mentionning parallel (aka DVP). Indeed we don=
+'t
+need to list every possible parallel setup and MIPI CSI-2 is not supported
+in the current version of the driver.
 
-Note that we will also probably need to convert the driver over to a MC-cen=
-tric
-approach, but this is of course outside of the scope of this series.
+> > This controller can be fond on PX30, RK1808, RK3128 and RK3288,
+> > but for now it's only been tested on PX30.
+> >=20
+> > Most of this driver was written following the BSP driver from rockchip,
+>=20
+> "rockchip" -> "Rockchip"
+>=20
+> > removing the parts that either didn't fit correctly the guidelines, or
+> > that couldn't be tested.
+> >=20
+> > In the BSP, this driver is known as the "cif" driver, but this was
+> > renamed to "vip" to better fit the controller denomination in the
+> > datasheet.
+> >=20
+> > This basic version doesn't support cropping nor scaling, and is only
+> > designed with one SDTV video decoder being attached to it a any time.
+> >=20
+> > This version uses the "pingpong" mode of the controller, which is a
+> > double-buffering mechanism.
+> >=20
+> > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+>=20
+> Two things below:
+>=20
+> >[...]
+> > diff --git a/drivers/media/platform/rockchip/vip/dev.h b/drivers/media/=
+platform/rockchip/vip/dev.h
+> > new file mode 100644
+> > index 000000000000..eb9cd8f20ffc
+> > --- /dev/null
+> > +++ b/drivers/media/platform/rockchip/vip/dev.h
+> > @@ -0,0 +1,163 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * Rockchip VIP Driver
+> > + *
+> > + * Copyright (C) 2018 Rockchip Electronics Co., Ltd.
+> > + * Copyright (C) 2023 Mehdi Djait <mehdi.djait@bootlin.com>
+> > + */
+> > +
+> > +#ifndef _RK_VIP_DEV_H
+> > +#define _RK_VIP_DEV_H
+> > +
+> > +#include <linux/clk.h>
+> > +#include <linux/mutex.h>
+> > +#include <media/media-device.h>
+> > +#include <media/media-entity.h>
+> > +#include <media/v4l2-ctrls.h>
+> > +#include <media/v4l2-device.h>
+> > +#include <media/videobuf2-v4l2.h>
+> > +
+> > +#define VIP_DRIVER_NAME		"rk_vip"
+> > +#define VIP_VIDEODEVICE_NAME	"stream_vip"
+> > +
+> > +#define RK_VIP_MAX_BUS_CLK	8
+> > +#define RK_VIP_MAX_SENSOR	2
+> > +#define RK_VIP_MAX_RESET	5
+> > +#define RK_VIP_MAX_CSI_CHANNEL	4
+> > +
+> > +#define RK_VIP_DEFAULT_WIDTH	640
+> > +#define RK_VIP_DEFAULT_HEIGHT	480
+> > +
+> > +#define write_vip_reg(base, addr, val)  writel(val, (addr) + (base))
+> > +#define read_vip_reg(base, addr) readl((addr) + (base))
+>=20
+> Please provide those helpers as proper inline functions. As to the
+> naming, the "_reg" suffix seems unnecessary.
+>=20
+> Alternatively, you could consider converting the driver to use regmap.
+
+Come to think of it, I feel like it would make more sense to have an inline
+function which is given a struct rk_vip_device instead of having to derefer=
+ence
+it every time in the caller to access the base address.
+
+> > +
+> > +enum rk_vip_state {
+> > +	RK_VIP_STATE_DISABLED,
+> > +	RK_VIP_STATE_READY,
+> > +	RK_VIP_STATE_STREAMING
+> > +};
+> > +
+> > +enum rk_vip_chip_id {
+> > +	CHIP_PX30_VIP,
+> > +	CHIP_RK1808_VIP,
+> > +	CHIP_RK3128_VIP,
+> > +	CHIP_RK3288_VIP
+> > +};
+> > +
+> > +enum host_type_t {
+> > +	RK_CSI_RXHOST,
+> > +	RK_DSI_RXHOST
+> > +};
+> > +
+> > +struct rk_vip_buffer {
+> > +	struct vb2_v4l2_buffer vb;
+> > +	struct list_head queue;
+> > +	union {
+> > +		u32 buff_addr[VIDEO_MAX_PLANES];
+> > +		void *vaddr[VIDEO_MAX_PLANES];
+> > +	};
+> > +};
+> > +
+> > +struct rk_vip_scratch_buffer {
+> > +	void *vaddr;
+> > +	dma_addr_t dma_addr;
+> > +	u32 size;
+> > +};
+> > +
+> > +static inline struct rk_vip_buffer *to_rk_vip_buffer(struct vb2_v4l2_b=
+uffer *vb)
+> > +{
+> > +	return container_of(vb, struct rk_vip_buffer, vb);
+> > +}
+> > +
+> > +struct rk_vip_sensor_info {
+> > +	struct v4l2_subdev *sd;
+> > +	int pad;
+> > +	struct v4l2_mbus_config mbus;
+> > +	int lanes;
+> > +	v4l2_std_id std;
+> > +};
+> > +
+> > +struct vip_output_fmt {
+> > +	u32 fourcc;
+> > +	u32 mbus;
+> > +	u32 fmt_val;
+> > +	u8 cplanes;
+> > +};
+> > +
+> > +enum vip_fmt_type {
+> > +	VIP_FMT_TYPE_YUV =3D 0,
+> > +	VIP_FMT_TYPE_RAW,
+> > +};
+> > +
+> > +struct vip_input_fmt {
+> > +	u32 mbus_code;
+> > +	u32 dvp_fmt_val;
+> > +	u32 csi_fmt_val;
+> > +	enum vip_fmt_type fmt_type;
+> > +	enum v4l2_field field;
+> > +};
+> > +
+> > +struct rk_vip_stream {
+> > +	struct rk_vip_device		*vipdev;
+> > +	enum rk_vip_state		state;
+> > +	bool				stopping;
+> > +	wait_queue_head_t		wq_stopped;
+> > +	int				frame_idx;
+> > +	int				frame_phase;
+> > +
+> > +	/* lock between irq and buf_queue */
+> > +	spinlock_t			vbq_lock;
+> > +	struct vb2_queue		buf_queue;
+> > +	struct list_head		buf_head;
+> > +	struct rk_vip_scratch_buffer	scratch_buf;
+> > +	struct rk_vip_buffer		*buffs[2];
+> > +
+> > +	/* vfd lock */
+> > +	struct mutex			vlock;
+> > +	struct video_device		vdev;
+> > +	struct media_pad		pad;
+> > +
+> > +	struct vip_output_fmt		*vip_fmt_out;
+> > +	const struct vip_input_fmt	*vip_fmt_in;
+> > +	struct v4l2_pix_format_mplane	pixm;
+> > +};
+> > +
+> > +static inline struct rk_vip_stream *to_rk_vip_stream(struct video_devi=
+ce *vdev)
+> > +{
+> > +	return container_of(vdev, struct rk_vip_stream, vdev);
+> > +}
+> > +
+> > +struct rk_vip_device {
+> > +	struct list_head		list;
+> > +	struct device			*dev;
+> > +	int				irq;
+> > +	void __iomem			*base_addr;
+> > +	void __iomem			*csi_base;
+> > +	struct clk_bulk_data		clks[RK_VIP_MAX_BUS_CLK];
+> > +	int				num_clk;
+> > +	struct vb2_alloc_ctx		*alloc_ctx;
+> > +	bool				iommu_en;
+> > +	struct iommu_domain		*domain;
+> > +	struct reset_control		*vip_rst;
+> > +
+> > +	struct v4l2_device		v4l2_dev;
+> > +	struct media_device		media_dev;
+> > +	struct v4l2_ctrl_handler	ctrl_handler;
+> > +	struct v4l2_async_notifier	notifier;
+> > +	struct v4l2_async_connection	asd;
+> > +	struct rk_vip_sensor_info	sensor;
+>=20
+> Using "sensor" as name does not seem correct. As pointed out above it
+> could be a video decoder just as well. Something with "subdevice" maybe?
+
+Agreed. I suggest renaming the struct "rk_vip_sensor_info" -> "rk_cif_remot=
+e"
+and just calling the member "remote".
 
 Cheers,
 
 Paul
-
-> @Mehdi: If you could Cc: me when you send out v9 it'd be much appreciated.
->=20
-> Best regards,
-> Michael
->=20
-> [0]
-> https://github.com/rockchip-linux/kernel/blob/develop-5.10/drivers/media/=
-platform/rockchip/cif/hw.c#L968
->=20
-> >=20
-> >> This version of the driver supports ONLY the parallel interface BT656
-> >> and was tested/implemented using an SDTV video decoder
-> >>
-> >> media_tree, base-commit: 2c1bae27df787c9535e48cc27bbd11c3c3e0a235
-> >>
-> >> V7 =3D> V8:
-> >> vip/capture.c:
-> >> - fixed a warning: unused variable reported by the kernel test robot
-> >>
-> >> V6 =3D> V7:
-> >> vip/capture.c vip/dev.c vip/dev.h
-> >> - renamed all struct rk_vip_dev dev =3D> struct rk_vip_dev vip_dev
-> >> - added some error when rk_vip_get_buffer() returns NULL
-> >> - removed a WARN_ON
-> >> - made the irq NOT shared
-> >> - dropped of_match_ptr
-> >> - added the rk_vip_get_resource() function
-> >>
-> >> rockchip,px30-vip.yaml:
-> >> - changed filename to match the compatible
-> >> - dropped the mention of the other rockchip SoC in the dt-binding
-> >>   description and added a more detailed description of VIP
-> >> - removed unused labels in the example
-> >>
-> >>
-> >> V5 [1] =3D> V6:
-> >> vip/capture.c vip/dev.c vip/dev.h
-> >> - added a video g_input_status subdev call, V4L2_IN_CAP_STD and the
-> >>   supported stds in rk_vip_enum_input callback
-> >> - added rk_vip_g_std, rk_vip_s_std and rk_vip_querystd callbacks
-> >> - added the supported video_device->tvnorms
-> >> - s_std will now update the format as this depends on the standard
-> >>   NTSC/PAL (as suggested by Hans in [1])
-> >> - removed STD_ATSC
-> >> - moved the colorimetry information to come from the subdev
-> >> - removed the core s_power subdev calls
-> >> - dropped cropping in rk_vip_stream struct
-> >>
-> >> rockchip-vip.yaml:
-> >> - fixed a mistake in the name of third clock plckin -> plck
-> >> - changed the reg maxItems 2 -> 1
-> >>
-> >> [1] https://lore.kernel.org/linux-media/20201229161724.511102-1-maxime=
-=2Echevallier@bootlin.com/
-> >>
-> >> I used v4l-utils with HEAD: commit 1ee258e5bb91a12df378e19eb255c5219d6=
-bc36b
-> >>
-> >> # v4l2-compliance=20
-> >> v4l2-compliance 1.25.0, 64 bits, 64-bit time_t
-> >>
-> >> Compliance test for rk_vip device /dev/video0:
-> >>
-> >> Driver Info:
-> >>         Driver name      : rk_vip
-> >>         Card type        : rk_vip
-> >>         Bus info         : platform:ff490000.vip
-> >>         Driver version   : 6.6.0
-> >>         Capabilities     : 0x84201000
-> >>                 Video Capture Multiplanar
-> >>                 Streaming
-> >>                 Extended Pix Format
-> >>                 Device Capabilities
-> >>         Device Caps      : 0x04201000
-> >>                 Video Capture Multiplanar
-> >>                 Streaming
-> >>                 Extended Pix Format
-> >> Media Driver Info:
-> >>         Driver name      : rk_vip
-> >>         Model            : rk_vip
-> >>         Serial           :=20
-> >>         Bus info         : platform:ff490000.vip
-> >>         Media version    : 6.6.0
-> >>         Hardware revision: 0x00000000 (0)
-> >>         Driver version   : 6.6.0
-> >> Interface Info:
-> >>         ID               : 0x03000002
-> >>         Type             : V4L Video
-> >> Entity Info:
-> >>         ID               : 0x00000001 (1)
-> >>         Name             : video_rkvip
-> >>         Function         : V4L2 I/O
-> >>         Pad 0x01000004   : 0: Sink
-> >>           Link 0x02000009: from remote pad 0x1000006 of entity 'tw9900=
- 2-0044' (Digital Video Decoder): Data, Enabled
-> >>
-> >> Required ioctls:
-> >>         test MC information (see 'Media Driver Info' above): OK
-> >>         test VIDIOC_QUERYCAP: OK
-> >>         test invalid ioctls: OK
-> >>
-> >> Allow for multiple opens:
-> >>         test second /dev/video0 open: OK
-> >>         test VIDIOC_QUERYCAP: OK
-> >>         test VIDIOC_G/S_PRIORITY: OK
-> >>         test for unlimited opens: OK
-> >>
-> >> Debug ioctls:
-> >>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> >>         test VIDIOC_LOG_STATUS: OK (Not Supported)
-> >>
-> >> Input ioctls:
-> >>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> >>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> >>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> >>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> >>         test VIDIOC_G/S/ENUMINPUT: OK
-> >>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> >>         Inputs: 1 Audio Inputs: 0 Tuners: 0
-> >>
-> >> Output ioctls:
-> >>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> >>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> >>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> >>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> >>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> >>         Outputs: 0 Audio Outputs: 0 Modulators: 0
-> >>
-> >> Input/Output configuration ioctls:
-> >>         test VIDIOC_ENUM/G/S/QUERY_STD: OK
-> >>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> >>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> >>         test VIDIOC_G/S_EDID: OK (Not Supported)
-> >>
-> >> Control ioctls (Input 0):
-> >>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-> >>         test VIDIOC_QUERYCTRL: OK (Not Supported)
-> >>         test VIDIOC_G/S_CTRL: OK (Not Supported)
-> >>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-> >>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-> >>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> >>         Standard Controls: 0 Private Controls: 0
-> >>
-> >> Format ioctls (Input 0):
-> >>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> >>         test VIDIOC_G/S_PARM: OK (Not Supported)
-> >>         test VIDIOC_G_FBUF: OK (Not Supported)
-> >>         test VIDIOC_G_FMT: OK
-> >>         test VIDIOC_TRY_FMT: OK
-> >>         test VIDIOC_S_FMT: OK
-> >>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> >>         test Cropping: OK (Not Supported)
-> >>         test Composing: OK (Not Supported)
-> >>         test Scaling: OK (Not Supported)
-> >>
-> >> Codec ioctls (Input 0):
-> >>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> >>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> >>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> >>
-> >> Buffer ioctls (Input 0):
-> >>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> >>         test VIDIOC_EXPBUF: OK
-> >>         test Requests: OK (Not Supported)
-> >>
-> >> Total for rk_vip device /dev/video0: 46, Succeeded: 46, Failed: 0, War=
-nings: 0
-> >>
-> >> Mehdi Djait (3):
-> >>   media: dt-bindings: media: add bindings for Rockchip VIP
-> >>   media: rockchip: Add a driver for Rockhip's camera interface
-> >>   arm64: dts: rockchip: Add the camera interface
-> >>
-> >>  .../bindings/media/rockchip,px30-vip.yaml     |   93 ++
-> >>  arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
-> >>  drivers/media/platform/rockchip/Kconfig       |    1 +
-> >>  drivers/media/platform/rockchip/Makefile      |    1 +
-> >>  drivers/media/platform/rockchip/vip/Kconfig   |   14 +
-> >>  drivers/media/platform/rockchip/vip/Makefile  |    3 +
-> >>  drivers/media/platform/rockchip/vip/capture.c | 1210 +++++++++++++++++
-> >>  drivers/media/platform/rockchip/vip/dev.c     |  346 +++++
-> >>  drivers/media/platform/rockchip/vip/dev.h     |  163 +++
-> >>  drivers/media/platform/rockchip/vip/regs.h    |  260 ++++
-> >>  10 files changed, 2103 insertions(+)
-> >>  create mode 100644 Documentation/devicetree/bindings/media/rockchip,p=
-x30-vip.yaml
-> >>  create mode 100644 drivers/media/platform/rockchip/vip/Kconfig
-> >>  create mode 100644 drivers/media/platform/rockchip/vip/Makefile
-> >>  create mode 100644 drivers/media/platform/rockchip/vip/capture.c
-> >>  create mode 100644 drivers/media/platform/rockchip/vip/dev.c
-> >>  create mode 100644 drivers/media/platform/rockchip/vip/dev.h
-> >>  create mode 100644 drivers/media/platform/rockchip/vip/regs.h
-> >>
-> >> --=20
-> >> 2.41.0
-> >>
-> >=20
 
 --=20
 Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---1B4a3ySiv1gPrIKF
+--IqvARDLe+FQx9dTB
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmU41TgACgkQ3cLmz3+f
-v9G8nwf/YXTS25N0rMND79nbpKOalexz7/gx/Kcu5J+Ph4cJp+tx/nD2Tc83TFb1
-Ck7BOkkJvZSvNoVwZgTAusXtlmlddZ0cZguyPXnAMMP+xnweykhUEtMBpq6thIv5
-U2BXj3tBl2GW5a/iJz33z8yfGVPw5It3RGGF1/xnAMrHJaccRf5EDYr0aMQ4b630
-Ps8l9mVgbUd49+xUFeV63oEimEWpCgqDnuyygjNaoxv+oijaDzVGrqsT75duFI+c
-LAJ3ZJNUy2EmYkeLHN5++sZS7TE8po2xMD8dpudjAQTkML9RDaUDvvEJX8+vIUNb
-eUo8J+KDgMYlFDn6BizAxWejPwTYwg==
-=mCE9
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmU41rEACgkQ3cLmz3+f
+v9G18gf9HjBe+Tt1f9LvHCxhOiq2bRyWFVPqyjlYlU4B0jK3yg6o5UcssDHUSXLT
+/LtsfEKeVMMQRGDw1cAn0tafarUqk7eWQjfw4+uyPn8OMhX7CiYdKSMNaaa6KNje
+PhDqijyDw4P7Hxt9vbXmJnDsrS0iKJ1PMoDLTdaqJPyCenwLjornfDqJUoOxokoX
+wx8xO+ngwfzo0iTcx9djHBqw1xqJe/CoSdOxXm8rmz/gXhGxQmwAdUoArrFKzkD6
+kRHf/OYepU5G8JodRIYPmng3+s1/EnkXQutDFMDQlo/xqk0b1/9MEj6g/f2U1nij
+wZJTO0sfRvzQOy/PdwdaYJ3PRC8dQQ==
+=iFRN
 -----END PGP SIGNATURE-----
 
---1B4a3ySiv1gPrIKF--
+--IqvARDLe+FQx9dTB--
