@@ -2,257 +2,401 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 662687D679C
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 11:54:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A62127D67A0
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 11:54:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232846AbjJYJyJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 05:54:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38926 "EHLO
+        id S234414AbjJYJyj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 05:54:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234876AbjJYJxn (ORCPT
+        with ESMTP id S234404AbjJYJye (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 05:53:43 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 89B4210A
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 02:53:39 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AA030C433C9;
-        Wed, 25 Oct 2023 09:53:37 +0000 (UTC)
-Message-ID: <95c4ed4d-36e5-44f7-8609-dfdb7847b0e8@xs4all.nl>
-Date:   Wed, 25 Oct 2023 11:53:35 +0200
+        Wed, 25 Oct 2023 05:54:34 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B00F111;
+        Wed, 25 Oct 2023 02:54:30 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id C86CE40007;
+        Wed, 25 Oct 2023 09:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1698227669;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=Ue9fksc6JsU6rXn/oUi3QGX/JVmnoh6QcrIM7P8TVhA=;
+        b=Y52fu9RnEPBBo8uvIPN8hebEcoTp/3oe+PqAiJm+NyBQ36JnHrYWCdLHOQFlOCme0itRSn
+        5Kk+vKskSKzJxkAhll8b2geIK6m10ws0rHvJ+3updaNW9hQ/wD3xM1QPVL7jJjDV7+IsuN
+        +YWTtLq0n4GUfGXEOaOhkYs7a85YJUUo9PF+qpMZnnQZksRHph/oM6HA3ZYgwWuAx1bVZw
+        KjnIaJdo6M33ERPoUTxw6tpcnh8WbnGzix43lG1Ka/+sdQtIlhmpDhZSypOTy6g5sNpwde
+        kKwqyJdi4AqE76Nm1+JJyXsrJc4DWBWx9aM83KYm1kKZv00fF1IrRI51cti/oA==
+Date:   Wed, 25 Oct 2023 11:54:27 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Michael Riesch <michael.riesch@wolfvision.net>
+Cc:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org, ezequiel@vanguardiasur.com.ar,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com
+Subject: Re: [PATCH v8 0/3] media: rockchip: Add a driver for Rockchip's
+ camera interface
+Message-ID: <ZTjl0xJMTqZfO2Xf@aptenodytes>
+References: <cover.1697446303.git.mehdi.djait@bootlin.com>
+ <ZTFMR7PlcQXpeoQO@aptenodytes>
+ <11cccad3-e665-41dc-89c2-5ddc22b1e2fe@wolfvision.net>
+ <ZTjVOAPnXEj9LgOE@aptenodytes>
+ <5438a194-7349-4a20-84d0-efe88b7ab396@wolfvision.net>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/8] media: v4l: subdev: Make stream argument optional
- in state access functions
-Content-Language: en-US, nl
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
-        jacopo.mondi@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com
-References: <20231023174408.803874-1-sakari.ailus@linux.intel.com>
- <20231023174408.803874-6-sakari.ailus@linux.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231023174408.803874-6-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Tk2Boi110X16vYew"
+Content-Disposition: inline
+In-Reply-To: <5438a194-7349-4a20-84d0-efe88b7ab396@wolfvision.net>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
+X-Spam-Status: No, score=0.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_PASS,SPF_PASS,URI_HEX autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/10/2023 19:44, Sakari Ailus wrote:
-> The sub-device state access functions take three arguments: sub-device
-> state, pad and stream. The stream is not relevant for the majority of
-> drivers and having to specify 0 for the stream is considered a nuisance.
-> 
-> Provide a two-argument macros for these state access functions to cover
-> the needs of stream-unaware users.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 18 ++++++-------
->  include/media/v4l2-subdev.h           | 39 ++++++++++++++++++++-------
->  2 files changed, 39 insertions(+), 18 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index f0f0af48730f..e35226587244 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1671,8 +1671,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
->  EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
->  
->  struct v4l2_mbus_framefmt *
-> -v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
-> -			     u32 stream)
-> +__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
-> +			       unsigned int pad, u32 stream)
->  {
->  	struct v4l2_subdev_stream_configs *stream_configs;
->  	unsigned int i;
-> @@ -1702,11 +1702,11 @@ v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
->  
->  	return NULL;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_format);
-> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_format);
->  
->  struct v4l2_rect *
-> -v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-> -			   u32 stream)
-> +__v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-> +			     u32 stream)
->  {
->  	struct v4l2_subdev_stream_configs *stream_configs;
->  	unsigned int i;
-> @@ -1736,11 +1736,11 @@ v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
->  
->  	return NULL;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_crop);
-> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_crop);
->  
->  struct v4l2_rect *
-> -v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
-> -			      u32 stream)
-> +__v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
-> +				unsigned int pad, u32 stream)
->  {
->  	struct v4l2_subdev_stream_configs *stream_configs;
->  	unsigned int i;
-> @@ -1770,7 +1770,7 @@ v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
->  
->  	return NULL;
->  }
-> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_compose);
-> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_compose);
->  
->  int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
->  					  u32 pad, u32 stream, u32 *other_pad,
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 71cb35133b4a..12eb0fe746d7 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1545,7 +1545,7 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
->   * v4l2_subdev_state_get_format() - Get pointer to a stream format
->   * @state: subdevice state
->   * @pad: pad id
-> - * @stream: stream id
-> + * @...: stream id (optional argument)
->   *
->   * This returns a pointer to &struct v4l2_mbus_framefmt for the given pad +
->   * stream in the subdev state.
-> @@ -1553,15 +1553,22 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
->   * For stream-unaware drivers the format for the corresponding pad is returned.
->   * If the pad does not exist, NULL is returned.
->   */
-> +#define v4l2_subdev_state_get_format(state, pad, ...)         \
-> +        __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
-> +        (state, pad __VA_OPT__(,) __VA_ARGS__)
-> +#define __v4l2_subdev_state_get_format_(state, pad)     \
-> +        __v4l2_subdev_state_get_format(state, pad, 0)
-> +#define __v4l2_subdev_state_get_format_stream(state, pad, stream)	\
-> +        __v4l2_subdev_state_get_format(state, pad, stream)
 
-Hmm, 'git grep __VA_OPT__' finds no use of this in the kernel. Are you sure this
-is safe to use? Does clang support it? Do all gcc versions that the kernel support
-implement it?
+--Tk2Boi110X16vYew
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-A 10+ for creativity, but I'm a bit concerned about it.
+Michael,
 
-And if there are only a few drivers that need to give a specific stream,
-wouldn't it be easier to just have a v4l2_subdev_state_get_format_stream
-function and a static inline v4l2_subdev_state_get_format() that just calls
-the _stream version with 0?
+On Wed 25 Oct 23, 11:17, Michael Riesch wrote:
+> Hi Paul,
+>=20
+> On 10/25/23 10:43, Paul Kocialkowski wrote:
+> > [...]
+> >>> Here is the detail of my research on the concerned chips. The + at th=
+e beginning
+> >>> of the line indicate support in Rockchip's 4.4 tree:
+> >>>
+> >>> - RK3566/RK3568 (2020): CIF pins + VICAP terminology
+> >>> + RK1808 (2019): CIF pins + VIP registers + VIP_MIPI registers
+> >>> + PX30 (2017): VIP pins + VIP registers
+> >>> + RK3328 (2017): CIF pins + VIP terminology
+> >>> - RK3326 (2017): CIF pins + VIP terminology
+> >>> - RK3399 (2016): CIF pins
+> >>> - RK3368 (2015): CIF pins
+> >>> - PX2 (2014-11): CIF pins + CIF registers
+> >>> + RK3126/RK3128 (2014-10): CIF pins + registers
+> >>> + RK3288 (2014-05): CIF pins + VIP terminology
+> >>> - RK3026 (2013): CIF pins + CIF registers
+> >>> - RK3168/RK3188/PX3 (2012): CIF pins + CIF registers
+> >>> - RK3066 (2012): CIF pins + CIF registers
+> >>>
+> >>> Note that there are a few variations over time (added/removed registe=
+rs), but
+> >>> the offsets of crucial registers are always the same, so we can safely
+> >>> assume this is the same unit in different generations.
+> >>>
+> >>> Since the RK3066 is the first model starting the RK30 lineup I think =
+we can
+> >>> safely use that for the "base" compatible to be used for e.g. the bin=
+dings
+> >>> document, instead of px30 which is just one of the many SoCs that use=
+ this unit.
+> >>
+> >> Once the name of the driver is defined and adjusted in v9, I can try to
+> >> give the series a shot on my RK3568 board. First attempts to do so
+> >> basing on Maxime's v5 showed that with a few modifications the DVP
+> >> feature works fine. In a subsequent step, we could discuss the inclusi=
+on
+> >> of the MIPI CSI-2 things in order to keep the driver sufficiently gene=
+ral.
+> >=20
+> > Nice! I guess there will be a need to introduce a variant structure ass=
+ociated
+> > to each compatible to express the differences betweens these different
+> > generations.
+>=20
+> Indeed. If Mehdi and you suggest something, I'd be happy to review.
 
-Regards,
+Well the be honest the scope of work on our side is really centered on PX30
+and merging this first version.
 
-	Hans
+> Otherwise, I'll try to come up with something reasonable. IMHO it would
+> make sense (as a first step) to have the clocks and the resets in this
+> structure, as well as a sub-structure that describes the DVP. The latter
+> consists of registers mainly, but maybe supported input/output formats
+> and other things should go in there as well. Also, downstream code has a
+> significant number of
+>     if (some condition including chip_id) A; else B;
+> things that we should probably get rid of with this variant structure.
 
->  struct v4l2_mbus_framefmt *
-> -v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
-> -			     u32 stream);
-> +__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
-> +			       unsigned int pad, u32 stream);
->  
->  /**
->   * v4l2_subdev_state_get_crop() - Get pointer to a stream crop rectangle
->   * @state: subdevice state
->   * @pad: pad id
-> - * @stream: stream id
-> + * @...: stream id (optional argument)
->   *
->   * This returns a pointer to crop rectangle for the given pad + stream in the
->   * subdev state.
-> @@ -1569,15 +1576,22 @@ v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
->   * For stream-unaware drivers the crop rectangle for the corresponding pad is
->   * returned. If the pad does not exist, NULL is returned.
->   */
-> +#define v4l2_subdev_state_get_crop(state, pad, ...)         \
-> +        __v4l2_subdev_state_get_crop_ ## __VA_OPT__(stream) \
-> +        (state, pad __VA_OPT__(,) __VA_ARGS__)
-> +#define __v4l2_subdev_state_get_crop_(state, pad)	\
-> +        __v4l2_subdev_state_get_crop(state, pad, 0)
-> +#define __v4l2_subdev_state_get_crop_stream(state, pad, stream)	\
-> +        __v4l2_subdev_state_get_crop(state, pad, stream)
->  struct v4l2_rect *
-> -v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-> -			   u32 stream);
-> +__v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-> +			     u32 stream);
->  
->  /**
->   * v4l2_subdev_state_get_compose() - Get pointer to a stream compose rectangle
->   * @state: subdevice state
->   * @pad: pad id
-> - * @stream: stream id
-> + * @...: stream id (optional argument)
->   *
->   * This returns a pointer to compose rectangle for the given pad + stream in the
->   * subdev state.
-> @@ -1585,9 +1599,16 @@ v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
->   * For stream-unaware drivers the compose rectangle for the corresponding pad is
->   * returned. If the pad does not exist, NULL is returned.
->   */
-> +#define v4l2_subdev_state_get_compose(state, pad, ...)         \
-> +        __v4l2_subdev_state_get_compose_ ## __VA_OPT__(stream) \
-> +        (state, pad __VA_OPT__(,) __VA_ARGS__)
-> +#define __v4l2_subdev_state_get_compose_(state, pad)	\
-> +        __v4l2_subdev_state_get_compose(state, pad, 0)
-> +#define __v4l2_subdev_state_get_compose_stream(state, pad, stream)	\
-> +        __v4l2_subdev_state_get_compose(state, pad, stream)
->  struct v4l2_rect *
-> -v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
-> -			      u32 stream);
-> +__v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
-> +				unsigned int pad, u32 stream);
->  
->  /**
->   * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
+Indeed I think we want to try avoid that. Another common option is to define
+capability flags to represent differences between generations in a more
+practical and clean way than explicitly checking chip ids or so.
 
+> As next step, a sub-structure for MIPI CSI-2 could be defined. RK356X
+> will have one of those, RK3588 will feature even six of them. So we
+> should add a const array to the variant structure.
+>=20
+> > Note that we will also probably need to convert the driver over to a MC=
+-centric
+> > approach, but this is of course outside of the scope of this series.
+>=20
+> That would absolutely make sense. What is missing, though? (I was
+> wondering that the driver calls media_device_(un)register but no
+> /dev/mediaX device pops up.)
+
+Switching from video node-centric to MC-centric is more of a semantic chang=
+e.
+In the first case we expect that subdevs are configured by the video device
+driver and userspace is not expected to change anything in the media topolo=
+gy
+or to configure media entities explicitly.
+
+In the latter case it's the opposite : the driver should never try to push
+configuration to a subdev and should instead validate that the current
+configuration makes sense.
+
+Still, I believe should be a media device registered and visible to userspa=
+ce.
+Mehdi could you take a look at this? Do you see a media device in `media-ct=
+l -p`
+and /dev/mediaX?
+
+Cheers,
+
+Paul
+
+> Best regards,
+> Michael
+>=20
+> >=20
+> > Cheers,
+> >=20
+> > Paul
+> >=20
+> >> @Mehdi: If you could Cc: me when you send out v9 it'd be much apprecia=
+ted.
+> >>
+> >> Best regards,
+> >> Michael
+> >>
+> >> [0]
+> >> https://github.com/rockchip-linux/kernel/blob/develop-5.10/drivers/med=
+ia/platform/rockchip/cif/hw.c#L968
+> >>
+> >>>
+> >>>> This version of the driver supports ONLY the parallel interface BT656
+> >>>> and was tested/implemented using an SDTV video decoder
+> >>>>
+> >>>> media_tree, base-commit: 2c1bae27df787c9535e48cc27bbd11c3c3e0a235
+> >>>>
+> >>>> V7 =3D> V8:
+> >>>> vip/capture.c:
+> >>>> - fixed a warning: unused variable reported by the kernel test robot
+> >>>>
+> >>>> V6 =3D> V7:
+> >>>> vip/capture.c vip/dev.c vip/dev.h
+> >>>> - renamed all struct rk_vip_dev dev =3D> struct rk_vip_dev vip_dev
+> >>>> - added some error when rk_vip_get_buffer() returns NULL
+> >>>> - removed a WARN_ON
+> >>>> - made the irq NOT shared
+> >>>> - dropped of_match_ptr
+> >>>> - added the rk_vip_get_resource() function
+> >>>>
+> >>>> rockchip,px30-vip.yaml:
+> >>>> - changed filename to match the compatible
+> >>>> - dropped the mention of the other rockchip SoC in the dt-binding
+> >>>>   description and added a more detailed description of VIP
+> >>>> - removed unused labels in the example
+> >>>>
+> >>>>
+> >>>> V5 [1] =3D> V6:
+> >>>> vip/capture.c vip/dev.c vip/dev.h
+> >>>> - added a video g_input_status subdev call, V4L2_IN_CAP_STD and the
+> >>>>   supported stds in rk_vip_enum_input callback
+> >>>> - added rk_vip_g_std, rk_vip_s_std and rk_vip_querystd callbacks
+> >>>> - added the supported video_device->tvnorms
+> >>>> - s_std will now update the format as this depends on the standard
+> >>>>   NTSC/PAL (as suggested by Hans in [1])
+> >>>> - removed STD_ATSC
+> >>>> - moved the colorimetry information to come from the subdev
+> >>>> - removed the core s_power subdev calls
+> >>>> - dropped cropping in rk_vip_stream struct
+> >>>>
+> >>>> rockchip-vip.yaml:
+> >>>> - fixed a mistake in the name of third clock plckin -> plck
+> >>>> - changed the reg maxItems 2 -> 1
+> >>>>
+> >>>> [1] https://lore.kernel.org/linux-media/20201229161724.511102-1-maxi=
+me.chevallier@bootlin.com/
+> >>>>
+> >>>> I used v4l-utils with HEAD: commit 1ee258e5bb91a12df378e19eb255c5219=
+d6bc36b
+> >>>>
+> >>>> # v4l2-compliance=20
+> >>>> v4l2-compliance 1.25.0, 64 bits, 64-bit time_t
+> >>>>
+> >>>> Compliance test for rk_vip device /dev/video0:
+> >>>>
+> >>>> Driver Info:
+> >>>>         Driver name      : rk_vip
+> >>>>         Card type        : rk_vip
+> >>>>         Bus info         : platform:ff490000.vip
+> >>>>         Driver version   : 6.6.0
+> >>>>         Capabilities     : 0x84201000
+> >>>>                 Video Capture Multiplanar
+> >>>>                 Streaming
+> >>>>                 Extended Pix Format
+> >>>>                 Device Capabilities
+> >>>>         Device Caps      : 0x04201000
+> >>>>                 Video Capture Multiplanar
+> >>>>                 Streaming
+> >>>>                 Extended Pix Format
+> >>>> Media Driver Info:
+> >>>>         Driver name      : rk_vip
+> >>>>         Model            : rk_vip
+> >>>>         Serial           :=20
+> >>>>         Bus info         : platform:ff490000.vip
+> >>>>         Media version    : 6.6.0
+> >>>>         Hardware revision: 0x00000000 (0)
+> >>>>         Driver version   : 6.6.0
+> >>>> Interface Info:
+> >>>>         ID               : 0x03000002
+> >>>>         Type             : V4L Video
+> >>>> Entity Info:
+> >>>>         ID               : 0x00000001 (1)
+> >>>>         Name             : video_rkvip
+> >>>>         Function         : V4L2 I/O
+> >>>>         Pad 0x01000004   : 0: Sink
+> >>>>           Link 0x02000009: from remote pad 0x1000006 of entity 'tw99=
+00 2-0044' (Digital Video Decoder): Data, Enabled
+> >>>>
+> >>>> Required ioctls:
+> >>>>         test MC information (see 'Media Driver Info' above): OK
+> >>>>         test VIDIOC_QUERYCAP: OK
+> >>>>         test invalid ioctls: OK
+> >>>>
+> >>>> Allow for multiple opens:
+> >>>>         test second /dev/video0 open: OK
+> >>>>         test VIDIOC_QUERYCAP: OK
+> >>>>         test VIDIOC_G/S_PRIORITY: OK
+> >>>>         test for unlimited opens: OK
+> >>>>
+> >>>> Debug ioctls:
+> >>>>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> >>>>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+> >>>>
+> >>>> Input ioctls:
+> >>>>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> >>>>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> >>>>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> >>>>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> >>>>         test VIDIOC_G/S/ENUMINPUT: OK
+> >>>>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> >>>>         Inputs: 1 Audio Inputs: 0 Tuners: 0
+> >>>>
+> >>>> Output ioctls:
+> >>>>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> >>>>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> >>>>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> >>>>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> >>>>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> >>>>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+> >>>>
+> >>>> Input/Output configuration ioctls:
+> >>>>         test VIDIOC_ENUM/G/S/QUERY_STD: OK
+> >>>>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> >>>>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> >>>>         test VIDIOC_G/S_EDID: OK (Not Supported)
+> >>>>
+> >>>> Control ioctls (Input 0):
+> >>>>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> >>>>         test VIDIOC_QUERYCTRL: OK (Not Supported)
+> >>>>         test VIDIOC_G/S_CTRL: OK (Not Supported)
+> >>>>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> >>>>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> >>>>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> >>>>         Standard Controls: 0 Private Controls: 0
+> >>>>
+> >>>> Format ioctls (Input 0):
+> >>>>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> >>>>         test VIDIOC_G/S_PARM: OK (Not Supported)
+> >>>>         test VIDIOC_G_FBUF: OK (Not Supported)
+> >>>>         test VIDIOC_G_FMT: OK
+> >>>>         test VIDIOC_TRY_FMT: OK
+> >>>>         test VIDIOC_S_FMT: OK
+> >>>>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> >>>>         test Cropping: OK (Not Supported)
+> >>>>         test Composing: OK (Not Supported)
+> >>>>         test Scaling: OK (Not Supported)
+> >>>>
+> >>>> Codec ioctls (Input 0):
+> >>>>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+> >>>>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> >>>>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> >>>>
+> >>>> Buffer ioctls (Input 0):
+> >>>>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> >>>>         test VIDIOC_EXPBUF: OK
+> >>>>         test Requests: OK (Not Supported)
+> >>>>
+> >>>> Total for rk_vip device /dev/video0: 46, Succeeded: 46, Failed: 0, W=
+arnings: 0
+> >>>>
+> >>>> Mehdi Djait (3):
+> >>>>   media: dt-bindings: media: add bindings for Rockchip VIP
+> >>>>   media: rockchip: Add a driver for Rockhip's camera interface
+> >>>>   arm64: dts: rockchip: Add the camera interface
+> >>>>
+> >>>>  .../bindings/media/rockchip,px30-vip.yaml     |   93 ++
+> >>>>  arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
+> >>>>  drivers/media/platform/rockchip/Kconfig       |    1 +
+> >>>>  drivers/media/platform/rockchip/Makefile      |    1 +
+> >>>>  drivers/media/platform/rockchip/vip/Kconfig   |   14 +
+> >>>>  drivers/media/platform/rockchip/vip/Makefile  |    3 +
+> >>>>  drivers/media/platform/rockchip/vip/capture.c | 1210 ++++++++++++++=
++++
+> >>>>  drivers/media/platform/rockchip/vip/dev.c     |  346 +++++
+> >>>>  drivers/media/platform/rockchip/vip/dev.h     |  163 +++
+> >>>>  drivers/media/platform/rockchip/vip/regs.h    |  260 ++++
+> >>>>  10 files changed, 2103 insertions(+)
+> >>>>  create mode 100644 Documentation/devicetree/bindings/media/rockchip=
+,px30-vip.yaml
+> >>>>  create mode 100644 drivers/media/platform/rockchip/vip/Kconfig
+> >>>>  create mode 100644 drivers/media/platform/rockchip/vip/Makefile
+> >>>>  create mode 100644 drivers/media/platform/rockchip/vip/capture.c
+> >>>>  create mode 100644 drivers/media/platform/rockchip/vip/dev.c
+> >>>>  create mode 100644 drivers/media/platform/rockchip/vip/dev.h
+> >>>>  create mode 100644 drivers/media/platform/rockchip/vip/regs.h
+> >>>>
+> >>>> --=20
+> >>>> 2.41.0
+> >>>>
+> >>>
+> >=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--Tk2Boi110X16vYew
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmU45dMACgkQ3cLmz3+f
+v9FKMwf+MU+Rv/Pn3i87jNJbb0dUu//jVymcgDV3RC9dKXQk0/fBsVi/EcUo1C2C
+40AjG+OHAdvIOhRwUGDPc8rCXBNAkoJmlhfsvjt5XbOAsJMAY9Cb7vEXRxRZjTqz
+QQ/GV55dCYS/t4umCkpNMELtYtiAT/PEQYr6Xlb6G1wwgpD//cogsa5/g3tS7Ej6
+5VjUlU1RtoKh4tAxX+HlS+Of7Uc+o0oy2TmivNHHxiEQU//yn/79V2yPztaMcmwK
+fHHkNj+IB0p9kBD9Jy95Cd0Xe/ea5LJdM1w+3y0TUPOwdM+WREEARyvBW5xrZatH
+VGBXP/x6jrvgvtOKvr5BoUl9KFDwjQ==
+=R7H9
+-----END PGP SIGNATURE-----
+
+--Tk2Boi110X16vYew--
