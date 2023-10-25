@@ -2,138 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 241B57D6212
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 09:04:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 645927D6223
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 09:10:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232397AbjJYHEQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 03:04:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36426 "EHLO
+        id S231469AbjJYHKR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 03:10:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39710 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232042AbjJYHEP (ORCPT
+        with ESMTP id S229583AbjJYHKQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 03:04:15 -0400
-Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16CB2A6
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 00:04:13 -0700 (PDT)
-Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-9b96c3b4be4so776186566b.1
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 00:04:13 -0700 (PDT)
+        Wed, 25 Oct 2023 03:10:16 -0400
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5380AA6
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 00:10:14 -0700 (PDT)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2c501bd6ff1so74555871fa.3
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 00:10:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698217451; x=1698822251; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=ISx9XF0jymKJbKBV7VQC9cj9x5oOl7s9JRVjqaQ3WiA=;
-        b=hOSlbCHg2gQRWRlb8LnsRu9j7r5uKTSOvVvhw4bjIpxnAuX+GWvGzyu4BzhU8sGUCg
-         fWAwemftRa1EjjUQmQTaJeGLifAq5AAWhdbik7lJx8vqVua2G9gIvUu5aSKXSjsrK6OI
-         x6atel5BXlil0vDha+qzohA+lx8s6F+VZAJrjIeBWhctwWnox+jLHwXctXtERDk7mPAS
-         o4/wqUN3o2n9P0LGFAXRJHZqiEOOUGRLz2Xa8CrJJeA5ax6F6U5mljJkoXwFv+1R/Nlf
-         tLiXHKD2fwOLU934asZdYSqiLWouyR+oAbiG7EXiVd+1o4LXUIXgRZ4T8HGHWaToQXsW
-         3Dzg==
+        d=linaro.org; s=google; t=1698217812; x=1698822612; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O/a2enGvtc1HJJcrsQxtyTV+TZ4Dj/K1d5FQy70Je18=;
+        b=noExIGyI+uVjMTGs2768AcK+nHCPWqulPhv0h8aPIBFEGLRwlBH4Co80W95DoZqal3
+         5yyiinmwrEpUeF393VPelzaDu6YStteHstHSPVa6pnTIZA4upvXPvy+AulhRGCmUKOr1
+         bBKuxcP5EIaxxVyyjd5QxC2fYLAxth3VWuoe1JiyLeI9NmRoIxa2cEFyhd/CQ/X0Z77+
+         BiSZAnaDj/P9NXAmIUEOC5fJ8/Zurbfgq6N+1uh4MenaURD2Kl1eKH0j/toC5O0FXL1V
+         MJYmiZqwLVixChTBb+UJdvbcy6oTrskd28YBTJRx36PK8LPZX7/f0kI0DrOOHTIRXAoF
+         7mgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698217451; x=1698822251;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ISx9XF0jymKJbKBV7VQC9cj9x5oOl7s9JRVjqaQ3WiA=;
-        b=ijlritOegg4QSTodYepflrDKAfaf7oDaKnfMayiFrzKo210pj3OqiGDMpDA++CaSGA
-         y4TYJhoOuhk3uDAjOyBQ4rw7eokWn55ux9WPnzVw12Qr208QkYGiitsbtqk3peRxEzWA
-         WT37x8xQQ5vKGmHCLm+oJwR7aCZ8v4VKN5AhOuSsuBO+WmrRXsHku0Y/AVXH1ov0EMUf
-         3PLVVhJ+DikDzx+IAscIT2M+RRqrXzT0rxs2C0LS7YMy6Z03gjQyaA1QYp0aEC0BuoYs
-         7AXDcJCTSF5XMF54zCUk78DvrtdF3qjU6a4SLy3O9/sOWVtUaN2IQyX8JL3znXIY8tGG
-         td1Q==
-X-Gm-Message-State: AOJu0YwCBIkggK9z3JhDtcwpaIMF3TllaYIL2ZuZtAMxnbZuoKEnN1Ld
-        c9Qm0LOijSb7wuzOmUiM6kM6WQ==
-X-Google-Smtp-Source: AGHT+IHl7TXiNgbxL/lFXemZ/HH/QB5tELiJpzblrf3+E9x+fD02+qxXiz919I3FzUwr8d30ZQD50w==
-X-Received: by 2002:a17:906:4784:b0:9ae:4f9e:7813 with SMTP id cw4-20020a170906478400b009ae4f9e7813mr10078085ejc.73.1698217451553;
-        Wed, 25 Oct 2023 00:04:11 -0700 (PDT)
-Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id l20-20020a1709065a9400b009786c8249d6sm9576921ejq.175.2023.10.25.00.04.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Oct 2023 00:04:10 -0700 (PDT)
-Message-ID: <2a715a8a-c4c1-42ea-9159-15f25338d36c@linaro.org>
-Date:   Wed, 25 Oct 2023 09:04:08 +0200
+        d=1e100.net; s=20230601; t=1698217812; x=1698822612;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O/a2enGvtc1HJJcrsQxtyTV+TZ4Dj/K1d5FQy70Je18=;
+        b=wFUKclLPG4Yl+UFjZQBtD84sHRZmB0B13qlKdHBe3Lpjpb3fecxqQskYSXW8DhNTOK
+         XdQpi34en1sbyTuT+/GPuh7csBMdIIsJMsi1J7D8AtJbMf+9UKsb6FxKWUo4xQHOw1Uf
+         nvkNkc/9JqV/rhF01Y4tzQNT05CJ7MgF/Tkx47H1QLLnci58WtCeENAw/ArKmjYc0yA4
+         9yXKkdt6dSZEP5WKhXkN5tHhaIEH3vuhkJ0H/aHhtiAm2XlcpGb3cLw6tNmIneV0r2v+
+         waN6DS/NQ65osWj2v/V0VkeR0DEpK128DkVmOVlKxpTpkWO3J/p2HfSlYI7OZOtMCn0G
+         tAwg==
+X-Gm-Message-State: AOJu0Yw6/VKxeblpwEhHV+Yl/hTc7zA69fMFsx/C8nrfIXdb/jtTCXWI
+        3TGsQa5gLniOAVOb+DUi4+Hu4g==
+X-Google-Smtp-Source: AGHT+IFrjhPdd6vWCM5twqWe8Gx1vQOZe4ftjHiARiD5M6kbpwMjDkRu3Y6/bbkfib0ftOWckR13og==
+X-Received: by 2002:a2e:350e:0:b0:2c5:1c4:9005 with SMTP id z14-20020a2e350e000000b002c501c49005mr9520358ljz.32.1698217812468;
+        Wed, 25 Oct 2023 00:10:12 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n13-20020a05600c3b8d00b004053e9276easm18734063wms.32.2023.10.25.00.10.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Oct 2023 00:10:12 -0700 (PDT)
+Date:   Wed, 25 Oct 2023 10:10:08 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Umang Jain <umang.jain@ideasonboard.com>
+Cc:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        Stefan Wahren <stefan.wahren@i2se.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Dan Carpenter <error27@gmail.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "Ricardo B . Marliere" <ricardo@marliere.net>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH 1/1] staging: vc04_services: Use %p4cc format modifier to
+ print FourCC codes
+Message-ID: <bd7f3a75-598a-428e-85c3-8dd867043c1f@kadam.mountain>
+References: <20231025060717.71895-1-umang.jain@ideasonboard.com>
+ <20231025060717.71895-2-umang.jain@ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 6/8] media: dt-bindings: wave5: add Chips&Media 521c
- codec IP support
-Content-Language: en-US
-To:     Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc:     Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        kernel@collabora.com, Robert Beckett <bob.beckett@collabora.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Darren Etheridge <detheridge@ti.com>
-References: <20230929-wave5_v13_media_master-v13-0-5ac60ccbf2ce@collabora.com>
- <20230929-wave5_v13_media_master-v13-6-5ac60ccbf2ce@collabora.com>
- <b94e3561-f5ef-443f-98c7-9b79a8bbceec@linaro.org>
- <20231016134720.GA2650973-robh@kernel.org>
- <20231021120526.eqe3esyxyi5b3e5d@basti-XPS-13-9310>
- <3d465d3c-386d-467b-87e9-806962464ac5@linaro.org>
- <20231024051745.d663ekj7klrl4yzj@basti-XPS-13-9310>
- <7240fa39-1a8f-4338-b5ae-b469dfaeb7e1@linaro.org>
- <20231025061713.kmmu432q76t32iv6@basti-XPS-13-9310>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231025061713.kmmu432q76t32iv6@basti-XPS-13-9310>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231025060717.71895-2-umang.jain@ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -143,46 +80,50 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/10/2023 08:17, Sebastian Fricke wrote:
-> Hey Krzysztof,
+On Wed, Oct 25, 2023 at 02:07:17AM -0400, Umang Jain wrote:
+> Drop VCHIQ_FOURCC_AS_4CHARS macro in favour of %p4cc format
+> modifier to print FourCC codes in the logs.
 > 
-> On 24.10.2023 09:24, Krzysztof Kozlowski wrote:
->> On 24/10/2023 07:17, Sebastian Fricke wrote:
->>
->>>>>> It needs an SoC specific compatible (TI something...) as well (or
->>>>>> instead). Unless there's a public spec with details on how many
->>>>>> clocks, resets, interrupts, etc. there are.
->>>>>
->>>>> Okay so how about this, a bit similar to the Coda driver supplying both
->>>>> a general option and a SoC specific version:
->>>>
->>>> Can generic compatible be used alone in board designs? If it is licensed
->>>> block, then most likely you want a fallback.
->>>
->>> Alright, so a fallback seems appropriate, how do you like this?
->>>
->>> properties:
->>>    compatible:
->>>      items:
->>>        - enum:
->>>            - const: ti,k3-j721sX-wave521c
->>>        - const: cnm,wave521c
->>>
->>> Providing a fallback and adding a enum which can be extended later on.
->>
->> This looks almost good. I wonder what is "j721sX" - Google does not find
->> it. There is thouhg j721se.
+> vchiq_use_internal() and vchiq_release_internal() uses entity
+> character-array to store a transient string that contains
+> a FourCC code. Increase the length of entity array(to 64 bytes)
+> since %p4cc requires more bytes to hold the output characters.
 > 
-> Well that was a misunderstanding from my side I thought that both j721se
-> and j721s2 have the Wave5 IP block and wanted to describe both with
-> j721sX. But as it turns out the IP block isn't present on j721se.
+> Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>  .../interface/vchiq_arm/vchiq_arm.c           | 20 +++++-----
+>  .../interface/vchiq_arm/vchiq_core.c          | 40 +++++++++----------
+>  .../interface/vchiq_arm/vchiq_core.h          |  6 ---
+>  .../interface/vchiq_arm/vchiq_dev.c           |  7 ++--
+>  4 files changed, 33 insertions(+), 40 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index fc6d33ec5e95..de6a24304a4d 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -1441,7 +1441,7 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
+>  {
+>  	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
+>  	int ret = 0;
+> -	char entity[16];
+> +	char entity[64];
+>  	int *entity_uc;
+>  	int local_uc;
+>  
+> @@ -1454,8 +1454,8 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
+>  		sprintf(entity, "VCHIQ:   ");
+>  		entity_uc = &arm_state->peer_use_count;
+>  	} else if (service) {
+> -		sprintf(entity, "%c%c%c%c:%03d",
+> -			VCHIQ_FOURCC_AS_4CHARS(service->base.fourcc),
+> +		sprintf(entity, "%p4cc:%03d",
 
-It does not matter. You must not have wildcards in compatibles.
+Not related to your patch but these sprintfs() make me very
+uncomfortable.
 
-> Additionally, I was only able to test the codec on j721s2 for now and so
-> I would opt for calling it: `ti,k3-j721s2-wave521c`
+KTODO: change sprintf() to snprintf() in staging/vc04_services/
 
-
-Best regards,
-Krzysztof
+regards,
+dan carpenter
 
