@@ -2,110 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 317F77D6C13
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 14:37:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 035DB7D6C19
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 14:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344021AbjJYMhh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 08:37:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37098 "EHLO
+        id S1344023AbjJYMjW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 08:39:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58558 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232807AbjJYMhg (ORCPT
+        with ESMTP id S234862AbjJYMjV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 08:37:36 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0573129;
-        Wed, 25 Oct 2023 05:37:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=s31663417; t=1698237433; x=1698842233; i=j-p-t@gmx.net;
-        bh=PkdRxhsM568WFqpYCtZJdhLCVi8JSeQHaWDtFdzRt/Y=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-         In-Reply-To;
-        b=ELIsFPXGyy+9ZaosbLA5G8t0D9AyaFmV5IDbUVwB32LJOGpV2O6lpKKLrIr2v3i4
-         5Yiw8YFmCRbY2TQhfoBqlTeZMq69GrMEcPcS/Kb5RFpfx18hWpCFM3LYJ9iofOLU3
-         bmsYdmiRl8ZOSUl1r4CSYPS1qx/AkU1uZMbb6R92Pw78kqFSBRdL6UccqoacR036t
-         6bWF55QJVdqWxoV1X9/navQI7iwgIfRd48xfdBJDtPte0gNGzOAavkbjh1khRbBGU
-         Do4emAv/3fY46Qk/GozaGqlPyTB+/mlFwTjrAfEa+CrabaDICotDeKCtnkLJoUhx6
-         tXccOJW6IgQuQByI7Q==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.178.58] ([45.14.97.35]) by mail.gmx.net (mrgmx005
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1M1Hdw-1qtyAx3cIk-002q5E; Wed, 25
- Oct 2023 14:37:10 +0200
-Message-ID: <80e8bc56-ed41-40ab-af04-1fb11d383a5f@gmx.net>
-Date:   Wed, 25 Oct 2023 14:37:09 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: si2157 not working at all?
-Content-Language: de-DE
-To:     Gonsolo <gonsolo@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>
-Cc:     Linux Media Subsystem <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-References: <1cfa1365-ca0d-4e33-a149-751277183440@gmx.net>
- <ZThgwTieDv7Gi8UG@debian.me>
- <CANL0fFQMiubX3saR7fmQvYjKqDVCbDNTwyzj1_-aiN6HSB-hwg@mail.gmail.com>
-From:   JPT <j-p-t@gmx.net>
-In-Reply-To: <CANL0fFQMiubX3saR7fmQvYjKqDVCbDNTwyzj1_-aiN6HSB-hwg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Wed, 25 Oct 2023 08:39:21 -0400
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2F3ACC
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 05:39:19 -0700 (PDT)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-9bf86b77a2aso818048666b.0
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 05:39:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698237558; x=1698842358; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=u7P0qxWuKZSlIG8Fd3hEDUtkDY0lRhDmCAgW6Ls27R8=;
+        b=UPwJv+DTRpXOxoHts0vAsnT9J9DMSUom/5zdC9kdInacAvJprTRuKsbcvIs2GPDMoZ
+         aNmvZywrSwjS9aEQ9o6DNSgK0L2K/Z2bRz0xzat2l9yp8A2WDIxFSQfLm5RJKx5s4EJv
+         oHnAzkAMvaqxOX7gXZtV/d9WKL5C35Euocq49oKDcOz1ATzBlI2CJIBDmBfbjvbexTUj
+         O9kr67HBcGSD64K3qfMrIFL3duQpuC4wVG5HaSbgxmtFqavKeoygSwsP/kTt02O2Le1j
+         rntZP9f6DAKfbV3G2qqNUiBMJGs3s4zImyGvnC9iQEYkYB0/lhmp9K08vsYrM1PR+/wA
+         u18w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698237558; x=1698842358;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=u7P0qxWuKZSlIG8Fd3hEDUtkDY0lRhDmCAgW6Ls27R8=;
+        b=MByP7tAM1ElbrU1poiEeRE+mfA0vfNexCztK8uZWe5JZliVaygIOPbdUDUZ97GBiry
+         KDAzqpki6L++eNiA2TqyaAv8k4kv59ULUTA8IURUfLMhP5N2WyY8NMceD5i8I+XCdnoU
+         4ua8U1wdfhzso5PHVagMEKmea9zdP6N29TtOC3Lyb3arl4dYfmWt6MQFrKP0o3QVNQu4
+         PXBgETAnuapbEnENjIIJsy2gg/oFNZntrqWAXxTgcfrDkb8HGEmUaSK506tU+/CYPDsV
+         PgvidgWr52RDlvobXeq8TAUD7ztDuIt3gq5XMsidmtVa2dl5vwfRLjSjKTbNcHU+LERA
+         0M3A==
+X-Gm-Message-State: AOJu0YybDIh96NSSFymF6XohRD2WYt9lfAuEE12gH1BZ9Hnbd/mLTGU0
+        8tysm27Uc7njq21OJU0EjQ8=
+X-Google-Smtp-Source: AGHT+IEIT+iHYBnEQB71lz2xeRQFg+1FB/VT8KJ0eiw3hWJE9R7qfN/Po5RKUmFz04JExf7W8loiVQ==
+X-Received: by 2002:a17:907:3e1f:b0:9bd:a65e:b594 with SMTP id hp31-20020a1709073e1f00b009bda65eb594mr13889893ejc.3.1698237558109;
+        Wed, 25 Oct 2023 05:39:18 -0700 (PDT)
+Received: from [10.9.136.59] ([87.62.83.1])
+        by smtp.gmail.com with ESMTPSA id la5-20020a170906ad8500b009adce1c97ccsm9738737ejb.53.2023.10.25.05.39.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Oct 2023 05:39:17 -0700 (PDT)
+Message-ID: <ec4d1e9530ec2f5bf90822edbe3130ec88410cf5.camel@gmail.com>
+Subject: Re: [PATCH v2 01/15] media: intel/ipu6: add Intel IPU6 PCI device
+ driver
+From:   Andreas Helbech Kleist <andreaskleist@gmail.com>
+To:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Cc:     andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
+        ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
+        tfiga@chromium.org, senozhatsky@chromium.org,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@linux.intel.com,
+        tian.shu.qiu@intel.com, hongju.wang@intel.com
+Date:   Wed, 25 Oct 2023 14:39:16 +0200
+In-Reply-To: <20231024112924.3934228-2-bingbu.cao@intel.com>
+References: <20231024112924.3934228-1-bingbu.cao@intel.com>
+         <20231024112924.3934228-2-bingbu.cao@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:/DKT4sNcFYRd10XdPzLLw9nhVc3ru6CzYzcJ8GNuYxjoJ0VzL0C
- FnX/6pGfPDucBVb2X9R0RXz0+mxP5JXFlm5GhBqTqkja1RdF7jNnv84/wBXF/wDjgwV/qSr
- kbdWGiJXYMc+lkqrOSU7z7zZt+mK5ZizmSqzejtB3qHuMG4MROX+3V9RttznMzmx7Fb+lrl
- kFPLnsd49TXEmyKxY7yXg==
-UI-OutboundReport: notjunk:1;M01:P0:Q0GHDGjUTyo=;SyzAtHAnp1irmVkn9/3ethD+Q6/
- D9tK726xOnLuxmSX37FAxLeEsPG7CzT9XudVClhESB5uyrzoxW0BeCwgswvasV5vd5z7FVArd
- 8qeNXxwHCm7BOAOz3Dgg7YKn3NI4lEyItSxFD0Js6Iez39IjDShCgqWSzXEr5y9sXlfoiXcUZ
- aZdraJR3gwehjmM1KG3Qr1eYBwnuzmO+r0GJX8ZdxcxSRiUPEO4zSInuhA4rxZXpHdoeK+rd3
- OWk1tzy3h5DIbMZxGPh40JjnY4BuoRB4YluS6d/0NpE5K/8+Umxi6Dgy+2ouaGdeyN5IIfZE8
- 8VSHloHWMttPnEtZQ5YmPDS6OoKmcwZxJNtBKq8MYY4LDFKT9VAxzpEElE4Uuc/1diXxn28hW
- F4MFgnpWD2BVisZH2mUQGbNUXlk4QGfsbCduxH1yamtweajD62AQnng8Mf7sJsss84aRSst0C
- P1uneSDecYu2lPsogjNDXfPV8tR7I0k06roBvscot8mw7Igo7SM9fTHSmeG/OcnPeEkRc9c7/
- 5ubj92IAULBF/IXqRTeTZ4cF8K/8h1BkInicMrKOfNVi1BB0eVMzpvWMj5San/u3mN4/gcie/
- 9IelL4utvl/kiQ3rYbH1HvrXVfW1G2H7Bl3mADA94v0FEwDwB3iOspWL+Lb3/mJ5+FHDuwmSl
- FEdQj9lxvrtK7j1cRWhJhaItQy2GvCwSr02lkTwEELmaD+vntUnXkPjMo3ULleUYEOyPkyG4r
- 7qUzMV0UBaq8xyakgrDeTcoDdJRiOGVhblvbY+BOQVbCb6qMmm8uyp8rU3nbDfefaF29x2S82
- w0
-X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+User-Agent: Evolution 3.44.4-0ubuntu2 
+MIME-Version: 1.0
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
-        version=3.4.6
-X-Spam-Level: *
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Bingbu,
 
-[TerraTec Cinergy TC2]
-> > could someone please have a look what is the problem with si2157?
->
-> No problem.
->
-> Support for your stick was added here:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commi=
-t/?id=3Dc0e0d3138896f <https://git.kernel.org/pub/scm/linux/kernel/git/tor=
-valds/linux.git/commit/?id=3Dc0e0d3138896f>
+Thanks for the updated series. I've rebased my work on this series, and
+ran into the following issue.
 
-Oops. Thank you very much.
-I was on the wrong trace all along.
-Sorry, for bothering. I have tried hard to learn a little bit of kernel
-development, but I am far from all of you :o)
+On Tue, 2023-10-24 at 19:29 +0800, bingbu.cao@intel.com wrote:
+> +static int ipu6_pci_config_setup(struct pci_dev *dev, u8 hw_ver)
+...
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0ret =3D pci_alloc_irq_vectors(=
+dev, 1, 1, PCI_IRQ_MSI);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0if (ret)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0dev_err_probe(&dev->dev, ret, "Request msi failed");
+> +
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return ret;
+> +}
 
-could someone please change the kernel message to something more specific?
+pci_alloc_irq_vectors returns number of irqs, so I think it should be
+something like this instead:
 
-for example:
+       ret =3D pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_MSI);
+       if (ret<0) {
+               dev_err_probe(&dev->dev, ret, "Request msi failed");
+               return ret;
+       }
+      =20
+       return 0;
 
-drivers/media/tuners/si2157.c
-153c153
-<                        "device is buggy, skipping firmware download\n");
-=2D--
- >                        "firmware upload does not work, using firmware
-already installed\n");
-
-thank you very much
-
-Jan
+/Andreas
