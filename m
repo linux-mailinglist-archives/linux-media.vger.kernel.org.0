@@ -2,114 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CF0CC7D667A
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 11:15:44 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFE257D6680
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 11:16:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234190AbjJYJPo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 05:15:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36878 "EHLO
+        id S233979AbjJYJQe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 05:16:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49164 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233987AbjJYJPm (ORCPT
+        with ESMTP id S233306AbjJYJQc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 05:15:42 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82B04186
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 02:15:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698225340; x=1729761340;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=ZfptIkWvw/lv5ltmBXraIklzRS5CubmuSS03XM+fzbE=;
-  b=nKWfyquI7OMfrovEM5itxNagOSJaSPN9tPSUBDcMBJLgjnYIsVq3yfKe
-   L5ukp7OvuRHoYIfPVVAti4Q9mxW1Sv9jxHX5gZFdh47StNXrFr2+EsaBE
-   TJHwQpF8IaIxENUgR/HwpfV8gGvuK7SR6sw91uI9g0pUKVTS64urelI5U
-   Mv+TzdgrjmXmJk9TJXiMKPeGK8xyYnu/YFwImNiaSlW7mtCYEU4A8VOQp
-   E71UbQO3+iadyINA9MdmW8YY5TkcVcC8Ig9XJwpMQzNCfgbHGKKAr0CCV
-   PsQ7WVZVb8XZejB04rRhfNy8TdHP6kNrnnCDu6XlWJkcIcG9r46uptPxh
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="384480080"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="384480080"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 02:15:39 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="788063657"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="788063657"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 02:15:37 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id B0169120AB3;
-        Wed, 25 Oct 2023 12:15:34 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com
-Subject: [PATCH v3 2/2] media: Documentation: LP-11 and LP-111 are states, not modes
-Date:   Wed, 25 Oct 2023 12:15:31 +0300
-Message-Id: <20231025091531.893366-3-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231025091531.893366-1-sakari.ailus@linux.intel.com>
-References: <20231025091531.893366-1-sakari.ailus@linux.intel.com>
+        Wed, 25 Oct 2023 05:16:32 -0400
+Received: from mail-lf1-x130.google.com (mail-lf1-x130.google.com [IPv6:2a00:1450:4864:20::130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 339C0138
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 02:16:29 -0700 (PDT)
+Received: by mail-lf1-x130.google.com with SMTP id 2adb3069b0e04-507bd64814fso7844496e87.1
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 02:16:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698225387; x=1698830187; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=dkMR9DQLmnzg6433Y9KFCsuvQ/1vijrskslyV3CpRuE=;
+        b=BLuo5e5CEEY8wwbz/iLRU+pNGSFKB/S0asMak4tjFBdUXtY+VTkPm80BvFv6OBSTD8
+         WJ0qWvYSst9aNZBxf43unaQRejS0eLyf1Emtb8SqSd0uqPGV3k7WihOvzvRtTKhylnWm
+         bZ0FT3SpZwtnfxQCD5LuazeTLERFKgj2vwuh4+BOQBDXLySK5ajwcS4LPIl9eIHCYGgy
+         +Q+myG7S9Jc1P0DAuMvsTYwYud7lqJlYzDlW9RNh/jQXVnVqbIf4eIFVItpiDuLdil00
+         HJ8TotaipLWg9Vd1O6OG22rMgvrfKHQ1Th97mltOgQ7AotYHeN3Obo3Bjih2w9cIdzfF
+         RSJA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698225387; x=1698830187;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=dkMR9DQLmnzg6433Y9KFCsuvQ/1vijrskslyV3CpRuE=;
+        b=tgEEMV7rqip3GqWoSBlnZrSvepxNBTLMjwEDDwDQRIaXm35Yxk5R9fxw3yAsmc5Fa7
+         30AP5VMO4dniJoRhP47/M31oHUnhOfSiD9jzYi7wb8SStLgFkN+hEQBYLGNDGycT7cc4
+         Y1uIXX5gGu5PPopGJNNiOSvZbyx67/86QTLJSSqXi7Ra/7nC+wTbrei6DvCjbHtGUUjP
+         sZbnNg8OGUo9YS1I8Q/OssFp0c/ApcYz2wVEDmm4NslKOtwJTdq601ppvdoMWueGrF94
+         nmMGDE9AGd/gmcC37wWqut0D7hSfglvhtH1Anl5GpngImPiq768inoXY23lLUg7a/ItH
+         37Sw==
+X-Gm-Message-State: AOJu0YybhgsLu3Lqgxn+UPgGHHNTHTiTSPIzytuOAprx4oY2ZxCWKUzZ
+        gRJf4zIR+xc8F2WSzECVREdkWw==
+X-Google-Smtp-Source: AGHT+IG+8hlU7/gyP30B0hMc3Hc3WZ6IDoa8IyFLNr20MywZzm4fh/W9cr4rBR49QkVDcHfsLDEgzw==
+X-Received: by 2002:a05:6512:314e:b0:507:9702:c11d with SMTP id s14-20020a056512314e00b005079702c11dmr9065901lfi.64.1698225387369;
+        Wed, 25 Oct 2023 02:16:27 -0700 (PDT)
+Received: from [172.30.204.57] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
+        by smtp.gmail.com with ESMTPSA id m5-20020a056512114500b00507d1cc0458sm2470539lfg.51.2023.10.25.02.16.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Oct 2023 02:16:27 -0700 (PDT)
+Message-ID: <75c4a105-b925-4d6a-8c42-38f3ab32a7ca@linaro.org>
+Date:   Wed, 25 Oct 2023 11:16:25 +0200
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] media: qcom: camss: Convert to per-VFE pointer for
+ power-domain linkages
+Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        rfoss@kernel.org, todor.too@gmail.com, agross@kernel.org,
+        andersson@kernel.org, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20231024224255.754779-1-bryan.odonoghue@linaro.org>
+ <20231024224255.754779-2-bryan.odonoghue@linaro.org>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <20231024224255.754779-2-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-LP-11 and LP-111 are CSI-2 bus states, not modes. Fix this.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- Documentation/driver-api/media/tx-rx.rst | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/Documentation/driver-api/media/tx-rx.rst b/Documentation/driver-api/media/tx-rx.rst
-index b86088cc614e..9af9fa7d5197 100644
---- a/Documentation/driver-api/media/tx-rx.rst
-+++ b/Documentation/driver-api/media/tx-rx.rst
-@@ -91,8 +91,8 @@ where
- 	pixel rate on the camera sensor's pixel array which is indicated by the
- 	:ref:`V4L2_CID_PIXEL_RATE <v4l2-cid-pixel-rate>` control.
- 
--LP-11 and LP-111 modes
--^^^^^^^^^^^^^^^^^^^^^^
-+LP-11 and LP-111 states
-+^^^^^^^^^^^^^^^^^^^^^^^
- 
- As part of transitioning to high speed mode, a CSI-2 transmitter typically
- briefly sets the bus to LP-11 or LP-111 state, depending on the PHY. This period
-@@ -106,7 +106,7 @@ in software, especially when there is no interrupt telling something is
- happening.
- 
- One way to address this is to configure the transmitter side explicitly to LP-11
--or LP-111 mode, which requires support from the transmitter hardware. This is
-+or LP-111 state, which requires support from the transmitter hardware. This is
- not universally available. Many devices return to this state once streaming is
- stopped while the state after power-on is LP-00 or LP-000.
- 
-@@ -117,11 +117,11 @@ transitioning to streaming state, but not yet start streaming. Similarly, the
- to call ``.post_streamoff()`` for each successful call of ``.pre_streamon()``.
- 
- In the context of CSI-2, the ``.pre_streamon()`` callback is used to transition
--the transmitter to the LP-11 or LP-111 mode. This also requires powering on the
-+the transmitter to the LP-11 or LP-111 state. This also requires powering on the
- device, so this should be only done when it is needed.
- 
--Receiver drivers that do not need explicit LP-11 or LP-111 mode setup are waived
--from calling the two callbacks.
-+Receiver drivers that do not need explicit LP-11 or LP-111 state setup are
-+waived from calling the two callbacks.
- 
- Stopping the transmitter
- ^^^^^^^^^^^^^^^^^^^^^^^^
--- 
-2.39.2
+On 10/25/23 00:42, Bryan O'Donoghue wrote:
+> Right now we use the top-level camss structure to provide pointers via
+> VFE id index back to genpd linkages.
+> 
+> In effect this hard-codes VFE indexes to power-domain indexes in the
+> dtsi and mandates a very particular ordering of power domains in the
+> dtsi, which bears no relationship to a real hardware dependency.
+> 
+> As a first step to rationalising the VFE power-domain code and breaking
+> the magic indexing in dtsi use per-VFE pointers to genpd linkages.
+> 
+> The top-level index in msm_vfe_subdev_init is still used to attain the
+> initial so no functional or logical change arises from this change.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+[...]
 
+> @@ -653,11 +653,11 @@ static int vfe_pm_domain_on(struct vfe_device *vfe)
+>   	if (id >= camss->res->vfe_num)
+>   		return 0;
+>   
+> -	camss->genpd_link[id] = device_link_add(camss->dev, camss->genpd[id],
+> -						DL_FLAG_STATELESS |
+> -						DL_FLAG_PM_RUNTIME |
+> -						DL_FLAG_RPM_ACTIVE);
+Good opportunity to inilne vfe->id and get rid of a local var!
+
+> -	if (!camss->genpd_link[id])
+> +	vfe->genpd_link = device_link_add(camss->dev, vfe->genpd,
+> +					  DL_FLAG_STATELESS |
+> +					  DL_FLAG_PM_RUNTIME |
+> +					  DL_FLAG_RPM_ACTIVE);
+> +	if (!vfe->genpd_link)
+>   		return -EINVAL;
+>   
+[...]
+
+>   /*
+> @@ -1128,10 +1124,10 @@ static int vfe_pm_domain_on(struct vfe_device *vfe)
+>   	struct camss *camss = vfe->camss;
+>   	enum vfe_line_id id = vfe->id;
+>   
+> -	camss->genpd_link[id] = device_link_add(camss->dev, camss->genpd[id], DL_FLAG_STATELESS |
+> -						DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
+> +	vfe->genpd_link = device_link_add(camss->dev, vfe->genpd, DL_FLAG_STATELESS |
+> +					  DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
+>   
+> -	if (!camss->genpd_link[id]) {
+> +	if (!vfe->genpd_link) {
+>   		dev_err(vfe->camss->dev, "Failed to add VFE#%d to power domain\n", id);
+>   		return -EINVAL;
+And here
+
+[...]
+
+> @@ -1113,10 +1111,10 @@ static int vfe_pm_domain_on(struct vfe_device *vfe)
+>   	struct camss *camss = vfe->camss;
+>   	enum vfe_line_id id = vfe->id;
+>   
+> -	camss->genpd_link[id] = device_link_add(camss->dev, camss->genpd[id], DL_FLAG_STATELESS |
+> -						DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
+> +	vfe->genpd_link = device_link_add(camss->dev, vfe->genpd, DL_FLAG_STATELESS |
+> +					  DL_FLAG_PM_RUNTIME | DL_FLAG_RPM_ACTIVE);
+>   
+> -	if (!camss->genpd_link[id]) {
+> +	if (!vfe->genpd_link) {
+>   		dev_err(vfe->camss->dev, "Failed to add VFE#%d to power domain\n", id);
+>   		return -EINVAL;
+And here
+
+[...]
+>   
+>   /*
+> @@ -478,11 +478,11 @@ static int vfe_pm_domain_on(struct vfe_device *vfe)
+>   	if (id >= camss->res->vfe_num)
+>   		return 0;
+>   
+> -	camss->genpd_link[id] = device_link_add(camss->dev, camss->genpd[id],
+> -						DL_FLAG_STATELESS |
+> -						DL_FLAG_PM_RUNTIME |
+> -						DL_FLAG_RPM_ACTIVE);
+> -	if (!camss->genpd_link[id])
+> +	vfe->genpd_link = device_link_add(camss->dev, vfe->genpd,
+> +					  DL_FLAG_STATELESS |
+> +					  DL_FLAG_PM_RUNTIME |
+> +					  DL_FLAG_RPM_ACTIVE);
+And here
+
+
+Konrad
