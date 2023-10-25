@@ -2,85 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E8917D6058
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 05:14:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4976E7D616D
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 08:07:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232470AbjJYDOo convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 24 Oct 2023 23:14:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47032 "EHLO
+        id S231254AbjJYGHb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 02:07:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49026 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232093AbjJYDOe (ORCPT
+        with ESMTP id S229583AbjJYGHa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Oct 2023 23:14:34 -0400
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688DD134;
-        Tue, 24 Oct 2023 20:14:32 -0700 (PDT)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by ex01.ufhost.com (Postfix) with ESMTP id 7AEED24E2E2;
-        Wed, 25 Oct 2023 11:14:27 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 25 Oct
- 2023 11:14:27 +0800
-Received: from xiaofei.localdomain (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 25 Oct
- 2023 11:14:27 +0800
-From:   Jack Zhu <jack.zhu@starfivetech.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        <bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
+        Wed, 25 Oct 2023 02:07:30 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E3699D
+        for <linux-media@vger.kernel.org>; Tue, 24 Oct 2023 23:07:27 -0700 (PDT)
+Received: from umang.jain (unknown [103.251.226.9])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5BCBA669;
+        Wed, 25 Oct 2023 08:07:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1698214032;
+        bh=6N7Z7hgd1/Qg61kV5UAnFtn2rr4bYNmxCxexbxy7XdM=;
+        h=From:To:Cc:Subject:Date:From;
+        b=cwMIhnm84IHVNFWeqWKz+cu8OGXMCEeq0sDy8OBzZulgqtVJyt74a9tkB0S3vzTzM
+         9vD7PS1A2BhigtH5HUPKSEVRr+ijlFif8hS9y0p/VCL8pJfC6lmY7vvpGNcC3e/eWg
+         fZtWOLB+S/rnydDeIvNaD2qV9J5c6xc6aHPwyztY=
+From:   Umang Jain <umang.jain@ideasonboard.com>
+To:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+        Dan Carpenter <error27@gmail.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-        <jack.zhu@starfivetech.com>, <changhuang.liang@starfivetech.com>
-Subject: [PATCH v11 9/9] media: staging: media: starfive: camss: Add TODO file
-Date:   Wed, 25 Oct 2023 11:14:22 +0800
-Message-ID: <20231025031422.3695-10-jack.zhu@starfivetech.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231025031422.3695-1-jack.zhu@starfivetech.com>
-References: <20231025031422.3695-1-jack.zhu@starfivetech.com>
+        "Ricardo B . Marliere" <ricardo@marliere.net>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH 0/1] staging: vc04_services: Use %p4cc to print fourcc
+Date:   Wed, 25 Oct 2023 02:07:16 -0400
+Message-ID: <20231025060717.71895-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a TODO.txt file to explain what needs to be done to get them
-out of staging.
+The following patch drop VCHIQ_FOURCC_AS_4CHARS macro in favour of %p4cc
+format modifier to print FourCC codes in the logs.
 
-Signed-off-by: Jack Zhu <jack.zhu@starfivetech.com>
----
- drivers/staging/media/starfive/camss/TODO.txt | 4 ++++
- 1 file changed, 4 insertions(+)
- create mode 100644 drivers/staging/media/starfive/camss/TODO.txt
+*Before this patch*
+`mailbox: vchiq_core_msg debug: Sent Msg DATA(5) to AUDS s:1 d:62 len:20`
 
-diff --git a/drivers/staging/media/starfive/camss/TODO.txt b/drivers/staging/media/starfive/camss/TODO.txt
-new file mode 100644
-index 000000000000..7d459f4f09d0
---- /dev/null
-+++ b/drivers/staging/media/starfive/camss/TODO.txt
-@@ -0,0 +1,4 @@
-+Unstaging requirements:
-+- Add userspace support which demonstrates the ability to receive statistics and
-+  adapt hardware modules configuration accordingly;
-+- Add documentation for description of the statistics data structures;
+*After this patch*
+bcm2835_vchiq 3f00b840.mailbox: vchiq_core_msg debug: Sent Msg DATA(5) to SDUA little-endian (0x41554453) s:1 d:62 len:20
+
+The inversion of AUDS to SDUA as per usage of %p4cc
+Does it hamper readability ? Feedback is appreciated.
+
+As documented in the commit message, the 'entity' char array length is
+increased to hold more characters for the log output. Not doing so,
+causes kernel stack corruption at runtime.
+
+Based on top of:
+- [PATCH v2 0/8] staging: vc04: Drop custom logging based on printk
+
+Umang Jain (1):
+  staging: vc04_services: Use %p4cc format modifier to print FourCC
+    codes
+
+ .../interface/vchiq_arm/vchiq_arm.c           | 20 +++++-----
+ .../interface/vchiq_arm/vchiq_core.c          | 40 +++++++++----------
+ .../interface/vchiq_arm/vchiq_core.h          |  6 ---
+ .../interface/vchiq_arm/vchiq_dev.c           |  7 ++--
+ 4 files changed, 33 insertions(+), 40 deletions(-)
+
 -- 
-2.34.1
+2.41.0
 
