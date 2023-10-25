@@ -2,57 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0828A7D65C2
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 10:50:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4003F7D6620
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 11:02:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234241AbjJYIuJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 04:50:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53894 "EHLO
+        id S233247AbjJYJCw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 05:02:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234235AbjJYIuF (ORCPT
+        with ESMTP id S234129AbjJYJCu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 04:50:05 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10F0718C;
-        Wed, 25 Oct 2023 01:49:56 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 299B61BF205;
-        Wed, 25 Oct 2023 08:49:54 +0000 (UTC)
+        Wed, 25 Oct 2023 05:02:50 -0400
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [217.70.183.194])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B096116;
+        Wed, 25 Oct 2023 02:02:45 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id A82044000C;
+        Wed, 25 Oct 2023 09:02:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1698223795;
+        t=1698224564;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=kDKzSwobFKhvPb/S7FCw9CUUuZRhjo3hWw2I68BBVaY=;
-        b=Uf/Ua3orfZI1c+SkYBr68sRjaF4DhtsrTNk9WD9Z5StYN8qvR7Uy+08duhBLMTFV6JQj8v
-        aySWILmMdvmyNHjvzOJ636mC2pEjy0NHAlTxmL5Vkzm6/Wh5vAudTspmNHqmEid+BQWJh9
-        o95X3xvKTcrGcuqX/XvGQU5KyDLyaPp5si+x5NLCMR6EmdRXvwN/nFcn+38kN9YaoHzOHG
-        Rck3Au7Udt5s3YJNLK3FjJD6MGTzwTsQMFKfTEuqlJLwiCr8TEKUfozN9sLETe0Mr7LGbR
-        kWPFqFe9Jr/O1MnVtAC1W+vFyzN+1Pr2jct0yfqOyBnGZFww1mEmT7UiGc8J/g==
-Date:   Wed, 25 Oct 2023 10:49:53 +0200
+        bh=IgtN2DDo1pUwYXtxkw/V7hIJN2MXuUz4L/Sadc9jmhc=;
+        b=MAoVJSGmX0FOirLRMC3TP2rx9iYL39ti1GjmeRCOg2E/gnTbuxJ3oc/tYTECxBLLYmt+/P
+        CT31V6Ka8/A2o2LN10bBF2InLzFHYICFkUcLW1Ey7hIJWRby91zhXzgHT4kTzmQpy8pgcJ
+        SO3+QxwsJbtv5x7mL4N/3lT6FMyILP1iS5Dx3lMtU+heXaqze7mnnXNsZiTAF53i6EO3Tj
+        FwrptaeOPDmqmyA/uBPWHySftL+EjN8QJjcKbWQMFjARGPUMwmT1MKDAvhazMOj1cbD5E6
+        xXhEyDtKHoj1QLWjr+kZ3Im4R0uPTrZgHjvmN96IuvMdoxIzghU/Ci9ukHfiGg==
+Date:   Wed, 25 Oct 2023 11:02:43 +0200
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Michael Riesch <michael.riesch@wolfvision.net>
-Cc:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, ezequiel@vanguardiasur.com.ar,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com
-Subject: Re: [PATCH v8 2/3] media: rockchip: Add a driver for Rockhip's
- camera interface
-Message-ID: <ZTjWsf69QdXoJNKj@aptenodytes>
-References: <cover.1697446303.git.mehdi.djait@bootlin.com>
- <3790470ff7606fc075ec742d43254e52dde5d120.1697446303.git.mehdi.djait@bootlin.com>
- <ee4034b9-85f6-42cc-abca-d61004aa0a6c@wolfvision.net>
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Jernej Skrabec <jernej.skrabec@gmail.com>,
+        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+        Michael Tretter <m.tretter@pengutronix.de>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: V4L2 Encoders Pre-Processing Support Questions
+Message-ID: <ZTjZs5vYF-YT-rA-@aptenodytes>
+References: <ZTD5TXND4R7JqvCD@aptenodytes>
+ <437e4ea0c2c2681c1b333ad109f8f02fc229537f.camel@ndufresne.ca>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="IqvARDLe+FQx9dTB"
+        protocol="application/pgp-signature"; boundary="yfS1BwUP+ZZlB72g"
 Content-Disposition: inline
-In-Reply-To: <ee4034b9-85f6-42cc-abca-d61004aa0a6c@wolfvision.net>
+In-Reply-To: <437e4ea0c2c2681c1b333ad109f8f02fc229537f.camel@ndufresne.ca>
 X-GND-Sasl: paul.kocialkowski@bootlin.com
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -60,263 +58,189 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---IqvARDLe+FQx9dTB
+--yfS1BwUP+ZZlB72g
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Nicolas,
 
-On Mon 23 Oct 23, 15:28, Michael Riesch wrote:
-> Typo in the subject: "Rockhip's" -> "Rockchip's"
-> I think this typo has been in there for a while now ;-)
+Thanks for you useful answer!
 
-Great hips make for great dancing!
-
-> On 10/16/23 11:00, Mehdi Djait wrote:
-> > Introduce a driver for the camera interface on some Rockchip platforms.
+On Fri 20 Oct 23, 13:56, Nicolas Dufresne wrote:
+> > For example this means that you can feed the encoder with YUV 4:2:2 dat=
+a and
+> > it will downsample it to 4:2:0 since that's the only thing the hardware=
+ can do.
+> > It can also happen when e.g. providing RGB source pictures which will be
+> > converted to YUV 4:2:0 internally.
 > >=20
-> > This controller supports CSI2 and BT656 interfaces, but for
-> > now only the BT656 interface could be tested, hence it's the only one
-> > that's supported in the first version of this driver.
+> > I was wondering how all of this is dealt with currently and whether thi=
+s should
+> > be a topic of attention. As far as I can see there is currently no prac=
+tical way
+> > for userspace to know that such downsampling will take place, although =
+this is
+> > useful to know.
 >=20
-> "CSI2" -> "MIPI CSI-2" ?
-> "BT656" -> "BT.656" ?
-> Also, additional interfaces are supported by some units, e.g., the
-> RK3568 VICAP also supports BT.1120.
->=20
-> But most likely it becomes too complex to list everything, and it would
-> be better if you simply described the unit in the PX30. I think this
-> would clarify the commit message a lot.
+> Userspace already know that the driver will be downsample through the sel=
+ected
+> profile. The only issue would be if a users want to force a profile with =
+422
+> support, but have its  422 data downsampled anyway. This is legal in the =
+spec,
+> but I'd question myself if its worth supporting.
 
-For now I would just stick to mentionning parallel (aka DVP). Indeed we don=
-'t
-need to list every possible parallel setup and MIPI CSI-2 is not supported
-in the current version of the driver.
+Yeah indeed I think there's a distinction between selecting a profile that
+allows 422 and ensuring that this is what the encoder selects. Not sure if =
+420
+is always valid for any profile, but there's surely some overlap where both
+could be selected in compliance with the profile.
 
-> > This controller can be fond on PX30, RK1808, RK3128 and RK3288,
-> > but for now it's only been tested on PX30.
+> > Would it make sense to have an additional media entity between the sour=
+ce video
+> > node and the encoder proc and have the actual pixel format configured i=
+n that
+> > link (this would still be a video-centric device so userspace would not=
+ be
+> > expected to configure that link). But then what if the hardware can eit=
+her
+> > down-sample or keep the provided sub-sampling? How would userspace indi=
+cate
+> > which behavior to select? It is maybe not great to let userspace config=
+ure the
+> > pads when this is a video-node-centric driver.
 > >=20
-> > Most of this driver was written following the BSP driver from rockchip,
+> > Perhaps this could be a control or the driver could decide to pick the =
+least
+> > destructive sub-sampling available based on the selected codec profile
+> > (but this is still a guess that may not match the use case). With a con=
+trol
+> > we probably don't need an extra media entity.
 >=20
-> "rockchip" -> "Rockchip"
->=20
-> > removing the parts that either didn't fit correctly the guidelines, or
-> > that couldn't be tested.
-> >=20
-> > In the BSP, this driver is known as the "cif" driver, but this was
-> > renamed to "vip" to better fit the controller denomination in the
-> > datasheet.
-> >=20
-> > This basic version doesn't support cropping nor scaling, and is only
-> > designed with one SDTV video decoder being attached to it a any time.
-> >=20
-> > This version uses the "pingpong" mode of the controller, which is a
-> > double-buffering mechanism.
-> >=20
-> > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
->=20
-> Two things below:
->=20
-> >[...]
-> > diff --git a/drivers/media/platform/rockchip/vip/dev.h b/drivers/media/=
-platform/rockchip/vip/dev.h
-> > new file mode 100644
-> > index 000000000000..eb9cd8f20ffc
-> > --- /dev/null
-> > +++ b/drivers/media/platform/rockchip/vip/dev.h
-> > @@ -0,0 +1,163 @@
-> > +/* SPDX-License-Identifier: GPL-2.0 */
-> > +/*
-> > + * Rockchip VIP Driver
-> > + *
-> > + * Copyright (C) 2018 Rockchip Electronics Co., Ltd.
-> > + * Copyright (C) 2023 Mehdi Djait <mehdi.djait@bootlin.com>
-> > + */
-> > +
-> > +#ifndef _RK_VIP_DEV_H
-> > +#define _RK_VIP_DEV_H
-> > +
-> > +#include <linux/clk.h>
-> > +#include <linux/mutex.h>
-> > +#include <media/media-device.h>
-> > +#include <media/media-entity.h>
-> > +#include <media/v4l2-ctrls.h>
-> > +#include <media/v4l2-device.h>
-> > +#include <media/videobuf2-v4l2.h>
-> > +
-> > +#define VIP_DRIVER_NAME		"rk_vip"
-> > +#define VIP_VIDEODEVICE_NAME	"stream_vip"
-> > +
-> > +#define RK_VIP_MAX_BUS_CLK	8
-> > +#define RK_VIP_MAX_SENSOR	2
-> > +#define RK_VIP_MAX_RESET	5
-> > +#define RK_VIP_MAX_CSI_CHANNEL	4
-> > +
-> > +#define RK_VIP_DEFAULT_WIDTH	640
-> > +#define RK_VIP_DEFAULT_HEIGHT	480
-> > +
-> > +#define write_vip_reg(base, addr, val)  writel(val, (addr) + (base))
-> > +#define read_vip_reg(base, addr) readl((addr) + (base))
->=20
-> Please provide those helpers as proper inline functions. As to the
-> naming, the "_reg" suffix seems unnecessary.
->=20
-> Alternatively, you could consider converting the driver to use regmap.
+> Yes, for the cases not covered by the profile, I'd consider a control to =
+force
+> downsampling. A menu, so we can use the available menu items to get enume=
+rate
+> what is supported.
 
-Come to think of it, I feel like it would make more sense to have an inline
-function which is given a struct rk_vip_device instead of having to derefer=
-ence
-it every time in the caller to access the base address.
+Sounds good then.
 
-> > +
-> > +enum rk_vip_state {
-> > +	RK_VIP_STATE_DISABLED,
-> > +	RK_VIP_STATE_READY,
-> > +	RK_VIP_STATE_STREAMING
-> > +};
-> > +
-> > +enum rk_vip_chip_id {
-> > +	CHIP_PX30_VIP,
-> > +	CHIP_RK1808_VIP,
-> > +	CHIP_RK3128_VIP,
-> > +	CHIP_RK3288_VIP
-> > +};
-> > +
-> > +enum host_type_t {
-> > +	RK_CSI_RXHOST,
-> > +	RK_DSI_RXHOST
-> > +};
-> > +
-> > +struct rk_vip_buffer {
-> > +	struct vb2_v4l2_buffer vb;
-> > +	struct list_head queue;
-> > +	union {
-> > +		u32 buff_addr[VIDEO_MAX_PLANES];
-> > +		void *vaddr[VIDEO_MAX_PLANES];
-> > +	};
-> > +};
-> > +
-> > +struct rk_vip_scratch_buffer {
-> > +	void *vaddr;
-> > +	dma_addr_t dma_addr;
-> > +	u32 size;
-> > +};
-> > +
-> > +static inline struct rk_vip_buffer *to_rk_vip_buffer(struct vb2_v4l2_b=
-uffer *vb)
-> > +{
-> > +	return container_of(vb, struct rk_vip_buffer, vb);
-> > +}
-> > +
-> > +struct rk_vip_sensor_info {
-> > +	struct v4l2_subdev *sd;
-> > +	int pad;
-> > +	struct v4l2_mbus_config mbus;
-> > +	int lanes;
-> > +	v4l2_std_id std;
-> > +};
-> > +
-> > +struct vip_output_fmt {
-> > +	u32 fourcc;
-> > +	u32 mbus;
-> > +	u32 fmt_val;
-> > +	u8 cplanes;
-> > +};
-> > +
-> > +enum vip_fmt_type {
-> > +	VIP_FMT_TYPE_YUV =3D 0,
-> > +	VIP_FMT_TYPE_RAW,
-> > +};
-> > +
-> > +struct vip_input_fmt {
-> > +	u32 mbus_code;
-> > +	u32 dvp_fmt_val;
-> > +	u32 csi_fmt_val;
-> > +	enum vip_fmt_type fmt_type;
-> > +	enum v4l2_field field;
-> > +};
-> > +
-> > +struct rk_vip_stream {
-> > +	struct rk_vip_device		*vipdev;
-> > +	enum rk_vip_state		state;
-> > +	bool				stopping;
-> > +	wait_queue_head_t		wq_stopped;
-> > +	int				frame_idx;
-> > +	int				frame_phase;
-> > +
-> > +	/* lock between irq and buf_queue */
-> > +	spinlock_t			vbq_lock;
-> > +	struct vb2_queue		buf_queue;
-> > +	struct list_head		buf_head;
-> > +	struct rk_vip_scratch_buffer	scratch_buf;
-> > +	struct rk_vip_buffer		*buffs[2];
-> > +
-> > +	/* vfd lock */
-> > +	struct mutex			vlock;
-> > +	struct video_device		vdev;
-> > +	struct media_pad		pad;
-> > +
-> > +	struct vip_output_fmt		*vip_fmt_out;
-> > +	const struct vip_input_fmt	*vip_fmt_in;
-> > +	struct v4l2_pix_format_mplane	pixm;
-> > +};
-> > +
-> > +static inline struct rk_vip_stream *to_rk_vip_stream(struct video_devi=
-ce *vdev)
-> > +{
-> > +	return container_of(vdev, struct rk_vip_stream, vdev);
-> > +}
-> > +
-> > +struct rk_vip_device {
-> > +	struct list_head		list;
-> > +	struct device			*dev;
-> > +	int				irq;
-> > +	void __iomem			*base_addr;
-> > +	void __iomem			*csi_base;
-> > +	struct clk_bulk_data		clks[RK_VIP_MAX_BUS_CLK];
-> > +	int				num_clk;
-> > +	struct vb2_alloc_ctx		*alloc_ctx;
-> > +	bool				iommu_en;
-> > +	struct iommu_domain		*domain;
-> > +	struct reset_control		*vip_rst;
-> > +
-> > +	struct v4l2_device		v4l2_dev;
-> > +	struct media_device		media_dev;
-> > +	struct v4l2_ctrl_handler	ctrl_handler;
-> > +	struct v4l2_async_notifier	notifier;
-> > +	struct v4l2_async_connection	asd;
-> > +	struct rk_vip_sensor_info	sensor;
+> > Another topic is scaling. We can generally support scaling by allowing a
+> > different size for the coded queue after configuring the picture queue.
+> > However there would be some interaction with the selection rectangle, w=
+hich is
+> > used to set the cropping rectangle from the *source*. So the driver wil=
+l need
+> > to take this rectangle and scale it to match with the coded size.
+> >=20
+> > The main inconsistency here is that the rectangle would no longer corre=
+spond to
+> > what will be set in the bitstream, nor would the destination size since=
+ it does
+> > not count the cropping rectangle by definition. It might be more sensib=
+le to
+> > have the selection rectangle operate on the coded/destination queue ins=
+tead,
+> > but things are already specified to be the other way round.
+> >=20
+> > Maybe a selection rectangle could be introduced for the coded queue too=
+, which
+> > would generally be propagated from the picture-side one, except in the =
+case of
+> > scaling where it would be used to clarify the actual final size (coded =
+size
+> > taking the cropping in account). It this case the source selection rect=
+angle
+> > would be understood as an actual source crop (may not be supported by h=
+ardware)
+> > instead of an indication for the codec metadata crop fields. And the co=
+ded
+> > queue dimensions would need to take in account this source cropping, wh=
+ich is
+> > kinda contradictory with the current semantics. Perhaps we could define=
+ that
+> > the source crop rectangle should be entirely ignored when scaling is us=
+ed,
+> > which would simplify things (although we lose the ability to support so=
+urce
+> > cropping if the hardware can do it).
 >=20
-> Using "sensor" as name does not seem correct. As pointed out above it
-> could be a video decoder just as well. Something with "subdevice" maybe?
+> Yes, we should use selection on both queue (fortunately there is a v4l2_b=
+uf_type
+> in that API). Otherwise we cannot model all the scaling and cropping opti=
+ons.
+> What the spec must do is define the configuration sequence, so that a
+> negotiation is possible. We need a convention regarding the order, so tha=
+t there
+> is a way to converge with the driver, and also to conclude if the driver =
+cannot
+> handle it.
 
-Agreed. I suggest renaming the struct "rk_vip_sensor_info" -> "rk_cif_remot=
-e"
-and just calling the member "remote".
+Agreed. I'm just a bit worried that it's a bit late to change the semantics=
+ now
+that the source crop is defined in the stateful encoding uAPI and its meani=
+ng
+would become unclear/different when a destination crop is added.
 
 Cheers,
 
 Paul
+
+> > If operating on the source selection rectangle only (no second rectangl=
+e on the
+> > coded queue) some cases would be impossible to reach, for instance goin=
+g from
+> > some aligned dimensions to unaligned ones (e.g. 1280x720 source scaled =
+to
+> > 1920x1088 and we want the codec cropping fields to indicate 1920x1080).
+> >=20
+> > Anyway just wanted to check if people have already thought about these =
+topics,
+> > but I'm mostly thinking out loud and I'm of course not saying we need t=
+o solve
+> > these problems now.
+>=20
+> We might find extra corner case by implementing the spec, but I think the=
+ API we
+> have makes most of this possible already. Remember that we have fwht sw c=
+odec in
+> kernel for the purpose of developing this kind of feature. A simple bob s=
+caler
+> can be added for testing scaling.
+>=20
+> >=20
+> > Sorry again for the long email, I hope the points I'm making are somewh=
+at
+> > understandable.
+> >=20
+> > Cheers,
+> >=20
+> > Paul
+> >=20
+>=20
+> regards,
+> Nicolas
+>=20
 
 --=20
 Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---IqvARDLe+FQx9dTB
+--yfS1BwUP+ZZlB72g
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmU41rEACgkQ3cLmz3+f
-v9G18gf9HjBe+Tt1f9LvHCxhOiq2bRyWFVPqyjlYlU4B0jK3yg6o5UcssDHUSXLT
-/LtsfEKeVMMQRGDw1cAn0tafarUqk7eWQjfw4+uyPn8OMhX7CiYdKSMNaaa6KNje
-PhDqijyDw4P7Hxt9vbXmJnDsrS0iKJ1PMoDLTdaqJPyCenwLjornfDqJUoOxokoX
-wx8xO+ngwfzo0iTcx9djHBqw1xqJe/CoSdOxXm8rmz/gXhGxQmwAdUoArrFKzkD6
-kRHf/OYepU5G8JodRIYPmng3+s1/EnkXQutDFMDQlo/xqk0b1/9MEj6g/f2U1nij
-wZJTO0sfRvzQOy/PdwdaYJ3PRC8dQQ==
-=iFRN
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmU42bMACgkQ3cLmz3+f
+v9FnNAf/Y16PjB0ADByNN+sKglPxkHzDyouIZg4aowgACQK4Kwfuw3ldlSZWfeFk
+H7tHi8gQrz/tRcEiFXtsZzVS/Xuse7OPLcfZfaXvvywVAxa8mQpjUNsrPgvp6DU+
+3KWPO6NyabcF+7JUWsRXjFlS+EnnA0DQ6ZwdE/XMWbm2t/5xc5yadzzQrjjZg9Hx
+5q/DP86jyKz2q958LvW9xVnL3mC/daXFyMqsh2TCz/UEYpWqc729x093DTZh+uYx
+eNx4/Hb+P8dAKtsCHae78eRgJN4jPEyDjdbusLddq0xpu3m+wLydX7bIZ5f9xS0E
+RbKIIUAgFrJYZg2+NSNt3pn6V+dTaQ==
+=40D5
 -----END PGP SIGNATURE-----
 
---IqvARDLe+FQx9dTB--
+--yfS1BwUP+ZZlB72g--
