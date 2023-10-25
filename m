@@ -2,175 +2,364 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 37F277D7498
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 21:43:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CF8C77D74BA
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 21:50:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229583AbjJYTnh convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 25 Oct 2023 15:43:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46216 "EHLO
+        id S229982AbjJYTt7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 15:49:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34984 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229441AbjJYTng (ORCPT
+        with ESMTP id S229800AbjJYTt6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 15:43:36 -0400
-Received: from smtprelay01.ispgateway.de (smtprelay01.ispgateway.de [80.67.18.13])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B59C137;
-        Wed, 25 Oct 2023 12:43:32 -0700 (PDT)
-Received: from [92.206.139.21] (helo=note-book.lan)
-        by smtprelay01.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.96.1)
-        (envelope-from <git@apitzsch.eu>)
-        id 1qvjmp-00019n-1N;
-        Wed, 25 Oct 2023 21:43:27 +0200
-Message-ID: <fa4afea49b33fb20c1c6b46a65d73912c96fdaa7.camel@apitzsch.eu>
-Subject: Re: [PATCH 2/4] media: i2c: imx214: Move controls init to separate
- function
-From:   =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Ricardo Ribalda <ribalda@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Date:   Wed, 25 Oct 2023 21:43:25 +0200
-In-Reply-To: <kdp6brzqdllnyokwsalkpsbjl6cfnpv62gojfp3xoilsurphke@qqqa4gufb7xf>
-References: <20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu>
-         <20231023-imx214-v1-2-b33f1bbd1fcf@apitzsch.eu>
-         <kdp6brzqdllnyokwsalkpsbjl6cfnpv62gojfp3xoilsurphke@qqqa4gufb7xf>
-Autocrypt: addr=git@apitzsch.eu; prefer-encrypt=mutual;
- keydata=mQINBFZtkcEBEADF2OvkhLgFvPPShI0KqafRlTDlrZw5H7pGDHUCxh0Tnxsj7r1V6N7M8L2ck9GBhoQ9uSNeer9sYJV3QCMs6uIJD8XV60fsLrGZxSnZejYxAmT5IMp7hHZ6EXtgbRBwPUUymfKpMJ55pmyNFBkxWxQA6E33X/rH0ddtGmAsw+g6tOHBY+byBDZrsAZ7MLKqGVaW7IZCQAk4yzO7cLnLVHS2Pk4EOaG+XR/NYQ+jTfMtszD/zSW6hwskGZ6RbADHzCbV01105lnh61jvzpKPXMNTJ31L13orLJyaok1PUfyH0KZp8xki8+cXUxy+4m0QXVJemnnBNW5DG3YEpQ59jXn3I7Eu2pzn2N+NcjqK8sjOffXSccIyz8jwYdhASL5psEvQqZ6t60fvkwQw7++IZvs2BPmaCiQRo415/jZrEkBBE3xi1qdb3HEmpeASVaxkinM5O44bmQdsWTyamuuUOqziHZc9MO0lR0M1vUwnnQ3sZBu2lPx/HBLGWWOyzeERalqkXQz1w2p487Gc+fC8ZLXp7oknfX0Mo1hwTQ+2g2bf78xdsIhqH15KgRE/QiazM87mkaIcHz7UE+ikkffODyjtzGuaqDHQIUqpKIiXGKXoKzENFJel71Wb2FoSMXJfMNE/zEOE5ifufDkBGlwEqEUmkHzu7BbSPootR0GUInzm5QARAQABtCNBbmRyw6kgQXBpdHpzY2ggPGFuZHJlQGFwaXR6c2NoLmV1PokCVwQTAQoAQQIbAwIeAQIXgAULCQgHAgYVCgkICwIEFgIDAQIZARYhBGs5YOi9bIzbfpKzQoJ34hc2fkk7BQJjw9ROBQkPVdDvAAoJEIJ34hc2fkk7wkQP/RK8za0mwjXC0N3H3LG8b2dL9xvPNxOllbduGZ2VGypD4inCT/9bC7XXWr9aUqjfiNrZRf5DTUQeHf0hxeFndfjsJFODToQnnPDoZVIlEX7wS31MPYTpB
-        Gdkq687RJrHc4A7u/304OXaj4iXk3hmZDI4ax2XeFdj1Lt/PrfazCdtI8E6FvUBL5bcBdZsygeNWt5Jk3r2Gk4Gn+iuw1rxALfcBNIFD7dZiz7/KYycNJV6/ZQKXWWkHJZ8/MSwKhv6bJcAu5zkPKVnT3A/vZ/7bUWSXxR5Dy0i3Rbu2/DVGBBx/JRlmKy06KyE1Y9KmSt35NPJSimA7l4ITktfHiE3o6VXgvRX88h65RNiCi0zLl8jRCDTGkwv+DKFV1KcJTINgdbp310rZvMOaK0r16wzrWrTGmOiUv2ZTr8ZOJ+F9M2AxYwANrl72txyw9r6QKyIaHnbUeQjmnz28WtoxzVPHytuq7GIjn2YnJYeJnGC/12gmnRmq6jMiOhbA9kTCt5+gZONLk+D4AhBTIG71Z4e65mrGhoYYef8N4F0DAPhQgyoBxZuGmYQMPTV0VZc5EjLcAbXQeC1Gvhf/Kjc2T4uSAUGQq3zweRIdTOLDXmWTj9290aTiE12ZPXCrby103oTLyCdrC/5dAjlk0S+sgJm0dMr5uHcvl3W/Gt9sTejseOOtCFBbmRyw6kgQXBpdHpzY2ggPGdpdEBhcGl0enNjaC5ldT6JAlQEEwEKAD4CGwMFCwkIBwIGFQoJCAsCBBYCAwECHgECF4AWIQRrOWDovWyM236Ss0KCd+IXNn5JOwUCY8PUTgUJD1XQ7wAKCRCCd+IXNn5JOy04EACmk3rjyBGaELCMdi9Ijv2P25nBhhWKHnY+w7UWvJ3QjkqFslYIwXTFqeue7yw+jeEEuqW0415e1SN8UKi8gkmlxSI5gahvmu3TA6sipBmiEhci2lli0jdz6scL85H4UIdnYrLqSP+liJmPv2tTChgJzPaOs/anyYGNom6+SYl3LdpWp5PjFxWkz4ERC5UDfhJa8fHzCw1xkadkxgz8ihBULzMfrea8crLF4W64qewrF032h4T4yCBqjqtARVFtikqAUvyxhGXmeU
-        Of5hPifLqjlzsIpszJOwGh32ggK2WxqqAB20aRyuCXKc2MshyD+ANUj4hZGYFp0hT1q0E1KLFoRhy+CAZ+DBGMSI3MlES/NNvm3wRVlc4lr2RkaPUmM6PyQtmbtM4xbgQGD29Q4D44tPoLLgh0jK6c05EA/ZSjA8KTj2HNL3lUSMXdEDBTql1ccFXDqPvl5YiTfcK6r72H8Zz20qFgxNOAYPEf7xCfoWJTpAPYNY5rJyAJWzEYFEqZolJXP768n3ObVVtJq0Q5cYf46IbtTXDHFOIFUvQVXzFh9eAyv1tN4ZlZAm/oyWYChgzOIoymFz8S9i8a4A07m3Zhgxa80vmMvlhQntd9Wc1OMkjnxLIl+4WZUKH4PLwccQGysSXC7UVWiO8ZtofyMOqYY7BwzMllhWoyoXwulbkCDQRWbZHBARAA35+q2gnCcqTJm3MCqTsGGfsKIpGSn7qnr7l7C+jomiQSfg84SP0f4GclhBfSghpgUqBFiIgv3BzJREDrziSaJLwRp+NKILkZ2QW41JccushDEcUCVWnZpViUF1als6PU4M8uHmfzoNXZtAaeTKpA3eeOyUPUuNm4lSZH9Aq20BeCNDy9puzCnjpKWemI2oVC5J0eNQ+tw3sOtO7GeOWZiDh/eciJAEF08H1FnJ+4Gs04NQUjAKiZobQIqJI2PuRWPUs2Ijjx7mp7SPNU/rmKXFWXT3o83WMxo41QLoyJoMnaocM7AeTT4PVv3Fnl7o9S36joAaFVZ7zTp86JluQavNK74y35sYTiDTSSeqpmOlcyGIjrqtOyCXoxHpwIL56YkHmsJ9b4zriFS/CplQJ5aXaUDiDNfbt+9Zm7KI4g6J59h5tQGVwz/4pmre02NJFh1yiILCfOkGtAr1uJAemk0P1E/5SmrTMSj5/zpuHV+wsUjMpRKoREWYBgHzypaJC93h9N+Wl2KjDdwfg7cBboKBKTjbjaofhkG6f4noKagB7IAEKf14EUg1e
-        r5/Xx0McgWkIzYEvmRJspoPoSH5DLSd05QwJmMjXoLsq74iRUf0Y8glNEquc7u8aDtfORxxzfcY2WuL6WsOy7YrKHpinrlODwgI1/zUXQirPIGdFV9MsAEQEAAYkCPAQYAQoAJgIbDBYhBGs5YOi9bIzbfpKzQoJ34hc2fkk7BQJjw9RjBQkPVdDvAAoJEIJ34hc2fkk7PMcP/3ew9uNxXMYPMs292yuromvRxUXcsryyT4sTcsQ/w/V+12teaZZemU/hf9rhyd/Op8osIKenTQYcUb0BrKYn7bEQRYXjIR8AkfkePmNYGqhs37SB7uqnz9u7twk2lvRmMV0lW25g3EHzveV5CrMpSsBZ6M5Pe0rMs/lT5ws5P7atgFUYmmpijIBi1pzT8OLKhsoGwMayB4Cctt2YU1tpAoFjFcB2i9cyfoxGyjqXBJ/0u+6V6EocSeJbpI8T07GlFRNQok9NvImqBfOvMKk7eSSNJVYRu9FkbFFVxFQKh5wbAZelGItQLr6yrVIKmZmi+DLQHPGKmvoSatwPKsKIqvNHdWJQyvhrkQnzxnbQsixH/InWhJ/qbPhWKWNAq+fGkAVVXlZW91RW9h3r+ZIH95dCBnYNgi0ehVftqf0AEHXWRZgtKToYrG9kfkUdxft0fpilIG5aK0r242OKtQcGESyCltiwGakQ4qytf7kQ4SUYiJ8YQ2E2QU19zUrOkmjq32Be4C3QUYRBloU2l2VyGghZxdShJvNIZvup0ID0BFhcs0+4dWS4Loz8HW7FBWcmsUsti3mUBuBb6PN+jRoIYBbsUGDffbxz2/tHF3mckCS4qVtwiD7noU0l69FqZm/aOOUbwZ7UiTuuYgZ0HvQBMEb9PiiC0qjrTIST/U6zqLs4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.50.1 
+        Wed, 25 Oct 2023 15:49:58 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14B60186;
+        Wed, 25 Oct 2023 12:49:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698263396; x=1729799396;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=6bjyCn+5RGDR80Oxqpw3WAaYkuJ8eyFL07jKhBVi4rA=;
+  b=F7H5vgnLjZNnfCybWZh1/7tlYQk9jNN26dixy1wTEEmU3ufBTh8EhRrX
+   DfHuTA2a7LauCeVXN7tOLGO3Gv1q3DCHDsJfpEIj+LhnYJ3lWVUB5NU8B
+   m4mxPX3UCYJV+xBwlnmqyCVgVxrVuA+UzvFGO/Mkg5O5RhFA/NqieRykR
+   YnGtCxX+MflOcaXdAncw9FhEQdWEBGF3l3bOF3Cu/WNUQ5ALkQClMBfDx
+   vZPuquFmAA6z236R0mldplDC7vcpEmcaoq3Tcba7VUWiXb3KNwq8LzpcI
+   4ehPuW+o5EV0dWwcR0wO+EWTgoo5nvZHMsgxO1anoaT4DakgiYoDZGW6n
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="377752950"
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
+   d="scan'208";a="377752950"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 12:49:55 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="735494248"
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
+   d="scan'208";a="735494248"
+Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
+  by orsmga006.jf.intel.com with SMTP; 25 Oct 2023 12:49:47 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Wed, 25 Oct 2023 22:49:46 +0300
+Date:   Wed, 25 Oct 2023 22:49:46 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     Keith Zhao <keith.zhao@starfivetech.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Conor Dooley <conor+dt@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        christian.koenig@amd.com, Thomas Zimmermann <tzimmermann@suse.de>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Jagan Teki <jagan@edgeble.ai>,
+        Jack Zhu <jack.zhu@starfivetech.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Shengyang Chen <shengyang.chen@starfivetech.com>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>
+Subject: Re: [PATCH v2 5/6] drm/vs: Add KMS crtc&plane
+Message-ID: <ZTlxWiX7-vKeLQsc@intel.com>
+References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
+ <20231025103957.3776-6-keith.zhao@starfivetech.com>
+ <6db09f77-31e8-4f2e-a987-e3745d0e8c24@linaro.org>
 MIME-Version: 1.0
-X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
-X-Spam-Status: No, score=-0.6 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        RCVD_IN_VALIDITY_RPBL,SPF_HELO_PASS,SPF_PASS autolearn=no
-        autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6db09f77-31e8-4f2e-a987-e3745d0e8c24@linaro.org>
+X-Patchwork-Hint: comment
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, dem 24.10.2023 um 09:22 +0200 schrieb Jacopo Mondi:
-> Hi Andre'
-> 
-> On Mon, Oct 23, 2023 at 11:47:51PM +0200, André Apitzsch wrote:
-> > Code refinement, no functional changes.
+On Wed, Oct 25, 2023 at 10:28:56PM +0300, Dmitry Baryshkov wrote:
+> On 25/10/2023 13:39, Keith Zhao wrote:
+> > add 2 crtcs and 8 planes in vs-drm
 > > 
-> > Signed-off-by: André Apitzsch <git@apitzsch.eu>
+> > Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
 > > ---
-> >  drivers/media/i2c/imx214.c | 111 ++++++++++++++++++++++++++-------
-> > ------------
-> >  1 file changed, 64 insertions(+), 47 deletions(-)
+> >   drivers/gpu/drm/verisilicon/Makefile   |    8 +-
+> >   drivers/gpu/drm/verisilicon/vs_crtc.c  |  257 ++++
+> >   drivers/gpu/drm/verisilicon/vs_crtc.h  |   43 +
+> >   drivers/gpu/drm/verisilicon/vs_dc.c    | 1002 ++++++++++++
+> >   drivers/gpu/drm/verisilicon/vs_dc.h    |   80 +
+> >   drivers/gpu/drm/verisilicon/vs_dc_hw.c | 1959 ++++++++++++++++++++++++
+> >   drivers/gpu/drm/verisilicon/vs_dc_hw.h |  492 ++++++
+> >   drivers/gpu/drm/verisilicon/vs_drv.c   |    2 +
+> >   drivers/gpu/drm/verisilicon/vs_plane.c |  526 +++++++
+> >   drivers/gpu/drm/verisilicon/vs_plane.h |   58 +
+> >   drivers/gpu/drm/verisilicon/vs_type.h  |   69 +
+> >   11 files changed, 4494 insertions(+), 2 deletions(-)
+> >   create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
+> >   create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
+> >   create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.c
+> >   create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.h
+> >   create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.c
+> >   create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.h
+> >   create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
+> >   create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
+> >   create mode 100644 drivers/gpu/drm/verisilicon/vs_type.h
 > > 
-> > diff --git a/drivers/media/i2c/imx214.c
-> > b/drivers/media/i2c/imx214.c
-> > index 9218c149d4c8..554fc4733128 100644
-> > --- a/drivers/media/i2c/imx214.c
-> > +++ b/drivers/media/i2c/imx214.c
-> > @@ -695,6 +695,68 @@ static const struct v4l2_ctrl_ops
-> > imx214_ctrl_ops = {
-> >  	.s_ctrl = imx214_set_ctrl,
-> >  };
-> > 
-> > +static int imx214_ctrls_init(struct imx214 *imx214)
+> > diff --git a/drivers/gpu/drm/verisilicon/Makefile b/drivers/gpu/drm/verisilicon/Makefile
+> > index 7d3be305b..1d48016ca 100644
+> > --- a/drivers/gpu/drm/verisilicon/Makefile
+> > +++ b/drivers/gpu/drm/verisilicon/Makefile
+> > @@ -1,7 +1,11 @@
+> >   # SPDX-License-Identifier: GPL-2.0
+> >   
+> > -vs_drm-objs := vs_drv.o \
+> > -		vs_modeset.o
+> > +vs_drm-objs := vs_dc_hw.o \
+> > +		vs_dc.o \
+> > +		vs_crtc.o \
+> > +		vs_drv.o \
+> > +		vs_modeset.o \
+> > +		vs_plane.o
+> >   
+> >   obj-$(CONFIG_DRM_VERISILICON) += vs_drm.o
+> >   
+> > diff --git a/drivers/gpu/drm/verisilicon/vs_crtc.c b/drivers/gpu/drm/verisilicon/vs_crtc.c
+> > new file mode 100644
+> > index 000000000..8a658ea77
+> > --- /dev/null
+> > +++ b/drivers/gpu/drm/verisilicon/vs_crtc.c
+> > @@ -0,0 +1,257 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
+> > + *
+> > + */
+> > +
+> > +#include <linux/clk.h>
+> > +#include <linux/debugfs.h>
+> > +#include <linux/media-bus-format.h>
+> > +
+> > +#include <drm/drm_atomic_helper.h>
+> > +#include <drm/drm_atomic.h>
+> > +#include <drm/drm_crtc.h>
+> > +#include <drm/drm_gem_atomic_helper.h>
+> > +#include <drm/drm_vblank.h>
+> > +#include <drm/vs_drm.h>
+> > +
+> > +#include "vs_crtc.h"
+> > +#include "vs_dc.h"
+> > +#include "vs_drv.h"
+> > +
+> > +static void vs_crtc_reset(struct drm_crtc *crtc)
 > > +{
-> > +	static const s64 link_freq[] = {
-> > +		IMX214_DEFAULT_LINK_FREQ
-> > +	};
-> > +	static const struct v4l2_area unit_size = {
-> > +		.width = 1120,
-> > +		.height = 1120,
-> > +	};
-> > +	struct v4l2_ctrl_handler *ctrl_hdlr;
-> > +	int ret;
+> > +	struct vs_crtc_state *state;
 > > +
-> > +	ctrl_hdlr = &imx214->ctrls;
-> > +	ret = v4l2_ctrl_handler_init(&imx214->ctrls, 3);
+> > +	if (crtc->state) {
+> > +		__drm_atomic_helper_crtc_destroy_state(crtc->state);
+> > +
+> > +		state = to_vs_crtc_state(crtc->state);
+> > +		kfree(state);
+> > +		crtc->state = NULL;
+> > +	}
 > 
-> I know it was already like this, but you could take occasion to
-> pre-allocate enough control slots. I count 4 here, plus the 2 parsed
-> from system firware in the next patch.
+> You can call your crtc_destroy_state function directly here.
 > 
-> You can change this here and mention it in the commit message or with
-> a separate patch on top. Up to you!
+> > +
+> > +	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> > +	if (!state)
+> > +		return;
+> > +
+> > +	__drm_atomic_helper_crtc_reset(crtc, &state->base);
+> > +}
+> > +
+> > +static struct drm_crtc_state *
+> > +vs_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
+> > +{
+> > +	struct vs_crtc_state *ori_state;
 > 
-I will add it to the next patch ("Read orientation and rotation from
-system firmware"). As it should be increased there anyway. Hope that's
-fine.
+> It might be a matter of taste, but it is usually old_state.
+> 
+> > +	struct vs_crtc_state *state;
+> > +
+> > +	if (!crtc->state)
+> > +		return NULL;
+> > +
+> > +	ori_state = to_vs_crtc_state(crtc->state);
+> > +	state = kzalloc(sizeof(*state), GFP_KERNEL);
+> > +	if (!state)
+> > +		return NULL;
+> > +
+> > +	__drm_atomic_helper_crtc_duplicate_state(crtc, &state->base);
+> > +
+> > +	state->output_fmt = ori_state->output_fmt;
+> > +	state->encoder_type = ori_state->encoder_type;
+> > +	state->bpp = ori_state->bpp;
+> > +	state->underflow = ori_state->underflow;
+> 
+> Can you use kmemdup instead?
+> 
+> > +
+> > +	return &state->base;
+> > +}
+> > +
+> > +static void vs_crtc_atomic_destroy_state(struct drm_crtc *crtc,
+> > +					 struct drm_crtc_state *state)
+> > +{
+> > +	__drm_atomic_helper_crtc_destroy_state(state);
+> > +	kfree(to_vs_crtc_state(state));
+> > +}
+> > +
+> > +static int vs_crtc_enable_vblank(struct drm_crtc *crtc)
+> > +{
+> > +	struct vs_crtc *vs_crtc = to_vs_crtc(crtc);
+> > +	struct vs_dc *dc = dev_get_drvdata(vs_crtc->dev);
+> > +
+> > +	vs_dc_enable_vblank(dc, true);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void vs_crtc_disable_vblank(struct drm_crtc *crtc)
+> > +{
+> > +	struct vs_crtc *vs_crtc = to_vs_crtc(crtc);
+> > +	struct vs_dc *dc = dev_get_drvdata(vs_crtc->dev);
+> > +
+> > +	vs_dc_enable_vblank(dc, false);
+> > +}
+> > +
+> > +static const struct drm_crtc_funcs vs_crtc_funcs = {
+> > +	.set_config		= drm_atomic_helper_set_config,
+> > +	.page_flip		= drm_atomic_helper_page_flip,
+> 
+> destroy is required, see drm_mode_config_cleanup()
+> 
+> > +	.reset			= vs_crtc_reset,
+> > +	.atomic_duplicate_state = vs_crtc_atomic_duplicate_state,
+> > +	.atomic_destroy_state	= vs_crtc_atomic_destroy_state,
+> 
+> please consider adding atomic_print_state to output driver-specific bits.
+> 
+> > +	.enable_vblank		= vs_crtc_enable_vblank,
+> > +	.disable_vblank		= vs_crtc_disable_vblank,
+> > +};
+> > +
+> > +static u8 cal_pixel_bits(u32 bus_format)
+> 
+> This looks like a generic helper code, which can go to a common place.
+> 
+> > +{
+> > +	u8 bpp;
+> > +
+> > +	switch (bus_format) {
+> > +	case MEDIA_BUS_FMT_RGB565_1X16:
+> > +	case MEDIA_BUS_FMT_UYVY8_1X16:
+> > +		bpp = 16;
+> > +		break;
+> > +	case MEDIA_BUS_FMT_RGB666_1X18:
+> > +	case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
+> > +		bpp = 18;
+> > +		break;
+> > +	case MEDIA_BUS_FMT_UYVY10_1X20:
+> > +		bpp = 20;
+> > +		break;
+> > +	case MEDIA_BUS_FMT_BGR888_1X24:
+> > +	case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
+> > +	case MEDIA_BUS_FMT_YUV8_1X24:
+> > +		bpp = 24;
+> > +		break;
+> > +	case MEDIA_BUS_FMT_RGB101010_1X30:
+> > +	case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
+> > +	case MEDIA_BUS_FMT_YUV10_1X30:
+> > +		bpp = 30;
+> > +		break;
+> > +	default:
+> > +		bpp = 24;
+> > +		break;
+> > +	}
+> > +
+> > +	return bpp;
+> > +}
+> > +
+> > +static void vs_crtc_atomic_enable(struct drm_crtc *crtc,
+> > +				  struct drm_atomic_state *state)
+> > +{
+> > +	struct vs_crtc *vs_crtc = to_vs_crtc(crtc);
+> > +	struct vs_dc *dc = dev_get_drvdata(vs_crtc->dev);
+> > +	struct vs_crtc_state *vs_crtc_state = to_vs_crtc_state(crtc->state);
+> > +
+> > +	vs_crtc_state->bpp = cal_pixel_bits(vs_crtc_state->output_fmt);
+> > +
+> > +	vs_dc_enable(dc, crtc);
+> > +	drm_crtc_vblank_on(crtc);
+> > +}
+> > +
+> > +static void vs_crtc_atomic_disable(struct drm_crtc *crtc,
+> > +				   struct drm_atomic_state *state)
+> > +{
+> > +	struct vs_crtc *vs_crtc = to_vs_crtc(crtc);
+> > +	struct vs_dc *dc = dev_get_drvdata(vs_crtc->dev);
+> > +
+> > +	drm_crtc_vblank_off(crtc);
+> > +
+> > +	vs_dc_disable(dc, crtc);
+> > +
+> > +	if (crtc->state->event && !crtc->state->active) {
+> > +		spin_lock_irq(&crtc->dev->event_lock);
+> > +		drm_crtc_send_vblank_event(crtc, crtc->state->event);
+> > +		spin_unlock_irq(&crtc->dev->event_lock);
+> > +
+> > +		crtc->state->event = NULL;
+> 
+> I think even should be cleared within the lock.
+
+event_lock doesn't protect anything in the crtc state.
+
+But the bigger problem in this code is the prevalent crtc->state
+usage. That should pretty much never be done, especially in anything
+that can get called from the actual commit phase where you no longer
+have the locks held. Instead one should almost always use the
+get_{new,old}_state() stuff, or the old/new/oldnew state iterators.
 
 > 
-> > +	if (ret)
-> > +		return ret;
+> > +	}
+> > +}
 > > +
-> > +	imx214->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, NULL,
-> > +					      
-> > V4L2_CID_PIXEL_RATE, 0,
-> > +					      
-> > IMX214_DEFAULT_PIXEL_RATE, 1,
-> > +					      
-> > IMX214_DEFAULT_PIXEL_RATE);
+> > +static void vs_crtc_atomic_begin(struct drm_crtc *crtc,
+> > +				 struct drm_atomic_state *state)
+> > +{
+> > +	struct drm_crtc_state *crtc_state = drm_atomic_get_new_crtc_state(state,
+> > +									  crtc);
 > > +
-> > +	imx214->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr,
-> > NULL,
-> > +						  
-> > V4L2_CID_LINK_FREQ,
-> > +						  
-> > ARRAY_SIZE(link_freq) - 1,
-> > +						   0, link_freq);
-> > +	if (imx214->link_freq)
-> > +		imx214->link_freq->flags |=
-> > V4L2_CTRL_FLAG_READ_ONLY;
-> > +
-> > +	/*
-> > +	 * WARNING!
-> > +	 * Values obtained reverse engineering blobs and/or
-> > devices.
-> > +	 * Ranges and functionality might be wrong.
-> > +	 *
-> > +	 * Sony, please release some register set documentation
-> > for the
-> > +	 * device.
-> > +	 *
-> > +	 * Yours sincerely, Ricardo.
-> > +	 */
-> > +	imx214->exposure = v4l2_ctrl_new_std(ctrl_hdlr,
-> > &imx214_ctrl_ops,
-> > +					     V4L2_CID_EXPOSURE,
-> > +					     IMX214_EXPOSURE_MIN,
-> > +					     IMX214_EXPOSURE_MAX,
-> > +					     IMX214_EXPOSURE_STEP,
-> > +					    
-> > IMX214_EXPOSURE_DEFAULT);
-> > +
-> > +	imx214->unit_size = v4l2_ctrl_new_std_compound(ctrl_hdlr,
-> > +				NULL,
-> > +				V4L2_CID_UNIT_CELL_SIZE,
-> > +				v4l2_ctrl_ptr_create((void
-> > *)&unit_size));
-> > +
-> > +	ret = ctrl_hdlr->error;
-> > +	if (ret) {
-> > +		v4l2_ctrl_handler_free(ctrl_hdlr);
-> > +		return dev_err_probe(imx214->dev, ret, "failed to
-> > add controls\n");
-> 
-> dev_err_probe won't help I think, or could ctrl_hdr->error be
-> -EPROBE_DEFER ? Not a big deal though!
+> > +	struct vs_crtc *vs_crtc = to_vs_crtc(crtc);
+> > +	struct device *dev = vs_crtc->dev;
+> > +	struct drm_property_blob *blob = crtc->state->gamma_lut;
 
-dev_err_probe() is used by imx415 (the latest added imx* driver).
-That's why I used it, too.
+Eg. here you are using drm_atomic_get_new_crtc_state() correctly, but
+then proceed to directly access crtc->state anyway.
 
-André
-> 
-> All minor comments, with these addressed
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> 
-> Thanks
->   j
-> 
+> > +	struct drm_color_lut *lut;
+> > +	struct vs_dc *dc = dev_get_drvdata(dev);
+> > +
+> > +	if (crtc_state->color_mgmt_changed) {
+> > +		if (blob && blob->length) {
+> > +			lut = blob->data;
+> > +			vs_dc_set_gamma(dc, crtc, lut,
+> > +					blob->length / sizeof(*lut));
+> > +			vs_dc_enable_gamma(dc, crtc, true);
+> > +		} else {
+> > +			vs_dc_enable_gamma(dc, crtc, false);
+> > +		}
+> > +	}
+> > +}
+
+-- 
+Ville Syrj�l�
+Intel
