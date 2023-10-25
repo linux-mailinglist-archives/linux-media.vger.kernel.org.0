@@ -2,128 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 645927D6223
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 09:10:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6D8B7D6249
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 09:18:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231469AbjJYHKR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 03:10:17 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39710 "EHLO
+        id S232363AbjJYHSq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 03:18:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47618 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229583AbjJYHKQ (ORCPT
+        with ESMTP id S232464AbjJYHSo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 03:10:16 -0400
-Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5380AA6
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 00:10:14 -0700 (PDT)
-Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2c501bd6ff1so74555871fa.3
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 00:10:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698217812; x=1698822612; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=O/a2enGvtc1HJJcrsQxtyTV+TZ4Dj/K1d5FQy70Je18=;
-        b=noExIGyI+uVjMTGs2768AcK+nHCPWqulPhv0h8aPIBFEGLRwlBH4Co80W95DoZqal3
-         5yyiinmwrEpUeF393VPelzaDu6YStteHstHSPVa6pnTIZA4upvXPvy+AulhRGCmUKOr1
-         bBKuxcP5EIaxxVyyjd5QxC2fYLAxth3VWuoe1JiyLeI9NmRoIxa2cEFyhd/CQ/X0Z77+
-         BiSZAnaDj/P9NXAmIUEOC5fJ8/Zurbfgq6N+1uh4MenaURD2Kl1eKH0j/toC5O0FXL1V
-         MJYmiZqwLVixChTBb+UJdvbcy6oTrskd28YBTJRx36PK8LPZX7/f0kI0DrOOHTIRXAoF
-         7mgw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698217812; x=1698822612;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O/a2enGvtc1HJJcrsQxtyTV+TZ4Dj/K1d5FQy70Je18=;
-        b=wFUKclLPG4Yl+UFjZQBtD84sHRZmB0B13qlKdHBe3Lpjpb3fecxqQskYSXW8DhNTOK
-         XdQpi34en1sbyTuT+/GPuh7csBMdIIsJMsi1J7D8AtJbMf+9UKsb6FxKWUo4xQHOw1Uf
-         nvkNkc/9JqV/rhF01Y4tzQNT05CJ7MgF/Tkx47H1QLLnci58WtCeENAw/ArKmjYc0yA4
-         9yXKkdt6dSZEP5WKhXkN5tHhaIEH3vuhkJ0H/aHhtiAm2XlcpGb3cLw6tNmIneV0r2v+
-         waN6DS/NQ65osWj2v/V0VkeR0DEpK128DkVmOVlKxpTpkWO3J/p2HfSlYI7OZOtMCn0G
-         tAwg==
-X-Gm-Message-State: AOJu0Yw6/VKxeblpwEhHV+Yl/hTc7zA69fMFsx/C8nrfIXdb/jtTCXWI
-        3TGsQa5gLniOAVOb+DUi4+Hu4g==
-X-Google-Smtp-Source: AGHT+IFrjhPdd6vWCM5twqWe8Gx1vQOZe4ftjHiARiD5M6kbpwMjDkRu3Y6/bbkfib0ftOWckR13og==
-X-Received: by 2002:a2e:350e:0:b0:2c5:1c4:9005 with SMTP id z14-20020a2e350e000000b002c501c49005mr9520358ljz.32.1698217812468;
-        Wed, 25 Oct 2023 00:10:12 -0700 (PDT)
-Received: from localhost ([102.36.222.112])
-        by smtp.gmail.com with ESMTPSA id n13-20020a05600c3b8d00b004053e9276easm18734063wms.32.2023.10.25.00.10.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 00:10:12 -0700 (PDT)
-Date:   Wed, 25 Oct 2023 10:10:08 +0300
-From:   Dan Carpenter <dan.carpenter@linaro.org>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Carpenter <error27@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "Ricardo B . Marliere" <ricardo@marliere.net>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH 1/1] staging: vc04_services: Use %p4cc format modifier to
- print FourCC codes
-Message-ID: <bd7f3a75-598a-428e-85c3-8dd867043c1f@kadam.mountain>
-References: <20231025060717.71895-1-umang.jain@ideasonboard.com>
- <20231025060717.71895-2-umang.jain@ideasonboard.com>
+        Wed, 25 Oct 2023 03:18:44 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85854182
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 00:18:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698218321; x=1729754321;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=bsgKNSsQcmgS05tdD4U6HKU1iAmfiEMfcpDsgcX2uL0=;
+  b=czfq6fcyRIFJK1LSDx0z26KKaBmFssNYJfOa09gxoGjiWggyGS35VKKH
+   tC7Zs30xhkfmWyDUxExNtbY6geEtZ3ESsjwHBhsutjVr+QtsRdxlwDDYb
+   8tJ72XdcPpWjEEpbagn9ip0mkLWMnjxdvUNI6dYTAq+ZsRUqPnlRg6AfR
+   //GCwP35c9yv3+KTBZ0VMNz2b1Ri83DjbOlcO8hdYpuFi9dDE8LrDuXoB
+   moi8zzQLNd+jVlH7tmnUiWQlyhGtuGhih2zUYFyB9n1nRJ7D6k1qzMoSC
+   GO5S2g8P/5DgI8siKqjHCft9iB0CgnrI8Zd32pl5ks2PDVf9/Zgupbos/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="390108735"
+X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
+   d="scan'208";a="390108735"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 00:18:41 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="932272585"
+X-IronPort-AV: E=Sophos;i="6.03,249,1694761200"; 
+   d="scan'208";a="932272585"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.146]) ([10.238.232.146])
+  by orsmga005.jf.intel.com with ESMTP; 25 Oct 2023 00:18:37 -0700
+Subject: Re: [PATCH v2 02/15] media: intel/ipu6: add IPU auxiliary devices
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        bingbu.cao@intel.com
+Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com, hdegoede@redhat.com,
+        ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
+        claus.stovgaard@gmail.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
+        tian.shu.qiu@intel.com, hongju.wang@intel.com
+References: <20231024112924.3934228-1-bingbu.cao@intel.com>
+ <20231024112924.3934228-3-bingbu.cao@intel.com>
+ <ZTe/WBM/kPB+GWKk@smile.fi.intel.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <3da91870-641a-e0fb-1135-b592d5ca3373@linux.intel.com>
+Date:   Wed, 25 Oct 2023 15:14:00 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231025060717.71895-2-umang.jain@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <ZTe/WBM/kPB+GWKk@smile.fi.intel.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 25, 2023 at 02:07:17AM -0400, Umang Jain wrote:
-> Drop VCHIQ_FOURCC_AS_4CHARS macro in favour of %p4cc format
-> modifier to print FourCC codes in the logs.
+Andy,
+
+Thanks for your review.
+
+On 10/24/23 8:58 PM, Andy Shevchenko wrote:
+> On Tue, Oct 24, 2023 at 07:29:11PM +0800, bingbu.cao@intel.com wrote:
+>> From: Bingbu Cao <bingbu.cao@intel.com>
+>>
+>> Even the IPU input system and processing system are in a single PCI
+>> device, each system has its own power sequence, the processing system
+>> power up depends on the input system power up.
+>>
+>> Besides, input system and processing system have their own MMU
+>> hardware for IPU DMA address mapping.
+>>
+>> Register the IS/PS devices on auxiliary bus and attach power domain
+>> to implement the power sequence dependency.
 > 
-> vchiq_use_internal() and vchiq_release_internal() uses entity
-> character-array to store a transient string that contains
-> a FourCC code. Increase the length of entity array(to 64 bytes)
-> since %p4cc requires more bytes to hold the output characters.
+> ...
 > 
-> Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../interface/vchiq_arm/vchiq_arm.c           | 20 +++++-----
->  .../interface/vchiq_arm/vchiq_core.c          | 40 +++++++++----------
->  .../interface/vchiq_arm/vchiq_core.h          |  6 ---
->  .../interface/vchiq_arm/vchiq_dev.c           |  7 ++--
->  4 files changed, 33 insertions(+), 40 deletions(-)
+> Seems again poor / random list of header inclusions...
+> Please, go through your files and use IWYU (Include What You Use) principle
+> in them.
 > 
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index fc6d33ec5e95..de6a24304a4d 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -1441,7 +1441,7 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
->  {
->  	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
->  	int ret = 0;
-> -	char entity[16];
-> +	char entity[64];
->  	int *entity_uc;
->  	int local_uc;
->  
-> @@ -1454,8 +1454,8 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
->  		sprintf(entity, "VCHIQ:   ");
->  		entity_uc = &arm_state->peer_use_count;
->  	} else if (service) {
-> -		sprintf(entity, "%c%c%c%c:%03d",
-> -			VCHIQ_FOURCC_AS_4CHARS(service->base.fourcc),
-> +		sprintf(entity, "%p4cc:%03d",
+>> +#include <linux/pci.h>
+> 
+> auxiliary_bus.h, err.h, list.h, mutex.h, dev_printk.h, slab.h, dma-mapping.h are missing.
+> You are lucky it does compile.
 
-Not related to your patch but these sprintfs() make me very
-uncomfortable.
+auxiliary_bus.h is included in ipu6-bus.h, list.h, mutex.h dev_printk.h are
+included in device.h, dma-mapping.h and scatterlist.h are included in pci.h.
 
-KTODO: change sprintf() to snprintf() in staging/vc04_services/
+I am a little confused about the rule, do you mean we need include the
+generic headers we need even it is included in others header?
 
-regards,
-dan carpenter
+> 
+> ...
+> 
+>> +#ifndef IPU6_BUS_H
+>> +#define IPU6_BUS_H
+>> +
+>> +#include <linux/auxiliary_bus.h>
+> 
+> ...Especially for headers which will affect the compilation time.
+> 
+>> +#include <linux/pci.h>
+> 
+> This is not used.
 
+Do you mean it just need a 'struct pci_dev;' ?
+> 
+> ...
+> 
+>> +	struct list_head list;
+> 
+> + types.h
+> 
+>> +	struct sg_table fw_sgt;
+> 
+> + scatterlist.h
+> 
+>> +	dma_addr_t pkg_dir_dma_addr;
+> 
+> types.h
+> 
+> ...
+> 
+>> +struct ipu6_auxdrv_data {
+>> +	irqreturn_t (*isr)(struct ipu6_bus_device *adev);
+>> +	irqreturn_t (*isr_threaded)(struct ipu6_bus_device *adev);
+> 
+> irqreturn.h
+> 
+>> +	bool wake_isr_thread;
+>> +};
+> 
+> ...
+> 
+>> +#define to_ipu6_bus_device(_dev) container_of(to_auxiliary_dev(_dev), \
+>> +					      struct ipu6_bus_device, auxdev)
+>> +#define auxdev_to_adev(_auxdev) container_of(_auxdev, \
+>> +					     struct ipu6_bus_device, auxdev)
+> 
+> container_of.h
+> 
+> Also, can you reformat to be more readable like
+> 
+> #define auxdev_to_adev(_auxdev)					\
+> 	container_of(_auxdev, struct ipu6_bus_device, auxdev)
+
+Ack.
+
+> 
+>> +#define ipu6_bus_get_drvdata(adev) dev_get_drvdata(&(adev)->auxdev.dev)
+> 
+> device.h
+> 
+> ...
+> 
+>> +	ret = dma_set_max_seg_size(&pdev->dev, UINT_MAX);
+>> +	if (ret)
+>> +		return dev_err_probe(&pdev->dev, ret,
+>> +				     "Failed to set max_seg_size\n");
+> 
+> With the help of
+> 
+> 	struct device *dev = &pdev->dev;
+> 
+> this and other lines become neater
+> 
+> 
+> 	ret = dma_set_max_seg_size(dev, _DMA_SEGMENT_SIZE); // as I commented earlier about
+> 	if (ret)
+> 		return dev_err_probe(dev, ret, "Failed to set max_seg_size\n");
+
+Ack.
+
+> 
+
+-- 
+Best regards,
+Bingbu Cao
