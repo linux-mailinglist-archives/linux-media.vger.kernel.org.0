@@ -2,109 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BEE1F7D751B
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 22:03:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A5957D753F
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 22:12:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234062AbjJYUDv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 16:03:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40224 "EHLO
+        id S230061AbjJYUMZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 16:12:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33102 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234337AbjJYUDu (ORCPT
+        with ESMTP id S229441AbjJYUMY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 16:03:50 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7586B8F
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 13:03:48 -0700 (PDT)
+        Wed, 25 Oct 2023 16:12:24 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55C0B111
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 13:12:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698264228; x=1729800228;
+  t=1698264742; x=1729800742;
   h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=jGdBv25JE11eR9zyIFDEyYBXtuB6oWJGHSvGxHdJ6Yc=;
-  b=RUdgFGNOCdmStKByX+8ArwOHwzPRUnis4WOPxWq6PSexOEUShz/sDRjc
-   KqHipEBUechaxw3gwk8ftI+iU8Zpg/SRGmkbJQStBM5XIrPf50iu1nB6A
-   StJh2EYcS2h8kdcfSlxCtZ8+uIk92zby6VuMBBZUGzo0hmNB5RVcEPJJp
-   hrPH2ZiGuMfsQ/0GP2BJIjt/USP0IA2CIKmYO/1G99WcAQtt1GlTDHgdW
-   tLvrGe8rEBhy1j+jVVMrRRMkx3pqS1QJ9HYarORGJCWKKaMPIpWk67Z+6
-   JOBRAgy80NK4HIdbzLWa3fxEStA6+1ETxc7OlsoZ8/bsJL6Jbp/6EO5Ay
+   mime-version:in-reply-to;
+  bh=abTWRlrIWSRtNhVS1YgsyUlvqZ2d4AklIw++bSVjRWY=;
+  b=gh6FNlVbQkA6JimtU3FPbgOaKF6ScVJ/ugsuUhRVr0rMeGwZ+IlXkWRu
+   YmT8Ug1Gq9p4+b6X2UCq37nDqEI74AfsagqgrzNrb87RbXk5am2qRjVdC
+   2JbLmojl8+bDSXo8f8ysiGu5fsxs3I+5bxEH5o4ZA8gB+HAkRzYgxyvpw
+   yUtJMqjgj6DSJLY5evjYHyvwC5kUCPQD5CufKbNCPUq5TI/W0xefJKzlf
+   4DLtUeo2bQJXKGQKWy/sbxPUWatE4Is0OgYjuB+imxxYw32LXOV/dFR4c
+   WDsU1/FRKxg5kpphy8aeKJZSIAJcR1yj1bSZWMRYjMgubKL5XDW7LneUr
    Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="377756127"
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="451629488"
 X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="377756127"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 13:03:48 -0700
+   d="scan'208";a="451629488"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 13:12:21 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="829357344"
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="849660053"
 X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="829357344"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by fmsmga004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 13:03:44 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1qvk6P-00000008frq-1cDZ;
-        Wed, 25 Oct 2023 23:03:41 +0300
-Date:   Wed, 25 Oct 2023 23:03:41 +0300
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Andreas Helbech Kleist <andreaskleist@gmail.com>
-Cc:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
-        claus.stovgaard@gmail.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-        hongju.wang@intel.com
-Subject: Re: [PATCH v2 01/15] media: intel/ipu6: add Intel IPU6 PCI device
- driver
-Message-ID: <ZTl0nU8i6slPXkpN@smile.fi.intel.com>
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <20231024112924.3934228-2-bingbu.cao@intel.com>
- <ec4d1e9530ec2f5bf90822edbe3130ec88410cf5.camel@gmail.com>
+   d="scan'208";a="849660053"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 13:12:19 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id A410411FAAC;
+        Wed, 25 Oct 2023 23:12:16 +0300 (EEST)
+Date:   Wed, 25 Oct 2023 20:12:16 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        hongju.wang@intel.com,
+        Andrey Konovalov <andrey.konovalov@linaro.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Dmitry Perchanov <dmitry.perchanov@intel.com>,
+        "Ng, Khai Wen" <khai.wen.ng@intel.com>
+Subject: Re: [PATCH v6 17/28] media: v4l: subdev: Return routes set using
+ S_ROUTING
+Message-ID: <ZTl2oP-5jvOJzzju@kekkonen.localdomain>
+References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
+ <20231003120813.77726-8-sakari.ailus@linux.intel.com>
+ <b7cd29a5-c198-4b5b-a88c-ffac18777df8@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ec4d1e9530ec2f5bf90822edbe3130ec88410cf5.camel@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <b7cd29a5-c198-4b5b-a88c-ffac18777df8@xs4all.nl>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 25, 2023 at 02:39:16PM +0200, Andreas Helbech Kleist wrote:
-> On Tue, 2023-10-24 at 19:29 +0800, bingbu.cao@intel.com wrote:
+Hi Hans,
 
-...
-
-> > +       ret = pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_MSI);
-> > +       if (ret)
-> > +               dev_err_probe(&dev->dev, ret, "Request msi failed");
-> > +
-> > +       return ret;
-> > +}
+On Thu, Oct 05, 2023 at 01:05:17PM +0200, Hans Verkuil wrote:
+> On 03/10/2023 14:08, Sakari Ailus wrote:
+> > Return the routes set using S_ROUTING back to the user. Also reflect this
+> > in documentation.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst      | 5 +++--
+> >  drivers/media/v4l2-core/v4l2-subdev.c                        | 5 ++++-
+> >  2 files changed, 7 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > index 9a9765ddc316..ced53ea5f23c 100644
+> > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > @@ -43,8 +43,9 @@ The routing configuration determines the flows of data inside an entity.
+> >  Drivers report their current routing tables using the
+> >  ``VIDIOC_SUBDEV_G_ROUTING`` ioctl and application may enable or disable routes
+> >  with the ``VIDIOC_SUBDEV_S_ROUTING`` ioctl, by adding or removing routes and
+> > -setting or clearing flags of the  ``flags`` field of a
+> > -struct :c:type:`v4l2_subdev_route`.
+> > +setting or clearing flags of the ``flags`` field of a struct
+> > +:c:type:`v4l2_subdev_route`. Similarly to ``VIDIOC_SUBDEV_G_ROUTING``, also
+> > +``VIDIOC_SUBDEV_S_ROUTING`` returns the routes back to the user.
+> >  
+> >  All stream configurations are reset when ``VIDIOC_SUBDEV_S_ROUTING`` is
+> >  called. This means that the userspace must reconfigure all streams after calling
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index bd1e8205913c..9a34e13dfd96 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -935,9 +935,12 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+> >  		krouting.len_routes = routing->len_routes;
+> >  		krouting.routes = routes;
+> >  
+> > -		return v4l2_subdev_call(sd, pad, set_routing, state,
+> > +		rval = v4l2_subdev_call(sd, pad, set_routing, state,
+> >  					routing->which, &krouting);
+> > +		if (rval < 0)
+> > +			return rval;
+> >  	}
+> > +		fallthrough;
 > 
-> pci_alloc_irq_vectors returns number of irqs, so I think it should be
-> something like this instead:
+> Admittedly, it is a bit hard to see from just this patch, but I think
+> the actual code that VIDIOC_SUBDEV_S_ROUTING has to do here is just
+> a very few lines from VIDIOC_SUBDEV_G_ROUTING. I think it is better
+> to explicitly have them here, then doing a fallthrough.
+> 
+> Most of what is in VIDIOC_SUBDEV_G_ROUTING are just a bunch of checks
+> that are already done in VIDIOC_SUBDEV_S_ROUTING.
 
-Indeed, good catch!
-
->        ret = pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_MSI);
->        if (ret<0) {
->                dev_err_probe(&dev->dev, ret, "Request msi failed");
->                return ret;
-
-		return dev_err_probe();
-
-saves a line.
-
->        }
+Ack, I'll change this for v7.
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Regards,
 
-
+Sakari Ailus
