@@ -2,143 +2,240 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 03A187D69CC
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 13:12:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9FEA7D69EB
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 13:20:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232076AbjJYLMg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 07:12:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55686 "EHLO
+        id S232076AbjJYLUj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 07:20:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53134 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230217AbjJYLMf (ORCPT
+        with ESMTP id S229456AbjJYLUh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 07:12:35 -0400
-Received: from mail-pf1-x430.google.com (mail-pf1-x430.google.com [IPv6:2607:f8b0:4864:20::430])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8FB4BB
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 04:12:32 -0700 (PDT)
-Received: by mail-pf1-x430.google.com with SMTP id d2e1a72fcca58-6b1ef786b7fso5287897b3a.3
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 04:12:32 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698232352; x=1698837152;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:dkim-signature:date:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=gVeTDHNiYFAq0E4cZLjml4cYo09NnTGBtpZK+Ci6oew=;
-        b=KlJGmQSQz+oQkrla5f+e4mZ81pjhMpBVZuCBB/bvkOguJZhwKVU6JG9Sibe3tBVef8
-         +Abe7IDphGdVojWi6FvJj0cBheoW9eFaImxhMP4DKLo1+ZRhPcP3COxEpo2SVuGXx8p4
-         /Lyq9af1/SzbZNC+4boggZxYc25edHsEqYOlkZoIDXtYraE2YHNJy/QFoVadW1MovFIk
-         XslR1183mwEaNjtWo3bCU79S0JL/8dDLo/sUnZ9oaRN5YXxZ8DVsKhHcLM1LfnV3mlac
-         8l6lJiNUnentpb1TCYGwDpWf3AT4x/OPfLpNjyxqDYyJAOsGtUxs8D4pTgjWJXCdh6MD
-         TV8A==
-X-Gm-Message-State: AOJu0Yyqm5zOJQZoNGQKXT6DZWKCC1mRI5m9aZU0FU3kWgwtseROB0+V
-        blf3k02/T7MGn6Bkp77zQBSbyy0BI5YnNTXo
-X-Google-Smtp-Source: AGHT+IFjbriHfa4Gl9sFnWHU8GbQeS718AwbIbRVgDhurwrSv4kdyeKTHjS1maO0ee6/5iW7xKmJLg==
-X-Received: by 2002:a62:6106:0:b0:6ba:8478:b99f with SMTP id v6-20020a626106000000b006ba8478b99fmr12986285pfb.28.1698232351950;
-        Wed, 25 Oct 2023 04:12:31 -0700 (PDT)
-Received: from mail.marliere.net ([24.199.118.162])
-        by smtp.gmail.com with ESMTPSA id x190-20020a6263c7000000b0069337938be8sm9530410pfb.110.2023.10.25.04.12.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Oct 2023 04:12:31 -0700 (PDT)
-Date:   Wed, 25 Oct 2023 08:12:33 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
-        s=2023; t=1698232346;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=gVeTDHNiYFAq0E4cZLjml4cYo09NnTGBtpZK+Ci6oew=;
-        b=ASZHunViQMwyt+rN1JWF1PfVa8VGpDlkSp2fQlI52X60C6RHEB7GD0y9GksUqennARBZRE
-        CFQOTqEIG3FmENAhrIlDwf3gRyu+IY0LbWJgjMv9pRtlLTCqaCbRR/vO2rvo0SdrtIck1F
-        HHHssuSHuARdN317AkOaQxv8isUR/W8qHIYqOhkb66F5erZqV9k56sv5BIqzblWPgeZzzW
-        7m4x2jsU1NkzjxZ6BPmYKDDnk4Ky2UcqdKJyorbUjnDzz0PGmFtiUQxGltKefkIjbM+eQG
-        s4P+oY7MdSMAaANRjla4pJbwazC1vXu4pEFbKjTUecjQxEEgluDtZprrBOMUxQ==
-Authentication-Results: ORIGINATING;
-        auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
-From:   "Ricardo B. Marliere" <ricardo@marliere.net>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Dan Carpenter <dan.carpenter@linaro.org>,
-        linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Carpenter <error27@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/1] staging: vc04_services: Use %p4cc format modifier to
- print FourCC codes
-Message-ID: <5zsxrx553w3e57n6sqff7y4bfn2opir65bvb3o7mbiipzn2po4@gs7d3hkgjr3d>
-References: <20231025060717.71895-1-umang.jain@ideasonboard.com>
- <20231025060717.71895-2-umang.jain@ideasonboard.com>
- <bd7f3a75-598a-428e-85c3-8dd867043c1f@kadam.mountain>
- <ZTjf0fT0yl2cwGWJ@kekkonen.localdomain>
- <fe0b6ed1-61ba-5373-1525-adb040f68184@ideasonboard.com>
+        Wed, 25 Oct 2023 07:20:37 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4D44116
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 04:20:32 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0EB52C433C7;
+        Wed, 25 Oct 2023 11:20:30 +0000 (UTC)
+Message-ID: <d2b6e069-e917-4c6d-a377-3722973763de@xs4all.nl>
+Date:   Wed, 25 Oct 2023 13:20:29 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <fe0b6ed1-61ba-5373-1525-adb040f68184@ideasonboard.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_INVALID,
-        DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 5/8] media: v4l: subdev: Make stream argument optional
+ in state access functions
+Content-Language: en-US, nl
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com
+References: <20231023174408.803874-1-sakari.ailus@linux.intel.com>
+ <20231023174408.803874-6-sakari.ailus@linux.intel.com>
+ <95c4ed4d-36e5-44f7-8609-dfdb7847b0e8@xs4all.nl>
+ <ZTjro-bLwouKcJ4c@kekkonen.localdomain>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <ZTjro-bLwouKcJ4c@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/10/25 03:04PM, Umang Jain wrote:
+On 25/10/2023 12:19, Sakari Ailus wrote:
+> Hi Hans,
 > 
+> Thank you for the review.
 > 
-> On 10/25/23 2:58 PM, Sakari Ailus wrote:
-> > On Wed, Oct 25, 2023 at 10:10:08AM +0300, Dan Carpenter wrote:
-> >> On Wed, Oct 25, 2023 at 02:07:17AM -0400, Umang Jain wrote:
-> >>> Drop VCHIQ_FOURCC_AS_4CHARS macro in favour of %p4cc format
-> >>> modifier to print FourCC codes in the logs.
-> >>>
-> >>> vchiq_use_internal() and vchiq_release_internal() uses entity
-> >>> character-array to store a transient string that contains
-> >>> a FourCC code. Increase the length of entity array(to 64 bytes)
-> >>> since %p4cc requires more bytes to hold the output characters.
-> >>>
-> >>> Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> >>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> >>> ---
-> >>>   .../interface/vchiq_arm/vchiq_arm.c           | 20 +++++-----
-> >>>   .../interface/vchiq_arm/vchiq_core.c          | 40 +++++++++----------
-> >>>   .../interface/vchiq_arm/vchiq_core.h          |  6 ---
-> >>>   .../interface/vchiq_arm/vchiq_dev.c           |  7 ++--
-> >>>   4 files changed, 33 insertions(+), 40 deletions(-)
-> >>>
-> >>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> >>> index fc6d33ec5e95..de6a24304a4d 100644
-> >>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> >>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> >>> @@ -1441,7 +1441,7 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
-> >>>   {
-> >>>   	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
-> >>>   	int ret = 0;
-> >>> -	char entity[16];
-> >>> +	char entity[64];
-> >>>   	int *entity_uc;
-> >>>   	int local_uc;
-> >>>   
-> >>> @@ -1454,8 +1454,8 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
-> >>>   		sprintf(entity, "VCHIQ:   ");
-> >>>   		entity_uc = &arm_state->peer_use_count;
-> >>>   	} else if (service) {
-> >>> -		sprintf(entity, "%c%c%c%c:%03d",
-> >>> -			VCHIQ_FOURCC_AS_4CHARS(service->base.fourcc),
-> >>> +		sprintf(entity, "%p4cc:%03d",
-> >> Not related to your patch but these sprintfs() make me very
-> >> uncomfortable.
-> >>
-> >> KTODO: change sprintf() to snprintf() in staging/vc04_services/
-> > Umang: how about one patch on top of this? :-) There are just five
-> > instances of it.
+> On Wed, Oct 25, 2023 at 11:53:35AM +0200, Hans Verkuil wrote:
+>> On 23/10/2023 19:44, Sakari Ailus wrote:
+>>> The sub-device state access functions take three arguments: sub-device
+>>> state, pad and stream. The stream is not relevant for the majority of
+>>> drivers and having to specify 0 for the stream is considered a nuisance.
+>>>
+>>> Provide a two-argument macros for these state access functions to cover
+>>> the needs of stream-unaware users.
+>>>
+>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>> ---
+>>>  drivers/media/v4l2-core/v4l2-subdev.c | 18 ++++++-------
+>>>  include/media/v4l2-subdev.h           | 39 ++++++++++++++++++++-------
+>>>  2 files changed, 39 insertions(+), 18 deletions(-)
+>>>
+>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>>> index f0f0af48730f..e35226587244 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>>> @@ -1671,8 +1671,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+>>>  EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
+>>>  
+>>>  struct v4l2_mbus_framefmt *
+>>> -v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
+>>> -			     u32 stream)
+>>> +__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
+>>> +			       unsigned int pad, u32 stream)
+>>>  {
+>>>  	struct v4l2_subdev_stream_configs *stream_configs;
+>>>  	unsigned int i;
+>>> @@ -1702,11 +1702,11 @@ v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
+>>>  
+>>>  	return NULL;
+>>>  }
+>>> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_format);
+>>> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_format);
+>>>  
+>>>  struct v4l2_rect *
+>>> -v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+>>> -			   u32 stream)
+>>> +__v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+>>> +			     u32 stream)
+>>>  {
+>>>  	struct v4l2_subdev_stream_configs *stream_configs;
+>>>  	unsigned int i;
+>>> @@ -1736,11 +1736,11 @@ v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+>>>  
+>>>  	return NULL;
+>>>  }
+>>> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_crop);
+>>> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_crop);
+>>>  
+>>>  struct v4l2_rect *
+>>> -v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
+>>> -			      u32 stream)
+>>> +__v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
+>>> +				unsigned int pad, u32 stream)
+>>>  {
+>>>  	struct v4l2_subdev_stream_configs *stream_configs;
+>>>  	unsigned int i;
+>>> @@ -1770,7 +1770,7 @@ v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
+>>>  
+>>>  	return NULL;
+>>>  }
+>>> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_compose);
+>>> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_compose);
+>>>  
+>>>  int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
+>>>  					  u32 pad, u32 stream, u32 *other_pad,
+>>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+>>> index 71cb35133b4a..12eb0fe746d7 100644
+>>> --- a/include/media/v4l2-subdev.h
+>>> +++ b/include/media/v4l2-subdev.h
+>>> @@ -1545,7 +1545,7 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+>>>   * v4l2_subdev_state_get_format() - Get pointer to a stream format
+>>>   * @state: subdevice state
+>>>   * @pad: pad id
+>>> - * @stream: stream id
+>>> + * @...: stream id (optional argument)
+>>>   *
+>>>   * This returns a pointer to &struct v4l2_mbus_framefmt for the given pad +
+>>>   * stream in the subdev state.
+>>> @@ -1553,15 +1553,22 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+>>>   * For stream-unaware drivers the format for the corresponding pad is returned.
+>>>   * If the pad does not exist, NULL is returned.
+>>>   */
+>>> +#define v4l2_subdev_state_get_format(state, pad, ...)         \
+>>> +        __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+>>> +        (state, pad __VA_OPT__(,) __VA_ARGS__)
+>>> +#define __v4l2_subdev_state_get_format_(state, pad)     \
+>>> +        __v4l2_subdev_state_get_format(state, pad, 0)
+>>> +#define __v4l2_subdev_state_get_format_stream(state, pad, stream)	\
+>>> +        __v4l2_subdev_state_get_format(state, pad, stream)
+>>
+>> Hmm, 'git grep __VA_OPT__' finds no use of this in the kernel. Are you sure this
+>> is safe to use? Does clang support it? Do all gcc versions that the kernel support
+>> implement it?
+>>
+>> A 10+ for creativity, but I'm a bit concerned about it.
 > 
-> Ricardo, how about this? Do you want to take a swing at this ? :-)
+> :-)
+> 
+> I noticed the problem, too, as the lkp bot failed compiling this on GCC
+> 7.5. Indeed only GCC 8 supports __VA_OPT__ but the oldest GCC version
+> supported for kernel compilation is 7.1. So __VA_OPT__ isn't... an option.
+> 
+> I thought this could be done using variable arguments, making most error
+> handling take place at runtime (for GCC versions not supporting
+> __VA_OPT__), but then Laurent figured this can be done with just
+> __VA_ARGS__ which is part of C99.
+> 
+> The code would look like this, which is only slightly less understandable
+> than with __VA_OPT__:
+> 
+> #define v4l2_subdev_state_get_format(...)				\
+> 	__v4l2_subdev_state_get_format_var(__VA_ARGS__, , _2)(__VA_ARGS__)
+> #define __v4l2_subdev_state_get_format_var(_1, _2, _3, NUM, ...)	\
+> 	__v4l2_subdev_state_get_format ## NUM
+> #define __v4l2_subdev_state_get_format_2(state, pad) \
+> 	__v4l2_subdev_state_get_format(state, pad, 0)
+> struct v4l2_mbus_framefmt *
+> __v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
+> 			       unsigned int pad, u32 stream);
 
-Sure thing, I will send as another patch as Greg suggested.
+Wow! OK, I guess that will work.
 
-Thank you,
--	Ricardo
+A strongly suggest adding a comment before this explaining what you are
+trying to achieve. It's not exactly obvious :-)
+
+Regards,
+
+	Hans
+
+> 
+>>
+>> And if there are only a few drivers that need to give a specific stream,
+>> wouldn't it be easier to just have a v4l2_subdev_state_get_format_stream
+>> function and a static inline v4l2_subdev_state_get_format() that just calls
+>> the _stream version with 0?
+> 
+> I'm trying to shorten function names here: they're overly long. Also I'd
+> like to see a single set of API functions to access sub-device state
+> information irrespective of how it is stored. I originally proposed just
+> specifying stream zero but both Laurent and Tomi opined against it.
+> 
+
