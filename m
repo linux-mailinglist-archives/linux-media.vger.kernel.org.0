@@ -2,120 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 248847D6A2B
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 13:30:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0859B7D6A2C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 13:30:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234738AbjJYLaU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 07:30:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50552 "EHLO
+        id S234811AbjJYLaV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 07:30:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233280AbjJYLaS (ORCPT
+        with ESMTP id S234598AbjJYLaU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 07:30:18 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 142B8131
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 04:30:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=s31663417; t=1698233375; x=1698838175; i=wahrenst@gmx.net;
-        bh=wzqK2t8zSwabKpehgNyCy4Qys97N7Wvcq9t1ZXelOTI=;
-        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-         In-Reply-To;
-        b=mqL21FPzXaG9UDjo9qx0YFtjUaeBhzkTqj9y8Lk2Esek0fapJaN5kfb6jkG9o7Bh
-         M6cWqQppCdkxja0PT4JtKW9N+U5VoRwYEEDhU3Ocy1YZe+dUhMgtCdUC6VbN+zHYc
-         H2zt7BEntQO6dZYfSQW55JMe2Tw8jTDo3T3FQe5FlcvGChbc0utLOv302lfFP2cz3
-         YcyEWZta/5/iyZBejuoti7JTiMKA8EZ+f2YIMLbIZCms/kcWJ9P6NJbShKUc0gTav
-         Gc50eo61BNQlzggHDtp3n276W5FD5qZC+uY2YgeY8aiZpDHbwVABb/nhLVKTG5dbC
-         G4bKbODAR9ixtyWVbQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M3DJl-1qumCB34jl-003gar; Wed, 25
- Oct 2023 13:29:34 +0200
-Message-ID: <baa56840-8270-4d4e-aec5-2e6ccc8a9bc4@gmx.net>
-Date:   Wed, 25 Oct 2023 13:29:32 +0200
+        Wed, 25 Oct 2023 07:30:20 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 827C2137
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 04:30:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698233417; x=1729769417;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=8AVpQX2zYcTFn/VYwRzSHiO/2R9pyE4ODgtvjDIWiRs=;
+  b=M7mo+P5UQNVShMDObsBk6Ik/TqfIbPyyVpInkIgy9FplO8SAtpIhc65/
+   Z+FXcWhpMl1Z5/9A0UKfvfveKdjfEubSbDhQZDlU6HBTjzCqtzHrKAB4R
+   wy9Ulap+KM90l/G5mkVdi/7DTZSYNdeziMxKYl0kbBVGro7dKXa/0M1OD
+   7kKPxgEPJ+qH9ZTNQ1oW8vmQ4qh0nPKR2NMyhwdGeUw2H4E/UHlwrELUB
+   xS/bw5VzsJLnV0CIIgpuE2986n4qLTCqjUL3ojS7TCO3gfF8dikkBvRft
+   iFTppthdbicf5fxJ9lykOosZQhK1JahUFlWLuPnVE+soDxIeCDrhCTQiZ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="386171376"
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
+   d="scan'208";a="386171376"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 04:30:17 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="1005985510"
+X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
+   d="scan'208";a="1005985510"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 04:30:15 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 3602E11F82E;
+        Wed, 25 Oct 2023 14:30:12 +0300 (EEST)
+Date:   Wed, 25 Oct 2023 11:30:12 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com
+Subject: Re: [PATCH v3 5/8] media: v4l: subdev: Make stream argument optional
+ in state access functions
+Message-ID: <ZTj8RMO3MhqYx4l8@kekkonen.localdomain>
+References: <20231023174408.803874-1-sakari.ailus@linux.intel.com>
+ <20231023174408.803874-6-sakari.ailus@linux.intel.com>
+ <95c4ed4d-36e5-44f7-8609-dfdb7847b0e8@xs4all.nl>
+ <ZTjro-bLwouKcJ4c@kekkonen.localdomain>
+ <d2b6e069-e917-4c6d-a377-3722973763de@xs4all.nl>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/1] staging: vc04_services: Use %p4cc to print fourcc
-Content-Language: en-US
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        linux-staging@lists.linux.dev,
-        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Phil Elwell <phil@raspberrypi.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Dan Carpenter <error27@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "Ricardo B . Marliere" <ricardo@marliere.net>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <20231025060717.71895-1-umang.jain@ideasonboard.com>
-From:   Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231025060717.71895-1-umang.jain@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:IrkI2/n4fOM+fWg3bTBcGtjAWiONXUffbYvw5yNKS/T6R+tugQl
- mQlWd3hkuEj71C3imhFekLckYymOk1U3174Sww0busu2VJRbu2Jgq0jVV2HdBiENImzlDcM
- SgDBaxuWlkMMFNa9MixT9q/CkoLiW20nJibcMLffT0D1sGp7n69qmMFOPs7pQOZ894OCnyt
- s+acDm6JsJ9dR1P/CytvQ==
-UI-OutboundReport: notjunk:1;M01:P0:dhXhY+7uJ1M=;3lbfaKuJ0gdva1ufQA3NnXtsjJ7
- MIkan6w2pgVUhI/Th1fWZkfJTgS4MtypA8KmcfUmfC6+KJNLrPemWFP7F/fh7EWqDkH16CH2E
- lT96nHmUVky4e79Apz7jyHC2mwGjWheK6eui9Rq5biZOAQlmM1EdZExBc+Ndr4M5H3MLjqNPm
- ad4i6g5V+Ip7vBjQg9ZRViy4xjIVhYvzqEeMauGArqQy+Nj9GaD77uWlrBkNxzm9bunyb6tsD
- IIFIqlXOGnGjrIFiDYCYkyA8ecCHi+OPICdWuNwPkhHAaI6Arr3ZSbLZfhtJ/E4vqPspuB57w
- CEL3/O1JQHXtSZMsEvObmH00Fm8M+7SPGHWU1LcysuZF5EAp9PY+ApSyeDo8f/q2Dmf+tCWll
- QOW3J1kq9QSybSOyixrSe6zxGZxXFIoEZQ9S5cQrtW2HjI/4l0uwqtIPs8n/dj1CVB7sXPBGW
- UJQsUTNYl/uup8WI7o14yX62eag9bK7wBWiaFJIkBOFBUr/Vtqlrre8E+mD7IfBv3+M8qVlrC
- p0hZ9i5bDUe2pvaVvqUchIYCtxy4Y7Kh1zBwqm8dXS2N99FW+aJFroxpRrysdUHxyH+NnyjxL
- LWsTZZL/9oO0vS4590b6Ot/dILD2PIBBVtckIjiV0EKn2FKzVCwUWLEIK28Pwzq7hYJUli3e2
- pIbcQssi8p83jZHgA3AOMoJRIB43y1qWsNt5v8Qhzw4mAtKbRuBOO+hJdT+nHSa5adHvIgUWV
- HxXJVLadWtCfqS8ADzgR31Ha5jKT4+adY1UxbIKLlFMGrKeG9X7g3LHuHUm7y1fJvPWUBIUfF
- 8YsEHABulT3MevfKf7yPfKQYbB0LSUh8BCfVmxTRB+TNWsfQ9o0aq4/AZbUdxalUZQMzIDwjp
- G+/8qRy4hMeYoM5QxnlnpKJ6VMUhnHCkexlTrZqLNtaAYjWLalxzXLT0hr+ZzfOa0dExpzm03
- Br/rd+TV6sWWQeOntP8j7VfcNRQ=
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <d2b6e069-e917-4c6d-a377-3722973763de@xs4all.nl>
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Hans,
 
-[add Raspberry Pi guys]
+On Wed, Oct 25, 2023 at 01:20:29PM +0200, Hans Verkuil wrote:
+> On 25/10/2023 12:19, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > Thank you for the review.
+> > 
+> > On Wed, Oct 25, 2023 at 11:53:35AM +0200, Hans Verkuil wrote:
+> >> On 23/10/2023 19:44, Sakari Ailus wrote:
+> >>> The sub-device state access functions take three arguments: sub-device
+> >>> state, pad and stream. The stream is not relevant for the majority of
+> >>> drivers and having to specify 0 for the stream is considered a nuisance.
+> >>>
+> >>> Provide a two-argument macros for these state access functions to cover
+> >>> the needs of stream-unaware users.
+> >>>
+> >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >>> ---
+> >>>  drivers/media/v4l2-core/v4l2-subdev.c | 18 ++++++-------
+> >>>  include/media/v4l2-subdev.h           | 39 ++++++++++++++++++++-------
+> >>>  2 files changed, 39 insertions(+), 18 deletions(-)
+> >>>
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> >>> index f0f0af48730f..e35226587244 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> >>> @@ -1671,8 +1671,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> >>>  EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
+> >>>  
+> >>>  struct v4l2_mbus_framefmt *
+> >>> -v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
+> >>> -			     u32 stream)
+> >>> +__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
+> >>> +			       unsigned int pad, u32 stream)
+> >>>  {
+> >>>  	struct v4l2_subdev_stream_configs *stream_configs;
+> >>>  	unsigned int i;
+> >>> @@ -1702,11 +1702,11 @@ v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
+> >>>  
+> >>>  	return NULL;
+> >>>  }
+> >>> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_format);
+> >>> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_format);
+> >>>  
+> >>>  struct v4l2_rect *
+> >>> -v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+> >>> -			   u32 stream)
+> >>> +__v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+> >>> +			     u32 stream)
+> >>>  {
+> >>>  	struct v4l2_subdev_stream_configs *stream_configs;
+> >>>  	unsigned int i;
+> >>> @@ -1736,11 +1736,11 @@ v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+> >>>  
+> >>>  	return NULL;
+> >>>  }
+> >>> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_crop);
+> >>> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_crop);
+> >>>  
+> >>>  struct v4l2_rect *
+> >>> -v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
+> >>> -			      u32 stream)
+> >>> +__v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
+> >>> +				unsigned int pad, u32 stream)
+> >>>  {
+> >>>  	struct v4l2_subdev_stream_configs *stream_configs;
+> >>>  	unsigned int i;
+> >>> @@ -1770,7 +1770,7 @@ v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
+> >>>  
+> >>>  	return NULL;
+> >>>  }
+> >>> -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_compose);
+> >>> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_compose);
+> >>>  
+> >>>  int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
+> >>>  					  u32 pad, u32 stream, u32 *other_pad,
+> >>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> >>> index 71cb35133b4a..12eb0fe746d7 100644
+> >>> --- a/include/media/v4l2-subdev.h
+> >>> +++ b/include/media/v4l2-subdev.h
+> >>> @@ -1545,7 +1545,7 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> >>>   * v4l2_subdev_state_get_format() - Get pointer to a stream format
+> >>>   * @state: subdevice state
+> >>>   * @pad: pad id
+> >>> - * @stream: stream id
+> >>> + * @...: stream id (optional argument)
+> >>>   *
+> >>>   * This returns a pointer to &struct v4l2_mbus_framefmt for the given pad +
+> >>>   * stream in the subdev state.
+> >>> @@ -1553,15 +1553,22 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> >>>   * For stream-unaware drivers the format for the corresponding pad is returned.
+> >>>   * If the pad does not exist, NULL is returned.
+> >>>   */
+> >>> +#define v4l2_subdev_state_get_format(state, pad, ...)         \
+> >>> +        __v4l2_subdev_state_get_format_ ## __VA_OPT__(stream) \
+> >>> +        (state, pad __VA_OPT__(,) __VA_ARGS__)
+> >>> +#define __v4l2_subdev_state_get_format_(state, pad)     \
+> >>> +        __v4l2_subdev_state_get_format(state, pad, 0)
+> >>> +#define __v4l2_subdev_state_get_format_stream(state, pad, stream)	\
+> >>> +        __v4l2_subdev_state_get_format(state, pad, stream)
+> >>
+> >> Hmm, 'git grep __VA_OPT__' finds no use of this in the kernel. Are you sure this
+> >> is safe to use? Does clang support it? Do all gcc versions that the kernel support
+> >> implement it?
+> >>
+> >> A 10+ for creativity, but I'm a bit concerned about it.
+> > 
+> > :-)
+> > 
+> > I noticed the problem, too, as the lkp bot failed compiling this on GCC
+> > 7.5. Indeed only GCC 8 supports __VA_OPT__ but the oldest GCC version
+> > supported for kernel compilation is 7.1. So __VA_OPT__ isn't... an option.
+> > 
+> > I thought this could be done using variable arguments, making most error
+> > handling take place at runtime (for GCC versions not supporting
+> > __VA_OPT__), but then Laurent figured this can be done with just
+> > __VA_ARGS__ which is part of C99.
+> > 
+> > The code would look like this, which is only slightly less understandable
+> > than with __VA_OPT__:
+> > 
+> > #define v4l2_subdev_state_get_format(...)				\
+> > 	__v4l2_subdev_state_get_format_var(__VA_ARGS__, , _2)(__VA_ARGS__)
+> > #define __v4l2_subdev_state_get_format_var(_1, _2, _3, NUM, ...)	\
+> > 	__v4l2_subdev_state_get_format ## NUM
+> > #define __v4l2_subdev_state_get_format_2(state, pad) \
+> > 	__v4l2_subdev_state_get_format(state, pad, 0)
+> > struct v4l2_mbus_framefmt *
+> > __v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
+> > 			       unsigned int pad, u32 stream);
+> 
+> Wow! OK, I guess that will work.
+> 
+> A strongly suggest adding a comment before this explaining what you are
+> trying to achieve. It's not exactly obvious :-)
 
-Am 25.10.23 um 08:07 schrieb Umang Jain:
-> The following patch drop VCHIQ_FOURCC_AS_4CHARS macro in favour of %p4cc
-> format modifier to print FourCC codes in the logs.
->
-> *Before this patch*
-> `mailbox: vchiq_core_msg debug: Sent Msg DATA(5) to AUDS s:1 d:62 len:20`
->
-> *After this patch*
-> bcm2835_vchiq 3f00b840.mailbox: vchiq_core_msg debug: Sent Msg DATA(5) to SDUA little-endian (0x41554453) s:1 d:62 len:20
->
-> The inversion of AUDS to SDUA as per usage of %p4cc
-> Does it hamper readability ? Feedback is appreciated.
-looks good to me. Any concerns Phil or Dave?
->
-> As documented in the commit message, the 'entity' char array length is
-> increased to hold more characters for the log output. Not doing so,
-> causes kernel stack corruption at runtime.
->
-> Based on top of:
-> - [PATCH v2 0/8] staging: vc04: Drop custom logging based on printk
->
-> Umang Jain (1):
->    staging: vc04_services: Use %p4cc format modifier to print FourCC
->      codes
->
->   .../interface/vchiq_arm/vchiq_arm.c           | 20 +++++-----
->   .../interface/vchiq_arm/vchiq_core.c          | 40 +++++++++----------
->   .../interface/vchiq_arm/vchiq_core.h          |  6 ---
->   .../interface/vchiq_arm/vchiq_dev.c           |  7 ++--
->   4 files changed, 33 insertions(+), 40 deletions(-)
->
+I'll add:
 
+/*
+ * Wrap v4l2_subdev_state_get_format(), allowing the function to be called with
+ * two or three arguments. The purpose of the __v4l2_subdev_state_get_format()
+ * macro below is to come up with the name of the function or macro to call,
+ * using the last two arguments (_stream and _pad). The selected function or
+ * macro is then called using the arguments specified by the caller. A similar
+ * arrangement is used for v4l2_subdev_state_crop() and
+ * v4l2_subdev_state_compose() below.
+ */
+
+-- 
+Sakari Ailus
