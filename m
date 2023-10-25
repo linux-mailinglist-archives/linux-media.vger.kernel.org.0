@@ -2,87 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AA6827D6C50
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 14:50:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 269817D6C8B
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 15:00:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234920AbjJYMui (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 08:50:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46686 "EHLO
+        id S1344246AbjJYNAU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 09:00:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48200 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234913AbjJYMug (ORCPT
+        with ESMTP id S229583AbjJYNAS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 08:50:36 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02AEE99
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 05:50:32 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-53b32dca0bfso1842113a12.0
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 05:50:31 -0700 (PDT)
+        Wed, 25 Oct 2023 09:00:18 -0400
+Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75A5090
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 06:00:16 -0700 (PDT)
+Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-507be298d2aso8293986e87.1
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 06:00:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698238230; x=1698843030; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1698238815; x=1698843615; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=fD2982vYZCUDmxVo5Px3lqGhkfxchv2yO6sZbRsOqSM=;
-        b=pi6dT2LxAJU4scyBrdGFd3xVODx6UjUfCwLgc8g+4vm2QFJVUd1ezv/n2tSBKrbk1G
-         VQooc3YXsbDBrZc+HEnRqphOvse5tcn6vL8IOkyaCtjRhPhmMvbPWF2ECAE+BV3V6KZh
-         h5jCZYgIbKDHhfnHBRA49QYUDcaj9ltXv3Avgx/AdtP+p1AHE8EzuN1djlBHrOCPBO4i
-         ao5nJI7Km/rh0VJhT6jTz1oqP2+lnU5xZSQqwJFog3EKcR8G/WkD93wuTO6B8D8ZLf9R
-         vDzwssfwvt8a5FJzbP7PAAvGf+zaJGU9wPQQPbCBxYTGNiIA1psYWU9iMr66QMbT4jDM
-         Y1Dg==
+        bh=XHXXmrTc+rIgAIfiqECrWti4o3nSdU3BCAB/JUzA84w=;
+        b=yB8nr/Pladq9bU+/naSOiHBm5bOK5PVOIJw+b854o9xjWFUB0n19JewN3EqBsj8RCt
+         AEKKfh9YSd4dvzyYCfO8x+X6Q53piw4iufkX9FYtEgXdcxKrFMCXQT/4cnUJzxa/fMcy
+         84H3DeH7u8F9hfnkb+THu3dGVV421v3URfpyiXCXX4HNNKBo6yQpIUxgExK8zExCgBYP
+         hhJZJ84rikU+iGMZKHB/X7WSkfrI47H85ZRoNUC9PYpdzs0d6fdaMz2ZE3Xx8HDSlqeA
+         OM0NOMUwoJzWNdrzeNeTedF6KW+1fgHwDrhMLybn6oVfw21pXY/SxHrhaStiKO84Hz+j
+         Y/vg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698238230; x=1698843030;
+        d=1e100.net; s=20230601; t=1698238815; x=1698843615;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fD2982vYZCUDmxVo5Px3lqGhkfxchv2yO6sZbRsOqSM=;
-        b=kSMF+M/7j3XEYMr/2uGfawG9L+6/bTdJXvmOy6HUdQhcHN4FK/n1G0WVvnngDL3ikm
-         WkDSuw9mSP85x/Zrn77+qkbLgnUnmgpOXeKQ8VGqKNllhDz0SVL2sj9az2jjOX8jsKvh
-         QMzKSjU9i8Vay45pdAsNOmnM2Wr5uqQsmJz+TWLOATr6HpJANjz2ZhDqeOjx9jjMNBje
-         SWE/be4M04Y1hyzTH+0vfveoZoQjNuITMMrckDgRYIXDdHzYr4g7RFJr9Aq7CVTHu1IO
-         x4gp0VD6x5vkjYNI4IP5rTk18tB68T9mAQWMt4ZFr7H7Ay7S2dAUWMQo79CRruAPqp1s
-         pFuQ==
-X-Gm-Message-State: AOJu0Yxlkj9su9ZR0dTO1KB3Dspb0eMH7r0osA5pEVySkr2qE8bT5alk
-        carOQTEtfIoHKhwuZRc24kY0pw==
-X-Google-Smtp-Source: AGHT+IFY+odEeWhpmWwdO9o/N+Sxf3TBtwjYsjMlFnwBohLaWPF4pJvsSJhPttwqS0MW8f/KvpgDQw==
-X-Received: by 2002:a05:6402:35c4:b0:540:911b:72b1 with SMTP id z4-20020a05640235c400b00540911b72b1mr6159231edc.7.1698238230380;
-        Wed, 25 Oct 2023 05:50:30 -0700 (PDT)
+        bh=XHXXmrTc+rIgAIfiqECrWti4o3nSdU3BCAB/JUzA84w=;
+        b=SyZqIHNakUoCON/H/wpF1Vet4Q5jw97jDZnToilfCDoYtkE6g88dzi1trwfV+6xoJl
+         N+ht2zvWLpxEFLc0ocxsJ8gVhZ1XKoMBycq8zhnZ7r3k7anfVYutcRdV6XiOZLlJOp6B
+         +qrEVR9NZFuGznIJUDSYdm9LenN/Lxtz024gpXJz28IeKZjNLFt1G9QQ4hm1NijcXbh+
+         uEhwKs5B3M1JhWx842Zua7GvNY2oQqQwmIss5eSeWpsNHgy+RWHGTQwTBBGrqWarV2ZK
+         VNGjcw2dHZXOxGZ/1jWjqjzu4LKqIfT2osoipX4VYBW56WFDt1z1ZKBHe9viIJqTkUIO
+         fuIw==
+X-Gm-Message-State: AOJu0YxBvo+TCeX1x/rfqc/UbwChNDy4hUi3KWvBzXq8HdCnoO6QeX+R
+        JZ/Rch3JmeG75b2StzZhj9Oxtw==
+X-Google-Smtp-Source: AGHT+IE4XSpj70MRATsUqKxRMwZZZLtHKkL1gwZvNFy85Z3KylZWQJMyPJ7qTAir+I0gdUJpj+ee2w==
+X-Received: by 2002:a05:6512:3c9f:b0:507:96e7:c08d with SMTP id h31-20020a0565123c9f00b0050796e7c08dmr9969283lfv.61.1698238814668;
+        Wed, 25 Oct 2023 06:00:14 -0700 (PDT)
 Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id eh16-20020a0564020f9000b0054026e95beesm6184888edb.76.2023.10.25.05.50.25
+        by smtp.gmail.com with ESMTPSA id o19-20020a05600c511300b003fe15ac0934sm1093090wms.1.2023.10.25.06.00.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Oct 2023 05:50:28 -0700 (PDT)
-Message-ID: <cb7395a9-71e8-415e-90d5-866a2aeadf28@linaro.org>
-Date:   Wed, 25 Oct 2023 14:50:23 +0200
+        Wed, 25 Oct 2023 06:00:14 -0700 (PDT)
+Message-ID: <948af111-e7a1-4757-a784-b4256657abd6@linaro.org>
+Date:   Wed, 25 Oct 2023 15:00:11 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] dt-bindings: display: Add yamls for JH7110 display
- system
+Subject: Re: [Patch v4 01/11] dt-bindings: media: s5p-mfc: Add mfcv12 variant
 Content-Language: en-US
-To:     Keith Zhao <keith.zhao@starfivetech.com>,
-        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Cc:     David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Emil Renner Berthing <kernel@esmil.dk>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        christian.koenig@amd.com, Bjorn Andersson <andersson@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Shawn Guo <shawnguo@kernel.org>, Jagan Teki <jagan@edgeble.ai>,
-        Chris Morgan <macromorgan@hotmail.com>,
-        Jack Zhu <jack.zhu@starfivetech.com>,
-        Shengyang Chen <shengyang.chen@starfivetech.com>,
-        Changhuang Liang <changhuang.liang@starfivetech.com>
-References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
- <20231025103957.3776-2-keith.zhao@starfivetech.com>
+To:     Aakarsh Jain <aakarsh.jain@samsung.com>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc:     m.szyprowski@samsung.com, andrzej.hajda@intel.com,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        krzysztof.kozlowski+dt@linaro.org, dillon.minfei@gmail.com,
+        david.plowman@raspberrypi.com, mark.rutland@arm.com,
+        robh+dt@kernel.org, conor+dt@kernel.org,
+        linux-samsung-soc@vger.kernel.org, andi@etezian.org,
+        gost.dev@samsung.com, alim.akhtar@samsung.com,
+        aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
+        ajaykumar.rs@samsung.com, linux-fsd@tesla.com
+References: <20231025102216.50480-1-aakarsh.jain@samsung.com>
+ <CGME20231025102233epcas5p16b716d5b650bbc5af0d759ea4f58f44d@epcas5p1.samsung.com>
+ <20231025102216.50480-2-aakarsh.jain@samsung.com>
 From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -128,7 +116,7 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231025103957.3776-2-keith.zhao@starfivetech.com>
+In-Reply-To: <20231025102216.50480-2-aakarsh.jain@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
@@ -140,258 +128,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 25/10/2023 12:39, Keith Zhao wrote:
-> StarFive SoCs JH7110 display system:
-
-A nit, subject: drop second/last, redundant "yamls for". The
-"dt-bindings" prefix is already stating that these are bindings, so
-format is fixed.
-
-> lcd-controller bases verisilicon dc8200 IP,
-> and hdmi bases Innosilicon IP. Add bindings for them.
-
-Please make it a proper sentences, with proper wrapping.
-
+On 25/10/2023 12:22, Aakarsh Jain wrote:
+> Add Tesla FSD MFC(MFC v12) compatible.
 > 
-> also update MAINTAINERS for dt-bindings
-
-Not a sentence, but also not really needed.
-
-> 
-> about this patch, I tested the dtbs_check and dt_binding_check
-> with the result pass.
-> Based on the feedback of the previous version, the corresponding arrangement is made
-
-Not relevant, so not really suitable for commit msg.
-
-> 
-> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
+> Cc: linux-fsd@tesla.com
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
 > ---
->  .../starfive/starfive,display-subsystem.yaml  |  41 +++++++
->  .../starfive/starfive,jh7110-dc8200.yaml      | 109 ++++++++++++++++++
->  .../starfive/starfive,jh7110-inno-hdmi.yaml   |  85 ++++++++++++++
->  MAINTAINERS                                   |   7 ++
->  4 files changed, 242 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
+
+No changelog and your cover letter does not explain what happened here.
+Specifically, why did you decide to ignore received tag.
+
+>  .../bindings/media/samsung,s5p-mfc.yaml          | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
-> new file mode 100644
-> index 000000000..f45b97b08
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,display-subsystem.yaml
-> @@ -0,0 +1,41 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/starfive/starfive,display-subsystem.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Starfive DRM master device
+> diff --git a/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> index 084b44582a43..c30eb309f670 100644
+> --- a/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> +++ b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
+> @@ -24,6 +24,7 @@ properties:
+>            - samsung,mfc-v7                # Exynos5420
+>            - samsung,mfc-v8                # Exynos5800
+>            - samsung,mfc-v10               # Exynos7880
+> +          - tesla,fsd-mfc                 # Tesla FSD
+>        - items:
+>            - enum:
+>                - samsung,exynos3250-mfc    # Exynos3250
+> @@ -165,6 +166,21 @@ allOf:
+>            minItems: 1
+>            maxItems: 2
+>  
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - tesla,fsd-mfc
+> +    then:
+> +      properties:
+> +        clocks:
+> +          maxItems: 1
+> +        clock-names:
+> +          items:
+> +            - const: mfc
+> +        iommus: false
 
-What is DRM in hardware? I know Digital Rights Management, but then
-subsystem seems wrong. If you mean Linux DRM, then Linux is not a
-hardware, so drop all Linuxisms and describe hardware.
-
-
-> +
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +  - ShengYang Chen <shengyang.chen@starfivetech.com>
-> +
-> +description:
-> +  The Starfive DRM master device is a virtual device needed to list all
-
-Virtual device? Then not suitable for bindings, sorry.
-
-> +  display controller or other display interface nodes that comprise the
-> +  graphics subsystem.
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,display-subsystem
-> +
-> +  ports:
-> +    $ref: /schemas/types.yaml#/definitions/phandle-array
-
-No, ports is not phandle-array. ports is object, always.
-
-> +    description:
-> +      Should contain a list of phandles pointing to display interface ports
-> +      of display controller devices. Display controller definitions as defined
-> +      in Documentation/devicetree/bindings/display/starfive/
-> +      starfive,jh7110-dc8200.yaml
-
-Use standard graph ports, not some own, custom property.
-
-Anyway, entire binding should be dropped. You do not need it even.
-
-> +
-> +required:
-> +  - compatible
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    display-subsystem {
-> +        compatible = "starfive,display-subsystem";
-> +        ports = <&dc_out>;
-> +    };
-> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
-> new file mode 100644
-> index 000000000..87051cddf
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-dc8200.yaml
-> @@ -0,0 +1,109 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-dc8200.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: StarFive display controller
-> +
-> +description:
-> +  The StarFive SoC uses the display controller based on Verisilicon IP
-> +  to transfer the image data from a video memory buffer to an external
-> +  LCD interface.
-> +
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: starfive,jh7110-dc8200
-> +
-> +  reg:
-> +    minItems: 1
-> +    items:
-> +      - description:
-> +          host interface
-
-In one line.
- - description: host interface
-
-> +      - description:
-> +          display physical base address and length.
-
-Drop redundant parts: base address and length. Everything in reg for
-MMIO would have it...
-
-> +
-> +  interrupts:
-> +    items:
-> +      - description: The interrupt will be generated when DC finish one frame
-> +
-> +  clocks:
-> +    items:
-> +      - description: Clock for display system noc bus.
-> +      - description: Pixel clock for display channel 0.
-> +      - description: Pixel clock for display channel 1.
-> +      - description: Core clock for display controller.
-> +      - description: Clock for axi bus to access ddr.
-> +      - description: Clock for ahb bus to R/W the phy regs.
-> +      - description: External HDMI pixel clock.
-> +      - description: Parent clock for pixel clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: noc_bus
-> +      - const: channel0
-> +      - const: channel1
-> +      - const: dc_core
-> +      - const: axi_core
-> +      - const: ahb
-> +      - const: hdmi_tx
-> +      - const: dc_parent
-> +
-> +  resets:
-> +    items:
-> +      - description: Reset for axi bus.
-> +      - description: Reset for ahb bus.
-> +      - description: Core reset of display controller.
-> +
-> +  reset-names:
-> +    items:
-> +      - const: axi
-> +      - const: ahb
-> +      - const: core
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +  - reset-names
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    dc8200: lcd-controller@29400000 {
-> +        compatible = "starfive,jh7110-dc8200";
-> +        reg = <0x29400000 0x100>, <0x29400800 0x2000>;
-> +        interrupts = <95>;
-> +        clocks = <&syscrg 60>,
-> +               <&voutcrg 7>,
-> +               <&voutcrg 8>,
-> +               <&voutcrg 4>,
-> +               <&voutcrg 5>,
-> +               <&voutcrg 6>,
-> +               <&hdmitx0_pixelclk>,
-> +               <&voutcrg 1>;
-> +        clock-names = "noc_bus", "channel0", "channel1",
-> +                      "dc_core", "axi_core", "ahb",
-> +                      "hdmi_tx","dc_parent";
-> +        resets = <&voutcrg 0>, <&voutcrg 1>, <&voutcrg 2>;
-> +        reset-names = "axi", "ahb", "core";
-> +        dc_out: port {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +            dc_out_hdmi: endpoint@0 {
-> +                reg = <0>;
-> +                remote-endpoint = <&hdmi_in_dc>;
-> +            };
-> +        };
-> +    };
-> diff --git a/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
-> new file mode 100644
-> index 000000000..f6c473a10
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/starfive/starfive,jh7110-inno-hdmi.yaml
-> @@ -0,0 +1,85 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/starfive/starfive,jh7110-inno-hdmi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Starfive JH7110 HDMI controller
-> +
-> +description:
-> +  The StarFive JH7110 SoC uses the HDMI signal transmiter based on innosilicon IP
-> +  to generate HDMI signal from its input and transmit the signal to the screen.
-> +
-> +maintainers:
-> +  - Keith Zhao <keith.zhao@starfivetech.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: "starfive,jh7110-inno-hdmi"
-
-It does not look like you tested the bindings, at least after quick
-look. Please run `make dt_binding_check` (see
-Documentation/devicetree/bindings/writing-schema.rst for instructions).
-Maybe you need to update your dtschema and yamllint.
+That's odd. How so? MFC v12 does not support IOMMU?
 
 Best regards,
 Krzysztof
