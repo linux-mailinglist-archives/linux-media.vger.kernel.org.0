@@ -2,132 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A663A7D6B3D
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 14:21:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 317F77D6C13
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 14:37:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343809AbjJYMVs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 08:21:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56934 "EHLO
+        id S1344021AbjJYMhh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 08:37:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37098 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343791AbjJYMVq (ORCPT
+        with ESMTP id S232807AbjJYMhg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 08:21:46 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 701ED13A
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 05:21:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698236504; x=1729772504;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=TQW4wW9Cin/+hAW3j3f1VrikT3+t2kG6DdQG0d4b5Eg=;
-  b=WSHG1IJqHjM/VNZsQgy0eriWO7ehP6T1oKl/lUEX857IA2fvWV5aOVfv
-   EC33R7XyenAJYkvClnscwXZ4mofslcXQyr6eaaAc7hig7/OBTlnYP25lR
-   HPlgca+ftUlPNgt49iU9dAVlPxhUQCboE1S8lM5TUFiE9kCyruzbOWm8b
-   xoo702OUXhYOtenJr0S1s+mrHt/fXdoj+KotF6EaZzfoZGDrQ/N3618yq
-   +qH9x0uaBrRV9uFfg8C9nwgg4s4VohfliDYoTYHLQ7tA5GKJrIBwatgqC
-   EvZN7nCl4x3vwwRle4NRMQyJVtavqGgbB5L+uITUqmFOQn3i1DjZx4rnH
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="386178210"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="386178210"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 05:21:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10873"; a="793824617"
-X-IronPort-AV: E=Sophos;i="6.03,250,1694761200"; 
-   d="scan'208";a="793824617"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 05:21:16 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 7F74511F82E;
-        Wed, 25 Oct 2023 15:21:13 +0300 (EEST)
-Date:   Wed, 25 Oct 2023 12:21:13 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
-        laurent.pinchart@ideasonboard.com, hdegoede@redhat.com,
-        ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
-        claus.stovgaard@gmail.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-        hongju.wang@intel.com
-Subject: Re: [PATCH v2 12/15] media: add Kconfig and Makefile for IPU6
-Message-ID: <ZTkIOYgvN8CoMa_Z@kekkonen.localdomain>
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <20231024112924.3934228-13-bingbu.cao@intel.com>
- <ZTfAxXJcGN8tS0kD@smile.fi.intel.com>
+        Wed, 25 Oct 2023 08:37:36 -0400
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0573129;
+        Wed, 25 Oct 2023 05:37:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=s31663417; t=1698237433; x=1698842233; i=j-p-t@gmx.net;
+        bh=PkdRxhsM568WFqpYCtZJdhLCVi8JSeQHaWDtFdzRt/Y=;
+        h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+         In-Reply-To;
+        b=ELIsFPXGyy+9ZaosbLA5G8t0D9AyaFmV5IDbUVwB32LJOGpV2O6lpKKLrIr2v3i4
+         5Yiw8YFmCRbY2TQhfoBqlTeZMq69GrMEcPcS/Kb5RFpfx18hWpCFM3LYJ9iofOLU3
+         bmsYdmiRl8ZOSUl1r4CSYPS1qx/AkU1uZMbb6R92Pw78kqFSBRdL6UccqoacR036t
+         6bWF55QJVdqWxoV1X9/navQI7iwgIfRd48xfdBJDtPte0gNGzOAavkbjh1khRbBGU
+         Do4emAv/3fY46Qk/GozaGqlPyTB+/mlFwTjrAfEa+CrabaDICotDeKCtnkLJoUhx6
+         tXccOJW6IgQuQByI7Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.178.58] ([45.14.97.35]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M1Hdw-1qtyAx3cIk-002q5E; Wed, 25
+ Oct 2023 14:37:10 +0200
+Message-ID: <80e8bc56-ed41-40ab-af04-1fb11d383a5f@gmx.net>
+Date:   Wed, 25 Oct 2023 14:37:09 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZTfAxXJcGN8tS0kD@smile.fi.intel.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: si2157 not working at all?
+Content-Language: de-DE
+To:     Gonsolo <gonsolo@gmail.com>, Bagas Sanjaya <bagasdotme@gmail.com>
+Cc:     Linux Media Subsystem <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Antti Palosaari <crope@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+References: <1cfa1365-ca0d-4e33-a149-751277183440@gmx.net>
+ <ZThgwTieDv7Gi8UG@debian.me>
+ <CANL0fFQMiubX3saR7fmQvYjKqDVCbDNTwyzj1_-aiN6HSB-hwg@mail.gmail.com>
+From:   JPT <j-p-t@gmx.net>
+In-Reply-To: <CANL0fFQMiubX3saR7fmQvYjKqDVCbDNTwyzj1_-aiN6HSB-hwg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:/DKT4sNcFYRd10XdPzLLw9nhVc3ru6CzYzcJ8GNuYxjoJ0VzL0C
+ FnX/6pGfPDucBVb2X9R0RXz0+mxP5JXFlm5GhBqTqkja1RdF7jNnv84/wBXF/wDjgwV/qSr
+ kbdWGiJXYMc+lkqrOSU7z7zZt+mK5ZizmSqzejtB3qHuMG4MROX+3V9RttznMzmx7Fb+lrl
+ kFPLnsd49TXEmyKxY7yXg==
+UI-OutboundReport: notjunk:1;M01:P0:Q0GHDGjUTyo=;SyzAtHAnp1irmVkn9/3ethD+Q6/
+ D9tK726xOnLuxmSX37FAxLeEsPG7CzT9XudVClhESB5uyrzoxW0BeCwgswvasV5vd5z7FVArd
+ 8qeNXxwHCm7BOAOz3Dgg7YKn3NI4lEyItSxFD0Js6Iez39IjDShCgqWSzXEr5y9sXlfoiXcUZ
+ aZdraJR3gwehjmM1KG3Qr1eYBwnuzmO+r0GJX8ZdxcxSRiUPEO4zSInuhA4rxZXpHdoeK+rd3
+ OWk1tzy3h5DIbMZxGPh40JjnY4BuoRB4YluS6d/0NpE5K/8+Umxi6Dgy+2ouaGdeyN5IIfZE8
+ 8VSHloHWMttPnEtZQ5YmPDS6OoKmcwZxJNtBKq8MYY4LDFKT9VAxzpEElE4Uuc/1diXxn28hW
+ F4MFgnpWD2BVisZH2mUQGbNUXlk4QGfsbCduxH1yamtweajD62AQnng8Mf7sJsss84aRSst0C
+ P1uneSDecYu2lPsogjNDXfPV8tR7I0k06roBvscot8mw7Igo7SM9fTHSmeG/OcnPeEkRc9c7/
+ 5ubj92IAULBF/IXqRTeTZ4cF8K/8h1BkInicMrKOfNVi1BB0eVMzpvWMj5San/u3mN4/gcie/
+ 9IelL4utvl/kiQ3rYbH1HvrXVfW1G2H7Bl3mADA94v0FEwDwB3iOspWL+Lb3/mJ5+FHDuwmSl
+ FEdQj9lxvrtK7j1cRWhJhaItQy2GvCwSr02lkTwEELmaD+vntUnXkPjMo3ULleUYEOyPkyG4r
+ 7qUzMV0UBaq8xyakgrDeTcoDdJRiOGVhblvbY+BOQVbCb6qMmm8uyp8rU3nbDfefaF29x2S82
+ w0
+X-Spam-Status: No, score=1.2 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        RCVD_IN_SBL_CSS,SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no
+        version=3.4.6
+X-Spam-Level: *
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
 
-On Tue, Oct 24, 2023 at 04:04:05PM +0300, Andy Shevchenko wrote:
-> On Tue, Oct 24, 2023 at 07:29:21PM +0800, bingbu.cao@intel.com wrote:
-> > From: Bingbu Cao <bingbu.cao@intel.com>
-> > 
-> > Add IPU6 support in Kconfig and Makefile, with this patch you can
-> > build the Intel IPU6 and input system modules by select the
-> > CONFIG_VIDEO_INTEL_IPU6 in config.
-> 
-> ...
-> 
-> > +	depends on X86 && X86_64
-> 
-> How is that? One is a superset of the other IIUC.
-> 
-> ...
-> 
-> > +intel-ipu6-objs				+= ipu6.o \
-> 
-> += doesn't seem right.
-> Besides that 'objs' is for user space, in kernel we use 'y'.
+[TerraTec Cinergy TC2]
+> > could someone please have a look what is the problem with si2157?
+>
+> No problem.
+>
+> Support for your stick was added here:
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commi=
+t/?id=3Dc0e0d3138896f <https://git.kernel.org/pub/scm/linux/kernel/git/tor=
+valds/linux.git/commit/?id=3Dc0e0d3138896f>
 
-This is a common pattern used in other Makefiles, too... I guess ":=" would
-work, too.
+Oops. Thank you very much.
+I was on the wrong trace all along.
+Sorry, for bothering. I have tried hard to learn a little bit of kernel
+development, but I am far from all of you :o)
 
-How otherwise would you do this?
+could someone please change the kernel message to something more specific?
 
-It'd be nice to align the object names starting after the column after
-"+= ".
+for example:
 
-> 
-> > +					ipu6-bus.o \
-> > +					ipu6-dma.o \
-> > +					ipu6-mmu.o \
-> > +					ipu6-buttress.o \
-> > +					ipu6-cpd.o \
-> > +					ipu6-fw-com.o
-> > +
-> > +obj-$(CONFIG_VIDEO_INTEL_IPU6)		+= intel-ipu6.o
-> > +
-> > +intel-ipu6-isys-objs			+= ipu6-isys.o \
-> 
-> Ditto.
-> 
-> > +					ipu6-isys-csi2.o \
-> > +					ipu6-fw-isys.o \
-> > +					ipu6-isys-video.o \
-> > +					ipu6-isys-queue.o \
-> > +					ipu6-isys-subdev.o \
-> > +					ipu6-isys-mcd-phy.o \
-> > +					ipu6-isys-jsl-phy.o \
-> > +					ipu6-isys-dwc-phy.o
-> > +
-> > +obj-$(CONFIG_VIDEO_INTEL_IPU6)		+= intel-ipu6-isys.o
-> 
+drivers/media/tuners/si2157.c
+153c153
+<                        "device is buggy, skipping firmware download\n");
+=2D--
+ >                        "firmware upload does not work, using firmware
+already installed\n");
 
--- 
-Regards,
+thank you very much
 
-Sakari Ailus
+Jan
