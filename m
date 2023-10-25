@@ -2,118 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D29187D6760
-	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 11:47:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D9457D676E
+	for <lists+linux-media@lfdr.de>; Wed, 25 Oct 2023 11:48:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234242AbjJYJrB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 05:47:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57512 "EHLO
+        id S233496AbjJYJsR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 05:48:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46718 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234765AbjJYJqn (ORCPT
+        with ESMTP id S229606AbjJYJsQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 05:46:43 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86F1810A
-        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 02:46:03 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88251C433C8;
-        Wed, 25 Oct 2023 09:46:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1698227163;
-        bh=zXmP2B8zYPqXpdAmO8tizBj+J/IG8kpzFJNWBcUYlio=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kFzbeKvvyjHPBbNnTe6hPNrK7cXc3E6waaC3JNh+UepTsZQAe/Tviw8Y+coa1e2Wg
-         ZWpiTrDIO4Dm1IYISQ7wfUVm4kPJXS0YYcC4MjABiHi/l9AjwyxgFpKE9M0MVtPDrS
-         n1LAcsJBRXlhdmYd1XkkwdghvbJeoINVJ4s9ZiQg=
-Date:   Wed, 25 Oct 2023 11:46:00 +0200
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Umang Jain <umang.jain@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Dan Carpenter <dan.carpenter@linaro.org>,
-        linux-staging@lists.linux.dev,
-        "Ricardo B . Marliere" <ricardo@marliere.net>,
-        linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Dan Carpenter <error27@gmail.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH 1/1] staging: vc04_services: Use %p4cc format modifier to
- print FourCC codes
-Message-ID: <2023102546-trident-clear-1299@gregkh>
-References: <20231025060717.71895-1-umang.jain@ideasonboard.com>
- <20231025060717.71895-2-umang.jain@ideasonboard.com>
- <bd7f3a75-598a-428e-85c3-8dd867043c1f@kadam.mountain>
- <ZTjf0fT0yl2cwGWJ@kekkonen.localdomain>
- <fe0b6ed1-61ba-5373-1525-adb040f68184@ideasonboard.com>
+        Wed, 25 Oct 2023 05:48:16 -0400
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B0FCD9D;
+        Wed, 25 Oct 2023 02:48:12 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 399E2C0012;
+        Wed, 25 Oct 2023 09:48:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1698227290;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=1k2YPUzWcOkEagcDThcHO9wlMohvRnn0bjyNb8MXgl0=;
+        b=LTvFjk7ru7UkIs9uW/KET6ghc50QAERqTyVRBn2khbb2K7m4F49+ChD2Azxt9feWIyQb2T
+        vJwtrXSaA7BMxp0cpTuB1L+6khhVbMYWIhlMGwH+c9yGOzqhfAHLKFk5LyrafZMIiuS6/8
+        XQlcV2xRb4lzS0UhDzyOBQc7cBmkhHiG28Ytdqm2FF2KPM7w0yRVD8mNyBt2FMzfHWZTQL
+        Uvsw7y3E3wGqUfMGCx3S6LjTOUZ7NlIF4YJwaQ0bpM1aFPxoQ1Gx/Q2BSwYLVrBPr6M+w5
+        K4Dj6pFCie03LwOpfeIA60So2qTBctC8eqdZ9F4ypOdHw8UAubUPyRE6RLOGtg==
+Date:   Wed, 25 Oct 2023 11:48:08 +0200
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Michael Riesch <michael.riesch@wolfvision.net>
+Cc:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org, ezequiel@vanguardiasur.com.ar,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com
+Subject: Re: [PATCH v8 2/3] media: rockchip: Add a driver for Rockhip's
+ camera interface
+Message-ID: <ZTjkWIbhV0OsvepD@aptenodytes>
+References: <cover.1697446303.git.mehdi.djait@bootlin.com>
+ <3790470ff7606fc075ec742d43254e52dde5d120.1697446303.git.mehdi.djait@bootlin.com>
+ <ee4034b9-85f6-42cc-abca-d61004aa0a6c@wolfvision.net>
+ <ZTjWsf69QdXoJNKj@aptenodytes>
+ <a57db26a-704f-4859-a528-26d87c555576@wolfvision.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="fBirLtQySHnjwSRc"
 Content-Disposition: inline
-In-Reply-To: <fe0b6ed1-61ba-5373-1525-adb040f68184@ideasonboard.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+In-Reply-To: <a57db26a-704f-4859-a528-26d87c555576@wolfvision.net>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 25, 2023 at 03:04:04PM +0530, Umang Jain wrote:
-> 
-> 
-> On 10/25/23 2:58 PM, Sakari Ailus wrote:
-> > On Wed, Oct 25, 2023 at 10:10:08AM +0300, Dan Carpenter wrote:
-> > > On Wed, Oct 25, 2023 at 02:07:17AM -0400, Umang Jain wrote:
-> > > > Drop VCHIQ_FOURCC_AS_4CHARS macro in favour of %p4cc format
-> > > > modifier to print FourCC codes in the logs.
-> > > > 
-> > > > vchiq_use_internal() and vchiq_release_internal() uses entity
-> > > > character-array to store a transient string that contains
-> > > > a FourCC code. Increase the length of entity array(to 64 bytes)
-> > > > since %p4cc requires more bytes to hold the output characters.
-> > > > 
-> > > > Suggested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > > > ---
-> > > >   .../interface/vchiq_arm/vchiq_arm.c           | 20 +++++-----
-> > > >   .../interface/vchiq_arm/vchiq_core.c          | 40 +++++++++----------
-> > > >   .../interface/vchiq_arm/vchiq_core.h          |  6 ---
-> > > >   .../interface/vchiq_arm/vchiq_dev.c           |  7 ++--
-> > > >   4 files changed, 33 insertions(+), 40 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > index fc6d33ec5e95..de6a24304a4d 100644
-> > > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > @@ -1441,7 +1441,7 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
-> > > >   {
-> > > >   	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
-> > > >   	int ret = 0;
-> > > > -	char entity[16];
-> > > > +	char entity[64];
-> > > >   	int *entity_uc;
-> > > >   	int local_uc;
-> > > > @@ -1454,8 +1454,8 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
-> > > >   		sprintf(entity, "VCHIQ:   ");
-> > > >   		entity_uc = &arm_state->peer_use_count;
-> > > >   	} else if (service) {
-> > > > -		sprintf(entity, "%c%c%c%c:%03d",
-> > > > -			VCHIQ_FOURCC_AS_4CHARS(service->base.fourcc),
-> > > > +		sprintf(entity, "%p4cc:%03d",
-> > > Not related to your patch but these sprintfs() make me very
-> > > uncomfortable.
-> > > 
-> > > KTODO: change sprintf() to snprintf() in staging/vc04_services/
-> > Umang: how about one patch on top of this? :-) There are just five
-> > instances of it.
-> 
-> Ricardo, how about this? Do you want to take a swing at this ? :-)
-> 
-> And send a v2. ?
 
-No, that would be a separate change, this one is fine as-is.
+--fBirLtQySHnjwSRc
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-thanks,
+Michael,
 
-greg k-h
+On Wed 25 Oct 23, 11:38, Michael Riesch wrote:
+> Hi Paul,
+>=20
+> On 10/25/23 10:49, Paul Kocialkowski wrote:
+> > Hi,
+> >=20
+> > On Mon 23 Oct 23, 15:28, Michael Riesch wrote:
+> >> Typo in the subject: "Rockhip's" -> "Rockchip's"
+> >> I think this typo has been in there for a while now ;-)
+> >=20
+> > Great hips make for great dancing!
+>=20
+> ...to rock music, obviously.
+
+:)
+
+> > [...]
+> >>> +#define write_vip_reg(base, addr, val)  writel(val, (addr) + (base))
+> >>> +#define read_vip_reg(base, addr) readl((addr) + (base))
+> >>
+> >> Please provide those helpers as proper inline functions. As to the
+> >> naming, the "_reg" suffix seems unnecessary.
+> >>
+> >> Alternatively, you could consider converting the driver to use regmap.
+> >=20
+> > Come to think of it, I feel like it would make more sense to have an in=
+line
+> > function which is given a struct rk_vip_device instead of having to der=
+eference
+> > it every time in the caller to access the base address.
+>=20
+> Indeed. Either using regmap, e.g.,
+>=20
+> int regmap_write(struct regmap *map, unsigned int reg, unsigned int val);
+>=20
+> or something equivalant
+>=20
+> static inline int cif_write(struct cif_device *device, unsigned int reg,
+> unsigned int val);
+
+Looks good to me!
+
+> Not sure what you agreed on in terms of a method prefix. The Rockchip
+> RGA driver uses "rga_something", the Rockchip ISP driver uses
+> "rkisp1_something". This would mean either "cif_something" or
+> "rkcif_something", right?
+
+Yeah I don't really have strong opinions on this so I'll let Mehdi decide
+(as long as it's consistent everywhere in the code).
+
+I guess there is a slight readability advantage in using "cif_" instead of
+"rkcif_".
+
+> > [...]
+> >>> +	struct rk_vip_sensor_info	sensor;
+> >>
+> >> Using "sensor" as name does not seem correct. As pointed out above it
+> >> could be a video decoder just as well. Something with "subdevice" mayb=
+e?
+> >=20
+> > Agreed. I suggest renaming the struct "rk_vip_sensor_info" -> "rk_cif_r=
+emote"
+> > and just calling the member "remote".
+>=20
+> "remote" sounds reasonable. Prefix to be bikeshedded, see comment above.
+>=20
+> In the future, we may add an array with mipi_remotes that represents the
+> subdevices attached wia MIPI CSI-2.
+
+Sounds good!
+
+Thanks,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--fBirLtQySHnjwSRc
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmU45FgACgkQ3cLmz3+f
+v9FojAf+IytRfPPzjE8k2tDfOt43W+J5DlDw5ygYN5c877ywwBi+bZDgapHTZWo6
+arsbbgPIJqQpb7mz3bHRTzzm8COFbFO6PWrO0WKVGB6Rzm/N0kSY9rN4GGpgbT+2
+ZA7eIWJ8eJza0pfp2JG/MYBznMFCuiJhta/j+4Hgz3iQH9h64UKycPfl+eiWZdZD
+SaEc07LkpYZZIOrPZtGVQKDiAqQX5lrCyA5YhadGs+P1BVukq2yTSM/O5nk4N8ds
+1AR6hRVMy65rGrSLagXj0enP1GFYPDoYLFRO4lfbh/CU0yriNtSkecyz2k9q4NgW
+NPRaBti9VhIeNutHheCCKZyoeWPBEA==
+=zaqo
+-----END PGP SIGNATURE-----
+
+--fBirLtQySHnjwSRc--
