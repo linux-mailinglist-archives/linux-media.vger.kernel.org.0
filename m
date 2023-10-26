@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E7B17D7D94
-	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 09:26:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4B1757D7DB1
+	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 09:36:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233186AbjJZH0s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Oct 2023 03:26:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52302 "EHLO
+        id S229739AbjJZHgD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Oct 2023 03:36:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230478AbjJZH0q (ORCPT
+        with ESMTP id S229715AbjJZHgC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Oct 2023 03:26:46 -0400
+        Thu, 26 Oct 2023 03:36:02 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC1D418F
-        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 00:26:43 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BA788C433C7;
-        Thu, 26 Oct 2023 07:26:41 +0000 (UTC)
-Message-ID: <58295947-a749-4752-80c6-00c353017dce@xs4all.nl>
-Date:   Thu, 26 Oct 2023 09:26:40 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75082184
+        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 00:35:59 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 832AEC433C8;
+        Thu, 26 Oct 2023 07:35:57 +0000 (UTC)
+Message-ID: <6665510a-76b3-4ac8-bd18-7cf6e675362b@xs4all.nl>
+Date:   Thu, 26 Oct 2023 09:35:55 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/9] media: v4l: subdev: Rename sub-device state
- information access functions
+Subject: Re: [PATCH v4 8/9] media: v4l: subdev: Return NULL from pad access
+ functions on error
 Content-Language: en-US, nl
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org
@@ -30,7 +30,7 @@ Cc:     laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
         jacopo.mondi@ideasonboard.com, bingbu.cao@intel.com,
         hongju.wang@intel.com, Alain Volmat <alain.volmat@foss.st.com>
 References: <20231026070329.948847-1-sakari.ailus@linux.intel.com>
- <20231026070329.948847-4-sakari.ailus@linux.intel.com>
+ <20231026070329.948847-9-sakari.ailus@linux.intel.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -75,7 +75,7 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231026070329.948847-4-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231026070329.948847-9-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
@@ -88,54 +88,70 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 26/10/2023 09:03, Sakari Ailus wrote:
-> Rename the sub-devices state information access functions, removing
-> "_stream" from them. This makes them shorter and so more convenient to
-> use. No other sets of functions will be needed to access this information.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  drivers/media/i2c/ds90ub913.c                 |  3 +--
->  drivers/media/i2c/ds90ub953.c                 |  3 +--
->  drivers/media/i2c/ds90ub960.c                 | 12 ++++-----
->  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c | 10 +++----
->  drivers/media/v4l2-core/v4l2-subdev.c         | 27 +++++++++----------
->  include/media/v4l2-subdev.h                   | 19 +++++++------
->  6 files changed, 34 insertions(+), 40 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
-> index 8e9ebed09f64..8bb6be956780 100644
-> --- a/drivers/media/i2c/ds90ub913.c
-> +++ b/drivers/media/i2c/ds90ub913.c
-> @@ -424,8 +424,7 @@ static int ub913_set_fmt(struct v4l2_subdev *sd,
->  	}
->  
->  	/* Set sink format */
-> -	fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
-> -						  format->stream);
-> +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
->  	if (!fmt)
->  		return -EINVAL;
+> Return NULL from sub-device pad state access functions
+> (v4l2_subdev_state_get_{format,crop,compose}) for non-existent pads. While
+> this behaviour differs from older set of pad state information access
+> functions, we've had a WARN_ON() there for a long time and callers also do
+> validate the pad index nowadays. Therefore problems are not expected.
 
-If we want shorter names, how about replacing _get_ with _g_? And of course
-_set_ with _s_. I would prefer that, but it's up to you.
+Huh? Patch 2 adds the WARN_ON, and it is removed in patch 8 again?
 
-Since we are changing function names here, I wonder if this isn't a good
-opportunity to straighten out some more confusing names.
-
-I noticed that in v4l2-subdev.h "fmt" typically refers to v4l2_subdev_format,
-while "format" tends to refer to v4l2_mbus_framefmt.
-
-I find this really confusing, especially if you do not use these functions
-regularly.
-
-My personal preference would be to use "format" for things relating to
-v4l2_subdev_format and "ffmt" for v4l2_mbus_framefmt. Or possibly just "fmt"
-if people don't like "ffmt". It would signal the type of format a lot better.
-
-Anyway, I'm just throwing this out here since I think it is confusing.
+I'm really confused.
 
 Regards,
 
 	Hans
+
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 18 +++---------------
+>  1 file changed, 3 insertions(+), 15 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 9d4ff9b4fcec..bd0d89c2996f 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1684,12 +1684,8 @@ __v4l2_subdev_state_get_format_stream(struct v4l2_subdev_state *state,
+>  		if (stream)
+>  			return NULL;
+>  
+> -		/*
+> -		 * Set the pad to 0 on error as this is aligned with the
+> -		 * behaviour of the pad state information access functions.
+> -		 */
+>  		if (WARN_ON(pad >= state->sd->entity.num_pads))
+> -			pad = 0;
+> +			return NULL;
+>  
+>  		return &state->pads[pad].try_fmt;
+>  	}
+> @@ -1722,12 +1718,8 @@ __v4l2_subdev_state_get_crop_stream(struct v4l2_subdev_state *state,
+>  		if (stream)
+>  			return NULL;
+>  
+> -		/*
+> -		 * Set the pad to 0 on error as this is aligned with the
+> -		 * behaviour of the pad state information access functions.
+> -		 */
+>  		if (WARN_ON(pad >= state->sd->entity.num_pads))
+> -			pad = 0;
+> +			return NULL;
+>  
+>  		return &state->pads[pad].try_crop;
+>  	}
+> @@ -1760,12 +1752,8 @@ __v4l2_subdev_state_get_compose_stream(struct v4l2_subdev_state *state,
+>  		if (stream)
+>  			return NULL;
+>  
+> -		/*
+> -		 * Set the pad to 0 on error as this is aligned with the
+> -		 * behaviour of the pad state information access functions.
+> -		 */
+>  		if (WARN_ON(pad >= state->sd->entity.num_pads))
+> -			pad = 0;
+> +			return NULL;
+>  
+>  		return &state->pads[pad].try_compose;
+>  	}
+
