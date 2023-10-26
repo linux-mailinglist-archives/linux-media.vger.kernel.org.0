@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F1227D8080
+	by mail.lfdr.de (Postfix) with ESMTP id E69A37D8081
 	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 12:18:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229567AbjJZKSh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Oct 2023 06:18:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38796 "EHLO
+        id S230330AbjJZKSj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Oct 2023 06:18:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38794 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229639AbjJZKSg (ORCPT
+        with ESMTP id S229611AbjJZKSg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 26 Oct 2023 06:18:36 -0400
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A849D1A7
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4E9919D
         for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 03:18:33 -0700 (PDT)
 Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
         by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qvxRc-0002nf-A9; Thu, 26 Oct 2023 12:18:28 +0200
+        id 1qvxRc-0002ng-Gp; Thu, 26 Oct 2023 12:18:28 +0200
 Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
         by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
         (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qvxRb-004O1u-S9; Thu, 26 Oct 2023 12:18:27 +0200
+        id 1qvxRc-004O1x-2n; Thu, 26 Oct 2023 12:18:28 +0200
 Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
         (envelope-from <ukl@pengutronix.de>)
-        id 1qvxRb-006XTy-IX; Thu, 26 Oct 2023 12:18:27 +0200
+        id 1qvxRb-006XU2-Pq; Thu, 26 Oct 2023 12:18:27 +0200
 From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
         <u.kleine-koenig@pengutronix.de>
 To:     Sean Young <sean@mess.org>,
@@ -38,15 +38,15 @@ Cc:     Jerome Brunet <jbrunet@baylibre.com>,
         Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
         linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-amlogic@lists.infradead.org, kernel@pengutronix.de
-Subject: [PATCH 1/3] media: meson-ir-tx: Convert to use devm_rc_register_device()
-Date:   Thu, 26 Oct 2023 12:18:18 +0200
-Message-ID: <20231026101816.2460464-6-u.kleine-koenig@pengutronix.de>
+Subject: [PATCH 2/3] media: meson-ir-tx: Simplify and improve using dev_err_probe()
+Date:   Thu, 26 Oct 2023 12:18:19 +0200
+Message-ID: <20231026101816.2460464-7-u.kleine-koenig@pengutronix.de>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231026101816.2460464-5-u.kleine-koenig@pengutronix.de>
 References: <20231026101816.2460464-5-u.kleine-koenig@pengutronix.de>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1486; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=+gu7PsQ78lu/drAjNNP19vItgRnGPLGh6eKbIvernDA=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlOjzq2KqF2O8O/rskyEMRysHku4n4pOk8KXFCf x5HpCgkY2+JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZTo86gAKCRCPgPtYfRL+ TvcRB/4rd+V6XNLjuRxwdcLJzw6xCKG9UDWs9T7/yj4zrqlxcGZDbpiAgoR0NshP2YXVzc28tcg nMkrVP+xy+gPgdzIkp6lG/BQOIVXNKyzIFuXbKyPbDZi+TTiii8eTN+sjhpGxDQoEpm4Wc0FvTG QwdiGSEsaqXli4ufKoD7r1kNtgm6qNO8dd7nsrLrMwEWfCsaO7eEzGRxU19H3NxCsszezhpgsjz WRNBDqFt5MJRyr90G/REyOgox+5Vq8df9PPfZGMA9HCJihiBk6d7yR7z8YOZXDwKvQyITPgyg6e n1+KIp6zEp+chcq+jd352FCoYHJ+OkkOX4kFAJxY2K46IXmL
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1611; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=xP/HXyC7f9rnqXpYHkc5zFosg3Ou9P4+kgR9nBBBZqc=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlOjzrZOzRNoBEbh0+ts8giNj+oBxAwnhW3Xlhs b/TvKU1hnCJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZTo86wAKCRCPgPtYfRL+ Tr9wB/0Xr5LPgszjKEwgg3Eitd3x3TtWYxK/WCYKYhW6e2BCGfscdXowyievh3k5RKQxJxuZqoD HKqlVrMTSBYs6QKHgylNpfAdBD7hFYnGU5l6B9DXZJRUApiG2YyttKZ+kt/2V2f6jZD4fydC90B j5ql1oX55cMx1aphJ5Y2ooJX+QBiyikdkpdOFgRDr1PXzesCDVeN7rUgCVxGOaCExmjgumkMZEo c1PxcUhnNQuCT48r8yskGSW1j0GoTa5YJ079kIX9Wam0id9euK/fTLL+8A9Caw19iZb2N9MTPX3 q3bBrkTVooI0rKlGuj/zK4fTDDeAclJvcQv0Dd5pklRb9rNi
 X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
@@ -62,53 +62,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-With that the remove callback can go away and also setting driver data
-becomes superfluous.
+With dev_err_probe() the error paths can be implemented in a more
+condensed way with the added benefit that the error code is added to the
+error messages by name.
 
 Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
 ---
- drivers/media/rc/meson-ir-tx.c | 12 +-----------
- 1 file changed, 1 insertion(+), 11 deletions(-)
+ drivers/media/rc/meson-ir-tx.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/media/rc/meson-ir-tx.c b/drivers/media/rc/meson-ir-tx.c
-index 6355b79893fb..dab548dc6302 100644
+index dab548dc6302..bd85361d561f 100644
 --- a/drivers/media/rc/meson-ir-tx.c
 +++ b/drivers/media/rc/meson-ir-tx.c
-@@ -360,25 +360,16 @@ static int __init meson_irtx_probe(struct platform_device *pdev)
- 	rc->s_tx_carrier = meson_irtx_set_carrier;
- 	rc->s_tx_duty_cycle = meson_irtx_set_duty_cycle;
+@@ -333,20 +333,17 @@ static int __init meson_irtx_probe(struct platform_device *pdev)
+ 	spin_lock_init(&ir->lock);
  
--	ret = rc_register_device(rc);
-+	ret = devm_rc_register_device(dev, rc);
+ 	ret = meson_irtx_mod_clock_probe(ir, &clk_nr);
+-	if (ret) {
+-		dev_err(dev, "modulator clock setup failed\n");
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(dev, ret, "modulator clock setup failed\n");
++
+ 	meson_irtx_setup(ir, clk_nr);
+ 
+ 	ret = devm_request_irq(dev, irq,
+ 			       meson_irtx_irqhandler,
+ 			       IRQF_TRIGGER_RISING,
+ 			       DRIVER_NAME, ir);
+-	if (ret) {
+-		dev_err(dev, "irq request failed\n");
+-		return ret;
+-	}
++	if (ret)
++		return dev_err_probe(dev, ret, "irq request failed\n");
+ 
+ 	rc = rc_allocate_device(RC_DRIVER_IR_RAW_TX);
+ 	if (!rc)
+@@ -362,9 +359,8 @@ static int __init meson_irtx_probe(struct platform_device *pdev)
+ 
+ 	ret = devm_rc_register_device(dev, rc);
  	if (ret < 0) {
- 		dev_err(dev, "rc_dev registration failed\n");
+-		dev_err(dev, "rc_dev registration failed\n");
  		rc_free_device(rc);
- 		return ret;
+-		return ret;
++		return dev_err_probe(dev, ret, "rc_dev registration failed\n");
  	}
  
--	platform_set_drvdata(pdev, rc);
--
  	return 0;
- }
- 
--static void meson_irtx_remove(struct platform_device *pdev)
--{
--	struct rc_dev *rc = platform_get_drvdata(pdev);
--
--	rc_unregister_device(rc);
--}
--
- static const struct of_device_id meson_irtx_dt_match[] = {
- 	{
- 		.compatible = "amlogic,meson-g12a-ir-tx",
-@@ -388,7 +379,6 @@ static const struct of_device_id meson_irtx_dt_match[] = {
- MODULE_DEVICE_TABLE(of, meson_irtx_dt_match);
- 
- static struct platform_driver meson_irtx_pd = {
--	.remove_new = meson_irtx_remove,
- 	.driver = {
- 		.name = DRIVER_NAME,
- 		.of_match_table = meson_irtx_dt_match,
 -- 
 2.42.0
 
