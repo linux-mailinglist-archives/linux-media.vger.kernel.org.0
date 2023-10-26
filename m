@@ -2,136 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 825677D7DB2
-	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 09:36:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D6DCE7D7DB7
+	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 09:39:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229785AbjJZHgq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Oct 2023 03:36:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57742 "EHLO
+        id S229785AbjJZHjZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Oct 2023 03:39:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52366 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229647AbjJZHgp (ORCPT
+        with ESMTP id S229638AbjJZHjY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Oct 2023 03:36:45 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FB46D6
-        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 00:36:44 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E190C433C7;
-        Thu, 26 Oct 2023 07:36:42 +0000 (UTC)
-Message-ID: <913f5d17-58b3-4631-912c-98203e896ff6@xs4all.nl>
-Date:   Thu, 26 Oct 2023 09:36:41 +0200
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 9/9] media: v4l: subdev: Warn on stream when accessing
- stream-unaware data
-Content-Language: en-US, nl
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
-        jacopo.mondi@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com, Alain Volmat <alain.volmat@foss.st.com>
+        Thu, 26 Oct 2023 03:39:24 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79F44186
+        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 00:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698305962; x=1729841962;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=a2m1TRBEGGqSofRW06GDkC08Q6cR3TSIz5/IjxYK47k=;
+  b=PNhJad+doFLF2eNlsrOlkSv2rxazEBV9ILoDtaBM1FJxyj1CN+aQjerl
+   nwK1GpPzRL26bZkw8UJqCzJZ200cDuAe1XbUlGpRUc+2KZf7oTlwanwGp
+   DoND6u3chTH1ZqogNLNKSd1tyySrEbJezE2S7/aTxk2sibPTEjI7XNgkE
+   gcNTAq+A2yMNnPxMluBa+jjy3vjZuiOF4nLWLLpUowS6teTG6LrVu9NMD
+   nJTRlP1E3UVb+8BHd3CfmhHy4c/YoBceaJZr9aIOTufrGP+DVRvBEPvtc
+   Szd1nhHCy7lD357IH8tOu6+8ob4aFmbFBgECvjVLztnhSo+wh5NHC7k1D
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="390340082"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="390340082"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 00:39:21 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="788393027"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="788393027"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 00:39:19 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 880D211FAF5;
+        Thu, 26 Oct 2023 10:39:16 +0300 (EEST)
+Date:   Thu, 26 Oct 2023 07:39:16 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com,
+        Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v4 2/9] media: v4l: subdev: Also return pads array
+ information on stream functions
+Message-ID: <ZToXpFsVWBhMCf0t@kekkonen.localdomain>
 References: <20231026070329.948847-1-sakari.ailus@linux.intel.com>
- <20231026070329.948847-10-sakari.ailus@linux.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231026070329.948847-10-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+ <20231026070329.948847-3-sakari.ailus@linux.intel.com>
+ <190d7dea-c07a-4ef4-a596-c583edeb6e9e@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <190d7dea-c07a-4ef4-a596-c583edeb6e9e@xs4all.nl>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/10/2023 09:03, Sakari Ailus wrote:
-> Warn if the stream is set ot a non-zero value on sub-device pad state
-> access functions. A driver bug is required for triggering the warning.
+Hi Hans,
 
-More confusion here: why not merge this into patch 2?
+On Thu, Oct 26, 2023 at 09:11:04AM +0200, Hans Verkuil wrote:
+> On 26/10/2023 09:03, Sakari Ailus wrote:
+> > There are two sets of functions that return information from sub-device
+> > state, one for stream-unaware users and another for stream-aware users.
+> > Add support for stream-aware functions to return format, crop and compose
+> > information from pad-based array that are functionally equivalent to the
+> > old, stream-unaware ones.
+> > 
+> > Also check state is non-NULL, in order to guard against old drivers
+> > potentially calling this with NULL state for active formats or selection
+> > rectangles.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 51 +++++++++++++++++++++++++++
+> >  include/media/v4l2-subdev.h           |  9 +++--
+> >  2 files changed, 57 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index ee4fe8f33a41..7feaea6b04ad 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -1684,6 +1684,23 @@ v4l2_subdev_state_get_stream_format(struct v4l2_subdev_state *state,
+> >  	struct v4l2_subdev_stream_configs *stream_configs;
+> >  	unsigned int i;
+> >  
+> > +	if (WARN_ON(!state))
+> > +		return NULL;
+> > +
+> > +	if (state->pads) {
+> > +		if (stream)
+> > +			return NULL;
+> > +
+> > +		/*
+> > +		 * Set the pad to 0 on error as this is aligned with the
+> > +		 * behaviour of the pad state information access functions.
+> > +		 */
+> 
+> This comment does not explain why pad can be an invalid value or why we
+> map that to 0 instead of returning an error.
+> 
+> The phrase "as this is aligned with the behaviour of..." makes no sense:
+> if it was aligned with that, then you wouldn't need a WARN_ON.
 
+Nevertheless this is true: the pad state information access functions have
+that same WARN_ON().
+
+The original reason for this is to avoid accessing memory outside the
+array. Primarily the source of this was previously state being NULL (for
+state-unaware drivers), but we have a check for this already earlier on. I
+can add this.
+
+Note that the comment is removed later on in the set as the function will
+return NULL in this case as well, so polishing it will not have any long
+term benefits. :-)
+
+> 
+> If this WARN_ON is triggered, and someone investigates, then this comment
+> should explain why you got it and how to fix it.
+> 
+> I'm also wondering if this should be a WARN_ON_ONCE. If this is wrong,
+> won't you get this warning a lot?
+
+Probably so, indeed. I can switch it to WARN_ON_ONCE().
+
+> 
+> > +		if (WARN_ON(pad >= state->sd->entity.num_pads))
+> > +			pad = 0;
+> > +
+> > +		return &state->pads[pad].try_fmt;
+> > +	}
+> > +
+> 
+
+-- 
 Regards,
 
-	Hans
-
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index bd0d89c2996f..b7d2de6e750a 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1681,7 +1681,7 @@ __v4l2_subdev_state_get_format_stream(struct v4l2_subdev_state *state,
->  		return NULL;
->  
->  	if (state->pads) {
-> -		if (stream)
-> +		if (WARN_ON(stream))
->  			return NULL;
->  
->  		if (WARN_ON(pad >= state->sd->entity.num_pads))
-> @@ -1715,7 +1715,7 @@ __v4l2_subdev_state_get_crop_stream(struct v4l2_subdev_state *state,
->  		return NULL;
->  
->  	if (state->pads) {
-> -		if (stream)
-> +		if (WARN_ON(stream))
->  			return NULL;
->  
->  		if (WARN_ON(pad >= state->sd->entity.num_pads))
-> @@ -1749,7 +1749,7 @@ __v4l2_subdev_state_get_compose_stream(struct v4l2_subdev_state *state,
->  		return NULL;
->  
->  	if (state->pads) {
-> -		if (stream)
-> +		if (WARN_ON(stream))
->  			return NULL;
->  
->  		if (WARN_ON(pad >= state->sd->entity.num_pads))
-
+Sakari Ailus
