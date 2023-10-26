@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4B1757D7DB1
-	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 09:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 825677D7DB2
+	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 09:36:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229739AbjJZHgD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Oct 2023 03:36:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49972 "EHLO
+        id S229785AbjJZHgq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Oct 2023 03:36:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57742 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229715AbjJZHgC (ORCPT
+        with ESMTP id S229647AbjJZHgp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Oct 2023 03:36:02 -0400
+        Thu, 26 Oct 2023 03:36:45 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75082184
-        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 00:35:59 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 832AEC433C8;
-        Thu, 26 Oct 2023 07:35:57 +0000 (UTC)
-Message-ID: <6665510a-76b3-4ac8-bd18-7cf6e675362b@xs4all.nl>
-Date:   Thu, 26 Oct 2023 09:35:55 +0200
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FB46D6
+        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 00:36:44 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E190C433C7;
+        Thu, 26 Oct 2023 07:36:42 +0000 (UTC)
+Message-ID: <913f5d17-58b3-4631-912c-98203e896ff6@xs4all.nl>
+Date:   Thu, 26 Oct 2023 09:36:41 +0200
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 8/9] media: v4l: subdev: Return NULL from pad access
- functions on error
+Subject: Re: [PATCH v4 9/9] media: v4l: subdev: Warn on stream when accessing
+ stream-unaware data
 Content-Language: en-US, nl
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org
@@ -30,7 +30,7 @@ Cc:     laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com,
         jacopo.mondi@ideasonboard.com, bingbu.cao@intel.com,
         hongju.wang@intel.com, Alain Volmat <alain.volmat@foss.st.com>
 References: <20231026070329.948847-1-sakari.ailus@linux.intel.com>
- <20231026070329.948847-9-sakari.ailus@linux.intel.com>
+ <20231026070329.948847-10-sakari.ailus@linux.intel.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -75,7 +75,7 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231026070329.948847-9-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231026070329.948847-10-sakari.ailus@linux.intel.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
@@ -88,15 +88,10 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 26/10/2023 09:03, Sakari Ailus wrote:
-> Return NULL from sub-device pad state access functions
-> (v4l2_subdev_state_get_{format,crop,compose}) for non-existent pads. While
-> this behaviour differs from older set of pad state information access
-> functions, we've had a WARN_ON() there for a long time and callers also do
-> validate the pad index nowadays. Therefore problems are not expected.
+> Warn if the stream is set ot a non-zero value on sub-device pad state
+> access functions. A driver bug is required for triggering the warning.
 
-Huh? Patch 2 adds the WARN_ON, and it is removed in patch 8 again?
-
-I'm really confused.
+More confusion here: why not merge this into patch 2?
 
 Regards,
 
@@ -105,53 +100,38 @@ Regards,
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 18 +++---------------
->  1 file changed, 3 insertions(+), 15 deletions(-)
+>  drivers/media/v4l2-core/v4l2-subdev.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
 > 
 > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 9d4ff9b4fcec..bd0d89c2996f 100644
+> index bd0d89c2996f..b7d2de6e750a 100644
 > --- a/drivers/media/v4l2-core/v4l2-subdev.c
 > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1684,12 +1684,8 @@ __v4l2_subdev_state_get_format_stream(struct v4l2_subdev_state *state,
->  		if (stream)
+> @@ -1681,7 +1681,7 @@ __v4l2_subdev_state_get_format_stream(struct v4l2_subdev_state *state,
+>  		return NULL;
+>  
+>  	if (state->pads) {
+> -		if (stream)
+> +		if (WARN_ON(stream))
 >  			return NULL;
 >  
-> -		/*
-> -		 * Set the pad to 0 on error as this is aligned with the
-> -		 * behaviour of the pad state information access functions.
-> -		 */
 >  		if (WARN_ON(pad >= state->sd->entity.num_pads))
-> -			pad = 0;
-> +			return NULL;
+> @@ -1715,7 +1715,7 @@ __v4l2_subdev_state_get_crop_stream(struct v4l2_subdev_state *state,
+>  		return NULL;
 >  
->  		return &state->pads[pad].try_fmt;
->  	}
-> @@ -1722,12 +1718,8 @@ __v4l2_subdev_state_get_crop_stream(struct v4l2_subdev_state *state,
->  		if (stream)
+>  	if (state->pads) {
+> -		if (stream)
+> +		if (WARN_ON(stream))
 >  			return NULL;
 >  
-> -		/*
-> -		 * Set the pad to 0 on error as this is aligned with the
-> -		 * behaviour of the pad state information access functions.
-> -		 */
 >  		if (WARN_ON(pad >= state->sd->entity.num_pads))
-> -			pad = 0;
-> +			return NULL;
+> @@ -1749,7 +1749,7 @@ __v4l2_subdev_state_get_compose_stream(struct v4l2_subdev_state *state,
+>  		return NULL;
 >  
->  		return &state->pads[pad].try_crop;
->  	}
-> @@ -1760,12 +1752,8 @@ __v4l2_subdev_state_get_compose_stream(struct v4l2_subdev_state *state,
->  		if (stream)
+>  	if (state->pads) {
+> -		if (stream)
+> +		if (WARN_ON(stream))
 >  			return NULL;
 >  
-> -		/*
-> -		 * Set the pad to 0 on error as this is aligned with the
-> -		 * behaviour of the pad state information access functions.
-> -		 */
 >  		if (WARN_ON(pad >= state->sd->entity.num_pads))
-> -			pad = 0;
-> +			return NULL;
->  
->  		return &state->pads[pad].try_compose;
->  	}
 
