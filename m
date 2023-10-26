@@ -2,129 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E4287D81E0
-	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 13:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A90F7D8209
+	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 13:53:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344808AbjJZLgO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Oct 2023 07:36:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34190 "EHLO
+        id S1344833AbjJZLxM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Oct 2023 07:53:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38152 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229649AbjJZLgN (ORCPT
+        with ESMTP id S230321AbjJZLxL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Oct 2023 07:36:13 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 533EB1A6;
-        Thu, 26 Oct 2023 04:36:10 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C6E983B;
-        Thu, 26 Oct 2023 13:35:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698320152;
-        bh=3J1zW6vJbN0ZPEVT41jA29B2NH3cxfkd2aquGwq/Rl0=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gmSyXJohwrhb64vD0qAeYE5ZQKFoszfn9eG61TKV56cR6LOaJncpo388lxekwAb0V
-         Cf4auU/IuQi+fHPzxDbtMRrc9W44M1fQfd4UVbhOBSBmVUXQuLoQH9ynKibt5VWu0l
-         GnhH5CsdythbIc9q1J35p5BBs6KHoL2JAZB242o4=
-Date:   Thu, 26 Oct 2023 14:36:10 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Alain Volmat <alain.volmat@foss.st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue <alexandre.torgue@foss.st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Dan Scally <dan.scally@ideasonboard.com>,
-        Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 3/5] media: stm32-dcmipp: STM32 DCMIPP camera
- interface driver
-Message-ID: <20231026113610.GA26306@pendragon.ideasonboard.com>
-References: <20231010082413.1717919-1-alain.volmat@foss.st.com>
- <20231010082413.1717919-4-alain.volmat@foss.st.com>
- <ZTpJecRqYS0lMEQb@kekkonen.localdomain>
+        Thu, 26 Oct 2023 07:53:11 -0400
+Received: from mail-oi1-f198.google.com (mail-oi1-f198.google.com [209.85.167.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D62C1A7
+        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 04:53:08 -0700 (PDT)
+Received: by mail-oi1-f198.google.com with SMTP id 5614622812f47-3b3fb625e3bso933104b6e.3
+        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 04:53:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698321188; x=1698925988;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cuGIGPijPrgaBQJGLRU+uHqNxMgfOKS3BMUr9lUJhx0=;
+        b=O/vRg8QaP+Wa0o9ITakh62zGY8cWNxV0/PA0eMwO7TCZMjd6gYX3eTYd+9G5XmJCaL
+         b5LSN3QJTkNrZFY4HF5TDeXZ3NM4mK7NoVX3Hw/Lhguhq8vxQrVUF7PUjzM14WtR5lpM
+         5C9PMtBUkCM1Nv6kOI10LY2Q48IdRkcHtLqQcuILBHDF0yQ+aJyjWBZRqsKeIwuvKuKC
+         oi5Gix4G4ZZnBiVerTIfCzZmVzVfu5jLJzZJQiiMCJrtZ4exc2DMAudqZylIQAVmLYak
+         pBgUroW93B2PbSbetR+QktnCmkDSMcdbTBy1yfArtEiziKRvfi7T9H5e9xPWFp84RsaP
+         Y7+A==
+X-Gm-Message-State: AOJu0Yz44rC8eiYBj2nY/sAhAsE1jmvNjPY966EOqtmF8mpivmLcc5GX
+        ETFLOXiOGvfCwcw+KZ26zTTAXM8h+ntJkBqr61lmrEjFBOpG
+X-Google-Smtp-Source: AGHT+IFmz41KBLkoWEbzAiuglztiW8vk0L4Jik6Xzp+mEiD/ouseO4CgSvXC4cd0Gkl5baT2gZU5UyNUOKnmRFdmpGwN+u1evZ0v
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZTpJecRqYS0lMEQb@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Received: by 2002:a05:6808:90:b0:3b2:df42:589f with SMTP id
+ s16-20020a056808009000b003b2df42589fmr6525784oic.7.1698321187991; Thu, 26 Oct
+ 2023 04:53:07 -0700 (PDT)
+Date:   Thu, 26 Oct 2023 04:53:07 -0700
+In-Reply-To: <0000000000003a5c4905ef1044d6@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000001ff5ed06089d37f1@google.com>
+Subject: Re: [syzbot] [media?] WARNING in get_vaddr_frames
+From:   syzbot <syzbot+59a71007ccac79e8bb69@syzkaller.appspotmail.com>
+To:     david@redhat.com, hverkuil-cisco@xs4all.nl, hverkuil@xs4all.nl,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        m.szyprowski@samsung.com, mchehab@kernel.org,
+        syzkaller-bugs@googlegroups.com, tfiga@chromium.org,
+        torvalds@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
+X-Spam-Status: No, score=0.9 required=5.0 tests=BAYES_00,FROM_LOCAL_HEX,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SORTED_RECIPS,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+syzbot suspects this issue was fixed by commit:
 
-On Thu, Oct 26, 2023 at 11:11:53AM +0000, Sakari Ailus wrote:
-> On Tue, Oct 10, 2023 at 10:24:03AM +0200, Alain Volmat wrote:
-> > From: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> > 
-> > This V4L2 subdev driver enables Digital Camera Memory Interface
-> > Pixel Processor(DCMIPP) of STMicroelectronics STM32 SoC series.
-> > 
-> > Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> > Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> > ---
-> >  drivers/media/platform/st/stm32/Kconfig       |  15 +
-> >  drivers/media/platform/st/stm32/Makefile      |   1 +
-> >  .../platform/st/stm32/stm32-dcmipp/Makefile   |   4 +
-> >  .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c    | 916 ++++++++++++++++++
-> >  .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c   | 555 +++++++++++
-> >  .../st/stm32/stm32-dcmipp/dcmipp-common.c     | 106 ++
-> >  .../st/stm32/stm32-dcmipp/dcmipp-common.h     | 216 +++++
-> >  .../st/stm32/stm32-dcmipp/dcmipp-core.c       | 603 ++++++++++++
-> >  .../st/stm32/stm32-dcmipp/dcmipp-parallel.c   | 441 +++++++++
-> >  9 files changed, 2857 insertions(+)
-> >  create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/Makefile
-> >  create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
-> >  create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c
-> >  create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.c
-> >  create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.h
-> >  create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-> >  create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c
+commit 735de5caf79e06cc9fb96b1b4f4974674ae3e917
+Author: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Date:   Thu Aug 17 10:41:32 2023 +0000
 
-[snip]
+    media: vb2: frame_vector.c: replace WARN_ONCE with a comment
 
-> > diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
-> > new file mode 100644
-> > index 000000000000..4f784c5791e7
-> > --- /dev/null
-> > +++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
-> > @@ -0,0 +1,916 @@
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=16c7ad5d680000
+start commit:   53663f4103ff Merge tag 'nfs-for-6.5-2' of git://git.linux-..
+git tree:       upstream
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1b32f62c755c3a9c
+dashboard link: https://syzkaller.appspot.com/bug?extid=59a71007ccac79e8bb69
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=178be4b7a80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=107609a7a80000
 
-[snip]
+If the result looks correct, please mark the issue as fixed by replying with:
 
-> > +static const struct dcmipp_bytecap_pix_map *
-> > +dcmipp_bytecap_pix_map_by_pixelformat(u32 pixelformat)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(dcmipp_bytecap_pix_map_list); i++) {
-> 
-> No need for braces. Up to you.
+#syz fix: media: vb2: frame_vector.c: replace WARN_ONCE with a comment
 
-For what it's worth, I usually ask for braces in my reviews for these
-kind of cases :-)
-
-> > +		if (dcmipp_bytecap_pix_map_list[i].pixelformat == pixelformat)
-> > +			return &dcmipp_bytecap_pix_map_list[i];
-> > +	}
-> > +
-> > +	return NULL;
-> > +}
-
-[snip]
-
--- 
-Regards,
-
-Laurent Pinchart
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
