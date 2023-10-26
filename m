@@ -2,138 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 623387D804C
-	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 12:10:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7620D7D8083
+	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 12:18:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230330AbjJZKKY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Oct 2023 06:10:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42762 "EHLO
+        id S230418AbjJZKSm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Oct 2023 06:18:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229611AbjJZKKX (ORCPT
+        with ESMTP id S229680AbjJZKSg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Oct 2023 06:10:23 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4459C1B1
-        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 03:10:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698315021; x=1729851021;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=kgk7DD5zWVp3dgLKYX+EmvaBVxfWUWlg003sfQU0nrY=;
-  b=Fqm4E30iNl6eov5JqTCV30FVgKd8QQVPJIBBNpAN1VDRaOzyT4eG/Jx6
-   eLLtcqEalmiWFMoToZh5VIRMKli78nKkYJdTAGmSq1nN3N6FwtArT8m3j
-   O/R/Zb3HXHWjDQQeFRk91swWZ67SfU/N++PJKbBbI/yiUtL5bp7JNtmEV
-   wpfGvnMYR9ZjNGYnqLM884ssP3iKTZ74ipULKkzdu3JlZiyf+26Opqmiz
-   Oze9Gy0fN6Sm7Wk/65Q31kASRKwqz3yKM5wYsfX9hTW+RZ7LK1yqcO4k3
-   pKmZZdjqBJ0e7kGKvPnkcV2wfgxldBbGOTDyMLnKZTNzeHa6VQR+oCoEV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="377875644"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="377875644"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 03:10:19 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="709017706"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="709017706"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 03:10:16 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 2BE5011FB9B;
-        Thu, 26 Oct 2023 13:10:14 +0300 (EEST)
-Date:   Thu, 26 Oct 2023 10:10:14 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com,
-        Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v4 3/9] media: v4l: subdev: Rename sub-device state
- information access functions
-Message-ID: <ZTo7Bovh3tcQAurN@kekkonen.localdomain>
-References: <20231026070329.948847-1-sakari.ailus@linux.intel.com>
- <20231026070329.948847-4-sakari.ailus@linux.intel.com>
- <58295947-a749-4752-80c6-00c353017dce@xs4all.nl>
- <ZToiYNcD1D9cOHPG@kekkonen.localdomain>
- <20231026095142.GB1512@pendragon.ideasonboard.com>
+        Thu, 26 Oct 2023 06:18:36 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A74EB1A2
+        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 03:18:33 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qvxRc-0002ne-A9; Thu, 26 Oct 2023 12:18:28 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qvxRb-004O1r-MA; Thu, 26 Oct 2023 12:18:27 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qvxRb-006XTv-CZ; Thu, 26 Oct 2023 12:18:27 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>,
+        Kevin Hilman <khilman@baylibre.com>
+Cc:     Jerome Brunet <jbrunet@baylibre.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-amlogic@lists.infradead.org, kernel@pengutronix.de
+Subject: [PATCH 0/3] media: meson-ir-tx: Some cleanups and simplifications and a bug report
+Date:   Thu, 26 Oct 2023 12:18:17 +0200
+Message-ID: <20231026101816.2460464-5-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231026095142.GB1512@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1494; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=9f95QupmDD1wCm7me2TiK83K9AHR9two7YFf8SXT3Lk=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlOjzppXk2Qm28MOi8I8DIbnpCyB0ZQI6nNu1X6 En+p/8ahWyJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZTo86QAKCRCPgPtYfRL+ TgbDCACp6GwotsK5vjw8THZ109ikr4W8XvR9oyGGiiwISHzYpCWo+fg6QYTUw5jS9tCsTgMVPW9 LVWFj1dBvnEfSclJpBv1x1/uVkhn/B7aCHChSghEXTSDrDIvbr27pc4Eseeqm3T4qn+x8Qx1uha icJv0cBWx4Mj7TmFmif+Q2kTiMD0yQNFVSFjOxlSMUmfIHtr9yCsbWKs3mzn0pMhAJ+meRog9Ji Kdv8shj4rIW0wlaaRArqfmofgKsq9LqKElPtUhKeyKYhA4GEPSAPZ/meSKQtxpK5vB6u6JEZyCI 09E3Bi2/StZTqxx7MV4KOPTP9IoxmpfPTe1uj3Gyo6gPsvtT
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 26, 2023 at 12:51:42PM +0300, Laurent Pinchart wrote:
-> On Thu, Oct 26, 2023 at 08:25:04AM +0000, Sakari Ailus wrote:
-> > On Thu, Oct 26, 2023 at 09:26:40AM +0200, Hans Verkuil wrote:
-> > > On 26/10/2023 09:03, Sakari Ailus wrote:
-> > > > Rename the sub-devices state information access functions, removing
-> > > > "_stream" from them. This makes them shorter and so more convenient to
-> > > > use. No other sets of functions will be needed to access this information.
-> > > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > > > ---
-> > > >  drivers/media/i2c/ds90ub913.c                 |  3 +--
-> > > >  drivers/media/i2c/ds90ub953.c                 |  3 +--
-> > > >  drivers/media/i2c/ds90ub960.c                 | 12 ++++-----
-> > > >  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c | 10 +++----
-> > > >  drivers/media/v4l2-core/v4l2-subdev.c         | 27 +++++++++----------
-> > > >  include/media/v4l2-subdev.h                   | 19 +++++++------
-> > > >  6 files changed, 34 insertions(+), 40 deletions(-)
-> > > > 
-> > > > diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
-> > > > index 8e9ebed09f64..8bb6be956780 100644
-> > > > --- a/drivers/media/i2c/ds90ub913.c
-> > > > +++ b/drivers/media/i2c/ds90ub913.c
-> > > > @@ -424,8 +424,7 @@ static int ub913_set_fmt(struct v4l2_subdev *sd,
-> > > >  	}
-> > > >  
-> > > >  	/* Set sink format */
-> > > > -	fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
-> > > > -						  format->stream);
-> > > > +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
-> > > >  	if (!fmt)
-> > > >  		return -EINVAL;
-> > > 
-> > > If we want shorter names, how about replacing _get_ with _g_? And of course
-> > > _set_ with _s_. I would prefer that, but it's up to you.
-> > 
-> > These functions doesn't actually "get" something, but return a pointer to
-> > the data. There's thus no corresponding set. I think I'll keep it as-is for
-> > now but I think "_get" could as well be removed here.
-> > 
-> > > 
-> > > Since we are changing function names here, I wonder if this isn't a good
-> > > opportunity to straighten out some more confusing names.
-> > > 
-> > > I noticed that in v4l2-subdev.h "fmt" typically refers to v4l2_subdev_format,
-> > > while "format" tends to refer to v4l2_mbus_framefmt.
-> > > 
-> > > I find this really confusing, especially if you do not use these functions
-> > > regularly.
-> > > 
-> > > My personal preference would be to use "format" for things relating to
-> > > v4l2_subdev_format and "ffmt" for v4l2_mbus_framefmt. Or possibly just "fmt"
-> > > if people don't like "ffmt". It would signal the type of format a lot better.
-> > 
-> > I'll use ffmt for the name of the function.
-> 
-> I would avoid this, it will make things even more confusing by adding
-> yet another naming scheme. If we want to clean things up (and I think we
-> should), then it should be done on top, and span the entire subsystem.
+Hello,
 
-I could live with that, too, but I think it'll be someone else changing the
-naming afterwards.
+while looking around for drivers still using platform_driver_probe() I
+found the meson-ir-tx driver. While looking at it I identified a few
+patch opportunities.
 
+I think the driver might be used to trigger a use after free problem
+that is caused by the ir core. With my current understanding the
+following is possible:
+
+	1) open the ir device and keep it open
+	2) unbind the meson-ir-tx device
+	3) trigger calling .tx_ir = meson_irtx_transmit using the opened
+	   device using write()
+
+2) can be done using sysfs or (maybe) by module unloading. The result is
+that the memory pointed to by ir is freed and the register mapping goes
+away. Even meson_irtx_transmit() might disappear then. Calling
+meson_irtx_transmit() then yields all kind of fun.
+
+I didn't debug in detail so I might miss something. To fix that you have
+to make sure that the callbacks don't get called any more once the rc
+device is unregistered (and track that information in memory that
+doesn't go away with the parent device's remove callback completing).
+
+Best regards
+Uwe
+
+Uwe Kleine-König (3):
+  media: meson-ir-tx: Convert to use devm_rc_register_device()
+  media: meson-ir-tx: Simplify and improve using dev_err_probe()
+  media: meson-ir-tx: Drop usage of platform_driver_probe()
+
+ drivers/media/rc/meson-ir-tx.c | 34 ++++++++++------------------------
+ 1 file changed, 10 insertions(+), 24 deletions(-)
+
+
+base-commit: 0bb80ecc33a8fb5a682236443c1e740d5c917d1d
 -- 
-Sakari Ailus
+2.42.0
+
