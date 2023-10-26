@@ -2,74 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5ABF47D7AF7
-	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 04:37:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 994DA7D7B28
+	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 05:08:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232431AbjJZChZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Oct 2023 22:37:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57042 "EHLO
+        id S229954AbjJZDIt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Oct 2023 23:08:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42448 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229596AbjJZChY (ORCPT
+        with ESMTP id S229836AbjJZDIr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Oct 2023 22:37:24 -0400
-Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9613910A;
-        Wed, 25 Oct 2023 19:37:20 -0700 (PDT)
-Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-5b8f68ba4e5so376451a12.1;
-        Wed, 25 Oct 2023 19:37:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698287840; x=1698892640; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=O+/LYLyDdbkps/oxv4vLLfhE34izDmpgctZLGQjlrOU=;
-        b=LnVHNherEob6mbFgxWHG35CRUalku9oJrHnFwANijraFbynH9RP9hMyFoHx4HQfPfd
-         5FxJqa9EpINl1QIc1rjlkmvhD/yjsAyKtDUeDJ3HVu663POU4MhESOqdH0TC5v4ysPQu
-         FYFQqcmSsRTIytnb7iRufo1cjLEMmnVwO4pv8re+MhC8om909AeaZj714aVh1vFb8HiY
-         suktaswu3wpHJjTqJcOwGq+789NhP6GtaIxhq5GCzuQY85iykfU7iTDzprsovQmsUixQ
-         tNS8hwSTJtjJtEdRD1wBnNMe+BluqcxumV4TLUV9RUcNKPICUiZ0SeNozH30lHb1VVBL
-         SUKw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698287840; x=1698892640;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=O+/LYLyDdbkps/oxv4vLLfhE34izDmpgctZLGQjlrOU=;
-        b=DmUv9C+YLCblKlC1vaszGWK/w+bfew4JJreToSTOEQiwhZQp/8tnztqvJdbWL521wa
-         EE7N/ciZ3zZhQ3JK6jeBlUQ8EyeoPwMierS1mYr6WUvucqxTCKMnotSGvgfeTc/GB/CH
-         1UwmEro34Tz0xlSRzxS/ryRFWdwDZicTzYY5DH/BFc2kGSm86iu/376VRUbut81kjn38
-         tQU9kac8O8l9FIit3PGOX+jeAGk1cxFqhHeLHyM5MVTU6jwA2UY+BtelaV8fvRQgX7Zc
-         yjm9R5fSTfPLqA49mCu2kkzN2WCwzt85LavCQMwF2eWcMPq8ZmLQL3ZNaoNCu3kP5Z/d
-         eQeQ==
-X-Gm-Message-State: AOJu0YzZhJQmmGiOOlaoq2F9CRT1TNlq6fQdBvmNmehS00J3bjy89R/H
-        9t4Ux7eCzVf2vnrA2HseiVUs/4bpn6zc4XZm62g=
-X-Google-Smtp-Source: AGHT+IFV4x3BSS9K1oEjlHSvE2/RvYvw8fBgrj6u9+FX0gXhcriKZl+MxQEA3rcXPFkAVWIVdxgy2xECdKyXcpxRICs=
-X-Received: by 2002:a17:90a:4f45:b0:27e:3880:d03d with SMTP id
- w5-20020a17090a4f4500b0027e3880d03dmr10065765pjl.7.1698287839741; Wed, 25 Oct
- 2023 19:37:19 -0700 (PDT)
+        Wed, 25 Oct 2023 23:08:47 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E23DB18B
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 20:08:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698289725; x=1729825725;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=fFuZddHKu6p407ShzCxDMV3cUeA/HSD9Q0FErtJ1Rm0=;
+  b=UA/lUTb6/1Gq5QiNl+263o2w9xCUWhzoqKgN8Xy0nygjxi8UtwHVyUrz
+   6VGj99hoPUftLnUWrpDMyOkxHXPe8ngh0wj0uq+FaGQ6z41MBscgYWzTW
+   Ced0BUXA4ZrZ/4d4ShYBs/kMgLV9LghCp6xDdo+a+UK/1VDx/T91vsqsL
+   Ppj83d3hGjnaxNC/GeH6Ntr+tpmQ9Tts8FJhx+nxhVrbVIOQ70Ucd0we3
+   AFYVs/RG+q0AOqvsYIgm2I2U6xyoAr6kGZs+ATZaKcoyKMjgYGrAISa2s
+   A+fGylXmOQ4imYz5utnFLw9VGeYtaH6s+tNnUtkO7UjHMswWyHKUMT1xf
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="366797475"
+X-IronPort-AV: E=Sophos;i="6.03,252,1694761200"; 
+   d="scan'208";a="366797475"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 20:08:45 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="794043076"
+X-IronPort-AV: E=Sophos;i="6.03,252,1694761200"; 
+   d="scan'208";a="794043076"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.146]) ([10.238.232.146])
+  by orsmga001.jf.intel.com with ESMTP; 25 Oct 2023 20:08:38 -0700
+Subject: Re: [PATCH v2 02/15] media: intel/ipu6: add IPU auxiliary devices
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        hdegoede@redhat.com
+Cc:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+        ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
+        claus.stovgaard@gmail.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
+        tian.shu.qiu@intel.com, hongju.wang@intel.com
+References: <20231024112924.3934228-1-bingbu.cao@intel.com>
+ <20231024112924.3934228-3-bingbu.cao@intel.com>
+ <ZTe/WBM/kPB+GWKk@smile.fi.intel.com>
+ <3da91870-641a-e0fb-1135-b592d5ca3373@linux.intel.com>
+ <ZTlzMA2Cp10UrUS5@smile.fi.intel.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <2b0d75b4-e92d-56e1-d4fc-800a745bdb4f@linux.intel.com>
+Date:   Thu, 26 Oct 2023 11:04:02 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20231020040732.2499269-1-zyytlz.wz@163.com> <46f704c2-ba42-4e16-d798-ea2171e5ba16@collabora.com>
-In-Reply-To: <46f704c2-ba42-4e16-d798-ea2171e5ba16@collabora.com>
-From:   Zheng Hacker <hackerzheng666@gmail.com>
-Date:   Thu, 26 Oct 2023 10:37:06 +0800
-Message-ID: <CAJedcCzE_EHqquj6iu-NgUpBkeF0XdUiDutsgOdCqqX814nkDg@mail.gmail.com>
-Subject: Re: [PATCH] media: mtk-jpeg: Fix use after free bug due to error path
- handling in mtk_jpeg_dec_device_run
-To:     Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc:     Zheng Wang <zyytlz.wz@163.com>, Kyrie.Wu@mediatek.com,
-        bin.liu@mediatek.com, mchehab@kernel.org, matthias.bgg@gmail.com,
-        angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, Irui.Wang@mediatek.com,
-        security@kernel.org, 1395428693sheep@gmail.com,
-        alex000young@gmail.com, amergnat@baylibre.com, wenst@chromium.org,
-        stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+In-Reply-To: <ZTlzMA2Cp10UrUS5@smile.fi.intel.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,132 +73,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Get it. I'll figure it out how to split up.
+Andy and Hans,
 
-Thanks,
-Zheng
+Thanks.
 
-Dmitry Osipenko <dmitry.osipenko@collabora.com> =E4=BA=8E2023=E5=B9=B410=E6=
-=9C=8824=E6=97=A5=E5=91=A8=E4=BA=8C 21:18=E5=86=99=E9=81=93=EF=BC=9A
+On 10/26/23 3:57 AM, Andy Shevchenko wrote:
+> On Wed, Oct 25, 2023 at 03:14:00PM +0800, Bingbu Cao wrote:
+>> On 10/24/23 8:58 PM, Andy Shevchenko wrote:
+>>> On Tue, Oct 24, 2023 at 07:29:11PM +0800, bingbu.cao@intel.com wrote:
+> 
+>> auxiliary_bus.h is included in ipu6-bus.h,
+> 
+> So, you have to include it explicitly as IWYU, strictly speaking ipu6-bus.h
+> does NOT guarantee that inclusion, even if you fully control it.
+> 
+>> list.h, mutex.h dev_printk.h are
+>> included in device.h,
+> 
+> I ack for dev_printk.h, but for the rest see above.
+> 
+>> dma-mapping.h and scatterlist.h are included in pci.h.
+> 
+> See above.
+> 
+> 
+>> I am a little confused about the rule, do you mean we need include the
+>> generic headers we need even it is included in others header?
+> 
+> Yes. There are only few guarantees in the kernel, strictly speaking. And having
+> spaghetti headers in your code is a bad idea from long run maintenance
+> perspective.
+> 
+> ...
+> 
+>>>> +#ifndef IPU6_BUS_H
+>>>> +#define IPU6_BUS_H
+>>>> +
+>>>> +#include <linux/auxiliary_bus.h>
+>>>
+>>> ...Especially for headers which will affect the compilation time.
+>>>
+>>>> +#include <linux/pci.h>
+>>>
+>>> This is not used.
+>>
+>> Do you mean it just need a 'struct pci_dev;' ?
+> 
+> Yes.
 >
-> On 10/20/23 07:07, Zheng Wang wrote:
-> > In mtk_jpeg_probe, &jpeg->job_timeout_work is bound with
-> > mtk_jpeg_job_timeout_work.
-> >
-> > In mtk_jpeg_dec_device_run, if error happens in
-> > mtk_jpeg_set_dec_dst, it will finally start the worker while
-> > mark the job as finished by invoking v4l2_m2m_job_finish.
-> >
-> > There are two methods to trigger the bug. If we remove the
-> > module, it which will call mtk_jpeg_remove to make cleanup.
-> > The possible sequence is as follows, which will cause a
-> > use-after-free bug.
-> >
-> > CPU0                  CPU1
-> > mtk_jpeg_dec_...    |
-> >   start worker            |
-> >                     |mtk_jpeg_job_timeout_work
-> > mtk_jpeg_remove     |
-> >   v4l2_m2m_release  |
-> >     kfree(m2m_dev); |
-> >                     |
-> >                     | v4l2_m2m_get_curr_priv
-> >                     |   m2m_dev->curr_ctx //use
-> >
-> > If we close the file descriptor, which will call mtk_jpeg_release,
-> > it will have a similar sequence.
-> >
-> > Fix this bug by start timeout worker only if started jpegdec worker
-> > successfully so the v4l2_m2m_job_finish will only be called on
-> > either mtk_jpeg_job_timeout_work or mtk_jpeg_dec_device_run.
-> >
-> > This patch also reverts commit c677d7ae8314
-> > ("media: mtk-jpeg: Fix use after free bug due to uncanceled work")
-> > for this patch also fixed the use-after-free bug mentioned before.
-> > Before mtk_jpeg_remove is invoked, mtk_jpeg_release must be invoked
-> > to close opened files. And it will call v4l2_m2m_cancel_job to wait
-> > for the timeout worker finished so the canceling in mtk_jpeg_remove
-> > is unnecessary.
-> >
-> > Fixes: b2f0d2724ba4 ("[media] vcodec: mediatek: Add Mediatek JPEG Decod=
-er Driver")
-> > Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-> > Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> > Cc: stable@vger.kernel.org
-> > ---
-> >  .../media/platform/mediatek/jpeg/mtk_jpeg_core.c    | 13 ++++++-------
-> >  1 file changed, 6 insertions(+), 7 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/dri=
-vers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> > index 7194f88edc0f..c3456c700c07 100644
-> > --- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> > +++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-> > @@ -1021,13 +1021,13 @@ static void mtk_jpeg_dec_device_run(void *priv)
-> >       if (ret < 0)
-> >               goto dec_end;
-> >
-> > -     schedule_delayed_work(&jpeg->job_timeout_work,
-> > -                           msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC))=
-;
-> > -
-> >       mtk_jpeg_set_dec_src(ctx, &src_buf->vb2_buf, &bs);
-> >       if (mtk_jpeg_set_dec_dst(ctx, &jpeg_src_buf->dec_param, &dst_buf-=
->vb2_buf, &fb))
-> >               goto dec_end;
-> >
-> > +     schedule_delayed_work(&jpeg->job_timeout_work,
-> > +                           msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC))=
-;
-> > +
-> >       spin_lock_irqsave(&jpeg->hw_lock, flags);
-> >       mtk_jpeg_dec_reset(jpeg->reg_base);
-> >       mtk_jpeg_dec_set_config(jpeg->reg_base,
-> > @@ -1403,7 +1403,6 @@ static void mtk_jpeg_remove(struct platform_devic=
-e *pdev)
-> >  {
-> >       struct mtk_jpeg_dev *jpeg =3D platform_get_drvdata(pdev);
-> >
-> > -     cancel_delayed_work_sync(&jpeg->job_timeout_work);
-> >       pm_runtime_disable(&pdev->dev);
-> >       video_unregister_device(jpeg->vdev);
-> >       v4l2_m2m_release(jpeg->m2m_dev);
-> > @@ -1750,9 +1749,6 @@ static void mtk_jpegdec_worker(struct work_struct=
- *work)
-> >       v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-> >       v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
-> >
-> > -     schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
-> > -                           msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC))=
-;
-> > -
-> >       mtk_jpeg_set_dec_src(ctx, &src_buf->vb2_buf, &bs);
-> >       if (mtk_jpeg_set_dec_dst(ctx,
-> >                                &jpeg_src_buf->dec_param,
-> > @@ -1762,6 +1758,9 @@ static void mtk_jpegdec_worker(struct work_struct=
- *work)
-> >               goto setdst_end;
-> >       }
-> >
-> > +     schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
-> > +                           msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC))=
-;
-> > +
-> >       spin_lock_irqsave(&comp_jpeg[hw_id]->hw_lock, flags);
-> >       ctx->total_frame_num++;
-> >       mtk_jpeg_dec_reset(comp_jpeg[hw_id]->reg_base);
->
-> What about to split this patch into 3 patches:
->
-> 1. will remove cancel_delayed_work_sync()
-> 2. will update mtk_jpeg_dec_device_run()
-> 3. will update mtk_jpegdec_worker()
->
-> The reason for splitting is because the multi-core mtk_jpegdec_worker()
-> doesn't present in older stable kernels, and thus, the patch isn't
-> backportable as-is.
->
-> --
-> Best regards,
-> Dmitry
->
+
+Ack. Will address them in v3.
+ 
+
+-- 
+Best regards,
+Bingbu Cao
