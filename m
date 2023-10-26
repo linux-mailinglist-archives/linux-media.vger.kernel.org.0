@@ -2,76 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A06687D8975
-	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 22:08:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8853A7D8ADB
+	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 23:47:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344764AbjJZUI0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Oct 2023 16:08:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55518 "EHLO
+        id S231977AbjJZVr5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Oct 2023 17:47:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48358 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231710AbjJZUI0 (ORCPT
+        with ESMTP id S229633AbjJZVr4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Oct 2023 16:08:26 -0400
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DC64DC
-        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 13:08:23 -0700 (PDT)
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-508126afc88so1997641e87.1
-        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 13:08:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698350901; x=1698955701; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=in296aXKitJNMXPUX/nmqhi/sS6stnc+qHOsGfoVDJg=;
-        b=yA00fGN9pFWRgyUpzF1vKLE24uzMeaa6hfF96NVjZxHTTfxmpeqklhKVbXjcdFQdCC
-         +Q5HFPhdd/8HJaqkOi6h2J8R0C4H3nzBxL357mXs3W4PEe3tVOATHD6hwJYc8HiKigyi
-         32Z7usS8HjZLRnIORoEkePQ2yudUHRBa+NF/pd64qG8r7PSOAI8Unhf45/xEDVzMfm2N
-         4jm16yKfYHB+H4UK/HDqIYyUVEZSSv5Y3ZFUCZrrN8WJCUWx9EPDxnfKyhtHLvpspcVE
-         uMoWHSBoCGs5q+Gr2UZCgN74Fg18au70QiWC14QTgyBBarmP6wGDUyl7BG3x9NHqYNy5
-         nhog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698350901; x=1698955701;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=in296aXKitJNMXPUX/nmqhi/sS6stnc+qHOsGfoVDJg=;
-        b=T6SmmqQxG85Rhn45IqPKemVZA1CT9e1EP+68sxVeJixgT8abnbfqm2UjEYJRv+hKTq
-         J0KjrepXOWMLw85EocZ132QYviA69cjKsKbT2K159voPPPJD+Dw0qIlSjPSNUvViuN4P
-         SLjcAUyK4E/JaP4F/QedyxUkdmgjqM+Ndp2XCedgyca8slc0i/V7J9xOYkyBfoVkn1xh
-         XQ/CWFSk/2POTyXnyIbu4qlu7FS8v4CpB+23STZQpjG1HkloLR9RfTadnw9Fn+j7syp6
-         Df6SR7n8SZgFyuEbuSXXBgVoxOsSZ0VfSRHDbtiuViYuyuMvTSbFQi9/6gMK2FRHOeRe
-         IE+Q==
-X-Gm-Message-State: AOJu0Yyi01L7Gsy357N1q6BvVDryCSS9a86iUdP+Y4c9jSpvJ8Oy1QJq
-        iVSCglS/xSh8FeGtGn3kqLQA4Q==
-X-Google-Smtp-Source: AGHT+IFicE3Na+hQ9S8OZTbwLGfd7Vgc2t3vVhEM4RVc32If6IqOEece8WLGiS6tLpA2qh+Pj8lQYg==
-X-Received: by 2002:a19:9112:0:b0:507:9ef2:fb1c with SMTP id t18-20020a199112000000b005079ef2fb1cmr338886lfd.2.1698350900853;
-        Thu, 26 Oct 2023 13:08:20 -0700 (PDT)
-Received: from [172.30.205.86] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id c14-20020a056512324e00b005079fd88326sm3110814lfr.45.2023.10.26.13.08.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Oct 2023 13:08:20 -0700 (PDT)
-Message-ID: <8a36e61a-5397-4513-ae0d-eb68ccd8e584@linaro.org>
-Date:   Thu, 26 Oct 2023 22:08:19 +0200
+        Thu, 26 Oct 2023 17:47:56 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10540128
+        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 14:47:54 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qw8Ci-0008Ej-2b; Thu, 26 Oct 2023 23:47:48 +0200
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qw8Ch-004Uru-35; Thu, 26 Oct 2023 23:47:47 +0200
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qw8Cg-006rUl-Pt; Thu, 26 Oct 2023 23:47:46 +0200
+From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+To:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-staging@lists.linux.dev, kernel@pengutronix.de
+Subject: [PATCH] staging: media: tegra-video: Convert to platform remove callback returning void
+Date:   Thu, 26 Oct 2023 23:47:40 +0200
+Message-ID: <20231026214739.2509271-2-u.kleine-koenig@pengutronix.de>
+X-Mailer: git-send-email 2.42.0.482.g2e8e77cbac8a.dirty
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/5] media: qcom: camss: Convert to per-VFE pointer for
- power-domain linkages
-Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        rfoss@kernel.org, todor.too@gmail.com, andersson@kernel.org,
-        mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20231026155042.551731-1-bryan.odonoghue@linaro.org>
- <20231026155042.551731-3-bryan.odonoghue@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20231026155042.551731-3-bryan.odonoghue@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3764; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=iBWQN6tc6+dQj6E3HP/luLO0rOWhalDDwsT2ZGTAUxI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlOt57AkMwARJu7sPBBSAb9BFaMZxaXeb9t4OL4 4FFRgoQ/zeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZTreewAKCRCPgPtYfRL+ Thi8B/4unyhduYQ2gWu6CS/UsbMMzqGUriLjsC5YAURyJSkRLWApCJ1K2GKWVyQZdoIj2hYiySu VgRyRI9xbEPFiUTXV2rXdDa7Ed5v0hEsbRGbze6T2DUxMSRhuyNdWPLB7FnjcYw6bB+6xmt/WCN bUjs/oiYwUDx8eh5LS6HW7S7n/EwuS6QH19PJ2tOlcguEseNuywNkWd1KNVQBNpv0aFp0CF5P7/ W6XLtrygIxA55F5jLZQRNjRH0A2l8+xn9+mgk1vFKDDW3D9YhP3DzM4V3KdTOEZmeHMKiQ4LEKJ wQmFnxDfQfNgMsLo8OKKJQczS8wRh0WMBywktB7+0wETM1G7
+X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -79,28 +60,113 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The .remove() callback for a platform driver returns an int which makes
+many driver authors wrongly assume it's possible to do error handling by
+returning an error code. However the value returned is ignored (apart
+from emitting a warning) and this typically results in resource leaks.
 
+To improve here there is a quest to make the remove callback return
+void. In the first step of this quest all drivers are converted to
+.remove_new(), which already returns void. Eventually after all drivers
+are converted, .remove_new() will be renamed to .remove().
 
-On 10/26/23 17:50, Bryan O'Donoghue wrote:
-> Right now we use the top-level camss structure to provide pointers via
-> VFE id index back to genpd linkages.
-> 
-> In effect this hard-codes VFE indexes to power-domain indexes in the
-> dtsi and mandates a very particular ordering of power domains in the
-> dtsi, which bears no relationship to a real hardware dependency.
-> 
-> As a first step to rationalising the VFE power-domain code and breaking
-> the magic indexing in dtsi use per-VFE pointers to genpd linkages.
-> 
-> The top-level index in msm_vfe_subdev_init is still used to attain the
-> initial so no functional or logical change arises from this change.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Trivially convert the three tegra-video drivers from always returning
+zero in the remove callback to the void returning variant.
 
-Konrad
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+---
+ drivers/staging/media/tegra-video/csi.c | 6 ++----
+ drivers/staging/media/tegra-video/vi.c  | 6 ++----
+ drivers/staging/media/tegra-video/vip.c | 6 ++----
+ 3 files changed, 6 insertions(+), 12 deletions(-)
 
-> +	if (vfe->id >= camss->res->vfe_num)
->   		return 0;
-P.S. this seems better suited for some warning, I think
+diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
+index 9aa72863c213..0d94115b9bbb 100644
+--- a/drivers/staging/media/tegra-video/csi.c
++++ b/drivers/staging/media/tegra-video/csi.c
+@@ -818,15 +818,13 @@ static int tegra_csi_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int tegra_csi_remove(struct platform_device *pdev)
++static void tegra_csi_remove(struct platform_device *pdev)
+ {
+ 	struct tegra_csi *csi = platform_get_drvdata(pdev);
+ 
+ 	host1x_client_unregister(&csi->client);
+ 
+ 	pm_runtime_disable(&pdev->dev);
+-
+-	return 0;
+ }
+ 
+ #if defined(CONFIG_ARCH_TEGRA_210_SOC)
+@@ -852,5 +850,5 @@ struct platform_driver tegra_csi_driver = {
+ 		.pm		= &tegra_csi_pm_ops,
+ 	},
+ 	.probe			= tegra_csi_probe,
+-	.remove			= tegra_csi_remove,
++	.remove_new		= tegra_csi_remove,
+ };
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 94171e62dee9..61169ff13ec5 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -1944,7 +1944,7 @@ static int tegra_vi_probe(struct platform_device *pdev)
+ 	return ret;
+ }
+ 
+-static int tegra_vi_remove(struct platform_device *pdev)
++static void tegra_vi_remove(struct platform_device *pdev)
+ {
+ 	struct tegra_vi *vi = platform_get_drvdata(pdev);
+ 
+@@ -1953,8 +1953,6 @@ static int tegra_vi_remove(struct platform_device *pdev)
+ 	if (vi->ops->vi_enable)
+ 		vi->ops->vi_enable(vi, false);
+ 	pm_runtime_disable(&pdev->dev);
+-
+-	return 0;
+ }
+ 
+ static const struct of_device_id tegra_vi_of_id_table[] = {
+@@ -1979,5 +1977,5 @@ struct platform_driver tegra_vi_driver = {
+ 		.pm = &tegra_vi_pm_ops,
+ 	},
+ 	.probe = tegra_vi_probe,
+-	.remove = tegra_vi_remove,
++	.remove_new = tegra_vi_remove,
+ };
+diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/media/tegra-video/vip.c
+index e95cc7bb190e..8504b9ea9cea 100644
+--- a/drivers/staging/media/tegra-video/vip.c
++++ b/drivers/staging/media/tegra-video/vip.c
+@@ -254,15 +254,13 @@ static int tegra_vip_probe(struct platform_device *pdev)
+ 	return 0;
+ }
+ 
+-static int tegra_vip_remove(struct platform_device *pdev)
++static void tegra_vip_remove(struct platform_device *pdev)
+ {
+ 	struct tegra_vip *vip = platform_get_drvdata(pdev);
+ 
+ 	host1x_client_unregister(&vip->client);
+ 
+ 	pm_runtime_disable(&pdev->dev);
+-
+-	return 0;
+ }
+ 
+ #if defined(CONFIG_ARCH_TEGRA_2x_SOC)
+@@ -283,5 +281,5 @@ struct platform_driver tegra_vip_driver = {
+ 		.of_match_table	= tegra_vip_of_id_table,
+ 	},
+ 	.probe			= tegra_vip_probe,
+-	.remove			= tegra_vip_remove,
++	.remove_new		= tegra_vip_remove,
+ };
+
+base-commit: 2ef7141596eed0b4b45ef18b3626f428a6b0a822
+-- 
+2.42.0
+
