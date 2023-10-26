@@ -2,96 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6F72E7D7DC6
-	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 09:44:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CE74E7D7E14
+	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 10:07:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233175AbjJZHoC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Oct 2023 03:44:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57512 "EHLO
+        id S231251AbjJZIHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Oct 2023 04:07:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229785AbjJZHoB (ORCPT
+        with ESMTP id S229705AbjJZIHp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Oct 2023 03:44:01 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 49DDEC0
-        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 00:43:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698306239; x=1729842239;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=q9PDmok1DTlPeVRuEURcaQ3HtoFxdYcif90UAieYvEo=;
-  b=RxKfbmUN9DJYKQCpWQRvgWheUvs1iZcYULd1w5zsFfe1khFGBR6ROWVO
-   HdHa1Ly4Wm9b27Q2ubNCYry5jcrR/ZgLBMyTWZFVgKvhGqFHD1VZB/JHW
-   bp+2SnkRHbd3e0RvLhcEEXSBsdn1b6weWJ7r67aeDT77c3XnGQ6sy+5Zc
-   RSzaSluukoSWsNiYvVkFykg5F0UVFimmSnwu7viqKgv3RJzJZTYA+zYQq
-   xZKuMOzf7PmQzWGKPPenKSPJfEumanqTCxptMJAteQQ+Hc2jknz2wknTj
-   uWmQSfOKzIMYSlx03w3PPRM87KAEwIfnEnwNaS+UIbgLi91fSEmZy3hAV
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="390340610"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="390340610"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 00:43:58 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="788393466"
-X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
-   d="scan'208";a="788393466"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 00:43:56 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 14E6111FAF5;
-        Thu, 26 Oct 2023 10:43:54 +0300 (EEST)
-Date:   Thu, 26 Oct 2023 07:43:54 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com,
-        Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v4 8/9] media: v4l: subdev: Return NULL from pad access
- functions on error
-Message-ID: <ZToYutbrmGgF1njH@kekkonen.localdomain>
-References: <20231026070329.948847-1-sakari.ailus@linux.intel.com>
- <20231026070329.948847-9-sakari.ailus@linux.intel.com>
- <6665510a-76b3-4ac8-bd18-7cf6e675362b@xs4all.nl>
+        Thu, 26 Oct 2023 04:07:45 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8870AC;
+        Thu, 26 Oct 2023 01:07:43 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3C32C433C8;
+        Thu, 26 Oct 2023 08:07:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698307663;
+        bh=MRgZsiUVmIfZKqCwNfNZ0a7KfMg57CWlHCRug7dRYiU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=h4BZUaWNpPw0JlhG/Aqlkb6iJ3x6gBmrkWVdvfMKm1Vcpsx5D2OFmlCecVVOI60pS
+         MPEMTlRIOMTF+mBiaE1Kkjwm6SPOPTJzk7p18x/eSJOtErkRe986WGLnOOiT7j42No
+         J2WvuZscQ3o9v89HAWZpvH+SRgCprj9P55k1XTNCKICa39ZENF+0lFSwT3IISmBi7H
+         pkL87DzM9AOHRtDt5HgVxkXv74Q2K8zYYnRCc107VAY40bm/myYUM3IqHF/9GfYBtZ
+         RJ0YUxhTJdrGN8uP0MC3FE+Rt/4/7h6yprElSn+8KGiRYr2g/JfZ3LHj7wusiScWrG
+         zEUttswk1AJJg==
+Date:   Thu, 26 Oct 2023 10:07:40 +0200
+From:   Maxime Ripard <mripard@kernel.org>
+To:     Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Cc:     Keith Zhao <keith.zhao@starfivetech.com>,
+        dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Emil Renner Berthing <kernel@esmil.dk>,
+        Shengyang Chen <shengyang.chen@starfivetech.com>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Jagan Teki <jagan@edgeble.ai>,
+        Rob Herring <robh+dt@kernel.org>,
+        Chris Morgan <macromorgan@hotmail.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Changhuang Liang <changhuang.liang@starfivetech.com>,
+        Jack Zhu <jack.zhu@starfivetech.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Shawn Guo <shawnguo@kernel.org>, christian.koenig@amd.com
+Subject: Re: [PATCH v2 6/6] drm/vs: Add hdmi driver
+Message-ID: <3twc4zoohon7uujypgjtlnryfmebx4osvpykagnwr5nemmqz2w@w4vw55uswebh>
+References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
+ <20231025103957.3776-7-keith.zhao@starfivetech.com>
+ <70805ff2-56a8-45e1-a31c-ffb0e84749e5@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="l2pgpleihh7nbgyu"
 Content-Disposition: inline
-In-Reply-To: <6665510a-76b3-4ac8-bd18-7cf6e675362b@xs4all.nl>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <70805ff2-56a8-45e1-a31c-ffb0e84749e5@linaro.org>
+X-Spam-Status: No, score=-4.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
 
-On Thu, Oct 26, 2023 at 09:35:55AM +0200, Hans Verkuil wrote:
-> On 26/10/2023 09:03, Sakari Ailus wrote:
-> > Return NULL from sub-device pad state access functions
-> > (v4l2_subdev_state_get_{format,crop,compose}) for non-existent pads. While
-> > this behaviour differs from older set of pad state information access
-> > functions, we've had a WARN_ON() there for a long time and callers also do
-> > validate the pad index nowadays. Therefore problems are not expected.
-> 
-> Huh? Patch 2 adds the WARN_ON, and it is removed in patch 8 again?
-> 
-> I'm really confused.
+--l2pgpleihh7nbgyu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Patch two makes the generic subdev state information access functions do
-exactly what the subdev state pad-specific information access functions
-did. As we're merging two classes of users, doing one thing at a time is
-prudent.
+On Thu, Oct 26, 2023 at 01:23:53AM +0300, Dmitry Baryshkov wrote:
+> > +static int starfive_hdmi_register(struct drm_device *drm, struct starf=
+ive_hdmi *hdmi)
+> > +{
+> > +	struct drm_encoder *encoder =3D &hdmi->encoder;
+> > +	struct device *dev =3D hdmi->dev;
+> > +
+> > +	encoder->possible_crtcs =3D drm_of_find_possible_crtcs(drm, dev->of_n=
+ode);
+> > +
+> > +	/*
+> > +	 * If we failed to find the CRTC(s) which this encoder is
+> > +	 * supposed to be connected to, it's because the CRTC has
+> > +	 * not been registered yet.  Defer probing, and hope that
+> > +	 * the required CRTC is added later.
+> > +	 */
+> > +	if (encoder->possible_crtcs =3D=3D 0)
+> > +		return -EPROBE_DEFER;
+> > +
+> > +	drm_encoder_helper_add(encoder, &starfive_hdmi_encoder_helper_funcs);
+> > +
+> > +	hdmi->connector.polled =3D DRM_CONNECTOR_POLL_HPD;
+> > +
+> > +	drm_connector_helper_add(&hdmi->connector,
+> > +				 &starfive_hdmi_connector_helper_funcs);
+> > +	drmm_connector_init(drm, &hdmi->connector,
+> > +			    &starfive_hdmi_connector_funcs,
+> > +			    DRM_MODE_CONNECTOR_HDMIA,
+>=20
+> On an embedded device one can not be so sure. There can be MHL or HDMI
+> Alternative Mode. Usually we use drm_bridge here and drm_bridge_connector.
 
-This patch aligns the behaviour of the single set of subdev state access
-functions. Should there a problem there, we can just revert this one.
+On an HDMI driver, it's far from being a requirement, especially given
+the limitations bridges have.
 
--- 
-Regards,
+Maxime
 
-Sakari Ailus
+--l2pgpleihh7nbgyu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZToeTAAKCRDj7w1vZxhR
+xQohAPsE2kzpXlr9RqQPDtJRNj8AtNNrqzpApALpLI553biaLgD/RpyXbzEyRIo3
+cDu23rmpQ4eOQdldwjqobLYIqhayago=
+=B4HD
+-----END PGP SIGNATURE-----
+
+--l2pgpleihh7nbgyu--
