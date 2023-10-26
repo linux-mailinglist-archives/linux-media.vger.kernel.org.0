@@ -2,119 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 92A917D8004
-	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 11:51:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B2C87D8035
+	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 12:03:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233221AbjJZJvl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Oct 2023 05:51:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43284 "EHLO
+        id S229639AbjJZKD4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Oct 2023 06:03:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55762 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233186AbjJZJvk (ORCPT
+        with ESMTP id S234854AbjJZKDz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Oct 2023 05:51:40 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B1C118F
-        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 02:51:38 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8E9A075B;
-        Thu, 26 Oct 2023 11:51:23 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698313883;
-        bh=LwNKLKwuxJTo8lmtInWm5+ExNP2WQkQyBzRzKYq7y84=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=IMLFTqTiEuPCoRJ5V7ZuVHT3zAnJx9O9pUIg+MZz9tguTrxY1wBV0HXg26NJeCegx
-         i1rj4pUTCRe598taFh3GDnHaPQA1NPitm6JZGd1ix84W7r9v4e+vdSpvaJpnykNJPE
-         4igr8WohKyPLg00tJKGEQacJA20K0fXEZufOBhBY=
-Date:   Thu, 26 Oct 2023 12:51:42 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com,
-        Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v4 3/9] media: v4l: subdev: Rename sub-device state
- information access functions
-Message-ID: <20231026095142.GB1512@pendragon.ideasonboard.com>
-References: <20231026070329.948847-1-sakari.ailus@linux.intel.com>
- <20231026070329.948847-4-sakari.ailus@linux.intel.com>
- <58295947-a749-4752-80c6-00c353017dce@xs4all.nl>
- <ZToiYNcD1D9cOHPG@kekkonen.localdomain>
+        Thu, 26 Oct 2023 06:03:55 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14F7E93
+        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 03:03:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698314633; x=1729850633;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=aNHz4mUGJ6wLsj9ob8nJ/PHe2/GfDxz1fn509pcWL9U=;
+  b=a7NPOuppMvNgu8O/h3jOkZXltLI/aDrijDCx29oCVFCCMRiZT6bWMvg4
+   RQt9XAjGCJmzUm/5TIFAbyGH9Ny9Kzxrjnq6KB85cZN2H2238xCjGWiFV
+   TQFL+v8PHttyrsYjbDQsPiDqljJcokwlVRi2xdb+FSlmsLXOlfeyqbnJq
+   vYigLe5LRYoj3QLnXiDM2cheDvuWkhiwmT1fwPT3k1FZ44CRipDyByrAr
+   FpJmkbB+onkOUuWAKsDuUIWuvCnwkOY8WOCJIHaKHrEXoBb3BIud+sIzJ
+   LAbWHJjS4710LSvq1G4W56nmi8BaKdIYcdjgDWfvDMCyqCpT2KrL082cc
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="387331976"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="387331976"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2023 03:03:52 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="794142541"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="794142541"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.146]) ([10.238.232.146])
+  by orsmga001.jf.intel.com with ESMTP; 26 Oct 2023 03:03:50 -0700
+Subject: Re: [PATCH 1/6] media: ivsc: csi: Don't parse remote endpoints
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+Cc:     wentong.wu@intel.com, bingbu.cao@intel.com
+References: <20231026081346.958238-1-sakari.ailus@linux.intel.com>
+ <20231026081346.958238-2-sakari.ailus@linux.intel.com>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <2d72dd4c-c529-6838-40d6-297f2c0b124b@linux.intel.com>
+Date:   Thu, 26 Oct 2023 17:59:14 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZToiYNcD1D9cOHPG@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231026081346.958238-2-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 26, 2023 at 08:25:04AM +0000, Sakari Ailus wrote:
-> On Thu, Oct 26, 2023 at 09:26:40AM +0200, Hans Verkuil wrote:
-> > On 26/10/2023 09:03, Sakari Ailus wrote:
-> > > Rename the sub-devices state information access functions, removing
-> > > "_stream" from them. This makes them shorter and so more convenient to
-> > > use. No other sets of functions will be needed to access this information.
-> > > 
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > > ---
-> > >  drivers/media/i2c/ds90ub913.c                 |  3 +--
-> > >  drivers/media/i2c/ds90ub953.c                 |  3 +--
-> > >  drivers/media/i2c/ds90ub960.c                 | 12 ++++-----
-> > >  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c | 10 +++----
-> > >  drivers/media/v4l2-core/v4l2-subdev.c         | 27 +++++++++----------
-> > >  include/media/v4l2-subdev.h                   | 19 +++++++------
-> > >  6 files changed, 34 insertions(+), 40 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/i2c/ds90ub913.c b/drivers/media/i2c/ds90ub913.c
-> > > index 8e9ebed09f64..8bb6be956780 100644
-> > > --- a/drivers/media/i2c/ds90ub913.c
-> > > +++ b/drivers/media/i2c/ds90ub913.c
-> > > @@ -424,8 +424,7 @@ static int ub913_set_fmt(struct v4l2_subdev *sd,
-> > >  	}
-> > >  
-> > >  	/* Set sink format */
-> > > -	fmt = v4l2_subdev_state_get_stream_format(state, format->pad,
-> > > -						  format->stream);
-> > > +	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
-> > >  	if (!fmt)
-> > >  		return -EINVAL;
-> > 
-> > If we want shorter names, how about replacing _get_ with _g_? And of course
-> > _set_ with _s_. I would prefer that, but it's up to you.
-> 
-> These functions doesn't actually "get" something, but return a pointer to
-> the data. There's thus no corresponding set. I think I'll keep it as-is for
-> now but I think "_get" could as well be removed here.
-> 
-> > 
-> > Since we are changing function names here, I wonder if this isn't a good
-> > opportunity to straighten out some more confusing names.
-> > 
-> > I noticed that in v4l2-subdev.h "fmt" typically refers to v4l2_subdev_format,
-> > while "format" tends to refer to v4l2_mbus_framefmt.
-> > 
-> > I find this really confusing, especially if you do not use these functions
-> > regularly.
-> > 
-> > My personal preference would be to use "format" for things relating to
-> > v4l2_subdev_format and "ffmt" for v4l2_mbus_framefmt. Or possibly just "fmt"
-> > if people don't like "ffmt". It would signal the type of format a lot better.
-> 
-> I'll use ffmt for the name of the function.
+On 10/26/23 4:13 PM, Sakari Ailus wrote:
+> The driver parsed, besides its own endpoint on the sink, the remote
+> upstream endpoint that most likely is a sensor, and took the number of
+> lanes from that. Instead obtain the number of lanes from the local
+> endpoint.
 
-I would avoid this, it will make things even more confusing by adding
-yet another naming scheme. If we want to clean things up (and I think we
-should), then it should be done on top, and span the entire subsystem.
+Yes, it's the work of ipu-bridge or device table. ;)
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Tested-by: Wentong Wu <wentong.wu@intel.com>
+> ---
+>  drivers/media/pci/intel/ivsc/mei_csi.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/pci/intel/ivsc/mei_csi.c b/drivers/media/pci/intel/ivsc/mei_csi.c
+> index b2b9d1669a82..b04847e30213 100644
+> --- a/drivers/media/pci/intel/ivsc/mei_csi.c
+> +++ b/drivers/media/pci/intel/ivsc/mei_csi.c
+> @@ -662,6 +662,8 @@ static int mei_csi_parse_firmware(struct mei_csi *csi)
+>  		return -EINVAL;
+>  	}
+>  
+> +	csi->nr_of_lanes = v4l2_ep.bus.mipi_csi2.num_data_lanes;
+> +
+>  	fwnode = fwnode_graph_get_remote_endpoint(ep);
+>  	fwnode_handle_put(ep);
+>  
+> @@ -675,18 +677,12 @@ static int mei_csi_parse_firmware(struct mei_csi *csi)
+>  		return PTR_ERR(asd);
+>  	}
+>  
+> -	ret = v4l2_fwnode_endpoint_alloc_parse(fwnode, &v4l2_ep);
+>  	fwnode_handle_put(fwnode);
+> -	if (ret)
+> -		return ret;
+> -	csi->nr_of_lanes = v4l2_ep.bus.mipi_csi2.num_data_lanes;
+>  
+>  	ret = v4l2_async_nf_register(&csi->notifier);
+>  	if (ret)
+>  		v4l2_async_nf_cleanup(&csi->notifier);
+>  
+> -	v4l2_fwnode_endpoint_free(&v4l2_ep);
+> -
+>  	return ret;
+>  }
+>  
+>
 
-> > Anyway, I'm just throwing this out here since I think it is confusing.
+Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
 
 -- 
-Regards,
-
-Laurent Pinchart
+Best regards,
+Bingbu Cao
