@@ -2,248 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 109957D7BE3
-	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 06:49:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4B5E7D7C33
+	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 07:27:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344152AbjJZEtb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Oct 2023 00:49:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56844 "EHLO
+        id S233628AbjJZF13 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Oct 2023 01:27:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55922 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233186AbjJZEta (ORCPT
+        with ESMTP id S233277AbjJZF11 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Oct 2023 00:49:30 -0400
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92225186;
-        Wed, 25 Oct 2023 21:49:27 -0700 (PDT)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 39Q3QZAE025980;
-        Thu, 26 Oct 2023 04:48:58 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=hn7mI5XFOG6K7jwuqiR0Ffa6KjespaUDl8gFI+U8m5A=;
- b=les9P+WuPjyeIKUADLKxK3l/09OfKF3PEzo2QZxA0L2uAF9BQU4LeCIG6sYGbeJ06baJ
- 71rJQytzxd+JqConSvP66cXNEspbXBYxPpcLmPxbKFwVTmA5GgYY1sU1Q/0TgezZTzay
- pQcpoMhXd2qN/KilxGLNwjqxRBPv/Se6/tKqxPFLW/nONAlfx+XhcA8uzjVjSTBi0m+y
- RmDwdaESTf0A2w5Eqok6w55Rq2bt3UWy7bTIuH3z99aWMVfDZlbgdcY3NusFLtTYLSr+
- +XLfRfDdK83n7765TGPT4EDXo66Iu2PLumiFJvBiFxyzhPvdA4z9hwb7QlYUh97+LjYI tw== 
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3tyfm9g636-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Oct 2023 04:48:57 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-        by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 39Q4muAc014492
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Thu, 26 Oct 2023 04:48:56 GMT
-Received: from [10.216.34.174] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Wed, 25 Oct
- 2023 21:48:49 -0700
-Message-ID: <ac44de13-f4e0-4bae-b06b-af90fadaa96c@quicinc.com>
-Date:   Thu, 26 Oct 2023 10:18:27 +0530
+        Thu, 26 Oct 2023 01:27:27 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 372C6DE
+        for <linux-media@vger.kernel.org>; Wed, 25 Oct 2023 22:27:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698298046; x=1729834046;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9s9++6D5HSYjpIVZC+kyLE4T94fSdbYYE9aJcIJNdqo=;
+  b=VqLw2CXJP3WH4HjrhMSRDcCEDjW/LustG65pcEGJP2UTlJF44prkklzy
+   9XOCH2yNZ6y3i1sT0s3JHyf30jeFfmpnEbDp+d5rzd3ku0tfI6z8MUxUi
+   By/9ETWwHjv0GegxIB/p/hlHiIPQUu+saGhFKc7Vc5ksL6PVKDRLSg2Wy
+   vrILokRAF+/V2CytgsBd0fnLj1jnn3/iwLim+rlUcJ0t1nH57PkMH/9ri
+   CHlwDpm9fXoOy416lC6thDCjdTSIZK57XB8JZUrIY8wZPA1SF3oc488EQ
+   56flelhZ1IOGmkTfhhTAU4aNQyu/Gd4vSCjST5iiI+yZVmd5+ZQsSwlrN
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="384669058"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="384669058"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 22:27:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10874"; a="708940674"
+X-IronPort-AV: E=Sophos;i="6.03,253,1694761200"; 
+   d="scan'208";a="708940674"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2023 22:27:21 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 355BA11F89D;
+        Thu, 26 Oct 2023 08:27:19 +0300 (EEST)
+Date:   Thu, 26 Oct 2023 05:27:19 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
+        laurent.pinchart@ideasonboard.com,
+        andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
+        ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
+        claus.stovgaard@gmail.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
+        tian.shu.qiu@intel.com, hongju.wang@intel.com
+Subject: Re: [PATCH v2 15/15] Documentation: add documentation of Intel IPU6
+ driver and hardware overview
+Message-ID: <ZTn4t_ppoUN8hgqt@kekkonen.localdomain>
+References: <20231024112924.3934228-1-bingbu.cao@intel.com>
+ <20231024112924.3934228-16-bingbu.cao@intel.com>
+ <ZTkFXRwqyU8J8JDT@kekkonen.localdomain>
+ <ec426b3d-e13f-8a9e-c207-ae189de1101c@linux.intel.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/9] dma-buf: heaps: Initialise MediaTek secure heap
-To:     =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "jstultz@google.com" <jstultz@google.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
-        <Jianjiao.Zeng@mediatek.com>,
-        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
-        <kuohong.wang@mediatek.com>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "tjmercier@google.com" <tjmercier@google.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-5-yong.wu@mediatek.com>
- <5d806772-a2b4-4304-be45-7c2ed2930fcc@quicinc.com>
- <c8bf01a083182fdc83742de8daad8c5ce8d56d5b.camel@mediatek.com>
-Content-Language: en-US
-From:   Vijayanand Jitta <quic_vjitta@quicinc.com>
-In-Reply-To: <c8bf01a083182fdc83742de8daad8c5ce8d56d5b.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: pGxxlDuuSPDcqHECPGkRKbpmHIVzrNfa
-X-Proofpoint-GUID: pGxxlDuuSPDcqHECPGkRKbpmHIVzrNfa
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.980,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-26_01,2023-10-25_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- malwarescore=0 bulkscore=0 priorityscore=1501 clxscore=1015 phishscore=0
- mlxlogscore=999 adultscore=0 suspectscore=0 mlxscore=0 spamscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2310170001 definitions=main-2310260038
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ec426b3d-e13f-8a9e-c207-ae189de1101c@linux.intel.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Bingbu,
 
-
-On 10/20/2023 3:29 PM, Yong Wu (吴勇) wrote:
-> On Thu, 2023-10-19 at 10:15 +0530, Vijayanand Jitta wrote:
->>  	 
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>  
->>
->> On 9/11/2023 8:00 AM, Yong Wu wrote:
->>> Initialise a mtk_svp heap. Currently just add a null heap, Prepare
->> for
->>> the later patches.
->>>
->>> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
->>> ---
->>>  drivers/dma-buf/heaps/Kconfig           |  8 ++
->>>  drivers/dma-buf/heaps/Makefile          |  1 +
->>>  drivers/dma-buf/heaps/mtk_secure_heap.c | 99
->> +++++++++++++++++++++++++
->>>  3 files changed, 108 insertions(+)
->>>  create mode 100644 drivers/dma-buf/heaps/mtk_secure_heap.c
->>>
->>> diff --git a/drivers/dma-buf/heaps/Kconfig b/drivers/dma-
->> buf/heaps/Kconfig
->>> index a5eef06c4226..729c0cf3eb7c 100644
->>> --- a/drivers/dma-buf/heaps/Kconfig
->>> +++ b/drivers/dma-buf/heaps/Kconfig
->>> @@ -12,3 +12,11 @@ config DMABUF_HEAPS_CMA
->>>    Choose this option to enable dma-buf CMA heap. This heap is
->> backed
->>>    by the Contiguous Memory Allocator (CMA). If your system has
->> these
->>>    regions, you should say Y here.
->>> +
->>> +config DMABUF_HEAPS_MTK_SECURE
->>> +bool "DMA-BUF MediaTek Secure Heap"
->>> +depends on DMABUF_HEAPS && TEE
->>> +help
->>> +  Choose this option to enable dma-buf MediaTek secure heap for
->> Secure
->>> +  Video Path. This heap is backed by TEE client interfaces. If in
->>> +  doubt, say N.
->>> diff --git a/drivers/dma-buf/heaps/Makefile b/drivers/dma-
->> buf/heaps/Makefile
->>> index 974467791032..df559dbe33fe 100644
->>> --- a/drivers/dma-buf/heaps/Makefile
->>> +++ b/drivers/dma-buf/heaps/Makefile
->>> @@ -1,3 +1,4 @@
->>>  # SPDX-License-Identifier: GPL-2.0
->>>  obj-$(CONFIG_DMABUF_HEAPS_SYSTEM)+= system_heap.o
->>>  obj-$(CONFIG_DMABUF_HEAPS_CMA)+= cma_heap.o
->>> +obj-$(CONFIG_DMABUF_HEAPS_MTK_SECURE)+= mtk_secure_heap.o
->>> diff --git a/drivers/dma-buf/heaps/mtk_secure_heap.c b/drivers/dma-
->> buf/heaps/mtk_secure_heap.c
->>> new file mode 100644
->>> index 000000000000..bbf1c8dce23e
->>> --- /dev/null
->>> +++ b/drivers/dma-buf/heaps/mtk_secure_heap.c
->>> @@ -0,0 +1,99 @@
->>> +// SPDX-License-Identifier: GPL-2.0
->>> +/*
->>> + * DMABUF mtk_secure_heap exporter
->>> + *
->>> + * Copyright (C) 2023 MediaTek Inc.
->>> + */
->>> +
->>> +#include <linux/dma-buf.h>
->>> +#include <linux/dma-heap.h>
->>> +#include <linux/err.h>
->>> +#include <linux/module.h>
->>> +#include <linux/slab.h>
->>> +
->>> +/*
->>> + * MediaTek secure (chunk) memory type
->>> + *
->>> + * @KREE_MEM_SEC_CM_TZ: static chunk memory carved out for
->> trustzone.
->>> + */
->>> +enum kree_mem_type {
->>> +KREE_MEM_SEC_CM_TZ = 1,
->>> +};
->>> +
->>> +struct mtk_secure_heap_buffer {
->>> +struct dma_heap*heap;
->>> +size_tsize;
->>> +};
->>> +
->>> +struct mtk_secure_heap {
->>> +const char*name;
->>> +const enum kree_mem_type mem_type;
->>> +};
->>> +
->>> +static struct dma_buf *
->>> +mtk_sec_heap_allocate(struct dma_heap *heap, size_t size,
->>> +      unsigned long fd_flags, unsigned long heap_flags)
->>> +{
->>> +struct mtk_secure_heap_buffer *sec_buf;
->>> +DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
->>> +struct dma_buf *dmabuf;
->>> +int ret;
->>> +
->>> +sec_buf = kzalloc(sizeof(*sec_buf), GFP_KERNEL);
->>
->> As we know, kzalloc can only allocate 4MB at max. So, secure heap has
->> this limitation.
->> can we have a way to allocate more memory in secure heap ? maybe
->> similar to how system heap does?
+On Thu, Oct 26, 2023 at 11:38:14AM +0800, Bingbu Cao wrote:
+> Sakari,
 > 
-> This is just the size of a internal structure. I guess you mean the
-> secure memory size here. Regarding secure memory allocating flow, our
-> flow may be different with yours.
+> Thanks for the review.
 > 
-> Let me explain our flow, we have two secure buffer types(heaps).
-> a) mtk_svp
-> b) mtk_svp_cma which requires the cma binding.
+> On 10/25/23 8:09 PM, Sakari Ailus wrote:
+> > Hi Bingbu,
+> > 
+> > Thanks for the patch. It's a nice piece of documentation for the most
+> > complex CSI-2 receiver driver. :-)
+> > 
+> > On Tue, Oct 24, 2023 at 07:29:24PM +0800, bingbu.cao@intel.com wrote:
+> >> From: Bingbu Cao <bingbu.cao@intel.com>
+> >>
+> >> Add a documentation for an overview of IPU6 hardware and describe the main
+> >> the components of IPU6 driver.
+> >>
+> >> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> >> ---
+> >>  .../driver-api/media/drivers/index.rst        |   1 +
+> >>  .../driver-api/media/drivers/ipu6.rst         | 205 ++++++++++++++++++
+> >>  2 files changed, 206 insertions(+)
+> >>  create mode 100644 Documentation/driver-api/media/drivers/ipu6.rst
+> >>
+> >> diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
+> >> index c4123a16b5f9..7f6f3dcd5c90 100644
+> >> --- a/Documentation/driver-api/media/drivers/index.rst
+> >> +++ b/Documentation/driver-api/media/drivers/index.rst
+> >> @@ -26,6 +26,7 @@ Video4Linux (V4L) drivers
+> >>  	vimc-devel
+> >>  	zoran
+> >>  	ccs/ccs
+> >> +	ipu6
+> >>  
+> >>  
+> >>  Digital TV drivers
+> >> diff --git a/Documentation/driver-api/media/drivers/ipu6.rst b/Documentation/driver-api/media/drivers/ipu6.rst
+> >> new file mode 100644
+> >> index 000000000000..2685e4a0d7ba
+> >> --- /dev/null
+> >> +++ b/Documentation/driver-api/media/drivers/ipu6.rst
+> >> @@ -0,0 +1,205 @@
+> >> +.. SPDX-License-Identifier: GPL-2.0
+> >> +
+> >> +==================
+> >> +Intel IPU6 Driver
+> >> +==================
+> >> +
+> >> +Author: Bingbu Cao <bingbu.cao@intel.com>
+> >> +
+> >> +Overview
+> >> +=========
+> >> +
+> >> +Intel IPU6 is the sixth generation of Intel Image Processing Unit used in some
+> >> +Intel Chipsets such as Tiger Lake, Jasper Lake, Alder Lake, Raptor Lake and
+> >> +Meteor Lake. IPU6 consists of two major systems - Input System (IS) and
+> > 
+> > I'd use a semicolon:				  ^
 > 
-> The memory management of both is inside the TEE. We only need to tell
-> the TEE which type and size of buffer we want, and then the TEE will
-> perform and return the memory handle to the kernel. The
-> kzalloc/alloc_pages is for the normal buffers.
-> 
-> Regarding the CMA buffer, we only call cma_alloc once, and its
-> management is also within the TEE.
-> 
+> semicolon or colon? :)
 
-Thanks for the details.
+A colon, yes, indeed.
 
-I see for mvp_svp, allocation is also specific to TEE, as TEE takes
-care of allocation as well. 
+-- 
+Regards,
 
-I was thinking if allocation path can also be made generic ? without having
-dependency on TEE.
-For eg : A case where we want to allocate from kernel and secure that memory,
-the current secure heap design can't be used. 
-
-Also i suppose TEE allocates contiguous memory for mtk_svp ? or does it support
-scattered memory ?
-
->>
->> Thanks,
->> Vijay
->>
+Sakari Ailus
