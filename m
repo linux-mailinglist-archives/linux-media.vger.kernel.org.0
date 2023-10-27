@@ -2,45 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C6A237D9352
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:16:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1CE267D9353
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:17:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345573AbjJ0JQ4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 05:16:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55430 "EHLO
+        id S235048AbjJ0JQ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 05:16:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345561AbjJ0JQz (ORCPT
+        with ESMTP id S1345570AbjJ0JQ4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 05:16:55 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE306C0
-        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:16:52 -0700 (PDT)
+        Fri, 27 Oct 2023 05:16:56 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C538C0
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:16:54 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B5F1BBB;
-        Fri, 27 Oct 2023 11:16:38 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B723B1B3C;
+        Fri, 27 Oct 2023 11:16:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698398198;
-        bh=XNzEXg+sXmdXBC8/6Z1GSOgk6k7ySRSGX3ivdINsXZg=;
+        s=mail; t=1698398199;
+        bh=e+QdVkhFUp7mQJDdJFWm72JJ5LiXEw/UOLs1TAvBoic=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=LLA1mkV5MSEgzuXHXu+yqRcxUB72cLGEQoOGSK70AhJU4oZDAjqQwqTUeNMNnuFtr
-         1/P0lvhXouX0qZnnX5UoV8nxDvkv+YExGr7eH4W3yhyWzUndTwVa/VOOwizstxcaCu
-         Vs9JJJO8QKNKtlwep1+Jqt2FRo8QgP6AHhgMQUyo=
+        b=HiBZhdH7WOXzVhzPHYDPD8JBFBFuYqGC9iQDaoxeji0Wfxvq3mWOvRnh7NuKtCdtI
+         FqQVTIXL8g49bY4U2ShDdp32Dx1VfcjG9oXQ1UnXrObA4bxfq8e+xhEUQsemt72/aX
+         2ox8tX9pmSgIVRx0pJtLMbu1M7kbrm5v+NOtk+84=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Hans de Goede <hdegoede@redhat.com>
-Subject: [PATCH v2 6/9] media: atomisp: Use accessors for pad config 'try_*' fields
-Date:   Fri, 27 Oct 2023 12:16:46 +0300
-Message-ID: <20231027091649.10553-7-laurent.pinchart@ideasonboard.com>
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Luca Ceresoli <luca.ceresoli@bootlin.com>
+Subject: [PATCH v2 7/9] media: tegra-video: Use accessors for pad config 'try_*' fields
+Date:   Fri, 27 Oct 2023 12:16:47 +0300
+Message-ID: <20231027091649.10553-8-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231027091649.10553-1-laurent.pinchart@ideasonboard.com>
 References: <20231027091649.10553-1-laurent.pinchart@ideasonboard.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
@@ -49,69 +53,59 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 The 'try_*' fields of the v4l2_subdev_pad_config structure are meant to
 be accessed through helper functions. Replace direct access with usage
-of the v4l2_subdev_get_pad_format(), v4l2_subdev_get_pad_crop() and
-v4l2_subdev_get_pad_compose() helpers.
+of the v4l2_subdev_state_get_format(), v4l2_subdev_state_get_crop() and
+v4l2_subdev_state_get_compose() helpers.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 ---
- drivers/staging/media/atomisp/i2c/atomisp-gc2235.c  | 2 +-
- drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c | 2 +-
- drivers/staging/media/atomisp/i2c/atomisp-ov2722.c  | 2 +-
- drivers/staging/media/atomisp/pci/atomisp_tpg.c     | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/media/tegra-video/vi.c | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-index 9fa390fbc5f3..5e438c5fd4a9 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc2235.c
-@@ -561,7 +561,7 @@ static int gc2235_set_fmt(struct v4l2_subdev *sd,
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 94171e62dee9..bc12a564e54f 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -439,6 +439,7 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 		.target = V4L2_SEL_TGT_CROP_BOUNDS,
+ 	};
++	struct v4l2_rect *try_crop;
+ 	int ret;
  
- 	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--		sd_state->pads->try_fmt = *fmt;
-+		*v4l2_subdev_get_pad_format(sd, sd_state, 0) = *fmt;
- 		mutex_unlock(&dev->input_lock);
- 		return 0;
+ 	subdev = tegra_channel_get_remote_source_subdev(chan);
+@@ -473,24 +474,25 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+ 	 * Attempt to obtain the format size from subdev.
+ 	 * If not available, try to get crop boundary from subdev.
+ 	 */
++	try_crop = v4l2_subdev_state_get_crop(sd_state, 0);
+ 	fse.code = fmtinfo->code;
+ 	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, sd_state, &fse);
+ 	if (ret) {
+ 		if (!v4l2_subdev_has_op(subdev, pad, get_selection)) {
+-			sd_state->pads->try_crop.width = 0;
+-			sd_state->pads->try_crop.height = 0;
++			try_crop->width = 0;
++			try_crop->height = 0;
+ 		} else {
+ 			ret = v4l2_subdev_call(subdev, pad, get_selection,
+ 					       NULL, &sdsel);
+ 			if (ret)
+ 				return -EINVAL;
+ 
+-			sd_state->pads->try_crop.width = sdsel.r.width;
+-			sd_state->pads->try_crop.height = sdsel.r.height;
++			try_crop->width = sdsel.r.width;
++			try_crop->height = sdsel.r.height;
+ 		}
+ 	} else {
+-		sd_state->pads->try_crop.width = fse.max_width;
+-		sd_state->pads->try_crop.height = fse.max_height;
++		try_crop->width = fse.max_width;
++		try_crop->height = fse.max_height;
  	}
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-index 1c6643c442ef..db76f52e1dc8 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-mt9m114.c
-@@ -666,7 +666,7 @@ static int mt9m114_set_fmt(struct v4l2_subdev *sd,
- 	fmt->height = res->height;
  
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--		sd_state->pads->try_fmt = *fmt;
-+		*v4l2_subdev_get_pad_format(sd, sd_state, 0) = *fmt;
- 		return 0;
- 	}
- 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-index 6a72691ed5b7..ae70e04040dd 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-ov2722.c
-@@ -671,7 +671,7 @@ static int ov2722_set_fmt(struct v4l2_subdev *sd,
- 
- 	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--		sd_state->pads->try_fmt = *fmt;
-+		*v4l2_subdev_get_pad_format(sd, sd_state, 0) = *fmt;
- 		return 0;
- 	}
- 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_tpg.c b/drivers/staging/media/atomisp/pci/atomisp_tpg.c
-index 074826a5b706..b2376ebf45a1 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_tpg.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_tpg.c
-@@ -47,7 +47,7 @@ static int tpg_set_fmt(struct v4l2_subdev *sd,
- 	/* only raw8 grbg is supported by TPG */
- 	fmt->code = MEDIA_BUS_FMT_SGRBG8_1X8;
- 	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
--		sd_state->pads->try_fmt = *fmt;
-+		*v4l2_subdev_get_pad_format(sd, sd_state, 0) = *fmt;
- 		return 0;
- 	}
- 	return 0;
+ 	ret = v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &fmt);
 -- 
 Regards,
 
