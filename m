@@ -2,194 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D3747D996A
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 15:11:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 94B657D9973
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 15:14:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345842AbjJ0NLr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 09:11:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40538 "EHLO
+        id S1345458AbjJ0NOD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 09:14:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42962 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345860AbjJ0NLq (ORCPT
+        with ESMTP id S231585AbjJ0NOC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 09:11:46 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F5BA18A
-        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 06:11:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698412305; x=1729948305;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xnOpzdpb+KTN1B3F8aVFdVd+t+dcn07k9VnibDe8fNE=;
-  b=g8QOZvpBqwCBrnwNjpRInzpySg7ZuUFioF4VuF+deDFqgjsaUIGJju3j
-   8iPnDEqrjiKAdWWE1EIZKOO172y0GoCPbUVmH3cBxPm3nSYrphRsM4YKZ
-   uZ8dSMmCkluYq41gTe5/Gqlt6jCHN7uljpBEMo7O8iHhV4V/PRIJD9tZI
-   g/NfJJ/Fj159+afcA3iUWvsLGU2ZFd4035YPBnO0HvTdlJ+305n5FBjhi
-   YNmg9BhldMUdXUAC8tpR9+5eK85Jed5JVqO2OkqHhcq7EeYW8kf89c0Wt
-   q50IvNWtvQFK6LHPgGRP9vdUw6rAm5kjZoc/H39QJuO9brOTcemgvD5CC
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="592673"
-X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="592673"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 06:11:45 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="903271874"
-X-IronPort-AV: E=Sophos;i="6.03,256,1694761200"; 
-   d="scan'208";a="903271874"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 06:09:13 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 0C6E111F830;
-        Fri, 27 Oct 2023 15:53:38 +0300 (EEST)
-Date:   Fri, 27 Oct 2023 12:53:38 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
+        Fri, 27 Oct 2023 09:14:02 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 250DBC4
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 06:13:59 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A544BC433C8;
+        Fri, 27 Oct 2023 13:13:56 +0000 (UTC)
+Message-ID: <adaadd6e-c163-4c3a-b851-b2de184b5b5e@xs4all.nl>
+Date:   Fri, 27 Oct 2023 15:13:55 +0200
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 18/28] media: uapi: Allow a larger number of routes
+ than there's room for
+Content-Language: en-US, nl
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, bingbu.cao@intel.com,
         hongju.wang@intel.com,
         Andrey Konovalov <andrey.konovalov@linaro.org>,
         Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>
-Subject: Re: [PATCH v6 01/28] media: mc: Add INTERNAL pad flag
-Message-ID: <ZTuy0g7_gGgOJtDy@kekkonen.localdomain>
 References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
- <20231003115237.76828-2-sakari.ailus@linux.intel.com>
- <ee3b59fb-796c-4e38-bc19-575eab4872c1@xs4all.nl>
- <ZR6Ocg+Nm+r1ldy+@kekkonen.localdomain>
- <af7fce73-6ab9-4e5f-b436-d0eaa428fe26@xs4all.nl>
- <ZTmF23SklJ4-qzOv@kekkonen.localdomain>
- <20231027124804.GD12144@pendragon.ideasonboard.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231027124804.GD12144@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+ <20231003120813.77726-9-sakari.ailus@linux.intel.com>
+ <811d8344-192f-4fb6-8da6-b0c8b93165b8@ideasonboard.com>
+ <20231025210726.GA16151@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20231025210726.GA16151@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.6 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 25/10/2023 23:07, Laurent Pinchart wrote:
+> On Mon, Oct 09, 2023 at 01:56:21PM +0300, Tomi Valkeinen wrote:
+>> On 03/10/2023 15:08, Sakari Ailus wrote:
+>>> On VIDIOC_SUBDEV_[GS]_ROUTING, only return as many routes back to the user
+>>> as there's room. Do not consider it an error if more routes existed.
+>>> Simply inform the user there are more routes.
+>>
+>> Inform how? And I agree with Hans here. How about return ENOSPC, but the 
+>> kernel fills in num_routes to tell the userspace how many there actually 
+>> are?
+> 
+> For VIDIOC_SUBDEV_G_ROUTING I have no objection. For
+> VIDIOC_SUBDEV_S_ROUTING, however, I would prefer the ioctl to succeed if
+> the routes can be applied but there's not enough space to return them
+> all to the application. The application may not have an interest in
+> getting the applied routes back.
 
-On Fri, Oct 27, 2023 at 03:48:04PM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Wed, Oct 25, 2023 at 09:17:15PM +0000, Sakari Ailus wrote:
-> > On Thu, Oct 05, 2023 at 01:16:27PM +0200, Hans Verkuil wrote:
-> > > On 05/10/2023 12:22, Sakari Ailus wrote:
-> > > > On Thu, Oct 05, 2023 at 11:52:08AM +0200, Hans Verkuil wrote:
-> > > >> On 03/10/2023 13:52, Sakari Ailus wrote:
-> > > >>> Internal source pads will be used as routing endpoints in V4L2
-> > > >>> [GS]_ROUTING IOCTLs, to indicate that the stream begins in the entity.
-> > > >>>
-> > > >>> Also prevent creating links to pads that have been flagged as internal and
-> > > >>> initialising source pads with internal flag set.
-> > > >>>
-> > > >>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > >>> ---
-> > > >>>  Documentation/userspace-api/media/glossary.rst         |  6 ++++++
-> > > >>>  .../userspace-api/media/mediactl/media-types.rst       |  6 ++++++
-> > > >>>  drivers/media/mc/mc-entity.c                           | 10 ++++++++--
-> > > >>>  include/uapi/linux/media.h                             |  1 +
-> > > >>>  4 files changed, 21 insertions(+), 2 deletions(-)
-> > > >>>
-> > > >>> diff --git a/Documentation/userspace-api/media/glossary.rst b/Documentation/userspace-api/media/glossary.rst
-> > > >>> index 96a360edbf3b..f7b99a4527c7 100644
-> > > >>> --- a/Documentation/userspace-api/media/glossary.rst
-> > > >>> +++ b/Documentation/userspace-api/media/glossary.rst
-> > > >>> @@ -173,6 +173,12 @@ Glossary
-> > > >>>  	An integrated circuit that integrates all components of a computer
-> > > >>>  	or other electronic systems.
-> > > >>>  
-> > > >>> +_media-glossary-stream:
-> > > >>> +    Stream
-> > > >>> +	A distinct flow of data (image data or metadata) over a media pipeline
-> > > >>> +	from source to sink. A source may be e.g. an image sensor and a sink
-> > > >>> +	e.g. a memory buffer.
-> > > >>
-> > > >> Hmm, I think this is a bit confusing. I think it would be better to replace
-> > > >> "from source to sink" with "from the initial source to the final sink".
-> > > > 
-> > > > Seems fine to me. I'll use that in v7.
-> > > > 
-> > > >>
-> > > >> The original text doesn't make it clear that there can be many hops in
-> > > >> between.
-> > > >>
-> > > >> So also: "A source" -> "An initial source", and "a sink" -> "a final sink".
-> > > >>
-> > > >> Note that "media pipeline" isn't defined either. Should that be added?
-> > > > 
-> > > > I can add that, too...
-> > > > 
-> > > >>
-> > > >> Finally, I think this should be a separate patch as it has nothing to do with
-> > > >> adding the INTERNAL pad flag.
-> > > > 
-> > > > I agree, will split in v7.
-> > > > 
-> > > >>
-> > > >>> +
-> > > >>>      V4L2 API
-> > > >>>  	**V4L2 userspace API**
-> > > >>>  
-> > > >>> diff --git a/Documentation/userspace-api/media/mediactl/media-types.rst b/Documentation/userspace-api/media/mediactl/media-types.rst
-> > > >>> index 0ffeece1e0c8..28941da27790 100644
-> > > >>> --- a/Documentation/userspace-api/media/mediactl/media-types.rst
-> > > >>> +++ b/Documentation/userspace-api/media/mediactl/media-types.rst
-> > > >>> @@ -361,6 +361,7 @@ Types and flags used to represent the media graph elements
-> > > >>>  .. _MEDIA-PAD-FL-SINK:
-> > > >>>  .. _MEDIA-PAD-FL-SOURCE:
-> > > >>>  .. _MEDIA-PAD-FL-MUST-CONNECT:
-> > > >>> +.. _MEDIA-PAD-FL-INTERNAL:
-> > > >>>  
-> > > >>>  .. flat-table:: Media pad flags
-> > > >>>      :header-rows:  0
-> > > >>> @@ -382,6 +383,11 @@ Types and flags used to represent the media graph elements
-> > > >>>  	  when this flag isn't set; the absence of the flag doesn't imply
-> > > >>>  	  there is none.
-> > > >>>  
-> > > >>> +    *  -  ``MEDIA_PAD_FL_INTERNAL``
-> > > >>> +       -  The internal flag indicates an internal pad that has no external
-> > > >>> +	  connections. Such a pad shall not be connected with a link. The
-> > > >>> +	  internal flag indicates that the :ref:``stream
-> > > >>> +	  <media-glossary-stream>`` either starts or ends in the entity.
-> > > >>
-> > > >> This suggests that INTERNAL can be used for both sinks and sources, but...
-> > > > 
-> > > > Right. The INTERNAL flag in UAPI shouldn't be limited to sources, but at
-> > > > the same time we don't have use for it in sinks. I'd prefer to leave this
-> > > > open in the future. We could of course say that explicitly.
-> > > 
-> > > I think it is better to mention that it is for streams that start in the
-> > > entity only, but that in the future it might be extended to support streams
-> > > that end in the entity.
-> > > 
-> > > When we add support for that, we need to update the documentation as well,
-> > > at minimum with one or more examples of how that would be used.
-> > 
-> > I'll use this instead of the original sentence:
-> > 
-> > 	  The internal flag may currently be present only in a source pad only
-> 
-> Double "only". 
-> 
-> 	The internal flag may currently be present only in source pads, where
-> 	...
+For S_ROUTING, do we still want to update num_routes in that case? Even though we
+return 0 since we could actually set the routes.
 
-Thanks for spotting this, I'll address it in v7.
+I think it depends a bit on the naming of these fields in v7.
 
-> 
-> > 	  where it indicates that the :ref:``stream <media-glossary-stream>``
-> > 	  originates from within the entity.
-> 
+How likely is it that an application would run into this anyway? I suspect a
+typical app will get the routes first, then modify it.
 
--- 
+It's worth giving this a try, but it depends a bit on how easy it is to
+document it. If you need to jump through hoops to try to explain it to an
+end user, then perhaps this is overly complicated.
+
 Regards,
 
-Sakari Ailus
+	Hans
+
+> 
+>>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>>> ---
+>>>   .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst   | 4 ----
+>>>   drivers/media/v4l2-core/v4l2-subdev.c                     | 8 ++------
+>>>   2 files changed, 2 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+>>> index ced53ea5f23c..99d3c15fd759 100644
+>>> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+>>> @@ -145,10 +145,6 @@ On success 0 is returned, on error -1 and the ``errno`` variable is set
+>>>   appropriately. The generic error codes are described at the
+>>>   :ref:`Generic Error Codes <gen-errors>` chapter.
+>>>   
+>>> -ENOSPC
+>>> -   The application provided ``num_routes`` is not big enough to contain
+>>> -   all the available routes the subdevice exposes.
+>>> -
+>>>   EINVAL
+>>>      The sink or source pad identifiers reference a non-existing pad, or reference
+>>>      pads of different types (ie. the sink_pad identifiers refers to a source pad).
+>>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+>>> index 9a34e13dfd96..dd48e7e549fb 100644
+>>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+>>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+>>> @@ -956,14 +956,10 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+>>>   
+>>>   		krouting = &state->routing;
+>>>   
+>>> -		if (routing->len_routes < krouting->num_routes) {
+>>> -			routing->num_routes = krouting->num_routes;
+>>> -			return -ENOSPC;
+>>> -		}
+>>> -
+>>>   		memcpy((struct v4l2_subdev_route *)(uintptr_t)routing->routes,
+>>>   		       krouting->routes,
+>>> -		       krouting->num_routes * sizeof(*krouting->routes));
+>>> +		       min(krouting->num_routes, routing->len_routes) *
+>>> +		       sizeof(*krouting->routes));
+>>>   		routing->num_routes = krouting->num_routes;
+>>>   
+>>>   		return 0;
+> 
+
