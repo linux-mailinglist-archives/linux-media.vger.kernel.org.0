@@ -2,238 +2,282 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D9007D92DD
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 10:57:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 444077D9309
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:06:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345670AbjJ0I5J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 04:57:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43058 "EHLO
+        id S231233AbjJ0JGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 05:06:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59118 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345660AbjJ0I5H (ORCPT
+        with ESMTP id S229636AbjJ0JG3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 04:57:07 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BB6DBD;
-        Fri, 27 Oct 2023 01:57:05 -0700 (PDT)
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:bc36:5a6f:d67a:959d])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 222A0669;
-        Fri, 27 Oct 2023 10:56:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698397010;
-        bh=grVdMra3Pb/hCedFoavLtCn/UgfsmpFVXydmtVWAoZg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=VKl5mSb7HOqcN+UIDKkxBOBYemX5hvWunErxnMRz8DhoYvYb5uEc9NHz4RXUDhPiX
-         U24XVOMFko3FLaVdQapAwoxnYbBhM2SldzfewXGqNq1IzDzjy5+wC1Muxa9KeQighW
-         pTRg7jFpI3egoP3rBspmel1NwtVD5IcKDGTd5Qzo=
-Date:   Fri, 27 Oct 2023 10:57:00 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 4/4] media: i2c: imx214: Add sensor's pixel matrix size
-Message-ID: <3opzxxkqa4p6wxddx7bdf2dixphfuo4xunaaiqibvtppmyz6gr@vjxbtjjqiqvy>
-References: <20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu>
- <20231023-imx214-v1-4-b33f1bbd1fcf@apitzsch.eu>
- <56kgwl7zehsxy2pp7nziwk2gt6joax42qpzs6eywufvcto7qxm@ts4i3ccdokjr>
- <f5475c4f90e52817349e4842984bb3657b1e500d.camel@apitzsch.eu>
+        Fri, 27 Oct 2023 05:06:29 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37E2893
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:06:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698397586; x=1729933586;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=nYP+CRBZQHYBzUZNSovYNpyNXBUR0zib2svD5LCtIuA=;
+  b=XDa2APG3m+iDLl03Zdv7bpTzhXY/lPz7Zpv6jeFls4vInadsMDu9OqV/
+   TfBbCvsgGYp8wTF4NOosOXpACL33By2xC9dTnmygZjYrDktftPSLBBIbl
+   7Ec1DpYPyFs4KC0qUdYgAdnxjsV2/QibdWJSanZtDAKrJjRei/Pqkr5YF
+   OsG0WYIvzXRrNGD3F9XhTQphi3Pw8Ce/Ykm//0Adsov/qGC9Jb9dP3f3o
+   abgcYG2iumsECeRk+Hk/XjfTfb8t4SOon763VYH2IX75qX9DB4LW1IvDM
+   y4eOBB15wr8tRzbE2awshGQD+DoCujYYSpmHwp4Wu4uGB5Ws7I00mKxJe
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="384946473"
+X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
+   d="scan'208";a="384946473"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 02:06:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="933014244"
+X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
+   d="scan'208";a="933014244"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 02:06:20 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id C79E611F82E;
+        Fri, 27 Oct 2023 12:06:17 +0300 (EEST)
+Date:   Fri, 27 Oct 2023 09:06:17 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com,
+        Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v4 5/9] media: v4l: subdev: Make stream argument optional
+ in state access functions
+Message-ID: <ZTt9ifIH8uYf2fYF@kekkonen.localdomain>
+References: <20231026070329.948847-1-sakari.ailus@linux.intel.com>
+ <20231026070329.948847-6-sakari.ailus@linux.intel.com>
+ <20231026134904.GC26306@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f5475c4f90e52817349e4842984bb3657b1e500d.camel@apitzsch.eu>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED
-        autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <20231026134904.GC26306@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andre'
+Hi Laurent,
 
-On Wed, Oct 25, 2023 at 11:26:00PM +0200, André Apitzsch wrote:
-> Hi Jacopo,
->
-> Am Dienstag, dem 24.10.2023 um 09:52 +0200 schrieb Jacopo Mondi:
-> > Hi Andre'
-> >
-> > On Mon, Oct 23, 2023 at 11:47:53PM +0200, André Apitzsch wrote:
-> > > Set effictive and active sensor pixel sizes as shown in product
-> >
-> > s/effictive/effective
-> >
-> > > brief[1].
-> > >
-> > > [1]:
-> > > https://www.mouser.com/datasheet/2/897/ProductBrief_IMX214_20150428-1289331.pdf
-> > >
-> > > Signed-off-by: André Apitzsch <git@apitzsch.eu>
-> > > ---
-> > >  drivers/media/i2c/imx214.c | 39 ++++++++++++++++++++++++++++++++--
-> > > -----
-> > >  1 file changed, 32 insertions(+), 7 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/imx214.c
-> > > b/drivers/media/i2c/imx214.c
-> > > index bef8dc36e2d0..a2d441cd8dcd 100644
-> > > --- a/drivers/media/i2c/imx214.c
-> > > +++ b/drivers/media/i2c/imx214.c
-> > > @@ -36,6 +36,14 @@
-> > >  #define IMX214_EXPOSURE_STEP		1
-> > >  #define IMX214_EXPOSURE_DEFAULT		0x0c70
-> > >
-> > > +/* IMX214 native and active pixel array size */
-> > > +#define IMX214_NATIVE_WIDTH		4224U
-> > > +#define IMX214_NATIVE_HEIGHT		3136U
-> > > +#define IMX214_PIXEL_ARRAY_LEFT		8U
-> > > +#define IMX214_PIXEL_ARRAY_TOP		8U
-> > > +#define IMX214_PIXEL_ARRAY_WIDTH	4208U
-> > > +#define IMX214_PIXEL_ARRAY_HEIGHT	3120U
-> > > +
-> >
-> > I do get slightly different numbers from the datasheet version I have
-> >
-> > The sensor is said to have 4224x3208 total pixels of which 4208x3120
-> > are active ones.
-> >
-> > The pixel array diagram shows 64 "OPB" (optically black ?) lines,
-> > followed by 8 dummy lines, followed by 3120 valid lines. There are 8
-> > dummy columns at each side of the 4208 valid ones.
-> >
-> > Now, NATIVE which represents the full pixel array size seems to be
-> > 4224x3208 (other parts of the datasheet only report 3200 lines
-> > though)
-> >
-> > BOUNDS represents the readabale array area, which I presume
-> > corresponds to what is named as 'effective area' by the datasheet. It
-> > excludes the OPB lines at the top of the image and seems to be
-> > represented by (0, 64, 4224, 3160).
-> >
-> > CROP_DEFAULT represents the default crop rectangle which covers the
-> > active pixel area, so it excludes 8 more lines of dummy pixels and 8
-> > dummy columns, which gives a rectangle (8, 72, 4208, 3120)
-> >
-> > Also note that the driver always reports a TGT_CROP rectangle with
-> > top/left points set to 0. If my understanding is correct, V4L2
-> > selection targets are defined from the most external target
-> > (TGT_NATIVE in this case), and the driver should be corrected to
-> > initialize the crop rectangle with a top-left corner at (8, 72).
-> >
-> > Does this make sense ?
->
-> As far as I understood, only the effective and active sizes of three
-> sizes provided in the datasheet (total, effective and active) matter.
-> By comparing the values used in imx219.c (and imx415.c) with the ones
-> in the corresponding datasheets [1,2] I assume, that "effective"
-> matches "NATIVE_SIZE", "active" matches "CROP_DEFAULT" and "total" is
-> ignored.
+On Thu, Oct 26, 2023 at 04:49:04PM +0300, Laurent Pinchart wrote:
+> On Thu, Oct 26, 2023 at 10:03:25AM +0300, Sakari Ailus wrote:
+> > The sub-device state access functions take three arguments: sub-device
+> > state, pad and stream. The stream is not relevant for the majority of
+> > drivers and having to specify 0 for the stream is considered a nuisance.
+> > 
+> > Provide a two-argument macros for these state access functions to cover
+> > the needs of stream-unaware users.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 18 +++++-----
+> >  include/media/v4l2-subdev.h           | 48 ++++++++++++++++++++++-----
+> >  2 files changed, 48 insertions(+), 18 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index 2a615836c1d4..9d4ff9b4fcec 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -1671,8 +1671,8 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> >  EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
+> >  
+> >  struct v4l2_mbus_framefmt *
+> > -v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
+> > -			     u32 stream)
+> > +__v4l2_subdev_state_get_format_stream(struct v4l2_subdev_state *state,
+> > +				      unsigned int pad, u32 stream)
+> >  {
+> >  	struct v4l2_subdev_stream_configs *stream_configs;
+> >  	unsigned int i;
+> > @@ -1706,11 +1706,11 @@ v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
+> >  
+> >  	return NULL;
+> >  }
+> > -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_format);
+> > +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_format_stream);
+> >  
+> >  struct v4l2_rect *
+> > -v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+> > -			   u32 stream)
+> > +__v4l2_subdev_state_get_crop_stream(struct v4l2_subdev_state *state,
+> > +				    unsigned int pad, u32 stream)
+> >  {
+> >  	struct v4l2_subdev_stream_configs *stream_configs;
+> >  	unsigned int i;
+> > @@ -1744,11 +1744,11 @@ v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+> >  
+> >  	return NULL;
+> >  }
+> > -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_crop);
+> > +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_crop_stream);
+> >  
+> >  struct v4l2_rect *
+> > -v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
+> > -			      u32 stream)
+> > +__v4l2_subdev_state_get_compose_stream(struct v4l2_subdev_state *state,
+> > +				       unsigned int pad, u32 stream)
+> >  {
+> >  	struct v4l2_subdev_stream_configs *stream_configs;
+> >  	unsigned int i;
+> > @@ -1782,7 +1782,7 @@ v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
+> >  
+> >  	return NULL;
+> >  }
+> > -EXPORT_SYMBOL_GPL(v4l2_subdev_state_get_compose);
+> > +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_compose_stream);
+> >  
+> >  int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
+> >  					  u32 pad, u32 stream, u32 *other_pad,
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index 71cb35133b4a..ebb3373b431a 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -1545,7 +1545,7 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> >   * v4l2_subdev_state_get_format() - Get pointer to a stream format
+> >   * @state: subdevice state
+> >   * @pad: pad id
+> > - * @stream: stream id
+> > + * @...: stream id (optional argument)
+> >   *
+> >   * This returns a pointer to &struct v4l2_mbus_framefmt for the given pad +
+> >   * stream in the subdev state.
+> > @@ -1553,15 +1553,31 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> >   * For stream-unaware drivers the format for the corresponding pad is returned.
+> >   * If the pad does not exist, NULL is returned.
+> >   */
+> > +/*
+> > + * Wrap v4l2_subdev_state_get_format(), allowing the function to be called with
+> > + * two or three arguments. The purpose of the __v4l2_subdev_state_get_format()
+> > + * macro below is to come up with the name of the function or macro to call,
+> > + * using the last two arguments (_stream and _pad). The selected function or
+> > + * macro is then called using the arguments specified by the caller. A similar
+> > + * arrangement is used for v4l2_subdev_state_crop() and
+> > + * v4l2_subdev_state_compose() below.
+> > + */
+> > +#define v4l2_subdev_state_get_format(...)				\
+> > +	__v4l2_subdev_state_get_format(__VA_ARGS__,			\
+> > +				       _stream, _pad)(__VA_ARGS__)
+> > +#define __v4l2_subdev_state_get_format(_1, _2, _3, ARG, ...)	\
+> 
+> How about renaming this macro to __v4l2_subdev_state_get_format_name ...
+> 
+> > +	__v4l2_subdev_state_get_format ## ARG
+> > +#define __v4l2_subdev_state_get_format_pad(state, pad)		\
+> > +	__v4l2_subdev_state_get_format_stream(state, pad, 0)
+> >  struct v4l2_mbus_framefmt *
+> > -v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
+> > -			     u32 stream);
+> > +__v4l2_subdev_state_get_format_stream(struct v4l2_subdev_state *state,
+> > +				      unsigned int pad, u32 stream);
+> 
+> ... and this function to __v4l2_subdev_state_get_format() ? That way the
+> macro used by drivers and the backend function will have the same name,
+> with a __ prefix for the function. I think it would be a bit cleaner.
+> Same below.
+> 
+> But now that I've written that, I realize you would need an additional
+> __v4l2_subdev_state_get_format_stream() macro. I'll let you decide if
+> you think that's cleaner or not.
+> 
+> 
+> You could also take it one step forward, and avoid three copies of the
+> same name selection macro:
+> 
+> #define __v4l2_subdev_state_get_macro(name, _1, _2, _3, ARG, ...)	\
+> 	__v4l2_subdev_state_get_ ## name ## ARG
+> 
+> #define v4l2_subdev_state_get_format(...)				\
+> 	__v4l2_subdev_state_get_macro(format, __VA_ARGS__,		\
+> 				      _stream, _pad)(__VA_ARGS__)
 
-imx219 driver indeed does not consider the OPB areas in the definition
-of the rectangles...
+This seems like a good idea. How about calling it
+__v4l2_subdev_state_gen_call()? It better describes what it does I think.
 
-Also looking at the X/Y_ADDR_START value assigned in the register tables
-for full resolution mode (3280x2462) they have value of 0, indeed
-meaning the active area is the only readable one.
+> #define __v4l2_subdev_state_get_format_pad(state, pad)			\
+> 	__v4l2_subdev_state_get_format(state, pad, 0)
+> #define __v4l2_subdev_state_get_format_stream(state, pad, stream)	\
+> 	__v4l2_subdev_state_get_format(state, pad, stream)
 
-Then yes, you're right, for imx219
-NATIVE = effective
-CROP_DEFAULT = BOUND = active
+This one isn't needed.
 
-> The commit message of 1ed36ecd1459b653cced8929bfb37dba94b64c5d ("media:
-> i2c: imx219: Selection compliance fixes") seems to support me here:
+> 
+> struct v4l2_mbus_framefmt *
+> __v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
+> 			       unsigned int pad, u32 stream);
+> 
+> This can be done regardless of whether or not we want to drop the
+> _stream suffix from the backend functions.
+> 
+> >  
+> >  /**
+> >   * v4l2_subdev_state_get_crop() - Get pointer to a stream crop rectangle
+> >   * @state: subdevice state
+> >   * @pad: pad id
+> > - * @stream: stream id
+> > + * @...: stream id (optional argument)
+> >   *
+> >   * This returns a pointer to crop rectangle for the given pad + stream in the
+> >   * subdev state.
+> > @@ -1569,15 +1585,22 @@ v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
+> >   * For stream-unaware drivers the crop rectangle for the corresponding pad is
+> >   * returned. If the pad does not exist, NULL is returned.
+> >   */
+> > +#define v4l2_subdev_state_get_crop(...)					\
+> > +	__v4l2_subdev_state_get_crop(__VA_ARGS__,			\
+> > +				     _stream, _pad)(__VA_ARGS__)
+> > +#define __v4l2_subdev_state_get_crop(_1, _2, _3, ARG, ...)	\
+> > +	__v4l2_subdev_state_get_crop ## ARG
+> > +#define __v4l2_subdev_state_get_crop_pad(state, pad)		\
+> > +	__v4l2_subdev_state_get_crop_stream(state, pad, 0)
+> >  struct v4l2_rect *
+> > -v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+> > -			   u32 stream);
+> > +__v4l2_subdev_state_get_crop_stream(struct v4l2_subdev_state *state,
+> > +				    unsigned int pad, u32 stream);
+> >  
+> >  /**
+> >   * v4l2_subdev_state_get_compose() - Get pointer to a stream compose rectangle
+> >   * @state: subdevice state
+> >   * @pad: pad id
+> > - * @stream: stream id
+> > + * @...: stream id (optional argument)
+> >   *
+> >   * This returns a pointer to compose rectangle for the given pad + stream in the
+> >   * subdev state.
+> > @@ -1585,9 +1608,16 @@ v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+> >   * For stream-unaware drivers the compose rectangle for the corresponding pad is
+> >   * returned. If the pad does not exist, NULL is returned.
+> >   */
+> > +#define v4l2_subdev_state_get_compose(...)				\
+> > +	__v4l2_subdev_state_get_compose(__VA_ARGS__,		\
+> > +					_stream, _pad)(__VA_ARGS__)
+> > +#define __v4l2_subdev_state_get_compose(_1, _2, _3, ARG, ...)	\
+> > +	__v4l2_subdev_state_get_compose ## ARG
+> > +#define __v4l2_subdev_state_get_compose_pad(state, pad)		\
+> > +	__v4l2_subdev_state_get_compose_stream(state, pad, 0)
+> >  struct v4l2_rect *
+> > -v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state, unsigned int pad,
+> > -			      u32 stream);
+> > +__v4l2_subdev_state_get_compose_stream(struct v4l2_subdev_state *state,
+> > +				       unsigned int pad, u32 stream);
+> >  
+> >  /**
+> >   * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
 
->
-> > The top/left crop coordinates of the TGT_CROP rectangle were set to
-> > (0, 0) instead of (8, 8) which is the offset from the larger physical
-> > pixel array rectangle.
->
-> This (8, 8) is half the difference between number of effective and
-> active pixels of imx219[1].
->
-> Together with the 8 dummy lines and 8 dummy columns you mentioned, I
-> still think my values are right. But I've just started working with
-> V4L2, so I might be wrong.
+-- 
+Regards,
 
-To actually verify if the 'effective area' is readable or not, we
-should know what register controls the X/Y_ADDR_START value, and
-that's an information I don't have in my version of the datasheet.
-
-It's however plausible that it behaves the same as imx219, as the
-driver's register sequences seems to program the crop sizes in
-register 0x034c and 0x034e and there's not programmed top-left corner
-there.
-
-Ok then, let's be consistent and do the same as imx219 as you're doing
-here.
-
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
->
-> Could you share the imx214 datasheet with me?
->
-> Best regards,
-> André
->
-> [1] https://www.arducam.com/downloads/modules/RaspberryPi_camera/IMX219DS.PDF
-> [2] https://www.sony-semicon.com/files/62/pdf/p-12_IMX415-AAQR_AAMR_Flyer.pdf
-> >
-> > Thanks
-> >   j
-> >
-> >
-> > >  static const char * const imx214_supply_name[] = {
-> > >  	"vdda",
-> > >  	"vddd",
-> > > @@ -634,14 +642,31 @@ static int imx214_get_selection(struct
-> > > v4l2_subdev *sd,
-> > >  {
-> > >  	struct imx214 *imx214 = to_imx214(sd);
-> > >
-> > > -	if (sel->target != V4L2_SEL_TGT_CROP)
-> > > -		return -EINVAL;
-> > > +	switch (sel->target) {
-> > > +	case V4L2_SEL_TGT_CROP:
-> > > +		mutex_lock(&imx214->mutex);
-> > > +		sel->r = *__imx214_get_pad_crop(imx214, sd_state,
-> > > sel->pad,
-> > > +						sel->which);
-> > > +		mutex_unlock(&imx214->mutex);
-> > > +		return 0;
-> > >
-> > > -	mutex_lock(&imx214->mutex);
-> > > -	sel->r = *__imx214_get_pad_crop(imx214, sd_state, sel-
-> > > >pad,
-> > > -					sel->which);
-> > > -	mutex_unlock(&imx214->mutex);
-> > > -	return 0;
-> > > +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> > > +		sel->r.top = 0;
-> > > +		sel->r.left = 0;
-> > > +		sel->r.width = IMX214_NATIVE_WIDTH;
-> > > +		sel->r.height = IMX214_NATIVE_HEIGHT;
-> > > +		return 0;
-> > > +
-> > > +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> > > +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> > > +		sel->r.top = IMX214_PIXEL_ARRAY_TOP;
-> > > +		sel->r.left = IMX214_PIXEL_ARRAY_LEFT;
-> > > +		sel->r.width = IMX214_PIXEL_ARRAY_WIDTH;
-> > > +		sel->r.height = IMX214_PIXEL_ARRAY_HEIGHT;
-> > > +		return 0;
-> > > +	}
-> > > +
-> > > +	return -EINVAL;
-> > >  }
-> > >
-> > >  static int imx214_entity_init_cfg(struct v4l2_subdev *subdev,
-> > >
-> > > --
-> > > 2.42.0
-> > >
->
+Sakari Ailus
