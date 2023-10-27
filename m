@@ -2,276 +2,230 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 204C77D9612
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 13:12:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBAD97D964D
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 13:18:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231519AbjJ0LMc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 07:12:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52644 "EHLO
+        id S1345737AbjJ0LSZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 07:18:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58928 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231461AbjJ0LMb (ORCPT
+        with ESMTP id S1345705AbjJ0LSY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 07:12:31 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34D4D1AC;
-        Fri, 27 Oct 2023 04:12:27 -0700 (PDT)
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:bc36:5a6f:d67a:959d])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E52C669;
-        Fri, 27 Oct 2023 13:12:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698405132;
-        bh=qK/u2PyICgAhXMtgGn2WzUIKTFV4F20sf/ClvuieuFs=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=NnAu6ExTuvrmWBa7A3fAR8jp6vVNnDoErr1t93pNRVhvzIfUIPun831Y7xzW7jNDY
-         1GKHuO0PlpAIo8biWafxWzOZw6H812DCdGz271HDs55wBFt/dzCkcmH/IJpTRPFNxf
-         ImJS2IPNp1MATmBtT69OzL3Slzvq13U26q09DI9A=
-Date:   Fri, 27 Oct 2023 13:12:22 +0200
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
-Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Subject: Re: [PATCH 4/4] media: i2c: imx214: Add sensor's pixel matrix size
-Message-ID: <san47wekkcw24q34dx2sagph3kkxqaqayxzsd5v6iodp34yc5v@rpkxeirikc4e>
-References: <20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu>
- <20231023-imx214-v1-4-b33f1bbd1fcf@apitzsch.eu>
- <56kgwl7zehsxy2pp7nziwk2gt6joax42qpzs6eywufvcto7qxm@ts4i3ccdokjr>
- <f5475c4f90e52817349e4842984bb3657b1e500d.camel@apitzsch.eu>
- <3opzxxkqa4p6wxddx7bdf2dixphfuo4xunaaiqibvtppmyz6gr@vjxbtjjqiqvy>
- <CAPY8ntC4TNkxuG9S8Lo-fmMcCSF39tCT_W2oO1KHHj5Fg6B0VQ@mail.gmail.com>
+        Fri, 27 Oct 2023 07:18:24 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 688C8129;
+        Fri, 27 Oct 2023 04:18:21 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A844FC433C8;
+        Fri, 27 Oct 2023 11:18:17 +0000 (UTC)
+Message-ID: <c1cfa3e0-6e5d-4e1d-b6e0-4d1045196a11@xs4all.nl>
+Date:   Fri, 27 Oct 2023 13:18:15 +0200
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPY8ntC4TNkxuG9S8Lo-fmMcCSF39tCT_W2oO1KHHj5Fg6B0VQ@mail.gmail.com>
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
-        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v8 00/13] Add audio support in v4l2 framework
+Content-Language: en-US, nl
+To:     Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+        nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+        perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+References: <1698402948-10618-1-git-send-email-shengjiu.wang@nxp.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <1698402948-10618-1-git-send-email-shengjiu.wang@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-3.9 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave
+Hi Shengjiu,
 
-On Fri, Oct 27, 2023 at 11:29:11AM +0100, Dave Stevenson wrote:
-> Hi Jacopo
->
-> On Fri, 27 Oct 2023 at 09:57, Jacopo Mondi
-> <jacopo.mondi@ideasonboard.com> wrote:
-> >
-> > Hi Andre'
-> >
-> > On Wed, Oct 25, 2023 at 11:26:00PM +0200, André Apitzsch wrote:
-> > > Hi Jacopo,
-> > >
-> > > Am Dienstag, dem 24.10.2023 um 09:52 +0200 schrieb Jacopo Mondi:
-> > > > Hi Andre'
-> > > >
-> > > > On Mon, Oct 23, 2023 at 11:47:53PM +0200, André Apitzsch wrote:
-> > > > > Set effictive and active sensor pixel sizes as shown in product
-> > > >
-> > > > s/effictive/effective
-> > > >
-> > > > > brief[1].
-> > > > >
-> > > > > [1]:
-> > > > > https://www.mouser.com/datasheet/2/897/ProductBrief_IMX214_20150428-1289331.pdf
-> > > > >
-> > > > > Signed-off-by: André Apitzsch <git@apitzsch.eu>
-> > > > > ---
-> > > > >  drivers/media/i2c/imx214.c | 39 ++++++++++++++++++++++++++++++++--
-> > > > > -----
-> > > > >  1 file changed, 32 insertions(+), 7 deletions(-)
-> > > > >
-> > > > > diff --git a/drivers/media/i2c/imx214.c
-> > > > > b/drivers/media/i2c/imx214.c
-> > > > > index bef8dc36e2d0..a2d441cd8dcd 100644
-> > > > > --- a/drivers/media/i2c/imx214.c
-> > > > > +++ b/drivers/media/i2c/imx214.c
-> > > > > @@ -36,6 +36,14 @@
-> > > > >  #define IMX214_EXPOSURE_STEP             1
-> > > > >  #define IMX214_EXPOSURE_DEFAULT          0x0c70
-> > > > >
-> > > > > +/* IMX214 native and active pixel array size */
-> > > > > +#define IMX214_NATIVE_WIDTH              4224U
-> > > > > +#define IMX214_NATIVE_HEIGHT             3136U
-> > > > > +#define IMX214_PIXEL_ARRAY_LEFT          8U
-> > > > > +#define IMX214_PIXEL_ARRAY_TOP           8U
-> > > > > +#define IMX214_PIXEL_ARRAY_WIDTH 4208U
-> > > > > +#define IMX214_PIXEL_ARRAY_HEIGHT        3120U
-> > > > > +
-> > > >
-> > > > I do get slightly different numbers from the datasheet version I have
-> > > >
-> > > > The sensor is said to have 4224x3208 total pixels of which 4208x3120
-> > > > are active ones.
-> > > >
-> > > > The pixel array diagram shows 64 "OPB" (optically black ?) lines,
-> > > > followed by 8 dummy lines, followed by 3120 valid lines. There are 8
-> > > > dummy columns at each side of the 4208 valid ones.
-> > > >
-> > > > Now, NATIVE which represents the full pixel array size seems to be
-> > > > 4224x3208 (other parts of the datasheet only report 3200 lines
-> > > > though)
-> > > >
-> > > > BOUNDS represents the readabale array area, which I presume
-> > > > corresponds to what is named as 'effective area' by the datasheet. It
-> > > > excludes the OPB lines at the top of the image and seems to be
-> > > > represented by (0, 64, 4224, 3160).
-> > > >
-> > > > CROP_DEFAULT represents the default crop rectangle which covers the
-> > > > active pixel area, so it excludes 8 more lines of dummy pixels and 8
-> > > > dummy columns, which gives a rectangle (8, 72, 4208, 3120)
-> > > >
-> > > > Also note that the driver always reports a TGT_CROP rectangle with
-> > > > top/left points set to 0. If my understanding is correct, V4L2
-> > > > selection targets are defined from the most external target
-> > > > (TGT_NATIVE in this case), and the driver should be corrected to
-> > > > initialize the crop rectangle with a top-left corner at (8, 72).
-> > > >
-> > > > Does this make sense ?
-> > >
-> > > As far as I understood, only the effective and active sizes of three
-> > > sizes provided in the datasheet (total, effective and active) matter.
-> > > By comparing the values used in imx219.c (and imx415.c) with the ones
-> > > in the corresponding datasheets [1,2] I assume, that "effective"
-> > > matches "NATIVE_SIZE", "active" matches "CROP_DEFAULT" and "total" is
-> > > ignored.
-> >
-> > imx219 driver indeed does not consider the OPB areas in the definition
-> > of the rectangles...
-> >
+Is there a reason why this series is still marked RFC?
 
-I know it sounds ridiculous as I've been the one adding selection
-support to imx219, but I presume we discussed it somewhen in the past:
-do you happen to remember why we left the OPB area out from the native
-sizes ? (Does OPB stand for "Optically black" ? )
+Just wondering about that.
 
+Regards,
 
-> > Also looking at the X/Y_ADDR_START value assigned in the register tables
-> > for full resolution mode (3280x2462) they have value of 0, indeed
-> > meaning the active area is the only readable one.
-> >
-> > Then yes, you're right, for imx219
-> > NATIVE = effective
-> > CROP_DEFAULT = BOUND = active
-> >
+	Hans
 
-I presume you can confirm this, right ?
+On 27/10/2023 12:35, Shengjiu Wang wrote:
+> Audio signal processing also has the requirement for memory to
+> memory similar as Video.
+> 
+> This asrc memory to memory (memory ->asrc->memory) case is a non
+> real time use case.
+> 
+> User fills the input buffer to the asrc module, after conversion, then asrc
+> sends back the output buffer to user. So it is not a traditional ALSA playback
+> and capture case.
+> 
+> It is a specific use case,  there is no reference in current kernel.
+> v4l2 memory to memory is the closed implementation,  v4l2 current
+> support video, image, radio, tuner, touch devices, so it is not
+> complicated to add support for this specific audio case.
+> 
+> Because we had implemented the "memory -> asrc ->i2s device-> codec"
+> use case in ALSA.  Now the "memory->asrc->memory" needs
+> to reuse the code in asrc driver, so the first 3 patches is for refining
+> the code to make it can be shared by the "memory->asrc->memory"
+> driver.
+> 
+> The main change is in the v4l2 side, A /dev/vl4-audioX will be created,
+> user applications only use the ioctl of v4l2 framework.
+> 
+> Other change is to add memory to memory support for two kinds of i.MX ASRC
+> module.
+> 
+> changes in v8:
+> - refine V4L2_CAP_AUDIO_M2M to be 0x00000008
+> - update doc for FIXED_POINT
+> - address comments for imx-asrc
+> 
+> changes in v7:
+> - add acked-by from Mark
+> - separate commit for fixed point, m2m audio class, audio rate controls
+> - use INTEGER_MENU for rate,  FIXED_POINT for rate offset
+> - remove used fmts
+> - address other comments for Hans
+> 
+> changes in v6:
+> - use m2m_prepare/m2m_unprepare/m2m_start/m2m_stop to replace
+>   m2m_start_part_one/m2m_stop_part_one, m2m_start_part_two/m2m_stop_part_two.
+> - change V4L2_CTRL_TYPE_ASRC_RATE to V4L2_CTRL_TYPE_FIXED_POINT
+> - fix warning by kernel test rebot
+> - remove some unused format V4L2_AUDIO_FMT_XX
+> - Get SNDRV_PCM_FORMAT from V4L2_AUDIO_FMT in driver.
+> - rename audm2m to viaudm2m.
+> 
+> changes in v5:
+> - remove V4L2_AUDIO_FMT_LPCM
+> - define audio pixel format like V4L2_AUDIO_FMT_S8...
+> - remove rate and format in struct v4l2_audio_format.
+> - Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE controls
+> - updata document accordingly.
+> 
+> changes in v4:
+> - update document style
+> - separate V4L2_AUDIO_FMT_LPCM and V4L2_CAP_AUDIO_M2M in separate commit
+> 
+> changes in v3:
+> - Modify documents for adding audio m2m support
+> - Add audio virtual m2m driver
+> - Defined V4L2_AUDIO_FMT_LPCM format type for audio.
+> - Defined V4L2_CAP_AUDIO_M2M capability type for audio m2m case.
+> - with modification in v4l-utils, pass v4l2-compliance test.
+> 
+> changes in v2:
+> - decouple the implementation in v4l2 and ALSA
+> - implement the memory to memory driver as a platfrom driver
+>   and move it to driver/media
+> - move fsl_asrc_common.h to include/sound folder
+> 
+> Shengjiu Wang (13):
+>   ASoC: fsl_asrc: define functions for memory to memory usage
+>   ASoC: fsl_easrc: define functions for memory to memory usage
+>   ASoC: fsl_asrc: move fsl_asrc_common.h to include/sound
+>   ASoC: fsl_asrc: register m2m platform device
+>   ASoC: fsl_easrc: register m2m platform device
+>   media: uapi: Add V4L2_CAP_AUDIO_M2M capability flag
+>   media: v4l2: Add audio capture and output support
+>   media: uapi: Define audio sample format fourcc type
+>   media: uapi: Add V4L2_CTRL_CLASS_M2M_AUDIO
+>   media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
+>   media: uapi: Add audio rate controls support
+>   media: imx-asrc: Add memory to memory driver
+>   media: vim2m_audio: add virtual driver for audio memory to memory
+> 
+>  .../userspace-api/media/v4l/buffer.rst        |    6 +
+>  .../userspace-api/media/v4l/common.rst        |    1 +
+>  .../media/v4l/dev-audio-mem2mem.rst           |   71 +
+>  .../userspace-api/media/v4l/devices.rst       |    1 +
+>  .../media/v4l/ext-ctrls-audio-m2m.rst         |   41 +
+>  .../userspace-api/media/v4l/pixfmt-audio.rst  |   87 ++
+>  .../userspace-api/media/v4l/pixfmt.rst        |    1 +
+>  .../media/v4l/vidioc-enum-fmt.rst             |    2 +
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |   17 +-
+>  .../userspace-api/media/v4l/vidioc-g-fmt.rst  |    4 +
+>  .../media/v4l/vidioc-querycap.rst             |    3 +
+>  .../media/v4l/vidioc-queryctrl.rst            |    9 +-
+>  .../media/videodev2.h.rst.exceptions          |    4 +
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |    4 +
+>  drivers/media/platform/nxp/Kconfig            |   12 +
+>  drivers/media/platform/nxp/Makefile           |    1 +
+>  drivers/media/platform/nxp/imx-asrc.c         | 1186 +++++++++++++++++
+>  drivers/media/test-drivers/Kconfig            |    9 +
+>  drivers/media/test-drivers/Makefile           |    1 +
+>  drivers/media/test-drivers/vim2m_audio.c      |  680 ++++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c      |    5 +-
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c     |    2 +
+>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   16 +
+>  drivers/media/v4l2-core/v4l2-dev.c            |   17 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |   66 +
+>  include/media/v4l2-dev.h                      |    2 +
+>  include/media/v4l2-ioctl.h                    |   34 +
+>  .../fsl => include/sound}/fsl_asrc_common.h   |   60 +
+>  include/uapi/linux/v4l2-controls.h            |    9 +
+>  include/uapi/linux/videodev2.h                |   42 +
+>  sound/soc/fsl/fsl_asrc.c                      |  144 ++
+>  sound/soc/fsl/fsl_asrc.h                      |    4 +-
+>  sound/soc/fsl/fsl_asrc_dma.c                  |    2 +-
+>  sound/soc/fsl/fsl_easrc.c                     |  233 ++++
+>  sound/soc/fsl/fsl_easrc.h                     |    6 +-
+>  35 files changed, 2771 insertions(+), 11 deletions(-)
+>  create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem2mem.rst
+>  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-audio-m2m.rst
+>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.rst
+>  create mode 100644 drivers/media/platform/nxp/imx-asrc.c
+>  create mode 100644 drivers/media/test-drivers/vim2m_audio.c
+>  rename {sound/soc/fsl => include/sound}/fsl_asrc_common.h (60%)
+> 
 
-> > > The commit message of 1ed36ecd1459b653cced8929bfb37dba94b64c5d ("media:
-> > > i2c: imx219: Selection compliance fixes") seems to support me here:
-> >
-> > >
-> > > > The top/left crop coordinates of the TGT_CROP rectangle were set to
-> > > > (0, 0) instead of (8, 8) which is the offset from the larger physical
-> > > > pixel array rectangle.
-> > >
-> > > This (8, 8) is half the difference between number of effective and
-> > > active pixels of imx219[1].
-> > >
-> > > Together with the 8 dummy lines and 8 dummy columns you mentioned, I
-> > > still think my values are right. But I've just started working with
-> > > V4L2, so I might be wrong.
-> >
-> > To actually verify if the 'effective area' is readable or not, we
-> > should know what register controls the X/Y_ADDR_START value, and
-> > that's an information I don't have in my version of the datasheet.
->
-> I happen to have an IMX214 datasheet.
-> X_ADDR_START is 0x0344/5 (set in multiples of 2)
-> Y_ADDR_START is 0x0346/7 (set in multiples of 4)
-> X_ADDR_END is 0x0348/9 (set in multiples of 2)
-> Y_ADDR_END is 0x034a/b (set in multiples of 4)
-> X_OUTPUT_SIZE 0x034c/d
-> Y_OUTPUT_SIZE 0x034e/f
->
-> X direction are 13bit values, Y direction are 12 bit.
-> [12:8] or [11:8] in the low bits of the first register, [7:0] in the
-> second register.
-
-AH thanks! Unfortunately the largest imx214 mode is cropped from full
-pixel array it seems, so not that helpful :(
-
->
->   Dave
->
-> > It's however plausible that it behaves the same as imx219, as the
-> > driver's register sequences seems to program the crop sizes in
-> > register 0x034c and 0x034e and there's not programmed top-left corner
-> > there.
-> >
-> > Ok then, let's be consistent and do the same as imx219 as you're doing
-> > here.
-> >
-> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> >
-> > >
-> > > Could you share the imx214 datasheet with me?
-> > >
-> > > Best regards,
-> > > André
-> > >
-> > > [1] https://www.arducam.com/downloads/modules/RaspberryPi_camera/IMX219DS.PDF
-> > > [2] https://www.sony-semicon.com/files/62/pdf/p-12_IMX415-AAQR_AAMR_Flyer.pdf
-> > > >
-> > > > Thanks
-> > > >   j
-> > > >
-> > > >
-> > > > >  static const char * const imx214_supply_name[] = {
-> > > > >   "vdda",
-> > > > >   "vddd",
-> > > > > @@ -634,14 +642,31 @@ static int imx214_get_selection(struct
-> > > > > v4l2_subdev *sd,
-> > > > >  {
-> > > > >   struct imx214 *imx214 = to_imx214(sd);
-> > > > >
-> > > > > - if (sel->target != V4L2_SEL_TGT_CROP)
-> > > > > -         return -EINVAL;
-> > > > > + switch (sel->target) {
-> > > > > + case V4L2_SEL_TGT_CROP:
-> > > > > +         mutex_lock(&imx214->mutex);
-> > > > > +         sel->r = *__imx214_get_pad_crop(imx214, sd_state,
-> > > > > sel->pad,
-> > > > > +                                         sel->which);
-> > > > > +         mutex_unlock(&imx214->mutex);
-> > > > > +         return 0;
-> > > > >
-> > > > > - mutex_lock(&imx214->mutex);
-> > > > > - sel->r = *__imx214_get_pad_crop(imx214, sd_state, sel-
-> > > > > >pad,
-> > > > > -                                 sel->which);
-> > > > > - mutex_unlock(&imx214->mutex);
-> > > > > - return 0;
-> > > > > + case V4L2_SEL_TGT_NATIVE_SIZE:
-> > > > > +         sel->r.top = 0;
-> > > > > +         sel->r.left = 0;
-> > > > > +         sel->r.width = IMX214_NATIVE_WIDTH;
-> > > > > +         sel->r.height = IMX214_NATIVE_HEIGHT;
-> > > > > +         return 0;
-> > > > > +
-> > > > > + case V4L2_SEL_TGT_CROP_DEFAULT:
-> > > > > + case V4L2_SEL_TGT_CROP_BOUNDS:
-> > > > > +         sel->r.top = IMX214_PIXEL_ARRAY_TOP;
-> > > > > +         sel->r.left = IMX214_PIXEL_ARRAY_LEFT;
-> > > > > +         sel->r.width = IMX214_PIXEL_ARRAY_WIDTH;
-> > > > > +         sel->r.height = IMX214_PIXEL_ARRAY_HEIGHT;
-> > > > > +         return 0;
-> > > > > + }
-> > > > > +
-> > > > > + return -EINVAL;
-> > > > >  }
-> > > > >
-> > > > >  static int imx214_entity_init_cfg(struct v4l2_subdev *subdev,
-> > > > >
-> > > > > --
-> > > > > 2.42.0
-> > > > >
-> > >
