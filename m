@@ -2,194 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B71787D937A
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:21:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CEA457D936D
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:21:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345577AbjJ0JVm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 05:21:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37966 "EHLO
+        id S1345352AbjJ0JVR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 05:21:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45580 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjJ0JVl (ORCPT
+        with ESMTP id S229503AbjJ0JVP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 05:21:41 -0400
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27642C0;
-        Fri, 27 Oct 2023 02:21:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1698398498; bh=zBxWi8MQUDX7DBBtEIkwqqmnqFZ1vJcG4pny5YR7se0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=pTpPGqSAoDl031doiXKos+ptO7qUwJnPnExj3TsRDZSFXUUGhfCZWsa8GFmgmCqW/
-         Mr+SDsfpn5nnKvCONOvKhDXaqGwPgSkqfnRUpoQZsCgRamNFqQ/Y9TGyTO6smGxNeC
-         9dRSa89D6dkSRuHl7xxFeosoAS5upawC6yc4iYdr1j9iLUJ5rZFstV22aiR6/MVC4E
-         uJIkK7NtQZHm6PeRHed4z8K7aqgiltuJnxZatjppTVaRtRzSiZPDHX5gdkxW5+nZAa
-         RW8UrQpzkFCJTIDcvywi/NVtLYaQaIiqgIs8+C2OCK7mtIfLQNn3aSl/f7RskaqHUv
-         /PK5915Mxbnkg==
-Received: by gofer.mess.org (Postfix, from userid 501)
-        id 11381100100; Fri, 27 Oct 2023 10:21:38 +0100 (BST)
+        Fri, 27 Oct 2023 05:21:15 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C13FC0
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:21:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698398473; x=1729934473;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5udXrmEZGq83GdIwZMqwkdMm58RFzCxmWE3e1RZI5vY=;
+  b=JurCoA60eyX7E4lzG2h+zbBS5kKXrfeXisA0Jltb4MNa9RpKr8SX9GE8
+   E0FTIQyyfvxfKLJnkW5Xa+AjKnSNKFNcadmUM+B5CQqxRy3vrblFOcj+B
+   1QwVLoX/kwmSh21DA67K2mL1C/MlGefFJguNBUZnn3qgYNIe55KrFrq5b
+   o/3VUDppH0IM5Gk4mbI2L9/4DZ1qxYJJovdrQ5fWR9bRVZDbiVCA1e4Qa
+   Cmhmz3ngXI+pBCGYxXTcCPYc1RNKXZB0PJax5mA6jz7VW9wFGLSWeCb3e
+   Q4lj6mCVCuVjlCubZ8GNeNP0+p/c7DYMDPkpqg3Ai/QBvdBQ6l2oYgks3
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="384948653"
+X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
+   d="scan'208";a="384948653"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 02:21:13 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="933016739"
+X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
+   d="scan'208";a="933016739"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 02:21:10 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id D3E2111F82E;
+        Fri, 27 Oct 2023 12:21:07 +0300 (EEST)
+Date:   Fri, 27 Oct 2023 09:21:07 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+        bingbu.cao@intel.com, hongju.wang@intel.com,
+        Alain Volmat <alain.volmat@foss.st.com>
+Subject: Re: [PATCH v4 5/9] media: v4l: subdev: Make stream argument optional
+ in state access functions
+Message-ID: <ZTuBA6OGiycK9J4y@kekkonen.localdomain>
+References: <20231026070329.948847-1-sakari.ailus@linux.intel.com>
+ <20231026070329.948847-6-sakari.ailus@linux.intel.com>
+ <20231026134904.GC26306@pendragon.ideasonboard.com>
+ <ZTt9ifIH8uYf2fYF@kekkonen.localdomain>
+ <20231027091013.GA9881@pendragon.ideasonboard.com>
+ <ZTt-7tMQQVGGVGTi@kekkonen.localdomain>
+ <20231027091427.GA10143@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231027091427.GA10143@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1698398482; bh=zBxWi8MQUDX7DBBtEIkwqqmnqFZ1vJcG4pny5YR7se0=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=UBH7GUyqOR41CCzW7TW0FgO+DouBYB42qhQOYu1ukcGc6u3Ib/PSuHhSyUOck78wu
-         9rqa3EvvJNxCinCmVFzB0DfqV3w9ZvLq3q45K0PptKcLtboiEVRuljqD03mPEG/nQn
-         bdW2+zKRknbRwcPvb8qXEMt+fe1aTlm2ApPiDe6mbQKDSDZZhglyoGQUXTn0/iIwFi
-         RvKdKViouI1W0JM4yduG/OC6nYxbp/6JTxiTWE8SckZZlYIm5wbooG/Fx2voA8iPjs
-         uzp1kvG4+9tcusZQooKCsFiseIN29x/LkdamzQjabHhZwlPOC8bw/uIrhEhulxAvwI
-         yo2dt34W1nrpg==
-Received: from bigcore.mess.org (unknown [IPv6:2a02:8011:d000:212:ca7f:54ff:fe51:14d6])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by gofer.mess.org (Postfix) with ESMTPSA id A4EA2100103;
-        Fri, 27 Oct 2023 10:21:22 +0100 (BST)
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Sean Young <sean@mess.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-kernel@vger.kernel.org
-Subject: [PATCH v4 4/4] media: pwm-ir-tx: trigger edges from hrtimer interrupt context
-Date:   Fri, 27 Oct 2023 10:20:47 +0100
-Message-ID: <15e5b0856a9b09b3066591fa0004a0db4e9c66c6.1698398004.git.sean@mess.org>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <cover.1698398004.git.sean@mess.org>
-References: <cover.1698398004.git.sean@mess.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This makes the generated IR much more precise. Before this change, the
-driver is unreliable and many users opted to use gpio-ir-tx instead.
+On Fri, Oct 27, 2023 at 12:14:27PM +0300, Laurent Pinchart wrote:
+> On Fri, Oct 27, 2023 at 09:12:14AM +0000, Sakari Ailus wrote:
+> > On Fri, Oct 27, 2023 at 12:10:13PM +0300, Laurent Pinchart wrote:
+> > > > > > +/*
+> > > > > > + * Wrap v4l2_subdev_state_get_format(), allowing the function to be called with
+> > > > > > + * two or three arguments. The purpose of the __v4l2_subdev_state_get_format()
+> > > > > > + * macro below is to come up with the name of the function or macro to call,
+> > > > > > + * using the last two arguments (_stream and _pad). The selected function or
+> > > > > > + * macro is then called using the arguments specified by the caller. A similar
+> > > > > > + * arrangement is used for v4l2_subdev_state_crop() and
+> > > > > > + * v4l2_subdev_state_compose() below.
+> > > > > > + */
+> > > > > > +#define v4l2_subdev_state_get_format(...)				\
+> > > > > > +	__v4l2_subdev_state_get_format(__VA_ARGS__,			\
+> > > > > > +				       _stream, _pad)(__VA_ARGS__)
+> > > > > > +#define __v4l2_subdev_state_get_format(_1, _2, _3, ARG, ...)	\
+> > > > > 
+> > > > > How about renaming this macro to __v4l2_subdev_state_get_format_name ...
+> > > > > 
+> > > > > > +	__v4l2_subdev_state_get_format ## ARG
+> > > > > > +#define __v4l2_subdev_state_get_format_pad(state, pad)		\
+> > > > > > +	__v4l2_subdev_state_get_format_stream(state, pad, 0)
+> > > > > >  struct v4l2_mbus_framefmt *
+> > > > > > -v4l2_subdev_state_get_format(struct v4l2_subdev_state *state, unsigned int pad,
+> > > > > > -			     u32 stream);
+> > > > > > +__v4l2_subdev_state_get_format_stream(struct v4l2_subdev_state *state,
+> > > > > > +				      unsigned int pad, u32 stream);
+> > > > > 
+> > > > > ... and this function to __v4l2_subdev_state_get_format() ? That way the
+> > > > > macro used by drivers and the backend function will have the same name,
+> > > > > with a __ prefix for the function. I think it would be a bit cleaner.
+> > > > > Same below.
+> > > > > 
+> > > > > But now that I've written that, I realize you would need an additional
+> > > > > __v4l2_subdev_state_get_format_stream() macro. I'll let you decide if
+> > > > > you think that's cleaner or not.
+> > > > > 
+> > > > > 
+> > > > > You could also take it one step forward, and avoid three copies of the
+> > > > > same name selection macro:
+> > > > > 
+> > > > > #define __v4l2_subdev_state_get_macro(name, _1, _2, _3, ARG, ...)	\
+> > > > > 	__v4l2_subdev_state_get_ ## name ## ARG
+> > > > > 
+> > > > > #define v4l2_subdev_state_get_format(...)				\
+> > > > > 	__v4l2_subdev_state_get_macro(format, __VA_ARGS__,		\
+> > > > > 				      _stream, _pad)(__VA_ARGS__)
+> > > > 
+> > > > This seems like a good idea. How about calling it
+> > > > __v4l2_subdev_state_gen_call()? It better describes what it does I think.
+> > > 
+> > > Works for me. It's internal anyway.
+> > > 
+> > > > > #define __v4l2_subdev_state_get_format_pad(state, pad)			\
+> > > > > 	__v4l2_subdev_state_get_format(state, pad, 0)
+> > > > > #define __v4l2_subdev_state_get_format_stream(state, pad, stream)	\
+> > > > > 	__v4l2_subdev_state_get_format(state, pad, stream)
+> > > > 
+> > > > This one isn't needed.
+> > > 
+> > > You could indeed drop it if you remove the _stream argument to the
+> > > __v4l2_subdev_state_get_macro() macro above. I thought it would be nice
+> > > to keep it though, to make it more explicit, but I don't mind much.
+> > 
+> > This is certainly up to interpretation but I generally prefer fewer
+> > wrappers. :-)
+> 
+> Up to you.
+> 
+> > We can also make the function __v4l2_subdev_state_get_format() by just
+> > removing "_stream" from the macro call --- empty arguments are allowed.
+> 
+> Yes, that's what I meant.
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/rc/pwm-ir-tx.c | 79 ++++++++++++++++++++++++++++++++++--
- 1 file changed, 76 insertions(+), 3 deletions(-)
+Great, I meant the same thing! ;-)
 
-diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
-index ccb86890adce..5465bd38d941 100644
---- a/drivers/media/rc/pwm-ir-tx.c
-+++ b/drivers/media/rc/pwm-ir-tx.c
-@@ -10,6 +10,8 @@
- #include <linux/slab.h>
- #include <linux/of.h>
- #include <linux/platform_device.h>
-+#include <linux/hrtimer.h>
-+#include <linux/completion.h>
- #include <media/rc-core.h>
- 
- #define DRIVER_NAME	"pwm-ir-tx"
-@@ -17,8 +19,14 @@
- 
- struct pwm_ir {
- 	struct pwm_device *pwm;
--	unsigned int carrier;
--	unsigned int duty_cycle;
-+	struct hrtimer timer;
-+	struct completion tx_done;
-+	struct pwm_state *state;
-+	u32 carrier;
-+	u32 duty_cycle;
-+	uint *txbuf;
-+	uint txbuf_len;
-+	uint txbuf_index;
- };
- 
- static const struct of_device_id pwm_ir_of_match[] = {
-@@ -82,6 +90,62 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int *txbuf,
- 	return count;
- }
- 
-+static int pwm_ir_tx_atomic(struct rc_dev *dev, unsigned int *txbuf,
-+			    unsigned int count)
-+{
-+	struct pwm_ir *pwm_ir = dev->priv;
-+	struct pwm_device *pwm = pwm_ir->pwm;
-+	struct pwm_state state;
-+
-+	pwm_init_state(pwm, &state);
-+
-+	state.period = DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
-+	pwm_set_relative_duty_cycle(&state, pwm_ir->duty_cycle, 100);
-+
-+	pwm_ir->txbuf = txbuf;
-+	pwm_ir->txbuf_len = count;
-+	pwm_ir->txbuf_index = 0;
-+	pwm_ir->state = &state;
-+
-+	hrtimer_start(&pwm_ir->timer, 0, HRTIMER_MODE_REL);
-+
-+	wait_for_completion(&pwm_ir->tx_done);
-+
-+	return count;
-+}
-+
-+static enum hrtimer_restart pwm_ir_timer(struct hrtimer *timer)
-+{
-+	struct pwm_ir *pwm_ir = container_of(timer, struct pwm_ir, timer);
-+	ktime_t now;
-+
-+	/*
-+	 * If we happen to hit an odd latency spike, loop through the
-+	 * pulses until we catch up.
-+	 */
-+	do {
-+		u64 ns;
-+
-+		pwm_ir->state->enabled = !(pwm_ir->txbuf_index % 2);
-+		pwm_apply_atomic(pwm_ir->pwm, pwm_ir->state);
-+
-+		if (pwm_ir->txbuf_index >= pwm_ir->txbuf_len) {
-+			complete(&pwm_ir->tx_done);
-+
-+			return HRTIMER_NORESTART;
-+		}
-+
-+		ns = US_TO_NS(pwm_ir->txbuf[pwm_ir->txbuf_index]);
-+		hrtimer_add_expires_ns(timer, ns);
-+
-+		pwm_ir->txbuf_index++;
-+
-+		now = timer->base->get_time();
-+	} while (hrtimer_get_expires_tv64(timer) < now);
-+
-+	return HRTIMER_RESTART;
-+}
-+
- static int pwm_ir_probe(struct platform_device *pdev)
- {
- 	struct pwm_ir *pwm_ir;
-@@ -103,10 +167,19 @@ static int pwm_ir_probe(struct platform_device *pdev)
- 	if (!rcdev)
- 		return -ENOMEM;
- 
-+	if (pwm_is_atomic(pwm_ir->pwm)) {
-+		init_completion(&pwm_ir->tx_done);
-+		hrtimer_init(&pwm_ir->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-+		pwm_ir->timer.function = pwm_ir_timer;
-+		rcdev->tx_ir = pwm_ir_tx_atomic;
-+	} else {
-+		dev_info(&pdev->dev, "tx will not be accurate as pwm device does not support atomic mode");
-+		rcdev->tx_ir = pwm_ir_tx;
-+	}
-+
- 	rcdev->priv = pwm_ir;
- 	rcdev->driver_name = DRIVER_NAME;
- 	rcdev->device_name = DEVICE_NAME;
--	rcdev->tx_ir = pwm_ir_tx;
- 	rcdev->s_tx_duty_cycle = pwm_ir_set_duty_cycle;
- 	rcdev->s_tx_carrier = pwm_ir_set_carrier;
- 
+The result becomes thus:
+
+/*
+ * A macro to generate the macro or function name for sub-devices state access
+ * wrapper macros below.
+ */
+#define __v4l2_subdev_state_gen_call(NAME, _1, _2, _3, ARG, ...)	\
+	__v4l2_subdev_state_get_ ## NAME ## ARG
+
+...
+
+#define v4l2_subdev_state_get_format(...)				\
+	__v4l2_subdev_state_gen_call(format, __VA_ARGS__, , _pad)(__VA_ARGS__)
+#define __v4l2_subdev_state_get_format_pad(state, pad)		\
+	__v4l2_subdev_state_get_format(state, pad, 0)
+struct v4l2_mbus_framefmt *
+__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
+			       unsigned int pad, u32 stream);
+
+Etc. I quite like it actually, compared how it was in the beginning.
+
 -- 
-2.42.0
-
+Sakari Ailus
