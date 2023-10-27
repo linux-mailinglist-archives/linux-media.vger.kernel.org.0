@@ -2,171 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8853A7D8ADB
-	for <lists+linux-media@lfdr.de>; Thu, 26 Oct 2023 23:47:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E3247D8CB5
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 03:14:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231977AbjJZVr5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Oct 2023 17:47:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48358 "EHLO
+        id S1345079AbjJ0BOZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Oct 2023 21:14:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbjJZVr4 (ORCPT
+        with ESMTP id S229437AbjJ0BOY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Oct 2023 17:47:56 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10540128
-        for <linux-media@vger.kernel.org>; Thu, 26 Oct 2023 14:47:54 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qw8Ci-0008Ej-2b; Thu, 26 Oct 2023 23:47:48 +0200
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qw8Ch-004Uru-35; Thu, 26 Oct 2023 23:47:47 +0200
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qw8Cg-006rUl-Pt; Thu, 26 Oct 2023 23:47:46 +0200
-From:   =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>
-To:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Luca Ceresoli <luca.ceresoli@bootlin.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        linux-staging@lists.linux.dev, kernel@pengutronix.de
-Subject: [PATCH] staging: media: tegra-video: Convert to platform remove callback returning void
-Date:   Thu, 26 Oct 2023 23:47:40 +0200
-Message-ID: <20231026214739.2509271-2-u.kleine-koenig@pengutronix.de>
-X-Mailer: git-send-email 2.42.0.482.g2e8e77cbac8a.dirty
+        Thu, 26 Oct 2023 21:14:24 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D04371BC;
+        Thu, 26 Oct 2023 18:14:21 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F40FAC433CA;
+        Fri, 27 Oct 2023 01:14:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698369261;
+        bh=jyK9XMtPWsaT4FQrOBuiO6PcqdC1YHVnaagZqHZXO2k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=q+3GG61vCp+3gEbDSZ/PtoSW04hHLXz8BGqdVw9WBlxIINoxt+hTD5QuD8i2cLKTg
+         NaUFonXvSB601rNQVlL2U0b62EszxG51y1KTXdKxxRrVKc/euenF3yHgJap6b2npGz
+         fp4UlobLjNYJkmBkMIw/9e6F2g42tC4oyBe6Py1tYeIysz9wWmQELEJfNDiGGLLuzS
+         tgK9wmApfmxnrW27zjfJGOcgsBjwiEGeq/gw/mNsJV5k5kp1tgYRiaYPSnw/9PJZyf
+         7W/5QEiwFjIO4Fu4RAryYHcuv1R9b4+JaoeA1xcOOQNz22WLgIxWYTc9sLJl+/YYYo
+         74KIfhMvSQypA==
+Received: by mercury (Postfix, from userid 1000)
+        id 3F8E6106057B; Fri, 27 Oct 2023 03:14:18 +0200 (CEST)
+From:   Sebastian Reichel <sre@kernel.org>
+To:     Sebastian Reichel <sre@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH v3 0/4] GC0308 Camera Sensor
+Date:   Fri, 27 Oct 2023 03:12:00 +0200
+Message-ID: <20231027011417.2174658-1-sre@kernel.org>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3764; i=u.kleine-koenig@pengutronix.de; h=from:subject; bh=iBWQN6tc6+dQj6E3HP/luLO0rOWhalDDwsT2ZGTAUxI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBlOt57AkMwARJu7sPBBSAb9BFaMZxaXeb9t4OL4 4FFRgoQ/zeJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCZTreewAKCRCPgPtYfRL+ Thi8B/4unyhduYQ2gWu6CS/UsbMMzqGUriLjsC5YAURyJSkRLWApCJ1K2GKWVyQZdoIj2hYiySu VgRyRI9xbEPFiUTXV2rXdDa7Ed5v0hEsbRGbze6T2DUxMSRhuyNdWPLB7FnjcYw6bB+6xmt/WCN bUjs/oiYwUDx8eh5LS6HW7S7n/EwuS6QH19PJ2tOlcguEseNuywNkWd1KNVQBNpv0aFp0CF5P7/ W6XLtrygIxA55F5jLZQRNjRH0A2l8+xn9+mgk1vFKDDW3D9YhP3DzM4V3KdTOEZmeHMKiQ4LEKJ wQmFnxDfQfNgMsLo8OKKJQczS8wRh0WMBywktB7+0wETM1G7
-X-Developer-Key: i=u.kleine-koenig@pengutronix.de; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
 Content-Transfer-Encoding: 8bit
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The .remove() callback for a platform driver returns an int which makes
-many driver authors wrongly assume it's possible to do error handling by
-returning an error code. However the value returned is ignored (apart
-from emitting a warning) and this typically results in resource leaks.
+Hi,
 
-To improve here there is a quest to make the remove callback return
-void. In the first step of this quest all drivers are converted to
-.remove_new(), which already returns void. Eventually after all drivers
-are converted, .remove_new() will be renamed to .remove().
+I did the following tests done by me on an i.MX6ULL based system [0]:
 
-Trivially convert the three tegra-video drivers from always returning
-zero in the remove callback to the void returning variant.
+ * v4l2-compliance -u /dev/v4l-subdev1
+   - v4l2-compliance 1.24.1, 32 bits, 32-bit time_t
+     (from Debian testing)
+   - Total for device /dev/v4l-subdev1: 44, Succeeded: 44
+ * Using gstreamer + v4l2-ctl
+   - Tried 640x480, 320x240, 160x120 YUYV8_2X8 formats
+   - Tested effect of all exposed user controls
+ * checkpatch does not report any driver issues
+ * dt_binding_check does not report anything
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
----
- drivers/staging/media/tegra-video/csi.c | 6 ++----
- drivers/staging/media/tegra-video/vi.c  | 6 ++----
- drivers/staging/media/tegra-video/vip.c | 6 ++----
- 3 files changed, 6 insertions(+), 12 deletions(-)
+Note, that there is another patchset adding GC2145, which
+adds the same vendor prefix. I just included it for completeness,
+since it's needed to avoid checkpatch and dt_binding_check
+warnings.
 
-diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/media/tegra-video/csi.c
-index 9aa72863c213..0d94115b9bbb 100644
---- a/drivers/staging/media/tegra-video/csi.c
-+++ b/drivers/staging/media/tegra-video/csi.c
-@@ -818,15 +818,13 @@ static int tegra_csi_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int tegra_csi_remove(struct platform_device *pdev)
-+static void tegra_csi_remove(struct platform_device *pdev)
- {
- 	struct tegra_csi *csi = platform_get_drvdata(pdev);
- 
- 	host1x_client_unregister(&csi->client);
- 
- 	pm_runtime_disable(&pdev->dev);
--
--	return 0;
- }
- 
- #if defined(CONFIG_ARCH_TEGRA_210_SOC)
-@@ -852,5 +850,5 @@ struct platform_driver tegra_csi_driver = {
- 		.pm		= &tegra_csi_pm_ops,
- 	},
- 	.probe			= tegra_csi_probe,
--	.remove			= tegra_csi_remove,
-+	.remove_new		= tegra_csi_remove,
- };
-diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-index 94171e62dee9..61169ff13ec5 100644
---- a/drivers/staging/media/tegra-video/vi.c
-+++ b/drivers/staging/media/tegra-video/vi.c
-@@ -1944,7 +1944,7 @@ static int tegra_vi_probe(struct platform_device *pdev)
- 	return ret;
- }
- 
--static int tegra_vi_remove(struct platform_device *pdev)
-+static void tegra_vi_remove(struct platform_device *pdev)
- {
- 	struct tegra_vi *vi = platform_get_drvdata(pdev);
- 
-@@ -1953,8 +1953,6 @@ static int tegra_vi_remove(struct platform_device *pdev)
- 	if (vi->ops->vi_enable)
- 		vi->ops->vi_enable(vi, false);
- 	pm_runtime_disable(&pdev->dev);
--
--	return 0;
- }
- 
- static const struct of_device_id tegra_vi_of_id_table[] = {
-@@ -1979,5 +1977,5 @@ struct platform_driver tegra_vi_driver = {
- 		.pm = &tegra_vi_pm_ops,
- 	},
- 	.probe = tegra_vi_probe,
--	.remove = tegra_vi_remove,
-+	.remove_new = tegra_vi_remove,
- };
-diff --git a/drivers/staging/media/tegra-video/vip.c b/drivers/staging/media/tegra-video/vip.c
-index e95cc7bb190e..8504b9ea9cea 100644
---- a/drivers/staging/media/tegra-video/vip.c
-+++ b/drivers/staging/media/tegra-video/vip.c
-@@ -254,15 +254,13 @@ static int tegra_vip_probe(struct platform_device *pdev)
- 	return 0;
- }
- 
--static int tegra_vip_remove(struct platform_device *pdev)
-+static void tegra_vip_remove(struct platform_device *pdev)
- {
- 	struct tegra_vip *vip = platform_get_drvdata(pdev);
- 
- 	host1x_client_unregister(&vip->client);
- 
- 	pm_runtime_disable(&pdev->dev);
--
--	return 0;
- }
- 
- #if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-@@ -283,5 +281,5 @@ struct platform_driver tegra_vip_driver = {
- 		.of_match_table	= tegra_vip_of_id_table,
- 	},
- 	.probe			= tegra_vip_probe,
--	.remove			= tegra_vip_remove,
-+	.remove_new		= tegra_vip_remove,
- };
+[0] https://embedded-recipes.org/2023/schedule/running-foss-thermal-camera/
 
-base-commit: 2ef7141596eed0b4b45ef18b3626f428a6b0a822
+Changes since PATCHv2:
+ * https://lore.kernel.org/all/20231024010355.1877523-1-sre@kernel.org/
+ * Simplify Kconfig dependencies
+ * Do not store code/resolution; which is available from subdev state
+ * Store register values for mode settings to avoid second lookup in
+   s_stream
+ * Reduce power_on sleep times
+ * remove debug dev_err() print, that I accidently added in v2
+ * add missing format check in gc0308_enum_frame_size()
+ * do not PM resume in gc0308_s_ctrl()
+ * enable and use runtime PM autosuspend
+ * add .init_cfg() PAD op
+ * use CCI helper instead of raw regmap
+ * cluster both flip controls
+   (that's not just a performance optimization, but fixes an issue,
+   that register update is slow, so fast sequential setting of VFLIP/HFLIP
+   override each other without this)
+ * simplify gc0308_set_power_line_freq
+ * free control handler on probe error
+ * use first format by default
+ * expose V4L2_CID_HBLANK, V4L2_CID_VBLANK, V4L2_CID_PIXEL_RATE
+ * remove incorrect support for framerate and instead add a comment
+
+Changes since PATCHv1:
+ * https://lore.kernel.org/all/20231023002547.1754190-1-sre@kernel.org/
+ * Update binding: i2c0 -> i2c
+ * Update binding: make GC0309 use GC0308 as fallback compatible
+ * Add regulator handling in power_on/power_off
+ * Fix alignment of regmap_multi_reg_write arguments
+ * Fix useless extra return
+ * Do not check for pad in gc0308_enum_frame_size()
+ * Drop get_mbus_config implementation
+ * Use V4L2_CID_AUTO_EXPOSURE_BIAS instead of V4L2_CID_EXPOSURE
+ * Drop gc0308_get_format in favour of v4l2_subdev_get_fmt
+ * Replace open-coded v4l2_find_nearest_size() logic
+ * check clock rate instead of setting it
+ * use fwnode_graph_get_endpoint_by_id()
+ * power off device when probe errors out after power on
+ * replace mutex with sub-device state
+ * add Galaxycore to generic camera sensors section in MAINTAINERS
+ * add GC0308 entry in MAINTAINERS
+
+Greetings,
+
+-- Sebastian
+
+Sebastian Reichel (4):
+  dt-bindings: vendor-prefixes: add GalaxyCore
+  media: dt-bindings: gc0308: add binding
+  media: MAINTAINERS: Add GalaxyCore in camera sensor section
+  media: i2c: gc0308: new driver
+
+ .../bindings/media/i2c/galaxycore,gc0308.yaml |  108 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/gc0308.c                    | 1437 +++++++++++++++++
+ 6 files changed, 1566 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc0308.yaml
+ create mode 100644 drivers/media/i2c/gc0308.c
+
 -- 
 2.42.0
 
