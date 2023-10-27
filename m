@@ -2,351 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A14007D998F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 15:18:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C17D77D99D1
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 15:30:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345688AbjJ0NSW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 09:18:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56900 "EHLO
+        id S1345871AbjJ0NaD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 09:30:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231721AbjJ0NSV (ORCPT
+        with ESMTP id S1345458AbjJ0NaC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 09:18:21 -0400
-Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02D99128
-        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 06:18:17 -0700 (PDT)
-Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-5a7d9d357faso15663437b3.0
-        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 06:18:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google; t=1698412696; x=1699017496; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=jIgNvw60oeEsfoSUoIe8lWjvPgDk1w/uAWEIi4AcBPA=;
-        b=cHrxg07kga5vqf4vQV3bJWOIz22gYrDCQUw0iG+PElsib31NDnM40xs0+3yl4s/VmE
-         zUqKq3YXJFg/DZxPmzCf7hYtBrRbDgEY/AkcJyfXgqCWzwrZhDEc3SalHfrgZWx6LPTF
-         NZAokv86uzrNoyIbOaQS7LxjL/AU3ZRcKu2A9LTRtkBzyRXvBh/ufkx1Pcdelx/VT1RK
-         Lpxj36ChFZiQ89BIdZYQSmuH8Vwft0s99S4uNDI8/BiK1Acur8CvpN3hSEX/gGzsWT37
-         T5Ej+m4jRb94RVes2HH6IwNanRDuJCAUy/dhDzveegiSvCoWgoFr3TzLhMnIy+yK2fJl
-         F6Tw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698412696; x=1699017496;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jIgNvw60oeEsfoSUoIe8lWjvPgDk1w/uAWEIi4AcBPA=;
-        b=VR1Ux5OV8eo+yHDQUcb6zxmTkvapbLbk/dmGoJVo7oH8JAvKBVxaCXnn5F9fpsk8mm
-         jpkmmcq5Zglt6paTFnK/tMzxdaefxEduIGgasdTI+wq0i3tWZLJkEeuUW9b8OERluydv
-         RZ6kSw0G1QCZxVuFbgMJ3RUniJPtBm0EhGrWHlUAE2Mzo2v01NiAZQ9TTMdQD6ACqWBU
-         5ShFMx4n9+0VRkTnAueHODBj+8kEJtesVxJwbJB+P7wPzF/xgoWs6nDZrPN4Bjxpa9m1
-         5D63OY1wQV7J79/umNDCXunK8zK3CQjHjjt6MLZBDWSq0kIC6AJUEmMSlBrCCFifKW1w
-         1u6g==
-X-Gm-Message-State: AOJu0YxH4V6Zz0Kvo1lkAKkgLdJPw5DhRZmWhoNncl68JS0LncOkJbeA
-        fN2nb18XjW7cySHy1n5fjiC1BLqOjLeSeFLk6RXdYw==
-X-Google-Smtp-Source: AGHT+IFUpSieQPfq/ddu+vXmX/G57S5/wkIbZOhNGHuaZs2Zp0+f6Wnqu9Nz/VFwkyAep+9f66teCvVcb97UPE2ui8s=
-X-Received: by 2002:a81:e40e:0:b0:5a7:ba54:af02 with SMTP id
- r14-20020a81e40e000000b005a7ba54af02mr2450824ywl.38.1698412696065; Fri, 27
- Oct 2023 06:18:16 -0700 (PDT)
+        Fri, 27 Oct 2023 09:30:02 -0400
+Received: from wout5-smtp.messagingengine.com (wout5-smtp.messagingengine.com [64.147.123.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1CF2C9;
+        Fri, 27 Oct 2023 06:29:59 -0700 (PDT)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+        by mailout.west.internal (Postfix) with ESMTP id F2B2C32009F8;
+        Fri, 27 Oct 2023 09:29:55 -0400 (EDT)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Fri, 27 Oct 2023 09:29:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+        :cc:content-transfer-encoding:content-type:content-type:date
+        :date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to; s=fm2; t=
+        1698413395; x=1698499795; bh=y/asV0jGE9KYJ5AX6cfLumj3ozye9Q5hc0a
+        wXOwxYCA=; b=dEYH22qjxt/pOqINf9M2MS7SLiF793KNrKQttOs5Pk2ofveemOY
+        ojyaQNHbO5es1CmWwc+6IxAd9RN1Vjak352mfiF6rSFmE1+Ll8jgOOSox2EW8Xnx
+        CzSfaa0cYUO9SbTyqi4gxczIOpGGuUDqr7/kCNL7MUKTe0knyfL7aLO7aP8Nip5Y
+        jLHfkjPc3ebwm2y+01f+Jpo7ACI9fZjU8slSnhVlMDXCGzIQ1D0PB4ZVo+k+j4ga
+        4Nbha+Xj5H8dFL7/gOCbNH59hWmEXEQveHfCbJuoO+EDZKePEp73PbM/LXODnbL4
+        SDQqqOnvtTPYIwyr5Wkg/njyCtadKFUhNXw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:cc:content-transfer-encoding
+        :content-type:content-type:date:date:feedback-id:feedback-id
+        :from:from:in-reply-to:in-reply-to:message-id:mime-version
+        :references:reply-to:sender:subject:subject:to:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+        1698413395; x=1698499795; bh=y/asV0jGE9KYJ5AX6cfLumj3ozye9Q5hc0a
+        wXOwxYCA=; b=ScyRCf4+KbB29Sya6lBwlUZ/2umSsqpe4jlIOEnfvqXuQo9nI7e
+        B02TFzLUldHHvJly2IdP9WpEb4EWVtRBXMVCqFcmhWLeYUWi5lFrxYgU9/ROOQ8G
+        7q6l1ppmtu3uo62nX7Rj3AAjhv2Sw0lFtyMebq5eS66+ZJQv6S65SEcTG5R9Vwjb
+        pPSNyd5pZMmO/hgvMZtsdbWxld4Z2hdaqdLrGgiMmeNUC6FJgLU8cymrPGRww7Yu
+        NXVesT5VC8dF9R7i3yFIqzsWKRolFT/qeBiUUK1k1CP2XITSAGs/dMDPT59c+b+H
+        WfsscRp0L9cqL4ID5OsANLiNWUAYOyewYTg==
+X-ME-Sender: <xms:U7s7ZVGm2p00eoWeD2CYZFYK5oZoXN5d9lMGGHKzacir7YzCIni4aw>
+    <xme:U7s7ZaWyJ4B414gRv0lI-kOwDUQmOGzVcLlIF1xE9UvRN15WDcyUY23Pp5As6iSbT
+    OkHx4axDQ2JuUCpvco>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedrleeggdeihecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpefofgggkfgjfhffhffvvefutgfgsehtqhertderreejnecuhfhrohhmpedftehr
+    nhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrth
+    htvghrnheptdeiteeiueekueetveetkeetieekieffudehlefftdejkedtvedtudfhffef
+    hffgnecuffhomhgrihhnpehlfihnrdhnvghtpdhkvghrnhgvlhdrohhrghenucevlhhush
+    htvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnugesrghrnhgu
+    sgdruggv
+X-ME-Proxy: <xmx:U7s7ZXKm4_g3V9vnbKMAx2fn_NVvV0JOCN9A1aU5NUkWj9xVuhc5Kw>
+    <xmx:U7s7ZbG2cxKzEjhYi0eMil-CQM1MUnN5y8kbhkP0OEBEJGHj9nm2kQ>
+    <xmx:U7s7ZbWT1_ZQ-nSBBcgDj5K-wtHv1P8QBqmoR-yIcph7VKMI0x2TgQ>
+    <xmx:U7s7ZXoPcVyfG4Es4i4R_5OdZ3rUXTzS8Djg9U1iHk05Xl_LEW-WIw>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id E52D9B60089; Fri, 27 Oct 2023 09:29:54 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1048-g9229b632c5-fm-20231019.001-g9229b632
 MIME-Version: 1.0
-References: <20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu>
- <20231023-imx214-v1-4-b33f1bbd1fcf@apitzsch.eu> <56kgwl7zehsxy2pp7nziwk2gt6joax42qpzs6eywufvcto7qxm@ts4i3ccdokjr>
- <f5475c4f90e52817349e4842984bb3657b1e500d.camel@apitzsch.eu>
- <3opzxxkqa4p6wxddx7bdf2dixphfuo4xunaaiqibvtppmyz6gr@vjxbtjjqiqvy>
- <CAPY8ntC4TNkxuG9S8Lo-fmMcCSF39tCT_W2oO1KHHj5Fg6B0VQ@mail.gmail.com> <san47wekkcw24q34dx2sagph3kkxqaqayxzsd5v6iodp34yc5v@rpkxeirikc4e>
-In-Reply-To: <san47wekkcw24q34dx2sagph3kkxqaqayxzsd5v6iodp34yc5v@rpkxeirikc4e>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 27 Oct 2023 14:17:59 +0100
-Message-ID: <CAPY8ntA0VWjj2q47sd2AwixjYKrzgP4KddoeDkPyqOepb+4JFg@mail.gmail.com>
-Subject: Re: [PATCH 4/4] media: i2c: imx214: Add sensor's pixel matrix size
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        ~postmarketos/upstreaming@lists.sr.ht
-Content-Type: text/plain; charset="UTF-8"
+Message-Id: <7acec62a-6b5c-4635-b486-ceadee279f35@app.fastmail.com>
+In-Reply-To: <415ae047-0c9e-1e85-f4ff-e17a63aa0dfc@amd.com>
+References: <20231023160539.1537355-1-arnd@kernel.org>
+ <20231023160539.1537355-2-arnd@kernel.org>
+ <78427021-ddc0-45b6-a16b-bf8bc8f84003@app.fastmail.com>
+ <415ae047-0c9e-1e85-f4ff-e17a63aa0dfc@amd.com>
+Date:   Fri, 27 Oct 2023 15:29:34 +0200
+From:   "Arnd Bergmann" <arnd@arndb.de>
+To:     "Lizhi Hou" <lizhi.hou@amd.com>, "Arnd Bergmann" <arnd@kernel.org>,
+        "Martin Tuma" <martin.tuma@digiteqautomotive.com>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
+        dmaengine@vger.kernel.org, "Brian Xu" <brian.xu@amd.com>,
+        "Raj Kumar Rampelli" <raj.kumar.rampelli@amd.com>,
+        "Vinod Koul" <vkoul@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: pci: mgb4: remove bogus 'select' statements
+Content-Type: text/plain;charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
-        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
-
-On Fri, 27 Oct 2023 at 12:12, Jacopo Mondi
-<jacopo.mondi@ideasonboard.com> wrote:
+On Tue, Oct 24, 2023, at 18:18, Lizhi Hou wrote:
+> On 10/24/23 06:27, Arnd Bergmann wrote:
+>> On Mon, Oct 23, 2023, at 18:05, Arnd Bergmann wrote:
+>>
+>> aarch64-linux-ld: drivers/media/pci/mgb4/mgb4_core.o: in function `in=
+it_i2c': mgb4_core.c:(.text+0x3ec): undefined reference to `xdma_get_use=
+r_irq'
+>> aarch64-linux-ld: mgb4_core.c:(.text+0x404): undefined reference to `=
+xdma_enable_user_irq'
+>>
+>> I couldn't easily figure out what a 'user_irq' is here,
+>> but I wonder if this is the expected way to use the DMA engine
+>> layer. Maybe this should have been a nested irqchip instead,
+>> or it should be encoded in the DMA request specifier?
 >
-> Hi Dave
+> Hi Arnd,
 >
-> On Fri, Oct 27, 2023 at 11:29:11AM +0100, Dave Stevenson wrote:
-> > Hi Jacopo
-> >
-> > On Fri, 27 Oct 2023 at 09:57, Jacopo Mondi
-> > <jacopo.mondi@ideasonboard.com> wrote:
-> > >
-> > > Hi Andre'
-> > >
-> > > On Wed, Oct 25, 2023 at 11:26:00PM +0200, Andr=C3=A9 Apitzsch wrote:
-> > > > Hi Jacopo,
-> > > >
-> > > > Am Dienstag, dem 24.10.2023 um 09:52 +0200 schrieb Jacopo Mondi:
-> > > > > Hi Andre'
-> > > > >
-> > > > > On Mon, Oct 23, 2023 at 11:47:53PM +0200, Andr=C3=A9 Apitzsch wro=
-te:
-> > > > > > Set effictive and active sensor pixel sizes as shown in product
-> > > > >
-> > > > > s/effictive/effective
-> > > > >
-> > > > > > brief[1].
-> > > > > >
-> > > > > > [1]:
-> > > > > > https://www.mouser.com/datasheet/2/897/ProductBrief_IMX214_2015=
-0428-1289331.pdf
-> > > > > >
-> > > > > > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
-> > > > > > ---
-> > > > > >  drivers/media/i2c/imx214.c | 39 ++++++++++++++++++++++++++++++=
-++--
-> > > > > > -----
-> > > > > >  1 file changed, 32 insertions(+), 7 deletions(-)
-> > > > > >
-> > > > > > diff --git a/drivers/media/i2c/imx214.c
-> > > > > > b/drivers/media/i2c/imx214.c
-> > > > > > index bef8dc36e2d0..a2d441cd8dcd 100644
-> > > > > > --- a/drivers/media/i2c/imx214.c
-> > > > > > +++ b/drivers/media/i2c/imx214.c
-> > > > > > @@ -36,6 +36,14 @@
-> > > > > >  #define IMX214_EXPOSURE_STEP             1
-> > > > > >  #define IMX214_EXPOSURE_DEFAULT          0x0c70
-> > > > > >
-> > > > > > +/* IMX214 native and active pixel array size */
-> > > > > > +#define IMX214_NATIVE_WIDTH              4224U
-> > > > > > +#define IMX214_NATIVE_HEIGHT             3136U
-> > > > > > +#define IMX214_PIXEL_ARRAY_LEFT          8U
-> > > > > > +#define IMX214_PIXEL_ARRAY_TOP           8U
-> > > > > > +#define IMX214_PIXEL_ARRAY_WIDTH 4208U
-> > > > > > +#define IMX214_PIXEL_ARRAY_HEIGHT        3120U
-> > > > > > +
-> > > > >
-> > > > > I do get slightly different numbers from the datasheet version I =
-have
-> > > > >
-> > > > > The sensor is said to have 4224x3208 total pixels of which 4208x3=
-120
-> > > > > are active ones.
-> > > > >
-> > > > > The pixel array diagram shows 64 "OPB" (optically black ?) lines,
-> > > > > followed by 8 dummy lines, followed by 3120 valid lines. There ar=
-e 8
-> > > > > dummy columns at each side of the 4208 valid ones.
-> > > > >
-> > > > > Now, NATIVE which represents the full pixel array size seems to b=
-e
-> > > > > 4224x3208 (other parts of the datasheet only report 3200 lines
-> > > > > though)
-> > > > >
-> > > > > BOUNDS represents the readabale array area, which I presume
-> > > > > corresponds to what is named as 'effective area' by the datasheet=
-. It
-> > > > > excludes the OPB lines at the top of the image and seems to be
-> > > > > represented by (0, 64, 4224, 3160).
-> > > > >
-> > > > > CROP_DEFAULT represents the default crop rectangle which covers t=
-he
-> > > > > active pixel area, so it excludes 8 more lines of dummy pixels an=
-d 8
-> > > > > dummy columns, which gives a rectangle (8, 72, 4208, 3120)
-> > > > >
-> > > > > Also note that the driver always reports a TGT_CROP rectangle wit=
-h
-> > > > > top/left points set to 0. If my understanding is correct, V4L2
-> > > > > selection targets are defined from the most external target
-> > > > > (TGT_NATIVE in this case), and the driver should be corrected to
-> > > > > initialize the crop rectangle with a top-left corner at (8, 72).
-> > > > >
-> > > > > Does this make sense ?
-> > > >
-> > > > As far as I understood, only the effective and active sizes of thre=
-e
-> > > > sizes provided in the datasheet (total, effective and active) matte=
-r.
-> > > > By comparing the values used in imx219.c (and imx415.c) with the on=
-es
-> > > > in the corresponding datasheets [1,2] I assume, that "effective"
-> > > > matches "NATIVE_SIZE", "active" matches "CROP_DEFAULT" and "total" =
-is
-> > > > ignored.
-> > >
-> > > imx219 driver indeed does not consider the OPB areas in the definitio=
-n
-> > > of the rectangles...
-> > >
+> Here is a brief description of 'user_irq' and 'xdma_enable_user_irq'
 >
-> I know it sounds ridiculous as I've been the one adding selection
-> support to imx219, but I presume we discussed it somewhen in the past:
-> do you happen to remember why we left the OPB area out from the native
-> sizes ? (Does OPB stand for "Optically black" ? )
-
-Yes, OPB is Optical Black. Optically black pixels can be used for
-subtracting dark noise from pixels.
-OPB lines are often sent on a totally separate CSI-2 data type, so
-they will generally not apply to the image buffer that is read out.
-See IMX290/462 for an example of that (it uses data type 0x37)
-I believe some other sensors use the OPB internally to perform
-compensation on-sensor.
-
-I've never fully followed what the full selection API is meant to be
-used for beyond determining which parts of the array are cropped out
-in particular modes. It's numbers that I extract from the datasheet,
-stick in the driver, and the user can do something with them if they
-wish.
-
-> > > Also looking at the X/Y_ADDR_START value assigned in the register tab=
-les
-> > > for full resolution mode (3280x2462) they have value of 0, indeed
-> > > meaning the active area is the only readable one.
-> > >
-> > > Then yes, you're right, for imx219
-> > > NATIVE =3D effective
-> > > CROP_DEFAULT =3D BOUND =3D active
-> > >
+> The XDMA subsystem is used in conjunction with the PCIe IP block. Plea=
+se=20
+> see https://lwn.net/Articles/911496/ for the overall information.
 >
-> I presume you can confirm this, right ?
-
-Sounds about right.
-
-> > > > The commit message of 1ed36ecd1459b653cced8929bfb37dba94b64c5d ("me=
-dia:
-> > > > i2c: imx219: Selection compliance fixes") seems to support me here:
-> > >
-> > > >
-> > > > > The top/left crop coordinates of the TGT_CROP rectangle were set =
-to
-> > > > > (0, 0) instead of (8, 8) which is the offset from the larger phys=
-ical
-> > > > > pixel array rectangle.
-> > > >
-> > > > This (8, 8) is half the difference between number of effective and
-> > > > active pixels of imx219[1].
-> > > >
-> > > > Together with the 8 dummy lines and 8 dummy columns you mentioned, =
-I
-> > > > still think my values are right. But I've just started working with
-> > > > V4L2, so I might be wrong.
-> > >
-> > > To actually verify if the 'effective area' is readable or not, we
-> > > should know what register controls the X/Y_ADDR_START value, and
-> > > that's an information I don't have in my version of the datasheet.
-> >
-> > I happen to have an IMX214 datasheet.
-> > X_ADDR_START is 0x0344/5 (set in multiples of 2)
-> > Y_ADDR_START is 0x0346/7 (set in multiples of 4)
-> > X_ADDR_END is 0x0348/9 (set in multiples of 2)
-> > Y_ADDR_END is 0x034a/b (set in multiples of 4)
-> > X_OUTPUT_SIZE 0x034c/d
-> > Y_OUTPUT_SIZE 0x034e/f
-> >
-> > X direction are 13bit values, Y direction are 12 bit.
-> > [12:8] or [11:8] in the low bits of the first register, [7:0] in the
-> > second register.
+> XDMA can forward PCIe msi-x interrupt to/from user logic hardware (e.g=
+.=20
+> Digiteq device) which is connected to its user irq pin.=C2=A0 And XDMA=
+ has a=20
+> register to enable/disabe interrupt forwarding for a specific user irq=
+ pin.
 >
-> AH thanks! Unfortunately the largest imx214 mode is cropped from full
-> pixel array it seems, so not that helpful :(
+> 'xdma_enable_user_irq' and 'xdma_disable_user_irq' are provided for=20
+> hardware driver which is designed to use XDMA to enable/disable its=20
+> interrupt. And based on the previous discussion with Mark, Digiteq=20
+> device does not use its own register to enable/disable interrupt but=20
+> relies on XDMA.=C2=A0 Please see=20
+> https://lore.kernel.org/lkml/daccee4a-ac3c-bfc1-4876-24e6ecf5bcf1@gpxs=
+ee.org/
 
-Yup, I noticed that too. Make the selection reflect the register set -
-it's all you can do.
+Ok, in this case, I would suggest using 'depends on XILINX_XDMA'
+instead of the 'select' statement. I'll send a v2.
 
-I don't know why it got cropped down so much to make a 16:9 full res
-mode. Possibly a limit of 4096 on an ISP or receiver somewhere, or
-potentially just the use case.
-I guess there's nothing stopping an extra mode being added which uses
-the full sensor array.
-
-  Dave
-
-> >
-> >   Dave
-> >
-> > > It's however plausible that it behaves the same as imx219, as the
-> > > driver's register sequences seems to program the crop sizes in
-> > > register 0x034c and 0x034e and there's not programmed top-left corner
-> > > there.
-> > >
-> > > Ok then, let's be consistent and do the same as imx219 as you're doin=
-g
-> > > here.
-> > >
-> > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > >
-> > > >
-> > > > Could you share the imx214 datasheet with me?
-> > > >
-> > > > Best regards,
-> > > > Andr=C3=A9
-> > > >
-> > > > [1] https://www.arducam.com/downloads/modules/RaspberryPi_camera/IM=
-X219DS.PDF
-> > > > [2] https://www.sony-semicon.com/files/62/pdf/p-12_IMX415-AAQR_AAMR=
-_Flyer.pdf
-> > > > >
-> > > > > Thanks
-> > > > >   j
-> > > > >
-> > > > >
-> > > > > >  static const char * const imx214_supply_name[] =3D {
-> > > > > >   "vdda",
-> > > > > >   "vddd",
-> > > > > > @@ -634,14 +642,31 @@ static int imx214_get_selection(struct
-> > > > > > v4l2_subdev *sd,
-> > > > > >  {
-> > > > > >   struct imx214 *imx214 =3D to_imx214(sd);
-> > > > > >
-> > > > > > - if (sel->target !=3D V4L2_SEL_TGT_CROP)
-> > > > > > -         return -EINVAL;
-> > > > > > + switch (sel->target) {
-> > > > > > + case V4L2_SEL_TGT_CROP:
-> > > > > > +         mutex_lock(&imx214->mutex);
-> > > > > > +         sel->r =3D *__imx214_get_pad_crop(imx214, sd_state,
-> > > > > > sel->pad,
-> > > > > > +                                         sel->which);
-> > > > > > +         mutex_unlock(&imx214->mutex);
-> > > > > > +         return 0;
-> > > > > >
-> > > > > > - mutex_lock(&imx214->mutex);
-> > > > > > - sel->r =3D *__imx214_get_pad_crop(imx214, sd_state, sel-
-> > > > > > >pad,
-> > > > > > -                                 sel->which);
-> > > > > > - mutex_unlock(&imx214->mutex);
-> > > > > > - return 0;
-> > > > > > + case V4L2_SEL_TGT_NATIVE_SIZE:
-> > > > > > +         sel->r.top =3D 0;
-> > > > > > +         sel->r.left =3D 0;
-> > > > > > +         sel->r.width =3D IMX214_NATIVE_WIDTH;
-> > > > > > +         sel->r.height =3D IMX214_NATIVE_HEIGHT;
-> > > > > > +         return 0;
-> > > > > > +
-> > > > > > + case V4L2_SEL_TGT_CROP_DEFAULT:
-> > > > > > + case V4L2_SEL_TGT_CROP_BOUNDS:
-> > > > > > +         sel->r.top =3D IMX214_PIXEL_ARRAY_TOP;
-> > > > > > +         sel->r.left =3D IMX214_PIXEL_ARRAY_LEFT;
-> > > > > > +         sel->r.width =3D IMX214_PIXEL_ARRAY_WIDTH;
-> > > > > > +         sel->r.height =3D IMX214_PIXEL_ARRAY_HEIGHT;
-> > > > > > +         return 0;
-> > > > > > + }
-> > > > > > +
-> > > > > > + return -EINVAL;
-> > > > > >  }
-> > > > > >
-> > > > > >  static int imx214_entity_init_cfg(struct v4l2_subdev *subdev,
-> > > > > >
-> > > > > > --
-> > > > > > 2.42.0
-> > > > > >
-> > > >
+     Arnd
