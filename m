@@ -2,308 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 882347D946A
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:58:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B1647D946B
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:58:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345593AbjJ0J6l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 05:58:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43778 "EHLO
+        id S1345645AbjJ0J6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 05:58:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230502AbjJ0J6j (ORCPT
+        with ESMTP id S1345452AbjJ0J6w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 05:58:39 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEA2D9D
-        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:58:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698400716; x=1729936716;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=br9KOxRy0BIYTAD8y7vgFkWvTiwBKL4ynk/dby1Ld9Q=;
-  b=JH27JIbnP5BlTUf6mgmmac4b21PsY1FoF2IWphOdi1ZdZhWRN0vXekkE
-   zEuShFQjkFlwVvvVGvX3wLJ/48cHnoNn7CrWFex9fgjUEPQD7OFu0kHsl
-   8ZsnYR2ZqvD2tbyPYxEpiMnyYcHfAv9eqnDAlnDufF382KO3FwVgptZaE
-   XHCWHTChtXX1Sukh1taILiwlF20GI3b0hk4OIDh41IuCcOJcf1X65Se3i
-   ewKh843PDLwAOU7fk2Gb6yhHbgeykwRRJn6NwW/1Og+ALKvQJHpiCk2lt
-   1uWOX4M9mUzmPYvB0RpeYwWAOzVxxEMO9KpHyHkvg1nJkMfbD5UC1D8XZ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="386634677"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="386634677"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 02:58:30 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="825289188"
-X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
-   d="scan'208";a="825289188"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 02:58:28 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id E5FEF11F82E;
-        Fri, 27 Oct 2023 12:58:24 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+        Fri, 27 Oct 2023 05:58:52 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30129191
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:58:50 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2ECE274A;
+        Fri, 27 Oct 2023 11:58:34 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1698400714;
+        bh=ppkHuK8YIDRMqTVmK5BM1GpIXZyozCm9UPT2jleUnWI=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SC/gxWOPnDCKBA0gAbwJFf8DLVnfVMFLcoF7khC77Mmaej2OJNDcl2rjIfn0ZOSud
+         Ucu4eExLGWB/BMZQBcfUfqDGnf8/aD1RrN7QxqVP+EwypzX7kktwVbFRZtI1m+J7LQ
+         W09Za21sgKfnH/oNVOU8J6tx0umdRIBX6OBlB3qA=
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        tomi.valkeinen@ideasonboard.com, jacopo.mondi@ideasonboard.com,
-        bingbu.cao@intel.com, hongju.wang@intel.com,
-        Alain Volmat <alain.volmat@foss.st.com>
-Subject: [PATCH v5 0/8] Unify sub-device state access functions
-Date:   Fri, 27 Oct 2023 12:58:16 +0300
-Message-Id: <20231027095824.1010146-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+        Benoit Parrot <bparrot@ti.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Dafna Hirschfeld <dafna@fastmail.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Hans de Goede <hansg@kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Martin Kepplinger <martink@posteo.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michael Riesch <michael.riesch@wolfvision.net>,
+        Michal Simek <michal.simek@amd.com>,
+        Nicholas Roth <nicholas@rothemail.net>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ricardo Ribalda <ribalda@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Shuah Khan <skhan@linuxfoundation.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Sylvain Petinot <sylvain.petinot@foss.st.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Todor Tomov <todor.too@gmail.com>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Yong Zhi <yong.zhi@intel.com>
+Subject: [PATCH v1 0/9] media: v4l2-subdev: Make .init_cfg() an internal operation
+Date:   Fri, 27 Oct 2023 12:58:44 +0300
+Message-ID: <20231027095853.29057-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi folks,
+Hello,
 
-This set unifies historical and stream-aware sub-device state access
-functions into one set of functions called
-v4l2_subdev_state_get_{format,crop,compose}. No functional change is
-intended.
+This patch series addresses a historical issue in the V4L2 subdev
+in-kernel API.
 
-This happened after Tomi suggested adding a num_pads field to struct
-v4l2_subdev_state.
+The subdev .init_cfg() pad operation used to initialize a
+v4l2_subdev_pad_config structure. This was changed to initializing a
+v4l2_subdev_state a while ago, but the operation wasn't renamed, and
+stayed a pad operation. Not only is the name confusing for new
+developers, it is also the only pad operation that doesn't operate on a
+pad, leading to more confusion.
 
-I'd like to merge these somewhat soon, assuming there's a rough consensus
-on them, as this is a fairly hot set, touching 136 files.
+This series addresses those two issues by renaming the operation to
+.init_cfg() and moving it to the subdev internal operations, in patch
+9/9. Patches before that prepare for this change, by dropping or
+fixing references to pad config in drivers.
 
-Note: the big Coccinelle-generated patch likely won't make it to the list.
-You can find it here:
-<URL:https://pilvi.retiisi.eu/s/j3LjF7FmGAmadDL/download/v4-0006-media-v4l-subdev-Switch-to-stream-aware-state-fun.patch>.
+The series is based on top of "[PATCH v2 0/9] media: v4l2-subdev: Rename
+pad config 'try_*' fields" ([1]).
 
-since v4:
+[1] https://lore.kernel.org/linux-media/20231027091649.10553-1-laurent.pinchart@ideasonboard.com
 
-- Rework macros for two/three argument state information access functions.
-  There's now a common function for generating the name while renames have
-  been done according to the discussion on the list.
+Laurent Pinchart (9):
+  media: ipu3-cio2: Drop comment blocks for subdev op handlers
+  media: xilinx: csi2rxss: Drop comment blocks for subdev op handlers
+  media: v4l2-subdev: Fix references to pad config
+  media: qcom: camss: Fix references to pad config
+  media: renesas: vsp1: Fix references to pad config
+  media: ti: omap3isp: Fix references to pad config
+  media: ti: omap4iss: Fix references to pad config
+  media: i2c: Fix references to pad config
+  media: v4l2-subdev: Rename .init_cfg() operation to .init_state()
 
-- Don't warn about incorrect pad or stream being set for pad information
-  access functions. The pad index is nowadays validated by the caller and
-  so resulting NULL is now a driver bug, in other words we no longer need
-  to prepare for driver not validating the field (as this is now done by
-  the framework).
-
-- There are no changes to the big patch i.e. it's the same as in v4.
-
-since v3:
-
-- Drop the patch asserting state mutex acquisition for stream-unaware
-  drivers.
-
-- Add a patch to warn about non-zero stream when access per-pad state
-  information.
-
-- Added a comment on why pad 0 information was returned on invalid pad.
-
-- Add a patch to return NULL from per-pad state information access
-  functions if pad is invalid. (The added comment is removed by this patch
-  as well.)
-
-- Use only __VA_ARGS__ to implement variable number of arguments for
-  subdev state information access functions. This should now work for all
-  supported GCC versions. Add a comment to explain the macro.
-
-- Rename the subdev state information access functions to include "state"
-  again, i.e. v4l2_subdev_state_get_{format,crop,compose}.
-
-- Try to avoid confusing git am by adding '> ' prefix for the manually
-  created diff.
-
-since v2:
-
-- Add back a missing patch (adding sub-device pointer to the state).
-
-- Address unused variable warnings in a few sensor drivers.
-
-- Address kernel-doc build warnings (see lkp bot mail to v2).
-
-- Add a patch to assert holding the state lock also for stream-unaware
-  users.
-
-- Elaborate manual changes in the commit message of the big
-  Coccinelle-generated patch.
-
-since v1:
-
-- Fix missing changes in ds90ub913, TI CAL and IMX drivers.
-
-- Rename state access functions as v4l2_subdev_state_get_*(), i.e. added
-  "state_" to the function names.
-
-- Instead of requiring stream-unaware users to specify the stream value,
-  provide a wrapper macro to produce that, using variadic args.
-
-- Put struct v4l2_subdev pointer to sub-device state (instead of num_pads
-  integer field).
-
-Sakari Ailus (8):
-  media: v4l: subdev: Store the sub-device in the sub-device state
-  media: v4l: subdev: Also return pads array information on stream
-    functions
-  media: v4l: subdev: Rename sub-device state information access
-    functions
-  media: v4l: subdev: v4l2_subdev_state_get_format always returns format
-    now
-  media: v4l: subdev: Make stream argument optional in state access
-    functions
-  media: v4l: subdev: Switch to stream-aware state functions
-  media: v4l: subdev: Remove stream-unaware sub-device state access
-  media: v4l: subdev: Return NULL from pad access functions on error
-
- drivers/media/i2c/adv7180.c                   |   4 +-
- drivers/media/i2c/adv748x/adv748x-afe.c       |   6 +-
- drivers/media/i2c/adv748x/adv748x-csi2.c      |   2 +-
- drivers/media/i2c/adv748x/adv748x-hdmi.c      |   6 +-
- drivers/media/i2c/adv7511-v4l2.c              |   4 +-
- drivers/media/i2c/adv7604.c                   |   4 +-
- drivers/media/i2c/adv7842.c                   |   4 +-
- drivers/media/i2c/ar0521.c                    |   5 +-
- drivers/media/i2c/ccs/ccs-core.c              |  22 +--
- drivers/media/i2c/ds90ub913.c                 |   3 +-
- drivers/media/i2c/ds90ub953.c                 |   3 +-
- drivers/media/i2c/ds90ub960.c                 |  12 +-
- drivers/media/i2c/et8ek8/et8ek8_driver.c      |   3 +-
- drivers/media/i2c/hi556.c                     |  13 +-
- drivers/media/i2c/hi846.c                     |  11 +-
- drivers/media/i2c/hi847.c                     |   9 +-
- drivers/media/i2c/imx208.c                    |   9 +-
- drivers/media/i2c/imx214.c                    |   4 +-
- drivers/media/i2c/imx219.c                    |  12 +-
- drivers/media/i2c/imx258.c                    |   9 +-
- drivers/media/i2c/imx290.c                    |   8 +-
- drivers/media/i2c/imx296.c                    |  18 +--
- drivers/media/i2c/imx319.c                    |   7 +-
- drivers/media/i2c/imx334.c                    |   4 +-
- drivers/media/i2c/imx335.c                    |   4 +-
- drivers/media/i2c/imx355.c                    |   7 +-
- drivers/media/i2c/imx412.c                    |   4 +-
- drivers/media/i2c/imx415.c                    |   6 +-
- drivers/media/i2c/isl7998x.c                  |   6 +-
- drivers/media/i2c/max9286.c                   |   4 +-
- drivers/media/i2c/mt9m001.c                   |   4 +-
- drivers/media/i2c/mt9m111.c                   |   4 +-
- drivers/media/i2c/mt9m114.c                   |  58 +++----
- drivers/media/i2c/mt9p031.c                   |   6 +-
- drivers/media/i2c/mt9v032.c                   |  10 +-
- drivers/media/i2c/mt9v111.c                   |   2 +-
- drivers/media/i2c/og01a1b.c                   |  10 +-
- drivers/media/i2c/ov01a10.c                   |   2 +-
- drivers/media/i2c/ov02a10.c                   |   6 +-
- drivers/media/i2c/ov08d10.c                   |   9 +-
- drivers/media/i2c/ov08x40.c                   |   7 +-
- drivers/media/i2c/ov13858.c                   |  10 +-
- drivers/media/i2c/ov13b10.c                   |  10 +-
- drivers/media/i2c/ov2640.c                    |   4 +-
- drivers/media/i2c/ov2659.c                    |   6 +-
- drivers/media/i2c/ov2680.c                    |   6 +-
- drivers/media/i2c/ov2685.c                    |   4 +-
- drivers/media/i2c/ov2740.c                    |   4 +-
- drivers/media/i2c/ov4689.c                    |   2 +-
- drivers/media/i2c/ov5640.c                    |   9 +-
- drivers/media/i2c/ov5645.c                    |   4 +-
- drivers/media/i2c/ov5647.c                    |  12 +-
- drivers/media/i2c/ov5648.c                    |   6 +-
- drivers/media/i2c/ov5670.c                    |  13 +-
- drivers/media/i2c/ov5675.c                    |   9 +-
- drivers/media/i2c/ov5693.c                    |   4 +-
- drivers/media/i2c/ov5695.c                    |   8 +-
- drivers/media/i2c/ov7251.c                    |   4 +-
- drivers/media/i2c/ov7670.c                    |   7 +-
- drivers/media/i2c/ov7740.c                    |   7 +-
- drivers/media/i2c/ov8856.c                    |   9 +-
- drivers/media/i2c/ov8858.c                    |   6 +-
- drivers/media/i2c/ov8865.c                    |   8 +-
- drivers/media/i2c/ov9282.c                    |   6 +-
- drivers/media/i2c/ov9650.c                    |   7 +-
- drivers/media/i2c/ov9734.c                    |   9 +-
- drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  37 +++--
- drivers/media/i2c/s5k5baf.c                   |  35 ++---
- drivers/media/i2c/s5k6a3.c                    |   8 +-
- drivers/media/i2c/st-mipid02.c                |  11 +-
- drivers/media/i2c/st-vgxy61.c                 |   5 +-
- drivers/media/i2c/tc358746.c                  |  12 +-
- drivers/media/i2c/tda1997x.c                  |   6 +-
- drivers/media/i2c/tvp5150.c                   |   2 +-
- drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  10 +-
- drivers/media/pci/intel/ivsc/mei_csi.c        |   4 +-
- drivers/media/platform/cadence/cdns-csi2rx.c  |   4 +-
- drivers/media/platform/cadence/cdns-csi2tx.c  |   3 +-
- .../platform/microchip/microchip-csi2dc.c     |  15 +-
- .../platform/microchip/microchip-isc-scaler.c |  16 +-
+ .../driver-api/media/v4l2-subdev.rst          |   4 +-
+ drivers/media/i2c/adv7180.c                   |  10 +-
+ drivers/media/i2c/ccs/ccs-core.c              |   6 +-
+ drivers/media/i2c/ds90ub913.c                 |  10 +-
+ drivers/media/i2c/ds90ub953.c                 |  10 +-
+ drivers/media/i2c/ds90ub960.c                 |  11 +-
+ drivers/media/i2c/hi846.c                     |  10 +-
+ drivers/media/i2c/imx214.c                    |  12 +-
+ drivers/media/i2c/imx219.c                    |   9 +-
+ drivers/media/i2c/imx290.c                    |  10 +-
+ drivers/media/i2c/imx296.c                    |  10 +-
+ drivers/media/i2c/imx334.c                    |  12 +-
+ drivers/media/i2c/imx335.c                    |  12 +-
+ drivers/media/i2c/imx412.c                    |  12 +-
+ drivers/media/i2c/imx415.c                    |  10 +-
+ drivers/media/i2c/mt9m001.c                   |  10 +-
+ drivers/media/i2c/mt9m111.c                   |  10 +-
+ drivers/media/i2c/mt9m114.c                   |  16 ++-
+ drivers/media/i2c/mt9p031.c                   |   8 +-
+ drivers/media/i2c/mt9v111.c                   |  10 +-
+ drivers/media/i2c/ov01a10.c                   |  10 +-
+ drivers/media/i2c/ov02a10.c                   |  10 +-
+ drivers/media/i2c/ov2640.c                    |  10 +-
+ drivers/media/i2c/ov2680.c                    |  10 +-
+ drivers/media/i2c/ov2740.c                    |  10 +-
+ drivers/media/i2c/ov5640.c                    |  10 +-
+ drivers/media/i2c/ov5645.c                    |  12 +-
+ drivers/media/i2c/ov5670.c                    |  10 +-
+ drivers/media/i2c/ov7251.c                    |  12 +-
+ drivers/media/i2c/ov8858.c                    |  10 +-
+ drivers/media/i2c/ov9282.c                    |  12 +-
+ drivers/media/i2c/st-vgxy61.c                 |  10 +-
+ drivers/media/i2c/tc358746.c                  |  10 +-
+ drivers/media/i2c/tda1997x.c                  |  10 +-
+ drivers/media/i2c/tvp5150.c                   |   6 +-
+ drivers/media/i2c/tvp7002.c                   |   6 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  14 --
+ drivers/media/pci/intel/ivsc/mei_csi.c        |  10 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c  |  10 +-
+ .../platform/microchip/microchip-csi2dc.c     |  10 +-
+ .../platform/microchip/microchip-isc-scaler.c |  10 +-
  drivers/media/platform/nxp/imx-mipi-csis.c    |  10 +-
- drivers/media/platform/nxp/imx7-media-csi.c   |  16 +-
+ drivers/media/platform/nxp/imx7-media-csi.c   |   6 +-
  .../platform/nxp/imx8-isi/imx8-isi-crossbar.c |  10 +-
- .../platform/nxp/imx8-isi/imx8-isi-pipe.c     |  18 +--
- .../platform/nxp/imx8-isi/imx8-isi-video.c    |   2 +-
- drivers/media/platform/nxp/imx8mq-mipi-csi2.c |  13 +-
- .../media/platform/qcom/camss/camss-csid.c    |   3 +-
- .../media/platform/qcom/camss/camss-csiphy.c  |   3 +-
- .../media/platform/qcom/camss/camss-ispif.c   |   3 +-
- drivers/media/platform/qcom/camss/camss-vfe.c |  10 +-
- drivers/media/platform/renesas/rcar-isp.c     |   4 +-
- .../platform/renesas/rcar-vin/rcar-csi2.c     |   4 +-
- .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |   6 +-
- .../platform/renesas/rzg2l-cru/rzg2l-ip.c     |   6 +-
- .../media/platform/renesas/vsp1/vsp1_brx.c    |   2 +-
- .../media/platform/renesas/vsp1/vsp1_entity.c |   8 +-
- .../media/platform/renesas/vsp1/vsp1_rwpf.c   |   3 +-
- .../platform/rockchip/rkisp1/rkisp1-csi.c     |  16 +-
- .../platform/rockchip/rkisp1/rkisp1-isp.c     | 103 ++++++-------
- .../platform/rockchip/rkisp1/rkisp1-resizer.c |  53 +++----
- .../samsung/exynos4-is/fimc-capture.c         |  12 +-
- .../platform/samsung/exynos4-is/fimc-isp.c    |  24 ++-
- .../platform/samsung/exynos4-is/fimc-lite.c   |  16 +-
- .../platform/samsung/exynos4-is/mipi-csis.c   |   3 +-
- .../samsung/s3c-camif/camif-capture.c         |   8 +-
- .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |   8 +-
- .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |   8 +-
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   |   8 +-
- .../sun8i_a83t_mipi_csi2.c                    |   8 +-
- drivers/media/platform/ti/cal/cal-camerarx.c  |  18 +--
- drivers/media/platform/ti/cal/cal-video.c     |   2 +-
- drivers/media/platform/ti/omap3isp/ispccdc.c  |   7 +-
- drivers/media/platform/ti/omap3isp/ispccp2.c  |   3 +-
- drivers/media/platform/ti/omap3isp/ispcsi2.c  |   3 +-
- .../media/platform/ti/omap3isp/isppreview.c   |   6 +-
- .../media/platform/ti/omap3isp/ispresizer.c   |   5 +-
- drivers/media/platform/video-mux.c            |  18 +--
- .../media/platform/xilinx/xilinx-csi2rxss.c   |   5 +-
- drivers/media/platform/xilinx/xilinx-tpg.c    |   9 +-
- drivers/media/platform/xilinx/xilinx-vip.c    |   4 +-
- .../media/test-drivers/vimc/vimc-debayer.c    |  10 +-
- drivers/media/test-drivers/vimc/vimc-scaler.c |   9 +-
- drivers/media/test-drivers/vimc/vimc-sensor.c |   6 +-
- drivers/media/v4l2-core/v4l2-subdev.c         |  73 ++++++---
- .../media/atomisp/i2c/atomisp-gc0310.c        |   2 +-
- .../staging/media/atomisp/pci/atomisp_csi2.c  |   3 +-
- .../media/atomisp/pci/atomisp_subdev.c        |   6 +-
- drivers/staging/media/imx/imx-ic-prp.c        |   4 +-
- drivers/staging/media/imx/imx-ic-prpencvf.c   |   4 +-
- drivers/staging/media/imx/imx-media-csi.c     |   8 +-
- drivers/staging/media/imx/imx-media-utils.c   |   2 +-
+ .../platform/nxp/imx8-isi/imx8-isi-pipe.c     |  10 +-
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c |  10 +-
+ .../media/platform/qcom/camss/camss-csid.c    |  12 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |  12 +-
+ .../media/platform/qcom/camss/camss-ispif.c   |  12 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c |  24 ++--
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   |  10 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-ip.c     |  10 +-
+ .../media/platform/renesas/vsp1/vsp1_brx.c    |  41 +++---
+ .../media/platform/renesas/vsp1/vsp1_clu.c    |   1 -
+ .../media/platform/renesas/vsp1/vsp1_entity.c | 128 +++++++++---------
+ .../media/platform/renesas/vsp1/vsp1_entity.h |  12 +-
+ .../media/platform/renesas/vsp1/vsp1_histo.c  |  24 ++--
+ .../media/platform/renesas/vsp1/vsp1_hsit.c   |  12 +-
+ .../media/platform/renesas/vsp1/vsp1_lif.c    |   1 -
+ .../media/platform/renesas/vsp1/vsp1_lut.c    |   1 -
+ .../media/platform/renesas/vsp1/vsp1_rwpf.c   |  38 +++---
+ .../media/platform/renesas/vsp1/vsp1_sru.c    |  37 +++--
+ .../media/platform/renesas/vsp1/vsp1_uds.c    |  40 +++---
+ .../media/platform/renesas/vsp1/vsp1_uif.c    |  25 ++--
+ .../platform/rockchip/rkisp1/rkisp1-csi.c     |  10 +-
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     |  10 +-
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c |  10 +-
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |   1 +
+ .../platform/sunxi/sun4i-csi/sun4i_csi.h      |   1 +
+ .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |   9 +-
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        |  10 +-
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   |  10 +-
+ .../sun8i_a83t_mipi_csi2.c                    |  10 +-
+ drivers/media/platform/ti/cal/cal-camerarx.c  |  10 +-
+ drivers/media/platform/ti/omap3isp/ispccdc.c  |  12 +-
+ drivers/media/platform/ti/omap3isp/ispccp2.c  |  10 +-
+ drivers/media/platform/ti/omap3isp/ispcsi2.c  |   6 +-
+ .../media/platform/ti/omap3isp/isppreview.c   |  12 +-
+ .../media/platform/ti/omap3isp/ispresizer.c   |  16 +--
+ drivers/media/platform/video-mux.c            |  10 +-
+ .../media/platform/xilinx/xilinx-csi2rxss.c   |  69 +---------
+ .../media/test-drivers/vimc/vimc-debayer.c    |  11 +-
+ drivers/media/test-drivers/vimc/vimc-scaler.c |  11 +-
+ drivers/media/test-drivers/vimc/vimc-sensor.c |  11 +-
+ drivers/media/v4l2-core/v4l2-subdev.c         |   8 +-
+ drivers/staging/media/imx/imx-ic-prp.c        |   2 +-
+ drivers/staging/media/imx/imx-ic-prpencvf.c   |   2 +-
+ drivers/staging/media/imx/imx-media-csi.c     |   2 +-
+ drivers/staging/media/imx/imx-media-utils.c   |   8 +-
  drivers/staging/media/imx/imx-media-vdic.c    |   2 +-
+ drivers/staging/media/imx/imx-media.h         |   4 +-
  drivers/staging/media/imx/imx6-mipi-csi2.c    |   2 +-
- drivers/staging/media/ipu3/ipu3-v4l2.c        |  14 +-
- drivers/staging/media/omap4iss/iss_csi2.c     |   3 +-
- drivers/staging/media/omap4iss/iss_ipipe.c    |   3 +-
- drivers/staging/media/omap4iss/iss_ipipeif.c  |   3 +-
- drivers/staging/media/omap4iss/iss_resizer.c  |   3 +-
- .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    |   8 +-
- include/media/v4l2-subdev.h                   | 141 ++++++------------
- 140 files changed, 669 insertions(+), 778 deletions(-)
+ drivers/staging/media/omap4iss/iss_csi2.c     |   6 +-
+ drivers/staging/media/omap4iss/iss_ipipe.c    |   8 +-
+ drivers/staging/media/omap4iss/iss_ipipeif.c  |   8 +-
+ drivers/staging/media/omap4iss/iss_resizer.c  |   8 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    |  10 +-
+ include/media/v4l2-subdev.h                   |   7 +-
+ 98 files changed, 674 insertions(+), 552 deletions(-)
 
-
-base-commit: 19e67e01eb1e84f3529770d084b93f16a4894c42
 -- 
-2.39.2
+Regards,
+
+Laurent Pinchart
 
