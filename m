@@ -2,84 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DEAA87D9390
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:23:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C0A9A7D93E8
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:38:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231351AbjJ0JXs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 05:23:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45122 "EHLO
+        id S1345722AbjJ0Jij (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 05:38:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230101AbjJ0JXr (ORCPT
+        with ESMTP id S1345690AbjJ0Jib (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 05:23:47 -0400
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2351811F
-        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:23:45 -0700 (PDT)
-Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qwJ4B-008dME-I4; Fri, 27 Oct 2023 09:23:43 +0000
-Received: from ip6-localhost ([::1] helo=localhost.localdomain)
-        by slave0 with esmtp (Exim 4.96)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1qwJ48-000x3Q-32;
-        Fri, 27 Oct 2023 09:23:41 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org,
-        Sebastian Fricke <sebastian.fricke@collabora.com>
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR 6.7] Mediatek Vcodec: Codec profile and level setting (#96306)
-Date:   Fri, 27 Oct 2023 09:23:40 +0000
-Message-Id: <20231027092340.226995-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231027085058.k65rwgxepmx5ivu5@basti-XPS-13-9310>
-References: 
+        Fri, 27 Oct 2023 05:38:31 -0400
+Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 696751BB
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:38:28 -0700 (PDT)
+Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-32dbbf3c782so1802799f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:38:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698399507; x=1699004307; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rtVWzB92hc15cCGAVsJCr0D0zC/xe3ZPUDWinw+Lm68=;
+        b=c2FHkwnqpDxk62/4XlprdDFtOLeDYKs4AefeP13nkaxNmU3TDhcDonMiiySNcRl41+
+         8cEOnwzxzoJnAj5VfFC6FhY0rFIsSWBgWcHtCMqRq8qZ/M9MH2nsvvv6MHPuHuwdYxe/
+         4nond/Ds7NwaEyQQLqHWm+X/z6CaCMREAPgoBbSaWswBccpXIGKGd5aY/wpetIW3GJ6n
+         Wgyg9gRv+i7dgZG96H/a6OkKm19vtG4WP3pwdnfEY2zCo56XFHHP5+sNaLB5gRqByzWp
+         Qj8u3YbP0GOllrCTLdEZ9bWsu7MXkY2Fe6nsYEDt8b3xj5xo1TukBT8wdgiVXu4Yg0mN
+         hC5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698399507; x=1699004307;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rtVWzB92hc15cCGAVsJCr0D0zC/xe3ZPUDWinw+Lm68=;
+        b=cFSSh9gwon5IO39jUI7ajq7V9/AaZJhQijxYWMuxvqUu4DhI6DaZtHtKJjX8iv2a8G
+         wMsrfE5vvDfdDSJNuQpWuLQ6pmO5Feh0WNKuiiauKia/iaHlfSYHpncRuZspZAhCiDzA
+         4CG3tGOdZQm2c4Ym7ihzTPjj2ql6gBFHBV7VTex+HWZZldlZDq9Re5Qva2XqUPYzmFYm
+         JZIX9bG4rQAXvb064JrZ26W8h3maexPk2JVqk865Jj/6gNUfsBeTsAMIidTrJTXf1A9x
+         6VNL+prFVOWQLYQ+HOxCsnTOvLMEC0cuYnqEfKhPGf1+Zb9qdiUCI25Q53OqjCeVAsgc
+         qTcw==
+X-Gm-Message-State: AOJu0YznB3yEuL34zSw9mrHWd7DgW8OT5QcuAZaXuqERn8G0njbvp6FY
+        esqpS1gCEEmckuvpTG/3LBj20g==
+X-Google-Smtp-Source: AGHT+IFzn2Se5Sw9T/aX+BWqfplCCwsI6Pq5A4gTadr3MG4jAX2gDZ+1hPcrZ7yXgeAQHpfNC0uy1A==
+X-Received: by 2002:a5d:6d03:0:b0:32d:8982:ff12 with SMTP id e3-20020a5d6d03000000b0032d8982ff12mr3081975wrq.7.1698399506780;
+        Fri, 27 Oct 2023 02:38:26 -0700 (PDT)
+Received: from [192.168.100.102] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id j13-20020a5d564d000000b00327bf4f2f14sm1361488wrw.88.2023.10.27.02.38.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 27 Oct 2023 02:38:26 -0700 (PDT)
+Message-ID: <d62d65b8-da05-4dfb-bf38-1c102564a5a0@linaro.org>
+Date:   Fri, 27 Oct 2023 10:38:25 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] media: qcom: camss: Convert to per-VFE pointer for
+ power-domain linkages
+Content-Language: en-US
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, rfoss@kernel.org,
+        todor.too@gmail.com, andersson@kernel.org, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20231026155042.551731-1-bryan.odonoghue@linaro.org>
+ <20231026155042.551731-3-bryan.odonoghue@linaro.org>
+ <8a36e61a-5397-4513-ae0d-eb68ccd8e584@linaro.org>
+ <9fec3a90-b3dd-4b2e-bb7f-27890ad2b4e0@linaro.org>
+In-Reply-To: <9fec3a90-b3dd-4b2e-bb7f-27890ad2b4e0@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 27/10/2023 10:10, Bryan O'Donoghue wrote:
+> power-domains = <VFE_0>,
+>                  <VFE_1>,
+>                  <TITAN_TOP>; // the controller pd
+> 
+> vfe-set = <VFE_0>, // has its own PD vfe->id = 0
+>            <VFE_1>, // has its own PD vfe->id = 1
+>            <VFE_LITE_N>; // has no PD vfe->id = 2
+> 
+> The basic problem this series fixes is magic indexing.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20231027085058.k65rwgxepmx5ivu5@basti-XPS-13-9310/
-Build log: https://builder.linuxtv.org/job/patchwork/351833/
-Build time: 00:24:29
-Link: https://lore.kernel.org/linux-media/20231027085058.k65rwgxepmx5ivu5@basti-XPS-13-9310
+So be a little clearer; this would be an invalid declaration in dtsi 
+right now
 
-gpg: Signature made Thu 26 Oct 2023 07:15:57 AM UTC
-gpg:                using RSA key C114F6B109AD086C02B4920F7D4612BF5E76A4F0
-gpg: Can't check signature: No public key
+power-domains = <TITAN_TOP>, // has to come last
+                 <VFE_0>,
+                 <VFE_1>; // the code would think this TOP
 
-Summary: got 1/7 patches with issues, being 1 at build time
+The TOP GDSC must come last.
 
-Error/warnings:
+Similarly this would an invalid declaration in our resource structure
 
-patches/0001-media-mediatek-vcodec-Get-the-chip-name-for-each-pla.patch:
+vfe-set = <VFE_LITE_0>, //the code thinks this is a VFE
+           <VFE_LITE_1>, //the code thinks this is a VFE
+           <VFE_0>,
+           <VFE_1>; // and that this is VFE Lite
 
-    allyesconfig: return code #0:
-	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
-	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
-	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+vfe_num = 2;
+vfe-id = {0..3}
 
-    allyesconfig: return code #0:
-	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
-	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
-	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: OOM: 3003988Kb sm_state_count = 2158
-	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: __split_smt: function too hairy.  Giving up after 5 seconds
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: OOM: 3014568Kb sm_state_count = 1757213
-	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 54 seconds
-	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
-	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
-	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
-	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2858 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
-	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1974 vivid_create_instance() parse error: turning off implications after 60 seconds
+// don't hook a PD for VFE Lite
+if (vfe->id >= camss->res->vfe_num)
+     return 0;
 
+has_pd fixes checks like that. Eventually we will throw away has_pd when 
+legacy indexing is dropped - in which case if vfe->id has a res->pd_name 
+we hook it, if not, then not.
+
+The order of declaration won't matter.
+
+---
+bod
