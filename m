@@ -2,103 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D8C67D9362
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:20:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B1297D936E
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:21:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235142AbjJ0JUD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 05:20:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38022 "EHLO
+        id S1345488AbjJ0JV0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 05:21:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345577AbjJ0JT7 (ORCPT
+        with ESMTP id S229503AbjJ0JVY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 05:19:59 -0400
-Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id CE9CA11F;
-        Fri, 27 Oct 2023 02:19:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=x7fiv
-        BQJq72nSMKux0IKJcpLOEh/ZK4DVTpIIvCRjkA=; b=OWIxMHlnmEetMmBrF5wNU
-        iet7mM3/6axuVHUu3jZFNsHOXrsp3S/VMOPP91EA/7OGOW1vfuOg4lGzPHZ8O033
-        /rHAIxiNMDBr4lwpT8LaVY3j2FeWV8laEfkO7c4V97x9T1h0WgNl0B3v2P0kty8b
-        vk6rDiF5DKyGBqGlQOlDYI=
-Received: from leanderwang-LC4.localdomain (unknown [111.206.145.21])
-        by zwqz-smtp-mta-g0-0 (Coremail) with SMTP id _____wBnD_ZrgDtlHuRqBg--.47942S2;
-        Fri, 27 Oct 2023 17:18:35 +0800 (CST)
-From:   Zheng Wang <zyytlz.wz@163.com>
-To:     dmitry.osipenko@collabora.com
-Cc:     Kyrie.Wu@mediatek.com, bin.liu@mediatek.com, mchehab@kernel.org,
-        matthias.bgg@gmail.com, angelogioacchino.delregno@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, Irui.Wang@mediatek.com,
-        security@kernel.org, hackerzheng666@gmail.com,
-        1395428693sheep@gmail.com, alex000young@gmail.com,
-        amergnat@baylibre.com, wenst@chromium.org,
-        Zheng Wang <zyytlz.wz@163.com>, stable@vger.kernel.org
-Subject: [PATCH 2/2] media: mtk-jpeg: Fix timeout schedule error in mtk_jpegdec_worker.
-Date:   Fri, 27 Oct 2023 17:18:32 +0800
-Message-Id: <20231027091832.39082-1-zyytlz.wz@163.com>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBnD_ZrgDtlHuRqBg--.47942S2
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Ar15uF1rKrW5Gr4xtw4Dtwb_yoW8Cw1kpF
-        Z3K3yqkrW5Wrs8tF4UA3W7ZFy5G3s0gr47WF43Wws3J343XF47tryjya4xtFWIyFy2ka4F
-        vF4vg34xJFsFyFJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0ziiIDxUUUUU=
-X-Originating-IP: [111.206.145.21]
-X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/1tbiXA4WU1Xl75dK2QAAsM
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        Fri, 27 Oct 2023 05:21:24 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7E40187
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:21:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698398482; x=1729934482;
+  h=date:from:to:cc:subject:message-id;
+  bh=LU12vgbRx/a/3I3dtvg/i/82U2th0jQMURQlskhAdLQ=;
+  b=IPJDj8LT2snOhJxcM9/796Cgj+LOXScADluWZ/DXAAxTv6DBB5ZjEGnX
+   OUQQbQi4E/Zal0cdk/l0kzXI66Lrkcr4ebc4hIk+D0W9njz+gsjDjqRVY
+   xVGpES8XCNDf/N7r8bZ6LnEBs/TAgLu5KaDs1o/UimiNMbpvqwRGihX9g
+   9aClTZgFBdPUdlp7HE76/ud91ioYklLIxGzF86Vubqo9piVTUncelE8gu
+   ERevR7PAwLB6p6OE3E0aOvqpXLe7rocL4NgdVK0eR00ouhshfV3eB872i
+   nadq0f+I8oRYTHZoCfJBf0TcNQ+6UEtPDXcdnGOQpAOSFjQMHm6tT1SKF
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="387555489"
+X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
+   d="scan'208";a="387555489"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2023 02:21:22 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10875"; a="883136541"
+X-IronPort-AV: E=Sophos;i="6.03,255,1694761200"; 
+   d="scan'208";a="883136541"
+Received: from lkp-server01.sh.intel.com (HELO 8917679a5d3e) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 27 Oct 2023 02:21:21 -0700
+Received: from kbuild by 8917679a5d3e with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qwJ1q-000Agl-2g;
+        Fri, 27 Oct 2023 09:21:18 +0000
+Date:   Fri, 27 Oct 2023 17:20:19 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata] BUILD SUCCESS
+ d184eb37d98e626fa267cf3229974d8d1b7bd364
+Message-ID: <202310271716.snUpyg4W-lkp@intel.com>
+User-Agent: s-nail v14.9.24
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,
+        SPF_HELO_NONE,SPF_NONE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In mtk_jpegdec_worker, if error occurs in mtk_jpeg_set_dec_dst, it
-will start the timeout worker and invoke v4l2_m2m_job_finish at
-the same time. This will break the logic of design for there should
-be only one function to call v4l2_m2m_job_finish. But now the timeout
-handler and mtk_jpegdec_worker will both invoke it.
+tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
+branch HEAD: d184eb37d98e626fa267cf3229974d8d1b7bd364  media: ccs: Remove which parameter from ccs_propagate
 
-Fix it by start the worker only if mtk_jpeg_set_dec_dst successfully
-finished.
+elapsed time: 3521m
 
-Fixes: da4ede4b7fd6 ("media: mtk-jpeg: move data/code inside CONFIG_OF blocks")
-Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: stable@vger.kernel.org
----
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+configs tested: 128
+configs skipped: 2
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index 7194f88edc0f..d099a9b67930 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -1750,9 +1750,6 @@ static void mtk_jpegdec_worker(struct work_struct *work)
- 	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
- 	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
- 
--	schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
--			      msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC));
--
- 	mtk_jpeg_set_dec_src(ctx, &src_buf->vb2_buf, &bs);
- 	if (mtk_jpeg_set_dec_dst(ctx,
- 				 &jpeg_src_buf->dec_param,
-@@ -1762,6 +1759,9 @@ static void mtk_jpegdec_worker(struct work_struct *work)
- 		goto setdst_end;
- 	}
- 
-+	schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
-+			      msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC));
-+
- 	spin_lock_irqsave(&comp_jpeg[hw_id]->hw_lock, flags);
- 	ctx->total_frame_num++;
- 	mtk_jpeg_dec_reset(comp_jpeg[hw_id]->reg_base);
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231025   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                   randconfig-001-20231026   gcc  
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+i386                              allnoconfig   gcc  
+i386         buildonly-randconfig-001-20231025   gcc  
+i386         buildonly-randconfig-002-20231025   gcc  
+i386         buildonly-randconfig-003-20231025   gcc  
+i386         buildonly-randconfig-004-20231025   gcc  
+i386         buildonly-randconfig-005-20231025   gcc  
+i386         buildonly-randconfig-006-20231025   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231025   gcc  
+i386                  randconfig-002-20231025   gcc  
+i386                  randconfig-003-20231025   gcc  
+i386                  randconfig-004-20231025   gcc  
+i386                  randconfig-005-20231025   gcc  
+i386                  randconfig-006-20231025   gcc  
+i386                  randconfig-011-20231025   gcc  
+i386                  randconfig-012-20231025   gcc  
+i386                  randconfig-013-20231025   gcc  
+i386                  randconfig-014-20231025   gcc  
+i386                  randconfig-015-20231025   gcc  
+i386                  randconfig-016-20231025   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231025   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231025   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231025   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20231025   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20231025   gcc  
+x86_64       buildonly-randconfig-002-20231025   gcc  
+x86_64       buildonly-randconfig-003-20231025   gcc  
+x86_64       buildonly-randconfig-004-20231025   gcc  
+x86_64       buildonly-randconfig-005-20231025   gcc  
+x86_64       buildonly-randconfig-006-20231025   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231025   gcc  
+x86_64                randconfig-002-20231025   gcc  
+x86_64                randconfig-003-20231025   gcc  
+x86_64                randconfig-004-20231025   gcc  
+x86_64                randconfig-005-20231025   gcc  
+x86_64                randconfig-006-20231025   gcc  
+x86_64                randconfig-011-20231026   gcc  
+x86_64                randconfig-012-20231026   gcc  
+x86_64                randconfig-013-20231026   gcc  
+x86_64                randconfig-014-20231026   gcc  
+x86_64                randconfig-015-20231026   gcc  
+x86_64                randconfig-016-20231026   gcc  
+x86_64                randconfig-071-20231026   gcc  
+x86_64                randconfig-072-20231026   gcc  
+x86_64                randconfig-073-20231026   gcc  
+x86_64                randconfig-074-20231026   gcc  
+x86_64                randconfig-075-20231026   gcc  
+x86_64                randconfig-076-20231026   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
