@@ -2,113 +2,276 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 716447D9574
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 12:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 204C77D9612
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 13:12:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230502AbjJ0Ko2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 06:44:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45656 "EHLO
+        id S231519AbjJ0LMc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 07:12:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52644 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229633AbjJ0Ko2 (ORCPT
+        with ESMTP id S231461AbjJ0LMb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 06:44:28 -0400
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C61FC129
-        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 03:44:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-        s=s31663417; t=1698403463; x=1699008263; i=j-p-t@gmx.net;
-        bh=/LPrTEXv4Xq8ir6OTnE/aupILrywvK8Y4w7RQ2fyAjk=;
-        h=X-UI-Sender-Class:Date:To:From:Subject;
-        b=FW8zFtbnNgZzpIqCR7VC/9LRC4DjjkDFszhQdf4aOdUkP2Vgu+f7wKU93uTZ9Crw
-         tlHyTZ/tGbEV3ct7jCNV94Oq5EzkH7SeUijishJg/fSJoM8Jovh4YpdAOGl//mE2R
-         K+SHxvbQkeIWhFHBNjKVNJebM79U0s+noQM2bgmEuVX8f8lcKRvpk3G2TbNQb4Iy1
-         sNnV+GgwSx3F00nWAko6pdYLxJhA+ixfzpyzYK5oXX9aae9kmFGACoe7QKdW7JPpD
-         mrfxHiVsL0xYGWAEcailjF6Z8rA1z0S1oCn9urxaod0SoxCSzmOjoejHRpv6j1iYf
-         lJg3vEeSNs4Q5fqVOg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.178.58] ([45.14.97.35]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MMobU-1rF5f83z1g-00IoZw for
- <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 12:44:23 +0200
-Message-ID: <58d19b90-1878-4a18-bed0-0d5c51ae7235@gmx.net>
-Date:   Fri, 27 Oct 2023 12:44:22 +0200
+        Fri, 27 Oct 2023 07:12:31 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34D4D1AC;
+        Fri, 27 Oct 2023 04:12:27 -0700 (PDT)
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:bc36:5a6f:d67a:959d])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E52C669;
+        Fri, 27 Oct 2023 13:12:12 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1698405132;
+        bh=qK/u2PyICgAhXMtgGn2WzUIKTFV4F20sf/ClvuieuFs=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NnAu6ExTuvrmWBa7A3fAR8jp6vVNnDoErr1t93pNRVhvzIfUIPun831Y7xzW7jNDY
+         1GKHuO0PlpAIo8biWafxWzOZw6H812DCdGz271HDs55wBFt/dzCkcmH/IJpTRPFNxf
+         ImJS2IPNp1MATmBtT69OzL3Slzvq13U26q09DI9A=
+Date:   Fri, 27 Oct 2023 13:12:22 +0200
+From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To:     Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+        Ricardo Ribalda <ribalda@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Subject: Re: [PATCH 4/4] media: i2c: imx214: Add sensor's pixel matrix size
+Message-ID: <san47wekkcw24q34dx2sagph3kkxqaqayxzsd5v6iodp34yc5v@rpkxeirikc4e>
+References: <20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu>
+ <20231023-imx214-v1-4-b33f1bbd1fcf@apitzsch.eu>
+ <56kgwl7zehsxy2pp7nziwk2gt6joax42qpzs6eywufvcto7qxm@ts4i3ccdokjr>
+ <f5475c4f90e52817349e4842984bb3657b1e500d.camel@apitzsch.eu>
+ <3opzxxkqa4p6wxddx7bdf2dixphfuo4xunaaiqibvtppmyz6gr@vjxbtjjqiqvy>
+ <CAPY8ntC4TNkxuG9S8Lo-fmMcCSF39tCT_W2oO1KHHj5Fg6B0VQ@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: de-DE
-To:     Linux Media Subsystem <linux-media@vger.kernel.org>
-From:   JPT <j-p-t@gmx.net>
-Subject: [dtv-scan-tables] new DVB-C submission for dvb-c/de-Hanau-Synvia
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:XRKt4jOMpjQJjDZW87Naml7I/Rdjg5/9fKUndAlwhF+hkSqzX3P
- cpFbi6cGMicaO3lr8igYY+yt8JlEIvbSKIN/oLZMgtEzplSWUeNX/mI0rTNUlKv8EuG5wuW
- yFN6wZruSaAke3jG4aW+uxLlE54FxUIboMjsoYfgI0PXrLXZlmMpur+SLPyh4TQn34z2e7U
- 54D/lBI0+bgAnjwlp1Nhg==
-UI-OutboundReport: notjunk:1;M01:P0:a1zIpyiR+2o=;qcss0qcESLW5WSoTXyRJ7jZip9A
- +zlNO3LqQ+RevHvLyEjujQwJI80dJ4TYZLDjM/2QZtdXAdXt7MDsLM/ogDhGY3j2H7jtazDgt
- htPSa8D3q85KYy5iRnsolyTjGgYV27Fipk/3mvgolmEZZFps6I+jGbGZi+VgMiezsVZuRkgHw
- HBCjQe3Tn2FBQAtaSw6+2CduReQLI1XdRspvfhENddmfv8zk0dTrhk6qZb0yFaD7amZv0O5t5
- 5FD+0TEQDzpMa14fEzAMZvoSdOHPMstihQGo27gYcJkIrw7NMqnGtV+pqIiEqjIEvPHhEHrqH
- 71JpXy8cnFdxuyM1lFm4eSv8uEkIq/QqE5UccweaWuqPUa/ml4hJmUH0FBb3FwHEeueietjxN
- ZAugcj4uz38kTHcjiCga5NERRIbadHarL0UahtuU8DqCHtefHBfup3yOtl04f4U3a4VgSc3Ot
- EdpLBbbpxA2h5j3pUYSLB7sa265NJtum84QwsSyhzpph4tXqX4eg9s36BHTKGChXe6wFAsTZw
- ykCHz4ULfSsQdeLTnKF3wut45Va0nazF1uKMaDDrs9P6Myli2c+PluXCGQ05Q1yB/a4lo+tzF
- wYZW5OrMREogTtOG1fer9gsSpkfYDQ2jtPExOGxpr6hxX0JmUnwJqJZCr820iEfYShI98qer7
- t78rx5FIp945aNBDKRbKSiTSrO6kRdSBfsMPuDOhbJhXK+TBFELFcwGpxTiqscAWeOWsrcF2M
- XVOLrKJmX00WFk0fZJCvOjmXKcMh/BMoymp5ZODfYMNHw4rsm7c7K87Z5dpcofwbizZ+WMfCJ
- ve
-X-Spam-Status: No, score=0.5 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,RCVD_IN_DNSWL_LOW,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,RCVD_IN_SBL_CSS,SPF_HELO_NONE,
-        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPY8ntC4TNkxuG9S8Lo-fmMcCSF39tCT_W2oO1KHHj5Fg6B0VQ@mail.gmail.com>
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,SPF_HELO_PASS,
+        SPF_PASS,URIBL_BLOCKED autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Dave
 
-I would like to publish an new dataset.
+On Fri, Oct 27, 2023 at 11:29:11AM +0100, Dave Stevenson wrote:
+> Hi Jacopo
+>
+> On Fri, 27 Oct 2023 at 09:57, Jacopo Mondi
+> <jacopo.mondi@ideasonboard.com> wrote:
+> >
+> > Hi Andre'
+> >
+> > On Wed, Oct 25, 2023 at 11:26:00PM +0200, André Apitzsch wrote:
+> > > Hi Jacopo,
+> > >
+> > > Am Dienstag, dem 24.10.2023 um 09:52 +0200 schrieb Jacopo Mondi:
+> > > > Hi Andre'
+> > > >
+> > > > On Mon, Oct 23, 2023 at 11:47:53PM +0200, André Apitzsch wrote:
+> > > > > Set effictive and active sensor pixel sizes as shown in product
+> > > >
+> > > > s/effictive/effective
+> > > >
+> > > > > brief[1].
+> > > > >
+> > > > > [1]:
+> > > > > https://www.mouser.com/datasheet/2/897/ProductBrief_IMX214_20150428-1289331.pdf
+> > > > >
+> > > > > Signed-off-by: André Apitzsch <git@apitzsch.eu>
+> > > > > ---
+> > > > >  drivers/media/i2c/imx214.c | 39 ++++++++++++++++++++++++++++++++--
+> > > > > -----
+> > > > >  1 file changed, 32 insertions(+), 7 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/media/i2c/imx214.c
+> > > > > b/drivers/media/i2c/imx214.c
+> > > > > index bef8dc36e2d0..a2d441cd8dcd 100644
+> > > > > --- a/drivers/media/i2c/imx214.c
+> > > > > +++ b/drivers/media/i2c/imx214.c
+> > > > > @@ -36,6 +36,14 @@
+> > > > >  #define IMX214_EXPOSURE_STEP             1
+> > > > >  #define IMX214_EXPOSURE_DEFAULT          0x0c70
+> > > > >
+> > > > > +/* IMX214 native and active pixel array size */
+> > > > > +#define IMX214_NATIVE_WIDTH              4224U
+> > > > > +#define IMX214_NATIVE_HEIGHT             3136U
+> > > > > +#define IMX214_PIXEL_ARRAY_LEFT          8U
+> > > > > +#define IMX214_PIXEL_ARRAY_TOP           8U
+> > > > > +#define IMX214_PIXEL_ARRAY_WIDTH 4208U
+> > > > > +#define IMX214_PIXEL_ARRAY_HEIGHT        3120U
+> > > > > +
+> > > >
+> > > > I do get slightly different numbers from the datasheet version I have
+> > > >
+> > > > The sensor is said to have 4224x3208 total pixels of which 4208x3120
+> > > > are active ones.
+> > > >
+> > > > The pixel array diagram shows 64 "OPB" (optically black ?) lines,
+> > > > followed by 8 dummy lines, followed by 3120 valid lines. There are 8
+> > > > dummy columns at each side of the 4208 valid ones.
+> > > >
+> > > > Now, NATIVE which represents the full pixel array size seems to be
+> > > > 4224x3208 (other parts of the datasheet only report 3200 lines
+> > > > though)
+> > > >
+> > > > BOUNDS represents the readabale array area, which I presume
+> > > > corresponds to what is named as 'effective area' by the datasheet. It
+> > > > excludes the OPB lines at the top of the image and seems to be
+> > > > represented by (0, 64, 4224, 3160).
+> > > >
+> > > > CROP_DEFAULT represents the default crop rectangle which covers the
+> > > > active pixel area, so it excludes 8 more lines of dummy pixels and 8
+> > > > dummy columns, which gives a rectangle (8, 72, 4208, 3120)
+> > > >
+> > > > Also note that the driver always reports a TGT_CROP rectangle with
+> > > > top/left points set to 0. If my understanding is correct, V4L2
+> > > > selection targets are defined from the most external target
+> > > > (TGT_NATIVE in this case), and the driver should be corrected to
+> > > > initialize the crop rectangle with a top-left corner at (8, 72).
+> > > >
+> > > > Does this make sense ?
+> > >
+> > > As far as I understood, only the effective and active sizes of three
+> > > sizes provided in the datasheet (total, effective and active) matter.
+> > > By comparing the values used in imx219.c (and imx415.c) with the ones
+> > > in the corresponding datasheets [1,2] I assume, that "effective"
+> > > matches "NATIVE_SIZE", "active" matches "CROP_DEFAULT" and "total" is
+> > > ignored.
+> >
+> > imx219 driver indeed does not consider the OPB areas in the definition
+> > of the rectangles...
+> >
 
-But I cannot find out how to create a dvbv5 format file.
-
-I got dvbv5-scan, but in order to run it, it needs some input.
-But I cannot find any info on what it actually wants.
-I tried
-	w_scan -f c -x > dvbscaninput.txt
-This finds a lot of data, but doesn't produce any output on STDOUT.
-
-I also tried other output formats which dvbv5-scan was unable to read.
-
-I tried manually created:
-[CHANNEL]
-         DELIVERY_SYSTEM =3D DVBC/ANNEX_A
-         FREQUENCY =3D 266000000
-         SYMBOL_RATE =3D 6900000
-         INNER_FEC =3D NONE
-         MODULATION =3D QAM/256
-         INVERSION =3D AUTO
-
-which resulted in:
-ERROR    command BANDWIDTH_HZ (5) not found during retrieve
-Cannot calc frequency shift. Either bandwidth/symbol-rate is unavailable
-(yet).
-Scanning frequency #1 266000000
-Lock   (0x1f) C/N=3D 36,50dB UCB=3D 24 postBER=3D 100x10^-3
-ERROR    dvb_read_sections: no data read on section filter
-ERROR    error while reading the NIT table
-Service Sonnenklar TV, provider BetaDigital: digital television
-[like 10 more ...]
-Service Bibel TV, provider SES ASTRA: digital television
-
-first, dvbscan did not produce the output expected.
-second I expected dvbscan to fetch the other muxes automatically after
-it was able to tune on the first one.
-
-ps. The dtv-scan-tables/README misses information on how to generate new
-entries. Could someone please add a guide or a link?
+I know it sounds ridiculous as I've been the one adding selection
+support to imx219, but I presume we discussed it somewhen in the past:
+do you happen to remember why we left the OPB area out from the native
+sizes ? (Does OPB stand for "Optically black" ? )
 
 
-thank you very much
+> > Also looking at the X/Y_ADDR_START value assigned in the register tables
+> > for full resolution mode (3280x2462) they have value of 0, indeed
+> > meaning the active area is the only readable one.
+> >
+> > Then yes, you're right, for imx219
+> > NATIVE = effective
+> > CROP_DEFAULT = BOUND = active
+> >
 
-JPT
+I presume you can confirm this, right ?
+
+> > > The commit message of 1ed36ecd1459b653cced8929bfb37dba94b64c5d ("media:
+> > > i2c: imx219: Selection compliance fixes") seems to support me here:
+> >
+> > >
+> > > > The top/left crop coordinates of the TGT_CROP rectangle were set to
+> > > > (0, 0) instead of (8, 8) which is the offset from the larger physical
+> > > > pixel array rectangle.
+> > >
+> > > This (8, 8) is half the difference between number of effective and
+> > > active pixels of imx219[1].
+> > >
+> > > Together with the 8 dummy lines and 8 dummy columns you mentioned, I
+> > > still think my values are right. But I've just started working with
+> > > V4L2, so I might be wrong.
+> >
+> > To actually verify if the 'effective area' is readable or not, we
+> > should know what register controls the X/Y_ADDR_START value, and
+> > that's an information I don't have in my version of the datasheet.
+>
+> I happen to have an IMX214 datasheet.
+> X_ADDR_START is 0x0344/5 (set in multiples of 2)
+> Y_ADDR_START is 0x0346/7 (set in multiples of 4)
+> X_ADDR_END is 0x0348/9 (set in multiples of 2)
+> Y_ADDR_END is 0x034a/b (set in multiples of 4)
+> X_OUTPUT_SIZE 0x034c/d
+> Y_OUTPUT_SIZE 0x034e/f
+>
+> X direction are 13bit values, Y direction are 12 bit.
+> [12:8] or [11:8] in the low bits of the first register, [7:0] in the
+> second register.
+
+AH thanks! Unfortunately the largest imx214 mode is cropped from full
+pixel array it seems, so not that helpful :(
+
+>
+>   Dave
+>
+> > It's however plausible that it behaves the same as imx219, as the
+> > driver's register sequences seems to program the crop sizes in
+> > register 0x034c and 0x034e and there's not programmed top-left corner
+> > there.
+> >
+> > Ok then, let's be consistent and do the same as imx219 as you're doing
+> > here.
+> >
+> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> >
+> > >
+> > > Could you share the imx214 datasheet with me?
+> > >
+> > > Best regards,
+> > > André
+> > >
+> > > [1] https://www.arducam.com/downloads/modules/RaspberryPi_camera/IMX219DS.PDF
+> > > [2] https://www.sony-semicon.com/files/62/pdf/p-12_IMX415-AAQR_AAMR_Flyer.pdf
+> > > >
+> > > > Thanks
+> > > >   j
+> > > >
+> > > >
+> > > > >  static const char * const imx214_supply_name[] = {
+> > > > >   "vdda",
+> > > > >   "vddd",
+> > > > > @@ -634,14 +642,31 @@ static int imx214_get_selection(struct
+> > > > > v4l2_subdev *sd,
+> > > > >  {
+> > > > >   struct imx214 *imx214 = to_imx214(sd);
+> > > > >
+> > > > > - if (sel->target != V4L2_SEL_TGT_CROP)
+> > > > > -         return -EINVAL;
+> > > > > + switch (sel->target) {
+> > > > > + case V4L2_SEL_TGT_CROP:
+> > > > > +         mutex_lock(&imx214->mutex);
+> > > > > +         sel->r = *__imx214_get_pad_crop(imx214, sd_state,
+> > > > > sel->pad,
+> > > > > +                                         sel->which);
+> > > > > +         mutex_unlock(&imx214->mutex);
+> > > > > +         return 0;
+> > > > >
+> > > > > - mutex_lock(&imx214->mutex);
+> > > > > - sel->r = *__imx214_get_pad_crop(imx214, sd_state, sel-
+> > > > > >pad,
+> > > > > -                                 sel->which);
+> > > > > - mutex_unlock(&imx214->mutex);
+> > > > > - return 0;
+> > > > > + case V4L2_SEL_TGT_NATIVE_SIZE:
+> > > > > +         sel->r.top = 0;
+> > > > > +         sel->r.left = 0;
+> > > > > +         sel->r.width = IMX214_NATIVE_WIDTH;
+> > > > > +         sel->r.height = IMX214_NATIVE_HEIGHT;
+> > > > > +         return 0;
+> > > > > +
+> > > > > + case V4L2_SEL_TGT_CROP_DEFAULT:
+> > > > > + case V4L2_SEL_TGT_CROP_BOUNDS:
+> > > > > +         sel->r.top = IMX214_PIXEL_ARRAY_TOP;
+> > > > > +         sel->r.left = IMX214_PIXEL_ARRAY_LEFT;
+> > > > > +         sel->r.width = IMX214_PIXEL_ARRAY_WIDTH;
+> > > > > +         sel->r.height = IMX214_PIXEL_ARRAY_HEIGHT;
+> > > > > +         return 0;
+> > > > > + }
+> > > > > +
+> > > > > + return -EINVAL;
+> > > > >  }
+> > > > >
+> > > > >  static int imx214_entity_init_cfg(struct v4l2_subdev *subdev,
+> > > > >
+> > > > > --
+> > > > > 2.42.0
+> > > > >
+> > >
