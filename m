@@ -2,36 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4367D7D934E
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:16:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 334777D934F
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:16:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345352AbjJ0JQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 05:16:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55348 "EHLO
+        id S1345406AbjJ0JQv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 05:16:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234978AbjJ0JQt (ORCPT
+        with ESMTP id S231340AbjJ0JQu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 05:16:49 -0400
+        Fri, 27 Oct 2023 05:16:50 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA47593
-        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:16:47 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E340693
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:16:48 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4503CBEB;
-        Fri, 27 Oct 2023 11:16:33 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8BCE2DD9;
+        Fri, 27 Oct 2023 11:16:34 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698398193;
-        bh=0S23QRHl5dZOe+hhSJs11r22GkhzL/SkrzsfweJYxDE=;
+        s=mail; t=1698398194;
+        bh=CNzQUdy5MIzqA/6ECnRgoM1rLl0qzC1xGoCLrU8k/WY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=RLIRQU5kAF6U+PtkNAnuueaLzmVMKa8D1/pv4jeDRDScslnQ2DDG4hiWP55xkWt9f
-         vG5ADPhjX9GG0RuDuQQyTNR+4BTntNcgZp637NGUBVNlMMe1sfstuDpDMrWiSgW0dX
-         Y+mKg+jfR4poKxZBj9RIK34LRl0zTRrP8Xc8HiYw=
+        b=fy4YBouYFbMXY0Ovy9mK1x7eBNWxfQnuHr6lmzO644+kDHhEUYh/9ALxYBCb1Qgsj
+         oa+szPgfDN9K4N9A5hrCbemwY3/pujapsg+Ki8dFKM1dI6b0n0hFTL0LLDoiB9bmaU
+         w53oU+aPRkCNoKZUKIt9wMV7vOzBYi0E2PlxuTXo=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v2 2/9] media: v4l2-subdev: Drop outdated comment for v4l2_subdev_pad_config
-Date:   Fri, 27 Oct 2023 12:16:42 +0300
-Message-ID: <20231027091649.10553-3-laurent.pinchart@ideasonboard.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Eugen Hristev <eugen.hristev@collabora.com>,
+        Nicolas Ferre <nicolas.ferre@microchip.com>
+Subject: [PATCH v2 3/9] media: microchip-isc: Remove dead code in pipeline validation
+Date:   Fri, 27 Oct 2023 12:16:43 +0300
+Message-ID: <20231027091649.10553-4-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231027091649.10553-1-laurent.pinchart@ideasonboard.com>
 References: <20231027091649.10553-1-laurent.pinchart@ideasonboard.com>
@@ -47,30 +49,84 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The v4l2_subdev_pad_config structure is not passed to subdev operations
-anymore. Drop an outdated comment to refers to that old mechanism.
+The isc_try_fse() function, called from isc_validate(), takes two
+parameters, an isc_device pointer, and a v4l2_subdev_state pointer. The
+isc_device is accessed but not modified by the function. The state is
+modified, including the struct v4l2_subdev_pad_config array it points
+to, but they are then never used by the caller. Furthermore, the V4L2
+subdev operation called by isc_try_fse() doesn't modify the subdev it is
+called on. The isc_try_fse() function has thus no effect, and can just
+be dropped.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- include/media/v4l2-subdev.h | 4 ----
- 1 file changed, 4 deletions(-)
+ .../platform/microchip/microchip-isc-base.c   | 39 -------------------
+ 1 file changed, 39 deletions(-)
 
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index ae9e0f0c1b19..72131c943e06 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -692,10 +692,6 @@ struct v4l2_subdev_ir_ops {
-  * @try_crop: &struct v4l2_rect to be used for crop
-  * @try_compose: &struct v4l2_rect to be used for compose
-  *
-- * This structure only needs to be passed to the pad op if the 'which' field
-- * of the main argument is set to %V4L2_SUBDEV_FORMAT_TRY. For
-- * %V4L2_SUBDEV_FORMAT_ACTIVE it is safe to pass %NULL.
-- *
-  * Note: This struct is also used in active state, and the 'try' prefix is
-  * historical and to be removed.
-  */
+diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
+index 1f8528844497..540cb1378289 100644
+--- a/drivers/media/platform/microchip/microchip-isc-base.c
++++ b/drivers/media/platform/microchip/microchip-isc-base.c
+@@ -851,38 +851,6 @@ static int isc_try_configure_pipeline(struct isc_device *isc)
+ 	return 0;
+ }
+ 
+-static void isc_try_fse(struct isc_device *isc,
+-			struct v4l2_subdev_state *sd_state)
+-{
+-	struct v4l2_subdev_frame_size_enum fse = {
+-		.which = V4L2_SUBDEV_FORMAT_TRY,
+-	};
+-	int ret;
+-
+-	/*
+-	 * If we do not know yet which format the subdev is using, we cannot
+-	 * do anything.
+-	 */
+-	if (!isc->config.sd_format)
+-		return;
+-
+-	fse.code = isc->try_config.sd_format->mbus_code;
+-
+-	ret = v4l2_subdev_call(isc->current_subdev->sd, pad, enum_frame_size,
+-			       sd_state, &fse);
+-	/*
+-	 * Attempt to obtain format size from subdev. If not available,
+-	 * just use the maximum ISC can receive.
+-	 */
+-	if (ret) {
+-		sd_state->pads->try_crop.width = isc->max_width;
+-		sd_state->pads->try_crop.height = isc->max_height;
+-	} else {
+-		sd_state->pads->try_crop.width = fse.max_width;
+-		sd_state->pads->try_crop.height = fse.max_height;
+-	}
+-}
+-
+ static int isc_try_fmt(struct isc_device *isc, struct v4l2_format *f)
+ {
+ 	struct v4l2_pix_format *pixfmt = &f->fmt.pix;
+@@ -944,10 +912,6 @@ static int isc_validate(struct isc_device *isc)
+ 		.which = V4L2_SUBDEV_FORMAT_ACTIVE,
+ 		.pad = isc->remote_pad,
+ 	};
+-	struct v4l2_subdev_pad_config pad_cfg = {};
+-	struct v4l2_subdev_state pad_state = {
+-		.pads = &pad_cfg,
+-	};
+ 
+ 	/* Get current format from subdev */
+ 	ret = v4l2_subdev_call(isc->current_subdev->sd, pad, get_fmt, NULL,
+@@ -1008,9 +972,6 @@ static int isc_validate(struct isc_device *isc)
+ 	if (ret)
+ 		return ret;
+ 
+-	/* Obtain frame sizes if possible to have crop requirements ready */
+-	isc_try_fse(isc, &pad_state);
+-
+ 	/* Configure ISC pipeline for the config */
+ 	ret = isc_try_configure_pipeline(isc);
+ 	if (ret)
 -- 
 Regards,
 
