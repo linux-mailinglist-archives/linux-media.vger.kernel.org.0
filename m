@@ -2,112 +2,351 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 811D27D9977
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 15:14:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A14007D998F
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 15:18:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345780AbjJ0NO5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 09:14:57 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44322 "EHLO
+        id S1345688AbjJ0NSW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 09:18:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231305AbjJ0NO4 (ORCPT
+        with ESMTP id S231721AbjJ0NSV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Oct 2023 09:14:56 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86B6010E
-        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 06:14:54 -0700 (PDT)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6D0F7669;
-        Fri, 27 Oct 2023 15:14:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698412479;
-        bh=/k8jMNhN1wqP0c2nJl6qPf1SlyCS7Lg5PNQ08eo1LDk=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=hHTEUOMEnR0gkhVUpFPmXxeOvDMRe6yInmY52jyNP1H0B7W5O9YvjeV/dqUPYH9tn
-         se+Ti8URqpsy830M4CLRBQUOYOxU7JqWXjGEzYY3iS92Ghk7hHiXxmSEJqB6F0Ha2Q
-         Akl2PkJTJeH+BqCnsUjjcTe9+i5fatPHNPDzRK7c=
-Message-ID: <858d93a8-2d4d-4d21-aeba-1a332542d6ad@ideasonboard.com>
-Date:   Fri, 27 Oct 2023 16:14:49 +0300
+        Fri, 27 Oct 2023 09:18:21 -0400
+Received: from mail-yw1-x1130.google.com (mail-yw1-x1130.google.com [IPv6:2607:f8b0:4864:20::1130])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02D99128
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 06:18:17 -0700 (PDT)
+Received: by mail-yw1-x1130.google.com with SMTP id 00721157ae682-5a7d9d357faso15663437b3.0
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 06:18:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1698412696; x=1699017496; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jIgNvw60oeEsfoSUoIe8lWjvPgDk1w/uAWEIi4AcBPA=;
+        b=cHrxg07kga5vqf4vQV3bJWOIz22gYrDCQUw0iG+PElsib31NDnM40xs0+3yl4s/VmE
+         zUqKq3YXJFg/DZxPmzCf7hYtBrRbDgEY/AkcJyfXgqCWzwrZhDEc3SalHfrgZWx6LPTF
+         NZAokv86uzrNoyIbOaQS7LxjL/AU3ZRcKu2A9LTRtkBzyRXvBh/ufkx1Pcdelx/VT1RK
+         Lpxj36ChFZiQ89BIdZYQSmuH8Vwft0s99S4uNDI8/BiK1Acur8CvpN3hSEX/gGzsWT37
+         T5Ej+m4jRb94RVes2HH6IwNanRDuJCAUy/dhDzveegiSvCoWgoFr3TzLhMnIy+yK2fJl
+         F6Tw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698412696; x=1699017496;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jIgNvw60oeEsfoSUoIe8lWjvPgDk1w/uAWEIi4AcBPA=;
+        b=VR1Ux5OV8eo+yHDQUcb6zxmTkvapbLbk/dmGoJVo7oH8JAvKBVxaCXnn5F9fpsk8mm
+         jpkmmcq5Zglt6paTFnK/tMzxdaefxEduIGgasdTI+wq0i3tWZLJkEeuUW9b8OERluydv
+         RZ6kSw0G1QCZxVuFbgMJ3RUniJPtBm0EhGrWHlUAE2Mzo2v01NiAZQ9TTMdQD6ACqWBU
+         5ShFMx4n9+0VRkTnAueHODBj+8kEJtesVxJwbJB+P7wPzF/xgoWs6nDZrPN4Bjxpa9m1
+         5D63OY1wQV7J79/umNDCXunK8zK3CQjHjjt6MLZBDWSq0kIC6AJUEmMSlBrCCFifKW1w
+         1u6g==
+X-Gm-Message-State: AOJu0YxH4V6Zz0Kvo1lkAKkgLdJPw5DhRZmWhoNncl68JS0LncOkJbeA
+        fN2nb18XjW7cySHy1n5fjiC1BLqOjLeSeFLk6RXdYw==
+X-Google-Smtp-Source: AGHT+IFUpSieQPfq/ddu+vXmX/G57S5/wkIbZOhNGHuaZs2Zp0+f6Wnqu9Nz/VFwkyAep+9f66teCvVcb97UPE2ui8s=
+X-Received: by 2002:a81:e40e:0:b0:5a7:ba54:af02 with SMTP id
+ r14-20020a81e40e000000b005a7ba54af02mr2450824ywl.38.1698412696065; Fri, 27
+ Oct 2023 06:18:16 -0700 (PDT)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 7/8] media: v4l: subdev: Remove stream-unaware
- sub-device state access
-Content-Language: en-US
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        jacopo.mondi@ideasonboard.com, bingbu.cao@intel.com,
-        hongju.wang@intel.com, Alain Volmat <alain.volmat@foss.st.com>
-References: <20231027095913.1010187-1-sakari.ailus@linux.intel.com>
- <20231027095913.1010187-8-sakari.ailus@linux.intel.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20231027095913.1010187-8-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+References: <20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu>
+ <20231023-imx214-v1-4-b33f1bbd1fcf@apitzsch.eu> <56kgwl7zehsxy2pp7nziwk2gt6joax42qpzs6eywufvcto7qxm@ts4i3ccdokjr>
+ <f5475c4f90e52817349e4842984bb3657b1e500d.camel@apitzsch.eu>
+ <3opzxxkqa4p6wxddx7bdf2dixphfuo4xunaaiqibvtppmyz6gr@vjxbtjjqiqvy>
+ <CAPY8ntC4TNkxuG9S8Lo-fmMcCSF39tCT_W2oO1KHHj5Fg6B0VQ@mail.gmail.com> <san47wekkcw24q34dx2sagph3kkxqaqayxzsd5v6iodp34yc5v@rpkxeirikc4e>
+In-Reply-To: <san47wekkcw24q34dx2sagph3kkxqaqayxzsd5v6iodp34yc5v@rpkxeirikc4e>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Fri, 27 Oct 2023 14:17:59 +0100
+Message-ID: <CAPY8ntA0VWjj2q47sd2AwixjYKrzgP4KddoeDkPyqOepb+4JFg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] media: i2c: imx214: Add sensor's pixel matrix size
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc:     =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+        Ricardo Ribalda <ribalda@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        ~postmarketos/upstreaming@lists.sr.ht
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-0.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,PDS_OTHER_BAD_TLD,
+        RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 27/10/2023 12:59, Sakari Ailus wrote:
-> Remove stream-unaware sub-device state access functions and macros. These
-> are no longer used.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->   include/media/v4l2-subdev.h | 77 -------------------------------------
->   1 file changed, 77 deletions(-)
+Hi Jacopo
 
-Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+On Fri, 27 Oct 2023 at 12:12, Jacopo Mondi
+<jacopo.mondi@ideasonboard.com> wrote:
+>
+> Hi Dave
+>
+> On Fri, Oct 27, 2023 at 11:29:11AM +0100, Dave Stevenson wrote:
+> > Hi Jacopo
+> >
+> > On Fri, 27 Oct 2023 at 09:57, Jacopo Mondi
+> > <jacopo.mondi@ideasonboard.com> wrote:
+> > >
+> > > Hi Andre'
+> > >
+> > > On Wed, Oct 25, 2023 at 11:26:00PM +0200, Andr=C3=A9 Apitzsch wrote:
+> > > > Hi Jacopo,
+> > > >
+> > > > Am Dienstag, dem 24.10.2023 um 09:52 +0200 schrieb Jacopo Mondi:
+> > > > > Hi Andre'
+> > > > >
+> > > > > On Mon, Oct 23, 2023 at 11:47:53PM +0200, Andr=C3=A9 Apitzsch wro=
+te:
+> > > > > > Set effictive and active sensor pixel sizes as shown in product
+> > > > >
+> > > > > s/effictive/effective
+> > > > >
+> > > > > > brief[1].
+> > > > > >
+> > > > > > [1]:
+> > > > > > https://www.mouser.com/datasheet/2/897/ProductBrief_IMX214_2015=
+0428-1289331.pdf
+> > > > > >
+> > > > > > Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
+> > > > > > ---
+> > > > > >  drivers/media/i2c/imx214.c | 39 ++++++++++++++++++++++++++++++=
+++--
+> > > > > > -----
+> > > > > >  1 file changed, 32 insertions(+), 7 deletions(-)
+> > > > > >
+> > > > > > diff --git a/drivers/media/i2c/imx214.c
+> > > > > > b/drivers/media/i2c/imx214.c
+> > > > > > index bef8dc36e2d0..a2d441cd8dcd 100644
+> > > > > > --- a/drivers/media/i2c/imx214.c
+> > > > > > +++ b/drivers/media/i2c/imx214.c
+> > > > > > @@ -36,6 +36,14 @@
+> > > > > >  #define IMX214_EXPOSURE_STEP             1
+> > > > > >  #define IMX214_EXPOSURE_DEFAULT          0x0c70
+> > > > > >
+> > > > > > +/* IMX214 native and active pixel array size */
+> > > > > > +#define IMX214_NATIVE_WIDTH              4224U
+> > > > > > +#define IMX214_NATIVE_HEIGHT             3136U
+> > > > > > +#define IMX214_PIXEL_ARRAY_LEFT          8U
+> > > > > > +#define IMX214_PIXEL_ARRAY_TOP           8U
+> > > > > > +#define IMX214_PIXEL_ARRAY_WIDTH 4208U
+> > > > > > +#define IMX214_PIXEL_ARRAY_HEIGHT        3120U
+> > > > > > +
+> > > > >
+> > > > > I do get slightly different numbers from the datasheet version I =
+have
+> > > > >
+> > > > > The sensor is said to have 4224x3208 total pixels of which 4208x3=
+120
+> > > > > are active ones.
+> > > > >
+> > > > > The pixel array diagram shows 64 "OPB" (optically black ?) lines,
+> > > > > followed by 8 dummy lines, followed by 3120 valid lines. There ar=
+e 8
+> > > > > dummy columns at each side of the 4208 valid ones.
+> > > > >
+> > > > > Now, NATIVE which represents the full pixel array size seems to b=
+e
+> > > > > 4224x3208 (other parts of the datasheet only report 3200 lines
+> > > > > though)
+> > > > >
+> > > > > BOUNDS represents the readabale array area, which I presume
+> > > > > corresponds to what is named as 'effective area' by the datasheet=
+. It
+> > > > > excludes the OPB lines at the top of the image and seems to be
+> > > > > represented by (0, 64, 4224, 3160).
+> > > > >
+> > > > > CROP_DEFAULT represents the default crop rectangle which covers t=
+he
+> > > > > active pixel area, so it excludes 8 more lines of dummy pixels an=
+d 8
+> > > > > dummy columns, which gives a rectangle (8, 72, 4208, 3120)
+> > > > >
+> > > > > Also note that the driver always reports a TGT_CROP rectangle wit=
+h
+> > > > > top/left points set to 0. If my understanding is correct, V4L2
+> > > > > selection targets are defined from the most external target
+> > > > > (TGT_NATIVE in this case), and the driver should be corrected to
+> > > > > initialize the crop rectangle with a top-left corner at (8, 72).
+> > > > >
+> > > > > Does this make sense ?
+> > > >
+> > > > As far as I understood, only the effective and active sizes of thre=
+e
+> > > > sizes provided in the datasheet (total, effective and active) matte=
+r.
+> > > > By comparing the values used in imx219.c (and imx415.c) with the on=
+es
+> > > > in the corresponding datasheets [1,2] I assume, that "effective"
+> > > > matches "NATIVE_SIZE", "active" matches "CROP_DEFAULT" and "total" =
+is
+> > > > ignored.
+> > >
+> > > imx219 driver indeed does not consider the OPB areas in the definitio=
+n
+> > > of the rectangles...
+> > >
+>
+> I know it sounds ridiculous as I've been the one adding selection
+> support to imx219, but I presume we discussed it somewhen in the past:
+> do you happen to remember why we left the OPB area out from the native
+> sizes ? (Does OPB stand for "Optically black" ? )
 
-  Tomi
+Yes, OPB is Optical Black. Optically black pixels can be used for
+subtracting dark noise from pixels.
+OPB lines are often sent on a totally separate CSI-2 data type, so
+they will generally not apply to the image buffer that is read out.
+See IMX290/462 for an example of that (it uses data type 0x37)
+I believe some other sensors use the OPB internally to perform
+compensation on-sensor.
 
+I've never fully followed what the full selection API is meant to be
+used for beyond determining which parts of the array are cropped out
+in particular modes. It's numbers that I extract from the datasheet,
+stick in the driver, and the user can do something with them if they
+wish.
 
+> > > Also looking at the X/Y_ADDR_START value assigned in the register tab=
+les
+> > > for full resolution mode (3280x2462) they have value of 0, indeed
+> > > meaning the active area is the only readable one.
+> > >
+> > > Then yes, you're right, for imx219
+> > > NATIVE =3D effective
+> > > CROP_DEFAULT =3D BOUND =3D active
+> > >
+>
+> I presume you can confirm this, right ?
+
+Sounds about right.
+
+> > > > The commit message of 1ed36ecd1459b653cced8929bfb37dba94b64c5d ("me=
+dia:
+> > > > i2c: imx219: Selection compliance fixes") seems to support me here:
+> > >
+> > > >
+> > > > > The top/left crop coordinates of the TGT_CROP rectangle were set =
+to
+> > > > > (0, 0) instead of (8, 8) which is the offset from the larger phys=
+ical
+> > > > > pixel array rectangle.
+> > > >
+> > > > This (8, 8) is half the difference between number of effective and
+> > > > active pixels of imx219[1].
+> > > >
+> > > > Together with the 8 dummy lines and 8 dummy columns you mentioned, =
+I
+> > > > still think my values are right. But I've just started working with
+> > > > V4L2, so I might be wrong.
+> > >
+> > > To actually verify if the 'effective area' is readable or not, we
+> > > should know what register controls the X/Y_ADDR_START value, and
+> > > that's an information I don't have in my version of the datasheet.
+> >
+> > I happen to have an IMX214 datasheet.
+> > X_ADDR_START is 0x0344/5 (set in multiples of 2)
+> > Y_ADDR_START is 0x0346/7 (set in multiples of 4)
+> > X_ADDR_END is 0x0348/9 (set in multiples of 2)
+> > Y_ADDR_END is 0x034a/b (set in multiples of 4)
+> > X_OUTPUT_SIZE 0x034c/d
+> > Y_OUTPUT_SIZE 0x034e/f
+> >
+> > X direction are 13bit values, Y direction are 12 bit.
+> > [12:8] or [11:8] in the low bits of the first register, [7:0] in the
+> > second register.
+>
+> AH thanks! Unfortunately the largest imx214 mode is cropped from full
+> pixel array it seems, so not that helpful :(
+
+Yup, I noticed that too. Make the selection reflect the register set -
+it's all you can do.
+
+I don't know why it got cropped down so much to make a 16:9 full res
+mode. Possibly a limit of 4096 on an ISP or receiver somewhere, or
+potentially just the use case.
+I guess there's nothing stopping an extra mode being added which uses
+the full sensor array.
+
+  Dave
+
+> >
+> >   Dave
+> >
+> > > It's however plausible that it behaves the same as imx219, as the
+> > > driver's register sequences seems to program the crop sizes in
+> > > register 0x034c and 0x034e and there's not programmed top-left corner
+> > > there.
+> > >
+> > > Ok then, let's be consistent and do the same as imx219 as you're doin=
+g
+> > > here.
+> > >
+> > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > >
+> > > >
+> > > > Could you share the imx214 datasheet with me?
+> > > >
+> > > > Best regards,
+> > > > Andr=C3=A9
+> > > >
+> > > > [1] https://www.arducam.com/downloads/modules/RaspberryPi_camera/IM=
+X219DS.PDF
+> > > > [2] https://www.sony-semicon.com/files/62/pdf/p-12_IMX415-AAQR_AAMR=
+_Flyer.pdf
+> > > > >
+> > > > > Thanks
+> > > > >   j
+> > > > >
+> > > > >
+> > > > > >  static const char * const imx214_supply_name[] =3D {
+> > > > > >   "vdda",
+> > > > > >   "vddd",
+> > > > > > @@ -634,14 +642,31 @@ static int imx214_get_selection(struct
+> > > > > > v4l2_subdev *sd,
+> > > > > >  {
+> > > > > >   struct imx214 *imx214 =3D to_imx214(sd);
+> > > > > >
+> > > > > > - if (sel->target !=3D V4L2_SEL_TGT_CROP)
+> > > > > > -         return -EINVAL;
+> > > > > > + switch (sel->target) {
+> > > > > > + case V4L2_SEL_TGT_CROP:
+> > > > > > +         mutex_lock(&imx214->mutex);
+> > > > > > +         sel->r =3D *__imx214_get_pad_crop(imx214, sd_state,
+> > > > > > sel->pad,
+> > > > > > +                                         sel->which);
+> > > > > > +         mutex_unlock(&imx214->mutex);
+> > > > > > +         return 0;
+> > > > > >
+> > > > > > - mutex_lock(&imx214->mutex);
+> > > > > > - sel->r =3D *__imx214_get_pad_crop(imx214, sd_state, sel-
+> > > > > > >pad,
+> > > > > > -                                 sel->which);
+> > > > > > - mutex_unlock(&imx214->mutex);
+> > > > > > - return 0;
+> > > > > > + case V4L2_SEL_TGT_NATIVE_SIZE:
+> > > > > > +         sel->r.top =3D 0;
+> > > > > > +         sel->r.left =3D 0;
+> > > > > > +         sel->r.width =3D IMX214_NATIVE_WIDTH;
+> > > > > > +         sel->r.height =3D IMX214_NATIVE_HEIGHT;
+> > > > > > +         return 0;
+> > > > > > +
+> > > > > > + case V4L2_SEL_TGT_CROP_DEFAULT:
+> > > > > > + case V4L2_SEL_TGT_CROP_BOUNDS:
+> > > > > > +         sel->r.top =3D IMX214_PIXEL_ARRAY_TOP;
+> > > > > > +         sel->r.left =3D IMX214_PIXEL_ARRAY_LEFT;
+> > > > > > +         sel->r.width =3D IMX214_PIXEL_ARRAY_WIDTH;
+> > > > > > +         sel->r.height =3D IMX214_PIXEL_ARRAY_HEIGHT;
+> > > > > > +         return 0;
+> > > > > > + }
+> > > > > > +
+> > > > > > + return -EINVAL;
+> > > > > >  }
+> > > > > >
+> > > > > >  static int imx214_entity_init_cfg(struct v4l2_subdev *subdev,
+> > > > > >
+> > > > > > --
+> > > > > > 2.42.0
+> > > > > >
+> > > >
