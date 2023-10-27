@@ -2,36 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5755B7D9476
-	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:59:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9F50B7D9473
+	for <lists+linux-media@lfdr.de>; Fri, 27 Oct 2023 11:59:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235119AbjJ0J7J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Oct 2023 05:59:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52036 "EHLO
+        id S235075AbjJ0J7I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Oct 2023 05:59:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52034 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230502AbjJ0J7H (ORCPT
+        with ESMTP id S235028AbjJ0J7H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 27 Oct 2023 05:59:07 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3E5710E
-        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:59:01 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E628192
+        for <linux-media@vger.kernel.org>; Fri, 27 Oct 2023 02:59:02 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B44DF1BA7;
-        Fri, 27 Oct 2023 11:58:43 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 044701BAE;
+        Fri, 27 Oct 2023 11:58:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698400723;
-        bh=gcg4/TbT/YhhiGJrLfT0Zc5i3WdFKkA50WpjtZuMsx0=;
+        s=mail; t=1698400725;
+        bh=Bvlzjk/HvaTZ65ZiRHsbKkD2tVYpue0hWKHCwdGt6L0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=d4V44SUvmHUb4Hko4JS1fkdQ+UYE9+ohqJQrx5Coq5/Xj4K3F+crHxNbEq0mjzULM
-         Jh6QHs/lmVkIZlAA9HiE11J3auqVOxY/BZQ4pEgMXbz7qo+CzXSwh6979egSMBdgUL
-         EHuzOah2BZg5vFlx1p61rQ3XISckNavGUszFPeWM=
+        b=K7+UMCa+hQ+69/IuFeCM1k42jc2szPUDhXB7NOnhUDgk73NSNahTuWnviAU32Z+s6
+         htnVjow+GcA2aZaUhVxl8k6WdZUvvPpLAAdZRbzXP9CzG4FqyHuVzBztABc+4Cm2xS
+         aq3ixoO/CHrzOeFZo5Joh4cuZl7iqVXwHY3kXk1o=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v1 7/9] media: ti: omap4iss: Fix references to pad config
-Date:   Fri, 27 Oct 2023 12:58:51 +0300
-Message-ID: <20231027095853.29057-8-laurent.pinchart@ideasonboard.com>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH v1 8/9] media: i2c: Fix references to pad config
+Date:   Fri, 27 Oct 2023 12:58:52 +0300
+Message-ID: <20231027095853.29057-9-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231027095853.29057-1-laurent.pinchart@ideasonboard.com>
 References: <20231027095853.29057-1-laurent.pinchart@ideasonboard.com>
@@ -47,168 +48,173 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 V4L2 subdev operations have moved from operating on a
-v4l2_subdev_pad_config to a v4l2_subdev_state a long time ago. Fix
-remaining incorrect references to pad config in comments.
+v4l2_subdev_pad_config to a v4l2_subdev_state a long time ago. Fix the
+few remaining incorrect references to pad config in the I2C drivers.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/staging/media/omap4iss/iss_csi2.c    | 6 +++---
- drivers/staging/media/omap4iss/iss_ipipe.c   | 8 ++++----
- drivers/staging/media/omap4iss/iss_ipipeif.c | 8 ++++----
- drivers/staging/media/omap4iss/iss_resizer.c | 8 ++++----
- 4 files changed, 15 insertions(+), 15 deletions(-)
+ drivers/media/i2c/imx334.c  | 8 ++++----
+ drivers/media/i2c/imx335.c  | 8 ++++----
+ drivers/media/i2c/imx412.c  | 8 ++++----
+ drivers/media/i2c/ov9282.c  | 8 ++++----
+ drivers/media/i2c/tvp7002.c | 6 +++---
+ 5 files changed, 19 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/staging/media/omap4iss/iss_csi2.c b/drivers/staging/media/omap4iss/iss_csi2.c
-index 3fd4a773ad80..0e6c5bd81930 100644
---- a/drivers/staging/media/omap4iss/iss_csi2.c
-+++ b/drivers/staging/media/omap4iss/iss_csi2.c
-@@ -890,7 +890,7 @@ csi2_try_format(struct iss_csi2_device *csi2,
- /*
-  * csi2_enum_mbus_code - Handle pixel format enumeration
-  * @sd     : pointer to v4l2 subdev structure
-- * @cfg    : V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @code   : pointer to v4l2_subdev_mbus_code_enum structure
-  * return -EINVAL or zero on success
-  */
-@@ -964,7 +964,7 @@ static int csi2_enum_frame_size(struct v4l2_subdev *sd,
- /*
-  * csi2_get_format - Handle get format by pads subdev method
-  * @sd : pointer to v4l2 subdev structure
-- * @cfg: V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @fmt: pointer to v4l2 subdev format structure
-  * return -EINVAL or zero on success
-  */
-@@ -986,7 +986,7 @@ static int csi2_get_format(struct v4l2_subdev *sd,
- /*
-  * csi2_set_format - Handle set format by pads subdev method
-  * @sd : pointer to v4l2 subdev structure
-- * @cfg: V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @fmt: pointer to v4l2 subdev format structure
-  * return -EINVAL or zero on success
-  */
-diff --git a/drivers/staging/media/omap4iss/iss_ipipe.c b/drivers/staging/media/omap4iss/iss_ipipe.c
-index ad013ed923e7..4a4eae290d65 100644
---- a/drivers/staging/media/omap4iss/iss_ipipe.c
-+++ b/drivers/staging/media/omap4iss/iss_ipipe.c
-@@ -188,7 +188,7 @@ __ipipe_get_format(struct iss_ipipe_device *ipipe,
- /*
-  * ipipe_try_format - Try video format on a pad
-  * @ipipe: ISS IPIPE device
-- * @cfg: V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @pad: Pad number
-  * @fmt: Format
-  */
-@@ -239,7 +239,7 @@ ipipe_try_format(struct iss_ipipe_device *ipipe,
- /*
-  * ipipe_enum_mbus_code - Handle pixel format enumeration
-  * @sd     : pointer to v4l2 subdev structure
-- * @cfg    : V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @code   : pointer to v4l2_subdev_mbus_code_enum structure
-  * return -EINVAL or zero on success
-  */
-@@ -303,7 +303,7 @@ static int ipipe_enum_frame_size(struct v4l2_subdev *sd,
- /*
-  * ipipe_get_format - Retrieve the video format on a pad
-  * @sd : ISP IPIPE V4L2 subdevice
-- * @cfg: V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @fmt: Format
+diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
+index 493a43b9fa36..42cf71c1f6fd 100644
+--- a/drivers/media/i2c/imx334.c
++++ b/drivers/media/i2c/imx334.c
+@@ -935,14 +935,14 @@ static int imx334_set_pad_format(struct v4l2_subdev *sd,
+ }
+ 
+ /**
+- * imx334_init_pad_cfg() - Initialize sub-device pad configuration
++ * imx334_init_cfg() - Initialize sub-device state
+  * @sd: pointer to imx334 V4L2 sub-device structure
+  * @sd_state: V4L2 sub-device state
   *
-  * Return 0 on success or -EINVAL if the pad is invalid or doesn't correspond
-@@ -327,7 +327,7 @@ static int ipipe_get_format(struct v4l2_subdev *sd,
- /*
-  * ipipe_set_format - Set the video format on a pad
-  * @sd : ISP IPIPE V4L2 subdevice
-- * @cfg: V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @fmt: Format
-  *
-  * Return 0 on success or -EINVAL if the pad is invalid or doesn't correspond
-diff --git a/drivers/staging/media/omap4iss/iss_ipipeif.c b/drivers/staging/media/omap4iss/iss_ipipeif.c
-index 5cafcd38438a..8fa99532d9d4 100644
---- a/drivers/staging/media/omap4iss/iss_ipipeif.c
-+++ b/drivers/staging/media/omap4iss/iss_ipipeif.c
-@@ -368,7 +368,7 @@ __ipipeif_get_format(struct iss_ipipeif_device *ipipeif,
- /*
-  * ipipeif_try_format - Try video format on a pad
-  * @ipipeif: ISS IPIPEIF device
-- * @cfg: V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @pad: Pad number
-  * @fmt: Format
+  * Return: 0 if successful, error code otherwise.
   */
-@@ -439,7 +439,7 @@ ipipeif_try_format(struct iss_ipipeif_device *ipipeif,
- /*
-  * ipipeif_enum_mbus_code - Handle pixel format enumeration
-  * @sd     : pointer to v4l2 subdev structure
-- * @cfg    : V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @code   : pointer to v4l2_subdev_mbus_code_enum structure
-  * return -EINVAL or zero on success
+-static int imx334_init_pad_cfg(struct v4l2_subdev *sd,
+-			       struct v4l2_subdev_state *sd_state)
++static int imx334_init_cfg(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_state *sd_state)
+ {
+ 	struct imx334 *imx334 = to_imx334(sd);
+ 	struct v4l2_subdev_format fmt = { 0 };
+@@ -1190,7 +1190,7 @@ static const struct v4l2_subdev_video_ops imx334_video_ops = {
+ };
+ 
+ static const struct v4l2_subdev_pad_ops imx334_pad_ops = {
+-	.init_cfg = imx334_init_pad_cfg,
++	.init_cfg = imx334_init_cfg,
+ 	.enum_mbus_code = imx334_enum_mbus_code,
+ 	.enum_frame_size = imx334_enum_frame_size,
+ 	.get_fmt = imx334_get_pad_format,
+diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+index eaa0e9c251ce..0432f059e913 100644
+--- a/drivers/media/i2c/imx335.c
++++ b/drivers/media/i2c/imx335.c
+@@ -618,14 +618,14 @@ static int imx335_set_pad_format(struct v4l2_subdev *sd,
+ }
+ 
+ /**
+- * imx335_init_pad_cfg() - Initialize sub-device pad configuration
++ * imx335_init_cfg() - Initialize sub-device state
+  * @sd: pointer to imx335 V4L2 sub-device structure
+  * @sd_state: V4L2 sub-device configuration
+  *
+  * Return: 0 if successful, error code otherwise.
   */
-@@ -511,7 +511,7 @@ static int ipipeif_enum_frame_size(struct v4l2_subdev *sd,
- /*
-  * ipipeif_get_format - Retrieve the video format on a pad
-  * @sd : ISP IPIPEIF V4L2 subdevice
-- * @cfg: V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @fmt: Format
+-static int imx335_init_pad_cfg(struct v4l2_subdev *sd,
+-			       struct v4l2_subdev_state *sd_state)
++static int imx335_init_cfg(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_state *sd_state)
+ {
+ 	struct imx335 *imx335 = to_imx335(sd);
+ 	struct v4l2_subdev_format fmt = { 0 };
+@@ -835,7 +835,7 @@ static const struct v4l2_subdev_video_ops imx335_video_ops = {
+ };
+ 
+ static const struct v4l2_subdev_pad_ops imx335_pad_ops = {
+-	.init_cfg = imx335_init_pad_cfg,
++	.init_cfg = imx335_init_cfg,
+ 	.enum_mbus_code = imx335_enum_mbus_code,
+ 	.enum_frame_size = imx335_enum_frame_size,
+ 	.get_fmt = imx335_get_pad_format,
+diff --git a/drivers/media/i2c/imx412.c b/drivers/media/i2c/imx412.c
+index df6f84f81d1b..41d756a20f3c 100644
+--- a/drivers/media/i2c/imx412.c
++++ b/drivers/media/i2c/imx412.c
+@@ -770,14 +770,14 @@ static int imx412_set_pad_format(struct v4l2_subdev *sd,
+ }
+ 
+ /**
+- * imx412_init_pad_cfg() - Initialize sub-device pad configuration
++ * imx412_init_cfg() - Initialize sub-device state
+  * @sd: pointer to imx412 V4L2 sub-device structure
+  * @sd_state: V4L2 sub-device configuration
   *
-  * Return 0 on success or -EINVAL if the pad is invalid or doesn't correspond
-@@ -535,7 +535,7 @@ static int ipipeif_get_format(struct v4l2_subdev *sd,
- /*
-  * ipipeif_set_format - Set the video format on a pad
-  * @sd : ISP IPIPEIF V4L2 subdevice
-- * @cfg: V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @fmt: Format
-  *
-  * Return 0 on success or -EINVAL if the pad is invalid or doesn't correspond
-diff --git a/drivers/staging/media/omap4iss/iss_resizer.c b/drivers/staging/media/omap4iss/iss_resizer.c
-index be26467ad653..58e698ef9108 100644
---- a/drivers/staging/media/omap4iss/iss_resizer.c
-+++ b/drivers/staging/media/omap4iss/iss_resizer.c
-@@ -427,7 +427,7 @@ __resizer_get_format(struct iss_resizer_device *resizer,
- /*
-  * resizer_try_format - Try video format on a pad
-  * @resizer: ISS RESIZER device
-- * @cfg: V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @pad: Pad number
-  * @fmt: Format
+  * Return: 0 if successful, error code otherwise.
   */
-@@ -488,7 +488,7 @@ resizer_try_format(struct iss_resizer_device *resizer,
- /*
-  * resizer_enum_mbus_code - Handle pixel format enumeration
-  * @sd     : pointer to v4l2 subdev structure
-- * @cfg: V4L2 subdev pad config
-+ * @sd_state: V4L2 subdev state
-  * @code   : pointer to v4l2_subdev_mbus_code_enum structure
-  * return -EINVAL or zero on success
+-static int imx412_init_pad_cfg(struct v4l2_subdev *sd,
+-			       struct v4l2_subdev_state *sd_state)
++static int imx412_init_cfg(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_state *sd_state)
+ {
+ 	struct imx412 *imx412 = to_imx412(sd);
+ 	struct v4l2_subdev_format fmt = { 0 };
+@@ -997,7 +997,7 @@ static const struct v4l2_subdev_video_ops imx412_video_ops = {
+ };
+ 
+ static const struct v4l2_subdev_pad_ops imx412_pad_ops = {
+-	.init_cfg = imx412_init_pad_cfg,
++	.init_cfg = imx412_init_cfg,
+ 	.enum_mbus_code = imx412_enum_mbus_code,
+ 	.enum_frame_size = imx412_enum_frame_size,
+ 	.get_fmt = imx412_get_pad_format,
+diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+index 9baaa219a1ad..1707bc22ca91 100644
+--- a/drivers/media/i2c/ov9282.c
++++ b/drivers/media/i2c/ov9282.c
+@@ -876,14 +876,14 @@ static int ov9282_set_pad_format(struct v4l2_subdev *sd,
+ }
+ 
+ /**
+- * ov9282_init_pad_cfg() - Initialize sub-device pad configuration
++ * ov9282_init_cfg() - Initialize sub-device state
+  * @sd: pointer to ov9282 V4L2 sub-device structure
+  * @sd_state: V4L2 sub-device configuration
+  *
+  * Return: 0 if successful, error code otherwise.
   */
-@@ -571,7 +571,7 @@ static int resizer_enum_frame_size(struct v4l2_subdev *sd,
+-static int ov9282_init_pad_cfg(struct v4l2_subdev *sd,
+-			       struct v4l2_subdev_state *sd_state)
++static int ov9282_init_cfg(struct v4l2_subdev *sd,
++			   struct v4l2_subdev_state *sd_state)
+ {
+ 	struct ov9282 *ov9282 = to_ov9282(sd);
+ 	struct v4l2_subdev_format fmt = { 0 };
+@@ -1192,7 +1192,7 @@ static const struct v4l2_subdev_video_ops ov9282_video_ops = {
+ };
+ 
+ static const struct v4l2_subdev_pad_ops ov9282_pad_ops = {
+-	.init_cfg = ov9282_init_pad_cfg,
++	.init_cfg = ov9282_init_cfg,
+ 	.enum_mbus_code = ov9282_enum_mbus_code,
+ 	.enum_frame_size = ov9282_enum_frame_size,
+ 	.get_fmt = ov9282_get_pad_format,
+diff --git a/drivers/media/i2c/tvp7002.c b/drivers/media/i2c/tvp7002.c
+index a2d7bc799849..30831b4b56d6 100644
+--- a/drivers/media/i2c/tvp7002.c
++++ b/drivers/media/i2c/tvp7002.c
+@@ -791,7 +791,7 @@ static const struct v4l2_ctrl_ops tvp7002_ctrl_ops = {
  /*
-  * resizer_get_format - Retrieve the video format on a pad
-  * @sd : ISP RESIZER V4L2 subdevice
-- * @cfg: V4L2 subdev pad config
+  * tvp7002_enum_mbus_code() - Enum supported digital video format on pad
+  * @sd: pointer to standard V4L2 sub-device structure
+- * @cfg: pad configuration
 + * @sd_state: V4L2 subdev state
-  * @fmt: Format
+  * @code: pointer to subdev enum mbus code struct
   *
-  * Return 0 on success or -EINVAL if the pad is invalid or doesn't correspond
-@@ -595,7 +595,7 @@ static int resizer_get_format(struct v4l2_subdev *sd,
+  * Enumerate supported digital video formats for pad.
+@@ -813,7 +813,7 @@ tvp7002_enum_mbus_code(struct v4l2_subdev *sd,
  /*
-  * resizer_set_format - Set the video format on a pad
-  * @sd : ISP RESIZER V4L2 subdevice
-- * @cfg: V4L2 subdev pad config
+  * tvp7002_get_pad_format() - get video format on pad
+  * @sd: pointer to standard V4L2 sub-device structure
+- * @cfg: pad configuration
 + * @sd_state: V4L2 subdev state
-  * @fmt: Format
+  * @fmt: pointer to subdev format struct
   *
-  * Return 0 on success or -EINVAL if the pad is invalid or doesn't correspond
+  * get video format for pad.
+@@ -837,7 +837,7 @@ tvp7002_get_pad_format(struct v4l2_subdev *sd,
+ /*
+  * tvp7002_set_pad_format() - set video format on pad
+  * @sd: pointer to standard V4L2 sub-device structure
+- * @cfg: pad configuration
++ * @sd_state: V4L2 subdev state
+  * @fmt: pointer to subdev format struct
+  *
+  * set video format for pad.
 -- 
 Regards,
 
