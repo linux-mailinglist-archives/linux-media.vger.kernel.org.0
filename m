@@ -2,111 +2,278 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 994657DA75A
-	for <lists+linux-media@lfdr.de>; Sat, 28 Oct 2023 15:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6031C7DA7B9
+	for <lists+linux-media@lfdr.de>; Sat, 28 Oct 2023 17:19:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229848AbjJ1Nkv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Oct 2023 09:40:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52592 "EHLO
+        id S229525AbjJ1PS7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Oct 2023 11:18:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57256 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229449AbjJ1Nkv (ORCPT
+        with ESMTP id S229488AbjJ1PS6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Oct 2023 09:40:51 -0400
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48BFBC0
-        for <linux-media@vger.kernel.org>; Sat, 28 Oct 2023 06:40:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1698500445; bh=hU8Br4janeX2khZAO7wDSue7Q3FsC21+FF+Ea8kOLs8=;
+        Sat, 28 Oct 2023 11:18:58 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02C7FF7;
+        Sat, 28 Oct 2023 08:18:54 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E5BB7720;
+        Sat, 28 Oct 2023 17:18:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1698506318;
+        bh=QTn6wI1xkxt9l2xgQqdSNbm5k5C2KdjL1OV6R+r7S3A=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=M++iW9jSr2lzww8IJkaG6rDrZTwZJ25Y78W4bHmI7a/BE8ir5av4rEFSfZ2nclY5Z
-         Y+cnbTelAT52Z9ahL79klF0dN1KrvAs7QOwBC0ALmlTNVB0XQHazQBh6fDMfvP/5lA
-         WnAjDHGIKSMwXz9vSQ77PRlb3zMXkhOFoeQh4ICabE+Dq62VHK1WY59c7JmaUfgZhf
-         C8/JnTlHVjyZcQk9KpoG70/AY6KodCqFQX5Y+90//YDb5V3oz0TArk3OFinfhMMygl
-         dCOnJorQetJb+TnaGzevy0BKaNCRLhgrfHrSVCX0+wxewoMWFUd7Kx77eHv3S/RZ84
-         WX674l5GpbdEA==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id A49D21000FF; Sat, 28 Oct 2023 14:40:45 +0100 (BST)
-Date:   Sat, 28 Oct 2023 14:40:45 +0100
-From:   Sean Young <sean@mess.org>
-To:     Vince Ricosti <vricosti@outlook.com>
-Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: Questions about ir-keytable and ir-ctl
-Message-ID: <ZT0PXddD2tphScNh@gofer.mess.org>
-References: <DS0PR19MB6526C9164F0E0883B380D2D3D3A3A@DS0PR19MB6526.namprd19.prod.outlook.com>
+        b=FYN/TtA2Rh5LM2tRMkDxgfF1JHn/zgcXVN5pp0jo/RJ6jHUx87ykIY0dFSMCas46J
+         PGtmRDgI6B6QxrdudDGjb5yFbUbFeuPSUi+qbC9+RheXaHIZv1W3ZmqhtHM6xU/5zL
+         LYnKyeve8IyfGUHZ9MiRRv48gUtj+p2NkyKC0J9M=
+Date:   Sat, 28 Oct 2023 18:18:58 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Julien Stephan <jstephan@baylibre.com>,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v4 3/3] media: i2c: Add driver for THine THP7312
+Message-ID: <20231028151858.GB20465@pendragon.ideasonboard.com>
+References: <20231017132103.9914-1-laurent.pinchart@ideasonboard.com>
+ <20231017132103.9914-4-laurent.pinchart@ideasonboard.com>
+ <ZTutbU1XG_jKZbIp@valkosipuli.retiisi.eu>
+ <20231027124529.GA19539@pendragon.ideasonboard.com>
+ <ZTvOIQSmpytUisUD@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <DS0PR19MB6526C9164F0E0883B380D2D3D3A3A@DS0PR19MB6526.namprd19.prod.outlook.com>
+In-Reply-To: <ZTvOIQSmpytUisUD@valkosipuli.retiisi.eu>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Vince,
-
-On Sat, Oct 28, 2023 at 01:21:15PM +0000, Vince Ricosti wrote:
-> I have described my experiments on linux with a rpi and I am a bit surprised that nothing works as it should.
-> I have posted here my tests https://forums.raspberrypi.com/viewtopic.php?t=358522
-> And I would like to discuss the different issues.
+On Fri, Oct 27, 2023 at 02:50:09PM +0000, Sakari Ailus wrote:
+> Hi Laurent,
 > 
-> 1) Why when enabling all protocols a sony15 is not properly recognized ?
+> On Fri, Oct 27, 2023 at 03:45:29PM +0300, Laurent Pinchart wrote:
 > 
-> Testing events. Please, press CTRL-C to abort.
-> 557.572052: lirc protocol(rc5_sz): scancode = 0x2fff toggle=1
-> 557.572077: event type EV_MSC(0x04): scancode = 0x2fff
-> 557.572077: event type EV_SYN(0x00).
-
-That's a "suprious" decode. You can ignore it.
-
-This is a case where the same IR can be decoded in multiple ways, if all
-the decoders are enabled. The Sony/rc5_sz protocols are "non-robust", see
-http://hifi-remote.com/wiki/index.php/Spurious_decodes_and_non-robust_protocols
-
-> 557.572138: event type EV_MSC(0x04): scancode = 0x970026
-> 557.572138: event type EV_SYN(0x00).
-> 557.572130: lirc protocol(sony15): scancode = 0x970026
+> ...
 > 
-> and when I enable only sony protocol it's properly recognized:
-> 1236.384059: lirc protocol(sony15): scancode = 0x970026
-> 1236.384082: event type EV_MSC(0x04): scancode = 0x970026
-> 1236.384082: event type EV_SYN(0x00).
+> > > > +#include <linux/clk.h>
+> > > > +#include <linux/delay.h>
+> > > > +#include <linux/device.h>
+> > > > +#include <linux/firmware.h>
+> > > > +#include <linux/gpio/consumer.h>
+> > > > +#include <linux/i2c.h>
+> > > > +#include <linux/init.h>
+> > > > +#include <linux/iopoll.h>
+> > > > +#include <linux/kernel.h>
+> > > > +#include <linux/module.h>
+> > > > +#include <linux/mtd/spi-nor.h>
+> > > > +#include <linux/of_device.h>
+> > > > +#include <linux/pm_runtime.h>
+> > > > +#include <linux/regulator/consumer.h>
+> > > > +#include <linux/slab.h>
+> > > > +#include <linux/thp7312.h>
+> > > 
+> > > uapi/linux/thp7321.h ?
+> > 
+> > Is that needed ?
+> 
+> It's a UAPI header. Wouldn't it be reasonable to include it that way
+> (instead of relying on searching include/uapi as well)?
 
-Only enabling the sony protocol is the right solution, or simply ignoring
-the spurious decode. This works in most cases, because the resulting scancode
-is not something you would expect.
+There are some occurences of '#include <uapi/' in drivers/ (I counted
+338), but why is that better ?
 
-> 2) When sending a sony scancode it doesn't work because the scancode is sent only once while for it work it need to be sent 3 times (or at least 2 times separated with a space of 43 * 600ms = 28500. Is there any flags to do that because I had to patch ir-ctl to make it work.
+> > > > +	struct {
+> > > > +		struct v4l2_ctrl *noise_reduction_auto;
+> > > > +		struct v4l2_ctrl *noise_reduction_absolute;
+> > > > +	};
+> > > > +
+> > > > +	const char *fw_name;
+> > > > +	u8 *fw_data;
+> > > > +	size_t fw_size;
+> > > > +
+> > > > +	u8 fw_major_version;
+> > > > +	u8 fw_minor_version;
+> > > > +
+> > > > +	/* Lock to protect fw_cancel */
+> > > > +	struct mutex fw_lock;
+> > > > +	struct fw_upload *fwl;
+> > > > +	bool fw_cancel;
+> > > 
+> > > Arranging this right after fw_* would save some memory.
+> > 
+> > After what ? I assume you mean fw_*_version ? It would, but it would
+> > feel a bit out of place. I'll see what I can do.
+> 
+> Yes. There doesn't seem to be any firm ordering here either. Up to you.
+> 
+> ...
+> 
+> > > > +	val = ((conv_lanes[3] & 0x03) << 6) |
+> > > > +	      ((conv_lanes[2] & 0x03) << 4) |
+> > > > +	      ((conv_lanes[1] & 0x03) << 2) |
+> > > > +	       (conv_lanes[0] & 0x03);
+> > > 
+> > > You could construct val in the loop and drop conv_lanes altogether.
+> > > 
+> > > I.e.
+> > > 
+> > > 		val |= (i & 0x03) << ((lanes[i] - 1) * 2);
+> > > 
+> > > And assign val to 0 in declaration.
+> > 
+> > I think I'll compute it at probe time and cache it instead.
+> 
+> If you don't need anything else in the endpoint, you could move it out of
+> the device context struct.
 
-Yes, you are right about this. My sony system also needs the IR repeated at
-least twice or else it ignores it.
+That's what I've now done, yes.
 
-> If nothing exists can I submit some patches to fix it ?
+> > > > +	for (rate = mode->rates; rate->fps; ++rate, --index) {
+> > > > +		if (!index) {
+> > > > +			fie->interval.numerator = 1;
+> > > > +			fie->interval.denominator = rate->fps;
+> > > 
+> > > Maybe a newline here?
+> > 
+> > If that makes you happy :-)
+> 
+> Newlines are great (when they are at the right places)!
+> 
+> > > > +	case V4L2_CID_THP7312_NOISE_REDUCTION_AUTO:
+> > > > +	case V4L2_CID_THP7312_NOISE_REDUCTION_ABSOLUTE:
+> > > > +		/* Ignore the manually set value if auto has been set */
+> > > > +		value = thp7312->noise_reduction_auto->val
+> > > > +		      ? 0 : 0x80 | (thp7312->noise_reduction_absolute->val & 0x7f);
+> > > 
+> > > "?" should be on the preceding line.
+> > 
+> > Isn't that a matter of coding style preference ?
+> 
+> Yes, indeed, and I recall GNU coding style is shunned upon here. :-)
+> 
+> > > > +
+> > > > +		cci_write(thp7312->regmap, THP7312_REG_NOISE_REDUCTION, value,
+> > > > +			  &ret);
+> > > > +		break;
+> > > > +
+> > > > +	case V4L2_CID_AUTO_WHITE_BALANCE:
+> > > > +		value = ctrl->val ? THP7312_WB_MODE_AUTO : THP7312_WB_MODE_MANUAL;
+> > > 
+> > > I'd do this in the call, up to you.
+> > 
+> > Only if you allow lines longer than 80 columns ;-)
+> 
+> I don't think you need longer lines for that, do you?
+> 
+> > > > +
+> > > > +		cci_write(thp7312->regmap, THP7312_REG_WB_MODE, value, &ret);
+> > > > +		break;
+> > > > +
+> 
+> ...
+> 
+> > > > +static enum fw_upload_err thp7312_fw_write_to_flash(struct thp7312_device *thp7312,
+> > > > +						    u32 dest, u32 write_size)
+> > > > +{
+> > > > +	u8 command[sizeof(thp7312_cmd_write_ram_to_flash) + 6];
+> > > > +	static const u32 cmd_size = sizeof(thp7312_cmd_write_ram_to_flash);
+> > > > +	u64 val;
+> > > > +	int ret;
+> > > > +
+> > > > +	memcpy(command, thp7312_cmd_write_ram_to_flash, cmd_size);
+> > > > +
+> > > > +	command[cmd_size] = (dest & 0xff0000) >> 16;
+> > > > +	command[cmd_size + 1] = (dest & 0x00ff00) >> 8;
+> > > > +	command[cmd_size + 2] = (dest & 0x0000ff);
+> > > > +	command[cmd_size + 3] = ((write_size - 1) & 0xff0000) >> 16;
+> > > > +	command[cmd_size + 4] = ((write_size - 1) & 0x00ff00) >> 8;
+> > > > +	command[cmd_size + 5] = ((write_size - 1) & 0x0000ff);
+> > > > +
+> > > > +	ret = thp7312_write_buf(thp7312, command, sizeof(command));
+> > > > +	if (ret < 0)
+> > > > +		return FW_UPLOAD_ERR_RW_ERROR;
+> > > > +
+> > > > +	usleep_range(8000000, 8100000);
+> > > 
+> > > I guess there's time to make some tea here?
+> > 
+> > For a flash infusion, gong fu style, probably.
+> > 
+> > We don't have much documentation about the exact values of the delays
+> > that are needed, and why :-(
+> 
+> I have even less documentation (none) on this device. Is polling an option,
+> as you're reading a register to verify the operation was successful?
 
-Sure, I think this is a useful addition to ir-ctl. 
+I'll try to ask and get more information. As firmware update is an
+uncommon and not time-sensitive operation, I'd rather be cautious here
+and not over-optimize.
 
-On the other hand, I have been working on a new tool that replaces ir-ctl
-and ir-keytable called cir: https://github.com/seanyoung/cir/ It might be
-interesting to use this instead.
+> > > > +
+> > > > +	ret = cci_read(thp7312->regmap, THP7312_REG_FW_VERIFY_RESULT, &val,
+> > > > +		       NULL);
+> > > > +	if (ret < 0)
+> > > > +		return FW_UPLOAD_ERR_RW_ERROR;
+> > > > +
+> > > > +	return val ?  FW_UPLOAD_ERR_HW_ERROR : FW_UPLOAD_ERR_NONE;
+> > > > +}
+> 
+> ...
+> 
+> > > > +	/*
+> > > > +	 * Register a device for the sensor, to support usage of the regulator
+> > > > +	 * API.
+> > > > +	 */
+> > > > +	sensor->dev = kzalloc(sizeof(*sensor->dev), GFP_KERNEL);
+> > > > +	if (!sensor->dev)
+> > > > +		return -ENOMEM;
+> > > > +
+> > > > +	sensor->dev->parent = dev;
+> > > > +	sensor->dev->of_node = of_node_get(sensor->of_node);
+> > > 
+> > > This device could well find its way to a non-OF system. Could you use the
+> > > fwnode property API instead?
+> > 
+> > I'm pretty sure there will be problems if someone was using this driver
+> > on an ACPI-based system, so trying to pretend it's supported without
+> > being able to test it may not be the best use of development time. I'll
+> > try, but if I hit any issue, I'll keep using the OF-specific functions
+> > in the next version.
+> 
+> I'd suggest to use OF functions if there's no corresponding fwnode function
+> available. The intention is they cover the same scope, so it is likely
+> something that's missing will be added sooner or later.
 
-Using cir you would describe the sony protocol in IRP and send it that way,
-and the IRP says that it should be repeated 3 times, rather than building 
-this into the IR tool itself:
+I understand, but if the conversion is not complete, it's not very
+valuable. I have no objection against using the fwnode API in the
+driver, but I'll let someone else handle it when and if needed.
 
-	cir transmit irp -fD=1,F=1 '{40k,600}<1,-1|2,-1>(4,-1,F:7,D:8,^45m)3[D:0..255,F:0..127]'
+> > > > +	/* Retrieve the sensor index from the reg property. */
+> > > > +	ret = of_property_read_u32(node, "reg", &reg);
+> > > > +	if (ret < 0) {
+> > > > +		dev_err(dev, "'reg' property missing in sensor node\n");
+> > > 
+> > > Shouldn't you assume it's zero instead?
+> > 
+> > The property is mandatory.
+> 
+> You could also make it optional as that appears to be the general practice.
+> Up to you.
 
-Alternatively you can also specify IRP repeats like so:
+I think it's easier to keep it mandatory.
 
-	cir transmit irp -fD=1,F=1 -r 3 '{40k,600}<1,-1|2,-1>(4,-1,F:7,D:8,^45m)*[D:0..255,F:0..127]'
+-- 
+Regards,
 
-cir transmit works very well and can also transmit lircd.conf files and
-pronto hex, that is well tested and stable. However decoding needs work,
-and the day-job is keeping me very busy lately. When I have some time I want
-convert the decoding DFA to BPF and generate an IR decoder for the IRP.
-
-
-Sean
+Laurent Pinchart
