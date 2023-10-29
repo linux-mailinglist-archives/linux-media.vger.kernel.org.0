@@ -2,115 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DFEA97DACCB
-	for <lists+linux-media@lfdr.de>; Sun, 29 Oct 2023 15:36:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5FA467DACE8
+	for <lists+linux-media@lfdr.de>; Sun, 29 Oct 2023 16:03:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229689AbjJ2Og0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Oct 2023 10:36:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39928 "EHLO
+        id S229533AbjJ2PDu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Oct 2023 11:03:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229482AbjJ2OgZ (ORCPT
+        with ESMTP id S229482AbjJ2PDt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Oct 2023 10:36:25 -0400
-Received: from mail-io1-xd35.google.com (mail-io1-xd35.google.com [IPv6:2607:f8b0:4864:20::d35])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06873B8;
-        Sun, 29 Oct 2023 07:36:23 -0700 (PDT)
-Received: by mail-io1-xd35.google.com with SMTP id ca18e2360f4ac-7a6907e9aa8so127728039f.1;
-        Sun, 29 Oct 2023 07:36:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698590182; x=1699194982; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WOotfpE7UygG9u+jO7okxXpuJl/dpW05Sd73/FzJiB0=;
-        b=GsP8ePenkX41jxjMPSbzMExd805XG+5rREld9+lvJduoYj+QzuzsbnqGmA3H3uKBws
-         w7/BoMhALV6Fmg2oG1dT7CZ5/D6vQWE151Phj1ycxu9yNEYyk7jlGSLa8D/BuAmythuZ
-         6pwPensPYxlwrjZty9bOmRTnNeE0h8dO70Lt5OShNn4c1kBwuOTE09WeqTNRrybduoXH
-         zy0yBXuuImmQ/faSYrr0lhTJg00eUqOVJTyJBot/es5OJ2QDarEFA0WHYWf48faQI/Xr
-         R5QAikwDahEFT8W9dE5wcZQbLnYWOo711nlHirS/w65u0ljui4GC/LPbH+raV1f0553P
-         ISmQ==
+        Sun, 29 Oct 2023 11:03:49 -0400
+Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A937BC
+        for <linux-media@vger.kernel.org>; Sun, 29 Oct 2023 08:03:46 -0700 (PDT)
+Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6bd32d1a040so3652890b3a.3
+        for <linux-media@vger.kernel.org>; Sun, 29 Oct 2023 08:03:46 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698590182; x=1699194982;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WOotfpE7UygG9u+jO7okxXpuJl/dpW05Sd73/FzJiB0=;
-        b=k/D+q2Id7wFfEUenp7OCx+GvDI7anA2RnB340MXvBq/vL02seJnw052vYWohsc/vf4
-         fN61YUVPar0nWJu95cMEbQw7ps9/iSpXGKqrdO4CBIWb92nZyl8kyUlOAvvkTmlBGo86
-         WoQXt8GhT63ZeYipKluwCo2a7VZsqKnFO8xnF5Fea0VHxMwiRPAARW75eJ0AhRYli9Qb
-         a2DXrc3W3vjtVCVSmP9bkc85gq8diynQksqcJ16d72scsRXaZOdid+oWiUDxs/YYWi50
-         dNpRjv8xK/JmQ82cny0uAGV56sq6m73DcWHo4gCAnnxfwwgOe/C9dsNyMj5jP/ghwLzI
-         3nrA==
-X-Gm-Message-State: AOJu0YxchG3WRWO/npFMz/Cs3SRC4rQ+4fMXW2MKauab2uFL8Cvn5mtz
-        PHTgOcYFsDV/sFkrZaAayo4=
-X-Google-Smtp-Source: AGHT+IEENLk8ESJW5E5A28KlVgccH1FwYwzXqSbjRZcxnjVHBeKBoTbMnxB5GgIFQFt3XPzKtgUChg==
-X-Received: by 2002:a92:cdaf:0:b0:357:600c:7c5f with SMTP id g15-20020a92cdaf000000b00357600c7c5fmr10083288ild.23.1698590182261;
-        Sun, 29 Oct 2023 07:36:22 -0700 (PDT)
-Received: from localhost.localdomain ([202.137.218.21])
-        by smtp.gmail.com with ESMTPSA id a26-20020a63bd1a000000b005b8e1b0090asm3421348pgf.67.2023.10.29.07.36.19
+        d=1e100.net; s=20230601; t=1698591826; x=1699196626;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:dkim-signature:date:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=H6ir4IyNIpgPfeg5PpaJZ9z59cp7XPXbuJPLYNgpBPo=;
+        b=hf9QZRi9QLyNdJyghteYD6mBpLOEabguazWCYT65xoTC8ufNx5Ds7O254aIINzWDNj
+         MS1UIT2VzvUbF/hNg5owdmah50v9/6Elm9oOZk4kp0kegxaEMAxmZZ0O20/1bArmJVip
+         8tS8zbyfz61KsyfBTFU2mDo9PwfVeuBpBA6eKma23P166h6s31UzBYPIQNOM2pwFASlG
+         MMgrarS5qhSgEFSLwtiwwkpCrGU5xMESRXhZSxvb0icrnAVYngrZk2Sl/XXQLcR2G6bD
+         3PE12Kf0NHRmJZlv6jytp+04P8u9/5vdMt2lVuzhH2wklPoFmWvshuufj+HrrpND32ty
+         OZhA==
+X-Gm-Message-State: AOJu0YyFLEV/fD2J/3Um14SoDwTBoPP5TIIpJdQongmSAkPDdyez0Y17
+        IhA5HRONI/oeYQnvp3EmZu0=
+X-Google-Smtp-Source: AGHT+IFDGv0IcFGDWjhbcPI+vx3C74smMoDAYO56wRfA06ayqvXVbl2kvjWykZMLhiqfroLWBAg+tg==
+X-Received: by 2002:a05:6a00:14d6:b0:6be:4e6e:2a85 with SMTP id w22-20020a056a0014d600b006be4e6e2a85mr11098491pfu.30.1698591825774;
+        Sun, 29 Oct 2023 08:03:45 -0700 (PDT)
+Received: from mail.marliere.net ([24.199.118.162])
+        by smtp.gmail.com with ESMTPSA id fn4-20020a056a002fc400b006b4ac8885b4sm4533150pfb.14.2023.10.29.08.03.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 29 Oct 2023 07:36:22 -0700 (PDT)
-From:   Ghanshyam Agrawal <ghanshyam1898@gmail.com>
-To:     ezequiel@vanguardiasur.com.ar, mchehab@kernel.org
-Cc:     Ghanshyam Agrawal <ghanshyam1898@gmail.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        skhan@linuxfoundation.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] media: stk1160: Fixed high volume of stk1160_dbg messages
-Date:   Sun, 29 Oct 2023 20:06:04 +0530
-Message-Id: <20231029143604.120329-1-ghanshyam1898@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Sun, 29 Oct 2023 08:03:45 -0700 (PDT)
+Date:   Sun, 29 Oct 2023 12:03:52 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=marliere.net;
+        s=2023; t=1698591821;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=H6ir4IyNIpgPfeg5PpaJZ9z59cp7XPXbuJPLYNgpBPo=;
+        b=d8JSTIYYHV2EEGwnhsMk8oG18/GbaBfncaQMdV6VYK5kRB6LjtYzm7mrjWUNYya9BLcKTE
+        T5uuvHapRMfm2KXhV5BmI0jMbHVEvpxv/V9zMn+dLkpD92JIE8rPJC+vAdCXR1aT8JUW2i
+        U71pqxy853rQZl+6A7nyrJ+aALIshe9tigNdZLISaHfRGRqC+1DlTIoCfL0U7FeZ1V+W6L
+        +PY1/oKNJDNUFKbcu7dSEd3S4e1NQejBvghql4RTIy6CW0gooOxZRx3ZvK+8gtkd9ONXOn
+        KB8hd2Y5zi+wRzr2x0jkQOypF6a5vABDDDFGOkKUpkfnxa19fobkAl9Beu/lRw==
+Authentication-Results: ORIGINATING;
+        auth=pass smtp.auth=ricardo@marliere.net smtp.mailfrom=ricardo@marliere.net
+From:   "Ricardo B. Marliere" <ricardo@marliere.net>
+To:     Stefan Wahren <wahrenst@gmx.net>
+Cc:     Umang Jain <umang.jain@ideasonboard.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Dan Carpenter <dan.carpenter@linaro.org>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH V2 3/3] staging: vchiq_arm: move state dump to debugfs
+Message-ID: <opisoilw6dz4ptneibeesv5gqwnuawybprvguj2v37wm62s4nq@wppomurt3zbz>
+References: <20231029124837.119832-1-wahrenst@gmx.net>
+ <20231029124837.119832-4-wahrenst@gmx.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-1.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231029124837.119832-4-wahrenst@gmx.net>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,DKIM_INVALID,
+        DKIM_SIGNED,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The function stk1160_dbg gets called too many times, which causes
-the output to get flooded with messages. Since stk1160_dbg uses
-printk, it is now replaced with printk_ratelimited directly.
+Tested on both aarch64 and armv7l on a RPi 3B using the vchiq_test tool.
 
-Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
----
- drivers/media/usb/stk1160/stk1160-video.c | 13 +------------
- 1 file changed, 1 insertion(+), 12 deletions(-)
+/sys/kernel/debug/vchiq/state
+/sys/kernel/debug/vchiq/clients/**/trace
+/sys/kernel/debug/vchiq/clients/**/use_count
+contents are fine.
 
-diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
-index 4e966f6bf608..f5b75f380c19 100644
---- a/drivers/media/usb/stk1160/stk1160-video.c
-+++ b/drivers/media/usb/stk1160/stk1160-video.c
-@@ -105,17 +105,6 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
- 	u8 *dst = buf->mem;
- 	int remain;
- 
--	/*
--	 * TODO: These stk1160_dbg are very spammy!
--	 * We should 1) check why we are getting them
--	 * and 2) add ratelimit.
--	 *
--	 * UPDATE: One of the reasons (the only one?) for getting these
--	 * is incorrect standard (mismatch between expected and configured).
--	 * So perhaps, we could add a counter for errors. When the counter
--	 * reaches some value, we simply stop streaming.
--	 */
--
- 	len -= 4;
- 	src += 4;
- 
-@@ -151,7 +140,7 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
- 
- 	/* Let the bug hunt begin! sanity checks! */
- 	if (lencopy < 0) {
--		stk1160_dbg("copy skipped: negative lencopy\n");
-+		printk_ratelimited("copy skipped: negative lencopy\n");
- 		return;
- 	}
- 
--- 
-2.25.1
-
+Tested-by: Ricardo B. Marliere <ricardo@marliere.net>
