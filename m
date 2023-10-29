@@ -2,45 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AAECA7DB154
-	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 00:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D30147DB188
+	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 00:44:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232686AbjJ2XcO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Oct 2023 19:32:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41966 "EHLO
+        id S230495AbjJ2Xok (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Oct 2023 19:44:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232645AbjJ2Xb6 (ORCPT
+        with ESMTP id S229533AbjJ2Xoj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Oct 2023 19:31:58 -0400
+        Sun, 29 Oct 2023 19:44:39 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 67FEF10CE;
-        Sun, 29 Oct 2023 16:23:31 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08C9E91
+        for <linux-media@vger.kernel.org>; Sun, 29 Oct 2023 16:44:37 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3499383F;
-        Mon, 30 Oct 2023 00:23:14 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 053B083F;
+        Mon, 30 Oct 2023 00:44:19 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698621794;
-        bh=b7fAlWnVHD8ub32pUv2JqeBryzHEQYH8d55fVsFUfVw=;
+        s=mail; t=1698623060;
+        bh=5kHJo1bcTjk4PEua+5BhlwYXe0nsOaz88S+sHX3FDaw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=SKXSwHTavIpNoVy44Yhm+xz0ENUYRR9sRRNfaMB9/XEkKTzqAJeRoUAw0UvuTGZH8
-         11zwt9Rk+KOoHEegp0bMgiV3oygn7HTScqjMD+OCBqddojgX6rM/bEeMvU2zPNdIWa
-         ose3b9FpRIX/bFPLgYojCnWIwV19gayyS2ccwdt8=
-Date:   Mon, 30 Oct 2023 01:23:35 +0200
+        b=HbLXaHTQiMSf3+V1gVIeK+6/L+wnmPf5yQX8ShKh9UvIho00PtcVql+5iioPSSkoP
+         NLTitB4Llu0oMCD9VpXbU7xsQUH32YVtv+8Se9b6Zg1WZPDtYOCOPZ0kWMCRUBDTjI
+         gCu25P0dK9B5zhX5kJTNlPUk6jAZCM8FrjepwixM=
+Date:   Mon, 30 Oct 2023 01:44:41 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Nancy Nyambura <nicymimz@gmail.com>
-Cc:     gagallo7+outreachy@gmail.com, nicydaniels@gmail.com,
-        outreachy@lists.linux.dev,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+To:     Stefan Wahren <wahrenst@gmx.net>
+Cc:     Umang Jain <umang.jain@ideasonboard.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Media: omap4iss: Enable RSZB and update resizer control
-Message-ID: <20231029232335.GG12144@pendragon.ideasonboard.com>
-References: <20231029220710.47063-1-nicymimz@gmail.com>
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Dan Carpenter <dan.carpenter@linaro.org>,
+        Phil Elwell <phil@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        linux-staging@lists.linux.dev,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH V2 1/3] staging: vchiq_core: Make
+ vchiq_dump_service_state static
+Message-ID: <20231029234441.GH12144@pendragon.ideasonboard.com>
+References: <20231029124837.119832-1-wahrenst@gmx.net>
+ <20231029124837.119832-2-wahrenst@gmx.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231029220710.47063-1-nicymimz@gmail.com>
+In-Reply-To: <20231029124837.119832-2-wahrenst@gmx.net>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -50,89 +55,229 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Nancy,
+Hi Stefan,
 
-On Mon, Oct 30, 2023 at 01:07:09AM +0300, Nancy Nyambura wrote:
-> Enable RSZB functionality in the OMAP4 ISS driver. This change sets the RSZB system configuration register to enable the RSZB module. Additionally, it updates the resizer control by setting the RSZ_EN_EN flag as required. This change enhances the driver's capabilities and prepares it for future developments.
+Thank you for the patch.
 
-You haven't run this through checkpatch, have you ?
-
-> Signed-off-by: Nancy Nyambura <nicymimz@gmail.com>
-> ---
->  drivers/staging/media/omap4iss/iss_resizer.c | 34 +++++++++++---------
->  1 file changed, 19 insertions(+), 15 deletions(-)
+On Sun, Oct 29, 2023 at 01:48:35PM +0100, Stefan Wahren wrote:
+> The function vchiq_dump_service_state() is only used by vchiq_dump_state()
+> within vchiq_core.c. So move the definition of vchiq_dump_state() below
+> vchiq_dump_service_state() in order to make it static.
 > 
-> diff --git a/drivers/staging/media/omap4iss/iss_resizer.c b/drivers/staging/media/omap4iss/iss_resizer.c
-> index a5f8f9f1ab16..23089eeaf448 100644
-> --- a/drivers/staging/media/omap4iss/iss_resizer.c
-> +++ b/drivers/staging/media/omap4iss/iss_resizer.c
-> @@ -7,17 +7,17 @@
->   * Author: Sergio Aguirre <sergio.a.aguirre@gmail.com>
->   */
->  
-> -#include <linux/module.h>
-> -#include <linux/uaccess.h>
-> -#include <linux/delay.h>
-> -#include <linux/device.h>
-> -#include <linux/dma-mapping.h>
-> -#include <linux/mm.h>
-> -#include <linux/sched.h>
-> -
-> -#include "iss.h"
-> -#include "iss_regs.h"
-> -#include "iss_resizer.h"
-> + #include <linux/module.h>
-> + #include <linux/uaccess.h>
-> + #include <linux/delay.h>
-> + #include <linux/device.h>
-> + #include <linux/dma-mapping.h>
-> + #include <linux/mm.h>
-> + #include <linux/sched.h>
-> +
-> + #include "iss.h"
-> + #include "iss_regs.h"
-> + #include "iss_resizer.h"
+> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
 
-Or even read the patch before sending it out ?
+I don't remember suggesting this, but that's fine, it looks like a good
+change :-)
 
->  
->  static const unsigned int resizer_fmts[] = {
->  	MEDIA_BUS_FMT_UYVY8_1X16,
-> @@ -30,11 +30,11 @@ static const unsigned int resizer_fmts[] = {
->   *
->   * Also prints other debug information stored in the RESIZER module.
->   */
-> -#define RSZ_PRINT_REGISTER(iss, name)\
-> + #define RSZ_PRINT_REGISTER(iss, name)\
->  	dev_dbg(iss->dev, "###RSZ " #name "=0x%08x\n", \
->  		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_RESIZER, RSZ_##name))
->  
-> -#define RZA_PRINT_REGISTER(iss, name)\
-> + #define RZA_PRINT_REGISTER(iss, name)\
->  	dev_dbg(iss->dev, "###RZA " #name "=0x%08x\n", \
->  		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_RESIZER, RZA_##name))
->  
-> @@ -116,8 +116,12 @@ static void resizer_enable(struct iss_resizer_device *resizer, u8 enable)
->  		       RSZ_SRC_EN_SRC_EN, enable ? RSZ_SRC_EN_SRC_EN : 0);
->  
->  	/* TODO: Enable RSZB */
-> -	iss_reg_update(iss, OMAP4_ISS_MEM_ISP_RESIZER, RZA_EN, RSZ_EN_EN,
-> -		       enable ? RSZ_EN_EN : 0);
-> +	u32 reg_value = ioread32(iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-> +		       	+ RZ_SYSCONFIG);
-> +	reg_value |= RSZ_SYSCONFIG_RSZB_CLK_EN;
-> +	iowrite32(reg_value, iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER, 
-> +			+ RSZ_SYSCONFIG);
-> +
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-This doesn't even compile.
-
-Has this all been generated by chatgpt by any chance ? It doesn't look
-like whoever wrote this understand what they were doing.
-
+> ---
+>  .../interface/vchiq_arm/vchiq_core.c          | 169 +++++++++---------
+>  .../interface/vchiq_arm/vchiq_core.h          |   3 -
+>  2 files changed, 85 insertions(+), 87 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index 39b857da2d42..94073f92651a 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -3428,90 +3428,8 @@ vchiq_dump_shared_state(void *dump_context, struct vchiq_state *state,
+>  	return 0;
 >  }
->  
->  /* -----------------------------------------------------------------------------
+> 
+> -int vchiq_dump_state(void *dump_context, struct vchiq_state *state)
+> -{
+> -	char buf[80];
+> -	int len;
+> -	int i;
+> -	int err;
+> -
+> -	len = scnprintf(buf, sizeof(buf), "State %d: %s", state->id,
+> -			conn_state_names[state->conn_state]);
+> -	err = vchiq_dump(dump_context, buf, len + 1);
+> -	if (err)
+> -		return err;
+> -
+> -	len = scnprintf(buf, sizeof(buf), "  tx_pos=%x(@%pK), rx_pos=%x(@%pK)",
+> -			state->local->tx_pos,
+> -			state->tx_data + (state->local_tx_pos & VCHIQ_SLOT_MASK),
+> -			state->rx_pos,
+> -			state->rx_data + (state->rx_pos & VCHIQ_SLOT_MASK));
+> -	err = vchiq_dump(dump_context, buf, len + 1);
+> -	if (err)
+> -		return err;
+> -
+> -	len = scnprintf(buf, sizeof(buf), "  Version: %d (min %d)",
+> -			VCHIQ_VERSION, VCHIQ_VERSION_MIN);
+> -	err = vchiq_dump(dump_context, buf, len + 1);
+> -	if (err)
+> -		return err;
+> -
+> -	if (VCHIQ_ENABLE_STATS) {
+> -		len = scnprintf(buf, sizeof(buf),
+> -				"  Stats: ctrl_tx_count=%d, ctrl_rx_count=%d, error_count=%d",
+> -				state->stats.ctrl_tx_count, state->stats.ctrl_rx_count,
+> -				state->stats.error_count);
+> -		err = vchiq_dump(dump_context, buf, len + 1);
+> -		if (err)
+> -			return err;
+> -	}
+> -
+> -	len = scnprintf(buf, sizeof(buf),
+> -			"  Slots: %d available (%d data), %d recyclable, %d stalls (%d data)",
+> -			((state->slot_queue_available * VCHIQ_SLOT_SIZE) -
+> -			state->local_tx_pos) / VCHIQ_SLOT_SIZE,
+> -			state->data_quota - state->data_use_count,
+> -			state->local->slot_queue_recycle - state->slot_queue_available,
+> -			state->stats.slot_stalls, state->stats.data_stalls);
+> -	err = vchiq_dump(dump_context, buf, len + 1);
+> -	if (err)
+> -		return err;
+> -
+> -	err = vchiq_dump_platform_state(dump_context);
+> -	if (err)
+> -		return err;
+> -
+> -	err = vchiq_dump_shared_state(dump_context,
+> -				      state,
+> -				      state->local,
+> -				      "Local");
+> -	if (err)
+> -		return err;
+> -	err = vchiq_dump_shared_state(dump_context,
+> -				      state,
+> -				      state->remote,
+> -				      "Remote");
+> -	if (err)
+> -		return err;
+> -
+> -	err = vchiq_dump_platform_instances(dump_context);
+> -	if (err)
+> -		return err;
+> -
+> -	for (i = 0; i < state->unused_service; i++) {
+> -		struct vchiq_service *service = find_service_by_port(state, i);
+> -
+> -		if (service) {
+> -			err = vchiq_dump_service_state(dump_context, service);
+> -			vchiq_service_put(service);
+> -			if (err)
+> -				return err;
+> -		}
+> -	}
+> -	return 0;
+> -}
+> -
+> -int vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
+> +static int
+> +vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
+>  {
+>  	char buf[80];
+>  	int len;
+> @@ -3606,6 +3524,89 @@ int vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
+>  	return err;
+>  }
+> 
+> +int vchiq_dump_state(void *dump_context, struct vchiq_state *state)
+> +{
+> +	char buf[80];
+> +	int len;
+> +	int i;
+> +	int err;
+> +
+> +	len = scnprintf(buf, sizeof(buf), "State %d: %s", state->id,
+> +			conn_state_names[state->conn_state]);
+> +	err = vchiq_dump(dump_context, buf, len + 1);
+> +	if (err)
+> +		return err;
+> +
+> +	len = scnprintf(buf, sizeof(buf), "  tx_pos=%x(@%pK), rx_pos=%x(@%pK)",
+> +			state->local->tx_pos,
+> +			state->tx_data + (state->local_tx_pos & VCHIQ_SLOT_MASK),
+> +			state->rx_pos,
+> +			state->rx_data + (state->rx_pos & VCHIQ_SLOT_MASK));
+> +	err = vchiq_dump(dump_context, buf, len + 1);
+> +	if (err)
+> +		return err;
+> +
+> +	len = scnprintf(buf, sizeof(buf), "  Version: %d (min %d)",
+> +			VCHIQ_VERSION, VCHIQ_VERSION_MIN);
+> +	err = vchiq_dump(dump_context, buf, len + 1);
+> +	if (err)
+> +		return err;
+> +
+> +	if (VCHIQ_ENABLE_STATS) {
+> +		len = scnprintf(buf, sizeof(buf),
+> +				"  Stats: ctrl_tx_count=%d, ctrl_rx_count=%d, error_count=%d",
+> +				state->stats.ctrl_tx_count, state->stats.ctrl_rx_count,
+> +				state->stats.error_count);
+> +		err = vchiq_dump(dump_context, buf, len + 1);
+> +		if (err)
+> +			return err;
+> +	}
+> +
+> +	len = scnprintf(buf, sizeof(buf),
+> +			"  Slots: %d available (%d data), %d recyclable, %d stalls (%d data)",
+> +			((state->slot_queue_available * VCHIQ_SLOT_SIZE) -
+> +			state->local_tx_pos) / VCHIQ_SLOT_SIZE,
+> +			state->data_quota - state->data_use_count,
+> +			state->local->slot_queue_recycle - state->slot_queue_available,
+> +			state->stats.slot_stalls, state->stats.data_stalls);
+> +	err = vchiq_dump(dump_context, buf, len + 1);
+> +	if (err)
+> +		return err;
+> +
+> +	err = vchiq_dump_platform_state(dump_context);
+> +	if (err)
+> +		return err;
+> +
+> +	err = vchiq_dump_shared_state(dump_context,
+> +				      state,
+> +				      state->local,
+> +				      "Local");
+> +	if (err)
+> +		return err;
+> +	err = vchiq_dump_shared_state(dump_context,
+> +				      state,
+> +				      state->remote,
+> +				      "Remote");
+> +	if (err)
+> +		return err;
+> +
+> +	err = vchiq_dump_platform_instances(dump_context);
+> +	if (err)
+> +		return err;
+> +
+> +	for (i = 0; i < state->unused_service; i++) {
+> +		struct vchiq_service *service = find_service_by_port(state, i);
+> +
+> +		if (service) {
+> +			err = vchiq_dump_service_state(dump_context, service);
+> +			vchiq_service_put(service);
+> +			if (err)
+> +				return err;
+> +		}
+> +	}
+> +	return 0;
+> +}
+> +
+>  int vchiq_send_remote_use(struct vchiq_state *state)
+>  {
+>  	if (state->conn_state == VCHIQ_CONNSTATE_DISCONNECTED)
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> index 161358db457c..ea8d58844775 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> @@ -507,9 +507,6 @@ vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *
+>  extern int
+>  vchiq_dump_state(void *dump_context, struct vchiq_state *state);
+> 
+> -extern int
+> -vchiq_dump_service_state(void *dump_context, struct vchiq_service *service);
+> -
+>  extern void
+>  vchiq_loud_error_header(void);
+> 
 
 -- 
 Regards,
