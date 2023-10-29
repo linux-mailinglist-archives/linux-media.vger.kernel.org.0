@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D30147DB188
-	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 00:44:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 791117DB18C
+	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 00:46:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230495AbjJ2Xok (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Oct 2023 19:44:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39734 "EHLO
+        id S230496AbjJ2XqO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Oct 2023 19:46:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47832 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229533AbjJ2Xoj (ORCPT
+        with ESMTP id S229533AbjJ2XqN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Oct 2023 19:44:39 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08C9E91
-        for <linux-media@vger.kernel.org>; Sun, 29 Oct 2023 16:44:37 -0700 (PDT)
+        Sun, 29 Oct 2023 19:46:13 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4210091
+        for <linux-media@vger.kernel.org>; Sun, 29 Oct 2023 16:46:11 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 053B083F;
-        Mon, 30 Oct 2023 00:44:19 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EAA7B83F;
+        Mon, 30 Oct 2023 00:45:53 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698623060;
-        bh=5kHJo1bcTjk4PEua+5BhlwYXe0nsOaz88S+sHX3FDaw=;
+        s=mail; t=1698623154;
+        bh=tud3zNbH7C5LrMzJvG7ZKK47ATz69dzd2aK3sf4w30M=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=HbLXaHTQiMSf3+V1gVIeK+6/L+wnmPf5yQX8ShKh9UvIho00PtcVql+5iioPSSkoP
-         NLTitB4Llu0oMCD9VpXbU7xsQUH32YVtv+8Se9b6Zg1WZPDtYOCOPZ0kWMCRUBDTjI
-         gCu25P0dK9B5zhX5kJTNlPUk6jAZCM8FrjepwixM=
-Date:   Mon, 30 Oct 2023 01:44:41 +0200
+        b=d72nfp+nAP8csoZO/gAwzz5IugtKdPaV9Y2Bk5dsGWo+u0tju5C08qwLc6VWp84v8
+         PHhUYdR59Z4CdCEK/jYSuwIyQEesKVBrHvVNp6TRCiMy5fsR/e7OapBR0mhsmK/YxG
+         xb2NbTk4BF9ktB4D91SwWsl5sSo6joO3QqBrVmkQ=
+Date:   Mon, 30 Oct 2023 01:46:15 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Stefan Wahren <wahrenst@gmx.net>
 Cc:     Umang Jain <umang.jain@ideasonboard.com>,
@@ -37,15 +37,15 @@ Cc:     Umang Jain <umang.jain@ideasonboard.com>,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         linux-staging@lists.linux.dev,
         linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH V2 1/3] staging: vchiq_core: Make
- vchiq_dump_service_state static
-Message-ID: <20231029234441.GH12144@pendragon.ideasonboard.com>
+Subject: Re: [PATCH V2 2/3] staging: vchiq_core: Shorten bulk TX/RX pending
+ dump
+Message-ID: <20231029234615.GI12144@pendragon.ideasonboard.com>
 References: <20231029124837.119832-1-wahrenst@gmx.net>
- <20231029124837.119832-2-wahrenst@gmx.net>
+ <20231029124837.119832-3-wahrenst@gmx.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231029124837.119832-2-wahrenst@gmx.net>
+In-Reply-To: <20231029124837.119832-3-wahrenst@gmx.net>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_PASS,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
@@ -59,225 +59,63 @@ Hi Stefan,
 
 Thank you for the patch.
 
-On Sun, Oct 29, 2023 at 01:48:35PM +0100, Stefan Wahren wrote:
-> The function vchiq_dump_service_state() is only used by vchiq_dump_state()
-> within vchiq_core.c. So move the definition of vchiq_dump_state() below
-> vchiq_dump_service_state() in order to make it static.
+On Sun, Oct 29, 2023 at 01:48:36PM +0100, Stefan Wahren wrote:
+> The calculation for the bulk TX/RX pending is complex and
+> reaches 99 chars per line. So move the size determination
+> below the pending calculation and get the rid of the
+> ternary operator.
 > 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Stefan Wahren <wahrenst@gmx.net>
-
-I don't remember suggesting this, but that's fine, it looks like a good
-change :-)
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  .../interface/vchiq_arm/vchiq_core.c          | 169 +++++++++---------
->  .../interface/vchiq_arm/vchiq_core.h          |   3 -
->  2 files changed, 85 insertions(+), 87 deletions(-)
+>  .../interface/vchiq_arm/vchiq_core.c          | 19 ++++++++++++-------
+>  1 file changed, 12 insertions(+), 7 deletions(-)
 > 
 > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> index 39b857da2d42..94073f92651a 100644
+> index 94073f92651a..36c742a2f3b2 100644
 > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> @@ -3428,90 +3428,8 @@ vchiq_dump_shared_state(void *dump_context, struct vchiq_state *state,
->  	return 0;
->  }
+> @@ -3447,7 +3447,7 @@ vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
+>  		struct vchiq_service_quota *quota =
+>  			&service->state->service_quotas[service->localport];
+>  		int fourcc = service->base.fourcc;
+> -		int tx_pending, rx_pending;
+> +		int tx_pending, rx_pending, tx_size = 0, rx_size = 0;
 > 
-> -int vchiq_dump_state(void *dump_context, struct vchiq_state *state)
-> -{
-> -	char buf[80];
-> -	int len;
-> -	int i;
-> -	int err;
-> -
-> -	len = scnprintf(buf, sizeof(buf), "State %d: %s", state->id,
-> -			conn_state_names[state->conn_state]);
-> -	err = vchiq_dump(dump_context, buf, len + 1);
-> -	if (err)
-> -		return err;
-> -
-> -	len = scnprintf(buf, sizeof(buf), "  tx_pos=%x(@%pK), rx_pos=%x(@%pK)",
-> -			state->local->tx_pos,
-> -			state->tx_data + (state->local_tx_pos & VCHIQ_SLOT_MASK),
-> -			state->rx_pos,
-> -			state->rx_data + (state->rx_pos & VCHIQ_SLOT_MASK));
-> -	err = vchiq_dump(dump_context, buf, len + 1);
-> -	if (err)
-> -		return err;
-> -
-> -	len = scnprintf(buf, sizeof(buf), "  Version: %d (min %d)",
-> -			VCHIQ_VERSION, VCHIQ_VERSION_MIN);
-> -	err = vchiq_dump(dump_context, buf, len + 1);
-> -	if (err)
-> -		return err;
-> -
-> -	if (VCHIQ_ENABLE_STATS) {
-> -		len = scnprintf(buf, sizeof(buf),
-> -				"  Stats: ctrl_tx_count=%d, ctrl_rx_count=%d, error_count=%d",
-> -				state->stats.ctrl_tx_count, state->stats.ctrl_rx_count,
-> -				state->stats.error_count);
-> -		err = vchiq_dump(dump_context, buf, len + 1);
-> -		if (err)
-> -			return err;
-> -	}
-> -
-> -	len = scnprintf(buf, sizeof(buf),
-> -			"  Slots: %d available (%d data), %d recyclable, %d stalls (%d data)",
-> -			((state->slot_queue_available * VCHIQ_SLOT_SIZE) -
-> -			state->local_tx_pos) / VCHIQ_SLOT_SIZE,
-> -			state->data_quota - state->data_use_count,
-> -			state->local->slot_queue_recycle - state->slot_queue_available,
-> -			state->stats.slot_stalls, state->stats.data_stalls);
-> -	err = vchiq_dump(dump_context, buf, len + 1);
-> -	if (err)
-> -		return err;
-> -
-> -	err = vchiq_dump_platform_state(dump_context);
-> -	if (err)
-> -		return err;
-> -
-> -	err = vchiq_dump_shared_state(dump_context,
-> -				      state,
-> -				      state->local,
-> -				      "Local");
-> -	if (err)
-> -		return err;
-> -	err = vchiq_dump_shared_state(dump_context,
-> -				      state,
-> -				      state->remote,
-> -				      "Remote");
-> -	if (err)
-> -		return err;
-> -
-> -	err = vchiq_dump_platform_instances(dump_context);
-> -	if (err)
-> -		return err;
-> -
-> -	for (i = 0; i < state->unused_service; i++) {
-> -		struct vchiq_service *service = find_service_by_port(state, i);
-> -
-> -		if (service) {
-> -			err = vchiq_dump_service_state(dump_context, service);
-> -			vchiq_service_put(service);
-> -			if (err)
-> -				return err;
-> -		}
-> -	}
-> -	return 0;
-> -}
-> -
-> -int vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
-> +static int
-> +vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
->  {
->  	char buf[80];
->  	int len;
-> @@ -3606,6 +3524,89 @@ int vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
->  	return err;
->  }
+>  		if (service->remoteport != VCHIQ_PORT_FREE) {
+>  			int len2 = scnprintf(remoteport, sizeof(remoteport),
+> @@ -3472,18 +3472,23 @@ vchiq_dump_service_state(void *dump_context, struct vchiq_service *service)
 > 
-> +int vchiq_dump_state(void *dump_context, struct vchiq_state *state)
-> +{
-> +	char buf[80];
-> +	int len;
-> +	int i;
-> +	int err;
+>  		tx_pending = service->bulk_tx.local_insert -
+>  			service->bulk_tx.remote_insert;
+> +		if (tx_pending) {
+> +			unsigned int i = BULK_INDEX(service->bulk_tx.remove);
 > +
-> +	len = scnprintf(buf, sizeof(buf), "State %d: %s", state->id,
-> +			conn_state_names[state->conn_state]);
-> +	err = vchiq_dump(dump_context, buf, len + 1);
-> +	if (err)
-> +		return err;
-> +
-> +	len = scnprintf(buf, sizeof(buf), "  tx_pos=%x(@%pK), rx_pos=%x(@%pK)",
-> +			state->local->tx_pos,
-> +			state->tx_data + (state->local_tx_pos & VCHIQ_SLOT_MASK),
-> +			state->rx_pos,
-> +			state->rx_data + (state->rx_pos & VCHIQ_SLOT_MASK));
-> +	err = vchiq_dump(dump_context, buf, len + 1);
-> +	if (err)
-> +		return err;
-> +
-> +	len = scnprintf(buf, sizeof(buf), "  Version: %d (min %d)",
-> +			VCHIQ_VERSION, VCHIQ_VERSION_MIN);
-> +	err = vchiq_dump(dump_context, buf, len + 1);
-> +	if (err)
-> +		return err;
-> +
-> +	if (VCHIQ_ENABLE_STATS) {
-> +		len = scnprintf(buf, sizeof(buf),
-> +				"  Stats: ctrl_tx_count=%d, ctrl_rx_count=%d, error_count=%d",
-> +				state->stats.ctrl_tx_count, state->stats.ctrl_rx_count,
-> +				state->stats.error_count);
-> +		err = vchiq_dump(dump_context, buf, len + 1);
-> +		if (err)
-> +			return err;
-> +	}
-> +
-> +	len = scnprintf(buf, sizeof(buf),
-> +			"  Slots: %d available (%d data), %d recyclable, %d stalls (%d data)",
-> +			((state->slot_queue_available * VCHIQ_SLOT_SIZE) -
-> +			state->local_tx_pos) / VCHIQ_SLOT_SIZE,
-> +			state->data_quota - state->data_use_count,
-> +			state->local->slot_queue_recycle - state->slot_queue_available,
-> +			state->stats.slot_stalls, state->stats.data_stalls);
-> +	err = vchiq_dump(dump_context, buf, len + 1);
-> +	if (err)
-> +		return err;
-> +
-> +	err = vchiq_dump_platform_state(dump_context);
-> +	if (err)
-> +		return err;
-> +
-> +	err = vchiq_dump_shared_state(dump_context,
-> +				      state,
-> +				      state->local,
-> +				      "Local");
-> +	if (err)
-> +		return err;
-> +	err = vchiq_dump_shared_state(dump_context,
-> +				      state,
-> +				      state->remote,
-> +				      "Remote");
-> +	if (err)
-> +		return err;
-> +
-> +	err = vchiq_dump_platform_instances(dump_context);
-> +	if (err)
-> +		return err;
-> +
-> +	for (i = 0; i < state->unused_service; i++) {
-> +		struct vchiq_service *service = find_service_by_port(state, i);
-> +
-> +		if (service) {
-> +			err = vchiq_dump_service_state(dump_context, service);
-> +			vchiq_service_put(service);
-> +			if (err)
-> +				return err;
+> +			tx_size = service->bulk_tx.bulks[i].size;
 > +		}
-> +	}
-> +	return 0;
-> +}
+> 
+>  		rx_pending = service->bulk_rx.local_insert -
+>  			service->bulk_rx.remote_insert;
+> +		if (rx_pending) {
+> +			unsigned int i = BULK_INDEX(service->bulk_rx.remove);
 > +
->  int vchiq_send_remote_use(struct vchiq_state *state)
->  {
->  	if (state->conn_state == VCHIQ_CONNSTATE_DISCONNECTED)
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> index 161358db457c..ea8d58844775 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> @@ -507,9 +507,6 @@ vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle, void *
->  extern int
->  vchiq_dump_state(void *dump_context, struct vchiq_state *state);
+> +			rx_size = service->bulk_rx.bulks[i].size;
+> +		}
 > 
-> -extern int
-> -vchiq_dump_service_state(void *dump_context, struct vchiq_service *service);
-> -
->  extern void
->  vchiq_loud_error_header(void);
+>  		len = scnprintf(buf, sizeof(buf),
+>  				"  Bulk: tx_pending=%d (size %d), rx_pending=%d (size %d)",
+> -				tx_pending,
+> -				tx_pending ?
+> -				service->bulk_tx.bulks[BULK_INDEX(service->bulk_tx.remove)].size :
+> -				0, rx_pending, rx_pending ?
+> -				service->bulk_rx.bulks[BULK_INDEX(service->bulk_rx.remove)].size :
+> -				0);
+> +				tx_pending, tx_size, rx_pending, rx_size);
 > 
+>  		if (VCHIQ_ENABLE_STATS) {
+>  			err = vchiq_dump(dump_context, buf, len + 1);
 
 -- 
 Regards,
