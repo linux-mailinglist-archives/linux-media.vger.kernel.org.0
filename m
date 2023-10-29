@@ -2,98 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AC857DAA81
-	for <lists+linux-media@lfdr.de>; Sun, 29 Oct 2023 03:29:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FFC17DABCD
+	for <lists+linux-media@lfdr.de>; Sun, 29 Oct 2023 09:39:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229533AbjJ2C3h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Oct 2023 22:29:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46798 "EHLO
+        id S230022AbjJ2Iju (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Oct 2023 04:39:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229446AbjJ2C3f (ORCPT
+        with ESMTP id S229446AbjJ2Ijt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Oct 2023 22:29:35 -0400
-Received: from mail-qt1-x829.google.com (mail-qt1-x829.google.com [IPv6:2607:f8b0:4864:20::829])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECB3EC6;
-        Sat, 28 Oct 2023 19:29:33 -0700 (PDT)
-Received: by mail-qt1-x829.google.com with SMTP id d75a77b69052e-41cd1fe4645so21714301cf.0;
-        Sat, 28 Oct 2023 19:29:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698546573; x=1699151373; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=8gWNO3l8fpnpIPgxgpu5uSSqh1fHCKLMt8L2nodlFyk=;
-        b=Esxab5uaDgCZOe7KWZ3GkozbuE8uTMi6OM2kmk1Cy477megLYrBP+lbE3KxfvKhP3A
-         Jirrqj1sXZB7SPPnsfTAjjHHvzW3cFhvG2xYu+hrIiU3b2qHWBi+LVzDedcAWXx7hr+i
-         W2eNKoJtoGNEwIYi/KCQue3/uId3M8T1ghrMHEne63VbJmKXwRJPlF0FECIaaxKiTN8Q
-         le9EY4+co4Wjz19hmvWoUK1wZ8P3/kASyZXi49uJ7CzMhPHof5N+SG5ePk/YEFsTeS5I
-         Ue/4S2B9kr/86mdqf7kuCd11Vhpdlgo6Rwoddh0P0TvkWOijpwSJZns0BZQvOixBvvsg
-         nneQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698546573; x=1699151373;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8gWNO3l8fpnpIPgxgpu5uSSqh1fHCKLMt8L2nodlFyk=;
-        b=lhArqEDsviAyWdCvKB6uWYEpt+jPWBVRo1kl94kXoeZMSsPs7J7gu8ggPKAFNYHUuG
-         FU/oyCEAH2HRaekM81QD8n+cf9WQbCKr8iWJ6twRPJX3QKM3BNYZfscInPTlJBQxsT8B
-         bD4di0BcR3EJ+Nz+MjQceiuwtPC8V7JrCMBE7uiuR9qbbYkHyvl/iwyW9XQp0Ds86jtC
-         lUusN9uBhmJdQ4NVKiR+IllO4r370xU0nHpB7d+U1WnnLqwSN3D96ohdz/rSBU0vWzw1
-         qqAtJUNnJxwloQO4Xbm08mFNh/5Cewej28UQ11zKkBlI3nnUulgGw7NekCOzaIv0aoOM
-         UQ7A==
-X-Gm-Message-State: AOJu0Yz8Bf0dffUAbhkE0/+huTmtvJ2ReSfAVOHRpfXqDUejjSa+xpU+
-        OLY0iJFVuS7Bfc5YyAC1ix4=
-X-Google-Smtp-Source: AGHT+IErpMIDGlNs7xe4F7SkYsIWBgQIXur/8MlOHteENWqs1PiDVQ5rzCKOA9AAhWycHof+33p9rA==
-X-Received: by 2002:ac8:5c96:0:b0:41b:806e:81c7 with SMTP id r22-20020ac85c96000000b0041b806e81c7mr7553608qta.32.1698546572867;
-        Sat, 28 Oct 2023 19:29:32 -0700 (PDT)
-Received: from google.com ([205.220.129.30])
-        by smtp.gmail.com with ESMTPSA id d5-20020a056a0010c500b006bfb903599esm3549848pfu.139.2023.10.28.19.29.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Oct 2023 19:29:31 -0700 (PDT)
-Date:   Sun, 29 Oct 2023 02:29:02 +0000
-From:   Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com, Henrik Rydberg <rydberg@bitmath.org>
-Subject: Re: [PATCH v13 33/56] touchscreen: sur40: Stop direct calls to queue
- num_buffers field
-Message-ID: <ZT3DbkmurIzBp7_p@google.com>
-References: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
- <20231019125222.21370-34-benjamin.gaignard@collabora.com>
+        Sun, 29 Oct 2023 04:39:49 -0400
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21A57C5;
+        Sun, 29 Oct 2023 01:39:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+        t=1698568782; bh=jshvNIqxMYoT/ULUAbI8yGv7q+uWD6fD9TWA7ycDSzI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=OcmT3ZFoGS4Wn7NEbHO/rDx7sMRezjkBVA9QKpKvheLhkrAJ14kdtE7UVW7X98Z5b
+         eEYsVtvgT8SJW/adGFnRChIXqFhprggUnVJgYCkn/iskG1ji9EDa878C/0qXq1UiRP
+         T5qpclCapL0emeKRN2JPPEfbep0arK2fWVms+bFsSFCa0IcBf7+nBOhp+D4C14Fz/3
+         jauRzGNThUJUDZHfcGBGndR0HKKOJ1mENbCOV+WlKo9jFn2zZLFGcf9ArWhUyZvO1E
+         oQHY3FyPnlyyFcycbCp7Atj3YdhxkqAr66eO3HgH3WyiCmwBjTV1dmVFJsbGZJDdJp
+         8+AvbG9UizOtg==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 270501000FA; Sun, 29 Oct 2023 08:39:42 +0000 (GMT)
+Date:   Sun, 29 Oct 2023 08:39:42 +0000
+From:   Sean Young <sean@mess.org>
+To:     Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+        Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Florian Fainelli <florian.fainelli@broadcom.com>,
+        Broadcom internal kernel review list 
+        <bcm-kernel-feedback-list@broadcom.com>,
+        Ray Jui <rjui@broadcom.com>,
+        Scott Branden <sbranden@broadcom.com>,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 3/4] pwm: bcm2835: allow pwm driver to be used in
+ atomic context
+Message-ID: <ZT4aTsQJ_LUzGYay@gofer.mess.org>
+References: <cover.1698398004.git.sean@mess.org>
+ <0b35ca65d6f4d53d3beb1411a64970ea5f969060.1698398004.git.sean@mess.org>
+ <20231027133818.f5zpeqxfw7ghs7sk@pengutronix.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20231019125222.21370-34-benjamin.gaignard@collabora.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231027133818.f5zpeqxfw7ghs7sk@pengutronix.de>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 19, 2023 at 02:51:59PM +0200, Benjamin Gaignard wrote:
-> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
-> This allows us to change how the number of buffers is computed in the
-> future.
+Hello Uwe,
+
+On Fri, Oct 27, 2023 at 03:38:18PM +0200, Uwe Kleine-König wrote:
+> On Fri, Oct 27, 2023 at 10:20:46AM +0100, Sean Young wrote:
+> > +	pc->rate = clk_get_rate(pc->clk);
+> > +	if (!pc->rate) {
+> > +		dev_err(pc->dev, "failed to get clock rate\n");
+> > +		ret = -EINVAL;
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-> CC: Henrik Rydberg <rydberg@bitmath.org>
+> Other error paths in this driver use dev_err_probe(). The most compact
+> way here would be:
+> 
+> 	ret = dev_err_probe(pc->dev, -EINVAL, "....");
+> 
+> but maybe
+> 
+> 	ret = -EINVAL;
+> 	dev_err_probe(pc->dev, ret, "...");
+> 
+> is a bit easier to parse for a human?!
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+Using the same dev_err_probe() function for all error paths is nice, so
+I will change it for the next version. This change will print the EINVAL
+error as well which does not really add anything, but no harm done there.
 
-Feel free to merge with the rest of the series.
+Thanks,
 
-Thanks.
-
--- 
-Dmitry
+Sean
