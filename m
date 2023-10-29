@@ -2,223 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D3A507DADD9
-	for <lists+linux-media@lfdr.de>; Sun, 29 Oct 2023 19:46:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 299C27DADE7
+	for <lists+linux-media@lfdr.de>; Sun, 29 Oct 2023 19:56:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230459AbjJ2SqK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Oct 2023 14:46:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38998 "EHLO
+        id S229778AbjJ2S40 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Oct 2023 14:56:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43908 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230411AbjJ2SqA (ORCPT
+        with ESMTP id S229512AbjJ2S4Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Oct 2023 14:46:00 -0400
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CFE03C5;
-        Sun, 29 Oct 2023 11:45:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: MIME-Version: References: In-Reply-To:
- Message-ID: Date: Subject: Cc: To: From; q=dns/txt; s=fe-e1b5cab7be;
- t=1698605142; bh=CDI7CU66wEs270/rnVxpiW23n/7qKyJzphHa0D78l20=;
- b=MwHhazQcJbCZWxHN3Dq+D/NALM9dhM8cOWgiysWhVZYfTh8arisAjxDc+XkWrCZ9uBNPHd/PE
- ylT6YMCinGthBAM4pOtp20nVHxJcBERP2haw+AGx08QZXtIVcVpW7zy1QR0RnQFqo+mmIjq3WqY
- du8CevgaGkUCwP3SM5x0Jg4Zmv3u3wiCAbsV5xLkT+NQTZbfwA861F+maZAEHAB15uHDt907mQh
- gPgUSGZr7O/+C7+r5pfxomNJYCIKP99vr4TqI5dfoKgAbWZT2zOPsy/R2EOPyIeUVjsviz5nyRW
- h0sGCY+ziYMqlcGPUJsCOgrWhzcVMH+2jBDYC7iokgcA==
-From:   Jonas Karlman <jonas@kwiboo.se>
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     Alex Bee <knaerzche@gmail.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Christopher Obbard <chris.obbard@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        Jonas Karlman <jonas@kwiboo.se>
-Subject: [PATCH v3 10/10] media: rkvdec: h264: Support High 10 and 4:2:2 profiles
-Date:   Sun, 29 Oct 2023 18:34:17 +0000
-Message-ID: <20231029183427.1781554-11-jonas@kwiboo.se>
-X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231029183427.1781554-1-jonas@kwiboo.se>
-References: <20231029183427.1781554-1-jonas@kwiboo.se>
+        Sun, 29 Oct 2023 14:56:25 -0400
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7934EAD
+        for <linux-media@vger.kernel.org>; Sun, 29 Oct 2023 11:56:23 -0700 (PDT)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-4083dbc43cfso25240945e9.3
+        for <linux-media@vger.kernel.org>; Sun, 29 Oct 2023 11:56:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=philpotter-co-uk.20230601.gappssmtp.com; s=20230601; t=1698605782; x=1699210582; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=J67VL168EXCg6ojlawoeEdohbeM+0KOOSBveNBY5m+E=;
+        b=KlI9BTt6ph9EIiPyrIQtxMaFd6sWaCbqmuctVYkkttBqIPWO7Rq17RVtGkLsAcNKTY
+         PwLU7uIUTMxFfXoxGEPGy2WU3n0E6/Q1CFMEpUYGcIAp9+oD/t+hzcU3GHsrGQeSjlXl
+         84apXq8mwcSvy34W5waVt0qlmRHDO5tzJ8DFcrq24cWMnifH+pbr+YdpB/hGqAtyPJxb
+         X8MybQSRMnQFsaUxccrTss617XygjFXHD5SlzQ7CkSkLaVVNUVysRVyMMttGvcN/BsEI
+         9JvnKaziC9Mn1CTGUl46Ypp/BxmDGT6seXpKxGDX3axII5QEDufr6JFAnxb8qeC1mdsA
+         FuSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698605782; x=1699210582;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J67VL168EXCg6ojlawoeEdohbeM+0KOOSBveNBY5m+E=;
+        b=exU+gyHyRaCNI14MMqbA32DPULzALN7V6iG1Zgp/5TNrqKYMVw0RqdFIKGu8BoLy7v
+         xsGqHxVPecdHKpYI14av8S0EtrFihDRahhhchded86NFHCzL6zW+qH7W7OPbbia5QU8j
+         FgQckPpQyT4E7dWHgke+fGeIuStJSDHi2Y5TfOb3q6KnW1nEA45XzRBESM9PGWUuigQn
+         WYQDOqPPfFS9Oy53eefWE+KCzWfaMuQmhRzf4ANLn188L6nehGb6CmwXR552MlEzKhS4
+         fx6dRZzc2z5ktWWqoEVdDlYXQQsXMggUX17e1rHXtjelxtC2QP6zbvSletPkWSB8KvCN
+         e77Q==
+X-Gm-Message-State: AOJu0YxOsL8AVGFJZUKoS04E7BRCPGlU3JBlNh4b+wbIaBEhysXbMYg8
+        q7vHWqUypRxgmk1FwasKwMwM81e9SyoMi+60nk8iOg==
+X-Google-Smtp-Source: AGHT+IEx7mOV5mtjPDIUnMqi5wFMtmVOBit1RmyI2VibBuYXKM6oc4W/CvwPUo2+uRuoyRXpwedhLA==
+X-Received: by 2002:a05:600c:1d08:b0:408:4d0e:68ac with SMTP id l8-20020a05600c1d0800b004084d0e68acmr6486650wms.32.1698605781525;
+        Sun, 29 Oct 2023 11:56:21 -0700 (PDT)
+Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
+        by smtp.gmail.com with ESMTPSA id u18-20020a05600c19d200b00401b242e2e6sm10725528wmq.47.2023.10.29.11.56.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 29 Oct 2023 11:56:20 -0700 (PDT)
+Date:   Sun, 29 Oct 2023 18:56:19 +0000
+From:   Phillip Potter <phil@philpotter.co.uk>
+To:     Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+Cc:     ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
+        linux-kernel-mentees@lists.linuxfoundation.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: stk1160: Fixed high volume of stk1160_dbg messages
+Message-ID: <ZT6q0xhAsHmX9GZQ@equinox>
+References: <20231029143604.120329-1-ghanshyam1898@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 653ea5df8fe0ffca230b0f8a
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231029143604.120329-1-ghanshyam1898@gmail.com>
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support and enable decoding of H264 High 10 and 4:2:2 profiles.
+On Sun, Oct 29, 2023 at 08:06:04PM +0530, Ghanshyam Agrawal wrote:
+> The function stk1160_dbg gets called too many times, which causes
+> the output to get flooded with messages. Since stk1160_dbg uses
+> printk, it is now replaced with printk_ratelimited directly.
+> 
+> Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+> ---
+>  drivers/media/usb/stk1160/stk1160-video.c | 13 +------------
+>  1 file changed, 1 insertion(+), 12 deletions(-)
+> 
+> diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
+> index 4e966f6bf608..f5b75f380c19 100644
+> --- a/drivers/media/usb/stk1160/stk1160-video.c
+> +++ b/drivers/media/usb/stk1160/stk1160-video.c
+> @@ -105,17 +105,6 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
+>  	u8 *dst = buf->mem;
+>  	int remain;
+>  
+> -	/*
+> -	 * TODO: These stk1160_dbg are very spammy!
+> -	 * We should 1) check why we are getting them
+> -	 * and 2) add ratelimit.
+> -	 *
+> -	 * UPDATE: One of the reasons (the only one?) for getting these
+> -	 * is incorrect standard (mismatch between expected and configured).
+> -	 * So perhaps, we could add a counter for errors. When the counter
+> -	 * reaches some value, we simply stop streaming.
+> -	 */
+> -
+>  	len -= 4;
+>  	src += 4;
+>  
+> @@ -151,7 +140,7 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
+>  
+>  	/* Let the bug hunt begin! sanity checks! */
+>  	if (lencopy < 0) {
+> -		stk1160_dbg("copy skipped: negative lencopy\n");
+> +		printk_ratelimited("copy skipped: negative lencopy\n");
+>  		return;
+>  	}
+>  
+> -- 
+> 2.25.1
+> 
+> _______________________________________________
+> Linux-kernel-mentees mailing list
+> Linux-kernel-mentees@lists.linuxfoundation.org
+> https://lists.linuxfoundation.org/mailman/listinfo/linux-kernel-mentees
 
-Decoded CAPTURE buffer width is aligned to 64 pixels to accommodate HW
-requirement of 10-bit format buffers.
+Hi Ghanshyam,
 
-The get_fmt_opaque and valid_fmt ops is implemented to select a CAPTURE
-format suited for the provided SPS control.
+As we've conversed about this via other comms channels, thought I'd
+offer my comments here for what they are worth. Thanks for the patch
+firstly.
 
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
----
-v3:
-- Add get_fmt_opaque ops, the expected pixelformat is used as opaque
-- Add new valid_fmt ops that validate pixelformat matches opaque
-- Update H264_PROFILE control max value
+Few things I would change though:
+(1) Keep the comment around perhaps, but modify/move it, to specify the
+    reason for the ratelimiting is caused by standard mismatches.
+    Perhaps also leave a note about the possibility of it being due to
+    other problems also, given the comment says "the only one?" posed as
+    a question.
+(2) For consistency, probably worth making use of KERN_WARNING in your
+    new printk_ratelimited call.
 
- drivers/staging/media/rkvdec/rkvdec-h264.c | 45 +++++++++++++++++-----
- drivers/staging/media/rkvdec/rkvdec.c      | 21 ++++++----
- 2 files changed, 50 insertions(+), 16 deletions(-)
+All the best.
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
-index 815d5359ddd5..f773a3f5ecb7 100644
---- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-+++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-@@ -1027,24 +1027,49 @@ static int rkvdec_h264_adjust_fmt(struct rkvdec_ctx *ctx,
- 	return 0;
- }
- 
-+static u32 rkvdec_h264_get_fmt_opaque(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
-+{
-+	const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
-+
-+	if (ctrl->id != V4L2_CID_STATELESS_H264_SPS)
-+		return 0;
-+
-+	if (sps->bit_depth_luma_minus8 == 0) {
-+		if (sps->chroma_format_idc == 2)
-+			return V4L2_PIX_FMT_NV16;
-+		else
-+			return V4L2_PIX_FMT_NV12;
-+	} else if (sps->bit_depth_luma_minus8 == 2) {
-+		if (sps->chroma_format_idc == 2)
-+			return V4L2_PIX_FMT_NV20;
-+		else
-+			return V4L2_PIX_FMT_NV15;
-+	}
-+
-+	return 0;
-+}
-+
-+static bool rkvdec_h264_valid_fmt(struct rkvdec_ctx *ctx, u32 fourcc, u32 opaque)
-+{
-+	if (!opaque)
-+		return true;
-+
-+	return fourcc == opaque;
-+}
-+
- static int rkvdec_h264_validate_sps(struct rkvdec_ctx *ctx,
- 				    const struct v4l2_ctrl_h264_sps *sps)
- {
- 	unsigned int width, height;
- 
--	/*
--	 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
--	 * but it's currently broken in the driver.
--	 * Reject them for now, until it's fixed.
--	 */
--	if (sps->chroma_format_idc > 1)
--		/* Only 4:0:0 and 4:2:0 are supported */
-+	if (sps->chroma_format_idc > 2)
-+		/* Only 4:0:0, 4:2:0 and 4:2:2 are supported */
- 		return -EINVAL;
- 	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
- 		/* Luma and chroma bit depth mismatch */
- 		return -EINVAL;
--	if (sps->bit_depth_luma_minus8 != 0)
--		/* Only 8-bit is supported */
-+	if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
-+		/* Only 8-bit and 10-bit is supported */
- 		return -EINVAL;
- 
- 	width = (sps->pic_width_in_mbs_minus1 + 1) * 16;
-@@ -1171,6 +1196,8 @@ static int rkvdec_h264_try_ctrl(struct rkvdec_ctx *ctx, struct v4l2_ctrl *ctrl)
- 
- const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
- 	.adjust_fmt = rkvdec_h264_adjust_fmt,
-+	.get_fmt_opaque = rkvdec_h264_get_fmt_opaque,
-+	.valid_fmt = rkvdec_h264_valid_fmt,
- 	.start = rkvdec_h264_start,
- 	.stop = rkvdec_h264_stop,
- 	.run = rkvdec_h264_run,
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index 5c7e1b91e908..fce5cba343a3 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -50,7 +50,7 @@ static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
- 				       struct v4l2_pix_format_mplane *pix_mp)
- {
- 	v4l2_fill_pixfmt_mp(pix_mp, pix_mp->pixelformat,
--			    pix_mp->width, pix_mp->height);
-+			    ALIGN(pix_mp->width, 64), pix_mp->height);
- 	pix_mp->plane_fmt[0].sizeimage += 128 *
- 		DIV_ROUND_UP(pix_mp->width, 16) *
- 		DIV_ROUND_UP(pix_mp->height, 16);
-@@ -169,7 +169,7 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
- 	{
- 		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
- 		.cfg.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
--		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-+		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422,
- 		.cfg.menu_skip_mask =
- 			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
- 		.cfg.def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
-@@ -186,8 +186,11 @@ static const struct rkvdec_ctrls rkvdec_h264_ctrls = {
- 	.num_ctrls = ARRAY_SIZE(rkvdec_h264_ctrl_descs),
- };
- 
--static const u32 rkvdec_h264_vp9_decoded_fmts[] = {
-+static const u32 rkvdec_h264_decoded_fmts[] = {
- 	V4L2_PIX_FMT_NV12,
-+	V4L2_PIX_FMT_NV15,
-+	V4L2_PIX_FMT_NV16,
-+	V4L2_PIX_FMT_NV20,
- };
- 
- static const struct rkvdec_ctrl_desc rkvdec_vp9_ctrl_descs[] = {
-@@ -210,6 +213,10 @@ static const struct rkvdec_ctrls rkvdec_vp9_ctrls = {
- 	.num_ctrls = ARRAY_SIZE(rkvdec_vp9_ctrl_descs),
- };
- 
-+static const u32 rkvdec_vp9_decoded_fmts[] = {
-+	V4L2_PIX_FMT_NV12,
-+};
-+
- static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
- 	{
- 		.fourcc = V4L2_PIX_FMT_H264_SLICE,
-@@ -223,8 +230,8 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
- 		},
- 		.ctrls = &rkvdec_h264_ctrls,
- 		.ops = &rkvdec_h264_fmt_ops,
--		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_vp9_decoded_fmts),
--		.decoded_fmts = rkvdec_h264_vp9_decoded_fmts,
-+		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_decoded_fmts),
-+		.decoded_fmts = rkvdec_h264_decoded_fmts,
- 		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
- 	},
- 	{
-@@ -239,8 +246,8 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
- 		},
- 		.ctrls = &rkvdec_vp9_ctrls,
- 		.ops = &rkvdec_vp9_fmt_ops,
--		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_vp9_decoded_fmts),
--		.decoded_fmts = rkvdec_h264_vp9_decoded_fmts,
-+		.num_decoded_fmts = ARRAY_SIZE(rkvdec_vp9_decoded_fmts),
-+		.decoded_fmts = rkvdec_vp9_decoded_fmts,
- 	}
- };
- 
--- 
-2.42.0
-
+Regards,
+Phil
