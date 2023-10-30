@@ -2,149 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BAF67DB35B
-	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 07:32:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E87A47DB417
+	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 08:21:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231518AbjJ3Gcn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Oct 2023 02:32:43 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50880 "EHLO
+        id S232025AbjJ3HVC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Oct 2023 03:21:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52838 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231641AbjJ3Gch (ORCPT
+        with ESMTP id S232062AbjJ3HUl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Oct 2023 02:32:37 -0400
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sun, 29 Oct 2023 23:32:25 PDT
-Received: from mail2-relais-roc.national.inria.fr (mail2-relais-roc.national.inria.fr [192.134.164.83])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE7841BB
-        for <linux-media@vger.kernel.org>; Sun, 29 Oct 2023 23:32:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=inria.fr; s=dc;
-  h=date:from:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=UpRT4osgu/w1c0pk9YIMsIv1/UH/MkmAUIraL9fcJ3E=;
-  b=N0UCLpBG4yBdHx6p/bTJTBiyPD5+iZzFNeMi2jqhtoFvhKM8oSc390k9
-   KpkQdLuiy50QLs10ZWEUQlvEJcENuIDnFrNBxaBn+yq15va0X4m8gLdcQ
-   Zcsv8cMgajkEG56q8MPig/bSYePLLP+RyKOHDGvvhKVltDZY54qLc94Y1
-   o=;
-Authentication-Results: mail2-relais-roc.national.inria.fr; dkim=none (message not signed) header.i=none; spf=SoftFail smtp.mailfrom=julia.lawall@inria.fr; dmarc=fail (p=none dis=none) d=inria.fr
-X-IronPort-AV: E=Sophos;i="6.03,262,1694728800"; 
-   d="scan'208";a="133818454"
-Received: from 231.85.89.92.rev.sfr.net (HELO hadrien) ([92.89.85.231])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 07:31:21 +0100
-Date:   Mon, 30 Oct 2023 07:31:21 +0100 (CET)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To:     Nancy Nyambura <nicymimz@gmail.com>
-cc:     gagallo7+outreachy@gmail.com, nicydaniels@gmail.com,
-        outreachy@lists.linux.dev,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mon, 30 Oct 2023 03:20:41 -0400
+Received: from smtp.smtpout.orange.fr (smtp-27.smtpout.orange.fr [80.12.242.27])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81347D7E
+        for <linux-media@vger.kernel.org>; Mon, 30 Oct 2023 00:20:31 -0700 (PDT)
+Received: from pop-os.home ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id xMZXqGw8VIsudxMZXqcmOd; Mon, 30 Oct 2023 08:20:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1698650428;
+        bh=7XgPRehCSAWCRbDjmZl/84CZ6/WWxMs6uaboa+ApIJw=;
+        h=From:To:Cc:Subject:Date;
+        b=BpQwBHoE2T3irox9hMtwFlrsmiWk6BjqE45Zz12TX3diF9APEZ5rKQFCektaKsfTi
+         +gOggw3fke5Z48pTjDYUQeQyHSyBCXu4+Euh4p3ujAjSAylJpOVYnWTLYUKWl6RrJU
+         kZx0ek7fJ5nwV/Omem0GvSH6x1pj01Plg6ypzoxmUfeaMOdulGs8O9USdP5MZd4MBt
+         +l1QsIBE5Mzx0hkIh0MYSE5xmRbcjzhOzgCr7QtJwLm8zH+W7SoYMAlRe1ryjL8TlW
+         8GyU6IXR82HxyP2n8iIJiSErPFEgPUreA3NujAEXJcftwe1yrWQnDuhj3Tn6epi2Uj
+         LM5DMbYOkBfZA==
+X-ME-Helo: pop-os.home
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Mon, 30 Oct 2023 08:20:28 +0100
+X-ME-IP: 86.243.2.178
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     Antti Palosaari <crope@iki.fi>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] Media: omap4iss: Enable RSZB and update resizer
- control
-In-Reply-To: <20231029220710.47063-1-nicymimz@gmail.com>
-Message-ID: <alpine.DEB.2.22.394.2310300729480.3533@hadrien>
-References: <20231029220710.47063-1-nicymimz@gmail.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        Brad Love <brad@nextdimension.cc>, Sean Young <sean@mess.org>
+Cc:     linux-kernel@vger.kernel.org, kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: [PATCH] media: dvb-frontends: m88ds3103: Fix a memory leak in an error handling path of m88ds3103_probe()
+Date:   Mon, 30 Oct 2023 08:20:26 +0100
+Message-Id: <1b254cae201809f85e9884ed33ae72ff6338017d.1698650397.git.christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-3.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS autolearn=unavailable autolearn_force=no
-        version=3.4.6
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+If an error occurs after a successful i2c_mux_add_adapter(), then
+i2c_mux_del_adapters() should be called to free some resources, as
+already done in the remove function.
 
+Fixes: e6089feca460 ("media: m88ds3103: Add support for ds3103b demod")
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+ drivers/media/dvb-frontends/m88ds3103.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-On Mon, 30 Oct 2023, Nancy Nyambura wrote:
+diff --git a/drivers/media/dvb-frontends/m88ds3103.c b/drivers/media/dvb-frontends/m88ds3103.c
+index 26c67ef05d13..e0272054fca5 100644
+--- a/drivers/media/dvb-frontends/m88ds3103.c
++++ b/drivers/media/dvb-frontends/m88ds3103.c
+@@ -1894,7 +1894,7 @@ static int m88ds3103_probe(struct i2c_client *client)
+ 		/* get frontend address */
+ 		ret = regmap_read(dev->regmap, 0x29, &utmp);
+ 		if (ret)
+-			goto err_kfree;
++			goto err_del_adapters;
+ 		dev->dt_addr = ((utmp & 0x80) == 0) ? 0x42 >> 1 : 0x40 >> 1;
+ 		dev_dbg(&client->dev, "dt addr is 0x%02x\n", dev->dt_addr);
+ 
+@@ -1902,11 +1902,14 @@ static int m88ds3103_probe(struct i2c_client *client)
+ 						      dev->dt_addr);
+ 		if (IS_ERR(dev->dt_client)) {
+ 			ret = PTR_ERR(dev->dt_client);
+-			goto err_kfree;
++			goto err_del_adapters;
+ 		}
+ 	}
+ 
+ 	return 0;
++
++err_del_adapters:
++	i2c_mux_del_adapters(dev->muxc);
+ err_kfree:
+ 	kfree(dev);
+ err:
+-- 
+2.34.1
 
-> Enable RSZB functionality in the OMAP4 ISS driver. This change sets the RSZB system configuration register to enable the RSZB module. Additionally, it updates the resizer control by setting the RSZ_EN_EN flag as required. This change enhances the driver's capabilities and prepares it for future developments.
-
-Could you explain more about your changes?  What information led you to
-make these changes.  The current messages says what is done, but not so
-much about why.
-
-Also, the log message should be limited to around 70 characters per line,
-so that it looks nice in the git history after it has been indented.
-
-julia
-
-
->
-> Signed-off-by: Nancy Nyambura <nicymimz@gmail.com>
-> ---
->  drivers/staging/media/omap4iss/iss_resizer.c | 34 +++++++++++---------
->  1 file changed, 19 insertions(+), 15 deletions(-)
->
-> diff --git a/drivers/staging/media/omap4iss/iss_resizer.c b/drivers/staging/media/omap4iss/iss_resizer.c
-> index a5f8f9f1ab16..23089eeaf448 100644
-> --- a/drivers/staging/media/omap4iss/iss_resizer.c
-> +++ b/drivers/staging/media/omap4iss/iss_resizer.c
-> @@ -7,17 +7,17 @@
->   * Author: Sergio Aguirre <sergio.a.aguirre@gmail.com>
->   */
->
-> -#include <linux/module.h>
-> -#include <linux/uaccess.h>
-> -#include <linux/delay.h>
-> -#include <linux/device.h>
-> -#include <linux/dma-mapping.h>
-> -#include <linux/mm.h>
-> -#include <linux/sched.h>
-> -
-> -#include "iss.h"
-> -#include "iss_regs.h"
-> -#include "iss_resizer.h"
-> + #include <linux/module.h>
-> + #include <linux/uaccess.h>
-> + #include <linux/delay.h>
-> + #include <linux/device.h>
-> + #include <linux/dma-mapping.h>
-> + #include <linux/mm.h>
-> + #include <linux/sched.h>
-> +
-> + #include "iss.h"
-> + #include "iss_regs.h"
-> + #include "iss_resizer.h"
->
->  static const unsigned int resizer_fmts[] = {
->  	MEDIA_BUS_FMT_UYVY8_1X16,
-> @@ -30,11 +30,11 @@ static const unsigned int resizer_fmts[] = {
->   *
->   * Also prints other debug information stored in the RESIZER module.
->   */
-> -#define RSZ_PRINT_REGISTER(iss, name)\
-> + #define RSZ_PRINT_REGISTER(iss, name)\
->  	dev_dbg(iss->dev, "###RSZ " #name "=0x%08x\n", \
->  		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_RESIZER, RSZ_##name))
->
-> -#define RZA_PRINT_REGISTER(iss, name)\
-> + #define RZA_PRINT_REGISTER(iss, name)\
->  	dev_dbg(iss->dev, "###RZA " #name "=0x%08x\n", \
->  		iss_reg_read(iss, OMAP4_ISS_MEM_ISP_RESIZER, RZA_##name))
->
-> @@ -116,8 +116,12 @@ static void resizer_enable(struct iss_resizer_device *resizer, u8 enable)
->  		       RSZ_SRC_EN_SRC_EN, enable ? RSZ_SRC_EN_SRC_EN : 0);
->
->  	/* TODO: Enable RSZB */
-> -	iss_reg_update(iss, OMAP4_ISS_MEM_ISP_RESIZER, RZA_EN, RSZ_EN_EN,
-> -		       enable ? RSZ_EN_EN : 0);
-> +	u32 reg_value = ioread32(iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-> +		       	+ RZ_SYSCONFIG);
-> +	reg_value |= RSZ_SYSCONFIG_RSZB_CLK_EN;
-> +	iowrite32(reg_value, iss->base_addr + OMAP4_ISS_MEM_ISP_RESIZER,
-> +			+ RSZ_SYSCONFIG);
-> +
->  }
->
->  /* -----------------------------------------------------------------------------
-> --
-> 2.40.1
->
->
->
