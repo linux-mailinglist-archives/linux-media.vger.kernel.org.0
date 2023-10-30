@@ -2,88 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C4DC77DBF1C
-	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 18:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 361E47DC051
+	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 20:22:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233947AbjJ3RhV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Oct 2023 13:37:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59922 "EHLO
+        id S231626AbjJ3TWk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Oct 2023 15:22:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59450 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233964AbjJ3RhM (ORCPT
+        with ESMTP id S231565AbjJ3TWi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Oct 2023 13:37:12 -0400
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16855F9
-        for <linux-media@vger.kernel.org>; Mon, 30 Oct 2023 10:37:04 -0700 (PDT)
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39UCvvTF018738;
-        Mon, 30 Oct 2023 18:36:53 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-        date:from:to:cc:subject:message-id:mime-version:content-type; s=
-        selector1; bh=23HM2u7jeb6jtCQrf7VzCq3uuhB1wah5kVMk1YjE0fE=; b=Xm
-        NLfe0WQETE9+ogCt6phpJ/IPfQqSsIuahyxdVv9f7ZRzvpnfHokF1kVXZVogVgjI
-        tjE9Zjb7KQoaN9vld6c9xAjP3C3oMUR/FxoYcSlhEXAtchMH44dWTc7DkdMh/9NV
-        PWIZE0t0AtktJ0liwAhClOvqZ0qD8Fj3hqf6fxb8H4Y5d2tdvwVAskwqm9PMy/3a
-        YGQ/9RMADvpC+A1bB1Qb5Rc+3rrKFk0ctl7kH5m0c2XWMQnyqJIR6ccgah4NEbeE
-        XFr9kaeI6IvjGETIZkjZIvyp30liqAbtLVwCSf6Eo8AVMC2ESiYkT3ZkdFgtatL5
-        l68pjAmB4LQurKy3L7YQ==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3u1d8hepfn-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 30 Oct 2023 18:36:53 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 0D51A100034;
-        Mon, 30 Oct 2023 18:36:52 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8978B2A19CA;
-        Mon, 30 Oct 2023 18:36:52 +0100 (CET)
-Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 30 Oct
- 2023 18:36:52 +0100
-Date:   Mon, 30 Oct 2023 18:36:37 +0100
-From:   Alain Volmat <alain.volmat@foss.st.com>
-To:     Hans de Goede <hdegoede@redhat.com>
-CC:     <linux-media@vger.kernel.org>, Sebastian Reichel <sre@kernel.org>
-Subject: [RFC] regmap_range_cfg usage with v4l2-cci
-Message-ID: <20231030173637.GA2977515@gnbcxd0016.gnb.st.com>
-Mail-Followup-To: Hans de Goede <hdegoede@redhat.com>,
-        linux-media@vger.kernel.org, Sebastian Reichel <sre@kernel.org>
+        Mon, 30 Oct 2023 15:22:38 -0400
+Received: from mail-oa1-f43.google.com (mail-oa1-f43.google.com [209.85.160.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28F2DA9;
+        Mon, 30 Oct 2023 12:22:36 -0700 (PDT)
+Received: by mail-oa1-f43.google.com with SMTP id 586e51a60fabf-1dceb2b8823so2403839fac.1;
+        Mon, 30 Oct 2023 12:22:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698693755; x=1699298555;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s1Fy0CpFtgcJshYzVPax3hE6Wvgw3zG9+HWgIo8OoEY=;
+        b=ZZYSJFHQ48WcF2GHpVFqvMh699OouiY6MwqFESEmnqu//nG9tKPfl61pqAzkoS4y5t
+         i+lPKqAsc41j13biMiTV8NQxeiqZ25rUAxZnh6w9J8G8VZWYtc532F+hjl72hbCs8inJ
+         egg+YqBF5Bm4Oys1urJ8MnzGyW1AgfB4a+zi0KShCbqhHBvqup2S+TH1ahTuuwNfHPU+
+         fMnOaxIDnM7Am4NnhLIGGySX6+1Gecg3tWLfuT6SJQMF1ikNEc0cFlHfs6T2QB7Y2xec
+         E8Hej1bpAxIZ3JvtXSQhpCrml82mrosIsoPU182bi1TYqbOpiZ9OjaC3lD0t+TSPSfVX
+         aBgA==
+X-Gm-Message-State: AOJu0Yxym9YbkNnxwM6a/ZqaHZYxbOFaymoZFVMyHzAo9LCzaIBu9ndw
+        KdiLw46DZhs/+LZMU7TCDg==
+X-Google-Smtp-Source: AGHT+IFqCpZAhcTsmCaH5gXcwYyQqwa/kJtNlFwsxXctOhLFSYJq+4Kpo0+H1/CaGdSxDzUCwVUNkA==
+X-Received: by 2002:a05:6870:a18:b0:1e9:f0c5:4496 with SMTP id bf24-20020a0568700a1800b001e9f0c54496mr301891oac.1.1698693755333;
+        Mon, 30 Oct 2023 12:22:35 -0700 (PDT)
+Received: from herring.priv ([2607:fb91:e6c7:c3eb:a6fd:69b4:aba3:6929])
+        by smtp.gmail.com with ESMTPSA id w1-20020a056870854100b001e1076a668asm1695993oaj.36.2023.10.30.12.22.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Oct 2023 12:22:34 -0700 (PDT)
+Received: (nullmailer pid 1962342 invoked by uid 1000);
+        Mon, 30 Oct 2023 19:22:32 -0000
+Date:   Mon, 30 Oct 2023 14:22:32 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Moudy Ho <moudy.ho@mediatek.com>
+Cc:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        dri-devel@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v8 02/16] dt-bindings: media: mediatek: mdp3: merge the
+ indentical RDMA under display
+Message-ID: <20231030192232.GA1922580-robh@kernel.org>
+References: <20231030100022.9262-1-moudy.ho@mediatek.com>
+ <20231030100022.9262-3-moudy.ho@mediatek.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-Disclaimer: ce message est personnel / this message is private
-X-Originating-IP: [10.129.178.213]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-10-30_11,2023-10-27_01,2023-05-22_02
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231030100022.9262-3-moudy.ho@mediatek.com>
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Mon, Oct 30, 2023 at 06:00:08PM +0800, Moudy Ho wrote:
+> To simplify maintenance and avoid branches, the identical component
+> should be merged and placed in the path belonging to the MDP
+> (from display/* to media/*).
+> 
+> In addition, currently only MDP utilizes RDMA through CMDQ, and the
+> necessary properties for "mediatek,gce-events", and "mboxes" have been
+> set up for this purpose.
+> Within DISP, it directly receives component interrupt signals.
+> 
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> ---
+>  .../display/mediatek/mediatek,mdp-rdma.yaml   | 88 -------------------
+>  .../bindings/media/mediatek,mdp3-rdma.yaml    | 55 +++++++++---
+>  2 files changed, 45 insertions(+), 98 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
 
-Goal of this email is to get first comments prior to posting a patch.
 
-Could we consider enhancements within the v4l2-cci in order to also
-allow regmap_range_cfg usage for paged register access ?
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> index 3e128733ef53..c043204cf210 100644
+> --- a/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mdp3-rdma.yaml
+> @@ -20,8 +20,9 @@ description: |
+>  
+>  properties:
+>    compatible:
+> -    items:
+> -      - const: mediatek,mt8183-mdp3-rdma
+> +    enum:
+> +      - mediatek,mt8183-mdp3-rdma
+> +      - mediatek,mt8195-vdo1-rdma
+>  
+>    reg:
+>      maxItems: 1
+> @@ -49,17 +50,18 @@ properties:
+>      maxItems: 1
+>  
+>    clocks:
+> -    items:
+> -      - description: RDMA clock
+> -      - description: RSZ clock
+> +    minItems: 1
+> +    maxItems: 2
 
-At least two drivers currently being upstream and using v4l2-cci infrastructure
-could benefit from regmap_range_cfg.
-The GC0308 driver is partially using v4l2-cci and partially regmap (in order to use
-regmap_range_cfg) and the GC2145 driver is using v4l2-cci but doing paging manually.
+Keep the description here and just add 'minItems: 1' and...
 
-The function devm_cci_regmap_init_i2c is already taking as parameter one argument
-reg_addr_bits to be used in the regmap_config structure.  We could also add
-regmap_range_cfg pointer and size arguments to the function or
-alternatively add another init function with more arguments ?
+>  
+>    iommus:
+>      maxItems: 1
+>  
+>    mboxes:
+> -    items:
+> -      - description: used for 1st data pipe from RDMA
+> -      - description: used for 2nd data pipe from RDMA
+> +    minItems: 1
+> +    maxItems: 2
+> +
+> +  interrupts:
+> +    maxItems: 1
+>  
+>    '#dma-cells':
+>      const: 1
+> @@ -68,13 +70,46 @@ required:
+>    - compatible
+>    - reg
+>    - mediatek,gce-client-reg
+> -  - mediatek,gce-events
+>    - power-domains
+>    - clocks
+>    - iommus
+> -  - mboxes
+>    - '#dma-cells'
+>  
+> +allOf:
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8183-mdp3-rdma
+> +
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: RDMA clock
+> +            - description: RSZ clock (shared SRAM with RDMA)
 
-Regards
-Alain
+Then just need 'minItems: 2' here and...
+
+> +
+> +        mboxes:
+> +          items:
+> +            - description: used for 1st data pipe from RDMA
+> +            - description: used for 2nd data pipe from RDMA
+> +
+> +      required:
+> +        - mboxes
+> +        - mediatek,gce-events
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: mediatek,mt8195-vdo1-rdma
+> +
+> +    then:
+> +      properties:
+> +        clocks:
+> +          items:
+> +            - description: RDMA clock
+
+'maxItems: 1' here.
+
+The same thing applies to mboxes.
+
+Rob
