@@ -2,84 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 309CA7DC0ED
-	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 21:05:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 891A47DC294
+	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 23:43:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231984AbjJ3UFc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Oct 2023 16:05:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45144 "EHLO
+        id S232233AbjJ3Wn6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Oct 2023 18:43:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35854 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230304AbjJ3UFa (ORCPT
+        with ESMTP id S232196AbjJ3Wn5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Oct 2023 16:05:30 -0400
-Received: from mail-yb1-f170.google.com (mail-yb1-f170.google.com [209.85.219.170])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84910F9;
-        Mon, 30 Oct 2023 13:05:28 -0700 (PDT)
-Received: by mail-yb1-f170.google.com with SMTP id 3f1490d57ef6-da0344eb3fdso4333952276.3;
-        Mon, 30 Oct 2023 13:05:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698696328; x=1699301128;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JYDTSpQ9dmrM4NDguVsakYFrSE8CmlM1q10cI6GCnmM=;
-        b=qIzDmm9nQlgseR6ztO40Rmx0HBMyu8KVtwrSXcT8+9Te66hyISH9d3mOfxKTKdPS3v
-         U7lssopf2ECaHjHt9j5lCFVZxdZHAB0pkpxpnvgIqKGPNaASzkl6112vVWTvZHIR0O0h
-         GYgFMj+LZsvb2j+4ubOXEmfCBR5amTQTw7awUyxA3j8y58o3z/59fLtJu4PmkxTxCE8N
-         EYog/S2qBLizO6mwfIZsvrVa7VKzcNRnPOcYQK/xCVLAkPQ4mYm1EkHEZPhbDLgBzV2y
-         nk02JshG8LJbhifIwOYO+tmd/3daAxh5LCb9C4cYkmnGmojCXH9iyAAoYCE8SN2y7RD7
-         ieJA==
-X-Gm-Message-State: AOJu0YwJ/boANH3LZ06qsQmBHUnxqsCwdVQEbh/eabwDOUPFrQZAvxIG
-        XsZ5OqDvaJNRidJMnIC/JSXy+7QSYQ==
-X-Google-Smtp-Source: AGHT+IGjrF29BTZX6gEMKbXB6pavKOzr1+W9zU6BVSKxwpR+Km79lLw4rl7fA5/sEC3OAdiFoAY8CA==
-X-Received: by 2002:a25:4192:0:b0:d9a:634e:5ad3 with SMTP id o140-20020a254192000000b00d9a634e5ad3mr9826411yba.13.1698696327588;
-        Mon, 30 Oct 2023 13:05:27 -0700 (PDT)
-Received: from herring.priv ([2607:fb91:e6c7:c3eb:a6fd:69b4:aba3:6929])
-        by smtp.gmail.com with ESMTPSA id d188-20020a254fc5000000b00d7b957d8ed9sm90632ybb.17.2023.10.30.13.05.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Oct 2023 13:05:26 -0700 (PDT)
-Received: (nullmailer pid 2233224 invoked by uid 1000);
-        Mon, 30 Oct 2023 20:05:24 -0000
-Date:   Mon, 30 Oct 2023 15:05:24 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-        linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Mon, 30 Oct 2023 18:43:57 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AA82CDD;
+        Mon, 30 Oct 2023 15:43:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698705834; x=1730241834;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=XG7coGZzFRldwW+IF/F2D/I9/JstEOKy7alKE54kPdM=;
+  b=aMwzcDo13qoZNli8wrOk9YFOvrFWlOBR66zaBGBedSxYgEnXAxgMW3Js
+   Zymd/qn+yuaBXPtX6p2v3xrOpZtWDiKfbHRPbm5ipbU8Yl+/LLg1pXIvw
+   1war8qtdDd1fWzY8ZOaiRfpcl9OZKjiYxd9V3wO215hCeZbJAucL72E9H
+   dMvXp+L/7n7swKq8O7v4BLlIyGO7VSt94OrpoxgvlwN/b4ZjHbCzQJDP3
+   eXE2JUYCuObsiM5gtblPVrHRuVwiEW3NWKKiD13siXozjlfnaxhAm64Kd
+   5OB8XnO/yxvO2nh6I3/3l1wAZ684WOU1aesZT8bSKQAOrZPMh/zzymEO8
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="367521512"
+X-IronPort-AV: E=Sophos;i="6.03,264,1694761200"; 
+   d="scan'208";a="367521512"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 15:43:54 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="764058297"
+X-IronPort-AV: E=Sophos;i="6.03,264,1694761200"; 
+   d="scan'208";a="764058297"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 15:43:49 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 3A8F711F894;
+        Tue, 31 Oct 2023 00:43:47 +0200 (EET)
+Date:   Mon, 30 Oct 2023 22:43:47 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     martin.hecht@avnet.eu, michael.roeder@avnet.eu, mhecht73@gmail.com,
+        linuxfancy@googlegroups.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: dt-bindings: ti,ds90ub960: Add missing type for
- "i2c-alias"
-Message-ID: <169869631496.2231680.1229323026772786534.robh@kernel.org>
-References: <20231020170225.3632933-1-robh@kernel.org>
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v10 3/3] media: i2c: Add support for alvium camera
+Message-ID: <ZUAxoy2cRR6Rm9ig@kekkonen.localdomain>
+References: <20231020141354.2500602-1-tomm.merciai@gmail.com>
+ <20231020141354.2500602-4-tomm.merciai@gmail.com>
+ <ZTpnHdpTgRNll3TC@kekkonen.localdomain>
+ <ZT+hEg7WqkQBnLV5@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231020170225.3632933-1-robh@kernel.org>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+In-Reply-To: <ZT+hEg7WqkQBnLV5@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Tommaso,
 
-On Fri, 20 Oct 2023 12:02:24 -0500, Rob Herring wrote:
-> Every DT property needs a type defined, but "i2c-alias" is missing any
-> type definition. It's a "uint32", so add a type reference.
+On Mon, Oct 30, 2023 at 01:26:58PM +0100, Tommaso Merciai wrote:
+
+...
+
+> > > +static int alvium_get_host_supp_csi_lanes(struct alvium_dev *alvium)
+> > > +{
+> > > +	u64 val;
+> > > +	int ret = 0;
+> > > +
+> > > +	alvium_read(alvium, REG_BCRM_CSI2_LANE_COUNT_RW, &val, &ret);
+> > 
+> > Missing error checking before the use of the value. The same pattern
+> > remains prevalent throughout the driver.
+> > 
+> > I think it'd be easier if you didn't use a temporary variable for reading,
+> > but instead had a register width specific access function. You could even
+> > introduce a helper macro to read this information as I suggested in an
+> > earlier review.
 > 
-> Fixes: 313e8b32c616 ("media: dt-bindings: media: add TI DS90UB960 FPD-Link III Deserializer")
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->  Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml | 1 +
->  1 file changed, 1 insertion(+)
+> oks.
+> We are moving to use the following macros:
+> 
+> #define alvium_read_check(alvium, reg, value) \
+> { \
+> 	int ret = alvium_read(alvium, reg, value, NULL); \
+> 	if (ret) \
+> 		return ret; \
+> }
 > 
 
-Applied, thanks!
+You could do something like (entirely untested):
 
+#define ALVIUM_DECLARE_READ(sign, bits) \
+	static int
+	alvium_read_ ## sign ## bits(struct alvium_dev *alvium, u32 reg, \
+				     sign ## bits *val, int *err) \
+	{ \
+		u64 val64; \
+		int ret; \
+			\
+		if (err && *err < 0) \
+			return *err; \
+			\
+		alvium_read(alvium, reg, &val64, &ret); \
+		if (ret < 0) { \
+			if (err) \
+				*err = ret; \
+			return ret; \
+		}	\
+			\
+		*val = val64; \
+			\
+		return 0; \
+	}
+
+ALVIUM_DECLARE_READ(u, 32);
+
+And then, e.g. instead of (and failing to check ret):
+
+	u64 val;
+
+	alvium_read(alvium, REG_BCRM_CONTRAST_VALUE_RW, &val, &ret);
+	alvium->dft_contrast = val;
+
+you'd have a single call:
+
+	alvium_read_u32(alvium, REG_BCRM_CONTRAST_VALUE_RW,
+		        &alvium->dft_contrast, &ret);
+
+And so on.
+
+You can drop sign if you don't need signed reads but some of the struct
+fields you're writing something appear to be signed.
+
+It'd be good to check the register size matches with the size of *val, too.
+Maybe something like:
+
+WARN_ON((CCI_REG ## bits(0) && CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT
+	!= sizeof(sign ## bits));
+
+> > > +static int alvium_get_csi_clk_params(struct alvium_dev *alvium)
+> > > +{
+> > > +	u64 val;
+> > > +	int ret = 0;
+> > > +
+> > > +	alvium_read(alvium, REG_BCRM_CSI2_CLOCK_MIN_R, &val, &ret);
+> > > +	alvium->min_csi_clk = val;
+> > > +
+> > > +	alvium_read(alvium, REG_BCRM_CSI2_CLOCK_MAX_R, &val, &ret);
+> > > +	alvium->max_csi_clk = val;
+> > > +
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int alvium_set_csi_clk(struct alvium_dev *alvium)
+> > > +{
+> > > +	struct device *dev = &alvium->i2c_client->dev;
+> > > +	u64 csi_clk;
+> > > +	int ret;
+> > > +
+> > > +	csi_clk = (u32)alvium->ep.link_frequencies[0];
+> > 
+> > Why casting to u32? Shouldn't csi_clk be u32 instead?
+> 
+> Ok we fix this in v11.
+> Change to use u64 for calculation because type of ep.link_frequencies[0]
+> Plan is to clamp csi_clk between min/max instead of returning error.
+
+I think I would keep it as-is: this isn't V4L2 UAPI.
+
+> 
+> > 
+> > > +
+> > > +	if (csi_clk < alvium->min_csi_clk || csi_clk > alvium->max_csi_clk)
+> > > +		return -EINVAL;
+> > > +
+> > > +	ret = alvium_write_hshake(alvium, REG_BCRM_CSI2_CLOCK_RW, csi_clk);
+> > > +	if (ret) {
+> > > +		dev_err(dev, "Fail to set csi lanes reg\n");
+> > > +		return ret;
+> > > +	}
+> > > +
+> > > +	alvium->link_freq = alvium->ep.link_frequencies[0];
+> > > +
+> > > +	return 0;
+> > > +}
+
+...
+
+> > > +			goto out;
+> > > +
+> > > +		ret = alvium_set_mode(alvium, state);
+> > > +		if (ret)
+> > > +			goto out;
+> > > +
+> > > +		fmt = v4l2_subdev_get_pad_format(sd, state, 0);
+> > > +		ret = alvium_set_framefmt(alvium, fmt);
+> > > +		if (ret)
+> > > +			goto out;
+> > > +
+> > > +		ret = alvium_set_stream_mipi(alvium, enable);
+> > > +		if (ret)
+> > > +			goto out;
+> > > +
+> > > +	} else {
+> > > +		alvium_set_stream_mipi(alvium, enable);
+> > > +		pm_runtime_mark_last_busy(&client->dev);
+> > > +		pm_runtime_put_autosuspend(&client->dev);
+> > 
+> > pm_runtime_put() here, too.
+> 
+> Here is not needed we already have pm_runtime_put_autosuspend.
+> I'm missing something?
+
+Ah, I missed that while reviewing. Please ignore that comment then.
+
+> 
+> > 
+> > > +	}
+> > > +
+> > > +	alvium->streaming = !!enable;
+> > > +	v4l2_subdev_unlock_state(state);
+> > > +
+> > > +	return 0;
+> > > +
+> > > +out:
+> > > +	v4l2_subdev_unlock_state(state);
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int alvium_init_cfg(struct v4l2_subdev *sd,
+> > > +			   struct v4l2_subdev_state *state)
+> > > +{
+> > > +	struct alvium_dev *alvium = sd_to_alvium(sd);
+> > > +	struct alvium_mode *mode = &alvium->mode;
+> > 
+> > Init_cfg() is expected to be configuration independent (as much as
+> > possible). Therefore you should use defaults here, not current mode.
+> 
+> Defaults alvium mode already used here.
+
+Ah, indeed. Please ignore.
+
+-- 
+Kind regards,
+
+Sakari Ailus
