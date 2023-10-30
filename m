@@ -2,95 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ED2607DC06B
-	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 20:26:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF6077DC08F
+	for <lists+linux-media@lfdr.de>; Mon, 30 Oct 2023 20:34:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231247AbjJ3T06 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Oct 2023 15:26:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53240 "EHLO
+        id S229837AbjJ3TeB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Oct 2023 15:34:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37486 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231207AbjJ3T04 (ORCPT
+        with ESMTP id S229510AbjJ3TeA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Oct 2023 15:26:56 -0400
-Received: from mail-oa1-f48.google.com (mail-oa1-f48.google.com [209.85.160.48])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CDE1E4;
-        Mon, 30 Oct 2023 12:26:54 -0700 (PDT)
-Received: by mail-oa1-f48.google.com with SMTP id 586e51a60fabf-1e9c42fc0c9so2103436fac.1;
-        Mon, 30 Oct 2023 12:26:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698694013; x=1699298813;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iMNn8gw95Mi9aB89F2PItspCe/uKw0JKgKBsspi+cN0=;
-        b=H3hYl9/5AEmeDUWeqUCd4Aji/6RvVBo1bPiikl/cDWVI5gF5hseDW99QdecsIwpN39
-         Vg3ZcixOnbZxBFOmngZdlAyTg5cuswLQdIe/qnJeYe2/bJm6GlDNCCtWaHQVQrVBtm12
-         7wsy3UEc6L0/mPsXR+6snAv+rtyO404qoqkKMAkCDSz32qXkNFfgSB2XVZZeHpoGweah
-         Hp8FRot0M5AgBl5LmPzJzHkNwL/VCuGxxmX6XgS93F4ls3rjOdD4aqNnljiR7Gt29NXk
-         UQ/NquTd5nDA27/rs7n49CVX4U6ijusoDxoU+lB362mGgLwLoKY9OQK/xcI+xG1jr8K0
-         R3Gg==
-X-Gm-Message-State: AOJu0Yzq5WBv4AovSkQGKcDOARbQYNjAsAg117Y58g2EvhCv+Sz9pmGq
-        7iBlR2b6BFHz2Aby9bseIA==
-X-Google-Smtp-Source: AGHT+IFqVwsmxx+ch82fJSmqPqoTwRaa9+WOEzKyddP42zM17GUxUkOuZQ+88pjFz/wQkY8Sp+ZVPw==
-X-Received: by 2002:a05:6870:d8c8:b0:1ea:ce71:dd13 with SMTP id of8-20020a056870d8c800b001eace71dd13mr10661464oac.28.1698694013252;
-        Mon, 30 Oct 2023 12:26:53 -0700 (PDT)
-Received: from herring.priv ([2607:fb91:e6c7:c3eb:a6fd:69b4:aba3:6929])
-        by smtp.gmail.com with ESMTPSA id bh9-20020a056871948900b001cc9bc7b569sm1702946oac.27.2023.10.30.12.26.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Oct 2023 12:26:52 -0700 (PDT)
-Received: (nullmailer pid 1994506 invoked by uid 1000);
-        Mon, 30 Oct 2023 19:26:50 -0000
-Date:   Mon, 30 Oct 2023 14:26:50 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Moudy Ho <moudy.ho@mediatek.com>
-Cc:     David Airlie <airlied@gmail.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
+        Mon, 30 Oct 2023 15:34:00 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56439A9;
+        Mon, 30 Oct 2023 12:33:58 -0700 (PDT)
+Received: from arisu.hitronhub.home (unknown [23.233.251.139])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: detlev)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2979C6607392;
+        Mon, 30 Oct 2023 19:33:56 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1698694437;
+        bh=ahnTelEXG01rwNePCrXmDyqjE42txSlbUhezqbVf4V4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=SRumtA5+ByCMxAbR76CSZDkpKxbtWKyrwhaEI7ZR2MwnrWIhOBj2PdRofJJCmgB+a
+         Q2ikBWlbHdMeCHshtPb7WQmrUx8EpsdL51+Idv4eCPVuYdVCHow9Tjukr7WPlW4veu
+         axffcbfrZlnQn1+bxFEC+km+pZgHQe0YfahtqNQHytAlY4n9+ixBwloJtCgY28BWaR
+         8JHrAgdOBngOxQVd0d1J4TzziZ4ta2SQVwtuRgDrkwXzJTvAXELOFlsSAWvb7N7qh1
+         5+4uxNpqPWdBWk3Rhz/3R9H2S8IrIPfODVn6wOKMEA8NJJT6w4xrvzFmtrelJ8eTlM
+         9RvCStuJvXRXw==
+From:   Detlev Casanova <detlev.casanova@collabora.com>
+To:     linux-kernel@vger.kernel.org
+Cc:     linux-media@vger.kernel.org,
+        Daniel Almeida <daniel.almeida@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Rob Herring <robh+dt@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-mediatek@lists.infradead.org,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v8 16/16] dt-bindings: display: mediatek: padding: add
- compatible for MT8195
-Message-ID: <169869400953.1994265.3434527810955780048.robh@kernel.org>
-References: <20231030100022.9262-1-moudy.ho@mediatek.com>
- <20231030100022.9262-17-moudy.ho@mediatek.com>
+        Detlev Casanova <detlev.casanova@collabora.com>
+Subject: [PATCH 0/2] visl: Add support for AV1
+Date:   Mon, 30 Oct 2023 15:27:54 -0400
+Message-ID: <20231030193406.70126-1-detlev.casanova@collabora.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231030100022.9262-17-moudy.ho@mediatek.com>
-X-Spam-Status: No, score=-1.1 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS autolearn=no autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+AV1 support is missing in the visl test driver.
+Add it and adapt documentation.
 
-On Mon, 30 Oct 2023 18:00:22 +0800, Moudy Ho wrote:
-> Add a compatible string for the PADDING block in MediaTek MT8195 that
-> is controlled by MDP3.
-> 
-> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
-> ---
->  .../bindings/display/mediatek/mediatek,padding.yaml           | 4 +++-
->  1 file changed, 3 insertions(+), 1 deletion(-)
-> 
+The traces are missing some fields, basically:
+- multi-dimensional arrays
+- arrays of flags
+- enums
+which don't have a __print_* macro.
 
-Acked-by: Rob Herring <robh@kernel.org>
+Detlev Casanova (2):
+  visl: Add AV1 support
+  doc: visl: Add AV1 support
+
+ Documentation/admin-guide/media/visl.rst      |   2 +
+ drivers/media/test-drivers/visl/visl-core.c   |  21 ++
+ drivers/media/test-drivers/visl/visl-dec.c    |  70 +++-
+ drivers/media/test-drivers/visl/visl-dec.h    |   8 +
+ .../media/test-drivers/visl/visl-trace-av1.h  | 314 ++++++++++++++++++
+ .../test-drivers/visl/visl-trace-points.c     |   1 +
+ drivers/media/test-drivers/visl/visl-video.c  |  18 +
+ drivers/media/test-drivers/visl/visl-video.h  |   1 +
+ drivers/media/test-drivers/visl/visl.h        |   1 +
+ 9 files changed, 435 insertions(+), 1 deletion(-)
+ create mode 100644 drivers/media/test-drivers/visl/visl-trace-av1.h
+
+-- 
+2.41.0
 
