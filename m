@@ -2,67 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B27E7DCB24
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 11:50:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFC757DCB28
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 11:53:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343965AbjJaKt7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 06:49:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55198 "EHLO
+        id S1344000AbjJaKxN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 06:53:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44242 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235071AbjJaKt5 (ORCPT
+        with ESMTP id S1343988AbjJaKxM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 06:49:57 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 849E0A6;
-        Tue, 31 Oct 2023 03:49:49 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 19EBB3D6;
-        Tue, 31 Oct 2023 11:49:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698749371;
-        bh=8aC3d63Vld4oFdtpcSMjy2s9coNxY6qAiDontphoUbU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=BrsSisKVJlp3fdtJqFOJ3Lls5EWo/+nRdCVfHTXwXNAZblQIHfvuIbAOelw3aRTeE
-         GiA+isiiqSuS0EsI4K83uGO47wDinACHEUa8ol4mAr+8bQQfjtvtiKboquW+CtoA5y
-         gUK8T7NJ8Ztdm7SYbF8fqsH4PjKJqg0dxDVC7MDQ=
-Date:   Tue, 31 Oct 2023 12:49:54 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Tommaso Merciai <tomm.merciai@gmail.com>, martin.hecht@avnet.eu,
-        michael.roeder@avnet.eu, mhecht73@gmail.com,
-        linuxfancy@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 3/3] media: i2c: Add support for alvium camera
-Message-ID: <20231031104954.GJ12764@pendragon.ideasonboard.com>
-References: <ZTpnHdpTgRNll3TC@kekkonen.localdomain>
- <ZT+hEg7WqkQBnLV5@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <ZUAxoy2cRR6Rm9ig@kekkonen.localdomain>
- <20231030233809.GD12764@pendragon.ideasonboard.com>
- <ZUCf_74Z0igCiJ_-@kekkonen.localdomain>
- <20231031085347.GH12764@pendragon.ideasonboard.com>
- <ZUDDuoNO5AGjyJLh@kekkonen.localdomain>
- <ZUDTaq9-j1HmqiEp@kekkonen.localdomain>
- <20231031101813.GI12764@pendragon.ideasonboard.com>
- <ZUDYHT0NbkoUtQlc@kekkonen.localdomain>
+        Tue, 31 Oct 2023 06:53:12 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CF73BB
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 03:53:09 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2c523ac38fbso81018301fa.0
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 03:53:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698749588; x=1699354388; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=PZEtEH4BVMdZ/99eBNfi6obYrRNvQ11tTN1yHiXWSCY=;
+        b=tCQUs/CQGX7qkZl7sK+pzKlRD4ZGlwLE3kpQZXv1T3liztiwAalv159qhT9vkG7ziF
+         +VgtWAUACeNLw8rEp40q49lhFPEAWKH0xpGC1RudYamHcyHsOwbraI7Mqdz3NfvQiB0J
+         RJfmFo4tox+R6zAsH3nkrP3RsHdfB/ZyrRfWzk3QH6k2K5vltKNo9rNFfOM4KTARmpd+
+         rxAisoiSLxSpJRhqiCER+hhQSUOPB6DgGfKjs4MBjizT9pWVsMRruQCK6hnkPz/xhnXu
+         K8mQXI4vd36swduRJ2VbSoAnO7jqf2gKvmqoBKdl671uoa9InUX5WNLpzx5d0m8usIZG
+         guFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698749588; x=1699354388;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PZEtEH4BVMdZ/99eBNfi6obYrRNvQ11tTN1yHiXWSCY=;
+        b=jHpkzs+CDV8a+uLmQX1iHMKY5r5673dXRwtC0xqdFjUtCzlcG3a8tGUIfASKCc7j/0
+         pll8GLBIhbYYDDDN5QDK7KFBXw+leaqp/VzWDogDEzfCvdHoW4VrZsm1tLVi/dd2H4Te
+         H4T6Ay2ZGiR8/HXUcMh3zZR6FFWLnv8XBSTaYvfKvGD88VUex6PnPL8wOYoJDhkOPhcC
+         AEueoyXpXVKlw3Vbw9WFkMvaS28VK/AjrT0dbqHsg/RKPHXsteWKdoDzkU+XLuhdQPoR
+         9t594THFVu4Uz+x4VgZE1rxBKwKL2iOFzjfU8mQDDGGiUUsj2XvzLnxWSBvSdc7AsjMB
+         RKKQ==
+X-Gm-Message-State: AOJu0Yy5ZL4YYq3IJqEczcqLv3qeGwndwGD2m0jnL+Iq/thsqE3BZsPj
+        gZwNGpu9rcMu6Qa6a7J9d3r32bISNpNrbt7AzUY=
+X-Google-Smtp-Source: AGHT+IE/4NcbCWkfWopCUzcLV1PIteWoizdtaq9MoRTs0ZR3E0yz8Qs2V6DGhEbRFqBd4zpnlxZZHw==
+X-Received: by 2002:a2e:2c11:0:b0:2c5:1e3f:7379 with SMTP id s17-20020a2e2c11000000b002c51e3f7379mr9581736ljs.48.1698749587617;
+        Tue, 31 Oct 2023 03:53:07 -0700 (PDT)
+Received: from [192.168.143.96] (178235177091.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.91])
+        by smtp.gmail.com with ESMTPSA id x12-20020a2ea98c000000b002c0055834b3sm160671ljq.4.2023.10.31.03.53.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Oct 2023 03:53:07 -0700 (PDT)
+Message-ID: <d411e561-b0d0-48db-959e-3347006bce77@linaro.org>
+Date:   Tue, 31 Oct 2023 11:53:05 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZUDYHT0NbkoUtQlc@kekkonen.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/5] media: qcom: camss: Add support for named
+ power-domains
+Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        rfoss@kernel.org, todor.too@gmail.com, andersson@kernel.org,
+        mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20231026155042.551731-1-bryan.odonoghue@linaro.org>
+ <20231026155042.551731-6-bryan.odonoghue@linaro.org>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20231026155042.551731-6-bryan.odonoghue@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -70,244 +114,56 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 31, 2023 at 10:34:05AM +0000, Sakari Ailus wrote:
-> On Tue, Oct 31, 2023 at 12:18:13PM +0200, Laurent Pinchart wrote:
-> > On Tue, Oct 31, 2023 at 10:14:02AM +0000, Sakari Ailus wrote:
-> > > On Tue, Oct 31, 2023 at 09:07:06AM +0000, Sakari Ailus wrote:
-> > > > On Tue, Oct 31, 2023 at 10:53:47AM +0200, Laurent Pinchart wrote:
-> > > > > On Tue, Oct 31, 2023 at 06:34:39AM +0000, Sakari Ailus wrote:
-> > > > > > On Tue, Oct 31, 2023 at 01:38:09AM +0200, Laurent Pinchart wrote:
-> > > > > > > On Mon, Oct 30, 2023 at 10:43:47PM +0000, Sakari Ailus wrote:
-> > > > > > > > On Mon, Oct 30, 2023 at 01:26:58PM +0100, Tommaso Merciai wrote:
-> > > > > > > > 
-> > > > > > > > ...
-> > > > > > > > 
-> > > > > > > > > > > +static int alvium_get_host_supp_csi_lanes(struct alvium_dev *alvium)
-> > > > > > > > > > > +{
-> > > > > > > > > > > +	u64 val;
-> > > > > > > > > > > +	int ret = 0;
-> > > > > > > > > > > +
-> > > > > > > > > > > +	alvium_read(alvium, REG_BCRM_CSI2_LANE_COUNT_RW, &val, &ret);
-> > > > > > > > > > 
-> > > > > > > > > > Missing error checking before the use of the value. The same pattern
-> > > > > > > > > > remains prevalent throughout the driver.
-> > > > > > > > > > 
-> > > > > > > > > > I think it'd be easier if you didn't use a temporary variable for reading,
-> > > > > > > > > > but instead had a register width specific access function. You could even
-> > > > > > > > > > introduce a helper macro to read this information as I suggested in an
-> > > > > > > > > > earlier review.
-> > > > > > > > > 
-> > > > > > > > > oks.
-> > > > > > > > > We are moving to use the following macros:
-> > > > > > > > > 
-> > > > > > > > > #define alvium_read_check(alvium, reg, value) \
-> > > > > > > > > { \
-> > > > > > > > > 	int ret = alvium_read(alvium, reg, value, NULL); \
-> > > > > > > > > 	if (ret) \
-> > > > > > > > > 		return ret; \
-> > > > > > > > > }
-> > > > > > > > > 
-> > > > > > > > 
-> > > > > > > > You could do something like (entirely untested):
-> > > > > > > > 
-> > > > > > > > #define ALVIUM_DECLARE_READ(sign, bits) \
-> > > > > > > > 	static int
-> > > > > > > > 	alvium_read_ ## sign ## bits(struct alvium_dev *alvium, u32 reg, \
-> > > > > > > > 				     sign ## bits *val, int *err) \
-> > > > > > > > 	{ \
-> > > > > > > > 		u64 val64; \
-> > > > > > > > 		int ret; \
-> > > > > > > > 			\
-> > > > > > > > 		if (err && *err < 0) \
-> > > > > > > > 			return *err; \
-> > > > > > > > 			\
-> > > > > > > > 		alvium_read(alvium, reg, &val64, &ret); \
-> > > > > > > > 		if (ret < 0) { \
-> > > > > > > > 			if (err) \
-> > > > > > > > 				*err = ret; \
-> > > > > > > > 			return ret; \
-> > > > > > > > 		}	\
-> > > > > > > > 			\
-> > > > > > > > 		*val = val64; \
-> > > > > > > > 			\
-> > > > > > > > 		return 0; \
-> > > > > > > > 	}
-> > > > > > > > 
-> > > > > > > > ALVIUM_DECLARE_READ(u, 32);
-> > > > > > > > 
-> > > > > > > > And then, e.g. instead of (and failing to check ret):
-> > > > > > > > 
-> > > > > > > > 	u64 val;
-> > > > > > > > 
-> > > > > > > > 	alvium_read(alvium, REG_BCRM_CONTRAST_VALUE_RW, &val, &ret);
-> > > > > > > > 	alvium->dft_contrast = val;
-> > > > > > > > 
-> > > > > > > > you'd have a single call:
-> > > > > > > > 
-> > > > > > > > 	alvium_read_u32(alvium, REG_BCRM_CONTRAST_VALUE_RW,
-> > > > > > > > 		        &alvium->dft_contrast, &ret);
-> > > > > > > > 
-> > > > > > > > And so on.
-> > > > > > > > 
-> > > > > > > > You can drop sign if you don't need signed reads but some of the struct
-> > > > > > > > fields you're writing something appear to be signed.
-> > > > > > > > 
-> > > > > > > > It'd be good to check the register size matches with the size of *val, too.
-> > > > > > > > Maybe something like:
-> > > > > > > > 
-> > > > > > > > WARN_ON((CCI_REG ## bits(0) && CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT
-> > > > > > > > 	!= sizeof(sign ## bits));
-> > > > > > > 
-> > > > > > > I think this could actually be automated, and implemented in v4l2-cci.
-> > > > > > > Something like the following:
-> > > > > > > 
-> > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
-> > > > > > > index bc2dbec019b0..27f1eaa7777d 100644
-> > > > > > > --- a/drivers/media/v4l2-core/v4l2-cci.c
-> > > > > > > +++ b/drivers/media/v4l2-core/v4l2-cci.c
-> > > > > > > @@ -16,7 +16,7 @@
-> > > > > > > 
-> > > > > > >  #include <media/v4l2-cci.h>
-> > > > > > > 
-> > > > > > > -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> > > > > > > +int __cci_read(struct regmap *map, u32 reg, void *val, int *err)
-> > > > > > >  {
-> > > > > > >  	unsigned int len;
-> > > > > > >  	u8 buf[8];
-> > > > > > > @@ -37,19 +37,19 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> > > > > > > 
-> > > > > > >  	switch (len) {
-> > > > > > >  	case 1:
-> > > > > > > -		*val = buf[0];
-> > > > > > > +		*(u8 *)val = buf[0];
-> > > > > > >  		break;
-> > > > > > >  	case 2:
-> > > > > > > -		*val = get_unaligned_be16(buf);
-> > > > > > > +		*(u16 *)val = get_unaligned_be16(buf);
-> > > > > > >  		break;
-> > > > > > >  	case 3:
-> > > > > > > -		*val = get_unaligned_be24(buf);
-> > > > > > > +		*(u32 *)val = get_unaligned_be24(buf);
-> > > > > > >  		break;
-> > > > > > >  	case 4:
-> > > > > > > -		*val = get_unaligned_be32(buf);
-> > > > > > > +		*(u32 *)val = get_unaligned_be32(buf);
-> > > > > > >  		break;
-> > > > > > >  	case 8:
-> > > > > > > -		*val = get_unaligned_be64(buf);
-> > > > > > > +		*(u64 *)val = get_unaligned_be64(buf);
-> > > > > > >  		break;
-> > > > > > >  	default:
-> > > > > > >  		dev_err(regmap_get_device(map), "Error invalid reg-width %u for reg 0x%04x\n",
-> > > > > > > @@ -64,7 +64,7 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> > > > > > > 
-> > > > > > >  	return ret;
-> > > > > > >  }
-> > > > > > > -EXPORT_SYMBOL_GPL(cci_read);
-> > > > > > > +EXPORT_SYMBOL_GPL(__cci_read);
-> > > > > > > 
-> > > > > > >  int cci_write(struct regmap *map, u32 reg, u64 val, int *err)
-> > > > > > >  {
-> > > > > > > @@ -119,7 +119,7 @@ int cci_update_bits(struct regmap *map, u32 reg, u64 mask, u64 val, int *err)
-> > > > > > >  	u64 readval;
-> > > > > > >  	int ret;
-> > > > > > > 
-> > > > > > > -	ret = cci_read(map, reg, &readval, err);
-> > > > > > > +	ret = __cci_read(map, reg, &readval, err);
-> > > > > > >  	if (ret)
-> > > > > > >  		return ret;
-> > > > > > > 
-> > > > > > > diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
-> > > > > > > index 0f6803e4b17e..31223ce8d741 100644
-> > > > > > > --- a/include/media/v4l2-cci.h
-> > > > > > > +++ b/include/media/v4l2-cci.h
-> > > > > > > @@ -7,6 +7,9 @@
-> > > > > > >  #ifndef _V4L2_CCI_H
-> > > > > > >  #define _V4L2_CCI_H
-> > > > > > > 
-> > > > > > > +#include <linux/bitfield.h>
-> > > > > > > +#include <linux/build_bug.h>
-> > > > > > > +#include <linux/log2.h>
-> > > > > > >  #include <linux/types.h>
-> > > > > > > 
-> > > > > > >  struct i2c_client;
-> > > > > > > @@ -39,6 +42,8 @@ struct cci_reg_sequence {
-> > > > > > >  #define CCI_REG32(x)			((4 << CCI_REG_WIDTH_SHIFT) | (x))
-> > > > > > >  #define CCI_REG64(x)			((8 << CCI_REG_WIDTH_SHIFT) | (x))
-> > > > > > > 
-> > > > > > > +int __cci_read(struct regmap *map, u32 reg, void *val, int *err);
-> > > > > > > +
-> > > > > > >  /**
-> > > > > > >   * cci_read() - Read a value from a single CCI register
-> > > > > > >   *
-> > > > > > > @@ -48,9 +53,17 @@ struct cci_reg_sequence {
-> > > > > > >   * @err: Optional pointer to store errors, if a previous error is set
-> > > > > > >   *       then the read will be skipped
-> > > > > > >   *
-> > > > > > > + * The type of the @val pointer must match the size of the register being read.
-> > > > > > > + * Mismatches will result in compile-time errors.
-> > > > > > > + *
-> > > > > > >   * Return: %0 on success or a negative error code on failure.
-> > > > > > >   */
-> > > > > > > -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err);
-> > > > > > > +#define cci_read(map, reg, val, err) ({					\
-> > > > > > > +	u32 __reg = (reg);						\
-> > > > > > > +	u32 __size = FIELD_GET(CCI_REG_WIDTH_MASK, __reg);		\
-> > > > > > > +	BUILD_BUG_ON(sizeof(*(val)) != roundup_pow_of_two(__size));	\
-> > > > > > > +	__cci_read(map, __reg, (void *)(val), err);			\
-> > > > > > > +})
-> > > > > > > 
-> > > > > > >  /**
-> > > > > > >   * cci_write() - Write a value to a single CCI register
-> > > > > > > 
-> > > > > > > The change to cci_update_bits() is obviously wrong, I've hacked that to
-> > > > > > > compile-test the rest with the drivers using cci_read(), and I get nice
-> > > > > > > build-time errors due to usage of the wrong type :-)
-> > > > > > > 
-> > > > > > > Is this something that would be considered ? Bonus points to anyone who
-> > > > > > > would fix cci_update_bits() :-)
-> > > > > > 
-> > > > > > I like the idea of moving this to v4l2-cci.
-> > > > > > 
-> > > > > > I'd prefer _Generic() based solution as we'd have exact types there instead
-> > > > > > of just size. E.g. with the above code, reading a value to a long variable
-> > > > > > would work on some archs but fail on others.
-> > > > > 
-> > > > > Doesn't _Generic() treat compatible types identically ?
-> > > > 
-> > > > Ah, it does, indeed. So that doesn't solve the long problem.
-> > > > 
-> > > > I guess the code will be more compact with just void *, on the expense of
-> > > > (some) type checking.
-> > > > 
-> > > > I'm fine with either.
-> > > 
-> > > You can't check the variable size matches the register width by using a
-> > > void pointer. That'd be a source for possibly difficult to debug problems:
-> > > passing a pointer to u8 variable while reading a 64-bit register overwrites
-> > > seven bytes on the stack outside the variable itself.
-> > > 
-> > > Let's use _Generic().
-> > 
-> > I still don't see how that will help :-) The prototype of the
-> > __cci_read() function is unrelated to whether or not _Generic() gets
-> > used. The cci_read() macro will cause a *build* time error if the value
-> > pointer doesn't match the register size. The __cci_read() function must
-> > not be used directly by drivers.
+On 26.10.2023 17:50, Bryan O'Donoghue wrote:
+> Right now we use fixed indexes to assign power-domains, with a
+> requirement for the TOP GDSC to come last in the list.
 > 
-> Ah, right, this part of the check is indeed in the macro. That doesn't
-> catch floats but those are unlikely be a practical issue anyway.
+> Adding support for named power-domains means the declaration in the dtsi
+> can come in any order.
+> 
+> After this change we continue to support the old indexing - if a SoC
+> resource declration or the in-use dtb doesn't declare power-domain names
+> we fall back to the default legacy indexing.
+> 
+> From this point on though new SoC additions should contain named
+> power-domains, eventually we will drop support for legacy indexing.
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+>  drivers/media/platform/qcom/camss/camss-vfe.c | 24 ++++++++++++++++-
+>  drivers/media/platform/qcom/camss/camss.c     | 26 +++++++++++++++----
+>  drivers/media/platform/qcom/camss/camss.h     |  2 ++
+>  3 files changed, 46 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+> index ebd5da6ad3f2f..cb48723efd8a0 100644
+> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+> @@ -1381,7 +1381,29 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
+>  	if (!res->line_num)
+>  		return -EINVAL;
+>  
+> -	if (res->has_pd) {
+> +	/* Power domain */
+Unnecessary, I think
 
-Indeed. If you really think it's a concern then I'm fine with _Generic()
-:-) I have no issue using _Generic() overall, and I'd be fine if someone
-wanted to take the above code and make it a real patch. The
-cci_update_bits() problem still has to be solved.
+> +
+> +	if (res->pd_name) {
+No need to nullcheck, dev_pm_domain_attach_by_name seems to return
+NULL when the name is NULL
 
-> The cast to void * is redundant in the macro.
+[...]
+> -	if (IS_ERR(camss->genpd)) {
+> +	if (camss->res->pd_name) {
+ditto
+> +		camss->genpd = dev_pm_domain_attach_by_name(camss->dev,
+> +							    camss->res->pd_name);
+> +		if (IS_ERR(camss->genpd)) {
+> +			ret = PTR_ERR(camss->genpd);
+> +			goto fail_pm;
+> +		}
+> +	}
+> +
+Looks good otherwise, I think
 
-Good point.
-
--- 
-Regards,
-
-Laurent Pinchart
+Konrad
