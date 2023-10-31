@@ -2,277 +2,298 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 56AB37DC8FA
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 10:05:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 385987DC903
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 10:07:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343699AbjJaJFD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 05:05:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46420 "EHLO
+        id S235761AbjJaJHT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 05:07:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52274 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbjJaJFC (ORCPT
+        with ESMTP id S235349AbjJaJHS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 05:05:02 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CD21A9;
-        Tue, 31 Oct 2023 02:04:59 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2102C433C7;
-        Tue, 31 Oct 2023 09:04:55 +0000 (UTC)
-Message-ID: <ab9fa763-2329-4696-8903-2dd28bcbea0e@xs4all.nl>
-Date:   Tue, 31 Oct 2023 10:04:53 +0100
+        Tue, 31 Oct 2023 05:07:18 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC949A9;
+        Tue, 31 Oct 2023 02:07:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698743235; x=1730279235;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1/l3+I9/7T50G3JjjJdKdWfWmzRJZDHMb+AQfc2hx7o=;
+  b=jzVGzzU8RCyFmjPmUnh0DUEGPnhaU4hMueNAwMp72mEeUC60joDSDkTe
+   yFWMQ6hHNsUuuSJHAP3uUefwutq/JkgRkWmRLemc6EqM1VlrK1O3pEAPt
+   eplxSMgYkcxbwPP//9pErDlArhs/SCh60gEtkac+DeJe5DErVJ/fduoEZ
+   5qwFuZdKZeXNBL5aWKJXtriTGEn32mNNyCbbqgymzb1I9fO4SVGWRBggx
+   v/lU32DVqUwqbORDHNSjH0J3/ix/ygNDlLn/fm1gYjtPtASBfQTYUoa26
+   yi0qZbXfPmyejsq4w1a4M8xCN4Wit0XO88WQfm3E2NeAR2O1hxSVhq1o/
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="378629321"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
+   d="scan'208";a="378629321"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 02:07:15 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="884140833"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
+   d="scan'208";a="884140833"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 02:07:10 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id AA74011F9E8;
+        Tue, 31 Oct 2023 11:07:06 +0200 (EET)
+Date:   Tue, 31 Oct 2023 09:07:06 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Tommaso Merciai <tomm.merciai@gmail.com>, martin.hecht@avnet.eu,
+        michael.roeder@avnet.eu, mhecht73@gmail.com,
+        linuxfancy@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v10 3/3] media: i2c: Add support for alvium camera
+Message-ID: <ZUDDuoNO5AGjyJLh@kekkonen.localdomain>
+References: <20231020141354.2500602-1-tomm.merciai@gmail.com>
+ <20231020141354.2500602-4-tomm.merciai@gmail.com>
+ <ZTpnHdpTgRNll3TC@kekkonen.localdomain>
+ <ZT+hEg7WqkQBnLV5@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <ZUAxoy2cRR6Rm9ig@kekkonen.localdomain>
+ <20231030233809.GD12764@pendragon.ideasonboard.com>
+ <ZUCf_74Z0igCiJ_-@kekkonen.localdomain>
+ <20231031085347.GH12764@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 00/56] Add DELETE_BUF ioctl
-Content-Language: en-US, nl
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <20231019125222.21370-1-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231031085347.GH12764@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,SPF_NONE,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Benjamin,
-
-On 19/10/2023 14:51, Benjamin Gaignard wrote:
-> Unlike when resolution change on keyframes, dynamic resolution change
-> on inter frames doesn't allow to do a stream off/on sequence because
-> it is need to keep all previous references alive to decode inter frames.
-> This constraint have two main problems:
-> - more memory consumption.
-> - more buffers in use.
-> To solve these issue this series introduce DELETE_BUFS ioctl and remove
-> the 32 buffers limit per queue.
+On Tue, Oct 31, 2023 at 10:53:47AM +0200, Laurent Pinchart wrote:
+> On Tue, Oct 31, 2023 at 06:34:39AM +0000, Sakari Ailus wrote:
+> > On Tue, Oct 31, 2023 at 01:38:09AM +0200, Laurent Pinchart wrote:
+> > > On Mon, Oct 30, 2023 at 10:43:47PM +0000, Sakari Ailus wrote:
+> > > > On Mon, Oct 30, 2023 at 01:26:58PM +0100, Tommaso Merciai wrote:
+> > > > 
+> > > > ...
+> > > > 
+> > > > > > > +static int alvium_get_host_supp_csi_lanes(struct alvium_dev *alvium)
+> > > > > > > +{
+> > > > > > > +	u64 val;
+> > > > > > > +	int ret = 0;
+> > > > > > > +
+> > > > > > > +	alvium_read(alvium, REG_BCRM_CSI2_LANE_COUNT_RW, &val, &ret);
+> > > > > > 
+> > > > > > Missing error checking before the use of the value. The same pattern
+> > > > > > remains prevalent throughout the driver.
+> > > > > > 
+> > > > > > I think it'd be easier if you didn't use a temporary variable for reading,
+> > > > > > but instead had a register width specific access function. You could even
+> > > > > > introduce a helper macro to read this information as I suggested in an
+> > > > > > earlier review.
+> > > > > 
+> > > > > oks.
+> > > > > We are moving to use the following macros:
+> > > > > 
+> > > > > #define alvium_read_check(alvium, reg, value) \
+> > > > > { \
+> > > > > 	int ret = alvium_read(alvium, reg, value, NULL); \
+> > > > > 	if (ret) \
+> > > > > 		return ret; \
+> > > > > }
+> > > > > 
+> > > > 
+> > > > You could do something like (entirely untested):
+> > > > 
+> > > > #define ALVIUM_DECLARE_READ(sign, bits) \
+> > > > 	static int
+> > > > 	alvium_read_ ## sign ## bits(struct alvium_dev *alvium, u32 reg, \
+> > > > 				     sign ## bits *val, int *err) \
+> > > > 	{ \
+> > > > 		u64 val64; \
+> > > > 		int ret; \
+> > > > 			\
+> > > > 		if (err && *err < 0) \
+> > > > 			return *err; \
+> > > > 			\
+> > > > 		alvium_read(alvium, reg, &val64, &ret); \
+> > > > 		if (ret < 0) { \
+> > > > 			if (err) \
+> > > > 				*err = ret; \
+> > > > 			return ret; \
+> > > > 		}	\
+> > > > 			\
+> > > > 		*val = val64; \
+> > > > 			\
+> > > > 		return 0; \
+> > > > 	}
+> > > > 
+> > > > ALVIUM_DECLARE_READ(u, 32);
+> > > > 
+> > > > And then, e.g. instead of (and failing to check ret):
+> > > > 
+> > > > 	u64 val;
+> > > > 
+> > > > 	alvium_read(alvium, REG_BCRM_CONTRAST_VALUE_RW, &val, &ret);
+> > > > 	alvium->dft_contrast = val;
+> > > > 
+> > > > you'd have a single call:
+> > > > 
+> > > > 	alvium_read_u32(alvium, REG_BCRM_CONTRAST_VALUE_RW,
+> > > > 		        &alvium->dft_contrast, &ret);
+> > > > 
+> > > > And so on.
+> > > > 
+> > > > You can drop sign if you don't need signed reads but some of the struct
+> > > > fields you're writing something appear to be signed.
+> > > > 
+> > > > It'd be good to check the register size matches with the size of *val, too.
+> > > > Maybe something like:
+> > > > 
+> > > > WARN_ON((CCI_REG ## bits(0) && CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT
+> > > > 	!= sizeof(sign ## bits));
+> > > 
+> > > I think this could actually be automated, and implemented in v4l2-cci.
+> > > Something like the following:
+> > > 
+> > > diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
+> > > index bc2dbec019b0..27f1eaa7777d 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-cci.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-cci.c
+> > > @@ -16,7 +16,7 @@
+> > > 
+> > >  #include <media/v4l2-cci.h>
+> > > 
+> > > -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+> > > +int __cci_read(struct regmap *map, u32 reg, void *val, int *err)
+> > >  {
+> > >  	unsigned int len;
+> > >  	u8 buf[8];
+> > > @@ -37,19 +37,19 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+> > > 
+> > >  	switch (len) {
+> > >  	case 1:
+> > > -		*val = buf[0];
+> > > +		*(u8 *)val = buf[0];
+> > >  		break;
+> > >  	case 2:
+> > > -		*val = get_unaligned_be16(buf);
+> > > +		*(u16 *)val = get_unaligned_be16(buf);
+> > >  		break;
+> > >  	case 3:
+> > > -		*val = get_unaligned_be24(buf);
+> > > +		*(u32 *)val = get_unaligned_be24(buf);
+> > >  		break;
+> > >  	case 4:
+> > > -		*val = get_unaligned_be32(buf);
+> > > +		*(u32 *)val = get_unaligned_be32(buf);
+> > >  		break;
+> > >  	case 8:
+> > > -		*val = get_unaligned_be64(buf);
+> > > +		*(u64 *)val = get_unaligned_be64(buf);
+> > >  		break;
+> > >  	default:
+> > >  		dev_err(regmap_get_device(map), "Error invalid reg-width %u for reg 0x%04x\n",
+> > > @@ -64,7 +64,7 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+> > > 
+> > >  	return ret;
+> > >  }
+> > > -EXPORT_SYMBOL_GPL(cci_read);
+> > > +EXPORT_SYMBOL_GPL(__cci_read);
+> > > 
+> > >  int cci_write(struct regmap *map, u32 reg, u64 val, int *err)
+> > >  {
+> > > @@ -119,7 +119,7 @@ int cci_update_bits(struct regmap *map, u32 reg, u64 mask, u64 val, int *err)
+> > >  	u64 readval;
+> > >  	int ret;
+> > > 
+> > > -	ret = cci_read(map, reg, &readval, err);
+> > > +	ret = __cci_read(map, reg, &readval, err);
+> > >  	if (ret)
+> > >  		return ret;
+> > > 
+> > > diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
+> > > index 0f6803e4b17e..31223ce8d741 100644
+> > > --- a/include/media/v4l2-cci.h
+> > > +++ b/include/media/v4l2-cci.h
+> > > @@ -7,6 +7,9 @@
+> > >  #ifndef _V4L2_CCI_H
+> > >  #define _V4L2_CCI_H
+> > > 
+> > > +#include <linux/bitfield.h>
+> > > +#include <linux/build_bug.h>
+> > > +#include <linux/log2.h>
+> > >  #include <linux/types.h>
+> > > 
+> > >  struct i2c_client;
+> > > @@ -39,6 +42,8 @@ struct cci_reg_sequence {
+> > >  #define CCI_REG32(x)			((4 << CCI_REG_WIDTH_SHIFT) | (x))
+> > >  #define CCI_REG64(x)			((8 << CCI_REG_WIDTH_SHIFT) | (x))
+> > > 
+> > > +int __cci_read(struct regmap *map, u32 reg, void *val, int *err);
+> > > +
+> > >  /**
+> > >   * cci_read() - Read a value from a single CCI register
+> > >   *
+> > > @@ -48,9 +53,17 @@ struct cci_reg_sequence {
+> > >   * @err: Optional pointer to store errors, if a previous error is set
+> > >   *       then the read will be skipped
+> > >   *
+> > > + * The type of the @val pointer must match the size of the register being read.
+> > > + * Mismatches will result in compile-time errors.
+> > > + *
+> > >   * Return: %0 on success or a negative error code on failure.
+> > >   */
+> > > -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err);
+> > > +#define cci_read(map, reg, val, err) ({					\
+> > > +	u32 __reg = (reg);						\
+> > > +	u32 __size = FIELD_GET(CCI_REG_WIDTH_MASK, __reg);		\
+> > > +	BUILD_BUG_ON(sizeof(*(val)) != roundup_pow_of_two(__size));	\
+> > > +	__cci_read(map, __reg, (void *)(val), err);			\
+> > > +})
+> > > 
+> > >  /**
+> > >   * cci_write() - Write a value to a single CCI register
+> > > 
+> > > The change to cci_update_bits() is obviously wrong, I've hacked that to
+> > > compile-test the rest with the drivers using cci_read(), and I get nice
+> > > build-time errors due to usage of the wrong type :-)
+> > > 
+> > > Is this something that would be considered ? Bonus points to anyone who
+> > > would fix cci_update_bits() :-)
+> > 
+> > I like the idea of moving this to v4l2-cci.
+> > 
+> > I'd prefer _Generic() based solution as we'd have exact types there instead
+> > of just size. E.g. with the above code, reading a value to a long variable
+> > would work on some archs but fail on others.
 > 
-> VP9 conformance tests using fluster give a score of 210/305.
-> The 20 resize inter tests (vp90-2-21-resize_inter_* files) are ok
-> but require to use postprocessor.
-> 
-> Kernel branch is available here:
-> https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v13
-> 
-> GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
-> change is here:
-> https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
-> 
+> Doesn't _Generic() treat compatible types identically ?
 
-I'll just write the comments here since I never received patch 44 in my mailbox.
-The messages are sent too quickly and my provider just throws some away if that
-happens for a long series like this, very annoying. You can configure git to
-slow down sending emails, if you can look into that, then that would be great.
-It seems to happen whenever more than approx. 30-35 patches are sent off very
-quickly.
+Ah, it does, indeed. So that doesn't solve the long problem.
 
-In any case, a v14 is needed: when testing with -virtme and the patched v4l2-compliance
-it fails the 32 bit test. You need to add max_num_buffers support to
-drivers/media/v4l2-core/v4l2-compat-ioctl32.c.
+I guess the code will be more compact with just void *, on the expense of
+(some) type checking.
 
-And since a v14 is needed because of that it would be nice if you can also
-make two small changes to patch 44/56:
+I'm fine with either.
 
-The commit log still refers to V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS (the old
-name). And in v4l_print_create_buffers() you log the value as "max buffers",
-just make that "max num buffers" for consistency.
-
+-- 
 Regards,
 
-	Hans
-
-> changes in version 13:
-> - Fix typo and wording in commits messages.
-> - Only apply V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS on createbufs ioctl
-> - Fix queue setup test in test-drivers
-> 
-> changes in version 12:
-> - Change flag name to V4L2_BUF_CAP_SUPPORTS_SET_MAX_BUFS.
-> - Rework some commits message.
-> - Change vb2_queue_or_prepare_buf() prototype.
-> - Rework patches where 'min_buffers_needed' was badly used.
-> 
-> changes in version 11:
-> - Patches ordering:
->   1 to 3: clean up
->   3 to 42: use vb2_get_buffer() and vb2_get_num_buffers()
->   43 to 46: allow to use more than 32 buffers per queue
->   47 to 50: allow verisilicon driver to do VP9 dynamic resolution change
->             (which was the main purpose of this work)
->   51 to 56: prepare and introduce delete buffers feature.
-> - Add a patch to rename 'off' to offset.
-> - Add maintainers CC to drivers patches
-> 
-> changes in version 10:
-> - Make BUFFER_INDEX_MASK definition more readable
-> - Rebase on media_stage/master branch and add a patch for nuvoton
->   driver.
-> - Fix issue on patch 13
-> 
-> changes in version 9:
-> - BUFFER_INDEX_MASK now depends on PAGE_SHIFT value to match
->   architectures requirements.
-> - Correctly initialize max_num_buffers in vb2_core_queue_init()
-> - run 'test-media -kmemleak mc' on top of the series and on patches 1 to 47 without failures.
-> - fix compilation issue in patch 50
-> 
-> 
-> 
->  
-> Benjamin Gaignard (56):
->   media: videobuf2: Rename offset parameter
->   media: videobuf2: Rework offset 'cookie' encoding pattern
->   media: videobuf2: Stop spamming kernel log with all queue counter
->   media: videobuf2: Use vb2_buffer instead of index
->   media: videobuf2: Access vb2_queue bufs array through helper functions
->   media: videobuf2: Remove duplicated index vs q->num_buffers check
->   media: videobuf2: Add helper to get queue number of buffers
->   media: videobuf2: Use vb2_get_num_buffers() helper
->   media: amphion: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: amphion: Stop direct calls to queue num_buffers field
->   media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access
->     to buffers array
->   media: mediatek: vdec: Remove useless loop
->   media: mediatek: vcodec: Stop direct calls to queue num_buffers field
->   media: sti: hva: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: visl: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: atomisp: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: atomisp: Stop direct calls to queue num_buffers field
->   media: dvb-core: Use vb2_get_buffer() instead of directly access to
->     buffers array
->   media: dvb-core: Do not initialize twice queue num_buffer field
->   media: dvb-frontends: rtl2832: Stop direct calls to queue num_buffers
->     field
->   media: pci: dt3155: Remove useless check
->   media: pci: tw686x: Stop direct calls to queue num_buffers field
->   media: pci: cx18: Stop direct calls to queue num_buffers field
->   media: pci: netup_unidvb: Stop direct calls to queue num_buffers field
->   media: pci: tw68: Stop direct calls to queue num_buffers field
->   media: i2c: video-i2c: Stop direct calls to queue num_buffers field
->   media: coda: Stop direct calls to queue num_buffers field
->   media: nxp: Stop direct calls to queue num_buffers field
->   media: verisilicon: Stop direct calls to queue num_buffers field
->   media: test-drivers: Stop direct calls to queue num_buffers field
->   media: imx: Stop direct calls to queue num_buffers field
->   media: meson: vdec: Stop direct calls to queue num_buffers field
->   touchscreen: sur40: Stop direct calls to queue num_buffers field
->   sample: v4l: Stop direct calls to queue num_buffers field
->   media: cedrus: Stop direct calls to queue num_buffers field
->   media: nuvoton: Stop direct calls to queue num_buffers field
->   media: renesas: Stop direct calls to queue num_buffers field
->   media: ti: Stop direct calls to queue num_buffers field
->   media: usb: airspy: Stop direct calls to queue num_buffers field
->   media: usb: cx231xx: Stop direct calls to queue num_buffers field
->   media: usb: hackrf: Stop direct calls to queue num_buffers field
->   media: usb: usbtv: Stop direct calls to queue num_buffers field
->   media: videobuf2: Be more flexible on the number of queue stored
->     buffers
->   media: core: Report the maximum possible number of buffers for the
->     queue
->   media: test-drivers: vivid: Increase max supported buffers for capture
->     queues
->   media: test-drivers: vicodec: Increase max supported capture queue
->     buffers
->   media: verisilicon: Refactor postprocessor to store more buffers
->   media: verisilicon: Store chroma and motion vectors offset
->   media: verisilicon: g2: Use common helpers to compute chroma and mv
->     offsets
->   media: verisilicon: vp9: Allow to change resolution while streaming
->   media: core: Rework how create_buf index returned value is computed
->   media: core: Add bitmap manage bufs array entries
->   media: core: Free range of buffers
->   media: v4l2: Add DELETE_BUFS ioctl
->   media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
->   media: test-drivers: Use helper for DELETE_BUFS ioctl
-> 
->  .../userspace-api/media/v4l/user-func.rst     |   1 +
->  .../media/v4l/vidioc-create-bufs.rst          |   8 +-
->  .../media/v4l/vidioc-delete-bufs.rst          |  80 +++
->  .../media/v4l/vidioc-reqbufs.rst              |   2 +
->  drivers/input/touchscreen/sur40.c             |   5 +-
->  .../media/common/videobuf2/videobuf2-core.c   | 569 +++++++++++-------
->  .../media/common/videobuf2/videobuf2-v4l2.c   | 125 ++--
->  drivers/media/dvb-core/dvb_vb2.c              |  17 +-
->  drivers/media/dvb-frontends/rtl2832_sdr.c     |   5 +-
->  drivers/media/i2c/video-i2c.c                 |   5 +-
->  drivers/media/pci/cx18/cx18-streams.c         |   5 +-
->  drivers/media/pci/dt3155/dt3155.c             |   2 -
->  .../pci/netup_unidvb/netup_unidvb_core.c      |   5 +-
->  drivers/media/pci/tw68/tw68-video.c           |   4 +-
->  drivers/media/pci/tw686x/tw686x-video.c       |   5 +-
->  drivers/media/platform/amphion/vpu_dbg.c      |  30 +-
->  drivers/media/platform/amphion/vpu_v4l2.c     |   4 +-
->  .../media/platform/chips-media/coda-common.c  |   2 +-
->  .../platform/mediatek/jpeg/mtk_jpeg_core.c    |   7 +-
->  .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c |   9 +-
->  .../mediatek/vcodec/encoder/mtk_vcodec_enc.c  |   2 +-
->  drivers/media/platform/nuvoton/npcm-video.c   |   2 +-
->  drivers/media/platform/nxp/imx7-media-csi.c   |   7 +-
->  drivers/media/platform/renesas/rcar_drif.c    |   5 +-
->  drivers/media/platform/st/sti/hva/hva-v4l2.c  |   9 +-
->  .../media/platform/ti/am437x/am437x-vpfe.c    |   5 +-
->  drivers/media/platform/ti/cal/cal-video.c     |   5 +-
->  .../media/platform/ti/davinci/vpif_capture.c  |   5 +-
->  .../media/platform/ti/davinci/vpif_display.c  |   5 +-
->  drivers/media/platform/ti/omap/omap_vout.c    |   5 +-
->  drivers/media/platform/verisilicon/hantro.h   |   9 +-
->  .../media/platform/verisilicon/hantro_drv.c   |   5 +-
->  .../media/platform/verisilicon/hantro_g2.c    |  14 +
->  .../platform/verisilicon/hantro_g2_hevc_dec.c |  18 +-
->  .../platform/verisilicon/hantro_g2_vp9_dec.c  |  28 +-
->  .../media/platform/verisilicon/hantro_hw.h    |   7 +-
->  .../platform/verisilicon/hantro_postproc.c    |  93 ++-
->  .../media/platform/verisilicon/hantro_v4l2.c  |  27 +-
->  .../media/test-drivers/vicodec/vicodec-core.c |   3 +
->  drivers/media/test-drivers/vim2m.c            |   2 +
->  .../media/test-drivers/vimc/vimc-capture.c    |   2 +
->  drivers/media/test-drivers/visl/visl-dec.c    |  32 +-
->  drivers/media/test-drivers/visl/visl-video.c  |   2 +
->  drivers/media/test-drivers/vivid/vivid-core.c |  21 +
->  .../media/test-drivers/vivid/vivid-meta-cap.c |   3 -
->  .../media/test-drivers/vivid/vivid-meta-out.c |   5 +-
->  .../test-drivers/vivid/vivid-touch-cap.c      |   5 +-
->  .../media/test-drivers/vivid/vivid-vbi-cap.c  |   3 -
->  .../media/test-drivers/vivid/vivid-vbi-out.c  |   3 -
->  .../media/test-drivers/vivid/vivid-vid-cap.c  |   3 -
->  .../media/test-drivers/vivid/vivid-vid-out.c  |   5 +-
->  drivers/media/usb/airspy/airspy.c             |   5 +-
->  drivers/media/usb/cx231xx/cx231xx-417.c       |   5 +-
->  drivers/media/usb/cx231xx/cx231xx-video.c     |   5 +-
->  drivers/media/usb/hackrf/hackrf.c             |   5 +-
->  drivers/media/usb/usbtv/usbtv-video.c         |   5 +-
->  drivers/media/v4l2-core/v4l2-dev.c            |   1 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  21 +-
->  drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 +
->  .../staging/media/atomisp/pci/atomisp_ioctl.c |   4 +-
->  drivers/staging/media/imx/imx-media-capture.c |   7 +-
->  drivers/staging/media/meson/vdec/vdec.c       |  13 +-
->  .../staging/media/sunxi/cedrus/cedrus_h264.c  |   9 +-
->  .../staging/media/sunxi/cedrus/cedrus_h265.c  |   9 +-
->  include/media/v4l2-ioctl.h                    |   4 +
->  include/media/v4l2-mem2mem.h                  |  12 +
->  include/media/videobuf2-core.h                |  65 +-
->  include/media/videobuf2-v4l2.h                |  13 +
->  include/uapi/linux/videodev2.h                |  24 +-
->  samples/v4l/v4l2-pci-skeleton.c               |   5 +-
->  70 files changed, 990 insertions(+), 472 deletions(-)
->  create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
-> 
-
+Sakari Ailus
