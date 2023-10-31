@@ -2,298 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F09DE7DC7F3
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 09:13:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06A837DC830
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 09:34:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231375AbjJaINj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 04:13:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55870 "EHLO
+        id S233315AbjJaIeI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 04:34:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230478AbjJaINi (ORCPT
+        with ESMTP id S229932AbjJaIeH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 04:13:38 -0400
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE426BD;
-        Tue, 31 Oct 2023 01:13:35 -0700 (PDT)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-5409bc907edso8310452a12.0;
-        Tue, 31 Oct 2023 01:13:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698740014; x=1699344814; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=KUSjPd9JDelxayHLoaKrsl8RYjyIQSTE5q0zW+6XXnI=;
-        b=fpm0K05iCPS618aAqxTo2tAwsd6N+Rpt3XXNaUMRGd/QX2HucBMQCDBHwjYPUsJykV
-         9HVfe87q8FrkEa19839mzc0W1sKLUXLPqJ6aB/JRV30p7TXjtTAeeFmMfDlNNSdo5iiF
-         4m2Zw3gLbvjrr8M6nKlbQFrq3uiiV/DQoXqv+Qw23QNu/n3mY/hVQiARUtz0E6KcGjGs
-         Z/Sj7wt9OJuCiGKxa2vqZQeHdybAIeiV9VJ4cxjUcEsX3g1pdF1PxBsG6v24xk209jiy
-         tiVVDkosfjPEQ7R7PIhLprKry4Z99Zp3t0Rr3p7Of960zHXVKmRWVaO0LdOMBIdwe3md
-         PE1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698740014; x=1699344814;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KUSjPd9JDelxayHLoaKrsl8RYjyIQSTE5q0zW+6XXnI=;
-        b=evCIg858RMvvlaQzCtWEH7aW33OY4JtgIPlCOkTHWRECqTTeuuAt7Ui3VT4Kevnh6C
-         UubMZz3amtlznEVROJGnGrlrx81HpKdWC7jif9eR3mOdDKidphyKzA2pSGCf50UEJ5E9
-         rD8XPqaoltLeeC6ulmLDyYDGwHrdmUflS1nkNUadLN9ec5MuCSs/ew2+PUO8/qsuUbo5
-         QL1bSYSB//VrxFN8MUkkV2NFZSK5+5DlJR+3DJCSxEwk8on3etxccxnpDg1GiLbz+9Bt
-         0wgctsfKLJ4mNgbirRiec8YVZqx0nXxI8+IxvPn7AFxs/rC5ePgGXPL2MJtyc/4LAGOP
-         xndA==
-X-Gm-Message-State: AOJu0YzO4323ncSyd/ptwaQNQIBKFVCyYgxkNRNTdnppnZztFr0487qO
-        0UJddxyXX5qBGQVYJKWnxnI=
-X-Google-Smtp-Source: AGHT+IGXHNJ1xJ5AaZ5QeGdx4lK2BcHbEIPBRlWpzvgcS2lWFzAVpJjfoNIFh/XffpFG5sKxWRF32g==
-X-Received: by 2002:a17:907:7f92:b0:9bd:f155:eb54 with SMTP id qk18-20020a1709077f9200b009bdf155eb54mr11872826ejc.6.1698740014038;
-        Tue, 31 Oct 2023 01:13:34 -0700 (PDT)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-109.cust.vodafonedsl.it. [188.217.59.109])
-        by smtp.gmail.com with ESMTPSA id rp16-20020a170906d97000b009ae57888718sm530859ejb.207.2023.10.31.01.13.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 01:13:33 -0700 (PDT)
-Date:   Tue, 31 Oct 2023 09:13:30 +0100
-From:   Tommaso Merciai <tomm.merciai@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     martin.hecht@avnet.eu, michael.roeder@avnet.eu, mhecht73@gmail.com,
-        linuxfancy@googlegroups.com,
+        Tue, 31 Oct 2023 04:34:07 -0400
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48001C9;
+        Tue, 31 Oct 2023 01:34:04 -0700 (PDT)
+X-UUID: 3d1ace8677c811eea33bb35ae8d461a2-20231031
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=2dho3kofawX3gdG2rhey1ygZEL7JRhX4DhhjZ3wIH6A=;
+        b=LndMvSKj7gP+Lr59fJ2DfcOcwMNuk9WhRstVSnJftkRZc/cgwMkp416F0imVZ7RyIABBCOyElNhoO6XLAOiLuTbERKZkBq/myPtnBEkBCKu259RpoKxV7SyIvga4HM/0tbvS+lhAnataVU5RudhD4Z1FgCE/pCsyGpCHAdff+V8=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.33,REQID:86f66468-54f8-4690-b8ba-b4e3b49c875f,IP:0,U
+        RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+        :release,TS:-5
+X-CID-META: VersionHash:364b77b,CLOUDID:f0db85d7-04a0-4e50-8742-3543eab8cb8e,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+        DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 3d1ace8677c811eea33bb35ae8d461a2-20231031
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw01.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1990207887; Tue, 31 Oct 2023 16:33:59 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 31 Oct 2023 16:33:58 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 31 Oct 2023 16:33:58 +0800
+From:   Moudy Ho <moudy.ho@mediatek.com>
+To:     Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 3/3] media: i2c: Add support for alvium camera
-Message-ID: <ZUC3KpmB6ZzLkxDw@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20231020141354.2500602-1-tomm.merciai@gmail.com>
- <20231020141354.2500602-4-tomm.merciai@gmail.com>
- <ZTpnHdpTgRNll3TC@kekkonen.localdomain>
- <ZT+hEg7WqkQBnLV5@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <ZUAxoy2cRR6Rm9ig@kekkonen.localdomain>
+        "Matthias Brugger" <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+CC:     <dri-devel@lists.freedesktop.org>,
+        <linux-mediatek@lists.infradead.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        "Moudy Ho" <moudy.ho@mediatek.com>
+Subject: [PATCH v9 00/16] introduce more MDP3 components in MT8195
+Date:   Tue, 31 Oct 2023 16:33:41 +0800
+Message-ID: <20231031083357.13775-1-moudy.ho@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZUAxoy2cRR6Rm9ig@kekkonen.localdomain>
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--8.189900-8.000000
+X-TMASE-MatchedRID: 8nwnnPisK37NwJnbTIxiVZ1U1lojafr/KFFZAe4nyZ5ZLD9SNJ9sEjfy
+        D4B1B1XwODsAqLXNLAhy3XpFb4YV0BNj8dEIVpt0syNb+yeIRAohHWssEmb8zmq//5Ao1w8uDYX
+        q2a0NnVWRrMe2UQ2pNI8v5ywzoFfttgIE2xggPK+xo9yzdPhMvZJOcXMQc4jBx8cf8zkUc1oCYy
+        wzM82Z8wChddk7F3kP8R18cQDv3dl0lqR8D0fH0e7KTDtx8CggKhNpTcvbdUKbKItl61J/yUGDD
+        kbg1gJkOAawE8JvIaIgBwKKRHe+r6dmDvuXKsTktJGWVKDL1blgNLGTi1Pwg+DcyQ53mukoslWk
+        bbo7nKs=
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--8.189900-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 60B4B42383B723072FABE98B6874E704B2139217F9A938259D421BF4D3D557162000:8
+X-MTK:  N
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-Thanks for your comments.
+Changes since v8:
+- Rebase on linux-next.
+- Dependent dtsi files:
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=797543
+- Depends on:
+  Message ID = 20231024130048.14749-9-shawn.sung@mediatek.com
+- Following Rob's suggestion, the number of 'clocks' and 'mboxes' items are
+  restricted using the 'minItems' in [2/16] and [3/16].
+- Revise the dependent mt8188 disp padding compatible name in [16/16].
 
-On Mon, Oct 30, 2023 at 10:43:47PM +0000, Sakari Ailus wrote:
-> Hi Tommaso,
-> 
-> On Mon, Oct 30, 2023 at 01:26:58PM +0100, Tommaso Merciai wrote:
-> 
-> ...
-> 
-> > > > +static int alvium_get_host_supp_csi_lanes(struct alvium_dev *alvium)
-> > > > +{
-> > > > +	u64 val;
-> > > > +	int ret = 0;
-> > > > +
-> > > > +	alvium_read(alvium, REG_BCRM_CSI2_LANE_COUNT_RW, &val, &ret);
-> > > 
-> > > Missing error checking before the use of the value. The same pattern
-> > > remains prevalent throughout the driver.
-> > > 
-> > > I think it'd be easier if you didn't use a temporary variable for reading,
-> > > but instead had a register width specific access function. You could even
-> > > introduce a helper macro to read this information as I suggested in an
-> > > earlier review.
-> > 
-> > oks.
-> > We are moving to use the following macros:
-> > 
-> > #define alvium_read_check(alvium, reg, value) \
-> > { \
-> > 	int ret = alvium_read(alvium, reg, value, NULL); \
-> > 	if (ret) \
-> > 		return ret; \
-> > }
-> > 
-> 
-> You could do something like (entirely untested):
-> 
-> #define ALVIUM_DECLARE_READ(sign, bits) \
-> 	static int
-> 	alvium_read_ ## sign ## bits(struct alvium_dev *alvium, u32 reg, \
-> 				     sign ## bits *val, int *err) \
-> 	{ \
-> 		u64 val64; \
-> 		int ret; \
-> 			\
-> 		if (err && *err < 0) \
-> 			return *err; \
-> 			\
-> 		alvium_read(alvium, reg, &val64, &ret); \
-> 		if (ret < 0) { \
-> 			if (err) \
-> 				*err = ret; \
-> 			return ret; \
-> 		}	\
-> 			\
-> 		*val = val64; \
-> 			\
-> 		return 0; \
-> 	}
-> 
-> ALVIUM_DECLARE_READ(u, 32);
-> 
-> And then, e.g. instead of (and failing to check ret):
-> 
-> 	u64 val;
-> 
-> 	alvium_read(alvium, REG_BCRM_CONTRAST_VALUE_RW, &val, &ret);
-> 	alvium->dft_contrast = val;
-> 
-> you'd have a single call:
-> 
-> 	alvium_read_u32(alvium, REG_BCRM_CONTRAST_VALUE_RW,
-> 		        &alvium->dft_contrast, &ret);
-> 
-> And so on.
-> 
-> You can drop sign if you don't need signed reads but some of the struct
-> fields you're writing something appear to be signed.
-> 
-> It'd be good to check the register size matches with the size of *val, too.
-> Maybe something like:
-> 
-> WARN_ON((CCI_REG ## bits(0) && CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT
-> 	!= sizeof(sign ## bits));
+Changes since v7:
+- Rebase on linux-next.
+- Dependent dtsi files:
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=797543
+- Depends on:
+  Message ID = 20231024130048.14749-9-shawn.sung@mediatek.com
+- Correct the bindings of the four components: FG, TCC, TDSHP and HDR.
+  The names of the first three are expanded in the title, and
+  the descriptions of all four have been enhanced.
 
-Laurent suggest me also a good way.
-I switched to the Laurent suggested implementation in v11.
-I think now is clear. Thanks to both again.
-Let me know what do you think about :)
+Changes since v6:
+- Rebase on v6.6-rc5.
+- Dependent dtsi files:
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=792079
+- Depends on:
+  Message ID = 20231006073831.10402-5-shawn.sung@mediatek.com
+- Discard splitting RDMA's common properties and instead use 'allOf' to
+  isolate different platform features.
+- Revise the incorrect properties in FG, HDR, STITCH, TCC and TDAP bindings.
+- Adding SoC-specific compatible string to components, like WROT and RSZ,
+  that are inherited from MT8183.
+- Fixed typos in TCC patch and enhancing its hardware description.
 
-> 
-> > > > +static int alvium_get_csi_clk_params(struct alvium_dev *alvium)
-> > > > +{
-> > > > +	u64 val;
-> > > > +	int ret = 0;
-> > > > +
-> > > > +	alvium_read(alvium, REG_BCRM_CSI2_CLOCK_MIN_R, &val, &ret);
-> > > > +	alvium->min_csi_clk = val;
-> > > > +
-> > > > +	alvium_read(alvium, REG_BCRM_CSI2_CLOCK_MAX_R, &val, &ret);
-> > > > +	alvium->max_csi_clk = val;
-> > > > +
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +static int alvium_set_csi_clk(struct alvium_dev *alvium)
-> > > > +{
-> > > > +	struct device *dev = &alvium->i2c_client->dev;
-> > > > +	u64 csi_clk;
-> > > > +	int ret;
-> > > > +
-> > > > +	csi_clk = (u32)alvium->ep.link_frequencies[0];
-> > > 
-> > > Why casting to u32? Shouldn't csi_clk be u32 instead?
-> > 
-> > Ok we fix this in v11.
-> > Change to use u64 for calculation because type of ep.link_frequencies[0]
-> > Plan is to clamp csi_clk between min/max instead of returning error.
-> 
-> I think I would keep it as-is: this isn't V4L2 UAPI.
-> 
-> > 
-> > > 
-> > > > +
-> > > > +	if (csi_clk < alvium->min_csi_clk || csi_clk > alvium->max_csi_clk)
-> > > > +		return -EINVAL;
-> > > > +
-> > > > +	ret = alvium_write_hshake(alvium, REG_BCRM_CSI2_CLOCK_RW, csi_clk);
-> > > > +	if (ret) {
-> > > > +		dev_err(dev, "Fail to set csi lanes reg\n");
-> > > > +		return ret;
-> > > > +	}
-> > > > +
-> > > > +	alvium->link_freq = alvium->ep.link_frequencies[0];
-> > > > +
-> > > > +	return 0;
-> > > > +}
-> 
-> ...
-> 
-> > > > +			goto out;
-> > > > +
-> > > > +		ret = alvium_set_mode(alvium, state);
-> > > > +		if (ret)
-> > > > +			goto out;
-> > > > +
-> > > > +		fmt = v4l2_subdev_get_pad_format(sd, state, 0);
-> > > > +		ret = alvium_set_framefmt(alvium, fmt);
-> > > > +		if (ret)
-> > > > +			goto out;
-> > > > +
-> > > > +		ret = alvium_set_stream_mipi(alvium, enable);
-> > > > +		if (ret)
-> > > > +			goto out;
-> > > > +
-> > > > +	} else {
-> > > > +		alvium_set_stream_mipi(alvium, enable);
-> > > > +		pm_runtime_mark_last_busy(&client->dev);
-> > > > +		pm_runtime_put_autosuspend(&client->dev);
-> > > 
-> > > pm_runtime_put() here, too.
-> > 
-> > Here is not needed we already have pm_runtime_put_autosuspend.
-> > I'm missing something?
-> 
-> Ah, I missed that while reviewing. Please ignore that comment then.
+Changes since v5:
+- Rebase on v6.6-rc2.
+- Dependent dtsi files:
+  https://patchwork.kernel.org/project/linux-mediatek/list/?series=786511
+- Depends on:
+  Message ID = 20230911074233.31556-5-shawn.sung@mediatek.com
+- Split out common propertis for RDMA.
+- Split each component into independent patches.
 
-No problem, update in v11.
+Changes since v4:
+- Rebase on v6.6-rc1
+- Organize identical hardware components into their respective files.
 
-> 
-> > 
-> > > 
-> > > > +	}
-> > > > +
-> > > > +	alvium->streaming = !!enable;
-> > > > +	v4l2_subdev_unlock_state(state);
-> > > > +
-> > > > +	return 0;
-> > > > +
-> > > > +out:
-> > > > +	v4l2_subdev_unlock_state(state);
-> > > > +	return ret;
-> > > > +}
-> > > > +
-> > > > +static int alvium_init_cfg(struct v4l2_subdev *sd,
-> > > > +			   struct v4l2_subdev_state *state)
-> > > > +{
-> > > > +	struct alvium_dev *alvium = sd_to_alvium(sd);
-> > > > +	struct alvium_mode *mode = &alvium->mode;
-> > > 
-> > > Init_cfg() is expected to be configuration independent (as much as
-> > > possible). Therefore you should use defaults here, not current mode.
-> > 
-> > Defaults alvium mode already used here.
-> 
-> Ah, indeed. Please ignore.
+Hi,
 
-No problem.
+The purpose of this patch is to separate the MDP3-related bindings from
+the original mailing list mentioned below:
+https://lore.kernel.org/all/20230208092209.19472-1-moudy.ho@mediatek.com/
+Those binding files describe additional components that
+are present in the mt8195.
 
-Thanks & Regards,
-Tommaso
+Moudy Ho (16):
+  dt-bindings: media: mediatek: mdp3: correct RDMA and WROT node with
+    generic names
+  dt-bindings: media: mediatek: mdp3: merge the indentical RDMA under
+    display
+  dt-bindings: media: mediatek: mdp3: add config for MT8195 RDMA
+  dt-bindings: media: mediatek: mdp3: add compatible for MT8195 RSZ
+  dt-bindings: media: mediatek: mdp3: add compatible for MT8195 WROT
+  dt-bindings: media: mediatek: mdp3: add component FG for MT8195
+  dt-bindings: media: mediatek: mdp3: add component HDR for MT8195
+  dt-bindings: media: mediatek: mdp3: add component STITCH for MT8195
+  dt-bindings: media: mediatek: mdp3: add component TCC for MT8195
+  dt-bindings: media: mediatek: mdp3: add component TDSHP for MT8195
+  dt-bindings: display: mediatek: aal: add compatible for MT8195
+  dt-bindings: display: mediatek: color: add compatible for MT8195
+  dt-bindings: display: mediatek: merge: add compatible for MT8195
+  dt-bindings: display: mediatek: ovl: add compatible for MT8195
+  dt-bindings: display: mediatek: split: add compatible for MT8195
+  dt-bindings: display: mediatek: padding: add compatible for MT8195
 
-> 
-> -- 
-> Kind regards,
-> 
-> Sakari Ailus
+ .../display/mediatek/mediatek,aal.yaml        |  1 +
+ .../display/mediatek/mediatek,color.yaml      |  1 +
+ .../display/mediatek/mediatek,mdp-rdma.yaml   | 88 ------------------
+ .../display/mediatek/mediatek,merge.yaml      |  1 +
+ .../display/mediatek/mediatek,ovl.yaml        |  1 +
+ .../display/mediatek/mediatek,padding.yaml    |  4 +-
+ .../display/mediatek/mediatek,split.yaml      | 27 ++++++
+ .../bindings/media/mediatek,mdp3-fg.yaml      | 61 ++++++++++++
+ .../bindings/media/mediatek,mdp3-hdr.yaml     | 61 ++++++++++++
+ .../bindings/media/mediatek,mdp3-rdma.yaml    | 92 +++++++++++++++----
+ .../bindings/media/mediatek,mdp3-rsz.yaml     |  6 +-
+ .../bindings/media/mediatek,mdp3-stitch.yaml  | 61 ++++++++++++
+ .../bindings/media/mediatek,mdp3-tcc.yaml     | 62 +++++++++++++
+ .../bindings/media/mediatek,mdp3-tdshp.yaml   | 61 ++++++++++++
+ .../bindings/media/mediatek,mdp3-wrot.yaml    | 29 ++++--
+ 15 files changed, 440 insertions(+), 116 deletions(-)
+ delete mode 100644 Documentation/devicetree/bindings/display/mediatek/mediatek,mdp-rdma.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-fg.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-hdr.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-stitch.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tcc.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/mediatek,mdp3-tdshp.yaml
+
+-- 
+2.18.0
+
