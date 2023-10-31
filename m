@@ -2,251 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D5E17DCA2E
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 10:52:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9790F7DCA3D
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 10:55:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235310AbjJaJwj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 05:52:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54106 "EHLO
+        id S233245AbjJaJz0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 05:55:26 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47576 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236105AbjJaJwS (ORCPT
+        with ESMTP id S229658AbjJaJzZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 05:52:18 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6BBF1726;
-        Tue, 31 Oct 2023 02:51:10 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 51809C0004;
-        Tue, 31 Oct 2023 09:51:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1698745869;
+        Tue, 31 Oct 2023 05:55:25 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5424583
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 02:54:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1698746076;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         to:to:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
          in-reply-to:in-reply-to:references:references;
-        bh=FyjN8eHbYq37HQVccSWii8dO2ARTjErlZVWYsMFISx8=;
-        b=UtvrJ5VFR7enY6TYyRjZ+MC0kyvTzg9fiJ/FQXHvebe44qetk8VZpyeKLIS/CmYSFqBV42
-        mlFk/T5iDxapn4GaP9azgvw0de4clF/YQIBWztx3Yvr5A9FvaR7e6/9Qa39JsRtgdPYHrp
-        7aGYE/zJcE1bkILvJti4atBxNWuLU8Z4Z6RGfPDYrUH9VYNwGyORZwvHjgiZQUHmFAPLmn
-        dJ7GgZ1nQV1VdbLL7w1J5wE4ZLDw47n6Av8x4aDv9gR+ZHA1ZXc0Krnjb+HX353Q9tw1vv
-        uN1fTIwYIrRyzbIN+bf2glV6SypYzE1iZKGtneHHlooBxZgo26bjLSvVxs0fMA==
-Date:   Tue, 31 Oct 2023 10:51:07 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
-        michael.riesch@wolfvision.net
-Subject: Re: [PATCH v9 1/3] media: dt-bindings: media: add bindings for
- Rockchip CIF
-Message-ID: <ZUDOCywnEqJSuQMM@aptenodytes>
-References: <cover.1698666612.git.mehdi.djait@bootlin.com>
- <5f83d60031320c4c7b0f0727604903f50ee49058.1698666612.git.mehdi.djait@bootlin.com>
- <20231030193236.GA1995060-robh@kernel.org>
+        bh=jee9+MISFVou7ihsYybK0NoiswXAd2Q2fTZE8U7jIkw=;
+        b=SPGgxBAXKm++ET8NXbzSzNjT/syMiaAmcAC3a1hlUpmpVdtQ4ecHgz9O/5P/OueaDoQDi+
+        tFDCDe6gBZ8PjncL7bidYWE2UCGBqeTeAjy2caL6O2/jqKe2q+eOWnrGTmEsZTPKoOJlXx
+        e3CGLHjRyR5oWsPIwxDXhL0WalfRgSg=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-2-mG4Xa_8bMh-pELBqw-Bm_g-1; Tue, 31 Oct 2023 05:53:19 -0400
+X-MC-Unique: mG4Xa_8bMh-pELBqw-Bm_g-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9c983b42c3bso717831566b.1
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 02:53:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698745998; x=1699350798;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :to:subject:from:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=jee9+MISFVou7ihsYybK0NoiswXAd2Q2fTZE8U7jIkw=;
+        b=ReXIZTJujRdWNgOnDWYMFpko0g0aF2JbdB85eCk9Gi4TE7wHTR5myQFdRMQHR0SiAk
+         HiqUJRUyqeJD4OtSvybdByBDT5G4TJFQBRNdIUkGhSFy8CWj14irDt8lmaT0Xdl5qpos
+         ZM3Zxla0anuAhf9xsTFxZys0o7C88cV33NUIGXfomsvfkvwRNZZZmwaSXf7BaU94GVY1
+         IUd9+BW1olibd3JP3jZFp+KBcEt8ym4mPY+GTino6mNcYt2ByOk3xtI3eys11/SloVb6
+         UEAAI/SYdcMVa1XbZTWiOGsUUHmVJWdbmO0cs7S2dZhG5+uAgK26JVaWMCvA1woF6Rto
+         OtQg==
+X-Gm-Message-State: AOJu0Yy/5DTepQ/YMdvRvHn0unXK6aowdju4PJ7swrgPfWS3GftSUP+e
+        yr+/GkrgibIOrxa2P502mFfmQODbu+j3ln0FYyUh8IhQZnOky4BYX9i+QOHHszXUo42m/G/Ncmn
+        lV/jX035PQRp3w/dj1WiupKwVFXaOkITCOOXHEFAitHavAhgBQuWqK9rHSkbfGkdGPqkoyQKBVL
+        zkFC91B1w=
+X-Received: by 2002:a17:906:c14d:b0:9a9:f0e6:904e with SMTP id dp13-20020a170906c14d00b009a9f0e6904emr1970955ejc.16.1698745998205;
+        Tue, 31 Oct 2023 02:53:18 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGog2vgMsxQFbHvYxRGC9QKJNRZvzX/anyxk/T7Q8hocQXins1oR6dBYSWwrCME/Q5ruOenoA==
+X-Received: by 2002:a17:906:c14d:b0:9a9:f0e6:904e with SMTP id dp13-20020a170906c14d00b009a9f0e6904emr1970943ejc.16.1698745997815;
+        Tue, 31 Oct 2023 02:53:17 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id gz22-20020a170906f2d600b0099cd008c1a4sm678223ejb.136.2023.10.31.02.53.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Oct 2023 02:53:17 -0700 (PDT)
+Message-ID: <962d6d0c-2263-fe59-011c-09068a6a4cef@redhat.com>
+Date:   Tue, 31 Oct 2023 10:53:16 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="7fCeMisMgRBZQnBb"
-Content-Disposition: inline
-In-Reply-To: <20231030193236.GA1995060-robh@kernel.org>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+From:   Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [RFC] regmap_range_cfg usage with v4l2-cci
+To:     linux-media@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
+        Alain Volmat <alain.volmat@foss.st.com>
+References: <20231030173637.GA2977515@gnbcxd0016.gnb.st.com>
+Content-Language: en-US, nl
+In-Reply-To: <20231030173637.GA2977515@gnbcxd0016.gnb.st.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+<resend with Alain added to the To: for some reason reply-to-all did not add Alain>
 
---7fCeMisMgRBZQnBb
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Alain,
 
-Hi Rob,
+On 10/30/23 18:36, Alain Volmat wrote:
+> Hi,
+> 
+> Goal of this email is to get first comments prior to posting a patch.
+> 
+> Could we consider enhancements within the v4l2-cci in order to also
+> allow regmap_range_cfg usage for paged register access ?
 
-On Mon 30 Oct 23, 14:32, Rob Herring wrote:
-> On Mon, Oct 30, 2023 at 01:25:12PM +0100, Mehdi Djait wrote:
-> > Add a documentation for the Rockchip Camera Interface
-> > binding.
-> >=20
-> > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> > ---
-> > v8=3D>v9:
-> > dropped the "Reviewed-by: Rob Herring <robh@kernel.org>"
-> > because of the following changes:
-> > - changed the compatible to rk3066-cif: rk3066 is the earliest Rockchip=
- SoC
-> >   that uses cif and it is the first model starting the RK30 lineup.
->=20
-> Is px30 compatible with rk3066? It's not clear because you didn't add=20
-> rk3066 support. If not compatible, then add rk3066 when you have a user.=
-=20
-> If it is compatible, then you should have a fallback for px30.
+Yes definitely.
 
-Just to clarify here: we haven't checked that rk3066 uses the exact same
-programming model as px30 (so there should be no fallback compatible), but =
-it
-is definitely the same unit (in a different version).
+Extending v4l2-cci for other use cases was already briefly discussed
+between Kieran (Cc-ed) and me:
 
-Since the yaml binding document will apply to all generations of the unit,
-the name of the file should be the first generation (rk3066) instead of the
-px30 which is just one of the many iterations of the unit.
+The CCI part of the MIPI CSI spec says that multi-byte registers are
+always in big endian format, but some of the Sony IMX sensors actually
+use little-endian format for multi-byte registers.
 
-It would be both confusing and irrelevant to pick px30 just because it happ=
-ens
-to be the first generation supported in the Linux driver (and described in
-the binding).
+The main reason why we need v4l2-cci and cannot use regmap directly is
+because of the variable register width in CCI, where as regmap only
+supports a single width. v4l2 cci uses 8 bits width in the underlying
+regmap-config and then takes care of multy-byte registers by e.g.
+reading multiple bytes and calling e.g. get_unaligned_be16() on
+the read bytes.
 
-Cheers,
+For the IMX scenario the plan is to add the notion of v4l2-cci
+flags by adding this to include/media/v4l2-cci.h :
 
-Paul
+struct v4l2_cci {
+	struct regmap *map;
+	long flags;
+}
 
-> > - adjusted the description
-> > - changed the node name to video-capture
-> >=20
-> >=20
-> >  .../bindings/media/rockchip,rk3066-cif.yaml   | 96 +++++++++++++++++++
-> >  1 file changed, 96 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/rockchip,rk=
-3066-cif.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3066-ci=
-f.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3066-cif.yaml
-> > new file mode 100644
-> > index 000000000000..be69e474ed26
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/rockchip,rk3066-cif.yaml
-> > @@ -0,0 +1,96 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/rockchip,rk3066-cif.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Rockchip CIF Camera Interface
-> > +
-> > +maintainers:
-> > +  - Mehdi Djait <mehdi.djait@bootlin.com>
-> > +
-> > +description: |
->=20
-> Don't need '|'
->=20
-> > +  CIF is a camera interface present on some rockchip SoCs. It
-> > +  receives the data from Camera sensor or CCIR656 encoder and
-> > +  transfers it into system main memory by AXI bus.
->=20
-> Wrap lines at 80.
->=20
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - rockchip,rk3066-cif
-> > +      - rockchip,px30-vip
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: ACLK
-> > +      - description: HCLK
-> > +      - description: PCLK
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: aclk
-> > +      - const: hclk
-> > +      - const: pclk
-> > +
-> > +  resets:
-> > +    items:
-> > +      - description: AXI
-> > +      - description: AHB
-> > +      - description: PCLK IN
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: axi
-> > +      - const: ahb
-> > +      - const: pclkin
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  port:
-> > +    $ref: /schemas/graph.yaml#/properties/port
-> > +    description: A connection to a sensor or decoder
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/clock/px30-cru.h>
-> > +    #include <dt-bindings/power/px30-power.h>
-> > +
-> > +    parent {
-> > +        #address-cells =3D <2>;
-> > +        #size-cells =3D <2>;
-> > +
-> > +        video-capture@ff490000 {
-> > +            compatible =3D "rockchip,px30-vip";
-> > +            reg =3D <0x0 0xff490000 0x0 0x200>;
-> > +            interrupts =3D <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-> > +            clocks =3D <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CI=
-F>;
-> > +            clock-names =3D "aclk", "hclk", "pclk";
-> > +            resets =3D <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRS=
-T_CIF_PCLKIN>;
-> > +            reset-names =3D "axi", "ahb", "pclkin";
-> > +            power-domains =3D <&power PX30_PD_VI>;
-> > +
-> > +            port {
-> > +                endpoint {
-> > +                    remote-endpoint =3D <&tw9900_out>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +...
-> > --=20
-> > 2.41.0
-> >=20
+And then change the prototype for devm_cci_regmap_init_i2c() to:
 
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+struct v4l2_cci *devm_cci_regmap_init_i2c(struct i2c_client *client,
+                                          int reg_addr_bits, long flags);
 
---7fCeMisMgRBZQnBb
-Content-Type: application/pgp-signature; name="signature.asc"
+And have devm_cci_regmap_init_i2c():
+1. devm_kmalloc() a struct v4l2_cci
+2. store the regmap there
+3. copy over flags from the function argument
 
------BEGIN PGP SIGNATURE-----
+Combined with modifying all the other functions to take
+"struct v4l2_cci *cci" as first argument instead of
+"struct regmap *map".
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVAzgsACgkQ3cLmz3+f
-v9Hb1Qf9Eze/ep5/BwUEK3IGBy/qFAEjGRoZuXbOHllYr2mnjDO4odYjMWzn7Av+
-ZZR3u2CX3YthbJ2Ebrq8ONpweEkIfLTgPD+PE9PsACFsEcOi8oJBQDtO7FxNbVQJ
-ztVpqG0kB1cENdFHfj7Q6dI7t9fZXu483YnOTo7gL4ULTd09+Yter3eHoan5jZOB
-tqMn3kTUv+0Yn5HpQnhubgN42NQpUIVqtdvjuITo/WWIg3ApnW7cexGkiMBRyiwW
-Z96qKuEaHPkFuy3QyV3QgSzTuEOKQZG3A0Abhzvp1GG5p4mHZTocKK/EqYYCZi8U
-uN5gs8kAB+u/3LhjwhTgodNISl61Ww==
-=s9Kd
------END PGP SIGNATURE-----
+This change will require all existing sensor drivers using
+v4l2-cci to be converted for the "struct regmap *map" ->
+"struct v4l2_cci *cci" change, this all needs to be done
+in one single commit adding the new struct + flags argument
+to avoid breaking the compilation.
 
---7fCeMisMgRBZQnBb--
+Then once we have this a second patch can add:
+
+/* devm_cci_regmap_init_i2c() flags argument defines */
+#define V4L2_CCI_DATA_LE	BIT(0)
+
+to include/media/v4l2-cci.h and make v4l2-cci.h honor
+this flag solving the IMX scenario.
+
+We need to make this change sooner rather then later,
+while we only still have a few sensor drivers using
+v4l2-cci.
+
+So back to your question yes extensions are welcome
+and we already have one planned. If we are going to do
+more extensions though, then I really would want to see
+the little-endian data plan get implemented first, having
+our own struct v4l2_cci should help with future extensions
+were we can then just add more fields to it if necessary.
+
+I'm sorry about asking you to implement this first before
+being able to solve your own problem, but this should be
+relatively KISS to implement and I can test the patches
+for you for at least some of the sensor drivers.
+
+> At least two drivers currently being upstream and using v4l2-cci infrastructure
+> could benefit from regmap_range_cfg.
+> The GC0308 driver is partially using v4l2-cci and partially regmap (in order to use
+> regmap_range_cfg) and the GC2145 driver is using v4l2-cci but doing paging manually.
+> 
+> The function devm_cci_regmap_init_i2c is already taking as parameter one argument
+> reg_addr_bits to be used in the regmap_config structure.  We could also add
+> regmap_range_cfg pointer and size arguments to the function or
+> alternatively add another init function with more arguments ?
+
+I think adding a devm_cci_regmap_init_i2c_ex() would make sense here, this
+could already be done when adding the flags argument, giving only
+devm_cci_regmap_init_i2c_ex() the flags argument. For just the flags argument
+having a _ex seems overkill but if we are going to add regmap_range_cfg pointer
+and size arguments too then I think an _ex makes sense.
+
+And then in v4l2-cci.c only have the _ex and have a static inline helper
+in v4l2-cci-h defining the non _ex version ?
+
+Note this devm_cci_regmap_init_i2c_ex() variant is just an idea /
+suggestion I'm open to discussion about that.
+
+To be clear if you plan to implement the devm_cci_regmap_init_i2c_ex()
+variant, then this should be done in the first patch adding the:
+
+struct v4l2_cci {
+	struct regmap *map;
+	long flags;
+};
+
+bits, so that we don't have to add an extra 0 argument for the flags to
+all the existing callers of devm_cci_regmap_init_i2c() in that patch.
+
+And then a future IMX driver conversion can use the _ex variant.
+
+Regards,
+
+Hans
+
