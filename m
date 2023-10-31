@@ -2,57 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8826F7DD282
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 17:45:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 459357DD1B6
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 17:35:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235970AbjJaQpT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 12:45:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37186 "EHLO
+        id S1346555AbjJaQeo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 12:34:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346604AbjJaQpA (ORCPT
+        with ESMTP id S1346687AbjJaQeF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 12:45:00 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B5F2D57;
-        Tue, 31 Oct 2023 09:33:09 -0700 (PDT)
-Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:c562:2ef4:80c0:92f])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6E24866073B3;
-        Tue, 31 Oct 2023 16:33:06 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1698769986;
-        bh=bvlqKNzionLKB1VClCmq81RGJBsdZ7hA0RN2y42SWPU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=YYY26L+i8zujlvGmq9w5XJPFBnnIH+GqZKb31SVi3d/ebi8BSU/o77LxesUAAU3Co
-         3sqBZwFZM8+BSjuTNoR1EZ4MBAgmGqb1EAkWF+4mR6MwrnQGImwXLC4vz2DzzrrFRn
-         kkJF58lb2ShvMdQyx0wVtm8fHjhf0NPQ614fvR4TYlPKwanYy2d7x9hPEr4Ahew1f7
-         FOxVdWzzr5YarmY1+dwVTcZOXfBuJO1kdJELZ+76YfmLlmL66BdyL7FJoq2BHez0nC
-         7RUIlsnQFomOlG/qQhHEbWYgOXIDxQ3HeQ6D4tC6o7p8fdac56etcRvJItbSjqD7VE
-         MehYPZCY73uHw==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v14 56/56] media: test-drivers: Use helper for DELETE_BUFS ioctl
-Date:   Tue, 31 Oct 2023 17:31:04 +0100
-Message-Id: <20231031163104.112469-57-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
-References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+        Tue, 31 Oct 2023 12:34:05 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 796BB1BCF;
+        Tue, 31 Oct 2023 09:32:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698769946; x=1730305946;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SAVUUSy6kEq+VaAk+hGdPRfOn1rye2cEo6cJ7P/cJ4A=;
+  b=GPMB20yuZylvzt4o/x+pzUgHbVNn8NySAwxBhoUgJxev10vH678C/bSJ
+   1XsJIVBbyu9EZNvub8kIWOxJi/iJGKDUXgFB5qtJU3dyKC2o4F5bj0uAa
+   qFgyP/mSvheVBnQbOyhuSUEGDLGEQ7uFCJFOkCCFHw3fDBFtQMC18g43Y
+   UXaJQ+18S/+f/5xmv/1v7cnlqeDhumbk0PQhUWw9mMHX5OSmFC9iF6GIs
+   vPxghSIcmbolfLh7eCJzSTqIvYKo1XK2nXyEe555YLuBMMzkwk1vRqcS1
+   cyNOiJLFjMt94UbiuZ0L55ltiJA5ioJPZ0CI04XcxW23E/r+RxlhkS1y7
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="1172522"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
+   d="scan'208";a="1172522"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 09:32:25 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="851293283"
+X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
+   d="scan'208";a="851293283"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by FMSMGA003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 09:32:21 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qxrf8-0000000ACil-13uQ;
+        Tue, 31 Oct 2023 18:32:18 +0200
+Date:   Tue, 31 Oct 2023 18:32:17 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Julien Stephan <jstephan@baylibre.com>,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 1/1] device property: Add fwnode_name_eq()
+Message-ID: <ZUEsEQQTTlXmOHPt@smile.fi.intel.com>
+References: <20231031135306.1106640-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231031135306.1106640-1-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -60,110 +75,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allow test drivers to use DELETE_BUFS by adding vb2_ioctl_delete_bufs() helper.
+On Tue, Oct 31, 2023 at 03:53:06PM +0200, Sakari Ailus wrote:
+> Add fwnode_name_eq() to implement the functionality of of_node_name_eq()
+> on fwnode property API. The same convention of ending the comparison at
+> '@' (besides '\0') is applied on also both ACPI and swnode. The function
+> is intended for comparing unit address-less node names on DT and firmware
+> or swnodes compliant with DT bindings.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/media/test-drivers/vicodec/vicodec-core.c |  2 ++
- drivers/media/test-drivers/vimc/vimc-capture.c    |  2 ++
- drivers/media/test-drivers/visl/visl-video.c      |  2 ++
- drivers/media/test-drivers/vivid/vivid-core.c     | 13 ++++++++++---
- 4 files changed, 16 insertions(+), 3 deletions(-)
+Some comments below.
 
-diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-index 69cbe2c094e1..f14a8fd506d0 100644
---- a/drivers/media/test-drivers/vicodec/vicodec-core.c
-+++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-@@ -1339,6 +1339,7 @@ static const struct v4l2_ioctl_ops vicodec_ioctl_ops = {
- 	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
- 	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
-+	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
- 
- 	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
- 	.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
-@@ -1725,6 +1726,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = src_vq->lock;
-+	dst_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
- }
-diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-index aa944270e716..fda7ea3a6cb6 100644
---- a/drivers/media/test-drivers/vimc/vimc-capture.c
-+++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-@@ -221,6 +221,7 @@ static const struct v4l2_ioctl_ops vimc_capture_ioctl_ops = {
- 	.vidioc_expbuf = vb2_ioctl_expbuf,
- 	.vidioc_streamon = vb2_ioctl_streamon,
- 	.vidioc_streamoff = vb2_ioctl_streamoff,
-+	.vidioc_delete_bufs = vb2_ioctl_delete_bufs,
- };
- 
- static void vimc_capture_return_all_buffers(struct vimc_capture_device *vcapture,
-@@ -435,6 +436,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
- 	q->min_buffers_needed = 2;
- 	q->lock = &vcapture->lock;
- 	q->dev = v4l2_dev->dev;
-+	q->supports_delete_bufs = true;
- 
- 	ret = vb2_queue_init(q);
- 	if (ret) {
-diff --git a/drivers/media/test-drivers/visl/visl-video.c b/drivers/media/test-drivers/visl/visl-video.c
-index 7cac6a6456eb..bd6c112f7846 100644
---- a/drivers/media/test-drivers/visl/visl-video.c
-+++ b/drivers/media/test-drivers/visl/visl-video.c
-@@ -521,6 +521,7 @@ const struct v4l2_ioctl_ops visl_ioctl_ops = {
- 	.vidioc_prepare_buf		= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs		= v4l2_m2m_ioctl_create_bufs,
- 	.vidioc_expbuf			= v4l2_m2m_ioctl_expbuf,
-+	.vidioc_delete_bufs		= v4l2_m2m_ioctl_delete_bufs,
- 
- 	.vidioc_streamon		= v4l2_m2m_ioctl_streamon,
- 	.vidioc_streamoff		= v4l2_m2m_ioctl_streamoff,
-@@ -728,6 +729,7 @@ int visl_queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = &ctx->vb_mutex;
-+	dst_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
- }
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index 353f035fcd19..06b18d8e2248 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.c
-+++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -769,6 +769,7 @@ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
- 	.vidioc_expbuf			= vb2_ioctl_expbuf,
- 	.vidioc_streamon		= vb2_ioctl_streamon,
- 	.vidioc_streamoff		= vb2_ioctl_streamoff,
-+	.vidioc_delete_bufs		= vb2_ioctl_delete_bufs,
- 
- 	.vidioc_enum_input		= vivid_enum_input,
- 	.vidioc_g_input			= vivid_g_input,
-@@ -883,12 +884,18 @@ static int vivid_create_queue(struct vivid_dev *dev,
- 	 * PAGE_SHIFT > 12, but then max_num_buffers will be clamped by
- 	 * videobuf2-core.c to MAX_BUFFER_INDEX.
- 	 */
--	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
- 		q->max_num_buffers = 64;
--	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE)
-+		q->supports_delete_bufs = true;
-+	}
-+	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE) {
- 		q->max_num_buffers = 1024;
--	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE)
-+		q->supports_delete_bufs = true;
-+	}
-+	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE) {
- 		q->max_num_buffers = 32768;
-+		q->supports_delete_bufs = true;
-+	}
- 
- 	if (allocators[dev->inst] != 1)
- 		q->io_modes |= VB2_USERPTR;
+...
+
+> Would you be able to use this to replace of_node_name_eq()?
+
+Can you point out to the use case? Maybe it can be rewritten using existing
+APIs?
+
+...
+
+> +	len = strchrnul(node_name, '@') - node_name;
+
+> +	return strlen(name) == len && !strncmp(node_name, name, len);
+
+Seems like this is reimplementation of str_has_prefix().
+
+	len = strchrnul(node_name, '@') - node_name;
+	return str_has_prefix(node_name, name) == len;
+
 -- 
-2.39.2
+With Best Regards,
+Andy Shevchenko
+
 
