@@ -2,377 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DCB1D7DD419
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 18:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A26907DD42D
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 18:07:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234834AbjJaRHB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 13:07:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34396 "EHLO
+        id S1343577AbjJaRH3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 13:07:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236490AbjJaRGq (ORCPT
+        with ESMTP id S236386AbjJaRHR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 13:06:46 -0400
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 19054113;
-        Tue, 31 Oct 2023 10:05:28 -0700 (PDT)
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3b5714439b3so264813b6e.3;
-        Tue, 31 Oct 2023 10:05:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698771927; x=1699376727;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lJsF7AJAK+e7Asn9vLeIIh1oY+HkJEEp7Zvo8B1BNo0=;
-        b=aHvsynRFf/WALpZrqca616outQFEIME2PpPdEwn5tiD8KpqUxrclb5Ht4QSPJuOMk8
-         ubyIJg6JpjEHcg0P3MSGrT4mD33cXAVFih/m18R/4F3Qm2mOR2VN16pAYucjyAvOlemz
-         ixakXLaESyqIjVHaHbL7XotqHG74eeIG0aEPpmaYdXQP/ZLogAL+/B7QL2efFEhZttfo
-         +G8rZe1oq5Lr7aSHR4o33XMQ9Kpq6rG2MTl7upE27dxvkGWdGxz878hj6xqAcJFMRIXs
-         Y/Vw9XoiNR9ZOJGD7ScXK7Z00l5ISvRXAHJ3c7JGBJXaO7W8xRuiBkEjoTvYZ+aAcEbn
-         VCkQ==
-X-Gm-Message-State: AOJu0Yx9M9b9Uymq0GYWMwZ2U7BugMjbWpvBiP9ysY0F3SmuMSYRdjx9
-        JNxlg0VgbXN0udyY3go3Hw==
-X-Google-Smtp-Source: AGHT+IF0jedOpOs5qASaTIhyv15lBIK/T1+/sxVBA9QUfeUnKykQxde6NqqhaGig3TtTcA51wWQnQQ==
-X-Received: by 2002:a05:6808:1586:b0:3b2:f393:dab1 with SMTP id t6-20020a056808158600b003b2f393dab1mr14430742oiw.21.1698771927296;
-        Tue, 31 Oct 2023 10:05:27 -0700 (PDT)
-Received: from herring.priv ([4.31.143.193])
-        by smtp.gmail.com with ESMTPSA id n3-20020a05680803a300b003b2daf09267sm313610oie.48.2023.10.31.10.05.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 31 Oct 2023 10:05:26 -0700 (PDT)
-Received: (nullmailer pid 1739759 invoked by uid 1000);
-        Tue, 31 Oct 2023 17:05:25 -0000
-Date:   Tue, 31 Oct 2023 12:05:25 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Julien Stephan <jstephan@baylibre.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        linux-mediatek@lists.infradead.org,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v5 1/3] dt-bindings: media: Add bindings for THine
- THP7312 ISP
-Message-ID: <20231031170525.GA1728781-robh@kernel.org>
-References: <20231030133247.11243-1-laurent.pinchart@ideasonboard.com>
- <20231030133247.11243-2-laurent.pinchart@ideasonboard.com>
+        Tue, 31 Oct 2023 13:07:17 -0400
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D545C118
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 10:06:10 -0700 (PDT)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 39VE46JT018206;
+        Tue, 31 Oct 2023 18:05:42 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=selector1; bh=HwierGgjUPx/44d2C0ecg
+        +p04TuRyzUmDgvuKXnG+h8=; b=E8NoteQcvziSqgp6wTJjs3PpKoewvLdUowd3O
+        GYoKyShC9WN+glt4b8HgcmKvAFlrxxrLeglWPW0fpg1KzH17pGcYY7ZKVNVN+zRM
+        1FefRp3LcDIELwT4WXu/f2NkLuF02XrKZcrCwCfMhcAsz3QEzfTv7zp8WsTkek42
+        co4PY2C45A44It672A83Q9vEbES/SQmO8ID8qdDuTRX/dIAlzNgbGlJlSxmkE326
+        WDoku7U7xyEPTWN0Ll4vYKZLFxeZff+VhagnWUghILjnkdDPwt7hOQj04Gz0N46q
+        pKRMlHvmjLBVJDhJ92zhAT42DOUeFdGDKIszV3hJX5xt0Nomg==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3u0tufe7nu-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Tue, 31 Oct 2023 18:05:42 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7497D100056;
+        Tue, 31 Oct 2023 18:05:41 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 62F6325B938;
+        Tue, 31 Oct 2023 18:05:41 +0100 (CET)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 31 Oct
+ 2023 18:05:41 +0100
+Date:   Tue, 31 Oct 2023 18:05:30 +0100
+From:   Alain Volmat <alain.volmat@foss.st.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+CC:     <linux-media@vger.kernel.org>, Sebastian Reichel <sre@kernel.org>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>
+Subject: Re: [RFC] regmap_range_cfg usage with v4l2-cci
+Message-ID: <20231031170530.GA2989927@gnbcxd0016.gnb.st.com>
+Mail-Followup-To: Hans de Goede <hdegoede@redhat.com>,
+        linux-media@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>
+References: <20231030173637.GA2977515@gnbcxd0016.gnb.st.com>
+ <962d6d0c-2263-fe59-011c-09068a6a4cef@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20231030133247.11243-2-laurent.pinchart@ideasonboard.com>
-X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
-        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H2,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
-        autolearn_force=no version=3.4.6
+In-Reply-To: <962d6d0c-2263-fe59-011c-09068a6a4cef@redhat.com>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.129.178.213]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-10-31_04,2023-10-31_03,2023-05-22_02
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_LOW,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 30, 2023 at 03:32:45PM +0200, Laurent Pinchart wrote:
-> From: Paul Elder <paul.elder@ideasonboard.com>
+Hi Hans,
+
+On Tue, Oct 31, 2023 at 10:53:16AM +0100, Hans de Goede wrote:
+> <resend with Alain added to the To: for some reason reply-to-all did not add Alain>
+
+No pb, I also received it via the mailing-list ;-)
+
 > 
-> The THP7312 is an external ISP from THine. Add DT bindings for it.
+> Hi Alain,
 > 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
-> Changes since v4:
+> On 10/30/23 18:36, Alain Volmat wrote:
+> > Hi,
+> > 
+> > Goal of this email is to get first comments prior to posting a patch.
+> > 
+> > Could we consider enhancements within the v4l2-cci in order to also
+> > allow regmap_range_cfg usage for paged register access ?
 > 
-> - Add bus-type property
+> Yes definitely.
 > 
-> Changes since v2:
+> Extending v4l2-cci for other use cases was already briefly discussed
+> between Kieran (Cc-ed) and me:
 > 
-> - Drop description of reg property
-> - Improve thine,boot-mode property documentation
-> - Making thine,boot-mode property optional
-> - Don't use underscores in supplies names
-> ---
->  .../bindings/media/i2c/thine,thp7312.yaml     | 231 ++++++++++++++++++
->  MAINTAINERS                                   |   7 +
->  2 files changed, 238 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
+> The CCI part of the MIPI CSI spec says that multi-byte registers are
+> always in big endian format, but some of the Sony IMX sensors actually
+> use little-endian format for multi-byte registers.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml b/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
-> new file mode 100644
-> index 000000000000..a576a8669644
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
-> @@ -0,0 +1,231 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (c) 2023 Ideas on Board
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/thine,thp7312.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: THine THP7312
-> +
-> +maintainers:
-> +  - Paul Elder <paul.elder@@ideasonboard.com>
-> +
-> +description:
-> +  The THP7312 is a standalone ISP controlled over i2c, and is capable of
-> +  various image processing and correction functions, including 3A control. It
-> +  can be connected to CMOS image sensors from various vendors, supporting both
-> +  MIPI CSI-2 and parallel interfaces. It can also output on either MIPI CSI-2
-> +  or parallel. The hardware is capable of transmitting and receiving MIPI
-> +  interlaved data strams with data types or multiple virtual channel
-> +  identifiers.
-> +
-> +allOf:
-> +  - $ref: ../video-interface-devices.yaml#
+> The main reason why we need v4l2-cci and cannot use regmap directly is
+> because of the variable register width in CCI, where as regmap only
+> supports a single width. v4l2 cci uses 8 bits width in the underlying
+> regmap-config and then takes care of multy-byte registers by e.g.
+> reading multiple bytes and calling e.g. get_unaligned_be16() on
+> the read bytes.
+> 
+> For the IMX scenario the plan is to add the notion of v4l2-cci
+> flags by adding this to include/media/v4l2-cci.h :
+> 
+> struct v4l2_cci {
+> 	struct regmap *map;
+> 	long flags;
+> }
+> 
+> And then change the prototype for devm_cci_regmap_init_i2c() to:
+> 
+> struct v4l2_cci *devm_cci_regmap_init_i2c(struct i2c_client *client,
+>                                           int reg_addr_bits, long flags);
+> 
+> And have devm_cci_regmap_init_i2c():
+> 1. devm_kmalloc() a struct v4l2_cci
+> 2. store the regmap there
+> 3. copy over flags from the function argument
+> 
+> Combined with modifying all the other functions to take
+> "struct v4l2_cci *cci" as first argument instead of
+> "struct regmap *map".
+> 
+> This change will require all existing sensor drivers using
+> v4l2-cci to be converted for the "struct regmap *map" ->
+> "struct v4l2_cci *cci" change, this all needs to be done
+> in one single commit adding the new struct + flags argument
+> to avoid breaking the compilation.
+> 
+> Then once we have this a second patch can add:
+> 
+> /* devm_cci_regmap_init_i2c() flags argument defines */
+> #define V4L2_CCI_DATA_LE	BIT(0)
+> 
+> to include/media/v4l2-cci.h and make v4l2-cci.h honor
+> this flag solving the IMX scenario.
 
-/schemas/media/...
+I understand that in case of IMX sensors, ALL the multi-registers
+value are encoded in little-endian right ? In case of the GalaxyCore
+GC2145, most of the registers (page 0 / 1 and 2) are correctly
+encoded in big-endian, however page 3 (MIPI configuration) are
+2 or 3 registers in little-endian.  So far maybe this is minor
+case, but the approach of having the endianness part of the v4l2_cci
+struct wouldn't allow to address such case ?
 
-> +
-> +properties:
-> +  compatible:
-> +    const: thine,thp7312
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +    description: CLKI clock input
-> +
-> +  thine,boot-mode:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    minimum: 0
-> +    maximum: 1
-> +    default: 1
-> +    description:
-> +      Boot mode of the THP7312, reflecting the value of the BOOT[0] pin strap.
-> +      0 is for the SPI/2-wire slave boot, 1 is for the SPI master boot (from
-> +      external flash ROM).
-> +
-> +  reset-gpios:
-> +    maxItems: 1
-> +    description:
-> +      Reference to the GPIO connected to the RESET_N pin, if any.
-> +      Must be released (set high) after all supplies are applied.
-> +
-> +  vddcore-supply:
-> +    description:
-> +      1.2V supply for core, PLL, MIPI rx and MIPI tx.
-> +
-> +  vhtermrx-supply:
-> +    description:
-> +      Supply for input (RX). 1.8V for MIPI, or 1.8/2.8/3.3V for parallel.
-> +
-> +  vddtx-supply:
-> +    description:
-> +      Supply for output (TX). 1.8V for MIPI, or 1.8/2.8/3.3V for parallel.
-> +
-> +  vddhost-supply:
-> +    description:
-> +      Supply for host interface. 1.8V, 2.8V, or 3.3V.
-> +
-> +  vddcmos-supply:
-> +    description:
-> +      Supply for sensor interface. 1.8V, 2.8V, or 3.3V.
-> +
-> +  vddgpio-0-supply:
-> +    description:
-> +      Supply for GPIO_0. 1.8V, 2.8V, or 3.3V.
-> +
-> +  vddgpio-1-supply:
-> +    description:
-> +      Supply for GPIO_1. 1.8V, 2.8V, or 3.3V.
-> +
-> +  orientation: true
-> +  rotation: true
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/$defs/port-base
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/media/video-interfaces.yaml#
-> +        unevaluatedProperties: false
-> +
-> +        properties:
-> +          bus-type:
-> +            const: 4 # CSI-2 D-PHY
-> +
-> +          data-lanes:
-> +            description:
-> +              This property is for lane reordering between the THP7312 and the
-> +              SoC. The sensor supports either two-lane, or four-lane operation.
-> +              If this property is omitted four-lane operation is assumed. For
-> +              two-lane operation the property must be set to <1 2>.
-> +            minItems: 2
-> +            maxItems: 4
-> +            items:
-> +              maximum: 4
-> +
-> +  sensors:
-> +    type: object
-> +    description: List of connected sensors
-> +
-> +    properties:
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +    patternProperties:
-> +      "^sensor@[01]":
+Originally I thought we could have CCI_REG macros for little endian
+as well, such as CCI_REG16_LE etc etc since we anyway still have spare
+space I guess on top of the width part.  Drawback is that in drivers
+for IMX we would end-up with longer macros CCI_REG16_LE(...) instead
+of CCI_REG16(...).
 
-Missing a '$' on the end.
+Or maybe as you proposed we can have the "default" encoding described
+in the flags variable and have a CCI_REG16_REV or any other naming
+just to indicate that for THAT precise register the endianess is not
+the default one.
 
-> +        type: object
-> +        description:
-> +          Sensors connected to the first and second input, with one node per
-> +          sensor.
-> +
-> +        properties:
-> +          thine,model:
-> +            $ref: /schemas/types.yaml#/definitions/string
-> +            description:
-> +              Model of the connected sensors. Must be a valid compatible string.
-> +
-> +          reg:
-> +            maxItems: 1
-> +            description: THP7312 input port number
+Are you aware of other sensors having "mixed" endianness registers ?
 
-items:
-  - maximum: 1
+> 
+> We need to make this change sooner rather then later,
+> while we only still have a few sensor drivers using
+> v4l2-cci.
+> 
+> So back to your question yes extensions are welcome
+> and we already have one planned. If we are going to do
+> more extensions though, then I really would want to see
+> the little-endian data plan get implemented first, having
+> our own struct v4l2_cci should help with future extensions
+> were we can then just add more fields to it if necessary.
+> 
+> I'm sorry about asking you to implement this first before
+> being able to solve your own problem, but this should be
+> relatively KISS to implement and I can test the patches
+> for you for at least some of the sensor drivers.
+> 
+> > At least two drivers currently being upstream and using v4l2-cci infrastructure
+> > could benefit from regmap_range_cfg.
+> > The GC0308 driver is partially using v4l2-cci and partially regmap (in order to use
+> > regmap_range_cfg) and the GC2145 driver is using v4l2-cci but doing paging manually.
+> > 
+> > The function devm_cci_regmap_init_i2c is already taking as parameter one argument
+> > reg_addr_bits to be used in the regmap_config structure.  We could also add
+> > regmap_range_cfg pointer and size arguments to the function or
+> > alternatively add another init function with more arguments ?
+> 
+> I think adding a devm_cci_regmap_init_i2c_ex() would make sense here, this
+> could already be done when adding the flags argument, giving only
+> devm_cci_regmap_init_i2c_ex() the flags argument. For just the flags argument
+> having a _ex seems overkill but if we are going to add regmap_range_cfg pointer
+> and size arguments too then I think an _ex makes sense.
+> 
+> And then in v4l2-cci.c only have the _ex and have a static inline helper
+> in v4l2-cci-h defining the non _ex version ?
+> 
+> Note this devm_cci_regmap_init_i2c_ex() variant is just an idea /
+> suggestion I'm open to discussion about that.
+> 
+> To be clear if you plan to implement the devm_cci_regmap_init_i2c_ex()
+> variant, then this should be done in the first patch adding the:
+> 
+> struct v4l2_cci {
+> 	struct regmap *map;
+> 	long flags;
+> };
+> 
+> bits, so that we don't have to add an extra 0 argument for the flags to
+> all the existing callers of devm_cci_regmap_init_i2c() in that patch.
+> 
+> And then a future IMX driver conversion can use the _ex variant.
 
-> +
-> +          data-lanes:
-> +            $ref: /schemas/media/video-interfaces.yaml#/properties/data-lanes
-> +            items:
-> +              maxItems: 4
-> +            description:
-> +              This property is for lane reordering between the THP7312 and the imaging
-> +              sensor that it is connected to.
-> +
-> +        patternProperties:
-> +          ".*-supply":
+Yep, agreed, devm_cci_regmap_init_i2c_ex sounds like a good name to me.
+Let me prepare this and I'll post that in few days.
 
-"-supply$"
-
-> +            description: Power supplies for the sensor
-
-Perhaps some reasoning why any supply name is allowed here?
-
-> +
-> +        required:
-> +          - reg
-> +          - data-lanes
-> +
-> +        additionalProperties: false
-> +
-> +    required:
-> +      - "#address-cells"
-> +      - "#size-cells"
-> +
-> +    additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reset-gpios
-> +  - clocks
-> +  - vddcore-supply
-> +  - vhtermrx-supply
-> +  - vddtx-supply
-> +  - vddhost-supply
-> +  - vddcmos-supply
-> +  - vddgpio-0-supply
-> +  - vddgpio-1-supply
-> +  - sensors
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        camera@61 {
-> +            compatible = "thine,thp7312";
-> +            reg = <0x61>;
-> +
-> +            pinctrl-names = "default";
-> +            pinctrl-0 = <&cam1_pins_default>;
-> +
-> +            reset-gpios = <&pio 119 GPIO_ACTIVE_LOW>;
-> +            clocks = <&camera61_clk>;
-> +
-> +            vddcore-supply = <&vsys_v4p2>;
-> +            vhtermrx-supply = <&vsys_v4p2>;
-> +            vddtx-supply = <&vsys_v4p2>;
-> +            vddhost-supply = <&vsys_v4p2>;
-> +            vddcmos-supply = <&vsys_v4p2>;
-> +            vddgpio-0-supply = <&vsys_v4p2>;
-> +            vddgpio-1-supply = <&vsys_v4p2>;
-> +
-> +            orientation = <0>;
-> +            rotation = <0>;
-> +
-> +            sensors {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                sensor@0 {
-> +                    thine,model = "sony,imx258";
-> +                    reg = <0>;
-> +
-> +                    data-lanes = <4 1 3 2>;
-> +
-> +                    dovdd-supply = <&vsys_v4p2>;
-> +                    avdd-supply = <&vsys_v4p2>;
-> +                    dvdd-supply = <&vsys_v4p2>;
-> +                };
-> +            };
-> +
-> +            port {
-> +                thp7312_2_endpoint: endpoint {
-> +                    remote-endpoint = <&mipi_thp7312_2>;
-> +                    bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
-> +                    data-lanes = <4 2 1 3>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index f3e6dbbbbccb..2e094a7e7d07 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -21448,6 +21448,13 @@ S:	Maintained
->  F:	Documentation/ABI/testing/sysfs-class-firmware-attributes
->  F:	drivers/platform/x86/think-lmi.?
->  
-> +THP7312 ISP DRIVER
-> +M:	Paul Elder <paul.elder@ideasonboard.com>
-> +L:	linux-media@vger.kernel.org
-> +S:	Maintained
-> +T:	git git://linuxtv.org/media_tree.git
-> +F:	Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
-> +
->  THUNDERBOLT DMA TRAFFIC TEST DRIVER
->  M:	Isaac Hazan <isaac.hazan@intel.com>
->  L:	linux-usb@vger.kernel.org
-> -- 
+Regards,
+Alain
+> 
 > Regards,
 > 
-> Laurent Pinchart
+> Hans
 > 
