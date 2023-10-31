@@ -2,36 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D79687DD209
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 17:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56C9F7DD1C5
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 17:35:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345471AbjJaQcU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 12:32:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55002 "EHLO
+        id S1346153AbjJaQcZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 12:32:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345478AbjJaQby (ORCPT
+        with ESMTP id S1345557AbjJaQcG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 12:31:54 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FE36DF;
-        Tue, 31 Oct 2023 09:31:39 -0700 (PDT)
+        Tue, 31 Oct 2023 12:32:06 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C98B3119;
+        Tue, 31 Oct 2023 09:31:40 -0700 (PDT)
 Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:c562:2ef4:80c0:92f])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id BD29566073BC;
-        Tue, 31 Oct 2023 16:31:37 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 36C7B66073C0;
+        Tue, 31 Oct 2023 16:31:39 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1698769898;
-        bh=NE9Dr0xaEnB6dw9lflcnBD1PZMhluEk9SDENx9Slyak=;
+        s=mail; t=1698769899;
+        bh=hEdAN5aNNO1/pDSIenHgJGapeD5q9IeR/wL5fN5tnvk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=iQKS2gOKh29M6gADjnFecd6BtcW9lEPqL9EqQsHyxZChFkLLplz5LqyVwf9dxzLI3
-         EsJnRW8DZXBq7h4n625gxvk8yvPJL44wtjItbfSVxn7IiIAXqTvvtd98NK8Mf+monY
-         buR+LZbZoTIpTTkde4vhN2xbSJRMEqlvPPs9Dm0Wuz7z2jdLbtz1eExFInkzTPCHKr
-         JVLWNr4Az59GbnxDzpRNlfgOcv8ssMMXvdB9qHABocjufFybK8PHkOi74FFRfSHU/K
-         iLGpe/EU4BjWUQo1A91+CTaWi6NgY0m0o/TjAr+jRH9GQKgOJdOx6QV96SUZJ3OzW/
-         PV3jEaGmny9PQ==
+        b=RD/Np8c970zKgt9nhctbRQZjGMEbJnQ5gmrP2+35OGnzkzl79aWQncAQAgbZl9kD2
+         Rn1V4swq74dE6UQ57TpFBU5FohlWOfSTAAwJeSgt2/sLqLwVtWSqdE0IIeWMWtjKgZ
+         IdNJh1MwP0YyuZ5tkdQd0rMCXpEO9D7dAlQfLpZtdWWqW5gMB6CPyWTN4zscuycj+8
+         GinmdKvRUi0FMTr0V4YQ3qgou8upHDVS18z91GUldTuBgzFvj1szBL58SlH7a8mxZG
+         j3hbf4wN7pQ2EdWiQi4RvtKiegRp3Fh3Rzpyanx5fuQBf5WAqw0gdd1OO+MZtlsy+w
+         iyO09VYLa0UOQ==
 From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
         ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
@@ -45,9 +45,9 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: [PATCH v14 16/56] media: atomisp: Use vb2_get_buffer() instead of directly access to buffers array
-Date:   Tue, 31 Oct 2023 17:30:24 +0100
-Message-Id: <20231031163104.112469-17-benjamin.gaignard@collabora.com>
+Subject: [PATCH v14 17/56] media: atomisp: Stop direct calls to queue num_buffers field
+Date:   Tue, 31 Oct 2023 17:30:25 +0100
+Message-Id: <20231031163104.112469-18-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
 References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
@@ -62,32 +62,30 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use vb2_get_buffer() instead of direct access to the vb2_queue bufs array.
-This allows us to change the type of the bufs in the future.
-No need to check the result of vb2_get_buffer, vb2_ioctl_dqbuf() already
-checked that it is valid.
+Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
+This allows us to change how the number of buffers is computed in the
+future.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
 CC: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
  drivers/staging/media/atomisp/pci/atomisp_ioctl.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-index a8e4779d007f..a8a964b2f1a8 100644
+index a8a964b2f1a8..09c0091b920f 100644
 --- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
 +++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -1059,7 +1059,7 @@ static int atomisp_dqbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer
- 	if (ret)
- 		return ret;
+@@ -1028,7 +1028,7 @@ static int atomisp_qbuf_wrapper(struct file *file, void *fh, struct v4l2_buffer
+ 	struct atomisp_device *isp = video_get_drvdata(vdev);
+ 	struct atomisp_video_pipe *pipe = atomisp_to_video_pipe(vdev);
  
--	vb = pipe->vb_queue.bufs[buf->index];
-+	vb = vb2_get_buffer(&pipe->vb_queue, buf->index);
- 	frame = vb_to_frame(vb);
+-	if (buf->index >= vdev->queue->num_buffers)
++	if (buf->index >= vb2_get_num_buffers(vdev->queue))
+ 		return -EINVAL;
  
- 	buf->reserved = asd->frame_status[buf->index];
+ 	if (buf->reserved2 & ATOMISP_BUFFER_HAS_PER_FRAME_SETTING) {
 -- 
 2.39.2
 
