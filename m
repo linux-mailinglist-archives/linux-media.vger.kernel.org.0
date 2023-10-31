@@ -2,38 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F97E7DCA97
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 11:18:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EC837DCAAF
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 11:23:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343516AbjJaKSM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 06:18:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56124 "EHLO
+        id S1343612AbjJaKXd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 06:23:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S236158AbjJaKSL (ORCPT
+        with ESMTP id S235003AbjJaKXc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 06:18:11 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF51FDE;
-        Tue, 31 Oct 2023 03:18:07 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 203F93D6;
-        Tue, 31 Oct 2023 11:17:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698747470;
-        bh=zupZZQQqOo4Chd576Yb7ALByp3KhOU8TnMfEV61mbnE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wgZ4Bje3LX6W0ee4yMyBaYtREZzuAo9e466wY+qizc6qOmw2AGz1P55RSxUiwbPux
-         zQ+l5T14gpp7J4WO6vKFkxA0RfNKetKB4vQwldM51vnK9Z3UUbv7u2nbNGaqc/9TxE
-         aVwgqh+OSHojNYQkAOl+Rc0k6swYRqOzcKq0Ix9o=
-Date:   Tue, 31 Oct 2023 12:18:13 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Tommaso Merciai <tomm.merciai@gmail.com>, martin.hecht@avnet.eu,
+        Tue, 31 Oct 2023 06:23:32 -0400
+Received: from smtp.smtpout.orange.fr (smtp-21.smtpout.orange.fr [80.12.242.21])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8BE33A1
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 03:23:29 -0700 (PDT)
+Received: from [192.168.1.18] ([86.243.2.178])
+        by smtp.orange.fr with ESMTPA
+        id xlu8q2cnY68frxlu8qL2tt; Tue, 31 Oct 2023 11:23:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
+        s=t20230301; t=1698747807;
+        bh=Myq1U3QBIihOjHNsgI08XXFH79QnzufYtuvBE6MQkhA=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To;
+        b=kf8g+8rjIE886rXX2+4/OIpkvM4EVEvhQpg+0AcAbrNnBSgNaGwSiHweKxZJAJOPL
+         3O+ivj/aiYrgdIV8e6LEBamJRQi/tzvljz9uu7ijrf5LUqPAWarHjRPFwrTJaPzQyD
+         u/PCo182zFNAvxmTEj9uzTpmIiOestwxttRmMVdQaD3YAq4HUV4Tv9pbnjmYU0JCMZ
+         g4dnOZS4hL2VX65crvux6E+8wGFr+s4Q3jtJNZODAw/98nNTItWWSvmKJe7j2slhD9
+         BBiRWjhE0a8FAZ++O8wfj5sPXqrHCXy4C0Np8wf9yRV8/pDNggmTAkEoeQ0rVA2W23
+         4pNoJjtxarisA==
+X-ME-Helo: [192.168.1.18]
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Tue, 31 Oct 2023 11:23:27 +0100
+X-ME-IP: 86.243.2.178
+Message-ID: <a98bca80-944c-493b-9872-75b94cd24eea@wanadoo.fr>
+Date:   Tue, 31 Oct 2023 11:23:24 +0100
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 3/3] media: i2c: Add support for alvium camera
+To:     Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     sakari.ailus@linux.intel.com, martin.hecht@avnet.eu,
         michael.roeder@avnet.eu, mhecht73@gmail.com,
         linuxfancy@googlegroups.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Liam Girdwood <lgirdwood@gmail.com>,
         Mark Brown <broonie@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Hans de Goede <hdegoede@redhat.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
@@ -43,257 +54,277 @@ Cc:     Tommaso Merciai <tomm.merciai@gmail.com>, martin.hecht@avnet.eu,
         Daniel Scally <djrscally@gmail.com>,
         Shawn Tu <shawnx.tu@intel.com>,
         Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 3/3] media: i2c: Add support for alvium camera
-Message-ID: <20231031101813.GI12764@pendragon.ideasonboard.com>
+        linux-kernel@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
 References: <20231020141354.2500602-1-tomm.merciai@gmail.com>
  <20231020141354.2500602-4-tomm.merciai@gmail.com>
- <ZTpnHdpTgRNll3TC@kekkonen.localdomain>
- <ZT+hEg7WqkQBnLV5@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <ZUAxoy2cRR6Rm9ig@kekkonen.localdomain>
- <20231030233809.GD12764@pendragon.ideasonboard.com>
- <ZUCf_74Z0igCiJ_-@kekkonen.localdomain>
- <20231031085347.GH12764@pendragon.ideasonboard.com>
- <ZUDDuoNO5AGjyJLh@kekkonen.localdomain>
- <ZUDTaq9-j1HmqiEp@kekkonen.localdomain>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZUDTaq9-j1HmqiEp@kekkonen.localdomain>
+Content-Language: fr
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20231020141354.2500602-4-tomm.merciai@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=unavailable autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 31, 2023 at 10:14:02AM +0000, Sakari Ailus wrote:
-> On Tue, Oct 31, 2023 at 09:07:06AM +0000, Sakari Ailus wrote:
-> > On Tue, Oct 31, 2023 at 10:53:47AM +0200, Laurent Pinchart wrote:
-> > > On Tue, Oct 31, 2023 at 06:34:39AM +0000, Sakari Ailus wrote:
-> > > > On Tue, Oct 31, 2023 at 01:38:09AM +0200, Laurent Pinchart wrote:
-> > > > > On Mon, Oct 30, 2023 at 10:43:47PM +0000, Sakari Ailus wrote:
-> > > > > > On Mon, Oct 30, 2023 at 01:26:58PM +0100, Tommaso Merciai wrote:
-> > > > > > 
-> > > > > > ...
-> > > > > > 
-> > > > > > > > > +static int alvium_get_host_supp_csi_lanes(struct alvium_dev *alvium)
-> > > > > > > > > +{
-> > > > > > > > > +	u64 val;
-> > > > > > > > > +	int ret = 0;
-> > > > > > > > > +
-> > > > > > > > > +	alvium_read(alvium, REG_BCRM_CSI2_LANE_COUNT_RW, &val, &ret);
-> > > > > > > > 
-> > > > > > > > Missing error checking before the use of the value. The same pattern
-> > > > > > > > remains prevalent throughout the driver.
-> > > > > > > > 
-> > > > > > > > I think it'd be easier if you didn't use a temporary variable for reading,
-> > > > > > > > but instead had a register width specific access function. You could even
-> > > > > > > > introduce a helper macro to read this information as I suggested in an
-> > > > > > > > earlier review.
-> > > > > > > 
-> > > > > > > oks.
-> > > > > > > We are moving to use the following macros:
-> > > > > > > 
-> > > > > > > #define alvium_read_check(alvium, reg, value) \
-> > > > > > > { \
-> > > > > > > 	int ret = alvium_read(alvium, reg, value, NULL); \
-> > > > > > > 	if (ret) \
-> > > > > > > 		return ret; \
-> > > > > > > }
-> > > > > > > 
-> > > > > > 
-> > > > > > You could do something like (entirely untested):
-> > > > > > 
-> > > > > > #define ALVIUM_DECLARE_READ(sign, bits) \
-> > > > > > 	static int
-> > > > > > 	alvium_read_ ## sign ## bits(struct alvium_dev *alvium, u32 reg, \
-> > > > > > 				     sign ## bits *val, int *err) \
-> > > > > > 	{ \
-> > > > > > 		u64 val64; \
-> > > > > > 		int ret; \
-> > > > > > 			\
-> > > > > > 		if (err && *err < 0) \
-> > > > > > 			return *err; \
-> > > > > > 			\
-> > > > > > 		alvium_read(alvium, reg, &val64, &ret); \
-> > > > > > 		if (ret < 0) { \
-> > > > > > 			if (err) \
-> > > > > > 				*err = ret; \
-> > > > > > 			return ret; \
-> > > > > > 		}	\
-> > > > > > 			\
-> > > > > > 		*val = val64; \
-> > > > > > 			\
-> > > > > > 		return 0; \
-> > > > > > 	}
-> > > > > > 
-> > > > > > ALVIUM_DECLARE_READ(u, 32);
-> > > > > > 
-> > > > > > And then, e.g. instead of (and failing to check ret):
-> > > > > > 
-> > > > > > 	u64 val;
-> > > > > > 
-> > > > > > 	alvium_read(alvium, REG_BCRM_CONTRAST_VALUE_RW, &val, &ret);
-> > > > > > 	alvium->dft_contrast = val;
-> > > > > > 
-> > > > > > you'd have a single call:
-> > > > > > 
-> > > > > > 	alvium_read_u32(alvium, REG_BCRM_CONTRAST_VALUE_RW,
-> > > > > > 		        &alvium->dft_contrast, &ret);
-> > > > > > 
-> > > > > > And so on.
-> > > > > > 
-> > > > > > You can drop sign if you don't need signed reads but some of the struct
-> > > > > > fields you're writing something appear to be signed.
-> > > > > > 
-> > > > > > It'd be good to check the register size matches with the size of *val, too.
-> > > > > > Maybe something like:
-> > > > > > 
-> > > > > > WARN_ON((CCI_REG ## bits(0) && CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT
-> > > > > > 	!= sizeof(sign ## bits));
-> > > > > 
-> > > > > I think this could actually be automated, and implemented in v4l2-cci.
-> > > > > Something like the following:
-> > > > > 
-> > > > > diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
-> > > > > index bc2dbec019b0..27f1eaa7777d 100644
-> > > > > --- a/drivers/media/v4l2-core/v4l2-cci.c
-> > > > > +++ b/drivers/media/v4l2-core/v4l2-cci.c
-> > > > > @@ -16,7 +16,7 @@
-> > > > > 
-> > > > >  #include <media/v4l2-cci.h>
-> > > > > 
-> > > > > -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> > > > > +int __cci_read(struct regmap *map, u32 reg, void *val, int *err)
-> > > > >  {
-> > > > >  	unsigned int len;
-> > > > >  	u8 buf[8];
-> > > > > @@ -37,19 +37,19 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> > > > > 
-> > > > >  	switch (len) {
-> > > > >  	case 1:
-> > > > > -		*val = buf[0];
-> > > > > +		*(u8 *)val = buf[0];
-> > > > >  		break;
-> > > > >  	case 2:
-> > > > > -		*val = get_unaligned_be16(buf);
-> > > > > +		*(u16 *)val = get_unaligned_be16(buf);
-> > > > >  		break;
-> > > > >  	case 3:
-> > > > > -		*val = get_unaligned_be24(buf);
-> > > > > +		*(u32 *)val = get_unaligned_be24(buf);
-> > > > >  		break;
-> > > > >  	case 4:
-> > > > > -		*val = get_unaligned_be32(buf);
-> > > > > +		*(u32 *)val = get_unaligned_be32(buf);
-> > > > >  		break;
-> > > > >  	case 8:
-> > > > > -		*val = get_unaligned_be64(buf);
-> > > > > +		*(u64 *)val = get_unaligned_be64(buf);
-> > > > >  		break;
-> > > > >  	default:
-> > > > >  		dev_err(regmap_get_device(map), "Error invalid reg-width %u for reg 0x%04x\n",
-> > > > > @@ -64,7 +64,7 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> > > > > 
-> > > > >  	return ret;
-> > > > >  }
-> > > > > -EXPORT_SYMBOL_GPL(cci_read);
-> > > > > +EXPORT_SYMBOL_GPL(__cci_read);
-> > > > > 
-> > > > >  int cci_write(struct regmap *map, u32 reg, u64 val, int *err)
-> > > > >  {
-> > > > > @@ -119,7 +119,7 @@ int cci_update_bits(struct regmap *map, u32 reg, u64 mask, u64 val, int *err)
-> > > > >  	u64 readval;
-> > > > >  	int ret;
-> > > > > 
-> > > > > -	ret = cci_read(map, reg, &readval, err);
-> > > > > +	ret = __cci_read(map, reg, &readval, err);
-> > > > >  	if (ret)
-> > > > >  		return ret;
-> > > > > 
-> > > > > diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
-> > > > > index 0f6803e4b17e..31223ce8d741 100644
-> > > > > --- a/include/media/v4l2-cci.h
-> > > > > +++ b/include/media/v4l2-cci.h
-> > > > > @@ -7,6 +7,9 @@
-> > > > >  #ifndef _V4L2_CCI_H
-> > > > >  #define _V4L2_CCI_H
-> > > > > 
-> > > > > +#include <linux/bitfield.h>
-> > > > > +#include <linux/build_bug.h>
-> > > > > +#include <linux/log2.h>
-> > > > >  #include <linux/types.h>
-> > > > > 
-> > > > >  struct i2c_client;
-> > > > > @@ -39,6 +42,8 @@ struct cci_reg_sequence {
-> > > > >  #define CCI_REG32(x)			((4 << CCI_REG_WIDTH_SHIFT) | (x))
-> > > > >  #define CCI_REG64(x)			((8 << CCI_REG_WIDTH_SHIFT) | (x))
-> > > > > 
-> > > > > +int __cci_read(struct regmap *map, u32 reg, void *val, int *err);
-> > > > > +
-> > > > >  /**
-> > > > >   * cci_read() - Read a value from a single CCI register
-> > > > >   *
-> > > > > @@ -48,9 +53,17 @@ struct cci_reg_sequence {
-> > > > >   * @err: Optional pointer to store errors, if a previous error is set
-> > > > >   *       then the read will be skipped
-> > > > >   *
-> > > > > + * The type of the @val pointer must match the size of the register being read.
-> > > > > + * Mismatches will result in compile-time errors.
-> > > > > + *
-> > > > >   * Return: %0 on success or a negative error code on failure.
-> > > > >   */
-> > > > > -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err);
-> > > > > +#define cci_read(map, reg, val, err) ({					\
-> > > > > +	u32 __reg = (reg);						\
-> > > > > +	u32 __size = FIELD_GET(CCI_REG_WIDTH_MASK, __reg);		\
-> > > > > +	BUILD_BUG_ON(sizeof(*(val)) != roundup_pow_of_two(__size));	\
-> > > > > +	__cci_read(map, __reg, (void *)(val), err);			\
-> > > > > +})
-> > > > > 
-> > > > >  /**
-> > > > >   * cci_write() - Write a value to a single CCI register
-> > > > > 
-> > > > > The change to cci_update_bits() is obviously wrong, I've hacked that to
-> > > > > compile-test the rest with the drivers using cci_read(), and I get nice
-> > > > > build-time errors due to usage of the wrong type :-)
-> > > > > 
-> > > > > Is this something that would be considered ? Bonus points to anyone who
-> > > > > would fix cci_update_bits() :-)
-> > > > 
-> > > > I like the idea of moving this to v4l2-cci.
-> > > > 
-> > > > I'd prefer _Generic() based solution as we'd have exact types there instead
-> > > > of just size. E.g. with the above code, reading a value to a long variable
-> > > > would work on some archs but fail on others.
-> > > 
-> > > Doesn't _Generic() treat compatible types identically ?
-> > 
-> > Ah, it does, indeed. So that doesn't solve the long problem.
-> > 
-> > I guess the code will be more compact with just void *, on the expense of
-> > (some) type checking.
-> > 
-> > I'm fine with either.
+Le 20/10/2023 à 16:13, Tommaso Merciai a écrit :
+> The Alvium camera is shipped with sensor + isp in the same housing.
+> The camera can be equipped with one out of various sensor and abstract
+> the user from this. Camera is connected via MIPI CSI-2.
 > 
-> You can't check the variable size matches the register width by using a
-> void pointer. That'd be a source for possibly difficult to debug problems:
-> passing a pointer to u8 variable while reading a 64-bit register overwrites
-> seven bytes on the stack outside the variable itself.
+> Most of the camera module features are supported, with the main exception
+> being fw update.
 > 
-> Let's use _Generic().
+> The driver provides all mandatory, optional and recommended V4L2 controls
+> for maximum compatibility with libcamera
+> 
+> References:
+>   - https://www.alliedvision.com/en/products/embedded-vision-solutions
+> 
+> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> ---
 
-I still don't see how that will help :-) The prototype of the
-__cci_read() function is unrelated to whether or not _Generic() gets
-used. The cci_read() macro will cause a *build* time error if the value
-pointer doesn't match the register size. The __cci_read() function must
-not be used directly by drivers.
+Hi, a few nits and a question at the end.
 
--- 
-Regards,
+> +static int alvium_setup_mipi_fmt(struct alvium_dev *alvium)
+> +{
+> +	int avail_fmt_cnt = 0;
+> +	int sz = 0;
+> +	int fmt = 0;
+> +
+> +	alvium->alvium_csi2_fmt = NULL;
+> +
+> +	/* calculate fmt array size */
+> +	for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
+> +		if (alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
+> +			if ((!alvium_csi2_fmts[fmt].is_raw) ||
+> +				  (alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]))
+> +				sz++;
+> +	}
+> +
+> +	/* init alvium_csi2_fmt array */
+> +	alvium->alvium_csi2_fmt_n = sz;
+> +	alvium->alvium_csi2_fmt = kmalloc_array(sz,
+> +						     sizeof(struct alvium_pixfmt),
 
-Laurent Pinchart
+This could be on the previous line.
+
+> +						     GFP_KERNEL);
+> +
+> +	/* Create the alvium_csi2 fmt array from formats available */
+> +	for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
+> +		if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
+> +			continue;
+> +
+> +		if ((!alvium_csi2_fmts[fmt].is_raw) ||
+> +				(alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit])) {
+> +			alvium->alvium_csi2_fmt[avail_fmt_cnt] =
+> +					alvium_csi2_fmts[fmt];
+> +			avail_fmt_cnt++;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> +				   struct v4l2_subdev_frame_interval *fi)
+> +{
+> +	struct alvium_dev *alvium = sd_to_alvium(sd);
+> +	int ret;
+> +
+> +	if (alvium->streaming)
+> +		return -EBUSY;
+> +
+> +	ret = alvium_set_frame_interval(alvium, fi);
+> +	if (!ret) {
+> +		ret = alvium_set_frame_rate(alvium);
+> +		if (ret)
+> +			return -EIO;
+
+Why not ret?
+
+> +	}
+> +
+> +	return ret;
+> +}
+
+...
+
+> +static int alvium_get_dt_data(struct alvium_dev *alvium)
+> +{
+> +	struct device *dev = &alvium->i2c_client->dev;
+> +	struct fwnode_handle *fwnode = dev_fwnode(dev);
+> +	struct fwnode_handle *endpoint;
+> +	int ret = -EINVAL;
+> +
+> +	if (!fwnode)
+> +		return -EINVAL;
+> +
+> +	/* Only CSI2 is supported for now: */
+> +	alvium->ep.bus_type = V4L2_MBUS_CSI2_DPHY;
+> +
+> +	endpoint = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0, 0);
+> +	if (!endpoint) {
+> +		dev_err(dev, "endpoint node not found\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (v4l2_fwnode_endpoint_alloc_parse(endpoint, &alvium->ep)) {
+> +		dev_err(dev, "could not parse endpoint\n");
+> +		goto error_out;
+
+This could go to another label to be less confusing, but 
+v4l2_fwnode_endpoint_free() looks to be a no-op here, so good enough.
+
+> +	}
+> +
+> +	if (!alvium->ep.nr_of_link_frequencies) {
+> +		dev_err(dev, "no link frequencies defined");
+> +		goto error_out;
+> +	}
+> +
+> +	return 0;
+> +
+> +error_out:
+> +	v4l2_fwnode_endpoint_free(&alvium->ep);
+> +	fwnode_handle_put(endpoint);
+> +
+> +	return ret;
+> +}
+> +
+> +static int alvium_power_on(struct alvium_dev *alvium, bool on)
+> +{
+> +	int ret = 0;
+
+Useless init.
+
+> +
+> +	if (!on)
+> +		return regulator_disable(alvium->reg_vcc);
+> +
+> +	ret = regulator_enable(alvium->reg_vcc);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* alvium boot time 7s*/
+
+space missing before */
+
+> +	msleep(7000);
+> +	return 0;
+> +}
+
+...
+
+> +static int alvium_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct alvium_dev *alvium;
+> +	int ret;
+> +
+> +	alvium = devm_kzalloc(dev, sizeof(*alvium), GFP_KERNEL);
+> +	if (!alvium)
+> +		return -ENOMEM;
+> +
+> +	alvium->i2c_client = client;
+> +
+> +	alvium->regmap = devm_cci_regmap_init_i2c(client, 16);
+> +	if (IS_ERR(alvium->regmap))
+> +		return PTR_ERR(alvium->regmap);
+> +
+> +	ret = alvium_get_dt_data(alvium);
+> +	if (ret)
+> +		return ret;
+> +
+> +	alvium->reg_vcc = devm_regulator_get_optional(dev, "vcc-ext-in");
+> +	if (IS_ERR(alvium->reg_vcc))
+> +		return dev_err_probe(dev, PTR_ERR(alvium->reg_vcc),
+> +			"no vcc-ext-in regulator provided\n");
+> +
+> +	ret = alvium_power_on(alvium, true);
+> +	if (ret)
+> +		goto err_powerdown;
+> +
+> +	if (!alvium_is_alive(alvium)) {
+> +		dev_err(dev, "Device detection failed: %d\n", ret);
+
+Nit: Here and below, dev_err_probe() could also be used to display the 
+error code in a human readable way.
+
+> +		ret = -ENODEV;
+> +		goto err_powerdown;
+> +	}
+> +
+> +	ret = alvium_get_hw_info(alvium);
+> +	if (ret) {
+> +		dev_err(dev, "get_hw_info fail %d\n", ret);
+> +		goto err_powerdown;
+> +	}
+> +
+> +	ret = alvium_hw_init(alvium);
+> +	if (ret) {
+> +		dev_err(dev, "hw_init fail %d\n", ret);
+> +		goto err_powerdown;
+> +	}
+> +
+> +	ret = alvium_setup_mipi_fmt(alvium);
+> +	if (ret) {
+> +		dev_err(dev, "setup_mipi_fmt fail %d\n", ret);
+> +		goto err_powerdown;
+> +	}
+> +
+> +	/*
+> +	 * Enable runtime PM without autosuspend:
+> +	 *
+> +	 * Don't use pm autosuspend (alvium have ~7s boot time).
+> +	 * Alvium has been powered manually:
+> +	 *  - mark it as active
+> +	 *  - increase the usage count without resuming the device.
+> +	 */
+> +	pm_runtime_set_active(dev);
+> +	pm_runtime_get_noresume(dev);
+> +	pm_runtime_enable(dev);
+> +
+> +	/* Initialize the V4L2 subdev. */
+> +	ret = alvium_subdev_init(alvium);
+> +	if (ret)
+> +		goto err_pm;
+> +
+> +	ret = v4l2_async_register_subdev(&alvium->sd);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Could not register v4l2 device\n");
+> +		goto err_subdev;
+> +	}
+> +
+> +	return 0;
+> +
+> +err_subdev:
+> +	alvium_subdev_cleanup(alvium);
+
+Should this also be called by the remove function?
+Or is it already handled by an un-register mechanism?
+
+CJ
+
+> +err_pm:
+> +	pm_runtime_disable(dev);
+> +	pm_runtime_put_noidle(dev);
+> +err_powerdown:
+> +	alvium_power_on(alvium, false);
+> +
+> +	return ret;
+> +}
+> +
+
+...
+
