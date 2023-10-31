@@ -2,214 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 44EC97DD5D6
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 19:11:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 483557DD7E7
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 22:49:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376604AbjJaSLa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 14:11:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52050 "EHLO
+        id S1346397AbjJaVtw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 17:49:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42058 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230455AbjJaSLa (ORCPT
+        with ESMTP id S1344036AbjJaVtt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 14:11:30 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ACCFCC9
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 11:10:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1698775841;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=4sBMoUz+xyLluogYPacXBkvwBGIXTGag4jbsi7EKlcM=;
-        b=gBilud6bsfsOSgKtEwL9qc8hJHhqffgIkfxyjkv1l84Asy6fO2VhoCQXK1LgRBlinCO3Oz
-        EkP7Uh5cNisfIEOvKK9Bgc6VZgzLkanmNj0WfJ2s/ypgjjthGUdFrrc4skiczCZnVxJphY
-        Zmx7TnpAPbHWK1jprR6tW76Nc5ELumw=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-630-zyA9q3eGNICl3Iu-VFdufg-1; Tue, 31 Oct 2023 14:10:40 -0400
-X-MC-Unique: zyA9q3eGNICl3Iu-VFdufg-1
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-9ae0bf9c0b4so415346466b.0
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 11:10:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698775839; x=1699380639;
-        h=content-transfer-encoding:in-reply-to:from:references:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4sBMoUz+xyLluogYPacXBkvwBGIXTGag4jbsi7EKlcM=;
-        b=T7jLBfZjj5WG9abP/HVxYuelWF9+re8LnP6+JembhDxdDGYnkUqULlCVcPRZDvvhvc
-         iV/ddD7PEkmE84+2o1XpZIvhO1mS1gWs9+yeK2eZTSl/ncs8cAANziGlJ8OlocwBrq1w
-         UIZKx9fPMGWr0ow0189mu7/1Vges66RkGZBE0bbZ7k5IdYLz1mqNbrVg1q8BxnsLVpjm
-         duqzINh3Fb/ln6uTlltW2bQxIJIavPMy0200RXXYzYoJxu3vaTSotvjvVZhXKV8Y3zlD
-         WXYW8pXrkvvds8AIjeofxrHXgH6bKzrlseEhKQN3/Y5TRfeNE8t4IAxtum8g8mZ1IW95
-         i7ow==
-X-Gm-Message-State: AOJu0Yzphpfxat6oQ6VNvRfF0JR59+5no9t+Am80E1RFSsx24MZQDAWJ
-        sgUna/90dxvAAcJdDPpqe/fi5zVnGJXTLq1k7DuiIpt7e5tQTOrqlw1EKHLxhMbiq0E2w6s6Gic
-        tMafwsJzdCwBt1SGGUxwQTy0=
-X-Received: by 2002:a17:907:e92:b0:9be:2991:81f9 with SMTP id ho18-20020a1709070e9200b009be299181f9mr96341ejc.1.1698775839336;
-        Tue, 31 Oct 2023 11:10:39 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFt6XmtaRZvyYzvC/wm9nu5FG9iMaMUEnMiL3zEUWVBU/Klch4UthqQBiDtdQZSQ86AufSgAw==
-X-Received: by 2002:a17:907:e92:b0:9be:2991:81f9 with SMTP id ho18-20020a1709070e9200b009be299181f9mr96321ejc.1.1698775838868;
-        Tue, 31 Oct 2023 11:10:38 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029? (2001-1c00-2a07-3a01-06c4-9fb2-0fbc-7029.cable.dynamic.v6.ziggo.nl. [2001:1c00:2a07:3a01:6c4:9fb2:fbc:7029])
-        by smtp.gmail.com with ESMTPSA id a5-20020a1709062b0500b009adc5802d08sm1358124ejg.190.2023.10.31.11.10.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Oct 2023 11:10:38 -0700 (PDT)
-Message-ID: <1e55769f-fa32-45e3-97e4-9bb0cf9f2c53@redhat.com>
-Date:   Tue, 31 Oct 2023 19:10:37 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC] regmap_range_cfg usage with v4l2-cci
-Content-Language: en-US
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Tue, 31 Oct 2023 17:49:49 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DBDE8FE;
+        Tue, 31 Oct 2023 14:49:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698788986; x=1730324986;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=600Nvh60124lsqCSvHFqzYzSMSzi4J7+aWhMqXLTTIM=;
+  b=C7jcHXbjXdZ4dp8esjDLBHLevhdh19Kn+cwqUKt3DuBs73fDDC3XVmnw
+   XZ866IiTAyVtDvXlXkVlu+Ss+D/z9YR5WuJM76dOvvRn6wmgEFQkqZpD1
+   4DuobhUNpJFlhjRsL5jz2lzd7IFVKE3wvTXlD2JClw/3cA1O1kc+SVPhG
+   I/7u1fd2OpxWaheqmJ0IaQwtfBEProHSFFTL0WXu7SMipqYmVUFg4AEH+
+   LHOtno9rpFZ8xu9Gx4DKXLxjBQ6DIJZkglZzZ/+7hN1jfVZdQsF7HgYVB
+   VhaoK23e2n7IhGplBvMTGCWfZHBDhgcFCF/T0YiwVrGbVBXFL8OyaVbdD
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="454850526"
+X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
+   d="scan'208";a="454850526"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 31 Oct 2023 14:49:46 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="760748094"
+X-IronPort-AV: E=Sophos;i="6.03,266,1694761200"; 
+   d="scan'208";a="760748094"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 31 Oct 2023 14:49:42 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qxwcG-0000PI-0V;
+        Tue, 31 Oct 2023 21:49:40 +0000
+Date:   Wed, 1 Nov 2023 05:49:33 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sebastian Reichel <sre@kernel.org>, linux-media@vger.kernel.org
-References: <20231030173637.GA2977515@gnbcxd0016.gnb.st.com>
- <962d6d0c-2263-fe59-011c-09068a6a4cef@redhat.com>
- <20231031170530.GA2989927@gnbcxd0016.gnb.st.com>
- <1d3f2440-6572-4311-893e-952562e51e30@redhat.com>
- <169877562554.1476798.3907804152294865485@ping.linuxembedded.co.uk>
-From:   Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <169877562554.1476798.3907804152294865485@ping.linuxembedded.co.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        linux-acpi@vger.kernel.org
+Cc:     oe-kbuild-all@lists.linux.dev,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Julien Stephan <jstephan@baylibre.com>,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 1/1] device property: Add fwnode_name_eq()
+Message-ID: <202311010542.1tRHV0in-lkp@intel.com>
+References: <20231031135306.1106640-1-sakari.ailus@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231031135306.1106640-1-sakari.ailus@linux.intel.com>
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Sakari,
 
-On 10/31/23 19:07, Kieran Bingham wrote:
-> Quoting Hans de Goede (2023-10-31 17:26:58)
->> Hi,
->>
->> On 10/31/23 18:05, Alain Volmat wrote:
->>> Hi Hans,
->>>
->>> On Tue, Oct 31, 2023 at 10:53:16AM +0100, Hans de Goede wrote:
->>>> <resend with Alain added to the To: for some reason reply-to-all did not add Alain>
->>>
->>> No pb, I also received it via the mailing-list ;-)
->>>
->>>>
->>>> Hi Alain,
->>>>
->>>> On 10/30/23 18:36, Alain Volmat wrote:
->>>>> Hi,
->>>>>
->>>>> Goal of this email is to get first comments prior to posting a patch.
->>>>>
->>>>> Could we consider enhancements within the v4l2-cci in order to also
->>>>> allow regmap_range_cfg usage for paged register access ?
->>>>
->>>> Yes definitely.
->>>>
->>>> Extending v4l2-cci for other use cases was already briefly discussed
->>>> between Kieran (Cc-ed) and me:
->>>>
->>>> The CCI part of the MIPI CSI spec says that multi-byte registers are
->>>> always in big endian format, but some of the Sony IMX sensors actually
->>>> use little-endian format for multi-byte registers.
->>>>
->>>> The main reason why we need v4l2-cci and cannot use regmap directly is
->>>> because of the variable register width in CCI, where as regmap only
->>>> supports a single width. v4l2 cci uses 8 bits width in the underlying
->>>> regmap-config and then takes care of multy-byte registers by e.g.
->>>> reading multiple bytes and calling e.g. get_unaligned_be16() on
->>>> the read bytes.
->>>>
->>>> For the IMX scenario the plan is to add the notion of v4l2-cci
->>>> flags by adding this to include/media/v4l2-cci.h :
->>>>
->>>> struct v4l2_cci {
->>>>      struct regmap *map;
->>>>      long flags;
->>>> }
->>>>
->>>> And then change the prototype for devm_cci_regmap_init_i2c() to:
->>>>
->>>> struct v4l2_cci *devm_cci_regmap_init_i2c(struct i2c_client *client,
->>>>                                           int reg_addr_bits, long flags);
->>>>
->>>> And have devm_cci_regmap_init_i2c():
->>>> 1. devm_kmalloc() a struct v4l2_cci
->>>> 2. store the regmap there
->>>> 3. copy over flags from the function argument
->>>>
->>>> Combined with modifying all the other functions to take
->>>> "struct v4l2_cci *cci" as first argument instead of
->>>> "struct regmap *map".
->>>>
->>>> This change will require all existing sensor drivers using
->>>> v4l2-cci to be converted for the "struct regmap *map" ->
->>>> "struct v4l2_cci *cci" change, this all needs to be done
->>>> in one single commit adding the new struct + flags argument
->>>> to avoid breaking the compilation.
->>>>
->>>> Then once we have this a second patch can add:
->>>>
->>>> /* devm_cci_regmap_init_i2c() flags argument defines */
->>>> #define V4L2_CCI_DATA_LE     BIT(0)
->>>>
->>>> to include/media/v4l2-cci.h and make v4l2-cci.h honor
->>>> this flag solving the IMX scenario.
->>>
->>> I understand that in case of IMX sensors, ALL the multi-registers
->>> value are encoded in little-endian right ?
->>
->> Yes I believe so, Laurent, Kieran ?
-> 
-> I'm not 100% sure here, I think there are some IMX sensors with Little
-> Endian - and some with Big Endian ... because all the same would be too
-> easy.
-> 
-> I haven't seen a single device with mixed big and little endian yet
-> though.
-> 
-> 
->>> In case of the GalaxyCore
->>> GC2145, most of the registers (page 0 / 1 and 2) are correctly
->>> encoded in big-endian, however page 3 (MIPI configuration) are
->>> 2 or 3 registers in little-endian.  So far maybe this is minor
->>> case, but the approach of having the endianness part of the v4l2_cci
->>> struct wouldn't allow to address such case ?
->>>
->>> Originally I thought we could have CCI_REG macros for little endian
->>> as well, such as CCI_REG16_LE etc etc since we anyway still have spare
->>> space I guess on top of the width part.  Drawback is that in drivers
->>> for IMX we would end-up with longer macros CCI_REG16_LE(...) instead
->>> of CCI_REG16(...).
->>
->> Hmm, that (CCI_REG16_LE etc) is an interesting proposal, that
->> would avoid the need to add a struct with flags and if I understand
->> things correctly then you would also not need any extra data
->> on top of the regmap, right ?
->>
->> I did not take the mixed endian case for data registers into
->> account yet. Since that apparently is a thing I think that
->> your CCI_REG16_LE etc proposal is better then adding a struct
->> with flags.
->>
->> Laurent, Kieran what do you think ?
-> 
-> Especially given there are some devices with multiple encodings, I like
-> this.
-> 
-> I think it can simplify things if we don't need a separate 
-> struct v4l2_cci allocated too.
+kernel test robot noticed the following build warnings:
 
-Ok, lets go with (CCI_REG16_LE etc) then for the IMX sensors
-and for the mixed endianess in the GalaxyCore sensors
+[auto build test WARNING on driver-core/driver-core-testing]
+[also build test WARNING on driver-core/driver-core-next driver-core/driver-core-linus linus/master v6.6 next-20231031]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Regards,
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/device-property-Add-fwnode_name_eq/20231031-224454
+base:   driver-core/driver-core-testing
+patch link:    https://lore.kernel.org/r/20231031135306.1106640-1-sakari.ailus%40linux.intel.com
+patch subject: [PATCH 1/1] device property: Add fwnode_name_eq()
+config: sh-allnoconfig (https://download.01.org/0day-ci/archive/20231101/202311010542.1tRHV0in-lkp@intel.com/config)
+compiler: sh4-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231101/202311010542.1tRHV0in-lkp@intel.com/reproduce)
 
-Hans
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311010542.1tRHV0in-lkp@intel.com/
 
+All warnings (new ones prefixed by >>):
+
+>> drivers/base/property.c:611: warning: Function parameter or member 'fwnode' not described in 'fwnode_name_eq'
+
+
+vim +611 drivers/base/property.c
+
+   596	
+   597	/**
+   598	 * fwnode_name_eq - Return true if node name is equal
+   599	 * @fwnode The firmware node
+   600	 * @name: The name to which to compare the node name
+   601	 *
+   602	 * Compare the name provided as an argument to the name of the node, stopping
+   603	 * the comparison to either '\0' or '@' character, whichever comes first. This
+   604	 * function is generally used for comparing node names while ignoring the
+   605	 * possible unit address of the node.
+   606	 *
+   607	 * Return: true if the node name matches with the name provided in the @name
+   608	 * argument, false otherwise.
+   609	 */
+   610	bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name)
+ > 611	{
+   612		const char *node_name;
+   613		unsigned int len;
+   614	
+   615		node_name = fwnode_get_name(fwnode);
+   616		if (!node_name)
+   617			return false;
+   618	
+   619		len = strchrnul(node_name, '@') - node_name;
+   620	
+   621		return strlen(name) == len && !strncmp(node_name, name, len);
+   622	}
+   623	EXPORT_SYMBOL_GPL(fwnode_name_eq);
+   624	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
