@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CAEE7DC710
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 08:17:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 086A57DC72D
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 08:23:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343593AbjJaHRp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 03:17:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58872 "EHLO
+        id S1343628AbjJaHXK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 03:23:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34068 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233277AbjJaHRn (ORCPT
+        with ESMTP id S1343618AbjJaHXK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 03:17:43 -0400
-Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 778AEC1;
-        Tue, 31 Oct 2023 00:17:40 -0700 (PDT)
+        Tue, 31 Oct 2023 03:23:10 -0400
+Received: from m12.mail.163.com (m12.mail.163.com [220.181.12.216])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 2980D8F;
+        Tue, 31 Oct 2023 00:23:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=omdBI
-        C+e1jVadRkJ0QsCI7L9wKGBA2OoP3PF04hqiWI=; b=OrIC40tmci6RhEscC9gla
-        xHTAaSCL9FiAp/BqCBDMNjAAfGuvu3Oy8IOv5zdDjJICQJj37neLCenx27GEx8Li
-        lDKmGkTAVOqq/Bpp3Az5t9P9G/MmqKOahtO7NkY5g65hZ8Z8xHvl77lhWzfnZewR
-        2ALg90tvkhEUWnqMNz6TCg=
+        s=s110527; h=From:Subject:Date:Message-Id:MIME-Version; bh=6VOEl
+        ouc2GMG6bSXp2UcAdff2CtTi6AX9Q0p7itVxKA=; b=YUV1ANsczlmQDj/76ZA/F
+        DxZ5wllI9YoGk7uy2OyCh3HhSLS1EPXApEobV6F25x9IaIfApQi8VjbHvOd617Kn
+        5gcsTup1Tl2Aw56cKWnnOloOPsYuHdUjzD8z3XQCKtqOtFJAv0p++IDe91sp5llo
+        /MZQS072Fv79ssouXRSXIQ=
 Received: from leanderwang-LC4.localdomain (unknown [111.206.145.21])
-        by zwqz-smtp-mta-g3-3 (Coremail) with SMTP id _____wBn3ojfqUBlwMj4AQ--.51864S5;
-        Tue, 31 Oct 2023 15:16:51 +0800 (CST)
+        by zwqz-smtp-mta-g5-3 (Coremail) with SMTP id _____wC3X7c_q0BlUkngBw--.14054S2;
+        Tue, 31 Oct 2023 15:22:39 +0800 (CST)
 From:   Zheng Wang <zyytlz.wz@163.com>
 To:     dmitry.osipenko@collabora.com
 Cc:     Kyrie.Wu@mediatek.com, bin.liu@mediatek.com, mchehab@kernel.org,
@@ -34,76 +34,61 @@ Cc:     Kyrie.Wu@mediatek.com, bin.liu@mediatek.com, mchehab@kernel.org,
         security@kernel.org, hackerzheng666@gmail.com,
         1395428693sheep@gmail.com, alex000young@gmail.com,
         amergnat@baylibre.com, wenst@chromium.org,
-        Zheng Wang <zyytlz.wz@163.com>, stable@vger.kernel.org
-Subject: [PATCH v2 3/3] media: mtk-jpeg: Fix timeout schedule error in 
-Date:   Tue, 31 Oct 2023 15:16:44 +0800
-Message-Id: <20231031071644.20086-4-zyytlz.wz@163.com>
+        Zheng Wang <zyytlz.wz@163.com>
+Subject: [PATCH v2 0/3] Fix use-after-free bug in mtk_jpeg_dec_device_run and fix schedule error in mtk_jpegdec_worker
+Date:   Tue, 31 Oct 2023 15:22:33 +0800
+Message-Id: <20231031072236.21077-1-zyytlz.wz@163.com>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231031071644.20086-1-zyytlz.wz@163.com>
-References: <20231031071644.20086-1-zyytlz.wz@163.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID: _____wBn3ojfqUBlwMj4AQ--.51864S5
-X-Coremail-Antispam: 1Uf129KBjvJXoW7Ar15uF1rKrW5Gr4xtw4Dtwb_yoW8ZF1rpF
-        WfK3yqkrWUWrZ8tF4UA3W7ZFy5G34Fgr47Ww43Xwn5A343XF47tryjya4xtFWIyFy2ka4F
-        yF4vg34xJFsFyFJanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-        9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UTuWLUUUUU=
+X-CM-TRANSID: _____wC3X7c_q0BlUkngBw--.14054S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7Jw4xJry8Zw1DWryDtw4DCFg_yoWkArX_WF
+        9Y9wn7uw18G3srJF4ayFy5ZrW8GFy7KF45GFZ8KFs5JFy5XFZIqF1vyrZ3uan3Wa12vF43
+        Gr4FqF4UXw1j9jkaLaAFLSUrUUUUbb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUUxsqJUUUUU==
 X-Originating-IP: [111.206.145.21]
-X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/xtbBdgYaU2Dkptft7gAAsP
+X-CM-SenderInfo: h2113zf2oz6qqrwthudrp/xtbBzgAaU2I0bIoWkgAAsz
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_NONE,SPF_PASS
-        autolearn=ham autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_BL,RCVD_IN_MSPIKE_L4,
+        SPF_HELO_NONE,SPF_PASS autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In mtk_jpegdec_worker, if error occurs in mtk_jpeg_set_dec_dst, it
-will start the timeout worker and invoke v4l2_m2m_job_finish at
-the same time. This will break the logic of design for there should
-be only one function to call v4l2_m2m_job_finish. But now the timeout
-handler and mtk_jpegdec_worker will both invoke it.
+Hello,
 
-Fix it by start the worker only if mtk_jpeg_set_dec_dst successfully
-finished.
+This v2 series fixes the use-after-free bug in mtk_jpeg_dec_device_run.
+It inclues reverting the incomplete fix before and make the right fix.
+Also,it fixes the error of timeout-worker-schedule in multiple-core
+devices.
 
-Fixes: da4ede4b7fd6 ("media: mtk-jpeg: move data/code inside CONFIG_OF blocks")
-Signed-off-by: Zheng Wang <zyytlz.wz@163.com>
-Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: stable@vger.kernel.org
----
-v2:
-- put the patches into a single series suggested by Dmitry
----
- drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+1. Remove cancel worker in mtk_jpeg_remove for the worker is only
+registered in single-core device but we try to cacnel it in both
+single-core and multiple-core devices.
 
-diff --git a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-index a39acde2724a..c3456c700c07 100644
---- a/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-@@ -1749,9 +1749,6 @@ static void mtk_jpegdec_worker(struct work_struct *work)
- 	v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
- 	v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
- 
--	schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
--			      msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC));
--
- 	mtk_jpeg_set_dec_src(ctx, &src_buf->vb2_buf, &bs);
- 	if (mtk_jpeg_set_dec_dst(ctx,
- 				 &jpeg_src_buf->dec_param,
-@@ -1761,6 +1758,9 @@ static void mtk_jpegdec_worker(struct work_struct *work)
- 		goto setdst_end;
- 	}
- 
-+	schedule_delayed_work(&comp_jpeg[hw_id]->job_timeout_work,
-+			      msecs_to_jiffies(MTK_JPEG_HW_TIMEOUT_MSEC));
-+
- 	spin_lock_irqsave(&comp_jpeg[hw_id]->hw_lock, flags);
- 	ctx->total_frame_num++;
- 	mtk_jpeg_dec_reset(comp_jpeg[hw_id]->reg_base);
+2. Fix use-after-free bug by delay the schedule_delayed_work only if
+mtk_jpeg_set_dec_dst runs successfully.
+
+3. Delay the schedule_delayed_work in mtk_jpegdec_worker as it has same
+code logic in mtk_jpeg_dec_device_run.
+
+version 2 changes
+
+-put the patches into on series suggested by Dmitry
+
+Zheng Wang (3):
+  media: mtk-jpeg: Remove cancel worker in mtk_jpeg_remove to avoid the
+    crash of multi-core JPEG devices
+  media: mtk-jpeg: Fix use after free bug due to error path handling
+    in mtk_jpeg_dec_device_run
+  media: mtk-jpeg: Fix timeout schedule error in mtk_jpegdec_worker.
+
+ .../media/platform/mediatek/jpeg/mtk_jpeg_core.c    | 13 ++++++-------
+ 1 file changed, 6 insertions(+), 7 deletions(-)
+
 -- 
 2.25.1
 
