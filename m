@@ -2,89 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AC34D7DCB13
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 11:45:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B27E7DCB24
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 11:50:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236299AbjJaKpt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 06:45:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50098 "EHLO
+        id S1343965AbjJaKt7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 06:49:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235071AbjJaKpq (ORCPT
+        with ESMTP id S235071AbjJaKt5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 06:45:46 -0400
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9E4383;
-        Tue, 31 Oct 2023 03:45:43 -0700 (PDT)
-Received: from hillosipuli.retiisi.eu (185-9-10-242.cust.suomicom.net [185.9.10.242])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: sailus)
-        by meesny.iki.fi (Postfix) with ESMTPSA id 4SKRcb54RKzyVh;
-        Tue, 31 Oct 2023 12:45:32 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-        t=1698749140;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=H2lTLELFem5DpyMRkdv4gKGJZh1wufBq0gXd/vl7M/4=;
-        b=EkXQoSVZGmFemBFTHWAdK9B3PlBiIgzTwNAryId/lHPjdby06VLELfz1g8/VGH2qlddXXn
-        1IoWoKi48Rr2/d8RLTcQF+iwuBqxr9sY6eRJ1599LJDHLOhO6RDEer7qvhQKIe0o31vQoT
-        wP2fmUCL58V46bwRUK+vAZNaHur06qE=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-        s=meesny; t=1698749140;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=H2lTLELFem5DpyMRkdv4gKGJZh1wufBq0gXd/vl7M/4=;
-        b=WISYaPU85RWcHvAKGGrKQ4EgBk8ywzHCjYAuLLgDhxUkRjK26t8FdG24C4KSSOl4VKbJwI
-        3pfBP7opfKQdRCRUb6H3r7g6SjZDRko0FFvmJ+ArHygsQxevUMBlvcLoWRzxEDmWi+cswJ
-        +/XJ2d+5amv0U0qPV08YLbizZ+Cj05E=
-ARC-Authentication-Results: i=1;
-        ORIGINATING;
-        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1698749140; a=rsa-sha256; cv=none;
-        b=h0e5b9otCvJfu2Nll35AaiO2PeUTitwLs9ScHKesSN/xKrNgRT4mJGzgHq7QLR4Zp3iRo3
-        L6NfZpoct4UQQAKzTOfTHGOosUZu490gF0zObv1cifmoSPPXF4vg73GgqiD49k3fRwkll0
-        C5XWvaVBT3PZKlgBzKEZqkbWGDISMuI=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 337FB634C93;
-        Tue, 31 Oct 2023 12:45:32 +0200 (EET)
-Date:   Tue, 31 Oct 2023 10:45:32 +0000
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org,
-        Paul Elder <paul.elder@ideasonboard.com>,
+        Tue, 31 Oct 2023 06:49:57 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 849E0A6;
+        Tue, 31 Oct 2023 03:49:49 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 19EBB3D6;
+        Tue, 31 Oct 2023 11:49:31 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1698749371;
+        bh=8aC3d63Vld4oFdtpcSMjy2s9coNxY6qAiDontphoUbU=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=BrsSisKVJlp3fdtJqFOJ3Lls5EWo/+nRdCVfHTXwXNAZblQIHfvuIbAOelw3aRTeE
+         GiA+isiiqSuS0EsI4K83uGO47wDinACHEUa8ol4mAr+8bQQfjtvtiKboquW+CtoA5y
+         gUK8T7NJ8Ztdm7SYbF8fqsH4PjKJqg0dxDVC7MDQ=
+Date:   Tue, 31 Oct 2023 12:49:54 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Tommaso Merciai <tomm.merciai@gmail.com>, martin.hecht@avnet.eu,
+        michael.roeder@avnet.eu, mhecht73@gmail.com,
+        linuxfancy@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Julien Stephan <jstephan@baylibre.com>,
-        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: Re: [PATCH v4 3/3] media: i2c: Add driver for THine THP7312
-Message-ID: <ZUDatMX10WK0bdid@valkosipuli.retiisi.eu>
-References: <20231017132103.9914-1-laurent.pinchart@ideasonboard.com>
- <20231017132103.9914-4-laurent.pinchart@ideasonboard.com>
- <ZTutbU1XG_jKZbIp@valkosipuli.retiisi.eu>
- <20231027124529.GA19539@pendragon.ideasonboard.com>
- <ZTvOIQSmpytUisUD@valkosipuli.retiisi.eu>
- <20231028151858.GB20465@pendragon.ideasonboard.com>
- <ZT9kwC3abUKR9fgQ@valkosipuli.retiisi.eu>
- <20231030104241.GJ12144@pendragon.ideasonboard.com>
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v10 3/3] media: i2c: Add support for alvium camera
+Message-ID: <20231031104954.GJ12764@pendragon.ideasonboard.com>
+References: <ZTpnHdpTgRNll3TC@kekkonen.localdomain>
+ <ZT+hEg7WqkQBnLV5@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <ZUAxoy2cRR6Rm9ig@kekkonen.localdomain>
+ <20231030233809.GD12764@pendragon.ideasonboard.com>
+ <ZUCf_74Z0igCiJ_-@kekkonen.localdomain>
+ <20231031085347.GH12764@pendragon.ideasonboard.com>
+ <ZUDDuoNO5AGjyJLh@kekkonen.localdomain>
+ <ZUDTaq9-j1HmqiEp@kekkonen.localdomain>
+ <20231031101813.GI12764@pendragon.ideasonboard.com>
+ <ZUDYHT0NbkoUtQlc@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231030104241.GJ12144@pendragon.ideasonboard.com>
+In-Reply-To: <ZUDYHT0NbkoUtQlc@kekkonen.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -92,107 +70,244 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-On Mon, Oct 30, 2023 at 12:42:41PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Mon, Oct 30, 2023 at 08:09:36AM +0000, Sakari Ailus wrote:
-> > On Sat, Oct 28, 2023 at 06:18:58PM +0300, Laurent Pinchart wrote:
-> > > On Fri, Oct 27, 2023 at 02:50:09PM +0000, Sakari Ailus wrote:
-> > > > On Fri, Oct 27, 2023 at 03:45:29PM +0300, Laurent Pinchart wrote:
-> > > > 
-> > > > ...
-> > > > 
-> > > > > > > +#include <linux/clk.h>
-> > > > > > > +#include <linux/delay.h>
-> > > > > > > +#include <linux/device.h>
-> > > > > > > +#include <linux/firmware.h>
-> > > > > > > +#include <linux/gpio/consumer.h>
-> > > > > > > +#include <linux/i2c.h>
-> > > > > > > +#include <linux/init.h>
-> > > > > > > +#include <linux/iopoll.h>
-> > > > > > > +#include <linux/kernel.h>
-> > > > > > > +#include <linux/module.h>
-> > > > > > > +#include <linux/mtd/spi-nor.h>
-> > > > > > > +#include <linux/of_device.h>
-> > > > > > > +#include <linux/pm_runtime.h>
-> > > > > > > +#include <linux/regulator/consumer.h>
-> > > > > > > +#include <linux/slab.h>
-> > > > > > > +#include <linux/thp7312.h>
-> > > > > > 
-> > > > > > uapi/linux/thp7321.h ?
-> > > > > 
-> > > > > Is that needed ?
-> > > > 
-> > > > It's a UAPI header. Wouldn't it be reasonable to include it that way
-> > > > (instead of relying on searching include/uapi as well)?
-> > > 
-> > > There are some occurences of '#include <uapi/' in drivers/ (I counted
-> > > 338), but why is that better ?
-> > 
-> > I'd presume that at some point the -Iinclude/uapi will be cleaned up and
-> > then the only option remains to include it from there directly. Why not to
-> > do it already now?
-> 
-> Will it be ? I've never heard of such a plan, but I may have missed it.
-> I thought it was a feature meant to stay, and the recommended way to
-> include headers in the uapi/ directory.
-
-I'm not sure if anyone is cleaning that up actively but it seems like a
-fairly obvious candidate for cleanup.
-
-...
-
-> > > > > > > +	/*
-> > > > > > > +	 * Register a device for the sensor, to support usage of the regulator
-> > > > > > > +	 * API.
-> > > > > > > +	 */
-> > > > > > > +	sensor->dev = kzalloc(sizeof(*sensor->dev), GFP_KERNEL);
-> > > > > > > +	if (!sensor->dev)
-> > > > > > > +		return -ENOMEM;
+On Tue, Oct 31, 2023 at 10:34:05AM +0000, Sakari Ailus wrote:
+> On Tue, Oct 31, 2023 at 12:18:13PM +0200, Laurent Pinchart wrote:
+> > On Tue, Oct 31, 2023 at 10:14:02AM +0000, Sakari Ailus wrote:
+> > > On Tue, Oct 31, 2023 at 09:07:06AM +0000, Sakari Ailus wrote:
+> > > > On Tue, Oct 31, 2023 at 10:53:47AM +0200, Laurent Pinchart wrote:
+> > > > > On Tue, Oct 31, 2023 at 06:34:39AM +0000, Sakari Ailus wrote:
+> > > > > > On Tue, Oct 31, 2023 at 01:38:09AM +0200, Laurent Pinchart wrote:
+> > > > > > > On Mon, Oct 30, 2023 at 10:43:47PM +0000, Sakari Ailus wrote:
+> > > > > > > > On Mon, Oct 30, 2023 at 01:26:58PM +0100, Tommaso Merciai wrote:
+> > > > > > > > 
+> > > > > > > > ...
+> > > > > > > > 
+> > > > > > > > > > > +static int alvium_get_host_supp_csi_lanes(struct alvium_dev *alvium)
+> > > > > > > > > > > +{
+> > > > > > > > > > > +	u64 val;
+> > > > > > > > > > > +	int ret = 0;
+> > > > > > > > > > > +
+> > > > > > > > > > > +	alvium_read(alvium, REG_BCRM_CSI2_LANE_COUNT_RW, &val, &ret);
+> > > > > > > > > > 
+> > > > > > > > > > Missing error checking before the use of the value. The same pattern
+> > > > > > > > > > remains prevalent throughout the driver.
+> > > > > > > > > > 
+> > > > > > > > > > I think it'd be easier if you didn't use a temporary variable for reading,
+> > > > > > > > > > but instead had a register width specific access function. You could even
+> > > > > > > > > > introduce a helper macro to read this information as I suggested in an
+> > > > > > > > > > earlier review.
+> > > > > > > > > 
+> > > > > > > > > oks.
+> > > > > > > > > We are moving to use the following macros:
+> > > > > > > > > 
+> > > > > > > > > #define alvium_read_check(alvium, reg, value) \
+> > > > > > > > > { \
+> > > > > > > > > 	int ret = alvium_read(alvium, reg, value, NULL); \
+> > > > > > > > > 	if (ret) \
+> > > > > > > > > 		return ret; \
+> > > > > > > > > }
+> > > > > > > > > 
+> > > > > > > > 
+> > > > > > > > You could do something like (entirely untested):
+> > > > > > > > 
+> > > > > > > > #define ALVIUM_DECLARE_READ(sign, bits) \
+> > > > > > > > 	static int
+> > > > > > > > 	alvium_read_ ## sign ## bits(struct alvium_dev *alvium, u32 reg, \
+> > > > > > > > 				     sign ## bits *val, int *err) \
+> > > > > > > > 	{ \
+> > > > > > > > 		u64 val64; \
+> > > > > > > > 		int ret; \
+> > > > > > > > 			\
+> > > > > > > > 		if (err && *err < 0) \
+> > > > > > > > 			return *err; \
+> > > > > > > > 			\
+> > > > > > > > 		alvium_read(alvium, reg, &val64, &ret); \
+> > > > > > > > 		if (ret < 0) { \
+> > > > > > > > 			if (err) \
+> > > > > > > > 				*err = ret; \
+> > > > > > > > 			return ret; \
+> > > > > > > > 		}	\
+> > > > > > > > 			\
+> > > > > > > > 		*val = val64; \
+> > > > > > > > 			\
+> > > > > > > > 		return 0; \
+> > > > > > > > 	}
+> > > > > > > > 
+> > > > > > > > ALVIUM_DECLARE_READ(u, 32);
+> > > > > > > > 
+> > > > > > > > And then, e.g. instead of (and failing to check ret):
+> > > > > > > > 
+> > > > > > > > 	u64 val;
+> > > > > > > > 
+> > > > > > > > 	alvium_read(alvium, REG_BCRM_CONTRAST_VALUE_RW, &val, &ret);
+> > > > > > > > 	alvium->dft_contrast = val;
+> > > > > > > > 
+> > > > > > > > you'd have a single call:
+> > > > > > > > 
+> > > > > > > > 	alvium_read_u32(alvium, REG_BCRM_CONTRAST_VALUE_RW,
+> > > > > > > > 		        &alvium->dft_contrast, &ret);
+> > > > > > > > 
+> > > > > > > > And so on.
+> > > > > > > > 
+> > > > > > > > You can drop sign if you don't need signed reads but some of the struct
+> > > > > > > > fields you're writing something appear to be signed.
+> > > > > > > > 
+> > > > > > > > It'd be good to check the register size matches with the size of *val, too.
+> > > > > > > > Maybe something like:
+> > > > > > > > 
+> > > > > > > > WARN_ON((CCI_REG ## bits(0) && CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT
+> > > > > > > > 	!= sizeof(sign ## bits));
+> > > > > > > 
+> > > > > > > I think this could actually be automated, and implemented in v4l2-cci.
+> > > > > > > Something like the following:
+> > > > > > > 
+> > > > > > > diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
+> > > > > > > index bc2dbec019b0..27f1eaa7777d 100644
+> > > > > > > --- a/drivers/media/v4l2-core/v4l2-cci.c
+> > > > > > > +++ b/drivers/media/v4l2-core/v4l2-cci.c
+> > > > > > > @@ -16,7 +16,7 @@
+> > > > > > > 
+> > > > > > >  #include <media/v4l2-cci.h>
+> > > > > > > 
+> > > > > > > -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+> > > > > > > +int __cci_read(struct regmap *map, u32 reg, void *val, int *err)
+> > > > > > >  {
+> > > > > > >  	unsigned int len;
+> > > > > > >  	u8 buf[8];
+> > > > > > > @@ -37,19 +37,19 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+> > > > > > > 
+> > > > > > >  	switch (len) {
+> > > > > > >  	case 1:
+> > > > > > > -		*val = buf[0];
+> > > > > > > +		*(u8 *)val = buf[0];
+> > > > > > >  		break;
+> > > > > > >  	case 2:
+> > > > > > > -		*val = get_unaligned_be16(buf);
+> > > > > > > +		*(u16 *)val = get_unaligned_be16(buf);
+> > > > > > >  		break;
+> > > > > > >  	case 3:
+> > > > > > > -		*val = get_unaligned_be24(buf);
+> > > > > > > +		*(u32 *)val = get_unaligned_be24(buf);
+> > > > > > >  		break;
+> > > > > > >  	case 4:
+> > > > > > > -		*val = get_unaligned_be32(buf);
+> > > > > > > +		*(u32 *)val = get_unaligned_be32(buf);
+> > > > > > >  		break;
+> > > > > > >  	case 8:
+> > > > > > > -		*val = get_unaligned_be64(buf);
+> > > > > > > +		*(u64 *)val = get_unaligned_be64(buf);
+> > > > > > >  		break;
+> > > > > > >  	default:
+> > > > > > >  		dev_err(regmap_get_device(map), "Error invalid reg-width %u for reg 0x%04x\n",
+> > > > > > > @@ -64,7 +64,7 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+> > > > > > > 
+> > > > > > >  	return ret;
+> > > > > > >  }
+> > > > > > > -EXPORT_SYMBOL_GPL(cci_read);
+> > > > > > > +EXPORT_SYMBOL_GPL(__cci_read);
+> > > > > > > 
+> > > > > > >  int cci_write(struct regmap *map, u32 reg, u64 val, int *err)
+> > > > > > >  {
+> > > > > > > @@ -119,7 +119,7 @@ int cci_update_bits(struct regmap *map, u32 reg, u64 mask, u64 val, int *err)
+> > > > > > >  	u64 readval;
+> > > > > > >  	int ret;
+> > > > > > > 
+> > > > > > > -	ret = cci_read(map, reg, &readval, err);
+> > > > > > > +	ret = __cci_read(map, reg, &readval, err);
+> > > > > > >  	if (ret)
+> > > > > > >  		return ret;
+> > > > > > > 
+> > > > > > > diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
+> > > > > > > index 0f6803e4b17e..31223ce8d741 100644
+> > > > > > > --- a/include/media/v4l2-cci.h
+> > > > > > > +++ b/include/media/v4l2-cci.h
+> > > > > > > @@ -7,6 +7,9 @@
+> > > > > > >  #ifndef _V4L2_CCI_H
+> > > > > > >  #define _V4L2_CCI_H
+> > > > > > > 
+> > > > > > > +#include <linux/bitfield.h>
+> > > > > > > +#include <linux/build_bug.h>
+> > > > > > > +#include <linux/log2.h>
+> > > > > > >  #include <linux/types.h>
+> > > > > > > 
+> > > > > > >  struct i2c_client;
+> > > > > > > @@ -39,6 +42,8 @@ struct cci_reg_sequence {
+> > > > > > >  #define CCI_REG32(x)			((4 << CCI_REG_WIDTH_SHIFT) | (x))
+> > > > > > >  #define CCI_REG64(x)			((8 << CCI_REG_WIDTH_SHIFT) | (x))
+> > > > > > > 
+> > > > > > > +int __cci_read(struct regmap *map, u32 reg, void *val, int *err);
 > > > > > > > +
-> > > > > > > +	sensor->dev->parent = dev;
-> > > > > > > +	sensor->dev->of_node = of_node_get(sensor->of_node);
+> > > > > > >  /**
+> > > > > > >   * cci_read() - Read a value from a single CCI register
+> > > > > > >   *
+> > > > > > > @@ -48,9 +53,17 @@ struct cci_reg_sequence {
+> > > > > > >   * @err: Optional pointer to store errors, if a previous error is set
+> > > > > > >   *       then the read will be skipped
+> > > > > > >   *
+> > > > > > > + * The type of the @val pointer must match the size of the register being read.
+> > > > > > > + * Mismatches will result in compile-time errors.
+> > > > > > > + *
+> > > > > > >   * Return: %0 on success or a negative error code on failure.
+> > > > > > >   */
+> > > > > > > -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err);
+> > > > > > > +#define cci_read(map, reg, val, err) ({					\
+> > > > > > > +	u32 __reg = (reg);						\
+> > > > > > > +	u32 __size = FIELD_GET(CCI_REG_WIDTH_MASK, __reg);		\
+> > > > > > > +	BUILD_BUG_ON(sizeof(*(val)) != roundup_pow_of_two(__size));	\
+> > > > > > > +	__cci_read(map, __reg, (void *)(val), err);			\
+> > > > > > > +})
+> > > > > > > 
+> > > > > > >  /**
+> > > > > > >   * cci_write() - Write a value to a single CCI register
+> > > > > > > 
+> > > > > > > The change to cci_update_bits() is obviously wrong, I've hacked that to
+> > > > > > > compile-test the rest with the drivers using cci_read(), and I get nice
+> > > > > > > build-time errors due to usage of the wrong type :-)
+> > > > > > > 
+> > > > > > > Is this something that would be considered ? Bonus points to anyone who
+> > > > > > > would fix cci_update_bits() :-)
 > > > > > > 
-> > > > > > This device could well find its way to a non-OF system. Could you use the
-> > > > > > fwnode property API instead?
+> > > > > > I like the idea of moving this to v4l2-cci.
+> > > > > > 
+> > > > > > I'd prefer _Generic() based solution as we'd have exact types there instead
+> > > > > > of just size. E.g. with the above code, reading a value to a long variable
+> > > > > > would work on some archs but fail on others.
 > > > > > 
-> > > > > I'm pretty sure there will be problems if someone was using this driver
-> > > > > on an ACPI-based system, so trying to pretend it's supported without
-> > > > > being able to test it may not be the best use of development time. I'll
-> > > > > try, but if I hit any issue, I'll keep using the OF-specific functions
-> > > > > in the next version.
+> > > > > Doesn't _Generic() treat compatible types identically ?
 > > > > 
-> > > > I'd suggest to use OF functions if there's no corresponding fwnode function
-> > > > available. The intention is they cover the same scope, so it is likely
-> > > > something that's missing will be added sooner or later.
+> > > > Ah, it does, indeed. So that doesn't solve the long problem.
+> > > > 
+> > > > I guess the code will be more compact with just void *, on the expense of
+> > > > (some) type checking.
+> > > > 
+> > > > I'm fine with either.
 > > > 
-> > > I understand, but if the conversion is not complete, it's not very
-> > > valuable. I have no objection against using the fwnode API in the
-> > > driver, but I'll let someone else handle it when and if needed.
+> > > You can't check the variable size matches the register width by using a
+> > > void pointer. That'd be a source for possibly difficult to debug problems:
+> > > passing a pointer to u8 variable while reading a 64-bit register overwrites
+> > > seven bytes on the stack outside the variable itself.
+> > > 
+> > > Let's use _Generic().
 > > 
-> > If you leave it using OF-only API now in a driver that is not bound to OF
-> > in any way, someone moving it to fwnode later may not be able to test it on
-> > OF, increasing the likelihood something breaks. So use fwnode API where you
-> > can now, and we'll address that one call later on.
+> > I still don't see how that will help :-) The prototype of the
+> > __cci_read() function is unrelated to whether or not _Generic() gets
+> > used. The cci_read() macro will cause a *build* time error if the value
+> > pointer doesn't match the register size. The __cci_read() function must
+> > not be used directly by drivers.
 > 
-> Sorry, this is extra work for very little gain (if any) now, so I don't
-> plan to do so if I can't implement a full conversion.
+> Ah, right, this part of the check is indeed in the macro. That doesn't
+> catch floats but those are unlikely be a practical issue anyway.
 
-I don't see why would you leave this for someone else to clean up later.
-It's called "technical debt". Similarly, we have no ACPI-only sensor
-drivers that would use ACPI specific functions that would not be available
-on non-ACPI systems --- they've all used the fwnode API, missing just
-regulators, clocks and GPIOs.
+Indeed. If you really think it's a concern then I'm fine with _Generic()
+:-) I have no issue using _Generic() overall, and I'd be fine if someone
+wanted to take the above code and make it a real patch. The
+cci_update_bits() problem still has to be solved.
 
-If you like, I think we could have an fwnode version of the same function,
-to be used with DT binding compliant format for the device in ACPI DSDT.
-Plain ACPI would have no need for the function.
+> The cast to void * is redundant in the macro.
 
-Cc Andy, too.
+Good point.
 
 -- 
 Regards,
 
-Sakari Ailus
+Laurent Pinchart
