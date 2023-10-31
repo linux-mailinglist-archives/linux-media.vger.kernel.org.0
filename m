@@ -2,121 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E4107DCB8B
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 12:15:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59D567DCBF5
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 12:38:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235373AbjJaLPt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 07:15:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44750 "EHLO
+        id S1343819AbjJaLiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 07:38:25 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51502 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235369AbjJaLPs (ORCPT
+        with ESMTP id S1343818AbjJaLiX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 07:15:48 -0400
-Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99940DF
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 04:15:42 -0700 (PDT)
-Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-280137f1a1bso2814702a91.1
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 04:15:42 -0700 (PDT)
+        Tue, 31 Oct 2023 07:38:23 -0400
+Received: from mail-wm1-x333.google.com (mail-wm1-x333.google.com [IPv6:2a00:1450:4864:20::333])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2535EDA
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 04:38:21 -0700 (PDT)
+Received: by mail-wm1-x333.google.com with SMTP id 5b1f17b1804b1-4084b0223ccso43067545e9.2
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 04:38:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698750942; x=1699355742; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DRnf1Zwy+T7bxtya+9g6CohFovFw9UPlzTKl75H3rms=;
-        b=EKlViQlNY1iyVr0cRU/A1E04M/YOwxYT1Eg2aZC4c9kpfnhO2a1KA+cc8gORJO6PZT
-         OfM4w7dAtDpRIO6nz5k5ZV66x/DEmZgom7T4GY1cXxImFpoUCYIc0V6XSRuVoSMnkeYi
-         4XwydFVR1ydhqIj40EdEDFrukSpiqcXRtx9DqSnNnaLlD9vkQx+Y40ttFlfdWpPvHUN0
-         KRftBc3FJFT9i/X8UHK0qNDnNJ57KYudI7lhRNj5QH/WWLuJghWqKcPfd84j334bZ0CG
-         zqbTlOOv7Y7sTWtgqCt9ZuGkIAO6RMN/QCCO83WFuNk2Yy8Ndi8B70T9Mw88XGp+PnhZ
-         LYFA==
+        d=linaro.org; s=google; t=1698752299; x=1699357099; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=K0Atp27LZfRzmnYpBx5CazxCFjGuBvxzQl4UQFiRe54=;
+        b=a9zgCis12cTMtE9IP7VOjnYivak3ftoij7/y8Ys1LFWm3U9cQ7UgnvWPv4fleY/VyE
+         cYWE1BXcdgQCDzal2ttZyRq3vlbsgWugQ67fAnqVoK6QizFA+UO4pEHQRRWPqynY8IvS
+         aIUJahrYCPxvG0ylgF06KW1e00j38v8BRUNavEWr8MPDkgrobJeJ05xRvwfQQOXzO8WH
+         e33juV62vG2Je6bXfsrKYjtqkObbsRFpE67QT4xzITM2P5KiA2oXx/9AmBGli2aNh1Yw
+         wfVgGSebpa74R9xcKc5xTaKst+9nUOFv44ZTTb78/bJT04mnbXqRHbdRR32D+sxTLLfi
+         2fOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698750942; x=1699355742;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=DRnf1Zwy+T7bxtya+9g6CohFovFw9UPlzTKl75H3rms=;
-        b=ZV/ajY+Npm6ixT3grG1zN3dnNX2UuxTgljlpEK4RlXKpZbwUZQPyinGIltZGEDioz2
-         3rf6RkQ7z9DmterpD7kRlwoTfqNih53tVvMCiSn2mUdtKvABuQNN/wCmuaHQ+YzvamGZ
-         UVC0Sun1Sbkh2f4jJnVaCF/1t6xbP9ROYIQv7g555HlZDMkvji0rASNvAg67ufMQWjuW
-         AKahShoJVrz2jVhfBd1DRXiXxBNV4gYMI5LsBYKJtK7KHrZWsIcBmX7pe7+z733k62oF
-         a0gucmCqqgnfdgf9MBazAt8cUvJyYkLHoL3t8jTtTYV2ubab/P3G5zd9ZZFuESqhIFSA
-         GvNA==
-X-Gm-Message-State: AOJu0YxFDNDGn4Cq/rHIqe78BZWaytas5X2bYpgFWu9H1pmVTDH/zyiC
-        txzMgyhrQ7hE3n3ZTfCnJAPcMbHoqCWj7CehTx8=
-X-Google-Smtp-Source: AGHT+IGwE6jinDVZsJ31WkpZJONiSiZOy08s+llqjZT0HA+oJE81wYpGHjcJDNgFOl+bA0WEPEQwWsayCA65YvlYj1U=
-X-Received: by 2002:a17:90a:985:b0:27d:237b:558b with SMTP id
- 5-20020a17090a098500b0027d237b558bmr9212619pjo.5.1698750941969; Tue, 31 Oct
- 2023 04:15:41 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1698752299; x=1699357099;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=K0Atp27LZfRzmnYpBx5CazxCFjGuBvxzQl4UQFiRe54=;
+        b=ogOQep8ZQtEe99arc+c+6CdfPCrycGDFEqQ3IryzFfjhJe7gze3GBFlLn7NnPvJ9kJ
+         hlEGM5kRpkUivpb0r9gjYwFV11EL+VkDpkOGF4IkP+eNt/cIdQVaGjt3sDC7lbWMfsuX
+         NKywbnICXyz+WzmaAZA45ls6vfGSuwKOhdtHGIzzET4z4Ox/YTdGnGbY5WYI73NBSd4w
+         NT7inVuc8lqXqcBAOf5AnJZUnbxXceDp87rKURBtrYY+M6U/tqd9ebArhaUWttaUdvqw
+         RNSj5r/rUgh60twzL173PuH6kmtqGPgHEHSFscyOyQ8uCPtDMa5qojDlWW3byTQMuiZk
+         JIPw==
+X-Gm-Message-State: AOJu0YzmlM2x/4U9AyQ8TEKrG5DcaYK0x1pFdzlu/v7mnKPWnqiZY5UP
+        kPrOOWkkOwri3ykzg0KEG58/6w==
+X-Google-Smtp-Source: AGHT+IGb/PBBH9uX4ZCP3I3lEgbPgZQf8px9qSYMcl1XUQI1jOkACWOw0SL+ILGYpQcTWBsY9KGXlw==
+X-Received: by 2002:a05:600c:3501:b0:404:757e:c5ba with SMTP id h1-20020a05600c350100b00404757ec5bamr9487672wmq.26.1698752299429;
+        Tue, 31 Oct 2023 04:38:19 -0700 (PDT)
+Received: from [192.168.100.102] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id 8-20020a05600c248800b004060f0a0fdbsm1490423wms.41.2023.10.31.04.38.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Oct 2023 04:38:19 -0700 (PDT)
+Message-ID: <5a6ba550-6115-47ab-b724-5e29d64a1b2e@linaro.org>
+Date:   Tue, 31 Oct 2023 11:38:18 +0000
 MIME-Version: 1.0
-References: <CAG-BmoeV6zGZLk53Z6jr2WSr+5wvmo5=YtnLAAUeEkEqn_nf5w@mail.gmail.com>
- <20231031000413.GE12764@pendragon.ideasonboard.com>
-In-Reply-To: <20231031000413.GE12764@pendragon.ideasonboard.com>
-From:   Ghanshyam Agrawal <ghanshyam1898@gmail.com>
-Date:   Tue, 31 Oct 2023 16:45:05 +0530
-Message-ID: <CAG-BmodLdbt9dNnPtNBv6BmnyXXYRPX1qwrJq=m2Y48hN0XC7g@mail.gmail.com>
-Subject: Re: Need some guidance working on a TODO item
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_ENVFROM_END_DIGIT,
-        FREEMAIL_FROM,RCVD_IN_DNSWL_NONE,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 5/5] media: qcom: camss: Add support for named
+ power-domains
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        rfoss@kernel.org, todor.too@gmail.com, andersson@kernel.org,
+        mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20231026155042.551731-1-bryan.odonoghue@linaro.org>
+ <20231026155042.551731-6-bryan.odonoghue@linaro.org>
+ <d411e561-b0d0-48db-959e-3347006bce77@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <d411e561-b0d0-48db-959e-3347006bce77@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 31, 2023 at 5:34=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hello Ghanshyam,
->
-> CC'ing the linux-media mailing list, to let other developers chime in as
-> well.
->
-> On Sat, Oct 28, 2023 at 04:07:03PM +0530, Ghanshyam Agrawal wrote:
-> > Hello Laurent,
-> >
-> > Line 90 in file "drivers/media/usb/uvc/uvcvideo.h" in linux_mainline tr=
-ee
-> > states
-> >
-> > /*
-> >  * TODO: Put the most frequently accessed fields at the beginning of
-> >  * structures to maximize cache efficiency.
-> >  */
-> >
-> > I am working on this todo item. Can you please guide me regarding
-> >
-> > 1. How can I find the number of accesses of each of the fields?
->
-> By reading through the code :-) It may be possible to instrument that,
-> but I have no idea how.
->
-> > 2. How can I find out the cache efficiency?
->
-> Do you know how caches work ?
->
-> > 3. When we say cache, which cache are we talking about?
->
-> The CPU caches, any level.
->
-> --
-> Regards,
->
-> Laurent Pinchart
+On 31/10/2023 10:53, Konrad Dybcio wrote:
+> On 26.10.2023 17:50, Bryan O'Donoghue wrote:
+>> Right now we use fixed indexes to assign power-domains, with a
+>> requirement for the TOP GDSC to come last in the list.
+>>
+>> Adding support for named power-domains means the declaration in the dtsi
+>> can come in any order.
+>>
+>> After this change we continue to support the old indexing - if a SoC
+>> resource declration or the in-use dtb doesn't declare power-domain names
+>> we fall back to the default legacy indexing.
+>>
+>>  From this point on though new SoC additions should contain named
+>> power-domains, eventually we will drop support for legacy indexing.
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+>>   drivers/media/platform/qcom/camss/camss-vfe.c | 24 ++++++++++++++++-
+>>   drivers/media/platform/qcom/camss/camss.c     | 26 +++++++++++++++----
+>>   drivers/media/platform/qcom/camss/camss.h     |  2 ++
+>>   3 files changed, 46 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+>> index ebd5da6ad3f2f..cb48723efd8a0 100644
+>> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+>> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+>> @@ -1381,7 +1381,29 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
+>>   	if (!res->line_num)
+>>   		return -EINVAL;
+>>   
+>> -	if (res->has_pd) {
+>> +	/* Power domain */
+> Unnecessary, I think
+> 
 
-Hello Laurent,
+Consistent with existing commentary in this function ->
 
-Thanks for your email. I will read the code and figure out which
-fields are accessed more frequently. I do have an understanding of the
-caching mechanism; and as you mentioned "cpu caches", I will find out
-the efficiency accordingly.
+/* Memory */
 
-Thanks again. I appreciate your response.
+/* Interrupts */
 
-Regards,
-Ghanshyam Agrawal
+>> +
+>> +	if (res->pd_name) {
+> No need to nullcheck, dev_pm_domain_attach_by_name seems to return
+> NULL when the name is NULL
+
+It looks so. Then again I'm sure checking here saves a few instructions 
+and stack operations..
+
+---
+bod
