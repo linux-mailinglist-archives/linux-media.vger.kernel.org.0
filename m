@@ -2,272 +2,239 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A1F47DC8B1
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 09:53:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A825F7DC8BA
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 09:55:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235349AbjJaIxs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 04:53:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41466 "EHLO
+        id S235447AbjJaIzr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 04:55:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40298 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235314AbjJaIxr (ORCPT
+        with ESMTP id S235453AbjJaIzq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 04:53:47 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D409DA;
-        Tue, 31 Oct 2023 01:53:43 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C46492E4;
-        Tue, 31 Oct 2023 09:53:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698742405;
-        bh=Hy2L6X5L+EpclPfJr2s81XeLbfQHnZfCrcEAXNAvOas=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=gmGVPDzzTNYsrw007x2cWeYTgbxJ+Tyy1zUvHeV8n+yj0Wl5bPAO98Z/In7cBDPWQ
-         +bQNC486sW8UlXDO57Og2t48GsvcEkXbuZR/EJ1sLQ/Ex9Wg5Ki6yaYIxV3/3/YgMH
-         HniHR/GEtvWqcolPYlKxOBQh383Dn5tSc8CXHH2w=
-Date:   Tue, 31 Oct 2023 10:53:47 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Tommaso Merciai <tomm.merciai@gmail.com>, martin.hecht@avnet.eu,
-        michael.roeder@avnet.eu, mhecht73@gmail.com,
-        linuxfancy@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 3/3] media: i2c: Add support for alvium camera
-Message-ID: <20231031085347.GH12764@pendragon.ideasonboard.com>
-References: <20231020141354.2500602-1-tomm.merciai@gmail.com>
- <20231020141354.2500602-4-tomm.merciai@gmail.com>
- <ZTpnHdpTgRNll3TC@kekkonen.localdomain>
- <ZT+hEg7WqkQBnLV5@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <ZUAxoy2cRR6Rm9ig@kekkonen.localdomain>
- <20231030233809.GD12764@pendragon.ideasonboard.com>
- <ZUCf_74Z0igCiJ_-@kekkonen.localdomain>
+        Tue, 31 Oct 2023 04:55:46 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86ADDD8
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 01:55:42 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4247CC433C9;
+        Tue, 31 Oct 2023 08:55:41 +0000 (UTC)
+Message-ID: <bd31fb1d-08de-484a-8733-0837346d36ee@xs4all.nl>
+Date:   Tue, 31 Oct 2023 09:55:39 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZUCf_74Z0igCiJ_-@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/4] v4l2-compliance: Test queue maximum buffers
+ allocation
+Content-Language: en-US, nl
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        nicolas.dufresne@collabora.com, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, kernel@collabora.com
+References: <20231027084732.17528-1-benjamin.gaignard@collabora.com>
+ <20231027084732.17528-3-benjamin.gaignard@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231027084732.17528-3-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 31, 2023 at 06:34:39AM +0000, Sakari Ailus wrote:
-> On Tue, Oct 31, 2023 at 01:38:09AM +0200, Laurent Pinchart wrote:
-> > On Mon, Oct 30, 2023 at 10:43:47PM +0000, Sakari Ailus wrote:
-> > > On Mon, Oct 30, 2023 at 01:26:58PM +0100, Tommaso Merciai wrote:
-> > > 
-> > > ...
-> > > 
-> > > > > > +static int alvium_get_host_supp_csi_lanes(struct alvium_dev *alvium)
-> > > > > > +{
-> > > > > > +	u64 val;
-> > > > > > +	int ret = 0;
-> > > > > > +
-> > > > > > +	alvium_read(alvium, REG_BCRM_CSI2_LANE_COUNT_RW, &val, &ret);
-> > > > > 
-> > > > > Missing error checking before the use of the value. The same pattern
-> > > > > remains prevalent throughout the driver.
-> > > > > 
-> > > > > I think it'd be easier if you didn't use a temporary variable for reading,
-> > > > > but instead had a register width specific access function. You could even
-> > > > > introduce a helper macro to read this information as I suggested in an
-> > > > > earlier review.
-> > > > 
-> > > > oks.
-> > > > We are moving to use the following macros:
-> > > > 
-> > > > #define alvium_read_check(alvium, reg, value) \
-> > > > { \
-> > > > 	int ret = alvium_read(alvium, reg, value, NULL); \
-> > > > 	if (ret) \
-> > > > 		return ret; \
-> > > > }
-> > > > 
-> > > 
-> > > You could do something like (entirely untested):
-> > > 
-> > > #define ALVIUM_DECLARE_READ(sign, bits) \
-> > > 	static int
-> > > 	alvium_read_ ## sign ## bits(struct alvium_dev *alvium, u32 reg, \
-> > > 				     sign ## bits *val, int *err) \
-> > > 	{ \
-> > > 		u64 val64; \
-> > > 		int ret; \
-> > > 			\
-> > > 		if (err && *err < 0) \
-> > > 			return *err; \
-> > > 			\
-> > > 		alvium_read(alvium, reg, &val64, &ret); \
-> > > 		if (ret < 0) { \
-> > > 			if (err) \
-> > > 				*err = ret; \
-> > > 			return ret; \
-> > > 		}	\
-> > > 			\
-> > > 		*val = val64; \
-> > > 			\
-> > > 		return 0; \
-> > > 	}
-> > > 
-> > > ALVIUM_DECLARE_READ(u, 32);
-> > > 
-> > > And then, e.g. instead of (and failing to check ret):
-> > > 
-> > > 	u64 val;
-> > > 
-> > > 	alvium_read(alvium, REG_BCRM_CONTRAST_VALUE_RW, &val, &ret);
-> > > 	alvium->dft_contrast = val;
-> > > 
-> > > you'd have a single call:
-> > > 
-> > > 	alvium_read_u32(alvium, REG_BCRM_CONTRAST_VALUE_RW,
-> > > 		        &alvium->dft_contrast, &ret);
-> > > 
-> > > And so on.
-> > > 
-> > > You can drop sign if you don't need signed reads but some of the struct
-> > > fields you're writing something appear to be signed.
-> > > 
-> > > It'd be good to check the register size matches with the size of *val, too.
-> > > Maybe something like:
-> > > 
-> > > WARN_ON((CCI_REG ## bits(0) && CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT
-> > > 	!= sizeof(sign ## bits));
-> > 
-> > I think this could actually be automated, and implemented in v4l2-cci.
-> > Something like the following:
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
-> > index bc2dbec019b0..27f1eaa7777d 100644
-> > --- a/drivers/media/v4l2-core/v4l2-cci.c
-> > +++ b/drivers/media/v4l2-core/v4l2-cci.c
-> > @@ -16,7 +16,7 @@
-> > 
-> >  #include <media/v4l2-cci.h>
-> > 
-> > -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> > +int __cci_read(struct regmap *map, u32 reg, void *val, int *err)
-> >  {
-> >  	unsigned int len;
-> >  	u8 buf[8];
-> > @@ -37,19 +37,19 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> > 
-> >  	switch (len) {
-> >  	case 1:
-> > -		*val = buf[0];
-> > +		*(u8 *)val = buf[0];
-> >  		break;
-> >  	case 2:
-> > -		*val = get_unaligned_be16(buf);
-> > +		*(u16 *)val = get_unaligned_be16(buf);
-> >  		break;
-> >  	case 3:
-> > -		*val = get_unaligned_be24(buf);
-> > +		*(u32 *)val = get_unaligned_be24(buf);
-> >  		break;
-> >  	case 4:
-> > -		*val = get_unaligned_be32(buf);
-> > +		*(u32 *)val = get_unaligned_be32(buf);
-> >  		break;
-> >  	case 8:
-> > -		*val = get_unaligned_be64(buf);
-> > +		*(u64 *)val = get_unaligned_be64(buf);
-> >  		break;
-> >  	default:
-> >  		dev_err(regmap_get_device(map), "Error invalid reg-width %u for reg 0x%04x\n",
-> > @@ -64,7 +64,7 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> > 
-> >  	return ret;
-> >  }
-> > -EXPORT_SYMBOL_GPL(cci_read);
-> > +EXPORT_SYMBOL_GPL(__cci_read);
-> > 
-> >  int cci_write(struct regmap *map, u32 reg, u64 val, int *err)
-> >  {
-> > @@ -119,7 +119,7 @@ int cci_update_bits(struct regmap *map, u32 reg, u64 mask, u64 val, int *err)
-> >  	u64 readval;
-> >  	int ret;
-> > 
-> > -	ret = cci_read(map, reg, &readval, err);
-> > +	ret = __cci_read(map, reg, &readval, err);
-> >  	if (ret)
-> >  		return ret;
-> > 
-> > diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
-> > index 0f6803e4b17e..31223ce8d741 100644
-> > --- a/include/media/v4l2-cci.h
-> > +++ b/include/media/v4l2-cci.h
-> > @@ -7,6 +7,9 @@
-> >  #ifndef _V4L2_CCI_H
-> >  #define _V4L2_CCI_H
-> > 
-> > +#include <linux/bitfield.h>
-> > +#include <linux/build_bug.h>
-> > +#include <linux/log2.h>
-> >  #include <linux/types.h>
-> > 
-> >  struct i2c_client;
-> > @@ -39,6 +42,8 @@ struct cci_reg_sequence {
-> >  #define CCI_REG32(x)			((4 << CCI_REG_WIDTH_SHIFT) | (x))
-> >  #define CCI_REG64(x)			((8 << CCI_REG_WIDTH_SHIFT) | (x))
-> > 
-> > +int __cci_read(struct regmap *map, u32 reg, void *val, int *err);
-> > +
-> >  /**
-> >   * cci_read() - Read a value from a single CCI register
-> >   *
-> > @@ -48,9 +53,17 @@ struct cci_reg_sequence {
-> >   * @err: Optional pointer to store errors, if a previous error is set
-> >   *       then the read will be skipped
-> >   *
-> > + * The type of the @val pointer must match the size of the register being read.
-> > + * Mismatches will result in compile-time errors.
-> > + *
-> >   * Return: %0 on success or a negative error code on failure.
-> >   */
-> > -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err);
-> > +#define cci_read(map, reg, val, err) ({					\
-> > +	u32 __reg = (reg);						\
-> > +	u32 __size = FIELD_GET(CCI_REG_WIDTH_MASK, __reg);		\
-> > +	BUILD_BUG_ON(sizeof(*(val)) != roundup_pow_of_two(__size));	\
-> > +	__cci_read(map, __reg, (void *)(val), err);			\
-> > +})
-> > 
-> >  /**
-> >   * cci_write() - Write a value to a single CCI register
-> > 
-> > The change to cci_update_bits() is obviously wrong, I've hacked that to
-> > compile-test the rest with the drivers using cci_read(), and I get nice
-> > build-time errors due to usage of the wrong type :-)
-> > 
-> > Is this something that would be considered ? Bonus points to anyone who
-> > would fix cci_update_bits() :-)
+On 27/10/2023 10:47, Benjamin Gaignard wrote:
+> If  V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS is set v4l2_create_buffers
+> 'max_num_buffers' field reports the maximum number of buffers supported
+> by the queue.
+> Add a test to allocate this maximum value and make sure that one
+> more allocation is failing.
+> Display the flag in v4l2-ctl.
 > 
-> I like the idea of moving this to v4l2-cci.
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  utils/common/cv4l-helpers.h                 |  1 +
+>  utils/common/v4l-helpers.h                  |  5 +++
+>  utils/common/v4l2-info.cpp                  |  1 +
+>  utils/v4l2-compliance/v4l2-compliance.cpp   |  1 +
+>  utils/v4l2-compliance/v4l2-compliance.h     |  1 +
+>  utils/v4l2-compliance/v4l2-test-buffers.cpp | 42 ++++++++++++++++++++-
+>  6 files changed, 50 insertions(+), 1 deletion(-)
 > 
-> I'd prefer _Generic() based solution as we'd have exact types there instead
-> of just size. E.g. with the above code, reading a value to a long variable
-> would work on some archs but fail on others.
+> diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
+> index 91a04146..5a515a13 100644
+> --- a/utils/common/cv4l-helpers.h
+> +++ b/utils/common/cv4l-helpers.h
+> @@ -743,6 +743,7 @@ public:
+>  	unsigned g_type() const { return v4l_queue_g_type(this); }
+>  	unsigned g_memory() const { return v4l_queue_g_memory(this); }
+>  	unsigned g_buffers() const { return v4l_queue_g_buffers(this); }
+> +	unsigned g_max_buffers() const { return v4l_queue_g_max_buffers(this); }
 
-Doesn't _Generic() treat compatible types identically ?
+Let's call this g_max_num_buffers...
 
--- 
+>  	unsigned g_num_planes() const { return v4l_queue_g_num_planes(this); }
+>  	unsigned g_capabilities() const { return v4l_queue_g_capabilities(this); }
+>  	unsigned g_length(unsigned plane) const { return v4l_queue_g_length(this, plane); }
+> diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
+> index f8e96d58..550ec377 100644
+> --- a/utils/common/v4l-helpers.h
+> +++ b/utils/common/v4l-helpers.h
+> @@ -1429,6 +1429,7 @@ struct v4l_queue {
+>  	unsigned mappings;
+>  	unsigned num_planes;
+>  	unsigned capabilities;
+> +	unsigned max_buffers;
+
+...and this max_num_buffers.
+
+No need to rename this from what videodev2.h uses.
+
+Same elsewhere in this patch.
+
+>  
+>  	__u32 lengths[VIDEO_MAX_PLANES];
+>  	__u32 mem_offsets[VIDEO_MAX_FRAME][VIDEO_MAX_PLANES];
+> @@ -1453,6 +1454,7 @@ static inline void v4l_queue_init(struct v4l_queue *q,
+>  static inline unsigned v4l_queue_g_type(const struct v4l_queue *q) { return q->type; }
+>  static inline unsigned v4l_queue_g_memory(const struct v4l_queue *q) { return q->memory; }
+>  static inline unsigned v4l_queue_g_buffers(const struct v4l_queue *q) { return q->buffers; }
+> +static inline unsigned v4l_queue_g_max_buffers(const struct v4l_queue *q) { return q->max_buffers; }
+>  static inline unsigned v4l_queue_g_mappings(const struct v4l_queue *q) { return q->mappings; }
+>  static inline unsigned v4l_queue_g_num_planes(const struct v4l_queue *q) { return q->num_planes; }
+>  static inline unsigned v4l_queue_g_capabilities(const struct v4l_queue *q) { return q->capabilities; }
+> @@ -1587,6 +1589,9 @@ static inline int v4l_queue_create_bufs(struct v4l_fd *f,
+>  	if (ret)
+>  		return ret;
+>  	q->capabilities = createbufs.capabilities;
+> +	q->max_buffers = 32;
+> +	if (q->capabilities & V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS)
+> +		q->max_buffers = createbufs.max_num_buffers;
+>  	q->buffers += createbufs.count;
+>  	return v4l_queue_querybufs(f, q, q->buffers - createbufs.count);
+>  }
+> diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
+> index 4f8c2aa7..b11f2b77 100644
+> --- a/utils/common/v4l2-info.cpp
+> +++ b/utils/common/v4l2-info.cpp
+> @@ -206,6 +206,7 @@ static constexpr flag_def bufcap_def[] = {
+>  	{ V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS, "orphaned-bufs" },
+>  	{ V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF, "m2m-hold-capture-buf" },
+>  	{ V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS, "mmap-cache-hints" },
+> +	{ V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS, "set-max-num-bufs" },
+
+bufs -> buffers
+
+>  	{ 0, nullptr }
+>  };
+>  
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+> index ac6a8f80..a165ef5a 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.cpp
+> +++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+> @@ -1453,6 +1453,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+>  
+>  		printf("Buffer ioctls%s:\n", suffix);
+>  		printf("\ttest VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: %s\n", ok(testReqBufs(&node)));
+> +		printf("\ttest CREATE_BUFS maximum buffers: %s\n", ok(testCreateBufsMax(&node)));
+>  		// Reopen after each streaming test to reset the streaming state
+>  		// in case of any errors in the preceeding test.
+>  		node.reopen();
+> diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+> index 7e3860c8..4f9aa17e 100644
+> --- a/utils/v4l2-compliance/v4l2-compliance.h
+> +++ b/utils/v4l2-compliance/v4l2-compliance.h
+> @@ -383,6 +383,7 @@ int testReqBufs(struct node *node);
+>  int testReadWrite(struct node *node);
+>  int testExpBuf(struct node *node);
+>  int testBlockingWait(struct node *node);
+> +int testCreateBufsMax(struct node *node);
+>  
+>  // 32-bit architecture, 32/64-bit time_t tests
+>  int testTime32_64(struct node *node);
+> diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> index 6d592c9b..02ea498f 100644
+> --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> @@ -634,7 +634,6 @@ int testReqBufs(struct node *node)
+>  			fail_on_test(testQueryBuf(node, i, q.g_buffers()));
+>  			node->valid_memorytype |= 1 << V4L2_MEMORY_DMABUF;
+>  		}
+> -
+>  		/*
+>  		 * It should be possible to set the same std, timings or
+>  		 * native size even after reqbufs was called.
+
+Spurious deleted newline.
+
+> @@ -761,6 +760,47 @@ int testReqBufs(struct node *node)
+>  	return 0;
+>  }
+>  
+> +int testCreateBufsMax(struct node *node)
+> +{
+> +	unsigned int i;
+> +	int ret;
+> +
+> +	node->reopen();
+> +
+> +	cv4l_queue q(0, 0);
+> +
+> +	for (i = 1; i <= V4L2_BUF_TYPE_LAST; i++) {
+> +		if (!(node->valid_buftypes & (1 << i)))
+> +			continue;
+> +
+> +		q.init(i, V4L2_MEMORY_USERPTR);
+
+There is no need to test this for all streaming modes. MMAP will suffice.
+
+> +		ret = q.create_bufs(node, 1);
+> +		if (!ret && (q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS)) {
+> +			fail_on_test(q.create_bufs(node, q.g_max_buffers() - q.g_buffers()));
+> +			ret = q.create_bufs(node, 1);
+> +			fail_on_test(ret != ENOBUFS && (q.g_max_buffers() == q.g_buffers()));
+> +		}
+> +
+> +		q.init(i, V4L2_MEMORY_MMAP);
+> +		ret = q.create_bufs(node, 1);
+
+Use 0 instead of 1: CREATE_BUFS will in that case only return the capabilities
+without attempting to allocate anything. It is really what you want here.
+
+> +		if (!ret && (q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS)) {
+> +			fail_on_test(q.create_bufs(node, q.g_max_buffers() - q.g_buffers()));
+
+And in that case you can drop the '- q.g_buffers()' part as well, since no buffers
+will be allocated yet.
+
+I think you want to get the return code of q.create_bufs: if it is ENOMEM you
+want to report a different fail message, ideally something that indicated the
+amount of memory that is needed for this. That's based on the current format
+image size and the g_max_num_buffers value.
+
+> +			ret = q.create_bufs(node, 1);
+> +			fail_on_test(ret != ENOBUFS && (q.g_max_buffers() == q.g_buffers()));
+
+Wouldn't it be enough to test 'ret' here? Did you need the second part of this check?
+
+> +		}
+> +
+> +		q.init(i, V4L2_MEMORY_DMABUF);
+> +		ret = q.create_bufs(node, 1);
+> +		if (!ret && (q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS)) {
+> +			fail_on_test(q.create_bufs(node, q.g_max_buffers() - q.g_buffers()));
+> +			ret = q.create_bufs(node, 1);
+> +			fail_on_test(ret != ENOBUFS && (q.g_max_buffers() == q.g_buffers()));
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+>  int testExpBuf(struct node *node)
+>  {
+>  	bool have_expbuf = false;
+
 Regards,
 
-Laurent Pinchart
+	Hans
