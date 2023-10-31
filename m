@@ -2,203 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9790F7DCA3D
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 10:55:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 35EE17DCA3B
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 10:54:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233245AbjJaJz0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 05:55:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47576 "EHLO
+        id S235265AbjJaJyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 05:54:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229658AbjJaJzZ (ORCPT
+        with ESMTP id S233751AbjJaJy0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 05:55:25 -0400
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5424583
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 02:54:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1698746076;
+        Tue, 31 Oct 2023 05:54:26 -0400
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42FE91B4;
+        Tue, 31 Oct 2023 02:53:36 -0700 (PDT)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 772AE1BF206;
+        Tue, 31 Oct 2023 09:53:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1698746012;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
          in-reply-to:in-reply-to:references:references;
-        bh=jee9+MISFVou7ihsYybK0NoiswXAd2Q2fTZE8U7jIkw=;
-        b=SPGgxBAXKm++ET8NXbzSzNjT/syMiaAmcAC3a1hlUpmpVdtQ4ecHgz9O/5P/OueaDoQDi+
-        tFDCDe6gBZ8PjncL7bidYWE2UCGBqeTeAjy2caL6O2/jqKe2q+eOWnrGTmEsZTPKoOJlXx
-        e3CGLHjRyR5oWsPIwxDXhL0WalfRgSg=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-2-mG4Xa_8bMh-pELBqw-Bm_g-1; Tue, 31 Oct 2023 05:53:19 -0400
-X-MC-Unique: mG4Xa_8bMh-pELBqw-Bm_g-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9c983b42c3bso717831566b.1
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 02:53:19 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698745998; x=1699350798;
-        h=content-transfer-encoding:in-reply-to:content-language:references
-         :to:subject:from:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jee9+MISFVou7ihsYybK0NoiswXAd2Q2fTZE8U7jIkw=;
-        b=ReXIZTJujRdWNgOnDWYMFpko0g0aF2JbdB85eCk9Gi4TE7wHTR5myQFdRMQHR0SiAk
-         HiqUJRUyqeJD4OtSvybdByBDT5G4TJFQBRNdIUkGhSFy8CWj14irDt8lmaT0Xdl5qpos
-         ZM3Zxla0anuAhf9xsTFxZys0o7C88cV33NUIGXfomsvfkvwRNZZZmwaSXf7BaU94GVY1
-         IUd9+BW1olibd3JP3jZFp+KBcEt8ym4mPY+GTino6mNcYt2ByOk3xtI3eys11/SloVb6
-         UEAAI/SYdcMVa1XbZTWiOGsUUHmVJWdbmO0cs7S2dZhG5+uAgK26JVaWMCvA1woF6Rto
-         OtQg==
-X-Gm-Message-State: AOJu0Yy/5DTepQ/YMdvRvHn0unXK6aowdju4PJ7swrgPfWS3GftSUP+e
-        yr+/GkrgibIOrxa2P502mFfmQODbu+j3ln0FYyUh8IhQZnOky4BYX9i+QOHHszXUo42m/G/Ncmn
-        lV/jX035PQRp3w/dj1WiupKwVFXaOkITCOOXHEFAitHavAhgBQuWqK9rHSkbfGkdGPqkoyQKBVL
-        zkFC91B1w=
-X-Received: by 2002:a17:906:c14d:b0:9a9:f0e6:904e with SMTP id dp13-20020a170906c14d00b009a9f0e6904emr1970955ejc.16.1698745998205;
-        Tue, 31 Oct 2023 02:53:18 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGog2vgMsxQFbHvYxRGC9QKJNRZvzX/anyxk/T7Q8hocQXins1oR6dBYSWwrCME/Q5ruOenoA==
-X-Received: by 2002:a17:906:c14d:b0:9a9:f0e6:904e with SMTP id dp13-20020a170906c14d00b009a9f0e6904emr1970943ejc.16.1698745997815;
-        Tue, 31 Oct 2023 02:53:17 -0700 (PDT)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id gz22-20020a170906f2d600b0099cd008c1a4sm678223ejb.136.2023.10.31.02.53.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Oct 2023 02:53:17 -0700 (PDT)
-Message-ID: <962d6d0c-2263-fe59-011c-09068a6a4cef@redhat.com>
-Date:   Tue, 31 Oct 2023 10:53:16 +0100
+        bh=+ChJmbwu9VOnS+POuHp63gRk5wbYb/ywo5ZD9wSaeEs=;
+        b=JgjwshREE8Ep4u5oBUOhPDbbNTHxfx0Z0WE37PioXBaiJ9B/irqONtAXNFueoA0H8LSIk7
+        W/QZH9YcMhG/mvGUa8ZNPCKR5HWzorw/ASJOBLiNw0jXToKCR9xKli6ZWK9T0cruBVWooh
+        OCMN/24k2VgD0AKzf3Cm0O+mjGxRYzoaXYwftBXcOesV+CPwWG6wy+2Rxqqjhv0+txGObD
+        E0Y4ZWcNNrHRROiMom3iaKwC85TkbRTsLmTRIEJWcf6iXDHZ3fEVtZ4HOTl4OsKY4SYfnv
+        IQwB+IbERhT2lQRIK2SxM1Nc+22WSPOmoDpP7l5oXPJffTEgtkIyWVZyLwKy3w==
+Date:   Tue, 31 Oct 2023 10:53:30 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
+        maxime.chevallier@bootlin.com, michael.riesch@wolfvision.net
+Subject: Re: [PATCH v9 2/3] media: rockchip: Add a driver for Rockchip's
+ camera interface
+Message-ID: <ZUDOmgmkIifE2w87@aptenodytes>
+References: <cover.1698666612.git.mehdi.djait@bootlin.com>
+ <f7367726eb077d43446c83591ecbf9acbc77ef5f.1698666612.git.mehdi.djait@bootlin.com>
+ <ad346052-ec62-4d68-903e-fccd7ad989bd@wanadoo.fr>
+ <ZUDKAB+zQYS9aLpB@pc-70.home>
+ <79231ec3-8da1-4c73-8f5b-efa445e6c35d@wanadoo.fr>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-From:   Hans de Goede <hdegoede@redhat.com>
-Subject: Re: [RFC] regmap_range_cfg usage with v4l2-cci
-To:     linux-media@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
-        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>,
-        Alain Volmat <alain.volmat@foss.st.com>
-References: <20231030173637.GA2977515@gnbcxd0016.gnb.st.com>
-Content-Language: en-US, nl
-In-Reply-To: <20231030173637.GA2977515@gnbcxd0016.gnb.st.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="dYFHt+x1tKrOKW1+"
+Content-Disposition: inline
+In-Reply-To: <79231ec3-8da1-4c73-8f5b-efa445e6c35d@wanadoo.fr>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
+X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-<resend with Alain added to the To: for some reason reply-to-all did not add Alain>
 
-Hi Alain,
+--dYFHt+x1tKrOKW1+
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 10/30/23 18:36, Alain Volmat wrote:
-> Hi,
-> 
-> Goal of this email is to get first comments prior to posting a patch.
-> 
-> Could we consider enhancements within the v4l2-cci in order to also
-> allow regmap_range_cfg usage for paged register access ?
+Hi,
 
-Yes definitely.
+On Tue 31 Oct 23, 10:46, Christophe JAILLET wrote:
+> Le 31/10/2023 =C3=A0 10:33, Mehdi Djait a =C3=A9crit=C2=A0:
+> > Hello Christophe,
+> >=20
+> > On Mon, Oct 30, 2023 at 01:47:17PM +0100, Christophe JAILLET wrote:
+> > > > +	/* Create & register platform subdev. */
+> > > > +	ret =3D cif_register_stream_vdev(cif_dev);
+> > > > +	if (ret < 0)
+> > > > +		goto err_unreg_media_dev;
+> > > > +
+> > > > +	ret =3D cif_subdev_notifier(cif_dev);
+> > > > +	if (ret < 0) {
+> > > > +		v4l2_err(&cif_dev->v4l2_dev,
+> > > > +			 "Failed to register subdev notifier(%d)\n", ret);
+> > > > +		cif_unregister_stream_vdev(cif_dev);
+> > > > +		goto err_unreg_media_dev;
+> > >=20
+> > > Should there be another label with cif_unregister_stream_vdev(cif_dev=
+); if
+> > > an error occurs here?
+> > >=20
+> > > CJ
+> >=20
+> > cif_subdev_notifier() is the last function call in the probe with error
+> > handling. So it will undo the last successful register:
+> > cif_register_stream_vdev and use the goto to unregister the rest.
+>=20
+> Ah, I didn't see the cif_unregister_stream_vdev() call here.
+> Sorry for the noise.
+>=20
+> >=20
+> > I can add a label err_unreg_stream_vdev but it will be only used in the
+> > error handling of cif_subdev_notifier() and I don't see the benefit.
+>=20
+> The main benefit is to be more consistent in the way the error path is
+> written, and to be more future proof.
 
-Extending v4l2-cci for other use cases was already briefly discussed
-between Kieran (Cc-ed) and me:
+Indeed the fact that there is only a single user of the label is not a reas=
+on
+to avoid the label. As soon as you need to use labels/gotos for error handl=
+ing,
+you should do it for all steps involved and avoid mixing unregistration in =
+the
+error-checking condition and using a previous label.
 
-The CCI part of the MIPI CSI spec says that multi-byte registers are
-always in big endian format, but some of the Sony IMX sensors actually
-use little-endian format for multi-byte registers.
+Cheers,
 
-The main reason why we need v4l2-cci and cannot use regmap directly is
-because of the variable register width in CCI, where as regmap only
-supports a single width. v4l2 cci uses 8 bits width in the underlying
-regmap-config and then takes care of multy-byte registers by e.g.
-reading multiple bytes and calling e.g. get_unaligned_be16() on
-the read bytes.
+Paul
 
-For the IMX scenario the plan is to add the notion of v4l2-cci
-flags by adding this to include/media/v4l2-cci.h :
+>=20
+> CJ
+> >=20
+> > --
+> > Kind Regards
+> > Mehdi Djait
+> >=20
+> > > > +	}
+> > > > +
+> > > > +	cif_set_default_format(cif_dev);
+> > > > +	pm_runtime_enable(&pdev->dev);
+> > > > +
+> > > > +	return 0;
+> > > > +
+> > > > +err_unreg_media_dev:
+> > > > +	media_device_unregister(&cif_dev->media_dev);
+> > > > +err_unreg_v4l2_dev:
+> > > > +	v4l2_device_unregister(&cif_dev->v4l2_dev);
+> > > > +	return ret;
+> > > > +}
+> >=20
+>=20
 
-struct v4l2_cci {
-	struct regmap *map;
-	long flags;
-}
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-And then change the prototype for devm_cci_regmap_init_i2c() to:
+--dYFHt+x1tKrOKW1+
+Content-Type: application/pgp-signature; name="signature.asc"
 
-struct v4l2_cci *devm_cci_regmap_init_i2c(struct i2c_client *client,
-                                          int reg_addr_bits, long flags);
+-----BEGIN PGP SIGNATURE-----
 
-And have devm_cci_regmap_init_i2c():
-1. devm_kmalloc() a struct v4l2_cci
-2. store the regmap there
-3. copy over flags from the function argument
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVAzpoACgkQ3cLmz3+f
+v9Hw3Af+I1RiSM4LM+oLdDR2amN3CH8ODW0RSGGF7ynMWEsTPk0rceP6WGxD96ie
+BnwJAudOqNLFhVdgTib8wfZnJqljpQG+0SeVpprlAHI7GooAZ0i3YywzfbrMhUnO
+rRuCvdpl3aLAJ4kx05AMm0myRhNr8J69DjtADmQmaWWhXka1cWm6ZCZQLuBzHcv3
+29AzkE7jXcFPmtDsJO/DbGI6b5/tYBcoOPYSJjiOYD3EI/fcoINv8DGRQY66vVaL
+wbZpV72MdselOHkaGvnD1VCYVgvJ8ARfOSjpiwY6L59bM7+1aS4opnSEY3xf9nmS
+YiARdyCLIQs3aHbuFCQVyUAMzs2doQ==
+=/LT8
+-----END PGP SIGNATURE-----
 
-Combined with modifying all the other functions to take
-"struct v4l2_cci *cci" as first argument instead of
-"struct regmap *map".
-
-This change will require all existing sensor drivers using
-v4l2-cci to be converted for the "struct regmap *map" ->
-"struct v4l2_cci *cci" change, this all needs to be done
-in one single commit adding the new struct + flags argument
-to avoid breaking the compilation.
-
-Then once we have this a second patch can add:
-
-/* devm_cci_regmap_init_i2c() flags argument defines */
-#define V4L2_CCI_DATA_LE	BIT(0)
-
-to include/media/v4l2-cci.h and make v4l2-cci.h honor
-this flag solving the IMX scenario.
-
-We need to make this change sooner rather then later,
-while we only still have a few sensor drivers using
-v4l2-cci.
-
-So back to your question yes extensions are welcome
-and we already have one planned. If we are going to do
-more extensions though, then I really would want to see
-the little-endian data plan get implemented first, having
-our own struct v4l2_cci should help with future extensions
-were we can then just add more fields to it if necessary.
-
-I'm sorry about asking you to implement this first before
-being able to solve your own problem, but this should be
-relatively KISS to implement and I can test the patches
-for you for at least some of the sensor drivers.
-
-> At least two drivers currently being upstream and using v4l2-cci infrastructure
-> could benefit from regmap_range_cfg.
-> The GC0308 driver is partially using v4l2-cci and partially regmap (in order to use
-> regmap_range_cfg) and the GC2145 driver is using v4l2-cci but doing paging manually.
-> 
-> The function devm_cci_regmap_init_i2c is already taking as parameter one argument
-> reg_addr_bits to be used in the regmap_config structure.  We could also add
-> regmap_range_cfg pointer and size arguments to the function or
-> alternatively add another init function with more arguments ?
-
-I think adding a devm_cci_regmap_init_i2c_ex() would make sense here, this
-could already be done when adding the flags argument, giving only
-devm_cci_regmap_init_i2c_ex() the flags argument. For just the flags argument
-having a _ex seems overkill but if we are going to add regmap_range_cfg pointer
-and size arguments too then I think an _ex makes sense.
-
-And then in v4l2-cci.c only have the _ex and have a static inline helper
-in v4l2-cci-h defining the non _ex version ?
-
-Note this devm_cci_regmap_init_i2c_ex() variant is just an idea /
-suggestion I'm open to discussion about that.
-
-To be clear if you plan to implement the devm_cci_regmap_init_i2c_ex()
-variant, then this should be done in the first patch adding the:
-
-struct v4l2_cci {
-	struct regmap *map;
-	long flags;
-};
-
-bits, so that we don't have to add an extra 0 argument for the flags to
-all the existing callers of devm_cci_regmap_init_i2c() in that patch.
-
-And then a future IMX driver conversion can use the _ex variant.
-
-Regards,
-
-Hans
-
+--dYFHt+x1tKrOKW1+--
