@@ -2,292 +2,230 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4027D7DC69C
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 07:34:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 713937DC6A9
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 07:40:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S236056AbjJaGev (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 02:34:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37158 "EHLO
+        id S236458AbjJaGj5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 02:39:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33978 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233629AbjJaGeu (ORCPT
+        with ESMTP id S236218AbjJaGj4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 02:34:50 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C51A6B3;
-        Mon, 30 Oct 2023 23:34:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698734087; x=1730270087;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xI1KDUbCultnDPUeItxneVNFdyGSh0uPi9N2KqUlUKM=;
-  b=WH8rkCH3/MtpFNhf/a/EDIkM9nwmY2HUlhUrTyAu0MfNCVOVk4BiBjOq
-   BTG/kJcmYFUGtPdhsEu1aoiyC3/VLcdSXh/jmqrJPLxWvBv4KzBiNkBrM
-   lV4MXkyiATeIQuuCshguswrgm/MaDWWHgw77vAFuYXESLDwE/Q+xSgVt6
-   e/VH9jbOePz/P4CRKPB8zxqtznTPuaDTgBl1ejQZlKYZKR8LD0lzSCCw/
-   75XYK0NN8XKdHgd/QihkZMCIBIbfON4z5LDaAi5RUtPmmp9gs427rOeap
-   zlvneq8D/E25zk6O9ZYi9ieWH+JvnuWgYnbrnIBjVkLu+BrOEMh7nRkIl
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="373275912"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="373275912"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 23:34:47 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10879"; a="904240645"
-X-IronPort-AV: E=Sophos;i="6.03,265,1694761200"; 
-   d="scan'208";a="904240645"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Oct 2023 23:34:42 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 5A51D11F894;
-        Tue, 31 Oct 2023 08:34:39 +0200 (EET)
-Date:   Tue, 31 Oct 2023 06:34:39 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tommaso Merciai <tomm.merciai@gmail.com>, martin.hecht@avnet.eu,
-        michael.roeder@avnet.eu, mhecht73@gmail.com,
-        linuxfancy@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Gerald Loacker <gerald.loacker@wolfvision.net>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        Shawn Tu <shawnx.tu@intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v10 3/3] media: i2c: Add support for alvium camera
-Message-ID: <ZUCf_74Z0igCiJ_-@kekkonen.localdomain>
-References: <20231020141354.2500602-1-tomm.merciai@gmail.com>
- <20231020141354.2500602-4-tomm.merciai@gmail.com>
- <ZTpnHdpTgRNll3TC@kekkonen.localdomain>
- <ZT+hEg7WqkQBnLV5@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <ZUAxoy2cRR6Rm9ig@kekkonen.localdomain>
- <20231030233809.GD12764@pendragon.ideasonboard.com>
+        Tue, 31 Oct 2023 02:39:56 -0400
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A958FB7;
+        Mon, 30 Oct 2023 23:39:52 -0700 (PDT)
+X-UUID: 4988b26a77b811ee8051498923ad61e6-20231031
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=OzY4Ot6VBehMwsVkyHHxQZkQIiSNj+ktIURalEfh3OY=;
+        b=Q/cAW+fTFZXFdztYnLHBhK7TMuYaPKrmIuedWUOPqwYIXOnbdJi+/c08Ey1DrygfmIs24u5IK5f839SLk90YG5j9smn9v9gF3QJUrOERV5IdoQb60n5NCdE61Zrd+JJvRsfMIzh/xf9zsDKlSLPWfnLEZlQYqrczPbqTv1G6VnU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.33,REQID:04172dfa-9717-44fe-ac70-60b7517638b5,IP:0,U
+        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+        release,TS:0
+X-CID-META: VersionHash:364b77b,CLOUDID:b013d594-10ce-4e4b-85c2-c9b5229ff92b,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+        DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 4988b26a77b811ee8051498923ad61e6-20231031
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
+        (envelope-from <moudy.ho@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 853327590; Tue, 31 Oct 2023 14:39:48 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Tue, 31 Oct 2023 14:39:47 +0800
+Received: from APC01-SG2-obe.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Tue, 31 Oct 2023 14:39:47 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=IyD06lqe6dL+X56wHwIV8VQT6Ogby1/1WybKl/sPL5o4s/PrraBD4lMt1dQhXH+SbY+Q28JtQ1xOVNRJ5q+vvTEIkwsGJ51srlaYQBeyQvIQjJ0yry80Jk6Zjt8VQeWJvLRMsa8kXV/9uTj+PRoTxgi/vyq6KeBxVUAhFqKEncuNYC0DJKvD9OgW8csxdcK8THaEiF2kSuonv/7tNxpZ+ttoVVNCWs4KsPXqHRrvwQ5R5aJz6mmYBU1aubhScvx8oBBEbOPybEJ0iVsZ+sYqciAlQOO6E6Onff3hQedT9GQjp8lgAIgwBzZnlNOpHH5szIWFDFtMY3TMruTqqEngyA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=OzY4Ot6VBehMwsVkyHHxQZkQIiSNj+ktIURalEfh3OY=;
+ b=n3KqrN1ZapYU4p2l/6zMrTVeSNw3PBXU3TyymoCpWcIowyYsSyKwmPI/WZyZUOJp/rgfp/vBJW3fg7mnh4RXtKIurcnCyOiv01SCcQMta64TfCC0dpq1VtVDfNZr2Gu1HXvJ3P8Bvv2JN7RmGoThovnUJoh/vl+njWEg2UU01hByPZdMh6OPCd0dUGKkgfIC22e2wxP9WbR0ZnUgr0qhFbBZ6KGi88VAdePiTPzXjZWgXkiKRSPHiCRpMEiYShTsw5e8q/T2vdZ30P0ZhnWVqCZIVAXstGrNTCldGCgmZ7vgcE9RQ9ILB9nyERmtEmi1s8En7iEvft1Hz/uBOInVPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=OzY4Ot6VBehMwsVkyHHxQZkQIiSNj+ktIURalEfh3OY=;
+ b=Z0HquEhjFCc2LrQyDFbGmQ6bAX3VGBJ5kdI6WARUttVTiUlTJBfDLCBfsq2hwA+8/q1WerTJzw4ctsH3kI8INvD3JXHuzBjtXk9djC+8Ki/HlXmLy6H62z4TaKOZYxum1d2WYWxdHA0bvxYgA2Wootjyt4bn24cykMlGcKBYGZA=
+Received: from TY0PR03MB6356.apcprd03.prod.outlook.com (2603:1096:400:14c::9)
+ by TYZPR03MB7530.apcprd03.prod.outlook.com (2603:1096:400:3ca::10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6933.23; Tue, 31 Oct
+ 2023 06:39:45 +0000
+Received: from TY0PR03MB6356.apcprd03.prod.outlook.com
+ ([fe80::9e24:980f:fc1d:d4ba]) by TY0PR03MB6356.apcprd03.prod.outlook.com
+ ([fe80::9e24:980f:fc1d:d4ba%4]) with mapi id 15.20.6933.029; Tue, 31 Oct 2023
+ 06:39:45 +0000
+From:   =?utf-8?B?TW91ZHkgSG8gKOS9leWul+WOnyk=?= <Moudy.Ho@mediatek.com>
+To:     "robh@kernel.org" <robh@kernel.org>
+CC:     "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "chunkuang.hu@kernel.org" <chunkuang.hu@kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "tzimmermann@suse.de" <tzimmermann@suse.de>,
+        "mripard@kernel.org" <mripard@kernel.org>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "daniel@ffwll.ch" <daniel@ffwll.ch>,
+        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "maarten.lankhorst@linux.intel.com" 
+        <maarten.lankhorst@linux.intel.com>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+        "airlied@gmail.com" <airlied@gmail.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>
+Subject: Re: [PATCH v8 03/16] dt-bindings: media: mediatek: mdp3: add config
+ for MT8195 RDMA
+Thread-Topic: [PATCH v8 03/16] dt-bindings: media: mediatek: mdp3: add config
+ for MT8195 RDMA
+Thread-Index: AQHaCxfo2/fexgs3L02jEvfux30iwLBit8aAgAC8GwA=
+Date:   Tue, 31 Oct 2023 06:39:45 +0000
+Message-ID: <d4e0f110923aaff5b61fbb331446d31d82bacdaf.camel@mediatek.com>
+References: <20231030100022.9262-1-moudy.ho@mediatek.com>
+         <20231030100022.9262-4-moudy.ho@mediatek.com>
+         <20231030192629.GA1979065-robh@kernel.org>
+In-Reply-To: <20231030192629.GA1979065-robh@kernel.org>
+Accept-Language: zh-TW, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY0PR03MB6356:EE_|TYZPR03MB7530:EE_
+x-ms-office365-filtering-correlation-id: 9b9bc44f-da1b-43bb-c57a-08dbd9dc2c04
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: XfN7wThmLzwXv2sSLrcuFmEV8D8Xg90BT8CAEb3sCg29MTWOTCMvHtqgfERGiRvIUl2Z2hftAcH+bmVH+G6SfvtkxKZF+Z5mHd41no6xgU3jdbZieFiT6G+X2qPtO3RyerSFow5BWacUvg7KwCp4DkqRgx+jaze8EkJXQNYEKexBSJoxiwPfavCkhG+NOkd3cFeObXo7KVGgWgcT3AtVYoIfLO0k+0KmygO8y9OVgzgPF0HXz4epEneSGBQvmseNB9gs4j+UGrgZEtABfnIcy3dnwJ4PVHqq+/jJUKBBt7v4mP/zrBUHEX50yAYmODM7apnQKleBjKDI9aRJURt10L6lSq46ZtgHsAjMBLQWEZmnuNpfsg0/d/XBG49qrAEd8YSnvXT0HtnLKW4S/M+BIoQPDLXHpmYx/xnb1R2NVNqEuB84aja38r715WLiJl6G9drOsM8q5FavGDPYqCn0YDRcG1A+BG+pAYjp8K3pGxJtSdz68WcY7UvEgl1abdhQnt4xWw4xdKek0CGl+mVpdsgelLFWKFXq67t7HqSKU7kKpJP68ADEdEIda1onRBg1gX7AD3A2wDdPP8vYQLXxNuBI+3WvsYybP8pg7YUoV5UdiDtaurZz0eLyy1GLobLO0TfAUaM6WygHas6OfNBjgpRZMH4585yy6HNWOlzgxQMFup5WDnAiwwnEI0r+zkm3jBKIUjGUDXWDlNv0y/+vYmF9LwwJNLEZXZBnAckcyTI=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR03MB6356.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(396003)(346002)(366004)(39860400002)(136003)(230273577357003)(230173577357003)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(71200400001)(2616005)(85182001)(26005)(6512007)(38100700002)(8936002)(8676002)(5660300002)(4326008)(7416002)(36756003)(54906003)(66556008)(76116006)(38070700009)(66946007)(66476007)(6506007)(66446008)(41300700001)(2906002)(64756008)(316002)(6916009)(122000001)(6486002)(4001150100001)(86362001)(478600001)(83380400001)(99106002);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?R3ZzRzZ4b2tnbmRkL0JOcEZuYm9xOW1SQkcwdUVTNmN6SkFxZXNVOUFTWjNV?=
+ =?utf-8?B?KzJxUXRpMnRWMEhFZ2U4V1JWOVlOZ1NGK0d3b0lHNjRuK0krOW85elRrWlYw?=
+ =?utf-8?B?RGZNQTlTTkh6OXVRdFZTdzl0eUFVcDJEYXhIb3BrUVNaOVpTZFJsTnFoMHp3?=
+ =?utf-8?B?a3dmOGZZK2JRbGhyZVBISE16NGhxQmE5NExtVGJLRXBjanlqZWlvVC9weHlO?=
+ =?utf-8?B?dUhCTjZCYk81L3AwUGlKeVRTZXZ2alREeFZXQ295N1h2dlg5LzMzZlZacDhi?=
+ =?utf-8?B?TzdraTNYT2Fva2k4Nm9WMFpWMGJiRTJFTHdoRm1XVUpvMSsvNEFkaFlmMHlV?=
+ =?utf-8?B?RkRIR1BHSlNHVWVBZE9kcjRFa2lCWUhzOExlQ3JaQnZwSFhLYkxxQnBSU1hU?=
+ =?utf-8?B?MFcwUHplZkNoMTRQV01wL2hqRnlVZXZlbzA2bU5FeE5ubWZnRUdheVdoelVC?=
+ =?utf-8?B?b3pWREtMQ0VPUC9xbUxSUW82OEVCQ2NUdFNKYjhuem5EZHZxOWhtdnQ1RjFS?=
+ =?utf-8?B?dkVUL2xqQ0s2RGpJRGZiVFN2L1FqaVFicVY5eWVzQ0VjSEF2L0M0a0szSmZF?=
+ =?utf-8?B?OWFsa2NuUGo2anRrSmhNamYyRWc0aTY5Vk5FeTBtVUZtdG5PMXdLbjg5bUpF?=
+ =?utf-8?B?YnU5bEdmS0JwYkJXaUtLZjVveThhNU41ZzRQZGFOODUybWl2SnpjZUExeWJ0?=
+ =?utf-8?B?NVVKNmN6RUdnOXBVTXF1VCtuQzZEU0dPVC92UHFxZ0w1dVl0akozUDNUZ1NZ?=
+ =?utf-8?B?VGtpbEJYSEpXRyt6Y3hjWjNzL3VFT08xS1MvWVIzNm56SlFqN0hqdHN5VExY?=
+ =?utf-8?B?cVhqejI2UTZ3VTRqTmMxeEE0Y0pWUDRLNFE3REc3cmJYQUl3QzBxS0hJSHFC?=
+ =?utf-8?B?WXpoTzVEVURXODFJcDZuVmRUWS9VZDhRamdIMU9yRzcvUHBBdlgySFR0Yzdm?=
+ =?utf-8?B?ZmRXN0VEcmZ2d2RGL0Y5TmtLb0xCQlRZSUNwanJ6MnNsQ3hoTmdRd0FGM2VR?=
+ =?utf-8?B?VlRtZkY3NjRpb1ppbDEyM013THRwU3Z5bWpnTTZDdGpyZTFGMERlTUpFQXQv?=
+ =?utf-8?B?YVdNV08vU25WTFdrUjBPb0NKdldYdDJPYTlYbmhDdXdvSEV0TVlLS1JuTDU0?=
+ =?utf-8?B?NkJuRS9QSmlBVEF2OGJ1dERYVFh5cWhyTW1nRUpBY2M0RGdtcy9oSDRLUVZJ?=
+ =?utf-8?B?ZWMvMWE2SnZQMGZpSzc4VGFVZXAwOUV4QjQzUkRnbndQRzl1UTlGL0tYTHNx?=
+ =?utf-8?B?a1lqVkVpK2lGMkhxT09tUmpOSE9WRzNZWlRFWnE1UGZmb0Jmc1Q4UUVxaGRV?=
+ =?utf-8?B?SjZQNEpQL0pIM2JESGVCbG4wMUNBYm9VTmowOTkvTHRRbk4yTWV1QXR0VXJK?=
+ =?utf-8?B?WGordnVzWHhXYlI4OVYySDhVYWxIMTIzVFBQeGVxQytlUysyZElMeXRaWjFP?=
+ =?utf-8?B?T2lKV0djeFFsT1RtVldEc1E5NjR5ZW5kcGtoTmJLNUNvTXNmQ1VPMDRRL1Zn?=
+ =?utf-8?B?UTF5bnVVT2V6a2RFUC84QzFYNm9ZV1FuUVJDTW5nUGRMb0VROFUySjdkY0hT?=
+ =?utf-8?B?Q1dwS3BJYXRSQ1VBS0svMERsRVVvTEJscTh4VUJnT3NFeG01d0dpYVRrY2s1?=
+ =?utf-8?B?YTNybVpDd0ZPemZRS2lkK20yT3MrMjJZaTZESkplajJTbEsxUU5kUjVUYkVo?=
+ =?utf-8?B?V2dCeWhUVmU3NjZhRXdodUhtMGt5aEI1ck9vdEJJTW5hU1c4VVo2NDJ0WEtQ?=
+ =?utf-8?B?UkRvNDJIWk94OWxZZ3NKTFQ5NjA0TjlGUzRqVWp6OHYrRUpQKzBVNnozQnA5?=
+ =?utf-8?B?VHp1MFdVcmdkMDhSdE5ZeXhqR0hvQ2l5aGFRMTIrM1pIL3ZZUmVyaGFsZnNX?=
+ =?utf-8?B?R0lBNy8vQi9NMW05eFBRQk80YkpEOG9jbzFZL240U1pHL2RHUWJ0Z2tVc1Zp?=
+ =?utf-8?B?T216K01WMUFzL3JtbUduL3IvNGJVdUlBL3k2ZG53VkVDVkhiYXREc2o3Q2JD?=
+ =?utf-8?B?OTNjWHJLOVkwWGZQYktWTkkxemtYa0laWWxRVFdvU0pYc2k3b0RFQjNYQkxk?=
+ =?utf-8?B?MFhRZ0p3djhjWGN4SGp0WENkQUhIdE83eHdyU3VEUXVDLzNmT3BMTmw3OVl3?=
+ =?utf-8?B?dVNtL3FiQk1vRFpPcmYxQ1h1V0dXdVJVSDhGTHU2elJ0RTBYRTh0b0UzeXVT?=
+ =?utf-8?B?dkE9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C180662DEF4261419A08F71A9B8FB2B5@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231030233809.GD12764@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY0PR03MB6356.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b9bc44f-da1b-43bb-c57a-08dbd9dc2c04
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Oct 2023 06:39:45.7595
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 3XosPN+fTjzk3PLRsi7EwjZN7KIVqDNbp9Bje54XssBYrDv27EV+OjgQq6oMp7PMK+8NX2nouOXyKKgCH7+grg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYZPR03MB7530
+X-MTK:  N
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,RDNS_NONE,
+        SPF_HELO_PASS,SPF_PASS,UNPARSEABLE_RELAY autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-On Tue, Oct 31, 2023 at 01:38:09AM +0200, Laurent Pinchart wrote:
-> Hello,
-> 
-> Hans, there's a question for you below.
-> 
-> On Mon, Oct 30, 2023 at 10:43:47PM +0000, Sakari Ailus wrote:
-> > Hi Tommaso,
-> > 
-> > On Mon, Oct 30, 2023 at 01:26:58PM +0100, Tommaso Merciai wrote:
-> > 
-> > ...
-> > 
-> > > > > +static int alvium_get_host_supp_csi_lanes(struct alvium_dev *alvium)
-> > > > > +{
-> > > > > +	u64 val;
-> > > > > +	int ret = 0;
-> > > > > +
-> > > > > +	alvium_read(alvium, REG_BCRM_CSI2_LANE_COUNT_RW, &val, &ret);
-> > > > 
-> > > > Missing error checking before the use of the value. The same pattern
-> > > > remains prevalent throughout the driver.
-> > > > 
-> > > > I think it'd be easier if you didn't use a temporary variable for reading,
-> > > > but instead had a register width specific access function. You could even
-> > > > introduce a helper macro to read this information as I suggested in an
-> > > > earlier review.
-> > > 
-> > > oks.
-> > > We are moving to use the following macros:
-> > > 
-> > > #define alvium_read_check(alvium, reg, value) \
-> > > { \
-> > > 	int ret = alvium_read(alvium, reg, value, NULL); \
-> > > 	if (ret) \
-> > > 		return ret; \
-> > > }
-> > > 
-> > 
-> > You could do something like (entirely untested):
-> > 
-> > #define ALVIUM_DECLARE_READ(sign, bits) \
-> > 	static int
-> > 	alvium_read_ ## sign ## bits(struct alvium_dev *alvium, u32 reg, \
-> > 				     sign ## bits *val, int *err) \
-> > 	{ \
-> > 		u64 val64; \
-> > 		int ret; \
-> > 			\
-> > 		if (err && *err < 0) \
-> > 			return *err; \
-> > 			\
-> > 		alvium_read(alvium, reg, &val64, &ret); \
-> > 		if (ret < 0) { \
-> > 			if (err) \
-> > 				*err = ret; \
-> > 			return ret; \
-> > 		}	\
-> > 			\
-> > 		*val = val64; \
-> > 			\
-> > 		return 0; \
-> > 	}
-> > 
-> > ALVIUM_DECLARE_READ(u, 32);
-> > 
-> > And then, e.g. instead of (and failing to check ret):
-> > 
-> > 	u64 val;
-> > 
-> > 	alvium_read(alvium, REG_BCRM_CONTRAST_VALUE_RW, &val, &ret);
-> > 	alvium->dft_contrast = val;
-> > 
-> > you'd have a single call:
-> > 
-> > 	alvium_read_u32(alvium, REG_BCRM_CONTRAST_VALUE_RW,
-> > 		        &alvium->dft_contrast, &ret);
-> > 
-> > And so on.
-> > 
-> > You can drop sign if you don't need signed reads but some of the struct
-> > fields you're writing something appear to be signed.
-> > 
-> > It'd be good to check the register size matches with the size of *val, too.
-> > Maybe something like:
-> > 
-> > WARN_ON((CCI_REG ## bits(0) && CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT
-> > 	!= sizeof(sign ## bits));
-> 
-> I think this could actually be automated, and implemented in v4l2-cci.
-> Something like the following:
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
-> index bc2dbec019b0..27f1eaa7777d 100644
-> --- a/drivers/media/v4l2-core/v4l2-cci.c
-> +++ b/drivers/media/v4l2-core/v4l2-cci.c
-> @@ -16,7 +16,7 @@
-> 
->  #include <media/v4l2-cci.h>
-> 
-> -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> +int __cci_read(struct regmap *map, u32 reg, void *val, int *err)
->  {
->  	unsigned int len;
->  	u8 buf[8];
-> @@ -37,19 +37,19 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> 
->  	switch (len) {
->  	case 1:
-> -		*val = buf[0];
-> +		*(u8 *)val = buf[0];
->  		break;
->  	case 2:
-> -		*val = get_unaligned_be16(buf);
-> +		*(u16 *)val = get_unaligned_be16(buf);
->  		break;
->  	case 3:
-> -		*val = get_unaligned_be24(buf);
-> +		*(u32 *)val = get_unaligned_be24(buf);
->  		break;
->  	case 4:
-> -		*val = get_unaligned_be32(buf);
-> +		*(u32 *)val = get_unaligned_be32(buf);
->  		break;
->  	case 8:
-> -		*val = get_unaligned_be64(buf);
-> +		*(u64 *)val = get_unaligned_be64(buf);
->  		break;
->  	default:
->  		dev_err(regmap_get_device(map), "Error invalid reg-width %u for reg 0x%04x\n",
-> @@ -64,7 +64,7 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> 
->  	return ret;
->  }
-> -EXPORT_SYMBOL_GPL(cci_read);
-> +EXPORT_SYMBOL_GPL(__cci_read);
-> 
->  int cci_write(struct regmap *map, u32 reg, u64 val, int *err)
->  {
-> @@ -119,7 +119,7 @@ int cci_update_bits(struct regmap *map, u32 reg, u64 mask, u64 val, int *err)
->  	u64 readval;
->  	int ret;
-> 
-> -	ret = cci_read(map, reg, &readval, err);
-> +	ret = __cci_read(map, reg, &readval, err);
->  	if (ret)
->  		return ret;
-> 
-> diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
-> index 0f6803e4b17e..31223ce8d741 100644
-> --- a/include/media/v4l2-cci.h
-> +++ b/include/media/v4l2-cci.h
-> @@ -7,6 +7,9 @@
->  #ifndef _V4L2_CCI_H
->  #define _V4L2_CCI_H
-> 
-> +#include <linux/bitfield.h>
-> +#include <linux/build_bug.h>
-> +#include <linux/log2.h>
->  #include <linux/types.h>
-> 
->  struct i2c_client;
-> @@ -39,6 +42,8 @@ struct cci_reg_sequence {
->  #define CCI_REG32(x)			((4 << CCI_REG_WIDTH_SHIFT) | (x))
->  #define CCI_REG64(x)			((8 << CCI_REG_WIDTH_SHIFT) | (x))
-> 
-> +int __cci_read(struct regmap *map, u32 reg, void *val, int *err);
-> +
->  /**
->   * cci_read() - Read a value from a single CCI register
->   *
-> @@ -48,9 +53,17 @@ struct cci_reg_sequence {
->   * @err: Optional pointer to store errors, if a previous error is set
->   *       then the read will be skipped
->   *
-> + * The type of the @val pointer must match the size of the register being read.
-> + * Mismatches will result in compile-time errors.
-> + *
->   * Return: %0 on success or a negative error code on failure.
->   */
-> -int cci_read(struct regmap *map, u32 reg, u64 *val, int *err);
-> +#define cci_read(map, reg, val, err) ({					\
-> +	u32 __reg = (reg);						\
-> +	u32 __size = FIELD_GET(CCI_REG_WIDTH_MASK, __reg);		\
-> +	BUILD_BUG_ON(sizeof(*(val)) != roundup_pow_of_two(__size));	\
-> +	__cci_read(map, __reg, (void *)(val), err);			\
-> +})
-> 
->  /**
->   * cci_write() - Write a value to a single CCI register
-> 
-> The change to cci_update_bits() is obviously wrong, I've hacked that to
-> compile-test the rest with the drivers using cci_read(), and I get nice
-> build-time errors due to usage of the wrong type :-)
-> 
-> Is this something that would be considered ? Bonus points to anyone who
-> would fix cci_update_bits() :-)
-
-I like the idea of moving this to v4l2-cci.
-
-I'd prefer _Generic() based solution as we'd have exact types there instead
-of just size. E.g. with the above code, reading a value to a long variable
-would work on some archs but fail on others.
-
--- 
-Regards,
-
-Sakari Ailus
+T24gTW9uLCAyMDIzLTEwLTMwIGF0IDE0OjI2IC0wNTAwLCBSb2IgSGVycmluZyB3cm90ZToNCj4g
+IAkgDQo+IEV4dGVybmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBvcGVu
+IGF0dGFjaG1lbnRzIHVudGlsDQo+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3IgdGhl
+IGNvbnRlbnQuDQo+ICBPbiBNb24sIE9jdCAzMCwgMjAyMyBhdCAwNjowMDowOVBNICswODAwLCBN
+b3VkeSBIbyB3cm90ZToNCj4gPiBBZGRlZCB0aGUgY29uZmlndXJhdGlvbiBmb3IgTVQ4MTk1IFJE
+TUEuIEluIGNvbXBhcmlzb24gdG8gTVQ4MTgzLA0KPiBpdA0KPiA+IG5vIGxvbmdlciBzaGFyZXMg
+U1JBTSB3aXRoIFJTWiwgYW5kIHRoZXJlIGFyZSBub3cgcHJlY29uZmlndXJlZCA1DQo+IG1ib3gu
+DQo+ID4gDQo+ID4gU2lnbmVkLW9mZi1ieTogTW91ZHkgSG8gPG1vdWR5LmhvQG1lZGlhdGVrLmNv
+bT4NCj4gPiBSZXZpZXdlZC1ieTogQW5nZWxvR2lvYWNjaGlubyBEZWwgUmVnbm8gPA0KPiBhbmdl
+bG9naW9hY2NoaW5vLmRlbHJlZ25vQGNvbGxhYm9yYS5jb20+DQo+ID4gLS0tDQo+ID4gIC4uLi9i
+aW5kaW5ncy9tZWRpYS9tZWRpYXRlayxtZHAzLXJkbWEueWFtbCAgICB8IDI2DQo+ICsrKysrKysr
+KysrKysrKysrKy0NCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDI1IGluc2VydGlvbnMoKyksIDEgZGVs
+ZXRpb24oLSkNCj4gPiANCj4gPiBkaWZmIC0tZ2l0IGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL21lZGlhL21lZGlhdGVrLG1kcDMtDQo+IHJkbWEueWFtbCBiL0RvY3VtZW50YXRp
+b24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9tZWRpYXRlayxtZHAzLQ0KPiByZG1hLnlhbWwN
+Cj4gPiBpbmRleCBjMDQzMjA0Y2YyMTAuLjUwNDMzNGE3NmZiMyAxMDA2NDQNCj4gPiAtLS0gYS9E
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvbWVkaWF0ZWssbWRwMy0NCj4g
+cmRtYS55YW1sDQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21l
+ZGlhL21lZGlhdGVrLG1kcDMtDQo+IHJkbWEueWFtbA0KPiA+IEBAIC0yMiw2ICsyMiw3IEBAIHBy
+b3BlcnRpZXM6DQo+ID4gICAgY29tcGF0aWJsZToNCj4gPiAgICAgIGVudW06DQo+ID4gICAgICAg
+IC0gbWVkaWF0ZWssbXQ4MTgzLW1kcDMtcmRtYQ0KPiA+ICsgICAgICAtIG1lZGlhdGVrLG10ODE5
+NS1tZHAzLXJkbWENCj4gPiAgICAgICAgLSBtZWRpYXRlayxtdDgxOTUtdmRvMS1yZG1hDQo+ID4g
+IA0KPiA+ICAgIHJlZzoNCj4gPiBAQCAtNTgsNyArNTksNyBAQCBwcm9wZXJ0aWVzOg0KPiA+ICAN
+Cj4gPiAgICBtYm94ZXM6DQo+ID4gICAgICBtaW5JdGVtczogMQ0KPiA+IC0gICAgbWF4SXRlbXM6
+IDINCj4gPiArICAgIG1heEl0ZW1zOiA1DQo+ID4gIA0KPiA+ICAgIGludGVycnVwdHM6DQo+ID4g
+ICAgICBtYXhJdGVtczogMQ0KPiA+IEBAIC05OCw2ICs5OSwyOSBAQCBhbGxPZjoNCj4gPiAgICAg
+ICAgICAtIG1ib3hlcw0KPiA+ICAgICAgICAgIC0gbWVkaWF0ZWssZ2NlLWV2ZW50cw0KPiA+ICAN
+Cj4gPiArICAtIGlmOg0KPiA+ICsgICAgICBwcm9wZXJ0aWVzOg0KPiA+ICsgICAgICAgIGNvbXBh
+dGlibGU6DQo+ID4gKyAgICAgICAgICBjb250YWluczoNCj4gPiArICAgICAgICAgICAgY29uc3Q6
+IG1lZGlhdGVrLG10ODE5NS1tZHAzLXJkbWENCj4gPiArDQo+ID4gKyAgICB0aGVuOg0KPiA+ICsg
+ICAgICBwcm9wZXJ0aWVzOg0KPiA+ICsgICAgICAgIGNsb2NrczoNCj4gPiArICAgICAgICAgIGl0
+ZW1zOg0KPiA+ICsgICAgICAgICAgICAtIGRlc2NyaXB0aW9uOiBSRE1BIGNsb2NrDQo+ID4gKw0K
+PiA+ICsgICAgICAgIG1ib3hlczoNCj4gPiArICAgICAgICAgIGl0ZW1zOg0KPiA+ICsgICAgICAg
+ICAgICAtIGRlc2NyaXB0aW9uOiB1c2VkIGZvciAxc3QgZGF0YSBwaXBlIGZyb20gUkRNQQ0KPiA+
+ICsgICAgICAgICAgICAtIGRlc2NyaXB0aW9uOiB1c2VkIGZvciAybmQgZGF0YSBwaXBlIGZyb20g
+UkRNQQ0KPiA+ICsgICAgICAgICAgICAtIGRlc2NyaXB0aW9uOiB1c2VkIGZvciAzcmQgZGF0YSBw
+aXBlIGZyb20gUkRNQQ0KPiA+ICsgICAgICAgICAgICAtIGRlc2NyaXB0aW9uOiB1c2VkIGZvciA0
+dGggZGF0YSBwaXBlIGZyb20gUkRNQQ0KPiA+ICsgICAgICAgICAgICAtIGRlc2NyaXB0aW9uOiB1
+c2VkIGZvciB0aGUgZGF0YSBwaXBlIGZyb20gU1BMSVQNCj4gDQo+IEZvbGxvd2luZyB0aGUgcHJp
+b3IgY29tbWVudHMsIGFkZCB0aGVzZSBlbnRyaWVzIHRvIHRoZSB0b3AtbGV2ZWwgDQo+ICdtYm94
+ZXMnIGFuZCB0aGVuIGhlcmUganVzdCBwdXQgJ21pbkl0ZW1zOiA1Jy4NCj4gDQo+IFJvYg0KDQpI
+aSBSb2IsDQoNClRoYW5rcyBmb3IgYXNzaXN0aW5nIHdpdGggdGhlIHJldmlldyBhbmQgc3VnZ2Vz
+dGluZyBhbiBpbXByb3ZlZCBtZXRob2QNCmluIHBhdGNoIFsyLzE2XSBhbmQgaGVyZSBmb3IgYm91
+bmRpbmcgcmVsYXRlZCBpdGVtIHF1YW50aXRlcy4NCg0KSSBoYXZlIGEgcXVlc3Rpb24gcmVnYXJk
+aW5nIHRoZSBjdXJyZW50IGl0ZW0gZGVzY3JpcHRpb24uIEl0IHNlZW1zIHRvDQppbXBseSBhIHNw
+ZWNpZmljIG9yZGVyLiBJZiB0aGUgb3JkZXIgb2YgdGhlIGRlc2NyaXB0aW9uIGlzIGRpZmZlcmVu
+dA0KZm9yIGFueSByZWFzb24sIHNob3VsZCBpdCBiZSBmdWxseSByZS1saXN0ZWQgdW5kZXIgJ2Fs
+bE9mJz8NCg0KU2luY2VyZWx5LA0KTW91ZHkNCg==
