@@ -2,62 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CAB87DCF1A
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 15:27:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A58C17DCFDD
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 16:05:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344096AbjJaOY7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 10:24:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56048 "EHLO
+        id S1344572AbjJaPFC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 11:05:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1343920AbjJaOY6 (ORCPT
+        with ESMTP id S1344229AbjJaPFB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 10:24:58 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7E7AC9;
-        Tue, 31 Oct 2023 07:24:54 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7D1682E4;
-        Tue, 31 Oct 2023 15:24:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698762276;
-        bh=kAQwZszGVqNC6vjTX1Xv7edKgIaht2Jp7zfOZLOGIjQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Zl4qkg5H7sStGk4TZMyJ/0s3iI3RLNHuFhVJBtpYWHY0CjpWSl86a9JxIvqDFZrG9
-         KPwNQi9O0Vv26HEHXdWWaHam+XKVHV+EmuZuefKHHqpOJ7Zr63QDAarRy0mcfsdM1W
-         P4U/+o6TdPfE++DwHGjVYtPWL4Hwr/pzzIkpqXEE=
-Date:   Tue, 31 Oct 2023 16:24:59 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Julien Stephan <jstephan@baylibre.com>,
-        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH v4 3/3] media: i2c: Add driver for THine THP7312
-Message-ID: <20231031142459.GB14322@pendragon.ideasonboard.com>
-References: <20231017132103.9914-1-laurent.pinchart@ideasonboard.com>
- <20231017132103.9914-4-laurent.pinchart@ideasonboard.com>
- <ZTutbU1XG_jKZbIp@valkosipuli.retiisi.eu>
- <20231027124529.GA19539@pendragon.ideasonboard.com>
- <ZTvOIQSmpytUisUD@valkosipuli.retiisi.eu>
- <20231028151858.GB20465@pendragon.ideasonboard.com>
- <ZT9kwC3abUKR9fgQ@valkosipuli.retiisi.eu>
- <20231030104241.GJ12144@pendragon.ideasonboard.com>
- <ZUDatMX10WK0bdid@valkosipuli.retiisi.eu>
- <ZUEEBXfjTPqnnL9b@smile.fi.intel.com>
+        Tue, 31 Oct 2023 11:05:01 -0400
+Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91B90E4
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 08:04:58 -0700 (PDT)
+Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-507962561adso8344967e87.0
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 08:04:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698764697; x=1699369497; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=REiTgH5WwuPmwXllJPHbDqLpOC27shpburgBYONAZcc=;
+        b=UEqhwQg1zfcavHW/b+pgHXJVsry89+i/bODYDtbgSaU239jVov+fOqrkC93Kg5nfCn
+         vZOJksyya6OjW31sjwEfJuMFp6mtBzH9KO8bHjf/18db+TyXi4qmzn7Ix0QFRhPL6i/r
+         qdf+S4/LK53eVYtgn4wGZaKD3mtgqf3Mce9pElliU7O73Fa/g+YkIvtKUgwVE+9sygRj
+         SGUtOGdp1BvInpXtPELcbZTomx76WXMmiZQSJjVpJwVxE9s7gPkiVOOvT2bcC3sDL8BL
+         zcgtofA81Q10P4L2Q4eorDtMMXBuO0lpPxCiSW02DTG67pykDH2NPg3dLal8+s6VSXfG
+         zlQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698764697; x=1699369497;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=REiTgH5WwuPmwXllJPHbDqLpOC27shpburgBYONAZcc=;
+        b=iCFepL1rUPdNMTegYoJlprdX5lwz53V8GrW1mJnzzEf1a6jsueoYUXR8LcPul4PRJU
+         ja0zEywcXrZODl8Uab2n5FuBwaYOYJaGmq9/5RssBMjJVOkVPf6AomLMtXOOqDznMc0/
+         Ej77VbF9uUsDvbuPo6GWgExTIKr/3VzKa61dnc3PQPOGG86/q2meD7NLpfTMEKUVHxsw
+         byAjigajr9E+gnxIFfDqDE4oDaINYIecj6+dLlJtygsBAZukQB3QRTsu90gY0hesdxyw
+         pORUg+DEMxGz7924XtR2JT4c4kZLnb8FQWc9adfo5MGJymnk4538h6AHwSF9o70kLnnd
+         dkyQ==
+X-Gm-Message-State: AOJu0YyJc+CGxgrGBMpKEYqufCv/fISGpfeiyp8vXco39L0bIy+4frip
+        KzGRVPnfQ4B60TXCrwDV6JFZNA==
+X-Google-Smtp-Source: AGHT+IFC6NKWYWsaMn2jSE5MOtnrPNs14l8MVs9DaRLJq2q/JK+VWxx/nUSFV+CLD15vXksxCIxKmA==
+X-Received: by 2002:ac2:4843:0:b0:507:a823:fac5 with SMTP id 3-20020ac24843000000b00507a823fac5mr9428155lfy.8.1698764696613;
+        Tue, 31 Oct 2023 08:04:56 -0700 (PDT)
+Received: from [192.168.143.96] (178235177091.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.91])
+        by smtp.gmail.com with ESMTPSA id g24-20020a0565123b9800b00503555aa934sm231156lfv.11.2023.10.31.08.04.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 31 Oct 2023 08:04:56 -0700 (PDT)
+Message-ID: <a3f3cc0e-59c0-42d9-847e-7fd818cb9a9d@linaro.org>
+Date:   Tue, 31 Oct 2023 16:04:53 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZUEEBXfjTPqnnL9b@smile.fi.intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] media: qcom: camss: Move VFE power-domain
+ specifics into vfe.c
+Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        rfoss@kernel.org, todor.too@gmail.com, andersson@kernel.org,
+        mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20231026155042.551731-1-bryan.odonoghue@linaro.org>
+ <20231026155042.551731-5-bryan.odonoghue@linaro.org>
+ <d3faea2a-cc28-434c-ac10-3dd55561674f@linaro.org>
+ <180d9180-2b1c-43ac-8e5d-20f0ee92b762@linaro.org>
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <180d9180-2b1c-43ac-8e5d-20f0ee92b762@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -65,93 +116,15 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 31, 2023 at 03:41:25PM +0200, Andy Shevchenko wrote:
-> On Tue, Oct 31, 2023 at 10:45:32AM +0000, Sakari Ailus wrote:
-> > On Mon, Oct 30, 2023 at 12:42:41PM +0200, Laurent Pinchart wrote:
-> > > On Mon, Oct 30, 2023 at 08:09:36AM +0000, Sakari Ailus wrote:
-> > > > On Sat, Oct 28, 2023 at 06:18:58PM +0300, Laurent Pinchart wrote:
-> > > > > On Fri, Oct 27, 2023 at 02:50:09PM +0000, Sakari Ailus wrote:
-> > > > > > On Fri, Oct 27, 2023 at 03:45:29PM +0300, Laurent Pinchart wrote:
+On 31.10.2023 12:51, Bryan O'Donoghue wrote:
+> On 31/10/2023 10:54, Konrad Dybcio wrote:
+>>> +    /*
+>>> +     * If the number of power-domains is greather than the number of VFEs
+>> greater
 > 
-> ...
+> Nice.
 > 
-> > > > > > > > > +#include <linux/of_device.h>
-> 
-> I believe this shouldn't (mustn't?) be used in a new code.
-> Rob have been doing a big job of replacing some OF-specific
-> APIs by generic ones.
-> 
-> ...
-> 
-> > > > > > > > uapi/linux/thp7321.h ?
-> 
-> Why does the driver even have that?! Does it allow direct IOCTLs? Some
-> other hardware information that should be supplied via "abstract"
-> (presumably existing IOCTL)?
+> I just found codepsell
+I think checkpatch catches some of that too
 
-Custome V4L2 controls.
-
-> ...
-> 
-> > > > > > > > > +	sensor->dev->parent = dev;
-> > > > > > > > > +	sensor->dev->of_node = of_node_get(sensor->of_node);
-> 
-> This should be device_set_node().
-> 
-> > > > > > > > This device could well find its way to a non-OF system. Could you use the
-> > > > > > > > fwnode property API instead?
-> > > > > > > 
-> > > > > > > I'm pretty sure there will be problems if someone was using this driver
-> > > > > > > on an ACPI-based system, so trying to pretend it's supported without
-> > > > > > > being able to test it may not be the best use of development time. I'll
-> > > > > > > try, but if I hit any issue, I'll keep using the OF-specific functions
-> > > > > > > in the next version.
-> 
-> Besides ACPI it may be other ways of instantiating the driver.
-> And we, in general, asking for creating OF-independent drivers as long
-> as there is no strong evidence that the platform itself and the particular
-> hardware never ever will have anything than OF. And it almost always
-> not true for discrete (outside the SoC) components.
-
-I'm fine making drivers OF-independent even without any clear evidence
-that the device will be used on a non-OF platform when doing so does not
-incur an unreasonable extra development cost.
-
-> > > > > > I'd suggest to use OF functions if there's no corresponding fwnode function
-> > > > > > available. The intention is they cover the same scope, so it is likely
-> > > > > > something that's missing will be added sooner or later.
-> > > > > 
-> > > > > I understand, but if the conversion is not complete, it's not very
-> > > > > valuable. I have no objection against using the fwnode API in the
-> > > > > driver, but I'll let someone else handle it when and if needed.
-> > > > 
-> > > > If you leave it using OF-only API now in a driver that is not bound to OF
-> > > > in any way, someone moving it to fwnode later may not be able to test it on
-> > > > OF, increasing the likelihood something breaks. So use fwnode API where you
-> > > > can now, and we'll address that one call later on.
-> > > 
-> > > Sorry, this is extra work for very little gain (if any) now, so I don't
-> > > plan to do so if I can't implement a full conversion.
-> > 
-> > I don't see why would you leave this for someone else to clean up later.
-> > It's called "technical debt". Similarly, we have no ACPI-only sensor
-> > drivers that would use ACPI specific functions that would not be available
-> > on non-ACPI systems --- they've all used the fwnode API, missing just
-> > regulators, clocks and GPIOs.
-> 
-> I agree with Sakari. Let's reduce the scope of ACPI/OF/etc-specific functions
-> in the drivers. There are really little that have no generic counterparts.
-> And most of the usages are special cases.
-
-Sakar has submitted a patch to add one missing fwnode function. If it
-gets accepted, I'll try it out and see if I can convert this driver. I
-will still not do a partial conversion if I hit any other blocker.
-
-> > If you like, I think we could have an fwnode version of the same function,
-> > to be used with DT binding compliant format for the device in ACPI DSDT.
-> > Plain ACPI would have no need for the function.
-
--- 
-Regards,
-
-Laurent Pinchart
+Konrad
