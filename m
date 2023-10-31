@@ -2,164 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 35EE17DCA3B
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 10:54:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D1297DCA3A
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 10:54:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235265AbjJaJyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S233730AbjJaJyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 31 Oct 2023 05:54:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56720 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58748 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233751AbjJaJy0 (ORCPT
+        with ESMTP id S235267AbjJaJy0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 31 Oct 2023 05:54:26 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::228])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42FE91B4;
+Received: from mail-wr1-x430.google.com (mail-wr1-x430.google.com [IPv6:2a00:1450:4864:20::430])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A34B0D47
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 02:53:38 -0700 (PDT)
+Received: by mail-wr1-x430.google.com with SMTP id ffacd0b85a97d-32f78d949daso2358659f8f.1
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 02:53:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698746017; x=1699350817; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=UzcHgJeME8SmvLN454BJ2f75d3TFJlrQAlY/l2HK+Us=;
+        b=mEYiSDYFll1/nWffzhgULhJcenS803yMEQI5RBGRsP+WAXVo72YLCmCYQjrFRkHHbG
+         abGpv9KrYZJQ9t+eFBDK86P21ss9bz/L8oE0Rx1Aw/fLuhAL62eglI/KFmRC+9nwpkTw
+         roGnQ7LxYAw1b1QxZYzyJTMQt/RMGRVzTIH3V986zAoioQ0QldYCMLVFFSrnnyBVPg2q
+         tluwMOohAGp3tb0fc8sEQnfjgX6HZabza6X2Kf+TOytGKgY2jO6oJ9ebjD2Q++4wqmrr
+         HdBIY92VYCkSx6w7AnFhMqdjMZMGbED6ONJu2KOfs4RQhpmR2trj9aj7HwPIh9u446pK
+         getQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698746017; x=1699350817;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UzcHgJeME8SmvLN454BJ2f75d3TFJlrQAlY/l2HK+Us=;
+        b=Ky4cKFCUmeQ1XpeEd3acq4kZLRPsjs99Q6LSoymFqb+jkET6bYbf8aFUun016GQx5m
+         CqsFo6NkJ12ky/UpzmaGGuGix2ofgiih2sxRreOfNyvQWx1fKQ/OtXSFVMkpiIneJmNS
+         GrzVN4pD+EbT7DR9BAJ+gV2jjkXtQ69Oz00geutr/9+LWolgbJnS7yuyJ2XyjZYIM8s+
+         JSy5oW9gVlKnhAJod98yw0zqgtUGVg0IMEd79ekKJtop/6YJ95N/wdXZi5OSNmOvpL04
+         8ubrC7ExJttjsmH0BwfDBnEMJgOVYnrzR6ERmzCe3bIMzDB/SGOhPHJPMeOohBwkCWKz
+         4C8A==
+X-Gm-Message-State: AOJu0YwLtknj0zYp2o3LzvgufLC48beLVrS+xwEQaN5qIIboo6lsCjFX
+        xkly8Nfo077JImXNhti77ZHT/A==
+X-Google-Smtp-Source: AGHT+IGQ3EbnVgYbgH2NgwfDvLm3+nygpGdf5Agqt6r2SrYPqkaggyRBMRzQlA+p82ssNtqPOj1Idw==
+X-Received: by 2002:a5d:670c:0:b0:32d:8431:341e with SMTP id o12-20020a5d670c000000b0032d8431341emr7738143wru.62.1698746016957;
         Tue, 31 Oct 2023 02:53:36 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 772AE1BF206;
-        Tue, 31 Oct 2023 09:53:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1698746012;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=+ChJmbwu9VOnS+POuHp63gRk5wbYb/ywo5ZD9wSaeEs=;
-        b=JgjwshREE8Ep4u5oBUOhPDbbNTHxfx0Z0WE37PioXBaiJ9B/irqONtAXNFueoA0H8LSIk7
-        W/QZH9YcMhG/mvGUa8ZNPCKR5HWzorw/ASJOBLiNw0jXToKCR9xKli6ZWK9T0cruBVWooh
-        OCMN/24k2VgD0AKzf3Cm0O+mjGxRYzoaXYwftBXcOesV+CPwWG6wy+2Rxqqjhv0+txGObD
-        E0Y4ZWcNNrHRROiMom3iaKwC85TkbRTsLmTRIEJWcf6iXDHZ3fEVtZ4HOTl4OsKY4SYfnv
-        IQwB+IbERhT2lQRIK2SxM1Nc+22WSPOmoDpP7l5oXPJffTEgtkIyWVZyLwKy3w==
-Date:   Tue, 31 Oct 2023 10:53:30 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-Cc:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-        maxime.chevallier@bootlin.com, michael.riesch@wolfvision.net
-Subject: Re: [PATCH v9 2/3] media: rockchip: Add a driver for Rockchip's
- camera interface
-Message-ID: <ZUDOmgmkIifE2w87@aptenodytes>
-References: <cover.1698666612.git.mehdi.djait@bootlin.com>
- <f7367726eb077d43446c83591ecbf9acbc77ef5f.1698666612.git.mehdi.djait@bootlin.com>
- <ad346052-ec62-4d68-903e-fccd7ad989bd@wanadoo.fr>
- <ZUDKAB+zQYS9aLpB@pc-70.home>
- <79231ec3-8da1-4c73-8f5b-efa445e6c35d@wanadoo.fr>
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id e13-20020a5d594d000000b00327bf4f2f14sm1073304wri.88.2023.10.31.02.53.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Oct 2023 02:53:36 -0700 (PDT)
+Date:   Tue, 31 Oct 2023 12:53:33 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Lin Ma <linma@zju.edu.cn>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Colin Ian King <colin.i.king@gmail.com>,
+        Hyunwoo Kim <imv4bel@gmail.com>, linux-media@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: dvbdev: drop refcount on error path in
+ dvb_device_open()
+Message-ID: <47a1e8bd-accf-4afb-85aa-c9a746561902@moroto.mountain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="dYFHt+x1tKrOKW1+"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <79231ec3-8da1-4c73-8f5b-efa445e6c35d@wanadoo.fr>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-Spam-Status: No, score=-2.8 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_LOW,SPF_HELO_PASS,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Mailer: git-send-email haha only kidding
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+If call to file->f_op->open() fails, then call dvb_device_put(dvbdev).
 
---dYFHt+x1tKrOKW1+
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Fixes: 0fc044b2b5e2 ("media: dvbdev: adopts refcnt to avoid UAF")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/media/dvb-core/dvbdev.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-Hi,
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 305bb21d843c..49f0eb7d0b9d 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -104,6 +104,8 @@ static int dvb_device_open(struct inode *inode, struct file *file)
+ 			err = file->f_op->open(inode, file);
+ 		up_read(&minor_rwsem);
+ 		mutex_unlock(&dvbdev_mutex);
++		if (err)
++			dvb_device_put(dvbdev);
+ 		return err;
+ 	}
+ fail:
+-- 
+2.42.0
 
-On Tue 31 Oct 23, 10:46, Christophe JAILLET wrote:
-> Le 31/10/2023 =C3=A0 10:33, Mehdi Djait a =C3=A9crit=C2=A0:
-> > Hello Christophe,
-> >=20
-> > On Mon, Oct 30, 2023 at 01:47:17PM +0100, Christophe JAILLET wrote:
-> > > > +	/* Create & register platform subdev. */
-> > > > +	ret =3D cif_register_stream_vdev(cif_dev);
-> > > > +	if (ret < 0)
-> > > > +		goto err_unreg_media_dev;
-> > > > +
-> > > > +	ret =3D cif_subdev_notifier(cif_dev);
-> > > > +	if (ret < 0) {
-> > > > +		v4l2_err(&cif_dev->v4l2_dev,
-> > > > +			 "Failed to register subdev notifier(%d)\n", ret);
-> > > > +		cif_unregister_stream_vdev(cif_dev);
-> > > > +		goto err_unreg_media_dev;
-> > >=20
-> > > Should there be another label with cif_unregister_stream_vdev(cif_dev=
-); if
-> > > an error occurs here?
-> > >=20
-> > > CJ
-> >=20
-> > cif_subdev_notifier() is the last function call in the probe with error
-> > handling. So it will undo the last successful register:
-> > cif_register_stream_vdev and use the goto to unregister the rest.
->=20
-> Ah, I didn't see the cif_unregister_stream_vdev() call here.
-> Sorry for the noise.
->=20
-> >=20
-> > I can add a label err_unreg_stream_vdev but it will be only used in the
-> > error handling of cif_subdev_notifier() and I don't see the benefit.
->=20
-> The main benefit is to be more consistent in the way the error path is
-> written, and to be more future proof.
-
-Indeed the fact that there is only a single user of the label is not a reas=
-on
-to avoid the label. As soon as you need to use labels/gotos for error handl=
-ing,
-you should do it for all steps involved and avoid mixing unregistration in =
-the
-error-checking condition and using a previous label.
-
-Cheers,
-
-Paul
-
->=20
-> CJ
-> >=20
-> > --
-> > Kind Regards
-> > Mehdi Djait
-> >=20
-> > > > +	}
-> > > > +
-> > > > +	cif_set_default_format(cif_dev);
-> > > > +	pm_runtime_enable(&pdev->dev);
-> > > > +
-> > > > +	return 0;
-> > > > +
-> > > > +err_unreg_media_dev:
-> > > > +	media_device_unregister(&cif_dev->media_dev);
-> > > > +err_unreg_v4l2_dev:
-> > > > +	v4l2_device_unregister(&cif_dev->v4l2_dev);
-> > > > +	return ret;
-> > > > +}
-> >=20
->=20
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---dYFHt+x1tKrOKW1+
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVAzpoACgkQ3cLmz3+f
-v9Hw3Af+I1RiSM4LM+oLdDR2amN3CH8ODW0RSGGF7ynMWEsTPk0rceP6WGxD96ie
-BnwJAudOqNLFhVdgTib8wfZnJqljpQG+0SeVpprlAHI7GooAZ0i3YywzfbrMhUnO
-rRuCvdpl3aLAJ4kx05AMm0myRhNr8J69DjtADmQmaWWhXka1cWm6ZCZQLuBzHcv3
-29AzkE7jXcFPmtDsJO/DbGI6b5/tYBcoOPYSJjiOYD3EI/fcoINv8DGRQY66vVaL
-wbZpV72MdselOHkaGvnD1VCYVgvJ8ARfOSjpiwY6L59bM7+1aS4opnSEY3xf9nmS
-YiARdyCLIQs3aHbuFCQVyUAMzs2doQ==
-=/LT8
------END PGP SIGNATURE-----
-
---dYFHt+x1tKrOKW1+--
