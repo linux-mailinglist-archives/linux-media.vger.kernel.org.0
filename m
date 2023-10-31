@@ -2,193 +2,298 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 36D6E7DC7D9
-	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 09:05:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F09DE7DC7F3
+	for <lists+linux-media@lfdr.de>; Tue, 31 Oct 2023 09:13:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230395AbjJaIFm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 04:05:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60668 "EHLO
+        id S231375AbjJaINj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 04:13:39 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229576AbjJaIFk (ORCPT
+        with ESMTP id S230478AbjJaINi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 04:05:40 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 39798A6;
-        Tue, 31 Oct 2023 01:05:38 -0700 (PDT)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1856F2E4;
-        Tue, 31 Oct 2023 09:05:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698739520;
-        bh=w9vKW6awM7gVSCcjD3dKnmahO/AjB/yzej+5UwO8HGs=;
-        h=Date:From:To:Subject:References:In-Reply-To:From;
-        b=aevNCxM0rTsyTLIVWnL3+UnDjot4cIif68kJ15nNKoKj1IAc5GPHT9S8JT1NsKseN
-         tmf1SfR1JA4sGc28wsCfY/lEvLCJUQVOkj6k1iztqr5JiTzDeTQTSTLt56s5ss41Su
-         2U240XFsgkb7oqQenTZUS92+H5ps/y+N90P7prRk=
-Date:   Tue, 31 Oct 2023 09:05:32 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Tue, 31 Oct 2023 04:13:38 -0400
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE426BD;
+        Tue, 31 Oct 2023 01:13:35 -0700 (PDT)
+Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-5409bc907edso8310452a12.0;
+        Tue, 31 Oct 2023 01:13:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698740014; x=1699344814; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=KUSjPd9JDelxayHLoaKrsl8RYjyIQSTE5q0zW+6XXnI=;
+        b=fpm0K05iCPS618aAqxTo2tAwsd6N+Rpt3XXNaUMRGd/QX2HucBMQCDBHwjYPUsJykV
+         9HVfe87q8FrkEa19839mzc0W1sKLUXLPqJ6aB/JRV30p7TXjtTAeeFmMfDlNNSdo5iiF
+         4m2Zw3gLbvjrr8M6nKlbQFrq3uiiV/DQoXqv+Qw23QNu/n3mY/hVQiARUtz0E6KcGjGs
+         Z/Sj7wt9OJuCiGKxa2vqZQeHdybAIeiV9VJ4cxjUcEsX3g1pdF1PxBsG6v24xk209jiy
+         tiVVDkosfjPEQ7R7PIhLprKry4Z99Zp3t0Rr3p7Of960zHXVKmRWVaO0LdOMBIdwe3md
+         PE1w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698740014; x=1699344814;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KUSjPd9JDelxayHLoaKrsl8RYjyIQSTE5q0zW+6XXnI=;
+        b=evCIg858RMvvlaQzCtWEH7aW33OY4JtgIPlCOkTHWRECqTTeuuAt7Ui3VT4Kevnh6C
+         UubMZz3amtlznEVROJGnGrlrx81HpKdWC7jif9eR3mOdDKidphyKzA2pSGCf50UEJ5E9
+         rD8XPqaoltLeeC6ulmLDyYDGwHrdmUflS1nkNUadLN9ec5MuCSs/ew2+PUO8/qsuUbo5
+         QL1bSYSB//VrxFN8MUkkV2NFZSK5+5DlJR+3DJCSxEwk8on3etxccxnpDg1GiLbz+9Bt
+         0wgctsfKLJ4mNgbirRiec8YVZqx0nXxI8+IxvPn7AFxs/rC5ePgGXPL2MJtyc/4LAGOP
+         xndA==
+X-Gm-Message-State: AOJu0YzO4323ncSyd/ptwaQNQIBKFVCyYgxkNRNTdnppnZztFr0487qO
+        0UJddxyXX5qBGQVYJKWnxnI=
+X-Google-Smtp-Source: AGHT+IGXHNJ1xJ5AaZ5QeGdx4lK2BcHbEIPBRlWpzvgcS2lWFzAVpJjfoNIFh/XffpFG5sKxWRF32g==
+X-Received: by 2002:a17:907:7f92:b0:9bd:f155:eb54 with SMTP id qk18-20020a1709077f9200b009bdf155eb54mr11872826ejc.6.1698740014038;
+        Tue, 31 Oct 2023 01:13:34 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-109.cust.vodafonedsl.it. [188.217.59.109])
+        by smtp.gmail.com with ESMTPSA id rp16-20020a170906d97000b009ae57888718sm530859ejb.207.2023.10.31.01.13.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 31 Oct 2023 01:13:33 -0700 (PDT)
+Date:   Tue, 31 Oct 2023 09:13:30 +0100
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     martin.hecht@avnet.eu, michael.roeder@avnet.eu, mhecht73@gmail.com,
+        linuxfancy@googlegroups.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] media: i2c: gc2145: Galaxy Core GC2145 sensor
- support
-Message-ID: <ocohxhbo2rrngjy5g6twy4exxqaeuhws2tnjo7uiv7ja24etot@7wgzo3xrnon6>
-References: <20231011175735.1824782-1-alain.volmat@foss.st.com>
- <20231011175735.1824782-4-alain.volmat@foss.st.com>
- <kwlierdzflnm4ignc3huklbrkxq6wftr2ks3lmdmm3dfk7z654@fvpszg7jywz7>
- <20231030163711.GA2977022@gnbcxd0016.gnb.st.com>
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v10 3/3] media: i2c: Add support for alvium camera
+Message-ID: <ZUC3KpmB6ZzLkxDw@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231020141354.2500602-1-tomm.merciai@gmail.com>
+ <20231020141354.2500602-4-tomm.merciai@gmail.com>
+ <ZTpnHdpTgRNll3TC@kekkonen.localdomain>
+ <ZT+hEg7WqkQBnLV5@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <ZUAxoy2cRR6Rm9ig@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231030163711.GA2977022@gnbcxd0016.gnb.st.com>
+In-Reply-To: <ZUAxoy2cRR6Rm9ig@kekkonen.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alain
+Hi Sakari,
+Thanks for your comments.
 
-On Mon, Oct 30, 2023 at 05:37:11PM +0100, Alain Volmat wrote:
-> Hi Jacopo,
->
-> On Mon, Oct 23, 2023 at 10:38:59AM +0200, Jacopo Mondi wrote:
-> > Hi Alain
-> >
-> > On Wed, Oct 11, 2023 at 07:57:30PM +0200, Alain Volmat wrote:
-> > > Addition of support for the Galaxy Core GC2145 XVGA sensor.
-> > > The sensor supports both DVP and CSI-2 interfaces however for
-> > > the time being only CSI-2 is implemented.
-> > >
-> > > Configurations is currently based on initialization scripts
-> > > coming from Galaxy Core and for that purpose only 3 static
-> > > resolutions are supported with static framerates.
-> > >  - 640x480 (30fps)
-> > >  - 1280x720 (30fps)
-> > >  - 1600x1200 (20fps)
-> >
-> > Anything blocking having a writable VBLANK ? This is a YUV sensor but
-> > GC2145_REG_VBLANK seems to be writable. I don't want to push you to
-> > more work that what you actually need, but configurable blankings (and
-> > then frame durations) seems like an important feature ? (and if I
-> > recall right you want to use this sensor with libcamera, which will
-> > require blankings to be controllable (if the sensor supports any RAW
-> > format)
->
-> No, nothing prevents to write the VBLANK register.  I just did some
-> tests directly via rwmem into a running sensor and vertical blanking can
-> be updated, allowing to tune the framerate.
->
-> >
-> > I don't see any RAW format being supported in this version. Is this
-> > something you plan to do on top ?
->
-> Yes, absolutely, it is possible to output RAW formats as well however
-> this version of the driver doesn't support it yet.  The plan is indeed
-> to add it on top of this.
-> Several things to be addressed on top of this serie:
->   - RAW format
->   - frame_interval vs H/V blank control.  Is my understanding correct if
->     I say that if a sensor has RAW format (even if it ALSO has YUV /
->     RGB) then control is done via H/V blanking controls rather than
->     frame_interval ?
+On Mon, Oct 30, 2023 at 10:43:47PM +0000, Sakari Ailus wrote:
+> Hi Tommaso,
+> 
+> On Mon, Oct 30, 2023 at 01:26:58PM +0100, Tommaso Merciai wrote:
+> 
+> ...
+> 
+> > > > +static int alvium_get_host_supp_csi_lanes(struct alvium_dev *alvium)
+> > > > +{
+> > > > +	u64 val;
+> > > > +	int ret = 0;
+> > > > +
+> > > > +	alvium_read(alvium, REG_BCRM_CSI2_LANE_COUNT_RW, &val, &ret);
+> > > 
+> > > Missing error checking before the use of the value. The same pattern
+> > > remains prevalent throughout the driver.
+> > > 
+> > > I think it'd be easier if you didn't use a temporary variable for reading,
+> > > but instead had a register width specific access function. You could even
+> > > introduce a helper macro to read this information as I suggested in an
+> > > earlier review.
+> > 
+> > oks.
+> > We are moving to use the following macros:
+> > 
+> > #define alvium_read_check(alvium, reg, value) \
+> > { \
+> > 	int ret = alvium_read(alvium, reg, value, NULL); \
+> > 	if (ret) \
+> > 		return ret; \
+> > }
+> > 
+> 
+> You could do something like (entirely untested):
+> 
+> #define ALVIUM_DECLARE_READ(sign, bits) \
+> 	static int
+> 	alvium_read_ ## sign ## bits(struct alvium_dev *alvium, u32 reg, \
+> 				     sign ## bits *val, int *err) \
+> 	{ \
+> 		u64 val64; \
+> 		int ret; \
+> 			\
+> 		if (err && *err < 0) \
+> 			return *err; \
+> 			\
+> 		alvium_read(alvium, reg, &val64, &ret); \
+> 		if (ret < 0) { \
+> 			if (err) \
+> 				*err = ret; \
+> 			return ret; \
+> 		}	\
+> 			\
+> 		*val = val64; \
+> 			\
+> 		return 0; \
+> 	}
+> 
+> ALVIUM_DECLARE_READ(u, 32);
+> 
+> And then, e.g. instead of (and failing to check ret):
+> 
+> 	u64 val;
+> 
+> 	alvium_read(alvium, REG_BCRM_CONTRAST_VALUE_RW, &val, &ret);
+> 	alvium->dft_contrast = val;
+> 
+> you'd have a single call:
+> 
+> 	alvium_read_u32(alvium, REG_BCRM_CONTRAST_VALUE_RW,
+> 		        &alvium->dft_contrast, &ret);
+> 
+> And so on.
+> 
+> You can drop sign if you don't need signed reads but some of the struct
+> fields you're writing something appear to be signed.
+> 
+> It'd be good to check the register size matches with the size of *val, too.
+> Maybe something like:
+> 
+> WARN_ON((CCI_REG ## bits(0) && CCI_REG_WIDTH_MASK) >> CCI_REG_WIDTH_SHIFT
+> 	!= sizeof(sign ## bits));
 
-I'll reply here to this question that is asked in a few other places.
+Laurent suggest me also a good way.
+I switched to the Laurent suggested implementation in v11.
+I think now is clear. Thanks to both again.
+Let me know what do you think about :)
 
-I can only point you to the ov5640 driver, which is capable of both
-YUV/RGB and RAW as this sensor is. The ov5640 driver supports both the
-g/s/enum_frame_interval and has writable blankings. I guess it's more
-for historical reasons, as when blankings have been made writable
-users of the frame_interval API would have been displeased if that
-interface went away.
+> 
+> > > > +static int alvium_get_csi_clk_params(struct alvium_dev *alvium)
+> > > > +{
+> > > > +	u64 val;
+> > > > +	int ret = 0;
+> > > > +
+> > > > +	alvium_read(alvium, REG_BCRM_CSI2_CLOCK_MIN_R, &val, &ret);
+> > > > +	alvium->min_csi_clk = val;
+> > > > +
+> > > > +	alvium_read(alvium, REG_BCRM_CSI2_CLOCK_MAX_R, &val, &ret);
+> > > > +	alvium->max_csi_clk = val;
+> > > > +
+> > > > +	return ret;
+> > > > +}
+> > > > +
+> > > > +static int alvium_set_csi_clk(struct alvium_dev *alvium)
+> > > > +{
+> > > > +	struct device *dev = &alvium->i2c_client->dev;
+> > > > +	u64 csi_clk;
+> > > > +	int ret;
+> > > > +
+> > > > +	csi_clk = (u32)alvium->ep.link_frequencies[0];
+> > > 
+> > > Why casting to u32? Shouldn't csi_clk be u32 instead?
+> > 
+> > Ok we fix this in v11.
+> > Change to use u64 for calculation because type of ep.link_frequencies[0]
+> > Plan is to clamp csi_clk between min/max instead of returning error.
+> 
+> I think I would keep it as-is: this isn't V4L2 UAPI.
+> 
+> > 
+> > > 
+> > > > +
+> > > > +	if (csi_clk < alvium->min_csi_clk || csi_clk > alvium->max_csi_clk)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	ret = alvium_write_hshake(alvium, REG_BCRM_CSI2_CLOCK_RW, csi_clk);
+> > > > +	if (ret) {
+> > > > +		dev_err(dev, "Fail to set csi lanes reg\n");
+> > > > +		return ret;
+> > > > +	}
+> > > > +
+> > > > +	alvium->link_freq = alvium->ep.link_frequencies[0];
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> 
+> ...
+> 
+> > > > +			goto out;
+> > > > +
+> > > > +		ret = alvium_set_mode(alvium, state);
+> > > > +		if (ret)
+> > > > +			goto out;
+> > > > +
+> > > > +		fmt = v4l2_subdev_get_pad_format(sd, state, 0);
+> > > > +		ret = alvium_set_framefmt(alvium, fmt);
+> > > > +		if (ret)
+> > > > +			goto out;
+> > > > +
+> > > > +		ret = alvium_set_stream_mipi(alvium, enable);
+> > > > +		if (ret)
+> > > > +			goto out;
+> > > > +
+> > > > +	} else {
+> > > > +		alvium_set_stream_mipi(alvium, enable);
+> > > > +		pm_runtime_mark_last_busy(&client->dev);
+> > > > +		pm_runtime_put_autosuspend(&client->dev);
+> > > 
+> > > pm_runtime_put() here, too.
+> > 
+> > Here is not needed we already have pm_runtime_put_autosuspend.
+> > I'm missing something?
+> 
+> Ah, I missed that while reviewing. Please ignore that comment then.
 
-The resulting implementation is not nice, as changing vblank doesn't
-update the framerate reported through g_frame_interval, and keeping
-the two in sync is not trivial.
+No problem, update in v11.
 
-I would suggest to go for writable blankings, and if you already plan
-to remove frame_interval then not add it in first place so there won't
-be displeased users.
+> 
+> > 
+> > > 
+> > > > +	}
+> > > > +
+> > > > +	alvium->streaming = !!enable;
+> > > > +	v4l2_subdev_unlock_state(state);
+> > > > +
+> > > > +	return 0;
+> > > > +
+> > > > +out:
+> > > > +	v4l2_subdev_unlock_state(state);
+> > > > +	return ret;
+> > > > +}
+> > > > +
+> > > > +static int alvium_init_cfg(struct v4l2_subdev *sd,
+> > > > +			   struct v4l2_subdev_state *state)
+> > > > +{
+> > > > +	struct alvium_dev *alvium = sd_to_alvium(sd);
+> > > > +	struct alvium_mode *mode = &alvium->mode;
+> > > 
+> > > Init_cfg() is expected to be configuration independent (as much as
+> > > possible). Therefore you should use defaults here, not current mode.
+> > 
+> > Defaults alvium mode already used here.
+> 
+> Ah, indeed. Please ignore.
 
-Sakari, Laurent, what's your opinion here ?
+No problem.
 
+Thanks & Regards,
+Tommaso
 
->   - parallel interface support
->
-> >
-> > >
-
-[snip]
-
-> > > +/**
-> > > + * struct gc2145_format - GC2145 pixel format description
-> > > + * @code: media bus (MBUS) associated code
-> > > + * @colorspace: V4L2 colospace
-> > > + * @datatype: MIPI CSI2 data type
-> > > + * @output_fmt: GC2145 output format
-> > > + */
-> > > +struct gc2145_format {
-> > > +	unsigned int code;
-> > > +	unsigned int colorspace;
-> > > +	unsigned char datatype;
-> > > +	unsigned char output_fmt;
-> > > +};
-> > > +
-> > > +/* All supported formats */
-> > > +static const struct gc2145_format supported_formats[] = {
-> > > +	{
-> > > +		.code		= MEDIA_BUS_FMT_UYVY8_2X8,
-> >
-> > The driver supports CSI-2, the 1X16 format variants should be used for
-> > serial bus
->
-> Yes.  Doing this, this actually triggered big questioning since it seems
-> that the sensor, even in CSI, seems to be sending the RGB565 in
-> big-endian format ;-( I have just sent an email to GalaxyCore to clarify
-> this point however, once captured, I need to swap bytes in order to get
-> the right colors ;-( This is the reason why I used the RGB565_2X8_BE in
-> the first place and I believe this is correct for parallel mode, but my
-> understanding of the CSI formats makes me think that the sensor should
-> be sending the data differently.
-> I will wait for GalaxyCore reply before sending the v3.
->
-
-Let's wait for GC to get back with more information then, it still
-feels weird that a CSI-2 compliant sensor sends data out in a way
-different from what is described in the spec..
-
-> >
-> > > +		.colorspace	= V4L2_COLORSPACE_SRGB,
-> >
-> >
-
-[snip]
-
-> > > +
-> > > +	if (i >= ARRAY_SIZE(supported_modes))
-> > > +		return -EINVAL;
-> > > +
-> > > +	fie->interval.numerator = supported_modes[i].frame_interval.numerator;
-> > > +	fie->interval.denominator =
-> > > +		supported_modes[i].frame_interval.denominator;
-> > > +
-> >
-> > As soon as VBLANK is added and made writable, this will break
->
-> Yes, is this correct to remove frame_interval ops once VBLANK/HBLANK is
-> added (in a further patchset) ?
->
-
-See the above question
-
-Thanks
-  j
+> 
+> -- 
+> Kind regards,
+> 
+> Sakari Ailus
