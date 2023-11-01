@@ -2,40 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 04E0C7DE03A
-	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 12:18:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B38837DE03B
+	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 12:18:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232661AbjKALSD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Nov 2023 07:18:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42476 "EHLO
+        id S233426AbjKALSE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Nov 2023 07:18:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42488 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229800AbjKALSC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 07:18:02 -0400
+        with ESMTP id S232947AbjKALSD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 07:18:03 -0400
 Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1523CF7
-        for <linux-media@vger.kernel.org>; Wed,  1 Nov 2023 04:17:55 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 50DCFFD
+        for <linux-media@vger.kernel.org>; Wed,  1 Nov 2023 04:17:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1698837476; x=1730373476;
+  t=1698837477; x=1730373477;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=vb6LjSdxQcJI1ON4msoBrmF0ErIIB7SmSEJEXRGDyrU=;
-  b=o+SIY/ekUk0dMensGM3nTiYuTzx5zlPbMrlHtGXSgCPmHsFsB1rfO5gj
-   raq1LfaLUQnSBUongur4ctFdtmMhg99Fo125l/BUMRKYxcBlfzaRgtI92
-   JyiON3YyxiiX5lqLvUl+6X9quPTipyO+4z06eKYRuqta4sbm/RKDQBb0O
-   JuYZTe4kqEBZZmgsuAYQQYuKD+nwmIH8UsKayE52zm8eWZK1fwtROcVAo
-   35f4RXgdJSHx9pCsvMFiwJ9tfy01gCJiVhUtE7h3JAVZDZIh0cZVq8+nm
-   K06prx9y+tfd3Iyefe7YekTWMrjci1CypHL7rcNxP6GgT182V4uay9Pvm
-   w==;
+  bh=5cvYQvNFu4vcNRmNfhte7xVeOT2jknosTJFE7PYAQQU=;
+  b=gd9H7DvKstDvMPcwN70iDZoB6nJ5jXZ0mPDmbYy0SQsswc0OLO9vybYP
+   sp+Iole5dsAzCmTVS/DMErC+nJ2C+YHN+0xr1RpB1TZRwdoUfEljdBYgK
+   QqTnUPaj9GUAy20E9aF6NQgGOrzfaob9e1gRFbt5p7vSss5LycarVuvwr
+   SqorykydkEqUxOhuf9yKs7C2/y7YP0WO1yRFhFltXS1lJZ8DRPPoLFcqm
+   zjpwD3pXVC9BPbYiqtq6Bzvm9jYP9m+J/ii7m14pjwKdveun2W47nGBE8
+   tUyyfpKRsT5tJp1yLDkhcmbVWgi7Aq79XYdswK/eoeXfcdh2T6gKAQzRf
+   Q==;
 X-IronPort-AV: E=Sophos;i="6.03,268,1694728800"; 
-   d="scan'208";a="33759013"
+   d="scan'208";a="33759014"
 Received: from vtuxmail01.tq-net.de ([10.115.0.20])
   by mx1.tq-group.com with ESMTP; 01 Nov 2023 12:17:49 +0100
 Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.18])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
         (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 4DD1A280084;
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 76C0428007F;
         Wed,  1 Nov 2023 12:17:49 +0100 (CET)
 From:   Alexander Stein <alexander.stein@ew.tq-group.com>
 To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -46,9 +46,9 @@ To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
 Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
         linux-media@vger.kernel.org,
         Alain Volmat <alain.volmat@foss.st.com>
-Subject: [PATCH 1/2] media: v4l2-cci: Add support for little-endian encoded registers
-Date:   Wed,  1 Nov 2023 12:17:46 +0100
-Message-Id: <20231101111747.252072-2-alexander.stein@ew.tq-group.com>
+Subject: [PATCH 2/2] media: i2c: imx290: Properly encode registers as little-endian
+Date:   Wed,  1 Nov 2023 12:17:47 +0100
+Message-Id: <20231101111747.252072-3-alexander.stein@ew.tq-group.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231101111747.252072-1-alexander.stein@ew.tq-group.com>
 References: <20231101111747.252072-1-alexander.stein@ew.tq-group.com>
@@ -63,90 +63,88 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some sensors, e.g. Sony, are using little-endian registers. Add support for
-those by encoding the endianess into Bit 20 of the register address.
+The conversion to CCI also converted the multi-byte register access to
+big-endian. Correct the register definition by using the correct
+little-endian ones.
 
 Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 ---
- drivers/media/v4l2-core/v4l2-cci.c | 22 ++++++++++++++++++----
- include/media/v4l2-cci.h           |  5 +++++
- 2 files changed, 23 insertions(+), 4 deletions(-)
+ drivers/media/i2c/imx290.c | 42 +++++++++++++++++++-------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
-index bc2dbec019b04..ea33cfd77d895 100644
---- a/drivers/media/v4l2-core/v4l2-cci.c
-+++ b/drivers/media/v4l2-core/v4l2-cci.c
-@@ -68,6 +68,7 @@ EXPORT_SYMBOL_GPL(cci_read);
+diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
+index 29098612813cb..c6fea5837a19f 100644
+--- a/drivers/media/i2c/imx290.c
++++ b/drivers/media/i2c/imx290.c
+@@ -41,18 +41,18 @@
+ #define IMX290_WINMODE_720P				(1 << 4)
+ #define IMX290_WINMODE_CROP				(4 << 4)
+ #define IMX290_FR_FDG_SEL				CCI_REG8(0x3009)
+-#define IMX290_BLKLEVEL					CCI_REG16(0x300a)
++#define IMX290_BLKLEVEL					CCI_REG16_LE(0x300a)
+ #define IMX290_GAIN					CCI_REG8(0x3014)
+-#define IMX290_VMAX					CCI_REG24(0x3018)
++#define IMX290_VMAX					CCI_REG24_LE(0x3018)
+ #define IMX290_VMAX_MAX					0x3ffff
+-#define IMX290_HMAX					CCI_REG16(0x301c)
++#define IMX290_HMAX					CCI_REG16_LE(0x301c)
+ #define IMX290_HMAX_MAX					0xffff
+-#define IMX290_SHS1					CCI_REG24(0x3020)
++#define IMX290_SHS1					CCI_REG24_LE(0x3020)
+ #define IMX290_WINWV_OB					CCI_REG8(0x303a)
+-#define IMX290_WINPV					CCI_REG16(0x303c)
+-#define IMX290_WINWV					CCI_REG16(0x303e)
+-#define IMX290_WINPH					CCI_REG16(0x3040)
+-#define IMX290_WINWH					CCI_REG16(0x3042)
++#define IMX290_WINPV					CCI_REG16_LE(0x303c)
++#define IMX290_WINWV					CCI_REG16_LE(0x303e)
++#define IMX290_WINPH					CCI_REG16_LE(0x3040)
++#define IMX290_WINWH					CCI_REG16_LE(0x3042)
+ #define IMX290_OUT_CTRL					CCI_REG8(0x3046)
+ #define IMX290_ODBIT_10BIT				(0 << 0)
+ #define IMX290_ODBIT_12BIT				(1 << 0)
+@@ -78,28 +78,28 @@
+ #define IMX290_ADBIT2					CCI_REG8(0x317c)
+ #define IMX290_ADBIT2_10BIT				0x12
+ #define IMX290_ADBIT2_12BIT				0x00
+-#define IMX290_CHIP_ID					CCI_REG16(0x319a)
++#define IMX290_CHIP_ID					CCI_REG16_LE(0x319a)
+ #define IMX290_ADBIT3					CCI_REG8(0x31ec)
+ #define IMX290_ADBIT3_10BIT				0x37
+ #define IMX290_ADBIT3_12BIT				0x0e
+ #define IMX290_REPETITION				CCI_REG8(0x3405)
+ #define IMX290_PHY_LANE_NUM				CCI_REG8(0x3407)
+ #define IMX290_OPB_SIZE_V				CCI_REG8(0x3414)
+-#define IMX290_Y_OUT_SIZE				CCI_REG16(0x3418)
+-#define IMX290_CSI_DT_FMT				CCI_REG16(0x3441)
++#define IMX290_Y_OUT_SIZE				CCI_REG16_LE(0x3418)
++#define IMX290_CSI_DT_FMT				CCI_REG16_LE(0x3441)
+ #define IMX290_CSI_DT_FMT_RAW10				0x0a0a
+ #define IMX290_CSI_DT_FMT_RAW12				0x0c0c
+ #define IMX290_CSI_LANE_MODE				CCI_REG8(0x3443)
+-#define IMX290_EXTCK_FREQ				CCI_REG16(0x3444)
+-#define IMX290_TCLKPOST					CCI_REG16(0x3446)
+-#define IMX290_THSZERO					CCI_REG16(0x3448)
+-#define IMX290_THSPREPARE				CCI_REG16(0x344a)
+-#define IMX290_TCLKTRAIL				CCI_REG16(0x344c)
+-#define IMX290_THSTRAIL					CCI_REG16(0x344e)
+-#define IMX290_TCLKZERO					CCI_REG16(0x3450)
+-#define IMX290_TCLKPREPARE				CCI_REG16(0x3452)
+-#define IMX290_TLPX					CCI_REG16(0x3454)
+-#define IMX290_X_OUT_SIZE				CCI_REG16(0x3472)
++#define IMX290_EXTCK_FREQ				CCI_REG16_LE(0x3444)
++#define IMX290_TCLKPOST					CCI_REG16_LE(0x3446)
++#define IMX290_THSZERO					CCI_REG16_LE(0x3448)
++#define IMX290_THSPREPARE				CCI_REG16_LE(0x344a)
++#define IMX290_TCLKTRAIL				CCI_REG16_LE(0x344c)
++#define IMX290_THSTRAIL					CCI_REG16_LE(0x344e)
++#define IMX290_TCLKZERO					CCI_REG16_LE(0x3450)
++#define IMX290_TCLKPREPARE				CCI_REG16_LE(0x3452)
++#define IMX290_TLPX					CCI_REG16_LE(0x3454)
++#define IMX290_X_OUT_SIZE				CCI_REG16_LE(0x3472)
+ #define IMX290_INCKSEL7					CCI_REG8(0x3480)
  
- int cci_write(struct regmap *map, u32 reg, u64 val, int *err)
- {
-+	bool little_endian;
- 	unsigned int len;
- 	u8 buf[8];
- 	int ret;
-@@ -75,6 +76,7 @@ int cci_write(struct regmap *map, u32 reg, u64 val, int *err)
- 	if (err && *err)
- 		return *err;
- 
-+	little_endian = reg & CCI_REG_LE;
- 	len = FIELD_GET(CCI_REG_WIDTH_MASK, reg);
- 	reg = FIELD_GET(CCI_REG_ADDR_MASK, reg);
- 
-@@ -83,16 +85,28 @@ int cci_write(struct regmap *map, u32 reg, u64 val, int *err)
- 		buf[0] = val;
- 		break;
- 	case 2:
--		put_unaligned_be16(val, buf);
-+		if (little_endian)
-+			put_unaligned_le16(val, buf);
-+		else
-+			put_unaligned_be16(val, buf);
- 		break;
- 	case 3:
--		put_unaligned_be24(val, buf);
-+		if (little_endian)
-+			put_unaligned_le24(val, buf);
-+		else
-+			put_unaligned_be24(val, buf);
- 		break;
- 	case 4:
--		put_unaligned_be32(val, buf);
-+		if (little_endian)
-+			put_unaligned_le32(val, buf);
-+		else
-+			put_unaligned_be32(val, buf);
- 		break;
- 	case 8:
--		put_unaligned_be64(val, buf);
-+		if (little_endian)
-+			put_unaligned_le64(val, buf);
-+		else
-+			put_unaligned_be64(val, buf);
- 		break;
- 	default:
- 		dev_err(regmap_get_device(map), "Error invalid reg-width %u for reg 0x%04x\n",
-diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
-index 0f6803e4b17e9..ef3faf0c9d44d 100644
---- a/include/media/v4l2-cci.h
-+++ b/include/media/v4l2-cci.h
-@@ -32,12 +32,17 @@ struct cci_reg_sequence {
- #define CCI_REG_ADDR_MASK		GENMASK(15, 0)
- #define CCI_REG_WIDTH_SHIFT		16
- #define CCI_REG_WIDTH_MASK		GENMASK(19, 16)
-+#define CCI_REG_LE			BIT(20)
- 
- #define CCI_REG8(x)			((1 << CCI_REG_WIDTH_SHIFT) | (x))
- #define CCI_REG16(x)			((2 << CCI_REG_WIDTH_SHIFT) | (x))
- #define CCI_REG24(x)			((3 << CCI_REG_WIDTH_SHIFT) | (x))
- #define CCI_REG32(x)			((4 << CCI_REG_WIDTH_SHIFT) | (x))
- #define CCI_REG64(x)			((8 << CCI_REG_WIDTH_SHIFT) | (x))
-+#define CCI_REG16_LE(x)			((2 << CCI_REG_WIDTH_SHIFT) | (x) | CCI_REG_LE)
-+#define CCI_REG24_LE(x)			((3 << CCI_REG_WIDTH_SHIFT) | (x) | CCI_REG_LE)
-+#define CCI_REG32_LE(x)			((4 << CCI_REG_WIDTH_SHIFT) | (x) | CCI_REG_LE)
-+#define CCI_REG64_LE(x)			((8 << CCI_REG_WIDTH_SHIFT) | (x) | CCI_REG_LE)
- 
- /**
-  * cci_read() - Read a value from a single CCI register
+ #define IMX290_PGCTRL_REGEN				BIT(0)
 -- 
 2.34.1
 
