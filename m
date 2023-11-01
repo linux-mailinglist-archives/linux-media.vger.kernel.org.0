@@ -2,93 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 354567DDED3
-	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 10:57:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DE9B7DDF0E
+	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 11:09:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232529AbjKAJ5l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Nov 2023 05:57:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47266 "EHLO
+        id S235006AbjKAKJP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Nov 2023 06:09:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230200AbjKAJ5k (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 05:57:40 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB3F6F3
-        for <linux-media@vger.kernel.org>; Wed,  1 Nov 2023 02:57:34 -0700 (PDT)
+        with ESMTP id S234329AbjKAKJL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 06:09:11 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30377D79;
+        Wed,  1 Nov 2023 03:07:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698832654; x=1730368654;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=oPnhfWFVIE26OZVtCEmKbmJ6bKgGjUESNXp9jE6PoT8=;
-  b=JvNCbRSCTGpRxhOeKEFAEZy/4sYbGGURnS2wZnvhNVjpSKqpHNJXb3lz
-   lIoQDhKZu3LzhACT9y6loCyli8rKboxgY5KRoz4ltIPyjvCJae2NFIHNx
-   mMLNolw4ahrie+6aaTHmuWXOOIcdcQPIoLqNJKUme4/e8gs7SdgGeYMql
-   AIeXIzBlQ72s3aI7bI/z4it7iDcYRg7jYrrlzJrIdLTFIpyh2kID8O3EH
-   nyzYzb+mgRkZkWv0+c1Ly8Z2nGapdFxNs7PEUCZXZ3EsvI57CdOip0/Q1
-   tJ2AxCXv3VYMh8VOGPURe+u5rBPg1vOU4e5wFxHTtEFxTBmHRtEg//DRa
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="454943980"
+  t=1698833258; x=1730369258;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/G6YHPcZjKp/CrBMDSSrt2epiYSXFZcrqUWw6QsDyWY=;
+  b=KlUp3GNSt7hjbcSsGg8e016t9dyBOk6rqhBFosZgXyTliaXQjhJMOSD6
+   I4UftPMPKo/yuCTWvreQlUBq0fl1ZYKYIbnMacGpd56kOT1qFnW02eNXx
+   ZyhuFos+ub2Gjhn49hGcB3i7avBEI06sBrdLaVnYbnWW7sIOD/RkvGwlw
+   1gZKiG41MTzvLahKw4skJcwPnaFWQvcPGveDG2rbwTRv0dvdmYTxhr4dj
+   1jyGEji8nV+oBGwhqlPuECPokwMrdvrR0asSxFJNDzw9V3KoiGJYj6+PJ
+   9vDrb3giAAVl43oz53LF979tM1DrEgbHGnAq2Pp00uBzVNSry2XDMX849
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="452756082"
 X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; 
-   d="scan'208";a="454943980"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 02:57:34 -0700
+   d="scan'208";a="452756082"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 03:07:37 -0700
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="851533391"
 X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; 
-   d="scan'208";a="8614759"
+   d="scan'208";a="851533391"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 02:57:33 -0700
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id F077B1207A3
-        for <linux-media@vger.kernel.org>; Wed,  1 Nov 2023 11:51:24 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1qy7ra-005uma-2y
-        for linux-media@vger.kernel.org;
-        Wed, 01 Nov 2023 11:50:14 +0200
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 03:07:33 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id F006C1207A3;
+        Wed,  1 Nov 2023 12:00:15 +0200 (EET)
+Date:   Wed, 1 Nov 2023 10:00:15 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH 1/1] media: v4l: fwnode: Parse MIPI DisCo for Imaging properties
-Date:   Wed,  1 Nov 2023 11:50:04 +0200
-Message-Id: <20231101095004.1409904-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Julien Stephan <jstephan@baylibre.com>,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        rafael@kernel.org
+Subject: Re: [PATCH v2 1/1] device property: Add fwnode_name_eq()
+Message-ID: <ZUIhr1Wiy96PMEKx@kekkonen.localdomain>
+References: <20231101072729.1142578-1-sakari.ailus@linux.intel.com>
+ <ZUIfSIWze4llNJfd@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZUIfSIWze4llNJfd@smile.fi.intel.com>
+X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Parse MIPI DisCo for Imaging properties "mipi-img-lens-focus" and
-"mipi-img-flash-leds" for VCMs and flash LEDs.
+On Wed, Nov 01, 2023 at 11:50:00AM +0200, Andy Shevchenko wrote:
+> On Wed, Nov 01, 2023 at 09:27:29AM +0200, Sakari Ailus wrote:
+> > Add fwnode_name_eq() to implement the functionality of of_node_name_eq()
+> > on fwnode property API. The same convention of ending the comparison at
+> > '@' (besides '\0') is applied on also both ACPI and swnode. The function
+> > is intended for comparing unit address-less node names on DT and firmware
+> > or swnodes compliant with DT bindings.
+> 
+> ...
+> 
+> > - Use size_t type for len.
+> 
+> Strictly speaking it should be ptrdiff_t according to the code.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com> --- This patch
-is related to the MIPI DisCo for Imaging support patchset here:
-<URL:https://lore.kernel.org/linux-acpi/CAJZ5v0jteOR-tY91qUsXUmWvxWYCavUBBxa=zc_a2hN+Udn7pQ@mail.gmail.com/T/#t>
-but does not depend on it.
+It'll be compared to size_t right after. ptrdiff_t is signed and we know we
+have a positive number here so size_t seems like a better choice.
 
- drivers/media/v4l2-core/v4l2-fwnode.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> ...
+> 
+> > + * the comparison to either '\0' or '@' character
+> 
+> NUL is a human-readable substitution to less parsable '\0'.
 
-diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
-index 7f181fbbb140..89c7192148df 100644
---- a/drivers/media/v4l2-core/v4l2-fwnode.c
-+++ b/drivers/media/v4l2-core/v4l2-fwnode.c
-@@ -1179,7 +1179,9 @@ v4l2_async_nf_parse_fwnode_sensor(struct device *dev,
- 	static const char * const led_props[] = { "led" };
- 	static const struct v4l2_fwnode_int_props props[] = {
- 		{ "flash-leds", led_props, ARRAY_SIZE(led_props) },
--		{ "lens-focus", NULL, 0 },
-+		{ "mipi-img-flash-leds", },
-+		{ "lens-focus", },
-+		{ "mipi-img-lens-focus", },
- 	};
- 	unsigned int i;
- 
+I can send v3 with that but I'll wait a bit if there are more comments.
+
 -- 
-2.39.2
-
+Sakari Ailus
