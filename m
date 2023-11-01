@@ -2,151 +2,234 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 112B97DE4E4
-	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 17:56:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8DAFC7DE51A
+	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 18:12:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344241AbjKAQ43 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Nov 2023 12:56:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41102 "EHLO
+        id S1344638AbjKARMX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Nov 2023 13:12:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231233AbjKAQ42 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 12:56:28 -0400
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66CA610C;
-        Wed,  1 Nov 2023 09:56:22 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 134DE1BF208;
-        Wed,  1 Nov 2023 16:56:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1698857780;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=o+TYf8tLlwtnhvu7jfapP0ZzLYtbHs0SJdPBDg+r/PY=;
-        b=oFnlwh2CiPf0XJwGwtizVlJt+f4ewsRqVObY18ZDMwHfGQ9WXQXtbncCRXw8PJDpLM/UCD
-        8HuCtdGaQ2B+BU6b5VGFwO3xnba9GDIcbhK9uFjV6ztioZyU5oVjOH2xNFVI4Ya5rC11p8
-        mMUfVzWmDHSSARpSGl5p5LAvRuGsxVoXfHRt0SqpfRiGaR0jvkuzKSDuQZnKyds7vVXKGN
-        Nmu7Kj4UTfMZmLoHr8uNSo2Gmbmapu/VbuCmY6D5nQrrLI5Vx2oVQyFqujjOSRHs70bndz
-        MKwxhiUYv6DdmMeiTkWKYkSW47sImR/opneDU6x80i9JXr8eC/iIHL1FMq/O7g==
-Date:   Wed, 1 Nov 2023 17:56:19 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Rob Herring <robh@kernel.org>,
-        Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
-        michael.riesch@wolfvision.net
-Subject: Re: [PATCH v9 1/3] media: dt-bindings: media: add bindings for
- Rockchip CIF
-Message-ID: <ZUKDM-_Re4qFHH9T@aptenodytes>
-References: <cover.1698666612.git.mehdi.djait@bootlin.com>
- <5f83d60031320c4c7b0f0727604903f50ee49058.1698666612.git.mehdi.djait@bootlin.com>
- <20231030193236.GA1995060-robh@kernel.org>
- <ZUDOCywnEqJSuQMM@aptenodytes>
- <20231101-ergonomic-grafted-2edc0290c569@spud>
+        with ESMTP id S1344562AbjKARMW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 13:12:22 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FA3F124;
+        Wed,  1 Nov 2023 10:12:19 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-4083dbc43cfso91155e9.3;
+        Wed, 01 Nov 2023 10:12:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1698858738; x=1699463538; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=AQy7qK6Zq9rdMdefArobJ1vlG90EN/iB2yTcxQ2LdoA=;
+        b=M9Vx7dA35ffajNDu+FAZXB6WM9/l58SPQ+mifk3746rcUTpCpzHZFijHoaz8sQ8LXe
+         A075Woi9O0mwdTRabCqxvfIG4sPAtlhs97ktxCOnXTKzWYsVbHFhEvPSy5s2Ibw9aPvq
+         goxSQcEFW05IQ0aQVThmczzBFrMV00tAUBLwSv1Tp8txHTf4qSev9mbmV1rHMiD0QBA/
+         7QZEmoWaqozwW6Ew/7zjgadQe2Yy+YMpcUmByDJJVug6u/d4xLXfuBkp23iGPQA+VszX
+         ktVBLszAzXlYkT6pQUakaCYjeH4yGGR8UDjQPs6ZZhMXnCLiRt8I3fjjBjsBg4MLPZV7
+         4dcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698858738; x=1699463538;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AQy7qK6Zq9rdMdefArobJ1vlG90EN/iB2yTcxQ2LdoA=;
+        b=mjMDycLBmr8LvFNyl9qhP+iaOWU3a8pgIFQ3p7sx8yWF5Tm0NY7kiTJmltVxF7pHQM
+         i0Y90Y2LUnnK7Xa9k9/M3VchdDXmfufW49QJAKTY4c5XHX70tPtxcqh+LXY5qS8b+Pdq
+         Vw9hvARAnbu47HHGIZ25L7cPBCopfr/XZwyShxUCW6RyO2I4JAU97bC9aVcGmX9lyRrx
+         /xQR8Tgyiax0iI1La6c3IBDk7XxGVfxygpDE5MTSrXd6URjrDX6CLdrI0tlnan3dHWpG
+         PmRH4CdEtlLqybQRxztEHJZ4dSiExhDPCn5RmSYOii1j8IWN1cYnVqpeMEDzhpkZq7It
+         n/9Q==
+X-Gm-Message-State: AOJu0YwpjUvYWM8HunPzX8MLsHOajqcnuuUcz5WIljXjWWdkQKwlBhyK
+        6EVV+YSM7ET4or32So3rCu4=
+X-Google-Smtp-Source: AGHT+IFFmlv3r+yRXvnfyGgxJWm4eMNkRoWjijsZxi92Gn3OMagi28a5mETWbyHp35iH5ARc1mcAtg==
+X-Received: by 2002:a05:600c:1d08:b0:408:4d0e:68ac with SMTP id l8-20020a05600c1d0800b004084d0e68acmr13103609wms.32.1698858737167;
+        Wed, 01 Nov 2023 10:12:17 -0700 (PDT)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-109.cust.vodafonedsl.it. [188.217.59.109])
+        by smtp.gmail.com with ESMTPSA id fb13-20020a05600c520d00b00405442edc69sm344125wmb.14.2023.11.01.10.12.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 01 Nov 2023 10:12:16 -0700 (PDT)
+Date:   Wed, 1 Nov 2023 18:12:13 +0100
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        martin.hecht@avnet.eu, michael.roeder@avnet.eu, mhecht73@gmail.com,
+        linuxfancy@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Marco Felsch <m.felsch@pengutronix.de>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-kernel@vger.kernel.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v10 3/3] media: i2c: Add support for alvium camera
+Message-ID: <ZUKG7duZT5/BM2F5@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231020141354.2500602-1-tomm.merciai@gmail.com>
+ <20231020141354.2500602-4-tomm.merciai@gmail.com>
+ <a98bca80-944c-493b-9872-75b94cd24eea@wanadoo.fr>
+ <ZUDpAR3ZyBVrUyat@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <ZUJc-p_i4JjqkM9i@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="tGS4dK5LvN/190zE"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231101-ergonomic-grafted-2edc0290c569@spud>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
+In-Reply-To: <ZUJc-p_i4JjqkM9i@kekkonen.localdomain>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sakari,
 
---tGS4dK5LvN/190zE
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, Nov 01, 2023 at 02:13:14PM +0000, Sakari Ailus wrote:
+> Hi Tommaso,
+> 
+> On Tue, Oct 31, 2023 at 12:46:09PM +0100, Tommaso Merciai wrote:
+> > > > +static int alvium_get_dt_data(struct alvium_dev *alvium)
+> > > > +{
+> > > > +	struct device *dev = &alvium->i2c_client->dev;
+> > > > +	struct fwnode_handle *fwnode = dev_fwnode(dev);
+> > > > +	struct fwnode_handle *endpoint;
+> > > > +	int ret = -EINVAL;
+> > > > +
+> > > > +	if (!fwnode)
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	/* Only CSI2 is supported for now: */
+> > > > +	alvium->ep.bus_type = V4L2_MBUS_CSI2_DPHY;
+> > > > +
+> > > > +	endpoint = fwnode_graph_get_endpoint_by_id(fwnode, 0, 0, 0);
+> > > > +	if (!endpoint) {
+> > > > +		dev_err(dev, "endpoint node not found\n");
+> > > > +		return -EINVAL;
+> > > > +	}
+> > > > +
+> > > > +	if (v4l2_fwnode_endpoint_alloc_parse(endpoint, &alvium->ep)) {
+> > > > +		dev_err(dev, "could not parse endpoint\n");
+> > > > +		goto error_out;
+> > > 
+> > > This could go to another label to be less confusing, but
+> > > v4l2_fwnode_endpoint_free() looks to be a no-op here, so good enough.
+> > 
+> > Thanks for the comment.
+> > To be honest right now this is clear to me
+> > I prefere to stay on the following :)
+> > Prefer to keep just only one path.
+> 
+> You can safely call v4l2_fwnode_endpoint_free() on an unparsed endpoint (or
+> on and endpoint the parsing of which failed). I prefer this too.
+> 
+> > > > +		ret = -ENODEV;
+> > > > +		goto err_powerdown;
+> > > > +	}
+> > > > +
+> > > > +	ret = alvium_get_hw_info(alvium);
+> > > > +	if (ret) {
+> > > > +		dev_err(dev, "get_hw_info fail %d\n", ret);
+> > > > +		goto err_powerdown;
+> > > > +	}
+> > > > +
+> > > > +	ret = alvium_hw_init(alvium);
+> > > > +	if (ret) {
+> > > > +		dev_err(dev, "hw_init fail %d\n", ret);
+> > > > +		goto err_powerdown;
+> > > > +	}
+> > > > +
+> > > > +	ret = alvium_setup_mipi_fmt(alvium);
+> > > > +	if (ret) {
+> > > > +		dev_err(dev, "setup_mipi_fmt fail %d\n", ret);
+> > > > +		goto err_powerdown;
+> > > > +	}
+> > > > +
+> > > > +	/*
+> > > > +	 * Enable runtime PM without autosuspend:
+> > > > +	 *
+> > > > +	 * Don't use pm autosuspend (alvium have ~7s boot time).
+> > > > +	 * Alvium has been powered manually:
+> > > > +	 *  - mark it as active
+> > > > +	 *  - increase the usage count without resuming the device.
+> > > > +	 */
+> > > > +	pm_runtime_set_active(dev);
+> > > > +	pm_runtime_get_noresume(dev);
+> > > > +	pm_runtime_enable(dev);
+> > > > +
+> > > > +	/* Initialize the V4L2 subdev. */
+> > > > +	ret = alvium_subdev_init(alvium);
+> > > > +	if (ret)
+> > > > +		goto err_pm;
+> > > > +
+> > > > +	ret = v4l2_async_register_subdev(&alvium->sd);
+> > > > +	if (ret < 0) {
+> > > > +		dev_err(dev, "Could not register v4l2 device\n");
+> > > > +		goto err_subdev;
+> > > > +	}
+> > > > +
+> > > > +	return 0;
+> > > > +
+> > > > +err_subdev:
+> > > > +	alvium_subdev_cleanup(alvium);
+> > > 
+> > > Should this also be called by the remove function?
+> > > Or is it already handled by an un-register mechanism?
+> > 
+> > Right, I miss this.
+> > Thanks.
+> > I put this to remove function like:
+> > 
+> > static void alvium_remove(struct i2c_client *client)
+> > {
+> > 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > 	struct alvium_dev *alvium = sd_to_alvium(sd);
+> > 	struct device *dev = &alvium->i2c_client->dev;
+> > 
+> > 	/*
+> > 	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
+> > 	 * make sure to turn power off manually.
+> > 	 */
+> > 	pm_runtime_disable(dev);
+> > 	if (!pm_runtime_status_suspended(dev))
+> > 		alvium_power_on(alvium, false);
+> > 	pm_runtime_set_suspended(dev);
+> > 
+> > 	alvium_subdev_cleanup(alvium);
+> > 	i2c_unregister_device(alvium->i2c_client);
+> 
+> This doesn't belong here (as you didn't register it). It was missed in the
+> review earlier.
 
-Hi Conor,
+Arg.. Good catch! Thanks :)
+You are right we remove i2c_register into some previous review.
 
-On Wed 01 Nov 23, 15:44, Conor Dooley wrote:
-> On Tue, Oct 31, 2023 at 10:51:07AM +0100, Paul Kocialkowski wrote:
-> > Hi Rob,
-> >=20
-> > On Mon 30 Oct 23, 14:32, Rob Herring wrote:
-> > > On Mon, Oct 30, 2023 at 01:25:12PM +0100, Mehdi Djait wrote:
-> > > > Add a documentation for the Rockchip Camera Interface
-> > > > binding.
-> > > >=20
-> > > > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> > > > ---
-> > > > v8=3D>v9:
-> > > > dropped the "Reviewed-by: Rob Herring <robh@kernel.org>"
-> > > > because of the following changes:
-> > > > - changed the compatible to rk3066-cif: rk3066 is the earliest Rock=
-chip SoC
-> > > >   that uses cif and it is the first model starting the RK30 lineup.
-> > >=20
-> > > Is px30 compatible with rk3066? It's not clear because you didn't add=
-=20
-> > > rk3066 support. If not compatible, then add rk3066 when you have a us=
-er.=20
-> > > If it is compatible, then you should have a fallback for px30.
-> >=20
-> > Just to clarify here: we haven't checked that rk3066 uses the exact same
-> > programming model as px30 (so there should be no fallback compatible), =
-but it
-> > is definitely the same unit (in a different version).
->=20
-> If you aren't sure about the programming model, are you sure about the
-> number of clocks, resets etc that it has? Same IP in a different SoC
-> could be integrated differently, right?
+Regards,
+Tommaso
 
-Yes absolutely there might be differences in these areas. But we can always=
- add
-conditionals in the binding to take care of different cases later.
-
-My main concern is to avoid giving px30 too much importance just because it
-happens to be the first platform supported by the Linux driver.
-
-Cheers,
-
-Paul
-
-> > Since the yaml binding document will apply to all generations of the un=
-it,
-> > the name of the file should be the first generation (rk3066) instead of=
- the
-> > px30 which is just one of the many iterations of the unit.
-> >=20
-> > It would be both confusing and irrelevant to pick px30 just because it =
-happens
-> > to be the first generation supported in the Linux driver (and described=
- in
-> > the binding).
-
-
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---tGS4dK5LvN/190zE
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVCgzMACgkQ3cLmz3+f
-v9H3FAf/WjMfxacq7f9Su3oJCd059UA3G2OfjKLNkOogkv52/MsbxkKNVA3zW4qF
-na2nBCQiCA46fB2WBNJ0rmCz2acRUBYDxWho//H6GfLrEWGUrJ/fnrzCpWewrSIb
-fa+b4v9ayogxqAfhBtK50vCRkdui5gfslh5m9z8snBCBZvvXxRXSnP1DmWz+DAC/
-YBG/m/py2WEbfz9yusO3KAkEsR0UuBwD2299yVe8SF750m8q5bzTyE0st5CJUuAw
-0yNYo2UGIHayTHZHPOp0Ww35IFIalvqbhDHte6jKZD3VFVQvg3GtF+sbM5rWmO/S
-a3RT0uPustfvM8mDIpNQemjMz7DSaA==
-=qVos
------END PGP SIGNATURE-----
-
---tGS4dK5LvN/190zE--
+> 
+> > }
+> > 
+> > 
+> > If for you Cristophe, Sakari, Laurent,
+> > it's ok I prefer to skip v11 that I sent this morning too early.
+> > I collected hints from Cristophe right now and I plan to send v12
+> > this afternoon/evening if for you all is ok.
+> > 
+> > https://github.com/avs-sas/linux/blob/tm/media_stage/v6.6.0-rc3/alvium_drv/v12/drivers/media/i2c/alvium-csi2.c
+> > 
+> > Please let me know.
+> > 
+> > Thanks again to all! :)
+> 
+> -- 
+> Regards,
+> 
+> Sakari Ailus
