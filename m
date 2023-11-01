@@ -2,73 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ECFB37DDBA4
-	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 04:44:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81E3C7DDBA7
+	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 04:48:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233188AbjKADoE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 23:44:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53972 "EHLO
+        id S231358AbjKADss (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 31 Oct 2023 23:48:48 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232941AbjKADn4 (ORCPT
+        with ESMTP id S231164AbjKADsr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 23:43:56 -0400
-Received: from mail-lf1-x12c.google.com (mail-lf1-x12c.google.com [IPv6:2a00:1450:4864:20::12c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8DE66A4
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 20:43:48 -0700 (PDT)
-Received: by mail-lf1-x12c.google.com with SMTP id 2adb3069b0e04-507f1c29f25so8786737e87.1
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 20:43:48 -0700 (PDT)
+        Tue, 31 Oct 2023 23:48:47 -0400
+Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B077A4
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 20:48:42 -0700 (PDT)
+Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-99c3c8adb27so948420366b.1
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 20:48:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1698810226; x=1699415026; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1698810519; x=1699415319; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Nql7qkvVnQqjv0jERnZy9lcP0gRZwVp2yGYx0BcAV8c=;
-        b=Zooo7XG9TLKqe4AlIOIhS5xHaVLWYsuSGjRG5qz7n4WIDLjr8BTq/h9AV6dlM/sA/H
-         l6q6wEw+95ZwdmEBXB3K14plV8aPSgMzWTKrl6yMeVzwo7F3tKIQ7EVsbgVhcGSBArlG
-         uVu/JZq7LQ6TQ3UJjBl2eG7cLXSPAq9KtPzx8=
+        bh=Yq4yHDhKduckzAzodqUeZQr6ErYtU7ghLT5uB093qmA=;
+        b=HYRHWi8L7GzhLpP+sNzNMbunP46RbJzwZXd0nvHMOdoLHB44yUdkt10o1LiUELWEQE
+         ue+AGzxUcy5E90EZMJVN2pTPcV5m1oG0sIXMOs2B9lwx+d8aWXdKCvqcZzYLhShs+ppY
+         Bt2xTz7NoWFafK1ncAz/G8znzUWuOjML/k/PQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698810226; x=1699415026;
+        d=1e100.net; s=20230601; t=1698810519; x=1699415319;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Nql7qkvVnQqjv0jERnZy9lcP0gRZwVp2yGYx0BcAV8c=;
-        b=tzLRFq7d3MNWyZ2EOhuXFrZiunK+R1KFggd6LyuStVQ5+HU6Mk+5L3Ot0ZnighEDAQ
-         MOv2ulTlp1eEpLW18WQlEBQ/Xz8WUtly8iL/fDc5r2lLI1LjRwvB/My80HdpwGG0zKZ5
-         5k7ELkfOHHE2GE2FcUeGxumVd9r2L0JphH8QdJgiReZUM53YmGRyzjV48/Zngwun3Lek
-         wxjch5KEUntskhQ0GCQ6BkIYmbqr2oo/FWKfPyaMZFRBkAgy9xKSvu2Kx59HofPvUpLf
-         sVz7fzmk/BG9AL69pivjGuF36y7Rgo23BKJGZnNypoRMlM12zDPqDHRZw4pzNW0RjPUN
-         0YzQ==
-X-Gm-Message-State: AOJu0Yyb+2r7rpm7QhUBEKDscLjlDh96xwdO7sJGQCMMDTh6cnYAvZY0
-        +kLuhCM3NCIoOAT89NdKmw+g5NmMObJ6cCjkVWjXJA==
-X-Google-Smtp-Source: AGHT+IH5WTkeMRqXs+9lMw2wZv8J9Jb3FfacbTn1w3u//eHKhG1NtDMQIgq1h2apnZRdIe5YST9r+w==
-X-Received: by 2002:a05:6512:3a8b:b0:509:1207:5e9a with SMTP id q11-20020a0565123a8b00b0050912075e9amr10193528lfu.42.1698810225749;
-        Tue, 31 Oct 2023 20:43:45 -0700 (PDT)
+        bh=Yq4yHDhKduckzAzodqUeZQr6ErYtU7ghLT5uB093qmA=;
+        b=R8dnY0fyIIaT9uYIpS3uchn3pWLgPz/gdLQWSC/8+HoCSbxbbfCx0sBs4Gj3/QJ0Mq
+         2wkOvRh60oNllTWWGUKms2pIvQt37elOJWQekQR31mRh/ay/O8HbnUVw/40diWX06g+q
+         MyCqXcZ6yKJg3IdPHCz12uCyRTzjBQWQi6jYdo5q574JU1hfYjLf+hsHuf9kf0Yy5Qia
+         KPs59OC4cM+nY+UBHK3MDPfTo43xAcqL9UoNhlDxlQ1+8EjhrteCmWqn+ZL3+HGLXZ17
+         s2R9F1g35ZVhFpraeyNblF/ewEXY/g5hoODn5UZUQkC5+Z4BEqBV8mj3ey2Ew630Omxt
+         ciKA==
+X-Gm-Message-State: AOJu0YwfT0tgZTYIO08A2xLd6R4ra/+wBY+tceDodxFGjFgGNguCKBuN
+        QvBLgTj38Fk/O/u/xTjCala0t5+jcTuEX4Yo+mzuKg==
+X-Google-Smtp-Source: AGHT+IGtcgheoun0DsJW3PFFw/nCVe9EKs4MgZYNO7vQdRENi1BcsnU1IRaj7B+IkwXP9BVsHXYw0g==
+X-Received: by 2002:a17:907:1ca3:b0:9c7:5437:841e with SMTP id nb35-20020a1709071ca300b009c75437841emr893833ejc.11.1698810519306;
+        Tue, 31 Oct 2023 20:48:39 -0700 (PDT)
 Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com. [209.85.221.52])
-        by smtp.gmail.com with ESMTPSA id z22-20020aa7cf96000000b0053e8bb112adsm498012edx.53.2023.10.31.20.43.45
+        by smtp.gmail.com with ESMTPSA id j20-20020a170906411400b009ae69c303aasm1874195ejk.137.2023.10.31.20.48.38
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Oct 2023 20:43:45 -0700 (PDT)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-32f87b1c725so2218928f8f.3
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 20:43:45 -0700 (PDT)
-X-Received: by 2002:adf:d1e3:0:b0:32f:7cb7:f66 with SMTP id
- g3-20020adfd1e3000000b0032f7cb70f66mr10972974wrd.20.1698810225023; Tue, 31
- Oct 2023 20:43:45 -0700 (PDT)
+        Tue, 31 Oct 2023 20:48:38 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-307d58b3efbso3948544f8f.0
+        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 20:48:38 -0700 (PDT)
+X-Received: by 2002:a5d:47af:0:b0:32f:8085:73f8 with SMTP id
+ 15-20020a5d47af000000b0032f808573f8mr7300010wrb.18.1698810518283; Tue, 31 Oct
+ 2023 20:48:38 -0700 (PDT)
 MIME-Version: 1.0
-References: <20221120234441.550908-1-m.grzeschik@pengutronix.de>
- <5e585a78-15c8-fd17-bc34-96f7ed18f592@xs4all.nl> <CAAFQd5Aicurw-pjYpWJK_qNemy1qszvN4rL=TfAuxhOdAOTGNg@mail.gmail.com>
- <20230510142509.GA14356@pengutronix.de> <CAAFQd5AmVBc6LQ1eyZ=WrvtLR4oSD4K0mMeszcuY12CK7djiUA@mail.gmail.com>
-In-Reply-To: <CAAFQd5AmVBc6LQ1eyZ=WrvtLR4oSD4K0mMeszcuY12CK7djiUA@mail.gmail.com>
+References: <20231031230435.3356103-1-m.grzeschik@pengutronix.de>
+In-Reply-To: <20231031230435.3356103-1-m.grzeschik@pengutronix.de>
 From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 1 Nov 2023 12:43:25 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5D_o3wE98=wFXR2nbWkpCAdCDxz2tP8ssSSYVkZ5iC1Qg@mail.gmail.com>
-Message-ID: <CAAFQd5D_o3wE98=wFXR2nbWkpCAdCDxz2tP8ssSSYVkZ5iC1Qg@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2-dma-sg: use v{un,}map instead of vm_{un,}map_ram
-To:     Michael Grzeschik <mgr@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, m.szyprowski@samsung.com,
-        kernel@pengutronix.de,
-        Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
+Date:   Wed, 1 Nov 2023 12:48:21 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CCr0ivS8REcwHwJweCTk29+wVGZVjgL0mnZzPQ47kAVw@mail.gmail.com>
+Message-ID: <CAAFQd5CCr0ivS8REcwHwJweCTk29+wVGZVjgL0mnZzPQ47kAVw@mail.gmail.com>
+Subject: Re: [PATCH v3] media: videobuf2-dma-sg: fix vmap and vunmap callbacks
+To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        m.szyprowski@samsung.com, mchehab@kernel.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        kernel@pengutronix.de, stable@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
@@ -81,131 +78,78 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, May 16, 2023 at 7:50=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> wr=
-ote:
->
-> Hi Michael,
->
-> On Wed, May 10, 2023 at 11:25=E2=80=AFPM Michael Grzeschik <mgr@pengutron=
-ix.de> wrote:
-> >
-> > Sorry for the late comeback, however here are some thoughts.
-> >
-> > On Fri, Dec 02, 2022 at 06:01:02PM +0900, Tomasz Figa wrote:
-> > >On Thu, Nov 24, 2022 at 10:35 PM Hans Verkuil <hverkuil@xs4all.nl> wro=
-te:
-> > >>
-> > >> On 21/11/2022 00:44, Michael Grzeschik wrote:
-> > >> > The comments before the vm_map_ram function state that it should b=
-e used
-> > >> > for up to 256 KB only, and video buffers are definitely much large=
-r. It
-> > >> > recommends using vmap in that case.
-> > >> >
-> > >> > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
-> > >> > ---
-> > >> >  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 7 ++++---
-> > >>
-> > >> drivers/media/common/videobuf2/videobuf2-vmalloc.c uses it as well,
-> > >> probably also incorrectly. It makes sense to change that one as well=
-.
-> > >
-> > >Comparing vm_map_ram() and vmap(..., VM_MAP, PAGE_KERNEL), for blocks
-> > >bigger than VMAP_MAX_ALLOC they're equivalent and for smaller blocks
-> > >the former should be faster, so I don't see what's wrong with the
-> > >current code.
-> >
-> > I got another comment on this from Andrzej Pietrasiewicz
-> > where he expands the comment on the use of vmap over vm_map_ram.
-> >
-> > https://lore.kernel.org/linux-media/64375ff4-dbbb-3d5b-eaf6-32d6780fd49=
-6@collabora.com
-> >
-> > As I understand this, we should probably update the vm_map_ram to vmap,
-> > due to the expectation that video buffers are long-living objects.
-> >
-> > Since there are some more places that would probably need to be updated
-> > if we should decide to use vmap over vm_map_ram in the whole
-> > videbuf2-* users, I would like to clarify on this before making
-> > a series.
->
-> Ah, I see. Thanks for the pointer.
->
-> VB2 buffers would usually require long-lived mappings, so based on
-> that, we should switch to vmap() indeed.
->
-> As a side note, not directly related to this patch, I wonder if we
-> should also call invalidate/flush_kernel_vmap_range() in
-> vb2_dma_sg_prepare/finish(). (In principle we shouldn't, but so far
-> our drivers don't explicitly call begin/end_cpu_access() and rely on
-> prepare/finish to handle the cache maintenance of the kernel
-> mapping...) Let me also add Sergey on CC for visibility.
+Hi Michael,
 
-Sorry, I forgot last time, so maybe it wasn't clear I'm good with this patc=
-h:
 
-Acked-by: Tomasz Figa <tfiga@chromium.org>
-
-Hans, will you pick it? Thanks!
-
+On Wed, Nov 1, 2023 at 8:04=E2=80=AFAM Michael Grzeschik
+<m.grzeschik@pengutronix.de> wrote:
 >
-> Best regards,
-> Tomasz
+> For dmabuf import users to be able to use the vaddr from another
+> videobuf2-dma-sg source, the exporter needs to set a proper vaddr on
+> vb2_dma_sg_dmabuf_ops_vmap callback.
 >
-> >
-> > Regards,
-> > Michael
-> >
-> > >> >  1 file changed, 4 insertions(+), 3 deletions(-)
-> > >> >
-> > >> > diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/d=
-rivers/media/common/videobuf2/videobuf2-dma-sg.c
-> > >> > index dcb8de5ab3e84a..e86621fba350f3 100644
-> > >> > --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> > >> > +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> > >> > @@ -188,7 +188,7 @@ static void vb2_dma_sg_put(void *buf_priv)
-> > >> >               dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
-> > >> >                                 DMA_ATTR_SKIP_CPU_SYNC);
-> > >> >               if (buf->vaddr)
-> > >> > -                     vm_unmap_ram(buf->vaddr, buf->num_pages);
-> > >> > +                     vunmap(buf->vaddr);
-> > >> >               sg_free_table(buf->dma_sgt);
-> > >> >               while (--i >=3D 0)
-> > >> >                       __free_page(buf->pages[i]);
-> > >> > @@ -289,7 +289,7 @@ static void vb2_dma_sg_put_userptr(void *buf_p=
-riv)
-> > >> >              __func__, buf->num_pages);
-> > >> >       dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir, DMA_ATTR_SKIP=
-_CPU_SYNC);
-> > >> >       if (buf->vaddr)
-> > >> > -             vm_unmap_ram(buf->vaddr, buf->num_pages);
-> > >> > +             vunmap(buf->vaddr);
-> > >> >       sg_free_table(buf->dma_sgt);
-> > >> >       if (buf->dma_dir =3D=3D DMA_FROM_DEVICE ||
-> > >> >           buf->dma_dir =3D=3D DMA_BIDIRECTIONAL)
-> > >> > @@ -312,7 +312,8 @@ static void *vb2_dma_sg_vaddr(struct vb2_buffe=
-r *vb, void *buf_priv)
-> > >> >                       ret =3D dma_buf_vmap(buf->db_attach->dmabuf,=
- &map);
-> > >> >                       buf->vaddr =3D ret ? NULL : map.vaddr;
-> > >> >               } else {
-> > >> > -                     buf->vaddr =3D vm_map_ram(buf->pages, buf->n=
-um_pages, -1);
-> > >> > +                     buf->vaddr =3D vmap(buf->pages, buf->num_pag=
-es, VM_MAP,
-> > >> > +                                       PAGE_KERNEL);
-> > >> >               }
-> > >> >       }
-> > >> >
-> > >>
-> > >
-> >
-> > --
-> > Pengutronix e.K.                           |                           =
-  |
-> > Steuerwalder Str. 21                       | http://www.pengutronix.de/=
-  |
-> > 31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0  =
-  |
-> > Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-555=
-5 |
+> This patch adds vmap on map if buf->vaddr was not set, and also
+> adds the vb2_dma_sg_dmabuf_ops_vunmap function to remove the mapping
+> afterwards.
+>
+> Cc: stable@kernel.org
+> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>
+> ---
+> v2 -> v3: resend as a single patch
+> v1 -> v2: using vmap and vunmap instead of vm_map_ram and vm_unmap_ram
+>
+
+First of all, thanks for the patch!
+
+Please check my comments inline.
+
+>  .../media/common/videobuf2/videobuf2-dma-sg.c    | 16 ++++++++++++++++
+>  1 file changed, 16 insertions(+)
+>
+> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/=
+media/common/videobuf2/videobuf2-dma-sg.c
+> index 28f3fdfe23a298..05b43edda94a7e 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> @@ -489,11 +489,26 @@ static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_bu=
+f *dbuf,
+>  {
+>         struct vb2_dma_sg_buf *buf =3D dbuf->priv;
+>
+> +       if (!buf->vaddr)
+> +               buf->vaddr =3D vmap(buf->pages, buf->num_pages, VM_MAP,
+> +                                 PAGE_KERNEL);
+> +
+
+Would it make sense to use vb2_dma_sg_vaddr() instead of open coding
+the mapping again?
+
+>         iosys_map_set_vaddr(map, buf->vaddr);
+>
+>         return 0;
+>  }
+>
+> +static void vb2_dma_sg_dmabuf_ops_vunmap(struct dma_buf *dbuf,
+> +                                     struct iosys_map *map)
+> +{
+> +       struct vb2_dma_sg_buf *buf =3D dbuf->priv;
+> +
+> +       if (buf->vaddr)
+> +               vunmap(buf->vaddr);
+> +
+> +       buf->vaddr =3D NULL;
+> +}
+
+This could be potentially dangerous. Please consider the situation
+when the exporting V4L2 driver needs the CPU mapping for its own
+usage. It would call vb2_dma_sg_vaddr(), which would return the
+mapping. Then the importer could call vunmap, which would destroy the
+mapping that is still in use by the exporter internally.
+
+The idea of the current implementation is that we just create a kernel
+mapping when it's needed first and just keep it around until the
+entire buffer is destroyed.
+
+Best regards,
+Tomasz
