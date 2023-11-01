@@ -2,180 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DC89A7DE3E8
-	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 16:37:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D4597DE417
+	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 16:47:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234584AbjKAPgk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Nov 2023 11:36:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36600 "EHLO
+        id S1343570AbjKAPoL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Nov 2023 11:44:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234557AbjKAPgi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 11:36:38 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 480F0DA
-        for <linux-media@vger.kernel.org>; Wed,  1 Nov 2023 08:36:30 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0398BAE;
-        Wed,  1 Nov 2023 16:36:11 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698852972;
-        bh=E1984onHQ6hGbrkjprVNdqs7xHsxoS2pfFgyNq1F0cY=;
+        with ESMTP id S232759AbjKAPoK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 11:44:10 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55A47DA;
+        Wed,  1 Nov 2023 08:44:08 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C094C433C7;
+        Wed,  1 Nov 2023 15:44:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1698853448;
+        bh=LOLkdWyXlUPi/tob8rtWu6/QnkwJBoUQig0d19hPCiA=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=m1AgiH0aQcLCc2r70Qd5zCoQYrsfevbdR/jNiEzLD0wPXUGvC7hldHNSRAqWyIcJl
-         6608SU0hjy/P7+VESzphjkZIAE3F8Vh60Xw5qnSGRpTXHzgsfty+9NOOF3ytCSLgbx
-         t66UTaWKJwp/kgkzJwWUusJegbuGyhAF2xOtQnSQ=
-Date:   Wed, 1 Nov 2023 17:36:35 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org,
-        "Cao, Bingbu" <bingbu.cao@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Daniel Scally <dan.scally@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
-        hverkuil@xs4all.nl
-Subject: Re: [PATCH 1/1] media: Documentation: Initialisation finishes before
- subdev registration
-Message-ID: <20231101153635.GA12764@pendragon.ideasonboard.com>
-References: <20231101080546.1145527-1-sakari.ailus@linux.intel.com>
- <20231101125350.GL12764@pendragon.ideasonboard.com>
- <ZUJTITOHBtM80kyL@kekkonen.localdomain>
- <20231101134506.GP12764@pendragon.ideasonboard.com>
- <ZUJb4JXALy9WhDcW@kekkonen.localdomain>
+        b=kHjhLGZMNagQaCEQr1O10zzYkGsfgf6rUpdIGSRGxKXH+Vt/5ksjNTwaXmIPDnmsS
+         7uaTUYRtDweNgA+ES41AfY8FJ0bz3eN0sVL61ZAv8BauQ1t5VezztjphJVmqbb5V2g
+         jZVruTyNu4+XN+PWPCLXM9ZDV0+aiFNR/jyIx1Hfw4pAvGid4qGUgAIwueanxEvciP
+         kLc4jfhJpWcRQZ7mAzXb01z1da+hoorKTFBT9DI9SNh6/F6+XJIIY7a29usYYUiXiw
+         0+Zwi36lNjukjpEgnw4HCP42VzDTTXG9Yh8YcIhBeDJBj812vrqyxms2SPbh3Q9t3C
+         Re1Y91O4r2gJA==
+Date:   Wed, 1 Nov 2023 15:44:02 +0000
+From:   Conor Dooley <conor@kernel.org>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Rob Herring <robh@kernel.org>,
+        Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
+        michael.riesch@wolfvision.net
+Subject: Re: [PATCH v9 1/3] media: dt-bindings: media: add bindings for
+ Rockchip CIF
+Message-ID: <20231101-ergonomic-grafted-2edc0290c569@spud>
+References: <cover.1698666612.git.mehdi.djait@bootlin.com>
+ <5f83d60031320c4c7b0f0727604903f50ee49058.1698666612.git.mehdi.djait@bootlin.com>
+ <20231030193236.GA1995060-robh@kernel.org>
+ <ZUDOCywnEqJSuQMM@aptenodytes>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="YVNaohhmDitCSSUU"
 Content-Disposition: inline
-In-Reply-To: <ZUJb4JXALy9WhDcW@kekkonen.localdomain>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+In-Reply-To: <ZUDOCywnEqJSuQMM@aptenodytes>
+X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 01, 2023 at 02:08:32PM +0000, Sakari Ailus wrote:
-> On Wed, Nov 01, 2023 at 03:45:06PM +0200, Laurent Pinchart wrote:
-> > On Wed, Nov 01, 2023 at 01:31:13PM +0000, Sakari Ailus wrote:
-> > > On Wed, Nov 01, 2023 at 02:53:50PM +0200, Laurent Pinchart wrote:
-> > > > On Wed, Nov 01, 2023 at 10:05:46AM +0200, Sakari Ailus wrote:
-> > > > > Document that sub-device initialisation needs to complete before the async
-> > > > > sub-device is registered as there is no further driver action needed
-> > > > > before the sensor becomes accessible via the UAPI.
-> > > > > 
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > ---
-> > > > >  Documentation/driver-api/media/camera-sensor.rst | 3 ++-
-> > > > >  Documentation/driver-api/media/v4l2-subdev.rst   | 4 ++++
-> > > > >  2 files changed, 6 insertions(+), 1 deletion(-)
-> > > > > 
-> > > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > > > > index 6456145f96ed..c675ce77c4d6 100644
-> > > > > --- a/Documentation/driver-api/media/camera-sensor.rst
-> > > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > > > > @@ -60,7 +60,8 @@ management over the pipeline.
-> > > > >  Camera sensor drivers are responsible for controlling the power state of the
-> > > > >  device they otherwise control as well. They shall use runtime PM to manage
-> > > > >  power states. Runtime PM shall be enabled at probe time and disabled at remove
-> > > > > -time. Drivers should enable runtime PM autosuspend.
-> > > > > +time. Drivers should enable runtime PM autosuspend. Note that runtime PM has to
-> > > > > +be enabled before registering the sensor's async sub-device.
-> > > > 
-> > > > I wouldn't single out runtime PM initialization here, and neither would
-> > > > I talk about registration, as that's not in scope for this file. I think
-> > > > it would be better to instead reference v4l2-subdev.rst at the beginning
-> > > > of this file. Something generic like stating that camera sensor must be
-> > > > implemented as subdevs, and comply with the generic rules for subdevs,
-> > > > as explaiend in v4l2-subdev.rst.
-> > > 
-> > > I added this text here as this appears to be a very common problem in
-> > > sensor drivers. Tost likely the reason is that some drivers have had this
-> > > issue and it has gotten copied elsewhere.
-> > 
-> > Yes, I think there's lots of cargo cult there. Documentation is good,
-> > fixing drivers so that the next person to copy code will copy good code
-> > is better, but the best solution is to move most of the problem to
-> > helper functions provided by the core.
-> 
-> I wouldn't call it "cargo cult" if a sensor driver needs to deal with
-> multiple unrelated matters.
 
-I meant that most sensor drivers are written by copying code from other
-drivers without understanding what that code does exactly, and why.
+--YVNaohhmDitCSSUU
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Of course it's possible to have helper
-> functions performing multiple unrelated things but at some point it is easy
-> to notice some drivers need things to be done differently. Admittedly, most
-> of such differences are due to historical reasons, not something you want
-> in new drivers anymore.
+On Tue, Oct 31, 2023 at 10:51:07AM +0100, Paul Kocialkowski wrote:
+> Hi Rob,
+>=20
+> On Mon 30 Oct 23, 14:32, Rob Herring wrote:
+> > On Mon, Oct 30, 2023 at 01:25:12PM +0100, Mehdi Djait wrote:
+> > > Add a documentation for the Rockchip Camera Interface
+> > > binding.
+> > >=20
+> > > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> > > ---
+> > > v8=3D>v9:
+> > > dropped the "Reviewed-by: Rob Herring <robh@kernel.org>"
+> > > because of the following changes:
+> > > - changed the compatible to rk3066-cif: rk3066 is the earliest Rockch=
+ip SoC
+> > >   that uses cif and it is the first model starting the RK30 lineup.
+> >=20
+> > Is px30 compatible with rk3066? It's not clear because you didn't add=
+=20
+> > rk3066 support. If not compatible, then add rk3066 when you have a user=
+=2E=20
+> > If it is compatible, then you should have a fallback for px30.
+>=20
+> Just to clarify here: we haven't checked that rk3066 uses the exact same
+> programming model as px30 (so there should be no fallback compatible), bu=
+t it
+> is definitely the same unit (in a different version).
 
-It's time to relegate historical code to the git history :-)
+If you aren't sure about the programming model, are you sure about the
+number of clocks, resets etc that it has? Same IP in a different SoC
+could be integrated differently, right?
 
-> > I still prefer linking to v4l2-subdev.rst. Duplicating documentation in
-> > multiple places increases the chances it will get stale.
-> 
-> I'm fine with dropping this part of the patch. Although what is being said
-> there is very unlikely to change in the foreseeable future.
+> Since the yaml binding document will apply to all generations of the unit,
+> the name of the file should be the first generation (rk3066) instead of t=
+he
+> px30 which is just one of the many iterations of the unit.
+>=20
+> It would be both confusing and irrelevant to pick px30 just because it ha=
+ppens
+> to be the first generation supported in the Linux driver (and described in
+> the binding).
 
-Would you add a link to v4l2-subdev.rst at the top of the file ? It can
-be done in a separate patch.
+--YVNaohhmDitCSSUU
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> > > > >  The runtime PM handlers shall handle clocks, regulators, GPIOs, and other
-> > > > >  system resources required to power the sensor up and down. For drivers that
-> > > > > diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
-> > > > > index e56b50b3f203..b22d1b075fd6 100644
-> > > > > --- a/Documentation/driver-api/media/v4l2-subdev.rst
-> > > > > +++ b/Documentation/driver-api/media/v4l2-subdev.rst
-> > > > > @@ -195,6 +195,10 @@ performed using the :c:func:`v4l2_async_unregister_subdev` call. Subdevices
-> > > > >  registered this way are stored in a global list of subdevices, ready to be
-> > > > >  picked up by bridge drivers.
-> > > > >  
-> > > > > +Note that all sensor initialisation has to complete before registering the async
-> > > > > +sub-device, including enabling runtime PM. This is because the sensor becomes
-> > > > > +accessible via the UAPI without further action by the sensor driver.
-> > > > 
-> > > > It's not just the UAPI, but also in-kernel users.
-> > > > 
-> > > > The passive form is heavier and thus harder to read. Maybe something
-> > > > like the following ? Feel free to rework it.
-> > > > 
-> > > > ----
-> > > > Drivers must complete all initialization of the sensor before registering the
-> > > > async sub-device. This includes enabling runtime PM. This is because the sensor
-> > > > becomes accessible and may be used as soon as it gets registered.
-> > > 
-> > > s/used/accessed/ maybe? Or remove "and maybe used"?
-> > 
-> > I'm fine with that.
-> > 
-> > > > ----
-> > > > 
-> > > > Also, wouldn't this be better placed in the "Registering asynchronous
-> > > > sub-devices" section ? This isn't specific to sensors.
-> > > 
-> > > Ah, yes, I meant sub-devices there. This actually applies to all
-> > > of UAPI, in general, but it's the async sub-device drivers that tend to
-> > > have the problem as people tend to think it's "just" registering the async
-> > > sub-device but in fact the related sub-device may be immediately registered
-> > > as well.
-> > 
-> > Note there are two sections, one about subdev registration, one about
-> > camera sensor registration. You've added the text to the latter.
-> 
-> The section I added the text to does not mention camera sensors separately,
-> the section title is "Registering asynchronous sub-devices".
+-----BEGIN PGP SIGNATURE-----
 
-My bad, I was looking at the wrong location. Replacing the reference to
-sensor with subdev should be good enough then.
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZUJyQgAKCRB4tDGHoIJi
+0pV9AQDsS4rK+O+lkq42s0pL/LUf5QyGJvaIOVrOuMKXzAV0rAD+MZO7nnkc94mm
+0HlriAIiiWtAbTY06WCROSeGC0sFEg8=
+=M5oH
+-----END PGP SIGNATURE-----
 
-> > > > > +
-> > > > >  Asynchronous sub-device notifiers
-> > > > >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > >  
-
--- 
-Regards,
-
-Laurent Pinchart
+--YVNaohhmDitCSSUU--
