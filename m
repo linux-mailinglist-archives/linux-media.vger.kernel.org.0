@@ -2,54 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 50A6F7DDEA2
-	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 10:42:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5ECE47DDEB1
+	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 10:50:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232235AbjKAJmu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Nov 2023 05:42:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43420 "EHLO
+        id S229975AbjKAJuP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Nov 2023 05:50:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44574 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232209AbjKAJms (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 05:42:48 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D13B310C
-        for <linux-media@vger.kernel.org>; Wed,  1 Nov 2023 02:42:45 -0700 (PDT)
+        with ESMTP id S229490AbjKAJuO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 05:50:14 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB37BED;
+        Wed,  1 Nov 2023 02:50:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698831765; x=1730367765;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=yR9gN0EVIGUzb8o2gxd10R4+RWlnyDrs4Ww0/4zLLwc=;
-  b=iVdbqBrgAuBa4Q3y0xI0VYCn5Ud8rQLzkualMQZyx6A9vJeVN48TE5Li
-   4IKRshqvOKaUACJFpv42d/pWKfAiwBkltOO8CdjjM1L/ep/DrEbIGNG56
-   f2eoMHqw+uouWWzNM9Jp061aBI4qUbPztgOymoxpw7Iwf8biIPL9ngazh
-   SjphDU3Idgc5e0NyaCyP0C3lF5StCaaNABi16E9Egg6l5gRT2f9/8a9dB
-   POK+/OxTQlRDy+VsVEJIaRzE1W8c4Z4K+9CacCfgi+UT7Ck9CwwMSvqbQ
-   tFfTSoRspLdoY/ouZRVXHv/j2e6D0TAVx3+an6KhkywrXqhZTL/Cy3Zmy
+  t=1698832209; x=1730368209;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=zDiWeh0tO0Ei/h8vXh3lQTonMfi7WIE4tqSqr/o3WIQ=;
+  b=cbEYbcudVGSn6XziMFLlRyKNyrMPNlOk9tmxdJJU6S7mqpgv8nz8r3tj
+   4a6L41+rAizg+sVhMUnVi/9gHGirrTPMfPMII+/oUsF7aRB5Rz0IHsToV
+   NcRITrt0ZtM8/wfZbsVTVDNVFKj5k+Nj7h23NQVMVk/QOMr9gNOPtnaSw
+   BXQ8vrLz5MR3L5MmK/avjUG84U8PosbHtw+njh3ZWoF+wOkPI/fk1RPkg
+   KdscAvTotPlzHGtKvnCJOKjhFUFcmOc/3OfWOLoabsDxsK4FCZqvIueaq
+   MWbetcos6viZVJI33MkTj8hUtuLQ2Hr/GwBXZRgX8UZSirMwNb44unLfU
    w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="368676331"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="388287349"
 X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; 
-   d="scan'208";a="368676331"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 02:42:45 -0700
+   d="scan'208";a="388287349"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 02:50:08 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="764522928"
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="904594825"
 X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; 
-   d="scan'208";a="764522928"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 02:42:44 -0700
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id ACBF0120797;
-        Wed,  1 Nov 2023 11:42:41 +0200 (EET)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     "Cao, Bingbu" <bingbu.cao@linux.intel.com>
-Subject: [PATCH 1/1] media: imx319: Enable runtime PM before registering async sub-device
-Date:   Wed,  1 Nov 2023 11:42:41 +0200
-Message-Id: <20231101094241.1149656-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+   d="scan'208";a="904594825"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by fmsmga001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 02:50:04 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1qy7rM-0000000APbY-2ezT;
+        Wed, 01 Nov 2023 11:50:00 +0200
+Date:   Wed, 1 Nov 2023 11:50:00 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Julien Stephan <jstephan@baylibre.com>,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        rafael@kernel.org
+Subject: Re: [PATCH v2 1/1] device property: Add fwnode_name_eq()
+Message-ID: <ZUIfSIWze4llNJfd@smile.fi.intel.com>
+References: <20231101072729.1142578-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231101072729.1142578-1-sakari.ailus@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
@@ -60,45 +77,27 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-As the sensor may be accessible right after its async sub-device is
-registered, enable runtime PM before doing so.
+On Wed, Nov 01, 2023 at 09:27:29AM +0200, Sakari Ailus wrote:
+> Add fwnode_name_eq() to implement the functionality of of_node_name_eq()
+> on fwnode property API. The same convention of ending the comparison at
+> '@' (besides '\0') is applied on also both ACPI and swnode. The function
+> is intended for comparing unit address-less node names on DT and firmware
+> or swnodes compliant with DT bindings.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/i2c/imx319.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+...
 
-diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
-index 5378f607f340..f8bce161318d 100644
---- a/drivers/media/i2c/imx319.c
-+++ b/drivers/media/i2c/imx319.c
-@@ -2464,19 +2464,21 @@ static int imx319_probe(struct i2c_client *client)
- 		goto error_handler_free;
- 	}
- 
--	ret = v4l2_async_register_subdev_sensor(&imx319->sd);
--	if (ret < 0)
--		goto error_media_entity;
--
- 	/* Set the device's state to active if it's in D0 state. */
- 	if (full_power)
- 		pm_runtime_set_active(&client->dev);
- 	pm_runtime_enable(&client->dev);
- 	pm_runtime_idle(&client->dev);
- 
-+	ret = v4l2_async_register_subdev_sensor(&imx319->sd);
-+	if (ret < 0)
-+		goto error_media_entity_pm;
-+
- 	return 0;
- 
--error_media_entity:
-+error_media_entity_pm:
-+	pm_runtime_disable(&client->dev);
-+	pm_runtime_set_suspended(&client->dev);
- 	media_entity_cleanup(&imx319->sd.entity);
- 
- error_handler_free:
+> - Use size_t type for len.
+
+Strictly speaking it should be ptrdiff_t according to the code.
+
+...
+
+> + * the comparison to either '\0' or '@' character
+
+NUL is a human-readable substitution to less parsable '\0'.
+
 -- 
-2.39.2
+With Best Regards,
+Andy Shevchenko
+
 
