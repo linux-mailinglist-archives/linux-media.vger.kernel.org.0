@@ -2,154 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 81E3C7DDBA7
-	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 04:48:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F7B27DDC76
+	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 07:16:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231358AbjKADss (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 31 Oct 2023 23:48:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51864 "EHLO
+        id S1376553AbjKAFv3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Nov 2023 01:51:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231164AbjKADsr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 31 Oct 2023 23:48:47 -0400
-Received: from mail-ej1-x630.google.com (mail-ej1-x630.google.com [IPv6:2a00:1450:4864:20::630])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B077A4
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 20:48:42 -0700 (PDT)
-Received: by mail-ej1-x630.google.com with SMTP id a640c23a62f3a-99c3c8adb27so948420366b.1
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 20:48:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1698810519; x=1699415319; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Yq4yHDhKduckzAzodqUeZQr6ErYtU7ghLT5uB093qmA=;
-        b=HYRHWi8L7GzhLpP+sNzNMbunP46RbJzwZXd0nvHMOdoLHB44yUdkt10o1LiUELWEQE
-         ue+AGzxUcy5E90EZMJVN2pTPcV5m1oG0sIXMOs2B9lwx+d8aWXdKCvqcZzYLhShs+ppY
-         Bt2xTz7NoWFafK1ncAz/G8znzUWuOjML/k/PQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698810519; x=1699415319;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Yq4yHDhKduckzAzodqUeZQr6ErYtU7ghLT5uB093qmA=;
-        b=R8dnY0fyIIaT9uYIpS3uchn3pWLgPz/gdLQWSC/8+HoCSbxbbfCx0sBs4Gj3/QJ0Mq
-         2wkOvRh60oNllTWWGUKms2pIvQt37elOJWQekQR31mRh/ay/O8HbnUVw/40diWX06g+q
-         MyCqXcZ6yKJg3IdPHCz12uCyRTzjBQWQi6jYdo5q574JU1hfYjLf+hsHuf9kf0Yy5Qia
-         KPs59OC4cM+nY+UBHK3MDPfTo43xAcqL9UoNhlDxlQ1+8EjhrteCmWqn+ZL3+HGLXZ17
-         s2R9F1g35ZVhFpraeyNblF/ewEXY/g5hoODn5UZUQkC5+Z4BEqBV8mj3ey2Ew630Omxt
-         ciKA==
-X-Gm-Message-State: AOJu0YwfT0tgZTYIO08A2xLd6R4ra/+wBY+tceDodxFGjFgGNguCKBuN
-        QvBLgTj38Fk/O/u/xTjCala0t5+jcTuEX4Yo+mzuKg==
-X-Google-Smtp-Source: AGHT+IGtcgheoun0DsJW3PFFw/nCVe9EKs4MgZYNO7vQdRENi1BcsnU1IRaj7B+IkwXP9BVsHXYw0g==
-X-Received: by 2002:a17:907:1ca3:b0:9c7:5437:841e with SMTP id nb35-20020a1709071ca300b009c75437841emr893833ejc.11.1698810519306;
-        Tue, 31 Oct 2023 20:48:39 -0700 (PDT)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com. [209.85.221.52])
-        by smtp.gmail.com with ESMTPSA id j20-20020a170906411400b009ae69c303aasm1874195ejk.137.2023.10.31.20.48.38
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 31 Oct 2023 20:48:38 -0700 (PDT)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-307d58b3efbso3948544f8f.0
-        for <linux-media@vger.kernel.org>; Tue, 31 Oct 2023 20:48:38 -0700 (PDT)
-X-Received: by 2002:a5d:47af:0:b0:32f:8085:73f8 with SMTP id
- 15-20020a5d47af000000b0032f808573f8mr7300010wrb.18.1698810518283; Tue, 31 Oct
- 2023 20:48:38 -0700 (PDT)
+        with ESMTP id S1345148AbjKAFv2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 01:51:28 -0400
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B8DA3DF;
+        Tue, 31 Oct 2023 22:51:22 -0700 (PDT)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+        by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3A15348n002105;
+        Wed, 1 Nov 2023 05:50:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=GfLm8bZeUAykuu82ydWVftHzqeTVKiAcmOTSLXWPDDg=;
+ b=cRR3VSN38PGsxg2BMtm6tFVOgb21bCnZBy8xFHAjvxRtn0Q6TYG3Q9qBPrC5cTiK2G4s
+ df6hXirXQVo5ucpBl77nfpGP5ZHFNezACSVaYsu8ogYu39KAN8DxIvPW0L8opzUq15eO
+ NcdGFypTD3VdthAB1C+nNBUROSdI8E2IVQQvy8yfvKhj+iGzMibayBZXhChgxcDVUJwG
+ iuJSr0IbzZYtnSePx3WPWNP/McWFODjyzjAfy78dDDWrfctxsRU1r6qXYl3UIBSYitA2
+ pCJWGCpbbdTZekZwcbT9LfSNqwr0jyKVaFcAIT5+Ru578xLdjqbwvHqvSNP0A+kkpPYi Pw== 
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+        by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u3a5eh064-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 01 Nov 2023 05:50:57 +0000
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+        by NALASPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3A15ouLW032477
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 1 Nov 2023 05:50:56 GMT
+Received: from [10.214.67.72] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Tue, 31 Oct
+ 2023 22:50:49 -0700
+Message-ID: <a83b00c4-a33a-4687-b024-173c6c5a66a0@quicinc.com>
+Date:   Wed, 1 Nov 2023 11:20:45 +0530
 MIME-Version: 1.0
-References: <20231031230435.3356103-1-m.grzeschik@pengutronix.de>
-In-Reply-To: <20231031230435.3356103-1-m.grzeschik@pengutronix.de>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Wed, 1 Nov 2023 12:48:21 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CCr0ivS8REcwHwJweCTk29+wVGZVjgL0mnZzPQ47kAVw@mail.gmail.com>
-Message-ID: <CAAFQd5CCr0ivS8REcwHwJweCTk29+wVGZVjgL0mnZzPQ47kAVw@mail.gmail.com>
-Subject: Re: [PATCH v3] media: videobuf2-dma-sg: fix vmap and vunmap callbacks
-To:     Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        m.szyprowski@samsung.com, mchehab@kernel.org,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        kernel@pengutronix.de, stable@kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
+ memory for SVP
+Content-Language: en-US
+To:     =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
+        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>,
+        "robh+dt@kernel.org" <robh+dt@kernel.org>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
+CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-mediatek@lists.infradead.org" 
+        <linux-mediatek@lists.infradead.org>,
+        "jstultz@google.com" <jstultz@google.com>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
+        <Jianjiao.Zeng@mediatek.com>,
+        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
+        <kuohong.wang@mediatek.com>,
+        "conor+dt@kernel.org" <conor+dt@kernel.org>,
+        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
+        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+        "tjmercier@google.com" <tjmercier@google.com>,
+        "krzysztof.kozlowski+dt@linaro.org" 
+        <krzysztof.kozlowski+dt@linaro.org>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "angelogioacchino.delregno@collabora.com" 
+        <angelogioacchino.delregno@collabora.com>
+References: <20230911023038.30649-1-yong.wu@mediatek.com>
+ <20230911023038.30649-9-yong.wu@mediatek.com>
+ <d4d471e7-64cf-42bf-a061-82934c904691@quicinc.com>
+ <2c3ad77806df3ef23cb69336f2049821529e337b.camel@mediatek.com>
+From:   Jaskaran Singh <quic_jasksing@quicinc.com>
+In-Reply-To: <2c3ad77806df3ef23cb69336f2049821529e337b.camel@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: mvhv334wkL28YRcs-bX1bkeddaiQ8P7B
+X-Proofpoint-ORIG-GUID: mvhv334wkL28YRcs-bX1bkeddaiQ8P7B
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-01_03,2023-10-31_03,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011
+ priorityscore=1501 bulkscore=0 adultscore=0 spamscore=0 lowpriorityscore=0
+ malwarescore=0 phishscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2310240000 definitions=main-2311010050
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+On 10/20/2023 3:20 PM, Yong Wu (吴勇) wrote:
+> On Thu, 2023-10-19 at 10:16 +0530, Vijayanand Jitta wrote:
+>>  	 
+>> Instead of having a vendor specific binding for cma area, How about
+>> retrieving
+>>
+> https://lore.kernel.org/lkml/1594948208-4739-1-git-send-email-hayashi.kunihiko@socionext.com/
+>>  ?
+>> dma_heap_add_cma can just associate cma region and create a heap. So,
+>> we can reuse cma heap
+>> code for allocation instead of replicating that code here.
+>>
+> 
+> Thanks for the reference. I guess we can't use it. There are two
+> reasons:
+>   
+> a) The secure heap driver is a pure software driver and we have no
+> device for it, therefore we cannot call dma_heap_add_cma.
+>   
 
+Hi Yong,
 
-On Wed, Nov 1, 2023 at 8:04=E2=80=AFAM Michael Grzeschik
-<m.grzeschik@pengutronix.de> wrote:
+We're considering using struct cma as the function argument to
+dma_heap_add_cma() rather than struct device. Would this help
+resolve the problem of usage with dma_heap_add_cma()?
+
+> b) The CMA area here is dynamic for SVP. Normally this CMA can be used
+> in the kernel. In the SVP case we use cma_alloc to get it and pass the
+> entire CMA physical start address and size into TEE to protect the CMA
+> region. The original CMA heap cannot help with the TEE part.
 >
-> For dmabuf import users to be able to use the vaddr from another
-> videobuf2-dma-sg source, the exporter needs to set a proper vaddr on
-> vb2_dma_sg_dmabuf_ops_vmap callback.
->
-> This patch adds vmap on map if buf->vaddr was not set, and also
-> adds the vb2_dma_sg_dmabuf_ops_vunmap function to remove the mapping
-> afterwards.
->
-> Cc: stable@kernel.org
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->
-> ---
-> v2 -> v3: resend as a single patch
-> v1 -> v2: using vmap and vunmap instead of vm_map_ram and vm_unmap_ram
->
 
-First of all, thanks for the patch!
+Referring the conversation at
+https://lore.kernel.org/lkml/7a2995de23c24ef22c071c6976c02b97e9b50126.camel@mediatek.com/;
 
-Please check my comments inline.
+since we're considering abstracting secure mem ops, would it make sense
+to use the default CMA heap ops (cma_heap_ops), allocate buffers from it
+and secure each allocated buffer?
 
->  .../media/common/videobuf2/videobuf2-dma-sg.c    | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
->
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/=
-media/common/videobuf2/videobuf2-dma-sg.c
-> index 28f3fdfe23a298..05b43edda94a7e 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -489,11 +489,26 @@ static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_bu=
-f *dbuf,
->  {
->         struct vb2_dma_sg_buf *buf =3D dbuf->priv;
->
-> +       if (!buf->vaddr)
-> +               buf->vaddr =3D vmap(buf->pages, buf->num_pages, VM_MAP,
-> +                                 PAGE_KERNEL);
-> +
+Thanks,
+Jaskaran.
 
-Would it make sense to use vb2_dma_sg_vaddr() instead of open coding
-the mapping again?
-
->         iosys_map_set_vaddr(map, buf->vaddr);
->
->         return 0;
->  }
->
-> +static void vb2_dma_sg_dmabuf_ops_vunmap(struct dma_buf *dbuf,
-> +                                     struct iosys_map *map)
-> +{
-> +       struct vb2_dma_sg_buf *buf =3D dbuf->priv;
-> +
-> +       if (buf->vaddr)
-> +               vunmap(buf->vaddr);
-> +
-> +       buf->vaddr =3D NULL;
-> +}
-
-This could be potentially dangerous. Please consider the situation
-when the exporting V4L2 driver needs the CPU mapping for its own
-usage. It would call vb2_dma_sg_vaddr(), which would return the
-mapping. Then the importer could call vunmap, which would destroy the
-mapping that is still in use by the exporter internally.
-
-The idea of the current implementation is that we just create a kernel
-mapping when it's needed first and just keep it around until the
-entire buffer is destroyed.
-
-Best regards,
-Tomasz
+> Thanks.
+> 
+>> Thanks,
+>> Vijay
+>>
+>>
+>>
