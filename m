@@ -2,151 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 741957DE0F0
-	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 13:37:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E152C7DE140
+	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 14:05:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343508AbjKAMYM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Nov 2023 08:24:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33420 "EHLO
+        id S1343647AbjKAMli (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Nov 2023 08:41:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235182AbjKAMYK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 08:24:10 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7736911D;
-        Wed,  1 Nov 2023 05:24:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1698841444; x=1730377444;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=cxExEeA1vdIg/CcokEDnS1S4rVbb4FTgTus4XUp88yQ=;
-  b=q+sqsSZj1lUolxtXZu8aHJK8orj36/xjKfEwACD1vJ2lS07NmsK0hKRP
-   JWOePLWDNrmCClpd/sp7Fk+SPhA/HV56/nPtqX1nr3wma80K0UhUaYmJG
-   f+AfQYDuU6WXMVyu7pRyezNk5y+oeiSsY1aKmMQLBHEmHTxeGDKzVRoXu
-   fPVD1YY6hoP/khhDApjqxVE/6p/2Vz69B27D/pvhtngIMdlfUlaKR+Obx
-   bihMFvlV/tbioNFaocnO4kmZXJf+m4HSraLHyiOyxvcUGsqTKWLr+993w
-   CtCaGoDawIItD6rpU73Mi1dZXlxePsc4aEp0kczdwV8khnXmWytsnN6ZS
-   w==;
-X-IronPort-AV: E=Sophos;i="6.03,268,1694728800"; 
-   d="scan'208";a="33759525"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 01 Nov 2023 13:23:57 +0100
-Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.18])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D53F828007F;
-        Wed,  1 Nov 2023 13:23:56 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans de Goede <hdegoede@redhat.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        linux-media@vger.kernel.org,
-        Alain Volmat <alain.volmat@foss.st.com>, stable@vger.kernel.org
-Subject: [PATCH v2 2/2] media: i2c: imx290: Properly encode registers as little-endian
-Date:   Wed,  1 Nov 2023 13:23:54 +0100
-Message-Id: <20231101122354.270453-3-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231101122354.270453-1-alexander.stein@ew.tq-group.com>
-References: <20231101122354.270453-1-alexander.stein@ew.tq-group.com>
+        with ESMTP id S235151AbjKAMlh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 08:41:37 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B20DE4
+        for <linux-media@vger.kernel.org>; Wed,  1 Nov 2023 05:41:28 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 13C6A8D;
+        Wed,  1 Nov 2023 13:41:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1698842470;
+        bh=3sKhmu2b0/Eyr9sY4M7BTzXnYLZ/OxDCyp1zoa4D13o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=kiulq7DxYyWlWX9ioPKddlToydZ/g8hopYj6dVoJIkOKTHNuDSl5gVhXQgcLG8kiT
+         MoCUZ6chf65r08DbSEU9G/q8ZN+XoEnnAUJ33gmcKwjAH4SUqodkmiMyXA60sdh7oi
+         7rYvyoH1VXZJNtLjXOoooQVLG9PvBFxOmMguk3Ls=
+Date:   Wed, 1 Nov 2023 14:41:33 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     linux-media@vger.kernel.org, Sebastian Reichel <sre@kernel.org>,
+        "kieran.bingham@ideasonboard.com" <kieran.bingham@ideasonboard.com>
+Subject: Re: [RFC] regmap_range_cfg usage with v4l2-cci
+Message-ID: <20231101124133.GK12764@pendragon.ideasonboard.com>
+References: <20231030173637.GA2977515@gnbcxd0016.gnb.st.com>
+ <962d6d0c-2263-fe59-011c-09068a6a4cef@redhat.com>
+ <20231031170530.GA2989927@gnbcxd0016.gnb.st.com>
+ <1d3f2440-6572-4311-893e-952562e51e30@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1d3f2440-6572-4311-893e-952562e51e30@redhat.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The conversion to CCI also converted the multi-byte register access to
-big-endian. Correct the register definition by using the correct
-little-endian ones.
+Hello,
 
-Fixes: af73323b97702 ("media: imx290: Convert to new CCI register access helpers")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
----
- drivers/media/i2c/imx290.c | 42 +++++++++++++++++++-------------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+On Tue, Oct 31, 2023 at 06:26:58PM +0100, Hans de Goede wrote:
+> On 10/31/23 18:05, Alain Volmat wrote:
+> > On Tue, Oct 31, 2023 at 10:53:16AM +0100, Hans de Goede wrote:
+> >> <resend with Alain added to the To: for some reason reply-to-all did not add Alain>
+> > 
+> > No pb, I also received it via the mailing-list ;-)
+> > 
+> >> Hi Alain,
+> >>
+> >> On 10/30/23 18:36, Alain Volmat wrote:
+> >>> Hi,
+> >>>
+> >>> Goal of this email is to get first comments prior to posting a patch.
+> >>>
+> >>> Could we consider enhancements within the v4l2-cci in order to also
+> >>> allow regmap_range_cfg usage for paged register access ?
+> >>
+> >> Yes definitely.
+> >>
+> >> Extending v4l2-cci for other use cases was already briefly discussed
+> >> between Kieran (Cc-ed) and me:
+> >>
+> >> The CCI part of the MIPI CSI spec says that multi-byte registers are
+> >> always in big endian format, but some of the Sony IMX sensors actually
+> >> use little-endian format for multi-byte registers.
+> >>
+> >> The main reason why we need v4l2-cci and cannot use regmap directly is
+> >> because of the variable register width in CCI, where as regmap only
+> >> supports a single width. v4l2 cci uses 8 bits width in the underlying
+> >> regmap-config and then takes care of multy-byte registers by e.g.
+> >> reading multiple bytes and calling e.g. get_unaligned_be16() on
+> >> the read bytes.
+> >>
+> >> For the IMX scenario the plan is to add the notion of v4l2-cci
+> >> flags by adding this to include/media/v4l2-cci.h :
+> >>
+> >> struct v4l2_cci {
+> >> 	struct regmap *map;
+> >> 	long flags;
+> >> }
+> >>
+> >> And then change the prototype for devm_cci_regmap_init_i2c() to:
+> >>
+> >> struct v4l2_cci *devm_cci_regmap_init_i2c(struct i2c_client *client,
+> >>                                           int reg_addr_bits, long flags);
+> >>
+> >> And have devm_cci_regmap_init_i2c():
+> >> 1. devm_kmalloc() a struct v4l2_cci
+> >> 2. store the regmap there
+> >> 3. copy over flags from the function argument
+> >>
+> >> Combined with modifying all the other functions to take
+> >> "struct v4l2_cci *cci" as first argument instead of
+> >> "struct regmap *map".
+> >>
+> >> This change will require all existing sensor drivers using
+> >> v4l2-cci to be converted for the "struct regmap *map" ->
+> >> "struct v4l2_cci *cci" change, this all needs to be done
+> >> in one single commit adding the new struct + flags argument
+> >> to avoid breaking the compilation.
+> >>
+> >> Then once we have this a second patch can add:
+> >>
+> >> /* devm_cci_regmap_init_i2c() flags argument defines */
+> >> #define V4L2_CCI_DATA_LE	BIT(0)
+> >>
+> >> to include/media/v4l2-cci.h and make v4l2-cci.h honor
+> >> this flag solving the IMX scenario.
+> > 
+> > I understand that in case of IMX sensors, ALL the multi-registers
+> > value are encoded in little-endian right ?
+> 
+> Yes I believe so, Laurent, Kieran ?
+> 
+> > In case of the GalaxyCore
+> > GC2145, most of the registers (page 0 / 1 and 2) are correctly
+> > encoded in big-endian, however page 3 (MIPI configuration) are
+> > 2 or 3 registers in little-endian.  So far maybe this is minor
+> > case, but the approach of having the endianness part of the v4l2_cci
+> > struct wouldn't allow to address such case ?
+> > 
+> > Originally I thought we could have CCI_REG macros for little endian
+> > as well, such as CCI_REG16_LE etc etc since we anyway still have spare
+> > space I guess on top of the width part.  Drawback is that in drivers
+> > for IMX we would end-up with longer macros CCI_REG16_LE(...) instead
+> > of CCI_REG16(...).
+> 
+> Hmm, that (CCI_REG16_LE etc) is an interesting proposal, that
+> would avoid the need to add a struct with flags and if I understand
+> things correctly then you would also not need any extra data
+> on top of the regmap, right ?
+> 
+> I did not take the mixed endian case for data registers into
+> account yet. Since that apparently is a thing I think that
+> your CCI_REG16_LE etc proposal is better then adding a struct
+> with flags.
+> 
+> Laurent, Kieran what do you think ?
+> 
+> > Or maybe as you proposed we can have the "default" encoding described
+> > in the flags variable and have a CCI_REG16_REV or any other naming
+> > just to indicate that for THAT precise register the endianess is not
+> > the default one.
+> 
+> If we are going to deal with mixed endianess with a flag encoded
+> in the high bits of the register then I greatly favor just
+> putting the encoding in the high bits and not having
+> a default endianness + a flag for reverse endianess, that
+> just feels wrong and the code to implement this will also
+> be less then ideal.
 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 29098612813cb..c6fea5837a19f 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -41,18 +41,18 @@
- #define IMX290_WINMODE_720P				(1 << 4)
- #define IMX290_WINMODE_CROP				(4 << 4)
- #define IMX290_FR_FDG_SEL				CCI_REG8(0x3009)
--#define IMX290_BLKLEVEL					CCI_REG16(0x300a)
-+#define IMX290_BLKLEVEL					CCI_REG16_LE(0x300a)
- #define IMX290_GAIN					CCI_REG8(0x3014)
--#define IMX290_VMAX					CCI_REG24(0x3018)
-+#define IMX290_VMAX					CCI_REG24_LE(0x3018)
- #define IMX290_VMAX_MAX					0x3ffff
--#define IMX290_HMAX					CCI_REG16(0x301c)
-+#define IMX290_HMAX					CCI_REG16_LE(0x301c)
- #define IMX290_HMAX_MAX					0xffff
--#define IMX290_SHS1					CCI_REG24(0x3020)
-+#define IMX290_SHS1					CCI_REG24_LE(0x3020)
- #define IMX290_WINWV_OB					CCI_REG8(0x303a)
--#define IMX290_WINPV					CCI_REG16(0x303c)
--#define IMX290_WINWV					CCI_REG16(0x303e)
--#define IMX290_WINPH					CCI_REG16(0x3040)
--#define IMX290_WINWH					CCI_REG16(0x3042)
-+#define IMX290_WINPV					CCI_REG16_LE(0x303c)
-+#define IMX290_WINWV					CCI_REG16_LE(0x303e)
-+#define IMX290_WINPH					CCI_REG16_LE(0x3040)
-+#define IMX290_WINWH					CCI_REG16_LE(0x3042)
- #define IMX290_OUT_CTRL					CCI_REG8(0x3046)
- #define IMX290_ODBIT_10BIT				(0 << 0)
- #define IMX290_ODBIT_12BIT				(1 << 0)
-@@ -78,28 +78,28 @@
- #define IMX290_ADBIT2					CCI_REG8(0x317c)
- #define IMX290_ADBIT2_10BIT				0x12
- #define IMX290_ADBIT2_12BIT				0x00
--#define IMX290_CHIP_ID					CCI_REG16(0x319a)
-+#define IMX290_CHIP_ID					CCI_REG16_LE(0x319a)
- #define IMX290_ADBIT3					CCI_REG8(0x31ec)
- #define IMX290_ADBIT3_10BIT				0x37
- #define IMX290_ADBIT3_12BIT				0x0e
- #define IMX290_REPETITION				CCI_REG8(0x3405)
- #define IMX290_PHY_LANE_NUM				CCI_REG8(0x3407)
- #define IMX290_OPB_SIZE_V				CCI_REG8(0x3414)
--#define IMX290_Y_OUT_SIZE				CCI_REG16(0x3418)
--#define IMX290_CSI_DT_FMT				CCI_REG16(0x3441)
-+#define IMX290_Y_OUT_SIZE				CCI_REG16_LE(0x3418)
-+#define IMX290_CSI_DT_FMT				CCI_REG16_LE(0x3441)
- #define IMX290_CSI_DT_FMT_RAW10				0x0a0a
- #define IMX290_CSI_DT_FMT_RAW12				0x0c0c
- #define IMX290_CSI_LANE_MODE				CCI_REG8(0x3443)
--#define IMX290_EXTCK_FREQ				CCI_REG16(0x3444)
--#define IMX290_TCLKPOST					CCI_REG16(0x3446)
--#define IMX290_THSZERO					CCI_REG16(0x3448)
--#define IMX290_THSPREPARE				CCI_REG16(0x344a)
--#define IMX290_TCLKTRAIL				CCI_REG16(0x344c)
--#define IMX290_THSTRAIL					CCI_REG16(0x344e)
--#define IMX290_TCLKZERO					CCI_REG16(0x3450)
--#define IMX290_TCLKPREPARE				CCI_REG16(0x3452)
--#define IMX290_TLPX					CCI_REG16(0x3454)
--#define IMX290_X_OUT_SIZE				CCI_REG16(0x3472)
-+#define IMX290_EXTCK_FREQ				CCI_REG16_LE(0x3444)
-+#define IMX290_TCLKPOST					CCI_REG16_LE(0x3446)
-+#define IMX290_THSZERO					CCI_REG16_LE(0x3448)
-+#define IMX290_THSPREPARE				CCI_REG16_LE(0x344a)
-+#define IMX290_TCLKTRAIL				CCI_REG16_LE(0x344c)
-+#define IMX290_THSTRAIL					CCI_REG16_LE(0x344e)
-+#define IMX290_TCLKZERO					CCI_REG16_LE(0x3450)
-+#define IMX290_TCLKPREPARE				CCI_REG16_LE(0x3452)
-+#define IMX290_TLPX					CCI_REG16_LE(0x3454)
-+#define IMX290_X_OUT_SIZE				CCI_REG16_LE(0x3472)
- #define IMX290_INCKSEL7					CCI_REG8(0x3480)
- 
- #define IMX290_PGCTRL_REGEN				BIT(0)
+I'm in two minds about that. It's annoying to have to mark every single
+register with _LE, but at the same time, these are CCI helpers, so
+making life more difficult for LE sensors could be considered
+reasonable. Except, of course, that it will make life more difficult for
+us, not for the sensor vendors. We need a way to share the pain, but
+that's another discussion.
+
+We could also consider that the few GC2145 registers that use a
+different endianness should be handled as 8-bit registers by CCI, and
+managed by the gc2145 driver. If this situation is very rare, it may not
+be worth it trying to handle it in v4l2-cci if it makes life more
+complicated for everybody.
+
+> > Are you aware of other sensors having "mixed" endianness registers ?
+> 
+> Nope this is all new to me. 
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
