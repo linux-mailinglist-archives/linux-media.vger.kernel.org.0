@@ -2,60 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D72007DE3AE
-	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 16:37:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CFFC07DE3A0
+	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 16:37:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232035AbjKAO6E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Nov 2023 10:58:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47998 "EHLO
+        id S232602AbjKAPLH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Nov 2023 11:11:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232269AbjKAO6C (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 10:58:02 -0400
+        with ESMTP id S232688AbjKAPLF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 11:11:05 -0400
 Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6103F126;
-        Wed,  1 Nov 2023 07:57:59 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FDFCC433C8;
-        Wed,  1 Nov 2023 14:57:55 +0000 (UTC)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B5C37DC;
+        Wed,  1 Nov 2023 08:11:03 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1009BC433C7;
+        Wed,  1 Nov 2023 15:11:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1698850679;
-        bh=qZ55fdHQk3fOUH7BBLwgg60kJywx1z///E8C4Ry7qcg=;
+        s=k20201202; t=1698851463;
+        bh=yo1/sF0ttFu5wR6aPa6Te2SqCTO7ZGRY9ZRNoDYt+Nw=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=H/3xG3SFX7PDHOtADXzE4YbJjG/exugleZUqEh+ogcchr/T1P+qaR4u5fx6tswz1a
-         Lr/wzBxwavLPhmlJGbkN/SHJfZ7CwkshltihiLxtEdUDDPJS37Vv1bOamOTXfCzQWQ
-         9lVtV/DYv9xfEq0jMVSF9H/85mYxu+1Yeh9z2sqLEs8kcsR595AoJrG9EY5ReFzT9L
-         +Fynq9w70G60KsumPx2DqHpRfIuddA2xL28GRRp7wr/Egsa9D6g79Eb2HhzstaZBrG
-         7hxEnkIfECMh5jim+HCO8YB9XWp2WPYCerLJoyUt5wOZROZo1x9pHB6USpuAl0n7N2
-         y3WRNMzRBh2Vw==
-Date:   Wed, 1 Nov 2023 14:57:53 +0000
+        b=HPDz1Oe5/mPIoa9hcRebOrJD0AVW3ajAPopnZaGTOyNUWkUsQDp1HgNOx3h1jAJIF
+         5F4dm7jxAR+ReVQz2uwcHCo4JiCyXcBBumBANxWFxbCC7c9wyyFSMJjDulursjhOkE
+         7PmmLPmu6zTOUIF/L4/X5AYyjz+GnH1UX01J4OuEYUdJiNAwUlwtGSTFXLAaOQwN3H
+         dilnxD/YiPLJpjnit3XDWqawaADVLTaJo9zdqKY1yNtQM3AlhKKu5zQzqxKApYldNs
+         fSvnaQfNO8DU5bQMPcRQXBRol8IW6Ar5eLKNtJs+lYIsWAdsd6m5ObkxPniD1Lx8wQ
+         YkkYyQRzZiN/w==
+Date:   Wed, 1 Nov 2023 15:10:58 +0000
 From:   Conor Dooley <conor@kernel.org>
-To:     Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-        Umang Jain <umang.jain@ideasonboard.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        "Paul J. Murphy" <paul.j.murphy@intel.com>,
-        Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+To:     Vincent Knecht <vincent.knecht@mailoo.org>
+Cc:     Tianshu Qiu <tian.shu.qiu@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
         Conor Dooley <conor+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" 
-        <linux-arm-kernel@lists.infradead.org>,
-        open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v2 1/6] media: dt-bindings: media: imx335: Add supply
- bindings
-Message-ID: <20231101-subscribe-massive-0a719216375d@spud>
-References: <20231101131354.2333498-1-kieran.bingham@ideasonboard.com>
- <20231101131354.2333498-2-kieran.bingham@ideasonboard.com>
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Yassine Oudjana <y.oudjana@protonmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: dt-bindings: ak7375: Add ak7345 support
+Message-ID: <20231101-wise-childless-ed44729657c6@spud>
+References: <20231101102257.1232179-1-vincent.knecht@mailoo.org>
+ <20231101102257.1232179-2-vincent.knecht@mailoo.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="lQ4u7dUvhW08tIKL"
+        protocol="application/pgp-signature"; boundary="pODw/iX2UkMAb4/N"
 Content-Disposition: inline
-In-Reply-To: <20231101131354.2333498-2-kieran.bingham@ideasonboard.com>
+In-Reply-To: <20231101102257.1232179-2-vincent.knecht@mailoo.org>
 X-Spam-Status: No, score=-4.8 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
@@ -67,40 +58,64 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---lQ4u7dUvhW08tIKL
+--pODw/iX2UkMAb4/N
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 01, 2023 at 01:13:49PM +0000, Kieran Bingham wrote:
-> Add the bindings for the supply references used on the IMX335.
->=20
-> Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
-> Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->=20
-> ---
-> v2:
->  - Remove the supplies from required properties to prevent ABI breakage.
->=20
-> Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+On Wed, Nov 01, 2023 at 11:22:56AM +0100, Vincent Knecht wrote:
+> Document AK7345 bindings.
 
-FYI, double signoff, mb your tooling be acting up.
+The commit message should mention why this device is incompatible with
+the 7375. Something like
 
+"Document the ak7345 voice coil motor actuator. Similar to the ak7375,
+this model has 4 unilateral phase detractors instead of 8."
+
+Otherwise,
 Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
 Cheers,
 Conor.
 
---lQ4u7dUvhW08tIKL
+>=20
+> Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+> ---
+>  .../devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml     | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak73=
+75.yaml b/Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.ya=
+ml
+> index 22a810fc7222..fe312cc6a873 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
+> @@ -15,7 +15,9 @@ description:
+> =20
+>  properties:
+>    compatible:
+> -    const: asahi-kasei,ak7375
+> +    enum:
+> +      - asahi-kasei,ak7345
+> +      - asahi-kasei,ak7375
+> =20
+>    reg:
+>      maxItems: 1
+> --=20
+> 2.41.0
+>=20
+>=20
+>=20
+
+--pODw/iX2UkMAb4/N
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZUJncQAKCRB4tDGHoIJi
-0jZTAP0bt39/eWWvtTOSVDEayTA4j0xHSp8Iavc0vz1ukk7xCgD/UDcU1kFM8Quz
-jMgQ0BcQwjWaSf6B4kT8z16SUQbUNwk=
-=QzoB
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZUJqggAKCRB4tDGHoIJi
+0slyAP9VpcF5IzeE9i4pnc3z2Dl/ml0Sd6jvPoRkLEufandUYwD+IC8ffkg6jBmB
+NHs9lJ26+uz0K/TlXllzodqhGmmjvQs=
+=tXf/
 -----END PGP SIGNATURE-----
 
---lQ4u7dUvhW08tIKL--
+--pODw/iX2UkMAb4/N--
