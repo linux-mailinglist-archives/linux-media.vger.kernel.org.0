@@ -2,74 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 29C4F7DDCE8
-	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 08:00:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C2DF07DDD1C
+	for <lists+linux-media@lfdr.de>; Wed,  1 Nov 2023 08:22:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234708AbjKAHAC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Nov 2023 03:00:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56306 "EHLO
+        id S230028AbjKAHWv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Nov 2023 03:22:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229705AbjKAHAB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 03:00:01 -0400
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83A47E4;
-        Tue, 31 Oct 2023 23:59:54 -0700 (PDT)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9c603e235d1so1012945266b.3;
-        Tue, 31 Oct 2023 23:59:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1698821993; x=1699426793; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=OoRJsZQA0JRmj7+Zm7KWg2a0Vv+QGemQYHWSkunKRm8=;
-        b=j5/2YLYeYo2VVfUg3BpcwjWcCe4BlZTRDENHAHNUcCzV8j6iV8DW+PWURR/ptgqJhJ
-         owsaBi6/QTWb0t4/K+mqwEs/VGYecdbrf0TsPgJc1LcG9ln8nlYfKxU3rL4j34tMoSM+
-         MYmm61J5Y05HCvNv2j1Qql/tNodBqF7cWuvExc3r8KYM4MjHCfnnGn7CikBYdXHN4F60
-         GnlzIVVsaXlMToQTmZ61X42bexiVFPDo1hxb1lr3jzz1QtG7pw4/Abu7eoDVHy6y1+ZA
-         FITKjs1Nxa/ikUWqSs6d15bRSEMRE86QvCLlKbxRMgWOnPeYoH8ytWcG30GkvAAxJV2W
-         vlnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698821993; x=1699426793;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=OoRJsZQA0JRmj7+Zm7KWg2a0Vv+QGemQYHWSkunKRm8=;
-        b=Gu2I2VDnKSTXwARyPKyOF2K6HJniXRyG0bQZOvl4VM59Pk7fmV1sWgztd6MNiE72Pf
-         GoUXyn+2X68KQq6n4KUl6VgUWWuigjFokivW/cLlF6UYhZn7C97JTYM25x5SkwsUuucY
-         /2hS/WmEvZR2bxLZ5X8yHf9lEsswbxA0ulZHw+hW2deIvyfi2QenRYP2CLBHITlbw9WM
-         zByUzP8LdJnO9Iphij2X4MQSYg3utPxAAvRcAIZLQBLxKME6yfXvmXUjEgxSam4lu2YF
-         O3oScgL8pGR7s5LWad+xRuvo0PwLa3LjTiG2uCMCF+5/rUtUbZjQ/JlqbCB4KTLYNL3r
-         Sf1g==
-X-Gm-Message-State: AOJu0YxD5DHjsuqbdPoWvJkjEK8eZWOWrCDxV1/qlEpQFJowGAgmnm5P
-        3GOQo/euakyGgMHFfjAsmCrTIuh2AyUC0oADa5s=
-X-Google-Smtp-Source: AGHT+IEr42YbSo5u1ztwgfEXuJgcVFbGHH6ew8zc8QEvevYhY3xgiLLyXDW3jKmYJXFF/eUQO4FOj43/eeqO2NRVnLo=
-X-Received: by 2002:a17:907:36cd:b0:9be:5ab2:73c2 with SMTP id
- bj13-20020a17090736cd00b009be5ab273c2mr1135771ejc.58.1698821992749; Tue, 31
- Oct 2023 23:59:52 -0700 (PDT)
+        with ESMTP id S230257AbjKAHWt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 03:22:49 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A8AC2
+        for <linux-media@vger.kernel.org>; Wed,  1 Nov 2023 00:22:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698823363; x=1730359363;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=xfOHkTkSq4Np0OeJA0VIfGjpVZTFP3muwLmck8frIRk=;
+  b=HU+Y5ZU0BLJuXiyIoIb4M6L4VTy58+77wzSmS+eyYpGJvRmgTQftzxS6
+   xwkg/A6F8hj3GrDyGcf14ms9xFHo6m2iAe4ifYkzbsn+jGhwTGrpz22RC
+   1rZj7yDNG8tIC6gnZK6hpoogwQ4XCOxuFLuRWUh8bYYCVWDmsMNpZ7Wf/
+   MMIi66LIyVT/mPjLMr6L7so2Jer6ij3Z2/2WPKOZnthiW8E8c6BCmeJBj
+   fSbeE21LAYoqzDE+XNF6g1mN1L9z8EXs+VizP+PwCUTQ/TrMCbLXUBQP9
+   Azq67Tj08oxqIjqd/SNFkzAagCEj240c6ninCdZLCwGh3nBOV9XaVPVZg
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="392306563"
+X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; 
+   d="scan'208";a="392306563"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 00:22:34 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10880"; a="826680913"
+X-IronPort-AV: E=Sophos;i="6.03,267,1694761200"; 
+   d="scan'208";a="826680913"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 00:22:29 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 6F31E11F929;
+        Wed,  1 Nov 2023 09:12:05 +0200 (EET)
+Date:   Wed, 1 Nov 2023 07:12:05 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     "Cao, Bingbu" <bingbu.cao@intel.com>
+Cc:     Hans de Goede <hdegoede@redhat.com>,
+        Bingbu Cao <bingbu.cao@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andy@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 11/12] media: intel-cio2-bridge: Add a runtime-pm
+ device-link between VCM and sensor
+Message-ID: <ZUH6RYayRSb-hykQ@kekkonen.localdomain>
+References: <20230627175643.114778-1-hdegoede@redhat.com>
+ <20230627175643.114778-12-hdegoede@redhat.com>
+ <d1736dfb-e66c-2497-a71b-97f2e28f435f@linux.intel.com>
+ <ZT9vfSpEyVk_pO0H@kekkonen.localdomain>
+ <8ec5d2b6-8f35-48dd-bb09-4e214415d643@redhat.com>
+ <ZT92LDE9z46kxX-h@kekkonen.localdomain>
+ <DM8PR11MB565366E1CEB9BB5F8F1074CE99A7A@DM8PR11MB5653.namprd11.prod.outlook.com>
 MIME-Version: 1.0
-References: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com> <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
- <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
- <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com> <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
- <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com> <236422117088ca854a6717114de73d99b2b9ba2f@rosenzweig.io>
- <a42bd218-6eb5-6ddb-bbb4-d25118c59f40@amd.com> <7b564e55-a9b7-0585-3cf1-d1f132f9a918@asahilina.net>
- <daf48d76-ceee-c82d-a63a-e8e7770a9d83@amd.com> <f5de10fa-57d6-a3d0-1cf9-084491aa6025@asahilina.net>
- <200e9d74-7191-b1ed-e5f3-775827550853@amd.com>
-In-Reply-To: <200e9d74-7191-b1ed-e5f3-775827550853@amd.com>
-From:   Dave Airlie <airlied@gmail.com>
-Date:   Wed, 1 Nov 2023 16:59:40 +1000
-Message-ID: <CAPM=9txcC9+ZePA5onJxtQr+nBe8UcA3_Kp5Da3zjKL7ZB4JPQ@mail.gmail.com>
-Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in drm_sched_fence_get_timeline_name
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc:     Asahi Lina <lina@asahilina.net>,
-        Luben Tuikov <luben.tuikov@amd.com>, alyssa@rosenzweig.io,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Faith Ekstrand <faith.ekstrand@collabora.com>,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, asahi@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM8PR11MB565366E1CEB9BB5F8F1074CE99A7A@DM8PR11MB5653.namprd11.prod.outlook.com>
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -77,30 +75,105 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
->
-> Well, to make it clear once more: Signaling a dma_fence from the
-> destructor of a reference counted object is very problematic! This will
-> be rejected no matter if you do that in C or in Rust.
->
-> What we can do is to make it safe in the sense that you don't access
-> freed up memory by using the scheduler fences even more as wrapper
-> around the hardware fence as we do now. But this quite a change and
-> requires a bit more than just hacking around
-> drm_sched_fence_get_timeline_name().
+Hi Bingbu,
 
-I really think this needs to be documented if nothing else out of this thread.
+On Wed, Nov 01, 2023 at 06:26:39AM +0000, Cao, Bingbu wrote:
+> Sakari and Hans,
+> 
+> ------------------------------------------------------------------------
+> BRs,  
+> Bingbu Cao 
+> 
+> >-----Original Message-----
+> >From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >Sent: Monday, October 30, 2023 5:24 PM
+> >To: Hans de Goede <hdegoede@redhat.com>
+> >Cc: Bingbu Cao <bingbu.cao@linux.intel.com>; Laurent Pinchart
+> ><laurent.pinchart@ideasonboard.com>; Daniel Scally
+> ><dan.scally@ideasonboard.com>; Mauro Carvalho Chehab <mchehab@kernel.org>;
+> >Andy Shevchenko <andy@kernel.org>; Kate Hsuan <hpa@redhat.com>; Cao, Bingbu
+> ><bingbu.cao@intel.com>; linux-media@vger.kernel.org
+> >Subject: Re: [PATCH 11/12] media: intel-cio2-bridge: Add a runtime-pm
+> >device-link between VCM and sensor
+> >
+> >Hi Hans,
+> >
+> >On Mon, Oct 30, 2023 at 09:58:09AM +0100, Hans de Goede wrote:
+> >> Hi,
+> >>
+> >> On 10/30/23 09:55, Sakari Ailus wrote:
+> >> > Hi Bingbu,
+> >> >
+> >> > On Mon, Oct 30, 2023 at 04:30:39PM +0800, Bingbu Cao wrote:
+> >> >>> +static void intel_cio2_bridge_instantiate_vcm_work(struct
+> >> >>> +work_struct *_work) {
+> >> >>> +	struct intel_cio2_bridge_instantiate_vcm_work_data *work =
+> >> >>> +		container_of(_work,
+> >> >>> +			     struct
+> >intel_cio2_bridge_instantiate_vcm_work_data,
+> >> >>> +			     work);
+> >> >>> +	struct acpi_device *adev = ACPI_COMPANION(work->sensor);
+> >> >>> +	struct i2c_client *vcm_client;
+> >> >>> +	bool put_fwnode = true;
+> >> >>> +	int ret;
+> >> >>>
+> >> >>> -	snprintf(name, sizeof(name), "%s-VCM", acpi_dev_name(sensor->adev));
+> >> >>> -	board_info.dev_name = name;
+> >> >>> -	strscpy(board_info.type, sensor->vcm_type,
+> >ARRAY_SIZE(board_info.type));
+> >> >>> -	board_info.swnode = &sensor->swnodes[SWNODE_VCM];
+> >> >>> -
+> >> >>> -	sensor->vcm_i2c_client =
+> >> >>> -		i2c_acpi_new_device_by_fwnode(acpi_fwnode_handle(sensor-
+> >>adev),
+> >> >>> -					      1, &board_info);
+> >> >>> -	if (IS_ERR(sensor->vcm_i2c_client)) {
+> >> >>> -		dev_warn(&sensor->adev->dev, "Error instantiation VCM i2c-
+> >client: %ld\n",
+> >> >>> -			 PTR_ERR(sensor->vcm_i2c_client));
+> >> >>> -		sensor->vcm_i2c_client = NULL;
+> >> >>> +	/*
+> >> >>> +	 * The client may get probed before the device_link gets added below
+> >> >>> +	 * make sure the sensor is powered-up during probe.
+> >> >>> +	 */
+> >> >>> +	ret = pm_runtime_get_sync(work->sensor);
+> >> >>> +	if (ret < 0) {
+> >> >>> +		dev_err(work->sensor, "Error %d runtime-resuming sensor,
+> >cannot instantiate VCM\n",
+> >> >>> +			ret);
+> >> >>> +		goto out;
+> >> >>>  	}
+> >> >>
+> >> >> One question here: how do we make sure that the runtime PM of the
+> >> >> sensor is enabled during the .bound callback? Or is it a mandatory
+> >> >> requirement of driver of such camera sensors?
+> >> >
+> >> > The sensor driver needs to enable runtime PM in probe, otherwise
+> >> > this won't work. But I don't see why a driver wouldn't? Of course
+> >> > otherwise it wouldn't be a hard requirement.
+> >
+> >I meant to write "wasn't earlier a hard requirement". This could also be
+> >documented, I can write a patch for this.
+> 
+> The problem here is that some driver doesn't enable the runtime PM before
+> v4l2_async_register_subdev_sensor(), that may cause race condition and
+> VCM instantiation failure as the runtime PM is not enabled yet. Then there
+> is no chance for VCM instantiation to succeed. 
 
-Clearly nobody is going to get it right and hidden here in this
-thread, this info isn't useful.
+These drivers need to be fixed.
 
-Can we have some sort of design document for the dma-fence/scheduler
-interactions written and we can try and refine it with solutions on
-the list, because I'm tired of people proposing things and NAK's
-getting thrown around without anything to point people at.
+All initialisation needs to complete by the time the async sub-device is
+registered as this is when the sensor may be bound to a notifier and also
+accessible via the UAPI.
 
-The next NAK I see on the list will mean I block all patches from the
-sender until they write a documentation patch, because seriously this
-stuff is too hard for someone to just keep it in their head and expect
-everyone else to understand from reading the code.
+In most of the cases the rest of the probe completes even if runtime PM is
+enabled after registering the sub-device (without IPU bridge) but it's
+still not correct.
 
-Dave.
+> 
+> Does this 'requirement' or limit really make sense?
+
+-- 
+Regards,
+
+Sakari Ailus
