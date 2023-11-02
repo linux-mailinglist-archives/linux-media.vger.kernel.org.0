@@ -2,106 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C73137DF6ED
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 16:47:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A19517DF857
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 18:08:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347650AbjKBPr1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Nov 2023 11:47:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45534 "EHLO
+        id S1376960AbjKBRIM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Nov 2023 13:08:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1347530AbjKBPr0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 11:47:26 -0400
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EAA5193
-        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 08:47:20 -0700 (PDT)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qyZuP-0001ur-2A; Thu, 02 Nov 2023 16:47:01 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qyZuN-0066bg-HP; Thu, 02 Nov 2023 16:46:59 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-        (envelope-from <ukl@pengutronix.de>)
-        id 1qyZuN-00BgcN-8B; Thu, 02 Nov 2023 16:46:59 +0100
-Date:   Thu, 2 Nov 2023 16:46:59 +0100
-From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To:     Alexandra Diupina <adiupina@astralinux.ru>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
+        with ESMTP id S235577AbjKBRIL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 13:08:11 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80673184;
+        Thu,  2 Nov 2023 10:08:05 -0700 (PDT)
+Received: from localhost (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: dbrouwer)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3150B6601711;
+        Thu,  2 Nov 2023 17:08:03 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1698944883;
+        bh=HxO1+U33MO4A8FHmVRIQuTTtZl2QLDqDP44tUmlEqLg=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=X/cjBjLWdF2rvfRRwrSOh4XeD8IkoYQ3GQEEXemVEdjGkJBf0801QkQRy177yhwyF
+         mtOBmmTwzHCdrWIew0+Fj2tHD7vKFaaof8dPy5Ro9QXGR4sO2/3iI6RQFT1ozMd2Ve
+         a/s7lWBzTyjnuojkQVgIdMfFy5jmK4n+3OlrIZNOtqqNuuXFRvjaQxmK/8E4yT22ck
+         kS5LSFm/RwkD+UIcSOo3KULkhtmBMaziHpxlgG3LSeOXDSEi9luUVNk4Y7prJlqwL7
+         QFAlMw5Zz3YRC7Ncu1Z55g20bjtjxCqF6hw+qUPiNi9QKSiVO41muOswBrmYf8pY6v
+         adn7Luw0ekCzw==
+Date:   Thu, 2 Nov 2023 10:07:59 -0700
+From:   Deborah Brouwer <deborah.brouwer@collabora.com>
+To:     Ivan Bornyakov <brnkv.i1@gmail.com>
+Cc:     Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Conor Dooley <conor+dt@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
-        lvc-project@linuxtesting.org
-Subject: Re: [PATCH 1/4] Remove redundant return value check
-Message-ID: <20231102154659.l33yey6fpwyytu3b@pengutronix.de>
-References: <20231102141135.369-1-adiupina@astralinux.ru>
+        Jackson Lee <jackson.lee@chipsnmedia.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Rob Herring <robh+dt@kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Nas Chung <nas.chung@chipsnmedia.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        linux-kernel@vger.kernel.org,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        kernel@collabora.com, Robert Beckett <bob.beckett@collabora.com>,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Darren Etheridge <detheridge@ti.com>
+Subject: Re: [PATCH v13 5/8] media: chips-media: wave5: Add the v4l2 layer
+Message-ID: <ZUPXb10lU8UZHVQz@mz550>
+References: <20230929-wave5_v13_media_master-v13-5-5ac60ccbf2ce@collabora.com>
+ <20231017221359.20164-1-brnkv.i1@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="k44lgugu55h4rz4f"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231102141135.369-1-adiupina@astralinux.ru>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
-        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231017221359.20164-1-brnkv.i1@gmail.com>
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, Oct 18, 2023 at 01:13:52AM +0300, Ivan Bornyakov wrote:
+> Hi!
 
---k44lgugu55h4rz4f
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hi Ivan,
 
-Hello Alexandra,
+> 
+> On Thu, 12 Oct 2023 13:01:03 +0200, Sebastian Fricke wrote:
+> > Add the decoder and encoder implementing the v4l2
+> > API. This patch also adds the Makefile and the VIDEO_WAVE_VPU config
+> > 
+> > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+> > Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
+> > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+> > ---
+> >  drivers/media/platform/chips-media/Kconfig         |    1 +
+> >  drivers/media/platform/chips-media/Makefile        |    1 +
+> >  drivers/media/platform/chips-media/wave5/Kconfig   |   12 +
+> >  drivers/media/platform/chips-media/wave5/Makefile  |   10 +
+> >  .../platform/chips-media/wave5/wave5-helper.c      |  213 +++
+> >  .../platform/chips-media/wave5/wave5-helper.h      |   31 +
+> >  .../platform/chips-media/wave5/wave5-vpu-dec.c     | 1953 ++++++++++++++++++++
+> >  .../platform/chips-media/wave5/wave5-vpu-enc.c     | 1794 ++++++++++++++++++
+> >  .../media/platform/chips-media/wave5/wave5-vpu.c   |  291 +++
+> >  .../media/platform/chips-media/wave5/wave5-vpu.h   |   83 +
+> >  .../platform/chips-media/wave5/wave5-vpuapi.h      |    2 -
+> >  11 files changed, 4389 insertions(+), 2 deletions(-)
+> 
+> [...]
+> 
+> > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> > new file mode 100644
+> > index 000000000000..74d1fae64fa4
+> > --- /dev/null
+> > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> 
+> [...]
+> 
+> > +static int wave5_vpu_dec_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
+> > +				     unsigned int *num_planes, unsigned int sizes[],
+> > +				     struct device *alloc_devs[])
+> > +{
+> > +	struct vpu_instance *inst = vb2_get_drv_priv(q);
+> > +	struct v4l2_pix_format_mplane inst_format =
+> > +		(q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) ? inst->src_fmt : inst->dst_fmt;
+> > +	unsigned int i;
+> > +
+> > +	dev_dbg(inst->dev->dev, "%s: num_buffers: %u | num_planes: %u | type: %u\n", __func__,
+> > +		*num_buffers, *num_planes, q->type);
+> > +
+> > +	/* the CREATE_BUFS case */
+> > +	if (*num_planes) {
+> > +		if (inst_format.num_planes != *num_planes)
+> > +			return -EINVAL;
+> > +
+> > +		for (i = 0; i < *num_planes; i++) {
+> > +			if (sizes[i] < inst_format.plane_fmt[i].sizeimage)
+> > +				return -EINVAL;
+> > +		}
+> > +	/* the REQBUFS case */
+> > +	} else {
+> > +		*num_planes = inst_format.num_planes;
+> > +
+> > +		if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
+> > +			sizes[0] = inst_format.plane_fmt[0].sizeimage;
+> > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u\n", __func__, sizes[0]);
+> > +		} else if (*num_planes == 1) {
+> 
+> I think, you should also set *num_buffers to be inst->fbc_buf_count for
+> V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE, like this:
+> 
+> 		} else if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
+> 			if (*num_buffers < inst->fbc_buf_count)
+> 				*num_buffers = inst->fbc_buf_count;
+> 
+> 			switch (*num_planes) {
+> 			case 1:
+> 				...
+> 			case 2:
+> 				...
+> 			case 3:
+> 				...
+> 			}
+> 		}
 
-it would be great if you could improve the Subject line for the next
-patch submission round by using an appropriate prefix. Currently at
-least three of the four patches in this series have "Remove redundant
-return value check" as Subject/commit short log. (I didn't get patch
-3/4.) Something like
+I was able to reproduce this issue by requesting a small number of buffers
+on the CAPTURE queue that was less than inst→fbc_buf_count. When this happens,
+wave5_vpu_dec_job_ready() fails here:
+(v4l2_m2m_num_dst_bufs_ready(m2m_ctx) < (inst->fbc_buf_count - 1)
 
-	media: atomisp: i2c: Remove redundant return value check
+I also tested your suggestion to set the *num_buffers to  inst→fbc_buf_count
+in queue_setup() and it seems to be working well, thanks for this.
 
-seems to be appropriate for this patch.
+I've been working on ways to improve testing for stateful decoders so
+I'm curious how you found this issue?
 
-You make life easier for the recipients of your patch because it becomes
-easier to see if you're responsible for this patch or not. So you're
-wasting less time for people like me who have no further interest in
-this patch set and the maintainers of the affected drivers immediately
-see what was touched. That's a win for everybody; including you.
+With fluster tests that we use, gstreamer seems to be calculating correct number of
+CAPTURE buffers to request, so we wouldn't see this.
 
-Best regards
-Uwe
+> 
+> The reason for that is if fbc_buf_count is greater than initial num_buffers,
+> wave5_vpu_dec_job_ready() wouldn't allow to invoke wave5_vpu_dec_device_run()
+> 
+> Here is a part of the log of described situation:
+> 
+>   vdec 20410000.wave515: Switch state from NONE to OPEN.
+>   [...]
+>   vdec 20410000.wave515: wave5_vpu_dec_init_seq: init seq sent (queue 1 : 1)
+>   vdec 20410000.wave515: wave5_vpu_dec_get_seq_info: init seq complete (queue 0 : 0)
+>   [...]
+>   vdec 20410000.wave515: handle_dynamic_resolution_change: width: 4112 height: 3008 profile: 1 | minbuffer: 6
+>   ^^^^^^^^ note that minbuffer is 6
+> 
+>   vdec 20410000.wave515: Switch state from OPEN to INIT_SEQ.
+>   [...]
+>   vdec 20410000.wave515: decoder command: 1
+>   [...]
+>   vdec 20410000.wave515: wave5_vpu_dec_queue_setup: num_buffers: 4 | num_planes: 0 | type: 9
+>   ^^^^^^^^ note that num_buffers is 4
+> 
+>   vdec 20410000.wave515: wave5_vpu_dec_queue_setup: size[0]: 18625536
+>   vdec 20410000.wave515: CAPTURE queue must be streaming to queue jobs!
+>   vdec 20410000.wave515: CAPTURE queue must be streaming to queue jobs!
+>   vdec 20410000.wave515: CAPTURE queue must be streaming to queue jobs!
+>   vdec 20410000.wave515: CAPTURE queue must be streaming to queue jobs!
+>   vdec 20410000.wave515: wave5_vpu_dec_buf_queue: type:    9 index:    0 size: ([0]=18625536, [1]=   0, [2]=   0)
+>   vdec 20410000.wave515: wave5_vpu_dec_buf_queue: type:    9 index:    1 size: ([0]=18625536, [1]=   0, [2]=   0)
+>   vdec 20410000.wave515: wave5_vpu_dec_buf_queue: type:    9 index:    2 size: ([0]=18625536, [1]=   0, [2]=   0)
+>   vdec 20410000.wave515: wave5_vpu_dec_buf_queue: type:    9 index:    3 size: ([0]=18625536, [1]=   0, [2]=   0)
+>   vdec 20410000.wave515: wave5_vpu_dec_start_streaming: type: 9
+>   vdec 20410000.wave515: No capture buffer ready to decode!
+>   ^^^^^^^^ here v4l2_m2m_num_dst_bufs_ready(m2m_ctx) < (inst->fbc_buf_count - 1), namely 4 < 6
+>   
+>   vdec 20410000.wave515: wave5_vpu_dec_stop_streaming: type: 9
+>   vdec 20410000.wave515: streamoff_capture: Setting display flag of buf index: 0, fail: -22
+>   vdec 20410000.wave515: streamoff_capture: Setting display flag of buf index: 1, fail: -22
+>   vdec 20410000.wave515: streamoff_capture: Setting display flag of buf index: 2, fail: -22
+>   vdec 20410000.wave515: streamoff_capture: Setting display flag of buf index: 3, fail: -22
+>   [...]
+>   vdec 20410000.wave515: wave5_vpu_dec_close: dec_finish_seq complete
+> 
+> Altering num_buffers solves the issue for me.
+> 
+> > +			if (inst->output_format == FORMAT_422)
+> > +				sizes[0] = inst_format.width * inst_format.height * 2;
+> > +			else
+> > +				sizes[0] = inst_format.width * inst_format.height * 3 / 2;
+> > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u\n", __func__, sizes[0]);
+> > +		} else if (*num_planes == 2) {
+> > +			sizes[0] = inst_format.width * inst_format.height;
+> > +			if (inst->output_format == FORMAT_422)
+> > +				sizes[1] = inst_format.width * inst_format.height;
+> > +			else
+> > +				sizes[1] = inst_format.width * inst_format.height / 2;
+> > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u | size[1]: %u\n",
+> > +				__func__, sizes[0], sizes[1]);
+> > +		} else if (*num_planes == 3) {
+> > +			sizes[0] = inst_format.width * inst_format.height;
+> > +			if (inst->output_format == FORMAT_422) {
+> > +				sizes[1] = inst_format.width * inst_format.height / 2;
+> > +				sizes[2] = inst_format.width * inst_format.height / 2;
+> > +			} else {
+> > +				sizes[1] = inst_format.width * inst_format.height / 4;
+> > +				sizes[2] = inst_format.width * inst_format.height / 4;
+> > +			}
+> > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u | size[1]: %u | size[2]: %u\n",
+> > +				__func__, sizes[0], sizes[1], sizes[2]);
+> > +		}
+> > +	}
+> > +
+> > +	return 0;
+> > +}
+> 
+> BTW I'm currently tinkering with your patchset on another C&M IP and would be
+> gratefull if you Cc me in the future versions of the patchset, if any.
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+Yes, sorry for missing you on v13, thanks for taking the time to review.
 
---k44lgugu55h4rz4f
-Content-Type: application/pgp-signature; name="signature.asc"
+Deborah
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVDxHIACgkQj4D7WH0S
-/k6u1AgAqZNEC6WtPDsEh5hU/cTuHNNFKGT716JO9um6T87BDBRqkRv++YaFwVLr
-WD7Ie/dvTI1NHjtTzPo2C1fvIzXs9+hsT3sZsThZ9bXMKgy4kB3NCjqcgcwRqHed
-c/Mq8nSo/SaxKhvmnAJidSrSWnQLzQEHBw/WbAHQWBdNy4WxkiTGRCWlqOQ+m8lh
-KuepCckDqe+4KEP1OZSeOCshBUDhVbUK8sawdECzVkkr7pkzV25uYqwSnn1FVK1p
-amK5teXXm5dtsrsg9osGv89Y+6Mzpzm1qLo/+QMUdVwzh+rb4JjcSkiVtNOa3MfV
-BwrAiowXSt4Z93Qxpq7DxDdrntWGug==
-=XLSN
------END PGP SIGNATURE-----
-
---k44lgugu55h4rz4f--
+> 
+> Thanks.
