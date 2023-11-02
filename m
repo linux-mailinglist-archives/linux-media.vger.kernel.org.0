@@ -2,212 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F31827DF3E9
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 14:35:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A3E897DF3EE
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 14:36:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229793AbjKBNfa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Nov 2023 09:35:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37260 "EHLO
+        id S229586AbjKBNgF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Nov 2023 09:36:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229513AbjKBNf3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 09:35:29 -0400
-Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3897EA6
-        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 06:35:23 -0700 (PDT)
-Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-53e751aeb3cso1476199a12.2
-        for <linux-media@vger.kernel.org>; Thu, 02 Nov 2023 06:35:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698932121; x=1699536921; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=F7SwsGibKGbdJjepchNvpsbDsuyTIGkbVWXHyca2x+c=;
-        b=ZRS1CKPssr19HXxYG3HApkykRohdpQznT4JQnvJ2PJ65xKFk1MJQAJ8m/upT2yOxGK
-         FiSvWbtGiPNy2X8hWKmHvMDbE8YHjkxdWSLVJUiurHDgOk9w0DdCCfVN8AHtSQIRcWWm
-         U4AhcvNGeu/bBxSMX1Wu1PVlSvOgiP/ciLXFZKnQzagtdpYHxX5Z3eL0E66rrl+QxbUt
-         VzJdpG+LmVJ9ccZ5J2XMaj0S7PaDxrv6vEOhfTwOT7nItd4nIx0JD8KVlMKiEOQ2aaAa
-         8LhPMgb7F13deDAUUPUjVe2nfWDd8sHygARE+oR9hgCxyXENDiczabMGhtW4SOKq5rmM
-         beCg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698932121; x=1699536921;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=F7SwsGibKGbdJjepchNvpsbDsuyTIGkbVWXHyca2x+c=;
-        b=jlz2SvEzTuEYk3w+LaNrZjIyijvy88uOSg3fVWRlyI10ilehEGXH6GYmwMr4Gh6Ebx
-         5ArDbLrSl4yvIkf6YbuTU4xXNCIE9yimXMuL20N0PsB8nfXOANrNbM5kat4ed+hdaUay
-         VBH3Sgm378NjofJFqjt1zS1NRBOzZaAN/nmuflqse0T5GExKnadNJziEYBZf2aLTvnp9
-         IlQYE3B0INbbdB5QwwVXIYZbIYusHSZeyPgmtibx1nzc0JdzfdvD4R9AGmEmZiWsJrqU
-         V0L9xmo951ri5oRO0dntBoIxQO+9fdHXWfnj3FhYOgpxciP70NIJTMYe01SpFo+Td337
-         M3dQ==
-X-Gm-Message-State: AOJu0YyAMfBGCloxpUtQ7G2i7TMtiBoa6WdBcpu/oZM92FBdeI9afAmk
-        FWYkaIJ8/TUdMpd1UAd3CtvVdw==
-X-Google-Smtp-Source: AGHT+IEfWKTbsjiDpeENInLClErrNLufGM+69Kg8SgMHgqzumpXE9PMLGdB9bLQUgkwk5pejCYSWfA==
-X-Received: by 2002:a17:907:318d:b0:9c5:6cf5:448a with SMTP id xe13-20020a170907318d00b009c56cf5448amr5406507ejb.44.1698932121645;
-        Thu, 02 Nov 2023 06:35:21 -0700 (PDT)
-Received: from [192.168.1.118] (abyj199.neoplus.adsl.tpnet.pl. [83.9.29.199])
-        by smtp.gmail.com with ESMTPSA id rp18-20020a170906d97200b00985ed2f1584sm1138922ejb.187.2023.11.02.06.35.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Nov 2023 06:35:21 -0700 (PDT)
-Message-ID: <9f088cfc-7b01-524c-1900-5acee6919ec4@linaro.org>
-Date:   Thu, 2 Nov 2023 14:35:18 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:102.0)
- Gecko/20100101 Thunderbird/102.9.0
-Subject: Re: [PATCH 5/6] media: qcom: camss: Add sc8280xp support
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
+        with ESMTP id S229513AbjKBNgE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 09:36:04 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 452B6A6
+        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 06:36:02 -0700 (PDT)
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="368919136"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="368919136"
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 06:36:01 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="737749253"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="737749253"
+Received: from smile.fi.intel.com ([10.237.72.54])
+  by orsmga006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 06:35:59 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
+        (envelope-from <andy@kernel.org>)
+        id 1qyXrY-0000000AhOP-0uNt;
+        Thu, 02 Nov 2023 15:35:56 +0200
+Date:   Thu, 2 Nov 2023 15:35:55 +0200
+From:   Andy Shevchenko <andy@kernel.org>
+To:     "Cao, Bingbu" <bingbu.cao@intel.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Bingbu Cao <bingbu.cao@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
-        matti.lehtimaki@gmail.com, grosikop@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231102-b4-camss-sc8280xp-v1-0-9996f4bcb8f4@linaro.org>
- <20231102-b4-camss-sc8280xp-v1-5-9996f4bcb8f4@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20231102-b4-camss-sc8280xp-v1-5-9996f4bcb8f4@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Spam-Status: No, score=-5.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        Kate Hsuan <hpa@redhat.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 11/12] media: intel-cio2-bridge: Add a runtime-pm
+ device-link between VCM and sensor
+Message-ID: <ZUOluxSV0eqZi9v9@smile.fi.intel.com>
+References: <20230627175643.114778-1-hdegoede@redhat.com>
+ <20230627175643.114778-12-hdegoede@redhat.com>
+ <d1736dfb-e66c-2497-a71b-97f2e28f435f@linux.intel.com>
+ <ZT9vfSpEyVk_pO0H@kekkonen.localdomain>
+ <8ec5d2b6-8f35-48dd-bb09-4e214415d643@redhat.com>
+ <ZT92LDE9z46kxX-h@kekkonen.localdomain>
+ <DM8PR11MB565366E1CEB9BB5F8F1074CE99A7A@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <ZUH6RYayRSb-hykQ@kekkonen.localdomain>
+ <DM8PR11MB56533C342B834265A3F64D1499A7A@DM8PR11MB5653.namprd11.prod.outlook.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <DM8PR11MB56533C342B834265A3F64D1499A7A@DM8PR11MB5653.namprd11.prod.outlook.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_SOFTFAIL,T_SCC_BODY_TEXT_LINE
+        autolearn=no autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, Nov 01, 2023 at 07:38:24AM +0000, Cao, Bingbu wrote:
 
+Side note: Can you please Cc me in your v2, I believe I have some comments,
+but let's see a new version for them?
 
-On 02/11/2023 12:41, Bryan O'Donoghue wrote:
-> Add in functional logic throughout the code to support the sc8280xp.
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->   .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 23 +++++++++++++++++---
->   drivers/media/platform/qcom/camss/camss-csiphy.c   |  1 +
->   drivers/media/platform/qcom/camss/camss-vfe.c      | 25 +++++++++++++++++-----
->   drivers/media/platform/qcom/camss/camss-video.c    |  1 +
->   4 files changed, 42 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> index 2eb3531ffd00b..2810d0fa06c13 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-> @@ -513,6 +513,10 @@ static void csiphy_gen2_config_lanes(struct csiphy_device *csiphy,
->   		r = &lane_regs_sm8250[0][0];
->   		array_size = ARRAY_SIZE(lane_regs_sm8250[0]);
->   		break;
-> +	case CAMSS_8280XP:
-> +		r = &lane_regs_sc8280xp[0][0];
-> +		array_size = ARRAY_SIZE(lane_regs_sc8280xp[0]);
-> +		break;
->   	default:
->   		WARN(1, "unknown cspi version\n");
->   		return;
-> @@ -548,13 +552,26 @@ static u8 csiphy_get_lane_mask(struct csiphy_lanes_cfg *lane_cfg)
->   	return lane_mask;
->   }
->   
-> +static bool csiphy_is_gen2(u32 version)
-> +{
-> +	bool ret = false;
-delete
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> +
-> +	switch (version) {
-> +	case CAMSS_845:
-> +	case CAMSS_8250:
-> +	case CAMSS_8280XP:
-> +		ret = true; > +		break;
-return true
-
-> +	}
-> +
-> +	return ret;
-return false
-
-> +}
-> +
->   static void csiphy_lanes_enable(struct csiphy_device *csiphy,
->   				struct csiphy_config *cfg,
->   				s64 link_freq, u8 lane_mask)
->   {
->   	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
-> -	bool is_gen2 = (csiphy->camss->res->version == CAMSS_845 ||
-> -			csiphy->camss->res->version == CAMSS_8250);
->   	u8 settle_cnt;
->   	u8 val;
->   	int i;
-> @@ -576,7 +593,7 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
->   	val = 0x00;
->   	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(0));
->   
-> -	if (is_gen2)
-> +	if (csiphy_is_gen2(csiphy->camss->res->version))
->   		csiphy_gen2_config_lanes(csiphy, settle_cnt);
->   	else
->   		csiphy_gen1_config_lanes(csiphy, cfg, settle_cnt);
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> index edd573606a6ae..8241acf789865 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> @@ -579,6 +579,7 @@ int msm_csiphy_subdev_init(struct camss *camss,
->   		break;
->   	case CAMSS_845:
->   	case CAMSS_8250:
-> +	case CAMSS_8280XP:
->   		csiphy->formats = csiphy_formats_sdm845;
->   		csiphy->nformats = ARRAY_SIZE(csiphy_formats_sdm845);
->   		break;
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-> index 123e5ead7602d..21812d40716f4 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-> @@ -225,6 +225,7 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
->   	case CAMSS_660:
->   	case CAMSS_845:
->   	case CAMSS_8250:
-> +	case CAMSS_8280XP:
->   		switch (sink_code) {
->   		case MEDIA_BUS_FMT_YUYV8_1X16:
->   		{
-> @@ -1522,6 +1523,7 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
->   			break;
->   		case CAMSS_845:
->   		case CAMSS_8250:
-> +		case CAMSS_8280XP:
->   			l->formats = formats_rdi_845;
->   			l->nformats = ARRAY_SIZE(formats_rdi_845);
->   			break;
-> @@ -1600,6 +1602,23 @@ static const struct media_entity_operations vfe_media_ops = {
->   	.link_validate = v4l2_subdev_link_validate,
->   };
->   
-> +static int vfe_bpl_align(struct vfe_device *vfe)
-> +{
-> +	int ret = 8;
-return the value directly
-
-> +
-> +	switch (vfe->camss->res->version) {
-> +	case CAMSS_845:
-> +	case CAMSS_8250:
-> +	case CAMSS_8280XP:
-> +		ret = 16;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return ret;
-> +}
-Konrad
 
