@@ -2,109 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F47C7DF440
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 14:47:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D2687DF460
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 14:55:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235035AbjKBNrm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Nov 2023 09:47:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60162 "EHLO
+        id S235135AbjKBNzx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Nov 2023 09:55:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229493AbjKBNrl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 09:47:41 -0400
-Received: from mail-lf1-x132.google.com (mail-lf1-x132.google.com [IPv6:2a00:1450:4864:20::132])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8A17134
-        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 06:47:34 -0700 (PDT)
-Received: by mail-lf1-x132.google.com with SMTP id 2adb3069b0e04-507adc3381cso1119135e87.3
-        for <linux-media@vger.kernel.org>; Thu, 02 Nov 2023 06:47:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1698932853; x=1699537653; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=IVRSWnlyu8gdIYg1ZZClUvvLadGrYWDf9Lfi6rPv/mo=;
-        b=A2MCWty7H7Vw8GRzvKc/uGXY7NSHMVd4jdiSNZ1url0eNuJS/JXQK9w+C7kgJMFA3r
-         4iOhwEBQ7RziSH4UttdipIfL2YYJlf1Ox9UtRbdw29p56bTvt1o1G94V1nRLcc1SkJmw
-         TadWxxA6tGJkpdHZJouAgjsNeEOStRhtOo6g4aecRlq2PrKbMHcj2vAEFEQl8XIwEAak
-         PbDH1uTA2fxC6m32/+RQZDRzwDre/sRMkepEVkHJpglVm3pV/4YWVQOWgGi7j44SYyeu
-         z4KVD6bPJzQGl8TpdxEB7ZUMc8X90dp1FO4TxACJlrJ4aOZfahCqRlB/StptdwFNB28M
-         zczw==
+        with ESMTP id S235129AbjKBNzt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 09:55:49 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 375B083
+        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 06:54:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1698933298;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=+z6C1FW6gq5BbqpkNht0itNC7pImcA5/jUZv9Ss3E8Y=;
+        b=gCcL+yHhKIn70w1U10jG3j+0YhpqaLbZnf0EtAA5TnLs2sdzMUoLh8NxoJhC2OkmiC5Xuf
+        AX3W6a+U5nE1+6BX4IkUQT5zvXsFGfykcv8Xt3xh65dVsn6gNzEhN8f7HuccJ3jx+ApdLa
+        ojAx34u3OM+jAEaR5CK+4pjpNgWZNCM=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-382-hsTof_9QNJKVYo8lhfitSg-1; Thu, 02 Nov 2023 09:54:57 -0400
+X-MC-Unique: hsTof_9QNJKVYo8lhfitSg-1
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-778b3526240so102000185a.1
+        for <linux-media@vger.kernel.org>; Thu, 02 Nov 2023 06:54:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1698932853; x=1699537653;
+        d=1e100.net; s=20230601; t=1698933295; x=1699538095;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IVRSWnlyu8gdIYg1ZZClUvvLadGrYWDf9Lfi6rPv/mo=;
-        b=WjIm0mLUCNr87jIau4tpvduSs22Cwn/Hf7JJgS7DbEwBkYV9wMWwWT8Aw5w7RXmjsg
-         PtwEXGKLme2WujNWYjk/nh5iycpQJ9YTJabec5ciuD6Z/SePL1QVk07y6XB7Mi88n9kg
-         D+5x7IH2x/mx15kcWYVDFWqNK9Uk4EN2dMY9tyD/lB9qTRylZ0Csqq4ZUqWYZB+3pUy2
-         JPOlY6/OUVhCrP6InClyXToyh452HP5XLcIpLeGrN0rDpwnOoP79rcYvx1b4i4khJfSo
-         WFnWAOzdr/zzXINBVy5FuguY8msElyE0xhJcpf5XAAYWjipZiHAy2ZRILeBsR1y2LQkF
-         +Zzw==
-X-Gm-Message-State: AOJu0Ywz+6CIHZ9eI1tO7hQK4Z+mVaN8YtKGMq03okLxSoKRhf2ZuKi6
-        SifusiBE/qWzZWdu4Ok/0oJz9A==
-X-Google-Smtp-Source: AGHT+IEL6iiaR8yLtsrn7x6/zQGzeDyvOsggtK8cSwtByG0YhdsfLuNP63m2+nKbYCpUVbQCD5VjKg==
-X-Received: by 2002:a05:6512:2309:b0:509:497c:9623 with SMTP id o9-20020a056512230900b00509497c9623mr2204823lfu.37.1698932853135;
-        Thu, 02 Nov 2023 06:47:33 -0700 (PDT)
-Received: from [192.168.100.102] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id d14-20020a5d4f8e000000b0032d9f32b96csm2534757wru.62.2023.11.02.06.47.30
+        bh=+z6C1FW6gq5BbqpkNht0itNC7pImcA5/jUZv9Ss3E8Y=;
+        b=BS7Ip5HhXfKJhjxmzQoAV9XT1pJxImmna/oI7YKgHoQMOHUbp2jwBWliLgVoBLZfFK
+         o3dzgliz4cDMOU3mmNkt0S45jGIWkqv4EEQOBx4W4DUhNSdkWgbCbaz24KlRQ83MO08B
+         On+q5EOU/xl1WEn8K0qpMadzEgYu5NqISL1OyMnW4q/5h1xt62MqhYpacNzfnvLpLZa9
+         n4kJ1zzHcfnTHp9lVehEViiJpTK6Cr7JfVHDXPLJEb6FJsc6aQnnWwC6WeN9WI+/Fxrg
+         alMwZ4i41enADrtisWH2RDzLj+VifCg55tX6hXbQsg4RTn9L9zHUONjrt+yrkcJ8pRCz
+         7q+A==
+X-Gm-Message-State: AOJu0YympdV4i1RBmSGBXBF2n2CpxpQZp0/116tuvQAVyjifRO+WCo0e
+        tzdhnJc8UbmdWwI12n7V+aYYNHL7QXkDZhVkvUAGJrD8DWGX9Q0Ahmve2fhgyndNUE8VmecIZDJ
+        Prjo9OgTfjcB3n0Qz1z5ZHng=
+X-Received: by 2002:a37:c247:0:b0:774:15ad:f34c with SMTP id j7-20020a37c247000000b0077415adf34cmr18693063qkm.70.1698933295657;
+        Thu, 02 Nov 2023 06:54:55 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IESxR/9k4uzKkbF3gxkwpKgyMV9nnhLEuDz+Yg8psv0teJxq6Bh5KlPfT1VXnFWXJ8I/5BVvQ==
+X-Received: by 2002:a37:c247:0:b0:774:15ad:f34c with SMTP id j7-20020a37c247000000b0077415adf34cmr18693047qkm.70.1698933295387;
+        Thu, 02 Nov 2023 06:54:55 -0700 (PDT)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? ([2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id x16-20020ae9e910000000b00770f3e5618esm2351408qkf.101.2023.11.02.06.54.52
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Nov 2023 06:47:32 -0700 (PDT)
-Message-ID: <58965dd2-878c-4530-91bb-03db02517dd6@linaro.org>
-Date:   Thu, 2 Nov 2023 13:47:29 +0000
+        Thu, 02 Nov 2023 06:54:54 -0700 (PDT)
+Message-ID: <e4da877a-e499-6ddc-c0cb-cffdf41e2a1b@redhat.com>
+Date:   Thu, 2 Nov 2023 14:54:49 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/6] media: qcom: camss: Add sc8280xp support
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH 11/12] media: intel-cio2-bridge: Add a runtime-pm
+ device-link between VCM and sensor
+Content-Language: en-US, nl
+To:     Andy Shevchenko <andy@kernel.org>,
+        "Cao, Bingbu" <bingbu.cao@intel.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
-        matti.lehtimaki@gmail.com, grosikop@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231102-b4-camss-sc8280xp-v1-0-9996f4bcb8f4@linaro.org>
- <20231102-b4-camss-sc8280xp-v1-5-9996f4bcb8f4@linaro.org>
- <9f088cfc-7b01-524c-1900-5acee6919ec4@linaro.org>
- <d26a975b-7a66-46db-af1f-685273f64faf@linaro.org>
- <e95642ea-14de-8ec5-11bf-1218426a23aa@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <e95642ea-14de-8ec5-11bf-1218426a23aa@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        Kate Hsuan <hpa@redhat.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+References: <20230627175643.114778-1-hdegoede@redhat.com>
+ <20230627175643.114778-12-hdegoede@redhat.com>
+ <d1736dfb-e66c-2497-a71b-97f2e28f435f@linux.intel.com>
+ <ZT9vfSpEyVk_pO0H@kekkonen.localdomain>
+ <8ec5d2b6-8f35-48dd-bb09-4e214415d643@redhat.com>
+ <ZT92LDE9z46kxX-h@kekkonen.localdomain>
+ <DM8PR11MB565366E1CEB9BB5F8F1074CE99A7A@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <ZUH6RYayRSb-hykQ@kekkonen.localdomain>
+ <DM8PR11MB56533C342B834265A3F64D1499A7A@DM8PR11MB5653.namprd11.prod.outlook.com>
+ <ZUOluxSV0eqZi9v9@smile.fi.intel.com>
+From:   Hans de Goede <hdegoede@redhat.com>
+In-Reply-To: <ZUOluxSV0eqZi9v9@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-6.3 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/11/2023 13:45, Konrad Dybcio wrote:
+Hi Andy,
+
+On 11/2/23 14:35, Andy Shevchenko wrote:
+> On Wed, Nov 01, 2023 at 07:38:24AM +0000, Cao, Bingbu wrote:
 > 
-> 
-> On 02/11/2023 14:38, Bryan O'Donoghue wrote:
->> On 02/11/2023 13:35, Konrad Dybcio wrote:
->>>> +static int vfe_bpl_align(struct vfe_device *vfe)
->>>> +{
->>>> +    int ret = 8;
->>> return the value directly
->>
->> What's the motive for this comment ?
-> stack size
+> Side note: Can you please Cc me in your v2, I believe I have some comments,
+> but let's see a new version for them?
 
-An optimizing compiler - older than me - will not differentiate that at all.
+I'm a bit confused, this is a series written by me not Bingbu
+and this series has been merged for a while now...
 
-:)
+Regards,
 
----
-bod
+Hans
+
+
+
 
