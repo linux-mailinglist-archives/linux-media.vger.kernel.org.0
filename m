@@ -2,96 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 777447DF699
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 16:38:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C73137DF6ED
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 16:47:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1347491AbjKBPij (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Nov 2023 11:38:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50432 "EHLO
+        id S1347650AbjKBPr1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Nov 2023 11:47:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45534 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235171AbjKBPii (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 11:38:38 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 631C81B4;
-        Thu,  2 Nov 2023 08:37:59 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id EC7CA8C2;
-        Thu,  2 Nov 2023 16:37:39 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698939460;
-        bh=DT6KLFROME6gQwGlCCzP0AGObJaawrMfnQVmIvWpWNA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qYDmT76NHBPJgjme5FiNiLXeOAQot69NwrxIEc26GkBDLZkpjpCWqAPLVoBPV5kGx
-         EHB58asAICMbrWB0pzaoMtfgEjGuyLAwi9OQhNFJlLdrKqTouq3D8OLkvbut4Jbyp+
-         2Qex6Zc4DIF485SjXLJcjU6ZGWcEFzMc8fKr2F40=
-Date:   Thu, 2 Nov 2023 17:38:04 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        with ESMTP id S1347530AbjKBPr0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 11:47:26 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EAA5193
+        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 08:47:20 -0700 (PDT)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qyZuP-0001ur-2A; Thu, 02 Nov 2023 16:47:01 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+        by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qyZuN-0066bg-HP; Thu, 02 Nov 2023 16:46:59 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+        (envelope-from <ukl@pengutronix.de>)
+        id 1qyZuN-00BgcN-8B; Thu, 02 Nov 2023 16:46:59 +0100
+Date:   Thu, 2 Nov 2023 16:46:59 +0100
+From:   Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 To:     Alexandra Diupina <adiupina@astralinux.ru>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
+Cc:     Hans de Goede <hdegoede@redhat.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Shevchenko <andy@kernel.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Rob Herring <robh@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev, lvc-project@linuxtesting.org
-Subject: Re: [PATCH 2/4] Remove redundant return value check
-Message-ID: <20231102153804.GA7129@pendragon.ideasonboard.com>
+        Andy Shevchenko <andy@kernel.org>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        lvc-project@linuxtesting.org
+Subject: Re: [PATCH 1/4] Remove redundant return value check
+Message-ID: <20231102154659.l33yey6fpwyytu3b@pengutronix.de>
 References: <20231102141135.369-1-adiupina@astralinux.ru>
- <20231102141135.369-2-adiupina@astralinux.ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="k44lgugu55h4rz4f"
 Content-Disposition: inline
-In-Reply-To: <20231102141135.369-2-adiupina@astralinux.ru>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+In-Reply-To: <20231102141135.369-1-adiupina@astralinux.ru>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,
+        URIBL_BLOCKED autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 02, 2023 at 05:11:33PM +0300, Alexandra Diupina wrote:
-> media_entity_pads_init() will not return 0 only if the
-> 2nd parameter >= MEDIA_ENTITY_MAX_PADS (512), but 1 is
-> passed, so checking the return value is redundant
 
-That may be the case today, but may not be true tomorrow if the function
-is extended to perform extra checks. I don't think dropping the error
-check in drivers is a good idea.
+--k44lgugu55h4rz4f
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
-> Signed-off-by: Alexandra Diupina <adiupina@astralinux.ru>
-> ---
->  drivers/media/i2c/rdacm20.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> index f4e2e2f3972a..ed249ade54e0 100644
-> --- a/drivers/media/i2c/rdacm20.c
-> +++ b/drivers/media/i2c/rdacm20.c
-> @@ -611,9 +611,7 @@ static int rdacm20_probe(struct i2c_client *client)
->  
->  	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
->  	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> -	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
-> -	if (ret < 0)
-> -		goto error_free_ctrls;
-> +	media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
->  
->  	ret = v4l2_async_register_subdev(&dev->sd);
->  	if (ret)
+Hello Alexandra,
 
--- 
-Regards,
+it would be great if you could improve the Subject line for the next
+patch submission round by using an appropriate prefix. Currently at
+least three of the four patches in this series have "Remove redundant
+return value check" as Subject/commit short log. (I didn't get patch
+3/4.) Something like
 
-Laurent Pinchart
+	media: atomisp: i2c: Remove redundant return value check
+
+seems to be appropriate for this patch.
+
+You make life easier for the recipients of your patch because it becomes
+easier to see if you're responsible for this patch or not. So you're
+wasting less time for people like me who have no further interest in
+this patch set and the maintainers of the affected drivers immediately
+see what was touched. That's a win for everybody; including you.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--k44lgugu55h4rz4f
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVDxHIACgkQj4D7WH0S
+/k6u1AgAqZNEC6WtPDsEh5hU/cTuHNNFKGT716JO9um6T87BDBRqkRv++YaFwVLr
+WD7Ie/dvTI1NHjtTzPo2C1fvIzXs9+hsT3sZsThZ9bXMKgy4kB3NCjqcgcwRqHed
+c/Mq8nSo/SaxKhvmnAJidSrSWnQLzQEHBw/WbAHQWBdNy4WxkiTGRCWlqOQ+m8lh
+KuepCckDqe+4KEP1OZSeOCshBUDhVbUK8sawdECzVkkr7pkzV25uYqwSnn1FVK1p
+amK5teXXm5dtsrsg9osGv89Y+6Mzpzm1qLo/+QMUdVwzh+rb4JjcSkiVtNOa3MfV
+BwrAiowXSt4Z93Qxpq7DxDdrntWGug==
+=XLSN
+-----END PGP SIGNATURE-----
+
+--k44lgugu55h4rz4f--
