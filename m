@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 85DAD7DEE25
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 09:25:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A2D097DEE32
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 09:31:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345294AbjKBIZk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Nov 2023 04:25:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47380 "EHLO
+        id S234878AbjKBIb5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Nov 2023 04:31:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59590 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233226AbjKBIZk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 04:25:40 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 601FC111;
-        Thu,  2 Nov 2023 01:25:34 -0700 (PDT)
+        with ESMTP id S229506AbjKBIb4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 04:31:56 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C01D012D;
+        Thu,  2 Nov 2023 01:31:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698913534; x=1730449534;
+  t=1698913910; x=1730449910;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=ZJhkKBusAN3Lj8x111ENUnQiThkfM+G/Nik1BoS7pz4=;
-  b=gZ/M9W4erGiwZ5Jfin/vZJlhUsLFadcwyWPqMhPZsVkYWJHVz5uuM2dY
-   z9StfjA1MB9sk1kYYa+j5wVL9WEIFA3sJh2pQS+Ac3v9fOlP7REuipeLu
-   OlmaxPZLwcSsx/Z85pWrjOrryvJ0+WXMUgwA+Saydpffrg6XiG9JNYYTM
-   V4hL1AF4uUu4tHWAWcJ9ntjS95/yB2QEdYcyuVU49JRWDn/Fuv0u6jmSf
-   yrNeB33JNgiUmB0/pdYT4NG8QO+72d29vbhA99XBdpHi23sQ0/CtSedaR
-   98t1bOUfEfjkIMUapTfUC2LaxGmZR9jUuBajf18qNaOlV/5A2DZVkPxEx
+  bh=K7ZBMRtXg0wv6hbFIGdEivEXg9AfDOM8aJ4QJulJ6ss=;
+  b=j/CVPG1iWK6NNaanOCwjmgn1DuKwRQ0XuLFWKsbwbFqr4UCQ9uOXZkju
+   hw141JQ2MjkZUG3aDb6gK2Ji21TXbOm4edaIMmeY9mnF8pD4PLH0h56si
+   8EeNRIqUc01lEY6qpzVYkzhsJb6r6b57givZw4fbKk4TdqY/LNkHPBpoC
+   mxa0Q+bfRwlogIHgsTgt82o9oK5KLx2Gn0XoqU0WlmBUc5fXlZ5zpAI4l
+   Hqxi394FQl7+lg937rBlUffg21VHun5e0spGaALR4AhHVPoITD1kOMzOJ
+   /J141InPvvNBMyppWBwq2+C0blYv+zAzVHD5pykYsbZy48oI8eJ1fxXDh
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="392548209"
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="388482211"
 X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
-   d="scan'208";a="392548209"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 01:25:33 -0700
+   d="scan'208";a="388482211"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 01:31:50 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="934709479"
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="711067236"
 X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
-   d="scan'208";a="934709479"
+   d="scan'208";a="711067236"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 01:25:32 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 01:31:47 -0700
 Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id A25C511F9E8;
-        Thu,  2 Nov 2023 10:25:28 +0200 (EET)
-Date:   Thu, 2 Nov 2023 08:25:28 +0000
+        by kekkonen.fi.intel.com (Postfix) with SMTP id AEED512035D;
+        Thu,  2 Nov 2023 10:31:44 +0200 (EET)
+Date:   Thu, 2 Nov 2023 08:31:44 +0000
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Hans de Goede <hdegoede@redhat.com>,
@@ -52,15 +52,16 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Alain Volmat <alain.volmat@foss.st.com>, stable@vger.kernel.org
 Subject: Re: [PATCH v2 1/2] media: v4l2-cci: Add support for little-endian
  encoded registers
-Message-ID: <ZUNc-LRZiotD3OsK@kekkonen.localdomain>
+Message-ID: <ZUNecAPukbm3kOyv@kekkonen.localdomain>
 References: <20231101122354.270453-1-alexander.stein@ew.tq-group.com>
+ <20231101122354.270453-2-alexander.stein@ew.tq-group.com>
  <20231102012217.GC5933@pendragon.ideasonboard.com>
- <ZUNCFESRnKMwkHl7@kekkonen.localdomain>
- <4980064.31r3eYUQgx@steina-w>
+ <1977009.tdWV9SEqCh@steina-w>
+ <20231102082430.GE5933@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <4980064.31r3eYUQgx@steina-w>
+In-Reply-To: <20231102082430.GE5933@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
         DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
@@ -71,34 +72,20 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
+Hi Laurent, Alexander,
 
-On Thu, Nov 02, 2023 at 08:51:12AM +0100, Alexander Stein wrote:
-> Hi,
+On Thu, Nov 02, 2023 at 10:24:30AM +0200, Laurent Pinchart wrote:
+> Hi Alexander,
 > 
-> thanks for the feedback.
-> 
-> Am Donnerstag, 2. November 2023, 07:30:44 CET schrieb Sakari Ailus:
-> > Hi Laurent,
-> > 
-> > On Thu, Nov 02, 2023 at 03:22:17AM +0200, Laurent Pinchart wrote:
-> > > Hi Alexander,
-> > > 
-> > > Thank you for the patch.
-> > > 
+> On Thu, Nov 02, 2023 at 08:55:01AM +0100, Alexander Stein wrote:
+> > Am Donnerstag, 2. November 2023, 02:22:17 CET schrieb Laurent Pinchart:
 > > > On Wed, Nov 01, 2023 at 01:23:53PM +0100, Alexander Stein wrote:
 > > > > Some sensors, e.g. Sony, are using little-endian registers. Add support
 > > > > for
 > > > 
 > > > I would write Sony IMX290 here, as there are Sony sensors that use big
 > > > endian.
-> > 
-> > Almost all of them. There are a few exceptions indeed. This seems to be a
-> > bug.
-> 
-> Let's name IMX290 here as an actual example. No need to worry about other 
-> models here.
-> 
+> > > 
 > > > > those by encoding the endianess into Bit 20 of the register address.
 > > > > 
 > > > > Fixes: af73323b97702 ("media: imx290: Convert to new CCI register access
@@ -109,88 +96,64 @@ On Thu, Nov 02, 2023 at 08:51:12AM +0100, Alexander Stein wrote:
 > > > >  drivers/media/v4l2-core/v4l2-cci.c | 44 ++++++++++++++++++++++++------
 > > > >  include/media/v4l2-cci.h           |  5 ++++
 > > > >  2 files changed, 41 insertions(+), 8 deletions(-)
+> 
+> [snip]
+> 
+> > > > diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
+> > > > index 0f6803e4b17e9..ef3faf0c9d44d 100644
+> > > > --- a/include/media/v4l2-cci.h
+> > > > +++ b/include/media/v4l2-cci.h
+> > > > @@ -32,12 +32,17 @@ struct cci_reg_sequence {
+> > > >  #define CCI_REG_ADDR_MASK		GENMASK(15, 0)
+> > > >  #define CCI_REG_WIDTH_SHIFT		16
+> > > >  #define CCI_REG_WIDTH_MASK		GENMASK(19, 16)
+> > > > +#define CCI_REG_LE			BIT(20)
 > > > > 
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-cci.c
-> > > > b/drivers/media/v4l2-core/v4l2-cci.c index bc2dbec019b04..673637b67bf67
-> > > > 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-cci.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-cci.c
-> > > > @@ -18,6 +18,7 @@
-> > > > 
-> > > >  int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> > > >  {
-> > > > 
-> > > > +	bool little_endian;
-> > > > 
-> > > >  	unsigned int len;
-> > > >  	u8 buf[8];
-> > > >  	int ret;
-> > > > 
-> > > > @@ -25,6 +26,7 @@ int cci_read(struct regmap *map, u32 reg, u64 *val,
-> > > > int *err)> > 
-> > > >  	if (err && *err)
-> > > >  	
-> > > >  		return *err;
-> > > > 
-> > > > +	little_endian = reg & CCI_REG_LE;
+> > > >  #define CCI_REG8(x)			((1 << CCI_REG_WIDTH_SHIFT) | (x))
+> > > >  #define CCI_REG16(x)			((2 << CCI_REG_WIDTH_SHIFT) | (x))
+> > > >  #define CCI_REG24(x)			((3 << CCI_REG_WIDTH_SHIFT) | (x))
+> > > >  #define CCI_REG32(x)			((4 << CCI_REG_WIDTH_SHIFT) | (x))
+> > > >  #define CCI_REG64(x)			((8 << CCI_REG_WIDTH_SHIFT) | (x))
+> > > > +#define CCI_REG16_LE(x)			((2 << CCI_REG_WIDTH_SHIFT) | (x) | CCI_REG_LE)
+> > > > +#define CCI_REG24_LE(x)			((3 << CCI_REG_WIDTH_SHIFT) | (x) | CCI_REG_LE)
+> > > > +#define CCI_REG32_LE(x)			((4 << CCI_REG_WIDTH_SHIFT) | (x) | CCI_REG_LE)
+> > > > +#define CCI_REG64_LE(x)			((8 << CCI_REG_WIDTH_SHIFT) | (x) | CCI_REG_LE)
 > > > 
-> > > You could initialize the variable when declaring it. Same below.
+> > > I would put CCI_REG_LE first, to match the bits order.
 > > 
-> > I was thinking of the same, but then it'd be logical to move initialisation
-> > of all related variables there. reg is modified here though. I'd keep
-> > setting little_endian here. If someone wants to move it, that could be done
-> > in a separate patch.
+> > You mean this order?
 > > 
-> > > >  	len = FIELD_GET(CCI_REG_WIDTH_MASK, reg);
-> > > >  	reg = FIELD_GET(CCI_REG_ADDR_MASK, reg);
-> > > > 
-> > > > @@ -40,16 +42,28 @@ int cci_read(struct regmap *map, u32 reg, u64 *val,
-> > > > int *err)> > 
-> > > >  		*val = buf[0];
-> > > >  		break;
-> > > >  	
-> > > >  	case 2:
-> > > > -		*val = get_unaligned_be16(buf);
-> > > > +		if (little_endian)
-> > > > +			*val = get_unaligned_le16(buf);
-> > > > +		else
-> > > > +			*val = get_unaligned_be16(buf);
-> > > 
-> > > Unrelated to this patch, isn't buf aligned to a 4 bytes boundary ?
+> > CCI_REG8(x)
+> > CCI_REG16_LE(x)
+> > CCI_REG16(x)
+> > CCI_REG24_LE(x)
+> > CCI_REG24(x)
+> > CCI_REG32_LE(x)
+> > CCI_REG32(x)
+> > CCI_REG64_LE(x)
+> > CCI_REG64(x)
 > > 
-> > Very probably, as it's right after len that's an unsigned int. Adding
-> > __aligned(8) would ensure we don't need any of the unaligned variants, and
-> > most likely would keep the stack layout as-is.
+> > I would either keep the _LE variants at the bottom or below to their big-
+> > endian counterpart. I prefer readability thus I would put the _LE at the 
+> > bottom, also it aligns nicely with the additional bit set.
 > 
-> You mean something like this?
+> No, I meant
 > 
-> u8 __aligned(8) buf[8];
-> [...]
-> if (little_endian)
-> 	*val = le64_to_cpup(buf);
-> else
-> 	*val = be64_to_cpup(buf);
-> 
-> But what about 24 Bits? There is no le24_to_cpup. I would rather use the same 
-> API for all cases.
+> #define CCI_REG16_LE(x)			(CCI_REG_LE | (2 << CCI_REG_WIDTH_SHIFT) | (x))
+> #define CCI_REG24_LE(x)			(CCI_REG_LE | (3 << CCI_REG_WIDTH_SHIFT) | (x))
+> #define CCI_REG32_LE(x)			(CCI_REG_LE | (4 << CCI_REG_WIDTH_SHIFT) | (x))
+> #define CCI_REG64_LE(x)			(CCI_REG_LE | (8 << CCI_REG_WIDTH_SHIFT) | (x))
 
-The aligned APIs are much better choice when you can use them. The 24 bit
-case can remain special IMO.
+Ideally these numbers would be unsigned, i.e.
 
-> 
-> > Or... how about putting it in an union with a u64? That would mean it's
-> > accessible as u64 alignment-wise while the alignment itself is up to the
-> > ABI. A comment would be good to have probably.
-> 
-> An additional union seems a bit too much here. Unless something suitable 
-> already exists for general usage.
+#define CCI_REG16_LE(x)			(CCI_REG_LE | (2U << CCI_REG_WIDTH_SHIFT) | (x))
+#define CCI_REG24_LE(x)			(CCI_REG_LE | (3U << CCI_REG_WIDTH_SHIFT) | (x))
+#define CCI_REG32_LE(x)			(CCI_REG_LE | (4U << CCI_REG_WIDTH_SHIFT) | (x))
+#define CCI_REG64_LE(x)			(CCI_REG_LE | (8U << CCI_REG_WIDTH_SHIFT) | (x))
 
-I think it's nicer than using __aligned() as you get ABI alignment that
-way, not something you force manually --- that's a bit crude.
-
-I wonder that others think.
+This is a pre-existing problem. Feel free to add a patch to address it. :-)
 
 -- 
-Regards,
+Kind regards,
 
 Sakari Ailus
