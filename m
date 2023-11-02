@@ -2,258 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A19517DF857
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 18:08:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE1BF7DFACB
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 20:17:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376960AbjKBRIM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Nov 2023 13:08:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51170 "EHLO
+        id S1346127AbjKBTRp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Nov 2023 15:17:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34910 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235577AbjKBRIL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 13:08:11 -0400
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80673184;
-        Thu,  2 Nov 2023 10:08:05 -0700 (PDT)
-Received: from localhost (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dbrouwer)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 3150B6601711;
-        Thu,  2 Nov 2023 17:08:03 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1698944883;
-        bh=HxO1+U33MO4A8FHmVRIQuTTtZl2QLDqDP44tUmlEqLg=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=X/cjBjLWdF2rvfRRwrSOh4XeD8IkoYQ3GQEEXemVEdjGkJBf0801QkQRy177yhwyF
-         mtOBmmTwzHCdrWIew0+Fj2tHD7vKFaaof8dPy5Ro9QXGR4sO2/3iI6RQFT1ozMd2Ve
-         a/s7lWBzTyjnuojkQVgIdMfFy5jmK4n+3OlrIZNOtqqNuuXFRvjaQxmK/8E4yT22ck
-         kS5LSFm/RwkD+UIcSOo3KULkhtmBMaziHpxlgG3LSeOXDSEi9luUVNk4Y7prJlqwL7
-         QFAlMw5Zz3YRC7Ncu1Z55g20bjtjxCqF6hw+qUPiNi9QKSiVO41muOswBrmYf8pY6v
-         adn7Luw0ekCzw==
-Date:   Thu, 2 Nov 2023 10:07:59 -0700
-From:   Deborah Brouwer <deborah.brouwer@collabora.com>
-To:     Ivan Bornyakov <brnkv.i1@gmail.com>
-Cc:     Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Nas Chung <nas.chung@chipsnmedia.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
-        linux-kernel@vger.kernel.org,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        kernel@collabora.com, Robert Beckett <bob.beckett@collabora.com>,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Darren Etheridge <detheridge@ti.com>
-Subject: Re: [PATCH v13 5/8] media: chips-media: wave5: Add the v4l2 layer
-Message-ID: <ZUPXb10lU8UZHVQz@mz550>
-References: <20230929-wave5_v13_media_master-v13-5-5ac60ccbf2ce@collabora.com>
- <20231017221359.20164-1-brnkv.i1@gmail.com>
+        with ESMTP id S1345424AbjKBTRo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 15:17:44 -0400
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D41771A1
+        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 12:16:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1698952607;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=u5dyav2FpjU7LQKMZEdDExBNYby1YISH7oqQq8W6UzE=;
+        b=amSm+OlPclwQbNfetzTozCuvRSE3FHf6ZBd83tpEyu4IrWPe6bCcaIrpRXqnuyHPQtgtms
+        1kBLd7C6XWuS7sqdymJr1NOyU2K8kqk83okKWiEOvGorDeYrecAber0eSs8l4EtU2Lbfj5
+        4z4QFyzwnHuFtw1F4IZgKK6uGylkKUw=
+Received: from mail-lj1-f198.google.com (mail-lj1-f198.google.com
+ [209.85.208.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-226-Giw3dMgYNbu5VmeIN-_M6A-1; Thu, 02 Nov 2023 15:16:43 -0400
+X-MC-Unique: Giw3dMgYNbu5VmeIN-_M6A-1
+Received: by mail-lj1-f198.google.com with SMTP id 38308e7fff4ca-2c509a6223eso2801061fa.0
+        for <linux-media@vger.kernel.org>; Thu, 02 Nov 2023 12:16:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698952602; x=1699557402;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u5dyav2FpjU7LQKMZEdDExBNYby1YISH7oqQq8W6UzE=;
+        b=o6VbJ+jqMWIe3NM1ydt3dKwL+CO7sT1vnnRbwQkqgRT79XEBY4XtZppq5qgaZ/bUUi
+         55gdgz5GIQoK5D/h7jLIgydpuZSTAtCCha3YOlAQqiNSnKh3L/hFF4MIq8Odur8Gxtzl
+         D/b1eHpLaPQyHn8lAtbKZ9fMu0BClKQtlp/8+PtOSaYI/Uu38IKlSgULHG5R5CDSlk6a
+         HJqPiYF8FIrMixMb8igSDfVL5s+iMnRPyngEVogToQ0iy7F3haqcAKUlUaZgUpeXw39J
+         2CdVHLsp3GJ33PZKMuMpIxbmvpqkZg6iI8dZAe5SzJ8/CUFd98D4cPDXRcyKA/yJHAB3
+         3nqg==
+X-Gm-Message-State: AOJu0YxE7jrCL+O0L2BtcRZn19ACztFRJjhan7FK9uTBqnZ+HCAa5R6A
+        Q+cPZsbS707weF8ukle9HgQTRfD4MptcCfD3QFdraqLor+kcmWSINjQWiT3EL4fqZ632FUcy6FT
+        s4aRCkqerxqTuA7V10B5SUdg=
+X-Received: by 2002:a2e:9893:0:b0:2c6:f97c:cf21 with SMTP id b19-20020a2e9893000000b002c6f97ccf21mr1329968ljj.2.1698952601853;
+        Thu, 02 Nov 2023 12:16:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE/+J5ZI8Q+GWA2EmIhVapXLdftKHmNOwqZSWGlk/Qpep7VCISURdxsmrh90DiG9RGITcOxRQ==
+X-Received: by 2002:a2e:9893:0:b0:2c6:f97c:cf21 with SMTP id b19-20020a2e9893000000b002c6f97ccf21mr1329948ljj.2.1698952601486;
+        Thu, 02 Nov 2023 12:16:41 -0700 (PDT)
+Received: from pstanner-thinkpadt14sgen1.remote.csb ([2001:9e8:32c5:d600:227b:d2ff:fe26:2a7a])
+        by smtp.gmail.com with ESMTPSA id bg13-20020a05600c3c8d00b0040644e699a0sm75279wmb.45.2023.11.02.12.16.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Nov 2023 12:16:40 -0700 (PDT)
+From:   Philipp Stanner <pstanner@redhat.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Schlabbach <robert_s@gmx.net>,
+        Takashi Iwai <tiwai@suse.de>, Hyunwoo Kim <imv4bel@gmail.com>,
+        Lin Ma <linma@zju.edu.cn>,
+        Chen Zhongjin <chenzhongjin@huawei.com>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Philipp Stanner <pstanner@redhat.com>,
+        Dave Airlie <airlied@redhat.com>
+Subject: [PATCH] drivers/media/dvb-core: copy user arrays safely
+Date:   Thu,  2 Nov 2023 20:16:34 +0100
+Message-ID: <20231102191633.52592-2-pstanner@redhat.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231017221359.20164-1-brnkv.i1@gmail.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.5 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=unavailable
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 18, 2023 at 01:13:52AM +0300, Ivan Bornyakov wrote:
-> Hi!
+At several positions in dvb_frontend.c, memdup_user() is utilized to
+copy userspace arrays. This is done without overflow checks.
 
-Hi Ivan,
+Use the new wrapper memdup_array_user() to copy the arrays more safely.
 
-> 
-> On Thu, 12 Oct 2023 13:01:03 +0200, Sebastian Fricke wrote:
-> > Add the decoder and encoder implementing the v4l2
-> > API. This patch also adds the Makefile and the VIDEO_WAVE_VPU config
-> > 
-> > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
-> > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> > Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
-> > Signed-off-by: Robert Beckett <bob.beckett@collabora.com>
-> > Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> > Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-> > ---
-> >  drivers/media/platform/chips-media/Kconfig         |    1 +
-> >  drivers/media/platform/chips-media/Makefile        |    1 +
-> >  drivers/media/platform/chips-media/wave5/Kconfig   |   12 +
-> >  drivers/media/platform/chips-media/wave5/Makefile  |   10 +
-> >  .../platform/chips-media/wave5/wave5-helper.c      |  213 +++
-> >  .../platform/chips-media/wave5/wave5-helper.h      |   31 +
-> >  .../platform/chips-media/wave5/wave5-vpu-dec.c     | 1953 ++++++++++++++++++++
-> >  .../platform/chips-media/wave5/wave5-vpu-enc.c     | 1794 ++++++++++++++++++
-> >  .../media/platform/chips-media/wave5/wave5-vpu.c   |  291 +++
-> >  .../media/platform/chips-media/wave5/wave5-vpu.h   |   83 +
-> >  .../platform/chips-media/wave5/wave5-vpuapi.h      |    2 -
-> >  11 files changed, 4389 insertions(+), 2 deletions(-)
-> 
-> [...]
-> 
-> > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > new file mode 100644
-> > index 000000000000..74d1fae64fa4
-> > --- /dev/null
-> > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> 
-> [...]
-> 
-> > +static int wave5_vpu_dec_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
-> > +				     unsigned int *num_planes, unsigned int sizes[],
-> > +				     struct device *alloc_devs[])
-> > +{
-> > +	struct vpu_instance *inst = vb2_get_drv_priv(q);
-> > +	struct v4l2_pix_format_mplane inst_format =
-> > +		(q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) ? inst->src_fmt : inst->dst_fmt;
-> > +	unsigned int i;
-> > +
-> > +	dev_dbg(inst->dev->dev, "%s: num_buffers: %u | num_planes: %u | type: %u\n", __func__,
-> > +		*num_buffers, *num_planes, q->type);
-> > +
-> > +	/* the CREATE_BUFS case */
-> > +	if (*num_planes) {
-> > +		if (inst_format.num_planes != *num_planes)
-> > +			return -EINVAL;
-> > +
-> > +		for (i = 0; i < *num_planes; i++) {
-> > +			if (sizes[i] < inst_format.plane_fmt[i].sizeimage)
-> > +				return -EINVAL;
-> > +		}
-> > +	/* the REQBUFS case */
-> > +	} else {
-> > +		*num_planes = inst_format.num_planes;
-> > +
-> > +		if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-> > +			sizes[0] = inst_format.plane_fmt[0].sizeimage;
-> > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u\n", __func__, sizes[0]);
-> > +		} else if (*num_planes == 1) {
-> 
-> I think, you should also set *num_buffers to be inst->fbc_buf_count for
-> V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE, like this:
-> 
-> 		} else if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE) {
-> 			if (*num_buffers < inst->fbc_buf_count)
-> 				*num_buffers = inst->fbc_buf_count;
-> 
-> 			switch (*num_planes) {
-> 			case 1:
-> 				...
-> 			case 2:
-> 				...
-> 			case 3:
-> 				...
-> 			}
-> 		}
+Suggested-by: Dave Airlie <airlied@redhat.com>
+Signed-off-by: Philipp Stanner <pstanner@redhat.com>
+---
+ drivers/media/dvb-core/dvb_frontend.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-I was able to reproduce this issue by requesting a small number of buffers
-on the CAPTURE queue that was less than inst→fbc_buf_count. When this happens,
-wave5_vpu_dec_job_ready() fails here:
-(v4l2_m2m_num_dst_bufs_ready(m2m_ctx) < (inst->fbc_buf_count - 1)
+diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
+index 9293b058ab99..93d3378a0df4 100644
+--- a/drivers/media/dvb-core/dvb_frontend.c
++++ b/drivers/media/dvb-core/dvb_frontend.c
+@@ -2168,7 +2168,8 @@ static int dvb_frontend_handle_compat_ioctl(struct file *file, unsigned int cmd,
+ 		if (!tvps->num || (tvps->num > DTV_IOCTL_MAX_MSGS))
+ 			return -EINVAL;
+ 
+-		tvp = memdup_user(compat_ptr(tvps->props), tvps->num * sizeof(*tvp));
++		tvp = memdup_array_user(compat_ptr(tvps->props),
++					tvps->num, sizeof(*tvp));
+ 		if (IS_ERR(tvp))
+ 			return PTR_ERR(tvp);
+ 
+@@ -2199,7 +2200,8 @@ static int dvb_frontend_handle_compat_ioctl(struct file *file, unsigned int cmd,
+ 		if (!tvps->num || (tvps->num > DTV_IOCTL_MAX_MSGS))
+ 			return -EINVAL;
+ 
+-		tvp = memdup_user(compat_ptr(tvps->props), tvps->num * sizeof(*tvp));
++		tvp = memdup_array_user(compat_ptr(tvps->props),
++					tvps->num, sizeof(*tvp));
+ 		if (IS_ERR(tvp))
+ 			return PTR_ERR(tvp);
+ 
+@@ -2379,7 +2381,8 @@ static int dvb_get_property(struct dvb_frontend *fe, struct file *file,
+ 	if (!tvps->num || tvps->num > DTV_IOCTL_MAX_MSGS)
+ 		return -EINVAL;
+ 
+-	tvp = memdup_user((void __user *)tvps->props, tvps->num * sizeof(*tvp));
++	tvp = memdup_array_user((void __user *)tvps->props,
++				tvps->num, sizeof(*tvp));
+ 	if (IS_ERR(tvp))
+ 		return PTR_ERR(tvp);
+ 
+@@ -2457,7 +2460,8 @@ static int dvb_frontend_handle_ioctl(struct file *file,
+ 		if (!tvps->num || (tvps->num > DTV_IOCTL_MAX_MSGS))
+ 			return -EINVAL;
+ 
+-		tvp = memdup_user((void __user *)tvps->props, tvps->num * sizeof(*tvp));
++		tvp = memdup_array_user((void __user *)tvps->props,
++					tvps->num, sizeof(*tvp));
+ 		if (IS_ERR(tvp))
+ 			return PTR_ERR(tvp);
+ 
+-- 
+2.41.0
 
-I also tested your suggestion to set the *num_buffers to  inst→fbc_buf_count
-in queue_setup() and it seems to be working well, thanks for this.
-
-I've been working on ways to improve testing for stateful decoders so
-I'm curious how you found this issue?
-
-With fluster tests that we use, gstreamer seems to be calculating correct number of
-CAPTURE buffers to request, so we wouldn't see this.
-
-> 
-> The reason for that is if fbc_buf_count is greater than initial num_buffers,
-> wave5_vpu_dec_job_ready() wouldn't allow to invoke wave5_vpu_dec_device_run()
-> 
-> Here is a part of the log of described situation:
-> 
->   vdec 20410000.wave515: Switch state from NONE to OPEN.
->   [...]
->   vdec 20410000.wave515: wave5_vpu_dec_init_seq: init seq sent (queue 1 : 1)
->   vdec 20410000.wave515: wave5_vpu_dec_get_seq_info: init seq complete (queue 0 : 0)
->   [...]
->   vdec 20410000.wave515: handle_dynamic_resolution_change: width: 4112 height: 3008 profile: 1 | minbuffer: 6
->   ^^^^^^^^ note that minbuffer is 6
-> 
->   vdec 20410000.wave515: Switch state from OPEN to INIT_SEQ.
->   [...]
->   vdec 20410000.wave515: decoder command: 1
->   [...]
->   vdec 20410000.wave515: wave5_vpu_dec_queue_setup: num_buffers: 4 | num_planes: 0 | type: 9
->   ^^^^^^^^ note that num_buffers is 4
-> 
->   vdec 20410000.wave515: wave5_vpu_dec_queue_setup: size[0]: 18625536
->   vdec 20410000.wave515: CAPTURE queue must be streaming to queue jobs!
->   vdec 20410000.wave515: CAPTURE queue must be streaming to queue jobs!
->   vdec 20410000.wave515: CAPTURE queue must be streaming to queue jobs!
->   vdec 20410000.wave515: CAPTURE queue must be streaming to queue jobs!
->   vdec 20410000.wave515: wave5_vpu_dec_buf_queue: type:    9 index:    0 size: ([0]=18625536, [1]=   0, [2]=   0)
->   vdec 20410000.wave515: wave5_vpu_dec_buf_queue: type:    9 index:    1 size: ([0]=18625536, [1]=   0, [2]=   0)
->   vdec 20410000.wave515: wave5_vpu_dec_buf_queue: type:    9 index:    2 size: ([0]=18625536, [1]=   0, [2]=   0)
->   vdec 20410000.wave515: wave5_vpu_dec_buf_queue: type:    9 index:    3 size: ([0]=18625536, [1]=   0, [2]=   0)
->   vdec 20410000.wave515: wave5_vpu_dec_start_streaming: type: 9
->   vdec 20410000.wave515: No capture buffer ready to decode!
->   ^^^^^^^^ here v4l2_m2m_num_dst_bufs_ready(m2m_ctx) < (inst->fbc_buf_count - 1), namely 4 < 6
->   
->   vdec 20410000.wave515: wave5_vpu_dec_stop_streaming: type: 9
->   vdec 20410000.wave515: streamoff_capture: Setting display flag of buf index: 0, fail: -22
->   vdec 20410000.wave515: streamoff_capture: Setting display flag of buf index: 1, fail: -22
->   vdec 20410000.wave515: streamoff_capture: Setting display flag of buf index: 2, fail: -22
->   vdec 20410000.wave515: streamoff_capture: Setting display flag of buf index: 3, fail: -22
->   [...]
->   vdec 20410000.wave515: wave5_vpu_dec_close: dec_finish_seq complete
-> 
-> Altering num_buffers solves the issue for me.
-> 
-> > +			if (inst->output_format == FORMAT_422)
-> > +				sizes[0] = inst_format.width * inst_format.height * 2;
-> > +			else
-> > +				sizes[0] = inst_format.width * inst_format.height * 3 / 2;
-> > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u\n", __func__, sizes[0]);
-> > +		} else if (*num_planes == 2) {
-> > +			sizes[0] = inst_format.width * inst_format.height;
-> > +			if (inst->output_format == FORMAT_422)
-> > +				sizes[1] = inst_format.width * inst_format.height;
-> > +			else
-> > +				sizes[1] = inst_format.width * inst_format.height / 2;
-> > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u | size[1]: %u\n",
-> > +				__func__, sizes[0], sizes[1]);
-> > +		} else if (*num_planes == 3) {
-> > +			sizes[0] = inst_format.width * inst_format.height;
-> > +			if (inst->output_format == FORMAT_422) {
-> > +				sizes[1] = inst_format.width * inst_format.height / 2;
-> > +				sizes[2] = inst_format.width * inst_format.height / 2;
-> > +			} else {
-> > +				sizes[1] = inst_format.width * inst_format.height / 4;
-> > +				sizes[2] = inst_format.width * inst_format.height / 4;
-> > +			}
-> > +			dev_dbg(inst->dev->dev, "%s: size[0]: %u | size[1]: %u | size[2]: %u\n",
-> > +				__func__, sizes[0], sizes[1], sizes[2]);
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> 
-> BTW I'm currently tinkering with your patchset on another C&M IP and would be
-> gratefull if you Cc me in the future versions of the patchset, if any.
-
-Yes, sorry for missing you on v13, thanks for taking the time to review.
-
-Deborah
-
-> 
-> Thanks.
