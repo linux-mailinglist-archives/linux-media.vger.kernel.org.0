@@ -2,177 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AD05B7DECDE
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 07:31:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0EB4C7DEDAB
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 08:51:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232885AbjKBGbW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Nov 2023 02:31:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60124 "EHLO
+        id S234368AbjKBHvW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Nov 2023 03:51:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjKBGbV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 02:31:21 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2292A111;
-        Wed,  1 Nov 2023 23:31:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698906675; x=1730442675;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UbNClqiwgxv+4c/yht6vSvAnCGJooAq0eVKMUfkCEks=;
-  b=EHbwHQ+0kjPv+rkXnbAjyxrkomzFVdCvK9mf4NXevGgMFbi4qCptblye
-   EFV+NxeVNGEoCIHSbUrEtbj7gHG/xcElZMqgxk9yo9cRmbg60YFijVIyU
-   8tB4L7C3XiLaFGvQOrOZzPXj3PXG2KPZzH5HjWC7tsNDMXjAly6r+aLCh
-   7ZdBAeIC7caG35qQljgaHj/VaCEKi34eMdeBjvHC78/u2qBna8yQ56gDp
-   ROzmxdqV8dD8D/m3YdyyAJeMd/jYc/XqCjobycmYba5YGAx9TrCqKjk46
-   GL3Zp6oC0ib5ipAkAgnE0+JXJn5M+YKSu/Bzw6ZTZ79L6UP0M4xoT/lRQ
+        with ESMTP id S1344681AbjKBHvV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 03:51:21 -0400
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BE70102;
+        Thu,  2 Nov 2023 00:51:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1698911475; x=1730447475;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=n0IBIAq8RhNq6Ga+B8so/nLlfc3ITUL9PJF7fmJSBHE=;
+  b=ZT7guAhmle8nHfmjCQMGas8ggECrItzrahXSFD1zigDChYMsr50kv5ZK
+   T29Cp8XTbF171lcw6CJxBUj9bisD+RoFy5oELnAY7SW6iPw1FRzcCknsq
+   RIFnQno6gJgH2/gq6nrlX5xoqFBFvdNeUeMAnnxbvcnKA47/lInzoRAyK
+   Ul+2xS0CRwh/A3UVZDn5bUAnY53G6qskAVYLMxpL+XXq6NM4GQCtOgWFv
+   cz0yR9ZxP66q+QpwgA7yMIkRc7EmOOcn/L9za3P9Mlk567SolAejRIGNU
+   3Rx3zFG0hj98hjZp14Vf1Tq/q3bnkKAYEt8IKICN68x0COm1Am9aqmfPY
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="392532818"
-X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
-   d="scan'208";a="392532818"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 23:30:49 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="827006106"
-X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
-   d="scan'208";a="827006106"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 23:30:46 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 2874111F9E8;
-        Thu,  2 Nov 2023 08:30:44 +0200 (EET)
-Date:   Thu, 2 Nov 2023 06:30:44 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+X-IronPort-AV: E=Sophos;i="6.03,270,1694728800"; 
+   d="scan'208";a="33769828"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 02 Nov 2023 08:51:12 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 4948728007F;
+        Thu,  2 Nov 2023 08:51:12 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Manivannan Sadhasivam <mani@kernel.org>,
         Hans de Goede <hdegoede@redhat.com>,
         linux-media@vger.kernel.org,
         Alain Volmat <alain.volmat@foss.st.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] media: v4l2-cci: Add support for little-endian
- encoded registers
-Message-ID: <ZUNCFESRnKMwkHl7@kekkonen.localdomain>
-References: <20231101122354.270453-1-alexander.stein@ew.tq-group.com>
- <20231101122354.270453-2-alexander.stein@ew.tq-group.com>
- <20231102012217.GC5933@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 1/2] media: v4l2-cci: Add support for little-endian encoded registers
+Date:   Thu, 02 Nov 2023 08:51:12 +0100
+Message-ID: <4980064.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <ZUNCFESRnKMwkHl7@kekkonen.localdomain>
+References: <20231101122354.270453-1-alexander.stein@ew.tq-group.com> <20231102012217.GC5933@pendragon.ideasonboard.com> <ZUNCFESRnKMwkHl7@kekkonen.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231102012217.GC5933@pendragon.ideasonboard.com>
-X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi,
 
-On Thu, Nov 02, 2023 at 03:22:17AM +0200, Laurent Pinchart wrote:
-> Hi Alexander,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Nov 01, 2023 at 01:23:53PM +0100, Alexander Stein wrote:
-> > Some sensors, e.g. Sony, are using little-endian registers. Add support for
-> 
-> I would write Sony IMX290 here, as there are Sony sensors that use big
-> endian.
+thanks for the feedback.
 
-Almost all of them. There are a few exceptions indeed. This seems to be a
-bug.
+Am Donnerstag, 2. November 2023, 07:30:44 CET schrieb Sakari Ailus:
+> Hi Laurent,
+>=20
+> On Thu, Nov 02, 2023 at 03:22:17AM +0200, Laurent Pinchart wrote:
+> > Hi Alexander,
+> >=20
+> > Thank you for the patch.
+> >=20
+> > On Wed, Nov 01, 2023 at 01:23:53PM +0100, Alexander Stein wrote:
+> > > Some sensors, e.g. Sony, are using little-endian registers. Add suppo=
+rt
+> > > for
+> >=20
+> > I would write Sony IMX290 here, as there are Sony sensors that use big
+> > endian.
+>=20
+> Almost all of them. There are a few exceptions indeed. This seems to be a
+> bug.
 
-> 
-> > those by encoding the endianess into Bit 20 of the register address.
-> > 
-> > Fixes: af73323b97702 ("media: imx290: Convert to new CCI register access helpers")
-> > Cc: stable@vger.kernel.org
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-cci.c | 44 ++++++++++++++++++++++++------
-> >  include/media/v4l2-cci.h           |  5 ++++
-> >  2 files changed, 41 insertions(+), 8 deletions(-)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
-> > index bc2dbec019b04..673637b67bf67 100644
-> > --- a/drivers/media/v4l2-core/v4l2-cci.c
-> > +++ b/drivers/media/v4l2-core/v4l2-cci.c
-> > @@ -18,6 +18,7 @@
-> >  
-> >  int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> >  {
-> > +	bool little_endian;
-> >  	unsigned int len;
-> >  	u8 buf[8];
-> >  	int ret;
-> > @@ -25,6 +26,7 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> >  	if (err && *err)
-> >  		return *err;
-> >  
-> > +	little_endian = reg & CCI_REG_LE;
-> 
-> You could initialize the variable when declaring it. Same below.
+Let's name IMX290 here as an actual example. No need to worry about other=20
+models here.
 
-I was thinking of the same, but then it'd be logical to move initialisation
-of all related variables there. reg is modified here though. I'd keep
-setting little_endian here. If someone wants to move it, that could be done
-in a separate patch.
+> > > those by encoding the endianess into Bit 20 of the register address.
+> > >=20
+> > > Fixes: af73323b97702 ("media: imx290: Convert to new CCI register acc=
+ess
+> > > helpers") Cc: stable@vger.kernel.org
+> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > > ---
+> > >=20
+> > >  drivers/media/v4l2-core/v4l2-cci.c | 44 ++++++++++++++++++++++++----=
+=2D-
+> > >  include/media/v4l2-cci.h           |  5 ++++
+> > >  2 files changed, 41 insertions(+), 8 deletions(-)
+> > >=20
+> > > diff --git a/drivers/media/v4l2-core/v4l2-cci.c
+> > > b/drivers/media/v4l2-core/v4l2-cci.c index bc2dbec019b04..673637b67bf=
+67
+> > > 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-cci.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-cci.c
+> > > @@ -18,6 +18,7 @@
+> > >=20
+> > >  int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+> > >  {
+> > >=20
+> > > +	bool little_endian;
+> > >=20
+> > >  	unsigned int len;
+> > >  	u8 buf[8];
+> > >  	int ret;
+> > >=20
+> > > @@ -25,6 +26,7 @@ int cci_read(struct regmap *map, u32 reg, u64 *val,
+> > > int *err)> >=20
+> > >  	if (err && *err)
+> > >  =09
+> > >  		return *err;
+> > >=20
+> > > +	little_endian =3D reg & CCI_REG_LE;
+> >=20
+> > You could initialize the variable when declaring it. Same below.
+>=20
+> I was thinking of the same, but then it'd be logical to move initialisati=
+on
+> of all related variables there. reg is modified here though. I'd keep
+> setting little_endian here. If someone wants to move it, that could be do=
+ne
+> in a separate patch.
+>=20
+> > >  	len =3D FIELD_GET(CCI_REG_WIDTH_MASK, reg);
+> > >  	reg =3D FIELD_GET(CCI_REG_ADDR_MASK, reg);
+> > >=20
+> > > @@ -40,16 +42,28 @@ int cci_read(struct regmap *map, u32 reg, u64 *va=
+l,
+> > > int *err)> >=20
+> > >  		*val =3D buf[0];
+> > >  		break;
+> > >  =09
+> > >  	case 2:
+> > > -		*val =3D get_unaligned_be16(buf);
+> > > +		if (little_endian)
+> > > +			*val =3D get_unaligned_le16(buf);
+> > > +		else
+> > > +			*val =3D get_unaligned_be16(buf);
+> >=20
+> > Unrelated to this patch, isn't buf aligned to a 4 bytes boundary ?
+>=20
+> Very probably, as it's right after len that's an unsigned int. Adding
+> __aligned(8) would ensure we don't need any of the unaligned variants, and
+> most likely would keep the stack layout as-is.
 
-> 
-> >  	len = FIELD_GET(CCI_REG_WIDTH_MASK, reg);
-> >  	reg = FIELD_GET(CCI_REG_ADDR_MASK, reg);
-> >  
-> > @@ -40,16 +42,28 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
-> >  		*val = buf[0];
-> >  		break;
-> >  	case 2:
-> > -		*val = get_unaligned_be16(buf);
-> > +		if (little_endian)
-> > +			*val = get_unaligned_le16(buf);
-> > +		else
-> > +			*val = get_unaligned_be16(buf);
-> 
-> Unrelated to this patch, isn't buf aligned to a 4 bytes boundary ?
+You mean something like this?
 
-Very probably, as it's right after len that's an unsigned int. Adding
-__aligned(8) would ensure we don't need any of the unaligned variants, and
-most likely would keep the stack layout as-is.
+u8 __aligned(8) buf[8];
+[...]
+if (little_endian)
+	*val =3D le64_to_cpup(buf);
+else
+	*val =3D be64_to_cpup(buf);
 
-Or... how about putting it in an union with a u64? That would mean it's
-accessible as u64 alignment-wise while the alignment itself is up to the
-ABI. A comment would be good to have probably.
+But what about 24 Bits? There is no le24_to_cpup. I would rather use the sa=
+me=20
+API for all cases.
 
-> 
-> >  		break;
-> >  	case 3:
-> > -		*val = get_unaligned_be24(buf);
-> > +		if (little_endian)
-> > +			*val = get_unaligned_le24(buf);
-> > +		else
-> > +			*val = get_unaligned_be24(buf);
-> >  		break;
-> >  	case 4:
-> > -		*val = get_unaligned_be32(buf);
-> > +		if (little_endian)
-> > +			*val = get_unaligned_le32(buf);
-> > +		else
-> > +			*val = get_unaligned_be32(buf);
-> >  		break;
-> >  	case 8:
-> > -		*val = get_unaligned_be64(buf);
-> > +		if (little_endian)
-> > +			*val = get_unaligned_le64(buf);
-> > +		else
-> > +			*val = get_unaligned_be64(buf);
-> >  		break;
-> >  	default:
-> >  		dev_err(regmap_get_device(map), "Error invalid reg-width %u for reg 0x%04x\n",
+> Or... how about putting it in an union with a u64? That would mean it's
+> accessible as u64 alignment-wise while the alignment itself is up to the
+> ABI. A comment would be good to have probably.
 
--- 
-Regards,
+An additional union seems a bit too much here. Unless something suitable=20
+already exists for general usage.
 
-Sakari Ailus
+Best regards,
+Alexander
+
+> > >  		break;
+> > >  =09
+> > >  	case 3:
+> > > -		*val =3D get_unaligned_be24(buf);
+> > > +		if (little_endian)
+> > > +			*val =3D get_unaligned_le24(buf);
+> > > +		else
+> > > +			*val =3D get_unaligned_be24(buf);
+> > >=20
+> > >  		break;
+> > >  =09
+> > >  	case 4:
+> > > -		*val =3D get_unaligned_be32(buf);
+> > > +		if (little_endian)
+> > > +			*val =3D get_unaligned_le32(buf);
+> > > +		else
+> > > +			*val =3D get_unaligned_be32(buf);
+> > >=20
+> > >  		break;
+> > >  =09
+> > >  	case 8:
+> > > -		*val =3D get_unaligned_be64(buf);
+> > > +		if (little_endian)
+> > > +			*val =3D get_unaligned_le64(buf);
+> > > +		else
+> > > +			*val =3D get_unaligned_be64(buf);
+> > >=20
+> > >  		break;
+> > >  =09
+> > >  	default:
+> > >  		dev_err(regmap_get_device(map), "Error invalid reg-width=20
+%u for reg
+> > >  		0x%04x\n",
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
