@@ -2,150 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 79CBA7DE9F8
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 02:24:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 495467DEACB
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 03:46:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1348003AbjKBBYC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Nov 2023 21:24:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37622 "EHLO
+        id S232276AbjKBCqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 1 Nov 2023 22:46:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232889AbjKBBYB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 21:24:01 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9426183;
-        Wed,  1 Nov 2023 18:23:55 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A26FB7E2;
-        Thu,  2 Nov 2023 02:23:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698888216;
-        bh=s7c5V5ArwrMQDFMecbajkTFcUZmN8dEdlMoHru2wrow=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=cVMGfvkW/v8sACJKDA75jbb1LO5kKwKKebYONS7b3FpHk1PABXvnDEJ+ejMWXjvo+
-         DdRn3jHM41qYPpT9x0bsuAL8DHJt8N+zdBE1O2nmgekm1MyvW04ttjPj/IUvNxmhfq
-         qz03kAhrZ8DC63utt1z4qfrDbpIgFjPWRlNAa4K4=
-Date:   Thu, 2 Nov 2023 03:23:59 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-media@vger.kernel.org,
-        Alain Volmat <alain.volmat@foss.st.com>, stable@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: i2c: imx290: Properly encode registers as
- little-endian
-Message-ID: <20231102012359.GD5933@pendragon.ideasonboard.com>
-References: <20231101122354.270453-1-alexander.stein@ew.tq-group.com>
- <20231101122354.270453-3-alexander.stein@ew.tq-group.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231101122354.270453-3-alexander.stein@ew.tq-group.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S231574AbjKBCqA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 22:46:00 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A9DB83
+        for <linux-media@vger.kernel.org>; Wed,  1 Nov 2023 19:45:54 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 531F9C433C8
+        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 02:45:53 +0000 (UTC)
+Date:   Thu, 02 Nov 2023 03:45:51 +0100
+Message-ID: <9cafeadefaad9f17db0868a6670dd8b0.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexander,
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-On Wed, Nov 01, 2023 at 01:23:54PM +0100, Alexander Stein wrote:
-> The conversion to CCI also converted the multi-byte register access to
-> big-endian. Correct the register definition by using the correct
-> little-endian ones.
-> 
-> Fixes: af73323b97702 ("media: imx290: Convert to new CCI register access helpers")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+date:			Thu Nov  2 03:00:15 CET 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	3e238417254bfdcc23fe207780b59cbb08656762
+v4l-utils git hash:	3d6682746de535d1f7aa71b43a30af40d52a539c
+edid-decode git hash:	100437cf02a3faafec59e9e863117fa53e925aa6
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8494-gc4f4869a
+sparse version:		v0.5.0-8494-gc4f4869a
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a6e978cf5c59a26504d37fee4ae779ecc19359fb
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-> ---
->  drivers/media/i2c/imx290.c | 42 +++++++++++++++++++-------------------
->  1 file changed, 21 insertions(+), 21 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-> index 29098612813cb..c6fea5837a19f 100644
-> --- a/drivers/media/i2c/imx290.c
-> +++ b/drivers/media/i2c/imx290.c
-> @@ -41,18 +41,18 @@
->  #define IMX290_WINMODE_720P				(1 << 4)
->  #define IMX290_WINMODE_CROP				(4 << 4)
->  #define IMX290_FR_FDG_SEL				CCI_REG8(0x3009)
-> -#define IMX290_BLKLEVEL					CCI_REG16(0x300a)
-> +#define IMX290_BLKLEVEL					CCI_REG16_LE(0x300a)
->  #define IMX290_GAIN					CCI_REG8(0x3014)
-> -#define IMX290_VMAX					CCI_REG24(0x3018)
-> +#define IMX290_VMAX					CCI_REG24_LE(0x3018)
->  #define IMX290_VMAX_MAX					0x3ffff
-> -#define IMX290_HMAX					CCI_REG16(0x301c)
-> +#define IMX290_HMAX					CCI_REG16_LE(0x301c)
->  #define IMX290_HMAX_MAX					0xffff
-> -#define IMX290_SHS1					CCI_REG24(0x3020)
-> +#define IMX290_SHS1					CCI_REG24_LE(0x3020)
->  #define IMX290_WINWV_OB					CCI_REG8(0x303a)
-> -#define IMX290_WINPV					CCI_REG16(0x303c)
-> -#define IMX290_WINWV					CCI_REG16(0x303e)
-> -#define IMX290_WINPH					CCI_REG16(0x3040)
-> -#define IMX290_WINWH					CCI_REG16(0x3042)
-> +#define IMX290_WINPV					CCI_REG16_LE(0x303c)
-> +#define IMX290_WINWV					CCI_REG16_LE(0x303e)
-> +#define IMX290_WINPH					CCI_REG16_LE(0x3040)
-> +#define IMX290_WINWH					CCI_REG16_LE(0x3042)
->  #define IMX290_OUT_CTRL					CCI_REG8(0x3046)
->  #define IMX290_ODBIT_10BIT				(0 << 0)
->  #define IMX290_ODBIT_12BIT				(1 << 0)
-> @@ -78,28 +78,28 @@
->  #define IMX290_ADBIT2					CCI_REG8(0x317c)
->  #define IMX290_ADBIT2_10BIT				0x12
->  #define IMX290_ADBIT2_12BIT				0x00
-> -#define IMX290_CHIP_ID					CCI_REG16(0x319a)
-> +#define IMX290_CHIP_ID					CCI_REG16_LE(0x319a)
->  #define IMX290_ADBIT3					CCI_REG8(0x31ec)
->  #define IMX290_ADBIT3_10BIT				0x37
->  #define IMX290_ADBIT3_12BIT				0x0e
->  #define IMX290_REPETITION				CCI_REG8(0x3405)
->  #define IMX290_PHY_LANE_NUM				CCI_REG8(0x3407)
->  #define IMX290_OPB_SIZE_V				CCI_REG8(0x3414)
-> -#define IMX290_Y_OUT_SIZE				CCI_REG16(0x3418)
-> -#define IMX290_CSI_DT_FMT				CCI_REG16(0x3441)
-> +#define IMX290_Y_OUT_SIZE				CCI_REG16_LE(0x3418)
-> +#define IMX290_CSI_DT_FMT				CCI_REG16_LE(0x3441)
->  #define IMX290_CSI_DT_FMT_RAW10				0x0a0a
->  #define IMX290_CSI_DT_FMT_RAW12				0x0c0c
->  #define IMX290_CSI_LANE_MODE				CCI_REG8(0x3443)
-> -#define IMX290_EXTCK_FREQ				CCI_REG16(0x3444)
-> -#define IMX290_TCLKPOST					CCI_REG16(0x3446)
-> -#define IMX290_THSZERO					CCI_REG16(0x3448)
-> -#define IMX290_THSPREPARE				CCI_REG16(0x344a)
-> -#define IMX290_TCLKTRAIL				CCI_REG16(0x344c)
-> -#define IMX290_THSTRAIL					CCI_REG16(0x344e)
-> -#define IMX290_TCLKZERO					CCI_REG16(0x3450)
-> -#define IMX290_TCLKPREPARE				CCI_REG16(0x3452)
-> -#define IMX290_TLPX					CCI_REG16(0x3454)
-> -#define IMX290_X_OUT_SIZE				CCI_REG16(0x3472)
-> +#define IMX290_EXTCK_FREQ				CCI_REG16_LE(0x3444)
-> +#define IMX290_TCLKPOST					CCI_REG16_LE(0x3446)
-> +#define IMX290_THSZERO					CCI_REG16_LE(0x3448)
-> +#define IMX290_THSPREPARE				CCI_REG16_LE(0x344a)
-> +#define IMX290_TCLKTRAIL				CCI_REG16_LE(0x344c)
-> +#define IMX290_THSTRAIL					CCI_REG16_LE(0x344e)
-> +#define IMX290_TCLKZERO					CCI_REG16_LE(0x3450)
-> +#define IMX290_TCLKPREPARE				CCI_REG16_LE(0x3452)
-> +#define IMX290_TLPX					CCI_REG16_LE(0x3454)
-> +#define IMX290_X_OUT_SIZE				CCI_REG16_LE(0x3472)
->  #define IMX290_INCKSEL7					CCI_REG8(0x3480)
->  
->  #define IMX290_PGCTRL_REGEN				BIT(0)
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
--- 
-Regards,
+smatch: WARNINGS:
 
-Laurent Pinchart
+drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Thu Nov  2 03:16:11 CET 2023
+virtme-64: WARNINGS: Final Summary: 3218, Succeeded: 3218, Failed: 0, Warnings: 3
+virtme-32: WARNINGS: Final Summary: 3342, Succeeded: 3342, Failed: 0, Warnings: 4
+
+date:			Thu Nov  2 03:44:41 CET 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
