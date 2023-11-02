@@ -2,91 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B47CF7DF0CD
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 12:02:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5A1B7DF10A
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 12:20:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1346804AbjKBLC1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Nov 2023 07:02:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57700 "EHLO
+        id S1347325AbjKBLUJ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 2 Nov 2023 07:20:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49968 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1346098AbjKBLC0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 07:02:26 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41C11131
-        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 04:02:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698922941; x=1730458941;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=rkpx53iDU4FibLUBGvb+Nwrbr32r7Jc1lwSKLj6z8cg=;
-  b=nxLftoH39663zMfOYDLmyqO8hFU2mp8ACyKzWmlXH6O78op2b5nh12Ds
-   edw41ZAB0E//lpaQX4cNOoySKjt0Ox7Cs4yF4HzzEv+lW895lnwqoWNkA
-   9w9gARtGcg4QdjluMiSWQduUucU3Ye2IfUi0QQ4eOzkLTRiX6A2xGpQF9
-   OZVIo5Q6yt+vig2Yuk033F5zSuO4194uJBaYy3hzjRmzEaJA2KfiHj0Y9
-   vt48r1PoCd3hgGaoYJ8Rh0NLFqVWEAGQPSpZ1NQScb4Uz2ynWt37XRzPb
-   4gasqHrHed5jWGGfi1+1z4L2cz0M7nXCcOINOrPsUkTEUb4+DFgm4687j
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="474928396"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="474928396"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 04:02:20 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="790355855"
-X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
-   d="scan'208";a="790355855"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 04:02:18 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id 71A8012035D;
-        Thu,  2 Nov 2023 13:02:15 +0200 (EET)
-Date:   Thu, 2 Nov 2023 11:02:15 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        linux-media@vger.kernel.org,
-        Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v3 0/2] v4l2-cci: little-endian registers
-Message-ID: <ZUOBt7GBw0Qv9ph1@kekkonen.localdomain>
-References: <20231102095048.3222110-1-alexander.stein@ew.tq-group.com>
+        with ESMTP id S1347302AbjKBLUF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 07:20:05 -0400
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F823123
+        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 04:20:03 -0700 (PDT)
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+        by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <l.stach@pengutronix.de>)
+        id 1qyVji-0004ID-84; Thu, 02 Nov 2023 12:19:42 +0100
+Message-ID: <18a77f80e2dfed630d22b9d6246c7d2122629a5a.camel@pengutronix.de>
+Subject: Re: [PATCH 2/3] drm/scheduler: Fix UAF in
+ drm_sched_fence_get_timeline_name
+From:   Lucas Stach <l.stach@pengutronix.de>
+To:     Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Dave Airlie <airlied@gmail.com>
+Cc:     asahi@lists.linux.dev, Asahi Lina <lina@asahilina.net>,
+        Luben Tuikov <ltuikov89@gmail.com>,
+        linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        alyssa@rosenzweig.io, Sumit Semwal <sumit.semwal@linaro.org>,
+        Faith Ekstrand <faith.ekstrand@collabora.com>,
+        linux-media@vger.kernel.org
+Date:   Thu, 02 Nov 2023 12:19:40 +0100
+In-Reply-To: <5438c132-e127-4456-9551-42c76fb521dd@amd.com>
+References: <9c0cff84-45b1-268f-bdad-38c16316dbc3@amd.com>
+         <20230714-drm-sched-fixes-v1-0-c567249709f7@asahilina.net>
+         <20230714-drm-sched-fixes-v1-2-c567249709f7@asahilina.net>
+         <bef7ef62-3cd9-6ceb-5eb4-5ae0c0236778@amd.com>
+         <de502b41-2864-db1e-16a0-8a5d5e0e4ad3@asahilina.net>
+         <d9dc2fd5-d054-dbf3-72b7-fe9deaa46350@amd.com>
+         <236422117088ca854a6717114de73d99b2b9ba2f@rosenzweig.io>
+         <a42bd218-6eb5-6ddb-bbb4-d25118c59f40@amd.com>
+         <7b564e55-a9b7-0585-3cf1-d1f132f9a918@asahilina.net>
+         <daf48d76-ceee-c82d-a63a-e8e7770a9d83@amd.com>
+         <f5de10fa-57d6-a3d0-1cf9-084491aa6025@asahilina.net>
+         <200e9d74-7191-b1ed-e5f3-775827550853@amd.com>
+         <CAPM=9txcC9+ZePA5onJxtQr+nBe8UcA3_Kp5Da3zjKL7ZB4JPQ@mail.gmail.com>
+         <CAKMK7uG0G02ierkgAmJE1gfLto08LK5twGUEX1qN+qk9-AavYA@mail.gmail.com>
+         <5438c132-e127-4456-9551-42c76fb521dd@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231102095048.3222110-1-alexander.stein@ew.tq-group.com>
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham
-        autolearn_force=no version=3.4.6
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
+X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 02, 2023 at 10:50:46AM +0100, Alexander Stein wrote:
-> Hi,
+Am Donnerstag, dem 02.11.2023 um 11:48 +0100 schrieb Christian König:
+[...]
+> I was considering to change the dma_fence semantics so that 
+> dma_fence_signal() could only be called from the interrupt contexts of 
+> devices and then put a big fat WARN_ON(!in_interrupt()) in there.
 > 
-> after the discussions at [1] and [2], this series adds proper support for
-> little-endian encoded registers.
-> Patch 1 adds the infrastructure and patch 2 fixes imx290 driver.
-> As v6.6 was released with imx290 broken, both should be added to stable.
-> 
-> I just focues on fixing the endianess issue. Any future cleanup as already
-> discussed is discarded for now.
-> 
-> Changes in v3:
-> * Explicitly name IMX290 as an example sensor using little-endian registers
-> * Move CCI_REG_LE to first location on register definition
-> * Use unsigned numbers for registers width definition
-> * Added Laurent's and Hans' R-b
+> It's a sledgehammer, but as far as I can see the only thing which might 
+> help. Opinions?
 
-Thanks, Alexander!
+That's not going to fly. As soon as you are dealing with device drivers
+that use IRQ threads, either voluntarily or even involuntarily on RT
+kernels, the dma_fence_signal will be from process context.
 
-I'll submit these as fixes when we have rc1 available.
-
--- 
-Sakari Ailus
+Regards,
+Lucas
