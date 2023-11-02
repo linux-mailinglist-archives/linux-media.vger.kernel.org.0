@@ -2,56 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83DDF7DF564
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 15:55:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6DD87DF5BD
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 16:10:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229610AbjKBOzx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Nov 2023 10:55:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57410 "EHLO
+        id S232822AbjKBPKN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Nov 2023 11:10:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229569AbjKBOzw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 10:55:52 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC5A311B;
-        Thu,  2 Nov 2023 07:55:45 -0700 (PDT)
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8BDCD8C1;
-        Thu,  2 Nov 2023 15:55:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1698936924;
-        bh=rXfEvh5nSr6U891GXJKcDjrkDgnjLsjVT9M6OziGS48=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Cs+pJMCX0wUvva8pWbLz1gR2aD+BiJ5yIzUwgNgLSVoobUb9ksmuXPU8SVpAxe/43
-         qklVgY+qe8srVlTSLNPa/gKMEJTRRcUX6T32qu5odxP6qqYmMncU2JLqIb9zDaton5
-         4ZHs6UUPPPrnTHIEHPRKX4mImhuCRI/i2pGxaCqU=
-Date:   Thu, 2 Nov 2023 15:55:39 +0100
-From:   Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To:     Alexandra Diupina <adiupina@astralinux.ru>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
+        with ESMTP id S229489AbjKBPKM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 11:10:12 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5220B136;
+        Thu,  2 Nov 2023 08:10:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698937803; x=1730473803;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=OHXfFQUZrtxpJ0p07bl7b5tBSPqCYpJ5LYV/rngT7UA=;
+  b=hvKZm6mt3DN+zYBxwJziRQUKN9iDCQcIiBdjuLrQjJLup1zgpp0/jvFD
+   mtYY8t4d1WGrD6i+zYCtzsUa37yFdMj2ecWR47sLiVuM44AlbKzaaVEEp
+   qoRYr/jTjUt2n2xgrT1fpKDiWb/MU+Tm9qPX/0NsnKdTwvCCXEAstRhdc
+   ocM2oS6y6z0oT4+vrjc+7xuBfqYkeZoLmcuLyu4KcpXcYFTGIqSh/ywuu
+   QdIDcNIjkSSMoWds4cGwmc9BTqTqN7xWdigml/R7ol5F04FTawIuHdhMG
+   cl6AQbPtjQcChAgtQkBVYSacAQXpO07+o0yk/1BM/XxnF2tDg6eyipzH1
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="474975213"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="474975213"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 08:10:02 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="851939601"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="851939601"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 08:10:00 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id B775711F929;
+        Thu,  2 Nov 2023 17:09:57 +0200 (EET)
+Date:   Thu, 2 Nov 2023 15:09:57 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
+Cc:     Alexandra Diupina <adiupina@astralinux.ru>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Andy Shevchenko <andy@kernel.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Rob Herring <robh@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-staging@lists.linux.dev, lvc-project@linuxtesting.org
-Subject: Re: [PATCH 2/4] Remove redundant return value check
-Message-ID: <g4btjscnffrzhip2lys7wezk5acebho44g6kawc5fc5p47pqxs@4lch6fjqesec>
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>, linux-media@vger.kernel.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        lvc-project@linuxtesting.org
+Subject: Re: [PATCH 1/4] Remove redundant return value check
+Message-ID: <ZUO7xUuZmIVp06sw@kekkonen.localdomain>
 References: <20231102141135.369-1-adiupina@astralinux.ru>
- <20231102141135.369-2-adiupina@astralinux.ru>
+ <b2aa6ccb-0a9a-449f-1341-fd71d5c545fd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231102141135.369-2-adiupina@astralinux.ru>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+In-Reply-To: <b2aa6ccb-0a9a-449f-1341-fd71d5c545fd@redhat.com>
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,58 +70,42 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexandra
+Hi Hans, Alexandra,
 
-On Thu, Nov 02, 2023 at 05:11:33PM +0300, Alexandra Diupina wrote:
-> media_entity_pads_init() will not return 0 only if the
-> 2nd parameter >= MEDIA_ENTITY_MAX_PADS (512), but 1 is
-> passed, so checking the return value is redundant
+On Thu, Nov 02, 2023 at 03:21:04PM +0100, Hans de Goede wrote:
+> Hi Alexandra,
+> 
+> On 11/2/23 15:11, Alexandra Diupina wrote:
+> > media_entity_pads_init() will not return 0 only if the
+> > 2nd parameter >= MEDIA_ENTITY_MAX_PADS (512), but 1 is
+> > passed, so checking the return value is redundant
+> 
+> Generally speaking functions which can fail should always be
+> error-checked even if their invocation today happen to be
+> such that they will not fail.
+> 
+> Either the invocation or the function itself my change
+> causing it to fail in the future. Which is why we want
+> to keep the error checks.
+> 
+> But maybe media_entity_pads_init() is special and
+> does not need to be error checked.
+> 
+> Sakari, Laurent do you have any opinion on this ?
+> 
+> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> This feels like a false positive of the tool to me,
+> but lets wait and see what Sakari or Laurent have
+> to say.
 
-I do also see
+I agree with Hans: this function today may not fail with the parameters
+passed to it but it may happen in the future. In general it's good to check
+a return value of a function that returns one: if that function is changed,
+no-one will go through the callers as long as the arguments and the return
+value remain the same.
 
-          if (hweight32(iter->flags & (MEDIA_PAD_FL_SINK |
-                                       MEDIA_PAD_FL_SOURCE)) != 1) {
-                  ret = -EINVAL;
-                  break;
-          }
+-- 
+Regards,
 
-as a possible failure in in media_entity_pads_init().
-
->
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
->
-> Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
-
-And this does not really qualify as a fix imho
-
-In general, being defensive and check for return errors in not a bad
-thing. I would keep the check in place, it really doesn't hurt.
-
-Same for the other patches in the series.
-
-Thanks
-  j
-
-> Signed-off-by: Alexandra Diupina <adiupina@astralinux.ru>
-> ---
->  drivers/media/i2c/rdacm20.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
->
-> diff --git a/drivers/media/i2c/rdacm20.c b/drivers/media/i2c/rdacm20.c
-> index f4e2e2f3972a..ed249ade54e0 100644
-> --- a/drivers/media/i2c/rdacm20.c
-> +++ b/drivers/media/i2c/rdacm20.c
-> @@ -611,9 +611,7 @@ static int rdacm20_probe(struct i2c_client *client)
->
->  	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
->  	dev->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> -	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
-> -	if (ret < 0)
-> -		goto error_free_ctrls;
-> +	media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
->
->  	ret = v4l2_async_register_subdev(&dev->sd);
->  	if (ret)
-> --
-> 2.30.2
->
+Sakari Ailus
