@@ -2,105 +2,177 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 495467DEACB
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 03:46:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AD05B7DECDE
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 07:31:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232276AbjKBCqB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 1 Nov 2023 22:46:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46314 "EHLO
+        id S232885AbjKBGbW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Nov 2023 02:31:22 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60124 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231574AbjKBCqA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 1 Nov 2023 22:46:00 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0A9DB83
-        for <linux-media@vger.kernel.org>; Wed,  1 Nov 2023 19:45:54 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 531F9C433C8
-        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 02:45:53 +0000 (UTC)
-Date:   Thu, 02 Nov 2023 03:45:51 +0100
-Message-ID: <9cafeadefaad9f17db0868a6670dd8b0.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
+        with ESMTP id S229445AbjKBGbV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 02:31:21 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2292A111;
+        Wed,  1 Nov 2023 23:31:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698906675; x=1730442675;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=UbNClqiwgxv+4c/yht6vSvAnCGJooAq0eVKMUfkCEks=;
+  b=EHbwHQ+0kjPv+rkXnbAjyxrkomzFVdCvK9mf4NXevGgMFbi4qCptblye
+   EFV+NxeVNGEoCIHSbUrEtbj7gHG/xcElZMqgxk9yo9cRmbg60YFijVIyU
+   8tB4L7C3XiLaFGvQOrOZzPXj3PXG2KPZzH5HjWC7tsNDMXjAly6r+aLCh
+   7ZdBAeIC7caG35qQljgaHj/VaCEKi34eMdeBjvHC78/u2qBna8yQ56gDp
+   ROzmxdqV8dD8D/m3YdyyAJeMd/jYc/XqCjobycmYba5YGAx9TrCqKjk46
+   GL3Zp6oC0ib5ipAkAgnE0+JXJn5M+YKSu/Bzw6ZTZ79L6UP0M4xoT/lRQ
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="392532818"
+X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
+   d="scan'208";a="392532818"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 23:30:49 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="827006106"
+X-IronPort-AV: E=Sophos;i="6.03,270,1694761200"; 
+   d="scan'208";a="827006106"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Nov 2023 23:30:46 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 2874111F9E8;
+        Thu,  2 Nov 2023 08:30:44 +0200 (EET)
+Date:   Thu, 2 Nov 2023 06:30:44 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        linux-media@vger.kernel.org,
+        Alain Volmat <alain.volmat@foss.st.com>, stable@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] media: v4l2-cci: Add support for little-endian
+ encoded registers
+Message-ID: <ZUNCFESRnKMwkHl7@kekkonen.localdomain>
+References: <20231101122354.270453-1-alexander.stein@ew.tq-group.com>
+ <20231101122354.270453-2-alexander.stein@ew.tq-group.com>
+ <20231102012217.GC5933@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231102012217.GC5933@pendragon.ideasonboard.com>
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Hi Laurent,
 
-Results of the daily build of media_tree:
+On Thu, Nov 02, 2023 at 03:22:17AM +0200, Laurent Pinchart wrote:
+> Hi Alexander,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Nov 01, 2023 at 01:23:53PM +0100, Alexander Stein wrote:
+> > Some sensors, e.g. Sony, are using little-endian registers. Add support for
+> 
+> I would write Sony IMX290 here, as there are Sony sensors that use big
+> endian.
 
-date:			Thu Nov  2 03:00:15 CET 2023
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	3e238417254bfdcc23fe207780b59cbb08656762
-v4l-utils git hash:	3d6682746de535d1f7aa71b43a30af40d52a539c
-edid-decode git hash:	100437cf02a3faafec59e9e863117fa53e925aa6
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8494-gc4f4869a
-sparse version:		v0.5.0-8494-gc4f4869a
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: a6e978cf5c59a26504d37fee4ae779ecc19359fb
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+Almost all of them. There are a few exceptions indeed. This seems to be a
+bug.
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+> 
+> > those by encoding the endianess into Bit 20 of the register address.
+> > 
+> > Fixes: af73323b97702 ("media: imx290: Convert to new CCI register access helpers")
+> > Cc: stable@vger.kernel.org
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> >  drivers/media/v4l2-core/v4l2-cci.c | 44 ++++++++++++++++++++++++------
+> >  include/media/v4l2-cci.h           |  5 ++++
+> >  2 files changed, 41 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
+> > index bc2dbec019b04..673637b67bf67 100644
+> > --- a/drivers/media/v4l2-core/v4l2-cci.c
+> > +++ b/drivers/media/v4l2-core/v4l2-cci.c
+> > @@ -18,6 +18,7 @@
+> >  
+> >  int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+> >  {
+> > +	bool little_endian;
+> >  	unsigned int len;
+> >  	u8 buf[8];
+> >  	int ret;
+> > @@ -25,6 +26,7 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+> >  	if (err && *err)
+> >  		return *err;
+> >  
+> > +	little_endian = reg & CCI_REG_LE;
+> 
+> You could initialize the variable when declaring it. Same below.
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+I was thinking of the same, but then it'd be logical to move initialisation
+of all related variables there. reg is modified here though. I'd keep
+setting little_endian here. If someone wants to move it, that could be done
+in a separate patch.
 
-smatch: WARNINGS:
+> 
+> >  	len = FIELD_GET(CCI_REG_WIDTH_MASK, reg);
+> >  	reg = FIELD_GET(CCI_REG_ADDR_MASK, reg);
+> >  
+> > @@ -40,16 +42,28 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+> >  		*val = buf[0];
+> >  		break;
+> >  	case 2:
+> > -		*val = get_unaligned_be16(buf);
+> > +		if (little_endian)
+> > +			*val = get_unaligned_le16(buf);
+> > +		else
+> > +			*val = get_unaligned_be16(buf);
+> 
+> Unrelated to this patch, isn't buf aligned to a 4 bytes boundary ?
 
-drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+Very probably, as it's right after len that's an unsigned int. Adding
+__aligned(8) would ensure we don't need any of the unaligned variants, and
+most likely would keep the stack layout as-is.
 
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+Or... how about putting it in an union with a u64? That would mean it's
+accessible as u64 alignment-wise while the alignment itself is up to the
+ABI. A comment would be good to have probably.
 
-date:			Thu Nov  2 03:16:11 CET 2023
-virtme-64: WARNINGS: Final Summary: 3218, Succeeded: 3218, Failed: 0, Warnings: 3
-virtme-32: WARNINGS: Final Summary: 3342, Succeeded: 3342, Failed: 0, Warnings: 4
+> 
+> >  		break;
+> >  	case 3:
+> > -		*val = get_unaligned_be24(buf);
+> > +		if (little_endian)
+> > +			*val = get_unaligned_le24(buf);
+> > +		else
+> > +			*val = get_unaligned_be24(buf);
+> >  		break;
+> >  	case 4:
+> > -		*val = get_unaligned_be32(buf);
+> > +		if (little_endian)
+> > +			*val = get_unaligned_le32(buf);
+> > +		else
+> > +			*val = get_unaligned_be32(buf);
+> >  		break;
+> >  	case 8:
+> > -		*val = get_unaligned_be64(buf);
+> > +		if (little_endian)
+> > +			*val = get_unaligned_le64(buf);
+> > +		else
+> > +			*val = get_unaligned_be64(buf);
+> >  		break;
+> >  	default:
+> >  		dev_err(regmap_get_device(map), "Error invalid reg-width %u for reg 0x%04x\n",
 
-date:			Thu Nov  2 03:44:41 CET 2023
+-- 
+Regards,
 
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Sakari Ailus
