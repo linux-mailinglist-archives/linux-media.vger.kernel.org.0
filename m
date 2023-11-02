@@ -2,60 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA15D7DEF37
-	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 10:52:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 550C07DEF48
+	for <lists+linux-media@lfdr.de>; Thu,  2 Nov 2023 10:57:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345921AbjKBJvG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Nov 2023 05:51:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52374 "EHLO
+        id S1345740AbjKBJ4n (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 2 Nov 2023 05:56:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345773AbjKBJvE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 05:51:04 -0400
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE7AF112;
-        Thu,  2 Nov 2023 02:50:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1698918658; x=1730454658;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=NaJ2q2zJKbE26FFfK49AlCMhE7vPGcEXpXAZjNOL0ss=;
-  b=BrOpDaFtAk/KYkGrhd8AEmYVibp3OYpyYINHrHbNmlBptkjoAHQuKBRe
-   ULLhhvOmSLcupQ3UuG6p+OKxGpX0OCr9nY/xhEwCb60gbLS6hqc+d+5uy
-   YRq5KhODAJeVk6a44BJq/SFrhRQAjUTqV7fQswUxEQVf9fBVZiUYZ3G5u
-   X5bWDDXYIEUaVRSB8xN7es7QmAYccK3/LaS5OWIViZLRkgipBqkRZBaNi
-   vVmtNzYBhlqyGId20QRUc4PqVlXllxaP1H0u3Zwp0wNDgYlUOoyZhXOIJ
-   bgLByCvwn/mDtzE0qVxoDEqy/3+Z92YR7a4PnSgB6W4kZnrr1FMbXwIeL
-   Q==;
-X-IronPort-AV: E=Sophos;i="6.03,271,1694728800"; 
-   d="scan'208";a="33774789"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 02 Nov 2023 10:50:50 +0100
-Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.18])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-        (No client certificate requested)
-        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6CDCF28007F;
-        Thu,  2 Nov 2023 10:50:50 +0100 (CET)
-From:   Alexander Stein <alexander.stein@ew.tq-group.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Manivannan Sadhasivam <mani@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans de Goede <hdegoede@redhat.com>
+        with ESMTP id S1345500AbjKBJ4l (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 05:56:41 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4EF94111;
+        Thu,  2 Nov 2023 02:56:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1698918997; x=1730454997;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=PkCv5coVm6MI+afPmj5XnQkBhhUGMf2RZ6miMKW3h2Y=;
+  b=BEdEBKEpkmmGvuVqw704BKZiR7u6oM3xN5RANEqMNRC2sXMdkn2bSiQC
+   fIsWNMBCdmoSz6RNhImm7khgPVm5iXp3TUN4dgQy4zBdSkC/TAI7E9GH7
+   npjabwSAwgYyL07XN8oy1x2FdzFUZD6j2sYuKIViZjOx8/v5jeByeaYDC
+   xM7H3OukQSydtCpPDmZUlUNiBoxOB3Y8XvqfFUBW1bNllQQi7Exa5YzVz
+   kx65q7AQwxFfKWZZncQlO5PhvJXpIPRONzHXq089dGAdQPQP3gNdS+OEY
+   W/5j802EvYClKdMteHiVi7dLwCexArPCOwwmyvI+Y9QfcN84QR/DWupch
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="7315564"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="7315564"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 02:56:36 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10881"; a="711092221"
+X-IronPort-AV: E=Sophos;i="6.03,271,1694761200"; 
+   d="scan'208";a="711092221"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2023 02:56:27 -0700
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+        by kekkonen.fi.intel.com (Postfix) with SMTP id 3E36C12035D;
+        Thu,  2 Nov 2023 11:56:24 +0200 (EET)
+Date:   Thu, 2 Nov 2023 09:56:24 +0000
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans de Goede <hdegoede@redhat.com>
 Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Manivannan Sadhasivam <mani@kernel.org>,
         linux-media@vger.kernel.org,
         Alain Volmat <alain.volmat@foss.st.com>, stable@vger.kernel.org
-Subject: [PATCH v3 2/2] media: i2c: imx290: Properly encode registers as little-endian
-Date:   Thu,  2 Nov 2023 10:50:48 +0100
-Message-Id: <20231102095048.3222110-3-alexander.stein@ew.tq-group.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20231102095048.3222110-1-alexander.stein@ew.tq-group.com>
-References: <20231102095048.3222110-1-alexander.stein@ew.tq-group.com>
+Subject: Re: [PATCH v2 1/2] media: v4l2-cci: Add support for little-endian
+ encoded registers
+Message-ID: <ZUNySNCX1O2Lk0iC@kekkonen.localdomain>
+References: <20231101122354.270453-1-alexander.stein@ew.tq-group.com>
+ <20231102012217.GC5933@pendragon.ideasonboard.com>
+ <ZUNCFESRnKMwkHl7@kekkonen.localdomain>
+ <4980064.31r3eYUQgx@steina-w>
+ <ZUNc-LRZiotD3OsK@kekkonen.localdomain>
+ <597e7a7f-06e9-6f6f-2b27-1fa02ca046ad@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <597e7a7f-06e9-6f6f-2b27-1fa02ca046ad@redhat.com>
+X-Spam-Status: No, score=-2.4 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_NONE,
         T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -64,92 +73,138 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The conversion to CCI also converted the multi-byte register access to
-big-endian. Correct the register definition by using the correct
-little-endian ones.
+On Thu, Nov 02, 2023 at 10:27:45AM +0100, Hans de Goede wrote:
+> Hi,
+> 
+> On 11/2/23 09:25, Sakari Ailus wrote:
+> > Hi Alexander,
+> > 
+> > On Thu, Nov 02, 2023 at 08:51:12AM +0100, Alexander Stein wrote:
+> >> Hi,
+> >>
+> >> thanks for the feedback.
+> >>
+> >> Am Donnerstag, 2. November 2023, 07:30:44 CET schrieb Sakari Ailus:
+> >>> Hi Laurent,
+> >>>
+> >>> On Thu, Nov 02, 2023 at 03:22:17AM +0200, Laurent Pinchart wrote:
+> >>>> Hi Alexander,
+> >>>>
+> >>>> Thank you for the patch.
+> >>>>
+> >>>> On Wed, Nov 01, 2023 at 01:23:53PM +0100, Alexander Stein wrote:
+> >>>>> Some sensors, e.g. Sony, are using little-endian registers. Add support
+> >>>>> for
+> >>>>
+> >>>> I would write Sony IMX290 here, as there are Sony sensors that use big
+> >>>> endian.
+> >>>
+> >>> Almost all of them. There are a few exceptions indeed. This seems to be a
+> >>> bug.
+> >>
+> >> Let's name IMX290 here as an actual example. No need to worry about other 
+> >> models here.
+> >>
+> >>>>> those by encoding the endianess into Bit 20 of the register address.
+> >>>>>
+> >>>>> Fixes: af73323b97702 ("media: imx290: Convert to new CCI register access
+> >>>>> helpers") Cc: stable@vger.kernel.org
+> >>>>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> >>>>> ---
+> >>>>>
+> >>>>>  drivers/media/v4l2-core/v4l2-cci.c | 44 ++++++++++++++++++++++++------
+> >>>>>  include/media/v4l2-cci.h           |  5 ++++
+> >>>>>  2 files changed, 41 insertions(+), 8 deletions(-)
+> >>>>>
+> >>>>> diff --git a/drivers/media/v4l2-core/v4l2-cci.c
+> >>>>> b/drivers/media/v4l2-core/v4l2-cci.c index bc2dbec019b04..673637b67bf67
+> >>>>> 100644
+> >>>>> --- a/drivers/media/v4l2-core/v4l2-cci.c
+> >>>>> +++ b/drivers/media/v4l2-core/v4l2-cci.c
+> >>>>> @@ -18,6 +18,7 @@
+> >>>>>
+> >>>>>  int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
+> >>>>>  {
+> >>>>>
+> >>>>> +	bool little_endian;
+> >>>>>
+> >>>>>  	unsigned int len;
+> >>>>>  	u8 buf[8];
+> >>>>>  	int ret;
+> >>>>>
+> >>>>> @@ -25,6 +26,7 @@ int cci_read(struct regmap *map, u32 reg, u64 *val,
+> >>>>> int *err)> > 
+> >>>>>  	if (err && *err)
+> >>>>>  	
+> >>>>>  		return *err;
+> >>>>>
+> >>>>> +	little_endian = reg & CCI_REG_LE;
+> >>>>
+> >>>> You could initialize the variable when declaring it. Same below.
+> >>>
+> >>> I was thinking of the same, but then it'd be logical to move initialisation
+> >>> of all related variables there. reg is modified here though. I'd keep
+> >>> setting little_endian here. If someone wants to move it, that could be done
+> >>> in a separate patch.
+> >>>
+> >>>>>  	len = FIELD_GET(CCI_REG_WIDTH_MASK, reg);
+> >>>>>  	reg = FIELD_GET(CCI_REG_ADDR_MASK, reg);
+> >>>>>
+> >>>>> @@ -40,16 +42,28 @@ int cci_read(struct regmap *map, u32 reg, u64 *val,
+> >>>>> int *err)> > 
+> >>>>>  		*val = buf[0];
+> >>>>>  		break;
+> >>>>>  	
+> >>>>>  	case 2:
+> >>>>> -		*val = get_unaligned_be16(buf);
+> >>>>> +		if (little_endian)
+> >>>>> +			*val = get_unaligned_le16(buf);
+> >>>>> +		else
+> >>>>> +			*val = get_unaligned_be16(buf);
+> >>>>
+> >>>> Unrelated to this patch, isn't buf aligned to a 4 bytes boundary ?
+> >>>
+> >>> Very probably, as it's right after len that's an unsigned int. Adding
+> >>> __aligned(8) would ensure we don't need any of the unaligned variants, and
+> >>> most likely would keep the stack layout as-is.
+> >>
+> >> You mean something like this?
+> >>
+> >> u8 __aligned(8) buf[8];
+> >> [...]
+> >> if (little_endian)
+> >> 	*val = le64_to_cpup(buf);
+> >> else
+> >> 	*val = be64_to_cpup(buf);
+> >>
+> >> But what about 24 Bits? There is no le24_to_cpup. I would rather use the same 
+> >> API for all cases.
+> > 
+> > The aligned APIs are much better choice when you can use them. The 24 bit
+> > case can remain special IMO.
+> > 
+> >>
+> >>> Or... how about putting it in an union with a u64? That would mean it's
+> >>> accessible as u64 alignment-wise while the alignment itself is up to the
+> >>> ABI. A comment would be good to have probably.
+> >>
+> >> An additional union seems a bit too much here. Unless something suitable 
+> >> already exists for general usage.
+> > 
+> > I think it's nicer than using __aligned() as you get ABI alignment that
+> > way, not something you force manually --- that's a bit crude.
+> > 
+> > I wonder that others think.
+> 
+> I'm fine with adding the __aligned(8) and switching the non 24 bit
+> cases to helpers which assume alignment. The most important note
+> I have is that that is a separate improvement from this series though.
+> 
+> So this should be done in a follow-up patch which is not Cc: stable .
 
-Fixes: af73323b97702 ("media: imx290: Convert to new CCI register access helpers")
-Cc: stable@vger.kernel.org
-Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/media/i2c/imx290.c | 42 +++++++++++++++++++-------------------
- 1 file changed, 21 insertions(+), 21 deletions(-)
+I'm fine with that.
 
-diff --git a/drivers/media/i2c/imx290.c b/drivers/media/i2c/imx290.c
-index 29098612813cb..c6fea5837a19f 100644
---- a/drivers/media/i2c/imx290.c
-+++ b/drivers/media/i2c/imx290.c
-@@ -41,18 +41,18 @@
- #define IMX290_WINMODE_720P				(1 << 4)
- #define IMX290_WINMODE_CROP				(4 << 4)
- #define IMX290_FR_FDG_SEL				CCI_REG8(0x3009)
--#define IMX290_BLKLEVEL					CCI_REG16(0x300a)
-+#define IMX290_BLKLEVEL					CCI_REG16_LE(0x300a)
- #define IMX290_GAIN					CCI_REG8(0x3014)
--#define IMX290_VMAX					CCI_REG24(0x3018)
-+#define IMX290_VMAX					CCI_REG24_LE(0x3018)
- #define IMX290_VMAX_MAX					0x3ffff
--#define IMX290_HMAX					CCI_REG16(0x301c)
-+#define IMX290_HMAX					CCI_REG16_LE(0x301c)
- #define IMX290_HMAX_MAX					0xffff
--#define IMX290_SHS1					CCI_REG24(0x3020)
-+#define IMX290_SHS1					CCI_REG24_LE(0x3020)
- #define IMX290_WINWV_OB					CCI_REG8(0x303a)
--#define IMX290_WINPV					CCI_REG16(0x303c)
--#define IMX290_WINWV					CCI_REG16(0x303e)
--#define IMX290_WINPH					CCI_REG16(0x3040)
--#define IMX290_WINWH					CCI_REG16(0x3042)
-+#define IMX290_WINPV					CCI_REG16_LE(0x303c)
-+#define IMX290_WINWV					CCI_REG16_LE(0x303e)
-+#define IMX290_WINPH					CCI_REG16_LE(0x3040)
-+#define IMX290_WINWH					CCI_REG16_LE(0x3042)
- #define IMX290_OUT_CTRL					CCI_REG8(0x3046)
- #define IMX290_ODBIT_10BIT				(0 << 0)
- #define IMX290_ODBIT_12BIT				(1 << 0)
-@@ -78,28 +78,28 @@
- #define IMX290_ADBIT2					CCI_REG8(0x317c)
- #define IMX290_ADBIT2_10BIT				0x12
- #define IMX290_ADBIT2_12BIT				0x00
--#define IMX290_CHIP_ID					CCI_REG16(0x319a)
-+#define IMX290_CHIP_ID					CCI_REG16_LE(0x319a)
- #define IMX290_ADBIT3					CCI_REG8(0x31ec)
- #define IMX290_ADBIT3_10BIT				0x37
- #define IMX290_ADBIT3_12BIT				0x0e
- #define IMX290_REPETITION				CCI_REG8(0x3405)
- #define IMX290_PHY_LANE_NUM				CCI_REG8(0x3407)
- #define IMX290_OPB_SIZE_V				CCI_REG8(0x3414)
--#define IMX290_Y_OUT_SIZE				CCI_REG16(0x3418)
--#define IMX290_CSI_DT_FMT				CCI_REG16(0x3441)
-+#define IMX290_Y_OUT_SIZE				CCI_REG16_LE(0x3418)
-+#define IMX290_CSI_DT_FMT				CCI_REG16_LE(0x3441)
- #define IMX290_CSI_DT_FMT_RAW10				0x0a0a
- #define IMX290_CSI_DT_FMT_RAW12				0x0c0c
- #define IMX290_CSI_LANE_MODE				CCI_REG8(0x3443)
--#define IMX290_EXTCK_FREQ				CCI_REG16(0x3444)
--#define IMX290_TCLKPOST					CCI_REG16(0x3446)
--#define IMX290_THSZERO					CCI_REG16(0x3448)
--#define IMX290_THSPREPARE				CCI_REG16(0x344a)
--#define IMX290_TCLKTRAIL				CCI_REG16(0x344c)
--#define IMX290_THSTRAIL					CCI_REG16(0x344e)
--#define IMX290_TCLKZERO					CCI_REG16(0x3450)
--#define IMX290_TCLKPREPARE				CCI_REG16(0x3452)
--#define IMX290_TLPX					CCI_REG16(0x3454)
--#define IMX290_X_OUT_SIZE				CCI_REG16(0x3472)
-+#define IMX290_EXTCK_FREQ				CCI_REG16_LE(0x3444)
-+#define IMX290_TCLKPOST					CCI_REG16_LE(0x3446)
-+#define IMX290_THSZERO					CCI_REG16_LE(0x3448)
-+#define IMX290_THSPREPARE				CCI_REG16_LE(0x344a)
-+#define IMX290_TCLKTRAIL				CCI_REG16_LE(0x344c)
-+#define IMX290_THSTRAIL					CCI_REG16_LE(0x344e)
-+#define IMX290_TCLKZERO					CCI_REG16_LE(0x3450)
-+#define IMX290_TCLKPREPARE				CCI_REG16_LE(0x3452)
-+#define IMX290_TLPX					CCI_REG16_LE(0x3454)
-+#define IMX290_X_OUT_SIZE				CCI_REG16_LE(0x3472)
- #define IMX290_INCKSEL7					CCI_REG8(0x3480)
- 
- #define IMX290_PGCTRL_REGEN				BIT(0)
+So I think these are good as-is then.
+
 -- 
-2.34.1
-
+Sakari Ailus
