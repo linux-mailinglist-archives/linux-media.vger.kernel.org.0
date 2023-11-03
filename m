@@ -2,85 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D0357E01C4
-	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 12:14:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C91BF7E02D2
+	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 13:29:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376763AbjKCKoa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Nov 2023 06:44:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32806 "EHLO
+        id S1376437AbjKCM3K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Nov 2023 08:29:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39814 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1377838AbjKCKo1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 06:44:27 -0400
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178C5D59
-        for <linux-media@vger.kernel.org>; Fri,  3 Nov 2023 03:44:19 -0700 (PDT)
-Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2c518a1d83fso25727341fa.3
-        for <linux-media@vger.kernel.org>; Fri, 03 Nov 2023 03:44:19 -0700 (PDT)
+        with ESMTP id S1376424AbjKCM3J (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 08:29:09 -0400
+Received: from mail-wm1-x32c.google.com (mail-wm1-x32c.google.com [IPv6:2a00:1450:4864:20::32c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 041C3D4C
+        for <linux-media@vger.kernel.org>; Fri,  3 Nov 2023 05:29:02 -0700 (PDT)
+Received: by mail-wm1-x32c.google.com with SMTP id 5b1f17b1804b1-409299277bbso14348315e9.2
+        for <linux-media@vger.kernel.org>; Fri, 03 Nov 2023 05:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699008257; x=1699613057; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=c5nLolPwuJpq0W0yvjQJguc5sT9X9KBoVJr/KRt6GGU=;
-        b=uqChyuT+DOS51LiRh9a/iv3r0te8urzMp7RKtCJhnVyGS5tbXaeisW1dFJss0KqNNj
-         gus+iv2Y5VRO36R6caxwLwT+r4xolyunvj298sRcTylpyd9AM8AJ3MZdv6a2O65oee8X
-         7ivWEAihTmKkMWiFpkwcwcBJPsQ1/ez01z+USF8PgjLr2mIQeFgmF0RGs+vDhOpD2Y9c
-         Dy4oIJpR9UTkt25cyQEpq0jJ2iSe+Q/MV2IGp5D/DRov5Sie2+9GowUMj+VqoQfGnwm+
-         6bUpIEPDxX7k0VqUpJrhMkmyZfygjRUwX5sSIMshZx6b6f7oSyCGaRwmO/QiWKH86e+B
-         5scw==
+        d=linaro.org; s=google; t=1699014541; x=1699619341; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=69RTn5IrZmK+iyMmM8HAfSJq1sc+QNxh8s15vQtubiw=;
+        b=wQOrTBNaAp0vxCN7tqIqDueAbXw5K5aaz/be9MpcZKWDoz0oWy/eveTdFQzokULDL0
+         MTfFoI4qivpyGCixd3GQTTugalPTHASD5dt49+M4wyNzXty1n+9WRxsYT1B+/M5qRzNe
+         twiwdDH4hcUvwNaT/vhR4tACoz3UY0Lg4Te0R4oEAs3hCKjPxLuKSZg6vPobRfbeWcJi
+         67idWfJ0xy/fhwsKZJzW6iTYB1hCQUWJVcTaVVy+MT1vZjI0Op2Lzo21rebdNf43pWWX
+         pvJIYAk9+8D1AQKOJtYkN/oX650oT6/F98NQPmBxGU4ha3IdDED1Sxn7ipj/Xiiq8sP0
+         lszw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699008257; x=1699613057;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=c5nLolPwuJpq0W0yvjQJguc5sT9X9KBoVJr/KRt6GGU=;
-        b=SneXfnshOaSNpamOwJyzpG5yTd9rv5NppuupYk5dBjmKkZX9mnngWkx7O3wtBsOzCZ
-         yTvo0IWn4iu2P9JtJv+oz7vbEtcAQrBXjpy+Mv5uMGpJEQPsoMd+I21xoiLCnrsELvD8
-         CwOUkK1FgLSm1ARWGVRb4hEQrgQsE8AIR0CY1U5ds01yl4XndftmZawgo4RI+LtbpeBk
-         V16FeXCpAae5ohufm/seCcEo7RZhUJO/zqIzfs/c3aglw+Gwetxfa5aE8iREgPSg4YQG
-         EwA/ifNdRNN+dTpMhbvBCIgoa2321axUUrtCXP72G/DnccSB+piwM65ND/i/veCXkVlv
-         Y8Nw==
-X-Gm-Message-State: AOJu0YzpLILWdEzpujO3+bF+V/ssPGiAmseLjarHft7GinSFZzdqM1U5
-        ygZYBcI9Cj6SEHlvLmFvLeX0XA==
-X-Google-Smtp-Source: AGHT+IGWyRsXFk6LHw2H/ZIpZhZ8RL6RZVkgocUX8w24VSIFhdIXzdR+tNgUainvl9TtQl7/CIm11Q==
-X-Received: by 2002:a19:2d0a:0:b0:507:c7cc:12d7 with SMTP id k10-20020a192d0a000000b00507c7cc12d7mr14426147lfj.4.1699008257167;
-        Fri, 03 Nov 2023 03:44:17 -0700 (PDT)
-Received: from [192.168.100.102] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id f6-20020a5d5686000000b0032f7eaa6e43sm1526650wrv.79.2023.11.03.03.44.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 03 Nov 2023 03:44:16 -0700 (PDT)
-Message-ID: <fe05a0f5-2f57-4f98-afe6-3b0acbaa96fe@linaro.org>
-Date:   Fri, 3 Nov 2023 10:44:14 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v3 5/5] venus: pm_helpers: Use
- dev_pm_genpd_set_hwmode to switch GDSC mode
-Content-Language: en-US
-To:     Abel Vesa <abel.vesa@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Taniya Das <tdas@qti.qualcomm.com>, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-media@vger.kernel.org,
-        Jagadeesh Kona <quic_jkona@quicinc.com>
-References: <20231101-gdsc-hwctrl-v3-0-0740ae6b2b04@linaro.org>
- <20231101-gdsc-hwctrl-v3-5-0740ae6b2b04@linaro.org>
+        d=1e100.net; s=20230601; t=1699014541; x=1699619341;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=69RTn5IrZmK+iyMmM8HAfSJq1sc+QNxh8s15vQtubiw=;
+        b=b9tCSoPQdqs/OII8gXsPOIoYA0xs2tXZH5PuLwOmNsm+B2ATIBBzLT3b6ungMrtYwm
+         tp8XXGCc6avrl1HBEgQCrXIWM+IDwOL/XpELAUphdSSE7qN32IKo4zupSH5AuO+1/nZf
+         U79evDXmo43UGlBOvZS+nphaLPuQ+C/NWULuiUXHEqx4yO3QwFumtYuvkSDN9gufUhdY
+         BRFy8uV6i8upSL+pRe0ExK5RTORvUAp006d4ju/nGvyPIBQ4PEug34VeXiAXSLbKZhOF
+         tLfqus2YZ5hy+bi07ELBN+jXkbN4fl6DAUXyNAF+/36nXAMKor17khc9fypUWqrFsTZT
+         Exhw==
+X-Gm-Message-State: AOJu0Yz5z8NZhS1gkph9rAkm1pXqfgXEm3nW/bLEhbwIX+eiLeup0SwJ
+        FeAW30S0GE82+f7KST9jrXr7Zg==
+X-Google-Smtp-Source: AGHT+IHBf4PI2hhViJetuHu7z99kdBhrGsozYp1jqUi8ETllC/NNGHTliL8Gf2BBJVX6n3wsvAMQPQ==
+X-Received: by 2002:a05:600c:310d:b0:408:3975:e225 with SMTP id g13-20020a05600c310d00b004083975e225mr16970590wmo.40.1699014540932;
+        Fri, 03 Nov 2023 05:29:00 -0700 (PDT)
+Received: from [127.0.0.1] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id ay8-20020a05600c1e0800b0040772138bb7sm2402918wmb.2.2023.11.03.05.28.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Nov 2023 05:29:00 -0700 (PDT)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <20231101-gdsc-hwctrl-v3-5-0740ae6b2b04@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Subject: [PATCH v4 0/7] media: qcom: camss: Introduce support for named
+ power-domains
+Date:   Fri, 03 Nov 2023 12:28:57 +0000
+Message-Id: <20231103-b4-camss-named-power-domains-v4-0-33a905359dbc@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
+X-B4-Tracking: v=1; b=H4sIAIrnRGUC/4XOMY7CMBCF4asg10xkj22QqLgHonDsSWKJeNCYz
+ YJQ7o5hG7ot/+Z776kqSaaqDpunElpyzVxauO1GxSmUkSCn1go1WqOtgd5BDHOtUMJMCa78SwK
+ J55BLhRgxRNwjemdVI65CQ75/+NO59SA8w20SCl8o7oz32mHnvdm3hbYhj1A6Tlx4nH7oeMklC
+ Hcs4xudcr2xPD6XF/um/yCj/3m3WNDQ92nwA6LbYfiGz+u6vgDZ72wxDgEAAA==
+To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+X-Mailer: b4 0.13-dev-26615
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
@@ -91,36 +82,130 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/11/2023 09:04, Abel Vesa wrote:
-> From: Jagadeesh Kona <quic_jkona@quicinc.com>
-> 
-> This change demonstrates the use of dev_pm_genpd_set_hwmode API from
-> video driver to switch the video mvs0 gdsc to SW/HW modes at runtime
-> based on requirement.
-> 
-> This change adds a new boolean array member vcodec_pmdomains_hwctrl in
-> venus_resources structure to indicate if GDSC's have HW control support
-> or not. This data is used in vcodec_control_v4() to check if GDSC has
-> support to switch to HW control mode and then call dev_pm_genpd_set_hwmode
-> to switch the GDSC mode.
-> 
-> Before the GDSC HWCTL was available to the consumer, the venus driver
-> needed to somehow keep the power from collapsing while under the driver
-> control. The only way to do that was to clear the CORE_PWR_DISABLE bit
-> (in wrapper POWER_CONTROL register) and, respectively, set it back after
-> the driver control was completed.
-> 
-> Now, that there is a way to switch the GDSC HW/SW control back and
-> forth, the CORE_PWR_DISABLE toggling can be dropped.
-> 
-> Signed-off-by: Jagadeesh Kona <quic_jkona@quicinc.com>
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+V4:
+- Updates camss_configure_pd() to use has_pd to determine if
+  a VFE has a pd instead of comparing to vfe_num
+- Brings in is_lite fixes from Matti
+  The determination of IS_LITE() has been a running sore in this code for
+  some time.
 
-So I plan to give this a test on rb5 and db410c
+  Named power domains remove magic index dependencies.
+  Similarly adding an "is_lite" flag to our resources removes the last
+  of the magic indexing sins, so this is an opportune series to add it in.
 
-My q here though is - has anybody on the submission list tested this 
-through suspend/resume and vdd min ?
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/b4/b4-camss-named-power-domains-v4
+sm8250-testable: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/b4/b4-camss-named-power-domains-v4+sm8250
+Link: https://lore.kernel.org/r/20231101-b4-camss-named-power-domains-v3-0-bbdf5f22462a@linaro.org
+
+V3:
+- Includes bugfix reported on IRC
+  genpd_link and genpd should be checked for NULL on the cleanup path.
+  Matti Lehtimäki 
+- Retains NULL check before dev_pm_domain_attach_by_name()
+  I experimented with the suggested drop but of_property_match_string()
+  chokes
+  Link: https://lore.kernel.org/lkml/883ce8a7-80e1-4065-a957-424d0b4a6535@linaro.org/T/#m10e5a43d0245f13eca177ef2f65b24259c641030
+  Konrad
+- Fixes spelling caught by codespell - Konrad
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/b4/b4-camss-named-power-domains-v3
+sm8250-testable: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/b4/b4-camss-named-power-domains-v3+sm8250
+
+V2:
+- Incorporates Konrad's suggestion re: removing 'id'
+- Adds RB - Konrad
+- Adds in a flag to indicate if a VFE has a power domain.
+  As I rebased this series I realised we had some magic indexing for VFE v
+  VFE Lite, which isn't the root cause of my bug bear in this series but is
+  the same sin - inferring functionality from indexing.
+  Once we transition fully to named pds we won't need a 'has_pd' to flag
+  which VFEs need power-domain attachment and which don't.
+  That transition will require populating all upstream dtsi with pd-names
+  and then deprecating the old way.
+  has_pd is a far better choice than inferring from indexes so, I've added.
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/commits/aa45a2b58aa1e187a2698a65164d694251f08fa1
+
+V1:
+At the moment the Qcom CAMSS driver relies on the declaration order of
+power-domains within the dtsi to determine which power-domain relates to a
+VFE and which power-domain relates to the top-level (top) CAMSS
+power-domain.
+
+VFE power-domains must be declared prior to the top power-domain. The top
+power-domain must be declared last. Early SoCs have just one top
+power-domain with later SoCs introducing VFE specific power-domains.
+
+Differentiating between the number of power-domains results in lots of code
+which is brittle and which we can mostly get rid of with named
+power-domains.
+
+The reliance on declaration ordering is in-effect magic number indexing.
+
+This series introduces named power-domains for CAMSS and refactors some of
+the code in CAMSS to support the new named power-domains. We continue to
+support the legacy indexing model with an intention to remove after a
+reasonable transition period.
+
+New SoC additions should use named power-domains from now on.
+
+Tested on x13s, rb5, db410c
+
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/linux-next-23-10-23-camss-named-power-domains
+
+Bryan O'Donoghue (5):
+  media: qcom: camss: Flag which VFEs require a power-domain
+  media: qcom: camss: Convert to per-VFE pointer for power-domain
+    linkages
+  media: qcom: camss: Use common VFE pm_domain_on/pm_domain_off where
+    applicable
+  media: qcom: camss: Move VFE power-domain specifics into vfe.c
+  media: qcom: camss: Add support for named power-domains
+
+ .../media/platform/qcom/camss/camss-vfe-170.c | 36 --------
+ .../media/platform/qcom/camss/camss-vfe-4-1.c |  8 +-
+ .../media/platform/qcom/camss/camss-vfe-4-7.c | 36 --------
+ .../media/platform/qcom/camss/camss-vfe-4-8.c | 31 -------
+ .../media/platform/qcom/camss/camss-vfe-480.c | 36 --------
+ drivers/media/platform/qcom/camss/camss-vfe.c | 77 ++++++++++++++++
+ drivers/media/platform/qcom/camss/camss-vfe.h | 16 ++++
+ drivers/media/platform/qcom/camss/camss.c     | 87 ++++++++++++-------
+ drivers/media/platform/qcom/camss/camss.h     |  7 +-
+ 9 files changed, 156 insertions(+), 178 deletions(-)
+
+--
+2.42.0
 
 ---
-bod
+Bryan O'Donoghue (5):
+      media: qcom: camss: Flag which VFEs require a power-domain
+      media: qcom: camss: Convert to per-VFE pointer for power-domain linkages
+      media: qcom: camss: Use common VFE pm_domain_on/pm_domain_off where applicable
+      media: qcom: camss: Move VFE power-domain specifics into vfe.c
+      media: qcom: camss: Add support for named power-domains
+
+Matti Lehtimäki (2):
+      media: qcom: camss: Flag VFE-lites to support more VFEs
+      media: qcom: camss: Flag CSID-lites to support more CSIDs
+
+ .../media/platform/qcom/camss/camss-csid-gen2.c    |  31 +++---
+ drivers/media/platform/qcom/camss/camss-csid.c     |   5 +
+ drivers/media/platform/qcom/camss/camss-csid.h     |   7 ++
+ drivers/media/platform/qcom/camss/camss-vfe-170.c  |  36 -------
+ drivers/media/platform/qcom/camss/camss-vfe-4-1.c  |   8 +-
+ drivers/media/platform/qcom/camss/camss-vfe-4-7.c  |  36 -------
+ drivers/media/platform/qcom/camss/camss-vfe-4-8.c  |  31 ------
+ drivers/media/platform/qcom/camss/camss-vfe-480.c  |  69 +++---------
+ drivers/media/platform/qcom/camss/camss-vfe.c      |  84 +++++++++++++++
+ drivers/media/platform/qcom/camss/camss-vfe.h      |  26 +++++
+ drivers/media/platform/qcom/camss/camss.c          | 117 +++++++++++++--------
+ drivers/media/platform/qcom/camss/camss.h          |  10 +-
+ 12 files changed, 237 insertions(+), 223 deletions(-)
+---
+base-commit: 48016737a9af47328dd321df4dd3479ed5e2041d
+change-id: 20231031-b4-camss-named-power-domains-cc2ac2722543
+
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
