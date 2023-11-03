@@ -2,81 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 949C07E067B
-	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 17:26:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AFAE7E0758
+	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 18:25:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345638AbjKCQZd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Nov 2023 12:25:33 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37068 "EHLO
+        id S1376525AbjKCRZo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Nov 2023 13:25:44 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345068AbjKCQZY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 12:25:24 -0400
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59C63D60
-        for <linux-media@vger.kernel.org>; Fri,  3 Nov 2023 09:25:15 -0700 (PDT)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-40837ebba42so14611215e9.0
-        for <linux-media@vger.kernel.org>; Fri, 03 Nov 2023 09:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699028714; x=1699633514; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=6nsxT65QcBic5QpwyMNIvqdwRkRC1mARnt5d+1mQIn0=;
-        b=koVvCQPrLrSGuPV2Ef2SpA7bmvgvl9CfCUItewz0iPUS1oYk7dhEGRJWgr/CAI2U6A
-         73UjMJe1UihIkDtxBLftzgyjouoln5+llsVYOKnI0TozcvzA0HKUmV28SpNPW7ZrTmYw
-         gBuzG0DW72L5F2nXPoRkF2qGrYwVx1nWncr2gSFenc/N1pxwASbLdStNkhT3N2/8m9Q2
-         Pj+mY/OUzU1H5npSj7yG1rVipjIiy5joGykJj60grpnH06g9FC2rQed+PhrArDXyKaHC
-         xtw9y3o8AsU+hbCEriX7nzqb5djmlq1bEPHtt3aIrj6hCPSqlq+PH5lOVx+lYlSRl9OF
-         J3pA==
+        with ESMTP id S230224AbjKCRZn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 13:25:43 -0400
+Received: from mail-oi1-f170.google.com (mail-oi1-f170.google.com [209.85.167.170])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B768713E;
+        Fri,  3 Nov 2023 10:25:37 -0700 (PDT)
+Received: by mail-oi1-f170.google.com with SMTP id 5614622812f47-3b3ec45d6e9so1375650b6e.0;
+        Fri, 03 Nov 2023 10:25:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699028714; x=1699633514;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6nsxT65QcBic5QpwyMNIvqdwRkRC1mARnt5d+1mQIn0=;
-        b=pxU+DO1fPeGhCu9p4oojXWGcByZ4BLeI+BEWGUtpmDt0P4TJOBYvHeexY7wPviknhD
-         j/8Q4f8btdSlNoI0dTad+l9YCkfdACzAxs3itc+NC2ykobbTzZ/QumWwQXeBV8MZ2YxD
-         eCtVjoi1Pc7Zc+hZ9kkO+MYPjN95l41uX+pF1jIhqOFBK2kkE4VXNqpWhjF2RGURhgyl
-         1gVIuLPTgTI2YrMMnpAt4z6MAoqENq/10jM4QD4wi1+i6dJL65CtnZSONkI25xck4gb2
-         AV9/jjR1JyuF5E1Z60ug0qDTopNxrwGLsFdLPAXt7ZPPgtEvX1K8GnGaawBrsYALrHnF
-         5zMQ==
-X-Gm-Message-State: AOJu0YzWANL1axqbnQz9+IExCCetZL0rDUtPmkm1MqLwQ8aM7rHKlUHq
-        KZzKmzg/qak6tHg94Rtx67qBvg==
-X-Google-Smtp-Source: AGHT+IGo6lDoKqnaJdwkbAtYZA2R5l0+C8lHC4nqttrgc+u3GPlzNrionP9TVCm5xbBfEUWI/Wpucw==
-X-Received: by 2002:a05:6000:18a5:b0:32f:86e7:9beb with SMTP id b5-20020a05600018a500b0032f86e79bebmr16538359wri.14.1699028713819;
-        Fri, 03 Nov 2023 09:25:13 -0700 (PDT)
-Received: from [127.0.0.1] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id x13-20020a5d650d000000b003142e438e8csm2219972wru.26.2023.11.03.09.25.12
+        d=1e100.net; s=20230601; t=1699032337; x=1699637137;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kQjjfhlnmzRDjE/9MY7CPSCRY6bOaSf38w1z3/ED/wE=;
+        b=f6q+l2SElQVk7tA5l5ddTHiSiEnhZmbM0CoJMU5SOxIlSQDA7A3MZjZrIKRxzt5LOc
+         KrVlQNeYrBJaCH/5qQWxNncpa1RyT5Qn/qBb8J4HztMut8ZeBTJr6wz4TY498Hv1QFKD
+         sg2sDLkwRbZKoFQLwtvs1F6f6N0Xk5/hkQR6rxc+02Iwy5FJ+APjPF4OYsa6a5+BGUQx
+         H05RwCgt2PKzE5DGGqTJVZJWu6NTiCOEJNNZtV6hIddJnZpJ69d5EIqmo797zY1nicVl
+         tG86RX0wXsl1iYnVFWsbbu+wkhK/O1B6OKK9LQaFFYHRyWkQv5XVcqq19BvCiO8G+lE9
+         ddSw==
+X-Gm-Message-State: AOJu0Yz2VJvlRtXpWh5es5XMLaaacMruRtZlyUrqb3miyKIKslAv/DtR
+        4IC8aENaq4aLSOB5fBwKIw==
+X-Google-Smtp-Source: AGHT+IEn/XQUwpNA3WOf8aGalFihRK9hfZ7HarRN/GOuhh8KZILh/0W541V6OttK/nZwQh1czqr5zA==
+X-Received: by 2002:a05:6870:169a:b0:1e9:9e04:1d1e with SMTP id j26-20020a056870169a00b001e99e041d1emr26781631oae.48.1699032336788;
+        Fri, 03 Nov 2023 10:25:36 -0700 (PDT)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id e5-20020a056870450500b001e12bb81363sm367717oao.35.2023.11.03.10.25.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 09:25:13 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date:   Fri, 03 Nov 2023 16:25:09 +0000
-Subject: [PATCH v2 6/6] media: qcom: camss: vfe-17x: Rename camss-vfe-170
- to camss-vfe-17x
-MIME-Version: 1.0
+        Fri, 03 Nov 2023 10:25:36 -0700 (PDT)
+Received: (nullmailer pid 1588221 invoked by uid 1000);
+        Fri, 03 Nov 2023 17:25:34 -0000
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231103-b4-camss-sc8280xp-v2-6-b7af4d253a20@linaro.org>
-References: <20231103-b4-camss-sc8280xp-v2-0-b7af4d253a20@linaro.org>
-In-Reply-To: <20231103-b4-camss-sc8280xp-v2-0-b7af4d253a20@linaro.org>
-To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
+Content-Transfer-Encoding: 8bit
+MIME-Version: 1.0
+From:   Rob Herring <robh@kernel.org>
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        Robert Foss <rfoss@kernel.org>, Andy Gross <agross@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
-        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-X-Mailer: b4 0.13-dev-26615
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        vincent.knecht@mailoo.org,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com,
+        laurent.pinchart@ideasonboard.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        hverkuil-cisco@xs4all.nl, Todor Tomov <todor.too@gmail.com>
+In-Reply-To: <20231103-b4-camss-sc8280xp-v2-1-b7af4d253a20@linaro.org>
+References: <20231103-b4-camss-sc8280xp-v2-0-b7af4d253a20@linaro.org>
+ <20231103-b4-camss-sc8280xp-v2-1-b7af4d253a20@linaro.org>
+Message-Id: <169903233490.1588205.2821182125390694665.robh@kernel.org>
+Subject: Re: [PATCH v2 1/6] media: dt-bindings: media: camss: Add
+ qcom,sc8280xp-camss binding
+Date:   Fri, 03 Nov 2023 12:25:34 -0500
+X-Spam-Status: No, score=-1.2 required=5.0 tests=BAYES_00,
+        FREEMAIL_ENVFROM_END_DIGIT,FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -84,36 +76,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-vfe-170 and vfe-175 can be supported in the same file with some minimal
-indirection to differentiate between the silicon versions.
 
-sdm845 uses vfe-170, sc8280xp uses vfe-175-200. Lets rename the file to
-capture its wider scope than vfe-170 only.
+On Fri, 03 Nov 2023 16:25:04 +0000, Bryan O'Donoghue wrote:
+> Add bindings for qcom,sc8280xp-camss in order to support the camera
+> subsystem for sc8280xp as found in the Lenovo x13s Laptop.
+> 
+> This patch depends on:
+> https://lore.kernel.org/linux-arm-msm/20231026105345.3376-2-bryan.odonoghue@linaro.org/
+> https://lore.kernel.org/linux-arm-msm/20231026105345.3376-3-bryan.odonoghue@linaro.org/
+> 
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+>  .../bindings/media/qcom,sc8280xp-camss.yaml        | 581 +++++++++++++++++++++
+>  1 file changed, 581 insertions(+)
+> 
 
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/Makefile                             | 2 +-
- drivers/media/platform/qcom/camss/{camss-vfe-170.c => camss-vfe-17x.c} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-index 4e22223589739..0d4389ab312d1 100644
---- a/drivers/media/platform/qcom/camss/Makefile
-+++ b/drivers/media/platform/qcom/camss/Makefile
-@@ -14,7 +14,7 @@ qcom-camss-objs += \
- 		camss-vfe-4-1.o \
- 		camss-vfe-4-7.o \
- 		camss-vfe-4-8.o \
--		camss-vfe-170.o \
-+		camss-vfe-17x.o \
- 		camss-vfe-480.o \
- 		camss-vfe-gen1.o \
- 		camss-vfe.o \
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-170.c b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
-similarity index 100%
-rename from drivers/media/platform/qcom/camss/camss-vfe-170.c
-rename to drivers/media/platform/qcom/camss/camss-vfe-17x.c
+yamllint warnings/errors:
 
--- 
-2.42.0
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.example.dts:26:18: fatal error: dt-bindings/clock/qcom,sc8280xp-camcc.h: No such file or directory
+   26 |         #include <dt-bindings/clock/qcom,sc8280xp-camcc.h>
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+compilation terminated.
+make[2]: *** [scripts/Makefile.lib:419: Documentation/devicetree/bindings/media/qcom,sc8280xp-camss.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1427: dt_binding_check] Error 2
+make: *** [Makefile:234: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231103-b4-camss-sc8280xp-v2-1-b7af4d253a20@linaro.org
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
