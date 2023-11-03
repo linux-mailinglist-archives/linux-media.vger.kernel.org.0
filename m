@@ -2,104 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 66FC97DFE2C
-	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 03:50:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7C7ED7E003E
+	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 11:29:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234306AbjKCCqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 2 Nov 2023 22:46:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35698 "EHLO
+        id S230328AbjKCGeh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Nov 2023 02:34:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49732 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229879AbjKCCqP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 2 Nov 2023 22:46:15 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AA321A3
-        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 19:46:06 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C096DC433C7
-        for <linux-media@vger.kernel.org>; Fri,  3 Nov 2023 02:46:05 +0000 (UTC)
-Date:   Fri, 03 Nov 2023 03:46:03 +0100
-Message-ID: <c7177c1516e76ce87e146373f328732d.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
-        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S230314AbjKCGeh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 02:34:37 -0400
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A85C1AB
+        for <linux-media@vger.kernel.org>; Thu,  2 Nov 2023 23:34:30 -0700 (PDT)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-9d2e6c8b542so245468066b.0
+        for <linux-media@vger.kernel.org>; Thu, 02 Nov 2023 23:34:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1698993269; x=1699598069; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=EUSFDpSLRhr004/t6MtVre5IXfBX4gh3FzzO4X/g14E=;
+        b=ZQHNXNdWx+dHhfTpf6HaNPxoUrQnAwAaqgxXHg3Imgf85GJpuLC+Ys/nrul43cLvaG
+         hS3/bZ6G4kGMqh1VjqlxpuBhlOKb6nYKpRWnHaJhigTls+EVOXvHTQJM6ZX5wtm+Vf66
+         aJpALyJNMmJJZlK7SrKZ16prYUaOG/AthIviqWbbPu4SWVIaB7wz2qKotyrR3EzbwU9I
+         mD6biJb8Z6XmOv0TUR7wXDpynMNYFYLVNfFm9u8zX4aTVPoINY90idOvPxhYEjKROyKD
+         WwodZLZglBUDc+5SzkQ+hPslLxTg26tDlAUNykpkCluWmV7BV4GyCRBqNHFXI3TUkeZG
+         jtsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1698993269; x=1699598069;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=EUSFDpSLRhr004/t6MtVre5IXfBX4gh3FzzO4X/g14E=;
+        b=ROfnC1gwL6MBHNC54OXAWqEXbApvdibwTd3hOCNto6/whnVOHPzrp6/FaOtZaWQI5D
+         Im/jexJursRmKG8KXB1q2pPxsRz6r7RZnS/2arEIbpuWcsk03laZR1dAUIlv2iI4BafW
+         58GYzsodvoqLsNkGhnJgFtq3i/Oibv1YtkR1mDE8tVF4/lAEvOhq2PRUm4ttRNzLK0Kh
+         EyJcxyZ6y1N6r85lBiFgGBGo4UQH2gC1WPnVLf/LS1d//VASrnfgwQbLlNQtiC6lFBOE
+         PPOlZbLUadZ5/UNsIhkHX3CzwSbvuWrY+GdrCGFzWPdmReuaYxovJo8W5oPoxrEpKQYX
+         gY5Q==
+X-Gm-Message-State: AOJu0YwiSfOfXSgAOg/N7QRgyxgGDFnhTo3DyElDsvclu/WG4KuXLArs
+        1ORXBO0rb6TApqqNb+EF46KiAg==
+X-Google-Smtp-Source: AGHT+IHUxr/13ZJwmsjF1s1nibtvQQcOSPGuNRBFGnGJ5rb0tkUfVpIIYcuZ3a6a1INjx2OCw2fBig==
+X-Received: by 2002:a17:907:a687:b0:9db:df62:fd82 with SMTP id vv7-20020a170907a68700b009dbdf62fd82mr2546315ejc.31.1698993268925;
+        Thu, 02 Nov 2023 23:34:28 -0700 (PDT)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id gu13-20020a170906f28d00b00982a352f078sm534511ejb.124.2023.11.02.23.34.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Nov 2023 23:34:28 -0700 (PDT)
+Date:   Fri, 3 Nov 2023 09:34:25 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: v4l2-subdev: Fix a 64bit bug
+Message-ID: <a14df0e5-74aa-42c9-a444-ba4c7d733364@moroto.mountain>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+The problem is this line here from subdev_do_ioctl().
 
-Results of the daily build of media_tree:
+	client_cap->capabilities &= ~V4L2_SUBDEV_CLIENT_CAP_STREAMS;
 
-date:			Fri Nov  3 03:00:12 CET 2023
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	3e238417254bfdcc23fe207780b59cbb08656762
-v4l-utils git hash:	3d6682746de535d1f7aa71b43a30af40d52a539c
-edid-decode git hash:	1668825d337c3a9549eb558d14551a207c3a8c20
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8494-gc4f4869a
-sparse version:		v0.5.0-8494-gc4f4869a
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: a6e978cf5c59a26504d37fee4ae779ecc19359fb
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+The "client_cap->capabilities" variable is a u64.  The AND operation
+is supposed to clear out the V4L2_SUBDEV_CLIENT_CAP_STREAMS flag.  But
+because it's a 32 bit variable it accidentally clears our the high 32
+bits as well.
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+Currently we only use BIT(0) and none ofthe upper bits so this doesn't
+affect runtime behavior.
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+Fixes: f57fa2959244 ("media: v4l2-subdev: Add new ioctl for client capabilities")
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ include/uapi/linux/v4l2-subdev.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-smatch: WARNINGS:
+diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+index 4a195b68f28f..21d149969119 100644
+--- a/include/uapi/linux/v4l2-subdev.h
++++ b/include/uapi/linux/v4l2-subdev.h
+@@ -239,7 +239,7 @@ struct v4l2_subdev_routing {
+  * set (which is the default), the 'stream' fields will be forced to 0 by the
+  * kernel.
+  */
+- #define V4L2_SUBDEV_CLIENT_CAP_STREAMS		(1U << 0)
++ #define V4L2_SUBDEV_CLIENT_CAP_STREAMS		BIT_ULL(0)
+ 
+ /**
+  * struct v4l2_subdev_client_capability - Capabilities of the client accessing
+-- 
+2.42.0
 
-drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Fri Nov  3 03:16:05 CET 2023
-virtme-64: WARNINGS: Final Summary: 3218, Succeeded: 3218, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3342, Succeeded: 3342, Failed: 0, Warnings: 4
-
-date:			Fri Nov  3 03:44:51 CET 2023
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
