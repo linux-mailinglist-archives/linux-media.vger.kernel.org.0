@@ -2,163 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E38A87E04F1
-	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 15:48:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 898B27E065E
+	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 17:25:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230137AbjKCOsl convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 3 Nov 2023 10:48:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48408 "EHLO
+        id S234319AbjKCQZO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Nov 2023 12:25:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57662 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230057AbjKCOsk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 10:48:40 -0400
-Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A45A6134;
-        Fri,  3 Nov 2023 07:48:37 -0700 (PDT)
-Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-587310758ccso240323eaf.0;
-        Fri, 03 Nov 2023 07:48:37 -0700 (PDT)
+        with ESMTP id S230121AbjKCQZN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 12:25:13 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 365B9194
+        for <linux-media@vger.kernel.org>; Fri,  3 Nov 2023 09:25:07 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-407da05f05aso16189375e9.3
+        for <linux-media@vger.kernel.org>; Fri, 03 Nov 2023 09:25:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699028705; x=1699633505; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=cKP6IQc+TaLeXk9YRQCHSXv1g3/KaIhaK69CBx/ySdI=;
+        b=KradHAIUi/4Tj8bPYgHODtMi5kbsxmWoS9BRIOTQ4bEgAsjxLjdOfglZZJ3wRhrMMa
+         hYZchDSE7i6wqQQfEhvI5ScHYuso4/UIU/rwYq+Zn9/PpQUMmFnkYonVcJmggGAXcCHs
+         U6nRkhujfV1XlrEi/jLEGiZaSeuEHgpQw4Q6LYvzJ3URYzO2chdecRYThsbqyUfg6O+D
+         Oav9wL1xdKTjdcSBS4MLLcuDSbRUGq29xvJ8JoEgfa/AjEUGERXu7x89E91d6BmOvVhZ
+         4S+aA+Yud43Ug/JkT2/QzaE/y2ujZckjm14DLkwsRst9NyOnGrXJ3VRYNv95JQDLOKhq
+         se7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699022917; x=1699627717;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=rnLwrLAyR7JqlbWF71omz9lusykP8cULNd4VOIkaf+c=;
-        b=OAFbY8ZTGhxZLhWcmYBG4f/PBXwY2IH+eINdx+NJf8FlnjCIlUsh6UcXv+DYhLcUnI
-         pcMLJfYoLpmRolkCgxCuM8Q8IGIpICQi7gnbXjxFVjC8Y/7XOAWnWQENHkeQbE8m34Fw
-         ekP+zitpGwMbiWYFX7mzoFxgesyavWw3f8bSo0v0wJaErdwyvEhUHnPd9EOxiWlVFjQF
-         s8yMa4cm5R6SDhoMC4KBrBzOqlNXdE+rrP80IRLPL/0j/VIdUciDaNMemu0jsn6IjGQZ
-         ROysv2tP4KDBCeDYJzWDtkDHejRbUwkV/Xq/vrBde1B9RM8gbiQc6pYYc3VggfC0w03e
-         ZG/w==
-X-Gm-Message-State: AOJu0YwUIU9QsGD+i5HiVFYoF9rRZGdTOZU9EAuz/cU+4O7uLKgkSNsr
-        +/GURtVNWc4eZdBi+e8cTecBlvWkfuEBcPzdFP4=
-X-Google-Smtp-Source: AGHT+IGjKURclSqydK6kWxSfSIlPGOuR/YzJpciRF8vTZTp9AyFyQ8kyZAOBh+/mGVNZoVSC6t7kXDM8p9kJK8d0aM0=
-X-Received: by 2002:a05:6820:1899:b0:581:e7b8:dd77 with SMTP id
- bm25-20020a056820189900b00581e7b8dd77mr24924270oob.1.1699022916970; Fri, 03
- Nov 2023 07:48:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1699028705; x=1699633505;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=cKP6IQc+TaLeXk9YRQCHSXv1g3/KaIhaK69CBx/ySdI=;
+        b=Nuiu8U7f8U7edch4g6gRFQK7btbXi557Rl5kEpJjA74p3kToFiJW5FgGE1i8cJTDmk
+         ytAyL8hpT7xnFMjR6TqMsd1ho+HGD09M2+wSrV1j17gi5dKABF4IpWAeMD+n5WR0J7iI
+         DtOB0kfylvNVKGnUoQRhlD0M5b9zPYsyQufRz9dz8ks6sZs9wvQ0Ch/eEWeBhCJj751s
+         1ns0S8waO6k5rHNMWGH6gwKUauKF/75j89XFOP2q8mgXXRu61GSmpqpU2SreaPwsEEft
+         eDE7j5M9CyS+kYSZ+BXZV1p89AcOyPXz27umoO9CtFJkIDvLfUWJLlFkA1BSlBf0mZTc
+         O5BA==
+X-Gm-Message-State: AOJu0YzY9Of/UkyXJiO+hDrYZ8HH/IZhaZNeqH/NdgpOdjaLnXJeFfom
+        ILjbx3h5Y+rs7veTycgwdX5Ifg==
+X-Google-Smtp-Source: AGHT+IF66A6v5KxZN37QG9HZoMChuewXwE8Gs3r4G3ydzoegkfy2MJnAj5hC7kI7XfapQnX8KqCbvw==
+X-Received: by 2002:a05:6000:1209:b0:32d:9d3a:d8c0 with SMTP id e9-20020a056000120900b0032d9d3ad8c0mr15950748wrx.60.1699028705602;
+        Fri, 03 Nov 2023 09:25:05 -0700 (PDT)
+Received: from [127.0.0.1] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id x13-20020a5d650d000000b003142e438e8csm2219972wru.26.2023.11.03.09.25.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 03 Nov 2023 09:25:05 -0700 (PDT)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v2 0/6] media: qcom: camss: Add sc8280xp support
+Date:   Fri, 03 Nov 2023 16:25:03 +0000
+Message-Id: <20231103-b4-camss-sc8280xp-v2-0-b7af4d253a20@linaro.org>
 MIME-Version: 1.0
-References: <20231102081611.1179964-1-sakari.ailus@linux.intel.com>
-In-Reply-To: <20231102081611.1179964-1-sakari.ailus@linux.intel.com>
-From:   "Rafael J. Wysocki" <rafael@kernel.org>
-Date:   Fri, 3 Nov 2023 15:48:23 +0100
-Message-ID: <CAJZ5v0h5q__nbfxLUN-cZDSvjTCJHSZwoDEz_cq+bUJGSn1u-A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/1] device property: Add fwnode_name_eq()
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-acpi@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Paul Elder <paul.elder@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAN8eRWUC/22NQQrCMBBFr1Jm7UgmFmlceQ/poomTdkCbkpFSK
+ b27seDO5Xvw319BOQsrXKoVMs+iksYC9lBBGLqxZ5R7YbDGnogMoa8xdE9V1NDYxiwTGibviL0
+ lH6HspsxRlr15awsPoq+U3/vFTF/7q9k/tZnQoHPuHGsffBPr60PGLqdjyj2027Z9AI0tMEKzA
+ AAA
+To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Julien Stephan <jstephan@baylibre.com>,
-        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
-        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
-        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
-        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
-        version=3.4.6
+        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
+        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13-dev-26615
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 2, 2023 at 9:22 AM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
->
-> Add fwnode_name_eq() to implement the functionality of of_node_name_eq()
-> on fwnode property API. The same convention of ending the comparison at
-> '@' (besides NUL) is applied on also both ACPI and swnode. The function
-> is intended for comparing unit address-less node names on DT and firmware
-> or swnodes compliant with DT bindings.
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> Hi Rafael,
->
-> Could we merge this via the media tree (pending further review comments,
-> if any)?
+V2:
+- Rebase to capture is_lite flag from named power-domain series
+- Amends commit log of final patch to give more detail on rename - Konrad
+- Opted not to change switch() statements with returns. - bod/Konrad
 
-This would be fine with me, so please feel free to add
+Requires CAMCC for sc8280xp which applies to qcom/clk-for-6.7:
+https://lore.kernel.org/linux-arm-msm/20231026105345.3376-1-bryan.odonoghue@linaro.org/
+b4 shazam 20231026105345.3376-1-bryan.odonoghue@linaro.org
 
-Acked-by: Rafael J. Wysocki <rafael@kernel.org>
+Requires the named power-domain patches which apply to media-tree/*:
+https://lore.kernel.org/linux-arm-msm/20231103-b4-camss-named-power-domains-v4-0-33a905359dbc@linaro.org/
+b4 shazam e700133b-58f7-4a4d-8e5c-0d04441b789b@linaro.org
 
-to this patch (when ready), but you need to ask Greg about it, because
-he's been handling device properties changes lately.
+Link to v1:
+https://lore.kernel.org/r/20231102-b4-camss-sc8280xp-v1-0-9996f4bcb8f4@linaro.org
 
-> There'a a patch to be merged via that tree which will depend on
-> fwnode_name_eq(), namely:
-> <URL:https://lore.kernel.org/linux-media/20231030133247.11243-1-laurent.pinchart@ideasonboard.com/T/#m489b7e83cbc755815c5002f85454a76bfb41adb2>.
->
-> since v2:
->
-> - Use NUL instead of '\0' and "at" instead of "to" (before "stopping
->   comparison").
->
->  drivers/base/property.c  | 28 ++++++++++++++++++++++++++++
->  include/linux/property.h |  1 +
->  2 files changed, 29 insertions(+)
->
-> diff --git a/drivers/base/property.c b/drivers/base/property.c
-> index 8667b13639d2..572e065e8797 100644
-> --- a/drivers/base/property.c
-> +++ b/drivers/base/property.c
-> @@ -595,6 +595,34 @@ const char *fwnode_get_name_prefix(const struct fwnode_handle *fwnode)
->         return fwnode_call_ptr_op(fwnode, get_name_prefix);
->  }
->
-> +/**
-> + * fwnode_name_eq - Return true if node name is equal
-> + * @fwnode: The firmware node
-> + * @name: The name to which to compare the node name
-> + *
-> + * Compare the name provided as an argument to the name of the node, stopping
-> + * the comparison at either NUL or '@' character, whichever comes first. This
-> + * function is generally used for comparing node names while ignoring the
-> + * possible unit address of the node.
-> + *
-> + * Return: true if the node name matches with the name provided in the @name
-> + * argument, false otherwise.
-> + */
-> +bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name)
-> +{
-> +       const char *node_name;
-> +       size_t len;
-> +
-> +       node_name = fwnode_get_name(fwnode);
-> +       if (!node_name)
-> +               return false;
-> +
-> +       len = strchrnul(node_name, '@') - node_name;
-> +
-> +       return str_has_prefix(node_name, name) == len;
-> +}
-> +EXPORT_SYMBOL_GPL(fwnode_name_eq);
-> +
->  /**
->   * fwnode_get_parent - Return parent firwmare node
->   * @fwnode: Firmware whose parent is retrieved
-> diff --git a/include/linux/property.h b/include/linux/property.h
-> index 083a1f41364b..096ade186601 100644
-> --- a/include/linux/property.h
-> +++ b/include/linux/property.h
-> @@ -108,6 +108,7 @@ struct fwnode_handle *fwnode_find_reference(const struct fwnode_handle *fwnode,
->
->  const char *fwnode_get_name(const struct fwnode_handle *fwnode);
->  const char *fwnode_get_name_prefix(const struct fwnode_handle *fwnode);
-> +bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name);
->
->  struct fwnode_handle *fwnode_get_parent(const struct fwnode_handle *fwnode);
->  struct fwnode_handle *fwnode_get_next_parent(struct fwnode_handle *fwnode);
-> --
-> 2.39.2
->
+b4 base:
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/b4/camss-sc8280xp-v2
+
+V1:
+sc8280xp is the SoC found in the Lenovo X13s. This series adds support to
+bring up the CSIPHY, CSID, VFE/RDI interfaces.
+
+A number of precursor patches make this series smaller overall than
+previous series.
+
+sc8280xp provides
+
+- 4 x VFE, 4 RDI per VFE
+- 4 x VFE Lite, 4 RDI per VFE
+- 4 x CSID
+- 4 x CSID Lite
+- 4 x CSI PHY
+
+I've taken the yaml from a dtsi series and included it here since 1) I sent
+the yaml to the wrong person and 2) it already has RB from Krzysztof.
+
+Requires CAMCC for sc8280xp which applies to qcom/clk-for-6.7:
+https://lore.kernel.org/linux-arm-msm/20231026105345.3376-1-bryan.odonoghue@linaro.org/
+b4 shazam 20231026105345.3376-1-bryan.odonoghue@linaro.org
+
+Requires the named power-domain patches which apply to media-tree/* :
+https://lore.kernel.org/linux-arm-msm/20231101-b4-camss-named-power-domains-v3-5-bbdf5f22462a@linaro.org/
+b4 shazam 20231101-b4-camss-named-power-domains-v3-5-bbdf5f22462a@linaro.org
+
+To use the camera on x13s with say Google Hangouts or Microsoft Teams you
+will need to
+
+1. Run Firefox
+2. Update about:config to enable pipewire
+3. Use this WIP version of libcamera
+   https://gitlab.freedesktop.org/camera/libcamera-softisp
+
+A working bootable tree can be found here:
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/lenovo-x13s-linux-6.5.y
+
+b4 base:
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/b4/camss-sc8280xp
+
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+Bryan O'Donoghue (6):
+      media: dt-bindings: media: camss: Add qcom,sc8280xp-camss binding
+      media: qcom: camss: Add CAMSS_SC8280XP enum
+      media: qcom: camss: csiphy-3ph: Add Gen2 v1.1 two-phase MIPI CSI-2 DPHY init
+      media: qcom: camss: Add sc8280xp resource details
+      media: qcom: camss: Add sc8280xp support
+      media: qcom: camss: vfe-17x: Rename camss-vfe-170 to camss-vfe-17x
+
+ .../bindings/media/qcom,sc8280xp-camss.yaml        | 581 +++++++++++++++++++++
+ drivers/media/platform/qcom/camss/Makefile         |   2 +-
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 108 +++-
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |   1 +
+ .../camss/{camss-vfe-170.c => camss-vfe-17x.c}     |   0
+ drivers/media/platform/qcom/camss/camss-vfe.c      |  25 +-
+ drivers/media/platform/qcom/camss/camss-video.c    |   1 +
+ drivers/media/platform/qcom/camss/camss.c          | 383 ++++++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 9 files changed, 1093 insertions(+), 9 deletions(-)
+---
+base-commit: 89e965e1a58f58cd359472b14c0cc25587bcf264
+change-id: 20231101-b4-camss-sc8280xp-0e1b91eb21bf
+
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
