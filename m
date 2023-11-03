@@ -2,110 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C5E797E0129
-	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 11:31:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B57477E0161
+	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 11:31:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232853AbjKCHAP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Nov 2023 03:00:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50562 "EHLO
+        id S232936AbjKCHF1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Nov 2023 03:05:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232511AbjKCHAN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 03:00:13 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.136])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35632DC;
-        Fri,  3 Nov 2023 00:00:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1698994807; x=1730530807;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=P5QWGqi1aXETst95U7iqc5Utnw56ymqQfZ+1ZYzLznc=;
-  b=NqhF+MjWo2K8hvjEwjPh5GYiPUJsdFUMzpA/qtBMOtMsTVubaf9XNthf
-   TQ87oAGzNIGPam4wLYV6t5A1/0bes5GHaHP3fIdVlEVmKue+GcSy24870
-   nLTZRQmQcypDSlm8VbeUMccWjdKKmjzTK40BnAsEq4PTIDbCV1uZAkULp
-   iGbrXdyVJgUCnd7/aM7YpJZZTxUzXc2RvV676k0mrJ63cXjJbm1mL+E8p
-   uw5AVj7yxWwqmf/ejj/durpzYOBUIyTRotCh70kQZ1bW9OQ9Z2ppQu7lw
-   5zoY1ln15j22lWYhLxQo/X8ph9bs5oA19xyhi+RgFFk00vg7do7Qi76Cx
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="368237876"
-X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="368237876"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 00:00:06 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10882"; a="755061321"
-X-IronPort-AV: E=Sophos;i="6.03,273,1694761200"; 
-   d="scan'208";a="755061321"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 00:00:05 -0700
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id D06E5120F5B;
-        Fri,  3 Nov 2023 09:00:01 +0200 (EET)
-Date:   Fri, 3 Nov 2023 07:00:01 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Dan Carpenter <dan.carpenter@linaro.org>
-Cc:     Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: Re: [PATCH] media: v4l2-subdev: Fix a 64bit bug
-Message-ID: <ZUSaccRE_lq5Mizh@kekkonen.localdomain>
-References: <a14df0e5-74aa-42c9-a444-ba4c7d733364@moroto.mountain>
+        with ESMTP id S229912AbjKCHF0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 03:05:26 -0400
+Received: from EUR04-HE1-obe.outbound.protection.outlook.com (mail-he1eur04on2050.outbound.protection.outlook.com [40.107.7.50])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E087BDC;
+        Fri,  3 Nov 2023 00:05:19 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=Ig8MRQiWqa1r4qcExAXr2SijGKrY2bKbi2IPOESFNpk4eX49LfdhE49ZZV/rGxCOt6me3BTuPb7t4kFbxn5oD5C5uZ34cAEuqQXP7gjNAJJs1cJLAkkskf+KFTMO1sC2ctot62/HtXhZAnCW0uLoHOMBFYN2LuAgNBNdT9M1xGYG1PdW1bl2qRO3hqniZ9k+btT0rZ3Q4KhZPHIkdZSG+DIRLWg/TFKcVlCPjJssiVn9E9VcpH3CeMjkGtGSN2abpuw5DotIDkkwHQJvOUA3SQRnIUkxtw93KDHNB/uho7xxlwE12kDsDJ76pOq2CLF15NqoESjtdiZS4PFE8NQpbg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=2HCrqdYBKW9VFCePIwmfL4iIGazuqhbdv+gTITYsBqA=;
+ b=TDDghr3OfQnV2darOw92/o3bXV+zMswkz3jYAZBgp3hhwtA0TGApa9Z/xzcJpTN8X919hi6VDVeeAI6RdHW4ocC9xsOVt1o+zyuUJG/C5MBkIyUcP/KS0WoccfgybHUnGqcpeVpjZNBG45hHt5tWSAx+fVwUb9oe8ekponEqzdjSNRIUqRuv6zbjcLgJ0K7nQR6k+7CBjYEb7SGLNYipYZ2Zqxr10gOC3Xx7cdD3IFRRyNcPRrUsvtlN9mn3kujQMzVk6o4l3hlvmYFQCZauNkUdnzg6OHy6/eYQiCR4QOdbnnCMse8dEx5aGUbnjzA2Wuw2PoRzYG0S5G9uFkT+FQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=2HCrqdYBKW9VFCePIwmfL4iIGazuqhbdv+gTITYsBqA=;
+ b=qbs2ifBbpYR7jWPFfUY9RTJcJ6oJnqIRFXyeIUfxpwnFxVrbIkTcCFYDdfVfbwsV58LJPrZaJ1kadzVhX+dLbm0HIaa4sOMtUuaS45AJA/2sHVO6GJaW5P1U6hmoR4ojlBTdpdx7Nj3xYpZ6nWdn9BEPVnSRcl4Fxxlz+Q6EAAw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by AM0PR04MB6803.eurprd04.prod.outlook.com (2603:10a6:208:187::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.19; Fri, 3 Nov
+ 2023 07:05:17 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::17b0:7827:464b:8e99]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::17b0:7827:464b:8e99%6]) with mapi id 15.20.6954.019; Fri, 3 Nov 2023
+ 07:05:17 +0000
+From:   Ming Qian <ming.qian@nxp.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl
+Cc:     shawnguo@kernel.org, robh+dt@kernel.org, s.hauer@pengutronix.de,
+        kernel@pengutronix.de, festevam@gmail.com, linux-imx@nxp.com,
+        xiahong.bao@nxp.com, eagle.zhou@nxp.com, tao.jiang_2@nxp.com,
+        ming.qian@oss.nxp.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: amphion: Fix VPU core alias name
+Date:   Fri,  3 Nov 2023 15:04:47 +0800
+Message-Id: <20231103070447.31716-1-ming.qian@nxp.com>
+X-Mailer: git-send-email 2.38.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI1PR02CA0042.apcprd02.prod.outlook.com
+ (2603:1096:4:1f6::17) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a14df0e5-74aa-42c9-a444-ba4c7d733364@moroto.mountain>
-X-Spam-Status: No, score=-4.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|AM0PR04MB6803:EE_
+X-MS-Office365-Filtering-Correlation-Id: 190a3dbd-e390-4c9e-fc90-08dbdc3b3be3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: PYQ5H4qa+4pqQ9jLhNuhND1IwMALz4VuXgR5gErEwVXTKkUfX7+LTXT/CUgzEcazgPgJqE94Lyw3PJc7DpVqS9cW62QB5HmhpQfJZa4qkcmijurX2R+vIjEogtFOA2IOaogm1V0ba8ZXWh+VweU2ctjU2JNw2GvkOT/aAO93z2V07yvqWC5C4e6S6TnXFJyFHbXyscZ6YChLDX3MvDsi6qYHVPvhNdntAYzYXnS50iiW3MItZ3EvJn3ox7v2KIQ0Jl7qcJ+fZGetVi/I5R3ReFm1JXMKhHmVNBgFGMu4eymbMEASSxG9WQscQtZcXvtsMzMoqzwypuLPphsW6QA2CEuSb9/WQdzTwvjm22FMoui1URO2PptrbDY9kIFOI9RmIaBkdAgdHmAsw9fHtkC+peHkkjtkpVgvlP35UZDNwI3PB3vhj/fwhfbgMerkILmci54xCFnbJJbHF7bhdSAUYqj7GQ5R0r2snk3U+sXgZIf7F+yfrGLiU41cXEAtvDFZhnHd4EboEI9iAM699N4gvDDTnwbVSEUwxaejjgjS82vtsNP+Vkes2e194FqjiTVsHT06JMShUjb7o2jPWngD8OfcfWibYP0fYCt8ZX+EXb1ckbvD/Q6K9kVr+e2aK9bq
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(396003)(136003)(376002)(39860400002)(366004)(230922051799003)(64100799003)(451199024)(186009)(1800799009)(38350700005)(4326008)(83380400001)(8676002)(8936002)(26005)(7416002)(38100700002)(36756003)(2906002)(86362001)(5660300002)(41300700001)(44832011)(6666004)(6512007)(6486002)(6506007)(52116002)(478600001)(1076003)(66476007)(316002)(66556008)(2616005)(66946007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?Vmw+7lBC8CpNPB8qUrCq7H0gYPS6oOqgOTYacvd97E88K4ESEhjIyKieGXaq?=
+ =?us-ascii?Q?2tGBR4MRxW1tlzc4Z+k+gf3MRzh1ORWSUKjRdf69qvdNyww6zv1DXIsVuge3?=
+ =?us-ascii?Q?MEVCtmZzCETgtRYnUKs/cvTkMT0v9USZ/MWR6NE3lux7p8KtPEOdRq+lOiS9?=
+ =?us-ascii?Q?5TG/MdhVrCb5SmxdFCB0dRYFcttQ15POgckjKgBY4HaXIzQ8imbq9xgK6U2S?=
+ =?us-ascii?Q?vzaMSmSCu8cf1DrAVMvwOCVp2euJLgguHzJwZwyIRJWG8lL2/OTe5Yhkg0GG?=
+ =?us-ascii?Q?C8wSXpJ5oV0G0MbFVN0m4mQG3CzNeTlig+PszHy5+2P31Hb+6CeNrv8xf/Ve?=
+ =?us-ascii?Q?EaY04gA3gb+KXt4bcJcbHQxPrF1/4u2P33XOGfhxesDD4x8qfy5C/pCFl0vr?=
+ =?us-ascii?Q?pE3A7Tk0B8olf/CO5RibvHnhmUr/bx7aDmXgPEwmyDl1Yzco7swR+SohMZ4D?=
+ =?us-ascii?Q?cvlxmUCu0+pN1Y8v241CvNeBPlnPIDSFxCx9x3S1tSWnhIPnlL2RzsEmmwZb?=
+ =?us-ascii?Q?K22p3kbPYsqqh5l43VOhKgDaMdBBDCMUmsy0CtOkmCBikp1n5QPLVbazpciN?=
+ =?us-ascii?Q?e3VPROqwSKNGpPXj7PCmfDjBvI+qyjGoxQQSxIAN0GkBJAFL98EsXaLz3hZ+?=
+ =?us-ascii?Q?m9A1HfLQ//GcXxk4pRRmtdjYgSxjhciMsyAJ45C7DvpRVbZSCyoD5k89snmy?=
+ =?us-ascii?Q?cCUf536aZV75brT2UPIAXNhIIPmm07qRFVoJsQo64gozMlLORoo6IwODksDc?=
+ =?us-ascii?Q?d0dojssHtJrM1Uyo/yz9Q5nslpW6zUKy2/X0UjxzoXCRf7A2kZe1JLJxBf2K?=
+ =?us-ascii?Q?0qXlmHvwklFqcDt4KCrVBEfvCxujMOyF7njRFYIMqZKH43CBvuOCMslna6am?=
+ =?us-ascii?Q?Tz142s9qL7AsColhbwzYP+LD5dNkXMuLO+bK6JHdb6s9/9RH2/XwrhBNh1iw?=
+ =?us-ascii?Q?6YLclzlfKCx/C88o/feXVFK84hDyTenL2+gmnHDQnjDPmqlyE57aw+t+CeZm?=
+ =?us-ascii?Q?KjyJHUhHgX7V1AdVtv7Bn7hZwlcrkRGiW0sAKzn8PQZ79THlKro/TYeOC3El?=
+ =?us-ascii?Q?FLiPjIhfsNIKBkts31FHVelEip5lzesYOIXfQIlOFgAbqRmQMhZ7JQsmsa7E?=
+ =?us-ascii?Q?OHrj/MjMsXRe7371NALfupQUV7rOyLa1+5qal1xbi2XLWPGF6YaBFRbopvfR?=
+ =?us-ascii?Q?jRkYF/p2q+LNnVESvt+j84fNjXmpjqY9+0Ag0zae/SbQXhDkfy5bljq1IHtc?=
+ =?us-ascii?Q?u1IhEeTdumgvKtl+K7EBW4velRydBAEX+kSrbuEGCY7H/vtz1zyd9YVQxR9p?=
+ =?us-ascii?Q?Bmd9n8FxJeazePuQdwsjHPAZOdNCmyIfSRp7/VvF1gmhXlvWyj9VIW0/sKWd?=
+ =?us-ascii?Q?4v/g2x7Wkj0xL0r44/PyPZCCpjrbg5U3sXdYXcvmL7fC6pCYK7RFLp16Cp3o?=
+ =?us-ascii?Q?APdgNqGwIUWX7fgv5uH4jdOCSRhC5O+PDQU6py/oU/yOe5epRzQi/PZQmRlE?=
+ =?us-ascii?Q?9SzN8e0t8KQkR0bqzPSYoMeOh0mHdgzv2chGtLwT9XBR44TM9ZWvslkJZJry?=
+ =?us-ascii?Q?P+3oOX4WSbejJGN5ZgXIGH+JqnEsAEHZOJhQk6f1?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 190a3dbd-e390-4c9e-fc90-08dbdc3b3be3
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Nov 2023 07:05:17.0264
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: azlx1Nt02ZlplGMUFW+MEfv1+bwtjt3HLkdd4xrB26ZvzcE+euNraIf7UVY0ZJVlYjbxifBh8WqymG4OI0n51A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0PR04MB6803
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+Alias names use dashes instead of underscores, fix this. The dts has
+been fixed in the following commits:
+commit fb8f715e5c53 ("arm64: dts: imx8qm: Fix VPU core alias name")
+commit f6038de293f2 ("arm64: dts: imx8qm: Fix VPU core alias name")
 
-Thanks for the patch.
+Fixes: 9f599f351e86 ("media: amphion: add vpu core driver")
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+---
+ drivers/media/platform/amphion/vpu_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Fri, Nov 03, 2023 at 09:34:25AM +0300, Dan Carpenter wrote:
-> The problem is this line here from subdev_do_ioctl().
-> 
-> 	client_cap->capabilities &= ~V4L2_SUBDEV_CLIENT_CAP_STREAMS;
-> 
-> The "client_cap->capabilities" variable is a u64.  The AND operation
-> is supposed to clear out the V4L2_SUBDEV_CLIENT_CAP_STREAMS flag.  But
-> because it's a 32 bit variable it accidentally clears our the high 32
-> bits as well.
-> 
-> Currently we only use BIT(0) and none ofthe upper bits so this doesn't
-> affect runtime behavior.
-> 
-> Fixes: f57fa2959244 ("media: v4l2-subdev: Add new ioctl for client capabilities")
-> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
-> ---
->  include/uapi/linux/v4l2-subdev.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> index 4a195b68f28f..21d149969119 100644
-> --- a/include/uapi/linux/v4l2-subdev.h
-> +++ b/include/uapi/linux/v4l2-subdev.h
-> @@ -239,7 +239,7 @@ struct v4l2_subdev_routing {
->   * set (which is the default), the 'stream' fields will be forced to 0 by the
->   * kernel.
->   */
-> - #define V4L2_SUBDEV_CLIENT_CAP_STREAMS		(1U << 0)
-> + #define V4L2_SUBDEV_CLIENT_CAP_STREAMS		BIT_ULL(0)
-
-This is a UAPI header but BIT_ULL() is defined in kernel-only headers.
-
-So (1ULL << 0) ?
-
-uapi/linux/const.h also has _BITULL().
-
+diff --git a/drivers/media/platform/amphion/vpu_core.c b/drivers/media/platform/amphion/vpu_core.c
+index 1af6fc9460d4..3a2030d02e45 100644
+--- a/drivers/media/platform/amphion/vpu_core.c
++++ b/drivers/media/platform/amphion/vpu_core.c
+@@ -642,7 +642,7 @@ static int vpu_core_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 
+ 	core->type = core->res->type;
+-	core->id = of_alias_get_id(dev->of_node, "vpu_core");
++	core->id = of_alias_get_id(dev->of_node, "vpu-core");
+ 	if (core->id < 0) {
+ 		dev_err(dev, "can't get vpu core id\n");
+ 		return core->id;
 -- 
-Regards,
+2.38.1
 
-Sakari Ailus
