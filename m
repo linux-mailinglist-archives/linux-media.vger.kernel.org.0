@@ -2,54 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 627527E00AC
-	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 11:30:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21DFF7E0143
+	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 11:31:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235796AbjKCIXM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Nov 2023 04:23:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51278 "EHLO
+        id S235862AbjKCI3i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Nov 2023 04:29:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33738 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235607AbjKCIXL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 04:23:11 -0400
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::226])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E6DB131;
-        Fri,  3 Nov 2023 01:23:05 -0700 (PDT)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 7D12EC0002;
-        Fri,  3 Nov 2023 08:23:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1698999782;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=kg/HZQyNEJyh61W61ZvN9JqFC68uxEc/k0ZZDJXIcjY=;
-        b=Q3gJxd9T6Wh0hhaNygTPywLxIUVhymxQRDuK88JIbNh7Bfhd2c4n3N4kBNkAS1sL/JFQjk
-        dnFy08a/MUFmxGCD27ayJ3JKZXKosqzM/4AHeVFPB+gsejeXY5rwV9GlaBZo4gIjO01URf
-        ywa/Zx+I62xaWBaEhrOhmewt47BmpfHIosBAtMlz+7Cf3PtLJiDG8mx1zurpQ61SbObK78
-        nwv4BFLMmIsr3zxGXJ01uY4lZpvy3G4nZDt5DzBy1fvNlbgDqt8GrzBeEPHech0xOFY1gQ
-        9L583DI3Enk0a8/kZsm8LUBpKxUwxyQTo9Mv335lmrzXNWVKEAKkCj8It9dJ8w==
-Date:   Fri, 3 Nov 2023 09:23:00 +0100
-From:   Mehdi Djait <mehdi.djait@bootlin.com>
-To:     Michael Riesch <michael.riesch@wolfvision.net>
-Cc:     mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-        maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com
-Subject: Re: [PATCH v9 2/3] media: rockchip: Add a driver for Rockchip's
- camera interface
-Message-ID: <ZUSt5GC4lALz/fq5@pc-70.home>
-References: <cover.1698666612.git.mehdi.djait@bootlin.com>
- <f7367726eb077d43446c83591ecbf9acbc77ef5f.1698666612.git.mehdi.djait@bootlin.com>
- <6f98b471-b139-4043-a8ab-e7a9f9608d60@wolfvision.net>
+        with ESMTP id S235601AbjKCI3h (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 04:29:37 -0400
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 625B5182;
+        Fri,  3 Nov 2023 01:29:31 -0700 (PDT)
+Received: from [100.107.97.3] (cola.collaboradmins.com [195.201.22.229])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: kholk11)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9519766073C9;
+        Fri,  3 Nov 2023 08:29:28 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1699000169;
+        bh=q4V0vl8FcNqNu5vvhmKxKcxZeSyilVA3JCvbYjamE9I=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=Fvdq8wmmEZnOBlTfvKFXOGmpAeMPZuAJB0VxJE3RAVD+Ih5D7v0lLz07ZmeDYqG/6
+         7rNCheJwwFTcojv0iTsKlgGiYHff9nZ07LaQIdOmK3NaZDw6dXTRaMQuJNlmgB8woZ
+         CJSZTBXWMyCInVOCw0JcDqqCiAO6H7vmkkwme0F1f+E2obLyJfYT+apgyOyzin+4Yr
+         Hm0WzUX1dEvPqPNKOYg2RgydqpoGszAXyAW1FMBcbOeLhQDyqqr/7kGNQaRAFMCEeY
+         +9otrifu1eh45r7DS4d5hWINSZm1S4EHSMoUqyUVbvANHaWUhxAhSbYjHLji/yQU/h
+         p87gxM8CxTBFA==
+Message-ID: <78bb92ac-3732-49e2-a33b-b01b59965b2e@collabora.com>
+Date:   Fri, 3 Nov 2023 09:29:26 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6f98b471-b139-4043-a8ab-e7a9f9608d60@wolfvision.net>
-X-GND-Sasl: mehdi.djait@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 16/16] dt-bindings: display: mediatek: padding: add
+ compatible for MT8195
+Content-Language: en-US
+To:     Moudy Ho <moudy.ho@mediatek.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@gmail.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     dri-devel@lists.freedesktop.org,
+        linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org
+References: <20231031083357.13775-1-moudy.ho@mediatek.com>
+ <20231031083357.13775-17-moudy.ho@mediatek.com>
+From:   AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231031083357.13775-17-moudy.ho@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -57,18 +73,11 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Michael,
-
-On Tue, Oct 31, 2023 at 11:23:17PM +0100, Michael Riesch wrote:
-> Hi Mehdi,
+Il 31/10/23 09:33, Moudy Ho ha scritto:
+> Add a compatible string for the PADDING block in MediaTek MT8195 that
+> is controlled by MDP3.
 > 
-> Thanks for your work! Please find a few comments inline:
-> 
+> Signed-off-by: Moudy Ho <moudy.ho@mediatek.com>
 
-thank you for the comments! 
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
-Have you been able to test this driver ? That would be really nice.
-
---
-Kind Regards
-Mehdi Djait
