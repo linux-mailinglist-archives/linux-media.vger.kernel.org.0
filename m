@@ -2,242 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BD937E02E4
-	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 13:29:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E38A87E04F1
+	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 15:48:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1376553AbjKCM33 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Nov 2023 08:29:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45726 "EHLO
+        id S230137AbjKCOsl convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 3 Nov 2023 10:48:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48408 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1376639AbjKCM3U (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 08:29:20 -0400
-Received: from mail-lj1-x234.google.com (mail-lj1-x234.google.com [IPv6:2a00:1450:4864:20::234])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AFE8D5C
-        for <linux-media@vger.kernel.org>; Fri,  3 Nov 2023 05:29:11 -0700 (PDT)
-Received: by mail-lj1-x234.google.com with SMTP id 38308e7fff4ca-2c594196344so27068211fa.3
-        for <linux-media@vger.kernel.org>; Fri, 03 Nov 2023 05:29:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699014550; x=1699619350; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A5e6ystGbmI0nEkqiwKt50qKqvjyJaFKyap2sSy1xpA=;
-        b=qJu9DniQ8gCLQXeGzU4agasudpouNHUZUUvgSAvAlrjjEbXk0vF8VOnigIRhsybhyu
-         p6WMScll49ut2x8jM94GlpIEJRtdlyI0KsozOCy5kqO86UfyNpIrjqD3PJ8XW4Fk4tk6
-         p/Q6H16EErLDtSfMb4JgUtXr6dIU1KR52ah5LxVjFilxmAxHt0YvPdATPZwKqgvOczYr
-         jQVSYucUCJ9zjqz/uff9qHMQBQi9GiUz4glhJo6bCJ0bfxDkNZiRpgjwybUWszz4Xq+3
-         607pjPNepdpjULGWPp0sKy9Y0Zhm26Ouk1VaA5TtA0Zp9gVpMJI+H6NPi7lHdeFCQoG2
-         hZaw==
+        with ESMTP id S230057AbjKCOsk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 10:48:40 -0400
+Received: from mail-oo1-f47.google.com (mail-oo1-f47.google.com [209.85.161.47])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A45A6134;
+        Fri,  3 Nov 2023 07:48:37 -0700 (PDT)
+Received: by mail-oo1-f47.google.com with SMTP id 006d021491bc7-587310758ccso240323eaf.0;
+        Fri, 03 Nov 2023 07:48:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699014550; x=1699619350;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1699022917; x=1699627717;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=A5e6ystGbmI0nEkqiwKt50qKqvjyJaFKyap2sSy1xpA=;
-        b=Ejh8pn7NEY6FfLRVL1Npr04MYoghWndwktLeUSyf6bHRw+bpEXkCkdqsMGfXfM2TPr
-         4fCroI69RSUmYIj+CO+h73+EKDASsO3syBNOfEiVN42SPiZz/b6sOnNzfwOU2/1sVy6r
-         7PNfBOeYTrz+EvH60glxJ10RRwyhGiTgw6G/JZZJeBb331vYVlDjrB0SrHST+L5ixQ+F
-         yjGD667zhKKdf6izl46LTJMCT0/SyYB7TtTYq6XcOgQmvwzxCGLVFFHSdreQiBkiexj7
-         gCh0MJ9g/1gAluc9qMkyCmjzFPx+dyLrsJw0SXDRqWoB7PU1XkxlG009Hi/GiyyZ07KQ
-         dlNQ==
-X-Gm-Message-State: AOJu0YwOiulLSoKsKlq75Wvkf4IEx3tWBoAt8jiF7mfZvwDBGCTLy/q+
-        srxADLoEBNteH4WLxs6q4lQR2A==
-X-Google-Smtp-Source: AGHT+IFSyzh5KwJXI4OKuLt+dl2RkcJyWFKztY+vd/mINRRKQ+5WKzfLaB1CZgR2/nY/F0Q+0hxo+A==
-X-Received: by 2002:a2e:97d1:0:b0:2c5:2eaa:5397 with SMTP id m17-20020a2e97d1000000b002c52eaa5397mr15816719ljj.11.1699014549852;
-        Fri, 03 Nov 2023 05:29:09 -0700 (PDT)
-Received: from [127.0.0.1] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id ay8-20020a05600c1e0800b0040772138bb7sm2402918wmb.2.2023.11.03.05.29.08
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 03 Nov 2023 05:29:09 -0700 (PDT)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date:   Fri, 03 Nov 2023 12:29:04 +0000
-Subject: [PATCH v4 7/7] media: qcom: camss: Flag CSID-lites to support more
- CSIDs
+        bh=rnLwrLAyR7JqlbWF71omz9lusykP8cULNd4VOIkaf+c=;
+        b=OAFbY8ZTGhxZLhWcmYBG4f/PBXwY2IH+eINdx+NJf8FlnjCIlUsh6UcXv+DYhLcUnI
+         pcMLJfYoLpmRolkCgxCuM8Q8IGIpICQi7gnbXjxFVjC8Y/7XOAWnWQENHkeQbE8m34Fw
+         ekP+zitpGwMbiWYFX7mzoFxgesyavWw3f8bSo0v0wJaErdwyvEhUHnPd9EOxiWlVFjQF
+         s8yMa4cm5R6SDhoMC4KBrBzOqlNXdE+rrP80IRLPL/0j/VIdUciDaNMemu0jsn6IjGQZ
+         ROysv2tP4KDBCeDYJzWDtkDHejRbUwkV/Xq/vrBde1B9RM8gbiQc6pYYc3VggfC0w03e
+         ZG/w==
+X-Gm-Message-State: AOJu0YwUIU9QsGD+i5HiVFYoF9rRZGdTOZU9EAuz/cU+4O7uLKgkSNsr
+        +/GURtVNWc4eZdBi+e8cTecBlvWkfuEBcPzdFP4=
+X-Google-Smtp-Source: AGHT+IGjKURclSqydK6kWxSfSIlPGOuR/YzJpciRF8vTZTp9AyFyQ8kyZAOBh+/mGVNZoVSC6t7kXDM8p9kJK8d0aM0=
+X-Received: by 2002:a05:6820:1899:b0:581:e7b8:dd77 with SMTP id
+ bm25-20020a056820189900b00581e7b8dd77mr24924270oob.1.1699022916970; Fri, 03
+ Nov 2023 07:48:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20231103-b4-camss-named-power-domains-v4-7-33a905359dbc@linaro.org>
-References: <20231103-b4-camss-named-power-domains-v4-0-33a905359dbc@linaro.org>
-In-Reply-To: <20231103-b4-camss-named-power-domains-v4-0-33a905359dbc@linaro.org>
-To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-X-Mailer: b4 0.13-dev-26615
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+References: <20231102081611.1179964-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231102081611.1179964-1-sakari.ailus@linux.intel.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Fri, 3 Nov 2023 15:48:23 +0100
+Message-ID: <CAJZ5v0h5q__nbfxLUN-cZDSvjTCJHSZwoDEz_cq+bUJGSn1u-A@mail.gmail.com>
+Subject: Re: [PATCH v3 1/1] device property: Add fwnode_name_eq()
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-acpi@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        Paul Elder <paul.elder@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Julien Stephan <jstephan@baylibre.com>,
+        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+X-Spam-Status: No, score=-1.4 required=5.0 tests=BAYES_00,
+        FREEMAIL_FORGED_FROMDOMAIN,FREEMAIL_FROM,HEADER_FROM_DIFFERENT_DOMAINS,
+        RCVD_IN_DNSWL_NONE,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Matti Lehtimäki <matti.lehtimaki@gmail.com>
+On Thu, Nov 2, 2023 at 9:22 AM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Add fwnode_name_eq() to implement the functionality of of_node_name_eq()
+> on fwnode property API. The same convention of ending the comparison at
+> '@' (besides NUL) is applied on also both ACPI and swnode. The function
+> is intended for comparing unit address-less node names on DT and firmware
+> or swnodes compliant with DT bindings.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> Hi Rafael,
+>
+> Could we merge this via the media tree (pending further review comments,
+> if any)?
 
-Some platforms such as SC7280 have 3 CSIDs and 2 CSID-lites but current
-code has hardcoded 2 as the maximum number of CSIDs. Remove the hardcoded
-maximum number of VFEs to handle all possible combinations of CSIDs and
-CSID-lites.
+This would be fine with me, so please feel free to add
 
-Signed-off-by: Matti Lehtimäki <matti.lehtimaki@gmail.com>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- .../media/platform/qcom/camss/camss-csid-gen2.c    | 31 +++++++++++-----------
- drivers/media/platform/qcom/camss/camss-csid.c     |  5 ++++
- drivers/media/platform/qcom/camss/camss-csid.h     |  7 +++++
- drivers/media/platform/qcom/camss/camss.c          |  3 +++
- 4 files changed, 30 insertions(+), 16 deletions(-)
+Acked-by: Rafael J. Wysocki <rafael@kernel.org>
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index 05ff5fa8095a8..b11de4797ccae 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -21,7 +21,6 @@
-  * interface support. As a result of that it has an
-  * alternate register layout.
-  */
--#define IS_LITE		(csid->id >= 2 ? 1 : 0)
- 
- #define CSID_HW_VERSION		0x0
- #define		HW_VERSION_STEPPING	0
-@@ -35,13 +34,13 @@
- #define	CSID_CSI2_RX_IRQ_MASK	0x24
- #define CSID_CSI2_RX_IRQ_CLEAR	0x28
- 
--#define CSID_CSI2_RDIN_IRQ_STATUS(rdi)		((IS_LITE ? 0x30 : 0x40) \
-+#define CSID_CSI2_RDIN_IRQ_STATUS(rdi)		((csid_is_lite(csid) ? 0x30 : 0x40) \
- 						 + 0x10 * (rdi))
--#define CSID_CSI2_RDIN_IRQ_MASK(rdi)		((IS_LITE ? 0x34 : 0x44) \
-+#define CSID_CSI2_RDIN_IRQ_MASK(rdi)		((csid_is_lite(csid) ? 0x34 : 0x44) \
- 						 + 0x10 * (rdi))
--#define CSID_CSI2_RDIN_IRQ_CLEAR(rdi)		((IS_LITE ? 0x38 : 0x48) \
-+#define CSID_CSI2_RDIN_IRQ_CLEAR(rdi)		((csid_is_lite(csid) ? 0x38 : 0x48) \
- 						 + 0x10 * (rdi))
--#define CSID_CSI2_RDIN_IRQ_SET(rdi)		((IS_LITE ? 0x3C : 0x4C) \
-+#define CSID_CSI2_RDIN_IRQ_SET(rdi)		((csid_is_lite(csid) ? 0x3C : 0x4C) \
- 						 + 0x10 * (rdi))
- 
- #define CSID_TOP_IRQ_STATUS	0x70
-@@ -73,7 +72,7 @@
- #define			CGC_MODE_DYNAMIC_GATING		0
- #define			CGC_MODE_ALWAYS_ON		1
- 
--#define CSID_RDI_CFG0(rdi)			((IS_LITE ? 0x200 : 0x300) \
-+#define CSID_RDI_CFG0(rdi)			((csid_is_lite(csid) ? 0x200 : 0x300) \
- 						 + 0x100 * (rdi))
- #define		RDI_CFG0_BYTE_CNTR_EN		0
- #define		RDI_CFG0_FORMAT_MEASURE_EN	1
-@@ -98,32 +97,32 @@
- #define		RDI_CFG0_PACKING_FORMAT		30
- #define		RDI_CFG0_ENABLE			31
- 
--#define CSID_RDI_CFG1(rdi)			((IS_LITE ? 0x204 : 0x304)\
-+#define CSID_RDI_CFG1(rdi)			((csid_is_lite(csid) ? 0x204 : 0x304)\
- 						+ 0x100 * (rdi))
- #define		RDI_CFG1_TIMESTAMP_STB_SEL	0
- 
--#define CSID_RDI_CTRL(rdi)			((IS_LITE ? 0x208 : 0x308)\
-+#define CSID_RDI_CTRL(rdi)			((csid_is_lite(csid) ? 0x208 : 0x308)\
- 						+ 0x100 * (rdi))
- #define		RDI_CTRL_HALT_CMD		0
- #define			HALT_CMD_HALT_AT_FRAME_BOUNDARY		0
- #define			HALT_CMD_RESUME_AT_FRAME_BOUNDARY	1
- #define		RDI_CTRL_HALT_MODE		2
- 
--#define CSID_RDI_FRM_DROP_PATTERN(rdi)			((IS_LITE ? 0x20C : 0x30C)\
-+#define CSID_RDI_FRM_DROP_PATTERN(rdi)			((csid_is_lite(csid) ? 0x20C : 0x30C)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_FRM_DROP_PERIOD(rdi)			((IS_LITE ? 0x210 : 0x310)\
-+#define CSID_RDI_FRM_DROP_PERIOD(rdi)			((csid_is_lite(csid) ? 0x210 : 0x310)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_IRQ_SUBSAMPLE_PATTERN(rdi)		((IS_LITE ? 0x214 : 0x314)\
-+#define CSID_RDI_IRQ_SUBSAMPLE_PATTERN(rdi)		((csid_is_lite(csid) ? 0x214 : 0x314)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_IRQ_SUBSAMPLE_PERIOD(rdi)		((IS_LITE ? 0x218 : 0x318)\
-+#define CSID_RDI_IRQ_SUBSAMPLE_PERIOD(rdi)		((csid_is_lite(csid) ? 0x218 : 0x318)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_RPP_PIX_DROP_PATTERN(rdi)		((IS_LITE ? 0x224 : 0x324)\
-+#define CSID_RDI_RPP_PIX_DROP_PATTERN(rdi)		((csid_is_lite(csid) ? 0x224 : 0x324)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_RPP_PIX_DROP_PERIOD(rdi)		((IS_LITE ? 0x228 : 0x328)\
-+#define CSID_RDI_RPP_PIX_DROP_PERIOD(rdi)		((csid_is_lite(csid) ? 0x228 : 0x328)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_RPP_LINE_DROP_PATTERN(rdi)		((IS_LITE ? 0x22C : 0x32C)\
-+#define CSID_RDI_RPP_LINE_DROP_PATTERN(rdi)		((csid_is_lite(csid) ? 0x22C : 0x32C)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_RPP_LINE_DROP_PERIOD(rdi)		((IS_LITE ? 0x230 : 0x330)\
-+#define CSID_RDI_RPP_LINE_DROP_PERIOD(rdi)		((csid_is_lite(csid) ? 0x230 : 0x330)\
- 							+ 0x100 * (rdi))
- 
- #define CSID_TPG_CTRL		0x600
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index 95873f988f7e2..d393618ed54cb 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -897,3 +897,8 @@ void msm_csid_unregister_entity(struct csid_device *csid)
- 	media_entity_cleanup(&csid->subdev.entity);
- 	v4l2_ctrl_handler_free(&csid->ctrls);
- }
-+
-+inline bool csid_is_lite(struct csid_device *csid)
-+{
-+	return csid->camss->res->csid_res[csid->id].is_lite;
-+}
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-index 30d94eb2eb041..fddccb69da13a 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.h
-+++ b/drivers/media/platform/qcom/camss/camss-csid.h
-@@ -215,5 +215,12 @@ extern const struct csid_hw_ops csid_ops_4_1;
- extern const struct csid_hw_ops csid_ops_4_7;
- extern const struct csid_hw_ops csid_ops_gen2;
- 
-+/*
-+ * csid_is_lite - Check if CSID is CSID lite.
-+ * @csid: CSID Device
-+ *
-+ * Return whether CSID is CSID lite
-+ */
-+bool csid_is_lite(struct csid_device *csid);
- 
- #endif /* QC_MSM_CAMSS_CSID_H */
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index f5226eb8bf4fc..51ad12f1d9d7d 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -638,6 +638,7 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 				{ 384000000 } },
- 		.reg = { "csid2" },
- 		.interrupt = { "csid2" },
-+		.is_lite = true,
- 		.ops = &csid_ops_gen2
- 	}
- };
-@@ -812,6 +813,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "csid2" },
- 		.interrupt = { "csid2" },
-+		.is_lite = true,
- 		.ops = &csid_ops_gen2
- 	},
- 	/* CSID3 */
-@@ -824,6 +826,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "csid3" },
- 		.interrupt = { "csid3" },
-+		.is_lite = true,
- 		.ops = &csid_ops_gen2
- 	}
- };
+to this patch (when ready), but you need to ask Greg about it, because
+he's been handling device properties changes lately.
 
--- 
-2.42.0
-
+> There'a a patch to be merged via that tree which will depend on
+> fwnode_name_eq(), namely:
+> <URL:https://lore.kernel.org/linux-media/20231030133247.11243-1-laurent.pinchart@ideasonboard.com/T/#m489b7e83cbc755815c5002f85454a76bfb41adb2>.
+>
+> since v2:
+>
+> - Use NUL instead of '\0' and "at" instead of "to" (before "stopping
+>   comparison").
+>
+>  drivers/base/property.c  | 28 ++++++++++++++++++++++++++++
+>  include/linux/property.h |  1 +
+>  2 files changed, 29 insertions(+)
+>
+> diff --git a/drivers/base/property.c b/drivers/base/property.c
+> index 8667b13639d2..572e065e8797 100644
+> --- a/drivers/base/property.c
+> +++ b/drivers/base/property.c
+> @@ -595,6 +595,34 @@ const char *fwnode_get_name_prefix(const struct fwnode_handle *fwnode)
+>         return fwnode_call_ptr_op(fwnode, get_name_prefix);
+>  }
+>
+> +/**
+> + * fwnode_name_eq - Return true if node name is equal
+> + * @fwnode: The firmware node
+> + * @name: The name to which to compare the node name
+> + *
+> + * Compare the name provided as an argument to the name of the node, stopping
+> + * the comparison at either NUL or '@' character, whichever comes first. This
+> + * function is generally used for comparing node names while ignoring the
+> + * possible unit address of the node.
+> + *
+> + * Return: true if the node name matches with the name provided in the @name
+> + * argument, false otherwise.
+> + */
+> +bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name)
+> +{
+> +       const char *node_name;
+> +       size_t len;
+> +
+> +       node_name = fwnode_get_name(fwnode);
+> +       if (!node_name)
+> +               return false;
+> +
+> +       len = strchrnul(node_name, '@') - node_name;
+> +
+> +       return str_has_prefix(node_name, name) == len;
+> +}
+> +EXPORT_SYMBOL_GPL(fwnode_name_eq);
+> +
+>  /**
+>   * fwnode_get_parent - Return parent firwmare node
+>   * @fwnode: Firmware whose parent is retrieved
+> diff --git a/include/linux/property.h b/include/linux/property.h
+> index 083a1f41364b..096ade186601 100644
+> --- a/include/linux/property.h
+> +++ b/include/linux/property.h
+> @@ -108,6 +108,7 @@ struct fwnode_handle *fwnode_find_reference(const struct fwnode_handle *fwnode,
+>
+>  const char *fwnode_get_name(const struct fwnode_handle *fwnode);
+>  const char *fwnode_get_name_prefix(const struct fwnode_handle *fwnode);
+> +bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name);
+>
+>  struct fwnode_handle *fwnode_get_parent(const struct fwnode_handle *fwnode);
+>  struct fwnode_handle *fwnode_get_next_parent(struct fwnode_handle *fwnode);
+> --
+> 2.39.2
+>
