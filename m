@@ -2,154 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DD3277E0CB6
-	for <lists+linux-media@lfdr.de>; Sat,  4 Nov 2023 01:37:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEDF47E0D5A
+	for <lists+linux-media@lfdr.de>; Sat,  4 Nov 2023 04:00:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230453AbjKDAhC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Nov 2023 20:37:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55300 "EHLO
+        id S229770AbjKDCqT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Nov 2023 22:46:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229476AbjKDAhB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 20:37:01 -0400
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A726D4E;
-        Fri,  3 Nov 2023 17:36:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699058218; x=1730594218;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=1dW3SX46naPd0jQ9mrfv634xi6NUdGnHujinj6oth5c=;
-  b=OX8DL6Fia1h2JPJt5pZOSB6/3WvR3LmW6NUPDXagHLMMQNxvPYGB4Dyp
-   zNCw/ZTvEY1hHF1ACSO5PLKKMVc3KHCwyq+OKflY6qt3nRT6432UC6N2v
-   1GxgsqvyuMtH5IY4aJIz1NxcpREECR3XdRVbTHQ148+7tuHTVcXOo6dvR
-   8+v5wK5E6ZjzxQ/+4xsEDy+VWR8u7NaXKLKsXm3j7lekB97KNGs/yba2l
-   zWvl8l+zFBFGO27EjrHtWS61pAWV0XCBUZ1mziraOBc0rhqPaWM2KGWC3
-   s5Wf/V1v6xTKzh2qsejLVPma6p8MukAGNHmWy86vj5NpGO0NGDQMeAD16
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="391916618"
-X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
-   d="scan'208";a="391916618"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 17:36:57 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="761778329"
-X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
-   d="scan'208";a="761778329"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 03 Nov 2023 17:36:56 -0700
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1qz4ej-00038C-2M;
-        Sat, 04 Nov 2023 00:36:53 +0000
-Date:   Sat, 4 Nov 2023 08:36:47 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: versioncheck:
- ./drivers/staging/media/atomisp/include/linux/atomisp.h: 25 linux/version.h
- not needed.
-Message-ID: <202311040817.mU9R4SSl-lkp@intel.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=ham autolearn_force=no version=3.4.6
+        with ESMTP id S229657AbjKDCqT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 22:46:19 -0400
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F069B1BD
+        for <linux-media@vger.kernel.org>; Fri,  3 Nov 2023 19:46:15 -0700 (PDT)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C385C433C8
+        for <linux-media@vger.kernel.org>; Sat,  4 Nov 2023 02:46:14 +0000 (UTC)
+Date:   Sat, 04 Nov 2023 03:46:13 +0100
+Message-ID: <2e28a779cbb1232205fe76687b71e4ee.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-Spam-Status: No, score=-1.7 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,
+        SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=no
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-head:   e392ea4d4d00880bf94550151b1ace4f88a4b17a
-commit: ad85094b293e40e7a2f831b0311a389d952ebd5e Revert "media: staging: atomisp: Remove driver"
-date:   3 years, 6 months ago
-reproduce: (https://download.01.org/0day-ci/archive/20231104/202311040817.mU9R4SSl-lkp@intel.com/reproduce)
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311040817.mU9R4SSl-lkp@intel.com/
+Results of the daily build of media_tree:
 
-versioncheck warnings: (new ones prefixed by >>)
-   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wrestrict -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wundef -funsigned-char -Wenum-conversion -Wno-error=return-type -Wreturn-type -Wno-error=missing-prototypes W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
-   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
-   	-name '*.[hcS]' -type f -print | sort \
-   	| xargs perl -w ./scripts/checkversion.pl
-   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
-   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
-   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
-   ./arch/csky/include/asm/uaccess.h: 15 linux/version.h not needed.
-   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
-   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
-   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
-   ./arch/s390/include/asm/setup.h: 182: need linux/version.h
-   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
-   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
-   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
-   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
-   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
-   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
-   ./drivers/gpio/gpio-mlxbf2.c: 17 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 62 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
-   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
-   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
-   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
-   ./drivers/hv/hv.c: 16 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
-   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
-   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
-   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
-   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
-   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
-   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
-   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
-   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
-   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
-   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
-   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
-   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
-   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
-   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
-   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
->> ./drivers/staging/media/atomisp/include/linux/atomisp.h: 25 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
-   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
-   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
-   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
-   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
-   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
-   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
-   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
-   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
-   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
-   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
-   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
-   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
-   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
-   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
-   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
-   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
-   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
+date:			Sat Nov  4 03:00:12 CET 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	3e238417254bfdcc23fe207780b59cbb08656762
+v4l-utils git hash:	3d6682746de535d1f7aa71b43a30af40d52a539c
+edid-decode git hash:	385c6cb09714593be3aa5b5d123e4e42bf4fbb05
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8494-gc4f4869a
+sparse version:		v0.5.0-8494-gc4f4869a
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: a6e978cf5c59a26504d37fee4ae779ecc19359fb
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Sat Nov  4 03:16:14 CET 2023
+virtme-64: WARNINGS: Final Summary: 3218, Succeeded: 3218, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 3342, Succeeded: 3342, Failed: 0, Warnings: 3
+
+date:			Sat Nov  4 03:45:00 CET 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
