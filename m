@@ -2,201 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A7CAA7E09F7
-	for <lists+linux-media@lfdr.de>; Fri,  3 Nov 2023 21:11:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD3277E0CB6
+	for <lists+linux-media@lfdr.de>; Sat,  4 Nov 2023 01:37:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234569AbjKCULt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 3 Nov 2023 16:11:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44560 "EHLO
+        id S230453AbjKDAhC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 3 Nov 2023 20:37:02 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55300 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230379AbjKCULs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 16:11:48 -0400
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68B92D61;
-        Fri,  3 Nov 2023 13:11:45 -0700 (PDT)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40308C433C8;
-        Fri,  3 Nov 2023 20:11:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699042304;
-        bh=3LHRc8rww849/6wAkBU/sr464fjAyyToo/wNBBArVDM=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=mLV9uboIii2WaWOBW6KVPc7nBjq7UPg4F0/bfPRm2WrzM1B0UQCZAg7yrJ6mghEDJ
-         ka7eDHgGCSTM33dWvfWmE9yTtGNDbdvUX3DZLefVVoezOI+bbgEPGaGgh10oRg9oVl
-         M1w3CZzdoGJMD+z08Ws67bK9JNpxHj/FBcgGseI3a93Ofr44155ph8W3yHXKe16+ZI
-         RnF7d6VjSp9PIouVAxkCsgVLLQ5Rt1WG7v4iLJ0XSTDtH87Na4BZ4Ik5gxQ9g5Wfiy
-         SWk0xhEQwVFH0p7e7WX1X9I6+ahg2hQDLrFhRWp7TAqiTwx1SVBIfPdxftosbX0uow
-         dEZgmpsCtli+A==
-Date:   Fri, 3 Nov 2023 13:15:49 -0700
-From:   Bjorn Andersson <andersson@kernel.org>
-To:     Abel Vesa <abel.vesa@linaro.org>
-Cc:     "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andy Gross <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Taniya Das <tdas@qti.qualcomm.com>, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-media@vger.kernel.org,
-        Jagadeesh Kona <quic_jkona@quicinc.com>
-Subject: Re: [PATCH RESEND v3 4/5] clk: qcom: Use HW_CTRL_TRIGGER flag to
- switch video GDSC to HW mode
-Message-ID: <v4dnsawo7s74spccrsvjwmal73tqfq4aptiny25tyyp6ungxha@jlbywvcssqtl>
-References: <20231101-gdsc-hwctrl-v3-0-0740ae6b2b04@linaro.org>
- <20231101-gdsc-hwctrl-v3-4-0740ae6b2b04@linaro.org>
+        with ESMTP id S229476AbjKDAhB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 3 Nov 2023 20:37:01 -0400
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A726D4E;
+        Fri,  3 Nov 2023 17:36:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699058218; x=1730594218;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=1dW3SX46naPd0jQ9mrfv634xi6NUdGnHujinj6oth5c=;
+  b=OX8DL6Fia1h2JPJt5pZOSB6/3WvR3LmW6NUPDXagHLMMQNxvPYGB4Dyp
+   zNCw/ZTvEY1hHF1ACSO5PLKKMVc3KHCwyq+OKflY6qt3nRT6432UC6N2v
+   1GxgsqvyuMtH5IY4aJIz1NxcpREECR3XdRVbTHQ148+7tuHTVcXOo6dvR
+   8+v5wK5E6ZjzxQ/+4xsEDy+VWR8u7NaXKLKsXm3j7lekB97KNGs/yba2l
+   zWvl8l+zFBFGO27EjrHtWS61pAWV0XCBUZ1mziraOBc0rhqPaWM2KGWC3
+   s5Wf/V1v6xTKzh2qsejLVPma6p8MukAGNHmWy86vj5NpGO0NGDQMeAD16
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="391916618"
+X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
+   d="scan'208";a="391916618"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2023 17:36:57 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10883"; a="761778329"
+X-IronPort-AV: E=Sophos;i="6.03,275,1694761200"; 
+   d="scan'208";a="761778329"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga002.jf.intel.com with ESMTP; 03 Nov 2023 17:36:56 -0700
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qz4ej-00038C-2M;
+        Sat, 04 Nov 2023 00:36:53 +0000
+Date:   Sat, 4 Nov 2023 08:36:47 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: versioncheck:
+ ./drivers/staging/media/atomisp/include/linux/atomisp.h: 25 linux/version.h
+ not needed.
+Message-ID: <202311040817.mU9R4SSl-lkp@intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231101-gdsc-hwctrl-v3-4-0740ae6b2b04@linaro.org>
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-2.6 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H3,RCVD_IN_MSPIKE_WL,
+        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 01, 2023 at 11:04:10AM +0200, Abel Vesa wrote:
-> From: Jagadeesh Kona <quic_jkona@quicinc.com>
-> 
-> The current HW_CTRL flag switches the video GDSC to HW control mode as
-> part of GDSC enable itself, instead of that use HW_CTRL_TRIGGER flag to
-> give consumer drivers more control and switch the GDSC mode as and when
-> required.
-> 
-> HW_CTRL_TRIGGER flag allows consumer drivers to switch the video GDSC to
-> HW/SW control modes at runtime using dev_pm_genpd_set_hwmode API.
-> 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   e392ea4d4d00880bf94550151b1ace4f88a4b17a
+commit: ad85094b293e40e7a2f831b0311a389d952ebd5e Revert "media: staging: atomisp: Remove driver"
+date:   3 years, 6 months ago
+reproduce: (https://download.01.org/0day-ci/archive/20231104/202311040817.mU9R4SSl-lkp@intel.com/reproduce)
 
-This states what the code currently does, and what the new code will do.
-But I don't find that it adequately describes _why_ this is done.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311040817.mU9R4SSl-lkp@intel.com/
 
+versioncheck warnings: (new ones prefixed by >>)
+   INFO PATH=/opt/cross/clang/bin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+   /usr/bin/timeout -k 100 3h /usr/bin/make KCFLAGS= -Wrestrict -Wformat-overflow -Wformat-truncation -Wstringop-overflow -Wundef -funsigned-char -Wenum-conversion -Wno-error=return-type -Wreturn-type -Wno-error=missing-prototypes W=1 --keep-going HOSTCC=gcc-12 CC=gcc-12 -j32 KBUILD_MODPOST_WARN=1 ARCH=x86_64 versioncheck
+   find ./* \( -name SCCS -o -name BitKeeper -o -name .svn -o -name CVS -o -name .pc -o -name .hg -o -name .git \) -prune -o \
+   	-name '*.[hcS]' -type f -print | sort \
+   	| xargs perl -w ./scripts/checkversion.pl
+   ./arch/arm64/kernel/hibernate.c: 24 linux/version.h not needed.
+   ./arch/csky/include/asm/atomic.h: 6 linux/version.h not needed.
+   ./arch/csky/include/asm/io.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/thread_info.h: 9 linux/version.h not needed.
+   ./arch/csky/include/asm/uaccess.h: 15 linux/version.h not needed.
+   ./arch/csky/kernel/process.c: 5 linux/version.h not needed.
+   ./arch/csky/mm/dma-mapping.c: 14 linux/version.h not needed.
+   ./arch/csky/mm/fault.c: 16 linux/version.h not needed.
+   ./arch/s390/include/asm/setup.h: 182: need linux/version.h
+   ./arch/um/drivers/vector_kern.c: 11 linux/version.h not needed.
+   ./drivers/block/rsxx/rsxx_priv.h: 14 linux/version.h not needed.
+   ./drivers/block/skd_main.c: 28 linux/version.h not needed.
+   ./drivers/crypto/cavium/cpt/cptpf_main.c: 13 linux/version.h not needed.
+   ./drivers/crypto/cavium/zip/common.h: 59 linux/version.h not needed.
+   ./drivers/crypto/ccree/cc_driver.h: 25 linux/version.h not needed.
+   ./drivers/gpio/gpio-mlxbf2.c: 17 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c: 62 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_helpers.c: 28 linux/version.h not needed.
+   ./drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm_mst_types.c: 26 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_display.c: 15 linux/version.h not needed.
+   ./drivers/gpu/drm/pl111/pl111_drv.c: 58 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_display.c: 14 linux/version.h not needed.
+   ./drivers/gpu/drm/tve200/tve200_drv.c: 38 linux/version.h not needed.
+   ./drivers/hv/hv.c: 16 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-brcmstb.c: 25 linux/version.h not needed.
+   ./drivers/i2c/busses/i2c-xgene-slimpro.c: 22 linux/version.h not needed.
+   ./drivers/media/dvb-frontends/mxl5xx.c: 30 linux/version.h not needed.
+   ./drivers/media/pci/cx25821/cx25821.h: 31 linux/version.h not needed.
+   ./drivers/media/platform/s3c-camif/camif-core.c: 26 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-common.h: 16 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-core.c: 31 linux/version.h not needed.
+   ./drivers/media/platform/sti/c8sectpfe/c8sectpfe-dvb.c: 14 linux/version.h not needed.
+   ./drivers/media/usb/uvc/uvc_driver.c: 18 linux/version.h not needed.
+   ./drivers/mtd/nand/raw/brcmnand/brcmnand.c: 7 linux/version.h not needed.
+   ./drivers/net/ethernet/broadcom/genet/bcmgenet_wol.c: 21 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede.h: 35 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_ethtool.c: 32 linux/version.h not needed.
+   ./drivers/net/ethernet/qlogic/qede/qede_main.c: 34 linux/version.h not needed.
+   ./drivers/net/usb/lan78xx.c: 5 linux/version.h not needed.
+   ./drivers/net/wireless/rsi/rsi_91x_ps.c: 19 linux/version.h not needed.
+   ./drivers/scsi/cxgbi/libcxgbi.h: 27 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf.h: 15 linux/version.h not needed.
+   ./drivers/scsi/qedf/qedf_dbg.h: 13 linux/version.h not needed.
+   ./drivers/scsi/qedi/qedi_dbg.h: 14 linux/version.h not needed.
+   ./drivers/soc/tegra/powergate-bpmp.c: 10 linux/version.h not needed.
+>> ./drivers/staging/media/atomisp/include/linux/atomisp.h: 25 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/drv_types.h: 17 linux/version.h not needed.
+   ./drivers/staging/rtl8723bs/include/ioctl_cfg80211.h: 10 linux/version.h not needed.
+   ./drivers/usb/early/xhci-dbc.c: 21 linux/version.h not needed.
+   ./drivers/watchdog/ziirave_wdt.c: 21 linux/version.h not needed.
+   ./fs/ext4/ext4.h: 30 linux/version.h not needed.
+   ./include/linux/qed/qed_ll2_if.h: 41 linux/version.h not needed.
+   ./kernel/bpf/syscall.c: 19 linux/version.h not needed.
+   ./samples/bpf/sampleip_kern.c: 7 linux/version.h not needed.
+   ./samples/bpf/trace_event_kern.c: 8 linux/version.h not needed.
+   ./samples/mic/mpssd/mpssd.c: 29 linux/version.h not needed.
+   ./sound/soc/codecs/cs35l35.c: 12 linux/version.h not needed.
+   ./sound/soc/codecs/cs42l42.c: 14 linux/version.h not needed.
+   ./tools/perf/include/bpf/bpf.h: 70: need linux/version.h
+   ./tools/perf/tests/bpf-script-example.c: 49: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-kbuild.c: 21: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-prologue.c: 47: need linux/version.h
+   ./tools/perf/tests/bpf-script-test-relocation.c: 51: need linux/version.h
+   ./tools/testing/selftests/bpf/progs/test_map_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_send_signal_kern.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_spin_lock.c: 4 linux/version.h not needed.
+   ./tools/testing/selftests/bpf/progs/test_tcp_estats.c: 37 linux/version.h not needed.
+   ./tools/testing/selftests/wireguard/qemu/init.c: 25 linux/version.h not needed.
 
-In the current implementation, the hardware is might collapse the GDSC
-anytime between gdsc_enable() and gdsc_disable(). By giving "drivers
-more control" the time spent in this state is reduced to some fraction
-of that span, which to me implies higher power consumption.
-
-Under the assumption that we don't want to consume more power without
-reason, I'm forced to guess that there might be some scenarios that we
-want this feature to keep the GDSC non-collapsed against the indication
-of the hardware - to avoid some instability somewhere, perhaps?
-
-Regards,
-Bjorn
-
-> Signed-off-by: Jagadeesh Kona <quic_jkona@quicinc.com>
-> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
-> ---
->  drivers/clk/qcom/videocc-sc7180.c | 2 +-
->  drivers/clk/qcom/videocc-sc7280.c | 2 +-
->  drivers/clk/qcom/videocc-sdm845.c | 4 ++--
->  drivers/clk/qcom/videocc-sm8250.c | 4 ++--
->  drivers/clk/qcom/videocc-sm8550.c | 4 ++--
->  5 files changed, 8 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/clk/qcom/videocc-sc7180.c b/drivers/clk/qcom/videocc-sc7180.c
-> index 5b9b54f616b8..51439f7ba70c 100644
-> --- a/drivers/clk/qcom/videocc-sc7180.c
-> +++ b/drivers/clk/qcom/videocc-sc7180.c
-> @@ -166,7 +166,7 @@ static struct gdsc vcodec0_gdsc = {
->  	.pd = {
->  		.name = "vcodec0_gdsc",
->  	},
-> -	.flags = HW_CTRL,
-> +	.flags = HW_CTRL_TRIGGER,
->  	.pwrsts = PWRSTS_OFF_ON,
->  };
->  
-> diff --git a/drivers/clk/qcom/videocc-sc7280.c b/drivers/clk/qcom/videocc-sc7280.c
-> index 615695d82319..3d07b1e95986 100644
-> --- a/drivers/clk/qcom/videocc-sc7280.c
-> +++ b/drivers/clk/qcom/videocc-sc7280.c
-> @@ -236,7 +236,7 @@ static struct gdsc mvs0_gdsc = {
->  		.name = "mvs0_gdsc",
->  	},
->  	.pwrsts = PWRSTS_OFF_ON,
-> -	.flags = HW_CTRL | RETAIN_FF_ENABLE,
-> +	.flags = HW_CTRL_TRIGGER | RETAIN_FF_ENABLE,
->  };
->  
->  static struct gdsc mvsc_gdsc = {
-> diff --git a/drivers/clk/qcom/videocc-sdm845.c b/drivers/clk/qcom/videocc-sdm845.c
-> index c77a4dd5d39c..dad011c48973 100644
-> --- a/drivers/clk/qcom/videocc-sdm845.c
-> +++ b/drivers/clk/qcom/videocc-sdm845.c
-> @@ -260,7 +260,7 @@ static struct gdsc vcodec0_gdsc = {
->  	},
->  	.cxcs = (unsigned int []){ 0x890, 0x930 },
->  	.cxc_count = 2,
-> -	.flags = HW_CTRL | POLL_CFG_GDSCR,
-> +	.flags = HW_CTRL_TRIGGER | POLL_CFG_GDSCR,
->  	.pwrsts = PWRSTS_OFF_ON,
->  };
->  
-> @@ -271,7 +271,7 @@ static struct gdsc vcodec1_gdsc = {
->  	},
->  	.cxcs = (unsigned int []){ 0x8d0, 0x950 },
->  	.cxc_count = 2,
-> -	.flags = HW_CTRL | POLL_CFG_GDSCR,
-> +	.flags = HW_CTRL_TRIGGER | POLL_CFG_GDSCR,
->  	.pwrsts = PWRSTS_OFF_ON,
->  };
->  
-> diff --git a/drivers/clk/qcom/videocc-sm8250.c b/drivers/clk/qcom/videocc-sm8250.c
-> index ad46c4014a40..c1b73d852f1c 100644
-> --- a/drivers/clk/qcom/videocc-sm8250.c
-> +++ b/drivers/clk/qcom/videocc-sm8250.c
-> @@ -293,7 +293,7 @@ static struct gdsc mvs0_gdsc = {
->  	.pd = {
->  		.name = "mvs0_gdsc",
->  	},
-> -	.flags = HW_CTRL,
-> +	.flags = HW_CTRL_TRIGGER,
->  	.pwrsts = PWRSTS_OFF_ON,
->  };
->  
-> @@ -302,7 +302,7 @@ static struct gdsc mvs1_gdsc = {
->  	.pd = {
->  		.name = "mvs1_gdsc",
->  	},
-> -	.flags = HW_CTRL,
-> +	.flags = HW_CTRL_TRIGGER,
->  	.pwrsts = PWRSTS_OFF_ON,
->  };
->  
-> diff --git a/drivers/clk/qcom/videocc-sm8550.c b/drivers/clk/qcom/videocc-sm8550.c
-> index f3c9dfaee968..404c6600edae 100644
-> --- a/drivers/clk/qcom/videocc-sm8550.c
-> +++ b/drivers/clk/qcom/videocc-sm8550.c
-> @@ -322,7 +322,7 @@ static struct gdsc video_cc_mvs0_gdsc = {
->  	},
->  	.pwrsts = PWRSTS_OFF_ON,
->  	.parent = &video_cc_mvs0c_gdsc.pd,
-> -	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | HW_CTRL,
-> +	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | HW_CTRL_TRIGGER,
->  };
->  
->  static struct gdsc video_cc_mvs1c_gdsc = {
-> @@ -347,7 +347,7 @@ static struct gdsc video_cc_mvs1_gdsc = {
->  	},
->  	.pwrsts = PWRSTS_OFF_ON,
->  	.parent = &video_cc_mvs1c_gdsc.pd,
-> -	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | HW_CTRL,
-> +	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | HW_CTRL_TRIGGER,
->  };
->  
->  static struct clk_regmap *video_cc_sm8550_clocks[] = {
-> 
-> -- 
-> 2.34.1
-> 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
