@@ -2,143 +2,183 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 635DC7E155D
-	for <lists+linux-media@lfdr.de>; Sun,  5 Nov 2023 17:59:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D00777E158B
+	for <lists+linux-media@lfdr.de>; Sun,  5 Nov 2023 18:45:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229485AbjKEQ7r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Nov 2023 11:59:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34690 "EHLO
+        id S229526AbjKERpI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Nov 2023 12:45:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49294 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229445AbjKEQ7q (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Nov 2023 11:59:46 -0500
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5BF0CBB
-        for <linux-media@vger.kernel.org>; Sun,  5 Nov 2023 08:59:42 -0800 (PST)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 6F9AB20B366C;
-        Sun,  5 Nov 2023 17:59:39 +0100 (CET)
-Authentication-Results: ext-mx-out011.mykolab.com (amavis);
- dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
- header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        in-reply-to:from:from:content-language:references:subject
-        :subject:mime-version:date:date:message-id:content-type
-        :content-type:received:received:received; s=dkim20160331; t=
-        1699203578; x=1701017979; bh=arjyPIgNxx0nasQ6UODKkdKU4iKWTHG+nES
-        yiIG/rgg=; b=MYOyHX9nXYaEbZS3Mhgni/5hcoN+/ARGDPCcnH4w8xeiQ1yWXtS
-        YCtK5FKkmvIUWUidVVLZ0jKxSV8TuYcWiYSW8her0L4RyQfeY+tCIKC3oWaiBMRT
-        uC2b4QUyJg1bxcO/SsLjItqA+qWn3hzGrRtafpgv974YswQc2tj3F7tN5DOfM7Jr
-        N6H6eHmMURNzwoP0QhODQ2jiOUXbtE5VGRPRNSxU5Fz3HcH56T5sE+Tu3XVZl7Y8
-        XZVxXC01CkZmhC/n/PsL4QPmvEbyWvtKRsHm0Ce8eEebiPSzIkLnxuh2DKyeF5Ya
-        8n0vuqvE7wdO7VI9HzOLyMMvbJ2qJ9U4gYEq/1Ro7Chk6WhlS0+CWcvGizNd/9ks
-        ydocv+2y+F30ec6rzlZgEpzK9Zd0f9QZICiqMGWM30zewIbCe7rAlwM87lkGSS/N
-        JWM4oQjPS7/3rr2RHuDJHszbW6B43jp490mv8Fbrf+tfi3Qn6C8nv+9KlEoK/QE6
-        0sJoni8EsjF7ppQVMCOmloMsXb/p2xgh3fTaHTffR/Fyk3vLj8MuwVAUUlHS3At5
-        bTba/0GOh8rfMHb18+WyNVMWjSV1fJ821qOjaz8atK+WtX21/YcAHtZAXg1O5Wu1
-        rDX4OsLWgwqceXagDQqz2BuruHVYpAM/i9UKPRj5SnUHcL1lwlVtGnd8=
-X-Virus-Scanned: amavis at mykolab.com
-X-Spam-Score: -1
-X-Spam-Level: 
-X-Spam-Status: No, score=-1.9 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED autolearn=ham autolearn_force=no
-        version=3.4.6
-Received: from mx.kolabnow.com ([127.0.0.1])
- by localhost (ext-mx-out011.mykolab.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id 9gBCiK67NWjl; Sun,  5 Nov 2023 17:59:38 +0100 (CET)
-Received: from int-mx009.mykolab.com (unknown [10.9.13.9])
-        by mx.kolabnow.com (Postfix) with ESMTPS id 6DC4A20B2751;
-        Sun,  5 Nov 2023 17:59:35 +0100 (CET)
-Received: from ext-subm010.mykolab.com (unknown [10.9.6.10])
-        by int-mx009.mykolab.com (Postfix) with ESMTPS id AA49720C7686;
-        Sun,  5 Nov 2023 17:59:32 +0100 (CET)
-Content-Type: multipart/mixed; boundary="------------D0OE10wapxTR2FrTa5Jt7WiD"
-Message-ID: <855f69b8-dc33-225a-ebd3-134467d55cf1@hansg.org>
-Date:   Sun, 5 Nov 2023 17:59:31 +0100
+        with ESMTP id S229475AbjKERpH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Nov 2023 12:45:07 -0500
+Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9371FDE
+        for <linux-media@vger.kernel.org>; Sun,  5 Nov 2023 09:45:04 -0800 (PST)
+Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2c50ec238aeso52236911fa.0
+        for <linux-media@vger.kernel.org>; Sun, 05 Nov 2023 09:45:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699206303; x=1699811103; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Vs2X2TC3aDgjhTmsm2pl3o3Tuf0i4SGLrwDNMlOpie8=;
+        b=AD5ufH6Y5YZWI/owFG2qHUAkLLckwuaifyHefPfBEIMfTi+YUw3WMXYCqtlls5nOk5
+         TDJ4JkeSSI+2X/doBmPMQjWyVgvPHL6YEw1GwjM5CF9oI9Bl/5jW4ZvGvTczfiT5/jt4
+         BIhy0mhN81ERBVurdRamDp8ofT7tP+9d+Z9YSZoDPTnyj3yrP1EqxZ7thXVP36VgL06o
+         TmWgpu4mlNie+Y/snbcMYN5RaPuz7lTMppmn16UC9rdjjJIO7hPMDppDV2WupPXOtP3Z
+         Y6pYQi21sgXJUYFRZznNPSaZ1XH2VqJjWHTLc5ZJlroKpFQ5g/mG2R1rmrC5e/cjT3r8
+         BpHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699206303; x=1699811103;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Vs2X2TC3aDgjhTmsm2pl3o3Tuf0i4SGLrwDNMlOpie8=;
+        b=tEsH+b4Ia2Fg5/ZtBWZOM74pEzpsLl0HJbfqQvBFQPVa4RS/xD8d8EDeWekuSGUoz5
+         zcV5j+ARqyP6d/COhsScl5m796Q3RjGR8sKxpc165hK0f4nrGL6r0Hqf0qeZlQFq22we
+         dHtKNPev57o2QTGcfMSxiqM5Yo7lyhs8j3sV0UQImuohVHNjgvtL0ViIz1TvppYW/HtJ
+         Zmfm8aiv4yc19tyjIB6ybloQgrjmpVdKjxJ3ZXz5Wm09LA0vfnJ1C9pauSlFK5JpYKsG
+         /GCpCVb5eTIbXlAxH2gUjT6iiscW8RRDU52xetz5CKNEjR4He2WxWc6pjcYncd1SPdDr
+         FMmw==
+X-Gm-Message-State: AOJu0YwEHsP4a7eMY1pFpnEy51sWP2gePDaAyp7aZDH/Io83lROAKBVx
+        DGYNIa4nCmlpvdhgNf0YAHgI2A==
+X-Google-Smtp-Source: AGHT+IGtdNn5u7/gsPQPsmxiIo3xFFeBvAYua2DHDn5mAefSlgnlXsioKcpVAsoPWOujMRB2NtMRaw==
+X-Received: by 2002:a2e:8090:0:b0:2c5:183d:42bf with SMTP id i16-20020a2e8090000000b002c5183d42bfmr19958196ljg.45.1699206302309;
+        Sun, 05 Nov 2023 09:45:02 -0800 (PST)
+Received: from [127.0.0.1] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id t10-20020a05600c198a00b004064ac107cfsm9553346wmq.39.2023.11.05.09.45.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 05 Nov 2023 09:45:01 -0800 (PST)
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCH v3 0/6] media: qcom: camss: Add sc8280xp support
+Date:   Sun, 05 Nov 2023 17:44:59 +0000
+Message-Id: <20231105-b4-camss-sc8280xp-v3-0-4b3c372ff0f4@linaro.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 11/15] media: intel/ipu6: input system video capture
- nodes
-To:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc:     andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
-        ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
-        claus.stovgaard@gmail.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-        hongju.wang@intel.com
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <20231024112924.3934228-12-bingbu.cao@intel.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hans@hansg.org>
-In-Reply-To: <20231024112924.3934228-12-bingbu.cao@intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJvUR2UC/23N0QrCIBTG8VcZXmd4jlZzV71HdKFON6Hm0JDF2
+ LvnBkHBLv8fnN+ZSbLR20SaaibRZp98GErwQ0VMr4bOUt+WJsiQAzCgWlCjninRZGqs2TRSZkF
+ LsBpBO1Luxmidnzbzdi/d+/QK8b29yLCuXw13tAyUUSnl2QltdO3E9eEHFcMxxI6sXMZfgu8RW
+ Ah9UU60eOIK2R+xLMsH19WlTvYAAAA=
+To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
+        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+X-Mailer: b4 0.13-dev-26615
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------D0OE10wapxTR2FrTa5Jt7WiD
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+V3:
+- Strip pointer to dependencies from yaml patch
+  I was hoping the robot would understand the links but it doesn't -
+  Krzysztof
 
-Hi Bingbu,
+Link to v2: https://lore.kernel.org/r/20231103-b4-camss-sc8280xp-v2-0-b7af4d253a20@linaro.org
 
-On 10/24/23 13:29, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
-> 
-> Register v4l2 video device and setup the vb2 queue to
-> support basic video capture. Video streaming callback
-> will trigger the input system driver to construct a
-> input system stream configuration for firmware based on
-> data type and stream ID and then queue buffers to firmware
-> to do capture.
-> 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+b4 base:
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/b4/camss-sc8280xp-v3
 
-While testing this new version I found a small issue in the enum_fmt implementation caused by the mbus_code filtering support I suggested.
+V2:
+- Rebase to capture is_lite flag from named power-domain series
+- Amends commit log of final patch to give more detail on rename - Konrad
+- Opted not to change switch() statements with returns. - bod/Konrad
 
-Attached is a single-line patch which fixes this, can you please fold this into the next version ?
+Requires CAMCC for sc8280xp which applies to qcom/clk-for-6.7:
+https://lore.kernel.org/linux-arm-msm/20231026105345.3376-1-bryan.odonoghue@linaro.org/
+b4 shazam 20231026105345.3376-1-bryan.odonoghue@linaro.org
 
-Regards,
+Requires the named power-domain patches which apply to media-tree/*:
+https://lore.kernel.org/linux-arm-msm/20231103-b4-camss-named-power-domains-v4-0-33a905359dbc@linaro.org/
+b4 shazam e700133b-58f7-4a4d-8e5c-0d04441b789b@linaro.org
 
-Hans
+Link to v1:
+https://lore.kernel.org/r/20231102-b4-camss-sc8280xp-v1-0-9996f4bcb8f4@linaro.org
 
---------------D0OE10wapxTR2FrTa5Jt7WiD
-Content-Type: text/x-patch; charset=UTF-8;
- name="0001-media-ipu6-isys-video-Do-not-set-mbus_code-from-vidi.patch"
-Content-Disposition: attachment;
- filename*0="0001-media-ipu6-isys-video-Do-not-set-mbus_code-from-vidi.pa";
- filename*1="tch"
-Content-Transfer-Encoding: base64
+b4 base:
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/b4/camss-sc8280xp-v2
 
-RnJvbSA0YzNiMTQ0NWY1MWU4MTIzYWMzZmIzZmJmNzZiMmM0MjlhMWM3N2ZhIE1vbiBTZXAg
-MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBIYW5zIGRlIEdvZWRlIDxoZGVnb2VkZUByZWRoYXQu
-Y29tPgpEYXRlOiBTdW4sIDUgTm92IDIwMjMgMTc6NDY6NTIgKzAxMDAKU3ViamVjdDogW1BB
-VENIXSBtZWRpYTogaXB1Ni1pc3lzLXZpZGVvOiBEbyBub3Qgc2V0IG1idXNfY29kZSBmcm9t
-CiB2aWRpb2NfZW51bV9mbXRfdmlkX2NhcAoKV2hlbiBlbnVtZXJhdGluZyB1c2Vyc3BhY2Ug
-d2lsbCBjYWxsIHZpZGlvY19lbnVtX2ZtdF92aWRfY2FwIHJlcGVhdGVkbHkKd2l0aCBoaWdo
-ZXIgdjRsMl9mbXRkZXNjLmluZGV4IHZhbHVlcyB1bnRpbCBpdCByZXR1cm5zIC1FSU5WQUwg
-dG8KaW5kaWNhdGUgYWxsIGZvcm1hdHMgaGF2ZSBiZWVuIGVudW1lcmF0ZWQuCgpTb21lIHVz
-ZXJzcGFjZSBjb2RlIHN1Y2ggYXMgZS5nLiB2NGwyLWN0bCBvbmx5IGZpbGxzIHRoZSB2NGwy
-X2ZtdGRlc2MKc3RydWN0IG9uY2UgYW5kIHRoZW4gb25seSBpbmNyZWFzZXMgdjRsMl9mbXRk
-ZXNjLmluZGV4IGZvciBzdWJzZXF1ZW50CmNhbGxzLgoKU2V0dGluZyB2NGwyX2ZtdGRlc2Mu
-bWJ1c19jb2RlIHdoZW4gaXQgd2FzIDAgY2hhbmdlcyBzdWJzZXF1ZW50CnZpZGlvY19lbnVt
-X2ZtdF92aWRfY2FwIGZyb20gdW5maWx0ZXJlZCBtb2RlIHRvIG1idXMtY29kZSBmaWx0ZXJl
-ZCBtb2RlCmJyZWFraW5nIHVuZmlsdGVyZWQgZW51bWVyYXRpb24uCgpEbyBub3Qgc2V0IHY0
-bDJfZm10ZGVzYy5tYnVzX2NvZGUgaW4gdW5maWx0ZXJlZCBtb2RlIHRvIGZpeCB0aGlzLgoK
-U2lnbmVkLW9mZi1ieTogSGFucyBkZSBHb2VkZSA8aGRlZ29lZGVAcmVkaGF0LmNvbT4KLS0t
-CiBkcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pcHU2L2lwdTYtaXN5cy12aWRlby5jIHwgMSAt
-CiAxIGZpbGUgY2hhbmdlZCwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdpdCBhL2RyaXZlcnMv
-bWVkaWEvcGNpL2ludGVsL2lwdTYvaXB1Ni1pc3lzLXZpZGVvLmMgYi9kcml2ZXJzL21lZGlh
-L3BjaS9pbnRlbC9pcHU2L2lwdTYtaXN5cy12aWRlby5jCmluZGV4IGY4MTkzNGEzMDFiNC4u
-ZTczYTQ2ZWI3ZmQzIDEwMDY0NAotLS0gYS9kcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pcHU2
-L2lwdTYtaXN5cy12aWRlby5jCisrKyBiL2RyaXZlcnMvbWVkaWEvcGNpL2ludGVsL2lwdTYv
-aXB1Ni1pc3lzLXZpZGVvLmMKQEAgLTEyOSw3ICsxMjksNiBAQCBpbnQgaXB1Nl9pc3lzX3Zp
-ZGlvY19lbnVtX2ZtdChzdHJ1Y3QgZmlsZSAqZmlsZSwgdm9pZCAqZmgsCiAJaWYgKCFmLT5t
-YnVzX2NvZGUpIHsKIAkJZi0+ZmxhZ3MgPSAwOwogCQlmLT5waXhlbGZvcm1hdCA9IGlwdTZf
-aXN5c19wZm10c1tmLT5pbmRleF0ucGl4ZWxmb3JtYXQ7Ci0JCWYtPm1idXNfY29kZSA9IGlw
-dTZfaXN5c19wZm10c1tmLT5pbmRleF0uY29kZTsKIAkJcmV0dXJuIDA7CiAJfQogCi0tIAoy
-LjQxLjAKCg==
+V1:
+sc8280xp is the SoC found in the Lenovo X13s. This series adds support to
+bring up the CSIPHY, CSID, VFE/RDI interfaces.
 
---------------D0OE10wapxTR2FrTa5Jt7WiD--
+A number of precursor patches make this series smaller overall than
+previous series.
+
+sc8280xp provides
+
+- 4 x VFE, 4 RDI per VFE
+- 4 x VFE Lite, 4 RDI per VFE
+- 4 x CSID
+- 4 x CSID Lite
+- 4 x CSI PHY
+
+I've taken the yaml from a dtsi series and included it here since 1) I sent
+the yaml to the wrong person and 2) it already has RB from Krzysztof.
+
+Requires CAMCC for sc8280xp which applies to qcom/clk-for-6.7:
+https://lore.kernel.org/linux-arm-msm/20231026105345.3376-1-bryan.odonoghue@linaro.org/
+b4 shazam 20231026105345.3376-1-bryan.odonoghue@linaro.org
+
+Requires the named power-domain patches which apply to media-tree/* :
+https://lore.kernel.org/linux-arm-msm/20231101-b4-camss-named-power-domains-v3-5-bbdf5f22462a@linaro.org/
+b4 shazam 20231101-b4-camss-named-power-domains-v3-5-bbdf5f22462a@linaro.org
+
+To use the camera on x13s with say Google Hangouts or Microsoft Teams you
+will need to
+
+1. Run Firefox
+2. Update about:config to enable pipewire
+3. Use this WIP version of libcamera
+   https://gitlab.freedesktop.org/camera/libcamera-softisp
+
+A working bootable tree can be found here:
+Link: https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/lenovo-x13s-linux-6.5.y
+
+b4 base:
+https://git.codelinaro.org/bryan.odonoghue/kernel/-/tree/b4/camss-sc8280xp
+
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+Bryan O'Donoghue (6):
+      media: dt-bindings: media: camss: Add qcom,sc8280xp-camss binding
+      media: qcom: camss: Add CAMSS_SC8280XP enum
+      media: qcom: camss: csiphy-3ph: Add Gen2 v1.1 two-phase MIPI CSI-2 DPHY init
+      media: qcom: camss: Add sc8280xp resource details
+      media: qcom: camss: Add sc8280xp support
+      media: qcom: camss: vfe-17x: Rename camss-vfe-170 to camss-vfe-17x
+
+ .../bindings/media/qcom,sc8280xp-camss.yaml        | 581 +++++++++++++++++++++
+ drivers/media/platform/qcom/camss/Makefile         |   2 +-
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 108 +++-
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |   1 +
+ .../camss/{camss-vfe-170.c => camss-vfe-17x.c}     |   0
+ drivers/media/platform/qcom/camss/camss-vfe.c      |  25 +-
+ drivers/media/platform/qcom/camss/camss-video.c    |   1 +
+ drivers/media/platform/qcom/camss/camss.c          | 383 ++++++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 9 files changed, 1093 insertions(+), 9 deletions(-)
+---
+base-commit: 89e965e1a58f58cd359472b14c0cc25587bcf264
+change-id: 20231101-b4-camss-sc8280xp-0e1b91eb21bf
+
+Best regards,
+-- 
+Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+
