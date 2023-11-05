@@ -2,155 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E8827E1661
-	for <lists+linux-media@lfdr.de>; Sun,  5 Nov 2023 21:23:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 573CE7E17EA
+	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 00:36:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229478AbjKEUXL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Nov 2023 15:23:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33904 "EHLO
+        id S229956AbjKEXgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Nov 2023 18:36:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229451AbjKEUXK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Nov 2023 15:23:10 -0500
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04olkn2016.outbound.protection.outlook.com [40.92.45.16])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15276B3
-        for <linux-media@vger.kernel.org>; Sun,  5 Nov 2023 12:23:07 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=R3yquIiIwQExbAatvFkEeSZHMc33A2nBIm1duclP7pPEfIGEkiKDFa79fE16c7HRCz7F+9PvWA3rY+p+Iyxq5jTQH8r+Apwd+cUOmgKXJR9cg3XcCxCQZ5YHcrL5vZ4jUU1Sh+mRo1Wk32cWS29InUcP6R0w+EcrQlyWBd54cBUpoXQdO6pah2UdUMtgEUKfRa8Eu9JMG2Y7SX9W42MX+ZuWZ/BtZT29TfI0PM4nFi1KMZUFKTZCnKoiewTu2US78eNHCQqaCYRiffte0EIdh6dujlV2uW0VTJ6JlqIBJDPpWf9Mldhebq6lZy3BqITTa4fcdnLnAwEgUVsXqBIIMQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bqcGf0GUMWHXZKF79MBytWanc1Mh2VqG78aaHlIUCvQ=;
- b=IhAWsOnzQJIM792FyV4xvxY1+CZVS9G2m0kesYjbOnqvHsBFNRUfl7WpbOBW9tCvIW5njlB+RaMAECEjKPjRbwRwk9iboTrGo7X7Se7FgxkLzYYDBqQU03IHyvcDOQvPpdboXTijARdb68f1FMS0xdL4uBMFg2x4Nrw2FrMTJkgr3lmbnsp3CmjAJHtlbHcxwr2sSw1O+6e/mOkQrwVL68PoX30nxJZkFzwzfzVxC1B3DQQYYjSrJQGLfYdo7JtkEs/JM7gbst2TdbkrJcH+xLywLLMpHVMdU88DKGlx+xq/TzjePXfYJCm1lnAhyeoOaVApTpMuJN5smbjSrkirXw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bqcGf0GUMWHXZKF79MBytWanc1Mh2VqG78aaHlIUCvQ=;
- b=EsE9oPYwpiZ4ujRrcUajxm+dho9IBc2WzHOo8IV8nuHtiit9PbhrinC8+KSw0DpcVsdXupIWIRbk1YDS/FftZjq9WCxeFfpROAmNy6PYqa90/zbqGAYnRvH9yvUmwmTsyKR2LRYZkDT83b+7LqsQCfBGEcKG7Gm1U+rn6C8b6VJCFA/f+n+lwn0p8NbnIJBaHKxjnMe/twbmLvJhaORQfG5Gom0nmvlEYIndGgTPyMHi192Nl0qScdHq+cWUzW33qfPt/t8jhTxdKGusF6ZZH/sMfUaUMqLQ8tgRBrIXMxl7fc9FdtnQn88mNsYecXL/IpPdTHi2acUO19AGVMe6IA==
-Received: from BL3PR19MB6514.namprd19.prod.outlook.com (2603:10b6:208:3b9::10)
- by SA0PR19MB4492.namprd19.prod.outlook.com (2603:10b6:806:b8::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.27; Sun, 5 Nov
- 2023 20:23:05 +0000
-Received: from BL3PR19MB6514.namprd19.prod.outlook.com
- ([fe80::30e:4d9f:2ff0:1d82]) by BL3PR19MB6514.namprd19.prod.outlook.com
- ([fe80::30e:4d9f:2ff0:1d82%7]) with mapi id 15.20.6954.019; Sun, 5 Nov 2023
- 20:23:05 +0000
-From:   Vince Ricosti <vricosti@outlook.com>
-To:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: How to contribute to ir-keytable/ir-ctl ?  
-Thread-Topic: How to contribute to ir-keytable/ir-ctl ?  
-Thread-Index: AQHaECMywP2BO9qy2kGEG20wrdPVkw==
-Date:   Sun, 5 Nov 2023 20:23:04 +0000
-Message-ID: <BL3PR19MB6514010EDD5F1CA2F95E1F5CD3ABA@BL3PR19MB6514.namprd19.prod.outlook.com>
-Accept-Language: fr-FR, en-US
-Content-Language: fr-FR
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
-x-tmn:  [/2tnIo14RQ/asFs5NsVd250FQ2OsDYYJTgAuBsJ6CbqQIOMAGjnOxQ7kKnyuJv/j]
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BL3PR19MB6514:EE_|SA0PR19MB4492:EE_
-x-ms-office365-filtering-correlation-id: 9f0a025a-5df0-4a32-64b2-08dbde3d0446
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: +wA7JEpnP877JALYmK/0Qf6lDjMEHJ4qLqcf5UsX2538aNeQ5hChQDv9l+j6mi1OzTjPQvH76zLIiOxs7/Yv9yTE2HSR0jy6dCAHTZgI3rLgOAm18ZOq+CGmUiCAA5HC2YP2rXhsvx/tTDaBM3TzoOpBGCme1XHJLkyCzHMxf/ZlP17kvPP2K9L5cvBvGLq2P4LyEcyw3HG33JwccHJ+vXneJf68dsKcBvw/E4ns+ms3eEgxAtFYCMIVGEfT1c9WxQlRlv3Z0vywtLrjxT3cEFCgy3b67pokLg4177qjmFzMx/El0EkONvZTCSDqpSNSJvfUNP3zQTkLV4EyCX4KKqwnmpR5B+j2UWdFXHLkpRD5qXMExOu/6djIvC7JoShKaItrnEp7f2BHTVK/z30jrEtCGMifCdu/CWG6sqio1sjZlO9ofP1TFr+srk3apIFPAx64b7NgJPC69xozlWyegjO8iPzYbd8wYIqH6DXNA8/AbhIG4yA7Tw3E/ZVUzCIMP53rqg7GzFVJzhLa2kE7HOnKLoycIbpE9VASW2GLMC/F9l2j9su47m1byi7qyDdW
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?LcQACcJ9DBxU0FpxjRcYQIg1U+gM5asOCzVR/tag4iEAaNsv2P51O1lRAz?=
- =?iso-8859-1?Q?5pUkjPfO6HNGvKQz6vvGNqrTUhYVPvhuneoe/lC4XX+ismexqEYLYAkgBY?=
- =?iso-8859-1?Q?xdZ0gRMvKLKfYA40qMMY6AfpMmX1XH3M3ERcBMC22xwMagIq9c242anCE7?=
- =?iso-8859-1?Q?Oe7/wndGlrD6KfM5dLCt3X+BAtVCA3mabdqWvWW8tYmvgJnDqGjqc6LBSq?=
- =?iso-8859-1?Q?ttCGGqKxgJKmprvgf5Gf9vIUdh8ONZsFA2Z2dBLMt9r488ZkMZMmpMbCIN?=
- =?iso-8859-1?Q?S2hJ1zvn1cRq1usVZSRJvHo5IiIziuPx2x7yekp08eGoNpXxVBN2MaC0PO?=
- =?iso-8859-1?Q?Mfh6KrHgLI+4a2lBypD/cIcDiKVwoidQYnK0JYd0POn4z8IwkCMZpEQC7e?=
- =?iso-8859-1?Q?ZmznTAGCdmASnd0QRcqqHbL/PyN9XHY07rB+GaId54/YFziGsm63TzEx5/?=
- =?iso-8859-1?Q?H7a2edl+oAVsFQXnlXV7EDzCjCXdEvw8FrAQLl8yW0UyPHnwmktfuw7NEc?=
- =?iso-8859-1?Q?092FwFT85qIq86dPaIsWoBeSl9LNXoJrmcH+ZrTeVgzBQPZOKTeYGUZUhN?=
- =?iso-8859-1?Q?PrulNjTn7h3BdOf9YbcXHd0xUGEtHDyolRqk6IOMd5fh1hB8YL43TFHbAm?=
- =?iso-8859-1?Q?XDTDHPVBIRIrPsAcxFFqzyB2dfPbJxLMlffCGeQWjIuImp28huf6OvGKtE?=
- =?iso-8859-1?Q?bOe643nN4mLgB1NmnG8hcoWun1wunxfKBlybpFQfnjacw8OsMnzE8cBAwM?=
- =?iso-8859-1?Q?GsI8xpoarJ5oLGBvAt7Ewm+uQZv/cMTM/L4Mw/O/hoJsa4lG8xHab2DSRb?=
- =?iso-8859-1?Q?GKn+He8HdkMWr+3TfJvGp0C0ecw0S2WO3t8g5dbV/Wr4QjEDVpH0PHcv9z?=
- =?iso-8859-1?Q?LquDC7op5e1gn/9rXEjPAN05dvHxggqEx/qsUhhYqhRxObJUv5Rjpt0uVb?=
- =?iso-8859-1?Q?EJIbpvbBsAsWdlbAskyJ2i5m7zAcbAkxHs70tcM34Y/Peit2CtUQsIMxdW?=
- =?iso-8859-1?Q?VQynvAUBxgOY4yDdJDw6KG1I2Wps5f86jEdgO/p7fWvRIUKpsASiOrwk/1?=
- =?iso-8859-1?Q?KcgGHId3VZSjJSgpeWVbzDO7qxZbyNEDh71iKs4EdDk2xDuXmRnScnaswj?=
- =?iso-8859-1?Q?c0bO9pyjaH5fR86nlvipTEHi+FfZriuxiuVLXmJZIaDV9/ZVtoMft1Yp/A?=
- =?iso-8859-1?Q?BDyvGNw/E46ePerCuCUk85p1W40/ofq95G66ZxpdvrToSQCyhQyjBYChhu?=
- =?iso-8859-1?Q?C9ZHaCCqfF89gBoVsuGDFFjltc2nKFUqZ+51pYxoUPlqII8Zmcz5v8bJwt?=
- =?iso-8859-1?Q?eyli?=
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229485AbjKEXgs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Nov 2023 18:36:48 -0500
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB699BE;
+        Sun,  5 Nov 2023 15:36:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: MIME-Version: Message-ID: Date: Subject: Cc:
+ To: From; q=dns/txt; s=fe-e1b5cab7be; t=1699227398;
+ bh=KYZWsqQ58F74SNXGzCDG6oHgc2JUvYanuGDg+aUTAPk=;
+ b=l4EeyDHkSIbDTQ/c3MhDVHW9FJW09jN18RSqBKkGQ22H/zasMBzLBhSBLz4zkqMxdvo2oorO2
+ FvfnV5yFsY2GM5jPKBYftbtNAhGkHsLJsHVwyqdlL5cXPr5uvsZ1wVpMe90Y9D3khZax3dHjaG0
+ 0AAdGQvPJPS14M/YzWOyiRNempp5EIKC8q9JlroOfJ304QDkwAQBKQO3yxEaPsxIfnV0Zu7DbH4
+ QHdNMt09HW2C8PEBB9cYJvOPNItW+glHzw14fxje5fYatpyPYM3fOWVgYr2LU1HUjIYwFMFX29N
+ 38IqhWa4IHHGZzI0raV/bfWXMWUF8EW/TtJjRxK9SmDw==
+From:   Jonas Karlman <jonas@kwiboo.se>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Alex Bee <knaerzche@gmail.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Christopher Obbard <chris.obbard@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org,
+        Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH 0/9] media: rkvdec: Add HEVC backend
+Date:   Sun,  5 Nov 2023 23:36:07 +0000
+Message-ID: <20231105233630.3927502-1-jonas@kwiboo.se>
+X-Mailer: git-send-email 2.42.0
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR19MB6514.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f0a025a-5df0-4a32-64b2-08dbde3d0446
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 05 Nov 2023 20:23:04.8636
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR19MB4492
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 654827061b004d4cddbe0c4c
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H2,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,=0A=
-I would like to contribute to the infrared source code and learn the proced=
-ure for submitting patches.=0A=
-My first patch is of the utmost importance :-) because here is a dump of ir=
--keytable output:=0A=
-=0A=
-Found /sys/class/rc/rc0/ with:=0A=
-	Name: gpio_ir_recv=0A=
-	Driver: gpio_ir_recv=0A=
-	Default keymap: rc-rc6-mce=0A=
-	Input device: /dev/input/event0=0A=
-	LIRC device: /dev/lirc1=0A=
-	Attached BPF protocols: Operation non permise=0A=
-	Supported kernel protocols: lirc rc-5 rc-5-sz jvc sony nec sanyo mce_kbd r=
-c-6 sharp xmp imon=0A=
-	Enabled kernel protocols: lirc sony=0A=
-	bus: 25, vendor/product: 0001:0001, version: 0x0100=0A=
-	Repeat delay =3D 500 ms, repeat period =3D 125 ms=0A=
-=0A=
-And what annoys me if the fact that the last line does not respect the key:=
- value syntax because =0A=
-we have =0A=
-=0A=
-Repeat delay =3D 500 ms, repeat period =3D 125 ms =0A=
-instead of =0A=
-Repeat delay: 500 ms, repeat period: 125 ms=0A=
-=0A=
-and because of this I cannot even write a simple python script to analyse t=
-his output without writing some ugly code=0A=
-to handle this last line.=0A=
-So my first patch would be:=0A=
-=0A=
-Signed-off-by: Vince Ricosti <vricosti@outlook.com>=0A=
----=0A=
-diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c=0A=
-index 3d5a3c51..62f4531e 100644=0A=
---- a/utils/keytable/keytable.c=0A=
-+++ b/utils/keytable/keytable.c=0A=
-@@ -1702,7 +1702,7 @@ static int get_rate(int fd, unsigned int *delay, unsi=
-gned int *period)=0A=
-        }=0A=
-        *delay =3D rep[0];=0A=
-        *period =3D rep[1];=0A=
--       printf(_("Repeat delay =3D %d ms, repeat period =3D %d ms\n"), *del=
-ay, *period);=0A=
-+      printf(_("Repeat delay: %d ms, repeat period: %d ms\n"), *delay, *pe=
-riod);=0A=
-        return 0;=0A=
- }=0A=
- =0A=
-Thanks=0A=
+This series add a HEVC backend to the Rockchip Video Decoder driver.
+
+A version of this HEVC backend has been in use by the LibreELEC distro
+for the past 3+ years [1]. It was initially created based on a copy of
+the H264 backend, unstable HEVC uAPI controls and a cabac table + scaling
+matrix functions shamelessly copied 1:1 from the Rockchip mpp library.
+
+It has since then been extended to use the stable HEVC uAPI controls and
+improved opon e.g. to include support for rk3288 and fix decoding issues
+by Alex Bee and Nicolas Dufresne.
+
+The version submitted in this series is based on the code currently used
+by the LibreELEC distro, excluding hard/soft reset, and with cabac table
+and scaling matrix functions picked from Sebastian Fricke prior series
+to add a HEVC backend [2].
+
+Big thanks to Alex Bee, Nicolas Dufresne and Sebastian Fricke for making
+this series possible!
+
+Patch 1 add the new HEVC backend.
+Patch 2-3 add variants support to the driver.
+Patch 4 add support for a rk3288 variant.
+Patch 5 add a rk3328 variant to work around hw quirks.
+Patch 6-7 add device tree node for rk3288.
+Patch 8-9 extend vdec node reg size to include cache/perf registers.
+
+This was tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
+
+  v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+  ...
+  Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+  Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
+  ...
+  Ran 135/147 tests successfully
+
+  Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
+  ...
+  Ran 9/9 tests successfully
+
+And on a TinkerBoard (RK3288):
+
+  v4l2-compliance 1.24.1, 32 bits, 32-bit time_t
+  ...
+  Total for rkvdec device /dev/video3: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+  Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
+  ...
+  Ran 137/147 tests successfully
+
+  Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
+  ...
+  Ran 9/9 tests successfully
+
+This series depend on the following series:
+- media: rkvdec: Add H.264 High 10 and 4:2:2 profile support [3]
+
+To fully runtime test this series you need above series and ffmpeg
+patches from [4], this series and its depends is also available at [5].
+
+Full summary of fluster run can be found at [6].
+
+[1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
+[2] https://lore.kernel.org/linux-media/20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com/
+[3] https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
+[4] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
+[5] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-hevc-v1/
+[6] https://gist.github.com/Kwiboo/4c0ed87774dede44ce6838451a1ec93d
+
+Regards,
+Jonas
+
+Alex Bee (5):
+  media: rkvdec: Add variants support
+  media: rkvdec: Add RK3288 variant
+  media: rkvdec: Disable QoS for HEVC and VP9 on RK3328
+  ARM: dts: rockchip: Add vdec node for RK3288
+  arm64: dts: rockchip: Expand reg size of vdec node for RK3399
+
+Jonas Karlman (4):
+  media: rkvdec: Add HEVC backend
+  media: rkvdec: Implement capability filtering
+  media: dt-bindings: rockchip,vdec: Add RK3288 compatible
+  arm64: dts: rockchip: Expand reg size of vdec node for RK3328
+
+ .../bindings/media/rockchip,vdec.yaml         |    4 +-
+ arch/arm/boot/dts/rockchip/rk3288.dtsi        |   17 +-
+ arch/arm64/boot/dts/rockchip/rk3328.dtsi      |    2 +-
+ arch/arm64/boot/dts/rockchip/rk3399.dtsi      |    6 +-
+ drivers/staging/media/rkvdec/Makefile         |    2 +-
+ drivers/staging/media/rkvdec/TODO             |    7 -
+ .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1848 +++++++++++++++++
+ drivers/staging/media/rkvdec/rkvdec-hevc.c    |  823 ++++++++
+ drivers/staging/media/rkvdec/rkvdec-regs.h    |    3 +
+ drivers/staging/media/rkvdec/rkvdec-vp9.c     |   10 +
+ drivers/staging/media/rkvdec/rkvdec.c         |  180 +-
+ drivers/staging/media/rkvdec/rkvdec.h         |   15 +
+ 12 files changed, 2886 insertions(+), 31 deletions(-)
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
+ create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
+
+-- 
+2.42.0
+
