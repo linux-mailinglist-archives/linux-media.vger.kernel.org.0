@@ -2,60 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id ABBFE7E158E
-	for <lists+linux-media@lfdr.de>; Sun,  5 Nov 2023 18:45:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB7477E1597
+	for <lists+linux-media@lfdr.de>; Sun,  5 Nov 2023 18:45:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229740AbjKERpL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 5 Nov 2023 12:45:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49314 "EHLO
+        id S229998AbjKERpP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 5 Nov 2023 12:45:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49344 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229604AbjKERpK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Nov 2023 12:45:10 -0500
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42CEDF2
-        for <linux-media@vger.kernel.org>; Sun,  5 Nov 2023 09:45:07 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40850b244beso28857695e9.2
-        for <linux-media@vger.kernel.org>; Sun, 05 Nov 2023 09:45:07 -0800 (PST)
+        with ESMTP id S229833AbjKERpM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 5 Nov 2023 12:45:12 -0500
+Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D677CDE
+        for <linux-media@vger.kernel.org>; Sun,  5 Nov 2023 09:45:08 -0800 (PST)
+Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2c50906f941so53304411fa.2
+        for <linux-media@vger.kernel.org>; Sun, 05 Nov 2023 09:45:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699206305; x=1699811105; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1699206307; x=1699811107; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=LBeLT8khJaQLixVgfl4LSRyi0x5wnZw3atoglLJt33I=;
-        b=hetBiWVmbJDT0Wgd6EaZUMTJE0osAuIPUXe7wjXP0qI8CxKvZAkg7jKQ2+OW4If7v6
-         6ogx8if0/2USLBGpuwgtBDpRKtJ4JI7S/RD5OyoUEGvaiSba16tFOtDRPu/+6ygOONHp
-         6u8qHaY6l74CO1FSJlwTTD6A3RzPGVXyTbXSeOGT14kFHO6CtxlTRkPsGsFWmjW/RF2v
-         hkGD8ft88Zp9I7rXYK9Ax5c31xNMCjjKH7jDbEruhNhgMm0TooZyjWAhT3Y6AHsoV7eT
-         utpeMNxOoGOOHKhSuqEcV9SR+Hd1oNqtF20xOG7DuCAubz/fzcGtleDCruB+0Ki9VMqc
-         80+Q==
+        bh=vbWYJQhIsB+Tb1jwxwFcUUflIu3DiRZ3/+WTM6wt7Zk=;
+        b=rH3Im3ZrEzqbAHnJ4Lqy3+Jhm5/yFZm7FlU1IEmzrDde0xr/dL0eXXL4tHryVMoHmB
+         3W6m9TzU2KQEYyjlSwZ9uOfrPCb7s514aMZAAlrdR/kF5R2sshXIe23gqxOCWQAtlYm9
+         H7UWztbzk2mpL7X3P9hJBYmrkdpPAnvbD/YVRvaPtNpnPPYFiZLzWxIBluJmsv0i069E
+         a6p1UCoOns0FfdZk9mMhiA8i8J2njLpJCx3GfWIFSlFENbiHNTgdlqzh7TmSpJvjOa+O
+         tRFlZi4KeRD1iXH4LUOe2ISZlcS+WKsIqGRT/ML5aY+14ljXXzceCLD+yKXpPME4kndF
+         f1IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699206305; x=1699811105;
+        d=1e100.net; s=20230601; t=1699206307; x=1699811107;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LBeLT8khJaQLixVgfl4LSRyi0x5wnZw3atoglLJt33I=;
-        b=jvOgGb3OomRPEAnXi1dsROmIX1oMhRhqDLn/KGM9hiKHk6Na+yjOsxxkEyw2sssDS7
-         RP77+fMZmnp8SI5tT5ZxtMuVOThQluvLhx3P3SkatsxGXfQDmz/Fq8T5ejejJ+ETCGZl
-         Fdv7J0pybM5pMbscRjGdkgL9iCmNfoGBeMXXs+WLDKcG6xz6/hfBL14UsCObBmAUWJvW
-         euY26Ip2s+Wa3moUuEYiDgGeOD3714crAY3E4dL1bmH9AskYfHdnYgYF9VYvQ9/fOpEf
-         DWDRENcdqdD4suicSs8i1b4CNyeAY/ZfXQ6TU8xK7Hh2GqNFFP/tutio4qA0YOZZ3fjp
-         zEQg==
-X-Gm-Message-State: AOJu0YwqbLSlMUlkCCugeQhZfHl++JorcRONbFSgzDQwQR/VbjCyzMiL
-        BBUYtD9S27vzPgkawCK8QlvU8A==
-X-Google-Smtp-Source: AGHT+IFB+h55Xf4s2VnkpNXIbIgE69lt05jIAsBbi1JAmQQV2biLYbRHgAdd2ZW/RG9KLrLp7HJ1KQ==
-X-Received: by 2002:a05:600c:1988:b0:409:19a0:d26f with SMTP id t8-20020a05600c198800b0040919a0d26fmr22382181wmq.23.1699206305679;
-        Sun, 05 Nov 2023 09:45:05 -0800 (PST)
+        bh=vbWYJQhIsB+Tb1jwxwFcUUflIu3DiRZ3/+WTM6wt7Zk=;
+        b=cUxaMfzwo4b0S44ZRjXl2nunccSD0TaI7/NppvM4kSLbI7XAmPLnEDp7UktcYXhQsE
+         hAkypNCCDQTRRXafCgAi+4m5deFPhS2ufBjqvtAFcwwkwjWAJZ2j2c4R1oIk/VJhgj9g
+         46ncDjL4V2G9XfoLQgnjQmUiXU51upMg2UTTse7/8snqj9YUyMDpZE4qBcQ7Omk970E3
+         NIQGZeG0qYFbpKxyc61s+JZozscReSPOSLTJ5SBoGaF9q0DdQ6GNO09YJmxrXoHEcALB
+         MoR4V8dJzatCNb2uCsSH6h71OYvySmecPApqhxu6oa2SJbrEH6fd+TGv8exNUwYQrHrg
+         dY5g==
+X-Gm-Message-State: AOJu0YwMQOIv/cP3mSh3CZsKYF+wkaoJssbEu9V05t6epBg2+WW28X81
+        wK9mIS6bh/orRfBHt3CS6P5sEQ==
+X-Google-Smtp-Source: AGHT+IH+EF2TguNRB1Hizt+ecDjdV+yoSebZRlvXdgm4b9qeqefvADdMOmCXcbijUowlHxW8v3Avjw==
+X-Received: by 2002:a2e:be0f:0:b0:2c6:f6cf:aaf6 with SMTP id z15-20020a2ebe0f000000b002c6f6cfaaf6mr8826924ljq.46.1699206306906;
+        Sun, 05 Nov 2023 09:45:06 -0800 (PST)
 Received: from [127.0.0.1] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id t10-20020a05600c198a00b004064ac107cfsm9553346wmq.39.2023.11.05.09.45.04
+        by smtp.gmail.com with ESMTPSA id t10-20020a05600c198a00b004064ac107cfsm9553346wmq.39.2023.11.05.09.45.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 05 Nov 2023 09:45:05 -0800 (PST)
+        Sun, 05 Nov 2023 09:45:06 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date:   Sun, 05 Nov 2023 17:45:01 +0000
-Subject: [PATCH v3 2/6] media: qcom: camss: Add CAMSS_SC8280XP enum
+Date:   Sun, 05 Nov 2023 17:45:02 +0000
+Subject: [PATCH v3 3/6] media: qcom: camss: csiphy-3ph: Add Gen2 v1.1
+ two-phase MIPI CSI-2 DPHY init
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231105-b4-camss-sc8280xp-v3-2-4b3c372ff0f4@linaro.org>
+Message-Id: <20231105-b4-camss-sc8280xp-v3-3-4b3c372ff0f4@linaro.org>
 References: <20231105-b4-camss-sc8280xp-v3-0-4b3c372ff0f4@linaro.org>
 In-Reply-To: <20231105-b4-camss-sc8280xp-v3-0-4b3c372ff0f4@linaro.org>
 To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
@@ -76,32 +77,120 @@ X-Mailer: b4 0.13-dev-26615
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
         DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
         SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,URIBL_BLOCKED
-        autolearn=unavailable autolearn_force=no version=3.4.6
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adds a CAMSS SoC identifier for the SC8280XP.
+Add a PHY configuration sequence for the sc8280xp which uses a Qualcomm
+Gen 2 version 1.1 CSI-2 PHY.
+
+The PHY can be configured as two phase or three phase in C-PHY or D-PHY
+mode. This configuration supports two-phase D-PHY mode.
 
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss.h | 1 +
- 1 file changed, 1 insertion(+)
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 85 ++++++++++++++++++++++
+ 1 file changed, 85 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
-index a0c2dcc779f05..ac15fe23a702e 100644
---- a/drivers/media/platform/qcom/camss/camss.h
-+++ b/drivers/media/platform/qcom/camss/camss.h
-@@ -77,6 +77,7 @@ enum camss_version {
- 	CAMSS_660,
- 	CAMSS_845,
- 	CAMSS_8250,
-+	CAMSS_8280XP,
+diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+index f50e2235c37fc..2eb3531ffd00b 100644
+--- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
++++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+@@ -148,6 +148,91 @@ csiphy_reg_t lane_regs_sdm845[5][14] = {
+ 	},
  };
  
- enum icc_count {
++/* GEN2 1.1 2PH */
++static const struct
++csiphy_reg_t lane_regs_sc8280xp[5][14] = {
++	{
++		{0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0034, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x001C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0014, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0028, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++		{0x003C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0000, 0x90, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0008, 0x0E, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++		{0x000c, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++		{0x0010, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0038, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0060, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0064, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	},
++	{
++		{0x0704, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x072C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0734, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x071C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0714, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0728, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x073C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0700, 0x80, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0708, 0x0E, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++		{0x070C, 0xA5, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0710, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0738, 0x1F, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0760, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0764, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	},
++	{
++		{0x0204, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x022C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0234, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x021C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0214, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0228, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++		{0x023C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0200, 0x90, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0208, 0x0E, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++		{0x020C, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++		{0x0210, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0238, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0260, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0264, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	},
++	{
++		{0x0404, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x042C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0434, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x041C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0414, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0428, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++		{0x043C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0400, 0x90, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0408, 0x0E, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++		{0x040C, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++		{0x0410, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0438, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0460, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0464, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	},
++	{
++		{0x0604, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x062C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0634, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x061C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0614, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0628, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++		{0x063C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0600, 0x90, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0608, 0x0E, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++		{0x060C, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++		{0x0610, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0638, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0660, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++		{0x0664, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	},
++};
++
+ /* GEN2 1.2.1 2PH */
+ static const struct
+ csiphy_reg_t lane_regs_sm8250[5][20] = {
 
 -- 
 2.42.0
