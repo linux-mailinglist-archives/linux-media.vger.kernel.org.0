@@ -2,176 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E957A7E2096
-	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 12:58:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 141A67E20A5
+	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 13:04:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230192AbjKFL6r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Nov 2023 06:58:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39546 "EHLO
+        id S231560AbjKFMEj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Nov 2023 07:04:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37564 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231488AbjKFL6p (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 06:58:45 -0500
-Received: from mail-qv1-xf2d.google.com (mail-qv1-xf2d.google.com [IPv6:2607:f8b0:4864:20::f2d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3176894
-        for <linux-media@vger.kernel.org>; Mon,  6 Nov 2023 03:58:42 -0800 (PST)
-Received: by mail-qv1-xf2d.google.com with SMTP id 6a1803df08f44-6711dd6595fso24253916d6.3
-        for <linux-media@vger.kernel.org>; Mon, 06 Nov 2023 03:58:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699271921; x=1699876721; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=NxY/A/ZH0GsH1dXM733hMHUZh53IfBcqLDaCydQdCfY=;
-        b=V8Al2OQ0odGmg5yeSZc1kb9fqQtWzWTTfBcPDvczvSmQkrNAA4ci8+8BpDTHzAlUDK
-         Ln3eB53VMfFJRWdnp3nffWit9vri6iqiXtnw2u4XXl4sq+4p7X2aXoUhZUAZANLtnn8W
-         JrWNPHhAO2ZYjloU6M3zz3maGtbcv1M5TYYMI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699271921; x=1699876721;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NxY/A/ZH0GsH1dXM733hMHUZh53IfBcqLDaCydQdCfY=;
-        b=sLWwGu3mVX2HICnWUp9Z5+ErZImHwQ976yvkUlRAHSsYkz3M754vgzX2z7WoRU2pq/
-         Fmiq2XCu8vpaHBZdf6VJlYc6HcbLAavkAFRXbLp8oYiShtKgyugk+Hm6b/9dDogE4eoJ
-         ek277IJRWNn+BO2niMAScKCion6/RuWfajTyrAyN96vP96U6PlAzJq65OGL0tbdH7wvV
-         23BmuKDNM/bxXOr5d62YW7tFz55WMwSTkGI7u96tx3IZgYufkGxsTtZFnus4AwfHqyrm
-         vG9DIw3xHF1GGS6GBw/B2/knppOYocowX2SbBptz+njbKUNuF9C+j/3hCmtuIZz1nk8T
-         3u5A==
-X-Gm-Message-State: AOJu0YzV5r/t9VgFs+mQQQd7FTe5DMCldd53jpU6flKG+SQzL3aef1GP
-        Fn0COWi7JT6i4zAcRw1xV1RH9XxAyLUy+irqzerToQ==
-X-Google-Smtp-Source: AGHT+IH4wu2b9m7Mrx2q62EXF9dvnxlwKJz6GZI0Zva3YELsqwXv8hJHcm06BBk+pPW7N1gg51bOjg==
-X-Received: by 2002:a05:6214:4115:b0:66d:a22a:464f with SMTP id kc21-20020a056214411500b0066da22a464fmr26006289qvb.16.1699271920752;
-        Mon, 06 Nov 2023 03:58:40 -0800 (PST)
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com. [209.85.219.46])
-        by smtp.gmail.com with ESMTPSA id t11-20020a0ce58b000000b00674a45499dcsm3355707qvm.88.2023.11.06.03.58.39
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 06 Nov 2023 03:58:40 -0800 (PST)
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-66d11fec9a5so24229316d6.1
-        for <linux-media@vger.kernel.org>; Mon, 06 Nov 2023 03:58:39 -0800 (PST)
-X-Received: by 2002:a05:6214:1d24:b0:672:1d32:9d37 with SMTP id
- f4-20020a0562141d2400b006721d329d37mr23768504qvd.26.1699271919453; Mon, 06
- Nov 2023 03:58:39 -0800 (PST)
+        with ESMTP id S229922AbjKFMEh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 07:04:37 -0500
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A0CFDF;
+        Mon,  6 Nov 2023 04:04:32 -0800 (PST)
+X-UUID: a2ac9da07c9c11ee8051498923ad61e6-20231106
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=ciPtDPF+TnvenA4+CRoRDc5pTrR/o2srfttrAr9XbFM=;
+        b=rHPSFYIkaxU2nXNe2RQAoaBnDiJM8d653V/QBp9cuXFEyVUpiTOQw5yiY1wMkYMnCxXEHCx7KjfEmeRsM2rLSgMuUUcL7VncrM3VFYNOVPb7ubm7Q+mvW+p5XsfMdyuONjB3NYThIJSwbCU6Fu38SQPnJKZgK/JdJDUjTl4UojA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.33,REQID:aab5ff5d-04e3-458e-a96d-d83d2ead01e7,IP:0,U
+        RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+        N:release,TS:-25
+X-CID-META: VersionHash:364b77b,CLOUDID:f7e41195-10ce-4e4b-85c2-c9b5229ff92b,B
+        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+        DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: a2ac9da07c9c11ee8051498923ad61e6-20231106
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
+        (envelope-from <yunfei.dong@mediatek.com>)
+        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+        with ESMTP id 1203267962; Mon, 06 Nov 2023 20:04:28 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 6 Nov 2023 20:04:25 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 6 Nov 2023 20:04:24 +0800
+From:   Yunfei Dong <yunfei.dong@mediatek.com>
+To:     Jeffrey Kardatzke <jkardatzke@google.com>,
+        "T . J . Mercier" <tjmercier@google.com>,
+        John Stultz <jstultz@google.com>,
+        Yong Wu <yong.wu@mediatek.com>,
+        =?UTF-8?q?N=C3=ADcolas=20F=20=2E=20R=20=2E=20A=20=2E=20Prado?= 
+        <nfraprado@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Nathan Hebert <nhebert@chromium.org>
+CC:     Chen-Yu Tsai <wenst@chromium.org>,
+        Hsin-Yi Wang <hsinyi@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        "Steve Cho" <stevecho@chromium.org>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <Project_Global_Chrome_Upstream_Group@mediatek.com>
+Subject: [PATCH v2,00/21] add driver to support secure video decoder
+Date:   Mon, 6 Nov 2023 20:04:02 +0800
+Message-ID: <20231106120423.23364-1-yunfei.dong@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org> <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu>
-In-Reply-To: <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Mon, 6 Nov 2023 12:58:24 +0100
-X-Gmail-Original-Message-ID: <CANiDSCv6ajVV4ETZghv80rnrjEKs0-_tOHG99PvjWStsBpWhOw@mail.gmail.com>
-Message-ID: <CANiDSCv6ajVV4ETZghv80rnrjEKs0-_tOHG99PvjWStsBpWhOw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
-To:     Sakari Ailus <sakari.ailus@iki.fi>, Esker Wong <esker@google.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Esker Wong <esker@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=unavailable autolearn_force=no version=3.4.6
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--4.630100-8.000000
+X-TMASE-MatchedRID: JhRlCkpv+Yto4JO2ZJOtUQI0yP/uoH+DFJFr2qlKix/b6Y+fnTZUL2F6
+        OnunDMpM0iYP9KyvWGiNbWLcD74x2aTBNmfHIEnzhv1+2J3yQFxQCOsAlaxN72ecrqZc3vabxxE
+        lGvP0lfgvVtEpvFuMNUGaeX/AzQEV4Yh4UkkUHv7uykw7cfAoIOiZcG9oG7pOX15NJHwjp24IXI
+        ywbHNrmD5Cz4k65D4iLsOyjR5rXS8cqJwtUHLtOWZUc2jtcaSdUKlt4AyW7uDjud2x7TPVt2OrK
+        vsUT0pAVLAa8KXwKt7H3jW5bUH06n3BSdKn4WxeH5YQyOg71ZZ9LQinZ4QefPcjNeVeWlqY+gtH
+        j7OwNO2I3adjBtsMrOnbgh6EIA/muHu85lBc1WzDJAu5FtdmRomKnf8sKUzK+iEHvAMRWIrGDon
+        WJihmxwh1J4CodOOy49vZlki2pPVE4C0jRE0xOqMnTJRI0XInfXwUEm1ouDzLDYxFC1/7rn6GdN
+        k4NWmA
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--4.630100-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP: 40AEF5215B6F64F5A62676A1632BA663CD157F81013A9B5FA3644D2E695F517A2000:8
+X-MTK:  N
+X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,RDNS_NONE,SPF_HELO_PASS,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=no autolearn_force=no
+        version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+This patch series is consists of four parts. The first is from Jeffrey,
+adding secure memory flag in v4l2 framework to support request secure
+buffer.
 
-On Mon, 6 Nov 2023 at 12:06, Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> Hi Ricardo,
->
-> On Mon, Nov 06, 2023 at 10:52:27AM +0000, Ricardo Ribalda wrote:
-> > Add support for the frame_sync event, so user-space can become aware
-> > earlier of new frames.
-> >
-> > Suggested-by: Esker Wong <esker@chromium.org>
-> > Tested-by: Esker Wong <esker@chromium.org>
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> > We have measured a latency of around 30msecs between frame sync
-> > and dqbuf.
-> > ---
-> > Changes in v2:
-> > - Suggested by Laurent. Split sequence++ and event init.
-> > - Link to v1: https://lore.kernel.org/r/20231020-uvc-event-v1-1-3baa0e9f6952@chromium.org
-> > ---
-> >  drivers/media/usb/uvc/uvc_v4l2.c  | 2 ++
-> >  drivers/media/usb/uvc/uvc_video.c | 7 +++++++
-> >  2 files changed, 9 insertions(+)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> > index f4988f03640a..9f3fb5fd2375 100644
-> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > @@ -1352,6 +1352,8 @@ static int uvc_ioctl_subscribe_event(struct v4l2_fh *fh,
-> >       switch (sub->type) {
-> >       case V4L2_EVENT_CTRL:
-> >               return v4l2_event_subscribe(fh, sub, 0, &uvc_ctrl_sub_ev_ops);
-> > +     case V4L2_EVENT_FRAME_SYNC:
-> > +             return v4l2_event_subscribe(fh, sub, 0, NULL);
-> >       default:
-> >               return -EINVAL;
-> >       }
-> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > index 28dde08ec6c5..4f3a510ca4fe 100644
-> > --- a/drivers/media/usb/uvc/uvc_video.c
-> > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > @@ -1073,9 +1073,16 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
-> >        * that discontinuous sequence numbers always indicate lost frames.
-> >        */
-> >       if (stream->last_fid != fid) {
-> > +             struct v4l2_event event = {
-> > +                     .type = V4L2_EVENT_FRAME_SYNC,
-> > +             };
-> > +
-> >               stream->sequence++;
-> >               if (stream->sequence)
-> >                       uvc_video_stats_update(stream);
-> > +
-> > +             event.u.frame_sync.frame_sequence = stream->sequence,
-> > +             v4l2_event_queue(&stream->vdev, &event);
->
-> uvc_video_decode_start() is called when the reception of the entire frame
-> has been completed. However, the documentation for V4L2_EVENT_FRAME_SYNC
-> says that the event is "Triggered immediately when the reception of a frame
-> has begun.". The functionality here doesn't seem to fit to this patch.
+The second and third parts are from John and T.J, adding some heap
+interfaces, then our kernel users could allocate buffer from special
+heap. The patch v1 is inside below dmabuf link.
+https://lore.kernel.org/linux-mediatek/20230911023038.30649-1-yong.wu@mediatek.com/
+To avoid confusing, move them into vcodec patchset since we use the
+new interfaces directly.
 
-If I understand correctly, there are two types of transfers, BULK and ISOC.
+The fourth part is mediatek decoder driver, adding tee interface to
+support secure video decoder(svp).
 
-For bulk frames are typically divided in multiple packages and the
-event is generated in the first package. So I guess we fit the
-description
+Patch 1~4   add secure memory flag in v4l2 framework with Jeffrey's patch.
+Patch 5~7   support allocate dmabufs from specific with John and T.J's patch.
+Patch 8~11  initialize tee related interface and parameters.
+Patch 12    allocate/free secure memory.
+Patch 13    map vsi for secure mode.
+Patch 14~16 support one plane capture buffer.
+Patch 17~18 re-construct h264 driver to support secure mode.
+Patch 19    disable interrupt.
+Patch 20    support tee decode.
+Patch 21    move init decoder interface to setup queue.
+---
+Changed in v2:
+- remove setting decoder mode and getting secure handle from decode
+- add Jeffrey's patch
+- add John and T.J's patch
+- getting secure flag with request buffer
+- fix some comments from patch v1
+---
+Jeffrey Kardatzke (4):
+  v4l2: add secure memory flags
+  v4l2: handle secure memory flags in queue setup
+  v4l2: verify secure dmabufs are used in secure queue
+  v4l: add documentation for secure memory flag
 
-For isoc we receive the whole frame at once and we trigger the event
-before we process it... It is maybe a bit more borderline
-implementation of the event description, but not very far away.
+John Stultz (2):
+  dma-heap: Add proper kref handling on dma-buf heaps
+  dma-heap: Provide accessors so that in-kernel drivers can allocate
+    dmabufs from specific heaps
 
+T.J. Mercier (1):
+  dma-buf: heaps: Deduplicate docs and adopt common format
 
->
-> Wouldn't V4L2_EVENT_VSYNC be a better fit, even if we don't really have a
-> concept of vertical sync in the case of USB? That event doesn't have the
-> sequence though but I guess it's not an issue at least if your case.
+Yunfei Dong (14):
+  media: mediatek: vcodec: add tee client interface to communiate with
+    optee-os
+  media: mediatek: vcodec: allocate tee share memory
+  media: mediatek: vcodec: send share memory data to optee
+  media: mediatek: vcodec: initialize msg and vsi information
+  media: mediatek: vcodec: add interface to allocate/free secure memory
+  media: mediatek: vcodec: using shared memory as vsi address
+  media: mediatek: vcodec: Add capture format to support one plane
+    memory
+  media: mediatek: vcodec: Add one plane format
+  media: medkatek: vcodec: support one plane capture buffer
+  media: medkatek: vcodec: re-construct h264 driver to support svp mode
+  media: medkatek: vcodec: remove parse nal_info in kernel
+  media: medkatek: vcodec: disable wait interrupt for svp mode
+  media: medkatek: vcodec: support tee decoder
+  media: mediatek: vcodec: move vdec init interface to setup callback
 
-All that said, If Esker does not need the sequence number I have no
-issue converting it. @Esker Wong WDYT?
-
->
-> Another technically correct option could be to create a new event for this
-> but I'm not sure it's worth it.
->
-> >       }
-> >
-> >       uvc_video_clock_decode(stream, buf, data, len);
-> >
->
-> --
-> Regards,
->
-> Sakari Ailus
-
-
+ .../userspace-api/media/v4l/buffer.rst        |   8 +-
+ .../media/v4l/pixfmt-reserved.rst             |   8 +
+ drivers/dma-buf/dma-heap.c                    | 139 +++++--
+ .../media/common/videobuf2/videobuf2-core.c   |  25 ++
+ .../common/videobuf2/videobuf2-dma-contig.c   |   6 +
+ .../media/common/videobuf2/videobuf2-dma-sg.c |   6 +
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  33 +-
+ .../media/platform/mediatek/vcodec/Kconfig    |   1 +
+ .../mediatek/vcodec/common/mtk_vcodec_util.c  | 121 +++++-
+ .../mediatek/vcodec/common/mtk_vcodec_util.h  |   3 +
+ .../platform/mediatek/vcodec/decoder/Makefile |   1 +
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c  | 155 ++++---
+ .../vcodec/decoder/mtk_vcodec_dec_drv.c       |   8 +
+ .../vcodec/decoder/mtk_vcodec_dec_drv.h       |   7 +
+ .../vcodec/decoder/mtk_vcodec_dec_hw.c        |  34 +-
+ .../vcodec/decoder/mtk_vcodec_dec_optee.c     | 383 ++++++++++++++++++
+ .../vcodec/decoder/mtk_vcodec_dec_optee.h     | 156 +++++++
+ .../vcodec/decoder/mtk_vcodec_dec_stateless.c |  35 +-
+ .../decoder/vdec/vdec_h264_req_common.c       |  11 +-
+ .../decoder/vdec/vdec_h264_req_multi_if.c     | 334 +++++++++------
+ .../mediatek/vcodec/decoder/vdec_drv_if.c     |   4 +-
+ .../mediatek/vcodec/decoder/vdec_msg_queue.c  |   9 +-
+ .../mediatek/vcodec/decoder/vdec_vpu_if.c     |  57 ++-
+ .../mediatek/vcodec/decoder/vdec_vpu_if.h     |   4 +
+ drivers/media/v4l2-core/v4l2-common.c         |   2 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   1 +
+ include/linux/dma-heap.h                      |  29 +-
+ include/media/videobuf2-core.h                |   8 +-
+ include/uapi/linux/videodev2.h                |   3 +
+ 29 files changed, 1292 insertions(+), 299 deletions(-)
+ create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.c
+ create mode 100644 drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_optee.h
 
 -- 
-Ricardo Ribalda
+2.18.0
+
