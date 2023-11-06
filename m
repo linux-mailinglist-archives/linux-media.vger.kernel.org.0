@@ -2,154 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BAB9D7E2B8B
-	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 18:58:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 297F07E2C35
+	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 19:44:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232110AbjKFR7A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Nov 2023 12:59:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37568 "EHLO
+        id S232875AbjKFSoo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Nov 2023 13:44:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231940AbjKFR67 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 12:58:59 -0500
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D231FD47;
-        Mon,  6 Nov 2023 09:58:53 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 81CDA20003;
-        Mon,  6 Nov 2023 17:58:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1699293532;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=ghK2kxsjca6u59VkbLnWStX76G5XSjL+RnTMtyq6xsk=;
-        b=aWF7NFZGmGlV2OGNuo6DWXwKWAKwyn1teyXFIvU68LTUamCExtuHmUY7xWGR+smJxW6LZi
-        P7bB0G/AzRvhQSj7HDFFhOZDBlj3OCIyVn6EBL/bmDC6AMiWPqdWhjZWbii7FJQ+8EVLf0
-        jsDMGiNEO6YQFXuyCS9z0xOOzUtGdW9BE7WAOa67YXOt4r8G98KglPlJYhsnYVGwUJT45F
-        DuaMouncyrxWQLer6xhFlu0Ehh4MnI0T2tV5n+8R19uZJKwiY/zYEQ7LLxT5SlquWNmoU/
-        npaR/i32JeUTPH0bs7du4pVI6bUpPg5Pj31TqLKd21EH2q99+pO8ybCybQshtQ==
-Date:   Mon, 6 Nov 2023 18:58:51 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Mehdi Djait <mehdi.djait@bootlin.com>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com
-Subject: Re: [PATCH v7 3/3] media: i2c: Introduce a driver for the Techwell
- TW9900 decoder
-Message-ID: <ZUkpWzw_5SdqqL2X@aptenodytes>
-References: <cover.1697463708.git.mehdi.djait@bootlin.com>
- <c3cd9002b2db69a6fb155722adc8410cd6e1f9ab.1697463708.git.mehdi.djait@bootlin.com>
- <ZUNz_h1fn9RH9Uc5@aptenodytes>
- <ZUj/FQTyajQJrxoU@pc-70.home>
- <ZUkFXl7vBS36y4Qi@aptenodytes>
- <ZUkLHDH2Budi+zgc@pc-70.home>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="5gPrNW+ynBXLwBH9"
-Content-Disposition: inline
-In-Reply-To: <ZUkLHDH2Budi+zgc@pc-70.home>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        with ESMTP id S232618AbjKFSom (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 13:44:42 -0500
+Received: from mail-yw1-x114a.google.com (mail-yw1-x114a.google.com [IPv6:2607:f8b0:4864:20::114a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66295125
+        for <linux-media@vger.kernel.org>; Mon,  6 Nov 2023 10:44:38 -0800 (PST)
+Received: by mail-yw1-x114a.google.com with SMTP id 00721157ae682-5a7bbe0a453so55288467b3.0
+        for <linux-media@vger.kernel.org>; Mon, 06 Nov 2023 10:44:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1699296277; x=1699901077; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=unAu3rVdKljQQL2turiQBdlprjhTErZk5t5fH6+DkH4=;
+        b=EBrZgWzb8ptjn5alHcyp6K67Z9HV1e8gx3PBLZVj8KVwDJon61QOiBhbCgCoO4n77y
+         eniFWQiSk8Iqp+BuU6iOd9OixJdyeQDUhssJFMkcdy3D1JOjSrvYhoA6/E4sAzYeAaI8
+         dOwkG0pucxs42L1gWcxcdN/yPIxvczn8hSai9H+THPyjhVEh3p39SFwRxlSXLxWt26Zk
+         sJa2WY2RhLl2USXpSXlDb4oaLG9XEfJ1W6Yibo0XFjkJhJ12Vyh8QKXxXMKfPZ32Q9Db
+         79+e9uzVsDLsyVVI/mEwM3aZuMYw5NeNGA6cEPt81ZvrVsSNu6imlIbukhMHKLOe81DF
+         o10g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699296277; x=1699901077;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=unAu3rVdKljQQL2turiQBdlprjhTErZk5t5fH6+DkH4=;
+        b=eAKLPIm2ottd4vB8il/8cjZkUGwpeNtIOopWx6Orx7zwZdP9yxMClXpB/x1JlqqZTP
+         gufzcFpxZpYC0UA9AP6kIhUxmSQC7Qci/r03fNfpfuDkBn6rxYVMHfCAENTt44TCl5mC
+         kjIYuQng3634hDIGCqFh/twyGNSWcoA5ANFu7EbTaRUE6dLKwIP29gSqT1cEv0h766Hx
+         ZbouVAVT+WrSmoJYwMLRI9SUn+C1bCXw3cLWFIRmmYkzaAWexD7H6fOsp42hgb/f8ELG
+         YQh/8WBfF9dN28kDTDDXXxjkrP3xMOiWSAV3vLv6JP41qtmSBmj3C05Jn+h6HXooO/2r
+         Azsg==
+X-Gm-Message-State: AOJu0Yxh2LpLmd5YuTepRlqWhttc1w7hmBraqmmhgKUXaTvW36H1e/+u
+        pLxQf8DJEJSS6nJbg5gwPV4HQUE=
+X-Google-Smtp-Source: AGHT+IEPymksCe+J/GlG9UX+jCVEkLe44ItRkLzMmMlfrHbtUb58+EI2rBGvjINzoBfcVB6u0nFDhYI=
+X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
+ (user=sdf job=sendgmr) by 2002:a25:7702:0:b0:d9a:6007:223a with SMTP id
+ s2-20020a257702000000b00d9a6007223amr558822ybc.8.1699296277518; Mon, 06 Nov
+ 2023 10:44:37 -0800 (PST)
+Date:   Mon, 6 Nov 2023 10:44:36 -0800
+In-Reply-To: <20231106024413.2801438-11-almasrymina@google.com>
+Mime-Version: 1.0
+References: <20231106024413.2801438-1-almasrymina@google.com> <20231106024413.2801438-11-almasrymina@google.com>
+Message-ID: <ZUk0FGuJ28s1d9OX@google.com>
+Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
+From:   Stanislav Fomichev <sdf@google.com>
+To:     Mina Almasry <almasrymina@google.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Ahern <dsahern@kernel.org>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        "Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jeroen de Borst <jeroendb@google.com>,
+        Praveen Kaligineedi <pkaligineedi@google.com>,
+        Willem de Bruijn <willemb@google.com>,
+        Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="utf-8"
+X-Spam-Status: No, score=-9.6 required=5.0 tests=BAYES_00,DKIMWL_WL_MED,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE,USER_IN_DEF_DKIM_WL
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 11/05, Mina Almasry wrote:
+> In tcp_recvmsg_locked(), detect if the skb being received by the user
+> is a devmem skb. In this case - if the user provided the MSG_SOCK_DEVMEM
+> flag - pass it to tcp_recvmsg_devmem() for custom handling.
+> 
+> tcp_recvmsg_devmem() copies any data in the skb header to the linear
+> buffer, and returns a cmsg to the user indicating the number of bytes
+> returned in the linear buffer.
+> 
+> tcp_recvmsg_devmem() then loops over the unaccessible devmem skb frags,
+> and returns to the user a cmsg_devmem indicating the location of the
+> data in the dmabuf device memory. cmsg_devmem contains this information:
+> 
+> 1. the offset into the dmabuf where the payload starts. 'frag_offset'.
+> 2. the size of the frag. 'frag_size'.
+> 3. an opaque token 'frag_token' to return to the kernel when the buffer
+> is to be released.
+> 
+> The pages awaiting freeing are stored in the newly added
+> sk->sk_user_pages, and each page passed to userspace is get_page()'d.
+> This reference is dropped once the userspace indicates that it is
+> done reading this page.  All pages are released when the socket is
+> destroyed.
+> 
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
+> ---
+> 
+> RFC v3:
+> - Fixed issue with put_cmsg() failing silently.
+> 
+> ---
+>  include/linux/socket.h            |   1 +
+>  include/net/page_pool/helpers.h   |   9 ++
+>  include/net/sock.h                |   2 +
+>  include/uapi/asm-generic/socket.h |   5 +
+>  include/uapi/linux/uio.h          |   6 +
+>  net/ipv4/tcp.c                    | 189 +++++++++++++++++++++++++++++-
+>  net/ipv4/tcp_ipv4.c               |   7 ++
+>  7 files changed, 214 insertions(+), 5 deletions(-)
+> 
+> diff --git a/include/linux/socket.h b/include/linux/socket.h
+> index cfcb7e2c3813..fe2b9e2081bb 100644
+> --- a/include/linux/socket.h
+> +++ b/include/linux/socket.h
+> @@ -326,6 +326,7 @@ struct ucred {
+>  					  * plain text and require encryption
+>  					  */
+>  
+> +#define MSG_SOCK_DEVMEM 0x2000000	/* Receive devmem skbs as cmsg */
 
---5gPrNW+ynBXLwBH9
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Sharing the feedback that I've been providing internally on the public list:
 
-Hi,
+IMHO, we need a better UAPI to receive the tokens and give them back to
+the kernel. CMSG + setsockopt(SO_DEVMEM_DONTNEED) get the job done,
+but look dated and hacky :-(
 
-On Mon 06 Nov 23, 16:49, Mehdi Djait wrote:
-> Hi Paul,
->=20
-> On Mon, Nov 06, 2023 at 04:25:18PM +0100, Paul Kocialkowski wrote:
-> > > > > +static void tw9900_fill_fmt(const struct tw9900_mode *mode,
-> > > > > +			    struct v4l2_mbus_framefmt *fmt)
-> > > > > +{
-> > > > > +	fmt->code =3D MEDIA_BUS_FMT_UYVY8_2X8;
-> > > > > +	fmt->width =3D mode->width;
-> > > > > +	fmt->height =3D mode->height;
-> > > > > +	fmt->field =3D V4L2_FIELD_NONE;
-> > > > > +	fmt->quantization =3D V4L2_QUANTIZATION_DEFAULT;
-> > > > > +	fmt->colorspace =3D V4L2_COLORSPACE_SMPTE170M;
-> > > > > +	fmt->xfer_func =3D V4L2_MAP_XFER_FUNC_DEFAULT(V4L2_COLORSPACE_S=
-MPTE170M);
-> > > > > +	fmt->ycbcr_enc =3D V4L2_MAP_YCBCR_ENC_DEFAULT(V4L2_COLORSPACE_S=
-MPTE170M);
-> > > > > +}
-> > > > > +
-> > > > > +static int tw9900_cfg_fmt(struct v4l2_subdev *sd,
-> > > >=20
-> > > > You might have to differentiate between set_fmt/get_fmt to return -=
-EBUSY
-> > > > if streaming is on in set_fmt. However I understand it will just co=
-py the
-> > > > current mode in both cases, but this might still be required to fol=
-low v4l2
-> > > > semantics (please double-check).
-> > > >=20
-> > >=20
-> > > This should be done in the driver calling the pad subdev_call set_fmt,
-> > > right ?
-> >=20
-> > Well the two things are distinct, even though it's not obvious to think=
- about
-> > a case where you wouldn't have a video device to grab the frames.
-> >=20
-> > For instance you can see this being done here:
-> > https://elixir.bootlin.com/linux/latest/source/drivers/media/i2c/ov5648=
-=2Ec#L2259
-> >=20
-> > I'm just not sure about what the V4L2 subdev API mandates. It would be =
-useful
-> > to find some piece of documentation that clarifies the requirement.
->=20
-> Ok, I will split the functions then.
+We should either do some kind of user/kernel shared memory queue to
+receive/return the tokens (similar to what Jonathan was doing in his
+proposal?) or bite the bullet and switch to io_uring.
 
-I was more interested in finding out the right answer rather than having you
-follow an example from another driver. You can see the docs at:
-https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-subde=
-v-g-fmt.html#return-value
-
-So I think it's a good measure to return -EBUSY here. You can just have set=
-_fmt
-call into get_fmt with an extra check before.
-
-Also see the part about the which field. I'm not sure it should have
-implications in your case but better double-check that too.
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---5gPrNW+ynBXLwBH9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVJKVsACgkQ3cLmz3+f
-v9EozAf+I00QqYcdUt8VF0JbQM85Fr2jjcK8jqzkaoPKyO+IQ9JDQprTRzr00mlG
-9ak7DQSV40QQs3OTTRk5GYEf9ujs6GA34Yn+HjECqYEs9aabQYnGq7Xqc8vM1+5q
-DPPk0jPcQtdi04lZGmDhAi0XhrLLt2kPvofX1mU4CbX1qQALMRalsuZDF2PTv20p
-b3+T/Fx67uzJ+OgeP+mUIskgg7lE4l5/FiYeBmOB292OUZF5wB5yeYJLVOcDFue0
-BuoXk65TQXToVPZhk8AIjgRRthXDt2ztvzFaVh7v+MGmZa1DXULac0WIY8E5dUxV
-e0pL3Vr7WomhFpx70zYT3p0gMUDXKg==
-=wFvV
------END PGP SIGNATURE-----
-
---5gPrNW+ynBXLwBH9--
+I was also suggesting to do it via netlink initially, but it's probably
+a bit slow for these purpose, idk.
