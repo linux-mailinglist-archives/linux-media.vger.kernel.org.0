@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id B1A7E7E2158
-	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 13:26:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEC027E215A
+	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 13:26:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231669AbjKFM0B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Nov 2023 07:26:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46214 "EHLO
+        id S231705AbjKFM0D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Nov 2023 07:26:03 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50810 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231688AbjKFMZ7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 07:25:59 -0500
+        with ESMTP id S231701AbjKFM0A (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 07:26:00 -0500
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48571A4
-        for <linux-media@vger.kernel.org>; Mon,  6 Nov 2023 04:25:56 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A225C136
+        for <linux-media@vger.kernel.org>; Mon,  6 Nov 2023 04:25:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699273556; x=1730809556;
+  t=1699273557; x=1730809557;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=u7KawUKPiQSEjWm/faf7YsODCZ4pxBMjgviiwVBeQ/Y=;
-  b=ee7uRYLTAux76TqgoZlJDeGRNZk2YiXBaTPkBwAe8yUDRHhev+oi62o1
-   fGIUDVOkrJb+lc9TdXeq1Jn5Iu4yy/3q6ymIltDg5ZuWd544ic/aOE4nO
-   6FlYIn49VNWYhJuc7zxE205/DzGgBKVvUXaoUAsfllEMH9ZEwwTioJAci
-   paQACihGCnd+mtww8TA1tjYpgRJ/kfARMyeeEWmRarUyws1O+qE2Y4Xks
-   v4V7klKKpFtF5sqtEP2Q/7xlFi6rEbOJ8h5SI/CUf72V2/M6HYdJ/QEsh
-   hipba/49SVzRE31xO2p4WRdCMAZFDmSxzDNg3sI7I+HXVmRCRtplMgSeF
+  bh=U0kPXLUFWjINvab94UyZ/EQJc8/lRJANylD3wwexS+o=;
+  b=ejo6AMRoTPRHRH39MKCEf6JLXbOvxLefmcc406JvnDlscevwfM/wCOMg
+   l1Y+euSxQkczOwnI8mZwWMK4RQOtGcDzNBE/OW5zDSKFiY/OBkjg9JQ6H
+   cIOCtYsM3bSZOa575ZDBcxfSmzQc5POWCLjp9nHjjeSoB0lhe2DAbabYl
+   lMspCIdGk7HxTSY4L/xTt9SiGeCqKi2cSyaZfl72tKx9oX3b0a4YoI/ny
+   qEUZij0+QXyLu2QkAKCKxmXLaA3LK489wuLgkOxTlYOICiS0J6IObtgaH
+   Q8inWPcPIsKfD4UZsgxT1kPStAQZjDyT1Mh00/TpTv7GBpQX2LRCAMEMS
    g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="455747234"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="455747240"
 X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="455747234"
+   d="scan'208";a="455747240"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 04:25:55 -0800
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 04:25:56 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="797291582"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="797291586"
 X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="797291582"
+   d="scan'208";a="797291586"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 04:25:52 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 04:25:53 -0800
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 4FDD711FB8D;
-        Mon,  6 Nov 2023 14:25:49 +0200 (EET)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id 9C1CC11FBBC;
+        Mon,  6 Nov 2023 14:25:50 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -51,9 +51,9 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>,
         Alain Volmat <alain.volmat@foss.st.com>
-Subject: [PATCH v7 06/31] media: v4l: Support line-based metadata capture
-Date:   Mon,  6 Nov 2023 14:25:14 +0200
-Message-Id: <20231106122539.1268265-7-sakari.ailus@linux.intel.com>
+Subject: [PATCH v7 07/31] media: Documentation: Additional streams generally don't harm capture
+Date:   Mon,  6 Nov 2023 14:25:15 +0200
+Message-Id: <20231106122539.1268265-8-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231106122539.1268265-1-sakari.ailus@linux.intel.com>
 References: <20231106122539.1268265-1-sakari.ailus@linux.intel.com>
@@ -69,130 +69,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-many camera sensors, among other devices, transmit embedded data and image
-data for each CSI-2 frame. This embedded data typically contains register
-configuration of the sensor that has been used to capture the image data
-of the same frame.
-
-The embedded data is received by the CSI-2 receiver and has the same
-properties as the image data, including that it is line based: it has
-width, height and bytesperline (stride).
-
-Add these fields to struct v4l2_meta_format and document them.
-
-Also add V4L2_FMT_FLAG_META_LINE_BASED to tell a given format is
-line-based i.e. these fields of struct v4l2_meta_format are valid for it.
+Having extra streams on the source end of the link that cannot be captured
+by the sink sub-device generally are not an issue, at least not on CSI-2
+bus. Still document that there may be hardware specific limitations. For
+example on parallel bus this might not work on all cases.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
- .../userspace-api/media/v4l/dev-meta.rst          | 15 +++++++++++++++
- .../userspace-api/media/v4l/vidioc-enum-fmt.rst   |  7 +++++++
- .../media/videodev2.h.rst.exceptions              |  1 +
- drivers/media/v4l2-core/v4l2-ioctl.c              |  5 +++--
- include/uapi/linux/videodev2.h                    | 10 ++++++++++
- 5 files changed, 36 insertions(+), 2 deletions(-)
+ Documentation/userspace-api/media/v4l/dev-subdev.rst | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-meta.rst b/Documentation/userspace-api/media/v4l/dev-meta.rst
-index 0e7e1ee1471a..4dfd79e0a705 100644
---- a/Documentation/userspace-api/media/v4l/dev-meta.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-meta.rst
-@@ -65,3 +65,18 @@ to 0.
-       - ``buffersize``
-       - Maximum buffer size in bytes required for data. The value is set by the
-         driver.
-+    * - __u32
-+      - ``width``
-+      - Width of a line of metadata in Data units. Valid when
-+	:c:type`v4l2_fmtdesc` flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is set,
-+	otherwise zero. See :c:func:`VIDIOC_ENUM_FMT`.
-+    * - __u32
-+      - ``height``
-+      - Number of rows of metadata. Valid when :c:type`v4l2_fmtdesc` flag
-+	``V4L2_FMT_FLAG_META_LINE_BASED`` is set, otherwise zero. See
-+	:c:func:`VIDIOC_ENUM_FMT`.
-+    * - __u32
-+      - ``bytesperline``
-+      - Offset in bytes between the beginning of two consecutive lines. Valid
-+	when :c:type`v4l2_fmtdesc` flag ``V4L2_FMT_FLAG_META_LINE_BASED`` is
-+	set, otherwise zero. See :c:func:`VIDIOC_ENUM_FMT`.
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-index 000c154b0f98..a79abf4428c8 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-enum-fmt.rst
-@@ -227,6 +227,13 @@ the ``mbus_code`` field is handled differently:
- 	The application can ask to configure the quantization of the capture
- 	device when calling the :ref:`VIDIOC_S_FMT <VIDIOC_G_FMT>` ioctl with
- 	:ref:`V4L2_PIX_FMT_FLAG_SET_CSC <v4l2-pix-fmt-flag-set-csc>` set.
-+    * - ``V4L2_FMT_FLAG_META_LINE_BASED``
-+      - 0x0200
-+      - The metadata format is line-based. In this case the ``width``,
-+	``height`` and ``bytesperline`` fields of :c:type:`v4l2_meta_format` are
-+	valid. The buffer consists of ``height`` lines, each having ``width``
-+	Data units of data and offset (in bytes) between the beginning of each
-+	two consecutive lines is ``bytesperline``.
+diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+index f375b820ab68..a387e8a15b8d 100644
+--- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
++++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+@@ -529,9 +529,9 @@ the its sink pad and allows to route them individually to one of its source
+ pads.
  
- Return Value
- ============
-diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-index 3e58aac4ef0b..bdc628e8c1d6 100644
---- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-+++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-@@ -215,6 +215,7 @@ replace define V4L2_FMT_FLAG_CSC_XFER_FUNC fmtdesc-flags
- replace define V4L2_FMT_FLAG_CSC_YCBCR_ENC fmtdesc-flags
- replace define V4L2_FMT_FLAG_CSC_HSV_ENC fmtdesc-flags
- replace define V4L2_FMT_FLAG_CSC_QUANTIZATION fmtdesc-flags
-+replace define V4L2_FMT_FLAG_META_LINE_BASED fmtdesc-flags
+ Subdevice drivers that support multiplexed streams are compatible with
+-non-multiplexed subdev drivers, but, of course, require a routing configuration
+-where the link between those two types of drivers contains only a single
+-stream.
++non-multiplexed subdev drivers. However, if the driver at the sink end of a link
++does not support streams, then only the stream 0 on source end may be
++captured. There may be additional hardware specific limitations.
  
- # V4L2 timecode types
- replace define V4L2_TC_TYPE_24FPS timecode-type
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index ce4b3929ff5f..fb453b7d0c91 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -343,8 +343,9 @@ static void v4l_print_format(const void *arg, bool write_only)
- 	case V4L2_BUF_TYPE_META_OUTPUT:
- 		meta = &p->fmt.meta;
- 		pixelformat = meta->dataformat;
--		pr_cont(", dataformat=%p4cc, buffersize=%u\n",
--			&pixelformat, meta->buffersize);
-+		pr_cont(", dataformat=%p4cc, buffersize=%u, width=%u, height=%u, bytesperline=%u\n",
-+			&pixelformat, meta->buffersize, meta->width,
-+			meta->height, meta->bytesperline);
- 		break;
- 	}
- }
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 2b16b06ad278..7b0781a20dbe 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -877,6 +877,7 @@ struct v4l2_fmtdesc {
- #define V4L2_FMT_FLAG_CSC_YCBCR_ENC		0x0080
- #define V4L2_FMT_FLAG_CSC_HSV_ENC		V4L2_FMT_FLAG_CSC_YCBCR_ENC
- #define V4L2_FMT_FLAG_CSC_QUANTIZATION		0x0100
-+#define V4L2_FMT_FLAG_META_LINE_BASED		0x0200
- 
- 	/* Frame Size and frame rate enumeration */
- /*
-@@ -2420,10 +2421,19 @@ struct v4l2_sdr_format {
-  * struct v4l2_meta_format - metadata format definition
-  * @dataformat:		little endian four character code (fourcc)
-  * @buffersize:		maximum size in bytes required for data
-+ * @width:		number of data units of data per line (valid for line
-+ *			based formats only, see format documentation)
-+ * @height:		number of lines of data per buffer (valid for line based
-+ *			formats only)
-+ * @bytesperline:	offset between the beginnings of two adjacent lines in
-+ *			bytes (valid for line based formats only)
-  */
- struct v4l2_meta_format {
- 	__u32				dataformat;
- 	__u32				buffersize;
-+	__u32				width;
-+	__u32				height;
-+	__u32				bytesperline;
- } __attribute__ ((packed));
- 
- /**
+ Understanding streams
+ ^^^^^^^^^^^^^^^^^^^^^
 -- 
 2.39.2
 
