@@ -2,56 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 996337E2908
-	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 16:49:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE92F7E2A59
+	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 17:51:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232178AbjKFPt4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Nov 2023 10:49:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33706 "EHLO
+        id S232625AbjKFQvL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Nov 2023 11:51:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56084 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231827AbjKFPtz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 10:49:55 -0500
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A367A107;
-        Mon,  6 Nov 2023 07:49:51 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 67EE4C0007;
-        Mon,  6 Nov 2023 15:49:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1699285790;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=2fzTFRtE8OUbr2+PUc5Jsl8FOsZhgcgp2/rGQyh/LaY=;
-        b=Mb+7QgvYWX/CYi2SnZpUmb520oUd+hxz+xJaJ7govP4NaDscocn8T9sLa3PPdowGzGVeE9
-        jHw2T41xtF3qCod4eSrM4sJzrq8YgUQpdW8lYtEDb+8DkfQ4O2BMcuDO69Qtos2P1gGAkl
-        ImYQ3hsGtS8UgiexOWyg2LX7cwI9oJ28QBPHvi9nFCjY0s8vT3TNpuDEQgUi5cO0EiI5qx
-        fks8P+retlmvPU/zNNZaGyfSiHG0+/ZwnRFr3rjOfdB0bJJX1wAlFQ55iLivjyT+8c9UYb
-        b0XcMrPuzjGhK32FwDE8RsogzTjUwcznfhXPGLRsltUjPh3cVBC/yup6+vJDuA==
-Date:   Mon, 6 Nov 2023 16:49:48 +0100
-From:   Mehdi Djait <mehdi.djait@bootlin.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com
-Subject: Re: [PATCH v7 3/3] media: i2c: Introduce a driver for the Techwell
- TW9900 decoder
-Message-ID: <ZUkLHDH2Budi+zgc@pc-70.home>
-References: <cover.1697463708.git.mehdi.djait@bootlin.com>
- <c3cd9002b2db69a6fb155722adc8410cd6e1f9ab.1697463708.git.mehdi.djait@bootlin.com>
- <ZUNz_h1fn9RH9Uc5@aptenodytes>
- <ZUj/FQTyajQJrxoU@pc-70.home>
- <ZUkFXl7vBS36y4Qi@aptenodytes>
+        with ESMTP id S230086AbjKFQvK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 11:51:10 -0500
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77CA9B8;
+        Mon,  6 Nov 2023 08:51:03 -0800 (PST)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3A6C6bjB004731;
+        Mon, 6 Nov 2023 17:50:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=selector1; bh=b1Xh2LilT7GMG6HQY5JGB
+        /PrQK61B1TX/eGNos2qtjw=; b=3kC6Bxk7/M9HIXm9lapWmkT9q9pgZRDJuca40
+        uT/kHarRSWfvGr1UrDvKtqdnV+xcFGuQoYb0nPtj0xfksGhtiLjWfHtX3/5xaDGB
+        9fDAqd8q+hWFw1V14r0tzsckwBTd7p6R3Xlf+2kDTa4NDL698ixRHuP8rftm0A0f
+        BiORIzaq2aLl0RYLXUrGdvclPuNBVapYAJGAopkH1JDFPbeYSBTQMw4C0VtneBpR
+        Rgf8x81qy2798Zp8kAW+8NS1S5DdEnTQE8VLEUHRU82uBo1ITkX73BLJVsCBa10p
+        OXOlWoJXXTB7MiF95Kfet65UEreVWhEBPtocBEufexH5Qx1Zg==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3u5ej0qxrm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 06 Nov 2023 17:50:50 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 75E62100059;
+        Mon,  6 Nov 2023 17:50:48 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 65D5026C075;
+        Mon,  6 Nov 2023 17:50:48 +0100 (CET)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 6 Nov
+ 2023 17:50:48 +0100
+Date:   Mon, 6 Nov 2023 17:50:40 +0100
+From:   Alain Volmat <alain.volmat@foss.st.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Rob Herring <robh@kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v2 2/3] dt-bindings: media: i2c: add galaxycore,gc2145
+ dt-bindings
+Message-ID: <20231106165040.GA3075668@gnbcxd0016.gnb.st.com>
+Mail-Followup-To: Sakari Ailus <sakari.ailus@iki.fi>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231011175735.1824782-1-alain.volmat@foss.st.com>
+ <20231011175735.1824782-3-alain.volmat@foss.st.com>
+ <ZUJRbI9ff83gH6Ng@valkosipuli.retiisi.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <ZUkFXl7vBS36y4Qi@aptenodytes>
-X-GND-Sasl: mehdi.djait@bootlin.com
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,SPF_HELO_PASS,SPF_PASS,
+In-Reply-To: <ZUJRbI9ff83gH6Ng@valkosipuli.retiisi.eu>
+X-Disclaimer: ce message est personnel / this message is private
+X-Originating-IP: [10.129.178.213]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-06_12,2023-11-02_03,2023-05-22_02
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,
         T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -59,44 +86,96 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hi Sakari,
 
-On Mon, Nov 06, 2023 at 04:25:18PM +0100, Paul Kocialkowski wrote:
-> > > > +static void tw9900_fill_fmt(const struct tw9900_mode *mode,
-> > > > +			    struct v4l2_mbus_framefmt *fmt)
-> > > > +{
-> > > > +	fmt->code = MEDIA_BUS_FMT_UYVY8_2X8;
-> > > > +	fmt->width = mode->width;
-> > > > +	fmt->height = mode->height;
-> > > > +	fmt->field = V4L2_FIELD_NONE;
-> > > > +	fmt->quantization = V4L2_QUANTIZATION_DEFAULT;
-> > > > +	fmt->colorspace = V4L2_COLORSPACE_SMPTE170M;
-> > > > +	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(V4L2_COLORSPACE_SMPTE170M);
-> > > > +	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(V4L2_COLORSPACE_SMPTE170M);
-> > > > +}
-> > > > +
-> > > > +static int tw9900_cfg_fmt(struct v4l2_subdev *sd,
-> > > 
-> > > You might have to differentiate between set_fmt/get_fmt to return -EBUSY
-> > > if streaming is on in set_fmt. However I understand it will just copy the
-> > > current mode in both cases, but this might still be required to follow v4l2
-> > > semantics (please double-check).
-> > > 
+On Wed, Nov 01, 2023 at 01:23:56PM +0000, Sakari Ailus wrote:
+> Hi Alain,
+> 
+> On Wed, Oct 11, 2023 at 07:57:29PM +0200, Alain Volmat wrote:
+> > Introduction of the Galaxy Core GC2145 XVGA CMOS camera sensor.
 > > 
-> > This should be done in the driver calling the pad subdev_call set_fmt,
-> > right ?
+> > Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> > ---
+> >  .../bindings/media/i2c/galaxycore,gc2145.yaml | 104 ++++++++++++++++++
+> >  1 file changed, 104 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
+> > new file mode 100644
+> > index 000000000000..94d194cf5452
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
+> > @@ -0,0 +1,104 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/galaxycore,gc2145.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Galaxy Core 1/5'' UXGA CMOS Image Sensor
+> > +
+> > +maintainers:
+> > +  - Alain Volmat <alain.volmat@foss.st.com>
+> > +
+> > +description:
+> > +  The Galaxy Core GC2145 is a high quality 2 Mega CMOS image sensor, for mobile
+> > +  phone camera applications and digital camera products. GC2145 incorporates a
+> > +  1616V x 1232H active pixel array, on-chip 10-bit ADC, and image signal
+> > +  processor. It is programmable through an I2C interface. Image data is sent
+> > +  either through a parallel interface or through MIPI CSI-2.
+> > +
+> > +allOf:
+> > +  - $ref: ../video-interface-devices.yaml#
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: galaxycore,gc2145
+> > +
+> > +  reg:
+> > +    const: 0x3c
+> > +
+> > +  clocks:
+> > +    maxItems: 1
+> > +
+> > +  powerdown-gpios:
+> > +    maxItems: 1
+> > +
+> > +  reset-gpios:
+> > +    maxItems: 1
+> > +
+> > +  iovdd-supply:
+> > +    description: Power Supply for I/O circuits (1.7 - 3V).
+> > +
+> > +  avdd-supply:
+> > +    description: Power for analog circuit/sensor array (2.7 - 3V).
+> > +
+> > +  dvdd-supply:
+> > +    description: Power for digital core (1.7 - 1.9V).
+> > +
+> > +  orientation: true
+> > +
+> > +  rotation: true
+> > +
+> > +  port:
+> > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        $ref: /schemas/media/video-interfaces.yaml#
+> > +        unevaluatedProperties: false
+> > +
+> > +    required:
+> > +      - endpoint
 > 
-> Well the two things are distinct, even though it's not obvious to think about
-> a case where you wouldn't have a video device to grab the frames.
-> 
-> For instance you can see this being done here:
-> https://elixir.bootlin.com/linux/latest/source/drivers/media/i2c/ov5648.c#L2259
-> 
-> I'm just not sure about what the V4L2 subdev API mandates. It would be useful
-> to find some piece of documentation that clarifies the requirement.
+> Could you add link-frequencies here, too?
 
-Ok, I will split the functions then.
+This sensor is only used for the time being (as far as I know) on the
+the stm32mp135f-dk board which can well handle the 3 link-frequencies.
+(some other usages exist, however in parallel mode, which this driver
+doesn't support yet).
+I was hoping to only add the link-frequencies check when it becomes
+necessary to use it on another board.
+Do that make sense ?
 
---
-Kind Regards
-Mehdi Djait
+Regards,
+Alain
