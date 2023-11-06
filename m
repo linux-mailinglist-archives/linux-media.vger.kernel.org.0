@@ -2,240 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A14347E19C9
-	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 06:56:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0FB67E1A9E
+	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 08:00:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230358AbjKFF4V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Nov 2023 00:56:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52930 "EHLO
+        id S230488AbjKFHBA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Nov 2023 02:01:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50656 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229485AbjKFF4T (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 00:56:19 -0500
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 548ED10B;
-        Sun,  5 Nov 2023 21:56:15 -0800 (PST)
-X-UUID: 2db157bc7c6911ee8051498923ad61e6-20231106
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=mE+lRvYcfW1hQt1+wxUo+n2orkUt4xakPvAQjh1GUUc=;
-        b=Wg4JoX3K4BX9BAoj5Trn/j1LbOOoIOpfHPOAWSE1i6yzuGsR/UbFJLO5XH0XkwchfOGDyO4GZTfGkDgPKKFfoFXVdzWR4d478Mv87IDiFI8Gy4J/ZnCMpgi0ccKIqmqOxE4MKmdSZiVyn+S5z6k/tYgZSKb8VWqCHaoxLpsvJ5c=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.33,REQID:e43c735c-e47a-4624-8aa3-4cf7eeec545a,IP:0,U
-        RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-        release,TS:0
-X-CID-META: VersionHash:364b77b,CLOUDID:8c3d5072-1bd3-4f48-b671-ada88705968c,B
-        ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-        RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
-        DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0,NGT
-X-CID-BAS: 0,NGT,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-UUID: 2db157bc7c6911ee8051498923ad61e6-20231106
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw02.mediatek.com
-        (envelope-from <yong.wu@mediatek.com>)
-        (Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-        with ESMTP id 167722151; Mon, 06 Nov 2023 13:56:07 +0800
-Received: from mtkmbs10n2.mediatek.inc (172.21.101.183) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Mon, 6 Nov 2023 13:56:06 +0800
-Received: from APC01-TYZ-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Mon, 6 Nov 2023 13:56:06 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=kAp/oPZTR58pGGjgjbuywpFYo7m+epV+XhkJ7mR/ng6NIt2BlfDaStPrUT4aIkJfijxVaZCIzD1T2J3gn0Or98bLHkQuMpQOvDOtYnWOX6fStN4BoeOJGum+9qPgEyOendaKHH6nE0Y/WmMGet0IoSWvJ5DO+6c3Ob+/XuV6sRL65etTVSLJ/G5aXhL+xWoV9Ox1uIQE8zhddz/WeeKhIqvtYyM1JZR4i8es2xi0wx75JVXme3gVPoIXBDQaXylGvUSV5mVV0ONKUGOASJEYdS1liBHBLsd1GUXD/iai0n9LDtS8ukBSFIWJMXNqul3wbdtjh1JGoqXubz57yS733g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mE+lRvYcfW1hQt1+wxUo+n2orkUt4xakPvAQjh1GUUc=;
- b=fcoO0JEcM5nlhrxgnu6z+gUZVpGELJokRDfFEdJuckaGiMsgvl4SfnMjmiqfcPvaaJVvD9NQofJ+FLwgVrMXi3J5UDfWgT/lZ/3hMNHQ4Imw+vd72G/jZ3hjI88/THMKQoxBz5JZcmLsHHgimIgQWSQZhYicnT935w9o11DflrHZQEVOHPYRvwk0s0CLYd5G+WrHcNeGi1QkTI1b/bg2ZIipHo27wIFlOI+u0aTwbpCfOfKNpC4ndxk8RN92kWcQ2EMHBIxiUBLnYqxz6z84DbBnw7lQnPgEDex7xaZOLmABlOg3z+l/f3YEXKchWVGXnXp67WDZk9CfrOhlaHbhbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mE+lRvYcfW1hQt1+wxUo+n2orkUt4xakPvAQjh1GUUc=;
- b=CEb7bBOz1cX8AYxIExqwgDE05sKmQSxbpUgH6hnjCazvAOIhAPlyBV022gqEmOVadJhpzs7EEYGOI5t7u2nJKyRTcDF2tDYLa2GnzpVoBOlzjm+dGrNIj1K9fBkJcI4VYEc/3N1M/tOkZYPwz/9/j5GOcmLfxqk5SGQIb+ng7cQ=
-Received: from SI2PR03MB5885.apcprd03.prod.outlook.com (2603:1096:4:142::7) by
- SEYPR03MB7815.apcprd03.prod.outlook.com (2603:1096:101:171::7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.6954.25; Mon, 6 Nov 2023 05:56:03 +0000
-Received: from SI2PR03MB5885.apcprd03.prod.outlook.com
- ([fe80::2e66:c8a4:6d9:1e43]) by SI2PR03MB5885.apcprd03.prod.outlook.com
- ([fe80::2e66:c8a4:6d9:1e43%5]) with mapi id 15.20.6954.025; Mon, 6 Nov 2023
- 05:56:03 +0000
-From:   =?utf-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>
-To:     "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "christian.koenig@amd.com" <christian.koenig@amd.com>,
-        "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>,
-        "quic_jasksing@quicinc.com" <quic_jasksing@quicinc.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
-CC:     "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" 
-        <linux-mediatek@lists.infradead.org>,
-        "jstultz@google.com" <jstultz@google.com>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        =?utf-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?= 
-        <Jianjiao.Zeng@mediatek.com>,
-        =?utf-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?= 
-        <kuohong.wang@mediatek.com>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "tjmercier@google.com" <tjmercier@google.com>,
-        "krzysztof.kozlowski+dt@linaro.org" 
-        <krzysztof.kozlowski+dt@linaro.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "angelogioacchino.delregno@collabora.com" 
-        <angelogioacchino.delregno@collabora.com>
-Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
- memory for SVP
-Thread-Topic: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
- memory for SVP
-Thread-Index: AQHZ5FgxjegLVruM7kG7VRoFLocLPrBQxboAgAHnZgCAEpjlgIAH3SGA
-Date:   Mon, 6 Nov 2023 05:56:03 +0000
-Message-ID: <8666e39c6b59322af6a9637121ed22f291830c46.camel@mediatek.com>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
-         <20230911023038.30649-9-yong.wu@mediatek.com>
-         <d4d471e7-64cf-42bf-a061-82934c904691@quicinc.com>
-         <2c3ad77806df3ef23cb69336f2049821529e337b.camel@mediatek.com>
-         <a83b00c4-a33a-4687-b024-173c6c5a66a0@quicinc.com>
-In-Reply-To: <a83b00c4-a33a-4687-b024-173c6c5a66a0@quicinc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SI2PR03MB5885:EE_|SEYPR03MB7815:EE_
-x-ms-office365-filtering-correlation-id: 7bfd3076-d67d-413b-b2b7-08dbde8d0f8a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NGRK3/5NjewAAO3MAuWzp9Jzkt6x1dI2b75VpMvK/iEEEuW9Hmbj+ITM2FNTGclJsEeh1MXpVnd/jxrErI+dOxUFrhne3fjBS9aHZ8PN24Sma7Z3fql6IeQjkYxBJyuEFATqGkRqZANpFvynMtj1Nj8SjLh62xutnIDndBNr2OFZKENSvZF3Axa+dVZj/+Yr1kb2ugL2pM9DOv9yVoHNoknP9SXJ0erf7YK88d1t5xcew1dLxXZFs6SJvSsLuaPY0aZ2Y5V4ISZyboiCe7sYEjLQw1BnhsimSOKWRe6Hq62OF1584lwLdK7YpQ+1nBpSGjxHKRx4YNRegympKrbLcv7B+aqL9jCQBkQ3/i8GPQ7tElavYNwUTAmYMB+IOMIE8zNTq+FT7SiGL5KLFk03g0DWf/VwqRgDgwSnofURwdhROexO507nry8zqwjWoToZaD10uuRVPaXfEu5eIQ6as7iPUNJm6BABKg7vA8/8Niw0IWfuuQoSkv/5kVbJr1vU0zAnYzFJytIwpxBuunsthXmTsOgW15wysUBsvksDFy3diUSp7u5pQ8tTDdRwaqgFXBNyCMMwO2TP4jBA0km+WfO69dAZUjy8J+/C8G0MAqbY7c+SALRWcj5madFtyeq5JltqtLFn8tK59CLGhTgltEBJqc8+th51Q6rBtu25i/Y0ZLr7TqqSE/Npjb0PNuWOYm/u1gLTXDvvTsf3DQq60I1nmFOjR9t6gf+AURTpkgqzqSPiNIUi9d2X5D1aHaKc
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SI2PR03MB5885.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(39860400002)(366004)(396003)(136003)(230173577357003)(230922051799003)(230273577357003)(451199024)(64100799003)(1800799009)(186009)(4001150100001)(7416002)(2906002)(38100700002)(85182001)(54906003)(86362001)(66446008)(966005)(66556008)(66476007)(66946007)(76116006)(316002)(122000001)(36756003)(64756008)(91956017)(6512007)(6486002)(110136005)(26005)(2616005)(53546011)(478600001)(71200400001)(6506007)(83380400001)(5660300002)(41300700001)(38070700009)(8936002)(4326008)(8676002)(99106002);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?WXE4Sy9sdEE3YUo3NDVkMHQ5Q25iRU8ybUpGTGZ0UnFyTU85Rit6MjZlNGhK?=
- =?utf-8?B?SjNJbFYweElyRWZNeEpsYVJGMjgrWll0ckRPbUhRMjRTZ1pFRWx6bUVlUXZm?=
- =?utf-8?B?UzFGRTg4QkRCVlZqc1V3TEhpZDF4VUhVZjZzaENsK0g5QXZxV1pzQmpiNnlo?=
- =?utf-8?B?bW5TcVpYQkNUd2ZWUk5Xd1RUdFVWWGlRd2pRd3hKempVNFBkc0pRVGN0N21a?=
- =?utf-8?B?Yi96NzFyVzRrWHJOdjNpL1Uwbk0wM2NMMkZpaXhPTGw3UFJsYkVDcU92T2c2?=
- =?utf-8?B?b0FyV3RpTkxqNDlTZExob3k5V29kalFsZW5xRmt5UDZvNE1lK2x6UndrMC9W?=
- =?utf-8?B?WDRtNkw3QnExZWtVRTZXNjlETkpkQ2pERVhJWDNYWFp3T0dJWHR2aktBaEtS?=
- =?utf-8?B?VS9Wd2VNeGNsMmpJWXc4MEhkUUlKUWg4MHN6MUNuTW5jR0dkeDNRaEt1ZUZj?=
- =?utf-8?B?cDhBcURmOHNlWGtLRS9KR3M5L1RTMXNtYjJUZ0JHM0hSZ1pObW5jQ0N2RGQy?=
- =?utf-8?B?YXZaSlFSaU9oYTljWVVWcXdhWm1UdStpTUM3OU94NXJRS3RqcjVpSjBwZDZm?=
- =?utf-8?B?cEVjVGY2dDQ3K1lWVzlGWEdOZ0p0dlRMZkRMbmlTZE1mR3k1ZHB4RjU0QzV1?=
- =?utf-8?B?Wmd5OTNYNytyQVVuL3ZjZlkrTklmclZDY3dCOVl6bnBDOEg0TWVDbmdWYjRk?=
- =?utf-8?B?ZVMweE5DRjY3YWk4R2ZOMmdzOU03eHdUZUJuZE02YmJIckhSQ0tUZnVTZFRJ?=
- =?utf-8?B?aitRa3BCem5PY3V0NDBEUXlnQ1U3UERsM1ZqWkY4S3lBSldZZXY0TDJkRTkv?=
- =?utf-8?B?MDZBVlJjaXY1R2dKdmJDaWhYUUV3ZjlNaFc5YnAzK1RPa3h3TENvaTNrdFVo?=
- =?utf-8?B?NXhhRDFNZXdKK05sczF0VWk0b0lkcFlvZEN4QjliUThxanN4MTF0ODBBRFl0?=
- =?utf-8?B?U0g3Ly9xT1RVaFdmdFFUN2lsQVBHQkdOV3BKR09pbld1eXVFWFVYRnBBcll0?=
- =?utf-8?B?S1Z5bGRqbnAzNnhCd3VFd2pTY3pZMG9xSjBaVENIRFZDYmxoRU5pYm9tZ1lL?=
- =?utf-8?B?TWpBcnRFTEVGS0F3YnYvaFJPQzV1RGF3ZkM0Ky9yWVFDTW4rNW0za2VGMkVr?=
- =?utf-8?B?dWZzWVhHaDY3Y0djLzFSU2Q2bDVqSU5JdUl2dERuSUVYTU9BUGRHUzBLMzlP?=
- =?utf-8?B?QUFsbTQzYXg2VUE1dzBlZnJVMjBTT09nNjdjbVRUcVZ4eDdJZzl1TEozcE9U?=
- =?utf-8?B?SjFRWEpRbDExOGo5azVSSm9iUWg5SWdaQWYydlI5KzJpOW94RnJnOGh2Yzd0?=
- =?utf-8?B?a0xGcElyY2swYXZJUHE3Skl1MXFIWUR0SCtGdHBxaU9WY1J4czRVOC92TnAy?=
- =?utf-8?B?QklKWHRUUFNzWGRTZTl4ZS90VjN1NVpTblIrQVhPa2tXVWRNbERjN0E4VGxS?=
- =?utf-8?B?OFdlWUFVNnJiYkdvWmlGR3Y4Z0E5ZVkrMHFjeXJVSnBubUZObm93cVBzWllq?=
- =?utf-8?B?bmc2T0s1enZOcmdRK1dqSDNaMTNkdXhxZEdmeGtTK1gza2NORVF2Q2twb1dY?=
- =?utf-8?B?QVN4ZGVZNXc1OXI3NlBlNEg1Q0FhenQrQWtia0x1NW1QNXpKTDhFUHVqNWdS?=
- =?utf-8?B?cUw3MHllcnRhcDV0ck81ajJRUmhVNnN4ZWNKd1NJRUFjNVoxUGk5d2h2V0pF?=
- =?utf-8?B?UVhOOW1OSnJiUStFUEN6VTg1andocFVVSUVNWU5rTnRXUTRtYmFKYmoyeXRB?=
- =?utf-8?B?dUtoM3lWVCtTZ2s2UkMzbHRYUWMrelhvZjJkVVpMdzduSGJtT2psWDBuakxi?=
- =?utf-8?B?NnhvdlA1NVVNUUcrc2pqYnBqdVFQNG5yY0NDeFQzSEtxeGdJRmhud2Z1YjdK?=
- =?utf-8?B?UXBrVkgvVmtWb0MySkR6bDZEMFBHZmlEMjBQQkI4OW15ajIrN21HMzVNZ2w5?=
- =?utf-8?B?QU5Yai93MG1aSmFRQzArWHViWnd2eUUvZXpLY3kvYU03N2ZxTjE0OWFTRTkr?=
- =?utf-8?B?bWlHSEI0QWh3M3BuZ24yOHZuS0FaTytZdVlIQ3U4ZmlLQTBVS3lnQ3RCQUNI?=
- =?utf-8?B?WjdFWGF3MjVncDF6SkV3MGxWSmU2bmdSYUoxMkRQdkluZjErbEd3SHA1YXpP?=
- =?utf-8?Q?QU7lzyixUIxvCyOrtK/jTgZDU?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <C6599153295A034C8EB4F0D1F0BF4048@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        with ESMTP id S230424AbjKFHA7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 02:00:59 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F12A3112;
+        Sun,  5 Nov 2023 23:00:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699254054; x=1730790054;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=oUzRVkf7vItbJIqjVF2uTRMddeQw8CI8xix6ND0s+s8=;
+  b=AQfJI9UqIRWjkcpi/k2YbTQXleNiovsdHfJtEftIesJyS5NpV4mml4QW
+   yLE1dHfrTFIKhRXeUdiwFN4YIHpHzMlUlyokvI6u1P1qZxlbrue33mcYl
+   q3SqFeVilK8ALn9md/wVbVEou6yToRMU0P7+SFJt8mInl7ZWAAIgs5aYS
+   7wnKUc9cgsyuRhXLjNSQS8AZuj4x28dOvueMEEi6uA2EGoOFaoEXHN6Nu
+   FYpEc3OTHKxM5P4voNZg0uU5MqRHNl5aetzNfOAbmbStG0Kj3Sc4Kr0/a
+   8KSQBlwe5TiE0Rq2CX0NpwSHSXVpe84b05KZn5rNiMi356Lh34ND9CYV8
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="386394058"
+X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
+   d="scan'208";a="386394058"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 23:00:54 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="712121526"
+X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
+   d="scan'208";a="712121526"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga003.jf.intel.com with ESMTP; 05 Nov 2023 23:00:51 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1qztbN-0006D8-0k;
+        Mon, 06 Nov 2023 07:00:49 +0000
+Date:   Mon, 6 Nov 2023 14:59:24 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Arnd Bergmann <arnd@arndb.de>
+Cc:     llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: drivers/media/pci/sta2x11/sta2x11_vip.c:1053:6: warning: cast from
+ 'irqreturn_t (*)(int, struct sta2x11_vip *)' (aka 'enum irqreturn (*)(int,
+ struct sta2x11_vip *)') to 'irq_handler_t' (aka 'enum irqreturn (*)(int,
+ void *)') converts to incompatible funct...
+Message-ID: <202311061401.8TDz7c7d-lkp@intel.com>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SI2PR03MB5885.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7bfd3076-d67d-413b-b2b7-08dbde8d0f8a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Nov 2023 05:56:03.5430
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: w0HAQX4Sd/PJ7Vc3uYeGg7lGMWGYFBh9z1JuqRX0XZotWPGJbaAntqqDskKqhMPg2F62MrN5D5SE/vTqoxc0KQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB7815
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--26.616600-8.000000
-X-TMASE-MatchedRID: yxAmdCLMIs3UL3YCMmnG4ia1MaKuob8PCJpCCsn6HCHBnyal/eRn3gzR
-        CsGHURLuwpcJm2NYlPAF6GY0Fb6yCifZYRtbOr2tttAWxuM5sl74qCLIu0mtIGHZ+cd7VyKX78m
-        ng1Xqld9TvHeBiMKYYxSbVdUWUqf5YeOFZSwS7nTmAId+2bAQwlAI6wCVrE3vWltirZ/iPP7GEu
-        3/atNxSYO6yQgGYLGn9LOItqNiof9cqim4vwMm8Bes/RxhysDbAlw1lJDBMtaav7eQVL9oQ0wVU
-        EAID5kTfIVut8szzbj++GoROERRv66UR+fsf9oDIQrubkFPQdnZHwCsL68/MWjliw+xvItdK27U
-        O0gQTeqT067b6oi4rJ/ujNnNM8HU/ZG8oSoOiZQpa6LJktEjgMBZPOJYZoM8EQQHCSpHtkqjxYy
-        RBa/qJRVHsNBZf9aRAYt5KiTiutkLbigRnpKlKSBuGJWwgxArFnn7zLfna4I=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--26.616600-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP: DED780E05D58FB38ACD5D8EB8392EC1023462A61FA55832B3649BAC418483CC62000:8
-X-MTK:  N
-X-Spam-Status: No, score=-1.3 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        RCVD_IN_MSPIKE_H4,RCVD_IN_MSPIKE_WL,RDNS_NONE,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE,UNPARSEABLE_RELAY autolearn=no autolearn_force=no
-        version=3.4.6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Spam-Status: No, score=-2.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-T24gV2VkLCAyMDIzLTExLTAxIGF0IDExOjIwICswNTMwLCBKYXNrYXJhbiBTaW5naCB3cm90ZToN
-Cj4gIAkgDQo+IEV4dGVybmFsIGVtYWlsIDogUGxlYXNlIGRvIG5vdCBjbGljayBsaW5rcyBvciBv
-cGVuIGF0dGFjaG1lbnRzIHVudGlsDQo+IHlvdSBoYXZlIHZlcmlmaWVkIHRoZSBzZW5kZXIgb3Ig
-dGhlIGNvbnRlbnQuDQo+ICBPbiAxMC8yMC8yMDIzIDM6MjAgUE0sIFlvbmcgV3UgKOWQtOWLhykg
-d3JvdGU6DQo+ID4gT24gVGh1LCAyMDIzLTEwLTE5IGF0IDEwOjE2ICswNTMwLCBWaWpheWFuYW5k
-IEppdHRhIHdyb3RlOg0KPiA+PiAgIA0KPiA+PiBJbnN0ZWFkIG9mIGhhdmluZyBhIHZlbmRvciBz
-cGVjaWZpYyBiaW5kaW5nIGZvciBjbWEgYXJlYSwgSG93DQo+IGFib3V0DQo+ID4+IHJldHJpZXZp
-bmcNCj4gPj4NCj4gPiANCj4gaHR0cHM6Ly9sb3JlLmtlcm5lbC5vcmcvbGttbC8xNTk0OTQ4MjA4
-LTQ3MzktMS1naXQtc2VuZC1lbWFpbC1oYXlhc2hpLmt1bmloaWtvQHNvY2lvbmV4dC5jb20vDQo+
-ID4+ICA/DQo+ID4+IGRtYV9oZWFwX2FkZF9jbWEgY2FuIGp1c3QgYXNzb2NpYXRlIGNtYSByZWdp
-b24gYW5kIGNyZWF0ZSBhIGhlYXAuDQo+IFNvLA0KPiA+PiB3ZSBjYW4gcmV1c2UgY21hIGhlYXAN
-Cj4gPj4gY29kZSBmb3IgYWxsb2NhdGlvbiBpbnN0ZWFkIG9mIHJlcGxpY2F0aW5nIHRoYXQgY29k
-ZSBoZXJlLg0KPiA+Pg0KPiA+IA0KPiA+IFRoYW5rcyBmb3IgdGhlIHJlZmVyZW5jZS4gSSBndWVz
-cyB3ZSBjYW4ndCB1c2UgaXQuIFRoZXJlIGFyZSB0d28NCj4gPiByZWFzb25zOg0KPiA+ICAgDQo+
-ID4gYSkgVGhlIHNlY3VyZSBoZWFwIGRyaXZlciBpcyBhIHB1cmUgc29mdHdhcmUgZHJpdmVyIGFu
-ZCB3ZSBoYXZlIG5vDQo+ID4gZGV2aWNlIGZvciBpdCwgdGhlcmVmb3JlIHdlIGNhbm5vdCBjYWxs
-IGRtYV9oZWFwX2FkZF9jbWEuDQo+ID4gICANCj4gDQo+IEhpIFlvbmcsDQo+IA0KPiBXZSdyZSBj
-b25zaWRlcmluZyB1c2luZyBzdHJ1Y3QgY21hIGFzIHRoZSBmdW5jdGlvbiBhcmd1bWVudCB0bw0K
-PiBkbWFfaGVhcF9hZGRfY21hKCkgcmF0aGVyIHRoYW4gc3RydWN0IGRldmljZS4gV291bGQgdGhp
-cyBoZWxwDQo+IHJlc29sdmUgdGhlIHByb2JsZW0gb2YgdXNhZ2Ugd2l0aCBkbWFfaGVhcF9hZGRf
-Y21hKCk/DQoNClllcy4gSWYgd2UgdXNlICJzdHJ1Y3QgY21hIiwgSSBndWVzcyBpdCB3b3Jrcy4N
-Cg0KPiANCj4gPiBiKSBUaGUgQ01BIGFyZWEgaGVyZSBpcyBkeW5hbWljIGZvciBTVlAuIE5vcm1h
-bGx5IHRoaXMgQ01BIGNhbiBiZQ0KPiB1c2VkDQo+ID4gaW4gdGhlIGtlcm5lbC4gSW4gdGhlIFNW
-UCBjYXNlIHdlIHVzZSBjbWFfYWxsb2MgdG8gZ2V0IGl0IGFuZCBwYXNzDQo+IHRoZQ0KPiA+IGVu
-dGlyZSBDTUEgcGh5c2ljYWwgc3RhcnQgYWRkcmVzcyBhbmQgc2l6ZSBpbnRvIFRFRSB0byBwcm90
-ZWN0IHRoZQ0KPiBDTUENCj4gPiByZWdpb24uIFRoZSBvcmlnaW5hbCBDTUEgaGVhcCBjYW5ub3Qg
-aGVscCB3aXRoIHRoZSBURUUgcGFydC4NCj4gPg0KPiANCj4gUmVmZXJyaW5nIHRoZSBjb252ZXJz
-YXRpb24gYXQNCj4gDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzdhMjk5NWRlMjNjMjRl
-ZjIyYzA3MWM2OTc2YzAyYjk3ZTliNTAxMjYuY2FtZWxAbWVkaWF0ZWsuY29tLw0KPiA7DQo+IA0K
-PiBzaW5jZSB3ZSdyZSBjb25zaWRlcmluZyBhYnN0cmFjdGluZyBzZWN1cmUgbWVtIG9wcywgd291
-bGQgaXQgbWFrZQ0KPiBzZW5zZQ0KPiB0byB1c2UgdGhlIGRlZmF1bHQgQ01BIGhlYXAgb3BzIChj
-bWFfaGVhcF9vcHMpLCBhbGxvY2F0ZSBidWZmZXJzIGZyb20NCj4gaXQNCj4gYW5kIHNlY3VyZSBl
-YWNoIGFsbG9jYXRlZCBidWZmZXI/DQoNClRoZW4gaXQgbG9va3MgeW91IGFsc28gbmVlZCB0ZWUg
-b3BlcmF0aW9uIGxpa2UgdGVlX2NsaWVudF9vcGVuX3Nlc3Npb24NCmFuZCB0ZWVfY2xpZW50X2lu
-dm9rZV9mdW5jLCByaWdodD8NCg0KSXQgc2VlbXMgd2UgYWxzbyBuZWVkIGNoYW5nZSBhIGJpdCBm
-b3IgImNtYV9oZWFwX2FsbG9jYXRlIiB0byBhbGxvdyBjbWENCnN1cHBvcnQgb3BlcmF0aW9ucyBm
-cm9tIHNlY3VyZSBoZWFwLg0KDQpJIHdpbGwgc2VuZCBhIHYyIHRvIG1vdmUgdGhlIGRpc2N1c3Np
-b24gZm9yd2FyZC4gVGhlIHYyIGlzIGJhc2VkIG9uIG91cg0KY2FzZSwgSXQgd29uJ3QgaW5jbHVk
-ZSB0aGUgY21hIHBhcnQuDQoNCj4gDQo+IFRoYW5rcywNCj4gSmFza2FyYW4uDQo+IA0KPiA+IFRo
-YW5rcy4NCj4gPiANCj4gPj4gVGhhbmtzLA0KPiA+PiBWaWpheQ0KPiA+Pg0KPiA+Pg0KPiA+Pg0K
-PiANCg==
+Hi Arnd,
+
+FYI, the error/warning was bisected to this commit, please ignore it if it's irrelevant.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   d2f51b3516dade79269ff45eae2a7668ae711b25
+commit: a157802359f7451ed8046b2b6dbaca187797e062 media: sta2x11: remove VIRT_TO_BUS dependency
+date:   1 year, 4 months ago
+config: powerpc64-allyesconfig (https://download.01.org/0day-ci/archive/20231106/202311061401.8TDz7c7d-lkp@intel.com/config)
+compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231106/202311061401.8TDz7c7d-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311061401.8TDz7c7d-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/pci/sta2x11/sta2x11_vip.c:1053:6: warning: cast from 'irqreturn_t (*)(int, struct sta2x11_vip *)' (aka 'enum irqreturn (*)(int, struct sta2x11_vip *)') to 'irq_handler_t' (aka 'enum irqreturn (*)(int, void *)') converts to incompatible function type [-Wcast-function-type-strict]
+    1053 |                           (irq_handler_t) vip_irq,
+         |                           ^~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+
+
+vim +1053 drivers/media/pci/sta2x11/sta2x11_vip.c
+
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   936  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   937  /**
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   938   * sta2x11_vip_init_one - init one instance of video device
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   939   * @pdev: PCI device
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   940   * @ent: (not used)
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   941   *
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   942   * allocate reset pins for DAC.
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   943   * Reset video DAC, this is done via reset line.
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   944   * allocate memory for managing device
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   945   * request interrupt
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   946   * map IO region
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   947   * register device
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   948   * find and initialize video DAC
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   949   *
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   950   * return value: 0, no error
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   951   *
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   952   * -ENOMEM, no memory
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   953   *
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   954   * -ENODEV, device could not be detected or registered
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   955   */
+4c62e9764ab403 drivers/media/pci/sta2x11/sta2x11_vip.c Greg Kroah-Hartman 2012-12-21   956  static int sta2x11_vip_init_one(struct pci_dev *pdev,
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   957  				const struct pci_device_id *ent)
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   958  {
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   959  	int ret;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   960  	struct sta2x11_vip *vip;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   961  	struct vip_config *config;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   962  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05   963  	/* Check if hardware support 26-bit DMA */
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05   964  	if (dma_set_mask(&pdev->dev, DMA_BIT_MASK(26))) {
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05   965  		dev_err(&pdev->dev, "26-bit DMA addressing not available\n");
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05   966  		return -EINVAL;
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05   967  	}
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05   968  	/* Enable PCI */
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   969  	ret = pci_enable_device(pdev);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   970  	if (ret)
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   971  		return ret;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   972  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05   973  	/* Get VIP platform data */
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   974  	config = dev_get_platdata(&pdev->dev);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   975  	if (!config) {
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   976  		dev_info(&pdev->dev, "VIP slot disabled\n");
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   977  		ret = -EINVAL;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   978  		goto disable;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   979  	}
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   980  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05   981  	/* Power configuration */
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   982  	ret = vip_gpio_reserve(&pdev->dev, config->pwr_pin, 0,
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   983  			       config->pwr_name);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   984  	if (ret)
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   985  		goto disable;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   986  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   987  	ret = vip_gpio_reserve(&pdev->dev, config->reset_pin, 0,
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   988  			       config->reset_name);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   989  	if (ret) {
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   990  		vip_gpio_release(&pdev->dev, config->pwr_pin,
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   991  				 config->pwr_name);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   992  		goto disable;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   993  	}
+0bade8b5439520 drivers/media/pci/sta2x11/sta2x11_vip.c Arvind Yadav       2018-04-27   994  
+0bade8b5439520 drivers/media/pci/sta2x11/sta2x11_vip.c Arvind Yadav       2018-04-27   995  	if (gpio_is_valid(config->pwr_pin)) {
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   996  		/* Datasheet says 5ms between PWR and RST */
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   997  		usleep_range(5000, 25000);
+0bade8b5439520 drivers/media/pci/sta2x11/sta2x11_vip.c Arvind Yadav       2018-04-27   998  		gpio_direction_output(config->pwr_pin, 1);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12   999  	}
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1000  
+0bade8b5439520 drivers/media/pci/sta2x11/sta2x11_vip.c Arvind Yadav       2018-04-27  1001  	if (gpio_is_valid(config->reset_pin)) {
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1002  		/* Datasheet says 5ms between PWR and RST */
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1003  		usleep_range(5000, 25000);
+0bade8b5439520 drivers/media/pci/sta2x11/sta2x11_vip.c Arvind Yadav       2018-04-27  1004  		gpio_direction_output(config->reset_pin, 1);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1005  	}
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1006  	usleep_range(5000, 25000);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1007  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1008  	/* Allocate a new VIP instance */
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1009  	vip = kzalloc(sizeof(struct sta2x11_vip), GFP_KERNEL);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1010  	if (!vip) {
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1011  		ret = -ENOMEM;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1012  		goto release_gpios;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1013  	}
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1014  	vip->pdev = pdev;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1015  	vip->std = V4L2_STD_PAL;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1016  	vip->format = formats_50[0];
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1017  	vip->config = config;
+cd63c0288fd760 drivers/media/pci/sta2x11/sta2x11_vip.c Ezequiel Garcia    2018-06-15  1018  	mutex_init(&vip->v4l_lock);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1019  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1020  	ret = sta2x11_vip_init_controls(vip);
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1021  	if (ret)
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1022  		goto free_mem;
+d017650b40b4cb drivers/media/pci/sta2x11/sta2x11_vip.c Wei Yongjun        2013-05-13  1023  	ret = v4l2_device_register(&pdev->dev, &vip->v4l2_dev);
+d017650b40b4cb drivers/media/pci/sta2x11/sta2x11_vip.c Wei Yongjun        2013-05-13  1024  	if (ret)
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1025  		goto free_mem;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1026  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1027  	dev_dbg(&pdev->dev, "BAR #0 at 0x%lx 0x%lx irq %d\n",
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1028  		(unsigned long)pci_resource_start(pdev, 0),
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1029  		(unsigned long)pci_resource_len(pdev, 0), pdev->irq);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1030  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1031  	pci_set_master(pdev);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1032  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1033  	ret = pci_request_regions(pdev, KBUILD_MODNAME);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1034  	if (ret)
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1035  		goto unreg;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1036  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1037  	vip->iomem = pci_iomap(pdev, 0, 0x100);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1038  	if (!vip->iomem) {
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1039  		ret = -ENOMEM;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1040  		goto release;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1041  	}
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1042  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1043  	pci_enable_msi(pdev);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1044  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1045  	/* Initialize buffer */
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1046  	ret = sta2x11_vip_init_buffer(vip);
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1047  	if (ret)
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1048  		goto unmap;
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1049  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1050  	spin_lock_init(&vip->slock);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1051  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1052  	ret = request_irq(pdev->irq,
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12 @1053  			  (irq_handler_t) vip_irq,
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1054  			  IRQF_SHARED, KBUILD_MODNAME, vip);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1055  	if (ret) {
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1056  		dev_err(&pdev->dev, "request_irq failed\n");
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1057  		ret = -ENODEV;
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1058  		goto release_buf;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1059  	}
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1060  
+4db4ca7450f97c drivers/media/pci/sta2x11/sta2x11_vip.c Hans Verkuil       2015-03-09  1061  	/* Initialize and register video device */
+4db4ca7450f97c drivers/media/pci/sta2x11/sta2x11_vip.c Hans Verkuil       2015-03-09  1062  	vip->video_dev = video_dev_template;
+4db4ca7450f97c drivers/media/pci/sta2x11/sta2x11_vip.c Hans Verkuil       2015-03-09  1063  	vip->video_dev.v4l2_dev = &vip->v4l2_dev;
+4db4ca7450f97c drivers/media/pci/sta2x11/sta2x11_vip.c Hans Verkuil       2015-03-09  1064  	vip->video_dev.queue = &vip->vb_vidq;
+cd63c0288fd760 drivers/media/pci/sta2x11/sta2x11_vip.c Ezequiel Garcia    2018-06-15  1065  	vip->video_dev.lock = &vip->v4l_lock;
+4db4ca7450f97c drivers/media/pci/sta2x11/sta2x11_vip.c Hans Verkuil       2015-03-09  1066  	video_set_drvdata(&vip->video_dev, vip);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1067  
+3e30a927af3ca8 drivers/media/pci/sta2x11/sta2x11_vip.c Hans Verkuil       2020-02-03  1068  	ret = video_register_device(&vip->video_dev, VFL_TYPE_VIDEO, -1);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1069  	if (ret)
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1070  		goto vrelease;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1071  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1072  	/* Get ADV7180 subdevice */
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1073  	vip->adapter = i2c_get_adapter(vip->config->i2c_id);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1074  	if (!vip->adapter) {
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1075  		ret = -ENODEV;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1076  		dev_err(&pdev->dev, "no I2C adapter found\n");
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1077  		goto vunreg;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1078  	}
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1079  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1080  	vip->decoder = v4l2_i2c_new_subdev(&vip->v4l2_dev, vip->adapter,
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1081  					   "adv7180", vip->config->i2c_addr,
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1082  					   NULL);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1083  	if (!vip->decoder) {
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1084  		ret = -ENODEV;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1085  		dev_err(&pdev->dev, "no decoder found\n");
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1086  		goto vunreg;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1087  	}
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1088  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1089  	i2c_put_adapter(vip->adapter);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1090  	v4l2_subdev_call(vip->decoder, core, init, 0);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1091  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1092  	sta2x11_vip_init_register(vip);
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1093  
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1094  	dev_info(&pdev->dev, "STA2X11 Video Input Port (VIP) loaded\n");
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1095  	return 0;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1096  
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1097  vunreg:
+4db4ca7450f97c drivers/media/pci/sta2x11/sta2x11_vip.c Hans Verkuil       2015-03-09  1098  	video_set_drvdata(&vip->video_dev, NULL);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1099  vrelease:
+11788d9b7e916f drivers/media/pci/sta2x11/sta2x11_vip.c Hans Verkuil       2020-07-13  1100  	vb2_video_unregister_device(&vip->video_dev);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1101  	free_irq(pdev->irq, vip);
+8dc97ea20c2bdf drivers/media/pci/sta2x11/sta2x11_vip.c Federico Vaga      2013-02-05  1102  release_buf:
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1103  	pci_disable_msi(pdev);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1104  unmap:
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1105  	pci_iounmap(pdev, vip->iomem);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1106  release:
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1107  	pci_release_regions(pdev);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1108  unreg:
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1109  	v4l2_device_unregister(&vip->v4l2_dev);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1110  free_mem:
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1111  	kfree(vip);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1112  release_gpios:
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1113  	vip_gpio_release(&pdev->dev, config->reset_pin, config->reset_name);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1114  	vip_gpio_release(&pdev->dev, config->pwr_pin, config->pwr_name);
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1115  disable:
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1116  	/*
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1117  	 * do not call pci_disable_device on sta2x11 because it break all
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1118  	 * other Bus masters on this EP
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1119  	 */
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1120  	return ret;
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1121  }
+efeb98b4e2b2ce drivers/media/video/sta2x11_vip.c       Federico Vaga      2012-04-12  1122  
+
+:::::: The code at line 1053 was first introduced by commit
+:::::: efeb98b4e2b2ce50e008affce4c493e58167144a [media] STA2X11 VIP: new V4L2 driver
+
+:::::: TO: Federico Vaga <federico.vaga@gmail.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
