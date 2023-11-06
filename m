@@ -2,155 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0EF1F7E1B64
-	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 08:40:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E8C77E1BD4
+	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 09:21:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230522AbjKFHkm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Nov 2023 02:40:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42430 "EHLO
+        id S230480AbjKFIVL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Nov 2023 03:21:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230490AbjKFHkl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 02:40:41 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B692AF;
-        Sun,  5 Nov 2023 23:40:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699256439; x=1730792439;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=pCrnP5rHZmj4ISuVRVw65rZpqm5s3mY61ftuGZidaTY=;
-  b=Z4Ln4jBqcvYUYqMusg7Fm1lqgxPBg6n5K8CrEMG5BpXfxrOb+pk2nDdq
-   52J3OO8yO71zrgxmL+M96+jqhXut5LRXrfwY4Vjju+wKbwcu6QgTcDQn3
-   Stj9tGcbg5h5lH/fBwHMtVITaR60lWyAo8ppMcD0DZGo4OqlGBkhnMHWu
-   wKTO53S8+Cvt4e4agsK+o2XiNYl63yy/ueFkKapEMsT5lclQHt9Bavogt
-   xlFEF37H3V5mNWP6Zx46xheWT+Al7D3I/nfZnLtrDk6Nru15+aN199T90
-   IJzD643szIIDV/r/Xm51e08ETenv6c4d7LjXAyzI97dCV03AbDtVOSsnQ
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="386398682"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="386398682"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 23:40:38 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="797229586"
-X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="797229586"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2023 23:40:34 -0800
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 429AA11F724;
-        Mon,  6 Nov 2023 09:31:45 +0200 (EET)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-acpi@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-media@vger.kernel.org,
-        Paul Elder <paul.elder@ideasonboard.com>,
+        with ESMTP id S229881AbjKFIVK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 03:21:10 -0500
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E3A13B0;
+        Mon,  6 Nov 2023 00:21:06 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-5441305cbd1so4721410a12.2;
+        Mon, 06 Nov 2023 00:21:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699258865; x=1699863665; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6CAxeD9k/h7Ij3442H7AYa1Ial+ZqnbCmUdyG4+O9qI=;
+        b=d2EsxuDUMwQih7luHLoCo04oleWYM7lpaOrwWeBrv9hJDf8yntqMxZIISjDFJv0x30
+         piNsIzM4zn7iFmxYgie2d46ClIGhh8VuFVcvf4vQ3kAGB41bs3YBPnXS8jC9ajo+Fg4U
+         mYSi1+seSMhGEv9ecjTlKtsM/dsLwelchRYjlFXyph/Yvq2jodcnExAc6yejCS+0LfNo
+         789RCO90B7wEWcKll3Ne8DC8lVYkwD3eCvYRsoZ1EWIboq9SYbV/5QT0sMAF2oQP3HPN
+         l0Dagu6ztit2vuquTawmIN+R0T9A0D70FKEt8oeKGq4nyCHcsMB2688bOCGhQyiAN9bH
+         5sdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699258865; x=1699863665;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6CAxeD9k/h7Ij3442H7AYa1Ial+ZqnbCmUdyG4+O9qI=;
+        b=hgOILu84SOUGWimZgxiOJfU7bRSK47Wb3joyjKCR4OBOChCmoDekTqmLNFhXzHnCyV
+         QFTe4s9C8Ja5ennFFgLwxUaomt2Fq/NPovv/hKsjmG9aFRktycNEA/o7bxsuHzIxISeX
+         RqAZwBrXpTUxr9tkruy+Kq2gnl/GdclIeKjQe8tKmlUnYReN8BtA1WbNp7YsEE0yve86
+         FY3lEaYWf2cxnUuoJuRRMGtP3EZWaONL8wFTm7n9RpQvpgWCh3WAIRjnbKgr/lnauYQc
+         q48XzQdua/MK5Tqs/NFFoVcn2HX0UlLZ1/HqExvgtCdWxySZyR9za60JJ85xqY5BURAS
+         VVWA==
+X-Gm-Message-State: AOJu0Yy6D2uWSQLNDavH5fpD4wWBIFtTwHSCqvyc0BaqA0qtqyWz6AmC
+        oQPTeLZSNImoQ72Eu1nAruQ=
+X-Google-Smtp-Source: AGHT+IEIYqQsEYTTsY8a3PXAfXadOiOQg4SuI9aS+6yMBAVnI0NRrUeqTn7uvZ/zGgiTiFl2Vz1scg==
+X-Received: by 2002:a05:6402:22a9:b0:53f:25c4:357b with SMTP id cx9-20020a05640222a900b0053f25c4357bmr22742422edb.4.1699258865104;
+        Mon, 06 Nov 2023 00:21:05 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.station (net-188-217-59-109.cust.vodafonedsl.it. [188.217.59.109])
+        by smtp.gmail.com with ESMTPSA id x1-20020a50ba81000000b005434e3d8e7bsm4221884ede.1.2023.11.06.00.21.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 06 Nov 2023 00:21:04 -0800 (PST)
+From:   Tommaso Merciai <tomm.merciai@gmail.com>
+Cc:     sakari.ailus@linux.intel.com, martin.hecht@avnet.eu,
+        michael.roeder@avnet.eu, mhecht73@gmail.com,
+        linuxfancy@googlegroups.com, laurent.pinchart@ideasonboard.com,
+        Tommaso Merciai <tomm.merciai@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Hans de Goede <hdegoede@redhat.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        AngeloGioacchino Del Regno 
-        <angelogioacchino.delregno@collabora.com>,
-        Julien Stephan <jstephan@baylibre.com>,
-        devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org,
-        rafael@kernel.org
-Subject: [RESEND PATCH v4 1/1] device property: Add fwnode_name_eq()
-Date:   Mon,  6 Nov 2023 09:31:41 +0200
-Message-Id: <20231106073141.1250344-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+        Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+        Gerald Loacker <gerald.loacker@wolfvision.net>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Daniel Scally <djrscally@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v13 0/3] media: i2c: Add support for alvium camera
+Date:   Mon,  6 Nov 2023 09:20:55 +0100
+Message-Id: <20231106082102.368937-1-tomm.merciai@gmail.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
-        SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
-        version=3.4.6
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,FREEMAIL_FROM,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add fwnode_name_eq() to implement the functionality of of_node_name_eq()
-on fwnode property API. The same convention of ending the comparison at
-'@' (besides NUL) is applied on also both ACPI and swnode. The function
-is intended for comparing unit address-less node names on DT and firmware
-or swnodes compliant with DT bindings.
+Hi all,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Tested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Rafael J. Wysocki <rafael@kernel.org>
----
-Hi Greg,
+This series add support for Allied Vision Alvium camera.
+The Alvium camera is shipped with sensor + isp in the same housing.
+The camera can be equipped with one out of various sensor and abstract
+the user from this. Camera is connected via MIPI CSI-2.
 
-Could we merge this via the media tree?
+Driver use latest V4L2_CCI_I2C API.
 
-Another patch (or rather a future version of it) there would need it:
-<URL:https://lore.kernel.org/linux-media/20231030133247.11243-1-laurent.pinchart@ideasonboard.com/T/#m489b7e83cbc755815c5002f85454a76bfb41adb2>.
+https://www.alliedvision.com/en/products/embedded-vision-solutions/
 
-since v3:
+Tested the following alvium models:
+ - alvium 1500 C-500c
+ - alvium 1800 C-2050c
+ - alvium 1800 C-1240c
+ - alvium 1800 C-040c
+ - alvium 1800 C-052c
+ - alvium 1800 C-240m
 
-- Use ptrdiff_t type for len.
+Note:
+ - Driver is rebased on top of [1], commit [2].
 
- drivers/base/property.c  | 28 ++++++++++++++++++++++++++++
- include/linux/property.h |  1 +
- 2 files changed, 29 insertions(+)
+Thanks & Regards,
+Tommaso
 
-diff --git a/drivers/base/property.c b/drivers/base/property.c
-index 8667b13639d2..f20379c9a5c9 100644
---- a/drivers/base/property.c
-+++ b/drivers/base/property.c
-@@ -595,6 +595,34 @@ const char *fwnode_get_name_prefix(const struct fwnode_handle *fwnode)
- 	return fwnode_call_ptr_op(fwnode, get_name_prefix);
- }
- 
-+/**
-+ * fwnode_name_eq - Return true if node name is equal
-+ * @fwnode: The firmware node
-+ * @name: The name to which to compare the node name
-+ *
-+ * Compare the name provided as an argument to the name of the node, stopping
-+ * the comparison at either NUL or '@' character, whichever comes first. This
-+ * function is generally used for comparing node names while ignoring the
-+ * possible unit address of the node.
-+ *
-+ * Return: true if the node name matches with the name provided in the @name
-+ * argument, false otherwise.
-+ */
-+bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name)
-+{
-+	const char *node_name;
-+	ptrdiff_t len;
-+
-+	node_name = fwnode_get_name(fwnode);
-+	if (!node_name)
-+		return false;
-+
-+	len = strchrnul(node_name, '@') - node_name;
-+
-+	return str_has_prefix(node_name, name) == len;
-+}
-+EXPORT_SYMBOL_GPL(fwnode_name_eq);
-+
- /**
-  * fwnode_get_parent - Return parent firwmare node
-  * @fwnode: Firmware whose parent is retrieved
-diff --git a/include/linux/property.h b/include/linux/property.h
-index 083a1f41364b..096ade186601 100644
---- a/include/linux/property.h
-+++ b/include/linux/property.h
-@@ -108,6 +108,7 @@ struct fwnode_handle *fwnode_find_reference(const struct fwnode_handle *fwnode,
- 
- const char *fwnode_get_name(const struct fwnode_handle *fwnode);
- const char *fwnode_get_name_prefix(const struct fwnode_handle *fwnode);
-+bool fwnode_name_eq(const struct fwnode_handle *fwnode, const char *name);
- 
- struct fwnode_handle *fwnode_get_parent(const struct fwnode_handle *fwnode);
- struct fwnode_handle *fwnode_get_next_parent(struct fwnode_handle *fwnode);
+ - [1] https://git.linuxtv.org/sailus/media_tree.git/log/
+ - [2] media: Documentation: LP-11 and LP-111 are states, not modes (c9a1b0b583db)
+
+Tommaso Merciai (3):
+  dt-bindings: vendor-prefixes: Add prefix alliedvision
+  media: dt-bindings: alvium: add document YAML binding
+  media: i2c: Add support for alvium camera
+
+ .../media/i2c/alliedvision,alvium-csi2.yaml   |   81 +
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |    9 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/alvium-csi2.c               | 2637 +++++++++++++++++
+ drivers/media/i2c/alvium-csi2.h               |  488 +++
+ 7 files changed, 3228 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
+ create mode 100644 drivers/media/i2c/alvium-csi2.c
+ create mode 100644 drivers/media/i2c/alvium-csi2.h
+
 -- 
-2.39.2
+2.34.1
 
