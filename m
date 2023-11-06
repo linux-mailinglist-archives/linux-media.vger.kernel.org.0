@@ -2,45 +2,45 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D83C7E215C
-	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 13:26:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 042677E215D
+	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 13:26:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231704AbjKFM0F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Nov 2023 07:26:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46214 "EHLO
+        id S231590AbjKFM0H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Nov 2023 07:26:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50792 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231710AbjKFM0E (ORCPT
+        with ESMTP id S231701AbjKFM0E (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 07:26:04 -0500
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55950AB
-        for <linux-media@vger.kernel.org>; Mon,  6 Nov 2023 04:26:00 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2D45A6
+        for <linux-media@vger.kernel.org>; Mon,  6 Nov 2023 04:26:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699273560; x=1730809560;
+  t=1699273561; x=1730809561;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=cJs9NJLJFor6qDFtqRwW8zSZlgSD4Gd3g98y4VoA0wU=;
-  b=CTBD/2MWOF52xGU8+8Hn6iiKLiP+PxkYNkeWyTE5ta/ypqkku5yq8mYl
-   6wBFEq30CLBSUzs2kM7YZT2CQZfNBx+OZd+FsCKrtTBI6rhNYCnwnmd3e
-   GV5TDrMcV5g+V4TZmBC6vqX5YbUsAHsjB8A+XCXSJK2IQS53rxXa5rjBq
-   pqWxbCPc2iQqhwVQsUyROgTqyzR8yswaSiWfFcyjtUPE0Zl/WcuR5XsMA
-   UVJ1mFTVruRUnwmNEhVnUAy1BQkq2wnJw5Ez3TgZFngxZMUcU6HdzZW5M
-   gIt9Pdm8wzRu64z85jl1kjaaqpty7RuAMTYCp3DVg7QYnSDW7dXKJDvhR
+  bh=Iq4ODu91c73aBY3cxFmHyTEYz/DVby4Q8Bai+Mw5tz0=;
+  b=VRTGbeqzMMb65Yrpo3DPFFkvVxco850naZV9FPF1wjmlkxveG9YJDfJk
+   dTCCjk+wO+17mzjO2O2/cwEAX1SNkMvV0iSEmfPzYX4xgv3hEMDSW4B0W
+   ImUDleI+gGdTH8VEmifN8R9VCslwq+gRCtbrZqHxsH+/YxWi9gAlHlFRq
+   GYFKsCIEPIHMG630O7Ojf41JDWbWJItYIXXT2UeAEv9VE0MiCKSC5x6bW
+   esMtlxCGZD5Aeu/pIsJbWPKBzPCklUM96wH1EYZJQugxGd5yPmwgkQrpp
+   65uPkJUCHH0mi6eMTfc5oT2bG06gvRe0AH3x9ekoKVj7v0RiFz4ADEWiT
    A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="455747251"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="455747257"
 X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="455747251"
+   d="scan'208";a="455747257"
 Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 04:25:59 -0800
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 04:26:01 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="797291598"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="797291603"
 X-IronPort-AV: E=Sophos;i="6.03,281,1694761200"; 
-   d="scan'208";a="797291598"
+   d="scan'208";a="797291603"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 04:25:56 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 04:25:58 -0800
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 1A8961203CE;
-        Mon,  6 Nov 2023 14:25:53 +0200 (EET)
+        by kekkonen.fi.intel.com (Postfix) with ESMTP id CA89011F724;
+        Mon,  6 Nov 2023 14:25:54 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -51,9 +51,9 @@ Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Dmitry Perchanov <dmitry.perchanov@intel.com>,
         "Ng, Khai Wen" <khai.wen.ng@intel.com>,
         Alain Volmat <alain.volmat@foss.st.com>
-Subject: [PATCH v7 09/31] media: Documentation: v4l: Document internal source pads
-Date:   Mon,  6 Nov 2023 14:25:17 +0200
-Message-Id: <20231106122539.1268265-10-sakari.ailus@linux.intel.com>
+Subject: [PATCH v7 10/31] media: Documentation: Document S_ROUTING behaviour
+Date:   Mon,  6 Nov 2023 14:25:18 +0200
+Message-Id: <20231106122539.1268265-11-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231106122539.1268265-1-sakari.ailus@linux.intel.com>
 References: <20231106122539.1268265-1-sakari.ailus@linux.intel.com>
@@ -69,174 +69,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Document internal source pads, pads that have both SINK and INTERNAL flags
-set. Use the IMX219 camera sensor as an example.
+Document S_ROUTING behaviour for different devices.
+
+Generally in devices that produce streams the streams are static and some
+can be enabled and disabled, whereas in devices that just transport them
+or write them to memory, more configurability is allowed. Document this.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- .../userspace-api/media/v4l/dev-subdev.rst    | 145 ++++++++++++++++++
- 1 file changed, 145 insertions(+)
+ .../userspace-api/media/v4l/dev-subdev.rst    | 24 +++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
 diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-index a387e8a15b8d..1808f40f63e3 100644
+index 1808f40f63e3..08495cc6f4a6 100644
 --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
 +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-@@ -553,6 +553,27 @@ A stream at a specific point in the media pipeline is identified by the
- sub-device and a (pad, stream) pair. For sub-devices that do not support
- multiplexed streams the 'stream' field is always 0.
+@@ -593,6 +593,30 @@ Any configurations of a stream within a pad, such as format or selections,
+ are independent of similar configurations on other streams. This is
+ subject to change in the future.
  
-+.. _v4l2-subdev-internal-source-pads:
++Device types and routing setup
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
-+Internal source pads and routing
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++Different kinds of sub-devices have differing behaviour for route activation,
++depending on the hardware. In all cases, however, only routes that have the
++``V4L2_SUBDEV_STREAM_FL_ACTIVE`` flag set are active.
 +
-+Cases where a single sub-device source pad is traversed by multiple streams, one
-+or more of which originate from within the sub-device itself, are special as
-+there is no external sink pad for such routes. In those cases, the sources of
-+the internally generated streams are represented by internal source pads, which
-+are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
-+pad flag set.
++Devices generating the streams may allow enabling and disabling some of the
++routes or the configuration is fixed. If the routes can be disabled, not
++declaring the routes (or declaring them without
++``VIDIOC_SUBDEV_STREAM_FL_ACTIVE`` flag set) in ``VIDIOC_SUBDEV_S_ROUTING`` will
++disable the routes while the sub-device driver retains the streams and their
++configuration. The ``VIDIOC_SUBDEV_S_ROUTING`` will still return such routes
++back to the user in the routes array, with the ``V4L2_SUBDEV_STREAM_FL_ACTIVE``
++flag unset.
 +
-+Internal pads have all the properties of an external pad, including formats and
-+selections. The format in this case is the source format of the stream. An
-+internal pad always has a single stream only (0).
++Devices transporting the streams almost always have more configurability with
++respect to routing. Typically any route between the sub-device's sink and source
++pads is possible, and multiple routes (usually up to certain limited number) may
++be active simultaneously. For such devices, no routes are created by the driver
++and user-created routes are fully replaced when ``VIDIOC_SUBDEV_S_ROUTING`` is
++called on the sub-device. Such newly created routes have the device's default
++configuration for format and selection rectangles.
 +
-+Routes from an internal source pad to an external source pad are typically not
-+modifiable but they can be activated and deactivated using the
-+:ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
-+on driver capabilities.
-+
- Interaction between routes, streams, formats and selections
- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ Configuring streams
+ ^^^^^^^^^^^^^^^^^^^
  
-@@ -668,3 +689,127 @@ To configure this pipeline, the userspace must take the following steps:
-    the configurations along the stream towards the receiver, using
-    :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
-    stream endpoint in each sub-device.
-+
-+Internal pads setup example
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+A simple example of a multiplexed stream setup might be as follows:
-+
-+- An IMX219 camera sensor source sub-device, with one sink pad (0), one source pad
-+  (1), an internal sink pad (2) that represents the source of embedded
-+  data. There are two routes, one from the sink pad to the source, and another
-+  from the internal sink pad to the source pad. Both streams are always active,
-+  i.e. there is no need to separately enable the embedded data stream. The
-+  sensor uses the CSI-2 bus.
-+
-+- A CSI-2 receiver in the SoC (Receiver). The receiver has a single sink pad
-+  (pad 0), connected to the bridge, and two source pads (pads 1-2), going to the
-+  DMA engine. The receiver demultiplexes the incoming streams to the source
-+  pads.
-+
-+- DMA Engines in the SoC (DMA Engine), one for each stream. Each DMA engine is
-+  connected to a single source pad in the receiver.
-+
-+The sensor, the bridge and the receiver are modeled as V4L2 sub-devices,
-+exposed to userspace via /dev/v4l-subdevX device nodes. The DMA engines are
-+modeled as V4L2 devices, exposed to userspace via /dev/videoX nodes.
-+
-+To configure this pipeline, the userspace must take the following steps:
-+
-+1) Set up media links between entities: connect the sensors to the bridge,
-+   bridge to the receiver, and the receiver to the DMA engines. This step does
-+   not differ from normal non-multiplexed media controller setup.
-+
-+2) Configure routing
-+
-+.. flat-table:: Camera sensor. There are no configurable routes.
-+    :header-rows: 1
-+
-+    * - Sink Pad/Stream
-+      - Source Pad/Stream
-+      - Routing Flags
-+      - Comments
-+    * - 0/0
-+      - 1/0
-+      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-+      - Pixel data stream from the sink pad
-+    * - 2/0
-+      - 1/1
-+      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-+      - Metadata stream from the internal sink pad
-+
-+.. flat-table:: Receiver routing table. Typically both routes need to be
-+		explicitly set.
-+    :header-rows:  1
-+
-+    * - Sink Pad/Stream
-+      - Source Pad/Stream
-+      - Routing Flags
-+      - Comments
-+    * - 0/0
-+      - 1/0
-+      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-+      - Pixel data stream from camera sensor
-+    * - 0/1
-+      - 2/0
-+      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-+      - Metadata stream from camera sensor
-+
-+The options available in sensor's routing configuration are dictated by hardware
-+capabilities: typically camera sensors always produce an image data stream while
-+it may be possible to enable and disable the embedded data stream.
-+
-+3) Configure formats and selections
-+
-+   This example assumes that the formats are propagated from sink pad to the
-+   source pad as-is. The tables contain fields of both struct v4l2_subdev_format
-+   and struct v4l2_mbus_framefmt.
-+
-+.. flat-table:: Formats set on the sub-devices. Bold values are set, others are
-+                static or propagated. The order is aligned with configured
-+                routes.
-+    :header-rows: 1
-+    :fill-cells:
-+
-+    * - Sub-device
-+      - Pad/Stream
-+      - Width
-+      - Height
-+      - Code
-+    * - :rspan:`3` Camera sensor sub-device (IMX219)
-+      - 1/0
-+      - 3296
-+      - 2480
-+      - MEDIA_BUS_FMT_SRGGB10
-+    * - 0/0
-+      - **3296**
-+      - **2480**
-+      - **MEDIA_BUS_FMT_SRGGB10**
-+    * - 2/0
-+      - 3296
-+      - 2
-+      - MEDIA_BUS_FMT_IMX219_EMBEDDED
-+    * - 1/1
-+      - 3296
-+      - 2
-+      - MEDIA_BUS_FMT_META_10
-+    * - :rspan:`3` Receiver
-+      - 0/0
-+      - **3296**
-+      - **2480**
-+      - **MEDIA_BUS_FMT_SRGGB10**
-+    * - 1/0
-+      - 3296
-+      - 2480
-+      - MEDIA_BUS_FMT_SRGGB10
-+    * - 0/1
-+      - **3296**
-+      - **2**
-+      - **MEDIA_BUS_FMT_META_10**
-+    * - 2/0
-+      - 3296
-+      - 2
-+      - MEDIA_BUS_FMT_META_10
-+
-+The embedded data format does not need to be configured as the format is
-+dictated by the pixel data format in this case.
 -- 
 2.39.2
 
