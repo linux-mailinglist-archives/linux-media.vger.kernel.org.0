@@ -2,66 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D00BC7E1C94
-	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 09:46:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C34697E1CD9
+	for <lists+linux-media@lfdr.de>; Mon,  6 Nov 2023 10:00:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231186AbjKFIqF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Nov 2023 03:46:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47796 "EHLO
+        id S231361AbjKFJAM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 6 Nov 2023 04:00:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56870 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231171AbjKFIqD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 03:46:03 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C484383;
-        Mon,  6 Nov 2023 00:46:00 -0800 (PST)
+        with ESMTP id S231200AbjKFJAL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 04:00:11 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D610D8
+        for <linux-media@vger.kernel.org>; Mon,  6 Nov 2023 01:00:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699260360; x=1730796360;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Ir4YTPIfr1j4DIKNSzioONONldEnRAkdPcJaPnz9zYY=;
-  b=jpBMUJnZtLuoi8PYp13Iql6Qh7Dgd0vOLbO2k07rvE+a2b4OKW+oo9Pk
-   3Ol5Wx01iGRd0Cq+GvDV/v9dSxn4ZPwjkT7kr3hUTdeqoLgVaniikMMSI
-   GgXaBR8T7w7AJFbZ+LOusjuTamYxRJNYqMNN/OuS7Mo9TqIwgonWpp07i
-   BDMVLy1z41MM8gysqOibFqfK3AokSTMnB1ifAbsg+EGMjOE/Fqc1p31H6
-   INBC8O6MDyG06CfDLTWrUYlcFMCsAvBIoAgKDRKUMH5hG0xazlJ37DxiU
-   Fk8PT6WWp+eddPXdGLJsN2rRCQx+NXhnhiGfpwTKUl6AhNGoQwDvtZxpv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="369440107"
+  t=1699261208; x=1730797208;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=a+aqkiJFF84BfrGQskyWvfazAVnKEpRlbxzGK/r1Oto=;
+  b=Q8k/f/3GC7VYRRZ7xRSsfwq1NWwqA24C+8e7T252Blf0ARS5fJVZNni4
+   FC/NrSaaNs+dMuoqM1YBr/Il9He+n8tSGr4vwzqSxyoal+anT+9rXl3dH
+   X5JEQ1oxBYZNVS/L+heR+TVBmJMgw3IwszAgJFOg+oALRdCwZdm5cR2MI
+   baYTXamzoWeE/hJeAQQmEUoTo51nYkndiORTkeVBZaKYo2u2xburqp1Jo
+   BJy55D0d1qT8EF8ysTjnJkuSgFk03nXUTwxLsWmDrAnq9RXNKRlgZ1Q2T
+   R/ZXa4NnDPq5d79faXEhE3BmB3AeE5gxTqN85HJs+PS06vo9djaY0AL4l
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="10771356"
 X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="369440107"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 00:46:00 -0800
+   d="scan'208";a="10771356"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 01:00:07 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="765886877"
+X-IronPort-AV: E=McAfee;i="6600,9927,10885"; a="712141425"
 X-IronPort-AV: E=Sophos;i="6.03,280,1694761200"; 
-   d="scan'208";a="765886877"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Nov 2023 00:45:58 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-        by kekkonen.fi.intel.com (Postfix) with SMTP id AE0FE11FB8D;
-        Mon,  6 Nov 2023 10:45:55 +0200 (EET)
-Date:   Mon, 6 Nov 2023 08:45:55 +0000
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc:     Sebastian Reichel <sre@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 4/4] media: i2c: gc0308: new driver
-Message-ID: <ZUinwwRVwqnIuueJ@kekkonen.localdomain>
-References: <20231027011417.2174658-1-sre@kernel.org>
- <20231027011417.2174658-5-sre@kernel.org>
- <zcei5x4omoqamuap42imybtbsax4bw43juymald4l7ccq766lb@2wknnhmawdbt>
+   d="scan'208";a="712141425"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.139]) ([10.238.232.139])
+  by orsmga003.jf.intel.com with ESMTP; 06 Nov 2023 01:00:02 -0800
+Subject: Re: [PATCH v2 01/15] media: intel/ipu6: add Intel IPU6 PCI device
+ driver
+To:     Hans de Goede <hans@hansg.org>, bingbu.cao@intel.com,
+        linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+        laurent.pinchart@ideasonboard.com
+Cc:     andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
+        ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
+        claus.stovgaard@gmail.com, tfiga@chromium.org,
+        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
+        tian.shu.qiu@intel.com, hongju.wang@intel.com
+References: <20231024112924.3934228-1-bingbu.cao@intel.com>
+ <20231024112924.3934228-2-bingbu.cao@intel.com>
+ <9c567345-43a4-c79f-cbbd-6f13a55a0b3c@hansg.org>
+From:   Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <1e41895e-9b92-9c1e-7caa-5b505a3efffe@linux.intel.com>
+Date:   Mon, 6 Nov 2023 16:55:13 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <zcei5x4omoqamuap42imybtbsax4bw43juymald4l7ccq766lb@2wknnhmawdbt>
-X-Spam-Status: No, score=-4.9 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,
+In-Reply-To: <9c567345-43a4-c79f-cbbd-6f13a55a0b3c@hansg.org>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Spam-Status: No, score=-5.7 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,NICE_REPLY_A,SPF_HELO_NONE,
         SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no
         version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
@@ -70,165 +71,78 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo, Sebastian,
+Hans,
 
-On Mon, Oct 30, 2023 at 09:37:08AM +0100, Jacopo Mondi wrote:
-> > +static bool gc0308_is_valid_format(u32 code)
-> > +{
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(gc0308_formats); i++) {
-> > +		if (gc0308_formats[i].code == code)
-> > +			return true;
-> > +	}
-> > +
-> > +	return false;
-> > +}
-> > +
-> > +static int gc0308_enum_frame_size(struct v4l2_subdev *subdev,
-> > +				  struct v4l2_subdev_state *sd_state,
-> > +				  struct v4l2_subdev_frame_size_enum *fse)
-> > +{
-> > +	if (fse->index >= ARRAY_SIZE(gc0308_frame_sizes))
-> > +		return -EINVAL;
-> > +
-> > +	if (!gc0308_is_valid_format(fse->code))
-> > +		return -EINVAL;
-> > +
-> > +	fse->min_width = gc0308_frame_sizes[fse->index].width;
-> > +	fse->max_width = gc0308_frame_sizes[fse->index].width;
-> > +	fse->min_height = gc0308_frame_sizes[fse->index].height;
-> > +	fse->max_height = gc0308_frame_sizes[fse->index].height;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void gc0308_update_pad_format(const struct gc0308_frame_size *mode,
-> > +				     struct v4l2_mbus_framefmt *fmt, u32 code)
-> > +{
-> > +	fmt->width = mode->width;
-> > +	fmt->height = mode->height;
-> > +	fmt->code = code;
-> > +	fmt->field = V4L2_FIELD_NONE;
-> > +	fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> > +}
-> > +
-> > +static int gc0308_set_format(struct v4l2_subdev *sd,
-> > +			     struct v4l2_subdev_state *sd_state,
-> > +			     struct v4l2_subdev_format *fmt)
-> > +{
-> > +	struct gc0308 *gc0308 = to_gc0308(sd);
-> > +	const struct gc0308_frame_size *mode;
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(gc0308_formats); i++) {
-> > +		if (fmt->format.code == gc0308_formats[i].code)
-> > +			break;
-> > +	}
-> > +
-> > +	if (i >= ARRAY_SIZE(gc0308_formats)) {
-> > +		dev_warn(gc0308->dev, "unsupported format code: %08x\n",
-> > +			 fmt->format.code);
-
-This isn't supposed to generate a kernel log message. I'd drop it
-altogether.
-
-> > +		i = 0;
-> > +	}
+On 11/5/23 10:43 PM, Hans de Goede wrote:
+> Hi,
 > 
-> This looks very similar to gc0308_is_valid_format()
+> 
+> On 10/24/23 13:29, bingbu.cao@intel.com wrote:
+>> From: Bingbu Cao <bingbu.cao@intel.com>
+>>
+>> Intel Image Processing Unit 6th Gen includes input and processing systems
+>> but the hardware presents itself as a single PCI device in system.
+>>
+>> IPU6 PCI device driver basically does PCI configurations and load
+>> the firmware binary, initialises IPU virtual bus, and sets up platform
+>> specific variants to support multiple IPU6 devices in single device
+>> driver.
+>>
+>> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+>> Reported-by: Hans de Goede <hdegoede@redhat.com>
+>> Suggested-by: Andreas Helbech Kleist <andreaskleist@gmail.com>
+> 
+> Thank you. Just one small remark, not a full review:
+> 
+> <snip>
+> 
+>> diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
+>> new file mode 100644
+>> index 000000000000..84960a283daf
+>> --- /dev/null
+>> +++ b/drivers/media/pci/intel/ipu6/ipu6.c
+> 
+> <snip>
+> 
+>> +static struct ipu6_bus_device *
+>> +ipu6_isys_init(struct pci_dev *pdev, struct device *parent,
+>> +	       struct ipu6_buttress_ctrl *ctrl, void __iomem *base,
+>> +	       const struct ipu6_isys_internal_pdata *ipdata)
+>> +{
+>> +	struct fwnode_handle *fwnode = dev_fwnode(&pdev->dev);
+>> +	struct ipu6_bus_device *isys_adev;
+>> +	struct ipu6_isys_pdata *pdata;
+>> +	int ret;
+>> +
+>> +	/* check fwnode at first, fallback into bridge if no fwnode graph */
+>> +	ret = ipu6_isys_check_fwnode_graph(fwnode);
+>> +	if (ret) {
+>> +		if (fwnode && !IS_ERR_OR_NULL(fwnode->secondary)) {
+>> +			dev_err(&pdev->dev,
+>> +				"fwnode graph has no endpoints connection\n");
+>> +			return ERR_PTR(-EINVAL);
+>> +		}
+>> +
+>> +		ret = ipu_bridge_init(&pdev->dev, ipu_bridge_parse_ssdb);
+>> +		if (ret) {
+>> +			if (ret != -EPROBE_DEFER)
+>> +				dev_err_probe(&pdev->dev, ret,
+>> +					      "IPU6 bridge init failed\n");
+> 
+> dev_err_probe() already silences logging of -EPROBE_DEFER errors itself,
+> so this "if (ret != -EPROBE_DEFER)" guard here is not necessary.
 
-Could gc0308_is_valid_format() return a pointer to the format array or
-NULL? Then you could check for NULL here and use the first entry in that
-case.
+Good catch, thanks.
 
 > 
-> > +
-> > +	mode = v4l2_find_nearest_size(gc0308_frame_sizes,
-> > +				      ARRAY_SIZE(gc0308_frame_sizes), width,
-> > +				      height, fmt->format.width,
-> > +				      fmt->format.height);
-> > +
-> > +	gc0308_update_pad_format(mode, &fmt->format, gc0308_formats[i].code);
-> > +	*v4l2_subdev_get_pad_format(sd, sd_state, fmt->pad) = fmt->format;
-> > +
-> > +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> > +		return 0;
-> > +
-> > +	gc0308->mode.out_format = gc0308_formats[i].regval;
-> > +	gc0308->mode.subsample = mode->subsample;
-> > +	gc0308->mode.width = mode->width;
-> > +	gc0308->mode.height = mode->height;
-> > +
-> > +	return 0;
-> > +}
-
-...
-
-> > +	ret = v4l2_async_register_subdev(&gc0308->sd);
-> > +	if (ret) {
-> > +		dev_err_probe(dev, ret, "failed to register v4l subdev\n");
-> > +		goto fail_power_off;
-> > +	}
-> > +
-> > +	pm_runtime_set_active(dev);
-> > +	pm_runtime_enable(dev);
-> > +	pm_runtime_set_autosuspend_delay(&client->dev, 1000);
-> > +	pm_runtime_use_autosuspend(&client->dev);
-> > +	pm_runtime_idle(dev);
-
-This will effective power off the device immediately, without a delay. But
-I guess that's ok.
-
-Note that enabling runtime PM needs to take place before registering the
-sub-device. I'd move all these calls before that.
-
-> > +
-> > +	return 0;
-> > +
-> > +fail_power_off:
-> > +	gc0308_power_off(dev);
-> > +fail_subdev_cleanup:
-> > +	v4l2_subdev_cleanup(&gc0308->sd);
-> > +fail_media_entity_cleanup:
-> > +	media_entity_cleanup(&gc0308->sd.entity);
-> > +fail_ctrl_hdl_cleanup:
-> > +	v4l2_ctrl_handler_free(&gc0308->hdl);
-> > +	return ret;
-> > +}
-> > +
-> > +static void gc0308_remove(struct i2c_client *client)
-> > +{
-> > +	struct gc0308 *gc0308 = i2c_get_clientdata(client);
-> > +	struct device *dev = &client->dev;
-> > +
-> > +	pm_runtime_get_sync(dev);
+> Regards,
 > 
-> Uh, I've never seen this call in a _remove before. Is it intentional ?
-
-I think disabling runtime PM and marking the device suspended are enough
-here runtime PM-wise.
-
+> Hans
 > 
-> Apart these two nits the rest is good! thanks for addressing the
-> comments received on the previous version.
 > 
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > 
-> Thanks
->   j
 > 
-> > +
-> > +	v4l2_async_unregister_subdev(&gc0308->sd);
-> > +	v4l2_ctrl_handler_free(&gc0308->hdl);
-> > +
-> > +	pm_runtime_disable(dev);
-> > +	pm_runtime_set_suspended(dev);
-> > +	pm_runtime_put_noidle(dev);
-> > +	gc0308_power_off(dev);
-> > +}
 
 -- 
-Regards,
-
-Sakari Ailus
+Best regards,
+Bingbu Cao
