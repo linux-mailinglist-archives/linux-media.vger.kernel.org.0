@@ -2,51 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9D9F37E3B5F
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 12:58:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E02D17E3AA8
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 11:59:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234209AbjKGKnw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 05:43:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41378 "EHLO
+        id S234397AbjKGK7p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 05:59:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39170 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234204AbjKGKnt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 05:43:49 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD993D76
-        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 02:43:45 -0800 (PST)
-Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 409EB66074C2;
-        Tue,  7 Nov 2023 10:43:44 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1699353824;
-        bh=vJS6CheIw4lpIW8WM/Y+JlEqq2Ssrul/PpguC2ApP0g=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=bl2JcS9cuMs/aMHTF8hgWJ72xETKwFFbm7uAX6BOiAnpKT+ESmh1jTcNxuIBKmITI
-         nmc7BmlZQiQ0DWakphCFqySLjm3+rK1dEwSF7TkFM01vCIUeZ+B7K7eHTrPv5RtpJs
-         WF5S7a9aIyerM+R0zzdPZM5jWiA6UsEQpkXsX8G9MEMdfolKy3syWG+oq/DBTVUv+L
-         oSaqNOi/mQ1OxLILkMFVe7TsIHGHyqq9N8i/zI1/jDHubAlIya7WDjsYD7eiTFMxLn
-         uZSknFlq+b+K8uQBXGu6TL/C8tuF/44wh/ThijYyeW4yy/Cg3kDQHJrwm2O0PC8IrU
-         XqhAjkvLUTBcg==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
-        mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v6 4/4] v4l2-compliance: Add a test for DELETE_BUFS ioctl
-Date:   Tue,  7 Nov 2023 11:41:32 +0100
-Message-Id: <20231107104132.445705-5-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231107104132.445705-1-benjamin.gaignard@collabora.com>
-References: <20231107104132.445705-1-benjamin.gaignard@collabora.com>
+        with ESMTP id S234315AbjKGK7Y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 05:59:24 -0500
+Received: from mail-qk1-x734.google.com (mail-qk1-x734.google.com [IPv6:2607:f8b0:4864:20::734])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3B25101
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 02:58:14 -0800 (PST)
+Received: by mail-qk1-x734.google.com with SMTP id af79cd13be357-778a6c440faso288895285a.3
+        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 02:58:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1699354694; x=1699959494; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LvWgzBGbnNIgZ9ZBCni1UwPMLFAWW2SsB1tYdhJN5so=;
+        b=VrBi7JcEtm0Ive0egqghlUv8XP0U3pCfxD20f+PE99RyWIf9AF8Q165x4F6Mz3UVmw
+         +JlZeXpvvLj8kUsopQt1MMHvUziWsF932Y657pjvJ4LrNMn+WKh+jIYXuoXLiArtua9P
+         EI0IzwobIPcjp5feNxloB6U4ShtC/SwP4GmKg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699354694; x=1699959494;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LvWgzBGbnNIgZ9ZBCni1UwPMLFAWW2SsB1tYdhJN5so=;
+        b=oCYNsmHGUXv3XR09ypRMuJRnz6HjTAyAV9/HIqHBuGObxyLzXRhhsSXsMw/p/fpaQm
+         0C0qFfkVeEa30v+o7GHnylUKuvERQ787Y+V0YzuwzCDx1xQnopaojPy2c6NfXxgEqrLx
+         LkT0IRxLET6xyXVyEn9E8m4i1ZyNTvWKmGantjTRrvPZ2NrqpNri36QSukT9j91B4sWL
+         ryVi8jqWsk4lduG06uyDxwi8WDpgAi9o6AzQzJBH0NKjVLQBpKOPfCkgkFOihgcw/3bQ
+         tiRzqcYe/1HVCkej/C1ZiumUV64f0L046wJntph/YcKCWa4FKuxj6qrUhovLvmOYoE3g
+         eHWg==
+X-Gm-Message-State: AOJu0Yz0T82tsWhdjzIk5bMczW/E2adIEzLCNap9//OZLd7HKtZqE3CO
+        tfCjA9Qu2yD14nNzZVfkYTSRMN95IjHl2tjVfae8XA==
+X-Google-Smtp-Source: AGHT+IE+e2EYR1YijN+0McJmLbOyzC+LPY9TIFrRZ7s7Hiw9kKgZhbcrz+6L8g5HZNJCvgHCtoKvig==
+X-Received: by 2002:a05:620a:170e:b0:779:fb0e:ba96 with SMTP id az14-20020a05620a170e00b00779fb0eba96mr32918724qkb.3.1699354693688;
+        Tue, 07 Nov 2023 02:58:13 -0800 (PST)
+Received: from mail-qv1-f43.google.com (mail-qv1-f43.google.com. [209.85.219.43])
+        by smtp.gmail.com with ESMTPSA id g1-20020a05620a40c100b007757eddae8bsm4062083qko.62.2023.11.07.02.58.12
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Nov 2023 02:58:13 -0800 (PST)
+Received: by mail-qv1-f43.google.com with SMTP id 6a1803df08f44-6711dd6595fso31049286d6.3
+        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 02:58:12 -0800 (PST)
+X-Received: by 2002:ad4:5ec6:0:b0:66d:4fdb:5e36 with SMTP id
+ jm6-20020ad45ec6000000b0066d4fdb5e36mr30469112qvb.36.1699354692205; Tue, 07
+ Nov 2023 02:58:12 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org>
+ <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu> <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
+ <ZUnpE1Wfe2dImqU0@valkosipuli.retiisi.eu>
+In-Reply-To: <ZUnpE1Wfe2dImqU0@valkosipuli.retiisi.eu>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 7 Nov 2023 11:58:00 +0100
+X-Gmail-Original-Message-ID: <CANiDSCs9VX8DC7uC97CiGtmbWAuXa3a50Owth9ep78sWc5PgvQ@mail.gmail.com>
+Message-ID: <CANiDSCs9VX8DC7uC97CiGtmbWAuXa3a50Owth9ep78sWc5PgvQ@mail.gmail.com>
+Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
+To:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Esker Wong <esker@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tomasz Figa <tfiga@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_NONE,
+        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=unavailable
         autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -54,202 +81,137 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add new test for DELETE_BUFS ioctl.
-It create buffers and check if they could be removed from queue.
-It also check that removing non existing buffer or a queued
-buffer failed.
+Hi Sakari
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- utils/common/cv4l-helpers.h                 |  4 +
- utils/common/v4l-helpers.h                  | 17 ++++
- utils/common/v4l2-info.cpp                  |  1 +
- utils/v4l2-compliance/v4l2-compliance.cpp   |  1 +
- utils/v4l2-compliance/v4l2-compliance.h     |  1 +
- utils/v4l2-compliance/v4l2-test-buffers.cpp | 91 +++++++++++++++++++++
- 6 files changed, 115 insertions(+)
+On Tue, 7 Nov 2023 at 08:37, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+>
+> Hi Esker,
+>
+> On Tue, Nov 07, 2023 at 01:06:20PM +0800, Esker Wong wrote:
+> > [send again in text mode]
+> > Hi Sakari,
+> >
+> > Sequence number is important to us. We need it to measure the latency
+> > from this event to the time we display the frame.
+>
+> I think we could also add the sequence number to V4L2_EVENT_VSYNC.
+>
+> Cc Hans.
+I think you forgot to add him :)
 
-diff --git a/utils/common/cv4l-helpers.h b/utils/common/cv4l-helpers.h
-index 199aca36..5fe23cc6 100644
---- a/utils/common/cv4l-helpers.h
-+++ b/utils/common/cv4l-helpers.h
-@@ -760,6 +760,10 @@ public:
- 	{
- 		return v4l_queue_reqbufs(fd->g_v4l_fd(), this, count, flags);
- 	}
-+	int delete_bufs(cv4l_fd *fd, unsigned index = 0, unsigned count = 0)
-+	{
-+		return v4l_queue_delete_bufs(fd->g_v4l_fd(), this, index, count);
-+	}
- 	bool has_create_bufs(cv4l_fd *fd) const
- 	{
- 		return v4l_queue_has_create_bufs(fd->g_v4l_fd(), this);
-diff --git a/utils/common/v4l-helpers.h b/utils/common/v4l-helpers.h
-index cf0e92df..dca11e2d 100644
---- a/utils/common/v4l-helpers.h
-+++ b/utils/common/v4l-helpers.h
-@@ -1510,6 +1510,23 @@ static inline void *v4l_queue_g_dataptr(const struct v4l_queue *q, unsigned inde
- 	return v4l_queue_g_mmapping(q, index, plane);
- }
- 
-+static inline int v4l_queue_delete_bufs(struct v4l_fd *f, struct v4l_queue *q, unsigned index, unsigned count)
-+{
-+	struct v4l2_delete_buffers deletebufs;
-+	int ret;
-+
-+	memset(&deletebufs, 0, sizeof(deletebufs));
-+	deletebufs.type = q->type;
-+	deletebufs.index = index;
-+	deletebufs.count = count;
-+
-+	ret = v4l_ioctl(f, VIDIOC_DELETE_BUFS, &deletebufs);
-+	if (!ret)
-+		q->buffers -= deletebufs.count;
-+
-+	return ret;
-+}
-+
- static inline int v4l_queue_querybufs(struct v4l_fd *f, struct v4l_queue *q, unsigned from)
- {
- 	unsigned b, p;
-diff --git a/utils/common/v4l2-info.cpp b/utils/common/v4l2-info.cpp
-index 5fc92005..9ff107d9 100644
---- a/utils/common/v4l2-info.cpp
-+++ b/utils/common/v4l2-info.cpp
-@@ -207,6 +207,7 @@ static constexpr flag_def bufcap_def[] = {
- 	{ V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF, "m2m-hold-capture-buf" },
- 	{ V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS, "mmap-cache-hints" },
- 	{ V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS, "set-max-num-buffers" },
-+	{ V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS, "delete-bufs" },
- 	{ 0, nullptr }
- };
- 
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index a165ef5a..c1e519ea 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -1454,6 +1454,7 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 		printf("Buffer ioctls%s:\n", suffix);
- 		printf("\ttest VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: %s\n", ok(testReqBufs(&node)));
- 		printf("\ttest CREATE_BUFS maximum buffers: %s\n", ok(testCreateBufsMax(&node)));
-+		printf("\ttest VIDIOC_DELETE_BUFS: %s\n", ok(testDeleteBufs(&node)));
- 		// Reopen after each streaming test to reset the streaming state
- 		// in case of any errors in the preceeding test.
- 		node.reopen();
-diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-index 4f9aa17e..9ec07494 100644
---- a/utils/v4l2-compliance/v4l2-compliance.h
-+++ b/utils/v4l2-compliance/v4l2-compliance.h
-@@ -384,6 +384,7 @@ int testReadWrite(struct node *node);
- int testExpBuf(struct node *node);
- int testBlockingWait(struct node *node);
- int testCreateBufsMax(struct node *node);
-+int testDeleteBufs(struct node *node);
- 
- // 32-bit architecture, 32/64-bit time_t tests
- int testTime32_64(struct node *node);
-diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-index 922b99b5..5a2fa309 100644
---- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
-@@ -529,6 +529,97 @@ static int testCanSetSameTimings(struct node *node)
- 	return 0;
- }
- 
-+int testDeleteBufs(struct node *node)
-+{
-+	int ret;
-+	unsigned i;
-+
-+	node->reopen();
-+
-+	for (i = 1; i <= V4L2_BUF_TYPE_LAST; i++) {
-+		struct v4l2_delete_buffers delbufs = { };
-+
-+		if (!(node->valid_buftypes & (1 << i)))
-+			continue;
-+
-+		cv4l_queue q(i, V4L2_MEMORY_MMAP);
-+
-+		if (testSetupVbi(node, i))
-+			continue;
-+
-+		q.init(i, V4L2_MEMORY_MMAP);
-+		ret = q.create_bufs(node, 0);
-+		fail_on_test_val(ret && ret != EINVAL, ret);
-+		if (!(q.g_capabilities() & V4L2_BUF_CAP_SUPPORTS_DELETE_BUFS))
-+			continue;
-+
-+		memset(&delbufs, 0xff, sizeof(delbufs));
-+		delbufs.index = 0;
-+		delbufs.count = 0;
-+		delbufs.type = q.g_type();
-+		fail_on_test(doioctl(node, VIDIOC_DELETE_BUFS, &delbufs));
-+		fail_on_test(check_0(delbufs.reserved, sizeof(delbufs.reserved)));
-+
-+		if (!ret) {
-+			unsigned buffers;
-+			buffer buf(q);
-+
-+			/* Create only 1 buffer */
-+			fail_on_test(q.create_bufs(node, 1));
-+			buffers = q.g_buffers();
-+			fail_on_test(buffers == 0);
-+			/* Delete buffer index 1 must fail */
-+			fail_on_test(q.delete_bufs(node, 1, buffers) != EINVAL);
-+			/* Delete buffer index 0 is valid */
-+			fail_on_test(q.delete_bufs(node, 0, buffers));
-+			/* Delete buffer index 0 again must fail */
-+			fail_on_test(q.delete_bufs(node, 0, 1) != EINVAL);
-+			/* Create 3 buffers indexes 0 to 2 */
-+			fail_on_test(q.create_bufs(node, 3));
-+			/* Delete them one by one */
-+			fail_on_test(q.delete_bufs(node, 2, 1));
-+			fail_on_test(q.delete_bufs(node, 0, 1));
-+			fail_on_test(q.delete_bufs(node, 1, 1));
-+			/* Delete buffer index 0 again must fail */
-+			fail_on_test(q.delete_bufs(node, 0, 1) != EINVAL);
-+
-+			/* Create 5 buffers indexes 0 to 4*/
-+			fail_on_test(q.create_bufs(node, 5));
-+			/* Delete buffers index 1 and 2 */
-+			fail_on_test(q.delete_bufs(node, 1, 2));
-+			/* Add 3 more buffers should be indexes 5 to 7*/
-+			fail_on_test(q.create_bufs(node, 3));
-+			/* Query buffers:
-+			 * 1 and 2 have been deleted they must fail
-+			 * 5 to 7 must exist*/
-+			fail_on_test(buf.querybuf(node, 1) != EINVAL);
-+			fail_on_test(buf.querybuf(node, 2) != EINVAL);
-+			fail_on_test(buf.querybuf(node, 5));
-+			fail_on_test(buf.querybuf(node, 6));
-+			fail_on_test(buf.querybuf(node, 7));
-+			/* Delete existing buffer index 7 with bad type must fail */
-+			memset(&delbufs, 0xff, sizeof(delbufs));
-+			delbufs.index = 7;
-+			delbufs.count = 1;
-+			delbufs.type = 0;
-+			fail_on_test(doioctl(node, VIDIOC_DELETE_BUFS, &delbufs) != EINVAL);
-+
-+			/* Delete crossing max allowed buffers boundary must fail */
-+			fail_on_test(q.delete_bufs(node, q.g_max_num_buffers() - 2, 8) != EINVAL);
-+
-+			/* Delete overflow must fail */
-+			fail_on_test(q.delete_bufs(node, 3, 0xfffffff) != EINVAL);
-+
-+			/* Create 2 buffers, that must fill the hole */
-+			fail_on_test(q.create_bufs(node, 2));
-+			/* Remove all buffers */
-+			fail_on_test(q.delete_bufs(node, 0, 8));
-+		}
-+	}
-+
-+	return 0;
-+}
-+
- int testReqBufs(struct node *node)
- {
- 	struct v4l2_create_buffers crbufs = { };
--- 
-2.39.2
+@Hans
 
+What do you prefer?
+
+- Use V4L2_EVENT_FRAME_SYNC because we trigger it as soon as the
+driver knows about the frame
+- Use V4L2_EVENT_VSYNC, but extending it to support the frame sequence
+- Use a new EVENT
+
+Thanks!
+
+
+>
+> > On Mon, Nov 6, 2023 at 7:06=E2=80=AFPM Sakari Ailus <sakari.ailus@iki.f=
+i> wrote:
+> > >
+> > > Hi Ricardo,
+> > >
+> > > On Mon, Nov 06, 2023 at 10:52:27AM +0000, Ricardo Ribalda wrote:
+> > > > Add support for the frame_sync event, so user-space can become awar=
+e
+> > > > earlier of new frames.
+> > > >
+> > > > Suggested-by: Esker Wong <esker@chromium.org>
+> > > > Tested-by: Esker Wong <esker@chromium.org>
+> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > ---
+> > > > We have measured a latency of around 30msecs between frame sync
+> > > > and dqbuf.
+> > > > ---
+> > > > Changes in v2:
+> > > > - Suggested by Laurent. Split sequence++ and event init.
+> > > > - Link to v1: https://lore.kernel.org/r/20231020-uvc-event-v1-1-3ba=
+a0e9f6952@chromium.org
+> > > > ---
+> > > >  drivers/media/usb/uvc/uvc_v4l2.c  | 2 ++
+> > > >  drivers/media/usb/uvc/uvc_video.c | 7 +++++++
+> > > >  2 files changed, 9 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/u=
+vc/uvc_v4l2.c
+> > > > index f4988f03640a..9f3fb5fd2375 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> > > > @@ -1352,6 +1352,8 @@ static int uvc_ioctl_subscribe_event(struct v=
+4l2_fh *fh,
+> > > >       switch (sub->type) {
+> > > >       case V4L2_EVENT_CTRL:
+> > > >               return v4l2_event_subscribe(fh, sub, 0, &uvc_ctrl_sub=
+_ev_ops);
+> > > > +     case V4L2_EVENT_FRAME_SYNC:
+> > > > +             return v4l2_event_subscribe(fh, sub, 0, NULL);
+> > > >       default:
+> > > >               return -EINVAL;
+> > > >       }
+> > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/=
+uvc/uvc_video.c
+> > > > index 28dde08ec6c5..4f3a510ca4fe 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > @@ -1073,9 +1073,16 @@ static int uvc_video_decode_start(struct uvc=
+_streaming *stream,
+> > > >        * that discontinuous sequence numbers always indicate lost f=
+rames.
+> > > >        */
+> > > >       if (stream->last_fid !=3D fid) {
+> > > > +             struct v4l2_event event =3D {
+> > > > +                     .type =3D V4L2_EVENT_FRAME_SYNC,
+> > > > +             };
+> > > > +
+> > > >               stream->sequence++;
+> > > >               if (stream->sequence)
+> > > >                       uvc_video_stats_update(stream);
+> > > > +
+> > > > +             event.u.frame_sync.frame_sequence =3D stream->sequenc=
+e,
+> > > > +             v4l2_event_queue(&stream->vdev, &event);
+> > >
+> > > uvc_video_decode_start() is called when the reception of the entire f=
+rame
+> > > has been completed. However, the documentation for V4L2_EVENT_FRAME_S=
+YNC
+> > > says that the event is "Triggered immediately when the reception of a=
+ frame
+> > > has begun.". The functionality here doesn't seem to fit to this patch=
+.
+> > >
+> > > Wouldn't V4L2_EVENT_VSYNC be a better fit, even if we don't really ha=
+ve a
+> > > concept of vertical sync in the case of USB? That event doesn't have =
+the
+> > > sequence though but I guess it's not an issue at least if your case.
+> > >
+> > > Another technically correct option could be to create a new event for=
+ this
+> > > but I'm not sure it's worth it.
+> > >
+> > > >       }
+> > > >
+> > > >       uvc_video_clock_decode(stream, buf, data, len);
+> > > >
+> > >
+> > > --
+> > > Regards,
+> > >
+> > > Sakari Ailus
+>
+> --
+> Regards,
+>
+> Sakari Ailus
+
+
+
+--=20
+Ricardo Ribalda
