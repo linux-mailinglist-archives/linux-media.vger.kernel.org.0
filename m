@@ -2,124 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CC2A7E4942
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 20:36:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 442EC7E4968
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 20:53:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229959AbjKGTgc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 14:36:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34622 "EHLO
+        id S234907AbjKGTxk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 14:53:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59960 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229948AbjKGTgb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 14:36:31 -0500
-Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E686910C3
-        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 11:36:28 -0800 (PST)
-Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-42033328ad0so11745731cf.0
-        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 11:36:28 -0800 (PST)
+        with ESMTP id S232902AbjKGTxj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 14:53:39 -0500
+Received: from mail-vs1-xe2d.google.com (mail-vs1-xe2d.google.com [IPv6:2607:f8b0:4864:20::e2d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24531D7D
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 11:53:37 -0800 (PST)
+Received: by mail-vs1-xe2d.google.com with SMTP id ada2fe7eead31-45efc5b5251so786502137.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 11:53:37 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1699385788; x=1699990588; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=UiZVNlp4v745T4J+W90r925ahjZE2TeDwN6p0vfr49s=;
-        b=oS95YOO+ySjIMFEqhnJ23hjGF9D5l11TYqsfuwDLa6o5cS47EGFa/ebaqQkNZTGqHF
-         jqtvITldq+mH+zciSOVMKcOML9nNplnZi2e+b+e/HfbvfSTfuVRUAP4fKDqOSiilclSt
-         Wn8tEDWlC/JctTjkNDdMrC5btYptWXiwG+R/7S2Pim+Sf9GYi/4unbMvyZOFSsRX+3TR
-         ZPh6kjP2CLJxCbdPTgf3jTNO70zcbXxlMFo9s6Al6GG06rdyOrAK/5S9CllTyDGom2Zw
-         5uH+bmRliW1JSkqGqEQQ28OVPC60xiJomDJ6Zw1cqKjryn86GEjC61Got4M7hVRmv/Br
-         ATfg==
+        d=google.com; s=20230601; t=1699386816; x=1699991616; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tnuTqDfsVwYZum4mgCN3P8a9mRjXV0bf7p3FmGowjyI=;
+        b=a5TJirnGDnG5vS2j1RCuf6MxnsaEHGicNgGIKWYcB3F8RYwOQsSocoB+ks/0cTDSgx
+         pzh+qIOA+n9uAw0FHi0H/NmSmzeMQCvKVLRYWsIZbQv/9dYbQAsgvPjTh+x1qV1hIqhg
+         +XCxxBCpHvwI0n5/oqKnyuGSxaSVuj2eEBUtciWoxYx5cQZnrkNnhDKtP/Iwp6ZcNj5w
+         gKdzr3iabJumXACkbamfbA2nTi7SUE+v7LyRVHt4DStEYWy0Wi5nnXTQaZn/Y6oC4A5/
+         pQT5IiM3eB7wAEwEpJXGHGmB2JUJ75AwhN+Gu1JTwHpCWQoUQIkIrR+hvAKye3Or8lxj
+         BeSA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699385788; x=1699990588;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=UiZVNlp4v745T4J+W90r925ahjZE2TeDwN6p0vfr49s=;
-        b=X/GluxO7CkAz/cPHSWYbGc0Q0SFItl6ev0CTR1Ghz/jBgYEqr1vU7AGshI25sCf8OA
-         Qn4H8pyxpmbTjWdU/vX8gSBo0x2VV5H2nBc1Oog63teaOJ369C5fInVl4T9FfcJLhixJ
-         He0//Ap9v4CVFOErJ18Vxmgw5nc+EY58Lu04Y+fQaIkcWtEqjIl36lJZQBQ8xSLrHhgK
-         5TF0aDwRRnMPD5jSQYxpiBbleN5k0w235C8Ea3YH44QXqa2JbCd0C/Mu69D+wD6kuZ3b
-         sTIUDEHrDcYWDg5rOqluzROC7KwSyAazMsMV++1LB1pX5EG3E5YUisGywZVsoWSmY/7t
-         5oXQ==
-X-Gm-Message-State: AOJu0YwZKzCAB3D2B5zON6EWDzCHqEUYGrzllW2kZDUXOvMkcV3q/K1g
-        X9Fd/MqC++o3ATcJ57nSDJpq7g==
-X-Google-Smtp-Source: AGHT+IHwsuwa8ThAQeOF6opq77pL61Bl43oeagm7e+h2JLbWnAym/RpWLluCo8QlUePQsgwI9zMfYw==
-X-Received: by 2002:a05:622a:247:b0:415:2623:d8df with SMTP id c7-20020a05622a024700b004152623d8dfmr38191830qtx.7.1699385788086;
-        Tue, 07 Nov 2023 11:36:28 -0800 (PST)
-Received: from ?IPv6:2606:6d00:17:6dc0::c73? ([2606:6d00:17:6dc0::c73])
-        by smtp.gmail.com with ESMTPSA id jz9-20020a05622a81c900b0041ce9ebaad2sm215277qtb.43.2023.11.07.11.36.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 11:36:27 -0800 (PST)
-Message-ID: <0c98e11e4b3fe84f74e746f44f39480594246154.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: v4l2-common: Add 10bpp RGB formats info
-From:   nicolas@ndufresne.ca
-To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Date:   Tue, 07 Nov 2023 14:36:27 -0500
-In-Reply-To: <20231107172916.78095-1-jacopo.mondi@ideasonboard.com>
-References: <20231107172916.78095-1-jacopo.mondi@ideasonboard.com>
+        d=1e100.net; s=20230601; t=1699386816; x=1699991616;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tnuTqDfsVwYZum4mgCN3P8a9mRjXV0bf7p3FmGowjyI=;
+        b=jTZ3Xgth3fUmtesvJHK5Sz77RlpVmDhwmAUA/qjj7LJWy0RUIlpeYuaEZWdRELEkqo
+         i7PKVxX8gql5P9bYWGeTzLOlOO1AGQbiChUytRp6xTaUDDom54Y/USyI27IM89vYkzsl
+         OWBwsqxxJfubVpV7K9AO8GiuyGHzCDdDGQsM4YUyOZ7FtHXVzHHHWCmjrQOWD5ZjWrCO
+         wn0jNoKBUBExG0TtnR2K2EIo/lxmY3jjnXZMPGSzCzYkFoezN+XA6rxyyWYEuEdWlSZy
+         7qdK5rgp4UbvZB585TViNCR5cWOXRHUJ2Da/iMnxNhfQpA37POp/Jcx4YMN3B2VFO6Fq
+         QQkQ==
+X-Gm-Message-State: AOJu0Yxrw8YhuGzX3MmEbKkCFEvGoms769WnV3OAQlkmk8wQy54/Arj8
+        ApbaQeqJnMVwNXt2LB7MOU5ztSFAruWyRzN6RN9v+A==
+X-Google-Smtp-Source: AGHT+IFRfpykRqgBWNCOXyp4/VIT9n7OcqngEslUuXORQ+jDqZ50qQ8GNzo4lC3gCBtUGRfNYYENwfnNi6aElAPXvi8=
+X-Received: by 2002:a05:6102:475a:b0:45d:86d0:27 with SMTP id
+ ej26-20020a056102475a00b0045d86d00027mr11736495vsb.33.1699386816008; Tue, 07
+ Nov 2023 11:53:36 -0800 (PST)
+MIME-Version: 1.0
+References: <ZUk03DhWxV-bOFJL@google.com> <19129763-6f74-4b04-8a5f-441255b76d34@kernel.org>
+ <CAHS8izMrnVUfbbS=OcJ6JT9SZRRfZ2MC7UnggthpZT=zf2BGLA@mail.gmail.com>
+ <ZUlhu4hlTaqR3CTh@google.com> <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
+ <ZUlvzm24SA3YjirV@google.com> <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
+ <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
+ <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
+ <CAHS8izNxKHhW5uCqmfau6n3c18=hE3RXzA+ng5LEGiKj12nGcg@mail.gmail.com> <ZUmNk98LyO_Ntcy7@google.com>
+In-Reply-To: <ZUmNk98LyO_Ntcy7@google.com>
+From:   Mina Almasry <almasrymina@google.com>
+Date:   Tue, 7 Nov 2023 11:53:22 -0800
+Message-ID: <CAHS8izNTDsHTahkd17zQVQnjzniZAk-dKNs-Mq0E4shdrXOJbg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable frags
+To:     Stanislav Fomichev <sdf@google.com>
+Cc:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        David Ahern <dsahern@kernel.org>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jeroen de Borst <jeroendb@google.com>,
+        Praveen Kaligineedi <pkaligineedi@google.com>,
+        Willem de Bruijn <willemb@google.com>,
+        Kaiyuan Zhang <kaiyuanz@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Mon, Nov 6, 2023 at 5:06=E2=80=AFPM Stanislav Fomichev <sdf@google.com> =
+wrote:
+[..]
+> > > > And the socket has to know this association; otherwise those tokens
+> > > > are useless since they don't carry anything to identify the dmabuf.
+> > > >
+> > > > I think my other issue with MSG_SOCK_DEVMEM being on recvmsg is tha=
+t
+> > > > it somehow implies that I have an option of passing or not passing =
+it
+> > > > for an individual system call.
+> >
+> > You do have the option of passing it or not passing it per system
+> > call. The MSG_SOCK_DEVMEM says the application is willing to receive
+> > devmem cmsgs - that's all. The application doesn't get to decide
+> > whether it's actually going to receive a devmem cmsg or not, because
+> > that's dictated by the type of skb that is present in the receive
+> > queue, and not up to the application. I should explain this in the
+> > commit message...
+>
+> What would be the case of passing it or not passing it? Some fallback to
+> the host memory after flow steering update? Yeah, would be useful to
+> document those constrains. I'd lean on starting stricter and relaxing
+> those conditions if we find the use-cases.
+>
 
-Le mardi 07 novembre 2023 =C3=A0 18:29 +0100, Jacopo Mondi a =C3=A9crit=C2=
-=A0:
-> Video4Linux2 defines 3 RGB formats with 10 bits per color components
-> plus two optional alpha bits such that a pixel is then stored in a 4
-> bytes word.
->=20
-> Add a format info for the 3 10-bits RGB formats to the
-> v4l2_format_info() table in v4l2-common.c.
->=20
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+MSG_SOCK_DEVMEM (or its replacement SOCK_DEVMEM or SO_SOCK_DEVMEM),
+just says that the application is able to receive devmem cmsgs and
+will parse them. The use case for not setting that flag is existing
+applications that are not aware of devmem cmsgs. I don't want those
+applications to think they're receiving data in the linear buffer only
+to find out that the data is in devmem and they ignored the devmem
+cmsg.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+So, what happens:
 
-regards,
-Nicolas
+- MSG_SOCK_DEVMEM provided and next skb in the queue is devmem:
+application receives cmsgs.
+- MSG_SOCK_DEVMEM provided and next skb in the queue is non-devmem:
+application receives in the linear buffer.
+- MSG_SOCK_DEVMEM not provided and net skb is devmem: application
+receives EFAULT.
+- MSG_SOCK_DEVMEM not provided and next skb is non-devmem: application
+receives in the linear buffer.
 
-> ---
->  drivers/media/v4l2-core/v4l2-common.c | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
-ore/v4l2-common.c
-> index 3a4b15a98e02..e9e7e70fa24e 100644
-> --- a/drivers/media/v4l2-core/v4l2-common.c
-> +++ b/drivers/media/v4l2-core/v4l2-common.c
-> @@ -254,6 +254,9 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
-ormat)
->  		{ .format =3D V4L2_PIX_FMT_BGR666,  .pixel_enc =3D V4L2_PIXEL_ENC_RGB,=
- .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_div =
-=3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
->  		{ .format =3D V4L2_PIX_FMT_BGR48_12, .pixel_enc =3D V4L2_PIXEL_ENC_RGB=
-, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp_div =
-=3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
->  		{ .format =3D V4L2_PIX_FMT_ABGR64_12, .pixel_enc =3D V4L2_PIXEL_ENC_RG=
-B, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 8, 0, 0, 0 }, .bpp_div=
- =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> +		{ .format =3D V4L2_PIX_FMT_RGBA1010102, .pixel_enc =3D V4L2_PIXEL_ENC_=
-RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
-iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> +		{ .format =3D V4L2_PIX_FMT_RGBX1010102, .pixel_enc =3D V4L2_PIXEL_ENC_=
-RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
-iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
-> +		{ .format =3D V4L2_PIX_FMT_ARGB2101010, .pixel_enc =3D V4L2_PIXEL_ENC_=
-RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
-iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
->=20
->  		/* YUV packed formats */
->  		{ .format =3D V4L2_PIX_FMT_YUYV,    .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
- .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .bpp_div =
-=3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
-> --
-> 2.41.0
->=20
+My bad on not including some docs about this. The next version should
+have the commit message beefed up to explain all this, or a docs
+patch.
 
+
+--=20
+Thanks,
+Mina
