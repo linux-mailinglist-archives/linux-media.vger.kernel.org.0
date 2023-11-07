@@ -2,90 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D1F3B7E342E
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 04:27:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 67FB67E34C7
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 06:06:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233266AbjKGD1h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 6 Nov 2023 22:27:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46152 "EHLO
+        id S233488AbjKGFGg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 00:06:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50512 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230208AbjKGD1h (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 6 Nov 2023 22:27:37 -0500
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD7AF101;
-        Mon,  6 Nov 2023 19:27:31 -0800 (PST)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by ex01.ufhost.com (Postfix) with ESMTP id DF75324E208;
-        Tue,  7 Nov 2023 11:27:28 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Nov
- 2023 11:27:28 +0800
-Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Nov
- 2023 11:27:28 +0800
-Message-ID: <a3a2c179-2cbe-5a55-a21e-b45abfb6d494@starfivetech.com>
-Date:   Tue, 7 Nov 2023 11:27:27 +0800
+        with ESMTP id S233448AbjKGFGf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 00:06:35 -0500
+Received: from mail-yw1-x1134.google.com (mail-yw1-x1134.google.com [IPv6:2607:f8b0:4864:20::1134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E4E7D115
+        for <linux-media@vger.kernel.org>; Mon,  6 Nov 2023 21:06:31 -0800 (PST)
+Received: by mail-yw1-x1134.google.com with SMTP id 00721157ae682-5a7af20c488so63638427b3.1
+        for <linux-media@vger.kernel.org>; Mon, 06 Nov 2023 21:06:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1699333591; x=1699938391; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+MNdTKVIaJss4ZqgmyFYAFnq1SDnac/PDATg0+wIP+4=;
+        b=YNPT0KnQMu7/pXc4vgx7kOO7SE3xd0AZQd7MyTJPdH55/QDL1z0w+DTeG3nc/13YVj
+         MVJ6B4kb2/k35JKRoyrGA24Ge2v81J4HQOASSos+wxEhUXKlPbs+T/pkx+uETUrIN36i
+         IvGMfwk/srcjUmgJHhdgpMWd1l+laja14JNng=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699333591; x=1699938391;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+MNdTKVIaJss4ZqgmyFYAFnq1SDnac/PDATg0+wIP+4=;
+        b=Wt8rWaHVKX6XP8vNHy8mUaaYHUXiqX6Cqg5v8jEqitgnoLk54MDBcGiIAv6LYClhlR
+         ORKKXyZphcHTxM7eNeKcTQJKqsyrSgl9JaVjYLda7+HVbj+biir6rHow3tDgvm305Zhu
+         1zrmyN80Z9L/orGFEqiyshJjIzLyF3NGXQpXYpi7L6fFWl91UcR4EsDLRyUIQsZpDiPu
+         Uc3n3SY1LwJn3v0rR0Fr+37FGpKdEpUCGqre8OYxoeZ6zrfyU0cwcFPTd+5seIW5x1VG
+         A7O1qoNLEgYt4iR0ILQbMCSxdC7TPzAF4VwMO1rlFwjM8J2bRofuhxUeXj7PUyhKtbEE
+         JmGw==
+X-Gm-Message-State: AOJu0YzZRUMam7900XHsvKhoYVLWYss1qex1zmkUU0sNx9jlZzO1w1Vy
+        +jaryn2sgsF7rSacC1gM1/EiRcMbMOZajbZWmtOgYg==
+X-Google-Smtp-Source: AGHT+IHHR2kktPP4c8ykqfn0f6TaQEG5alfT22TZVKb5oILOfelyCw9fUnwjJrHEAgm/JZnIJ+lBp2N4kyQgw5g2T6g=
+X-Received: by 2002:a0d:d890:0:b0:5a7:dbd6:14ae with SMTP id
+ a138-20020a0dd890000000b005a7dbd614aemr13927520ywe.29.1699333591101; Mon, 06
+ Nov 2023 21:06:31 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v11 0/9] Add StarFive Camera Subsystem driver
-From:   Jack Zhu <jack.zhu@starfivetech.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        <bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
+References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org> <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu>
+In-Reply-To: <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu>
+From:   Esker Wong <esker@chromium.org>
+Date:   Tue, 7 Nov 2023 13:06:20 +0800
+Message-ID: <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
+Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
         Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-        <changhuang.liang@starfivetech.com>
-References: <20231025031422.3695-1-jack.zhu@starfivetech.com>
- <15ef0a70-734e-280a-f014-41914a55d8cf@starfivetech.com>
-Content-Language: en-US
-In-Reply-To: <15ef0a70-734e-280a-f014-41914a55d8cf@starfivetech.com>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
-X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+Content-Transfer-Encoding: quoted-printable
+X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
+        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
         RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+        autolearn=unavailable autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+[send again in text mode]
+Hi Sakari,
 
+Sequence number is important to us. We need it to measure the latency
+from this event to the time we display the frame.
 
-On 2023/10/31 9:09, Jack Zhu wrote:
-> 
-> 
-> On 2023/10/25 11:14, Jack Zhu wrote:
->> Hi,
->> 
->> This series is the v11 series that attempts to support the Camera Subsystem
->> found on StarFive JH7110 SoC.
-> 
-> Hi Hans and Laurent,
-> 
-> Could you please help review the code?
-> Thank you for your time!
-> 
-
-Hi,
-
-Could you please take some time to help review the code? Thank you so much!
-
--- 
 Regards,
+Esker
 
-Jack Zhu
+
+On Mon, Nov 6, 2023 at 7:06=E2=80=AFPM Sakari Ailus <sakari.ailus@iki.fi> w=
+rote:
+>
+> Hi Ricardo,
+>
+> On Mon, Nov 06, 2023 at 10:52:27AM +0000, Ricardo Ribalda wrote:
+> > Add support for the frame_sync event, so user-space can become aware
+> > earlier of new frames.
+> >
+> > Suggested-by: Esker Wong <esker@chromium.org>
+> > Tested-by: Esker Wong <esker@chromium.org>
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> > We have measured a latency of around 30msecs between frame sync
+> > and dqbuf.
+> > ---
+> > Changes in v2:
+> > - Suggested by Laurent. Split sequence++ and event init.
+> > - Link to v1: https://lore.kernel.org/r/20231020-uvc-event-v1-1-3baa0e9=
+f6952@chromium.org
+> > ---
+> >  drivers/media/usb/uvc/uvc_v4l2.c  | 2 ++
+> >  drivers/media/usb/uvc/uvc_video.c | 7 +++++++
+> >  2 files changed, 9 insertions(+)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/u=
+vc_v4l2.c
+> > index f4988f03640a..9f3fb5fd2375 100644
+> > --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> > @@ -1352,6 +1352,8 @@ static int uvc_ioctl_subscribe_event(struct v4l2_=
+fh *fh,
+> >       switch (sub->type) {
+> >       case V4L2_EVENT_CTRL:
+> >               return v4l2_event_subscribe(fh, sub, 0, &uvc_ctrl_sub_ev_=
+ops);
+> > +     case V4L2_EVENT_FRAME_SYNC:
+> > +             return v4l2_event_subscribe(fh, sub, 0, NULL);
+> >       default:
+> >               return -EINVAL;
+> >       }
+> > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/=
+uvc_video.c
+> > index 28dde08ec6c5..4f3a510ca4fe 100644
+> > --- a/drivers/media/usb/uvc/uvc_video.c
+> > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > @@ -1073,9 +1073,16 @@ static int uvc_video_decode_start(struct uvc_str=
+eaming *stream,
+> >        * that discontinuous sequence numbers always indicate lost frame=
+s.
+> >        */
+> >       if (stream->last_fid !=3D fid) {
+> > +             struct v4l2_event event =3D {
+> > +                     .type =3D V4L2_EVENT_FRAME_SYNC,
+> > +             };
+> > +
+> >               stream->sequence++;
+> >               if (stream->sequence)
+> >                       uvc_video_stats_update(stream);
+> > +
+> > +             event.u.frame_sync.frame_sequence =3D stream->sequence,
+> > +             v4l2_event_queue(&stream->vdev, &event);
+>
+> uvc_video_decode_start() is called when the reception of the entire frame
+> has been completed. However, the documentation for V4L2_EVENT_FRAME_SYNC
+> says that the event is "Triggered immediately when the reception of a fra=
+me
+> has begun.". The functionality here doesn't seem to fit to this patch.
+>
+> Wouldn't V4L2_EVENT_VSYNC be a better fit, even if we don't really have a
+> concept of vertical sync in the case of USB? That event doesn't have the
+> sequence though but I guess it's not an issue at least if your case.
+>
+> Another technically correct option could be to create a new event for thi=
+s
+> but I'm not sure it's worth it.
+>
+> >       }
+> >
+> >       uvc_video_clock_decode(stream, buf, data, len);
+> >
+>
+> --
+> Regards,
+>
+> Sakari Ailus
