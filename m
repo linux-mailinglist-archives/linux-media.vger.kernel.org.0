@@ -2,101 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 248717E37E1
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 10:29:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CEF37E37FC
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 10:41:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230283AbjKGJ3Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 04:29:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37218 "EHLO
+        id S233657AbjKGJlR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 04:41:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40858 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229541AbjKGJ3P (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 04:29:15 -0500
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FAB9106;
-        Tue,  7 Nov 2023 01:29:11 -0800 (PST)
-Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
-        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
-        by fd01.gateway.ufhost.com (Postfix) with ESMTP id E61BA80D3;
-        Tue,  7 Nov 2023 17:29:08 +0800 (CST)
-Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
- (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Nov
- 2023 17:29:08 +0800
-Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
- (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Nov
- 2023 17:29:08 +0800
-Message-ID: <48b93e44-6cd3-03a5-0eb2-4123b3790877@starfivetech.com>
-Date:   Tue, 7 Nov 2023 17:29:08 +0800
+        with ESMTP id S229580AbjKGJlP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 04:41:15 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AD7C102;
+        Tue,  7 Nov 2023 01:41:12 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCE9CC433C7;
+        Tue,  7 Nov 2023 09:41:05 +0000 (UTC)
+Message-ID: <0db3d822-9bfa-4efc-bf9d-3ae218b6815d@xs4all.nl>
+Date:   Tue, 7 Nov 2023 10:41:04 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v11 0/9] Add StarFive Camera Subsystem driver
-Content-Language: en-US
-To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        <bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>,
-        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-        <changhuang.liang@starfivetech.com>
-References: <20231025031422.3695-1-jack.zhu@starfivetech.com>
- <15ef0a70-734e-280a-f014-41914a55d8cf@starfivetech.com>
- <a3a2c179-2cbe-5a55-a21e-b45abfb6d494@starfivetech.com>
- <2023110745-tableful-trapezoid-4206@gregkh>
- <2023110730-thousand-skyrocket-d6ba@gregkh>
- <a2dbb182-2573-4c86-7e18-319d26a6593c@starfivetech.com>
- <2023110756-alto-stream-eb92@gregkh>
-From:   Jack Zhu <jack.zhu@starfivetech.com>
-In-Reply-To: <2023110756-alto-stream-eb92@gregkh>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v8 13/13] media: vim2m_audio: add virtual driver for
+ audio memory to memory
+Content-Language: en-US, nl
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+        tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+        nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+        perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+        linuxppc-dev@lists.ozlabs.org
+References: <1698402948-10618-1-git-send-email-shengjiu.wang@nxp.com>
+ <1698402948-10618-14-git-send-email-shengjiu.wang@nxp.com>
+ <c7daf33d-9d6d-499e-b477-35176dbaca38@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <c7daf33d-9d6d-499e-b477-35176dbaca38@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
- (172.16.6.83)
-X-YovoleRuleAgent: yovoleflag
-X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
-        autolearn=ham autolearn_force=no version=3.4.6
+X-Spam-Status: No, score=-4.0 required=5.0 tests=BAYES_00,
+        HEADER_FROM_DIFFERENT_DOMAINS,RCVD_IN_DNSWL_MED,SPF_HELO_NONE,SPF_PASS,
+        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 2023/11/7 16:27, Greg Kroah-Hartman wrote:
-> On Tue, Nov 07, 2023 at 04:05:11PM +0800, Jack Zhu wrote:
->> > Also, while you wait, why not just finish off the last 3 items on the
->> > TODO list which would make your code not be required to go into the
->> > staging portion of the tree at all?  You've had a few weeks now, what is
->> > preventing that from happening, and when will that work actually be
->> > done?
->> > 
->> 
->> One of my colleagues is doing related development, but he also has other
->> projects at the same time, so he cannot devote all his efforts to this
->> development. And we expect to use libcamera, which may take some time.
+On 06/11/2023 14:58, Hans Verkuil wrote:
+> On 27/10/2023 12:35, Shengjiu Wang wrote:
+>> Audio memory to memory virtual driver use video memory to memory
+>> virtual driver vim2m.c as example. The main difference is
+>> device type is VFL_TYPE_AUDIO and device cap type is V4L2_CAP_AUDIO_M2M.
+>>
+>> The device_run function is a dummy function, which is simply
+>> copy the data from input buffer to output buffer.
 > 
-> So that means there is no real plan at all to get this out of the
-> staging directory?  If so, why should we take it at all as obviously
-> this means that the code is now abandoned?
+> I started work on the v4l-utils part of this, using this driver.
 > 
+> I noticed that this driver doesn't expose the V4L2_CID_M2M_AUDIO_SOURCE/SINK_RATE
+> controls, and it really should, otherwise it is not representative of this
+> type of device.
+> 
+> It is enough to start with just a single fixed rate listed for each control.
+> 
+> It would be even nicer if you can have two rates such as 24000 and 48000 and
+> do the actual rate conversion, i.e. dropping every other sample or duplicating
+> each sample depending on whether you're halving or doubling the rate. That
+> should be easy to implement, and it makes this driver much more realistic.
 
-Hi Greg,
+Update: I have finished the v4l-utils update (I'll post a patch for that later).
 
-It's not like that, we won't give up on this code. We just want to make
-development easier using incremental development. Our developers are already
-working on development, but I can't give you an accurate time. There should
-be a preliminary version in about 3 months.
+But while testing I noticed that this driver does not set up the sequence number
+and it doesn't copy the timestamp. So the patch below needs to be applied.
 
--- 
+Just squash it together with your patch. Note that you need to do the same for
+your alsa driver.
+
+Also, please rename the source name from vim2m_audio.c to vim2m-audio.c. That is
+consistent with the naming elsewhere in test-drivers.
+
+I also want to have support for the MEDIA_CONTROLLER here. See vim2m, search for
+CONFIG_MEDIA_CONTROLLER. Both in this test driver and also in your audio driver.
+
+This will require adding a new media entity (MEDIA_ENT_F_PROC_AUDIO_RESAMPLER?).
+And you also need to add a new MEDIA_INTF_T_V4L_AUDIO interface type that will be
+used by v4l2_m2m_register_media_controller(). That function can check vdev->vfl_type
+to see if it needs to use MEDIA_INTF_T_V4L_VIDEO or MEDIA_INTF_T_V4L_AUDIO.
+Remember to update the documentation as well!
+
+The reason for using the media controller here is that it turns out to be very useful
+for application to detect what sort of m2m device it is dealing with: it has proven
+it worth for video codecs, and I think it should be standard for new m2m devices, and
+especially for a completely new type of m2m device.
+
 Regards,
 
-Jack Zhu
+	Hans
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/drivers/media/test-drivers/vim2m_audio.c b/drivers/media/test-drivers/vim2m_audio.c
+index 2134e8338417..e8aa2bb0aa77 100644
+--- a/drivers/media/test-drivers/vim2m_audio.c
++++ b/drivers/media/test-drivers/vim2m_audio.c
+@@ -62,6 +62,7 @@ struct audm2m_q_data {
+ 	unsigned int		channels;
+ 	unsigned int		buffersize;
+ 	u32			fourcc;
++	unsigned int		sequence;
+ };
+
+ enum {
+@@ -170,6 +171,9 @@ static void device_run(void *priv)
+
+ 	src_buf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
+ 	dst_buf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
++	src_buf->sequence = q_data_src->sequence++;
++	dst_buf->sequence = q_data_dst->sequence++;
++	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+
+ 	v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
+ 	v4l2_m2m_buf_done(dst_buf, VB2_BUF_STATE_DONE);
+@@ -423,6 +427,15 @@ static void audm2m_buf_queue(struct vb2_buffer *vb)
+ 	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
+ }
+
++static int audm2m_start_streaming(struct vb2_queue *q, unsigned int count)
++{
++	struct audm2m_ctx *ctx = vb2_get_drv_priv(q);
++	struct audm2m_q_data *q_data = get_q_data(ctx, q->type);
++
++	q_data->sequence = 0;
++	return 0;
++}
++
+ static void audm2m_stop_streaming(struct vb2_queue *q)
+ {
+ 	struct audm2m_ctx *ctx = vb2_get_drv_priv(q);
+@@ -442,6 +455,7 @@ static void audm2m_stop_streaming(struct vb2_queue *q)
+ static const struct vb2_ops audm2m_qops = {
+ 	.queue_setup	 = audm2m_queue_setup,
+ 	.buf_queue	 = audm2m_buf_queue,
++	.start_streaming  = audm2m_start_streaming,
+ 	.stop_streaming  = audm2m_stop_streaming,
+ 	.wait_prepare	 = vb2_ops_wait_prepare,
+ 	.wait_finish	 = vb2_ops_wait_finish,
+
