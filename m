@@ -2,123 +2,294 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A64097E4BA2
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 23:23:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 916127E4BD1
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 23:36:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234492AbjKGWXZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 17:23:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56608 "EHLO
+        id S234450AbjKGWgE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 17:36:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41192 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229722AbjKGWXY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 17:23:24 -0500
-Received: from mail-pl1-x64a.google.com (mail-pl1-x64a.google.com [IPv6:2607:f8b0:4864:20::64a])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A9CCEA
-        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 14:23:22 -0800 (PST)
-Received: by mail-pl1-x64a.google.com with SMTP id d9443c01a7336-1cc502d401eso55184225ad.0
-        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 14:23:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699395802; x=1700000602; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0Pmozh0ybI7SbfNg64kEULMiwr3zKJkFxXH8jQ6gCVM=;
-        b=izoEPk39tqUfOifZkL9mKfl1YAU7GCXRX/ZXJXZRdlk+1UH2+aWafH+4gnT8MnBwdC
-         +ASbrpYY5N55torcG421dxWhTV7MlYXPxEh5e+e3Ws3IWrtjPKS3pC9wqWJudPuRD6Nx
-         sl0ICx5rQ2VCQVdIuEQ6IUatHJE7zHCE14Sw0o3nSIqyHaGQSkhrm2zMd9edZUqxqPTc
-         23p/J4VlnYYqkYtx1bfuffQ9KG/gcdhsPsH1hsSA1e5f/FMDubp992lKv0HoI1ZivSJW
-         QZNieQvsuMR9zN4pa/mES1gpDpL9xCyKp2xy6AXbpfHOtIwz57BYwQUGaxDsn2tBTCRz
-         azow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699395802; x=1700000602;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0Pmozh0ybI7SbfNg64kEULMiwr3zKJkFxXH8jQ6gCVM=;
-        b=LWhMheNdP+/iLMrk5xgUMlW9Ak900/+05PAOJxnflLkwXNX4Q3CVau9iXloCTOCwwk
-         7lhUX+eQPnjrN+FHyl3hYSVNqyXrDSAG69B/dguSZfCiw8HB4HnNG03XOF9ByX7VfVuE
-         8e64uLFrIQ0GH/lFLa9RylKMVx70+VVA0JMSxjkN2C9BTYLsUDERqN2XVj6G4vsdwQie
-         7Co/FhhM3XFo2DROnmIpn6o6baloMP5bZ5u3oQBLB4lL14iIhm7CPRLmoeUSr7Vpu1ZX
-         SQbTSThjPzMKvuHhK4XZkYm0avzRRTaiso8oFRovPHZHiomtAEbhTmpQUUtwjmG9IZ34
-         AfLA==
-X-Gm-Message-State: AOJu0YzKKSQu+nP+yH0wHEALnQ1JD0dXNBwZyLAcaR2IZm8pwrNKXzVd
-        gSxfAOAvGk6VDBlaVcTjQ3js+Mc=
-X-Google-Smtp-Source: AGHT+IH1xKdg+nrZdYHc/L2SejfqkQOSdqRffH8LAz7J5HMiZt1d8BbpMO2b6yTqmZzIZmhgTiZbQUk=
-X-Received: from sdf.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:5935])
- (user=sdf job=sendgmr) by 2002:a17:903:3244:b0:1cc:bb7f:bd60 with SMTP id
- ji4-20020a170903324400b001ccbb7fbd60mr6825plb.6.1699395801930; Tue, 07 Nov
- 2023 14:23:21 -0800 (PST)
-Date:   Tue, 7 Nov 2023 14:23:20 -0800
-In-Reply-To: <CANn89iJNR8bYYBO92=f5_2hFoTK8+giH11o-7NHURoahwvV11w@mail.gmail.com>
-Mime-Version: 1.0
-References: <CAHS8izMaAhoae5ChnzO4gny1cYYnqV1cB8MC2cAF3eoyt+Sf4A@mail.gmail.com>
- <ZUlvzm24SA3YjirV@google.com> <CAHS8izMQ5Um_ScY0VgAjaEaT-hRh4tFoTgc6Xr9Tj5rEj0fijA@mail.gmail.com>
- <CAKH8qBsbh8qYxNHZ6111RQFFpNWbWZtg0LDXkn15xcsbAq4R6w@mail.gmail.com>
- <CAF=yD-+BuKXoVL8UF+No1s0TsHSzBTz7UrB1Djt_BrM74uLLcg@mail.gmail.com>
- <CAHS8izNxKHhW5uCqmfau6n3c18=hE3RXzA+ng5LEGiKj12nGcg@mail.gmail.com>
- <ZUmNk98LyO_Ntcy7@google.com> <CAHS8izNTDsHTahkd17zQVQnjzniZAk-dKNs-Mq0E4shdrXOJbg@mail.gmail.com>
- <ZUqms8QzQpfPQWyy@google.com> <CANn89iJNR8bYYBO92=f5_2hFoTK8+giH11o-7NHURoahwvV11w@mail.gmail.com>
-Message-ID: <ZUq42Po1Pn-9QxrM@google.com>
-Subject: Re: [RFC PATCH v3 09/12] net: add support for skbs with unreadable frags
-From:   Stanislav Fomichev <sdf@google.com>
-To:     Eric Dumazet <edumazet@google.com>
-Cc:     Mina Almasry <almasrymina@google.com>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        David Ahern <dsahern@kernel.org>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jeroen de Borst <jeroendb@google.com>,
-        Praveen Kaligineedi <pkaligineedi@google.com>,
-        Willem de Bruijn <willemb@google.com>,
-        Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S234110AbjKGWgD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 17:36:03 -0500
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABCBA11F
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 14:36:00 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: sailus)
+        by meesny.iki.fi (Postfix) with ESMTPSA id 4SQ3322vFZzyQb
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 00:35:54 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+        t=1699396558;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=s4bktarXjCz6PKLrQ5GwpzWMHeB8GFNDQoG0r4dL4Zs=;
+        b=uAPLD7Kuu7aDPvRSrv5abWG55K+oNLJQ1epHIxrWfFdUr5Bgp/r1RXAAeUErUGRbjgifXJ
+        +mpR3FLhDDXzaqUCx39nOE2y4NuFJih7PTUcU5AkpmzxlyTSUNMKozGxhevJxCpGkp8kBL
+        WyhnJZcbtB9k+z9gLgmpXSEp9umuR5o=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+        s=meesny; t=1699396558;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:mime-version:mime-version:content-type:content-type;
+        bh=s4bktarXjCz6PKLrQ5GwpzWMHeB8GFNDQoG0r4dL4Zs=;
+        b=Rjde5OxZJizqneQFwHmOgrnDYQBow7qShg9W/8hT2Rs4fl8ndqT6v9VLHwV4GF/cIy09UI
+        qhTBozEJNhHG3g4siAgqurEnqglYN8/89FnVbsNjvUKsjHImoJsnkvpBCzXFBU6AWt3ECH
+        u56DD+WARy6+FYejPk28iN+TVl6fGtY=
+ARC-Authentication-Results: i=1;
+        ORIGINATING;
+        auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1699396558; a=rsa-sha256; cv=none;
+        b=Y6iRrEkWBNSR+8QoaZOOMfsCxYHtJUNbBuTjnXFl0T8TxCrgp/dsm4dOG9oey4qa5fpWRb
+        qxxuN9hqEkH0bZAKkZMBrwPOBMeq7AKyWiv+UTi1xTZkWoeLF//30vcwN7LLAOV2BvcTED
+        ZTANyJcH/WTCYqoqd1tmr5xVrcNxXXc=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id ED376634C93
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 00:35:51 +0200 (EET)
+Date:   Tue, 7 Nov 2023 22:35:51 +0000
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.8] V4L2 subdev patches
+Message-ID: <ZUq7x4ubPkZc95kp@valkosipuli.retiisi.eu>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/07, Eric Dumazet wrote:
-> On Tue, Nov 7, 2023 at 10:05=E2=80=AFPM Stanislav Fomichev <sdf@google.co=
-m> wrote:
->=20
-> >
-> > I don't understand. We require an elaborate setup to receive devmem cms=
-gs,
-> > why would some random application receive those?
->=20
->=20
-> A TCP socket can receive 'valid TCP packets' from many different sources,
-> especially with BPF hooks...
->=20
-> Think of a bonding setup, packets being mirrored by some switches or
-> even from tc.
->=20
-> Better double check than be sorry.
->=20
-> We have not added a 5th component in the 4-tuple lookups, being "is
-> this socket a devmem one".
->=20
-> A mix of regular/devmem skb is supported.
+Hi Mauro, Hans,
 
-Can we mark a socket as devmem-only? Do we have any use-case for those
-hybrid setups? Or, let me put it that way: do we expect API callers
-to handle both linear and non-linear cases correctly?
-As a consumer of the previous versions of these apis internally,
-I find all those corner cases confusing :-( Hence trying to understand
-whether we can make it a bit more rigid and properly defined upstream.
+Here's a bunch of patches from myself and Laurent, cleaning up V4L2
+sub-device state information access API, drivers using it plus fixing IVSC
+driver firmware parsing and IMX319 driver. A few CCS driver fixes and
+documentation improvement are included, too.
 
-But going back to that MSG_SOCK_DEVMEM flag. If the application is
-supposed to handle both linear and devmem chucks, why do we need
-this extra MSG_SOCK_DEVMEM opt-in to signal that it's able to process
-it? From Mina's reply, it seemed like MSG_SOCK_DEVMEM is there to
-protect random applications that get misrouted devmem skb. I don't
-see how returning EFAULT helps in that case.
+Please pull.
+
+
+The following changes since commit 3e238417254bfdcc23fe207780b59cbb08656762:
+
+  media: nuvoton: VIDEO_NPCM_VCD_ECE should depend on ARCH_NPCM (2023-10-27 11:44:19 +0200)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.8-1-signed
+
+for you to fetch changes up to f30342efd32ea95b9b7437faf8dc37f3e784efc0:
+
+  media: v4l: subdev: Return NULL from pad access functions on error (2023-11-07 13:58:06 +0200)
+
+----------------------------------------------------------------
+V4L2 patches for 6.8
+
+----------------------------------------------------------------
+Laurent Pinchart (16):
+      media: v4l2-subdev: Fix indentation in v4l2-subdev.h
+      media: atmel-isi: Use accessors for pad config 'try_*' fields
+      media: microchip-isc: Use accessors for pad config 'try_*' fields
+      media: atmel-isc: Use accessors for pad config 'try_*' fields
+      media: atomisp: Use accessors for pad config 'try_*' fields
+      media: tegra-video: Use accessors for pad config 'try_*' fields
+      media: i2c: Use accessors for pad config 'try_*' fields
+      media: v4l2-subdev: Rename pad config 'try_*' fields
+      media: v4l2-subdev: Drop outdated comment for v4l2_subdev_pad_config
+      media: ipu3-cio2: Drop comment blocks for subdev op handlers
+      media: xilinx: csi2rxss: Drop comment blocks for subdev op handlers
+      media: v4l2-subdev: Fix references to pad config
+      media: qcom: camss: Fix references to pad config
+      media: ti: omap3isp: Fix references to pad config
+      media: ti: omap4iss: Fix references to pad config
+      media: i2c: Fix references to pad config
+
+Sakari Ailus (18):
+      media: ccs: Ensure control handlers have been set up after probe
+      media: ivsc: csi: Don't parse remote endpoints
+      media: ivsc: csi: Clean up V4L2 async notifier on error
+      media: ivsc: csi: Clean up notifier set-up
+      media: ivsc: csi: Clean up parsing firmware and setting up async notifier
+      media: ivsc: csi: Don't mask v4l2_fwnode_endpoint_parse return value
+      media: ivsc: csi: Check number of lanes on source, too
+      media: ccs: Print ireal and float limits converted to integers
+      media: imx319: Enable runtime PM before registering async sub-device
+      media: Documentation: Initialisation finishes before subdev registration
+      media: v4l: subdev: Store the sub-device in the sub-device state
+      media: v4l: subdev: Also return pads array information on stream functions
+      media: v4l: subdev: Rename sub-device state information access functions
+      media: v4l: subdev: v4l2_subdev_state_get_format always returns format now
+      media: v4l: subdev: Make stream argument optional in state access functions
+      media: v4l: subdev: Switch to stream-aware state functions
+      media: v4l: subdev: Remove stream-unaware sub-device state access
+      media: v4l: subdev: Return NULL from pad access functions on error
+
+ Documentation/driver-api/media/camera-sensor.rst   |   3 +-
+ Documentation/driver-api/media/v4l2-subdev.rst     |  11 +-
+ drivers/media/i2c/adv7180.c                        |   4 +-
+ drivers/media/i2c/adv7183.c                        |   2 +-
+ drivers/media/i2c/adv748x/adv748x-afe.c            |   6 +-
+ drivers/media/i2c/adv748x/adv748x-csi2.c           |   2 +-
+ drivers/media/i2c/adv748x/adv748x-hdmi.c           |   6 +-
+ drivers/media/i2c/adv7511-v4l2.c                   |   4 +-
+ drivers/media/i2c/adv7604.c                        |   4 +-
+ drivers/media/i2c/adv7842.c                        |   4 +-
+ drivers/media/i2c/ar0521.c                         |   5 +-
+ drivers/media/i2c/ccs/ccs-core.c                   |  44 ++++--
+ drivers/media/i2c/ccs/ccs.h                        |   1 +
+ drivers/media/i2c/ds90ub913.c                      |   3 +-
+ drivers/media/i2c/ds90ub953.c                      |   3 +-
+ drivers/media/i2c/ds90ub960.c                      |  12 +-
+ drivers/media/i2c/et8ek8/et8ek8_driver.c           |   3 +-
+ drivers/media/i2c/hi556.c                          |  13 +-
+ drivers/media/i2c/hi846.c                          |  11 +-
+ drivers/media/i2c/hi847.c                          |   9 +-
+ drivers/media/i2c/imx208.c                         |   9 +-
+ drivers/media/i2c/imx214.c                         |   4 +-
+ drivers/media/i2c/imx219.c                         |  12 +-
+ drivers/media/i2c/imx258.c                         |   9 +-
+ drivers/media/i2c/imx274.c                         |  12 +-
+ drivers/media/i2c/imx290.c                         |   8 +-
+ drivers/media/i2c/imx296.c                         |  18 +--
+ drivers/media/i2c/imx319.c                         |  19 +--
+ drivers/media/i2c/imx334.c                         |  12 +-
+ drivers/media/i2c/imx335.c                         |  12 +-
+ drivers/media/i2c/imx355.c                         |   7 +-
+ drivers/media/i2c/imx412.c                         |  12 +-
+ drivers/media/i2c/imx415.c                         |   6 +-
+ drivers/media/i2c/isl7998x.c                       |   6 +-
+ drivers/media/i2c/max9286.c                        |   4 +-
+ drivers/media/i2c/mt9m001.c                        |   6 +-
+ drivers/media/i2c/mt9m111.c                        |   6 +-
+ drivers/media/i2c/mt9m114.c                        |  58 ++++----
+ drivers/media/i2c/mt9p031.c                        |   6 +-
+ drivers/media/i2c/mt9t112.c                        |   2 +-
+ drivers/media/i2c/mt9v011.c                        |   2 +-
+ drivers/media/i2c/mt9v032.c                        |  10 +-
+ drivers/media/i2c/mt9v111.c                        |   4 +-
+ drivers/media/i2c/og01a1b.c                        |  10 +-
+ drivers/media/i2c/ov01a10.c                        |   2 +-
+ drivers/media/i2c/ov02a10.c                        |   6 +-
+ drivers/media/i2c/ov08d10.c                        |   9 +-
+ drivers/media/i2c/ov08x40.c                        |   7 +-
+ drivers/media/i2c/ov13858.c                        |  10 +-
+ drivers/media/i2c/ov13b10.c                        |  10 +-
+ drivers/media/i2c/ov2640.c                         |   6 +-
+ drivers/media/i2c/ov2659.c                         |   6 +-
+ drivers/media/i2c/ov2680.c                         |  10 +-
+ drivers/media/i2c/ov2685.c                         |   4 +-
+ drivers/media/i2c/ov2740.c                         |   4 +-
+ drivers/media/i2c/ov4689.c                         |   2 +-
+ drivers/media/i2c/ov5640.c                         |   9 +-
+ drivers/media/i2c/ov5645.c                         |   4 +-
+ drivers/media/i2c/ov5647.c                         |  12 +-
+ drivers/media/i2c/ov5648.c                         |   6 +-
+ drivers/media/i2c/ov5670.c                         |  13 +-
+ drivers/media/i2c/ov5675.c                         |   9 +-
+ drivers/media/i2c/ov5693.c                         |   4 +-
+ drivers/media/i2c/ov5695.c                         |   8 +-
+ drivers/media/i2c/ov6650.c                         |  34 +++--
+ drivers/media/i2c/ov7251.c                         |   4 +-
+ drivers/media/i2c/ov7670.c                         |   7 +-
+ drivers/media/i2c/ov772x.c                         |   2 +-
+ drivers/media/i2c/ov7740.c                         |   7 +-
+ drivers/media/i2c/ov8856.c                         |   9 +-
+ drivers/media/i2c/ov8858.c                         |   6 +-
+ drivers/media/i2c/ov8865.c                         |   8 +-
+ drivers/media/i2c/ov9282.c                         |  14 +-
+ drivers/media/i2c/ov9640.c                         |   2 +-
+ drivers/media/i2c/ov9650.c                         |   7 +-
+ drivers/media/i2c/ov9734.c                         |   9 +-
+ drivers/media/i2c/rj54n1cb0c.c                     |   2 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c           |  37 +++--
+ drivers/media/i2c/s5k5baf.c                        |  35 ++---
+ drivers/media/i2c/s5k6a3.c                         |   8 +-
+ drivers/media/i2c/saa6752hs.c                      |   2 +-
+ drivers/media/i2c/st-mipid02.c                     |  11 +-
+ drivers/media/i2c/st-vgxy61.c                      |   5 +-
+ drivers/media/i2c/tc358746.c                       |  12 +-
+ drivers/media/i2c/tda1997x.c                       |   6 +-
+ drivers/media/i2c/tvp5150.c                        |   2 +-
+ drivers/media/i2c/tvp7002.c                        |   6 +-
+ drivers/media/i2c/tw9910.c                         |   2 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c           |  24 +--
+ drivers/media/pci/intel/ivsc/mei_csi.c             |  69 +++++----
+ drivers/media/platform/atmel/atmel-isi.c           |  12 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c       |   4 +-
+ drivers/media/platform/cadence/cdns-csi2tx.c       |   3 +-
+ .../media/platform/microchip/microchip-csi2dc.c    |  15 +-
+ .../media/platform/microchip/microchip-isc-base.c  |  10 +-
+ .../platform/microchip/microchip-isc-scaler.c      |  16 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c         |  10 +-
+ drivers/media/platform/nxp/imx7-media-csi.c        |  16 +-
+ .../platform/nxp/imx8-isi/imx8-isi-crossbar.c      |  10 +-
+ .../media/platform/nxp/imx8-isi/imx8-isi-pipe.c    |  18 +--
+ .../media/platform/nxp/imx8-isi/imx8-isi-video.c   |   2 +-
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c      |  13 +-
+ drivers/media/platform/qcom/camss/camss-csid.c     |  15 +-
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |  15 +-
+ drivers/media/platform/qcom/camss/camss-ispif.c    |  15 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c      |  34 ++---
+ drivers/media/platform/renesas/rcar-isp.c          |   4 +-
+ .../media/platform/renesas/rcar-vin/rcar-csi2.c    |   4 +-
+ .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c  |   6 +-
+ .../media/platform/renesas/rzg2l-cru/rzg2l-ip.c    |   6 +-
+ drivers/media/platform/renesas/vsp1/vsp1_brx.c     |   2 +-
+ drivers/media/platform/renesas/vsp1/vsp1_entity.c  |   8 +-
+ drivers/media/platform/renesas/vsp1/vsp1_rwpf.c    |   3 +-
+ .../media/platform/rockchip/rkisp1/rkisp1-csi.c    |  16 +-
+ .../media/platform/rockchip/rkisp1/rkisp1-isp.c    | 103 ++++++-------
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c      |  53 +++----
+ .../platform/samsung/exynos4-is/fimc-capture.c     |  12 +-
+ .../media/platform/samsung/exynos4-is/fimc-isp.c   |  24 ++-
+ .../media/platform/samsung/exynos4-is/fimc-lite.c  |  16 +-
+ .../media/platform/samsung/exynos4-is/mipi-csis.c  |   3 +-
+ .../platform/samsung/s3c-camif/camif-capture.c     |   8 +-
+ .../media/platform/sunxi/sun4i-csi/sun4i_v4l2.c    |   8 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi_bridge.c    |   8 +-
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c        |   8 +-
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c    |   8 +-
+ drivers/media/platform/ti/cal/cal-camerarx.c       |  18 +--
+ drivers/media/platform/ti/cal/cal-video.c          |   2 +-
+ drivers/media/platform/ti/omap3isp/ispccdc.c       |  19 ++-
+ drivers/media/platform/ti/omap3isp/ispccp2.c       |  13 +-
+ drivers/media/platform/ti/omap3isp/ispcsi2.c       |   9 +-
+ drivers/media/platform/ti/omap3isp/isppreview.c    |  18 +--
+ drivers/media/platform/ti/omap3isp/ispresizer.c    |  21 ++-
+ drivers/media/platform/video-mux.c                 |  18 +--
+ drivers/media/platform/xilinx/xilinx-csi2rxss.c    |  64 +-------
+ drivers/media/platform/xilinx/xilinx-tpg.c         |   9 +-
+ drivers/media/platform/xilinx/xilinx-vip.c         |   4 +-
+ drivers/media/test-drivers/vimc/vimc-debayer.c     |  10 +-
+ drivers/media/test-drivers/vimc/vimc-scaler.c      |   9 +-
+ drivers/media/test-drivers/vimc/vimc-sensor.c      |   6 +-
+ drivers/media/v4l2-core/v4l2-subdev.c              |  73 +++++++---
+ drivers/staging/media/atomisp/i2c/atomisp-gc0310.c |   2 +-
+ drivers/staging/media/atomisp/i2c/atomisp-gc2235.c |   2 +-
+ .../staging/media/atomisp/i2c/atomisp-mt9m114.c    |   2 +-
+ drivers/staging/media/atomisp/i2c/atomisp-ov2722.c |   2 +-
+ drivers/staging/media/atomisp/pci/atomisp_csi2.c   |   3 +-
+ drivers/staging/media/atomisp/pci/atomisp_subdev.c |   6 +-
+ drivers/staging/media/atomisp/pci/atomisp_tpg.c    |   2 +-
+ .../media/deprecated/atmel/atmel-isc-base.c        |  10 +-
+ drivers/staging/media/imx/imx-ic-prp.c             |   4 +-
+ drivers/staging/media/imx/imx-ic-prpencvf.c        |   4 +-
+ drivers/staging/media/imx/imx-media-csi.c          |   8 +-
+ drivers/staging/media/imx/imx-media-utils.c        |   2 +-
+ drivers/staging/media/imx/imx-media-vdic.c         |   2 +-
+ drivers/staging/media/imx/imx6-mipi-csi2.c         |   2 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c             |  14 +-
+ drivers/staging/media/omap4iss/iss_csi2.c          |   9 +-
+ drivers/staging/media/omap4iss/iss_ipipe.c         |  11 +-
+ drivers/staging/media/omap4iss/iss_ipipeif.c       |  11 +-
+ drivers/staging/media/omap4iss/iss_resizer.c       |  11 +-
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c |   8 +-
+ drivers/staging/media/tegra-video/vi.c             |  14 +-
+ include/media/v4l2-subdev.h                        | 162 +++++++--------------
+ include/uapi/linux/v4l2-subdev.h                   |   2 +-
+ 163 files changed, 918 insertions(+), 1051 deletions(-)
+
+-- 
+Sakari Ailus
