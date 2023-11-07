@@ -2,55 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C90C37E3524
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 07:16:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 029BD7E359A
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 08:15:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233497AbjKGGQa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 01:16:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46284 "EHLO
+        id S233066AbjKGHP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 02:15:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232645AbjKGGQ3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 01:16:29 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EB1A183;
-        Mon,  6 Nov 2023 22:16:25 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5F54C433C7;
-        Tue,  7 Nov 2023 06:16:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-        s=korg; t=1699337785;
-        bh=1DUHo7iF0MscewlRLmsCnEFojb1hLmgMueDa31SA3HI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=L/NMHSLsuVo6pPDoLri5kcaBoy85g2/eKu5UTOkbwYpm3i/KD+gH+WauQ+9KVfFpQ
-         iFO3C7yR0oGwnu4yyPmPBiLNXv1UdiG0TrvMMJpwm9jKP5xzAFZqcS0EgCTAUrA/so
-         YRm2fx7FJ3Q4Rx1jIE27S5elCI4svAQUVk1dSYPs=
-Date:   Tue, 7 Nov 2023 07:16:19 +0100
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     Jack Zhu <jack.zhu@starfivetech.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>, bryan.odonoghue@linaro.org,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-staging@lists.linux.dev,
-        changhuang.liang@starfivetech.com
-Subject: Re: [PATCH v11 0/9] Add StarFive Camera Subsystem driver
-Message-ID: <2023110730-thousand-skyrocket-d6ba@gregkh>
-References: <20231025031422.3695-1-jack.zhu@starfivetech.com>
- <15ef0a70-734e-280a-f014-41914a55d8cf@starfivetech.com>
- <a3a2c179-2cbe-5a55-a21e-b45abfb6d494@starfivetech.com>
- <2023110745-tableful-trapezoid-4206@gregkh>
+        with ESMTP id S229551AbjKGHP0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 02:15:26 -0500
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB600DF
+        for <linux-media@vger.kernel.org>; Mon,  6 Nov 2023 23:15:22 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1699341323; x=1730877323;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=eyQeygwlZ1ByqlmDBU/FTZfrKC1s/dNLG4fNmcTM0G0=;
+  b=jIluDWvR2Ed4y2Zl6TScxBJ5j1q/Dzu7lCaK1WugUcggpKvmcIyEsOPA
+   bHp0Zq19yCuIRAmWSUCPFvZdJlFs0Z4kPUrNeMkj83dvyQopHJBF5V6d8
+   A9vWeScl/jF9A92dUm9gQe40Zd++sgSwvJRO6dqWX/3l52hiF4KvMaXmd
+   SrGxFzEtDuDEJYdZohb4otwAEEh+5nHg/shXcnF7BEyRfh/eELnRe+zxn
+   N71zSkrDdmJu1wVTCWevPcX1QCF1ZAfSyMqTSD8eQuvKSyxsvdugY6Fp1
+   FWep9GgoHIqv9bZJBnKuLLRl2c5WYS2UCNgxE9pOGFdJX1Kp/L1JwitXs
+   A==;
+X-IronPort-AV: E=Sophos;i="6.03,282,1694728800"; 
+   d="scan'208";a="33840803"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 07 Nov 2023 08:15:21 +0100
+Received: from steina-w.tq-net.de (steina-w.tq-net.de [10.123.53.18])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+        (No client certificate requested)
+        by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 2055628007F;
+        Tue,  7 Nov 2023 08:15:21 +0100 (CET)
+From:   Alexander Stein <alexander.stein@ew.tq-group.com>
+To:     Ming Qian <ming.qian@nxp.com>, Zhou Peng <eagle.zhou@nxp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Alexander Stein <alexander.stein@ew.tq-group.com>,
+        linux-media@vger.kernel.org
+Subject: [PATCH 1/1] media: amphion: Fix VPU core alias name
+Date:   Tue,  7 Nov 2023 08:15:21 +0100
+Message-Id: <20231107071521.953318-1-alexander.stein@ew.tq-group.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2023110745-tableful-trapezoid-4206@gregkh>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,
-        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
+Content-Transfer-Encoding: 8bit
+X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIM_SIGNED,
+        DKIM_VALID,DKIM_VALID_EF,SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE
         autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
@@ -58,44 +57,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 07, 2023 at 07:15:10AM +0100, Greg Kroah-Hartman wrote:
-> On Tue, Nov 07, 2023 at 11:27:27AM +0800, Jack Zhu wrote:
-> > 
-> > 
-> > On 2023/10/31 9:09, Jack Zhu wrote:
-> > > 
-> > > 
-> > > On 2023/10/25 11:14, Jack Zhu wrote:
-> > >> Hi,
-> > >> 
-> > >> This series is the v11 series that attempts to support the Camera Subsystem
-> > >> found on StarFive JH7110 SoC.
-> > > 
-> > > Hi Hans and Laurent,
-> > > 
-> > > Could you please help review the code?
-> > > Thank you for your time!
-> > > 
-> > 
-> > Hi,
-> > 
-> > Could you please take some time to help review the code? Thank you so much!
-> 
-> It is the middle of the merge window, no new code can be added to any
-> maintainers tree at this point in time, please relax there is no rush or
-> deadline at all here.
-> 
-> While you wait, why not help out and review other patch submissions from
-> other developers, which will help your changes get to the top of the
-> queue?  That way everyone's load is reduced and you are not just asking
-> for others to do work for you with nothing in return.
+Starting with commit f6038de293f28 ("arm64: dts: imx8qm: Fix VPU core
+alias name") the alias for VPU cores uses dashes instead of underscores.
+Adjust the alias stem accordingly. Fixes the errors:
+amphion-vpu-core 2d040000.vpu-core: can't get vpu core id
+amphion-vpu-core 2d050000.vpu-core: can't get vpu core id
 
-Also, while you wait, why not just finish off the last 3 items on the
-TODO list which would make your code not be required to go into the
-staging portion of the tree at all?  You've had a few weeks now, what is
-preventing that from happening, and when will that work actually be
-done?
+Fixes: f6038de293f28 ("arm64: dts: imx8qm: Fix VPU core alias name")
+Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+---
+This is technically not a fix, but needs to be applied together with together
+referenced commit in the fixes tag.
 
-thanks,
+ drivers/media/platform/amphion/vpu_core.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-greg k-h
+diff --git a/drivers/media/platform/amphion/vpu_core.c b/drivers/media/platform/amphion/vpu_core.c
+index 1af6fc9460d4d..3a2030d02e45e 100644
+--- a/drivers/media/platform/amphion/vpu_core.c
++++ b/drivers/media/platform/amphion/vpu_core.c
+@@ -642,7 +642,7 @@ static int vpu_core_probe(struct platform_device *pdev)
+ 		return -ENODEV;
+ 
+ 	core->type = core->res->type;
+-	core->id = of_alias_get_id(dev->of_node, "vpu_core");
++	core->id = of_alias_get_id(dev->of_node, "vpu-core");
+ 	if (core->id < 0) {
+ 		dev_err(dev, "can't get vpu core id\n");
+ 		return core->id;
+-- 
+2.34.1
+
