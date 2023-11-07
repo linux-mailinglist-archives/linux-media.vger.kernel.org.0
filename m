@@ -2,72 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 53CD77E4C6B
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 00:04:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53C1F7E4D97
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 00:55:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344132AbjKGXEL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 18:04:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45274 "EHLO
+        id S232902AbjKGXzt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 18:55:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50484 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235312AbjKGXEK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 18:04:10 -0500
-Received: from mail-ua1-x92b.google.com (mail-ua1-x92b.google.com [IPv6:2607:f8b0:4864:20::92b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFBA410E0
-        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 15:04:07 -0800 (PST)
-Received: by mail-ua1-x92b.google.com with SMTP id a1e0cc1a2514c-7b9dc92881eso2556998241.2
-        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 15:04:07 -0800 (PST)
+        with ESMTP id S229988AbjKGXzs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 18:55:48 -0500
+Received: from mail-vs1-xe32.google.com (mail-vs1-xe32.google.com [IPv6:2607:f8b0:4864:20::e32])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70D4410D2
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 15:55:46 -0800 (PST)
+Received: by mail-vs1-xe32.google.com with SMTP id ada2fe7eead31-45db0df090eso1597182137.3
+        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 15:55:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699398247; x=1700003047; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1699401345; x=1700006145; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LwSWVxQJlefO2RXGLXTB5EQnzK3f7Ti0RFRCIocUVAs=;
-        b=RTyao1M5gnN7cTlDG7d8LPAKzFJX0V4Trw6manexGrhKIxZDKzaDzD15ayTI7EefhD
-         8ySq2N4mYEadI5EXDaY97Y8kfbO1RYF1rXnTOWrGCboGiAHtiKIk9DMBgklfURF3ILpM
-         OXtHaii+Woesd5DF3er0h7i2sEe9SuKBuo0bQWBso8HD3QSK1IlXAMm5HtNyMszSPhHm
-         222h64CvspTt7hz5sPbehPaYkyPJEE8SNUaMAgCM6FwZRzqpiTz3Bm14ho/nleKoSGxh
-         LDhEV9QZMQBB1QNx+mmnQ+aO4PtmMFv4fXL5f4BfzrnfZBucrb6PbVg/nMhjhatNuzmq
-         EWeA==
+        bh=PNu6xIseaeQdGwpUSRstKqA7TEpi7Fwk8Tof0W7Ynro=;
+        b=w050P91670V31SiipDnCoZIMevD5IoGEKlyZ/HpxTt0BuhaeLMnpREfCWdCsQk4gdA
+         DC9buuUb29GyFREs4BahodE6tyf7272GU96HUZNis/9He1cvt3Wdj9TUJLotU8vMhMuu
+         wbQsm6hTFR9ryeWa9TZxItXmkl22WJNZ4ihqK8K4/wffkPI+F8bD3O1x2X3/ZHJYPXbn
+         ldiIEydyA80PjPY8DKz5uz44QFilagFQ4XqQDjs8kfQehOK6FabjnRGooj4kEj6K4b+C
+         PsxBBVRrZj6TfKbma6TT2W5PmhtksOz2/fn5C4n/MIcKY9sbyGCo73jxOE0W/AniiMqK
+         h33Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699398247; x=1700003047;
+        d=1e100.net; s=20230601; t=1699401345; x=1700006145;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LwSWVxQJlefO2RXGLXTB5EQnzK3f7Ti0RFRCIocUVAs=;
-        b=vvsFpZg9NPI11R1j52wfTRaLH/DUBRWnpwMrlmrGOuejqnzLwsVGUNQ0g84IqYeKDV
-         5UiSFBqDifhlgHzLH3Upzvj5E4neAPtSzKB8QqmZ8Np/OygzWzp0UgyvzzGh1BkTufxL
-         T0Vt8qf7ymXdVI4XCXEJ3AGFmpGO5GQOTlRm8Rym+PJ9RYMq0hePv/skT3N6k1uD8nSg
-         qf4whaFU+1qmapgGfEc4Hnr7FooHFl8C0Fur2H9dNi/Xvf7AsP3iOGye0zdwbkPRKceE
-         j9We8p5C0NoOrIgWi8MACB69dXS1htsYKwolnXNgrXxRGtzxw+z9k+NMMg3CtCOQ9IVd
-         LeNw==
-X-Gm-Message-State: AOJu0Yxa8Q3wZQgBKu3fJxrXbicrypy33Jp3L6VoyB11XE6K+Xv0EimV
-        C8B9AmXYF8098Jw0OxvexleeeqpqOM06SsN0vdQX8Q==
-X-Google-Smtp-Source: AGHT+IGkIzXyZBaE32+WMwF+duu/QcIsXXrFXzLPRCigy40o3oogjiTft3g4ezREIoF7S18+m0g5FcLRymLotkSR3mA=
-X-Received: by 2002:a67:e09b:0:b0:45f:8b65:28f0 with SMTP id
- f27-20020a67e09b000000b0045f8b6528f0mr105754vsl.12.1699398246594; Tue, 07 Nov
- 2023 15:04:06 -0800 (PST)
+        bh=PNu6xIseaeQdGwpUSRstKqA7TEpi7Fwk8Tof0W7Ynro=;
+        b=l9E4GstWvBp4qZz0Rf0d7S44Jb0DAIWmVt7pAmCyjJF+iN0JwRiMKl52btih9C5zct
+         MremDphVnmybEPbtbCXQQjA5ShDWgr/8kwmC2BIbXkkb3X0LG0n/QNJf0s1E/jf9K8yW
+         scFn/vBA8wzGzIlDb3G8Ny9m1U8eJWz/tyxgCf3EXTSmBhFEBk2nZ+4aSxsy4quBkXUu
+         XG0hEJ7OhSWb1y/f1izxEn+UC/VwOCWQL1+HdZyXYqga3aXJ8wkxw4SRDafPT6U9F3fe
+         fr1OMJZRaM40EetIIZzeZkNSH5yrCq3AtdOqPAYXbIYJXYNYOZWZm8sz3BpR9NQevfqS
+         CklA==
+X-Gm-Message-State: AOJu0Ywqa0eUmSEXw+CzpHlR4kDeBimAtOFgNFoT2YWghOyo1afAUh+e
+        2IE+fsY3UfZSeUoHyz8tPaRnnLf0vUWWh9mCm01nvQ==
+X-Google-Smtp-Source: AGHT+IGAhMHfijiOgGFQJswkLry8kjZeu/iVYNuDlNtd8WO059Ha5h/GvIFdFrsJHAgrw88t80FpdwX0AhNrgdX2dVY=
+X-Received: by 2002:a67:e782:0:b0:45d:9083:f876 with SMTP id
+ hx2-20020a67e782000000b0045d9083f876mr265655vsb.6.1699401345241; Tue, 07 Nov
+ 2023 15:55:45 -0800 (PST)
 MIME-Version: 1.0
 References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-6-almasrymina@google.com> <3b0d612c-e33b-48aa-a861-fbb042572fc9@kernel.org>
- <CAHS8izOHYx+oYnzksUDrK1S0+6CdMJmirApntP5W862yFumezw@mail.gmail.com> <a5b95e6b-8716-4e2e-9183-959b754b5b5e@kernel.org>
-In-Reply-To: <a5b95e6b-8716-4e2e-9183-959b754b5b5e@kernel.org>
+ <20231106024413.2801438-11-almasrymina@google.com> <ZUk0FGuJ28s1d9OX@google.com>
+ <CAHS8izNFv7r6vqYR_TYqcCuDO61F+nnNMhsSu=DrYWSr3sVgrA@mail.gmail.com>
+ <CAF=yD-+MFpO5Hdqn+Q9X54SBpgcBeJvKTRD53X2oM4s8uVqnAQ@mail.gmail.com>
+ <ZUlp8XutSAScKs_0@google.com> <CAF=yD-JZ88j+44MYgX-=oYJngz4Z0zw6Y0V3nHXisZJtNu7q6A@mail.gmail.com>
+ <CAKH8qBueYgpxQTvTwngOs6RNjy9yvLF92s1p5nFrobw_UprNMQ@mail.gmail.com>
+ <93eb6a2b-a991-40ca-8f26-f520c986729a@kernel.org> <CAF=yD-Ln4v8orUne8E7D2_eHu39PWPCrMR3Qtuh312pCu=erng@mail.gmail.com>
+In-Reply-To: <CAF=yD-Ln4v8orUne8E7D2_eHu39PWPCrMR3Qtuh312pCu=erng@mail.gmail.com>
 From:   Mina Almasry <almasrymina@google.com>
-Date:   Tue, 7 Nov 2023 15:03:53 -0800
-Message-ID: <CAHS8izMKDOw5_y2MLRfuJHs=ai+sZ6GF7Rg1NuR_JqONg-5u5Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 05/12] netdev: netdevice devmem allocator
-To:     David Ahern <dsahern@kernel.org>, David Wei <dw@davidwei.uk>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+Date:   Tue, 7 Nov 2023 15:55:31 -0800
+Message-ID: <CAHS8izOU06ceKyc5oVZhdCKJqmeRdcRyJBFpjGe=u2yh=V52dQ@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
+To:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>
+Cc:     David Ahern <dsahern@kernel.org>,
+        Stanislav Fomichev <sdf@google.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
         "David S. Miller" <davem@davemloft.net>,
         Eric Dumazet <edumazet@google.com>,
         Jakub Kicinski <kuba@kernel.org>,
         Paolo Abeni <pabeni@redhat.com>,
         Jesper Dangaard Brouer <hawk@kernel.org>,
         Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
         Shakeel Butt <shakeelb@google.com>,
@@ -81,87 +85,55 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 7, 2023 at 2:55=E2=80=AFPM David Ahern <dsahern@kernel.org> wro=
-te:
+On Mon, Nov 6, 2023 at 4:03=E2=80=AFPM Willem de Bruijn
+<willemdebruijn.kernel@gmail.com> wrote:
 >
-> On 11/7/23 3:10 PM, Mina Almasry wrote:
-> > On Mon, Nov 6, 2023 at 3:44=E2=80=AFPM David Ahern <dsahern@kernel.org>=
- wrote:
-> >>
-> >> On 11/5/23 7:44 PM, Mina Almasry wrote:
-> >>> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> >>> index eeeda849115c..1c351c138a5b 100644
-> >>> --- a/include/linux/netdevice.h
-> >>> +++ b/include/linux/netdevice.h
-> >>> @@ -843,6 +843,9 @@ struct netdev_dmabuf_binding {
-> >>>  };
-> >>>
-> >>>  #ifdef CONFIG_DMA_SHARED_BUFFER
-> >>> +struct page_pool_iov *
-> >>> +netdev_alloc_devmem(struct netdev_dmabuf_binding *binding);
-> >>> +void netdev_free_devmem(struct page_pool_iov *ppiov);
-> >>
-> >> netdev_{alloc,free}_dmabuf?
-> >>
+> On Mon, Nov 6, 2023 at 3:55=E2=80=AFPM David Ahern <dsahern@kernel.org> w=
+rote:
 > >
-> > Can do.
-> >
-> >> I say that because a dmabuf can be host memory, at least I am not awar=
-e
-> >> of a restriction that a dmabuf is device memory.
-> >>
-> >
-> > In my limited experience dma-buf is generally device memory, and
-> > that's really its use case. CONFIG_UDMABUF is a driver that mocks
-> > dma-buf with a memfd which I think is used for testing. But I can do
-> > the rename, it's more clear anyway, I think.
->
-> config UDMABUF
->         bool "userspace dmabuf misc driver"
->         default n
->         depends on DMA_SHARED_BUFFER
->         depends on MEMFD_CREATE || COMPILE_TEST
->         help
->           A driver to let userspace turn memfd regions into dma-bufs.
->           Qemu can use this to create host dmabufs for guest framebuffers=
+> > On 11/6/23 4:32 PM, Stanislav Fomichev wrote:
+> > >> The concise notification API returns tokens as a range for
+> > >> compression, encoding as two 32-bit unsigned integers start + length=
 .
+> > >> It allows for even further batching by returning multiple such range=
+s
+> > >> in a single call.
+> > >
+> > > Tangential: should tokens be u64? Otherwise we can't have more than
+> > > 4gb unacknowledged. Or that's a reasonable constraint?
+> > >
+> >
+> > Was thinking the same and with bits reserved for a dmabuf id to allow
+> > multiple dmabufs in a single rx queue (future extension, but build the
+> > capability in now). e.g., something like a 37b offset (128GB dmabuf
+> > size), 19b length (large GRO), 8b dmabuf id (lots of dmabufs to a queue=
+).
 >
->
-> Qemu is just a userspace process; it is no way a special one.
->
-> Treating host memory as a dmabuf should radically simplify the io_uring
-> extension of this set.
+> Agreed. Converting to 64b now sounds like a good forward looking revision=
+.
 
-I agree actually, and I was about to make that comment to David Wei's
-series once I have the time.
+The concept of IDing a dma-buf came up in a couple of different
+contexts. First, in the context of us giving the dma-buf ID to the
+user on recvmsg() to tell the user the data is in this specific
+dma-buf. The second context is here, to bind dma-bufs with multiple
+user-visible IDs to an rx queue.
 
-David, your io_uring RX zerocopy proposal actually works with devmem
-TCP, if you're inclined to do that instead, what you'd do roughly is
-(I think):
+My issue here is that I don't see anything in the struct dma_buf that
+can practically serve as an ID:
 
-- Allocate a memfd,
-- Use CONFIG_UDMABUF to create a dma-buf out of that memfd.
-- Bind the dma-buf to the NIC using the netlink API in this RFC.
-- Your io_uring extensions and io_uring uapi should work as-is almost
-on top of this series, I think.
+https://elixir.bootlin.com/linux/v6.6-rc7/source/include/linux/dma-buf.h#L3=
+02
 
-If you do this the incoming packets should land into your memfd, which
-may or may not work for you. In the future if you feel inclined to use
-device memory, this approach that I'm describing here would be more
-extensible to device memory, because you'd already be using dma-bufs
-for your user memory; you'd just replace one kind of dma-buf (UDMABUF)
-with another.
+Actually, from the userspace, only the name of the dma-buf seems
+queryable. That's only unique if the user sets it as such. The dmabuf
+FD can't serve as an ID. For our use case we need to support 1 process
+doing the dma-buf bind via netlink, sharing the dma-buf FD to another
+process, and that process receives the data.  In this case the FDs
+shown by the 2 processes may be different. Converting to 64b is a
+trivial change I can make now, but I'm not sure how to ID these
+dma-bufs. Suggestions welcome. I'm not sure the dma-buf guys will
+allow adding a new ID + APIs to query said dma-buf ID.
 
-> That the io_uring set needs to dive into
-> page_pools is just wrong - complicating the design and code and pushing
-> io_uring into a realm it does not need to be involved in.
->
-> Most (all?) of this patch set can work with any memory; only device
-> memory is unreadable.
->
->
-
-
---=20
+--
 Thanks,
 Mina
