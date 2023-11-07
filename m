@@ -2,104 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E53687E362C
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 09:01:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DF077E3641
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 09:05:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233660AbjKGIBs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 03:01:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53556 "EHLO
+        id S231716AbjKGIFU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 03:05:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55600 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233590AbjKGIBs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 03:01:48 -0500
-Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 256F2E8;
-        Tue,  7 Nov 2023 00:01:45 -0800 (PST)
-Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.56])
-        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4SPgf74yFYzvQS6;
-        Tue,  7 Nov 2023 16:01:35 +0800 (CST)
-Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
- (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Tue, 7 Nov
- 2023 16:00:33 +0800
-Subject: Re: [RFC PATCH v3 07/12] page-pool: device memory support
-To:     Mina Almasry <almasrymina@google.com>, <netdev@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arch@vger.kernel.org>,
-        <linux-kselftest@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>
-CC:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Ahern <dsahern@kernel.org>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jeroen de Borst <jeroendb@google.com>,
-        Praveen Kaligineedi <pkaligineedi@google.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-8-almasrymina@google.com>
-From:   Yunsheng Lin <linyunsheng@huawei.com>
-Message-ID: <4a0e9d53-324d-e19b-2a30-ba86f9e5569e@huawei.com>
-Date:   Tue, 7 Nov 2023 16:00:32 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+        with ESMTP id S233677AbjKGIFS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 03:05:18 -0500
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB12DEA;
+        Tue,  7 Nov 2023 00:05:14 -0800 (PST)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id D3C5F8155;
+        Tue,  7 Nov 2023 16:05:12 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Nov
+ 2023 16:05:12 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Nov
+ 2023 16:05:12 +0800
+Message-ID: <a2dbb182-2573-4c86-7e18-319d26a6593c@starfivetech.com>
+Date:   Tue, 7 Nov 2023 16:05:11 +0800
 MIME-Version: 1.0
-In-Reply-To: <20231106024413.2801438-8-almasrymina@google.com>
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v11 0/9] Add StarFive Camera Subsystem driver
 Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        <bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+        <changhuang.liang@starfivetech.com>
+References: <20231025031422.3695-1-jack.zhu@starfivetech.com>
+ <15ef0a70-734e-280a-f014-41914a55d8cf@starfivetech.com>
+ <a3a2c179-2cbe-5a55-a21e-b45abfb6d494@starfivetech.com>
+ <2023110745-tableful-trapezoid-4206@gregkh>
+ <2023110730-thousand-skyrocket-d6ba@gregkh>
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <2023110730-thousand-skyrocket-d6ba@gregkh>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.69.30.204]
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- dggpemm500005.china.huawei.com (7.185.36.74)
-X-CFilter-Loop: Reflected
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
 X-Spam-Status: No, score=-5.0 required=5.0 tests=BAYES_00,NICE_REPLY_A,
-        RCVD_IN_DNSWL_BLOCKED,RCVD_IN_MSPIKE_H5,RCVD_IN_MSPIKE_WL,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023/11/6 10:44, Mina Almasry wrote:
-> Overload the LSB of struct page* to indicate that it's a page_pool_iov.
-> 
-> Refactor mm calls on struct page* into helpers, and add page_pool_iov
-> handling on those helpers. Modify callers of these mm APIs with calls to
-> these helpers instead.
-> 
-> In areas where struct page* is dereferenced, add a check for special
-> handling of page_pool_iov.
-> 
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-> ---
->  include/net/page_pool/helpers.h | 74 ++++++++++++++++++++++++++++++++-
->  net/core/page_pool.c            | 63 ++++++++++++++++++++--------
->  2 files changed, 118 insertions(+), 19 deletions(-)
-> 
-> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
-> index b93243c2a640..08f1a2cc70d2 100644
-> --- a/include/net/page_pool/helpers.h
-> +++ b/include/net/page_pool/helpers.h
-> @@ -151,6 +151,64 @@ static inline struct page_pool_iov *page_to_page_pool_iov(struct page *page)
->  	return NULL;
->  }
->  
-> +static inline int page_pool_page_ref_count(struct page *page)
-> +{
-> +	if (page_is_page_pool_iov(page))
-> +		return page_pool_iov_refcount(page_to_page_pool_iov(page));
 
-We have added a lot of 'if' for the devmem case, it would be better to
-make it more generic so that we can have more unified metadata handling
-for normal page and devmem. If we add another memory type here, do we
-need another 'if' here?
-That is part of the reason I suggested using a more unified metadata for
-all the types of memory chunks used by page_pool.
+
+On 2023/11/7 14:16, Greg Kroah-Hartman wrote:
+> On Tue, Nov 07, 2023 at 07:15:10AM +0100, Greg Kroah-Hartman wrote:
+>> On Tue, Nov 07, 2023 at 11:27:27AM +0800, Jack Zhu wrote:
+>> > 
+>> > 
+>> > On 2023/10/31 9:09, Jack Zhu wrote:
+>> > > 
+>> > > 
+>> > > On 2023/10/25 11:14, Jack Zhu wrote:
+>> > >> Hi,
+>> > >> 
+>> > >> This series is the v11 series that attempts to support the Camera Subsystem
+>> > >> found on StarFive JH7110 SoC.
+>> > > 
+>> > > Hi Hans and Laurent,
+>> > > 
+>> > > Could you please help review the code?
+>> > > Thank you for your time!
+>> > > 
+>> > 
+>> > Hi,
+>> > 
+>> > Could you please take some time to help review the code? Thank you so much!
+>> 
+>> It is the middle of the merge window, no new code can be added to any
+>> maintainers tree at this point in time, please relax there is no rush or
+>> deadline at all here.
+>> 
+>> While you wait, why not help out and review other patch submissions from
+>> other developers, which will help your changes get to the top of the
+>> queue?  That way everyone's load is reduced and you are not just asking
+>> for others to do work for you with nothing in return.
+> 
+
+Hi Greg,
+
+Thank you very much for your reply!
+
+I'm so sorry for sending emails too frequently in the past two weeks.
+I am willing to do something for the community. If you pay attention to my
+previous submission records, you will find that I have assisted other
+developers in modifying v4l2-compliance bugs. But I think currently I may
+not have enough ability to comprehensively review others' submissions.
+But I hope I can do something similar through learning later.
+Sincere thanks to everyone who commented.
+
+> Also, while you wait, why not just finish off the last 3 items on the
+> TODO list which would make your code not be required to go into the
+> staging portion of the tree at all?  You've had a few weeks now, what is
+> preventing that from happening, and when will that work actually be
+> done?
+> 
+
+One of my colleagues is doing related development, but he also has other
+projects at the same time, so he cannot devote all his efforts to this
+development. And we expect to use libcamera, which may take some time.
+
+-- 
+Regards,
+
+Jack Zhu
