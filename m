@@ -2,159 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C9637E4B1A
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 22:49:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3C167E4B32
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 22:57:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344073AbjKGVtI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 16:49:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60160 "EHLO
+        id S231844AbjKGV5I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 16:57:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50812 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235204AbjKGVtH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 16:49:07 -0500
-Received: from mail-lf1-x133.google.com (mail-lf1-x133.google.com [IPv6:2a00:1450:4864:20::133])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BA4510DD
-        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 13:49:05 -0800 (PST)
-Received: by mail-lf1-x133.google.com with SMTP id 2adb3069b0e04-507ad511315so8951862e87.0
-        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 13:49:05 -0800 (PST)
+        with ESMTP id S229650AbjKGV5H (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 16:57:07 -0500
+Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DE9210D0
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 13:57:05 -0800 (PST)
+Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-5be6d6c04bfso606777b3.3
+        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 13:57:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699393743; x=1699998543; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=pa2zOyttqh4Cplc0zA1ry0ffJuSQYlFA+LZe6ZD7ldM=;
-        b=Hufx2xDPb9KDPontC2VtafLgnOhnW4B/HzXkuFuavnMsL3FZTuKGxYLKEMm05Dk6ni
-         WZcI3D6ygnwp4MJToxdrpH1H8Rt8crBdxi92vD91UlLpHB2mcme5uWlpLzqgG7YFkXWG
-         kmBhoJNL1o1t+c40sefrceaxROJAKba1fUnzkrThrZKH+gr8H6W7J57uSe0NXFbATXvT
-         80jVqTMiBKTAeoc/y5lX40AdR12oeAYuT6tP7MRB3cq8wdryUl6quCE/ptHhyolp5zAk
-         Zl8+1yDZ4hYroKQr46easG9hPIuDMxZbHkOetk8XE3W7dj8C69bklbluOfvpUvVfQ7N6
-         Stsw==
+        d=google.com; s=20230601; t=1699394224; x=1699999024; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=za6M8Y2d+jQ3Qt9gKNkmeDGWA71k/TCax11+8YIBTGE=;
+        b=CUOVXhdcdM/DQfztHuawAMT/L1AEUiCtEV2qbEKvyBblelqOQ7FpmGm4sHhCGxAeoe
+         oP6P8k57YbO7+F6hhZ9vXMM1mS9jEDh2/SYP5nAb97NkFWkbTi0GFdUJ6BS1oILnmWwz
+         EExeVBxBu+WYAg8g4urdIcThxuVtP8FW3wM2u/KF9qnt3ZF2cVhWAo0dKZQbc7OT1Jm+
+         LWMiyXp1A56lWxWQR6gk9WhQ+nb3FNLTJE6AkD2heKaNp4fKArs0VzfO+rsRA6umIfHM
+         6si0lUZgbIAm/xkJsDPmfyna+uGmHUF6GYOmFTZSHHd49uT2FjkNkK+GvtqSz2pLZakA
+         8r/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699393743; x=1699998543;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=pa2zOyttqh4Cplc0zA1ry0ffJuSQYlFA+LZe6ZD7ldM=;
-        b=HfxyQ5a1xm9sQZ1+AcdENyoLKtDX7jY6V8GvXC+mCDEp36OZ+Sr05HpE+vuKNwTxWj
-         6FosJypeFljqcS1UTNpvWzm/9YKnYGmgpxGxOCWnB199BZXBdCjSX28Fb9SD4UiQFRgz
-         FoDHmOppPIv+vT/xZzBQDSxj+AvrgjarMer616OeHdtWtI0J1ynVnfY9CNpCjCLW1Z8E
-         AssBgEZUSHBm3VEhFn7O+aivtdSdCsa84dEPy9Ep8vPgMxtRXWQrdUzjSy/vdeSnWn1M
-         V9fPM5JbKlsv1kjO0ksSX0Eln3KEqQR/T8Bd1N9GmGED7Svq4B79js/EnnowWRl33/tC
-         mLFg==
-X-Gm-Message-State: AOJu0YxYZiIBkwLqwyqarF9xv4aIzWvFarLmIQ7AOqNbpoWOa25jiDjv
-        uZDO8IrqXZR2kwvj3ZPoUp8TkQ==
-X-Google-Smtp-Source: AGHT+IFh5oBvg3I2V8XiC2QUVEVBT2NMtmPppf2TWbUUy3IzPlecfjStcf1cU5vniuztKcOHfTrCHw==
-X-Received: by 2002:a05:6512:3d0b:b0:500:8f66:5941 with SMTP id d11-20020a0565123d0b00b005008f665941mr32260653lfv.50.1699393743368;
-        Tue, 07 Nov 2023 13:49:03 -0800 (PST)
-Received: from [172.30.205.109] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id i27-20020a0565123e1b00b00507d219596dsm465396lfv.268.2023.11.07.13.49.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Nov 2023 13:49:03 -0800 (PST)
-Message-ID: <871e668a-1732-4ed6-9d12-818504296464@linaro.org>
-Date:   Tue, 7 Nov 2023 22:48:59 +0100
+        d=1e100.net; s=20230601; t=1699394224; x=1699999024;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=za6M8Y2d+jQ3Qt9gKNkmeDGWA71k/TCax11+8YIBTGE=;
+        b=dBaatz745R7UnK4K2am64hFdlmgURA+ltcofIAD63y3qV79+PE3eJzWXjvTGfaeF58
+         Sm7qrzTkD5cG+7hW7sndQKZDDsioNnjlxvN5BPd5yKLzvnuvqN2yBa8jeClZCykSasJf
+         6972w2AWvdS3Td12QXjAbCesbqaUJi1h6hjOAq4LtoB2y/riMu/2KyYuMPivJOhsWnPM
+         UqrUUjlyj90d7ene3X353Jo/WRJ6qaSbQSDsY8jQt+zHD4v2NrI5M1taLuKSFybquRHc
+         uo7QuNWm76YvAVZITlSTl92GNPzJzSm8KktsSNi3a7Gn2BA58n9kKOGz58Mf1Rbtcoay
+         zN4Q==
+X-Gm-Message-State: AOJu0Yw7qzUaV2UCue64EJxVb0sWC8U74HJiukxjunDLPrq24nfpXWry
+        MSC7N35nfwPTKuqiSiJ0Kkp33LTnEFcuEgRTfhB5Cw==
+X-Google-Smtp-Source: AGHT+IF/bsw99ICNUinQH8HJWUTE/TqZCFPYGxxxKhtjJLazoPWjgkibzNnUub2UFOZbJnwmVInaoZNQXuN3J7zXnD4=
+X-Received: by 2002:a05:690c:15:b0:5b3:3eb5:6624 with SMTP id
+ bc21-20020a05690c001500b005b33eb56624mr13539795ywb.46.1699394224143; Tue, 07
+ Nov 2023 13:57:04 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] media: qcom: camss: Add sc8280xp resource details
-Content-Language: en-US
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
-        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231105-b4-camss-sc8280xp-v3-0-4b3c372ff0f4@linaro.org>
- <20231105-b4-camss-sc8280xp-v3-4-4b3c372ff0f4@linaro.org>
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <20231105-b4-camss-sc8280xp-v3-4-4b3c372ff0f4@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-8-almasrymina@google.com> <4a0e9d53-324d-e19b-2a30-ba86f9e5569e@huawei.com>
+In-Reply-To: <4a0e9d53-324d-e19b-2a30-ba86f9e5569e@huawei.com>
+From:   Mina Almasry <almasrymina@google.com>
+Date:   Tue, 7 Nov 2023 13:56:51 -0800
+Message-ID: <CAHS8izNbw7vAGo2euQGA+TF9CgQ8zwrDqTVGsOSxh22_uo0R1w@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 07/12] page-pool: device memory support
+To:     Yunsheng Lin <linyunsheng@huawei.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Ahern <dsahern@kernel.org>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jeroen de Borst <jeroendb@google.com>,
+        Praveen Kaligineedi <pkaligineedi@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Tue, Nov 7, 2023 at 12:00=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.co=
+m> wrote:
+>
+> On 2023/11/6 10:44, Mina Almasry wrote:
+> > Overload the LSB of struct page* to indicate that it's a page_pool_iov.
+> >
+> > Refactor mm calls on struct page* into helpers, and add page_pool_iov
+> > handling on those helpers. Modify callers of these mm APIs with calls t=
+o
+> > these helpers instead.
+> >
+> > In areas where struct page* is dereferenced, add a check for special
+> > handling of page_pool_iov.
+> >
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >
+> > ---
+> >  include/net/page_pool/helpers.h | 74 ++++++++++++++++++++++++++++++++-
+> >  net/core/page_pool.c            | 63 ++++++++++++++++++++--------
+> >  2 files changed, 118 insertions(+), 19 deletions(-)
+> >
+> > diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/he=
+lpers.h
+> > index b93243c2a640..08f1a2cc70d2 100644
+> > --- a/include/net/page_pool/helpers.h
+> > +++ b/include/net/page_pool/helpers.h
+> > @@ -151,6 +151,64 @@ static inline struct page_pool_iov *page_to_page_p=
+ool_iov(struct page *page)
+> >       return NULL;
+> >  }
+> >
+> > +static inline int page_pool_page_ref_count(struct page *page)
+> > +{
+> > +     if (page_is_page_pool_iov(page))
+> > +             return page_pool_iov_refcount(page_to_page_pool_iov(page)=
+);
+>
+> We have added a lot of 'if' for the devmem case, it would be better to
+> make it more generic so that we can have more unified metadata handling
+> for normal page and devmem. If we add another memory type here, do we
+> need another 'if' here?
 
+Maybe, not sure. I'm guessing new memory types will either be pages or
+iovs, so maybe no new if statements needed.
 
-On 11/5/23 18:45, Bryan O'Donoghue wrote:
-> This commit describes the hardware layout for the sc8280xp for the
-> following hardware blocks:
-> 
-> - 4 x VFE, 4 RDI per VFE
-> - 4 x VFE Lite, 4 RDI per VFE
-> - 4 x CSID
-> - 4 x CSID Lite
-> - 4 x CSI PHY
-> 
-> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> ---
->   drivers/media/platform/qcom/camss/camss.c | 383 ++++++++++++++++++++++++++++++
->   1 file changed, 383 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 8778fdc1ee342..51619842f3925 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -941,6 +941,374 @@ static const struct resources_icc icc_res_sm8250[] = {
->   	},
->   };
->   
-> +static const struct camss_subdev_resources csiphy_res_sc8280xp[] = {
-> +	/* CSIPHY0 */
-> +	{
-> +		.regulators = {},
-> +		.clock = { "csiphy0", "csiphy0_timer" },
-> +		.clock_rate = { { 400000000 },
-> +				{ 300000000 } },
-> +		.reg = { "csiphy0" },
-> +		.interrupt = { "csiphy0" },
-> +		.ops = &csiphy_ops_3ph_1_0
-> +	},
-> +	/* CSIPHY1 */
-> +	{
-> +		.regulators = {},
-> +		.clock = { "csiphy1", "csiphy1_timer" },
-> +		.clock_rate = { { 400000000 },
-> +				{ 300000000 } },
-> +		.reg = { "csiphy1" },
-> +		.interrupt = { "csiphy1" },
-> +		.ops = &csiphy_ops_3ph_1_0
-> +	},
-> +	/* CSIPHY2 */
-> +	{
-> +		.regulators = {},
-> +		.clock = { "csiphy2", "csiphy2_timer" },
-> +		.clock_rate = { { 400000000 },
-> +				{ 300000000 } },
-> +		.reg = { "csiphy2" },
-> +		.interrupt = { "csiphy2" },
-> +		.ops = &csiphy_ops_3ph_1_0
-> +	},
-> +	/* CSIPHY3 */
-> +	{
-> +		.regulators = {},
-> +		.clock = { "csiphy3", "csiphy3_timer" },
-> +		.clock_rate = { { 400000000 },
-> +				{ 300000000 } },
-> +		.reg = { "csiphy3" },
-> +		.interrupt = { "csiphy3" },
-> +		.ops = &csiphy_ops_3ph_1_0
-> +	},
-> +};
-> +
-> +static const struct camss_subdev_resources csid_res_sc8280xp[] = {
-> +	/* CSID0 */
-> +	{
-> +		.regulators = { "vdda-phy", "vdda-pll" },
-> +		.clock = { "vfe0_csid_src", "vfe0_csid", "cphy_rx_src",
-> +			   "vfe0_cphy_rx", "vfe0_src", "vfe0", "vfe0_axi" },
-This looks like downstream hack copypasta.. All the _src clocks
-should be axed from here, from the camss bindings and simply be
-enabled with CLK_OPS_PARENT_ENABLE on their children (which should
-be the default for all branch clocks anyway eh)
+> That is part of the reason I suggested using a more unified metadata for
+> all the types of memory chunks used by page_pool.
 
-Konrad
+I think your suggestion was to use struct pages for devmem. That was
+thoroughly considered and intensely argued about in the initial
+conversations regarding devmem and the initial RFC, and from the
+conclusions there it's extremely clear to me that devmem struct pages
+are categorically a no-go.
+
+--
+Thanks,
+Mina
