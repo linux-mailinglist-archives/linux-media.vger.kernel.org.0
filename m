@@ -2,66 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E9EE27E4928
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 20:27:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9CC2A7E4942
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 20:36:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235181AbjKGT1M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 14:27:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36672 "EHLO
+        id S229959AbjKGTgc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 14:36:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34622 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232970AbjKGT1L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 14:27:11 -0500
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A4E9C2
-        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 11:27:09 -0800 (PST)
-Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-7788db95652so419484485a.2
-        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 11:27:09 -0800 (PST)
+        with ESMTP id S229948AbjKGTgb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 14:36:31 -0500
+Received: from mail-qt1-x830.google.com (mail-qt1-x830.google.com [IPv6:2607:f8b0:4864:20::830])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E686910C3
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 11:36:28 -0800 (PST)
+Received: by mail-qt1-x830.google.com with SMTP id d75a77b69052e-42033328ad0so11745731cf.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 11:36:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1699385228; x=1699990028; darn=vger.kernel.org;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1699385788; x=1699990588; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=9BoaVEt8MK15EAbZSv/SQoJod+vhxmiq7rbowdr4Hko=;
-        b=Z/BFZKaf7KW9tYwBI0UzXkwwWVwfgdsh1TuUF16L0pDtY+VV6OC9QQne4kMlNo5+61
-         hkhmw3H895dAqb3wv1sS0Fcd5jgJ6BCpGFPQse2pqBYgKuMDby9WCD29XwW2Xe3it76H
-         mSKFphXoyrXYdZQ9vn+Doz1SqIuVLFSP3L0O3/2mfNBxzN9PKC+xhpBp2+QBkhY8OnSh
-         UCpePPnOQ+n8GWLyqUb6gjqYz1lAlh/y37LBfnxiPEgdFLiIfArvWv4wnBnYpSRJmWjT
-         qmPXl71404VepwzL5TIvM23QG3YjpHIFJUT8b+op1xLuHrWX41FSMWJHCm75iT/vfFdZ
-         P0Lg==
+        bh=UiZVNlp4v745T4J+W90r925ahjZE2TeDwN6p0vfr49s=;
+        b=oS95YOO+ySjIMFEqhnJ23hjGF9D5l11TYqsfuwDLa6o5cS47EGFa/ebaqQkNZTGqHF
+         jqtvITldq+mH+zciSOVMKcOML9nNplnZi2e+b+e/HfbvfSTfuVRUAP4fKDqOSiilclSt
+         Wn8tEDWlC/JctTjkNDdMrC5btYptWXiwG+R/7S2Pim+Sf9GYi/4unbMvyZOFSsRX+3TR
+         ZPh6kjP2CLJxCbdPTgf3jTNO70zcbXxlMFo9s6Al6GG06rdyOrAK/5S9CllTyDGom2Zw
+         5uH+bmRliW1JSkqGqEQQ28OVPC60xiJomDJ6Zw1cqKjryn86GEjC61Got4M7hVRmv/Br
+         ATfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699385228; x=1699990028;
+        d=1e100.net; s=20230601; t=1699385788; x=1699990588;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=9BoaVEt8MK15EAbZSv/SQoJod+vhxmiq7rbowdr4Hko=;
-        b=FNa7iUl06ZezaFFD9vtv5o9mcBmu8XqJV8SR6IpT0rgrilIqjjZx7lYucKzjogK7mv
-         yldN5/tczcsqfDSG0LhXPK/A8jH5Zy6vjMoNSTxuXrGMinlAdR4tQ5+Hq2IqorVoh9s/
-         6YXpLBpMZ3mMHgmVYZU8ENmCq0ogp+WEfgrbA2z5+ZoGRjpfBkeZGCCsx2Qc/VpDHqKZ
-         EeDwkkzEN8/W1uzKpO4HDt9bEShUYEP1/H6yvKBsIEMMU81+qi3vFHakpDoNsjOEGnPQ
-         LE9njQYe1rSv+35HNlNcnVSkGrfE9oas4fiwa9RlVQW8Df5prm+FDpVpKL5nOlTnNt2Q
-         hNfw==
-X-Gm-Message-State: AOJu0YzEPyHOUeyqurcQGcZ2PMSRDx9p3x/UJZJ6TZciqGWZ7nnbauKo
-        ay1oEjBOpE50FXeDhfnwy/2rhg==
-X-Google-Smtp-Source: AGHT+IGkY0qLxCFusFnX3wR8M1gemcaINJ8koRsxKDg0lzK3igAJ54+1Sfh4Ff/1DygW6tlyXLJirg==
-X-Received: by 2002:a05:620a:4551:b0:777:5044:8c2e with SMTP id u17-20020a05620a455100b0077750448c2emr39455301qkp.9.1699385228285;
-        Tue, 07 Nov 2023 11:27:08 -0800 (PST)
+        bh=UiZVNlp4v745T4J+W90r925ahjZE2TeDwN6p0vfr49s=;
+        b=X/GluxO7CkAz/cPHSWYbGc0Q0SFItl6ev0CTR1Ghz/jBgYEqr1vU7AGshI25sCf8OA
+         Qn4H8pyxpmbTjWdU/vX8gSBo0x2VV5H2nBc1Oog63teaOJ369C5fInVl4T9FfcJLhixJ
+         He0//Ap9v4CVFOErJ18Vxmgw5nc+EY58Lu04Y+fQaIkcWtEqjIl36lJZQBQ8xSLrHhgK
+         5TF0aDwRRnMPD5jSQYxpiBbleN5k0w235C8Ea3YH44QXqa2JbCd0C/Mu69D+wD6kuZ3b
+         sTIUDEHrDcYWDg5rOqluzROC7KwSyAazMsMV++1LB1pX5EG3E5YUisGywZVsoWSmY/7t
+         5oXQ==
+X-Gm-Message-State: AOJu0YwZKzCAB3D2B5zON6EWDzCHqEUYGrzllW2kZDUXOvMkcV3q/K1g
+        X9Fd/MqC++o3ATcJ57nSDJpq7g==
+X-Google-Smtp-Source: AGHT+IHwsuwa8ThAQeOF6opq77pL61Bl43oeagm7e+h2JLbWnAym/RpWLluCo8QlUePQsgwI9zMfYw==
+X-Received: by 2002:a05:622a:247:b0:415:2623:d8df with SMTP id c7-20020a05622a024700b004152623d8dfmr38191830qtx.7.1699385788086;
+        Tue, 07 Nov 2023 11:36:28 -0800 (PST)
 Received: from ?IPv6:2606:6d00:17:6dc0::c73? ([2606:6d00:17:6dc0::c73])
-        by smtp.gmail.com with ESMTPSA id ou32-20020a05620a622000b0076c96e571f3sm206379qkn.26.2023.11.07.11.27.07
+        by smtp.gmail.com with ESMTPSA id jz9-20020a05622a81c900b0041ce9ebaad2sm215277qtb.43.2023.11.07.11.36.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Nov 2023 11:27:07 -0800 (PST)
-Message-ID: <fe672e31315b8f9c44a693c909d464a299e76093.camel@ndufresne.ca>
-Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
+        Tue, 07 Nov 2023 11:36:27 -0800 (PST)
+Message-ID: <0c98e11e4b3fe84f74e746f44f39480594246154.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: v4l2-common: Add 10bpp RGB formats info
 From:   nicolas@ndufresne.ca
-To:     Esker Wong <esker@chromium.org>, Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 07 Nov 2023 14:27:07 -0500
-In-Reply-To: <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
-References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org>
-         <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu>
-         <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
+To:     Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
+Date:   Tue, 07 Nov 2023 14:36:27 -0500
+In-Reply-To: <20231107172916.78095-1-jacopo.mondi@ideasonboard.com>
+References: <20231107172916.78095-1-jacopo.mondi@ideasonboard.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -72,114 +69,57 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi,
 
-Le mardi 07 novembre 2023 =C3=A0 13:06 +0800, Esker Wong a =C3=A9crit=C2=A0=
-:
-> [send again in text mode]
-> Hi Sakari,
+Le mardi 07 novembre 2023 =C3=A0 18:29 +0100, Jacopo Mondi a =C3=A9crit=C2=
+=A0:
+> Video4Linux2 defines 3 RGB formats with 10 bits per color components
+> plus two optional alpha bits such that a pixel is then stored in a 4
+> bytes word.
 >=20
-> Sequence number is important to us. We need it to measure the latency
-> from this event to the time we display the frame.
+> Add a format info for the 3 10-bits RGB formats to the
+> v4l2_format_info() table in v4l2-common.c.
+>=20
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-how much precision do you expect, because as described, this number
-will be completely false for bulk.
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Aren't UVC timestamp support to allow measuring latency properly ?
-
+regards,
 Nicolas
 
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 3 +++
+>  1 file changed, 3 insertions(+)
 >=20
-> Regards,
-> Esker
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 3a4b15a98e02..e9e7e70fa24e 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -254,6 +254,9 @@ const struct v4l2_format_info *v4l2_format_info(u32 f=
+ormat)
+>  		{ .format =3D V4L2_PIX_FMT_BGR666,  .pixel_enc =3D V4L2_PIXEL_ENC_RGB,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+>  		{ .format =3D V4L2_PIX_FMT_BGR48_12, .pixel_enc =3D V4L2_PIXEL_ENC_RGB=
+, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 6, 0, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+>  		{ .format =3D V4L2_PIX_FMT_ABGR64_12, .pixel_enc =3D V4L2_PIXEL_ENC_RG=
+B, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 8, 0, 0, 0 }, .bpp_div=
+ =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_RGBA1010102, .pixel_enc =3D V4L2_PIXEL_ENC_=
+RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
+iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_RGBX1010102, .pixel_enc =3D V4L2_PIXEL_ENC_=
+RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
+iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
+> +		{ .format =3D V4L2_PIX_FMT_ARGB2101010, .pixel_enc =3D V4L2_PIXEL_ENC_=
+RGB, .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 4, 0, 0, 0 }, .bpp_d=
+iv =3D { 1, 1, 1, 1 }, .hdiv =3D 1, .vdiv =3D 1 },
 >=20
+>  		/* YUV packed formats */
+>  		{ .format =3D V4L2_PIX_FMT_YUYV,    .pixel_enc =3D V4L2_PIXEL_ENC_YUV,=
+ .mem_planes =3D 1, .comp_planes =3D 1, .bpp =3D { 2, 0, 0, 0 }, .bpp_div =
+=3D { 1, 1, 1, 1 }, .hdiv =3D 2, .vdiv =3D 1 },
+> --
+> 2.41.0
 >=20
-> On Mon, Nov 6, 2023 at 7:06=E2=80=AFPM Sakari Ailus <sakari.ailus@iki.fi>=
- wrote:
-> >=20
-> > Hi Ricardo,
-> >=20
-> > On Mon, Nov 06, 2023 at 10:52:27AM +0000, Ricardo Ribalda wrote:
-> > > Add support for the frame_sync event, so user-space can become aware
-> > > earlier of new frames.
-> > >=20
-> > > Suggested-by: Esker Wong <esker@chromium.org>
-> > > Tested-by: Esker Wong <esker@chromium.org>
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > > We have measured a latency of around 30msecs between frame sync
-> > > and dqbuf.
-> > > ---
-> > > Changes in v2:
-> > > - Suggested by Laurent. Split sequence++ and event init.
-> > > - Link to v1: https://lore.kernel.org/r/20231020-uvc-event-v1-1-3baa0=
-e9f6952@chromium.org
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_v4l2.c  | 2 ++
-> > >  drivers/media/usb/uvc/uvc_video.c | 7 +++++++
-> > >  2 files changed, 9 insertions(+)
-> > >=20
-> > > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc=
-/uvc_v4l2.c
-> > > index f4988f03640a..9f3fb5fd2375 100644
-> > > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > @@ -1352,6 +1352,8 @@ static int uvc_ioctl_subscribe_event(struct v4l=
-2_fh *fh,
-> > >       switch (sub->type) {
-> > >       case V4L2_EVENT_CTRL:
-> > >               return v4l2_event_subscribe(fh, sub, 0, &uvc_ctrl_sub_e=
-v_ops);
-> > > +     case V4L2_EVENT_FRAME_SYNC:
-> > > +             return v4l2_event_subscribe(fh, sub, 0, NULL);
-> > >       default:
-> > >               return -EINVAL;
-> > >       }
-> > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uv=
-c/uvc_video.c
-> > > index 28dde08ec6c5..4f3a510ca4fe 100644
-> > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > @@ -1073,9 +1073,16 @@ static int uvc_video_decode_start(struct uvc_s=
-treaming *stream,
-> > >        * that discontinuous sequence numbers always indicate lost fra=
-mes.
-> > >        */
-> > >       if (stream->last_fid !=3D fid) {
-> > > +             struct v4l2_event event =3D {
-> > > +                     .type =3D V4L2_EVENT_FRAME_SYNC,
-> > > +             };
-> > > +
-> > >               stream->sequence++;
-> > >               if (stream->sequence)
-> > >                       uvc_video_stats_update(stream);
-> > > +
-> > > +             event.u.frame_sync.frame_sequence =3D stream->sequence,
-> > > +             v4l2_event_queue(&stream->vdev, &event);
-> >=20
-> > uvc_video_decode_start() is called when the reception of the entire fra=
-me
-> > has been completed. However, the documentation for V4L2_EVENT_FRAME_SYN=
-C
-> > says that the event is "Triggered immediately when the reception of a f=
-rame
-> > has begun.". The functionality here doesn't seem to fit to this patch.
-> >=20
-> > Wouldn't V4L2_EVENT_VSYNC be a better fit, even if we don't really have=
- a
-> > concept of vertical sync in the case of USB? That event doesn't have th=
-e
-> > sequence though but I guess it's not an issue at least if your case.
-> >=20
-> > Another technically correct option could be to create a new event for t=
-his
-> > but I'm not sure it's worth it.
-> >=20
-> > >       }
-> > >=20
-> > >       uvc_video_clock_decode(stream, buf, data, len);
-> > >=20
-> >=20
-> > --
-> > Regards,
-> >=20
-> > Sakari Ailus
 
