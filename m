@@ -2,116 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 091BC7E4A7C
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 22:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 247877E4ACB
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 22:37:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234968AbjKGVVW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 16:21:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59720 "EHLO
+        id S235361AbjKGVhh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 16:37:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54570 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234107AbjKGVVV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 16:21:21 -0500
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27AC410C1
-        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 13:21:19 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-507bd64814fso8362650e87.1
-        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 13:21:19 -0800 (PST)
+        with ESMTP id S1344088AbjKGVhc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 16:37:32 -0500
+Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 180BA10E4
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 13:37:30 -0800 (PST)
+Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2c515527310so85455651fa.2
+        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 13:37:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699392077; x=1699996877; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=linaro.org; s=google; t=1699393048; x=1699997848; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TP91kUeFUdw5BHZzOadp5Ri1kmnZ7KqGB8htiz8sgvM=;
-        b=QCcldNw3mN3z0Z8vUZCd5DNeglbPRGEEkhyOXF9Wpo2HF8ts8KxTp2geNmnwtDJszr
-         3/juF4/yhivoSZNtL/r0Oe15snGiUrJq+6PcohgCMrhXjEG15ocxHNplTYogBc0qf5kT
-         M0ysQKEju8xvbOK+BuaG7lQlljwwVN1yv+NPokJtZLsG3s1pXVtRW0y/QEYke7HT2mvC
-         w32bliZ6S3gkqtazxwzuAZ7Tr4ZGPXMO0scVx8Aw1eTrkuWGrSkx2P99yQA+IWQEcm2N
-         xd8rvt//zoXivVKs/Z3VjQDGkhN/dKq9t/LR7goPKAtJ7LiLsCOImnkovefWQR1MbFNt
-         LRww==
+        bh=Xb8KzKPBHLyy08/XAyZA3sT9NlC52bYPEE/qj+4GUxQ=;
+        b=qDDoHOU0V4R1dhqNsuQjSIxDry48BQqqm0tGDH2kKCCXaLzw5KGYyqr3IFemZPyNdQ
+         yalzr96kPe94Aant8fgjHoQ3A21MW4JGl21UqHrl17b1t890F/mD4cZZGbNxCN5+cdnc
+         f7SqT/CC6s/yBfkrmjV+kG2I5BtuWWxrNqN6J2TWrIqHwEsDReEO1FmqMwDNAvjZLh9i
+         F8SUqoTG4qmWtCx03OY+OSj/qrZwDqFTPjzo1FApvbTTVWUby66AYnQPsA6zIVOinP/w
+         rejhuVhS4YiocjiDzrqvIgtCYs5RGQ8MX8EpkZ0ZKpv1ws1m7gk1VtuZfH6CfyrRFOsx
+         /2fA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699392077; x=1699996877;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1699393048; x=1699997848;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TP91kUeFUdw5BHZzOadp5Ri1kmnZ7KqGB8htiz8sgvM=;
-        b=rtIjuuBNOBgnFF0rFwoi3YJ/1ZPB7YBv0WPfyzgEwZYIi3//t5mAd7Gzn0Gcf7dK3J
-         w2TqkYLqYMI9UZeYUz7GWzetOVZOqmfCFQziBZW92Lqr11hUXwryBDsdqdRbhstfGaJk
-         csVvtYfKV+bGjON2ePIR12hJDakL8szT5b6aXdOPOWoLhGtfMykU92puB/Flp51hG1FP
-         mWTx2jtKH4qxACwIKSANORdo8+KKDGnfEWuGbcQ+fh6BSxBFr+ZCvT54C/REUeKfLBKN
-         O56tsv5uxnLH900yJygkryQ34brso5xLdOWqfMEzz8jNpsXdVTO70S+/thpuQq5/envC
-         gIIA==
-X-Gm-Message-State: AOJu0YxKmsoYEgtmy2Dfx/tTf09gAfqBfRlFbchhLoMiny3BvMqC6pck
-        GKTbncZUTYBDqZT3b/9cr67d5Q==
-X-Google-Smtp-Source: AGHT+IG28nfpF/t/GwBx+w4KQQPZXMRL2WGhzbKjj0Jgx7Vh3vZ3wycUfSAG8mv+ArdcXqahB4xabQ==
-X-Received: by 2002:a05:6512:358e:b0:505:6cc7:e0f7 with SMTP id m14-20020a056512358e00b005056cc7e0f7mr21874519lfr.44.1699392077343;
-        Tue, 07 Nov 2023 13:21:17 -0800 (PST)
+        bh=Xb8KzKPBHLyy08/XAyZA3sT9NlC52bYPEE/qj+4GUxQ=;
+        b=N3V/QcODloEpkR4TiC+1tAbGV8QI0mTvD6/1r4L166Jl450poIzkTpQEZwfR45Vi6r
+         +oNtOMa945J7fK3F7x9TCtmEfEfGlsOIU29gPh8/4n/bBv/OIpuq8miP+IuWYEIoa7St
+         FF43eKI7kmpFwnM+0vAtHYTr8CG2PHs+H5/kur0OkLQWNsoOmqP/qaR6EsrwO0CLUhZP
+         CAk4ikaN0ZqeVJfqkE5SmCIAzeMqnQvzqvMjSH/1cb8XrJ/vmQ1kOZ1OwkXXvzHjnxpx
+         lhgddPeHdVqdhXkiA0a+V7pXswusETf2gGN+mka+YN4hPjRpecCdm2MoYP0a5Z3ffcZv
+         l+Ow==
+X-Gm-Message-State: AOJu0YwAabHdChb694SHu1/7HYjsWWcdK7sC7Gt4uF63ngNIERhx7E5z
+        +0nCQJbgrZY0pIIy90hUFoiV0Q==
+X-Google-Smtp-Source: AGHT+IERd2a+Kke+ire1MwUqqEGnWGB8dW0AOOoiaNQbj/x9AWBnh/e8bZt/YtjxeEfPEATSFX1Xyw==
+X-Received: by 2002:a2e:87cc:0:b0:2c5:22c0:582c with SMTP id v12-20020a2e87cc000000b002c522c0582cmr154444ljj.11.1699393047759;
+        Tue, 07 Nov 2023 13:37:27 -0800 (PST)
 Received: from [172.30.205.109] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id g33-20020a0565123ba100b00503200ce35bsm461520lfv.136.2023.11.07.13.21.15
+        by smtp.gmail.com with ESMTPSA id m6-20020a2e8706000000b002c6eb321d87sm1621381lji.118.2023.11.07.13.37.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Nov 2023 13:21:16 -0800 (PST)
-Message-ID: <82a25b12-7a63-4c75-8a46-624bc35c6752@linaro.org>
-Date:   Tue, 7 Nov 2023 22:21:15 +0100
+        Tue, 07 Nov 2023 13:37:27 -0800 (PST)
+Message-ID: <fc7669ba-e466-40e8-a5fa-26b6816c46a4@linaro.org>
+Date:   Tue, 7 Nov 2023 22:37:25 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH RESEND v3 4/5] clk: qcom: Use HW_CTRL_TRIGGER flag to
- switch video GDSC to HW mode
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Abel Vesa <abel.vesa@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman <khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Andy Gross <agross@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Taniya Das <tdas@qti.qualcomm.com>, linux-pm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-media@vger.kernel.org,
-        Jagadeesh Kona <quic_jkona@quicinc.com>
-References: <20231101-gdsc-hwctrl-v3-0-0740ae6b2b04@linaro.org>
- <20231101-gdsc-hwctrl-v3-4-0740ae6b2b04@linaro.org>
- <835a6add-81e9-42e4-abbe-91632aaa6bc9@linaro.org>
+Subject: Re: [PATCH v3 5/6] media: qcom: camss: Add sc8280xp support
 Content-Language: en-US
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
+        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231105-b4-camss-sc8280xp-v3-0-4b3c372ff0f4@linaro.org>
+ <20231105-b4-camss-sc8280xp-v3-5-4b3c372ff0f4@linaro.org>
 From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <835a6add-81e9-42e4-abbe-91632aaa6bc9@linaro.org>
+In-Reply-To: <20231105-b4-camss-sc8280xp-v3-5-4b3c372ff0f4@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-On 11/7/23 14:05, Bryan O'Donoghue wrote:
-> On 01/11/2023 09:04, Abel Vesa wrote:
->> From: Jagadeesh Kona <quic_jkona@quicinc.com>
->>
->> The current HW_CTRL flag switches the video GDSC to HW control mode as
->> part of GDSC enable itself, instead of that use HW_CTRL_TRIGGER flag to
->> give consumer drivers more control and switch the GDSC mode as and when
->> required.
->>
->> HW_CTRL_TRIGGER flag allows consumer drivers to switch the video GDSC to
->> HW/SW control modes at runtime using dev_pm_genpd_set_hwmode API.
->>
->> Signed-off-by: Jagadeesh Kona <quic_jkona@quicinc.com>
->> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
->> ---
->>   drivers/clk/qcom/videocc-sc7180.c | 2 +-
->>   drivers/clk/qcom/videocc-sc7280.c | 2 +-
->>   drivers/clk/qcom/videocc-sdm845.c | 4 ++--
->>   drivers/clk/qcom/videocc-sm8250.c | 4 ++--
->>   drivers/clk/qcom/videocc-sm8550.c | 4 ++--
->>   5 files changed, 8 insertions(+), 8 deletions(-)
+On 11/5/23 18:45, Bryan O'Donoghue wrote:
+> Add in functional logic throughout the code to support the sc8280xp.
 > 
-> So.
-> 
-> I'm assuming the rest of this series works however for sc8250 at least this is a NAK, breaks venus on rb5.
-Are you saying that applying this patch alone causes the attached crash?
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+IMHO this should be squashed with patch 2
+
+anyway:
+
+Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 
 Konrad
