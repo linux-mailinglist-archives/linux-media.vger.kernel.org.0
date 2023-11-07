@@ -2,116 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E2DB27E4C0D
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 23:55:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D6FB17E4C15
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 23:57:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234862AbjKGWz1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 17:55:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40902 "EHLO
+        id S1343796AbjKGW5N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 17:57:13 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37604 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232452AbjKGWz0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 17:55:26 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7E4118C;
-        Tue,  7 Nov 2023 14:55:24 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75129C433C7;
-        Tue,  7 Nov 2023 22:55:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699397724;
-        bh=iB5WIQwRWCJ62sSwm7rVVjSX4KNeifY96+WD+ljQo7A=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=CwzKn3MLIlLci2fLlpr0m0pOk173vFyYAGolRpAoKUQY79y3Gsz/ZTWTY9UNQp0aT
-         j3/uplXmQpqgMLpDUu+RzQD5rtH7NsPAK+YwQhsxHqxCoHd5KNx7iYjk3XekAeOLqW
-         dmA44Lv3QYzFJDV6a7/X/M0Sk6Ch3fPiTogIrlEAa85Bytb2V42KPPN6Cu81fvUdHw
-         NNBLdE0C7ah0RV48znH8Y18XD6UzmkAh0ggCZjl9ZrKnrdnYH7YVhCnv6wk7IYHWDT
-         zTGv+xK1Anj9erQ5elOkREzeOde6rdEcp7w2E0bvGgmeVKep1IfXdMijuOwOs9FgO9
-         VYN0GSclxC51A==
-Message-ID: <a5b95e6b-8716-4e2e-9183-959b754b5b5e@kernel.org>
-Date:   Tue, 7 Nov 2023 15:55:22 -0700
+        with ESMTP id S232452AbjKGW5M (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 17:57:12 -0500
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D2DB18C;
+        Tue,  7 Nov 2023 14:57:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1699397823;
+ bh=63OQgizHEU87zRiwSvu33mfZCT/ztnxnRkDGWR/1lLU=;
+ b=bIDMRN/VYHY1n0fc2dDmI+neX3bp6WW8KAO8Ay7WzNULVEbC6DG52D8ez1vm9JUl6QF7v83U7
+ p9EIYWOptKN7GLbNxAJRsa4exZT6zEbUID1FdFrWa8izpMNq6oIuNvqYr/MJvQDsDBF/vcrFGIE
+ KNB0FyOH+9qfhqdqREejPRIAfkmsa90OfRcRMg9QbdRIE7d1iy3daTk3SuHatusuLireZe6aX6V
+ /gTuAn6ciEjGbNn3kOThRAzaX0zqqd9GIkoI+LhnEYTb1xjl7yX5EYRvZiyfmrzjEXPkey3seAU
+ tXtIvvAtyN+kVQkmkPi82FgAqgpp1WwP92K/E0tK1W7g==
+Message-ID: <bfabc182-4113-46fb-85e9-8550c97d132b@kwiboo.se>
+Date:   Tue, 7 Nov 2023 23:56:57 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 05/12] netdev: netdevice devmem allocator
+Subject: Re: [PATCH v4 05/11] media: rkvdec: h264: Remove SPS validation at
+ streaming start
 Content-Language: en-US
-To:     Mina Almasry <almasrymina@google.com>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jeroen de Borst <jeroendb@google.com>,
-        Praveen Kaligineedi <pkaligineedi@google.com>,
-        Willem de Bruijn <willemb@google.com>,
-        Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-6-almasrymina@google.com>
- <3b0d612c-e33b-48aa-a861-fbb042572fc9@kernel.org>
- <CAHS8izOHYx+oYnzksUDrK1S0+6CdMJmirApntP5W862yFumezw@mail.gmail.com>
-From:   David Ahern <dsahern@kernel.org>
-In-Reply-To: <CAHS8izOHYx+oYnzksUDrK1S0+6CdMJmirApntP5W862yFumezw@mail.gmail.com>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     Alex Bee <knaerzche@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Christopher Obbard <chris.obbard@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20231105165521.3592037-1-jonas@kwiboo.se>
+ <20231105165521.3592037-6-jonas@kwiboo.se>
+ <c75c894a09292775773ad338121ee81924337cf0.camel@collabora.com>
+From:   Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <c75c894a09292775773ad338121ee81924337cf0.camel@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 654ac0bea95f640b16f9fb5f
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/7/23 3:10 PM, Mina Almasry wrote:
-> On Mon, Nov 6, 2023 at 3:44 PM David Ahern <dsahern@kernel.org> wrote:
->>
->> On 11/5/23 7:44 PM, Mina Almasry wrote:
->>> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
->>> index eeeda849115c..1c351c138a5b 100644
->>> --- a/include/linux/netdevice.h
->>> +++ b/include/linux/netdevice.h
->>> @@ -843,6 +843,9 @@ struct netdev_dmabuf_binding {
->>>  };
->>>
->>>  #ifdef CONFIG_DMA_SHARED_BUFFER
->>> +struct page_pool_iov *
->>> +netdev_alloc_devmem(struct netdev_dmabuf_binding *binding);
->>> +void netdev_free_devmem(struct page_pool_iov *ppiov);
->>
->> netdev_{alloc,free}_dmabuf?
->>
+On 2023-11-07 23:01, Nicolas Dufresne wrote:
+> Le dimanche 05 novembre 2023 à 16:55 +0000, Jonas Karlman a écrit :
+>> SPS parameters is validated in try_ctrl() ops so there is no need to
 > 
-> Can do.
+>                  are
 > 
->> I say that because a dmabuf can be host memory, at least I am not aware
->> of a restriction that a dmabuf is device memory.
+>> re-validate when streaming starts.
 >>
+>> Remove the unnecessary call to validate sps at streaming start.
 > 
-> In my limited experience dma-buf is generally device memory, and
-> that's really its use case. CONFIG_UDMABUF is a driver that mocks
-> dma-buf with a memfd which I think is used for testing. But I can do
-> the rename, it's more clear anyway, I think.
+> This patch is not working since user may change the format after the
+> control have been set. The proper fix should actually reset the SPS
+> (well all header controls) to match the the newly set format. Then this
+> validation won't be needed anymore.
+> 
+> The sequence that is problematic after this patch is:
+> 
+> S_FMT (OUTPUT, width, height);
+> S_CTRL (SPS) // valid
+> S_FMT(OUTPUT, width', height'); // SPS is no longer valid
+> 
+> One suggestion I may make is to add a ops so that each codec
+> implementation can reset their header controls to make it valid against
+> the new resolution. With that in place you'll be able drop the check.
 
-config UDMABUF
-        bool "userspace dmabuf misc driver"
-        default n
-        depends on DMA_SHARED_BUFFER
-        depends on MEMFD_CREATE || COMPILE_TEST
-        help
-          A driver to let userspace turn memfd regions into dma-bufs.
-          Qemu can use this to create host dmabufs for guest framebuffers.
+According to the Initialization section of the V4L2 stateless
+documentation a client is supposed to S_CTRL(SPS) after S_FMT(OUTPUT).
 
+https://docs.kernel.org/userspace-api/media/v4l/dev-stateless-decoder.html#initialization
 
-Qemu is just a userspace process; it is no way a special one.
+I guess that all stateless decoders probably should reset all ctrls to
+default value on S_FMT(OUTPUT) or decoders may end up in an unexpected
+state?
 
-Treating host memory as a dmabuf should radically simplify the io_uring
-extension of this set. That the io_uring set needs to dive into
-page_pools is just wrong - complicating the design and code and pushing
-io_uring into a realm it does not need to be involved in.
+Is resetting a ctrl value back to default something that is supported by
+v4l2 ctrl core? Did not find any obvious way to reset a ctrl value.
 
-Most (all?) of this patch set can work with any memory; only device
-memory is unreadable.
+Will probably just drop this patch in v5.
 
+Regards,
+Jonas
+
+> 
+> Nicolas
+> 
+> p.s. you can also just drop this patch from the series and revisit it
+> later, though I think its worth fixing.
+> 
+>>
+>> Suggested-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>> ---
+>> v4:
+>> - No change
+>>
+>> v3:
+>> - New patch
+>>
+>>  drivers/staging/media/rkvdec/rkvdec-h264.c | 19 ++-----------------
+>>  1 file changed, 2 insertions(+), 17 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>> index 8bce8902b8dd..815d5359ddd5 100644
+>> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+>> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>> @@ -1070,17 +1070,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
+>>  	struct rkvdec_dev *rkvdec = ctx->dev;
+>>  	struct rkvdec_h264_priv_tbl *priv_tbl;
+>>  	struct rkvdec_h264_ctx *h264_ctx;
+>> -	struct v4l2_ctrl *ctrl;
+>> -	int ret;
+>> -
+>> -	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
+>> -			      V4L2_CID_STATELESS_H264_SPS);
+>> -	if (!ctrl)
+>> -		return -EINVAL;
+>> -
+>> -	ret = rkvdec_h264_validate_sps(ctx, ctrl->p_new.p_h264_sps);
+>> -	if (ret)
+>> -		return ret;
+>>  
+>>  	h264_ctx = kzalloc(sizeof(*h264_ctx), GFP_KERNEL);
+>>  	if (!h264_ctx)
+>> @@ -1089,8 +1078,8 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
+>>  	priv_tbl = dma_alloc_coherent(rkvdec->dev, sizeof(*priv_tbl),
+>>  				      &h264_ctx->priv_tbl.dma, GFP_KERNEL);
+>>  	if (!priv_tbl) {
+>> -		ret = -ENOMEM;
+>> -		goto err_free_ctx;
+>> +		kfree(h264_ctx);
+>> +		return -ENOMEM;
+>>  	}
+>>  
+>>  	h264_ctx->priv_tbl.size = sizeof(*priv_tbl);
+>> @@ -1100,10 +1089,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
+>>  
+>>  	ctx->priv = h264_ctx;
+>>  	return 0;
+>> -
+>> -err_free_ctx:
+>> -	kfree(h264_ctx);
+>> -	return ret;
+>>  }
+>>  
+>>  static void rkvdec_h264_stop(struct rkvdec_ctx *ctx)
+> 
 
