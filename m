@@ -2,128 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 27FFB7E3FAB
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 14:08:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5535C7E3FC0
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 14:10:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234744AbjKGNIf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 08:08:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49100 "EHLO
+        id S235036AbjKGNKG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 08:10:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234722AbjKGNIN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 08:08:13 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60D243BC68
-        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 04:32:08 -0800 (PST)
-Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C96A99CC;
-        Tue,  7 Nov 2023 13:31:45 +0100 (CET)
+        with ESMTP id S235011AbjKGNJu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 08:09:50 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DA93C23601
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 04:36:21 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 03A23552;
+        Tue,  7 Nov 2023 13:35:58 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1699360305;
-        bh=EhvHWAx0rCb55ZIh/ztFn+tVbV72e1iNxSZKSEDrZDo=;
-        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-        b=tC8zVdkbGGFvyIP9du/trlkFxa0+cWZJ9w7wWgr0jBVjfEacDv0F+tp5a8a4pu22V
-         N99BavT+MQHeHRxObLl8SnKZV8eWYTFqRl8wLGNPciaz3Xbx3oRnSds0TxNejKW7Ja
-         KkwcOeRJjT5fpwXv4iMTGwonvn1QfTAya4GFM8rs=
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20231107095156.365492-5-umang.jain@ideasonboard.com>
-References: <20231107095156.365492-1-umang.jain@ideasonboard.com> <20231107095156.365492-5-umang.jain@ideasonboard.com>
-Subject: Re: [PATCH 4/9] staging: vc04_services: Shorten helper function name
-From:   Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
+        s=mail; t=1699360559;
+        bh=SyjPvo2nE0shK6MtumdB6CSufLxzNO9WpIPz3Ebrr2c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=NGO/fU6AjYdWA14jyW57KA5oyE+xEWdddzWQHoXQfLABsAhRpo60LkOht0zcgovAH
+         n/UV4euksNG28H33i1cfOeQ3vkfi6vYz/+AIdjkeqmI4nwbjuxFdsz/u/nIJ4SeZXy
+         nKjWiKqHSgzASgoTnsfNGuHVI7xzw+jvNZqk4zVU=
+Date:   Tue, 7 Nov 2023 14:36:27 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Umang Jain <umang.jain@ideasonboard.com>
+Cc:     linux-staging@lists.linux.dev,
+        linux-rpi-kernel@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        Stefan Wahren <stefan.wahren@i2se.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Dan Carpenter <error27@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Phil Elwell <phil@raspberrypi.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Umang Jain <umang.jain@ideasonboard.com>
-To:     Umang Jain <umang.jain@ideasonboard.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-rpi-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-Date:   Tue, 07 Nov 2023 12:32:03 +0000
-Message-ID: <169936032386.1233626.219519021530488190@ping.linuxembedded.co.uk>
-User-Agent: alot/0.10
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 5/9] staging: vc04_services: Do not pass NULL to
+ vchiq_log_error()
+Message-ID: <20231107123627.GB3051@pendragon.ideasonboard.com>
+References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
+ <20231107095156.365492-6-umang.jain@ideasonboard.com>
+ <20231107122551.GA3051@pendragon.ideasonboard.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231107122551.GA3051@pendragon.ideasonboard.com>
 X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,SPF_HELO_PASS,SPF_PASS,
-        T_SCC_BODY_TEXT_LINE autolearn=ham autolearn_force=no version=3.4.6
+        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
+        SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
+        autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Quoting Umang Jain (2023-11-07 09:51:51)
-> Shorten the helper log_category_str() to log_cat().
-> Going forwards, this will be used at multiple places with
-> dev_dbg().
->=20
-> No functiional changes intended in this patch.
+On Tue, Nov 07, 2023 at 02:25:52PM +0200, Laurent Pinchart wrote:
+> On Tue, Nov 07, 2023 at 04:51:52AM -0500, Umang Jain wrote:
+> > vchiq_add_connected_callback() logs using vchiq_log_error() macro,
+> > but passes NULL instead of a struct device pointer. Fix it.
+> > 
+> > vchiq_add_connected_callback() is not used anywhere in the vc04_services
+> > as of now. It will be used when we add new drivers(VC shared memory and
+> > bcm2835-isp), hence it kept as it is for now.
+> > 
+> > Fixes: 1d8915cf8899 ("staging: vc04: Convert vchiq_log_error() to use dynamic debug")
+> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > ---
+> >  .../vc04_services/interface/vchiq_arm/vchiq_connected.c       | 4 ++--
+> >  .../vc04_services/interface/vchiq_arm/vchiq_connected.h       | 4 +++-
+> >  2 files changed, 5 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> > index b3928bd8c9c6..21f9fa1a1713 100644
+> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> > @@ -27,7 +27,7 @@ static void connected_init(void)
+> >   * be made immediately, otherwise it will be deferred until
+> >   * vchiq_call_connected_callbacks is called.
+> >   */
+> > -void vchiq_add_connected_callback(void (*callback)(void))
+> > +void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void))
+> 
+> You're changing the prototype of the function, but the patch doesn't
+> update any user. If the function is unused, it looks like you can drop
+> it instead. Looking at the rest of the vchiq_connected.c file, I think
+> you can actually drop the whole file.
 
-s/functiional/functional/
+Except that the vc-sm-cma driver will use it. I'm curious though, that
+driver will have no way to acquire a pointer to a vchiq_device, so I
+don't see how this will be usable. pr_err() may be a better pick here.
 
-But if we're replacing this like this - maybe we don't need a log_cat -
-would it make more sense to just make the VCHIQ_CORE VCHIQ_SUSPEND etc
-just a #define "vchiq_core" ... and remove the indirection? Are they
-used as enum's anywhere now still?
+> >  {
+> >  	connected_init();
+> >  
+> > @@ -39,7 +39,7 @@ void vchiq_add_connected_callback(void (*callback)(void))
+> >  		callback();
+> >  	} else {
+> >  		if (g_num_deferred_callbacks >= MAX_CALLBACKS) {
+> > -			vchiq_log_error(NULL, VCHIQ_CORE,
+> > +			vchiq_log_error(&device->dev, VCHIQ_CORE,
+> >  					"There already %d callback registered - please increase MAX_CALLBACKS",
+> >  					g_num_deferred_callbacks);
+> >  		} else {
+> > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
+> > index 4caf5e30099d..e4ed56446f8a 100644
+> > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
+> > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.h
+> > @@ -1,10 +1,12 @@
+> >  /* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
+> >  /* Copyright (c) 2010-2012 Broadcom. All rights reserved. */
+> >  
+> > +#include "vchiq_bus.h"
+> > +
+> >  #ifndef VCHIQ_CONNECTED_H
+> >  #define VCHIQ_CONNECTED_H
+> >  
+> > -void vchiq_add_connected_callback(void (*callback)(void));
+> > +void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void));
+> >  void vchiq_call_connected_callbacks(void);
+> >  
+> >  #endif /* VCHIQ_CONNECTED_H */
 
---
-Kieran
+-- 
+Regards,
 
-
->=20
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../vc04_services/interface/vchiq_arm/vchiq_core.h     | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core=
-.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> index 161358db457c..cc7bb6ca832a 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> @@ -39,7 +39,7 @@ enum vchiq_log_category {
->         VCHIQ_SUSPEND,
->  };
-> =20
-> -static inline const char *log_category_str(enum vchiq_log_category c)
-> +static inline const char *log_cat(enum vchiq_log_category c)
->  {
->         static const char * const strings[] =3D {
->                 "vchiq_arm",
-> @@ -54,19 +54,19 @@ static inline const char *log_category_str(enum vchiq=
-_log_category c)
-> =20
->  #ifndef vchiq_log_error
->  #define vchiq_log_error(dev, cat, fmt, ...) \
-> -       do { dev_dbg(dev, "%s error: " fmt, log_category_str(cat), ##__VA=
-_ARGS__); } while (0)
-> +       do { dev_dbg(dev, "%s error: " fmt, log_cat(cat), ##__VA_ARGS__);=
- } while (0)
->  #endif
->  #ifndef vchiq_log_warning
->  #define vchiq_log_warning(dev, cat, fmt, ...) \
-> -       do { dev_dbg(dev, "%s warning: " fmt, log_category_str(cat), ##__=
-VA_ARGS__); } while (0)
-> +       do { dev_dbg(dev, "%s warning: " fmt, log_cat(cat), ##__VA_ARGS__=
-); } while (0)
->  #endif
->  #ifndef vchiq_log_debug
->  #define vchiq_log_debug(dev, cat, fmt, ...) \
-> -       do { dev_dbg(dev, "%s debug: " fmt, log_category_str(cat), ##__VA=
-_ARGS__); } while (0)
-> +       do { dev_dbg(dev, "%s debug: " fmt, log_cat(cat), ##__VA_ARGS__);=
- } while (0)
->  #endif
->  #ifndef vchiq_log_trace
->  #define vchiq_log_trace(dev, cat, fmt, ...) \
-> -       do { dev_dbg(dev, "%s trace: " fmt, log_category_str(cat), ##__VA=
-_ARGS__); } while (0)
-> +       do { dev_dbg(dev, "%s trace: " fmt, log_cat(cat), ##__VA_ARGS__);=
- } while (0)
->  #endif
-> =20
->  #define VCHIQ_SLOT_MASK        (VCHIQ_SLOT_SIZE - 1)
-> --=20
-> 2.41.0
->
+Laurent Pinchart
