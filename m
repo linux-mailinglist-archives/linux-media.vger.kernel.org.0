@@ -2,106 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C8857E37A3
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 10:21:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 248717E37E1
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 10:29:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233789AbjKGJVw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 04:21:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53450 "EHLO
+        id S230283AbjKGJ3Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 04:29:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37218 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233809AbjKGJVw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 04:21:52 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D964C6
-        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 01:21:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-        t=1699348905; bh=DfZgY5MeLmIEPxqihXEhQ7v88uuQryp2R29j6Iiu45o=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fuGFmLUgynMp8HJRedB57e3aaFPfoDb1OPTgeC59qHJKCsDf4YX6jSzFKze7VvcQS
-         olhRGknOdwbe4pDj5J8T9i+pb6aDIQxa+Pa9pWUDVDPkcrg16+ybyap4fGOYQPoYc/
-         UwMsq147qOrDxX4ZXSEDkUhXy+fNOnxON/3WdiAbiX8W0a3ZiGpJXVtrfnc3SWosSh
-         Mc1O/XMZdAGixlG1xkd45kM7pd8kfVTBlAccF1RBna6YRiPgoMyYoQVNt+IER/45MR
-         XOx7Pyp6toP7GD4uPak0q2E6moJihsFXs7tLNUqkb851DkSHiXeMJneU0pYu78WGqm
-         0F3VuH3Z2ZCYw==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id AAC021000CE; Tue,  7 Nov 2023 09:21:45 +0000 (GMT)
-Date:   Tue, 7 Nov 2023 09:21:45 +0000
-From:   Sean Young <sean@mess.org>
-To:     Vince Ricosti <vricosti@outlook.com>
-Cc:     "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: How to contribute to ir-keytable/ir-ctl ?
-Message-ID: <ZUoBqdOH6CePi1B2@gofer.mess.org>
-References: <BL3PR19MB6514010EDD5F1CA2F95E1F5CD3ABA@BL3PR19MB6514.namprd19.prod.outlook.com>
+        with ESMTP id S229541AbjKGJ3P (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 04:29:15 -0500
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FAB9106;
+        Tue,  7 Nov 2023 01:29:11 -0800 (PST)
+Received: from EXMBX166.cuchost.com (unknown [175.102.18.54])
+        (using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+        (Client CN "EXMBX166", Issuer "EXMBX166" (not verified))
+        by fd01.gateway.ufhost.com (Postfix) with ESMTP id E61BA80D3;
+        Tue,  7 Nov 2023 17:29:08 +0800 (CST)
+Received: from EXMBX073.cuchost.com (172.16.6.83) by EXMBX166.cuchost.com
+ (172.16.6.76) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Nov
+ 2023 17:29:08 +0800
+Received: from [192.168.1.218] (180.164.60.184) by EXMBX073.cuchost.com
+ (172.16.6.83) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Tue, 7 Nov
+ 2023 17:29:08 +0800
+Message-ID: <48b93e44-6cd3-03a5-0eb2-4123b3790877@starfivetech.com>
+Date:   Tue, 7 Nov 2023 17:29:08 +0800
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <BL3PR19MB6514010EDD5F1CA2F95E1F5CD3ABA@BL3PR19MB6514.namprd19.prod.outlook.com>
-X-Spam-Status: No, score=-2.1 required=5.0 tests=BAYES_00,DKIM_SIGNED,
-        DKIM_VALID,DKIM_VALID_AU,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_PASS,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v11 0/9] Add StarFive Camera Subsystem driver
+Content-Language: en-US
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        <bryan.odonoghue@linaro.org>, Rob Herring <robh+dt@kernel.org>,
+        "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+        <changhuang.liang@starfivetech.com>
+References: <20231025031422.3695-1-jack.zhu@starfivetech.com>
+ <15ef0a70-734e-280a-f014-41914a55d8cf@starfivetech.com>
+ <a3a2c179-2cbe-5a55-a21e-b45abfb6d494@starfivetech.com>
+ <2023110745-tableful-trapezoid-4206@gregkh>
+ <2023110730-thousand-skyrocket-d6ba@gregkh>
+ <a2dbb182-2573-4c86-7e18-319d26a6593c@starfivetech.com>
+ <2023110756-alto-stream-eb92@gregkh>
+From:   Jack Zhu <jack.zhu@starfivetech.com>
+In-Reply-To: <2023110756-alto-stream-eb92@gregkh>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [180.164.60.184]
+X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX073.cuchost.com
+ (172.16.6.83)
+X-YovoleRuleAgent: yovoleflag
+X-Spam-Status: No, score=-4.3 required=5.0 tests=BAYES_00,NICE_REPLY_A,
+        RCVD_IN_DNSWL_BLOCKED,SPF_HELO_PASS,SPF_PASS,T_SCC_BODY_TEXT_LINE
+        autolearn=ham autolearn_force=no version=3.4.6
 X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
         lindbergh.monkeyblade.net
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Vince,
 
-On Sun, Nov 05, 2023 at 08:23:04PM +0000, Vince Ricosti wrote:
-> Hello,
-> I would like to contribute to the infrared source code and learn the procedure for submitting patches.
-> My first patch is of the utmost importance :-) because here is a dump of ir-keytable output:
+
+On 2023/11/7 16:27, Greg Kroah-Hartman wrote:
+> On Tue, Nov 07, 2023 at 04:05:11PM +0800, Jack Zhu wrote:
+>> > Also, while you wait, why not just finish off the last 3 items on the
+>> > TODO list which would make your code not be required to go into the
+>> > staging portion of the tree at all?  You've had a few weeks now, what is
+>> > preventing that from happening, and when will that work actually be
+>> > done?
+>> > 
+>> 
+>> One of my colleagues is doing related development, but he also has other
+>> projects at the same time, so he cannot devote all his efforts to this
+>> development. And we expect to use libcamera, which may take some time.
 > 
-> Found /sys/class/rc/rc0/ with:
-> 	Name: gpio_ir_recv
-> 	Driver: gpio_ir_recv
-> 	Default keymap: rc-rc6-mce
-> 	Input device: /dev/input/event0
-> 	LIRC device: /dev/lirc1
-> 	Attached BPF protocols: Operation non permise
-> 	Supported kernel protocols: lirc rc-5 rc-5-sz jvc sony nec sanyo mce_kbd rc-6 sharp xmp imon
-> 	Enabled kernel protocols: lirc sony
-> 	bus: 25, vendor/product: 0001:0001, version: 0x0100
-> 	Repeat delay = 500 ms, repeat period = 125 ms
+> So that means there is no real plan at all to get this out of the
+> staging directory?  If so, why should we take it at all as obviously
+> this means that the code is now abandoned?
 > 
-> And what annoys me if the fact that the last line does not respect the key: value syntax because 
-> we have 
-> 
-> Repeat delay = 500 ms, repeat period = 125 ms 
-> instead of 
-> Repeat delay: 500 ms, repeat period: 125 ms
-> 
-> and because of this I cannot even write a simple python script to analyse this output without writing some ugly code
-> to handle this last line.
-> So my first patch would be:
-> 
-> Signed-off-by: Vince Ricosti <vricosti@outlook.com>
-> ---
-> diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
-> index 3d5a3c51..62f4531e 100644
-> --- a/utils/keytable/keytable.c
-> +++ b/utils/keytable/keytable.c
-> @@ -1702,7 +1702,7 @@ static int get_rate(int fd, unsigned int *delay, unsigned int *period)
->         }
->         *delay = rep[0];
->         *period = rep[1];
-> -       printf(_("Repeat delay = %d ms, repeat period = %d ms\n"), *delay, *period);
-> +      printf(_("Repeat delay: %d ms, repeat period: %d ms\n"), *delay, *period);
 
+Hi Greg,
 
-Your patch got mangled by your email client and does not work, see
+It's not like that, we won't give up on this code. We just want to make
+development easier using incremental development. Our developers are already
+working on development, but I can't give you an accurate time. There should
+be a preliminary version in about 3 months.
 
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html
+-- 
+Regards,
 
-Secondly there are translations of this line which need updating.
-
-However, I have fixed the patch and applied it:
-
-https://git.linuxtv.org/v4l-utils.git/commit/?id=fcf62ab17d69bc9ddb59e8d0ee7a8b56d9eba336
-
-Please next time make sure your patch is emailed correctly.
-
-Thanks,
-
-Sean
+Jack Zhu
