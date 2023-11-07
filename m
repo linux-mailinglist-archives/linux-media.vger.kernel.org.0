@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C2A607E382E
-	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 10:52:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 107B47E382F
+	for <lists+linux-media@lfdr.de>; Tue,  7 Nov 2023 10:52:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233866AbjKGJwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 04:52:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51580 "EHLO
+        id S233867AbjKGJwY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 04:52:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51722 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233867AbjKGJwS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 04:52:18 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13E5C11A
-        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 01:52:16 -0800 (PST)
+        with ESMTP id S233883AbjKGJwX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 04:52:23 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A3A9127
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 01:52:20 -0800 (PST)
 Received: from umang.jain (unknown [103.251.226.110])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57302D8B;
-        Tue,  7 Nov 2023 10:51:50 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id A2B35E62;
+        Tue,  7 Nov 2023 10:51:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1699350713;
-        bh=OSaU2JfcRpqaoQ4rtzBWYlTRgjft76ZQtKn1Q/INCPI=;
+        s=mail; t=1699350718;
+        bh=4nV8MroyvaUEvxXBtXmcKoHJdIgd3BGt1fRK0ZyPbq0=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=NlmWAtbNmBLdIaH/LGalMA5siqISenWvl3SJ79wlWPstu27dRxQg2KIiuYxScM7DQ
-         z6KbXIViNZ6sTTJExMe91MyCUBeFddOBkHVF0opTtR1mXzTOeuQWGd4duDhBdhtSUX
-         ibD1nnxqWsh7tZlfDgzOX856y63X2A0eeKNN5wus=
+        b=Ron37tNl8KNXrLr6k5ec+MfqlI8NWOm3zlqR5Wu0tplOLFY+AWTtWIXUeAg8AbzHr
+         IR6mKJhhHJgrgRoqYO2tEa8NEqk6vOH5Qp9DUoodYhNLOdYI2y9gBT6hqXNrjHVh07
+         qv0bhiytCjBb62MTnJQs0o4zR9oSvmVTE+kYg0LE=
 From:   Umang Jain <umang.jain@ideasonboard.com>
 To:     linux-staging@lists.linux.dev,
         linux-rpi-kernel@lists.infradead.org,
@@ -37,9 +37,9 @@ Cc:     Stefan Wahren <stefan.wahren@i2se.com>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Umang Jain <umang.jain@ideasonboard.com>,
         "Ricardo B . Marliere" <ricardo@marliere.net>
-Subject: [PATCH 2/9] staging: vc04_services: Log using pr_err() when vchiq_state is unset
-Date:   Tue,  7 Nov 2023 04:51:49 -0500
-Message-ID: <20231107095156.365492-3-umang.jain@ideasonboard.com>
+Subject: [PATCH 3/9] staging: vc04_services: bcm2835-camera: Remove redundant null check
+Date:   Tue,  7 Nov 2023 04:51:50 -0500
+Message-ID: <20231107095156.365492-4-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231107095156.365492-1-umang.jain@ideasonboard.com>
 References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
@@ -55,63 +55,35 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In cases, where the global vchiq state is still unset, we cannot log
-to dynamic debug (access to struct device is needed, hence potential
-NULL de-reference). Log using pr_err() instead.
-
-In vchiq_initialise(), remove the 'goto' because it is just again
-trying to log to dynamic debug. Simply return with -ENNOTCONN after
-logging to pr_err().
-
-In vchiq_open(), move the vchiq_log_debug() after the state pointer
-null check.
+Remove the buf pointer null check in buffer_cb() as it can never be
+NULL. buffer_cb() is always called with a valid mmal_buf pointer
+(which is NULL checked) from which, struct vb2_mmal_buf buf pointer
+is derived, using container_of macro.
 
 Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 Reviewed-by: Ricardo B. Marliere <ricardo@marliere.net>
 ---
- .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 6 ++----
- .../staging/vc04_services/interface/vchiq_arm/vchiq_dev.c  | 7 +++----
- 2 files changed, 5 insertions(+), 8 deletions(-)
+ .../staging/vc04_services/bcm2835-camera/bcm2835-camera.c  | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 9fb8f657cc78..9fb3e240d9de 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -687,10 +687,8 @@ int vchiq_initialise(struct vchiq_instance **instance_out)
- 		usleep_range(500, 600);
- 	}
- 	if (i == VCHIQ_INIT_RETRIES) {
--		vchiq_log_error(state->dev, VCHIQ_CORE, "%s: videocore not initialized\n",
--				__func__);
--		ret = -ENOTCONN;
--		goto failed;
-+		pr_err("%s: videocore not initialized\n", __func__);
-+		return -ENOTCONN;
- 	} else if (i > 0) {
- 		vchiq_log_warning(state->dev, VCHIQ_CORE,
- 				  "%s: videocore initialized after %d retries\n", __func__, i);
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-index 0bc93f48c14c..3425d2b199c2 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-@@ -1170,14 +1170,13 @@ static int vchiq_open(struct inode *inode, struct file *file)
- 	struct vchiq_state *state = vchiq_get_state();
- 	struct vchiq_instance *instance;
+diff --git a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+index e6e89784d84b..4b2b8f3bf903 100644
+--- a/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
++++ b/drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c
+@@ -333,11 +333,8 @@ static void buffer_cb(struct vchiq_mmal_instance *instance,
+ 		 mmal_buf->pts);
  
--	vchiq_log_debug(state->dev, VCHIQ_ARM, "vchiq_open");
--
- 	if (!state) {
--		vchiq_log_error(state->dev, VCHIQ_ARM,
--				"vchiq has no connection to VideoCore");
-+		pr_err("%s: vchiq has no connection to VideoCore\n", __func__);
- 		return -ENOTCONN;
+ 	if (status) {
+-		/* error in transfer */
+-		if (buf) {
+-			/* there was a buffer with the error so return it */
+-			vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+-		}
++		/* There was a buffer with the error so return it. */
++		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
+ 		return;
  	}
  
-+	vchiq_log_debug(state->dev, VCHIQ_ARM, "vchiq_open");
-+
- 	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
- 	if (!instance)
- 		return -ENOMEM;
 -- 
 2.41.0
 
