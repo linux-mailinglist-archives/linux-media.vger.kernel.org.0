@@ -2,144 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E3ED87E556D
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 12:25:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6B0B87E5575
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 12:26:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235615AbjKHLZq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 06:25:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44676 "EHLO
+        id S1344577AbjKHL0J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 06:26:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53890 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229924AbjKHLZa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 06:25:30 -0500
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D9F22113
-        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 03:25:27 -0800 (PST)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 25575300D3C4;
-        Wed,  8 Nov 2023 12:25:25 +0100 (CET)
-Authentication-Results: ext-mx-out013.mykolab.com (amavis);
- dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
- header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:content-type:content-type:in-reply-to
-        :from:from:references:content-language:subject:subject
-        :mime-version:date:date:message-id:received:received:received;
-         s=dkim20160331; t=1699442723; x=1701257124; bh=iYVP3iGJUli2QBmz
-        SBHuVh05aEMlOSC+X7mAKrTWqlw=; b=GxBAsnDxqMiIfJotFHqHy2l01CmzsUtK
-        w6WoQY2Irk3jsQkUl1GvPIkj3JHi+J9lMH6HItKnAz5HmdMmnJH5WODKXHV/USaU
-        6I9pgvX/KMuXkwrmDoMU0r0RH3suU/0AyJt5YwL3P0w7PVj/vRIvb00GKuupq3c0
-        0crPyxGKwn2oRLsFlRYfnWnA1XJPawyOE61JGahsCXmswhS0XnX1f7+se5F+O9Px
-        l8nrjBB6UkdZ99S4m2hMcu7q4feD0aj0NtmGLk5e73yugUA4gh2giwMBwGrJ62f/
-        IQcbZHdyWqO3AiMziXljzJv/H+w4U4rSz6ms/+y65ZX0+7d6KXtH6PoV01z1H3Ym
-        fBAZ/pc0msDroii0Ctd6iyf4VSHw4SPVyOwWekd0OWXCXD/G7Y2oc5gcxrMRAeA5
-        Y4QRWObsnYKIqzMNrRout0WgQ3mcg1TjG8BTMLMbej5LV+LcH3GI+YotLp6b/GMW
-        cenieyjY6w+bRH6NP6odgrc9D7XkChwlY2TyaUiJkRB+LL0YLml1/31Ht6R67Ynh
-        YwQD5ZorTXD0jYKE3aM3IABzvZlVMUqc4ORyiX8a6v1swKd+52yx0woIhM5VXdQi
-        4oYtmdvwOI+lXz6AVQKSgEUBt9+gaKIV34xM2CS9LtQLCXsXHEXJpcYQIj4Ur81R
-        sUWSPFNJWO0=
-X-Virus-Scanned: amavis at mykolab.com
-X-Spam-Flag: NO
-X-Spam-Score: -1
-X-Spam-Level: 
-X-Spam-Status: No, score=-1 tagged_above=-10 required=5 tests=[ALL_TRUSTED=-1]
- autolearn=ham autolearn_force=no
-Received: from mx.kolabnow.com ([127.0.0.1])
- by localhost (ext-mx-out013.mykolab.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id dny97K6r-Voa; Wed,  8 Nov 2023 12:25:23 +0100 (CET)
-Received: from int-mx011.mykolab.com (unknown [10.9.13.11])
-        by mx.kolabnow.com (Postfix) with ESMTPS id 77899300D36F;
-        Wed,  8 Nov 2023 12:25:21 +0100 (CET)
-Received: from ext-subm010.mykolab.com (unknown [10.9.6.10])
-        by int-mx011.mykolab.com (Postfix) with ESMTPS id E365E30C01E2;
-        Wed,  8 Nov 2023 12:25:20 +0100 (CET)
-Message-ID: <a3184b70-e0b3-4227-94af-2412fd565724@hansg.org>
-Date:   Wed, 8 Nov 2023 12:25:19 +0100
-MIME-Version: 1.0
-Subject: Re: [PATCH v2 01/15] media: intel/ipu6: add Intel IPU6 PCI device
- driver
-Content-Language: en-US, nl
+        with ESMTP id S1344584AbjKHLZt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 06:25:49 -0500
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45C9F2137
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 03:25:47 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-54394328f65so11377362a12.3
+        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 03:25:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699442745; x=1700047545; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=2CuofhZ4aryHNckV4tz7mpfGg2sIDu58AedhZXJh0U0=;
+        b=Jx2uk3cQgMHdC/9cMCaxCs6gU/4zHpRVw5xn8giqUwI5Xj5tsGUo/dDmuIqziIJ67j
+         Jy8BLDRkpYUqhzy/5u0gk7+ACzi+h3dPGhetZsWmCUXiGq6grpujo016VZjrkEtz3g4M
+         TjBKcXey4G6yoI1MmXiXA/JbLkSys5wgeJXRsKZl+62jtm/RBbzX5LRH5H/uQzl+yp36
+         8niTRYSvitgml76kBznBptZY5Bzurxxj7tVTQyvz3hIfowXEqHXpicYeuSGIaZ1tP0t2
+         Xz25wGaUQiZVDRRuh2t69uKuqUk4jVNz525NKKd7uedLzucEbSuvuI/yKt4zRtlEBFSj
+         Q5yw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699442745; x=1700047545;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2CuofhZ4aryHNckV4tz7mpfGg2sIDu58AedhZXJh0U0=;
+        b=E+C74I9T2baTLloMJmUFMC3GlRBD0AV9dzBpZLe6Xt3qrV72bD3PSf3r7r9WZbdrZM
+         Yy5iZ3CVlJkqoM0DNsAJYhgtnWZ9dKyylt6Tw6Lq4/SqkpPtObN03cc0rblXrmx3OoYP
+         zha47In+NQksSO5s3A7ZciyFSKpQ/rvsDOTznf0XTx+HoxDeND9c6YQOekm0tEZjZdg6
+         lZStVhVH05FnIjEWGc0wSoVCYbPQw5aOWMKfM5/2HHmr0cXqQDCOmf+OErp6WnBv93fL
+         8hZaZrqHdWSbyUcVnkgdwfIkfTHjBfM9J2G9Ysa1BxuMBFRKhqbqlnVSWIgdrII3avGa
+         r42g==
+X-Gm-Message-State: AOJu0Yz1evnnF4K0eyPTtbwVqSfrl/iifB7bNdNdZQulVbYZERp7cT6j
+        05vk9QxXrmRtMr3MN4dkWay+41c6Gd4tpA==
+X-Google-Smtp-Source: AGHT+IFm3LaQCEXLCDgIEk98eHvjVVI6rOWfF9jHItwXHKk1p8BJfe+xtEoEy64fZup5WTk61UFR5w==
+X-Received: by 2002:a50:c34c:0:b0:540:77f8:240 with SMTP id q12-20020a50c34c000000b0054077f80240mr1008195edb.14.1699442745229;
+        Wed, 08 Nov 2023 03:25:45 -0800 (PST)
+Received: from [10.9.136.59] ([87.62.83.1])
+        by smtp.gmail.com with ESMTPSA id q21-20020a056402033500b0053dfd3519f4sm6429327edw.22.2023.11.08.03.25.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Nov 2023 03:25:44 -0800 (PST)
+Message-ID: <7c0a91f986baf62efcf0f021924653a00cdcc503.camel@gmail.com>
+Subject: Re: [PATCH v2 08/15] media: intel/ipu6: add IPU6 CSI2 receiver v4l2
+ sub-device
+From:   Andreas Helbech Kleist <andreaskleist@gmail.com>
 To:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
         sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
 Cc:     andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
-        ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
-        claus.stovgaard@gmail.com, tfiga@chromium.org,
-        senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
-        bingbu.cao@linux.intel.com, tian.shu.qiu@intel.com,
-        hongju.wang@intel.com
+        ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
+        tfiga@chromium.org, senozhatsky@chromium.org,
+        tomi.valkeinen@ideasonboard.com, bingbu.cao@linux.intel.com,
+        tian.shu.qiu@intel.com, hongju.wang@intel.com
+Date:   Wed, 08 Nov 2023 12:25:43 +0100
+In-Reply-To: <20231024112924.3934228-9-bingbu.cao@intel.com>
 References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <20231024112924.3934228-2-bingbu.cao@intel.com>
-From:   Hans de Goede <hans@hansg.org>
-In-Reply-To: <20231024112924.3934228-2-bingbu.cao@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+         <20231024112924.3934228-9-bingbu.cao@intel.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Bingbu,
 
-On 10/24/23 13:29, bingbu.cao@intel.com wrote:
+On Tue, 2023-10-24 at 19:29 +0800, bingbu.cao@intel.com wrote:
 > From: Bingbu Cao <bingbu.cao@intel.com>
-> 
-> Intel Image Processing Unit 6th Gen includes input and processing systems
-> but the hardware presents itself as a single PCI device in system.
-> 
-> IPU6 PCI device driver basically does PCI configurations and load
-> the firmware binary, initialises IPU virtual bus, and sets up platform
-> specific variants to support multiple IPU6 devices in single device
-> driver.
-> 
+>=20
+> Input system CSI2 receiver is exposed as a v4l2 sub-device.
+> Each CSI2 sub-device represent one single CSI2 hardware port
+> which be linked with external sub-device such camera sensor
+> by linked with ISYS CSI2's sink pad. CSI2 source pad is linked
+> to the sink pad of video capture device.
+>=20
 > Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> Reported-by: Hans de Goede <hdegoede@redhat.com>
-> Suggested-by: Andreas Helbech Kleist <andreaskleist@gmail.com>
 > ---
->  .../media/pci/intel/ipu6/ipu6-platform-regs.h | 179 ++++
->  drivers/media/pci/intel/ipu6/ipu6.c           | 952 ++++++++++++++++++
->  drivers/media/pci/intel/ipu6/ipu6.h           | 352 +++++++
->  3 files changed, 1483 insertions(+)
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-regs.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6.h
-
-<snip>
-
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6.c b/drivers/media/pci/intel/ipu6/ipu6.c
+> =C2=A0drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c | 654
+> ++++++++++++++++++
+> =C2=A0drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h |=C2=A0 81 +++
+> =C2=A0.../media/pci/intel/ipu6/ipu6-isys-subdev.c=C2=A0=C2=A0 | 379 +++++=
++++++
+> =C2=A0.../media/pci/intel/ipu6/ipu6-isys-subdev.h=C2=A0=C2=A0 |=C2=A0 58 =
+++
+> =C2=A0.../intel/ipu6/ipu6-platform-isys-csi2-reg.h=C2=A0 | 187 +++++
+> =C2=A05 files changed, 1359 insertions(+)
+> =C2=A0create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> =C2=A0create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h
+> =C2=A0create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
+> =C2=A0create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-subdev.h
+> =C2=A0create mode 100644 drivers/media/pci/intel/ipu6/ipu6-platform-isys-
+> csi2-reg.h
+>=20
+> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+> b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
 > new file mode 100644
-> index 000000000000..84960a283daf
+> index 000000000000..0dedf3f51850
 > --- /dev/null
-> +++ b/drivers/media/pci/intel/ipu6/ipu6.c
-> @@ -0,0 +1,952 @@
-
-<snip>
-
-> +static int ipu6_pci_config_setup(struct pci_dev *dev, u8 hw_ver)
+> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+...
+>=20
+> +
+> +#define DIV_SHIFT=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A08
+> +#define CSI2_ACCINV=C2=A0=C2=A0=C2=A0=C2=A08
+> +
+> +static u32 calc_timing(s32 a, s32 b, s64 link_freq, u32 accinv)
 > +{
-> +	int ret;
-> +
-> +	/* disable IPU6 PCI ATS on mtl ES2 */
-> +	if (is_ipu6ep_mtl(hw_ver) && boot_cpu_data.x86_stepping == 0x2 &&
-> +	    pci_ats_supported(dev))
-> +		pci_disable_ats(dev);
-> +
-> +	/* No PCI msi capability for IPU6EP */
-> +	if (is_ipu6ep(hw_ver) || is_ipu6ep_mtl(hw_ver)) {
-> +		/* likely do nothing as msi not enabled by default */
-> +		pci_disable_msi(dev);
-> +		return 0;
-> +	}
-> +
-> +	ret = pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_MSI);
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0return accinv * a + (accinv * =
+b * (500000000 >> DIV_SHIFT)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 / (int32_t)(link_freq >> DIV_SHIFT));
+> +}
 
-This does not work on TGL systems (and is not reached on ADL and RPL).
+I think accinv should be s32 here. When accinv is unsigned, the
+expression (accinv * b) becomes unsigned, and thus negative values of b
+gives incorrect results.=C2=A0
 
-The out of tree driver instead uses:
+This is different from e.g. https://github.com/intel/ipu6-drivers.
 
-        ret = pci_enable_msi(dev);
-
-and that does work correctly on TGL.
-
-Regards,
-
-Hans
-
-
+/Andreas
