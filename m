@@ -2,92 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 760CC7E57E9
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 14:24:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 666327E57ED
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 14:27:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230081AbjKHNYw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 08:24:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56802 "EHLO
+        id S234621AbjKHN1V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 08:27:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42506 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229827AbjKHNYv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 08:24:51 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 736491BEB
-        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 05:24:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699449889; x=1730985889;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yRaSjDmjlZ+ibEOtcw6UHbdRvaHRiUf7SHHamsbvgLM=;
-  b=BD0ovS1zDLvtvYZLZ/qR2ulvRGxfXKwy+iZIZ2Ati6sZa3aAPOEgXpDs
-   PPsGVhwXjnbUGlZ6qbScNCHcI11ecvicfKU8/4Jy8H3/C6eXz1dPHjz5Z
-   CbTBnJYkXp5z3tHuEbA25w/02CbRMzxAfpBIyoPVwI49dX3YbbRAGS1vS
-   MUr/mJoMiLRImbchl7snLqzxdrWgB6jL+AXRxSB80TV6CT4hw+nxFT9Iu
-   tRLW7Z4Cc2B1/lMGYmzWBxzUK/mXHDPfPXyNdr0utnZBFREykbUl8mngf
-   vrN0kLtSZaiOHpqEFqhmc+HYNZ2NoJDW6+nJusqtoNcE6KLKzpfvnjkDQ
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="2705369"
-X-IronPort-AV: E=Sophos;i="6.03,286,1694761200"; 
-   d="scan'208";a="2705369"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 05:24:49 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="797995969"
-X-IronPort-AV: E=Sophos;i="6.03,286,1694761200"; 
-   d="scan'208";a="797995969"
-Received: from smile.fi.intel.com ([10.237.72.54])
-  by orsmga001.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 05:24:41 -0800
-Received: from andy by smile.fi.intel.com with local (Exim 4.97-RC3)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1r0iXr-0000000CLYf-3xIH;
-        Wed, 08 Nov 2023 15:24:35 +0200
-Date:   Wed, 8 Nov 2023 15:24:35 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Hans de Goede <hans@hansg.org>
-Cc:     bingbu.cao@intel.com, linux-media@vger.kernel.org,
-        sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
-        hdegoede@redhat.com, ilpo.jarvinen@linux.intel.com,
-        andreaskleist@gmail.com, claus.stovgaard@gmail.com,
-        tfiga@chromium.org, senozhatsky@chromium.org,
-        tomi.valkeinen@ideasonboard.com, bingbu.cao@linux.intel.com,
-        tian.shu.qiu@intel.com, hongju.wang@intel.com
-Subject: Re: [PATCH v2 01/15] media: intel/ipu6: add Intel IPU6 PCI device
- driver
-Message-ID: <ZUuME44FjE9sdISe@smile.fi.intel.com>
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <20231024112924.3934228-2-bingbu.cao@intel.com>
- <a3184b70-e0b3-4227-94af-2412fd565724@hansg.org>
+        with ESMTP id S229675AbjKHN1U (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 08:27:20 -0500
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 630A71BEB;
+        Wed,  8 Nov 2023 05:27:18 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 303EEC000C;
+        Wed,  8 Nov 2023 13:27:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1699450037;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=cQ6kgASMd3MviVZ9Li9dMd2dQGMlEHneHIL8ufkos2s=;
+        b=Z8sp93SQxpWmSWVVZANDZjNgDJHG/dfSMcyNSgazLbN1ZDcI9Ny5VuJ/V1vYv6Jto7KeRS
+        Uavf31ISwIlE06SiAlo1KSZQPc6eikUPyn1aX0jZ1KevKEXdwQWXkuWzwbJUBjpE2+x8qQ
+        ED20jPY2BtkJM3l1knxS67mLhG5WZfquY+QySAGlhhKDd+tOCAuCTxPzvL7XgDIpn46CZh
+        XbMucd6ZrIXA03gmVeaG5oGEmLvnjB5IumiV2zd8jD8pYdSbUDAOEMWnXsxlDWH0HAJ9mW
+        9fI5RJ1/41OvQjVCnpbNE9Ref2pPXPYTYpFIJgJIeJ+Yi4LQHHqwleGh7CSNbA==
+From:   Mehdi Djait <mehdi.djait@bootlin.com>
+To:     mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
+        paul.kocialkowski@bootlin.com,
+        Mehdi Djait <mehdi.djait@bootlin.com>
+Subject: [PATCH v8 0/3] media: i2c: Introduce driver for the TW9900 video decoder
+Date:   Wed,  8 Nov 2023 14:27:11 +0100
+Message-ID: <cover.1699449537.git.mehdi.djait@bootlin.com>
+X-Mailer: git-send-email 2.41.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a3184b70-e0b3-4227-94af-2412fd565724@hansg.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: mehdi.djait@bootlin.com
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 08, 2023 at 12:25:19PM +0100, Hans de Goede wrote:
-> On 10/24/23 13:29, bingbu.cao@intel.com wrote:
+Hello everyone,
 
-...
+V8 of the series adding support for the Techwell TW9900 multi standard decoder.
+It's a pretty simple decoder compared to the TW9910, since it doesn't have a 
+built-in scaler/crop engine.
 
-> > +	ret = pci_alloc_irq_vectors(dev, 1, 1, PCI_IRQ_MSI);
-> 
-> This does not work on TGL systems (and is not reached on ADL and RPL).
-> 
-> The out of tree driver instead uses:
-> 
->         ret = pci_enable_msi(dev);
-> 
-> and that does work correctly on TGL.
+The v6 is based on the fifth iteration of the series introducing the
+tw9900 driver: sent 01 Apr 2021 [1]
 
-Does it mean TGL uses legacy IRQ?
-In that case we need to simply change the flag to allow that as the used API
-is what documentation says needs to be used and pci_enable_msi() is deprecated.
+v7 => v8:
+- fixed the number of analog input ports: it is just one.
+- added endpoints of the analog input port
+- added vdd-supply to the required in the dt-binding documentation
+- added back pm_runtime
+- added a mutex to Serialize access to hardware and current mode configuration
+- split get_fmt and set_fmt callbacks 
+- removed the tw9900_cancel_autodetect()
+
+v6 => v7:
+- added powerdown-gpios and input ports to dt-bindings
+- added #include <linux/bitfield.h> to fix a Warning from the kernel
+  robot
+- removed a dev_info and replaced a dev_err by dev_err_probe
+
+v5 => v6:
+- dropped .skip_top and .field in the supported_modes
+- added error handling for the i2c writes/reads
+- added the colorimetry information to fill_fmt
+- removed pm_runtime
+- added the g_input_status callback
+- dropped SECAM
+- dropped the non-standard PAL/NTSC variants
+
+Any feedback is appreciated,
+
+Mehdi Djait
+
+media_tree, base-commit: 94e27fbeca27d8c772fc2bc807730aaee5886055
+
+[1] https://lore.kernel.org/linux-media/20210401070802.1685823-1-maxime.chevallier@bootlin.com/
+
+Mehdi Djait (3):
+  dt-bindings: vendor-prefixes: Add techwell vendor prefix
+  media: dt-bindings: media: i2c: Add bindings for TW9900
+  media: i2c: Introduce a driver for the Techwell TW9900 decoder
+
+ .../bindings/media/i2c/techwell,tw9900.yaml   | 137 ++++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   6 +
+ drivers/media/i2c/Kconfig                     |  12 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/tw9900.c                    | 771 ++++++++++++++++++
+ 6 files changed, 929 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
+ create mode 100644 drivers/media/i2c/tw9900.c
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.41.0
 
