@@ -2,170 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id A37217E4E3B
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 01:47:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 691677E4E7E
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 02:15:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232135AbjKHArJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 19:47:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45030 "EHLO
+        id S235260AbjKHBPW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 20:15:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40198 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229650AbjKHArI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 19:47:08 -0500
-Received: from mail-lj1-x231.google.com (mail-lj1-x231.google.com [IPv6:2a00:1450:4864:20::231])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF35F1701
-        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 16:47:05 -0800 (PST)
-Received: by mail-lj1-x231.google.com with SMTP id 38308e7fff4ca-2c6ed1b9a1cso84872101fa.3
-        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 16:47:05 -0800 (PST)
+        with ESMTP id S232991AbjKHBPV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 20:15:21 -0500
+Received: from mail-wm1-x32d.google.com (mail-wm1-x32d.google.com [IPv6:2a00:1450:4864:20::32d])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B71010EC
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 17:15:19 -0800 (PST)
+Received: by mail-wm1-x32d.google.com with SMTP id 5b1f17b1804b1-40839807e82so1508355e9.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 17:15:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699404424; x=1700009224; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1699406118; x=1700010918; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=fxXEGNqHkCROwSi+05eOdPd8Sd9PO1LMoRgHN4n0oAM=;
-        b=y/Qro9zRaSnMG3SCFs1GFHbyC+dMggpAFRn8Dhtyi3Gjwfn31KdPGzuCmhslqTGmrI
-         h2nW1gDzNNCLs0p0RlG51QCd4E36LSDJuhw1IbMaCaWJN+ZYaR7akDGR6x3jVzKhpv6n
-         yoSHRfcqXt4U1FA5pdReWrCcK9Ay58dmphYttG9nt1JGZefcCZMzfCc7SPB1Dgo8zhlH
-         xBwKmzzlxIR3oAwOwzKoE1PAyTjeECz6zeivD1tduDJT3pQPilVYRSamnaOWQHf66FZc
-         0IW2KfV4Uu0ZQdfqrRk2rPzGfDQix8XEeFDPUTcbSlx/BeLsvfADMcTGSQ+mqQaTnYLG
-         G8lQ==
+        bh=XZnznCqM2AjhaZi79PbuLHcHUwpNTpzbw/YuXnI5mfQ=;
+        b=A2okkFp7TX/st0lbMUu2UPI+8NYPHjuLjE/StjD2LuiCQHGOvv44FL84gtaP0OgSZe
+         T6gvaK0gzSUqdBMTKJY6sg1Wfejy8xZCtHMTKhYB91JJ+Mqyn/n6aprV2F2TANk79UAm
+         HRX2bLe7tF4+d8TVDmfEjIXu7p/OSM4O1tGEuUi4qNjqGdOM8HXQBrf8YhI75KrQ5MVF
+         u3Etx60oeKmyFGdScAnvAu71GzJjpMUi781RLWcyw1SYf/1YNPOUhdIRZtREhNuevuNJ
+         BYUOx11YReIQ7KSs2gTGv7uqzfayDIU6C0wpCRQ700VjNUUuhQbiWkxA9bLsa6ibw6fD
+         z5iQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699404424; x=1700009224;
+        d=1e100.net; s=20230601; t=1699406118; x=1700010918;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fxXEGNqHkCROwSi+05eOdPd8Sd9PO1LMoRgHN4n0oAM=;
-        b=NMzO5b7qFnw2zwU31+IdOdBh6FPCbFZb0HUcgnOM0ncSZl61ACNM+RecRxUWmgp+lh
-         Ou1v7ArQ7vC1/1cPgUpNUJ90GcCJWFGUPeVl54/2W7wxA3+YE6R2gmkhYF8CR9I1vF0x
-         RwNk1osUmCGIe3nMrgujr4MnIfUkYPZG55aPMVpR0lbzVgbgj1MEGdAMyYzwh5cSClBz
-         JnVpfNavBSfo+457NxlfKSCqW4QTE20AK4b2nf5oFIHz2pfPyHx4yUrx8UtiFnJcexLD
-         prAxvBAvba1Rk1M1nFAlxotPY+sehoEcoaoZpKi14iW3wJgPJ1hDFRjZE51T8W4Hw8Q0
-         q5zQ==
-X-Gm-Message-State: AOJu0Yz29yntZLvy+eQXKNkYE2T8volBGOvbdUc3ZIKdOmh01q9/KHGR
-        lhxudq6BKRbHZ2r1SZrtDnWbGg==
-X-Google-Smtp-Source: AGHT+IGMIX8wFIZGEr49kMo8SuWeyfpquE8WvWyM8NzCa8/zQ6brjMQRGNEGtiBTC651CY1T3J8NVw==
-X-Received: by 2002:a05:651c:8b:b0:2c5:f1a:1f31 with SMTP id 11-20020a05651c008b00b002c50f1a1f31mr491337ljq.1.1699404424023;
-        Tue, 07 Nov 2023 16:47:04 -0800 (PST)
+        bh=XZnznCqM2AjhaZi79PbuLHcHUwpNTpzbw/YuXnI5mfQ=;
+        b=Eg1/ZUvszrJpYJRuUZ5L0s7MHoRcFDajV/0DJSANYD7c+aznYXmN++CJb716PBZwkv
+         Vhf8AwwklmpBK81iIdN9Mp3xXeoyXRRFJ729+kNbTSM9/lLrZNPNZpvIGh3gh+kZOy0W
+         lWuBLrXDtIKXhdol4uCD8sxm31YKRflBE3hFukwJzJGPRKdYDtrRZkbaDwFmdOaAYOnc
+         guol71CNH8IoOX1XZUAmsThCAFHUHGxjf9bW1IYHuoaxyJlhL9Wt5oXyFO/EXDkVsqP3
+         r6Xt+N2y/5IGeYvJQxJ2Y14SWEfN7bWyRUNCMmdFm6DWeeJV9Z44rNIWI5J1n+0QstFi
+         G0bg==
+X-Gm-Message-State: AOJu0YxK5T0aE1agVtQuEafqNazvx18MzalWlFXFwg/FS+ztyfK6Z/t4
+        VdKnuoDZSDyYKtqN1xM3lF1a1A==
+X-Google-Smtp-Source: AGHT+IEIbjP5ubRLbHFuttHbIGtYyTdvZVb5ctg0N4NF3wFeDFArM4/Br06A2vdI/3SJ+YmATJCpTw==
+X-Received: by 2002:a05:600c:c0c:b0:401:b425:2414 with SMTP id fm12-20020a05600c0c0c00b00401b4252414mr4903500wmb.18.1699406117867;
+        Tue, 07 Nov 2023 17:15:17 -0800 (PST)
 Received: from [192.168.100.102] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id c14-20020a05600c0a4e00b004030e8ff964sm17960914wmq.34.2023.11.07.16.47.02
+        by smtp.gmail.com with ESMTPSA id f21-20020a7bcc15000000b0040773c69fc0sm17049309wmh.11.2023.11.07.17.15.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Nov 2023 16:47:03 -0800 (PST)
-Message-ID: <9601c3ca-c7a1-4c90-878d-feeccd9e6610@linaro.org>
-Date:   Wed, 8 Nov 2023 00:47:01 +0000
+        Tue, 07 Nov 2023 17:15:17 -0800 (PST)
+Message-ID: <ae95c3c7-26b7-42f5-b806-f57b56e6300e@linaro.org>
+Date:   Wed, 8 Nov 2023 01:15:14 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/6] media: qcom: camss: Add sc8280xp resource details
+Subject: Re: [PATCH RESEND v3 4/5] clk: qcom: Use HW_CTRL_TRIGGER flag to
+ switch video GDSC to HW mode
 Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, Andy Gross <agross@kernel.org>,
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Abel Vesa <abel.vesa@linaro.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman <khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Pavel Machek <pavel@ucw.cz>, Len Brown <len.brown@intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Bjorn Andersson <andersson@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
-        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231105-b4-camss-sc8280xp-v3-0-4b3c372ff0f4@linaro.org>
- <20231105-b4-camss-sc8280xp-v3-4-4b3c372ff0f4@linaro.org>
- <871e668a-1732-4ed6-9d12-818504296464@linaro.org>
+        Andy Gross <agross@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Taniya Das <tdas@qti.qualcomm.com>, linux-pm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-media@vger.kernel.org,
+        Jagadeesh Kona <quic_jkona@quicinc.com>
+References: <20231101-gdsc-hwctrl-v3-0-0740ae6b2b04@linaro.org>
+ <20231101-gdsc-hwctrl-v3-4-0740ae6b2b04@linaro.org>
+ <835a6add-81e9-42e4-abbe-91632aaa6bc9@linaro.org>
+ <82a25b12-7a63-4c75-8a46-624bc35c6752@linaro.org>
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <871e668a-1732-4ed6-9d12-818504296464@linaro.org>
+In-Reply-To: <82a25b12-7a63-4c75-8a46-624bc35c6752@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/11/2023 21:48, Konrad Dybcio wrote:
+On 07/11/2023 21:21, Konrad Dybcio wrote:
+>>
+>> So.
+>>
+>> I'm assuming the rest of this series works however for sc8250 at least 
+>> this is a NAK, breaks venus on rb5.
+> Are you saying that applying this patch alone causes the attached crash?
 > 
-> 
-> On 11/5/23 18:45, Bryan O'Donoghue wrote:
->> This commit describes the hardware layout for the sc8280xp for the
->> following hardware blocks:
->>
->> - 4 x VFE, 4 RDI per VFE
->> - 4 x VFE Lite, 4 RDI per VFE
->> - 4 x CSID
->> - 4 x CSID Lite
->> - 4 x CSI PHY
->>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
->>   drivers/media/platform/qcom/camss/camss.c | 383 
->> ++++++++++++++++++++++++++++++
->>   1 file changed, 383 insertions(+)
->>
->> diff --git a/drivers/media/platform/qcom/camss/camss.c 
->> b/drivers/media/platform/qcom/camss/camss.c
->> index 8778fdc1ee342..51619842f3925 100644
->> --- a/drivers/media/platform/qcom/camss/camss.c
->> +++ b/drivers/media/platform/qcom/camss/camss.c
->> @@ -941,6 +941,374 @@ static const struct resources_icc 
->> icc_res_sm8250[] = {
->>       },
->>   };
->> +static const struct camss_subdev_resources csiphy_res_sc8280xp[] = {
->> +    /* CSIPHY0 */
->> +    {
->> +        .regulators = {},
->> +        .clock = { "csiphy0", "csiphy0_timer" },
->> +        .clock_rate = { { 400000000 },
->> +                { 300000000 } },
->> +        .reg = { "csiphy0" },
->> +        .interrupt = { "csiphy0" },
->> +        .ops = &csiphy_ops_3ph_1_0
->> +    },
->> +    /* CSIPHY1 */
->> +    {
->> +        .regulators = {},
->> +        .clock = { "csiphy1", "csiphy1_timer" },
->> +        .clock_rate = { { 400000000 },
->> +                { 300000000 } },
->> +        .reg = { "csiphy1" },
->> +        .interrupt = { "csiphy1" },
->> +        .ops = &csiphy_ops_3ph_1_0
->> +    },
->> +    /* CSIPHY2 */
->> +    {
->> +        .regulators = {},
->> +        .clock = { "csiphy2", "csiphy2_timer" },
->> +        .clock_rate = { { 400000000 },
->> +                { 300000000 } },
->> +        .reg = { "csiphy2" },
->> +        .interrupt = { "csiphy2" },
->> +        .ops = &csiphy_ops_3ph_1_0
->> +    },
->> +    /* CSIPHY3 */
->> +    {
->> +        .regulators = {},
->> +        .clock = { "csiphy3", "csiphy3_timer" },
->> +        .clock_rate = { { 400000000 },
->> +                { 300000000 } },
->> +        .reg = { "csiphy3" },
->> +        .interrupt = { "csiphy3" },
->> +        .ops = &csiphy_ops_3ph_1_0
->> +    },
->> +};
->> +
->> +static const struct camss_subdev_resources csid_res_sc8280xp[] = {
->> +    /* CSID0 */
->> +    {
->> +        .regulators = { "vdda-phy", "vdda-pll" },
->> +        .clock = { "vfe0_csid_src", "vfe0_csid", "cphy_rx_src",
->> +               "vfe0_cphy_rx", "vfe0_src", "vfe0", "vfe0_axi" },
-> This looks like downstream hack copypasta.. All the _src clocks
-> should be axed from here, from the camss bindings and simply be
-> enabled with CLK_OPS_PARENT_ENABLE on their children (which should
-> be the default for all branch clocks anyway eh)
+> Konrad
 
-This is a legitimate comment though, at least in principle,.
+I tried to revert this patch in isolation and got
 
-I ought to be able to drop vfe0_src and vfe0_csid_src since they should 
-be the roots for vfe0 and vfe0_csid.
+->
 
-I will see what can be rationalised in this list tomorrow.
+[  157.083287] qcom-venus aa00000.video-codec: Failed to switch 
+power-domain:1 to SW mode
+[  162.004630] qcom-venus aa00000.video-codec: Failed to switch 
+power-domain:1 to SW mode
+
+I stopped debugging there.
 
 ---
 bod
