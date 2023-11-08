@@ -2,160 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 65FBE7E59CC
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 16:11:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E813A7E59D4
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 16:15:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231981AbjKHPLa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 10:11:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34248 "EHLO
+        id S232557AbjKHPPR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 10:15:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56188 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232575AbjKHPL3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 10:11:29 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48A881FC9;
-        Wed,  8 Nov 2023 07:11:27 -0800 (PST)
-Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8CB55660768A;
-        Wed,  8 Nov 2023 15:11:24 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1699456285;
-        bh=K5VXgBozdsSABodMQiE6+mK90u54h0+xV4Xvoon1qpI=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=kkphmV+JYfqj+ns8NoxsBLanCoQtKf/WqfersIRDq1ESjfsgbVsLyKprjuLkHb8+u
-         eYbeV/5sc9Uaixti/t99d0OJJa69i7X1jzOaxDyUqUbNO2LBrNgLoZCfEPbEp3S5s3
-         GgHwUpWZoRyvaqdkQXSdRH6HRp/Bi4yK+I+vaYWWK+Qo9pl7ya72C2qzL30umV1BUA
-         pKN2f2avJQGq79jRDm2H8n/TPa/eYtmQpuGxtvH6ZmOedLNG1Lbm1VFNpyeDyBOcEp
-         sKhe8zYc4qBHUHSmVlVp9/G+MKwvITnFKP02mJzKB0j9WibptLiG+uH8sOp7cO3mbu
-         cDh/a/cECWL/A==
-Message-ID: <762f42fb-1cb3-4854-bd48-90d91c2eb3ef@collabora.com>
-Date:   Wed, 8 Nov 2023 16:11:22 +0100
+        with ESMTP id S232354AbjKHPPQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 10:15:16 -0500
+Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.154])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2EE1990
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 07:15:13 -0800 (PST)
+Received: from localhost (unknown [127.0.0.1])
+        by mx.kolabnow.com (Postfix) with ESMTP id 85ABF20E15CD;
+        Wed,  8 Nov 2023 16:15:11 +0100 (CET)
+Authentication-Results: ext-mx-out011.mykolab.com (amavis);
+ dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
+ header.d=kolabnow.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
+        content-transfer-encoding:content-type:content-type:in-reply-to
+        :from:from:content-language:references:subject:subject
+        :mime-version:date:date:message-id:received:received:received;
+         s=dkim20160331; t=1699456510; x=1701270911; bh=DaJOWaGJckORUtRD
+        xv0Ng+hit5G9TireSYzv/0O4J+M=; b=cIUGdQPu2BZsGFi8TdILU4Q/Wqs2RiUt
+        YZNPjJQBra0thlIuBZfXgpSd8xzu0GwwIH4fMVb2w3L/Dd1rOWwD/iqX6B0Xc3LZ
+        1xF0cUw1/h+YA/FvgeM3O20ax21akNCwjUCvxiQaBuy++qzD+3gU+81s1JcNE8JV
+        uOpjLdO5iCcJYV0OLMZsAgYindaKgX1XXl/v87uSfhBxliYf0YdMjjYGplPG5NIf
+        niO3tc5NWyBFXdez24YMFd4c0oXEWgAobK7F+Z4a7DasM8FXa9UbFbO0vAKkCg15
+        df1gSUPFmD4cvx0Kff05F7oyiTQQRsWIC4MFGCjs8b8vD2fbpX/0LreiKc76T5Ws
+        souKl1jhnFP5rLX/DPhMQXsC2U8nfnxVGlPPqzb6W6E2nkPPDvSpUwImzjgPEuEG
+        cme1mT+TWNt/G4WDKB7qYiKpEM1MOkS62XOY+qEBRSVGelz3Ovi7443Rp11QuOKy
+        bW+eNPBNXA/xAGNAey9P++biHMoqLyazevcF6XqyynCzz5D2vhhp9HD+OGXmvtOQ
+        +eOu0JW7+0cocBNs1Wk10buNpCmqraIUeTZsnRg6vOI9GUY4hvM/ETAEl49SmK3y
+        715X9KDTcuce/fqw3/tw+DGtagh+7MxBqyDEdr1l07fwbPXiRHVliJATVvJRXiUm
+        M/qDi4TSqNE=
+X-Virus-Scanned: amavis at mykolab.com
+X-Spam-Flag: NO
+X-Spam-Score: -1
+X-Spam-Level: 
+X-Spam-Status: No, score=-1 tagged_above=-10 required=5 tests=[ALL_TRUSTED=-1]
+ autolearn=ham autolearn_force=no
+Received: from mx.kolabnow.com ([127.0.0.1])
+ by localhost (ext-mx-out011.mykolab.com [127.0.0.1]) (amavis, port 10024)
+ with ESMTP id PukRqzkYtYw6; Wed,  8 Nov 2023 16:15:10 +0100 (CET)
+Received: from int-mx009.mykolab.com (unknown [10.9.13.9])
+        by mx.kolabnow.com (Postfix) with ESMTPS id A9CD520AB2F6;
+        Wed,  8 Nov 2023 16:15:08 +0100 (CET)
+Received: from ext-subm010.mykolab.com (unknown [10.9.6.10])
+        by int-mx009.mykolab.com (Postfix) with ESMTPS id 1F95620CCEC7;
+        Wed,  8 Nov 2023 16:15:08 +0100 (CET)
+Message-ID: <b9069635-1fd5-442a-9b4c-fdb2522fcfee@hansg.org>
+Date:   Wed, 8 Nov 2023 16:15:06 +0100
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 01/56] media: videobuf2: Rename offset parameter
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
- <20231031163104.112469-2-benjamin.gaignard@collabora.com>
-Content-Language: en-US
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20231031163104.112469-2-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 00/15] Intel IPU6 and IPU6 input system drivers
+To:     "Cao, Bingbu" <bingbu.cao@intel.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "laurent.pinchart@ideasonboard.com" 
+        <laurent.pinchart@ideasonboard.com>
+Cc:     "andriy.shevchenko@linux.intel.com" 
+        <andriy.shevchenko@linux.intel.com>,
+        "hdegoede@redhat.com" <hdegoede@redhat.com>,
+        "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
+        "andreaskleist@gmail.com" <andreaskleist@gmail.com>,
+        "claus.stovgaard@gmail.com" <claus.stovgaard@gmail.com>,
+        "tfiga@chromium.org" <tfiga@chromium.org>,
+        "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
+        "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
+        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
+        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+        "Wang, Hongju" <hongju.wang@intel.com>
+References: <20231024112924.3934228-1-bingbu.cao@intel.com>
+ <e1b060be-793f-4482-b0dc-670984bbbd84@hansg.org>
+ <DM8PR11MB56531D32CC21715B696C961199A8A@DM8PR11MB5653.namprd11.prod.outlook.com>
+Content-Language: en-US, nl
+From:   Hans de Goede <hans@hansg.org>
+In-Reply-To: <DM8PR11MB56531D32CC21715B696C961199A8A@DM8PR11MB5653.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
-> Rename 'off' parameter to 'offset' to clarify the code.
+Hi Bingbu,
+On 11/8/23 15:31, Cao, Bingbu wrote:
+> Hans,
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+> ------------------------------------------------------------------------
+> BRs,  
+> Bingbu Cao 
+> 
+>> -----Original Message-----
+>> From: Hans de Goede <hans@hansg.org>
+>> Sent: Wednesday, November 8, 2023 8:00 PM
+>> To: Cao, Bingbu <bingbu.cao@intel.com>; linux-media@vger.kernel.org;
+>> sakari.ailus@linux.intel.com; laurent.pinchart@ideasonboard.com
+>> Cc: andriy.shevchenko@linux.intel.com; hdegoede@redhat.com;
+>> ilpo.jarvinen@linux.intel.com; andreaskleist@gmail.com;
+>> claus.stovgaard@gmail.com; tfiga@chromium.org; senozhatsky@chromium.org;
+>> tomi.valkeinen@ideasonboard.com; bingbu.cao@linux.intel.com; Qiu, Tian Shu
+>> <tian.shu.qiu@intel.com>; Wang, Hongju <hongju.wang@intel.com>
+>> Subject: Re: [PATCH v2 00/15] Intel IPU6 and IPU6 input system drivers
+>>
+>> Hi Bingbu,
+>>
+>> On 10/24/23 13:29, bingbu.cao@intel.com wrote:
+>>> From: Bingbu Cao <bingbu.cao@intel.com>
+>>>
+>>> This patch series adds a driver for Intel IPU6 input system.
+>>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
+>>> device which can be found in some Intel Client Platforms. User can use
+>>> IPU6 to capture images from MIPI camera sensors.
+>>>
+>>> IPU6 has its own firmware which exposes ABIs to driver, and
+>>> communicates with CSE to do firmware authentication. IPU6 has its MMU
+>>> hardware, so the driver sets up a page table to allow IPU6 DMA to
+>>> access the system memory.
+>>>
+>>> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
+>>
+>> I have been testing this on a TigerLake system, a Dell Latitude 9420 with
+>> ov01a1s and the packed 10 bit bayer pixel fmt: V4L2_PIX_FMT_SGRBG10P, which
+>> libcamera together with (WIP) software debayer support picks by default
+>> does not work. There are many many CSI errors in dmesg and only the first
+>> 10 or so lines of the image show.
+>>
+>> Disabling the packed format by removing it from ipu6_isys_pfmts[], making
+>> libcamera pick the unpacked (every 10 bits per pixel data stored in a 16
+>> bit word in output buffer) fixes this.
+>>
+>> Are the packed bayer formats supposed to work on Tiger Lake, or is this a
+>> known issue which Intel's own userspace stack avoids by always picking the
+>> unpacked format ?
+> 
+> Thanks for the test.
+> 
+> I remember I verified SGRBG10P format on my ADL device before, but I have
+> not tested that for a while, give me some time to test again and come back.
 
-> ---
->   .../media/common/videobuf2/videobuf2-core.c   | 26 +++++++++----------
->   1 file changed, 13 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 27aee92f3eea..a5e57affeb30 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -356,23 +356,23 @@ static void __setup_offsets(struct vb2_buffer *vb)
->   {
->   	struct vb2_queue *q = vb->vb2_queue;
->   	unsigned int plane;
-> -	unsigned long off = 0;
-> +	unsigned long offset = 0;
->   
->   	if (vb->index) {
->   		struct vb2_buffer *prev = q->bufs[vb->index - 1];
->   		struct vb2_plane *p = &prev->planes[prev->num_planes - 1];
->   
-> -		off = PAGE_ALIGN(p->m.offset + p->length);
-> +		offset = PAGE_ALIGN(p->m.offset + p->length);
->   	}
->   
->   	for (plane = 0; plane < vb->num_planes; ++plane) {
-> -		vb->planes[plane].m.offset = off;
-> +		vb->planes[plane].m.offset = offset;
->   
->   		dprintk(q, 3, "buffer %d, plane %d offset 0x%08lx\n",
-> -				vb->index, plane, off);
-> +				vb->index, plane, offset);
->   
-> -		off += vb->planes[plane].length;
-> -		off = PAGE_ALIGN(off);
-> +		offset += vb->planes[plane].length;
-> +		offset = PAGE_ALIGN(offset);
->   	}
->   }
->   
-> @@ -2185,9 +2185,9 @@ int vb2_core_streamoff(struct vb2_queue *q, unsigned int type)
->   EXPORT_SYMBOL_GPL(vb2_core_streamoff);
->   
->   /*
-> - * __find_plane_by_offset() - find plane associated with the given offset off
-> + * __find_plane_by_offset() - find plane associated with the given offset
->    */
-> -static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
-> +static int __find_plane_by_offset(struct vb2_queue *q, unsigned long offset,
->   			unsigned int *_buffer, unsigned int *_plane)
->   {
->   	struct vb2_buffer *vb;
-> @@ -2218,7 +2218,7 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long off,
->   		vb = q->bufs[buffer];
->   
->   		for (plane = 0; plane < vb->num_planes; ++plane) {
-> -			if (vb->planes[plane].m.offset == off) {
-> +			if (vb->planes[plane].m.offset == offset) {
->   				*_buffer = buffer;
->   				*_plane = plane;
->   				return 0;
-> @@ -2304,7 +2304,7 @@ EXPORT_SYMBOL_GPL(vb2_core_expbuf);
->   
->   int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
->   {
-> -	unsigned long off = vma->vm_pgoff << PAGE_SHIFT;
-> +	unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
->   	struct vb2_buffer *vb;
->   	unsigned int buffer = 0, plane = 0;
->   	int ret;
-> @@ -2335,7 +2335,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
->   	 * Find the plane corresponding to the offset passed by userspace. This
->   	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
->   	 */
-> -	ret = __find_plane_by_offset(q, off, &buffer, &plane);
-> +	ret = __find_plane_by_offset(q, offset, &buffer, &plane);
->   	if (ret)
->   		goto unlock;
->   
-> @@ -2380,7 +2380,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
->   				    unsigned long pgoff,
->   				    unsigned long flags)
->   {
-> -	unsigned long off = pgoff << PAGE_SHIFT;
-> +	unsigned long offset = pgoff << PAGE_SHIFT;
->   	struct vb2_buffer *vb;
->   	unsigned int buffer, plane;
->   	void *vaddr;
-> @@ -2392,7 +2392,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
->   	 * Find the plane corresponding to the offset passed by userspace. This
->   	 * will return an error if not MEMORY_MMAP or file I/O is in progress.
->   	 */
-> -	ret = __find_plane_by_offset(q, off, &buffer, &plane);
-> +	ret = __find_plane_by_offset(q, offset, &buffer, &plane);
->   	if (ret)
->   		goto unlock;
->   
+I can confirm that SGRBG10P works on Alderlake it appears to be broken
+on Tiger Lake though.
+
+Regards,
+
+Hans
 
