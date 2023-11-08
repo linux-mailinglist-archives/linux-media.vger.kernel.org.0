@@ -2,247 +2,308 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BF617E5368
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 11:31:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC63F7E543A
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 11:46:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344214AbjKHKbb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 05:31:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40312 "EHLO
+        id S1344614AbjKHKqw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 05:46:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344118AbjKHKba (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 05:31:30 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8ACDF1BD5;
-        Wed,  8 Nov 2023 02:31:28 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AEBC3C433C8;
-        Wed,  8 Nov 2023 10:31:24 +0000 (UTC)
-Message-ID: <38382016-4769-411d-b0bf-35ce05753abd@xs4all.nl>
-Date:   Wed, 8 Nov 2023 11:31:22 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 02/56] media: videobuf2: Rework offset 'cookie'
- encoding pattern
-Content-Language: en-US, nl
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Tomasz Figa <tfiga@chromium.org>
+        with ESMTP id S1344689AbjKHKqK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 05:46:10 -0500
+Received: from mail-pf1-x434.google.com (mail-pf1-x434.google.com [IPv6:2607:f8b0:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC3422708
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 02:44:44 -0800 (PST)
+Received: by mail-pf1-x434.google.com with SMTP id d2e1a72fcca58-6b89ab5ddb7so6936881b3a.0
+        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 02:44:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1699440284; x=1700045084; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gKTyWokpX5cgue49QDtZFQPjUpwVAu8TbIboU5lRKS0=;
+        b=QN7qWsTUCLuv2mb9MZds0fFM3GEB87l8mGOk+Pmc3zWMZcDFPwJNlapjPEgyQ/1Llf
+         KGTIQ9BDQqTO/PztuDKjG77xoQoQ6P+pQEkCY8OojWfc1cCVwjdsfoA5zs6DPTdWOIAR
+         N5TkXxe/qKJicNQIQnNbQ601auELYBC7OaB8k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699440284; x=1700045084;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gKTyWokpX5cgue49QDtZFQPjUpwVAu8TbIboU5lRKS0=;
+        b=cdcWldaxFjUtP1+j0PbL1ajp0pntp393FqQA35G18CWL3SIk3EYPixqjT+CSzmlyvu
+         Kvs0ZZdWW1Tt2WqVJxeOiaTpQdMqhQbG1Ic2n+zLTfwUm/wsvhp01Vwwkkk/k1duQTHH
+         7wDlyJKTo+FXzKqp0gycTHK6L8tBbtD0MRUSG0hehaDyvpOa/WWnEAOWHC8iFIN42xVi
+         AublYpd4/KyNN2p9/9oF9SrRMJvpYuY9+ICtfAwRFEh7OcmxOwhZu3uX/OlA0gW6H1By
+         2cNmwg4czHBUfQesjCekcjd2YdrLvfCJ4Wue/OfsvL3SP84PZ2yhYt5t2XiMYHL2A/64
+         qRMw==
+X-Gm-Message-State: AOJu0YyZeXf+qvxwbA0S0VDA16F6ZXpoY1ufCBXTEZ6nut6ETOJx0893
+        0LgnbDDEwAeL2dhpJR13GD2jWg==
+X-Google-Smtp-Source: AGHT+IEzqy1BibD2RC0l4kCSPsKsVPKvQCQxco2ue8t7SCmmOXz1P0lkP95g4IaHmCfbUqjrwn7xKw==
+X-Received: by 2002:a05:6a20:7f97:b0:14c:daa9:5e22 with SMTP id d23-20020a056a207f9700b0014cdaa95e22mr1989536pzj.45.1699440283822;
+        Wed, 08 Nov 2023 02:44:43 -0800 (PST)
+Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
+        by smtp.gmail.com with ESMTPSA id w12-20020a170902e88c00b001bb3beb2bc6sm1450272plg.65.2023.11.08.02.44.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Nov 2023 02:44:43 -0800 (PST)
+Date:   Wed, 8 Nov 2023 10:44:39 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
 Cc:     mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
         ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, nicolas.dufresne@collabora.com,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
+        gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+        nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
         kernel@collabora.com
+Subject: Re: [PATCH v14 52/56] media: core: Add bitmap manage bufs array
+ entries
+Message-ID: <20231108104439.oxpbbd2yro7u57t4@chromium.org>
 References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
- <20231031163104.112469-3-benjamin.gaignard@collabora.com>
- <20231108062322.l2k2n2jlpoaa4tws@chromium.org>
- <ce33854a-f547-411a-a747-2d32d442b15e@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <ce33854a-f547-411a-a747-2d32d442b15e@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+ <20231031163104.112469-53-benjamin.gaignard@collabora.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231031163104.112469-53-benjamin.gaignard@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08/11/2023 11:14, Benjamin Gaignard wrote:
+On Tue, Oct 31, 2023 at 05:31:00PM +0100, Benjamin Gaignard wrote:
+> Add a bitmap field to know which of bufs array entries are
+> used or not.
+> Remove no more used num_buffers field from queue structure.
+> Use bitmap_find_next_zero_area() to find the first possible
+> range when creating new buffers to fill the gaps.
 > 
-> Le 08/11/2023 à 07:23, Tomasz Figa a écrit :
->> Hi Benjamin,
->>
->> On Tue, Oct 31, 2023 at 05:30:10PM +0100, Benjamin Gaignard wrote:
->>> Change how offset 'cookie' field value is computed to make possible
->>> to use more buffers.
->>> The maximum number of buffers depends of PAGE_SHIFT value and can
->>> go up to 0x7fff when PAGE_SHIFT = 12.
->>> With this encoding pattern we know the maximum number that a queue
->>> could store so we can check it at  queue init time.
->>> It also make easier and faster to find buffer and plane from using
->>> the offset field.
->>> Change __find_plane_by_offset() prototype to return the video buffer
->>> itself rather than it index.
->>>
->>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->>> ---
->>>   .../media/common/videobuf2/videobuf2-core.c   | 73 +++++++++----------
->>>   1 file changed, 35 insertions(+), 38 deletions(-)
->>>
->> Thanks a lot for working on this series. Just one comment inline.
->>
->>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->>> index a5e57affeb30..09be8e026044 100644
->>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->>> @@ -31,6 +31,11 @@
->>>     #include <trace/events/vb2.h>
->>>   +#define PLANE_INDEX_SHIFT    (PAGE_SHIFT + 3)
->>> +#define PLANE_INDEX_MASK    0x7
->> Could we somehow ensure that it indeed matches VIDEO_MAX_PLANES?
->>
->> One thing that comes to my mind would be
->>
->> #define PLANE_INDEX_BITS    3
->> #define PLANE_INDEX_SHIFT    (PAGE_SHIFT + PLANE_INDEX_BITS)
->> #define PLANE_INDEX_MASK    BIT_MASK(PLANE_INDEX_BITS)
->>
->> BUILD_BUG_ON(BIT(PLANE_INDEX_BITS) != VIDEO_MAX_PLANES);
->>
->> Alternatively we could change the videodev2.h, so that we have
->>
->> #define VIDEO_MAX_PLANES_BITS    3
->> #define VIDEO_MAX_PLANES    (1U < VIDEO_MAX_PLANES_BITS)
->>
->> and then we can just VIDEO_MAX_PLANES_BITS in our definitions in this file
->> and no checks would be necessary.
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  .../media/common/videobuf2/videobuf2-core.c   | 42 +++++++++++++++----
+>  include/media/videobuf2-core.h                | 15 ++++---
+>  2 files changed, 42 insertions(+), 15 deletions(-)
 > 
-> I would prefer this solution.
-> Hans should I do that in an other patch ?
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 2c8cf479a962..6e88406fcae9 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -416,11 +416,12 @@ static void init_buffer_cache_hints(struct vb2_queue *q, struct vb2_buffer *vb)
+>   */
+>  static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, unsigned int index)
+>  {
+> -	WARN_ON(index >= q->max_num_buffers || q->bufs[index]);
+> +	WARN_ON(index >= q->max_num_buffers || test_bit(index, q->bufs_bitmap));
+>  
+>  	q->bufs[index] = vb;
+>  	vb->index = index;
+>  	vb->vb2_queue = q;
+> +	set_bit(index, q->bufs_bitmap);
+>  }
+>  
+>  /**
+> @@ -429,6 +430,7 @@ static void vb2_queue_add_buffer(struct vb2_queue *q, struct vb2_buffer *vb, uns
+>   */
+>  static void vb2_queue_remove_buffer(struct vb2_buffer *vb)
+>  {
+> +	clear_bit(vb->index, vb->vb2_queue->bufs_bitmap);
+>  	vb->vb2_queue->bufs[vb->index] = NULL;
+>  	vb->vb2_queue = NULL;
+>  }
+> @@ -450,11 +452,12 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  	unsigned long index;
+>  	int ret;
+>  
+> -	/* Ensure that the number of already queue + num_buffers is below q->max_num_buffers */
+> +	/* Ensure that vb2_get_num_buffers(q) + num_buffers is no more than q->max_num_buffers */
+>  	num_buffers = min_t(unsigned int, num_buffers,
+>  			    q->max_num_buffers - vb2_get_num_buffers(q));
+>  
+> -	index = vb2_get_num_buffers(q);
+> +	index = bitmap_find_next_zero_area(q->bufs_bitmap, q->max_num_buffers,
+> +					   0, num_buffers, 0);
+>  
+>  	*first_index = index;
+>  
+> @@ -656,7 +659,6 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>  		kfree(vb);
+>  	}
+>  
+> -	q->num_buffers -= buffers;
+>  	if (!vb2_get_num_buffers(q)) {
+>  		q->memory = VB2_MEMORY_UNKNOWN;
+>  		INIT_LIST_HEAD(&q->queued_list);
+> @@ -874,6 +876,14 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  		q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
+>  	if (!q->bufs)
+>  		ret = -ENOMEM;
+> +
+> +	if (!q->bufs_bitmap)
+> +		q->bufs_bitmap = bitmap_zalloc(q->max_num_buffers, GFP_KERNEL);
+> +	if (!q->bufs_bitmap) {
+> +		ret = -ENOMEM;
+> +		kfree(q->bufs);
+> +		q->bufs = NULL;
+> +	}
+>  	q->memory = memory;
+>  	mutex_unlock(&q->mmap_lock);
+>  	if (ret)
+> @@ -943,7 +953,6 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	}
+>  
+>  	mutex_lock(&q->mmap_lock);
+> -	q->num_buffers = allocated_buffers;
+>  
+>  	if (ret < 0) {
+>  		/*
+> @@ -970,6 +979,10 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	mutex_lock(&q->mmap_lock);
+>  	q->memory = VB2_MEMORY_UNKNOWN;
+>  	mutex_unlock(&q->mmap_lock);
+> +	kfree(q->bufs);
+> +	q->bufs = NULL;
+> +	bitmap_free(q->bufs_bitmap);
+> +	q->bufs_bitmap = NULL;
+>  	return ret;
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_core_reqbufs);
+> @@ -1006,9 +1019,19 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  		q->memory = memory;
+>  		if (!q->bufs)
+>  			q->bufs = kcalloc(q->max_num_buffers, sizeof(*q->bufs), GFP_KERNEL);
+> -		if (!q->bufs)
+> +		if (!q->bufs) {
+>  			ret = -ENOMEM;
+> +			goto unlock;
+> +		}
+> +		if (!q->bufs_bitmap)
+> +			q->bufs_bitmap = bitmap_zalloc(q->max_num_buffers, GFP_KERNEL);
 
-I prefer to not make changes in videodev2.h, to be honest. I think it is fine to
-just add a check in videobuf2-core.c.
+Same as with the kcalloc(). Why not just allocate this in the core code,
+e.g. vb2_core_queue_init()?
 
-Regards,
+Actually, is it because we want to avoid allocating
+resources early, before the need to actually use the vb2 queue?
+If so, could this go to some other core function that runs later, e.g. __vb2_queue_alloc()?
 
-	Hans
+> +		if (!q->bufs_bitmap) {
+> +			ret = -ENOMEM;
+> +			kfree(q->bufs);
+> +			q->bufs = NULL;
+> +		}
+>  		mutex_unlock(&q->mmap_lock);
+> +unlock:
+>  		if (ret)
+>  			return ret;
+>  		q->waiting_for_buffers = !q->is_output;
+> @@ -1070,7 +1093,6 @@ int vb2_core_create_bufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	}
+>  
+>  	mutex_lock(&q->mmap_lock);
+> -	q->num_buffers += allocated_buffers;
+>  
+>  	if (ret < 0) {
+>  		/*
+> @@ -2549,7 +2571,9 @@ void vb2_core_queue_release(struct vb2_queue *q)
+>  	__vb2_queue_free(q, q->max_num_buffers);
+>  	kfree(q->bufs);
+>  	q->bufs = NULL;
+> -	q->num_buffers = 0;
+> +	bitmap_free(q->bufs_bitmap);
+> +	q->bufs_bitmap = NULL;
+> +
+>  	mutex_unlock(&q->mmap_lock);
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
+> @@ -2904,7 +2928,7 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+>  	 * Check if we need to dequeue the buffer.
+>  	 */
+>  	index = fileio->cur_index;
+> -	if (index >= q->num_buffers) {
+> +	if (!test_bit(index, q->bufs_bitmap)) {
 
+I don't like this low level manipulation of queue internals here (after all
+the work other patches did to use helpers). Why not just keep
+vb2_get_num_buffers() here?
+
+>  		struct vb2_buffer *b;
+>  
+>  		/*
+> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> index 6986ff4b77cd..288477075a0e 100644
+> --- a/include/media/videobuf2-core.h
+> +++ b/include/media/videobuf2-core.h
+> @@ -346,7 +346,7 @@ struct vb2_buffer {
+>   *			describes the requested number of planes and sizes\[\]
+>   *			contains the requested plane sizes. In this case
+>   *			\*num_buffers are being allocated additionally to
+> - *			q->num_buffers. If either \*num_planes or the requested
+> + *			queue buffers. If either \*num_planes or the requested
+
+Perhaps "the buffers already in the queue"?
+
+>   *			sizes are invalid callback must return %-EINVAL.
+>   * @wait_prepare:	release any locks taken while calling vb2 functions;
+>   *			it is called before an ioctl needs to wait for a new
+> @@ -557,7 +557,7 @@ struct vb2_buf_ops {
+>   * @memory:	current memory type used
+>   * @dma_dir:	DMA mapping direction.
+>   * @bufs:	videobuf2 buffer structures
+> - * @num_buffers: number of allocated/used buffers
+> + * @bufs_bitmap: bitmap to manage bufs entries.
+
+Perhaps "bitmap tracking whether each bufs[] entry is used"?
+
+>   * @max_num_buffers: upper limit of number of allocated/used buffers
+>   * @queued_list: list of buffers currently queued from userspace
+>   * @queued_count: number of buffers queued and ready for streaming.
+> @@ -621,7 +621,7 @@ struct vb2_queue {
+>  	unsigned int			memory;
+>  	enum dma_data_direction		dma_dir;
+>  	struct vb2_buffer		**bufs;
+> -	unsigned int			num_buffers;
+> +	unsigned long			*bufs_bitmap;
+>  	unsigned int			max_num_buffers;
+>  
+>  	struct list_head		queued_list;
+> @@ -1150,7 +1150,10 @@ static inline bool vb2_fileio_is_active(struct vb2_queue *q)
+>   */
+>  static inline unsigned int vb2_get_num_buffers(struct vb2_queue *q)
+>  {
+> -	return q->num_buffers;
+> +	if (!q->bufs_bitmap)
+> +		return 0;
+> +
+> +	return bitmap_weight(q->bufs_bitmap, q->max_num_buffers);
+
+Hmm, could we just cache the number of buffers we have, so that we don't
+have to go over the entire bitmap every time? (Basically just keep the
+code that we had for handling q->num_buffers before this patch.)
+
+>  }
+>  
+>  /**
+> @@ -1253,13 +1256,13 @@ static inline void vb2_clear_last_buffer_dequeued(struct vb2_queue *q)
+>  static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+>  						unsigned int index)
+>  {
+> -	if (!q->bufs)
+> +	if (!q->bufs_bitmap)
+>  		return NULL;
+>  
+>  	if (index >= q->max_num_buffers)
+>  		return NULL;
+>  
+> -	if (index < q->num_buffers)
+> +	if (test_bit(index, q->bufs_bitmap))
+
+Aha, I see why we need the extra condition above now. Perhaps it should've
+been added in this patch instead?
+
+>  		return q->bufs[index];
+>  	return NULL;
+>  }
+> -- 
+> 2.39.2
 > 
-> Regards,
-> Benjamin
-> 
->>
->> Best regards,
->> Tomasz
->>
->>> +#define MAX_BUFFER_INDEX    BIT_MASK(30 - PLANE_INDEX_SHIFT)
->>> +#define BUFFER_INDEX_MASK    (MAX_BUFFER_INDEX - 1)
->>> +
->>>   static int debug;
->>>   module_param(debug, int, 0644);
->>>   @@ -358,21 +363,27 @@ static void __setup_offsets(struct vb2_buffer *vb)
->>>       unsigned int plane;
->>>       unsigned long offset = 0;
->>>   -    if (vb->index) {
->>> -        struct vb2_buffer *prev = q->bufs[vb->index - 1];
->>> -        struct vb2_plane *p = &prev->planes[prev->num_planes - 1];
->>> -
->>> -        offset = PAGE_ALIGN(p->m.offset + p->length);
->>> -    }
->>> +    /*
->>> +     * The offset "cookie" value has the following constraints:
->>> +     * - a buffer can have up to 8 planes.
->>> +     * - v4l2 mem2mem uses bit 30 to distinguish between
->>> +     *   OUTPUT (aka "source", bit 30 is 0) and
->>> +     *   CAPTURE (aka "destination", bit 30 is 1) buffers.
->>> +     * - must be page aligned
->>> +     * That led to this bit mapping when PAGE_SHIFT = 12:
->>> +     * |30                |29        15|14       12|11 0|
->>> +     * |DST_QUEUE_OFF_BASE|buffer index|plane index| 0  |
->>> +     * where there are 15 bits to store the buffer index.
->>> +     * Depending on PAGE_SHIFT value we can have fewer bits
->>> +     * to store the buffer index.
->>> +     */
->>> +    offset = vb->index << PLANE_INDEX_SHIFT;
->>>         for (plane = 0; plane < vb->num_planes; ++plane) {
->>> -        vb->planes[plane].m.offset = offset;
->>> +        vb->planes[plane].m.offset = offset + (plane << PAGE_SHIFT);
->>>             dprintk(q, 3, "buffer %d, plane %d offset 0x%08lx\n",
->>>                   vb->index, plane, offset);
->>> -
->>> -        offset += vb->planes[plane].length;
->>> -        offset = PAGE_ALIGN(offset);
->>>       }
->>>   }
->>>   @@ -2188,10 +2199,9 @@ EXPORT_SYMBOL_GPL(vb2_core_streamoff);
->>>    * __find_plane_by_offset() - find plane associated with the given offset
->>>    */
->>>   static int __find_plane_by_offset(struct vb2_queue *q, unsigned long offset,
->>> -            unsigned int *_buffer, unsigned int *_plane)
->>> +            struct vb2_buffer **vb, unsigned int *plane)
->>>   {
->>> -    struct vb2_buffer *vb;
->>> -    unsigned int buffer, plane;
->>> +    unsigned int buffer;
->>>         /*
->>>        * Sanity checks to ensure the lock is held, MEMORY_MMAP is
->>> @@ -2209,24 +2219,15 @@ static int __find_plane_by_offset(struct vb2_queue *q, unsigned long offset,
->>>           return -EBUSY;
->>>       }
->>>   -    /*
->>> -     * Go over all buffers and their planes, comparing the given offset
->>> -     * with an offset assigned to each plane. If a match is found,
->>> -     * return its buffer and plane numbers.
->>> -     */
->>> -    for (buffer = 0; buffer < q->num_buffers; ++buffer) {
->>> -        vb = q->bufs[buffer];
->>> +    /* Get buffer and plane from the offset */
->>> +    buffer = (offset >> PLANE_INDEX_SHIFT) & BUFFER_INDEX_MASK;
->>> +    *plane = (offset >> PAGE_SHIFT) & PLANE_INDEX_MASK;
->>>   -        for (plane = 0; plane < vb->num_planes; ++plane) {
->>> -            if (vb->planes[plane].m.offset == offset) {
->>> -                *_buffer = buffer;
->>> -                *_plane = plane;
->>> -                return 0;
->>> -            }
->>> -        }
->>> -    }
->>> +    if (buffer >= q->num_buffers || *plane >= q->bufs[buffer]->num_planes)
->>> +        return -EINVAL;
->>>   -    return -EINVAL;
->>> +    *vb = q->bufs[buffer];
->>> +    return 0;
->>>   }
->>>     int vb2_core_expbuf(struct vb2_queue *q, int *fd, unsigned int type,
->>> @@ -2306,7 +2307,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
->>>   {
->>>       unsigned long offset = vma->vm_pgoff << PAGE_SHIFT;
->>>       struct vb2_buffer *vb;
->>> -    unsigned int buffer = 0, plane = 0;
->>> +    unsigned int plane = 0;
->>>       int ret;
->>>       unsigned long length;
->>>   @@ -2335,12 +2336,10 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
->>>        * Find the plane corresponding to the offset passed by userspace. This
->>>        * will return an error if not MEMORY_MMAP or file I/O is in progress.
->>>        */
->>> -    ret = __find_plane_by_offset(q, offset, &buffer, &plane);
->>> +    ret = __find_plane_by_offset(q, offset, &vb, &plane);
->>>       if (ret)
->>>           goto unlock;
->>>   -    vb = q->bufs[buffer];
->>> -
->>>       /*
->>>        * MMAP requires page_aligned buffers.
->>>        * The buffer length was page_aligned at __vb2_buf_mem_alloc(),
->>> @@ -2368,7 +2367,7 @@ int vb2_mmap(struct vb2_queue *q, struct vm_area_struct *vma)
->>>       if (ret)
->>>           return ret;
->>>   -    dprintk(q, 3, "buffer %d, plane %d successfully mapped\n", buffer, plane);
->>> +    dprintk(q, 3, "buffer %u, plane %d successfully mapped\n", vb->index, plane);
->>>       return 0;
->>>   }
->>>   EXPORT_SYMBOL_GPL(vb2_mmap);
->>> @@ -2382,7 +2381,7 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
->>>   {
->>>       unsigned long offset = pgoff << PAGE_SHIFT;
->>>       struct vb2_buffer *vb;
->>> -    unsigned int buffer, plane;
->>> +    unsigned int plane;
->>>       void *vaddr;
->>>       int ret;
->>>   @@ -2392,12 +2391,10 @@ unsigned long vb2_get_unmapped_area(struct vb2_queue *q,
->>>        * Find the plane corresponding to the offset passed by userspace. This
->>>        * will return an error if not MEMORY_MMAP or file I/O is in progress.
->>>        */
->>> -    ret = __find_plane_by_offset(q, offset, &buffer, &plane);
->>> +    ret = __find_plane_by_offset(q, offset, &vb, &plane);
->>>       if (ret)
->>>           goto unlock;
->>>   -    vb = q->bufs[buffer];
->>> -
->>>       vaddr = vb2_plane_vaddr(vb, plane);
->>>       mutex_unlock(&q->mmap_lock);
->>>       return vaddr ? (unsigned long)vaddr : -EINVAL;
->>> -- 
->>> 2.39.2
->>>
 
+Best regards,
+Tomasz
