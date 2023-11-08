@@ -2,274 +2,250 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A3007E5F35
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 21:32:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFC587E6057
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 23:09:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230375AbjKHUc3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 15:32:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57262 "EHLO
+        id S229555AbjKHWJh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 17:09:37 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229705AbjKHUc2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 15:32:28 -0500
-Received: from mail-qk1-x72e.google.com (mail-qk1-x72e.google.com [IPv6:2607:f8b0:4864:20::72e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2338B10D5
-        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 12:32:26 -0800 (PST)
-Received: by mail-qk1-x72e.google.com with SMTP id af79cd13be357-7788ebea620so4921185a.3
-        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 12:32:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1699475545; x=1700080345; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=arsZQPA2RZXUjCJmEFmYkqL9RPQkiSEQdhIguF//Kn4=;
-        b=3GvZraNVoluGhkP+Z3Y35I6XItw6KO6u1mQ7KXOJp8y7Ces1vMbpO/cjQ05OUhFJXC
-         cKbVghjCMpKXUKIt1Sdl2HzOlndffZ34c821MjRJRlWoKQpJxmrBYx7Mxkg2zA1aTDEv
-         lHRRkn7XJIgz+7ZsTtDNX+XrMWsqgDyhRCjssN4QY6DDjWR8MHw2PIxFhnEVU3+AONOg
-         Q39oo7gTkdLYdcVulIWBN0DR8fIjDW+Rq72+avMwOPRLtWmBZ3kppztn1rxrdJ0N0Sob
-         vU+au6BWt3T5bDkRi8jY6nJjWhG5ZZBF/3Yr0J5ZCEe9SbPw5Fnn/BXYI9oRf5Ee8FKT
-         WuTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699475545; x=1700080345;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=arsZQPA2RZXUjCJmEFmYkqL9RPQkiSEQdhIguF//Kn4=;
-        b=laX4Uq4u4U8efuaMDr7bdTLfc0eGMGlxLYY43tbwdDhAlMOfiBqtPVHNI7+XC51ooS
-         Q/glt6nyxDWR3zjB5X5uAyTxrKlJjT+u6emkqc21bHVCvk+S+CLyFAO1El0lGZaSROgi
-         pX49lyeiYEbw4GNBb5Z7JsET4F0uCAM12I85i8uU+NAT4ejhVQxlsHEWUeVVfkcOSobx
-         1TV5bnlRneMIqi52OQy+t6JFleK5yaCtx+SAzS+IP4N89VFmG+Z4SLSdwGZcmopnnmnz
-         d9bfRoYSeMyHM/HZ01WozCfeVgihEYmBfqiQGmN0EpDz+6DwraZilKDpMfqamh8Snt70
-         I/9A==
-X-Gm-Message-State: AOJu0YykMh0TRQ/3GdEm9O6+A+DBvJcJAquT98Xnqpc7PUeZPmfXbUI3
-        ajUqADCjSt/BHuIsH+pek34DVA==
-X-Google-Smtp-Source: AGHT+IGBqGUcpAiMYcvzEd3qf5FRqvRSHQytfpVmoG2JSlNJ/d3VqMavVbb6p4+mmsKy/L5SxAXOpQ==
-X-Received: by 2002:a05:620a:8394:b0:770:72c3:dbbc with SMTP id pb20-20020a05620a839400b0077072c3dbbcmr2925381qkn.18.1699475545168;
-        Wed, 08 Nov 2023 12:32:25 -0800 (PST)
-Received: from ?IPv6:2606:6d00:17:6dc0::c73? ([2606:6d00:17:6dc0::c73])
-        by smtp.gmail.com with ESMTPSA id c26-20020a05620a135a00b007742c2ad7dfsm1401055qkl.73.2023.11.08.12.32.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 12:32:24 -0800 (PST)
-Message-ID: <03ac47742945cc04e4663b87563b47a96ed3ec1f.camel@ndufresne.ca>
-Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
-From:   nicolas@ndufresne.ca
-To:     Ricardo Ribalda <ribalda@chromium.org>,
-        Esker Wong <esker@google.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Esker Wong <esker@chromium.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Wed, 08 Nov 2023 15:32:23 -0500
-In-Reply-To: <CANiDSCtDQ9Wg57YzVAJ1o5WQRmy1QPW8td8V2Scc08MmWtOwFg@mail.gmail.com>
-References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org>
-         <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu>
-         <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
-         <fe672e31315b8f9c44a693c909d464a299e76093.camel@ndufresne.ca>
-         <CAEZL83qR2bDq35yvCV-WvkaL6ZbPvSxQH+j=ViG6Kq8-0Mzq1Q@mail.gmail.com>
-         <CANiDSCtDQ9Wg57YzVAJ1o5WQRmy1QPW8td8V2Scc08MmWtOwFg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
-MIME-Version: 1.0
+        with ESMTP id S229460AbjKHWJh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 17:09:37 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3480418E
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 14:09:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699481375; x=1731017375;
+  h=date:from:to:cc:subject:message-id;
+  bh=ciRFFlTmfnS02BVCxt+mhuI61YqfpDqZ+zIdv1c2w2E=;
+  b=MIOauXizX+CDZvItDm+cNs/NQvUrf1E1BSX9V348MuQtYJlB8e4UxEiz
+   0qVII/calBEvHNQRhWCNAEe4n1fSJ+fQKC1A91puropdCun/nwVzDdVlz
+   DYVI/QfqawnyDbFOhEHeM/Lh6gPsBLTdKcWMZp/Pu5t94JLpNax8cQJjT
+   yUJovN02IBQOq60Cd9AmwN3u/0ZcVRgO/yB4c5I5Q47gUxEoFgWTl+LuJ
+   WoUqigpXBNM1kBCJu/2nbzgHZRE4RlYyCD15iULdlx49E9sls8P6UjhKY
+   S2G8mW3rjImIjIJnKtO+PfuI/We1uG36Yz9ZamNlHYQi0fAfzLp6StANX
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="392742963"
+X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
+   d="scan'208";a="392742963"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 14:09:34 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="886792909"
+X-IronPort-AV: E=Sophos;i="6.03,287,1694761200"; 
+   d="scan'208";a="886792909"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by orsmga004.jf.intel.com with ESMTP; 08 Nov 2023 14:09:33 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1r0qjq-0008Do-2f;
+        Wed, 08 Nov 2023 22:09:30 +0000
+Date:   Thu, 09 Nov 2023 06:08:49 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata] BUILD SUCCESS
+ 33e85c36810f5d0ec903ee1552381fe10c0f7689
+Message-ID: <202311090647.vQEAvTZI-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mercredi 08 novembre 2023 =C3=A0 08:04 +0100, Ricardo Ribalda a =C3=A9cr=
-it=C2=A0:
-> Hi Esker
->=20
-> On Wed, 8 Nov 2023 at 07:54, Esker Wong <esker@google.com> wrote:
-> >=20
-> > Hi Nicholas and Sakari,
-> >=20
-> > We need it as precise as possible. Currently the earliest time of a
-> > frame we can have in userspace  is the dqbuf.
-> >=20
-> > And for UVC timestamp, it is somewhat awkward for us to use. Since
-> > other functions in our stacks do not necessarily contain such
-> > timestamps. So we want some event to be trigger and we can get the
-> > system time directly.
+tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
+branch HEAD: 33e85c36810f5d0ec903ee1552381fe10c0f7689  media: ccs: Print ireal and float limits converted to integers
 
-The fact that you interpret the time from FRAME_SYNC to DQBUF (well the
-READ IO notification) as the actual latency is yours of course. It
-assumes that the camera on the other end does not introduce other
-source of latency (or that these are negligible). You are also going to
-introduce a lot of jitter, since it relies on when the OS decides to
-wake up your process.
+elapsed time: 3379m
 
-I think my opinion resides in if you can accurately *enough* implement
-what the spec says for FRAME_SYNC then do it, otherwise just don't lie.
-I think for ISO, "after the first chunk" i a small lie, but acceptable.
-But for BULK, the way it was explained is that it will be always very
-close to DQBUF time. and it should not emit FRAME_SYNC for this type of
-UVC device. If it fits other events fine of course, I'm just making a
-judgment on if its fits V4L2_EVENT_FRAME_SYNC or not.
+configs tested: 180
+configs skipped: 2
 
-In term of accuracy, if timestamp was passed with the FRAME_SYNC event,
-it would not matter how fast your process the event anymore and greatly
-improve accuracy.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->=20
-> Not to mention that the UVC timestamping requires a bit of love.
->=20
-> @Laurent Pinchart, @Kieran Bingham  any progress reviewing :P :
-> https://patchwork.linuxtv.org/project/linux-media/list/?series=3D10083
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231107   gcc  
+arc                   randconfig-001-20231108   gcc  
+arc                   randconfig-002-20231107   gcc  
+arc                   randconfig-002-20231108   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   gcc  
+arm                   randconfig-001-20231107   gcc  
+arm                   randconfig-001-20231108   gcc  
+arm                   randconfig-002-20231107   gcc  
+arm                   randconfig-002-20231108   gcc  
+arm                   randconfig-003-20231107   gcc  
+arm                   randconfig-003-20231108   gcc  
+arm                   randconfig-004-20231107   gcc  
+arm                   randconfig-004-20231108   gcc  
+arm64                 randconfig-001-20231107   gcc  
+arm64                 randconfig-001-20231108   gcc  
+arm64                 randconfig-002-20231107   gcc  
+arm64                 randconfig-002-20231108   gcc  
+arm64                 randconfig-003-20231107   gcc  
+arm64                 randconfig-003-20231108   gcc  
+arm64                 randconfig-004-20231107   gcc  
+arm64                 randconfig-004-20231108   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231107   gcc  
+csky                  randconfig-001-20231108   gcc  
+csky                  randconfig-002-20231107   gcc  
+csky                  randconfig-002-20231108   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386         buildonly-randconfig-001-20231108   gcc  
+i386         buildonly-randconfig-002-20231108   gcc  
+i386         buildonly-randconfig-003-20231108   gcc  
+i386         buildonly-randconfig-004-20231108   gcc  
+i386         buildonly-randconfig-005-20231108   gcc  
+i386         buildonly-randconfig-006-20231108   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231108   gcc  
+i386                  randconfig-002-20231108   gcc  
+i386                  randconfig-003-20231108   gcc  
+i386                  randconfig-004-20231108   gcc  
+i386                  randconfig-005-20231108   gcc  
+i386                  randconfig-006-20231108   gcc  
+i386                  randconfig-011-20231108   gcc  
+i386                  randconfig-012-20231108   gcc  
+i386                  randconfig-013-20231108   gcc  
+i386                  randconfig-014-20231108   gcc  
+i386                  randconfig-015-20231108   gcc  
+i386                  randconfig-016-20231108   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231107   gcc  
+loongarch             randconfig-001-20231108   gcc  
+loongarch             randconfig-002-20231107   gcc  
+loongarch             randconfig-002-20231108   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231108   gcc  
+nios2                 randconfig-002-20231108   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231108   gcc  
+parisc                randconfig-002-20231108   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+powerpc               randconfig-001-20231107   gcc  
+powerpc               randconfig-002-20231107   gcc  
+powerpc               randconfig-003-20231107   gcc  
+powerpc                     sequoia_defconfig   gcc  
+powerpc64             randconfig-001-20231107   gcc  
+powerpc64             randconfig-002-20231107   gcc  
+powerpc64             randconfig-003-20231107   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231108   gcc  
+riscv                 randconfig-002-20231108   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231108   gcc  
+s390                  randconfig-002-20231108   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20231107   gcc  
+sh                    randconfig-001-20231108   gcc  
+sh                    randconfig-002-20231107   gcc  
+sh                    randconfig-002-20231108   gcc  
+sh                           se7343_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20231107   gcc  
+sparc                 randconfig-001-20231108   gcc  
+sparc                 randconfig-002-20231107   gcc  
+sparc                 randconfig-002-20231108   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231107   gcc  
+sparc64               randconfig-001-20231108   gcc  
+sparc64               randconfig-002-20231107   gcc  
+sparc64               randconfig-002-20231108   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231107   gcc  
+um                    randconfig-001-20231108   gcc  
+um                    randconfig-002-20231107   gcc  
+um                    randconfig-002-20231108   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64       buildonly-randconfig-001-20231108   gcc  
+x86_64       buildonly-randconfig-002-20231108   gcc  
+x86_64       buildonly-randconfig-003-20231108   gcc  
+x86_64       buildonly-randconfig-004-20231108   gcc  
+x86_64       buildonly-randconfig-005-20231108   gcc  
+x86_64       buildonly-randconfig-006-20231108   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231108   gcc  
+x86_64                randconfig-002-20231108   gcc  
+x86_64                randconfig-003-20231108   gcc  
+x86_64                randconfig-004-20231108   gcc  
+x86_64                randconfig-005-20231108   gcc  
+x86_64                randconfig-006-20231108   gcc  
+x86_64                randconfig-071-20231108   gcc  
+x86_64                randconfig-072-20231108   gcc  
+x86_64                randconfig-073-20231108   gcc  
+x86_64                randconfig-074-20231108   gcc  
+x86_64                randconfig-075-20231108   gcc  
+x86_64                randconfig-076-20231108   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                randconfig-001-20231107   gcc  
+xtensa                randconfig-001-20231108   gcc  
+xtensa                randconfig-002-20231107   gcc  
+xtensa                randconfig-002-20231108   gcc  
 
-Thanks for working on this by the way, hope someone will find the time
-to review this. The timestamps should in theory provide a jitter free
-measurement of the delay Esker is trying to measure, and if it wasn't
-of bugs (and crazy complexity) it would in the worst case match the
-transfer time.
-
-Nicolas
-
-> Esker
->=20
->=20
-> >=20
-> > If the V4L2_EVENT_FRAME_SYNC will be earlier then V4L2_EVENT_VSYNC,
-> > then it has value. We would want to know the delay of a frame being
-> > captured to the time it is displayed.
-> >=20
-> > I'm not sure for bulk is the V4L2_EVENT_VSYNC more accurate?
->=20
->  V4L2_EVENT_VSYNC wont be more accurate than V4L2_EVENT_FRAME_SYNC.
->=20
-> My understanding is that Sakari thinks that the description of
-> V4L2_EVENT_FRAME_SYNC
-> https://www.kernel.org/doc/html/v4.9/media/uapi/v4l/vidioc-dqevent.html#d=
-escription
->  does not match the current implementation, and suggests using
-> V4L2_EVENT_VSYNC instead.
->=20
->=20
-> >=20
-> > Esker
-> >=20
-> >=20
-> > On Wed, Nov 8, 2023 at 3:27=E2=80=AFAM <nicolas@ndufresne.ca> wrote:
-> > >=20
-> > > Hi,
-> > >=20
-> > > Le mardi 07 novembre 2023 =C3=A0 13:06 +0800, Esker Wong a =C3=A9crit=
- :
-> > > > [send again in text mode]
-> > > > Hi Sakari,
-> > > >=20
-> > > > Sequence number is important to us. We need it to measure the laten=
-cy
-> > > > from this event to the time we display the frame.
-> > >=20
-> > > how much precision do you expect, because as described, this number
-> > > will be completely false for bulk.
-> > >=20
-> > > Aren't UVC timestamp support to allow measuring latency properly ?
-> > >=20
-> > > Nicolas
-> > >=20
-> > > >=20
-> > > > Regards,
-> > > > Esker
-> > > >=20
-> > > >=20
-> > > > On Mon, Nov 6, 2023 at 7:06=E2=80=AFPM Sakari Ailus <sakari.ailus@i=
-ki.fi> wrote:
-> > > > >=20
-> > > > > Hi Ricardo,
-> > > > >=20
-> > > > > On Mon, Nov 06, 2023 at 10:52:27AM +0000, Ricardo Ribalda wrote:
-> > > > > > Add support for the frame_sync event, so user-space can become =
-aware
-> > > > > > earlier of new frames.
-> > > > > >=20
-> > > > > > Suggested-by: Esker Wong <esker@chromium.org>
-> > > > > > Tested-by: Esker Wong <esker@chromium.org>
-> > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > > ---
-> > > > > > We have measured a latency of around 30msecs between frame sync
-> > > > > > and dqbuf.
-> > > > > > ---
-> > > > > > Changes in v2:
-> > > > > > - Suggested by Laurent. Split sequence++ and event init.
-> > > > > > - Link to v1: https://lore.kernel.org/r/20231020-uvc-event-v1-1=
--3baa0e9f6952@chromium.org
-> > > > > > ---
-> > > > > >  drivers/media/usb/uvc/uvc_v4l2.c  | 2 ++
-> > > > > >  drivers/media/usb/uvc/uvc_video.c | 7 +++++++
-> > > > > >  2 files changed, 9 insertions(+)
-> > > > > >=20
-> > > > > > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/u=
-sb/uvc/uvc_v4l2.c
-> > > > > > index f4988f03640a..9f3fb5fd2375 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> > > > > > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> > > > > > @@ -1352,6 +1352,8 @@ static int uvc_ioctl_subscribe_event(stru=
-ct v4l2_fh *fh,
-> > > > > >       switch (sub->type) {
-> > > > > >       case V4L2_EVENT_CTRL:
-> > > > > >               return v4l2_event_subscribe(fh, sub, 0, &uvc_ctrl=
-_sub_ev_ops);
-> > > > > > +     case V4L2_EVENT_FRAME_SYNC:
-> > > > > > +             return v4l2_event_subscribe(fh, sub, 0, NULL);
-> > > > > >       default:
-> > > > > >               return -EINVAL;
-> > > > > >       }
-> > > > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/=
-usb/uvc/uvc_video.c
-> > > > > > index 28dde08ec6c5..4f3a510ca4fe 100644
-> > > > > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > > > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > > > > @@ -1073,9 +1073,16 @@ static int uvc_video_decode_start(struct=
- uvc_streaming *stream,
-> > > > > >        * that discontinuous sequence numbers always indicate lo=
-st frames.
-> > > > > >        */
-> > > > > >       if (stream->last_fid !=3D fid) {
-> > > > > > +             struct v4l2_event event =3D {
-> > > > > > +                     .type =3D V4L2_EVENT_FRAME_SYNC,
-> > > > > > +             };
-> > > > > > +
-> > > > > >               stream->sequence++;
-> > > > > >               if (stream->sequence)
-> > > > > >                       uvc_video_stats_update(stream);
-> > > > > > +
-> > > > > > +             event.u.frame_sync.frame_sequence =3D stream->seq=
-uence,
-> > > > > > +             v4l2_event_queue(&stream->vdev, &event);
-> > > > >=20
-> > > > > uvc_video_decode_start() is called when the reception of the enti=
-re frame
-> > > > > has been completed. However, the documentation for V4L2_EVENT_FRA=
-ME_SYNC
-> > > > > says that the event is "Triggered immediately when the reception =
-of a frame
-> > > > > has begun.". The functionality here doesn't seem to fit to this p=
-atch.
-> > > > >=20
-> > > > > Wouldn't V4L2_EVENT_VSYNC be a better fit, even if we don't reall=
-y have a
-> > > > > concept of vertical sync in the case of USB? That event doesn't h=
-ave the
-> > > > > sequence though but I guess it's not an issue at least if your ca=
-se.
-> > > > >=20
-> > > > > Another technically correct option could be to create a new event=
- for this
-> > > > > but I'm not sure it's worth it.
-> > > > >=20
-> > > > > >       }
-> > > > > >=20
-> > > > > >       uvc_video_clock_decode(stream, buf, data, len);
-> > > > > >=20
-> > > > >=20
-> > > > > --
-> > > > > Regards,
-> > > > >=20
-> > > > > Sakari Ailus
-> > >=20
->=20
->=20
->=20
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
