@@ -2,56 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 523CB7E4EFD
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 03:39:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1A1D7E4F0E
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 03:45:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235241AbjKHCjn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 21:39:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56300 "EHLO
+        id S235381AbjKHCp3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 21:45:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57410 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229503AbjKHCjn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 21:39:43 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D11B5184;
-        Tue,  7 Nov 2023 18:39:40 -0800 (PST)
+        with ESMTP id S235353AbjKHCp1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 21:45:27 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D1C3184;
+        Tue,  7 Nov 2023 18:45:25 -0800 (PST)
 Received: from [100.84.166.245] (cola.collaboradmins.com [195.201.22.229])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 86D4C66074D3;
-        Wed,  8 Nov 2023 02:39:37 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6822766074D3;
+        Wed,  8 Nov 2023 02:45:22 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1699411179;
-        bh=zYUxwIVC181tVu7mNwksNSP41rm0sl9mrVBWCUqnO6I=;
+        s=mail; t=1699411524;
+        bh=6wXQfetxwy+D5CmT3AkE+ELY/xU4NDY2a0E7Zs38Vz4=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=PFw0auo1y+h+7KgUS5KUqWWaOxKO/LcWyvSCeyu2dmyN7gal+rv3bukc0ucp85LBU
-         QnC7QTSxbVYLJO4PF0c9AtJon8R47f5kPcw9Tkf5KLmcEQVd5XO1wteXvvHxkiC6mx
-         mkzwOz55QEhHqvjC4R6ZZmTUmBNMN6h1mgC5xCPzIKb4iFOufjTcsmJjWiPfY0Jesn
-         RT8TCO31wtDdyg3Cjm5jY4FMSYOIUwfptgLdtIvclJgR1AGDP0956LnF0UNAckRCf3
-         6eMPjIG85Q92oCmwpZ966hH/n6uoMhnP8mRlA0m7DCINB1vKfyey+6zwM9yKDsWDDv
-         6BW4W9PNuzKDg==
-Message-ID: <f69345217c21af63cf873bfb4a16ae1363b05875.camel@collabora.com>
-Subject: Re: [PATCH v4 05/11] media: rkvdec: h264: Remove SPS validation at
- streaming start
+        b=gVXqAw5QrLvzAZsKe7m0U0ovIcOZJt8Z4Au74SpOcRx71jGcpQiv7/1pyXNvMpIbh
+         EOajx1g7hwDYm+UTOVDrbYRL7z8nACJOlwOLTPGPeVZGzeTiWHwGDLKajM5+W3eRiN
+         hlV2YjksBvR8Te4IXk8RAN9SLJuNmPvxSxyo2v95Q0/r4ObFhvOGIGJHSYcYkzfG8c
+         kzexPDsVjO2tq0azSXENPbe4rt0Epd/T6qEtast7Gw01Cobya/qgbjpFWQ3LNORlGs
+         b38XDz7FckLTyn0lrRElEnEqamKhkWRpnxrd/xB3XINysoqO1pvFgaRcyQ5IEliy5Y
+         wMuzSe/3o1vxA==
+Message-ID: <02c819bbbaa34342be39cfaed707ddf9a33a9087.camel@collabora.com>
+Subject: Re: [PATCH v4 01/11] media: v4l2-common: Add helpers to calculate
+ bytesperline and sizeimage
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To:     Jonas Karlman <jonas@kwiboo.se>,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     Alex Bee <knaerzche@gmail.com>,
         Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         Sebastian Fricke <sebastian.fricke@collabora.com>,
         Christopher Obbard <chris.obbard@collabora.com>,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date:   Tue, 07 Nov 2023 21:39:27 -0500
-In-Reply-To: <bfabc182-4113-46fb-85e9-8550c97d132b@kwiboo.se>
+Date:   Tue, 07 Nov 2023 21:45:13 -0500
+In-Reply-To: <20231105165521.3592037-2-jonas@kwiboo.se>
 References: <20231105165521.3592037-1-jonas@kwiboo.se>
-         <20231105165521.3592037-6-jonas@kwiboo.se>
-         <c75c894a09292775773ad338121ee81924337cf0.camel@collabora.com>
-         <bfabc182-4113-46fb-85e9-8550c97d132b@kwiboo.se>
+         <20231105165521.3592037-2-jonas@kwiboo.se>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -60,142 +57,148 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le mardi 07 novembre 2023 =C3=A0 23:56 +0100, Jonas Karlman a =C3=A9crit=C2=
-=A0:
-> On 2023-11-07 23:01, Nicolas Dufresne wrote:
-> > Le dimanche 05 novembre 2023 =C3=A0 16:55 +0000, Jonas Karlman a =C3=A9=
-crit=C2=A0:
-> > > SPS parameters is validated in try_ctrl() ops so there is no need to
-> >=20
-> >                  are
-> >=20
-> > > re-validate when streaming starts.
-> > >=20
-> > > Remove the unnecessary call to validate sps at streaming start.
-> >=20
-> > This patch is not working since user may change the format after the
-> > control have been set. The proper fix should actually reset the SPS
-> > (well all header controls) to match the the newly set format. Then this
-> > validation won't be needed anymore.
-> >=20
-> > The sequence that is problematic after this patch is:
-> >=20
-> > S_FMT (OUTPUT, width, height);
-> > S_CTRL (SPS) // valid
-> > S_FMT(OUTPUT, width', height'); // SPS is no longer valid
-> >=20
-> > One suggestion I may make is to add a ops so that each codec
-> > implementation can reset their header controls to make it valid against
-> > the new resolution. With that in place you'll be able drop the check.
->=20
-> According to the Initialization section of the V4L2 stateless
-> documentation a client is supposed to S_CTRL(SPS) after S_FMT(OUTPUT).
+Le dimanche 05 novembre 2023 =C3=A0 16:55 +0000, Jonas Karlman a =C3=A9crit=
+=C2=A0:
+> Add helper functions to calculate plane bytesperline and sizeimage,
+> these new helpers consider bpp div, block width and height when
+> calculating plane bytesperline and sizeimage.
 
-Yes, but other part of the spec prevents us from failing if the
-userspace restart in the middle of the process.
+Is this only refactoring to reduce duplicated code ? I haven't seen
+what is new in there yet, maybe the commit message could clarify.
+
+regards,
+Nicolas
 
 >=20
-> https://docs.kernel.org/userspace-api/media/v4l/dev-stateless-decoder.htm=
-l#initialization
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> ---
+> v4:
+> - No change
 >=20
-> I guess that all stateless decoders probably should reset all ctrls to
-> default value on S_FMT(OUTPUT) or decoders may end up in an unexpected
-> state?
+> v3:
+> - Consider bpp_div in calculation
 >=20
-> Is resetting a ctrl value back to default something that is supported by
-> v4l2 ctrl core? Did not find any obvious way to reset a ctrl value.
-
-In order to avoid having to do this, Hantro driver just ignores these
-values from SPS control and do the following:
-
-	reg =3D G1_REG_DEC_CTRL1_PIC_MB_WIDTH(MB_WIDTH(ctx->src_fmt.width)) |
-	      G1_REG_DEC_CTRL1_PIC_MB_HEIGHT_P(MB_HEIGHT(ctx->src_fmt.height)) |
-	      G1_REG_DEC_CTRL1_REF_FRAMES(sps->max_num_ref_frames);
-
-Then all they do is reset the CAPTURE format whenever needed, matching
-the bit depth that was previously set. The SPS is unfortunatly not
-guarantied to be valid, but at first sight its safe in regard to
-picture dimensions.
-
+>  drivers/media/v4l2-core/v4l2-common.c | 78 +++++++++++++--------------
+>  1 file changed, 39 insertions(+), 39 deletions(-)
 >=20
-> Will probably just drop this patch in v5.
-
-That or do like in Hantro driver. What is scary though is that some of
-the feature enabled by SPS may requires an auxiliary chunk of memory to
-be allocated, and then this method falls appart. I think it would be
-nice to fix that properly in all drivers in a future patchset.
-
->=20
-> Regards,
-> Jonas
->=20
-> >=20
-> > Nicolas
-> >=20
-> > p.s. you can also just drop this patch from the series and revisit it
-> > later, though I think its worth fixing.
-> >=20
-> > >=20
-> > > Suggested-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-> > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> > > ---
-> > > v4:
-> > > - No change
-> > >=20
-> > > v3:
-> > > - New patch
-> > >=20
-> > >  drivers/staging/media/rkvdec/rkvdec-h264.c | 19 ++-----------------
-> > >  1 file changed, 2 insertions(+), 17 deletions(-)
-> > >=20
-> > > diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/sta=
-ging/media/rkvdec/rkvdec-h264.c
-> > > index 8bce8902b8dd..815d5359ddd5 100644
-> > > --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > > +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
-> > > @@ -1070,17 +1070,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx=
- *ctx)
-> > >  	struct rkvdec_dev *rkvdec =3D ctx->dev;
-> > >  	struct rkvdec_h264_priv_tbl *priv_tbl;
-> > >  	struct rkvdec_h264_ctx *h264_ctx;
-> > > -	struct v4l2_ctrl *ctrl;
-> > > -	int ret;
-> > > -
-> > > -	ctrl =3D v4l2_ctrl_find(&ctx->ctrl_hdl,
-> > > -			      V4L2_CID_STATELESS_H264_SPS);
-> > > -	if (!ctrl)
-> > > -		return -EINVAL;
-> > > -
-> > > -	ret =3D rkvdec_h264_validate_sps(ctx, ctrl->p_new.p_h264_sps);
-> > > -	if (ret)
-> > > -		return ret;
-> > > =20
-> > >  	h264_ctx =3D kzalloc(sizeof(*h264_ctx), GFP_KERNEL);
-> > >  	if (!h264_ctx)
-> > > @@ -1089,8 +1078,8 @@ static int rkvdec_h264_start(struct rkvdec_ctx =
-*ctx)
-> > >  	priv_tbl =3D dma_alloc_coherent(rkvdec->dev, sizeof(*priv_tbl),
-> > >  				      &h264_ctx->priv_tbl.dma, GFP_KERNEL);
-> > >  	if (!priv_tbl) {
-> > > -		ret =3D -ENOMEM;
-> > > -		goto err_free_ctx;
-> > > +		kfree(h264_ctx);
-> > > +		return -ENOMEM;
-> > >  	}
-> > > =20
-> > >  	h264_ctx->priv_tbl.size =3D sizeof(*priv_tbl);
-> > > @@ -1100,10 +1089,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx=
- *ctx)
-> > > =20
-> > >  	ctx->priv =3D h264_ctx;
-> > >  	return 0;
-> > > -
-> > > -err_free_ctx:
-> > > -	kfree(h264_ctx);
-> > > -	return ret;
-> > >  }
-> > > =20
-> > >  static void rkvdec_h264_stop(struct rkvdec_ctx *ctx)
-> >=20
->=20
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-c=
+ore/v4l2-common.c
+> index 3a4b15a98e02..834b426da8b1 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -350,6 +350,34 @@ static inline unsigned int v4l2_format_block_height(=
+const struct v4l2_format_inf
+>  	return info->block_h[plane];
+>  }
+> =20
+> +static inline unsigned int v4l2_format_plane_width(const struct v4l2_for=
+mat_info *info, int plane,
+> +						   unsigned int width)
+> +{
+> +	unsigned int hdiv =3D plane ? info->hdiv : 1;
+> +	unsigned int aligned_width =3D
+> +		ALIGN(width, v4l2_format_block_width(info, plane));
+> +
+> +	return DIV_ROUND_UP(aligned_width, hdiv) *
+> +	       info->bpp[plane] / info->bpp_div[plane];
+> +}
+> +
+> +static inline unsigned int v4l2_format_plane_height(const struct v4l2_fo=
+rmat_info *info, int plane,
+> +						    unsigned int height)
+> +{
+> +	unsigned int vdiv =3D plane ? info->vdiv : 1;
+> +	unsigned int aligned_height =3D
+> +		ALIGN(height, v4l2_format_block_height(info, plane));
+> +
+> +	return DIV_ROUND_UP(aligned_height, vdiv);
+> +}
+> +
+> +static inline unsigned int v4l2_format_plane_size(const struct v4l2_form=
+at_info *info, int plane,
+> +						  unsigned int width, unsigned int height)
+> +{
+> +	return v4l2_format_plane_width(info, plane, width) *
+> +	       v4l2_format_plane_height(info, plane, height);
+> +}
+> +
+>  void v4l2_apply_frmsize_constraints(u32 *width, u32 *height,
+>  				    const struct v4l2_frmsize_stepwise *frmsize)
+>  {
+> @@ -385,37 +413,19 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mpla=
+ne *pixfmt,
+> =20
+>  	if (info->mem_planes =3D=3D 1) {
+>  		plane =3D &pixfmt->plane_fmt[0];
+> -		plane->bytesperline =3D ALIGN(width, v4l2_format_block_width(info, 0))=
+ * info->bpp[0] / info->bpp_div[0];
+> +		plane->bytesperline =3D v4l2_format_plane_width(info, 0, width);
+>  		plane->sizeimage =3D 0;
+> =20
+> -		for (i =3D 0; i < info->comp_planes; i++) {
+> -			unsigned int hdiv =3D (i =3D=3D 0) ? 1 : info->hdiv;
+> -			unsigned int vdiv =3D (i =3D=3D 0) ? 1 : info->vdiv;
+> -			unsigned int aligned_width;
+> -			unsigned int aligned_height;
+> -
+> -			aligned_width =3D ALIGN(width, v4l2_format_block_width(info, i));
+> -			aligned_height =3D ALIGN(height, v4l2_format_block_height(info, i));
+> -
+> -			plane->sizeimage +=3D info->bpp[i] *
+> -				DIV_ROUND_UP(aligned_width, hdiv) *
+> -				DIV_ROUND_UP(aligned_height, vdiv) / info->bpp_div[i];
+> -		}
+> +		for (i =3D 0; i < info->comp_planes; i++)
+> +			plane->sizeimage +=3D
+> +				v4l2_format_plane_size(info, i, width, height);
+>  	} else {
+>  		for (i =3D 0; i < info->comp_planes; i++) {
+> -			unsigned int hdiv =3D (i =3D=3D 0) ? 1 : info->hdiv;
+> -			unsigned int vdiv =3D (i =3D=3D 0) ? 1 : info->vdiv;
+> -			unsigned int aligned_width;
+> -			unsigned int aligned_height;
+> -
+> -			aligned_width =3D ALIGN(width, v4l2_format_block_width(info, i));
+> -			aligned_height =3D ALIGN(height, v4l2_format_block_height(info, i));
+> -
+>  			plane =3D &pixfmt->plane_fmt[i];
+>  			plane->bytesperline =3D
+> -				info->bpp[i] * DIV_ROUND_UP(aligned_width, hdiv) / info->bpp_div[i];
+> -			plane->sizeimage =3D
+> -				plane->bytesperline * DIV_ROUND_UP(aligned_height, vdiv);
+> +				v4l2_format_plane_width(info, i, width);
+> +			plane->sizeimage =3D plane->bytesperline *
+> +				v4l2_format_plane_height(info, i, height);
+>  		}
+>  	}
+>  	return 0;
+> @@ -439,22 +449,12 @@ int v4l2_fill_pixfmt(struct v4l2_pix_format *pixfmt=
+, u32 pixelformat,
+>  	pixfmt->width =3D width;
+>  	pixfmt->height =3D height;
+>  	pixfmt->pixelformat =3D pixelformat;
+> -	pixfmt->bytesperline =3D ALIGN(width, v4l2_format_block_width(info, 0))=
+ * info->bpp[0] / info->bpp_div[0];
+> +	pixfmt->bytesperline =3D v4l2_format_plane_width(info, 0, width);
+>  	pixfmt->sizeimage =3D 0;
+> =20
+> -	for (i =3D 0; i < info->comp_planes; i++) {
+> -		unsigned int hdiv =3D (i =3D=3D 0) ? 1 : info->hdiv;
+> -		unsigned int vdiv =3D (i =3D=3D 0) ? 1 : info->vdiv;
+> -		unsigned int aligned_width;
+> -		unsigned int aligned_height;
+> -
+> -		aligned_width =3D ALIGN(width, v4l2_format_block_width(info, i));
+> -		aligned_height =3D ALIGN(height, v4l2_format_block_height(info, i));
+> -
+> -		pixfmt->sizeimage +=3D info->bpp[i] *
+> -			DIV_ROUND_UP(aligned_width, hdiv) *
+> -			DIV_ROUND_UP(aligned_height, vdiv) / info->bpp_div[i];
+> -	}
+> +	for (i =3D 0; i < info->comp_planes; i++)
+> +		pixfmt->sizeimage +=3D
+> +			v4l2_format_plane_size(info, i, width, height);
+>  	return 0;
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_fill_pixfmt);
 
