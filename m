@@ -2,257 +2,233 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 05D857E52C2
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 10:42:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 412237E52E4
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 10:52:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235436AbjKHJmb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 04:42:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38724 "EHLO
+        id S234175AbjKHJwo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 04:52:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60162 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234592AbjKHJma (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 04:42:30 -0500
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4E621BB
-        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 01:42:28 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1cc29f39e7aso45724445ad.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 01:42:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699436548; x=1700041348; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=aDXaY//8y/74BvKRPuAKyEkdsaFq1PaWBhrY8xQYRKA=;
-        b=ZwDc75dVkImSsGmNSQ+nRJK0iPnSreBBdZCuYoPBEyXLBDJG4fZhgzayX2MWE/hk4X
-         017BVJxxzQC1JxGkZIJUnMR25tf37qIOjYt5sDur/Tj0rNvg5aUPgjO5uUVNl9Ia9oRq
-         f3++B2EIP0+YmUBKtpx7J7BPxv71HZxIPOY1E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699436548; x=1700041348;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=aDXaY//8y/74BvKRPuAKyEkdsaFq1PaWBhrY8xQYRKA=;
-        b=oODncX3+gLaxVaa1+FinmZuC6nZDJ9AM2v2mfetxa0+G65yqZDo0wHtRjulBscpM5G
-         tIGTmf8M79g2976PYhQYUlC5Lfxyyp6KNKDPgg6esSqlQbbb4tDDXxP7CwApvukP8XZK
-         0sIaGrKm3Q5OJjqtRoYcgDn2mxtrVkthmdj9VeCy05PxH1AXNtM/r8waq3dVgPwA3MwF
-         zmnLTTgVKmQNBMPtVWwotAtVeQ9BJL9lPY26G0Xp5Fo6G8Wp41sI4N5+wksnGlEtzGEU
-         J4VFGX5l70WE40OwH5EErN6GWZOvy6LAgWyT2TQVNLvxWoqmoprg5z92ZkUXy3SfkTcQ
-         gXKw==
-X-Gm-Message-State: AOJu0YxELy7U2x4cCKWcLMYmfhC/To/vfazY8j62eROwQ1xDaWZK6xEl
-        hPOtw9L4IBqKP9PwqXRxDjCrcQ==
-X-Google-Smtp-Source: AGHT+IEku/YTV/xT1M0nzk1MJ4RhSHCuriXRqjCX16X/FZowan9lL/VgocqkpYuEJFJ0gwLpNy3ZMw==
-X-Received: by 2002:a17:902:e9c6:b0:1cc:3598:4ba0 with SMTP id 6-20020a170902e9c600b001cc35984ba0mr1216149plk.68.1699436548216;
-        Wed, 08 Nov 2023 01:42:28 -0800 (PST)
-Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
-        by smtp.gmail.com with ESMTPSA id q9-20020a170902dac900b001cc32f46757sm1314380plx.107.2023.11.08.01.42.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 01:42:27 -0800 (PST)
-Date:   Wed, 8 Nov 2023 09:42:23 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-        nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-Subject: Re: [PATCH v14 08/56] media: videobuf2: Use vb2_get_num_buffers()
- helper
-Message-ID: <20231108094223.rprskkeee47vaezy@chromium.org>
-References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
- <20231031163104.112469-9-benjamin.gaignard@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231031163104.112469-9-benjamin.gaignard@collabora.com>
+        with ESMTP id S229924AbjKHJwn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 04:52:43 -0500
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AA881B4
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 01:52:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699437161; x=1730973161;
+  h=date:from:to:cc:subject:message-id;
+  bh=3m0g21+Yv3998UpWsLIt+VQdSIKX+eb3jlH/DiI7138=;
+  b=FRTu+YJjHrtMSNzIOMlqtAY/bvJyT/7HM/Q2rPNVnvAsqc10aHjE11eh
+   vPKR0OzUle7db2T84bmlDTj+df/Vmnf3MMgjlIGPkDaFbH4uJhdsF3LiA
+   bNCGn+Pwhf7SioW2LwPdlVbLOlCy6k8DmU6w83rl2mIbJXs+OYTs+swEz
+   ENLVhjDaWyQ37HCY1B4jUl0iGpRVdpQ6mjMzyLSL4LU66vx/BepE24VXg
+   iWVJ+LwlUIp+PoU73t9gmch5Ao3c9SakogIuXcRCqgZrKghuvVQ9uV0LD
+   iNmM+NCZaSSuzy5UFhHXLo9GNKPcpMHpSp4XL4CfScw5AXKRD5itWqnrP
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="392598919"
+X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
+   d="scan'208";a="392598919"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 01:52:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10887"; a="766601921"
+X-IronPort-AV: E=Sophos;i="6.03,285,1694761200"; 
+   d="scan'208";a="766601921"
+Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
+  by fmsmga007.fm.intel.com with ESMTP; 08 Nov 2023 01:52:39 -0800
+Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
+        (envelope-from <lkp@intel.com>)
+        id 1r0fEj-0007sU-35;
+        Wed, 08 Nov 2023 09:52:37 +0000
+Date:   Wed, 08 Nov 2023 17:52:19 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ f30342efd32ea95b9b7437faf8dc37f3e784efc0
+Message-ID: <202311081714.ObT0AKuA-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 31, 2023 at 05:30:16PM +0100, Benjamin Gaignard wrote:
-> Stop using queue num_buffers field directly, instead use
-> vb2_get_num_buffers().
-> This prepares for the future 'delete buffers' feature where there are
-> holes in the buffer indices.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 92 +++++++++++--------
->  .../media/common/videobuf2/videobuf2-v4l2.c   |  4 +-
->  2 files changed, 54 insertions(+), 42 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index b406a30a9b35..c5c5ae4d213d 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -444,13 +444,14 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  			     unsigned int num_buffers, unsigned int num_planes,
->  			     const unsigned plane_sizes[VB2_MAX_PLANES])
->  {
-> +	unsigned int q_num_buffers = vb2_get_num_buffers(q);
->  	unsigned int buffer, plane;
->  	struct vb2_buffer *vb;
->  	int ret;
->  
->  	/* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME */
->  	num_buffers = min_t(unsigned int, num_buffers,
-> -			    VB2_MAX_FRAME - q->num_buffers);
-> +			    VB2_MAX_FRAME - q_num_buffers);
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: f30342efd32ea95b9b7437faf8dc37f3e784efc0  media: v4l: subdev: Return NULL from pad access functions on error
 
-I guess it's safe in this specific situation, but was there any reason
-behind not just calling vb2_get_num_buffers() directly here?
+elapsed time: 1050m
 
->  
->  	for (buffer = 0; buffer < num_buffers; ++buffer) {
->  		/* Allocate vb2 buffer structures */
-> @@ -470,7 +471,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  			vb->planes[plane].min_length = plane_sizes[plane];
->  		}
->  
-> -		vb2_queue_add_buffer(q, vb, q->num_buffers + buffer);
-> +		vb2_queue_add_buffer(q, vb, q_num_buffers + buffer);
+configs tested: 162
+configs skipped: 2
 
-In this case it should also be fine, but actually now this is a loop and if
-somone doesn't know what the other code in the loop does, one could be
-concerned that the num buffers actually could have changed, but we still
-use the cached one that we got at the beginning of the function.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-(Ideally I'd imagine vb2_queue_add_buffer() to append the buffer
-at the end of the queue and increment the num_buffers internally, but it
-doesn't have to happen now, as this series is already quite complex...)
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                     haps_hs_smp_defconfig   gcc  
+arc                   randconfig-001-20231108   gcc  
+arc                   randconfig-002-20231108   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                         bcm2835_defconfig   clang
+arm                                 defconfig   gcc  
+arm                          exynos_defconfig   gcc  
+arm                      footbridge_defconfig   gcc  
+arm                       omap2plus_defconfig   gcc  
+arm                         orion5x_defconfig   clang
+arm                   randconfig-001-20231108   gcc  
+arm                   randconfig-002-20231108   gcc  
+arm                   randconfig-003-20231108   gcc  
+arm                   randconfig-004-20231108   gcc  
+arm64                            allmodconfig   gcc  
+arm64                             allnoconfig   gcc  
+arm64                            allyesconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231108   gcc  
+arm64                 randconfig-002-20231108   gcc  
+arm64                 randconfig-003-20231108   gcc  
+arm64                 randconfig-004-20231108   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231108   gcc  
+csky                  randconfig-002-20231108   gcc  
+i386                             allmodconfig   gcc  
+i386                              allnoconfig   gcc  
+i386                             allyesconfig   gcc  
+i386                              debian-10.3   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231108   gcc  
+i386                  randconfig-002-20231108   gcc  
+i386                  randconfig-003-20231108   gcc  
+i386                  randconfig-004-20231108   gcc  
+i386                  randconfig-005-20231108   gcc  
+i386                  randconfig-006-20231108   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231108   gcc  
+loongarch             randconfig-002-20231108   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                        omega2p_defconfig   clang
+mips                        vocore2_defconfig   gcc  
+mips                           xway_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231108   gcc  
+nios2                 randconfig-002-20231108   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231108   gcc  
+parisc                randconfig-002-20231108   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   gcc  
+powerpc               randconfig-001-20231108   gcc  
+powerpc               randconfig-002-20231108   gcc  
+powerpc               randconfig-003-20231108   gcc  
+powerpc64                           defconfig   gcc  
+powerpc64             randconfig-001-20231108   gcc  
+powerpc64             randconfig-002-20231108   gcc  
+powerpc64             randconfig-003-20231108   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                             allnoconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231108   gcc  
+riscv                 randconfig-002-20231108   gcc  
+riscv                          rv32_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231108   gcc  
+s390                  randconfig-002-20231108   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                          r7785rp_defconfig   gcc  
+sh                    randconfig-001-20231108   gcc  
+sh                    randconfig-002-20231108   gcc  
+sh                             sh03_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                             allnoconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc                               defconfig   gcc  
+sparc                 randconfig-001-20231108   gcc  
+sparc                 randconfig-002-20231108   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231108   gcc  
+sparc64               randconfig-002-20231108   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231108   gcc  
+um                    randconfig-002-20231108   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                randconfig-001-20231108   gcc  
+x86_64                randconfig-002-20231108   gcc  
+x86_64                randconfig-003-20231108   gcc  
+x86_64                randconfig-004-20231108   gcc  
+x86_64                randconfig-005-20231108   gcc  
+x86_64                randconfig-006-20231108   gcc  
+x86_64                randconfig-011-20231108   gcc  
+x86_64                randconfig-012-20231108   gcc  
+x86_64                randconfig-013-20231108   gcc  
+x86_64                randconfig-014-20231108   gcc  
+x86_64                randconfig-015-20231108   gcc  
+x86_64                randconfig-016-20231108   gcc  
+x86_64                           rhel-8.3-bpf   gcc  
+x86_64                          rhel-8.3-func   gcc  
+x86_64                         rhel-8.3-kunit   gcc  
+x86_64                           rhel-8.3-ltp   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                              defconfig   gcc  
+xtensa                randconfig-001-20231108   gcc  
+xtensa                randconfig-002-20231108   gcc  
 
->  		call_void_bufop(q, init_buffer, vb);
->  
->  		/* Allocate video buffer memory for the MMAP type */
-[snip]
-> @@ -2513,7 +2519,8 @@ void vb2_core_queue_release(struct vb2_queue *q)
->  	__vb2_cleanup_fileio(q);
->  	__vb2_queue_cancel(q);
->  	mutex_lock(&q->mmap_lock);
-> -	__vb2_queue_free(q, q->num_buffers);
-> +	__vb2_queue_free(q, vb2_get_num_buffers(q));
-> +	q->num_buffers = 0;
-
-Unrelated change?
-
->  	mutex_unlock(&q->mmap_lock);
->  }
->  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
-> @@ -2542,7 +2549,7 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
->  	/*
->  	 * Start file I/O emulator only if streaming API has not been used yet.
->  	 */
-> -	if (q->num_buffers == 0 && !vb2_fileio_is_active(q)) {
-> +	if (vb2_get_num_buffers(q) == 0 && !vb2_fileio_is_active(q)) {
->  		if (!q->is_output && (q->io_modes & VB2_READ) &&
->  				(req_events & (EPOLLIN | EPOLLRDNORM))) {
->  			if (__vb2_init_fileio(q, 1))
-> @@ -2580,7 +2587,7 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
->  	 * For output streams you can call write() as long as there are fewer
->  	 * buffers queued than there are buffers available.
->  	 */
-> -	if (q->is_output && q->fileio && q->queued_count < q->num_buffers)
-> +	if (q->is_output && q->fileio && q->queued_count < vb2_get_num_buffers(q))
->  		return EPOLLOUT | EPOLLWRNORM;
->  
->  	if (list_empty(&q->done_list)) {
-> @@ -2629,8 +2636,8 @@ struct vb2_fileio_buf {
->   * struct vb2_fileio_data - queue context used by file io emulator
->   *
->   * @cur_index:	the index of the buffer currently being read from or
-> - *		written to. If equal to q->num_buffers then a new buffer
-> - *		must be dequeued.
-> + *		written to. If equal to number of already queued buffers
-> + *		then a new buffer must be dequeued.
-
-Hmm, that's a significant meaning change compared to the original text. Is
-it indended?
-
->   * @initial_index: in the read() case all buffers are queued up immediately
->   *		in __vb2_init_fileio() and __vb2_perform_fileio() just cycles
->   *		buffers. However, in the write() case no buffers are initially
-> @@ -2640,7 +2647,7 @@ struct vb2_fileio_buf {
->   *		buffers. This means that initially __vb2_perform_fileio()
->   *		needs to know what buffer index to use when it is queuing up
->   *		the buffers for the first time. That initial index is stored
-> - *		in this field. Once it is equal to q->num_buffers all
-> + *		in this field. Once it is equal to num_buffers all
-
-It's not clear what num_buffers means here. Would it make sense to instead
-say "number of buffers in the vb2_queue"?
-
->   *		available buffers have been queued and __vb2_perform_fileio()
->   *		should start the normal dequeue/queue cycle.
->   *
-> @@ -2690,7 +2697,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->  	/*
->  	 * Check if streaming api has not been already activated.
->  	 */
-> -	if (q->streaming || q->num_buffers > 0)
-> +	if (q->streaming || vb2_get_num_buffers(q) > 0)
->  		return -EBUSY;
->  
->  	/*
-> @@ -2740,7 +2747,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->  	/*
->  	 * Get kernel address of each buffer.
->  	 */
-> -	for (i = 0; i < q->num_buffers; i++) {
-> +	for (i = 0; i < vb2_get_num_buffers(q); i++) {
->  		/* vb can never be NULL when using fileio. */
->  		vb = vb2_get_buffer(q, i);
->  
-> @@ -2759,18 +2766,23 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->  		/*
->  		 * Queue all buffers.
->  		 */
-> -		for (i = 0; i < q->num_buffers; i++) {
-> -			ret = vb2_core_qbuf(q, q->bufs[i], NULL, NULL);
-> +		for (i = 0; i < vb2_get_num_buffers(q); i++) {
-> +			struct vb2_buffer *vb2 = vb2_get_buffer(q, i);
-> +
-> +			if (!vb2)
-> +				continue;
-> +
-> +			ret = vb2_core_qbuf(q, vb2, NULL, NULL);
->  			if (ret)
->  				goto err_reqbufs;
->  			fileio->bufs[i].queued = 1;
->  		}
-
-Doesn't this part belong to the previous patch that changes q->bufs[x] to
-vb2_get_buffer()?
-
->  		/*
->  		 * All buffers have been queued, so mark that by setting
-> -		 * initial_index to q->num_buffers
-> +		 * initial_index to num_buffers
-
-What num_buffers?
-
->  		 */
-> -		fileio->initial_index = q->num_buffers;
-> -		fileio->cur_index = q->num_buffers;
-> +		fileio->initial_index = vb2_get_num_buffers(q);
-> +		fileio->cur_index = fileio->initial_index;
->  	}
->  
->  	/*
-> @@ -2964,12 +2976,12 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
->  		 * If we are queuing up buffers for the first time, then
->  		 * increase initial_index by one.
->  		 */
-> -		if (fileio->initial_index < q->num_buffers)
-> +		if (fileio->initial_index < vb2_get_num_buffers(q))
->  			fileio->initial_index++;
->  		/*
->  		 * The next buffer to use is either a buffer that's going to be
-> -		 * queued for the first time (initial_index < q->num_buffers)
-> -		 * or it is equal to q->num_buffers, meaning that the next
-> +		 * queued for the first time (initial_index < num_buffers)
-> +		 * or it is equal to num_buffers, meaning that the next
-
-What num_buffers?
-
-Best regards,
-Tomasz
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
