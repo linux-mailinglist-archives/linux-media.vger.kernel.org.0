@@ -2,149 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E813A7E59D4
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 16:15:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 221D17E59F8
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 16:26:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232557AbjKHPPR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 10:15:17 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56188 "EHLO
+        id S232370AbjKHP07 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 10:26:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232354AbjKHPPQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 10:15:16 -0500
-Received: from mx.kolabnow.com (mx.kolabnow.com [212.103.80.154])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB2EE1990
-        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 07:15:13 -0800 (PST)
-Received: from localhost (unknown [127.0.0.1])
-        by mx.kolabnow.com (Postfix) with ESMTP id 85ABF20E15CD;
-        Wed,  8 Nov 2023 16:15:11 +0100 (CET)
-Authentication-Results: ext-mx-out011.mykolab.com (amavis);
- dkim=pass (4096-bit key) reason="pass (just generated, assumed good)"
- header.d=kolabnow.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kolabnow.com; h=
-        content-transfer-encoding:content-type:content-type:in-reply-to
-        :from:from:content-language:references:subject:subject
-        :mime-version:date:date:message-id:received:received:received;
-         s=dkim20160331; t=1699456510; x=1701270911; bh=DaJOWaGJckORUtRD
-        xv0Ng+hit5G9TireSYzv/0O4J+M=; b=cIUGdQPu2BZsGFi8TdILU4Q/Wqs2RiUt
-        YZNPjJQBra0thlIuBZfXgpSd8xzu0GwwIH4fMVb2w3L/Dd1rOWwD/iqX6B0Xc3LZ
-        1xF0cUw1/h+YA/FvgeM3O20ax21akNCwjUCvxiQaBuy++qzD+3gU+81s1JcNE8JV
-        uOpjLdO5iCcJYV0OLMZsAgYindaKgX1XXl/v87uSfhBxliYf0YdMjjYGplPG5NIf
-        niO3tc5NWyBFXdez24YMFd4c0oXEWgAobK7F+Z4a7DasM8FXa9UbFbO0vAKkCg15
-        df1gSUPFmD4cvx0Kff05F7oyiTQQRsWIC4MFGCjs8b8vD2fbpX/0LreiKc76T5Ws
-        souKl1jhnFP5rLX/DPhMQXsC2U8nfnxVGlPPqzb6W6E2nkPPDvSpUwImzjgPEuEG
-        cme1mT+TWNt/G4WDKB7qYiKpEM1MOkS62XOY+qEBRSVGelz3Ovi7443Rp11QuOKy
-        bW+eNPBNXA/xAGNAey9P++biHMoqLyazevcF6XqyynCzz5D2vhhp9HD+OGXmvtOQ
-        +eOu0JW7+0cocBNs1Wk10buNpCmqraIUeTZsnRg6vOI9GUY4hvM/ETAEl49SmK3y
-        715X9KDTcuce/fqw3/tw+DGtagh+7MxBqyDEdr1l07fwbPXiRHVliJATVvJRXiUm
-        M/qDi4TSqNE=
-X-Virus-Scanned: amavis at mykolab.com
-X-Spam-Flag: NO
-X-Spam-Score: -1
-X-Spam-Level: 
-X-Spam-Status: No, score=-1 tagged_above=-10 required=5 tests=[ALL_TRUSTED=-1]
- autolearn=ham autolearn_force=no
-Received: from mx.kolabnow.com ([127.0.0.1])
- by localhost (ext-mx-out011.mykolab.com [127.0.0.1]) (amavis, port 10024)
- with ESMTP id PukRqzkYtYw6; Wed,  8 Nov 2023 16:15:10 +0100 (CET)
-Received: from int-mx009.mykolab.com (unknown [10.9.13.9])
-        by mx.kolabnow.com (Postfix) with ESMTPS id A9CD520AB2F6;
-        Wed,  8 Nov 2023 16:15:08 +0100 (CET)
-Received: from ext-subm010.mykolab.com (unknown [10.9.6.10])
-        by int-mx009.mykolab.com (Postfix) with ESMTPS id 1F95620CCEC7;
-        Wed,  8 Nov 2023 16:15:08 +0100 (CET)
-Message-ID: <b9069635-1fd5-442a-9b4c-fdb2522fcfee@hansg.org>
-Date:   Wed, 8 Nov 2023 16:15:06 +0100
+        with ESMTP id S229579AbjKHP06 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 10:26:58 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 476231AE;
+        Wed,  8 Nov 2023 07:26:56 -0800 (PST)
+Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: andrzej.p)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id AF8A6660768F;
+        Wed,  8 Nov 2023 15:26:53 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1699457214;
+        bh=QqlLL9kNrk/fbeVq2Dqeqlod3Fg3sLGKscFWcTHXcHM=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=djJXzGdnzSXimNfjLl5Qq7zcOFrzuXbckNeGqyn/cx6amD5E2DCW9Ogn/QqWjal9G
+         hAjYq0elviVxHaE8IpVZzAhs6qQlHXyYWRMOTV3TKY758VD66dAFaUesdsSjalhgGb
+         8RCVBe6fOuIrNY7xpuR+QpvliOXqKL3o1TkXVuCECGBvzNCs7+Jfogo5gtPwD9jC5t
+         l/RiBmUA0u2/ibdRE7muc0U4fTJNzLMfpb7UslrXOvJxUorVVmwHz28zhnEWlAIZeh
+         gQIELt6IrzXAa2MeG3J5aqdMBfnVQdGuCAa2ll+1a2dJb3RrgG8bV8Pc4V5wjlXMUn
+         GHDTJxBJWuYSw==
+Message-ID: <c460d3d0-792a-4daf-8f95-9005e24261a1@collabora.com>
+Date:   Wed, 8 Nov 2023 16:26:51 +0100
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 00/15] Intel IPU6 and IPU6 input system drivers
-To:     "Cao, Bingbu" <bingbu.cao@intel.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-        "laurent.pinchart@ideasonboard.com" 
-        <laurent.pinchart@ideasonboard.com>
-Cc:     "andriy.shevchenko@linux.intel.com" 
-        <andriy.shevchenko@linux.intel.com>,
-        "hdegoede@redhat.com" <hdegoede@redhat.com>,
-        "ilpo.jarvinen@linux.intel.com" <ilpo.jarvinen@linux.intel.com>,
-        "andreaskleist@gmail.com" <andreaskleist@gmail.com>,
-        "claus.stovgaard@gmail.com" <claus.stovgaard@gmail.com>,
-        "tfiga@chromium.org" <tfiga@chromium.org>,
-        "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-        "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
-        "bingbu.cao@linux.intel.com" <bingbu.cao@linux.intel.com>,
-        "Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-        "Wang, Hongju" <hongju.wang@intel.com>
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <e1b060be-793f-4482-b0dc-670984bbbd84@hansg.org>
- <DM8PR11MB56531D32CC21715B696C961199A8A@DM8PR11MB5653.namprd11.prod.outlook.com>
-Content-Language: en-US, nl
-From:   Hans de Goede <hans@hansg.org>
-In-Reply-To: <DM8PR11MB56531D32CC21715B696C961199A8A@DM8PR11MB5653.namprd11.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 03/56] media: videobuf2: Stop spamming kernel log with
+ all queue counter
+Content-Language: en-US
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-4-benjamin.gaignard@collabora.com>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20231031163104.112469-4-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
-On 11/8/23 15:31, Cao, Bingbu wrote:
-> Hans,
+W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
+> Only report unbalanced queue counters do avoid spamming kernel log
+> with useless information.
 > 
-> ------------------------------------------------------------------------
-> BRs,  
-> Bingbu Cao 
-> 
->> -----Original Message-----
->> From: Hans de Goede <hans@hansg.org>
->> Sent: Wednesday, November 8, 2023 8:00 PM
->> To: Cao, Bingbu <bingbu.cao@intel.com>; linux-media@vger.kernel.org;
->> sakari.ailus@linux.intel.com; laurent.pinchart@ideasonboard.com
->> Cc: andriy.shevchenko@linux.intel.com; hdegoede@redhat.com;
->> ilpo.jarvinen@linux.intel.com; andreaskleist@gmail.com;
->> claus.stovgaard@gmail.com; tfiga@chromium.org; senozhatsky@chromium.org;
->> tomi.valkeinen@ideasonboard.com; bingbu.cao@linux.intel.com; Qiu, Tian Shu
->> <tian.shu.qiu@intel.com>; Wang, Hongju <hongju.wang@intel.com>
->> Subject: Re: [PATCH v2 00/15] Intel IPU6 and IPU6 input system drivers
->>
->> Hi Bingbu,
->>
->> On 10/24/23 13:29, bingbu.cao@intel.com wrote:
->>> From: Bingbu Cao <bingbu.cao@intel.com>
->>>
->>> This patch series adds a driver for Intel IPU6 input system.
->>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
->>> device which can be found in some Intel Client Platforms. User can use
->>> IPU6 to capture images from MIPI camera sensors.
->>>
->>> IPU6 has its own firmware which exposes ABIs to driver, and
->>> communicates with CSE to do firmware authentication. IPU6 has its MMU
->>> hardware, so the driver sets up a page table to allow IPU6 DMA to
->>> access the system memory.
->>>
->>> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
->>
->> I have been testing this on a TigerLake system, a Dell Latitude 9420 with
->> ov01a1s and the packed 10 bit bayer pixel fmt: V4L2_PIX_FMT_SGRBG10P, which
->> libcamera together with (WIP) software debayer support picks by default
->> does not work. There are many many CSI errors in dmesg and only the first
->> 10 or so lines of the image show.
->>
->> Disabling the packed format by removing it from ipu6_isys_pfmts[], making
->> libcamera pick the unpacked (every 10 bits per pixel data stored in a 16
->> bit word in output buffer) fixes this.
->>
->> Are the packed bayer formats supposed to work on Tiger Lake, or is this a
->> known issue which Intel's own userspace stack avoids by always picking the
->> unpacked format ?
-> 
-> Thanks for the test.
-> 
-> I remember I verified SGRBG10P format on my ADL device before, but I have
-> not tested that for a while, give me some time to test again and come back.
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
-I can confirm that SGRBG10P works on Alderlake it appears to be broken
-on Tiger Lake though.
-
-Regards,
-
-Hans
+> ---
+>   .../media/common/videobuf2/videobuf2-core.c   | 79 +++++++++++--------
+>   1 file changed, 44 insertions(+), 35 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 09be8e026044..47dba2a20d73 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -533,25 +533,26 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>   
+>   #ifdef CONFIG_VIDEO_ADV_DEBUG
+>   	/*
+> -	 * Check that all the calls were balances during the life-time of this
+> -	 * queue. If not (or if the debug level is 1 or up), then dump the
+> -	 * counters to the kernel log.
+> +	 * Check that all the calls were balanced during the life-time of this
+> +	 * queue. If not then dump the counters to the kernel log.
+>   	 */
+>   	if (q->num_buffers) {
+>   		bool unbalanced = q->cnt_start_streaming != q->cnt_stop_streaming ||
+>   				  q->cnt_prepare_streaming != q->cnt_unprepare_streaming ||
+>   				  q->cnt_wait_prepare != q->cnt_wait_finish;
+>   
+> -		if (unbalanced || debug) {
+> -			pr_info("counters for queue %p:%s\n", q,
+> -				unbalanced ? " UNBALANCED!" : "");
+> -			pr_info("     setup: %u start_streaming: %u stop_streaming: %u\n",
+> -				q->cnt_queue_setup, q->cnt_start_streaming,
+> -				q->cnt_stop_streaming);
+> -			pr_info("     prepare_streaming: %u unprepare_streaming: %u\n",
+> -				q->cnt_prepare_streaming, q->cnt_unprepare_streaming);
+> -			pr_info("     wait_prepare: %u wait_finish: %u\n",
+> -				q->cnt_wait_prepare, q->cnt_wait_finish);
+> +		if (unbalanced) {
+> +			pr_info("unbalanced counters for queue %p:\n", q);
+> +			if (q->cnt_start_streaming != q->cnt_stop_streaming)
+> +				pr_info("     setup: %u start_streaming: %u stop_streaming: %u\n",
+> +					q->cnt_queue_setup, q->cnt_start_streaming,
+> +					q->cnt_stop_streaming);
+> +			if (q->cnt_prepare_streaming != q->cnt_unprepare_streaming)
+> +				pr_info("     prepare_streaming: %u unprepare_streaming: %u\n",
+> +					q->cnt_prepare_streaming, q->cnt_unprepare_streaming);
+> +			if (q->cnt_wait_prepare != q->cnt_wait_finish)
+> +				pr_info("     wait_prepare: %u wait_finish: %u\n",
+> +					q->cnt_wait_prepare, q->cnt_wait_finish);
+>   		}
+>   		q->cnt_queue_setup = 0;
+>   		q->cnt_wait_prepare = 0;
+> @@ -572,29 +573,37 @@ static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
+>   				  vb->cnt_buf_prepare != vb->cnt_buf_finish ||
+>   				  vb->cnt_buf_init != vb->cnt_buf_cleanup;
+>   
+> -		if (unbalanced || debug) {
+> -			pr_info("   counters for queue %p, buffer %d:%s\n",
+> -				q, buffer, unbalanced ? " UNBALANCED!" : "");
+> -			pr_info("     buf_init: %u buf_cleanup: %u buf_prepare: %u buf_finish: %u\n",
+> -				vb->cnt_buf_init, vb->cnt_buf_cleanup,
+> -				vb->cnt_buf_prepare, vb->cnt_buf_finish);
+> -			pr_info("     buf_out_validate: %u buf_queue: %u buf_done: %u buf_request_complete: %u\n",
+> -				vb->cnt_buf_out_validate, vb->cnt_buf_queue,
+> -				vb->cnt_buf_done, vb->cnt_buf_request_complete);
+> -			pr_info("     alloc: %u put: %u prepare: %u finish: %u mmap: %u\n",
+> -				vb->cnt_mem_alloc, vb->cnt_mem_put,
+> -				vb->cnt_mem_prepare, vb->cnt_mem_finish,
+> -				vb->cnt_mem_mmap);
+> -			pr_info("     get_userptr: %u put_userptr: %u\n",
+> -				vb->cnt_mem_get_userptr, vb->cnt_mem_put_userptr);
+> -			pr_info("     attach_dmabuf: %u detach_dmabuf: %u map_dmabuf: %u unmap_dmabuf: %u\n",
+> -				vb->cnt_mem_attach_dmabuf, vb->cnt_mem_detach_dmabuf,
+> -				vb->cnt_mem_map_dmabuf, vb->cnt_mem_unmap_dmabuf);
+> -			pr_info("     get_dmabuf: %u num_users: %u vaddr: %u cookie: %u\n",
+> +		if (unbalanced) {
+> +			pr_info("unbalanced counters for queue %p, buffer %d:\n",
+> +				q, buffer);
+> +			if (vb->cnt_buf_init != vb->cnt_buf_cleanup)
+> +				pr_info("     buf_init: %u buf_cleanup: %u\n",
+> +					vb->cnt_buf_init, vb->cnt_buf_cleanup);
+> +			if (vb->cnt_buf_prepare != vb->cnt_buf_finish)
+> +				pr_info("     buf_prepare: %u buf_finish: %u\n",
+> +					vb->cnt_buf_prepare, vb->cnt_buf_finish);
+> +			if (vb->cnt_buf_queue != vb->cnt_buf_done)
+> +				pr_info("     buf_out_validate: %u buf_queue: %u buf_done: %u buf_request_complete: %u\n",
+> +					vb->cnt_buf_out_validate, vb->cnt_buf_queue,
+> +					vb->cnt_buf_done, vb->cnt_buf_request_complete);
+> +			if (vb->cnt_mem_alloc != vb->cnt_mem_put)
+> +				pr_info("     alloc: %u put: %u\n",
+> +					vb->cnt_mem_alloc, vb->cnt_mem_put);
+> +			if (vb->cnt_mem_prepare != vb->cnt_mem_finish)
+> +				pr_info("     prepare: %u finish: %u\n",
+> +					vb->cnt_mem_prepare, vb->cnt_mem_finish);
+> +			if (vb->cnt_mem_get_userptr != vb->cnt_mem_put_userptr)
+> +				pr_info("     get_userptr: %u put_userptr: %u\n",
+> +					vb->cnt_mem_get_userptr, vb->cnt_mem_put_userptr);
+> +			if (vb->cnt_mem_attach_dmabuf != vb->cnt_mem_detach_dmabuf)
+> +				pr_info("     attach_dmabuf: %u detach_dmabuf: %u\n",
+> +					vb->cnt_mem_attach_dmabuf, vb->cnt_mem_detach_dmabuf);
+> +			if (vb->cnt_mem_map_dmabuf != vb->cnt_mem_unmap_dmabuf)
+> +				pr_info("     map_dmabuf: %u unmap_dmabuf: %u\n",
+> +					vb->cnt_mem_map_dmabuf, vb->cnt_mem_unmap_dmabuf);
+> +			pr_info("     get_dmabuf: %u num_users: %u\n",
+>   				vb->cnt_mem_get_dmabuf,
+> -				vb->cnt_mem_num_users,
+> -				vb->cnt_mem_vaddr,
+> -				vb->cnt_mem_cookie);
+> +				vb->cnt_mem_num_users);
+>   		}
+>   	}
+>   #endif
 
