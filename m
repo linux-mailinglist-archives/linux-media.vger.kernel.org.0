@@ -2,121 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E6127E5D48
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 19:33:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 66DFB7E5D9B
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 20:00:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231795AbjKHSdY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 13:33:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37364 "EHLO
+        id S232111AbjKHTAX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 14:00:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53148 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231844AbjKHSdX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 13:33:23 -0500
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTP id 199FC2111;
-        Wed,  8 Nov 2023 10:33:20 -0800 (PST)
-Received: from [192.168.4.14] (unknown [62.77.71.229])
-        by mx.gpxsee.org (Postfix) with ESMTPSA id BDE265F259;
-        Wed,  8 Nov 2023 19:33:15 +0100 (CET)
-Message-ID: <49c002db-fb3e-4e2c-adb4-0be05d4b27e6@gpxsee.org>
-Date:   Wed, 8 Nov 2023 19:33:14 +0100
+        with ESMTP id S231420AbjKHTAV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 14:00:21 -0500
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46BE22112;
+        Wed,  8 Nov 2023 11:00:19 -0800 (PST)
+Received: by mail-oo1-f52.google.com with SMTP id 006d021491bc7-5842a7fdc61so3638869eaf.3;
+        Wed, 08 Nov 2023 11:00:19 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699470018; x=1700074818;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p45+mKXA0+RLf0VAOhIL47ZOwEm+iVY06oIBhHYqI6I=;
+        b=FmNjAKPev26JaZWfjR9IurRdrLIXWCh24Es6PzVfLxV9kOJhO8pCtKp0QeP0JXg6ku
+         YapcpLdZY3V/lXTI6pNjCXIcYoWLESJHeW4pTE4prOX+0onHry5cdE9BkI20sNzqEw/D
+         zIsdAEZ75WYAmCcTV3pBMVFP3QP6GAud2pIxBm3A/JzmILeehnonq3I8nQDNXcdaMRdm
+         Wat3A7WRaEydcPqpLXTffDRpR7JM2VjgDyvJlJDNZWSF7t/7PyX2SfHOyY7NcF3C5wsl
+         TB9n6g1IrD8oxOmkWBx+COQasB/+cYEaGzhWHaxS8yEd/lkdpC/vuJHiu7zNGJOBD9Da
+         uaDg==
+X-Gm-Message-State: AOJu0YwwX9t6JCBGv7gBfH9UnmeFqCyRUaHtnbzZrCxBDZwLFnjgfXyg
+        z9m0CjXbl7yooNNcO9WB7A==
+X-Google-Smtp-Source: AGHT+IEkYyb1Djykhk9kxaGlJRraar7VoY33K8knI8yAYqllxKdOZYsj5PzVppWGa3zReGgIqhfOrg==
+X-Received: by 2002:a4a:a70c:0:b0:582:99ae:ca4c with SMTP id g12-20020a4aa70c000000b0058299aeca4cmr2672180oom.8.1699470018240;
+        Wed, 08 Nov 2023 11:00:18 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id z45-20020a4a9870000000b00587b9063e07sm1422833ooi.2.2023.11.08.11.00.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 08 Nov 2023 11:00:17 -0800 (PST)
+Received: (nullmailer pid 2754062 invoked by uid 1000);
+        Wed, 08 Nov 2023 19:00:16 -0000
+Date:   Wed, 8 Nov 2023 13:00:16 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Mehdi Djait <mehdi.djait@bootlin.com>
+Cc:     linux-kernel@vger.kernel.org, paul.kocialkowski@bootlin.com,
+        laurent.pinchart@ideasonboard.com, devicetree@vger.kernel.org,
+        hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org,
+        maxime.chevallier@bootlin.com, mchehab@kernel.org,
+        robh+dt@kernel.org, heiko@sntech.de, linux-media@vger.kernel.org,
+        thomas.petazzoni@bootlin.com, conor+dt@kernel.org,
+        alexandre.belloni@bootlin.com
+Subject: Re: [PATCH v8 2/3] media: dt-bindings: media: i2c: Add bindings for
+ TW9900
+Message-ID: <169947001607.2754020.4176816227714592571.robh@kernel.org>
+References: <cover.1699449537.git.mehdi.djait@bootlin.com>
+ <0af5607f13b95e1312a1e8df516c8f3d6d0b20f0.1699449537.git.mehdi.djait@bootlin.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: pci: mgb4: remove bogus 'select' statements
-Content-Language: en-US
-To:     Arnd Bergmann <arnd@arndb.de>, Arnd Bergmann <arnd@kernel.org>,
-        Martin Tuma <martin.tuma@digiteqautomotive.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231023160539.1537355-1-arnd@kernel.org>
- <20231023160539.1537355-2-arnd@kernel.org>
- <25173a48-529c-463b-88aa-2ee75dd604ff@gpxsee.org>
- <75a110d5-c544-44b3-8155-ddfadbe1bd88@app.fastmail.com>
-From:   =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <75a110d5-c544-44b3-8155-ddfadbe1bd88@app.fastmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0af5607f13b95e1312a1e8df516c8f3d6d0b20f0.1699449537.git.mehdi.djait@bootlin.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 08. 11. 23 17:13, Arnd Bergmann wrote:
-> On Fri, Oct 27, 2023, at 16:17, Martin Tůma wrote:
->>
->> On 23. 10. 23 18:05, Arnd Bergmann wrote:
->>> From: Arnd Bergmann <arnd@arndb.de>
->>>
->>> As this is just a regular device driver, it has no business force-enabling
->>> other drivers in the system, it should be entirely independent of the
->>> implementation of the spi-nor layer or the specific DMA engine.
->>>
->>
->> The drivers are required for IP cores that are used on the card (in the
->> FPGA). Without I2C_XILINX and XILINX_XDMA the card won't work at all.
->> Without SPI_XILINX the access to the card's FLASH (used e.g. for FW
->> changes) won't be possible.
->>
->> A change to "depend" instead of "select" is thus possible if it makes
->> more sense to you, but removing it would make the module not compile or
->> not work at runtime (there is no symbol dependency to I2C_XILINX and
->> SPI_XILINX, but both need to be present and are loaded using
->> request_module() at runtime).
-> 
-> Sorry for the delay at getting back to you here.
-> 
-> I don't think there is a good answer here, though I normally
-> try to only list the minimal dependencies that are required
-> at build time. E.g. for on-chip devices we don't require the
-> use of a particular clock/irq/pin/gpio/... controller even if
-> we know exactly which of those are used on a given chip.
-> 
 
-On SoCs you probably get a kernel configuration that is missing some 
-feature but still boots up when you do not select/depend on the exact 
-controller, but in the case of the mgb4 PCIe card you get a driver that 
-does not work at all (The SPI_XILINX dependency could theoretically be 
-made configurable, but you would lose the ability to flash the correct 
-FW for the current HW module and the access to the card's serial number. 
-I2C and XDMA are crucial.).
-
-> Since this is a PCI device, it's a bit different, so maybe
-> something like this would work to correctly document which
-> dependencies are required at build time vs run time:
+On Wed, 08 Nov 2023 14:27:13 +0100, Mehdi Djait wrote:
+> The Techwell TW9900 is a video decoder supporting multiple input
+> standards such as PAL and NTSC and has a parallel BT.656 output
+> interface.
 > 
-> --- a/drivers/media/pci/mgb4/Kconfig
-> +++ b/drivers/media/pci/mgb4/Kconfig
-> @@ -1,15 +1,13 @@
->   # SPDX-License-Identifier: GPL-2.0-only
->   config VIDEO_MGB4
->          tristate "Digiteq Automotive MGB4 support"
-> -       depends on VIDEO_DEV && PCI && I2C && DMADEVICES && SPI && MTD && IIO
-> +       depends on VIDEO_DEV && PCI && I2C && SPI && MTD && IIO
->          depends on COMMON_CLK
-> +       depends on XILINX_XDMA
-> +       depends on (I2C_XILINX && SPI_XILINX) || COMPILE_TEST
->          select VIDEOBUF2_DMA_SG
->          select IIO_BUFFER
->          select IIO_TRIGGERED_BUFFER
-> -       select I2C_XILINX
-> -       select SPI_XILINX
-> -       select MTD_SPI_NOR
-> -       select XILINX_XDMA
->          help
->            This is a video4linux driver for Digiteq Automotive MGB4 grabber
->            cards.
+> It's designed to be low-power, posesses some features such as a
+> programmable comb-filter, and automatic input standard detection
+> 
+> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> ---
+> V7->V8:
+> - fixed the number of analog input ports: it is just one.
+> - added endpoints of the analog input port
+> - added vdd-supply to the required in the dt-binding documentation
+> 
+> V6->V7:
+> - added powerdown-gpios and input ports
+> - used 4 spaces for example identation
+> 
+> V5->V6:
+> - This commit had a "Reviewed-by: Rob Herring <robh@kernel.org>" Tag but
+>   decided not to collect it because the last Iteration was more than 2
+>   years ago
+> - removed SECAM from the mentioned standards
+> - changed maintainer
+> 
+> V4->V5:
+> - renamed the file to match the compatible string, and referenced
+>   the graph.yaml schema
+> 
+> V3->V4:
+> - add the missing reset-gpios node to the binding
+> 
+> V2->V3:
+> - fix the example not compiling due to a typo in the reset-gpios
+>   node.
+> 
+>  .../bindings/media/i2c/techwell,tw9900.yaml   | 137 ++++++++++++++++++
+>  1 file changed, 137 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
 > 
 
-My motivation when using "select" was to help people using "make 
-menuconfig" to get the module selected/configured as they will usually 
-not know that there are some Xilinx IP cores used that need separate 
-drivers and the menuconfig GUI simply hides the mgb4 option making it 
-almost impossible just from the menus to find out what has to be selected.
-
-But when there are reasons, why to chose "depends on" (like various 
-configurations, tests or the "readability" of the dependencies) than I'm 
-ok with your patch proposal.
-
-M.
-
->       Arnd
+Reviewed-by: Rob Herring <robh@kernel.org>
 
