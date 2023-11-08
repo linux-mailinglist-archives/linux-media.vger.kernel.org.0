@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 01D517E4EA6
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 02:43:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2897E7E4EBC
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 02:50:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234985AbjKHBnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 20:43:06 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50074 "EHLO
+        id S231774AbjKHBuX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 20:50:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40734 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229753AbjKHBnF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 20:43:05 -0500
+        with ESMTP id S229753AbjKHBuW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 20:50:22 -0500
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04190129;
-        Tue,  7 Nov 2023 17:43:02 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AE0B199;
+        Tue,  7 Nov 2023 17:50:20 -0800 (PST)
 Received: from [100.84.166.245] (cola.collaboradmins.com [195.201.22.229])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits))
         (No client certificate requested)
         (Authenticated sender: nicolas)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 8BE6B66074D9;
-        Wed,  8 Nov 2023 01:42:59 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 51E9F66074D9;
+        Wed,  8 Nov 2023 01:50:17 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1699407781;
-        bh=J8F5Q7ucdMDs/e825oZPhe28Q01sYQtT6UezG1I9+Zk=;
+        s=mail; t=1699408219;
+        bh=djBTnvej1NJw96WFQnceU1jAj+Exjgi1104R6Pyel94=;
         h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-        b=gPvdItBkqnp1eFGQfq7ZAnizTv5HNNT2uUN0dWG3KHtRuXZOS61TXHufhP+L1bnw7
-         RpoTmfGbd7jiSHeR8IIIJllJBdj3RDpGN8ktvtcTO4YgFEqxuokLWqxPpYMNYbUVDj
-         vjKrxgb/PFvX1DaMdz2twer8S8FnY9kG8buVVa9hcUbR5rN8nQUuu9qX2oz4F+XMJ5
-         //YIacAyIKhCnoRHJgWCb/YLBbv+Bg41MlJKmMaOILI9qAygqf+zxR0jz6GXwF6Lx8
-         8JbxmytCy3taORa7JOqnKvlIHgGCsqk9qBFVXoKo57/Rx4lqpvwTA6MtaoAyA627lQ
-         CppVPfx7TA4FQ==
-Message-ID: <7461e7b7cc9abc4cee027a950550192fea8ff972.camel@collabora.com>
-Subject: Re: [PATCH v4 07/11] media: rkvdec: Move rkvdec_reset_decoded_fmt
- helper
+        b=bBdiMTE/C99/f9E1FZvUIA59EToJnZqUOmxE9LZqiwzxgHkMv3MZoe0vGH+UAndwF
+         05vSa7q/quGzJWBJ3wvzHXJMmkuoqUEeW5do03JAcSaojhP14ZG2WMtyhVIW2iQqeD
+         JC6Ntv2bojyaIDiRgs6rvd/A4fRE/IjXceXfLZ09WUaDYGlZYUiAQigF+SVc0m72nE
+         4jaeX6tgybebdBPytTsxlIhlxinawyN8a56SWRa6+fuljxkwh3bBaWMRt1TOI0JGWq
+         yRyr+Fn+oR6v/81UgDV8HH+Gufryj+HVonXIkzY3/QrD6MaSBDG1QXkeX2oS3hx+cw
+         zcmfttqxUQrDQ==
+Message-ID: <4e6767958d1f0d82db8a9a7c7807648519f5e7ee.camel@collabora.com>
+Subject: Re: [PATCH v4 08/11] media: rkvdec: Extract decoded format
+ enumeration into helper
 From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To:     Jonas Karlman <jonas@kwiboo.se>,
         Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
@@ -46,10 +46,10 @@ Cc:     Alex Bee <knaerzche@gmail.com>,
         Christopher Obbard <chris.obbard@collabora.com>,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Date:   Tue, 07 Nov 2023 20:42:49 -0500
-In-Reply-To: <20231105165521.3592037-8-jonas@kwiboo.se>
+Date:   Tue, 07 Nov 2023 20:50:07 -0500
+In-Reply-To: <20231105165521.3592037-9-jonas@kwiboo.se>
 References: <20231105165521.3592037-1-jonas@kwiboo.se>
-         <20231105165521.3592037-8-jonas@kwiboo.se>
+         <20231105165521.3592037-9-jonas@kwiboo.se>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -60,98 +60,126 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Le dimanche 05 novembre 2023 =C3=A0 16:55 +0000, Jonas Karlman a =C3=A9crit=
 =C2=A0:
-> Move rkvdec_reset_decoded_fmt() and the called rkvdec_reset_fmt() helper
-> functions in preparation for adding a new caller in an upcoming patch.
+> Add a rkvdec_is_valid_fmt() helper that check if a fourcc is a supported
+> CAPTURE format, and a rkvdec_enum_decoded_fmt() helper that enumerate
+                                                              enumerates
+> valid formats.
+>=20
+> This move current code into helper functions in preparation for adding
+       moves
+> CAPTURE format filtering and validation in next patch.
 >=20
 > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 
+With the fixed,
 Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 > ---
 > v4:
-> - No change
+> - Rename rkvdec_decoded_fmts() to rkvdec_enum_decoded_fmt()
+> - Rename rkvdec_valid_fmt() to rkvdec_is_valid_fmt()
 >=20
 > v3:
 > - New patch
 >=20
->  drivers/staging/media/rkvdec/rkvdec.c | 46 +++++++++++++--------------
->  1 file changed, 23 insertions(+), 23 deletions(-)
+>  drivers/staging/media/rkvdec/rkvdec.c | 49 +++++++++++++++++++--------
+>  1 file changed, 35 insertions(+), 14 deletions(-)
 >=20
 > diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/medi=
 a/rkvdec/rkvdec.c
-> index 0570c790ad08..7a79840470e1 100644
+> index 7a79840470e1..c3aede94c872 100644
 > --- a/drivers/staging/media/rkvdec/rkvdec.c
 > +++ b/drivers/staging/media/rkvdec/rkvdec.c
-> @@ -37,6 +37,29 @@ static void rkvdec_fill_decoded_pixfmt(struct rkvdec_c=
-tx *ctx,
->  		DIV_ROUND_UP(pix_mp->height, 16);
->  }
+> @@ -27,6 +27,32 @@
+>  #include "rkvdec.h"
+>  #include "rkvdec-regs.h"
 > =20
-> +static void rkvdec_reset_fmt(struct rkvdec_ctx *ctx, struct v4l2_format =
-*f,
-> +			     u32 fourcc)
+> +static u32 rkvdec_enum_decoded_fmt(struct rkvdec_ctx *ctx, int index)
 > +{
-> +	memset(f, 0, sizeof(*f));
-> +	f->fmt.pix_mp.pixelformat =3D fourcc;
-> +	f->fmt.pix_mp.field =3D V4L2_FIELD_NONE;
-> +	f->fmt.pix_mp.colorspace =3D V4L2_COLORSPACE_REC709;
-> +	f->fmt.pix_mp.ycbcr_enc =3D V4L2_YCBCR_ENC_DEFAULT;
-> +	f->fmt.pix_mp.quantization =3D V4L2_QUANTIZATION_DEFAULT;
-> +	f->fmt.pix_mp.xfer_func =3D V4L2_XFER_FUNC_DEFAULT;
+> +	const struct rkvdec_coded_fmt_desc *desc =3D ctx->coded_fmt_desc;
+> +
+> +	if (WARN_ON(!desc))
+> +		return 0;
+> +
+> +	if (index >=3D desc->num_decoded_fmts)
+> +		return 0;
+> +
+> +	return desc->decoded_fmts[index];
 > +}
 > +
-> +static void rkvdec_reset_decoded_fmt(struct rkvdec_ctx *ctx)
+> +static bool rkvdec_is_valid_fmt(struct rkvdec_ctx *ctx, u32 fourcc)
 > +{
-> +	struct v4l2_format *f =3D &ctx->decoded_fmt;
+> +	const struct rkvdec_coded_fmt_desc *desc =3D ctx->coded_fmt_desc;
+> +	unsigned int i;
 > +
-> +	rkvdec_reset_fmt(ctx, f, ctx->coded_fmt_desc->decoded_fmts[0]);
-> +	f->type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> +	f->fmt.pix_mp.width =3D ctx->coded_fmt.fmt.pix_mp.width;
-> +	f->fmt.pix_mp.height =3D ctx->coded_fmt.fmt.pix_mp.height;
-> +	rkvdec_fill_decoded_pixfmt(ctx, &f->fmt.pix_mp);
+> +	for (i =3D 0; i < desc->num_decoded_fmts; i++) {
+> +		if (desc->decoded_fmts[i] =3D=3D fourcc)
+> +			return true;
+> +	}
+> +
+> +	return false;
 > +}
 > +
->  static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
+>  static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
+>  				       struct v4l2_pix_format_mplane *pix_mp)
 >  {
->  	struct rkvdec_ctx *ctx =3D container_of(ctrl->handler, struct rkvdec_ct=
-x, ctrl_hdl);
-> @@ -169,18 +192,6 @@ rkvdec_find_coded_fmt_desc(u32 fourcc)
->  	return NULL;
->  }
-> =20
-> -static void rkvdec_reset_fmt(struct rkvdec_ctx *ctx, struct v4l2_format =
-*f,
-> -			     u32 fourcc)
-> -{
-> -	memset(f, 0, sizeof(*f));
-> -	f->fmt.pix_mp.pixelformat =3D fourcc;
-> -	f->fmt.pix_mp.field =3D V4L2_FIELD_NONE;
-> -	f->fmt.pix_mp.colorspace =3D V4L2_COLORSPACE_REC709;
-> -	f->fmt.pix_mp.ycbcr_enc =3D V4L2_YCBCR_ENC_DEFAULT;
-> -	f->fmt.pix_mp.quantization =3D V4L2_QUANTIZATION_DEFAULT;
-> -	f->fmt.pix_mp.xfer_func =3D V4L2_XFER_FUNC_DEFAULT;
-> -}
-> -
->  static void rkvdec_reset_coded_fmt(struct rkvdec_ctx *ctx)
+> @@ -52,8 +78,10 @@ static void rkvdec_reset_fmt(struct rkvdec_ctx *ctx, s=
+truct v4l2_format *f,
+>  static void rkvdec_reset_decoded_fmt(struct rkvdec_ctx *ctx)
 >  {
->  	struct v4l2_format *f =3D &ctx->coded_fmt;
-> @@ -196,17 +207,6 @@ static void rkvdec_reset_coded_fmt(struct rkvdec_ctx=
- *ctx)
->  		ctx->coded_fmt_desc->ops->adjust_fmt(ctx, f);
->  }
+>  	struct v4l2_format *f =3D &ctx->decoded_fmt;
+> +	u32 fourcc;
 > =20
-> -static void rkvdec_reset_decoded_fmt(struct rkvdec_ctx *ctx)
-> -{
-> -	struct v4l2_format *f =3D &ctx->decoded_fmt;
-> -
 > -	rkvdec_reset_fmt(ctx, f, ctx->coded_fmt_desc->decoded_fmts[0]);
-> -	f->type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
-> -	f->fmt.pix_mp.width =3D ctx->coded_fmt.fmt.pix_mp.width;
-> -	f->fmt.pix_mp.height =3D ctx->coded_fmt.fmt.pix_mp.height;
-> -	rkvdec_fill_decoded_pixfmt(ctx, &f->fmt.pix_mp);
-> -}
+> +	fourcc =3D rkvdec_enum_decoded_fmt(ctx, 0);
+> +	rkvdec_reset_fmt(ctx, f, fourcc);
+>  	f->type =3D V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+>  	f->fmt.pix_mp.width =3D ctx->coded_fmt.fmt.pix_mp.width;
+>  	f->fmt.pix_mp.height =3D ctx->coded_fmt.fmt.pix_mp.height;
+> @@ -244,7 +272,6 @@ static int rkvdec_try_capture_fmt(struct file *file, =
+void *priv,
+>  	struct v4l2_pix_format_mplane *pix_mp =3D &f->fmt.pix_mp;
+>  	struct rkvdec_ctx *ctx =3D fh_to_rkvdec_ctx(priv);
+>  	const struct rkvdec_coded_fmt_desc *coded_desc;
+> -	unsigned int i;
+> =20
+>  	/*
+>  	 * The codec context should point to a coded format desc, if the format
+> @@ -255,13 +282,8 @@ static int rkvdec_try_capture_fmt(struct file *file,=
+ void *priv,
+>  	if (WARN_ON(!coded_desc))
+>  		return -EINVAL;
+> =20
+> -	for (i =3D 0; i < coded_desc->num_decoded_fmts; i++) {
+> -		if (coded_desc->decoded_fmts[i] =3D=3D pix_mp->pixelformat)
+> -			break;
+> -	}
 > -
->  static int rkvdec_enum_framesizes(struct file *file, void *priv,
->  				  struct v4l2_frmsizeenum *fsize)
+> -	if (i =3D=3D coded_desc->num_decoded_fmts)
+> -		pix_mp->pixelformat =3D coded_desc->decoded_fmts[0];
+> +	if (!rkvdec_is_valid_fmt(ctx, pix_mp->pixelformat))
+> +		pix_mp->pixelformat =3D rkvdec_enum_decoded_fmt(ctx, 0);
+> =20
+>  	/* Always apply the frmsize constraint of the coded end. */
+>  	pix_mp->width =3D max(pix_mp->width, ctx->coded_fmt.fmt.pix_mp.width);
+> @@ -425,14 +447,13 @@ static int rkvdec_enum_capture_fmt(struct file *fil=
+e, void *priv,
+>  				   struct v4l2_fmtdesc *f)
 >  {
+>  	struct rkvdec_ctx *ctx =3D fh_to_rkvdec_ctx(priv);
+> +	u32 fourcc;
+> =20
+> -	if (WARN_ON(!ctx->coded_fmt_desc))
+> -		return -EINVAL;
+> -
+> -	if (f->index >=3D ctx->coded_fmt_desc->num_decoded_fmts)
+> +	fourcc =3D rkvdec_enum_decoded_fmt(ctx, f->index);
+> +	if (!fourcc)
+>  		return -EINVAL;
+> =20
+> -	f->pixelformat =3D ctx->coded_fmt_desc->decoded_fmts[f->index];
+> +	f->pixelformat =3D fourcc;
+>  	return 0;
+>  }
+> =20
 
