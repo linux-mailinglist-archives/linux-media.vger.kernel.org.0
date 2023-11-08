@@ -2,99 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 07E2A7E4DBA
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 01:10:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BC9F7E4E2F
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 01:36:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231628AbjKHAKO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 7 Nov 2023 19:10:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54384 "EHLO
+        id S232624AbjKHAgH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 7 Nov 2023 19:36:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58638 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229844AbjKHAKN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 19:10:13 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AD8710C3;
-        Tue,  7 Nov 2023 16:10:11 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CBF6C433C7;
-        Wed,  8 Nov 2023 00:10:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1699402210;
-        bh=49/18eui175XW6NzFUiZghmKR051RlPOSAcbSznIRN0=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=ICoTurgjXoU7vBaB5nU3XnpCuGXUGM/Lg+7nx9Zg5c9Vx2xHyr8NmLns0KLqXONdI
-         R8LCfCS/mHRDjwxTSoVe+sj1cDEttA8Y0JuKSpm6lLw1n/qSIvaHCleQRX+/QjqfLB
-         9Bnfw+85Cc/QjVXk/VLdQ1jhn6eKkRkQigB0ZLL0MOdSoiV/erOA1zHYVxiYbjmu34
-         FBxFuBnpvV+HFTIqWMpFB8XBpikQNZwbiRDQ+p87uOEkTycDU3xckJomKwbrGlJPDI
-         Tua1FNCNa4KtRmoEEFxhCTAEpwuhMRfvnw4geJfz4mItNfTxdevbQPqdoQT+SaaD4C
-         6UXbF+jG51x8A==
-Message-ID: <674f6ae2-d88e-4203-83f9-e9a9322393d9@kernel.org>
-Date:   Tue, 7 Nov 2023 17:10:09 -0700
+        with ESMTP id S229988AbjKHAgG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 7 Nov 2023 19:36:06 -0500
+Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A812F10FC
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 16:36:04 -0800 (PST)
+Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-507a29c7eefso8003331e87.1
+        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 16:36:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699403763; x=1700008563; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=tLCtsTg94ZkYKlxM35PI/7QpN+IW2xY9/USBi3sx8e0=;
+        b=MJ7iTFmgyaWBmmY4IGaip5aDrJrcOq9jDFtsabyuT1LUHyrsNQMcm/ctN1gzE7fygf
+         eoZTJ1wqNcXJQBq+10gxZsont/tB/4blfYDuXM1XPjQsgZI1MMjg6l4EtN9UUJ/Aoh62
+         zyUst9rAuz8ZP5boXAsW3fv2b2SEdXajpuV0CcYJdQegfazIVJaes3KFjNM66MVZClXT
+         yaLFq2Xlpq6LOsbgeyej1sYmrBqpqeOK6dRAo7VyEov8YVsObJEkZOCSHKo33rjbmHAp
+         XAjS1msE1UQkRIgZa+wJcT5NEF5P6Bc7oE741KOYwU6S/lplbdssm3egY1zIFdU1B1L5
+         s+lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699403763; x=1700008563;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tLCtsTg94ZkYKlxM35PI/7QpN+IW2xY9/USBi3sx8e0=;
+        b=dmdpoVVMFPZ0feP8qNWUmVI92UfsRbbEb8SqOOSS8BtM3ftWpYVqTfl8R+XFrVssNI
+         HJTUAkX+sPM7lcpI6yD4pb49lIqMT41F8ieXRS9LetKZOafmPQK2wkEcbOX3oEyLt67e
+         poBL4daf5GfCjZqBQIn4PWZI9/iBITC0fR8a2S4IAmbHzs2qS6hoa4ZbSJVcmDwCis4z
+         JNJqt2jOX/vGLaA5tf4czfRwzRU51Qoc42gw8VTPafWJGvOH0I3aIO8QAGnWARgzdf0l
+         Ef/1QrplH05y6PNuB0jtB5PIRjMY2sWbgzBobAVX80/PnrdHD61Lq9x0z2kVB7XaF3LV
+         MK6w==
+X-Gm-Message-State: AOJu0Yz5nauC3W4G5E5IXcCNSWt2GeRyIYE/9mGOGVkbFRKL1Sg9CZZr
+        SEi+spse/S8rssv9/t9DN5tw6w==
+X-Google-Smtp-Source: AGHT+IHl+VAYGxe/DNmWYTV7boSYThTTOIb/X3vqD8Z9d7rD2VPoeP9ac4YqJU0Le6n452fR4Otgrw==
+X-Received: by 2002:ac2:4f06:0:b0:507:9a8c:a8fe with SMTP id k6-20020ac24f06000000b005079a8ca8femr219318lfr.53.1699403762869;
+        Tue, 07 Nov 2023 16:36:02 -0800 (PST)
+Received: from [192.168.100.102] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id a4-20020a5d53c4000000b0032f7d7ec4adsm3581791wrw.92.2023.11.07.16.36.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 07 Nov 2023 16:36:02 -0800 (PST)
+Message-ID: <27cb79f8-2c44-48db-8f6d-c2ec861dc249@linaro.org>
+Date:   Wed, 8 Nov 2023 00:36:01 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 06/12] memory-provider: dmabuf devmem memory
- provider
+Subject: Re: [PATCH v3 3/6] media: qcom: camss: csiphy-3ph: Add Gen2 v1.1
+ two-phase MIPI CSI-2 DPHY init
 Content-Language: en-US
-To:     Mina Almasry <almasrymina@google.com>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jeroen de Borst <jeroendb@google.com>,
-        Praveen Kaligineedi <pkaligineedi@google.com>,
-        Willem de Bruijn <willemb@google.com>,
-        Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-7-almasrymina@google.com>
- <583db67b-96c6-4e17-bea0-b5a14799db4a@kernel.org>
- <CAHS8izME7NixQrrh+qKnMR4+FyTzKW=B2pYyNffJ+igiehe-7g@mail.gmail.com>
-From:   David Ahern <dsahern@kernel.org>
-In-Reply-To: <CAHS8izME7NixQrrh+qKnMR4+FyTzKW=B2pYyNffJ+igiehe-7g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
+        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231105-b4-camss-sc8280xp-v3-0-4b3c372ff0f4@linaro.org>
+ <20231105-b4-camss-sc8280xp-v3-3-4b3c372ff0f4@linaro.org>
+ <ff8532ca-fe74-4f52-bab9-b14f6a4599b1@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <ff8532ca-fe74-4f52-bab9-b14f6a4599b1@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/7/23 5:02 PM, Mina Almasry wrote:
-> On Mon, Nov 6, 2023 at 1:02 PM Stanislav Fomichev <sdf@google.com> wrote:
+On 07/11/2023 21:43, Konrad Dybcio wrote:
+> 
+> 
+> On 11/5/23 18:45, Bryan O'Donoghue wrote:
+>> Add a PHY configuration sequence for the sc8280xp which uses a Qualcomm
+>> Gen 2 version 1.1 CSI-2 PHY.
 >>
->> On 11/05, Mina Almasry wrote:
->>> +static inline bool page_is_page_pool_iov(const struct page *page)
->>> +{
->>> +     return (unsigned long)page & PP_DEVMEM;
->>> +}
+>> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
+>> mode. This configuration supports two-phase D-PHY mode.
 >>
->> Speaking of bpf: one thing that might be problematic with this PP_DEVMEM
->> bit is that it will make debugging with bpftrace a bit (more)
->> complicated. If somebody were trying to get to that page_pool_iov from
->> the frags, they will have to do the equivalent of page_is_page_pool_iov,
->> but probably not a big deal? (thinking out loud)
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+> Makes it sound like the current 2ph/3ph split is rather nonsensical?
 > 
-> Good point, but that doesn't only apply to bpf I think. I'm guessing
-> even debugger drgn access to the bv_page in the frag will have trouble
-> if it's actually accessing an iov with LSB set.
+> Perhaps we should restructure it to match hw revision? Especially since
+> one can get it from the hardware itself..
 > 
-> But this is not specific to this use for LSB pointer trick. I think
-> all code that currently uses LSB pointer trick will have similar
-> troubles. In this context my humble vote is that we get such big
-> upside from reducing code churn that it's reasonable to tolerate such
-> side effects.
+> Konrad
 
-+1
+For the C-PHY though we have to either add or remove caps - I forget 
+which on ~ all of our reference platforms.
 
-> 
-> I could alleviate some of the issues by teaching drgn to do the right
-> thing for devmem/iovs... time permitting.
-> 
-Tools like drgn and crash have to know when the LSB trick is used  -
-e.g., dst_entry - and handle it when dereferencing pointers.
+"The PHY can do it" but I'd be surprised to find there's a single real 
+implementation of it outside of a silicon test bench.
+
+---
+bod
