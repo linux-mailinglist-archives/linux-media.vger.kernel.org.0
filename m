@@ -2,139 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 78D077E506C
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 07:42:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2821B7E5082
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 07:54:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230116AbjKHGmt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 01:42:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40944 "EHLO
+        id S230467AbjKHGyW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 01:54:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48070 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229696AbjKHGmr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 01:42:47 -0500
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37460185;
-        Tue,  7 Nov 2023 22:42:45 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-53de0d1dc46so11146535a12.3;
-        Tue, 07 Nov 2023 22:42:45 -0800 (PST)
+        with ESMTP id S229566AbjKHGyU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 01:54:20 -0500
+Received: from mail-pg1-x52e.google.com (mail-pg1-x52e.google.com [IPv6:2607:f8b0:4864:20::52e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9640F1B5
+        for <linux-media@vger.kernel.org>; Tue,  7 Nov 2023 22:54:18 -0800 (PST)
+Received: by mail-pg1-x52e.google.com with SMTP id 41be03b00d2f7-5b8f68ba4e5so4177151a12.1
+        for <linux-media@vger.kernel.org>; Tue, 07 Nov 2023 22:54:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699425763; x=1700030563; darn=vger.kernel.org;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=aH3qLewRzDUkbZXeiRIQEkCKB/AS80ndVOQTw0k3Hs0=;
-        b=HgU/00/06PdWyovO9PYq496CIu91FmHOQgE2egcOLy0jKTxUCU2WwJpaM5ptkKAWX9
-         3SQbfpJ/3E9YGrI70e8GoIboQKXPhkxSUmqmLS09bzHlvcigzgvrL5vTvyi5if6kZ70A
-         2WuJVEzYK3fXcBDEOevOgvoV3lgSOK76yRoVaR1YFmaa6Iac2ElzPqkUndnyedGrlb0P
-         lxMZG7d4iJYN9jCF2MnePncLbxAFYOqAC5EchBQeIqHx52O2QKXGGCMSeeyHFdZr3my4
-         heG8mA2XtCHMDcvTgEOUlb4QIbyrFweMQe2TQmm6efHRr0jbYNOn4TDTotnt3dLFIAQL
-         38gA==
+        d=google.com; s=20230601; t=1699426458; x=1700031258; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dhuw+/MAxDH+LKhW5lk+dQwqwTtU9a6DQq89FiNybxI=;
+        b=U5YWUgwOcQAMnaKtQpvgPL3txkIXtcYFcus9Bsatotq17pVNQifsyEYUuid8VddTPh
+         cQQ3v3m1NykTdvunLATz5sMlEDEzyBRhjLgvZNQOhDhOvx8UoobxWbLyyO0A8bAfqg9u
+         MGx0ygGpbCs1fhJ/PZqdmGllkf6Tjz+UxuZMAf+K7TGMq/viOAP2rgf6W3vPjsOb0yPN
+         k8NJ237+NT4fFjyeAD+NXY6sbYCJd4h+JDjgZb28VBZnRY/3P3Hl3Gj10duGWQN6d0rR
+         NNIVU5I3QcEs3+9Z4+MFduitI3xuWz5Gw4zQKGNfpLaWkwdcgmX99F3svnjPWg9brYk9
+         HsRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699425763; x=1700030563;
-        h=content-transfer-encoding:autocrypt:subject:from:cc:to
-         :content-language:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aH3qLewRzDUkbZXeiRIQEkCKB/AS80ndVOQTw0k3Hs0=;
-        b=XM1JDH8Zn66Y8etGwaxnNS5agt8u4h68Qa5VmYuuq0DOSgGsl1xcIMePXR2Hg1yzMq
-         3sIem6+Ikoz8juz629CUSOC7mKX/UxbUc0z8afOqQR0W6ASc2HjO684StF6BD+iucYFd
-         VH6qBoxxC+b74beT6+POeMAZEsNyQ9VzL0i9NkppC/DJjmbxuwgyZer6edrOs0lq9LRT
-         44uraGJQvwG9o/SUSxpYEMgLCkS63eWSVCk4em7yRbwyaeqIepChZ4jM1yq4bSftCHfQ
-         zKOW4ImYYygqDyHHNj6aJRafmohIwFEyiUs8CQq/mxz+CVglakRB9BKHteeVuT9rjrg6
-         7xeQ==
-X-Gm-Message-State: AOJu0YwR2m46foMSfYWC46wvFRKhEeAIicn2/FHqw2lD7kM4YOhBwN2b
-        BCvcjegU5uF92CT3REt20vw=
-X-Google-Smtp-Source: AGHT+IEOjXHWWtr6JRpYSCPJhzSrsXzW3tHjYNKJrkZAwBn+JL9i+uhzy7AFg7mxY3oLOZYE6yfyKA==
-X-Received: by 2002:a17:907:744:b0:9de:32bb:faab with SMTP id xc4-20020a170907074400b009de32bbfaabmr607783ejb.32.1699425763424;
-        Tue, 07 Nov 2023 22:42:43 -0800 (PST)
-Received: from ?IPV6:2a01:c23:c56e:b200:75f2:d482:5d42:c8a0? (dynamic-2a01-0c23-c56e-b200-75f2-d482-5d42-c8a0.c23.pool.telefonica.de. [2a01:c23:c56e:b200:75f2:d482:5d42:c8a0])
-        by smtp.googlemail.com with ESMTPSA id m15-20020a1709060d8f00b0099297782aa9sm533338eji.49.2023.11.07.22.42.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Nov 2023 22:42:43 -0800 (PST)
-Message-ID: <e4395454-c500-4d76-af74-42e29d4b40d8@gmail.com>
-Date:   Wed, 8 Nov 2023 07:42:37 +0100
+        d=1e100.net; s=20230601; t=1699426458; x=1700031258;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dhuw+/MAxDH+LKhW5lk+dQwqwTtU9a6DQq89FiNybxI=;
+        b=WxbOwqD+hejpj/LRR1Bi1+F6aDvcS7Aw3kBkEZtfsEXVKpUxgNAEq6oxhfzJ2WM4Qa
+         xTHnMoxqvT/vgSQzMSzfHlOAzeZTiHaBw44R8ziahwb2T6QewuwJ7qtQZa43T7IPJFWS
+         P/4/+YYk9B3WTu9VFlpnyVkHLuyAHAQqYwMnnw/dyw7wZafGTJCfuDctcjPbKTk05u6i
+         AToTcNn4ooGtS0jWpcHPi+HxjuwFo3at1BXPZtnRFVDLCZvTUYQAjRCUql92MKdQOiSX
+         aunaL8LNxTzO4/0+qHmPYEFJkHPod1jxUHoaTlOUr7rgkF54LOQv5MpGQU5GTaobkokA
+         KcxA==
+X-Gm-Message-State: AOJu0YwRZv92/V7i1WDt7p8DqWgRd5NnanVijiPVCh+oicE9oEpvPNGf
+        5V7imZH8RzryWNZmRlQFOC/AcNQ1hVFtPt0jK1q3zw==
+X-Google-Smtp-Source: AGHT+IGZgMOdX8wFdlvM+x1nbzazDDLCnOraMyZxEso0/KY16E2sWkauS1+5+pz2tHuJieKwCBP0vEgjJwlWV4CVXPI=
+X-Received: by 2002:a05:6a20:72a0:b0:183:e7bb:5911 with SMTP id
+ o32-20020a056a2072a000b00183e7bb5911mr1385320pzk.17.1699426457599; Tue, 07
+ Nov 2023 22:54:17 -0800 (PST)
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US
-To:     Sylwester Nawrocki <s.nawrocki@samsung.com>,
+References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org>
+ <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu> <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
+ <fe672e31315b8f9c44a693c909d464a299e76093.camel@ndufresne.ca>
+In-Reply-To: <fe672e31315b8f9c44a693c909d464a299e76093.camel@ndufresne.ca>
+From:   Esker Wong <esker@google.com>
+Date:   Wed, 8 Nov 2023 14:53:41 +0800
+Message-ID: <CAEZL83qR2bDq35yvCV-WvkaL6ZbPvSxQH+j=ViG6Kq8-0Mzq1Q@mail.gmail.com>
+Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
+To:     nicolas@ndufresne.ca, Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Esker Wong <esker@chromium.org>,
+        Ricardo Ribalda <ribalda@chromium.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-        Alim Akhtar <alim.akhtar@samsung.com>
-Cc:     linux-media@vger.kernel.org,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc@vger.kernel.org,
-        "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
-From:   Heiner Kallweit <hkallweit1@gmail.com>
-Subject: [PATCH] media: exynos4-is: fimc-is-i2c: remove I2C_CLASS_SPD support
-Autocrypt: addr=hkallweit1@gmail.com; keydata=
- xsFNBF/0ZFUBEAC0eZyktSE7ZNO1SFXL6cQ4i4g6Ah3mOUIXSB4pCY5kQ6OLKHh0FlOD5/5/
- sY7IoIouzOjyFdFPnz4Bl3927ClT567hUJJ+SNaFEiJ9vadI6vZm2gcY4ExdIevYHWe1msJF
- MVE4yNwdS+UsPeCF/6CQQTzHc+n7DomE7fjJD5J1hOJjqz2XWe71fTvYXzxCFLwXXbBiqDC9
- dNqOe5odPsa4TsWZ09T33g5n2nzTJs4Zw8fCy8rLqix/raVsqr8fw5qM66MVtdmEljFaJ9N8
- /W56qGCp+H8Igk/F7CjlbWXiOlKHA25mPTmbVp7VlFsvsmMokr/imQr+0nXtmvYVaKEUwY2g
- 86IU6RAOuA8E0J5bD/BeyZdMyVEtX1kT404UJZekFytJZrDZetwxM/cAH+1fMx4z751WJmxQ
- J7mIXSPuDfeJhRDt9sGM6aRVfXbZt+wBogxyXepmnlv9K4A13z9DVLdKLrYUiu9/5QEl6fgI
- kPaXlAZmJsQfoKbmPqCHVRYj1lpQtDM/2/BO6gHASflWUHzwmBVZbS/XRs64uJO8CB3+V3fa
- cIivllReueGCMsHh6/8wgPAyopXOWOxbLsZ291fmZqIR0L5Y6b2HvdFN1Xhc+YrQ8TKK+Z4R
- mJRDh0wNQ8Gm89g92/YkHji4jIWlp2fwzCcx5+lZCQ1XdqAiHQARAQABzSZIZWluZXIgS2Fs
- bHdlaXQgPGhrYWxsd2VpdDFAZ21haWwuY29tPsLBjgQTAQgAOBYhBGxfqY/yOyXjyjJehXLe
- ig9U8DoMBQJf9GRVAhsDBQsJCAcCBhUKCQgLAgQWAgMBAh4BAheAAAoJEHLeig9U8DoMSycQ
- AJbfg8HZEK0ljV4M8nvdaiNixWAufrcZ+SD8zhbxl8GispK4F3Yo+20Y3UoZ7FcIidJWUUJL
- axAOkpI/70YNhlqAPMsuudlAieeYZKjIv1WV5ucNZ3VJ7dC+dlVqQdAr1iD869FZXvy91KhJ
- wYulyCf+s4T9YgmLC6jLMBZghKIf1uhSd0NzjyCqYWbk2ZxByZHgunEShOhHPHswu3Am0ftt
- ePaYIHgZs+Vzwfjs8I7EuW/5/f5G9w1vibXxtGY/GXwgGGHRDjFM7RSprGOv4F5eMGh+NFUJ
- TU9N96PQYMwXVxnQfRXl8O6ffSVmFx4H9rovxWPKobLmqQL0WKLLVvA/aOHCcMKgfyKRcLah
- 57vGC50Ga8oT2K1g0AhKGkyJo7lGXkMu5yEs0m9O+btqAB261/E3DRxfI1P/tvDZpLJKtq35
- dXsj6sjvhgX7VxXhY1wE54uqLLHY3UZQlmH3QF5t80MS7/KhxB1pO1Cpcmkt9hgyzH8+5org
- +9wWxGUtJWNP7CppY+qvv3SZtKJMKsxqk5coBGwNkMms56z4qfJm2PUtJQGjA65XWdzQACib
- 2iaDQoBqGZfXRdPT0tC1H5kUJuOX4ll1hI/HBMEFCcO8++Bl2wcrUsAxLzGvhINVJX2DAQaF
- aNetToazkCnzubKfBOyiTqFJ0b63c5dqziAgzsFNBF/0ZFUBEADF8UEZmKDl1w/UxvjeyAeX
- kghYkY3bkK6gcIYXdLRfJw12GbvMioSguvVzASVHG8h7NbNjk1yur6AONfbUpXKSNZ0skV8V
- fG+ppbaY+zQofsSMoj5gP0amwbwvPzVqZCYJai81VobefTX2MZM2Mg/ThBVtGyzV3NeCpnBa
- 8AX3s9rrX2XUoCibYotbbxx9afZYUFyflOc7kEpc9uJXIdaxS2Z6MnYLHsyVjiU6tzKCiVOU
- KJevqvzPXJmy0xaOVf7mhFSNQyJTrZpLa+tvB1DQRS08CqYtIMxRrVtC0t0LFeQGly6bOngr
- ircurWJiJKbSXVstLHgWYiq3/GmCSx/82ObeLO3PftklpRj8d+kFbrvrqBgjWtMH4WtK5uN5
- 1WJ71hWJfNchKRlaJ3GWy8KolCAoGsQMovn/ZEXxrGs1ndafu47yXOpuDAozoHTBGvuSXSZo
- ythk/0EAuz5IkwkhYBT1MGIAvNSn9ivE5aRnBazugy0rTRkVggHvt3/7flFHlGVGpBHxFUwb
- /a4UjJBPtIwa4tWR8B1Ma36S8Jk456k2n1id7M0LQ+eqstmp6Y+UB+pt9NX6t0Slw1NCdYTW
- gJezWTVKF7pmTdXszXGxlc9kTrVUz04PqPjnYbv5UWuDd2eyzGjrrFOsJEi8OK2d2j4FfF++
- AzOMdW09JVqejQARAQABwsF2BBgBCAAgFiEEbF+pj/I7JePKMl6Fct6KD1TwOgwFAl/0ZFUC
- GwwACgkQct6KD1TwOgxUfg//eAoYc0Vm4NrxymfcY30UjHVD0LgSvU8kUmXxil3qhFPS7KA+
- y7tgcKLHOkZkXMX5MLFcS9+SmrAjSBBV8omKoHNo+kfFx/dUAtz0lot8wNGmWb+NcHeKM1eb
- nwUMOEa1uDdfZeKef/U/2uHBceY7Gc6zPZPWgXghEyQMTH2UhLgeam8yglyO+A6RXCh+s6ak
- Wje7Vo1wGK4eYxp6pwMPJXLMsI0ii/2k3YPEJPv+yJf90MbYyQSbkTwZhrsokjQEaIfjrIk3
- rQRjTve/J62WIO28IbY/mENuGgWehRlTAbhC4BLTZ5uYS0YMQCR7v9UGMWdNWXFyrOB6PjSu
- Trn9MsPoUc8qI72mVpxEXQDLlrd2ijEWm7Nrf52YMD7hL6rXXuis7R6zY8WnnBhW0uCfhajx
- q+KuARXC0sDLztcjaS3ayXonpoCPZep2Bd5xqE4Ln8/COCslP7E92W1uf1EcdXXIrx1acg21
- H/0Z53okMykVs3a8tECPHIxnre2UxKdTbCEkjkR4V6JyplTS47oWMw3zyI7zkaadfzVFBxk2
- lo/Tny+FX1Azea3Ce7oOnRUEZtWSsUidtIjmL8YUQFZYm+JUIgfRmSpMFq8JP4VH43GXpB/S
- OCrl+/xujzvoUBFV/cHKjEQYBxo+MaiQa1U54ykM2W4DnHb1UiEf5xDkFd4=
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This I2C bus is used by the firmware only and it seems I2C_CLASS_SPD
-device auto-detection has never been used. So we can safely remove it.
-That's one further step towards removing I2C_CLASS_SPD completely.
+Hi Nicholas and Sakari,
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
----
- drivers/media/platform/samsung/exynos4-is/fimc-is-i2c.c | 1 -
- 1 file changed, 1 deletion(-)
+We need it as precise as possible. Currently the earliest time of a
+frame we can have in userspace  is the dqbuf.
 
-diff --git a/drivers/media/platform/samsung/exynos4-is/fimc-is-i2c.c b/drivers/media/platform/samsung/exynos4-is/fimc-is-i2c.c
-index bef6e9b4a..44363c424 100644
---- a/drivers/media/platform/samsung/exynos4-is/fimc-is-i2c.c
-+++ b/drivers/media/platform/samsung/exynos4-is/fimc-is-i2c.c
-@@ -57,7 +57,6 @@ static int fimc_is_i2c_probe(struct platform_device *pdev)
- 	strscpy(i2c_adap->name, "exynos4x12-isp-i2c", sizeof(i2c_adap->name));
- 	i2c_adap->owner = THIS_MODULE;
- 	i2c_adap->algo = &fimc_is_i2c_algorithm;
--	i2c_adap->class = I2C_CLASS_SPD;
- 
- 	platform_set_drvdata(pdev, isp_i2c);
- 	pm_runtime_enable(&pdev->dev);
--- 
-2.42.1
+And for UVC timestamp, it is somewhat awkward for us to use. Since
+other functions in our stacks do not necessarily contain such
+timestamps. So we want some event to be trigger and we can get the
+system time directly.
 
+If the V4L2_EVENT_FRAME_SYNC will be earlier then V4L2_EVENT_VSYNC,
+then it has value. We would want to know the delay of a frame being
+captured to the time it is displayed.
+
+I'm not sure for bulk is the V4L2_EVENT_VSYNC more accurate?
+
+Esker
+
+
+On Wed, Nov 8, 2023 at 3:27=E2=80=AFAM <nicolas@ndufresne.ca> wrote:
+>
+> Hi,
+>
+> Le mardi 07 novembre 2023 =C3=A0 13:06 +0800, Esker Wong a =C3=A9crit :
+> > [send again in text mode]
+> > Hi Sakari,
+> >
+> > Sequence number is important to us. We need it to measure the latency
+> > from this event to the time we display the frame.
+>
+> how much precision do you expect, because as described, this number
+> will be completely false for bulk.
+>
+> Aren't UVC timestamp support to allow measuring latency properly ?
+>
+> Nicolas
+>
+> >
+> > Regards,
+> > Esker
+> >
+> >
+> > On Mon, Nov 6, 2023 at 7:06=E2=80=AFPM Sakari Ailus <sakari.ailus@iki.f=
+i> wrote:
+> > >
+> > > Hi Ricardo,
+> > >
+> > > On Mon, Nov 06, 2023 at 10:52:27AM +0000, Ricardo Ribalda wrote:
+> > > > Add support for the frame_sync event, so user-space can become awar=
+e
+> > > > earlier of new frames.
+> > > >
+> > > > Suggested-by: Esker Wong <esker@chromium.org>
+> > > > Tested-by: Esker Wong <esker@chromium.org>
+> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > ---
+> > > > We have measured a latency of around 30msecs between frame sync
+> > > > and dqbuf.
+> > > > ---
+> > > > Changes in v2:
+> > > > - Suggested by Laurent. Split sequence++ and event init.
+> > > > - Link to v1: https://lore.kernel.org/r/20231020-uvc-event-v1-1-3ba=
+a0e9f6952@chromium.org
+> > > > ---
+> > > >  drivers/media/usb/uvc/uvc_v4l2.c  | 2 ++
+> > > >  drivers/media/usb/uvc/uvc_video.c | 7 +++++++
+> > > >  2 files changed, 9 insertions(+)
+> > > >
+> > > > diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/u=
+vc/uvc_v4l2.c
+> > > > index f4988f03640a..9f3fb5fd2375 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> > > > @@ -1352,6 +1352,8 @@ static int uvc_ioctl_subscribe_event(struct v=
+4l2_fh *fh,
+> > > >       switch (sub->type) {
+> > > >       case V4L2_EVENT_CTRL:
+> > > >               return v4l2_event_subscribe(fh, sub, 0, &uvc_ctrl_sub=
+_ev_ops);
+> > > > +     case V4L2_EVENT_FRAME_SYNC:
+> > > > +             return v4l2_event_subscribe(fh, sub, 0, NULL);
+> > > >       default:
+> > > >               return -EINVAL;
+> > > >       }
+> > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/=
+uvc/uvc_video.c
+> > > > index 28dde08ec6c5..4f3a510ca4fe 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > @@ -1073,9 +1073,16 @@ static int uvc_video_decode_start(struct uvc=
+_streaming *stream,
+> > > >        * that discontinuous sequence numbers always indicate lost f=
+rames.
+> > > >        */
+> > > >       if (stream->last_fid !=3D fid) {
+> > > > +             struct v4l2_event event =3D {
+> > > > +                     .type =3D V4L2_EVENT_FRAME_SYNC,
+> > > > +             };
+> > > > +
+> > > >               stream->sequence++;
+> > > >               if (stream->sequence)
+> > > >                       uvc_video_stats_update(stream);
+> > > > +
+> > > > +             event.u.frame_sync.frame_sequence =3D stream->sequenc=
+e,
+> > > > +             v4l2_event_queue(&stream->vdev, &event);
+> > >
+> > > uvc_video_decode_start() is called when the reception of the entire f=
+rame
+> > > has been completed. However, the documentation for V4L2_EVENT_FRAME_S=
+YNC
+> > > says that the event is "Triggered immediately when the reception of a=
+ frame
+> > > has begun.". The functionality here doesn't seem to fit to this patch=
+.
+> > >
+> > > Wouldn't V4L2_EVENT_VSYNC be a better fit, even if we don't really ha=
+ve a
+> > > concept of vertical sync in the case of USB? That event doesn't have =
+the
+> > > sequence though but I guess it's not an issue at least if your case.
+> > >
+> > > Another technically correct option could be to create a new event for=
+ this
+> > > but I'm not sure it's worth it.
+> > >
+> > > >       }
+> > > >
+> > > >       uvc_video_clock_decode(stream, buf, data, len);
+> > > >
+> > >
+> > > --
+> > > Regards,
+> > >
+> > > Sakari Ailus
+>
