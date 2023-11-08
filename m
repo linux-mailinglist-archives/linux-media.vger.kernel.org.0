@@ -2,87 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B2FE7E5481
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 11:50:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3DD557E5498
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 11:57:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344711AbjKHKuX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 05:50:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34802 "EHLO
+        id S235609AbjKHK5B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 05:57:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42350 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344738AbjKHKts (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 05:49:48 -0500
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C422E4212;
-        Wed,  8 Nov 2023 02:46:36 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 3F7B2C0004;
-        Wed,  8 Nov 2023 10:46:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1699440394;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=siQIor97Su0XRo3EQXHPwYQm+ngF5pZJt8iqxzJfevU=;
-        b=HyVMG7RRxmwZ0BbeBru3i9kSKMxxY0Fxy/D9RYUdEkzn6+FrC8UemWJajo3qt4auEbnLQS
-        ZeZlnJxsuZncUbybF7eepl18gp37yIWxuSQNpXhJMW+fTtdW0DTVPflDRsuGxlz9114FeY
-        9e9u0UG9jv/DSnW7fa3qBJ7hCve3r0BogwkaZFWW70LEGc8DG0ekQCD2p6gT8T/br1/8pn
-        PUqpYwERBurzS6z49IDjv4XaaC5I6ksECG1ukn2WwOIGvHuG3IWjMuJoTVnVvvOu7s+LAW
-        DxOCmwZhCyXYKtlc9dRDiuIW4KcOkBuRPxxpJDPi9FEA3HhfMFofF/E05IVuZQ==
-Date:   Wed, 8 Nov 2023 11:46:33 +0100
-From:   Mehdi Djait <mehdi.djait@bootlin.com>
-To:     Michael Riesch <michael.riesch@wolfvision.net>
-Cc:     mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-        maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com
-Subject: Re: [PATCH v9 2/3] media: rockchip: Add a driver for Rockchip's
- camera interface
-Message-ID: <ZUtnCfAjv0P4oZvq@pc-70.home>
-References: <cover.1698666612.git.mehdi.djait@bootlin.com>
- <f7367726eb077d43446c83591ecbf9acbc77ef5f.1698666612.git.mehdi.djait@bootlin.com>
- <6f98b471-b139-4043-a8ab-e7a9f9608d60@wolfvision.net>
- <ZUSt5GC4lALz/fq5@pc-70.home>
- <2afa69d0-93f6-4033-ad87-c3bf01588ba9@wolfvision.net>
+        with ESMTP id S235663AbjKHK4a (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 05:56:30 -0500
+Received: from szxga01-in.huawei.com (szxga01-in.huawei.com [45.249.212.187])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E5A019A5;
+        Wed,  8 Nov 2023 02:56:16 -0800 (PST)
+Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.53])
+        by szxga01-in.huawei.com (SkyGuard) with ESMTP id 4SQMSz45TJzfb2h;
+        Wed,  8 Nov 2023 18:56:03 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Wed, 8 Nov
+ 2023 18:56:12 +0800
+Subject: Re: [RFC PATCH v3 07/12] page-pool: device memory support
+To:     Mina Almasry <almasrymina@google.com>
+CC:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arch@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Ahern <dsahern@kernel.org>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jeroen de Borst <jeroendb@google.com>,
+        Praveen Kaligineedi <pkaligineedi@google.com>
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-8-almasrymina@google.com>
+ <4a0e9d53-324d-e19b-2a30-ba86f9e5569e@huawei.com>
+ <CAHS8izNbw7vAGo2euQGA+TF9CgQ8zwrDqTVGsOSxh22_uo0R1w@mail.gmail.com>
+From:   Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <d4309392-711a-75b0-7bf0-9e7de8fd527e@huawei.com>
+Date:   Wed, 8 Nov 2023 18:56:11 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <2afa69d0-93f6-4033-ad87-c3bf01588ba9@wolfvision.net>
-X-GND-Sasl: mehdi.djait@bootlin.com
+In-Reply-To: <CAHS8izNbw7vAGo2euQGA+TF9CgQ8zwrDqTVGsOSxh22_uo0R1w@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.69.30.204]
+X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Michael,
-
-On Wed, Nov 08, 2023 at 09:50:25AM +0100, Michael Riesch wrote:
-> Hi Mehdi,
-> I applied your patches and added some modifications (= crude hacks) on
-> top of them to bring up the RK3568 VICAP (note that I don't have any
-> PX30 hardware). This setup is not yet able to capture the input stream
-> (from a HDMI receiver chip), but I am on it.
+On 2023/11/8 5:56, Mina Almasry wrote:
+> On Tue, Nov 7, 2023 at 12:00 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>
+>> On 2023/11/6 10:44, Mina Almasry wrote:
+>>> Overload the LSB of struct page* to indicate that it's a page_pool_iov.
+>>>
+>>> Refactor mm calls on struct page* into helpers, and add page_pool_iov
+>>> handling on those helpers. Modify callers of these mm APIs with calls to
+>>> these helpers instead.
+>>>
+>>> In areas where struct page* is dereferenced, add a check for special
+>>> handling of page_pool_iov.
+>>>
+>>> Signed-off-by: Mina Almasry <almasrymina@google.com>
+>>>
+>>> ---
+>>>  include/net/page_pool/helpers.h | 74 ++++++++++++++++++++++++++++++++-
+>>>  net/core/page_pool.c            | 63 ++++++++++++++++++++--------
+>>>  2 files changed, 118 insertions(+), 19 deletions(-)
+>>>
+>>> diff --git a/include/net/page_pool/helpers.h b/include/net/page_pool/helpers.h
+>>> index b93243c2a640..08f1a2cc70d2 100644
+>>> --- a/include/net/page_pool/helpers.h
+>>> +++ b/include/net/page_pool/helpers.h
+>>> @@ -151,6 +151,64 @@ static inline struct page_pool_iov *page_to_page_pool_iov(struct page *page)
+>>>       return NULL;
+>>>  }
+>>>
+>>> +static inline int page_pool_page_ref_count(struct page *page)
+>>> +{
+>>> +     if (page_is_page_pool_iov(page))
+>>> +             return page_pool_iov_refcount(page_to_page_pool_iov(page));
+>>
+>> We have added a lot of 'if' for the devmem case, it would be better to
+>> make it more generic so that we can have more unified metadata handling
+>> for normal page and devmem. If we add another memory type here, do we
+>> need another 'if' here?
 > 
-> One question popped up: to get the cif driver to probe with my device
-> tree I had to request the IRQ with IRQF_SHARED. This is due to the
-> approach that the CIF block has one IRQ but is represented by two
-> drivers: the cif driver and the rockchip-iommu driver.
+> Maybe, not sure. I'm guessing new memory types will either be pages or
+> iovs, so maybe no new if statements needed.
+> 
+>> That is part of the reason I suggested using a more unified metadata for
+>> all the types of memory chunks used by page_pool.
+> 
+> I think your suggestion was to use struct pages for devmem. That was
+> thoroughly considered and intensely argued about in the initial
+> conversations regarding devmem and the initial RFC, and from the
+> conclusions there it's extremely clear to me that devmem struct pages
+> are categorically a no-go.
 
-It was IRQF_SHARED when I submitted the v6 but changed it after reviews.
+Not exactly, I was wondering if adding a more abstract structure specificly
+for page pool makes any sense, and each mem type can add its own specific
+fields, net stack only see and handle the common fields so that it does not
+care about specific mem type, and each provider only see the and handle the
+specific fields belonging to it most of the time.
+
+Ideally something like beleow:
+
+struct netmem {
+	/* common fields */
+	refcount_t refcount;
+	struct page_pool *pp;
+	......
+
+	union {
+		struct devmem{
+			struct dmabuf_genpool_chunk_owner *owner;
+		};
+
+		struct other_mem{
+			...
+			...
+		};
+	};
+};
+
+But untill we completely decouple the 'struct page' from the net stack,
+the above seems undoable in the near term.
+But we might be able to do something as folio is doing now, mm subsystem
+is still seeing 'struct folio/page', but other subsystem like slab is using
+'struct slab', and there is still some common fields shared between
+'struct folio' and 'struct slab'.
+
+As the netmem patchset, is devmem able to reuse the below 'struct netmem'
+and rename it to 'struct page_pool_iov'? So that 'struct page' for normal
+memory and 'struct page_pool_iov' for devmem share the common fields used
+by page pool and net stack? And we might be able to reuse the 'flags',
+'_pp_mapping_pad' and '_mapcount' for specific mem provider, which is enough
+for the devmem only requiring a single pointer to point to it's
+owner?
+
+https://lkml.kernel.org/netdev/20230105214631.3939268-2-willy@infradead.org/
+
++/**
++ * struct netmem - A memory allocation from a &struct page_pool.
++ * @flags: The same as the page flags.  Do not use directly.
++ * @pp_magic: Magic value to avoid recycling non page_pool allocated pages.
++ * @pp: The page pool this netmem was allocated from.
++ * @dma_addr: Call netmem_get_dma_addr() to read this value.
++ * @dma_addr_upper: Might need to be 64-bit on 32-bit architectures.
++ * @pp_frag_count: For frag page support, not supported in 32-bit
++ *   architectures with 64-bit DMA.
++ * @_mapcount: Do not access this member directly.
++ * @_refcount: Do not access this member directly.  Read it using
++ *   netmem_ref_count() and manipulate it with netmem_get() and netmem_put().
++ *
++ * This struct overlays struct page for now.  Do not modify without a
++ * good understanding of the issues.
++ */
++struct netmem {
++	unsigned long flags;
++	unsigned long pp_magic;
++	struct page_pool *pp;
++	/* private: no need to document this padding */
++	unsigned long _pp_mapping_pad;	/* aliases with folio->mapping */
++	/* public: */
++	unsigned long dma_addr;
++	union {
++		unsigned long dma_addr_upper;
++		atomic_long_t pp_frag_count;
++	};
++	atomic_t _mapcount;
++	atomic_t _refcount;
++};
+
+If we do that, it seems we might be able to allow net stack and page pool to see
+the metadata for devmem chunk as 'struct page', and may be able to aovid most of
+the 'if' checking in net stack and page pool?
 
 > 
-> Subsequently I was surprised that you are not using the MMU at all,
-> although the PX30 VIP features one. Is there any particular reason for that?
-
-No particular reason. The IOMMU did not work and was not included when the 
-patch series for this driver were submitted years ago. I focused on
-fixing all the issues I found, complying with v4l2 guidelines and
-getting an upstreamable driver: so I did not add the support.
-
+> --
+> Thanks,
+> Mina
 > 
-> Can we request the IRQ with IRQF_SHARED anyway?
-
-Yes I will change it back to SHARED.
-
---
-Kind Regards
-Mehdi Djait
+> .
+> 
