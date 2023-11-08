@@ -2,86 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 971377E5B7C
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 17:39:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB18F7E5BA6
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 17:44:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232409AbjKHQjU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 11:39:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35262 "EHLO
+        id S230501AbjKHQoq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 11:44:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232187AbjKHQjJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 11:39:09 -0500
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D11A21FEF;
-        Wed,  8 Nov 2023 08:39:06 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DD42220009;
-        Wed,  8 Nov 2023 16:39:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1699461545;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=O38TB7h/YzOAey2sGfW287IT4IVL6B3BrPOAPkm8UIo=;
-        b=V+Gj4tCz2OotO94/nfO+PTY03jVAVfgYrInWDpHBYMhfYcj7EdxHL3059WLbcYcI8gDY2W
-        sHl3PT1xYIHp5ep17a6wr+IJ4MJvBGxAkOQMQ7PkXMQdufytaGyd2pK/2N3hY+VgHGXmcK
-        pH5mxjIyJBjPqEYEmIZsMq5kp6XT1Q6cZ82AFByJNN8lo2vjIxaCJIkm5fbwgLdMbGLE1v
-        1YP4NlrKQvTFjtkvoeJcRJ6IPVuyPQXFokova8p6+0FFYryGHB+FG0L6XtMeOZaTFC6qb7
-        tzguKKquTrIrlzbjzOIEqey5ooTnMrrgci2dfkxcw4wO2IikK4ZQMtzmz4LZQw==
-From:   Mehdi Djait <mehdi.djait@bootlin.com>
-To:     mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
-        alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
-        paul.kocialkowski@bootlin.com, michael.riesch@wolfvision.net,
-        Mehdi Djait <mehdi.djait@bootlin.com>
-Subject: [PATCH v10 3/3] arm64: dts: rockchip: Add the camera interface
-Date:   Wed,  8 Nov 2023 17:38:58 +0100
-Message-ID: <1636a0cdf39b711cead6f8815588fe720c44ed1d.1699460637.git.mehdi.djait@bootlin.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <cover.1699460637.git.mehdi.djait@bootlin.com>
-References: <cover.1699460637.git.mehdi.djait@bootlin.com>
+        with ESMTP id S229558AbjKHQoq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 11:44:46 -0500
+Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D220B1FD4
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 08:44:43 -0800 (PST)
+Received: from builder.linuxtv.org ([140.211.167.10] helo=slave0)
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1r0lfW-002qgS-9L; Wed, 08 Nov 2023 16:44:42 +0000
+Received: from ip6-localhost ([::1] helo=localhost.localdomain)
+        by slave0 with esmtp (Exim 4.96)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1r0lfU-003uZq-0j;
+        Wed, 08 Nov 2023 16:44:40 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        Sean Young <sean@mess.org>
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v6.8] rc fixes (#96809)
+Date:   Wed,  8 Nov 2023 16:44:39 +0000
+Message-Id: <20231108164439.932457-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.39.2
+In-Reply-To: <ZUu0j4cGpFRPlB-C@gofer.mess.org>
+References: 
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: mehdi.djait@bootlin.com
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The PX30 has a video capture component, supporting the BT.656
-parallel interface. Add a DT description for it.
+From: builder@linuxtv.org
 
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
----
- arch/arm64/boot/dts/rockchip/px30.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/ZUu0j4cGpFRPlB-C@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/355287/
+Build time: 00:21:26
+Link: https://lore.kernel.org/linux-media/ZUu0j4cGpFRPlB-C@gofer.mess.org
 
-diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
-index 42ce78beb413..3a4e859e5a49 100644
---- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-@@ -1281,6 +1281,18 @@ isp_mmu: iommu@ff4a8000 {
- 		#iommu-cells = <0>;
- 	};
- 
-+	cif: video-capture@ff490000 {
-+		compatible = "rockchip,px30-vip";
-+		reg = <0x0 0xff490000 0x0 0x200>;
-+		interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
-+		clock-names = "aclk", "hclk", "pclk";
-+		power-domains = <&power PX30_PD_VI>;
-+		resets = <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN>;
-+		reset-names = "axi", "ahb", "pclkin";
-+		status = "disabled";
-+	};
-+
- 	qos_gmac: qos@ff518000 {
- 		compatible = "rockchip,px30-qos", "syscon";
- 		reg = <0x0 0xff518000 0x0 0x20>;
--- 
-2.41.0
+gpg: Signature made Wed 08 Nov 2023 04:11:39 PM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
+
+Summary: got 1/4 patches with issues, being 1 at build time
+
+Error/warnings:
+
+patches/0001-media-ir-hix5hd2-Use-device_get_match_data.patch:
+
+    allyesconfig: return code #0:
+	../scripts/genksyms/parse.y: warning: 9 shift/reduce conflicts [-Wconflicts-sr]
+	../scripts/genksyms/parse.y: warning: 5 reduce/reduce conflicts [-Wconflicts-rr]
+	../scripts/genksyms/parse.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+
+    allyesconfig: return code #0:
+	SMATCH:../drivers/media/usb/siano/smsusb.c ../drivers/media/usb/siano/smsusb.c:53:38: :warning: array of flexible structures
+	../drivers/media/i2c/ov5645.c: ../drivers/media/i2c/ov5645.c:687 ov5645_set_power_on() warn: 'ov5645->xclk' from clk_prepare_enable() not released on lines: 687.
+	../drivers/media/test-drivers/vivid/vivid-core.c: ../drivers/media/test-drivers/vivid/vivid-core.c:1974 vivid_create_instance() parse error: turning off implications after 60 seconds
+	../drivers/media/usb/uvc/uvc_v4l2.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../include/linux/rcuwait.h, ...):
+	SPARSE:../drivers/media/usb/uvc/uvc_v4l2.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: OOM: 3003988Kb sm_state_count = 2158
+	../drivers/media/pci/cx25821/cx25821-medusa-video.c: ../drivers/media/pci/cx25821/cx25821-medusa-video.c:399 medusa_set_videostandard() parse error: __split_smt: function too hairy.  Giving up after 5 seconds
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: OOM: 3014564Kb sm_state_count = 1757213
+	../drivers/media/pci/cx23885/cx23885-dvb.c: ../drivers/media/pci/cx23885/cx23885-dvb.c:2517 dvb_register() parse error: __split_smt: function too hairy.  Giving up after 52 seconds
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2858 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
+	../drivers/media/pci/ivtv/ivtvfb.c: note: in included file (through ../arch/x86/include/asm/uaccess.h, ../include/linux/uaccess.h, ../include/linux/sched/task.h, ../include/linux/sched/signal.h, ../drivers/media/pci/ivtv/ivtv-driver.h):
+	SPARSE:../drivers/media/pci/ivtv/ivtvfb.c ../arch/x86/include/asm/uaccess_64.h:88:24: warning: cast removes address space '__user' of expression
 
