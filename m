@@ -2,110 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id F03D07E5960
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 15:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1EB27E596E
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 15:46:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S233519AbjKHOnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 09:43:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34300 "EHLO
+        id S234739AbjKHOqJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 09:46:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38974 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232590AbjKHOnc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 09:43:32 -0500
-Received: from eu-smtp-delivery-151.mimecast.com (eu-smtp-delivery-151.mimecast.com [185.58.85.151])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FBA91BDA
-        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 06:43:30 -0800 (PST)
-Received: from AcuMS.aculab.com (156.67.243.121 [156.67.243.121]) by
- relay.mimecast.com with ESMTP with both STARTTLS and AUTH (version=TLSv1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
- uk-mtapsc-8-f2DJacRmPsWNj5mB7xeKRQ-1; Wed, 08 Nov 2023 14:43:27 +0000
-X-MC-Unique: f2DJacRmPsWNj5mB7xeKRQ-1
-Received: from AcuMS.Aculab.com (10.202.163.4) by AcuMS.aculab.com
- (10.202.163.4) with Microsoft SMTP Server (TLS) id 15.0.1497.48; Wed, 8 Nov
- 2023 14:43:23 +0000
-Received: from AcuMS.Aculab.com ([::1]) by AcuMS.aculab.com ([::1]) with mapi
- id 15.00.1497.048; Wed, 8 Nov 2023 14:43:23 +0000
-From:   David Laight <David.Laight@ACULAB.COM>
-To:     'Mina Almasry' <almasrymina@google.com>,
-        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
-        "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
-CC:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        "Ilias Apalodimas" <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Ahern <dsahern@kernel.org>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        "Sumit Semwal" <sumit.semwal@linaro.org>,
-        =?utf-8?B?Q2hyaXN0aWFuIEvDtm5pZw==?= <christian.koenig@amd.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        "Jeroen de Borst" <jeroendb@google.com>,
-        Praveen Kaligineedi <pkaligineedi@google.com>,
-        Willem de Bruijn <willemb@google.com>,
-        Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: RE: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
- frags
-Thread-Topic: [RFC PATCH v3 09/12] net: add support for skbs with unreadable
- frags
-Thread-Index: AQHaEFtCwSYr9EEKH0iEeRZOyEz/y7BwghiQ
-Date:   Wed, 8 Nov 2023 14:43:23 +0000
-Message-ID: <1478ddd0902941fba8316e8883de2758@AcuMS.aculab.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-10-almasrymina@google.com>
-In-Reply-To: <20231106024413.2801438-10-almasrymina@google.com>
-Accept-Language: en-GB, en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.202.205.107]
+        with ESMTP id S234485AbjKHOqH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 09:46:07 -0500
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 078FE1FC3
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 06:46:05 -0800 (PST)
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-3b2f3015ce6so10058810b6e.3
+        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 06:46:04 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699454764; x=1700059564;
+        h=to:from:subject:message-id:in-reply-to:date:mime-version
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eyg+x1sdBdUCTK9dEOdpm/i8Z98iZDIp/TYoaCFtNfI=;
+        b=UJSC74cx7zsEeY8DK65HhmJ4HmDgGc2J9XcfrCNAfRnDUANrcAcjwW2TKCdWEFm9qC
+         Kd30dRkynm5HFmNaLRLiHa7Ii/awNELedEkJ08T4TvpiXPEL9l/PGxg12LZG0+th1p9u
+         oOgTDFFUQRrTHzMSTHUSQ/4gKg30uyJrN0e0WnZaY7aly1HFOOS4fVqEksaX0LaroO1M
+         pAbdOylAG/PHIcx06XCHCqm7bpEoxTb32NxIG58stkhFNfQUVD0ria/i3JdFDe4s+30x
+         2Y9iCNUhWPwXqdiOR9KuekhK6dHdFYh3jhWxnmKyLHER3t9qzv65r0BYSc67ZQCLmFfx
+         bAjA==
+X-Gm-Message-State: AOJu0YxoCfxNHurTMgvh9a1R/rCWBedA7umieV4pLFmPms/twXeCFKlW
+        unwSinOt4Vkg/JUGNwwSzjdiYYnKxyagtoq4pPFaHMGYyesD
+X-Google-Smtp-Source: AGHT+IHYVbPqVKNGXu+BvwkE/pRq1+khXE9q8J8tLhTwkKxlwRoFhUls2Br/4J25UUlY0OHXWCPFT/tsDkP8SnIUAsiU7jVq8Mz6
 MIME-Version: 1.0
-X-Mimecast-Spam-Score: 0
-X-Mimecast-Originator: aculab.com
-Content-Language: en-US
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: base64
+X-Received: by 2002:a05:6808:138d:b0:3a7:86b2:1950 with SMTP id
+ c13-20020a056808138d00b003a786b21950mr789798oiw.0.1699454764313; Wed, 08 Nov
+ 2023 06:46:04 -0800 (PST)
+Date:   Wed, 08 Nov 2023 06:46:04 -0800
+In-Reply-To: <0000000000002a4da90603a5cbbf@google.com>
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <00000000000089f4110609a525b2@google.com>
+Subject: Re: [syzbot] [dri?] kernel BUG in vmf_insert_pfn_prot (2)
+From:   syzbot <syzbot+398e17b61dab22cc56bc@syzkaller.appspotmail.com>
+To:     airlied@gmail.com, airlied@linux.ie, christian.koenig@amd.com,
+        daniel.vetter@ffwll.ch, daniel.vetter@intel.com, daniel@ffwll.ch,
+        dri-devel@lists.freedesktop.org, hdanton@sina.com,
+        linaro-mm-sig-bounces@lists.linaro.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-RnJvbTogTWluYSBBbG1hc3J5DQo+IFNlbnQ6IDA2IE5vdmVtYmVyIDIwMjMgMDI6NDQNCj4gDQo+
-IEZvciBkZXZpY2UgbWVtb3J5IFRDUCwgd2UgZXhwZWN0IHRoZSBza2IgaGVhZGVycyB0byBiZSBh
-dmFpbGFibGUgaW4gaG9zdA0KPiBtZW1vcnkgZm9yIGFjY2VzcywgYW5kIHdlIGV4cGVjdCB0aGUg
-c2tiIGZyYWdzIHRvIGJlIGluIGRldmljZSBtZW1vcnkNCj4gYW5kIHVuYWNjZXNzaWJsZSB0byB0
-aGUgaG9zdC4gV2UgZXhwZWN0IHRoZXJlIHRvIGJlIG5vIG1peGluZyBhbmQNCj4gbWF0Y2hpbmcg
-b2YgZGV2aWNlIG1lbW9yeSBmcmFncyAodW5hY2Nlc3NpYmxlKSB3aXRoIGhvc3QgbWVtb3J5IGZy
-YWdzDQo+IChhY2Nlc3NpYmxlKSBpbiB0aGUgc2FtZSBza2IuDQo+IA0KPiBBZGQgYSBza2ItPmRl
-dm1lbSBmbGFnIHdoaWNoIGluZGljYXRlcyB3aGV0aGVyIHRoZSBmcmFncyBpbiB0aGlzIHNrYg0K
-PiBhcmUgZGV2aWNlIG1lbW9yeSBmcmFncyBvciBub3QuDQo+IA0KLi4uDQo+IGRpZmYgLS1naXQg
-YS9pbmNsdWRlL2xpbnV4L3NrYnVmZi5oIGIvaW5jbHVkZS9saW51eC9za2J1ZmYuaA0KPiBpbmRl
-eCAxZmFlMjc2YzEzNTMuLjhmYjQ2OGZmODExNSAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9saW51
-eC9za2J1ZmYuaA0KPiArKysgYi9pbmNsdWRlL2xpbnV4L3NrYnVmZi5oDQo+IEBAIC04MDUsNiAr
-ODA1LDggQEAgdHlwZWRlZiB1bnNpZ25lZCBjaGFyICpza19idWZmX2RhdGFfdDsNCj4gICAqCUBj
-c3VtX2xldmVsOiBpbmRpY2F0ZXMgdGhlIG51bWJlciBvZiBjb25zZWN1dGl2ZSBjaGVja3N1bXMg
-Zm91bmQgaW4NCj4gICAqCQl0aGUgcGFja2V0IG1pbnVzIG9uZSB0aGF0IGhhdmUgYmVlbiB2ZXJp
-ZmllZCBhcw0KPiAgICoJCUNIRUNLU1VNX1VOTkVDRVNTQVJZIChtYXggMykNCj4gKyAqCUBkZXZt
-ZW06IGluZGljYXRlcyB0aGF0IGFsbCB0aGUgZnJhZ21lbnRzIGluIHRoaXMgc2tiIGFyZSBiYWNr
-ZWQgYnkNCj4gKyAqCQlkZXZpY2UgbWVtb3J5Lg0KPiAgICoJQGRzdF9wZW5kaW5nX2NvbmZpcm06
-IG5lZWQgdG8gY29uZmlybSBuZWlnaGJvdXINCj4gICAqCUBkZWNyeXB0ZWQ6IERlY3J5cHRlZCBT
-S0INCj4gICAqCUBzbG93X2dybzogc3RhdGUgcHJlc2VudCBhdCBHUk8gdGltZSwgc2xvd2VyIHBy
-ZXBhcmUgc3RlcCByZXF1aXJlZA0KPiBAQCAtOTkxLDcgKzk5Myw3IEBAIHN0cnVjdCBza19idWZm
-IHsNCj4gICNpZiBJU19FTkFCTEVEKENPTkZJR19JUF9TQ1RQKQ0KPiAgCV9fdTgJCQljc3VtX25v
-dF9pbmV0OjE7DQo+ICAjZW5kaWYNCj4gLQ0KPiArCV9fdTgJCQlkZXZtZW06MTsNCj4gICNpZiBk
-ZWZpbmVkKENPTkZJR19ORVRfU0NIRUQpIHx8IGRlZmluZWQoQ09ORklHX05FVF9YR1JFU1MpDQo+
-ICAJX191MTYJCQl0Y19pbmRleDsJLyogdHJhZmZpYyBjb250cm9sIGluZGV4ICovDQo+ICAjZW5k
-aWYNCj4gQEAgLTE3NjYsNiArMTc2OCwxMiBAQCBzdGF0aWMgaW5saW5lIHZvaWQgc2tiX3pjb3B5
-X2Rvd25ncmFkZV9tYW5hZ2VkKHN0cnVjdCBza19idWZmICpza2IpDQo+ICAJCV9fc2tiX3pjb3B5
-X2Rvd25ncmFkZV9tYW5hZ2VkKHNrYik7DQo+ICB9DQoNCkRvZXNuJ3QgdGhhdCBibG9hdCBzdHJ1
-Y3Qgc2tfYnVmZj8NCkknbSBub3Qgc3VyZSB0aGVyZSBhcmUgYW55IHNwYXJlIGJpdHMgYXZhaWxh
-YmxlLg0KQWx0aG91Z2ggQ09ORklHX05FVF9TV0lUQ0hERVYgYW5kIENPTkZJR19ORVRfU0NIRUQg
-c2VlbSB0bw0KYWxyZWFkeSBhZGQgcGFkZGluZy4NCg0KCURhdmlkDQoNCi0NClJlZ2lzdGVyZWQg
-QWRkcmVzcyBMYWtlc2lkZSwgQnJhbWxleSBSb2FkLCBNb3VudCBGYXJtLCBNaWx0b24gS2V5bmVz
-LCBNSzEgMVBULCBVSw0KUmVnaXN0cmF0aW9uIE5vOiAxMzk3Mzg2IChXYWxlcykNCg==
+syzbot has bisected this issue to:
 
+commit 45d9c8dde4cd8589f9180309ec60f0da2ce486e4
+Author: Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Thu Aug 12 13:14:12 2021 +0000
+
+    drm/vgem: use shmem helpers
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=126094df680000
+start commit:   d2f51b3516da Merge tag 'rtc-6.7' of git://git.kernel.org/p..
+git tree:       upstream
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=116094df680000
+console output: https://syzkaller.appspot.com/x/log.txt?x=166094df680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=1ffa1cec3b40f3ce
+dashboard link: https://syzkaller.appspot.com/bug?extid=398e17b61dab22cc56bc
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16344918e80000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=156bb2c0e80000
+
+Reported-by: syzbot+398e17b61dab22cc56bc@syzkaller.appspotmail.com
+Fixes: 45d9c8dde4cd ("drm/vgem: use shmem helpers")
+
+For information about bisection process see: https://goo.gl/tpsmEJ#bisection
