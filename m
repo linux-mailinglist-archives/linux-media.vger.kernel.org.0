@@ -2,111 +2,257 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CA6DB7E5274
-	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 10:13:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05D857E52C2
+	for <lists+linux-media@lfdr.de>; Wed,  8 Nov 2023 10:42:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S235515AbjKHJNT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 04:13:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55686 "EHLO
+        id S235436AbjKHJmb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 04:42:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235408AbjKHJNS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 04:13:18 -0500
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C82EE9F;
-        Wed,  8 Nov 2023 01:13:16 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6be1bc5aa1cso6721387b3a.3;
-        Wed, 08 Nov 2023 01:13:16 -0800 (PST)
+        with ESMTP id S234592AbjKHJma (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 04:42:30 -0500
+Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4E621BB
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 01:42:28 -0800 (PST)
+Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1cc29f39e7aso45724445ad.0
+        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 01:42:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699434796; x=1700039596; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=HCAzZOLM6VBb1qJenEGSAomGqBz67B3OQEi+85kaQbs=;
-        b=OyDyunivj2M6jQFCUaR36ZbZiivNlnFhIi9qbUl6qQ8LOzeTsRX50xPUOJq2KQRbCt
-         93mU5a+dozhTFgChgzL3IDNEnzYbDFnfvqn3TnmtwpMRD7zkqp3yai/UwRT9YVftGiLX
-         GkJ6lSrz3FXpOgNaE2WTHZ5D7KvFu89AbmuwzcaK2VUtjdldS3WwNCbk0fwgiXkjvkSb
-         F2hPXeAUgNOcpro/03JJmJ7q+N5zQBTjks5FZajpUSg4dzvYRqyPabyoDvGYMZIviYNl
-         iB0FXlchmr3YSWATAgiq7nrXSdfyCZcepXRUYGeFIz6qvXoqrGnAq9Dw0qS9zRk6X62c
-         Ieqw==
+        d=chromium.org; s=google; t=1699436548; x=1700041348; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=aDXaY//8y/74BvKRPuAKyEkdsaFq1PaWBhrY8xQYRKA=;
+        b=ZwDc75dVkImSsGmNSQ+nRJK0iPnSreBBdZCuYoPBEyXLBDJG4fZhgzayX2MWE/hk4X
+         017BVJxxzQC1JxGkZIJUnMR25tf37qIOjYt5sDur/Tj0rNvg5aUPgjO5uUVNl9Ia9oRq
+         f3++B2EIP0+YmUBKtpx7J7BPxv71HZxIPOY1E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699434796; x=1700039596;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=HCAzZOLM6VBb1qJenEGSAomGqBz67B3OQEi+85kaQbs=;
-        b=g2zns5KbYkae2+UXarLh0LpM4u1of1FWo03aKBM5Gi6RJNYD7OftR4thsc76zXcNXp
-         460fL3BRCI1BlzdAJtdyR2Zi0vZrTqWdwUy6A2nXNUkF0OwVdHca422dLEDRp8Dn/lUp
-         a64hyLMLPIOdW0S8Tu4tCyhpf6NjWIfYlg1SmtArBO6Ujo/+yrBz6aWoegVta7eKIQtg
-         EoULIKs+DvlNJFm+UIYCtjVS1b4BTTm9RTU0kBDWVa6InSFo/rYysTJIVBT/3YZad8aV
-         0EQAFOGoclP98CNqQOMlF0CInzVMNuJ5pMf1I2bKaps1jHOcxwHQH6aRC7SgTLcVW/0d
-         4nZQ==
-X-Gm-Message-State: AOJu0YzcJBgEg1Fv+6h0VEBt1IPIqOQP7lDRBg7+ITCul5XY5UYCliBj
-        RSEDqpcbEDMLI95q3mgF10Y=
-X-Google-Smtp-Source: AGHT+IGInqo4mT5vj74fw06D+iMd3Gssloh/EHnAdRCq2VbbTbYQORHEWwtfKd4KpysQJpOnVziVSg==
-X-Received: by 2002:a05:6a00:1881:b0:6be:9c0:7195 with SMTP id x1-20020a056a00188100b006be09c07195mr1233467pfh.20.1699434796137;
-        Wed, 08 Nov 2023 01:13:16 -0800 (PST)
-Received: from oslab-pc.tsinghua.edu.cn ([166.111.139.134])
-        by smtp.gmail.com with ESMTPSA id p24-20020aa78618000000b006be5e537b6csm8585967pfn.63.2023.11.08.01.13.13
+        d=1e100.net; s=20230601; t=1699436548; x=1700041348;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aDXaY//8y/74BvKRPuAKyEkdsaFq1PaWBhrY8xQYRKA=;
+        b=oODncX3+gLaxVaa1+FinmZuC6nZDJ9AM2v2mfetxa0+G65yqZDo0wHtRjulBscpM5G
+         tIGTmf8M79g2976PYhQYUlC5Lfxyyp6KNKDPgg6esSqlQbbb4tDDXxP7CwApvukP8XZK
+         0sIaGrKm3Q5OJjqtRoYcgDn2mxtrVkthmdj9VeCy05PxH1AXNtM/r8waq3dVgPwA3MwF
+         zmnLTTgVKmQNBMPtVWwotAtVeQ9BJL9lPY26G0Xp5Fo6G8Wp41sI4N5+wksnGlEtzGEU
+         J4VFGX5l70WE40OwH5EErN6GWZOvy6LAgWyT2TQVNLvxWoqmoprg5z92ZkUXy3SfkTcQ
+         gXKw==
+X-Gm-Message-State: AOJu0YxELy7U2x4cCKWcLMYmfhC/To/vfazY8j62eROwQ1xDaWZK6xEl
+        hPOtw9L4IBqKP9PwqXRxDjCrcQ==
+X-Google-Smtp-Source: AGHT+IEku/YTV/xT1M0nzk1MJ4RhSHCuriXRqjCX16X/FZowan9lL/VgocqkpYuEJFJ0gwLpNy3ZMw==
+X-Received: by 2002:a17:902:e9c6:b0:1cc:3598:4ba0 with SMTP id 6-20020a170902e9c600b001cc35984ba0mr1216149plk.68.1699436548216;
+        Wed, 08 Nov 2023 01:42:28 -0800 (PST)
+Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
+        by smtp.gmail.com with ESMTPSA id q9-20020a170902dac900b001cc32f46757sm1314380plx.107.2023.11.08.01.42.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 08 Nov 2023 01:13:15 -0800 (PST)
-From:   Tuo Li <islituo@gmail.com>
-To:     mchehab@kernel.org, yongsuyoo0215@gmail.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        baijiaju1990@outlook.com, Tuo Li <islituo@gmail.com>,
-        BassCheck <bass@buaa.edu.cn>
-Subject: [PATCH] media: dvb-core: Fix a possible null-pointer dereference due to data race in dvbdmx_write()
-Date:   Wed,  8 Nov 2023 17:13:00 +0800
-Message-Id: <20231108091300.3124649-1-islituo@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        Wed, 08 Nov 2023 01:42:27 -0800 (PST)
+Date:   Wed, 8 Nov 2023 09:42:23 +0000
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+        nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+Subject: Re: [PATCH v14 08/56] media: videobuf2: Use vb2_get_num_buffers()
+ helper
+Message-ID: <20231108094223.rprskkeee47vaezy@chromium.org>
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-9-benjamin.gaignard@collabora.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231031163104.112469-9-benjamin.gaignard@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The struct field dmx_demux.frontend is often protected by the lock
-dvb_demux.mutex when is accessed. Here is an example in
-dvbdmx_connect_frontend():
+On Tue, Oct 31, 2023 at 05:30:16PM +0100, Benjamin Gaignard wrote:
+> Stop using queue num_buffers field directly, instead use
+> vb2_get_num_buffers().
+> This prepares for the future 'delete buffers' feature where there are
+> holes in the buffer indices.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>  .../media/common/videobuf2/videobuf2-core.c   | 92 +++++++++++--------
+>  .../media/common/videobuf2/videobuf2-v4l2.c   |  4 +-
+>  2 files changed, 54 insertions(+), 42 deletions(-)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index b406a30a9b35..c5c5ae4d213d 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -444,13 +444,14 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  			     unsigned int num_buffers, unsigned int num_planes,
+>  			     const unsigned plane_sizes[VB2_MAX_PLANES])
+>  {
+> +	unsigned int q_num_buffers = vb2_get_num_buffers(q);
+>  	unsigned int buffer, plane;
+>  	struct vb2_buffer *vb;
+>  	int ret;
+>  
+>  	/* Ensure that q->num_buffers+num_buffers is below VB2_MAX_FRAME */
+>  	num_buffers = min_t(unsigned int, num_buffers,
+> -			    VB2_MAX_FRAME - q->num_buffers);
+> +			    VB2_MAX_FRAME - q_num_buffers);
 
-  mutex_lock(&dvbdemux->mutex);
+I guess it's safe in this specific situation, but was there any reason
+behind not just calling vb2_get_num_buffers() directly here?
 
-  demux->frontend = frontend;
-  mutex_unlock(&dvbdemux->mutex);
+>  
+>  	for (buffer = 0; buffer < num_buffers; ++buffer) {
+>  		/* Allocate vb2 buffer structures */
+> @@ -470,7 +471,7 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  			vb->planes[plane].min_length = plane_sizes[plane];
+>  		}
+>  
+> -		vb2_queue_add_buffer(q, vb, q->num_buffers + buffer);
+> +		vb2_queue_add_buffer(q, vb, q_num_buffers + buffer);
 
-However, the variable demux->frontend is accessed without holding the lock
-dvbdemux->mutex in dvbdmx_write():
+In this case it should also be fine, but actually now this is a loop and if
+somone doesn't know what the other code in the loop does, one could be
+concerned that the num buffers actually could have changed, but we still
+use the cached one that we got at the beginning of the function.
 
-  if ((!demux->frontend) || (demux->frontend->source != DMX_MEMORY_FE))
+(Ideally I'd imagine vb2_queue_add_buffer() to append the buffer
+at the end of the queue and increment the num_buffers internally, but it
+doesn't have to happen now, as this series is already quite complex...)
 
-In my opinion, this may be a harmful race, because if demux->fontend is set
-to NULL right after the first condition is checked, a null-pointer
-dereference can occur when accessing the field demux->frontend->source.
+>  		call_void_bufop(q, init_buffer, vb);
+>  
+>  		/* Allocate video buffer memory for the MMAP type */
+[snip]
+> @@ -2513,7 +2519,8 @@ void vb2_core_queue_release(struct vb2_queue *q)
+>  	__vb2_cleanup_fileio(q);
+>  	__vb2_queue_cancel(q);
+>  	mutex_lock(&q->mmap_lock);
+> -	__vb2_queue_free(q, q->num_buffers);
+> +	__vb2_queue_free(q, vb2_get_num_buffers(q));
+> +	q->num_buffers = 0;
 
-To fix this possible null-pointer dereference caused by data race, a lock
-and unlock pair is added when accessing the variable demux->frontend.
+Unrelated change?
 
-Reported-by: BassCheck <bass@buaa.edu.cn>
-Signed-off-by: Tuo Li <islituo@gmail.com>
----
- drivers/media/dvb-core/dvb_demux.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+>  	mutex_unlock(&q->mmap_lock);
+>  }
+>  EXPORT_SYMBOL_GPL(vb2_core_queue_release);
+> @@ -2542,7 +2549,7 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
+>  	/*
+>  	 * Start file I/O emulator only if streaming API has not been used yet.
+>  	 */
+> -	if (q->num_buffers == 0 && !vb2_fileio_is_active(q)) {
+> +	if (vb2_get_num_buffers(q) == 0 && !vb2_fileio_is_active(q)) {
+>  		if (!q->is_output && (q->io_modes & VB2_READ) &&
+>  				(req_events & (EPOLLIN | EPOLLRDNORM))) {
+>  			if (__vb2_init_fileio(q, 1))
+> @@ -2580,7 +2587,7 @@ __poll_t vb2_core_poll(struct vb2_queue *q, struct file *file,
+>  	 * For output streams you can call write() as long as there are fewer
+>  	 * buffers queued than there are buffers available.
+>  	 */
+> -	if (q->is_output && q->fileio && q->queued_count < q->num_buffers)
+> +	if (q->is_output && q->fileio && q->queued_count < vb2_get_num_buffers(q))
+>  		return EPOLLOUT | EPOLLWRNORM;
+>  
+>  	if (list_empty(&q->done_list)) {
+> @@ -2629,8 +2636,8 @@ struct vb2_fileio_buf {
+>   * struct vb2_fileio_data - queue context used by file io emulator
+>   *
+>   * @cur_index:	the index of the buffer currently being read from or
+> - *		written to. If equal to q->num_buffers then a new buffer
+> - *		must be dequeued.
+> + *		written to. If equal to number of already queued buffers
+> + *		then a new buffer must be dequeued.
 
-diff --git a/drivers/media/dvb-core/dvb_demux.c b/drivers/media/dvb-core/dvb_demux.c
-index 7c4d86bfdd6c..791db667e2ed 100644
---- a/drivers/media/dvb-core/dvb_demux.c
-+++ b/drivers/media/dvb-core/dvb_demux.c
-@@ -1141,8 +1141,11 @@ static int dvbdmx_write(struct dmx_demux *demux, const char __user *buf, size_t
- 	struct dvb_demux *dvbdemux = (struct dvb_demux *)demux;
- 	void *p;
- 
--	if ((!demux->frontend) || (demux->frontend->source != DMX_MEMORY_FE))
-+	mutex_lock(&dvbdemux->mutex);
-+	if ((!demux->frontend) || (demux->frontend->source != DMX_MEMORY_FE)) {
-+		mutex_unlock(&dvbdemux->mutex);
- 		return -EINVAL;
-+	}
- 
- 	p = memdup_user(buf, count);
- 	if (IS_ERR(p))
--- 
-2.34.1
+Hmm, that's a significant meaning change compared to the original text. Is
+it indended?
 
+>   * @initial_index: in the read() case all buffers are queued up immediately
+>   *		in __vb2_init_fileio() and __vb2_perform_fileio() just cycles
+>   *		buffers. However, in the write() case no buffers are initially
+> @@ -2640,7 +2647,7 @@ struct vb2_fileio_buf {
+>   *		buffers. This means that initially __vb2_perform_fileio()
+>   *		needs to know what buffer index to use when it is queuing up
+>   *		the buffers for the first time. That initial index is stored
+> - *		in this field. Once it is equal to q->num_buffers all
+> + *		in this field. Once it is equal to num_buffers all
+
+It's not clear what num_buffers means here. Would it make sense to instead
+say "number of buffers in the vb2_queue"?
+
+>   *		available buffers have been queued and __vb2_perform_fileio()
+>   *		should start the normal dequeue/queue cycle.
+>   *
+> @@ -2690,7 +2697,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>  	/*
+>  	 * Check if streaming api has not been already activated.
+>  	 */
+> -	if (q->streaming || q->num_buffers > 0)
+> +	if (q->streaming || vb2_get_num_buffers(q) > 0)
+>  		return -EBUSY;
+>  
+>  	/*
+> @@ -2740,7 +2747,7 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>  	/*
+>  	 * Get kernel address of each buffer.
+>  	 */
+> -	for (i = 0; i < q->num_buffers; i++) {
+> +	for (i = 0; i < vb2_get_num_buffers(q); i++) {
+>  		/* vb can never be NULL when using fileio. */
+>  		vb = vb2_get_buffer(q, i);
+>  
+> @@ -2759,18 +2766,23 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>  		/*
+>  		 * Queue all buffers.
+>  		 */
+> -		for (i = 0; i < q->num_buffers; i++) {
+> -			ret = vb2_core_qbuf(q, q->bufs[i], NULL, NULL);
+> +		for (i = 0; i < vb2_get_num_buffers(q); i++) {
+> +			struct vb2_buffer *vb2 = vb2_get_buffer(q, i);
+> +
+> +			if (!vb2)
+> +				continue;
+> +
+> +			ret = vb2_core_qbuf(q, vb2, NULL, NULL);
+>  			if (ret)
+>  				goto err_reqbufs;
+>  			fileio->bufs[i].queued = 1;
+>  		}
+
+Doesn't this part belong to the previous patch that changes q->bufs[x] to
+vb2_get_buffer()?
+
+>  		/*
+>  		 * All buffers have been queued, so mark that by setting
+> -		 * initial_index to q->num_buffers
+> +		 * initial_index to num_buffers
+
+What num_buffers?
+
+>  		 */
+> -		fileio->initial_index = q->num_buffers;
+> -		fileio->cur_index = q->num_buffers;
+> +		fileio->initial_index = vb2_get_num_buffers(q);
+> +		fileio->cur_index = fileio->initial_index;
+>  	}
+>  
+>  	/*
+> @@ -2964,12 +2976,12 @@ static size_t __vb2_perform_fileio(struct vb2_queue *q, char __user *data, size_
+>  		 * If we are queuing up buffers for the first time, then
+>  		 * increase initial_index by one.
+>  		 */
+> -		if (fileio->initial_index < q->num_buffers)
+> +		if (fileio->initial_index < vb2_get_num_buffers(q))
+>  			fileio->initial_index++;
+>  		/*
+>  		 * The next buffer to use is either a buffer that's going to be
+> -		 * queued for the first time (initial_index < q->num_buffers)
+> -		 * or it is equal to q->num_buffers, meaning that the next
+> +		 * queued for the first time (initial_index < num_buffers)
+> +		 * or it is equal to num_buffers, meaning that the next
+
+What num_buffers?
+
+Best regards,
+Tomasz
