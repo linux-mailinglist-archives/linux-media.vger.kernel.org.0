@@ -2,278 +2,317 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 46D0D7E69D4
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 12:42:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 625D07E6A6B
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 13:20:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232078AbjKILmY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 06:42:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39916 "EHLO
+        id S231658AbjKIMU3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 07:20:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53556 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S231895AbjKILmW (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 06:42:22 -0500
-Received: from mail-pf1-x431.google.com (mail-pf1-x431.google.com [IPv6:2607:f8b0:4864:20::431])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7564269A
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 03:42:20 -0800 (PST)
-Received: by mail-pf1-x431.google.com with SMTP id d2e1a72fcca58-6b5cac99cfdso709995b3a.2
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 03:42:20 -0800 (PST)
+        with ESMTP id S229605AbjKIMU2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 07:20:28 -0500
+Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFDB22736
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 04:20:25 -0800 (PST)
+Received: by mail-vs1-xe34.google.com with SMTP id ada2fe7eead31-45d98cbe098so323350137.1
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 04:20:25 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699530140; x=1700134940; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1699532425; x=1700137225; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=9Ks66/aaBrCae+24/ZGNYzUfStCxhmpQEyTbEy/n7tI=;
-        b=3MXLvX4rJu8pgBM6fBXLcyBOjZSXwc9cxAn4k1ld+gLcRMlTGXSzoV91ZIuES/GiEJ
-         TlX2zY+3x3Cc6qZxEY/GVmZmgy6MuV509WqQ/Bn7cDNkyVsMsQ0WRe3+/zh/GYvmlrnL
-         1Hoxvu8GZWu2UZWrNUrSB42o04R4ltW7seJ8lzgcLEgvvvuyiVNuOplXeIKRgm+mmoAX
-         objIeKbb5MEdG6zvodMWqGb3o7oAz336bSJ7v1fJ7hy4e1AWRAqq+pGGnyupOzRFNEUh
-         S3RCg70bsC0hCqJuW4JM+t7hXuCfKAFQB2G6FaeT0sSqqT4nAyPeV1PRzs/eVk6Y3jfY
-         huag==
+        bh=BPcS64LNsr6Re9WYBQ3Sfo6KPTli043xINsR6eR0oWU=;
+        b=CGuM6wOVAZlujMOXHQNeku1AE6QvAmM2iij+iJLrYAQC+V2esDVnIAL/n2CqDR+dqw
+         LZLkwCzUOcD6ZOE98OaiHbINwIwhVP+/r20yI5s5s9Y4dHeksn6jU+kH9OwcOmCdzqn4
+         a9TS+wGPZLS+49mbMhxQ8FLGxePOcPtOAVjnR1W+87oWfDtTzBGDHzvMKwQkcHzR2Eul
+         SlduiTaCIla+dHwQ2FFGc6rByWzCsKo75/cfx63kjxyJC4w5gFD4bI1m82CmKxzo+xQM
+         CHHfiiqGZ6EGC6jUCM9FjKX6z7wzgAi9KojyMSWa4c7tEoIDOObdG3DCBNcrb2+uzDx3
+         v3dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699530140; x=1700134940;
+        d=1e100.net; s=20230601; t=1699532425; x=1700137225;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9Ks66/aaBrCae+24/ZGNYzUfStCxhmpQEyTbEy/n7tI=;
-        b=oH3J/82JfJob24dYKRRvlNrWZ69VrtoKbuvhXycA/pscjRsWtgZ+aubEAjdkSVjbd2
-         56QhXyqABYt+w1QlkbXJ2Uo2HXCtAmEoF4BWmvAjNVuVCMIOxAvlKekavSA9abECT0ja
-         jFvH/RPUtoTGWdTFuCQCTfWdW+99/E/U1nsZagb3N+FRO28GZp9E4gBsciXWkLr+6LJl
-         OekcMNKXz7ozpLN2FoSDq/aA7mfkL5Pm/+9LVTR1q8w6iF44UxHe26qd6P5A2E5wH1zQ
-         fLRVXL8riNlhQrEfmaa0Ewf6CZZEMTT/3DxQEa4I6iftlrGffF8MSJl/FUGIc7GyweeZ
-         dDWQ==
-X-Gm-Message-State: AOJu0YyBBVnr5iDhnF/H3wWLFxwchRQXJ9mGTDT+QxC2rFq54hX8SE5M
-        giKsh54j0yqDAcwa0Ic0pYIKRHtW69s4Zo2hvaWtfg==
-X-Google-Smtp-Source: AGHT+IGToiDV0lxKYJVwEkt5iRWbZzW7iOX44IGXWCByCxcvUVYLyQjPJ6mcdX1uJwHF5YGSjtOoxS3h/p0zHGwvJn4=
-X-Received: by 2002:a05:6a20:4311:b0:14d:6309:fc96 with SMTP id
- h17-20020a056a20431100b0014d6309fc96mr5475018pzk.4.1699530139918; Thu, 09 Nov
- 2023 03:42:19 -0800 (PST)
+        bh=BPcS64LNsr6Re9WYBQ3Sfo6KPTli043xINsR6eR0oWU=;
+        b=hWht+Q82AiUIXcugQMSzb2BDjLVpgSg7T+qN8ipqTSHt74ZF8PTvqZluiQKlfd+/sJ
+         ImgXrEO+MzWpeb4zG2OGYT2gVHa7Q4K83rnNyuJxx3PHKpV4KPAYl6/fv7Zx5Rq9mhRn
+         jH9cjrkPdpaHDOgKMsCOOpv2XdIcC/FZMsMtxO8H+ymfci+VKIhqwcFVpfhvnOCZStaq
+         D9IxQIbs90U+95WvMI2bXGV09gv6NA30uW8bAF1GOzO0tASxkd0kgBM4pokE4Xj7dn5w
+         Go6UDje7rujIXXK2UK1InkZddqJ6ocagixOloOEkfuCuCKwGcR39ldT/tE3IrIZSF0Qo
+         f4CA==
+X-Gm-Message-State: AOJu0YyRgyWv4P/7NgsPyg6P2Ph01pu2HaZ9ATF1Ver21FmdUPqrK1Z0
+        TVJNQP7Yf7flOkdhS1oBCaAbO/z7i674C31BeFHPmg==
+X-Google-Smtp-Source: AGHT+IFfFl922mscmOxZBJu/cgw+xUG99huJKamj4SvfI8CIyJ6yJO0CbXCAJJce1KiW6D25ou0quO0lgo5uh+PiKfc=
+X-Received: by 2002:a67:ef5e:0:b0:45d:b022:9835 with SMTP id
+ k30-20020a67ef5e000000b0045db0229835mr4061147vsr.22.1699532424738; Thu, 09
+ Nov 2023 04:20:24 -0800 (PST)
 MIME-Version: 1.0
-References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org>
- <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu> <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
- <fe672e31315b8f9c44a693c909d464a299e76093.camel@ndufresne.ca>
- <CAEZL83qR2bDq35yvCV-WvkaL6ZbPvSxQH+j=ViG6Kq8-0Mzq1Q@mail.gmail.com>
- <CANiDSCtDQ9Wg57YzVAJ1o5WQRmy1QPW8td8V2Scc08MmWtOwFg@mail.gmail.com>
- <03ac47742945cc04e4663b87563b47a96ed3ec1f.camel@ndufresne.ca>
- <CANiDSCunRRyod3Rg+L9ZsffOZyC7CKbMVTHX3u-n5iuNyZQk0w@mail.gmail.com>
- <20231109000327.GE21616@pendragon.ideasonboard.com> <CAEZL83rcMocCohTi1ddAOyQ7BDK_AqR3-h33ZnHkWRMFO7cuwg@mail.gmail.com>
- <20231109113428.GI21616@pendragon.ideasonboard.com>
-In-Reply-To: <20231109113428.GI21616@pendragon.ideasonboard.com>
-From:   Esker Wong <esker@google.com>
-Date:   Thu, 9 Nov 2023 19:41:43 +0800
-Message-ID: <CAEZL83reDb0dY4gTd8LwUXUsYNoYtYePZbDO4d_wDBv4FdCsdw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>, nicolas@ndufresne.ca,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Esker Wong <esker@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-8-almasrymina@google.com> <4a0e9d53-324d-e19b-2a30-ba86f9e5569e@huawei.com>
+ <CAHS8izNbw7vAGo2euQGA+TF9CgQ8zwrDqTVGsOSxh22_uo0R1w@mail.gmail.com>
+ <d4309392-711a-75b0-7bf0-9e7de8fd527e@huawei.com> <CAHS8izM1P6d8jgyWE9wFJUJah2YFsjHP2uikDwA0vR=3QA+BXQ@mail.gmail.com>
+ <a8ae22dc-5b85-9efe-16c7-d95d455828fa@huawei.com>
+In-Reply-To: <a8ae22dc-5b85-9efe-16c7-d95d455828fa@huawei.com>
+From:   Mina Almasry <almasrymina@google.com>
+Date:   Thu, 9 Nov 2023 04:20:11 -0800
+Message-ID: <CAHS8izOh8yC7q9yJN+RAKGs=AgsEf13MnFDmG46=EU05ynnLKw@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 07/12] page-pool: device memory support
+To:     Yunsheng Lin <linyunsheng@huawei.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Ahern <dsahern@kernel.org>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jeroen de Borst <jeroendb@google.com>,
+        Praveen Kaligineedi <pkaligineedi@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-We not only need t(dqbuf) - t(exposure), we are also interested in
-t(dqbuf) - t(frame_recieved) to know more detail inside the camera for
-analysis.
-
-Thanks,
-Esker
-
-
-
-
-
-
-
-
-On Thu, Nov 9, 2023 at 7:34=E2=80=AFPM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On Thu, Nov 9, 2023 at 1:30=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
+> wrote:
 >
-> Hi Esker,
+> On 2023/11/9 11:20, Mina Almasry wrote:
+> > On Wed, Nov 8, 2023 at 2:56=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei=
+.com> wrote:
 >
-> On Thu, Nov 09, 2023 at 08:59:13AM +0800, Esker Wong wrote:
-> > Hi Laurent,
 > >
-> > The use case here we want is actually the latency. We want to know
-> > what is the most accurate delay the user will feel when the camera
-> > capture the frame to the frame get displayed. So anytime earlier then
-> > the dqbuf should be an improvement here. It would help us know better
-> > of a camera quality.
+> > Agreed everything above is undoable.
+> >
+> >> But we might be able to do something as folio is doing now, mm subsyst=
+em
+> >> is still seeing 'struct folio/page', but other subsystem like slab is =
+using
+> >> 'struct slab', and there is still some common fields shared between
+> >> 'struct folio' and 'struct slab'.
+> >>
+> >
+> > In my eyes this is almost exactly what I suggested in RFC v1 and got
+> > immediately nacked with no room to negotiate. What we did for v1 is to
+> > allocate struct pages for dma-buf to make dma-bufs look like struct
+> > page to mm subsystem. Almost exactly what you're describing above.
 >
-> If it's the latency you're after, wouldn't it be best to use the
-> timestamp produced by the camera ? That's the most accurate information.
-> It is expressed relative to the camera internal clock, but UVC transmits
-> information that enables conversion of the value to a system timestamp.
+> Maybe the above is where we have disagreement:
+> Do we still need make dma-bufs look like struct page to mm subsystem?
+> IMHO, the answer is no. We might only need to make dma-bufs look like
+> struct page to net stack and page pool subsystem. I think that is already
+> what this pacthset is trying to do, what I am suggesting is just make
+> it more like 'struct page' to net stack and page pool subsystem, in order
+> to try to avoid most of the 'if' checking in net stack and page pool
+> subsystem.
 >
-> > On Thu, Nov 9, 2023 at 8:03=E2=80=AFAM Laurent Pinchart wrote:
-> > > On Wed, Nov 08, 2023 at 11:46:40PM +0100, Ricardo Ribalda wrote:
-> > > > On Wed, 8 Nov 2023 at 21:32, <nicolas@ndufresne.ca> wrote:
-> > > > >
-> > > > > The fact that you interpret the time from FRAME_SYNC to DQBUF (we=
-ll the
-> > > > > READ IO notification) as the actual latency is yours of course. I=
-t
-> > > > > assumes that the camera on the other end does not introduce other
-> > > >
-> > > > We want to use this signal to measure how much power is used since =
-we
-> > > > start receiving the frame until we can use it.
-> > > > I agree with you that the latency between capture and dqbuf should =
-be
-> > > > measured using the timestamp. That is not our use case here.
-> > > >
-> > > > > source of latency (or that these are negligible). You are also go=
-ing to
-> > > > > introduce a lot of jitter, since it relies on when the OS decides=
- to
-> > > > > wake up your process.
-> > > >
-> > > > We have measured a jitter of around 2.5 msec, which is acceptable f=
-or our needs.
-> > > >
-> > > > > I think my opinion resides in if you can accurately *enough* impl=
-ement
-> > > > > what the spec says for FRAME_SYNC then do it, otherwise just don'=
-t lie.
-> > > >
-> > > > What the specs says is:
-> > > > ```
-> > > > Triggered immediately when the reception of a frame has begun
-> > > > ```
-> > > > In my opinion, that is true for usb devices, we are triggering it a=
-s
-> > > > soon as the transfer has started to the eyes of the driver. We cann=
-ot
-> > > > trigger earlier than that.
-> > > >
-> > > >
-> > > > > I think for ISO, "after the first chunk" i a small lie, but accep=
-table.
-> > > > > But for BULK, the way it was explained is that it will be always =
-very
-> > > > > close to DQBUF time. and it should not emit FRAME_SYNC for this t=
-ype of
-> > > > > UVC device. If it fits other events fine of course, I'm just maki=
-ng a
-> > > > > judgment on if its fits V4L2_EVENT_FRAME_SYNC or not.
-> > > >
-> > > > nit: I believe that you have swapped iso and bulk on this descripti=
+
+First, most of the checking in the net stack is
+skb_frag_not_readable(). dma-buf are fundamentally not kmap()able and
+not readable. So we can't remove those, no matter what we do I think.
+Can we agree on that? If so, lets discuss removing most of the ifs in
+the page pool, only.
+
+> > It's a no-go. I don't think renaming struct page to netmem is going to
+> > move the needle (it also re-introduces code-churn). What I feel like I
+> > learnt is that dma-bufs are not struct pages and can't be made to look
+> > like one, I think.
+> >
+> >> As the netmem patchset, is devmem able to reuse the below 'struct netm=
+em'
+> >> and rename it to 'struct page_pool_iov'?
+> >
+> > I don't think so. For the reasons above, but also practically it
+> > immediately falls apart. Consider this field in netmem:
+> >
+> > + * @flags: The same as the page flags.  Do not use directly.
+> >
+> > dma-buf don't have or support page-flags, and making dma-buf looks
+> > like they support page flags or any page-like features (other than
+> > dma_addr) seems extremely unacceptable to mm folks.
+>
+> As far as I tell, as we limit the devmem usage in netstack, the below
+> is the related mm function call for 'struct page' for devmem:
+> page_ref_*(): page->_refcount does not need changing
+
+Sorry, I don't understand. Are you suggesting we call page_ref_add() &
+page_ref_sub() on page_pool_iov? That is basically making
+page_pool_iov look like struct page to the mm stack, since page_ref_*
+are mm calls, which you say above we don't need to do. We will still
+need to special case this, no?
+
+> page_is_pfmemalloc(): which is corresponding to page->pp_magic, and
+>                       devmem provider can set/unset it in it's 'alloc_pag=
+es'
+>                       ops.
+
+page_is_pfmemalloc() has nothing to do with page->pp_magic. It checks
+page->lru.next to figure out if this is a pfmemalloc. page_pool_iov
+has no page->lru.next. Still need to special case this?
+
+> page_to_nid(): we may need to handle it differently somewhat like this
+>                patch does as page_to_nid() may has different implementati=
 on
-> > >
-> > > I've confused the USB packet size and the UVC payload size. The latte=
-r
-> > > is typically much bigger for bulk devices than isoc devices, but the
-> > > former will be in similar order of magnitudes in a large number of
-> > > cases, but not all cases.
-> > >
-> > > The URB size is the result of the USB packet size and number of packe=
-ts
-> > > per URB. The uvcvideo driver currently sets the number of packets per
-> > > URB to 32 at most (and lowers it if the frame size is small, or if no=
-t
-> > > enough memory can be allocated). This could be increased or made dyna=
-mic
-> > > in the future, as higher speeds typically benefit from larger URB siz=
-es.
-> > > The packet size differs between bulk and isoc endpoints.
-> > >
-> > > For bulk, the packet size can be up to 512 bytes for USB 2.0 and 1024
-> > > bytes for USB 3.0, and the device can select a smaller size. The larg=
-est
-> > > URB size (again based on the current implementation of the uvcvideo
-> > > driver) is thus 32 KiB.
-> > >
-> > > For isochronous the situation is more complicated. The term "packet" =
-as
-> > > used in the uvcvideo driver actually means all the data transferred i=
-n
-> > > one service interval, thus made of multiple isoc packets. It is heavi=
-ly
-> > > dependent on the USB speed, and the device can advertise different
-> > > supported sizes (which translate directly to the reserved bandwidth f=
-or
-> > > the transfer), with the driver picking the smallest bandwidth large
-> > > enough for the data rate required by the resolution and frame rate. T=
-he
-> > > theoretical worst case is 1024 bytes per isoc packet * 16 isoc packet=
-s
-> > > per burst * 6 burst per interval * 32 "packets" per URB, equal to 3 M=
-iB.
-> > >
-> > > Even with the largest URB size you have witnessed of ~1 MiB, we will =
-end
-> > > up lying quite a bit if we consider the URB completion callback for t=
-he
-> > > first URB of the frame as indicating the start of reception.
-> > >
-> > > > > In term of accuracy, if timestamp was passed with the FRAME_SYNC =
-event,
-> > > > > it would not matter how fast your process the event anymore and g=
-reatly
-> > > > > improve accuracy.
-> > > >
-> > > > +1 to that. If we could easily change the uAPI for FRAME_SYNC that
-> > > > should definitely be implemented.
-> > > >
-> > > > > > Not to mention that the UVC timestamping requires a bit of love=
-.
-> > > > > >
-> > > > > > @Laurent Pinchart, @Kieran Bingham  any progress reviewing :P :
-> > > > > > https://patchwork.linuxtv.org/project/linux-media/list/?series=
-=3D10083
-> > > > >
-> > > > > Thanks for working on this by the way, hope someone will find the=
- time
-> > > > > to review this. The timestamps should in theory provide a jitter =
-free
-> > > >
-> > > > It already has a couple of Reviewed-by stamped in.... ;)
-> > > >
-> > > > > measurement of the delay Esker is trying to measure, and if it wa=
-sn't
-> > > > > of bugs (and crazy complexity) it would in the worst case match t=
-he
-> > > > > transfer time.
-> > > >
-> > > > Sorry to repeat myself, but just to avoid the confusion: Esker need=
-s
-> > > > to know how much power is used since we start receiving a frame unt=
-il
-> > > > it is available for dqbuf, not de frame latency.
-> > >
-> > > As I think everybody is aware, the earliest notification you get on t=
-he
-> > > CPU side is the *end* of reception of the first URB, which can possib=
-ly
-> > > be significantly later than the start of reception of the frame.
-> > >
-> > > Based on what I understand, the goal is to measure the CPU power
-> > > consumption related to CPU processing of the frame. If that's the cas=
-e,
-> > > there's good and bad news. The good news is that the CPU doesn't proc=
-ess
-> > > the frame at all until the URB has been received (if you were to meas=
-ure
-> > > the power consumption of the USB host controller too, it would be a
-> > > different story), so the delay shouldn't be a problem. The bad news i=
-s
-> > > that I don't see how the information you're trying to get will help y=
-ou,
-> > > as there's plenty of other things unrelated to the uvcvideo driver th=
-at
-> > > can take CPU time while a frame is being received. That may not be an=
-y
-> > > of my business, but from the point of view of the uvcvideo driver, I'=
-m
-> > > less inclined to accept a possibly significant V4L2_EVENT_FRAME_SYNC =
-lie
-> > > if the use case ends up making little sense :-)
+>                based on different configuration.
+
+So you're saying we need to handle page_to_nid() differently for
+devmem? So we're not going to be able to avoid the if statement.
+
+> page_pool_iov_put_many(): as mentioned in other thread, if net stack is n=
+ot
+>                           calling page_pool_page_put_many() directly, we
+>                           can reuse napi_pp_put_page() for devmem too, an=
+d
+>                           handle the special case for devmem in 'release_=
+page'
+>                           ops.
 >
-> --
-> Regards,
+
+page_pool_iov_put_many()/page_pool_iov_get_many() are called to do
+refcounting before the page is released back to the provider. I'm not
+seeing how we can handle the special case inside of 'release_page' -
+that's too late, as far as I can tell.
+
+The only way to remove the if statements in the page pool is to
+implement what you said was not feasible in an earlier email. We would
+define this struct:
+
+struct netmem {
+        /* common fields */
+        refcount_t refcount;
+        bool is_pfmemalloc;
+        int nid;
+        ......
+        union {
+                struct devmem{
+                        struct dmabuf_genpool_chunk_owner *owner;
+                };
+
+                struct page * page;
+        };
+};
+
+Then, we would require all memory providers to allocate struct netmem
+for the memory and set the common fields, including ones that have
+struct pages. For devmem, netmem->page will be NULL, because netmem
+has no page.
+
+If we do that, the page pool can ignore whether the underlying memory
+is page or devmem, because it can use the common fields, example:
+
+/* page_ref_count replacement */
+netmem_ref_count(struct netmem* netmem) {
+    return netmem->refcount;
+}
+
+/* page_ref_add replacement */
+netmem_ref_add(struct netmem* netmem) {
+   atomic_inc(netmem->refcount);
+}
+
+/* page_to_nid replacement */
+netmem_nid(struct netmem* netmem) {
+    return netmem->nid;
+}
+
+/* page_is_pfmemalloc() replacement */
+netmem_is_pfmemalloc(struct netmem* netmem) {
+    return netmem->is_pfmemalloc;
+}
+
+/* page_ref_sub replacement */
+netmem_ref_sub(struct netmem* netmem) {
+    atomic_sub(netmet->refcount);
+    if (netmem->refcount =3D=3D 0) {
+                  /* release page to the memory provider.
+                   * struct page memory provider will do put_page(),
+                   * devmem will do something else */
+           }
+     }
+}
+
+
+I think this MAY BE technically feasible, but I'm not sure it's better:
+
+1. It is a huge refactor to the page pool, lots of code churn. While
+the page pool currently uses page*, it needs to be completely
+refactored to use netmem*.
+2. It causes extra memory usage. struct netmem needs to be allocated
+for every struct page.
+3. It has minimal perf upside. The page_is_page_pool_iov() checks
+currently have minimal perf impact, and I demonstrated that to Jesper
+in RFC v2.
+4. It also may not be technically feasible. I'm not sure how netmem
+interacts with skb_frag_t. I guess we replace struct page* bv_page
+with struct netmem* bv_page, and add changes there.
+5. Drivers need to be refactored to use netmem* instead of page*,
+unless we cast netmem* to page* before returning to the driver.
+
+Possibly other downsides, these are what I could immediately think of.
+
+If I'm still misunderstanding your suggestion, it may be time to send
+me a concrete code snippet of what you have in mind. I'm a bit
+confused at the moment because the only avenue I see to remove the if
+statements in the page pool is to define the struct that we agreed is
+not feasible in earlier emails.
+
+> >
+> >> So that 'struct page' for normal
+> >> memory and 'struct page_pool_iov' for devmem share the common fields u=
+sed
+> >> by page pool and net stack?
+> >
+> > Are you suggesting that we'd cast a netmem* to a page* and call core
+> > mm APIs on it? It's basically what was happening with RFC v1, where
+> > things that are not struct pages were made to look like struct pages.
+> >
+> > Also, there isn't much upside for what you're suggesting, I think. For
+> > example I can align the refcount variable in struct page_pool_iov with
+> > the refcount in struct page so that this works:
+> >
+> > put_page((struct page*)ppiov);
+> >
+> > but it's a disaster. Because put_page() will call __put_page() if the
+> > page is freed, and __put_page() will try to return the page to the
+> > buddy allocator!
 >
-> Laurent Pinchart
+> As what I suggested above, Can we handle this in devmem provider's
+> 'release_page' ops instead of calling put_page() directly as for devmem.
+>
+> >
+> >>  And we might be able to reuse the 'flags',
+> >> '_pp_mapping_pad' and '_mapcount' for specific mem provider, which is =
+enough
+> >> for the devmem only requiring a single pointer to point to it's
+> >> owner?
+> >>
+> >
+> > All the above seems quite similar to RFC v1 again, using netmem
+> > instead of struct page. In RFC v1 we re-used zone_device_data() for
+> > the dma-buf owner equivalent.
+>
+> As we have added a few checkings to limit 'struct page' for devmem to
+> be only used in net stack, we can decouple 'struct page' for devmem
+> from mm subsystem, zone_device_data() is not really needed, right?
+>
+> If we can decouple 'struct page' for normal memory from mm subsystem
+> through the folio work in the future, then we may define a more abstract
+> structure for page pool and net stack instead of reusing 'struct page'
+> from mm.
+>
+> >
+
+
+
+--
+Thanks,
+Mina
