@@ -2,41 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id D49C57E6733
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 10:56:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A60A7E6747
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 11:03:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231270AbjKIJ4v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 04:56:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42704 "EHLO
+        id S231703AbjKIKDn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 05:03:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44214 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229565AbjKIJ4v (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 04:56:51 -0500
+        with ESMTP id S231443AbjKIKDm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 05:03:42 -0500
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA1DC2D4F;
-        Thu,  9 Nov 2023 01:56:48 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68AAF2D64;
+        Thu,  9 Nov 2023 02:03:40 -0800 (PST)
 Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 2BC966607410;
-        Thu,  9 Nov 2023 09:56:46 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 656A56607435;
+        Thu,  9 Nov 2023 10:03:37 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1699523807;
-        bh=c+3XjSeB8HMKNjwLmSS238tYNmxXwbwvveXaB38GSKk=;
+        s=mail; t=1699524219;
+        bh=pwEpx+MGypxzSwA28V6syRhlcHgpJof7RIF00c+aBRM=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=go3xYNfITHl5diEzptRBnlY36ukC5Xflkzmqf4Rm34E3qLVY2WtNf/vOKNouUwT31
-         XWBrSQ3HFLFpCTkEfKxemlErp/XIbe89+zzSptEE9vmLNTaM+WBBarpt5aEbWlRk+c
-         ze4Q3rJqNKIp64aPproN3VBAZDa3aTZ0gvTmJs0MJ/bV3X7EsS8jfE1TJE4kx0aZJ5
-         EY8MEd/69Tqk9dU1LHT09wR/dJIV5qVsx6kq9tXDPl8ndlMkkzOF6Ol9Gj+cIyoYpK
-         zO1V/WbVmt7qG6FA/Po3JhYDoqvYzkPzgW+zFU9aqRGMf7RNsCVNpYnP8szoGJ945k
-         VM/BOEgVaZLhQ==
-Message-ID: <6ff3d1e2-020e-4a50-944f-f8a82aea32fb@collabora.com>
-Date:   Thu, 9 Nov 2023 10:56:43 +0100
+        b=aJ/8xGCiHJjm+CzwAabNyyU/GTAjIxeHX99hblXV4BHBd4DHnYLUXAHjuLAR6v0i7
+         QL7RBgs8tyojA/aKIufbltXnwa7w59cKRCLfV/QgUlRA+wXk5HUUfepBmry8bswQYO
+         bjo4LBDFceemSp6R8A7bvU2n+7Ed3HM1h523gk4NH3YhQAYFJg3lWse9xPpZg1xTYT
+         1aQ08/atj10VsG8cKnvSWSzWwEe9C/ctDajHI3q3u6dfKbERJYbTZKip/ZUC+5Mmjp
+         A+IY/TDJyhvEW1/Rslkz2tnF2aC7YSgYlCvEIULsIpTmqXw/gSFbiw57kj6cEy9yhv
+         iRGES/Swt2qEQ==
+Message-ID: <11b22d60-3a83-4385-ab1a-d8c2e672e24a@collabora.com>
+Date:   Thu, 9 Nov 2023 11:03:34 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 20/56] media: dvb-frontends: rtl2832: Stop direct
- calls to queue num_buffers field
+Subject: Re: [PATCH v14 21/56] media: pci: dt3155: Remove useless check
 Content-Language: en-US
 To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
         mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
@@ -47,11 +46,11 @@ Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
         linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
         linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com, Antti Palosaari <crope@iki.fi>
+        kernel@collabora.com
 References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
- <20231031163104.112469-21-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-22-benjamin.gaignard@collabora.com>
 From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20231031163104.112469-21-benjamin.gaignard@collabora.com>
+In-Reply-To: <20231031163104.112469-22-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -59,37 +58,28 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
-> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
-> This allows us to change how the number of buffers is computed in the
-> future.
+> min_buffers_needed is already set to 2 so remove this useless
+> check.
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
 Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
-> CC: Antti Palosaari <crope@iki.fi>
 > ---
->   drivers/media/dvb-frontends/rtl2832_sdr.c | 5 +++--
->   1 file changed, 3 insertions(+), 2 deletions(-)
+>   drivers/media/pci/dt3155/dt3155.c | 2 --
+>   1 file changed, 2 deletions(-)
 > 
-> diff --git a/drivers/media/dvb-frontends/rtl2832_sdr.c b/drivers/media/dvb-frontends/rtl2832_sdr.c
-> index 02c619e51641..023db6e793f8 100644
-> --- a/drivers/media/dvb-frontends/rtl2832_sdr.c
-> +++ b/drivers/media/dvb-frontends/rtl2832_sdr.c
-> @@ -439,12 +439,13 @@ static int rtl2832_sdr_queue_setup(struct vb2_queue *vq,
->   {
->   	struct rtl2832_sdr_dev *dev = vb2_get_drv_priv(vq);
->   	struct platform_device *pdev = dev->pdev;
-> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+> diff --git a/drivers/media/pci/dt3155/dt3155.c b/drivers/media/pci/dt3155/dt3155.c
+> index 548156b199cc..d09cde2f6ee4 100644
+> --- a/drivers/media/pci/dt3155/dt3155.c
+> +++ b/drivers/media/pci/dt3155/dt3155.c
+> @@ -128,8 +128,6 @@ dt3155_queue_setup(struct vb2_queue *vq,
+>   	struct dt3155_priv *pd = vb2_get_drv_priv(vq);
+>   	unsigned size = pd->width * pd->height;
 >   
->   	dev_dbg(&pdev->dev, "nbuffers=%d\n", *nbuffers);
->   
->   	/* Need at least 8 buffers */
-> -	if (vq->num_buffers + *nbuffers < 8)
-> -		*nbuffers = 8 - vq->num_buffers;
-> +	if (q_num_bufs + *nbuffers < 8)
-> +		*nbuffers = 8 - q_num_bufs;
->   	*nplanes = 1;
->   	sizes[0] = PAGE_ALIGN(dev->buffersize);
->   	dev_dbg(&pdev->dev, "nbuffers=%d sizes[0]=%d\n", *nbuffers, sizes[0]);
+> -	if (vq->num_buffers + *nbuffers < 2)
+> -		*nbuffers = 2 - vq->num_buffers;
+>   	if (*num_planes)
+>   		return sizes[0] < size ? -EINVAL : 0;
+>   	*num_planes = 1;
 
