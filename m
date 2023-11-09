@@ -2,246 +2,203 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id DE2CA7E70AC
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 18:45:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 886427E70D5
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 18:52:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344828AbjKIRpn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 12:45:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56078 "EHLO
+        id S1344868AbjKIRwE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 12:52:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344859AbjKIRpk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 12:45:40 -0500
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::227])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A140D2D63;
-        Thu,  9 Nov 2023 09:45:37 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 18BF620004;
-        Thu,  9 Nov 2023 17:45:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1699551935;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=0Q5/m2yxLb2+8S6LP3q83n6hJXZkXarQVShg5MoacVU=;
-        b=VmHgxizThJrbE3wHg12rB4KajgKl01mlpedNWWIe1dlcxixSLs1sj6zoHEnVye7f9YIAa+
-        0SXv7hOrbAZ8X6WXOyc2PobU0bvvSlOeFUwG7uE1kwWbb1Q4UwdNZk+3FZWXoJ5B7t6Kt6
-        bqQAGD61Wbo3g1nfM8Dv/MFvyw38lre0tsrRL7bGHpgz2FvNB26dQZf22AqC86xCiNqnE+
-        F3sT9WSUAPoB6Xkyf4XNnRK7cg/TimGV4E95zn0xUC/mPG/Md2XpGYlZHYwXc24Lpimx5+
-        8Fd7E9alFHvooAAMrdQro2I0Tb5hOL8fGcAls8rG0mxJWKzaZAlSK95tPFQnEA==
-Date:   Thu, 9 Nov 2023 18:45:34 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Conor Dooley <conor@kernel.org>
-Cc:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-        maxime.chevallier@bootlin.com, michael.riesch@wolfvision.net
-Subject: Re: [PATCH v10 1/3] media: dt-bindings: media: add bindings for
- Rockchip CIF
-Message-ID: <ZU0avuRRaITV4jws@aptenodytes>
-References: <cover.1699460637.git.mehdi.djait@bootlin.com>
- <037bcabf97294d37b271537e4b11fb88cf9bb6f6.1699460637.git.mehdi.djait@bootlin.com>
- <20231109-closable-superglue-5e7f39739cf1@spud>
+        with ESMTP id S1344843AbjKIRwD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 12:52:03 -0500
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AD24387F;
+        Thu,  9 Nov 2023 09:52:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1699552317;
+ bh=erw3AGuB8ubO0tUACDJoBZw5alNFB6YDgPN2mZ8q69A=;
+ b=aCL+f1l37bwcGuOWKmTkfCMpdpntUdgmvvqSipw4kM7qmStPBYq4khry7TnDBSpvb3fetETL5
+ tDWgWER16mtOrHF3Q/xDU33qTbV4hLpfDqDz7wsQ1yUktAZzjBl90ymR1L+ILPIWG/Gbw8EOnur
+ V4fpTkRfEIZtQIMpV1bYSz+NDQ5SQxqWuyNiEUUuwuQ0iFxJ2oaWUDUlUk5WaWEEFJs1DZJbVp0
+ OgsFwphnhLjl29LE4zX6gS3iWZLSliN1TEMCvJqbl/ohAAkzEtRCr6iuM7TEQCLbxoK2ZIzKQZ1
+ sH20lkDe4QgLqS1/boLO2Df69lvgOmVQxAWRxs0ZWD6Q==
+Message-ID: <33a24dca-b523-4015-bea6-cbdd92b9e6b7@kwiboo.se>
+Date:   Thu, 9 Nov 2023 18:51:52 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="2Ex8Ew6F9ijkgEgp"
-Content-Disposition: inline
-In-Reply-To: <20231109-closable-superglue-5e7f39739cf1@spud>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 00/11] media: rkvdec: Add H.264 High 10 and 4:2:2
+ profile support
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Alex Bee <knaerzche@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Christopher Obbard <chris.obbard@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20231105165521.3592037-1-jonas@kwiboo.se>
+ <874b6ea3309ff302dcdd9ff92f9098130b979c27.camel@collabora.com>
+From:   Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <874b6ea3309ff302dcdd9ff92f9098130b979c27.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 654d1c3da16ddfebde306cb5
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Nicolas,
 
---2Ex8Ew6F9ijkgEgp
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 2023-11-07 22:43, Nicolas Dufresne wrote:
+> Hi Jonas,
+> 
+> thanks for this work.
+> 
+> Le dimanche 05 novembre 2023 à 16:54 +0000, Jonas Karlman a écrit :
+>> This is a revival of a 3 year old series [1] now that NV15/NV20/NV30 support
+>> for display driver have landed in mainline tree.
+>>
+>> This series adds H.264 High 10 and 4:2:2 profile support to the Rockchip
+>> Video Decoder driver.
+>>
+>> Patch 1 adds helpers for calculating plane bytesperline and sizeimage.
+>> Patch 2 adds two new pixelformats for semi-planer 10-bit 4:2:0/4:2:2 YUV.
+>>
+>> Patch 3 change to use bytesperline and buffer height to configure strides.
+>> Patch 4 change to use values from SPS/PPS control to configure the HW.
+>> Patch 5 remove an unnecessary call to validate sps at streaming start.
+>>
+>> Patch 6-10 refactor code to support filtering of CAPUTRE formats based
+>> on the image format returned from a get_image_fmt ops.
+>>
+>> Patch 11 adds final bits to support H.264 High 10 and 4:2:2 profiles.
+>>
+>> Tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
+>>
+>>   v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+>>   ...
+>>   Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+>>
+>>   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
+>>   ...
+>>   Ran 65/69 tests successfully
+> 
+> I added GStreamer support for these formats and could confirm this
+> results with GStreamer too.
+> 
+> https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/5612
 
-Hi,
+Nice!
 
-On Thu 09 Nov 23, 17:24, Conor Dooley wrote:
-> On Wed, Nov 08, 2023 at 05:38:56PM +0100, Mehdi Djait wrote:
-> > Add a documentation for the Rockchip Camera Interface binding.
-> >=20
-> > the name of the file rk3066 is the first Rockchip SoC generation that u=
-ses cif
-> > instead of the px30 which is just one of the many iterations of the uni=
-t.
->=20
-> I think this is becoming ridiculous. You've now removed the compatible
-> for the rk3066 but kept it in the filename. I don't understand the
-> hangup about naming the file after the px30-vip, but naming it after
-> something that is not documented here at all makes no sense to me.
-> Either document the rk3066 properly, or remove all mention of it IMO.
+> 
+> 
+> For the set:
+> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> 
+>>
+>>   Running test suite JVT-AVC_V1 with decoder FFmpeg-H.264-V4L2-request
+>>   ...
+>>   Ran 127/135 tests successfully
+> 
+> I'm getting 129 with GStreamer, which matches also with FFMpeg software
+> decoder.
 
-I think the opposite is ridiculous. We have spent some time investigating t=
-he
-history of this unit, to find out that RK3066 is the first occurence where
-it exists. Since we want the binding to cover all generations of the same u=
-nit
-and give it a name that reflects this, rk3066 is the natural choice that co=
-mes
-to mind. As far as I understand, this is the normal thing to do to name
-bindings: name after the earliest known occurence of the unit.
+Great, I was able to track down a long term ref idx issue in the ffmpeg
+v4l2-request implementation and can now also get to 129 :-)
 
-What is the rationale behind naming the file after a generation of the unit
-that happens to be the one introducing the binding? This is neither the fir=
-st
-nor the last one to include this unit. The binding will be updated later to
-cover other generations. Do we want to rename the file each time an a gener=
-ation
-earlier than px30 is introduced? That sounds quite ridiculous too.
+> 
+>>
+>> Before this series:
+>>
+>>   Running test suite JVT-FR-EXT with decoder FFmpeg-H.264-V4L2-request
+>>   ...
+>>   Ran 44/69 tests successfully
+> 
+> I had 43 with GStreamer, but then I notice you fixed something in
+> fluster. The good news this is now upstream, thanks for spotting.
+> 
+> https://github.com/fluendo/fluster/pull/148
 
-We've done the research work to give it the most relevant name here.
-I'd expect some strong arguments not to use it. Can you ellaborate?
+Thanks for sending the PR!
 
-Cheers,
+Regards,
+Jonas
 
-Paul
+> 
+>>
+>> Changes in v4:
+>> - Fix failed v4l2-compliance tests related to CAPTURE queue
+>> - Rework CAPTURE format filter anv validate to use an image format
+>> - Run fluster test suite JVT-FR-EXT [4] and JVT-AVC_V1 [5]
+>> Link to v3: https://lore.kernel.org/linux-media/20231029183427.1781554-1-jonas@kwiboo.se/
+>>
+>> Changes in v3:
+>> - Drop merged patches
+>> - Use bpp and bpp_div instead of prior misuse of block_w/block_h
+>> - New patch to use values from SPS/PPS control to configure the HW
+>> - New patch to remove an unnecessary call to validate sps at streaming start
+>> - Reworked pixel format validation
+>> Link to v2: https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+>>
+>> Changes in v2:
+>> - Collect r-b tags
+>> - SPS pic width and height in mbs validation moved to rkvdec_try_ctrl
+>> - New patch to not override output buffer sizeimage
+>> - Reworked pixel format validation
+>> - Only align decoded buffer instead of changing frmsize step_width
+>> Link to v1: https://lore.kernel.org/linux-media/20200701215616.30874-1-jonas@kwiboo.se/
+>>
+>> Following commits adds support for NV15/NV20/NV30 to VOP driver:
+>> 728c15b4b5f3 ("drm/fourcc: Add NV20 and NV30 YUV formats")
+>> d4b384228562 ("drm/rockchip: vop: Add NV15, NV20 and NV30 support")
+>>
+>> To fully runtime test this series you may need above drm commits and ffmpeg
+>> patches from [2], this series and drm patches is also available at [3].
+>>
+>> [1] https://lore.kernel.org/linux-media/20200706215430.22859-1-jonas@kwiboo.se/
+>> [2] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
+>> [3] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-high-10-v4/
+>> [4] https://gist.github.com/Kwiboo/f4ac15576b2c72887ae2bc5d58b5c865
+>> [5] https://gist.github.com/Kwiboo/459a1c8f1dcb56e45dc7a7a29cc28adf
+>>
+>> Regards,
+>> Jonas
+>>
+>> Alex Bee (1):
+>>   media: rkvdec: h264: Don't hardcode SPS/PPS parameters
+>>
+>> Jonas Karlman (10):
+>>   media: v4l2-common: Add helpers to calculate bytesperline and
+>>     sizeimage
+>>   media: v4l2: Add NV15 and NV20 pixel formats
+>>   media: rkvdec: h264: Use bytesperline and buffer height as virstride
+>>   media: rkvdec: h264: Remove SPS validation at streaming start
+>>   media: rkvdec: Extract rkvdec_fill_decoded_pixfmt into helper
+>>   media: rkvdec: Move rkvdec_reset_decoded_fmt helper
+>>   media: rkvdec: Extract decoded format enumeration into helper
+>>   media: rkvdec: Add image format concept
+>>   media: rkvdec: Add get_image_fmt ops
+>>   media: rkvdec: h264: Support High 10 and 4:2:2 profiles
+>>
+>>  .../media/v4l/pixfmt-yuv-planar.rst           | 128 +++++++++++
+>>  drivers/media/v4l2-core/v4l2-common.c         |  80 +++----
+>>  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+>>  drivers/staging/media/rkvdec/rkvdec-h264.c    |  83 +++----
+>>  drivers/staging/media/rkvdec/rkvdec.c         | 217 +++++++++++++-----
+>>  drivers/staging/media/rkvdec/rkvdec.h         |  18 +-
+>>  include/uapi/linux/videodev2.h                |   2 +
+>>  7 files changed, 396 insertions(+), 134 deletions(-)
+>>
+> 
 
-
-> Cheers,
-> Conor.
->=20
-> >=20
-> > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> > ---
-> >  .../bindings/media/rockchip,rk3066-cif.yaml   | 94 +++++++++++++++++++
-> >  1 file changed, 94 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/rockchip,rk=
-3066-cif.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3066-ci=
-f.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3066-cif.yaml
-> > new file mode 100644
-> > index 000000000000..c3a5cd2baf71
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/rockchip,rk3066-cif.yaml
-> > @@ -0,0 +1,94 @@
-> > +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/rockchip,rk3066-cif.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Rockchip CIF Camera Interface
-> > +
-> > +maintainers:
-> > +  - Mehdi Djait <mehdi.djait@bootlin.com>
-> > +
-> > +description:
-> > +  CIF is a camera interface present on some rockchip SoCs. It receives=
- the data
-> > +  from Camera sensor or CCIR656 encoder and transfers it into system m=
-ain memory
-> > +  by AXI bus.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: rockchip,px30-vip
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: ACLK
-> > +      - description: HCLK
-> > +      - description: PCLK
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: aclk
-> > +      - const: hclk
-> > +      - const: pclk
-> > +
-> > +  resets:
-> > +    items:
-> > +      - description: AXI
-> > +      - description: AHB
-> > +      - description: PCLK IN
-> > +
-> > +  reset-names:
-> > +    items:
-> > +      - const: axi
-> > +      - const: ahb
-> > +      - const: pclkin
-> > +
-> > +  power-domains:
-> > +    maxItems: 1
-> > +
-> > +  port:
-> > +    $ref: /schemas/graph.yaml#/properties/port
-> > +    description: A connection to a sensor or decoder
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/clock/px30-cru.h>
-> > +    #include <dt-bindings/power/px30-power.h>
-> > +
-> > +    parent {
-> > +        #address-cells =3D <2>;
-> > +        #size-cells =3D <2>;
-> > +
-> > +        video-capture@ff490000 {
-> > +            compatible =3D "rockchip,px30-vip";
-> > +            reg =3D <0x0 0xff490000 0x0 0x200>;
-> > +            interrupts =3D <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-> > +            clocks =3D <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CI=
-F>;
-> > +            clock-names =3D "aclk", "hclk", "pclk";
-> > +            resets =3D <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRS=
-T_CIF_PCLKIN>;
-> > +            reset-names =3D "axi", "ahb", "pclkin";
-> > +            power-domains =3D <&power PX30_PD_VI>;
-> > +
-> > +            port {
-> > +                endpoint {
-> > +                    remote-endpoint =3D <&tw9900_out>;
-> > +                };
-> > +            };
-> > +        };
-> > +    };
-> > +...
-> > --=20
-> > 2.41.0
-> >=20
-
-
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---2Ex8Ew6F9ijkgEgp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVNGr4ACgkQ3cLmz3+f
-v9Eq4wgAj7fY0daXUAOGwuI7yN814j3NW7LprnB1K7vAwnMgqegqZ7mvDhk9eXli
-JvvUVWDCgDiKTzY+egLYELm2WHZnjFpz/S0UBxGlFx8EbMqZZUmS9KQNeKpoDIf9
-gQP1YrzsJ9QCnZ929p38FKKq2QpFGrpa5/iNjbvczMoX8T2ZFCatPEdPAULW+r2q
-O5O/r56CYVqy7nSJKn1Y6nW6ICYyYTqdxxfdY3c2ewD+ze3Y0taINQMrOGWSkq1q
-l3I3dGQ+ps7orektmW3STRwLCQsor027gjIOJe151Bbmm8l7cIXHUG2Wwv+6ndSr
-QiyNpLrC/ylFArfSUp9kMpNyUNJveQ==
-=ElAt
------END PGP SIGNATURE-----
-
---2Ex8Ew6F9ijkgEgp--
