@@ -2,162 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id AFA447E6F83
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 17:41:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6774E7E6F9E
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 17:46:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344990AbjKIQl3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 11:41:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42600 "EHLO
+        id S234934AbjKIQqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 11:46:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48492 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344926AbjKIQkZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 11:40:25 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A306B3C19;
-        Thu,  9 Nov 2023 08:38:52 -0800 (PST)
-Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: benjamin.gaignard)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 9A64F66076C6;
-        Thu,  9 Nov 2023 16:38:50 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1699547931;
-        bh=bvlqKNzionLKB1VClCmq81RGJBsdZ7hA0RN2y42SWPU=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fc2WzoNDS2m1hz/n1f42qI9ffKez539ARoZnee+qBfYwlgA3C6Vmtu5po9B+Gu3AP
-         EnLXCGEa13MJ/QC2XIiu65qw1AkIwh1hK5uSnKeY2AqiGh63UI9/kKoLuEpoAAWRtQ
-         dZbtYvgQzHfQeE4dcs0tPj/b7EnifqhldJNvauuMBs6kwaiMNGhxcdJQU+Uc7TyJ4A
-         2LwScdNY0nB6bmuIovQV36Km4jfYRUzT40iyqpFKI5gDOF+Lw/TfOLBAHJEucA3KQX
-         9OBQfB3b7k0FHIObieZWXuBH1kkgbsrxtalRWetGRSuUyCd9yOuVTFuOL8o4700wnD
-         vvzbR91wpIOWQ==
-From:   Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To:     mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v15 56/56] media: test-drivers: Use helper for DELETE_BUFS ioctl
-Date:   Thu,  9 Nov 2023 17:35:12 +0100
-Message-Id: <20231109163512.179524-57-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
-References: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
+        with ESMTP id S234981AbjKIQpu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 11:45:50 -0500
+Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C53FF4496
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 08:44:59 -0800 (PST)
+Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-41cbf31da84so6373231cf.0
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 08:44:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699548299; x=1700153099; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=JyMA09AuUMjLAh5sKhIzahSsVZoVjCkYBpAsRxdwhyc=;
+        b=W8zg9eh01okwPNLTUo82IBHJDZeXKvvDa8WeIBVr1JMy8GRjEVpVshypxhv1v8Vqb8
+         d1ppaN+vGrHaPhEAdIlT0COaTyz27NVA1JF8YqZGUlpxATCkdMnkqWBwhqToSUEPgpsQ
+         OIMITVBPtBr07H2AstyJ3huLr3tju1yh73iXD6qiTdf0iYfDbFqqsHtqlT+2c/zjj3tn
+         LZiSdc/LQeCdoKOR7K9TmXnyaD7v4TJ84sGmeYypY8TUhpsYHc5UWDGBJPCd+VWg6m8D
+         AziKp6mDZOhgQT9USHClaLkL3oNnnnZjiB/K8IzlIuVaO4NsGR0XG3vfdW7KEMfFwfRO
+         UilQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699548299; x=1700153099;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JyMA09AuUMjLAh5sKhIzahSsVZoVjCkYBpAsRxdwhyc=;
+        b=ZQho7IXztGt1mFpmYPw7lAYsYK2N+xm+PmnhSMSdXMcyrWUU8V3Ne7KnmdiOljRj1O
+         qfXkiL4xO4F7f3SWmXCCOqO3sECvKRQhL6+T96gAznYuHZC6SQEQyZAp0/AB73a7scGo
+         wwzTrpbqN20zUf+O1VB8RDWatG9ybmrs8mUPeRyguTTYlWZEZ7D8pKU0mLMM/fmJtIeM
+         NOcdfcDY8xjjE0SLgDsIwD5fDqBLALwNupiGC3pqomwTftnrBQhj49fA3rI32c6E4SbZ
+         /25UYsOcBFOhNGj4JTtW86Fj6MSagt6H4EiDoehQxLaTdsL6Fnw82Wa04Smvw7VX1gs5
+         7LJQ==
+X-Gm-Message-State: AOJu0Yz8mGS8iv91r2YvIJbFcBhr2tjI7jTFpATrrot4oUm4AYc58yPx
+        4tPC0EwXXIWA2PI0DjHhEcVn7g==
+X-Google-Smtp-Source: AGHT+IEeHgJymEoFiAdtjTaIzqWAnhrVVnVyUg4K9YaADuVpDzGWesUGUehhln3d519cHvsvwaX0Rg==
+X-Received: by 2002:ac8:5885:0:b0:41e:1e0b:a2e7 with SMTP id t5-20020ac85885000000b0041e1e0ba2e7mr5997998qta.47.1699548298957;
+        Thu, 09 Nov 2023 08:44:58 -0800 (PST)
+Received: from [172.30.204.212] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
+        by smtp.gmail.com with ESMTPSA id cb18-20020a05622a1f9200b0041950c7f6d8sm2070259qtb.60.2023.11.09.08.44.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 08:44:58 -0800 (PST)
+Message-ID: <735f13e7-386a-447d-bff7-f4acb0aba670@linaro.org>
+Date:   Thu, 9 Nov 2023 17:44:52 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/6] media: qcom: camss: Add sc8280xp resource details
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
+        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
+ <20231109-b4-camss-sc8280xp-v4-4-58a58bc200f9@linaro.org>
+ <3e0958a9-4d1e-4d1b-a914-5da154caa11f@linaro.org>
+ <e80d4026-a525-48ef-b53a-f1276dd316e6@linaro.org>
+Content-Language: en-US
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <e80d4026-a525-48ef-b53a-f1276dd316e6@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allow test drivers to use DELETE_BUFS by adding vb2_ioctl_delete_bufs() helper.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/media/test-drivers/vicodec/vicodec-core.c |  2 ++
- drivers/media/test-drivers/vimc/vimc-capture.c    |  2 ++
- drivers/media/test-drivers/visl/visl-video.c      |  2 ++
- drivers/media/test-drivers/vivid/vivid-core.c     | 13 ++++++++++---
- 4 files changed, 16 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-index 69cbe2c094e1..f14a8fd506d0 100644
---- a/drivers/media/test-drivers/vicodec/vicodec-core.c
-+++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-@@ -1339,6 +1339,7 @@ static const struct v4l2_ioctl_ops vicodec_ioctl_ops = {
- 	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
- 	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
-+	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
- 
- 	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
- 	.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
-@@ -1725,6 +1726,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = src_vq->lock;
-+	dst_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
- }
-diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-index aa944270e716..fda7ea3a6cb6 100644
---- a/drivers/media/test-drivers/vimc/vimc-capture.c
-+++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-@@ -221,6 +221,7 @@ static const struct v4l2_ioctl_ops vimc_capture_ioctl_ops = {
- 	.vidioc_expbuf = vb2_ioctl_expbuf,
- 	.vidioc_streamon = vb2_ioctl_streamon,
- 	.vidioc_streamoff = vb2_ioctl_streamoff,
-+	.vidioc_delete_bufs = vb2_ioctl_delete_bufs,
- };
- 
- static void vimc_capture_return_all_buffers(struct vimc_capture_device *vcapture,
-@@ -435,6 +436,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
- 	q->min_buffers_needed = 2;
- 	q->lock = &vcapture->lock;
- 	q->dev = v4l2_dev->dev;
-+	q->supports_delete_bufs = true;
- 
- 	ret = vb2_queue_init(q);
- 	if (ret) {
-diff --git a/drivers/media/test-drivers/visl/visl-video.c b/drivers/media/test-drivers/visl/visl-video.c
-index 7cac6a6456eb..bd6c112f7846 100644
---- a/drivers/media/test-drivers/visl/visl-video.c
-+++ b/drivers/media/test-drivers/visl/visl-video.c
-@@ -521,6 +521,7 @@ const struct v4l2_ioctl_ops visl_ioctl_ops = {
- 	.vidioc_prepare_buf		= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs		= v4l2_m2m_ioctl_create_bufs,
- 	.vidioc_expbuf			= v4l2_m2m_ioctl_expbuf,
-+	.vidioc_delete_bufs		= v4l2_m2m_ioctl_delete_bufs,
- 
- 	.vidioc_streamon		= v4l2_m2m_ioctl_streamon,
- 	.vidioc_streamoff		= v4l2_m2m_ioctl_streamoff,
-@@ -728,6 +729,7 @@ int visl_queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = &ctx->vb_mutex;
-+	dst_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
- }
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index 353f035fcd19..06b18d8e2248 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.c
-+++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -769,6 +769,7 @@ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
- 	.vidioc_expbuf			= vb2_ioctl_expbuf,
- 	.vidioc_streamon		= vb2_ioctl_streamon,
- 	.vidioc_streamoff		= vb2_ioctl_streamoff,
-+	.vidioc_delete_bufs		= vb2_ioctl_delete_bufs,
- 
- 	.vidioc_enum_input		= vivid_enum_input,
- 	.vidioc_g_input			= vivid_g_input,
-@@ -883,12 +884,18 @@ static int vivid_create_queue(struct vivid_dev *dev,
- 	 * PAGE_SHIFT > 12, but then max_num_buffers will be clamped by
- 	 * videobuf2-core.c to MAX_BUFFER_INDEX.
- 	 */
--	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
- 		q->max_num_buffers = 64;
--	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE)
-+		q->supports_delete_bufs = true;
-+	}
-+	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE) {
- 		q->max_num_buffers = 1024;
--	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE)
-+		q->supports_delete_bufs = true;
-+	}
-+	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE) {
- 		q->max_num_buffers = 32768;
-+		q->supports_delete_bufs = true;
-+	}
- 
- 	if (allocators[dev->inst] != 1)
- 		q->io_modes |= VB2_USERPTR;
--- 
-2.39.2
+On 11/9/23 16:13, Bryan O'Donoghue wrote:
+> On 09/11/2023 13:44, Konrad Dybcio wrote:
+>>> +        .clock_rate = { { 0 },
+>>> +                { 0 },
+>>> +                { 19200000, 80000000, 80000000, 80000000, 80000000},
+>>> +                { 19200000, 150000000, 266666667, 320000000, 400000000, 480000000 },
+>>> +                { 400000000, 558000000, 637000000, 760000000 },
+>>> +                { 0 }, },
+>> Not the case here!
+> 
+> I agree with you in principle, the checking for the frequency shouldn't rely on if (freq[x]) however in this case - we are doing aggregate initialisation of a fixed size array and the compiler should save us from ourselves.
+Oh right, I didn't think about the sizing of it and partial init..
 
+Konrad
