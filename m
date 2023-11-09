@@ -2,165 +2,208 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id EB3057E70E8
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 18:53:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A8937E7132
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 19:07:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344905AbjKIRxT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 12:53:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43298 "EHLO
+        id S1344943AbjKISHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 13:07:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48958 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344896AbjKIRxS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 12:53:18 -0500
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 08EDC3A8E
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 09:53:16 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-543456dbd7bso4585902a12.1
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 09:53:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699552394; x=1700157194; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=s4oEO8MSO87TqmnDdahLLrcDvp47TDgYSBhqIayM2v4=;
-        b=cKBiMYeCMw0HkW1jLFxhDQguh4qaK1tgDVGrBPaNBTyKWkNAGMvFpGSH07dmW985U5
-         S77KZfKJg+y6fDzo0cU04f4OFoHud4RYwEUzhmjzvS8+RqSYUgNAdjsYDSKHiI4mfLvZ
-         OKzhf5t/6Lc5FuCNvlE47wyrPMpQmgjR8Qkbsr46MXw9+9VFBxlcBM9YIAItgOFzK7wT
-         OxUo9tduCiHOUjD/mFfkBC3+QyNc0a5H/IHTLGO3pexzhRoZfIy/v7QSkXRwUlhj3n5F
-         2Siq1guJNEtJS9uYbskWmH3O3fIRo5vJKSZgLYKcmi9WXMxrXH50V4Q2rmIhO/yllM9G
-         8NMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699552394; x=1700157194;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=s4oEO8MSO87TqmnDdahLLrcDvp47TDgYSBhqIayM2v4=;
-        b=vYrjXBaOSyFehv8JNWWbEVr9083qLn/AP5oD0KKVP26RY/l0AsJH+ER56PEzinoecq
-         8xYHd+uylbf9OuLWvQKT6ERoWUDkYdpEzgKMbGSFxsgZGhSsktGf10E4u3PJJEOj/sj6
-         /1fUuA9prmFkHBa6LrCYnEoLIeJS2mxX1vViut3bKPYTmExFSY71T1t5zSoYf/C/o4NM
-         XvUPKfMGi5jPa5HvJQFqELjbycjElrrboSoW9LqVcDWPBbzGxLw30yC5LQBAsxMf0x3O
-         br1mBUWh9sJteK1knB2Kol5eiW2xSB7hWOmtBaFB9ky5S/i+og9TP9uTDOi6P6FHA0p1
-         HA4g==
-X-Gm-Message-State: AOJu0YzBOMB+DPrRez9ef6ujgAFtoG8sC/jDaadPtEMzH4JOOIRFfvp4
-        6L4x6n9cgdgs+0SSTDYZEgx2VQ==
-X-Google-Smtp-Source: AGHT+IF+vU179+jGHJa4FD2pGFCEyDzz4K/7gO8/XCozwgW53hMMkfZwo7pYx4VMXFde+PI7WreLPg==
-X-Received: by 2002:a17:906:74cb:b0:9a9:405b:26d1 with SMTP id z11-20020a17090674cb00b009a9405b26d1mr8810024ejl.5.1699552394487;
-        Thu, 09 Nov 2023 09:53:14 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.126])
-        by smtp.gmail.com with ESMTPSA id lf17-20020a170906ae5100b009b947f81c4asm2815179ejb.155.2023.11.09.09.53.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 09:53:14 -0800 (PST)
-Message-ID: <e5b1f0dd-0aab-4ce5-82ba-879a4d736e7e@linaro.org>
-Date:   Thu, 9 Nov 2023 18:53:12 +0100
+        with ESMTP id S1344773AbjKISHX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 13:07:23 -0500
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807BB1727;
+        Thu,  9 Nov 2023 10:07:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1699553236;
+ bh=jCYEkVdywqRHlC8mhoNYhztpj7Nj5FYnQmn1ZQwqhys=;
+ b=iy46jHcyxm+my/KYZwLlm8suZ3fQbnc8/pYkS+x+t3D3l6YiNzOSeCci/SNgUCORqeL6C++95
+ gxOJRIFNwsLIJ5emcBexngpe251MP9bTNTR6eXqXMiiUgTUOICIsfXqfpquHTMpHCCS24Mkc2Ul
+ govupZCw4YTQMSqlbMUX6DqpUwbKiXfAw5IfBJ6Butu940dwaN0KwjqkcdF3VYXWrexSz4n0mAf
+ WYMVYI9JkyFnQOrcfCUnqCkLoPFHCP/hHry8U3YbKpGVF5qqWD2rhzjwzCAzsyfXvG8YyA79rv7
+ IEtaD8hl6Pl7Ni/lL3emQCNkxbaJChkpI/MDEOA9rc3g==
+Message-ID: <39b740b1-4d00-4afa-8b4f-58b0776b65c8@kwiboo.se>
+Date:   Thu, 9 Nov 2023 19:07:11 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 1/3] media: dt-bindings: media: add bindings for
- Rockchip CIF
+Subject: Re: [PATCH v4 05/11] media: rkvdec: h264: Remove SPS validation at
+ streaming start
 Content-Language: en-US
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Conor Dooley <conor@kernel.org>
-Cc:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-        maxime.chevallier@bootlin.com, michael.riesch@wolfvision.net
-References: <cover.1699460637.git.mehdi.djait@bootlin.com>
- <037bcabf97294d37b271537e4b11fb88cf9bb6f6.1699460637.git.mehdi.djait@bootlin.com>
- <20231109-closable-superglue-5e7f39739cf1@spud>
- <ZU0avuRRaITV4jws@aptenodytes>
-From:   Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- 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
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <ZU0avuRRaITV4jws@aptenodytes>
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     Alex Bee <knaerzche@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Christopher Obbard <chris.obbard@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20231105165521.3592037-1-jonas@kwiboo.se>
+ <20231105165521.3592037-6-jonas@kwiboo.se>
+ <c75c894a09292775773ad338121ee81924337cf0.camel@collabora.com>
+ <bfabc182-4113-46fb-85e9-8550c97d132b@kwiboo.se>
+ <f69345217c21af63cf873bfb4a16ae1363b05875.camel@collabora.com>
+From:   Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <f69345217c21af63cf873bfb4a16ae1363b05875.camel@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 654d1fd4a16ddfebde306cfd
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/11/2023 18:45, Paul Kocialkowski wrote:
-> Hi,
-> 
-> On Thu 09 Nov 23, 17:24, Conor Dooley wrote:
->> On Wed, Nov 08, 2023 at 05:38:56PM +0100, Mehdi Djait wrote:
->>> Add a documentation for the Rockchip Camera Interface binding.
+On 2023-11-08 03:39, Nicolas Dufresne wrote:
+> Le mardi 07 novembre 2023 à 23:56 +0100, Jonas Karlman a écrit :
+>> On 2023-11-07 23:01, Nicolas Dufresne wrote:
+>>> Le dimanche 05 novembre 2023 à 16:55 +0000, Jonas Karlman a écrit :
+>>>> SPS parameters is validated in try_ctrl() ops so there is no need to
 >>>
->>> the name of the file rk3066 is the first Rockchip SoC generation that uses cif
->>> instead of the px30 which is just one of the many iterations of the unit.
+>>>                  are
+>>>
+>>>> re-validate when streaming starts.
+>>>>
+>>>> Remove the unnecessary call to validate sps at streaming start.
+>>>
+>>> This patch is not working since user may change the format after the
+>>> control have been set. The proper fix should actually reset the SPS
+>>> (well all header controls) to match the the newly set format. Then this
+>>> validation won't be needed anymore.
+>>>
+>>> The sequence that is problematic after this patch is:
+>>>
+>>> S_FMT (OUTPUT, width, height);
+>>> S_CTRL (SPS) // valid
+>>> S_FMT(OUTPUT, width', height'); // SPS is no longer valid
+>>>
+>>> One suggestion I may make is to add a ops so that each codec
+>>> implementation can reset their header controls to make it valid against
+>>> the new resolution. With that in place you'll be able drop the check.
 >>
->> I think this is becoming ridiculous. You've now removed the compatible
->> for the rk3066 but kept it in the filename. I don't understand the
->> hangup about naming the file after the px30-vip, but naming it after
->> something that is not documented here at all makes no sense to me.
->> Either document the rk3066 properly, or remove all mention of it IMO.
+>> According to the Initialization section of the V4L2 stateless
+>> documentation a client is supposed to S_CTRL(SPS) after S_FMT(OUTPUT).
 > 
-> I think the opposite is ridiculous. We have spent some time investigating the
-> history of this unit, to find out that RK3066 is the first occurence where
-> it exists. Since we want the binding to cover all generations of the same unit
-> and give it a name that reflects this, rk3066 is the natural choice that comes
-> to mind. As far as I understand, this is the normal thing to do to name
-> bindings: name after the earliest known occurence of the unit.
+> Yes, but other part of the spec prevents us from failing if the
+> userspace restart in the middle of the process.
 > 
-> What is the rationale behind naming the file after a generation of the unit
-> that happens to be the one introducing the binding? This is neither the first
-> nor the last one to include this unit. The binding will be updated later to
-> cover other generations. Do we want to rename the file each time an a generation
-> earlier than px30 is introduced? That sounds quite ridiculous too.
+>>
+>> https://docs.kernel.org/userspace-api/media/v4l/dev-stateless-decoder.html#initialization
+>>
+>> I guess that all stateless decoders probably should reset all ctrls to
+>> default value on S_FMT(OUTPUT) or decoders may end up in an unexpected
+>> state?
+>>
+>> Is resetting a ctrl value back to default something that is supported by
+>> v4l2 ctrl core? Did not find any obvious way to reset a ctrl value.
 > 
-> We've done the research work to give it the most relevant name here.
-> I'd expect some strong arguments not to use it. Can you ellaborate?
+> In order to avoid having to do this, Hantro driver just ignores these
+> values from SPS control and do the following:
+> 
+> 	reg = G1_REG_DEC_CTRL1_PIC_MB_WIDTH(MB_WIDTH(ctx->src_fmt.width)) |
+> 	      G1_REG_DEC_CTRL1_PIC_MB_HEIGHT_P(MB_HEIGHT(ctx->src_fmt.height)) |
+> 	      G1_REG_DEC_CTRL1_REF_FRAMES(sps->max_num_ref_frames);
+> 
+> Then all they do is reset the CAPTURE format whenever needed, matching
+> the bit depth that was previously set. The SPS is unfortunatly not
+> guarantied to be valid, but at first sight its safe in regard to
+> picture dimensions.
 
-If you do not have rk3066 documented here, it might be added to entirely
-different file (for whatever reasons, including that binding would be
-quite different than px30). Thus you would have rk3066 in
-rockchip,rk3066-cif-added-later.yaml and px30 in rockchip,rk3066-cif.yaml
+The commit 77e74be83083 ("media: rkvdec: h264: Validate and use pic
+width and height in mbs") changed to use the SPS values to help fix
+decoding of field encoded content, it also added this check.
 
-Just use the filename matching the compatible. That's what we always
-ask. In every review.
+Will drop this patch in v5, and should also re-add similar validation in
+the HEVC series.
 
-Best regards,
-Krzysztof
+Regards,
+Jonas
+
+> 
+>>
+>> Will probably just drop this patch in v5.
+> 
+> That or do like in Hantro driver. What is scary though is that some of
+> the feature enabled by SPS may requires an auxiliary chunk of memory to
+> be allocated, and then this method falls appart. I think it would be
+> nice to fix that properly in all drivers in a future patchset.
+> 
+>>
+>> Regards,
+>> Jonas
+>>
+>>>
+>>> Nicolas
+>>>
+>>> p.s. you can also just drop this patch from the series and revisit it
+>>> later, though I think its worth fixing.
+>>>
+>>>>
+>>>> Suggested-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+>>>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>>>> ---
+>>>> v4:
+>>>> - No change
+>>>>
+>>>> v3:
+>>>> - New patch
+>>>>
+>>>>  drivers/staging/media/rkvdec/rkvdec-h264.c | 19 ++-----------------
+>>>>  1 file changed, 2 insertions(+), 17 deletions(-)
+>>>>
+>>>> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>>>> index 8bce8902b8dd..815d5359ddd5 100644
+>>>> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+>>>> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>>>> @@ -1070,17 +1070,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
+>>>>  	struct rkvdec_dev *rkvdec = ctx->dev;
+>>>>  	struct rkvdec_h264_priv_tbl *priv_tbl;
+>>>>  	struct rkvdec_h264_ctx *h264_ctx;
+>>>> -	struct v4l2_ctrl *ctrl;
+>>>> -	int ret;
+>>>> -
+>>>> -	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
+>>>> -			      V4L2_CID_STATELESS_H264_SPS);
+>>>> -	if (!ctrl)
+>>>> -		return -EINVAL;
+>>>> -
+>>>> -	ret = rkvdec_h264_validate_sps(ctx, ctrl->p_new.p_h264_sps);
+>>>> -	if (ret)
+>>>> -		return ret;
+>>>>  
+>>>>  	h264_ctx = kzalloc(sizeof(*h264_ctx), GFP_KERNEL);
+>>>>  	if (!h264_ctx)
+>>>> @@ -1089,8 +1078,8 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
+>>>>  	priv_tbl = dma_alloc_coherent(rkvdec->dev, sizeof(*priv_tbl),
+>>>>  				      &h264_ctx->priv_tbl.dma, GFP_KERNEL);
+>>>>  	if (!priv_tbl) {
+>>>> -		ret = -ENOMEM;
+>>>> -		goto err_free_ctx;
+>>>> +		kfree(h264_ctx);
+>>>> +		return -ENOMEM;
+>>>>  	}
+>>>>  
+>>>>  	h264_ctx->priv_tbl.size = sizeof(*priv_tbl);
+>>>> @@ -1100,10 +1089,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
+>>>>  
+>>>>  	ctx->priv = h264_ctx;
+>>>>  	return 0;
+>>>> -
+>>>> -err_free_ctx:
+>>>> -	kfree(h264_ctx);
+>>>> -	return ret;
+>>>>  }
+>>>>  
+>>>>  static void rkvdec_h264_stop(struct rkvdec_ctx *ctx)
+>>>
+>>
+> 
 
