@@ -2,83 +2,331 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DF567E7480
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 23:45:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C16747E7488
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 23:47:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232589AbjKIWp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 17:45:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36254 "EHLO
+        id S231706AbjKIWrg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 17:47:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56554 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230339AbjKIWp1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 17:45:27 -0500
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 730243C2F
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 14:45:25 -0800 (PST)
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-6c337818f4cso1554105b3a.1
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 14:45:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699569925; x=1700174725;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=7xezopyy8MxVgNtshsqSuylmJc2IDcIylCxLiCRGiAc=;
-        b=E/wrmV70QtyOMa+FsuYOWOtR/O+aw4Sf4ehoTNTkN1vPGmVznQLpoUNYZkTucy2KQE
-         8cdl7JWTKH78DHKVCuY2qicqYH0GuBf+t9VpAC/ktu5NXF0sYy6rD8brYB3aJNuXRO+8
-         lH6bG+6G5S6qxEj2c429wSmbGNKXCzImMD92AQZO/0zGZVYnUjCH75IAxGZ7qd4nKG7n
-         XVuIcym/JW1W9PUr2qCmtJd73MizqJRh8jPr8Mgu4QOxmztgELKOxJG1AzVZYLRgCzGo
-         TGkRCEPaKvQNyd2ktDDZa/H72v5UnuNK9dZfcgb6kzlRAjPV7F1YEyeBREkIKfM+2aOo
-         oc/A==
-X-Gm-Message-State: AOJu0Yx/Xyv7H69yqdsAZA+sIo72widr26TLgmjjhQdZd03jN/NRheZL
-        Prwdof3jGnb+GqA2O6U/VWiBkQdiUXM954REOeZbMa+Swzqo
-X-Google-Smtp-Source: AGHT+IGE5IGuvgPabWf7DMfFSpMaXLgcCLsZ53HnjBBnhr/lkKMqc0gLLCFMbCmno8ePUXqiFRc5T0yCCiVvsuZoR/5YLddzAOrC
+        with ESMTP id S229587AbjKIWrg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 17:47:36 -0500
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 693E0270B;
+        Thu,  9 Nov 2023 14:47:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1699570041;
+ bh=Fs4IgXXjI+S/jw/X8oFk3qiQYeXDyVG1zvZj3C4/X9M=;
+ b=d4pr+giW+e0aswUzwQIj84dK/96J7h5cfM9wEBeQH8SYl+6RpKXGYFrr6hjif3aFT7iHeKnUN
+ EsnmRJgqiEM1IYEJ7q1DFar9/uFzniun3icfViCVR9MndJsLdarmjBEIZyen+tnUBqbV9CWmp0J
+ dJICMOfC62ZbtmnKqHB3V+HWPAksRSWeMru1KRZjM2KE0Xs95f/wfcY+B2f4v+wNwrnaDdhCGAs
+ HFctMC7kPdD5c8esg5plioJzQsc/Uq2D1l98l8n0oZJYL29CSUCyF5XBuV2lx4cQ+7BLI4mDXCo
+ h5d3jFoEhAHgeQqCyjKh7b7PxXBnYZre8rTLKb185Wjg==
+Message-ID: <ecf78696-d423-4b44-a842-bc0e57e17182@kwiboo.se>
+Date:   Thu, 9 Nov 2023 23:47:16 +0100
 MIME-Version: 1.0
-X-Received: by 2002:a05:6a00:d5e:b0:690:2ecd:a5a1 with SMTP id
- n30-20020a056a000d5e00b006902ecda5a1mr775330pfv.5.1699569924945; Thu, 09 Nov
- 2023 14:45:24 -0800 (PST)
-Date:   Thu, 09 Nov 2023 14:45:24 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000a5bec30609bff5d1@google.com>
-Subject: [syzbot] Monthly media report (Nov 2023)
-From:   syzbot <syzbot+list8d07219aa07359fcd9e4@syzkaller.appspotmail.com>
-To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 02/11] media: v4l2: Add NV15 and NV20 pixel formats
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Alex Bee <knaerzche@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Christopher Obbard <chris.obbard@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20231105165521.3592037-1-jonas@kwiboo.se>
+ <20231105165521.3592037-3-jonas@kwiboo.se>
+ <e12bffd61450fde2512632e205be5473e450a4e0.camel@collabora.com>
+From:   Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <e12bffd61450fde2512632e205be5473e450a4e0.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 167.172.40.54
+X-ForwardEmail-ID: 654d6179ca26f77c9d8a7b4c
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello media maintainers/developers,
+On 2023-11-08 03:52, Nicolas Dufresne wrote:
+> Hi,
+> 
+> Le dimanche 05 novembre 2023 à 16:55 +0000, Jonas Karlman a écrit :
+>> Add NV15 and NV20 pixel formats used by the Rockchip Video Decoder for
+>> 10-bit buffers.
+>>
+>> NV15 and NV20 is 10-bit 4:2:0/4:2:2 semi-planar YUV formats similar to
+>> NV12 and NV16, using 10-bit components with no padding between each
+>> component. Instead, a group of 4 luminance/chrominance samples are
+>> stored over 5 bytes in little endian order:
+>>
+>> YYYY = UVUV = 4 * 10 bits = 40 bits = 5 bytes
+>>
+>> The '15' and '20' suffix refers to the optimum effective bits per pixel
+>> which is achieved when the total number of luminance samples is a
+>> multiple of 8 for NV15 and 4 for NV20.
+> 
+> I had this mostly documented already in September:
+> 
+> https://patchwork.linuxtv.org/project/linux-media/patch/20230914150651.3114134-3-nicolas.dufresne@collabora.com/
+> https://patchwork.linuxtv.org/project/linux-media/patch/20230914150651.3114134-4-nicolas.dufresne@collabora.com/
+> 
+> I think I was improving a bit the documentation avoiding to repeat what
+> NV15 (little and big endian) is over and over. I've had no feedback on
+> V2, so assumed it going to be picked, but then it will certainly
+> conflict with this change.
 
-This is a 31-day syzbot report for the media subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/media
+Sorry, I had completely missed this pending series, sent out a short
+comment earlier and will rebase this on top of your series for v5.
 
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 12 issues are still open and 85 have been fixed so far.
+> 
+>>
+>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>> ---
+>> v4:
+>> - No change
+>>
+>> v3:
+>> - Use bpp and bpp_div instead of the misuse of block_w/block_h
+>> - Update documentation, expand to use full 4x4 sample image
+>>
+>>  .../media/v4l/pixfmt-yuv-planar.rst           | 128 ++++++++++++++++++
+>>  drivers/media/v4l2-core/v4l2-common.c         |   2 +
+>>  drivers/media/v4l2-core/v4l2-ioctl.c          |   2 +
+>>  include/uapi/linux/videodev2.h                |   2 +
+>>  4 files changed, 134 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> index 1840224faa41..4366cdcb970e 100644
+>> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>> @@ -79,6 +79,13 @@ All components are stored with the same number of bits per component.
+>>        - Cr, Cb
+>>        - Yes
+>>        - Linear
+>> +    * - V4L2_PIX_FMT_NV15
+>> +      - 'NV15'
+>> +      - 10
+>> +      - 4:2:0
+>> +      - Cb, Cr
+>> +      - Yes
+>> +      - Linear
+> 
+> I'd like to see 8 and 10bit formats grouped and not mixed.
 
-Some of the still happening issues:
+Sure, will fix in v5.
 
-Ref Crashes Repro Title
-<1> 820     Yes   general protection fault in ir_raw_event_store_with_filter
-                  https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
-<2> 96      Yes   WARNING in media_create_pad_link
-                  https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
-<3> 83      Yes   WARNING in smsusb_start_streaming/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=12002a39b8c60510f8fb
-<4> 51      Yes   KASAN: use-after-free Read in send_packet
-                  https://syzkaller.appspot.com/bug?extid=f1a69784f6efe748c3bf
-<5> 3       Yes   KASAN: use-after-free Read in em28xx_init_extension (2)
-                  https://syzkaller.appspot.com/bug?extid=99d6c66dbbc484f50e1c
+> 
+>>      * - V4L2_PIX_FMT_NV12M
+>>        - 'NM12'
+>>        - 8
+>> @@ -158,6 +165,13 @@ All components are stored with the same number of bits per component.
+>>        - Cr, Cb
+>>        - Yes
+>>        - Linear
+>> +    * - V4L2_PIX_FMT_NV20
+>> +      - 'NV20'
+>> +      - 10
+>> +      - 4:2:2
+>> +      - Cb, Cr
+>> +      - Yes
+>> +      - Linear
+>>      * - V4L2_PIX_FMT_NV16M
+>>        - 'NM16'
+>>        - 8
+>> @@ -288,6 +302,57 @@ of the luma plane.
+>>        - Cr\ :sub:`11`
+>>  
+>>  
+>> +.. _V4L2-PIX-FMT-NV15:
+>> +
+>> +NV15
+>> +----
+>> +
+>> +Semi-planar 10-bit YUV 4:2:0 format similar to NV12, using 10-bit components
+>> +with no padding between each component. A group of 4 components are stored over
+>> +5 bytes in little endian order.
+>> +
+>> +.. flat-table:: Sample 4x4 NV15 Image (1 byte per cell)
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +
+>> +    * - start + 0:
+>> +      - Y'\ :sub:`00[7:0]`
+>> +      - Y'\ :sub:`01[5:0]`\ Y'\ :sub:`00[9:8]`
+>> +      - Y'\ :sub:`02[3:0]`\ Y'\ :sub:`01[9:6]`
+>> +      - Y'\ :sub:`03[1:0]`\ Y'\ :sub:`02[9:4]`
+>> +      - Y'\ :sub:`03[9:2]`
+>> +    * - start + 5:
+>> +      - Y'\ :sub:`10[7:0]`
+>> +      - Y'\ :sub:`11[5:0]`\ Y'\ :sub:`10[9:8]`
+>> +      - Y'\ :sub:`12[3:0]`\ Y'\ :sub:`11[9:6]`
+>> +      - Y'\ :sub:`13[1:0]`\ Y'\ :sub:`12[9:4]`
+>> +      - Y'\ :sub:`13[9:2]`
+>> +    * - start + 10:
+>> +      - Y'\ :sub:`20[7:0]`
+>> +      - Y'\ :sub:`21[5:0]`\ Y'\ :sub:`20[9:8]`
+>> +      - Y'\ :sub:`22[3:0]`\ Y'\ :sub:`21[9:6]`
+>> +      - Y'\ :sub:`23[1:0]`\ Y'\ :sub:`22[9:4]`
+>> +      - Y'\ :sub:`23[9:2]`
+>> +    * - start + 15:
+>> +      - Y'\ :sub:`30[7:0]`
+>> +      - Y'\ :sub:`31[5:0]`\ Y'\ :sub:`30[9:8]`
+>> +      - Y'\ :sub:`32[3:0]`\ Y'\ :sub:`31[9:6]`
+>> +      - Y'\ :sub:`33[1:0]`\ Y'\ :sub:`32[9:4]`
+>> +      - Y'\ :sub:`33[9:2]`
+>> +    * - start + 20:
+>> +      - Cb\ :sub:`00[7:0]`
+>> +      - Cr\ :sub:`00[5:0]`\ Cb\ :sub:`00[9:8]`
+>> +      - Cb\ :sub:`01[3:0]`\ Cr\ :sub:`00[9:6]`
+>> +      - Cr\ :sub:`01[1:0]`\ Cb\ :sub:`01[9:4]`
+>> +      - Cr\ :sub:`01[9:2]`
+>> +    * - start + 25:
+>> +      - Cb\ :sub:`10[7:0]`
+>> +      - Cr\ :sub:`10[5:0]`\ Cb\ :sub:`10[9:8]`
+>> +      - Cb\ :sub:`11[3:0]`\ Cr\ :sub:`10[9:6]`
+>> +      - Cr\ :sub:`11[1:0]`\ Cb\ :sub:`11[9:4]`
+>> +      - Cr\ :sub:`11[9:2]`
+>> +
+>> +
+>>  .. _V4L2-PIX-FMT-NV12MT:
+>>  .. _V4L2-PIX-FMT-NV12MT-16X16:
+>>  .. _V4L2-PIX-FMT-NV12-4L4:
+>> @@ -500,6 +565,69 @@ number of lines as the luma plane.
+>>        - Cr\ :sub:`32`
+>>  
+>>  
+>> +.. _V4L2-PIX-FMT-NV20:
+>> +
+>> +NV20
+>> +----
+>> +
+>> +Semi-planar 10-bit YUV 4:2:2 format similar to NV16, using 10-bit components
+>> +with no padding between each component. A group of 4 components are stored over
+>> +5 bytes in little endian order.
+>> +
+>> +.. flat-table:: Sample 4x4 NV20 Image (1 byte per cell)
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +
+>> +    * - start + 0:
+>> +      - Y'\ :sub:`00[7:0]`
+>> +      - Y'\ :sub:`01[5:0]`\ Y'\ :sub:`00[9:8]`
+>> +      - Y'\ :sub:`02[3:0]`\ Y'\ :sub:`01[9:6]`
+>> +      - Y'\ :sub:`03[1:0]`\ Y'\ :sub:`02[9:4]`
+>> +      - Y'\ :sub:`03[9:2]`
+>> +    * - start + 5:
+>> +      - Y'\ :sub:`10[7:0]`
+>> +      - Y'\ :sub:`11[5:0]`\ Y'\ :sub:`10[9:8]`
+>> +      - Y'\ :sub:`12[3:0]`\ Y'\ :sub:`11[9:6]`
+>> +      - Y'\ :sub:`13[1:0]`\ Y'\ :sub:`12[9:4]`
+>> +      - Y'\ :sub:`13[9:2]`
+>> +    * - start + 10:
+>> +      - Y'\ :sub:`20[7:0]`
+>> +      - Y'\ :sub:`21[5:0]`\ Y'\ :sub:`20[9:8]`
+>> +      - Y'\ :sub:`22[3:0]`\ Y'\ :sub:`21[9:6]`
+>> +      - Y'\ :sub:`23[1:0]`\ Y'\ :sub:`22[9:4]`
+>> +      - Y'\ :sub:`23[9:2]`
+>> +    * - start + 15:
+>> +      - Y'\ :sub:`30[7:0]`
+>> +      - Y'\ :sub:`31[5:0]`\ Y'\ :sub:`30[9:8]`
+>> +      - Y'\ :sub:`32[3:0]`\ Y'\ :sub:`31[9:6]`
+>> +      - Y'\ :sub:`33[1:0]`\ Y'\ :sub:`32[9:4]`
+>> +      - Y'\ :sub:`33[9:2]`
+>> +    * - start + 20:
+>> +      - Cb\ :sub:`00[7:0]`
+>> +      - Cr\ :sub:`00[5:0]`\ Cb\ :sub:`00[9:8]`
+>> +      - Cb\ :sub:`01[3:0]`\ Cr\ :sub:`00[9:6]`
+>> +      - Cr\ :sub:`01[1:0]`\ Cb\ :sub:`01[9:4]`
+>> +      - Cr\ :sub:`01[9:2]`
+>> +    * - start + 25:
+>> +      - Cb\ :sub:`10[7:0]`
+>> +      - Cr\ :sub:`10[5:0]`\ Cb\ :sub:`10[9:8]`
+>> +      - Cb\ :sub:`11[3:0]`\ Cr\ :sub:`10[9:6]`
+>> +      - Cr\ :sub:`11[1:0]`\ Cb\ :sub:`11[9:4]`
+>> +      - Cr\ :sub:`11[9:2]`
+>> +    * - start + 30:
+>> +      - Cb\ :sub:`20[7:0]`
+>> +      - Cr\ :sub:`20[5:0]`\ Cb\ :sub:`20[9:8]`
+>> +      - Cb\ :sub:`21[3:0]`\ Cr\ :sub:`20[9:6]`
+>> +      - Cr\ :sub:`21[1:0]`\ Cb\ :sub:`21[9:4]`
+>> +      - Cr\ :sub:`21[9:2]`
+>> +    * - start + 35:
+>> +      - Cb\ :sub:`30[7:0]`
+>> +      - Cr\ :sub:`30[5:0]`\ Cb\ :sub:`30[9:8]`
+>> +      - Cb\ :sub:`31[3:0]`\ Cr\ :sub:`30[9:6]`
+>> +      - Cr\ :sub:`31[1:0]`\ Cb\ :sub:`31[9:4]`
+>> +      - Cr\ :sub:`31[9:2]`
+>> +
+>> +
+>>  .. _V4L2-PIX-FMT-NV24:
+>>  .. _V4L2-PIX-FMT-NV42:
+>>  
+>> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+>> index 834b426da8b1..c65ffab5800a 100644
+>> --- a/drivers/media/v4l2-core/v4l2-common.c
+>> +++ b/drivers/media/v4l2-core/v4l2-common.c
+>> @@ -270,8 +270,10 @@ const struct v4l2_format_info *v4l2_format_info(u32 format)
+>>  		/* YUV planar formats */
+>>  		{ .format = V4L2_PIX_FMT_NV12,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 2 },
+>>  		{ .format = V4L2_PIX_FMT_NV21,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 2 },
+>> +		{ .format = V4L2_PIX_FMT_NV15,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 5, 10, 0, 0 }, .bpp_div = { 4, 4, 1, 1 }, .hdiv = 2, .vdiv = 2 },
+>>  		{ .format = V4L2_PIX_FMT_NV16,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 1 },
+>>  		{ .format = V4L2_PIX_FMT_NV61,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 1 },
+>> +		{ .format = V4L2_PIX_FMT_NV20,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 5, 10, 0, 0 }, .bpp_div = { 4, 4, 1, 1 }, .hdiv = 2, .vdiv = 1 },
+>>  		{ .format = V4L2_PIX_FMT_NV24,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>>  		{ .format = V4L2_PIX_FMT_NV42,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 1, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 1, .vdiv = 1 },
+>>  		{ .format = V4L2_PIX_FMT_P010,    .pixel_enc = V4L2_PIXEL_ENC_YUV, .mem_planes = 1, .comp_planes = 2, .bpp = { 2, 2, 0, 0 }, .bpp_div = { 1, 1, 1, 1 }, .hdiv = 2, .vdiv = 1 },
+>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> index 9b1de54ce379..937434e5f2c1 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+>> @@ -1347,8 +1347,10 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>>  	case V4L2_PIX_FMT_YUV48_12:	descr = "12-bit YUV 4:4:4 Packed"; break;
+>>  	case V4L2_PIX_FMT_NV12:		descr = "Y/UV 4:2:0"; break;
+>>  	case V4L2_PIX_FMT_NV21:		descr = "Y/VU 4:2:0"; break;
+>> +	case V4L2_PIX_FMT_NV15:		descr = "10-bit Y/UV 4:2:0 (Packed)"; break;
+>>  	case V4L2_PIX_FMT_NV16:		descr = "Y/UV 4:2:2"; break;
+>>  	case V4L2_PIX_FMT_NV61:		descr = "Y/VU 4:2:2"; break;
+>> +	case V4L2_PIX_FMT_NV20:		descr = "10-bit Y/UV 4:2:2 (Packed)"; break;
+>>  	case V4L2_PIX_FMT_NV24:		descr = "Y/UV 4:4:4"; break;
+>>  	case V4L2_PIX_FMT_NV42:		descr = "Y/VU 4:4:4"; break;
+>>  	case V4L2_PIX_FMT_P010:		descr = "10-bit Y/UV 4:2:0"; break;
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index c3d4e490ce7c..617340c43e40 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -638,8 +638,10 @@ struct v4l2_pix_format {
+>>  /* two planes -- one Y, one Cr + Cb interleaved  */
+>>  #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
+>>  #define V4L2_PIX_FMT_NV21    v4l2_fourcc('N', 'V', '2', '1') /* 12  Y/CrCb 4:2:0  */
+>> +#define V4L2_PIX_FMT_NV15    v4l2_fourcc('N', 'V', '1', '5') /* 15  Y/CbCr 4:2:0 10-bit packed */
+>>  #define V4L2_PIX_FMT_NV16    v4l2_fourcc('N', 'V', '1', '6') /* 16  Y/CbCr 4:2:2  */
+>>  #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
+>> +#define V4L2_PIX_FMT_NV20    v4l2_fourcc('N', 'V', '2', '0') /* 20  Y/CbCr 4:2:2 10-bit packed */
+> 
+> Would make sense to group all semi planar 10bit together.
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+Sure, will fix in v5.
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+Regards,
+Jonas
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
+> 
+>>  #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
+>>  #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
+>>  #define V4L2_PIX_FMT_P010    v4l2_fourcc('P', '0', '1', '0') /* 24  Y/CbCr 4:2:0 10-bit per component */
+> 
+> regards,
+> Nicolas
 
-You may send multiple commands in a single email message.
