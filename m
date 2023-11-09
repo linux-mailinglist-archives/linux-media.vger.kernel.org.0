@@ -2,113 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 71A7F7E69AA
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 12:30:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2FE17E69B2
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 12:32:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234262AbjKILaw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 06:30:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40212 "EHLO
+        id S231944AbjKILcP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 06:32:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52830 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233079AbjKILao (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 06:30:44 -0500
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7391930C4
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 03:30:33 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-32dff08bbdbso468839f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 03:30:33 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699529432; x=1700134232; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cYQvDtaR1Rq2jfedJTX47JK1X6rSYRRgJAozvHJVQR8=;
-        b=qzpT2xY8PNfTnVIXVeAY99iw7geUmQTYeLgZ7oMIfteTrGyu4Bk5+Nil5nbgbn6RgY
-         leitKkooXM40C2HySXlewJ7K0d94C4RPbfv5ZDhTwW1Myu+AfFAedpINlfMcuB1AZYp/
-         DemgdZgw4c9YlE7HH7pABq+bRuull0BDf61vOipa+D99wwefryq6iavIvI16KRYm7Z53
-         o08qwobTGs9C1ZK0PG66ygCUNWHPh4l8UCemOVSPp8A9HXvU/hwYUYoC3IEOoKFdd1Tr
-         8e6DLZ+rQRF24sq2qSxPtZx3CDbPJ3ajLPbqtz1M7Q9vx1dVqZ+WBAsj/Jvz/eE2Y1Zj
-         Rzzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699529432; x=1700134232;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cYQvDtaR1Rq2jfedJTX47JK1X6rSYRRgJAozvHJVQR8=;
-        b=Tqm61cPDUz5ulgYZfpI/aBI0rwSOi+w2JNqQq/cqra18Q8tr8Ukh9wYxqmKfIYoCPx
-         yHXwo/mVZJ9iqPMo/n3SVA7ULTfDdLqWaq6NlHXliRYcgEtTPv4oV/onOOG7GLoa+WaC
-         kjpj5KCj9mrBRifWpoZWAWECkZBXGzIdI+DTVawz/XcpbMhhScZ7aQp0fRG0fuYETYCP
-         A6huALkKSBUSD4o1RpeQoQoYc1gDEC/IjuNtVQuVU9tLbuzl7/wF+gmAY+GlDUBYrkuN
-         PwsLSdIFvpd4kHhjJRforIr4/z/bZh0fnu913UkpsZ+JJgmY1Jrl76i/JAOyTEULev8q
-         i76g==
-X-Gm-Message-State: AOJu0Yx7XyorVPjVO+KPl+0Dei4P8x+YTA/yENW4NWxLNKEUnxb3LOxZ
-        DY+3T2inG+vHGRwTWg7sIPy7tg==
-X-Google-Smtp-Source: AGHT+IHD4bnvrBtnw0anfkYJuCZ4+DjQZ5+N+cAxubQKJf3E/805foDxpHfXU1cRY45Av8/NMR0E5Q==
-X-Received: by 2002:adf:cd86:0:b0:32f:b3a2:c2eb with SMTP id q6-20020adfcd86000000b0032fb3a2c2ebmr3675067wrj.65.1699529431932;
-        Thu, 09 Nov 2023 03:30:31 -0800 (PST)
-Received: from [127.0.0.1] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id a11-20020adfed0b000000b0032d9337e7d1sm7185790wro.11.2023.11.09.03.30.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Nov 2023 03:30:31 -0800 (PST)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date:   Thu, 09 Nov 2023 11:30:26 +0000
-Subject: [PATCH v4 6/6] media: qcom: camss: vfe-17x: Rename camss-vfe-170
- to camss-vfe-17x
+        with ESMTP id S230123AbjKILcO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 06:32:14 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B27C610A;
+        Thu,  9 Nov 2023 03:32:11 -0800 (PST)
+Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: andrzej.p)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 02E616607421;
+        Thu,  9 Nov 2023 11:32:08 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1699529530;
+        bh=VG1w9Pjjey9M4D6zDTGB2ppMv6zfZFZgDw9VZFd1POI=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=NU1aIuJef7HZL9xqOBaXnfBPX1f8dRX8TzKoXST6ZKdmi65WNUonx1xdbI4jJNHoQ
+         Akws7CNVKRzfM6KFRO/k6QjQGRxvALOX2rL3+qjt6hRiJ3exDuYCDR7enA3LPRQ3Gw
+         HrWFVVQK2Z3uElIt0+rMHJ+DjF68pZUp4aoAc54OLvcsOdibhaPSSMioBUuJazb8gf
+         cMr348Qe4azihf0irGki9G0wHL42fFrCL3Qt12o5xY+amvzdilt4wU6TRlRhlMWW3O
+         2tJcKicMkzl7kfq2ga3gyU9ffO9HJhTPF2saYBJve6pJvHdH8pGP1sxs3VH8eXPFpE
+         lP6Cxjw2DB5wQ==
+Message-ID: <4c951ab7-9443-48e6-be18-64f60ac8b422@collabora.com>
+Date:   Thu, 9 Nov 2023 12:32:06 +0100
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231109-b4-camss-sc8280xp-v4-6-58a58bc200f9@linaro.org>
-References: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
-In-Reply-To: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
-To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
-        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-X-Mailer: b4 0.13-dev-26615
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 38/56] media: ti: Stop direct calls to queue
+ num_buffers field
+Content-Language: en-US
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com, "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-39-benjamin.gaignard@collabora.com>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20231031163104.112469-39-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-vfe-170 and vfe-175 can be supported in the same file with some minimal
-indirection to differentiate between the silicon versions.
+W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
+> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
+> This allows us to change how the number of buffers is computed in the
+> future.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-sdm845 uses vfe-170, sc8280xp uses vfe-175-200. Lets rename the file to
-capture its wider scope than vfe-170 only.
+Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
-Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/Makefile                             | 2 +-
- drivers/media/platform/qcom/camss/{camss-vfe-170.c => camss-vfe-17x.c} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-index 4e22223589739..0d4389ab312d1 100644
---- a/drivers/media/platform/qcom/camss/Makefile
-+++ b/drivers/media/platform/qcom/camss/Makefile
-@@ -14,7 +14,7 @@ qcom-camss-objs += \
- 		camss-vfe-4-1.o \
- 		camss-vfe-4-7.o \
- 		camss-vfe-4-8.o \
--		camss-vfe-170.o \
-+		camss-vfe-17x.o \
- 		camss-vfe-480.o \
- 		camss-vfe-gen1.o \
- 		camss-vfe.o \
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-170.c b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
-similarity index 100%
-rename from drivers/media/platform/qcom/camss/camss-vfe-170.c
-rename to drivers/media/platform/qcom/camss/camss-vfe-17x.c
-
--- 
-2.42.0
+> CC: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+> ---
+>   drivers/media/platform/ti/am437x/am437x-vpfe.c   | 5 +++--
+>   drivers/media/platform/ti/cal/cal-video.c        | 5 +++--
+>   drivers/media/platform/ti/davinci/vpif_capture.c | 5 +++--
+>   drivers/media/platform/ti/davinci/vpif_display.c | 5 +++--
+>   drivers/media/platform/ti/omap/omap_vout.c       | 5 +++--
+>   5 files changed, 15 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/media/platform/ti/am437x/am437x-vpfe.c
+> index 5fa2ea9025d9..f18acf9286a2 100644
+> --- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
+> +++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
+> @@ -1771,9 +1771,10 @@ static int vpfe_queue_setup(struct vb2_queue *vq,
+>   {
+>   	struct vpfe_device *vpfe = vb2_get_drv_priv(vq);
+>   	unsigned size = vpfe->fmt.fmt.pix.sizeimage;
+> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+>   
+> -	if (vq->num_buffers + *nbuffers < 3)
+> -		*nbuffers = 3 - vq->num_buffers;
+> +	if (q_num_bufs + *nbuffers < 3)
+> +		*nbuffers = 3 - q_num_bufs;
+>   
+>   	if (*nplanes) {
+>   		if (sizes[0] < size)
+> diff --git a/drivers/media/platform/ti/cal/cal-video.c b/drivers/media/platform/ti/cal/cal-video.c
+> index a8abcd0fee17..94e67c057a20 100644
+> --- a/drivers/media/platform/ti/cal/cal-video.c
+> +++ b/drivers/media/platform/ti/cal/cal-video.c
+> @@ -603,9 +603,10 @@ static int cal_queue_setup(struct vb2_queue *vq,
+>   {
+>   	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
+>   	unsigned int size = ctx->v_fmt.fmt.pix.sizeimage;
+> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+>   
+> -	if (vq->num_buffers + *nbuffers < 3)
+> -		*nbuffers = 3 - vq->num_buffers;
+> +	if (q_num_bufs + *nbuffers < 3)
+> +		*nbuffers = 3 - q_num_bufs;
+>   
+>   	if (*nplanes) {
+>   		if (sizes[0] < size)
+> diff --git a/drivers/media/platform/ti/davinci/vpif_capture.c b/drivers/media/platform/ti/davinci/vpif_capture.c
+> index 99fae8830c41..fc42b4bc37e6 100644
+> --- a/drivers/media/platform/ti/davinci/vpif_capture.c
+> +++ b/drivers/media/platform/ti/davinci/vpif_capture.c
+> @@ -113,6 +113,7 @@ static int vpif_buffer_queue_setup(struct vb2_queue *vq,
+>   	struct channel_obj *ch = vb2_get_drv_priv(vq);
+>   	struct common_obj *common = &ch->common[VPIF_VIDEO_INDEX];
+>   	unsigned size = common->fmt.fmt.pix.sizeimage;
+> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+>   
+>   	vpif_dbg(2, debug, "vpif_buffer_setup\n");
+>   
+> @@ -122,8 +123,8 @@ static int vpif_buffer_queue_setup(struct vb2_queue *vq,
+>   		size = sizes[0];
+>   	}
+>   
+> -	if (vq->num_buffers + *nbuffers < 3)
+> -		*nbuffers = 3 - vq->num_buffers;
+> +	if (q_num_bufs + *nbuffers < 3)
+> +		*nbuffers = 3 - q_num_bufs;
+>   
+>   	*nplanes = 1;
+>   	sizes[0] = size;
+> diff --git a/drivers/media/platform/ti/davinci/vpif_display.c b/drivers/media/platform/ti/davinci/vpif_display.c
+> index f8ec2991c667..9dbab1003c1d 100644
+> --- a/drivers/media/platform/ti/davinci/vpif_display.c
+> +++ b/drivers/media/platform/ti/davinci/vpif_display.c
+> @@ -115,6 +115,7 @@ static int vpif_buffer_queue_setup(struct vb2_queue *vq,
+>   	struct channel_obj *ch = vb2_get_drv_priv(vq);
+>   	struct common_obj *common = &ch->common[VPIF_VIDEO_INDEX];
+>   	unsigned size = common->fmt.fmt.pix.sizeimage;
+> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+>   
+>   	if (*nplanes) {
+>   		if (sizes[0] < size)
+> @@ -122,8 +123,8 @@ static int vpif_buffer_queue_setup(struct vb2_queue *vq,
+>   		size = sizes[0];
+>   	}
+>   
+> -	if (vq->num_buffers + *nbuffers < 3)
+> -		*nbuffers = 3 - vq->num_buffers;
+> +	if (q_num_bufs + *nbuffers < 3)
+> +		*nbuffers = 3 - q_num_bufs;
+>   
+>   	*nplanes = 1;
+>   	sizes[0] = size;
+> diff --git a/drivers/media/platform/ti/omap/omap_vout.c b/drivers/media/platform/ti/omap/omap_vout.c
+> index 4143274089c3..72ce903717d3 100644
+> --- a/drivers/media/platform/ti/omap/omap_vout.c
+> +++ b/drivers/media/platform/ti/omap/omap_vout.c
+> @@ -944,10 +944,11 @@ static int omap_vout_vb2_queue_setup(struct vb2_queue *vq,
+>   				     struct device *alloc_devs[])
+>   {
+>   	struct omap_vout_device *vout = vb2_get_drv_priv(vq);
+> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
+>   	int size = vout->pix.sizeimage;
+>   
+> -	if (is_rotation_enabled(vout) && vq->num_buffers + *nbufs > VRFB_NUM_BUFS) {
+> -		*nbufs = VRFB_NUM_BUFS - vq->num_buffers;
+> +	if (is_rotation_enabled(vout) && q_num_bufs + *nbufs > VRFB_NUM_BUFS) {
+> +		*nbufs = VRFB_NUM_BUFS - q_num_bufs;
+>   		if (*nbufs == 0)
+>   			return -EINVAL;
+>   	}
 
