@@ -2,127 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 413027E6428
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 08:07:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EB3E7E6447
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 08:28:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231234AbjKIHHE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 02:07:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48108 "EHLO
+        id S232625AbjKIH2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 02:28:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59970 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229566AbjKIHHD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 02:07:03 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8E9D272C;
-        Wed,  8 Nov 2023 23:07:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699513622; x=1731049622;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=DeI+cOT9CYgPMo2FIwpsfa32fIwnYT4C1szKk53nofc=;
-  b=dEBrRCbI4poX2jIZpMbcEhf9oNz88nKC0xbsqtmNghj9MctvfFKc+Gxk
-   kCeembllXhoBch6GFmUGuBHgvog+sY3H+GD5GGp74sAJV6+1VThFFwNSF
-   5n+CUuxp5E3U2AVFAVSWyiS1oEF9d+9S/z1WWyGJxAUA2U52KMOLf6Qf3
-   wCxKdHaMXuw1RkBoUIN7lT5NZbzujIEH1uVtbvwUy/FEXzDMK41LdgKky
-   gfN34LxrRa9YGz/Qv7XXKDC0V4oZiz3/diXIBDXwOL5amGGe3qQCvGvNk
-   v4AyfzbeEAsI6AmosX7SLzQ7GaJy5KBt9x4j+QGI8ggLIiFPpN4xsXiJO
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="8579454"
-X-IronPort-AV: E=Sophos;i="6.03,288,1694761200"; 
-   d="scan'208";a="8579454"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2023 23:07:01 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10888"; a="833740023"
-X-IronPort-AV: E=Sophos;i="6.03,288,1694761200"; 
-   d="scan'208";a="833740023"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga004.fm.intel.com with ESMTP; 08 Nov 2023 23:06:56 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-        (envelope-from <lkp@intel.com>)
-        id 1r0z7t-0008Xw-38;
-        Thu, 09 Nov 2023 07:06:53 +0000
-Date:   Thu, 9 Nov 2023 15:06:03 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org
-Cc:     oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-        maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com,
-        Mehdi Djait <mehdi.djait@bootlin.com>
-Subject: Re: [PATCH v8 3/3] media: i2c: Introduce a driver for the Techwell
- TW9900 decoder
-Message-ID: <202311091458.0Mnol4EW-lkp@intel.com>
-References: <93354996c95926970684498f08061b60a52bb84c.1699449537.git.mehdi.djait@bootlin.com>
+        with ESMTP id S232521AbjKIH2r (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 02:28:47 -0500
+Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2812726
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 23:28:44 -0800 (PST)
+Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-53df747cfe5so786751a12.2
+        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 23:28:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1699514922; x=1700119722; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1ZGyCYYTcq3tfAOSXtV2/dw7L3jydVZ3P+lrWN5MQ7s=;
+        b=A5p2BVCmgcvEh+SNWcZmn/oFYCGeI3MxBZj2usP0awAyeOhLGCLnHVJqBWqCNvzOKS
+         pfBOaXKE7KNbaF7/YksY4aboWweSrKf0FtVv7oTBo9FN/HZkaELy2AnUO2EUPYkqkNws
+         LA7DLoXbUwL1sqiNM0AcIAxykwzpOY0VO2YwU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699514922; x=1700119722;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1ZGyCYYTcq3tfAOSXtV2/dw7L3jydVZ3P+lrWN5MQ7s=;
+        b=kNHkfALJ0uRTwnW/O9i2rntBdy8gG+nyn+ze+KHorSojIgnN2x8xM08DmB+zBMES8T
+         4XXVN5ejEYx7/0X3Loz97dHfDboLLHXEMnLaSxQQba9KmPPbRRmHFyLYUIFpPKhW/+z5
+         er+iiZUjQeK1IDa5MShOFEP7raC9xVcKjJoIjMNVRsM04FzGzQHGnZEBvkfAN2zITtkk
+         8E789sd2oydSSINwAdh2M4Rg0weBZHEfjAcM3SUc1pMtydRAn5D8a26xyM247PC+GrHO
+         0+q+SBqW9qNcDkqnZOPDulAKpXnQkKZf1GHYUStxHfGiXnXhKKWXBYK6VuVLJ0dqWSKN
+         02tg==
+X-Gm-Message-State: AOJu0Ywbp4x4bJl/+rkOl5UkjoGUzPw0JZcDsuR0OhEMWiwHwkxceyhP
+        aMGor5jdIUsOfrVjDV3cjn0speziijyCfUTw8D/Y4CN1
+X-Google-Smtp-Source: AGHT+IF2eLUdl36AtyGus+QkVg6ztgS2VMngepfGlSH5sfOXgQeNC2kYiADwimfLp5xdsteUWp6PTQ==
+X-Received: by 2002:a50:d5c4:0:b0:540:7e8:dd4f with SMTP id g4-20020a50d5c4000000b0054007e8dd4fmr3845302edj.20.1699514921830;
+        Wed, 08 Nov 2023 23:28:41 -0800 (PST)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
+        by smtp.gmail.com with ESMTPSA id b15-20020a50cccf000000b00542da55a716sm7878373edj.90.2023.11.08.23.28.40
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Nov 2023 23:28:41 -0800 (PST)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-32d895584f1so311379f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 23:28:40 -0800 (PST)
+X-Received: by 2002:adf:e311:0:b0:32c:ea14:89e5 with SMTP id
+ b17-20020adfe311000000b0032cea1489e5mr3220105wrj.39.1699514920620; Wed, 08
+ Nov 2023 23:28:40 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <93354996c95926970684498f08061b60a52bb84c.1699449537.git.mehdi.djait@bootlin.com>
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-53-benjamin.gaignard@collabora.com>
+ <20231108104439.oxpbbd2yro7u57t4@chromium.org> <e9eeac63-b4d5-4710-bb85-b0997dce55cc@collabora.com>
+In-Reply-To: <e9eeac63-b4d5-4710-bb85-b0997dce55cc@collabora.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Thu, 9 Nov 2023 16:28:20 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AH6x461-a2=2JmzUhW2pWacgwj1w3SZH1kfMBbsmaZ3A@mail.gmail.com>
+Message-ID: <CAAFQd5AH6x461-a2=2JmzUhW2pWacgwj1w3SZH1kfMBbsmaZ3A@mail.gmail.com>
+Subject: Re: [PATCH v14 52/56] media: core: Add bitmap manage bufs array entries
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc:     mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
+        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
+        gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
+        nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mehdi,
+On Thu, Nov 9, 2023 at 12:30=E2=80=AFAM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+>
+> Le 08/11/2023 =C3=A0 11:44, Tomasz Figa a =C3=A9crit :
+> > On Tue, Oct 31, 2023 at 05:31:00PM +0100, Benjamin Gaignard wrote:
+[snip]
+> >> @@ -1150,7 +1150,10 @@ static inline bool vb2_fileio_is_active(struct =
+vb2_queue *q)
+> >>    */
+> >>   static inline unsigned int vb2_get_num_buffers(struct vb2_queue *q)
+> >>   {
+> >> -    return q->num_buffers;
+> >> +    if (!q->bufs_bitmap)
+> >> +            return 0;
+> >> +
+> >> +    return bitmap_weight(q->bufs_bitmap, q->max_num_buffers);
+> > Hmm, could we just cache the number of buffers we have, so that we don'=
+t
+> > have to go over the entire bitmap every time? (Basically just keep the
+> > code that we had for handling q->num_buffers before this patch.)
+>
+> I would prefer no duplicate how the number of buffers in a queue is compu=
+ted
+> and bitmap offer helpers for that. Why not use it ?
+>
 
-kernel test robot noticed the following build warnings:
+bitmap_weight() can become costly when the number of buffers grows.
+Since it's easy to track how many buffers we add and remove, we could
+just cache that number and then any code could call
+vb2_get_num_buffers() whenever it needs the buffer count without
+caring how costly it is.
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next linuxtv-media-stage/master linus/master v6.6 next-20231109]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+> >
+> >>   }
+> >>
+> >>   /**
+> >> @@ -1253,13 +1256,13 @@ static inline void vb2_clear_last_buffer_deque=
+ued(struct vb2_queue *q)
+> >>   static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
+> >>                                              unsigned int index)
+> >>   {
+> >> -    if (!q->bufs)
+> >> +    if (!q->bufs_bitmap)
+> >>              return NULL;
+> >>
+> >>      if (index >=3D q->max_num_buffers)
+> >>              return NULL;
+> >>
+> >> -    if (index < q->num_buffers)
+> >> +    if (test_bit(index, q->bufs_bitmap))
+> > Aha, I see why we need the extra condition above now. Perhaps it should=
+'ve
+> > been added in this patch instead?
+>
+> For me it was more explicit do introduce it at the same time that
+> max_num_buffers field.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Mehdi-Djait/dt-bindings-vendor-prefixes-Add-techwell-vendor-prefix/20231109-042139
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/93354996c95926970684498f08061b60a52bb84c.1699449537.git.mehdi.djait%40bootlin.com
-patch subject: [PATCH v8 3/3] media: i2c: Introduce a driver for the Techwell TW9900 decoder
-config: nios2-allmodconfig (https://download.01.org/0day-ci/archive/20231109/202311091458.0Mnol4EW-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231109/202311091458.0Mnol4EW-lkp@intel.com/reproduce)
+Okay. I don't have a strong opinion, especially since it was just an
+intermediate patch.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311091458.0Mnol4EW-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
->> drivers/media/i2c/tw9900.c:359:12: warning: 'tw9900_runtime_suspend' defined but not used [-Wunused-function]
-     359 | static int tw9900_runtime_suspend(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/tw9900.c:350:12: warning: 'tw9900_runtime_resume' defined but not used [-Wunused-function]
-     350 | static int tw9900_runtime_resume(struct device *dev)
-         |            ^~~~~~~~~~~~~~~~~~~~~
-
-
-vim +/tw9900_runtime_suspend +359 drivers/media/i2c/tw9900.c
-
-   349	
- > 350	static int tw9900_runtime_resume(struct device *dev)
-   351	{
-   352		struct i2c_client *client = to_i2c_client(dev);
-   353		struct v4l2_subdev *sd = i2c_get_clientdata(client);
-   354		struct tw9900 *tw9900 = to_tw9900(sd);
-   355	
-   356		return tw9900_power_on(tw9900);
-   357	}
-   358	
- > 359	static int tw9900_runtime_suspend(struct device *dev)
-   360	{
-   361		struct i2c_client *client = to_i2c_client(dev);
-   362		struct v4l2_subdev *sd = i2c_get_clientdata(client);
-   363		struct tw9900 *tw9900 = to_tw9900(sd);
-   364	
-   365		tw9900_power_off(tw9900);
-   366	
-   367		return 0;
-   368	}
-   369	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best regards,
+Tomasz
