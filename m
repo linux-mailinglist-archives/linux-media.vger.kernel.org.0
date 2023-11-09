@@ -2,135 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 76C3B7E6FE7
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 18:12:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ADBDD7E6FF3
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 18:15:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234674AbjKIRMC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 12:12:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55900 "EHLO
+        id S1344364AbjKIRPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 12:15:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234652AbjKIRMB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 12:12:01 -0500
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B73D230D5
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 09:11:58 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9e4675c7a5fso184046266b.0
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 09:11:58 -0800 (PST)
+        with ESMTP id S234657AbjKIRO7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 12:14:59 -0500
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B57A330EA
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 09:14:57 -0800 (PST)
+Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-778940531dbso68718185a.0
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 09:14:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699549917; x=1700154717; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=VKup6gPLqadYBXO4b6NJZJ76nJs2bYooRO5/myvRzOE=;
-        b=cMydEhz7e1ZI03lDAh995x7QUUM/RCG+ac9EhtfionJyGErsqfjZnrJv6LUrNlsd4X
-         U6BOpkJGDpHrn47AAUaWmoDVwGMcF3HHikW/EKg9BkYsvpgbIgY7jzxkryceYQdOZz4o
-         76p+gepx3jQcQ4OlK/tEKG5tuwkeEkEDs/mAeoSZHvjG9nsAUyH5geEgoIp/5rYpx+zz
-         F0ZStE0nO33IgLsQBr3bkQVp/HGHx9QXRwvRwLxboUHEB3S7Lb5FqSCDYD9dC2MoPd1W
-         HGoljZNeDFuuGTZaUJeeCmuZiiBCb0NZrcq1IAv8nm+OC+T9HPzpkvM6A4i+py2ewuNG
-         ryFg==
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1699550097; x=1700154897; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=6Z8arH/L8dbgBy2K8H+HC60RfY1WMKLKdBsQeTpXgQI=;
+        b=dFueesu+Fku2jkuCwyHb/+JjjXApQO7bdJfsf3j1HpFHXe5DAYlCuMikO9RvFMHjGZ
+         OgojdW7TaYSs41AgZ0jynAVUIRwa5w2lRijsZGXcBfegrA9EsVDhNuqQPSTYViiajoT9
+         4EueS8qUwYOLMXMqC872JJo6kjO/3ypkEUiv4nLkkxl052lD3lfr5hc/9YD+K2jF9zsf
+         KKrqUig5YnLQQX1qeyvrrx3f6d6sZmBMI88ztyOfWNiX8humzz++UHVCEO54h7+BgJhI
+         vJKQRDOIczxI4j+6AVi5wWX8OgCJ9YmXVpLIkliDyWbtraYTtxo2SlF3JVdbAoNSkz0r
+         IXKA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699549917; x=1700154717;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VKup6gPLqadYBXO4b6NJZJ76nJs2bYooRO5/myvRzOE=;
-        b=ZlO+r/kkVg/EU+qjV1CN5voQjj4WXAA6KyXDhAUJ1Z9N3KMm0KEp1mF7mggtil8YDD
-         Mj0oVkaqmjH3zJ6JmfSUqVTtaCz+8K0QtFXe3AUnbkkDPU/Tr/F6UWjWmQu2FKZMcujY
-         0ACDO09IYqsCTNAia3F36nMBz+XX8i6qKH0TTH/gO9kEzAq4/vNCRDtZhTjtXsrfUR6m
-         fI9bHvBQy8ghcc4cTzBY/rqV3hbP/vnKZKuMPiuceFY4bbQtNN0SNdFWKvaPD3LJT9Mn
-         q1dchTRmjxENGnWx72orJ6CcED2i56kOo6XylvXf85Qz4Jej3voWcue/0erlgemnbTM6
-         7wkQ==
-X-Gm-Message-State: AOJu0Ywt9Jy4IjI8qn6FFADbUVnac03X7XWr9zo5wX6shJRIW6i2Wb8p
-        jQzCoIM+uqZ85i6BfPJ1M9SOgeTkFoboljnIaogGTA==
-X-Google-Smtp-Source: AGHT+IFNmTkUKTpurLhMr6Imw2D4ZQw7nrJTojquLN9XZrC0EJudf3CToSRmvMwGsl/XL3CximP5/Q==
-X-Received: by 2002:a17:906:fd85:b0:9c6:1143:b52 with SMTP id xa5-20020a170906fd8500b009c611430b52mr4953257ejb.55.1699549916987;
-        Thu, 09 Nov 2023 09:11:56 -0800 (PST)
-Received: from [192.168.100.102] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id u2-20020a7bcb02000000b004068e09a70bsm2634991wmj.31.2023.11.09.09.11.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 09:11:56 -0800 (PST)
-Message-ID: <1e99ddcc-db3b-4a79-a2d1-815bebb5a5c9@linaro.org>
-Date:   Thu, 9 Nov 2023 17:11:55 +0000
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/6] media: qcom: camss: csiphy-3ph: Add Gen2 v1.1
- two-phase MIPI CSI-2 DPHY init
-Content-Language: en-US
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
+        d=1e100.net; s=20230601; t=1699550097; x=1700154897;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=6Z8arH/L8dbgBy2K8H+HC60RfY1WMKLKdBsQeTpXgQI=;
+        b=nbMQSVHAP+J2ELGlVoh0kl4EaGCmcmlGhTwTY7exbcSZVqQ0bR0GAAidVpZsYPkxp/
+         kJpTjmV9knhEiLqwPKlSf7zRQKSgepxF+lsHslleyUVdWMbRH+bDzJCcIaCn1YTzHp+v
+         3r8IbcRLKVV/09g9BaSDMQ7pNUjHLS9Mj5ODT7ovAEl8EuR52DCXBKllhxtUMGRNYRcM
+         LwZpgukGeSM5JK0XovBqGPo4R9rTKIogSNXpO9qrB12LKgEQXlK/rQM2k7vBJ/GtwyLV
+         l6nghcIXc2O59GuMX77xFwHN1RjI9ye1EYDnRJQMDVszwskrTGpvc6+nzSC3m8D4Vz7S
+         Gu4Q==
+X-Gm-Message-State: AOJu0YyHtlGyXACGeB10GMRMx6ptMRArXiq+gC538dc7RL38sRt6xLrM
+        sWfedubtEO/12wVi74GZrB3yDPI2pc6dO8QKx88YMw==
+X-Google-Smtp-Source: AGHT+IHk0n0eRBECeJL4V3CQV/YSwTJA0WV6rOAi2qVWDwbsxMkM1rm/tlV9wSVWqrrPcgEnKL7yxQ==
+X-Received: by 2002:ae9:e214:0:b0:777:617d:5f6b with SMTP id c20-20020ae9e214000000b00777617d5f6bmr5042051qkc.36.1699550096816;
+        Thu, 09 Nov 2023 09:14:56 -0800 (PST)
+Received: from ?IPv6:2606:6d00:17:6dc0::c73? ([2606:6d00:17:6dc0::c73])
+        by smtp.gmail.com with ESMTPSA id d27-20020a05620a137b00b00772662b7804sm34891qkl.100.2023.11.09.09.14.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Nov 2023 09:14:56 -0800 (PST)
+Message-ID: <74c95ceb6c8554fb850ce79d6c75b1ca5a6b2514.camel@ndufresne.ca>
+Subject: Re: [PATCH v8 00/12] add support MDP3 on MT8195 platform
+From:   nicolas@ndufresne.ca
+To:     AngeloGioacchino Del Regno 
+        <angelogioacchino.delregno@collabora.com>,
+        Moudy Ho <moudy.ho@mediatek.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
-        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
- <20231109-b4-camss-sc8280xp-v4-3-58a58bc200f9@linaro.org>
- <0e325a57-f07d-47e6-8456-523cfa04c52b@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <0e325a57-f07d-47e6-8456-523cfa04c52b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org
+Date:   Thu, 09 Nov 2023 12:14:55 -0500
+In-Reply-To: <813b3a54-f973-410f-950b-d99f6e563f1f@collabora.com>
+References: <20231030100626.12564-1-moudy.ho@mediatek.com>
+         <813b3a54-f973-410f-950b-d99f6e563f1f@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+MIME-Version: 1.0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/11/2023 13:55, Konrad Dybcio wrote:
-> 
-> 
-> On 11/9/23 12:30, Bryan O'Donoghue wrote:
->> Add a PHY configuration sequence for the sc8280xp which uses a Qualcomm
->> Gen 2 version 1.1 CSI-2 PHY.
->>
->> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
->> mode. This configuration supports two-phase D-PHY mode.
->>
->> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> ---
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> 
-> Aside from initialization, looks like the reset seq should be more
-> complex:
-> 
-> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_1_hwreg.h?ref_type=tags#L39-45
-> 
-> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/cam_csiphy_core.c#L133-154
-> 
-> similarly for the "common regs" that seem to extend the init seq
-> 
-> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/cam_csiphy_core.c#L491-527
-> 
-> Konrad
+Hi Angelo,
 
-So..
+Le lundi 06 novembre 2023 =C3=A0 13:45 +0100, AngeloGioacchino Del Regno a
+=C3=A9crit=C2=A0:
+> Il 30/10/23 11:06, Moudy Ho ha scritto:
+> > Changes since v7:
+> > - Rebase on linux-next.
+> > - Dependent dtsi files:
+> >    https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D7=
+97543
+> > - Dependent bindings:
+> >    https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D7=
+97555
+> > - Patch [9/12] has made corresponding adjustments in response to the ch=
+anges in
+> >    the compatible name of the PAD component in DTSI and binding.
+> > - Adding WROT compatible name in the MDP driver's of_match_table in [9/=
+12] to
+> >    avoid deactivating 'pm_runtime_*' functions.
+> >=20
+>=20
+> On MT8195 Cherry Tomato Chromebook, whole series is
+>=20
+> Tested-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabor=
+a.com>
 
-https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_1_hwreg.h?ref_type=tags#L39
+Would you mind dropping a short description of what your test consist ?
+Which userspace have been used, did you cover all the pixel formats
+combination ? Did you test scaling, rotation, etc. ?
 
-static struct csiphy_reg_t csiphy_reset_reg_1_1[] = {
-	{0x0814, 0x00, 0x05, CSIPHY_LANE_ENABLE}, // this is interesting
-                                                   // powers off lanemask
-                                                   // seems like a good
-                                                   // idea to me
-	{0x0818, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, [1]
-	{0x081C, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, [2]
-	{0x0800, 0x01, 0x01, CSIPHY_DEFAULT_PARAMS}, // this we already
-	{0x0800, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, // do right now
-};
+Nicolas
 
-[1] [2] I don't see why you need that and I'd imagine the reset drives 
-these values to zero anyway.. it should as I read the reg docs, I'd 
-guess this is a reset sequence that comes out of a Si test bench.
+>=20
+> > Changes since v6:
+> > - Rebase on v6.6-rc5.
+> > - Dependent dtsi files:
+> >    https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D7=
+92079
+> > - Dependent bindings:
+> >    https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D7=
+92477
+> > - Move the patch that fixes compile warnings from this series and
+> >    create a separate standalone patch.
+> >=20
+> > Changes since v5:
+> > - Rebase on v6.6-rc2.
+> > - Dependent dtsi files:
+> >    https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D7=
+86511
+> > - Dependent bindings:
+> >    https://patchwork.kernel.org/project/linux-mediatek/list/?series=3D7=
+86520
+> > - Integrate MMSY/MUTEX structure in "mdp_probe".
+> > - Fix the build warnings that were detected by the linux-media
+> >    build scripts tool.
+> >=20
+> > Changes since v4:
+> > - Rebase on v6.6-rc1
+> > - Remove any unnecessary DTS settings.
+> > - Adjust the usage of MOD and clock in blending components.
+> >=20
+> > Changes since v3:
+> > - Depend on :
+> >    [1] https://patchwork.kernel.org/project/linux-media/list/?series=3D=
+719841
+> > - Suggested by Krzysztof, integrating all newly added bindings for
+> >    the mt8195 MDP3 into the file "mediatek,mt8195-mdp3.yaml".
+> > - Revise MDP3 nodes with generic names.
+> >=20
+> > Changes since v2:
+> > - Depend on :
+> >    [1] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek=
+/list/?series=3D711592
+> >    [2] MDP3: https://patchwork.kernel.org/project/linux-mediatek/list/?=
+series=3D711618
+> > - Suggested by Rob to revise MDP3 bindings to pass dtbs check
+> > - Add parallel paths feature.
+> > - Add blended components settings.
+> >=20
+> > Changes since v1:
+> > - Depend on :
+> >    [1] MDP3 : https://patchwork.kernel.org/project/linux-mediatek/list/=
+?series=3D698872
+> >    [2] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek=
+/list/?series=3D684959
+> > - Fix compilation failure due to use of undeclared identifier in file "=
+mtk-mdp3-cmdq.c"
+> >=20
+> > Hello,
+> >=20
+> > This patch is used to add support for MDP3 on the MT8195 platform that
+> > contains more picture quality components, and can arrange more pipeline=
+s
+> > through two sets of MMSYS and MUTEX respectively.
+> >=20
+> > Moudy Ho (12):
+> >    media: platform: mtk-mdp3: add support second sets of MMSYS
+> >    media: platform: mtk-mdp3: add support second sets of MUTEX
+> >    media: platform: mtk-mdp3: introduce more pipelines from MT8195
+> >    media: platform: mtk-mdp3: introduce more MDP3 components
+> >    media: platform: mtk-mdp3: add checks for dummy components
+> >    media: platform: mtk-mdp3: avoid multiple driver registrations
+> >    media: platform: mtk-mdp3: extend GCE event waiting in RDMA and WROT
+> >    media: platform: mtk-mdp3: add support for blending multiple
+> >      components
+> >    media: platform: mtk-mdp3: add mt8195 platform configuration
+> >    media: platform: mtk-mdp3: add mt8195 shared memory configurations
+> >    media: platform: mtk-mdp3: add mt8195 MDP3 component settings
+> >    media: platform: mtk-mdp3: add support for parallel pipe to improve
+> >      FPS
+> >=20
+> >   .../platform/mediatek/mdp3/mdp_cfg_data.c     | 729 +++++++++++++-
+> >   .../platform/mediatek/mdp3/mdp_reg_aal.h      |  25 +
+> >   .../platform/mediatek/mdp3/mdp_reg_color.h    |  31 +
+> >   .../media/platform/mediatek/mdp3/mdp_reg_fg.h |  23 +
+> >   .../platform/mediatek/mdp3/mdp_reg_hdr.h      |  31 +
+> >   .../platform/mediatek/mdp3/mdp_reg_merge.h    |  25 +
+> >   .../platform/mediatek/mdp3/mdp_reg_ovl.h      |  25 +
+> >   .../platform/mediatek/mdp3/mdp_reg_pad.h      |  21 +
+> >   .../platform/mediatek/mdp3/mdp_reg_rdma.h     |  24 +
+> >   .../platform/mediatek/mdp3/mdp_reg_rsz.h      |   2 +
+> >   .../platform/mediatek/mdp3/mdp_reg_tdshp.h    |  34 +
+> >   .../platform/mediatek/mdp3/mdp_reg_wrot.h     |   8 +
+> >   .../platform/mediatek/mdp3/mdp_sm_mt8195.h    | 283 ++++++
+> >   .../platform/mediatek/mdp3/mtk-img-ipi.h      |   4 +
+> >   .../platform/mediatek/mdp3/mtk-mdp3-cfg.h     |   2 +
+> >   .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 440 +++++++--
+> >   .../platform/mediatek/mdp3/mtk-mdp3-cmdq.h    |   1 +
+> >   .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 895 +++++++++++++++++=
+-
+> >   .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  93 +-
+> >   .../platform/mediatek/mdp3/mtk-mdp3-core.c    | 139 ++-
+> >   .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  50 +-
+> >   .../platform/mediatek/mdp3/mtk-mdp3-m2m.c     |  15 +
+> >   .../platform/mediatek/mdp3/mtk-mdp3-regs.c    |  18 +
+> >   .../platform/mediatek/mdp3/mtk-mdp3-regs.h    |   1 +
+> >   .../platform/mediatek/mdp3/mtk-mdp3-vpu.c     |   3 +-
+> >   25 files changed, 2744 insertions(+), 178 deletions(-)
+> >   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_aal.h
+> >   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_color=
+.h
+> >   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_fg.h
+> >   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_hdr.h
+> >   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_merge=
+.h
+> >   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_ovl.h
+> >   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_pad.h
+> >   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_tdshp=
+.h
+> >   create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_sm_mt8195=
+.h
+> >=20
+>=20
 
-The 0x814 warrants an investigation - i.e. can we add it across 
-platforms without breaking existing setups.
-
-I'll kick that to a separate - one LOC "series", so we can take our time 
-validating if it has any unexpected side-effects across our various 
-platforms.
-
----
-bod
