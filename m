@@ -2,91 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A0027E6697
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 10:23:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EDFE7E66BC
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 10:29:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231199AbjKIJXK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 04:23:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36120 "EHLO
+        id S229600AbjKIJ3J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 04:29:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229509AbjKIJXJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 04:23:09 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC472139;
-        Thu,  9 Nov 2023 01:23:07 -0800 (PST)
-Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
-        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id CA8AD6607410;
-        Thu,  9 Nov 2023 09:23:04 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1699521786;
-        bh=79QW7iQquBnwYm14N3AIvehKWVXP1fEi05nVMlo3R2M=;
-        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=d7i3viPTau1TXKkUDV057Kz7FIJc20TwGqpUXPN+RkCqA1YQ3Tm6xQQbJTKXbrGk7
-         vDybVoh3QyJP++z4JQrE7N5ofEZhnFMCP4NPewB8oI6+6QvA2gEWidVxXZh0YackUg
-         d3SkTIWIUe3tGLxgwnFadAiSuq0bRQVUQ6OjhZz/JbKfsaUuA4aRa7fhSu4PkrAdP9
-         uMZsnimIy3G6B/BMeub95Bk+EN7LtM8m6Q/iKTrnobb2jkAeue+VYticlFOdZlx3Sk
-         EGMRuhtS2jn2RN2fJRVWJcyHl7TTombrj3pnJKbUtEHRzuJHDRwWbUW2o+jefxNNVw
-         wjGXQQbgfVWrg==
-Message-ID: <aca318c9-8d6d-4c04-afdf-8eacb80f79d8@collabora.com>
-Date:   Thu, 9 Nov 2023 10:23:04 +0100
+        with ESMTP id S229509AbjKIJ3I (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 04:29:08 -0500
+Received: from szxga08-in.huawei.com (szxga08-in.huawei.com [45.249.212.255])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29F012590;
+        Thu,  9 Nov 2023 01:29:06 -0800 (PST)
+Received: from dggpemm500005.china.huawei.com (unknown [172.30.72.57])
+        by szxga08-in.huawei.com (SkyGuard) with ESMTP id 4SQxQS1bmVz1P86p;
+        Thu,  9 Nov 2023 17:25:52 +0800 (CST)
+Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
+ (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.31; Thu, 9 Nov
+ 2023 17:29:01 +0800
+Subject: Re: [RFC PATCH v3 04/12] netdev: support binding dma-buf to netdevice
+To:     Mina Almasry <almasrymina@google.com>
+CC:     <netdev@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arch@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Ahern <dsahern@kernel.org>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jeroen de Borst <jeroendb@google.com>,
+        Praveen Kaligineedi <pkaligineedi@google.com>,
+        Willem de Bruijn <willemb@google.com>,
+        Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-5-almasrymina@google.com>
+ <1fee982f-1e96-4ae8-ede0-7e57bf84c5f7@huawei.com>
+ <CAHS8izPV3isMWyjFnr7bJDDPANg-zm_M=UbHyuhYWv1Viy7fRw@mail.gmail.com>
+ <c1b689bd-a05b-85e9-0ce4-7264c818c2dc@huawei.com>
+ <CAHS8izMXkaGE_jqYJJk9KpfxWEYDu95XAJNqajws57QWV2yRJQ@mail.gmail.com>
+From:   Yunsheng Lin <linyunsheng@huawei.com>
+Message-ID: <80b4022f-45d1-03e9-56e1-e797c0107786@huawei.com>
+Date:   Thu, 9 Nov 2023 17:29:01 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
+ Thunderbird/52.2.0
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 13/56] media: mediatek: vcodec: Stop direct calls to
- queue num_buffers field
+In-Reply-To: <CAHS8izMXkaGE_jqYJJk9KpfxWEYDu95XAJNqajws57QWV2yRJQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
-        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
-        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
-        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com, Bin Liu <bin.liu@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>
-References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
- <20231031163104.112469-14-benjamin.gaignard@collabora.com>
-From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20231031163104.112469-14-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
+X-Originating-IP: [10.69.30.204]
+X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
+ dggpemm500005.china.huawei.com (7.185.36.74)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sorry for the noise, I made a typo in my email address. Resending with a proper one.
-
-W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
-> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
-> This allows us to change how the number of buffers is computed in the
-> future.
+On 2023/11/9 10:22, Mina Almasry wrote:
+> On Tue, Nov 7, 2023 at 7:40 PM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>
+>> On 2023/11/8 5:59, Mina Almasry wrote:
+>>> On Mon, Nov 6, 2023 at 11:46 PM Yunsheng Lin <linyunsheng@huawei.com> wrote:
+>>>>
+>>>> On 2023/11/6 10:44, Mina Almasry wrote:
+>>>>> +
+>>>>> +void __netdev_devmem_binding_free(struct netdev_dmabuf_binding *binding)
+>>>>> +{
+>>>>> +     size_t size, avail;
+>>>>> +
+>>>>> +     gen_pool_for_each_chunk(binding->chunk_pool,
+>>>>> +                             netdev_devmem_free_chunk_owner, NULL);
+>>>>> +
+>>>>> +     size = gen_pool_size(binding->chunk_pool);
+>>>>> +     avail = gen_pool_avail(binding->chunk_pool);
+>>>>> +
+>>>>> +     if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+>>>>> +               size, avail))
+>>>>> +             gen_pool_destroy(binding->chunk_pool);
+>>>>
+>>>>
+>>>> Is there any other place calling the gen_pool_destroy() when the above
+>>>> warning is triggered? Do we have a leaking for binding->chunk_pool?
+>>>>
+>>>
+>>> gen_pool_destroy BUG_ON() if it's not empty at the time of destroying.
+>>> Technically that should never happen, because
+>>> __netdev_devmem_binding_free() should only be called when the refcount
+>>> hits 0, so all the chunks have been freed back to the gen_pool. But,
+>>> just in case, I don't want to crash the server just because I'm
+>>> leaking a chunk... this is a bit of defensive programming that is
+>>> typically frowned upon, but the behavior of gen_pool is so severe I
+>>> think the WARN() + check is warranted here.
+>>
+>> It seems it is pretty normal for the above to happen nowadays because of
+>> retransmits timeouts, NAPI defer schemes mentioned below:
+>>
+>> https://lkml.kernel.org/netdev/168269854650.2191653.8465259808498269815.stgit@firesoul/
+>>
+>> And currently page pool core handles that by using a workqueue.
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-
-Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-
-> CC: Bin Liu <bin.liu@mediatek.com>
-> CC: Matthias Brugger <matthias.bgg@gmail.com>
-> ---
->   drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> Forgive me but I'm not understanding the concern here.
 > 
-> diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-> index eb381fa6e7d1..181884e798fd 100644
-> --- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-> +++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-> @@ -912,7 +912,7 @@ static int vb2ops_venc_start_streaming(struct vb2_queue *q, unsigned int count)
->   	return 0;
->   
->   err_start_stream:
-> -	for (i = 0; i < q->num_buffers; ++i) {
-> +	for (i = 0; i < vb2_get_num_buffers(q); ++i) {
->   		struct vb2_buffer *buf = vb2_get_buffer(q, i);
->   
->   		/*
+> __netdev_devmem_binding_free() is called when binding->ref hits 0.
+> 
+> binding->ref is incremented when an iov slice of the dma-buf is
+> allocated, and decremented when an iov is freed. So,
+> __netdev_devmem_binding_free() can't really be called unless all the
+> iovs have been freed, and gen_pool_size() == gen_pool_avail(),
+> regardless of what's happening on the page_pool side of things, right?
 
+I seems to misunderstand it. In that case, it seems to be about
+defensive programming like other checking.
+
+By looking at it more closely, it seems napi_frag_unref() call
+page_pool_page_put_many() directly， which means devmem seems to
+be bypassing the napi_safe optimization.
+
+Can napi_frag_unref() reuse napi_pp_put_page() in order to reuse
+the napi_safe optimization?
+
+> 
