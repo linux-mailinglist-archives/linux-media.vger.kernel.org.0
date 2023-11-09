@@ -2,71 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 64B917E7218
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 20:16:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68AC27E7245
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 20:24:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229838AbjKITQ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 14:16:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56932 "EHLO
+        id S1344704AbjKITYs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 14:24:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54196 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbjKITQ7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 14:16:59 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF13A3C11
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 11:16:56 -0800 (PST)
-Received: from mz550.lan (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        (Authenticated sender: dbrouwer)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 6B760660741F;
-        Thu,  9 Nov 2023 19:16:54 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1699557415;
-        bh=dofLS0gFGOBVu+WKJmcrmo80Yvh+fogrDGkImFHAEy4=;
-        h=From:To:Cc:Subject:Date:From;
-        b=dowxBczRZD4cwcYgf5fxEUEK9zoNwZ1bkHwiuDWeH/tOVEulPznnR+6q3MGXVzfR7
-         ZH443zGzR4g7FPAi7mdw4xgLVZHrlFAKk1uUysSP1S3tPVYN89WLOaH+K/X0zS64Tb
-         FEbBgqb8Bxhx2epcqlz5kMH1zEM8gIU/o/PSv2SDIgqs+/KLosiIo4Z3kHwA2VvwTC
-         w5gUgyAibuDZBcQqyW/SWgD2u4bnIalGWLmYftjlKFK3x977Id3xp9tpHETTSE+QuM
-         sH3nqiF6ahcK9WR61zWftVSR1z3I+/vQgWMyprEhg25j596/RGX+sumKPJ4hkdfPHz
-         t/hBodCAZ3wKg==
-From:   Deborah Brouwer <deborah.brouwer@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     hverkuil-cisco@xs4all.nl,
-        Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH] media: v4l2-mem2mem.h: fix typo in comment
-Date:   Thu,  9 Nov 2023 11:16:43 -0800
-Message-ID: <20231109191643.28562-1-deborah.brouwer@collabora.com>
-X-Mailer: git-send-email 2.41.0
+        with ESMTP id S230119AbjKITYr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 14:24:47 -0500
+Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 882093C17
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 11:24:45 -0800 (PST)
+Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-40836ea8cbaso8451875e9.0
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 11:24:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699557884; x=1700162684; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=l1CJqeZ8u7eaD4Q/icHyhIHN2vLT3h3xpvRo3vUPhJI=;
+        b=U7WLsYJFwFsCsJMq5C4u34AUFHM4ajgWIHUo1upHZTe3crLKA4SIwekPvzJJSWtPSN
+         HIQT9EQNuLHLpmpU/JBUUtRyNPIqkU8NTzXTdDDUBbhG/DDkEibMfNGnmmmjT2aCO/kI
+         UW61bP426YTlKNwgywHex1V+QtFhfvUPAnPssoOopRumx6phBa9+DzmeXQ+wx/a0kVrx
+         K6+un3WZfZLz6t0v/5m3T9QsE2mXcUcIEQaBO0QTj+2FaVINQXtYyCvl/g10Nj8oEwog
+         s0p4xM/bFSJYNBGwU+Pj4hz/0BqNVEufFJ0aQl8vLEp4Byics5+/161odwkMh/21N2UW
+         3BDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699557884; x=1700162684;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l1CJqeZ8u7eaD4Q/icHyhIHN2vLT3h3xpvRo3vUPhJI=;
+        b=wxgDx1PYtnsqXxQUJ3XfSGc1OQ0UAKNQgFTe2Oh4Ywhvfh79Yw9zGPGSYntPLZiESQ
+         jgVqm7DTnq5aIbU3vei5nxhcwNGkHwwbs2VuNJueyH2r7n7y9XESBeLssEz1xmnbKXHc
+         7Ofr4GuLOTN+KVJ1LtCs6ve/Gd8IMaYZz4sv7+0U5wT+/38lVV+3VY9/QqHQYsQkYCah
+         22Rzv3F1KdNZUCYtE3u8eLxdCYXaJRLNz3QcOPQAbImR6fd4xGGO3nutSgYedvSQr9nC
+         zxMt+D9fSyfw0J1nJeGSAzUUb41fWIo1NQoPxeKDS5LnsQxvLoN9Agjz3RvILsMQACaQ
+         o30w==
+X-Gm-Message-State: AOJu0YwG4EaxtsS1xta2wKleyTBsVSe0jBQzQyNNHpZ+sfwBms4KOh89
+        ogOrn1cWbU5Uml+8c1j6KHvP9g==
+X-Google-Smtp-Source: AGHT+IF/BLKulO6qnWwr/aMbGCtJwiiTSp3nZlhJ8ghABo6m4xXeqoIy0WP2LNWq5jaUk7wkGbi3dg==
+X-Received: by 2002:a05:600c:450d:b0:402:f55c:faee with SMTP id t13-20020a05600c450d00b00402f55cfaeemr5287667wmo.26.1699557883893;
+        Thu, 09 Nov 2023 11:24:43 -0800 (PST)
+Received: from [10.66.66.2] (9.ip-51-91-159.eu. [51.91.159.9])
+        by smtp.gmail.com with ESMTPSA id p8-20020a05600c430800b00405d9a950a2sm2903833wme.28.2023.11.09.11.24.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 11:24:43 -0800 (PST)
+Message-ID: <4f56327d-abe1-44fa-8979-17edf86cd406@linaro.org>
+Date:   Thu, 9 Nov 2023 20:24:39 +0100
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/6] media: qcom: camss: csiphy-3ph: Add Gen2 v1.1
+ two-phase MIPI CSI-2 DPHY init
+To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
+        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
+ <20231109-b4-camss-sc8280xp-v4-3-58a58bc200f9@linaro.org>
+ <0e325a57-f07d-47e6-8456-523cfa04c52b@linaro.org>
+ <1e99ddcc-db3b-4a79-a2d1-815bebb5a5c9@linaro.org>
+Content-Language: en-US
+From:   Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <1e99ddcc-db3b-4a79-a2d1-815bebb5a5c9@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The comment describing the function v4l2_m2m_last_src_buf() says that this
-function returns the last destination buffer when it actually returns the
-last source buffer. Fix the comment so that it is accurate.
 
-Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
----
- include/media/v4l2-mem2mem.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/media/v4l2-mem2mem.h b/include/media/v4l2-mem2mem.h
-index d6c8eb2b5201..1e4cb65236a3 100644
---- a/include/media/v4l2-mem2mem.h
-+++ b/include/media/v4l2-mem2mem.h
-@@ -661,7 +661,7 @@ v4l2_m2m_next_dst_buf(struct v4l2_m2m_ctx *m2m_ctx)
- struct vb2_v4l2_buffer *v4l2_m2m_last_buf(struct v4l2_m2m_queue_ctx *q_ctx);
- 
- /**
-- * v4l2_m2m_last_src_buf() - return last destination buffer from the list of
-+ * v4l2_m2m_last_src_buf() - return last source buffer from the list of
-  * ready buffers
-  *
-  * @m2m_ctx: m2m context assigned to the instance given by struct &v4l2_m2m_ctx
--- 
-2.41.0
+On 11/9/23 18:11, Bryan O'Donoghue wrote:
+> On 09/11/2023 13:55, Konrad Dybcio wrote:
+>>
+>>
+>> On 11/9/23 12:30, Bryan O'Donoghue wrote:
+>>> Add a PHY configuration sequence for the sc8280xp which uses a Qualcomm
+>>> Gen 2 version 1.1 CSI-2 PHY.
+>>>
+>>> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
+>>> mode. This configuration supports two-phase D-PHY mode.
+>>>
+>>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>> ---
+>> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+>>
+>> Aside from initialization, looks like the reset seq should be more
+>> complex:
+>>
+>> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_1_hwreg.h?ref_type=tags#L39-45
+>>
+>> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/cam_csiphy_core.c#L133-154
+>>
+>> similarly for the "common regs" that seem to extend the init seq
+>>
+>> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/cam_csiphy_core.c#L491-527
+>>
+>> Konrad
+> 
+> So..
+> 
+> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_1_hwreg.h?ref_type=tags#L39
+> 
+> static struct csiphy_reg_t csiphy_reset_reg_1_1[] = {
+>      {0x0814, 0x00, 0x05, CSIPHY_LANE_ENABLE}, // this is interesting
+>                                                    // powers off lanemask
+>                                                    // seems like a good
+>                                                    // idea to me
+>      {0x0818, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, [1]
+>      {0x081C, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, [2]
+>      {0x0800, 0x01, 0x01, CSIPHY_DEFAULT_PARAMS}, // this we already
+>      {0x0800, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, // do right now
+> };
+> 
+> [1] [2] I don't see why you need that and I'd imagine the reset drives these values to zero anyway.. it should as I read the reg docs, I'd guess this is a reset sequence that comes out of a Si test bench.
+Since it's there on shipped devices, I'd skew towards including it, maybe some
+chips with this block had an erratum wrt the reset value
 
+
+> 
+> The 0x814 warrants an investigation - i.e. can we add it across platforms without breaking existing setups.
+> 
+> I'll kick that to a separate - one LOC "series", so we can take our time validating if it has any unexpected side-effects across our various platforms.
+Sure, that's what I had in mind
+
+Konrad
