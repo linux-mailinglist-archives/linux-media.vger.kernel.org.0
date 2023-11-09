@@ -2,169 +2,304 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id CB8287E7133
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 19:07:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EFA27E715D
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 19:25:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344963AbjKISHe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 13:07:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34610 "EHLO
+        id S1344979AbjKISZY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 13:25:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55904 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344959AbjKISHd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 13:07:33 -0500
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EABD3AA9;
-        Thu,  9 Nov 2023 10:07:30 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 1D407FF806;
-        Thu,  9 Nov 2023 18:07:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1699553248;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=9OAy7O2pDM0Q2lNPrJvA1RTrYu+NHPhFDgK9JaSNblI=;
-        b=P69XAWubg7xOLRSNWxmEnBgjZLTzexfhp+VS1f8A3gtIXVp/bEgGmbiw75e0pNGymQsLIG
-        JrEaDaG1cN3LyAPU1VJ0yxrefc6LhQUeAN5BCUM4j9db6XDfeL1CkksToePmmc7NMkA1Q8
-        NZ3YRBjuXHWZwlYAj9YVKKw6bIqC1Q+Aqy+1SA0E5aY4NgO45CytezfCaLfH3xQ81CbtLs
-        i4qGbIp7iCyazjFSN7ahxX0ocobomYhEls74JJLDz2Pp2/u95g+BlCHFQbhUNISRy8r6bx
-        sbpULUC10Wb7LYuA6R0J5R2OKF0/9wu1WVU0Vslb7JTQqPo4gWw5j4rd78I1EQ==
-Date:   Thu, 9 Nov 2023 19:07:27 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc:     Conor Dooley <conor@kernel.org>,
-        Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-        conor+dt@kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-        maxime.chevallier@bootlin.com, michael.riesch@wolfvision.net
-Subject: Re: [PATCH v10 1/3] media: dt-bindings: media: add bindings for
- Rockchip CIF
-Message-ID: <ZU0f33clFwlsTw16@aptenodytes>
-References: <cover.1699460637.git.mehdi.djait@bootlin.com>
- <037bcabf97294d37b271537e4b11fb88cf9bb6f6.1699460637.git.mehdi.djait@bootlin.com>
- <20231109-closable-superglue-5e7f39739cf1@spud>
- <ZU0avuRRaITV4jws@aptenodytes>
- <e5b1f0dd-0aab-4ce5-82ba-879a4d736e7e@linaro.org>
+        with ESMTP id S1344938AbjKISZX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 13:25:23 -0500
+X-Greylist: delayed 2405 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 09 Nov 2023 10:25:20 PST
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [167.172.40.54])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03E2F30CF;
+        Thu,  9 Nov 2023 10:25:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1699554306;
+ bh=REf0fnXMpg4PsdF4s5vHOGAS2ALbXsSawZYVFeBAIWw=;
+ b=L3yHgEoPHvb+UC0Twvtp1BFX0wjRRyeb8nc1F5cMGHdA0rNNC2yMqn6ZrcMCeaxcxjs6bIqJn
+ 2cElCDXxeMVfIT4OlKBwiOoR2Du9rHm0Qa1sOEaGzwXQgNGYnzFIg+P2HoU0E4X7Mu9zWdtF3ol
+ KH2RWDCvCgF9NT1Teqx3TemnbusP3aDwXJd3hUx4HzjKPHdlcb0I0qUl4F3MDWGnjM6coqmYfo3
+ eYVKNRPWLMak0YrfosPdPNjmZThcLkTsRcgAYtGbcihZNPpx/qILcbVUT0eegjzu/s5uwUg+43A
+ Z4bUUd0PflfQVZd0WQr0MY2EP6fSMQTMHTdOMgzhLGEA==
+Message-ID: <cf43fbef-ba37-4ca5-a45c-36d657b11141@kwiboo.se>
+Date:   Thu, 9 Nov 2023 19:25:00 +0100
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="Mob4Dz8HybFSM/IA"
-Content-Disposition: inline
-In-Reply-To: <e5b1f0dd-0aab-4ce5-82ba-879a4d736e7e@linaro.org>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 11/11] media: rkvdec: h264: Support High 10 and 4:2:2
+ profiles
+Content-Language: en-US
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+Cc:     Alex Bee <knaerzche@gmail.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Christopher Obbard <chris.obbard@collabora.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+References: <20231105165521.3592037-1-jonas@kwiboo.se>
+ <20231105165521.3592037-12-jonas@kwiboo.se>
+ <cef435872095e95e132eb9902040fa5af22c685f.camel@collabora.com>
+From:   Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <cef435872095e95e132eb9902040fa5af22c685f.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 167.172.40.54
+X-ForwardEmail-ID: 654d2401b32fff32884ed570
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 2023-11-08 03:20, Nicolas Dufresne wrote:
+> Le dimanche 05 novembre 2023 à 16:55 +0000, Jonas Karlman a écrit :
+>> Add support and enable decoding of H264 High 10 and 4:2:2 profiles.
+>>
+>> Decoded CAPTURE buffer width is aligned to 64 pixels to accommodate HW
+>> requirement of 10-bit format buffers, fixes decoding of:
+>>
+>> - Hi422FR13_SONY_A
+>> - Hi422FR14_SONY_A
+>> - Hi422FR15_SONY_A
+>> - Hi422FR6_SONY_A
+>> - Hi422FR7_SONY_A
+>> - Hi422FR8_SONY_A
+>> - Hi422FR9_SONY_A
+>> - Hi422FREXT18_SONY_A
+>>
+>> The get_image_fmt() ops is implemented to select an image format
+>> required for the provided SPS control.
+>>
+>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+>> ---
+>> v4:
+>> - Change to use get_image_fmt() ops
+>>
+>> v3:
+>> - Add get_fmt_opaque ops, the expected pixelformat is used as opaque
+>> - Add new valid_fmt ops that validate pixelformat matches opaque
+>> - Update H264_PROFILE control max value
+>>
+>>  drivers/staging/media/rkvdec/rkvdec-h264.c | 37 ++++++++++++++++------
+>>  drivers/staging/media/rkvdec/rkvdec.c      | 33 +++++++++++++++----
+>>  drivers/staging/media/rkvdec/rkvdec.h      |  3 ++
+>>  3 files changed, 57 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>> index 815d5359ddd5..baac6d012ddd 100644
+>> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
+>> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
+>> @@ -1027,24 +1027,42 @@ static int rkvdec_h264_adjust_fmt(struct rkvdec_ctx *ctx,
+>>  	return 0;
+>>  }
+>>  
+>> +static enum rkvdec_image_fmt rkvdec_h264_get_image_fmt(struct rkvdec_ctx *ctx,
+>> +						       struct v4l2_ctrl *ctrl)
+>> +{
+>> +	const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
+>> +
+>> +	if (ctrl->id != V4L2_CID_STATELESS_H264_SPS)
+>> +		return RKVDEC_IMG_FMT_ANY;
+>> +
+>> +	if (sps->bit_depth_luma_minus8 == 0) {
+>> +		if (sps->chroma_format_idc == 2)
+>> +			return RKVDEC_IMG_FMT_422_8BIT;
+>> +		else
+>> +			return RKVDEC_IMG_FMT_420_8BIT;
+>> +	} else if (sps->bit_depth_luma_minus8 == 2) {
+>> +		if (sps->chroma_format_idc == 2)
+>> +			return RKVDEC_IMG_FMT_422_10BIT;
+>> +		else
+>> +			return RKVDEC_IMG_FMT_420_10BIT;
+>> +	}
+>> +
+>> +	return RKVDEC_IMG_FMT_ANY;
+>> +}
+>> +
+>>  static int rkvdec_h264_validate_sps(struct rkvdec_ctx *ctx,
+>>  				    const struct v4l2_ctrl_h264_sps *sps)
+>>  {
+>>  	unsigned int width, height;
+>>  
+>> -	/*
+>> -	 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
+>> -	 * but it's currently broken in the driver.
+>> -	 * Reject them for now, until it's fixed.
+>> -	 */
+>> -	if (sps->chroma_format_idc > 1)
+>> -		/* Only 4:0:0 and 4:2:0 are supported */
+>> +	if (sps->chroma_format_idc > 2)
+>> +		/* Only 4:0:0, 4:2:0 and 4:2:2 are supported */
+>>  		return -EINVAL;
+>>  	if (sps->bit_depth_luma_minus8 != sps->bit_depth_chroma_minus8)
+>>  		/* Luma and chroma bit depth mismatch */
+>>  		return -EINVAL;
+>> -	if (sps->bit_depth_luma_minus8 != 0)
+>> -		/* Only 8-bit is supported */
+>> +	if (sps->bit_depth_luma_minus8 != 0 && sps->bit_depth_luma_minus8 != 2)
+>> +		/* Only 8-bit and 10-bit is supported */
+>>  		return -EINVAL;
+>>  
+>>  	width = (sps->pic_width_in_mbs_minus1 + 1) * 16;
+>> @@ -1175,4 +1193,5 @@ const struct rkvdec_coded_fmt_ops rkvdec_h264_fmt_ops = {
+>>  	.stop = rkvdec_h264_stop,
+>>  	.run = rkvdec_h264_run,
+>>  	.try_ctrl = rkvdec_h264_try_ctrl,
+>> +	.get_image_fmt = rkvdec_h264_get_image_fmt,
+>>  };
+>> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+>> index 225aa1f0ac48..eb59605ccf28 100644
+>> --- a/drivers/staging/media/rkvdec/rkvdec.c
+>> +++ b/drivers/staging/media/rkvdec/rkvdec.c
+>> @@ -73,7 +73,7 @@ static void rkvdec_fill_decoded_pixfmt(struct rkvdec_ctx *ctx,
+>>  				       struct v4l2_pix_format_mplane *pix_mp)
+>>  {
+>>  	v4l2_fill_pixfmt_mp(pix_mp, pix_mp->pixelformat,
+>> -			    pix_mp->width, pix_mp->height);
+>> +			    ALIGN(pix_mp->width, 64), pix_mp->height);
+> 
+> If you align regardless if its 8/10bit (which I don't really mind, it
+> does not cost much and helps if you have a Mali GPU), please do in 
+> rkvdec_coded_fmts[].frmsize.step_width.
+> 
+> Otherwise you'll endup creating a config per bit depth, and probably
+> won't need any of the rk format stuff, since you could just update the
+> config, and enumerate from there. I don't mind your method though, but
+> lets not hardcode alignment where it shouldn't be.
 
---Mob4Dz8HybFSM/IA
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Agree, will change to use step_width/min_width = 64 in v5, not sure why
+I changed from using step_width in v2 to begin with:
 
-Hi,
+"
+Changes in v2:
+- Only align decoded buffer instead of using frmsize step_width
+"
 
-On Thu 09 Nov 23, 18:53, Krzysztof Kozlowski wrote:
-> On 09/11/2023 18:45, Paul Kocialkowski wrote:
-> > Hi,
-> >=20
-> > On Thu 09 Nov 23, 17:24, Conor Dooley wrote:
-> >> On Wed, Nov 08, 2023 at 05:38:56PM +0100, Mehdi Djait wrote:
-> >>> Add a documentation for the Rockchip Camera Interface binding.
-> >>>
-> >>> the name of the file rk3066 is the first Rockchip SoC generation that=
- uses cif
-> >>> instead of the px30 which is just one of the many iterations of the u=
-nit.
-> >>
-> >> I think this is becoming ridiculous. You've now removed the compatible
-> >> for the rk3066 but kept it in the filename. I don't understand the
-> >> hangup about naming the file after the px30-vip, but naming it after
-> >> something that is not documented here at all makes no sense to me.
-> >> Either document the rk3066 properly, or remove all mention of it IMO.
-> >=20
-> > I think the opposite is ridiculous. We have spent some time investigati=
-ng the
-> > history of this unit, to find out that RK3066 is the first occurence wh=
-ere
-> > it exists. Since we want the binding to cover all generations of the sa=
-me unit
-> > and give it a name that reflects this, rk3066 is the natural choice tha=
-t comes
-> > to mind. As far as I understand, this is the normal thing to do to name
-> > bindings: name after the earliest known occurence of the unit.
-> >=20
-> > What is the rationale behind naming the file after a generation of the =
-unit
-> > that happens to be the one introducing the binding? This is neither the=
- first
-> > nor the last one to include this unit. The binding will be updated late=
-r to
-> > cover other generations. Do we want to rename the file each time an a g=
-eneration
-> > earlier than px30 is introduced? That sounds quite ridiculous too.
-> >=20
-> > We've done the research work to give it the most relevant name here.
-> > I'd expect some strong arguments not to use it. Can you ellaborate?
->=20
-> If you do not have rk3066 documented here, it might be added to entirely
-> different file (for whatever reasons, including that binding would be
-> quite different than px30). Thus you would have rk3066 in
-> rockchip,rk3066-cif-added-later.yaml and px30 in rockchip,rk3066-cif.yaml
+https://lore.kernel.org/linux-media/20200706215430.22859-12-jonas@kwiboo.se/
 
-As far as I could see we generally manage to include support for different
-hardware setups in the same binding document using conditionals on the
-compatible, so this feels a bit far-fetched.
+> 
+>>  	pix_mp->plane_fmt[0].sizeimage += 128 *
+>>  		DIV_ROUND_UP(pix_mp->width, 16) *
+>>  		DIV_ROUND_UP(pix_mp->height, 16);
+>> @@ -193,7 +193,7 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
+>>  	{
+>>  		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
+>>  		.cfg.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
+> 
+> Do we want to keep this small lie ? Baseline is not supported as we
+> don't support FMO and ASO. That being said, in framework like
+> GStreamer, we try to decode anyway, cause we know we don't have a
+> software fallback anyway.
 
-Of course you're the maintainer and have significantly more experience here
-so there might be a lot that I'm not seeing, but I'm not very convinced by =
-this
-reasoning to be honest.
+Found a note to change this to H264_PROFILE_CONSTRAINED_BASELINE from
+the old v2 series. Will include such change in v5.
 
-> Just use the filename matching the compatible. That's what we always
-> ask. In every review.
+https://patchwork.linuxtv.org/project/linux-media/patch/20200706215430.22859-13-jonas@kwiboo.se/#119406
 
-Yeah and we very often end up with naming that is less than optimal (to stay
-polite). I'm generally quite appalled by the overall lack of interest that
-naming gets, as if it was something secondary. Naming is one of the most
-important and difficult things in our field of work and it needs to be
-considered with care.
+> 
+>> -		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
+>> +		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422,
+> 
+> Should include V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_10_INTRA and
+> V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_422_INTRA too ....
+> 
+>>  		.cfg.menu_skip_mask =
+>>  			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
+> 
+> Which requires substracting
+> V4L2_MPEG_VIDEO_H264_PROFILE_HIGH_444_PREDICTIVE too.
 
-This is not just a problem with device-tree, it's a kernel-wide issue that
-nobody seems to be interested in addressing. I'm quite unhappy to see that =
-when
-time is spent trying to improve the situation on one particular instance, w=
-e are
-shown the door because it doesn't match what is generally done (and often d=
-one
-wrong).
+Will update in v5, thanks.
 
-This is definitely a rant. I really want to express this issue loud and cle=
-ar
-and encourage everyone to consider it for what it is.
+Regards,
+Jonas
 
-Cheers,
+> 
+>>  		.cfg.def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
+>> @@ -210,11 +210,23 @@ static const struct rkvdec_ctrls rkvdec_h264_ctrls = {
+>>  	.num_ctrls = ARRAY_SIZE(rkvdec_h264_ctrl_descs),
+>>  };
+>>  
+>> -static const struct rkvdec_decoded_fmt_desc rkvdec_h264_vp9_decoded_fmts[] = {
+>> +static const struct rkvdec_decoded_fmt_desc rkvdec_h264_decoded_fmts[] = {
+>>  	{
+>>  		.fourcc = V4L2_PIX_FMT_NV12,
+>>  		.image_fmt = RKVDEC_IMG_FMT_420_8BIT,
+>>  	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV15,
+>> +		.image_fmt = RKVDEC_IMG_FMT_420_10BIT,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV16,
+>> +		.image_fmt = RKVDEC_IMG_FMT_422_8BIT,
+>> +	},
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV20,
+>> +		.image_fmt = RKVDEC_IMG_FMT_422_10BIT,
+>> +	},
+>>  };
+>>  
+>>  static const struct rkvdec_ctrl_desc rkvdec_vp9_ctrl_descs[] = {
+>> @@ -237,6 +249,13 @@ static const struct rkvdec_ctrls rkvdec_vp9_ctrls = {
+>>  	.num_ctrls = ARRAY_SIZE(rkvdec_vp9_ctrl_descs),
+>>  };
+>>  
+>> +static const struct rkvdec_decoded_fmt_desc rkvdec_vp9_decoded_fmts[] = {
+>> +	{
+>> +		.fourcc = V4L2_PIX_FMT_NV12,
+>> +		.image_fmt = RKVDEC_IMG_FMT_420_8BIT,
+>> +	},
+>> +};
+>> +
+>>  static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
+>>  	{
+>>  		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+>> @@ -250,8 +269,8 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
+>>  		},
+>>  		.ctrls = &rkvdec_h264_ctrls,
+>>  		.ops = &rkvdec_h264_fmt_ops,
+>> -		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_vp9_decoded_fmts),
+>> -		.decoded_fmts = rkvdec_h264_vp9_decoded_fmts,
+>> +		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_decoded_fmts),
+>> +		.decoded_fmts = rkvdec_h264_decoded_fmts,
+>>  		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
+>>  	},
+>>  	{
+>> @@ -266,8 +285,8 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
+>>  		},
+>>  		.ctrls = &rkvdec_vp9_ctrls,
+>>  		.ops = &rkvdec_vp9_fmt_ops,
+>> -		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_vp9_decoded_fmts),
+>> -		.decoded_fmts = rkvdec_h264_vp9_decoded_fmts,
+>> +		.num_decoded_fmts = ARRAY_SIZE(rkvdec_vp9_decoded_fmts),
+>> +		.decoded_fmts = rkvdec_vp9_decoded_fmts,
+>>  	}
+>>  };
+>>  
+>> diff --git a/drivers/staging/media/rkvdec/rkvdec.h b/drivers/staging/media/rkvdec/rkvdec.h
+>> index e466a2753ccf..9a9f4fced7a1 100644
+>> --- a/drivers/staging/media/rkvdec/rkvdec.h
+>> +++ b/drivers/staging/media/rkvdec/rkvdec.h
+>> @@ -80,6 +80,9 @@ struct rkvdec_coded_fmt_ops {
+>>  enum rkvdec_image_fmt {
+>>  	RKVDEC_IMG_FMT_ANY = 0,
+>>  	RKVDEC_IMG_FMT_420_8BIT,
+>> +	RKVDEC_IMG_FMT_420_10BIT,
+>> +	RKVDEC_IMG_FMT_422_8BIT,
+>> +	RKVDEC_IMG_FMT_422_10BIT,
+>>  };
+>>  
+>>  struct rkvdec_decoded_fmt_desc {
+> 
 
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---Mob4Dz8HybFSM/IA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVNH98ACgkQ3cLmz3+f
-v9G9twf+JR5dsdM2G3sgKunvWuC3i7/cbQl17nAbAGUF5eB6ctWTGGrxSLcyl+Q6
-uBup3E59JYwmKlPE2gLeKDbETumExf5UnlQdHt01QrriMEdKggUYPPmwJ8jQItQE
-byTo9DcSZWHqAB66pkyZQaTpwTPCjky3OM2H2rQ2fHbmh2wjicQbdAstt17sblkv
-RNjkyiMVjSOAukV1iGtVKEZYl/QVpQnwvnchxJF/2wSTw1YEhcYGDw6Yndl3WfbU
-ox4G7bjP5QRUv93bCW80M7uWl7LRSnSo8hK84WfrvNYEdWfMfs8PZVRnTfitn3YL
-kXFdLP3ZAKW6iqU6UCjxaI75xtMrzg==
-=+UTG
------END PGP SIGNATURE-----
-
---Mob4Dz8HybFSM/IA--
