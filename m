@@ -2,55 +2,50 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5743D7E6162
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 01:27:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B1077E619D
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 01:59:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S230444AbjKIA1k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 19:27:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40398 "EHLO
+        id S231187AbjKIA7x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 19:59:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42190 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229473AbjKIA1j (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 19:27:39 -0500
-Received: from mail-yw1-x112c.google.com (mail-yw1-x112c.google.com [IPv6:2607:f8b0:4864:20::112c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B253268E
-        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 16:27:37 -0800 (PST)
-Received: by mail-yw1-x112c.google.com with SMTP id 00721157ae682-5afabb23900so3909347b3.2
-        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 16:27:37 -0800 (PST)
+        with ESMTP id S229508AbjKIA7w (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 19:59:52 -0500
+Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC2A2102
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 16:59:50 -0800 (PST)
+Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6c431ca7826so302028b3a.0
+        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 16:59:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699489656; x=1700094456; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=jjhlsBOUMwiMeFAPoPORt6q2UO4A3cplcij8pItO4+0=;
-        b=LWiM9ZNz86eIGL5mILQfUVwwNM2AG0kfXpSL/7XA34nVZEXMnHSswUSMhNvoLuepIa
-         4gfkJfsQy+PV46hhnzD3HSV8sOzykA5T6wsLiMPqUb5zNjqIEobiWlCSBlOPthpy5NTm
-         3m7gBfqYGU2uYTqc06dySPy6EldcBKPJQ82U0=
+        d=google.com; s=20230601; t=1699491590; x=1700096390; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OHn9y25TkCjUGRzezI+pCpcdi+i7Y9ZJGwoclVKbOkE=;
+        b=BDzSRfpJdZ1jcW7m8YHCRzuBOkOu92fVUMCxQ2a9VMqyOWKbKmDCilLI7AeWQxR52+
+         HCYFINs2m/+ln0s69R8liDtqeHU2woqzKIHWKzmHqQzcBbRuKbA8boawwZO7DgCpyQdX
+         iZjs9rcSlA1pGWHmdks9rZAv48GC9SBnxBDsoBrjCllA2so+oEAWPW/zmRy0G9KK7coF
+         vpdj5X2eOUI3Mwmqs+PuwBqs6jEkJtX1QpAEo2WHQTYcHg/07s0ugJX46q3OMnpKYPy+
+         01NT4Z37QhIrp6F5ANJCC2chDQ4EiKj/TDsJcEpSmlnZEad3CTgpHWXNpjEUEsqEM0go
+         ZmDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699489656; x=1700094456;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jjhlsBOUMwiMeFAPoPORt6q2UO4A3cplcij8pItO4+0=;
-        b=UmMMZWrwyvOtYxcBqbUloTjew5cMQxVGLnLHMY6+ptVJQHeiu9ee28xa4XNa1YuA+j
-         N0mbxfHQZe4rI8EZQtxcau3qG5mv9jBHOUAy5NJLHL0PzbU54ZdY/JB8ErxnFad13ZpS
-         BT2ISV9rYYaQVC4sha7LiRKWC//FjHMih7zxO7Vq98D5xsWCSR0fGUhZiloGKLo+AHoM
-         wqPvaa3+IKQJJynUIXMxGkE06guN0zdyUi63dknXYWBDfCYJekVe5tgP4UnRR5n/eHBd
-         wTb/Zp+0wB9l8NMcIQPWSLfiPSgne8DgqG7Vv1MMHS8+315vZnm+Fu/4+fBHGIP+hGJZ
-         3VzQ==
-X-Gm-Message-State: AOJu0YxU0lVN3ZiHTLBr2vj+KAXs/Yry7PKtEdUzbnaIKHeUqBf5n5hR
-        VkKxFARv9SjB6Erd5J3F4ck5Gv8aAR0lcLg1UcyH8Q==
-X-Google-Smtp-Source: AGHT+IFLs7gSe02P5r0O5O9U+mPa7AbSskQh+/U4xweTAVFivl9x7Nj6Ll2Ps/WJyc4OIJSSvNz65w==
-X-Received: by 2002:a05:6902:1881:b0:da0:350f:fd6a with SMTP id cj1-20020a056902188100b00da0350ffd6amr4202072ybb.46.1699489655862;
-        Wed, 08 Nov 2023 16:27:35 -0800 (PST)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com. [209.85.222.172])
-        by smtp.gmail.com with ESMTPSA id c10-20020a05621401ea00b0066d04196c3dsm1596576qvu.49.2023.11.08.16.27.35
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 16:27:35 -0800 (PST)
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-7788db95652so16887185a.2
-        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 16:27:35 -0800 (PST)
-X-Received: by 2002:a05:6214:19ea:b0:66d:326a:ee4b with SMTP id
- q10-20020a05621419ea00b0066d326aee4bmr3787064qvc.33.1699489654879; Wed, 08
- Nov 2023 16:27:34 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699491590; x=1700096390;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OHn9y25TkCjUGRzezI+pCpcdi+i7Y9ZJGwoclVKbOkE=;
+        b=rvgBeavRxtsxnLX/j2yd5QW/StUcni+CAJfWqvpfySeCGb7EiXquIdztp443BuXSyU
+         WpMqvlXSg3PdNj+4SznGQo3dfbIUBIybMHQbXuIQaqFZ1RBPlmPm+tBXr6yPhtoetpN0
+         Bl0MoPgb8N5Ec9synPBxO+Yo9z15KSctQdDPELUIiIBaUA9SOEwb5udRzKPmAp9+1Wti
+         +rC4xuAlmij0lDSXkirP55WQcglY58jESaF69c2IPE+T7kpa9Es7hp4qFlHc2ua2ITH1
+         Qqqa9RagLLPyyh/4s83Gpv0GGREXVTO48IV+hnCIOb7WihtJ1mXSgMMC2f8kLBVVG0tT
+         lrIw==
+X-Gm-Message-State: AOJu0Yzobx7HL2urnvLEDC8mkY4KNNSW1fq5sHsNQZQyojV+JAakB9WY
+        bw1OU2nU6e7SeJgqMsY9BuoMwBdHMI5OUtmWIIzJyaH0XwZdTnigzXWT9w==
+X-Google-Smtp-Source: AGHT+IFboY654P5PbdzMK3cWhT8zt7kSG4KSHSRZRP1kgnDknG3IIxQjU6ixoNsTL18e9XE/xU1v/ItygPZDlQcVgqc=
+X-Received: by 2002:a05:6a20:8417:b0:181:16c7:6cd0 with SMTP id
+ c23-20020a056a20841700b0018116c76cd0mr4583310pzd.17.1699491589543; Wed, 08
+ Nov 2023 16:59:49 -0800 (PST)
 MIME-Version: 1.0
 References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org>
  <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu> <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
@@ -60,26 +55,35 @@ References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org>
  <03ac47742945cc04e4663b87563b47a96ed3ec1f.camel@ndufresne.ca>
  <CANiDSCunRRyod3Rg+L9ZsffOZyC7CKbMVTHX3u-n5iuNyZQk0w@mail.gmail.com> <20231109000327.GE21616@pendragon.ideasonboard.com>
 In-Reply-To: <20231109000327.GE21616@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 9 Nov 2023 01:27:23 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuD=Z2FVaSnejCfLnRJXUSE99GQkK=4tRAXBbxpUqEVHg@mail.gmail.com>
-Message-ID: <CANiDSCuD=Z2FVaSnejCfLnRJXUSE99GQkK=4tRAXBbxpUqEVHg@mail.gmail.com>
+From:   Esker Wong <esker@google.com>
+Date:   Thu, 9 Nov 2023 08:59:13 +0800
+Message-ID: <CAEZL83rcMocCohTi1ddAOyQ7BDK_AqR3-h33ZnHkWRMFO7cuwg@mail.gmail.com>
 Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     nicolas@ndufresne.ca, Esker Wong <esker@google.com>,
+Cc:     Ricardo Ribalda <ribalda@chromium.org>, nicolas@ndufresne.ca,
         Kieran Bingham <kieran.bingham@ideasonboard.com>,
         Sakari Ailus <sakari.ailus@iki.fi>,
         Esker Wong <esker@chromium.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
+Hi Laurent,
 
-On Thu, 9 Nov 2023 at 01:03, Laurent Pinchart
+The use case here we want is actually the latency. We want to know
+what is the most accurate delay the user will feel when the camera
+capture the frame to the frame get displayed. So anytime earlier then
+the dqbuf should be an improvement here. It would help us know better
+of a camera quality.
+
+Regards,
+Esker
+
+On Thu, Nov 9, 2023 at 8:03=E2=80=AFAM Laurent Pinchart
 <laurent.pinchart@ideasonboard.com> wrote:
 >
 > Hi Ricardo,
@@ -87,7 +91,8 @@ On Thu, 9 Nov 2023 at 01:03, Laurent Pinchart
 > On Wed, Nov 08, 2023 at 11:46:40PM +0100, Ricardo Ribalda wrote:
 > > On Wed, 8 Nov 2023 at 21:32, <nicolas@ndufresne.ca> wrote:
 > > >
-> > > The fact that you interpret the time from FRAME_SYNC to DQBUF (well the
+> > > The fact that you interpret the time from FRAME_SYNC to DQBUF (well t=
+he
 > > > READ IO notification) as the actual latency is yours of course. It
 > > > assumes that the camera on the other end does not introduce other
 > >
@@ -96,14 +101,18 @@ On Thu, 9 Nov 2023 at 01:03, Laurent Pinchart
 > > I agree with you that the latency between capture and dqbuf should be
 > > measured using the timestamp. That is not our use case here.
 > >
-> > > source of latency (or that these are negligible). You are also going to
+> > > source of latency (or that these are negligible). You are also going =
+to
 > > > introduce a lot of jitter, since it relies on when the OS decides to
 > > > wake up your process.
 > >
-> > We have measured a jitter of around 2.5 msec, which is acceptable for our needs.
+> > We have measured a jitter of around 2.5 msec, which is acceptable for o=
+ur needs.
 > >
-> > > I think my opinion resides in if you can accurately *enough* implement
-> > > what the spec says for FRAME_SYNC then do it, otherwise just don't lie.
+> > > I think my opinion resides in if you can accurately *enough* implemen=
+t
+> > > what the spec says for FRAME_SYNC then do it, otherwise just don't li=
+e.
 > >
 > > What the specs says is:
 > > ```
@@ -114,9 +123,11 @@ On Thu, 9 Nov 2023 at 01:03, Laurent Pinchart
 > > trigger earlier than that.
 > >
 > >
-> > > I think for ISO, "after the first chunk" i a small lie, but acceptable.
+> > > I think for ISO, "after the first chunk" i a small lie, but acceptabl=
+e.
 > > > But for BULK, the way it was explained is that it will be always very
-> > > close to DQBUF time. and it should not emit FRAME_SYNC for this type of
+> > > close to DQBUF time. and it should not emit FRAME_SYNC for this type =
+of
 > > > UVC device. If it fits other events fine of course, I'm just making a
 > > > judgment on if its fits V4L2_EVENT_FRAME_SYNC or not.
 > >
@@ -153,8 +164,10 @@ On Thu, 9 Nov 2023 at 01:03, Laurent Pinchart
 > up lying quite a bit if we consider the URB completion callback for the
 > first URB of the frame as indicating the start of reception.
 >
-> > > In term of accuracy, if timestamp was passed with the FRAME_SYNC event,
-> > > it would not matter how fast your process the event anymore and greatly
+> > > In term of accuracy, if timestamp was passed with the FRAME_SYNC even=
+t,
+> > > it would not matter how fast your process the event anymore and great=
+ly
 > > > improve accuracy.
 > >
 > > +1 to that. If we could easily change the uAPI for FRAME_SYNC that
@@ -163,9 +176,11 @@ On Thu, 9 Nov 2023 at 01:03, Laurent Pinchart
 > > > > Not to mention that the UVC timestamping requires a bit of love.
 > > > >
 > > > > @Laurent Pinchart, @Kieran Bingham  any progress reviewing :P :
-> > > > https://patchwork.linuxtv.org/project/linux-media/list/?series=10083
+> > > > https://patchwork.linuxtv.org/project/linux-media/list/?series=3D10=
+083
 > > >
-> > > Thanks for working on this by the way, hope someone will find the time
+> > > Thanks for working on this by the way, hope someone will find the tim=
+e
 > > > to review this. The timestamps should in theory provide a jitter free
 > >
 > > It already has a couple of Reviewed-by stamped in.... ;)
@@ -194,37 +209,8 @@ On Thu, 9 Nov 2023 at 01:03, Laurent Pinchart
 > of my business, but from the point of view of the uvcvideo driver, I'm
 > less inclined to accept a possibly significant V4L2_EVENT_FRAME_SYNC lie
 > if the use case ends up making little sense :-)
-
-Just to add some numbers to add some context:
-
- V4L2_EVENT_FRAME_SYNC for BULK and ISO will be delayed from:
-```
-Triggered immediately when the reception of a frame has begun
-```
-one urb.
-
-For bulk devices this is a maximum of 0.05 msec (32KiB/600MBps)
-For 1MiB transfer isoc devices (which is the biggest we have seen),
-that is 1.8 msec.
-In both cases, this is smaller than the jitter to process the event
-itself by userspace.
-
-The time from V4L2_EVENT_FRAME_SYNC to DQBUF is around 30 msec.
-
-I do not know how much delay is considered acceptable... but if we
-take the delay argument to the extreme, we could say that
-V4L2_EVENT_FRAME_SYNC can never be implemented, because the event will
-always be delayed by something.
-
-Regards
-
 >
 > --
 > Regards,
 >
 > Laurent Pinchart
-
-
-
--- 
-Ricardo Ribalda
