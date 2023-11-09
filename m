@@ -2,87 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 10D0B7E7355
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 22:04:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C40057E73C1
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 22:39:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345346AbjKIVE5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 16:04:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54980 "EHLO
+        id S235043AbjKIVjR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 16:39:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50920 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345326AbjKIVEe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 16:04:34 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB3E94C1E;
-        Thu,  9 Nov 2023 13:03:59 -0800 (PST)
-Received: from umang.jain (unknown [103.251.226.64])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 07C6F192B;
-        Thu,  9 Nov 2023 22:03:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1699563816;
-        bh=u4fIZmKbPXY5oEdoRyck7LP+hiARU9F4laBpyjdLyvA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vzESIHSSPKdva2+f6soFUTQxUc+rq9EH7BGtR9UDvlHraMumAozHNPkumCAFs3oZP
-         9ViQZMt/dJbhazFKIqCSHjceOirC1Si7atDAk8ce421dXTK8NgiGKRwiAT9jdFdQSO
-         VOVFlhtmKpUFmK1MvuDyYPpG8hXaWo6yEWNOB5Fk=
-From:   Umang Jain <umang.jain@ideasonboard.com>
-To:     linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
-        linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "Ricardo B . Marliere" <ricardo@marliere.net>,
-        Dan Carpenter <error27@gmail.com>,
-        Stefan Wahren <stefan.wahren@i2se.com>,
-        Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v2 15/15] staging: vc04_services: vchiq: Register bcm2835-isp
-Date:   Thu,  9 Nov 2023 16:03:07 -0500
-Message-ID: <20231109210309.638594-16-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231109210309.638594-1-umang.jain@ideasonboard.com>
-References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
+        with ESMTP id S1345372AbjKIVjE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 16:39:04 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46CCB4211;
+        Thu,  9 Nov 2023 13:38:49 -0800 (PST)
+Received: from [100.84.166.245] (cola.collaboradmins.com [195.201.22.229])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: nicolas)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 52CF66607413;
+        Thu,  9 Nov 2023 21:38:45 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1699565927;
+        bh=iOlbhHLosbanbJteZZRBksDsgyI0sGawtDPHWA7bX8g=;
+        h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+        b=HruUzFIZsc9c/Sc91mVwLrxyAlcFzwo9DMLwfv1x5JUxYqBgykIXC5uptr/pe7KI6
+         vIfketUq1GCs3LzHUuvzAcQq+sO22ahvAH1cX30bt7u7bY2THBnB22IX9nE7jvBtWc
+         /iDKOnahxhXJV/xWD31a9a/Q2/DIHmPaiUnKQjLMReEUJqweLFvFilS2evsKOBTAPV
+         7hAWaxjdGmDKuaRSiJWpvNEAiWez9btLOb+ST4O4KmAk3h/zEWAf+/TC0LUJEZMZjm
+         d+HDm6SyFdFJU2FtJWjaoxz13EJfHyUclg/HcF3sdal9JB/m2/QPUTGFjJwr85+c/P
+         Cs8eDpqqrKFDw==
+Message-ID: <fd9ca918dcbc892169b9f0dae7d0de537f4035ed.camel@collabora.com>
+Subject: Re: [PATCH 3/4] media: verisilicon: Hook the (TRY_)DECODER_CMD
+ stateless ioctls
+From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Date:   Thu, 09 Nov 2023 16:38:36 -0500
+In-Reply-To: <20231109201640.340556-3-paul.kocialkowski@bootlin.com>
+References: <20231109201640.340556-1-paul.kocialkowski@bootlin.com>
+         <20231109201640.340556-3-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add vchiq device registeration and unregisteration for
-the bcm2835-isp devices.
+Hi Paul,
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
- drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c | 3 +++
- 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 5a9073480dd3..85dd259e6efc 100644
---- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-+++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -70,6 +70,7 @@ struct vchiq_state g_state;
-  */
- static struct vchiq_device *bcm2835_audio;
- static struct vchiq_device *bcm2835_camera;
-+static struct vchiq_device *bcm2835_isp;
- static struct vchiq_device *vcsm_cma;
- 
- struct vchiq_drvdata {
-@@ -1844,6 +1845,7 @@ static int vchiq_probe(struct platform_device *pdev)
- 	vcsm_cma = vchiq_device_register(&pdev->dev, "vcsm-cma");
- 	bcm2835_audio = vchiq_device_register(&pdev->dev, "bcm2835-audio");
- 	bcm2835_camera = vchiq_device_register(&pdev->dev, "bcm2835-camera");
-+	bcm2835_isp = vchiq_device_register(&pdev->dev, "bcm2835-isp");
- 
- 	return 0;
- 
-@@ -1857,6 +1859,7 @@ static void vchiq_remove(struct platform_device *pdev)
- {
- 	vchiq_device_unregister(bcm2835_audio);
- 	vchiq_device_unregister(bcm2835_camera);
-+	vchiq_device_unregister(bcm2835_isp);
- 	vchiq_device_unregister(vcsm_cma);
- 	vchiq_debugfs_deinit();
- 	vchiq_deregister_chrdev();
--- 
-2.41.0
+Le jeudi 09 novembre 2023 =C3=A0 21:16 +0100, Paul Kocialkowski a =C3=A9cri=
+t=C2=A0:
+> The (TRY_)DECODER_CMD ioctls are used to support flushing when holding ca=
+pture
+> buffers is supported. This is the case of this driver but the ioctls were=
+ never
+> hooked to the ioctl ops.
+>=20
+> Add them to correctly support flushing.
+
+While this CMD looks useful on paper, we have had no use for it in any
+open source user space. So with this in mind, shall we really enable it
+? How can we be sure that its actually working as intended ?
+
+Nicolas
+
+>=20
+> Fixes: 340ce50f75a6 ("media: hantro: Enable HOLD_CAPTURE_BUF for H.264")
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  drivers/media/platform/verisilicon/hantro_drv.c  | 2 ++
+>  drivers/media/platform/verisilicon/hantro_v4l2.c | 3 +++
+>  2 files changed, 5 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
+dia/platform/verisilicon/hantro_drv.c
+> index a9fa05ac56a9..3a2a0f28cbfe 100644
+> --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> @@ -905,6 +905,8 @@ static int hantro_add_func(struct hantro_dev *vpu, un=
+signed int funcid)
+> =20
+>  	if (funcid =3D=3D MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
+>  		vpu->encoder =3D func;
+> +		v4l2_disable_ioctl(vfd, VIDIOC_TRY_DECODER_CMD);
+> +		v4l2_disable_ioctl(vfd, VIDIOC_DECODER_CMD);
+>  	} else {
+>  		vpu->decoder =3D func;
+>  		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+> diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/m=
+edia/platform/verisilicon/hantro_v4l2.c
+> index b3ae037a50f6..db145519fc5d 100644
+> --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> @@ -785,6 +785,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops =3D {
+>  	.vidioc_g_selection =3D vidioc_g_selection,
+>  	.vidioc_s_selection =3D vidioc_s_selection,
+> =20
+> +	.vidioc_decoder_cmd =3D v4l2_m2m_ioctl_stateless_decoder_cmd,
+> +	.vidioc_try_decoder_cmd =3D v4l2_m2m_ioctl_stateless_try_decoder_cmd,
+> +
+>  	.vidioc_try_encoder_cmd =3D v4l2_m2m_ioctl_try_encoder_cmd,
+>  	.vidioc_encoder_cmd =3D vidioc_encoder_cmd,
+>  };
 
