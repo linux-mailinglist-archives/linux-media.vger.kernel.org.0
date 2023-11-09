@@ -2,60 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A38E7E69AC
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 12:31:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 71A7F7E69AA
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 12:30:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234194AbjKILav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 06:30:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36080 "EHLO
+        id S234262AbjKILaw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 06:30:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40212 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S233903AbjKILam (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 06:30:42 -0500
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A9C02D7F
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 03:30:32 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-50797cf5b69so908388e87.2
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 03:30:32 -0800 (PST)
+        with ESMTP id S233079AbjKILao (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 06:30:44 -0500
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7391930C4
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 03:30:33 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-32dff08bbdbso468839f8f.2
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 03:30:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699529430; x=1700134230; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1699529432; x=1700134232; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=D42PqlI3eGY2/Fu6yWQkrRn9mJbcCPkT6jrSG+jXSLY=;
-        b=SyqKoJoLxGo76aIcL3hv2Gk6xTLyWHh50l4yDmq8E28PvNFckABsi1OeHvGwNljAoX
-         EiXydYlXpP67sXxU5BIxj/mNY9aKvunEt8/r+nIGoaQdZvBpXZVtNYd8+D7omMOkLNiY
-         alCHzOqyk6cTd3bB0T8DNpqLgp18jJU3qRueudxAgL5zrqHNTu7gg3JI4LZA1svkntiV
-         aJTLmR/hbwHIgMwJpn7Ci2BEjNr+BkzKmAv9GONoVSVlSpCXnM1tGyNsnA9rpAmLueA6
-         K1IDcmFgP+rXLsvctfspK8ym3gjBtAjjRDrCbgBxAjHbw9x8cCo8uU8Kpz8+sTrJB3Hn
-         Ma3Q==
+        bh=cYQvDtaR1Rq2jfedJTX47JK1X6rSYRRgJAozvHJVQR8=;
+        b=qzpT2xY8PNfTnVIXVeAY99iw7geUmQTYeLgZ7oMIfteTrGyu4Bk5+Nil5nbgbn6RgY
+         leitKkooXM40C2HySXlewJ7K0d94C4RPbfv5ZDhTwW1Myu+AfFAedpINlfMcuB1AZYp/
+         DemgdZgw4c9YlE7HH7pABq+bRuull0BDf61vOipa+D99wwefryq6iavIvI16KRYm7Z53
+         o08qwobTGs9C1ZK0PG66ygCUNWHPh4l8UCemOVSPp8A9HXvU/hwYUYoC3IEOoKFdd1Tr
+         8e6DLZ+rQRF24sq2qSxPtZx3CDbPJ3ajLPbqtz1M7Q9vx1dVqZ+WBAsj/Jvz/eE2Y1Zj
+         Rzzg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699529430; x=1700134230;
+        d=1e100.net; s=20230601; t=1699529432; x=1700134232;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=D42PqlI3eGY2/Fu6yWQkrRn9mJbcCPkT6jrSG+jXSLY=;
-        b=PIZFc7tIkH7x6DaV9RWJ6Txt1J0ImwZJaj4xdM+Tb1T6X+d0owguoCw+Bxy3oFBQqa
-         DXnFRdthZS5O98J3rlFLuzNqHmojj1FrDnlFK36qX/FN1+c9bwKEujDNliXji8+8UFc4
-         WOnvXoQPYbdjwC7AliiIkHJ15a6HkyZr1Ueyc2oegw3iaUUTzlhldxkSDok26xgcDGWA
-         iiwpDyKB+67Kf4wANepbfO2zmBXJH3if+IhDE1rKgzqV2bWzrAikcFMEfHHXBgfUo7WG
-         UlQUALCVHXyWqO9xdFPNwbJJIFaYYjXrx6Ucqy4tTUYez1FiVnFcEqzIGbyy84Ej53jm
-         Nzhw==
-X-Gm-Message-State: AOJu0Yynt6UTZ5X3F8xakZjvl9vjV3YpJrquPiUn/cQiBu9s5DMfm37h
-        qPfW4DhHD4ywqga/04LD24W6CQ==
-X-Google-Smtp-Source: AGHT+IHC8/Lzui2L4RCz4j3rdHv7jMOKhOyd2uJbG2+4OVdvBNLaijk3cjIMwOP5o1sVrjTwXduYhA==
-X-Received: by 2002:ac2:484f:0:b0:509:4c31:98c6 with SMTP id 15-20020ac2484f000000b005094c3198c6mr1203974lfy.60.1699529430646;
-        Thu, 09 Nov 2023 03:30:30 -0800 (PST)
+        bh=cYQvDtaR1Rq2jfedJTX47JK1X6rSYRRgJAozvHJVQR8=;
+        b=Tqm61cPDUz5ulgYZfpI/aBI0rwSOi+w2JNqQq/cqra18Q8tr8Ukh9wYxqmKfIYoCPx
+         yHXwo/mVZJ9iqPMo/n3SVA7ULTfDdLqWaq6NlHXliRYcgEtTPv4oV/onOOG7GLoa+WaC
+         kjpj5KCj9mrBRifWpoZWAWECkZBXGzIdI+DTVawz/XcpbMhhScZ7aQp0fRG0fuYETYCP
+         A6huALkKSBUSD4o1RpeQoQoYc1gDEC/IjuNtVQuVU9tLbuzl7/wF+gmAY+GlDUBYrkuN
+         PwsLSdIFvpd4kHhjJRforIr4/z/bZh0fnu913UkpsZ+JJgmY1Jrl76i/JAOyTEULev8q
+         i76g==
+X-Gm-Message-State: AOJu0Yx7XyorVPjVO+KPl+0Dei4P8x+YTA/yENW4NWxLNKEUnxb3LOxZ
+        DY+3T2inG+vHGRwTWg7sIPy7tg==
+X-Google-Smtp-Source: AGHT+IHD4bnvrBtnw0anfkYJuCZ4+DjQZ5+N+cAxubQKJf3E/805foDxpHfXU1cRY45Av8/NMR0E5Q==
+X-Received: by 2002:adf:cd86:0:b0:32f:b3a2:c2eb with SMTP id q6-20020adfcd86000000b0032fb3a2c2ebmr3675067wrj.65.1699529431932;
+        Thu, 09 Nov 2023 03:30:31 -0800 (PST)
 Received: from [127.0.0.1] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id a11-20020adfed0b000000b0032d9337e7d1sm7185790wro.11.2023.11.09.03.30.29
+        by smtp.gmail.com with ESMTPSA id a11-20020adfed0b000000b0032d9337e7d1sm7185790wro.11.2023.11.09.03.30.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Nov 2023 03:30:30 -0800 (PST)
+        Thu, 09 Nov 2023 03:30:31 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date:   Thu, 09 Nov 2023 11:30:25 +0000
-Subject: [PATCH v4 5/6] media: qcom: camss: Add sc8280xp support
+Date:   Thu, 09 Nov 2023 11:30:26 +0000
+Subject: [PATCH v4 6/6] media: qcom: camss: vfe-17x: Rename camss-vfe-170
+ to camss-vfe-17x
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231109-b4-camss-sc8280xp-v4-5-58a58bc200f9@linaro.org>
+Message-Id: <20231109-b4-camss-sc8280xp-v4-6-58a58bc200f9@linaro.org>
 References: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
 In-Reply-To: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
 To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
@@ -77,151 +78,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add in functional logic throughout the code to support the sc8280xp.
+vfe-170 and vfe-175 can be supported in the same file with some minimal
+indirection to differentiate between the silicon versions.
+
+sdm845 uses vfe-170, sc8280xp uses vfe-175-200. Lets rename the file to
+capture its wider scope than vfe-170 only.
 
 Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 23 +++++++++++++++++---
- drivers/media/platform/qcom/camss/camss-csiphy.c   |  1 +
- drivers/media/platform/qcom/camss/camss-vfe.c      | 25 +++++++++++++++++-----
- drivers/media/platform/qcom/camss/camss-video.c    |  1 +
- 4 files changed, 42 insertions(+), 8 deletions(-)
+ drivers/media/platform/qcom/camss/Makefile                             | 2 +-
+ drivers/media/platform/qcom/camss/{camss-vfe-170.c => camss-vfe-17x.c} | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index 2eb3531ffd00b..2810d0fa06c13 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -513,6 +513,10 @@ static void csiphy_gen2_config_lanes(struct csiphy_device *csiphy,
- 		r = &lane_regs_sm8250[0][0];
- 		array_size = ARRAY_SIZE(lane_regs_sm8250[0]);
- 		break;
-+	case CAMSS_8280XP:
-+		r = &lane_regs_sc8280xp[0][0];
-+		array_size = ARRAY_SIZE(lane_regs_sc8280xp[0]);
-+		break;
- 	default:
- 		WARN(1, "unknown cspi version\n");
- 		return;
-@@ -548,13 +552,26 @@ static u8 csiphy_get_lane_mask(struct csiphy_lanes_cfg *lane_cfg)
- 	return lane_mask;
- }
- 
-+static bool csiphy_is_gen2(u32 version)
-+{
-+	bool ret = false;
-+
-+	switch (version) {
-+	case CAMSS_845:
-+	case CAMSS_8250:
-+	case CAMSS_8280XP:
-+		ret = true;
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
- static void csiphy_lanes_enable(struct csiphy_device *csiphy,
- 				struct csiphy_config *cfg,
- 				s64 link_freq, u8 lane_mask)
- {
- 	struct csiphy_lanes_cfg *c = &cfg->csi2->lane_cfg;
--	bool is_gen2 = (csiphy->camss->res->version == CAMSS_845 ||
--			csiphy->camss->res->version == CAMSS_8250);
- 	u8 settle_cnt;
- 	u8 val;
- 	int i;
-@@ -576,7 +593,7 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
- 	val = 0x00;
- 	writel_relaxed(val, csiphy->base + CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(0));
- 
--	if (is_gen2)
-+	if (csiphy_is_gen2(csiphy->camss->res->version))
- 		csiphy_gen2_config_lanes(csiphy, settle_cnt);
- 	else
- 		csiphy_gen1_config_lanes(csiphy, cfg, settle_cnt);
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-index edd573606a6ae..8241acf789865 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-@@ -579,6 +579,7 @@ int msm_csiphy_subdev_init(struct camss *camss,
- 		break;
- 	case CAMSS_845:
- 	case CAMSS_8250:
-+	case CAMSS_8280XP:
- 		csiphy->formats = csiphy_formats_sdm845;
- 		csiphy->nformats = ARRAY_SIZE(csiphy_formats_sdm845);
- 		break;
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index 50929c3cbb831..28cf63af1ec08 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -225,6 +225,7 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 	case CAMSS_660:
- 	case CAMSS_845:
- 	case CAMSS_8250:
-+	case CAMSS_8280XP:
- 		switch (sink_code) {
- 		case MEDIA_BUS_FMT_YUYV8_1X16:
- 		{
-@@ -1522,6 +1523,7 @@ int msm_vfe_subdev_init(struct camss *camss, struct vfe_device *vfe,
- 			break;
- 		case CAMSS_845:
- 		case CAMSS_8250:
-+		case CAMSS_8280XP:
- 			l->formats = formats_rdi_845;
- 			l->nformats = ARRAY_SIZE(formats_rdi_845);
- 			break;
-@@ -1600,6 +1602,23 @@ static const struct media_entity_operations vfe_media_ops = {
- 	.link_validate = v4l2_subdev_link_validate,
- };
- 
-+static int vfe_bpl_align(struct vfe_device *vfe)
-+{
-+	int ret = 8;
-+
-+	switch (vfe->camss->res->version) {
-+	case CAMSS_845:
-+	case CAMSS_8250:
-+	case CAMSS_8280XP:
-+		ret = 16;
-+		break;
-+	default:
-+		break;
-+	}
-+
-+	return ret;
-+}
-+
- /*
-  * msm_vfe_register_entities - Register subdev node for VFE module
-  * @vfe: VFE device
-@@ -1666,11 +1685,7 @@ int msm_vfe_register_entities(struct vfe_device *vfe,
- 		}
- 
- 		video_out->ops = &vfe->video_ops;
--		if (vfe->camss->res->version == CAMSS_845 ||
--		    vfe->camss->res->version == CAMSS_8250)
--			video_out->bpl_alignment = 16;
--		else
--			video_out->bpl_alignment = 8;
-+		video_out->bpl_alignment = vfe_bpl_align(vfe);
- 		video_out->line_based = 0;
- 		if (i == VFE_LINE_PIX) {
- 			video_out->bpl_alignment = 16;
-diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-index a89da5ef47109..54cd82f741154 100644
---- a/drivers/media/platform/qcom/camss/camss-video.c
-+++ b/drivers/media/platform/qcom/camss/camss-video.c
-@@ -1028,6 +1028,7 @@ int msm_video_register(struct camss_video *video, struct v4l2_device *v4l2_dev,
- 		break;
- 	case CAMSS_845:
- 	case CAMSS_8250:
-+	case CAMSS_8280XP:
- 		video->formats = formats_rdi_845;
- 		video->nformats = ARRAY_SIZE(formats_rdi_845);
- 		break;
+diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
+index 4e22223589739..0d4389ab312d1 100644
+--- a/drivers/media/platform/qcom/camss/Makefile
++++ b/drivers/media/platform/qcom/camss/Makefile
+@@ -14,7 +14,7 @@ qcom-camss-objs += \
+ 		camss-vfe-4-1.o \
+ 		camss-vfe-4-7.o \
+ 		camss-vfe-4-8.o \
+-		camss-vfe-170.o \
++		camss-vfe-17x.o \
+ 		camss-vfe-480.o \
+ 		camss-vfe-gen1.o \
+ 		camss-vfe.o \
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe-170.c b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
+similarity index 100%
+rename from drivers/media/platform/qcom/camss/camss-vfe-170.c
+rename to drivers/media/platform/qcom/camss/camss-vfe-17x.c
 
 -- 
 2.42.0
