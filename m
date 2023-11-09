@@ -2,317 +2,228 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 625D07E6A6B
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 13:20:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6630E7E6A90
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 13:28:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231658AbjKIMU3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 07:20:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53556 "EHLO
+        id S231912AbjKIM25 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 07:28:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48980 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229605AbjKIMU2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 07:20:28 -0500
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFDB22736
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 04:20:25 -0800 (PST)
-Received: by mail-vs1-xe34.google.com with SMTP id ada2fe7eead31-45d98cbe098so323350137.1
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 04:20:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699532425; x=1700137225; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BPcS64LNsr6Re9WYBQ3Sfo6KPTli043xINsR6eR0oWU=;
-        b=CGuM6wOVAZlujMOXHQNeku1AE6QvAmM2iij+iJLrYAQC+V2esDVnIAL/n2CqDR+dqw
-         LZLkwCzUOcD6ZOE98OaiHbINwIwhVP+/r20yI5s5s9Y4dHeksn6jU+kH9OwcOmCdzqn4
-         a9TS+wGPZLS+49mbMhxQ8FLGxePOcPtOAVjnR1W+87oWfDtTzBGDHzvMKwQkcHzR2Eul
-         SlduiTaCIla+dHwQ2FFGc6rByWzCsKo75/cfx63kjxyJC4w5gFD4bI1m82CmKxzo+xQM
-         CHHfiiqGZ6EGC6jUCM9FjKX6z7wzgAi9KojyMSWa4c7tEoIDOObdG3DCBNcrb2+uzDx3
-         v3dg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699532425; x=1700137225;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BPcS64LNsr6Re9WYBQ3Sfo6KPTli043xINsR6eR0oWU=;
-        b=hWht+Q82AiUIXcugQMSzb2BDjLVpgSg7T+qN8ipqTSHt74ZF8PTvqZluiQKlfd+/sJ
-         ImgXrEO+MzWpeb4zG2OGYT2gVHa7Q4K83rnNyuJxx3PHKpV4KPAYl6/fv7Zx5Rq9mhRn
-         jH9cjrkPdpaHDOgKMsCOOpv2XdIcC/FZMsMtxO8H+ymfci+VKIhqwcFVpfhvnOCZStaq
-         D9IxQIbs90U+95WvMI2bXGV09gv6NA30uW8bAF1GOzO0tASxkd0kgBM4pokE4Xj7dn5w
-         Go6UDje7rujIXXK2UK1InkZddqJ6ocagixOloOEkfuCuCKwGcR39ldT/tE3IrIZSF0Qo
-         f4CA==
-X-Gm-Message-State: AOJu0YyRgyWv4P/7NgsPyg6P2Ph01pu2HaZ9ATF1Ver21FmdUPqrK1Z0
-        TVJNQP7Yf7flOkdhS1oBCaAbO/z7i674C31BeFHPmg==
-X-Google-Smtp-Source: AGHT+IFfFl922mscmOxZBJu/cgw+xUG99huJKamj4SvfI8CIyJ6yJO0CbXCAJJce1KiW6D25ou0quO0lgo5uh+PiKfc=
-X-Received: by 2002:a67:ef5e:0:b0:45d:b022:9835 with SMTP id
- k30-20020a67ef5e000000b0045db0229835mr4061147vsr.22.1699532424738; Thu, 09
- Nov 2023 04:20:24 -0800 (PST)
+        with ESMTP id S229605AbjKIM25 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 07:28:57 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9F3B2590;
+        Thu,  9 Nov 2023 04:28:54 -0800 (PST)
+Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: andrzej.p)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id 191B9660747A;
+        Thu,  9 Nov 2023 12:28:51 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1699532932;
+        bh=wvBhmLqQREGAx7oI3reWe2l9af2k7nuNnRJBg9FCTr4=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=ExFkeytFlei55dbrJW6zpwbv5BYV0MbggCVBUcXQBNiM1/sHKVg/JpGHHnF2s7dCo
+         Li7kwuM3z+7qXVFORQmvymicrppZRH85wCQZMsLN7f2rgCEglpxhTv+fZXy1dydcfZ
+         GDPGLHh38V93b/yBaJnXaWSZu8x0I2yvc5VO/fwGRtCEslW39AR1gB+B3PTFdL5qGz
+         AMVyazugfVnHbygYcv7/22BzSpfukJJssucjtrgWIK7MpRgrNQQGriMw40W5F1QCE7
+         kDLVkR3xW9NLYiRr0GvcgEm+RhVsP7ysyGmCBgF3XENKjRaE7uMREYvh+oM8G0SNNZ
+         aZ86u3NgLFyKg==
+Message-ID: <25614b04-4bb5-4b32-b41f-92477d1117a0@collabora.com>
+Date:   Thu, 9 Nov 2023 13:28:48 +0100
 MIME-Version: 1.0
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-8-almasrymina@google.com> <4a0e9d53-324d-e19b-2a30-ba86f9e5569e@huawei.com>
- <CAHS8izNbw7vAGo2euQGA+TF9CgQ8zwrDqTVGsOSxh22_uo0R1w@mail.gmail.com>
- <d4309392-711a-75b0-7bf0-9e7de8fd527e@huawei.com> <CAHS8izM1P6d8jgyWE9wFJUJah2YFsjHP2uikDwA0vR=3QA+BXQ@mail.gmail.com>
- <a8ae22dc-5b85-9efe-16c7-d95d455828fa@huawei.com>
-In-Reply-To: <a8ae22dc-5b85-9efe-16c7-d95d455828fa@huawei.com>
-From:   Mina Almasry <almasrymina@google.com>
-Date:   Thu, 9 Nov 2023 04:20:11 -0800
-Message-ID: <CAHS8izOh8yC7q9yJN+RAKGs=AgsEf13MnFDmG46=EU05ynnLKw@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 07/12] page-pool: device memory support
-To:     Yunsheng Lin <linyunsheng@huawei.com>
-Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Ahern <dsahern@kernel.org>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jeroen de Borst <jeroendb@google.com>,
-        Praveen Kaligineedi <pkaligineedi@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 44/56] media: core: Report the maximum possible number
+ of buffers for the queue
+Content-Language: en-US
+To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-45-benjamin.gaignard@collabora.com>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <20231031163104.112469-45-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 9, 2023 at 1:30=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
-> wrote:
->
-> On 2023/11/9 11:20, Mina Almasry wrote:
-> > On Wed, Nov 8, 2023 at 2:56=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei=
-.com> wrote:
->
-> >
-> > Agreed everything above is undoable.
-> >
-> >> But we might be able to do something as folio is doing now, mm subsyst=
-em
-> >> is still seeing 'struct folio/page', but other subsystem like slab is =
-using
-> >> 'struct slab', and there is still some common fields shared between
-> >> 'struct folio' and 'struct slab'.
-> >>
-> >
-> > In my eyes this is almost exactly what I suggested in RFC v1 and got
-> > immediately nacked with no room to negotiate. What we did for v1 is to
-> > allocate struct pages for dma-buf to make dma-bufs look like struct
-> > page to mm subsystem. Almost exactly what you're describing above.
->
-> Maybe the above is where we have disagreement:
-> Do we still need make dma-bufs look like struct page to mm subsystem?
-> IMHO, the answer is no. We might only need to make dma-bufs look like
-> struct page to net stack and page pool subsystem. I think that is already
-> what this pacthset is trying to do, what I am suggesting is just make
-> it more like 'struct page' to net stack and page pool subsystem, in order
-> to try to avoid most of the 'if' checking in net stack and page pool
-> subsystem.
->
-
-First, most of the checking in the net stack is
-skb_frag_not_readable(). dma-buf are fundamentally not kmap()able and
-not readable. So we can't remove those, no matter what we do I think.
-Can we agree on that? If so, lets discuss removing most of the ifs in
-the page pool, only.
-
-> > It's a no-go. I don't think renaming struct page to netmem is going to
-> > move the needle (it also re-introduces code-churn). What I feel like I
-> > learnt is that dma-bufs are not struct pages and can't be made to look
-> > like one, I think.
-> >
-> >> As the netmem patchset, is devmem able to reuse the below 'struct netm=
-em'
-> >> and rename it to 'struct page_pool_iov'?
-> >
-> > I don't think so. For the reasons above, but also practically it
-> > immediately falls apart. Consider this field in netmem:
-> >
-> > + * @flags: The same as the page flags.  Do not use directly.
-> >
-> > dma-buf don't have or support page-flags, and making dma-buf looks
-> > like they support page flags or any page-like features (other than
-> > dma_addr) seems extremely unacceptable to mm folks.
->
-> As far as I tell, as we limit the devmem usage in netstack, the below
-> is the related mm function call for 'struct page' for devmem:
-> page_ref_*(): page->_refcount does not need changing
-
-Sorry, I don't understand. Are you suggesting we call page_ref_add() &
-page_ref_sub() on page_pool_iov? That is basically making
-page_pool_iov look like struct page to the mm stack, since page_ref_*
-are mm calls, which you say above we don't need to do. We will still
-need to special case this, no?
-
-> page_is_pfmemalloc(): which is corresponding to page->pp_magic, and
->                       devmem provider can set/unset it in it's 'alloc_pag=
-es'
->                       ops.
-
-page_is_pfmemalloc() has nothing to do with page->pp_magic. It checks
-page->lru.next to figure out if this is a pfmemalloc. page_pool_iov
-has no page->lru.next. Still need to special case this?
-
-> page_to_nid(): we may need to handle it differently somewhat like this
->                patch does as page_to_nid() may has different implementati=
-on
->                based on different configuration.
-
-So you're saying we need to handle page_to_nid() differently for
-devmem? So we're not going to be able to avoid the if statement.
-
-> page_pool_iov_put_many(): as mentioned in other thread, if net stack is n=
-ot
->                           calling page_pool_page_put_many() directly, we
->                           can reuse napi_pp_put_page() for devmem too, an=
-d
->                           handle the special case for devmem in 'release_=
-page'
->                           ops.
->
-
-page_pool_iov_put_many()/page_pool_iov_get_many() are called to do
-refcounting before the page is released back to the provider. I'm not
-seeing how we can handle the special case inside of 'release_page' -
-that's too late, as far as I can tell.
-
-The only way to remove the if statements in the page pool is to
-implement what you said was not feasible in an earlier email. We would
-define this struct:
-
-struct netmem {
-        /* common fields */
-        refcount_t refcount;
-        bool is_pfmemalloc;
-        int nid;
-        ......
-        union {
-                struct devmem{
-                        struct dmabuf_genpool_chunk_owner *owner;
-                };
-
-                struct page * page;
-        };
-};
-
-Then, we would require all memory providers to allocate struct netmem
-for the memory and set the common fields, including ones that have
-struct pages. For devmem, netmem->page will be NULL, because netmem
-has no page.
-
-If we do that, the page pool can ignore whether the underlying memory
-is page or devmem, because it can use the common fields, example:
-
-/* page_ref_count replacement */
-netmem_ref_count(struct netmem* netmem) {
-    return netmem->refcount;
-}
-
-/* page_ref_add replacement */
-netmem_ref_add(struct netmem* netmem) {
-   atomic_inc(netmem->refcount);
-}
-
-/* page_to_nid replacement */
-netmem_nid(struct netmem* netmem) {
-    return netmem->nid;
-}
-
-/* page_is_pfmemalloc() replacement */
-netmem_is_pfmemalloc(struct netmem* netmem) {
-    return netmem->is_pfmemalloc;
-}
-
-/* page_ref_sub replacement */
-netmem_ref_sub(struct netmem* netmem) {
-    atomic_sub(netmet->refcount);
-    if (netmem->refcount =3D=3D 0) {
-                  /* release page to the memory provider.
-                   * struct page memory provider will do put_page(),
-                   * devmem will do something else */
-           }
-     }
-}
+Hi Benjamin,
 
 
-I think this MAY BE technically feasible, but I'm not sure it's better:
+W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
+> Use one of the struct v4l2_create_buffers reserved bytes to report
 
-1. It is a huge refactor to the page pool, lots of code churn. While
-the page pool currently uses page*, it needs to be completely
-refactored to use netmem*.
-2. It causes extra memory usage. struct netmem needs to be allocated
-for every struct page.
-3. It has minimal perf upside. The page_is_page_pool_iov() checks
-currently have minimal perf impact, and I demonstrated that to Jesper
-in RFC v2.
-4. It also may not be technically feasible. I'm not sure how netmem
-interacts with skb_frag_t. I guess we replace struct page* bv_page
-with struct netmem* bv_page, and add changes there.
-5. Drivers need to be refactored to use netmem* instead of page*,
-unless we cast netmem* to page* before returning to the driver.
+I initially thought you were using literally a single byte, which made
+no sense to me given that values much larger than 255 are sometimes going to be
+stored there.
 
-Possibly other downsides, these are what I could immediately think of.
+Maybe rephrase this to:
 
-If I'm still misunderstanding your suggestion, it may be time to send
-me a concrete code snippet of what you have in mind. I'm a bit
-confused at the moment because the only avenue I see to remove the if
-statements in the page pool is to define the struct that we agreed is
-not feasible in earlier emails.
+Use one element of the struct v4l2_create_buffers "reserved" array to report...
 
-> >
-> >> So that 'struct page' for normal
-> >> memory and 'struct page_pool_iov' for devmem share the common fields u=
-sed
-> >> by page pool and net stack?
-> >
-> > Are you suggesting that we'd cast a netmem* to a page* and call core
-> > mm APIs on it? It's basically what was happening with RFC v1, where
-> > things that are not struct pages were made to look like struct pages.
-> >
-> > Also, there isn't much upside for what you're suggesting, I think. For
-> > example I can align the refcount variable in struct page_pool_iov with
-> > the refcount in struct page so that this works:
-> >
-> > put_page((struct page*)ppiov);
-> >
-> > but it's a disaster. Because put_page() will call __put_page() if the
-> > page is freed, and __put_page() will try to return the page to the
-> > buddy allocator!
->
-> As what I suggested above, Can we handle this in devmem provider's
-> 'release_page' ops instead of calling put_page() directly as for devmem.
->
-> >
-> >>  And we might be able to reuse the 'flags',
-> >> '_pp_mapping_pad' and '_mapcount' for specific mem provider, which is =
-enough
-> >> for the devmem only requiring a single pointer to point to it's
-> >> owner?
-> >>
-> >
-> > All the above seems quite similar to RFC v1 again, using netmem
-> > instead of struct page. In RFC v1 we re-used zone_device_data() for
-> > the dma-buf owner equivalent.
->
-> As we have added a few checkings to limit 'struct page' for devmem to
-> be only used in net stack, we can decouple 'struct page' for devmem
-> from mm subsystem, zone_device_data() is not really needed, right?
->
-> If we can decouple 'struct page' for normal memory from mm subsystem
-> through the folio work in the future, then we may define a more abstract
-> structure for page pool and net stack instead of reusing 'struct page'
-> from mm.
->
-> >
+With that you can add my
+
+Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
 
+> the maximum possible number of buffers for the queue.
+> V4l2 framework set V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS flags in queue
+> capabilities so userland can know when the field is valid.
+> Does the same change in v4l2_create_buffers32 structure.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> ---
+>   .../userspace-api/media/v4l/vidioc-create-bufs.rst       | 8 ++++++--
+>   Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst | 1 +
+>   drivers/media/common/videobuf2/videobuf2-v4l2.c          | 2 ++
+>   drivers/media/v4l2-core/v4l2-compat-ioctl32.c            | 9 ++++++++-
+>   drivers/media/v4l2-core/v4l2-ioctl.c                     | 4 ++--
+>   include/uapi/linux/videodev2.h                           | 7 ++++++-
+>   6 files changed, 25 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+> index a048a9f6b7b6..49232c9006c2 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst
+> @@ -116,9 +116,13 @@ than the number requested.
+>         - ``flags``
+>         - Specifies additional buffer management attributes.
+>   	See :ref:`memory-flags`.
+> -
+>       * - __u32
+> -      - ``reserved``\ [6]
+> +      - ``max_num_buffers``
+> +      - If the V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability flag is set
+> +        this field indicates the maximum possible number of buffers
+> +        for this queue.
+> +    * - __u32
+> +      - ``reserved``\ [5]
+>         - A place holder for future extensions. Drivers and applications
+>   	must set the array to zero.
+>   
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> index 099fa6695167..0b3a41a45d05 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst
+> @@ -120,6 +120,7 @@ aborting or finishing any DMA in progress, an implicit
+>   .. _V4L2-BUF-CAP-SUPPORTS-ORPHANED-BUFS:
+>   .. _V4L2-BUF-CAP-SUPPORTS-M2M-HOLD-CAPTURE-BUF:
+>   .. _V4L2-BUF-CAP-SUPPORTS-MMAP-CACHE-HINTS:
+> +.. _V4L2-BUF-CAP-SUPPORTS-MAX-NUM-BUFFERS:
+>   
+>   .. raw:: latex
+>   
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index f3cf4b235c1f..bdfc3a253c65 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -762,6 +762,8 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
+>   	fill_buf_caps(q, &create->capabilities);
+>   	validate_memory_flags(q, create->memory, &create->flags);
+>   	create->index = vb2_get_num_buffers(q);
+> +	create->max_num_buffers = q->max_num_buffers;
+> +	create->capabilities |= V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS;
+>   	if (create->count == 0)
+>   		return ret != -EBUSY ? ret : 0;
+>   
+> diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> index f3bed37859a2..5aac5cf780b3 100644
+> --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
+> @@ -116,6 +116,9 @@ struct v4l2_format32 {
+>    * @flags:	additional buffer management attributes (ignored unless the
+>    *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability and
+>    *		configured for MMAP streaming I/O).
+> + * @max_num_buffers: if V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability flag is set
+> + *		this field indicate the maximum possible number of buffers
+> + *		for this queue.
+>    * @reserved:	future extensions
+>    */
+>   struct v4l2_create_buffers32 {
+> @@ -125,7 +128,8 @@ struct v4l2_create_buffers32 {
+>   	struct v4l2_format32	format;
+>   	__u32			capabilities;
+>   	__u32			flags;
+> -	__u32			reserved[6];
+> +	__u32			max_num_buffers;
+> +	__u32			reserved[5];
+>   };
+>   
+>   static int get_v4l2_format32(struct v4l2_format *p64,
+> @@ -175,6 +179,8 @@ static int get_v4l2_create32(struct v4l2_create_buffers *p64,
+>   		return -EFAULT;
+>   	if (copy_from_user(&p64->flags, &p32->flags, sizeof(p32->flags)))
+>   		return -EFAULT;
+> +	if (copy_from_user(&p64->max_num_buffers, &p32->max_num_buffers, sizeof(p32->max_num_buffers)))
+> +		return -EFAULT;
+>   	return get_v4l2_format32(&p64->format, &p32->format);
+>   }
+>   
+> @@ -221,6 +227,7 @@ static int put_v4l2_create32(struct v4l2_create_buffers *p64,
+>   			 offsetof(struct v4l2_create_buffers32, format)) ||
+>   	    put_user(p64->capabilities, &p32->capabilities) ||
+>   	    put_user(p64->flags, &p32->flags) ||
+> +	    put_user(p64->max_num_buffers, &p32->max_num_buffers) ||
+>   	    copy_to_user(p32->reserved, p64->reserved, sizeof(p64->reserved)))
+>   		return -EFAULT;
+>   	return put_v4l2_format32(&p64->format, &p32->format);
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 9b1de54ce379..4d90424cbfc4 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -483,9 +483,9 @@ static void v4l_print_create_buffers(const void *arg, bool write_only)
+>   {
+>   	const struct v4l2_create_buffers *p = arg;
+>   
+> -	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, ",
+> +	pr_cont("index=%d, count=%d, memory=%s, capabilities=0x%08x, max num buffers=%u",
+>   		p->index, p->count, prt_names(p->memory, v4l2_memory_names),
+> -		p->capabilities);
+> +		p->capabilities, p->max_num_buffers);
+>   	v4l_print_format(&p->format, write_only);
+>   }
+>   
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index c3d4e490ce7c..13ddb5abf584 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1035,6 +1035,7 @@ struct v4l2_requestbuffers {
+>   #define V4L2_BUF_CAP_SUPPORTS_ORPHANED_BUFS		(1 << 4)
+>   #define V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF	(1 << 5)
+>   #define V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS		(1 << 6)
+> +#define V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS		(1 << 7)
+>   
+>   /**
+>    * struct v4l2_plane - plane info for multi-planar buffers
+> @@ -2605,6 +2606,9 @@ struct v4l2_dbg_chip_info {
+>    * @flags:	additional buffer management attributes (ignored unless the
+>    *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
+>    *		and configured for MMAP streaming I/O).
+> + * @max_num_buffers: if V4L2_BUF_CAP_SUPPORTS_MAX_NUM_BUFFERS capability flag is set
+> + *		this field indicate the maximum possible number of buffers
+> + *		for this queue.
+>    * @reserved:	future extensions
+>    */
+>   struct v4l2_create_buffers {
+> @@ -2614,7 +2618,8 @@ struct v4l2_create_buffers {
+>   	struct v4l2_format	format;
+>   	__u32			capabilities;
+>   	__u32			flags;
+> -	__u32			reserved[6];
+> +	__u32			max_num_buffers;
+> +	__u32			reserved[5];
+>   };
+>   
+>   /*
 
---
-Thanks,
-Mina
