@@ -2,156 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 347B77E664E
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 10:10:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 668697E6669
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 10:15:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234117AbjKIJK1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 04:10:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42536 "EHLO
+        id S234156AbjKIJPg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 04:15:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230159AbjKIJKZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 04:10:25 -0500
-Received: from mail-pf1-x42d.google.com (mail-pf1-x42d.google.com [IPv6:2607:f8b0:4864:20::42d])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69BA7210A
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 01:10:23 -0800 (PST)
-Received: by mail-pf1-x42d.google.com with SMTP id d2e1a72fcca58-6bd32d1a040so640851b3a.3
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 01:10:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699521023; x=1700125823; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=trb4MuQ6XLLHp9cbrU7Qhxh5OD3/4hryMzvH31htzlg=;
-        b=BfE5xHs8SaXQXG0b9xYL59BZex2/UqiE11tZAi0CgLK7Ydexx4iCva8h+xgM0e9krJ
-         ueCIcl+A8AUONksNUSdbecpH2Imox49H8q2vc/lz8fuOabf9zfvmLsERsMN3NSlYmD9u
-         xufmGgtvftJXrnScHK2RugsszirDt7DCcdb8A=
+        with ESMTP id S234238AbjKIJPd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 04:15:33 -0500
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C934270C
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 01:14:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1699521283;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=rlxAh75JGCxuVSjk/DiobkLepAxu5g+JZPGhaCfgbCo=;
+        b=g8SWf5T5KQhsMCNRpnKP337QbtoffTbXYNZ2hm897463pyLRVGy0vGnrokcH1/cgbk+RwW
+        QcOVpdrHsnyg7Z2lWcOOMdFZROTsV9RTFxNAz7HSBb32vZ7ti7Nj96H4iM+49GaoltZXZG
+        g2wSY5UgZcugITOr6chcsGGXrN7gf7A=
+Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
+ [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-661-kWpUaPIBMaWWiLwdgKHr2g-1; Thu, 09 Nov 2023 04:14:41 -0500
+X-MC-Unique: kWpUaPIBMaWWiLwdgKHr2g-1
+Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9bfbc393c43so15947666b.1
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 01:14:41 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699521023; x=1700125823;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=trb4MuQ6XLLHp9cbrU7Qhxh5OD3/4hryMzvH31htzlg=;
-        b=I5Ui2pwaV/Os4JqnP2y9Fbgt3VMnYFT1/eWjdz67Agtb6XiZZgBsmrvZy+Mfub76RK
-         D8l1XCEjx7f5icw5tKr8CULLM5BtGHt8fyEMMLaVQeBL9WmqMuOaxj9+tyRSupCboxlP
-         uHJ4OAVwcoc6w85bqm7sSZH/iaJOXQmvr2QC0rRVV7iAsyvRukfVco5NtfQ2GGfIPKLq
-         jFoDqRZEj8z4YPbKHzDIckhda4Dw403B2DHZBl+fcrdym3KHNf9p5N/eY8pBCAHdmQPK
-         4+LyDkNbhwpOgmA3sITGNu9TYOZnDZWxn2JdvD51dGmOV+RCAwF4DIYr4aV4pNHKUqle
-         eDsw==
-X-Gm-Message-State: AOJu0Yz8rQIILFXiAjWqzmH/4hS+G6wDNjkkIWKqy8uJx2dkNg9tt6ev
-        9qOKSr4UKncgip8KR9pcH0vmKA==
-X-Google-Smtp-Source: AGHT+IHeH9bwSDaqUzS/5j97Pi2uukXE85TheRG3ama6+WbfBb0l8z3y1v7unvrgCAzIC5YVZM0pcw==
-X-Received: by 2002:a05:6a20:7493:b0:15d:e68d:a850 with SMTP id p19-20020a056a20749300b0015de68da850mr4661238pzd.29.1699521022894;
-        Thu, 09 Nov 2023 01:10:22 -0800 (PST)
-Received: from chromium.org (0.223.81.34.bc.googleusercontent.com. [34.81.223.0])
-        by smtp.gmail.com with ESMTPSA id i4-20020a17090332c400b001c9d968563csm3041205plr.79.2023.11.09.01.10.20
+        d=1e100.net; s=20230601; t=1699521280; x=1700126080;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rlxAh75JGCxuVSjk/DiobkLepAxu5g+JZPGhaCfgbCo=;
+        b=LZlMc50dqIpypRuKTQ8hrxNq9RzGT26ZTRBKgEwMqTBvOPHkjhLnTBhrtgJ40HkHK8
+         /aODSstxQS9l2UBrEs5FYBuhraJlH224WmDjJaZO6ALI1782MiZvH/WskobiL0/xHxCH
+         r98G6OZJsGZBnqrREzUgpJWsdDcvLwtLqlMWH/0RaqzIlH9cQyB+p/LJnPtB+3idDuqY
+         jgFp+7rgz4gJTHPcUSgg7n1aUVfZTdAU1byR1cWt2WTjrtf3zQt//LqOCwg4LphLwZeL
+         hdjNlTVrfasyPAuDI/K/FuC+AmKYAxG8cAAfOyuggRaa2125SAOJGWVPM0Ziqz/cWK6D
+         0ROA==
+X-Gm-Message-State: AOJu0YxmQ0iFE6yluRx+LC7s+wIitCBj8Z0CzWbzj/HrfYr3jvotiOFN
+        6NFCBb3uAlIVNhXFD34M8N5xqgbDb4Ij8yIqfOv+Z5Wu/vRE0fMUDXPNpHZH4Lv0lebpbr2kdR9
+        wDkWEjpgj1eMvCZZ9ilDC00Y=
+X-Received: by 2002:a17:906:e84:b0:9e3:a1a9:3db3 with SMTP id p4-20020a1709060e8400b009e3a1a93db3mr3052494ejf.0.1699521280336;
+        Thu, 09 Nov 2023 01:14:40 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFrN7rWZV1LJySiH/LlJHce45p7c2N1o4c7lFbPUX87ekT7bdY/faJ0o5ksbIAqMgIYGTojqQ==
+X-Received: by 2002:a17:906:e84:b0:9e3:a1a9:3db3 with SMTP id p4-20020a1709060e8400b009e3a1a93db3mr3052473ejf.0.1699521280043;
+        Thu, 09 Nov 2023 01:14:40 -0800 (PST)
+Received: from gerbillo.redhat.com (146-241-228-197.dyn.eolo.it. [146.241.228.197])
+        by smtp.gmail.com with ESMTPSA id dv16-20020a170906b81000b009a1c05bd672sm2252071ejb.127.2023.11.09.01.14.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Nov 2023 01:10:22 -0800 (PST)
-Date:   Thu, 9 Nov 2023 09:10:18 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-        nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-Subject: Re: [PATCH v14 53/56] media: core: Free range of buffers
-Message-ID: <20231109091018.tzodchqp44tmwq3k@chromium.org>
-References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
- <20231031163104.112469-54-benjamin.gaignard@collabora.com>
+        Thu, 09 Nov 2023 01:14:39 -0800 (PST)
+Message-ID: <adde2b31fdd9e7bb4a09f0073580b840bea0bab1.camel@redhat.com>
+Subject: Re: [RFC PATCH v3 08/12] net: support non paged skb frags
+From:   Paolo Abeni <pabeni@redhat.com>
+To:     Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Cc:     "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Ahern <dsahern@kernel.org>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jeroen de Borst <jeroendb@google.com>,
+        Praveen Kaligineedi <pkaligineedi@google.com>
+Date:   Thu, 09 Nov 2023 10:14:37 +0100
+In-Reply-To: <20231106024413.2801438-9-almasrymina@google.com>
+References: <20231106024413.2801438-1-almasrymina@google.com>
+         <20231106024413.2801438-9-almasrymina@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4 (3.46.4-1.fc37) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231031163104.112469-54-benjamin.gaignard@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 31, 2023 at 05:31:01PM +0100, Benjamin Gaignard wrote:
-> Improve __vb2_queue_free() and __vb2_free_mem() to free
-> range of buffers and not only the last few buffers.
-> Intoduce starting index to be flexible on range and change the loops
-> according to this parameters.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  .../media/common/videobuf2/videobuf2-core.c   | 59 +++++++++----------
->  1 file changed, 28 insertions(+), 31 deletions(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 6e88406fcae9..010a8bca0240 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -519,15 +519,13 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  /*
->   * __vb2_free_mem() - release all video buffer memory for a given queue
-
-This comment is kind of outdated. Maybe we should replace it with
-
-	release video buffer memory for a given range of buffers in a given
-	queue
-
-?
-
+On Sun, 2023-11-05 at 18:44 -0800, Mina Almasry wrote:
+[...]
+> @@ -3421,7 +3446,7 @@ static inline struct page *skb_frag_page(const skb_=
+frag_t *frag)
 >   */
-> -static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
-> +static void __vb2_free_mem(struct vb2_queue *q, unsigned int start, unsigned int count)
+>  static inline void __skb_frag_ref(skb_frag_t *frag)
 >  {
-> -	unsigned int buffer;
-> +	unsigned int i;
->  	struct vb2_buffer *vb;
-> -	unsigned int q_num_buffers = vb2_get_num_buffers(q);
->  
-> -	for (buffer = q_num_buffers - buffers; buffer < q_num_buffers;
-> -	     ++buffer) {
-> -		vb = vb2_get_buffer(q, buffer);
-> +	for (i = start; i < q->max_num_buffers && i < start + count; i++) {
+> -	get_page(skb_frag_page(frag));
+> +	page_pool_page_get_many(frag->bv_page, 1);
 
-We could make this (and all those numerous simialr iterations) more
-efficient by using bitmap helpers (probably wrapped in some vb2 helpers),
-e.g. for_each_set_bit_from() (vb2_for_each_buffer_from()?). It can be done
-in a follow up patch separately from this series though.
+I guess the above needs #ifdef CONFIG_PAGE_POOL guards and explicit
+skb_frag_is_page_pool_iov() check ?
 
-> +		vb = vb2_get_buffer(q, i);
->  		if (!vb)
->  			continue;
->  
-> @@ -542,35 +540,35 @@ static void __vb2_free_mem(struct vb2_queue *q, unsigned int buffers)
->  }
->  
->  /*
-> - * __vb2_queue_free() - free buffers at the end of the queue - video memory and
-> + * __vb2_queue_free() - free count buffers from start index of the queue - video memory and
 
-nit: How about using the @count and @start notation to refer the argument
-names? (Can be done with a follow up patch outside of this series later.)
+Cheers,
 
->   * related information, if no buffers are left return the queue to an
->   * uninitialized state. Might be called even if the queue has already been freed.
->   */
-> -static void __vb2_queue_free(struct vb2_queue *q, unsigned int buffers)
-> +static void __vb2_queue_free(struct vb2_queue *q, unsigned int start, unsigned int count)
->  {
-> -	unsigned int buffer;
-> -	unsigned int q_num_buffers = vb2_get_num_buffers(q);
-> +	unsigned int i;
->  
->  	lockdep_assert_held(&q->mmap_lock);
->  
->  	/* Call driver-provided cleanup function for each buffer, if provided */
-> -	for (buffer = q_num_buffers - buffers; buffer < q_num_buffers;
-> -	     ++buffer) {
-> -		struct vb2_buffer *vb = vb2_get_buffer(q, buffer);
-> +	for (i = start; i < q->max_num_buffers && i < start + count; i++) {
-> +		struct vb2_buffer *vb = vb2_get_buffer(q, i);
->  
-> -		if (vb && vb->planes[0].mem_priv)
-> +		if (!vb)
-> +			continue;
-> +		if (vb->planes[0].mem_priv)
+Paolo
 
-nit: Not sure if we really had to change this, but I'm fine with either.
-
-Best regards,
-Tomasz
