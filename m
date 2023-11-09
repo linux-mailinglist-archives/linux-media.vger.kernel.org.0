@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8DFD87E6693
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 10:21:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A0027E6697
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 10:23:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234269AbjKIJV4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 04:21:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51648 "EHLO
+        id S231199AbjKIJXK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 04:23:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229629AbjKIJVz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 04:21:55 -0500
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEA612590;
-        Thu,  9 Nov 2023 01:21:53 -0800 (PST)
+        with ESMTP id S229509AbjKIJXJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 04:23:09 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DC472139;
+        Thu,  9 Nov 2023 01:23:07 -0800 (PST)
 Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
         (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
          key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
         (Authenticated sender: andrzej.p)
-        by madras.collabora.co.uk (Postfix) with ESMTPSA id 09BF76607410;
-        Thu,  9 Nov 2023 09:21:50 +0000 (GMT)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id CA8AD6607410;
+        Thu,  9 Nov 2023 09:23:04 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-        s=mail; t=1699521712;
-        bh=f8JXp5DFigmWZNSo/1/xIIcN/xL2hsK0xHFmM9ZToL0=;
+        s=mail; t=1699521786;
+        bh=79QW7iQquBnwYm14N3AIvehKWVXP1fEi05nVMlo3R2M=;
         h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-        b=GhASGxhw40oITC1953wmOIZmXueh8mIWI9sy6ITxawXx67Jiz7uuD3m3plQGR3GFS
-         +mKwqeGFgJrCX8RMLO919BPvowQy4hSLxkXaIm6936+JP9oyW2S5tlDXWw/L88jNQK
-         g9Te4OtfxIx5Tek0ycpNfoJkR4YE4pXWTanCUigOuyE09hKEgZ+s7w3efbXOwfwGGc
-         ZV0VsLNy2f7kP0z8DRpX07zRPjLug6VKyUkqCwmZInQe+H6wrdzkcbMaOhbsl549iF
-         eX4oZzV6YbVIt6HLkUf0+OcsfKSscbztj7pSjrVs3/D266AeoVEMLaGuvWab6LMxXh
-         FPFtvJ9TBQ5Tw==
-Message-ID: <7972851a-9a78-426a-b864-4de8411cd15a@collabora.com>
-Date:   Thu, 9 Nov 2023 10:21:48 +0100
+        b=d7i3viPTau1TXKkUDV057Kz7FIJc20TwGqpUXPN+RkCqA1YQ3Tm6xQQbJTKXbrGk7
+         vDybVoh3QyJP++z4JQrE7N5ofEZhnFMCP4NPewB8oI6+6QvA2gEWidVxXZh0YackUg
+         d3SkTIWIUe3tGLxgwnFadAiSuq0bRQVUQ6OjhZz/JbKfsaUuA4aRa7fhSu4PkrAdP9
+         uMZsnimIy3G6B/BMeub95Bk+EN7LtM8m6Q/iKTrnobb2jkAeue+VYticlFOdZlx3Sk
+         EGMRuhtS2jn2RN2fJRVWJcyHl7TTombrj3pnJKbUtEHRzuJHDRwWbUW2o+jefxNNVw
+         wjGXQQbgfVWrg==
+Message-ID: <aca318c9-8d6d-4c04-afdf-8eacb80f79d8@collabora.com>
+Date:   Thu, 9 Nov 2023 10:23:04 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v14 13/56] media: mediatek: vcodec: Stop direct calls to
@@ -59,6 +59,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Sorry for the noise, I made a typo in my email address. Resending with a proper one.
+
 W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
 > Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
 > This allows us to change how the number of buffers is computed in the
@@ -66,7 +68,7 @@ W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-Reviewed-by: Andrzej Pietrasiewicz <anrdzej.p@collabora.com>
+Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
 
 > CC: Bin Liu <bin.liu@mediatek.com>
 > CC: Matthias Brugger <matthias.bgg@gmail.com>
