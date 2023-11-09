@@ -2,670 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E5A6E7E612D
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 00:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B3507E6144
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 01:03:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S229565AbjKHXr4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 18:47:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44252 "EHLO
+        id S230451AbjKIAD0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 19:03:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60640 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjKHXrz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 18:47:55 -0500
-Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A6202127
-        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 15:47:53 -0800 (PST)
-Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1cc5fa0e4d5so2092695ad.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 15:47:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1699487273; x=1700092073; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=+IvnU9qdnd1cU9uLDy6TRQLEoRFzd3xp2aOytPCevCQ=;
-        b=Ax7ppKC8RcOco1VbSEbRmbMheLjzNspbZKohieW6Q7wNjo08iwm0HjZ8jLn2td2nD9
-         1vk3GACHmyQcE23Aa+R5wBuNJTeskXvn/fxktaaH6WYCKaTb/iEvMjjVOdMfZqsPScuw
-         WFNuYTVsshsStx4po1prLLZ3SwmFjQfcv7f8rIgPCP0IDTZR0lD1Tv/pxWsOkFcy2SJU
-         hdVgCn1gLxqHMfK60mmfg7gdKHhjRqGRFcl9gyskHBGEw67wAekBce24xVVYeRM8mo5/
-         DS/PIbyvpcEjHOz5JSREnsEj/Rg9KBe7nY3pvbTfthSZvStxrnGaKUpwfPHIr17cybG4
-         IsRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699487273; x=1700092073;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+IvnU9qdnd1cU9uLDy6TRQLEoRFzd3xp2aOytPCevCQ=;
-        b=VVF0Ut1iKeB2rwMtG86DBowBQ0A5JwYS4yMxBbYyH++hRRPh4mp1MvjJcItA02d0Sh
-         F+MFYoHC1VRKrtPoUE6UQKxl1WW29fu2NG8RZxm8kPsUdn8NWC8gc1m14iQ/T4XfMTEf
-         RhGzID9AGh9DAPTML80o9AE6ZXILz3NaUoEqcArYyOiQDI3O/oGJQhZ5KfficfQcTaEt
-         3xJMI+zP14bNLE4UFx8Ju2ThcuwRlS0s6byWwNFpsHxhy+ZNjo2FsGAnnlftoa2sttdy
-         baTbB6YXD4sE6mIZ6T/ki6YzTbm6JqRXQzxlj1NcU8w+ICBwszzdy5C8j1p5ZDL4s6av
-         I6rA==
-X-Gm-Message-State: AOJu0YwDZ329duRrFm1z0AH2Po3LVJ6gb0dRr8Fb1epHZtahzxRtyR9T
-        ZDIBuCsFKF0fze6Hk5gPLnw9DA==
-X-Google-Smtp-Source: AGHT+IGTt11vcMFqMOQfTuSVCx5TwuNb8uSZ7RQdxA3Rg7MI28/KHHKH1KO4GcEzuJ8mpvCgVJ9ojQ==
-X-Received: by 2002:a17:902:ed53:b0:1ca:b26a:9729 with SMTP id y19-20020a170902ed5300b001cab26a9729mr3651815plb.38.1699487272742;
-        Wed, 08 Nov 2023 15:47:52 -0800 (PST)
-Received: from ?IPV6:2a03:83e0:1256:2:c51:2090:e106:83fa? ([2620:10d:c090:500::5:887f])
-        by smtp.gmail.com with ESMTPSA id u13-20020a17090341cd00b001bdb85291casm2223663ple.208.2023.11.08.15.47.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 15:47:52 -0800 (PST)
-Message-ID: <7769b74d-dd23-41de-8e11-434a0acabf72@davidwei.uk>
-Date:   Wed, 8 Nov 2023 15:47:48 -0800
+        with ESMTP id S229473AbjKIADZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 19:03:25 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C605B25BC;
+        Wed,  8 Nov 2023 16:03:23 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 686EB2BC;
+        Thu,  9 Nov 2023 01:02:59 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1699488179;
+        bh=r3/F4xck2AoqnZ9QaIyzlaGd+0XnYcVYkd0u9lYk57o=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=TKiNmgF5ZxYeLumixe+UTEodbVuzTEb5bDokWC9MNknFE7W63TnD8EjJ6GNtYW30O
+         Im9b9Sa3C/udqvcqniE3WYUDp6KGd/tNTk0ZzXve03Rj0D7afv8CRwdwGUBCKFg6B7
+         XBdRHS7ktlY/QQ9yhByZIxfRhQELGFjLmlkpTk5I=
+Date:   Thu, 9 Nov 2023 02:03:27 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     nicolas@ndufresne.ca, Esker Wong <esker@google.com>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>,
+        Esker Wong <esker@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
+Message-ID: <20231109000327.GE21616@pendragon.ideasonboard.com>
+References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org>
+ <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu>
+ <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
+ <fe672e31315b8f9c44a693c909d464a299e76093.camel@ndufresne.ca>
+ <CAEZL83qR2bDq35yvCV-WvkaL6ZbPvSxQH+j=ViG6Kq8-0Mzq1Q@mail.gmail.com>
+ <CANiDSCtDQ9Wg57YzVAJ1o5WQRmy1QPW8td8V2Scc08MmWtOwFg@mail.gmail.com>
+ <03ac47742945cc04e4663b87563b47a96ed3ec1f.camel@ndufresne.ca>
+ <CANiDSCunRRyod3Rg+L9ZsffOZyC7CKbMVTHX3u-n5iuNyZQk0w@mail.gmail.com>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 04/12] netdev: support binding dma-buf to netdevice
-Content-Language: en-GB
-To:     Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Cc:     "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>,
-        David Ahern <dsahern@kernel.org>,
-        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Shuah Khan <shuah@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jeroen de Borst <jeroendb@google.com>,
-        Praveen Kaligineedi <pkaligineedi@google.com>,
-        Willem de Bruijn <willemb@google.com>,
-        Kaiyuan Zhang <kaiyuanz@google.com>,
-        Pavel Begunkov <asml.silence@gmail.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-5-almasrymina@google.com>
-From:   David Wei <dw@davidwei.uk>
-In-Reply-To: <20231106024413.2801438-5-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CANiDSCunRRyod3Rg+L9ZsffOZyC7CKbMVTHX3u-n5iuNyZQk0w@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023-11-05 18:44, Mina Almasry wrote:
-> Add a netdev_dmabuf_binding struct which represents the
-> dma-buf-to-netdevice binding. The netlink API will bind the dma-buf to
-> rx queues on the netdevice. On the binding, the dma_buf_attach
-> & dma_buf_map_attachment will occur. The entries in the sg_table from
-> mapping will be inserted into a genpool to make it ready
-> for allocation.
-> 
-> The chunks in the genpool are owned by a dmabuf_chunk_owner struct which
-> holds the dma-buf offset of the base of the chunk and the dma_addr of
-> the chunk. Both are needed to use allocations that come from this chunk.
-> 
-> We create a new type that represents an allocation from the genpool:
-> page_pool_iov. We setup the page_pool_iov allocation size in the
-> genpool to PAGE_SIZE for simplicity: to match the PAGE_SIZE normally
-> allocated by the page pool and given to the drivers.
-> 
-> The user can unbind the dmabuf from the netdevice by closing the netlink
-> socket that established the binding. We do this so that the binding is
-> automatically unbound even if the userspace process crashes.
-> 
-> The binding and unbinding leaves an indicator in struct netdev_rx_queue
-> that the given queue is bound, but the binding doesn't take effect until
-> the driver actually reconfigures its queues, and re-initializes its page
-> pool.
-> 
-> The netdev_dmabuf_binding struct is refcounted, and releases its
-> resources only when all the refs are released.
-> 
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> 
-> ---
-> 
-> RFC v3:
-> - Support multi rx-queue binding
-> 
-> ---
->  include/linux/netdevice.h     |  80 ++++++++++++++
->  include/net/netdev_rx_queue.h |   1 +
->  include/net/page_pool/types.h |  27 +++++
->  net/core/dev.c                | 203 ++++++++++++++++++++++++++++++++++
->  net/core/netdev-genl.c        | 116 ++++++++++++++++++-
->  5 files changed, 425 insertions(+), 2 deletions(-)
-> 
-> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-> index b8bf669212cc..eeeda849115c 100644
-> --- a/include/linux/netdevice.h
-> +++ b/include/linux/netdevice.h
-> @@ -52,6 +52,8 @@
->  #include <net/net_trackers.h>
->  #include <net/net_debug.h>
->  #include <net/dropreason-core.h>
-> +#include <linux/xarray.h>
-> +#include <linux/refcount.h>
->  
->  struct netpoll_info;
->  struct device;
-> @@ -808,6 +810,84 @@ bool rps_may_expire_flow(struct net_device *dev, u16 rxq_index, u32 flow_id,
->  #endif
->  #endif /* CONFIG_RPS */
->  
-> +struct netdev_dmabuf_binding {
-> +	struct dma_buf *dmabuf;
-> +	struct dma_buf_attachment *attachment;
-> +	struct sg_table *sgt;
-> +	struct net_device *dev;
-> +	struct gen_pool *chunk_pool;
-> +
-> +	/* The user holds a ref (via the netlink API) for as long as they want
-> +	 * the binding to remain alive. Each page pool using this binding holds
-> +	 * a ref to keep the binding alive. Each allocated page_pool_iov holds a
-> +	 * ref.
-> +	 *
-> +	 * The binding undos itself and unmaps the underlying dmabuf once all
-> +	 * those refs are dropped and the binding is no longer desired or in
-> +	 * use.
-> +	 */
-> +	refcount_t ref;
-> +
-> +	/* The portid of the user that owns this binding. Used for netlink to
-> +	 * notify us of the user dropping the bind.
-> +	 */
-> +	u32 owner_nlportid;
-> +
-> +	/* The list of bindings currently active. Used for netlink to notify us
-> +	 * of the user dropping the bind.
-> +	 */
-> +	struct list_head list;
-> +
-> +	/* rxq's this binding is active on. */
-> +	struct xarray bound_rxq_list;
-> +};
-> +
-> +#ifdef CONFIG_DMA_SHARED_BUFFER
-> +void __netdev_devmem_binding_free(struct netdev_dmabuf_binding *binding);
-> +int netdev_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
-> +		       struct netdev_dmabuf_binding **out);
-> +void netdev_unbind_dmabuf(struct netdev_dmabuf_binding *binding);
-> +int netdev_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
-> +				struct netdev_dmabuf_binding *binding);
-> +#else
-> +static inline void
-> +__netdev_devmem_binding_free(struct netdev_dmabuf_binding *binding)
-> +{
-> +}
-> +
-> +static inline int netdev_bind_dmabuf(struct net_device *dev,
-> +				     unsigned int dmabuf_fd,
-> +				     struct netdev_dmabuf_binding **out)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +static inline void netdev_unbind_dmabuf(struct netdev_dmabuf_binding *binding)
-> +{
-> +}
-> +
-> +static inline int
-> +netdev_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
-> +			    struct netdev_dmabuf_binding *binding)
-> +{
-> +	return -EOPNOTSUPP;
-> +}
-> +#endif
-> +
-> +static inline void
-> +netdev_devmem_binding_get(struct netdev_dmabuf_binding *binding)
-> +{
-> +	refcount_inc(&binding->ref);
-> +}
-> +
-> +static inline void
-> +netdev_devmem_binding_put(struct netdev_dmabuf_binding *binding)
-> +{
-> +	if (!refcount_dec_and_test(&binding->ref))
-> +		return;
-> +
-> +	__netdev_devmem_binding_free(binding);
-> +}
-> +
->  /* XPS map type and offset of the xps map within net_device->xps_maps[]. */
->  enum xps_map_type {
->  	XPS_CPUS = 0,
-> diff --git a/include/net/netdev_rx_queue.h b/include/net/netdev_rx_queue.h
-> index cdcafb30d437..1bfcf60a145d 100644
-> --- a/include/net/netdev_rx_queue.h
-> +++ b/include/net/netdev_rx_queue.h
-> @@ -21,6 +21,7 @@ struct netdev_rx_queue {
->  #ifdef CONFIG_XDP_SOCKETS
->  	struct xsk_buff_pool            *pool;
->  #endif
-> +	struct netdev_dmabuf_binding *binding;
+Hi Ricardo,
 
-@Pavel - They are using struct netdev_rx_queue to hold the binding,
-which is an object that holds the state and is mapped 1:1 to an rxq.
-This object is similar to our "interface queue". I wonder if we should
-re-visit using this generic struct, instead of driver specific structs
-e.g. bnxt_rx_ring_info?
+On Wed, Nov 08, 2023 at 11:46:40PM +0100, Ricardo Ribalda wrote:
+> On Wed, 8 Nov 2023 at 21:32, <nicolas@ndufresne.ca> wrote:
+> >
+> > The fact that you interpret the time from FRAME_SYNC to DQBUF (well the
+> > READ IO notification) as the actual latency is yours of course. It
+> > assumes that the camera on the other end does not introduce other
+> 
+> We want to use this signal to measure how much power is used since we
+> start receiving the frame until we can use it.
+> I agree with you that the latency between capture and dqbuf should be
+> measured using the timestamp. That is not our use case here.
+> 
+> > source of latency (or that these are negligible). You are also going to
+> > introduce a lot of jitter, since it relies on when the OS decides to
+> > wake up your process.
+> 
+> We have measured a jitter of around 2.5 msec, which is acceptable for our needs.
+> 
+> > I think my opinion resides in if you can accurately *enough* implement
+> > what the spec says for FRAME_SYNC then do it, otherwise just don't lie.
+> 
+> What the specs says is:
+> ```
+> Triggered immediately when the reception of a frame has begun
+> ```
+> In my opinion, that is true for usb devices, we are triggering it as
+> soon as the transfer has started to the eyes of the driver. We cannot
+> trigger earlier than that.
+> 
+> 
+> > I think for ISO, "after the first chunk" i a small lie, but acceptable.
+> > But for BULK, the way it was explained is that it will be always very
+> > close to DQBUF time. and it should not emit FRAME_SYNC for this type of
+> > UVC device. If it fits other events fine of course, I'm just making a
+> > judgment on if its fits V4L2_EVENT_FRAME_SYNC or not.
+> 
+> nit: I believe that you have swapped iso and bulk on this description
 
->  } ____cacheline_aligned_in_smp;
->  
->  /*
-> diff --git a/include/net/page_pool/types.h b/include/net/page_pool/types.h
-> index d4bea053bb7e..64386325d965 100644
-> --- a/include/net/page_pool/types.h
-> +++ b/include/net/page_pool/types.h
-> @@ -133,6 +133,33 @@ struct pp_memory_provider_ops {
->  	bool (*release_page)(struct page_pool *pool, struct page *page);
->  };
->  
-> +/* page_pool_iov support */
-> +
-> +/* Owner of the dma-buf chunks inserted into the gen pool. Each scatterlist
-> + * entry from the dmabuf is inserted into the genpool as a chunk, and needs
-> + * this owner struct to keep track of some metadata necessary to create
-> + * allocations from this chunk.
-> + */
-> +struct dmabuf_genpool_chunk_owner {
-> +	/* Offset into the dma-buf where this chunk starts.  */
-> +	unsigned long base_virtual;
-> +
-> +	/* dma_addr of the start of the chunk.  */
-> +	dma_addr_t base_dma_addr;
-> +
-> +	/* Array of page_pool_iovs for this chunk. */
-> +	struct page_pool_iov *ppiovs;
-> +	size_t num_ppiovs;
-> +
-> +	struct netdev_dmabuf_binding *binding;
-> +};
-> +
-> +struct page_pool_iov {
-> +	struct dmabuf_genpool_chunk_owner *owner;
-> +
-> +	refcount_t refcount;
-> +};
-> +
->  struct page_pool {
->  	struct page_pool_params p;
->  
-> diff --git a/net/core/dev.c b/net/core/dev.c
-> index a37a932a3e14..c8c3709d42c8 100644
-> --- a/net/core/dev.c
-> +++ b/net/core/dev.c
-> @@ -153,6 +153,9 @@
->  #include <linux/prandom.h>
->  #include <linux/once_lite.h>
->  #include <net/netdev_rx_queue.h>
-> +#include <linux/genalloc.h>
-> +#include <linux/dma-buf.h>
-> +#include <net/page_pool/types.h>
->  
->  #include "dev.h"
->  #include "net-sysfs.h"
-> @@ -2040,6 +2043,206 @@ static int call_netdevice_notifiers_mtu(unsigned long val,
->  	return call_netdevice_notifiers_info(val, &info.info);
->  }
->  
-> +/* Device memory support */
-> +
-> +#ifdef CONFIG_DMA_SHARED_BUFFER
-> +static void netdev_devmem_free_chunk_owner(struct gen_pool *genpool,
-> +					   struct gen_pool_chunk *chunk,
-> +					   void *not_used)
-> +{
-> +	struct dmabuf_genpool_chunk_owner *owner = chunk->owner;
-> +
-> +	kvfree(owner->ppiovs);
-> +	kfree(owner);
-> +}
-> +
-> +void __netdev_devmem_binding_free(struct netdev_dmabuf_binding *binding)
-> +{
-> +	size_t size, avail;
-> +
-> +	gen_pool_for_each_chunk(binding->chunk_pool,
-> +				netdev_devmem_free_chunk_owner, NULL);
-> +
-> +	size = gen_pool_size(binding->chunk_pool);
-> +	avail = gen_pool_avail(binding->chunk_pool);
-> +
-> +	if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
-> +		  size, avail))
-> +		gen_pool_destroy(binding->chunk_pool);
-> +
-> +	dma_buf_unmap_attachment(binding->attachment, binding->sgt,
-> +				 DMA_BIDIRECTIONAL);
-> +	dma_buf_detach(binding->dmabuf, binding->attachment);
-> +	dma_buf_put(binding->dmabuf);
-> +	kfree(binding);
-> +}
-> +
-> +void netdev_unbind_dmabuf(struct netdev_dmabuf_binding *binding)
-> +{
-> +	struct netdev_rx_queue *rxq;
-> +	unsigned long xa_idx;
-> +
-> +	if (!binding)
-> +		return;
-> +
-> +	list_del_rcu(&binding->list);
-> +
-> +	xa_for_each(&binding->bound_rxq_list, xa_idx, rxq)
-> +		if (rxq->binding == binding)
-> +			/* We hold the rtnl_lock while binding/unbinding
-> +			 * dma-buf, so we can't race with another thread that
-> +			 * is also modifying this value. However, the driver
-> +			 * may read this config while it's creating its
-> +			 * rx-queues. WRITE_ONCE() here to match the
-> +			 * READ_ONCE() in the driver.
-> +			 */
-> +			WRITE_ONCE(rxq->binding, NULL);
-> +
-> +	netdev_devmem_binding_put(binding);
-> +}
-> +
-> +int netdev_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
-> +				struct netdev_dmabuf_binding *binding)
-> +{
-> +	struct netdev_rx_queue *rxq;
-> +	u32 xa_idx;
-> +	int err;
-> +
-> +	rxq = __netif_get_rx_queue(dev, rxq_idx);
-> +
-> +	if (rxq->binding)
-> +		return -EEXIST;
-> +
-> +	err = xa_alloc(&binding->bound_rxq_list, &xa_idx, rxq, xa_limit_32b,
-> +		       GFP_KERNEL);
-> +	if (err)
-> +		return err;
-> +
-> +	/*We hold the rtnl_lock while binding/unbinding dma-buf, so we can't
-> +	 * race with another thread that is also modifying this value. However,
-> +	 * the driver may read this config while it's creating its * rx-queues.
-> +	 * WRITE_ONCE() here to match the READ_ONCE() in the driver.
-> +	 */
-> +	WRITE_ONCE(rxq->binding, binding);
-> +
-> +	return 0;
-> +}
-> +
-> +int netdev_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
-> +		       struct netdev_dmabuf_binding **out)
+I've confused the USB packet size and the UVC payload size. The latter
+is typically much bigger for bulk devices than isoc devices, but the
+former will be in similar order of magnitudes in a large number of
+cases, but not all cases.
 
-I'm not entirely familiar with the Netlink API. Mina, do you know if we
-can call into netdev_bind_dmabuf or netdev_nl_bind_rx_doit directly,
-without needing to call send/recv on a Netlink socket? We likely want
-io_uring to do the registration of a dmabuf fd and keep ownership over
-it.
+The URB size is the result of the USB packet size and number of packets
+per URB. The uvcvideo driver currently sets the number of packets per
+URB to 32 at most (and lowers it if the frame size is small, or if not
+enough memory can be allocated). This could be increased or made dynamic
+in the future, as higher speeds typically benefit from larger URB sizes.
+The packet size differs between bulk and isoc endpoints.
 
-> +{
-> +	struct netdev_dmabuf_binding *binding;
-> +	struct scatterlist *sg;
-> +	struct dma_buf *dmabuf;
-> +	unsigned int sg_idx, i;
-> +	unsigned long virtual;
-> +	int err;
-> +
-> +	if (!capable(CAP_NET_ADMIN))
-> +		return -EPERM;
-> +
-> +	dmabuf = dma_buf_get(dmabuf_fd);
-> +	if (IS_ERR_OR_NULL(dmabuf))
-> +		return -EBADFD;
-> +
-> +	binding = kzalloc_node(sizeof(*binding), GFP_KERNEL,
-> +			       dev_to_node(&dev->dev));
-> +	if (!binding) {
-> +		err = -ENOMEM;
-> +		goto err_put_dmabuf;
-> +	}
-> +
-> +	xa_init_flags(&binding->bound_rxq_list, XA_FLAGS_ALLOC);
-> +
-> +	refcount_set(&binding->ref, 1);
-> +
-> +	binding->dmabuf = dmabuf;
-> +
-> +	binding->attachment = dma_buf_attach(binding->dmabuf, dev->dev.parent);
-> +	if (IS_ERR(binding->attachment)) {
-> +		err = PTR_ERR(binding->attachment);
-> +		goto err_free_binding;
-> +	}
-> +
-> +	binding->sgt = dma_buf_map_attachment(binding->attachment,
-> +					      DMA_BIDIRECTIONAL);
-> +	if (IS_ERR(binding->sgt)) {
-> +		err = PTR_ERR(binding->sgt);
-> +		goto err_detach;
-> +	}
-> +
-> +	/* For simplicity we expect to make PAGE_SIZE allocations, but the
-> +	 * binding can be much more flexible than that. We may be able to
-> +	 * allocate MTU sized chunks here. Leave that for future work...
-> +	 */
-> +	binding->chunk_pool = gen_pool_create(PAGE_SHIFT,
-> +					      dev_to_node(&dev->dev));
-> +	if (!binding->chunk_pool) {
-> +		err = -ENOMEM;
-> +		goto err_unmap;
-> +	}
-> +
-> +	virtual = 0;
-> +	for_each_sgtable_dma_sg(binding->sgt, sg, sg_idx) {
-> +		dma_addr_t dma_addr = sg_dma_address(sg);
-> +		struct dmabuf_genpool_chunk_owner *owner;
-> +		size_t len = sg_dma_len(sg);
-> +		struct page_pool_iov *ppiov;
-> +
-> +		owner = kzalloc_node(sizeof(*owner), GFP_KERNEL,
-> +				     dev_to_node(&dev->dev));
-> +		owner->base_virtual = virtual;
-> +		owner->base_dma_addr = dma_addr;
-> +		owner->num_ppiovs = len / PAGE_SIZE;
-> +		owner->binding = binding;
-> +
-> +		err = gen_pool_add_owner(binding->chunk_pool, dma_addr,
-> +					 dma_addr, len, dev_to_node(&dev->dev),
-> +					 owner);
-> +		if (err) {
-> +			err = -EINVAL;
-> +			goto err_free_chunks;
-> +		}
-> +
-> +		owner->ppiovs = kvmalloc_array(owner->num_ppiovs,
-> +					       sizeof(*owner->ppiovs),
-> +					       GFP_KERNEL);
-> +		if (!owner->ppiovs) {
-> +			err = -ENOMEM;
-> +			goto err_free_chunks;
-> +		}
-> +
-> +		for (i = 0; i < owner->num_ppiovs; i++) {
-> +			ppiov = &owner->ppiovs[i];
-> +			ppiov->owner = owner;
-> +			refcount_set(&ppiov->refcount, 1);
-> +		}
-> +
-> +		dma_addr += len;
-> +		virtual += len;
-> +	}
-> +
-> +	*out = binding;
-> +
-> +	return 0;
-> +
-> +err_free_chunks:
-> +	gen_pool_for_each_chunk(binding->chunk_pool,
-> +				netdev_devmem_free_chunk_owner, NULL);
-> +	gen_pool_destroy(binding->chunk_pool);
-> +err_unmap:
-> +	dma_buf_unmap_attachment(binding->attachment, binding->sgt,
-> +				 DMA_BIDIRECTIONAL);
-> +err_detach:
-> +	dma_buf_detach(dmabuf, binding->attachment);
-> +err_free_binding:
-> +	kfree(binding);
-> +err_put_dmabuf:
-> +	dma_buf_put(dmabuf);
-> +	return err;
-> +}
-> +#endif
-> +
->  #ifdef CONFIG_NET_INGRESS
->  static DEFINE_STATIC_KEY_FALSE(ingress_needed_key);
->  
-> diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
-> index 59d3d512d9cc..2c2a62593217 100644
-> --- a/net/core/netdev-genl.c
-> +++ b/net/core/netdev-genl.c
-> @@ -129,10 +129,89 @@ int netdev_nl_dev_get_dumpit(struct sk_buff *skb, struct netlink_callback *cb)
->  	return skb->len;
->  }
->  
-> -/* Stub */
-> +static LIST_HEAD(netdev_rbinding_list);
-> +
->  int netdev_nl_bind_rx_doit(struct sk_buff *skb, struct genl_info *info)
->  {
-> -	return 0;
-> +	struct netdev_dmabuf_binding *out_binding;
-> +	u32 ifindex, dmabuf_fd, rxq_idx;
-> +	struct net_device *netdev;
-> +	struct sk_buff *rsp;
-> +	int rem, err = 0;
-> +	void *hdr;
-> +	struct nlattr *attr;
-> +
-> +	if (GENL_REQ_ATTR_CHECK(info, NETDEV_A_DEV_IFINDEX) ||
-> +	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_BIND_DMABUF_DMABUF_FD) ||
-> +	    GENL_REQ_ATTR_CHECK(info, NETDEV_A_BIND_DMABUF_QUEUES))
-> +		return -EINVAL;
-> +
-> +	ifindex = nla_get_u32(info->attrs[NETDEV_A_DEV_IFINDEX]);
-> +	dmabuf_fd = nla_get_u32(info->attrs[NETDEV_A_BIND_DMABUF_DMABUF_FD]);
-> +
-> +	rtnl_lock();
-> +
-> +	netdev = __dev_get_by_index(genl_info_net(info), ifindex);
-> +	if (!netdev) {
-> +		err = -ENODEV;
-> +		goto err_unlock;
-> +	}
-> +
-> +	err = netdev_bind_dmabuf(netdev, dmabuf_fd, &out_binding);
-> +	if (err)
-> +		goto err_unlock;
-> +
-> +	nla_for_each_attr(attr, genlmsg_data(info->genlhdr),
-> +			  genlmsg_len(info->genlhdr), rem) {
-> +		switch (nla_type(attr)) {
-> +		case NETDEV_A_BIND_DMABUF_QUEUES:
-> +			rxq_idx = nla_get_u32(attr);
-> +
-> +			if (rxq_idx >= netdev->num_rx_queues) {
-> +				err = -ERANGE;
-> +				goto err_unbind;
-> +			}
-> +
-> +			err = netdev_bind_dmabuf_to_queue(netdev, rxq_idx,
-> +							  out_binding);
-> +			if (err)
-> +				goto err_unbind;
-> +
-> +			break;
-> +		default:
-> +			break;
-> +		}
-> +	}
-> +
-> +	out_binding->owner_nlportid = info->snd_portid;
-> +	list_add_rcu(&out_binding->list, &netdev_rbinding_list);
-> +
-> +	rsp = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
-> +	if (!rsp) {
-> +		err = -ENOMEM;
-> +		goto err_unbind;
-> +	}
-> +
-> +	hdr = genlmsg_put(rsp, info->snd_portid, info->snd_seq,
-> +			  &netdev_nl_family, 0, info->genlhdr->cmd);
-> +	if (!hdr) {
-> +		err = -EMSGSIZE;
-> +		goto err_genlmsg_free;
-> +	}
-> +
-> +	genlmsg_end(rsp, hdr);
-> +
-> +	rtnl_unlock();
-> +
-> +	return genlmsg_reply(rsp, info);
-> +
-> +err_genlmsg_free:
-> +	nlmsg_free(rsp);
-> +err_unbind:
-> +	netdev_unbind_dmabuf(out_binding);
-> +err_unlock:
-> +	rtnl_unlock();
-> +	return err;
->  }
->  
->  static int netdev_genl_netdevice_event(struct notifier_block *nb,
-> @@ -155,10 +234,37 @@ static int netdev_genl_netdevice_event(struct notifier_block *nb,
->  	return NOTIFY_OK;
->  }
->  
-> +static int netdev_netlink_notify(struct notifier_block *nb, unsigned long state,
-> +				 void *_notify)
-> +{
-> +	struct netlink_notify *notify = _notify;
-> +	struct netdev_dmabuf_binding *rbinding;
-> +
-> +	if (state != NETLINK_URELEASE || notify->protocol != NETLINK_GENERIC)
-> +		return NOTIFY_DONE;
-> +
-> +	rcu_read_lock();
-> +
-> +	list_for_each_entry_rcu(rbinding, &netdev_rbinding_list, list) {
-> +		if (rbinding->owner_nlportid == notify->portid) {
-> +			netdev_unbind_dmabuf(rbinding);
-> +			break;
-> +		}
-> +	}
-> +
-> +	rcu_read_unlock();
-> +
-> +	return NOTIFY_OK;
-> +}
-> +
->  static struct notifier_block netdev_genl_nb = {
->  	.notifier_call	= netdev_genl_netdevice_event,
->  };
->  
-> +static struct notifier_block netdev_netlink_notifier = {
-> +	.notifier_call = netdev_netlink_notify,
-> +};
+For bulk, the packet size can be up to 512 bytes for USB 2.0 and 1024
+bytes for USB 3.0, and the device can select a smaller size. The largest
+URB size (again based on the current implementation of the uvcvideo
+driver) is thus 32 KiB.
 
-Is this mechamism what cleans up TCP devmem in case userspace crashes
-and the associated Netlink socket is closed?
+For isochronous the situation is more complicated. The term "packet" as
+used in the uvcvideo driver actually means all the data transferred in
+one service interval, thus made of multiple isoc packets. It is heavily
+dependent on the USB speed, and the device can advertise different
+supported sizes (which translate directly to the reserved bandwidth for
+the transfer), with the driver picking the smallest bandwidth large
+enough for the data rate required by the resolution and frame rate. The
+theoretical worst case is 1024 bytes per isoc packet * 16 isoc packets
+per burst * 6 burst per interval * 32 "packets" per URB, equal to 3 MiB.
 
-> +
->  static int __init netdev_genl_init(void)
->  {
->  	int err;
-> @@ -171,8 +277,14 @@ static int __init netdev_genl_init(void)
->  	if (err)
->  		goto err_unreg_ntf;
->  
-> +	err = netlink_register_notifier(&netdev_netlink_notifier);
-> +	if (err)
-> +		goto err_unreg_family;
-> +
->  	return 0;
->  
-> +err_unreg_family:
-> +	genl_unregister_family(&netdev_nl_family);
->  err_unreg_ntf:
->  	unregister_netdevice_notifier(&netdev_genl_nb);
->  	return err;
+Even with the largest URB size you have witnessed of ~1 MiB, we will end
+up lying quite a bit if we consider the URB completion callback for the
+first URB of the frame as indicating the start of reception.
+
+> > In term of accuracy, if timestamp was passed with the FRAME_SYNC event,
+> > it would not matter how fast your process the event anymore and greatly
+> > improve accuracy.
+> 
+> +1 to that. If we could easily change the uAPI for FRAME_SYNC that
+> should definitely be implemented.
+> 
+> > > Not to mention that the UVC timestamping requires a bit of love.
+> > >
+> > > @Laurent Pinchart, @Kieran Bingham  any progress reviewing :P :
+> > > https://patchwork.linuxtv.org/project/linux-media/list/?series=10083
+> >
+> > Thanks for working on this by the way, hope someone will find the time
+> > to review this. The timestamps should in theory provide a jitter free
+> 
+> It already has a couple of Reviewed-by stamped in.... ;)
+> 
+> > measurement of the delay Esker is trying to measure, and if it wasn't
+> > of bugs (and crazy complexity) it would in the worst case match the
+> > transfer time.
+> 
+> Sorry to repeat myself, but just to avoid the confusion: Esker needs
+> to know how much power is used since we start receiving a frame until
+> it is available for dqbuf, not de frame latency.
+
+As I think everybody is aware, the earliest notification you get on the
+CPU side is the *end* of reception of the first URB, which can possibly
+be significantly later than the start of reception of the frame.
+
+Based on what I understand, the goal is to measure the CPU power
+consumption related to CPU processing of the frame. If that's the case,
+there's good and bad news. The good news is that the CPU doesn't process
+the frame at all until the URB has been received (if you were to measure
+the power consumption of the USB host controller too, it would be a
+different story), so the delay shouldn't be a problem. The bad news is
+that I don't see how the information you're trying to get will help you,
+as there's plenty of other things unrelated to the uvcvideo driver that
+can take CPU time while a frame is being received. That may not be any
+of my business, but from the point of view of the uvcvideo driver, I'm
+less inclined to accept a possibly significant V4L2_EVENT_FRAME_SYNC lie
+if the use case ends up making little sense :-)
+
+-- 
+Regards,
+
+Laurent Pinchart
