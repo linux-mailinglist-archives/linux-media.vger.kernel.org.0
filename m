@@ -2,141 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EB3E7E6447
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 08:28:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBFAA7E64DA
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 09:02:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S232625AbjKIH2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 02:28:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59970 "EHLO
+        id S233051AbjKIICU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 03:02:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232521AbjKIH2r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 02:28:47 -0500
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA2812726
-        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 23:28:44 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-53df747cfe5so786751a12.2
-        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 23:28:44 -0800 (PST)
+        with ESMTP id S231376AbjKIICT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 03:02:19 -0500
+Received: from mail-wr1-x42a.google.com (mail-wr1-x42a.google.com [IPv6:2a00:1450:4864:20::42a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B5D02737
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 00:02:17 -0800 (PST)
+Received: by mail-wr1-x42a.google.com with SMTP id ffacd0b85a97d-32fb190bf9bso1009744f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 00:02:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699514922; x=1700119722; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1ZGyCYYTcq3tfAOSXtV2/dw7L3jydVZ3P+lrWN5MQ7s=;
-        b=A5p2BVCmgcvEh+SNWcZmn/oFYCGeI3MxBZj2usP0awAyeOhLGCLnHVJqBWqCNvzOKS
-         pfBOaXKE7KNbaF7/YksY4aboWweSrKf0FtVv7oTBo9FN/HZkaELy2AnUO2EUPYkqkNws
-         LA7DLoXbUwL1sqiNM0AcIAxykwzpOY0VO2YwU=
+        d=linaro.org; s=google; t=1699516935; x=1700121735; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=BFIkC1FD/Uwtc6W91szrKWUfuMQSfWOdpdRrkGpPlWo=;
+        b=wandipyuMnKwXtbw9p1ouX1bBBAKwqaOMFUPUELk5ndRj/7LDZz0XS++dUTnyR0idK
+         GuVHflK9OzRdyu5PcL5tNx/pvdeEkak9X3hSy6A2c/YfSS7kFgj9pHh+lmmahengJyaz
+         L85wQzqRINpJ/m7Q0+KkqQsQZ+oiqvrXV6koEhV48m8YFnB9Kl/NGUHu8WpU8J1Fu6gH
+         jWyUOLSAdwCzs6KK1n/yGLuihQo7NWugQagKR/WTs9kHm53FgMPgz1+4uZz9eifmmnQp
+         mgnSZqBaQSDNtZt2Zz/zHF8S30QOSBj6eVZVPDIrQdoKeBH7zCWKN6RzcOQp1ncvEwJh
+         3Bcw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699514922; x=1700119722;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1ZGyCYYTcq3tfAOSXtV2/dw7L3jydVZ3P+lrWN5MQ7s=;
-        b=kNHkfALJ0uRTwnW/O9i2rntBdy8gG+nyn+ze+KHorSojIgnN2x8xM08DmB+zBMES8T
-         4XXVN5ejEYx7/0X3Loz97dHfDboLLHXEMnLaSxQQba9KmPPbRRmHFyLYUIFpPKhW/+z5
-         er+iiZUjQeK1IDa5MShOFEP7raC9xVcKjJoIjMNVRsM04FzGzQHGnZEBvkfAN2zITtkk
-         8E789sd2oydSSINwAdh2M4Rg0weBZHEfjAcM3SUc1pMtydRAn5D8a26xyM247PC+GrHO
-         0+q+SBqW9qNcDkqnZOPDulAKpXnQkKZf1GHYUStxHfGiXnXhKKWXBYK6VuVLJ0dqWSKN
-         02tg==
-X-Gm-Message-State: AOJu0Ywbp4x4bJl/+rkOl5UkjoGUzPw0JZcDsuR0OhEMWiwHwkxceyhP
-        aMGor5jdIUsOfrVjDV3cjn0speziijyCfUTw8D/Y4CN1
-X-Google-Smtp-Source: AGHT+IF2eLUdl36AtyGus+QkVg6ztgS2VMngepfGlSH5sfOXgQeNC2kYiADwimfLp5xdsteUWp6PTQ==
-X-Received: by 2002:a50:d5c4:0:b0:540:7e8:dd4f with SMTP id g4-20020a50d5c4000000b0054007e8dd4fmr3845302edj.20.1699514921830;
-        Wed, 08 Nov 2023 23:28:41 -0800 (PST)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com. [209.85.221.47])
-        by smtp.gmail.com with ESMTPSA id b15-20020a50cccf000000b00542da55a716sm7878373edj.90.2023.11.08.23.28.40
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Nov 2023 23:28:41 -0800 (PST)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-32d895584f1so311379f8f.1
-        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 23:28:40 -0800 (PST)
-X-Received: by 2002:adf:e311:0:b0:32c:ea14:89e5 with SMTP id
- b17-20020adfe311000000b0032cea1489e5mr3220105wrj.39.1699514920620; Wed, 08
- Nov 2023 23:28:40 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699516935; x=1700121735;
+        h=in-reply-to:content-disposition:mime-version:message-id:subject:cc
+         :to:from:date:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=BFIkC1FD/Uwtc6W91szrKWUfuMQSfWOdpdRrkGpPlWo=;
+        b=tsg47T1C9q8m98fOmLD1LbNKqPYGCynw9GSKQ7L4xYaetx1drP87DeUsWPbeZ2ryaA
+         tz2KbcXcflWBveDyQh87OfY0xg9gjVaQjDmwOyA0qzpxZzVa/7M6our5quRHu78d6dTS
+         gOjNnkEW9BA7HUArI410+udS0QDCmgcFwIGnabaU5NW8m0VsbOzqaJmrk/B+RBt4+OUQ
+         PNAhuhs+UKhxwN/oz3AtP8oIHjN4U1aN/dW7kCFfp/ItpH8U1lhbStUY3VkdLUf96PbQ
+         pe1a2fa9rFx1hpCCFwVRNEQvVvI7j75SaJIMFdF5lN9jx3yCWJspajhynRMigG236P5q
+         32fw==
+X-Gm-Message-State: AOJu0YyUgWZXASnj2frm2qchsaYMpgtCkvaoLC6UklSFMwcQASaeFN3Q
+        6wHKpUMZw9qdUW2rM3QmoVK07A==
+X-Google-Smtp-Source: AGHT+IGPq2vMTt96ad/AZA6B76G5T/W9HPy/vLX/E2Tps70yhgvZu+0T0LFKA9SFn0wgyqBEQQ+EyQ==
+X-Received: by 2002:a5d:5986:0:b0:32f:b47c:f1f6 with SMTP id n6-20020a5d5986000000b0032fb47cf1f6mr4764971wri.32.1699516935529;
+        Thu, 09 Nov 2023 00:02:15 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id n17-20020a5d67d1000000b003232380ffd7sm6758579wrw.102.2023.11.09.00.02.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 09 Nov 2023 00:02:15 -0800 (PST)
+Date:   Thu, 9 Nov 2023 11:02:12 +0300
+From:   Dan Carpenter <dan.carpenter@linaro.org>
+To:     oe-kbuild@lists.linux.dev, Tuo Li <islituo@gmail.com>,
+        mchehab@kernel.org, yongsuyoo0215@gmail.com
+Cc:     lkp@intel.com, oe-kbuild-all@lists.linux.dev,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        baijiaju1990@outlook.com, Tuo Li <islituo@gmail.com>,
+        BassCheck <bass@buaa.edu.cn>
+Subject: Re: [PATCH] media: dvb-core: Fix a possible null-pointer dereference
+ due to data race in dvbdmx_write()
+Message-ID: <16d72edf-78de-4995-8821-e95973d5c474@kadam.mountain>
 MIME-Version: 1.0
-References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
- <20231031163104.112469-53-benjamin.gaignard@collabora.com>
- <20231108104439.oxpbbd2yro7u57t4@chromium.org> <e9eeac63-b4d5-4710-bb85-b0997dce55cc@collabora.com>
-In-Reply-To: <e9eeac63-b4d5-4710-bb85-b0997dce55cc@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 9 Nov 2023 16:28:20 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AH6x461-a2=2JmzUhW2pWacgwj1w3SZH1kfMBbsmaZ3A@mail.gmail.com>
-Message-ID: <CAAFQd5AH6x461-a2=2JmzUhW2pWacgwj1w3SZH1kfMBbsmaZ3A@mail.gmail.com>
-Subject: Re: [PATCH v14 52/56] media: core: Add bitmap manage bufs array entries
-To:     Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc:     mchehab@kernel.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
-        ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
-        gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
-        nicolas.dufresne@collabora.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
-        kernel@collabora.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231108091300.3124649-1-islituo@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 9, 2023 at 12:30=E2=80=AFAM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
->
-> Le 08/11/2023 =C3=A0 11:44, Tomasz Figa a =C3=A9crit :
-> > On Tue, Oct 31, 2023 at 05:31:00PM +0100, Benjamin Gaignard wrote:
-[snip]
-> >> @@ -1150,7 +1150,10 @@ static inline bool vb2_fileio_is_active(struct =
-vb2_queue *q)
-> >>    */
-> >>   static inline unsigned int vb2_get_num_buffers(struct vb2_queue *q)
-> >>   {
-> >> -    return q->num_buffers;
-> >> +    if (!q->bufs_bitmap)
-> >> +            return 0;
-> >> +
-> >> +    return bitmap_weight(q->bufs_bitmap, q->max_num_buffers);
-> > Hmm, could we just cache the number of buffers we have, so that we don'=
-t
-> > have to go over the entire bitmap every time? (Basically just keep the
-> > code that we had for handling q->num_buffers before this patch.)
->
-> I would prefer no duplicate how the number of buffers in a queue is compu=
-ted
-> and bitmap offer helpers for that. Why not use it ?
->
+Hi Tuo,
 
-bitmap_weight() can become costly when the number of buffers grows.
-Since it's easy to track how many buffers we add and remove, we could
-just cache that number and then any code could call
-vb2_get_num_buffers() whenever it needs the buffer count without
-caring how costly it is.
+kernel test robot noticed the following build warnings:
 
-> >
-> >>   }
-> >>
-> >>   /**
-> >> @@ -1253,13 +1256,13 @@ static inline void vb2_clear_last_buffer_deque=
-ued(struct vb2_queue *q)
-> >>   static inline struct vb2_buffer *vb2_get_buffer(struct vb2_queue *q,
-> >>                                              unsigned int index)
-> >>   {
-> >> -    if (!q->bufs)
-> >> +    if (!q->bufs_bitmap)
-> >>              return NULL;
-> >>
-> >>      if (index >=3D q->max_num_buffers)
-> >>              return NULL;
-> >>
-> >> -    if (index < q->num_buffers)
-> >> +    if (test_bit(index, q->bufs_bitmap))
-> > Aha, I see why we need the extra condition above now. Perhaps it should=
-'ve
-> > been added in this patch instead?
->
-> For me it was more explicit do introduce it at the same time that
-> max_num_buffers field.
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Okay. I don't have a strong opinion, especially since it was just an
-intermediate patch.
+url:    https://github.com/intel-lab-lkp/linux/commits/Tuo-Li/media-dvb-core-Fix-a-possible-null-pointer-dereference-due-to-data-race-in-dvbdmx_write/20231108-200849
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20231108091300.3124649-1-islituo%40gmail.com
+patch subject: [PATCH] media: dvb-core: Fix a possible null-pointer dereference due to data race in dvbdmx_write()
+config: x86_64-randconfig-161-20231108 (https://download.01.org/0day-ci/archive/20231109/202311090845.BlIvG8kE-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14) 12.2.0
+reproduce: (https://download.01.org/0day-ci/archive/20231109/202311090845.BlIvG8kE-lkp@intel.com/reproduce)
 
-Best regards,
-Tomasz
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
+| Closes: https://lore.kernel.org/r/202311090845.BlIvG8kE-lkp@intel.com/
+
+smatch warnings:
+drivers/media/dvb-core/dvb_demux.c:1163 dvbdmx_write() warn: inconsistent returns '&dvbdemux->mutex'.
+
+vim +1163 drivers/media/dvb-core/dvb_demux.c
+
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1139  static int dvbdmx_write(struct dmx_demux *demux, const char __user *buf, size_t count)
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1140  {
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1141  	struct dvb_demux *dvbdemux = (struct dvb_demux *)demux;
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1142  	void *p;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1143  
+eebefd4eafaa5d drivers/media/dvb-core/dvb_demux.c     Tuo Li         2023-11-08  1144  	mutex_lock(&dvbdemux->mutex);
+eebefd4eafaa5d drivers/media/dvb-core/dvb_demux.c     Tuo Li         2023-11-08  1145  	if ((!demux->frontend) || (demux->frontend->source != DMX_MEMORY_FE)) {
+eebefd4eafaa5d drivers/media/dvb-core/dvb_demux.c     Tuo Li         2023-11-08  1146  		mutex_unlock(&dvbdemux->mutex);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1147  		return -EINVAL;
+eebefd4eafaa5d drivers/media/dvb-core/dvb_demux.c     Tuo Li         2023-11-08  1148  	}
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1149  
+c6cfe05532cf6e drivers/media/dvb/dvb-core/dvb_demux.c Julia Lawall   2010-05-22  1150  	p = memdup_user(buf, count);
+c6cfe05532cf6e drivers/media/dvb/dvb-core/dvb_demux.c Julia Lawall   2010-05-22  1151  	if (IS_ERR(p))
+c6cfe05532cf6e drivers/media/dvb/dvb-core/dvb_demux.c Julia Lawall   2010-05-22  1152  		return PTR_ERR(p);
+
+Need to drop the lock before returning.
+
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1153  	if (mutex_lock_interruptible(&dvbdemux->mutex)) {
+
+Wait, what?  Why are we taking the lock a second time?  This won't work.
+
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1154  		kfree(p);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1155  		return -ERESTARTSYS;
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1156  	}
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1157  	dvb_dmx_swfilter(dvbdemux, p, count);
+947a080037c6ae drivers/media/dvb/dvb-core/dvb_demux.c Al Viro        2008-06-22  1158  	kfree(p);
+3593cab5d62c4c drivers/media/dvb/dvb-core/dvb_demux.c Ingo Molnar    2006-02-07  1159  	mutex_unlock(&dvbdemux->mutex);
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1160  
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1161  	if (signal_pending(current))
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1162  		return -EINTR;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16 @1163  	return count;
+^1da177e4c3f41 drivers/media/dvb/dvb-core/dvb_demux.c Linus Torvalds 2005-04-16  1164  }
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
+
