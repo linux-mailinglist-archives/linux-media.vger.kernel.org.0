@@ -2,139 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 68AC27E7245
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 20:24:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 015187E72AC
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 21:16:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344704AbjKITYs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 14:24:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54196 "EHLO
+        id S1344411AbjKIUQz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 15:16:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55180 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230119AbjKITYr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 14:24:47 -0500
-Received: from mail-wm1-x335.google.com (mail-wm1-x335.google.com [IPv6:2a00:1450:4864:20::335])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 882093C17
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 11:24:45 -0800 (PST)
-Received: by mail-wm1-x335.google.com with SMTP id 5b1f17b1804b1-40836ea8cbaso8451875e9.0
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 11:24:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699557884; x=1700162684; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=l1CJqeZ8u7eaD4Q/icHyhIHN2vLT3h3xpvRo3vUPhJI=;
-        b=U7WLsYJFwFsCsJMq5C4u34AUFHM4ajgWIHUo1upHZTe3crLKA4SIwekPvzJJSWtPSN
-         HIQT9EQNuLHLpmpU/JBUUtRyNPIqkU8NTzXTdDDUBbhG/DDkEibMfNGnmmmjT2aCO/kI
-         UW61bP426YTlKNwgywHex1V+QtFhfvUPAnPssoOopRumx6phBa9+DzmeXQ+wx/a0kVrx
-         K6+un3WZfZLz6t0v/5m3T9QsE2mXcUcIEQaBO0QTj+2FaVINQXtYyCvl/g10Nj8oEwog
-         s0p4xM/bFSJYNBGwU+Pj4hz/0BqNVEufFJ0aQl8vLEp4Byics5+/161odwkMh/21N2UW
-         3BDQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699557884; x=1700162684;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l1CJqeZ8u7eaD4Q/icHyhIHN2vLT3h3xpvRo3vUPhJI=;
-        b=wxgDx1PYtnsqXxQUJ3XfSGc1OQ0UAKNQgFTe2Oh4Ywhvfh79Yw9zGPGSYntPLZiESQ
-         jgVqm7DTnq5aIbU3vei5nxhcwNGkHwwbs2VuNJueyH2r7n7y9XESBeLssEz1xmnbKXHc
-         7Ofr4GuLOTN+KVJ1LtCs6ve/Gd8IMaYZz4sv7+0U5wT+/38lVV+3VY9/QqHQYsQkYCah
-         22Rzv3F1KdNZUCYtE3u8eLxdCYXaJRLNz3QcOPQAbImR6fd4xGGO3nutSgYedvSQr9nC
-         zxMt+D9fSyfw0J1nJeGSAzUUb41fWIo1NQoPxeKDS5LnsQxvLoN9Agjz3RvILsMQACaQ
-         o30w==
-X-Gm-Message-State: AOJu0YwG4EaxtsS1xta2wKleyTBsVSe0jBQzQyNNHpZ+sfwBms4KOh89
-        ogOrn1cWbU5Uml+8c1j6KHvP9g==
-X-Google-Smtp-Source: AGHT+IF/BLKulO6qnWwr/aMbGCtJwiiTSp3nZlhJ8ghABo6m4xXeqoIy0WP2LNWq5jaUk7wkGbi3dg==
-X-Received: by 2002:a05:600c:450d:b0:402:f55c:faee with SMTP id t13-20020a05600c450d00b00402f55cfaeemr5287667wmo.26.1699557883893;
-        Thu, 09 Nov 2023 11:24:43 -0800 (PST)
-Received: from [10.66.66.2] (9.ip-51-91-159.eu. [51.91.159.9])
-        by smtp.gmail.com with ESMTPSA id p8-20020a05600c430800b00405d9a950a2sm2903833wme.28.2023.11.09.11.24.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 11:24:43 -0800 (PST)
-Message-ID: <4f56327d-abe1-44fa-8979-17edf86cd406@linaro.org>
-Date:   Thu, 9 Nov 2023 20:24:39 +0100
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/6] media: qcom: camss: csiphy-3ph: Add Gen2 v1.1
- two-phase MIPI CSI-2 DPHY init
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
+        with ESMTP id S229613AbjKIUQy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 15:16:54 -0500
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FBD83AAC;
+        Thu,  9 Nov 2023 12:16:51 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 0F1D21C0004;
+        Thu,  9 Nov 2023 20:16:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1699561010;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=qlw7B5/Bx/59SQf3CbtCdO7WmqSG7NYa1WOTVO0Qk80=;
+        b=WgEq9pmqEnbuW6waH6m/ZSGL/NBzEuXlBpDxFBA2lGrCWWtOe/4nwymHgzG3MSGAZiSxlS
+        J0ch5GA0xJRwfSm2GEJ4Hcy4TPCj9ZYmkExXAJYP/Zw6HmbvX64xuRhpUo80hriotvgVNk
+        hhKX5A+o6QIGwuqX/WaPyLI+knh0Vnv+KVnOFA3471FomaQ71k+NrClfDNCRga5SYRH/CA
+        xtZAp3SVnpGXsk5Y1SIaNqfagMAEn9nCrFiBbRUcp7WuOsp4i2v52aF4JeWJ6WE7quUx5I
+        1/8xWkx1HCfNbs9XY4ylpXB9sQWlEsLzOwckLPo9PTn4tgPvXv/uz2wm8gB6YQ==
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Cc:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
-        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
- <20231109-b4-camss-sc8280xp-v4-3-58a58bc200f9@linaro.org>
- <0e325a57-f07d-47e6-8456-523cfa04c52b@linaro.org>
- <1e99ddcc-db3b-4a79-a2d1-815bebb5a5c9@linaro.org>
-Content-Language: en-US
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <1e99ddcc-db3b-4a79-a2d1-815bebb5a5c9@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Daniel Almeida <daniel.almeida@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Subject: [PATCH 1/4] media: vicodec: Disable (TRY_)DECODER_CMD for the stateless case
+Date:   Thu,  9 Nov 2023 21:16:37 +0100
+Message-ID: <20231109201640.340556-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.42.1
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-GND-Sasl: paul.kocialkowski@bootlin.com
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+The (TRY_)DECODER_CMD ioctls are only useful for stateful decoders and for
+stateless decoders that support holding capture buffers (which is not the case
+for this driver).
 
+Disable them when registering the stateless decoder.
 
-On 11/9/23 18:11, Bryan O'Donoghue wrote:
-> On 09/11/2023 13:55, Konrad Dybcio wrote:
->>
->>
->> On 11/9/23 12:30, Bryan O'Donoghue wrote:
->>> Add a PHY configuration sequence for the sc8280xp which uses a Qualcomm
->>> Gen 2 version 1.1 CSI-2 PHY.
->>>
->>> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
->>> mode. This configuration supports two-phase D-PHY mode.
->>>
->>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>> ---
->> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
->>
->> Aside from initialization, looks like the reset seq should be more
->> complex:
->>
->> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_1_hwreg.h?ref_type=tags#L39-45
->>
->> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/cam_csiphy_core.c#L133-154
->>
->> similarly for the "common regs" that seem to extend the init seq
->>
->> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/cam_csiphy_core.c#L491-527
->>
->> Konrad
-> 
-> So..
-> 
-> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_1_hwreg.h?ref_type=tags#L39
-> 
-> static struct csiphy_reg_t csiphy_reset_reg_1_1[] = {
->      {0x0814, 0x00, 0x05, CSIPHY_LANE_ENABLE}, // this is interesting
->                                                    // powers off lanemask
->                                                    // seems like a good
->                                                    // idea to me
->      {0x0818, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, [1]
->      {0x081C, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, [2]
->      {0x0800, 0x01, 0x01, CSIPHY_DEFAULT_PARAMS}, // this we already
->      {0x0800, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, // do right now
-> };
-> 
-> [1] [2] I don't see why you need that and I'd imagine the reset drives these values to zero anyway.. it should as I read the reg docs, I'd guess this is a reset sequence that comes out of a Si test bench.
-Since it's there on shipped devices, I'd skew towards including it, maybe some
-chips with this block had an erratum wrt the reset value
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+ .../media/test-drivers/vicodec/vicodec-core.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
+diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
+index 6f0e20df74e9..8f7a2b153ee9 100644
+--- a/drivers/media/test-drivers/vicodec/vicodec-core.c
++++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
+@@ -1240,6 +1240,12 @@ static int vicodec_decoder_cmd(struct file *file, void *fh,
+ 	struct vicodec_ctx *ctx = file2ctx(file);
+ 	int ret;
+ 
++	/*
++	 * This ioctl should not be used with a stateless codec that doesn't
++	 * support holding buffers and the associated flush command.
++	 */
++	WARN_ON(ctx->is_stateless);
++
+ 	ret = v4l2_m2m_ioctl_try_decoder_cmd(file, fh, dc);
+ 	if (ret < 0)
+ 		return ret;
+@@ -2025,7 +2031,7 @@ static const struct v4l2_m2m_ops m2m_ops = {
+ 
+ static int register_instance(struct vicodec_dev *dev,
+ 			     struct vicodec_dev_instance *dev_instance,
+-			     const char *name, bool is_enc)
++			     const char *name, bool is_enc, bool is_stateless)
+ {
+ 	struct video_device *vfd;
+ 	int ret;
+@@ -2045,10 +2051,11 @@ static int register_instance(struct vicodec_dev *dev,
+ 	strscpy(vfd->name, name, sizeof(vfd->name));
+ 	vfd->device_caps = V4L2_CAP_STREAMING |
+ 		(multiplanar ? V4L2_CAP_VIDEO_M2M_MPLANE : V4L2_CAP_VIDEO_M2M);
+-	if (is_enc) {
++	if (is_enc || is_stateless) {
+ 		v4l2_disable_ioctl(vfd, VIDIOC_DECODER_CMD);
+ 		v4l2_disable_ioctl(vfd, VIDIOC_TRY_DECODER_CMD);
+-	} else {
++	}
++	if (!is_enc) {
+ 		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
+ 		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+ 	}
+@@ -2107,17 +2114,17 @@ static int vicodec_probe(struct platform_device *pdev)
+ 	platform_set_drvdata(pdev, dev);
+ 
+ 	ret = register_instance(dev, &dev->stateful_enc, "stateful-encoder",
+-				true);
++				true, false);
+ 	if (ret)
+ 		goto unreg_dev;
+ 
+ 	ret = register_instance(dev, &dev->stateful_dec, "stateful-decoder",
+-				false);
++				false, false);
+ 	if (ret)
+ 		goto unreg_sf_enc;
+ 
+ 	ret = register_instance(dev, &dev->stateless_dec, "stateless-decoder",
+-				false);
++				false, true);
+ 	if (ret)
+ 		goto unreg_sf_dec;
+ 
+-- 
+2.42.1
 
-> 
-> The 0x814 warrants an investigation - i.e. can we add it across platforms without breaking existing setups.
-> 
-> I'll kick that to a separate - one LOC "series", so we can take our time validating if it has any unexpected side-effects across our various platforms.
-Sure, that's what I had in mind
-
-Konrad
