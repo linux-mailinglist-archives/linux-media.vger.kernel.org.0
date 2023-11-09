@@ -2,208 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8A8937E7132
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 19:07:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB8287E7133
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 19:07:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344943AbjKISHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 13:07:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48958 "EHLO
+        id S1344963AbjKISHe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 13:07:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1344773AbjKISHX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 13:07:23 -0500
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 807BB1727;
-        Thu,  9 Nov 2023 10:07:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1699553236;
- bh=jCYEkVdywqRHlC8mhoNYhztpj7Nj5FYnQmn1ZQwqhys=;
- b=iy46jHcyxm+my/KYZwLlm8suZ3fQbnc8/pYkS+x+t3D3l6YiNzOSeCci/SNgUCORqeL6C++95
- gxOJRIFNwsLIJ5emcBexngpe251MP9bTNTR6eXqXMiiUgTUOICIsfXqfpquHTMpHCCS24Mkc2Ul
- govupZCw4YTQMSqlbMUX6DqpUwbKiXfAw5IfBJ6Butu940dwaN0KwjqkcdF3VYXWrexSz4n0mAf
- WYMVYI9JkyFnQOrcfCUnqCkLoPFHCP/hHry8U3YbKpGVF5qqWD2rhzjwzCAzsyfXvG8YyA79rv7
- IEtaD8hl6Pl7Ni/lL3emQCNkxbaJChkpI/MDEOA9rc3g==
-Message-ID: <39b740b1-4d00-4afa-8b4f-58b0776b65c8@kwiboo.se>
-Date:   Thu, 9 Nov 2023 19:07:11 +0100
+        with ESMTP id S1344959AbjKISHd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 13:07:33 -0500
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EABD3AA9;
+        Thu,  9 Nov 2023 10:07:30 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1D407FF806;
+        Thu,  9 Nov 2023 18:07:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+        t=1699553248;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=9OAy7O2pDM0Q2lNPrJvA1RTrYu+NHPhFDgK9JaSNblI=;
+        b=P69XAWubg7xOLRSNWxmEnBgjZLTzexfhp+VS1f8A3gtIXVp/bEgGmbiw75e0pNGymQsLIG
+        JrEaDaG1cN3LyAPU1VJ0yxrefc6LhQUeAN5BCUM4j9db6XDfeL1CkksToePmmc7NMkA1Q8
+        NZ3YRBjuXHWZwlYAj9YVKKw6bIqC1Q+Aqy+1SA0E5aY4NgO45CytezfCaLfH3xQ81CbtLs
+        i4qGbIp7iCyazjFSN7ahxX0ocobomYhEls74JJLDz2Pp2/u95g+BlCHFQbhUNISRy8r6bx
+        sbpULUC10Wb7LYuA6R0J5R2OKF0/9wu1WVU0Vslb7JTQqPo4gWw5j4rd78I1EQ==
+Date:   Thu, 9 Nov 2023 19:07:27 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc:     Conor Dooley <conor@kernel.org>,
+        Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+        heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+        krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+        conor+dt@kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
+        maxime.chevallier@bootlin.com, michael.riesch@wolfvision.net
+Subject: Re: [PATCH v10 1/3] media: dt-bindings: media: add bindings for
+ Rockchip CIF
+Message-ID: <ZU0f33clFwlsTw16@aptenodytes>
+References: <cover.1699460637.git.mehdi.djait@bootlin.com>
+ <037bcabf97294d37b271537e4b11fb88cf9bb6f6.1699460637.git.mehdi.djait@bootlin.com>
+ <20231109-closable-superglue-5e7f39739cf1@spud>
+ <ZU0avuRRaITV4jws@aptenodytes>
+ <e5b1f0dd-0aab-4ce5-82ba-879a4d736e7e@linaro.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/11] media: rkvdec: h264: Remove SPS validation at
- streaming start
-Content-Language: en-US
-To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-Cc:     Alex Bee <knaerzche@gmail.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Christopher Obbard <chris.obbard@collabora.com>,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-References: <20231105165521.3592037-1-jonas@kwiboo.se>
- <20231105165521.3592037-6-jonas@kwiboo.se>
- <c75c894a09292775773ad338121ee81924337cf0.camel@collabora.com>
- <bfabc182-4113-46fb-85e9-8550c97d132b@kwiboo.se>
- <f69345217c21af63cf873bfb4a16ae1363b05875.camel@collabora.com>
-From:   Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <f69345217c21af63cf873bfb4a16ae1363b05875.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 654d1fd4a16ddfebde306cfd
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="Mob4Dz8HybFSM/IA"
+Content-Disposition: inline
+In-Reply-To: <e5b1f0dd-0aab-4ce5-82ba-879a4d736e7e@linaro.org>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2023-11-08 03:39, Nicolas Dufresne wrote:
-> Le mardi 07 novembre 2023 à 23:56 +0100, Jonas Karlman a écrit :
->> On 2023-11-07 23:01, Nicolas Dufresne wrote:
->>> Le dimanche 05 novembre 2023 à 16:55 +0000, Jonas Karlman a écrit :
->>>> SPS parameters is validated in try_ctrl() ops so there is no need to
->>>
->>>                  are
->>>
->>>> re-validate when streaming starts.
->>>>
->>>> Remove the unnecessary call to validate sps at streaming start.
->>>
->>> This patch is not working since user may change the format after the
->>> control have been set. The proper fix should actually reset the SPS
->>> (well all header controls) to match the the newly set format. Then this
->>> validation won't be needed anymore.
->>>
->>> The sequence that is problematic after this patch is:
->>>
->>> S_FMT (OUTPUT, width, height);
->>> S_CTRL (SPS) // valid
->>> S_FMT(OUTPUT, width', height'); // SPS is no longer valid
->>>
->>> One suggestion I may make is to add a ops so that each codec
->>> implementation can reset their header controls to make it valid against
->>> the new resolution. With that in place you'll be able drop the check.
->>
->> According to the Initialization section of the V4L2 stateless
->> documentation a client is supposed to S_CTRL(SPS) after S_FMT(OUTPUT).
-> 
-> Yes, but other part of the spec prevents us from failing if the
-> userspace restart in the middle of the process.
-> 
->>
->> https://docs.kernel.org/userspace-api/media/v4l/dev-stateless-decoder.html#initialization
->>
->> I guess that all stateless decoders probably should reset all ctrls to
->> default value on S_FMT(OUTPUT) or decoders may end up in an unexpected
->> state?
->>
->> Is resetting a ctrl value back to default something that is supported by
->> v4l2 ctrl core? Did not find any obvious way to reset a ctrl value.
-> 
-> In order to avoid having to do this, Hantro driver just ignores these
-> values from SPS control and do the following:
-> 
-> 	reg = G1_REG_DEC_CTRL1_PIC_MB_WIDTH(MB_WIDTH(ctx->src_fmt.width)) |
-> 	      G1_REG_DEC_CTRL1_PIC_MB_HEIGHT_P(MB_HEIGHT(ctx->src_fmt.height)) |
-> 	      G1_REG_DEC_CTRL1_REF_FRAMES(sps->max_num_ref_frames);
-> 
-> Then all they do is reset the CAPTURE format whenever needed, matching
-> the bit depth that was previously set. The SPS is unfortunatly not
-> guarantied to be valid, but at first sight its safe in regard to
-> picture dimensions.
 
-The commit 77e74be83083 ("media: rkvdec: h264: Validate and use pic
-width and height in mbs") changed to use the SPS values to help fix
-decoding of field encoded content, it also added this check.
+--Mob4Dz8HybFSM/IA
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Will drop this patch in v5, and should also re-add similar validation in
-the HEVC series.
+Hi,
 
-Regards,
-Jonas
+On Thu 09 Nov 23, 18:53, Krzysztof Kozlowski wrote:
+> On 09/11/2023 18:45, Paul Kocialkowski wrote:
+> > Hi,
+> >=20
+> > On Thu 09 Nov 23, 17:24, Conor Dooley wrote:
+> >> On Wed, Nov 08, 2023 at 05:38:56PM +0100, Mehdi Djait wrote:
+> >>> Add a documentation for the Rockchip Camera Interface binding.
+> >>>
+> >>> the name of the file rk3066 is the first Rockchip SoC generation that=
+ uses cif
+> >>> instead of the px30 which is just one of the many iterations of the u=
+nit.
+> >>
+> >> I think this is becoming ridiculous. You've now removed the compatible
+> >> for the rk3066 but kept it in the filename. I don't understand the
+> >> hangup about naming the file after the px30-vip, but naming it after
+> >> something that is not documented here at all makes no sense to me.
+> >> Either document the rk3066 properly, or remove all mention of it IMO.
+> >=20
+> > I think the opposite is ridiculous. We have spent some time investigati=
+ng the
+> > history of this unit, to find out that RK3066 is the first occurence wh=
+ere
+> > it exists. Since we want the binding to cover all generations of the sa=
+me unit
+> > and give it a name that reflects this, rk3066 is the natural choice tha=
+t comes
+> > to mind. As far as I understand, this is the normal thing to do to name
+> > bindings: name after the earliest known occurence of the unit.
+> >=20
+> > What is the rationale behind naming the file after a generation of the =
+unit
+> > that happens to be the one introducing the binding? This is neither the=
+ first
+> > nor the last one to include this unit. The binding will be updated late=
+r to
+> > cover other generations. Do we want to rename the file each time an a g=
+eneration
+> > earlier than px30 is introduced? That sounds quite ridiculous too.
+> >=20
+> > We've done the research work to give it the most relevant name here.
+> > I'd expect some strong arguments not to use it. Can you ellaborate?
+>=20
+> If you do not have rk3066 documented here, it might be added to entirely
+> different file (for whatever reasons, including that binding would be
+> quite different than px30). Thus you would have rk3066 in
+> rockchip,rk3066-cif-added-later.yaml and px30 in rockchip,rk3066-cif.yaml
 
-> 
->>
->> Will probably just drop this patch in v5.
-> 
-> That or do like in Hantro driver. What is scary though is that some of
-> the feature enabled by SPS may requires an auxiliary chunk of memory to
-> be allocated, and then this method falls appart. I think it would be
-> nice to fix that properly in all drivers in a future patchset.
-> 
->>
->> Regards,
->> Jonas
->>
->>>
->>> Nicolas
->>>
->>> p.s. you can also just drop this patch from the series and revisit it
->>> later, though I think its worth fixing.
->>>
->>>>
->>>> Suggested-by: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
->>>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
->>>> ---
->>>> v4:
->>>> - No change
->>>>
->>>> v3:
->>>> - New patch
->>>>
->>>>  drivers/staging/media/rkvdec/rkvdec-h264.c | 19 ++-----------------
->>>>  1 file changed, 2 insertions(+), 17 deletions(-)
->>>>
->>>> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
->>>> index 8bce8902b8dd..815d5359ddd5 100644
->>>> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
->>>> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
->>>> @@ -1070,17 +1070,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
->>>>  	struct rkvdec_dev *rkvdec = ctx->dev;
->>>>  	struct rkvdec_h264_priv_tbl *priv_tbl;
->>>>  	struct rkvdec_h264_ctx *h264_ctx;
->>>> -	struct v4l2_ctrl *ctrl;
->>>> -	int ret;
->>>> -
->>>> -	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
->>>> -			      V4L2_CID_STATELESS_H264_SPS);
->>>> -	if (!ctrl)
->>>> -		return -EINVAL;
->>>> -
->>>> -	ret = rkvdec_h264_validate_sps(ctx, ctrl->p_new.p_h264_sps);
->>>> -	if (ret)
->>>> -		return ret;
->>>>  
->>>>  	h264_ctx = kzalloc(sizeof(*h264_ctx), GFP_KERNEL);
->>>>  	if (!h264_ctx)
->>>> @@ -1089,8 +1078,8 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
->>>>  	priv_tbl = dma_alloc_coherent(rkvdec->dev, sizeof(*priv_tbl),
->>>>  				      &h264_ctx->priv_tbl.dma, GFP_KERNEL);
->>>>  	if (!priv_tbl) {
->>>> -		ret = -ENOMEM;
->>>> -		goto err_free_ctx;
->>>> +		kfree(h264_ctx);
->>>> +		return -ENOMEM;
->>>>  	}
->>>>  
->>>>  	h264_ctx->priv_tbl.size = sizeof(*priv_tbl);
->>>> @@ -1100,10 +1089,6 @@ static int rkvdec_h264_start(struct rkvdec_ctx *ctx)
->>>>  
->>>>  	ctx->priv = h264_ctx;
->>>>  	return 0;
->>>> -
->>>> -err_free_ctx:
->>>> -	kfree(h264_ctx);
->>>> -	return ret;
->>>>  }
->>>>  
->>>>  static void rkvdec_h264_stop(struct rkvdec_ctx *ctx)
->>>
->>
-> 
+As far as I could see we generally manage to include support for different
+hardware setups in the same binding document using conditionals on the
+compatible, so this feels a bit far-fetched.
 
+Of course you're the maintainer and have significantly more experience here
+so there might be a lot that I'm not seeing, but I'm not very convinced by =
+this
+reasoning to be honest.
+
+> Just use the filename matching the compatible. That's what we always
+> ask. In every review.
+
+Yeah and we very often end up with naming that is less than optimal (to stay
+polite). I'm generally quite appalled by the overall lack of interest that
+naming gets, as if it was something secondary. Naming is one of the most
+important and difficult things in our field of work and it needs to be
+considered with care.
+
+This is not just a problem with device-tree, it's a kernel-wide issue that
+nobody seems to be interested in addressing. I'm quite unhappy to see that =
+when
+time is spent trying to improve the situation on one particular instance, w=
+e are
+shown the door because it doesn't match what is generally done (and often d=
+one
+wrong).
+
+This is definitely a rant. I really want to express this issue loud and cle=
+ar
+and encourage everyone to consider it for what it is.
+
+Cheers,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--Mob4Dz8HybFSM/IA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVNH98ACgkQ3cLmz3+f
+v9G9twf+JR5dsdM2G3sgKunvWuC3i7/cbQl17nAbAGUF5eB6ctWTGGrxSLcyl+Q6
+uBup3E59JYwmKlPE2gLeKDbETumExf5UnlQdHt01QrriMEdKggUYPPmwJ8jQItQE
+byTo9DcSZWHqAB66pkyZQaTpwTPCjky3OM2H2rQ2fHbmh2wjicQbdAstt17sblkv
+RNjkyiMVjSOAukV1iGtVKEZYl/QVpQnwvnchxJF/2wSTw1YEhcYGDw6Yndl3WfbU
+ox4G7bjP5QRUv93bCW80M7uWl7LRSnSo8hK84WfrvNYEdWfMfs8PZVRnTfitn3YL
+kXFdLP3ZAKW6iqU6UCjxaI75xtMrzg==
+=+UTG
+-----END PGP SIGNATURE-----
+
+--Mob4Dz8HybFSM/IA--
