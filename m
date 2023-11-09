@@ -2,151 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F0407E6CC7
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 16:00:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E17D97E6CFF
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 16:14:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234475AbjKIPAu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 10:00:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46812 "EHLO
+        id S234518AbjKIPOF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 10:14:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44540 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234073AbjKIPAu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 10:00:50 -0500
-Received: from mail.astralinux.ru (mail.astralinux.ru [217.74.38.119])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03735325B;
-        Thu,  9 Nov 2023 07:00:46 -0800 (PST)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.astralinux.ru (Postfix) with ESMTP id 5E9311868B41;
-        Thu,  9 Nov 2023 18:00:44 +0300 (MSK)
-Received: from mail.astralinux.ru ([127.0.0.1])
-        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10032)
-        with ESMTP id Twr-pb2i9k6j; Thu,  9 Nov 2023 18:00:44 +0300 (MSK)
-Received: from localhost (localhost.localdomain [127.0.0.1])
-        by mail.astralinux.ru (Postfix) with ESMTP id EA2C7186505E;
-        Thu,  9 Nov 2023 18:00:43 +0300 (MSK)
-X-Virus-Scanned: amavisd-new at astralinux.ru
-Received: from mail.astralinux.ru ([127.0.0.1])
-        by localhost (rbta-msk-vsrv-mail01.astralinux.ru [127.0.0.1]) (amavisd-new, port 10026)
-        with ESMTP id 6HsWk-nAyshQ; Thu,  9 Nov 2023 18:00:43 +0300 (MSK)
-Received: from rbta-msk-lt-106062.astralinux.ru (unknown [10.177.14.192])
-        by mail.astralinux.ru (Postfix) with ESMTPSA id 6F18D18633F8;
-        Thu,  9 Nov 2023 18:00:42 +0300 (MSK)
-From:   Anastasia Belova <abelova@astralinux.ru>
-To:     stable@vger.kernel.org,
-        "Greg Kroah-Hartman ." <gregkh@linuxfoundation.org>
-Cc:     Anastasia Belova <abelova@astralinux.ru>,
-        lvc-project@linuxtesting.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans de Goede <hdegoede@redhat.com>,
-        Andy Shevchenko <andy.shevchenko@gmail.com>,
-        Tsuchiya Yuto <kitakar@gmail.com>, linux-media@vger.kernel.org,
-        linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
-Subject: [PATCH 5.10/5.15 1/1] media: atomisp: add error checking to atomisp_create_pipes_stream()
-Date:   Thu,  9 Nov 2023 18:00:01 +0300
-Message-Id: <20231109150001.22891-2-abelova@astralinux.ru>
-X-Mailer: git-send-email 2.30.2
-In-Reply-To: <20231109150001.22891-1-abelova@astralinux.ru>
-References: <20231109150001.22891-1-abelova@astralinux.ru>
+        with ESMTP id S234457AbjKIPOE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 10:14:04 -0500
+Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360842683
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 07:14:02 -0800 (PST)
+Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40838915cecso6931715e9.2
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 07:14:02 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699542840; x=1700147640; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ngW2H67nvbIil9Jd4FOLYMiZuCHl7MW2vB4VxmLrw94=;
+        b=D/cbWeWyNFEBZgDtQGXEselP1HuQmIV16NxRx2IQN3lsMuTWTHgfcTpETP3rXoI8sP
+         hljlmn9holU4YYOY/LVMURM+jqESfWxC5c27yKX6V+uXmiidCwD9S5vKH1GmZxxvN3e2
+         so3OZN4gxQ9cGzFk9FOtwqxaKCn6+aB+cdQLqo+Lt06Z8/Muyf9IKfpeQ2uV9yt0WSiM
+         TTquk5NNN+OZlfgawXuAgbZoaJEgWEKH0P4wZKk+g3o+N2Yve/ovQf4RyhdJpzzj1nR0
+         sNiFhBpPxeal3IPsZu1XF15SXLTE7mlvRFYC7Ifyof1fsdbeMT+Rgrk8anVMxtWoOHCr
+         g9lQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699542840; x=1700147640;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ngW2H67nvbIil9Jd4FOLYMiZuCHl7MW2vB4VxmLrw94=;
+        b=i3thoyEU7+ajvYG5Jz0Aia4i9P9I8fMGYZoSk1IkeVNfYKQSgNeQCZs+oBRxnXpViD
+         vBVMUE6iuldEd/3fpesMShmFY4TEI/BXEcBjZ/yA5IQDU3mytxFONE6qnG0OYE8tkQwG
+         zLNzThkgVCpZGWf6NaQCHIqI4YlGeMcZv2MmgvbA/RY8VtNz9wu/hUTFQ6y+bBG9RNA1
+         hCTpO8K+aQg6+oiByu/h3Or4Xdt6e8gK3FdEFf6BYx6Qif8K7C6u5RfwN1FHa0liN92B
+         2mPhTpykX0ekRP0cNmOYvmAZTVIq/qUWuKGOX6P/9iNhYe2xhyeawcfAJSJWmDexC4+g
+         HO1w==
+X-Gm-Message-State: AOJu0YyN0ItQ0Ri6Kp7rpzmT+LYpUfRZkfKmjDRgY5JZJK4Y50b5qRI9
+        ZZjXXeFLW2YqlbBSbfJozbRquw==
+X-Google-Smtp-Source: AGHT+IHO8LoMMy2ZV8wNcw352FFV308MNE/rSe7GnvAe6vm0+bXvfQNvz5jUBAOsn9dTb3l5eqNmtA==
+X-Received: by 2002:a05:600c:3b8b:b0:401:b6f6:d8fd with SMTP id n11-20020a05600c3b8b00b00401b6f6d8fdmr4409042wms.6.1699542840519;
+        Thu, 09 Nov 2023 07:14:00 -0800 (PST)
+Received: from [192.168.100.102] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id u2-20020a7bcb02000000b004068e09a70bsm2329709wmj.31.2023.11.09.07.13.59
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 07:13:59 -0800 (PST)
+Message-ID: <e80d4026-a525-48ef-b53a-f1276dd316e6@linaro.org>
+Date:   Thu, 9 Nov 2023 15:13:58 +0000
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/6] media: qcom: camss: Add sc8280xp resource details
+Content-Language: en-US
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
+        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
+ <20231109-b4-camss-sc8280xp-v4-4-58a58bc200f9@linaro.org>
+ <3e0958a9-4d1e-4d1b-a914-5da154caa11f@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <3e0958a9-4d1e-4d1b-a914-5da154caa11f@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans de Goede <hdegoede@redhat.com>
+On 09/11/2023 13:44, Konrad Dybcio wrote:
+>> +        .clock_rate = { { 0 },
+>> +                { 0 },
+>> +                { 19200000, 80000000, 80000000, 80000000, 80000000},
+>> +                { 19200000, 150000000, 266666667, 320000000, 
+>> 400000000, 480000000 },
+>> +                { 400000000, 558000000, 637000000, 760000000 },
+>> +                { 0 }, },
+> Not the case here!
 
-commit 798d2ad739da5343122eff386578f259278f2594 upstream.
+I agree with you in principle, the checking for the frequency shouldn't 
+rely on if (freq[x]) however in this case - we are doing aggregate 
+initialisation of a fixed size array and the compiler should save us 
+from ourselves.
 
-The functions called by atomisp_create_pipes_stream() can fail,
-add error checking for them.
+./test
+index 19200000 = 0
+index 80000000 = 4
+index 80000000 = 8
+index 80000000 = 12
+index 80000000 = 16
+index 0 = 20
+index 0 = 24
+index 0 = 28
+index 0 = 32
+index 0 = 36
+index 0 = 40
+index 0 = 44
+index 0 = 48
+index 0 = 52
+index 0 = 56
+index 0 = 60
+index 0 = 64
 
-Link: https://lore.kernel.org/linux-media/20220615205037.16549-35-hdegoed=
-e@redhat.com
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
-Signed-off-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-Signed-off-by: Anastasia Belova <abelova@astralinux.ru>
+deckard@sagittarius-a:~/Development/qualcomm/qlt-kernel$ cat test.c
+#include <stdbool.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define CAMSS_RES_MAX 17
+
+unsigned int clock_rate[CAMSS_RES_MAX][CAMSS_RES_MAX] = {
+	{ 19200000, 80000000, 80000000, 80000000, 80000000},
+};
+
+int main (int argc, char *argv[])
+{
+	int i;
+
+	for (i = 0; i < CAMSS_RES_MAX; i++) {
+		printf("index %d = %d\n", clock_rate[0][i]);
+	}
+
+	return 0;
+}
+
+However this code only works at the moment by happenstance not by design 
+so, I will drop something separate to this series to remediate.
+
 ---
- .../media/atomisp/pci/atomisp_compat.h        |  2 +-
- .../media/atomisp/pci/atomisp_compat_css20.c  | 20 ++++++++++++++++---
- .../staging/media/atomisp/pci/atomisp_ioctl.c | 13 ++++++++++--
- 3 files changed, 29 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers=
-/staging/media/atomisp/pci/atomisp_compat.h
-index c16eaf3d126f..75c978c4e6f3 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
-@@ -242,7 +242,7 @@ int atomisp_css_input_configure_port(struct atomisp_s=
-ub_device *asd,
- 				     unsigned int metadata_width,
- 				     unsigned int metadata_height);
-=20
--void atomisp_create_pipes_stream(struct atomisp_sub_device *asd);
-+int atomisp_create_pipes_stream(struct atomisp_sub_device *asd);
- void atomisp_destroy_pipes_stream_force(struct atomisp_sub_device *asd);
-=20
- void atomisp_css_stop(struct atomisp_sub_device *asd,
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/d=
-rivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-index 99a632f33d2d..f64d73b4c4b7 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
-@@ -795,10 +795,24 @@ static int __create_pipes(struct atomisp_sub_device=
- *asd)
- 	return -EINVAL;
- }
-=20
--void atomisp_create_pipes_stream(struct atomisp_sub_device *asd)
-+int atomisp_create_pipes_stream(struct atomisp_sub_device *asd)
- {
--	__create_pipes(asd);
--	__create_streams(asd);
-+	int ret;
-+
-+	ret =3D __create_pipes(asd);
-+	if (ret) {
-+		dev_err(asd->isp->dev, "create pipe failed %d.\n", ret);
-+		return ret;
-+	}
-+
-+	ret =3D __create_streams(asd);
-+	if (ret) {
-+		dev_warn(asd->isp->dev, "create stream failed %d.\n", ret);
-+		__destroy_pipes(asd, true);
-+		return ret;
-+	}
-+
-+	return 0;
- }
-=20
- int atomisp_css_update_stream(struct atomisp_sub_device *asd)
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/=
-staging/media/atomisp/pci/atomisp_ioctl.c
-index b7dda4b96d49..06bb1c87c814 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
-@@ -2243,8 +2243,17 @@ int __atomisp_streamoff(struct file *file, void *f=
-h, enum v4l2_buf_type type)
- 		dev_err(isp->dev, "atomisp_reset");
- 		atomisp_reset(isp);
- 		for (i =3D 0; i < isp->num_of_streams; i++) {
--			if (recreate_streams[i])
--				atomisp_create_pipes_stream(&isp->asd[i]);
-+			if (recreate_streams[i]) {
-+				int ret2;
-+
-+				ret2 =3D atomisp_create_pipes_stream(&isp->asd[i]);
-+				if (ret2) {
-+					dev_err(isp->dev, "%s error re-creating streams: %d\n",
-+						__func__, ret2);
-+					if (!ret)
-+						ret =3D ret2;
-+				}
-+			}
- 		}
- 		isp->isp_timeout =3D false;
- 	}
---=20
-2.30.2
-
+bod
