@@ -2,59 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id E17D97E6CFF
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 16:14:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC2397E6D11
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 16:15:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234518AbjKIPOF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 10:14:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44540 "EHLO
+        id S234508AbjKIPPo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 10:15:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35804 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234457AbjKIPOE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 10:14:04 -0500
-Received: from mail-wm1-x32e.google.com (mail-wm1-x32e.google.com [IPv6:2a00:1450:4864:20::32e])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 360842683
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 07:14:02 -0800 (PST)
-Received: by mail-wm1-x32e.google.com with SMTP id 5b1f17b1804b1-40838915cecso6931715e9.2
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 07:14:02 -0800 (PST)
+        with ESMTP id S234485AbjKIPPl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 10:15:41 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D0643590
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 07:15:39 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-409299277bbso6525885e9.2
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 07:15:39 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699542840; x=1700147640; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=linaro.org; s=google; t=1699542937; x=1700147737; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ngW2H67nvbIil9Jd4FOLYMiZuCHl7MW2vB4VxmLrw94=;
-        b=D/cbWeWyNFEBZgDtQGXEselP1HuQmIV16NxRx2IQN3lsMuTWTHgfcTpETP3rXoI8sP
-         hljlmn9holU4YYOY/LVMURM+jqESfWxC5c27yKX6V+uXmiidCwD9S5vKH1GmZxxvN3e2
-         so3OZN4gxQ9cGzFk9FOtwqxaKCn6+aB+cdQLqo+Lt06Z8/Muyf9IKfpeQ2uV9yt0WSiM
-         TTquk5NNN+OZlfgawXuAgbZoaJEgWEKH0P4wZKk+g3o+N2Yve/ovQf4RyhdJpzzj1nR0
-         sNiFhBpPxeal3IPsZu1XF15SXLTE7mlvRFYC7Ifyof1fsdbeMT+Rgrk8anVMxtWoOHCr
-         g9lQ==
+        bh=wNzU0830D43H2VXQRT2Ex372KHUEc4BXST5kikj6r14=;
+        b=t5tnuqEIeRifPxgCvuu/PMFVdf0LSv5h/G8np3dYWTgfdz8ynyMtJmcnCxNVPLqsyW
+         vftT4UDkjOALX8GhJCGQfslzENj8Q67sqJNds7PIbpXvcFA+LVfa4lOgYZWBVH65lGQ9
+         MEukpur6H2+6kR147rLAZhobfFiasukuuZzl44wHmbr3QT89qXFF7AvD8XAN50Bc5EWd
+         ZS4Wmij3Av3EA5FyGl4sQljbh76IByg/VdSAPlQiP3GnKQ9yRaHOtT/fDvjF0ejn5tEn
+         MJKRmy8HM2ZGkxw5R9UB0gQpH+fu45vZ3jYU5k8C3EfKV9W2CL6l90PFPKQDxTRed99c
+         9TuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699542840; x=1700147640;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+        d=1e100.net; s=20230601; t=1699542937; x=1700147737;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ngW2H67nvbIil9Jd4FOLYMiZuCHl7MW2vB4VxmLrw94=;
-        b=i3thoyEU7+ajvYG5Jz0Aia4i9P9I8fMGYZoSk1IkeVNfYKQSgNeQCZs+oBRxnXpViD
-         vBVMUE6iuldEd/3fpesMShmFY4TEI/BXEcBjZ/yA5IQDU3mytxFONE6qnG0OYE8tkQwG
-         zLNzThkgVCpZGWf6NaQCHIqI4YlGeMcZv2MmgvbA/RY8VtNz9wu/hUTFQ6y+bBG9RNA1
-         hCTpO8K+aQg6+oiByu/h3Or4Xdt6e8gK3FdEFf6BYx6Qif8K7C6u5RfwN1FHa0liN92B
-         2mPhTpykX0ekRP0cNmOYvmAZTVIq/qUWuKGOX6P/9iNhYe2xhyeawcfAJSJWmDexC4+g
-         HO1w==
-X-Gm-Message-State: AOJu0YyN0ItQ0Ri6Kp7rpzmT+LYpUfRZkfKmjDRgY5JZJK4Y50b5qRI9
-        ZZjXXeFLW2YqlbBSbfJozbRquw==
-X-Google-Smtp-Source: AGHT+IHO8LoMMy2ZV8wNcw352FFV308MNE/rSe7GnvAe6vm0+bXvfQNvz5jUBAOsn9dTb3l5eqNmtA==
-X-Received: by 2002:a05:600c:3b8b:b0:401:b6f6:d8fd with SMTP id n11-20020a05600c3b8b00b00401b6f6d8fdmr4409042wms.6.1699542840519;
-        Thu, 09 Nov 2023 07:14:00 -0800 (PST)
+        bh=wNzU0830D43H2VXQRT2Ex372KHUEc4BXST5kikj6r14=;
+        b=MdW7n7SkiF5vQHFI+ndH4N+I2qgGlaToMkXITJ3ptx7HDghb9irg/oU+4QgTuZQ1Jj
+         ts6MtfzlrO+u6lP617uVNQiO3NYMXi1NCzG2JZ8cWHon0P7XiJFzoGr2m0bvnTI4Dcw/
+         xOrnT4HeiVFszuxOJLzHVIQQLAfbKSKP0dfyPmBI4idztxzhc5lKsHO3eisCBW8lLove
+         FPFWqO3v2OuaUDetA0qhu/F7SJpViEoqp/Y+GOvzC40vAw2V2JamtWPx3oqFBljNO+H6
+         EvCB9A7ABhvx1t1vxqJfWjn/ugPOPQgeGFQmenkfMys4Z0eDRExPt5BgNU2UsuibsKB2
+         dwzA==
+X-Gm-Message-State: AOJu0YyaKs6ZibOViFnbpFxp4/8IkXXdJS+epQFuItdPO34ehvfjzJnr
+        uFNIrn+5DpG3TEcEMEfQ6/uLEg==
+X-Google-Smtp-Source: AGHT+IHLq/kcnLWmV7fbCwPCWFLGE6/07PY/z6miJPuXuiqHqYElIVqLGIrKDC7b/qdLyTL6Q5JkqQ==
+X-Received: by 2002:a05:600c:5103:b0:408:403a:34dc with SMTP id o3-20020a05600c510300b00408403a34dcmr4829978wms.37.1699542937574;
+        Thu, 09 Nov 2023 07:15:37 -0800 (PST)
 Received: from [192.168.100.102] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id u2-20020a7bcb02000000b004068e09a70bsm2329709wmj.31.2023.11.09.07.13.59
+        by smtp.gmail.com with ESMTPSA id u2-20020a7bcb02000000b004068e09a70bsm2329709wmj.31.2023.11.09.07.15.36
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 07:13:59 -0800 (PST)
-Message-ID: <e80d4026-a525-48ef-b53a-f1276dd316e6@linaro.org>
-Date:   Thu, 9 Nov 2023 15:13:58 +0000
+        Thu, 09 Nov 2023 07:15:37 -0800 (PST)
+Message-ID: <4aaa25fb-de9a-4d7f-9316-ef83c27f4b42@linaro.org>
+Date:   Thu, 9 Nov 2023 15:15:36 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v4 4/6] media: qcom: camss: Add sc8280xp resource details
 Content-Language: en-US
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 To:     Konrad Dybcio <konrad.dybcio@linaro.org>, hverkuil-cisco@xs4all.nl,
         laurent.pinchart@ideasonboard.com, Andy Gross <agross@kernel.org>,
         Bjorn Andersson <andersson@kernel.org>,
@@ -70,47 +71,20 @@ Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
 References: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
  <20231109-b4-camss-sc8280xp-v4-4-58a58bc200f9@linaro.org>
  <3e0958a9-4d1e-4d1b-a914-5da154caa11f@linaro.org>
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <3e0958a9-4d1e-4d1b-a914-5da154caa11f@linaro.org>
+ <e80d4026-a525-48ef-b53a-f1276dd316e6@linaro.org>
+In-Reply-To: <e80d4026-a525-48ef-b53a-f1276dd316e6@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/11/2023 13:44, Konrad Dybcio wrote:
->> +        .clock_rate = { { 0 },
->> +                { 0 },
->> +                { 19200000, 80000000, 80000000, 80000000, 80000000},
->> +                { 19200000, 150000000, 266666667, 320000000, 
->> 400000000, 480000000 },
->> +                { 400000000, 558000000, 637000000, 760000000 },
->> +                { 0 }, },
-> Not the case here!
+On 09/11/2023 15:13, Bryan O'Donoghue wrote:
+> printf("index %d = %d\n", clock_rate[0][i]);
 
-I agree with you in principle, the checking for the frequency shouldn't 
-rely on if (freq[x]) however in this case - we are doing aggregate 
-initialisation of a fixed size array and the compiler should save us 
-from ourselves.
+Doh !
 
-./test
-index 19200000 = 0
-index 80000000 = 4
-index 80000000 = 8
-index 80000000 = 12
-index 80000000 = 16
-index 0 = 20
-index 0 = 24
-index 0 = 28
-index 0 = 32
-index 0 = 36
-index 0 = 40
-index 0 = 44
-index 0 = 48
-index 0 = 52
-index 0 = 56
-index 0 = 60
-index 0 = 64
+But you get the idea
 
 deckard@sagittarius-a:~/Development/qualcomm/qlt-kernel$ cat test.c
 #include <stdbool.h>
@@ -134,9 +108,26 @@ int main (int argc, char *argv[])
 
 	return 0;
 }
+deckard@sagittarius-a:~/Development/qualcomm/qlt-kernel$ vim test.c 
+drivers/media/platform/qcom/camss/camss.h
+2 files to edit
+deckard@sagittarius-a:~/Development/qualcomm/qlt-kernel$ gcc -o test test.c
+deckard@sagittarius-a:~/Development/qualcomm/qlt-kernel$ ./test
+index 0 = 19200000
+index 1 = 80000000
+index 2 = 80000000
+index 3 = 80000000
+index 4 = 80000000
+index 5 = 0
+index 6 = 0
+index 7 = 0
+index 8 = 0
+index 9 = 0
+index 10 = 0
+index 11 = 0
+index 12 = 0
+index 13 = 0
+index 14 = 0
+index 15 = 0
+index 16 = 0
 
-However this code only works at the moment by happenstance not by design 
-so, I will drop something separate to this series to remediate.
-
----
-bod
