@@ -2,215 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B1077E619D
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 01:59:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6EF1D7E61A3
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 02:00:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231187AbjKIA7x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 19:59:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42190 "EHLO
+        id S231588AbjKIBAr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 20:00:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60862 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229508AbjKIA7w (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 19:59:52 -0500
-Received: from mail-pf1-x42c.google.com (mail-pf1-x42c.google.com [IPv6:2607:f8b0:4864:20::42c])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CC2A2102
-        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 16:59:50 -0800 (PST)
-Received: by mail-pf1-x42c.google.com with SMTP id d2e1a72fcca58-6c431ca7826so302028b3a.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 16:59:50 -0800 (PST)
+        with ESMTP id S231268AbjKIBAq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 20:00:46 -0500
+Received: from mail-pl1-x62a.google.com (mail-pl1-x62a.google.com [IPv6:2607:f8b0:4864:20::62a])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 070082680
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 17:00:44 -0800 (PST)
+Received: by mail-pl1-x62a.google.com with SMTP id d9443c01a7336-1cc330e8f58so2286235ad.3
+        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 17:00:44 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699491590; x=1700096390; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OHn9y25TkCjUGRzezI+pCpcdi+i7Y9ZJGwoclVKbOkE=;
-        b=BDzSRfpJdZ1jcW7m8YHCRzuBOkOu92fVUMCxQ2a9VMqyOWKbKmDCilLI7AeWQxR52+
-         HCYFINs2m/+ln0s69R8liDtqeHU2woqzKIHWKzmHqQzcBbRuKbA8boawwZO7DgCpyQdX
-         iZjs9rcSlA1pGWHmdks9rZAv48GC9SBnxBDsoBrjCllA2so+oEAWPW/zmRy0G9KK7coF
-         vpdj5X2eOUI3Mwmqs+PuwBqs6jEkJtX1QpAEo2WHQTYcHg/07s0ugJX46q3OMnpKYPy+
-         01NT4Z37QhIrp6F5ANJCC2chDQ4EiKj/TDsJcEpSmlnZEad3CTgpHWXNpjEUEsqEM0go
-         ZmDA==
+        d=davidwei-uk.20230601.gappssmtp.com; s=20230601; t=1699491643; x=1700096443; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=g+m1/eec3BAI+VxQgeWP5nozlTdhs+GvhhRREFgPtnw=;
+        b=twBcydj177gEe6trQmjXVoEAVUA814gQxanP2tNi0bC3WYu6GFBi1NTJRuGFMc7qcb
+         N1KFTTsThKZvuYzaT5/e43BdLn98gA4KcYLDiodnOM9uamizS8mZ9pXr73tQHJjWEjHi
+         g9H1P6xpegWWj9yuDLHtWitsfInUyguJwyoGEy8ZNIbkP0BgIllWYEhtXdtsjPAqaAV7
+         5jjzjuj9NNgm7m2bXKd8/ghLRdWG1Lf80THlMHFiVTNR9MpuDFRZUIrpZDMmqvafM0jH
+         rzsw88LY2cGiakpGyVwhgep1rMZP8RoXur38b63NkiS9x71ETQvVDbUGwbahhix27iXP
+         W6Mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699491590; x=1700096390;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=OHn9y25TkCjUGRzezI+pCpcdi+i7Y9ZJGwoclVKbOkE=;
-        b=rvgBeavRxtsxnLX/j2yd5QW/StUcni+CAJfWqvpfySeCGb7EiXquIdztp443BuXSyU
-         WpMqvlXSg3PdNj+4SznGQo3dfbIUBIybMHQbXuIQaqFZ1RBPlmPm+tBXr6yPhtoetpN0
-         Bl0MoPgb8N5Ec9synPBxO+Yo9z15KSctQdDPELUIiIBaUA9SOEwb5udRzKPmAp9+1Wti
-         +rC4xuAlmij0lDSXkirP55WQcglY58jESaF69c2IPE+T7kpa9Es7hp4qFlHc2ua2ITH1
-         Qqqa9RagLLPyyh/4s83Gpv0GGREXVTO48IV+hnCIOb7WihtJ1mXSgMMC2f8kLBVVG0tT
-         lrIw==
-X-Gm-Message-State: AOJu0Yzobx7HL2urnvLEDC8mkY4KNNSW1fq5sHsNQZQyojV+JAakB9WY
-        bw1OU2nU6e7SeJgqMsY9BuoMwBdHMI5OUtmWIIzJyaH0XwZdTnigzXWT9w==
-X-Google-Smtp-Source: AGHT+IFboY654P5PbdzMK3cWhT8zt7kSG4KSHSRZRP1kgnDknG3IIxQjU6ixoNsTL18e9XE/xU1v/ItygPZDlQcVgqc=
-X-Received: by 2002:a05:6a20:8417:b0:181:16c7:6cd0 with SMTP id
- c23-20020a056a20841700b0018116c76cd0mr4583310pzd.17.1699491589543; Wed, 08
- Nov 2023 16:59:49 -0800 (PST)
+        d=1e100.net; s=20230601; t=1699491643; x=1700096443;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=g+m1/eec3BAI+VxQgeWP5nozlTdhs+GvhhRREFgPtnw=;
+        b=pRnYcwz2IW1nvsc4W9bxLFpnJt5Qor3anqcgpwp7Lf6YdJoM3/iPdymxM9L0JJ4WkN
+         bsxSwtlSgvepym+e+t13jen1kp+BaEhplgXpJJbuWN/bQHE16/KTeA0gDfyVmCyzu0N6
+         dqUfq6Nw8a/qAoGdAnXoj8gCjYqeVEjD/xoFkaOkeC8RDZfMi1FGFGEWYN/sudVoaLSv
+         O6e+1rISml64nQmYVT+NpqPDqjkyI5Qr+c7LNPYltNe0Zx9ngxy90wMhzX8C2IE4nv9e
+         V+0SJQD85HZ5Fk++JMQdPCkMmGzCzXl4pl48cGjgfHUp0JfpmgCpDLJs2HFMNFsyVQcm
+         pk7g==
+X-Gm-Message-State: AOJu0YzoDPY6EHUvd1EKwD3E1dIZaI9S5YztyRBERvZqyTASdEmT1H3R
+        of2+5BhQ71/HiAkL/e6Ly1Ohq3geSwsM4KKo/JbtDTDB
+X-Google-Smtp-Source: AGHT+IGqOk5pLGreahWyU5Tyhch5OGepp+ms2LPYRQxo1oPkx1W4LYvgzN77Bieh5CFVk1MoPdYbhQ==
+X-Received: by 2002:a17:902:d2cf:b0:1cc:6acc:8fa4 with SMTP id n15-20020a170902d2cf00b001cc6acc8fa4mr4025647plc.32.1699491643400;
+        Wed, 08 Nov 2023 17:00:43 -0800 (PST)
+Received: from ?IPV6:2a03:83e0:1256:2:c51:2090:e106:83fa? ([2620:10d:c090:500::5:887f])
+        by smtp.gmail.com with ESMTPSA id g10-20020a170902934a00b001b0358848b0sm2287468plp.161.2023.11.08.17.00.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Nov 2023 17:00:43 -0800 (PST)
+Message-ID: <b1476f8e-1b4b-497a-9e80-aff679ca8b4b@davidwei.uk>
+Date:   Wed, 8 Nov 2023 17:00:39 -0800
 MIME-Version: 1.0
-References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org>
- <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu> <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
- <fe672e31315b8f9c44a693c909d464a299e76093.camel@ndufresne.ca>
- <CAEZL83qR2bDq35yvCV-WvkaL6ZbPvSxQH+j=ViG6Kq8-0Mzq1Q@mail.gmail.com>
- <CANiDSCtDQ9Wg57YzVAJ1o5WQRmy1QPW8td8V2Scc08MmWtOwFg@mail.gmail.com>
- <03ac47742945cc04e4663b87563b47a96ed3ec1f.camel@ndufresne.ca>
- <CANiDSCunRRyod3Rg+L9ZsffOZyC7CKbMVTHX3u-n5iuNyZQk0w@mail.gmail.com> <20231109000327.GE21616@pendragon.ideasonboard.com>
-In-Reply-To: <20231109000327.GE21616@pendragon.ideasonboard.com>
-From:   Esker Wong <esker@google.com>
-Date:   Thu, 9 Nov 2023 08:59:13 +0800
-Message-ID: <CAEZL83rcMocCohTi1ddAOyQ7BDK_AqR3-h33ZnHkWRMFO7cuwg@mail.gmail.com>
-Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Ricardo Ribalda <ribalda@chromium.org>, nicolas@ndufresne.ca,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Esker Wong <esker@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v3 05/12] netdev: netdevice devmem allocator
+Content-Language: en-GB
+To:     David Ahern <dsahern@kernel.org>,
+        Mina Almasry <almasrymina@google.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni <pabeni@redhat.com>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jeroen de Borst <jeroendb@google.com>,
+        Praveen Kaligineedi <pkaligineedi@google.com>,
+        Willem de Bruijn <willemb@google.com>,
+        Kaiyuan Zhang <kaiyuanz@google.com>,
+        Pavel Begunkov <asml.silence@gmail.com>
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-6-almasrymina@google.com>
+ <3b0d612c-e33b-48aa-a861-fbb042572fc9@kernel.org>
+ <CAHS8izOHYx+oYnzksUDrK1S0+6CdMJmirApntP5W862yFumezw@mail.gmail.com>
+ <a5b95e6b-8716-4e2e-9183-959b754b5b5e@kernel.org>
+From:   David Wei <dw@davidwei.uk>
+In-Reply-To: <a5b95e6b-8716-4e2e-9183-959b754b5b5e@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 2023-11-07 14:55, David Ahern wrote:
+> On 11/7/23 3:10 PM, Mina Almasry wrote:
+>> On Mon, Nov 6, 2023 at 3:44 PM David Ahern <dsahern@kernel.org> wrote:
+>>>
+>>> On 11/5/23 7:44 PM, Mina Almasry wrote:
+>>>> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+>>>> index eeeda849115c..1c351c138a5b 100644
+>>>> --- a/include/linux/netdevice.h
+>>>> +++ b/include/linux/netdevice.h
+>>>> @@ -843,6 +843,9 @@ struct netdev_dmabuf_binding {
+>>>>  };
+>>>>
+>>>>  #ifdef CONFIG_DMA_SHARED_BUFFER
+>>>> +struct page_pool_iov *
+>>>> +netdev_alloc_devmem(struct netdev_dmabuf_binding *binding);
+>>>> +void netdev_free_devmem(struct page_pool_iov *ppiov);
+>>>
+>>> netdev_{alloc,free}_dmabuf?
+>>>
+>>
+>> Can do.
+>>
+>>> I say that because a dmabuf can be host memory, at least I am not aware
+>>> of a restriction that a dmabuf is device memory.
+>>>
+>>
+>> In my limited experience dma-buf is generally device memory, and
+>> that's really its use case. CONFIG_UDMABUF is a driver that mocks
+>> dma-buf with a memfd which I think is used for testing. But I can do
+>> the rename, it's more clear anyway, I think.
+> 
+> config UDMABUF
+>         bool "userspace dmabuf misc driver"
+>         default n
+>         depends on DMA_SHARED_BUFFER
+>         depends on MEMFD_CREATE || COMPILE_TEST
+>         help
+>           A driver to let userspace turn memfd regions into dma-bufs.
+>           Qemu can use this to create host dmabufs for guest framebuffers.
+> 
+> 
+> Qemu is just a userspace process; it is no way a special one.
+> 
+> Treating host memory as a dmabuf should radically simplify the io_uring
+> extension of this set. That the io_uring set needs to dive into
+> page_pools is just wrong - complicating the design and code and pushing
+> io_uring into a realm it does not need to be involved in.
 
-The use case here we want is actually the latency. We want to know
-what is the most accurate delay the user will feel when the camera
-capture the frame to the frame get displayed. So anytime earlier then
-the dqbuf should be an improvement here. It would help us know better
-of a camera quality.
+I think our io_uring proposal will already be vastly simplified once we
+rebase onto Kuba's page pool memory provider API. Using udmabuf means
+depending on a driver designed for testing, vs io_uring's registered
+buffers API that's been tried and tested.
 
-Regards,
-Esker
+I don't have an intuitive understanding of the trade offs yet, and would
+need to try out udmabuf and compare vs say using our own page pool
+memory provider.
 
-On Thu, Nov 9, 2023 at 8:03=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> On Wed, Nov 08, 2023 at 11:46:40PM +0100, Ricardo Ribalda wrote:
-> > On Wed, 8 Nov 2023 at 21:32, <nicolas@ndufresne.ca> wrote:
-> > >
-> > > The fact that you interpret the time from FRAME_SYNC to DQBUF (well t=
-he
-> > > READ IO notification) as the actual latency is yours of course. It
-> > > assumes that the camera on the other end does not introduce other
-> >
-> > We want to use this signal to measure how much power is used since we
-> > start receiving the frame until we can use it.
-> > I agree with you that the latency between capture and dqbuf should be
-> > measured using the timestamp. That is not our use case here.
-> >
-> > > source of latency (or that these are negligible). You are also going =
-to
-> > > introduce a lot of jitter, since it relies on when the OS decides to
-> > > wake up your process.
-> >
-> > We have measured a jitter of around 2.5 msec, which is acceptable for o=
-ur needs.
-> >
-> > > I think my opinion resides in if you can accurately *enough* implemen=
-t
-> > > what the spec says for FRAME_SYNC then do it, otherwise just don't li=
-e.
-> >
-> > What the specs says is:
-> > ```
-> > Triggered immediately when the reception of a frame has begun
-> > ```
-> > In my opinion, that is true for usb devices, we are triggering it as
-> > soon as the transfer has started to the eyes of the driver. We cannot
-> > trigger earlier than that.
-> >
-> >
-> > > I think for ISO, "after the first chunk" i a small lie, but acceptabl=
-e.
-> > > But for BULK, the way it was explained is that it will be always very
-> > > close to DQBUF time. and it should not emit FRAME_SYNC for this type =
-of
-> > > UVC device. If it fits other events fine of course, I'm just making a
-> > > judgment on if its fits V4L2_EVENT_FRAME_SYNC or not.
-> >
-> > nit: I believe that you have swapped iso and bulk on this description
->
-> I've confused the USB packet size and the UVC payload size. The latter
-> is typically much bigger for bulk devices than isoc devices, but the
-> former will be in similar order of magnitudes in a large number of
-> cases, but not all cases.
->
-> The URB size is the result of the USB packet size and number of packets
-> per URB. The uvcvideo driver currently sets the number of packets per
-> URB to 32 at most (and lowers it if the frame size is small, or if not
-> enough memory can be allocated). This could be increased or made dynamic
-> in the future, as higher speeds typically benefit from larger URB sizes.
-> The packet size differs between bulk and isoc endpoints.
->
-> For bulk, the packet size can be up to 512 bytes for USB 2.0 and 1024
-> bytes for USB 3.0, and the device can select a smaller size. The largest
-> URB size (again based on the current implementation of the uvcvideo
-> driver) is thus 32 KiB.
->
-> For isochronous the situation is more complicated. The term "packet" as
-> used in the uvcvideo driver actually means all the data transferred in
-> one service interval, thus made of multiple isoc packets. It is heavily
-> dependent on the USB speed, and the device can advertise different
-> supported sizes (which translate directly to the reserved bandwidth for
-> the transfer), with the driver picking the smallest bandwidth large
-> enough for the data rate required by the resolution and frame rate. The
-> theoretical worst case is 1024 bytes per isoc packet * 16 isoc packets
-> per burst * 6 burst per interval * 32 "packets" per URB, equal to 3 MiB.
->
-> Even with the largest URB size you have witnessed of ~1 MiB, we will end
-> up lying quite a bit if we consider the URB completion callback for the
-> first URB of the frame as indicating the start of reception.
->
-> > > In term of accuracy, if timestamp was passed with the FRAME_SYNC even=
-t,
-> > > it would not matter how fast your process the event anymore and great=
-ly
-> > > improve accuracy.
-> >
-> > +1 to that. If we could easily change the uAPI for FRAME_SYNC that
-> > should definitely be implemented.
-> >
-> > > > Not to mention that the UVC timestamping requires a bit of love.
-> > > >
-> > > > @Laurent Pinchart, @Kieran Bingham  any progress reviewing :P :
-> > > > https://patchwork.linuxtv.org/project/linux-media/list/?series=3D10=
-083
-> > >
-> > > Thanks for working on this by the way, hope someone will find the tim=
-e
-> > > to review this. The timestamps should in theory provide a jitter free
-> >
-> > It already has a couple of Reviewed-by stamped in.... ;)
-> >
-> > > measurement of the delay Esker is trying to measure, and if it wasn't
-> > > of bugs (and crazy complexity) it would in the worst case match the
-> > > transfer time.
-> >
-> > Sorry to repeat myself, but just to avoid the confusion: Esker needs
-> > to know how much power is used since we start receiving a frame until
-> > it is available for dqbuf, not de frame latency.
->
-> As I think everybody is aware, the earliest notification you get on the
-> CPU side is the *end* of reception of the first URB, which can possibly
-> be significantly later than the start of reception of the frame.
->
-> Based on what I understand, the goal is to measure the CPU power
-> consumption related to CPU processing of the frame. If that's the case,
-> there's good and bad news. The good news is that the CPU doesn't process
-> the frame at all until the URB has been received (if you were to measure
-> the power consumption of the USB host controller too, it would be a
-> different story), so the delay shouldn't be a problem. The bad news is
-> that I don't see how the information you're trying to get will help you,
-> as there's plenty of other things unrelated to the uvcvideo driver that
-> can take CPU time while a frame is being received. That may not be any
-> of my business, but from the point of view of the uvcvideo driver, I'm
-> less inclined to accept a possibly significant V4L2_EVENT_FRAME_SYNC lie
-> if the use case ends up making little sense :-)
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> 
+> Most (all?) of this patch set can work with any memory; only device
+> memory is unreadable.
+> 
+> 
