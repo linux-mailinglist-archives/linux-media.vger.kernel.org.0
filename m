@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id BC9CA7E72BB
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 21:25:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBA7C7E72C3
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 21:28:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345006AbjKIUZd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 15:25:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54998 "EHLO
+        id S1344991AbjKIU2Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 15:28:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35228 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229560AbjKIUZc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 15:25:32 -0500
-Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1CDA3C25;
-        Thu,  9 Nov 2023 12:25:29 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 2776FFF803;
-        Thu,  9 Nov 2023 20:25:28 +0000 (UTC)
+        with ESMTP id S229560AbjKIU2X (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 15:28:23 -0500
+Received: from relay2-d.mail.gandi.net (relay2-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::222])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 384193A98;
+        Thu,  9 Nov 2023 12:28:21 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 1F72540006;
+        Thu,  9 Nov 2023 20:28:19 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-        t=1699561528;
+        t=1699561699;
         h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
          to:to:cc:cc:mime-version:mime-version:
          content-transfer-encoding:content-transfer-encoding;
-        bh=Q5JlwMJpMIt/MHhbVPYmlbPUzRqUQBvdijuUa1ufz/g=;
-        b=GztfFeM7qmVKMjv9o6GV5qzc4uqlkgxE+fJdHnlcscUrLo1enusWvlUCbdrB0lf0Wso8Gd
-        uGFGiW6VGim8H5FQiyqjssJgT3AKahZKR0sEaRvUCnZncfb6tO/VtuyqkI4X+hhue6wysz
-        3EkcQVIbB2lGeJH+YZmHxAnK87in69yna6JPSGVBbjQ6U9Pntw5lbd8CpFmfEQ32AtS+6k
-        tgzALHd4yPlGjMrLUOo9f5MKAYn0fW8RCRoG/EciSxpXvTdkrQFL4nvARzP6bwWB3iApqY
-        RGzkxt6Dl3lOxqMXiiJmVaq8LR1iuq4rEi4a7HDm+N2zmx8Gf+m0hqqXFrL/bQ==
+        bh=BCdREV7hhUnDrr+yI8gw4JbnC8dXnl9JKc58LcOSwr0=;
+        b=PwruFa8fVSgyiIarj3H6EQU64tpDQie/xcK2dqWt70wkY8ZN3LsW2NVubHaBuev6yIS9sQ
+        If8+O7Z/fIRFU4QaY4MuLM+AZZ0pH2s4fzj59usOFC72NYELd3SYHKFLBjrRona/jNd7z8
+        OiiYZszFLDtzr7np0YcAAlCUlc4M3dLvzSL07oGg2flwjdVM/0xgVRzdMXOi9f2cpJ/Mr8
+        I42dZE+zsGvG9L+5iRAQLt17mT7mef/X834bT/TwK4a+md9+jd460Q4YFNHBDOvu/QqZyH
+        /e5R/cyB1sSjg/ZtYBHh20WCi9pBuhVtRym8M6KtEDUPVCLYdKYA7hI2EbyJsg==
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-staging@lists.linux.dev
@@ -35,9 +35,9 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH] v4l2-compliance: codecs: Add stateless (TRY_)DECODER_CMD tests
-Date:   Thu,  9 Nov 2023 21:25:17 +0100
-Message-ID: <20231109202517.341923-1-paul.kocialkowski@bootlin.com>
+Subject: [PATCH v2] v4l2-compliance: codecs: Add stateless (TRY_)DECODER_CMD tests
+Date:   Thu,  9 Nov 2023 21:27:45 +0100
+Message-ID: <20231109202745.342387-1-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.42.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -47,15 +47,15 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Stateless codecs that support holding the capture buffer should implement the
-(TRY_)DECODER_CMD ioctls for the flushing command (and only this command).
+(TRY_)DECODER_CMD ioctls for the flush command (and only this command).
 
 Add a conditional to separate the stateless case from stateful one and move
 the existing tests there.
 
 Add new tests for the stateless case which ensure that the flush command is
-supported and that the other stateful commands are note.
+supported and that the other stateful commands are not.
 
-And existing check will already return early (without error) when the ioctls
+An existing check will already return early (without error) when the ioctls
 are not implemented at all. Note that there is no easy way to check for the
 capture buffer holding buffer flag since it requires setting up a coded format
 in particular to be visible, which is far from trivial to implement here.
@@ -63,6 +63,10 @@ As a result we just carry out the tests when the ioctls are available.
 
 Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 ---
+
+Changes since v1:
+- Fixed typos.
+
  utils/v4l2-compliance/v4l2-test-codecs.cpp | 111 ++++++++++++++-------
  1 file changed, 75 insertions(+), 36 deletions(-)
 
