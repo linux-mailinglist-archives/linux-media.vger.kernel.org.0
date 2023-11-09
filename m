@@ -2,190 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C39D77E6FB9
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 17:55:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 76C3B7E6FE7
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 18:12:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1343726AbjKIQz3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 11:55:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45240 "EHLO
+        id S234674AbjKIRMC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 12:12:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S230185AbjKIQz2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 11:55:28 -0500
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9725C1AE;
-        Thu,  9 Nov 2023 08:55:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1699548920;
- bh=oiGpLQFfupX4dQTf/iHqDMCKO+1QmogvFTKLT/9VDbU=;
- b=gxuByy2LJVUxrjyvbPXS1dDoZu/RcUyj2V9+6cq9e3mbjhYdk4fKJFsn5fO3t2CqVj7LE3y6R
- QifTXKPrdGofdaCZun4RLXTqmTQWeIw10Kaie4ss3aFz6/jpWpTwlbUjpRsHn7a1oFQmsvA0cPM
- ekuTI0U/wxY6POytiJBIG5SSUgyAcVmtJ4v9HDfl1hLAOrAsqq3df02ZymlB8UcD9yLGB5DxbQ+
- LZLy0YHPUhylhiKDotRLHoVSRyuchYveLMhDvuAwV6tafzABOR13l/mnDjzanq0AOkgBPtC+WNv
- yRXg8IyVmrSIgxngZGAWRSNbddJdSOzaHQ/oz3aFyOeg==
-Message-ID: <b4cc5a65-ccae-41c0-af9c-04001116938a@kwiboo.se>
-Date:   Thu, 9 Nov 2023 17:55:14 +0100
+        with ESMTP id S234652AbjKIRMB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 12:12:01 -0500
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B73D230D5
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 09:11:58 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9e4675c7a5fso184046266b.0
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 09:11:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699549917; x=1700154717; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=VKup6gPLqadYBXO4b6NJZJ76nJs2bYooRO5/myvRzOE=;
+        b=cMydEhz7e1ZI03lDAh995x7QUUM/RCG+ac9EhtfionJyGErsqfjZnrJv6LUrNlsd4X
+         U6BOpkJGDpHrn47AAUaWmoDVwGMcF3HHikW/EKg9BkYsvpgbIgY7jzxkryceYQdOZz4o
+         76p+gepx3jQcQ4OlK/tEKG5tuwkeEkEDs/mAeoSZHvjG9nsAUyH5geEgoIp/5rYpx+zz
+         F0ZStE0nO33IgLsQBr3bkQVp/HGHx9QXRwvRwLxboUHEB3S7Lb5FqSCDYD9dC2MoPd1W
+         HGoljZNeDFuuGTZaUJeeCmuZiiBCb0NZrcq1IAv8nm+OC+T9HPzpkvM6A4i+py2ewuNG
+         ryFg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699549917; x=1700154717;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VKup6gPLqadYBXO4b6NJZJ76nJs2bYooRO5/myvRzOE=;
+        b=ZlO+r/kkVg/EU+qjV1CN5voQjj4WXAA6KyXDhAUJ1Z9N3KMm0KEp1mF7mggtil8YDD
+         Mj0oVkaqmjH3zJ6JmfSUqVTtaCz+8K0QtFXe3AUnbkkDPU/Tr/F6UWjWmQu2FKZMcujY
+         0ACDO09IYqsCTNAia3F36nMBz+XX8i6qKH0TTH/gO9kEzAq4/vNCRDtZhTjtXsrfUR6m
+         fI9bHvBQy8ghcc4cTzBY/rqV3hbP/vnKZKuMPiuceFY4bbQtNN0SNdFWKvaPD3LJT9Mn
+         q1dchTRmjxENGnWx72orJ6CcED2i56kOo6XylvXf85Qz4Jej3voWcue/0erlgemnbTM6
+         7wkQ==
+X-Gm-Message-State: AOJu0Ywt9Jy4IjI8qn6FFADbUVnac03X7XWr9zo5wX6shJRIW6i2Wb8p
+        jQzCoIM+uqZ85i6BfPJ1M9SOgeTkFoboljnIaogGTA==
+X-Google-Smtp-Source: AGHT+IFNmTkUKTpurLhMr6Imw2D4ZQw7nrJTojquLN9XZrC0EJudf3CToSRmvMwGsl/XL3CximP5/Q==
+X-Received: by 2002:a17:906:fd85:b0:9c6:1143:b52 with SMTP id xa5-20020a170906fd8500b009c611430b52mr4953257ejb.55.1699549916987;
+        Thu, 09 Nov 2023 09:11:56 -0800 (PST)
+Received: from [192.168.100.102] ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id u2-20020a7bcb02000000b004068e09a70bsm2634991wmj.31.2023.11.09.09.11.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 09 Nov 2023 09:11:56 -0800 (PST)
+Message-ID: <1e99ddcc-db3b-4a79-a2d1-815bebb5a5c9@linaro.org>
+Date:   Thu, 9 Nov 2023 17:11:55 +0000
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/9] media: rkvdec: Add HEVC backend
+Subject: Re: [PATCH v4 3/6] media: qcom: camss: csiphy-3ph: Add Gen2 v1.1
+ two-phase MIPI CSI-2 DPHY init
 Content-Language: en-US
-To:     "=?UTF-8?Q?Heiko_St=C3=BCbner?=" <heiko@sntech.de>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+To:     Konrad Dybcio <konrad.dybcio@linaro.org>, hverkuil-cisco@xs4all.nl,
+        laurent.pinchart@ideasonboard.com, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-rockchip@lists.infradead.org
-Cc:     Alex Bee <knaerzche@gmail.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-        Christopher Obbard <chris.obbard@collabora.com>,
-        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
-        linux-kernel@vger.kernel.org
-References: <20231105233630.3927502-1-jonas@kwiboo.se>
- <5347734.aeNJFYEL58@diego>
-From:   Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <5347734.aeNJFYEL58@diego>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Report-Abuse-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-ForwardEmail-Version: 0.4.40
-X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 149.28.215.223
-X-ForwardEmail-ID: 654d0ef8a16ddfebde306c21
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
+        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
+Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
+ <20231109-b4-camss-sc8280xp-v4-3-58a58bc200f9@linaro.org>
+ <0e325a57-f07d-47e6-8456-523cfa04c52b@linaro.org>
+From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+In-Reply-To: <0e325a57-f07d-47e6-8456-523cfa04c52b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Heiko,
+On 09/11/2023 13:55, Konrad Dybcio wrote:
+> 
+> 
+> On 11/9/23 12:30, Bryan O'Donoghue wrote:
+>> Add a PHY configuration sequence for the sc8280xp which uses a Qualcomm
+>> Gen 2 version 1.1 CSI-2 PHY.
+>>
+>> The PHY can be configured as two phase or three phase in C-PHY or D-PHY
+>> mode. This configuration supports two-phase D-PHY mode.
+>>
+>> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> ---
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> 
+> Aside from initialization, looks like the reset seq should be more
+> complex:
+> 
+> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_1_hwreg.h?ref_type=tags#L39-45
+> 
+> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/cam_csiphy_core.c#L133-154
+> 
+> similarly for the "common regs" that seem to extend the init seq
+> 
+> https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/cam_csiphy_core.c#L491-527
+> 
+> Konrad
 
-On 2023-11-06 10:22, Heiko Stübner wrote:
-> Hi Jonas,
-> 
-> Am Montag, 6. November 2023, 00:36:07 CET schrieb Jonas Karlman:
->> This series add a HEVC backend to the Rockchip Video Decoder driver.
->>
->> A version of this HEVC backend has been in use by the LibreELEC distro
->> for the past 3+ years [1]. It was initially created based on a copy of
->> the H264 backend, unstable HEVC uAPI controls and a cabac table + scaling
->> matrix functions shamelessly copied 1:1 from the Rockchip mpp library.
->>
->> It has since then been extended to use the stable HEVC uAPI controls and
->> improved opon e.g. to include support for rk3288 and fix decoding issues
->> by Alex Bee and Nicolas Dufresne.
->>
->> The version submitted in this series is based on the code currently used
->> by the LibreELEC distro, excluding hard/soft reset, and with cabac table
->> and scaling matrix functions picked from Sebastian Fricke prior series
->> to add a HEVC backend [2].
->>
->> Big thanks to Alex Bee, Nicolas Dufresne and Sebastian Fricke for making
->> this series possible!
->>
->> Patch 1 add the new HEVC backend.
->> Patch 2-3 add variants support to the driver.
->> Patch 4 add support for a rk3288 variant.
->> Patch 5 add a rk3328 variant to work around hw quirks.
->> Patch 6-7 add device tree node for rk3288.
->> Patch 8-9 extend vdec node reg size to include cache/perf registers.
-> 
-> thanks a lot for working on this.
-> 
-> Looking at the rkvdec TODO file, isn't the hvec support the only thing
-> keeping the driver in staging? So with this support using stable hevc
-> uapi, shouldn't the driver then also move out of staging after this
-> series is applied?
+So..
 
-Yes, I agree, this driver should be moved out of staging now that uapi
-is stable. Something for a follow-up series :-)
+https://git.codelinaro.org/clo/la/platform/vendor/opensource/camera-kernel/-/blob/LA.AU.1.3.7-02900-gen3_gvmgh.0/drivers/cam_sensor_module/cam_csiphy/include/cam_csiphy_1_1_hwreg.h?ref_type=tags#L39
 
-Regards,
-Jonas
+static struct csiphy_reg_t csiphy_reset_reg_1_1[] = {
+	{0x0814, 0x00, 0x05, CSIPHY_LANE_ENABLE}, // this is interesting
+                                                   // powers off lanemask
+                                                   // seems like a good
+                                                   // idea to me
+	{0x0818, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, [1]
+	{0x081C, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, [2]
+	{0x0800, 0x01, 0x01, CSIPHY_DEFAULT_PARAMS}, // this we already
+	{0x0800, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS}, // do right now
+};
 
-> 
-> Heiko
-> 
-> 
->> This was tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
->>
->>   v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
->>   ...
->>   Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
->>
->>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
->>   ...
->>   Ran 135/147 tests successfully
->>
->>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
->>   ...
->>   Ran 9/9 tests successfully
->>
->> And on a TinkerBoard (RK3288):
->>
->>   v4l2-compliance 1.24.1, 32 bits, 32-bit time_t
->>   ...
->>   Total for rkvdec device /dev/video3: 47, Succeeded: 47, Failed: 0, Warnings: 0
->>
->>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
->>   ...
->>   Ran 137/147 tests successfully
->>
->>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
->>   ...
->>   Ran 9/9 tests successfully
->>
->> This series depend on the following series:
->> - media: rkvdec: Add H.264 High 10 and 4:2:2 profile support [3]
->>
->> To fully runtime test this series you need above series and ffmpeg
->> patches from [4], this series and its depends is also available at [5].
->>
->> Full summary of fluster run can be found at [6].
->>
->> [1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
->> [2] https://lore.kernel.org/linux-media/20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com/
->> [3] https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
->> [4] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
->> [5] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-hevc-v1/
->> [6] https://gist.github.com/Kwiboo/4c0ed87774dede44ce6838451a1ec93d
->>
->> Regards,
->> Jonas
->>
->> Alex Bee (5):
->>   media: rkvdec: Add variants support
->>   media: rkvdec: Add RK3288 variant
->>   media: rkvdec: Disable QoS for HEVC and VP9 on RK3328
->>   ARM: dts: rockchip: Add vdec node for RK3288
->>   arm64: dts: rockchip: Expand reg size of vdec node for RK3399
->>
->> Jonas Karlman (4):
->>   media: rkvdec: Add HEVC backend
->>   media: rkvdec: Implement capability filtering
->>   media: dt-bindings: rockchip,vdec: Add RK3288 compatible
->>   arm64: dts: rockchip: Expand reg size of vdec node for RK3328
->>
->>  .../bindings/media/rockchip,vdec.yaml         |    4 +-
->>  arch/arm/boot/dts/rockchip/rk3288.dtsi        |   17 +-
->>  arch/arm64/boot/dts/rockchip/rk3328.dtsi      |    2 +-
->>  arch/arm64/boot/dts/rockchip/rk3399.dtsi      |    6 +-
->>  drivers/staging/media/rkvdec/Makefile         |    2 +-
->>  drivers/staging/media/rkvdec/TODO             |    7 -
->>  .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1848 +++++++++++++++++
->>  drivers/staging/media/rkvdec/rkvdec-hevc.c    |  823 ++++++++
->>  drivers/staging/media/rkvdec/rkvdec-regs.h    |    3 +
->>  drivers/staging/media/rkvdec/rkvdec-vp9.c     |   10 +
->>  drivers/staging/media/rkvdec/rkvdec.c         |  180 +-
->>  drivers/staging/media/rkvdec/rkvdec.h         |   15 +
->>  12 files changed, 2886 insertions(+), 31 deletions(-)
->>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
->>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
->>
->>
-> 
-> 
-> 
-> 
+[1] [2] I don't see why you need that and I'd imagine the reset drives 
+these values to zero anyway.. it should as I read the reg docs, I'd 
+guess this is a reset sequence that comes out of a Si test bench.
 
+The 0x814 warrants an investigation - i.e. can we add it across 
+platforms without breaking existing setups.
+
+I'll kick that to a separate - one LOC "series", so we can take our time 
+validating if it has any unexpected side-effects across our various 
+platforms.
+
+---
+bod
