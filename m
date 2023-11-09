@@ -2,192 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id C44817E6246
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 03:39:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B72157E6262
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 03:47:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S231982AbjKICj1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 8 Nov 2023 21:39:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47192 "EHLO
+        id S231187AbjKICrV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 8 Nov 2023 21:47:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46992 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229557AbjKICj0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 21:39:26 -0500
-Received: from mail-ua1-x92f.google.com (mail-ua1-x92f.google.com [IPv6:2607:f8b0:4864:20::92f])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D068625A3
-        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 18:39:23 -0800 (PST)
-Received: by mail-ua1-x92f.google.com with SMTP id a1e0cc1a2514c-7b6cd2afaf2so160360241.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Nov 2023 18:39:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1699497563; x=1700102363; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IoDAF1C1HAcA+PpMvkLLmDwQmtJn4XmvLM4Nw3eJF8Y=;
-        b=dRoUnOgw7U9zOhs/0i+VdiR703NzY9F/2UF30kZ+bLdDlGMNgf3bllc/hw+VwDziia
-         w6V78ZYWC3HAY5TJRChhOqzBPvZi0v0l1VNF444Ht7pvfSqC+DEG3E3DsAApfnqPBOI6
-         ohKLG7XPRWNU6jy7f6Styjawoo/Epoe/a8reiFO4ONfzwXRYMH/sIGyKGovivudXEf4+
-         s9lI4L8BtH2ka7S6QiNHfU0g9qdt2q93bq/urJ9bFsvyzVCc0efPYB6hs/mhIxuI70iz
-         ApovVZJ5Em8xkNIl0toZRPsHQ/jacmnPu+7krx9YKxsFJqyBvfkH3q41t0fClEhQfXWd
-         8eZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699497563; x=1700102363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=IoDAF1C1HAcA+PpMvkLLmDwQmtJn4XmvLM4Nw3eJF8Y=;
-        b=u+r4wHpeRJnW2+KAWRqTj0tUD6D1Ou80fc7vpp+u2AULfer13CS1w6W5Ovy2rEdO/L
-         TYIrGaySjjf9KOtFrbx4Fd1MJGLcjy6XksB9kW9ZdDWJsUbLT80WiMCk/yYWDm5JyyrW
-         yYLR7V70bvrC5pRehu7O8y6JBdhxXEYPpsPtWs6yee+ySzz+zw0P/rH1ZSZaUFDaOfsX
-         OIXT8PVaMf9CY7qXQO39Lk4u1SnC7sSbV/nr4wMMWNgS3nfb9UjREUQpxKXu9nlIuLvr
-         MbSBD0kvka8iqrgsU90q4Va1RyKPYT85IpqQbFJQZh2vs1cmmIsB3f54P54Lgh16htLN
-         QOYA==
-X-Gm-Message-State: AOJu0YxvAo5A1WcqN2ZaYhm6ZwkLde81r/9uslkk5tLX7YURY8+y8AvX
-        feVg97i19T5Jii7uA7JRFEhSqz+7CaUKvQnze359lQ==
-X-Google-Smtp-Source: AGHT+IFFkRJvUoPlQ13R7albFmtMDS+H8AANP9cOujoPlk+sG7EujjfJVZajEWG/Gx1UcPEbXMz+/ayvbG3vg4TKYIA=
-X-Received: by 2002:a67:b201:0:b0:45d:873e:c795 with SMTP id
- b1-20020a67b201000000b0045d873ec795mr3756190vsf.10.1699497562743; Wed, 08 Nov
- 2023 18:39:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-11-almasrymina@google.com> <ZUk0FGuJ28s1d9OX@google.com>
- <CAHS8izNFv7r6vqYR_TYqcCuDO61F+nnNMhsSu=DrYWSr3sVgrA@mail.gmail.com>
- <CAF=yD-+MFpO5Hdqn+Q9X54SBpgcBeJvKTRD53X2oM4s8uVqnAQ@mail.gmail.com>
- <ZUlp8XutSAScKs_0@google.com> <CAF=yD-JZ88j+44MYgX-=oYJngz4Z0zw6Y0V3nHXisZJtNu7q6A@mail.gmail.com>
- <CAKH8qBueYgpxQTvTwngOs6RNjy9yvLF92s1p5nFrobw_UprNMQ@mail.gmail.com>
- <93eb6a2b-a991-40ca-8f26-f520c986729a@kernel.org> <CAF=yD-Ln4v8orUne8E7D2_eHu39PWPCrMR3Qtuh312pCu=erng@mail.gmail.com>
- <CAHS8izOU06ceKyc5oVZhdCKJqmeRdcRyJBFpjGe=u2yh=V52dQ@mail.gmail.com> <7ce2d027-1e02-4a63-afb7-7304fbfbdf90@kernel.org>
-In-Reply-To: <7ce2d027-1e02-4a63-afb7-7304fbfbdf90@kernel.org>
-From:   Mina Almasry <almasrymina@google.com>
-Date:   Wed, 8 Nov 2023 18:39:11 -0800
-Message-ID: <CAHS8izM_qrEs37F=kPzT_kmqCBV_wSiTf72PtHfJYxks9R9--Q@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 10/12] tcp: RX path for devmem TCP
-To:     David Ahern <dsahern@kernel.org>
-Cc:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Stanislav Fomichev <sdf@google.com>, netdev@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org,
-        linux-kselftest@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>,
-        Jesper Dangaard Brouer <hawk@kernel.org>,
-        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-        Arnd Bergmann <arnd@arndb.de>, Shuah Khan <shuah@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Shakeel Butt <shakeelb@google.com>,
-        Jeroen de Borst <jeroendb@google.com>,
-        Praveen Kaligineedi <pkaligineedi@google.com>,
-        Willem de Bruijn <willemb@google.com>,
-        Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        with ESMTP id S229923AbjKICrU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 8 Nov 2023 21:47:20 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57E551BFF
+        for <linux-media@vger.kernel.org>; Wed,  8 Nov 2023 18:47:18 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8769AC433CB
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 02:47:17 +0000 (UTC)
+Date:   Thu, 09 Nov 2023 03:46:02 +0100
+Message-ID: <fc465e02e9a8f6b2b153bf3c006472fc.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 7, 2023 at 4:01=E2=80=AFPM David Ahern <dsahern@kernel.org> wro=
-te:
->
-> On 11/7/23 4:55 PM, Mina Almasry wrote:
-> > On Mon, Nov 6, 2023 at 4:03=E2=80=AFPM Willem de Bruijn
-> > <willemdebruijn.kernel@gmail.com> wrote:
-> >>
-> >> On Mon, Nov 6, 2023 at 3:55=E2=80=AFPM David Ahern <dsahern@kernel.org=
-> wrote:
-> >>>
-> >>> On 11/6/23 4:32 PM, Stanislav Fomichev wrote:
-> >>>>> The concise notification API returns tokens as a range for
-> >>>>> compression, encoding as two 32-bit unsigned integers start + lengt=
-h.
-> >>>>> It allows for even further batching by returning multiple such rang=
-es
-> >>>>> in a single call.
-> >>>>
-> >>>> Tangential: should tokens be u64? Otherwise we can't have more than
-> >>>> 4gb unacknowledged. Or that's a reasonable constraint?
-> >>>>
-> >>>
-> >>> Was thinking the same and with bits reserved for a dmabuf id to allow
-> >>> multiple dmabufs in a single rx queue (future extension, but build th=
-e
-> >>> capability in now). e.g., something like a 37b offset (128GB dmabuf
-> >>> size), 19b length (large GRO), 8b dmabuf id (lots of dmabufs to a que=
-ue).
-> >>
-> >> Agreed. Converting to 64b now sounds like a good forward looking revis=
-ion.
-> >
-> > The concept of IDing a dma-buf came up in a couple of different
-> > contexts. First, in the context of us giving the dma-buf ID to the
-> > user on recvmsg() to tell the user the data is in this specific
-> > dma-buf. The second context is here, to bind dma-bufs with multiple
-> > user-visible IDs to an rx queue.
-> >
-> > My issue here is that I don't see anything in the struct dma_buf that
-> > can practically serve as an ID:
-> >
-> > https://elixir.bootlin.com/linux/v6.6-rc7/source/include/linux/dma-buf.=
-h#L302
-> >
-> > Actually, from the userspace, only the name of the dma-buf seems
-> > queryable. That's only unique if the user sets it as such. The dmabuf
-> > FD can't serve as an ID. For our use case we need to support 1 process
-> > doing the dma-buf bind via netlink, sharing the dma-buf FD to another
-> > process, and that process receives the data.  In this case the FDs
-> > shown by the 2 processes may be different. Converting to 64b is a
-> > trivial change I can make now, but I'm not sure how to ID these
-> > dma-bufs. Suggestions welcome. I'm not sure the dma-buf guys will
-> > allow adding a new ID + APIs to query said dma-buf ID.
-> >
->
-> The API can be unique to this usage: e.g., add a dmabuf id to the
-> netlink API. Userspace manages the ids (tells the kernel what value to
-> use with an instance), the kernel validates no 2 dmabufs have the same
-> id and then returns the value here.
->
->
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Seems reasonable, will do.
+Results of the daily build of media_tree:
 
-On Wed, Nov 8, 2023 at 7:36=E2=80=AFAM Edward Cree <ecree.xilinx@gmail.com>=
- wrote:
->
-> On 06/11/2023 21:17, Stanislav Fomichev wrote:
-> > I guess I'm just wondering whether other people have any suggestions
-> > here. Not sure Jonathan's way was better, but we fundamentally
-> > have two queues between the kernel and the userspace:
-> > - userspace receiving tokens (recvmsg + magical flag)
-> > - userspace refilling tokens (setsockopt + magical flag)
-> >
-> > So having some kind of shared memory producer-consumer queue feels natu=
-ral.
-> > And using 'classic' socket api here feels like a stretch, idk.
->
-> Do 'refilled tokens' (returned memory areas) get used for anything other
->  than subsequent RX?
+date:			Thu Nov  9 03:00:10 CET 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	3e238417254bfdcc23fe207780b59cbb08656762
+v4l-utils git hash:	fcf62ab17d69bc9ddb59e8d0ee7a8b56d9eba336
+edid-decode git hash:	385c6cb09714593be3aa5b5d123e4e42bf4fbb05
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8522-gd27ec581
+sparse version:		v0.5.0-8522-gd27ec581
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 67163b4b3a78582b3ea7eac29dbff793d6567b1d
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
-Hi Ed!
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-Not really, it's only the subsequent RX.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
->  If not then surely the way to return a memory area
->  in an io_uring idiom is just to post a new read sqe ('RX descriptor')
->  pointing into it, rather than explicitly returning it with setsockopt.
+smatch: WARNINGS:
 
-We're interested in using this with regular TCP sockets, not
-necessarily io_uring. The io_uring interface to devmem TCP may very
-well use what you suggest and can drop the setsockopt.
+drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
 
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
 
-> (Being async means you can post lots of these, unlike recvmsg(), so you
->  don't need any kernel management to keep the RX queue filled; it can
->  just be all handled by the userland thus simplifying APIs overall.)
-> Or I'm misunderstanding something?
->
-> -e
+date:			Thu Nov  9 03:16:10 CET 2023
+virtme-64: WARNINGS: Final Summary: 3218, Succeeded: 3218, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 3342, Succeeded: 3342, Failed: 0, Warnings: 2
 
+date:			Thu Nov  9 03:44:48 CET 2023
 
---
-Thanks,
-Mina
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
