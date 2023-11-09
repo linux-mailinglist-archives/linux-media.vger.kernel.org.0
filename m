@@ -2,90 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 4DDD97E6D27
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 16:19:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 718E67E6E01
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 16:49:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234457AbjKIPTb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 10:19:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58100 "EHLO
+        id S234571AbjKIPtR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 10:49:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38458 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S232294AbjKIPTa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 10:19:30 -0500
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5971B30DC
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 07:19:28 -0800 (PST)
-Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2c742186a3bso9108221fa.1
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 07:19:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699543166; x=1700147966; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=MQy/D48KYnrts/OWirk1lj+hMLu0jCUKKz6VnU/vkNg=;
-        b=f1XWuvc4GLJ9YXa8+huQv0gkKkA2UtHR4YJm163AQZ3NVJ5QpSLkiNPmDBw78/w+X3
-         jwtXqQVQ8M/yO1aGPameljgZpa6wZKUg/blM4Lh6QXHlUIjHs8XWiAB3lbFNqo3qRo7r
-         IjcLd71rfe9JMoX4/baZIIbRkEdMmWpZvQjb98dyBgilnOH5jYbLS4MeYQPs0dkSYswY
-         h6naN0mU9Kk11EUi3t9mbhajbRlyrNW5g/862BE0J1amgne0Qa5RgKR89VagNHI5LvuN
-         Wm3gmmgSFUawsHNXdK5mrfBv0YBwD5/9JlP+Y6zcw3P+ZrIRpMw8MGxzVs8gxU4L5I6B
-         2MPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699543166; x=1700147966;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=MQy/D48KYnrts/OWirk1lj+hMLu0jCUKKz6VnU/vkNg=;
-        b=X8Tt9ZwYOkyjYzcgpxFwrLAuNIsdj64mflbXbxWrjdUyptmfl45eYIfCtA+EBq0Yrj
-         odZPwMioUlhQTlGq9y0oPCP+H1NBc+tZ9aKOwsGT2baTuNXm4LUnydNYne1jUx5Em2kn
-         NJUTChCUeF0pkl8bryPv5LafwRI3kY53XdF/3MEYYxXW9lH6Q3Ng/sekoMGskdR7HCO/
-         IFMe+5CNbd7CpvhW6mze986DR8K3BArFuBC/HuX0GxvJUcSw6eYwt6mJ2A57k0Wrl9jY
-         SpNZmVNNkAGP9bDdJ0ZisfzkgQmgK/Ye2A4PUhLGXE0e42wz3ukAkIYS3b0ZsBd6dq5l
-         ulGQ==
-X-Gm-Message-State: AOJu0YyQwMMhbJOG1EqA5gOoplT+HMQaX+8EyvbiO2N/6KWqglC3Lp1p
-        teq4hKZ3BMfa/G2UzDMwgfnUaw==
-X-Google-Smtp-Source: AGHT+IF612VI4e/pw7m6zkVyHjTkRNzL8iXzL1nws+2/fW3dY8089S73Q67qmteZBGptX3fg53vX9Q==
-X-Received: by 2002:a05:651c:1986:b0:2c5:1674:8d79 with SMTP id bx6-20020a05651c198600b002c516748d79mr5724007ljb.21.1699543166470;
-        Thu, 09 Nov 2023 07:19:26 -0800 (PST)
-Received: from [192.168.100.102] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id t19-20020a05600c41d300b0040651505684sm2322671wmh.29.2023.11.09.07.19.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 07:19:25 -0800 (PST)
-Message-ID: <faa889e2-5549-453a-b21b-942c937099c4@linaro.org>
-Date:   Thu, 9 Nov 2023 15:19:24 +0000
+        with ESMTP id S1344620AbjKIPtG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 10:49:06 -0500
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B8D51BEC;
+        Thu,  9 Nov 2023 07:48:39 -0800 (PST)
+Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
+        (using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+         key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        (Authenticated sender: andrzej.p)
+        by madras.collabora.co.uk (Postfix) with ESMTPSA id E8CB466074E4;
+        Thu,  9 Nov 2023 15:48:35 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+        s=mail; t=1699544917;
+        bh=H8fQMzAQclovte9fUhQqhR9RME7QzrA5CMSsHFHHe48=;
+        h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+        b=FqsNW12FTrHddxbUZNTRJLwmHkbFwMt8sMH09J9IDgjXIBafoaSVFK+DV9F+1zmpS
+         ADOv0ySxbRuwvJn5hgOuv4VweR6twzFBj6j5BmK/LCCIHi16xnOCC2ovhEz4IaYnSG
+         SbFhF2+BXYzUqBMHc/GEoDq7NQIrouybDhD4Ldq7EQhSPwfRNr+3+zdqe4npLthK+f
+         0NOXDROw1NV7xabxBFOHtH6Lrns24/CuAUFmsHrwECFRP4ZEFBca4dmCDuonhD4cBB
+         hvc9vs6nB2oz/aXnbUlUPr1nQ/mVBWn/Bb0yOEn6vge+cIpEEwoIOrmim/RkTWTGCo
+         8mC9cfVI2Qplw==
+Message-ID: <618d5b67-ba46-4c33-ae7f-990f4b522ba8@collabora.com>
+Date:   Thu, 9 Nov 2023 16:48:33 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/6] media: qcom: camss: Add sc8280xp resource details
+Subject: Re: [PATCH v14 35/56] media: cedrus: Stop direct calls to queue
+ num_buffers field
 Content-Language: en-US
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-To:     Konrad Dybcio <konrad.dybcio@linaro.org>, hverkuil-cisco@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
-        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
- <20231109-b4-camss-sc8280xp-v4-4-58a58bc200f9@linaro.org>
- <3e0958a9-4d1e-4d1b-a914-5da154caa11f@linaro.org>
- <e80d4026-a525-48ef-b53a-f1276dd316e6@linaro.org>
- <4aaa25fb-de9a-4d7f-9316-ef83c27f4b42@linaro.org>
-In-Reply-To: <4aaa25fb-de9a-4d7f-9316-ef83c27f4b42@linaro.org>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        mchehab@kernel.org, tfiga@chromium.org, m.szyprowski@samsung.com,
+        ming.qian@nxp.com, ezequiel@vanguardiasur.com.ar,
+        p.zabel@pengutronix.de, gregkh@linuxfoundation.org,
+        hverkuil-cisco@xs4all.nl, nicolas.dufresne@collabora.com,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-arm-msm@vger.kernel.org,
+        linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev,
+        kernel@collabora.com, Maxime Ripard <mripard@kernel.org>
+References: <20231031163104.112469-1-benjamin.gaignard@collabora.com>
+ <20231031163104.112469-36-benjamin.gaignard@collabora.com>
+ <083e43d9-452a-4b11-b7f1-f75992bc795e@collabora.com>
+ <ZUzpSXDbO60uGr0t@aptenodytes>
+From:   Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <ZUzpSXDbO60uGr0t@aptenodytes>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/11/2023 15:15, Bryan O'Donoghue wrote:
->          printf("index %d = %d\n", clock_rate[0][i]);
+Hi Paul,
 
-Honestly I'm like a Tom and Jerry cartoon standing on a rake here
+W dniu 9.11.2023 o 15:14, Paul Kocialkowski pisze:
+> Hi Andrzej,
+> 
+> On Thu 09 Nov 23, 12:27, Andrzej Pietrasiewicz wrote:
+>> Hi Paul,
+>>
+>> W dniu 31.10.2023 o 17:30, Benjamin Gaignard pisze:
+>>> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
+>>> This allows us to change how the number of buffers is computed in the
+>>> future.
+>>>
+>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+>>> Acked-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+>>
+>> Given you've alaredy A-b, would you be ok with adding this sentence:
+>>
+>> "While at it, check the return value of vb2_get_buffer()."
+>>
+>> to the commit message body?
+> 
+> Not only do I agree, but because this is done in a function returning void,
+> you could even:
+> 
+> if (WARN_ON(!vb))
+> 	continue;
+> 
+> so that it doesn't go completely unnoticed.
+> 
+> What do you think?
+> 
 
-printf("index %d = %d\n", i, clock_rate[0][i]);
+I'd ask Benjamin.
 
----
-bod
+But my take on the direction of changes is that ultimately
+there will be "holes" in the array of allocated buffers (hence the
+bitmap to track which slots are used and which are not). In other words,
+getting a NULL sometimes will be an expected situation, and a WARN() will
+not be appropriate for an expected situation.
+
+@Benjamin?
+
+Regards,
+
+Andrzej
+
+> Cheers,
+> 
+> Paul
+> 
+>> @Benjamin:
+>>
+>> With this change, you can add my
+>>
+>> Reviewed-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>>
+>>> CC: Maxime Ripard <mripard@kernel.org>
+>>> ---
+>>>    drivers/staging/media/sunxi/cedrus/cedrus_h264.c | 9 +++++++--
+>>>    drivers/staging/media/sunxi/cedrus/cedrus_h265.c | 9 +++++++--
+>>>    2 files changed, 14 insertions(+), 4 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+>>> index dfb401df138a..3e2843ef6cce 100644
+>>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+>>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h264.c
+>>> @@ -653,8 +653,13 @@ static void cedrus_h264_stop(struct cedrus_ctx *ctx)
+>>>    	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+>>> -	for (i = 0; i < vq->num_buffers; i++) {
+>>> -		buf = vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
+>>> +	for (i = 0; i < vb2_get_num_buffers(vq); i++) {
+>>> +		struct vb2_buffer *vb = vb2_get_buffer(vq, i);
+>>> +
+>>> +		if (!vb)
+>>> +			continue;
+>>> +
+>>> +		buf = vb2_to_cedrus_buffer(vb);
+>>>    		if (buf->codec.h264.mv_col_buf_size > 0) {
+>>>    			dma_free_attrs(dev->dev,
+>>> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>>> index fc9297232456..52e94c8f2f01 100644
+>>> --- a/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>>> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_h265.c
+>>> @@ -869,8 +869,13 @@ static void cedrus_h265_stop(struct cedrus_ctx *ctx)
+>>>    	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+>>> -	for (i = 0; i < vq->num_buffers; i++) {
+>>> -		buf = vb2_to_cedrus_buffer(vb2_get_buffer(vq, i));
+>>> +	for (i = 0; i < vb2_get_num_buffers(vq); i++) {
+>>> +		struct vb2_buffer *vb = vb2_get_buffer(vq, i);
+>>> +
+>>> +		if (!vb)
+>>> +			continue;
+>>> +
+>>> +		buf = vb2_to_cedrus_buffer(vb);
+>>>    		if (buf->codec.h265.mv_col_buf_size > 0) {
+>>>    			dma_free_attrs(dev->dev,
+>>
+> 
+> 
+> _______________________________________________
+> Kernel mailing list -- kernel@mailman.collabora.com
+> To unsubscribe send an email to kernel-leave@mailman.collabora.com
+
