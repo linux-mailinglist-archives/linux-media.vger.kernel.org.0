@@ -2,97 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 6774E7E6F9E
-	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 17:46:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C39D77E6FB9
+	for <lists+linux-media@lfdr.de>; Thu,  9 Nov 2023 17:55:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234934AbjKIQqQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 11:46:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48492 "EHLO
+        id S1343726AbjKIQz3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 11:55:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45240 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S234981AbjKIQpu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 11:45:50 -0500
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C53FF4496
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 08:44:59 -0800 (PST)
-Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-41cbf31da84so6373231cf.0
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 08:44:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699548299; x=1700153099; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=JyMA09AuUMjLAh5sKhIzahSsVZoVjCkYBpAsRxdwhyc=;
-        b=W8zg9eh01okwPNLTUo82IBHJDZeXKvvDa8WeIBVr1JMy8GRjEVpVshypxhv1v8Vqb8
-         d1ppaN+vGrHaPhEAdIlT0COaTyz27NVA1JF8YqZGUlpxATCkdMnkqWBwhqToSUEPgpsQ
-         OIMITVBPtBr07H2AstyJ3huLr3tju1yh73iXD6qiTdf0iYfDbFqqsHtqlT+2c/zjj3tn
-         LZiSdc/LQeCdoKOR7K9TmXnyaD7v4TJ84sGmeYypY8TUhpsYHc5UWDGBJPCd+VWg6m8D
-         AziKp6mDZOhgQT9USHClaLkL3oNnnnZjiB/K8IzlIuVaO4NsGR0XG3vfdW7KEMfFwfRO
-         UilQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699548299; x=1700153099;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JyMA09AuUMjLAh5sKhIzahSsVZoVjCkYBpAsRxdwhyc=;
-        b=ZQho7IXztGt1mFpmYPw7lAYsYK2N+xm+PmnhSMSdXMcyrWUU8V3Ne7KnmdiOljRj1O
-         qfXkiL4xO4F7f3SWmXCCOqO3sECvKRQhL6+T96gAznYuHZC6SQEQyZAp0/AB73a7scGo
-         wwzTrpbqN20zUf+O1VB8RDWatG9ybmrs8mUPeRyguTTYlWZEZ7D8pKU0mLMM/fmJtIeM
-         NOcdfcDY8xjjE0SLgDsIwD5fDqBLALwNupiGC3pqomwTftnrBQhj49fA3rI32c6E4SbZ
-         /25UYsOcBFOhNGj4JTtW86Fj6MSagt6H4EiDoehQxLaTdsL6Fnw82Wa04Smvw7VX1gs5
-         7LJQ==
-X-Gm-Message-State: AOJu0Yz8mGS8iv91r2YvIJbFcBhr2tjI7jTFpATrrot4oUm4AYc58yPx
-        4tPC0EwXXIWA2PI0DjHhEcVn7g==
-X-Google-Smtp-Source: AGHT+IEeHgJymEoFiAdtjTaIzqWAnhrVVnVyUg4K9YaADuVpDzGWesUGUehhln3d519cHvsvwaX0Rg==
-X-Received: by 2002:ac8:5885:0:b0:41e:1e0b:a2e7 with SMTP id t5-20020ac85885000000b0041e1e0ba2e7mr5997998qta.47.1699548298957;
-        Thu, 09 Nov 2023 08:44:58 -0800 (PST)
-Received: from [172.30.204.212] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id cb18-20020a05622a1f9200b0041950c7f6d8sm2070259qtb.60.2023.11.09.08.44.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Nov 2023 08:44:58 -0800 (PST)
-Message-ID: <735f13e7-386a-447d-bff7-f4acb0aba670@linaro.org>
-Date:   Thu, 9 Nov 2023 17:44:52 +0100
+        with ESMTP id S230185AbjKIQz2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 11:55:28 -0500
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [149.28.215.223])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9725C1AE;
+        Thu,  9 Nov 2023 08:55:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1699548920;
+ bh=oiGpLQFfupX4dQTf/iHqDMCKO+1QmogvFTKLT/9VDbU=;
+ b=gxuByy2LJVUxrjyvbPXS1dDoZu/RcUyj2V9+6cq9e3mbjhYdk4fKJFsn5fO3t2CqVj7LE3y6R
+ QifTXKPrdGofdaCZun4RLXTqmTQWeIw10Kaie4ss3aFz6/jpWpTwlbUjpRsHn7a1oFQmsvA0cPM
+ ekuTI0U/wxY6POytiJBIG5SSUgyAcVmtJ4v9HDfl1hLAOrAsqq3df02ZymlB8UcD9yLGB5DxbQ+
+ LZLy0YHPUhylhiKDotRLHoVSRyuchYveLMhDvuAwV6tafzABOR13l/mnDjzanq0AOkgBPtC+WNv
+ yRXg8IyVmrSIgxngZGAWRSNbddJdSOzaHQ/oz3aFyOeg==
+Message-ID: <b4cc5a65-ccae-41c0-af9c-04001116938a@kwiboo.se>
+Date:   Thu, 9 Nov 2023 17:55:14 +0100
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/6] media: qcom: camss: Add sc8280xp resource details
-To:     Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
-        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231109-b4-camss-sc8280xp-v4-0-58a58bc200f9@linaro.org>
- <20231109-b4-camss-sc8280xp-v4-4-58a58bc200f9@linaro.org>
- <3e0958a9-4d1e-4d1b-a914-5da154caa11f@linaro.org>
- <e80d4026-a525-48ef-b53a-f1276dd316e6@linaro.org>
+Subject: Re: [PATCH 0/9] media: rkvdec: Add HEVC backend
 Content-Language: en-US
-From:   Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <e80d4026-a525-48ef-b53a-f1276dd316e6@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To:     "=?UTF-8?Q?Heiko_St=C3=BCbner?=" <heiko@sntech.de>,
+        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-rockchip@lists.infradead.org
+Cc:     Alex Bee <knaerzche@gmail.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Sebastian Fricke <sebastian.fricke@collabora.com>,
+        Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+        Christopher Obbard <chris.obbard@collabora.com>,
+        linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+        linux-kernel@vger.kernel.org
+References: <20231105233630.3927502-1-jonas@kwiboo.se>
+ <5347734.aeNJFYEL58@diego>
+From:   Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <5347734.aeNJFYEL58@diego>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Report-Abuse-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-ForwardEmail-Version: 0.4.40
+X-ForwardEmail-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 149.28.215.223
+X-ForwardEmail-ID: 654d0ef8a16ddfebde306c21
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Heiko,
 
-
-On 11/9/23 16:13, Bryan O'Donoghue wrote:
-> On 09/11/2023 13:44, Konrad Dybcio wrote:
->>> +        .clock_rate = { { 0 },
->>> +                { 0 },
->>> +                { 19200000, 80000000, 80000000, 80000000, 80000000},
->>> +                { 19200000, 150000000, 266666667, 320000000, 400000000, 480000000 },
->>> +                { 400000000, 558000000, 637000000, 760000000 },
->>> +                { 0 }, },
->> Not the case here!
+On 2023-11-06 10:22, Heiko Stübner wrote:
+> Hi Jonas,
 > 
-> I agree with you in principle, the checking for the frequency shouldn't rely on if (freq[x]) however in this case - we are doing aggregate initialisation of a fixed size array and the compiler should save us from ourselves.
-Oh right, I didn't think about the sizing of it and partial init..
+> Am Montag, 6. November 2023, 00:36:07 CET schrieb Jonas Karlman:
+>> This series add a HEVC backend to the Rockchip Video Decoder driver.
+>>
+>> A version of this HEVC backend has been in use by the LibreELEC distro
+>> for the past 3+ years [1]. It was initially created based on a copy of
+>> the H264 backend, unstable HEVC uAPI controls and a cabac table + scaling
+>> matrix functions shamelessly copied 1:1 from the Rockchip mpp library.
+>>
+>> It has since then been extended to use the stable HEVC uAPI controls and
+>> improved opon e.g. to include support for rk3288 and fix decoding issues
+>> by Alex Bee and Nicolas Dufresne.
+>>
+>> The version submitted in this series is based on the code currently used
+>> by the LibreELEC distro, excluding hard/soft reset, and with cabac table
+>> and scaling matrix functions picked from Sebastian Fricke prior series
+>> to add a HEVC backend [2].
+>>
+>> Big thanks to Alex Bee, Nicolas Dufresne and Sebastian Fricke for making
+>> this series possible!
+>>
+>> Patch 1 add the new HEVC backend.
+>> Patch 2-3 add variants support to the driver.
+>> Patch 4 add support for a rk3288 variant.
+>> Patch 5 add a rk3328 variant to work around hw quirks.
+>> Patch 6-7 add device tree node for rk3288.
+>> Patch 8-9 extend vdec node reg size to include cache/perf registers.
+> 
+> thanks a lot for working on this.
+> 
+> Looking at the rkvdec TODO file, isn't the hvec support the only thing
+> keeping the driver in staging? So with this support using stable hevc
+> uapi, shouldn't the driver then also move out of staging after this
+> series is applied?
 
-Konrad
+Yes, I agree, this driver should be moved out of staging now that uapi
+is stable. Something for a follow-up series :-)
+
+Regards,
+Jonas
+
+> 
+> Heiko
+> 
+> 
+>> This was tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
+>>
+>>   v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
+>>   ...
+>>   Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+>>
+>>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
+>>   ...
+>>   Ran 135/147 tests successfully
+>>
+>>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
+>>   ...
+>>   Ran 9/9 tests successfully
+>>
+>> And on a TinkerBoard (RK3288):
+>>
+>>   v4l2-compliance 1.24.1, 32 bits, 32-bit time_t
+>>   ...
+>>   Total for rkvdec device /dev/video3: 47, Succeeded: 47, Failed: 0, Warnings: 0
+>>
+>>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-request
+>>   ...
+>>   Ran 137/147 tests successfully
+>>
+>>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-request
+>>   ...
+>>   Ran 9/9 tests successfully
+>>
+>> This series depend on the following series:
+>> - media: rkvdec: Add H.264 High 10 and 4:2:2 profile support [3]
+>>
+>> To fully runtime test this series you need above series and ffmpeg
+>> patches from [4], this series and its depends is also available at [5].
+>>
+>> Full summary of fluster run can be found at [6].
+>>
+>> [1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Rockchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
+>> [2] https://lore.kernel.org/linux-media/20230101-patch-series-v2-6-2-rc1-v2-0-fa1897efac14@collabora.com/
+>> [3] https://lore.kernel.org/linux-media/20231105165521.3592037-1-jonas@kwiboo.se/
+>> [4] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
+>> [5] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-hevc-v1/
+>> [6] https://gist.github.com/Kwiboo/4c0ed87774dede44ce6838451a1ec93d
+>>
+>> Regards,
+>> Jonas
+>>
+>> Alex Bee (5):
+>>   media: rkvdec: Add variants support
+>>   media: rkvdec: Add RK3288 variant
+>>   media: rkvdec: Disable QoS for HEVC and VP9 on RK3328
+>>   ARM: dts: rockchip: Add vdec node for RK3288
+>>   arm64: dts: rockchip: Expand reg size of vdec node for RK3399
+>>
+>> Jonas Karlman (4):
+>>   media: rkvdec: Add HEVC backend
+>>   media: rkvdec: Implement capability filtering
+>>   media: dt-bindings: rockchip,vdec: Add RK3288 compatible
+>>   arm64: dts: rockchip: Expand reg size of vdec node for RK3328
+>>
+>>  .../bindings/media/rockchip,vdec.yaml         |    4 +-
+>>  arch/arm/boot/dts/rockchip/rk3288.dtsi        |   17 +-
+>>  arch/arm64/boot/dts/rockchip/rk3328.dtsi      |    2 +-
+>>  arch/arm64/boot/dts/rockchip/rk3399.dtsi      |    6 +-
+>>  drivers/staging/media/rkvdec/Makefile         |    2 +-
+>>  drivers/staging/media/rkvdec/TODO             |    7 -
+>>  .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1848 +++++++++++++++++
+>>  drivers/staging/media/rkvdec/rkvdec-hevc.c    |  823 ++++++++
+>>  drivers/staging/media/rkvdec/rkvdec-regs.h    |    3 +
+>>  drivers/staging/media/rkvdec/rkvdec-vp9.c     |   10 +
+>>  drivers/staging/media/rkvdec/rkvdec.c         |  180 +-
+>>  drivers/staging/media/rkvdec/rkvdec.h         |   15 +
+>>  12 files changed, 2886 insertions(+), 31 deletions(-)
+>>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
+>>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
+>>
+>>
+> 
+> 
+> 
+> 
+
