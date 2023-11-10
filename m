@@ -1,241 +1,164 @@
-Return-Path: <linux-media+bounces-30-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-56-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 462E87E7EEF
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:48:45 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 232027E7F38
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:50:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8FF6DB21CFC
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:48:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A5E79B22764
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:50:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1768B3A28B;
-	Fri, 10 Nov 2023 17:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 948383E486;
+	Fri, 10 Nov 2023 17:47:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jDuAgLMb"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="mIP+a2PT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E37FE3AC3C
-	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:42 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E7C99EEC;
-	Fri, 10 Nov 2023 00:33:18 -0800 (PST)
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AA7gBBN011899;
-	Fri, 10 Nov 2023 08:33:11 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=0g31E2AhP85G9hfjyKxjq/sbrz0JScFMKaVi/mJsAwo=;
- b=jDuAgLMb6c32yAx6FjS3JGSfRmlrNRsKOoCfcnRQwC0xryPBhmI3ezbjJuBTBQ3FsqJx
- YFz00HKaP7FqQRGQ9x+Dc7mCvG9mdick2sYXrBrG1XPvwsAbegGfICSTmHXdcLB4E40i
- /vDandvS1lusgMEsUZFRkFInmlIPV7u/gQK9GPpiFQj/kuzfZCbCVo8xno+9OJ4Dq2/j
- L0bX/MoZVKvzXC67CGlPXHesrM5MKUUwszLdyy+NKO7ccN4jlC/ap3Y6zgZ5Sh+rxJMG
- ndS8YjqUSynipDsCgN3wIcfM7MA1dEY7AJ9PvD34+rTprS8US6LVGD7pedmxXvAsdmEq Ww== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u93tq9pes-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Nov 2023 08:33:10 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AA8XA7e016922
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Nov 2023 08:33:10 GMT
-Received: from [10.217.216.47] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 10 Nov
- 2023 00:33:01 -0800
-Message-ID: <5b3315fe-f59b-cdf3-b980-a5a68bceb6a9@quicinc.com>
-Date: Fri, 10 Nov 2023 14:02:58 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 680EE3D986
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:47:08 +0000 (UTC)
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::229])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6A7A9EEA;
+	Fri, 10 Nov 2023 00:33:37 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id ECCC7FF816;
+	Fri, 10 Nov 2023 08:33:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1699605215;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gB43CUZmJbt1uK77TzguVku9sEfalDL3rG9/cdJIn2s=;
+	b=mIP+a2PTDV/8iO84GywCAxWKSOAkV4Tz75EPrMTwnlyaXLCJYGq6wwTCzMfE0De3jpru4+
+	SDdBoEdhZf0y3H5qhE55wxVmj7oT15D8MklPT8f9UQ38BFsbnaGPRxKPCEH23WKxIGZ6j7
+	kAWx1QrpPFF6FUaJoSTTFYLSN/k8t9PIAKgaWdojBX4U16/csE2Qa3OiKPWjqa4G7eASbV
+	QBaYcnJAnwNnruhSAuDzfiIdt/oB0Co4QCZyk0xCw7E5+ZLbilbNQ02liNpfVoFCCdw2xI
+	BCVs6rvkT4viovqOK7Kcq6HS0wTYqpNCzWlXC44PBNL6VrfRfdZxgOsMy4JkqQ==
+Date: Fri, 10 Nov 2023 09:33:31 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Daniel Almeida <daniel.almeida@collabora.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH 3/4] media: verisilicon: Hook the (TRY_)DECODER_CMD
+ stateless ioctls
+Message-ID: <ZU3q2y_QA6Pznvtf@aptenodytes>
+References: <20231109201640.340556-1-paul.kocialkowski@bootlin.com>
+ <20231109201640.340556-3-paul.kocialkowski@bootlin.com>
+ <fd9ca918dcbc892169b9f0dae7d0de537f4035ed.camel@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH RESEND v3 3/5] clk: qcom: gdsc: Add set and get hwmode
- callbacks to switch GDSC mode
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
-        Abel Vesa
-	<abel.vesa@linaro.org>
-CC: "Rafael J. Wysocki" <rafael@kernel.org>,
-        Kevin Hilman
-	<khilman@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>, Pavel Machek
-	<pavel@ucw.cz>,
-        Len Brown <len.brown@intel.com>,
-        Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Andy
- Gross" <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Michael Turquette" <mturquette@baylibre.com>,
-        Stephen Boyd
-	<sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash
- Garodia <quic_vgarodia@quicinc.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Taniya Das <tdas@qti.qualcomm.com>, <linux-pm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-clk@vger.kernel.org>, <linux-media@vger.kernel.org>
-References: <20231101-gdsc-hwctrl-v3-0-0740ae6b2b04@linaro.org>
- <20231101-gdsc-hwctrl-v3-3-0740ae6b2b04@linaro.org>
- <CAA8EJpqTafxkXfAZXdTCat1VphvHUTTWe1TUjbpMvqta1Jf+Cw@mail.gmail.com>
-From: Jagadeesh Kona <quic_jkona@quicinc.com>
-In-Reply-To: <CAA8EJpqTafxkXfAZXdTCat1VphvHUTTWe1TUjbpMvqta1Jf+Cw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: 0yWIBZBRQecYYPSMJiHBmWTOIVmjEPrP
-X-Proofpoint-ORIG-GUID: 0yWIBZBRQecYYPSMJiHBmWTOIVmjEPrP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-10_04,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0 mlxscore=0
- suspectscore=0 clxscore=1015 priorityscore=1501 mlxlogscore=999
- spamscore=0 phishscore=0 impostorscore=0 bulkscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311100071
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="3MXm4gGfTLjHj6aB"
+Content-Disposition: inline
+In-Reply-To: <fd9ca918dcbc892169b9f0dae7d0de537f4035ed.camel@collabora.com>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
 
 
+--3MXm4gGfTLjHj6aB
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On 11/2/2023 2:58 AM, Dmitry Baryshkov wrote:
-> On Wed, 1 Nov 2023 at 11:06, Abel Vesa <abel.vesa@linaro.org> wrote:
->>
->> From: Jagadeesh Kona <quic_jkona@quicinc.com>
->>
->> Add support for set and get hwmode callbacks to switch the GDSC between
->> SW and HW modes. Currently, the GDSC is moved to HW control mode
->> using HW_CTRL flag and if this flag is present, GDSC is moved to HW
->> mode as part of GDSC enable itself. The intention is to keep the
->> HW_CTRL flag functionality as is, since many older chipsets still use
->> this flag.
->>
->> Introduce a new HW_CTRL_TRIGGER flag to switch the GDSC back and forth
->> between HW/SW modes dynamically at runtime. If HW_CTRL_TRIGGER flag is
->> present, register set_hwmode_dev callback to switch the GDSC mode which
->> can be invoked from consumer drivers using dev_pm_genpd_set_hwmode
->> function. Unlike HW_CTRL flag, HW_CTRL_TRIGGER won't move the GDSC to HW
->> control mode as part of GDSC enable itself, GDSC will be moved to HW
->> control mode only when consumer driver explicity calls
->> dev_pm_genpd_set_hwmode to switch to HW mode. Also add the
->> dev_pm_genpd_get_hwmode to allow the consumers to read the actual
->> HW/SW mode from hardware.
-> 
-> Can we add two new flags:
-> - HW_CTRL_TRIGGER
-> - DEFAULT_HW_TRIGGER
-> 
-> And then define HW_CTRL as HW_CTRL_TRIGGER | DEFAULT_HW_TRIGGER ?
-> 
-> This way older platforms will keep existing behaviour, but can
-> gradually migrate to the new callbacks?
-> 
+Hi Nicolas,
 
-Thanks Dmitry for your review,
+On Thu 09 Nov 23, 16:38, Nicolas Dufresne wrote:
+> Le jeudi 09 novembre 2023 =C3=A0 21:16 +0100, Paul Kocialkowski a =C3=A9c=
+rit=C2=A0:
+> > The (TRY_)DECODER_CMD ioctls are used to support flushing when holding =
+capture
+> > buffers is supported. This is the case of this driver but the ioctls we=
+re never
+> > hooked to the ioctl ops.
+> >=20
+> > Add them to correctly support flushing.
+>=20
+> While this CMD looks useful on paper, we have had no use for it in any
+> open source user space. So with this in mind, shall we really enable it
+> ? How can we be sure that its actually working as intended ?
 
-The current usecases we have for GDSC's are either use the existing 
-HW_CTRL flag to switch the GDSC to HW mode in gdsc_enable() and back to 
-SW mode in gdsc_disable(). The second usecase is don't switch GDSC mode 
-in gdsc_enable() & gdsc_disable() at all, and switch the GDSC mode only 
-in new callbacks when consumers explicitly request it using 
-dev_pm_genpd_set_hwmode(), this can be achieved using the new 
-HW_CTRL_TRIGGER flag.
+Well I think it's part of the spec that it needs to be supportd.
 
-By defining HW_CTRL as HW_CTRL_TRIGGER | DEFAULT_HW_TRIGGER, it switches 
-the GDSC mode both in enable & disable callbacks and in new callbacks as 
-well. But we currently don't have any usecase that requires this behaviour.
+I must admit I have never used it in a real use case either, but it can be =
+fixed
+later (without changing the uAPI) if the implementation turns out to be
+malfunctioning.
 
-Thanks,
-Jagadeesh
+Cheers,
 
->>
->> Signed-off-by: Jagadeesh Kona <quic_jkona@quicinc.com>
->> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
->> ---
->>   drivers/clk/qcom/gdsc.c | 32 ++++++++++++++++++++++++++++++++
->>   drivers/clk/qcom/gdsc.h |  1 +
->>   2 files changed, 33 insertions(+)
->>
->> diff --git a/drivers/clk/qcom/gdsc.c b/drivers/clk/qcom/gdsc.c
->> index 5358e28122ab..c763524cd5da 100644
->> --- a/drivers/clk/qcom/gdsc.c
->> +++ b/drivers/clk/qcom/gdsc.c
->> @@ -363,6 +363,34 @@ static int gdsc_disable(struct generic_pm_domain *domain)
->>          return 0;
->>   }
->>
->> +static int gdsc_set_hwmode(struct generic_pm_domain *domain, struct device *dev, bool mode)
->> +{
->> +       struct gdsc *sc = domain_to_gdsc(domain);
->> +
->> +       if (sc->rsupply && !regulator_is_enabled(sc->rsupply)) {
->> +               pr_err("Cannot set mode while parent is disabled\n");
->> +               return -EIO;
->> +       }
->> +
->> +       return gdsc_hwctrl(sc, mode);
->> +}
->> +
->> +static bool gdsc_get_hwmode(struct generic_pm_domain *domain, struct device *dev)
->> +{
->> +       struct gdsc *sc = domain_to_gdsc(domain);
->> +       u32 val;
->> +       int ret;
->> +
->> +       ret = regmap_read(sc->regmap, sc->gdscr, &val);
->> +       if (ret)
->> +               return ret;
->> +
->> +       if (val & HW_CONTROL_MASK)
->> +               return true;
->> +
->> +       return false;
->> +}
->> +
->>   static int gdsc_init(struct gdsc *sc)
->>   {
->>          u32 mask, val;
->> @@ -451,6 +479,10 @@ static int gdsc_init(struct gdsc *sc)
->>                  sc->pd.power_off = gdsc_disable;
->>          if (!sc->pd.power_on)
->>                  sc->pd.power_on = gdsc_enable;
->> +       if (sc->flags & HW_CTRL_TRIGGER) {
->> +               sc->pd.set_hwmode_dev = gdsc_set_hwmode;
->> +               sc->pd.get_hwmode_dev = gdsc_get_hwmode;
->> +       }
->>
->>          ret = pm_genpd_init(&sc->pd, NULL, !on);
->>          if (ret)
->> diff --git a/drivers/clk/qcom/gdsc.h b/drivers/clk/qcom/gdsc.h
->> index 803512688336..1e2779b823d1 100644
->> --- a/drivers/clk/qcom/gdsc.h
->> +++ b/drivers/clk/qcom/gdsc.h
->> @@ -67,6 +67,7 @@ struct gdsc {
->>   #define ALWAYS_ON      BIT(6)
->>   #define RETAIN_FF_ENABLE       BIT(7)
->>   #define NO_RET_PERIPH  BIT(8)
->> +#define HW_CTRL_TRIGGER        BIT(9)
->>          struct reset_controller_dev     *rcdev;
->>          unsigned int                    *resets;
->>          unsigned int                    reset_count;
->>
->> --
->> 2.34.1
->>
-> 
-> 
+Paul
+
+> > Fixes: 340ce50f75a6 ("media: hantro: Enable HOLD_CAPTURE_BUF for H.264")
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  drivers/media/platform/verisilicon/hantro_drv.c  | 2 ++
+> >  drivers/media/platform/verisilicon/hantro_v4l2.c | 3 +++
+> >  2 files changed, 5 insertions(+)
+> >=20
+> > diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/=
+media/platform/verisilicon/hantro_drv.c
+> > index a9fa05ac56a9..3a2a0f28cbfe 100644
+> > --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> > +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> > @@ -905,6 +905,8 @@ static int hantro_add_func(struct hantro_dev *vpu, =
+unsigned int funcid)
+> > =20
+> >  	if (funcid =3D=3D MEDIA_ENT_F_PROC_VIDEO_ENCODER) {
+> >  		vpu->encoder =3D func;
+> > +		v4l2_disable_ioctl(vfd, VIDIOC_TRY_DECODER_CMD);
+> > +		v4l2_disable_ioctl(vfd, VIDIOC_DECODER_CMD);
+> >  	} else {
+> >  		vpu->decoder =3D func;
+> >  		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+> > diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers=
+/media/platform/verisilicon/hantro_v4l2.c
+> > index b3ae037a50f6..db145519fc5d 100644
+> > --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > @@ -785,6 +785,9 @@ const struct v4l2_ioctl_ops hantro_ioctl_ops =3D {
+> >  	.vidioc_g_selection =3D vidioc_g_selection,
+> >  	.vidioc_s_selection =3D vidioc_s_selection,
+> > =20
+> > +	.vidioc_decoder_cmd =3D v4l2_m2m_ioctl_stateless_decoder_cmd,
+> > +	.vidioc_try_decoder_cmd =3D v4l2_m2m_ioctl_stateless_try_decoder_cmd,
+> > +
+> >  	.vidioc_try_encoder_cmd =3D v4l2_m2m_ioctl_try_encoder_cmd,
+> >  	.vidioc_encoder_cmd =3D vidioc_encoder_cmd,
+> >  };
+>=20
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--3MXm4gGfTLjHj6aB
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVN6tsACgkQ3cLmz3+f
+v9GVsgf8DMLAlPBim8kfNcpPsxElmqMySid66bm7l6rB8E0DGEkIhTw6taMy9Ymh
+5auzxmmd70FN07tX+OIUj6Pmal3Cj89meSTs51d08lSFQYJfhoQYbEQW1dt1sV+F
+T5CUni7z0F0oiWcCYDAwYcWoeB2FvUdzONn5eI++jJCwr4JQjnc1N1QoAFnhCjUe
+sx0VbiGR0kzbzAkMzn58RsignlPo4ogTCdUhabzlsc89nKWHxKdQZFlRvgqWC2Zy
+A1oHds2fjTEtUklvB9f8QwEaTTXqS1QtocDVXsCKe3Y6ye0atsjNCLpnPRNmP2ZP
+qbC23m0lvg48Zm78iBtBZK5KTgZD2A==
+=st8d
+-----END PGP SIGNATURE-----
+
+--3MXm4gGfTLjHj6aB--
 
