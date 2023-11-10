@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-50-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADED17E7F27
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30DD7E7E9F
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:46:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6348F281AFB
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:50:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4AB8A2813E4
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:46:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B294A3D998;
-	Fri, 10 Nov 2023 17:47:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D0A0374E9;
+	Fri, 10 Nov 2023 17:46:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XqGP30K9"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FwrtrwUR"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 162093D395
-	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:47:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E338F20B37
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:27 +0000 (UTC)
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD4D29EDB;
-	Fri, 10 Nov 2023 00:29:46 -0800 (PST)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AA7g9Tk031914;
-	Fri, 10 Nov 2023 08:29:33 GMT
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DF5C900D;
+	Fri, 10 Nov 2023 00:32:32 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AA7exJO018675;
+	Fri, 10 Nov 2023 08:32:21 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
  mime-version : subject : to : cc : references : from : in-reply-to :
  content-type : content-transfer-encoding; s=qcppdkim1;
- bh=o/s3EjNezJkdXkm22u9E3o/s6+c0B+nKKcTpqa0GIBM=;
- b=XqGP30K94f5RN9Q6nHlvH1VV5THyGkFAI/blCLDNB1lWRIFqTNknHYV2T7rbem73Mg42
- r0FamySTTUeirMTrFlS1bYyWiK2m85Bow2kFv1YpbRvtcov4YHepZSB/Bm+IEP1P4fru
- sDi8AotKiG2tVPGSjvWalSp12KGV8AJhM4/LNz+ZbyTxCBNQ9y45UyU6W6a+9dI/ipFW
- 6XPq6GJs3RMOeUTR/ni0yiuuLgsAlRRK4e5/+rK3axeEt2xiHklKY1hTSgAS5lZ7STQR
- Vbky9RMwethB3gOqWcQnGC2h4wlpveLyIXhYVtooomSWdrQHw/wcOKDH4p0DeDcDIkXf jA== 
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u9f3k0aq5-1
+ bh=25mtvY+NTGW9DCzRWztwAgArQMlHdGCwKfpiRg2qsK0=;
+ b=FwrtrwUR95NVAjgV+k2R1coe7//+z1by3KpeZ2ar/C6mL+a9qpqXnnmGLkicsvdpWo+i
+ 57SpGz7kl52hKEbeMj4N83SaeKDiq0OmblPkAFaO8JHRqIvnx0IIg3PY6djISSgVvr9Q
+ VJk+gcBi21KmJCdnZOYDGNcBWe9hj8653HA3JskDbSagkHTO6i3BRY41mIM830f38us4
+ NdkP0xozw92ZmEgZmGtWMIiTTedesHjZj8JTPfEL+CRpglbiLrZ7WdpUadQfc/TF74N7
+ YK7zcD1ECARn2y7bhBDNIm7fH3ffZsDrJBdY3HMPI4CXBJx1b4q/Zu9FjuxupNIeyf+M fw== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3u8y39aevj-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Nov 2023 08:29:33 +0000
+	Fri, 10 Nov 2023 08:32:21 +0000
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AA8TWov011741
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AA8WKhs016764
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 10 Nov 2023 08:29:32 GMT
+	Fri, 10 Nov 2023 08:32:20 GMT
 Received: from [10.217.216.47] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.39; Fri, 10 Nov
- 2023 00:29:25 -0800
-Message-ID: <dfc56206-6e8d-d932-6493-e74162855298@quicinc.com>
-Date: Fri, 10 Nov 2023 13:59:22 +0530
+ 2023 00:32:13 -0800
+Message-ID: <d716fbbe-b681-af41-bfe7-85448cc47c7c@quicinc.com>
+Date: Fri, 10 Nov 2023 14:02:10 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,10 +60,8 @@ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
 Subject: Re: [PATCH RESEND v3 4/5] clk: qcom: Use HW_CTRL_TRIGGER flag to
  switch video GDSC to HW mode
 Content-Language: en-US
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Abel Vesa
-	<abel.vesa@linaro.org>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
+To: Bjorn Andersson <andersson@kernel.org>, Abel Vesa <abel.vesa@linaro.org>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>,
         Kevin Hilman
 	<khilman@kernel.org>,
         Ulf Hansson <ulf.hansson@linaro.org>, Pavel Machek
@@ -71,48 +69,47 @@ To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Len Brown <len.brown@intel.com>,
         Greg Kroah-Hartman
 	<gregkh@linuxfoundation.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        "Andy
- Gross" <agross@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        "Michael Turquette" <mturquette@baylibre.com>,
-        Stephen Boyd
-	<sboyd@kernel.org>,
-        Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Vikash
- Garodia <quic_vgarodia@quicinc.com>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
         Mauro Carvalho Chehab
-	<mchehab@kernel.org>
-CC: Taniya Das <tdas@qti.qualcomm.com>, <linux-pm@vger.kernel.org>,
+	<mchehab@kernel.org>,
+        Taniya Das <tdas@qti.qualcomm.com>, <linux-pm@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
         <linux-clk@vger.kernel.org>, <linux-media@vger.kernel.org>
 References: <20231101-gdsc-hwctrl-v3-0-0740ae6b2b04@linaro.org>
  <20231101-gdsc-hwctrl-v3-4-0740ae6b2b04@linaro.org>
- <835a6add-81e9-42e4-abbe-91632aaa6bc9@linaro.org>
+ <v4dnsawo7s74spccrsvjwmal73tqfq4aptiny25tyyp6ungxha@jlbywvcssqtl>
 From: Jagadeesh Kona <quic_jkona@quicinc.com>
-In-Reply-To: <835a6add-81e9-42e4-abbe-91632aaa6bc9@linaro.org>
+In-Reply-To: <v4dnsawo7s74spccrsvjwmal73tqfq4aptiny25tyyp6ungxha@jlbywvcssqtl>
 Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: y-N3N2JGn_CwPfpScRTGPg7PPPUosQNE
-X-Proofpoint-GUID: y-N3N2JGn_CwPfpScRTGPg7PPPUosQNE
+X-Proofpoint-GUID: uP73AjW-MR_JJ8huakF3mrlf6qgG7jJS
+X-Proofpoint-ORIG-GUID: uP73AjW-MR_JJ8huakF3mrlf6qgG7jJS
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
  definitions=2023-11-10_04,2023-11-09_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- spamscore=0 impostorscore=0 adultscore=0 bulkscore=0 mlxscore=0
- priorityscore=1501 phishscore=0 clxscore=1011 mlxlogscore=999
- malwarescore=0 suspectscore=0 classifier=spam adjust=0 reason=mlx
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0
+ impostorscore=0 clxscore=1015 spamscore=0 phishscore=0 malwarescore=0
+ lowpriorityscore=0 mlxscore=0 priorityscore=1501 adultscore=0
+ mlxlogscore=947 bulkscore=0 classifier=spam adjust=0 reason=mlx
  scancount=1 engine=8.12.0-2311060000 definitions=main-2311100071
 
 
 
-On 11/7/2023 6:35 PM, Bryan O'Donoghue wrote:
-> On 01/11/2023 09:04, Abel Vesa wrote:
+On 11/4/2023 1:45 AM, Bjorn Andersson wrote:
+> On Wed, Nov 01, 2023 at 11:04:10AM +0200, Abel Vesa wrote:
 >> From: Jagadeesh Kona <quic_jkona@quicinc.com>
 >>
 >> The current HW_CTRL flag switches the video GDSC to HW control mode as
@@ -123,133 +120,146 @@ On 11/7/2023 6:35 PM, Bryan O'Donoghue wrote:
 >> HW_CTRL_TRIGGER flag allows consumer drivers to switch the video GDSC to
 >> HW/SW control modes at runtime using dev_pm_genpd_set_hwmode API.
 >>
->> Signed-off-by: Jagadeesh Kona <quic_jkona@quicinc.com>
->> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
->> ---
->>   drivers/clk/qcom/videocc-sc7180.c | 2 +-
->>   drivers/clk/qcom/videocc-sc7280.c | 2 +-
->>   drivers/clk/qcom/videocc-sdm845.c | 4 ++--
->>   drivers/clk/qcom/videocc-sm8250.c | 4 ++--
->>   drivers/clk/qcom/videocc-sm8550.c | 4 ++--
->>   5 files changed, 8 insertions(+), 8 deletions(-)
 > 
-> So.
+> This states what the code currently does, and what the new code will do.
+> But I don't find that it adequately describes _why_ this is done.
 > 
-> I'm assuming the rest of this series works however for sc8250 at least 
-> this is a NAK, breaks venus on rb5.
 > 
-> Reproduction:
+> In the current implementation, the hardware is might collapse the GDSC
+> anytime between gdsc_enable() and gdsc_disable(). By giving "drivers
+> more control" the time spent in this state is reduced to some fraction
+> of that span, which to me implies higher power consumption.
 > 
-> - Debian trixie rb5
-> - Linux 6.6-rc3 + this patch
-> - Attached defconfig
-> - This file:
->    https://download.samplelib.com/mp4/sample-30s.mp4
-> - This command:
->    ffplay -loglevel debug -code:video h264_v4l2m2m -i sample-30s.mp4
-> 
-> Second play of file shows stuck gdsc as below
-> 
-> I didn't try on rb3, I'd expect similar results. Does this work on 8550 ?
-> 
-> [ 1601.581204] ------------[ cut here ]------------
-> [ 1601.585983] mvs0_gdsc status stuck at 'off'
-> [ 1601.586015] WARNING: CPU: 1 PID: 13372 at drivers/clk/qcom/gdsc.c:178 
-> gdsc_toggle_logic+0x16c/0x174
-> [ 1601.599627] Modules linked in: nf_tables libcrc32c nfnetlink 
-> snd_soc_hdmi_codec q6asm_dai q6routing q6afe_dai q6asm q6adm 
-> q6afe_clocks snd_q6dsp_common q6afe q6core apr pdr_interface venus_enc 
-> venus_dec qcom_camss videobuf2_dma_contig mcp251xfd imx412 
-> videobuf2_dma_sg venus_core xhci_plat_hcd v4l2_fwnode fastrpc xhci_hcd 
-> can_dev qrtr_smd lontium_lt9611uxc msm v4l2_async v4l2_mem2mem 
-> qcom_spmi_adc_tm5 rtc_pm8xxx qcom_spmi_adc5 qcom_pon videobuf2_memops 
-> crct10dif_ce qcom_spmi_temp_alarm videobuf2_v4l2 qcom_vadc_common 
-> gpu_sched drm_dp_aux_bus videodev snd_soc_sm8250 drm_display_helper 
-> snd_soc_qcom_sdw videobuf2_common snd_soc_qcom_common qrtr i2c_qcom_cci 
-> soundwire_qcom mc i2c_qcom_geni spi_geni_qcom phy_qcom_qmp_combo 
-> qcom_q6v5_pas qcom_rng soundwire_bus qcom_pil_info 
-> snd_soc_lpass_va_macro qcom_q6v5 slimbus snd_soc_lpass_macro_common 
-> qcom_sysmon snd_soc_lpass_wsa_macro display_connector qcom_common 
-> socinfo qcom_glink_smem qmi_helpers drm_kms_helper mdt_loader qcom_wdt 
-> icc_osm_l3 qnoc_sm8250 fuse drm backlight dm_mod
-> [ 1601.599859]  ip_tables x_tables
-> [ 1601.695314] CPU: 1 PID: 13372 Comm: video_decoder Not tainted 
-> 6.6.0-rc3-00396-gdbc0d9fa7641-dirty #1
-> [ 1601.704694] Hardware name: Qualcomm Technologies, Inc. Robotics RB5 (DT)
-> [ 1601.711582] pstate: 60400005 (nZCv daif +PAN -UAO -TCO -DIT -SSBS 
-> BTYPE=--)
-> [ 1601.718740] pc : gdsc_toggle_logic+0x16c/0x174
-> [ 1601.723317] lr : gdsc_toggle_logic+0x16c/0x174
-> [ 1601.727888] sp : ffff80008adab800
-> [ 1601.731296] x29: ffff80008adab800 x28: ffffb661e8596210 x27: 
-> ffffb661e855ad88
-> [ 1601.738629] x26: 0000000000000000 x25: ffff100c0b5a0d28 x24: 
-> ffffb6620fd92118
-> [ 1601.745960] x23: ffffb6620fe1d3d8 x22: 0000000000000000 x21: 
-> 0000000000000001
-> [ 1601.753292] x20: 00000000ffffff92 x19: ffffb6620fd92118 x18: 
-> ffffffffffc0d3e8
-> [ 1601.760631] x17: 0000000000000000 x16: ffffb6620e269e14 x15: 
-> 0000000000000028
-> [ 1601.767973] x14: 0000000000000000 x13: ffff100d75c00000 x12: 
-> 0000000000000894
-> [ 1601.775304] x11: 00000000000002dc x10: ffff100d767044a0 x9 : 
-> ffff100d75c00000
-> [ 1601.782636] x8 : 00000000fffdffff x7 : ffff100d76700000 x6 : 
-> 00000000000002dc
-> [ 1601.789976] x5 : ffff100d7ef40d48 x4 : 40000000fffe02dc x3 : 
-> ffff59ab6fa21000
-> [ 1601.797306] x2 : 0000000000000000 x1 : 0000000000000000 x0 : 
-> ffff100cdacdec80
-> [ 1601.804638] Call trace:
-> [ 1601.807161]  gdsc_toggle_logic+0x16c/0x174
-> [ 1601.811383]  gdsc_enable+0x60/0x27c
-> [ 1601.814982]  _genpd_power_on+0x94/0x184
-> [ 1601.818931]  genpd_power_on+0xa8/0x16c
-> [ 1601.822791]  genpd_runtime_resume+0xd4/0x2a4
-> [ 1601.827184]  __rpm_callback+0x48/0x1dc
-> [ 1601.831045]  rpm_callback+0x6c/0x78
-> [ 1601.834638]  rpm_resume+0x45c/0x6c8
-> [ 1601.838231]  __pm_runtime_resume+0x4c/0x90
-> [ 1601.842443]  coreid_power_v4+0x378/0x58c [venus_core]
-> [ 1601.847695]  vdec_start_streaming+0xc0/0x4e8 [venus_dec]
-> [ 1601.853169]  vb2_start_streaming+0x68/0x15c [videobuf2_common]
-> [ 1601.859199]  vb2_core_streamon+0xf8/0x1bc [videobuf2_common]
-> [ 1601.865032]  vb2_streamon+0x18/0x64 [videobuf2_v4l2]
-> [ 1601.870174]  v4l2_m2m_ioctl_streamon+0x38/0x98 [v4l2_mem2mem]
-> [ 1601.876134]  v4l_streamon+0x24/0x30 [videodev]
-> [ 1601.880759]  __video_do_ioctl+0x15c/0x3c0 [videodev]
-> [ 1601.885905]  video_usercopy+0x1f0/0x658 [videodev]
-> [ 1601.890868]  video_ioctl2+0x18/0x28 [videodev]
-> [ 1601.895481]  v4l2_ioctl+0x40/0x60 [videodev]
-> [ 1601.899911]  __arm64_sys_ioctl+0xac/0xf0
-> [ 1601.903958]  invoke_syscall+0x48/0x114
-> [ 1601.907829]  el0_svc_common.constprop.0+0x40/0xe0
-> [ 1601.912672]  do_el0_svc+0x1c/0x28
-> [ 1601.916085]  el0_svc+0x40/0xe8
-> [ 1601.919243]  el0t_64_sync_handler+0x100/0x12c
-> [ 1601.923730]  el0t_64_sync+0x190/0x194
-> [ 1601.927505] ---[ end trace 0000000000000000 ]---
-> [ 1608.121533] ------------[ cut here ]------------
-> 
-> And just reverting the one patch - yields
-> 
-> [  157.083287] qcom-venus aa00000.video-codec: Failed to switch 
-> power-domain:1 to SW mode
-> [  162.004630] qcom-venus aa00000.video-codec: Failed to switch 
-> power-domain:1 to SW mode
-> 
-> I'll leave the testing here. Please fix !
+> Under the assumption that we don't want to consume more power without
+> reason, I'm forced to guess that there might be some scenarios that we
+> want this feature to keep the GDSC non-collapsed against the indication
+> of the hardware - to avoid some instability somewhere, perhaps?
 > 
 
-Thanks Bryan for reporting this, this could be happening since GDSC 
-might be left in HW control mode during power off sequence, so the 
-subsequent GDSC enable is failing since GDSC is still in HW mode. I am 
-checking internally on this and will get back.
+Thanks Bjorn for your review. Sure, will update commit text with details 
+in next series.
+
+Normally, consumers will enable the GDSC and then the required clocks. 
+If GDSC is moved to HW mode in gdsc_enable() itself, the subsequent 
+clocks enablement that are dependent on GDSC might fail since GDSC could 
+be turned off by HW. The consumers can still switch the GDSC to HW mode 
+with new API right after the clocks are enabled and the control will be 
+taken back to SW mode just before disabling the GDSC, so even with the 
+newer implementation, HW can collapse the GDSC anytime for most of the 
+duration between gdsc_enable() and gdsc_disable(). This API adds more 
+flexibility for consumer drivers to control the GDSC mode as per their
+requirements.
 
 Thanks,
 Jagadeesh
 
-> ---
-> bod
+> Regards,
+> Bjorn
+> 
+>> Signed-off-by: Jagadeesh Kona <quic_jkona@quicinc.com>
+>> Signed-off-by: Abel Vesa <abel.vesa@linaro.org>
+>> ---
+>>   drivers/clk/qcom/videocc-sc7180.c | 2 +-
+>>   drivers/clk/qcom/videocc-sc7280.c | 2 +-
+>>   drivers/clk/qcom/videocc-sdm845.c | 4 ++--
+>>   drivers/clk/qcom/videocc-sm8250.c | 4 ++--
+>>   drivers/clk/qcom/videocc-sm8550.c | 4 ++--
+>>   5 files changed, 8 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/clk/qcom/videocc-sc7180.c b/drivers/clk/qcom/videocc-sc7180.c
+>> index 5b9b54f616b8..51439f7ba70c 100644
+>> --- a/drivers/clk/qcom/videocc-sc7180.c
+>> +++ b/drivers/clk/qcom/videocc-sc7180.c
+>> @@ -166,7 +166,7 @@ static struct gdsc vcodec0_gdsc = {
+>>   	.pd = {
+>>   		.name = "vcodec0_gdsc",
+>>   	},
+>> -	.flags = HW_CTRL,
+>> +	.flags = HW_CTRL_TRIGGER,
+>>   	.pwrsts = PWRSTS_OFF_ON,
+>>   };
+>>   
+>> diff --git a/drivers/clk/qcom/videocc-sc7280.c b/drivers/clk/qcom/videocc-sc7280.c
+>> index 615695d82319..3d07b1e95986 100644
+>> --- a/drivers/clk/qcom/videocc-sc7280.c
+>> +++ b/drivers/clk/qcom/videocc-sc7280.c
+>> @@ -236,7 +236,7 @@ static struct gdsc mvs0_gdsc = {
+>>   		.name = "mvs0_gdsc",
+>>   	},
+>>   	.pwrsts = PWRSTS_OFF_ON,
+>> -	.flags = HW_CTRL | RETAIN_FF_ENABLE,
+>> +	.flags = HW_CTRL_TRIGGER | RETAIN_FF_ENABLE,
+>>   };
+>>   
+>>   static struct gdsc mvsc_gdsc = {
+>> diff --git a/drivers/clk/qcom/videocc-sdm845.c b/drivers/clk/qcom/videocc-sdm845.c
+>> index c77a4dd5d39c..dad011c48973 100644
+>> --- a/drivers/clk/qcom/videocc-sdm845.c
+>> +++ b/drivers/clk/qcom/videocc-sdm845.c
+>> @@ -260,7 +260,7 @@ static struct gdsc vcodec0_gdsc = {
+>>   	},
+>>   	.cxcs = (unsigned int []){ 0x890, 0x930 },
+>>   	.cxc_count = 2,
+>> -	.flags = HW_CTRL | POLL_CFG_GDSCR,
+>> +	.flags = HW_CTRL_TRIGGER | POLL_CFG_GDSCR,
+>>   	.pwrsts = PWRSTS_OFF_ON,
+>>   };
+>>   
+>> @@ -271,7 +271,7 @@ static struct gdsc vcodec1_gdsc = {
+>>   	},
+>>   	.cxcs = (unsigned int []){ 0x8d0, 0x950 },
+>>   	.cxc_count = 2,
+>> -	.flags = HW_CTRL | POLL_CFG_GDSCR,
+>> +	.flags = HW_CTRL_TRIGGER | POLL_CFG_GDSCR,
+>>   	.pwrsts = PWRSTS_OFF_ON,
+>>   };
+>>   
+>> diff --git a/drivers/clk/qcom/videocc-sm8250.c b/drivers/clk/qcom/videocc-sm8250.c
+>> index ad46c4014a40..c1b73d852f1c 100644
+>> --- a/drivers/clk/qcom/videocc-sm8250.c
+>> +++ b/drivers/clk/qcom/videocc-sm8250.c
+>> @@ -293,7 +293,7 @@ static struct gdsc mvs0_gdsc = {
+>>   	.pd = {
+>>   		.name = "mvs0_gdsc",
+>>   	},
+>> -	.flags = HW_CTRL,
+>> +	.flags = HW_CTRL_TRIGGER,
+>>   	.pwrsts = PWRSTS_OFF_ON,
+>>   };
+>>   
+>> @@ -302,7 +302,7 @@ static struct gdsc mvs1_gdsc = {
+>>   	.pd = {
+>>   		.name = "mvs1_gdsc",
+>>   	},
+>> -	.flags = HW_CTRL,
+>> +	.flags = HW_CTRL_TRIGGER,
+>>   	.pwrsts = PWRSTS_OFF_ON,
+>>   };
+>>   
+>> diff --git a/drivers/clk/qcom/videocc-sm8550.c b/drivers/clk/qcom/videocc-sm8550.c
+>> index f3c9dfaee968..404c6600edae 100644
+>> --- a/drivers/clk/qcom/videocc-sm8550.c
+>> +++ b/drivers/clk/qcom/videocc-sm8550.c
+>> @@ -322,7 +322,7 @@ static struct gdsc video_cc_mvs0_gdsc = {
+>>   	},
+>>   	.pwrsts = PWRSTS_OFF_ON,
+>>   	.parent = &video_cc_mvs0c_gdsc.pd,
+>> -	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | HW_CTRL,
+>> +	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | HW_CTRL_TRIGGER,
+>>   };
+>>   
+>>   static struct gdsc video_cc_mvs1c_gdsc = {
+>> @@ -347,7 +347,7 @@ static struct gdsc video_cc_mvs1_gdsc = {
+>>   	},
+>>   	.pwrsts = PWRSTS_OFF_ON,
+>>   	.parent = &video_cc_mvs1c_gdsc.pd,
+>> -	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | HW_CTRL,
+>> +	.flags = POLL_CFG_GDSCR | RETAIN_FF_ENABLE | HW_CTRL_TRIGGER,
+>>   };
+>>   
+>>   static struct clk_regmap *video_cc_sm8550_clocks[] = {
+>>
+>> -- 
+>> 2.34.1
+>>
 
