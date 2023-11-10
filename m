@@ -1,250 +1,233 @@
-Return-Path: <linux-media+bounces-54-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-9-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F9347E7F31
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:50:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E27F7E7EC1
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:47:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 508331C20E3C
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:50:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 515352815DB
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:47:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C3223D974;
-	Fri, 10 Nov 2023 17:47:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3BE33A29C;
+	Fri, 10 Nov 2023 17:46:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Ujoba2dM"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="wYXDWjn7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 665B93D97A
-	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:47:06 +0000 (UTC)
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0AF624C01;
-	Fri, 10 Nov 2023 01:35:25 -0800 (PST)
-Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: andrzej.p)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 7F2B166073E5;
-	Fri, 10 Nov 2023 09:35:23 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699608924;
-	bh=zzFscefQrgc4TdbI+LfNRWkkOS6+9+C/l2hym7xAKOU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Ujoba2dM9hW8ryQCdIcptLKDQJGSJS0BCOSiGJ4LsCFaxP9IfPaEvTuMGnU9aiT4p
-	 lP0smWeoZK4MAjRWP8JN/bPcd+WrUJbF5WiAKpU7JIoXzEl7Gcwac2PEqwpWaIi0wM
-	 cBRCY0LYFBR0iyBtKMe4jozNJtko4IZjR1utl3nA5swJljUAGIHdxUQdPuWcljylIO
-	 GW8cl61cCjjkGKAxF0S3a6MKRgK/h9oCcTla+BTzCVA9DpPWAHTbuCNFlm6S2RgqKc
-	 8xwktd49BLoa/n6GQcQ/BLiDlehochHjOI4WN0fEUGlc5TfoG1HzcL/LIX4jK9yqAc
-	 LLB2B+HGjLsTg==
-Message-ID: <0b79bb25-2e44-4a6d-b306-76477a2c8a08@collabora.com>
-Date: Fri, 10 Nov 2023 10:35:20 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B61D20B37
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:31 +0000 (UTC)
+Received: from mail-vs1-xe30.google.com (mail-vs1-xe30.google.com [IPv6:2607:f8b0:4864:20::e30])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2041D25087
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 01:45:44 -0800 (PST)
+Received: by mail-vs1-xe30.google.com with SMTP id ada2fe7eead31-45dad6ece90so848459137.0
+        for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 01:45:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1699609543; x=1700214343; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7pUm/c3POcD26li8+Wke26dcOs+wqv0EJOUWvylNJQo=;
+        b=wYXDWjn7U63zYTzMWT2KkWW3kr8rgGqbDhEyIZZ5Ty4YEcIia9r48p4Dy+2CpAYXB7
+         l+/H/1gWi2YA6I13l4MSSKx7OpCK5aBvOUdy0a9KsF4UTae49Np2UUrswYYXoUhqrnE0
+         8gKbE3zhta89j3NLl92qaHlyyjmWh3+4kPnJ4Jf3RS193wHSWKQBQ/G16Y3PzcFsfQI5
+         iqrYZX93Jvm3B6Sz81vD44uR6HsFywTXRgUS0r/Sfl/Gy7aI9zXhn9gMnm8BCNGtm8+z
+         u45Qgm4wKz9o197av3qEsTzpCIB3+N9cwR5YFs8wn4E3nYRLdvwK8NNSjkTy+9MREi5z
+         E93w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699609543; x=1700214343;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7pUm/c3POcD26li8+Wke26dcOs+wqv0EJOUWvylNJQo=;
+        b=ISr0rYcFpPHMi7bmWga6zaHiAC3ZTEVO6dmSscV77Kq9omloXE0MU5ktcW45HPrbO5
+         2IqLsksJyE0dKae7b3pZZIe6e7YxzPzSdXTVN/oMlvOlQGDYxAmSDP2r3Wd/mI6T22ue
+         825FwNwqmtG9TjoKwFGTBsc4xgaLaabLanU1UWFRGfxEEWOftqEHXMYh+5lc54TEU4ay
+         yt4CcfvLtfulaXW34kfdTShe7ASx03AAmn3FOAKMGyOnRQAnqhjrdWP/9bF0K1Z3YGVM
+         B9uHshfXnaCDbQ05PhaNhO1oCFqIhukByESDRTJQzZEUzSUX5oMXK9js/IZQdM/sg1mG
+         9caQ==
+X-Gm-Message-State: AOJu0Yyg7AyIMj84UQCs2Z8GrDCjQLrmBlErwflB4RMcjopj+5ZUpe6R
+	UXGoRyPtzzks3kp24rIuWIVP58P1Z0i9bwT8g9NimtN+BDck3hN9siK2pg==
+X-Google-Smtp-Source: AGHT+IGwONXBFBpAhD15bfaIVPNRmPgG1R+yrVeei2EXlwNf647dy9292PLH34LJT3G6STTIfr9u5/CLo0iSwGhMU3o=
+X-Received: by 2002:a67:c381:0:b0:45d:a4a6:6fae with SMTP id
+ s1-20020a67c381000000b0045da4a66faemr6419953vsj.30.1699609542944; Fri, 10 Nov
+ 2023 01:45:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v15 30/56] media: test-drivers: Stop direct calls to queue
- num_buffers field
-Content-Language: en-US
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, ming.qian@nxp.com,
- ezequiel@vanguardiasur.com.ar, p.zabel@pengutronix.de,
- gregkh@linuxfoundation.org, hverkuil-cisco@xs4all.nl,
- nicolas.dufresne@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org,
- linux-arm-msm@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-staging@lists.linux.dev, kernel@collabora.com,
- Daniel Almeida <daniel.almeida@collabora.com>
-References: <20231109163512.179524-14-benjamin.gaignard@collabora.com>
- <20231109163512.179524-31-benjamin.gaignard@collabora.com>
-From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-In-Reply-To: <20231109163512.179524-31-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-5-almasrymina@google.com> <076fa6505f3e1c79cc8acdf9903809fad6c2fd31.camel@redhat.com>
+ <CAHS8izOGSE-PJ1uShkH_Mr6kUoC1EjM_9P1J=_TO6nLFP9K53Q@mail.gmail.com> <aec0f586-c3b9-8da8-6a39-f313105267f8@huawei.com>
+In-Reply-To: <aec0f586-c3b9-8da8-6a39-f313105267f8@huawei.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Fri, 10 Nov 2023 01:45:29 -0800
+Message-ID: <CAHS8izP64Q3cP5vJ5ESQH9Y3fkSn8RCS+T84orKhK5=pzdJCLA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 04/12] netdev: support binding dma-buf to netdevice
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: Paolo Abeni <pabeni@redhat.com>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+	Jesper Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas <ilias.apalodimas@linaro.org>, 
+	Arnd Bergmann <arnd@arndb.de>, David Ahern <dsahern@kernel.org>, 
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Benjamin,
+On Thu, Nov 9, 2023 at 11:38=E2=80=AFPM Yunsheng Lin <linyunsheng@huawei.co=
+m> wrote:
+>
+> On 2023/11/10 10:59, Mina Almasry wrote:
+> > On Thu, Nov 9, 2023 at 12:30=E2=80=AFAM Paolo Abeni <pabeni@redhat.com>=
+ wrote:
+> >>
+> >> I'm trying to wrap my head around the whole infra... the above line is
+> >> confusing. Why do you increment dma_addr? it will be re-initialized in
+> >> the next iteration.
+> >>
+> >
+> > That is just a mistake, sorry. Will remove this increment.
+>
+> You seems to be combining comments in different thread and replying in
+> one thread, I am not sure that is a good practice and I almost missed the
+> reply below as I don't seem to be cc'ed.
+>
 
-W dniu 9.11.2023 o 17:34, Benjamin Gaignard pisze:
-> Use vb2_get_num_buffers() to avoid using queue num_buffers field directly.
-> This allows us to change how the number of buffers is computed in the
-> future.
-> If 'min_buffers_needed' is set remove useless checks in queue setup
-> functions.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> CC: Daniel Almeida <daniel.almeida@collabora.com>
-> ---
->   drivers/media/test-drivers/visl/visl-dec.c         | 4 ++--
->   drivers/media/test-drivers/vivid/vivid-meta-cap.c  | 3 ---
->   drivers/media/test-drivers/vivid/vivid-meta-out.c  | 5 +++--
->   drivers/media/test-drivers/vivid/vivid-touch-cap.c | 5 +++--
->   drivers/media/test-drivers/vivid/vivid-vbi-cap.c   | 3 ---
->   drivers/media/test-drivers/vivid/vivid-vbi-out.c   | 3 ---
->   drivers/media/test-drivers/vivid/vivid-vid-cap.c   | 3 ---
->   drivers/media/test-drivers/vivid/vivid-vid-out.c   | 5 +----
->   8 files changed, 9 insertions(+), 22 deletions(-)
-> 
-> diff --git a/drivers/media/test-drivers/visl/visl-dec.c b/drivers/media/test-drivers/visl/visl-dec.c
-> index ba20ea998d19..4672dc5e52bb 100644
-> --- a/drivers/media/test-drivers/visl/visl-dec.c
-> +++ b/drivers/media/test-drivers/visl/visl-dec.c
-> @@ -287,7 +287,7 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
->   	frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
->   
->   	len = 0;
-> -	for (i = 0; i < out_q->num_buffers; i++) {
-> +	for (i = 0; i < vb2_get_num_buffers(out_q); i++) {
->   		char entry[] = "index: %u, state: %s, request_fd: %d, ";
->   		u32 old_len = len;
->   		struct vb2_buffer *vb2;
-> @@ -347,7 +347,7 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
->   	frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
->   
->   	len = 0;
-> -	for (i = 0; i < cap_q->num_buffers; i++) {
-> +	for (i = 0; i < vb2_get_num_buffers(cap_q); i++) {
->   		u32 old_len = len;
->   		struct vb2_buffer *vb2;
->   		char *q_status;
-> diff --git a/drivers/media/test-drivers/vivid/vivid-meta-cap.c b/drivers/media/test-drivers/vivid/vivid-meta-cap.c
-> index 780f96860a6d..0a718d037e59 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-meta-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-meta-cap.c
-> @@ -30,9 +30,6 @@ static int meta_cap_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
->   		sizes[0] = size;
->   	}
->   
-> -	if (vq->num_buffers + *nbuffers < 2)
-> -		*nbuffers = 2 - vq->num_buffers;
-> -
->   	*nplanes = 1;
->   	return 0;
->   }
-> diff --git a/drivers/media/test-drivers/vivid/vivid-meta-out.c b/drivers/media/test-drivers/vivid/vivid-meta-out.c
-> index 95835b52b58f..4a569a6e58be 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-meta-out.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-meta-out.c
-> @@ -18,6 +18,7 @@ static int meta_out_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
->   				struct device *alloc_devs[])
->   {
->   	struct vivid_dev *dev = vb2_get_drv_priv(vq);
-> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
->   	unsigned int size =  sizeof(struct vivid_meta_out_buf);
->   
->   	if (!vivid_is_webcam(dev))
-> @@ -30,8 +31,8 @@ static int meta_out_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
->   		sizes[0] = size;
->   	}
->   
-> -	if (vq->num_buffers + *nbuffers < 2)
-> -		*nbuffers = 2 - vq->num_buffers;
-> +	if (q_num_bufs + *nbuffers < 2)
-> +		*nbuffers = 2 - q_num_bufs;
->   
->   	*nplanes = 1;
->   	return 0;
-> diff --git a/drivers/media/test-drivers/vivid/vivid-touch-cap.c b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-> index c7f6e23df51e..4b3c6ea0afde 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-touch-cap.c
-> @@ -13,6 +13,7 @@ static int touch_cap_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
->   				 struct device *alloc_devs[])
->   {
->   	struct vivid_dev *dev = vb2_get_drv_priv(vq);
-> +	unsigned int q_num_bufs = vb2_get_num_buffers(vq);
->   	struct v4l2_pix_format *f = &dev->tch_format;
->   	unsigned int size = f->sizeimage;
->   
-> @@ -23,8 +24,8 @@ static int touch_cap_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
->   		sizes[0] = size;
->   	}
->   
-> -	if (vq->num_buffers + *nbuffers < 2)
-> -		*nbuffers = 2 - vq->num_buffers;
-> +	if (q_num_bufs + *nbuffers < 2)
-> +		*nbuffers = 2 - q_num_bufs;
->   
->   	*nplanes = 1;
->   	return 0;
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
-> index b65b02eeeb97..3840b3a664ac 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vbi-cap.c
-> @@ -134,9 +134,6 @@ static int vbi_cap_queue_setup(struct vb2_queue *vq,
->   
->   	sizes[0] = size;
->   
-> -	if (vq->num_buffers + *nbuffers < 2)
-> -		*nbuffers = 2 - vq->num_buffers;
-> -
->   	*nplanes = 1;
->   	return 0;
->   }
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vbi-out.c b/drivers/media/test-drivers/vivid/vivid-vbi-out.c
-> index cd56476902a2..434a10676417 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vbi-out.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vbi-out.c
-> @@ -30,9 +30,6 @@ static int vbi_out_queue_setup(struct vb2_queue *vq,
->   
->   	sizes[0] = size;
->   
-> -	if (vq->num_buffers + *nbuffers < 2)
-> -		*nbuffers = 2 - vq->num_buffers;
-> -
->   	*nplanes = 1;
->   	return 0;
->   }
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> index 3a06df35a2d7..2804975fe278 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> @@ -117,9 +117,6 @@ static int vid_cap_queue_setup(struct vb2_queue *vq,
->   					dev->fmt_cap->data_offset[p];
->   	}
->   
-> -	if (vq->num_buffers + *nbuffers < 2)
-> -		*nbuffers = 2 - vq->num_buffers;
-> -
->   	*nplanes = buffers;
->   
->   	dprintk(dev, 1, "%s: count=%d\n", __func__, *nbuffers);
+Sorry about that.
 
-here the format specifier for "*nbuffers" is "%d"...
+> >
+> > On Thu, Nov 9, 2023 at 1:29=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei=
+.com> wrote:> >>>
+> >>>>> gen_pool_destroy BUG_ON() if it's not empty at the time of destroyi=
+ng.
+> >>>>> Technically that should never happen, because
+> >>>>> __netdev_devmem_binding_free() should only be called when the refco=
+unt
+> >>>>> hits 0, so all the chunks have been freed back to the gen_pool. But=
+,
+> >>>>> just in case, I don't want to crash the server just because I'm
+> >>>>> leaking a chunk... this is a bit of defensive programming that is
+> >>>>> typically frowned upon, but the behavior of gen_pool is so severe I
+> >>>>> think the WARN() + check is warranted here.
+> >>>>
+> >>>> It seems it is pretty normal for the above to happen nowadays becaus=
+e of
+> >>>> retransmits timeouts, NAPI defer schemes mentioned below:
+> >>>>
+> >>>> https://lkml.kernel.org/netdev/168269854650.2191653.8465259808498269=
+815.stgit@firesoul/
+> >>>>
+> >>>> And currently page pool core handles that by using a workqueue.
+> >>>
+> >>> Forgive me but I'm not understanding the concern here.
+> >>>
+> >>> __netdev_devmem_binding_free() is called when binding->ref hits 0.
+> >>>
+> >>> binding->ref is incremented when an iov slice of the dma-buf is
+> >>> allocated, and decremented when an iov is freed. So,
+> >>> __netdev_devmem_binding_free() can't really be called unless all the
+> >>> iovs have been freed, and gen_pool_size() =3D=3D gen_pool_avail(),
+> >>> regardless of what's happening on the page_pool side of things, right=
+?
+> >>
+> >> I seems to misunderstand it. In that case, it seems to be about
+> >> defensive programming like other checking.
+> >>
+> >> By looking at it more closely, it seems napi_frag_unref() call
+> >> page_pool_page_put_many() directly=EF=BC=8C which means devmem seems t=
+o
+> >> be bypassing the napi_safe optimization.
+> >>
+> >> Can napi_frag_unref() reuse napi_pp_put_page() in order to reuse
+> >> the napi_safe optimization?
+> >>
+> >
+> > I think it already does. page_pool_page_put_many() is only called if
+> > !recycle or !napi_pp_put_page(). In that case
+> > page_pool_page_put_many() is just a replacement for put_page(),
+> > because this 'page' may be an iov.
+>
+> Is there a reason why not calling napi_pp_put_page() for devmem too
+> instead of calling page_pool_page_put_many()? mem provider has a
+> 'release_page' ops, calling page_pool_page_put_many() directly here
+> seems to be bypassing the 'release_page' ops, which means devmem is
+> bypassing most of the main features of page pool.
+>
 
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-out.c b/drivers/media/test-drivers/vivid/vivid-vid-out.c
-> index 184a6df2c29f..1653b2988f7e 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vid-out.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vid-out.c
-> @@ -73,12 +73,9 @@ static int vid_out_queue_setup(struct vb2_queue *vq,
->   				       vfmt->data_offset[p] : size;
->   	}
->   
-> -	if (vq->num_buffers + *nbuffers < 2)
-> -		*nbuffers = 2 - vq->num_buffers;
-> -
->   	*nplanes = planes;
->   
-> -	dprintk(dev, 1, "%s: count=%d\n", __func__, *nbuffers);
-> +	dprintk(dev, 1, "%s: count=%u\n", __func__, *nbuffers);
+I think we're still calling napi_pp_put_page() as normal:
 
-... but here you change it to "%u". Is there a reason for these two to be
-different? I didn't notice it in the previous version but now it stands out
-clearly. Probably you changed to %u because of the type returned by
-vb2_get_num_buffers(). And, actually, *nbuffers _is_ unsigned, too.
+ /**
+@@ -3441,13 +3466,13 @@ bool napi_pp_put_page(struct page *page, bool
+napi_safe);
+ static inline void
+ napi_frag_unref(skb_frag_t *frag, bool recycle, bool napi_safe)
+ {
+-       struct page *page =3D skb_frag_page(frag);
+-
+ #ifdef CONFIG_PAGE_POOL
+-       if (recycle && napi_pp_put_page(page, napi_safe))
++       if (recycle && napi_pp_put_page(frag->bv_page, napi_safe))
+                return;
++       page_pool_page_put_many(frag->bv_page, 1);
++#else
++       put_page(skb_frag_page(frag));
+ #endif
+-       put_page(page);
+ }
 
-Regards,
+The code change here is to replace put_page() with
+page_pool_page_put_many(), only, because bv_page may be a
+page_pool_iov, so we need to use page_pool_page_put_many() which
+handles page_pool_iov correcly. I did not change whether or not
+napi_pp_put_page() is called. It's still called if recycle=3D=3Dtrue.
 
-Andrzej
+> As far as I can tell, the main features of page pool:
+> 1. Allow lockless allocation and freeing in pool->alloc cache by
+>    utilizing NAPI non-concurrent context.
+> 2. Allow concurrent allocation and freeing in pool->ring cache by
+>    utilizing ptr_ring.
+> 3. Allow dma map/unmap and cache sync optimization.
+> 4. Allow detailed stats logging and tracing.
+> 5. Allow some bulk allocation and freeing.
+> 6. support both skb packet and xdp frame.
+>
+> I am wondering what is the main features that devmem is utilizing
+> by intergrating into page pool?
+>
+> It seems the driver can just call netdev_alloc_devmem() and
+> napi_frag_unref() can call netdev_free_devmem() directly without
+> intergrating into page pool and it should just works too?
+>
+> Maybe we should consider creating a new thin layer, in order to
+> demux to page pool, devmem or other mem type if my suggestion does
+> not work out too?
+>
 
->   	for (p = 0; p < planes; p++)
->   		dprintk(dev, 1, "%s: size[%u]=%u\n", __func__, p, sizes[p]);
->   	return 0;
+I went through this discussion with Jesper on RFC v2 in this thread:
 
+https://lore.kernel.org/netdev/CAHS8izOVJGJH5WF68OsRWFKJid1_huzzUK+hpKbLcL4=
+pSOD1Jw@mail.gmail.com/T/#ma9285d53735d82cc315717db67a1796477c89d86
+
+which culminates with that email where he seems on board with the
+change from a performance POV, and seems on board with hiding the
+memory type implementation from the drivers. That thread fully goes
+over the tradeoffs of integrating over the page pool or creating new
+ones. Integrating with the page pool abstracts most of the devmem
+implementation (and other memory types) from the driver. It reuses
+page pool features like page recycling for example.
+
+--=20
+Thanks,
+Mina
 
