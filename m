@@ -1,248 +1,173 @@
-Return-Path: <linux-media+bounces-44-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-6-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 861F77E7F17
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:49:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACFE97E7EB2
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:47:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6F421C20E6B
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:49:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B18E2813B0
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:47:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 909093D960;
-	Fri, 10 Nov 2023 17:47:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A3852FE2F;
+	Fri, 10 Nov 2023 17:46:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="ZWULn38U"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="ejl4Mjlp";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="mkAJRz8i"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E30C3C697
-	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:56 +0000 (UTC)
-Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2040.outbound.protection.outlook.com [40.107.6.40])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EEF738EBE;
-	Fri, 10 Nov 2023 06:33:40 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=e+a6Wl9c+E/jFLIGtq74Zaz6gYNACvh9MIRRmX93SZFdI5iHaFmSd3M57QEUFkuUdcsJNjvyqOAYqKtEwaY57lung11PjBbQP6PSTkpUv1KnyPxE/DcqJJ2P+C+PJY0euYn86voInmXpzsMY9VgAgOMsR0wQcgzrA/4ZVmUOhbIfe7/yt17k5xABFTHC5+FyD2J4p5Mh6Kr9UJ8f9D9lboAB594K8Kj0hukAsN/cd05JnRZQuPPFtLqRuGfepshU/cuwK8/Q3MBIUq3UrMrjQCZuZxn5i/sp91Yifo7SjJi+6k3eFfQeF2+M3FxiyF0pYdLxdYmOY8KwgzF7p2bA+g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=/5mm/cfLURsvfIFkDBAOFR9a83Dvniqyx6o7xS2f+t8=;
- b=ezwL/AQeLHQRJN3Tu3aRF4oC4PeHyxGfg14Ctg3x7DRGbYR8y58rEHrSO6JZwTyLCoSEMT2IvA/zhJOaRpIEURwZQbNfskIAuZrA6mKGE9PLoctESpSHoQCryL9yI0YWL7KU9qbELDSUc1wGJzEUmuZW7Acn21rNU03KVmZOqVfE4JjR/zcnkV8XfMe31cHpUptNMIajAWNACzfRnFWSEMLue4cHIEDwdXsvsp77k0X6lUGTotBzCskMjhVLYApciJ7pNbOVlWsuBWwG1Si5eKSBIvqA3mkF7x3UmzrqKkTA7+Dq5SHWZc22G0DyDbc5eIKeZX2lIw0n7wjqA6k/JA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=/5mm/cfLURsvfIFkDBAOFR9a83Dvniqyx6o7xS2f+t8=;
- b=ZWULn38UOT/7SHGuJ7mO86CnoaQeLfHvuX8IgZAmrYNCVTWx5N+SwUqLJ2edpvRFfctqw0A3YRfSPSUZsYxofSI1nG8MMDnGhR90uBB1qhysuHjEjweasgI/BZt/+eol0iRDgKlrtGzDJErcDHNGA7FAf9XFO9V4DnYU6aSAZ+E=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
- by DU5PR08MB10677.eurprd08.prod.outlook.com (2603:10a6:10:529::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Fri, 10 Nov
- 2023 14:33:37 +0000
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::79a1:5ad6:b221:ad]) by DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::79a1:5ad6:b221:ad%4]) with mapi id 15.20.6977.019; Fri, 10 Nov 2023
- 14:33:37 +0000
-Message-ID: <4f9bc04b-81af-49ee-9818-d4cd281504e7@wolfvision.net>
-Date: Fri, 10 Nov 2023 15:33:34 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 2/3] media: rockchip: Add a driver for Rockchip's
- camera interface
-Content-Language: en-US
-To: Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
- heiko@sntech.de, hverkuil-cisco@xs4all.nl,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
- alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
- paul.kocialkowski@bootlin.com
-References: <cover.1699460637.git.mehdi.djait@bootlin.com>
- <bcc0b84f4a6a8cf4c007cfe25025060b22627408.1699460637.git.mehdi.djait@bootlin.com>
-From: Michael Riesch <michael.riesch@wolfvision.net>
-Organization: WolfVision GmbH
-In-Reply-To: <bcc0b84f4a6a8cf4c007cfe25025060b22627408.1699460637.git.mehdi.djait@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0902CA0048.eurprd09.prod.outlook.com
- (2603:10a6:802:1::37) To DU0PR08MB9155.eurprd08.prod.outlook.com
- (2603:10a6:10:416::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 400C836B1D
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:30 +0000 (UTC)
+Received: from wout4-smtp.messagingengine.com (wout4-smtp.messagingengine.com [64.147.123.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14AC939743;
+	Fri, 10 Nov 2023 06:37:27 -0800 (PST)
+Received: from compute5.internal (compute5.nyi.internal [10.202.2.45])
+	by mailout.west.internal (Postfix) with ESMTP id 056B43200A3E;
+	Fri, 10 Nov 2023 09:37:25 -0500 (EST)
+Received: from imap51 ([10.202.2.101])
+  by compute5.internal (MEProxy); Fri, 10 Nov 2023 09:37:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to; s=fm3; t=
+	1699627045; x=1699713445; bh=rcShLJQwdFk7RsRNeX/c7tzR8HZJvtQVuGp
+	bMnSXorU=; b=ejl4Mjlp2pQSGeExypcwTNxzCQO8IJu70TTC8Kj7iX5mlgA2I+1
+	Ah0nlJrsJ+kEXHNgFfNOdUsXDBk6IIkkVMpD/aIt1xhb+OCdFXTfaFEnLEV3Uyir
+	oKMbSXn3coiZqkAmaNAfIHujPXMfEdLN6+XxhgEopiF8K7xPyU7maQwK1MRsTptl
+	a10LC73nvkcbN7fdpfyZJ1piKNsrXnCGtF1zk+B+G3KJtXzuH4RXlC41MKVF/Qpa
+	Lod7rCIdQNETyDAXP12nF7honJUFTO9cDbYeW/KglyVj5+h09j95Fea/7c8lWqN9
+	RjJNVlaigDJZXxroIiXIuqb0KM6KMeqjtJw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:sender:subject:subject:to:to:x-me-proxy
+	:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=
+	1699627045; x=1699713445; bh=rcShLJQwdFk7RsRNeX/c7tzR8HZJvtQVuGp
+	bMnSXorU=; b=mkAJRz8ihbAnP7FL8q5xk6+4rmo+5X2GNjdExNJVd4CG+PAeZ5j
+	K/udUAelOOksx18MGauQCOFHy+6TyiQTKkAJWQFGFtsxYCwgx03jN0UWzfJB04Lj
+	TdwjqvhROdFn489Q0hslUQf1FgelecTaTLMH9chvoAVhiiomYYl6z5Z1pHD++1IP
+	AAsjFy+/eqveHRD9IXx1lSoBPx/rqJFlCOqRMp6hhGd3hNwthVLv3PuWNgA64dog
+	2h3U/ReK7n7Cs81T8NNtOVenpA8ehUGqLjmm/PE0waH7bajbatzVkMwwZWY52HIy
+	ySVoN6Nsq80VSn98i0E9R3AEfRHncLdtWgA==
+X-ME-Sender: <xms:JEBOZd6CwVfUWQj_21-V4Dki7JL9gUN0AlGZinej3FgM5zfNai0UiQ>
+    <xme:JEBOZa5IlqnsuEOQE6fz4i6ZkfRlVgnhwc2ONHZADJOZ9QxwKEv6ioi2wHzN_aMK-
+    sd6wQm7XCQ24dPGhfU>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedvkedruddvfedgieegucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepofgfggfkjghffffhvfevufgtgfesthhqredtreerjeenucfhrhhomhepfdet
+    rhhnugcuuegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrg
+    htthgvrhhnpeegfeejhedvledvffeijeeijeeivddvhfeliedvleevheejleetgedukedt
+    gfejveenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpe
+    grrhhnugesrghrnhgusgdruggv
+X-ME-Proxy: <xmx:JEBOZUeeERb75L_fGrTXVE81bjnNfxtcUnyJf31mJ1iyWZFFwcmOuw>
+    <xmx:JEBOZWKaC_rdROcG14Lll1CUt5xfi_e10sk8_B8YBhUB8Oz4_sANMA>
+    <xmx:JEBOZRKMQG6h6D6YnqZzLSYUbvNnaXhf2VTprYNF5li_r3bdvSDB9A>
+    <xmx:JUBOZeFqg4kUEj6SC61u-1UOR1NmzwY1Dk9NDTRLTqeftbFBpxOe3Q>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+	id C643AB60089; Fri, 10 Nov 2023 09:37:24 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.9.0-alpha0-1108-g3a29173c6d-fm-20231031.005-g3a29173c
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|DU5PR08MB10677:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7eb6612e-5357-4261-0d0c-08dbe1fa06a1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	3/ZG1zEKa/EvrnaTVvKVjzx8LUCQED/iWVIeyRc/AdsHQ+dEYBjG7BEV+jh13xBITsFAMBWRdcaN5W4UQ4ysNW+Rx9b/iQMfUCSn+Ju7/jmivLgnxRvOHE+iZBs/NEK5wKeK1lmCJRQ24NQptSecGcTrk7nBjB0v3YfTOnekQ62/PiSRSXxQv/nP/6twK6+nu9WRlzisuME7pGq6Srfn4BRv+DDogbV8Bo8cSbGb8l5PfYIv3iYTd7MP/MVw2rCbH7fmiegJGwNFuFRaiLvs6YH8jixCAZLTWb9P2PJvixwelbednDtIBZ7buQ0fMHgxOkArS/bieUWMdNHEixrtxFCxChGxDMXiO5tyTouvHGivz7NdkunoMBZY3h45lhS1dapqc73zx8QTxPs2hbACM/zRryL0WTlBy+HT4gXb90CHM3F3xpxJuWkeCsMHcXNHjHtA/fE7qC7vRSt34axkExvYzxSt7MDCBae06wOOnZZzIkRxOvHmD0RlGOG05MSCZLI0taQW6wwTiVsO5IUhoUXX1JubbRFvNlT9JBGxEyXD6RPwgiU3lYwVilkG+B1Mp5teiMHRwg65SUhtonAjiCvDppktQmYlEmHNGNAWEsS+BQ5tOz41Eb2r8UJ1QL1dv+xIYBeHUYO16hJo6HBWRw==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(39850400004)(366004)(396003)(136003)(230922051799003)(1800799009)(64100799003)(451199024)(186009)(26005)(2616005)(83380400001)(66946007)(6666004)(6506007)(36916002)(478600001)(66556008)(53546011)(6512007)(31696002)(2906002)(8676002)(4326008)(36756003)(8936002)(41300700001)(5660300002)(38100700002)(7416002)(86362001)(44832011)(66476007)(316002)(6486002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?TTh1VW1sc3FuRy83VlNETkNmT1RNZDBJQU93QnYzVVcvY3M3K1duZ0dIbklo?=
- =?utf-8?B?TERleXNleUdxQnd5Y0Q1azV0MHRQUzFuaFhjWDhQeXpnQUREeS9udHVwQ0hv?=
- =?utf-8?B?ajRLOEprMC83MlF0bDNWbGt0OWRuRE5Fcmx5YlZ5TzdiU2dFdWFlanBNV29y?=
- =?utf-8?B?N0d2Rldhb1BwR3ArRTdVOEMvakZONno4L0dRUmhHZUFESWh4dWtUTlRyU2pq?=
- =?utf-8?B?bnJJZmI1R0thTEVUSnFLcWdnUGdUQ0MwbHZGcksyUGkxUzRLZXdHNmtTZmZM?=
- =?utf-8?B?dXFXMXRrNDdXQ3pyNS9BY0pRWkpkK3pQL3l0RCtkRWlXQXZDbjZVSGhVUDFL?=
- =?utf-8?B?OElDVlBwZDFjTDMzR3hGVFR4ZGQ3TlhQRlRvc2t3RE9VdVhUdFVVZC9hMHFF?=
- =?utf-8?B?L3JicmFlczhZY2s5NjlNbi9yZkt3U2kzWGUxbndwZnpTTlNoQVZBYllWSmpM?=
- =?utf-8?B?ZC9HalJvSDh0SFdTNS9LT0R3SU1JTlFsQ0pOVWV3NmFjRUt4LytsN2wvRmVR?=
- =?utf-8?B?YnNxU1NWZTVoekVWUGNWNFNob0ZDS2dxOGdHeVhjU2U1YVB2bllualAxUll1?=
- =?utf-8?B?Szg2ZC9lb3BYYUdEcHVPRCtnUXRDUzhmS2Rva1lhTm1rZ1BrS1kwQzRhVHZT?=
- =?utf-8?B?QWlHT29ZOTVRMGZCUkRLYjZlN0JuemNFWTJYQzlXNFRXY0tiRGtSR04zY1hV?=
- =?utf-8?B?NHN5MnRoOVZLTkk4YUQraURzZHIzR00rbU1Zb1hENU1WQ1Vxa3d4aGszNXg2?=
- =?utf-8?B?c0NWNzRMT0JnVHJMRGovVnNLZnQvTFdqcGt4clZ3TXROK3JRU29BN2ZlUHd3?=
- =?utf-8?B?UGVpSnk4U0FOWFJ3ZDhxY2cvT0RJSWlFU0c5LytQTDQ0Mi82UUxlWkRFMzFJ?=
- =?utf-8?B?L29zWndrKzIzK1NBaDg2ZUpreFJBekRscUhMUEhkYVgzZDNUYzJ6NHY0K01m?=
- =?utf-8?B?dzFuM1IxQU9IU3ArTTdsMEt1ck9tQUdadG9JOUUwTXA4NElFMHVQdDBhcmpm?=
- =?utf-8?B?WTUwV0lLRElQUjNYcU14RFNKY2d6TXgxQnFZb2l4eUxhVVYwUjRCRGZzTnl2?=
- =?utf-8?B?NHIvN3ZTOWlHanljZHZYdTQzVXdCVTJVL0hnUVIySmIrb1J0MlQ1QzlNb1JF?=
- =?utf-8?B?WTRaUzFOa0plMzV4bFlMU1oxVHMxajlWUU9mUU5yZXdzdW9vQlhzRDMxWXJq?=
- =?utf-8?B?WHMzckVLdVJsWkNKZ2NDT09yN04zV3FiUE80U0FzRlZBSjdKUFU0NzBscURU?=
- =?utf-8?B?S3IzMFNYeHhwQ1FuUGRKSnEwc2tHSk5UbFpGTGpGVVM2VWtVd3Q5MVdLdTU5?=
- =?utf-8?B?Sk0wQ2tZbVE4VXpsdThBTldOcWFGWjdRUEthMDdBQmN0L2hIYWYzQVFzbTRk?=
- =?utf-8?B?c213UGw4b2x3UjJDWmlCS0IzQ2dJbEFlcEx4ZFJFV0N2Mk9ieG44UXdrOUky?=
- =?utf-8?B?M3BCWUlqMGRJUEJ6UXkva3ZDTU01NmFDUEVYYVlYZGNCYnVsV3o1Y0liT1Ex?=
- =?utf-8?B?ZDZNNnVLM1hXdHc1eHlYSmpPK095UFl1Qm5Ga1hsc1dENDg0UW1iWkNLWmhX?=
- =?utf-8?B?b3JkTkVEUG56YVJ2anNhWTZEczMrdzl6L0hoRFpPYkpWQjU1V2pHclo4QlBq?=
- =?utf-8?B?WVE1MGJJSVU3SGFyazJTeTEydjNFTDJUNlN3TyswRTJYaktUbzJ6b2hNMkZr?=
- =?utf-8?B?Y3RHSzFLclpoRUMvM0ZSSFowK3NQeFRRMlR2UXFJNkZ2bWdYSWthWnkzNGFT?=
- =?utf-8?B?V1dCbGdicXlLbjdNeklDdzVtRk9KQ0NmVmVuOHdTUjgwczNFNmdGMi93RHcy?=
- =?utf-8?B?LzlTNzBWQnBrNjBuYzVmR3pTN2IxUHZMZVlmczFGbXJMT2VHZjVDamJ4cDZv?=
- =?utf-8?B?dGQ0MzE2aHlicmh4MlpFQkd1OUJSdEErRitGN0x5OGRlWjJpcktReVNhQkNE?=
- =?utf-8?B?cDJaVTUyeHUvMm9BVDFvQVJKM1ROM3hFMjNhaHlpN3FtMjhRNlhyN1dld3Bh?=
- =?utf-8?B?YW95NVZMMDNoL2phc2daRmN4M080YURWYkRyRXFadUp2RndHTEhNTGttOHRk?=
- =?utf-8?B?MFREZEZOY2lnRlp4WUN4b0gzMitwbk5XZlFDL3pSZDFNSm0walNHajllZ2I4?=
- =?utf-8?B?YWdHTnk3V2lrOUFiV1hjcHZTUVF1UWd1MUI1bnprYTRJSVdaZXVRNlN4bkha?=
- =?utf-8?B?ckE9PQ==?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7eb6612e-5357-4261-0d0c-08dbe1fa06a1
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2023 14:33:37.3953
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: sXPprwWSmNOEixHr23wPCEire6VXPn8ZHyaet6ZsQn2tNpiuOhKDtZUrHdQ0j7jhpfZVAldzyqRad7NUsi/tBsOMUmwlR8H4R2EEu9uo07E=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU5PR08MB10677
+Message-Id: <2c56410f-2762-4b3c-b37e-e8db75d30560@app.fastmail.com>
+In-Reply-To: <49c002db-fb3e-4e2c-adb4-0be05d4b27e6@gpxsee.org>
+References: <20231023160539.1537355-1-arnd@kernel.org>
+ <20231023160539.1537355-2-arnd@kernel.org>
+ <25173a48-529c-463b-88aa-2ee75dd604ff@gpxsee.org>
+ <75a110d5-c544-44b3-8155-ddfadbe1bd88@app.fastmail.com>
+ <49c002db-fb3e-4e2c-adb4-0be05d4b27e6@gpxsee.org>
+Date: Fri, 10 Nov 2023 15:37:04 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>,
+ "Arnd Bergmann" <arnd@kernel.org>,
+ "Martin Tuma" <martin.tuma@digiteqautomotive.com>,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: pci: mgb4: remove bogus 'select' statements
+Content-Type: text/plain;charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mehdi,
+On Wed, Nov 8, 2023, at 19:33, Martin T=C5=AFma wrote:
+> On 08. 11. 23 17:13, Arnd Bergmann wrote:
+>> On Fri, Oct 27, 2023, at 16:17, Martin T=C5=AFma wrote:
+>>> On 23. 10. 23 18:05, Arnd Bergmann wrote:
+>>>> From: Arnd Bergmann <arnd@arndb.de>
+>
+> On SoCs you probably get a kernel configuration that is missing some=20
+> feature but still boots up when you do not select/depend on the exact=20
+> controller, but in the case of the mgb4 PCIe card you get a driver tha=
+t=20
+> does not work at all (The SPI_XILINX dependency could theoretically be=20
+> made configurable, but you would lose the ability to flash the correct=20
+> FW for the current HW module and the access to the card's serial numbe=
+r.=20
+> I2C and XDMA are crucial.).
 
-Sorry, forgot one thing:
+My point was that we do this all the time for things that are
+essential: if your clock controller or the irqchip have
+no driver, then the camera device won't work, but neither
+would anything else.
 
-On 11/8/23 17:38, Mehdi Djait wrote:
-> [...]
-> diff --git a/drivers/media/platform/rockchip/cif/dev.c b/drivers/media/platform/rockchip/cif/dev.c
-> new file mode 100644
-> index 000000000000..f7d061a13577
-> --- /dev/null
-> +++ b/drivers/media/platform/rockchip/cif/dev.c
-> @@ -0,0 +1,289 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Rockchip CIF Camera Interface Driver
-> + *
-> + * Copyright (C) 2018 Rockchip Electronics Co., Ltd.
-> + * Copyright (C) 2020 Maxime Chevallier <maxime.chevallier@bootlin.com>
-> + * Copyright (C) 2023 Mehdi Djait <mehdi.djait@bootlin.com>
-> + */
-> +
-> +#include "linux/platform_device.h"
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/interrupt.h>
-> +#include <linux/module.h>
-> +#include <linux/of.h>
-> +#include <linux/of_graph.h>
-> +#include <linux/of_platform.h>
-> +#include <linux/of_reserved_mem.h>
-> +#include <linux/reset.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/pinctrl/consumer.h>
-> +#include <media/v4l2-fwnode.h>
-> +
-> +#include "dev.h"
-> +#include "regs.h"
-> +
-> +static int subdev_notifier_complete(struct v4l2_async_notifier *notifier)
-> +{
-> +	struct cif_device *cif_dev;
-> +	struct v4l2_subdev *sd;
-> +	int ret;
-> +
-> +	cif_dev = container_of(notifier, struct cif_device, notifier);
-> +	sd = cif_dev->remote.sd;
-> +
-> +	mutex_lock(&cif_dev->media_dev.graph_mutex);
-> +
-> +	ret = v4l2_device_register_subdev_nodes(&cif_dev->v4l2_dev);
-> +	if (ret < 0)
-> +		goto unlock;
-> +
-> +	ret = media_create_pad_link(&sd->entity, 0,
-> +				    &cif_dev->stream.vdev.entity, 0,
-> +				    MEDIA_LNK_FL_ENABLED);
-> +	if (ret)
-> +		dev_err(cif_dev->dev, "failed to create link");
-> +
-> +unlock:
-> +	mutex_unlock(&cif_dev->media_dev.graph_mutex);
-> +	return ret;
-> +}
-> +
-> +static int subdev_notifier_bound(struct v4l2_async_notifier *notifier,
-> +				 struct v4l2_subdev *subdev,
-> +				 struct v4l2_async_connection *asd)
-> +{
-> +	struct cif_device *cif_dev = container_of(notifier,
-> +						  struct cif_device, notifier);
-> +	int pad;
-> +
-> +	cif_dev->remote.sd = subdev;
-> +	pad = media_entity_get_fwnode_pad(&subdev->entity, subdev->fwnode,
-> +					  MEDIA_PAD_FL_SOURCE);
-> +	if (pad < 0)
-> +		return pad;
-> +
-> +	cif_dev->remote.pad = pad;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_async_notifier_operations subdev_notifier_ops = {
-> +	.bound = subdev_notifier_bound,
-> +	.complete = subdev_notifier_complete,
-> +};
-> +
-> +static int cif_subdev_notifier(struct cif_device *cif_dev)
-> +{
-> +	struct v4l2_async_notifier *ntf = &cif_dev->notifier;
-> +	struct device *dev = cif_dev->dev;
-> +	struct v4l2_async_connection *asd;
-> +	struct v4l2_fwnode_endpoint vep = {
-> +		.bus_type = V4L2_MBUS_PARALLEL,
+So in a SoC setting, you really just need to enable all
+the drivers for devices on that chip through the .config.
 
-This is surprising. I had to set this to V4L2_MBUS_UNKNOWN, otherwise
-v4l2_fwnode_endpoint_parse would yield -ENXIO, which indicates a bus
-type mismatch. Does this really work for your (BT.656, right?) setup?
+>> Since this is a PCI device, it's a bit different, so maybe
+>> something like this would work to correctly document which
+>> dependencies are required at build time vs run time:
+>>=20
+>> --- a/drivers/media/pci/mgb4/Kconfig
+>> +++ b/drivers/media/pci/mgb4/Kconfig
+>> @@ -1,15 +1,13 @@
+>>   # SPDX-License-Identifier: GPL-2.0-only
+>>   config VIDEO_MGB4
+>>          tristate "Digiteq Automotive MGB4 support"
+>> -       depends on VIDEO_DEV && PCI && I2C && DMADEVICES && SPI && MT=
+D && IIO
+>> +       depends on VIDEO_DEV && PCI && I2C && SPI && MTD && IIO
+>>          depends on COMMON_CLK
+>> +       depends on XILINX_XDMA
+>> +       depends on (I2C_XILINX && SPI_XILINX) || COMPILE_TEST
+>>          select VIDEOBUF2_DMA_SG
+>>          select IIO_BUFFER
+>>          select IIO_TRIGGERED_BUFFER
+>> -       select I2C_XILINX
+>> -       select SPI_XILINX
+>> -       select MTD_SPI_NOR
+>> -       select XILINX_XDMA
+>>          help
+>>            This is a video4linux driver for Digiteq Automotive MGB4 g=
+rabber
+>>            cards.
+>>=20
+>
+> My motivation when using "select" was to help people using "make=20
+> menuconfig" to get the module selected/configured as they will usually=20
+> not know that there are some Xilinx IP cores used that need separate=20
+> drivers and the menuconfig GUI simply hides the mgb4 option making it=20
+> almost impossible just from the menus to find out what has to be selec=
+ted.
+>
+> But when there are reasons, why to chose "depends on" (like various=20
+> configurations, tests or the "readability" of the dependencies) than I=
+'m=20
+> ok with your patch proposal.
 
-I think we should get the bus type from the device tree, right?
+The main reason to use 'depends on' over 'select' here is that
+mixing the two is a common source of dependency loops that end
+up breaking the build. As a rule of thumb, I would use 'select'
+only for symbols that others already select, or that are hidden
+from visibility.
 
-Thanks and best regards,
-Michael
-
-> [...]
+      Arnd
 
