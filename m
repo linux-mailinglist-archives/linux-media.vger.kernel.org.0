@@ -1,205 +1,248 @@
-Return-Path: <linux-media+bounces-46-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB8A57E7F20
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:49:58 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 861F77E7F17
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:49:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 36576B222BE
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:49:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A6F421C20E6B
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:49:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 521A53D976;
-	Fri, 10 Nov 2023 17:47:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 909093D960;
+	Fri, 10 Nov 2023 17:47:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XEpbuUGp"
+	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="ZWULn38U"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1A913B7B1;
-	Fri, 10 Nov 2023 17:46:56 +0000 (UTC)
-Received: from mail-lf1-x134.google.com (mail-lf1-x134.google.com [IPv6:2a00:1450:4864:20::134])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A83A38EA7;
-	Fri, 10 Nov 2023 06:28:03 -0800 (PST)
-Received: by mail-lf1-x134.google.com with SMTP id 2adb3069b0e04-507973f3b65so2909603e87.3;
-        Fri, 10 Nov 2023 06:28:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1699626482; x=1700231282; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=Lmt2rY/D/CtOpYCyO0BO3zcHPLGs1JE21dVJIkVZZMQ=;
-        b=XEpbuUGpeql5W7m1dEFVEb+F8gMc08FKBibXPne405GHqC5X7JVX3LcvKqFyhR5T3L
-         90OMKDZUkXr712GxrYpEzwFwbIzUIiY47OFm4Xyfbs4w4m8Dy6QRRVhqSjdtFL3MtS0K
-         ERLqkWC6UuLiPZRPBsPOGrfKNiqkXq3yGSHREZQK8+xxcEEt2OQeoC94dmB2LYG6uPaD
-         EdwM+RHxwpmEzQoPJECej/n1FkBUUD7bg6+BH/XCO5kASIYXuVJ7EWB1Z+Kr3cz3nZCi
-         C1cvdIFqnMi7MuTbri8O5RubsM5rKs6Bl0HfoUDl2XqN5ZnC/a5MoBbsuQ3EdQp+DEjM
-         lGjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699626482; x=1700231282;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Lmt2rY/D/CtOpYCyO0BO3zcHPLGs1JE21dVJIkVZZMQ=;
-        b=K8xlq4Q7FP2AlUCdPFdKlLEN4BP02kk4cba7W6QIIx4BEa/QxDnvuU93k/V0lXuktL
-         L3UpPjvUf9T4KMAEgCeblWRpWVBG7rWsJR2ZHHsvRT5lBUzQ7VUnJ1SVXlo0R40JSdWu
-         aSgCDj4EvXRBvO0y36QwxpnuUDJtBONCL8KZpJFg+Z+kPpOlgOVhd0z+RhXowGP0ZNAq
-         peU/2bY+bT0XrCWWng2ks+DWb0/Jw41ZkcU55RqWGv+7x7moDTLIxdUnIuiutipUKgnH
-         CKfGv5AK2E7WWOUKKelFwpzyh+jZsIl8LHIkGir+GCkD1YXL+2vdRIrqfO18+K4tLLQx
-         wE6g==
-X-Gm-Message-State: AOJu0Yziq5jVDWUQN9Ner4vR5bqW3THigAz3vWn6v3XGSS1ib7JkpWoH
-	+5cLABZ7EUuffE253pZQEHHEBqzd2wHX0w==
-X-Google-Smtp-Source: AGHT+IFTo4QzKaHnf9JDfRPiLL22Yfoec65OGGtyn4UX6ZCRDspRCqMEHROz96TnecT8pMjBqFvQ1w==
-X-Received: by 2002:a19:7107:0:b0:507:9787:6776 with SMTP id m7-20020a197107000000b0050797876776mr3970775lfc.5.1699626481467;
-        Fri, 10 Nov 2023 06:28:01 -0800 (PST)
-Received: from [192.168.8.100] ([148.252.132.154])
-        by smtp.gmail.com with ESMTPSA id r5-20020a5d6945000000b0032fdcbfb093sm2003034wrw.81.2023.11.10.06.27.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Nov 2023 06:28:00 -0800 (PST)
-Message-ID: <3687e70e-29e6-34af-c943-8c0830ff92b8@gmail.com>
-Date: Fri, 10 Nov 2023 14:26:46 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E30C3C697
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:56 +0000 (UTC)
+Received: from EUR04-DB3-obe.outbound.protection.outlook.com (mail-db3eur04on2040.outbound.protection.outlook.com [40.107.6.40])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EEF738EBE;
+	Fri, 10 Nov 2023 06:33:40 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=e+a6Wl9c+E/jFLIGtq74Zaz6gYNACvh9MIRRmX93SZFdI5iHaFmSd3M57QEUFkuUdcsJNjvyqOAYqKtEwaY57lung11PjBbQP6PSTkpUv1KnyPxE/DcqJJ2P+C+PJY0euYn86voInmXpzsMY9VgAgOMsR0wQcgzrA/4ZVmUOhbIfe7/yt17k5xABFTHC5+FyD2J4p5Mh6Kr9UJ8f9D9lboAB594K8Kj0hukAsN/cd05JnRZQuPPFtLqRuGfepshU/cuwK8/Q3MBIUq3UrMrjQCZuZxn5i/sp91Yifo7SjJi+6k3eFfQeF2+M3FxiyF0pYdLxdYmOY8KwgzF7p2bA+g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/5mm/cfLURsvfIFkDBAOFR9a83Dvniqyx6o7xS2f+t8=;
+ b=ezwL/AQeLHQRJN3Tu3aRF4oC4PeHyxGfg14Ctg3x7DRGbYR8y58rEHrSO6JZwTyLCoSEMT2IvA/zhJOaRpIEURwZQbNfskIAuZrA6mKGE9PLoctESpSHoQCryL9yI0YWL7KU9qbELDSUc1wGJzEUmuZW7Acn21rNU03KVmZOqVfE4JjR/zcnkV8XfMe31cHpUptNMIajAWNACzfRnFWSEMLue4cHIEDwdXsvsp77k0X6lUGTotBzCskMjhVLYApciJ7pNbOVlWsuBWwG1Si5eKSBIvqA3mkF7x3UmzrqKkTA7+Dq5SHWZc22G0DyDbc5eIKeZX2lIw0n7wjqA6k/JA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/5mm/cfLURsvfIFkDBAOFR9a83Dvniqyx6o7xS2f+t8=;
+ b=ZWULn38UOT/7SHGuJ7mO86CnoaQeLfHvuX8IgZAmrYNCVTWx5N+SwUqLJ2edpvRFfctqw0A3YRfSPSUZsYxofSI1nG8MMDnGhR90uBB1qhysuHjEjweasgI/BZt/+eol0iRDgKlrtGzDJErcDHNGA7FAf9XFO9V4DnYU6aSAZ+E=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
+ by DU5PR08MB10677.eurprd08.prod.outlook.com (2603:10a6:10:529::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6954.28; Fri, 10 Nov
+ 2023 14:33:37 +0000
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::79a1:5ad6:b221:ad]) by DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::79a1:5ad6:b221:ad%4]) with mapi id 15.20.6977.019; Fri, 10 Nov 2023
+ 14:33:37 +0000
+Message-ID: <4f9bc04b-81af-49ee-9818-d4cd281504e7@wolfvision.net>
+Date: Fri, 10 Nov 2023 15:33:34 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 2/3] media: rockchip: Add a driver for Rockchip's
+ camera interface
+Content-Language: en-US
+To: Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+ heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
+ paul.kocialkowski@bootlin.com
+References: <cover.1699460637.git.mehdi.djait@bootlin.com>
+ <bcc0b84f4a6a8cf4c007cfe25025060b22627408.1699460637.git.mehdi.djait@bootlin.com>
+From: Michael Riesch <michael.riesch@wolfvision.net>
+Organization: WolfVision GmbH
+In-Reply-To: <bcc0b84f4a6a8cf4c007cfe25025060b22627408.1699460637.git.mehdi.djait@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR0902CA0048.eurprd09.prod.outlook.com
+ (2603:10a6:802:1::37) To DU0PR08MB9155.eurprd08.prod.outlook.com
+ (2603:10a6:10:416::5)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v3 05/12] netdev: netdevice devmem allocator
-To: Mina Almasry <almasrymina@google.com>, David Ahern <dsahern@kernel.org>,
- David Wei <dw@davidwei.uk>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann
- <arnd@arndb.de>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
- <20231106024413.2801438-6-almasrymina@google.com>
- <3b0d612c-e33b-48aa-a861-fbb042572fc9@kernel.org>
- <CAHS8izOHYx+oYnzksUDrK1S0+6CdMJmirApntP5W862yFumezw@mail.gmail.com>
- <a5b95e6b-8716-4e2e-9183-959b754b5b5e@kernel.org>
- <CAHS8izMKDOw5_y2MLRfuJHs=ai+sZ6GF7Rg1NuR_JqONg-5u5Q@mail.gmail.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAHS8izMKDOw5_y2MLRfuJHs=ai+sZ6GF7Rg1NuR_JqONg-5u5Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|DU5PR08MB10677:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7eb6612e-5357-4261-0d0c-08dbe1fa06a1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	3/ZG1zEKa/EvrnaTVvKVjzx8LUCQED/iWVIeyRc/AdsHQ+dEYBjG7BEV+jh13xBITsFAMBWRdcaN5W4UQ4ysNW+Rx9b/iQMfUCSn+Ju7/jmivLgnxRvOHE+iZBs/NEK5wKeK1lmCJRQ24NQptSecGcTrk7nBjB0v3YfTOnekQ62/PiSRSXxQv/nP/6twK6+nu9WRlzisuME7pGq6Srfn4BRv+DDogbV8Bo8cSbGb8l5PfYIv3iYTd7MP/MVw2rCbH7fmiegJGwNFuFRaiLvs6YH8jixCAZLTWb9P2PJvixwelbednDtIBZ7buQ0fMHgxOkArS/bieUWMdNHEixrtxFCxChGxDMXiO5tyTouvHGivz7NdkunoMBZY3h45lhS1dapqc73zx8QTxPs2hbACM/zRryL0WTlBy+HT4gXb90CHM3F3xpxJuWkeCsMHcXNHjHtA/fE7qC7vRSt34axkExvYzxSt7MDCBae06wOOnZZzIkRxOvHmD0RlGOG05MSCZLI0taQW6wwTiVsO5IUhoUXX1JubbRFvNlT9JBGxEyXD6RPwgiU3lYwVilkG+B1Mp5teiMHRwg65SUhtonAjiCvDppktQmYlEmHNGNAWEsS+BQ5tOz41Eb2r8UJ1QL1dv+xIYBeHUYO16hJo6HBWRw==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(39850400004)(366004)(396003)(136003)(230922051799003)(1800799009)(64100799003)(451199024)(186009)(26005)(2616005)(83380400001)(66946007)(6666004)(6506007)(36916002)(478600001)(66556008)(53546011)(6512007)(31696002)(2906002)(8676002)(4326008)(36756003)(8936002)(41300700001)(5660300002)(38100700002)(7416002)(86362001)(44832011)(66476007)(316002)(6486002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TTh1VW1sc3FuRy83VlNETkNmT1RNZDBJQU93QnYzVVcvY3M3K1duZ0dIbklo?=
+ =?utf-8?B?TERleXNleUdxQnd5Y0Q1azV0MHRQUzFuaFhjWDhQeXpnQUREeS9udHVwQ0hv?=
+ =?utf-8?B?ajRLOEprMC83MlF0bDNWbGt0OWRuRE5Fcmx5YlZ5TzdiU2dFdWFlanBNV29y?=
+ =?utf-8?B?N0d2Rldhb1BwR3ArRTdVOEMvakZONno4L0dRUmhHZUFESWh4dWtUTlRyU2pq?=
+ =?utf-8?B?bnJJZmI1R0thTEVUSnFLcWdnUGdUQ0MwbHZGcksyUGkxUzRLZXdHNmtTZmZM?=
+ =?utf-8?B?dXFXMXRrNDdXQ3pyNS9BY0pRWkpkK3pQL3l0RCtkRWlXQXZDbjZVSGhVUDFL?=
+ =?utf-8?B?OElDVlBwZDFjTDMzR3hGVFR4ZGQ3TlhQRlRvc2t3RE9VdVhUdFVVZC9hMHFF?=
+ =?utf-8?B?L3JicmFlczhZY2s5NjlNbi9yZkt3U2kzWGUxbndwZnpTTlNoQVZBYllWSmpM?=
+ =?utf-8?B?ZC9HalJvSDh0SFdTNS9LT0R3SU1JTlFsQ0pOVWV3NmFjRUt4LytsN2wvRmVR?=
+ =?utf-8?B?YnNxU1NWZTVoekVWUGNWNFNob0ZDS2dxOGdHeVhjU2U1YVB2bllualAxUll1?=
+ =?utf-8?B?Szg2ZC9lb3BYYUdEcHVPRCtnUXRDUzhmS2Rva1lhTm1rZ1BrS1kwQzRhVHZT?=
+ =?utf-8?B?QWlHT29ZOTVRMGZCUkRLYjZlN0JuemNFWTJYQzlXNFRXY0tiRGtSR04zY1hV?=
+ =?utf-8?B?NHN5MnRoOVZLTkk4YUQraURzZHIzR00rbU1Zb1hENU1WQ1Vxa3d4aGszNXg2?=
+ =?utf-8?B?c0NWNzRMT0JnVHJMRGovVnNLZnQvTFdqcGt4clZ3TXROK3JRU29BN2ZlUHd3?=
+ =?utf-8?B?UGVpSnk4U0FOWFJ3ZDhxY2cvT0RJSWlFU0c5LytQTDQ0Mi82UUxlWkRFMzFJ?=
+ =?utf-8?B?L29zWndrKzIzK1NBaDg2ZUpreFJBekRscUhMUEhkYVgzZDNUYzJ6NHY0K01m?=
+ =?utf-8?B?dzFuM1IxQU9IU3ArTTdsMEt1ck9tQUdadG9JOUUwTXA4NElFMHVQdDBhcmpm?=
+ =?utf-8?B?WTUwV0lLRElQUjNYcU14RFNKY2d6TXgxQnFZb2l4eUxhVVYwUjRCRGZzTnl2?=
+ =?utf-8?B?NHIvN3ZTOWlHanljZHZYdTQzVXdCVTJVL0hnUVIySmIrb1J0MlQ1QzlNb1JF?=
+ =?utf-8?B?WTRaUzFOa0plMzV4bFlMU1oxVHMxajlWUU9mUU5yZXdzdW9vQlhzRDMxWXJq?=
+ =?utf-8?B?WHMzckVLdVJsWkNKZ2NDT09yN04zV3FiUE80U0FzRlZBSjdKUFU0NzBscURU?=
+ =?utf-8?B?S3IzMFNYeHhwQ1FuUGRKSnEwc2tHSk5UbFpGTGpGVVM2VWtVd3Q5MVdLdTU5?=
+ =?utf-8?B?Sk0wQ2tZbVE4VXpsdThBTldOcWFGWjdRUEthMDdBQmN0L2hIYWYzQVFzbTRk?=
+ =?utf-8?B?c213UGw4b2x3UjJDWmlCS0IzQ2dJbEFlcEx4ZFJFV0N2Mk9ieG44UXdrOUky?=
+ =?utf-8?B?M3BCWUlqMGRJUEJ6UXkva3ZDTU01NmFDUEVYYVlYZGNCYnVsV3o1Y0liT1Ex?=
+ =?utf-8?B?ZDZNNnVLM1hXdHc1eHlYSmpPK095UFl1Qm5Ga1hsc1dENDg0UW1iWkNLWmhX?=
+ =?utf-8?B?b3JkTkVEUG56YVJ2anNhWTZEczMrdzl6L0hoRFpPYkpWQjU1V2pHclo4QlBq?=
+ =?utf-8?B?WVE1MGJJSVU3SGFyazJTeTEydjNFTDJUNlN3TyswRTJYaktUbzJ6b2hNMkZr?=
+ =?utf-8?B?Y3RHSzFLclpoRUMvM0ZSSFowK3NQeFRRMlR2UXFJNkZ2bWdYSWthWnkzNGFT?=
+ =?utf-8?B?V1dCbGdicXlLbjdNeklDdzVtRk9KQ0NmVmVuOHdTUjgwczNFNmdGMi93RHcy?=
+ =?utf-8?B?LzlTNzBWQnBrNjBuYzVmR3pTN2IxUHZMZVlmczFGbXJMT2VHZjVDamJ4cDZv?=
+ =?utf-8?B?dGQ0MzE2aHlicmh4MlpFQkd1OUJSdEErRitGN0x5OGRlWjJpcktReVNhQkNE?=
+ =?utf-8?B?cDJaVTUyeHUvMm9BVDFvQVJKM1ROM3hFMjNhaHlpN3FtMjhRNlhyN1dld3Bh?=
+ =?utf-8?B?YW95NVZMMDNoL2phc2daRmN4M080YURWYkRyRXFadUp2RndHTEhNTGttOHRk?=
+ =?utf-8?B?MFREZEZOY2lnRlp4WUN4b0gzMitwbk5XZlFDL3pSZDFNSm0walNHajllZ2I4?=
+ =?utf-8?B?YWdHTnk3V2lrOUFiV1hjcHZTUVF1UWd1MUI1bnprYTRJSVdaZXVRNlN4bkha?=
+ =?utf-8?B?ckE9PQ==?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7eb6612e-5357-4261-0d0c-08dbe1fa06a1
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2023 14:33:37.3953
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: sXPprwWSmNOEixHr23wPCEire6VXPn8ZHyaet6ZsQn2tNpiuOhKDtZUrHdQ0j7jhpfZVAldzyqRad7NUsi/tBsOMUmwlR8H4R2EEu9uo07E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU5PR08MB10677
 
-On 11/7/23 23:03, Mina Almasry wrote:
-> On Tue, Nov 7, 2023 at 2:55 PM David Ahern <dsahern@kernel.org> wrote:
->>
->> On 11/7/23 3:10 PM, Mina Almasry wrote:
->>> On Mon, Nov 6, 2023 at 3:44 PM David Ahern <dsahern@kernel.org> wrote:
->>>>
->>>> On 11/5/23 7:44 PM, Mina Almasry wrote:
->>>>> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
->>>>> index eeeda849115c..1c351c138a5b 100644
->>>>> --- a/include/linux/netdevice.h
->>>>> +++ b/include/linux/netdevice.h
->>>>> @@ -843,6 +843,9 @@ struct netdev_dmabuf_binding {
->>>>>   };
->>>>>
->>>>>   #ifdef CONFIG_DMA_SHARED_BUFFER
->>>>> +struct page_pool_iov *
->>>>> +netdev_alloc_devmem(struct netdev_dmabuf_binding *binding);
->>>>> +void netdev_free_devmem(struct page_pool_iov *ppiov);
->>>>
->>>> netdev_{alloc,free}_dmabuf?
->>>>
->>>
->>> Can do.
->>>
->>>> I say that because a dmabuf can be host memory, at least I am not aware
->>>> of a restriction that a dmabuf is device memory.
->>>>
->>>
->>> In my limited experience dma-buf is generally device memory, and
->>> that's really its use case. CONFIG_UDMABUF is a driver that mocks
->>> dma-buf with a memfd which I think is used for testing. But I can do
->>> the rename, it's more clear anyway, I think.
->>
->> config UDMABUF
->>          bool "userspace dmabuf misc driver"
->>          default n
->>          depends on DMA_SHARED_BUFFER
->>          depends on MEMFD_CREATE || COMPILE_TEST
->>          help
->>            A driver to let userspace turn memfd regions into dma-bufs.
->>            Qemu can use this to create host dmabufs for guest framebuffers.
->>
->>
->> Qemu is just a userspace process; it is no way a special one.
->>
->> Treating host memory as a dmabuf should radically simplify the io_uring
->> extension of this set.
-> 
-> I agree actually, and I was about to make that comment to David Wei's
-> series once I have the time.
-> 
-> David, your io_uring RX zerocopy proposal actually works with devmem
-> TCP, if you're inclined to do that instead, what you'd do roughly is
-> (I think):
-That would be a Frankenstein's monster api with no good reason for it.
-You bind memory via netlink because you don't have a proper context to
-work with otherwise, io_uring serves as the context with a separate and
-precise abstraction around queues. Same with dmabufs, it totally makes
-sense for device memory, but wrapping host memory into a file just to
-immediately unwrap it back with no particular benefits from doing so
-doesn't seem like a good uapi. Currently, the difference will be
-hidden by io_uring.
+Hi Mehdi,
 
-And we'd still need to have a hook in pp's get page to grab buffers from
-the buffer ring instead of refilling via SO_DEVMEM_DONTNEED and a
-callback for when skbs are dropped. It's just instead of a new pp ops
-it'll be a branch in the devmem path. io_uring might want to use the
-added iov format in the future for device memory or even before that,
-io_uring doesn't really care whether it's pages or not.
+Sorry, forgot one thing:
 
-It's also my big concern from how many optimisations it'll fence us off.
-With the current io_uring RFC I can get rid of all buffer atomic
-refcounting and replace it with a single percpu counting per skb.
-Hopefully, that will be doable after we place it on top of pp providers.
+On 11/8/23 17:38, Mehdi Djait wrote:
+> [...]
+> diff --git a/drivers/media/platform/rockchip/cif/dev.c b/drivers/media/platform/rockchip/cif/dev.c
+> new file mode 100644
+> index 000000000000..f7d061a13577
+> --- /dev/null
+> +++ b/drivers/media/platform/rockchip/cif/dev.c
+> @@ -0,0 +1,289 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Rockchip CIF Camera Interface Driver
+> + *
+> + * Copyright (C) 2018 Rockchip Electronics Co., Ltd.
+> + * Copyright (C) 2020 Maxime Chevallier <maxime.chevallier@bootlin.com>
+> + * Copyright (C) 2023 Mehdi Djait <mehdi.djait@bootlin.com>
+> + */
+> +
+> +#include "linux/platform_device.h"
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/module.h>
+> +#include <linux/of.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/of_platform.h>
+> +#include <linux/of_reserved_mem.h>
+> +#include <linux/reset.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/pinctrl/consumer.h>
+> +#include <media/v4l2-fwnode.h>
+> +
+> +#include "dev.h"
+> +#include "regs.h"
+> +
+> +static int subdev_notifier_complete(struct v4l2_async_notifier *notifier)
+> +{
+> +	struct cif_device *cif_dev;
+> +	struct v4l2_subdev *sd;
+> +	int ret;
+> +
+> +	cif_dev = container_of(notifier, struct cif_device, notifier);
+> +	sd = cif_dev->remote.sd;
+> +
+> +	mutex_lock(&cif_dev->media_dev.graph_mutex);
+> +
+> +	ret = v4l2_device_register_subdev_nodes(&cif_dev->v4l2_dev);
+> +	if (ret < 0)
+> +		goto unlock;
+> +
+> +	ret = media_create_pad_link(&sd->entity, 0,
+> +				    &cif_dev->stream.vdev.entity, 0,
+> +				    MEDIA_LNK_FL_ENABLED);
+> +	if (ret)
+> +		dev_err(cif_dev->dev, "failed to create link");
+> +
+> +unlock:
+> +	mutex_unlock(&cif_dev->media_dev.graph_mutex);
+> +	return ret;
+> +}
+> +
+> +static int subdev_notifier_bound(struct v4l2_async_notifier *notifier,
+> +				 struct v4l2_subdev *subdev,
+> +				 struct v4l2_async_connection *asd)
+> +{
+> +	struct cif_device *cif_dev = container_of(notifier,
+> +						  struct cif_device, notifier);
+> +	int pad;
+> +
+> +	cif_dev->remote.sd = subdev;
+> +	pad = media_entity_get_fwnode_pad(&subdev->entity, subdev->fwnode,
+> +					  MEDIA_PAD_FL_SOURCE);
+> +	if (pad < 0)
+> +		return pad;
+> +
+> +	cif_dev->remote.pad = pad;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_async_notifier_operations subdev_notifier_ops = {
+> +	.bound = subdev_notifier_bound,
+> +	.complete = subdev_notifier_complete,
+> +};
+> +
+> +static int cif_subdev_notifier(struct cif_device *cif_dev)
+> +{
+> +	struct v4l2_async_notifier *ntf = &cif_dev->notifier;
+> +	struct device *dev = cif_dev->dev;
+> +	struct v4l2_async_connection *asd;
+> +	struct v4l2_fwnode_endpoint vep = {
+> +		.bus_type = V4L2_MBUS_PARALLEL,
 
+This is surprising. I had to set this to V4L2_MBUS_UNKNOWN, otherwise
+v4l2_fwnode_endpoint_parse would yield -ENXIO, which indicates a bus
+type mismatch. Does this really work for your (BT.656, right?) setup?
 
-> - Allocate a memfd,
-> - Use CONFIG_UDMABUF to create a dma-buf out of that memfd.
-> - Bind the dma-buf to the NIC using the netlink API in this RFC.
-> - Your io_uring extensions and io_uring uapi should work as-is almost
-> on top of this series, I think.
-> 
-> If you do this the incoming packets should land into your memfd, which
-> may or may not work for you. In the future if you feel inclined to use
-> device memory, this approach that I'm describing here would be more
-> extensible to device memory, because you'd already be using dma-bufs
-> for your user memory; you'd just replace one kind of dma-buf (UDMABUF)
-> with another.
-> 
->> That the io_uring set needs to dive into
->> page_pools is just wrong - complicating the design and code and pushing
->> io_uring into a realm it does not need to be involved in.
+I think we should get the bus type from the device tree, right?
 
-I disagree. How does it complicate it? io_uring will be just a yet another
-provider implementing the callbacks of the API created for such use cases
-and not changing common pp/net bits. The rest of code is in io_uring
-implementing interaction with userspace and other usability features, but
-there will be anyway some amount of code if we want to have a convenient
-and performant api via io_uring.
+Thanks and best regards,
+Michael
 
-
->>
->> Most (all?) of this patch set can work with any memory; only device
->> memory is unreadable.
-
--- 
-Pavel Begunkov
+> [...]
 
