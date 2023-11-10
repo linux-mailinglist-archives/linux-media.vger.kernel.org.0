@@ -2,61 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 83D507E7653
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 02:05:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E41247E7659
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 02:05:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345605AbjKJBFD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 20:05:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37794 "EHLO
+        id S1345618AbjKJBFE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 20:05:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37852 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345556AbjKJBE6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 20:04:58 -0500
-Received: from mail-wr1-x433.google.com (mail-wr1-x433.google.com [IPv6:2a00:1450:4864:20::433])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A97EF3AA8
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 17:04:55 -0800 (PST)
-Received: by mail-wr1-x433.google.com with SMTP id ffacd0b85a97d-32fadd4ad09so975827f8f.1
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 17:04:55 -0800 (PST)
+        with ESMTP id S1345579AbjKJBFC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 20:05:02 -0500
+Received: from mail-wr1-x431.google.com (mail-wr1-x431.google.com [IPv6:2a00:1450:4864:20::431])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 450763C0E
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 17:04:57 -0800 (PST)
+Received: by mail-wr1-x431.google.com with SMTP id ffacd0b85a97d-32f70391608so806141f8f.2
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 17:04:57 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699578294; x=1700183094; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1699578296; x=1700183096; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=NKsHRR5klFapXriXDSpK/4ZIoJHsCD71ZkBa5s46f1Y=;
-        b=uerdIJ9V94uTGjQZrctBWdhsXlrDiTx0heM5oOoMxmpdtIFQ+98AE8d+KIEvBx38Tr
-         QhjYGG5RoM24k4RBcaWJCYEIIAmdOalDSglF06CnSbVYtCkZjBVcPOAj7hXAgb63bOXY
-         QYbnMoyrMFTnbPUlu+3qH3+K21J6lJadM/2kpo2Say2keQV3dso31yD6rqIHNMGRVkZl
-         S4oqSQLIGtafWhB/GF0W97F5pSFjOxnF+zeoboSsZObWoV8963mdc98q4LvlKhXozfpZ
-         cIUuRMlTv8jtFxrcJA3JcV3hWuWVJr3+5mmjCv3lFOcsmUv0WgL7w5ejadeBrwGJta9l
-         0n3A==
+        bh=6UZm8hAOKMCqLDs1sWYmMkU2CkeYt5yTSm08fqnAyqo=;
+        b=gsMqwkyJzGLDcoJSR/PT8Bga4xJYNlPfChqIBSpgUiPsRPmWq54k44newDaAud5cI4
+         ri+iPdrViEGuqqL3P86aDxnBCXekpDOL7vKxd8U0YK04LQ/wbB0rb8QJnHy+nRw2eskB
+         NOMpiWjL+IJkQeo7gBlhSNHdZ5WRoMAb/1gppWk/77ZQTFchHqBPcJhVfahI+ZDZYKzx
+         4vBi5dGarpq9uCxVNZBDbRkYesXrSQyR0yII8GTPE1eIBgnZAWRJ8W7Sixk/RlIQ87Uk
+         V9H5EDxK9zriQjk54VhJetWWXuXU/g360dBP8lZrrKvsvJpk2l9LwCkfs8x9Cz6Di1VV
+         TQHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699578294; x=1700183094;
+        d=1e100.net; s=20230601; t=1699578296; x=1700183096;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=NKsHRR5klFapXriXDSpK/4ZIoJHsCD71ZkBa5s46f1Y=;
-        b=Yh5YHU6v2cwyahYbVKbYrssqbe4fbyFctt+zAnxHacApPM/Tf5YaworWxgC6f8xrq2
-         +c2vn+5XGsHYrnAAiSX818sz4x6Mtf6Mj3uJR0NHrhTVt7EPXBiH3aeNJx0FZiYoU5fQ
-         i0fkZyGA9O8apLgQJyrqzW4FokysH9pBqSX5YF88zfNIKe55S0UAY5JelHuAgjnkoyoB
-         oZrXjlAW5EYN2bWKx6/jxe1Ere9MbWc4lNlOzA7dAyk5sPQO8d1iRsH80vKzSwXkQCHJ
-         CoNoHUjhoNfws/Xi7a3q8NRGcfFUGcW8NOzsPWErcAoAK3gpNemPAjfcVTJgh49VqoQI
-         gpug==
-X-Gm-Message-State: AOJu0YybATC4VRG5bSuXQHi7AwmlODzyTFNyvg1sq1Z+mnLlos2AOnHk
-        DuIWZ1BYe/HzH4Fe7eoukjTweg==
-X-Google-Smtp-Source: AGHT+IEh+vrb+42EU1mztqvFHAMbUKdgZhbdVBKE77CuNjYiO+9Ecz7uuDCiNq0eBsy/qqXf42ukDg==
-X-Received: by 2002:adf:f487:0:b0:32f:94a5:5717 with SMTP id l7-20020adff487000000b0032f94a55717mr5050651wro.70.1699578294157;
-        Thu, 09 Nov 2023 17:04:54 -0800 (PST)
+        bh=6UZm8hAOKMCqLDs1sWYmMkU2CkeYt5yTSm08fqnAyqo=;
+        b=DhZo5UUpLy1TUbj/betlPI39xDTNg5AJOBdR3m5JoC9VKYVB5qDy/25wWLNIxiMcuo
+         xNV58RA3MJTfH5YdU5qXwd4xR4mvJs9J4/LF+Woky55d5QjSygurqysGCfO+chZqXfdG
+         T5vR88ZOS1rJflaUxA+vo5j9niFPL/fbggeoZT5riqLECPqPYLZXmvXq1yAz988/oKtG
+         hR4793ubMr192eX/ZJiyM8hGfnEBuKxbbG3v0OXWR8EPCKQGhQKUA2lLyu1UjE4So7D2
+         WCRSDzYK9EWSKB6mhepzMKNKD8PYV7Y8qfuElo62cXw2fq/9y1NTMtlbonhksV6WSuRm
+         6uaw==
+X-Gm-Message-State: AOJu0YwfYn8cbLVOtYprrhKtz47SyNntzsVkmJJR62P2e1d4ZoC+sLJ+
+        LJ96sMiaIOtcKlc9yyP7LdeWcw==
+X-Google-Smtp-Source: AGHT+IELoY6EFIotZha6fR06lfElxjEbCgfLM2I1RwwR3yJxCEwLD9C+RlMctriXfMMubhEmuB9YUw==
+X-Received: by 2002:a05:6000:1864:b0:32d:ac49:2bb1 with SMTP id d4-20020a056000186400b0032dac492bb1mr7435944wri.63.1699578295527;
+        Thu, 09 Nov 2023 17:04:55 -0800 (PST)
 Received: from [127.0.0.1] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id d1-20020a056000114100b00326f0ca3566sm820562wrx.50.2023.11.09.17.04.53
+        by smtp.gmail.com with ESMTPSA id d1-20020a056000114100b00326f0ca3566sm820562wrx.50.2023.11.09.17.04.54
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Nov 2023 17:04:53 -0800 (PST)
+        Thu, 09 Nov 2023 17:04:55 -0800 (PST)
 From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date:   Fri, 10 Nov 2023 01:04:48 +0000
-Subject: [PATCH v5 3/6] media: qcom: camss: csiphy-3ph: Add Gen2 v1.1
- two-phase MIPI CSI-2 DPHY init
+Date:   Fri, 10 Nov 2023 01:04:49 +0000
+Subject: [PATCH v5 4/6] media: qcom: camss: Add sc8280xp resource details
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231110-b4-camss-sc8280xp-v5-3-7f4947cc59c8@linaro.org>
+Message-Id: <20231110-b4-camss-sc8280xp-v5-4-7f4947cc59c8@linaro.org>
 References: <20231110-b4-camss-sc8280xp-v5-0-7f4947cc59c8@linaro.org>
 In-Reply-To: <20231110-b4-camss-sc8280xp-v5-0-7f4947cc59c8@linaro.org>
 To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
@@ -78,114 +77,351 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a PHY configuration sequence for the sc8280xp which uses a Qualcomm
-Gen 2 version 1.1 CSI-2 PHY.
+This commit describes the hardware layout for the sc8280xp for the
+following hardware blocks:
 
-The PHY can be configured as two phase or three phase in C-PHY or D-PHY
-mode. This configuration supports two-phase D-PHY mode.
+- 4 x VFE, 4 RDI per VFE
+- 4 x VFE Lite, 4 RDI per VFE
+- 4 x CSID
+- 4 x CSID Lite
+- 4 x CSI PHY
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
 Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 85 ++++++++++++++++++++++
- 1 file changed, 85 insertions(+)
+ drivers/media/platform/qcom/camss/camss.c | 307 ++++++++++++++++++++++++++++++
+ 1 file changed, 307 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index f50e2235c37fc..66ff48aeab646 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -148,6 +148,91 @@ csiphy_reg_t lane_regs_sdm845[5][14] = {
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index 8778fdc1ee342..6de3b728e7808 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -941,6 +941,298 @@ static const struct resources_icc icc_res_sm8250[] = {
  	},
  };
  
-+/* GEN2 1.1 2PH */
-+static const struct
-+csiphy_reg_t lane_regs_sc8280xp[5][14] = {
++static const struct camss_subdev_resources csiphy_res_sc8280xp[] = {
++	/* CSIPHY0 */
 +	{
-+		{0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0034, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x001C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0014, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0028, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x003C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0000, 0x90, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0008, 0x0E, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+		{0x000C, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0010, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0038, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0060, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0064, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++		.regulators = {},
++		.clock = { "csiphy0", "csiphy0_timer" },
++		.clock_rate = { { 400000000 },
++				{ 300000000 } },
++		.reg = { "csiphy0" },
++		.interrupt = { "csiphy0" },
++		.ops = &csiphy_ops_3ph_1_0
 +	},
++	/* CSIPHY1 */
 +	{
-+		{0x0704, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x072C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0734, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x071C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0714, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0728, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x073C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0700, 0x80, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0708, 0x0E, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+		{0x070C, 0xA5, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0710, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0738, 0x1F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0760, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0764, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++		.regulators = {},
++		.clock = { "csiphy1", "csiphy1_timer" },
++		.clock_rate = { { 400000000 },
++				{ 300000000 } },
++		.reg = { "csiphy1" },
++		.interrupt = { "csiphy1" },
++		.ops = &csiphy_ops_3ph_1_0
 +	},
++	/* CSIPHY2 */
 +	{
-+		{0x0204, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x022C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0234, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x021C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0214, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0228, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x023C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0200, 0x90, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0208, 0x0E, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+		{0x020C, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0210, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0238, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0260, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0264, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++		.regulators = {},
++		.clock = { "csiphy2", "csiphy2_timer" },
++		.clock_rate = { { 400000000 },
++				{ 300000000 } },
++		.reg = { "csiphy2" },
++		.interrupt = { "csiphy2" },
++		.ops = &csiphy_ops_3ph_1_0
 +	},
++	/* CSIPHY3 */
 +	{
-+		{0x0404, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x042C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0434, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x041C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0414, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0428, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x043C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0400, 0x90, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0408, 0x0E, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+		{0x040C, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0410, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0438, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0460, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0464, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+	},
-+	{
-+		{0x0604, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x062C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0634, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x061C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0614, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0628, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x063C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0600, 0x90, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0608, 0x0E, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
-+		{0x060C, 0x00, 0x00, CSIPHY_DNP_PARAMS},
-+		{0x0610, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0638, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0660, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
-+		{0x0664, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
++		.regulators = {},
++		.clock = { "csiphy3", "csiphy3_timer" },
++		.clock_rate = { { 400000000 },
++				{ 300000000 } },
++		.reg = { "csiphy3" },
++		.interrupt = { "csiphy3" },
++		.ops = &csiphy_ops_3ph_1_0
 +	},
 +};
 +
- /* GEN2 1.2.1 2PH */
- static const struct
- csiphy_reg_t lane_regs_sm8250[5][20] = {
++static const struct camss_subdev_resources csid_res_sc8280xp[] = {
++	/* CSID0 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "vfe0_csid", "vfe0_cphy_rx", "vfe0", "vfe0_axi" },
++		.clock_rate = { { 400000000, 480000000, 600000000 },
++				{ 0 },
++				{ 0 },
++				{ 0 } },
++		.reg = { "csid0" },
++		.interrupt = { "csid0" },
++		.ops = &csid_ops_gen2
++	},
++	/* CSID1 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "vfe1_csid", "vfe1_cphy_rx", "vfe1", "vfe1_axi" },
++		.clock_rate = { { 400000000, 480000000, 600000000 },
++				{ 0 },
++				{ 0 },
++				{ 0 } },
++		.reg = { "csid1" },
++		.interrupt = { "csid1" },
++		.ops = &csid_ops_gen2
++	},
++	/* CSID2 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "vfe2_csid", "vfe2_cphy_rx", "vfe2", "vfe2_axi" },
++		.clock_rate = { { 400000000, 480000000, 600000000 },
++				{ 0 },
++				{ 0 },
++				{ 0 } },
++		.reg = { "csid2" },
++		.interrupt = { "csid2" },
++		.ops = &csid_ops_gen2
++	},
++	/* CSID3 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "vfe3_csid", "vfe3_cphy_rx", "vfe3", "vfe3_axi" },
++		.clock_rate = { { 400000000, 480000000, 600000000 },
++				{ 0 },
++				{ 0 },
++				{ 0 } },
++		.reg = { "csid3" },
++		.interrupt = { "csid3" },
++		.ops = &csid_ops_gen2
++	},
++	/* CSID_LITE0 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "vfe_lite0_csid", "vfe_lite0_cphy_rx", "vfe_lite0" },
++		.clock_rate = { { 400000000, 480000000, 600000000 },
++				{ 0 },
++				{ 0 }, },
++		.reg = { "csid0_lite" },
++		.interrupt = { "csid0_lite" },
++		.is_lite = true,
++		.ops = &csid_ops_gen2
++	},
++	/* CSID_LITE1 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "vfe_lite1_csid", "vfe_lite1_cphy_rx", "vfe_lite1" },
++		.clock_rate = { { 400000000, 480000000, 600000000 },
++				{ 0 },
++				{ 0 }, },
++		.reg = { "csid1_lite" },
++		.interrupt = { "csid1_lite" },
++		.is_lite = true,
++		.ops = &csid_ops_gen2
++	},
++	/* CSID_LITE2 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "vfe_lite2_csid", "vfe_lite2_cphy_rx", "vfe_lite2" },
++		.clock_rate = { { 400000000, 480000000, 600000000 },
++				{ 0 },
++				{ 0 }, },
++		.reg = { "csid2_lite" },
++		.interrupt = { "csid2_lite" },
++		.is_lite = true,
++		.ops = &csid_ops_gen2
++	},
++	/* CSID_LITE3 */
++	{
++		.regulators = { "vdda-phy", "vdda-pll" },
++		.clock = { "vfe_lite3_csid", "vfe_lite3_cphy_rx", "vfe_lite3" },
++		.clock_rate = { { 400000000, 480000000, 600000000 },
++				{ 0 },
++				{ 0 }, },
++		.reg = { "csid3_lite" },
++		.interrupt = { "csid3_lite" },
++		.is_lite = true,
++		.ops = &csid_ops_gen2
++	}
++};
++
++static const struct camss_subdev_resources vfe_res_sc8280xp[] = {
++	/* IFE0 */
++	{
++		.regulators = {},
++		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb", "camnoc_axi", "vfe0", "vfe0_axi" },
++		.clock_rate = { { 0 },
++				{ 0 },
++				{ 19200000, 80000000},
++				{ 19200000, 150000000, 266666667, 320000000, 400000000, 480000000 },
++				{ 400000000, 558000000, 637000000, 760000000 },
++				{ 0 }, },
++		.reg = { "vfe0" },
++		.interrupt = { "vfe0" },
++		.pd_name = "ife0",
++		.line_num = 4,
++		.ops = &vfe_ops_170
++	},
++	/* IFE1 */
++	{
++		.regulators = {},
++		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb", "camnoc_axi", "vfe1", "vfe1_axi" },
++		.clock_rate = { { 0 },
++				{ 0 },
++				{ 19200000, 80000000},
++				{ 19200000, 150000000, 266666667, 320000000, 400000000, 480000000 },
++				{ 400000000, 558000000, 637000000, 760000000 },
++				{ 0 }, },
++		.reg = { "vfe1" },
++		.interrupt = { "vfe1" },
++		.pd_name = "ife1",
++		.line_num = 4,
++		.ops = &vfe_ops_170
++	},
++	/* IFE2 */
++	{
++		.regulators = {},
++		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb", "camnoc_axi", "vfe2", "vfe2_axi" },
++		.clock_rate = { { 0 },
++				{ 0 },
++				{ 19200000, 80000000},
++				{ 19200000, 150000000, 266666667, 320000000, 400000000, 480000000 },
++				{ 400000000, 558000000, 637000000, 760000000 },
++				{ 0 }, },
++		.reg = { "vfe2" },
++		.interrupt = { "vfe2" },
++		.pd_name = "ife2",
++		.line_num = 4,
++		.ops = &vfe_ops_170
++	},
++	/* VFE3 */
++	{
++		.regulators = {},
++		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb", "camnoc_axi", "vfe3", "vfe3_axi" },
++		.clock_rate = { { 0 },
++				{ 0 },
++				{ 19200000, 80000000},
++				{ 19200000, 150000000, 266666667, 320000000, 400000000, 480000000 },
++				{ 400000000, 558000000, 637000000, 760000000 },
++				{ 0 }, },
++		.reg = { "vfe3" },
++		.interrupt = { "vfe3" },
++		.pd_name = "ife3",
++		.line_num = 4,
++		.ops = &vfe_ops_170
++	},
++	/* IFE_LITE_0 */
++	{
++		.regulators = {},
++		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb", "camnoc_axi", "vfe_lite0" },
++		.clock_rate = { { 0 },
++				{ 0 },
++				{ 19200000, 80000000},
++				{ 19200000, 150000000, 266666667, 320000000, 400000000, 480000000 },
++				{ 320000000, 400000000, 480000000, 600000000 }, },
++		.reg = { "vfe_lite0" },
++		.interrupt = { "vfe_lite0" },
++		.is_lite = true,
++		.line_num = 4,
++		.ops = &vfe_ops_170
++	},
++	/* IFE_LITE_1 */
++	{
++		.regulators = {},
++		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb", "camnoc_axi", "vfe_lite1" },
++		.clock_rate = { { 0 },
++				{ 0 },
++				{ 19200000, 80000000},
++				{ 19200000, 150000000, 266666667, 320000000, 400000000, 480000000 },
++				{ 320000000, 400000000, 480000000, 600000000 }, },
++		.reg = { "vfe_lite1" },
++		.interrupt = { "vfe_lite1" },
++		.is_lite = true,
++		.line_num = 4,
++		.ops = &vfe_ops_170
++	},
++	/* IFE_LITE_2 */
++	{
++		.regulators = {},
++		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb", "camnoc_axi", "vfe_lite2" },
++		.clock_rate = { { 0 },
++				{ 0 },
++				{ 19200000, 80000000},
++				{ 19200000, 150000000, 266666667, 320000000, 400000000, 480000000 },
++				{ 320000000, 400000000, 480000000, 600000000, }, },
++		.reg = { "vfe_lite2" },
++		.interrupt = { "vfe_lite2" },
++		.is_lite = true,
++		.line_num = 4,
++		.ops = &vfe_ops_170
++	},
++	/* VFE_LITE_3 */
++	{
++		.regulators = {},
++		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb", "camnoc_axi", "vfe_lite3" },
++		.clock_rate = { { 0 },
++				{ 0 },
++				{ 19200000, 80000000},
++				{ 19200000, 150000000, 266666667, 320000000, 400000000, 480000000 },
++				{ 320000000, 400000000, 480000000, 600000000 }, },
++		.reg = { "vfe_lite3" },
++		.interrupt = { "vfe_lite3" },
++		.is_lite = true,
++		.line_num = 4,
++		.ops = &vfe_ops_170
++	},
++};
++
++static const struct resources_icc icc_res_sc8280xp[] = {
++	{
++		.name = "cam_ahb",
++		.icc_bw_tbl.avg = 150000,
++		.icc_bw_tbl.peak = 300000,
++	},
++	{
++		.name = "cam_hf_mnoc",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
++	},
++	{
++		.name = "cam_sf_mnoc",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
++	},
++	{
++		.name = "cam_sf_icp_mnoc",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
++	},
++};
++
+ /*
+  * camss_add_clock_margin - Add margin to clock frequency rate
+  * @rate: Clock frequency rate
+@@ -1824,12 +2116,27 @@ static const struct camss_resources sm8250_resources = {
+ 	.vfe_num = ARRAY_SIZE(vfe_res_8250),
+ };
+ 
++static const struct camss_resources sc8280xp_resources = {
++	.version = CAMSS_8280XP,
++	.pd_name = "top",
++	.csiphy_res = csiphy_res_sc8280xp,
++	.csid_res = csid_res_sc8280xp,
++	.ispif_res = NULL,
++	.vfe_res = vfe_res_sc8280xp,
++	.icc_res = icc_res_sc8280xp,
++	.icc_path_num = ARRAY_SIZE(icc_res_sc8280xp),
++	.csiphy_num = ARRAY_SIZE(csiphy_res_sc8280xp),
++	.csid_num = ARRAY_SIZE(csid_res_sc8280xp),
++	.vfe_num = ARRAY_SIZE(vfe_res_sc8280xp),
++};
++
+ static const struct of_device_id camss_dt_match[] = {
+ 	{ .compatible = "qcom,msm8916-camss", .data = &msm8916_resources },
+ 	{ .compatible = "qcom,msm8996-camss", .data = &msm8996_resources },
+ 	{ .compatible = "qcom,sdm660-camss", .data = &sdm660_resources },
+ 	{ .compatible = "qcom,sdm845-camss", .data = &sdm845_resources },
+ 	{ .compatible = "qcom,sm8250-camss", .data = &sm8250_resources },
++	{ .compatible = "qcom,sc8280xp-camss", .data = &sc8280xp_resources },
+ 	{ }
+ };
+ 
 
 -- 
 2.42.0
