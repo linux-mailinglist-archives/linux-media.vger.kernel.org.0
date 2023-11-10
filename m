@@ -1,46 +1,47 @@
-Return-Path: <linux-media+bounces-59-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-13-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 997597E7F3E
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:50:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0597C7E7ECB
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:47:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 10C57B22949
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:50:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2840C1C20BEF
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:47:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6D333E497;
-	Fri, 10 Nov 2023 17:47:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FD533AC1B;
+	Fri, 10 Nov 2023 17:46:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JP9zH1q6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TpGQt+V1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D173D981
-	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:47:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB33538F9F
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:33 +0000 (UTC)
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D83A23B301
-	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 07:39:34 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 319C83B306
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 07:40:56 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 91F94673;
-	Fri, 10 Nov 2023 16:39:10 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ED43673;
+	Fri, 10 Nov 2023 16:40:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1699630750;
-	bh=8C7XgHEUFf4dRrlSGW4sZaJl/L8uIaeBTM3s+R9jRkg=;
+	s=mail; t=1699630832;
+	bh=qhG25pJyJMIZD3xWDD7RJsofQ1G1gsZakBU5FSUsQQM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=JP9zH1q6HSwPB+KVMdRhTII/eiX2fxueH7RDkR92Bezv727eMCvIJJO0g50a8G+ol
-	 ZXEIeWc33GF4pacWmssNhppCwffgq5f1wGCeCBer2s//91NmTr3bdlbT/t19eNf5ob
-	 60MkZnnOQvfnx81OvJHshZ5zRVcmRfJBmK7jY+aQ=
-Date: Fri, 10 Nov 2023 17:39:40 +0200
+	b=TpGQt+V1OJFBHZMZJG2bVzPnfOFJspYYMFzSXkK+B7YojhtCdbSe1fFK8lfomsYQg
+	 QSb6e6CojtkTWzB9/H8H70An0fgl7OmuOK5Icg2hctZUw7aSywkAYdZdjFtzkluNoy
+	 1+MdRBzwrXzrfwzQQOKbm8d+CPLJGJXStl+ozyoM=
+Date: Fri, 10 Nov 2023 17:41:01 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com
-Subject: Re: [PATCH 1/1] media: v4l: subdev: Always compile sub-device state
- access functions
-Message-ID: <20231110153940.GA7466@pendragon.ideasonboard.com>
-References: <20231110101049.890577-1-sakari.ailus@linux.intel.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+	Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Sebastian Fricke <sebastian.fricke@collabora.com>
+Subject: Re: [PATCH] media: drop CONFIG_MEDIA_CONTROLLER_REQUEST_API
+Message-ID: <20231110154101.GB7466@pendragon.ideasonboard.com>
+References: <35ee2d37-949a-4878-b27b-b8431f685efb@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -49,393 +50,179 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231110101049.890577-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <35ee2d37-949a-4878-b27b-b8431f685efb@xs4all.nl>
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Fri, Nov 10, 2023 at 12:10:49PM +0200, Sakari Ailus wrote:
-> Compile sub-device state information access functions
-> v4l2_subdev_state_get_{format,crop,compose} unconditionally as they are
-> now also used by plain V4L2 drivers.
-
-What do you mean by "plain" V4L2 drivers here ?
-
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 204 +++++++++++++-------------
->  include/media/v4l2-subdev.h           | 128 ++++++++--------
->  2 files changed, 166 insertions(+), 166 deletions(-)
+On Fri, Nov 10, 2023 at 09:53:00AM +0100, Hans Verkuil wrote:
+> This config option was added during the development of the Request API
+> to make it easy to disable it.
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 57ef4fce1186..efb39172b20f 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1524,6 +1524,108 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
+> The Request API is now stable so it is time to drop this option altogether.
+
+Less config options is a good idea.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> index c7a54d82a55e..9295ded50bc3 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> @@ -685,10 +685,8 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
+>  		*caps |= V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
+>  	if (q->allow_cache_hints && q->io_modes & VB2_MMAP)
+>  		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
+> -#ifdef CONFIG_MEDIA_CONTROLLER_REQUEST_API
+>  	if (q->supports_requests)
+>  		*caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
+> -#endif
 >  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
->  
-> +struct v4l2_mbus_framefmt *
-> +__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
-> +			       unsigned int pad, u32 stream)
-> +{
-> +	struct v4l2_subdev_stream_configs *stream_configs;
-> +	unsigned int i;
-> +
-> +	if (WARN_ON_ONCE(!state))
-> +		return NULL;
-> +
-> +	if (state->pads) {
-> +		if (stream)
-> +			return NULL;
-> +
-> +		if (pad >= state->sd->entity.num_pads)
-> +			return NULL;
-> +
-> +		return &state->pads[pad].format;
-> +	}
-> +
-> +	lockdep_assert_held(state->lock);
-> +
-> +	stream_configs = &state->stream_configs;
-> +
-> +	for (i = 0; i < stream_configs->num_configs; ++i) {
-> +		if (stream_configs->configs[i].pad == pad &&
-> +		    stream_configs->configs[i].stream == stream)
-> +			return &stream_configs->configs[i].fmt;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_format);
-> +
-> +struct v4l2_rect *
-> +__v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-> +			     u32 stream)
-> +{
-> +	struct v4l2_subdev_stream_configs *stream_configs;
-> +	unsigned int i;
-> +
-> +	if (WARN_ON_ONCE(!state))
-> +		return NULL;
-> +
-> +	if (state->pads) {
-> +		if (stream)
-> +			return NULL;
-> +
-> +		if (pad >= state->sd->entity.num_pads)
-> +			return NULL;
-> +
-> +		return &state->pads[pad].crop;
-> +	}
-> +
-> +	lockdep_assert_held(state->lock);
-> +
-> +	stream_configs = &state->stream_configs;
-> +
-> +	for (i = 0; i < stream_configs->num_configs; ++i) {
-> +		if (stream_configs->configs[i].pad == pad &&
-> +		    stream_configs->configs[i].stream == stream)
-> +			return &stream_configs->configs[i].crop;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_crop);
-> +
-> +struct v4l2_rect *
-> +__v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
-> +				unsigned int pad, u32 stream)
-> +{
-> +	struct v4l2_subdev_stream_configs *stream_configs;
-> +	unsigned int i;
-> +
-> +	if (WARN_ON_ONCE(!state))
-> +		return NULL;
-> +
-> +	if (state->pads) {
-> +		if (stream)
-> +			return NULL;
-> +
-> +		if (pad >= state->sd->entity.num_pads)
-> +			return NULL;
-> +
-> +		return &state->pads[pad].compose;
-> +	}
-> +
-> +	lockdep_assert_held(state->lock);
-> +
-> +	stream_configs = &state->stream_configs;
-> +
-> +	for (i = 0; i < stream_configs->num_configs; ++i) {
-> +		if (stream_configs->configs[i].pad == pad &&
-> +		    stream_configs->configs[i].stream == stream)
-> +			return &stream_configs->configs[i].compose;
-> +	}
-> +
-> +	return NULL;
-> +}
-> +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_compose);
-> +
->  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
->  
->  static int
-> @@ -1670,108 +1772,6 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> 
+>  static void validate_memory_flags(struct vb2_queue *q,
+> diff --git a/drivers/media/mc/Kconfig b/drivers/media/mc/Kconfig
+> index 375b09612981..c82b07d2ef36 100644
+> --- a/drivers/media/mc/Kconfig
+> +++ b/drivers/media/mc/Kconfig
+> @@ -11,10 +11,3 @@ config MEDIA_CONTROLLER_DVB
+>  	  Enable the media controller API support for DVB.
+> 
+>  	  This is currently experimental.
+> -
+> -config MEDIA_CONTROLLER_REQUEST_API
+> -	bool
+> -	depends on MEDIA_CONTROLLER
+> -	help
+> -	  This option enables the Request API for the Media controller and V4L2
+> -	  interfaces. It is currently needed by a few stateless codec drivers.
+> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
+> index 8cee956e38d4..c0dd4ae57227 100644
+> --- a/drivers/media/mc/mc-device.c
+> +++ b/drivers/media/mc/mc-device.c
+> @@ -372,16 +372,12 @@ static long media_device_get_topology(struct media_device *mdev, void *arg)
+> 
+>  static long media_device_request_alloc(struct media_device *mdev, void *arg)
+>  {
+> -#ifdef CONFIG_MEDIA_CONTROLLER_REQUEST_API
+>  	int *alloc_fd = arg;
+> 
+>  	if (!mdev->ops || !mdev->ops->req_validate || !mdev->ops->req_queue)
+>  		return -ENOTTY;
+> 
+>  	return media_request_alloc(mdev, alloc_fd);
+> -#else
+> -	return -ENOTTY;
+> -#endif
 >  }
->  EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
->  
-> -struct v4l2_mbus_framefmt *
-> -__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
-> -			       unsigned int pad, u32 stream)
-> -{
-> -	struct v4l2_subdev_stream_configs *stream_configs;
-> -	unsigned int i;
-> -
-> -	if (WARN_ON_ONCE(!state))
-> -		return NULL;
-> -
-> -	if (state->pads) {
-> -		if (stream)
-> -			return NULL;
-> -
-> -		if (pad >= state->sd->entity.num_pads)
-> -			return NULL;
-> -
-> -		return &state->pads[pad].format;
-> -	}
-> -
-> -	lockdep_assert_held(state->lock);
-> -
-> -	stream_configs = &state->stream_configs;
-> -
-> -	for (i = 0; i < stream_configs->num_configs; ++i) {
-> -		if (stream_configs->configs[i].pad == pad &&
-> -		    stream_configs->configs[i].stream == stream)
-> -			return &stream_configs->configs[i].fmt;
-> -	}
-> -
-> -	return NULL;
-> -}
-> -EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_format);
-> -
-> -struct v4l2_rect *
-> -__v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-> -			     u32 stream)
-> -{
-> -	struct v4l2_subdev_stream_configs *stream_configs;
-> -	unsigned int i;
-> -
-> -	if (WARN_ON_ONCE(!state))
-> -		return NULL;
-> -
-> -	if (state->pads) {
-> -		if (stream)
-> -			return NULL;
-> -
-> -		if (pad >= state->sd->entity.num_pads)
-> -			return NULL;
-> -
-> -		return &state->pads[pad].crop;
-> -	}
-> -
-> -	lockdep_assert_held(state->lock);
-> -
-> -	stream_configs = &state->stream_configs;
-> -
-> -	for (i = 0; i < stream_configs->num_configs; ++i) {
-> -		if (stream_configs->configs[i].pad == pad &&
-> -		    stream_configs->configs[i].stream == stream)
-> -			return &stream_configs->configs[i].crop;
-> -	}
-> -
-> -	return NULL;
-> -}
-> -EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_crop);
-> -
-> -struct v4l2_rect *
-> -__v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
-> -				unsigned int pad, u32 stream)
-> -{
-> -	struct v4l2_subdev_stream_configs *stream_configs;
-> -	unsigned int i;
-> -
-> -	if (WARN_ON_ONCE(!state))
-> -		return NULL;
-> -
-> -	if (state->pads) {
-> -		if (stream)
-> -			return NULL;
-> -
-> -		if (pad >= state->sd->entity.num_pads)
-> -			return NULL;
-> -
-> -		return &state->pads[pad].compose;
-> -	}
-> -
-> -	lockdep_assert_held(state->lock);
-> -
-> -	stream_configs = &state->stream_configs;
-> -
-> -	for (i = 0; i < stream_configs->num_configs; ++i) {
-> -		if (stream_configs->configs[i].pad == pad &&
-> -		    stream_configs->configs[i].stream == stream)
-> -			return &stream_configs->configs[i].compose;
-> -	}
-> -
-> -	return NULL;
-> -}
-> -EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_compose);
-> -
->  int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
->  					  u32 pad, u32 stream, u32 *other_pad,
->  					  u32 *other_stream)
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index b1bad946d813..33c8e5c93a3d 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1393,70 +1393,6 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
->  	return sd->active_state;
->  }
->  
-> -#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-> -
-> -/**
-> - * v4l2_subdev_get_fmt() - Fill format based on state
-> - * @sd: subdevice
-> - * @state: subdevice state
-> - * @format: pointer to &struct v4l2_subdev_format
-> - *
-> - * Fill @format->format field based on the information in the @format struct.
-> - *
-> - * This function can be used by the subdev drivers which support active state to
-> - * implement v4l2_subdev_pad_ops.get_fmt if the subdev driver does not need to
-> - * do anything special in their get_fmt op.
-> - *
-> - * Returns 0 on success, error value otherwise.
-> - */
-> -int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
-> -			struct v4l2_subdev_format *format);
-> -
-> -/**
-> - * v4l2_subdev_set_routing() - Set given routing to subdev state
-> - * @sd: The subdevice
-> - * @state: The subdevice state
-> - * @routing: Routing that will be copied to subdev state
-> - *
-> - * This will release old routing table (if any) from the state, allocate
-> - * enough space for the given routing, and copy the routing.
-> - *
-> - * This can be used from the subdev driver's set_routing op, after validating
-> - * the routing.
-> - */
-> -int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
-> -			    struct v4l2_subdev_state *state,
-> -			    const struct v4l2_subdev_krouting *routing);
-> -
-> -struct v4l2_subdev_route *
-> -__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
-> -				struct v4l2_subdev_route *route);
-> -
-> -/**
-> - * for_each_active_route - iterate on all active routes of a routing table
-> - * @routing: The routing table
-> - * @route: The route iterator
-> - */
-> -#define for_each_active_route(routing, route) \
-> -	for ((route) = NULL;                  \
-> -	     ((route) = __v4l2_subdev_next_active_route((routing), (route)));)
-> -
-> -/**
-> - * v4l2_subdev_set_routing_with_fmt() - Set given routing and format to subdev
-> - *					state
-> - * @sd: The subdevice
-> - * @state: The subdevice state
-> - * @routing: Routing that will be copied to subdev state
-> - * @fmt: Format used to initialize all the streams
-> - *
-> - * This is the same as v4l2_subdev_set_routing, but additionally initializes
-> - * all the streams using the given format.
-> - */
-> -int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
-> -				     struct v4l2_subdev_state *state,
-> -				     const struct v4l2_subdev_krouting *routing,
-> -				     const struct v4l2_mbus_framefmt *fmt);
-> -
->  /*
->   * A macro to generate the macro or function name for sub-devices state access
->   * wrapper macros below.
-> @@ -1533,6 +1469,70 @@ struct v4l2_rect *
->  __v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
->  				unsigned int pad, u32 stream);
->  
-> +#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-> +
-> +/**
-> + * v4l2_subdev_get_fmt() - Fill format based on state
-> + * @sd: subdevice
-> + * @state: subdevice state
-> + * @format: pointer to &struct v4l2_subdev_format
-> + *
-> + * Fill @format->format field based on the information in the @format struct.
-> + *
-> + * This function can be used by the subdev drivers which support active state to
-> + * implement v4l2_subdev_pad_ops.get_fmt if the subdev driver does not need to
-> + * do anything special in their get_fmt op.
-> + *
-> + * Returns 0 on success, error value otherwise.
-> + */
-> +int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
-> +			struct v4l2_subdev_format *format);
-> +
-> +/**
-> + * v4l2_subdev_set_routing() - Set given routing to subdev state
-> + * @sd: The subdevice
-> + * @state: The subdevice state
-> + * @routing: Routing that will be copied to subdev state
-> + *
-> + * This will release old routing table (if any) from the state, allocate
-> + * enough space for the given routing, and copy the routing.
-> + *
-> + * This can be used from the subdev driver's set_routing op, after validating
-> + * the routing.
-> + */
-> +int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
-> +			    struct v4l2_subdev_state *state,
-> +			    const struct v4l2_subdev_krouting *routing);
-> +
-> +struct v4l2_subdev_route *
-> +__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
-> +				struct v4l2_subdev_route *route);
-> +
-> +/**
-> + * for_each_active_route - iterate on all active routes of a routing table
-> + * @routing: The routing table
-> + * @route: The route iterator
-> + */
-> +#define for_each_active_route(routing, route) \
-> +	for ((route) = NULL;                  \
-> +	     ((route) = __v4l2_subdev_next_active_route((routing), (route)));)
-> +
-> +/**
-> + * v4l2_subdev_set_routing_with_fmt() - Set given routing and format to subdev
-> + *					state
-> + * @sd: The subdevice
-> + * @state: The subdevice state
-> + * @routing: Routing that will be copied to subdev state
-> + * @fmt: Format used to initialize all the streams
-> + *
-> + * This is the same as v4l2_subdev_set_routing, but additionally initializes
-> + * all the streams using the given format.
-> + */
-> +int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
-> +				     struct v4l2_subdev_state *state,
-> +				     const struct v4l2_subdev_krouting *routing,
-> +				     const struct v4l2_mbus_framefmt *fmt);
-> +
->  /**
->   * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
->   * @routing: routing used to find the opposite side
+> 
+>  static long copy_arg_from_user(void *karg, void __user *uarg, unsigned int cmd)
+> diff --git a/drivers/media/platform/mediatek/vcodec/Kconfig b/drivers/media/platform/mediatek/vcodec/Kconfig
+> index 74b00eb1bc97..bc8292232530 100644
+> --- a/drivers/media/platform/mediatek/vcodec/Kconfig
+> +++ b/drivers/media/platform/mediatek/vcodec/Kconfig
+> @@ -24,7 +24,6 @@ config VIDEO_MEDIATEK_VCODEC
+>  	select V4L2_H264
+>  	select V4L2_VP9
+>  	select MEDIA_CONTROLLER
+> -	select MEDIA_CONTROLLER_REQUEST_API
+>  	help
+>  	  Mediatek video codec driver provides HW capability to
+>  	  encode and decode in a range of video formats on MT8173
+> diff --git a/drivers/media/platform/nvidia/tegra-vde/Kconfig b/drivers/media/platform/nvidia/tegra-vde/Kconfig
+> index f7454823bbbb..2fe13f39c95b 100644
+> --- a/drivers/media/platform/nvidia/tegra-vde/Kconfig
+> +++ b/drivers/media/platform/nvidia/tegra-vde/Kconfig
+> @@ -6,7 +6,6 @@ config VIDEO_TEGRA_VDE
+>  	select DMA_SHARED_BUFFER
+>  	select IOMMU_IOVA
+>  	select MEDIA_CONTROLLER
+> -	select MEDIA_CONTROLLER_REQUEST_API
+>  	select SRAM
+>  	select VIDEOBUF2_DMA_CONTIG
+>  	select VIDEOBUF2_DMA_SG
+> diff --git a/drivers/media/platform/verisilicon/Kconfig b/drivers/media/platform/verisilicon/Kconfig
+> index e65b836b9d78..24b927d8f182 100644
+> --- a/drivers/media/platform/verisilicon/Kconfig
+> +++ b/drivers/media/platform/verisilicon/Kconfig
+> @@ -8,7 +8,6 @@ config VIDEO_HANTRO
+>  	depends on V4L_MEM2MEM_DRIVERS
+>  	depends on VIDEO_DEV
+>  	select MEDIA_CONTROLLER
+> -	select MEDIA_CONTROLLER_REQUEST_API
+>  	select VIDEOBUF2_DMA_CONTIG
+>  	select VIDEOBUF2_VMALLOC
+>  	select V4L2_MEM2MEM_DEV
+> diff --git a/drivers/media/test-drivers/Kconfig b/drivers/media/test-drivers/Kconfig
+> index 459b433e9fae..5a5379524bde 100644
+> --- a/drivers/media/test-drivers/Kconfig
+> +++ b/drivers/media/test-drivers/Kconfig
+> @@ -12,7 +12,6 @@ config VIDEO_VIM2M
+>  	select VIDEOBUF2_VMALLOC
+>  	select V4L2_MEM2MEM_DEV
+>  	select MEDIA_CONTROLLER
+> -	select MEDIA_CONTROLLER_REQUEST_API
+>  	help
+>  	  This is a virtual test device for the memory-to-memory driver
+>  	  framework.
+> diff --git a/drivers/media/test-drivers/vicodec/Kconfig b/drivers/media/test-drivers/vicodec/Kconfig
+> index a7a828eec2a4..4ea0689c3abe 100644
+> --- a/drivers/media/test-drivers/vicodec/Kconfig
+> +++ b/drivers/media/test-drivers/vicodec/Kconfig
+> @@ -5,7 +5,6 @@ config VIDEO_VICODEC
+>  	select VIDEOBUF2_VMALLOC
+>  	select V4L2_MEM2MEM_DEV
+>  	select MEDIA_CONTROLLER
+> -	select MEDIA_CONTROLLER_REQUEST_API
+>  	help
+>  	  Driver for a Virtual Codec
+> 
+> diff --git a/drivers/media/test-drivers/visl/Kconfig b/drivers/media/test-drivers/visl/Kconfig
+> index 7508b904f196..37be9f267224 100644
+> --- a/drivers/media/test-drivers/visl/Kconfig
+> +++ b/drivers/media/test-drivers/visl/Kconfig
+> @@ -7,7 +7,6 @@ config VIDEO_VISL
+>  	select VIDEOBUF2_VMALLOC
+>  	select V4L2_MEM2MEM_DEV
+>  	select MEDIA_CONTROLLER
+> -	select MEDIA_CONTROLLER_REQUEST_API
+>  	select VIDEO_V4L2_TPG
+>  	help
+> 
+> diff --git a/drivers/media/test-drivers/vivid/Kconfig b/drivers/media/test-drivers/vivid/Kconfig
+> index 5b08a5ad291e..ec2e71d76965 100644
+> --- a/drivers/media/test-drivers/vivid/Kconfig
+> +++ b/drivers/media/test-drivers/vivid/Kconfig
+> @@ -10,7 +10,6 @@ config VIDEO_VIVID
+>  	select VIDEOBUF2_DMA_CONTIG
+>  	select VIDEO_V4L2_TPG
+>  	select MEDIA_CONTROLLER
+> -	select MEDIA_CONTROLLER_REQUEST_API
+>  	help
+>  	  Enables a virtual video driver. This driver emulates a webcam,
+>  	  TV, S-Video and HDMI capture hardware, including VBI support for
+> diff --git a/drivers/staging/media/rkvdec/Kconfig b/drivers/staging/media/rkvdec/Kconfig
+> index e963d60cc6ad..5f3bdd848a2c 100644
+> --- a/drivers/staging/media/rkvdec/Kconfig
+> +++ b/drivers/staging/media/rkvdec/Kconfig
+> @@ -4,7 +4,6 @@ config VIDEO_ROCKCHIP_VDEC
+>  	depends on ARCH_ROCKCHIP || COMPILE_TEST
+>  	depends on VIDEO_DEV
+>  	select MEDIA_CONTROLLER
+> -	select MEDIA_CONTROLLER_REQUEST_API
+>  	select VIDEOBUF2_DMA_CONTIG
+>  	select VIDEOBUF2_VMALLOC
+>  	select V4L2_MEM2MEM_DEV
+> diff --git a/drivers/staging/media/sunxi/cedrus/Kconfig b/drivers/staging/media/sunxi/cedrus/Kconfig
+> index 621944f9907a..cb07a343c9c2 100644
+> --- a/drivers/staging/media/sunxi/cedrus/Kconfig
+> +++ b/drivers/staging/media/sunxi/cedrus/Kconfig
+> @@ -6,7 +6,6 @@ config VIDEO_SUNXI_CEDRUS
+>  	depends on HAS_DMA
+>  	depends on OF
+>  	select MEDIA_CONTROLLER
+> -	select MEDIA_CONTROLLER_REQUEST_API
+>  	select SUNXI_SRAM
+>  	select VIDEOBUF2_DMA_CONTIG
+>  	select V4L2_MEM2MEM_DEV
 
 -- 
 Regards,
