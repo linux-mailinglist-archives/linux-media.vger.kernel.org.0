@@ -1,448 +1,191 @@
-Return-Path: <linux-media-owner@vger.kernel.org>
+Return-Path: <linux-media+bounces-3-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 916E77E7EB4
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:47:05 +0100 (CET)
-Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1344819AbjKJRrF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 10 Nov 2023 12:47:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S235273AbjKJRqF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 10 Nov 2023 12:46:05 -0500
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 103CA27059
-        for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 02:11:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699611076; x=1731147076;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=1envzB6of0JuCIzNYwZEfwIsvSnlRVpw0J3YwgfNxIw=;
-  b=BEjKj+609wgtSZjLLu3bSR2vnIrwXZCkGCyeMUfQPcwanqjNa9KeDbiv
-   IPxnnzjgZClEjGQelEz+HCyP7SAmzCxSst5KbPrv0inwOPsmeV6Kh+v8S
-   vF+KnRJmjamssBJn0CWx6e8ouDd1LLcCV67QYkH5FFrazwWCdHLPynoLo
-   JQ903zZDwAMWx9v+pIwXznP7BGHUVuuY2Njezu7YLo0rSOP4mguHZ/tLN
-   nuwc5zF5nS5WwJQALg7cQUhlvPBhTfcVUFGN6WYOof0AVBmXBH+JSzEC3
-   8N+Y3Wo6Rs/WYm8HtfGDV9JtgKftpwkRo/ZwCIln9X+tbzqaRrlng7+gT
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="375204766"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="375204766"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 02:11:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10889"; a="713606600"
-X-IronPort-AV: E=Sophos;i="6.03,291,1694761200"; 
-   d="scan'208";a="713606600"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2023 02:11:14 -0800
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-        by kekkonen.fi.intel.com (Postfix) with ESMTP id 62E9E11F7D1;
-        Fri, 10 Nov 2023 12:11:11 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-        (envelope-from <sakari.ailus@linux.intel.com>)
-        id 1r1OTb-003jgL-0Z;
-        Fri, 10 Nov 2023 12:10:59 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com
-Subject: [PATCH 1/1] media: v4l: subdev: Always compile sub-device state access functions
-Date:   Fri, 10 Nov 2023 12:10:49 +0200
-Message-Id: <20231110101049.890577-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Spam-Status: No, score=-2.0 required=5.0 tests=BAYES_00,DKIMWL_WL_HIGH,
-        DKIM_SIGNED,DKIM_VALID,DKIM_VALID_EF,RCVD_IN_DNSWL_BLOCKED,
-        SPF_HELO_NONE,SPF_NONE,T_SCC_BODY_TEXT_LINE autolearn=ham
-        autolearn_force=no version=3.4.6
-X-Spam-Checker-Version: SpamAssassin 3.4.6 (2021-04-09) on
-        lindbergh.monkeyblade.net
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 823497E7EA1
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:46:48 +0100 (CET)
+Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D5C7281465
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:46:47 +0000 (UTC)
+Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6766538DC8;
+	Fri, 10 Nov 2023 17:46:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="tiqoqms4"
+X-Original-To: linux-media@vger.kernel.org
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7C420B14
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:28 +0000 (UTC)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ADA32812C
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 02:21:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1699611702; x=1700216502; i=wahrenst@gmx.net;
+	bh=pDxBNkCtCkZS6G8VVFGb2hFThM0VDkxh3OXp+guyeQE=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=tiqoqms45cjSluer2tQFyKyGah+gnuoEPmDjvpd063Wyg6etaqmsZAIftb4MrujM
+	 QMFslV7rIqGV26EzDrQmfYk1OSiNHOM8tQvNjjAt0Qd4ny0rWgM6FwGmpNGTn+es6
+	 PE2Vm71ac3ZmP4UTou8HI1OebkNiybmQBFeOInOXT3EAeWi6KDZ6X3nIVFoUKDdqT
+	 nxc4xbhkHTWrO50NAqH3xTekoYJLETEd1iA39SKNaiyWCb3KEvU91q2YzFKMIIl3V
+	 /jKNBz9m1kHAgl1AcswqRMZnML/ByOrPoA8Y6bajNXUIQ6B5xvisYZ+bd+6llRR0+
+	 g/8PSvGnxScf/FSsXw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MryXN-1rn9e71rzZ-00nxZL; Fri, 10
+ Nov 2023 11:21:42 +0100
+Message-ID: <a122dc9a-724d-4f57-b0c2-0b6676a4ea83@gmx.net>
+Date: Fri, 10 Nov 2023 11:21:41 +0100
 Precedence: bulk
-List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
+List-Id: <linux-media.vger.kernel.org>
+List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
+List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 5/9] staging: vc04_services: Do not pass NULL to
+ vchiq_log_error()
+To: Umang Jain <umang.jain@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Phil Elwell <phil@raspberrypi.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>
+References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
+ <20231107095156.365492-6-umang.jain@ideasonboard.com>
+ <20231107122551.GA3051@pendragon.ideasonboard.com>
+ <20231107123627.GB3051@pendragon.ideasonboard.com>
+Content-Language: en-US
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231107123627.GB3051@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:yeYVJSxIyCHzHks/8URM3J2LlpTNzRU1rKdr9itN57hIV5jnkfb
+ tRHeL1geL+ZByl9Q5dvug6Lcf6IcCzFGX/odVAy5VdXhlnUoNh6iOtbAwg2HKSwpvXJ92WV
+ 8FEO8AOeGekSXEuqSJ06Eux6LQsEIYZtAmb2jwz+y1mtimbSEfqropPDv+EuFAPaCK3f24V
+ OpeUb7JHPj4HarQ/C0mSg==
+UI-OutboundReport: notjunk:1;M01:P0:YYWisDYw8xM=;hpFPDn/U9t8bI9F/lSJsdl6yvku
+ +flBFMDOajNqb0nd8swkU9rFelaywO5q+o1NMxfgjrUlzfobLBKbVW9dBDS4IYZ6G3kHKKRfI
+ bIwwwSajMn5L39yW8N51rhz5J76tzdEif/luJsA5xtqwyTY079YNawaHQPs9D80Nify95uAPo
+ 6niYudsKSpCxvHqYKNO22dbZqMPzj0lNXEqt1YSMFe9AtLlDn5M07OfjMphpP6PeXfx9hVMXU
+ P40i5DO9aZitN65PcdkI7yqtfSiwZ9V0UiZvPZuvwU0U2u+oDndarAD/cAzGmqcY2PYn7G/bW
+ wMeC7WgrYr14Zs/prv5PUMqTPz+hH1hF8mCIgry4Px3D4ucAX2NeuCkoy0/RmLs2ij1SAtIfQ
+ 9BMUlgkKWRkGSiQkg4K3ozEVsIhpTEzSZq9zhRWwIYinIFnkDReaeFD3BsN7KqjY34U+Y0yW9
+ 6iT50KeTIxJY+AweQbUKJEktHpygNtKJ2N6zRFLhC+MgwkjNgNgASLA8tro9dwCW5ReGFHbTT
+ ANm40bO3sQXSMTf3JYMeP/Foez85PT8pW6FzS2vdIGGvUzKuJ3qBycbxF2bat4lqbfrS2A9c9
+ sS4Ho8sbnyXs2R05OepZRZZxMoYmTcWhbWnZaRKvRkTAgd+nIBs9IJ6V7uuPpnTrClZufw3UU
+ 2N9JLtqMIDFqzWMV8OmBa9TftcT4yxekQR8EyTDRutnZY56MFVUVJ6qPvXU0juWfK+dwxUmFN
+ bOJyeQt1PDECthW67xUCVJs1IGK+Dv8vusJxlS4S2D7kSwnq+WPNk+fCcIMF6UvLDZov4ifGl
+ 6oQxPoqeweOcYgPHBA4nOV3xKujptcWbMTt/Xn++RBiM1VfXnzqWt93gCzZfZrZpFEWyjwgOJ
+ hZmRYyNQa1iH6Or4+x+D5CDxZvJfIIh9uMVYdwiGP/mWjmZLtMxdiATzJw/o0XvusYQ9wrxTw
+ zbtIHQ==
 
-Compile sub-device state information access functions
-v4l2_subdev_state_get_{format,crop,compose} unconditionally as they are
-now also used by plain V4L2 drivers.
+Hi Umang,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/v4l2-core/v4l2-subdev.c | 204 +++++++++++++-------------
- include/media/v4l2-subdev.h           | 128 ++++++++--------
- 2 files changed, 166 insertions(+), 166 deletions(-)
+Am 07.11.23 um 13:36 schrieb Laurent Pinchart:
+> On Tue, Nov 07, 2023 at 02:25:52PM +0200, Laurent Pinchart wrote:
+>> On Tue, Nov 07, 2023 at 04:51:52AM -0500, Umang Jain wrote:
+>>> vchiq_add_connected_callback() logs using vchiq_log_error() macro,
+>>> but passes NULL instead of a struct device pointer. Fix it.
+>>>
+>>> vchiq_add_connected_callback() is not used anywhere in the vc04_servic=
+es
+>>> as of now. It will be used when we add new drivers(VC shared memory an=
+d
+>>> bcm2835-isp), hence it kept as it is for now.
+>>>
+>>> Fixes: 1d8915cf8899 ("staging: vc04: Convert vchiq_log_error() to use =
+dynamic debug")
+>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>>> ---
+>>>   .../vc04_services/interface/vchiq_arm/vchiq_connected.c       | 4 ++=
+=2D-
+>>>   .../vc04_services/interface/vchiq_arm/vchiq_connected.h       | 4 ++=
++-
+>>>   2 files changed, 5 insertions(+), 3 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_c=
+onnected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_conne=
+cted.c
+>>> index b3928bd8c9c6..21f9fa1a1713 100644
+>>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
+d.c
+>>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
+d.c
+>>> @@ -27,7 +27,7 @@ static void connected_init(void)
+>>>    * be made immediately, otherwise it will be deferred until
+>>>    * vchiq_call_connected_callbacks is called.
+>>>    */
+>>> -void vchiq_add_connected_callback(void (*callback)(void))
+>>> +void vchiq_add_connected_callback(struct vchiq_device *device, void (=
+*callback)(void))
+>>
+>> You're changing the prototype of the function, but the patch doesn't
+>> update any user. If the function is unused, it looks like you can drop
+>> it instead. Looking at the rest of the vchiq_connected.c file, I think
+>> you can actually drop the whole file.
+>
+> Except that the vc-sm-cma driver will use it. I'm curious though, that
+> driver will have no way to acquire a pointer to a vchiq_device, so I
+> don't see how this will be usable. pr_err() may be a better pick here.
 
-diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-index 57ef4fce1186..efb39172b20f 100644
---- a/drivers/media/v4l2-core/v4l2-subdev.c
-+++ b/drivers/media/v4l2-core/v4l2-subdev.c
-@@ -1524,6 +1524,108 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
- 
-+struct v4l2_mbus_framefmt *
-+__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
-+			       unsigned int pad, u32 stream)
-+{
-+	struct v4l2_subdev_stream_configs *stream_configs;
-+	unsigned int i;
-+
-+	if (WARN_ON_ONCE(!state))
-+		return NULL;
-+
-+	if (state->pads) {
-+		if (stream)
-+			return NULL;
-+
-+		if (pad >= state->sd->entity.num_pads)
-+			return NULL;
-+
-+		return &state->pads[pad].format;
-+	}
-+
-+	lockdep_assert_held(state->lock);
-+
-+	stream_configs = &state->stream_configs;
-+
-+	for (i = 0; i < stream_configs->num_configs; ++i) {
-+		if (stream_configs->configs[i].pad == pad &&
-+		    stream_configs->configs[i].stream == stream)
-+			return &stream_configs->configs[i].fmt;
-+	}
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_format);
-+
-+struct v4l2_rect *
-+__v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
-+			     u32 stream)
-+{
-+	struct v4l2_subdev_stream_configs *stream_configs;
-+	unsigned int i;
-+
-+	if (WARN_ON_ONCE(!state))
-+		return NULL;
-+
-+	if (state->pads) {
-+		if (stream)
-+			return NULL;
-+
-+		if (pad >= state->sd->entity.num_pads)
-+			return NULL;
-+
-+		return &state->pads[pad].crop;
-+	}
-+
-+	lockdep_assert_held(state->lock);
-+
-+	stream_configs = &state->stream_configs;
-+
-+	for (i = 0; i < stream_configs->num_configs; ++i) {
-+		if (stream_configs->configs[i].pad == pad &&
-+		    stream_configs->configs[i].stream == stream)
-+			return &stream_configs->configs[i].crop;
-+	}
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_crop);
-+
-+struct v4l2_rect *
-+__v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
-+				unsigned int pad, u32 stream)
-+{
-+	struct v4l2_subdev_stream_configs *stream_configs;
-+	unsigned int i;
-+
-+	if (WARN_ON_ONCE(!state))
-+		return NULL;
-+
-+	if (state->pads) {
-+		if (stream)
-+			return NULL;
-+
-+		if (pad >= state->sd->entity.num_pads)
-+			return NULL;
-+
-+		return &state->pads[pad].compose;
-+	}
-+
-+	lockdep_assert_held(state->lock);
-+
-+	stream_configs = &state->stream_configs;
-+
-+	for (i = 0; i < stream_configs->num_configs; ++i) {
-+		if (stream_configs->configs[i].pad == pad &&
-+		    stream_configs->configs[i].stream == stream)
-+			return &stream_configs->configs[i].compose;
-+	}
-+
-+	return NULL;
-+}
-+EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_compose);
-+
- #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
- 
- static int
-@@ -1670,108 +1772,6 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
- }
- EXPORT_SYMBOL_GPL(v4l2_subdev_set_routing_with_fmt);
- 
--struct v4l2_mbus_framefmt *
--__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
--			       unsigned int pad, u32 stream)
--{
--	struct v4l2_subdev_stream_configs *stream_configs;
--	unsigned int i;
--
--	if (WARN_ON_ONCE(!state))
--		return NULL;
--
--	if (state->pads) {
--		if (stream)
--			return NULL;
--
--		if (pad >= state->sd->entity.num_pads)
--			return NULL;
--
--		return &state->pads[pad].format;
--	}
--
--	lockdep_assert_held(state->lock);
--
--	stream_configs = &state->stream_configs;
--
--	for (i = 0; i < stream_configs->num_configs; ++i) {
--		if (stream_configs->configs[i].pad == pad &&
--		    stream_configs->configs[i].stream == stream)
--			return &stream_configs->configs[i].fmt;
--	}
--
--	return NULL;
--}
--EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_format);
--
--struct v4l2_rect *
--__v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
--			     u32 stream)
--{
--	struct v4l2_subdev_stream_configs *stream_configs;
--	unsigned int i;
--
--	if (WARN_ON_ONCE(!state))
--		return NULL;
--
--	if (state->pads) {
--		if (stream)
--			return NULL;
--
--		if (pad >= state->sd->entity.num_pads)
--			return NULL;
--
--		return &state->pads[pad].crop;
--	}
--
--	lockdep_assert_held(state->lock);
--
--	stream_configs = &state->stream_configs;
--
--	for (i = 0; i < stream_configs->num_configs; ++i) {
--		if (stream_configs->configs[i].pad == pad &&
--		    stream_configs->configs[i].stream == stream)
--			return &stream_configs->configs[i].crop;
--	}
--
--	return NULL;
--}
--EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_crop);
--
--struct v4l2_rect *
--__v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
--				unsigned int pad, u32 stream)
--{
--	struct v4l2_subdev_stream_configs *stream_configs;
--	unsigned int i;
--
--	if (WARN_ON_ONCE(!state))
--		return NULL;
--
--	if (state->pads) {
--		if (stream)
--			return NULL;
--
--		if (pad >= state->sd->entity.num_pads)
--			return NULL;
--
--		return &state->pads[pad].compose;
--	}
--
--	lockdep_assert_held(state->lock);
--
--	stream_configs = &state->stream_configs;
--
--	for (i = 0; i < stream_configs->num_configs; ++i) {
--		if (stream_configs->configs[i].pad == pad &&
--		    stream_configs->configs[i].stream == stream)
--			return &stream_configs->configs[i].compose;
--	}
--
--	return NULL;
--}
--EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_compose);
--
- int v4l2_subdev_routing_find_opposite_end(const struct v4l2_subdev_krouting *routing,
- 					  u32 pad, u32 stream, u32 *other_pad,
- 					  u32 *other_stream)
-diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-index b1bad946d813..33c8e5c93a3d 100644
---- a/include/media/v4l2-subdev.h
-+++ b/include/media/v4l2-subdev.h
-@@ -1393,70 +1393,6 @@ v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
- 	return sd->active_state;
- }
- 
--#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
--
--/**
-- * v4l2_subdev_get_fmt() - Fill format based on state
-- * @sd: subdevice
-- * @state: subdevice state
-- * @format: pointer to &struct v4l2_subdev_format
-- *
-- * Fill @format->format field based on the information in the @format struct.
-- *
-- * This function can be used by the subdev drivers which support active state to
-- * implement v4l2_subdev_pad_ops.get_fmt if the subdev driver does not need to
-- * do anything special in their get_fmt op.
-- *
-- * Returns 0 on success, error value otherwise.
-- */
--int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
--			struct v4l2_subdev_format *format);
--
--/**
-- * v4l2_subdev_set_routing() - Set given routing to subdev state
-- * @sd: The subdevice
-- * @state: The subdevice state
-- * @routing: Routing that will be copied to subdev state
-- *
-- * This will release old routing table (if any) from the state, allocate
-- * enough space for the given routing, and copy the routing.
-- *
-- * This can be used from the subdev driver's set_routing op, after validating
-- * the routing.
-- */
--int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
--			    struct v4l2_subdev_state *state,
--			    const struct v4l2_subdev_krouting *routing);
--
--struct v4l2_subdev_route *
--__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
--				struct v4l2_subdev_route *route);
--
--/**
-- * for_each_active_route - iterate on all active routes of a routing table
-- * @routing: The routing table
-- * @route: The route iterator
-- */
--#define for_each_active_route(routing, route) \
--	for ((route) = NULL;                  \
--	     ((route) = __v4l2_subdev_next_active_route((routing), (route)));)
--
--/**
-- * v4l2_subdev_set_routing_with_fmt() - Set given routing and format to subdev
-- *					state
-- * @sd: The subdevice
-- * @state: The subdevice state
-- * @routing: Routing that will be copied to subdev state
-- * @fmt: Format used to initialize all the streams
-- *
-- * This is the same as v4l2_subdev_set_routing, but additionally initializes
-- * all the streams using the given format.
-- */
--int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
--				     struct v4l2_subdev_state *state,
--				     const struct v4l2_subdev_krouting *routing,
--				     const struct v4l2_mbus_framefmt *fmt);
--
- /*
-  * A macro to generate the macro or function name for sub-devices state access
-  * wrapper macros below.
-@@ -1533,6 +1469,70 @@ struct v4l2_rect *
- __v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
- 				unsigned int pad, u32 stream);
- 
-+#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
-+
-+/**
-+ * v4l2_subdev_get_fmt() - Fill format based on state
-+ * @sd: subdevice
-+ * @state: subdevice state
-+ * @format: pointer to &struct v4l2_subdev_format
-+ *
-+ * Fill @format->format field based on the information in the @format struct.
-+ *
-+ * This function can be used by the subdev drivers which support active state to
-+ * implement v4l2_subdev_pad_ops.get_fmt if the subdev driver does not need to
-+ * do anything special in their get_fmt op.
-+ *
-+ * Returns 0 on success, error value otherwise.
-+ */
-+int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
-+			struct v4l2_subdev_format *format);
-+
-+/**
-+ * v4l2_subdev_set_routing() - Set given routing to subdev state
-+ * @sd: The subdevice
-+ * @state: The subdevice state
-+ * @routing: Routing that will be copied to subdev state
-+ *
-+ * This will release old routing table (if any) from the state, allocate
-+ * enough space for the given routing, and copy the routing.
-+ *
-+ * This can be used from the subdev driver's set_routing op, after validating
-+ * the routing.
-+ */
-+int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
-+			    struct v4l2_subdev_state *state,
-+			    const struct v4l2_subdev_krouting *routing);
-+
-+struct v4l2_subdev_route *
-+__v4l2_subdev_next_active_route(const struct v4l2_subdev_krouting *routing,
-+				struct v4l2_subdev_route *route);
-+
-+/**
-+ * for_each_active_route - iterate on all active routes of a routing table
-+ * @routing: The routing table
-+ * @route: The route iterator
-+ */
-+#define for_each_active_route(routing, route) \
-+	for ((route) = NULL;                  \
-+	     ((route) = __v4l2_subdev_next_active_route((routing), (route)));)
-+
-+/**
-+ * v4l2_subdev_set_routing_with_fmt() - Set given routing and format to subdev
-+ *					state
-+ * @sd: The subdevice
-+ * @state: The subdevice state
-+ * @routing: Routing that will be copied to subdev state
-+ * @fmt: Format used to initialize all the streams
-+ *
-+ * This is the same as v4l2_subdev_set_routing, but additionally initializes
-+ * all the streams using the given format.
-+ */
-+int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
-+				     struct v4l2_subdev_state *state,
-+				     const struct v4l2_subdev_krouting *routing,
-+				     const struct v4l2_mbus_framefmt *fmt);
-+
- /**
-  * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
-  * @routing: routing used to find the opposite side
--- 
-2.39.2
+in case there is currently no user, but vc-sm-cma will be then i'm
+convinced that moving this driver into staging before vchiq is out is a
+good idea.
+
+AFAIK your main goal is to get bcm2835-isp into mainline, so it would be
+faster to have it in staging, so everyone could fix the style issues.
+
+My initial concern about importing new drivers was that after moving it
+into staging nobody wants to finish the job. But currently i've a good
+feeling that vchiq is on a good way.
+
+Best regards
+
+>
+>>>   {
+>>>   	connected_init();
+>>>
+>>> @@ -39,7 +39,7 @@ void vchiq_add_connected_callback(void (*callback)(v=
+oid))
+>>>   		callback();
+>>>   	} else {
+>>>   		if (g_num_deferred_callbacks >=3D MAX_CALLBACKS) {
+>>> -			vchiq_log_error(NULL, VCHIQ_CORE,
+>>> +			vchiq_log_error(&device->dev, VCHIQ_CORE,
+>>>   					"There already %d callback registered - please increase MAX_CAL=
+LBACKS",
+>>>   					g_num_deferred_callbacks);
+>>>   		} else {
+>>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_c=
+onnected.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_conne=
+cted.h
+>>> index 4caf5e30099d..e4ed56446f8a 100644
+>>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
+d.h
+>>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
+d.h
+>>> @@ -1,10 +1,12 @@
+>>>   /* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
+>>>   /* Copyright (c) 2010-2012 Broadcom. All rights reserved. */
+>>>
+>>> +#include "vchiq_bus.h"
+>>> +
+>>>   #ifndef VCHIQ_CONNECTED_H
+>>>   #define VCHIQ_CONNECTED_H
+>>>
+>>> -void vchiq_add_connected_callback(void (*callback)(void));
+>>> +void vchiq_add_connected_callback(struct vchiq_device *device, void (=
+*callback)(void));
+>>>   void vchiq_call_connected_callbacks(void);
+>>>
+>>>   #endif /* VCHIQ_CONNECTED_H */
+>
 
