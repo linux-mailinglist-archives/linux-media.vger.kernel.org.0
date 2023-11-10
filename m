@@ -1,191 +1,121 @@
-Return-Path: <linux-media+bounces-3-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-7-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 823497E7EA1
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:46:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4B17E7EB6
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:47:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D5C7281465
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:46:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F35C428150E
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:47:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6766538DC8;
-	Fri, 10 Nov 2023 17:46:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BAF33A267;
+	Fri, 10 Nov 2023 17:46:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="tiqoqms4"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FDbLf3FG"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7C420B14
-	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:28 +0000 (UTC)
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ADA32812C
-	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 02:21:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1699611702; x=1700216502; i=wahrenst@gmx.net;
-	bh=pDxBNkCtCkZS6G8VVFGb2hFThM0VDkxh3OXp+guyeQE=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=tiqoqms45cjSluer2tQFyKyGah+gnuoEPmDjvpd063Wyg6etaqmsZAIftb4MrujM
-	 QMFslV7rIqGV26EzDrQmfYk1OSiNHOM8tQvNjjAt0Qd4ny0rWgM6FwGmpNGTn+es6
-	 PE2Vm71ac3ZmP4UTou8HI1OebkNiybmQBFeOInOXT3EAeWi6KDZ6X3nIVFoUKDdqT
-	 nxc4xbhkHTWrO50NAqH3xTekoYJLETEd1iA39SKNaiyWCb3KEvU91q2YzFKMIIl3V
-	 /jKNBz9m1kHAgl1AcswqRMZnML/ByOrPoA8Y6bajNXUIQ6B5xvisYZ+bd+6llRR0+
-	 g/8PSvGnxScf/FSsXw==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MryXN-1rn9e71rzZ-00nxZL; Fri, 10
- Nov 2023 11:21:42 +0100
-Message-ID: <a122dc9a-724d-4f57-b0c2-0b6676a4ea83@gmx.net>
-Date: Fri, 10 Nov 2023 11:21:41 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCC538DD4
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:32 +0000 (UTC)
+Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66CA228B0D
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 02:23:38 -0800 (PST)
+Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-77896da2118so121652685a.1
+        for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 02:23:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1699611817; x=1700216617; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5QkwWxIGEOurCFKWXSk9BruqjsYwly8P0Gesk2pyj0w=;
+        b=FDbLf3FGnVdR5E/WsV1HMu8xWevptE7QKJlGsykZ09rn3SvTaxJxv1ffFcU5F/guAs
+         uAi5Ixgkj6pHoIQs6XoI/XqFm0MwEQfa8HtgFu1Dl/xq+XYln3+uyd7FkUUu9cgqCNvZ
+         PktFJcgDzFg7Ac+ICAaNYHKt7wJbIM5UzwHvA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699611817; x=1700216617;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5QkwWxIGEOurCFKWXSk9BruqjsYwly8P0Gesk2pyj0w=;
+        b=F8crktQHeMrAhB/gCiDV88fRoZP7Q4s8ehvX7G31RKzF3mf3vnYzgJ9Qlboy6/ooIB
+         iNf34GcqquOAygLE6i54fC/7EwAYNGDda/vxgcRwfmNic1bjunkooibA+Z7+IIfjplIP
+         QqKuFuAJ1pir7fLSXlvrVvOZM5v+iXzdmMABrG/yoHa3auor8jpOip/bmsAYYxxNjY9t
+         BwEsgw0fvGUJKLbm1UTBU+MvbifjxKvo2ZsSMkZmbVgke6VF1iWFRk5xzZrcFVxuvMAE
+         8eh98Fo7GCXSErDPq/r6kQ65bHdhCFbrgzJaO8ZluW7jG50EgWZv0q+BUUMOab75TdP9
+         ZmJA==
+X-Gm-Message-State: AOJu0YxbNgj8x9FnIkL5o05KAXwsAi02gOnfH395qLptmt9+Wtaz5ojb
+	8Kct9Z6H2hF3aAUZB5FJS/yo0JPxbNKKYaG3STFLwQ==
+X-Google-Smtp-Source: AGHT+IGQ9U8RWouyGc/Gq9CBEN00/JgF8M7tx+rKxdF9hnBEl/NPClBKjJqf5nwZ8XI9E7NwwJcrqg==
+X-Received: by 2002:a05:620a:3945:b0:775:446b:85fa with SMTP id qs5-20020a05620a394500b00775446b85famr2255135qkn.3.1699611816963;
+        Fri, 10 Nov 2023 02:23:36 -0800 (PST)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com. [209.85.219.45])
+        by smtp.gmail.com with ESMTPSA id pb6-20020a05620a838600b0076f12fcb0easm605092qkn.2.2023.11.10.02.23.36
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Nov 2023 02:23:36 -0800 (PST)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6779fe2b7c6so4055046d6.0
+        for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 02:23:36 -0800 (PST)
+X-Received: by 2002:a05:6214:2a4b:b0:66d:1f29:3ea8 with SMTP id
+ jf11-20020a0562142a4b00b0066d1f293ea8mr8383989qvb.57.1699611815808; Fri, 10
+ Nov 2023 02:23:35 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/9] staging: vc04_services: Do not pass NULL to
- vchiq_log_error()
-To: Umang Jain <umang.jain@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Phil Elwell <phil@raspberrypi.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>
-References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
- <20231107095156.365492-6-umang.jain@ideasonboard.com>
- <20231107122551.GA3051@pendragon.ideasonboard.com>
- <20231107123627.GB3051@pendragon.ideasonboard.com>
-Content-Language: en-US
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231107123627.GB3051@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:yeYVJSxIyCHzHks/8URM3J2LlpTNzRU1rKdr9itN57hIV5jnkfb
- tRHeL1geL+ZByl9Q5dvug6Lcf6IcCzFGX/odVAy5VdXhlnUoNh6iOtbAwg2HKSwpvXJ92WV
- 8FEO8AOeGekSXEuqSJ06Eux6LQsEIYZtAmb2jwz+y1mtimbSEfqropPDv+EuFAPaCK3f24V
- OpeUb7JHPj4HarQ/C0mSg==
-UI-OutboundReport: notjunk:1;M01:P0:YYWisDYw8xM=;hpFPDn/U9t8bI9F/lSJsdl6yvku
- +flBFMDOajNqb0nd8swkU9rFelaywO5q+o1NMxfgjrUlzfobLBKbVW9dBDS4IYZ6G3kHKKRfI
- bIwwwSajMn5L39yW8N51rhz5J76tzdEif/luJsA5xtqwyTY079YNawaHQPs9D80Nify95uAPo
- 6niYudsKSpCxvHqYKNO22dbZqMPzj0lNXEqt1YSMFe9AtLlDn5M07OfjMphpP6PeXfx9hVMXU
- P40i5DO9aZitN65PcdkI7yqtfSiwZ9V0UiZvPZuvwU0U2u+oDndarAD/cAzGmqcY2PYn7G/bW
- wMeC7WgrYr14Zs/prv5PUMqTPz+hH1hF8mCIgry4Px3D4ucAX2NeuCkoy0/RmLs2ij1SAtIfQ
- 9BMUlgkKWRkGSiQkg4K3ozEVsIhpTEzSZq9zhRWwIYinIFnkDReaeFD3BsN7KqjY34U+Y0yW9
- 6iT50KeTIxJY+AweQbUKJEktHpygNtKJ2N6zRFLhC+MgwkjNgNgASLA8tro9dwCW5ReGFHbTT
- ANm40bO3sQXSMTf3JYMeP/Foez85PT8pW6FzS2vdIGGvUzKuJ3qBycbxF2bat4lqbfrS2A9c9
- sS4Ho8sbnyXs2R05OepZRZZxMoYmTcWhbWnZaRKvRkTAgd+nIBs9IJ6V7uuPpnTrClZufw3UU
- 2N9JLtqMIDFqzWMV8OmBa9TftcT4yxekQR8EyTDRutnZY56MFVUVJ6qPvXU0juWfK+dwxUmFN
- bOJyeQt1PDECthW67xUCVJs1IGK+Dv8vusJxlS4S2D7kSwnq+WPNk+fCcIMF6UvLDZov4ifGl
- 6oQxPoqeweOcYgPHBA4nOV3xKujptcWbMTt/Xn++RBiM1VfXnzqWt93gCzZfZrZpFEWyjwgOJ
- hZmRYyNQa1iH6Or4+x+D5CDxZvJfIIh9uMVYdwiGP/mWjmZLtMxdiATzJw/o0XvusYQ9wrxTw
- zbtIHQ==
+References: <20220920-resend-hwtimestamp-v7-0-cf1d78bb8821@chromium.org>
+ <CANiDSCtC2zOKtopkuuqJYqi6+FQ1Kav6LfMH5gGhKrnDeG7GYw@mail.gmail.com> <CANiDSCteBUraA0UrLM-cU_GqDSWcWERJNV_xhsi3LNQZNvX5dA@mail.gmail.com>
+In-Reply-To: <CANiDSCteBUraA0UrLM-cU_GqDSWcWERJNV_xhsi3LNQZNvX5dA@mail.gmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Fri, 10 Nov 2023 11:23:24 +0100
+X-Gmail-Original-Message-ID: <CANiDSCu9Ca_rxhu=KJb6q2=UPcUjXu8VchLNHTjquCj5qf7rTw@mail.gmail.com>
+Message-ID: <CANiDSCu9Ca_rxhu=KJb6q2=UPcUjXu8VchLNHTjquCj5qf7rTw@mail.gmail.com>
+Subject: Re: [PATCH v7 0/6] uvcvideo: Fixes for hw timestamping
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, "hn.chen" <hn.chen@sunplusit.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Umang,
+Hi
 
-Am 07.11.23 um 13:36 schrieb Laurent Pinchart:
-> On Tue, Nov 07, 2023 at 02:25:52PM +0200, Laurent Pinchart wrote:
->> On Tue, Nov 07, 2023 at 04:51:52AM -0500, Umang Jain wrote:
->>> vchiq_add_connected_callback() logs using vchiq_log_error() macro,
->>> but passes NULL instead of a struct device pointer. Fix it.
->>>
->>> vchiq_add_connected_callback() is not used anywhere in the vc04_servic=
-es
->>> as of now. It will be used when we add new drivers(VC shared memory an=
-d
->>> bcm2835-isp), hence it kept as it is for now.
->>>
->>> Fixes: 1d8915cf8899 ("staging: vc04: Convert vchiq_log_error() to use =
-dynamic debug")
->>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->>> ---
->>>   .../vc04_services/interface/vchiq_arm/vchiq_connected.c       | 4 ++=
-=2D-
->>>   .../vc04_services/interface/vchiq_arm/vchiq_connected.h       | 4 ++=
-+-
->>>   2 files changed, 5 insertions(+), 3 deletions(-)
->>>
->>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_c=
-onnected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_conne=
-cted.c
->>> index b3928bd8c9c6..21f9fa1a1713 100644
->>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
-d.c
->>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
-d.c
->>> @@ -27,7 +27,7 @@ static void connected_init(void)
->>>    * be made immediately, otherwise it will be deferred until
->>>    * vchiq_call_connected_callbacks is called.
->>>    */
->>> -void vchiq_add_connected_callback(void (*callback)(void))
->>> +void vchiq_add_connected_callback(struct vchiq_device *device, void (=
-*callback)(void))
->>
->> You're changing the prototype of the function, but the patch doesn't
->> update any user. If the function is unused, it looks like you can drop
->> it instead. Looking at the rest of the vchiq_connected.c file, I think
->> you can actually drop the whole file.
+Another friendly bi-monthly ping on this ...
+
+Regards!
+
+On Mon, 4 Sept 2023 at 13:55, Ricardo Ribalda <ribalda@chromium.org> wrote:
 >
-> Except that the vc-sm-cma driver will use it. I'm curious though, that
-> driver will have no way to acquire a pointer to a vchiq_device, so I
-> don't see how this will be usable. pr_err() may be a better pick here.
-
-in case there is currently no user, but vc-sm-cma will be then i'm
-convinced that moving this driver into staging before vchiq is out is a
-good idea.
-
-AFAIK your main goal is to get bcm2835-isp into mainline, so it would be
-faster to have it in staging, so everyone could fix the style issues.
-
-My initial concern about importing new drivers was that after moving it
-into staging nobody wants to finish the job. But currently i've a good
-feeling that vchiq is on a good way.
-
-Best regards
-
+> Hi Again
 >
->>>   {
->>>   	connected_init();
->>>
->>> @@ -39,7 +39,7 @@ void vchiq_add_connected_callback(void (*callback)(v=
-oid))
->>>   		callback();
->>>   	} else {
->>>   		if (g_num_deferred_callbacks >=3D MAX_CALLBACKS) {
->>> -			vchiq_log_error(NULL, VCHIQ_CORE,
->>> +			vchiq_log_error(&device->dev, VCHIQ_CORE,
->>>   					"There already %d callback registered - please increase MAX_CAL=
-LBACKS",
->>>   					g_num_deferred_callbacks);
->>>   		} else {
->>> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_c=
-onnected.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_conne=
-cted.h
->>> index 4caf5e30099d..e4ed56446f8a 100644
->>> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
-d.h
->>> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connecte=
-d.h
->>> @@ -1,10 +1,12 @@
->>>   /* SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause */
->>>   /* Copyright (c) 2010-2012 Broadcom. All rights reserved. */
->>>
->>> +#include "vchiq_bus.h"
->>> +
->>>   #ifndef VCHIQ_CONNECTED_H
->>>   #define VCHIQ_CONNECTED_H
->>>
->>> -void vchiq_add_connected_callback(void (*callback)(void));
->>> +void vchiq_add_connected_callback(struct vchiq_device *device, void (=
-*callback)(void));
->>>   void vchiq_call_connected_callbacks(void);
->>>
->>>   #endif /* VCHIQ_CONNECTED_H */
+> This has been waiting from March, and it has been already been
 >
+> Reviewed-by: Sergey
+> and
+> Tested-by: Sunplus
+>
+> Is there something that I can do to help merging this patchset?
+>
+> Thanks!
+>
+> On Tue, 15 Aug 2023 at 13:26, Ricardo Ribalda <ribalda@chromium.org> wrote:
+> >
+> > Hi Laurent
+> >
+> > Could you give a look to this patchset?
+> >
+> > Thanks!
+>
+>
+>
+> --
+> Ricardo Ribalda
+
+
+
+-- 
+Ricardo Ribalda
 
