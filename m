@@ -2,99 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 8BC987E77B2
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 03:45:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BE3607E77CF
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 03:59:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1345662AbjKJCp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 21:45:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56740 "EHLO
+        id S229648AbjKJC7U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 21:59:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35130 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S229632AbjKJCp6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 21:45:58 -0500
-Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D453133
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 18:45:56 -0800 (PST)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 847B8C433C7
-        for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 02:45:55 +0000 (UTC)
-Date:   Fri, 10 Nov 2023 03:45:53 +0100
-Message-ID: <be0d5cb91ea77a7bd104cc45042df54e.hverkuil@xs4all.nl>
-From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+        with ESMTP id S229491AbjKJC7T (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 21:59:19 -0500
+Received: from mail-vs1-xe31.google.com (mail-vs1-xe31.google.com [IPv6:2607:f8b0:4864:20::e31])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D06364229
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 18:59:16 -0800 (PST)
+Received: by mail-vs1-xe31.google.com with SMTP id ada2fe7eead31-45db3badadbso699077137.3
+        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 18:59:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1699585156; x=1700189956; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cYA5rJpCEqdhu1Dq/5dPoAwsI72d8BAvhnJXT+T4oos=;
+        b=FGLTudEtOtFLIoL/GgWV+ido8gkPePNSUayf3jA0TleplXe5ND+6j+yHdWxD5mQ5c7
+         Hkcols3CmcF/qhhySrbQd27M5TWfAW9Jds6COx/zPN8yYGGqmfjETSwFBn4WiVebY0ZG
+         CYw4yEwu88nhX894adxRz7OGl8YbUQtB+R4hrCu5Y3TcBqVuBPMFpj9BO+TrVq6bDb8e
+         jh897MsIQuhJ0E5UVhvGpZLU0L8dI1q0/xgB5RDX6NLRRqbh4xqUPmVWi9gOZOpXP3dr
+         kJsQEhtm1C+WNEPY0sYxX9me0I6Lr8q/t4J4OpDf9aSfunXhGyDIDqDqf0YGZFe4PBGn
+         I3VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699585156; x=1700189956;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cYA5rJpCEqdhu1Dq/5dPoAwsI72d8BAvhnJXT+T4oos=;
+        b=wtYj/y/aG0vQmnstbYVSz3LQGqJO/0hzjSNcBVDAjCKRlO0OjW5riCujBi+Z3hk8vl
+         mGXEXp6HGgaGrnkVyMfN5TWIBk8tJnb3hdEicGN+JmtIYhCatdXg8oYcxThDcMNKDpj5
+         4sBKhUIbf+tB/0qvKrlioBmNL1b92yMLPnSMDRKVwhQW0bhAXzzaacyd5aEfMcjRoXWr
+         GCIa+wiNjbORsV4RBTaWtY06b7Np6Sj2e7/kPdGHqVyoZMOdHhmtAMTzTXAWTbMnMI68
+         S79N9Ljz560mpakrIESJcO9JWh0uuc03x4np5jVXmo9c0tBQ4MblS/M+pCXUZJ36P2+7
+         BVaw==
+X-Gm-Message-State: AOJu0Yweaqiv6dLWjW8+Cc2ECXWWFxlR45Z5p1hTU8ognGWVZSaUrfC7
+        /p+Gr96Csyax3rmW+kgGFSS9niEUfMSjPUAOftTyKg==
+X-Google-Smtp-Source: AGHT+IFOryz0B149KznbXpgkBi69phioiLVC4R9PWdX35ZPDwW1mQdW7sr2TdvnDfhWAyV20CN9DNjJoJE0dCWxIRHw=
+X-Received: by 2002:a05:6102:205a:b0:45e:fe97:70a8 with SMTP id
+ q26-20020a056102205a00b0045efe9770a8mr6645348vsr.22.1699585155651; Thu, 09
+ Nov 2023 18:59:15 -0800 (PST)
+MIME-Version: 1.0
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-5-almasrymina@google.com> <076fa6505f3e1c79cc8acdf9903809fad6c2fd31.camel@redhat.com>
+In-Reply-To: <076fa6505f3e1c79cc8acdf9903809fad6c2fd31.camel@redhat.com>
+From:   Mina Almasry <almasrymina@google.com>
+Date:   Thu, 9 Nov 2023 18:59:04 -0800
+Message-ID: <CAHS8izOGSE-PJ1uShkH_Mr6kUoC1EjM_9P1J=_TO6nLFP9K53Q@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 04/12] netdev: support binding dma-buf to netdevice
+To:     Paolo Abeni <pabeni@redhat.com>
+Cc:     netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        "David S. Miller" <davem@davemloft.net>,
+        Eric Dumazet <edumazet@google.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jesper Dangaard Brouer <hawk@kernel.org>,
+        Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+        Arnd Bergmann <arnd@arndb.de>,
+        David Ahern <dsahern@kernel.org>,
+        Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Shuah Khan <shuah@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Shakeel Butt <shakeelb@google.com>,
+        Jeroen de Borst <jeroendb@google.com>,
+        Praveen Kaligineedi <pkaligineedi@google.com>,
+        Willem de Bruijn <willemb@google.com>,
+        Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+On Thu, Nov 9, 2023 at 12:30=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wro=
+te:
+>
+> I'm trying to wrap my head around the whole infra... the above line is
+> confusing. Why do you increment dma_addr? it will be re-initialized in
+> the next iteration.
+>
 
-Results of the daily build of media_tree:
+That is just a mistake, sorry. Will remove this increment.
 
-date:			Fri Nov 10 03:00:10 CET 2023
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	3e238417254bfdcc23fe207780b59cbb08656762
-v4l-utils git hash:	fcf62ab17d69bc9ddb59e8d0ee7a8b56d9eba336
-edid-decode git hash:	385c6cb09714593be3aa5b5d123e4e42bf4fbb05
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8523-g045d29f9
-sparse version:		v0.5.0-8523-g045d29f9
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 67163b4b3a78582b3ea7eac29dbff793d6567b1d
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+On Thu, Nov 9, 2023 at 1:29=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.com=
+> wrote:> >>>
+> >>> gen_pool_destroy BUG_ON() if it's not empty at the time of destroying=
+.
+> >>> Technically that should never happen, because
+> >>> __netdev_devmem_binding_free() should only be called when the refcoun=
+t
+> >>> hits 0, so all the chunks have been freed back to the gen_pool. But,
+> >>> just in case, I don't want to crash the server just because I'm
+> >>> leaking a chunk... this is a bit of defensive programming that is
+> >>> typically frowned upon, but the behavior of gen_pool is so severe I
+> >>> think the WARN() + check is warranted here.
+> >>
+> >> It seems it is pretty normal for the above to happen nowadays because =
+of
+> >> retransmits timeouts, NAPI defer schemes mentioned below:
+> >>
+> >> https://lkml.kernel.org/netdev/168269854650.2191653.846525980849826981=
+5.stgit@firesoul/
+> >>
+> >> And currently page pool core handles that by using a workqueue.
+> >
+> > Forgive me but I'm not understanding the concern here.
+> >
+> > __netdev_devmem_binding_free() is called when binding->ref hits 0.
+> >
+> > binding->ref is incremented when an iov slice of the dma-buf is
+> > allocated, and decremented when an iov is freed. So,
+> > __netdev_devmem_binding_free() can't really be called unless all the
+> > iovs have been freed, and gen_pool_size() =3D=3D gen_pool_avail(),
+> > regardless of what's happening on the page_pool side of things, right?
+>
+> I seems to misunderstand it. In that case, it seems to be about
+> defensive programming like other checking.
+>
+> By looking at it more closely, it seems napi_frag_unref() call
+> page_pool_page_put_many() directly=EF=BC=8C which means devmem seems to
+> be bypassing the napi_safe optimization.
+>
+> Can napi_frag_unref() reuse napi_pp_put_page() in order to reuse
+> the napi_safe optimization?
+>
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+I think it already does. page_pool_page_put_many() is only called if
+!recycle or !napi_pp_put_page(). In that case
+page_pool_page_put_many() is just a replacement for put_page(),
+because this 'page' may be an iov.
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: WARNINGS:
-
-drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Fri Nov 10 03:16:08 CET 2023
-virtme-64: WARNINGS: Final Summary: 3218, Succeeded: 3218, Failed: 0, Warnings: 5
-virtme-32: WARNINGS: Final Summary: 3342, Succeeded: 3342, Failed: 0, Warnings: 4
-
-date:			Fri Nov 10 03:44:42 CET 2023
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+--=20
+Thanks,
+Mina
