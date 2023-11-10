@@ -1,231 +1,182 @@
-Return-Path: <linux-media+bounces-13-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-63-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0597C7E7ECB
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:47:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 026517E813A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 19:27:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2840C1C20BEF
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:47:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B1B4D280FDD
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:26:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FD533AC1B;
-	Fri, 10 Nov 2023 17:46:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD7AF3A287;
+	Fri, 10 Nov 2023 18:26:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TpGQt+V1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tl1FHn9h"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB33538F9F
-	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:33 +0000 (UTC)
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 319C83B306
-	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 07:40:56 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ED43673;
-	Fri, 10 Nov 2023 16:40:32 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1699630832;
-	bh=qhG25pJyJMIZD3xWDD7RJsofQ1G1gsZakBU5FSUsQQM=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6B838DE9
+	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 18:26:52 +0000 (UTC)
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B89B4131D;
+	Fri, 10 Nov 2023 10:24:37 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62F8CC43391;
+	Fri, 10 Nov 2023 18:24:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699640650;
+	bh=5Cnpf5r8iWd0CmH6dX7jzJeU1NDBsOBBm+7XS06qRkg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TpGQt+V1OJFBHZMZJG2bVzPnfOFJspYYMFzSXkK+B7YojhtCdbSe1fFK8lfomsYQg
-	 QSb6e6CojtkTWzB9/H8H70An0fgl7OmuOK5Icg2hctZUw7aSywkAYdZdjFtzkluNoy
-	 1+MdRBzwrXzrfwzQQOKbm8d+CPLJGJXStl+ozyoM=
-Date: Fri, 10 Nov 2023 17:41:01 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Sebastian Fricke <sebastian.fricke@collabora.com>
-Subject: Re: [PATCH] media: drop CONFIG_MEDIA_CONTROLLER_REQUEST_API
-Message-ID: <20231110154101.GB7466@pendragon.ideasonboard.com>
-References: <35ee2d37-949a-4878-b27b-b8431f685efb@xs4all.nl>
+	b=tl1FHn9hBWjpY5JhlH9QfJvHRjysmHUYI0IjLduVnMIZYgJjZyr+sfk/ZZhdvI1hY
+	 h5IH4BGndC7iBLeafXSLZofUqqxdJeg1WB0g1mF+/i/6loaSJ9RiUlNg8+AehwaBgo
+	 g5+3x0gzZnSYhyDNNQpV7OPDowLc8aeIsNOZWDMo46xRi8PzY7a4vrGeRkqvbZa4xD
+	 glIfoymeiQUIJhSne9NO7q648Bd0oOjNC+dMfyyEpcPKRjnlKU+shMdZhy1WWA1JaP
+	 r9HnBciKjvR1NFqHIGGKSIcgNKsS0eAkYzwE1KilKGVyHTHDXJUiEwbL2V+JyTiLdZ
+	 5gajgwpeUimZQ==
+Date: Fri, 10 Nov 2023 18:23:57 +0000
+From: Conor Dooley <conor@kernel.org>
+To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+	heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+	conor+dt@kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
+	maxime.chevallier@bootlin.com, michael.riesch@wolfvision.net
+Subject: Re: [PATCH v10 1/3] media: dt-bindings: media: add bindings for
+ Rockchip CIF
+Message-ID: <20231110-appetizer-fame-2152806c7442@roley>
+References: <cover.1699460637.git.mehdi.djait@bootlin.com>
+ <037bcabf97294d37b271537e4b11fb88cf9bb6f6.1699460637.git.mehdi.djait@bootlin.com>
+ <20231109-closable-superglue-5e7f39739cf1@spud>
+ <ZU0avuRRaITV4jws@aptenodytes>
+ <e5b1f0dd-0aab-4ce5-82ba-879a4d736e7e@linaro.org>
+ <ZU0f33clFwlsTw16@aptenodytes>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="tkoOwTNqqLjvCZ6v"
+Content-Disposition: inline
+In-Reply-To: <ZU0f33clFwlsTw16@aptenodytes>
+
+
+--tkoOwTNqqLjvCZ6v
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <35ee2d37-949a-4878-b27b-b8431f685efb@xs4all.nl>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Nov 10, 2023 at 09:53:00AM +0100, Hans Verkuil wrote:
-> This config option was added during the development of the Request API
-> to make it easy to disable it.
-> 
-> The Request API is now stable so it is time to drop this option altogether.
+On Thu, Nov 09, 2023 at 07:07:27PM +0100, Paul Kocialkowski wrote:
+> On Thu 09 Nov 23, 18:53, Krzysztof Kozlowski wrote:
+> > On 09/11/2023 18:45, Paul Kocialkowski wrote:
+> > > On Thu 09 Nov 23, 17:24, Conor Dooley wrote:
+> > >> On Wed, Nov 08, 2023 at 05:38:56PM +0100, Mehdi Djait wrote:
+> > >>> Add a documentation for the Rockchip Camera Interface binding.
+> > >>>
+> > >>> the name of the file rk3066 is the first Rockchip SoC generation th=
+at uses cif
+> > >>> instead of the px30 which is just one of the many iterations of the=
+ unit.
+> > >>
+> > >> I think this is becoming ridiculous. You've now removed the compatib=
+le
+> > >> for the rk3066 but kept it in the filename. I don't understand the
+> > >> hangup about naming the file after the px30-vip, but naming it after
+> > >> something that is not documented here at all makes no sense to me.
+> > >> Either document the rk3066 properly, or remove all mention of it IMO.
+> > >=20
+> > > I think the opposite is ridiculous. We have spent some time investiga=
+ting the
+> > > history of this unit, to find out that RK3066 is the first occurence =
+where
+> > > it exists. Since we want the binding to cover all generations of the =
+same unit
+> > > and give it a name that reflects this, rk3066 is the natural choice t=
+hat comes
+> > > to mind. As far as I understand, this is the normal thing to do to na=
+me
+> > > bindings: name after the earliest known occurence of the unit.
+> > >=20
+> > > What is the rationale behind naming the file after a generation of th=
+e unit
+> > > that happens to be the one introducing the binding? This is neither t=
+he first
+> > > nor the last one to include this unit. The binding will be updated la=
+ter to
+> > > cover other generations. Do we want to rename the file each time an a=
+ generation
+> > > earlier than px30 is introduced? That sounds quite ridiculous too.
+> > >=20
+> > > We've done the research work to give it the most relevant name here.
+> > > I'd expect some strong arguments not to use it. Can you ellaborate?
+> >=20
+> > If you do not have rk3066 documented here, it might be added to entirely
+> > different file (for whatever reasons, including that binding would be
+> > quite different than px30). Thus you would have rk3066 in
+> > rockchip,rk3066-cif-added-later.yaml and px30 in rockchip,rk3066-cif.ya=
+ml
+>=20
+> As far as I could see we generally manage to include support for different
+> hardware setups in the same binding document using conditionals on the
+> compatible, so this feels a bit far-fetched.
+>=20
+> Of course you're the maintainer and have significantly more experience he=
+re
+> so there might be a lot that I'm not seeing, but I'm not very convinced b=
+y this
+> reasoning to be honest.
+>=20
+> > Just use the filename matching the compatible. That's what we always
+> > ask. In every review.
+>=20
+> Yeah and we very often end up with naming that is less than optimal (to s=
+tay
+> polite). I'm generally quite appalled by the overall lack of interest that
+> naming gets, as if it was something secondary. Naming is one of the most
+> important and difficult things in our field of work and it needs to be
+> considered with care.
+>=20
+> This is not just a problem with device-tree, it's a kernel-wide issue that
+> nobody seems to be interested in addressing. I'm quite unhappy to see tha=
+t when
+> time is spent trying to improve the situation on one particular instance,=
+ we are
+> shown the door because it doesn't match what is generally done (and often=
+ done
+> wrong).
+>=20
+> This is definitely a rant. I really want to express this issue loud and c=
+lear
+> and encourage everyone to consider it for what it is.
 
-Less config options is a good idea.
+Look chief, I do understand your frustration here, with the seemingly
+arbitrary naming etc. I'm apologise if using the word "ridiculous" earlier
+pissed you off. I'm sure you can similarly understand why we don't want
+to accept either having a compatible for the rk3066-cif in the file,
+when you are not yet sure of the correct constraints, or given your
+interest in naming, why calling it after something that it does not even
+document is misleading.
+Ultimately, I don't care what the file ends up being called when there
+are multiple devices documented in it. I'd ack a patch renaming to the
+=C5=93riginal incarnation of the IP when the documentation for that IP is
+added without a second thought.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+--tkoOwTNqqLjvCZ6v
+Content-Type: application/pgp-signature; name="signature.asc"
 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> ---
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index c7a54d82a55e..9295ded50bc3 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -685,10 +685,8 @@ static void fill_buf_caps(struct vb2_queue *q, u32 *caps)
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF;
->  	if (q->allow_cache_hints && q->io_modes & VB2_MMAP)
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS;
-> -#ifdef CONFIG_MEDIA_CONTROLLER_REQUEST_API
->  	if (q->supports_requests)
->  		*caps |= V4L2_BUF_CAP_SUPPORTS_REQUESTS;
-> -#endif
->  }
-> 
->  static void validate_memory_flags(struct vb2_queue *q,
-> diff --git a/drivers/media/mc/Kconfig b/drivers/media/mc/Kconfig
-> index 375b09612981..c82b07d2ef36 100644
-> --- a/drivers/media/mc/Kconfig
-> +++ b/drivers/media/mc/Kconfig
-> @@ -11,10 +11,3 @@ config MEDIA_CONTROLLER_DVB
->  	  Enable the media controller API support for DVB.
-> 
->  	  This is currently experimental.
-> -
-> -config MEDIA_CONTROLLER_REQUEST_API
-> -	bool
-> -	depends on MEDIA_CONTROLLER
-> -	help
-> -	  This option enables the Request API for the Media controller and V4L2
-> -	  interfaces. It is currently needed by a few stateless codec drivers.
-> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-> index 8cee956e38d4..c0dd4ae57227 100644
-> --- a/drivers/media/mc/mc-device.c
-> +++ b/drivers/media/mc/mc-device.c
-> @@ -372,16 +372,12 @@ static long media_device_get_topology(struct media_device *mdev, void *arg)
-> 
->  static long media_device_request_alloc(struct media_device *mdev, void *arg)
->  {
-> -#ifdef CONFIG_MEDIA_CONTROLLER_REQUEST_API
->  	int *alloc_fd = arg;
-> 
->  	if (!mdev->ops || !mdev->ops->req_validate || !mdev->ops->req_queue)
->  		return -ENOTTY;
-> 
->  	return media_request_alloc(mdev, alloc_fd);
-> -#else
-> -	return -ENOTTY;
-> -#endif
->  }
-> 
->  static long copy_arg_from_user(void *karg, void __user *uarg, unsigned int cmd)
-> diff --git a/drivers/media/platform/mediatek/vcodec/Kconfig b/drivers/media/platform/mediatek/vcodec/Kconfig
-> index 74b00eb1bc97..bc8292232530 100644
-> --- a/drivers/media/platform/mediatek/vcodec/Kconfig
-> +++ b/drivers/media/platform/mediatek/vcodec/Kconfig
-> @@ -24,7 +24,6 @@ config VIDEO_MEDIATEK_VCODEC
->  	select V4L2_H264
->  	select V4L2_VP9
->  	select MEDIA_CONTROLLER
-> -	select MEDIA_CONTROLLER_REQUEST_API
->  	help
->  	  Mediatek video codec driver provides HW capability to
->  	  encode and decode in a range of video formats on MT8173
-> diff --git a/drivers/media/platform/nvidia/tegra-vde/Kconfig b/drivers/media/platform/nvidia/tegra-vde/Kconfig
-> index f7454823bbbb..2fe13f39c95b 100644
-> --- a/drivers/media/platform/nvidia/tegra-vde/Kconfig
-> +++ b/drivers/media/platform/nvidia/tegra-vde/Kconfig
-> @@ -6,7 +6,6 @@ config VIDEO_TEGRA_VDE
->  	select DMA_SHARED_BUFFER
->  	select IOMMU_IOVA
->  	select MEDIA_CONTROLLER
-> -	select MEDIA_CONTROLLER_REQUEST_API
->  	select SRAM
->  	select VIDEOBUF2_DMA_CONTIG
->  	select VIDEOBUF2_DMA_SG
-> diff --git a/drivers/media/platform/verisilicon/Kconfig b/drivers/media/platform/verisilicon/Kconfig
-> index e65b836b9d78..24b927d8f182 100644
-> --- a/drivers/media/platform/verisilicon/Kconfig
-> +++ b/drivers/media/platform/verisilicon/Kconfig
-> @@ -8,7 +8,6 @@ config VIDEO_HANTRO
->  	depends on V4L_MEM2MEM_DRIVERS
->  	depends on VIDEO_DEV
->  	select MEDIA_CONTROLLER
-> -	select MEDIA_CONTROLLER_REQUEST_API
->  	select VIDEOBUF2_DMA_CONTIG
->  	select VIDEOBUF2_VMALLOC
->  	select V4L2_MEM2MEM_DEV
-> diff --git a/drivers/media/test-drivers/Kconfig b/drivers/media/test-drivers/Kconfig
-> index 459b433e9fae..5a5379524bde 100644
-> --- a/drivers/media/test-drivers/Kconfig
-> +++ b/drivers/media/test-drivers/Kconfig
-> @@ -12,7 +12,6 @@ config VIDEO_VIM2M
->  	select VIDEOBUF2_VMALLOC
->  	select V4L2_MEM2MEM_DEV
->  	select MEDIA_CONTROLLER
-> -	select MEDIA_CONTROLLER_REQUEST_API
->  	help
->  	  This is a virtual test device for the memory-to-memory driver
->  	  framework.
-> diff --git a/drivers/media/test-drivers/vicodec/Kconfig b/drivers/media/test-drivers/vicodec/Kconfig
-> index a7a828eec2a4..4ea0689c3abe 100644
-> --- a/drivers/media/test-drivers/vicodec/Kconfig
-> +++ b/drivers/media/test-drivers/vicodec/Kconfig
-> @@ -5,7 +5,6 @@ config VIDEO_VICODEC
->  	select VIDEOBUF2_VMALLOC
->  	select V4L2_MEM2MEM_DEV
->  	select MEDIA_CONTROLLER
-> -	select MEDIA_CONTROLLER_REQUEST_API
->  	help
->  	  Driver for a Virtual Codec
-> 
-> diff --git a/drivers/media/test-drivers/visl/Kconfig b/drivers/media/test-drivers/visl/Kconfig
-> index 7508b904f196..37be9f267224 100644
-> --- a/drivers/media/test-drivers/visl/Kconfig
-> +++ b/drivers/media/test-drivers/visl/Kconfig
-> @@ -7,7 +7,6 @@ config VIDEO_VISL
->  	select VIDEOBUF2_VMALLOC
->  	select V4L2_MEM2MEM_DEV
->  	select MEDIA_CONTROLLER
-> -	select MEDIA_CONTROLLER_REQUEST_API
->  	select VIDEO_V4L2_TPG
->  	help
-> 
-> diff --git a/drivers/media/test-drivers/vivid/Kconfig b/drivers/media/test-drivers/vivid/Kconfig
-> index 5b08a5ad291e..ec2e71d76965 100644
-> --- a/drivers/media/test-drivers/vivid/Kconfig
-> +++ b/drivers/media/test-drivers/vivid/Kconfig
-> @@ -10,7 +10,6 @@ config VIDEO_VIVID
->  	select VIDEOBUF2_DMA_CONTIG
->  	select VIDEO_V4L2_TPG
->  	select MEDIA_CONTROLLER
-> -	select MEDIA_CONTROLLER_REQUEST_API
->  	help
->  	  Enables a virtual video driver. This driver emulates a webcam,
->  	  TV, S-Video and HDMI capture hardware, including VBI support for
-> diff --git a/drivers/staging/media/rkvdec/Kconfig b/drivers/staging/media/rkvdec/Kconfig
-> index e963d60cc6ad..5f3bdd848a2c 100644
-> --- a/drivers/staging/media/rkvdec/Kconfig
-> +++ b/drivers/staging/media/rkvdec/Kconfig
-> @@ -4,7 +4,6 @@ config VIDEO_ROCKCHIP_VDEC
->  	depends on ARCH_ROCKCHIP || COMPILE_TEST
->  	depends on VIDEO_DEV
->  	select MEDIA_CONTROLLER
-> -	select MEDIA_CONTROLLER_REQUEST_API
->  	select VIDEOBUF2_DMA_CONTIG
->  	select VIDEOBUF2_VMALLOC
->  	select V4L2_MEM2MEM_DEV
-> diff --git a/drivers/staging/media/sunxi/cedrus/Kconfig b/drivers/staging/media/sunxi/cedrus/Kconfig
-> index 621944f9907a..cb07a343c9c2 100644
-> --- a/drivers/staging/media/sunxi/cedrus/Kconfig
-> +++ b/drivers/staging/media/sunxi/cedrus/Kconfig
-> @@ -6,7 +6,6 @@ config VIDEO_SUNXI_CEDRUS
->  	depends on HAS_DMA
->  	depends on OF
->  	select MEDIA_CONTROLLER
-> -	select MEDIA_CONTROLLER_REQUEST_API
->  	select SUNXI_SRAM
->  	select VIDEOBUF2_DMA_CONTIG
->  	select V4L2_MEM2MEM_DEV
+-----BEGIN PGP SIGNATURE-----
 
--- 
-Regards,
+iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZU51MwAKCRB4tDGHoIJi
+0kScAQDf+B0t7fgSDHGxdUzFgfdNTZjMafc19Bc8+A8VwvxxowD8C1VXDUA8yC/A
+16c4pdrfajLloJy4M/muYCeWBytydQ0=
+=plf4
+-----END PGP SIGNATURE-----
 
-Laurent Pinchart
+--tkoOwTNqqLjvCZ6v--
 
