@@ -2,113 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from out1.vger.email (out1.vger.email [IPv6:2620:137:e000::1:20])
-	by mail.lfdr.de (Postfix) with ESMTP id 90DC27E7663
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 02:05:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BC987E77B2
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 03:45:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S234850AbjKJBFO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 9 Nov 2023 20:05:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37902 "EHLO
+        id S1345662AbjKJCp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 9 Nov 2023 21:45:59 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56740 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1345592AbjKJBFC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 20:05:02 -0500
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 173804220
-        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 17:05:00 -0800 (PST)
-Received: by mail-lj1-x230.google.com with SMTP id 38308e7fff4ca-2c514cbbe7eso20747591fa.1
-        for <linux-media@vger.kernel.org>; Thu, 09 Nov 2023 17:04:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1699578298; x=1700183098; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cYQvDtaR1Rq2jfedJTX47JK1X6rSYRRgJAozvHJVQR8=;
-        b=kVm1GepxG7CjuP/CSk3gtvvT6PzrXnahWDwPtHTJpiEa3x7F+jrEZI8WmzPysqmSoE
-         OjqPb850bxrsXOly21iA14glW2B07eBnIes7v3WKnRwbUccHLVLlRx6teXZQQZArk0pB
-         SyL+UZMspwOu2DtCRRObK/7TkoAAuakXzocNbj/HOQ0OspmEgLAJ83KEIfXnYiwvFl5r
-         /lAxHQIEb6aLHsuMvirZN1yuuu6hRDEYGw1yhrZVvpwEbNqtf5cgKrQTnUJbkzSVFXrq
-         lrKvqPj0SOTKAP8NbjSPx6tDn7FnmRAxpSwVKhVwlmupJrEBtJFQwwTp4nJhPmyTS2Iy
-         ND5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699578298; x=1700183098;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cYQvDtaR1Rq2jfedJTX47JK1X6rSYRRgJAozvHJVQR8=;
-        b=UgXTM4WnQ5KN7UmzRYK887FH9WygVQD4A+IqCE4DqaKx+ydGWH39Dyu5u81rqInd9L
-         yEefj60sJA7Rfyhidklf4C+O4yfZ21kXxNQr3W0k7pXZfs8LjwLvaKnh3ZTA45N9NBpP
-         yqFGAe4KT9Z5xjJIQR0hIgCgfD5TtthIWfGPCZho0L2QMt+zGWsaEsW9TG93O8oF+wrA
-         roxoaFrhz1HWVkwNv0DYh/QIPQ9Ofdo76X8t6yZ5KUTYeGbpCFj4Xs+b71MupbtnCo/0
-         lJ2Pi5JO3Q2z8Y44qtWfvwAEChGzOLanriPavQ/gFLKkEjjzg/znG/BS5ZeNV3l7A5O4
-         GkCg==
-X-Gm-Message-State: AOJu0YxE/9WXXfbMHvL0hBfWTi/RX9GSr27wMmgtROZaaXmZlSpCX3GA
-        qmgeHFmUGoCIzyGo1m4wJ22MZA==
-X-Google-Smtp-Source: AGHT+IGO6UmvZMd+QDCGUZMGgoA1QAKWo2qz6+2Fs6vQvRw/QvQsKdJg7ZqNXqHhXGL9zsVGvNFJlg==
-X-Received: by 2002:ac2:4306:0:b0:508:1332:558a with SMTP id l6-20020ac24306000000b005081332558amr2632106lfh.2.1699578298239;
-        Thu, 09 Nov 2023 17:04:58 -0800 (PST)
-Received: from [127.0.0.1] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id d1-20020a056000114100b00326f0ca3566sm820562wrx.50.2023.11.09.17.04.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 09 Nov 2023 17:04:57 -0800 (PST)
-From:   Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date:   Fri, 10 Nov 2023 01:04:51 +0000
-Subject: [PATCH v5 6/6] media: qcom: camss: vfe-17x: Rename camss-vfe-170
- to camss-vfe-17x
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231110-b4-camss-sc8280xp-v5-6-7f4947cc59c8@linaro.org>
-References: <20231110-b4-camss-sc8280xp-v5-0-7f4947cc59c8@linaro.org>
-In-Reply-To: <20231110-b4-camss-sc8280xp-v5-0-7f4947cc59c8@linaro.org>
-To:     hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Robert Foss <rfoss@kernel.org>,
-        Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
-        matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
-Cc:     linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-X-Mailer: b4 0.12.3
+        with ESMTP id S229632AbjKJCp6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 9 Nov 2023 21:45:58 -0500
+Received: from smtp.kernel.org (relay.kernel.org [52.25.139.140])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D453133
+        for <linux-media@vger.kernel.org>; Thu,  9 Nov 2023 18:45:56 -0800 (PST)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 847B8C433C7
+        for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 02:45:55 +0000 (UTC)
+Date:   Fri, 10 Nov 2023 03:45:53 +0100
+Message-ID: <be0d5cb91ea77a7bd104cc45042df54e.hverkuil@xs4all.nl>
+From:   "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-vfe-170 and vfe-175 can be supported in the same file with some minimal
-indirection to differentiate between the silicon versions.
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-sdm845 uses vfe-170, sc8280xp uses vfe-175-200. Lets rename the file to
-capture its wider scope than vfe-170 only.
+Results of the daily build of media_tree:
 
-Acked-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- drivers/media/platform/qcom/camss/Makefile                             | 2 +-
- drivers/media/platform/qcom/camss/{camss-vfe-170.c => camss-vfe-17x.c} | 0
- 2 files changed, 1 insertion(+), 1 deletion(-)
+date:			Fri Nov 10 03:00:10 CET 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	3e238417254bfdcc23fe207780b59cbb08656762
+v4l-utils git hash:	fcf62ab17d69bc9ddb59e8d0ee7a8b56d9eba336
+edid-decode git hash:	385c6cb09714593be3aa5b5d123e4e42bf4fbb05
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8523-g045d29f9
+sparse version:		v0.5.0-8523-g045d29f9
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 67163b4b3a78582b3ea7eac29dbff793d6567b1d
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
-diff --git a/drivers/media/platform/qcom/camss/Makefile b/drivers/media/platform/qcom/camss/Makefile
-index 4e22223589739..0d4389ab312d1 100644
---- a/drivers/media/platform/qcom/camss/Makefile
-+++ b/drivers/media/platform/qcom/camss/Makefile
-@@ -14,7 +14,7 @@ qcom-camss-objs += \
- 		camss-vfe-4-1.o \
- 		camss-vfe-4-7.o \
- 		camss-vfe-4-8.o \
--		camss-vfe-170.o \
-+		camss-vfe-17x.o \
- 		camss-vfe-480.o \
- 		camss-vfe-gen1.o \
- 		camss-vfe.o \
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-170.c b/drivers/media/platform/qcom/camss/camss-vfe-17x.c
-similarity index 100%
-rename from drivers/media/platform/qcom/camss/camss-vfe-170.c
-rename to drivers/media/platform/qcom/camss/camss-vfe-17x.c
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
--- 
-2.42.0
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Fri Nov 10 03:16:08 CET 2023
+virtme-64: WARNINGS: Final Summary: 3218, Succeeded: 3218, Failed: 0, Warnings: 5
+virtme-32: WARNINGS: Final Summary: 3342, Succeeded: 3342, Failed: 0, Warnings: 4
+
+date:			Fri Nov 10 03:44:42 CET 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
