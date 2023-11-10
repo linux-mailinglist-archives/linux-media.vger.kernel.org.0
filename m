@@ -1,121 +1,217 @@
-Return-Path: <linux-media+bounces-7-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-11-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4B17E7EB6
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:47:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F81C7E7EC7
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 18:47:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F35C428150E
-	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:47:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5AA1A1C20D42
+	for <lists+linux-media@lfdr.de>; Fri, 10 Nov 2023 17:47:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BAF33A267;
-	Fri, 10 Nov 2023 17:46:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADACF3AC10;
+	Fri, 10 Nov 2023 17:46:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FDbLf3FG"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="fyqg58Eo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4BCC538DD4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDECA38DE9
 	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 17:46:32 +0000 (UTC)
-Received: from mail-qk1-x72b.google.com (mail-qk1-x72b.google.com [IPv6:2607:f8b0:4864:20::72b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66CA228B0D
-	for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 02:23:38 -0800 (PST)
-Received: by mail-qk1-x72b.google.com with SMTP id af79cd13be357-77896da2118so121652685a.1
-        for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 02:23:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1699611817; x=1700216617; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5QkwWxIGEOurCFKWXSk9BruqjsYwly8P0Gesk2pyj0w=;
-        b=FDbLf3FGnVdR5E/WsV1HMu8xWevptE7QKJlGsykZ09rn3SvTaxJxv1ffFcU5F/guAs
-         uAi5Ixgkj6pHoIQs6XoI/XqFm0MwEQfa8HtgFu1Dl/xq+XYln3+uyd7FkUUu9cgqCNvZ
-         PktFJcgDzFg7Ac+ICAaNYHKt7wJbIM5UzwHvA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699611817; x=1700216617;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5QkwWxIGEOurCFKWXSk9BruqjsYwly8P0Gesk2pyj0w=;
-        b=F8crktQHeMrAhB/gCiDV88fRoZP7Q4s8ehvX7G31RKzF3mf3vnYzgJ9Qlboy6/ooIB
-         iNf34GcqquOAygLE6i54fC/7EwAYNGDda/vxgcRwfmNic1bjunkooibA+Z7+IIfjplIP
-         QqKuFuAJ1pir7fLSXlvrVvOZM5v+iXzdmMABrG/yoHa3auor8jpOip/bmsAYYxxNjY9t
-         BwEsgw0fvGUJKLbm1UTBU+MvbifjxKvo2ZsSMkZmbVgke6VF1iWFRk5xzZrcFVxuvMAE
-         8eh98Fo7GCXSErDPq/r6kQ65bHdhCFbrgzJaO8ZluW7jG50EgWZv0q+BUUMOab75TdP9
-         ZmJA==
-X-Gm-Message-State: AOJu0YxbNgj8x9FnIkL5o05KAXwsAi02gOnfH395qLptmt9+Wtaz5ojb
-	8Kct9Z6H2hF3aAUZB5FJS/yo0JPxbNKKYaG3STFLwQ==
-X-Google-Smtp-Source: AGHT+IGQ9U8RWouyGc/Gq9CBEN00/JgF8M7tx+rKxdF9hnBEl/NPClBKjJqf5nwZ8XI9E7NwwJcrqg==
-X-Received: by 2002:a05:620a:3945:b0:775:446b:85fa with SMTP id qs5-20020a05620a394500b00775446b85famr2255135qkn.3.1699611816963;
-        Fri, 10 Nov 2023 02:23:36 -0800 (PST)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com. [209.85.219.45])
-        by smtp.gmail.com with ESMTPSA id pb6-20020a05620a838600b0076f12fcb0easm605092qkn.2.2023.11.10.02.23.36
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Nov 2023 02:23:36 -0800 (PST)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6779fe2b7c6so4055046d6.0
-        for <linux-media@vger.kernel.org>; Fri, 10 Nov 2023 02:23:36 -0800 (PST)
-X-Received: by 2002:a05:6214:2a4b:b0:66d:1f29:3ea8 with SMTP id
- jf11-20020a0562142a4b00b0066d1f293ea8mr8383989qvb.57.1699611815808; Fri, 10
- Nov 2023 02:23:35 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DEFA29506;
+	Fri, 10 Nov 2023 02:32:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1699612349; x=1700217149; i=wahrenst@gmx.net;
+	bh=VYUzFbtyLV0OMmDyZppluwpgFsQNDPwwwtizFu1yQGo=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=fyqg58EofYlVvDHn84ZHH/jKJUR5U3PBJpB0a4V1rMEbYquFoswA+JWyFS7LnUHv
+	 mzc0RkN+0wdJ2EI+DCCzmYiUwRR7tzIbeQJcCTd9DcRJo8kfrMReOmYTa6sE5U5wv
+	 jp5A6n0rnpw4sfB+K94bIRTbVWyRkrFFXtB3qfqkMAio/j4NgvW44oQ8sgl9STpwC
+	 6HSVxhrbdsftwsTxNd/PkvlHzaGiWZ3CwTzhk8mc/5DRFtzkslOikPzje7YOsVdDO
+	 B3/Nnu1mCtCjxnQ8OpRZZPW9mRhEYZmYnh1VaXLU2n6sVT5usbIFV3Z4rG/0YqGSt
+	 2nAUNYYNLc6P2lPSzA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MfpOT-1rdEf741BB-00gDAP; Fri, 10
+ Nov 2023 11:32:29 +0100
+Message-ID: <aec3897e-3ff6-4256-aaef-0cc1d5e7822a@gmx.net>
+Date: Fri, 10 Nov 2023 11:32:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20220920-resend-hwtimestamp-v7-0-cf1d78bb8821@chromium.org>
- <CANiDSCtC2zOKtopkuuqJYqi6+FQ1Kav6LfMH5gGhKrnDeG7GYw@mail.gmail.com> <CANiDSCteBUraA0UrLM-cU_GqDSWcWERJNV_xhsi3LNQZNvX5dA@mail.gmail.com>
-In-Reply-To: <CANiDSCteBUraA0UrLM-cU_GqDSWcWERJNV_xhsi3LNQZNvX5dA@mail.gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 10 Nov 2023 11:23:24 +0100
-X-Gmail-Original-Message-ID: <CANiDSCu9Ca_rxhu=KJb6q2=UPcUjXu8VchLNHTjquCj5qf7rTw@mail.gmail.com>
-Message-ID: <CANiDSCu9Ca_rxhu=KJb6q2=UPcUjXu8VchLNHTjquCj5qf7rTw@mail.gmail.com>
-Subject: Re: [PATCH v7 0/6] uvcvideo: Fixes for hw timestamping
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, "hn.chen" <hn.chen@sunplusit.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/15] staging: vc04_services: bcm2835-isp support
+Content-Language: en-US
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+ kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>,
+ Dan Carpenter <error27@gmail.com>
+References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231109210309.638594-1-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:IzaixV3E2I0i5t1/yCRO/F7ZOx4f22jelDHFErmexGp2So76fLm
+ qGchW9n6Y7n4VcfVnzYZ9Q76G0it4uyBXRiskwszPHlafupQec5SaTifLZ6JM53IqXtUcm0
+ mlvsfupldha0QGm1xUGTlXvyY1jADADgDEhorj2kJAbsRe4fNDEuk15Z0zyZS6dZdnjxgNr
+ QMOsoDKCibG7m8582HQJg==
+UI-OutboundReport: notjunk:1;M01:P0:KPsVdoqBSyc=;OYScNlUkAb5HvB19yahEro5NCPV
+ KB4eXrPpk4Z6dou+rwTFoRLcU2ADdro155R9RjTQBfPGTIrQ2kpGdX0tHWU/h3VSrUox/VAnD
+ 82jg4CDk/ayNCc6gFyrcFATqn1eZc6nzVqlBX0ZfAXyXf3+x7pCzSUU7Kzm+wnKVXg9AG7Oeo
+ T7DMjZDilgPdJZ2jm6IZ302jyddUM99iyGGE2JO1XsLYzKai1OHXl8LKOgWaNFpurUJL1OUXu
+ qKXfmz+3guGevKD5Vu+6AM6s92j9CVA58qLEnd/lwU57JZ4DRLMTwG9T60f/XVaJsb+ew2JeY
+ 5w0ru73KJD8G7Q3zZ/kaLeLWb7t5Eftej3g0VY7hsyGmRfWELi5QZKxCExGAuI/QFcdrek/q7
+ Em1pG5mZQQC8Cgn7Yv/EUe82cWyqAZ1e23cG3YVvW/KnWMhZbUbqTSKEdznAtAKDuO+XKmlYH
+ Y+uWQ4B6txSNY97EGJ0ssLII92NV+ajVM+PdIBQuwxKuHMtshD0hsRXd3SblIjwCqEfJA2e1I
+ +MjBE7xhBAZClh3P+s+grJXjXO5vL12a3PUMQr7CvY5ob6dt4Y2mdWviB9Cxd3WkAFByBwxIv
+ Y0ANgej9laXnoE/bF0y0/3NgzTzmgLvkjyI7ccdnRNH8U1EsI/YRdN2UD3wQnRAMZ/UIzweUJ
+ 0bCm9APHG9JxhN8J4IQJIzOh1A3juTUQ0CA9HxtvyJCPe/6yAdWa7fliQq+d9kKzpZLO6qVrN
+ 5cNl9dEwr6HUVqVsYNIIivkDUKN9lrJ1jyDK87NXps86/1H3LWR6eC2IhcNkjo4TbjtInQUC6
+ VBr7XStA3fe4qWAi/SwMg2FUfAztUdE4Ri8GIC8vmZd+3yZjvIJlT0YYAm2IYDlU9XMvTlSPH
+ wiBh5r3aSaLe19C39tgUxEY/DmJmIeJ8mUD6IdbOcfCe7fZpZDXozFsnmM2axkKKREunLSNJv
+ QHpTEA==
 
-Hi
+Hi Umang,
 
-Another friendly bi-monthly ping on this ...
+Am 09.11.23 um 22:02 schrieb Umang Jain:
+> This series aims to upport bcm2835-isp from the RPi kernel.
+> It is developed on top of staging-next which comprises many
+> VC04 changes for it's de-staging. Hence, the merge of this
+> driver is targeted when VC04 is de-staged completely (which I
+> have been pushing), but it can be helped getting reviewed meanwhile.
+> Hence, the reason for posting the series.
+>
+> Patch (01-02)/15  adds a new driver named vc-sm-cma to handle memory sha=
+ring
+> with the VC4 VPU.
+>
+> Patch 03/15 adds a small extension to videobuf2 to allow exporting as a
+> dma_buf instead of a file-descriptor.
+>
+> Patch (04-05)/15 adds a couple of improvements/support for
+> bcm2835-isp(event callback and zero-copy) to vchiq-mmal.
+>
+> Patch (06-10)/15 adds the core bcm2835-isp driver along with headers
+> and format defintions. 09/15 is a standalone patch which can be merged
+> independently I believe.
+>
+> Patch (11-12)/15 deals with the colorspace support.
+>
+> Patch 13/15 allows multiple instances of the ISP.
+>
+> Patch 14/15 adds a admin-guide document on bcm2835-isp.
+>
+> Patch 15/15 deals with driver registeration.
 
-Regards!
+since this is V2, i couldn't find a changelog? The first one was one
+year ago, so it's very hard to remember. In such a case a link to the
+last version is also helpful.
 
-On Mon, 4 Sept 2023 at 13:55, Ricardo Ribalda <ribalda@chromium.org> wrote:
->
-> Hi Again
->
-> This has been waiting from March, and it has been already been
->
-> Reviewed-by: Sergey
-> and
-> Tested-by: Sunplus
->
-> Is there something that I can do to help merging this patchset?
->
-> Thanks!
->
-> On Tue, 15 Aug 2023 at 13:26, Ricardo Ribalda <ribalda@chromium.org> wrote:
-> >
-> > Hi Laurent
-> >
-> > Could you give a look to this patchset?
-> >
-> > Thanks!
->
->
->
-> --
-> Ricardo Ribalda
+Recently i saw you have a Github account. For such a complex series it's
+also very helpful to provide a link to a working test branch with this
+series applied. It's not a must, but appreciated.
 
+Best regards
 
-
--- 
-Ricardo Ribalda
+>
+> Dave Stevenson (6):
+>    staging: vc04_services: Add new vc-sm-cma driver
+>    media: videobuf2: Allow exporting of a struct dmabuf
+>    staging: mmal-vchiq: Add support for event callbacks
+>    staging: mmal-vchiq: Use vc-sm-cma to support zero copy
+>    staging: mmal_vchiq: Add image formats to be used by bcm2835-isp
+>    uapi: bcm2835-isp: Add bcm2835-isp uapi header file
+>
+> David Plowman (2):
+>    vc04_services: bcm2835-isp: Allow formats with different colour space=
+s
+>    vc04_services: bcm2835-isp: Permit all sRGB colour spaces on ISP
+>      outputs
+>
+> Naushir Patuck (4):
+>    media: uapi: v4l2-core: Add ISP statistics output V4L2 fourcc type
+>    staging: vc04_services: bcm2835-isp: Add a more complex ISP processin=
+g
+>      component
+>    staging: vc04_services: bcm2835_isp: Allow multiple users
+>    docs: admin-guide: media: bcm2835-isp: Add documentation for
+>      bcm2835-isp
+>
+> Umang Jain (3):
+>    staging: vc04_services: vchiq_arm: Register vcsm-cma driver
+>    staging: vc04_services: Add helpers for vchiq driver data
+>    staging: vc04_services: vchiq: Register bcm2835-isp
+>
+>   .../admin-guide/media/bcm2835-isp.rst         |  127 ++
+>   .../userspace-api/media/drivers/index.rst     |    1 +
+>   .../userspace-api/media/v4l/meta-formats.rst  |    1 +
+>   .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     |   32 +
+>   MAINTAINERS                                   |    9 +
+>   .../media/common/videobuf2/videobuf2-core.c   |   36 +-
+>   drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>   drivers/staging/vc04_services/Kconfig         |    4 +
+>   drivers/staging/vc04_services/Makefile        |    3 +-
+>   .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
+>   .../vc04_services/bcm2835-isp/Makefile        |    4 +
+>   .../bcm2835-isp/bcm2835-isp-ctrls.h           |   72 +
+>   .../bcm2835-isp/bcm2835-isp-fmts.h            |  559 +++++
+>   .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1822 +++++++++++++++++
+>   .../interface/vchiq_arm/vchiq_arm.c           |    6 +
+>   .../interface/vchiq_arm/vchiq_bus.h           |   10 +
+>   .../staging/vc04_services/vc-sm-cma/Kconfig   |   10 +
+>   .../staging/vc04_services/vc-sm-cma/Makefile  |    4 +
+>   .../staging/vc04_services/vc-sm-cma/vc_sm.c   |  817 ++++++++
+>   .../staging/vc04_services/vc-sm-cma/vc_sm.h   |   54 +
+>   .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c  |  507 +++++
+>   .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h  |   63 +
+>   .../vc04_services/vc-sm-cma/vc_sm_defs.h      |  187 ++
+>   .../vc04_services/vc-sm-cma/vc_sm_knl.h       |   28 +
+>   .../staging/vc04_services/vchiq-mmal/Kconfig  |    1 +
+>   .../vc04_services/vchiq-mmal/mmal-common.h    |    5 +
+>   .../vc04_services/vchiq-mmal/mmal-encodings.h |   66 +
+>   .../vc04_services/vchiq-mmal/mmal-msg.h       |   35 +
+>   .../vchiq-mmal/mmal-parameters.h              |  165 +-
+>   .../vc04_services/vchiq-mmal/mmal-vchiq.c     |  253 ++-
+>   .../vc04_services/vchiq-mmal/mmal-vchiq.h     |    5 +
+>   include/media/videobuf2-core.h                |   15 +
+>   include/uapi/linux/bcm2835-isp.h              |  347 ++++
+>   include/uapi/linux/v4l2-controls.h            |    5 +
+>   include/uapi/linux/videodev2.h                |    1 +
+>   35 files changed, 5235 insertions(+), 34 deletions(-)
+>   create mode 100644 Documentation/admin-guide/media/bcm2835-isp.rst
+>   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-b=
+cm2835-isp-stats.rst
+>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfig
+>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefile
+>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-i=
+sp-ctrls.h
+>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-i=
+sp-fmts.h
+>   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-v=
+4l2-isp.c
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kconfig
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Makefile
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.c
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm.h
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_v=
+chi.c
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_v=
+chi.h
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.=
+h
+>   create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
+>   create mode 100644 include/uapi/linux/bcm2835-isp.h
+>
 
