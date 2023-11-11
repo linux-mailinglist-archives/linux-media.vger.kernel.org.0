@@ -1,109 +1,143 @@
-Return-Path: <linux-media+bounces-99-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-100-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 297CF7E8A62
-	for <lists+linux-media@lfdr.de>; Sat, 11 Nov 2023 11:53:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0943A7E8A7E
+	for <lists+linux-media@lfdr.de>; Sat, 11 Nov 2023 12:16:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BFF5E280F8B
-	for <lists+linux-media@lfdr.de>; Sat, 11 Nov 2023 10:53:48 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 956EF1F20F1C
+	for <lists+linux-media@lfdr.de>; Sat, 11 Nov 2023 11:16:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F16412B60;
-	Sat, 11 Nov 2023 10:53:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF705134A7;
+	Sat, 11 Nov 2023 11:16:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JIoP3pcJ"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="ZYVp65ZK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BD287F
-	for <linux-media@vger.kernel.org>; Sat, 11 Nov 2023 10:53:41 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 081473AA8;
-	Sat, 11 Nov 2023 02:53:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699700020; x=1731236020;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=sri7pyPfJ1jGdWG8uOtu4Dd/45elvMuxlAnl70MkOjI=;
-  b=JIoP3pcJiExenZubg7S/81f8ywtTGfFE2UexcpNNIqJO6MRgBeIfWf2s
-   VON2UC4sjW+TH/pZO/XnAeoD2nx2EwU67xFRhyGotIyey2mUClwOjS+uq
-   ZbQd4wlhU/ErdQc5frf97dGgJ9yHUUpkL1xPoGpjMLfhT0MLWWPoEkE2D
-   v6Vw4QdSPbCdEhMTjQviBvayR0+4onNuHA2m1PJVkEWoHMEACx8y1jjoL
-   In9VqTLqXwTvUBaq0y9ZGJAtI0KBWWQLN/bZ5Ji1b+zpWYWkuMgO0IXF1
-   kr3KqRsFi7CrDV3qjp+H0OBNnFBH0RvjAWZCGoIMkwK5EZTxMLCpYLSNy
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="394172432"
-X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="394172432"
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 02:53:39 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10890"; a="767505053"
-X-IronPort-AV: E=Sophos;i="6.03,294,1694761200"; 
-   d="scan'208";a="767505053"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by fmsmga007.fm.intel.com with ESMTP; 11 Nov 2023 02:53:34 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r1lcK-000AO6-1a;
-	Sat, 11 Nov 2023 10:53:32 +0000
-Date: Sat, 11 Nov 2023 18:52:53 +0800
-From: kernel test robot <lkp@intel.com>
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, hverkuil@xs4all.nl,
-	sakari.ailus@iki.fi, tfiga@chromium.org, m.szyprowski@samsung.com,
-	mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com,
-	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz,
-	tiwai@suse.com, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org
-Cc: oe-kbuild-all@lists.linux.dev
-Subject: Re: [PATCH v9 13/15] media: uapi: Add an entity type for audio
- resampler
-Message-ID: <202311111844.o3EWWxvk-lkp@intel.com>
-References: <1699595289-25773-14-git-send-email-shengjiu.wang@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DD2A12B78;
+	Sat, 11 Nov 2023 11:16:30 +0000 (UTC)
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAB363AA8;
+	Sat, 11 Nov 2023 03:16:23 -0800 (PST)
+X-UUID: bb35b3e4808311ee8051498923ad61e6-20231111
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=D2tKsXiy0X+1JGV/GrDN1OLzUO3UG44bCa8GSOX5Eqc=;
+	b=ZYVp65ZKL9ii//GMRU+3Tykq1kLMIacfXQ0nUO8RIrVzwDumVK/jnHAwyzRTIdCO350B7ZJCaScXLko1RgwVuKdL7aXewsLAdakY6gi0mB5K8pFqto0ZLA+RG7n66nS53yWTRj497ffjtTU2Ioy5z5VmrA+CbxLniS4hGITzO90=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.33,REQID:1bb9f16c-58c5-49af-bcbe-52e6832c6786,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:364b77b,CLOUDID:9e818872-1bd3-4f48-b671-ada88705968c,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+	DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: bb35b3e4808311ee8051498923ad61e6-20231111
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw02.mediatek.com
+	(envelope-from <yong.wu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 384052900; Sat, 11 Nov 2023 19:16:16 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs13n1.mediatek.inc (172.21.101.193) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Sat, 11 Nov 2023 19:16:15 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Sat, 11 Nov 2023 19:16:14 +0800
+From: Yong Wu <yong.wu@mediatek.com>
+To: Rob Herring <robh+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+	<christian.koenig@amd.com>, Matthias Brugger <matthias.bgg@gmail.com>
+CC: Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
+	<conor+dt@kernel.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+	<tjmercier@google.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Yong Wu <yong.wu@mediatek.com>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>, <jianjiao.zeng@mediatek.com>,
+	<kuohong.wang@mediatek.com>, Vijayanand Jitta <quic_vjitta@quicinc.com>,
+	Joakim Bech <joakim.bech@linaro.org>, Jeffrey Kardatzke
+	<jkardatzke@google.com>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+	<ckoenig.leichtzumerken@gmail.com>
+Subject: [PATCH v2 0/8] dma-buf: heaps: Add secure heap
+Date: Sat, 11 Nov 2023 19:15:51 +0800
+Message-ID: <20231111111559.8218-1-yong.wu@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1699595289-25773-14-git-send-email-shengjiu.wang@nxp.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-Hi Shengjiu,
+This patchset adds three secure heaps:
+1) secure_mtk_cm: secure chunk memory for MediaTek SVP (Secure Video Path).
+   The buffer is reserved for the secure world after bootup and it is used
+   for vcodec's ES/working buffer;
+2) secure_mtk_cma: secure CMA memory for MediaTek SVP. This buffer is
+   dynamically reserved for the secure world and will be got when we start
+   playing secure videos, Once the security video playing is complete, the
+   CMA will be released. This heap is used for the vcodec's frame buffer. 
+3) secure_cma: Use the kerne CMA ops as the allocation ops. 
+   currently it is a draft version for Vijay and Jaskaran.
 
-kernel test robot noticed the following build warnings:
+For the first two MediaTek heaps will be used v4l2[1] and drm[2], thus we
+cannot put it in v4l2 or drm, and create a common heap for them. Meanwhile
+We have a limited number of hardware entries to protect memory, we cannot
+protect memory arbitrarily, thus the secure memory management is actually
+inside OPTEE. The kernel just tells the TEE what size I want and the TEE
+will return a "secure handle".
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on broonie-sound/for-next tiwai-sound/for-next tiwai-sound/for-linus linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+[1] https://lore.kernel.org/linux-mediatek/20231106120423.23364-1-yunfei.dong@mediatek.com/
+[2] https://lore.kernel.org/linux-mediatek/20231023044549.21412-1-jason-jh.lin@mediatek.com/
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Shengjiu-Wang/ASoC-fsl_asrc-define-functions-for-memory-to-memory-usage/20231110-143635
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/1699595289-25773-14-git-send-email-shengjiu.wang%40nxp.com
-patch subject: [PATCH v9 13/15] media: uapi: Add an entity type for audio resampler
-reproduce: (https://download.01.org/0day-ci/archive/20231111/202311111844.o3EWWxvk-lkp@intel.com/reproduce)
+Change note:
+v2: 1) Move John's patches into the vcodec patchset since they use the new
+       dma heap interface directly.
+       https://lore.kernel.org/linux-mediatek/20231106120423.23364-1-yunfei.dong@mediatek.com/
+    2) Reword the dt-binding description.
+    3) Rename the heap name from mtk_svp to secure_mtk_cm.
+       This means the current vcodec/DRM upstream code doesn't match this.
+    4) Add a normal CMA heap. currently it should be a draft version.
+    5) Regarding the UUID, I still use hard code, but put it in a private
+    data which allow the others could set their own UUID. What's more, UUID
+    is necessary for the session with TEE. If we don't have it, we can't
+    communicate with the TEE, including the get_uuid interface, which tries
+    to make uuid more generic, not working. If there is other way to make
+    UUID more general, please free to tell me.
+    
+v1: https://lore.kernel.org/linux-mediatek/20230911023038.30649-1-yong.wu@mediatek.com/
+    Base on v6.6-rc1.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311111844.o3EWWxvk-lkp@intel.com/
+Yong Wu (8):
+  dma-buf: heaps: Initialize a secure heap
+  dma-buf: heaps: secure_heap: Add private heap ops
+  dma-buf: heaps: secure_heap: Initialize tee session
+  dma-buf: heaps: secure_heap: Add tee memory service call
+  dma-buf: heaps: secure_heap: Add dma_ops
+  dt-bindings: reserved-memory: Add secure CMA reserved memory range
+  dma_buf: heaps: secure_heap: Add a new MediaTek CMA heap
+  dma-buf: heaps: secure_heap: Add normal CMA heap
 
-All warnings (new ones prefixed by >>):
-
->> Documentation/output/media.h.rst:6: WARNING: undefined label: media-ent-f-proc-audio-resampler (if the link has no caption the label must precede a section header)
-
-vim +6 Documentation/output/media.h.rst
+ .../reserved-memory/secure_cma_region.yaml    |  44 ++
+ drivers/dma-buf/heaps/Kconfig                 |   7 +
+ drivers/dma-buf/heaps/Makefile                |   1 +
+ drivers/dma-buf/heaps/secure_heap.c           | 602 ++++++++++++++++++
+ 4 files changed, 654 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/reserved-memory/secure_cma_region.yaml
+ create mode 100644 drivers/dma-buf/heaps/secure_heap.c
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.25.1
+
 
