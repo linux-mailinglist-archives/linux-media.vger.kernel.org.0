@@ -1,108 +1,319 @@
-Return-Path: <linux-media+bounces-96-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-97-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F09F07E885E
-	for <lists+linux-media@lfdr.de>; Sat, 11 Nov 2023 03:36:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6403F7E89C4
+	for <lists+linux-media@lfdr.de>; Sat, 11 Nov 2023 09:16:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A32611F20F3E
-	for <lists+linux-media@lfdr.de>; Sat, 11 Nov 2023 02:36:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B5B04B20C13
+	for <lists+linux-media@lfdr.de>; Sat, 11 Nov 2023 08:16:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F40F566A;
-	Sat, 11 Nov 2023 02:36:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8864110977;
+	Sat, 11 Nov 2023 08:16:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ht9uExB8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BjaNatcW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3683D5226;
-	Sat, 11 Nov 2023 02:35:58 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75F08C433C7;
-	Sat, 11 Nov 2023 02:35:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAEB71094B
+	for <linux-media@vger.kernel.org>; Sat, 11 Nov 2023 08:16:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44A37C433C8;
+	Sat, 11 Nov 2023 08:16:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699670158;
-	bh=gY+gv6FuH7IyPZd+GcBbaxMFJ8nyFzbRgSyvPpB8WHI=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=ht9uExB8i5dnk2CmKBU1mVcjqsdrsD2ZgLZevr8N30eX0ZSAYboFGGKykaf+sSld7
-	 CGIVo25CwHPZiytr+teiiIPuigIDo+JPIkQyvN5n3iPDUMIc9jsF0NZEo7e+fDs8hI
-	 ztRuR71feWJhW6c3gOy9FbB8al83VwWsa2jI6RDs8vnryE62nP6YASRYhTa1kayr6w
-	 Da1EO6WGh1FXrOMerj2O/J/S46xnJ+wZhJFsdyYR1y51fhNB5Bz4l+uQ9vxyzm9yki
-	 rXMDshUoip7ZzimtjecJgZVPpXDWmdS8vodHd4gqw3Sf3ZLjfhV8IAAtpr5Xj5Edg8
-	 N5/Cmof6uQUjA==
-Date: Fri, 10 Nov 2023 18:35:56 -0800
-From: Jakub Kicinski <kuba@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
- <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, David Ahern
- <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>, Shakeel Butt
- <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>, Praveen
- Kaligineedi <pkaligineedi@google.com>, Stanislav Fomichev <sdf@google.com>
-Subject: Re: [RFC PATCH v3 12/12] selftests: add ncdevmem, netcat for devmem
- TCP
-Message-ID: <20231110183556.2b7b7502@kernel.org>
-In-Reply-To: <CAHS8izNFnE8RGgBhKzxhVoKXtXgZGVQCLSdm4_dWNeH9Gx-WDQ@mail.gmail.com>
-References: <20231106024413.2801438-1-almasrymina@google.com>
-	<20231106024413.2801438-13-almasrymina@google.com>
-	<20231110151335.38a1c6ec@kernel.org>
-	<CAHS8izNFnE8RGgBhKzxhVoKXtXgZGVQCLSdm4_dWNeH9Gx-WDQ@mail.gmail.com>
+	s=k20201202; t=1699690594;
+	bh=CfBn0ztwBcbAQ+Aptc89/YJJxdrHTqXSPn8w7Fsv678=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=BjaNatcW2RPEQ+GVpd14LiyS5SMDN0geyfUrcLXy7MKzGTni/7xjM91PXkUci9+L1
+	 BqmOzzrU53xt4scjZ8+LEaZRyItjTnp4hQKJtIADuv5PbUznepUN4TtLRVPc1cdg88
+	 FgZfIgmS78NS3R6SqgYj5LfaBw/iAshm85YrtR1allkESxd7cIeGbaiImAVRy5WMU1
+	 dG4QjhUVBSTiJMzpr5qhzam0mO/mk011tlbBTD0TPQR39vPMbqr2lWYRVyZhWXDg3S
+	 IskPEYD3daON9ay0mjYUEdSxJZyvGaYHabaxDevrcmsWaO2U7j2zgigJL8qhNyy3vi
+	 VzIDoWvNZKleA==
+Message-ID: <70821f4c-d0f8-4a35-b664-0823bf430816@kernel.org>
+Date: Sat, 11 Nov 2023 09:16:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 14/15] media: imx-asrc: Add memory to memory driver
+Content-Language: en-US
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, hverkuil@xs4all.nl,
+ sakari.ailus@iki.fi, tfiga@chromium.org, m.szyprowski@samsung.com,
+ mchehab@kernel.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
+ festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+References: <1699595289-25773-1-git-send-email-shengjiu.wang@nxp.com>
+ <1699595289-25773-15-git-send-email-shengjiu.wang@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <1699595289-25773-15-git-send-email-shengjiu.wang@nxp.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Fri, 10 Nov 2023 18:27:08 -0800 Mina Almasry wrote:
-> Thanks for the clear requirement. I clearly had something different in mind.
-> 
-> Might be dumb suggestions, but instead of creating a new ndo that we
-> maybe end up wanting to deprecate once the queue API is ready, how
-> about we use either of those existing APIs?
-> 
-> +void netdev_reset(struct net_device *dev)
+On 10/11/2023 06:48, Shengjiu Wang wrote:
+> +static int asrc_m2m_probe(struct platform_device *pdev)
 > +{
-> +       int flags = ETH_RESET_ALL;
-> +       int err;
+> +	struct fsl_asrc_m2m_pdata *data = pdev->dev.platform_data;
+> +	struct device *dev = &pdev->dev;
+> +	struct asrc_m2m *m2m;
+> +	int ret;
 > +
-> +#if 1
-> +       __dev_close(dev);
-> +       err = __dev_open(dev, NULL);
-> +#else
-> +       err = dev->ethtool_ops->reset(dev, &flags);
+> +	m2m = devm_kzalloc(dev, sizeof(struct asrc_m2m), GFP_KERNEL);
+
+sizeof(*)
+
+> +	if (!m2m)
+> +		return -ENOMEM;
+> +
+> +	m2m->pdata = *data;
+> +	m2m->pdev = pdev;
+> +
+> +	ret = v4l2_device_register(dev, &m2m->v4l2_dev);
+> +	if (ret) {
+> +		dev_err(dev, "failed to register v4l2 device\n");
+> +		goto err_register;
+> +	}
+> +
+> +	m2m->m2m_dev = v4l2_m2m_init(&asrc_m2m_ops);
+> +	if (IS_ERR(m2m->m2m_dev)) {
+> +		dev_err(dev, "failed to register v4l2 device\n");
+
+Why aren't you using dev_err_probe() at all?
+
+> +		ret = PTR_ERR(m2m->m2m_dev);
+> +		goto err_m2m;
+> +	}
+> +
+> +	m2m->dec_vdev = video_device_alloc();
+> +	if (!m2m->dec_vdev) {
+> +		dev_err(dev, "failed to register v4l2 device\n");
+
+Why do you print errors on ENOMEM?
+
+Did you run coccinelle?
+
+> +		ret = -ENOMEM;
+> +		goto err_vdev_alloc;
+> +	}
+> +
+> +	mutex_init(&m2m->mlock);
+> +
+> +	m2m->dec_vdev->fops = &asrc_m2m_fops;
+> +	m2m->dec_vdev->ioctl_ops = &asrc_m2m_ioctl_ops;
+> +	m2m->dec_vdev->minor = -1;
+> +	m2m->dec_vdev->release = video_device_release;
+> +	m2m->dec_vdev->lock = &m2m->mlock; /* lock for ioctl serialization */
+> +	m2m->dec_vdev->v4l2_dev = &m2m->v4l2_dev;
+> +	m2m->dec_vdev->vfl_dir = VFL_DIR_M2M;
+> +	m2m->dec_vdev->device_caps = V4L2_CAP_STREAMING | V4L2_CAP_AUDIO_M2M;
+> +
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +	m2m->mdev.dev = &pdev->dev;
+> +	strscpy(m2m->mdev.model, M2M_DRV_NAME, sizeof(m2m->mdev.model));
+> +	snprintf(m2m->mdev.bus_info, sizeof(m2m->mdev.bus_info),
+> +		 "platform:%s", M2M_DRV_NAME);
+> +	media_device_init(&m2m->mdev);
+> +	m2m->mdev.ops = &asrc_m2m_media_ops;
+> +	m2m->v4l2_dev.mdev = &m2m->mdev;
 > +#endif
+> +
+> +	ret = video_register_device(m2m->dec_vdev, VFL_TYPE_AUDIO, -1);
+> +	if (ret) {
+> +		dev_err(dev, "failed to register video device\n");
+> +		goto err_vdev_register;
+> +	}
+> +
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +	ret = v4l2_m2m_register_media_controller(m2m->m2m_dev, m2m->dec_vdev,
+> +						 MEDIA_ENT_F_PROC_AUDIO_RESAMPLER);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to init mem2mem media controller\n");
+> +		goto error_v4l2;
+> +	}
+> +
+> +	ret = media_device_register(&m2m->mdev);
+> +	if (ret) {
+> +		dev_err(dev, "Failed to register mem2mem media device\n");
+> +		goto error_m2m_mc;
+> +	}
+> +#endif
+> +
+> +	video_set_drvdata(m2m->dec_vdev, m2m);
+> +	platform_set_drvdata(pdev, m2m);
+> +	pm_runtime_enable(&pdev->dev);
+> +
+> +	return 0;
+> +
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +error_m2m_mc:
+> +	v4l2_m2m_unregister_media_controller(m2m->m2m_dev);
+> +#endif
+> +error_v4l2:
+> +	video_unregister_device(m2m->dec_vdev);
+> +err_vdev_register:
+> +	video_device_release(m2m->dec_vdev);
+> +err_vdev_alloc:
+> +	v4l2_m2m_release(m2m->m2m_dev);
+> +err_m2m:
+> +	v4l2_device_unregister(&m2m->v4l2_dev);
+> +err_register:
+> +	return ret;
 > +}
 > +
-> 
-> I've tested both of these to work with GVE on both bind via the
-> netlink API and unbind via the netlink socket close, but I'm not
-> enough of an expert to tell if there is some bad side effect that can
-> happen or something.
+> +static void asrc_m2m_remove(struct platform_device *pdev)
+> +{
+> +	struct asrc_m2m *m2m = platform_get_drvdata(pdev);
+> +
+> +	pm_runtime_disable(&pdev->dev);
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +	media_device_unregister(&m2m->mdev);
+> +	v4l2_m2m_unregister_media_controller(m2m->m2m_dev);
+> +#endif
+> +	video_unregister_device(m2m->dec_vdev);
+> +	video_device_release(m2m->dec_vdev);
+> +	v4l2_m2m_release(m2m->m2m_dev);
+> +	v4l2_device_unregister(&m2m->v4l2_dev);
+> +}
+> +
+> +#ifdef CONFIG_PM_SLEEP
+> +/* suspend callback for m2m */
+> +static int asrc_m2m_suspend(struct device *dev)
+> +{
+> +	struct asrc_m2m *m2m = dev_get_drvdata(dev);
+> +	struct fsl_asrc *asrc = m2m->pdata.asrc;
+> +	struct fsl_asrc_pair *pair;
+> +	unsigned long lock_flags;
+> +	int i;
+> +
+> +	for (i = 0; i < PAIR_CTX_NUM; i++) {
+> +		spin_lock_irqsave(&asrc->lock, lock_flags);
+> +		pair = asrc->pair[i];
+> +		if (!pair || !pair->req_pair) {
+> +			spin_unlock_irqrestore(&asrc->lock, lock_flags);
+> +			continue;
+> +		}
+> +		if (!completion_done(&pair->complete[V4L_OUT])) {
+> +			if (pair->dma_chan[V4L_OUT])
+> +				dmaengine_terminate_all(pair->dma_chan[V4L_OUT]);
+> +			asrc_input_dma_callback((void *)pair);
+> +		}
+> +		if (!completion_done(&pair->complete[V4L_CAP])) {
+> +			if (pair->dma_chan[V4L_CAP])
+> +				dmaengine_terminate_all(pair->dma_chan[V4L_CAP]);
+> +			asrc_output_dma_callback((void *)pair);
+> +		}
+> +
+> +		if (asrc->m2m_pair_suspend)
+> +			asrc->m2m_pair_suspend(pair);
+> +
+> +		spin_unlock_irqrestore(&asrc->lock, lock_flags);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int asrc_m2m_resume(struct device *dev)
+> +{
+> +	struct asrc_m2m *m2m = dev_get_drvdata(dev);
+> +	struct fsl_asrc *asrc = m2m->pdata.asrc;
+> +	struct fsl_asrc_pair *pair;
+> +	unsigned long lock_flags;
+> +	int i;
+> +
+> +	for (i = 0; i < PAIR_CTX_NUM; i++) {
+> +		spin_lock_irqsave(&asrc->lock, lock_flags);
+> +		pair = asrc->pair[i];
+> +		if (!pair || !pair->req_pair) {
+> +			spin_unlock_irqrestore(&asrc->lock, lock_flags);
+> +			continue;
+> +		}
+> +		if (asrc->m2m_pair_resume)
+> +			asrc->m2m_pair_resume(pair);
+> +
+> +		spin_unlock_irqrestore(&asrc->lock, lock_flags);
+> +	}
+> +
+> +	return 0;
+> +}
+> +#endif
+> +
+> +static const struct dev_pm_ops asrc_m2m_pm_ops = {
+> +	SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(asrc_m2m_suspend,
+> +				      asrc_m2m_resume)
+> +};
+> +
+> +static struct platform_driver asrc_m2m_driver = {
+> +	.probe  = asrc_m2m_probe,
+> +	.remove_new = asrc_m2m_remove,
+> +	.driver = {
+> +		.name = M2M_DRV_NAME,
+> +		.pm = &asrc_m2m_pm_ops,
+> +	},
+> +};
+> +module_platform_driver(asrc_m2m_driver);
+> +
+> +MODULE_DESCRIPTION("Freescale ASRC M2M driver");
+> +MODULE_ALIAS("platform:" M2M_DRV_NAME);
 
-We generally don't accept drivers doing device reconfiguration with
-full close() + open() because if the open() fails your machine 
-may be cut off.
+You should not need MODULE_ALIAS() in normal cases. If you need it,
+usually it means your device ID table is wrong (e.g. misses either
+entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
+for incomplete ID table.
 
-There are drivers which do it, but they are either old... or weren't
-reviewed hard enough.
 
-The driver should allocate memory and whether else it can without
-stopping the queues first. Once it has all those, stop the queues,
-reconfigure with already allocated resources, start queues, free old.
+> +MODULE_LICENSE("GPL");
 
-Even without the queue API in place, good drivers do full device
-reconfig this way. Hence my mind goes towards a new (temporary?)
-ndo. It will be replaced by the queue API, but whoever implements
-it for now has to follow this careful reconfig strategy...
+Best regards,
+Krzysztof
+
 
