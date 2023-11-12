@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-126-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-127-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4ECEC7E9038
-	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 14:27:50 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B137E9039
+	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 14:27:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 802671C209F7
-	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 13:27:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7F921C209CF
+	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 13:27:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7714D522;
-	Sun, 12 Nov 2023 13:27:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 803451172D;
+	Sun, 12 Nov 2023 13:27:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m1YTCP8H"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rp+uNag7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10B828F72
-	for <linux-media@vger.kernel.org>; Sun, 12 Nov 2023 13:27:40 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E48D1C433C9;
-	Sun, 12 Nov 2023 13:27:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD84510A1D
+	for <linux-media@vger.kernel.org>; Sun, 12 Nov 2023 13:27:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3128C433CC;
+	Sun, 12 Nov 2023 13:27:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699795660;
-	bh=wz6u0otCbI9/mTC9pHfUdQXxln4wuyBg9Hk+Z9OYaBc=;
+	s=k20201202; t=1699795661;
+	bh=y0TfggzpWPb/Wa1ssWhr5QrBaCm4qGZr1+mG4H75+iI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=m1YTCP8Ho3RpET5SLvYsJxdt9DPWkJCA8E6aPFeMM0Sg5iyWrmIAr6Gk56XU48Rcv
-	 dCXxIsDOQGDkUoYPsOM2C5Hzfgu1DY7vhuia/AxfckgSc805VEfAHL5t7vW50uUTwI
-	 a0aT6BVM59YKZXePs8imaUqn1FT0d5bxDKHJHI1cDd5jnIsfixORKrJ9zNb5lRO/rF
-	 ExcZfcNA9zJ8+HhcJFm+jvx7GMWBrVDgsBvEGcdDWbVvybysEw992pTU/tD8x0EmWf
-	 WxqLc5kkTayl0YbeTy1MOOTzx5cG2b0uAP9PbhhwVxyQbt9SO2nzQ72bjAEZZsc34O
-	 fD+kPvC6k/DLA==
+	b=rp+uNag7p/eUBqJrjcwFyacEd8gE47bjey8O33VwbQV3r9ztB2kF+rBI+0Q6IeA42
+	 JI4HmPsS/iVd+02helf2/623Z2fbM91jG1O1wq/Hb3J3aDCuD0HIj42gkigmgw+Nuo
+	 85nHhAkUJJOYnjlEGBarUs7s/vgEQsqH7G1ePqUX6pKk1sRh7xGB6stBwaF1rBdi7F
+	 YC4Yn7y4Iw6Gc6hNooP3rqe+xUgBtpJyI9wirMJqclrv2vre+WSqsJS/TACaHdUx+O
+	 bHQpv6VgXVLoGynSs65woUwSPQ2qlnsKdKw5HEa06CAhCaBkMaAvRfUkXsKMOTKPgx
+	 nkwRO8q8QpmWA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -39,9 +39,9 @@ Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Arnd Bergmann <arnd@arndb.de>,
 	Sasha Levin <sashal@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.6 02/11] media: vivid: avoid integer overflow
-Date: Sun, 12 Nov 2023 08:27:25 -0500
-Message-ID: <20231112132736.175494-2-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.6 03/11] media: ipu-bridge: increase sensor_name size
+Date: Sun, 12 Nov 2023 08:27:26 -0500
+Message-ID: <20231112132736.175494-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
 In-Reply-To: <20231112132736.175494-1-sashal@kernel.org>
 References: <20231112132736.175494-1-sashal@kernel.org>
@@ -58,43 +58,63 @@ Content-Transfer-Encoding: 8bit
 
 From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit 4567ebf8e8f9546b373e78e3b7d584cc30b62028 ]
+[ Upstream commit 83d0d4cc1423194b580356966107379490edd02e ]
 
-Fixes these compiler warnings:
+Fixes this compiler warning:
 
-drivers/media/test-drivers/vivid/vivid-rds-gen.c: In function 'vivid_rds_gen_fill':
-drivers/media/test-drivers/vivid/vivid-rds-gen.c:147:56: warning: '.' directive output may be truncated writing 1 byte into a region of size between 0 and 3 [-Wformat-truncation=]
-  147 |         snprintf(rds->psname, sizeof(rds->psname), "%6d.%1d",
-      |                                                        ^
-drivers/media/test-drivers/vivid/vivid-rds-gen.c:147:52: note: directive argument in the range [0, 9]
-  147 |         snprintf(rds->psname, sizeof(rds->psname), "%6d.%1d",
-      |                                                    ^~~~~~~~~
-drivers/media/test-drivers/vivid/vivid-rds-gen.c:147:9: note: 'snprintf' output between 9 and 12 bytes into a destination of size 9
-  147 |         snprintf(rds->psname, sizeof(rds->psname), "%6d.%1d",
-      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  148 |                  freq / 16, ((freq & 0xf) * 10) / 16);
-      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+In file included from include/linux/property.h:14,
+                 from include/linux/acpi.h:16,
+                 from drivers/media/pci/intel/ipu-bridge.c:4:
+In function 'ipu_bridge_init_swnode_names',
+    inlined from 'ipu_bridge_create_connection_swnodes' at drivers/media/pci/intel/ipu-bridge.c:445:2,
+    inlined from 'ipu_bridge_connect_sensor' at drivers/media/pci/intel/ipu-bridge.c:656:3:
+include/linux/fwnode.h:81:49: warning: '%u' directive output may be truncated writing between 1 and 3 bytes into a region of size 2 [-Wformat-truncation=]
+   81 | #define SWNODE_GRAPH_PORT_NAME_FMT              "port@%u"
+      |                                                 ^~~~~~~~~
+drivers/media/pci/intel/ipu-bridge.c:384:18: note: in expansion of macro 'SWNODE_GRAPH_PORT_NAME_FMT'
+  384 |                  SWNODE_GRAPH_PORT_NAME_FMT, sensor->link);
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+include/linux/fwnode.h: In function 'ipu_bridge_connect_sensor':
+include/linux/fwnode.h:81:55: note: format string is defined here
+   81 | #define SWNODE_GRAPH_PORT_NAME_FMT              "port@%u"
+      |                                                       ^~
+In function 'ipu_bridge_init_swnode_names',
+    inlined from 'ipu_bridge_create_connection_swnodes' at drivers/media/pci/intel/ipu-bridge.c:445:2,
+    inlined from 'ipu_bridge_connect_sensor' at drivers/media/pci/intel/ipu-bridge.c:656:3:
+include/linux/fwnode.h:81:49: note: directive argument in the range [0, 255]
+   81 | #define SWNODE_GRAPH_PORT_NAME_FMT              "port@%u"
+      |                                                 ^~~~~~~~~
+drivers/media/pci/intel/ipu-bridge.c:384:18: note: in expansion of macro 'SWNODE_GRAPH_PORT_NAME_FMT'
+  384 |                  SWNODE_GRAPH_PORT_NAME_FMT, sensor->link);
+      |                  ^~~~~~~~~~~~~~~~~~~~~~~~~~
+drivers/media/pci/intel/ipu-bridge.c:382:9: note: 'snprintf' output between 7 and 9 bytes into a destination of size 7
+  382 |         snprintf(sensor->node_names.remote_port,
+      |         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  383 |                  sizeof(sensor->node_names.remote_port),
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+  384 |                  SWNODE_GRAPH_PORT_NAME_FMT, sensor->link);
+      |                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Acked-by: Arnd Bergmann <arnd@arndb.de>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/test-drivers/vivid/vivid-rds-gen.c | 2 +-
+ include/media/ipu-bridge.h | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/test-drivers/vivid/vivid-rds-gen.c b/drivers/media/test-drivers/vivid/vivid-rds-gen.c
-index b5b104ee64c99..c57771119a34b 100644
---- a/drivers/media/test-drivers/vivid/vivid-rds-gen.c
-+++ b/drivers/media/test-drivers/vivid/vivid-rds-gen.c
-@@ -145,7 +145,7 @@ void vivid_rds_gen_fill(struct vivid_rds_gen *rds, unsigned freq,
- 	rds->ta = alt;
- 	rds->ms = true;
- 	snprintf(rds->psname, sizeof(rds->psname), "%6d.%1d",
--		 freq / 16, ((freq & 0xf) * 10) / 16);
-+		 (freq / 16) % 1000000, (((freq & 0xf) * 10) / 16) % 10);
- 	if (alt)
- 		strscpy(rds->radiotext,
- 			" The Radio Data System can switch between different Radio Texts ",
+diff --git a/include/media/ipu-bridge.h b/include/media/ipu-bridge.h
+index bdc654a455216..783bda6d5cc3f 100644
+--- a/include/media/ipu-bridge.h
++++ b/include/media/ipu-bridge.h
+@@ -108,7 +108,7 @@ struct ipu_node_names {
+ 	char ivsc_sensor_port[7];
+ 	char ivsc_ipu_port[7];
+ 	char endpoint[11];
+-	char remote_port[7];
++	char remote_port[9];
+ 	char vcm[16];
+ };
+ 
 -- 
 2.42.0
 
