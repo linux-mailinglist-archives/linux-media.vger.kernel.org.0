@@ -1,78 +1,107 @@
-Return-Path: <linux-media+bounces-124-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-125-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B47997E8DDE
-	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 02:22:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20C257E9037
+	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 14:27:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F0DF4280D93
-	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 01:22:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4C4ABB20A7C
+	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 13:27:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9600417D9;
-	Sun, 12 Nov 2023 01:22:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B452E8C03;
+	Sun, 12 Nov 2023 13:27:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kwlC4zx0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TMpurmjC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 512E315B5
-	for <linux-media@vger.kernel.org>; Sun, 12 Nov 2023 01:22:42 +0000 (UTC)
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E16082D59
-	for <linux-media@vger.kernel.org>; Sat, 11 Nov 2023 17:22:40 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 81A4D6CA;
-	Sun, 12 Nov 2023 02:22:15 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1699752135;
-	bh=TqxMQ1LSOLa5VOx/RjWW/4y8zWRy+MH7CAveoJ9a+hQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kwlC4zx0NA7A2YzICftVOvHcl7umHQ4mHi1zZvN1y4YJ8spKhVCeinYjQk5D+7oN8
-	 7J+WTG2+yX72YzRCbiyI4jWdyFTkPpMkCKwnS3bniQFx+EKLnUjUQ6o6HklQZFuARJ
-	 qVqzR4EVW4NPNNL7LGhrVhF1UpxOIWFH7cvuAP+I=
-Date: Sun, 12 Nov 2023 03:22:46 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com
-Subject: Re: [PATCH 1/1] media: v4l: subdev: Always compile sub-device state
- access functions
-Message-ID: <20231112012246.GA18216@pendragon.ideasonboard.com>
-References: <20231110101049.890577-1-sakari.ailus@linux.intel.com>
- <20231110153940.GA7466@pendragon.ideasonboard.com>
- <ZU6diJrv-iKvcE9B@kekkonen.localdomain>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E811125A8
+	for <linux-media@vger.kernel.org>; Sun, 12 Nov 2023 13:27:39 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 936DFC433C7;
+	Sun, 12 Nov 2023 13:27:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1699795659;
+	bh=rJeXy8nq+IYTVdj99U/CT6dlPvMPglGs0y3dXPKYaXM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=TMpurmjCOmwc+kcZ7Jgw7hHul+psZ6Z2WrmDRB3OnxxUyaMaxPueFCk+BVh4BPxD0
+	 XFyzydDyN6KXofA/QqUsSprcQmxLaZQDxo53VztE4y4ATZBPx9/RSBiWrzDWrxRi1K
+	 dhqZUqeQUe+kxyphcvzdebTecoyLt8qqO4F8/Vj9KpgSwiYfAQhPitxO4OUW5E1FQa
+	 tm1ufVBqqb1Kd18hkTeXRhmxVY9bs0j9CCXibRRd1SFrQwz+REvnnLQjDQQRJ3tQTK
+	 DMj8UgkpKBaind+055455+ROAqytfZ3aKFp11dCWv+bkzMiTnleinbv53pjQscMNcz
+	 l8sLqOtjowKgw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Rajeshwar R Shinde <coolrrsh@gmail.com>,
+	syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sasha Levin <sashal@kernel.org>,
+	hverkuil@xs4all.nl,
+	linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.6 01/11] media: gspca: cpia1: shift-out-of-bounds in set_flicker
+Date: Sun, 12 Nov 2023 08:27:24 -0500
+Message-ID: <20231112132736.175494-1-sashal@kernel.org>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZU6diJrv-iKvcE9B@kekkonen.localdomain>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.6.1
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
+From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-On Fri, Nov 10, 2023 at 09:15:52PM +0000, Sakari Ailus wrote:
-> On Fri, Nov 10, 2023 at 05:39:40PM +0200, Laurent Pinchart wrote:
-> > On Fri, Nov 10, 2023 at 12:10:49PM +0200, Sakari Ailus wrote:
-> > > Compile sub-device state information access functions
-> > > v4l2_subdev_state_get_{format,crop,compose} unconditionally as they are
-> > > now also used by plain V4L2 drivers.
-> > 
-> > What do you mean by "plain" V4L2 drivers here ?
-> 
-> Those that do not need MC: if you now disable MC in kernel configuration,
-> these functions won't be available.
+[ Upstream commit 099be1822d1f095433f4b08af9cc9d6308ec1953 ]
 
-This covers subdev drivers (such as sensor drivers) too, not just host
-drivers ? If so, shouldn't we also drop the dependency on
-VIDEO_V4L2_SUBDEV_API from drivers/media/i2c/Kconfig ?
+Syzkaller reported the following issue:
+UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27
+shift exponent 245 is too large for 32-bit type 'int'
 
+When the value of the variable "sd->params.exposure.gain" exceeds the
+number of bits in an integer, a shift-out-of-bounds error is reported. It
+is triggered because the variable "currentexp" cannot be left-shifted by
+more than the number of bits in an integer. In order to avoid invalid
+range during left-shift, the conditional expression is added.
+
+Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com
+Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
+Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ drivers/media/usb/gspca/cpia1.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
+index 46ed95483e222..5f5fa851ca640 100644
+--- a/drivers/media/usb/gspca/cpia1.c
++++ b/drivers/media/usb/gspca/cpia1.c
+@@ -18,6 +18,7 @@
+ 
+ #include <linux/input.h>
+ #include <linux/sched/signal.h>
++#include <linux/bitops.h>
+ 
+ #include "gspca.h"
+ 
+@@ -1028,6 +1029,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
+ 			sd->params.exposure.expMode = 2;
+ 			sd->exposure_status = EXPOSURE_NORMAL;
+ 		}
++		if (sd->params.exposure.gain >= BITS_PER_TYPE(currentexp))
++			return -EINVAL;
+ 		currentexp = currentexp << sd->params.exposure.gain;
+ 		sd->params.exposure.gain = 0;
+ 		/* round down current exposure to nearest value */
 -- 
-Regards,
+2.42.0
 
-Laurent Pinchart
 
