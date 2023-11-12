@@ -1,54 +1,50 @@
-Return-Path: <linux-media+bounces-141-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-142-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53FBD7E905D
-	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 14:28:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EB067E905F
+	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 14:28:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 082BF1F21004
-	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 13:28:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 342611F20F8C
+	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 13:28:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 122DB134C6;
-	Sun, 12 Nov 2023 13:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5345414AA2;
+	Sun, 12 Nov 2023 13:28:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HJ339hlP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jVVEZA4V"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E31F15D1
-	for <linux-media@vger.kernel.org>; Sun, 12 Nov 2023 13:28:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BEE3AC433CC;
-	Sun, 12 Nov 2023 13:28:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD313125CC
+	for <linux-media@vger.kernel.org>; Sun, 12 Nov 2023 13:28:33 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9687AC433C7;
+	Sun, 12 Nov 2023 13:28:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699795704;
-	bh=v44BZYdol2owoedeipdPdbO7R11otCqacwrAXfHO6gc=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=HJ339hlPFy/+XWabp38GxYqcVBh29VZAPY3imJCQKDc96HT5Lusj85NS2Rtxh1DEV
-	 raCgJGTT8ekDp8EeqWhanhKBXGWTUF4rYC5iy032WY9gW08lWjGGu7gRn99gUL7wS3
-	 uDwyL45iNd23KqNMqNWZupY0SRvzyguoE1mTTP8DTtTf4ign85WrlGYneJ7062eLaB
-	 LUEAvwqbydIvBv3qM9dXMVeODjNIQqcQNe8AQPfcYb3RwuuN/Bjj1d9XIO/52VHkIl
-	 a5NlADA/BYW21EPjKZjZiEccoEEInfxqiZni9Zy4odhlg7yfcTnYdBlRe90ODX+tFG
-	 aVzX9/rcf+6sQ==
+	s=k20201202; t=1699795713;
+	bh=rJeXy8nq+IYTVdj99U/CT6dlPvMPglGs0y3dXPKYaXM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=jVVEZA4Vb3vDcHCjdXPQ9TYvBG+lilmC2iEe8Bj3jsFr+XLGtQY+Z8eR/IaBL1jj6
+	 v99dWwwzXcljspEOhzyDtPbYXQjdBDVK3u7/Ew8cMnFSJKjBFk4WSL6avHo6q7zQRt
+	 gqZEDcnXeD1m109atjhQ8IJl8SH7iklvJOCHJqbhqJ+bD5GFeR+xu5yXTEXmD5OOA0
+	 vCsuO3BAq1l5KxTPYDcgQBM2utlfDvtXzCH4Qs6XuS7uuHC7aBhhvSIEZY6pAazCAD
+	 MnhTcysYx+2zTfGXSUF4qp7lW9iKcJE7st/yF7b+v2w6GCcCc5nzCgIet4DLAeT4Hp
+	 ltht2mccV8HZQ==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Takashi Iwai <tiwai@suse.de>,
-	syzbot+59875ffef5cb9c9b29e9@syzkaller.appspotmail.com,
-	"Ricardo B . Marliere" <ricardo@marliere.net>,
-	Sean Young <sean@mess.org>,
+Cc: Rajeshwar R Shinde <coolrrsh@gmail.com>,
+	syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Sasha Levin <sashal@kernel.org>,
-	gautammenghani201@gmail.com,
+	hverkuil@xs4all.nl,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 7/9] media: imon: fix access to invalid resource for the second interface
-Date: Sun, 12 Nov 2023 08:28:10 -0500
-Message-ID: <20231112132814.176005-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.15 1/9] media: gspca: cpia1: shift-out-of-bounds in set_flicker
+Date: Sun, 12 Nov 2023 08:28:21 -0500
+Message-ID: <20231112132830.176228-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.42.0
-In-Reply-To: <20231112132814.176005-1-sashal@kernel.org>
-References: <20231112132814.176005-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,55 +53,54 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.1.62
+X-stable-base: Linux 5.15.138
 Content-Transfer-Encoding: 8bit
 
-From: Takashi Iwai <tiwai@suse.de>
+From: Rajeshwar R Shinde <coolrrsh@gmail.com>
 
-[ Upstream commit a1766a4fd83befa0b34d932d532e7ebb7fab1fa7 ]
+[ Upstream commit 099be1822d1f095433f4b08af9cc9d6308ec1953 ]
 
-imon driver probes two USB interfaces, and at the probe of the second
-interface, the driver assumes blindly that the first interface got
-bound with the same imon driver.  It's usually true, but it's still
-possible that the first interface is bound with another driver via a
-malformed descriptor.  Then it may lead to a memory corruption, as
-spotted by syzkaller; imon driver accesses the data from drvdata as
-struct imon_context object although it's a completely different one
-that was assigned by another driver.
+Syzkaller reported the following issue:
+UBSAN: shift-out-of-bounds in drivers/media/usb/gspca/cpia1.c:1031:27
+shift exponent 245 is too large for 32-bit type 'int'
 
-This patch adds a sanity check -- whether the first interface is
-really bound with the imon driver or not -- for avoiding the problem
-above at the probe time.
+When the value of the variable "sd->params.exposure.gain" exceeds the
+number of bits in an integer, a shift-out-of-bounds error is reported. It
+is triggered because the variable "currentexp" cannot be left-shifted by
+more than the number of bits in an integer. In order to avoid invalid
+range during left-shift, the conditional expression is added.
 
-Reported-by: syzbot+59875ffef5cb9c9b29e9@syzkaller.appspotmail.com
-Closes: https://lore.kernel.org/all/000000000000a838aa0603cc74d6@google.com/
-Tested-by: Ricardo B. Marliere <ricardo@marliere.net>
-Link: https://lore.kernel.org/r/20230922005152.163640-1-ricardo@marliere.net
-Signed-off-by: Takashi Iwai <tiwai@suse.de>
-Signed-off-by: Sean Young <sean@mess.org>
+Reported-by: syzbot+e27f3dbdab04e43b9f73@syzkaller.appspotmail.com
+Closes: https://lore.kernel.org/all/20230818164522.12806-1-coolrrsh@gmail.com
+Link: https://syzkaller.appspot.com/bug?extid=e27f3dbdab04e43b9f73
+Signed-off-by: Rajeshwar R Shinde <coolrrsh@gmail.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/rc/imon.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+ drivers/media/usb/gspca/cpia1.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/rc/imon.c b/drivers/media/rc/imon.c
-index 74546f7e34691..5719dda6e0f0e 100644
---- a/drivers/media/rc/imon.c
-+++ b/drivers/media/rc/imon.c
-@@ -2427,6 +2427,12 @@ static int imon_probe(struct usb_interface *interface,
- 		goto fail;
- 	}
+diff --git a/drivers/media/usb/gspca/cpia1.c b/drivers/media/usb/gspca/cpia1.c
+index 46ed95483e222..5f5fa851ca640 100644
+--- a/drivers/media/usb/gspca/cpia1.c
++++ b/drivers/media/usb/gspca/cpia1.c
+@@ -18,6 +18,7 @@
  
-+	if (first_if->dev.driver != interface->dev.driver) {
-+		dev_err(&interface->dev, "inconsistent driver matching\n");
-+		ret = -EINVAL;
-+		goto fail;
-+	}
-+
- 	if (ifnum == 0) {
- 		ictx = imon_init_intf0(interface, id);
- 		if (!ictx) {
+ #include <linux/input.h>
+ #include <linux/sched/signal.h>
++#include <linux/bitops.h>
+ 
+ #include "gspca.h"
+ 
+@@ -1028,6 +1029,8 @@ static int set_flicker(struct gspca_dev *gspca_dev, int on, int apply)
+ 			sd->params.exposure.expMode = 2;
+ 			sd->exposure_status = EXPOSURE_NORMAL;
+ 		}
++		if (sd->params.exposure.gain >= BITS_PER_TYPE(currentexp))
++			return -EINVAL;
+ 		currentexp = currentexp << sd->params.exposure.gain;
+ 		sd->params.exposure.gain = 0;
+ 		/* round down current exposure to nearest value */
 -- 
 2.42.0
 
