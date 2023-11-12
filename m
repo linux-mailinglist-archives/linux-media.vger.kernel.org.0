@@ -1,129 +1,202 @@
-Return-Path: <linux-media+bounces-119-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-120-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A50A7E8D8B
-	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 00:28:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DEDCD7E8DAB
+	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 01:45:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 84D7CB20AAD
-	for <lists+linux-media@lfdr.de>; Sat, 11 Nov 2023 23:28:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D310280E13
+	for <lists+linux-media@lfdr.de>; Sun, 12 Nov 2023 00:45:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9D7E1DDDE;
-	Sat, 11 Nov 2023 23:28:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5B7C1377;
+	Sun, 12 Nov 2023 00:45:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VJTYGytq"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Dtphm8Jo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2AD61DDCC;
-	Sat, 11 Nov 2023 23:28:24 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C43B30C5;
-	Sat, 11 Nov 2023 15:28:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699745303; x=1731281303;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yLMN9BN0x0GJyChe1fur9BIfuNV27m8XBnDpqqzLe8E=;
-  b=VJTYGytqfXGww5m4474Duuj1AOEH13Ef2BQ34cgTvkOAkc5Ru9ceV5PW
-   KBOa9ZQ10CmPvFO/35CFcD2nv85ZnUkYTkP4IAia8M/Qa20zrmEk9Rpsm
-   +W2+OOP0Ok1eufhMGYnHUNx1uzl6/duRlWs+gAuGHjhDjKlIZyB8L46B1
-   JRDxcx5LmAwnHBXsCSicwUtIhRGr4g/0LhYYG93FwVU6F1p8WJMbXz3Tq
-   ittUlVkkb1QyGn68/4xeq+2BoXRuYOi793h/6JfFoWt9GYHoQQz6EVcrq
-   0eUUUW8D8ONGLM8R3IFQ4CemNh+CVjHe1ClNGp6ZOcURF6Ob7fRJ0vYNj
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="3316457"
-X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="3316457"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2023 15:28:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10891"; a="764026399"
-X-IronPort-AV: E=Sophos;i="6.03,296,1694761200"; 
-   d="scan'208";a="764026399"
-Received: from lkp-server01.sh.intel.com (HELO 17d9e85e5079) ([10.239.97.150])
-  by orsmga002.jf.intel.com with ESMTP; 11 Nov 2023 15:28:15 -0800
-Received: from kbuild by 17d9e85e5079 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r1xOf-000AoU-1f;
-	Sat, 11 Nov 2023 23:28:13 +0000
-Date: Sun, 12 Nov 2023 07:28:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com,
-	Matthias Brugger <matthias.bgg@gmail.com>
-Cc: oe-kbuild-all@lists.linux.dev, dri-devel@lists.freedesktop.org,
-	John Stultz <jstultz@google.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Jeffrey Kardatzke <jkardatzke@google.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Vijayanand Jitta <quic_vjitta@quicinc.com>,
-	Nicolas Dufresne <nicolas@ndufresne.ca>,
-	Yong Wu <yong.wu@mediatek.com>, jianjiao.zeng@mediatek.com,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
-	linux-mediatek@lists.infradead.org,
-	Joakim Bech <joakim.bech@linaro.org>, tjmercier@google.com,
-	linux-arm-kernel@lists.infradead.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F19010E5;
+	Sun, 12 Nov 2023 00:45:43 +0000 (UTC)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E58E2D77;
+	Sat, 11 Nov 2023 16:45:41 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D5A509A8;
+	Sun, 12 Nov 2023 01:45:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1699749914;
+	bh=faIVtyc6D41u6+eaeLMtRi7UK9gELF374wZvkg7anM0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Dtphm8JoVEYjExZGdXvxZTHgl3jKLkW4dsbC8QgptJiyhJWbSl6pG5czefGKGwL7w
+	 G9xX3gkCiI92teuiXXEv0h6Ps3bGobfUAhqL1FUxwRokG4EYMJTO8E7q17NAZ+EEYJ
+	 nPNXc9FsuzXZdjA7yTzZ3ZrSBkBp604Af12mki8U=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Paul Elder <paul.elder@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
 	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 4/8] dma-buf: heaps: secure_heap: Add tee memory
- service call
-Message-ID: <202311120707.FDrzrRME-lkp@intel.com>
-References: <20231111111559.8218-5-yong.wu@mediatek.com>
+	Julien Stephan <jstephan@baylibre.com>,
+	Sakari Ailus <sakari.ailus@iki.fi>,
+	linux-mediatek@lists.infradead.org,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org
+Subject: [PATCH v6 0/3] media: i2c: Add driver for THine THP7312 ISP
+Date: Sun, 12 Nov 2023 02:45:41 +0200
+Message-ID: <20231112004544.24877-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231111111559.8218-5-yong.wu@mediatek.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Yong,
+Hello,
 
-kernel test robot noticed the following build errors:
+This patch series adds a new driver for the THine THP7312 ISP. It has
+been tested on an OLogic Pumpkin i350, which has a Mediatek MT8365 SoC,
+with the THine THSCG101 camera module.
 
-[auto build test ERROR on drm-misc/drm-misc-next]
-[also build test ERROR on robh/for-next drm-tip/drm-tip linus/master v6.6 next-20231110]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Technically the driver itself (and its bindings) have no dependencies,
+but to run/test this on the Pumpkin i350 with the mainline kernel, a
+number of patches are needed to support the board and the MT8365 SoC.
+Some of those patches are on their way to mainline, and some, like the
+Pumpkin i350 board device tree, will require more work. For convenience
+and reference, the needed patches are available in [1].
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yong-Wu/dma-buf-heaps-Initialize-a-secure-heap/20231111-192115
-base:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-patch link:    https://lore.kernel.org/r/20231111111559.8218-5-yong.wu%40mediatek.com
-patch subject: [PATCH v2 4/8] dma-buf: heaps: secure_heap: Add tee memory service call
-config: powerpc-allmodconfig (https://download.01.org/0day-ci/archive/20231112/202311120707.FDrzrRME-lkp@intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 13.2.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231112/202311120707.FDrzrRME-lkp@intel.com/reproduce)
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git/log/?h=mtk/v6.6/pumpkin/camera
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311120707.FDrzrRME-lkp@intel.com/
+Example overlays for DT integration of the THP7312 are available in that
+branch, in
+arch/arm64/boot/dts/mediatek/mt8365-pumpkin-csi0-thp7312-imx258.dtso and
+arch/arm64/boot/dts/mediatek/mt8365-pumpkin-csi1-thp7312-imx258.dtso.
 
-All errors (new ones prefixed by >>):
+Compared to v5, review comments have been taken into account, and
+improved auto-focus support has made it to the driver in patch 3/3, with
+updates to the related control documentation in patch 2/3. I have also
+dropped support for sensor power supplies, as the feature needs more
+investigation and I didn't want to merge half-baked DT bindings.
 
-   powerpc64-linux-ld: warning: discarding dynamic section .glink
-   powerpc64-linux-ld: warning: discarding dynamic section .plt
-   powerpc64-linux-ld: linkage table error against `tee_client_open_session'
-   powerpc64-linux-ld: stubs don't match calculated size
-   powerpc64-linux-ld: can not build stubs: bad value
-   powerpc64-linux-ld: drivers/dma-buf/heaps/secure_heap.o: in function `secure_heap_tee_session_init':
-   secure_heap.c:(.text.secure_heap_tee_session_init+0xd0): undefined reference to `tee_client_open_context'
-   powerpc64-linux-ld: secure_heap.c:(.text.secure_heap_tee_session_init+0x2b4): undefined reference to `tee_client_open_session'
-   powerpc64-linux-ld: secure_heap.c:(.text.secure_heap_tee_session_init+0x458): undefined reference to `tee_client_close_context'
-   powerpc64-linux-ld: drivers/dma-buf/heaps/secure_heap.o: in function `secure_heap_tee_service_call.constprop.0':
->> secure_heap.c:(.text.secure_heap_tee_service_call.constprop.0+0xbc): undefined reference to `tee_client_invoke_func'
+One important change is the switch to the fwnode API in the driver,
+which depends on patch "[RESEND PATCH v4 1/1] device property: Add
+fwnode_name_eq()" previously submitted to the linux-media mailing list
+([1]).
 
+Below is the mandatory v4l2-compliance report.
+
+[1] https://lore.kernel.org/linux-media/20231106073141.1250344-1-sakari.ailus@linux.intel.com
+
+v4l2-compliance 1.25.0-5111, 64 bits, 64-bit time_t
+v4l2-compliance SHA: fcf62ab17d69 2023-11-07 09:13:26
+
+Compliance test for device /dev/v4l-subdev2:
+
+Driver Info:
+        Driver version   : 6.6.0
+        Capabilities     : 0x00000000
+
+Required ioctls:
+        test VIDIOC_SUDBEV_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/v4l-subdev2 open: OK
+        test VIDIOC_SUBDEV_QUERYCAP: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_LOG_STATUS: OK
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+        test VIDIOC_QUERYCTRL: OK
+        test VIDIOC_G/S_CTRL: OK
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 20 Private Controls: 4
+
+Format ioctls:
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK (Not Supported)
+        test VIDIOC_TRY_FMT: OK (Not Supported)
+        test VIDIOC_S_FMT: OK (Not Supported)
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls:
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+        test VIDIOC_EXPBUF: OK (Not Supported)
+        test Requests: OK (Not Supported)
+
+Total for device /dev/v4l-subdev2: 43, Succeeded: 43, Failed: 0, Warnings: 0
+
+Laurent Pinchart (1):
+  media: uapi: Add controls for the THP7312 ISP
+
+Paul Elder (2):
+  dt-bindings: media: Add bindings for THine THP7312 ISP
+  media: i2c: Add driver for THine THP7312
+
+ .../bindings/media/i2c/thine,thp7312.yaml     |  224 ++
+ .../userspace-api/media/drivers/index.rst     |    1 +
+ .../userspace-api/media/drivers/thp7312.rst   |   39 +
+ MAINTAINERS                                   |   11 +
+ drivers/media/i2c/Kconfig                     |   16 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/thp7312.c                   | 2237 +++++++++++++++++
+ include/uapi/linux/thp7312.h                  |   19 +
+ include/uapi/linux/v4l2-controls.h            |    6 +
+ 9 files changed, 2554 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
+ create mode 100644 Documentation/userspace-api/media/drivers/thp7312.rst
+ create mode 100644 drivers/media/i2c/thp7312.c
+ create mode 100644 include/uapi/linux/thp7312.h
+
+
+base-commit: 02ec23e8bebd6e5044fa9a12efc05f779c58958a
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Laurent Pinchart
+
 
