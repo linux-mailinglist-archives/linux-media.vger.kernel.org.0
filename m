@@ -1,113 +1,156 @@
-Return-Path: <linux-media+bounces-269-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-270-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB49A7EA086
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 16:50:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C792A7EA0C7
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 17:00:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 07D4D1C20935
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 15:50:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C3BF1F21A48
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 16:00:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64E7321A02;
-	Mon, 13 Nov 2023 15:50:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FFA621A19;
+	Mon, 13 Nov 2023 16:00:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TXIGJAlW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC425219F2
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 15:50:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B7677C433C9;
-	Mon, 13 Nov 2023 15:50:29 +0000 (UTC)
-Message-ID: <9e5d4200-9fc7-4dcc-accb-f8f59ed6eb50@xs4all.nl>
-Date: Mon, 13 Nov 2023 16:50:28 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8EE219F3
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 16:00:17 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24C6C10E0
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 08:00:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699891216; x=1731427216;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=q2tYs8WFoFebzIw35zba8RGoWBLfSNGqsDV489rfqZ8=;
+  b=TXIGJAlWoqXrHQ7d23grN9UcpPbcKlx+vTQ4RsZo4ltgA8ALn757dCOM
+   KMkyGhoXwW2PoeCyFT74Ys3hoFDsfWslrZVLDFY1C5jPrpltsFleN7JMo
+   hUVrimaLbAFUbw5SyNJh7jEqeT/emSrSwsM7Q+fUzk9H/mtAGxPwKaAtx
+   1YMO45utaWfedw5lIBasXyxVkTKETM9JLRVJ2G7r+QPMUyuObcdD5nCkm
+   oebEytIkwnH7lqHJUSgIa6ktFqgWiX59sjy+kR28m6G7l9ppzNjA/yzfL
+   vbG4djipbT35a7wD302DvtViUYun75v1FyI9CktuAmq3hotpEXOuBrPRN
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="421560470"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="421560470"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 08:00:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="830271611"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="830271611"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 08:00:14 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 136F5120BA7;
+	Mon, 13 Nov 2023 18:00:12 +0200 (EET)
+Date: Mon, 13 Nov 2023 16:00:12 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hdegoede@redhat.com
+Subject: Re: [PATCH v2 5/6] media: ccs: Better separate CCS static data access
+Message-ID: <ZVJIDNJ2j_HBwweJ@kekkonen.localdomain>
+References: <20231113134458.1423754-1-sakari.ailus@linux.intel.com>
+ <20231113134458.1423754-6-sakari.ailus@linux.intel.com>
+ <20231113135710.GG24338@pendragon.ideasonboard.com>
+ <ZVIt8Z_1FpxN2ooz@kekkonen.localdomain>
+ <20231113141618.GA12711@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Jack Zhu <jack.zhu@starfivetech.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [GIT PULL FOR v6.8] Add StarFive Camera Subsystem driver
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231113141618.GA12711@pendragon.ideasonboard.com>
 
-This adds the starfive staging driver.
+On Mon, Nov 13, 2023 at 04:16:18PM +0200, Laurent Pinchart wrote:
+> On Mon, Nov 13, 2023 at 02:08:49PM +0000, Sakari Ailus wrote:
+> > On Mon, Nov 13, 2023 at 03:57:10PM +0200, Laurent Pinchart wrote:
+> > > Hi Sakari,
+> > > 
+> > > Thank you for the patch.
+> > > 
+> > > On Mon, Nov 13, 2023 at 03:44:57PM +0200, Sakari Ailus wrote:
+> > > > Separate CCS static data read-only register access in ccs-reg-access.c by
+> > > > naming them differently.
+> > > 
+> > > "naming the access functions differently"
+> > > 
+> > > > The code in this file generally deals with reading and writing registers
+> > > > where as static data (when it comes to ccs_static_read_only()) contains
+> > > > the read-only register values but no hardware registers are accessed in
+> > > > that case.
+> > > > 
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >  .../driver-api/media/drivers/ccs/mk-ccs-regs  |  2 +-
+> > > >  drivers/media/i2c/ccs/ccs-reg-access.c        | 20 +++++++++----------
+> > > >  2 files changed, 11 insertions(+), 11 deletions(-)
+> > > > 
+> > > > diff --git a/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs b/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs
+> > > > index 01252ee6062b..3d3152b45821 100755
+> > > > --- a/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs
+> > > > +++ b/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs
+> > > > @@ -136,7 +136,7 @@ if (! defined $kernel) {
+> > > >  
+> > > >  print $H "#define CCS_FL_FLOAT_IREAL	" . flag_str(\$flag, \$all_flags) . "\n";
+> > > >  print $H "#define CCS_FL_IREAL		" . flag_str(\$flag, \$all_flags) . "\n";
+> > > > -print $H "#define CCS_BUILD_BUG \
+> > > > +print $H "#define CCS_BUILD_BUG \\
+> > > 
+> > > This doesn't seem related.
+> > 
+> > Oops. This was meant to go to the previous patch. I'll address this in
+> > v3...
+> > 
+> > > 
+> > > >  	BUILD_BUG_ON(~CCI_REG_PRIVATE_MASK & ($all_flags))\n"
+> > > >      if defined $kernel;
+> > > >  
+> > > > diff --git a/drivers/media/i2c/ccs/ccs-reg-access.c b/drivers/media/i2c/ccs/ccs-reg-access.c
+> > > > index 25993445f4fe..652d705a2ef5 100644
+> > > > --- a/drivers/media/i2c/ccs/ccs-reg-access.c
+> > > > +++ b/drivers/media/i2c/ccs/ccs-reg-access.c
+> > > > @@ -197,8 +197,8 @@ static int __ccs_read_addr(struct ccs_sensor *sensor, u32 reg, u32 *val,
+> > > >  	return 0;
+> > > >  }
+> > > >  
+> > > > -static int __ccs_read_data(struct ccs_reg *regs, size_t num_regs,
+> > > > -			   u32 reg, u32 *val)
+> > > > +static int __ccs_static_read_only(struct ccs_reg *regs, size_t num_regs,
+> > > 
+> > > "static read only" sounds weird when interpreting "read" as a verb. And
+> > > if "read" is not a verb, you're missing a verb :-) Maybe
+> > > __ccs_read_state_data() would be a better name ? Same below.
+> > 
+> > Why state_data? I prefer to use terms used in the spec, not come up with
+> > new ones.
+> 
+> Sorry, I mean __ccs_read_static_data(). I'm working on a patch related
+> to V4L2 subdev state at the moment :-)
+> 
+> > There are also other blocks in static data beseides read-only register
+> > values.
+> > 
+> > How about ccs_static_data_read_only_reg(), would that be more informative
+> > in your opinion?
+> 
+> ccs_static_data_read_ro_reg() would work for me. I interpret
+> ccs_static_data_read_only_reg() as "read just the register and nothing
+> else".
 
-Regards,
+ccs_static_data_read_ro_reg() seems reasonable, I'll use it in v3.
 
-	Hans
+There will be more similarly named functions in the future.
 
-The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
-
-  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.8b
-
-for you to fetch changes up to 84448ae2eedb93cd2ebb121f182b169402b1a4cd:
-
-  media: staging: media: starfive: camss: Add TODO file (2023-11-13 13:29:42 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Jack Zhu (9):
-      media: dt-bindings: Add JH7110 Camera Subsystem
-      media: admin-guide: Add starfive_camss.rst for Starfive Camera Subsystem
-      media: staging: media: starfive: camss: Add core driver
-      media: staging: media: starfive: camss: Add video driver
-      media: staging: media: starfive: camss: Add ISP driver
-      media: staging: media: starfive: camss: Add capture driver
-      media: staging: media: starfive: camss: Add interrupt handling
-      media: staging: media: starfive: camss: Register devices
-      media: staging: media: starfive: camss: Add TODO file
-
- Documentation/admin-guide/media/starfive_camss.rst                 |  72 ++++++
- Documentation/admin-guide/media/starfive_camss_graph.dot           |  12 +
- Documentation/admin-guide/media/v4l-drivers.rst                    |   1 +
- Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml | 180 +++++++++++++
- MAINTAINERS                                                        |   9 +
- drivers/staging/media/Kconfig                                      |   2 +
- drivers/staging/media/Makefile                                     |   1 +
- drivers/staging/media/starfive/Kconfig                             |   5 +
- drivers/staging/media/starfive/Makefile                            |   2 +
- drivers/staging/media/starfive/camss/Kconfig                       |  17 ++
- drivers/staging/media/starfive/camss/Makefile                      |  13 +
- drivers/staging/media/starfive/camss/TODO.txt                      |   4 +
- drivers/staging/media/starfive/camss/stf-camss.c                   | 436 ++++++++++++++++++++++++++++++++
- drivers/staging/media/starfive/camss/stf-camss.h                   | 134 ++++++++++
- drivers/staging/media/starfive/camss/stf-capture.c                 | 603 ++++++++++++++++++++++++++++++++++++++++++++
- drivers/staging/media/starfive/camss/stf-capture.h                 |  87 +++++++
- drivers/staging/media/starfive/camss/stf-isp-hw-ops.c              | 445 ++++++++++++++++++++++++++++++++
- drivers/staging/media/starfive/camss/stf-isp.c                     | 382 ++++++++++++++++++++++++++++
- drivers/staging/media/starfive/camss/stf-isp.h                     | 428 +++++++++++++++++++++++++++++++
- drivers/staging/media/starfive/camss/stf-video.c                   | 572 +++++++++++++++++++++++++++++++++++++++++
- drivers/staging/media/starfive/camss/stf-video.h                   | 100 ++++++++
- 21 files changed, 3505 insertions(+)
- create mode 100644 Documentation/admin-guide/media/starfive_camss.rst
- create mode 100644 Documentation/admin-guide/media/starfive_camss_graph.dot
- create mode 100644 Documentation/devicetree/bindings/media/starfive,jh7110-camss.yaml
- create mode 100644 drivers/staging/media/starfive/Kconfig
- create mode 100644 drivers/staging/media/starfive/Makefile
- create mode 100644 drivers/staging/media/starfive/camss/Kconfig
- create mode 100644 drivers/staging/media/starfive/camss/Makefile
- create mode 100644 drivers/staging/media/starfive/camss/TODO.txt
- create mode 100644 drivers/staging/media/starfive/camss/stf-camss.c
- create mode 100644 drivers/staging/media/starfive/camss/stf-camss.h
- create mode 100644 drivers/staging/media/starfive/camss/stf-capture.c
- create mode 100644 drivers/staging/media/starfive/camss/stf-capture.h
- create mode 100644 drivers/staging/media/starfive/camss/stf-isp-hw-ops.c
- create mode 100644 drivers/staging/media/starfive/camss/stf-isp.c
- create mode 100644 drivers/staging/media/starfive/camss/stf-isp.h
- create mode 100644 drivers/staging/media/starfive/camss/stf-video.c
- create mode 100644 drivers/staging/media/starfive/camss/stf-video.h
+-- 
+Sakari Ailus
 
