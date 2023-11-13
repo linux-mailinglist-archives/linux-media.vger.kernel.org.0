@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-175-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-176-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 286FA7E957E
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 04:24:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCA647E957F
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 04:24:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D563128107A
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 03:24:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7207D1F21196
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 03:24:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61818C8E0;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C7168C0A;
 	Mon, 13 Nov 2023 03:23:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LjcVh+ll"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KFUY/bO5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79032882A;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B548F8C11;
 	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id F2E05C433CC;
-	Mon, 13 Nov 2023 03:23:54 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 2CBB7C43391;
+	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1699845835;
-	bh=ISiPpDZ8woo0Xi7ycVYqOHGtVOPznIgTlrHk/L7ZLns=;
+	bh=ZRhc4pGsIcVlF0RZvM6/zP+FLARr6revVhQosQsdLmk=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=LjcVh+llfSkhb92tYohU5ttjp2INTwZPGCfaQVF2C9wkykpIAvwtFKAyCT1uj2m0L
-	 WMTh4er8MIf09WXMBMQKQye6pVSdBZhNUwjefeIZhDltcSg6quuC+QGaBpYTaujGZw
-	 9VW3cXw/DFJkpLBoRwG6xvzsqSh/EXq3Ako5kJZBglgCOYidk5L9U1iGcOQLxm02VA
-	 kRtqxqvMM1MAeMgzrD31rvitaMCqy6Bf6ZfTWYNbozT+vI6lbEC8tdDZo20YRSzaWh
-	 0jr67l4UaQV6I9eFYaUu3+5XIWmA0iP/PQSydi+5dBsFnWYPU7POaBqX5qDP3N87a0
-	 9l7dA0A3UocGg==
+	b=KFUY/bO53MzQZmEzikh74JD508bZ+G7v7sdOmPHPXjJ91wjb82U+oOI7mH5NThw6a
+	 5ESZP9jkBwFPsPzaxh2L5TZAkfIb2FsuW4ivW+vYLIMtBs7f6P1bMMM3NAjE0uz0Bk
+	 YtGKozilBwRGXyP+C24RRJYqjozWsL6Tf+4OBvb0D4dNoX4IN9U5FV1DS7aU5p8NbQ
+	 3fPkpOE7ia7d6SqWwfaG0ftGMc/GSoJyHsnLazs7lU+uUHdmd6pIfLqqXcm6n9qHqL
+	 yLzGiJ6K6lHbOqTyDQK9LsmUPsvNhoB9WeH6lUU/NUI/zRaZnjjXufjpcw4ZM9LPge
+	 8xUmVNLrzZagQ==
 Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id D9CC1E32711;
-	Mon, 13 Nov 2023 03:23:54 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 16D07E21ECC;
+	Mon, 13 Nov 2023 03:23:55 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -43,41 +43,38 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [1/2] media: platform: cros-ec: Rename conns array for the match
- table
+Subject: Re: [PATCH v2] media: cros-ec-cec: Add Constitution to the match table
 From: patchwork-bot+chrome-platform@kernel.org
 Message-Id: 
- <169984583488.27851.2726732061510632841.git-patchwork-notify@kernel.org>
-Date: Mon, 13 Nov 2023 03:23:54 +0000
-References: <KL1PR01MB38096300BE18095E51FB7A5BAECAA@KL1PR01MB3809.apcprd01.prod.exchangelabs.com>
-In-Reply-To: <KL1PR01MB38096300BE18095E51FB7A5BAECAA@KL1PR01MB3809.apcprd01.prod.exchangelabs.com>
-To: Ken Lin <ken_lin5@hotmail.com>
-Cc: linux-kernel@vger.kernel.org, groeck@chromium.org, bleung@chromium.org,
- hverkuil-cisco@xs4all.nl, mchehab@kernel.org, rekanorman@chromium.org,
- sadolfsson@chromium.org, u.kleine-koenig@pengutronix.de,
- chrome-platform@lists.linux.dev, linux-media@vger.kernel.org,
- rasheed.hsueh@lcfc.corp-partner.google.com
+ <169984583508.27851.9553509450262125302.git-patchwork-notify@kernel.org>
+Date: Mon, 13 Nov 2023 03:23:55 +0000
+References: <20230911081921.3515928-1-sadolfsson@google.com>
+In-Reply-To: <20230911081921.3515928-1-sadolfsson@google.com>
+To: Stefan Adolfsson <sadolfsson@chromium.org>
+Cc: hverkuil-cisco@xs4all.nl, mchehab@kernel.org, bleung@chromium.org,
+ groeck@chromium.org, rekanorman@chromium.org, linux-media@vger.kernel.org,
+ chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org
 
 Hello:
 
-This series was applied to chrome-platform/linux.git (for-kernelci)
+This patch was applied to chrome-platform/linux.git (for-kernelci)
 by Hans Verkuil <hverkuil-cisco@xs4all.nl>:
 
-On Thu,  5 Oct 2023 09:38:40 +0800 you wrote:
-> Rename conns array to port_**_conns, ** is the ports which support cec.
-> ex: dibbi_conns support Port D and B will be renamed to port_db_conns.
-> Make it much cleaner and readable.
+On Mon, 11 Sep 2023 10:19:21 +0200 you wrote:
+> From: Stefan Adolfsson <sadolfsson@chromium.org>
 > 
-> Signed-off-by: Ken Lin <ken_lin5@hotmail.com>
-> ---
+> Constitution has two HDMI ports which support CEC:
+>     Port B is EC port 0
+>     Port A is EC port 1
+> 
+> This patch depends on "media: cros-ec-cec: Add Dibbi to the match
+> table".
 > 
 > [...]
 
 Here is the summary with links:
-  - [1/2] media: platform: cros-ec: Rename conns array for the match table
-    https://git.kernel.org/chrome-platform/c/678e8d804149
-  - [2/2] media: platform: cros-ec: Add Taranza to the match table
-    https://git.kernel.org/chrome-platform/c/cd5c11d5aacd
+  - [v2] media: cros-ec-cec: Add Constitution to the match table
+    https://git.kernel.org/chrome-platform/c/5bc2de5f517d
 
 You are awesome, thank you!
 -- 
