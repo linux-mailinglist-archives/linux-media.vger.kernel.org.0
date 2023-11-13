@@ -1,286 +1,192 @@
-Return-Path: <linux-media+bounces-214-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-216-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E06067E9A94
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:57:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 055177E9AA5
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 12:06:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E50BE1C208C4
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 10:57:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8D1D1C20906
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:06:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41D481C695;
-	Mon, 13 Nov 2023 10:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBD7E1CA91;
+	Mon, 13 Nov 2023 11:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="F71rRbPi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95356156F9
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 10:56:55 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4E850C433C7;
-	Mon, 13 Nov 2023 10:56:51 +0000 (UTC)
-Message-ID: <6a3e7eb9-505c-4cfb-8a86-a8947a2e44d5@xs4all.nl>
-Date: Mon, 13 Nov 2023 11:56:49 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2895318625
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 11:06:45 +0000 (UTC)
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C2DF10D0
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 03:06:42 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4STRSw46pjz49PwQ
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 13:06:37 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1699873600;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PX5erVL2047MQq/mcxk/feu4DbN8eEdVm0JFAv0KyRM=;
+	b=F71rRbPiJhlaRdxI8zQJ/NNp30DDbr5J4GvoJaGySk6JyIeN3BitoC6V1VWavdVycXWBvr
+	QVFYRVDq/b7nGjohx90nJPX8eYnVMMNud3QR5smeR/8BAmuB9KpgHmtsxxJLuzOC41NVTR
+	dRBvDEBswHBxMJFFUWOuHw3hxjou77+Pu+W9HtkbTukVYgVRXJJEOUPDqU4OK3AwXfQXu6
+	zwrKBdIpKmeRYVgPtrMDfLzfWX7qVlIS6DOFqXOKV8LSCQ6cTlQUaZKhpiaZvO7W5AQCsC
+	IeRt/03mO5K9/pFz1CDucz9yfMHIzXucOIGkyV6P6ouAz1BscKO2cvoVx1bNcg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1699873600;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PX5erVL2047MQq/mcxk/feu4DbN8eEdVm0JFAv0KyRM=;
+	b=jM/6qNUmREyJv/wF4lAuz+j0O28fz2gmSyM4Hk9SZLAvRcF69ZeYvCZinGpj0ttjvhydBz
+	zHegP+eynNlOYvpC8VSow9rwnISK9eKES6lp7wc/NVp09qg0lKYzFo6p+Ftir+G9PiWXUd
+	fI8+30UmZNk0/2rwlcYgVXdMOaDcZ+mWOXdUgsbUoBzCEh56j6+/quwB54QXxlmPSTXV1Y
+	i0dmrKz3YjfEm1xT1XSZ44PZay7ic7iFcGVyaInS5vctqsGhmhAvmHnoEsKGcrZ4OZ1NqQ
+	JqeQy8AQ+s9C789S2Gs5gAd1dccOKdqwW22qfo81VNCCNGMqq6WbbCg1vQD0bA==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1699873600; a=rsa-sha256;
+	cv=none;
+	b=YzDj3O14RUJ6GuoIZUxs3GrhyboSaF29jQ0lDKkWKs93/HqTKNC9fdyC37xEkSwkPCPfg0
+	K4OCxDvde3I9OcNqgKgVQYQUfw4T1bptYDggrAM9YMzGl4W92oJCDyDeuMErwxSABi1kEM
+	whN7TvCAUbeP0jdGkvK1/i83w8LMkhRCW6HboAoIwLUg7F0Kvmrsg8MPIZ9xkqQHTRVr3l
+	wkNuAyMu9GkM3ontZ9aLR4JctKP33H/SJdaMRnWz3NMiRVWsotzy0vcempaecjGjUHVUUn
+	wgPy4oIdYcaATywxqLR+LZu6fxQyw3lYqjb9/XTIMIWsnDDNziBGs6FElgeplg==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1445C634C93;
+	Mon, 13 Nov 2023 13:06:35 +0200 (EET)
+Date: Mon, 13 Nov 2023 11:06:34 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v1 2/2] media: v4l2-subdev: Relax warnings in link
+ validation
+Message-ID: <ZVIDOlMYhCWiyNPh@valkosipuli.retiisi.eu>
+References: <20231113101718.6098-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20231113101718.6098-3-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 10/15] media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
-Content-Language: en-US, nl
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
- tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
- perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
- linuxppc-dev@lists.ozlabs.org
-References: <1699595289-25773-1-git-send-email-shengjiu.wang@nxp.com>
- <1699595289-25773-11-git-send-email-shengjiu.wang@nxp.com>
- <4cd6b593-2376-4cbc-a7c8-d3eb36a2f7a0@xs4all.nl>
- <20231113104238.GA13981@pendragon.ideasonboard.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231113104238.GA13981@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231113101718.6098-3-laurent.pinchart+renesas@ideasonboard.com>
 
-On 13/11/2023 11:42, Laurent Pinchart wrote:
-> On Mon, Nov 13, 2023 at 11:29:09AM +0100, Hans Verkuil wrote:
->> Hi Shengjiu,
->>
->> On 10/11/2023 06:48, Shengjiu Wang wrote:
->>> Fixed point controls are used by the user to configure
->>> a fixed point value in 64bits, which Q31.32 format.
->>>
->>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
->>
->> This patch adds a new control type. This is something that also needs to be
->> tested by v4l2-compliance, and for that we need to add support for this to
->> one of the media test-drivers. The best place for that is the vivid driver,
->> since that has already a bunch of test controls for other control types.
->>
->> See e.g. VIVID_CID_INTEGER64 in vivid-ctrls.c.
->>
->> Can you add a patch adding a fixed point test control to vivid?
+Hi Laurent,
+
+Thanks for the patch.
+
+On Mon, Nov 13, 2023 at 12:17:18PM +0200, Laurent Pinchart wrote:
+> Before v6.3, the v4l2_subdev_link_validate() helper would ignore links
+> whose source was a video device and sink a subdev. The helper was (and
+> still is) used by drivers in such cases, in particular for subdevs with
+> multiple sink pads, some connected to video devices and some to other
+> subdevs.
 > 
-> I don't think V4L2_CTRL_TYPE_FIXED_POINT is a good idea. This seems to
-> relate more to units than control types. We have lots of fixed-point
-> values in controls already, using the 32-bit and 64-bit integer control
-> types. They use various locations for the decimal point, depending on
-> the control. If we want to make this more explicit to users, we should
-> work on adding unit support to the V4L2 controls.
-
-"Fixed Point" is not a unit, it's a type. 'Db', 'Hz' etc. are units.
-
-A quick "git grep -i "fixed point" Documentation/userspace-api/media/'
-only shows a single driver specific control (dw100.rst).
-
-I'm not aware of other controls in mainline that use fixed point.
-
-Note that V4L2_CTRL_TYPE_FIXED_POINT is a Q31.32 format. By setting
-min/max/step you can easily map that to just about any QN.M format where
-N <= 31 and M <= 32.
-
-In the case of dw100 it is a bit different in that it is quite specialized
-and it had to fit in 16 bits.
-
-Regards,
-
-	Hans
-
+> Then, commit a6b995ed03ff ("media: subdev: use streams in
+> v4l2_subdev_link_validate()") assumed the entities on the two sides of a
+> link are both subdevs, and caused crashes in drivers that use the helper
+> with subdev sink pads connected to video devices. Commit 55f1ecb11990
+> ("media: v4l: subdev: Make link validation safer"), merged in v6.4,
+> fixed the crash by adding an explicit check with a pr_warn_once(),
+> mentioning a driver bug.
 > 
->>> ---
->>>  .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst  | 13 +++++++------
->>>  .../userspace-api/media/v4l/vidioc-queryctrl.rst    |  9 ++++++++-
->>>  .../userspace-api/media/videodev2.h.rst.exceptions  |  1 +
->>>  drivers/media/v4l2-core/v4l2-ctrls-api.c            |  5 ++++-
->>>  drivers/media/v4l2-core/v4l2-ctrls-core.c           |  2 ++
->>>  include/uapi/linux/videodev2.h                      |  1 +
->>>  6 files changed, 23 insertions(+), 8 deletions(-)
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>> index e8475f9fd2cf..e7e5d78dc11e 100644
->>> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->>> @@ -162,13 +162,13 @@ still cause this situation.
->>>      * - __s32
->>>        - ``value``
->>>        - New value or current value. Valid if this control is not of type
->>> -	``V4L2_CTRL_TYPE_INTEGER64`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is
->>> -	not set.
->>> +	``V4L2_CTRL_TYPE_INTEGER64``, ``V4L2_CTRL_TYPE_FIXED_POINT`` and
->>> +	``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is not set.
->>>      * - __s64
->>>        - ``value64``
->>>        - New value or current value. Valid if this control is of type
->>> -	``V4L2_CTRL_TYPE_INTEGER64`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is
->>> -	not set.
->>> +	``V4L2_CTRL_TYPE_INTEGER64``, ``V4L2_CTRL_TYPE_FIXED_POINT`` and
->>> +	``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is not set.
->>>      * - char *
->>>        - ``string``
->>>        - A pointer to a string. Valid if this control is of type
->>> @@ -193,8 +193,9 @@ still cause this situation.
->>>      * - __s64 *
->>>        - ``p_s64``
->>>        - A pointer to a matrix control of signed 64-bit values. Valid if
->>> -        this control is of type ``V4L2_CTRL_TYPE_INTEGER64`` and
->>> -        ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is set.
->>> +        this control is of type ``V4L2_CTRL_TYPE_INTEGER64``,
->>> +        ``V4L2_CTRL_TYPE_FIXED_POINT`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD``
->>> +        is set.
->>>      * - struct :c:type:`v4l2_area` *
->>>        - ``p_area``
->>>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
->>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
->>> index 4d38acafe8e1..f3995ec57044 100644
->>> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
->>> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
->>> @@ -235,7 +235,8 @@ See also the examples in :ref:`control`.
->>>        - ``default_value``
->>>        - The default value of a ``V4L2_CTRL_TYPE_INTEGER``, ``_INTEGER64``,
->>>  	``_BOOLEAN``, ``_BITMASK``, ``_MENU``, ``_INTEGER_MENU``, ``_U8``
->>> -	or ``_U16`` control. Not valid for other types of controls.
->>> +	``_FIXED_POINT`` or ``_U16`` control. Not valid for other types of
->>> +	controls.
->>>  
->>>  	.. note::
->>>  
->>> @@ -549,6 +550,12 @@ See also the examples in :ref:`control`.
->>>        - n/a
->>>        - A struct :c:type:`v4l2_ctrl_av1_film_grain`, containing AV1 Film Grain
->>>          parameters for stateless video decoders.
->>> +    * - ``V4L2_CTRL_TYPE_FIXED_POINT``
->>> +      - any
->>> +      - any
->>> +      - any
->>> +      - A 64-bit integer valued control, containing parameter which is
->>> +        Q31.32 format.
->>>  
->>>  .. raw:: latex
->>>  
->>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->>> index e61152bb80d1..2faa5a2015eb 100644
->>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->>> @@ -167,6 +167,7 @@ replace symbol V4L2_CTRL_TYPE_AV1_SEQUENCE :c:type:`v4l2_ctrl_type`
->>>  replace symbol V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY :c:type:`v4l2_ctrl_type`
->>>  replace symbol V4L2_CTRL_TYPE_AV1_FRAME :c:type:`v4l2_ctrl_type`
->>>  replace symbol V4L2_CTRL_TYPE_AV1_FILM_GRAIN :c:type:`v4l2_ctrl_type`
->>> +replace symbol V4L2_CTRL_TYPE_FIXED_POINT :c:type:`v4l2_ctrl_type`
->>>  
->>>  # V4L2 capability defines
->>>  replace define V4L2_CAP_VIDEO_CAPTURE device-capabilities
->>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
->>> index 002ea6588edf..e6a0fb8d6791 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
->>> @@ -57,6 +57,7 @@ static int ptr_to_user(struct v4l2_ext_control *c,
->>>  		return copy_to_user(c->string, ptr.p_char, len + 1) ?
->>>  		       -EFAULT : 0;
->>>  	case V4L2_CTRL_TYPE_INTEGER64:
->>> +	case V4L2_CTRL_TYPE_FIXED_POINT:
->>>  		c->value64 = *ptr.p_s64;
->>>  		break;
->>>  	default:
->>> @@ -132,6 +133,7 @@ static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
->>>  
->>>  	switch (ctrl->type) {
->>>  	case V4L2_CTRL_TYPE_INTEGER64:
->>> +	case V4L2_CTRL_TYPE_FIXED_POINT:
->>>  		*ctrl->p_new.p_s64 = c->value64;
->>>  		break;
->>>  	case V4L2_CTRL_TYPE_STRING:
->>> @@ -540,7 +542,8 @@ static int validate_ctrls(struct v4l2_ext_controls *cs,
->>>  		 */
->>>  		if (ctrl->is_ptr)
->>>  			continue;
->>> -		if (ctrl->type == V4L2_CTRL_TYPE_INTEGER64)
->>> +		if (ctrl->type == V4L2_CTRL_TYPE_INTEGER64 ||
->>> +		    ctrl->type == V4L2_CTRL_TYPE_FIXED_POINT)
->>>  			p_new.p_s64 = &cs->controls[i].value64;
->>>  		else
->>>  			p_new.p_s32 = &cs->controls[i].value;
->>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
->>> index a662fb60f73f..9d50df0d9874 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
->>> @@ -1187,6 +1187,7 @@ static int std_validate_elem(const struct v4l2_ctrl *ctrl, u32 idx,
->>>  	case V4L2_CTRL_TYPE_INTEGER:
->>>  		return ROUND_TO_RANGE(ptr.p_s32[idx], u32, ctrl);
->>>  	case V4L2_CTRL_TYPE_INTEGER64:
->>> +	case V4L2_CTRL_TYPE_FIXED_POINT:
->>>  		/*
->>>  		 * We can't use the ROUND_TO_RANGE define here due to
->>>  		 * the u64 divide that needs special care.
->>> @@ -1779,6 +1780,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->>>  	/* Prefill elem_size for all types handled by std_type_ops */
->>>  	switch ((u32)type) {
->>>  	case V4L2_CTRL_TYPE_INTEGER64:
->>> +	case V4L2_CTRL_TYPE_FIXED_POINT:
->>>  		elem_size = sizeof(s64);
->>>  		break;
->>>  	case V4L2_CTRL_TYPE_STRING:
->>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>> index cf8c44595a1d..9482ac66a675 100644
->>> --- a/include/uapi/linux/videodev2.h
->>> +++ b/include/uapi/linux/videodev2.h
->>> @@ -1903,6 +1903,7 @@ enum v4l2_ctrl_type {
->>>  	V4L2_CTRL_TYPE_STRING        = 7,
->>>  	V4L2_CTRL_TYPE_BITMASK       = 8,
->>>  	V4L2_CTRL_TYPE_INTEGER_MENU  = 9,
->>> +	V4L2_CTRL_TYPE_FIXED_POINT   = 10,
->>>  
->>>  	/* Compound types are >= 0x0100 */
->>>  	V4L2_CTRL_COMPOUND_TYPES     = 0x0100,
-> 
+> Links between a subdev and a video device need to be validated, and
+> v4l2_subdev_link_validate() can't handle that. Drivers typically handle
+> this validation manually at stream start time (either in the .streamon()
+> ioctl handler, or in the .start_streaming() vb2 queue operation),
+> instead of implementing a custom .link_validate() handler. Forbidding
 
+While some do the validation as part of the streamon callback, it'd be
+nicer to move this to the link_validate callback instead: this is what the
+callback is for. I'd presume not may drivers depend on
+v4l2_subdev_link_validate() fail silently on non-subdevices as the issue
+hasn't been reported before while the patch that seems to have broken this
+was merged in 6.3.
+
+Not failing silently in link_validate also ensures the validation gets
+done: there have been drivers (more than one) that have simply missed the
+link validation due to the issue (non-sub-device entity on one end) being
+silently ignored by default.
+
+> usage of v4l2_subdev_link_validate() as the .link_validate() handler
+> would thus force all subdev drivers that mix source links to subdev and
+> video devices to implement a custom .link_validate() handler that
+> returns immediately for the video device links and call
+> v4l2_subdev_link_validate() for subdev links. This would create lots of
+> duplicated code for no real gain. Instead, relax the check in
+> v4l2_ctrl_modify_range() to ignore links from a video device to a subdev
+> without printing any warning.
+> 
+> Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 30 ++++++++++++++++++++-------
+>  1 file changed, 23 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 67d43206ce32..b00be1d57e05 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1356,15 +1356,31 @@ int v4l2_subdev_link_validate(struct media_link *link)
+>  	struct v4l2_subdev *source_sd, *sink_sd;
+>  	struct v4l2_subdev_state *source_state, *sink_state;
+>  	bool states_locked;
+> +	bool is_sink_subdev;
+> +	bool is_source_subdev;
+>  	int ret;
+>  
+> -	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
+> -	    !is_media_entity_v4l2_subdev(link->source->entity)) {
+> -		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+> -			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
+> -			     "sink" : "source",
+> -			     link->source->entity->name, link->source->index,
+> -			     link->sink->entity->name, link->sink->index);
+> +	is_sink_subdev = is_media_entity_v4l2_subdev(link->sink->entity);
+> +	is_source_subdev = is_media_entity_v4l2_subdev(link->source->entity);
+> +
+> +	if (!is_sink_subdev || !is_source_subdev) {
+> +		/*
+> +		 * Do not print the warning if the source is a video device and
+> +		 * the sink a subdev. This is a valid use case, to allow usage
+> +		 * of this helper by subdev drivers that have multiple sink
+> +		 * pads, some connected to video devices and some connected to
+> +		 * other subdevs. The video device to subdev link is typically
+> +		 * validated manually by the driver at stream start time in such
+> +		 * cases.
+> +		 */
+> +		if (!is_sink_subdev ||
+> +		    !is_media_entity_v4l2_video_device(link->source->entity))
+> +			pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+> +				     !is_sink_subdev ? "sink" : "source",
+> +				     link->source->entity->name,
+> +				     link->source->index,
+> +				     link->sink->entity->name,
+> +				     link->sink->index);
+>  		return 0;
+>  	}
+>  
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
