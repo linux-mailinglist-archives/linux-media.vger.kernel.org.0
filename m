@@ -1,84 +1,56 @@
-Return-Path: <linux-media+bounces-216-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-215-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 055177E9AA5
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 12:06:59 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F14B07E9AA4
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 12:06:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C8D1D1C20906
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:06:57 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E8181F20F30
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:06:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBD7E1CA91;
-	Mon, 13 Nov 2023 11:06:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 938211CA84;
+	Mon, 13 Nov 2023 11:06:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="F71rRbPi"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eApgiTlU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2895318625
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 11:06:45 +0000 (UTC)
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C2DF10D0
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 03:06:42 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4STRSw46pjz49PwQ
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 13:06:37 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1699873600;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FA814F69;
+	Mon, 13 Nov 2023 11:06:44 +0000 (UTC)
+Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E761E10D3;
+	Mon, 13 Nov 2023 03:06:39 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id ACAB61C0016;
+	Mon, 13 Nov 2023 11:06:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1699873598;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=PX5erVL2047MQq/mcxk/feu4DbN8eEdVm0JFAv0KyRM=;
-	b=F71rRbPiJhlaRdxI8zQJ/NNp30DDbr5J4GvoJaGySk6JyIeN3BitoC6V1VWavdVycXWBvr
-	QVFYRVDq/b7nGjohx90nJPX8eYnVMMNud3QR5smeR/8BAmuB9KpgHmtsxxJLuzOC41NVTR
-	dRBvDEBswHBxMJFFUWOuHw3hxjou77+Pu+W9HtkbTukVYgVRXJJEOUPDqU4OK3AwXfQXu6
-	zwrKBdIpKmeRYVgPtrMDfLzfWX7qVlIS6DOFqXOKV8LSCQ6cTlQUaZKhpiaZvO7W5AQCsC
-	IeRt/03mO5K9/pFz1CDucz9yfMHIzXucOIGkyV6P6ouAz1BscKO2cvoVx1bNcg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1699873600;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=PX5erVL2047MQq/mcxk/feu4DbN8eEdVm0JFAv0KyRM=;
-	b=jM/6qNUmREyJv/wF4lAuz+j0O28fz2gmSyM4Hk9SZLAvRcF69ZeYvCZinGpj0ttjvhydBz
-	zHegP+eynNlOYvpC8VSow9rwnISK9eKES6lp7wc/NVp09qg0lKYzFo6p+Ftir+G9PiWXUd
-	fI8+30UmZNk0/2rwlcYgVXdMOaDcZ+mWOXdUgsbUoBzCEh56j6+/quwB54QXxlmPSTXV1Y
-	i0dmrKz3YjfEm1xT1XSZ44PZay7ic7iFcGVyaInS5vctqsGhmhAvmHnoEsKGcrZ4OZ1NqQ
-	JqeQy8AQ+s9C789S2Gs5gAd1dccOKdqwW22qfo81VNCCNGMqq6WbbCg1vQD0bA==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1699873600; a=rsa-sha256;
-	cv=none;
-	b=YzDj3O14RUJ6GuoIZUxs3GrhyboSaF29jQ0lDKkWKs93/HqTKNC9fdyC37xEkSwkPCPfg0
-	K4OCxDvde3I9OcNqgKgVQYQUfw4T1bptYDggrAM9YMzGl4W92oJCDyDeuMErwxSABi1kEM
-	whN7TvCAUbeP0jdGkvK1/i83w8LMkhRCW6HboAoIwLUg7F0Kvmrsg8MPIZ9xkqQHTRVr3l
-	wkNuAyMu9GkM3ontZ9aLR4JctKP33H/SJdaMRnWz3NMiRVWsotzy0vcempaecjGjUHVUUn
-	wgPy4oIdYcaATywxqLR+LZu6fxQyw3lYqjb9/XTIMIWsnDDNziBGs6FElgeplg==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1445C634C93;
-	Mon, 13 Nov 2023 13:06:35 +0200 (EET)
-Date: Mon, 13 Nov 2023 11:06:34 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH v1 2/2] media: v4l2-subdev: Relax warnings in link
- validation
-Message-ID: <ZVIDOlMYhCWiyNPh@valkosipuli.retiisi.eu>
-References: <20231113101718.6098-1-laurent.pinchart+renesas@ideasonboard.com>
- <20231113101718.6098-3-laurent.pinchart+renesas@ideasonboard.com>
+	bh=Jww218OGC87EBboTeBh0PiluXJvjuxLjPAU1JWB7n8c=;
+	b=eApgiTlUMD2URE04HdyMCPmckvgWUApgCmSHFQz5Lqz2U+DYSM+oT4QBClk+cOxOlnNxG7
+	If9UYdnw3dEzgKz5CeZkAr1nM943U7phuP/7sVOx8TTuQdFFif/BTHh5CRBjwWA/RSTMwb
+	SAPCzjunDBrEdy6HVUBezKSKxKJmwDTyhrTPglGSJ9NmHgQ5jDJY/3G+dKg7SE2hK92BUj
+	bsiqoxZ/6CTxQ8iSZnY4Fs6mDwJTld9ETdZNqsQEat4jyxZGRl6Kh7jCNBdRPqLXM97TDt
+	3NV2xk480RPypXZ6qb+2F2/l+Rvuakju/E1Xr89BDPM0w6Kv7M58ra1OW9jRXg==
+Date: Mon, 13 Nov 2023 12:06:36 +0100
+From: Mehdi Djait <mehdi.djait@bootlin.com>
+To: Michael Riesch <michael.riesch@wolfvision.net>
+Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+	conor+dt@kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
+	maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com
+Subject: Re: [PATCH v10 2/3] media: rockchip: Add a driver for Rockchip's
+ camera interface
+Message-ID: <ZVIDPKIBLHHvgpE/@pc-70.home>
+References: <cover.1699460637.git.mehdi.djait@bootlin.com>
+ <bcc0b84f4a6a8cf4c007cfe25025060b22627408.1699460637.git.mehdi.djait@bootlin.com>
+ <f817728d-6377-4fff-b8e8-ac0c652e5c29@wolfvision.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,106 +59,486 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231113101718.6098-3-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To: <f817728d-6377-4fff-b8e8-ac0c652e5c29@wolfvision.net>
+X-GND-Sasl: mehdi.djait@bootlin.com
 
-Hi Laurent,
+Hi Michael,
 
-Thanks for the patch.
-
-On Mon, Nov 13, 2023 at 12:17:18PM +0200, Laurent Pinchart wrote:
-> Before v6.3, the v4l2_subdev_link_validate() helper would ignore links
-> whose source was a video device and sink a subdev. The helper was (and
-> still is) used by drivers in such cases, in particular for subdevs with
-> multiple sink pads, some connected to video devices and some to other
-> subdevs.
+On Fri, Nov 10, 2023 at 01:50:01PM +0100, Michael Riesch wrote:
+> Hi Mehdi,
 > 
-> Then, commit a6b995ed03ff ("media: subdev: use streams in
-> v4l2_subdev_link_validate()") assumed the entities on the two sides of a
-> link are both subdevs, and caused crashes in drivers that use the helper
-> with subdev sink pads connected to video devices. Commit 55f1ecb11990
-> ("media: v4l: subdev: Make link validation safer"), merged in v6.4,
-> fixed the crash by adding an explicit check with a pr_warn_once(),
-> mentioning a driver bug.
+> Thanks for your patches.
 > 
-> Links between a subdev and a video device need to be validated, and
-> v4l2_subdev_link_validate() can't handle that. Drivers typically handle
-> this validation manually at stream start time (either in the .streamon()
-> ioctl handler, or in the .start_streaming() vb2 queue operation),
-> instead of implementing a custom .link_validate() handler. Forbidding
+> The good news first: with some hacks applied I was able to capture the
+> video stream from a HDMI receiver chip via BT.1120 on a Rockchip RK3568.
 
-While some do the validation as part of the streamon callback, it'd be
-nicer to move this to the link_validate callback instead: this is what the
-callback is for. I'd presume not may drivers depend on
-v4l2_subdev_link_validate() fail silently on non-subdevices as the issue
-hasn't been reported before while the patch that seems to have broken this
-was merged in 6.3.
+this is really cool!
 
-Not failing silently in link_validate also ensures the validation gets
-done: there have been drivers (more than one) that have simply missed the
-link validation due to the issue (non-sub-device entity on one end) being
-silently ignored by default.
-
-> usage of v4l2_subdev_link_validate() as the .link_validate() handler
-> would thus force all subdev drivers that mix source links to subdev and
-> video devices to implement a custom .link_validate() handler that
-> returns immediately for the video device links and call
-> v4l2_subdev_link_validate() for subdev links. This would create lots of
-> duplicated code for no real gain. Instead, relax the check in
-> v4l2_ctrl_modify_range() to ignore links from a video device to a subdev
-> without printing any warning.
 > 
-> Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
-> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> ---
->  drivers/media/v4l2-core/v4l2-subdev.c | 30 ++++++++++++++++++++-------
->  1 file changed, 23 insertions(+), 7 deletions(-)
+> As a next step, I'll clean up the hacky RK3568 support and submit them
+> for review.
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
-> index 67d43206ce32..b00be1d57e05 100644
-> --- a/drivers/media/v4l2-core/v4l2-subdev.c
-> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
-> @@ -1356,15 +1356,31 @@ int v4l2_subdev_link_validate(struct media_link *link)
->  	struct v4l2_subdev *source_sd, *sink_sd;
->  	struct v4l2_subdev_state *source_state, *sink_state;
->  	bool states_locked;
-> +	bool is_sink_subdev;
-> +	bool is_source_subdev;
->  	int ret;
->  
-> -	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
-> -	    !is_media_entity_v4l2_subdev(link->source->entity)) {
-> -		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
-> -			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
-> -			     "sink" : "source",
-> -			     link->source->entity->name, link->source->index,
-> -			     link->sink->entity->name, link->sink->index);
-> +	is_sink_subdev = is_media_entity_v4l2_subdev(link->sink->entity);
-> +	is_source_subdev = is_media_entity_v4l2_subdev(link->source->entity);
-> +
-> +	if (!is_sink_subdev || !is_source_subdev) {
-> +		/*
-> +		 * Do not print the warning if the source is a video device and
-> +		 * the sink a subdev. This is a valid use case, to allow usage
-> +		 * of this helper by subdev drivers that have multiple sink
-> +		 * pads, some connected to video devices and some connected to
-> +		 * other subdevs. The video device to subdev link is typically
-> +		 * validated manually by the driver at stream start time in such
-> +		 * cases.
-> +		 */
-> +		if (!is_sink_subdev ||
-> +		    !is_media_entity_v4l2_video_device(link->source->entity))
-> +			pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
-> +				     !is_sink_subdev ? "sink" : "source",
-> +				     link->source->entity->name,
-> +				     link->source->index,
-> +				     link->sink->entity->name,
-> +				     link->sink->index);
->  		return 0;
->  	}
->  
+> Still, there are some issues that needs to be addressed. Please find my
+> comments inline.
+> 
+> On 11/8/23 17:38, Mehdi Djait wrote:
+> > This introduces a V4L2 driver for the Rockchip CIF video capture controller.
+> > 
+> > This controller supports multiple parallel interfaces, but for now only the
+> > BT.656 interface could be tested, hence it's the only one that's supported
+> > in the first version of this driver.
+> > 
+> > This controller can be found on RK3066, PX30, RK1808, RK3128 and RK3288,
+> > but for now it's only been tested on the PX30.
+> > 
+> > CIF is implemented as a video node-centric driver.
+> > 
+> > Most of this driver was written following the BSP driver from rockchip,
+> > removing the parts that either didn't fit correctly the guidelines, or that
+> > couldn't be tested.
+> > 
+> > This basic version doesn't support cropping nor scaling and is only
+> > designed with one SDTV video decoder being attached to it at any time.
+> > 
+> > This version uses the "pingpong" mode of the controller, which is a
+> > double-buffering mechanism.
+> > 
+> > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> > +static const struct cif_input_fmt in_fmts[] = {
+> > +	{
+> > +		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8,
+> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
+> > +				  CIF_FORMAT_YUV_INPUT_ORDER_YUYV,
+> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
+> 
+> What is the point of this csi_fmt_val field? If the strategy is to kick
+> everything out that is not explicitly required then this should be
+> removed (and added at a later stage, if needed).
+> 
 
--- 
-Kind regards,
+I can remove this but I don't really see the harm of keeping this.
+It can even save some time for the person adding the support for CSI
+later.
 
-Sakari Ailus
+> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
+> > +		.field		= V4L2_FIELD_NONE,
+> > +	}, {
+> > +		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8,
+> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
+> > +				  CIF_FORMAT_YUV_INPUT_ORDER_YUYV,
+> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
+> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
+> > +		.field		= V4L2_FIELD_INTERLACED,
+> > +	}, {
+> > +		.mbus_code	= MEDIA_BUS_FMT_YVYU8_2X8,
+> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
+> > +				  CIF_FORMAT_YUV_INPUT_ORDER_YVYU,
+> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
+> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
+> > +		.field		= V4L2_FIELD_NONE,
+> 
+> What is the difference between this entry (in_fmts[2]) and in_fmts[0]?
+> Similarly, between in_fmts[1] and in_fmts[3]?
+> 
+
+Between in_fmts[0] and in_fmts[2] is the order of Y U V components:
+0 -> YUYV
+2 -> YVYU
+
+between in_fmts[1] and in_fmts[3]: the same thing:
+1 -> YUYV
+3 -> YVYU
+> > +	}, {
+> > +		.mbus_code	= MEDIA_BUS_FMT_YVYU8_2X8,
+> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
+> > +				  CIF_FORMAT_YUV_INPUT_ORDER_YVYU,
+> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
+> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
+> > +		.field		= V4L2_FIELD_INTERLACED,
+> > +	}, {
+> > +		.mbus_code	= MEDIA_BUS_FMT_UYVY8_2X8,
+> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
+> > +				  CIF_FORMAT_YUV_INPUT_ORDER_UYVY,
+> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
+> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
+> > +		.field		= V4L2_FIELD_NONE,
+> > +	}, {
+> > +		.mbus_code	= MEDIA_BUS_FMT_UYVY8_2X8,
+> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
+> > +				  CIF_FORMAT_YUV_INPUT_ORDER_UYVY,
+> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
+> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
+> > +		.field		= V4L2_FIELD_INTERLACED,
+> > +	}, {
+> > +		.mbus_code	= MEDIA_BUS_FMT_VYUY8_2X8,
+> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
+> > +				  CIF_FORMAT_YUV_INPUT_ORDER_VYUY,
+> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
+> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
+> > +		.field		= V4L2_FIELD_NONE,
+> > +	}, {
+> > +static const struct
+> > +cif_input_fmt *get_input_fmt(struct v4l2_subdev *sd)
+> > +{
+> > +	struct v4l2_subdev_format fmt;
+> > +	u32 i;
+> > +
+> > +	fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> > +	fmt.pad = 0;
+> > +	v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt);
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(in_fmts); i++)
+> > +		if (fmt.format.code == in_fmts[i].mbus_code &&
+> > +		    fmt.format.field == in_fmts[i].field)
+> > +			return &in_fmts[i];
+> > +
+> > +	v4l2_err(sd->v4l2_dev, "remote's mbus code not supported\n");
+> > +	return NULL;
+> > +}
+> > +
+> > +static struct
+> > +cif_output_fmt *find_output_fmt(struct cif_stream *stream, u32 pixelfmt)
+> > +{
+> > +	struct cif_output_fmt *fmt;
+> > +	u32 i;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(out_fmts); i++) {
+> > +		fmt = &out_fmts[i];
+> > +		if (fmt->fourcc == pixelfmt)
+> > +			return fmt;
+> > +	}
+> > +
+> > +	return NULL;
+> > +}
+> > +
+> > +static struct cif_buffer *cif_get_buffer(struct cif_stream *stream)
+> > +{
+> > +	struct cif_buffer *buff;
+> > +
+> > +	lockdep_assert_held(&stream->vbq_lock);
+> > +
+> > +	if (list_empty(&stream->buf_head))
+> > +		return NULL;
+> > +
+> > +	buff = list_first_entry(&stream->buf_head, struct cif_buffer, queue);
+> > +	list_del(&buff->queue);
+> > +
+> > +	return buff;
+> > +}
+> > +
+> > +static int cif_init_buffers(struct cif_stream *stream)
+> > +{
+> > +	struct cif_device *cif_dev = stream->cifdev;
+> > +	unsigned long lock_flags;
+> > +
+> > +	spin_lock_irqsave(&stream->vbq_lock, lock_flags);
+> > +
+> > +	stream->buffs[0] = cif_get_buffer(stream);
+> > +	stream->buffs[1] = cif_get_buffer(stream);
+> > +
+> > +	if (!(stream->buffs[0]) || !(stream->buffs[1])) {
+> > +		spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	stream->drop_frame = false;
+> > +
+> > +	cif_write(cif_dev, CIF_FRM0_ADDR_Y,
+> > +		  stream->buffs[0]->buff_addr[CIF_PLANE_Y]);
+> > +	cif_write(cif_dev, CIF_FRM0_ADDR_UV,
+> > +		  stream->buffs[0]->buff_addr[CIF_PLANE_UV]);
+> > +
+> > +	cif_write(cif_dev, CIF_FRM1_ADDR_Y,
+> > +		  stream->buffs[1]->buff_addr[CIF_PLANE_Y]);
+> > +	cif_write(cif_dev, CIF_FRM1_ADDR_UV,
+> > +		  stream->buffs[1]->buff_addr[CIF_PLANE_UV]);
+> > +
+> > +	spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void cif_assign_new_buffer_pingpong(struct cif_stream *stream)
+> > +{
+> > +	struct cif_device *cif_dev = stream->cifdev;
+> > +	struct cif_buffer *buffer = NULL;
+> > +	u32 frm_addr_y, frm_addr_uv;
+> > +	unsigned long lock_flags;
+> > +
+> > +	spin_lock_irqsave(&stream->vbq_lock, lock_flags);
+> > +
+> > +	buffer = cif_get_buffer(stream);
+> > +
+> > +	/*
+> > +	 * In Pingpong mode:
+> > +	 * After one frame0 captured, CIF will start to capture the next frame1
+> > +	 * automatically.
+> > +	 *
+> > +	 * If there is no buffer:
+> > +	 * 1. Make the next frame0 write to the buffer of frame1.
+> > +	 *
+> > +	 * 2. Drop the frame1: Don't return it to user-space, as it will be
+> > +	 *    overwritten by the next frame0.
+> > +	 */
+> > +	if (!buffer) {
+> > +		stream->drop_frame = true;
+> > +		buffer = stream->buffs[1 - stream->frame_phase];
+> > +	} else {
+> > +		stream->drop_frame = false;
+> > +	}
+> > +
+> > +	stream->buffs[stream->frame_phase] = buffer;
+> > +	spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
+> > +
+> > +	frm_addr_y = stream->frame_phase ? CIF_FRM1_ADDR_Y : CIF_FRM0_ADDR_Y;
+> > +	frm_addr_uv = stream->frame_phase ? CIF_FRM1_ADDR_UV : CIF_FRM0_ADDR_UV;
+> > +
+> > +	cif_write(cif_dev, frm_addr_y, buffer->buff_addr[CIF_PLANE_Y]);
+> > +	cif_write(cif_dev, frm_addr_uv, buffer->buff_addr[CIF_PLANE_UV]);
+> > +}
+> > +
+> > +static void cif_stream_stop(struct cif_stream *stream)
+> > +{
+> > +	struct cif_device *cif_dev = stream->cifdev;
+> > +	u32 val;
+> > +
+> > +	val = cif_read(cif_dev, CIF_CTRL);
+> > +	cif_write(cif_dev, CIF_CTRL, val & (~CIF_CTRL_ENABLE_CAPTURE));
+> > +	cif_write(cif_dev, CIF_INTEN, 0x0);
+> > +	cif_write(cif_dev, CIF_INTSTAT, 0x3ff);
+> > +	cif_write(cif_dev, CIF_FRAME_STATUS, 0x0);
+> > +
+> > +	stream->stopping = false;
+> > +}
+> > +
+> > +static int cif_queue_setup(struct vb2_queue *queue,
+> > +			   unsigned int *num_buffers,
+> > +			   unsigned int *num_planes,
+> > +			   unsigned int sizes[],
+> > +			   struct device *alloc_devs[])
+> > +{
+> > +	struct cif_stream *stream = queue->drv_priv;
+> > +	const struct v4l2_pix_format *pix;
+> > +
+> > +	pix = &stream->pix;
+> > +
+> > +	if (*num_planes) {
+> > +		if (*num_planes != 1)
+> > +			return -EINVAL;
+> > +
+> > +		if (sizes[0] < pix->sizeimage)
+> > +			return -EINVAL;
+> > +		return 0;
+> > +	}
+> > +
+> > +	*num_planes = 1;
+> > +
+> > +	sizes[0] = pix->sizeimage;
+> > +
+> > +	*num_buffers = CIF_REQ_BUFS_MIN;
+> > +
+> > +	return 0;
+> > +}
+> > +
+> > +static void cif_buf_queue(struct vb2_buffer *vb)
+> > +{
+> > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> > +	struct cif_buffer *cifbuf = to_cif_buffer(vbuf);
+> > +	struct vb2_queue *queue = vb->vb2_queue;
+> > +	struct cif_stream *stream = queue->drv_priv;
+> > +	struct v4l2_pix_format *pix = &stream->pix;
+> > +	unsigned long lock_flags;
+> > +	int i;
+> > +
+> > +	struct cif_output_fmt *fmt = stream->cif_fmt_out;
+> > +
+> > +	memset(cifbuf->buff_addr, 0, sizeof(cifbuf->buff_addr));
+> > +
+> > +	cifbuf->buff_addr[0] = vb2_dma_contig_plane_dma_addr(vb, 0);
+> > +
+> > +	for (i = 0; i < fmt->cplanes - 1; i++)
+> > +		cifbuf->buff_addr[i + 1] = cifbuf->buff_addr[i] +
+> > +			pix->bytesperline * pix->height;
+> > +
+> > +	spin_lock_irqsave(&stream->vbq_lock, lock_flags);
+> > +	list_add_tail(&cifbuf->queue, &stream->buf_head);
+> > +	spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
+> > +}
+> > +
+> > +static void cif_return_all_buffers(struct cif_stream *stream,
+> > +				   enum vb2_buffer_state state)
+> > +{
+> > +	struct cif_buffer *buf;
+> > +	unsigned long lock_flags;
+> > +
+> > +	spin_lock_irqsave(&stream->vbq_lock, lock_flags);
+> > +
+> > +	if (stream->buffs[0]) {
+> > +		vb2_buffer_done(&stream->buffs[0]->vb.vb2_buf, state);
+> > +		stream->buffs[0] = NULL;
+> > +	}
+> > +
+> > +	if (stream->buffs[1]) {
+> > +		if (!stream->drop_frame)
+> > +			vb2_buffer_done(&stream->buffs[1]->vb.vb2_buf, state);
+> > +
+> > +		stream->buffs[1] = NULL;
+> > +	}
+> > +
+> > +	while (!list_empty(&stream->buf_head)) {
+> > +		buf = cif_get_buffer(stream);
+> > +		vb2_buffer_done(&buf->vb.vb2_buf, state);
+> > +	}
+> > +
+> > +	spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
+> > +}
+> > +
+> > +static void cif_stop_streaming(struct vb2_queue *queue)
+> > +{
+> > +	struct cif_stream *stream = queue->drv_priv;
+> > +	struct cif_device *cif_dev = stream->cifdev;
+> > +	struct v4l2_subdev *sd;
+> > +	int ret;
+> > +
+> > +	stream->stopping = true;
+> > +	ret = wait_event_timeout(stream->wq_stopped,
+> > +				 !stream->stopping,
+> > +				 msecs_to_jiffies(1000));
+> > +	if (!ret) {
+> > +		cif_stream_stop(stream);
+> > +		stream->stopping = false;
+> > +	}
+> > +
+> > +	/* Stop the sub device. */
+> > +	sd = cif_dev->remote.sd;
+> > +	v4l2_subdev_call(sd, video, s_stream, 0);
+> > +
+> > +	pm_runtime_put(cif_dev->dev);
+> > +
+> > +	cif_return_all_buffers(stream, VB2_BUF_STATE_ERROR);
+> > +}
+> > +
+> > +static int cif_stream_start(struct cif_stream *stream)
+> > +{
+> > +	u32 val, mbus_flags, href_pol, vsync_pol, fmt_type,
+> > +	    xfer_mode = 0, yc_swap = 0;
+> > +	struct cif_device *cif_dev = stream->cifdev;
+> > +	struct cif_remote *remote_info;
+> > +	int ret;
+> > +	u32 input_mode;
+> > +
+> > +	remote_info = &cif_dev->remote;
+> > +	fmt_type = stream->cif_fmt_in->fmt_type;
+> > +	stream->frame_idx = 0;
+> 
+> Those lines are somewhat mixed. The reset of the frame_idx should be
+> made more visible. The remote_info line could be integrated into the
+> declaration. For the fmt_type line please see the comment below.
+> 
+> > +	input_mode = (remote_info->std == V4L2_STD_NTSC) ?
+> > +		      CIF_FORMAT_INPUT_MODE_NTSC :
+> > +		      CIF_FORMAT_INPUT_MODE_PAL;
+> 
+> This seems to be an oversimplification. How can one use BT.656 here?
+
+I don't quite understand the question. This is used to configure the
+hardware, i.e., the INPUT_MODE of the format VIP_FOR
+
+bits 4:2
+
+INPUT_MODE Input mode:
+
+3'b000 : YUV
+3'b010 : PAL
+3'b011 : NTSC
+3'b100 : RAW
+3'b101 : JPEG
+3'b110 : MIPI
+Other : invalid
+
+> (Aren't you using BT.656 as mbus format between your video decoder and
+> the PX30 VIP?)
+
+I look into this. I will probably need to add this.
+
+> You should not assume that the remote is capable of any TV standards
+> (this statement holds for the driver in general).
+> 
+
+But this is the support I am adding right now, for cif with a SDTV
+decoder capable of TV standards. This statement will need to be 
+changed when support for sensors is added. 
+
+> > +	mbus_flags = remote_info->mbus.bus.parallel.flags;
+> > +	href_pol = (mbus_flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH) ?
+> > +			0 : CIF_FORMAT_HSY_LOW_ACTIVE;
+> > +	vsync_pol = (mbus_flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH) ?
+> > +			CIF_FORMAT_VSY_HIGH_ACTIVE : 0;
+> > +
+> > +	val = vsync_pol | href_pol | input_mode | stream->cif_fmt_out->fmt_val |
+> > +	      stream->cif_fmt_in->dvp_fmt_val | xfer_mode | yc_swap;
+> > +void cif_set_default_format(struct cif_device *cif_dev)
+> > +{
+> > +	struct cif_stream *stream = &cif_dev->stream;
+> > +	struct v4l2_pix_format pix;
+> > +
+> > +	cif_dev->remote.std = V4L2_STD_NTSC;
+> 
+> Not every subdevice supports TV standards. Is this really reasonable?
+> 
+
+For the support I am adding right now it is reasonable but for future
+support it needs to be changed.
+
+> > +
+> > +	pix.pixelformat = V4L2_PIX_FMT_NV12;
+> > +	pix.width = CIF_DEFAULT_WIDTH;
+> > +	pix.height = CIF_DEFAULT_HEIGHT;
+> > +
+> > +	cif_set_fmt(stream, &pix);
+> > +}
+> > +
+> > +static int cif_enum_input(struct file *file, void *priv,
+> > +			  struct v4l2_input *input)
+> > +{
+> > +	struct cif_stream *stream = video_drvdata(file);
+> > +	struct v4l2_subdev *sd = stream->cifdev->remote.sd;
+> > +	int ret;
+> > +
+> > +	if (input->index > 0)
+> > +		return -EINVAL;
+> > +
+> > +	ret = v4l2_subdev_call(sd, video, g_input_status, &input->status);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	strscpy(input->name, "Camera", sizeof(input->name));
+> > +	input->type = V4L2_INPUT_TYPE_CAMERA;
+> 
+> Wait, we are a camera in any case? How does this fit together with your
+> video decoder setup?
+> 
+
+Yes the video decoder is attached to a camera.
+
+From the kernel documentation:
+https://docs.kernel.org/userspace-api/media/v4l/vidioc-enuminput.html?highlight=v4l2_input_type_camera
+--------------------------------------------------------------------------------
+V4L2_INPUT_TYPE_CAMERA
+Any non-tuner video input, for example Composite Video, S-Video, HDMI, camera
+sensor. The naming as _TYPE_CAMERA is historical, today we would have called it
+_TYPE_VIDEO.
+--------------------------------------------------------------------------------
+
+> > +	input->std = stream->vdev.tvnorms;
+> > +	input->capabilities = V4L2_IN_CAP_STD;
+> 
+> Not every subdevice supports TV standards. Is this really reasonable?
+> 
+
+see above answer.
+
+--
+Kind Regards
+Mehdi Djait
 
