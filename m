@@ -1,544 +1,261 @@
-Return-Path: <linux-media+bounces-215-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-217-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id F14B07E9AA4
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 12:06:55 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA7987E9AB2
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 12:08:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E8181F20F30
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:06:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87C1B1C20880
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:08:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 938211CA84;
-	Mon, 13 Nov 2023 11:06:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 59C9A1CA88;
+	Mon, 13 Nov 2023 11:07:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="eApgiTlU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="f+g1zMT5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63FA814F69;
-	Mon, 13 Nov 2023 11:06:44 +0000 (UTC)
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E761E10D3;
-	Mon, 13 Nov 2023 03:06:39 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id ACAB61C0016;
-	Mon, 13 Nov 2023 11:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1699873598;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Jww218OGC87EBboTeBh0PiluXJvjuxLjPAU1JWB7n8c=;
-	b=eApgiTlUMD2URE04HdyMCPmckvgWUApgCmSHFQz5Lqz2U+DYSM+oT4QBClk+cOxOlnNxG7
-	If9UYdnw3dEzgKz5CeZkAr1nM943U7phuP/7sVOx8TTuQdFFif/BTHh5CRBjwWA/RSTMwb
-	SAPCzjunDBrEdy6HVUBezKSKxKJmwDTyhrTPglGSJ9NmHgQ5jDJY/3G+dKg7SE2hK92BUj
-	bsiqoxZ/6CTxQ8iSZnY4Fs6mDwJTld9ETdZNqsQEat4jyxZGRl6Kh7jCNBdRPqLXM97TDt
-	3NV2xk480RPypXZ6qb+2F2/l+Rvuakju/E1Xr89BDPM0w6Kv7M58ra1OW9jRXg==
-Date: Mon, 13 Nov 2023 12:06:36 +0100
-From: Mehdi Djait <mehdi.djait@bootlin.com>
-To: Michael Riesch <michael.riesch@wolfvision.net>
-Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	conor+dt@kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-	maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com
-Subject: Re: [PATCH v10 2/3] media: rockchip: Add a driver for Rockchip's
- camera interface
-Message-ID: <ZVIDPKIBLHHvgpE/@pc-70.home>
-References: <cover.1699460637.git.mehdi.djait@bootlin.com>
- <bcc0b84f4a6a8cf4c007cfe25025060b22627408.1699460637.git.mehdi.djait@bootlin.com>
- <f817728d-6377-4fff-b8e8-ac0c652e5c29@wolfvision.net>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C54A112B6D
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 11:07:55 +0000 (UTC)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E27B91718;
+	Mon, 13 Nov 2023 03:07:48 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 62A6410A;
+	Mon, 13 Nov 2023 12:07:22 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1699873642;
+	bh=44XxDMZ8vV3iZkNBqPO1GmXv2iPnvXqCnW7IKgatAEc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f+g1zMT5sVTdL0UYHZw8lTioKQ71fT9LaG2nS3f3ftw+VxQsWnosT0cx4CH7bkU5P
+	 t6WCi04avRTLwUJlSuFwVJd0E19oqlEMdXAn04A0DWKwoxOEqBlpzVHNVcbQWmC2Ln
+	 LpMRv49vUCqPnEE/A1p/tjFWpQQZwmyTuD8YpoNc=
+Date: Mon, 13 Nov 2023 13:07:54 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+	tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: Re: [PATCH v9 10/15] media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
+Message-ID: <20231113110754.GB24338@pendragon.ideasonboard.com>
+References: <1699595289-25773-1-git-send-email-shengjiu.wang@nxp.com>
+ <1699595289-25773-11-git-send-email-shengjiu.wang@nxp.com>
+ <4cd6b593-2376-4cbc-a7c8-d3eb36a2f7a0@xs4all.nl>
+ <20231113104238.GA13981@pendragon.ideasonboard.com>
+ <6a3e7eb9-505c-4cfb-8a86-a8947a2e44d5@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f817728d-6377-4fff-b8e8-ac0c652e5c29@wolfvision.net>
-X-GND-Sasl: mehdi.djait@bootlin.com
+In-Reply-To: <6a3e7eb9-505c-4cfb-8a86-a8947a2e44d5@xs4all.nl>
 
-Hi Michael,
-
-On Fri, Nov 10, 2023 at 01:50:01PM +0100, Michael Riesch wrote:
-> Hi Mehdi,
-> 
-> Thanks for your patches.
-> 
-> The good news first: with some hacks applied I was able to capture the
-> video stream from a HDMI receiver chip via BT.1120 on a Rockchip RK3568.
-
-this is really cool!
-
-> 
-> As a next step, I'll clean up the hacky RK3568 support and submit them
-> for review.
-> 
-> Still, there are some issues that needs to be addressed. Please find my
-> comments inline.
-> 
-> On 11/8/23 17:38, Mehdi Djait wrote:
-> > This introduces a V4L2 driver for the Rockchip CIF video capture controller.
+On Mon, Nov 13, 2023 at 11:56:49AM +0100, Hans Verkuil wrote:
+> On 13/11/2023 11:42, Laurent Pinchart wrote:
+> > On Mon, Nov 13, 2023 at 11:29:09AM +0100, Hans Verkuil wrote:
+> >> Hi Shengjiu,
+> >>
+> >> On 10/11/2023 06:48, Shengjiu Wang wrote:
+> >>> Fixed point controls are used by the user to configure
+> >>> a fixed point value in 64bits, which Q31.32 format.
+> >>>
+> >>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> >>
+> >> This patch adds a new control type. This is something that also needs to be
+> >> tested by v4l2-compliance, and for that we need to add support for this to
+> >> one of the media test-drivers. The best place for that is the vivid driver,
+> >> since that has already a bunch of test controls for other control types.
+> >>
+> >> See e.g. VIVID_CID_INTEGER64 in vivid-ctrls.c.
+> >>
+> >> Can you add a patch adding a fixed point test control to vivid?
 > > 
-> > This controller supports multiple parallel interfaces, but for now only the
-> > BT.656 interface could be tested, hence it's the only one that's supported
-> > in the first version of this driver.
-> > 
-> > This controller can be found on RK3066, PX30, RK1808, RK3128 and RK3288,
-> > but for now it's only been tested on the PX30.
-> > 
-> > CIF is implemented as a video node-centric driver.
-> > 
-> > Most of this driver was written following the BSP driver from rockchip,
-> > removing the parts that either didn't fit correctly the guidelines, or that
-> > couldn't be tested.
-> > 
-> > This basic version doesn't support cropping nor scaling and is only
-> > designed with one SDTV video decoder being attached to it at any time.
-> > 
-> > This version uses the "pingpong" mode of the controller, which is a
-> > double-buffering mechanism.
-> > 
-> > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> > +static const struct cif_input_fmt in_fmts[] = {
-> > +	{
-> > +		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8,
-> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
-> > +				  CIF_FORMAT_YUV_INPUT_ORDER_YUYV,
-> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
+> > I don't think V4L2_CTRL_TYPE_FIXED_POINT is a good idea. This seems to
+> > relate more to units than control types. We have lots of fixed-point
+> > values in controls already, using the 32-bit and 64-bit integer control
+> > types. They use various locations for the decimal point, depending on
+> > the control. If we want to make this more explicit to users, we should
+> > work on adding unit support to the V4L2 controls.
 > 
-> What is the point of this csi_fmt_val field? If the strategy is to kick
-> everything out that is not explicitly required then this should be
-> removed (and added at a later stage, if needed).
+> "Fixed Point" is not a unit, it's a type. 'Db', 'Hz' etc. are units.
+
+It's not a unit, but I think it's related to units. My point is that,
+without units support, I don't see why we need a formal definition of
+fixed-point types, and why this series couldn't just use
+VIVID_CID_INTEGER64. Drivers already interpret VIVID_CID_INTEGER64
+values as they see fit.
+
+> A quick "git grep -i "fixed point" Documentation/userspace-api/media/'
+> only shows a single driver specific control (dw100.rst).
 > 
+> I'm not aware of other controls in mainline that use fixed point.
 
-I can remove this but I don't really see the harm of keeping this.
-It can even save some time for the person adding the support for CSI
-later.
+The analog gain control for sensors for instance.
 
-> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
-> > +		.field		= V4L2_FIELD_NONE,
-> > +	}, {
-> > +		.mbus_code	= MEDIA_BUS_FMT_YUYV8_2X8,
-> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
-> > +				  CIF_FORMAT_YUV_INPUT_ORDER_YUYV,
-> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
-> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
-> > +		.field		= V4L2_FIELD_INTERLACED,
-> > +	}, {
-> > +		.mbus_code	= MEDIA_BUS_FMT_YVYU8_2X8,
-> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
-> > +				  CIF_FORMAT_YUV_INPUT_ORDER_YVYU,
-> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
-> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
-> > +		.field		= V4L2_FIELD_NONE,
+> Note that V4L2_CTRL_TYPE_FIXED_POINT is a Q31.32 format. By setting
+> min/max/step you can easily map that to just about any QN.M format where
+> N <= 31 and M <= 32.
 > 
-> What is the difference between this entry (in_fmts[2]) and in_fmts[0]?
-> Similarly, between in_fmts[1] and in_fmts[3]?
+> In the case of dw100 it is a bit different in that it is quite specialized
+> and it had to fit in 16 bits.
 > 
+> >>> ---
+> >>>  .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst  | 13 +++++++------
+> >>>  .../userspace-api/media/v4l/vidioc-queryctrl.rst    |  9 ++++++++-
+> >>>  .../userspace-api/media/videodev2.h.rst.exceptions  |  1 +
+> >>>  drivers/media/v4l2-core/v4l2-ctrls-api.c            |  5 ++++-
+> >>>  drivers/media/v4l2-core/v4l2-ctrls-core.c           |  2 ++
+> >>>  include/uapi/linux/videodev2.h                      |  1 +
+> >>>  6 files changed, 23 insertions(+), 8 deletions(-)
+> >>>
+> >>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> >>> index e8475f9fd2cf..e7e5d78dc11e 100644
+> >>> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> >>> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> >>> @@ -162,13 +162,13 @@ still cause this situation.
+> >>>      * - __s32
+> >>>        - ``value``
+> >>>        - New value or current value. Valid if this control is not of type
+> >>> -	``V4L2_CTRL_TYPE_INTEGER64`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is
+> >>> -	not set.
+> >>> +	``V4L2_CTRL_TYPE_INTEGER64``, ``V4L2_CTRL_TYPE_FIXED_POINT`` and
+> >>> +	``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is not set.
+> >>>      * - __s64
+> >>>        - ``value64``
+> >>>        - New value or current value. Valid if this control is of type
+> >>> -	``V4L2_CTRL_TYPE_INTEGER64`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is
+> >>> -	not set.
+> >>> +	``V4L2_CTRL_TYPE_INTEGER64``, ``V4L2_CTRL_TYPE_FIXED_POINT`` and
+> >>> +	``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is not set.
+> >>>      * - char *
+> >>>        - ``string``
+> >>>        - A pointer to a string. Valid if this control is of type
+> >>> @@ -193,8 +193,9 @@ still cause this situation.
+> >>>      * - __s64 *
+> >>>        - ``p_s64``
+> >>>        - A pointer to a matrix control of signed 64-bit values. Valid if
+> >>> -        this control is of type ``V4L2_CTRL_TYPE_INTEGER64`` and
+> >>> -        ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is set.
+> >>> +        this control is of type ``V4L2_CTRL_TYPE_INTEGER64``,
+> >>> +        ``V4L2_CTRL_TYPE_FIXED_POINT`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD``
+> >>> +        is set.
+> >>>      * - struct :c:type:`v4l2_area` *
+> >>>        - ``p_area``
+> >>>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
+> >>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> >>> index 4d38acafe8e1..f3995ec57044 100644
+> >>> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> >>> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> >>> @@ -235,7 +235,8 @@ See also the examples in :ref:`control`.
+> >>>        - ``default_value``
+> >>>        - The default value of a ``V4L2_CTRL_TYPE_INTEGER``, ``_INTEGER64``,
+> >>>  	``_BOOLEAN``, ``_BITMASK``, ``_MENU``, ``_INTEGER_MENU``, ``_U8``
+> >>> -	or ``_U16`` control. Not valid for other types of controls.
+> >>> +	``_FIXED_POINT`` or ``_U16`` control. Not valid for other types of
+> >>> +	controls.
+> >>>  
+> >>>  	.. note::
+> >>>  
+> >>> @@ -549,6 +550,12 @@ See also the examples in :ref:`control`.
+> >>>        - n/a
+> >>>        - A struct :c:type:`v4l2_ctrl_av1_film_grain`, containing AV1 Film Grain
+> >>>          parameters for stateless video decoders.
+> >>> +    * - ``V4L2_CTRL_TYPE_FIXED_POINT``
+> >>> +      - any
+> >>> +      - any
+> >>> +      - any
+> >>> +      - A 64-bit integer valued control, containing parameter which is
+> >>> +        Q31.32 format.
+> >>>  
+> >>>  .. raw:: latex
+> >>>  
+> >>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> >>> index e61152bb80d1..2faa5a2015eb 100644
+> >>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> >>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> >>> @@ -167,6 +167,7 @@ replace symbol V4L2_CTRL_TYPE_AV1_SEQUENCE :c:type:`v4l2_ctrl_type`
+> >>>  replace symbol V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY :c:type:`v4l2_ctrl_type`
+> >>>  replace symbol V4L2_CTRL_TYPE_AV1_FRAME :c:type:`v4l2_ctrl_type`
+> >>>  replace symbol V4L2_CTRL_TYPE_AV1_FILM_GRAIN :c:type:`v4l2_ctrl_type`
+> >>> +replace symbol V4L2_CTRL_TYPE_FIXED_POINT :c:type:`v4l2_ctrl_type`
+> >>>  
+> >>>  # V4L2 capability defines
+> >>>  replace define V4L2_CAP_VIDEO_CAPTURE device-capabilities
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> >>> index 002ea6588edf..e6a0fb8d6791 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> >>> @@ -57,6 +57,7 @@ static int ptr_to_user(struct v4l2_ext_control *c,
+> >>>  		return copy_to_user(c->string, ptr.p_char, len + 1) ?
+> >>>  		       -EFAULT : 0;
+> >>>  	case V4L2_CTRL_TYPE_INTEGER64:
+> >>> +	case V4L2_CTRL_TYPE_FIXED_POINT:
+> >>>  		c->value64 = *ptr.p_s64;
+> >>>  		break;
+> >>>  	default:
+> >>> @@ -132,6 +133,7 @@ static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+> >>>  
+> >>>  	switch (ctrl->type) {
+> >>>  	case V4L2_CTRL_TYPE_INTEGER64:
+> >>> +	case V4L2_CTRL_TYPE_FIXED_POINT:
+> >>>  		*ctrl->p_new.p_s64 = c->value64;
+> >>>  		break;
+> >>>  	case V4L2_CTRL_TYPE_STRING:
+> >>> @@ -540,7 +542,8 @@ static int validate_ctrls(struct v4l2_ext_controls *cs,
+> >>>  		 */
+> >>>  		if (ctrl->is_ptr)
+> >>>  			continue;
+> >>> -		if (ctrl->type == V4L2_CTRL_TYPE_INTEGER64)
+> >>> +		if (ctrl->type == V4L2_CTRL_TYPE_INTEGER64 ||
+> >>> +		    ctrl->type == V4L2_CTRL_TYPE_FIXED_POINT)
+> >>>  			p_new.p_s64 = &cs->controls[i].value64;
+> >>>  		else
+> >>>  			p_new.p_s32 = &cs->controls[i].value;
+> >>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> >>> index a662fb60f73f..9d50df0d9874 100644
+> >>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> >>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> >>> @@ -1187,6 +1187,7 @@ static int std_validate_elem(const struct v4l2_ctrl *ctrl, u32 idx,
+> >>>  	case V4L2_CTRL_TYPE_INTEGER:
+> >>>  		return ROUND_TO_RANGE(ptr.p_s32[idx], u32, ctrl);
+> >>>  	case V4L2_CTRL_TYPE_INTEGER64:
+> >>> +	case V4L2_CTRL_TYPE_FIXED_POINT:
+> >>>  		/*
+> >>>  		 * We can't use the ROUND_TO_RANGE define here due to
+> >>>  		 * the u64 divide that needs special care.
+> >>> @@ -1779,6 +1780,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+> >>>  	/* Prefill elem_size for all types handled by std_type_ops */
+> >>>  	switch ((u32)type) {
+> >>>  	case V4L2_CTRL_TYPE_INTEGER64:
+> >>> +	case V4L2_CTRL_TYPE_FIXED_POINT:
+> >>>  		elem_size = sizeof(s64);
+> >>>  		break;
+> >>>  	case V4L2_CTRL_TYPE_STRING:
+> >>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> >>> index cf8c44595a1d..9482ac66a675 100644
+> >>> --- a/include/uapi/linux/videodev2.h
+> >>> +++ b/include/uapi/linux/videodev2.h
+> >>> @@ -1903,6 +1903,7 @@ enum v4l2_ctrl_type {
+> >>>  	V4L2_CTRL_TYPE_STRING        = 7,
+> >>>  	V4L2_CTRL_TYPE_BITMASK       = 8,
+> >>>  	V4L2_CTRL_TYPE_INTEGER_MENU  = 9,
+> >>> +	V4L2_CTRL_TYPE_FIXED_POINT   = 10,
+> >>>  
+> >>>  	/* Compound types are >= 0x0100 */
+> >>>  	V4L2_CTRL_COMPOUND_TYPES     = 0x0100,
 
-Between in_fmts[0] and in_fmts[2] is the order of Y U V components:
-0 -> YUYV
-2 -> YVYU
+-- 
+Regards,
 
-between in_fmts[1] and in_fmts[3]: the same thing:
-1 -> YUYV
-3 -> YVYU
-> > +	}, {
-> > +		.mbus_code	= MEDIA_BUS_FMT_YVYU8_2X8,
-> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
-> > +				  CIF_FORMAT_YUV_INPUT_ORDER_YVYU,
-> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
-> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
-> > +		.field		= V4L2_FIELD_INTERLACED,
-> > +	}, {
-> > +		.mbus_code	= MEDIA_BUS_FMT_UYVY8_2X8,
-> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
-> > +				  CIF_FORMAT_YUV_INPUT_ORDER_UYVY,
-> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
-> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
-> > +		.field		= V4L2_FIELD_NONE,
-> > +	}, {
-> > +		.mbus_code	= MEDIA_BUS_FMT_UYVY8_2X8,
-> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
-> > +				  CIF_FORMAT_YUV_INPUT_ORDER_UYVY,
-> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
-> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
-> > +		.field		= V4L2_FIELD_INTERLACED,
-> > +	}, {
-> > +		.mbus_code	= MEDIA_BUS_FMT_VYUY8_2X8,
-> > +		.dvp_fmt_val	= CIF_FORMAT_YUV_INPUT_422 |
-> > +				  CIF_FORMAT_YUV_INPUT_ORDER_VYUY,
-> > +		.csi_fmt_val	= CIF_CSI_WRDDR_TYPE_YUV422,
-> > +		.fmt_type	= CIF_FMT_TYPE_YUV,
-> > +		.field		= V4L2_FIELD_NONE,
-> > +	}, {
-> > +static const struct
-> > +cif_input_fmt *get_input_fmt(struct v4l2_subdev *sd)
-> > +{
-> > +	struct v4l2_subdev_format fmt;
-> > +	u32 i;
-> > +
-> > +	fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> > +	fmt.pad = 0;
-> > +	v4l2_subdev_call(sd, pad, get_fmt, NULL, &fmt);
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(in_fmts); i++)
-> > +		if (fmt.format.code == in_fmts[i].mbus_code &&
-> > +		    fmt.format.field == in_fmts[i].field)
-> > +			return &in_fmts[i];
-> > +
-> > +	v4l2_err(sd->v4l2_dev, "remote's mbus code not supported\n");
-> > +	return NULL;
-> > +}
-> > +
-> > +static struct
-> > +cif_output_fmt *find_output_fmt(struct cif_stream *stream, u32 pixelfmt)
-> > +{
-> > +	struct cif_output_fmt *fmt;
-> > +	u32 i;
-> > +
-> > +	for (i = 0; i < ARRAY_SIZE(out_fmts); i++) {
-> > +		fmt = &out_fmts[i];
-> > +		if (fmt->fourcc == pixelfmt)
-> > +			return fmt;
-> > +	}
-> > +
-> > +	return NULL;
-> > +}
-> > +
-> > +static struct cif_buffer *cif_get_buffer(struct cif_stream *stream)
-> > +{
-> > +	struct cif_buffer *buff;
-> > +
-> > +	lockdep_assert_held(&stream->vbq_lock);
-> > +
-> > +	if (list_empty(&stream->buf_head))
-> > +		return NULL;
-> > +
-> > +	buff = list_first_entry(&stream->buf_head, struct cif_buffer, queue);
-> > +	list_del(&buff->queue);
-> > +
-> > +	return buff;
-> > +}
-> > +
-> > +static int cif_init_buffers(struct cif_stream *stream)
-> > +{
-> > +	struct cif_device *cif_dev = stream->cifdev;
-> > +	unsigned long lock_flags;
-> > +
-> > +	spin_lock_irqsave(&stream->vbq_lock, lock_flags);
-> > +
-> > +	stream->buffs[0] = cif_get_buffer(stream);
-> > +	stream->buffs[1] = cif_get_buffer(stream);
-> > +
-> > +	if (!(stream->buffs[0]) || !(stream->buffs[1])) {
-> > +		spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	stream->drop_frame = false;
-> > +
-> > +	cif_write(cif_dev, CIF_FRM0_ADDR_Y,
-> > +		  stream->buffs[0]->buff_addr[CIF_PLANE_Y]);
-> > +	cif_write(cif_dev, CIF_FRM0_ADDR_UV,
-> > +		  stream->buffs[0]->buff_addr[CIF_PLANE_UV]);
-> > +
-> > +	cif_write(cif_dev, CIF_FRM1_ADDR_Y,
-> > +		  stream->buffs[1]->buff_addr[CIF_PLANE_Y]);
-> > +	cif_write(cif_dev, CIF_FRM1_ADDR_UV,
-> > +		  stream->buffs[1]->buff_addr[CIF_PLANE_UV]);
-> > +
-> > +	spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void cif_assign_new_buffer_pingpong(struct cif_stream *stream)
-> > +{
-> > +	struct cif_device *cif_dev = stream->cifdev;
-> > +	struct cif_buffer *buffer = NULL;
-> > +	u32 frm_addr_y, frm_addr_uv;
-> > +	unsigned long lock_flags;
-> > +
-> > +	spin_lock_irqsave(&stream->vbq_lock, lock_flags);
-> > +
-> > +	buffer = cif_get_buffer(stream);
-> > +
-> > +	/*
-> > +	 * In Pingpong mode:
-> > +	 * After one frame0 captured, CIF will start to capture the next frame1
-> > +	 * automatically.
-> > +	 *
-> > +	 * If there is no buffer:
-> > +	 * 1. Make the next frame0 write to the buffer of frame1.
-> > +	 *
-> > +	 * 2. Drop the frame1: Don't return it to user-space, as it will be
-> > +	 *    overwritten by the next frame0.
-> > +	 */
-> > +	if (!buffer) {
-> > +		stream->drop_frame = true;
-> > +		buffer = stream->buffs[1 - stream->frame_phase];
-> > +	} else {
-> > +		stream->drop_frame = false;
-> > +	}
-> > +
-> > +	stream->buffs[stream->frame_phase] = buffer;
-> > +	spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
-> > +
-> > +	frm_addr_y = stream->frame_phase ? CIF_FRM1_ADDR_Y : CIF_FRM0_ADDR_Y;
-> > +	frm_addr_uv = stream->frame_phase ? CIF_FRM1_ADDR_UV : CIF_FRM0_ADDR_UV;
-> > +
-> > +	cif_write(cif_dev, frm_addr_y, buffer->buff_addr[CIF_PLANE_Y]);
-> > +	cif_write(cif_dev, frm_addr_uv, buffer->buff_addr[CIF_PLANE_UV]);
-> > +}
-> > +
-> > +static void cif_stream_stop(struct cif_stream *stream)
-> > +{
-> > +	struct cif_device *cif_dev = stream->cifdev;
-> > +	u32 val;
-> > +
-> > +	val = cif_read(cif_dev, CIF_CTRL);
-> > +	cif_write(cif_dev, CIF_CTRL, val & (~CIF_CTRL_ENABLE_CAPTURE));
-> > +	cif_write(cif_dev, CIF_INTEN, 0x0);
-> > +	cif_write(cif_dev, CIF_INTSTAT, 0x3ff);
-> > +	cif_write(cif_dev, CIF_FRAME_STATUS, 0x0);
-> > +
-> > +	stream->stopping = false;
-> > +}
-> > +
-> > +static int cif_queue_setup(struct vb2_queue *queue,
-> > +			   unsigned int *num_buffers,
-> > +			   unsigned int *num_planes,
-> > +			   unsigned int sizes[],
-> > +			   struct device *alloc_devs[])
-> > +{
-> > +	struct cif_stream *stream = queue->drv_priv;
-> > +	const struct v4l2_pix_format *pix;
-> > +
-> > +	pix = &stream->pix;
-> > +
-> > +	if (*num_planes) {
-> > +		if (*num_planes != 1)
-> > +			return -EINVAL;
-> > +
-> > +		if (sizes[0] < pix->sizeimage)
-> > +			return -EINVAL;
-> > +		return 0;
-> > +	}
-> > +
-> > +	*num_planes = 1;
-> > +
-> > +	sizes[0] = pix->sizeimage;
-> > +
-> > +	*num_buffers = CIF_REQ_BUFS_MIN;
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static void cif_buf_queue(struct vb2_buffer *vb)
-> > +{
-> > +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > +	struct cif_buffer *cifbuf = to_cif_buffer(vbuf);
-> > +	struct vb2_queue *queue = vb->vb2_queue;
-> > +	struct cif_stream *stream = queue->drv_priv;
-> > +	struct v4l2_pix_format *pix = &stream->pix;
-> > +	unsigned long lock_flags;
-> > +	int i;
-> > +
-> > +	struct cif_output_fmt *fmt = stream->cif_fmt_out;
-> > +
-> > +	memset(cifbuf->buff_addr, 0, sizeof(cifbuf->buff_addr));
-> > +
-> > +	cifbuf->buff_addr[0] = vb2_dma_contig_plane_dma_addr(vb, 0);
-> > +
-> > +	for (i = 0; i < fmt->cplanes - 1; i++)
-> > +		cifbuf->buff_addr[i + 1] = cifbuf->buff_addr[i] +
-> > +			pix->bytesperline * pix->height;
-> > +
-> > +	spin_lock_irqsave(&stream->vbq_lock, lock_flags);
-> > +	list_add_tail(&cifbuf->queue, &stream->buf_head);
-> > +	spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
-> > +}
-> > +
-> > +static void cif_return_all_buffers(struct cif_stream *stream,
-> > +				   enum vb2_buffer_state state)
-> > +{
-> > +	struct cif_buffer *buf;
-> > +	unsigned long lock_flags;
-> > +
-> > +	spin_lock_irqsave(&stream->vbq_lock, lock_flags);
-> > +
-> > +	if (stream->buffs[0]) {
-> > +		vb2_buffer_done(&stream->buffs[0]->vb.vb2_buf, state);
-> > +		stream->buffs[0] = NULL;
-> > +	}
-> > +
-> > +	if (stream->buffs[1]) {
-> > +		if (!stream->drop_frame)
-> > +			vb2_buffer_done(&stream->buffs[1]->vb.vb2_buf, state);
-> > +
-> > +		stream->buffs[1] = NULL;
-> > +	}
-> > +
-> > +	while (!list_empty(&stream->buf_head)) {
-> > +		buf = cif_get_buffer(stream);
-> > +		vb2_buffer_done(&buf->vb.vb2_buf, state);
-> > +	}
-> > +
-> > +	spin_unlock_irqrestore(&stream->vbq_lock, lock_flags);
-> > +}
-> > +
-> > +static void cif_stop_streaming(struct vb2_queue *queue)
-> > +{
-> > +	struct cif_stream *stream = queue->drv_priv;
-> > +	struct cif_device *cif_dev = stream->cifdev;
-> > +	struct v4l2_subdev *sd;
-> > +	int ret;
-> > +
-> > +	stream->stopping = true;
-> > +	ret = wait_event_timeout(stream->wq_stopped,
-> > +				 !stream->stopping,
-> > +				 msecs_to_jiffies(1000));
-> > +	if (!ret) {
-> > +		cif_stream_stop(stream);
-> > +		stream->stopping = false;
-> > +	}
-> > +
-> > +	/* Stop the sub device. */
-> > +	sd = cif_dev->remote.sd;
-> > +	v4l2_subdev_call(sd, video, s_stream, 0);
-> > +
-> > +	pm_runtime_put(cif_dev->dev);
-> > +
-> > +	cif_return_all_buffers(stream, VB2_BUF_STATE_ERROR);
-> > +}
-> > +
-> > +static int cif_stream_start(struct cif_stream *stream)
-> > +{
-> > +	u32 val, mbus_flags, href_pol, vsync_pol, fmt_type,
-> > +	    xfer_mode = 0, yc_swap = 0;
-> > +	struct cif_device *cif_dev = stream->cifdev;
-> > +	struct cif_remote *remote_info;
-> > +	int ret;
-> > +	u32 input_mode;
-> > +
-> > +	remote_info = &cif_dev->remote;
-> > +	fmt_type = stream->cif_fmt_in->fmt_type;
-> > +	stream->frame_idx = 0;
-> 
-> Those lines are somewhat mixed. The reset of the frame_idx should be
-> made more visible. The remote_info line could be integrated into the
-> declaration. For the fmt_type line please see the comment below.
-> 
-> > +	input_mode = (remote_info->std == V4L2_STD_NTSC) ?
-> > +		      CIF_FORMAT_INPUT_MODE_NTSC :
-> > +		      CIF_FORMAT_INPUT_MODE_PAL;
-> 
-> This seems to be an oversimplification. How can one use BT.656 here?
-
-I don't quite understand the question. This is used to configure the
-hardware, i.e., the INPUT_MODE of the format VIP_FOR
-
-bits 4:2
-
-INPUT_MODE Input mode:
-
-3'b000 : YUV
-3'b010 : PAL
-3'b011 : NTSC
-3'b100 : RAW
-3'b101 : JPEG
-3'b110 : MIPI
-Other : invalid
-
-> (Aren't you using BT.656 as mbus format between your video decoder and
-> the PX30 VIP?)
-
-I look into this. I will probably need to add this.
-
-> You should not assume that the remote is capable of any TV standards
-> (this statement holds for the driver in general).
-> 
-
-But this is the support I am adding right now, for cif with a SDTV
-decoder capable of TV standards. This statement will need to be 
-changed when support for sensors is added. 
-
-> > +	mbus_flags = remote_info->mbus.bus.parallel.flags;
-> > +	href_pol = (mbus_flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH) ?
-> > +			0 : CIF_FORMAT_HSY_LOW_ACTIVE;
-> > +	vsync_pol = (mbus_flags & V4L2_MBUS_VSYNC_ACTIVE_HIGH) ?
-> > +			CIF_FORMAT_VSY_HIGH_ACTIVE : 0;
-> > +
-> > +	val = vsync_pol | href_pol | input_mode | stream->cif_fmt_out->fmt_val |
-> > +	      stream->cif_fmt_in->dvp_fmt_val | xfer_mode | yc_swap;
-> > +void cif_set_default_format(struct cif_device *cif_dev)
-> > +{
-> > +	struct cif_stream *stream = &cif_dev->stream;
-> > +	struct v4l2_pix_format pix;
-> > +
-> > +	cif_dev->remote.std = V4L2_STD_NTSC;
-> 
-> Not every subdevice supports TV standards. Is this really reasonable?
-> 
-
-For the support I am adding right now it is reasonable but for future
-support it needs to be changed.
-
-> > +
-> > +	pix.pixelformat = V4L2_PIX_FMT_NV12;
-> > +	pix.width = CIF_DEFAULT_WIDTH;
-> > +	pix.height = CIF_DEFAULT_HEIGHT;
-> > +
-> > +	cif_set_fmt(stream, &pix);
-> > +}
-> > +
-> > +static int cif_enum_input(struct file *file, void *priv,
-> > +			  struct v4l2_input *input)
-> > +{
-> > +	struct cif_stream *stream = video_drvdata(file);
-> > +	struct v4l2_subdev *sd = stream->cifdev->remote.sd;
-> > +	int ret;
-> > +
-> > +	if (input->index > 0)
-> > +		return -EINVAL;
-> > +
-> > +	ret = v4l2_subdev_call(sd, video, g_input_status, &input->status);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	strscpy(input->name, "Camera", sizeof(input->name));
-> > +	input->type = V4L2_INPUT_TYPE_CAMERA;
-> 
-> Wait, we are a camera in any case? How does this fit together with your
-> video decoder setup?
-> 
-
-Yes the video decoder is attached to a camera.
-
-From the kernel documentation:
-https://docs.kernel.org/userspace-api/media/v4l/vidioc-enuminput.html?highlight=v4l2_input_type_camera
---------------------------------------------------------------------------------
-V4L2_INPUT_TYPE_CAMERA
-Any non-tuner video input, for example Composite Video, S-Video, HDMI, camera
-sensor. The naming as _TYPE_CAMERA is historical, today we would have called it
-_TYPE_VIDEO.
---------------------------------------------------------------------------------
-
-> > +	input->std = stream->vdev.tvnorms;
-> > +	input->capabilities = V4L2_IN_CAP_STD;
-> 
-> Not every subdevice supports TV standards. Is this really reasonable?
-> 
-
-see above answer.
-
---
-Kind Regards
-Mehdi Djait
+Laurent Pinchart
 
