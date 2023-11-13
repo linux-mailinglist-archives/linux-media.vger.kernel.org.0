@@ -1,183 +1,171 @@
-Return-Path: <linux-media+bounces-223-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-224-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68FC67E9B56
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 12:44:04 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF7497E9B8C
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 12:57:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EDD90B20BBB
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:44:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A4F871F21012
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:57:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE0ED1CFB2;
-	Mon, 13 Nov 2023 11:43:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F20BA1CFBF;
+	Mon, 13 Nov 2023 11:57:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="gJTyTC+k"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="c1Tv0+Zv"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 803991CFA9
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 11:43:53 +0000 (UTC)
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBFA4D4A;
-	Mon, 13 Nov 2023 03:43:51 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5CC4E10A;
-	Mon, 13 Nov 2023 12:43:25 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1699875805;
-	bh=af4nFw1Ng+vE1VtaSl3G/+mH1mCl5X/mKOH0BalXcQU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gJTyTC+k9OJR/UVotA8y6eyAxoIJnPTFUr9nbIm7YgtzFuGVDm44HEduVaEi+CYm/
-	 zQTow2SDQEgJM+iuA8g2ueyRFmTiDvmHg9QTede+6+Ua3t24lD2LZRCxAjrqk90bVn
-	 HqYQulmTfV8+sk3oYRCK1jGz1mP18CbGfcMooCwY=
-Date: Mon, 13 Nov 2023 13:43:57 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>, tfiga@chromium.org,
-	m.szyprowski@samsung.com, mchehab@kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v9 10/15] media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
-Message-ID: <20231113114357.GD24338@pendragon.ideasonboard.com>
-References: <1699595289-25773-1-git-send-email-shengjiu.wang@nxp.com>
- <1699595289-25773-11-git-send-email-shengjiu.wang@nxp.com>
- <4cd6b593-2376-4cbc-a7c8-d3eb36a2f7a0@xs4all.nl>
- <20231113104238.GA13981@pendragon.ideasonboard.com>
- <6a3e7eb9-505c-4cfb-8a86-a8947a2e44d5@xs4all.nl>
- <20231113110754.GB24338@pendragon.ideasonboard.com>
- <3e898664-cbfc-4892-9765-37b66891643b@xs4all.nl>
- <ZVIIc-fi32ZxIi-p@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F7951CF91
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 11:57:13 +0000 (UTC)
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32CF9D6D
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 03:57:12 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-9e1fb7faa9dso659615566b.2
+        for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 03:57:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1699876630; x=1700481430; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=g8RqWbgQzYLg3PyCTLVQhcj1adjOh+k7MefEyaZ5Nfo=;
+        b=c1Tv0+Zv+PDRKyo+j5UN+aLGpnR5Dl7voltoQHRjZUfeA86wZ2jTwIY/bGPY4qsGAW
+         NcmUWHnCXpQr6CpN4OShpfbhY/zjkVfZBi8J2+uZk2X6gGrYbn7vYxoGK/PLE0r/BAY7
+         z0IWUuEnTSEFyj7fGE9iXNatbUyF6JHY2Vi5JSQ3mXz/U7ER1gqTTe3+QzQfWwz9nPtQ
+         GGIbHmUKycFXVEMsxgzpGTKYv0EctcryO8IDH/JgyN1E7HG5IIPpOOOew7Oyp7dL3r/f
+         M8c2Q3RMILNOZC0gozkhhmY3Z+lSjY9WN8dmorZVDfjdNZOOY8vZpbR+nERtLCKPRTdB
+         y6gA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699876630; x=1700481430;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g8RqWbgQzYLg3PyCTLVQhcj1adjOh+k7MefEyaZ5Nfo=;
+        b=Qt4SG1GiCrgH7MPumCASkivdDYKHxXuFfFeJyxT0IA7b1YHv915U8sXvbqVnhJhJ8O
+         SwATbwQon3cfa/T6jHjafl0Qqt5vJDdFLPkG5otiLIqjdqWHQJXMI0wX+jxRXXsGrYsE
+         7TjvCCxTr1kTAbcw5M/uUU3CnYj2X09AJAGDDAE/4CVH1j0Pbs1/nx/O+Jz23/4CokIF
+         i0AjHwfJnh9iZoZ9SWy7LQpYMern9PB7nIT05b0x8MEalQsqOVx54Q33y9POCortguiI
+         +84LQcQf5Lwlg3fVebT3kVWB21Hw5sCzEjQEHLqpk8UtDA8hu7tL/rwI1rZKxnp+5aYD
+         uSLQ==
+X-Gm-Message-State: AOJu0Yz8+3blao9vj49SBJU5t6GQaVH5syPudCzTF14eke4Y+eA3i6e4
+	RdKu7kN7l7TQ+IGakgGbTyT6IzEq3XYUKG/Ok0k=
+X-Google-Smtp-Source: AGHT+IF1nR/U1205K6tOwCWtLvWwJlc8OQPlDxUAGZ90GYOB0iVq8MzlFCjYhzxdWykIrTvVmiB4Vw==
+X-Received: by 2002:a17:906:c452:b0:9e5:37fd:8827 with SMTP id ck18-20020a170906c45200b009e537fd8827mr5203194ejb.63.1699876630540;
+        Mon, 13 Nov 2023 03:57:10 -0800 (PST)
+Received: from [192.168.201.100] (178235177064.dynamic-4-waw-k-1-1-0.vectranet.pl. [178.235.177.64])
+        by smtp.gmail.com with ESMTPSA id gx24-20020a170906f1d800b009c503bf61c9sm3868184ejb.165.2023.11.13.03.57.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 13 Nov 2023 03:57:10 -0800 (PST)
+Message-ID: <ea15a00d-a60c-460a-8d3d-f6cb4cea46db@linaro.org>
+Date: Mon, 13 Nov 2023 12:57:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ZVIIc-fi32ZxIi-p@valkosipuli.retiisi.eu>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 4/6] media: qcom: camss: Add sc8280xp resource details
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, hverkuil-cisco@xs4all.nl,
+ laurent.pinchart@ideasonboard.com, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, vincent.knecht@mailoo.org,
+ matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231110-b4-camss-sc8280xp-v5-0-7f4947cc59c8@linaro.org>
+ <20231110-b4-camss-sc8280xp-v5-4-7f4947cc59c8@linaro.org>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20231110-b4-camss-sc8280xp-v5-4-7f4947cc59c8@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Nov 13, 2023 at 11:28:51AM +0000, Sakari Ailus wrote:
-> Hi Hans,
+On 10.11.2023 02:04, Bryan O'Donoghue wrote:
+> This commit describes the hardware layout for the sc8280xp for the
+> following hardware blocks:
 > 
-> On Mon, Nov 13, 2023 at 12:24:14PM +0100, Hans Verkuil wrote:
-> > On 13/11/2023 12:07, Laurent Pinchart wrote:
-> > > On Mon, Nov 13, 2023 at 11:56:49AM +0100, Hans Verkuil wrote:
-> > >> On 13/11/2023 11:42, Laurent Pinchart wrote:
-> > >>> On Mon, Nov 13, 2023 at 11:29:09AM +0100, Hans Verkuil wrote:
-> > >>>> Hi Shengjiu,
-> > >>>>
-> > >>>> On 10/11/2023 06:48, Shengjiu Wang wrote:
-> > >>>>> Fixed point controls are used by the user to configure
-> > >>>>> a fixed point value in 64bits, which Q31.32 format.
-> > >>>>>
-> > >>>>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > >>>>
-> > >>>> This patch adds a new control type. This is something that also needs to be
-> > >>>> tested by v4l2-compliance, and for that we need to add support for this to
-> > >>>> one of the media test-drivers. The best place for that is the vivid driver,
-> > >>>> since that has already a bunch of test controls for other control types.
-> > >>>>
-> > >>>> See e.g. VIVID_CID_INTEGER64 in vivid-ctrls.c.
-> > >>>>
-> > >>>> Can you add a patch adding a fixed point test control to vivid?
-> > >>>
-> > >>> I don't think V4L2_CTRL_TYPE_FIXED_POINT is a good idea. This seems to
-> > >>> relate more to units than control types. We have lots of fixed-point
-> > >>> values in controls already, using the 32-bit and 64-bit integer control
-> > >>> types. They use various locations for the decimal point, depending on
-> > >>> the control. If we want to make this more explicit to users, we should
-> > >>> work on adding unit support to the V4L2 controls.
-> > >>
-> > >> "Fixed Point" is not a unit, it's a type. 'Db', 'Hz' etc. are units.
-> > > 
-> > > It's not a unit, but I think it's related to units. My point is that,
-> > > without units support, I don't see why we need a formal definition of
-> > > fixed-point types, and why this series couldn't just use
-> > > VIVID_CID_INTEGER64. Drivers already interpret VIVID_CID_INTEGER64
-> > > values as they see fit.
-> > 
-> > They do? That's new to me. A quick grep for V4L2_CTRL_TYPE_INTEGER64
-> > (I assume you meant that rather than VIVID_CID_INTEGER64) shows that it
-
-Yes, I meant V4L2_CTRL_TYPE_INTEGER64. Too hasty copy & paste :-)
-
-> > is always interpreted as a 64 bit integer and nothing else. As it should.
-
-The most common case for control handling in drivers is taking the
-integer value and converting it to a register value, using
-device-specific encoding of the register value. It can be a fixed-point
-format or something else, depending on the device. My point is that
-drivers routinely convert a "plain" integer to something else, and that
-has never been considered as a cause of concern. I don't see why it
-would be different in this series.
-
-> > And while we do not have support for units (other than the documentation),
-> > we do have type support in the form of V4L2_CTRL_TYPE_*.
-> > 
-> > >> A quick "git grep -i "fixed point" Documentation/userspace-api/media/'
-> > >> only shows a single driver specific control (dw100.rst).
-> > >>
-> > >> I'm not aware of other controls in mainline that use fixed point.
-> > > 
-> > > The analog gain control for sensors for instance.
-> > 
-> > Not really. The documentation is super vague:
-> > 
-> > V4L2_CID_ANALOGUE_GAIN (integer)
-> > 
-> > 	Analogue gain is gain affecting all colour components in the pixel matrix. The
-> > 	gain operation is performed in the analogue domain before A/D conversion.
-> > 
-> > And the integer is just a range. Internally it might map to some fixed
-> > point value, but userspace won't see that, it's hidden in the driver AFAICT.
-
-It's hidden so well that libcamera has a database of the sensor it
-supports, with formulas to map a real gain value to the
-V4L2_CID_ANALOGUE_GAIN control. The encoding of the integer value does
-matter, and the kernel doesn't expose it. We may or may not consider
-that as a shortcoming of the V4L2 control API, but in any case it's the
-situation we have today.
-
-> I wonder if Laurent meant digital gain.
-
-No, I meant analog. It applies to digital gain too though.
-
-> Those are often Q numbers. The practice there has been that the default
-> value yields gain of 1.
+> - 4 x VFE, 4 RDI per VFE
+> - 4 x VFE Lite, 4 RDI per VFE
+> - 4 x CSID
+> - 4 x CSID Lite
+> - 4 x CSI PHY
 > 
-> There are probably many other examples in controls where something being
-> controlled isn't actually an integer while integer controls are still being
-> used for the purpose.
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> ---
+[...]
 
-A good summary of my opinion :-)
+> +static const struct camss_subdev_resources vfe_res_sc8280xp[] = {
+> +	/* IFE0 */
+> +	{
+> +		.regulators = {},
+> +		.clock = { "gcc_axi_hf", "gcc_axi_sf", "cpas_ahb", "camnoc_axi", "vfe0", "vfe0_axi" },
+> +		.clock_rate = { { 0 },
+> +				{ 0 },
+> +				{ 19200000, 80000000},
+> +				{ 19200000, 150000000, 266666667, 320000000, 400000000, 480000000 },
+> +				{ 400000000, 558000000, 637000000, 760000000 },
+> +				{ 0 }, },
+> +		.reg = { "vfe0" },
+> +		.interrupt = { "vfe0" },
+> +		.pd_name = "ife0",
+So, the comments before each array member, the reg/intr and pd names
+are all over the place between IFE and VFE.. Is there a reason to this?
 
-> Instead of this patch, I'd prefer to have a way to express the meaning of
-> the control value, be it a Q number or something else, and do that
-> independently of the type of the control.
 
-Agreed.
+On top of that, another ideas to add onto your cleanup stack:
 
-> > In the case of this particular series the control type is really a fixed point
-> > value with a documented unit (Hz). It really is not something you want to
-> > use type INTEGER64 for.
-> > 
-> > >> Note that V4L2_CTRL_TYPE_FIXED_POINT is a Q31.32 format. By setting
-> > >> min/max/step you can easily map that to just about any QN.M format where
-> > >> N <= 31 and M <= 32.
-> > >>
-> > >> In the case of dw100 it is a bit different in that it is quite specialized
-> > >> and it had to fit in 16 bits.
+- Are VFEs within a CAMSS block actually different? Can we just do "vfe
+  data" and "vfe number" + "vfe_lite data" & "vfe_lite number"?
 
--- 
-Regards,
+- Should we move these platform structs into separate files?
 
-Laurent Pinchart
+- Reminder about the clk_bulk_enable for clk_rate=0 clocks suggestion 
+
+- OPP
+
+- Use _num instead of sentinels and magic scary while (not null)
+
+Konrad
 
