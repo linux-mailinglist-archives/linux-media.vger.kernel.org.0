@@ -1,203 +1,116 @@
-Return-Path: <linux-media+bounces-300-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-301-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 54CD97EA446
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 21:07:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B826F7EA4F8
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 21:40:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A32D7B209FC
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 20:07:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24E0FB20A16
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 20:40:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D1782421E;
-	Mon, 13 Nov 2023 20:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ax4APb+9"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13F7E23748;
+	Mon, 13 Nov 2023 20:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8A1C24207
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 20:07:02 +0000 (UTC)
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD02BD79
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 12:07:00 -0800 (PST)
-Received: from mz550.lan (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: dbrouwer)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id C5BA36602F41;
-	Mon, 13 Nov 2023 20:06:58 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699906019;
-	bh=LBjEvFBslLRw+inw87jS8i8lG/OiiOs+lr8ZLuITskw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ax4APb+9VXXLXUebb7yrHzz7Kca+nSWv59F1n54d2Ybs10o3KOrLwxr4yjIM/8S7K
-	 4md/e1fs/kOFVmJ+ZV/6eyzGU7dSIKpnt/iCGXcoesX58WbUDNPWjlABgU/QtrIl8l
-	 0FwQOddDlMrDS2Bn6wdSsj7Nmtw4rEivqRyEIJ1+gzwiy3Sfw4hoM24B1dBLuzubRt
-	 DEvNPXq/uxEM8CHL25gTICpzI6UIfbBHsNXJoH9ev90pY9eMzRzTLC7jmE8W5N6+pf
-	 a4bz4ftDJUYcWl4fziadh16aVG3BpZHTaECceQrigs2IxBE57umXte4HBp0QeZ4fTv
-	 oGRXF7VM7DR7g==
-From: Deborah Brouwer <deborah.brouwer@collabora.com>
-To: linux-media@vger.kernel.org
-Cc: hverkuil-cisco@xs4all.nl,
-	Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH 8/8] v4l2-tracer: auto generate flags for DECODER_CMD
-Date: Mon, 13 Nov 2023 12:06:19 -0800
-Message-ID: <3bc061be5dc073a4b3f5dd950a9959ca3a7333c4.1699904350.git.deborah.brouwer@collabora.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <cover.1699904350.git.deborah.brouwer@collabora.com>
-References: <cover.1699904350.git.deborah.brouwer@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5466E1944F;
+	Mon, 13 Nov 2023 20:40:46 +0000 (UTC)
+Received: from mail-oi1-f173.google.com (mail-oi1-f173.google.com [209.85.167.173])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06247D55;
+	Mon, 13 Nov 2023 12:40:45 -0800 (PST)
+Received: by mail-oi1-f173.google.com with SMTP id 5614622812f47-3b2e330033fso3029323b6e.3;
+        Mon, 13 Nov 2023 12:40:44 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699908044; x=1700512844;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=kIUOg6xcD1mveQt4yAqYkPtye9ZANiCj61RnWxJZ9RE=;
+        b=byQYMxZqX+yQBx3WeqfcOXC0oZkxWBYMh5bD9FfKs0ZmeFnR6ZkaVkZptqBqMr0iGE
+         nJ7KthN+FOqEJVojOsV7QWFMfxRzLQG7SCQNuIw78JrcHqgQ+ZdePdmYy0tyzqiWHVZx
+         5xINieVmROQ0tmZOHzisSOdBjalpVOVCtDywTpN6nJn5WBmBaorCPv37T2LzjieMDrfv
+         LWRqwb/fbdfgiBhrIhF2IYinFF0lnioC+yCzask4ExR8wYY5qQ3BJ6DDCZz608vSd5hh
+         ncC6N8a8ZRgW5jsbIcIhvjDtEDyet7aWXtjZ9jv96cnAXBgQ8mDejTzGdfQuk1x/ddPQ
+         jzZw==
+X-Gm-Message-State: AOJu0Yzj7In24cjuFxAkE/SNdlhXQV7ubVnlwtzUOLklyV05WIAJMaFb
+	5yFnSgOiDqc9rG0D/t7Dpg==
+X-Google-Smtp-Source: AGHT+IE+M7ODqvletmAN6kZJ6EBjwVhQYADFHXDZ0Hl1ZJYebTPk7Dxy4FLEWYDWixjDGGboIOMmUw==
+X-Received: by 2002:a54:4586:0:b0:3ab:8431:8037 with SMTP id z6-20020a544586000000b003ab84318037mr9564352oib.32.1699908044232;
+        Mon, 13 Nov 2023 12:40:44 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id b7-20020aca1b07000000b003af732a2054sm902879oib.57.2023.11.13.12.40.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 13 Nov 2023 12:40:43 -0800 (PST)
+Received: (nullmailer pid 38662 invoked by uid 1000);
+	Mon, 13 Nov 2023 20:40:42 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+From: Rob Herring <robh@kernel.org>
+To: Yong Wu <yong.wu@mediatek.com>
+Cc: linux-arm-kernel@lists.infradead.org, Rob Herring <robh+dt@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, kuohong.wang@mediatek.com, Nicolas Dufresne <nicolas@ndufresne.ca>, Jeffrey Kardatzke <jkardatzke@google.com>, christian.koenig@amd.com, Brian Starkey <Brian.Starkey@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>, John Stultz <jstultz@google.com>, linux-kernel@vger.kernel.org, ckoenig.leichtzumerken@gmail.com, linux-media@vger.kernel.org, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, dri-devel@lists.freedesktop.org, tjmercier@google.com, linaro-mm-sig@lists.linaro.org, Joakim Bech <joakim.bech@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Vijayanand Jitta <quic_vjitta@quicinc.com>, jianjiao.zeng@mediatek.com, linux-mediatek@lists.infradead.org, Benjamin Gaignard <benjamin.gaignard@collabora.com>, devicetree@vger.kernel.org
+In-Reply-To: <20231111111559.8218-7-yong.wu@mediatek.com>
+References: <20231111111559.8218-1-yong.wu@mediatek.com>
+ <20231111111559.8218-7-yong.wu@mediatek.com>
+Message-Id: <169990800956.37900.2282148242749436119.robh@kernel.org>
+Subject: Re: [PATCH v2 6/8] dt-bindings: reserved-memory: Add secure CMA
+ reserved memory range
+Date: Mon, 13 Nov 2023 14:40:42 -0600
 
-The flags for V4L2_DEC_CMD_START STOP, and PAUSE aren’t being traced
-correctly because unknown flags aren’t traced as hex values and only one
-flag is traced per command. Auto generate the possible flags and use the
-standard helper functions to trace and retrace them.
 
-Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
----
- utils/v4l2-tracer/retrace.cpp        | 15 ++++++---------
- utils/v4l2-tracer/trace.cpp          | 15 +++------------
- utils/v4l2-tracer/v4l2-tracer-gen.pl | 21 +++++++++++++++++++++
- 3 files changed, 30 insertions(+), 21 deletions(-)
+On Sat, 11 Nov 2023 19:15:57 +0800, Yong Wu wrote:
+> Add a binding for describing the secure CMA reserved memory range. The
+> memory range also will be defined in the TEE firmware. It means the TEE
+> will be configured with the same address/size that is being set in this
+> DT node.
+> 
+> Signed-off-by: Yong Wu <yong.wu@mediatek.com>
+> ---
+>  .../reserved-memory/secure_cma_region.yaml    | 44 +++++++++++++++++++
+>  1 file changed, 44 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/reserved-memory/secure_cma_region.yaml
+> 
 
-diff --git a/utils/v4l2-tracer/retrace.cpp b/utils/v4l2-tracer/retrace.cpp
-index d251180e..03fe13f8 100644
---- a/utils/v4l2-tracer/retrace.cpp
-+++ b/utils/v4l2-tracer/retrace.cpp
-@@ -1064,8 +1064,7 @@ struct v4l2_decoder_cmd *retrace_v4l2_decoder_cmd(json_object *parent_obj)
- 
- 	switch (ptr->cmd) {
- 	case V4L2_DEC_CMD_START: {
--		if (flags == "V4L2_DEC_CMD_START_MUTE_AUDIO")
--			ptr->flags = V4L2_DEC_CMD_START_MUTE_AUDIO;
-+		ptr->flags = s2flags(flags.c_str(), v4l2_decoder_cmd_start_flag_def);
- 
- 		json_object *start_obj;
- 		json_object_object_get_ex(v4l2_decoder_cmd_obj, "start", &start_obj);
-@@ -1087,10 +1086,7 @@ struct v4l2_decoder_cmd *retrace_v4l2_decoder_cmd(json_object *parent_obj)
- 		break;
- 	}
- 	case V4L2_DEC_CMD_STOP: {
--		if (flags == "V4L2_DEC_CMD_STOP_TO_BLACK")
--			ptr->flags = V4L2_DEC_CMD_STOP_TO_BLACK;
--		else if (flags == "V4L2_DEC_CMD_STOP_IMMEDIATELY")
--			ptr->flags = V4L2_DEC_CMD_STOP_IMMEDIATELY;
-+		ptr->flags = s2flags(flags.c_str(), v4l2_decoder_cmd_stop_flag_def);
- 
- 		json_object *stop_obj;
- 		json_object_object_get_ex(v4l2_decoder_cmd_obj, "stop", &stop_obj);
-@@ -1101,8 +1097,7 @@ struct v4l2_decoder_cmd *retrace_v4l2_decoder_cmd(json_object *parent_obj)
- 		break;
- 	}
- 	case V4L2_DEC_CMD_PAUSE: {
--		if (flags == "V4L2_DEC_CMD_PAUSE_TO_BLACK")
--			ptr->flags = V4L2_DEC_CMD_PAUSE_TO_BLACK;
-+		ptr->flags = s2flags(flags.c_str(), v4l2_decoder_cmd_pause_flag_def);
- 		break;
- 	}
- 	default:
-@@ -1542,7 +1537,9 @@ int retrace(std::string trace_filename)
- 	json_object *root_array_obj = json_object_from_file(trace_filename.c_str());
- 
- 	if (root_array_obj == nullptr) {
--		line_info("\n\tCan't get JSON-object from file: %s", trace_filename.c_str());
-+		line_info("\n\t%s\tCan't get JSON-object from file: %s",
-+			  json_util_get_last_err(),
-+			  trace_filename.c_str());
- 		return 1;
- 	}
- 
-diff --git a/utils/v4l2-tracer/trace.cpp b/utils/v4l2-tracer/trace.cpp
-index 31447f24..c4fc1584 100644
---- a/utils/v4l2-tracer/trace.cpp
-+++ b/utils/v4l2-tracer/trace.cpp
-@@ -466,10 +466,7 @@ void trace_v4l2_decoder_cmd(void *arg, json_object *ioctl_args)
- 
- 	switch (ptr->cmd) {
- 	case V4L2_DEC_CMD_START: {
--		/*  This command has one flag: V4L2_DEC_CMD_START_MUTE_AUDIO. */
--		if (ptr->flags == V4L2_DEC_CMD_START_MUTE_AUDIO)
--			flags = "V4L2_DEC_CMD_START_MUTE_AUDIO";
--
-+		flags = fl2s(ptr->flags, v4l2_decoder_cmd_start_flag_def);
- 		/* struct start */
- 		json_object *start_obj = json_object_new_object();
- 		json_object_object_add(start_obj, "speed", json_object_new_int(ptr->start.speed));
-@@ -486,12 +483,7 @@ void trace_v4l2_decoder_cmd(void *arg, json_object *ioctl_args)
- 		break;
- 	}
- 	case V4L2_DEC_CMD_STOP: {
--		/*  This command has two flags */
--		if (ptr->flags == V4L2_DEC_CMD_STOP_TO_BLACK)
--			flags = "V4L2_DEC_CMD_STOP_TO_BLACK";
--		else if (ptr->flags == V4L2_DEC_CMD_STOP_IMMEDIATELY)
--			flags = "V4L2_DEC_CMD_STOP_IMMEDIATELY";
--
-+		flags = fl2s(ptr->flags, v4l2_decoder_cmd_stop_flag_def);
- 		json_object *stop_obj = json_object_new_object();
- 		json_object_object_add(stop_obj, "pts", json_object_new_uint64(ptr->stop.pts));
- 
-@@ -500,8 +492,7 @@ void trace_v4l2_decoder_cmd(void *arg, json_object *ioctl_args)
- 	}
- 
- 	case V4L2_DEC_CMD_PAUSE: {
--		if (ptr->flags == V4L2_DEC_CMD_PAUSE_TO_BLACK)
--			flags = "V4L2_DEC_CMD_PAUSE_TO_BLACK";
-+		flags = fl2s(ptr->flags, v4l2_decoder_cmd_pause_flag_def);
- 		break;
- 	}
- 	case V4L2_DEC_CMD_RESUME:
-diff --git a/utils/v4l2-tracer/v4l2-tracer-gen.pl b/utils/v4l2-tracer/v4l2-tracer-gen.pl
-index e8f9d71e..cb9c3ab5 100755
---- a/utils/v4l2-tracer/v4l2-tracer-gen.pl
-+++ b/utils/v4l2-tracer/v4l2-tracer-gen.pl
-@@ -123,6 +123,12 @@ sub val_def_gen {
- 	}
- 	($val) = ($_) =~ /^#define\s*(\w+)\s*/;
- 	printf $fh_common_info_h "\t{ %s,\t\"%s\" },\n", $val, $val;
-+
-+	# in case there is only one value e.g. flags for V4L2_DEC_CMD_START
-+	if ($val eq $last_val) {
-+		printf $fh_common_info_h "\t{ $sentinel, \"\" }\n};\n\n";
-+		return;
-+	}
- 	while (<>) {
- 		next if ($_ =~ /^\s*\/?\s?\*.*/); # skip comments
- 		next if ($_ =~ /^\s*$/);  # skip blank lines
-@@ -1000,6 +1006,21 @@ while (<>) {
- 		val_def_gen("V4L2_DEC_CMD_FLUSH");
- 		next;
- 	}
-+	if (grep {/^#define V4L2_DEC_CMD_START_MUTE_AUDIO\s+/} $_) {
-+		printf $fh_common_info_h "constexpr flag_def v4l2_decoder_cmd_start_flag_def[] = {\n";
-+		flag_def_gen("V4L2_DEC_CMD_START_MUTE_AUDIO");
-+		next;
-+	}
-+	if (grep {/^#define V4L2_DEC_CMD_PAUSE_TO_BLACK\s+/} $_) {
-+		printf $fh_common_info_h "constexpr flag_def v4l2_decoder_cmd_pause_flag_def[] = {\n";
-+		flag_def_gen("V4L2_DEC_CMD_PAUSE_TO_BLACK");
-+		next;
-+	}
-+	if (grep {/^#define V4L2_DEC_CMD_STOP_TO_BLACK\s+/} $_) {
-+		printf $fh_common_info_h "constexpr flag_def v4l2_decoder_cmd_stop_flag_def[] = {\n";
-+		flag_def_gen("V4L2_DEC_CMD_STOP_IMMEDIATELY");
-+		next;
-+	}
- 	if (grep {/^#define V4L2_EVENT_ALL\s+/} $_) {
- 		printf $fh_common_info_h "constexpr val_def event_val_def[] = {\n";
- 		val_def_gen("V4L2_EVENT_PRIVATE_START");
--- 
-2.41.0
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
+
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/reserved-memory/secure_cma_region.yaml:12:1: [error] syntax error: could not find expected ':' (syntax)
+
+dtschema/dtc warnings/errors:
+make[2]: *** Deleting file 'Documentation/devicetree/bindings/reserved-memory/secure_cma_region.example.dts'
+Documentation/devicetree/bindings/reserved-memory/secure_cma_region.yaml:12:1: could not find expected ':'
+make[2]: *** [Documentation/devicetree/bindings/Makefile:26: Documentation/devicetree/bindings/reserved-memory/secure_cma_region.example.dts] Error 1
+make[2]: *** Waiting for unfinished jobs....
+./Documentation/devicetree/bindings/reserved-memory/secure_cma_region.yaml:12:1: could not find expected ':'
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/reserved-memory/secure_cma_region.yaml: ignoring, error parsing file
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1427: dt_binding_check] Error 2
+make: *** [Makefile:234: __sub-make] Error 2
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231111111559.8218-7-yong.wu@mediatek.com
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
 
