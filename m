@@ -1,45 +1,28 @@
-Return-Path: <linux-media+bounces-260-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-261-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED2B17E9F9E
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 16:10:40 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9FCB7E9FBC
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 16:17:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1425E1C20942
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 15:10:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B0E81F21879
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 15:17:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C258021362;
-	Mon, 13 Nov 2023 15:10:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="lQ72t7bF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C6492136E;
+	Mon, 13 Nov 2023 15:17:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F9762111C
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 15:10:31 +0000 (UTC)
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8615D4D;
-	Mon, 13 Nov 2023 07:10:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1699888199; x=1700492999; i=wahrenst@gmx.net;
-	bh=FwjxaZrgxOoTaK9kKWvFnGEJ/pUoIhUMNnNjFbYMrVg=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=lQ72t7bF854+qE0YEAOWd5hcXXf+0CcX3ibYvu51YUzF8c4gkacPL1n2o0jfKbBy
-	 k38+ppYTxAG4BwxBQf5pyCB3MB/ZKnuB1ErfNUkz1KbkIK73rRB8+Y6cxYXQthFZe
-	 qi9sFHn/GlN5jZgrbQE55vcm2OsK8ZGU9ij0rAecF/udCmCw3ALBWCAxfUCxtbaOt
-	 KX806J1u17xbe1KjwfvfvqCV6J9ELERvqnW+ICnSiLwb8zyO9OmiVHjvRXI6GX1zL
-	 S6oALpd6ZL11EMdMqpJ60SShCvoDBB0iJGsbEjiOSI6yfg0XcMcAQG0k7E8a59wl7
-	 yRUsE3AIZbWQkBGPqQ==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx105
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1M72oB-1r19fU2Rup-008Wgs; Mon, 13
- Nov 2023 16:09:59 +0100
-Message-ID: <db3ec8ed-35d3-495c-b701-370fe614693d@gmx.net>
-Date: Mon, 13 Nov 2023 16:09:58 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 97A2421360
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 15:17:03 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E939CC433C7;
+	Mon, 13 Nov 2023 15:17:02 +0000 (UTC)
+Message-ID: <b2ce0372-715f-44c0-a833-30643163bba9@xs4all.nl>
+Date: Mon, 13 Nov 2023 16:17:01 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -47,298 +30,172 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/15] staging: vc04_services: bcm2835-isp support
-Content-Language: en-US
-To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
- kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- "Ricardo B . Marliere" <ricardo@marliere.net>,
- Dan Carpenter <error27@gmail.com>
-References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
- <aec3897e-3ff6-4256-aaef-0cc1d5e7822a@gmx.net>
- <f93c6c32-1dea-95e8-aafc-0893c66f6b03@ideasonboard.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <f93c6c32-1dea-95e8-aafc-0893c66f6b03@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:3DrL9EyfJ0Gu+8iYStwzIF5+IwPmHlHSOPxpALWF2crMNV8hMNY
- FPQ8sdkrnkMGKiOk/pkbkqtOSy5W8yyNPQAXdJjB/sUz7aywHJN44DbUh/Vngg5XfVRAQgM
- ErMtOy10i0D7nJciD5hQ5YpBvFw6Mdfg/7sPGRGGlFItn+WULUJ2l03EKarABygnVYa4Wd/
- FFUfUduFY1IekmUtUkUgA==
-UI-OutboundReport: notjunk:1;M01:P0:1GkoQ+G5DKw=;2rMGYeIEXcz4JdB2AlN5j311eC2
- Tkiz21PrVW336AVbKuuZEbEWtFuS3G5k+nYQV1MFQ74wKliyVni5JB79xwJfT+tTXdlo4TyPW
- 6eJ6CXveOX/pOpKFg4lH+4U9z+DoEftq+EoJcUEjAwIrO0w2H0C0Rlh5Ufm4THyNyT4hi5SCK
- 4Nq2v4LWQDeSWwO6lHp8ALzFlpNiv7Tdkra8EQxooP5M3CnOH9ugU0WNwifFreVKtzKj69S+2
- 6IzBYi2X8fMjBbqy9sG8t6Jojnqd/xGYzISGvV+5NPSayDbA1h/FRfZCwfG2CvvGwDJbUXFqm
- WiNbWHpZ0g3mBMN4SxAGSV5B8oqYk4chq/BkddVyuTApZJBp9sFb+qBH2sV/WkgjJwSaUMOtJ
- P2A1zfuNWuvNdv/Od9JWXPkIsq4Jzu5b/Eznm4GCXN9kJWNe+/kmgV9Qm9gUhqnph0s0vxHMs
- UB/gzkwrk4h2LrCw4WintXuloWq/EFEjxNsU179XxodkN1kM1ca+s4rh0CStpf3aQlWpIUX3N
- 0mjiD0heKpmppzEH4ptJWlRR76KP9OBOX5wcwB2Q/JIH+Mzpv5jXz4zzUaiDiMJuKlv7HSHdb
- Zc2kSU5PiWT7VZNUuCL3vAgXKZfZl2YMfPFNwO/PgtKaCRFsppvVxBtn8w6LL5qIaqB0WU/aP
- KPdhvknw1zC+8mWs/gHeSORYzOkC4cDbXVWjDV56vxLgCAWPOEQkSXlGbxVdGD/3S7ZHyhmrH
- Im2szUbgK3Exr89KR0PsXeyPLWNYd+x8kwn/nU84LU8XV2D5FoLOqSFMn64dJ68o1Zm+5cIMH
- n2vfYmcDzRtCEGvxf9s9ytKxYezVp/dmPioTYF2mF+MiiGzR8igo0R8v0v0fkAFXSxNurdfFG
- fPOIRTbChYVcDD+7q+MdpsiuHDBMQV1yY8nDU5/92jZz2TMBchlp+OF5LR+r3yYgASmRN5SDB
- J7cdl0+Hm0NnB6B1BbBvrL6pknQ=
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [GIT PULL FOR v6.8] Add support for more than 32 buffers
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Umang,
+Hi Mauro,
 
-Am 13.11.23 um 14:38 schrieb Umang Jain:
-> Hi Stefan,
->
-> On 11/10/23 4:02 PM, Stefan Wahren wrote:
->> Hi Umang,
->>
->> Am 09.11.23 um 22:02 schrieb Umang Jain:
->>> This series aims to upport bcm2835-isp from the RPi kernel.
->>> It is developed on top of staging-next which comprises many
->>> VC04 changes for it's de-staging. Hence, the merge of this
->>> driver is targeted when VC04 is de-staged completely (which I
->>> have been pushing), but it can be helped getting reviewed meanwhile.
->>> Hence, the reason for posting the series.
->>>
->>> Patch (01-02)/15=C2=A0 adds a new driver named vc-sm-cma to handle mem=
-ory
->>> sharing
->>> with the VC4 VPU.
->>>
->>> Patch 03/15 adds a small extension to videobuf2 to allow exporting as =
-a
->>> dma_buf instead of a file-descriptor.
->>>
->>> Patch (04-05)/15 adds a couple of improvements/support for
->>> bcm2835-isp(event callback and zero-copy) to vchiq-mmal.
->>>
->>> Patch (06-10)/15 adds the core bcm2835-isp driver along with headers
->>> and format defintions. 09/15 is a standalone patch which can be merged
->>> independently I believe.
->>>
->>> Patch (11-12)/15 deals with the colorspace support.
->>>
->>> Patch 13/15 allows multiple instances of the ISP.
->>>
->>> Patch 14/15 adds a admin-guide document on bcm2835-isp.
->>>
->>> Patch 15/15 deals with driver registeration.
->>
->> since this is V2, i couldn't find a changelog? The first one was one
->> year ago, so it's very hard to remember. In such a case a link to the
->> last version is also helpful.
->
-> I am in your same situation. The changelog won't help here since the I
-> have too have lost count of the iterations.
->
-> In brief, I would say, the patches have further cleaned up and
-> aligned, rebased over the latest staging-next branch.
-> That majorly includes work I did for VC04 in general for de-staging.
-since this version
-https://lore.kernel.org/lkml/910dbd8f-85f2-4979-49ee-6d760e89af84@ideasonb=
-oard.com/T/#mca165d5dcb1ba9f3ff3bf91ca2bc6ec2d3ae1c29
+This patch series consists of the first 50 patches of the main patch series adding
+support for VIDIOC_DELETE_BUFS:
 
-there were some feedback from other people like Laurent. I think it's
-necessary to know if all the comments has been addressed or not. I think
-there is no need to list every single change.
+https://patchwork.linuxtv.org/project/linux-media/list/?series=11627
 
->
->>
->> Recently i saw you have a Github account. For such a complex series it'=
-s
->> also very helpful to provide a link to a working test branch with this
->> series applied. It's not a must, but appreciated.
->
-> I actually was going to send test branch but at the last minute I
-> screwed up my .git repo because of a failed branch checkout.
->
-> I had to recreate the branches over the weekend and here they are:
->
-> I have tested these branches:
->
-> On RPi-3-b 32-bit:
-> Git branch:
-> https://git.uk.ideasonboard.com/uajain/linux/commits/branch/uajain/rpi3/=
-staging-next/isp
->
-> On RPi-4-b 64-bit:
-> Git branch:
-> https://git.uk.ideasonboard.com/uajain/linux/commits/branch/uajain/rpi4/=
-staging-next/isp
->
-> Both these branches have been tested with IMX219 sensor (there is a DT
-> overlay included) and libcamera. These branches have bcm2835-unicam
-> with streams support (which is handled by Laurent Pinchart as I
-> believe) and on top sits bcm2835-isp (this series).
-> You'll find DT and kernel configs I have tested with, in the
-> respective branches.
->
-> As far as libcamera branch goes (it requires a special branch due to
-> streams support):
-> https://git.uk.ideasonboard.com/uajain/libcamera/commits/branch/pinchart=
-l/rpi/streams
->
->
-> Let me know how you get on if you are testing. I am happy to
-> answer/help if you decide to test this.
-This is great, i don't know when i've the time to test, but it also give
-others the chance to do tests.
+These first 50 patches add support for more than 32 buffers (if the driver indicates
+support for that), and converts drivers that directly access vb2_buffer or vb2_queue
+fields (num_buffers, bufs) to use accessor functions.
 
-Regards
->>
->> Best regards
->>
->>>
->>> Dave Stevenson (6):
->>> =C2=A0=C2=A0 staging: vc04_services: Add new vc-sm-cma driver
->>> =C2=A0=C2=A0 media: videobuf2: Allow exporting of a struct dmabuf
->>> =C2=A0=C2=A0 staging: mmal-vchiq: Add support for event callbacks
->>> =C2=A0=C2=A0 staging: mmal-vchiq: Use vc-sm-cma to support zero copy
->>> =C2=A0=C2=A0 staging: mmal_vchiq: Add image formats to be used by bcm2=
-835-isp
->>> =C2=A0=C2=A0 uapi: bcm2835-isp: Add bcm2835-isp uapi header file
->>>
->>> David Plowman (2):
->>> =C2=A0=C2=A0 vc04_services: bcm2835-isp: Allow formats with different =
-colour
->>> spaces
->>> =C2=A0=C2=A0 vc04_services: bcm2835-isp: Permit all sRGB colour spaces=
- on ISP
->>> =C2=A0=C2=A0=C2=A0=C2=A0 outputs
->>>
->>> Naushir Patuck (4):
->>> =C2=A0=C2=A0 media: uapi: v4l2-core: Add ISP statistics output V4L2 fo=
-urcc type
->>> =C2=A0=C2=A0 staging: vc04_services: bcm2835-isp: Add a more complex I=
-SP
->>> processing
->>> =C2=A0=C2=A0=C2=A0=C2=A0 component
->>> =C2=A0=C2=A0 staging: vc04_services: bcm2835_isp: Allow multiple users
->>> =C2=A0=C2=A0 docs: admin-guide: media: bcm2835-isp: Add documentation =
-for
->>> =C2=A0=C2=A0=C2=A0=C2=A0 bcm2835-isp
->>>
->>> Umang Jain (3):
->>> =C2=A0=C2=A0 staging: vc04_services: vchiq_arm: Register vcsm-cma driv=
-er
->>> =C2=A0=C2=A0 staging: vc04_services: Add helpers for vchiq driver data
->>> =C2=A0=C2=A0 staging: vc04_services: vchiq: Register bcm2835-isp
->>>
->>> =C2=A0 .../admin-guide/media/bcm2835-isp.rst=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 127 ++
->>> =C2=A0 .../userspace-api/media/drivers/index.rst=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0=C2=A0 1 +
->>> =C2=A0 .../userspace-api/media/v4l/meta-formats.rst=C2=A0 |=C2=A0=C2=
-=A0=C2=A0 1 +
->>> =C2=A0 .../v4l/pixfmt-meta-bcm2835-isp-stats.rst=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0 32 +
->>> =C2=A0 MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 9 +
->>> =C2=A0 .../media/common/videobuf2/videobuf2-core.c=C2=A0=C2=A0 |=C2=A0=
-=C2=A0 36 +-
->>> =C2=A0 drivers/media/v4l2-core/v4l2-ioctl.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 1 +
->>> =C2=A0 drivers/staging/vc04_services/Kconfig=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 4 +
->>> =C2=A0 drivers/staging/vc04_services/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 3 +-
->>> =C2=A0 .../staging/vc04_services/bcm2835-isp/Kconfig |=C2=A0=C2=A0 14 =
-+
->>> =C2=A0 .../vc04_services/bcm2835-isp/Makefile=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 4 +
->>> =C2=A0 .../bcm2835-isp/bcm2835-isp-ctrls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 72 +
->>> =C2=A0 .../bcm2835-isp/bcm2835-isp-fmts.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 559 +++++
->>> =C2=A0 .../bcm2835-isp/bcm2835-v4l2-isp.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 1822
->>> +++++++++++++++++
->>> =C2=A0 .../interface/vchiq_arm/vchiq_arm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 6 +
->>> =C2=A0 .../interface/vchiq_arm/vchiq_bus.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 10 +
->>> =C2=A0 .../staging/vc04_services/vc-sm-cma/Kconfig=C2=A0=C2=A0 |=C2=A0=
-=C2=A0 10 +
->>> =C2=A0 .../staging/vc04_services/vc-sm-cma/Makefile=C2=A0 |=C2=A0=C2=
-=A0=C2=A0 4 +
->>> =C2=A0 .../staging/vc04_services/vc-sm-cma/vc_sm.c=C2=A0=C2=A0 |=C2=A0=
- 817 ++++++++
->>> =C2=A0 .../staging/vc04_services/vc-sm-cma/vc_sm.h=C2=A0=C2=A0 |=C2=A0=
-=C2=A0 54 +
->>> =C2=A0 .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.c=C2=A0 |=C2=A0 507 =
-+++++
->>> =C2=A0 .../vc04_services/vc-sm-cma/vc_sm_cma_vchi.h=C2=A0 |=C2=A0=C2=
-=A0 63 +
->>> =C2=A0 .../vc04_services/vc-sm-cma/vc_sm_defs.h=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 187 ++
->>> =C2=A0 .../vc04_services/vc-sm-cma/vc_sm_knl.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 28 +
->>> =C2=A0 .../staging/vc04_services/vchiq-mmal/Kconfig=C2=A0 |=C2=A0=C2=
-=A0=C2=A0 1 +
->>> =C2=A0 .../vc04_services/vchiq-mmal/mmal-common.h=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0=C2=A0 5 +
->>> =C2=A0 .../vc04_services/vchiq-mmal/mmal-encodings.h |=C2=A0=C2=A0 66 =
-+
->>> =C2=A0 .../vc04_services/vchiq-mmal/mmal-msg.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 35 +
->>> =C2=A0 .../vchiq-mmal/mmal-parameters.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 165 +-
->>> =C2=A0 .../vc04_services/vchiq-mmal/mmal-vchiq.c=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 253 ++-
->>> =C2=A0 .../vc04_services/vchiq-mmal/mmal-vchiq.h=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0=C2=A0=C2=A0 5 +
->>> =C2=A0 include/media/videobuf2-core.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 15=
- +
->>> =C2=A0 include/uapi/linux/bcm2835-isp.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 347 ++++
->>> =C2=A0 include/uapi/linux/v4l2-controls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=A0 5 +
->>> =C2=A0 include/uapi/linux/videodev2.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0=C2=
-=A0 1 +
->>> =C2=A0 35 files changed, 5235 insertions(+), 34 deletions(-)
->>> =C2=A0 create mode 100644 Documentation/admin-guide/media/bcm2835-isp.=
-rst
->>> =C2=A0 create mode 100644
->>> Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-isp-stats.rs=
-t
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kc=
-onfig
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Ma=
-kefile
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-ctrls.h
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-fmts.h
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Kcon=
-fig
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/vc-sm-cma/Make=
-file
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_s=
-m.c
->>> =C2=A0 create mode 100644 drivers/staging/vc04_services/vc-sm-cma/vc_s=
-m.h
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.c
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_cma_vchi.h
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_defs.h
->>> =C2=A0 create mode 100644
->>> drivers/staging/vc04_services/vc-sm-cma/vc_sm_knl.h
->>> =C2=A0 create mode 100644 include/uapi/linux/bcm2835-isp.h
->>>
->
->
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+This prepares the media subsystem for the next future step: deleting buffers.
 
+Several test drivers are adapted to allow more than 32 buffers, and so is the
+verisilicon driver.
+
+A v4l-utils patch adding support for testing more than 32 buffers is here:
+
+https://patchwork.linuxtv.org/project/linux-media/patch/20231107104132.445705-3-benjamin.gaignard@collabora.com/
+
+That will be merged in v4l-utils once this PR is merged in staging.
+
+Before the remaining 6 patches can be merged there is some more cleanup that
+needs to happen first relating to how drivers (ab)use min_buffers_needed and
+how they implement 'I need at least X buffers' in various ways.
+
+Regards,
+
+	Hans
+
+The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
+
+  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.8e
+
+for you to fetch changes up to d56a3f47f38e5aca0f6f1bd933ec4a6ba2339bb5:
+
+  media: verisilicon: vp9: Allow to change resolution while streaming (2023-11-13 13:28:56 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Benjamin Gaignard (50):
+      media: videobuf2: Rename offset parameter
+      media: videobuf2: Rework offset 'cookie' encoding pattern
+      media: videobuf2: Stop spamming kernel log with all queue counter
+      media: videobuf2: Use vb2_buffer instead of index
+      media: videobuf2: Access vb2_queue bufs array through helper functions
+      media: videobuf2: Remove duplicated index vs q->num_buffers check
+      media: videobuf2: Add helper to get queue number of buffers
+      media: videobuf2: Use vb2_get_num_buffers() helper
+      media: amphion: Use vb2_get_buffer() instead of directly access to buffers array
+      media: amphion: Stop direct calls to queue num_buffers field
+      media: mediatek: jpeg: Use vb2_get_buffer() instead of directly access to buffers array
+      media: mediatek: vdec: Remove useless loop
+      media: mediatek: vcodec: Stop direct calls to queue num_buffers field
+      media: sti: hva: Remove useless check
+      media: visl: Use vb2_get_buffer() instead of directly access to buffers array
+      media: atomisp: Use vb2_get_buffer() instead of directly access to buffers array
+      media: atomisp: Stop direct calls to queue num_buffers field
+      media: dvb-core: Use vb2_get_buffer() instead of directly access to buffers array
+      media: dvb-core: Do not initialize twice queue num_buffer field
+      media: dvb-frontends: rtl2832: Stop direct calls to queue num_buffers field
+      media: pci: dt3155: Remove useless check
+      media: pci: tw686x: Stop direct calls to queue num_buffers field
+      media: pci: cx18: Stop direct calls to queue num_buffers field
+      media: pci: netup_unidvb: Stop direct calls to queue num_buffers field
+      media: pci: tw68: Stop direct calls to queue num_buffers field
+      media: i2c: video-i2c: Stop direct calls to queue num_buffers field
+      media: coda: Stop direct calls to queue num_buffers field
+      media: nxp: Stop direct calls to queue num_buffers field
+      media: verisilicon: Stop direct calls to queue num_buffers field
+      media: test-drivers: Stop direct calls to queue num_buffers field
+      media: imx: Stop direct calls to queue num_buffers field
+      media: meson: vdec: Stop direct calls to queue num_buffers field
+      touchscreen: sur40: Stop direct calls to queue num_buffers field
+      sample: v4l: Stop direct calls to queue num_buffers field
+      media: cedrus: Stop direct calls to queue num_buffers field
+      media: nuvoton: Stop direct calls to queue num_buffers field
+      media: renesas: Stop direct calls to queue num_buffers field
+      media: ti: Stop direct calls to queue num_buffers field
+      media: usb: airspy: Stop direct calls to queue num_buffers field
+      media: usb: cx231xx: Stop direct calls to queue num_buffers field
+      media: usb: hackrf: Stop direct calls to queue num_buffers field
+      media: usb: usbtv: Stop direct calls to queue num_buffers field
+      media videobuf2: Be more flexible on the number of queue stored buffers
+      media: core: Report the maximum possible number of buffers for the queue
+      media: test-drivers: vivid: Increase max supported buffers for capture queues
+      media: test-drivers: vicodec: Increase max supported capture queue buffers
+      media: verisilicon: Refactor postprocessor to store more buffers
+      media: verisilicon: Store chroma and motion vectors offset
+      media: verisilicon: g2: Use common helpers to compute chroma and mv offsets
+      media: verisilicon: vp9: Allow to change resolution while streaming
+
+ Documentation/userspace-api/media/v4l/vidioc-create-bufs.rst              |   8 +-
+ Documentation/userspace-api/media/v4l/vidioc-reqbufs.rst                  |   1 +
+ drivers/input/touchscreen/sur40.c                                         |   5 +-
+ drivers/media/common/videobuf2/videobuf2-core.c                           | 489 ++++++++++++++++++++++---------------
+ drivers/media/common/videobuf2/videobuf2-v4l2.c                           |  85 ++++---
+ drivers/media/dvb-core/dvb_vb2.c                                          |  19 +-
+ drivers/media/dvb-frontends/rtl2832_sdr.c                                 |   5 +-
+ drivers/media/i2c/video-i2c.c                                             |   5 +-
+ drivers/media/pci/cx18/cx18-streams.c                                     |   5 +-
+ drivers/media/pci/dt3155/dt3155.c                                         |   2 -
+ drivers/media/pci/netup_unidvb/netup_unidvb_core.c                        |   5 +-
+ drivers/media/pci/tw68/tw68-video.c                                       |   5 +-
+ drivers/media/pci/tw686x/tw686x-video.c                                   |   5 +-
+ drivers/media/platform/amphion/vpu_dbg.c                                  |  30 ++-
+ drivers/media/platform/amphion/vpu_v4l2.c                                 |   4 +-
+ drivers/media/platform/chips-media/coda-common.c                          |   2 +-
+ drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c                      |   7 +-
+ drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c |   9 +-
+ drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c           |   2 +-
+ drivers/media/platform/nuvoton/npcm-video.c                               |   2 +-
+ drivers/media/platform/nxp/imx7-media-csi.c                               |   7 +-
+ drivers/media/platform/renesas/rcar_drif.c                                |   5 +-
+ drivers/media/platform/st/sti/hva/hva-v4l2.c                              |   9 +-
+ drivers/media/platform/ti/am437x/am437x-vpfe.c                            |   5 +-
+ drivers/media/platform/ti/cal/cal-video.c                                 |   5 +-
+ drivers/media/platform/ti/davinci/vpif_capture.c                          |   5 +-
+ drivers/media/platform/ti/davinci/vpif_display.c                          |   5 +-
+ drivers/media/platform/ti/omap/omap_vout.c                                |   5 +-
+ drivers/media/platform/verisilicon/hantro.h                               |   9 +-
+ drivers/media/platform/verisilicon/hantro_drv.c                           |   4 +-
+ drivers/media/platform/verisilicon/hantro_g2.c                            |  14 ++
+ drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c                   |  18 +-
+ drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c                    |  28 +--
+ drivers/media/platform/verisilicon/hantro_hw.h                            |   7 +-
+ drivers/media/platform/verisilicon/hantro_postproc.c                      |  95 +++++--
+ drivers/media/platform/verisilicon/hantro_v4l2.c                          |  26 +-
+ drivers/media/test-drivers/vicodec/vicodec-core.c                         |   1 +
+ drivers/media/test-drivers/visl/visl-dec.c                                |  32 ++-
+ drivers/media/test-drivers/vivid/vivid-core.c                             |  14 ++
+ drivers/media/test-drivers/vivid/vivid-meta-cap.c                         |   3 -
+ drivers/media/test-drivers/vivid/vivid-meta-out.c                         |   5 +-
+ drivers/media/test-drivers/vivid/vivid-touch-cap.c                        |   5 +-
+ drivers/media/test-drivers/vivid/vivid-vbi-cap.c                          |   3 -
+ drivers/media/test-drivers/vivid/vivid-vbi-out.c                          |   3 -
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c                          |   3 -
+ drivers/media/test-drivers/vivid/vivid-vid-out.c                          |   5 +-
+ drivers/media/usb/airspy/airspy.c                                         |   5 +-
+ drivers/media/usb/cx231xx/cx231xx-417.c                                   |   5 +-
+ drivers/media/usb/cx231xx/cx231xx-video.c                                 |   5 +-
+ drivers/media/usb/hackrf/hackrf.c                                         |   5 +-
+ drivers/media/usb/usbtv/usbtv-video.c                                     |   5 +-
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c                             |  10 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c                                      |   4 +-
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c                         |   4 +-
+ drivers/staging/media/imx/imx-media-capture.c                             |   7 +-
+ drivers/staging/media/meson/vdec/vdec.c                                   |  13 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c                          |   9 +-
+ drivers/staging/media/sunxi/cedrus/cedrus_h265.c                          |   9 +-
+ include/media/videobuf2-core.h                                            |  39 ++-
+ include/uapi/linux/videodev2.h                                            |   7 +-
+ samples/v4l/v4l2-pci-skeleton.c                                           |   5 +-
+ 61 files changed, 698 insertions(+), 450 deletions(-)
 
