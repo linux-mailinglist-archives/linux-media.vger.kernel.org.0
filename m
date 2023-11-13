@@ -1,220 +1,197 @@
-Return-Path: <linux-media+bounces-233-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-234-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23A787E9C5A
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 13:44:21 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 047247E9CB3
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 14:03:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8F8131F20F44
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 12:44:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A22C280CF0
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 13:03:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1D9071D699;
-	Mon, 13 Nov 2023 12:44:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33BB31DDDC;
+	Mon, 13 Nov 2023 13:03:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vfWkWekB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GRNLiaLO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 773291D527
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 12:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 538301DA39
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 13:03:45 +0000 (UTC)
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47B781728;
-	Mon, 13 Nov 2023 04:44:08 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0BB5929A;
-	Mon, 13 Nov 2023 13:43:40 +0100 (CET)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA09410EA
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 05:03:43 -0800 (PST)
+Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 460FD10A;
+	Mon, 13 Nov 2023 14:03:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1699879421;
-	bh=MQbkSDUiGthELij+clyy2MWBR01RgHz+P/tcMtA8zYc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vfWkWekBqKHGAaE2eWRBghtZn7r87P8gmzJ3gCNH3KusI8zILXP8XKUZY8v4E2PTc
-	 5IFHUrAbY8JOZlY+XfqGVIAcCFqZFcIjzHCpfo5u2CEtQeBkVEiq29O6631j55xJia
-	 hI8iiGTFkbTvLPZhfIdU6S+BaqhNgrDeMoyAPPeE=
-Date: Mon, 13 Nov 2023 14:44:12 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>, tfiga@chromium.org,
-	m.szyprowski@samsung.com, mchehab@kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
-	linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH v9 10/15] media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
-Message-ID: <20231113124412.GA18974@pendragon.ideasonboard.com>
-References: <1699595289-25773-1-git-send-email-shengjiu.wang@nxp.com>
- <1699595289-25773-11-git-send-email-shengjiu.wang@nxp.com>
- <4cd6b593-2376-4cbc-a7c8-d3eb36a2f7a0@xs4all.nl>
- <20231113104238.GA13981@pendragon.ideasonboard.com>
- <6a3e7eb9-505c-4cfb-8a86-a8947a2e44d5@xs4all.nl>
- <20231113110754.GB24338@pendragon.ideasonboard.com>
- <3e898664-cbfc-4892-9765-37b66891643b@xs4all.nl>
- <ZVIIc-fi32ZxIi-p@valkosipuli.retiisi.eu>
- <20231113114357.GD24338@pendragon.ideasonboard.com>
- <da6efe14-c00d-4bf4-bf61-dd4ed39c5c60@xs4all.nl>
+	s=mail; t=1699880597;
+	bh=KK7iSpHyq0WI+Js6jh9eHvruWZAA677+sN3hI4To2G4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=GRNLiaLO+nfczSmHyZoGd58NPY4SIONVIjh2vJTd8MePgOUu2AqOMZj10xqooBzL+
+	 rV+MiTULPpEekjQYsSZRoNceSm316ZwkxxSH2oqxYeatuqXPZxaHqnTyd36xA1vTZX
+	 k/juf2bl3zT2LpSujgpCCj5SiaJStmilgon77mo8=
+Message-ID: <f542bb33-57fb-4ce1-bb08-85b69a8cd40a@ideasonboard.com>
+Date: Mon, 13 Nov 2023 15:03:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <da6efe14-c00d-4bf4-bf61-dd4ed39c5c60@xs4all.nl>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 2/2] media: v4l2-subdev: Relax warnings in link
+ validation
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@iki.fi>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20231113101718.6098-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20231113101718.6098-3-laurent.pinchart+renesas@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ xsFNBE6ms0cBEACyizowecZqXfMZtnBniOieTuFdErHAUyxVgtmr0f5ZfIi9Z4l+uUN4Zdw2
+ wCEZjx3o0Z34diXBaMRJ3rAk9yB90UJAnLtb8A97Oq64DskLF81GCYB2P1i0qrG7UjpASgCA
+ Ru0lVvxsWyIwSfoYoLrazbT1wkWRs8YBkkXQFfL7Mn3ZMoGPcpfwYH9O7bV1NslbmyJzRCMO
+ eYV258gjCcwYlrkyIratlHCek4GrwV8Z9NQcjD5iLzrONjfafrWPwj6yn2RlL0mQEwt1lOvn
+ LnI7QRtB3zxA3yB+FLsT1hx0va6xCHpX3QO2gBsyHCyVafFMrg3c/7IIWkDLngJxFgz6DLiA
+ G4ld1QK/jsYqfP2GIMH1mFdjY+iagG4DqOsjip479HCWAptpNxSOCL6z3qxCU8MCz8iNOtZk
+ DYXQWVscM5qgYSn+fmMM2qN+eoWlnCGVURZZLDjg387S2E1jT/dNTOsM/IqQj+ZROUZuRcF7
+ 0RTtuU5q1HnbRNwy+23xeoSGuwmLQ2UsUk7Q5CnrjYfiPo3wHze8avK95JBoSd+WIRmV3uoO
+ rXCoYOIRlDhg9XJTrbnQ3Ot5zOa0Y9c4IpyAlut6mDtxtKXr4+8OzjSVFww7tIwadTK3wDQv
+ Bus4jxHjS6dz1g2ypT65qnHen6mUUH63lhzewqO9peAHJ0SLrQARAQABzTBUb21pIFZhbGtl
+ aW5lbiA8dG9taS52YWxrZWluZW5AaWRlYXNvbmJvYXJkLmNvbT7CwY4EEwEIADgWIQTEOAw+
+ ll79gQef86f6PaqMvJYe9QUCX/HruAIbAwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgAAKCRD6
+ PaqMvJYe9WmFD/99NGoD5lBJhlFDHMZvO+Op8vCwnIRZdTsyrtGl72rVh9xRfcSgYPZUvBuT
+ VDxE53mY9HaZyu1eGMccYRBaTLJSfCXl/g317CrMNdY0k40b9YeIX10feiRYEWoDIPQ3tMmA
+ 0nHDygzcnuPiPT68JYZ6tUOvAt7r6OX/litM+m2/E9mtp8xCoWOo/kYO4mOAIoMNvLB8vufi
+ uBB4e/AvAjtny4ScuNV5c5q8MkfNIiOyag9QCiQ/JfoAqzXRjVb4VZG72AKaElwipiKCWEcU
+ R4+Bu5Qbaxj7Cd36M/bI54OrbWWETJkVVSV1i0tghCd6HHyquTdFl7wYcz6cL1hn/6byVnD+
+ sR3BLvSBHYp8WSwv0TCuf6tLiNgHAO1hWiQ1pOoXyMEsxZlgPXT+wb4dbNVunckwqFjGxRbl
+ Rz7apFT/ZRwbazEzEzNyrBOfB55xdipG/2+SmFn0oMFqFOBEszXLQVslh64lI0CMJm2OYYe3
+ PxHqYaztyeXsx13Bfnq9+bUynAQ4uW1P5DJ3OIRZWKmbQd/Me3Fq6TU57LsvwRgE0Le9PFQs
+ dcP2071rMTpqTUteEgODJS4VDf4lXJfY91u32BJkiqM7/62Cqatcz5UWWHq5xeF03MIUTqdE
+ qHWk3RJEoWHWQRzQfcx6Fn2fDAUKhAddvoopfcjAHfpAWJ+ENc7BTQROprNHARAAx0aat8GU
+ hsusCLc4MIxOQwidecCTRc9Dz/7U2goUwhw2O5j9TPqLtp57VITmHILnvZf6q3QAho2QMQyE
+ DDvHubrdtEoqaaSKxKkFie1uhWNNvXPhwkKLYieyL9m2JdU+b88HaDnpzdyTTR4uH7wk0bBa
+ KbTSgIFDDe5lXInypewPO30TmYNkFSexnnM3n1PBCqiJXsJahE4ZQ+WnV5FbPUj8T2zXS2xk
+ 0LZ0+DwKmZ0ZDovvdEWRWrz3UzJ8DLHb7blPpGhmqj3ANXQXC7mb9qJ6J/VSl61GbxIO2Dwb
+ xPNkHk8fwnxlUBCOyBti/uD2uSTgKHNdabhVm2dgFNVuS1y3bBHbI/qjC3J7rWE0WiaHWEqy
+ UVPk8rsph4rqITsj2RiY70vEW0SKePrChvET7D8P1UPqmveBNNtSS7In+DdZ5kUqLV7rJnM9
+ /4cwy+uZUt8cuCZlcA5u8IsBCNJudxEqBG10GHg1B6h1RZIz9Q9XfiBdaqa5+CjyFs8ua01c
+ 9HmyfkuhXG2OLjfQuK+Ygd56mV3lq0aFdwbaX16DG22c6flkkBSjyWXYepFtHz9KsBS0DaZb
+ 4IkLmZwEXpZcIOQjQ71fqlpiXkXSIaQ6YMEs8WjBbpP81h7QxWIfWtp+VnwNGc6nq5IQDESH
+ mvQcsFS7d3eGVI6eyjCFdcAO8eMAEQEAAcLBXwQYAQIACQUCTqazRwIbDAAKCRD6PaqMvJYe
+ 9fA7EACS6exUedsBKmt4pT7nqXBcRsqm6YzT6DeCM8PWMTeaVGHiR4TnNFiT3otD5UpYQI7S
+ suYxoTdHrrrBzdlKe5rUWpzoZkVK6p0s9OIvGzLT0lrb0HC9iNDWT3JgpYDnk4Z2mFi6tTbq
+ xKMtpVFRA6FjviGDRsfkfoURZI51nf2RSAk/A8BEDDZ7lgJHskYoklSpwyrXhkp9FHGMaYII
+ m9EKuUTX9JPDG2FTthCBrdsgWYPdJQvM+zscq09vFMQ9Fykbx5N8z/oFEUy3ACyPqW2oyfvU
+ CH5WDpWBG0s5BALp1gBJPytIAd/pY/5ZdNoi0Cx3+Z7jaBFEyYJdWy1hGddpkgnMjyOfLI7B
+ CFrdecTZbR5upjNSDvQ7RG85SnpYJTIin+SAUazAeA2nS6gTZzumgtdw8XmVXZwdBfF+ICof
+ 92UkbYcYNbzWO/GHgsNT1WnM4sa9lwCSWH8Fw1o/3bX1VVPEsnESOfxkNdu+gAF5S6+I6n3a
+ ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
+ yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
+ 3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
+In-Reply-To: <20231113101718.6098-3-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Hans,
+On 13/11/2023 12:17, Laurent Pinchart wrote:
+> Before v6.3, the v4l2_subdev_link_validate() helper would ignore links
+> whose source was a video device and sink a subdev. The helper was (and
 
-On Mon, Nov 13, 2023 at 01:05:12PM +0100, Hans Verkuil wrote:
-> On 13/11/2023 12:43, Laurent Pinchart wrote:
-> > On Mon, Nov 13, 2023 at 11:28:51AM +0000, Sakari Ailus wrote:
-> >> On Mon, Nov 13, 2023 at 12:24:14PM +0100, Hans Verkuil wrote:
-> >>> On 13/11/2023 12:07, Laurent Pinchart wrote:
-> >>>> On Mon, Nov 13, 2023 at 11:56:49AM +0100, Hans Verkuil wrote:
-> >>>>> On 13/11/2023 11:42, Laurent Pinchart wrote:
-> >>>>>> On Mon, Nov 13, 2023 at 11:29:09AM +0100, Hans Verkuil wrote:
-> >>>>>>> On 10/11/2023 06:48, Shengjiu Wang wrote:
-> >>>>>>>> Fixed point controls are used by the user to configure
-> >>>>>>>> a fixed point value in 64bits, which Q31.32 format.
-> >>>>>>>>
-> >>>>>>>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> >>>>>>>
-> >>>>>>> This patch adds a new control type. This is something that also needs to be
-> >>>>>>> tested by v4l2-compliance, and for that we need to add support for this to
-> >>>>>>> one of the media test-drivers. The best place for that is the vivid driver,
-> >>>>>>> since that has already a bunch of test controls for other control types.
-> >>>>>>>
-> >>>>>>> See e.g. VIVID_CID_INTEGER64 in vivid-ctrls.c.
-> >>>>>>>
-> >>>>>>> Can you add a patch adding a fixed point test control to vivid?
-> >>>>>>
-> >>>>>> I don't think V4L2_CTRL_TYPE_FIXED_POINT is a good idea. This seems to
-> >>>>>> relate more to units than control types. We have lots of fixed-point
-> >>>>>> values in controls already, using the 32-bit and 64-bit integer control
-> >>>>>> types. They use various locations for the decimal point, depending on
-> >>>>>> the control. If we want to make this more explicit to users, we should
-> >>>>>> work on adding unit support to the V4L2 controls.
-> >>>>>
-> >>>>> "Fixed Point" is not a unit, it's a type. 'Db', 'Hz' etc. are units.
-> >>>>
-> >>>> It's not a unit, but I think it's related to units. My point is that,
-> >>>> without units support, I don't see why we need a formal definition of
-> >>>> fixed-point types, and why this series couldn't just use
-> >>>> VIVID_CID_INTEGER64. Drivers already interpret VIVID_CID_INTEGER64
-> >>>> values as they see fit.
-> >>>
-> >>> They do? That's new to me. A quick grep for V4L2_CTRL_TYPE_INTEGER64
-> >>> (I assume you meant that rather than VIVID_CID_INTEGER64) shows that it
-> > 
-> > Yes, I meant V4L2_CTRL_TYPE_INTEGER64. Too hasty copy & paste :-)
-> > 
-> >>> is always interpreted as a 64 bit integer and nothing else. As it should.
-> > 
-> > The most common case for control handling in drivers is taking the
-> > integer value and converting it to a register value, using
-> > device-specific encoding of the register value. It can be a fixed-point
-> > format or something else, depending on the device. My point is that
-> > drivers routinely convert a "plain" integer to something else, and that
-> > has never been considered as a cause of concern. I don't see why it
-> > would be different in this series.
-> > 
-> >>> And while we do not have support for units (other than the documentation),
-> >>> we do have type support in the form of V4L2_CTRL_TYPE_*.
-> >>>
-> >>>>> A quick "git grep -i "fixed point" Documentation/userspace-api/media/'
-> >>>>> only shows a single driver specific control (dw100.rst).
-> >>>>>
-> >>>>> I'm not aware of other controls in mainline that use fixed point.
-> >>>>
-> >>>> The analog gain control for sensors for instance.
-> >>>
-> >>> Not really. The documentation is super vague:
-> >>>
-> >>> V4L2_CID_ANALOGUE_GAIN (integer)
-> >>>
-> >>> 	Analogue gain is gain affecting all colour components in the pixel matrix. The
-> >>> 	gain operation is performed in the analogue domain before A/D conversion.
-> >>>
-> >>> And the integer is just a range. Internally it might map to some fixed
-> >>> point value, but userspace won't see that, it's hidden in the driver AFAICT.
-> > 
-> > It's hidden so well that libcamera has a database of the sensor it
-> > supports, with formulas to map a real gain value to the
-> > V4L2_CID_ANALOGUE_GAIN control. The encoding of the integer value does
-> > matter, and the kernel doesn't expose it. We may or may not consider
-> > that as a shortcoming of the V4L2 control API, but in any case it's the
-> > situation we have today.
-> > 
-> >> I wonder if Laurent meant digital gain.
-> > 
-> > No, I meant analog. It applies to digital gain too though.
-> > 
-> >> Those are often Q numbers. The practice there has been that the default
-> >> value yields gain of 1.
-> >>
-> >> There are probably many other examples in controls where something being
-> >> controlled isn't actually an integer while integer controls are still being
-> >> used for the purpose.
-> > 
-> > A good summary of my opinion :-)
-> 
-> And that works fine as long as userspace doesn't need to know what the value
-> actually means.
-> 
-> That's not the case here. The control is really a fractional Hz value:
-> 
-> +``V4L2_CID_M2M_AUDIO_SOURCE_RATE_OFFSET (fixed point)``
-> +    Sets the offset from the audio source sample rate, unit is Hz.
-> +    The offset compensates for any clock drift. The actual source audio sample
-> +    rate is the ideal source audio sample rate from
-> +    ``V4L2_CID_M2M_AUDIO_SOURCE_RATE`` plus this fixed point offset.
+Didn't it also ignore links where the sink is a video device?
 
-I don't see why this would require a new type, you can use
-V4L2_CTRL_TYPE_INTEGER64, and document the control as containing
-fixed-point values in Q31.32 format.
-
-> >> Instead of this patch, I'd prefer to have a way to express the meaning of
-> >> the control value, be it a Q number or something else, and do that
-> >> independently of the type of the control.
+> still is) used by drivers in such cases, in particular for subdevs with
+> multiple sink pads, some connected to video devices and some to other
+> subdevs.
 > 
-> Huh? How is that different from the type of the control? You have integers
-> (one type) and fixed point (another type).
+> Then, commit a6b995ed03ff ("media: subdev: use streams in
+> v4l2_subdev_link_validate()") assumed the entities on the two sides of a
+> link are both subdevs, and caused crashes in drivers that use the helper
+> with subdev sink pads connected to video devices. Commit 55f1ecb11990
+> ("media: v4l: subdev: Make link validation safer"), merged in v6.4,
+> fixed the crash by adding an explicit check with a pr_warn_once(),
+> mentioning a driver bug.
 > 
-> Or do you want a more general V4L2_CTRL_TYPE_ that specifies the N.M values
-> explicitly?
+> Links between a subdev and a video device need to be validated, and
+> v4l2_subdev_link_validate() can't handle that. Drivers typically handle
+> this validation manually at stream start time (either in the .streamon()
+> ioctl handler, or in the .start_streaming() vb2 queue operation),
+> instead of implementing a custom .link_validate() handler. Forbidding
+> usage of v4l2_subdev_link_validate() as the .link_validate() handler
+> would thus force all subdev drivers that mix source links to subdev and
+> video devices to implement a custom .link_validate() handler that
+> returns immediately for the video device links and call
+> v4l2_subdev_link_validate() for subdev links. This would create lots of
+> duplicated code for no real gain. Instead, relax the check in
+> v4l2_ctrl_modify_range() to ignore links from a video device to a subdev
+
+v4l2_ctrl_modify_range? copy-paste error?
+
+Should the check also be relaxed wrt. video device as a sink?
+
+> without printing any warning.
+
+As Sakari said, it would make sense to use .link_validate() to validate 
+all links.
+
+But if this warning is getting printed at the moment, then I think this 
+is a valid fix (maybe with the sink side handled too, if needed).
+
+  Tomi
+
+> Fixes: a6b995ed03ff ("media: subdev: use streams in v4l2_subdev_link_validate()")
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>   drivers/media/v4l2-core/v4l2-subdev.c | 30 ++++++++++++++++++++-------
+>   1 file changed, 23 insertions(+), 7 deletions(-)
 > 
-> I think the main reason why we use integer controls for gain is that we
-> never had a fixed point control type and you could get away with that in
-> user space for that particular use-case.
-> 
-> Based on the V4L2_CID_NOTIFY_GAINS documentation the gain value can typically
-> be calculated as (value / default_value),
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index 67d43206ce32..b00be1d57e05 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1356,15 +1356,31 @@ int v4l2_subdev_link_validate(struct media_link *link)
+>   	struct v4l2_subdev *source_sd, *sink_sd;
+>   	struct v4l2_subdev_state *source_state, *sink_state;
+>   	bool states_locked;
+> +	bool is_sink_subdev;
+> +	bool is_source_subdev;
+>   	int ret;
+>   
+> -	if (!is_media_entity_v4l2_subdev(link->sink->entity) ||
+> -	    !is_media_entity_v4l2_subdev(link->source->entity)) {
+> -		pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+> -			     !is_media_entity_v4l2_subdev(link->sink->entity) ?
+> -			     "sink" : "source",
+> -			     link->source->entity->name, link->source->index,
+> -			     link->sink->entity->name, link->sink->index);
+> +	is_sink_subdev = is_media_entity_v4l2_subdev(link->sink->entity);
+> +	is_source_subdev = is_media_entity_v4l2_subdev(link->source->entity);
+> +
+> +	if (!is_sink_subdev || !is_source_subdev) {
+> +		/*
+> +		 * Do not print the warning if the source is a video device and
+> +		 * the sink a subdev. This is a valid use case, to allow usage
+> +		 * of this helper by subdev drivers that have multiple sink
+> +		 * pads, some connected to video devices and some connected to
+> +		 * other subdevs. The video device to subdev link is typically
+> +		 * validated manually by the driver at stream start time in such
+> +		 * cases.
+> +		 */
+> +		if (!is_sink_subdev ||
+> +		    !is_media_entity_v4l2_video_device(link->source->entity))
+> +			pr_warn_once("%s of link '%s':%u->'%s':%u is not a V4L2 sub-device, driver bug!\n",
+> +				     !is_sink_subdev ? "sink" : "source",
+> +				     link->source->entity->name,
+> +				     link->source->index,
+> +				     link->sink->entity->name,
+> +				     link->sink->index);
+>   		return 0;
+>   	}
+>   
 
-Typically, but not always. Some sensor have an exponential gain model,
-and some have weird gain representation, such as 1/x. That's getting out
-of scope though.
-
-> but that won't work for a rate offset
-> control as above, or for e.g. CSC matrices for color converters.
-> 
-> > Agreed.
-> > 
-> >>> In the case of this particular series the control type is really a fixed point
-> >>> value with a documented unit (Hz). It really is not something you want to
-> >>> use type INTEGER64 for.
-> >>>
-> >>>>> Note that V4L2_CTRL_TYPE_FIXED_POINT is a Q31.32 format. By setting
-> >>>>> min/max/step you can easily map that to just about any QN.M format where
-> >>>>> N <= 31 and M <= 32.
-> >>>>>
-> >>>>> In the case of dw100 it is a bit different in that it is quite specialized
-> >>>>> and it had to fit in 16 bits.
-
--- 
-Regards,
-
-Laurent Pinchart
 
