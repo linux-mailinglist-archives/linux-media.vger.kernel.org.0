@@ -1,159 +1,126 @@
-Return-Path: <linux-media+bounces-210-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-211-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31C3E7E9A77
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:42:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EAF4F7E9A78
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:42:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DD461C208CC
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 10:42:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 263FB1C208FB
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 10:42:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DEA518625;
-	Mon, 13 Nov 2023 10:41:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C73871BDF7;
+	Mon, 13 Nov 2023 10:42:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TW0ukwcs"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="f/FRopg0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C79156FA
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 10:41:57 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CDD10CB
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 02:41:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1699872116; x=1731408116;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=9WJVaORU5xaI5p8R/xPVvUAnn7UkKi/fGZnF54Du/5E=;
-  b=TW0ukwcsjAnsWF/pViMD1hbctgrYBCNVsTX2S2B2Osit/R+BJ4k9i0xx
-   hr0ur0YjIyhWPB3TZz1uwKEsieHeR2e/Q4AfwBaz7jVRAzb3om3sU/gTx
-   KZ+XH2yazeOC9fkDsc/j3z2aWogu+ZWV+njHAJ/BPqyAYVZGUpGNJTH5D
-   LX6FpewjtR+VMd5eHvUWXwuoHnmZtY+gwyDc1nwdTbAHta5w0r9ycAdl0
-   hR8z28HpCUbuvy5fa3mU6oQMFY2ZzyZNUOCpo1RGKAm2QDfVWuUh5rxTb
-   ihhMyBNzmDQofv4pFFA1bORLOPOODSh9yY4XyJh5Iq+M0scp2mv5kMnDf
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="456905812"
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="456905812"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 02:41:55 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
-   d="scan'208";a="12071592"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.165]) ([10.238.232.165])
-  by orviesa001.jf.intel.com with ESMTP; 13 Nov 2023 02:41:52 -0800
-Subject: Re: [PATCH v2 00/15] Intel IPU6 and IPU6 input system drivers
-To: Hans de Goede <hdegoede@redhat.com>, bingbu.cao@intel.com,
- linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
- laurent.pinchart@ideasonboard.com,
- "Martti Groenen (19174837)" <M.Groenen@student.hhs.nl>
-Cc: andriy.shevchenko@linux.intel.com, ilpo.jarvinen@linux.intel.com,
- andreaskleist@gmail.com, claus.stovgaard@gmail.com, tfiga@chromium.org,
- senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
- tian.shu.qiu@intel.com, hongju.wang@intel.com
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
- <e1b060be-793f-4482-b0dc-670984bbbd84@hansg.org>
- <7a636512-91ab-4f97-8bd0-e24ebc528ecf@redhat.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <15e5202a-8887-ca95-280f-84a922372f08@linux.intel.com>
-Date: Mon, 13 Nov 2023 18:37:09 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A76219BBD
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 10:42:29 +0000 (UTC)
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8157910CB
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 02:42:26 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4STQwv3VBLzySy
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 12:42:20 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1699872143;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x81oY68QDS5qDT0CUmzY95yPRnzsXk4evZudt6cmcZE=;
+	b=f/FRopg0TyW/8MH4LM+AU0CLM8OCRXDAaqOmnfNbKIdfR+MMJnv+C5pz/QfPnLchPff609
+	oZqiRwJuEQ1JGCJLBhDeMFBZIataLlJHZJpKu2IJG8FcY5Dq5V8e+1eU7jHyUHsVXP66rR
+	WRwQTc8trlHurIJwP2I5weGi3mufpYM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1699872143;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=x81oY68QDS5qDT0CUmzY95yPRnzsXk4evZudt6cmcZE=;
+	b=rLAWVWfjM82EqyJK39JlKsHVzgpkNBwgAVP0DibcrWqfkDvU8CzIRAM7bgc1og41dZVB/9
+	MliWCvXY4VkoMEYMopfBghlE3/WbcurGjT3p9fEdpBAK9glCOIp+4OsIxbuxuI35lHjhzx
+	F4OIptkHap8Va8jPrjCkbDh2VvJyVow=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1699872143; a=rsa-sha256; cv=none;
+	b=I2JS6WJgPXVsH1AvhbRYy5lUcWefTDEN0ijUNf9ji1i0m52sFpSAxn0A3hqH5LJLEHVZDZ
+	Q0QRFU6ix9UCpC+E6PyTBFJmaa5pzBfkkH/rsBzCFslS1ZM5ZzlTPTK2eX6lj50AsrpuDf
+	SH7tWwg3EV7qlBDSE0ygtHal0+ltnu0=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3DE73634C93;
+	Mon, 13 Nov 2023 12:42:16 +0200 (EET)
+Date: Mon, 13 Nov 2023 10:42:16 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v1 1/2] media: v4l2-subdev: Drop unreacheable warning
+Message-ID: <ZVH9iO5XPay8In_R@valkosipuli.retiisi.eu>
+References: <20231113101718.6098-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20231113101718.6098-2-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <7a636512-91ab-4f97-8bd0-e24ebc528ecf@redhat.com>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231113101718.6098-2-laurent.pinchart+renesas@ideasonboard.com>
 
-Hans,
+Hi Laurent,
 
-On 11/10/23 8:04 PM, Hans de Goede wrote:
-> Hi,
+On Mon, Nov 13, 2023 at 12:17:17PM +0200, Laurent Pinchart wrote:
+> The v4l2_subdev_link_validate_get_format() function warns if the pad
+> given as argument belongs to a non-subdev entity. This can't happen, as
+> the function is called from v4l2_subdev_link_validate() only (indirectly
+> through v4l2_subdev_link_validate_locked()), and that function ensures
+> that both ends of the link are subdevs.
 > 
-> On 11/8/23 12:59, Hans de Goede wrote:
->> Hi Bingbu,
->>
->> On 10/24/23 13:29, bingbu.cao@intel.com wrote:
->>> From: Bingbu Cao <bingbu.cao@intel.com>
->>>
->>> This patch series adds a driver for Intel IPU6 input system.
->>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
->>> device which can be found in some Intel Client Platforms. User can use
->>> IPU6 to capture images from MIPI camera sensors.
->>>
->>> IPU6 has its own firmware which exposes ABIs to driver, and communicates
->>> with CSE to do firmware authentication. IPU6 has its MMU hardware, so
->>> the driver sets up a page table to allow IPU6 DMA to access the system
->>> memory.
->>>
->>> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
->>
->> I have been testing this on a TigerLake system, a Dell Latitude 9420
->> with ov01a1s and the packed 10 bit bayer pixel fmt: V4L2_PIX_FMT_SGRBG10P,
->> which libcamera together with (WIP) software debayer support picks
->> by default does not work. There are many many CSI errors in dmesg
->> and only the first 10 or so lines of the image show.
->>
->> Disabling the packed format by removing it from ipu6_isys_pfmts[],
->> making libcamera pick the unpacked (every 10 bits per pixel data
->> stored in a 16 bit word in output buffer) fixes this.
->>
->> Are the packed bayer formats supposed to work on Tiger Lake, or
->> is this a known issue which Intel's own userspace stack avoids
->> by always picking the unpacked format ?
+> Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-subdev.c | 8 --------
+>  1 file changed, 8 deletions(-)
 > 
-> Bingbu, so we've been trying to get software debayering to work
-> on the Dell Latitude 9420 with ov01a1s and I have just learned
-> that this sensor has a non standard bayer grid.
-> 
-> https://github.com/intel/ipu6-camera-hal/blob/9fa05a90886d399ad3dda4c2ddc990642b3d20c9/config/linux/ipu6/gcss/graph_settings_ov01a1s.xml#L17
-> 
-> bayer_order="GRGB_IGIG_GBGR_IGIG"
+> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> index be86b906c985..67d43206ce32 100644
+> --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> @@ -1184,14 +1184,6 @@ v4l2_subdev_link_validate_get_format(struct media_pad *pad, u32 stream,
+>  	struct v4l2_subdev *sd;
+>  	int ret;
+>  
+> -	if (!is_media_entity_v4l2_subdev(pad->entity)) {
+> -		WARN(pad->entity->function != MEDIA_ENT_F_IO_V4L,
+> -		     "Driver bug! Wrong media entity type 0x%08x, entity %s\n",
+> -		     pad->entity->function, pad->entity->name);
+> -
+> -		return -EINVAL;
+> -	}
+> -
+>  	sd = media_entity_to_v4l2_subdev(pad->entity);
 
-The IR is not enabled in Linux camera stack yet if I remember correctly.
-Current IPU6 processing system have a single hardware block extract the RGB
-and IR separately - "rgb_ir_2_0" in xml.
+It'd be good to check sd is non-NULL here, although pad presumably is
+always a pad of a sub-device entity.
 
-> 
-> I'm wondering how to interpret these 4 pixel orders? For the OV2740
-> this just says:
-> 
-> bayer_order="GRBG"
-> 
-> and this single quartet of letters describes a 2x2 block like this:
-> 
-> GR
-> BG
-> 
-> but now there are 4 quartets so how to interpret this,
-> I guess this is the correct way to interpret this? :
-> 
-> GRGB
-> IGIG
-> GBGR
-> IGIG
-
-I have no idea how to interpret the output of ov01a1s. Maybe you can
-try to zero(bypass) the IR data and interpret as SGRBG10.
-
-> 
-> Regards,
-> 
-> Hans
-> 
-> 
-> 
+>  
+>  	fmt->which = V4L2_SUBDEV_FORMAT_ACTIVE;
 
 -- 
-Best regards,
-Bingbu Cao
+Regards,
+
+Sakari Ailus
 
