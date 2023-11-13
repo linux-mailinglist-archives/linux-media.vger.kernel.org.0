@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-294-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-295-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B38097EA43F
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 21:06:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EFC27EA440
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 21:07:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D648F1C208C4
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 20:06:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBCB9280F3D
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 20:07:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 290302420C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B0EC624207;
 	Mon, 13 Nov 2023 20:06:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gDWWDLBO"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Mcf38vjZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2479724207
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 20:06:50 +0000 (UTC)
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FD5DD75
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 12:06:48 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DE54241E8
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 20:06:51 +0000 (UTC)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8231ED79
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 12:06:50 -0800 (PST)
 Received: from mz550.lan (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: dbrouwer)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id A284B6602F3B;
-	Mon, 13 Nov 2023 20:06:46 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 910AB6602F3A;
+	Mon, 13 Nov 2023 20:06:48 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1699906007;
-	bh=oxwICCOCbCvcoqq1t7x/iWOsEDjvjanFoD/DqRSA2pE=;
+	s=mail; t=1699906009;
+	bh=148OhClNazZ0HMUSCDg7M4JBnQ3/Oq+Q8DDM6a9gn7I=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gDWWDLBO0UMXh6K9c42vRsYeu/jxVg/1dzEGkn5eYfa1jZ7anBdYpvoumbMmvMG4J
-	 ypewuIzUq3oVi1nOLOUJzSneQEW1K7hkxHXGG9sMbxH5xTbduWdSHUjBphZ4Dm3pb4
-	 x5MdUBhohwtFKUiyIOAvC3P2B8uoJ/VTpnuDdbmy1jgN6brAqCzMGxV/gZ5GG4t4h1
-	 BloYjVT4V64CuLpf+3VOCA6zH9sYQBFmh+lBHyHhEWK579aux6z/ytErz3SJX2DX+w
-	 JUBIPuLlD35DtKhArLoJnub3JbeZdOgnww/Aa6MQubPEclO4QUfKQ2nf9rRrSANSzB
-	 1J0P23evKcthg==
+	b=Mcf38vjZTIcFw8+D4A7nVhsJ0Z9OjsfYsYV62qee/xbiRnq2po46yY9INWjHKulHe
+	 MisOOfw/CCaztQ+Age8r4BGhJYeGwsUZlDyxYaCGjEu0S0sQVibct/27+IvOlf/rH2
+	 55m/iovZtaAS6xJsLRa+POfsUexGhlxN50y77vBrZelYNY76+f8VByDvO+9NA74U6g
+	 /f5HcHETWOj7+d6tWrHi5w9ynPANerVaiApPnw0Ftf4ggOGtUuKb3sP5JxCdPRMM7b
+	 bNi0h7+2pfkniRIOtHLjOxunEaoLXHgwYFbrK9wen7f71vPRgHbrCVKHodZ7hiA/8K
+	 foOpO1VFN+8uw==
 From: Deborah Brouwer <deborah.brouwer@collabora.com>
 To: linux-media@vger.kernel.org
 Cc: hverkuil-cisco@xs4all.nl,
 	Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: [PATCH 2/8] v4l2-tracer: replace buftype2s with val2s
-Date: Mon, 13 Nov 2023 12:06:13 -0800
-Message-ID: <0d7a8b49dafb090481a03b61c5bd4dabcf4b4386.1699904350.git.deborah.brouwer@collabora.com>
+Subject: [PATCH 3/8] v4l2-tracer: remove buffers by type and index
+Date: Mon, 13 Nov 2023 12:06:14 -0800
+Message-ID: <bc3c68c1eb8c76f7435feb01a94cb01d98069fcb.1699904350.git.deborah.brouwer@collabora.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <cover.1699904350.git.deborah.brouwer@collabora.com>
 References: <cover.1699904350.git.deborah.brouwer@collabora.com>
@@ -58,135 +58,88 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-While buftype2s gives a written description of the buffer type, val2s will
-reproduce the type exactly as it appears in videodev2.h which is easier to
-follow for tracing.
+Currently duplicate buffers are identified for removal by file descriptor,
+but if the buffers were added by QUERYBUF then they will all have the same
+file descriptor and the wrong buffer might be removed. So, instead,
+identify duplicate buffers for removal by type and index.
 
 Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
 ---
- utils/v4l2-tracer/retrace.cpp      | 19 ++++++++++++-------
- utils/v4l2-tracer/trace-helper.cpp |  6 +++---
- utils/v4l2-tracer/trace.cpp        |  4 ++--
- 3 files changed, 17 insertions(+), 12 deletions(-)
+ utils/v4l2-tracer/retrace-helper.cpp | 4 ++--
+ utils/v4l2-tracer/retrace.cpp        | 2 +-
+ utils/v4l2-tracer/retrace.h          | 2 +-
+ utils/v4l2-tracer/trace-helper.cpp   | 6 +++---
+ 4 files changed, 7 insertions(+), 7 deletions(-)
 
+diff --git a/utils/v4l2-tracer/retrace-helper.cpp b/utils/v4l2-tracer/retrace-helper.cpp
+index 3c68986f..db24c667 100644
+--- a/utils/v4l2-tracer/retrace-helper.cpp
++++ b/utils/v4l2-tracer/retrace-helper.cpp
+@@ -41,10 +41,10 @@ void add_buffer_retrace(int fd, __u32 type, __u32 index, __u32 offset)
+ 	ctx_retrace.buffers.push_front(buf);
+ }
+ 
+-void remove_buffer_retrace(int fd)
++void remove_buffer_retrace(__u32 type, __u32 index)
+ {
+ 	for (auto it = ctx_retrace.buffers.begin(); it != ctx_retrace.buffers.end(); ++it) {
+-		if (it->fd == fd) {
++		if ((it->type == type) && (it->index == index)) {
+ 			ctx_retrace.buffers.erase(it);
+ 			break;
+ 		}
 diff --git a/utils/v4l2-tracer/retrace.cpp b/utils/v4l2-tracer/retrace.cpp
-index 14c42568..1bec635d 100644
+index 1bec635d..b2b4afbf 100644
 --- a/utils/v4l2-tracer/retrace.cpp
 +++ b/utils/v4l2-tracer/retrace.cpp
-@@ -336,7 +336,8 @@ void retrace_vidioc_querybuf(int fd_retrace, json_object *ioctl_args_user)
+@@ -460,7 +460,7 @@ void retrace_vidioc_expbuf(int fd_retrace, json_object *ioctl_args_user, json_ob
+ 	 */
+ 	int fd_found_in_retrace_context = get_buffer_fd_retrace(ptr->type, ptr->index);
+ 	if (fd_found_in_retrace_context != -1)
+-		remove_buffer_retrace(fd_found_in_retrace_context);
++		remove_buffer_retrace(ptr->type, ptr->index);
  
- 	if (is_verbose() || (errno != 0)) {
- 		fprintf(stderr, "%s, index: %d, fd: %d, ",
--		        buftype2s((int) buf->type).c_str(), buf->index, fd_retrace);
-+			val2s(buf->type, v4l2_buf_type_val_def).c_str(),
-+			buf->index, fd_retrace);
- 		perror("VIDIOC_QUERYBUF");
- 		debug_line_info();
- 		print_context();
-@@ -360,7 +361,8 @@ void retrace_vidioc_qbuf(int fd_retrace, json_object *ioctl_args_user)
+ 	add_buffer_retrace(buf_fd_retrace, ptr->type, ptr->index);
  
- 	if (is_verbose() || (errno != 0)) {
- 		fprintf(stderr, "%s, index: %d, fd: %d, ",
--		        buftype2s((int) ptr->type).c_str(), ptr->index, fd_retrace);
-+		        val2s(ptr->type, v4l2_buf_type_val_def).c_str(),
-+		        ptr->index, fd_retrace);
- 		perror("VIDIOC_QBUF");
- 		debug_line_info();
- 		print_context();
-@@ -395,7 +397,8 @@ void retrace_vidioc_dqbuf(int fd_retrace, json_object *ioctl_args_user)
- 
- 	if (is_verbose() || (errno != 0)) {
- 		fprintf(stderr, "%s, index: %d, fd: %d, ",
--		        buftype2s((int) buf->type).c_str(), buf->index, fd_retrace);
-+		        val2s(buf->type, v4l2_buf_type_val_def).c_str(),
-+		        buf->index, fd_retrace);
- 		perror("VIDIOC_DQBUF");
- 		debug_line_info();
- 		print_context();
-@@ -416,7 +419,8 @@ void retrace_vidioc_prepare_buf(int fd_retrace, json_object *ioctl_args_user)
- 
- 	if (is_verbose() || (errno != 0)) {
- 		fprintf(stderr, "%s, index: %d, fd: %d, ",
--		        buftype2s((int) buf->type).c_str(), buf->index, fd_retrace);
-+		        val2s(buf->type, v4l2_buf_type_val_def).c_str(),
-+		        buf->index, fd_retrace);
- 		perror("VIDIOC_PREPARE_BUF");
- 		debug_line_info();
- 		print_context();
-@@ -482,7 +486,7 @@ void retrace_vidioc_streamon(int fd_retrace, json_object *ioctl_args)
- 	ioctl(fd_retrace, VIDIOC_STREAMON, &buf_type);
- 
- 	if (is_verbose() || (errno != 0)) {
--		fprintf(stderr, "%s, ", buftype2s(buf_type).c_str());
-+		fprintf(stderr, "%s, ", val2s(buf_type, v4l2_buf_type_val_def).c_str());
- 		perror("VIDIOC_STREAMON");
- 	}
- }
-@@ -497,7 +501,7 @@ void retrace_vidioc_streamoff(int fd_retrace, json_object *ioctl_args)
- 	ioctl(fd_retrace, VIDIOC_STREAMOFF, &buf_type);
- 
- 	if (is_verbose() || (errno != 0)) {
--		fprintf(stderr, "%s, ", buftype2s(buf_type).c_str());
-+		fprintf(stderr, "%s, ", val2s(buf_type, v4l2_buf_type_val_def).c_str());
- 		perror("VIDIOC_STREAMOFF");
- 	}
- }
-@@ -1451,7 +1455,8 @@ void retrace_mem(json_object *mem_obj)
- 		write_to_output_buffer(buffer_pointer, bytesused, mem_obj);
- 
- 	debug_line_info("\n\t%s, bytesused: %d, offset: %d, addr: %ld",
--	                buftype2s(type).c_str(), bytesused, offset, buffer_address_retrace);
-+			val2s(type, v4l2_buf_type_val_def).c_str(),
-+			bytesused, offset, buffer_address_retrace);
- 	print_context();
- }
- 
+diff --git a/utils/v4l2-tracer/retrace.h b/utils/v4l2-tracer/retrace.h
+index 01157336..87a0417e 100644
+--- a/utils/v4l2-tracer/retrace.h
++++ b/utils/v4l2-tracer/retrace.h
+@@ -30,7 +30,7 @@ int retrace(std::string trace_filename);
+ bool buffer_in_retrace_context(int fd, __u32 offset = 0);
+ int get_buffer_fd_retrace(__u32 type, __u32 index);
+ void add_buffer_retrace(int fd, __u32 type, __u32 index, __u32 offset = 0);
+-void remove_buffer_retrace(int fd);
++void remove_buffer_retrace(__u32 type, __u32 index);
+ void set_buffer_address_retrace(int fd, __u32 offset, long address_trace, long address_retrace);
+ long get_retrace_address_from_trace_address(long address_trace);
+ void add_fd(int fd_trace, int fd_retrace);
 diff --git a/utils/v4l2-tracer/trace-helper.cpp b/utils/v4l2-tracer/trace-helper.cpp
-index e5094b67..a1e83a44 100644
+index a1e83a44..b6336313 100644
 --- a/utils/v4l2-tracer/trace-helper.cpp
 +++ b/utils/v4l2-tracer/trace-helper.cpp
-@@ -228,7 +228,7 @@ void print_buffers_trace(void)
- 		return;
- 	for (auto &b : ctx_trace.buffers) {
- 		fprintf(stderr, "fd: %d, %s, index: %d, display_order: %ld, bytesused: %d, ",
--		        b.fd, buftype2s(b.type).c_str(), b.index, b.display_order, b.bytesused);
-+		        b.fd, val2s(b.type, v4l2_buf_type_val_def).c_str(), b.index, b.display_order, b.bytesused);
- 		fprintf(stderr, "address: %lu, offset: %u \n",  b.address, b.offset);
- 	}
+@@ -85,10 +85,10 @@ void add_buffer_trace(int fd, __u32 type, __u32 index, __u32 offset = 0)
+ 	ctx_trace.buffers.push_front(buf);
  }
-@@ -320,7 +320,7 @@ void s_ext_ctrls_setup(struct v4l2_ext_controls *ext_controls)
  
- void qbuf_setup(struct v4l2_buffer *buf)
+-void remove_buffer_trace(int fd)
++void remove_buffer_trace(__u32 type, __u32 index)
  {
--	debug_line_info("\n\t%s, index: %d", buftype2s((int) buf->type).c_str(), buf->index);
-+	debug_line_info("\n\t%s, index: %d", val2s(buf->type, v4l2_buf_type_val_def).c_str(), buf->index);
+ 	for (auto it = ctx_trace.buffers.begin(); it != ctx_trace.buffers.end(); ++it) {
+-		if (it->fd == fd) {
++		if ((it->type == type) && (it->index == index)) {
+ 			ctx_trace.buffers.erase(it);
+ 			break;
+ 		}
+@@ -420,7 +420,7 @@ void expbuf_setup(struct v4l2_exportbuffer *export_buffer)
+ 	 * file descriptor, replace the video fd with the more specific buffer fd from EXPBUF.
+ 	 */
+ 	if (fd_found_in_trace_context != 0)
+-		remove_buffer_trace(fd_found_in_trace_context);
++		remove_buffer_trace(type, index);
  
- 	int buf_fd = get_buffer_fd_trace(buf->type, buf->index);
- 	__u32 buf_offset = get_buffer_offset_trace(buf->type, buf->index);
-@@ -361,7 +361,7 @@ void streamoff_cleanup(v4l2_buf_type buf_type)
- {
- 	debug_line_info();
- 	if (is_verbose() || (getenv("V4L2_TRACER_OPTION_WRITE_DECODED_TO_YUV_FILE") != nullptr)) {
--		fprintf(stderr, "VIDIOC_STREAMOFF: %s\n", buftype2s(buf_type).c_str());
-+		fprintf(stderr, "VIDIOC_STREAMOFF: %s\n", val2s(buf_type, v4l2_buf_type_val_def).c_str());
- 		fprintf(stderr, "%s, %s %s, width: %d, height: %d\n",
- 		        val2s(ctx_trace.compression_format, v4l2_pix_fmt_val_def).c_str(),
- 		        val2s(ctx_trace.pixelformat, v4l2_pix_fmt_val_def).c_str(),
-diff --git a/utils/v4l2-tracer/trace.cpp b/utils/v4l2-tracer/trace.cpp
-index 0e8531ff..f81f68d1 100644
---- a/utils/v4l2-tracer/trace.cpp
-+++ b/utils/v4l2-tracer/trace.cpp
-@@ -181,8 +181,8 @@ void trace_mem_decoded(void)
- 			 */
- 			if (it->bytesused < expected_length)
- 				break;
--			debug_line_info("\n\tDisplaying: %ld, %s, index: %d",
--			                it->display_order, buftype2s(it->type).c_str(), it->index);
-+			debug_line_info("\n\tDisplaying: %ld, %s, index: %d", it->display_order,
-+					val2s(it->type, v4l2_buf_type_val_def).c_str(), it->index);
- 			displayed_count++;
- 
- 			if (getenv("V4L2_TRACER_OPTION_WRITE_DECODED_TO_YUV_FILE") != nullptr) {
+ 	add_buffer_trace(export_buffer->fd, type, index);
+ }
 -- 
 2.41.0
 
