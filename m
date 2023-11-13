@@ -1,258 +1,159 @@
-Return-Path: <linux-media+bounces-209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-210-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35CA17E9A48
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:29:20 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 31C3E7E9A77
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 11:42:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4FBCC1C20856
-	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 10:29:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5DD461C208CC
+	for <lists+linux-media@lfdr.de>; Mon, 13 Nov 2023 10:42:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0173A1CA88;
-	Mon, 13 Nov 2023 10:29:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6DEA518625;
+	Mon, 13 Nov 2023 10:41:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TW0ukwcs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58FD41C695
-	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 10:29:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F0A9C433C8;
-	Mon, 13 Nov 2023 10:29:10 +0000 (UTC)
-Message-ID: <4cd6b593-2376-4cbc-a7c8-d3eb36a2f7a0@xs4all.nl>
-Date: Mon, 13 Nov 2023 11:29:09 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C79156FA
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 10:41:57 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.100])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07CDD10CB
+	for <linux-media@vger.kernel.org>; Mon, 13 Nov 2023 02:41:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1699872116; x=1731408116;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=9WJVaORU5xaI5p8R/xPVvUAnn7UkKi/fGZnF54Du/5E=;
+  b=TW0ukwcsjAnsWF/pViMD1hbctgrYBCNVsTX2S2B2Osit/R+BJ4k9i0xx
+   hr0ur0YjIyhWPB3TZz1uwKEsieHeR2e/Q4AfwBaz7jVRAzb3om3sU/gTx
+   KZ+XH2yazeOC9fkDsc/j3z2aWogu+ZWV+njHAJ/BPqyAYVZGUpGNJTH5D
+   LX6FpewjtR+VMd5eHvUWXwuoHnmZtY+gwyDc1nwdTbAHta5w0r9ycAdl0
+   hR8z28HpCUbuvy5fa3mU6oQMFY2ZzyZNUOCpo1RGKAm2QDfVWuUh5rxTb
+   ihhMyBNzmDQofv4pFFA1bORLOPOODSh9yY4XyJh5Iq+M0scp2mv5kMnDf
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10892"; a="456905812"
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="456905812"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Nov 2023 02:41:55 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.03,299,1694761200"; 
+   d="scan'208";a="12071592"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.165]) ([10.238.232.165])
+  by orviesa001.jf.intel.com with ESMTP; 13 Nov 2023 02:41:52 -0800
+Subject: Re: [PATCH v2 00/15] Intel IPU6 and IPU6 input system drivers
+To: Hans de Goede <hdegoede@redhat.com>, bingbu.cao@intel.com,
+ linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
+ laurent.pinchart@ideasonboard.com,
+ "Martti Groenen (19174837)" <M.Groenen@student.hhs.nl>
+Cc: andriy.shevchenko@linux.intel.com, ilpo.jarvinen@linux.intel.com,
+ andreaskleist@gmail.com, claus.stovgaard@gmail.com, tfiga@chromium.org,
+ senozhatsky@chromium.org, tomi.valkeinen@ideasonboard.com,
+ tian.shu.qiu@intel.com, hongju.wang@intel.com
+References: <20231024112924.3934228-1-bingbu.cao@intel.com>
+ <e1b060be-793f-4482-b0dc-670984bbbd84@hansg.org>
+ <7a636512-91ab-4f97-8bd0-e24ebc528ecf@redhat.com>
+From: Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <15e5202a-8887-ca95-280f-84a922372f08@linux.intel.com>
+Date: Mon, 13 Nov 2023 18:37:09 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 10/15] media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
-Content-Language: en-US, nl
-To: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
- tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
- nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
- perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
- linuxppc-dev@lists.ozlabs.org
-References: <1699595289-25773-1-git-send-email-shengjiu.wang@nxp.com>
- <1699595289-25773-11-git-send-email-shengjiu.wang@nxp.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <1699595289-25773-11-git-send-email-shengjiu.wang@nxp.com>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <7a636512-91ab-4f97-8bd0-e24ebc528ecf@redhat.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 
-Hi Shengjiu,
+Hans,
 
-On 10/11/2023 06:48, Shengjiu Wang wrote:
-> Fixed point controls are used by the user to configure
-> a fixed point value in 64bits, which Q31.32 format.
+On 11/10/23 8:04 PM, Hans de Goede wrote:
+> Hi,
 > 
-> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-
-This patch adds a new control type. This is something that also needs to be
-tested by v4l2-compliance, and for that we need to add support for this to
-one of the media test-drivers. The best place for that is the vivid driver,
-since that has already a bunch of test controls for other control types.
-
-See e.g. VIVID_CID_INTEGER64 in vivid-ctrls.c.
-
-Can you add a patch adding a fixed point test control to vivid?
-
-Thanks!
-
-	Hans
-
-> ---
->  .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst  | 13 +++++++------
->  .../userspace-api/media/v4l/vidioc-queryctrl.rst    |  9 ++++++++-
->  .../userspace-api/media/videodev2.h.rst.exceptions  |  1 +
->  drivers/media/v4l2-core/v4l2-ctrls-api.c            |  5 ++++-
->  drivers/media/v4l2-core/v4l2-ctrls-core.c           |  2 ++
->  include/uapi/linux/videodev2.h                      |  1 +
->  6 files changed, 23 insertions(+), 8 deletions(-)
+> On 11/8/23 12:59, Hans de Goede wrote:
+>> Hi Bingbu,
+>>
+>> On 10/24/23 13:29, bingbu.cao@intel.com wrote:
+>>> From: Bingbu Cao <bingbu.cao@intel.com>
+>>>
+>>> This patch series adds a driver for Intel IPU6 input system.
+>>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
+>>> device which can be found in some Intel Client Platforms. User can use
+>>> IPU6 to capture images from MIPI camera sensors.
+>>>
+>>> IPU6 has its own firmware which exposes ABIs to driver, and communicates
+>>> with CSE to do firmware authentication. IPU6 has its MMU hardware, so
+>>> the driver sets up a page table to allow IPU6 DMA to access the system
+>>> memory.
+>>>
+>>> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
+>>
+>> I have been testing this on a TigerLake system, a Dell Latitude 9420
+>> with ov01a1s and the packed 10 bit bayer pixel fmt: V4L2_PIX_FMT_SGRBG10P,
+>> which libcamera together with (WIP) software debayer support picks
+>> by default does not work. There are many many CSI errors in dmesg
+>> and only the first 10 or so lines of the image show.
+>>
+>> Disabling the packed format by removing it from ipu6_isys_pfmts[],
+>> making libcamera pick the unpacked (every 10 bits per pixel data
+>> stored in a 16 bit word in output buffer) fixes this.
+>>
+>> Are the packed bayer formats supposed to work on Tiger Lake, or
+>> is this a known issue which Intel's own userspace stack avoids
+>> by always picking the unpacked format ?
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> index e8475f9fd2cf..e7e5d78dc11e 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> @@ -162,13 +162,13 @@ still cause this situation.
->      * - __s32
->        - ``value``
->        - New value or current value. Valid if this control is not of type
-> -	``V4L2_CTRL_TYPE_INTEGER64`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is
-> -	not set.
-> +	``V4L2_CTRL_TYPE_INTEGER64``, ``V4L2_CTRL_TYPE_FIXED_POINT`` and
-> +	``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is not set.
->      * - __s64
->        - ``value64``
->        - New value or current value. Valid if this control is of type
-> -	``V4L2_CTRL_TYPE_INTEGER64`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is
-> -	not set.
-> +	``V4L2_CTRL_TYPE_INTEGER64``, ``V4L2_CTRL_TYPE_FIXED_POINT`` and
-> +	``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is not set.
->      * - char *
->        - ``string``
->        - A pointer to a string. Valid if this control is of type
-> @@ -193,8 +193,9 @@ still cause this situation.
->      * - __s64 *
->        - ``p_s64``
->        - A pointer to a matrix control of signed 64-bit values. Valid if
-> -        this control is of type ``V4L2_CTRL_TYPE_INTEGER64`` and
-> -        ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is set.
-> +        this control is of type ``V4L2_CTRL_TYPE_INTEGER64``,
-> +        ``V4L2_CTRL_TYPE_FIXED_POINT`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD``
-> +        is set.
->      * - struct :c:type:`v4l2_area` *
->        - ``p_area``
->        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> index 4d38acafe8e1..f3995ec57044 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-> @@ -235,7 +235,8 @@ See also the examples in :ref:`control`.
->        - ``default_value``
->        - The default value of a ``V4L2_CTRL_TYPE_INTEGER``, ``_INTEGER64``,
->  	``_BOOLEAN``, ``_BITMASK``, ``_MENU``, ``_INTEGER_MENU``, ``_U8``
-> -	or ``_U16`` control. Not valid for other types of controls.
-> +	``_FIXED_POINT`` or ``_U16`` control. Not valid for other types of
-> +	controls.
->  
->  	.. note::
->  
-> @@ -549,6 +550,12 @@ See also the examples in :ref:`control`.
->        - n/a
->        - A struct :c:type:`v4l2_ctrl_av1_film_grain`, containing AV1 Film Grain
->          parameters for stateless video decoders.
-> +    * - ``V4L2_CTRL_TYPE_FIXED_POINT``
-> +      - any
-> +      - any
-> +      - any
-> +      - A 64-bit integer valued control, containing parameter which is
-> +        Q31.32 format.
->  
->  .. raw:: latex
->  
-> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> index e61152bb80d1..2faa5a2015eb 100644
-> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
-> @@ -167,6 +167,7 @@ replace symbol V4L2_CTRL_TYPE_AV1_SEQUENCE :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_AV1_FRAME :c:type:`v4l2_ctrl_type`
->  replace symbol V4L2_CTRL_TYPE_AV1_FILM_GRAIN :c:type:`v4l2_ctrl_type`
-> +replace symbol V4L2_CTRL_TYPE_FIXED_POINT :c:type:`v4l2_ctrl_type`
->  
->  # V4L2 capability defines
->  replace define V4L2_CAP_VIDEO_CAPTURE device-capabilities
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> index 002ea6588edf..e6a0fb8d6791 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> @@ -57,6 +57,7 @@ static int ptr_to_user(struct v4l2_ext_control *c,
->  		return copy_to_user(c->string, ptr.p_char, len + 1) ?
->  		       -EFAULT : 0;
->  	case V4L2_CTRL_TYPE_INTEGER64:
-> +	case V4L2_CTRL_TYPE_FIXED_POINT:
->  		c->value64 = *ptr.p_s64;
->  		break;
->  	default:
-> @@ -132,6 +133,7 @@ static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
->  
->  	switch (ctrl->type) {
->  	case V4L2_CTRL_TYPE_INTEGER64:
-> +	case V4L2_CTRL_TYPE_FIXED_POINT:
->  		*ctrl->p_new.p_s64 = c->value64;
->  		break;
->  	case V4L2_CTRL_TYPE_STRING:
-> @@ -540,7 +542,8 @@ static int validate_ctrls(struct v4l2_ext_controls *cs,
->  		 */
->  		if (ctrl->is_ptr)
->  			continue;
-> -		if (ctrl->type == V4L2_CTRL_TYPE_INTEGER64)
-> +		if (ctrl->type == V4L2_CTRL_TYPE_INTEGER64 ||
-> +		    ctrl->type == V4L2_CTRL_TYPE_FIXED_POINT)
->  			p_new.p_s64 = &cs->controls[i].value64;
->  		else
->  			p_new.p_s32 = &cs->controls[i].value;
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index a662fb60f73f..9d50df0d9874 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -1187,6 +1187,7 @@ static int std_validate_elem(const struct v4l2_ctrl *ctrl, u32 idx,
->  	case V4L2_CTRL_TYPE_INTEGER:
->  		return ROUND_TO_RANGE(ptr.p_s32[idx], u32, ctrl);
->  	case V4L2_CTRL_TYPE_INTEGER64:
-> +	case V4L2_CTRL_TYPE_FIXED_POINT:
->  		/*
->  		 * We can't use the ROUND_TO_RANGE define here due to
->  		 * the u64 divide that needs special care.
-> @@ -1779,6 +1780,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->  	/* Prefill elem_size for all types handled by std_type_ops */
->  	switch ((u32)type) {
->  	case V4L2_CTRL_TYPE_INTEGER64:
-> +	case V4L2_CTRL_TYPE_FIXED_POINT:
->  		elem_size = sizeof(s64);
->  		break;
->  	case V4L2_CTRL_TYPE_STRING:
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index cf8c44595a1d..9482ac66a675 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -1903,6 +1903,7 @@ enum v4l2_ctrl_type {
->  	V4L2_CTRL_TYPE_STRING        = 7,
->  	V4L2_CTRL_TYPE_BITMASK       = 8,
->  	V4L2_CTRL_TYPE_INTEGER_MENU  = 9,
-> +	V4L2_CTRL_TYPE_FIXED_POINT   = 10,
->  
->  	/* Compound types are >= 0x0100 */
->  	V4L2_CTRL_COMPOUND_TYPES     = 0x0100,
+> Bingbu, so we've been trying to get software debayering to work
+> on the Dell Latitude 9420 with ov01a1s and I have just learned
+> that this sensor has a non standard bayer grid.
+> 
+> https://github.com/intel/ipu6-camera-hal/blob/9fa05a90886d399ad3dda4c2ddc990642b3d20c9/config/linux/ipu6/gcss/graph_settings_ov01a1s.xml#L17
+> 
+> bayer_order="GRGB_IGIG_GBGR_IGIG"
 
+The IR is not enabled in Linux camera stack yet if I remember correctly.
+Current IPU6 processing system have a single hardware block extract the RGB
+and IR separately - "rgb_ir_2_0" in xml.
+
+> 
+> I'm wondering how to interpret these 4 pixel orders? For the OV2740
+> this just says:
+> 
+> bayer_order="GRBG"
+> 
+> and this single quartet of letters describes a 2x2 block like this:
+> 
+> GR
+> BG
+> 
+> but now there are 4 quartets so how to interpret this,
+> I guess this is the correct way to interpret this? :
+> 
+> GRGB
+> IGIG
+> GBGR
+> IGIG
+
+I have no idea how to interpret the output of ov01a1s. Maybe you can
+try to zero(bypass) the IR data and interpret as SGRBG10.
+
+> 
+> Regards,
+> 
+> Hans
+> 
+> 
+> 
+
+-- 
+Best regards,
+Bingbu Cao
 
