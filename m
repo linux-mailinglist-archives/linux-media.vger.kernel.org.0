@@ -1,103 +1,165 @@
-Return-Path: <linux-media+bounces-343-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-344-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB8837EB5D3
-	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 18:51:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62E9E7EB662
+	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 19:29:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 828272812AA
-	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 17:51:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C23E7B20BFB
+	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 18:29:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ECA792C1AC;
-	Tue, 14 Nov 2023 17:51:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5766933CD3;
+	Tue, 14 Nov 2023 18:28:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NrpZd3j9"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JAx9rUFR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F7EF2C1A6;
-	Tue, 14 Nov 2023 17:51:44 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 615D9C433C8;
-	Tue, 14 Nov 2023 17:51:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1699984304;
-	bh=yRDLT5Yi6ct/vSUupMEEcgTF3wh2mnRCifA6GnyLQVg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NrpZd3j93jKjzVG+3VfWZJI+ZTeh9iL90bWq6VCOjfDbeQ4oRua+IbXJV06v4+wcL
-	 DNGe8XaxXV50P/xW3xQoSDgyzaPiVkbi11U+Rbjypsb9yCcsVE0iVWpFcwcEn3K17Q
-	 iVSveXYXP4PwozGFsXBM4ov0stfJ/O/mhdYuUNjc8vTxmlBySInvATm2tXQWfn8X4S
-	 pAhNEQN+Zumop5wy1OJm6KgPCPeAqAWN/in61ehdqM9WTBQuVJyTVotAFffsAoCSZX
-	 Bnrp2wla4ZcODnauBSiN1fhVLnLFkP49YIC15oOB0PSm5S2fOaNgrPh+iZu3XcE4om
-	 UaV6QVHdSLbuA==
-Date: Tue, 14 Nov 2023 17:51:41 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-	heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	conor+dt@kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-	maxime.chevallier@bootlin.com, michael.riesch@wolfvision.net
-Subject: Re: [PATCH v10 1/3] media: dt-bindings: media: add bindings for
- Rockchip CIF
-Message-ID: <20231114-abnormal-uncross-dcebea2e82ae@squawk>
-References: <cover.1699460637.git.mehdi.djait@bootlin.com>
- <037bcabf97294d37b271537e4b11fb88cf9bb6f6.1699460637.git.mehdi.djait@bootlin.com>
- <20231109-closable-superglue-5e7f39739cf1@spud>
- <ZU0avuRRaITV4jws@aptenodytes>
- <e5b1f0dd-0aab-4ce5-82ba-879a4d736e7e@linaro.org>
- <ZU0f33clFwlsTw16@aptenodytes>
- <20231110-appetizer-fame-2152806c7442@roley>
- <ZVJUsDb1mPVtcjdX@aptenodytes>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2321333CC0
+	for <linux-media@vger.kernel.org>; Tue, 14 Nov 2023 18:28:53 +0000 (UTC)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 833AFB8
+	for <linux-media@vger.kernel.org>; Tue, 14 Nov 2023 10:28:51 -0800 (PST)
+Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5003C9CC;
+	Tue, 14 Nov 2023 19:28:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1699986503;
+	bh=jipdbVN3GeON3HhoZgP4zAmeTRcx+P/5WBaL/pJFSrs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JAx9rUFRsPar9VqkXNFg/IcoaYxIUzcWhQXen8ko/hbDdUMxleBOlhFeL6EfLNGCF
+	 /6vToqLJwUEX6262GW0ElRy+XROSXpcR/UEpq/ZkWyRiKga35eLB2826ugp89BSQS1
+	 FXoDi7V0L80CnQkdUoTJWGTPz971S36V3L9kdcE0=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v2 0/2] media: i2c: Add driver for OmniVision OV64A40
+Date: Tue, 14 Nov 2023 19:28:29 +0100
+Message-ID: <20231114182831.220823-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="8nu08neggqbZ3wuJ"
-Content-Disposition: inline
-In-Reply-To: <ZVJUsDb1mPVtcjdX@aptenodytes>
+Content-Transfer-Encoding: 8bit
+
+Add a v4l2 sensor driver for OmniVision OV64A40
+
+v1->v2:
+* rebased on sailus master
+  * Use new subdev state helpers
+* link frequency support (456MHz, 360MHz)
+* invert vflip bit setting
+* remove 1280x720 mode as it was broken
+* expanded VTS range to 24 bits
+* Reduce max resolution output to 9152x6944. Using full output resolution causes
+  green frames to be produced by the ISP (the raw frames are however correct)
+* reduce max analogue gain to 16x
+
+./utils/v4l2-compliance/v4l2-compliance -d /dev/v4l-subdev0
+v4l2-compliance 1.25.0-5100, 32 bits, 32-bit time_t
+v4l2-compliance SHA: 8bf6cba8c0ef 2023-10-10 12:50:46
+
+Compliance test for device /dev/v4l-subdev0:
+
+Driver Info:
+	Driver version   : 6.2.16
+	Capabilities     : 0x00000000
+
+Required ioctls:
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev0 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 14 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+	test TIME32/64: OK
+
+Total for device /dev/v4l-subdev0: 44, Succeeded: 44, Failed: 0, Warnings: 0
+
+Jacopo Mondi (2):
+  media: dt-bindings: Add OmniVision OV64A40
+  media: i2c: Add driver for OmniVision OV64A40
+
+ .../bindings/media/i2c/ovti,ov64a40.yaml      |   98 +
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ov64a40.c                   | 3646 +++++++++++++++++
+ 5 files changed, 3763 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
+ create mode 100644 drivers/media/i2c/ov64a40.c
 
 
---8nu08neggqbZ3wuJ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+base-commit: 61ab89c1916219ccbeca9f6cefb1680212de8d1c
+--
+2.41.0
 
-On Mon, Nov 13, 2023 at 05:54:08PM +0100, Paul Kocialkowski wrote:
-=20
-> > Ultimately, I don't care what the file ends up being called when there
-> > are multiple devices documented in it. I'd ack a patch renaming to the
-> > =C5=93riginal incarnation of the IP when the documentation for that IP =
-is
-> > added without a second thought.
->=20
-> That would be agreeable to me if my proposal still ends up feeling unreas=
-onable
-> to you. But I might very well take you at your word since I ended up purc=
-hasing
-> a RK3066 board in a moment of weakness last week.
-
-The ideal outcome I suppose would be documenting both variants. If
-you've gone ahead and bought one, give that a go.
-
---8nu08neggqbZ3wuJ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEARYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZVOzqgAKCRB4tDGHoIJi
-0jjfAQC4F8CNyB9+LVpLdQCs9w3PBuWgDLgZBTAMXWWl7n3p3wD/b2562YZymf5L
-Y9gGBaPMp5CO1wvwe7CR7zZ78eEpAAI=
-=u3yf
------END PGP SIGNATURE-----
-
---8nu08neggqbZ3wuJ--
 
