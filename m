@@ -1,107 +1,138 @@
-Return-Path: <linux-media+bounces-336-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-337-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 078DC7EB211
-	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 15:26:43 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B41077EB2A0
+	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 15:41:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0D881F24EEB
-	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 14:26:42 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F1BC6B20BCF
+	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 14:41:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B09B34122F;
-	Tue, 14 Nov 2023 14:26:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97F0E41743;
+	Tue, 14 Nov 2023 14:41:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="TQsXN7L1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08D3405DB;
-	Tue, 14 Nov 2023 14:26:33 +0000 (UTC)
-Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99BABBB;
-	Tue, 14 Nov 2023 06:26:32 -0800 (PST)
-Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-589d6647c6cso2539838eaf.2;
-        Tue, 14 Nov 2023 06:26:32 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1699971992; x=1700576792;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Wbhg0BPBXIMXV/utzPc3dgXX4yVOfDOcoxaMEBqYSQU=;
-        b=jqCTJnEz1KuebasQ5CXnMFkKj94nIJ95AVdMlf/B0Q9GmeLKbaEFdypY75gBdjzJSh
-         diK/698eWDEMG80z82zkMUoOvQm4LMn/xo8h2izT0aZQCng2ApMdXfvyOdWUnCAvd5x8
-         KUzn8rvz9VVVb0plnscWHp4wmoW/lY6HMqku5IA0Awcmq1J+h2kdQwsypTRiH3kuFwpv
-         A7xVHIyMOlDc4Cs1VxxaqW4IwXDiIJH8Z1XEKakG7BZI14n2ETrC+/JtskpRQPYJ1RDl
-         17LCMHZ91pFMg+v3Md8Rscr1DjD6rmk5YFpyu7oX/vV8iHaYOBkQZ3LsnLc71Bak9usU
-         1fwA==
-X-Gm-Message-State: AOJu0YwNKBhvXdaIuEyDZcLjvfWFukMUGAHRmgau5gKI8AOO97Q86eHE
-	bTJstzXUltcKRUk5LwvhTp8kCG/9Dw==
-X-Google-Smtp-Source: AGHT+IE517eoCvtFdUcomMYLUYPuuU933NHOiNNabpUdzmxOfzf9ICKde+iqWcic42bRdEYddt76Eg==
-X-Received: by 2002:a4a:621c:0:b0:57b:de27:28ed with SMTP id x28-20020a4a621c000000b0057bde2728edmr8486285ooc.6.1699971991821;
-        Tue, 14 Nov 2023 06:26:31 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id p68-20020a4a4847000000b0058a42b24dfdsm265176ooa.23.2023.11.14.06.26.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Nov 2023 06:26:31 -0800 (PST)
-Received: (nullmailer pid 1700938 invoked by uid 1000);
-	Tue, 14 Nov 2023 14:26:30 -0000
-Date: Tue, 14 Nov 2023 08:26:30 -0600
-From: Rob Herring <robh@kernel.org>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, Paul Elder <paul.elder@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Julien Stephan <jstephan@baylibre.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Matthias Brugger <matthias.bgg@gmail.com>
-Subject: Re: [PATCH v6 1/3] dt-bindings: media: Add bindings for THine
- THP7312 ISP
-Message-ID: <169997198956.1700885.10242516873039673598.robh@kernel.org>
-References: <20231112004544.24877-1-laurent.pinchart@ideasonboard.com>
- <20231112004544.24877-2-laurent.pinchart@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E4388F43
+	for <linux-media@vger.kernel.org>; Tue, 14 Nov 2023 14:41:09 +0000 (UTC)
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 014ED1A5;
+	Tue, 14 Nov 2023 06:41:06 -0800 (PST)
+Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AEEeLYo032438;
+	Tue, 14 Nov 2023 15:40:49 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	selector1; bh=UFmkMOdBwtqRubSgJ1ZELCpM6rhS83undY4oyEx9SLc=; b=TQ
+	sXN7L1HvLdUkivHrkQDz2IOE+hIelaKbF2Rusyxm8EmBrKx3emMrgcirZCVUDjos
+	6/umuvjaEi+bvTGDnC3YOY4ULGR3SvXl95XZ3UqpCHnobzlcM95tob6zrfU/Qv1y
+	tEzW2PC7lt/lNvm3jpbCHaTW25jwPYWqPAom90iWyd0bEtJ/lnB8p9KI3BcA7MPY
+	ab4eDo8n4r42QqXYZCYXaaWVcZ6FvbU5GUh/HZddPVpGnmER36na0I+16Q/BCzd2
+	pL89X1fZ4pB8yHjXQ7tA8qUCoJ99W3MFBZt03KusjedP27IhXDAS2OG2LL1kV7VG
+	nzTrOI79ZweYP2EzIzTA==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3uam249ufg-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 14 Nov 2023 15:40:49 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 853A8100053;
+	Tue, 14 Nov 2023 15:40:47 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 4FE1021860B;
+	Tue, 14 Nov 2023 15:40:47 +0100 (CET)
+Received: from [10.129.166.186] (10.129.166.186) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Tue, 14 Nov
+ 2023 15:40:46 +0100
+Message-ID: <572eb512-6cc6-45a6-acea-fcd4c5af2678@foss.st.com>
+Date: Tue, 14 Nov 2023 15:40:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231112004544.24877-2-laurent.pinchart@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: i2c: st-mipid02: correct format propagation
+Content-Language: en-US
+To: Alain Volmat <alain.volmat@foss.st.com>,
+        Sylvain Petinot
+	<sylvain.petinot@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Sakari Ailus
+	<sakari.ailus@linux.intel.com>,
+        Daniel Scally <dan.scally@ideasonboard.com>
+CC: <stable@vger.kernel.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20231113145731.89796-1-alain.volmat@foss.st.com>
+From: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+In-Reply-To: <20231113145731.89796-1-alain.volmat@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.129.166.186]
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-14_14,2023-11-09_01,2023-05-22_02
 
+Hello Alain,
 
-On Sun, 12 Nov 2023 02:45:42 +0200, Laurent Pinchart wrote:
-> From: Paul Elder <paul.elder@ideasonboard.com>
+Thanks a lot !
+
+On 11/13/23 15:57, Alain Volmat wrote:
+> Use a copy of the struct v4l2_subdev_format when propagating
+> format from the sink to source pad in order to avoid impacting the
+> sink format returned to the application.
 > 
-> The THP7312 is an external ISP from THine. Add DT bindings for it.
-> 
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> Thanks to Jacopo Mondi for pointing the issue.
+
+Reviewed-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+
+> Fixes: 6c01e6f3f27b ("media: st-mipid02: Propagate format from sink to source pad")
+> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> Cc: stable@vger.kernel.org
 > ---
-> Changes since v5:
+>  drivers/media/i2c/st-mipid02.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 > 
-> - Make relative schema path absolute
-> - Add missing $ in pattern properties
-> - Set maximum value for sensor node's reg property
-> - Drop support for sensor regulators
-> - Add Laurent Pinchart as co-maintainer
-> 
-> Changes since v4:
-> 
-> - Add bus-type property
-> 
-> Changes since v2:
-> 
-> - Drop description of reg property
-> - Improve thine,boot-mode property documentation
-> - Making thine,boot-mode property optional
-> - Don't use underscores in supplies names
-> ---
->  .../bindings/media/i2c/thine,thp7312.yaml     | 224 ++++++++++++++++++
->  MAINTAINERS                                   |   8 +
->  2 files changed, 232 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
-> 
+> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
+> index fa27638edc07..dab14787116b 100644
+> --- a/drivers/media/i2c/st-mipid02.c
+> +++ b/drivers/media/i2c/st-mipid02.c
+> @@ -770,6 +770,7 @@ static void mipid02_set_fmt_sink(struct v4l2_subdev *sd,
+>  				 struct v4l2_subdev_format *format)
+>  {
+>  	struct mipid02_dev *bridge = to_mipid02_dev(sd);
+> +	struct v4l2_subdev_format source_fmt;
+>  	struct v4l2_mbus_framefmt *fmt;
+>  
+>  	format->format.code = get_fmt_code(format->format.code);
+> @@ -781,8 +782,12 @@ static void mipid02_set_fmt_sink(struct v4l2_subdev *sd,
+>  
+>  	*fmt = format->format;
+>  
+> -	/* Propagate the format change to the source pad */
+> -	mipid02_set_fmt_source(sd, sd_state, format);
+> +	/*
+> +	 * Propagate the format change to the source pad, taking
+> +	 * care not to update the format pointer given back to user
+> +	 */
+> +	source_fmt = *format;
+> +	mipid02_set_fmt_source(sd, sd_state, &source_fmt);
+>  }
+>  
+>  static int mipid02_set_fmt(struct v4l2_subdev *sd,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+-- 
+Regards,
 
+Benjamin
 
