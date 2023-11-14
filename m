@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-323-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 290497EACF7
-	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 10:25:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05A4F7EACF8
+	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 10:25:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D556E280D21
-	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 09:25:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2724A1C2089A
+	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 09:25:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFD9F1803D;
-	Tue, 14 Nov 2023 09:25:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDD39182CB;
+	Tue, 14 Nov 2023 09:25:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NufK8xqD"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AbuM/jeQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2EEB168C3
-	for <linux-media@vger.kernel.org>; Tue, 14 Nov 2023 09:25:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D415168D0
+	for <linux-media@vger.kernel.org>; Tue, 14 Nov 2023 09:25:20 +0000 (UTC)
 Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A8B1134
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2F7C136
 	for <linux-media@vger.kernel.org>; Tue, 14 Nov 2023 01:25:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
   t=1699953918; x=1731489918;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=xycAisPFI+PHwHHMOTHkXIKypDQu2/iXZgctF8Ww9s8=;
-  b=NufK8xqDNzNeyQntBezxvMotfcVEbqRLrx3QDcdbZIXjXx0KHM4MK5Ac
-   /f/7yolA11pgtBC1VmDRns/e0eMBr93YVsP58YQwAOWJqrd9fsJXQO1zD
-   rJ+LoamhV0PF/2QJgCJUxGtpPXT2SnaNdDoUOf1wlJ/DjE/JHbbq66y/l
-   CYPsoxAP3dQHQvTMSqrCLKtzRggn1ubnELra3HZLONqQ/QKZSq0ML5uRy
-   qQiTsOWHkOHgGqX3Om78Je1IMmu7QYZaXkdlwJUmp2B8k90l7X1s+YINQ
-   rfZewYlda+OKL9OwKNFTCBe/glmNQqXQV7rx+dPJIhesqbmH4i6iDVRvs
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="387781680"
+  bh=DwXcVJYZlatI7OnxCDpCSgfB4PFPDOs+YojIFba/Vf0=;
+  b=AbuM/jeQ0DqiXkx6U8aVaAzGaPR3obdauuZvsD6Vuvh/aTFl+YWaWoTP
+   Hg+r5a8OZ6Sw8P2Sqa9Ay2GWRLZ6lkpV8fNLmVuQCzZ+LzqlG15dg/XaS
+   3BRT4eO+B/n39VhIBtcbfg+ngCUMDh+BAysuP/xIYKqBJR9my8GY0kUut
+   EGPzQazXiaeqyaYxiqrLzYw3d9N+8APYeksKqkyeLABAieTK2dbiX6eFG
+   GiT2fHDWUv8f9IzASoDjdYLWP0UMcBiLzM3wxcacFH7K6mncXfX/w/ml5
+   b/9ROO3fr6GtKseY0/qINrpnktM+5OiGXJrh0MFuLyfHrpLXHLanj8ozl
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="387781692"
 X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
-   d="scan'208";a="387781680"
+   d="scan'208";a="387781692"
 Received: from orsmga005.jf.intel.com ([10.7.209.41])
   by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 01:25:17 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="938015857"
+X-IronPort-AV: E=McAfee;i="6600,9927,10893"; a="938015858"
 X-IronPort-AV: E=Sophos;i="6.03,301,1694761200"; 
-   d="scan'208";a="938015857"
+   d="scan'208";a="938015858"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Nov 2023 01:25:16 -0800
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 4C56011F950;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 094FA11FAC0;
 	Tue, 14 Nov 2023 11:25:13 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com,
 	hdegoede@redhat.com
-Subject: [PATCH v4 3/6] media: v4l: cci: Add macros to obtain register width and address
-Date: Tue, 14 Nov 2023 11:25:07 +0200
-Message-Id: <20231114092510.1443545-4-sakari.ailus@linux.intel.com>
+Subject: [PATCH v4 4/6] media: ccs: Generate V4L2 CCI compliant register definitions
+Date: Tue, 14 Nov 2023 11:25:08 +0200
+Message-Id: <20231114092510.1443545-5-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231114092510.1443545-1-sakari.ailus@linux.intel.com>
 References: <20231114092510.1443545-1-sakari.ailus@linux.intel.com>
@@ -68,69 +68,196 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add CCI_REG_WIDTH() macro to obtain register width in bits and similarly,
-CCI_REG_WIDTH_BYTES() to obtain it in bytes.
-
-Also add CCI_REG_ADDR() macro to obtain the address of a register.
-
-Use both macros in v4l2-cci.c, too.
+Generate register definitions that are fit for use with V4L2 CCI.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Hans de Goede <hdegoede@redhat.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/v4l2-core/v4l2-cci.c | 8 ++++----
- include/media/v4l2-cci.h           | 5 +++++
- 2 files changed, 9 insertions(+), 4 deletions(-)
+ .../driver-api/media/drivers/ccs/mk-ccs-regs  | 104 +++++++++++++-----
+ 1 file changed, 75 insertions(+), 29 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-cci.c b/drivers/media/v4l2-core/v4l2-cci.c
-index bc2dbec019b0..3179160abde3 100644
---- a/drivers/media/v4l2-core/v4l2-cci.c
-+++ b/drivers/media/v4l2-core/v4l2-cci.c
-@@ -25,8 +25,8 @@ int cci_read(struct regmap *map, u32 reg, u64 *val, int *err)
- 	if (err && *err)
- 		return *err;
+diff --git a/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs b/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs
+index 2a4edc7e051a..3d3152b45821 100755
+--- a/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs
++++ b/Documentation/driver-api/media/drivers/ccs/mk-ccs-regs
+@@ -82,14 +82,6 @@ for my $fh ($H, $LH) {
+ 	print $fh "/* $license */\n$copyright$note\n";
+ }
  
--	len = FIELD_GET(CCI_REG_WIDTH_MASK, reg);
--	reg = FIELD_GET(CCI_REG_ADDR_MASK, reg);
-+	len = CCI_REG_WIDTH_BYTES(reg);
-+	reg = CCI_REG_ADDR(reg);
+-sub bit_def($) {
+-	my $bit = shift @_;
+-
+-	return "BIT($bit)" if defined $kernel;
+-	return "(1U << $bit)" if $bit =~ /^[a-zA-Z0-9_]+$/;
+-	return "(1U << ($bit))";
+-}
+-
+ print $H <<EOF
+ #ifndef __${uc_header}__
+ #define __${uc_header}__
+@@ -97,23 +89,63 @@ print $H <<EOF
+ EOF
+   ;
  
- 	ret = regmap_bulk_read(map, reg, buf, len);
- 	if (ret) {
-@@ -75,8 +75,8 @@ int cci_write(struct regmap *map, u32 reg, u64 val, int *err)
- 	if (err && *err)
- 		return *err;
- 
--	len = FIELD_GET(CCI_REG_WIDTH_MASK, reg);
--	reg = FIELD_GET(CCI_REG_ADDR_MASK, reg);
-+	len = CCI_REG_WIDTH_BYTES(reg);
-+	reg = CCI_REG_ADDR(reg);
- 
- 	switch (len) {
- 	case 1:
-diff --git a/include/media/v4l2-cci.h b/include/media/v4l2-cci.h
-index ee469f03e440..406772a4e32e 100644
---- a/include/media/v4l2-cci.h
-+++ b/include/media/v4l2-cci.h
-@@ -7,6 +7,7 @@
- #ifndef _V4L2_CCI_H
- #define _V4L2_CCI_H
- 
-+#include <linux/bitfield.h>
- #include <linux/bits.h>
- #include <linux/types.h>
- 
-@@ -39,6 +40,10 @@ struct cci_reg_sequence {
- #define CCI_REG_PRIVATE_SHIFT		28U
- #define CCI_REG_PRIVATE_MASK		GENMASK(31U, CCI_REG_PRIVATE_SHIFT)
- 
-+#define CCI_REG_WIDTH_BYTES(x)		FIELD_GET(CCI_REG_WIDTH_MASK, x)
-+#define CCI_REG_WIDTH(x)		(CCI_REG_WIDTH_BYTES(x) << 3)
-+#define CCI_REG_ADDR(x)			FIELD_GET(CCI_REG_ADDR_MASK, x)
+-print $H "#include <linux/bits.h>\n\n" if defined $kernel;
+-
+ print $H <<EOF
+-#define CCS_FL_BASE		16
++#include <linux/bits.h>
 +
- #define CCI_REG8(x)			((1 << CCI_REG_WIDTH_SHIFT) | (x))
- #define CCI_REG16(x)			((2 << CCI_REG_WIDTH_SHIFT) | (x))
- #define CCI_REG24(x)			((3 << CCI_REG_WIDTH_SHIFT) | (x))
++#include <media/v4l2-cci.h>
++
+ EOF
+-  ;
++	if defined $kernel;
++
++print $H "#define CCS_FL_BASE		" .
++    (defined $kernel ? "CCI_REG_PRIVATE_SHIFT" : 16) . "\n";
++
++my $flag = -1;
++my $all_flags;
++
++sub bit_def($) {
++	my $bit = shift @_;
++
++	if (defined $kernel) {
++		return "BIT$bit" if $bit =~ /^\(.*\)$/;
++		return "BIT($bit)";
++	}
++	return "(1U << $bit)";
++}
++
++sub flag_str($$) {
++	my ($flag, $check) = @_;
+ 
+-print $H "#define CCS_FL_16BIT		" . bit_def("CCS_FL_BASE") . "\n";
+-print $H "#define CCS_FL_32BIT		" . bit_def("CCS_FL_BASE + 1") . "\n";
+-print $H "#define CCS_FL_FLOAT_IREAL	" . bit_def("CCS_FL_BASE + 2") . "\n";
+-print $H "#define CCS_FL_IREAL		" . bit_def("CCS_FL_BASE + 3") . "\n";
++	$$flag++;
++
++	my $flag_str = !$$flag ? "CCS_FL_BASE" : "(CCS_FL_BASE + $$flag)";
++
++	$flag_str = bit_def($flag_str);
++
++	$$check .= " | " if defined $$check;
++
++	$$check .= $flag_str;
++
++	return $flag_str;
++}
++
++if (! defined $kernel) {
++	print $H "#define CCS_FL_16BIT		" . flag_str(\$flag, \$all_flags) . "\n";
++	print $H "#define CCS_FL_32BIT		" . flag_str(\$flag, \$all_flags) . "\n";
++}
++
++print $H "#define CCS_FL_FLOAT_IREAL	" . flag_str(\$flag, \$all_flags) . "\n";
++print $H "#define CCS_FL_IREAL		" . flag_str(\$flag, \$all_flags) . "\n";
++print $H "#define CCS_BUILD_BUG \\
++	BUILD_BUG_ON(~CCI_REG_PRIVATE_MASK & ($all_flags))\n"
++    if defined $kernel;
+ 
+ print $H <<EOF
++
+ #define CCS_R_ADDR(r)		((r) & 0xffff)
+ 
+ EOF
+-  ;
++    if ! defined $kernel;
+ 
+ print $A <<EOF
+ #include <stdint.h>
+@@ -189,12 +221,12 @@ sub tabconv($) {
+ 	return (join "\n", @l) . "\n";
+ }
+ 
+-sub elem_size(@) {
++sub elem_bits(@) {
+ 	my @flags = @_;
+ 
+-	return 2 if grep /^16$/, @flags;
+-	return 4 if grep /^32$/, @flags;
+-	return 1;
++	return 16 if grep /^16$/, @flags;
++	return 32 if grep /^32$/, @flags;
++	return 8;
+ }
+ 
+ sub arr_size($) {
+@@ -296,9 +328,13 @@ while (<$R>) {
+ 
+ 			next if $#{$this{args}} + 1 != scalar keys %{$this{argparams}};
+ 
+-			my $reg_formula = "($this{addr}";
++			my $reg_formula = "$this{addr}";
+ 			my $lim_formula;
+ 
++			chop $reg_formula;
++
++			$reg_formula = "(" . $reg_formula if $this{flagstring} ne "";
++
+ 			foreach my $arg (@{$this{args}}) {
+ 				my $d = $h->{$arg}->{discontig};
+ 				my $times = $h->{$arg}->{elsize} != 1 ?
+@@ -315,11 +351,13 @@ while (<$R>) {
+ 				$lim_formula .= (defined $lim_formula ? " + " : "") . "($arg)$times";
+ 			}
+ 
+-			$reg_formula .= ")\n";
++			$reg_formula .= ")";
+ 			$lim_formula =~ s/^\(([a-z0-9]+)\)$/$1/i;
+ 
+ 			print $H tabconv sprintf("#define %-62s %s", "CCS_R_" . (uc $this{name}) .
+-			  $this{arglist}, $reg_formula);
++						 $this{arglist}, $reg_formula .
++						 (($this{flagstring} eq "") ? "" :
++						  " | " . $this{flagstring} . ")") . "\n");
+ 
+ 			print $H tabconv $hdr_data;
+ 			undef $hdr_data;
+@@ -369,16 +407,23 @@ while (<$R>) {
+ 	$name =~ s/[,\.-]/_/g;
+ 
+ 	my $flagstring = "";
+-	my $size = elem_size(@flags);
+-	$flagstring .= "| CCS_FL_16BIT " if $size eq "2";
+-	$flagstring .= "| CCS_FL_32BIT " if $size eq "4";
++	my $bits = elem_bits(@flags);
++	if (! defined $kernel) {
++		$flagstring .= "| CCS_FL_16BIT " if $bits == 16;
++		$flagstring .= "| CCS_FL_32BIT " if $bits == 32;
++	}
+ 	$flagstring .= "| CCS_FL_FLOAT_IREAL " if grep /^float_ireal$/, @flags;
+ 	$flagstring .= "| CCS_FL_IREAL " if grep /^ireal$/, @flags;
+ 	$flagstring =~ s/^\| //;
+ 	$flagstring =~ s/ $//;
+ 	$flagstring = "($flagstring)" if $flagstring =~ /\|/;
+ 	my $base_addr = $addr;
+-	$addr = "($addr | $flagstring)" if $flagstring ne "";
++	$addr = "CCI_REG$bits($addr)" if defined $kernel;
++
++	if ($flagstring ne "" && !@$args) {
++		$addr = "($addr | $flagstring)";
++		$flagstring = "";
++	}
+ 
+ 	my $arglist = @$args ? "(" . (join ", ", @$args) . ")" : "";
+ 	$hdr_data .= sprintf "#define %-62s %s\n", "CCS_R_" . (uc $name), $addr
+@@ -388,11 +433,12 @@ while (<$R>) {
+ 
+ 	%this = ( name => $name,
+ 		  addr => $addr,
++		  flagstring => $flagstring,
+ 		  base_addr => $base_addr,
+ 		  argparams => {},
+ 		  args => $args,
+ 		  arglist => $arglist,
+-		  elsize => $size,
++		  elsize => $bits / 8,
+ 		);
+ 
+ 	if (!@$args) {
 -- 
 2.39.2
 
