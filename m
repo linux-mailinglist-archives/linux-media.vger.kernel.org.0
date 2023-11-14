@@ -1,40 +1,65 @@
-Return-Path: <linux-media+bounces-338-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-339-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89FA57EB34E
-	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 16:19:37 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A4577EB48A
+	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 17:11:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4393728124E
-	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 15:19:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2E543B20A1C
+	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 16:11:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4792641747;
-	Tue, 14 Nov 2023 15:19:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1324841A9C;
+	Tue, 14 Nov 2023 16:11:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qOat4FqV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jiko082U"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA09E405D9
-	for <linux-media@vger.kernel.org>; Tue, 14 Nov 2023 15:19:29 +0000 (UTC)
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7320B11A;
-	Tue, 14 Nov 2023 07:19:28 -0800 (PST)
-Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 611B6223;
-	Tue, 14 Nov 2023 16:19:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1699975141;
-	bh=h8y87f7D/ev7BUNPddYJ6dAtaabpPgoRdBYY8Jj1/3o=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=qOat4FqVX5i7/zbFS6P0gUP4lWx4RZuc+cVpS/rNCUm9TTiNyURthiX9AB0VnJhzw
-	 xW3iDaXvY8sVxLEvrWhUiZeaTCAXqK56r66/j7idT/+zvDOE8ZR4xS6Ecc/PeeY6TS
-	 VhtzCUTZIIbbKmIBQacOb6h2NeELmppU4tNS58Xw=
-Message-ID: <b3e34178-f111-44da-83f1-70afb67ec49c@ideasonboard.com>
-Date: Tue, 14 Nov 2023 15:19:23 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D164341A8E;
+	Tue, 14 Nov 2023 16:11:06 +0000 (UTC)
+Received: from mail-qv1-xf30.google.com (mail-qv1-xf30.google.com [IPv6:2607:f8b0:4864:20::f30])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 486BB12C;
+	Tue, 14 Nov 2023 08:11:05 -0800 (PST)
+Received: by mail-qv1-xf30.google.com with SMTP id 6a1803df08f44-66cfd35f595so29861386d6.2;
+        Tue, 14 Nov 2023 08:11:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1699978264; x=1700583064; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=WcBBKnTEqaoj3LxtGCYhc7t/cWobqHG+KSslQabs03I=;
+        b=jiko082Ua1lfJDUQiLyoKwfG4+tg/Zq2/lpZ0rN+zmUtHB+nhwDjwiisusEiHMiHeF
+         JzQz7qTgeVzIorGtR1fv+qZHdXiDmVpR0WOYFhWEV5XfwwRNSaPBFXeQZDQKCSKVAS21
+         KdROydjR/E38ZRACuls+YVdof3UVbl0YtkWV0w0WL86FA3j/axlorSIAVxf9WnHfHch1
+         J9xllmqzbDG1IZyMHHlujzYFaqjmUJnJZiVnFxuRUDrOpb93fJugSG9dG70mbUXQPDHf
+         5HZYEdWSn6dF+av2EHeemNH+cdhs7oESWuJhEF0BBmNGb/FFiWFU+UNpRycXYxnxn36z
+         I2Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699978264; x=1700583064;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=WcBBKnTEqaoj3LxtGCYhc7t/cWobqHG+KSslQabs03I=;
+        b=ZbwkeihKhLbBIuKCgy8cPLk+ePiOqBKInOr0oG09XpWJxL10imCfLS0Qqmz3/Dwcby
+         HM3kja1Cy9WI+4xgWbF0qMlzMwx1D76HsNWXn92cWtv2gk7qfqsuRZk67VWzgHc4Ibel
+         jMsCFUIr8mcJH87lC8hoA/W0WQUZjzQOH/SAZwikFBTDA7hLzwZCy2I0d+DYzMAx+C8T
+         kT2A+ei9sF++h40jExsy7DKRG5TuB6oScuNqlv96OCsyx2idkXj9bXQSJuBLQy/dGuxf
+         XnVtMoX61T1KByCd92f7gDS+zqnI/OXi/aa7EJPUko9HOAFWPCCM7tQopKZtJcR85uTg
+         Ie4w==
+X-Gm-Message-State: AOJu0Yz1XCrys4BFIIpFNrY7TKec8m1IWEehhPNnXFiuB3y1rJfnmiQd
+	ZZaQeXlVH17oipcAwbpOeEU=
+X-Google-Smtp-Source: AGHT+IFP/S3WR7/gOKNC8Du/goDp8eEHlLIGAtwXreEQAWZa6gXfFFZ7r8yADmexKAwCka48pB7dfg==
+X-Received: by 2002:a05:6214:1245:b0:66d:6af7:4571 with SMTP id r5-20020a056214124500b0066d6af74571mr4183692qvv.17.1699978264358;
+        Tue, 14 Nov 2023 08:11:04 -0800 (PST)
+Received: from [172.25.81.254] ([12.186.190.1])
+        by smtp.gmail.com with ESMTPSA id g1-20020a0cf841000000b00656329bb3b1sm3023598qvo.10.2023.11.14.08.11.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 14 Nov 2023 08:11:03 -0800 (PST)
+Message-ID: <2aa9c139-eee8-c707-6e62-5415c26c2a1a@gmail.com>
+Date: Tue, 14 Nov 2023 16:09:51 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -42,112 +67,116 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: i2c: st-mipid02: correct format propagation
+Subject: Re: [RFC PATCH v3 05/12] netdev: netdevice devmem allocator
+To: David Ahern <dsahern@kernel.org>, Mina Almasry <almasrymina@google.com>,
+ David Wei <dw@davidwei.uk>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann
+ <arnd@arndb.de>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Shakeel Butt <shakeelb@google.com>, Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Willem de Bruijn <willemb@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20231106024413.2801438-1-almasrymina@google.com>
+ <20231106024413.2801438-6-almasrymina@google.com>
+ <3b0d612c-e33b-48aa-a861-fbb042572fc9@kernel.org>
+ <CAHS8izOHYx+oYnzksUDrK1S0+6CdMJmirApntP5W862yFumezw@mail.gmail.com>
+ <a5b95e6b-8716-4e2e-9183-959b754b5b5e@kernel.org>
+ <CAHS8izMKDOw5_y2MLRfuJHs=ai+sZ6GF7Rg1NuR_JqONg-5u5Q@mail.gmail.com>
+ <3687e70e-29e6-34af-c943-8c0830ff92b8@gmail.com>
+ <f59c200f-4659-4c71-8c83-4457d0b08fe1@kernel.org>
 Content-Language: en-US
-To: Alain Volmat <alain.volmat@foss.st.com>,
- Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
- Sylvain Petinot <sylvain.petinot@foss.st.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: stable@vger.kernel.org, Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231113145731.89796-1-alain.volmat@foss.st.com>
-From: Dan Scally <dan.scally@ideasonboard.com>
-Autocrypt: addr=dan.scally@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20231113145731.89796-1-alain.volmat@foss.st.com>
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <f59c200f-4659-4c71-8c83-4457d0b08fe1@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Alain
+On 11/11/23 17:19, David Ahern wrote:
+> On 11/10/23 7:26 AM, Pavel Begunkov wrote:
+>> On 11/7/23 23:03, Mina Almasry wrote:
+>>> On Tue, Nov 7, 2023 at 2:55 PM David Ahern <dsahern@kernel.org> wrote:
+>>>>
+>>>> On 11/7/23 3:10 PM, Mina Almasry wrote:
+>>>>> On Mon, Nov 6, 2023 at 3:44 PM David Ahern <dsahern@kernel.org> wrote:
+>>>>>>
+>>>>>> On 11/5/23 7:44 PM, Mina Almasry wrote:
+>>>>>>> diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
+>>>>>>> index eeeda849115c..1c351c138a5b 100644
+>>>>>>> --- a/include/linux/netdevice.h
+>>>>>>> +++ b/include/linux/netdevice.h
+>>>>>>> @@ -843,6 +843,9 @@ struct netdev_dmabuf_binding {
+>>>>>>>    };
+>>>>>>>
+>>>>>>>    #ifdef CONFIG_DMA_SHARED_BUFFER
+>>>>>>> +struct page_pool_iov *
+>>>>>>> +netdev_alloc_devmem(struct netdev_dmabuf_binding *binding);
+>>>>>>> +void netdev_free_devmem(struct page_pool_iov *ppiov);
+>>>>>>
+>>>>>> netdev_{alloc,free}_dmabuf?
+>>>>>>
+>>>>>
+>>>>> Can do.
+>>>>>
+>>>>>> I say that because a dmabuf can be host memory, at least I am not
+>>>>>> aware
+>>>>>> of a restriction that a dmabuf is device memory.
+>>>>>>
+>>>>>
+>>>>> In my limited experience dma-buf is generally device memory, and
+>>>>> that's really its use case. CONFIG_UDMABUF is a driver that mocks
+>>>>> dma-buf with a memfd which I think is used for testing. But I can do
+>>>>> the rename, it's more clear anyway, I think.
+>>>>
+>>>> config UDMABUF
+>>>>           bool "userspace dmabuf misc driver"
+>>>>           default n
+>>>>           depends on DMA_SHARED_BUFFER
+>>>>           depends on MEMFD_CREATE || COMPILE_TEST
+>>>>           help
+>>>>             A driver to let userspace turn memfd regions into dma-bufs.
+>>>>             Qemu can use this to create host dmabufs for guest
+>>>> framebuffers.
+>>>>
+>>>>
+>>>> Qemu is just a userspace process; it is no way a special one.
+>>>>
+>>>> Treating host memory as a dmabuf should radically simplify the io_uring
+>>>> extension of this set.
+>>>
+>>> I agree actually, and I was about to make that comment to David Wei's
+>>> series once I have the time.
+>>>
+>>> David, your io_uring RX zerocopy proposal actually works with devmem
+>>> TCP, if you're inclined to do that instead, what you'd do roughly is
+>>> (I think):
+>> That would be a Frankenstein's monster api with no good reason for it.
+> 
+> It brings a consistent API from a networking perspective.
+> 
+> io_uring should not need to be in the page pool and memory management
+> business. Have you or David coded up the re-use of the socket APIs with
+> dmabuf to see how much smaller it makes the io_uring change - or even
+> walked through from a theoretical perspective?
 
-On 13/11/2023 14:57, Alain Volmat wrote:
-> Use a copy of the struct v4l2_subdev_format when propagating
-> format from the sink to source pad in order to avoid impacting the
-> sink format returned to the application.
->
-> Thanks to Jacopo Mondi for pointing the issue.
->
-> Fixes: 6c01e6f3f27b ("media: st-mipid02: Propagate format from sink to source pad")
-> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> Cc: stable@vger.kernel.org
-> ---
+Yes, we did the mental exercise, which is why we're converting to pp.
+I don't see many opportunities for reuse for the main data path,
+potentially apart from using the iov format instead of pages.
 
-Oops - sorry about that!
+If the goal is to minimise the amount of code, it can mimic the tcp
+devmem api with netlink, ioctl-ish buffer return, but that'd be a
+pretty bad api for io_uring, overly complicated and limiting
+optimisation options. If not, then we have to do some buffer
+management in io_uring, and I don't see anything wrong with that. It
+shouldn't be a burden for networking if all that extra code is
+contained in io_uring and only exposed via pp ops and following
+the rules.
 
-
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-
->   drivers/media/i2c/st-mipid02.c | 9 +++++++--
->   1 file changed, 7 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/i2c/st-mipid02.c b/drivers/media/i2c/st-mipid02.c
-> index fa27638edc07..dab14787116b 100644
-> --- a/drivers/media/i2c/st-mipid02.c
-> +++ b/drivers/media/i2c/st-mipid02.c
-> @@ -770,6 +770,7 @@ static void mipid02_set_fmt_sink(struct v4l2_subdev *sd,
->   				 struct v4l2_subdev_format *format)
->   {
->   	struct mipid02_dev *bridge = to_mipid02_dev(sd);
-> +	struct v4l2_subdev_format source_fmt;
->   	struct v4l2_mbus_framefmt *fmt;
->   
->   	format->format.code = get_fmt_code(format->format.code);
-> @@ -781,8 +782,12 @@ static void mipid02_set_fmt_sink(struct v4l2_subdev *sd,
->   
->   	*fmt = format->format;
->   
-> -	/* Propagate the format change to the source pad */
-> -	mipid02_set_fmt_source(sd, sd_state, format);
-> +	/*
-> +	 * Propagate the format change to the source pad, taking
-> +	 * care not to update the format pointer given back to user
-> +	 */
-> +	source_fmt = *format;
-> +	mipid02_set_fmt_source(sd, sd_state, &source_fmt);
->   }
->   
->   static int mipid02_set_fmt(struct v4l2_subdev *sd,
+-- 
+Pavel Begunkov
 
