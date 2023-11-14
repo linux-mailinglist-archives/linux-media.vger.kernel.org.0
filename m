@@ -1,111 +1,107 @@
-Return-Path: <linux-media+bounces-335-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-336-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68C107EB0B6
-	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 14:19:01 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 078DC7EB211
+	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 15:26:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E3D8AB20B9D
-	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 13:18:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B0D881F24EEB
+	for <lists+linux-media@lfdr.de>; Tue, 14 Nov 2023 14:26:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A73103FE56;
-	Tue, 14 Nov 2023 13:18:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B09B34122F;
+	Tue, 14 Nov 2023 14:26:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A50053FB34;
-	Tue, 14 Nov 2023 13:18:49 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 8836E196;
-	Tue, 14 Nov 2023 05:18:48 -0800 (PST)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 73274C15;
-	Tue, 14 Nov 2023 05:19:33 -0800 (PST)
-Received: from [10.1.196.40] (e121345-lin.cambridge.arm.com [10.1.196.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 98F5B3F6C4;
-	Tue, 14 Nov 2023 05:18:43 -0800 (PST)
-Message-ID: <3daaa2aa-61d4-40db-b36d-cd825a340d2b@arm.com>
-Date: Tue, 14 Nov 2023 13:18:35 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08D3405DB;
+	Tue, 14 Nov 2023 14:26:33 +0000 (UTC)
+Received: from mail-oo1-f49.google.com (mail-oo1-f49.google.com [209.85.161.49])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99BABBB;
+	Tue, 14 Nov 2023 06:26:32 -0800 (PST)
+Received: by mail-oo1-f49.google.com with SMTP id 006d021491bc7-589d6647c6cso2539838eaf.2;
+        Tue, 14 Nov 2023 06:26:32 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1699971992; x=1700576792;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Wbhg0BPBXIMXV/utzPc3dgXX4yVOfDOcoxaMEBqYSQU=;
+        b=jqCTJnEz1KuebasQ5CXnMFkKj94nIJ95AVdMlf/B0Q9GmeLKbaEFdypY75gBdjzJSh
+         diK/698eWDEMG80z82zkMUoOvQm4LMn/xo8h2izT0aZQCng2ApMdXfvyOdWUnCAvd5x8
+         KUzn8rvz9VVVb0plnscWHp4wmoW/lY6HMqku5IA0Awcmq1J+h2kdQwsypTRiH3kuFwpv
+         A7xVHIyMOlDc4Cs1VxxaqW4IwXDiIJH8Z1XEKakG7BZI14n2ETrC+/JtskpRQPYJ1RDl
+         17LCMHZ91pFMg+v3Md8Rscr1DjD6rmk5YFpyu7oX/vV8iHaYOBkQZ3LsnLc71Bak9usU
+         1fwA==
+X-Gm-Message-State: AOJu0YwNKBhvXdaIuEyDZcLjvfWFukMUGAHRmgau5gKI8AOO97Q86eHE
+	bTJstzXUltcKRUk5LwvhTp8kCG/9Dw==
+X-Google-Smtp-Source: AGHT+IE517eoCvtFdUcomMYLUYPuuU933NHOiNNabpUdzmxOfzf9ICKde+iqWcic42bRdEYddt76Eg==
+X-Received: by 2002:a4a:621c:0:b0:57b:de27:28ed with SMTP id x28-20020a4a621c000000b0057bde2728edmr8486285ooc.6.1699971991821;
+        Tue, 14 Nov 2023 06:26:31 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id p68-20020a4a4847000000b0058a42b24dfdsm265176ooa.23.2023.11.14.06.26.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Nov 2023 06:26:31 -0800 (PST)
+Received: (nullmailer pid 1700938 invoked by uid 1000);
+	Tue, 14 Nov 2023 14:26:30 -0000
+Date: Tue, 14 Nov 2023 08:26:30 -0600
+From: Rob Herring <robh@kernel.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org, Paul Elder <paul.elder@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>, Julien Stephan <jstephan@baylibre.com>, AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, Matthias Brugger <matthias.bgg@gmail.com>
+Subject: Re: [PATCH v6 1/3] dt-bindings: media: Add bindings for THine
+ THP7312 ISP
+Message-ID: <169997198956.1700885.10242516873039673598.robh@kernel.org>
+References: <20231112004544.24877-1-laurent.pinchart@ideasonboard.com>
+ <20231112004544.24877-2-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 6/8] dt-bindings: reserved-memory: Add secure CMA
- reserved memory range
-To: =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
- "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
- "christian.koenig@amd.com" <christian.koenig@amd.com>,
- "krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
- "robh+dt@kernel.org" <robh+dt@kernel.org>,
- "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
-Cc: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
- "jstultz@google.com" <jstultz@google.com>,
- "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
- "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?=
- <Jianjiao.Zeng@mediatek.com>, =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?=
- <kuohong.wang@mediatek.com>,
- "quic_vjitta@quicinc.com" <quic_vjitta@quicinc.com>,
- "ckoenig.leichtzumerken@gmail.com" <ckoenig.leichtzumerken@gmail.com>,
- "jkardatzke@google.com" <jkardatzke@google.com>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
- "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
- "tjmercier@google.com" <tjmercier@google.com>,
- "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
- "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "joakim.bech@linaro.org" <joakim.bech@linaro.org>,
- "angelogioacchino.delregno@collabora.com"
- <angelogioacchino.delregno@collabora.com>
-References: <20231111111559.8218-1-yong.wu@mediatek.com>
- <20231111111559.8218-7-yong.wu@mediatek.com>
- <0ccee72f-98ac-4a08-9253-9c22dad4d95a@linaro.org>
- <5d7b2458b8d1896ce575f4ed2d413f4e8eeb92b4.camel@mediatek.com>
-Content-Language: en-GB
-From: Robin Murphy <robin.murphy@arm.com>
-In-Reply-To: <5d7b2458b8d1896ce575f4ed2d413f4e8eeb92b4.camel@mediatek.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231112004544.24877-2-laurent.pinchart@ideasonboard.com>
 
-On 13/11/2023 6:37 am, Yong Wu (吴勇) wrote:
-[...]
->>> +properties:
->>> +  compatible:
->>> +    const: secure_cma_region
->>
->> Still wrong compatible. Look at other bindings - there is nowhere
->> underscore. Look at other reserved memory bindings especially.
->>
->> Also, CMA is a Linux thingy, so either not suitable for bindings at
->> all,
->> or you need Linux specific compatible. I don't quite get why do you
->> evennot
->> put CMA there - adding Linux specific stuff will get obvious
->> pushback...
+
+On Sun, 12 Nov 2023 02:45:42 +0200, Laurent Pinchart wrote:
+> From: Paul Elder <paul.elder@ideasonboard.com>
 > 
-> Thanks. I will change to: secure-region. Is this ok?
+> The THP7312 is an external ISP from THine. Add DT bindings for it.
+> 
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> ---
+> Changes since v5:
+> 
+> - Make relative schema path absolute
+> - Add missing $ in pattern properties
+> - Set maximum value for sensor node's reg property
+> - Drop support for sensor regulators
+> - Add Laurent Pinchart as co-maintainer
+> 
+> Changes since v4:
+> 
+> - Add bus-type property
+> 
+> Changes since v2:
+> 
+> - Drop description of reg property
+> - Improve thine,boot-mode property documentation
+> - Making thine,boot-mode property optional
+> - Don't use underscores in supplies names
+> ---
+>  .../bindings/media/i2c/thine,thp7312.yaml     | 224 ++++++++++++++++++
+>  MAINTAINERS                                   |   8 +
+>  2 files changed, 232 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
+> 
 
-No, the previous discussion went off in entirely the wrong direction. To 
-reiterate, the point of the binding is not to describe the expected 
-usage of the thing nor the general concept of the thing, but to describe 
-the actual thing itself. There are any number of different ways software 
-may interact with a "secure region", so that is meaningless as a 
-compatible. It needs to describe *this* secure memory interface offered 
-by *this* TEE, so that software knows that to use it requires making 
-those particular SiP calls with that particular UUID etc.
+Reviewed-by: Rob Herring <robh@kernel.org>
 
-Thanks,
-Robin.
 
