@@ -1,105 +1,136 @@
-Return-Path: <linux-media+bounces-404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-405-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A3DF7ED526
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 22:01:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B2D37ED52A
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 22:01:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A9DA51F24D4A
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 21:01:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26718B20A8C
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 21:01:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80168381A5;
-	Wed, 15 Nov 2023 21:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E713D3A8D1;
+	Wed, 15 Nov 2023 21:01:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="fXkHTN75"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-f52.google.com (mail-oa1-f52.google.com [209.85.160.52])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 320841BE;
-	Wed, 15 Nov 2023 13:01:11 -0800 (PST)
-Received: by mail-oa1-f52.google.com with SMTP id 586e51a60fabf-1f0f160e293so32769fac.0;
-        Wed, 15 Nov 2023 13:01:11 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700082070; x=1700686870;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yeu2Yqk+1W7JwaGj7n+VfzHpUfLi9VX9pa9cQ1fxjWY=;
-        b=RhMvEzt5IUz2v91D8lzduKZ7XBmVYgUAQtUDFUJqci8WwCkfY0eapyiCJxw/Ve1S9B
-         7kfQSGA82DWQ8sp+zVgR/RgpkptUhjjtyn4FOMsKkRX6EMFndKlG5AZTNYpfDdZ6JPQ3
-         Po5Po48rK+wSH9q/Ea5mKXb+PPPyGy8WqspvDvwiL0fJuTQEuffnALziWBVbHwpLPR+X
-         rN+kBcWFNs0MSZktyokhLSHSncuVwv9HjYNU/wUFAiSOsF+GZnErI9HsCW0bqlbyBu14
-         fxx+xFU8T0qE9Gi6+13BLQVaCWjRAqFVmlf3TUjTk/32CmiiF7cjKjIKBtAKgvZfbJOh
-         rUQw==
-X-Gm-Message-State: AOJu0YyoQPqqsdXDJ49ARN0us7C0wtVYLBgA+l7iYnZuddfTDELcljoP
-	ZcY5ElGBzGFwZaeXUj8dig==
-X-Google-Smtp-Source: AGHT+IEVvxd3MCaCvVBahCTroW9oJyYWp33cFwoR5qhRxQiQVxo5B8PsmQhF/yPdTGut1NK8vIwcew==
-X-Received: by 2002:a05:6870:c1d1:b0:1e9:c18b:b2da with SMTP id i17-20020a056870c1d100b001e9c18bb2damr18542152oad.18.1700082070487;
-        Wed, 15 Nov 2023 13:01:10 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id bs14-20020a056830398e00b006ce1f9c62a1sm692803otb.39.2023.11.15.13.01.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Nov 2023 13:01:09 -0800 (PST)
-Received: (nullmailer pid 3738084 invoked by uid 1000);
-	Wed, 15 Nov 2023 21:01:08 -0000
-From: Rob Herring <robh@kernel.org>
-To: Hugues Fruchet <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>
-Cc: linux-media@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [RESEND PATCH] media: stm32-dcmi: Drop unnecessary of_match_device() call
-Date: Wed, 15 Nov 2023 14:59:04 -0600
-Message-ID: <20231115205904.3732985-1-robh@kernel.org>
-X-Mailer: git-send-email 2.42.0
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A9E11B8;
+	Wed, 15 Nov 2023 13:01:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1700082045; x=1700686845; i=wahrenst@gmx.net;
+	bh=rNldis1p5YzojdhDCj6DbU417aqwBP/yDtSPkIspBbc=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=fXkHTN75FcRZtVBiywx3P4JHLkbBbRKhh4I/yrExOLokjRHgazDkg0zD125CpSbv
+	 akA0Ja44935tnpAiaxWkpDnK+h2/5QBFcHvHQzoBPy1SFqlndbHTFdHuiV2UZp5nK
+	 6bTI0OrzjL6McYSDQ7tJ2hSgVrWtO4oF3aoXJ1fpPHPXCtjDmeBh20vQNxz3x7Ygr
+	 RJfkdpLuycgeD4mSU0QgyoZ+hIvYFMy52alvI5F6YE9VyIr9TpPEKSVUAycB+ompm
+	 iBr6A3I1kRh4ZCu1jV4xZZo1Ti2j4vwLj2F5qQWVJAeg72zc04PZm+1qFIW4nS5ZP
+	 YKzZ7GUZo1VXKIgZyA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MvK4f-1rKtoq16Vl-00rJIA; Wed, 15
+ Nov 2023 22:00:45 +0100
+Message-ID: <f4e17d1f-0e93-4e5a-9a23-aa5e704161ec@gmx.net>
+Date: Wed, 15 Nov 2023 22:00:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 03/15] media: videobuf2: Allow exporting of a struct
+ dmabuf
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+ kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>,
+ Dan Carpenter <error27@gmail.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.org>
+References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
+ <20231109210309.638594-4-umang.jain@ideasonboard.com>
+ <72f83177-cd34-480a-afcc-a79f85219751@gmx.net>
+ <20231115193107.GB29486@pendragon.ideasonboard.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231115193107.GB29486@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:UWGy7py8UJCyH9p7MwNMAqWaExabfledFsS9bYQ+Wcm7PdM+Lhk
+ SGgRxwglD9RZ4ma/gw/rxFCDeuEMTd/HB8VzNzNuM4rDWnBDPV1QCoYlF6dsYoGXapCmwP6
+ QCD2D2HziofbOCAavL8rESDzxALmrzYHDz4MB+3pgYAUATcdJRW9Dw6yrudwN06tBChk5BW
+ ibPbYKSLSfGFNE1UlR7Lg==
+UI-OutboundReport: notjunk:1;M01:P0:PDL5jnpKONE=;DyIsb0RLet2GXJxWKOX4t38yqwi
+ QmdqylkFt+pkhpOPLRLPR5U97ibxn193Ywz7rCCwx40HbO1l4fw0yP2lbm0ZSMtxV2+TRHqDs
+ zEpue0VqM5MN/EleTZEN/4qByaQBMJk5Uc5k3f19MKUcH1I0/3UBHPk6ADwac4W6r8b7x0hGA
+ g9uEKfX0ROZ6q+WM3J9VfusVYejN6YTzg0yHx5tFTdLBvuVM9JOjW+0F5/lAvqYjy9q96blLp
+ Hdu1ak5JsbCld9mlBIK2z8fab6LA8LuEZJD0HOCRk3V5wJ2++UGIxYp4s9gt+o1TMLSLncivQ
+ nbe5Fe3xYzlgL0ZlvU9uz4cqMUPmSsGuFS9M1PgdW0hcu0yoNS2e6yA2/BY1x/o3G/ymcEnBb
+ glktj9fcEd4DaeDkY4dzRm1XDbJnlC5sHCa96YoZ7ft9x85iaOj33XHldCNv1vS6qnYWliQXG
+ 3wCa72yVOGu4CrvJZ8lwQ+Nk5G7sIn94T86hFbLfe1+uKIEITvFfq/7khbGbpU3bNPgfCMHEq
+ e3qYqqM3cDattpBaXvZ0J7Ypl5MLCLnss7Qx5Q7SCT9eSDN70SKbch1m78TdJ23vOO3ejFpFf
+ b4tSZeT4GQz3HG81lylvksYBr4etYb9rLWiyegsscyQCskqAPDqRD/4UJ1loCrTwDWpBQUUgo
+ un4RwMt29E7CuZPt9nn9HAZiHsLbht601tP6Z0ondkJP6YzZZKANfWWDKwzIiB4Nly4yPycyD
+ hESPabmo6R8MDjspuocmdiwnMwz6syTP0+YiLdApdaDlvfTMlci0RBKDtX6fsXKuRrb20gGnm
+ HPQ/zf0B26tDRtpYL38D6aRUPBq0Ppls5FFVBS1/1v+cVVG4ys8QTmbhts5aF3LcN3WzdvN19
+ V2Fgi+nmNYnfTb5mDiZ9aOI0qWEWCr7dr1VGpjyij/Lgfrz3ieSsIDLyRI64DhsK5T5XtmoHo
+ DGTRPbJhSC7Nqs8ID0riE4Xm3zQ=
 
-If probe is reached, we've already matched the device and in the case of
-DT matching, the struct device_node pointer will be set. Therefore, there
-is no need to call of_match_device() in probe.
-
-Signed-off-by: Rob Herring <robh@kernel.org>
----
- drivers/media/platform/st/stm32/stm32-dcmi.c | 8 --------
- 1 file changed, 8 deletions(-)
-
-diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
-index 8cb4fdcae137..48140fdf40bb 100644
---- a/drivers/media/platform/st/stm32/stm32-dcmi.c
-+++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
-@@ -20,7 +20,6 @@
- #include <linux/kernel.h>
- #include <linux/module.h>
- #include <linux/of.h>
--#include <linux/of_device.h>
- #include <linux/of_graph.h>
- #include <linux/pinctrl/consumer.h>
- #include <linux/platform_device.h>
-@@ -1890,7 +1889,6 @@ static int dcmi_graph_init(struct stm32_dcmi *dcmi)
- static int dcmi_probe(struct platform_device *pdev)
- {
- 	struct device_node *np = pdev->dev.of_node;
--	const struct of_device_id *match = NULL;
- 	struct v4l2_fwnode_endpoint ep = { .bus_type = 0 };
- 	struct stm32_dcmi *dcmi;
- 	struct vb2_queue *q;
-@@ -1899,12 +1897,6 @@ static int dcmi_probe(struct platform_device *pdev)
- 	struct clk *mclk;
- 	int ret = 0;
- 
--	match = of_match_device(of_match_ptr(stm32_dcmi_of_match), &pdev->dev);
--	if (!match) {
--		dev_err(&pdev->dev, "Could not find a match in devicetree\n");
--		return -ENODEV;
--	}
--
- 	dcmi = devm_kzalloc(&pdev->dev, sizeof(struct stm32_dcmi), GFP_KERNEL);
- 	if (!dcmi)
- 		return -ENOMEM;
--- 
-2.42.0
+Am 15.11.23 um 20:31 schrieb Laurent Pinchart:
+> On Tue, Nov 14, 2023 at 08:41:11PM +0100, Stefan Wahren wrote:
+>> Am 09.11.23 um 22:02 schrieb Umang Jain:
+>>> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
+>>>
+>>> videobuf2 only allowed exporting a dmabuf as a file descriptor,
+>>> but there are instances where having the struct dma_buf is
+>>> useful within the kernel.
+>>>
+>>> Split the current implementation into two, one step which
+>>> exports a struct dma_buf, and the second which converts that
+>>> into an fd.
+>>>
+>>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
+>>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+>>> ---
+>> ...
+>>
+>>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+>>> index 4b6a9d2ea372..cba4e495f6a2 100644
+>>> --- a/include/media/videobuf2-core.h
+>>> +++ b/include/media/videobuf2-core.h
+>>> @@ -925,6 +925,21 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type);
+>>>     */
+>>>    int vb2_core_streamoff(struct vb2_queue *q, unsigned int type);
+>>>
+>>> +/**
+>>> + * vb2_core_expbuf_dmabuf() - Export a buffer as a dma_buf structure
+>>> + * @q:         videobuf2 queue
+>>> + * @type:      buffer type
+>>> + * @index:     id number of the buffer
+>>> + * @plane:     index of the plane to be exported, 0 for single plane queues
+>>> + * @flags:     flags for newly created file, currently only O_CLOEXEC is
+>>> + *             supported, refer to manual of open syscall for more details
+>> i think "newly created file" could be confusing here
+> Would "newly created dmabuf file handle" be clearer and work for
+> everybody ?
+i'm fine with it
+>
+>>> + *
+>>> + * Return: Returns the dmabuf pointer
+>>> + */
+>>> +struct dma_buf *vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
+>>> +				       unsigned int index, unsigned int plane,
+>>> +				       unsigned int flags);
+>>> +
+>>>    /**
+>>>     * vb2_core_expbuf() - Export a buffer as a file descriptor.
+>>>     * @q:		pointer to &struct vb2_queue with videobuf2 queue.
 
 
