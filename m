@@ -1,136 +1,110 @@
-Return-Path: <linux-media+bounces-405-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-406-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B2D37ED52A
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 22:01:24 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C8337ED52B
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 22:01:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26718B20A8C
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 21:01:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EC5101F24F54
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 21:01:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E713D3A8D1;
-	Wed, 15 Nov 2023 21:01:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="fXkHTN75"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A9B739FE5;
+	Wed, 15 Nov 2023 21:01:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A9E11B8;
-	Wed, 15 Nov 2023 13:01:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1700082045; x=1700686845; i=wahrenst@gmx.net;
-	bh=rNldis1p5YzojdhDCj6DbU417aqwBP/yDtSPkIspBbc=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=fXkHTN75FcRZtVBiywx3P4JHLkbBbRKhh4I/yrExOLokjRHgazDkg0zD125CpSbv
-	 akA0Ja44935tnpAiaxWkpDnK+h2/5QBFcHvHQzoBPy1SFqlndbHTFdHuiV2UZp5nK
-	 6bTI0OrzjL6McYSDQ7tJ2hSgVrWtO4oF3aoXJ1fpPHPXCtjDmeBh20vQNxz3x7Ygr
-	 RJfkdpLuycgeD4mSU0QgyoZ+hIvYFMy52alvI5F6YE9VyIr9TpPEKSVUAycB+ompm
-	 iBr6A3I1kRh4ZCu1jV4xZZo1Ti2j4vwLj2F5qQWVJAeg72zc04PZm+1qFIW4nS5ZP
-	 YKzZ7GUZo1VXKIgZyA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MvK4f-1rKtoq16Vl-00rJIA; Wed, 15
- Nov 2023 22:00:45 +0100
-Message-ID: <f4e17d1f-0e93-4e5a-9a23-aa5e704161ec@gmx.net>
-Date: Wed, 15 Nov 2023 22:00:44 +0100
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2AB32BD;
+	Wed, 15 Nov 2023 13:01:20 -0800 (PST)
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-6d30d9f4549so53100a34.0;
+        Wed, 15 Nov 2023 13:01:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700082079; x=1700686879;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RCg6f5/T02V1q5il/uuEVJCsez595XWmMuk/ZZxOjtI=;
+        b=XioGdLP+Dsiied9KwmIlx12WIlEqlY1YTtqBZratTC8/tOClbBbsXHJvJ78SYWiuL1
+         RqkbBWN74zcSxkaC6v8wZo5n0AeN+UYGoGntf63IJOgGpBqwitPge51uZ90IFiB2Y9mO
+         T2FnMmZH/BAmx/fxlTvM84ETXuMRZVbDn9BmYwKk3fdI0vSPtiLs5cSLva8OAUrfIJk+
+         evQzllrsb+PKg0DHce2QdvqzCx9rfRxvyYXxzegEfbmG3TffoSIefVybZT2+b13auPIX
+         J7zrlYMd1dnxr5vwLzYw/wr4omq9rMtPanSOcOBhmUKhnKy+BO3rfLDUl5W60NGlm2Ub
+         NahA==
+X-Gm-Message-State: AOJu0Yw/jNdZsAk5NPmXK1kTttGOBMRJPvdpcM1OUkb+RQb8x/afhdrW
+	DsZGmENcwQFkuLSfSvSy+A==
+X-Google-Smtp-Source: AGHT+IHEarBzCTJVSMjCJKEP0XCaIp/Pvxrcdn3rQUfQ4FIMqA49jZ5b0pLbkM6cNJnOhp4Mj/2sDQ==
+X-Received: by 2002:a05:6830:614:b0:6d2:e1fd:9f5e with SMTP id w20-20020a056830061400b006d2e1fd9f5emr7098733oti.6.1700082079446;
+        Wed, 15 Nov 2023 13:01:19 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id s30-20020a056830439e00b006ce2e464a45sm692655otv.29.2023.11.15.13.01.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Nov 2023 13:01:18 -0800 (PST)
+Received: (nullmailer pid 3738432 invoked by uid 1000);
+	Wed, 15 Nov 2023 21:01:17 -0000
+From: Rob Herring <robh@kernel.org>
+To: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [RESEND PATCH] media: ir-hix5hd2: Use device_get_match_data()
+Date: Wed, 15 Nov 2023 15:01:13 -0600
+Message-ID: <20231115210113.3738233-1-robh@kernel.org>
+X-Mailer: git-send-email 2.42.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/15] media: videobuf2: Allow exporting of a struct
- dmabuf
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
- kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-staging@lists.linux.dev,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- "Ricardo B . Marliere" <ricardo@marliere.net>,
- Dan Carpenter <error27@gmail.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.org>
-References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
- <20231109210309.638594-4-umang.jain@ideasonboard.com>
- <72f83177-cd34-480a-afcc-a79f85219751@gmx.net>
- <20231115193107.GB29486@pendragon.ideasonboard.com>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231115193107.GB29486@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:UWGy7py8UJCyH9p7MwNMAqWaExabfledFsS9bYQ+Wcm7PdM+Lhk
- SGgRxwglD9RZ4ma/gw/rxFCDeuEMTd/HB8VzNzNuM4rDWnBDPV1QCoYlF6dsYoGXapCmwP6
- QCD2D2HziofbOCAavL8rESDzxALmrzYHDz4MB+3pgYAUATcdJRW9Dw6yrudwN06tBChk5BW
- ibPbYKSLSfGFNE1UlR7Lg==
-UI-OutboundReport: notjunk:1;M01:P0:PDL5jnpKONE=;DyIsb0RLet2GXJxWKOX4t38yqwi
- QmdqylkFt+pkhpOPLRLPR5U97ibxn193Ywz7rCCwx40HbO1l4fw0yP2lbm0ZSMtxV2+TRHqDs
- zEpue0VqM5MN/EleTZEN/4qByaQBMJk5Uc5k3f19MKUcH1I0/3UBHPk6ADwac4W6r8b7x0hGA
- g9uEKfX0ROZ6q+WM3J9VfusVYejN6YTzg0yHx5tFTdLBvuVM9JOjW+0F5/lAvqYjy9q96blLp
- Hdu1ak5JsbCld9mlBIK2z8fab6LA8LuEZJD0HOCRk3V5wJ2++UGIxYp4s9gt+o1TMLSLncivQ
- nbe5Fe3xYzlgL0ZlvU9uz4cqMUPmSsGuFS9M1PgdW0hcu0yoNS2e6yA2/BY1x/o3G/ymcEnBb
- glktj9fcEd4DaeDkY4dzRm1XDbJnlC5sHCa96YoZ7ft9x85iaOj33XHldCNv1vS6qnYWliQXG
- 3wCa72yVOGu4CrvJZ8lwQ+Nk5G7sIn94T86hFbLfe1+uKIEITvFfq/7khbGbpU3bNPgfCMHEq
- e3qYqqM3cDattpBaXvZ0J7Ypl5MLCLnss7Qx5Q7SCT9eSDN70SKbch1m78TdJ23vOO3ejFpFf
- b4tSZeT4GQz3HG81lylvksYBr4etYb9rLWiyegsscyQCskqAPDqRD/4UJ1loCrTwDWpBQUUgo
- un4RwMt29E7CuZPt9nn9HAZiHsLbht601tP6Z0ondkJP6YzZZKANfWWDKwzIiB4Nly4yPycyD
- hESPabmo6R8MDjspuocmdiwnMwz6syTP0+YiLdApdaDlvfTMlci0RBKDtX6fsXKuRrb20gGnm
- HPQ/zf0B26tDRtpYL38D6aRUPBq0Ppls5FFVBS1/1v+cVVG4ys8QTmbhts5aF3LcN3WzdvN19
- V2Fgi+nmNYnfTb5mDiZ9aOI0qWEWCr7dr1VGpjyij/Lgfrz3ieSsIDLyRI64DhsK5T5XtmoHo
- DGTRPbJhSC7Nqs8ID0riE4Xm3zQ=
+Content-Transfer-Encoding: 8bit
 
-Am 15.11.23 um 20:31 schrieb Laurent Pinchart:
-> On Tue, Nov 14, 2023 at 08:41:11PM +0100, Stefan Wahren wrote:
->> Am 09.11.23 um 22:02 schrieb Umang Jain:
->>> From: Dave Stevenson <dave.stevenson@raspberrypi.org>
->>>
->>> videobuf2 only allowed exporting a dmabuf as a file descriptor,
->>> but there are instances where having the struct dma_buf is
->>> useful within the kernel.
->>>
->>> Split the current implementation into two, one step which
->>> exports a struct dma_buf, and the second which converts that
->>> into an fd.
->>>
->>> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
->>> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
->>> ---
->> ...
->>
->>> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
->>> index 4b6a9d2ea372..cba4e495f6a2 100644
->>> --- a/include/media/videobuf2-core.h
->>> +++ b/include/media/videobuf2-core.h
->>> @@ -925,6 +925,21 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type);
->>>     */
->>>    int vb2_core_streamoff(struct vb2_queue *q, unsigned int type);
->>>
->>> +/**
->>> + * vb2_core_expbuf_dmabuf() - Export a buffer as a dma_buf structure
->>> + * @q:         videobuf2 queue
->>> + * @type:      buffer type
->>> + * @index:     id number of the buffer
->>> + * @plane:     index of the plane to be exported, 0 for single plane queues
->>> + * @flags:     flags for newly created file, currently only O_CLOEXEC is
->>> + *             supported, refer to manual of open syscall for more details
->> i think "newly created file" could be confusing here
-> Would "newly created dmabuf file handle" be clearer and work for
-> everybody ?
-i'm fine with it
->
->>> + *
->>> + * Return: Returns the dmabuf pointer
->>> + */
->>> +struct dma_buf *vb2_core_expbuf_dmabuf(struct vb2_queue *q, unsigned int type,
->>> +				       unsigned int index, unsigned int plane,
->>> +				       unsigned int flags);
->>> +
->>>    /**
->>>     * vb2_core_expbuf() - Export a buffer as a file descriptor.
->>>     * @q:		pointer to &struct vb2_queue with videobuf2 queue.
+Use preferred device_get_match_data() instead of of_match_device() to
+get the driver match data. With this, adjust the includes to explicitly
+include the correct headers.
+
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ drivers/media/rc/ir-hix5hd2.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/rc/ir-hix5hd2.c b/drivers/media/rc/ir-hix5hd2.c
+index 0034f615b466..de5bb9a08ea4 100644
+--- a/drivers/media/rc/ir-hix5hd2.c
++++ b/drivers/media/rc/ir-hix5hd2.c
+@@ -9,7 +9,9 @@
+ #include <linux/interrupt.h>
+ #include <linux/mfd/syscon.h>
+ #include <linux/module.h>
+-#include <linux/of_device.h>
++#include <linux/of.h>
++#include <linux/platform_device.h>
++#include <linux/property.h>
+ #include <linux/regmap.h>
+ #include <media/rc-core.h>
+ 
+@@ -251,7 +253,6 @@ static int hix5hd2_ir_probe(struct platform_device *pdev)
+ 	struct device *dev = &pdev->dev;
+ 	struct hix5hd2_ir_priv *priv;
+ 	struct device_node *node = pdev->dev.of_node;
+-	const struct of_device_id *of_id;
+ 	const char *map_name;
+ 	int ret;
+ 
+@@ -259,12 +260,11 @@ static int hix5hd2_ir_probe(struct platform_device *pdev)
+ 	if (!priv)
+ 		return -ENOMEM;
+ 
+-	of_id = of_match_device(hix5hd2_ir_table, dev);
+-	if (!of_id) {
++	priv->socdata = device_get_match_data(dev);
++	if (!priv->socdata) {
+ 		dev_err(dev, "Unable to initialize IR data\n");
+ 		return -ENODEV;
+ 	}
+-	priv->socdata = of_id->data;
+ 
+ 	priv->regmap = syscon_regmap_lookup_by_phandle(node,
+ 						       "hisilicon,power-syscon");
+-- 
+2.42.0
 
 
