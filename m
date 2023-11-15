@@ -1,28 +1,28 @@
-Return-Path: <linux-media+bounces-353-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-354-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0766C7EBE65
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 09:09:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B07A67EBE7E
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 09:22:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AB8552813D7
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 08:09:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 370CF1F2583D
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 08:22:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCB8F4691;
-	Wed, 15 Nov 2023 08:09:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A6CF5239;
+	Wed, 15 Nov 2023 08:22:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 376C7522D
-	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 08:09:48 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62C3DC433C8;
-	Wed, 15 Nov 2023 08:09:44 +0000 (UTC)
-Message-ID: <b35601f7-8bb2-4317-a8f7-6fbf81572943@xs4all.nl>
-Date: Wed, 15 Nov 2023 09:09:42 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC72522D
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 08:22:40 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2830CC433C8;
+	Wed, 15 Nov 2023 08:22:36 +0000 (UTC)
+Message-ID: <cf2dacde-dbf6-455a-988a-afb6a6cf0254@xs4all.nl>
+Date: Wed, 15 Nov 2023 09:22:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -32,25 +32,15 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v9 10/15] media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
 Content-Language: en-US, nl
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@iki.fi>, Shengjiu Wang
- <shengjiu.wang@nxp.com>, tfiga@chromium.org, m.szyprowski@samsung.com,
- mchehab@kernel.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
- festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
- broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+To: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+ tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com,
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+ linuxppc-dev@lists.ozlabs.org
 References: <1699595289-25773-1-git-send-email-shengjiu.wang@nxp.com>
  <1699595289-25773-11-git-send-email-shengjiu.wang@nxp.com>
- <4cd6b593-2376-4cbc-a7c8-d3eb36a2f7a0@xs4all.nl>
- <20231113104238.GA13981@pendragon.ideasonboard.com>
- <6a3e7eb9-505c-4cfb-8a86-a8947a2e44d5@xs4all.nl>
- <20231113110754.GB24338@pendragon.ideasonboard.com>
- <3e898664-cbfc-4892-9765-37b66891643b@xs4all.nl>
- <ZVIIc-fi32ZxIi-p@valkosipuli.retiisi.eu>
- <20231113114357.GD24338@pendragon.ideasonboard.com>
- <da6efe14-c00d-4bf4-bf61-dd4ed39c5c60@xs4all.nl>
- <20231113124412.GA18974@pendragon.ideasonboard.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -95,180 +85,179 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231113124412.GA18974@pendragon.ideasonboard.com>
+In-Reply-To: <1699595289-25773-11-git-send-email-shengjiu.wang@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
-
-On 13/11/2023 13:44, Laurent Pinchart wrote:
-> Hi Hans,
+On 10/11/2023 06:48, Shengjiu Wang wrote:
+> Fixed point controls are used by the user to configure
+> a fixed point value in 64bits, which Q31.32 format.
 > 
-> On Mon, Nov 13, 2023 at 01:05:12PM +0100, Hans Verkuil wrote:
->> On 13/11/2023 12:43, Laurent Pinchart wrote:
->>> On Mon, Nov 13, 2023 at 11:28:51AM +0000, Sakari Ailus wrote:
->>>> On Mon, Nov 13, 2023 at 12:24:14PM +0100, Hans Verkuil wrote:
->>>>> On 13/11/2023 12:07, Laurent Pinchart wrote:
->>>>>> On Mon, Nov 13, 2023 at 11:56:49AM +0100, Hans Verkuil wrote:
->>>>>>> On 13/11/2023 11:42, Laurent Pinchart wrote:
->>>>>>>> On Mon, Nov 13, 2023 at 11:29:09AM +0100, Hans Verkuil wrote:
->>>>>>>>> On 10/11/2023 06:48, Shengjiu Wang wrote:
->>>>>>>>>> Fixed point controls are used by the user to configure
->>>>>>>>>> a fixed point value in 64bits, which Q31.32 format.
->>>>>>>>>>
->>>>>>>>>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
->>>>>>>>>
->>>>>>>>> This patch adds a new control type. This is something that also needs to be
->>>>>>>>> tested by v4l2-compliance, and for that we need to add support for this to
->>>>>>>>> one of the media test-drivers. The best place for that is the vivid driver,
->>>>>>>>> since that has already a bunch of test controls for other control types.
->>>>>>>>>
->>>>>>>>> See e.g. VIVID_CID_INTEGER64 in vivid-ctrls.c.
->>>>>>>>>
->>>>>>>>> Can you add a patch adding a fixed point test control to vivid?
->>>>>>>>
->>>>>>>> I don't think V4L2_CTRL_TYPE_FIXED_POINT is a good idea. This seems to
->>>>>>>> relate more to units than control types. We have lots of fixed-point
->>>>>>>> values in controls already, using the 32-bit and 64-bit integer control
->>>>>>>> types. They use various locations for the decimal point, depending on
->>>>>>>> the control. If we want to make this more explicit to users, we should
->>>>>>>> work on adding unit support to the V4L2 controls.
->>>>>>>
->>>>>>> "Fixed Point" is not a unit, it's a type. 'Db', 'Hz' etc. are units.
->>>>>>
->>>>>> It's not a unit, but I think it's related to units. My point is that,
->>>>>> without units support, I don't see why we need a formal definition of
->>>>>> fixed-point types, and why this series couldn't just use
->>>>>> VIVID_CID_INTEGER64. Drivers already interpret VIVID_CID_INTEGER64
->>>>>> values as they see fit.
->>>>>
->>>>> They do? That's new to me. A quick grep for V4L2_CTRL_TYPE_INTEGER64
->>>>> (I assume you meant that rather than VIVID_CID_INTEGER64) shows that it
->>>
->>> Yes, I meant V4L2_CTRL_TYPE_INTEGER64. Too hasty copy & paste :-)
->>>
->>>>> is always interpreted as a 64 bit integer and nothing else. As it should.
->>>
->>> The most common case for control handling in drivers is taking the
->>> integer value and converting it to a register value, using
->>> device-specific encoding of the register value. It can be a fixed-point
->>> format or something else, depending on the device. My point is that
->>> drivers routinely convert a "plain" integer to something else, and that
->>> has never been considered as a cause of concern. I don't see why it
->>> would be different in this series.
->>>
->>>>> And while we do not have support for units (other than the documentation),
->>>>> we do have type support in the form of V4L2_CTRL_TYPE_*.
->>>>>
->>>>>>> A quick "git grep -i "fixed point" Documentation/userspace-api/media/'
->>>>>>> only shows a single driver specific control (dw100.rst).
->>>>>>>
->>>>>>> I'm not aware of other controls in mainline that use fixed point.
->>>>>>
->>>>>> The analog gain control for sensors for instance.
->>>>>
->>>>> Not really. The documentation is super vague:
->>>>>
->>>>> V4L2_CID_ANALOGUE_GAIN (integer)
->>>>>
->>>>> 	Analogue gain is gain affecting all colour components in the pixel matrix. The
->>>>> 	gain operation is performed in the analogue domain before A/D conversion.
->>>>>
->>>>> And the integer is just a range. Internally it might map to some fixed
->>>>> point value, but userspace won't see that, it's hidden in the driver AFAICT.
->>>
->>> It's hidden so well that libcamera has a database of the sensor it
->>> supports, with formulas to map a real gain value to the
->>> V4L2_CID_ANALOGUE_GAIN control. The encoding of the integer value does
->>> matter, and the kernel doesn't expose it. We may or may not consider
->>> that as a shortcoming of the V4L2 control API, but in any case it's the
->>> situation we have today.
->>>
->>>> I wonder if Laurent meant digital gain.
->>>
->>> No, I meant analog. It applies to digital gain too though.
->>>
->>>> Those are often Q numbers. The practice there has been that the default
->>>> value yields gain of 1.
->>>>
->>>> There are probably many other examples in controls where something being
->>>> controlled isn't actually an integer while integer controls are still being
->>>> used for the purpose.
->>>
->>> A good summary of my opinion :-)
->>
->> And that works fine as long as userspace doesn't need to know what the value
->> actually means.
->>
->> That's not the case here. The control is really a fractional Hz value:
->>
->> +``V4L2_CID_M2M_AUDIO_SOURCE_RATE_OFFSET (fixed point)``
->> +    Sets the offset from the audio source sample rate, unit is Hz.
->> +    The offset compensates for any clock drift. The actual source audio sample
->> +    rate is the ideal source audio sample rate from
->> +    ``V4L2_CID_M2M_AUDIO_SOURCE_RATE`` plus this fixed point offset.
+> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> ---
+>  .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst  | 13 +++++++------
+>  .../userspace-api/media/v4l/vidioc-queryctrl.rst    |  9 ++++++++-
+>  .../userspace-api/media/videodev2.h.rst.exceptions  |  1 +
+>  drivers/media/v4l2-core/v4l2-ctrls-api.c            |  5 ++++-
+>  drivers/media/v4l2-core/v4l2-ctrls-core.c           |  2 ++
+>  include/uapi/linux/videodev2.h                      |  1 +
+>  6 files changed, 23 insertions(+), 8 deletions(-)
 > 
-> I don't see why this would require a new type, you can use
-> V4L2_CTRL_TYPE_INTEGER64, and document the control as containing
-> fixed-point values in Q31.32 format.
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index e8475f9fd2cf..e7e5d78dc11e 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -162,13 +162,13 @@ still cause this situation.
+>      * - __s32
+>        - ``value``
+>        - New value or current value. Valid if this control is not of type
+> -	``V4L2_CTRL_TYPE_INTEGER64`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is
+> -	not set.
+> +	``V4L2_CTRL_TYPE_INTEGER64``, ``V4L2_CTRL_TYPE_FIXED_POINT`` and
+> +	``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is not set.
+>      * - __s64
+>        - ``value64``
+>        - New value or current value. Valid if this control is of type
+> -	``V4L2_CTRL_TYPE_INTEGER64`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is
+> -	not set.
+> +	``V4L2_CTRL_TYPE_INTEGER64``, ``V4L2_CTRL_TYPE_FIXED_POINT`` and
+> +	``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is not set.
+>      * - char *
+>        - ``string``
+>        - A pointer to a string. Valid if this control is of type
+> @@ -193,8 +193,9 @@ still cause this situation.
+>      * - __s64 *
+>        - ``p_s64``
+>        - A pointer to a matrix control of signed 64-bit values. Valid if
+> -        this control is of type ``V4L2_CTRL_TYPE_INTEGER64`` and
+> -        ``V4L2_CTRL_FLAG_HAS_PAYLOAD`` is set.
+> +        this control is of type ``V4L2_CTRL_TYPE_INTEGER64``,
+> +        ``V4L2_CTRL_TYPE_FIXED_POINT`` and ``V4L2_CTRL_FLAG_HAS_PAYLOAD``
+> +        is set.
+>      * - struct :c:type:`v4l2_area` *
+>        - ``p_area``
+>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> index 4d38acafe8e1..f3995ec57044 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
+> @@ -235,7 +235,8 @@ See also the examples in :ref:`control`.
+>        - ``default_value``
+>        - The default value of a ``V4L2_CTRL_TYPE_INTEGER``, ``_INTEGER64``,
+>  	``_BOOLEAN``, ``_BITMASK``, ``_MENU``, ``_INTEGER_MENU``, ``_U8``
+> -	or ``_U16`` control. Not valid for other types of controls.
+> +	``_FIXED_POINT`` or ``_U16`` control. Not valid for other types of
+> +	controls.
+>  
+>  	.. note::
+>  
+> @@ -549,6 +550,12 @@ See also the examples in :ref:`control`.
+>        - n/a
+>        - A struct :c:type:`v4l2_ctrl_av1_film_grain`, containing AV1 Film Grain
+>          parameters for stateless video decoders.
+> +    * - ``V4L2_CTRL_TYPE_FIXED_POINT``
+> +      - any
+> +      - any
+> +      - any
+> +      - A 64-bit integer valued control, containing parameter which is
+> +        Q31.32 format.
+>  
+>  .. raw:: latex
+>  
+> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> index e61152bb80d1..2faa5a2015eb 100644
+> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+> @@ -167,6 +167,7 @@ replace symbol V4L2_CTRL_TYPE_AV1_SEQUENCE :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_AV1_FRAME :c:type:`v4l2_ctrl_type`
+>  replace symbol V4L2_CTRL_TYPE_AV1_FILM_GRAIN :c:type:`v4l2_ctrl_type`
+> +replace symbol V4L2_CTRL_TYPE_FIXED_POINT :c:type:`v4l2_ctrl_type`
+>  
+>  # V4L2 capability defines
+>  replace define V4L2_CAP_VIDEO_CAPTURE device-capabilities
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> index 002ea6588edf..e6a0fb8d6791 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+> @@ -57,6 +57,7 @@ static int ptr_to_user(struct v4l2_ext_control *c,
+>  		return copy_to_user(c->string, ptr.p_char, len + 1) ?
+>  		       -EFAULT : 0;
+>  	case V4L2_CTRL_TYPE_INTEGER64:
+> +	case V4L2_CTRL_TYPE_FIXED_POINT:n
+>  		c->value64 = *ptr.p_s64;
+>  		break;
+>  	default:
+> @@ -132,6 +133,7 @@ static int user_to_new(struct v4l2_ext_control *c, struct v4l2_ctrl *ctrl)
+>  
+>  	switch (ctrl->type) {
+>  	case V4L2_CTRL_TYPE_INTEGER64:
+> +	case V4L2_CTRL_TYPE_FIXED_POINT:
+>  		*ctrl->p_new.p_s64 = c->value64;
+>  		break;
+>  	case V4L2_CTRL_TYPE_STRING:
+> @@ -540,7 +542,8 @@ static int validate_ctrls(struct v4l2_ext_controls *cs,
+>  		 */
+>  		if (ctrl->is_ptr)
+>  			continue;
+> -		if (ctrl->type == V4L2_CTRL_TYPE_INTEGER64)
+> +		if (ctrl->type == V4L2_CTRL_TYPE_INTEGER64 ||
+> +		    ctrl->type == V4L2_CTRL_TYPE_FIXED_POINT)
+>  			p_new.p_s64 = &cs->controls[i].value64;
+>  		else
+>  			p_new.p_s32 = &cs->controls[i].value;
 
-Why would you want to do this? I can store a double in a long long int,
-and just document that the variable is really a double, but why would you?
+You missed a few more: everywhere in this source where V4L2_CTRL_TYPE_INTEGER64
+is used you need to add a check for FIXED_POINT as well.
 
-The cost of adding a FIXED_POINT type is minimal, and having this type
-makes it easy to work with fixed point controls (think about proper reporting
-and setting of the value in v4l2-ctl and user applications in general that
-deal with controls).
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> index a662fb60f73f..9d50df0d9874 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
 
-If this would add a thousand lines of complex code, then this would be a
-consideration, but this is just a few lines.
+Same here for this source.
 
-Just to give an example, if you use 'v4l2-ctl -l' to list a int64 control
-and it reports the value 13958643712, would you be able to see that that is
-really 3.25 in fixed point format? With the right type it would be printed
-like that. Much easier to work work.
+Note that v4l2_ctrl_type_op_log() needs a separate case for FIXED_POINT so that it
+can be logged properly.
+
+> @@ -1187,6 +1187,7 @@ static int std_validate_elem(const struct v4l2_ctrl *ctrl, u32 idx,
+>  	case V4L2_CTRL_TYPE_INTEGER:
+>  		return ROUND_TO_RANGE(ptr.p_s32[idx], u32, ctrl);
+>  	case V4L2_CTRL_TYPE_INTEGER64:
+> +	case V4L2_CTRL_TYPE_FIXED_POINT:
+>  		/*
+>  		 * We can't use the ROUND_TO_RANGE define here due to
+>  		 * the u64 divide that needs special care.
+> @@ -1779,6 +1780,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  	/* Prefill elem_size for all types handled by std_type_ops */
+>  	switch ((u32)type) {
+>  	case V4L2_CTRL_TYPE_INTEGER64:
+> +	case V4L2_CTRL_TYPE_FIXED_POINT:
+>  		elem_size = sizeof(s64);
+>  		break;
+>  	case V4L2_CTRL_TYPE_STRING:
+
+There is one more place where V4L2_CTRL_TYPE_INTEGER64 is used:
+drivers/media/v4l2-core/v4l2-ioctl.c. That should report a fixed point
+value in the same way as v4l2_ctrl_type_op_log().
+
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index cf8c44595a1d..9482ac66a675 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1903,6 +1903,7 @@ enum v4l2_ctrl_type {
+>  	V4L2_CTRL_TYPE_STRING        = 7,
+>  	V4L2_CTRL_TYPE_BITMASK       = 8,
+>  	V4L2_CTRL_TYPE_INTEGER_MENU  = 9,
+> +	V4L2_CTRL_TYPE_FIXED_POINT   = 10,
+>  
+>  	/* Compound types are >= 0x0100 */
+>  	V4L2_CTRL_COMPOUND_TYPES     = 0x0100,
+
+We will probably need a helper to create a fixed point value from the integer
+and fractional part, and one to extract them.
 
 Regards,
 
 	Hans
-
-> 
->>>> Instead of this patch, I'd prefer to have a way to express the meaning of
->>>> the control value, be it a Q number or something else, and do that
->>>> independently of the type of the control.
->>
->> Huh? How is that different from the type of the control? You have integers
->> (one type) and fixed point (another type).
->>
->> Or do you want a more general V4L2_CTRL_TYPE_ that specifies the N.M values
->> explicitly?
->>
->> I think the main reason why we use integer controls for gain is that we
->> never had a fixed point control type and you could get away with that in
->> user space for that particular use-case.
->>
->> Based on the V4L2_CID_NOTIFY_GAINS documentation the gain value can typically
->> be calculated as (value / default_value),
-> 
-> Typically, but not always. Some sensor have an exponential gain model,
-> and some have weird gain representation, such as 1/x. That's getting out
-> of scope though.
-> 
->> but that won't work for a rate offset
->> control as above, or for e.g. CSC matrices for color converters.
->>
->>> Agreed.
->>>
->>>>> In the case of this particular series the control type is really a fixed point
->>>>> value with a documented unit (Hz). It really is not something you want to
->>>>> use type INTEGER64 for.
->>>>>
->>>>>>> Note that V4L2_CTRL_TYPE_FIXED_POINT is a Q31.32 format. By setting
->>>>>>> min/max/step you can easily map that to just about any QN.M format where
->>>>>>> N <= 31 and M <= 32.
->>>>>>>
->>>>>>> In the case of dw100 it is a bit different in that it is quite specialized
->>>>>>> and it had to fit in 16 bits.
-> 
-
 
