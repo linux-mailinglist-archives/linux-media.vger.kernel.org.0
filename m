@@ -1,85 +1,175 @@
-Return-Path: <linux-media+bounces-377-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-378-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 265FC7EC4D8
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 15:13:15 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 471AB7EC4DE
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 15:15:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D79891F2744A
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 14:13:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 096E2280E19
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 14:15:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DF1B28DB7;
-	Wed, 15 Nov 2023 14:13:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45F0C28DBA;
+	Wed, 15 Nov 2023 14:15:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hzzWF5uA"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C49286B5;
-	Wed, 15 Nov 2023 14:13:03 +0000 (UTC)
-Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B1FDC5;
-	Wed, 15 Nov 2023 06:13:00 -0800 (PST)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-	by fd01.gateway.ufhost.com (Postfix) with ESMTP id 725DF24DB83;
-	Wed, 15 Nov 2023 22:12:51 +0800 (CST)
-Received: from EXMBX161.cuchost.com (172.16.6.71) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 15 Nov
- 2023 22:12:51 +0800
-Received: from [192.168.1.115] (180.164.60.184) by EXMBX161.cuchost.com
- (172.16.6.71) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Wed, 15 Nov
- 2023 22:12:50 +0800
-Message-ID: <e7c887a9-d08a-42e6-ac21-effa8e2e620b@starfivetech.com>
-Date: Wed, 15 Nov 2023 22:12:50 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1BD7250EA
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 14:15:26 +0000 (UTC)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74FBFE7
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 06:15:25 -0800 (PST)
+Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 406F08D;
+	Wed, 15 Nov 2023 15:14:57 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1700057697;
+	bh=0IBZZS4xmBxdDGptUrCMl+5HAWsoqwMoZqnfHnzXfyk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hzzWF5uATXusCbFLgdupla0BOTb1AEgQqwaPYD1GRj+sdyZvj8UyBjIschRGc/TMA
+	 b7PzlaEFR/2SyWE9RUZqCpXF0RcTvW7yECz+Q5cxvJ4mcx12UOAhMVLSkqBK1sNgWk
+	 KnjeT0s66mToIpmJPSu/GSDcFGmLb+dj7QgdTHiM=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v4 0/2] media: i2c: Add driver for OmniVision OV64A40
+Date: Wed, 15 Nov 2023 15:15:05 +0100
+Message-ID: <20231115141507.37572-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/6] drm/fourcc: Add drm/vs tiled modifiers
-Content-Language: en-US
-To: Simon Ser <contact@emersion.fr>
-CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, "Krzysztof
- Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, Sumit Semwal
-	<sumit.semwal@linaro.org>, Emil Renner Berthing <kernel@esmil.dk>, "Shengyang
- Chen" <shengyang.chen@starfivetech.com>, Conor Dooley <conor+dt@kernel.org>,
-	Albert Ou <aou@eecs.berkeley.edu>, Thomas Zimmermann <tzimmermann@suse.de>,
-	Maxime Ripard <mripard@kernel.org>, Jagan Teki <jagan@edgeble.ai>, "Rob
- Herring" <robh+dt@kernel.org>, Chris Morgan <macromorgan@hotmail.com>, "Paul
- Walmsley" <paul.walmsley@sifive.com>, Bjorn Andersson <andersson@kernel.org>,
-	Changhuang Liang <changhuang.liang@starfivetech.com>, Jack Zhu
-	<jack.zhu@starfivetech.com>, Palmer Dabbelt <palmer@dabbelt.com>, Shawn Guo
-	<shawnguo@kernel.org>, "christian.koenig@amd.com" <christian.koenig@amd.com>
-References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
- <20231025103957.3776-4-keith.zhao@starfivetech.com>
- <nPUOGd5_-QuZTUXhGdmJ03Bri58JI0SeYVcBLnJG4aFuqobd5i1RUBVoi4CNP3VGg5oBdz5LAGdwHERxtMwXJyHPyVxJz4UpiBuFiA5NlkA=@emersion.fr>
- <2wq8ssA4KblYH5JfC8KxeWWoYPleN_BcH6wSZ92tkOixbiU5k2ZU_lS4lO0awCCeomkdjsEoVlUmAH7aaaR2n-bdLKu1AaSar_JW78Kw4Ik=@emersion.fr>
-From: Keith Zhao <keith.zhao@starfivetech.com>
-In-Reply-To: <2wq8ssA4KblYH5JfC8KxeWWoYPleN_BcH6wSZ92tkOixbiU5k2ZU_lS4lO0awCCeomkdjsEoVlUmAH7aaaR2n-bdLKu1AaSar_JW78Kw4Ik=@emersion.fr>
-Content-Type: text/plain; charset="UTF-8"
-X-Originating-IP: [180.164.60.184]
-X-ClientProxiedBy: EXCAS062.cuchost.com (172.16.6.22) To EXMBX161.cuchost.com
- (172.16.6.71)
-X-YovoleRuleAgent: yovoleflag
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-ok=EF=BC=8C I will do this in my next patch
-Thanks your advice!
+Add a v4l2 sensor driver for OmniVision OV64A40
 
-On 2023/10/25 23:44, Simon Ser wrote:
->  it seems like you could start with just simple
-> enumerated modifiers like Intel does, and then only switch to more
-> complicated logic with macros and fields if there is an actual need in
-> the future.
+v3->v4:
+* Fix a few additional warnings reported by kernel test robot (which arrived a
+  few minutes after sending v3 out :(
+
+v2->v3:
+* Restore max size of 9248x6944
+* Select V4L2_CCI_I2C in Kconfig
+* Fix unused variable warning
+* Fix a few minor checkpatch warnings
+
+v1->v2:
+* rebased on sailus master
+  * Use new subdev state helpers
+* link frequency support (456MHz, 360MHz)
+* invert vflip bit setting
+* remove 1280x720 mode as it was broken
+* expanded VTS range to 24 bits
+* Reduce max resolution output to 9152x6944. Using full output resolution causes
+  green frames to be produced by the ISP (the raw frames are however correct)
+* reduce max analogue gain to 16x
+
+./utils/v4l2-compliance/v4l2-compliance -d /dev/v4l-subdev0
+v4l2-compliance 1.25.0-5100, 32 bits, 32-bit time_t
+v4l2-compliance SHA: 8bf6cba8c0ef 2023-10-10 12:50:46
+
+Compliance test for device /dev/v4l-subdev0:
+
+Driver Info:
+	Driver version   : 6.2.16
+	Capabilities     : 0x00000000
+
+Required ioctls:
+	test VIDIOC_SUDBEV_QUERYCAP: OK
+	test invalid ioctls: OK
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev0 open: OK
+	test VIDIOC_SUBDEV_QUERYCAP: OK
+	test for unlimited opens: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 14 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+	test TIME32/64: OK
+
+Total for device /dev/v4l-subdev0: 44, Succeeded: 44, Failed: 0, Warnings: 0
+
+Jacopo Mondi (2):
+  media: dt-bindings: Add OmniVision OV64A40
+  media: i2c: Add driver for OmniVision OV64A40
+
+ .../bindings/media/i2c/ovti,ov64a40.yaml      |   98 +
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ov64a40.c                   | 3646 +++++++++++++++++
+ 5 files changed, 3764 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
+ create mode 100644 drivers/media/i2c/ov64a40.c
+
+
+base-commit: 61ab89c1916219ccbeca9f6cefb1680212de8d1c
+--
+2.41.0
+
 
