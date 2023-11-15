@@ -1,150 +1,297 @@
-Return-Path: <linux-media+bounces-357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-358-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 393E87EBF2A
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 10:09:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CFB7EBF35
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 10:13:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 589691C20B08
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 09:09:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 450B9B20C23
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 09:13:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2D365248;
-	Wed, 15 Nov 2023 09:09:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="IW542DAi"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6FDF5249;
+	Wed, 15 Nov 2023 09:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E23D7E
-	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 09:09:32 +0000 (UTC)
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02olkn2063.outbound.protection.outlook.com [40.92.50.63])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2746911C;
-	Wed, 15 Nov 2023 01:09:31 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=Npdft/OGYuMbmyAUX0ZvKN51KFI/lSAI0Wtst8V2Ct9zVLJZKrgvpJl2Yt5OgQjleoSZHrjVWu/MiSbgMLs6liphGqlG5FS3E86u0e+NC/NkN06KYopI2Zp6BLmRffaEN0OSgz4z/g6w7fUrqjwHF86G1DwpoYUlRNJ5pLXsvq9yAsjP7VATY0JddW8g38AVIlaNTLl6QFRfy8Lf2IYkJ/aHxta37cnoMFlnhd0syrmxNoGLDWtsyEByMbvVhg4Epws9C0yfJxAgnGNOmYaBqfLSq096YSZ6rykdpen6XoKDK5UqC46+VzVbYVun2ar9SnXK6qTF6ZBa0j0fwY1Zqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BVufSnjklVtqYF/i2zyON1MCgifDrEx/Ju38yb3+pAM=;
- b=S7HXj9W6fd5f2lDgomLVneLC/IJdwkIjOsoJGLmeiowJucva6gD9UIs0roJrPJxU+WCU0lxX90EvDoHvcq50jfpt7EA6tGp/pQeYjf3Nu4fSyqMEf8zHUP/SdHfdvB1dv7vrcAuPaVXm3UT/LVoVPrtJgymsNtRWxDevjZCCxkGuUf8V4XgFYEboa63qiVN17SPWstgrISCa3k6pYptuNK0Wn656DNbGEjtvaMX3qOuXYpxTS8z0Kej2veIfNpImoDcir+vTDobmQ0+0nMKXQQLctDOA7jf0+EzMS4/N8YrcDrsRnZeV7M10fcy0gDdFPSzOyXnf7qX7nVZLrT7vJA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BVufSnjklVtqYF/i2zyON1MCgifDrEx/Ju38yb3+pAM=;
- b=IW542DAiHHO6tkqqS6GfvEVWMmSOuNXJ5oa2Z8S8OFxVhBy3EfOPDCX3z0JLzJvGX8iopHkpAGt1uBY9qTF2Vx7snr+dQEc1p45F9sRcHrp4FDvqm0OadG57rXWguJ8y5ao3zEQR750ERcXiG7LRGleJVNdYimiHZ10st3pN+Z2NCKbpncaCDKHOjYCGt0QvVuK+IASENuey2EVfrsaoUIMT6xZs3M4FY/+e54g6T6hnN58jBpulqFgmccw9tWz3zd7omASdQRhYFaHZfAiBiIfx4p5AbSVEB/bMxQz5TXjMqWL1bVgdk+zXEGyqt7TmoEaAbuDmMpFdIP0arkp2gg==
-Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:83::20)
- by GV1PR10MB5937.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:59::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.6977.31; Wed, 15 Nov
- 2023 09:09:14 +0000
-Received: from GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c45:bfdf:a384:5450]) by GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::6c45:bfdf:a384:5450%6]) with mapi id 15.20.6977.029; Wed, 15 Nov 2023
- 09:09:14 +0000
-Date: Wed, 15 Nov 2023 14:38:12 +0530
-From: Yuran Pereira <yuran.pereira@hotmail.com>
-To: Danilo Krummrich <dakr@redhat.com>
-Cc: airlied@gmail.com, kherbst@redhat.com, lyude@redhat.com,
-	daniel@ffwll.ch, sumit.semwal@linaro.org, christian.koenig@amd.com,
-	dri-devel@lists.freedesktop.org, nouveau@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH] drm/nouveau: Prevents NULL pointer dereference in
- nouveau_uvmm_sm_prepare
-Message-ID:
- <GV1PR10MB6563980A0097762C6868E2DCE8B1A@GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM>
-References: <DB3PR10MB6835FA6E15F3C830FC793D2EE8DDA@DB3PR10MB6835.EURPRD10.PROD.OUTLOOK.COM>
- <6a1ebcef-bade-45a0-9bd9-c05f0226eb88@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a1ebcef-bade-45a0-9bd9-c05f0226eb88@redhat.com>
-X-TMN: [6Iqutr5U9611Hn/yxu9KtnQuiFevF5DX]
-X-ClientProxiedBy: JN2P275CA0034.ZAFP275.PROD.OUTLOOK.COM (2603:1086:0:2::22)
- To GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:83::20)
-X-Microsoft-Original-Message-ID: <20231115090812.GA2381420@nmj-network>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15F137E
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 09:13:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D517DC433C8;
+	Wed, 15 Nov 2023 09:13:07 +0000 (UTC)
+Message-ID: <22df79da-eece-4b9a-b452-b36cba2b4711@xs4all.nl>
+Date: Wed, 15 Nov 2023 10:13:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV1PR10MB6563:EE_|GV1PR10MB5937:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8d6aafc1-a82f-4db3-7b09-08dbe5ba6e59
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	aM6hab7v2ftiW148wwotWQ8J/R3WvAn6+iq+8Id/xRZUpKp51RLxQLSQMyhoUlfTTSDZn59/IvTPYPqFwRm+y4wVjIO47TDebKb3+B/eMWx6aeBn8YqdBgyRd6biwtNGY3ED7FgT8B1GTm5oOmKk9nzG3/F6hfbi2Rarx+GN+FAFgeAtX/NquGI2XfRutVUa6N9exKA5vN9fgcwlNZrAflM/Damdhkyn+WtJVlZvvJyKbTTQYB1PUQmCiumn0O6Edq4c/OoVMDLrzNUAgdgSnCe9XPVcKn5cfeGVAQ58IPbmT67lJ0VyZp1vvcxlR2qewFfT+u70//3IYLCM0tk9B20c7ji3pEpO0LHNnzRv4p1IjORUPA+s2cHW4cORL/8dmgazbesBJzXjdL1bKs7QU2tPXbjkSVD6zt1QXsSus16UvUT1kR4grfhdby9VMvzRcPJOfTcxokOBGoovBJ4tFjv4Fj2i0qa6++EA9xQnCux7z3cKfm8mw6auS6gxk/iK+E8816um045AlEx9Xb6/Ud7SD8ywrbKUgyzPatOO0IFbUkohFgc8fr6fqCS9Cvy+
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?h3CH4Q8PKXybcKFv5OAy88ojmkvCZdx3xRLcOSq3Dg8uWYc6gd0vc9DLp5Sl?=
- =?us-ascii?Q?fGXNnW/CgZq8fxsIIrZU34+mfUiCRuLzLWZUfJ/x9FkBlIJ2A3J5t0iG/1K/?=
- =?us-ascii?Q?QarvwQcKo2jXvtiYyL6NiZC9LChAtgoh4JNNSBmxtI4cEaVOxdC3GAbC92ZB?=
- =?us-ascii?Q?ZEqP/lv7pwUOF/mss5m29Ll+7aaI0QrjAR+e8wHNmGRu4PuV7HZt2R3zuxQ2?=
- =?us-ascii?Q?XwgQx3spbofO7R+HhzAgTL+v/+kp9nWweGDG5GyTgONKN+8yoiO8vRIf3Fw6?=
- =?us-ascii?Q?xg7pn3ja3dg3woIpghFB/ae2syrmkdtxyeDQx8CXLNujj2NrfuBnN6PE+E49?=
- =?us-ascii?Q?JQokkvfjKqUtjv4eb97fXjYMeIryKSHH8iMLOSdebmlvlMYplByNvepqTdHM?=
- =?us-ascii?Q?D/AdSJgnjBygjVkpDi0nAeAEmulxndx48EYu1NCpnktxWEngjdYH9CzqLux7?=
- =?us-ascii?Q?3tXuYCpQIXtjiO9yQltTe3euMS8eZLJSSrJusybM1Mj5WxOQJe59NDXpFE4Y?=
- =?us-ascii?Q?FprLe9R4blEC21fH5RxEJFAlFTErdVn+hRnJz7uExTiNolEuy5GMTcZ358nS?=
- =?us-ascii?Q?YmpI4iuxuaCjb5s/yjOCDcLrYnVt5AD15TnlCWT4elgOllG3EXB3JZxza6Xf?=
- =?us-ascii?Q?VmPyIvoQ4xzX26FxvYzt9G31Aimj0c/vd01IF+mPwM1pfSV0JEXO00yPwVt3?=
- =?us-ascii?Q?TrI9cYDEQCAHeulxiA/d30T7DKwNk8iCEUtDAbcQkd11UX1uQXSKA3asnHiF?=
- =?us-ascii?Q?IK/8iCZBuxblC3StJyMS7QBd+2AQP26nZDhqM7/qfHozHYzTjJ1KCUKgl9CC?=
- =?us-ascii?Q?7tPBYAAH2N8vzEWT6FO0JubLGnug66LJiOciqm+w1eR7q1c6Faha9eBf0CP2?=
- =?us-ascii?Q?+LuaKFpairwXlsS1b7JCssm1xDiSNASWZaSD47Yp1fRSh8MzvGgLFT1USyZh?=
- =?us-ascii?Q?Ya1tzuzIkNZrpQpCwoB5xfBX9M8xTOOwWFssaBqZvqcNr8w4fWegjrddaq6P?=
- =?us-ascii?Q?SmMe9/p4xi7eHrUNJHf9Zw6Sf6mAQ6PAqIfW/N1Zf03Rb6aPqtnAeFGFcJrR?=
- =?us-ascii?Q?qPysucbZaQoHnlYuKFrWxMyahVECcxomffCtSucwzvk2gVUjjT1xgDJx8kiQ?=
- =?us-ascii?Q?yy6SzYYuJsz5HT1ocjw4ZC+xF27zrzIVvq7IdJwvVCSvkQ89ElcTNxLl8Zf5?=
- =?us-ascii?Q?/1wZltK3VLf26dKRZ5sPOGeIB+ZxblV2rTKPURMQRdQE1gYr26CKPLY2jwI?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-6b909.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8d6aafc1-a82f-4db3-7b09-08dbe5ba6e59
-X-MS-Exchange-CrossTenant-AuthSource: GV1PR10MB6563.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Nov 2023 09:09:14.3652
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR10MB5937
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 10/15] media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
+Content-Language: en-US, nl
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@iki.fi>, Shengjiu Wang <shengjiu.wang@nxp.com>,
+ m.szyprowski@samsung.com, mchehab@kernel.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com,
+ festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
+ broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
+References: <1699595289-25773-1-git-send-email-shengjiu.wang@nxp.com>
+ <1699595289-25773-11-git-send-email-shengjiu.wang@nxp.com>
+ <4cd6b593-2376-4cbc-a7c8-d3eb36a2f7a0@xs4all.nl>
+ <20231113104238.GA13981@pendragon.ideasonboard.com>
+ <6a3e7eb9-505c-4cfb-8a86-a8947a2e44d5@xs4all.nl>
+ <20231113110754.GB24338@pendragon.ideasonboard.com>
+ <3e898664-cbfc-4892-9765-37b66891643b@xs4all.nl>
+ <ZVIIc-fi32ZxIi-p@valkosipuli.retiisi.eu>
+ <20231113114357.GD24338@pendragon.ideasonboard.com>
+ <da6efe14-c00d-4bf4-bf61-dd4ed39c5c60@xs4all.nl>
+ <20231113124412.GA18974@pendragon.ideasonboard.com>
+ <b35601f7-8bb2-4317-a8f7-6fbf81572943@xs4all.nl>
+ <CAAFQd5CjnvDh1t9N+xbnQD4HuJoYwA0gtKUQPCy-6EF=Oy-rGA@mail.gmail.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <CAAFQd5CjnvDh1t9N+xbnQD4HuJoYwA0gtKUQPCy-6EF=Oy-rGA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hello Danilo,
-On Tue, Nov 14, 2023 at 05:23:59PM +0100, Danilo Krummrich wrote:
-> Hi Yuran,
+On 15/11/2023 09:45, Tomasz Figa wrote:
+> On Wed, Nov 15, 2023 at 5:09 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>
+>> Hi Laurent,
+>>
+>> On 13/11/2023 13:44, Laurent Pinchart wrote:
+>>> Hi Hans,
+>>>
+>>> On Mon, Nov 13, 2023 at 01:05:12PM +0100, Hans Verkuil wrote:
+>>>> On 13/11/2023 12:43, Laurent Pinchart wrote:
+>>>>> On Mon, Nov 13, 2023 at 11:28:51AM +0000, Sakari Ailus wrote:
+>>>>>> On Mon, Nov 13, 2023 at 12:24:14PM +0100, Hans Verkuil wrote:
+>>>>>>> On 13/11/2023 12:07, Laurent Pinchart wrote:
+>>>>>>>> On Mon, Nov 13, 2023 at 11:56:49AM +0100, Hans Verkuil wrote:
+>>>>>>>>> On 13/11/2023 11:42, Laurent Pinchart wrote:
+>>>>>>>>>> On Mon, Nov 13, 2023 at 11:29:09AM +0100, Hans Verkuil wrote:
+>>>>>>>>>>> On 10/11/2023 06:48, Shengjiu Wang wrote:
+>>>>>>>>>>>> Fixed point controls are used by the user to configure
+>>>>>>>>>>>> a fixed point value in 64bits, which Q31.32 format.
+>>>>>>>>>>>>
+>>>>>>>>>>>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+>>>>>>>>>>>
+>>>>>>>>>>> This patch adds a new control type. This is something that also needs to be
+>>>>>>>>>>> tested by v4l2-compliance, and for that we need to add support for this to
+>>>>>>>>>>> one of the media test-drivers. The best place for that is the vivid driver,
+>>>>>>>>>>> since that has already a bunch of test controls for other control types.
+>>>>>>>>>>>
+>>>>>>>>>>> See e.g. VIVID_CID_INTEGER64 in vivid-ctrls.c.
+>>>>>>>>>>>
+>>>>>>>>>>> Can you add a patch adding a fixed point test control to vivid?
+>>>>>>>>>>
+>>>>>>>>>> I don't think V4L2_CTRL_TYPE_FIXED_POINT is a good idea. This seems to
+>>>>>>>>>> relate more to units than control types. We have lots of fixed-point
+>>>>>>>>>> values in controls already, using the 32-bit and 64-bit integer control
+>>>>>>>>>> types. They use various locations for the decimal point, depending on
+>>>>>>>>>> the control. If we want to make this more explicit to users, we should
+>>>>>>>>>> work on adding unit support to the V4L2 controls.
+>>>>>>>>>
+>>>>>>>>> "Fixed Point" is not a unit, it's a type. 'Db', 'Hz' etc. are units.
+>>>>>>>>
+>>>>>>>> It's not a unit, but I think it's related to units. My point is that,
+>>>>>>>> without units support, I don't see why we need a formal definition of
+>>>>>>>> fixed-point types, and why this series couldn't just use
+>>>>>>>> VIVID_CID_INTEGER64. Drivers already interpret VIVID_CID_INTEGER64
+>>>>>>>> values as they see fit.
+>>>>>>>
+>>>>>>> They do? That's new to me. A quick grep for V4L2_CTRL_TYPE_INTEGER64
+>>>>>>> (I assume you meant that rather than VIVID_CID_INTEGER64) shows that it
+>>>>>
+>>>>> Yes, I meant V4L2_CTRL_TYPE_INTEGER64. Too hasty copy & paste :-)
+>>>>>
+>>>>>>> is always interpreted as a 64 bit integer and nothing else. As it should.
+>>>>>
+>>>>> The most common case for control handling in drivers is taking the
+>>>>> integer value and converting it to a register value, using
+>>>>> device-specific encoding of the register value. It can be a fixed-point
+>>>>> format or something else, depending on the device. My point is that
+>>>>> drivers routinely convert a "plain" integer to something else, and that
+>>>>> has never been considered as a cause of concern. I don't see why it
+>>>>> would be different in this series.
+>>>>>
+>>>>>>> And while we do not have support for units (other than the documentation),
+>>>>>>> we do have type support in the form of V4L2_CTRL_TYPE_*.
+>>>>>>>
+>>>>>>>>> A quick "git grep -i "fixed point" Documentation/userspace-api/media/'
+>>>>>>>>> only shows a single driver specific control (dw100.rst).
+>>>>>>>>>
+>>>>>>>>> I'm not aware of other controls in mainline that use fixed point.
+>>>>>>>>
+>>>>>>>> The analog gain control for sensors for instance.
+>>>>>>>
+>>>>>>> Not really. The documentation is super vague:
+>>>>>>>
+>>>>>>> V4L2_CID_ANALOGUE_GAIN (integer)
+>>>>>>>
+>>>>>>>   Analogue gain is gain affecting all colour components in the pixel matrix. The
+>>>>>>>   gain operation is performed in the analogue domain before A/D conversion.
+>>>>>>>
+>>>>>>> And the integer is just a range. Internally it might map to some fixed
+>>>>>>> point value, but userspace won't see that, it's hidden in the driver AFAICT.
+>>>>>
+>>>>> It's hidden so well that libcamera has a database of the sensor it
+>>>>> supports, with formulas to map a real gain value to the
+>>>>> V4L2_CID_ANALOGUE_GAIN control. The encoding of the integer value does
+>>>>> matter, and the kernel doesn't expose it. We may or may not consider
+>>>>> that as a shortcoming of the V4L2 control API, but in any case it's the
+>>>>> situation we have today.
+>>>>>
+>>>>>> I wonder if Laurent meant digital gain.
+>>>>>
+>>>>> No, I meant analog. It applies to digital gain too though.
+>>>>>
+>>>>>> Those are often Q numbers. The practice there has been that the default
+>>>>>> value yields gain of 1.
+>>>>>>
+>>>>>> There are probably many other examples in controls where something being
+>>>>>> controlled isn't actually an integer while integer controls are still being
+>>>>>> used for the purpose.
+>>>>>
+>>>>> A good summary of my opinion :-)
+>>>>
+>>>> And that works fine as long as userspace doesn't need to know what the value
+>>>> actually means.
+>>>>
+>>>> That's not the case here. The control is really a fractional Hz value:
+>>>>
+>>>> +``V4L2_CID_M2M_AUDIO_SOURCE_RATE_OFFSET (fixed point)``
+>>>> +    Sets the offset from the audio source sample rate, unit is Hz.
+>>>> +    The offset compensates for any clock drift. The actual source audio sample
+>>>> +    rate is the ideal source audio sample rate from
+>>>> +    ``V4L2_CID_M2M_AUDIO_SOURCE_RATE`` plus this fixed point offset.
+>>>
+>>> I don't see why this would require a new type, you can use
+>>> V4L2_CTRL_TYPE_INTEGER64, and document the control as containing
+>>> fixed-point values in Q31.32 format.
+>>
+>> Why would you want to do this? I can store a double in a long long int,
+>> and just document that the variable is really a double, but why would you?
+>>
+>> The cost of adding a FIXED_POINT type is minimal, and having this type
+>> makes it easy to work with fixed point controls (think about proper reporting
+>> and setting of the value in v4l2-ctl and user applications in general that
+>> deal with controls).
 > 
-> op_map_prepare() can't be called with `args` being NULL, since when called
-> through nouveau_uvmm_sm_unmap_prepare() we can't hit the DRM_GPUVA_OP_MAP
-> case at all.
-> 
-> Unmapping something never leads to a new mapping being created, it can lead
-> to remaps though.
-> 
-Yes, you're right. I certainly hadn't noticed that when I first
-submitted this patch.
-> 
-> This check is not required for the reason given above. If you like, you
-> can change this patch up to remove the args check and add a comment like:
-> 
-> /* args can't be NULL when called for a map operation. */
-> 
-Sure, I'll do that, sounds reasonable.
+> I can see one potential drawback of adding a new type - userspace
+> would have to be made aware of it, although arguably with brand new
+> controls, userspace would have to be aware of them anyway. Not sure if
+> we have some kind of userspace that can handle any controls purely
+> based on their type - if yes, they would not be able to handle the new
+> controls.
 
-Thank you for your feedback.
+The generic userspace apps are all in v4l-utils (v4l2-ctl/compliance, qv4l2),
+so that is not a problem. We add new types all the time, this is nothing
+new.
 
-Yuran
+Regards,
+
+	Hans
+
 > 
-> Yeah, I see how this unnecessary check made you think so.
-> 
-> - Danilo
-> 
-> 
+>>
+>> If this would add a thousand lines of complex code, then this would be a
+>> consideration, but this is just a few lines.
+>>
+>> Just to give an example, if you use 'v4l2-ctl -l' to list a int64 control
+>> and it reports the value 13958643712, would you be able to see that that is
+>> really 3.25 in fixed point format? With the right type it would be printed
+>> like that. Much easier to work work.
+>>
+>> Regards,
+>>
+>>         Hans
+>>
+>>>
+>>>>>> Instead of this patch, I'd prefer to have a way to express the meaning of
+>>>>>> the control value, be it a Q number or something else, and do that
+>>>>>> independently of the type of the control.
+>>>>
+>>>> Huh? How is that different from the type of the control? You have integers
+>>>> (one type) and fixed point (another type).
+>>>>
+>>>> Or do you want a more general V4L2_CTRL_TYPE_ that specifies the N.M values
+>>>> explicitly?
+>>>>
+>>>> I think the main reason why we use integer controls for gain is that we
+>>>> never had a fixed point control type and you could get away with that in
+>>>> user space for that particular use-case.
+>>>>
+>>>> Based on the V4L2_CID_NOTIFY_GAINS documentation the gain value can typically
+>>>> be calculated as (value / default_value),
+>>>
+>>> Typically, but not always. Some sensor have an exponential gain model,
+>>> and some have weird gain representation, such as 1/x. That's getting out
+>>> of scope though.
+>>>
+>>>> but that won't work for a rate offset
+>>>> control as above, or for e.g. CSC matrices for color converters.
+>>>>
+>>>>> Agreed.
+>>>>>
+>>>>>>> In the case of this particular series the control type is really a fixed point
+>>>>>>> value with a documented unit (Hz). It really is not something you want to
+>>>>>>> use type INTEGER64 for.
+>>>>>>>
+>>>>>>>>> Note that V4L2_CTRL_TYPE_FIXED_POINT is a Q31.32 format. By setting
+>>>>>>>>> min/max/step you can easily map that to just about any QN.M format where
+>>>>>>>>> N <= 31 and M <= 32.
+>>>>>>>>>
+>>>>>>>>> In the case of dw100 it is a bit different in that it is quite specialized
+>>>>>>>>> and it had to fit in 16 bits.
+>>>
+>>
+
 
