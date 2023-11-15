@@ -1,67 +1,68 @@
-Return-Path: <linux-media+bounces-414-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-415-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4BCB7ED816
-	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 00:23:29 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2632E7ED826
+	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 00:26:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E04311C20935
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 23:23:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 89CD11F229D6
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 23:26:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F70945BEF;
-	Wed, 15 Nov 2023 23:23:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB41A45BEF;
+	Wed, 15 Nov 2023 23:26:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S74D+7Ff"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="EmVeC9oA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E9FA195
-	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 15:23:19 -0800 (PST)
-Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1cc79f73e58so23835ad.1
-        for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 15:23:19 -0800 (PST)
+Received: from mail-pl1-x633.google.com (mail-pl1-x633.google.com [IPv6:2607:f8b0:4864:20::633])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81B5B19F
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 15:26:23 -0800 (PST)
+Received: by mail-pl1-x633.google.com with SMTP id d9443c01a7336-1cc209561c3so63875ad.0
+        for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 15:26:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1700090598; x=1700695398; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1700090783; x=1700695583; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=ovisp4W0+ERVnEpLBxErrb/LVokI42Qjeftj4bEI+VQ=;
-        b=S74D+7FfJ7XTBUp6ye76T2ArSqbsR1v5Xz00Ad+m3RkkcquFwYPhSknMHnvqBWugG8
-         UDbWSKFaqQ7qDgc+Fy1ecc6shaJskeGdANAdyueTR/w7/vgc10h0iudWn/lmWmPWLo0E
-         1DpPosVgGLP89qMbX88m/uB26wsRx5liI4iM+9mL38/3P6dJiOUKM0cmUmX+1pS4a94j
-         ohGsF2+aTyKrBLN6FcARJxx/OT5ULuB8Nc8I9KSZZ6JZ8ODxje1dQ94JZYdpilCOgMNK
-         2EjxJ/3B3MQPd1bvX5KWfUxs4bWNNPMvKBuUnAFGkZXNnmd8hUJH6D1nt+Lyl0S6vmF7
-         gBvA==
+        bh=KAFs8HHoQNrVkpTk2Xb6uh3p9ALW4pkggBRLwqVuKp8=;
+        b=EmVeC9oAvT3p2qIq7Phb92qEdYMlmljWd3pAniWc/MnzbfYZB6/Xc5Kbdzy/BvVf2J
+         wNqxq8eccQTMf5e+J4mB/UBzsbMQmbbmdwfgcZKxtHWD0NhvENHiYM7YxC5uDYr6y5W9
+         AzJgcBBKsuCNfjVmXMhiA/TW7bf3JbfUR1gyYcMwDOkAWrX1GVpphUrNfFWeel94MUUB
+         LwxL3pHeWAVf9h8HBdhdwB2rtthCYAs3S93bgZw8OTOqnMjVU/ebe4gb+hGh4xTVmgXd
+         pUEvBfu/PL/tGEi5ZbC4+sinFSaLoPZ680Ac+UHwtiO3AOg3OpT3FvkIKdrZWX4vyPie
+         fYDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700090598; x=1700695398;
+        d=1e100.net; s=20230601; t=1700090783; x=1700695583;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=ovisp4W0+ERVnEpLBxErrb/LVokI42Qjeftj4bEI+VQ=;
-        b=hAabAYkQCw1ai5diVHwspZJd9JVqhX7A756tHrwIqxQioitmVKhkWMc2Bnd+x2bEaq
-         Mc2uJf5Ew6OZTltUT1mJxGF9P/JDPgayXxElXBpihOG4sPa6CwCgRI9CinAK4VjuE4pg
-         TiVnqtlLTtyIz6/RtSwikLSjY/40g7dDAx8yvBvSw2TV/TCGsmZgJEcizKtpKcj9Ke3+
-         z2pGpcBveuAoUdqYic+qI8QFwWYd/BYFIKO+BeR94eZXq4ZE5VHOmgLhGevpQFJcbSCn
-         X+2wVcFlfl/F4jVxAGyRMizcUjtX1bwpagK/7ZI1ytnJ54snJz+GN1p3KYXGNk3vCyd3
-         KkyA==
-X-Gm-Message-State: AOJu0YyKukhpidsJ2Qt0bBAusqcMdEwbAaraROhU1Tw2K2CWH1NkmYDK
-	a2GV6Jn+9hE2xsi6SOMXsJ8Afd73+MRrjmGmX2q9
-X-Google-Smtp-Source: AGHT+IErsHMGbRATNNKpz2Dt8JZ8b5ED9aDbgRj3Xs2d6cY3G6zsC74jYP7/fSZp+oEGV6/LrmKC5ZGMy/uRFCzoFYI=
-X-Received: by 2002:a17:902:e74f:b0:1bd:9c78:8031 with SMTP id
- p15-20020a170902e74f00b001bd9c788031mr69374plf.9.1700090598298; Wed, 15 Nov
- 2023 15:23:18 -0800 (PST)
+        bh=KAFs8HHoQNrVkpTk2Xb6uh3p9ALW4pkggBRLwqVuKp8=;
+        b=ICnGrhivNez0vlULoyupuAj/+kxm7hdyyFLwmYo/NRTD24GfdIy7tu06A+TjoXC8vy
+         RfOCFf8TXM2r+zM/WgJlgJ2rZ+zChkwCKVr5kul7v3r5TfTwgYRVws7ijgAAa3NSq30/
+         5G3RrkxKTwjZXQkxucNH4A8ZhKl4WrqY15LkjI6jURaPnC7LGZbktKduK5s94tE0CK21
+         DcwfbJYvtsb0YH33fOXXEUErx8iL4FMMRZTKe+LZ61JQ7Ps9KcwEE48rEXBmOchD8ex5
+         z1T06FzTj/udb6neND8VAaBWsBvjujzCS7MWgRR0JIltisSbYceIalZ3i02Pk4AQhxU4
+         eYDw==
+X-Gm-Message-State: AOJu0YwMNUD7y6ewLKGKCI0v2cug8GU7ynK0fFEsnkyqP8fh5iE1P841
+	nr0ZlEehttmdoIR/cYHhOnyuivoCvdPREoEztnIr
+X-Google-Smtp-Source: AGHT+IGj+hC5mU9kET+8w2o2R4u5BSQRJN1vIsWLj2aFby+giajWEP2YT1Jlfo5UOZkuWR/w/W7j5Z6KHyHw0pRmcMA=
+X-Received: by 2002:a17:902:c40d:b0:1cc:51d6:fb04 with SMTP id
+ k13-20020a170902c40d00b001cc51d6fb04mr61228plk.26.1700090782696; Wed, 15 Nov
+ 2023 15:26:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231111111559.8218-1-yong.wu@mediatek.com> <20231111111559.8218-4-yong.wu@mediatek.com>
-In-Reply-To: <20231111111559.8218-4-yong.wu@mediatek.com>
+References: <20231111111559.8218-1-yong.wu@mediatek.com> <20231111111559.8218-5-yong.wu@mediatek.com>
+In-Reply-To: <20231111111559.8218-5-yong.wu@mediatek.com>
 From: Jeffrey Kardatzke <jkardatzke@google.com>
-Date: Wed, 15 Nov 2023 15:23:06 -0800
-Message-ID: <CA+ddPcON2gBOsFk4KZS-tEFLKWxg6jH8Kf_xDObXMKbR=N+gzg@mail.gmail.com>
-Subject: Re: [PATCH v2 3/8] dma-buf: heaps: secure_heap: Initialize tee session
+Date: Wed, 15 Nov 2023 15:26:11 -0800
+Message-ID: <CA+ddPcNDBSESjJSKiTwEpf_GydThrdh+KGnnXmTnYVmmnwZ83w@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] dma-buf: heaps: secure_heap: Add tee memory
+ service call
 To: Yong Wu <yong.wu@mediatek.com>
 Cc: Rob Herring <robh+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
 	christian.koenig@amd.com, Matthias Brugger <matthias.bgg@gmail.com>, 
@@ -78,166 +79,197 @@ Cc: Rob Herring <robh+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Everything in this patch set should move into the MTK specific
-implementation I suggested in patch 1 (secure_heap_mtk.c)
-
 On Sat, Nov 11, 2023 at 3:17=E2=80=AFAM Yong Wu <yong.wu@mediatek.com> wrot=
 e:
 >
-> The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't work
-> here since this is not a platform driver, therefore initialize the TEE
-> context/session while we allocate the first secure buffer.
+> Add TEE service call. In the case of MediaTek, secure memory management i=
+s
+> located within the TEE. The kernel just needs to tell TEE what size it
+> needs and the TEE will return a "security handle" to kernel.
 >
-> Add our special UUID and tee type in the private data.
+> To be consistent with the cma heap later, we put the tee ops into the ops
+> of secure_the_memory.
 >
-> If the uuid is zero, it means that it doesn't enter TEE to protect the
-> buffer, there may be other ways to protect the buffer.
->
-> All the MTK chrome projects use this UUID. The UUID is only used in the
-> kernelspace while userspace never use it. The userspace could allocate th=
-e
-> secure memory via the existing dma-buf ioctl.
+> It seems that secure_heap_tee_service_call could be a more general
+> interface, but it could be a new topic.
 >
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 > ---
->  drivers/dma-buf/heaps/secure_heap.c | 75 +++++++++++++++++++++++++++++
->  1 file changed, 75 insertions(+)
+>  drivers/dma-buf/heaps/secure_heap.c | 97 +++++++++++++++++++++++++++++
+>  1 file changed, 97 insertions(+)
 >
 > diff --git a/drivers/dma-buf/heaps/secure_heap.c b/drivers/dma-buf/heaps/=
 secure_heap.c
-> index 87ac23072e9e..2a037fc54004 100644
+> index 2a037fc54004..05062c14e7c7 100644
 > --- a/drivers/dma-buf/heaps/secure_heap.c
 > +++ b/drivers/dma-buf/heaps/secure_heap.c
-> @@ -10,6 +10,12 @@
->  #include <linux/err.h>
->  #include <linux/module.h>
->  #include <linux/slab.h>
-> +#include <linux/tee_drv.h>
-> +#include <linux/uuid.h>
-> +
-> +#define TZ_TA_MEM_UUID_MTK             "4477588a-8476-11e2-ad15-e41f1390=
-d676"
-> +
-> +#define TEE_PARAM_NUM                  4
+> @@ -17,6 +17,27 @@
 >
+>  #define TEE_PARAM_NUM                  4
+>
+> +enum secure_buffer_tee_cmd { /* PARAM NUM always is 4. */
+> +       /*
+> +        * TZCMD_SECMEM_ZALLOC: Allocate the zeroed secure memory from TE=
+E.
+> +        *
+> +        * [in]  value[0].a: The buffer size.
+> +        *       value[0].b: alignment.
+> +        * [in]  value[1].a: enum secure_memory_type.
+> +        * [out] value[3].a: The secure handle.
+> +        */
+> +       TZCMD_SECMEM_ZALLOC =3D 0,
+> +
+> +       /*
+> +        * TZCMD_SECMEM_FREE: Free secure memory.
+> +        *
+> +        * [in]  value[0].a: The secure handle of this buffer, It's value=
+[3].a of
+> +        *                   TZCMD_SECMEM_ZALLOC.
+> +        * [out] value[1].a: return value, 0 means successful, otherwise =
+fail.
+> +        */
+> +       TZCMD_SECMEM_FREE =3D 1,
+> +};
+> +
+
+This should go in the MTK specific implementation.
+
 >  enum secure_memory_type {
 >         /*
-> @@ -27,6 +33,9 @@ struct secure_buffer {
+>          * MediaTek static chunk memory carved out for TrustZone. The mem=
+ory
+> @@ -28,13 +49,25 @@ enum secure_memory_type {
+>  struct secure_buffer {
+>         struct dma_heap                 *heap;
+>         size_t                          size;
+> +       /*
+> +        * The secure handle is a reference to a buffer within the TEE, t=
+his is
+> +        * a value got from TEE.
+> +        */
+> +       u32                             sec_handle;
+>  };
+
+Change this to a u64 and rename it to 'secure_address', it's up to the
+specific implementation what that would actually mean.
+
+>
+> +#define TEE_MEM_COMMAND_ID_BASE_MTK    0x10000
+> +
+Move this into the MTK specific implementation.
+
 >  struct secure_heap;
 >
 >  struct secure_heap_prv_data {
-> +       const char                      *uuid;
-> +       const int                       tee_impl_id;
-> +
+>         const char                      *uuid;
+>         const int                       tee_impl_id;
+> +       /*
+> +        * Different TEEs may implement different commands, and this prov=
+ides an opportunity
+> +        * for TEEs to use the same enum secure_buffer_tee_cmd.
+> +        */
+> +       const int                       tee_command_id_base;
+Remove this, it can be handled in the MTK specific implementation.
+>
 >         int     (*memory_alloc)(struct secure_heap *sec_heap, struct secu=
 re_buffer *sec_buf);
 >         void    (*memory_free)(struct secure_heap *sec_heap, struct secur=
 e_buffer *sec_buf);
+> @@ -98,10 +131,74 @@ static int secure_heap_tee_session_init(struct secur=
+e_heap *sec_heap)
+>         return ret;
+>  }
 >
-> @@ -39,9 +48,62 @@ struct secure_heap {
->         const char                      *name;
->         const enum secure_memory_type   mem_type;
->
-> +       struct tee_context              *tee_ctx;
-> +       u32                             tee_session;
-> +
->         const struct secure_heap_prv_data *data;
->  };
->
-> +static int tee_ctx_match(struct tee_ioctl_version_data *ver, const void =
-*data)
+> +static int
+> +secure_heap_tee_service_call(struct tee_context *tee_ctx, u32 session,
+> +                            unsigned int command, struct tee_param *para=
+ms)
 > +{
-> +       const struct secure_heap_prv_data *d =3D data;
-> +
-> +       return ver->impl_id =3D=3D d->tee_impl_id;
-> +}
-> +
-> +static int secure_heap_tee_session_init(struct secure_heap *sec_heap)
-> +{
-> +       struct tee_param t_param[TEE_PARAM_NUM] =3D {0};
-> +       struct tee_ioctl_open_session_arg arg =3D {0};
-> +       const struct secure_heap_prv_data *data =3D sec_heap->data;
-> +       uuid_t ta_mem_uuid;
+> +       struct tee_ioctl_invoke_arg arg =3D {0};
 > +       int ret;
 > +
-> +       sec_heap->tee_ctx =3D tee_client_open_context(NULL, tee_ctx_match=
-, data, NULL);
-> +       if (IS_ERR(sec_heap->tee_ctx)) {
-> +               pr_err_once("%s: open context failed, ret=3D%ld\n", sec_h=
-eap->name,
-> +                           PTR_ERR(sec_heap->tee_ctx));
-> +               return -ENODEV;
-> +       }
-> +
 > +       arg.num_params =3D TEE_PARAM_NUM;
-> +       arg.clnt_login =3D TEE_IOCTL_LOGIN_PUBLIC;
-> +       ret =3D uuid_parse(data->uuid, &ta_mem_uuid);
-> +       if (ret)
-> +               goto close_context;
-> +       memcpy(&arg.uuid, &ta_mem_uuid.b, sizeof(ta_mem_uuid));
+> +       arg.session =3D session;
+> +       arg.func =3D command;
 > +
-> +       ret =3D tee_client_open_session(sec_heap->tee_ctx, &arg, t_param)=
-;
+> +       ret =3D tee_client_invoke_func(tee_ctx, &arg, params);
 > +       if (ret < 0 || arg.ret) {
-> +               pr_err_once("%s: open session failed, ret=3D%d:%d\n",
-> +                           sec_heap->name, ret, arg.ret);
-> +               ret =3D -EINVAL;
-> +               goto close_context;
+> +               pr_err("%s: cmd %d ret %d:%x.\n", __func__, command, ret,=
+ arg.ret);
+> +               ret =3D -EOPNOTSUPP;
 > +       }
-> +       sec_heap->tee_session =3D arg.session;
-> +       return 0;
-> +
-> +close_context:
-> +       tee_client_close_context(sec_heap->tee_ctx);
 > +       return ret;
 > +}
 > +
-> +/* The memory allocating is within the TEE. */
-> +const struct secure_heap_prv_data mtk_sec_mem_data =3D {
-> +       .uuid                   =3D TZ_TA_MEM_UUID_MTK,
-> +       .tee_impl_id            =3D TEE_IMPL_ID_OPTEE,
-> +};
+> +static int secure_heap_tee_secure_memory(struct secure_heap *sec_heap,
+> +                                        struct secure_buffer *sec_buf)
+> +{
+> +       const struct secure_heap_prv_data *data =3D sec_heap->data;
+> +       struct tee_param params[TEE_PARAM_NUM] =3D {0};
+> +       int ret;
 > +
+> +       params[0].attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
+> +       params[0].u.value.a =3D sec_buf->size;
+> +       params[0].u.value.b =3D PAGE_SIZE;
+> +       params[1].attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
+> +       params[1].u.value.a =3D sec_heap->mem_type;
+> +       params[2].attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
+> +
+> +       params[3].attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
+> +       ret =3D secure_heap_tee_service_call(sec_heap->tee_ctx, sec_heap-=
+>tee_session,
+> +                                          data->tee_command_id_base + TZ=
+CMD_SECMEM_ZALLOC,
+> +                                          params);
+> +       if (ret)
+> +               return -ENOMEM;
+> +
+> +       sec_buf->sec_handle =3D params[3].u.value.a;
+> +       return 0;
+> +}
+> +
+> +static void secure_heap_tee_unsecure_memory(struct secure_heap *sec_heap=
+,
+> +                                           struct secure_buffer *sec_buf=
+)
+> +{
+> +       struct tee_param params[TEE_PARAM_NUM] =3D {0};
+> +
+> +       params[0].attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT;
+> +       params[0].u.value.a =3D sec_buf->sec_handle;
+> +       params[1].attr =3D TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT;
+> +
+> +       secure_heap_tee_service_call(sec_heap->tee_ctx, sec_heap->tee_ses=
+sion,
+> +                                    sec_heap->data->tee_command_id_base =
++ TZCMD_SECMEM_FREE,
+> +                                    params);
+> +       if (params[1].u.value.a)
+> +               pr_err("%s, free buffer(0x%x) return fail(%lld) from TEE.=
+\n",
+> +                      sec_heap->name, sec_buf->sec_handle, params[1].u.v=
+alue.a);
+> +}
+> +
+
+These are entirely MTK specific, so move them into the MTK specific
+implementation.
+
+>  /* The memory allocating is within the TEE. */
+>  const struct secure_heap_prv_data mtk_sec_mem_data =3D {
+>         .uuid                   =3D TZ_TA_MEM_UUID_MTK,
+>         .tee_impl_id            =3D TEE_IMPL_ID_OPTEE,
+> +       .tee_command_id_base    =3D TEE_MEM_COMMAND_ID_BASE_MTK,
+> +       .secure_the_memory      =3D secure_heap_tee_secure_memory,
+> +       .unsecure_the_memory    =3D secure_heap_tee_unsecure_memory,
+>  };
+
+This should also go into the MTK specific implementation, and to be
+clear, that's where module_init should be as well.
+
+>
 >  static int secure_heap_secure_memory_allocate(struct secure_heap *sec_he=
 ap,
->                                               struct secure_buffer *sec_b=
-uf)
->  {
-> @@ -84,11 +146,23 @@ secure_heap_allocate(struct dma_heap *heap, unsigned=
- long size,
->                      unsigned long fd_flags, unsigned long heap_flags)
->  {
->         struct secure_heap *sec_heap =3D dma_heap_get_drvdata(heap);
-> +       const struct secure_heap_prv_data *data =3D sec_heap->data;
->         struct secure_buffer *sec_buf;
->         DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
->         struct dma_buf *dmabuf;
->         int ret;
->
-> +       /*
-> +        * If uuid is valid, It requires enter TEE to protect buffers. Ho=
-wever
-> +        * TEE probe may be late. Initialize the secure session the first=
- time
-> +        * we request the secure buffer.
-> +        */
-> +       if (data->uuid && !sec_heap->tee_session) {
-> +               ret =3D secure_heap_tee_session_init(sec_heap);
-> +               if (ret)
-> +                       return ERR_PTR(ret);
-> +       }
-> +
->         sec_buf =3D kzalloc(sizeof(*sec_buf), GFP_KERNEL);
->         if (!sec_buf)
->                 return ERR_PTR(-ENOMEM);
-> @@ -127,6 +201,7 @@ static struct secure_heap secure_heaps[] =3D {
->         {
->                 .name           =3D "secure_mtk_cm",
->                 .mem_type       =3D SECURE_MEMORY_TYPE_MTK_CM_TZ,
-> +               .data           =3D &mtk_sec_mem_data,
->         },
->  };
->
 > --
 > 2.25.1
 >
