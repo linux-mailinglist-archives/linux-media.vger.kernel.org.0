@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-413-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-414-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F29147ED811
-	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 00:22:09 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4BCB7ED816
+	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 00:23:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 6EB1AB20BE1
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 23:22:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E04311C20935
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 23:23:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E182045BE6;
-	Wed, 15 Nov 2023 23:22:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F70945BEF;
+	Wed, 15 Nov 2023 23:23:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="F8+ElcVv"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="S74D+7Ff"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-x636.google.com (mail-pl1-x636.google.com [IPv6:2607:f8b0:4864:20::636])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4496C196
-	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 15:21:56 -0800 (PST)
-Received: by mail-pl1-x636.google.com with SMTP id d9443c01a7336-1cc209561c3so63415ad.0
-        for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 15:21:56 -0800 (PST)
+Received: from mail-pl1-x62f.google.com (mail-pl1-x62f.google.com [IPv6:2607:f8b0:4864:20::62f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E9FA195
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 15:23:19 -0800 (PST)
+Received: by mail-pl1-x62f.google.com with SMTP id d9443c01a7336-1cc79f73e58so23835ad.1
+        for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 15:23:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1700090516; x=1700695316; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1700090598; x=1700695398; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=lNrY+yv6flp09u25YudSqsktgZkCbw+hX4drbUgi3Pw=;
-        b=F8+ElcVvm0NX6zwN30341pa5KkUHoO4FmFSeHW2B39gJTuHPIk4RQvIVCPP7PVw55G
-         /J6zGU6xft1YnfumvuhML0C2aFex0NZOIiWcvXwtTTfXPuax3WJomqvg+/ek/4/MxrbF
-         UyFUYKMK5jcOJeXuZeILkkIjk+g8yzbJOSgpatFFA9XJc+2Up4AuPd/QkkCqCiabJunm
-         QiPhx2cxsBxl3BvQ0dTR3g+K5SV48rGBqi0YxmhWSCd2q3Hmxcscj6gCBOLxmSUjUyKo
-         LRR0T3Cc3N6em/XAz0PHLh8uMB5vEK2wutPki4I/+8JLMceAzp4PbsJ9wJ6PNqK6GR0P
-         dQEw==
+        bh=ovisp4W0+ERVnEpLBxErrb/LVokI42Qjeftj4bEI+VQ=;
+        b=S74D+7FfJ7XTBUp6ye76T2ArSqbsR1v5Xz00Ad+m3RkkcquFwYPhSknMHnvqBWugG8
+         UDbWSKFaqQ7qDgc+Fy1ecc6shaJskeGdANAdyueTR/w7/vgc10h0iudWn/lmWmPWLo0E
+         1DpPosVgGLP89qMbX88m/uB26wsRx5liI4iM+9mL38/3P6dJiOUKM0cmUmX+1pS4a94j
+         ohGsF2+aTyKrBLN6FcARJxx/OT5ULuB8Nc8I9KSZZ6JZ8ODxje1dQ94JZYdpilCOgMNK
+         2EjxJ/3B3MQPd1bvX5KWfUxs4bWNNPMvKBuUnAFGkZXNnmd8hUJH6D1nt+Lyl0S6vmF7
+         gBvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700090516; x=1700695316;
+        d=1e100.net; s=20230601; t=1700090598; x=1700695398;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lNrY+yv6flp09u25YudSqsktgZkCbw+hX4drbUgi3Pw=;
-        b=SDQxntklJP9tlgHyP36WTcOwbkgsWR/CtmUBtvJlzwL8VPSjMwNbA9PEyzsrqgXTGD
-         vGXKWcyZ/mNnx3h1MxhGVvTHj/wU4hW7ON0Pb5I3gSdSLrmYqSx5HyIeT92hle/CnZYx
-         2zYRV3obSHz+kyHWMbhzPLB+SQjcSNTHwmRXyPtZ0j6RJ+hWB6TW3t63gmlh+lEVf8WS
-         rPuBz5KBstOrm72gPwumMTF/PwoQknP7xx4dyphfLqfTrvMm1nX0Xrt8RoVJrhpQt0p1
-         I/6Kte6BFkxs6krg2MyBqi6KwuU+1bvrIi+fKIKehAr94d2ETJ35v2N8aLnvO1RHK/OG
-         zHNg==
-X-Gm-Message-State: AOJu0Yw6F+zoAcb4M/wgoM6yyLX0kCyiy+IfEFAzbuI/Ox138ytUHRfj
-	aB94mMoeuRmKbMKQhe9bJ0+xATABSyYiX9LkSuFM
-X-Google-Smtp-Source: AGHT+IGm7zgQJWAfwVDpHCI+ij6qSFWymYieGz93/wfD0nW3TAyf4K67Hy1IrPWOL2RQmlTU4JpJXZoiI0CXMLDcngE=
-X-Received: by 2002:a17:902:c942:b0:1cc:2c43:9061 with SMTP id
- i2-20020a170902c94200b001cc2c439061mr61673pla.21.1700090515344; Wed, 15 Nov
- 2023 15:21:55 -0800 (PST)
+        bh=ovisp4W0+ERVnEpLBxErrb/LVokI42Qjeftj4bEI+VQ=;
+        b=hAabAYkQCw1ai5diVHwspZJd9JVqhX7A756tHrwIqxQioitmVKhkWMc2Bnd+x2bEaq
+         Mc2uJf5Ew6OZTltUT1mJxGF9P/JDPgayXxElXBpihOG4sPa6CwCgRI9CinAK4VjuE4pg
+         TiVnqtlLTtyIz6/RtSwikLSjY/40g7dDAx8yvBvSw2TV/TCGsmZgJEcizKtpKcj9Ke3+
+         z2pGpcBveuAoUdqYic+qI8QFwWYd/BYFIKO+BeR94eZXq4ZE5VHOmgLhGevpQFJcbSCn
+         X+2wVcFlfl/F4jVxAGyRMizcUjtX1bwpagK/7ZI1ytnJ54snJz+GN1p3KYXGNk3vCyd3
+         KkyA==
+X-Gm-Message-State: AOJu0YyKukhpidsJ2Qt0bBAusqcMdEwbAaraROhU1Tw2K2CWH1NkmYDK
+	a2GV6Jn+9hE2xsi6SOMXsJ8Afd73+MRrjmGmX2q9
+X-Google-Smtp-Source: AGHT+IErsHMGbRATNNKpz2Dt8JZ8b5ED9aDbgRj3Xs2d6cY3G6zsC74jYP7/fSZp+oEGV6/LrmKC5ZGMy/uRFCzoFYI=
+X-Received: by 2002:a17:902:e74f:b0:1bd:9c78:8031 with SMTP id
+ p15-20020a170902e74f00b001bd9c788031mr69374plf.9.1700090598298; Wed, 15 Nov
+ 2023 15:23:18 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231111111559.8218-1-yong.wu@mediatek.com> <20231111111559.8218-3-yong.wu@mediatek.com>
-In-Reply-To: <20231111111559.8218-3-yong.wu@mediatek.com>
+References: <20231111111559.8218-1-yong.wu@mediatek.com> <20231111111559.8218-4-yong.wu@mediatek.com>
+In-Reply-To: <20231111111559.8218-4-yong.wu@mediatek.com>
 From: Jeffrey Kardatzke <jkardatzke@google.com>
-Date: Wed, 15 Nov 2023 15:21:44 -0800
-Message-ID: <CA+ddPcPZJzJXro1ph7tT=Zdk6wyDyncmpPZvO0i0J2zCRauMsQ@mail.gmail.com>
-Subject: Re: [PATCH v2 2/8] dma-buf: heaps: secure_heap: Add private heap ops
+Date: Wed, 15 Nov 2023 15:23:06 -0800
+Message-ID: <CA+ddPcON2gBOsFk4KZS-tEFLKWxg6jH8Kf_xDObXMKbR=N+gzg@mail.gmail.com>
+Subject: Re: [PATCH v2 3/8] dma-buf: heaps: secure_heap: Initialize tee session
 To: Yong Wu <yong.wu@mediatek.com>
 Cc: Rob Herring <robh+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
 	christian.koenig@amd.com, Matthias Brugger <matthias.bgg@gmail.com>, 
@@ -78,133 +78,166 @@ Cc: Rob Herring <robh+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 11, 2023 at 3:16=E2=80=AFAM Yong Wu <yong.wu@mediatek.com> wrot=
+Everything in this patch set should move into the MTK specific
+implementation I suggested in patch 1 (secure_heap_mtk.c)
+
+On Sat, Nov 11, 2023 at 3:17=E2=80=AFAM Yong Wu <yong.wu@mediatek.com> wrot=
 e:
 >
-> For the secure memory, there are two steps:
-> a) Allocate buffers in kernel side;
-> b) Secure that buffer.
-> Different heaps may have different buffer allocation methods and
-> different memory protection methods. Here abstract the memory
-> allocation and securing operations.
+> The TEE probe later than dma-buf heap, and PROBE_DEDER doesn't work
+> here since this is not a platform driver, therefore initialize the TEE
+> context/session while we allocate the first secure buffer.
+>
+> Add our special UUID and tee type in the private data.
+>
+> If the uuid is zero, it means that it doesn't enter TEE to protect the
+> buffer, there may be other ways to protect the buffer.
+>
+> All the MTK chrome projects use this UUID. The UUID is only used in the
+> kernelspace while userspace never use it. The userspace could allocate th=
+e
+> secure memory via the existing dma-buf ioctl.
 >
 > Signed-off-by: Yong Wu <yong.wu@mediatek.com>
 > ---
->  drivers/dma-buf/heaps/secure_heap.c | 58 ++++++++++++++++++++++++++++-
->  1 file changed, 57 insertions(+), 1 deletion(-)
+>  drivers/dma-buf/heaps/secure_heap.c | 75 +++++++++++++++++++++++++++++
+>  1 file changed, 75 insertions(+)
 >
 > diff --git a/drivers/dma-buf/heaps/secure_heap.c b/drivers/dma-buf/heaps/=
 secure_heap.c
-> index a634051a0a67..87ac23072e9e 100644
+> index 87ac23072e9e..2a037fc54004 100644
 > --- a/drivers/dma-buf/heaps/secure_heap.c
 > +++ b/drivers/dma-buf/heaps/secure_heap.c
-> @@ -24,15 +24,66 @@ struct secure_buffer {
->         size_t                          size;
->  };
+> @@ -10,6 +10,12 @@
+>  #include <linux/err.h>
+>  #include <linux/module.h>
+>  #include <linux/slab.h>
+> +#include <linux/tee_drv.h>
+> +#include <linux/uuid.h>
+> +
+> +#define TZ_TA_MEM_UUID_MTK             "4477588a-8476-11e2-ad15-e41f1390=
+d676"
+> +
+> +#define TEE_PARAM_NUM                  4
 >
-> +struct secure_heap;
+>  enum secure_memory_type {
+>         /*
+> @@ -27,6 +33,9 @@ struct secure_buffer {
+>  struct secure_heap;
+>
+>  struct secure_heap_prv_data {
+> +       const char                      *uuid;
+> +       const int                       tee_impl_id;
 > +
-> +struct secure_heap_prv_data {
-> +       int     (*memory_alloc)(struct secure_heap *sec_heap, struct secu=
+>         int     (*memory_alloc)(struct secure_heap *sec_heap, struct secu=
 re_buffer *sec_buf);
-> +       void    (*memory_free)(struct secure_heap *sec_heap, struct secur=
+>         void    (*memory_free)(struct secure_heap *sec_heap, struct secur=
 e_buffer *sec_buf);
-> +
-> +       /* Protect/unprotect the memory */
-> +       int     (*secure_the_memory)(struct secure_heap *sec_heap, struct=
- secure_buffer *sec_buf);
-> +       void    (*unsecure_the_memory)(struct secure_heap *sec_heap, stru=
-ct secure_buffer *sec_buf);
-> +};
-Move these into dma-heap-secure.h per the comments on the prior patch.
-
-> +
->  struct secure_heap {
+>
+> @@ -39,9 +48,62 @@ struct secure_heap {
 >         const char                      *name;
 >         const enum secure_memory_type   mem_type;
+>
+> +       struct tee_context              *tee_ctx;
+> +       u32                             tee_session;
 > +
-> +       const struct secure_heap_prv_data *data;
+>         const struct secure_heap_prv_data *data;
 >  };
 >
-> +static int secure_heap_secure_memory_allocate(struct secure_heap *sec_he=
-ap,
-> +                                             struct secure_buffer *sec_b=
-uf)
+> +static int tee_ctx_match(struct tee_ioctl_version_data *ver, const void =
+*data)
 > +{
+> +       const struct secure_heap_prv_data *d =3D data;
+> +
+> +       return ver->impl_id =3D=3D d->tee_impl_id;
+> +}
+> +
+> +static int secure_heap_tee_session_init(struct secure_heap *sec_heap)
+> +{
+> +       struct tee_param t_param[TEE_PARAM_NUM] =3D {0};
+> +       struct tee_ioctl_open_session_arg arg =3D {0};
 > +       const struct secure_heap_prv_data *data =3D sec_heap->data;
+> +       uuid_t ta_mem_uuid;
 > +       int ret;
 > +
-> +       if (data->memory_alloc) {
-> +               ret =3D data->memory_alloc(sec_heap, sec_buf);
-> +               if (ret)
-> +                       return ret;
+> +       sec_heap->tee_ctx =3D tee_client_open_context(NULL, tee_ctx_match=
+, data, NULL);
+> +       if (IS_ERR(sec_heap->tee_ctx)) {
+> +               pr_err_once("%s: open context failed, ret=3D%ld\n", sec_h=
+eap->name,
+> +                           PTR_ERR(sec_heap->tee_ctx));
+> +               return -ENODEV;
 > +       }
-You should probably always require that memory_alloc is defined
-(secure_the_memory can be optional, as that may be part of the
-allocation).
 > +
-> +       if (data->secure_the_memory) {
-> +               ret =3D data->secure_the_memory(sec_heap, sec_buf);
-> +               if (ret)
-> +                       goto sec_memory_free;
+> +       arg.num_params =3D TEE_PARAM_NUM;
+> +       arg.clnt_login =3D TEE_IOCTL_LOGIN_PUBLIC;
+> +       ret =3D uuid_parse(data->uuid, &ta_mem_uuid);
+> +       if (ret)
+> +               goto close_context;
+> +       memcpy(&arg.uuid, &ta_mem_uuid.b, sizeof(ta_mem_uuid));
+> +
+> +       ret =3D tee_client_open_session(sec_heap->tee_ctx, &arg, t_param)=
+;
+> +       if (ret < 0 || arg.ret) {
+> +               pr_err_once("%s: open session failed, ret=3D%d:%d\n",
+> +                           sec_heap->name, ret, arg.ret);
+> +               ret =3D -EINVAL;
+> +               goto close_context;
 > +       }
+> +       sec_heap->tee_session =3D arg.session;
 > +       return 0;
 > +
-> +sec_memory_free:
-> +       if (data->memory_free)
-> +               data->memory_free(sec_heap, sec_buf);
-You should probably always require that memory_free is defined.
+> +close_context:
+> +       tee_client_close_context(sec_heap->tee_ctx);
 > +       return ret;
 > +}
 > +
-> +static void secure_heap_secure_memory_free(struct secure_heap *sec_heap,
-> +                                          struct secure_buffer *sec_buf)
-> +{
-> +       const struct secure_heap_prv_data *data =3D sec_heap->data;
+> +/* The memory allocating is within the TEE. */
+> +const struct secure_heap_prv_data mtk_sec_mem_data =3D {
+> +       .uuid                   =3D TZ_TA_MEM_UUID_MTK,
+> +       .tee_impl_id            =3D TEE_IMPL_ID_OPTEE,
+> +};
 > +
-> +       if (data->unsecure_the_memory)
-> +               data->unsecure_the_memory(sec_heap, sec_buf);
-> +
-> +       if (data->memory_free)
-> +               data->memory_free(sec_heap, sec_buf);
-You should probably always require that memory_free is defined.
-> +}
-> +
->  static struct dma_buf *
->  secure_heap_allocate(struct dma_heap *heap, unsigned long size,
+>  static int secure_heap_secure_memory_allocate(struct secure_heap *sec_he=
+ap,
+>                                               struct secure_buffer *sec_b=
+uf)
+>  {
+> @@ -84,11 +146,23 @@ secure_heap_allocate(struct dma_heap *heap, unsigned=
+ long size,
 >                      unsigned long fd_flags, unsigned long heap_flags)
 >  {
-> +       struct secure_heap *sec_heap =3D dma_heap_get_drvdata(heap);
+>         struct secure_heap *sec_heap =3D dma_heap_get_drvdata(heap);
+> +       const struct secure_heap_prv_data *data =3D sec_heap->data;
 >         struct secure_buffer *sec_buf;
 >         DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
 >         struct dma_buf *dmabuf;
-> @@ -45,6 +96,9 @@ secure_heap_allocate(struct dma_heap *heap, unsigned lo=
-ng size,
->         sec_buf->size =3D ALIGN(size, PAGE_SIZE);
->         sec_buf->heap =3D heap;
+>         int ret;
 >
-> +       ret =3D secure_heap_secure_memory_allocate(sec_heap, sec_buf);
-> +       if (ret)
-> +               goto err_free_buf;
->         exp_info.exp_name =3D dma_heap_get_name(heap);
->         exp_info.size =3D sec_buf->size;
->         exp_info.flags =3D fd_flags;
-> @@ -53,11 +107,13 @@ secure_heap_allocate(struct dma_heap *heap, unsigned=
- long size,
->         dmabuf =3D dma_buf_export(&exp_info);
->         if (IS_ERR(dmabuf)) {
->                 ret =3D PTR_ERR(dmabuf);
-> -               goto err_free_buf;
-> +               goto err_free_sec_mem;
->         }
+> +       /*
+> +        * If uuid is valid, It requires enter TEE to protect buffers. Ho=
+wever
+> +        * TEE probe may be late. Initialize the secure session the first=
+ time
+> +        * we request the secure buffer.
+> +        */
+> +       if (data->uuid && !sec_heap->tee_session) {
+> +               ret =3D secure_heap_tee_session_init(sec_heap);
+> +               if (ret)
+> +                       return ERR_PTR(ret);
+> +       }
+> +
+>         sec_buf =3D kzalloc(sizeof(*sec_buf), GFP_KERNEL);
+>         if (!sec_buf)
+>                 return ERR_PTR(-ENOMEM);
+> @@ -127,6 +201,7 @@ static struct secure_heap secure_heaps[] =3D {
+>         {
+>                 .name           =3D "secure_mtk_cm",
+>                 .mem_type       =3D SECURE_MEMORY_TYPE_MTK_CM_TZ,
+> +               .data           =3D &mtk_sec_mem_data,
+>         },
+>  };
 >
->         return dmabuf;
->
-> +err_free_sec_mem:
-> +       secure_heap_secure_memory_free(sec_heap, sec_buf);
->  err_free_buf:
->         kfree(sec_buf);
->         return ERR_PTR(ret);
 > --
 > 2.25.1
 >
