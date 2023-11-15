@@ -1,171 +1,125 @@
-Return-Path: <linux-media+bounces-408-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-409-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9E67ED62D
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 22:46:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 770487ED699
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 23:02:28 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DC7E21F2528C
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 21:46:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 311702814AF
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 22:02:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8E3B3FE20;
-	Wed, 15 Nov 2023 21:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C3E6446C4;
+	Wed, 15 Nov 2023 22:02:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sxgBdC5H"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 236F6E1
-	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 13:46:24 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1r3NiI-0000jh-It; Wed, 15 Nov 2023 22:46:22 +0100
-Received: from [2a0a:edc0:2:b01:1d::c5] (helo=pty.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1r3NiF-009JJa-3N; Wed, 15 Nov 2023 22:46:19 +0100
-Received: from mgr by pty.whiteo.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <mgr@pengutronix.de>)
-	id 1r3NiE-0071oq-QR; Wed, 15 Nov 2023 22:46:18 +0100
-Date: Wed, 15 Nov 2023 22:46:18 +0100
-From: Michael Grzeschik <mgr@pengutronix.de>
-To: Tomasz Figa <tfiga@chromium.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	m.szyprowski@samsung.com, kernel@pengutronix.de,
-	Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH] media: videobuf2-dma-sg: use v{un,}map instead of
- vm_{un,}map_ram
-Message-ID: <ZVU8Kpp83bOjq0fL@pengutronix.de>
-References: <20221120234441.550908-1-m.grzeschik@pengutronix.de>
- <5e585a78-15c8-fd17-bc34-96f7ed18f592@xs4all.nl>
- <CAAFQd5Aicurw-pjYpWJK_qNemy1qszvN4rL=TfAuxhOdAOTGNg@mail.gmail.com>
- <20230510142509.GA14356@pengutronix.de>
- <CAAFQd5AmVBc6LQ1eyZ=WrvtLR4oSD4K0mMeszcuY12CK7djiUA@mail.gmail.com>
- <CAAFQd5D_o3wE98=wFXR2nbWkpCAdCDxz2tP8ssSSYVkZ5iC1Qg@mail.gmail.com>
+Received: from mail-pl1-x635.google.com (mail-pl1-x635.google.com [IPv6:2607:f8b0:4864:20::635])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92F0F1A4
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 14:02:17 -0800 (PST)
+Received: by mail-pl1-x635.google.com with SMTP id d9443c01a7336-1cc209561c3so48195ad.0
+        for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 14:02:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1700085737; x=1700690537; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JuZvFHzKeqbg6jXEYOC+etK401rPBU1DU0zLZUwkdow=;
+        b=sxgBdC5HQ3kZkiv5KXeRWfdoecOm7BeBoruDDM69bAn8ZvCYN/gvJdmxWZjiBoNgXE
+         2EXf/qBs6IX4OifiVA0V+Kr3WKDF+xbi26x+6B1PeFaMPKRDl0uGPLadCXJyGTsij1KQ
+         /JhbqavPLYQs+kHrFiaueUry+YqwzWz6eEQZl81d9MICcFxRWtTaWlehLqXlHHgfdRC7
+         NsmOpieFe0qH7Vu+w4cGxXfXWFxBw4SIpEEcNy6/b2AsEui4GsNl2xceFhT+OlCOQtx/
+         neBwrmXLktMcPqhXaW67k/8nUQQ03xp0diUww/e5DtzybWO2MhGUFUm1SxFJGwwHgLNe
+         C0Wg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700085737; x=1700690537;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JuZvFHzKeqbg6jXEYOC+etK401rPBU1DU0zLZUwkdow=;
+        b=cWoB2XSW+2r2VOiHRao3/7uMAH3hl0+bIItQ6553gDMPgzd3vLgjLb7gr3g24lHj5Q
+         coK3JNGbbnBj/Bev8ZV8T6BOwrNpPC0p8kwQ6PvCJxlgk+AILLgo7S3ah+zVRFOYkn3d
+         KGNuMZpMOsZt0k9wtOjGDkTd+swv5DS/iaVOgUhcf1lT8a15yhjgVi9ozBiuDBFR6bRV
+         xl2SyIOeeAaVmRuVnkS+EjnmSVLkMFTAVsa1UJSxWAMhgoddr6qkyzAovT5KWQrYb4hO
+         fT0ohjT/EECWSkcwrmx8IGvzbG4Q0EiTurQOj6Oe9EPEtV2WTNbQz4taTdA9uwoPBplA
+         S+Ig==
+X-Gm-Message-State: AOJu0YyeikfMZXLs/XWL4KBIseBam+ehY7RBgrvbfNWwDq7eK2Pg8A2Y
+	gQt2MWCXmQixmau1IbN6S4oZP1QfR50gfbnDe/ix
+X-Google-Smtp-Source: AGHT+IFRrz+wFMxIvQfSahyfIBqJGBGy54Oa9WJpbdDj3Indo4j6kQ+gLppqjmS9wzYszPzrga5jiO2H91ugbxFInwY=
+X-Received: by 2002:a17:902:d506:b0:1c7:25e4:a9d5 with SMTP id
+ b6-20020a170902d50600b001c725e4a9d5mr45085plg.17.1700085736744; Wed, 15 Nov
+ 2023 14:02:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="A812DbJswr9oq5mK"
-Content-Disposition: inline
-In-Reply-To: <CAAFQd5D_o3wE98=wFXR2nbWkpCAdCDxz2tP8ssSSYVkZ5iC1Qg@mail.gmail.com>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mgr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
-
-
---A812DbJswr9oq5mK
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
+References: <20231111111559.8218-1-yong.wu@mediatek.com> <ZU/V2XX71GbaV6Q8@duo.ucw.cz>
+In-Reply-To: <ZU/V2XX71GbaV6Q8@duo.ucw.cz>
+From: Jeffrey Kardatzke <jkardatzke@google.com>
+Date: Wed, 15 Nov 2023 14:02:05 -0800
+Message-ID: <CA+ddPcNd20Bg_pYWqty90NafwC54dz0LGEmTMpia5_7e4=N-cg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/8] dma-buf: heaps: Add secure heap
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com, 
+	Matthias Brugger <matthias.bgg@gmail.com>, 
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, tjmercier@google.com, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
+	jianjiao.zeng@mediatek.com, kuohong.wang@mediatek.com, 
+	Vijayanand Jitta <quic_vjitta@quicinc.com>, Joakim Bech <joakim.bech@linaro.org>, 
+	Nicolas Dufresne <nicolas@ndufresne.ca>, ckoenig.leichtzumerken@gmail.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 01, 2023 at 12:43:25PM +0900, Tomasz Figa wrote:
->On Tue, May 16, 2023 at 7:50=E2=80=AFPM Tomasz Figa <tfiga@chromium.org> w=
-rote:
->>
->> Hi Michael,
->>
->> On Wed, May 10, 2023 at 11:25=E2=80=AFPM Michael Grzeschik <mgr@pengutro=
-nix.de> wrote:
->> >
->> > Sorry for the late comeback, however here are some thoughts.
->> >
->> > On Fri, Dec 02, 2022 at 06:01:02PM +0900, Tomasz Figa wrote:
->> > >On Thu, Nov 24, 2022 at 10:35 PM Hans Verkuil <hverkuil@xs4all.nl> wr=
-ote:
->> > >>
->> > >> On 21/11/2022 00:44, Michael Grzeschik wrote:
->> > >> > The comments before the vm_map_ram function state that it should =
-be used
->> > >> > for up to 256 KB only, and video buffers are definitely much larg=
-er. It
->> > >> > recommends using vmap in that case.
->> > >> >
->> > >> > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->> > >> > ---
->> > >> >  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 7 ++++---
->> > >>
->> > >> drivers/media/common/videobuf2/videobuf2-vmalloc.c uses it as well,
->> > >> probably also incorrectly. It makes sense to change that one as wel=
-l.
->> > >
->> > >Comparing vm_map_ram() and vmap(..., VM_MAP, PAGE_KERNEL), for blocks
->> > >bigger than VMAP_MAX_ALLOC they're equivalent and for smaller blocks
->> > >the former should be faster, so I don't see what's wrong with the
->> > >current code.
->> >
->> > I got another comment on this from Andrzej Pietrasiewicz
->> > where he expands the comment on the use of vmap over vm_map_ram.
->> >
->> > https://lore.kernel.org/linux-media/64375ff4-dbbb-3d5b-eaf6-32d6780fd4=
-96@collabora.com
->> >
->> > As I understand this, we should probably update the vm_map_ram to vmap,
->> > due to the expectation that video buffers are long-living objects.
->> >
->> > Since there are some more places that would probably need to be updated
->> > if we should decide to use vmap over vm_map_ram in the whole
->> > videbuf2-* users, I would like to clarify on this before making
->> > a series.
->>
->> Ah, I see. Thanks for the pointer.
->>
->> VB2 buffers would usually require long-lived mappings, so based on
->> that, we should switch to vmap() indeed.
->>
->> As a side note, not directly related to this patch, I wonder if we
->> should also call invalidate/flush_kernel_vmap_range() in
->> vb2_dma_sg_prepare/finish(). (In principle we shouldn't, but so far
->> our drivers don't explicitly call begin/end_cpu_access() and rely on
->> prepare/finish to handle the cache maintenance of the kernel
->> mapping...) Let me also add Sergey on CC for visibility.
+The main goal is for secure video playback, and to also enable other
+potential uses of this in the future. The 'secure dma-heap' will be
+used to allocate dma_buf objects that reference memory in the secure
+world that is inaccessible/unmappable by the non-secure (i.e.
+kernel/userspace) world.  That memory will be used by the secure world
+to store secure information (i.e. decrypted media content). The
+dma_bufs allocated from the kernel will be passed to V4L2 for video
+decoding (as input and output). They will also be used by the drm
+system for rendering of the content.
+
+Hope that helps.
+
+Cheers,
+Jeff
+
+On Mon, Nov 13, 2023 at 3:38=E2=80=AFAM Pavel Machek <pavel@ucw.cz> wrote:
 >
->Sorry, I forgot last time, so maybe it wasn't clear I'm good with this pat=
-ch:
+> Hi!
 >
->Acked-by: Tomasz Figa <tfiga@chromium.org>
+> > This patchset adds three secure heaps:
+> > 1) secure_mtk_cm: secure chunk memory for MediaTek SVP (Secure Video Pa=
+th).
+> >    The buffer is reserved for the secure world after bootup and it is u=
+sed
+> >    for vcodec's ES/working buffer;
+> > 2) secure_mtk_cma: secure CMA memory for MediaTek SVP. This buffer is
+> >    dynamically reserved for the secure world and will be got when we st=
+art
+> >    playing secure videos, Once the security video playing is complete, =
+the
+> >    CMA will be released. This heap is used for the vcodec's frame buffe=
+r.
+> > 3) secure_cma: Use the kerne CMA ops as the allocation ops.
+> >    currently it is a draft version for Vijay and Jaskaran.
 >
->Hans, will you pick it? Thanks!
-
-Gentle Ping!
-
---=20
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
-
---A812DbJswr9oq5mK
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEElXvEUs6VPX6mDPT8C+njFXoeLGQFAmVVPCgACgkQC+njFXoe
-LGSrKA/+MmJEDuPMXBkumiuUviuK1sJXlgLchgleIrNR/Kn+orZ7HmUgtDFPEss4
-Y2xMji1dgNbiHRleHg2sFkF9Q4O8w1HKWRWye7DJ1sX047WdW97GxUCOiH731vcN
-GQlzox9G+QaI8kUZ0rypYBMwyUZpTfM1TOd+pjv5X2aJhtCvb0JHb6FxamzvZ0IY
-5MfHY6ol4HYQBUssdsURWAeWhzkcEiWOAkXS76jxO8bunQkekhmvIOCdxXO0PPuu
-ZeTmi32GKJgZNN6Ill21ZJQz8viDoevRr5TYYzpciWcVB2fFrfqStG2DdBx1yB4K
-HHolt/LTmXeAldslW18WE/ahrTH0Itr39Vr5U8iFTJFAa8HItDcSEC+BtQL9CmPe
-QqafYwb7jYTXYfVfGi5YpwGEbA3igZzDXih55N7tqgKgp4/baujkmi9Mt8zCbXJ4
-YQ+aIa+Ho7u6zFFHAO+uKfjYKIgzmv3ppH2XesCVVPgIN7LsB2wXls41k1YSZKCe
-J3Qex15SnQTdI0a6mOmiSzizMkNpMuwtNFWqsR8KHHDdRfpR2XilXYJbMeBXtPXG
-ptv3I/hh60GOvDE1vkTVOedT0jN/K01jBg4hv2wwP/7P5+O0W1Z5CMnY6C8I5aJy
-GNEOK0HvS1zNcISh2rvHaxjEWoZfInwMlxCKCwa4n9jD08FnA4o=
-=8ztV
------END PGP SIGNATURE-----
-
---A812DbJswr9oq5mK--
+> Is there high-level description of what the security goals here are,
+> somewhere?
+>
+> BR,
+>                                                                         P=
+avel
+> --
+> People of Russia, stop Putin before his war on Ukraine escalates.
 
