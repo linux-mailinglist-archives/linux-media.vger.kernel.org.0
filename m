@@ -1,711 +1,1195 @@
-Return-Path: <linux-media+bounces-384-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-385-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 577697EC808
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 17:00:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7ED37EC813
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 17:03:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8BF04B20CF9
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 16:00:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BBCFB1C20B90
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 16:03:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90ABE433D7;
-	Wed, 15 Nov 2023 16:00:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38F4C3172F;
+	Wed, 15 Nov 2023 16:03:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VuwPto+1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bA/dkEE0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9FAB2E651
-	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 16:00:29 +0000 (UTC)
-Received: from mail-yb1-xb2f.google.com (mail-yb1-xb2f.google.com [IPv6:2607:f8b0:4864:20::b2f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40C24196
-	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 08:00:26 -0800 (PST)
-Received: by mail-yb1-xb2f.google.com with SMTP id 3f1490d57ef6-da7238b3eb4so7539050276.1
-        for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 08:00:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700064025; x=1700668825; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=2saDbyHxjODfWF9JCHAE6d3IjsRBAEN9a6Xrszmv96o=;
-        b=VuwPto+1rsOQlFMC/9eWNXHp17jqJ2+V0crelLYu48FoOybqox3jvg1KxdqdRMg9mo
-         IzGMUjy4BZQ+xB46y4k0x2eSNleh1SXIs09xbSUlhAQzWyoD9wiwVHpmdHgW8dtymNtG
-         y2pmNpeZj/FmyF4uE89JTGZWJSzCIZ2AvPS1/a3PD2z4ZI8t8daDZb1vEIbLAWmxgzLT
-         WRuCFZMl6A4RmCBEWeFv81G2Be+4q2S2IJEYzh4D+u4ytVyZOcizIrFIRy7KiP4KkW0e
-         qguP0YHWfHm+e818XRc56kFBX0LcGCRfItbED4mLZiLpqqvULcE5OlgZ53+ehF8g3QVI
-         fZYw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700064025; x=1700668825;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=2saDbyHxjODfWF9JCHAE6d3IjsRBAEN9a6Xrszmv96o=;
-        b=BlTz5FxysXpkJE2/bIGKwOehHBSbg/jF5kJ7I/wHWf6dRSxWq6ynD8VmvKxLJpOHH7
-         C+RY9fceYaTuoiG3KMRwKMuc7rdkelurTujiMu4dJHDJM8iBIWJoJwlQX23HK5a8cDJm
-         7SUxaTc2L2f5TvXtcjZ0YrNkg8cJCSY7/yMnqR8tOt+QoJSYY3/FcWXN47VOnlLh1F11
-         pwGCErbDGt4g2KaqlyQjfpGGERG44x/0SkagW0ooDAkoPEj+hvzVelm4HGb33t7w9Z+H
-         uvu6CPvEAh6cVWknEmz43CwcUFhwUoYw4ScFdu2tXHa8hd0+V06nPfRwgzCPryXcsEVT
-         j/Sg==
-X-Gm-Message-State: AOJu0YwOKcoEfkYvKtgu5xksP2eNaxjzXquCMNqXgkT9plh5uHKTvBDh
-	2aFjZbmqhdD4BvbzEEEPXT/QinPogP/O7m74AQ1cyw==
-X-Google-Smtp-Source: AGHT+IHyGfXxsgIUFA87Us564YGuUM9Tw00Zqw1elNIOhFyDdqqm3I8Kb07cpwpiQ/Ii3UDho21Y4FxAgwRq6Anhyf0=
-X-Received: by 2002:a25:db90:0:b0:d7f:1749:9e59 with SMTP id
- g138-20020a25db90000000b00d7f17499e59mr13731329ybf.11.1700064025267; Wed, 15
- Nov 2023 08:00:25 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249B22FC52
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 16:03:02 +0000 (UTC)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F59D95
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 08:02:58 -0800 (PST)
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3933D8D;
+	Wed, 15 Nov 2023 17:02:30 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1700064150;
+	bh=8GeKAjbivuw0eX29C3gjEWgo/SMnpTHAaXmS10Zl7PA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bA/dkEE0/nTxm89XwEONcvOQwOuki9FtwbzoN07Eb1o/l265HXksEgIfsqdXNEvg2
+	 KqjThsv8YlBpe7zRhcZU6xPeJQve6fnJxpqNeYeesiozFmrOnt6Q5lgLTLRSVrCVbo
+	 B/Wc3zRcIHq2MPZZt0/lcy3C00GrPfnNsmsSyMOw=
+Date: Wed, 15 Nov 2023 17:02:53 +0100
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>, 
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>, Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Subject: Re: [PATCH v2 1/2] media: renesas: vsp1: Fix references to pad config
+Message-ID: <pvqijfazpj622xnsrrarx3flp4sk4zt6cbb6o2ds43cydugy4v@c2xe6iv2agox>
+References: <20231114131512.24615-1-laurent.pinchart+renesas@ideasonboard.com>
+ <20231114131512.24615-2-laurent.pinchart+renesas@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231025103957.3776-1-keith.zhao@starfivetech.com>
- <20231025103957.3776-6-keith.zhao@starfivetech.com> <6db09f77-31e8-4f2e-a987-e3745d0e8c24@linaro.org>
- <a35be64b-cac2-4033-a846-afc9f2d9a0a9@starfivetech.com> <CAA8EJpokvvycFEp8Ke6wkiFf8KwOmk-SCB4pm6E0U6Qjpj6BMA@mail.gmail.com>
- <b14264a1-cf6a-4a1e-8d19-3df8fc5a10d1@starfivetech.com>
-In-Reply-To: <b14264a1-cf6a-4a1e-8d19-3df8fc5a10d1@starfivetech.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 15 Nov 2023 18:00:12 +0200
-Message-ID: <CAA8EJprTbYeD5jrs95pbJrSixCJ=FTn0mdNQcFSX7P5PkU4-BA@mail.gmail.com>
-Subject: Re: [PATCH v2 5/6] drm/vs: Add KMS crtc&plane
-To: Keith Zhao <keith.zhao@starfivetech.com>
-Cc: Emil Renner Berthing <kernel@esmil.dk>, 
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
-	"linux-riscv@lists.infradead.org" <linux-riscv@lists.infradead.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Shengyang Chen <shengyang.chen@starfivetech.com>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Albert Ou <aou@eecs.berkeley.edu>, Maxime Ripard <mripard@kernel.org>, 
-	Jagan Teki <jagan@edgeble.ai>, 
-	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	Chris Morgan <macromorgan@hotmail.com>, Paul Walmsley <paul.walmsley@sifive.com>, 
-	Bjorn Andersson <andersson@kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"christian.koenig@amd.com" <christian.koenig@amd.com>, Jack Zhu <jack.zhu@starfivetech.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Shawn Guo <shawnguo@kernel.org>, Changhuang Liang <changhuang.liang@starfivetech.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231114131512.24615-2-laurent.pinchart+renesas@ideasonboard.com>
 
-On Wed, 15 Nov 2023 at 15:30, Keith Zhao <keith.zhao@starfivetech.com> wrote:
+Hi Laurent
+
+On Tue, Nov 14, 2023 at 03:15:11PM +0200, Laurent Pinchart wrote:
+> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> V4L2 subdev operations have moved from operating on a
+> v4l2_subdev_pad_config to a v4l2_subdev_state a long time ago. Fix
+> remaining incorrect references to pad config in function and variable
+> names.
+>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+>  .../media/platform/renesas/vsp1/vsp1_brx.c    | 40 +++++----
+>  .../media/platform/renesas/vsp1/vsp1_clu.c    |  3 +-
+>  .../media/platform/renesas/vsp1/vsp1_entity.c | 85 +++++++++----------
+>  .../media/platform/renesas/vsp1/vsp1_entity.h | 10 +--
+>  .../media/platform/renesas/vsp1/vsp1_hgo.c    |  4 +-
+>  .../media/platform/renesas/vsp1/vsp1_hgt.c    |  4 +-
+>  .../media/platform/renesas/vsp1/vsp1_histo.c  | 24 +++---
+>  .../media/platform/renesas/vsp1/vsp1_hsit.c   | 11 ++-
+>  .../media/platform/renesas/vsp1/vsp1_lif.c    |  2 +-
+>  .../media/platform/renesas/vsp1/vsp1_rpf.c    |  8 +-
+>  .../media/platform/renesas/vsp1/vsp1_rwpf.c   | 37 ++++----
+>  .../media/platform/renesas/vsp1/vsp1_sru.c    | 36 ++++----
+>  .../media/platform/renesas/vsp1/vsp1_uds.c    | 39 ++++-----
+>  .../media/platform/renesas/vsp1/vsp1_uif.c    | 24 +++---
+>  .../media/platform/renesas/vsp1/vsp1_video.c  |  4 +-
+>  .../media/platform/renesas/vsp1/vsp1_wpf.c    | 10 +--
+>  16 files changed, 162 insertions(+), 179 deletions(-)
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> index 95bf7b4ac9b8..758525a03289 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
+> @@ -136,29 +136,28 @@ static int brx_set_format(struct v4l2_subdev *subdev,
+>  			  struct v4l2_subdev_format *fmt)
+>  {
+>  	struct vsp1_brx *brx = to_brx(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	int ret = 0;
+>
+>  	mutex_lock(&brx->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&brx->entity, sd_state,
+> -					    fmt->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&brx->entity, sd_state, fmt->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+>
+> -	brx_try_format(brx, config, fmt->pad, &fmt->format);
+> +	brx_try_format(brx, state, fmt->pad, &fmt->format);
+>
+> -	format = vsp1_entity_get_pad_format(&brx->entity, config, fmt->pad);
+> +	format = vsp1_entity_get_pad_format(&brx->entity, state, fmt->pad);
+>  	*format = fmt->format;
+>
+>  	/* Reset the compose rectangle. */
+>  	if (fmt->pad != brx->entity.source_pad) {
+>  		struct v4l2_rect *compose;
+>
+> -		compose = brx_get_compose(brx, config, fmt->pad);
+> +		compose = brx_get_compose(brx, state, fmt->pad);
+>  		compose->left = 0;
+>  		compose->top = 0;
+>  		compose->width = format->width;
+> @@ -171,7 +170,7 @@ static int brx_set_format(struct v4l2_subdev *subdev,
+>
+>  		for (i = 0; i <= brx->entity.source_pad; ++i) {
+>  			format = vsp1_entity_get_pad_format(&brx->entity,
+> -							    config, i);
+> +							    state, i);
+>  			format->code = fmt->format.code;
+>  		}
+>  	}
+> @@ -186,7 +185,7 @@ static int brx_get_selection(struct v4l2_subdev *subdev,
+>  			     struct v4l2_subdev_selection *sel)
+>  {
+>  	struct vsp1_brx *brx = to_brx(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>
+>  	if (sel->pad == brx->entity.source_pad)
+>  		return -EINVAL;
+> @@ -200,13 +199,13 @@ static int brx_get_selection(struct v4l2_subdev *subdev,
+>  		return 0;
+>
+>  	case V4L2_SEL_TGT_COMPOSE:
+> -		config = vsp1_entity_get_pad_config(&brx->entity, sd_state,
+> -						    sel->which);
+> -		if (!config)
+> +		state = vsp1_entity_get_state(&brx->entity, sd_state,
+> +					      sel->which);
+> +		if (!state)
+>  			return -EINVAL;
+>
+>  		mutex_lock(&brx->entity.lock);
+> -		sel->r = *brx_get_compose(brx, config, sel->pad);
+> +		sel->r = *brx_get_compose(brx, state, sel->pad);
+>  		mutex_unlock(&brx->entity.lock);
+>  		return 0;
+>
+> @@ -220,7 +219,7 @@ static int brx_set_selection(struct v4l2_subdev *subdev,
+>  			     struct v4l2_subdev_selection *sel)
+>  {
+>  	struct vsp1_brx *brx = to_brx(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	struct v4l2_rect *compose;
+>  	int ret = 0;
+> @@ -233,9 +232,8 @@ static int brx_set_selection(struct v4l2_subdev *subdev,
+>
+>  	mutex_lock(&brx->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&brx->entity, sd_state,
+> -					    sel->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&brx->entity, sd_state, sel->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+> @@ -244,7 +242,7 @@ static int brx_set_selection(struct v4l2_subdev *subdev,
+>  	 * The compose rectangle top left corner must be inside the output
+>  	 * frame.
+>  	 */
+> -	format = vsp1_entity_get_pad_format(&brx->entity, config,
+> +	format = vsp1_entity_get_pad_format(&brx->entity, state,
+>  					    brx->entity.source_pad);
+>  	sel->r.left = clamp_t(unsigned int, sel->r.left, 0, format->width - 1);
+>  	sel->r.top = clamp_t(unsigned int, sel->r.top, 0, format->height - 1);
+> @@ -253,11 +251,11 @@ static int brx_set_selection(struct v4l2_subdev *subdev,
+>  	 * Scaling isn't supported, the compose rectangle size must be identical
+>  	 * to the sink format size.
+>  	 */
+> -	format = vsp1_entity_get_pad_format(&brx->entity, config, sel->pad);
+> +	format = vsp1_entity_get_pad_format(&brx->entity, state, sel->pad);
+>  	sel->r.width = format->width;
+>  	sel->r.height = format->height;
+>
+> -	compose = brx_get_compose(brx, config, sel->pad);
+> +	compose = brx_get_compose(brx, state, sel->pad);
+>  	*compose = sel->r;
+>
+>  done:
+> @@ -293,7 +291,7 @@ static void brx_configure_stream(struct vsp1_entity *entity,
+>  	unsigned int flags;
+>  	unsigned int i;
+>
+> -	format = vsp1_entity_get_pad_format(&brx->entity, brx->entity.config,
+> +	format = vsp1_entity_get_pad_format(&brx->entity, brx->entity.state,
+>  					    brx->entity.source_pad);
+>
+>  	/*
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_clu.c b/drivers/media/platform/renesas/vsp1/vsp1_clu.c
+> index c5217fee24f1..50a5c0dc0e86 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_clu.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_clu.c
+> @@ -182,8 +182,7 @@ static void clu_configure_stream(struct vsp1_entity *entity,
+>  	 * The yuv_mode can't be changed during streaming. Cache it internally
+>  	 * for future runtime configuration calls.
+>  	 */
+> -	format = vsp1_entity_get_pad_format(&clu->entity,
+> -					    clu->entity.config,
+> +	format = vsp1_entity_get_pad_format(&clu->entity, clu->entity.state,
+>  					    CLU_PAD_SINK);
+>  	clu->yuv_mode = format->code == MEDIA_BUS_FMT_AYUV8_1X32;
+>  }
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> index d5a49e08a607..0280b8ff7ba9 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> @@ -101,27 +101,26 @@ void vsp1_entity_configure_partition(struct vsp1_entity *entity,
+>   */
+>
+>  /**
+> - * vsp1_entity_get_pad_config - Get the pad configuration for an entity
+> + * vsp1_entity_get_state - Get the subdev state for an entity
+>   * @entity: the entity
+>   * @sd_state: the TRY state
+> - * @which: configuration selector (ACTIVE or TRY)
+> + * @which: state selector (ACTIVE or TRY)
+>   *
+>   * When called with which set to V4L2_SUBDEV_FORMAT_ACTIVE the caller must hold
+>   * the entity lock to access the returned configuration.
+>   *
+> - * Return the pad configuration requested by the which argument. The TRY
+> - * configuration is passed explicitly to the function through the cfg argument
+> - * and simply returned when requested. The ACTIVE configuration comes from the
+> - * entity structure.
+> + * Return the subdev state requested by the which argument. The TRY state is
+> + * passed explicitly to the function through the sd_state argument and simply
+> + * returned when requested. The ACTIVE state comes from the entity structure.
+>   */
+>  struct v4l2_subdev_state *
+> -vsp1_entity_get_pad_config(struct vsp1_entity *entity,
+> -			   struct v4l2_subdev_state *sd_state,
+> -			   enum v4l2_subdev_format_whence which)
+> +vsp1_entity_get_state(struct vsp1_entity *entity,
+> +		      struct v4l2_subdev_state *sd_state,
+> +		      enum v4l2_subdev_format_whence which)
+>  {
+>  	switch (which) {
+>  	case V4L2_SUBDEV_FORMAT_ACTIVE:
+> -		return entity->config;
+> +		return entity->state;
+>  	case V4L2_SUBDEV_FORMAT_TRY:
+>  	default:
+>  		return sd_state;
+> @@ -174,10 +173,11 @@ vsp1_entity_get_pad_selection(struct vsp1_entity *entity,
+>  /*
+>   * vsp1_entity_init_cfg - Initialize formats on all pads
+>   * @subdev: V4L2 subdevice
+> - * @cfg: V4L2 subdev pad configuration
+> + * @sd_state: V4L2 subdev state
+>   *
+> - * Initialize all pad formats with default values in the given pad config. This
+> - * function can be used as a handler for the subdev pad::init_cfg operation.
+> + * Initialize all pad formats with default values in the given subdev state.
+> + * This function can be used as a handler for the subdev pad::init_cfg
+> + * operation.
+>   */
+>  int vsp1_entity_init_cfg(struct v4l2_subdev *subdev,
+>  			 struct v4l2_subdev_state *sd_state)
+> @@ -200,7 +200,7 @@ int vsp1_entity_init_cfg(struct v4l2_subdev *subdev,
+>  /*
+>   * vsp1_subdev_get_pad_format - Subdev pad get_fmt handler
+>   * @subdev: V4L2 subdevice
+> - * @cfg: V4L2 subdev pad configuration
+> + * @sd_state: V4L2 subdev state
+>   * @fmt: V4L2 subdev format
+>   *
+>   * This function implements the subdev get_fmt pad operation. It can be used as
+> @@ -211,14 +211,14 @@ int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_format *fmt)
+>  {
+>  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>
+> -	config = vsp1_entity_get_pad_config(entity, sd_state, fmt->which);
+> -	if (!config)
+> +	state = vsp1_entity_get_state(entity, sd_state, fmt->which);
+> +	if (!state)
+>  		return -EINVAL;
+>
+>  	mutex_lock(&entity->lock);
+> -	fmt->format = *vsp1_entity_get_pad_format(entity, config, fmt->pad);
+> +	fmt->format = *vsp1_entity_get_pad_format(entity, state, fmt->pad);
+>  	mutex_unlock(&entity->lock);
+>
+>  	return 0;
+> @@ -227,7 +227,7 @@ int vsp1_subdev_get_pad_format(struct v4l2_subdev *subdev,
+>  /*
+>   * vsp1_subdev_enum_mbus_code - Subdev pad enum_mbus_code handler
+>   * @subdev: V4L2 subdevice
+> - * @cfg: V4L2 subdev pad configuration
+> + * @sd_state: V4L2 subdev state
+>   * @code: Media bus code enumeration
+>   * @codes: Array of supported media bus codes
+>   * @ncodes: Number of supported media bus codes
+> @@ -250,7 +250,7 @@ int vsp1_subdev_enum_mbus_code(struct v4l2_subdev *subdev,
+>
+>  		code->code = codes[code->index];
+>  	} else {
+> -		struct v4l2_subdev_state *config;
+> +		struct v4l2_subdev_state *state;
+>  		struct v4l2_mbus_framefmt *format;
+>
+>  		/*
+> @@ -260,13 +260,12 @@ int vsp1_subdev_enum_mbus_code(struct v4l2_subdev *subdev,
+>  		if (code->index)
+>  			return -EINVAL;
+>
+> -		config = vsp1_entity_get_pad_config(entity, sd_state,
+> -						    code->which);
+> -		if (!config)
+> +		state = vsp1_entity_get_state(entity, sd_state, code->which);
+> +		if (!state)
+>  			return -EINVAL;
+>
+>  		mutex_lock(&entity->lock);
+> -		format = vsp1_entity_get_pad_format(entity, config, 0);
+> +		format = vsp1_entity_get_pad_format(entity, state, 0);
+>  		code->code = format->code;
+>  		mutex_unlock(&entity->lock);
+>  	}
+> @@ -277,7 +276,7 @@ int vsp1_subdev_enum_mbus_code(struct v4l2_subdev *subdev,
+>  /*
+>   * vsp1_subdev_enum_frame_size - Subdev pad enum_frame_size handler
+>   * @subdev: V4L2 subdevice
+> - * @cfg: V4L2 subdev pad configuration
+> + * @sd_state: V4L2 subdev state
+>   * @fse: Frame size enumeration
+>   * @min_width: Minimum image width
+>   * @min_height: Minimum image height
+> @@ -296,15 +295,15 @@ int vsp1_subdev_enum_frame_size(struct v4l2_subdev *subdev,
+>  				unsigned int max_width, unsigned int max_height)
+>  {
+>  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	int ret = 0;
+>
+> -	config = vsp1_entity_get_pad_config(entity, sd_state, fse->which);
+> -	if (!config)
+> +	state = vsp1_entity_get_state(entity, sd_state, fse->which);
+> +	if (!state)
+>  		return -EINVAL;
+>
+> -	format = vsp1_entity_get_pad_format(entity, config, fse->pad);
+> +	format = vsp1_entity_get_pad_format(entity, state, fse->pad);
+>
+>  	mutex_lock(&entity->lock);
+>
+> @@ -337,7 +336,7 @@ int vsp1_subdev_enum_frame_size(struct v4l2_subdev *subdev,
+>  /*
+>   * vsp1_subdev_set_pad_format - Subdev pad set_fmt handler
+>   * @subdev: V4L2 subdevice
+> - * @cfg: V4L2 subdev pad configuration
+> + * @sd_state: V4L2 subdev state
+>   * @fmt: V4L2 subdev format
+>   * @codes: Array of supported media bus codes
+>   * @ncodes: Number of supported media bus codes
+> @@ -360,7 +359,7 @@ int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
+>  			       unsigned int max_width, unsigned int max_height)
+>  {
+>  	struct vsp1_entity *entity = to_vsp1_entity(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	struct v4l2_rect *selection;
+>  	unsigned int i;
+> @@ -368,13 +367,13 @@ int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
+>
+>  	mutex_lock(&entity->lock);
+>
+> -	config = vsp1_entity_get_pad_config(entity, sd_state, fmt->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(entity, sd_state, fmt->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+>
+> -	format = vsp1_entity_get_pad_format(entity, config, fmt->pad);
+> +	format = vsp1_entity_get_pad_format(entity, state, fmt->pad);
+>
+>  	if (fmt->pad == entity->source_pad) {
+>  		/* The output format can't be modified. */
+> @@ -402,18 +401,18 @@ int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
+>  	fmt->format = *format;
+>
+>  	/* Propagate the format to the source pad. */
+> -	format = vsp1_entity_get_pad_format(entity, config, entity->source_pad);
+> +	format = vsp1_entity_get_pad_format(entity, state, entity->source_pad);
+>  	*format = fmt->format;
+>
+>  	/* Reset the crop and compose rectangles. */
+> -	selection = vsp1_entity_get_pad_selection(entity, config, fmt->pad,
+> +	selection = vsp1_entity_get_pad_selection(entity, state, fmt->pad,
+>  						  V4L2_SEL_TGT_CROP);
+>  	selection->left = 0;
+>  	selection->top = 0;
+>  	selection->width = format->width;
+>  	selection->height = format->height;
+>
+> -	selection = vsp1_entity_get_pad_selection(entity, config, fmt->pad,
+> +	selection = vsp1_entity_get_pad_selection(entity, state, fmt->pad,
+>  						  V4L2_SEL_TGT_COMPOSE);
+>  	selection->left = 0;
+>  	selection->top = 0;
+> @@ -670,18 +669,18 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
+>  	vsp1_entity_init_cfg(subdev, NULL);
+>
+>  	/*
+> -	 * Allocate the pad configuration to store formats and selection
+> +	 * Allocate the subdev state to store formats and selection
+>  	 * rectangles.
+>  	 */
+>  	/*
+>  	 * FIXME: Drop this call, drivers are not supposed to use
+>  	 * __v4l2_subdev_state_alloc().
+>  	 */
+> -	entity->config = __v4l2_subdev_state_alloc(&entity->subdev,
+> -						   "vsp1:config->lock", &key);
+> -	if (IS_ERR(entity->config)) {
+> +	entity->state = __v4l2_subdev_state_alloc(&entity->subdev,
+> +						  "vsp1:state->lock", &key);
+> +	if (IS_ERR(entity->state)) {
+>  		media_entity_cleanup(&entity->subdev.entity);
+> -		return PTR_ERR(entity->config);
+> +		return PTR_ERR(entity->state);
+>  	}
+>
+>  	return 0;
+> @@ -693,6 +692,6 @@ void vsp1_entity_destroy(struct vsp1_entity *entity)
+>  		entity->ops->destroy(entity);
+>  	if (entity->subdev.ctrl_handler)
+>  		v4l2_ctrl_handler_free(entity->subdev.ctrl_handler);
+> -	__v4l2_subdev_state_free(entity->config);
+> +	__v4l2_subdev_state_free(entity->state);
+>  	media_entity_cleanup(&entity->subdev.entity);
+>  }
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.h b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
+> index 17f98a6a972e..8c737cadee81 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.h
+> @@ -115,9 +115,9 @@ struct vsp1_entity {
+>  	unsigned int sink_pad;
+>
+>  	struct v4l2_subdev subdev;
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>
+> -	struct mutex lock;	/* Protects the pad config */
+> +	struct mutex lock;	/* Protects the state */
+>  };
+>
+>  static inline struct vsp1_entity *to_vsp1_entity(struct v4l2_subdev *subdev)
+> @@ -135,9 +135,9 @@ int vsp1_entity_link_setup(struct media_entity *entity,
+>  			   const struct media_pad *remote, u32 flags);
+>
+>  struct v4l2_subdev_state *
+> -vsp1_entity_get_pad_config(struct vsp1_entity *entity,
+> -			   struct v4l2_subdev_state *sd_state,
+> -			   enum v4l2_subdev_format_whence which);
+> +vsp1_entity_get_state(struct vsp1_entity *entity,
+> +		      struct v4l2_subdev_state *sd_state,
+> +		      enum v4l2_subdev_format_whence which);
+>  struct v4l2_mbus_framefmt *
+>  vsp1_entity_get_pad_format(struct vsp1_entity *entity,
+>  			   struct v4l2_subdev_state *sd_state,
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+> index e6492deb0a64..40c571a987ef 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hgo.c
+> @@ -140,9 +140,9 @@ static void hgo_configure_stream(struct vsp1_entity *entity,
+>  	unsigned int hratio;
+>  	unsigned int vratio;
+>
+> -	crop = vsp1_entity_get_pad_selection(entity, entity->config,
+> +	crop = vsp1_entity_get_pad_selection(entity, entity->state,
+>  					     HISTO_PAD_SINK, V4L2_SEL_TGT_CROP);
+> -	compose = vsp1_entity_get_pad_selection(entity, entity->config,
+> +	compose = vsp1_entity_get_pad_selection(entity, entity->state,
+>  						HISTO_PAD_SINK,
+>  						V4L2_SEL_TGT_COMPOSE);
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hgt.c b/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
+> index aa1c718e0453..8281b86874ab 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hgt.c
+> @@ -139,9 +139,9 @@ static void hgt_configure_stream(struct vsp1_entity *entity,
+>  	u8 upper;
+>  	unsigned int i;
+>
+> -	crop = vsp1_entity_get_pad_selection(entity, entity->config,
+> +	crop = vsp1_entity_get_pad_selection(entity, entity->state,
+>  					     HISTO_PAD_SINK, V4L2_SEL_TGT_CROP);
+> -	compose = vsp1_entity_get_pad_selection(entity, entity->config,
+> +	compose = vsp1_entity_get_pad_selection(entity, entity->state,
+>  						HISTO_PAD_SINK,
+>  						V4L2_SEL_TGT_COMPOSE);
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> index f22449dd654c..71155282ca11 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+> @@ -203,7 +203,7 @@ static int histo_get_selection(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_selection *sel)
+>  {
+>  	struct vsp1_histogram *histo = subdev_to_histo(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	struct v4l2_rect *crop;
+>  	int ret = 0;
+> @@ -213,9 +213,8 @@ static int histo_get_selection(struct v4l2_subdev *subdev,
+>
+>  	mutex_lock(&histo->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&histo->entity, sd_state,
+> -					    sel->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&histo->entity, sd_state, sel->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+> @@ -223,7 +222,7 @@ static int histo_get_selection(struct v4l2_subdev *subdev,
+>  	switch (sel->target) {
+>  	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
+>  	case V4L2_SEL_TGT_COMPOSE_DEFAULT:
+> -		crop = vsp1_entity_get_pad_selection(&histo->entity, config,
+> +		crop = vsp1_entity_get_pad_selection(&histo->entity, state,
+>  						     HISTO_PAD_SINK,
+>  						     V4L2_SEL_TGT_CROP);
+>  		sel->r.left = 0;
+> @@ -234,7 +233,7 @@ static int histo_get_selection(struct v4l2_subdev *subdev,
+>
+>  	case V4L2_SEL_TGT_CROP_BOUNDS:
+>  	case V4L2_SEL_TGT_CROP_DEFAULT:
+> -		format = vsp1_entity_get_pad_format(&histo->entity, config,
+> +		format = vsp1_entity_get_pad_format(&histo->entity, state,
+>  						    HISTO_PAD_SINK);
+>  		sel->r.left = 0;
+>  		sel->r.top = 0;
+> @@ -244,7 +243,7 @@ static int histo_get_selection(struct v4l2_subdev *subdev,
+>
+>  	case V4L2_SEL_TGT_COMPOSE:
+>  	case V4L2_SEL_TGT_CROP:
+> -		sel->r = *vsp1_entity_get_pad_selection(&histo->entity, config,
+> +		sel->r = *vsp1_entity_get_pad_selection(&histo->entity, state,
+>  							sel->pad, sel->target);
+>  		break;
+>
+> @@ -346,7 +345,7 @@ static int histo_set_selection(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_selection *sel)
+>  {
+>  	struct vsp1_histogram *histo = subdev_to_histo(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	int ret;
+>
+>  	if (sel->pad != HISTO_PAD_SINK)
+> @@ -354,17 +353,16 @@ static int histo_set_selection(struct v4l2_subdev *subdev,
+>
+>  	mutex_lock(&histo->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&histo->entity, sd_state,
+> -					    sel->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&histo->entity, sd_state, sel->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+>
+>  	if (sel->target == V4L2_SEL_TGT_CROP)
+> -		ret = histo_set_crop(subdev, config, sel);
+> +		ret = histo_set_crop(subdev, state, sel);
+>  	else if (sel->target == V4L2_SEL_TGT_COMPOSE)
+> -		ret = histo_set_compose(subdev, config, sel);
+> +		ret = histo_set_compose(subdev, state, sel);
+>  	else
+>  		ret = -EINVAL;
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+> index 361a870380c2..6342ac7bdf54 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_hsit.c
+> @@ -66,20 +66,19 @@ static int hsit_set_format(struct v4l2_subdev *subdev,
+>  			   struct v4l2_subdev_format *fmt)
+>  {
+>  	struct vsp1_hsit *hsit = to_hsit(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	int ret = 0;
+>
+>  	mutex_lock(&hsit->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&hsit->entity, sd_state,
+> -					    fmt->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&hsit->entity, sd_state, fmt->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+>
+> -	format = vsp1_entity_get_pad_format(&hsit->entity, config, fmt->pad);
+> +	format = vsp1_entity_get_pad_format(&hsit->entity, state, fmt->pad);
+>
+>  	if (fmt->pad == HSIT_PAD_SOURCE) {
+>  		/*
+> @@ -102,7 +101,7 @@ static int hsit_set_format(struct v4l2_subdev *subdev,
+>  	fmt->format = *format;
+>
+>  	/* Propagate the format to the source pad. */
+> -	format = vsp1_entity_get_pad_format(&hsit->entity, config,
+> +	format = vsp1_entity_get_pad_format(&hsit->entity, state,
+>  					    HSIT_PAD_SOURCE);
+>  	*format = fmt->format;
+>  	format->code = hsit->inverse ? MEDIA_BUS_FMT_ARGB8888_1X32
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_lif.c b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> index 0ab2e0c70474..75c24df41a7a 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_lif.c
+> @@ -94,7 +94,7 @@ static void lif_configure_stream(struct vsp1_entity *entity,
+>  	unsigned int obth;
+>  	unsigned int lbth;
+>
+> -	format = vsp1_entity_get_pad_format(&lif->entity, lif->entity.config,
+> +	format = vsp1_entity_get_pad_format(&lif->entity, lif->entity.state,
+>  					    LIF_PAD_SOURCE);
+>
+>  	switch (entity->vsp1->version & VI6_IP_VERSION_MODEL_MASK) {
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> index ea12c3f12c92..c47579efc65f 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> @@ -81,10 +81,10 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+>
+>  	/* Format */
+>  	sink_format = vsp1_entity_get_pad_format(&rpf->entity,
+> -						 rpf->entity.config,
+> +						 rpf->entity.state,
+>  						 RWPF_PAD_SINK);
+>  	source_format = vsp1_entity_get_pad_format(&rpf->entity,
+> -						   rpf->entity.config,
+> +						   rpf->entity.state,
+>  						   RWPF_PAD_SOURCE);
+>
+>  	infmt = VI6_RPF_INFMT_CIPM
+> @@ -158,7 +158,7 @@ static void rpf_configure_stream(struct vsp1_entity *entity,
+>  		const struct v4l2_rect *compose;
+>
+>  		compose = vsp1_entity_get_pad_selection(pipe->brx,
+> -							pipe->brx->config,
+> +							pipe->brx->state,
+>  							rpf->brx_input,
+>  							V4L2_SEL_TGT_COMPOSE);
+>  		left = compose->left;
+> @@ -302,7 +302,7 @@ static void rpf_configure_partition(struct vsp1_entity *entity,
+>  	 * offsets are needed, as planes 2 and 3 always have identical
+>  	 * strides.
+>  	 */
+> -	crop = *vsp1_rwpf_get_crop(rpf, rpf->entity.config);
+> +	crop = *vsp1_rwpf_get_crop(rpf, rpf->entity.state);
+>
+>  	/*
+>  	 * Partition Algorithm Control
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> index 6391a503ec97..cb3ab351b7de 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> @@ -61,15 +61,14 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>  				struct v4l2_subdev_format *fmt)
+>  {
+>  	struct vsp1_rwpf *rwpf = to_rwpf(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	int ret = 0;
+>
+>  	mutex_lock(&rwpf->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&rwpf->entity, sd_state,
+> -					    fmt->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&rwpf->entity, sd_state, fmt->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+> @@ -80,7 +79,7 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>  	    fmt->format.code != MEDIA_BUS_FMT_AYUV8_1X32)
+>  		fmt->format.code = MEDIA_BUS_FMT_AYUV8_1X32;
+>
+> -	format = vsp1_entity_get_pad_format(&rwpf->entity, config, fmt->pad);
+> +	format = vsp1_entity_get_pad_format(&rwpf->entity, state, fmt->pad);
+>
+>  	if (fmt->pad == RWPF_PAD_SOURCE) {
+>  		/*
+> @@ -106,7 +105,7 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>  		struct v4l2_rect *crop;
+>
+>  		/* Update the sink crop rectangle. */
+> -		crop = vsp1_rwpf_get_crop(rwpf, config);
+> +		crop = vsp1_rwpf_get_crop(rwpf, state);
+>  		crop->left = 0;
+>  		crop->top = 0;
+>  		crop->width = fmt->format.width;
+> @@ -114,7 +113,7 @@ static int vsp1_rwpf_set_format(struct v4l2_subdev *subdev,
+>  	}
+>
+>  	/* Propagate the format to the source pad. */
+> -	format = vsp1_entity_get_pad_format(&rwpf->entity, config,
+> +	format = vsp1_entity_get_pad_format(&rwpf->entity, state,
+>  					    RWPF_PAD_SOURCE);
+>  	*format = fmt->format;
+>
+> @@ -133,7 +132,7 @@ static int vsp1_rwpf_get_selection(struct v4l2_subdev *subdev,
+>  				   struct v4l2_subdev_selection *sel)
+>  {
+>  	struct vsp1_rwpf *rwpf = to_rwpf(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	int ret = 0;
+>
+> @@ -146,20 +145,19 @@ static int vsp1_rwpf_get_selection(struct v4l2_subdev *subdev,
+>
+>  	mutex_lock(&rwpf->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&rwpf->entity, sd_state,
+> -					    sel->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&rwpf->entity, sd_state, sel->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+>
+>  	switch (sel->target) {
+>  	case V4L2_SEL_TGT_CROP:
+> -		sel->r = *vsp1_rwpf_get_crop(rwpf, config);
+> +		sel->r = *vsp1_rwpf_get_crop(rwpf, state);
+>  		break;
+>
+>  	case V4L2_SEL_TGT_CROP_BOUNDS:
+> -		format = vsp1_entity_get_pad_format(&rwpf->entity, config,
+> +		format = vsp1_entity_get_pad_format(&rwpf->entity, state,
+>  						    RWPF_PAD_SINK);
+>  		sel->r.left = 0;
+>  		sel->r.top = 0;
+> @@ -182,7 +180,7 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
+>  				   struct v4l2_subdev_selection *sel)
+>  {
+>  	struct vsp1_rwpf *rwpf = to_rwpf(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	struct v4l2_rect *crop;
+>  	int ret = 0;
+> @@ -199,15 +197,14 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
+>
+>  	mutex_lock(&rwpf->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&rwpf->entity, sd_state,
+> -					    sel->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&rwpf->entity, sd_state, sel->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+>
+>  	/* Make sure the crop rectangle is entirely contained in the image. */
+> -	format = vsp1_entity_get_pad_format(&rwpf->entity, config,
+> +	format = vsp1_entity_get_pad_format(&rwpf->entity, state,
+>  					    RWPF_PAD_SINK);
+>
+>  	/*
+> @@ -228,11 +225,11 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
+>  	sel->r.height = min_t(unsigned int, sel->r.height,
+>  			      format->height - sel->r.top);
+>
+> -	crop = vsp1_rwpf_get_crop(rwpf, config);
+> +	crop = vsp1_rwpf_get_crop(rwpf, state);
+>  	*crop = sel->r;
+>
+>  	/* Propagate the format to the source pad. */
+> -	format = vsp1_entity_get_pad_format(&rwpf->entity, config,
+> +	format = vsp1_entity_get_pad_format(&rwpf->entity, state,
+>  					    RWPF_PAD_SOURCE);
+>  	format->width = crop->width;
+>  	format->height = crop->height;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_sru.c b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> index b614a2aea461..2dd6f8575614 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_sru.c
+> @@ -123,16 +123,15 @@ static int sru_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	struct vsp1_sru *sru = to_sru(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	int ret = 0;
+>
+> -	config = vsp1_entity_get_pad_config(&sru->entity, sd_state,
+> -					    fse->which);
+> -	if (!config)
+> +	state = vsp1_entity_get_state(&sru->entity, sd_state, fse->which);
+> +	if (!state)
+>  		return -EINVAL;
+>
+> -	format = vsp1_entity_get_pad_format(&sru->entity, config, SRU_PAD_SINK);
+> +	format = vsp1_entity_get_pad_format(&sru->entity, state, SRU_PAD_SINK);
+>
+>  	mutex_lock(&sru->entity.lock);
+>
+> @@ -221,31 +220,30 @@ static int sru_set_format(struct v4l2_subdev *subdev,
+>  			  struct v4l2_subdev_format *fmt)
+>  {
+>  	struct vsp1_sru *sru = to_sru(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	int ret = 0;
+>
+>  	mutex_lock(&sru->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&sru->entity, sd_state,
+> -					    fmt->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&sru->entity, sd_state, fmt->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+>
+> -	sru_try_format(sru, config, fmt->pad, &fmt->format);
+> +	sru_try_format(sru, state, fmt->pad, &fmt->format);
+>
+> -	format = vsp1_entity_get_pad_format(&sru->entity, config, fmt->pad);
+> +	format = vsp1_entity_get_pad_format(&sru->entity, state, fmt->pad);
+>  	*format = fmt->format;
+>
+>  	if (fmt->pad == SRU_PAD_SINK) {
+>  		/* Propagate the format to the source pad. */
+> -		format = vsp1_entity_get_pad_format(&sru->entity, config,
+> +		format = vsp1_entity_get_pad_format(&sru->entity, state,
+>  						    SRU_PAD_SOURCE);
+>  		*format = fmt->format;
+>
+> -		sru_try_format(sru, config, SRU_PAD_SOURCE, format);
+> +		sru_try_format(sru, state, SRU_PAD_SOURCE, format);
+>  	}
+>
+>  done:
+> @@ -280,9 +278,9 @@ static void sru_configure_stream(struct vsp1_entity *entity,
+>  	struct v4l2_mbus_framefmt *output;
+>  	u32 ctrl0;
+>
+> -	input = vsp1_entity_get_pad_format(&sru->entity, sru->entity.config,
+> +	input = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
+>  					   SRU_PAD_SINK);
+> -	output = vsp1_entity_get_pad_format(&sru->entity, sru->entity.config,
+> +	output = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
+>  					    SRU_PAD_SOURCE);
+>
+>  	if (input->code == MEDIA_BUS_FMT_ARGB8888_1X32)
+> @@ -310,9 +308,9 @@ static unsigned int sru_max_width(struct vsp1_entity *entity,
+>  	struct v4l2_mbus_framefmt *input;
+>  	struct v4l2_mbus_framefmt *output;
+>
+> -	input = vsp1_entity_get_pad_format(&sru->entity, sru->entity.config,
+> +	input = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
+>  					   SRU_PAD_SINK);
+> -	output = vsp1_entity_get_pad_format(&sru->entity, sru->entity.config,
+> +	output = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
+>  					    SRU_PAD_SOURCE);
+>
+>  	/*
+> @@ -336,9 +334,9 @@ static void sru_partition(struct vsp1_entity *entity,
+>  	struct v4l2_mbus_framefmt *input;
+>  	struct v4l2_mbus_framefmt *output;
+>
+> -	input = vsp1_entity_get_pad_format(&sru->entity, sru->entity.config,
+> +	input = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
+>  					   SRU_PAD_SINK);
+> -	output = vsp1_entity_get_pad_format(&sru->entity, sru->entity.config,
+> +	output = vsp1_entity_get_pad_format(&sru->entity, sru->entity.state,
+>  					    SRU_PAD_SOURCE);
+>
+>  	/* Adapt if SRUx2 is enabled. */
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uds.c b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> index 1c290cda005a..59ff4ae46cea 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_uds.c
+> @@ -128,17 +128,15 @@ static int uds_enum_frame_size(struct v4l2_subdev *subdev,
+>  			       struct v4l2_subdev_frame_size_enum *fse)
+>  {
+>  	struct vsp1_uds *uds = to_uds(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	int ret = 0;
+>
+> -	config = vsp1_entity_get_pad_config(&uds->entity, sd_state,
+> -					    fse->which);
+> -	if (!config)
+> +	state = vsp1_entity_get_state(&uds->entity, sd_state, fse->which);
+> +	if (!state)
+>  		return -EINVAL;
+>
+> -	format = vsp1_entity_get_pad_format(&uds->entity, config,
+> -					    UDS_PAD_SINK);
+> +	format = vsp1_entity_get_pad_format(&uds->entity, state, UDS_PAD_SINK);
+>
+>  	mutex_lock(&uds->entity.lock);
+>
+> @@ -205,31 +203,30 @@ static int uds_set_format(struct v4l2_subdev *subdev,
+>  			  struct v4l2_subdev_format *fmt)
+>  {
+>  	struct vsp1_uds *uds = to_uds(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	int ret = 0;
+>
+>  	mutex_lock(&uds->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&uds->entity, sd_state,
+> -					    fmt->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&uds->entity, sd_state, fmt->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+>
+> -	uds_try_format(uds, config, fmt->pad, &fmt->format);
+> +	uds_try_format(uds, state, fmt->pad, &fmt->format);
+>
+> -	format = vsp1_entity_get_pad_format(&uds->entity, config, fmt->pad);
+> +	format = vsp1_entity_get_pad_format(&uds->entity, state, fmt->pad);
+>  	*format = fmt->format;
+>
+>  	if (fmt->pad == UDS_PAD_SINK) {
+>  		/* Propagate the format to the source pad. */
+> -		format = vsp1_entity_get_pad_format(&uds->entity, config,
+> +		format = vsp1_entity_get_pad_format(&uds->entity, state,
+>  						    UDS_PAD_SOURCE);
+>  		*format = fmt->format;
+>
+> -		uds_try_format(uds, config, UDS_PAD_SOURCE, format);
+> +		uds_try_format(uds, state, UDS_PAD_SOURCE, format);
+>  	}
+>
+>  done:
+> @@ -269,9 +266,9 @@ static void uds_configure_stream(struct vsp1_entity *entity,
+>  	unsigned int vscale;
+>  	bool multitap;
+>
+> -	input = vsp1_entity_get_pad_format(&uds->entity, uds->entity.config,
+> +	input = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
+>  					   UDS_PAD_SINK);
+> -	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.config,
+> +	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
+>  					    UDS_PAD_SOURCE);
+>
+>  	hscale = uds_compute_ratio(input->width, output->width);
+> @@ -314,7 +311,7 @@ static void uds_configure_partition(struct vsp1_entity *entity,
+>  	struct vsp1_partition *partition = pipe->partition;
+>  	const struct v4l2_mbus_framefmt *output;
+>
+> -	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.config,
+> +	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
+>  					    UDS_PAD_SOURCE);
+>
+>  	/* Input size clipping. */
+> @@ -339,9 +336,9 @@ static unsigned int uds_max_width(struct vsp1_entity *entity,
+>  	const struct v4l2_mbus_framefmt *input;
+>  	unsigned int hscale;
+>
+> -	input = vsp1_entity_get_pad_format(&uds->entity, uds->entity.config,
+> +	input = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
+>  					   UDS_PAD_SINK);
+> -	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.config,
+> +	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
+>  					    UDS_PAD_SOURCE);
+>  	hscale = output->width / input->width;
+>
+> @@ -381,9 +378,9 @@ static void uds_partition(struct vsp1_entity *entity,
+>  	partition->uds_sink = *window;
+>  	partition->uds_source = *window;
+>
+> -	input = vsp1_entity_get_pad_format(&uds->entity, uds->entity.config,
+> +	input = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
+>  					   UDS_PAD_SINK);
+> -	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.config,
+> +	output = vsp1_entity_get_pad_format(&uds->entity, uds->entity.state,
+>  					    UDS_PAD_SOURCE);
+>
+>  	partition->uds_sink.width = window->width * input->width
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_uif.c b/drivers/media/platform/renesas/vsp1/vsp1_uif.c
+> index 83d7f17df80e..d84d10f35090 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_uif.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_uif.c
+> @@ -86,7 +86,7 @@ static int uif_get_selection(struct v4l2_subdev *subdev,
+>  			     struct v4l2_subdev_selection *sel)
+>  {
+>  	struct vsp1_uif *uif = to_uif(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	int ret = 0;
+>
+> @@ -95,9 +95,8 @@ static int uif_get_selection(struct v4l2_subdev *subdev,
+>
+>  	mutex_lock(&uif->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&uif->entity, sd_state,
+> -					    sel->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&uif->entity, sd_state, sel->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+> @@ -105,7 +104,7 @@ static int uif_get_selection(struct v4l2_subdev *subdev,
+>  	switch (sel->target) {
+>  	case V4L2_SEL_TGT_CROP_BOUNDS:
+>  	case V4L2_SEL_TGT_CROP_DEFAULT:
+> -		format = vsp1_entity_get_pad_format(&uif->entity, config,
+> +		format = vsp1_entity_get_pad_format(&uif->entity, state,
+>  						    UIF_PAD_SINK);
+>  		sel->r.left = 0;
+>  		sel->r.top = 0;
+> @@ -114,7 +113,7 @@ static int uif_get_selection(struct v4l2_subdev *subdev,
+>  		break;
+>
+>  	case V4L2_SEL_TGT_CROP:
+> -		sel->r = *vsp1_entity_get_pad_selection(&uif->entity, config,
+> +		sel->r = *vsp1_entity_get_pad_selection(&uif->entity, state,
+>  							sel->pad, sel->target);
+>  		break;
+>
+> @@ -133,7 +132,7 @@ static int uif_set_selection(struct v4l2_subdev *subdev,
+>  			     struct v4l2_subdev_selection *sel)
+>  {
+>  	struct vsp1_uif *uif = to_uif(subdev);
+> -	struct v4l2_subdev_state *config;
+> +	struct v4l2_subdev_state *state;
+>  	struct v4l2_mbus_framefmt *format;
+>  	struct v4l2_rect *selection;
+>  	int ret = 0;
+> @@ -144,15 +143,14 @@ static int uif_set_selection(struct v4l2_subdev *subdev,
+>
+>  	mutex_lock(&uif->entity.lock);
+>
+> -	config = vsp1_entity_get_pad_config(&uif->entity, sd_state,
+> -					    sel->which);
+> -	if (!config) {
+> +	state = vsp1_entity_get_state(&uif->entity, sd_state, sel->which);
+> +	if (!state) {
+>  		ret = -EINVAL;
+>  		goto done;
+>  	}
+>
+>  	/* The crop rectangle must be inside the input frame. */
+> -	format = vsp1_entity_get_pad_format(&uif->entity, config, UIF_PAD_SINK);
+> +	format = vsp1_entity_get_pad_format(&uif->entity, state, UIF_PAD_SINK);
+>
+>  	sel->r.left = clamp_t(unsigned int, sel->r.left, 0, format->width - 1);
+>  	sel->r.top = clamp_t(unsigned int, sel->r.top, 0, format->height - 1);
+> @@ -162,7 +160,7 @@ static int uif_set_selection(struct v4l2_subdev *subdev,
+>  				format->height - sel->r.top);
+>
+>  	/* Store the crop rectangle. */
+> -	selection = vsp1_entity_get_pad_selection(&uif->entity, config,
+> +	selection = vsp1_entity_get_pad_selection(&uif->entity, state,
+>  						  sel->pad, V4L2_SEL_TGT_CROP);
+>  	*selection = sel->r;
+>
+> @@ -206,7 +204,7 @@ static void uif_configure_stream(struct vsp1_entity *entity,
+>  	vsp1_uif_write(uif, dlb, VI6_UIF_DISCOM_DOCMPMR,
+>  		       VI6_UIF_DISCOM_DOCMPMR_SEL(9));
+>
+> -	crop = vsp1_entity_get_pad_selection(entity, entity->config,
+> +	crop = vsp1_entity_get_pad_selection(entity, entity->state,
+>  					     UIF_PAD_SINK, V4L2_SEL_TGT_CROP);
+>
+>  	left = crop->left;
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> index e9d5027761bb..5a9cb0e5640e 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+> @@ -198,7 +198,7 @@ static void vsp1_video_calculate_partition(struct vsp1_pipeline *pipe,
+>  	 * at the WPF sink.
+>  	 */
+>  	format = vsp1_entity_get_pad_format(&pipe->output->entity,
+> -					    pipe->output->entity.config,
+> +					    pipe->output->entity.state,
+>  					    RWPF_PAD_SINK);
+>
+>  	/* A single partition simply processes the output size in full. */
+> @@ -263,7 +263,7 @@ static int vsp1_video_pipeline_setup_partitions(struct vsp1_pipeline *pipe)
+>  	 * at the WPF sink.
+>  	 */
+>  	format = vsp1_entity_get_pad_format(&pipe->output->entity,
+> -					    pipe->output->entity.config,
+> +					    pipe->output->entity.state,
+>  					    RWPF_PAD_SINK);
+>  	div_size = format->width;
+>
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> index cab4445eca69..9693aeab1cac 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> @@ -66,10 +66,10 @@ static int vsp1_wpf_set_rotation(struct vsp1_rwpf *wpf, unsigned int rotation)
+>  	}
+>
+>  	sink_format = vsp1_entity_get_pad_format(&wpf->entity,
+> -						 wpf->entity.config,
+> +						 wpf->entity.state,
+>  						 RWPF_PAD_SINK);
+>  	source_format = vsp1_entity_get_pad_format(&wpf->entity,
+> -						   wpf->entity.config,
+> +						   wpf->entity.state,
+>  						   RWPF_PAD_SOURCE);
+>
+>  	mutex_lock(&wpf->entity.lock);
+> @@ -246,10 +246,10 @@ static void wpf_configure_stream(struct vsp1_entity *entity,
+>  	int ret;
+>
+>  	sink_format = vsp1_entity_get_pad_format(&wpf->entity,
+> -						 wpf->entity.config,
+> +						 wpf->entity.state,
+>  						 RWPF_PAD_SINK);
+>  	source_format = vsp1_entity_get_pad_format(&wpf->entity,
+> -						   wpf->entity.config,
+> +						   wpf->entity.state,
+>  						   RWPF_PAD_SOURCE);
+>
+>  	/* Format */
+> @@ -384,7 +384,7 @@ static void wpf_configure_partition(struct vsp1_entity *entity,
+>  	unsigned int i;
+>
+>  	sink_format = vsp1_entity_get_pad_format(&wpf->entity,
+> -						 wpf->entity.config,
+> +						 wpf->entity.state,
+>  						 RWPF_PAD_SINK);
+
+Looks correct to me
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks
+  j
+
+>  	width = sink_format->width;
+>  	height = sink_format->height;
+> --
+> Regards,
+>
+> Laurent Pinchart
 >
 >
->
-> On 2023/11/14 18:59, Dmitry Baryshkov wrote:
-> > On Tue, 14 Nov 2023 at 12:42, Keith Zhao <keith.zhao@starfivetech.com> wrote:
-> >>
-> >>
-> >>
-> >> On 2023/10/26 3:28, Dmitry Baryshkov wrote:
-> >> > On 25/10/2023 13:39, Keith Zhao wrote:
-> >> >> add 2 crtcs and 8 planes in vs-drm
-> >> >>
-> >> >> Signed-off-by: Keith Zhao <keith.zhao@starfivetech.com>
-> >> >> ---
-> >> >>   drivers/gpu/drm/verisilicon/Makefile   |    8 +-
-> >> >>   drivers/gpu/drm/verisilicon/vs_crtc.c  |  257 ++++
-> >> >>   drivers/gpu/drm/verisilicon/vs_crtc.h  |   43 +
-> >> >>   drivers/gpu/drm/verisilicon/vs_dc.c    | 1002 ++++++++++++
-> >> >>   drivers/gpu/drm/verisilicon/vs_dc.h    |   80 +
-> >> >>   drivers/gpu/drm/verisilicon/vs_dc_hw.c | 1959 ++++++++++++++++++++++++
-> >> >>   drivers/gpu/drm/verisilicon/vs_dc_hw.h |  492 ++++++
-> >> >>   drivers/gpu/drm/verisilicon/vs_drv.c   |    2 +
-> >> >>   drivers/gpu/drm/verisilicon/vs_plane.c |  526 +++++++
-> >> >>   drivers/gpu/drm/verisilicon/vs_plane.h |   58 +
-> >> >>   drivers/gpu/drm/verisilicon/vs_type.h  |   69 +
-> >> >>   11 files changed, 4494 insertions(+), 2 deletions(-)
-> >> >>   create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.c
-> >> >>   create mode 100644 drivers/gpu/drm/verisilicon/vs_crtc.h
-> >> >>   create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.c
-> >> >>   create mode 100644 drivers/gpu/drm/verisilicon/vs_dc.h
-> >> >>   create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.c
-> >> >>   create mode 100644 drivers/gpu/drm/verisilicon/vs_dc_hw.h
-> >> >>   create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.c
-> >> >>   create mode 100644 drivers/gpu/drm/verisilicon/vs_plane.h
-> >> >>   create mode 100644 drivers/gpu/drm/verisilicon/vs_type.h
-> >> >>
-> >> >> diff --git a/drivers/gpu/drm/verisilicon/Makefile b/drivers/gpu/drm/verisilicon/Makefile
-> >> >> index 7d3be305b..1d48016ca 100644
-> >> >> --- a/drivers/gpu/drm/verisilicon/Makefile
-> >> >> +++ b/drivers/gpu/drm/verisilicon/Makefile
-> >> >> @@ -1,7 +1,11 @@
-> >> >>   # SPDX-License-Identifier: GPL-2.0
-> >> >>
-> >> >> -vs_drm-objs := vs_drv.o \
-> >> >> -            vs_modeset.o
-> >> >> +vs_drm-objs := vs_dc_hw.o \
-> >> >> +            vs_dc.o \
-> >> >> +            vs_crtc.o \
-> >> >> +            vs_drv.o \
-> >> >> +            vs_modeset.o \
-> >> >> +            vs_plane.o
-> >> >>
-> >> >>   obj-$(CONFIG_DRM_VERISILICON) += vs_drm.o
-> >> >>
-> >> >> diff --git a/drivers/gpu/drm/verisilicon/vs_crtc.c b/drivers/gpu/drm/verisilicon/vs_crtc.c
-> >> >> new file mode 100644
-> >> >> index 000000000..8a658ea77
-> >> >> --- /dev/null
-> >> >> +++ b/drivers/gpu/drm/verisilicon/vs_crtc.c
-> >> >> @@ -0,0 +1,257 @@
-> >> >> +// SPDX-License-Identifier: GPL-2.0
-> >> >> +/*
-> >> >> + * Copyright (C) 2023 VeriSilicon Holdings Co., Ltd.
-> >> >> + *
-> >> >> + */
-> >> >> +
-> >> >> +#include <linux/clk.h>
-> >> >> +#include <linux/debugfs.h>
-> >> >> +#include <linux/media-bus-format.h>
-> >> >> +
-> >> >> +#include <drm/drm_atomic_helper.h>
-> >> >> +#include <drm/drm_atomic.h>
-> >> >> +#include <drm/drm_crtc.h>
-> >> >> +#include <drm/drm_gem_atomic_helper.h>
-> >> >> +#include <drm/drm_vblank.h>
-> >> >> +#include <drm/vs_drm.h>
-> >> >> +
-> >> >> +#include "vs_crtc.h"
-> >> >> +#include "vs_dc.h"
-> >> >> +#include "vs_drv.h"
-> >> >> +
-> >> >> +static void vs_crtc_reset(struct drm_crtc *crtc)
-> >> >> +{
-> >> >> +    struct vs_crtc_state *state;
-> >> >> +
-> >> >> +    if (crtc->state) {
-> >> >> +            __drm_atomic_helper_crtc_destroy_state(crtc->state);
-> >> >> +
-> >> >> +            state = to_vs_crtc_state(crtc->state);
-> >> >> +            kfree(state);
-> >> >> +            crtc->state = NULL;
-> >> >> +    }
-> >> >
-> >> > You can call your crtc_destroy_state function directly here.
-> >> >
-> >> >> +
-> >> >> +    state = kzalloc(sizeof(*state), GFP_KERNEL);
-> >> >> +    if (!state)
-> >> >> +            return;
-> >> >> +
-> >> >> +    __drm_atomic_helper_crtc_reset(crtc, &state->base);
-> >> >> +}
-> >> >> +
-> >> >> +static struct drm_crtc_state *
-> >> >> +vs_crtc_atomic_duplicate_state(struct drm_crtc *crtc)
-> >> >> +{
-> >> >> +    struct vs_crtc_state *ori_state;
-> >> >
-> >> > It might be a matter of taste, but it is usually old_state.
-> >> >
-> >> >> +    struct vs_crtc_state *state;
-> >> >> +
-> >> >> +    if (!crtc->state)
-> >> >> +            return NULL;
-> >> >> +
-> >> >> +    ori_state = to_vs_crtc_state(crtc->state);
-> >> >> +    state = kzalloc(sizeof(*state), GFP_KERNEL);
-> >> >> +    if (!state)
-> >> >> +            return NULL;
-> >> >> +
-> >> >> +    __drm_atomic_helper_crtc_duplicate_state(crtc, &state->base);
-> >> >> +
-> >> >> +    state->output_fmt = ori_state->output_fmt;
-> >> >> +    state->encoder_type = ori_state->encoder_type;
-> >> >> +    state->bpp = ori_state->bpp;
-> >> >> +    state->underflow = ori_state->underflow;
-> >> >
-> >> > Can you use kmemdup instead?
-> >> >
-> >> >> +
-> >> >> +    return &state->base;
-> >> >> +}
-> >> >> +
-> >> >> +static void vs_crtc_atomic_destroy_state(struct drm_crtc *crtc,
-> >> >> +                                     struct drm_crtc_state *state)
-> >> >> +{
-> >> >> +    __drm_atomic_helper_crtc_destroy_state(state);
-> >> >> +    kfree(to_vs_crtc_state(state));
-> >> >> +}
-> >> >> +
-> >> >> +static int vs_crtc_enable_vblank(struct drm_crtc *crtc)
-> >> >> +{
-> >> >> +    struct vs_crtc *vs_crtc = to_vs_crtc(crtc);
-> >> >> +    struct vs_dc *dc = dev_get_drvdata(vs_crtc->dev);
-> >> >> +
-> >> >> +    vs_dc_enable_vblank(dc, true);
-> >> >> +
-> >> >> +    return 0;
-> >> >> +}
-> >> >> +
-> >> >> +static void vs_crtc_disable_vblank(struct drm_crtc *crtc)
-> >> >> +{
-> >> >> +    struct vs_crtc *vs_crtc = to_vs_crtc(crtc);
-> >> >> +    struct vs_dc *dc = dev_get_drvdata(vs_crtc->dev);
-> >> >> +
-> >> >> +    vs_dc_enable_vblank(dc, false);
-> >> >> +}
-> >> >> +
-> >> >> +static const struct drm_crtc_funcs vs_crtc_funcs = {
-> >> >> +    .set_config             = drm_atomic_helper_set_config,
-> >> >> +    .page_flip              = drm_atomic_helper_page_flip,
-> >> >
-> >> > destroy is required, see drm_mode_config_cleanup()
-> >>
-> >> hi Dmitry:
-> >> if define destroy in drm_crtc_funcs,
-> >> it will make __drmm_crtc_init_with_planes unhappy
-> >
-> > Ack, I missed that you have been using drmm_crtc_init. BTW, I checked
-> > your code, you should be able to switch drm
-> > drmm_crtc_alloc_with_planes().
-> >
-> yes
-> I done the replace and it can work well.
->
-> >>
-> >> see:
-> >> __printf(6, 0)
-> >> static int __drmm_crtc_init_with_planes(struct drm_device *dev,
-> >>                                         struct drm_crtc *crtc,
-> >>                                         struct drm_plane *primary,
-> >>                                         struct drm_plane *cursor,
-> >>                                         const struct drm_crtc_funcs *funcs,
-> >>                                         const char *name,
-> >>                                         va_list args)
-> >> {
-> >>         int ret;
-> >>
-> >>         drm_WARN_ON(dev, funcs && funcs->destroy);
-> >>
-> >> ........
-> >> }
-> >>
-> >> It should not need to be defined here, I think
-> >>
-> >> >
-> >> >> +    .reset                  = vs_crtc_reset,
-> >> >> +    .atomic_duplicate_state = vs_crtc_atomic_duplicate_state,
-> >> >> +    .atomic_destroy_state   = vs_crtc_atomic_destroy_state,
-> >> >
-> >> > please consider adding atomic_print_state to output driver-specific bits.
-> >> >
-> >> >> +    .enable_vblank          = vs_crtc_enable_vblank,
-> >> >> +    .disable_vblank         = vs_crtc_disable_vblank,
-> >> >> +};
-> >> >> +
-> >> >> +static u8 cal_pixel_bits(u32 bus_format)
-> >> >
-> >> > This looks like a generic helper code, which can go to a common place.
-> I don't know if I understand correctly
-> Here I remove static
-> Add 2 lines in vs_drv.h
->
-> /* vs_crtc.c */
-> u8 cal_pixel_bits(u32 bus_format);
->
-> to make it common
-
-I mean, move it to a generic location, like include/media/
-
->
-> >> >
-> >> >> +{
-> >> >> +    u8 bpp;
-> >> >> +
-> >> >> +    switch (bus_format) {
-> >> >> +    case MEDIA_BUS_FMT_RGB565_1X16:
-> >> >> +    case MEDIA_BUS_FMT_UYVY8_1X16:
-> >> >> +            bpp = 16;
-> >> >> +            break;
-> >> >> +    case MEDIA_BUS_FMT_RGB666_1X18:
-> >> >> +    case MEDIA_BUS_FMT_RGB666_1X24_CPADHI:
-> >> >> +            bpp = 18;
-> >> >> +            break;
-> >> >> +    case MEDIA_BUS_FMT_UYVY10_1X20:
-> >> >> +            bpp = 20;
-> >> >> +            break;
-> >> >> +    case MEDIA_BUS_FMT_BGR888_1X24:
-> >> >> +    case MEDIA_BUS_FMT_UYYVYY8_0_5X24:
-> >> >> +    case MEDIA_BUS_FMT_YUV8_1X24:
-> >> >> +            bpp = 24;
-> >> >> +            break;
-> >> >> +    case MEDIA_BUS_FMT_RGB101010_1X30:
-> >> >> +    case MEDIA_BUS_FMT_UYYVYY10_0_5X30:
-> >> >> +    case MEDIA_BUS_FMT_YUV10_1X30:
-> >> >> +            bpp = 30;
-> >> >> +            break;
-> >> >> +    default:
-> >> >> +            bpp = 24;
-> >> >> +            break;
-> >> >> +    }
-> >> >> +
-> >> >> +    return bpp;
-> >> >> +}
-> >> >> +
-
-[skipped]
-
-> >> >> +struct vs_crtc *vs_crtc_create(struct drm_device *drm_dev,
-> >> >> +                           struct vs_dc_info *info)
-> >> >> +{
-> >> >> +    struct vs_crtc *crtc;
-> >> >> +    int ret;
-> >> >> +
-> >> >> +    if (!info)
-> >> >> +            return NULL;
-> >> >> +
-> >> >> +    crtc = drmm_kzalloc(drm_dev, sizeof(*crtc), GFP_KERNEL);
-> >> >> +    if (!crtc)
-> >> >> +            return NULL;
-> >> >> +
-> >> >> +    ret = drmm_crtc_init_with_planes(drm_dev, &crtc->base,
-> >> >> +                                     NULL, NULL, &vs_crtc_funcs,
-> >> >> +                                     info->name ? info->name : NULL);
-> >> >
-> >> > It might be better to add drmm_crtc_init() helper.
->         drmm_crtc_alloc_with_planes used:
->         ...
->         struct vs_crtc *crtc;
->         int ret;
->
->         if (!info)
->                 return NULL;
->
->         crtc = drmm_crtc_alloc_with_planes(drm_dev, struct vs_crtc, base,
->                                                NULL, NULL,
->                                                &vs_crtc_funcs, info->name ? info->name : NULL);
->         ...
-
-Ack.
-
->
-> >> >
-> >> >> +    if (ret)
-> >> >> +            return NULL;
-> >> >> +
-> >> >> +    drm_crtc_helper_add(&crtc->base, &vs_crtc_helper_funcs);
-> >> >> +
-> >> >> +    if (info->gamma_size) {
-> >> >> +            ret = drm_mode_crtc_set_gamma_size(&crtc->base,
-> >> >> +                                               info->gamma_size);
-> >> >> +            if (ret)
-> >> >> +                    return NULL;
-> >> >> +
-> >> >> +            drm_crtc_enable_color_mgmt(&crtc->base, 0, false,
-> >> >> +                                       info->gamma_size);
-> >> >> +    }
-> >> >> +
-> >> >> +    crtc->max_bpc = info->max_bpc;
-> >> >> +    crtc->color_formats = info->color_formats;
-> >> >> +    return crtc;
-> >> >> +}
-
-> >> >> +const struct component_ops dc_component_ops = {
-> >> >> +    .bind = dc_bind,
-> >> >> +    .unbind = dc_unbind,
-> >> >> +};
-> >> >> +
-> >> >> +static const struct of_device_id dc_driver_dt_match[] = {
-> >> >> +    { .compatible = "starfive,jh7110-dc8200", },
-> >> >> +    {},
-> >> >> +};
-> >> >> +MODULE_DEVICE_TABLE(of, dc_driver_dt_match);
-> >> >> +
-> >> >> +static int dc_probe(struct platform_device *pdev)
-> >> >> +{
-> >> >> +    struct device *dev = &pdev->dev;
-> >> >> +    struct vs_dc *dc;
-> >> >> +    int irq, ret, i;
-> >> >> +
-> >> >> +    dc = devm_kzalloc(dev, sizeof(*dc), GFP_KERNEL);
-> >> >> +    if (!dc)
-> >> >> +            return -ENOMEM;
-> >> >> +
-> >> >> +    dc->hw.hi_base = devm_platform_ioremap_resource(pdev, 0);
-> >> >> +    if (IS_ERR(dc->hw.hi_base))
-> >> >> +            return PTR_ERR(dc->hw.hi_base);
-> >> >> +
-> >> >> +    dc->hw.reg_base = devm_platform_ioremap_resource(pdev, 1);
-> >> >> +    if (IS_ERR(dc->hw.reg_base))
-> >> >> +            return PTR_ERR(dc->hw.reg_base);
-> >> >> +
-> >> >> +    dc->nclks = ARRAY_SIZE(dc->clk_vout);
-> >> >> +    for (i = 0; i < dc->nclks; ++i)
-> >> >> +            dc->clk_vout[i].id = vout_clocks[i];
-> >> >> +    ret = devm_clk_bulk_get(dev, dc->nclks, dc->clk_vout);
-> >> >> +    if (ret) {
-> >> >> +            dev_err(dev, "Failed to get clk controls\n");
-> >> >> +            return ret;
-> >> >> +    }
-> >> >> +
-> >> >> +    dc->nrsts = ARRAY_SIZE(dc->rst_vout);
-> >> >> +    for (i = 0; i < dc->nrsts; ++i)
-> >> >> +            dc->rst_vout[i].id = vout_resets[i];
-> >> >> +    ret = devm_reset_control_bulk_get_shared(dev, dc->nrsts,
-> >> >> +                                             dc->rst_vout);
-> >> >> +    if (ret) {
-> >> >> +            dev_err(dev, "Failed to get reset controls\n");
-> >> >> +            return ret;
-> >> >> +    }
-> >> >> +
-> >> >> +    irq = platform_get_irq(pdev, 0);
-> >> >> +
-> >> >> +    ret = devm_request_irq(dev, irq, dc_isr, 0, dev_name(dev), dc);
-> >> >
-> >> > Are you ready to handle the IRQ at this point?
-> Do you have some good suggestions?
-> Are there any hidden dangers in doing so?
-
-
-If your driver is not ready, stray interrupt can crash your driver.
-For pm_runtime-enabled devices it is even more important: the
-interrupt handled might try accessing device which is powered off.
-
-> Hope to get good opinions
-
-The usual suggestion is: request the interrupt when your data is fully
-set up. Or request_irq with IRQF_NO_AUTOEN and then enable_irq() /
-disable_irq() as required.
-
->
-> >> >
-> >> >> +    if (ret < 0) {
-> >> >> +            dev_err(dev, "Failed to install irq:%u.\n", irq);
-> >> >> +            return ret;
-> >> >> +    }
-> >> >> +
-> >> >> +    dev_set_drvdata(dev, dc);
-> >> >> +
-> >> >> +    return component_add(dev, &dc_component_ops);
-> >> >> +}
-> >> >> +
-
-[skipped]
-
-> >> >> +static int vs_plane_atomic_get_property(struct drm_plane *plane,
-> >> >> +                                    const struct drm_plane_state *state,
-> >> >> +                                    struct drm_property *property,
-> >> >> +                                    uint64_t *val)
-> >> >> +{
-> >> >> +    struct vs_plane *vs_plane = to_vs_plane(plane);
-> >> >> +    const struct vs_plane_state *vs_plane_state =
-> >> >> +            container_of(state, const struct vs_plane_state, base);
-> >> >> +
-> >> >> +    if (property == vs_plane->degamma_mode)
-> >> >> +            *val = vs_plane_state->degamma;
-> >> >> +    else if (property == vs_plane->watermark_prop)
-> >> >> +            *val = (vs_plane_state->watermark) ?
-> >> >> +                                    vs_plane_state->watermark->base.id : 0;
-> >> >> +    else if (property == vs_plane->color_mgmt_prop)
-> >> >> +            *val = (vs_plane_state->color_mgmt) ?
-> >> >> +                                    vs_plane_state->color_mgmt->base.id : 0;
-> >> >
-> >> > degamma and color management should use standard properties.
->
-> hello Dmitry:
-> There is a question that troubles me
->
-> drm_plane include such standard properties.
-> {
->         struct drm_property *alpha_property;
->         struct drm_property *zpos_property;
->         struct drm_property *rotation_property;
->         struct drm_property *blend_mode_property;
->         struct drm_property *color_encoding_property;
->         struct drm_property *color_range_property;
->         struct drm_property *scaling_filter_property;
-> }
->
-> it doesn't include degamma and color management properties
-
-Which is because they are not standardised yet.
-
->
-> >> >
-> >> >> +    else if (property == vs_plane->roi_prop)
-> >> >> +            *val = (vs_plane_state->roi) ?
-> >> >> +                                    vs_plane_state->roi->base.id : 0;
-> >> >> +    else
-> >> >> +            return -EINVAL;
-> >> >> +
-> >> >> +    return 0;
-> >> >> +}
-> >> >> +
-> >> >> +static bool vs_format_mod_supported(struct drm_plane *plane,
-> >> >> +                                u32 format,
-> >> >> +                                u64 modifier)
-> >> >> +{
-> >> >> +    int i;
-> >> >> +
-> >> >> +    /* We always have to allow these modifiers:
-> >> >> +     * 1. Core DRM checks for LINEAR support if userspace does not provide modifiers.
-> >> >> +     * 2. Not passing any modifiers is the same as explicitly passing INVALID.
-> >> >> +     */
-> >> >> +    if (modifier == DRM_FORMAT_MOD_LINEAR)
-> >> >> +            return true;
-> >> >> +
-> >> >> +    /* Check that the modifier is on the list of the plane's supported modifiers. */
-> >> >> +    for (i = 0; i < plane->modifier_count; i++) {
-> >> >> +            if (modifier == plane->modifiers[i])
-> >> >> +                    break;
-> >> >> +    }
-> >> >> +
-> >> >> +    if (i == plane->modifier_count)
-> >> >> +            return false;
-> >> >> +
-> >> >> +    return true;
-> >> >> +}
-> >> >> +
-> >> >> +const struct drm_plane_funcs vs_plane_funcs = {
-> >> >> +    .update_plane           = drm_atomic_helper_update_plane,
-> >> >> +    .disable_plane          = drm_atomic_helper_disable_plane,
-> >> >> +    .reset                  = vs_plane_reset,
-> >> >> +    .atomic_duplicate_state = vs_plane_atomic_duplicate_state,
-> >> >> +    .atomic_destroy_state   = vs_plane_atomic_destroy_state,
-> >> >> +    .atomic_set_property    = vs_plane_atomic_set_property,
-> >> >> +    .atomic_get_property    = vs_plane_atomic_get_property,
-> >> >> +    .format_mod_supported   = vs_format_mod_supported,
-> >> >> +};
-> >> >> +
-> >> >> +static unsigned char vs_get_plane_number(struct drm_framebuffer *fb)
-> >> >> +{
-> >> >> +    const struct drm_format_info *info;
-> >> >> +
-> >> >> +    if (!fb)
-> >> >> +            return 0;
-> >> >> +
-> >> >> +    info = drm_format_info(fb->format->format);
-> >> >> +    if (!info || info->num_planes > DRM_FORMAT_MAX_PLANES)
-> >> >> +            return 0;
-> >> >> +
-> >> >> +    return info->num_planes;
-> >> >> +}
-> >> >> +
-> >> >> +static int vs_plane_atomic_check(struct drm_plane *plane,
-> >> >> +                             struct drm_atomic_state *state)
-> >> >> +{
-> >> >> +    struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-> >> >> +                                                                             plane);
-> >> >> +    unsigned char i, num_planes;
-> >> >> +    struct drm_framebuffer *fb = new_plane_state->fb;
-> >> >> +    struct drm_crtc *crtc = new_plane_state->crtc;
-> >> >> +    struct vs_crtc *vs_crtc = to_vs_crtc(crtc);
-> >> >> +    struct vs_dc *dc = dev_get_drvdata(vs_crtc->dev);
-> >> >> +    struct vs_plane_state *plane_state = to_vs_plane_state(new_plane_state);
-> >> >> +
-> >> >> +    if (!crtc || !fb)
-> >> >> +            return 0;
-> >> >> +
-> >> >> +    num_planes = vs_get_plane_number(fb);
-> >> >> +
-> >> >> +    for (i = 0; i < num_planes; i++) {
-> >> >> +            dma_addr_t dma_addr;
-> >> >> +
-> >> >> +            dma_addr = drm_fb_dma_get_gem_addr(fb, new_plane_state, i);
-> >> >> +            plane_state->dma_addr[i] = dma_addr;
-> >> >> +    }
-> >> >> +
-> >> >> +    return vs_dc_check_plane(dc, plane, state);
-> >> >> +}
-> >> >> +
-> >> >> +static int vs_cursor_plane_atomic_check(struct drm_plane *plane,
-> >> >> +                                    struct drm_atomic_state *state)
-> >> >> +{
-> >> >> +    struct drm_plane_state *new_plane_state = drm_atomic_get_new_plane_state(state,
-> >> >> +                                                                      plane);
-> >> >> +    unsigned char i, num_planes;
-> >> >> +    struct drm_framebuffer *fb = new_plane_state->fb;
-> >> >> +    struct drm_crtc *crtc = new_plane_state->crtc;
-> >> >> +    struct vs_crtc *vs_crtc = to_vs_crtc(crtc);
-> >> >> +    struct vs_dc *dc = dev_get_drvdata(vs_crtc->dev);
-> >> >> +    struct vs_plane_state *plane_state = to_vs_plane_state(new_plane_state);
-> >> >> +
-> >> >> +    if (!crtc || !fb)
-> >> >> +            return 0;
-> >> >> +
-> >> >> +    num_planes = vs_get_plane_number(fb);
-> >> >> +
-> >> >> +    for (i = 0; i < num_planes; i++) {
-> >> >> +            dma_addr_t dma_addr;
-> >> >> +
-> >> >> +            dma_addr = drm_fb_dma_get_gem_addr(fb, new_plane_state, i);
-> >> >> +            plane_state->dma_addr[i] = dma_addr;
-> >> >> +    }
-> >> >> +
-> >> >> +    return vs_dc_check_cursor_plane(dc, plane, state);
-> >> >> +}
-> >> >> +
-> >> >> +static void vs_plane_atomic_update(struct drm_plane *plane,
-> >> >> +                               struct drm_atomic_state *state)
-> >> >> +{
-> >> >> +    struct drm_plane_state *new_state = drm_atomic_get_new_plane_state(state,
-> >> >> +                                                                      plane);
-> >> >
-> >> > New line after the equal sign will be better.
-> >> >
-> >> >> +    struct drm_plane_state *old_state = drm_atomic_get_old_plane_state(state,
-> >> >> +                                                                      plane);
-> >> >> +
-> >> >> +    unsigned char i, num_planes;
-> >> >> +    struct drm_framebuffer *fb;
-> >> >> +    struct vs_plane *vs_plane = to_vs_plane(plane);
-> >> >> +    struct vs_crtc *vs_crtc = to_vs_crtc(new_state->crtc);
-> >> >> +    struct vs_plane_state *plane_state = to_vs_plane_state(new_state);
-> >> >> +    struct vs_dc *dc = dev_get_drvdata(vs_crtc->dev);
-> >> >> +
-> >> >> +    if (!new_state->fb || !new_state->crtc)
-> >> >> +            return;
-> >> >
-> >> > if (!new_state->visible) ?
->
-> no matter what value it is ? the driver will handle it
-> in func
->
-> static void update_fb(struct vs_plane *plane, u8 display_id,
->                       struct dc_hw_fb *fb, struct drm_plane_state *state)
-> {
->         struct vs_plane_state *plane_state = to_vs_plane_state(state);
->         struct drm_framebuffer *drm_fb = state->fb;
->         struct drm_rect *src = &state->src;
->
-> .......
->         fb->enable = state->visible;
-> .......
-> }
->
-> so no need add "if (!new_state->visible)" i think
-
-I mean instead of fb&&crtc check. Otherwise you are duplicating checks
-in drm_atomic_helper_check_plane_state(). And with the pixel_source
-being on their way this condition becomes legacy.
-
->
-> >> >
-> >> >> +
-> >> >> +    fb = new_state->fb;
-> >> >> +
-> >> >> +    drm_fb_dma_sync_non_coherent(fb->dev, old_state, new_state);
-> >> >> +
-> >> >> +    num_planes = vs_get_plane_number(fb);
-> >> >> +
-> >> >> +    for (i = 0; i < num_planes; i++) {
-> >> >> +            dma_addr_t dma_addr;
-> >> >> +
-> >> >> +            dma_addr = drm_fb_dma_get_gem_addr(fb, new_state, i);
-> >> >> +            plane_state->dma_addr[i] = dma_addr;
-> >> >> +    }
-> >> >> +
-> >> >> +    plane_state->status.src = drm_plane_state_src(new_state);
-> >> >> +    plane_state->status.dest = drm_plane_state_dest(new_state);
-> >> >> +
-> >> >> +    vs_dc_update_plane(dc, vs_plane, plane, state);
-> >> >> +}
-> >> >> +
-
-
--- 
-With best wishes
-Dmitry
 
