@@ -1,113 +1,106 @@
-Return-Path: <linux-media+bounces-393-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-395-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50E237ECA67
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 19:19:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 536C17ECAF9
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 20:04:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B1AD28139E
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 18:19:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DB916B20C49
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 19:04:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D04843A8E3;
-	Wed, 15 Nov 2023 18:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fcA6jjzm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 435063A8E2;
+	Wed, 15 Nov 2023 19:04:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8EFA11B8;
-	Wed, 15 Nov 2023 10:18:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700072336; x=1731608336;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=3aLB1aRUdymuA6UhjFx/E2icz3ilO2LbesGWwW2V+rs=;
-  b=fcA6jjzm0o+nzUO3j+jZ4Wlvv2hIg8U8ePRDzWZHF8ebuEgi/ElNuQKV
-   0oVzpQRHQ1FvVlfDLzj/By5sQ99MpuIjFHThCrXFECk7n1XOl4HWfUtPz
-   OpRvOS93rTauDBwMMj/FhmGy962LiCK4g0v2Tu8u0izhG52QuH1Q3FjHB
-   Ug9H5CQygMVr3lL7DLgl8uOYbR3UzwuESYyvXVXMLQ4bEApF3/I6TC7g8
-   xUaYsu/OzABLFVi14YKxpVMhLZgzdCfCOXek4Dt8v4nxOqzT/5pqYqaxI
-   2BLmHGRrGUBLbGYSRO8k0ocwtx2GSS7+jGAlZegbaIRNtxz+4/TqJyA8Z
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="381321156"
-X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="381321156"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 10:18:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10895"; a="831014666"
-X-IronPort-AV: E=Sophos;i="6.03,305,1694761200"; 
-   d="scan'208";a="831014666"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Nov 2023 10:18:48 -0800
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2790311F830;
-	Wed, 15 Nov 2023 20:18:46 +0200 (EET)
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-acpi@vger.kernel.org
-Cc: linux-media@vger.kernel.org,
-	rafael@kernel.org,
-	jacopo.mondi@ideasonboard.com,
-	laurent.pinchart@ideasonboard.com
-Subject: [PATCH 6/6] media: imx219: Use pm_runtime_get_if_active(), put usage_count correctly
-Date: Wed, 15 Nov 2023 20:18:40 +0200
-Message-Id: <20231115181840.1509046-7-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231115181840.1509046-1-sakari.ailus@linux.intel.com>
-References: <20231115181840.1509046-1-sakari.ailus@linux.intel.com>
+Received: from mout.kundenserver.de (mout.kundenserver.de [217.72.192.73])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D3B1DC;
+	Wed, 15 Nov 2023 11:04:17 -0800 (PST)
+Received: from [192.168.1.129] ([37.4.248.43]) by mrelayeu.kundenserver.de
+ (mreue107 [212.227.15.183]) with ESMTPSA (Nemesis) id
+ 1MMWcT-1qkyqR1Jzz-00JbZM; Wed, 15 Nov 2023 20:03:48 +0100
+Message-ID: <3b9ec650-8a99-4bac-9ac9-d2cd87efced5@i2se.com>
+Date: Wed, 15 Nov 2023 20:03:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 05/15] staging: mmal-vchiq: Use vc-sm-cma to support
+ zero copy
+Content-Language: en-US
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+ kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>,
+ Dan Carpenter <error27@gmail.com>
+References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
+ <20231109210309.638594-6-umang.jain@ideasonboard.com>
+From: Stefan Wahren <stefan.wahren@i2se.com>
+In-Reply-To: <20231109210309.638594-6-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:hRUgUPLJ7rFTcdE7NnVcI/4HzsqA4QYhQf3aFo9afPhySVvhACg
+ ///NpGH8Kc41l0Xucn7dDL/L68PirBZ42PrNbUYgYG7D3G2W3tYshi8mtRw3lfS+XnAmCM0
+ rQo082W3D2O9M9Nl8qzao9eoEA9zyeQKotc0xhQmXhA4zIyxpFBCw0WAreIMUPosdf23Y9l
+ 9ZXAY34760qzi05XY8MZQ==
+UI-OutboundReport: notjunk:1;M01:P0:xlxB7dXYVbM=;ZzonCn7mXukF7za8R8WhfIBem8b
+ 7Y+9VSl8Tcrq8BKgZ/qdjJa092opnS/WGchGNB4vD6z/z0co4MooUwc6hKWDTSOFqmKyF6RmH
+ tHMDIcfftwNr7OGnPsGp9dF/m7GK2N1xoZHjbyJOMcIqHSFuBScs5lW7YkzhX7HqSj11teeJD
+ madIE93cDzmtvv8NW/eQqmkUfvWgIe5D+wRsXSMqSpQsdAzCvMea1B1i3gtYFsbC9YTYXKGYR
+ LcW2sue9WGkd9aUG5GtuDsqZP+LQYf0D7uAMYD5TOHnAmvj4ALnQPdBAGcJcj+0P4II4Tlgt9
+ Z7cAh2JSGQNIJ4LaiYh9nZ2MjCv5NoN0a1Y1/5ZYlT9e1BvTEnh7iGFWrOGOMD23P5GbNvaSP
+ F4K1wxOB+S8cjrPXJZfsORyCzBeg8Ct+yfUUKBS7LKfkM2cTJao6bU+htyqSeBpbkTrcPHPqi
+ G/BwZTn2UR1CIWitUnIXf4yBDsKDcM98tl8BC/NXTlLxESoxPzhMhwZRpOcvKSkqmCmefxLhK
+ 6+lFEmy+r1TpBcOhmz+QgZ5oxxZTIdHLX3zTU5rEo4PrDc5tOIdER3ays+WMPTFPDti1XHN69
+ zv2C0GFnpjuMmN0w7Goi31uUPkY/WkOYiunN1SVGOPhf7PebD24l/7RRzw6eQklTWliwzODF8
+ QcMgFKp+r9NMw7Ooti/bzBDg7o835td7ZpadUSkka0A8eJfkm+ulZjsR6L982lccHvqy0YpOp
+ 9vFguXT7+uTdMVllqp8sJdXvkl0i2duPtjG2EUjn7TgW+AR0tuxiJTMwh3X7Y/I5PALa2JO1x
+ 3boMM0fPaeZvXhWGFLHGkvGZPUkodRg0Yn5SgGvVNb28EE+G4VMgqceHUb5iq71/72EMIz7dG
+ JMx4H6eWoWYghCg==
 
-Use pm_runtime_get_if_active() to get the device's runtime PM usage_count
-and set controls, then use runtime PM autosuspend once the controls have
-been set (instead of likely transitioning to suspended state immediately).
+Hi Umang,
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/i2c/imx219.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Am 09.11.23 um 22:02 schrieb Umang Jain:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> 
+> With the vc-sm-cma driver we can support zero copy of buffers between
+> the kernel and VPU. Add this support to mmal-vchiq.
+> 
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   .../staging/vc04_services/vchiq-mmal/Kconfig  |  1 +
+>   .../vc04_services/vchiq-mmal/mmal-common.h    |  4 +
+>   .../vc04_services/vchiq-mmal/mmal-vchiq.c     | 84 +++++++++++++++++--
+>   .../vc04_services/vchiq-mmal/mmal-vchiq.h     |  1 +
+>   4 files changed, 83 insertions(+), 7 deletions(-)
+> 
+> diff --git a/drivers/staging/vc04_services/vchiq-mmal/Kconfig b/drivers/staging/vc04_services/vchiq-mmal/Kconfig
+> index c99525a0bb45..a7c1a7bf516e 100644
+> --- a/drivers/staging/vc04_services/vchiq-mmal/Kconfig
+> +++ b/drivers/staging/vc04_services/vchiq-mmal/Kconfig
+> @@ -1,6 +1,7 @@
+>   config BCM2835_VCHIQ_MMAL
+>   	tristate "BCM2835 MMAL VCHIQ service"
+>   	depends on BCM2835_VCHIQ
+> +	select BCM_VC_SM_CMA
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 8436880dcf7a..b38ee8b3e073 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -371,7 +371,7 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 	struct i2c_client *client = v4l2_get_subdevdata(&imx219->sd);
- 	const struct v4l2_mbus_framefmt *format;
- 	struct v4l2_subdev_state *state;
--	int ret = 0;
-+	int ret = 0, pm_status;
- 
- 	state = v4l2_subdev_get_locked_active_state(&imx219->sd);
- 	format = v4l2_subdev_get_pad_format(&imx219->sd, state, 0);
-@@ -393,7 +393,8 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 	 * Applying V4L2 control value only happens
- 	 * when power is up for streaming
- 	 */
--	if (pm_runtime_get_if_in_use(&client->dev) == 0)
-+	pm_status = pm_runtime_get_if_active(&client->dev);
-+	if (!pm_status)
- 		return 0;
- 
- 	switch (ctrl->id) {
-@@ -446,7 +447,8 @@ static int imx219_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	}
- 
--	pm_runtime_put(&client->dev);
-+	if (pm_status > 0)
-+		pm_runtime_put(&client->dev);
- 
- 	return ret;
- }
--- 
-2.39.2
+i think we need more explanation in the commit message of the relation 
+between these both modules.
 
+On the one side BCM_VC_SM_CMA should be a driver, but it's not a driver 
+for a specific hardware. It looks like more an extension of VCHIQ MMAL 
+or does other (maybe not yet imported) vc04 driver make also use of this.
+
+My question is: is BCM_VC_SM_CMA a real member on the VCHIQ bus and why?
+
+Best regards
 
