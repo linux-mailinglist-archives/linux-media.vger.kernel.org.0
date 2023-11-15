@@ -1,134 +1,142 @@
-Return-Path: <linux-media+bounces-382-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-383-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33A157EC6AD
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 16:07:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8047EC77B
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 16:38:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D70521F26F21
-	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 15:07:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A7BA0B20C16
+	for <lists+linux-media@lfdr.de>; Wed, 15 Nov 2023 15:38:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB4F835F19;
-	Wed, 15 Nov 2023 15:07:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B48C939FF9;
+	Wed, 15 Nov 2023 15:37:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="HvnzKYPA"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="VyAAUjhu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lindbergh.monkeyblade.net (lindbergh.monkeyblade.net [23.128.96.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C75D35EFB;
-	Wed, 15 Nov 2023 15:07:11 +0000 (UTC)
-Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C7038E;
-	Wed, 15 Nov 2023 07:07:09 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id D60DB2000A;
-	Wed, 15 Nov 2023 15:07:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1700060828;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IGzp5+9/qNwtTCLx26W2NfMVNLIdgrQHWOCKXLfAu/A=;
-	b=HvnzKYPAeVrTEaYvIQ4zCZo+HzCucbvjEr3/ML6g4XRJfxgLcaV/WYc6wG4afCQ17/SUOZ
-	fIh/QFQMm1XPiwnMqETv2chA1NIHSht4cWQIDYX6KZ391ZLAhv+yT8vUS/qstZOHhnp41G
-	sYjUajXwJBIxXiWeP7c28GT5DU1mo73K1xlnjFvKGtEodvmFSPN8bKXq89PJjNAYxr7ebj
-	LdT4IHTRpm50bycHv3Irnlw7pww/jI8vjOYIClcOTuojPz8TcK99DGcsWbjopqrylizCjJ
-	t/Jn5It4eyjnW6b5v+1ONIJXJEFWr7uWYg8mXBdfL913Ihp+YyE7JBreDQoaxQ==
-Date: Wed, 15 Nov 2023 16:07:07 +0100
-From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-	heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	conor+dt@kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-	maxime.chevallier@bootlin.com, michael.riesch@wolfvision.net
-Subject: Re: [PATCH v10 1/3] media: dt-bindings: media: add bindings for
- Rockchip CIF
-Message-ID: <ZVTemwY6gvFdQMib@aptenodytes>
-References: <cover.1699460637.git.mehdi.djait@bootlin.com>
- <037bcabf97294d37b271537e4b11fb88cf9bb6f6.1699460637.git.mehdi.djait@bootlin.com>
- <20231109-closable-superglue-5e7f39739cf1@spud>
- <ZU0avuRRaITV4jws@aptenodytes>
- <e5b1f0dd-0aab-4ce5-82ba-879a4d736e7e@linaro.org>
- <ZU0f33clFwlsTw16@aptenodytes>
- <20231110-appetizer-fame-2152806c7442@roley>
- <ZVJUsDb1mPVtcjdX@aptenodytes>
- <20231114-abnormal-uncross-dcebea2e82ae@squawk>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7973B33070
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 15:37:54 +0000 (UTC)
+Received: from mail-qv1-xf2a.google.com (mail-qv1-xf2a.google.com [IPv6:2607:f8b0:4864:20::f2a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0509DD4B
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 07:37:52 -0800 (PST)
+Received: by mail-qv1-xf2a.google.com with SMTP id 6a1803df08f44-66d00415a92so4177166d6.1
+        for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 07:37:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1700062671; x=1700667471; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kh48FY3/WjTfOrxUDVoiLLm+qwCRoUXdSkUvQ+UBfKM=;
+        b=VyAAUjhuyx+s13tmeR3akwbbc4xW607BJEIURRmx142qbbHevjwomrm0ua47kpNUPp
+         9QihqHaaKqUfaiRzEr9H4NvgQSdND4WIMVaLSPAElKKnsEaClBMXWPFhBLAfgY7dpS9x
+         xna5QXr6iWpUZ4eRoxl2wYAuWh5yzByf1VLPY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700062671; x=1700667471;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kh48FY3/WjTfOrxUDVoiLLm+qwCRoUXdSkUvQ+UBfKM=;
+        b=n/tvRePSsRmRZCewXdjQhKLimPXpvsHJRUWpBRy68pm0jgRe3PXHY0X6I5Z84KbKWp
+         Kts7UideuH8CRl3aqzlCiLsQ4s1RdVl1AytZgNuSzKCPBY+sjdej4GvBf+FSOwDUZARa
+         U/kzxsCFCyx3DgOlaNRbnCjYZR8BNTz9mTeRRzrK6u2pZFEiknRdUFhxPDZNN/a56J1r
+         i4IJJLMAFuuIqFO3/HFidk/o5kwQtbs7jW+rb19AFqCwzPvzYcL9HySZExaWdWgCoQGA
+         pltygbq4aoyzXZZPZ9AgfcpTNInmyGy6nLw8wa7srvUevk60TALxEmjh3fLbe5p2unn2
+         ceJg==
+X-Gm-Message-State: AOJu0Yx7VqsC5fBYaMKyTSZGBM/HFA7sthjIzERQpPvgj09mlpJlcVTG
+	pyR6cuhcjOUl1fzkPm+LpvmYzw==
+X-Google-Smtp-Source: AGHT+IGLsbzpvhlzD3x+pwf+0KDCrZJl+faC8VovocCpNmjgD3n2fu3BLZB0tkSjGLfScoRKLXBS2g==
+X-Received: by 2002:a05:6214:4943:b0:66d:169a:a661 with SMTP id pe3-20020a056214494300b0066d169aa661mr6004483qvb.4.1700062671117;
+        Wed, 15 Nov 2023 07:37:51 -0800 (PST)
+Received: from [172.25.82.8] ([12.186.190.1])
+        by smtp.gmail.com with ESMTPSA id dz4-20020ad45884000000b0066d1d2242desm613041qvb.120.2023.11.15.07.37.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Nov 2023 07:37:50 -0800 (PST)
+Message-ID: <ca9fc3b8-a93e-4451-9814-df13adfbe8ae@linuxfoundation.org>
+Date: Wed, 15 Nov 2023 08:37:48 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="RLyCz4Fbk+INaST5"
-Content-Disposition: inline
-In-Reply-To: <20231114-abnormal-uncross-dcebea2e82ae@squawk>
-X-GND-Sasl: paul.kocialkowski@bootlin.com
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] media: v4l2-subdev: Make .init_cfg() an internal
+ operation
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@iki.fi>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, Lars-Peter Clausen
+ <lars@metafoo.de>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Martin Kepplinger <martink@posteo.de>, Ricardo Ribalda <ribalda@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Jacopo Mondi <jacopo@jmondi.org>, Bingbu Cao <bingbu.cao@intel.com>,
+ Rui Miguel Silva <rmfrfs@gmail.com>, Hans de Goede <hansg@kernel.org>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Steve Longerbeam <slongerbeam@gmail.com>,
+ Nicholas Roth <nicholas@rothemail.net>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Tim Harvey <tharvey@gateworks.com>, Maxime Ripard <mripard@kernel.org>,
+ Eugen Hristev <eugen.hristev@collabora.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Dafna Hirschfeld <dafna@fastmail.com>, Yong Deng <yong.deng@magewell.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Benoit Parrot <bparrot@ti.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Shuah Khan <skhan@linuxfoundation.org>
+References: <20231114131512.24615-1-laurent.pinchart+renesas@ideasonboard.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20231114131512.24615-1-laurent.pinchart+renesas@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
+On 11/14/23 06:15, Laurent Pinchart wrote:
+> Hello,
+> 
+> This patch series addresses a historical issue in the V4L2 subdev
+> in-kernel API.
+> 
+> The subdev .init_cfg() pad operation used to initialize a
+> v4l2_subdev_pad_config structure. This was changed to initializing a
+> v4l2_subdev_state a while ago, but the operation wasn't renamed, and
+> stayed a pad operation. Not only is the name confusing for new
+> developers, it is also the only pad operation that doesn't operate on a
+> pad, leading to more confusion.
+> 
+> This series addresses those two issues by renaming the operation to
+> .init_cfg() and moving it to the subdev internal operations, in patch
+> 2/2. Most of the preparatory patches from v1 have been applied by Sakari
+> already, leaving only 1/2 for a respin due to issues with the
+> first version.
+> 
+> The series is based on a merge oof Sakari's latest pull request for v6.8
+> ([1]) and a v6.7 fix for the VSP1 driver ([2]).
+> 
+> [1] https://lore.kernel.org/linux-media/ZVEyCfzm4ninES6K@valkosipuli.retiisi.eu
+> [2] https://lore.kernel.org/linux-media/20231113020054.GA18039@pendragon.ideasonboard.com
+> 
+> The VSP1 driver has been tested on a Renesas R-Car M3-N Salvator-XS. The
+> rest of the series is compile-tested only.
+> 
+> Laurent Pinchart (2):
+>    media: renesas: vsp1: Fix references to pad config
+>    media: v4l2-subdev: Rename .init_cfg() operation to .init_state()
+> 
+>
+>   .../media/test-drivers/vimc/vimc-debayer.c    |  11 +-
+>   drivers/media/test-drivers/vimc/vimc-scaler.c |  11 +-
+>   drivers/media/test-drivers/vimc/vimc-sensor.c |  11 +-
 
---RLyCz4Fbk+INaST5
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+For vimc:
 
-Hi,
+Acked-by: Shuah Khan <skhan@linuxfoundation.org>
 
-On Tue 14 Nov 23, 17:51, Conor Dooley wrote:
-> On Mon, Nov 13, 2023 at 05:54:08PM +0100, Paul Kocialkowski wrote:
-> =20
-> > > Ultimately, I don't care what the file ends up being called when there
-> > > are multiple devices documented in it. I'd ack a patch renaming to the
-> > > =C5=93riginal incarnation of the IP when the documentation for that I=
-P is
-> > > added without a second thought.
-> >=20
-> > That would be agreeable to me if my proposal still ends up feeling unre=
-asonable
-> > to you. But I might very well take you at your word since I ended up pu=
-rchasing
-> > a RK3066 board in a moment of weakness last week.
->=20
-> The ideal outcome I suppose would be documenting both variants. If
-> you've gone ahead and bought one, give that a go.
-
-Yeah I'll try to do that eventually, but we really want to have this series
-merged as soon as possible. So it wouldn't be reasonable for us to wait for
-RK3066 support.
-
-What's your final decision for now: is it okay to keep the file named
-rockchip,rk3066-cif.yaml (without this compatible in the file) or do you st=
-ill
-want it called rockchip,px30-vip.yaml?
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---RLyCz4Fbk+INaST5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVU3psACgkQ3cLmz3+f
-v9HjEAf/SU3y3RdjGRSQQ5ldwayPyDN9QCNmqna23Z7SUj7Iy3DoWx9iAIHrXKuE
-9PpvVh2nMXxoIjvjQMnmcIZgdqZoAJvDwFCrIR/a+tlwg68Gco5lPwAG00dm3vXV
-kIBXjL7VLWjwV1v66SwxEvi4fXDNT6/3qbO5r83jAshhC/VsxFMyLrNSdNrIKwIJ
-4w496dDQ9yv/Y0NwW2C05ibT+FAk2Av+7DxG4HzQkN1dMYLbSAn5t57Q+86FfqQf
-h8Tjy6xuHtj8ja2sWFBQzyJmzqYFOzcnb28CyOmfDnz8jVmCy/kwk/WLyqK+kRqM
-Bvk1pN6Xw6xFLAjrCcEq49bLqLZBNQ==
-=jU15
------END PGP SIGNATURE-----
-
---RLyCz4Fbk+INaST5--
+thanks,
+-- Shuah
 
