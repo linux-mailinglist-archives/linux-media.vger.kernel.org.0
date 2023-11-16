@@ -1,115 +1,312 @@
-Return-Path: <linux-media+bounces-432-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-433-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4D927EDF04
-	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 11:57:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC46C7EDF18
+	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 12:05:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 654A128108D
-	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 10:57:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E8141F23F07
+	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 11:05:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E455E2D029;
-	Thu, 16 Nov 2023 10:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1A8E2D7A9;
+	Thu, 16 Nov 2023 11:04:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mw/Q2zkH"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="WP+Dwy7/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550809A;
-	Thu, 16 Nov 2023 02:57:46 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-53e3b8f906fso993003a12.2;
-        Thu, 16 Nov 2023 02:57:46 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700132264; x=1700737064; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=c0Alq2NnZvkG1wKEvu5ji7SOJ948PkV/pj0sqQJJs20=;
-        b=Mw/Q2zkHij8kdGaZk3qSktYRUVW5vQRFGN374N1BPCnhXQ6e3OEVZuM6uRFoImVITY
-         lIwYCVxhY63ITOgUq4JT4SOXxHmvXXfOpcTA0sjzMN30PuC+WhSEzHBADFmYR5aGhkGJ
-         4jslfVvbroBEEHyOXzUsBB1WkPEJfONHWx4eHND8B6xQg1Q3hdOQYZnxNSuP/W9Z1dpj
-         PJihOrhY22qptFV8Y3Ru8TW2H9BoPQiN++W1wn8xDuJnji1d0hz4A8gQHShorJv9n0+K
-         K02j3At5ys03GBL/Y0IqAv6Ur9LOQtaZiQjUcdutXfylarJgXYrx4NFgp2RVHWJKIZtR
-         09hQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700132264; x=1700737064;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=c0Alq2NnZvkG1wKEvu5ji7SOJ948PkV/pj0sqQJJs20=;
-        b=NiA8kSMk0QGWkYeISFwkf7vHQSlfPvzlr32m95DML6sq199wUBwRmBxeLe3H0fvcOO
-         F5ZKCLP9yO9Kq3HAQtvE3Xr4+xlOnxiexZMgIldmKQ9YP3vNFoZFuorLxnnqMX07/hVj
-         5d+zsrtGZMS9lMtUd4XkRzV1cie3NnayM0kD7Sf2GAxW2m22ZU4c5xUzH+V2bKe5i7of
-         yz3KzKB51HrkZnWUT39lKPJTeqmH5jw82uB9+n738OCMm7+wIWZduCry0G4vuk60JXu5
-         VeD4SDhQDC0V9RE05kP04ZEjE/fyd+gXnM5vboW3evqy7j+FMPyoTb38IH6Y9PrxruLd
-         y8Hg==
-X-Gm-Message-State: AOJu0YwfgArfP0YCsURxB4X0XS2GU8qfIH0Gr8IcTVopy0vwB7h9IsXt
-	PodwnjaSXGFyj8fHu7ObinDcRs0uh217gBows98=
-X-Google-Smtp-Source: AGHT+IEMyccX384cGXsYncIxNvNPWdps8uNibi1oGYh6tKgDwE4EswQCIBmJhnNXhS3SZ/wXaYBunJmToyOvaJ1n0O4=
-X-Received: by 2002:aa7:dd56:0:b0:53e:7781:2279 with SMTP id
- o22-20020aa7dd56000000b0053e77812279mr11735675edw.36.1700132264420; Thu, 16
- Nov 2023 02:57:44 -0800 (PST)
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::221])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8137185;
+	Thu, 16 Nov 2023 03:04:45 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 41DAE240003;
+	Thu, 16 Nov 2023 11:04:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700132684;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=wRYDFN7LQPSgDuJub9iN8vSh9Owhba100B3Esv1HkRY=;
+	b=WP+Dwy7/01e6/1st6HlcpzS2jlUpo2z+Q1ikCC5iFBv2ISVtPt7I1Ia6w1N0xIWpeNaacg
+	u9nFmy3cQ6qee/EsJ5snVnRPA0Bys6absVyYJEM0TSQR/NPfkpoPE0YdYsfvxT6lbnJ91y
+	H+X/LMjQTwgvYs9ko6CVqwxFPMW04HRQP32kFDYz3P/8BwqMatGj4zbQ/p3d80mYqBUeNK
+	x8YPhGA7r9dhqVrBrYf3VDniAU5uqklTFP4nQR3LgX3wUQv1F3eAhlxDExMuy/V0BUN7Gu
+	XuRIsXMKVReBM++Mq13CxkBn0D1Or4qNg2c7GilsXBp1ka/vkmorX0juFBCGvQ==
+From: Mehdi Djait <mehdi.djait@bootlin.com>
+To: mchehab@kernel.org,
+	heiko@sntech.de,
+	hverkuil-cisco@xs4all.nl,
+	krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	thomas.petazzoni@bootlin.com,
+	alexandre.belloni@bootlin.com,
+	maxime.chevallier@bootlin.com,
+	paul.kocialkowski@bootlin.com,
+	michael.riesch@wolfvision.net,
+	Mehdi Djait <mehdi.djait@bootlin.com>
+Subject: [PATCH v11 0/3] media: rockchip: Add a driver for Rockchip's camera interface
+Date: Thu, 16 Nov 2023 12:04:37 +0100
+Message-ID: <cover.1700132457.git.mehdi.djait@bootlin.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
- <20231115195947.GD29486@pendragon.ideasonboard.com> <58fe01b9-5fb6-451c-a759-c6a5afd695e3@gmx.net>
- <20231116005030.GA21041@pendragon.ideasonboard.com> <45c0e7bbb2ed91ec559cdbf2d19ad80e@suse.de>
-In-Reply-To: <45c0e7bbb2ed91ec559cdbf2d19ad80e@suse.de>
-From: Peter Robinson <pbrobinson@gmail.com>
-Date: Thu, 16 Nov 2023 10:57:32 +0000
-Message-ID: <CALeDE9PuquwZs3ou_RksH41LCYgVtMmQt6KbK7CnBq5S8_yp6g@mail.gmail.com>
-Subject: Re: [PATCH v2 00/15] staging: vc04_services: bcm2835-isp support
-To: "Ivan T. Ivanov" <iivanov@suse.de>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Stefan Wahren <wahrenst@gmx.net>, 
-	Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org, 
-	kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
-	linux-staging@lists.linux.dev, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	"Ricardo B . Marliere" <ricardo@marliere.net>, Dan Carpenter <error27@gmail.com>, 
-	Guillaume GARDET <guillaume.gardet@opensuse.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: mehdi.djait@bootlin.com
 
-> >> > On Thu, Nov 09, 2023 at 04:02:52PM -0500, Umang Jain wrote:
-> >> >> This series aims to upport bcm2835-isp from the RPi kernel.
-> >> >> It is developed on top of staging-next which comprises many
-> >> >> VC04 changes for it's de-staging. Hence, the merge of this
-> >> >> driver is targeted when VC04 is de-staged completely (which I
-> >> >> have been pushing), but it can be helped getting reviewed meanwhile.
-> >> >> Hence, the reason for posting the series.
-> >> >
-> >> > Related question, what do people think about dropping the legacy
-> >> > firmware-based bcm2385-camera driver once this gets merged ?
-> >> > firmware-based camera operation is deprecated by Raspberry Pi, and
-> >> > doesn't work on the Pi 5
-> >>
-> >> i don't remember exactly, but wasn't the bcm2835-camera required for
-> >> Pi
-> >> Camera V1.3?
-> >
-> > If I'm not mistaken (Dave can correct me), the legacy camera stack
-> > works
-> > only with the Raspberry Pi official camera v1, v2 and HQ modules.
-> > Raspberry Pi has switched to a new camera stack based on libcamera,
-> > which works on the Pi Zero 2, Pi 3, Pi 4 and Pi 5. This new stack
-> > supports the same camera modules as the legacy stack, and many more.
-> > The
-> > legacy stack doesn't work on Pi 5 at all.
-> >
-> >> At the end cannot speak for the users. AFAIK OpenSuSE and Fedora use
-> >> the
-> >> driver.
->
-> Guillaume (in CC) is more authoritative about this topic, but as long we
-> have
-> smooth migration plan I am more than happy to switch to proper camera
-> driver.
+Hello everyone,
 
-From a Fedora PoV I am more than happy to move to the new libcamera
-based stack for the RPi camera, IMO sooner the better :)
+V11 for basic support of the Camera Interface found on the Rockchip PX30 SoC
+
+Most of this driver was written following the BSP driver from rockchip,
+removing the parts that either didn't fit correctly the guidelines, or
+that couldn't be tested.
+
+In the BSP, this driver is known as the "cif" driver, but this
+controller was renamed to "vip" in the datasheet.
+
+This version of the driver supports ONLY the parallel interface BT656
+and was tested/implemented using an SDTV video decoder.
+
+media_tree, base-commit: 3e238417254bfdcc23fe207780b59cbb08656762
+
+V10 => V11:
+cif/capture.c cif/dev.c cif/common.h cif/capture.h:
+- removed the csi_fmt_val and all the CSI reg defines
+- removed the setting of buffer numbers in the queue_setup vb2_ops
+  callback
+- changed the v4l2_fwnode_endpoint declaration to V4L2_MBUS_UNKNOWN:
+  letting the device tree decide which bus is being used
+- split dev.h into common.h and capture.h
+
+rockchip,px30-vip.yaml:
+- renamed rockchip,rk3066-cif.yaml back to rockchip,px30-vip.yaml as
+  suggested by Conor
+- added the description of the port's endpoint bus-type property
+- extended the example to include the definition of the corresponding
+  video-decoder
+
+V9 => V10:
+cif/capture.c cif/dev.c cif/dev.h:
+as suggested by Paul:
+- ensured that the lock is still being held when accessing
+  stream->buffs[0,1]
+- adjusted the comment explaining why the spinlock is used
+
+as suggested by Michael:
+- made the IRQ requested SHARED: the cif shares the IRQ with the io_mmu
+
+rockchip,rk3066-cif.yaml:
+- dropped the rk3066-cif compatible but kept the name and added the
+  reason for this in the commit msg: the name of the file rk3066 is the first
+  Rockchip SoC generation that uses cif instead of the px30 which is just one
+  of the many iterations of the unit.
+
+V8 => V9:
+cif/capture.c cif/dev.c cif/dev.h:
+as suggested by Paul:
+- changed the name from "vip" back to "cif"
+- removed the scratch buffer and added frame dropping
+- removed mplane, only single plane formats are supported anyway
+- adjusted the Kconfig
+- added the match_data to the stream struct
+- some cosmetics, and error return codes changes
+
+as suggested by Michael:
+- changed the writel and readl helpers to be inline functions and
+  changed the name
+- fixed typos in the commit message
+- changed the cif_device struct element "sensor" to "remote"
+
+rockchip,rk3066-cif.yaml:
+- changed the compatible rockchip,px30-vip to rockchip,rk3066-cif:
+  rk3066 is the earliest Rockchip SoC that uses cif and it is the
+  first model starting the RK30 lineup.
+- changed the node name to video-capture
+- adjusted the description
+
+V7 => V8:
+vip/capture.c:
+- fixed a warning: unused variable reported by the kernel test robot
+
+V6 => V7:
+vip/capture.c vip/dev.c vip/dev.h
+- renamed all struct rk_vip_dev dev => struct rk_vip_dev vip_dev
+- added some error when rk_vip_get_buffer() returns NULL
+- removed a WARN_ON
+- made the irq NOT shared
+- dropped of_match_ptr
+- added the rk_vip_get_resource() function
+
+rockchip,px30-vip.yaml:
+- changed filename to match the compatible
+- dropped the mention of the other rockchip SoC in the dt-binding
+  description and added a more detailed description of VIP
+- removed unused labels in the example
+
+V5[1] => V6:
+vip/capture.c vip/dev.c vip/dev.h
+- added a video g_input_status subdev call, V4L2_IN_CAP_STD and the
+  supported stds in rk_vip_enum_input callback
+- added rk_vip_g_std, rk_vip_s_std and rk_vip_querystd callbacks
+- added the supported video_device->tvnorms
+- s_std will now update the format as this depends on the standard
+  NTSC/PAL (as suggested by Hans in [1])
+- removed STD_ATSC
+- moved the colorimetry information to come from the subdev
+- removed the core s_power subdev calls
+- dropped cropping in rk_vip_stream struct
+
+rockchip-vip.yaml:
+- fixed a mistake in the name of third clock plckin -> plck
+- changed the reg maxItems 2 -> 1
+
+[1] https://lore.kernel.org/linux-media/20201229161724.511102-1-maxime.chevallier@bootlin.com/
+
+I used v4l-utils with HEAD: commit 3d6682746de535d1f7aa71b43a30af40d52a539c
+
+# v4l2-compliance 
+v4l2-compliance 1.25.0, 64 bits, 64-bit time_t
+
+Compliance test for rockchip-cif device /dev/video0:
+
+Driver Info:
+        Driver name      : rockchip-cif
+        Card type        : rockchip-cif
+        Bus info         : platform:ff490000.video-capture
+        Driver version   : 6.6.0
+        Capabilities     : 0x84200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : rockchip-cif
+        Model            : cif
+        Serial           : 
+        Bus info         : platform:ff490000.video-capture
+        Media version    : 6.6.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.6.0
+Interface Info:
+        ID               : 0x03000003
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000001 (1)
+        Name             : rockchip_cif
+        Function         : V4L2 I/O
+        Pad 0x01000002   : 0: Sink
+          Link 0x02000009: from remote pad 0x1000006 of entity 'tw9900 2-0044' (Digital Video Decoder): Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for rockchip-cif device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+Mehdi Djait (3):
+  media: dt-bindings: media: add bindings for Rockchip CIF
+  media: rockchip: Add a driver for Rockchip's camera interface
+  arm64: dts: rockchip: Add the camera interface
+
+ .../bindings/media/rockchip,px30-vip.yaml     |  173 +++
+ MAINTAINERS                                   |    7 +
+ arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
+ drivers/media/platform/rockchip/Kconfig       |    1 +
+ drivers/media/platform/rockchip/Makefile      |    1 +
+ drivers/media/platform/rockchip/cif/Kconfig   |   13 +
+ drivers/media/platform/rockchip/cif/Makefile  |    3 +
+ drivers/media/platform/rockchip/cif/capture.c | 1120 +++++++++++++++++
+ drivers/media/platform/rockchip/cif/capture.h |   21 +
+ drivers/media/platform/rockchip/cif/common.h  |  129 ++
+ drivers/media/platform/rockchip/cif/dev.c     |  302 +++++
+ drivers/media/platform/rockchip/cif/regs.h    |  127 ++
+ 12 files changed, 1909 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+ create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
+ create mode 100644 drivers/media/platform/rockchip/cif/Makefile
+ create mode 100644 drivers/media/platform/rockchip/cif/capture.c
+ create mode 100644 drivers/media/platform/rockchip/cif/capture.h
+ create mode 100644 drivers/media/platform/rockchip/cif/common.h
+ create mode 100644 drivers/media/platform/rockchip/cif/dev.c
+ create mode 100644 drivers/media/platform/rockchip/cif/regs.h
+
+-- 
+2.41.0
+
 
