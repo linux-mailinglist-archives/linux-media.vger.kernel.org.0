@@ -1,162 +1,115 @@
-Return-Path: <linux-media+bounces-431-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-432-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 982BE7EDEFD
-	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 11:54:28 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E4D927EDF04
+	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 11:57:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C927C1C209F8
-	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 10:54:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 654A128108D
+	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 10:57:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C35C2D786;
-	Thu, 16 Nov 2023 10:54:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E455E2D029;
+	Thu, 16 Nov 2023 10:57:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="V/RNr1QO";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="AbFHRE+g"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Mw/Q2zkH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [IPv6:2001:67c:2178:6::1c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 42F271B6;
-	Thu, 16 Nov 2023 02:54:13 -0800 (PST)
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 35BF522937;
-	Thu, 16 Nov 2023 10:54:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1700132051; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UM81hjiA/5PsIR9F0SaCot2R2mHkt+tK3uVE8YjyK4c=;
-	b=V/RNr1QO/+SUIOycRPtcR5edmZ50pAafqg3DTWXfMAA4sI7BqrW9BQ/p3uKURRFOcL96Ew
-	oZPUgaMOU5BXPi9ejVN00mAy7SmuoXm4u3CiWo+ATjAd9Sfi5rR9TUbtAUeLQt2K9/k1RO
-	miYp2d/ogAVZVGS3kVgWnJgE3KnJcy0=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1700132051;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=UM81hjiA/5PsIR9F0SaCot2R2mHkt+tK3uVE8YjyK4c=;
-	b=AbFHRE+g9SgKaqkkFR5dnwG8jLhBnQ5a4qfCXQkNBo+MrxyJvGFvB7GVNW5rYzhN7PuvY8
-	elKIOyh6e0cnHbAA==
-Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
-	(No client certificate requested)
-	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 1A94F139C4;
-	Thu, 16 Nov 2023 10:54:11 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([192.168.254.65])
-	by imap2.suse-dmz.suse.de with ESMTPSA
-	id UopNBtP0VWUaNwAAMHmgww
-	(envelope-from <iivanov@suse.de>); Thu, 16 Nov 2023 10:54:11 +0000
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 550809A;
+	Thu, 16 Nov 2023 02:57:46 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-53e3b8f906fso993003a12.2;
+        Thu, 16 Nov 2023 02:57:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700132264; x=1700737064; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=c0Alq2NnZvkG1wKEvu5ji7SOJ948PkV/pj0sqQJJs20=;
+        b=Mw/Q2zkHij8kdGaZk3qSktYRUVW5vQRFGN374N1BPCnhXQ6e3OEVZuM6uRFoImVITY
+         lIwYCVxhY63ITOgUq4JT4SOXxHmvXXfOpcTA0sjzMN30PuC+WhSEzHBADFmYR5aGhkGJ
+         4jslfVvbroBEEHyOXzUsBB1WkPEJfONHWx4eHND8B6xQg1Q3hdOQYZnxNSuP/W9Z1dpj
+         PJihOrhY22qptFV8Y3Ru8TW2H9BoPQiN++W1wn8xDuJnji1d0hz4A8gQHShorJv9n0+K
+         K02j3At5ys03GBL/Y0IqAv6Ur9LOQtaZiQjUcdutXfylarJgXYrx4NFgp2RVHWJKIZtR
+         09hQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700132264; x=1700737064;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c0Alq2NnZvkG1wKEvu5ji7SOJ948PkV/pj0sqQJJs20=;
+        b=NiA8kSMk0QGWkYeISFwkf7vHQSlfPvzlr32m95DML6sq199wUBwRmBxeLe3H0fvcOO
+         F5ZKCLP9yO9Kq3HAQtvE3Xr4+xlOnxiexZMgIldmKQ9YP3vNFoZFuorLxnnqMX07/hVj
+         5d+zsrtGZMS9lMtUd4XkRzV1cie3NnayM0kD7Sf2GAxW2m22ZU4c5xUzH+V2bKe5i7of
+         yz3KzKB51HrkZnWUT39lKPJTeqmH5jw82uB9+n738OCMm7+wIWZduCry0G4vuk60JXu5
+         VeD4SDhQDC0V9RE05kP04ZEjE/fyd+gXnM5vboW3evqy7j+FMPyoTb38IH6Y9PrxruLd
+         y8Hg==
+X-Gm-Message-State: AOJu0YwfgArfP0YCsURxB4X0XS2GU8qfIH0Gr8IcTVopy0vwB7h9IsXt
+	PodwnjaSXGFyj8fHu7ObinDcRs0uh217gBows98=
+X-Google-Smtp-Source: AGHT+IEMyccX384cGXsYncIxNvNPWdps8uNibi1oGYh6tKgDwE4EswQCIBmJhnNXhS3SZ/wXaYBunJmToyOvaJ1n0O4=
+X-Received: by 2002:aa7:dd56:0:b0:53e:7781:2279 with SMTP id
+ o22-20020aa7dd56000000b0053e77812279mr11735675edw.36.1700132264420; Thu, 16
+ Nov 2023 02:57:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Thu, 16 Nov 2023 12:54:10 +0200
-From: "Ivan T. Ivanov" <iivanov@suse.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Stefan Wahren <wahrenst@gmx.net>, Umang Jain
- <umang.jain@ideasonboard.com>, Peter Robinson <pbrobinson@gmail.com>,
- linux-media@vger.kernel.org, kernel-list@raspberrypi.com,
- linux-kernel@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev, Dave
- Stevenson <dave.stevenson@raspberrypi.com>, Kieran Bingham
- <kieran.bingham@ideasonboard.com>, "Ricardo B . Marliere"
- <ricardo@marliere.net>, Dan Carpenter <error27@gmail.com>, Guillaume GARDET
- <guillaume.gardet@opensuse.org>
-Subject: Re: [PATCH v2 00/15] staging: vc04_services: bcm2835-isp support
-In-Reply-To: <20231116005030.GA21041@pendragon.ideasonboard.com>
 References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
- <20231115195947.GD29486@pendragon.ideasonboard.com>
- <58fe01b9-5fb6-451c-a759-c6a5afd695e3@gmx.net>
- <20231116005030.GA21041@pendragon.ideasonboard.com>
-User-Agent: Roundcube Webmail
-Message-ID: <45c0e7bbb2ed91ec559cdbf2d19ad80e@suse.de>
-X-Sender: iivanov@suse.de
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Authentication-Results: smtp-out1.suse.de;
-	none
-X-Spam-Level: 
-X-Spam-Score: -5.30
-X-Spamd-Result: default: False [-5.30 / 50.00];
-	 ARC_NA(0.00)[];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 XM_UA_NO_VERSION(0.01)[];
-	 FROM_HAS_DN(0.00)[];
-	 TO_DN_SOME(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmail.com,gmx.net];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 REPLY(-4.00)[];
-	 MID_RHS_MATCH_FROM(0.00)[];
-	 NEURAL_HAM_LONG(-1.00)[-1.000];
-	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	 NEURAL_HAM_SHORT(-0.20)[-1.000];
-	 BAYES_HAM(-0.01)[50.46%];
-	 RCPT_COUNT_TWELVE(0.00)[15];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FREEMAIL_CC(0.00)[gmx.net,ideasonboard.com,gmail.com,vger.kernel.org,raspberrypi.com,lists.infradead.org,lists.linux.dev,marliere.net,opensuse.org];
-	 RCVD_COUNT_TWO(0.00)[2];
-	 RCVD_TLS_ALL(0.00)[]
+ <20231115195947.GD29486@pendragon.ideasonboard.com> <58fe01b9-5fb6-451c-a759-c6a5afd695e3@gmx.net>
+ <20231116005030.GA21041@pendragon.ideasonboard.com> <45c0e7bbb2ed91ec559cdbf2d19ad80e@suse.de>
+In-Reply-To: <45c0e7bbb2ed91ec559cdbf2d19ad80e@suse.de>
+From: Peter Robinson <pbrobinson@gmail.com>
+Date: Thu, 16 Nov 2023 10:57:32 +0000
+Message-ID: <CALeDE9PuquwZs3ou_RksH41LCYgVtMmQt6KbK7CnBq5S8_yp6g@mail.gmail.com>
+Subject: Re: [PATCH v2 00/15] staging: vc04_services: bcm2835-isp support
+To: "Ivan T. Ivanov" <iivanov@suse.de>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Stefan Wahren <wahrenst@gmx.net>, 
+	Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org, 
+	kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org, 
+	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+	linux-staging@lists.linux.dev, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	"Ricardo B . Marliere" <ricardo@marliere.net>, Dan Carpenter <error27@gmail.com>, 
+	Guillaume GARDET <guillaume.gardet@opensuse.org>
+Content-Type: text/plain; charset="UTF-8"
 
+> >> > On Thu, Nov 09, 2023 at 04:02:52PM -0500, Umang Jain wrote:
+> >> >> This series aims to upport bcm2835-isp from the RPi kernel.
+> >> >> It is developed on top of staging-next which comprises many
+> >> >> VC04 changes for it's de-staging. Hence, the merge of this
+> >> >> driver is targeted when VC04 is de-staged completely (which I
+> >> >> have been pushing), but it can be helped getting reviewed meanwhile.
+> >> >> Hence, the reason for posting the series.
+> >> >
+> >> > Related question, what do people think about dropping the legacy
+> >> > firmware-based bcm2385-camera driver once this gets merged ?
+> >> > firmware-based camera operation is deprecated by Raspberry Pi, and
+> >> > doesn't work on the Pi 5
+> >>
+> >> i don't remember exactly, but wasn't the bcm2835-camera required for
+> >> Pi
+> >> Camera V1.3?
+> >
+> > If I'm not mistaken (Dave can correct me), the legacy camera stack
+> > works
+> > only with the Raspberry Pi official camera v1, v2 and HQ modules.
+> > Raspberry Pi has switched to a new camera stack based on libcamera,
+> > which works on the Pi Zero 2, Pi 3, Pi 4 and Pi 5. This new stack
+> > supports the same camera modules as the legacy stack, and many more.
+> > The
+> > legacy stack doesn't work on Pi 5 at all.
+> >
+> >> At the end cannot speak for the users. AFAIK OpenSuSE and Fedora use
+> >> the
+> >> driver.
+>
+> Guillaume (in CC) is more authoritative about this topic, but as long we
+> have
+> smooth migration plan I am more than happy to switch to proper camera
+> driver.
 
-Hi,
-
-On 2023-11-16 02:50, Laurent Pinchart wrote:
-> On Wed, Nov 15, 2023 at 09:57:52PM +0100, Stefan Wahren wrote:
->> Hi Laurent,
->> 
->> [add Ivan & Peter]
->> 
->> Am 15.11.23 um 20:59 schrieb Laurent Pinchart:
->> > Hello,
->> >
->> > On Thu, Nov 09, 2023 at 04:02:52PM -0500, Umang Jain wrote:
->> >> This series aims to upport bcm2835-isp from the RPi kernel.
->> >> It is developed on top of staging-next which comprises many
->> >> VC04 changes for it's de-staging. Hence, the merge of this
->> >> driver is targeted when VC04 is de-staged completely (which I
->> >> have been pushing), but it can be helped getting reviewed meanwhile.
->> >> Hence, the reason for posting the series.
->> >
->> > Related question, what do people think about dropping the legacy
->> > firmware-based bcm2385-camera driver once this gets merged ?
->> > firmware-based camera operation is deprecated by Raspberry Pi, and
->> > doesn't work on the Pi 5
->> 
->> i don't remember exactly, but wasn't the bcm2835-camera required for 
->> Pi
->> Camera V1.3?
-> 
-> If I'm not mistaken (Dave can correct me), the legacy camera stack 
-> works
-> only with the Raspberry Pi official camera v1, v2 and HQ modules.
-> Raspberry Pi has switched to a new camera stack based on libcamera,
-> which works on the Pi Zero 2, Pi 3, Pi 4 and Pi 5. This new stack
-> supports the same camera modules as the legacy stack, and many more. 
-> The
-> legacy stack doesn't work on Pi 5 at all.
-> 
->> At the end cannot speak for the users. AFAIK OpenSuSE and Fedora use 
->> the
->> driver.
-
-Guillaume (in CC) is more authoritative about this topic, but as long we 
-have
-smooth migration plan I am more than happy to switch to proper camera 
-driver.
-
-Regards,
-Ivan
+From a Fedora PoV I am more than happy to move to the new libcamera
+based stack for the RPi camera, IMO sooner the better :)
 
