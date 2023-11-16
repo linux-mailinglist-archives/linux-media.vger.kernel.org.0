@@ -1,321 +1,114 @@
-Return-Path: <linux-media+bounces-426-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-427-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D187EDCF2
-	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 09:32:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2F117EDD04
+	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 09:42:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 47BDDB20BF8
-	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 08:32:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AFAE3280FC4
+	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 08:42:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B729C11722;
-	Thu, 16 Nov 2023 08:32:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G8//VHj8"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CABB6C8E4;
+	Thu, 16 Nov 2023 08:42:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF7319B;
-	Thu, 16 Nov 2023 00:32:43 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6c320a821c4so476703b3a.2;
-        Thu, 16 Nov 2023 00:32:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700123563; x=1700728363; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=472+ou2t+S30ff1NG7gEMF59MEFWKxcoDKHurEpmvAA=;
-        b=G8//VHj8C4UB1LIpgNV0FD17IEcgnLnXga2azbkIjZB+/9dyD4t3h/JiiAijnPOde5
-         rEPYvKhOZQ1LLYvQEBjEoe3qKr+CjhkxT2oqSGzSa3nzfTiFzDgJHJaDUzI6xXD3OB2w
-         0rD6BFiDQutgXpqnYbWW3fbF1kCV6xf5MfIPz/37vC8vf+gEJ5eHdnKTf0F2vIfm7kb9
-         /514+5lgNaHA9bV2erMeY0u4byuwvdbZbpALijaST3pM4l4RSZKJkq4Ld1++JPGi/QPy
-         msKXffpz6mZ/YCKXf+OncoWooUOJUNHDt2VVmmsOuJhkLZ9LnCcEQGxGyuUgcdyed5v4
-         CUNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700123563; x=1700728363;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=472+ou2t+S30ff1NG7gEMF59MEFWKxcoDKHurEpmvAA=;
-        b=BRYORdmnLUyyPDEQqFJMMZx3xYgfhnMbmfyEHzFJguSHsJo//44WsBECHvr8gr00dH
-         MqbPCFwxi4NIVZiXDNYBVqkpy8aMkkHQEabjbtajbYKmekS+Jy35bIg8WcVqpSGq23ij
-         8XMKQFTOJ8c2+QZF9+rP1I2SVhkluIS1WD7dRj4kxaw6NFgzTwOJ5WNzVn90wre9xEW6
-         GfVOibS7GK9N+CTXRwXciizKsOesY7yjiIjKhgGCumXyatUvps6vEgD+Ik8no1QTHrHo
-         dRVcMXaLnYKUdwxn9BPjv0KS3sECXnTje7QBS1v57l28U6UnsciMppfiI0pmvp8eLlms
-         O1mA==
-X-Gm-Message-State: AOJu0YwflkBhrQ5QU04f1+afVbeS1znL/v594vAoiZlHd26Uy7QQ5BtV
-	J3OwCmf5LvCtLXMbOX8ZZpJLPchVf5BFwKvpqv0=
-X-Google-Smtp-Source: AGHT+IHmJjTLt2CLeHrk7+YuJuksA+MXs3rCdxF6kfgetAkHlbGR3SpegcpCFFHLyAVwVjm4C02UQNvYyF5MjQvkB8k=
-X-Received: by 2002:a05:6a20:42a8:b0:187:d380:fd98 with SMTP id
- o40-20020a056a2042a800b00187d380fd98mr337525pzj.44.1700123563211; Thu, 16 Nov
- 2023 00:32:43 -0800 (PST)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 244FEC8E7
+	for <linux-media@vger.kernel.org>; Thu, 16 Nov 2023 08:42:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F3A00C433C8;
+	Thu, 16 Nov 2023 08:42:14 +0000 (UTC)
+Message-ID: <e8f53c2c-aaa6-4878-befe-230b91933297@xs4all.nl>
+Date: Thu, 16 Nov 2023 09:42:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1699595289-25773-1-git-send-email-shengjiu.wang@nxp.com>
- <1699595289-25773-15-git-send-email-shengjiu.wang@nxp.com> <70821f4c-d0f8-4a35-b664-0823bf430816@kernel.org>
-In-Reply-To: <70821f4c-d0f8-4a35-b664-0823bf430816@kernel.org>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Thu, 16 Nov 2023 16:32:31 +0800
-Message-ID: <CAA+D8ANiNr0DVNP4eiTGVzvYGxTJJBjJocW++x0A9GDEbNTqRA@mail.gmail.com>
-Subject: Re: [PATCH v9 14/15] media: imx-asrc: Add memory to memory driver
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, hverkuil@xs4all.nl, sakari.ailus@iki.fi, 
-	tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com, 
-	lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com, 
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT FIXES FOR v6.7] Two mgb4 fixes and one v4l2-subdev.h fix
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sat, Nov 11, 2023 at 4:16=E2=80=AFPM Krzysztof Kozlowski <krzk@kernel.or=
-g> wrote:
->
-> On 10/11/2023 06:48, Shengjiu Wang wrote:
-> > +static int asrc_m2m_probe(struct platform_device *pdev)
-> > +{
-> > +     struct fsl_asrc_m2m_pdata *data =3D pdev->dev.platform_data;
-> > +     struct device *dev =3D &pdev->dev;
-> > +     struct asrc_m2m *m2m;
-> > +     int ret;
-> > +
-> > +     m2m =3D devm_kzalloc(dev, sizeof(struct asrc_m2m), GFP_KERNEL);
->
-> sizeof(*)
->
-> > +     if (!m2m)
-> > +             return -ENOMEM;
-> > +
-> > +     m2m->pdata =3D *data;
-> > +     m2m->pdev =3D pdev;
-> > +
-> > +     ret =3D v4l2_device_register(dev, &m2m->v4l2_dev);
-> > +     if (ret) {
-> > +             dev_err(dev, "failed to register v4l2 device\n");
-> > +             goto err_register;
-> > +     }
-> > +
-> > +     m2m->m2m_dev =3D v4l2_m2m_init(&asrc_m2m_ops);
-> > +     if (IS_ERR(m2m->m2m_dev)) {
-> > +             dev_err(dev, "failed to register v4l2 device\n");
->
-> Why aren't you using dev_err_probe() at all?
+The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
 
-ok, will use dev_err_probe.
+  Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
 
->
-> > +             ret =3D PTR_ERR(m2m->m2m_dev);
-> > +             goto err_m2m;
-> > +     }
-> > +
-> > +     m2m->dec_vdev =3D video_device_alloc();
-> > +     if (!m2m->dec_vdev) {
-> > +             dev_err(dev, "failed to register v4l2 device\n");
->
-> Why do you print errors on ENOMEM?
+are available in the Git repository at:
 
-ok, will remove this print.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.7a
 
->
-> Did you run coccinelle?
+for you to fetch changes up to 823d64edba8784e7c490a05a48eea0f01fa628f6:
 
-Does coccinelle report issue for print error on ENOMEM?
+  media: pci: mgb4: add COMMON_CLK dependency (2023-11-16 09:37:01 +0100)
 
-I try to run make coccicheck, but no issue report for it.
+----------------------------------------------------------------
+Tag branch
 
->
-> > +             ret =3D -ENOMEM;
-> > +             goto err_vdev_alloc;
-> > +     }
-> > +
-> > +     mutex_init(&m2m->mlock);
-> > +
-> > +     m2m->dec_vdev->fops =3D &asrc_m2m_fops;
-> > +     m2m->dec_vdev->ioctl_ops =3D &asrc_m2m_ioctl_ops;
-> > +     m2m->dec_vdev->minor =3D -1;
-> > +     m2m->dec_vdev->release =3D video_device_release;
-> > +     m2m->dec_vdev->lock =3D &m2m->mlock; /* lock for ioctl serializat=
-ion */
-> > +     m2m->dec_vdev->v4l2_dev =3D &m2m->v4l2_dev;
-> > +     m2m->dec_vdev->vfl_dir =3D VFL_DIR_M2M;
-> > +     m2m->dec_vdev->device_caps =3D V4L2_CAP_STREAMING | V4L2_CAP_AUDI=
-O_M2M;
-> > +
-> > +#ifdef CONFIG_MEDIA_CONTROLLER
-> > +     m2m->mdev.dev =3D &pdev->dev;
-> > +     strscpy(m2m->mdev.model, M2M_DRV_NAME, sizeof(m2m->mdev.model));
-> > +     snprintf(m2m->mdev.bus_info, sizeof(m2m->mdev.bus_info),
-> > +              "platform:%s", M2M_DRV_NAME);
-> > +     media_device_init(&m2m->mdev);
-> > +     m2m->mdev.ops =3D &asrc_m2m_media_ops;
-> > +     m2m->v4l2_dev.mdev =3D &m2m->mdev;
-> > +#endif
-> > +
-> > +     ret =3D video_register_device(m2m->dec_vdev, VFL_TYPE_AUDIO, -1);
-> > +     if (ret) {
-> > +             dev_err(dev, "failed to register video device\n");
-> > +             goto err_vdev_register;
-> > +     }
-> > +
-> > +#ifdef CONFIG_MEDIA_CONTROLLER
-> > +     ret =3D v4l2_m2m_register_media_controller(m2m->m2m_dev, m2m->dec=
-_vdev,
-> > +                                              MEDIA_ENT_F_PROC_AUDIO_R=
-ESAMPLER);
-> > +     if (ret) {
-> > +             dev_err(dev, "Failed to init mem2mem media controller\n")=
-;
-> > +             goto error_v4l2;
-> > +     }
-> > +
-> > +     ret =3D media_device_register(&m2m->mdev);
-> > +     if (ret) {
-> > +             dev_err(dev, "Failed to register mem2mem media device\n")=
-;
-> > +             goto error_m2m_mc;
-> > +     }
-> > +#endif
-> > +
-> > +     video_set_drvdata(m2m->dec_vdev, m2m);
-> > +     platform_set_drvdata(pdev, m2m);
-> > +     pm_runtime_enable(&pdev->dev);
-> > +
-> > +     return 0;
-> > +
-> > +#ifdef CONFIG_MEDIA_CONTROLLER
-> > +error_m2m_mc:
-> > +     v4l2_m2m_unregister_media_controller(m2m->m2m_dev);
-> > +#endif
-> > +error_v4l2:
-> > +     video_unregister_device(m2m->dec_vdev);
-> > +err_vdev_register:
-> > +     video_device_release(m2m->dec_vdev);
-> > +err_vdev_alloc:
-> > +     v4l2_m2m_release(m2m->m2m_dev);
-> > +err_m2m:
-> > +     v4l2_device_unregister(&m2m->v4l2_dev);
-> > +err_register:
-> > +     return ret;
-> > +}
-> > +
-> > +static void asrc_m2m_remove(struct platform_device *pdev)
-> > +{
-> > +     struct asrc_m2m *m2m =3D platform_get_drvdata(pdev);
-> > +
-> > +     pm_runtime_disable(&pdev->dev);
-> > +#ifdef CONFIG_MEDIA_CONTROLLER
-> > +     media_device_unregister(&m2m->mdev);
-> > +     v4l2_m2m_unregister_media_controller(m2m->m2m_dev);
-> > +#endif
-> > +     video_unregister_device(m2m->dec_vdev);
-> > +     video_device_release(m2m->dec_vdev);
-> > +     v4l2_m2m_release(m2m->m2m_dev);
-> > +     v4l2_device_unregister(&m2m->v4l2_dev);
-> > +}
-> > +
-> > +#ifdef CONFIG_PM_SLEEP
-> > +/* suspend callback for m2m */
-> > +static int asrc_m2m_suspend(struct device *dev)
-> > +{
-> > +     struct asrc_m2m *m2m =3D dev_get_drvdata(dev);
-> > +     struct fsl_asrc *asrc =3D m2m->pdata.asrc;
-> > +     struct fsl_asrc_pair *pair;
-> > +     unsigned long lock_flags;
-> > +     int i;
-> > +
-> > +     for (i =3D 0; i < PAIR_CTX_NUM; i++) {
-> > +             spin_lock_irqsave(&asrc->lock, lock_flags);
-> > +             pair =3D asrc->pair[i];
-> > +             if (!pair || !pair->req_pair) {
-> > +                     spin_unlock_irqrestore(&asrc->lock, lock_flags);
-> > +                     continue;
-> > +             }
-> > +             if (!completion_done(&pair->complete[V4L_OUT])) {
-> > +                     if (pair->dma_chan[V4L_OUT])
-> > +                             dmaengine_terminate_all(pair->dma_chan[V4=
-L_OUT]);
-> > +                     asrc_input_dma_callback((void *)pair);
-> > +             }
-> > +             if (!completion_done(&pair->complete[V4L_CAP])) {
-> > +                     if (pair->dma_chan[V4L_CAP])
-> > +                             dmaengine_terminate_all(pair->dma_chan[V4=
-L_CAP]);
-> > +                     asrc_output_dma_callback((void *)pair);
-> > +             }
-> > +
-> > +             if (asrc->m2m_pair_suspend)
-> > +                     asrc->m2m_pair_suspend(pair);
-> > +
-> > +             spin_unlock_irqrestore(&asrc->lock, lock_flags);
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +
-> > +static int asrc_m2m_resume(struct device *dev)
-> > +{
-> > +     struct asrc_m2m *m2m =3D dev_get_drvdata(dev);
-> > +     struct fsl_asrc *asrc =3D m2m->pdata.asrc;
-> > +     struct fsl_asrc_pair *pair;
-> > +     unsigned long lock_flags;
-> > +     int i;
-> > +
-> > +     for (i =3D 0; i < PAIR_CTX_NUM; i++) {
-> > +             spin_lock_irqsave(&asrc->lock, lock_flags);
-> > +             pair =3D asrc->pair[i];
-> > +             if (!pair || !pair->req_pair) {
-> > +                     spin_unlock_irqrestore(&asrc->lock, lock_flags);
-> > +                     continue;
-> > +             }
-> > +             if (asrc->m2m_pair_resume)
-> > +                     asrc->m2m_pair_resume(pair);
-> > +
-> > +             spin_unlock_irqrestore(&asrc->lock, lock_flags);
-> > +     }
-> > +
-> > +     return 0;
-> > +}
-> > +#endif
-> > +
-> > +static const struct dev_pm_ops asrc_m2m_pm_ops =3D {
-> > +     SET_NOIRQ_SYSTEM_SLEEP_PM_OPS(asrc_m2m_suspend,
-> > +                                   asrc_m2m_resume)
-> > +};
-> > +
-> > +static struct platform_driver asrc_m2m_driver =3D {
-> > +     .probe  =3D asrc_m2m_probe,
-> > +     .remove_new =3D asrc_m2m_remove,
-> > +     .driver =3D {
-> > +             .name =3D M2M_DRV_NAME,
-> > +             .pm =3D &asrc_m2m_pm_ops,
-> > +     },
-> > +};
-> > +module_platform_driver(asrc_m2m_driver);
-> > +
-> > +MODULE_DESCRIPTION("Freescale ASRC M2M driver");
-> > +MODULE_ALIAS("platform:" M2M_DRV_NAME);
->
-> You should not need MODULE_ALIAS() in normal cases. If you need it,
-> usually it means your device ID table is wrong (e.g. misses either
-> entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
-> for incomplete ID table.
+----------------------------------------------------------------
+Arnd Bergmann (1):
+      media: pci: mgb4: add COMMON_CLK dependency
 
+Dan Carpenter (1):
+      media: v4l2-subdev: Fix a 64bit bug
 
-This driver don't have MODULE_DEVICE_TABLE.  it is only registered
-by platform_device_register_data().
+Martin Tůma (1):
+      media: mgb4: Added support for T200 card variant
 
-best regards
-wang shengjiu
->
->
-> > +MODULE_LICENSE("GPL");
->
-> Best regards,
-> Krzysztof
->
+ drivers/media/pci/mgb4/Kconfig     |  1 +
+ drivers/media/pci/mgb4/mgb4_core.c | 20 +++++++++++++++-----
+ include/uapi/linux/v4l2-subdev.h   |  2 +-
+ 3 files changed, 17 insertions(+), 6 deletions(-)
 
