@@ -1,649 +1,386 @@
-Return-Path: <linux-media+bounces-422-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-423-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF617EDB4E
-	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 06:45:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4FF7A7EDC03
+	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 08:32:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D57E1F228B3
-	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 05:45:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C428F1F23BD6
+	for <lists+linux-media@lfdr.de>; Thu, 16 Nov 2023 07:32:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2BF5D2E7;
-	Thu, 16 Nov 2023 05:45:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3937BFBE2;
+	Thu, 16 Nov 2023 07:32:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="di6gWO69"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FNB7zZ31"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 131BC1A3
-	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 21:45:09 -0800 (PST)
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231116054507epoutp02e513484f7dfb543f9904fa7e779bc6d1~YBDo8qTF40493304933epoutp02i
-	for <linux-media@vger.kernel.org>; Thu, 16 Nov 2023 05:45:07 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231116054507epoutp02e513484f7dfb543f9904fa7e779bc6d1~YBDo8qTF40493304933epoutp02i
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1700113507;
-	bh=adDn9SMUO5PptBlKoqNyPN7f6E4/59yYlCSyuFhzZIY=;
-	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=di6gWO6924Ce/8NKUq3HMc8MY5pQhc1HKXJzCrfIjE0u0gUqCg8wRExir0eGNIS3v
-	 LvPpbPJEMfGrtvmZdgMtOo7Ry45sCMJoS/F1BHft62P8SJDZAjWlVjjPyJQdte14gn
-	 ab8P/IiiiLF9D2ODoFlXe9aZ8y+1Tp2gORYl/YeE=
-Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20231116054506epcas5p36961d9ef34b3e576b14d0823e28a04ce~YBDoOT4IN1109511095epcas5p3q;
-	Thu, 16 Nov 2023 05:45:06 +0000 (GMT)
-Received: from epsmgec5p1-new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp4.localdomain (Postfix) with ESMTP id 4SW8BS5MNFz4x9Pv; Thu, 16 Nov
-	2023 05:45:04 +0000 (GMT)
-Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
-	epsmgec5p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	CD.E9.19369.06CA5556; Thu, 16 Nov 2023 14:45:04 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20231116054504epcas5p31d3e2b7c8dd7605c353f42093f1aa891~YBDlxZk5x1109511095epcas5p3g;
-	Thu, 16 Nov 2023 05:45:04 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20231116054504epsmtrp17ab9f2d3f094e4ac2f3006a86db740ca~YBDlwWRN41913719137epsmtrp12;
-	Thu, 16 Nov 2023 05:45:04 +0000 (GMT)
-X-AuditID: b6c32a50-c99ff70000004ba9-da-6555ac60c187
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	61.59.18939.F5CA5556; Thu, 16 Nov 2023 14:45:03 +0900 (KST)
-Received: from INBRO000447 (unknown [107.122.12.5]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20231116054500epsmtip1236470d537e3c6260035db4cb9a1d6fd~YBDiuUwoG1438014380epsmtip1b;
-	Thu, 16 Nov 2023 05:45:00 +0000 (GMT)
-From: "Alim Akhtar" <alim.akhtar@samsung.com>
-To: "'Aakarsh Jain'" <aakarsh.jain@samsung.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
-Cc: <m.szyprowski@samsung.com>, <andrzej.hajda@intel.com>,
-	<mchehab@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-	<krzysztof.kozlowski+dt@linaro.org>, <dillon.minfei@gmail.com>,
-	<david.plowman@raspberrypi.com>, <mark.rutland@arm.com>,
-	<robh+dt@kernel.org>, <conor+dt@kernel.org>,
-	<linux-samsung-soc@vger.kernel.org>, <andi@etezian.org>,
-	<gost.dev@samsung.com>, <aswani.reddy@samsung.com>,
-	<pankaj.dubey@samsung.com>, <ajaykumar.rs@samsung.com>,
-	<linux-fsd@tesla.com>, "'Smitha T Murthy'" <smithatmurthy@gmail.com>
-In-Reply-To: <20231025102216.50480-4-aakarsh.jain@samsung.com>
-Subject: RE: [Patch v4 03/11] media: s5p-mfc: Add initial support for MFCv12
-Date: Thu, 16 Nov 2023 11:14:59 +0530
-Message-ID: <0d6201da1850$0bd48ba0$237da2e0$@samsung.com>
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AE00192
+	for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 23:32:03 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-9c773ac9b15so65763766b.2
+        for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 23:32:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1700119921; x=1700724721; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QUoHqMa5bMDIiRHmyl9q7kYLp0heHW41yVITFKQdPkg=;
+        b=FNB7zZ31kpF/QFRy1wNaD8Qxi7WpNJIvmj1I9dVGpQgnqHjg3y1dWFd6U9J47eZQWq
+         9PeDCV3hIEIqJaw0Vd6Wvxf64Ljy/FA7YIsySaeOybVDIXvxKsBOIwBwdYcgFhem+s2F
+         PW9aiEBaquXCnJBYHjMoKDJr7hQnsNdJpmcOo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700119921; x=1700724721;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=QUoHqMa5bMDIiRHmyl9q7kYLp0heHW41yVITFKQdPkg=;
+        b=sYQMxx5DG5PS9xtfGzmV2WiCeibubE73cT96Ffm3Jf4gSYqbJzVphOuk6THL6HFpKk
+         X9bnedIlcmxWRO/h+7oUX9vtOUyf5qOaxlD91pZgVX0Rh6uARQ+ICkIlQvOy6I3ED4cp
+         K2oNWc6EQBbcX3wBINcf4yROg87rEln+ZPAE23DBjZVImvZnh6hC3ndXhAixRwH0168t
+         CfUSrtNkBTon8QoW7bz3P0g4VpsvAlLETD65tKuIb1et+p7cIaAvMw+8qsif0BLPJbBE
+         tZS8WVbo0+0zPaS0vv4dm2c/dJutXjiaTyox9FqNi04B1z5LnZ7bARPLsRT1Ubd0pzPN
+         WMrA==
+X-Gm-Message-State: AOJu0YxMtHEi1qDuDqDpxdXeqisErB9cYjEoBuKeoAP9rbfkM0n/niL4
+	D6rYOuXRyU6PBKq1innS8rhlB+F2MjAFw8ItvJZeLXr9
+X-Google-Smtp-Source: AGHT+IE/KQaE8QpwxFezshduKBreoq6HWMp/eSmvEHcTkj2swGspT/TP0a5DNw8iE01dEeR3+W8v4Q==
+X-Received: by 2002:a17:906:414c:b0:9e6:e3fc:60d4 with SMTP id l12-20020a170906414c00b009e6e3fc60d4mr11139612ejk.22.1700119921276;
+        Wed, 15 Nov 2023 23:32:01 -0800 (PST)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
+        by smtp.gmail.com with ESMTPSA id k23-20020a170906a39700b009c4cb1553edsm8032493ejz.95.2023.11.15.23.32.00
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Nov 2023 23:32:00 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-32dc9ff4a8fso311078f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 15 Nov 2023 23:32:00 -0800 (PST)
+X-Received: by 2002:adf:a19e:0:b0:32f:7bde:fa0 with SMTP id
+ u30-20020adfa19e000000b0032f7bde0fa0mr10265212wru.32.1700119920153; Wed, 15
+ Nov 2023 23:32:00 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQLm4twfZx4yvmLB3iF6RxvUJv+HzQIIuTk5ALqF0vauTLP2UA==
-Content-Language: en-us
-X-Brightmail-Tracker: H4sIAAAAAAAAA01TfVRTdRjufmx3ILPboMOv0TGakQc4g03HuCs+FKlzz4mSIgIyGoPdwzjA
-	NrcRyTklFlCCEPRBMkCFLUiciOBkfAgM8CCicEC+MlEhQVAx48tS4sS4aPz3vO/7PO/7Pr/f
-	eVkIJxfjshKUOkqjlCXxmPbouQ73bfwYUzglaJ3eSkxaihhE259WlDD8fQcmbhrmUaK9zowR
-	pvO9MFHZ1cYgjnX2Moh66wRK/NbWABP9RWMokTc9jhC1fwwziPG7EcTVxhImcbjGzCCO9LXA
-	xKnOMYz4ZaQfJipql2Gi3LyAEZnnOzEi46CRsdOZNB01QeSIcQ4hG/RjGGlonoHJ2qpDTPL6
-	cDOTrDMeIDMvPEbJvLNVELnyVSlGztduIS8tzmOhDh8n+ikomZzSuFLKOJU8QRnvz3snTLpb
-	6iMWCPlCCeHLc1XKkil/XnBIKP/thKRV3zzXz2RJKaupUJlWy/MO8NOoUnSUq0Kl1fnzKLU8
-	SS1Se2llydoUZbyXktK9IRQItvusEmMSFfndS7A6rxD6/M7UKDMdqkzLhuxYABeBotkOZjZk
-	z+LgzRAoXCnD6GAOAuYj7dCzoO7UAPRUMtl7EaULDRDI6J1E6GAaAg9OFCM2FhPnA4sha62x
-	E26BwKDJsCZB8MMomP91ALWx7PAAMJ5lYmRDLJYjHgJma7ba0ijuBobLFmEbZuMSUNaSs45f
-	AN1Ft9ekCP4KqJ8tQeiVXME/kxUMG3bCg0C3tRyjOc5g5kLnmiGAN9mB8svXYNssgAeDb7K/
-	oLWO4G7XWYzGXDDzXRZGU0hQvsyl0wowW3l63X0gaBssQW0UBHcHpxu96UmbQe6T2+vN2eDb
-	LA7NdgNfPxhCaewCCnJyGDQmgfXRMpoPvarf4Eu/wZd+w/76/4cdh9AqiEuptcnxVJyPWshX
-	UqnPfjxOlVwLrd2FR6gFOlnzr1c7BLOgdgiwEJ4T23fLhxSHLZftT6M0KqkmJYnStkM+q69d
-	gHBfjFOtHpZSJxWKJAKRWCwWSXaIhTxn9r3MUjkHj5fpqESKUlOapzqYZcdNh7kPU2ry90Ze
-	2db3409Gs6XYwxrI8cp0ya/Sth7aNWS971DKCB93U37p83jiZEZ1YOrAQ8No1QHnimsLDu8J
-	ft5smdkUVhRz8a37dQa/nombBz1aI6Zu7ZJGsdOCY5tavO3r9h3vuWQyvysWX/asfr0riHT5
-	dK8vJyLjXLjnRzf0bpKW/rm+ocape4+evxKP2H9fknOjYw93U/QxhwoUhj0VHUblnjffjy6W
-	iI7KB39Y2ncisvxMdIi0KfG1DwozWrmHwl46Qxa6PNmeWuh0Pep3fvqOpaBc7nBsj+PO6hH3
-	hf2NUcbG5zrHIgMKVgb+qh+7Nf4yHvsJS3R10V+e6yPJG2VkpfFQrUIm9EA0Wtl/0leK16AE
-	AAA=
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrEIsWRmVeSWpSXmKPExsWy7bCSnG78mtBUg6vTLSye7pjJanHg/UEW
-	i8U/njNZ3F/8mcXi0Oat7BZr9p5jslh+/ACrxfwj51gtth98xGJx88BOJouLM++yWPS9eMhs
-	senxNVaLh6/CLS7vmsNm0bNhK6vFjPP7mCzWHrnLbrH0+kUmi2Wb/jBZLNr6hd2ide8RdouW
-	xiWsDuIea+atYfS4vuQTs8fOWXfZPRbvecnksWlVJ5vHnWt72Dw2L6n3aD36i8Wjb8sqRo9/
-	TXPZPT5vkvM49fUzewBPFJdNSmpOZllqkb5dAlfGhJPfmAr6pjFWPH92g62BcXlVFyMnh4SA
-	icTTcydYuhi5OIQEtjNK3Hu+nx0iIS1xfeMEKFtYYuW/5+wQRc8YJY6232UDSbAJ6ErsWNzG
-	BpIQEdjDKNE99SIrSIJZYB6LxKFbGhAdBxklZp9oYARJcArYSTxsWwNUxMEhLOAj8XaDMkiY
-	RUBV4trCr0wgNq+ApcTCfd1QtqDEyZlPWCBmaks8vfkUypaX2P52DjPEdQoSP58uA9srIuAk
-	cfLgInaIGnGJl0ePsE9gFJ6FZNQsJKNmIRk1C0nLAkaWVYyiqQXFuem5yQWGesWJucWleel6
-	yfm5mxjByUIraAfjsvV/9Q4xMnEwHmKU4GBWEuE1lwtJFeJNSaysSi3Kjy8qzUktPsQozcGi
-	JM6rnNOZIiSQnliSmp2aWpBaBJNl4uCUamAK5kqX7WNS9Fsuu97Wc2G7dtdC0QWxkjMeXJ2l
-	vfj2bY6qmAajLZqGxXcit0rGTFdRuH49gaukSLbmD/veqYpV99mjD72J2ruI18ZML+/yBaNr
-	K90m/Wr59DqDe4r7hHWnNjAtOCFocCTf3fCup/midSIJU4vPfK+f9PzV5plWKy96/PGeETd1
-	c/XMaVOLLWoyF+vd/bjUNCOnzGZ6Vczx+jib8mmat25Uz5GJ2Glfwb1HkktPw/BDwnWGmP/3
-	yhj2qb9rULjdHBJQKars+CrVPmM6a8etOJ4Pd0/zPY1Y036yoOLuuv9xyVc+/szhntMQrSmc
-	s6zXkS9RlHXtrI0Ba6OvxEyty/N9WS6XfluJpTgj0VCLuag4EQBtBbSPhQMAAA==
-X-CMS-MailID: 20231116054504epcas5p31d3e2b7c8dd7605c353f42093f1aa891
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231025102240epcas5p1551ac81bc2cd45f6c84e2eebc11571c4
-References: <20231025102216.50480-1-aakarsh.jain@samsung.com>
-	<CGME20231025102240epcas5p1551ac81bc2cd45f6c84e2eebc11571c4@epcas5p1.samsung.com>
-	<20231025102216.50480-4-aakarsh.jain@samsung.com>
+References: <6a3e7eb9-505c-4cfb-8a86-a8947a2e44d5@xs4all.nl>
+ <20231113110754.GB24338@pendragon.ideasonboard.com> <3e898664-cbfc-4892-9765-37b66891643b@xs4all.nl>
+ <ZVIIc-fi32ZxIi-p@valkosipuli.retiisi.eu> <20231113114357.GD24338@pendragon.ideasonboard.com>
+ <da6efe14-c00d-4bf4-bf61-dd4ed39c5c60@xs4all.nl> <20231113124412.GA18974@pendragon.ideasonboard.com>
+ <b35601f7-8bb2-4317-a8f7-6fbf81572943@xs4all.nl> <20231115105518.GD13826@pendragon.ideasonboard.com>
+ <a67491c0-4fdf-4472-852c-e75f5e1d67af@xs4all.nl> <20231115114931.GE13826@pendragon.ideasonboard.com>
+In-Reply-To: <20231115114931.GE13826@pendragon.ideasonboard.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Thu, 16 Nov 2023 16:31:41 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BkCR=tYvmfjkOeTnjnccmURt8kEtiRee9CYqcz+FGHfg@mail.gmail.com>
+Message-ID: <CAAFQd5BkCR=tYvmfjkOeTnjnccmURt8kEtiRee9CYqcz+FGHfg@mail.gmail.com>
+Subject: Re: [PATCH v9 10/15] media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Sakari Ailus <sakari.ailus@iki.fi>, 
+	Shengjiu Wang <shengjiu.wang@nxp.com>, m.szyprowski@samsung.com, mchehab@kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	shengjiu.wang@gmail.com, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Nov 15, 2023 at 8:49=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Hans,
+>
+> On Wed, Nov 15, 2023 at 12:19:31PM +0100, Hans Verkuil wrote:
+> > On 11/15/23 11:55, Laurent Pinchart wrote:
+> > > On Wed, Nov 15, 2023 at 09:09:42AM +0100, Hans Verkuil wrote:
+> > >> On 13/11/2023 13:44, Laurent Pinchart wrote:
+> > >>> On Mon, Nov 13, 2023 at 01:05:12PM +0100, Hans Verkuil wrote:
+> > >>>> On 13/11/2023 12:43, Laurent Pinchart wrote:
+> > >>>>> On Mon, Nov 13, 2023 at 11:28:51AM +0000, Sakari Ailus wrote:
+> > >>>>>> On Mon, Nov 13, 2023 at 12:24:14PM +0100, Hans Verkuil wrote:
+> > >>>>>>> On 13/11/2023 12:07, Laurent Pinchart wrote:
+> > >>>>>>>> On Mon, Nov 13, 2023 at 11:56:49AM +0100, Hans Verkuil wrote:
+> > >>>>>>>>> On 13/11/2023 11:42, Laurent Pinchart wrote:
+> > >>>>>>>>>> On Mon, Nov 13, 2023 at 11:29:09AM +0100, Hans Verkuil wrote=
+:
+> > >>>>>>>>>>> On 10/11/2023 06:48, Shengjiu Wang wrote:
+> > >>>>>>>>>>>> Fixed point controls are used by the user to configure
+> > >>>>>>>>>>>> a fixed point value in 64bits, which Q31.32 format.
+> > >>>>>>>>>>>>
+> > >>>>>>>>>>>> Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > >>>>>>>>>>>
+> > >>>>>>>>>>> This patch adds a new control type. This is something that =
+also needs to be
+> > >>>>>>>>>>> tested by v4l2-compliance, and for that we need to add supp=
+ort for this to
+> > >>>>>>>>>>> one of the media test-drivers. The best place for that is t=
+he vivid driver,
+> > >>>>>>>>>>> since that has already a bunch of test controls for other c=
+ontrol types.
+> > >>>>>>>>>>>
+> > >>>>>>>>>>> See e.g. VIVID_CID_INTEGER64 in vivid-ctrls.c.
+> > >>>>>>>>>>>
+> > >>>>>>>>>>> Can you add a patch adding a fixed point test control to vi=
+vid?
+> > >>>>>>>>>>
+> > >>>>>>>>>> I don't think V4L2_CTRL_TYPE_FIXED_POINT is a good idea. Thi=
+s seems to
+> > >>>>>>>>>> relate more to units than control types. We have lots of fix=
+ed-point
+> > >>>>>>>>>> values in controls already, using the 32-bit and 64-bit inte=
+ger control
+> > >>>>>>>>>> types. They use various locations for the decimal point, dep=
+ending on
+> > >>>>>>>>>> the control. If we want to make this more explicit to users,=
+ we should
+> > >>>>>>>>>> work on adding unit support to the V4L2 controls.
+> > >>>>>>>>>
+> > >>>>>>>>> "Fixed Point" is not a unit, it's a type. 'Db', 'Hz' etc. are=
+ units.
+> > >>>>>>>>
+> > >>>>>>>> It's not a unit, but I think it's related to units. My point i=
+s that,
+> > >>>>>>>> without units support, I don't see why we need a formal defini=
+tion of
+> > >>>>>>>> fixed-point types, and why this series couldn't just use
+> > >>>>>>>> VIVID_CID_INTEGER64. Drivers already interpret VIVID_CID_INTEG=
+ER64
+> > >>>>>>>> values as they see fit.
+> > >>>>>>>
+> > >>>>>>> They do? That's new to me. A quick grep for V4L2_CTRL_TYPE_INTE=
+GER64
+> > >>>>>>> (I assume you meant that rather than VIVID_CID_INTEGER64) shows=
+ that it
+> > >>>>>
+> > >>>>> Yes, I meant V4L2_CTRL_TYPE_INTEGER64. Too hasty copy & paste :-)
+> > >>>>>
+> > >>>>>>> is always interpreted as a 64 bit integer and nothing else. As =
+it should.
+> > >>>>>
+> > >>>>> The most common case for control handling in drivers is taking th=
+e
+> > >>>>> integer value and converting it to a register value, using
+> > >>>>> device-specific encoding of the register value. It can be a fixed=
+-point
+> > >>>>> format or something else, depending on the device. My point is th=
+at
+> > >>>>> drivers routinely convert a "plain" integer to something else, an=
+d that
+> > >>>>> has never been considered as a cause of concern. I don't see why =
+it
+> > >>>>> would be different in this series.
+> > >>>>>
+> > >>>>>>> And while we do not have support for units (other than the docu=
+mentation),
+> > >>>>>>> we do have type support in the form of V4L2_CTRL_TYPE_*.
+> > >>>>>>>
+> > >>>>>>>>> A quick "git grep -i "fixed point" Documentation/userspace-ap=
+i/media/'
+> > >>>>>>>>> only shows a single driver specific control (dw100.rst).
+> > >>>>>>>>>
+> > >>>>>>>>> I'm not aware of other controls in mainline that use fixed po=
+int.
+> > >>>>>>>>
+> > >>>>>>>> The analog gain control for sensors for instance.
+> > >>>>>>>
+> > >>>>>>> Not really. The documentation is super vague:
+> > >>>>>>>
+> > >>>>>>> V4L2_CID_ANALOGUE_GAIN (integer)
+> > >>>>>>>
+> > >>>>>>>       Analogue gain is gain affecting all colour components in =
+the pixel matrix. The
+> > >>>>>>>       gain operation is performed in the analogue domain before=
+ A/D conversion.
+> > >>>>>>>
+> > >>>>>>> And the integer is just a range. Internally it might map to som=
+e fixed
+> > >>>>>>> point value, but userspace won't see that, it's hidden in the d=
+river AFAICT.
+> > >>>>>
+> > >>>>> It's hidden so well that libcamera has a database of the sensor i=
+t
+> > >>>>> supports, with formulas to map a real gain value to the
+> > >>>>> V4L2_CID_ANALOGUE_GAIN control. The encoding of the integer value=
+ does
+> > >>>>> matter, and the kernel doesn't expose it. We may or may not consi=
+der
+> > >>>>> that as a shortcoming of the V4L2 control API, but in any case it=
+'s the
+> > >>>>> situation we have today.
+> > >>>>>
+> > >>>>>> I wonder if Laurent meant digital gain.
+> > >>>>>
+> > >>>>> No, I meant analog. It applies to digital gain too though.
+> > >>>>>
+> > >>>>>> Those are often Q numbers. The practice there has been that the =
+default
+> > >>>>>> value yields gain of 1.
+> > >>>>>>
+> > >>>>>> There are probably many other examples in controls where somethi=
+ng being
+> > >>>>>> controlled isn't actually an integer while integer controls are =
+still being
+> > >>>>>> used for the purpose.
+> > >>>>>
+> > >>>>> A good summary of my opinion :-)
+> > >>>>
+> > >>>> And that works fine as long as userspace doesn't need to know what=
+ the value
+> > >>>> actually means.
+> > >>>>
+> > >>>> That's not the case here. The control is really a fractional Hz va=
+lue:
+> > >>>>
+> > >>>> +``V4L2_CID_M2M_AUDIO_SOURCE_RATE_OFFSET (fixed point)``
+> > >>>> +    Sets the offset from the audio source sample rate, unit is Hz=
+.
+> > >>>> +    The offset compensates for any clock drift. The actual source=
+ audio sample
+> > >>>> +    rate is the ideal source audio sample rate from
+> > >>>> +    ``V4L2_CID_M2M_AUDIO_SOURCE_RATE`` plus this fixed point offs=
+et.
+> > >>>
+> > >>> I don't see why this would require a new type, you can use
+> > >>> V4L2_CTRL_TYPE_INTEGER64, and document the control as containing
+> > >>> fixed-point values in Q31.32 format.
+> > >>
+> > >> Why would you want to do this? I can store a double in a long long i=
+nt,
+> > >> and just document that the variable is really a double, but why woul=
+d you?
+> > >
+> > > I'm happy we have no floating point control types ;-)
+> > >
+> > >> The cost of adding a FIXED_POINT type is minimal, and having this ty=
+pe
+> > >> makes it easy to work with fixed point controls (think about proper =
+reporting
+> > >> and setting of the value in v4l2-ctl and user applications in genera=
+l that
+> > >> deal with controls).
+> > >
+> > > The next thing you know is that someone will want a FIXED_POINT_Q15_1=
+6
+> > > type as 64-bit would be too large to store in a large array. And then
+> > > Q7.8. And Q3.12. And a bunch of other type. I really don't see what
+> > > added value they bring compared to using the 32-bit and 64-bit intege=
+r
+> > > types we already have. Every new type that is added adds complexity t=
+o
+> > > userspace that will need to deal with the type.
+> > >
+> > >> If this would add a thousand lines of complex code, then this would =
+be a
+> > >> consideration, but this is just a few lines.
+> > >>
+> > >> Just to give an example, if you use 'v4l2-ctl -l' to list a int64 co=
+ntrol
+> > >> and it reports the value 13958643712, would you be able to see that =
+that is
+> > >> really 3.25 in fixed point format? With the right type it would be p=
+rinted
+> > >> like that. Much easier to work work.
+> > >
+> > > The same is true for analog gains, where x1.23 or +12dB is nicer to r=
+ead
+> > > than raw values. If we care about printing values in command line too=
+ls
+> > > (which is nice to have, but certainly not the majority of use cases),
+> > > then I would recommand working on units support for V4L2 controls, to
+> > > convey how values are encoded, and in what unit they are expressed.
+> >
+> > So you prefer to have a way to specify the N value in QM.N as part
+> > of the control information?
+> >
+> > E.g. add a '__u8 fraction_bits' field to structs v4l2_query_ext_ctrl
+> > and v4l2_queryctrl. If 0, then it is an integer, otherwise it is the N
+> > in QM.N.
+> >
+> > I can go along with that. This would be valid for INTEGER, INTEGER64,
+> > U8, U16 and U32 controls (the last three are only used in control array=
+s).
+>
+> I think that would be nicer. Not only is it more flexible, but it also
+> allows applications to ignore that information, and still operate on
+> integer controls without any modification.
+>
+> > A better name for 'fraction_bits' is welcome, I took it from the wikipe=
+dia
+> > article: https://en.wikipedia.org/wiki/Fixed-point_arithmetic
+> >
 
+I like the idea and the name sounds fine to me too.
 
-> -----Original Message-----
-> From: Aakarsh Jain <aakarsh.jain@samsung.com>
-> Sent: Wednesday, October 25, 2023 3:52 PM
-> To: linux-arm-kernel@lists.infradead.org; linux-media@vger.kernel.org;
-> linux-kernel@vger.kernel.org; devicetree@vger.kernel.org
-> Cc: m.szyprowski@samsung.com; andrzej.hajda@intel.com;
-> mchehab@kernel.org; hverkuil-cisco@xs4all.nl;
-> krzysztof.kozlowski+dt@linaro.org; dillon.minfei@gmail.com;
-> david.plowman@raspberrypi.com; mark.rutland@arm.com;
-> robh+dt@kernel.org; conor+dt@kernel.org; linux-samsung-
-> soc@vger.kernel.org; andi@etezian.org; gost.dev@samsung.com;
-> alim.akhtar@samsung.com; aswani.reddy@samsung.com;
-> pankaj.dubey@samsung.com; ajaykumar.rs@samsung.com;
-> aakarsh.jain@samsung.com; linux-fsd@tesla.com; Smitha T Murthy
-> <smithatmurthy@gmail.com>
-> Subject: [Patch v4 03/11] media: s5p-mfc: Add initial support for MFCv12
-> 
-> Add support for MFCv12, with a new register file and necessary hw control,
-> decoder, encoder and structural changes. Add luma dbp, chroma dpb and mv
-> sizes for each codec as per the UM for MFCv12, along with appropriate
-> alignment.
-> 
-> Cc: linux-fsd@tesla.com
-> Signed-off-by: Smitha T Murthy <smithatmurthy@gmail.com>
-> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
-> ---
->  .../platform/samsung/s5p-mfc/regs-mfc-v12.h   | 50 +++++++++++
->  .../media/platform/samsung/s5p-mfc/s5p_mfc.c  | 30 +++++++
-> .../platform/samsung/s5p-mfc/s5p_mfc_common.h | 15 +++-
->  .../platform/samsung/s5p-mfc/s5p_mfc_ctrl.c   |  2 +-
->  .../platform/samsung/s5p-mfc/s5p_mfc_dec.c    |  6 +-
->  .../platform/samsung/s5p-mfc/s5p_mfc_enc.c    |  5 +-
->  .../platform/samsung/s5p-mfc/s5p_mfc_opr.h    |  8 +-
->  .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c | 83
-> ++++++++++++++++---  .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h |
-> 6 +-
->  9 files changed, 175 insertions(+), 30 deletions(-)  create mode 100644
-> drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h
-> 
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h
-> b/drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h
-> new file mode 100644
-> index 000000000000..6c68a45082d0
-> --- /dev/null
-> +++ b/drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h
-> @@ -0,0 +1,50 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Register definition file for Samsung MFC V12.x Interface (FIMV)
-> +driver
-> + *
-> + * Copyright (c) 2020 Samsung Electronics Co., Ltd.
-> + *     http://www.samsung.com/
-> + */
-> +
-> +#ifndef _REGS_MFC_V12_H
-> +#define _REGS_MFC_V12_H
-> +
-> +#include <linux/sizes.h>
-> +#include "regs-mfc-v10.h"
-> +
-> +/* MFCv12 Context buffer sizes */
-> +#define MFC_CTX_BUF_SIZE_V12		(30 * SZ_1K)
-> +#define MFC_H264_DEC_CTX_BUF_SIZE_V12	(2 * SZ_1M)
-> +#define MFC_OTHER_DEC_CTX_BUF_SIZE_V12	(30 * SZ_1K)
-> +#define MFC_H264_ENC_CTX_BUF_SIZE_V12	(100 * SZ_1K)
-> +#define MFC_HEVC_ENC_CTX_BUF_SIZE_V12	(40 * SZ_1K)
-> +#define MFC_OTHER_ENC_CTX_BUF_SIZE_V12	(25 * SZ_1K)
-> +
-> +/* MFCv12 variant defines */
-> +#define MAX_FW_SIZE_V12			(SZ_1M)
-> +#define MAX_CPB_SIZE_V12		(7 * SZ_1M)
-> +#define MFC_VERSION_V12			0xC0
-> +#define MFC_NUM_PORTS_V12		1
-> +#define S5P_FIMV_CODEC_VP9_ENC		27
-> +
-> +/* Encoder buffer size for MFCv12 */
-> +#define ENC_V120_BASE_SIZE(x, y) \
-> +	(((x + 3) * (y + 3) * 8) \
-> +	+ (((y * 64) + 2304) * (x + 7) / 8))
-> +
-> +#define ENC_V120_H264_ME_SIZE(x, y) \
-> +	ALIGN((ENC_V120_BASE_SIZE(x, y) \
-> +	+ (DIV_ROUND_UP(x * y, 64) * 32)), 256)
-> +
-> +#define ENC_V120_MPEG4_ME_SIZE(x, y) \
-> +	ALIGN((ENC_V120_BASE_SIZE(x, y) \
-> +	+ (DIV_ROUND_UP(x * y, 128) * 16)), 256)
-> +
-> +#define ENC_V120_VP8_ME_SIZE(x, y) \
-> +	ALIGN(ENC_V120_BASE_SIZE(x, y), 256)
-> +
-> +#define ENC_V120_HEVC_ME_SIZE(x, y)     \
-> +	ALIGN((((x + 3) * (y + 3) * 32)       \
-> +	+ (((y * 128) + 2304) * (x + 3) / 4)), 256)
-> +
-> +#endif /*_REGS_MFC_V12_H*/
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-> b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-> index e30e54935d79..dee9ef017997 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
-> @@ -790,6 +790,8 @@ static int s5p_mfc_open(struct file *file)
->  	INIT_LIST_HEAD(&ctx->dst_queue);
->  	ctx->src_queue_cnt = 0;
->  	ctx->dst_queue_cnt = 0;
-> +	ctx->is_422 = 0;
-> +	ctx->is_10bit = 0;
->  	/* Get context number */
->  	ctx->num = 0;
->  	while (dev->ctx[ctx->num]) {
-> @@ -1660,6 +1662,31 @@ static struct s5p_mfc_variant mfc_drvdata_v10 = {
->  	.fw_name[0]     = "s5p-mfc-v10.fw",
->  };
-> 
-> +static struct s5p_mfc_buf_size_v6 mfc_buf_size_v12 = {
-> +	.dev_ctx        = MFC_CTX_BUF_SIZE_V12,
-> +	.h264_dec_ctx   = MFC_H264_DEC_CTX_BUF_SIZE_V12,
-> +	.other_dec_ctx  = MFC_OTHER_DEC_CTX_BUF_SIZE_V12,
-> +	.h264_enc_ctx   = MFC_H264_ENC_CTX_BUF_SIZE_V12,
-> +	.hevc_enc_ctx   = MFC_HEVC_ENC_CTX_BUF_SIZE_V12,
-> +	.other_enc_ctx  = MFC_OTHER_ENC_CTX_BUF_SIZE_V12, };
-> +
-> +static struct s5p_mfc_buf_size buf_size_v12 = {
-> +	.fw     = MAX_FW_SIZE_V12,
-> +	.cpb    = MAX_CPB_SIZE_V12,
-> +	.priv   = &mfc_buf_size_v12,
-> +};
-> +
-> +static struct s5p_mfc_variant mfc_drvdata_v12 = {
-> +	.version        = MFC_VERSION_V12,
-> +	.version_bit    = MFC_V12_BIT,
-> +	.port_num       = MFC_NUM_PORTS_V12,
-> +	.buf_size       = &buf_size_v12,
-> +	.fw_name[0]     = "s5p-mfc-v12.fw",
-> +	.clk_names	= {"mfc"},
-> +	.num_clocks	= 1,
-> +};
-> +
->  static const struct of_device_id exynos_mfc_match[] = {
->  	{
->  		.compatible = "samsung,mfc-v5",
-> @@ -1682,6 +1709,9 @@ static const struct of_device_id
-> exynos_mfc_match[] = {
->  	}, {
->  		.compatible = "samsung,mfc-v10",
->  		.data = &mfc_drvdata_v10,
-> +	}, {
-> +		.compatible = "tesla,fsd-mfc",
-> +		.data = &mfc_drvdata_v12,
->  	},
->  	{},
->  };
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-> b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-> index e6ec4a43b290..dd2e9f7704ab 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
-> @@ -19,7 +19,7 @@
->  #include <media/v4l2-ioctl.h>
->  #include <media/videobuf2-v4l2.h>
->  #include "regs-mfc.h"
-> -#include "regs-mfc-v10.h"
-> +#include "regs-mfc-v12.h"
-> 
->  #define S5P_MFC_NAME		"s5p-mfc"
-> 
-> @@ -720,6 +720,8 @@ struct s5p_mfc_ctx {
->  	struct v4l2_ctrl *ctrls[MFC_MAX_CTRLS];
->  	struct v4l2_ctrl_handler ctrl_handler;
->  	size_t scratch_buf_size;
-> +	int is_10bit;
-> +	int is_422;
->  };
-> 
->  /*
-> @@ -775,6 +777,7 @@ void s5p_mfc_cleanup_queue(struct list_head *lh,
-> struct vb2_queue *vq);
->  #define IS_MFCV7_PLUS(dev)	(dev->variant->version >= 0x70)
->  #define IS_MFCV8_PLUS(dev)	(dev->variant->version >= 0x80)
->  #define IS_MFCV10_PLUS(dev)	(dev->variant->version >= 0xA0)
-> +#define IS_MFCV12(dev)		(dev->variant->version >= 0xC0)
->  #define FW_HAS_E_MIN_SCRATCH_BUF(dev) (IS_MFCV10_PLUS(dev))
-> 
->  #define MFC_V5_BIT	BIT(0)
-> @@ -782,11 +785,15 @@ void s5p_mfc_cleanup_queue(struct list_head *lh,
-> struct vb2_queue *vq);
->  #define MFC_V7_BIT	BIT(2)
->  #define MFC_V8_BIT	BIT(3)
->  #define MFC_V10_BIT	BIT(5)
-> +#define MFC_V12_BIT	BIT(7)
-> 
->  #define MFC_V5PLUS_BITS		(MFC_V5_BIT | MFC_V6_BIT |
-> MFC_V7_BIT | \
-> -					MFC_V8_BIT | MFC_V10_BIT)
-> +					MFC_V8_BIT | MFC_V10_BIT |
-> MFC_V12_BIT)
->  #define MFC_V6PLUS_BITS		(MFC_V6_BIT | MFC_V7_BIT |
-> MFC_V8_BIT | \
-> -					MFC_V10_BIT)
-> -#define MFC_V7PLUS_BITS		(MFC_V7_BIT | MFC_V8_BIT |
-> MFC_V10_BIT)
-> +					MFC_V10_BIT | MFC_V12_BIT)
-> +#define MFC_V7PLUS_BITS		(MFC_V7_BIT | MFC_V8_BIT |
-> MFC_V10_BIT | \
-> +					MFC_V12_BIT)
-> +
-> +#define MFC_V10PLUS_BITS	(MFC_V10_BIT | MFC_V12_BIT)
-> 
->  #endif /* S5P_MFC_COMMON_H_ */
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
-> b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
-> index 54b54b2fa9b1..b49159142c53 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
-> @@ -130,7 +130,7 @@ int s5p_mfc_reset(struct s5p_mfc_dev *dev)
->  			mfc_write(dev, 0, S5P_FIMV_REG_CLEAR_BEGIN_V6
-> + (i*4));
-> 
->  		/* check bus reset control before reset */
-> -		if (dev->risc_on)
-> +		if (dev->risc_on && !IS_MFCV12(dev))
-Please write in the comment why this is needed for V12
+> > Reporting unit names is certainly possible, but should perhaps be done
+> > with a separate ioctl? E.g. VIDIOC_QUERY_CTRL_UNIT. It is not typically
+> > needed for applications, unless they need to report values. In theory
+> > it can also be reported through VIDIOC_QUERY_EXT_CTRL by using, say,
+> > 4 of the reserved fields for a 'char unit[16];' field. But I feel a
+> > bit uncomfortable taking reserved fields for something that is rarely
+> > needed.
+>
+> I would make the unit an enumerated integer value. If it's a string, it
+> gets more difficult to operate on. Having to standardize a unit means
+> that the unit will get reviewed.
+>
 
->  			if (s5p_mfc_bus_reset(dev))
->  				return -EIO;
->  		/* Reset
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
-> b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
-> index 268ffe4da53c..e219cbcd86d5 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
-> @@ -146,7 +146,7 @@ static struct s5p_mfc_fmt formats[] = {
->  		.codec_mode	= S5P_FIMV_CODEC_HEVC_DEC,
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
-> -		.versions	= MFC_V10_BIT,
-> +		.versions	= MFC_V10PLUS_BITS,
->  		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
-> 
-> V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
->  	},
-> @@ -155,7 +155,7 @@ static struct s5p_mfc_fmt formats[] = {
->  		.codec_mode	= S5P_FIMV_CODEC_VP9_DEC,
->  		.type		= MFC_FMT_DEC,
->  		.num_planes	= 1,
-> -		.versions	= MFC_V10_BIT,
-> +		.versions	= MFC_V10PLUS_BITS,
->  		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
->  	},
->  };
-> @@ -355,7 +355,7 @@ static int vidioc_g_fmt(struct file *file, void *priv,
-> struct v4l2_format *f)
->  		pix_mp->width = ctx->buf_width;
->  		pix_mp->height = ctx->buf_height;
->  		pix_mp->field = V4L2_FIELD_NONE;
-> -		pix_mp->num_planes = 2;
-> +		pix_mp->num_planes = ctx->dst_fmt->num_planes;
->  		/* Set pixelformat to the format in which MFC
->  		   outputs the decoded frame */
->  		pix_mp->pixelformat = ctx->dst_fmt->fourcc; diff --git
-> a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-> b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-> index f62703cebb77..e4d6e7c117b5 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-> @@ -92,7 +92,7 @@ static struct s5p_mfc_fmt formats[] = {
->  		.codec_mode	= S5P_FIMV_CODEC_HEVC_ENC,
->  		.type		= MFC_FMT_ENC,
->  		.num_planes	= 1,
-> -		.versions	= MFC_V10_BIT,
-> +		.versions	= MFC_V10PLUS_BITS,
->  	},
->  };
-> 
-> @@ -1179,7 +1179,8 @@ static int enc_post_seq_start(struct s5p_mfc_ctx
-> *ctx)
->  		if (FW_HAS_E_MIN_SCRATCH_BUF(dev)) {
->  			ctx->scratch_buf_size = s5p_mfc_hw_call(dev-
-> >mfc_ops,
->  					get_e_min_scratch_buf_size, dev);
-> -			ctx->bank1.size += ctx->scratch_buf_size;
-> +			if (!IS_MFCV12(dev))
-> +				ctx->bank1.size += ctx->scratch_buf_size;
->  		}
->  		ctx->state = MFCINST_HEAD_PRODUCED;
->  	}
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr.h
-> b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr.h
-> index b9831275f3ab..87ac56756a16 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr.h
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr.h
-> @@ -166,9 +166,9 @@ struct s5p_mfc_regs {
->  	void __iomem *d_decoded_third_addr;/* only v7 */
->  	void __iomem *d_used_dpb_flag_upper;/* v7 and v8 */
->  	void __iomem *d_used_dpb_flag_lower;/* v7 and v8 */
-> -	void __iomem *d_min_scratch_buffer_size; /* v10 */
-> -	void __iomem *d_static_buffer_addr; /* v10 */
-> -	void __iomem *d_static_buffer_size; /* v10 */
-> +	void __iomem *d_min_scratch_buffer_size; /* v10 and v12 */
-> +	void __iomem *d_static_buffer_addr; /* v10 and v12 */
-> +	void __iomem *d_static_buffer_size; /* v10 and v12 */
-> 
->  	/* encoder registers */
->  	void __iomem *e_frame_width;
-> @@ -268,7 +268,7 @@ struct s5p_mfc_regs {
->  	void __iomem *e_vp8_hierarchical_qp_layer0;/* v7 and v8 */
->  	void __iomem *e_vp8_hierarchical_qp_layer1;/* v7 and v8 */
->  	void __iomem *e_vp8_hierarchical_qp_layer2;/* v7 and v8 */
-> -	void __iomem *e_min_scratch_buffer_size; /* v10 */
-> +	void __iomem *e_min_scratch_buffer_size; /* v10 and v12 */
->  	void __iomem *e_num_t_layer; /* v10 */
->  	void __iomem *e_hier_qp_layer0; /* v10 */
->  	void __iomem *e_hier_bit_rate_layer0; /* v10 */ diff --git
-> a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> index 882166e4ac50..fb3f0718821d 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-> @@ -60,12 +60,14 @@ static void
-> s5p_mfc_release_dec_desc_buffer_v6(struct s5p_mfc_ctx *ctx)  static int
-> s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)  {
->  	struct s5p_mfc_dev *dev = ctx->dev;
-> -	unsigned int mb_width, mb_height;
-> +	unsigned int mb_width, mb_height, width64, height32;
->  	unsigned int lcu_width = 0, lcu_height = 0;
->  	int ret;
-> 
->  	mb_width = MB_WIDTH(ctx->img_width);
->  	mb_height = MB_HEIGHT(ctx->img_height);
-> +	width64 = ALIGN(ctx->img_width, 64);
-> +	height32 = ALIGN(ctx->img_height, 32);
-> 
->  	if (ctx->type == MFCINST_DECODER) {
->  		mfc_debug(2, "Luma size:%d Chroma size:%d MV
-> size:%d\n", @@ -82,7 +84,44 @@ static int
-> s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->  			ctx->tmv_buffer_size =
-> S5P_FIMV_NUM_TMV_BUFFERS_V6 *
-> 
-> 	ALIGN(S5P_FIMV_TMV_BUFFER_SIZE_V6(mb_width, mb_height),
->  			S5P_FIMV_TMV_BUFFER_ALIGN_V6);
-> -		if (IS_MFCV10_PLUS(dev)) {
-> +		if (IS_MFCV12(dev)) {
-> +			lcu_width = S5P_MFC_LCU_WIDTH(ctx->img_width);
-> +			lcu_height = S5P_MFC_LCU_HEIGHT(ctx-
-> >img_height);
-> +			if (ctx->codec_mode ==
-> S5P_FIMV_CODEC_HEVC_ENC &&
-> +								ctx->is_10bit)
-> {
-> +				ctx->luma_dpb_size =
-> +					width64 * height32 +
-> +					ALIGN(DIV_ROUND_UP(lcu_width *
-> 32, 4),
-> +							16) * height32 + 128;
-> +				if (ctx->is_422)
-> +					ctx->chroma_dpb_size =
-> +						ctx->luma_dpb_size;
-> +				else
-> +					ctx->chroma_dpb_size =
-> +						width64 * height32 / 2 +
-> +
-> 	ALIGN(DIV_ROUND_UP(lcu_width *
-> +						32, 4), 16) * height32 / 2 +
-> 128;
-> +			} else if (ctx->codec_mode ==
-> S5P_FIMV_CODEC_VP9_ENC &&
-> +					ctx->is_10bit) {
-> +				ctx->luma_dpb_size =
-> +					ALIGN(ctx->img_width * 2, 128) *
-> +					height32 + 64;
-> +				ctx->chroma_dpb_size =
-> +					ALIGN(ctx->img_width * 2, 128) *
-> +					height32 / 2 + 64;
-> +			} else {
-> +				ctx->luma_dpb_size =
-> +					width64 * height32 + 64;
-> +				if (ctx->is_422)
-> +					ctx->chroma_dpb_size =
-> +						ctx->luma_dpb_size;
-> +				else
-> +					ctx->chroma_dpb_size =
-> +						width64 * height32 / 2 + 64;
-> +			}
-> +			ctx->luma_dpb_size = ALIGN(ctx->luma_dpb_size +
-> 256, SZ_2K);
-> +			ctx->chroma_dpb_size = ALIGN(ctx-
-> >chroma_dpb_size + 256, SZ_2K);
-> +		} else if (IS_MFCV10_PLUS(dev)) {
->  			lcu_width = S5P_MFC_LCU_WIDTH(ctx->img_width);
->  			lcu_height = S5P_MFC_LCU_HEIGHT(ctx-
-> >img_height);
->  			if (ctx->codec_mode !=
-> S5P_FIMV_CODEC_HEVC_ENC) { @@ -230,7 +269,11 @@ static int
-> s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->  			DEC_VP9_STATIC_BUFFER_SIZE;
->  		break;
->  	case S5P_MFC_CODEC_H264_ENC:
-> -		if (IS_MFCV10_PLUS(dev)) {
-> +		if (IS_MFCV12(dev)) {
-> +			mfc_debug(2, "Use min scratch buffer size\n");
-> +			ctx->me_buffer_size =
-> +				ENC_V120_H264_ME_SIZE(mb_width,
-> mb_height);
-> +		} else if (IS_MFCV10_PLUS(dev)) {
->  			mfc_debug(2, "Use min scratch buffer size\n");
->  			ctx->me_buffer_size =
->  			ALIGN(ENC_V100_H264_ME_SIZE(mb_width,
-> mb_height), 16); @@ -254,7 +297,11 @@ static int
-> s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->  		break;
->  	case S5P_MFC_CODEC_MPEG4_ENC:
->  	case S5P_MFC_CODEC_H263_ENC:
-> -		if (IS_MFCV10_PLUS(dev)) {
-> +		if (IS_MFCV12(dev)) {
-> +			mfc_debug(2, "Use min scratch buffer size\n");
-> +			ctx->me_buffer_size =
-> +				ENC_V120_MPEG4_ME_SIZE(mb_width,
-> mb_height);
-> +		} else if (IS_MFCV10_PLUS(dev)) {
->  			mfc_debug(2, "Use min scratch buffer size\n");
->  			ctx->me_buffer_size =
-> 
-> 	ALIGN(ENC_V100_MPEG4_ME_SIZE(mb_width,
-> @@ -273,7 +320,11 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct
-> s5p_mfc_ctx *ctx)
->  		ctx->bank2.size = 0;
->  		break;
->  	case S5P_MFC_CODEC_VP8_ENC:
-> -		if (IS_MFCV10_PLUS(dev)) {
-> +		if (IS_MFCV12(dev)) {
-> +			mfc_debug(2, "Use min scratch buffer size\n");
-> +			ctx->me_buffer_size =
-> +				ENC_V120_VP8_ME_SIZE(mb_width,
-> mb_height);
-> +		} else if (IS_MFCV10_PLUS(dev)) {
->  			mfc_debug(2, "Use min scratch buffer size\n");
->  			ctx->me_buffer_size =
->  				ALIGN(ENC_V100_VP8_ME_SIZE(mb_width,
-> mb_height), @@ -297,9 +348,14 @@ static int
-> s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
->  		ctx->bank2.size = 0;
->  		break;
->  	case S5P_MFC_CODEC_HEVC_ENC:
-> +		if (IS_MFCV12(dev))
-> +			ctx->me_buffer_size =
-> +				ENC_V120_HEVC_ME_SIZE(lcu_width,
-> lcu_height);
-> +		else
-> +			ctx->me_buffer_size =
-> +				ALIGN(ENC_V100_HEVC_ME_SIZE(lcu_width,
-> +							lcu_height), 16);
->  		mfc_debug(2, "Use min scratch buffer size\n");
-> -		ctx->me_buffer_size =
-> -			ALIGN(ENC_V100_HEVC_ME_SIZE(lcu_width,
-> lcu_height), 16);
->  		ctx->scratch_buf_size = ALIGN(ctx->scratch_buf_size, 256);
->  		ctx->bank1.size =
->  			ctx->scratch_buf_size + ctx->tmv_buffer_size + @@
-> -452,12 +508,15 @@ static void s5p_mfc_dec_calc_dpb_size_v6(struct
-> s5p_mfc_ctx *ctx)
-> 
->  	if (ctx->codec_mode == S5P_MFC_CODEC_H264_DEC ||
->  			ctx->codec_mode ==
-> S5P_MFC_CODEC_H264_MVC_DEC) {
-> -		if (IS_MFCV10_PLUS(dev)) {
-> -			ctx->mv_size = S5P_MFC_DEC_MV_SIZE_V10(ctx-
-> >img_width,
-> -					ctx->img_height);
-> +		if (IS_MFCV12(dev)) {
-> +			ctx->mv_size = S5P_MFC_DEC_MV_SIZE(ctx-
-> >img_width,
-> +					ctx->img_height, 1024);
-> +		} else if (IS_MFCV10_PLUS(dev)) {
-> +			ctx->mv_size = S5P_MFC_DEC_MV_SIZE(ctx-
-> >img_width,
-> +					ctx->img_height, 512);
->  		} else {
-> -			ctx->mv_size = S5P_MFC_DEC_MV_SIZE_V6(ctx-
-> >img_width,
-> -					ctx->img_height);
-> +			ctx->mv_size = S5P_MFC_DEC_MV_SIZE(ctx-
-> >img_width,
-> +					ctx->img_height, 128);
->  		}
->  	} else if (ctx->codec_mode == S5P_MFC_CODEC_HEVC_DEC) {
->  		ctx->mv_size = s5p_mfc_dec_hevc_mv_size(ctx-
-> >img_width,
-> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h
-> b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h
-> index e4dd03c5454c..30269f3e68e8 100644
-> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h
-> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h
-> @@ -19,10 +19,8 @@
-> 
->  #define MB_WIDTH(x_size)		DIV_ROUND_UP(x_size, 16)
->  #define MB_HEIGHT(y_size)		DIV_ROUND_UP(y_size, 16)
-> -#define S5P_MFC_DEC_MV_SIZE_V6(x, y)	(MB_WIDTH(x) * \
-> -					(((MB_HEIGHT(y)+1)/2)*2) * 64 +
-> 128)
-> -#define S5P_MFC_DEC_MV_SIZE_V10(x, y)	(MB_WIDTH(x) * \
-> -					(((MB_HEIGHT(y)+1)/2)*2) * 64 +
-> 512)
-> +#define S5P_MFC_DEC_MV_SIZE(x, y, offset)	(MB_WIDTH(x) * \
-> +					(((MB_HEIGHT(y)+1)/2)*2) * 64 +
-> offset)
->  #define S5P_MFC_LCU_WIDTH(x_size)	DIV_ROUND_UP(x_size, 32)
->  #define S5P_MFC_LCU_HEIGHT(y_size)	DIV_ROUND_UP(y_size, 32)
-> 
+What usage do we envision for units? Could one give some examples? My
+impression is that we already defined most of the controls with
+explicit units.
+
+> > >>>>>> Instead of this patch, I'd prefer to have a way to express the m=
+eaning of
+> > >>>>>> the control value, be it a Q number or something else, and do th=
+at
+> > >>>>>> independently of the type of the control.
+> > >>>>
+> > >>>> Huh? How is that different from the type of the control? You have =
+integers
+> > >>>> (one type) and fixed point (another type).
+> > >>>>
+> > >>>> Or do you want a more general V4L2_CTRL_TYPE_ that specifies the N=
+.M values
+> > >>>> explicitly?
+> > >>>>
+> > >>>> I think the main reason why we use integer controls for gain is th=
+at we
+> > >>>> never had a fixed point control type and you could get away with t=
+hat in
+> > >>>> user space for that particular use-case.
+> > >>>>
+> > >>>> Based on the V4L2_CID_NOTIFY_GAINS documentation the gain value ca=
+n typically
+> > >>>> be calculated as (value / default_value),
+> > >>>
+> > >>> Typically, but not always. Some sensor have an exponential gain mod=
+el,
+> > >>> and some have weird gain representation, such as 1/x. That's gettin=
+g out
+> > >>> of scope though.
+> > >>>
+> > >>>> but that won't work for a rate offset
+> > >>>> control as above, or for e.g. CSC matrices for color converters.
+> > >>>>
+> > >>>>> Agreed.
+> > >>>>>
+> > >>>>>>> In the case of this particular series the control type is reall=
+y a fixed point
+> > >>>>>>> value with a documented unit (Hz). It really is not something y=
+ou want to
+> > >>>>>>> use type INTEGER64 for.
+> > >>>>>>>
+> > >>>>>>>>> Note that V4L2_CTRL_TYPE_FIXED_POINT is a Q31.32 format. By s=
+etting
+> > >>>>>>>>> min/max/step you can easily map that to just about any QN.M f=
+ormat where
+> > >>>>>>>>> N <=3D 31 and M <=3D 32.
+> > >>>>>>>>>
+> > >>>>>>>>> In the case of dw100 it is a bit different in that it is quit=
+e specialized
+> > >>>>>>>>> and it had to fit in 16 bits.
+>
 > --
-> 2.17.1
-
-
+> Regards,
+>
+> Laurent Pinchart
 
