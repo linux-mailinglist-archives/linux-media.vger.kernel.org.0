@@ -1,388 +1,358 @@
-Return-Path: <linux-media+bounces-499-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-500-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353AE7EF313
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 13:55:54 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C0E47EF322
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 13:58:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B70511F22F25
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 12:55:53 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 851681F23CD7
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 12:58:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0083199DE;
-	Fri, 17 Nov 2023 12:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB18630352;
+	Fri, 17 Nov 2023 12:58:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EehiuVUe"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="KwjWeCbv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 254DB1706;
-	Fri, 17 Nov 2023 04:55:27 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6F3E09B6;
-	Fri, 17 Nov 2023 13:54:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700225697;
-	bh=WRVf0Y5R4XtTV2vTqZ+Ngk1m/M0gx0RxWzp8bjCw994=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=EehiuVUeIJ2fsZ6+FK1h2/BxF9QiiOTWB6xS2jiiJNlHzoO9e36vczMAHqENgSPoJ
-	 XqDHRTpqJWgo+MlPi3Py99KmBWH3S4qtj1qHmDN99JisbH05x+BohtIjnKJ16npzqf
-	 veWtMLub5K4RYs7ghbiN3rbvYsVS4fB7U/p2dJMM=
-Date: Fri, 17 Nov 2023 14:55:30 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Shengjiu Wang <shengjiu.wang@gmail.com>,
-	Shengjiu Wang <shengjiu.wang@nxp.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>, m.szyprowski@samsung.com,
-	mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com,
-	festevam@gmail.com, nicoleotsuka@gmail.com, lgirdwood@gmail.com,
-	broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
-	alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
-	Tomasz Figa <tfiga@chromium.org>
-Subject: Re: [PATCH v9 10/15] media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
-Message-ID: <20231117125530.GK21041@pendragon.ideasonboard.com>
-References: <da6efe14-c00d-4bf4-bf61-dd4ed39c5c60@xs4all.nl>
- <20231113124412.GA18974@pendragon.ideasonboard.com>
- <b35601f7-8bb2-4317-a8f7-6fbf81572943@xs4all.nl>
- <20231115105518.GD13826@pendragon.ideasonboard.com>
- <a67491c0-4fdf-4472-852c-e75f5e1d67af@xs4all.nl>
- <20231115114931.GE13826@pendragon.ideasonboard.com>
- <CAAFQd5BkCR=tYvmfjkOeTnjnccmURt8kEtiRee9CYqcz+FGHfg@mail.gmail.com>
- <7626e0f8-ce31-469e-b49c-f2fba664756f@xs4all.nl>
- <CAA+D8ANb6A9eh=MQR9+7sZi5jet+7RSHt6TdZqPz5EK6pBs3mA@mail.gmail.com>
- <6badc94c-c414-40d7-a9d7-8b3fc86d8d98@xs4all.nl>
+Received: from JPN01-TYC-obe.outbound.protection.outlook.com (mail-tycjpn01on2134.outbound.protection.outlook.com [40.107.114.134])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A82D4E;
+	Fri, 17 Nov 2023 04:58:43 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=YkuCpO8a6hH1C37q7oy16DPeVJrokS/OsBwjy7Q7VyBT13h318JwwycEv7R1DZZE5M0hrG1F26A9uoobCTX6WdiFKPWmCGyxhKi/mU3t5BUHBNA0iBzBhse0y4qU7IM9nGywANYlqjkSQK88CIJdc2qK3NZ8fOu3Ujx6dMWh4CmZi8uwowdltef6+w122AP0X1rJBdwtTpPalWxTmZpmLRhEsiQAghG6c+r2JfOHsjMfzlS1Q+ctwWRs2uj6EDh+j0u2wh/84tc1/gnjy8ELz12gXYYY7eGkjn2oOeQXP361Tx2ZlhpijBBP7JaMkTsZrwGt/14q5LBCK/mDD1aq4A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Z0PExbUbqNrXBkghTTvdAjizJmb/CSYUXl9owuH09jE=;
+ b=M80jVy7WN8JA+AjbPtxF+ZCe2RNCfU0XHhf26tJrFE2WG6puuBzrbBe1WmbNNUCNFolSgC2nhNkMCiTZ3jnhV8RHvxO9lgCl6ui4MSL8H8oN6m0wy2ykthQJbo6Yuh9npu6AgcX8oQa2UUiIkps8CBpr1ILCzq5+Nxk0m0KJOkkITIoxNjeQCAP19m6iDdrbBZu5u8gLcjlNHmVvdwcysP8mP6rG/bivEKjv8haHGpu0t7N6LzYeiSIfmnxiYIVq3KXZOaTFZEqm0CiKzMoBw43C8EVX+3rBeM2265JFgSZCaqqa0c+JacozpMgjsK0eL0m9ovWBr8b67awVdDy7oA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Z0PExbUbqNrXBkghTTvdAjizJmb/CSYUXl9owuH09jE=;
+ b=KwjWeCbvSrarjYeZVq0VCUxerfVxowwdY+xfseTpUVTi8u54pPKjsXIgndFO+MtS2zV3X4T7yf1VBJI7cCfIQko3MSnuKfC0mrucSYtl6yazaOqXK9vyus+IRvolrOyagG9Zbq+HfSkmbrpiLtg2KZh7s3jttwAqxGGx/fWJTwU=
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ (2603:1096:400:3c0::10) by OSZPR01MB7940.jpnprd01.prod.outlook.com
+ (2603:1096:604:1bc::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.23; Fri, 17 Nov
+ 2023 12:58:40 +0000
+Received: from TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6069:90c7:909:c89b]) by TYCPR01MB11269.jpnprd01.prod.outlook.com
+ ([fe80::6069:90c7:909:c89b%7]) with mapi id 15.20.7002.025; Fri, 17 Nov 2023
+ 12:58:38 +0000
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+CC: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	"linux-renesas-soc@vger.kernel.org" <linux-renesas-soc@vger.kernel.org>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: RE: [PATCH] media: vsp1: Remove unbalanced .s_stream(0) calls
+Thread-Topic: [PATCH] media: vsp1: Remove unbalanced .s_stream(0) calls
+Thread-Index: AQHaBoXxkGTpbl3jPUyC5YUf97AmyrB+nhsA
+Date: Fri, 17 Nov 2023 12:58:38 +0000
+Message-ID:
+ <TYCPR01MB11269593901BC517B1975BC7A86B7A@TYCPR01MB11269.jpnprd01.prod.outlook.com>
+References: <20231024142522.29658-1-laurent.pinchart+renesas@ideasonboard.com>
+In-Reply-To:
+ <20231024142522.29658-1-laurent.pinchart+renesas@ideasonboard.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TYCPR01MB11269:EE_|OSZPR01MB7940:EE_
+x-ms-office365-filtering-correlation-id: 3cbe446b-736e-4d1e-df4b-08dbe76ceaca
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info:
+ xWk12Zcie9nh3SspDl5vVJcbk2Jh++D8aqT0H7dOm7q9NdeeDlT+XYtWq5+RshCO8iOk9rve2suHdlBbO+xF1whLa28kmHHd8/u9U7vL+qHdgWMm5sGZ9XZoVjccKeLcjnYW8dkIPnpzlxcIeAgqd+0xbhIEu0MKfPhL2nHHEZW34vrHbUQSJ4owVW+9GvcNM6BdCqA98kcn5iKIXKfurzpq5LYyi9w72+nZ7raja1IeXuUdxkcMC42hTqaJ4538ZF0+4azgmiwcV4ZjXWDyJ4IWsGTk0y9O/FQbqIMcB1SGUgY+oJSNHvxtQ0iIQnXcNDYpZnbw+m2m+4oMlKmwUOmrrVKz1Wpg8trBUy3NT3koWjpbJVwC7tiV6X8tgNdRnJZDfVGRRDByLGCYsB29zo/PCqr/XGTQ+B2xgLPVuhVOzBqayrDqHjrC9X1UEfyyFlNzB2doCDcC6b83QCBy/Nmdb/dYk6AhO8X9NvbSGaHURw+HnQVrY5TGdOJskuvVcehp8wt4NJGaQKYUZ5SMUxIBo+Y0ENMmjuebsrDDbZnI8jxBA81KMp3CxOFJFgPxGEcLVprKSwv/x/WZ0WOrr15SVL7kPM47Rlfj1Y5NJkwxa3EZYE0HbuRwO/zXUXIqxzQRVuIz+lW/iM9ltV36+tCXBkgCvMu4V4EVxb0SP/QWajwmW6QnOKTGDzpnStjF
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TYCPR01MB11269.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(39860400002)(346002)(376002)(396003)(230273577357003)(230173577357003)(230922051799003)(186009)(64100799003)(451199024)(1800799009)(55016003)(86362001)(33656002)(478600001)(66556008)(66946007)(38070700009)(76116006)(110136005)(66476007)(66446008)(64756008)(316002)(6506007)(7696005)(9686003)(53546011)(4326008)(52536014)(8676002)(8936002)(71200400001)(26005)(54906003)(5660300002)(122000001)(83380400001)(2906002)(41300700001)(38100700002)(142923001);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?C+7cszloLgAa6c/vw0k1Dv78X1j0wXGKA1PAa5CArSMCNUGF3bMxx8mt1Um8?=
+ =?us-ascii?Q?jA7+hd9P/kbUbnuedcFoNGhOmLLB9YZedxHeUYZLIMvF2mseJEzl9jrnNObb?=
+ =?us-ascii?Q?nxlR6wQxCirWsVy318mrCmCnan9a+nA9G8s9WvdtaR6BoMf6FIz8tHJo8WBA?=
+ =?us-ascii?Q?3WFZcfE8OKi8mGTO610ya2ChRHuY7Hjo+/TGV7RfupWREc4EOTLDFkpRdJeO?=
+ =?us-ascii?Q?mjrMiJxwflEXECSY/yrx6NIe7bBhJtSXKFnpLIHILSfG0PzEPfKtpbIJWP8w?=
+ =?us-ascii?Q?1FPdJMIUSnPwnb4ZtUnzOFnOZ3w18h9D6EQkydXg98y/nuPIBGlp7aV+dyea?=
+ =?us-ascii?Q?8quMLpq1fGp7VQru1ubBdmtKuXPCMKpOdx1C9zrmMynN1+UAcbgPmnMwSQ7J?=
+ =?us-ascii?Q?wY9F4dHkhcikbKHHijW7slJKLObTEtgyUH5vMudyfBZ7Co84Nn8IB0q21I1g?=
+ =?us-ascii?Q?9ZpTCtBbRPDzCZjx53N22eONMTzGHMXUxCNRvUUeT/gYFliqrueC5cUHLDyV?=
+ =?us-ascii?Q?FdKa56ELLcXBZPzLi4j2kcwcSKAJtd8q5ZyWZ+IkpcLtbezGraD5LdaM69Y8?=
+ =?us-ascii?Q?8/SsyZ57rKhr82JY2F/IWz4nBqSFF/x3kgVSFnEPbY3MYcZ5oQg500m6xwZ0?=
+ =?us-ascii?Q?vnc2gKmefh/3t55RwD3yiyaExjwOL9YleHyFLb2308Y6XscWohZqUYRgD+NZ?=
+ =?us-ascii?Q?+8Wn0NU7cPRoxABZYbVOC2eLhEpzdg9DNsxPtduG+NaqVpXJ2MUfHXgqw3hb?=
+ =?us-ascii?Q?tSHGrRvFc0tuH3NNsGefxaqO2m6ygiS6ZbVyOhs2L2tnvOSJFWItaxy3y5CZ?=
+ =?us-ascii?Q?ZnGWUzHCKk9Ta4LR/2Lvl/0h8G1SQEqqpg6vnxqU3bQQsXQRpeNOOFR31YVu?=
+ =?us-ascii?Q?VL9L8wzIfwlhStO/01eg0+WVV2A+8xiRxjXElDVR4U1XOYSuSkIatYfCsi1c?=
+ =?us-ascii?Q?6nVA4b08TOAxcDHngjLMg19MoAX9uErwrt9TN+HNrZ0C4veb+5qYjgp+6roa?=
+ =?us-ascii?Q?+4w+oebZKuXWAhiu4SGtm+leCKY6TRMmiVuCXQVQML2mk90o+YJRF4ByiuLV?=
+ =?us-ascii?Q?eEJJaqdKc1LdEl5Pn4ow/unj7CBb9+0vhELpUeu89rqbLQzlDEfqCBDu5jmI?=
+ =?us-ascii?Q?8bPlHX57/tYqtC1Pkrh9R2R0815jjPXRCJy0L587Oj03sql5jRbDByCmhWiz?=
+ =?us-ascii?Q?XfXayZPQSkBaw6Nl4a03e/8aTFF0UPcMteKF5RsMM6n7TgQd9wHt82RY+9je?=
+ =?us-ascii?Q?ujIGAqTYrlWlZa3gSjfe8gSUD7g7jhF4hh4ALGyKq1tlC9DG4wXgcbPlsKu6?=
+ =?us-ascii?Q?ocaebkc16PsejAytZ4no5y9lk/mgM8KNcpEasjNDX4dHpGmO3sjT5nhB9Nrp?=
+ =?us-ascii?Q?aHqiqtmPVeaGLM7YUDmcKzOKcH1LHUZoK36MWgoE5yIFMPdI5uO9O6N5GG8H?=
+ =?us-ascii?Q?6+Uk1NH/XifGlP0WlRvKyNVC9nZyyNNBgYfpuNKt4yriqUEZMbpkEGdZ9Xt/?=
+ =?us-ascii?Q?BcGPDUMRWJA20611Q6q6eq7WJnFj3HSruPMzvXUBDmPu3VUy16eA8uvFx2qC?=
+ =?us-ascii?Q?IZxBhvwEK6i/5Ka9wEmqIoGVrN29QrgNAPNxxfDsICOYm0TghCVl4p3CY4DK?=
+ =?us-ascii?Q?ZA=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <6badc94c-c414-40d7-a9d7-8b3fc86d8d98@xs4all.nl>
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TYCPR01MB11269.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3cbe446b-736e-4d1e-df4b-08dbe76ceaca
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2023 12:58:38.4694
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: v0irIAZ+qIxOeZrlD4Z52zUap5HtlvK68EyPO4OxxXE7H/ExQg/ABrJxlKC5Fd71SSyEkXDABI4dkup7eoC0gCl9Cze9mrcAIcuIGvwLisk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSZPR01MB7940
 
-Hi Hans,
+Hi Laurent,
 
-Thank you for the patch.
+Thanks for the patch.
 
-On Fri, Nov 17, 2023 at 01:07:44PM +0100, Hans Verkuil wrote:
-> Here is an RFC patch adding support for 'fraction_bits'. It's lacking
-> documentation, but it can be used for testing.
-> 
-> It was rather a pain logging fixed point number in a reasonable format,
-> but I think it is OK.
-> 
-> In userspace (where you can use floating point) it is a lot easier:
-> 
-> printf("%.*g\n", fraction_bits, (double)v * (1.0 / (1ULL << fraction_bits)));
-> 
-> I decided to only expose fraction_bits in struct v4l2_query_ext_ctrl.
-> I could add it to struct v4l2_queryctrl, but I did not think that was
-> necessary. Other opinions are welcome.
+> -----Original Message-----
+> From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Sent: Tuesday, October 24, 2023 3:25 PM
+> To: linux-media@vger.kernel.org
+> Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>; linux-renesas-
+> soc@vger.kernel.org; Geert Uytterhoeven <geert@linux-m68k.org>
+> Subject: [PATCH] media: vsp1: Remove unbalanced .s_stream(0) calls
+>=20
+> The VSP1 driver uses the subdev .s_stream() operation to stop WPF
+> instances, without a corresponding call to start them. The V4L2 subdev
+> core started warning about unbalanced .s_stream() calls in commit
+> 009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream()
+> requirements"), causing a regression with this driver.
+>=20
+> Fix the problem by replacing the .s_stream() operation with an explicit
+> function call for WPF instances. This allows sharing an additional data
+> structure between RPF and WPF instances.
+>=20
+> Fixes: 009905ec5043 ("media: v4l2-subdev: Document and enforce .s_stream(=
+)
+> requirements")
+> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
+> Closes:
+> Signed-off-by: Laurent Pinchart
+> <laurent.pinchart+renesas@ideasonboard.com>
 
-Agreed.
+Unbind/ bind calls works fine on RZ/G2L DRM driver with this patch.
 
-> In the meantime, let me know if this works for your patch series. If it
-> does, then I can clean this up.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Tested-by: Biju Das <biju.das.jz@bp.renesas.com>
+
+Cheers,
+Biju
+
 > ---
->  drivers/media/v4l2-core/v4l2-ctrls-api.c  |  1 +
->  drivers/media/v4l2-core/v4l2-ctrls-core.c | 72 +++++++++++++++++++----
->  include/media/v4l2-ctrls.h                |  7 ++-
->  include/uapi/linux/videodev2.h            | 20 ++++++-
->  4 files changed, 85 insertions(+), 15 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> index 002ea6588edf..3132df315b17 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-> @@ -1101,6 +1101,7 @@ int v4l2_query_ext_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_query_ext_ctr
->  	qc->elems = ctrl->elems;
->  	qc->nr_of_dims = ctrl->nr_of_dims;
->  	memcpy(qc->dims, ctrl->dims, qc->nr_of_dims * sizeof(qc->dims[0]));
-> +	qc->fraction_bits = ctrl->fraction_bits;
->  	qc->minimum = ctrl->minimum;
->  	qc->maximum = ctrl->maximum;
->  	qc->default_value = ctrl->default_value;
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index a662fb60f73f..0e08a371af5c 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -252,12 +252,42 @@ void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
+>  .../media/platform/renesas/vsp1/vsp1_pipe.c   |  2 +-
+>  .../media/platform/renesas/vsp1/vsp1_rpf.c    | 10 +------
+>  .../media/platform/renesas/vsp1/vsp1_rwpf.c   |  8 +++--
+>  .../media/platform/renesas/vsp1/vsp1_rwpf.h   |  4 ++-
+>  .../media/platform/renesas/vsp1/vsp1_wpf.c    | 29 ++-----------------
+>  5 files changed, 14 insertions(+), 39 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> index f8093ba9539e..68d05243c3ee 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+> @@ -373,7 +373,7 @@ int vsp1_pipeline_stop(struct vsp1_pipeline *pipe)
+>  			   (7 << VI6_DPR_SMPPT_TGW_SHIFT) |
+>  			   (VI6_DPR_NODE_UNUSED << VI6_DPR_SMPPT_PT_SHIFT));
+>=20
+> -	v4l2_subdev_call(&pipe->output->entity.subdev, video, s_stream, 0);
+> +	vsp1_wpf_stop(pipe->output);
+>=20
+>  	return ret;
 >  }
->  EXPORT_SYMBOL(v4l2_ctrl_type_op_init);
-> 
-> +static void v4l2_ctrl_log_fp(s64 v, unsigned int fraction_bits)
-> +{
-> +	s64 i = v4l2_fp_integer(v, fraction_bits);
-> +	s64 f = v4l2_fp_fraction(v, fraction_bits);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> index 3b17f5fa4067..ea12c3f12c92 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rpf.c
+> @@ -43,14 +43,6 @@ static inline void vsp1_rpf_write(struct vsp1_rwpf
+> *rpf,
+>  			       data);
+>  }
+>=20
+> -/* ---------------------------------------------------------------------=
+-
+> -------
+> - * V4L2 Subdevice Operations
+> - */
+> -
+> -static const struct v4l2_subdev_ops rpf_ops =3D {
+> -	.pad    =3D &vsp1_rwpf_pad_ops,
+> -};
+> -
+>  /* ---------------------------------------------------------------------=
+-
+> -------
+>   * VSP1 Entity Operations
+>   */
+> @@ -411,7 +403,7 @@ struct vsp1_rwpf *vsp1_rpf_create(struct vsp1_device
+> *vsp1, unsigned int index)
+>  	rpf->entity.index =3D index;
+>=20
+>  	sprintf(name, "rpf.%u", index);
+> -	ret =3D vsp1_entity_init(vsp1, &rpf->entity, name, 2, &rpf_ops,
+> +	ret =3D vsp1_entity_init(vsp1, &rpf->entity, name, 2,
+> +&vsp1_rwpf_subdev_ops,
+>  			       MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER);
+>  	if (ret < 0)
+>  		return ERR_PTR(ret);
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> index 22a82d218152..e0f87c8103ca 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.c
+> @@ -24,7 +24,7 @@ struct v4l2_rect *vsp1_rwpf_get_crop(struct vsp1_rwpf
+> *rwpf,  }
+>=20
+>  /* ---------------------------------------------------------------------=
+-
+> -------
+> - * V4L2 Subdevice Pad Operations
+> + * V4L2 Subdevice Operations
+>   */
+>=20
+>  static int vsp1_rwpf_enum_mbus_code(struct v4l2_subdev *subdev, @@ -243,=
+7
+> +243,7 @@ static int vsp1_rwpf_set_selection(struct v4l2_subdev *subdev,
+>  	return ret;
+>  }
+>=20
+> -const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops =3D {
+> +static const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops =3D {
+>  	.init_cfg =3D vsp1_entity_init_cfg,
+>  	.enum_mbus_code =3D vsp1_rwpf_enum_mbus_code,
+>  	.enum_frame_size =3D vsp1_rwpf_enum_frame_size, @@ -253,6 +253,10 @@
+> const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops =3D {
+>  	.set_selection =3D vsp1_rwpf_set_selection,  };
+>=20
+> +const struct v4l2_subdev_ops vsp1_rwpf_subdev_ops =3D {
+> +	.pad    =3D &vsp1_rwpf_pad_ops,
+> +};
 > +
-> +	if (!f) {
-> +		pr_cont("%lld", i);
-> +	} else if (fraction_bits < 20) {
-> +		u64 div = 1ULL << fraction_bits;
+>  /* ---------------------------------------------------------------------=
+-
+> -------
+>   * Controls
+>   */
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+> b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+> index eac5c04c2239..e0d212c70b2f 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_rwpf.h
+> @@ -79,9 +79,11 @@ static inline struct vsp1_rwpf *entity_to_rwpf(struct
+> vsp1_entity *entity)  struct vsp1_rwpf *vsp1_rpf_create(struct vsp1_devic=
+e
+> *vsp1, unsigned int index);  struct vsp1_rwpf *vsp1_wpf_create(struct
+> vsp1_device *vsp1, unsigned int index);
+>=20
+> +void vsp1_wpf_stop(struct vsp1_rwpf *wpf);
 > +
-> +		if (!i && f < 0)
-> +			pr_cont("-%lld/%llu", -f, div);
-> +		else if (!i)
-> +			pr_cont("%lld/%llu", f, div);
-> +		else if (i < 0 || f < 0)
-> +			pr_cont("-%lld-%llu/%llu", -i, -f, div);
-> +		else
-> +			pr_cont("%lld+%llu/%llu", i, f, div);
-> +	} else {
-> +		if (!i && f < 0)
-> +			pr_cont("-%lld/(2^%u)", -f, fraction_bits);
-> +		else if (!i)
-> +			pr_cont("%lld/(2^%u)", f, fraction_bits);
-> +		else if (i < 0 || f < 0)
-> +			pr_cont("-%lld-%llu/(2^%u)", -i, -f, fraction_bits);
-> +		else
-> +			pr_cont("%lld+%llu/(2^%u)", i, f, fraction_bits);
-> +	}
-> +}
-> +
->  void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+>  int vsp1_rwpf_init_ctrls(struct vsp1_rwpf *rwpf, unsigned int ncontrols)=
+;
+>=20
+> -extern const struct v4l2_subdev_pad_ops vsp1_rwpf_pad_ops;
+> +extern const struct v4l2_subdev_ops vsp1_rwpf_subdev_ops;
+>=20
+>  struct v4l2_rect *vsp1_rwpf_get_crop(struct vsp1_rwpf *rwpf,
+>  				     struct v4l2_subdev_state *sd_state); diff --
+> git a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> index d0074ca00920..cab4445eca69 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_wpf.c
+> @@ -186,17 +186,13 @@ static int wpf_init_controls(struct vsp1_rwpf
+> *wpf)  }
+>=20
+>  /* ---------------------------------------------------------------------=
+-
+> -------
+> - * V4L2 Subdevice Core Operations
+> + * VSP1 Entity Operations
+>   */
+>=20
+> -static int wpf_s_stream(struct v4l2_subdev *subdev, int enable)
+> +void vsp1_wpf_stop(struct vsp1_rwpf *wpf)
 >  {
->  	union v4l2_ctrl_ptr ptr = ctrl->p_cur;
-> 
->  	if (ctrl->is_array) {
-> -		unsigned i;
-> +		unsigned int i;
-> 
->  		for (i = 0; i < ctrl->nr_of_dims; i++)
->  			pr_cont("[%u]", ctrl->dims[i]);
-> @@ -266,7 +296,10 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
-> 
->  	switch (ctrl->type) {
->  	case V4L2_CTRL_TYPE_INTEGER:
-> -		pr_cont("%d", *ptr.p_s32);
-> +		if (!ctrl->fraction_bits)
-> +			pr_cont("%d", *ptr.p_s32);
-> +		else
-> +			v4l2_ctrl_log_fp(*ptr.p_s32, ctrl->fraction_bits);
->  		break;
->  	case V4L2_CTRL_TYPE_BOOLEAN:
->  		pr_cont("%s", *ptr.p_s32 ? "true" : "false");
-> @@ -281,19 +314,31 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
->  		pr_cont("0x%08x", *ptr.p_s32);
->  		break;
->  	case V4L2_CTRL_TYPE_INTEGER64:
-> -		pr_cont("%lld", *ptr.p_s64);
-> +		if (!ctrl->fraction_bits)
-> +			pr_cont("%lld", *ptr.p_s64);
-> +		else
-> +			v4l2_ctrl_log_fp(*ptr.p_s64, ctrl->fraction_bits);
->  		break;
->  	case V4L2_CTRL_TYPE_STRING:
->  		pr_cont("%s", ptr.p_char);
->  		break;
->  	case V4L2_CTRL_TYPE_U8:
-> -		pr_cont("%u", (unsigned)*ptr.p_u8);
-> +		if (!ctrl->fraction_bits)
-> +			pr_cont("%u", (unsigned int)*ptr.p_u8);
-> +		else
-> +			v4l2_ctrl_log_fp((unsigned int)*ptr.p_u8, ctrl->fraction_bits);
->  		break;
->  	case V4L2_CTRL_TYPE_U16:
-> -		pr_cont("%u", (unsigned)*ptr.p_u16);
-> +		if (!ctrl->fraction_bits)
-> +			pr_cont("%u", (unsigned int)*ptr.p_u16);
-> +		else
-> +			v4l2_ctrl_log_fp((unsigned int)*ptr.p_u16, ctrl->fraction_bits);
->  		break;
->  	case V4L2_CTRL_TYPE_U32:
-> -		pr_cont("%u", (unsigned)*ptr.p_u32);
-> +		if (!ctrl->fraction_bits)
-> +			pr_cont("%u", (unsigned int)*ptr.p_u32);
-> +		else
-> +			v4l2_ctrl_log_fp((unsigned int)*ptr.p_u32, ctrl->fraction_bits);
->  		break;
->  	case V4L2_CTRL_TYPE_H264_SPS:
->  		pr_cont("H264_SPS");
-> @@ -1752,7 +1797,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->  			u32 id, const char *name, enum v4l2_ctrl_type type,
->  			s64 min, s64 max, u64 step, s64 def,
->  			const u32 dims[V4L2_CTRL_MAX_DIMS], u32 elem_size,
-> -			u32 flags, const char * const *qmenu,
-> +			u32 fraction_bits, u32 flags, const char * const *qmenu,
->  			const s64 *qmenu_int, const union v4l2_ctrl_ptr p_def,
->  			void *priv)
->  {
-> @@ -1939,6 +1984,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->  	ctrl->name = name;
->  	ctrl->type = type;
->  	ctrl->flags = flags;
-> +	ctrl->fraction_bits = fraction_bits;
->  	ctrl->minimum = min;
->  	ctrl->maximum = max;
->  	ctrl->step = step;
-> @@ -2037,7 +2083,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
->  	ctrl = v4l2_ctrl_new(hdl, cfg->ops, cfg->type_ops, cfg->id, name,
->  			type, min, max,
->  			is_menu ? cfg->menu_skip_mask : step, def,
-> -			cfg->dims, cfg->elem_size,
-> +			cfg->dims, cfg->elem_size, cfg->fraction_bits,
->  			flags, qmenu, qmenu_int, cfg->p_def, priv);
->  	if (ctrl)
->  		ctrl->is_private = cfg->is_private;
-> @@ -2062,7 +2108,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std(struct v4l2_ctrl_handler *hdl,
->  		return NULL;
->  	}
->  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
-> -			     min, max, step, def, NULL, 0,
-> +			     min, max, step, def, NULL, 0, 0,
->  			     flags, NULL, NULL, ptr_null, NULL);
+> -	struct vsp1_rwpf *wpf =3D to_rwpf(subdev);
+>  	struct vsp1_device *vsp1 =3D wpf->entity.vsp1;
+>=20
+> -	if (enable)
+> -		return 0;
+> -
+>  	/*
+>  	 * Write to registers directly when stopping the stream as there
+> will be
+>  	 * no pipeline run to apply the display list.
+> @@ -204,27 +200,8 @@ static int wpf_s_stream(struct v4l2_subdev *subdev,
+> int enable)
+>  	vsp1_write(vsp1, VI6_WPF_IRQ_ENB(wpf->entity.index), 0);
+>  	vsp1_write(vsp1, wpf->entity.index * VI6_WPF_OFFSET +
+>  		   VI6_WPF_SRCRPF, 0);
+> -
+> -	return 0;
 >  }
->  EXPORT_SYMBOL(v4l2_ctrl_new_std);
-> @@ -2095,7 +2141,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu(struct v4l2_ctrl_handler *hdl,
->  		return NULL;
->  	}
->  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
-> -			     0, max, mask, def, NULL, 0,
-> +			     0, max, mask, def, NULL, 0, 0,
->  			     flags, qmenu, qmenu_int, ptr_null, NULL);
->  }
->  EXPORT_SYMBOL(v4l2_ctrl_new_std_menu);
-> @@ -2127,7 +2173,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
->  		return NULL;
->  	}
->  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
-> -			     0, max, mask, def, NULL, 0,
-> +			     0, max, mask, def, NULL, 0, 0,
->  			     flags, qmenu, NULL, ptr_null, NULL);
-> 
->  }
-> @@ -2149,7 +2195,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
->  		return NULL;
->  	}
->  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
-> -			     min, max, step, def, NULL, 0,
-> +			     min, max, step, def, NULL, 0, 0,
->  			     flags, NULL, NULL, p_def, NULL);
->  }
->  EXPORT_SYMBOL(v4l2_ctrl_new_std_compound);
-> @@ -2173,7 +2219,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
->  		return NULL;
->  	}
->  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
-> -			     0, max, 0, def, NULL, 0,
-> +			     0, max, 0, def, NULL, 0, 0,
->  			     flags, NULL, qmenu_int, ptr_null, NULL);
->  }
->  EXPORT_SYMBOL(v4l2_ctrl_new_int_menu);
-> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> index 59679a42b3e7..c35514c5bf88 100644
-> --- a/include/media/v4l2-ctrls.h
-> +++ b/include/media/v4l2-ctrls.h
-> @@ -211,7 +211,8 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
->   *		except for dynamic arrays. In that case it is in the range of
->   *		1 to @p_array_alloc_elems.
->   * @dims:	The size of each dimension.
-> - * @nr_of_dims:The number of dimensions in @dims.
-> + * @nr_of_dims: The number of dimensions in @dims.
-> + * @fraction_bits: The number of fraction bits for fixed point values.
->   * @menu_skip_mask: The control's skip mask for menu controls. This makes it
->   *		easy to skip menu items that are not valid. If bit X is set,
->   *		then menu item X is skipped. Of course, this only works for
-> @@ -228,6 +229,7 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
->   *		:math:`ceil(\frac{maximum - minimum}{step}) + 1`.
->   *		Used only if the @type is %V4L2_CTRL_TYPE_INTEGER_MENU.
->   * @flags:	The control's flags.
-> + * @fraction_bits: The number of fraction bits for fixed point values.
->   * @priv:	The control's private pointer. For use by the driver. It is
->   *		untouched by the control framework. Note that this pointer is
->   *		not freed when the control is deleted. Should this be needed
-> @@ -286,6 +288,7 @@ struct v4l2_ctrl {
->  	u32 new_elems;
->  	u32 dims[V4L2_CTRL_MAX_DIMS];
->  	u32 nr_of_dims;
-> +	u32 fraction_bits;
->  	union {
->  		u64 step;
->  		u64 menu_skip_mask;
-> @@ -426,6 +429,7 @@ struct v4l2_ctrl_handler {
->   * @dims:	The size of each dimension.
->   * @elem_size:	The size in bytes of the control.
->   * @flags:	The control's flags.
-> + * @fraction_bits: The number of fraction bits for fixed point values.
->   * @menu_skip_mask: The control's skip mask for menu controls. This makes it
->   *		easy to skip menu items that are not valid. If bit X is set,
->   *		then menu item X is skipped. Of course, this only works for
-> @@ -455,6 +459,7 @@ struct v4l2_ctrl_config {
->  	u32 dims[V4L2_CTRL_MAX_DIMS];
->  	u32 elem_size;
->  	u32 flags;
-> +	u32 fraction_bits;
->  	u64 menu_skip_mask;
->  	const char * const *qmenu;
->  	const s64 *qmenu_int;
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index c3d4e490ce7c..26ecac19722a 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -1944,9 +1944,27 @@ struct v4l2_query_ext_ctrl {
->  	__u32                elems;
->  	__u32                nr_of_dims;
->  	__u32                dims[V4L2_CTRL_MAX_DIMS];
-> -	__u32		     reserved[32];
-> +	__u32                fraction_bits;
+>=20
+> -/* ---------------------------------------------------------------------=
+-
+> -------
+> - * V4L2 Subdevice Operations
+> - */
+> -
+> -static const struct v4l2_subdev_video_ops wpf_video_ops =3D {
+> -	.s_stream =3D wpf_s_stream,
+> -};
+> -
+> -static const struct v4l2_subdev_ops wpf_ops =3D {
+> -	.video	=3D &wpf_video_ops,
+> -	.pad    =3D &vsp1_rwpf_pad_ops,
+> -};
+> -
+> -/* ---------------------------------------------------------------------=
+-
+> -------
+> - * VSP1 Entity Operations
+> - */
+> -
+>  static void vsp1_wpf_destroy(struct vsp1_entity *entity)  {
+>  	struct vsp1_rwpf *wpf =3D entity_to_rwpf(entity); @@ -583,7 +560,7 @@
+> struct vsp1_rwpf *vsp1_wpf_create(struct vsp1_device *vsp1, unsigned int
+> index)
+>  	wpf->entity.index =3D index;
+>=20
+>  	sprintf(name, "wpf.%u", index);
+> -	ret =3D vsp1_entity_init(vsp1, &wpf->entity, name, 2, &wpf_ops,
+> +	ret =3D vsp1_entity_init(vsp1, &wpf->entity, name, 2,
+> +&vsp1_rwpf_subdev_ops,
+>  			       MEDIA_ENT_F_PROC_VIDEO_PIXEL_FORMATTER);
+>  	if (ret < 0)
+>  		return ERR_PTR(ret);
+>=20
+> base-commit: 19e67e01eb1e84f3529770d084b93f16a4894c42
+> --
+> Regards,
+>=20
+> Laurent Pinchart
 
-Thinking forward, what if the control uses a different type of
-quantization, for instance if the control is exponential instead of
-linear ? Is this something we want to plan for already (without
-necessarily implementing it yet) ? For instance, the CCS spec defines a
-linear gain model where the gain is expressed as
-
-	gain = (m0 * x + c0) / (m1 * x + c1)
-
-where x is the control value, gain is the real gain, and m0, c0, m1 and
-c1 are device-specific 16-bit integer constants (with the constraint
-that one of m0 and m1 has to be zero, but not both).
-
-There's also an exponential model in CCS, with
-
-	gain = linear_gain * 2 ^ exponential_gain
-
-where linear_gain and exponential_gain are U8.8 values.
-
-> +	__u32		     reserved[31];
->  };
-> 
-> +static inline __s64 v4l2_fp_compose(__s64 i, __s64 f, unsigned int fraction_bits)
-> +{
-> +	return (i << fraction_bits) + f;
-> +}
-> +
-> +static inline __s64 v4l2_fp_integer(__s64 v, unsigned int fraction_bits)
-> +{
-> +	return v / (1LL << fraction_bits);
-> +}
-> +
-> +static inline __s64 v4l2_fp_fraction(__s64 v, unsigned int fraction_bits)
-> +{
-> +	__u64 mask = (1ULL << fraction_bits) - 1;
-> +
-> +	return v < 0 ? -((-v) & mask) : (v & mask);
-> +}
-
-I woudln't add static inline functions to the UAPI. They cause licensing
-issues, and increase the UAPI surface, thus making UAPI evolutions more
-difficult.
-
-> +
->  /*  Used in the VIDIOC_QUERYMENU ioctl for querying menu items */
->  struct v4l2_querymenu {
->  	__u32		id;
-
--- 
-Regards,
-
-Laurent Pinchart
 
