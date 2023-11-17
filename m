@@ -1,397 +1,366 @@
-Return-Path: <linux-media+bounces-495-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-496-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBF607EF24B
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 13:07:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7D717EF275
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 13:16:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8045328126F
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 12:07:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAE721C209FB
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 12:16:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D33630356;
-	Fri, 17 Nov 2023 12:07:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEC8230656;
+	Fri, 17 Nov 2023 12:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="UnZlqsnD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB9CD30336
-	for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 12:07:50 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C6799C433C7;
-	Fri, 17 Nov 2023 12:07:45 +0000 (UTC)
-Message-ID: <6badc94c-c414-40d7-a9d7-8b3fc86d8d98@xs4all.nl>
-Date: Fri, 17 Nov 2023 13:07:44 +0100
+Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on2055.outbound.protection.outlook.com [40.107.14.55])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83583196;
+	Fri, 17 Nov 2023 04:15:58 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=TC5zTTEQkzfOlfAX/KS2XSJ1Fe55bq2xLzNbBwzm6yhiBi+5IXkXgxeQJHlizoV9gykqZYS0xk23xsvcJthOeo2ygzDpXccVfzRQYYsbExZCaeE3bHQ2gEXYH9r/IoPw5JSCZQHwCj/2K76Mi9jQPtka7TiRv4wvBWYBPLGoLo09v/FSQVOiM7GG2dfdJZO32SA5dl09ZNAYpTki9O5xpOPgOxUDE7bSuBEfO9l8X6+TPLBgaf6ahATEtQrRyFkKP5dRX7asSokbCwymyIHQLNe9P0HCKGgYpHe0g18t8qCxNFdkm5Z8seS3mIdEFJ1MiFolWfm1pZYo6JcMCiPjZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6oQivDRcVc2tYZ+iYZyvBx9mWvK6bp0A82dsI9N9puo=;
+ b=Sqv3dmd2C4A3BBo5zOJC/r1iBc6MCIPIEcP1Uhq89iOX77mpcPl2D+dMGNvZQU8LVCoB5F7Es/0lzWMv2XQ1AAdUGlwkvlbkkwTnq/FcYfnCL/p+Bb+Y8BQkfoZiuU9ELVCJeA+eotaJT9IDUgdgASiWNp01AxMVRUv5V/P0WS/FyGxmiZC2z4L01puVoZaEn+eNhmfbcK7pE4g8kWYQnAmCscWaR++fqAlvJihErQu2cLm9I6BHIbESjmxMlkBI2FKzZoKUkPK0gyoZWqQ4kYoPwYmzSlKPB31fEGrI/DyY7atdadp73RY9alwosAK9ex6Gi3hJUWdiZvCJmQbP0g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6oQivDRcVc2tYZ+iYZyvBx9mWvK6bp0A82dsI9N9puo=;
+ b=UnZlqsnDe0yHmoXW9tf70rdwHq2rliKqqF4g+KH6xmLbhzkzPiKlkpH53PDEDaZpNgoozqiGG6uvuzgYbdkhHrqD3AxY8MmgQdn+Lk1hbQfDK1NJtKgTxb45hpv3QO/sOwOQ4Jrp3dFsJsjNe3DrsGwYw09ltA65q9IXFGZ4XtI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
+ by AS4PR08MB7632.eurprd08.prod.outlook.com (2603:10a6:20b:4cf::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21; Fri, 17 Nov
+ 2023 12:15:54 +0000
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::79a1:5ad6:b221:ad]) by DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::79a1:5ad6:b221:ad%4]) with mapi id 15.20.7002.022; Fri, 17 Nov 2023
+ 12:15:54 +0000
+Message-ID: <431375a9-4f62-419c-9ad7-90f3cf892181@wolfvision.net>
+Date: Fri, 17 Nov 2023 13:15:52 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 1/3] media: dt-bindings: media: add bindings for
+ Rockchip CIF
+Content-Language: en-US
+To: Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+ heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
+ paul.kocialkowski@bootlin.com
+References: <cover.1700132457.git.mehdi.djait@bootlin.com>
+ <a0af1d30e79fb1f2567297c951781996836d6db6.1700132457.git.mehdi.djait@bootlin.com>
+From: Michael Riesch <michael.riesch@wolfvision.net>
+Organization: WolfVision GmbH
+In-Reply-To: <a0af1d30e79fb1f2567297c951781996836d6db6.1700132457.git.mehdi.djait@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR07CA0297.eurprd07.prod.outlook.com
+ (2603:10a6:800:130::25) To DU0PR08MB9155.eurprd08.prod.outlook.com
+ (2603:10a6:10:416::5)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 10/15] media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
-Content-Language: en-US, nl
-To: Shengjiu Wang <shengjiu.wang@gmail.com>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, Sakari Ailus
- <sakari.ailus@iki.fi>, m.szyprowski@samsung.com, mchehab@kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
- lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
- alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org,
- Tomasz Figa <tfiga@chromium.org>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <6a3e7eb9-505c-4cfb-8a86-a8947a2e44d5@xs4all.nl>
- <20231113110754.GB24338@pendragon.ideasonboard.com>
- <3e898664-cbfc-4892-9765-37b66891643b@xs4all.nl>
- <ZVIIc-fi32ZxIi-p@valkosipuli.retiisi.eu>
- <20231113114357.GD24338@pendragon.ideasonboard.com>
- <da6efe14-c00d-4bf4-bf61-dd4ed39c5c60@xs4all.nl>
- <20231113124412.GA18974@pendragon.ideasonboard.com>
- <b35601f7-8bb2-4317-a8f7-6fbf81572943@xs4all.nl>
- <20231115105518.GD13826@pendragon.ideasonboard.com>
- <a67491c0-4fdf-4472-852c-e75f5e1d67af@xs4all.nl>
- <20231115114931.GE13826@pendragon.ideasonboard.com>
- <CAAFQd5BkCR=tYvmfjkOeTnjnccmURt8kEtiRee9CYqcz+FGHfg@mail.gmail.com>
- <7626e0f8-ce31-469e-b49c-f2fba664756f@xs4all.nl>
- <CAA+D8ANb6A9eh=MQR9+7sZi5jet+7RSHt6TdZqPz5EK6pBs3mA@mail.gmail.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
- BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
- yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
- C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
- BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
- E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
- YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
- JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
- 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
- UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
- aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
- BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
- 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
- 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
- 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
- +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
- OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
- 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
- wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
- qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
- vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
- 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
- p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
- sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
- DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
- wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
- TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
- 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
- VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
- z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
- pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
- /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
- IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
- KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
- UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
- c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
- AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
- Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
- KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
- gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
- sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
- UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <CAA+D8ANb6A9eh=MQR9+7sZi5jet+7RSHt6TdZqPz5EK6pBs3mA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|AS4PR08MB7632:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6301f74b-1409-49d3-ec01-08dbe766f273
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	jOsTpeuoFL/kxAti3e73Aq8HeARraw6udUzRX7qJwA+XpQ1xXwr2mc1XY97BUYhsM5e+d9rgXob7FrDAYbIVbciQk5BFpUDQC2kApGnKKnp9I7iWx8t+yCZIwL59nQyKC5H9zQiV2tF3s2TpbbXTWJGsdP053SG72LXcPd7G2vjYoGtF8kTkiIPhSh5E9uNysg+NyOgmgHWgxq7Gjud1+MXbxbc7OmVQKgm5d4b/20b/7k0ajqGZuKXwgSPjdTHTMEhO554yXsk2IJYXgJeGWlKOYGysS5HNi32Si/PFS6nDIUjYLnTVO52R7e2CW8dPYs8TPiaTE/D6125zooWlAXN7mTTbvNwkpmckNwu4rSVnqEUAcDM7XwFyux1ir6bIEUKeH2ybxmtQq9dydWgkPI2OSaphlBZlxJGKfKiU/vE/yKk+2L9gWpttedAM6PgEWyTIeETuknqPklB79JjgRDDJZUfGVOeCf/0GvDh2DEV3MCCP6X5pghwSQat+JC+o9bkqvUeO4PG3DCFizkR7wFfJzGFbtC+162lUshS3G2A9Iv8T8X53XpFUI+p90Q8/96ozn1mpJqI60Fv3qRSPL1mFz1+4pwqynxgt5E1F/iG9H3YjUcFFGaKFgd+yaByeHrApW7BDouKEL3N07z8raA==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(346002)(396003)(136003)(376002)(366004)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(36756003)(41300700001)(31686004)(38100700002)(2906002)(83380400001)(5660300002)(7416002)(26005)(86362001)(31696002)(2616005)(53546011)(36916002)(44832011)(6512007)(6506007)(966005)(6486002)(66476007)(4326008)(478600001)(8936002)(8676002)(66556008)(66946007)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RXUyWXR3U3FOUEd5R0lpTFIvaUtjakNLY0RKMnAzNlV3c0VtQUZPSFJyU29R?=
+ =?utf-8?B?MUxTQmE3MmRYeGl3bjBtQkMvbks5WEpBZlB5TGd3ekc5MTdJUnMzdXl5NWk0?=
+ =?utf-8?B?TmlyNjR4dkNqei9ac09vYmpLdWpPazZmL1JUU01JRVgrMDROZ1ZUcHpaQzVu?=
+ =?utf-8?B?SkcwemxVbDdoZmlmN1h6cWZ1ZExEN3A1WnhmQnFCUjYwUUVUM2pMYkFxOFd1?=
+ =?utf-8?B?UE9uRS9iWFZzQjhkMnBYS3FFa25OOC9jemxDS0ZFeGVibG9PRmVKZGxWeFIv?=
+ =?utf-8?B?MmdJdTB5c2dSRnU3NGJGLzcyOGdhcWdNejduTmFrTkw2VUp6TjluUWt6Z1VH?=
+ =?utf-8?B?RkJzUkJJU2hKT1lkNmFsQnJhVlk2d0RmRU5XeDQrMFJJMFVpNmprMG8rb1Vi?=
+ =?utf-8?B?RGtlUmJ0cTlpQmhwaTdIb0VhSjJLaUZzQ3E4bmtTdFNVSjZMc0Z1b3NFd3ho?=
+ =?utf-8?B?Tk8weHFmUTkwSEFKWXU5UlhUc0IwSnYxbTRHVmNqdjJKeUl6QzRWZXFSWFkz?=
+ =?utf-8?B?VXJwaWRJaEY1RWdNVklrbjhjYTZJTTQ5Mll2NFIrMnRXZ3BjMEJ3OU9ZZ0JU?=
+ =?utf-8?B?V21CT0NvdzJGVzFzQ0dTZmo0eTVweFVQdmY2YWU1QVdrK0JNOTZqaVpMRWdn?=
+ =?utf-8?B?Wlg5d3pCalRNVEJVejhMdjlWWGFzWUtvR2JEd1BjaW5KRW0yY2tBSjc3WWhN?=
+ =?utf-8?B?ZVJFaGowQkRBVkdTNUdMbHNRT09IMWhkTjhSd3NxajFvdjJsVFNaU2JxSUZU?=
+ =?utf-8?B?RDhXUmxTV1V6Z3RCblpabnUzUG5iRkMzaUQ2VGhQR3V2MUh1a01mUnJPM3F4?=
+ =?utf-8?B?MXJnS2U2ZFhqWVJKenJpL05lejdWMDVxWmVFcmtaRnYycmMwaHpwaFB0MlJa?=
+ =?utf-8?B?YTZid2pQTzd3V01jRGF4YnFvYXFRSGl3TkNIRUNiK0dPVk5CUnZ3WHlDSlRu?=
+ =?utf-8?B?ajFjNjBZeER0MjBpZmZ0ekZzUWRpclJaODRqN1BGYkJmMzNXQ2tVeDJOS2hk?=
+ =?utf-8?B?TEoyaHJCTEFNeGJwVksrM2tEdi9aOW1vcVZWMzlzaVBvUmNTeHRCeUwzOU1s?=
+ =?utf-8?B?Wm1qZlZEcElSbkJMVlpkQUNoRnRld2daSTZ1QzVrMVNCQ1BMOVBjSEc0OGtV?=
+ =?utf-8?B?Q1g3dTVMMWxNbzI0eFVkWkZrY0h4K3ZxdVlKT3NwMkwzQW4wUmM2Rnp0YUNJ?=
+ =?utf-8?B?ODF5c3lIMWxJaThBcHRySzBpd0Era2srSHlXaW1zdjZxZnBiMDkxQXBoQkx1?=
+ =?utf-8?B?MVBTUkFDeHcxYzVpdVFLaHo5Y1djcy9vdDd3TXZPTFNnUVVJVHFMYzZXT2hU?=
+ =?utf-8?B?YmxuYUNHYlM4UENnckNEUVY5OVlMTEF6MENnT0hWVk1wOHhQNnNxaTJwanpP?=
+ =?utf-8?B?VUtaUDJOWURldmhVVm5KcWlKS3JOcnZZTkJHOVdCN3BPVUtSckh2Z2pHbWJG?=
+ =?utf-8?B?anFaaUU2Yk0yY2RwRVdmWVhVYTQ3Ykc2OGhWUVo0UXRLZEh6MnZ0ZE1WUzIx?=
+ =?utf-8?B?dS8wWkZjRlMwSDdGWVRQaXdhUnVoRWJDaSs4eFVIcEtrK2hEUjlYZUFWTGdD?=
+ =?utf-8?B?dG1uRWxMY2lPV3I2T05CWlkyS0grMU5XUVdjaGNVSTdacjFJNGpXNFR4Y29o?=
+ =?utf-8?B?ZGJSNjRENEFNaU5hajNjWFU1c0FJVnNQem5GekIxbE53djJMQ0VCOGt1U0NC?=
+ =?utf-8?B?RWw4bzhROVUvUGo3d1dzZVAyTW5XNDd2SDh2c2QvV29pZXQyMDZVb2wzZWhm?=
+ =?utf-8?B?SHhtNnlVajV0Skh3YzhtZGl2MHpaRXd0cDUrem5tWG5KRnFaUWdLelo1N1pp?=
+ =?utf-8?B?ai9WeER4d0ppNE1hNnR2dVZzWlRjanNLcUVVR0gxRHNreUJDcXBwVklqVFhK?=
+ =?utf-8?B?amI0WnU2NWNyUHFoMFl1MVB0NldzWWtpOHlLYm45Ky9MbExaU2R3RlNlUE83?=
+ =?utf-8?B?TmFoWThWaFk3TGhXYXY1cDRhUElpend0VGdxYVhCOW1tWVJBdUt2TFhRM3RG?=
+ =?utf-8?B?YnN4cW5LdGdlMEF0WFVsODQzSThHelZ2QzNvQmZUN1JFTXVJWFNTQ2xEVEJC?=
+ =?utf-8?B?NGpxNFJzOUQwTGZSMDZWN21MZ0dnYkVJZ3lJek5XMGV2YnhBZnIrWDZpZGtQ?=
+ =?utf-8?B?WGlLZmt0NkxPWEJxakpvc2hjNFZRNkw4NWd4YzdPRWtyQUdDNE8yMVlrMVlz?=
+ =?utf-8?B?amc9PQ==?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6301f74b-1409-49d3-ec01-08dbe766f273
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2023 12:15:54.4640
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: upzMZj2DQ3bBp7LPBSQD5+JbLhsADFUc0rBy8bVDHXS501AyUh2iXCwk3Wvyq8ydIWChIg4uX/dX4NBMlVm+7cTLSnlvDr99qt/CQziHSvI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB7632
 
-Here is an RFC patch adding support for 'fraction_bits'. It's lacking
-documentation, but it can be used for testing.
+Hi Mehdi,
 
-It was rather a pain logging fixed point number in a reasonable format,
-but I think it is OK.
+On 11/16/23 12:04, Mehdi Djait wrote:
+> Add a documentation for the Rockchip Camera Interface binding.
+> 
+> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> ---
+>  .../bindings/media/rockchip,px30-vip.yaml     | 173 ++++++++++++++++++
+>  1 file changed, 173 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+> new file mode 100644
+> index 000000000000..580ed654000c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+> @@ -0,0 +1,173 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/rockchip,px30-vip.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Rockchip CIF Camera Interface
 
-In userspace (where you can use floating point) it is a lot easier:
+May I suggest "Rockchip Camera Interface (CIF)"?
 
-printf("%.*g\n", fraction_bits, (double)v * (1.0 / (1ULL << fraction_bits)));
+> +
+> +maintainers:
+> +  - Mehdi Djait <mehdi.djait@bootlin.com>
+> +
+> +description:
+> +  CIF is a camera interface present on some rockchip SoCs. It receives the data
 
-I decided to only expose fraction_bits in struct v4l2_query_ext_ctrl.
-I could add it to struct v4l2_queryctrl, but I did not think that was
-necessary. Other opinions are welcome.
+s/rockchip/Rockchip
 
-In the meantime, let me know if this works for your patch series. If it
-does, then I can clean this up.
+> +  from Camera sensor or CCIR656 encoder and transfers it into system main memory
+> +  by AXI bus.
+> +
+> +properties:
+> +  compatible:
+> +    const: rockchip,px30-vip
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: ACLK
+> +      - description: HCLK
+> +      - description: PCLK
+> +
+> +  clock-names:
+> +    items:
+> +      - const: aclk
+> +      - const: hclk
+> +      - const: pclk
+> +
+> +  resets:
+> +    items:
+> +      - description: AXI
+> +      - description: AHB
+> +      - description: PCLK IN
+> +
+> +  reset-names:
+> +    items:
+> +      - const: axi
+> +      - const: ahb
+> +      - const: pclkin
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    properties:
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: input port on the parallel interface
 
-Regards,
+In more recent Rockchip SoCs this seems to be described as "DVP
+interface (digital parallel input)". Maybe we could use this description
+here as well?
 
-	Hans
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              bus-type:
+> +                enum: [5, 6]
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/v4l2-core/v4l2-ctrls-api.c  |  1 +
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 72 +++++++++++++++++++----
- include/media/v4l2-ctrls.h                |  7 ++-
- include/uapi/linux/videodev2.h            | 20 ++++++-
- 4 files changed, 85 insertions(+), 15 deletions(-)
+Not sure whether this is possible, but if we could use the
+MEDIA_BUS_TYPE_PARALLEL	and MEDIA_BUS_TYPE_BT656 defines here it would
+be way more descriptive.
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-index 002ea6588edf..3132df315b17 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-@@ -1101,6 +1101,7 @@ int v4l2_query_ext_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_query_ext_ctr
- 	qc->elems = ctrl->elems;
- 	qc->nr_of_dims = ctrl->nr_of_dims;
- 	memcpy(qc->dims, ctrl->dims, qc->nr_of_dims * sizeof(qc->dims[0]));
-+	qc->fraction_bits = ctrl->fraction_bits;
- 	qc->minimum = ctrl->minimum;
- 	qc->maximum = ctrl->maximum;
- 	qc->default_value = ctrl->default_value;
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index a662fb60f73f..0e08a371af5c 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -252,12 +252,42 @@ void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
- }
- EXPORT_SYMBOL(v4l2_ctrl_type_op_init);
+> +
+> +            required:
+> +              - bus-type
+> +
+> +    required:
+> +      - port@0
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/px30-cru.h>
+> +    #include <dt-bindings/display/sdtv-standards.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/media/video-interfaces.h>
+> +    #include <dt-bindings/power/px30-power.h>
+> +
+> +    parent {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        video-capture@ff490000 {
+> +            compatible = "rockchip,px30-vip";
+> +            reg = <0x0 0xff490000 0x0 0x200>;
+> +            interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
+> +            clocks = <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
+> +            clock-names = "aclk", "hclk", "pclk";
+> +            resets = <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN>;
+> +            reset-names = "axi", "ahb", "pclkin";
+> +            power-domains = <&power PX30_PD_VI>;
 
-+static void v4l2_ctrl_log_fp(s64 v, unsigned int fraction_bits)
-+{
-+	s64 i = v4l2_fp_integer(v, fraction_bits);
-+	s64 f = v4l2_fp_fraction(v, fraction_bits);
-+
-+	if (!f) {
-+		pr_cont("%lld", i);
-+	} else if (fraction_bits < 20) {
-+		u64 div = 1ULL << fraction_bits;
-+
-+		if (!i && f < 0)
-+			pr_cont("-%lld/%llu", -f, div);
-+		else if (!i)
-+			pr_cont("%lld/%llu", f, div);
-+		else if (i < 0 || f < 0)
-+			pr_cont("-%lld-%llu/%llu", -i, -f, div);
-+		else
-+			pr_cont("%lld+%llu/%llu", i, f, div);
-+	} else {
-+		if (!i && f < 0)
-+			pr_cont("-%lld/(2^%u)", -f, fraction_bits);
-+		else if (!i)
-+			pr_cont("%lld/(2^%u)", f, fraction_bits);
-+		else if (i < 0 || f < 0)
-+			pr_cont("-%lld-%llu/(2^%u)", -i, -f, fraction_bits);
-+		else
-+			pr_cont("%lld+%llu/(2^%u)", i, f, fraction_bits);
-+	}
-+}
-+
- void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
- {
- 	union v4l2_ctrl_ptr ptr = ctrl->p_cur;
+Sort alphabetically: power-domains before resets.
 
- 	if (ctrl->is_array) {
--		unsigned i;
-+		unsigned int i;
+> +
+> +            ports {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +
+> +                port@0 {
+> +                    reg = <0>;
+> +
+> +                    cif_in: endpoint {
+> +                        remote-endpoint = <&tw9900_out>;
+> +                        bus-type = <MEDIA_BUS_TYPE_BT656>;
+> +                    };
+> +                };
+> +            };
+> +        };
+> +
+> +        composite_connector {
+> +            compatible = "composite-video-connector";
+> +            label = "tv";
+> +            sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
+> +
+> +            port {
+> +                composite_to_tw9900: endpoint {
+> +                    remote-endpoint = <&tw9900_to_composite>;
+> +                };
+> +            };
+> +        };
+> +
+> +        i2c {
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            video-decoder@44 {
+> +                compatible = "techwell,tw9900";
+> +                reg = <0x44>;
+> +
+> +                vdd-supply = <&tw9900_supply>;
+> +                reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
 
- 		for (i = 0; i < ctrl->nr_of_dims; i++)
- 			pr_cont("[%u]", ctrl->dims[i]);
-@@ -266,7 +296,10 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+This goes before vdd-supply (alphabetical sorting). No need for blank
+lines between the properties.
 
- 	switch (ctrl->type) {
- 	case V4L2_CTRL_TYPE_INTEGER:
--		pr_cont("%d", *ptr.p_s32);
-+		if (!ctrl->fraction_bits)
-+			pr_cont("%d", *ptr.p_s32);
-+		else
-+			v4l2_ctrl_log_fp(*ptr.p_s32, ctrl->fraction_bits);
- 		break;
- 	case V4L2_CTRL_TYPE_BOOLEAN:
- 		pr_cont("%s", *ptr.p_s32 ? "true" : "false");
-@@ -281,19 +314,31 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
- 		pr_cont("0x%08x", *ptr.p_s32);
- 		break;
- 	case V4L2_CTRL_TYPE_INTEGER64:
--		pr_cont("%lld", *ptr.p_s64);
-+		if (!ctrl->fraction_bits)
-+			pr_cont("%lld", *ptr.p_s64);
-+		else
-+			v4l2_ctrl_log_fp(*ptr.p_s64, ctrl->fraction_bits);
- 		break;
- 	case V4L2_CTRL_TYPE_STRING:
- 		pr_cont("%s", ptr.p_char);
- 		break;
- 	case V4L2_CTRL_TYPE_U8:
--		pr_cont("%u", (unsigned)*ptr.p_u8);
-+		if (!ctrl->fraction_bits)
-+			pr_cont("%u", (unsigned int)*ptr.p_u8);
-+		else
-+			v4l2_ctrl_log_fp((unsigned int)*ptr.p_u8, ctrl->fraction_bits);
- 		break;
- 	case V4L2_CTRL_TYPE_U16:
--		pr_cont("%u", (unsigned)*ptr.p_u16);
-+		if (!ctrl->fraction_bits)
-+			pr_cont("%u", (unsigned int)*ptr.p_u16);
-+		else
-+			v4l2_ctrl_log_fp((unsigned int)*ptr.p_u16, ctrl->fraction_bits);
- 		break;
- 	case V4L2_CTRL_TYPE_U32:
--		pr_cont("%u", (unsigned)*ptr.p_u32);
-+		if (!ctrl->fraction_bits)
-+			pr_cont("%u", (unsigned int)*ptr.p_u32);
-+		else
-+			v4l2_ctrl_log_fp((unsigned int)*ptr.p_u32, ctrl->fraction_bits);
- 		break;
- 	case V4L2_CTRL_TYPE_H264_SPS:
- 		pr_cont("H264_SPS");
-@@ -1752,7 +1797,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 			u32 id, const char *name, enum v4l2_ctrl_type type,
- 			s64 min, s64 max, u64 step, s64 def,
- 			const u32 dims[V4L2_CTRL_MAX_DIMS], u32 elem_size,
--			u32 flags, const char * const *qmenu,
-+			u32 fraction_bits, u32 flags, const char * const *qmenu,
- 			const s64 *qmenu_int, const union v4l2_ctrl_ptr p_def,
- 			void *priv)
- {
-@@ -1939,6 +1984,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	ctrl->name = name;
- 	ctrl->type = type;
- 	ctrl->flags = flags;
-+	ctrl->fraction_bits = fraction_bits;
- 	ctrl->minimum = min;
- 	ctrl->maximum = max;
- 	ctrl->step = step;
-@@ -2037,7 +2083,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
- 	ctrl = v4l2_ctrl_new(hdl, cfg->ops, cfg->type_ops, cfg->id, name,
- 			type, min, max,
- 			is_menu ? cfg->menu_skip_mask : step, def,
--			cfg->dims, cfg->elem_size,
-+			cfg->dims, cfg->elem_size, cfg->fraction_bits,
- 			flags, qmenu, qmenu_int, cfg->p_def, priv);
- 	if (ctrl)
- 		ctrl->is_private = cfg->is_private;
-@@ -2062,7 +2108,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std(struct v4l2_ctrl_handler *hdl,
- 		return NULL;
- 	}
- 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
--			     min, max, step, def, NULL, 0,
-+			     min, max, step, def, NULL, 0, 0,
- 			     flags, NULL, NULL, ptr_null, NULL);
- }
- EXPORT_SYMBOL(v4l2_ctrl_new_std);
-@@ -2095,7 +2141,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu(struct v4l2_ctrl_handler *hdl,
- 		return NULL;
- 	}
- 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
--			     0, max, mask, def, NULL, 0,
-+			     0, max, mask, def, NULL, 0, 0,
- 			     flags, qmenu, qmenu_int, ptr_null, NULL);
- }
- EXPORT_SYMBOL(v4l2_ctrl_new_std_menu);
-@@ -2127,7 +2173,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
- 		return NULL;
- 	}
- 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
--			     0, max, mask, def, NULL, 0,
-+			     0, max, mask, def, NULL, 0, 0,
- 			     flags, qmenu, NULL, ptr_null, NULL);
+> +
+> +                ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    port@0 {
+> +                        #address-cells = <1>;
+> +                        #size-cells = <0>;
+> +
+> +                        reg = <0>;
 
- }
-@@ -2149,7 +2195,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
- 		return NULL;
- 	}
- 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
--			     min, max, step, def, NULL, 0,
-+			     min, max, step, def, NULL, 0, 0,
- 			     flags, NULL, NULL, p_def, NULL);
- }
- EXPORT_SYMBOL(v4l2_ctrl_new_std_compound);
-@@ -2173,7 +2219,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
- 		return NULL;
- 	}
- 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
--			     0, max, 0, def, NULL, 0,
-+			     0, max, 0, def, NULL, 0, 0,
- 			     flags, NULL, qmenu_int, ptr_null, NULL);
- }
- EXPORT_SYMBOL(v4l2_ctrl_new_int_menu);
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index 59679a42b3e7..c35514c5bf88 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -211,7 +211,8 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
-  *		except for dynamic arrays. In that case it is in the range of
-  *		1 to @p_array_alloc_elems.
-  * @dims:	The size of each dimension.
-- * @nr_of_dims:The number of dimensions in @dims.
-+ * @nr_of_dims: The number of dimensions in @dims.
-+ * @fraction_bits: The number of fraction bits for fixed point values.
-  * @menu_skip_mask: The control's skip mask for menu controls. This makes it
-  *		easy to skip menu items that are not valid. If bit X is set,
-  *		then menu item X is skipped. Of course, this only works for
-@@ -228,6 +229,7 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
-  *		:math:`ceil(\frac{maximum - minimum}{step}) + 1`.
-  *		Used only if the @type is %V4L2_CTRL_TYPE_INTEGER_MENU.
-  * @flags:	The control's flags.
-+ * @fraction_bits: The number of fraction bits for fixed point values.
-  * @priv:	The control's private pointer. For use by the driver. It is
-  *		untouched by the control framework. Note that this pointer is
-  *		not freed when the control is deleted. Should this be needed
-@@ -286,6 +288,7 @@ struct v4l2_ctrl {
- 	u32 new_elems;
- 	u32 dims[V4L2_CTRL_MAX_DIMS];
- 	u32 nr_of_dims;
-+	u32 fraction_bits;
- 	union {
- 		u64 step;
- 		u64 menu_skip_mask;
-@@ -426,6 +429,7 @@ struct v4l2_ctrl_handler {
-  * @dims:	The size of each dimension.
-  * @elem_size:	The size in bytes of the control.
-  * @flags:	The control's flags.
-+ * @fraction_bits: The number of fraction bits for fixed point values.
-  * @menu_skip_mask: The control's skip mask for menu controls. This makes it
-  *		easy to skip menu items that are not valid. If bit X is set,
-  *		then menu item X is skipped. Of course, this only works for
-@@ -455,6 +459,7 @@ struct v4l2_ctrl_config {
- 	u32 dims[V4L2_CTRL_MAX_DIMS];
- 	u32 elem_size;
- 	u32 flags;
-+	u32 fraction_bits;
- 	u64 menu_skip_mask;
- 	const char * const *qmenu;
- 	const s64 *qmenu_int;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index c3d4e490ce7c..26ecac19722a 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1944,9 +1944,27 @@ struct v4l2_query_ext_ctrl {
- 	__u32                elems;
- 	__u32                nr_of_dims;
- 	__u32                dims[V4L2_CTRL_MAX_DIMS];
--	__u32		     reserved[32];
-+	__u32                fraction_bits;
-+	__u32		     reserved[31];
- };
+I think reg property goes first, then the others. No blank lines between
+properties, but one blank line between properties and nodes.
 
-+static inline __s64 v4l2_fp_compose(__s64 i, __s64 f, unsigned int fraction_bits)
-+{
-+	return (i << fraction_bits) + f;
-+}
-+
-+static inline __s64 v4l2_fp_integer(__s64 v, unsigned int fraction_bits)
-+{
-+	return v / (1LL << fraction_bits);
-+}
-+
-+static inline __s64 v4l2_fp_fraction(__s64 v, unsigned int fraction_bits)
-+{
-+	__u64 mask = (1ULL << fraction_bits) - 1;
-+
-+	return v < 0 ? -((-v) & mask) : (v & mask);
-+}
-+
- /*  Used in the VIDIOC_QUERYMENU ioctl for querying menu items */
- struct v4l2_querymenu {
- 	__u32		id;
--- 
-2.42.0
+> +                        tw9900_to_composite: endpoint@0 {
+> +                            reg = <0>;
+> +                            remote-endpoint = <&composite_to_tw9900>;
+> +                        };
+> +                    };
+> +
+> +                    port@1 {
+> +                        reg = <1>;
 
+Same here.
 
+> +                        tw9900_out: endpoint {
+> +                            remote-endpoint = <&cif_in>;
+> +                        };
+> +                    };
+> +                };
+> +            };
+> +        };
+> +    };
+> +...
+
+With the inline comments addressed,
+
+Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
+
+Thanks for your efforts!
+
+Best regards,
+Michael
 
