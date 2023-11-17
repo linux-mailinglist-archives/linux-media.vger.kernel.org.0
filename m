@@ -1,264 +1,132 @@
-Return-Path: <linux-media+bounces-486-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-488-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B66607EF167
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 12:06:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 11F8E7EF178
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 12:14:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E5E121C20823
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 11:06:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C4B0A28144E
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 11:14:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2A301A27C;
-	Fri, 17 Nov 2023 11:06:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEA532E652;
+	Fri, 17 Nov 2023 11:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PzthSJPi"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JuDhpupZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 689C8120
-	for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 03:06:27 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 661F9131;
+	Fri, 17 Nov 2023 03:14:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700219187; x=1731755187;
-  h=date:from:to:cc:subject:message-id;
-  bh=J5TogsItqeaFkWpRTNkrSwX2f3YZOoDXhXPh9318XYE=;
-  b=PzthSJPie/5FoRLWSxbbWE+QJiEFpx0QdRBcchJy7IaNPJy7p2eTnX4s
-   1hVByRFVrWO31olBlervR9q1yP4PQqlrQF+v+YEeQ4HAEUHPrSlHWRO7S
-   nXuQcRMOCs1SzwNHzjglyvdKhCCQ86XwcmLvnQRDVHe2CUyCGxIVJjdM/
-   /An8Jzbt6MuRYwkw+dV2zXw1oZrEQIlT0ERLAgXCYP1D3+zU+j+AeX/tL
-   NzxCpoF4R3hA8bqLb3HgiIOOlNmN7Z4elUepwaOSzD+uV8Pp5Ha9nqK1F
-   umU5VuL4ZQ8h6ZEGZlTHn4pOX3ajNNfNJSoBsPbA12fZDjx+HQAeKem9m
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="390133719"
+  t=1700219682; x=1731755682;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dEq8ro/qwe8sVqsG7NZcEIURqHix2i2JgSRLXmWjZmY=;
+  b=JuDhpupZ5y+KQR559+GxhPsEXHg8QI7VJfrVfmjHyDuKIz7IfD3+n/3s
+   q5piP6hQDYzSCf1tJhnm1YM93b4UK6JzWZ+SHi2KT2ffr9EpQcy0yqCL5
+   Cfpz8oGzkjsNjY3UTbVyu2mZVTwr0TznOj9KNFKmrkW36q1R/MHpbeKuA
+   8p9DtERP7RgwqD9R5X0L5oQGqb0MUfwtv0lZgXfv4/Ic9fo9kUR6tN2m9
+   6ydYpOeItX3UGAlYnka4tqiXKJ7L7CbAWpAhFValsYXrILEi1mUm2npTA
+   3lwyhgbqJLcjUVD3YdsfXAAFJMK7e6A55cOZ+dj5JaOoODA12rj8aHeLR
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="9941630"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="390133719"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 03:06:27 -0800
+   d="scan'208";a="9941630"
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 03:14:40 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="794803626"
+X-IronPort-AV: E=McAfee;i="6600,9927,10896"; a="769201192"
 X-IronPort-AV: E=Sophos;i="6.04,206,1695711600"; 
-   d="scan'208";a="794803626"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga008.jf.intel.com with ESMTP; 17 Nov 2023 03:06:25 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r3wg3-0002ef-0M;
-	Fri, 17 Nov 2023 11:06:23 +0000
-Date: Fri, 17 Nov 2023 19:05:35 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-stage:master] BUILD SUCCESS
- 1865913dd590ca6d5e3207b15099a1210dd62f29
-Message-ID: <202311171932.DYq3IcWH-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+   d="scan'208";a="769201192"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Nov 2023 03:14:37 -0800
+Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 9E9DF120E08;
+	Fri, 17 Nov 2023 13:14:33 +0200 (EET)
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: linux-acpi@vger.kernel.org
+Cc: linux-media@vger.kernel.org,
+	rafael@kernel.org,
+	jacopo.mondi@ideasonboard.com,
+	laurent.pinchart@ideasonboard.com
+Subject: [PATCH v2 0/7] Small Runtime PM API changes
+Date: Fri, 17 Nov 2023 13:14:26 +0200
+Message-Id: <20231117111433.1561669-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-tree/branch: https://git.linuxtv.org/media_stage.git master
-branch HEAD: 1865913dd590ca6d5e3207b15099a1210dd62f29  media: meson-ir-tx: Drop usage of platform_driver_probe()
+Hi folks,
 
-elapsed time: 1113m
+This small set happily mixes Runtime PM and media patches.
 
-configs tested: 186
-configs skipped: 2
+The set does two main things Runtime PM API-wise. Firstly,
+pm_runtime_get_if_active() is made more user-friendly by removing the
+ign_use_count argument so the users no longer need to call it with that
+set to true. Secondly, pm_runtime_put_mark_busy_autosusp() helper is added
+to avoid drivers having to call pm_runtime_mark_last_busy() only to be
+followed by pm_runtime_autosuspend().
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+The vast majority of the users of pm_runtime_autosuspend() would probably
+have been fine with making pm_runtime_autosuspend() do the last busy
+stamping, too, but given the sheer number of users it's hard to tell if
+there could be problems here and there. On the other hand, there are
+probably a sizable proportion of call sites where the missing
+pm_runtime_mark_last_busy() call is simply a bug.
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231117   gcc  
-arc                   randconfig-002-20231117   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   gcc  
-arm                           h3600_defconfig   gcc  
-arm                        multi_v7_defconfig   gcc  
-arm                          pxa3xx_defconfig   gcc  
-arm                   randconfig-001-20231117   gcc  
-arm                   randconfig-002-20231117   gcc  
-arm                   randconfig-003-20231117   gcc  
-arm                   randconfig-004-20231117   gcc  
-arm                         vf610m4_defconfig   gcc  
-arm64                            allmodconfig   gcc  
-arm64                             allnoconfig   gcc  
-arm64                            allyesconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231117   gcc  
-arm64                 randconfig-002-20231117   gcc  
-arm64                 randconfig-003-20231117   gcc  
-arm64                 randconfig-004-20231117   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231117   gcc  
-csky                  randconfig-002-20231117   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-i386                             allmodconfig   gcc  
-i386                              allnoconfig   gcc  
-i386                             allyesconfig   gcc  
-i386         buildonly-randconfig-001-20231117   gcc  
-i386         buildonly-randconfig-002-20231117   gcc  
-i386         buildonly-randconfig-003-20231117   gcc  
-i386         buildonly-randconfig-004-20231117   gcc  
-i386         buildonly-randconfig-005-20231117   gcc  
-i386         buildonly-randconfig-006-20231117   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231117   gcc  
-i386                  randconfig-002-20231117   gcc  
-i386                  randconfig-003-20231117   gcc  
-i386                  randconfig-004-20231117   gcc  
-i386                  randconfig-005-20231117   gcc  
-i386                  randconfig-006-20231117   gcc  
-i386                  randconfig-011-20231117   gcc  
-i386                  randconfig-012-20231117   gcc  
-i386                  randconfig-013-20231117   gcc  
-i386                  randconfig-014-20231117   gcc  
-i386                  randconfig-015-20231117   gcc  
-i386                  randconfig-016-20231117   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                        allyesconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231117   gcc  
-loongarch             randconfig-002-20231117   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                       bvme6000_defconfig   gcc  
-m68k                                defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                             allmodconfig   gcc  
-mips                              allnoconfig   gcc  
-mips                             allyesconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20231117   gcc  
-nios2                 randconfig-002-20231117   gcc  
-openrisc                         allmodconfig   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-openrisc                       virt_defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                generic-64bit_defconfig   gcc  
-parisc                randconfig-001-20231117   gcc  
-parisc                randconfig-002-20231117   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   gcc  
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   gcc  
-powerpc                     asp8347_defconfig   gcc  
-powerpc                      ep88xc_defconfig   gcc  
-powerpc                      pasemi_defconfig   gcc  
-powerpc               randconfig-001-20231117   gcc  
-powerpc               randconfig-002-20231117   gcc  
-powerpc               randconfig-003-20231117   gcc  
-powerpc64             randconfig-001-20231117   gcc  
-powerpc64             randconfig-002-20231117   gcc  
-powerpc64             randconfig-003-20231117   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   gcc  
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                    nommu_k210_defconfig   gcc  
-riscv             nommu_k210_sdcard_defconfig   gcc  
-riscv                 randconfig-001-20231117   gcc  
-riscv                 randconfig-002-20231117   gcc  
-riscv                          rv32_defconfig   gcc  
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231117   gcc  
-s390                  randconfig-002-20231117   gcc  
-sh                               alldefconfig   gcc  
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                                  defconfig   gcc  
-sh                          kfr2r09_defconfig   gcc  
-sh                    randconfig-001-20231117   gcc  
-sh                    randconfig-002-20231117   gcc  
-sh                          sdk7786_defconfig   gcc  
-sh                           se7712_defconfig   gcc  
-sh                        sh7763rdp_defconfig   gcc  
-sh                              ul2_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc                             allnoconfig   gcc  
-sparc                            allyesconfig   gcc  
-sparc                               defconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20231117   gcc  
-sparc64               randconfig-002-20231117   gcc  
-um                               allmodconfig   gcc  
-um                                allnoconfig   gcc  
-um                               allyesconfig   gcc  
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20231117   gcc  
-um                    randconfig-002-20231117   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   gcc  
-x86_64       buildonly-randconfig-001-20231117   gcc  
-x86_64       buildonly-randconfig-002-20231117   gcc  
-x86_64       buildonly-randconfig-003-20231117   gcc  
-x86_64       buildonly-randconfig-004-20231117   gcc  
-x86_64       buildonly-randconfig-005-20231117   gcc  
-x86_64       buildonly-randconfig-006-20231117   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231117   gcc  
-x86_64                randconfig-002-20231117   gcc  
-x86_64                randconfig-003-20231117   gcc  
-x86_64                randconfig-004-20231117   gcc  
-x86_64                randconfig-005-20231117   gcc  
-x86_64                randconfig-006-20231117   gcc  
-x86_64                randconfig-011-20231117   gcc  
-x86_64                randconfig-012-20231117   gcc  
-x86_64                randconfig-013-20231117   gcc  
-x86_64                randconfig-014-20231117   gcc  
-x86_64                randconfig-015-20231117   gcc  
-x86_64                randconfig-016-20231117   gcc  
-x86_64                randconfig-071-20231117   gcc  
-x86_64                randconfig-072-20231117   gcc  
-x86_64                randconfig-073-20231117   gcc  
-x86_64                randconfig-074-20231117   gcc  
-x86_64                randconfig-075-20231117   gcc  
-x86_64                randconfig-076-20231117   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                           allyesconfig   gcc  
-xtensa                randconfig-001-20231117   gcc  
-xtensa                randconfig-002-20231117   gcc  
+The three last patches are addressing Runtime PM issues in a few sensor
+drivers.
 
+Comments would be welcome.
+
+since v1:
+
+- Fix a compilation issue when CONFIG_PM is disabled in the first patch.
+
+- Improve the documentation patch, assume the use of autosuspend (this
+  generally makes sense for camera sensor drivers).
+
+- Keep using pm_runtime_get_if_in_use() in imx319 and imx219 drivers (they
+  don't use autosuspend).
+
+- Add a patch to document acpi_dev_state_d0() in conjunction of non-D0
+  probe.
+
+Sakari Ailus (7):
+  pm: runtime: Simplify pm_runtime_get_if_active() usage
+  pm: runtime: Add pm_runtime_put_mark_busy_autosusp() helper
+  ACPI: Documentation: Document acpi_dev_state_d0()
+  media: Documentation: Improve camera sensor runtime PM documentation
+  media: ov8858: Use pm_runtime_get_if_active(), put usage_count
+    correctly
+  media: imx319: Put usage_count correctly in s_ctrl callback
+  media: imx219: Put usage_count correctly in s_ctrl callback
+
+ .../driver-api/media/camera-sensor.rst        | 76 +++++++++++++------
+ .../firmware-guide/acpi/non-d0-probe.rst      | 10 +++
+ Documentation/power/runtime_pm.rst            |  5 +-
+ drivers/base/power/runtime.c                  |  9 ++-
+ drivers/gpu/drm/i915/intel_runtime_pm.c       |  2 +-
+ drivers/media/i2c/ccs/ccs-core.c              |  2 +-
+ drivers/media/i2c/imx219.c                    |  8 +-
+ drivers/media/i2c/imx319.c                    |  8 +-
+ drivers/media/i2c/ov8858.c                    |  8 +-
+ drivers/net/ipa/ipa_smp2p.c                   |  2 +-
+ drivers/pci/pci.c                             |  2 +-
+ include/linux/pm_runtime.h                    | 49 ++++++++++--
+ sound/hda/hdac_device.c                       |  2 +-
+ 13 files changed, 133 insertions(+), 50 deletions(-)
+
+
+base-commit: 3e238417254bfdcc23fe207780b59cbb08656762
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.39.2
+
 
