@@ -1,296 +1,194 @@
-Return-Path: <linux-media+bounces-473-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-474-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E875E7EEE09
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 10:02:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2E827EEFB6
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 11:04:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 159071C20B1B
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 09:02:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76FDC1F2857F
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 10:04:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B449EDF60;
-	Fri, 17 Nov 2023 09:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FDB518027;
+	Fri, 17 Nov 2023 10:04:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="quZWRCfE"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XbbngjzR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CDC311F;
-	Fri, 17 Nov 2023 01:02:38 -0800 (PST)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AH5IQSR030464;
-	Fri, 17 Nov 2023 10:02:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=selector1; bh=9l8YIXvr1qCb4mjD4T+dz
-	Zsbd0D1nt4OOpppCFXT1bE=; b=quZWRCfEARhxtxImgE/22rUGQWRFKFiXH/f9c
-	ugAWKAgOQj2eZtLDZomMdVgDLuFjnwq72+YOsmBRqup9VrdzvXfav2Edr60CToDu
-	97r75SRBfh9h8N8IB88K6B7bFaXw1wobs95yKyPdcHiEp3XNYos/ZQ1Qtt+qLBfv
-	pGpu+q07MUF+efJSqTFsa4uBBm/VvwzGiZU9kwFkI72fPDJKS8HyNk57RQpiENqL
-	EQ5M3aXLp60SW+8zYjG0tMg+5vBkFJ1WDPVUq9BSYKFOceozMre6ls9zuIdREVlx
-	3iXKJlvf+4ILXTpmGDhvciRmdAKULgDrFwQL3sAr3nlY+EGMg==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ua1u2a9kw-1
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59283194;
+	Fri, 17 Nov 2023 02:04:16 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AH9Qdc8009283;
+	Fri, 17 Nov 2023 10:03:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : mime-version : content-type; s=qcppdkim1;
+ bh=DhkJnR22Jop4i2vHDhl5q1CKNIHtvIzQcFATKsxapzk=;
+ b=XbbngjzR/GasnWiBpR6iA3hOUNgMPDZYP01zZ6vS0JkAVWksrAqw3xXIGCYnNks0QYZz
+ usWp74Boqxfy+MrHgkhAYyE8a+0CJxq6aCMu0w8lFgn+h0gKmAdtoIZvgSqLzT23znia
+ og2YDc6zZ7AZPaQL66Duwv3b54AGaTTrLTd6xiX3YNk/3GIq6dPPunP6+iQ79m+AoyKd
+ +YGKOTLr01d3Fa1FZHAhTRWhvr7Qb7nkZQz1ldgd+jrk1Rooo3uXSml95x501W694pCO
+ vBv9EcqexhzkWtdGQwoMrOs0BLAcgfny0GgMGCZjF2CO4oiKlX2NjumabqKBi9bXsMYa VQ== 
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ue2na0g2t-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Nov 2023 10:02:09 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AB89110002A;
-	Fri, 17 Nov 2023 10:02:07 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A2F7D211603;
-	Fri, 17 Nov 2023 10:02:07 +0100 (CET)
-Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 17 Nov
- 2023 10:02:07 +0100
-Date: Fri, 17 Nov 2023 10:02:06 +0100
-From: Alain Volmat <alain.volmat@foss.st.com>
-To: Pavel Machek <pavel@ucw.cz>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring
-	<robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi
-	<jacopo.mondi@ideasonboard.com>,
-        Kieran Bingham
-	<kieran.bingham@ideasonboard.com>,
-        Rob Herring <robh@kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 3/3] media: i2c: gc2145: Galaxy Core GC2145 sensor
- support
-Message-ID: <20231117090206.GB523678@gnbcxd0016.gnb.st.com>
-Mail-Followup-To: Pavel Machek <pavel@ucw.cz>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231107081345.3172392-1-alain.volmat@foss.st.com>
- <20231107081345.3172392-4-alain.volmat@foss.st.com>
- <ZU/UX9Jjk288ELUx@duo.ucw.cz>
+	Fri, 17 Nov 2023 10:03:57 +0000
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AHA3uIm012999
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 17 Nov 2023 10:03:56 GMT
+Received: from hu-jasksing-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01b.na.qualcomm.com (10.47.209.197) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.39; Fri, 17 Nov 2023 02:03:51 -0800
+From: Jaskaran Singh <quic_jasksing@quicinc.com>
+To: <sumit.semwal@linaro.org>, <benjamin.gaignard@collabora.com>,
+        <Brian.Starkey@arm.com>, <jstultz@google.com>, <tjmercier@google.com>,
+        <christian.koenig@amd.com>, <matthias.bgg@gmail.com>,
+        <angelogioacchino.delregno@collabora.com>
+CC: <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>, <quic_vjitta@quicinc.com>
+Subject: [PATCH v2] dma-buf: heaps: Introduce cma_heap_add() for non-default CMA heap
+Date: Fri, 17 Nov 2023 15:33:37 +0530
+Message-ID: <20231117100337.5215-1-quic_jasksing@quicinc.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ZU/UX9Jjk288ELUx@duo.ucw.cz>
-X-Disclaimer: ce message est personnel / this message is private
-X-Originating-IP: [10.129.178.213]
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
+Content-Type: text/plain
+X-Originating-IP: [10.80.80.8]
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 5Mjj9yaE5YbLk6qMKCFvI8mWREOm329-
+X-Proofpoint-ORIG-GUID: 5Mjj9yaE5YbLk6qMKCFvI8mWREOm329-
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-17_06,2023-11-16_01,2023-05-22_02
+ definitions=2023-11-17_07,2023-11-16_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 spamscore=0
+ priorityscore=1501 malwarescore=0 mlxscore=0 lowpriorityscore=0
+ mlxlogscore=627 phishscore=0 suspectscore=0 clxscore=1011 adultscore=0
+ impostorscore=0 bulkscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311060000 definitions=main-2311170074
 
-Hi Pavel,
+From: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
 
-On Sat, Nov 11, 2023 at 08:22:07PM +0100, Pavel Machek wrote:
-> Hi!
-> 
-> > Addition of support for the Galaxy Core GC2145 XVGA sensor.
-> > The sensor supports both DVP and CSI-2 interfaces however for
-> > the time being only CSI-2 is implemented.
-> > 
-> > Configurations is currently based on initialization scripts
-> 
-> "are"?
+Currently dma-buf heaps can handle only default CMA. This exposes
+__add_cma_heap(), renamed to cma_heap_add(), as a public API to
+initialize CMA heaps from a pointer to a CMA region.
 
-Fixed
+At first, the driver calls of_reserved_mem_device_init() to set
+memory-region property associated with reserved-memory defined as CMA
+to the device. And when the driver calls this cma_heap_add() with the
+struct cma attached to the device, the CMA will be added to dma-buf
+heaps.
 
-> 
-> > coming from Galaxy Core and for that purpose only 3 static
-> 
-> "and so"?
+For example, prepare CMA node named "linux,cma@10000000" and
+specify the node for memory-region property. After the above calls
+in the driver, a device file "/dev/dma_heap/linux,cma@10000000"
+associated with the CMA become available as dma-buf heaps.
 
-Fixed
+Signed-off-by: Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
+[quic_jasksing@quicinc.com: Use struct cma as the function argument]
+Signed-off-by: Jaskaran Singh <quic_jasksing@quicinc.com>
+---
+Reviving this patch as per discussions on the MediaTek Secure Heap patch
+series[1]. There is now a potential client of the cma_heap_add() API.
 
-> 
-> > resolutions are supported.
-> 
-> "supported:"?
+An unaddressed problem in this patch is the proper parsing of heap
+names. Naming convention for fixed address heaps in the devicetree is of
+the format "[heap name]@[fixed address]", for example
+"audio-heap@88b00000". Exposing heaps this way to userspace could
+prove erroneous as the usecases fulfilled by these heaps are the same
+across individual SoCs. Userspace clients of these heaps might expect a
+more consistent interface. Any feedback on this is appreciated.
 
-Fixed
+Changes v1->v2:
+- Change the function argument for dma_heap_add_cma() from struct
+  device to struct cma as per the discussion on [1].
+- In lieu of the above point, discard dma_heap_add_cma() and instead
+  expose the existing __add_cma_heap() as cma_heap_add().
+- Make minor modifications to the commit message based on the changes in
+  this version. Retain most of the original commit message.
 
-> 
-> >  - 640x480
-> >  - 1280x720
-> >  - 1600x1200
-> 
-> 
-> > --- /dev/null
-> > +++ b/drivers/media/i2c/gc2145.c
-> > @@ -0,0 +1,1404 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * A V4L2 driver for Galaxycore GC2145 camera.
-> > + * Copyright (C) 2023, STMicroelectronics SA
-> > + *
-> > + * Inspired from the imx219.c driver
-> 
-> "by the"?
+v1: https://lore.kernel.org/lkml/1594948208-4739-1-git-send-email-hayashi.kunihiko@socionext.com/
 
-Fixed
+[1] https://lore.kernel.org/lkml/20230911023038.30649-1-yong.wu@mediatek.com/T/#m5184a1e13767bb656a4a3d9bf5a1fd7450e42eb7
 
-> 
-> Link to some kind of datasheet / documentation /... would be welcome
-> here.
+ drivers/dma-buf/heaps/cma_heap.c | 12 ++++++++++--
+ include/linux/dma-heap.h         | 10 ++++++++++
+ 2 files changed, 20 insertions(+), 2 deletions(-)
 
-Seems an old version of the datasheet is available on pine64.org so I
-guess I could add a link to this one.
-
-http://files.pine64.org/doc/datasheet/PinebookPro/GC2145%20CSP%20DataSheet%20release%20V1.0_20131201.pdf
-
-> 
-> > +/**
-> > + * struct gc2145_mode - GC2145 mode description
-> > + * @width: frame width (in pixel)
-> > + * @height: frame height (in pixel)
-> 
-> "in pixels".
-
-Ok
-
-> 
-> > +static const struct gc2145_mode supported_modes[] = {
-> ...
-> > +	{
-> > +		/* 1280x720 30fps mode */
-> > +		.width = 1280,
-> > +		.height = 720,
-> > +		.reg_seq = gc2145_mode_1280_720_regs,
-> > +		.reg_seq_size = ARRAY_SIZE(gc2145_mode_1280_720_regs),
-> > +		.pixel_rate = GC2145_1280_720_PIXELRATE,
-> > +		.crop = {
-> > +			.top = 160,
-> > +			.left = 240,
-> > +			.width = 1280,
-> > +			.height = 720,
-> > +		},
-> > +		.hblank = GC2145_1280_720_HBLANK,
-> > +		.vblank = GC2145_1280_720_VBLANK,
-> > +	},
-> 
-> Won't this result in 1120x480 mode due to crop?
-
-The crop struct indicates the top left corner and width/height so this
-leads to 720p mode.
-
-> 
-> > +/* All supported formats */
-> > +static const struct gc2145_format supported_formats[] = {
-> > +	{
-> > +		.code		= MEDIA_BUS_FMT_UYVY8_1X16,
-> > +		.code		= MEDIA_BUS_FMT_VYUY8_1X16,
-> > +		.code		= MEDIA_BUS_FMT_YUYV8_1X16,
-> > +		.code		= MEDIA_BUS_FMT_YVYU8_1X16,
-> > +		.code		= MEDIA_BUS_FMT_RGB565_1X16,
-> > +};
-> 
-> So ... the hardware can do 10bit ADC, but we don't actually have a
-> mode exposing that?
-
-We don't have YET (in the driver).  Choice is to have this first serie
-with only non-RAW modes.  RAW8/10 will be added later on.
-
-> 
-> > +	 * Adjust the MIPI buffer settings.
-> > +	 * For YUV/RGB, LWC = image width * 2
-> > +	 * For RAW8, LWC = image width
-> > +	 * For RAW10, LWC = image width * 1.25
-> > +	 */
-> > +	lwc = gc2145->mode->width * 2;
-> > +	cci_write(gc2145->regmap, GC2145_REG_LWC_HIGH, lwc >> 8, &ret);
-> > +	cci_write(gc2145->regmap, GC2145_REG_LWC_LOW, lwc & 0xff, &ret);
-> > +
-> > +	/*
-> > +	 * Adjust the MIPI Fifo Full Level
-> 
-> Fifo -> FIFO?
-
-Ok
-
-> 
-> > +	/*
-> > +	 * Set the fifo gate mode / MIPI wdiv set:
-> > +	 * 0xf1 in case of RAW mode and 0xf0 otherwise
-> > +	 */
-> 
-> fifo -> FIFO?
-
-Ok
-
-> 
-> > +	/*
-> > +	 * Datasheet doesn't mention timing between PWDN/RESETB control and
-> > +	 * i2c access however experimentation shows that a rather big delay is
-> > +	 * needed
-> > +	 */
-> 
-> "however," "needed."
-
-Ok
-
-> 
-> > +static const struct v4l2_ctrl_ops gc2145_ctrl_ops = {
-> > +	.s_ctrl = gc2145_s_ctrl,
-> > +};
-> > +
-> > +/* Initialize control handlers */
-> > +static int gc2145_init_controls(struct gc2145 *gc2145)
-> > +{
-> > +	ret = v4l2_ctrl_handler_init(hdl, 12);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ctrls->pixel_rate = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE,
-> > +					      GC2145_640_480_PIXELRATE,
-> > +					      GC2145_1280_720_PIXELRATE, 1,
-> 
-> Should the second pixelrate be one from 1600x1200?
-
-Indeed.  This will actually evolve in the v4 since I implemented instead
-the V4L2_CID_LINK_FREQ control.
-
-> 
-> > +static int gc2145_check_hwcfg(struct device *dev)
-> > +{
-> > +	struct fwnode_handle *endpoint;
-> > +	struct v4l2_fwnode_endpoint ep_cfg = {
-> > +		.bus_type = V4L2_MBUS_CSI2_DPHY
-> > +	};
-> > +	int ret = -EINVAL;
-> 
-> This "ret" value is unused. Not sure if something will warn about this.
-
-Corrected.
-
-> 
-> > +MODULE_AUTHOR("Alain Volmat <alain.volmat@foss.st.com");
-> 
-> ">" is missing at the end of address.
-
-Done.
-
-> 
-> The driver looks good, thank you!
-> 
-> Best regards,
-> 								Pavel
-> -- 
-> People of Russia, stop Putin before his war on Ukraine escalates.
-
-Regards,
-Alain
+diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
+index ee899f8e6721..b3bef8206e8b 100644
+--- a/drivers/dma-buf/heaps/cma_heap.c
++++ b/drivers/dma-buf/heaps/cma_heap.c
+@@ -367,7 +367,14 @@ static const struct dma_heap_ops cma_heap_ops = {
+ 	.allocate = cma_heap_allocate,
+ };
+ 
+-static int __add_cma_heap(struct cma *cma, void *data)
++/**
++ * cma_heap_add - adds a CMA heap to dmabuf heaps
++ * @cma:       pointer to the CMA pool to register the heap for
++ * @data:      unused
++ *
++ * Returns 0 on success. Else, returns errno.
++ */
++int cma_heap_add(struct cma *cma, void *data)
+ {
+ 	struct cma_heap *cma_heap;
+ 	struct dma_heap_export_info exp_info;
+@@ -391,6 +398,7 @@ static int __add_cma_heap(struct cma *cma, void *data)
+ 
+ 	return 0;
+ }
++EXPORT_SYMBOL_GPL(cma_heap_add);
+ 
+ static int add_default_cma_heap(void)
+ {
+@@ -398,7 +406,7 @@ static int add_default_cma_heap(void)
+ 	int ret = 0;
+ 
+ 	if (default_cma)
+-		ret = __add_cma_heap(default_cma, NULL);
++		ret = cma_heap_add(default_cma, NULL);
+ 
+ 	return ret;
+ }
+diff --git a/include/linux/dma-heap.h b/include/linux/dma-heap.h
+index 0c05561cad6e..adcd462825a8 100644
+--- a/include/linux/dma-heap.h
++++ b/include/linux/dma-heap.h
+@@ -12,6 +12,7 @@
+ #include <linux/cdev.h>
+ #include <linux/types.h>
+ 
++struct cma;
+ struct dma_heap;
+ 
+ /**
+@@ -65,4 +66,13 @@ const char *dma_heap_get_name(struct dma_heap *heap);
+  */
+ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info);
+ 
++#ifdef CONFIG_DMABUF_HEAPS_CMA
++int cma_heap_add(struct cma *cma, void *data);
++#else
++static inline int cma_heap_add(struct cma *cma, void *data)
++{
++	return -EINVAL;
++}
++#endif /* CONFIG_DMABUF_HEAPS_CMA */
++
+ #endif /* _DMA_HEAPS_H */
+-- 
+2.17.1
 
 
