@@ -1,289 +1,443 @@
-Return-Path: <linux-media+bounces-504-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-505-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A13C17EF3AC
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 14:20:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27BEF7EF3FB
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 15:05:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CE851F26127
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 13:20:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 997AC1F22427
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 14:05:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC1A431A97;
-	Fri, 17 Nov 2023 13:20:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="tebBESaF"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E512A34569;
+	Fri, 17 Nov 2023 14:05:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06E5F194
-	for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 05:20:43 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (185-9-10-242.cust.suomicom.net [185.9.10.242])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4SWyFh66d6zyT1
-	for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 15:20:40 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1700227240;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=8SPUETrq8bHmKcryZCFFY2X0Tee25+GXj8My3ReFZzY=;
-	b=tebBESaFsq6oCV1Suj//cVHt7UDaPlggLHHdU8Le8AOqX+SC29zY5RoJoGLfKh+c/hA+3+
-	9KdqiULpMsrBWNuHWULXVoAsm+FayW1VqMrudJJaR15Uro3Pec+0qPfUucB73oXBz5m7pA
-	nrX2GjYIBEwoZWh5Gwli1fr2BmqaDQQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1700227240;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=8SPUETrq8bHmKcryZCFFY2X0Tee25+GXj8My3ReFZzY=;
-	b=lIU3meXc90hv7IMDy9AOoZ8EgIlAJ7Nqh6ZX0EMt6jnaHUlAusWR3Vu4pgv3v2UPUbDVMn
-	nwFgxmzaW4+KEGDAuyEon4IKWhQLn6RgSCbluR7UC6DIg0EXtOPRNTAI8SXLHm9Gfr8XWV
-	avHJ6JnbryrMColJJ+g/yG/RGuCDbWc=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1700227240; a=rsa-sha256; cv=none;
-	b=tlGK7pcUTH5kloFC60y4jBcDIlTXsUd4jHmdzx6DyAr1O60tJMbTrX7vbJUHlVfjtEyKi/
-	OyRcWDY3b6cA1qkDXYBTFlyWLq7SUDxKopvNDFjSq2d6Po/wwHKMaIRkhxLKtzh8R97hbV
-	L4upEv1feXVUunCyUduN16clwTDv9eo=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 678CC634C93
-	for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 15:20:40 +0200 (EET)
-Date: Fri, 17 Nov 2023 13:20:40 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Subject: [GIT PULL FOR 6.8] V4L2 subdev state cleanups and refactoring
-Message-ID: <ZVdoqEE24Mi4k-Ra@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEFDF3455C
+	for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 14:05:20 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55397C433C7;
+	Fri, 17 Nov 2023 14:05:16 +0000 (UTC)
+Message-ID: <4e0e0e79-91a8-49b5-874d-784d51003021@xs4all.nl>
+Date: Fri, 17 Nov 2023 15:05:14 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 10/15] media: uapi: Add V4L2_CTRL_TYPE_FIXED_POINT
+Content-Language: en-US, nl
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Shengjiu Wang <shengjiu.wang@gmail.com>,
+ Shengjiu Wang <shengjiu.wang@nxp.com>, m.szyprowski@samsung.com,
+ mchehab@kernel.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com,
+ nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org,
+ perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org,
+ linuxppc-dev@lists.ozlabs.org, Tomasz Figa <tfiga@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <da6efe14-c00d-4bf4-bf61-dd4ed39c5c60@xs4all.nl>
+ <20231113124412.GA18974@pendragon.ideasonboard.com>
+ <b35601f7-8bb2-4317-a8f7-6fbf81572943@xs4all.nl>
+ <20231115105518.GD13826@pendragon.ideasonboard.com>
+ <a67491c0-4fdf-4472-852c-e75f5e1d67af@xs4all.nl>
+ <20231115114931.GE13826@pendragon.ideasonboard.com>
+ <CAAFQd5BkCR=tYvmfjkOeTnjnccmURt8kEtiRee9CYqcz+FGHfg@mail.gmail.com>
+ <7626e0f8-ce31-469e-b49c-f2fba664756f@xs4all.nl>
+ <CAA+D8ANb6A9eh=MQR9+7sZi5jet+7RSHt6TdZqPz5EK6pBs3mA@mail.gmail.com>
+ <6badc94c-c414-40d7-a9d7-8b3fc86d8d98@xs4all.nl>
+ <ZVdlmRlpW7ebrjQO@valkosipuli.retiisi.eu>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <ZVdlmRlpW7ebrjQO@valkosipuli.retiisi.eu>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Mauro, Hans,
+On 17/11/2023 14:07, Sakari Ailus wrote:
+> Hi Hans,
+> 
+> Thank you for the patch.
+> 
+> On Fri, Nov 17, 2023 at 01:07:44PM +0100, Hans Verkuil wrote:
+>> Here is an RFC patch adding support for 'fraction_bits'. It's lacking
+>> documentation, but it can be used for testing.
+>>
+>> It was rather a pain logging fixed point number in a reasonable format,
+>> but I think it is OK.
+>>
+>> In userspace (where you can use floating point) it is a lot easier:
+>>
+>> printf("%.*g\n", fraction_bits, (double)v * (1.0 / (1ULL << fraction_bits)));
+> 
+> I wonder if we could add a printk() format specifier for this. Doesn't need
+> to be done right now though, just an idea.
+> 
+>>
+>> I decided to only expose fraction_bits in struct v4l2_query_ext_ctrl.
+>> I could add it to struct v4l2_queryctrl, but I did not think that was
+>> necessary. Other opinions are welcome.
+>>
+>> In the meantime, let me know if this works for your patch series. If it
+>> does, then I can clean this up.
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> ---
+>>  drivers/media/v4l2-core/v4l2-ctrls-api.c  |  1 +
+>>  drivers/media/v4l2-core/v4l2-ctrls-core.c | 72 +++++++++++++++++++----
+>>  include/media/v4l2-ctrls.h                |  7 ++-
+>>  include/uapi/linux/videodev2.h            | 20 ++++++-
+>>  4 files changed, 85 insertions(+), 15 deletions(-)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+>> index 002ea6588edf..3132df315b17 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
+>> @@ -1101,6 +1101,7 @@ int v4l2_query_ext_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_query_ext_ctr
+>>  	qc->elems = ctrl->elems;
+>>  	qc->nr_of_dims = ctrl->nr_of_dims;
+>>  	memcpy(qc->dims, ctrl->dims, qc->nr_of_dims * sizeof(qc->dims[0]));
+>> +	qc->fraction_bits = ctrl->fraction_bits;
+>>  	qc->minimum = ctrl->minimum;
+>>  	qc->maximum = ctrl->maximum;
+>>  	qc->default_value = ctrl->default_value;
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> index a662fb60f73f..0e08a371af5c 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> @@ -252,12 +252,42 @@ void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
+>>  }
+>>  EXPORT_SYMBOL(v4l2_ctrl_type_op_init);
+>>
+>> +static void v4l2_ctrl_log_fp(s64 v, unsigned int fraction_bits)
+>> +{
+>> +	s64 i = v4l2_fp_integer(v, fraction_bits);
+>> +	s64 f = v4l2_fp_fraction(v, fraction_bits);
+>> +
+>> +	if (!f) {
+>> +		pr_cont("%lld", i);
+>> +	} else if (fraction_bits < 20) {
+>> +		u64 div = 1ULL << fraction_bits;
+>> +
+>> +		if (!i && f < 0)
+>> +			pr_cont("-%lld/%llu", -f, div);
+>> +		else if (!i)
+>> +			pr_cont("%lld/%llu", f, div);
+>> +		else if (i < 0 || f < 0)
+>> +			pr_cont("-%lld-%llu/%llu", -i, -f, div);
+>> +		else
+>> +			pr_cont("%lld+%llu/%llu", i, f, div);
+>> +	} else {
+>> +		if (!i && f < 0)
+>> +			pr_cont("-%lld/(2^%u)", -f, fraction_bits);
+>> +		else if (!i)
+>> +			pr_cont("%lld/(2^%u)", f, fraction_bits);
+>> +		else if (i < 0 || f < 0)
+>> +			pr_cont("-%lld-%llu/(2^%u)", -i, -f, fraction_bits);
+>> +		else
+>> +			pr_cont("%lld+%llu/(2^%u)", i, f, fraction_bits);
+>> +	}
+>> +}
+>> +
+>>  void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+>>  {
+>>  	union v4l2_ctrl_ptr ptr = ctrl->p_cur;
+>>
+>>  	if (ctrl->is_array) {
+>> -		unsigned i;
+>> +		unsigned int i;
+>>
+>>  		for (i = 0; i < ctrl->nr_of_dims; i++)
+>>  			pr_cont("[%u]", ctrl->dims[i]);
+>> @@ -266,7 +296,10 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+>>
+>>  	switch (ctrl->type) {
+>>  	case V4L2_CTRL_TYPE_INTEGER:
+>> -		pr_cont("%d", *ptr.p_s32);
+>> +		if (!ctrl->fraction_bits)
+>> +			pr_cont("%d", *ptr.p_s32);
+>> +		else
+>> +			v4l2_ctrl_log_fp(*ptr.p_s32, ctrl->fraction_bits);
+>>  		break;
+>>  	case V4L2_CTRL_TYPE_BOOLEAN:
+>>  		pr_cont("%s", *ptr.p_s32 ? "true" : "false");
+>> @@ -281,19 +314,31 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+>>  		pr_cont("0x%08x", *ptr.p_s32);
+>>  		break;
+>>  	case V4L2_CTRL_TYPE_INTEGER64:
+>> -		pr_cont("%lld", *ptr.p_s64);
+>> +		if (!ctrl->fraction_bits)
+>> +			pr_cont("%lld", *ptr.p_s64);
+>> +		else
+>> +			v4l2_ctrl_log_fp(*ptr.p_s64, ctrl->fraction_bits);
+>>  		break;
+>>  	case V4L2_CTRL_TYPE_STRING:
+>>  		pr_cont("%s", ptr.p_char);
+>>  		break;
+>>  	case V4L2_CTRL_TYPE_U8:
+>> -		pr_cont("%u", (unsigned)*ptr.p_u8);
+>> +		if (!ctrl->fraction_bits)
+>> +			pr_cont("%u", (unsigned int)*ptr.p_u8);
+>> +		else
+>> +			v4l2_ctrl_log_fp((unsigned int)*ptr.p_u8, ctrl->fraction_bits);
+>>  		break;
+>>  	case V4L2_CTRL_TYPE_U16:
+>> -		pr_cont("%u", (unsigned)*ptr.p_u16);
+>> +		if (!ctrl->fraction_bits)
+>> +			pr_cont("%u", (unsigned int)*ptr.p_u16);
+>> +		else
+>> +			v4l2_ctrl_log_fp((unsigned int)*ptr.p_u16, ctrl->fraction_bits);
+>>  		break;
+>>  	case V4L2_CTRL_TYPE_U32:
+>> -		pr_cont("%u", (unsigned)*ptr.p_u32);
+>> +		if (!ctrl->fraction_bits)
+>> +			pr_cont("%u", (unsigned int)*ptr.p_u32);
+>> +		else
+>> +			v4l2_ctrl_log_fp((unsigned int)*ptr.p_u32, ctrl->fraction_bits);
+>>  		break;
+>>  	case V4L2_CTRL_TYPE_H264_SPS:
+>>  		pr_cont("H264_SPS");
+>> @@ -1752,7 +1797,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>>  			u32 id, const char *name, enum v4l2_ctrl_type type,
+>>  			s64 min, s64 max, u64 step, s64 def,
+>>  			const u32 dims[V4L2_CTRL_MAX_DIMS], u32 elem_size,
+>> -			u32 flags, const char * const *qmenu,
+>> +			u32 fraction_bits, u32 flags, const char * const *qmenu,
+>>  			const s64 *qmenu_int, const union v4l2_ctrl_ptr p_def,
+>>  			void *priv)
+>>  {
+>> @@ -1939,6 +1984,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>>  	ctrl->name = name;
+>>  	ctrl->type = type;
+>>  	ctrl->flags = flags;
+>> +	ctrl->fraction_bits = fraction_bits;
+>>  	ctrl->minimum = min;
+>>  	ctrl->maximum = max;
+>>  	ctrl->step = step;
+>> @@ -2037,7 +2083,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
+>>  	ctrl = v4l2_ctrl_new(hdl, cfg->ops, cfg->type_ops, cfg->id, name,
+>>  			type, min, max,
+>>  			is_menu ? cfg->menu_skip_mask : step, def,
+>> -			cfg->dims, cfg->elem_size,
+>> +			cfg->dims, cfg->elem_size, cfg->fraction_bits,
+>>  			flags, qmenu, qmenu_int, cfg->p_def, priv);
+>>  	if (ctrl)
+>>  		ctrl->is_private = cfg->is_private;
+>> @@ -2062,7 +2108,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std(struct v4l2_ctrl_handler *hdl,
+>>  		return NULL;
+>>  	}
+>>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>> -			     min, max, step, def, NULL, 0,
+>> +			     min, max, step, def, NULL, 0, 0,
+>>  			     flags, NULL, NULL, ptr_null, NULL);
+>>  }
+>>  EXPORT_SYMBOL(v4l2_ctrl_new_std);
+>> @@ -2095,7 +2141,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu(struct v4l2_ctrl_handler *hdl,
+>>  		return NULL;
+>>  	}
+>>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>> -			     0, max, mask, def, NULL, 0,
+>> +			     0, max, mask, def, NULL, 0, 0,
+>>  			     flags, qmenu, qmenu_int, ptr_null, NULL);
+>>  }
+>>  EXPORT_SYMBOL(v4l2_ctrl_new_std_menu);
+>> @@ -2127,7 +2173,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
+>>  		return NULL;
+>>  	}
+>>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>> -			     0, max, mask, def, NULL, 0,
+>> +			     0, max, mask, def, NULL, 0, 0,
+>>  			     flags, qmenu, NULL, ptr_null, NULL);
+>>
+>>  }
+>> @@ -2149,7 +2195,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
+>>  		return NULL;
+>>  	}
+>>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>> -			     min, max, step, def, NULL, 0,
+>> +			     min, max, step, def, NULL, 0, 0,
+>>  			     flags, NULL, NULL, p_def, NULL);
+>>  }
+>>  EXPORT_SYMBOL(v4l2_ctrl_new_std_compound);
+>> @@ -2173,7 +2219,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
+>>  		return NULL;
+>>  	}
+>>  	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
+>> -			     0, max, 0, def, NULL, 0,
+>> +			     0, max, 0, def, NULL, 0, 0,
+>>  			     flags, NULL, qmenu_int, ptr_null, NULL);
+>>  }
+>>  EXPORT_SYMBOL(v4l2_ctrl_new_int_menu);
+>> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+>> index 59679a42b3e7..c35514c5bf88 100644
+>> --- a/include/media/v4l2-ctrls.h
+>> +++ b/include/media/v4l2-ctrls.h
+>> @@ -211,7 +211,8 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
+>>   *		except for dynamic arrays. In that case it is in the range of
+>>   *		1 to @p_array_alloc_elems.
+>>   * @dims:	The size of each dimension.
+>> - * @nr_of_dims:The number of dimensions in @dims.
+>> + * @nr_of_dims: The number of dimensions in @dims.
+>> + * @fraction_bits: The number of fraction bits for fixed point values.
+>>   * @menu_skip_mask: The control's skip mask for menu controls. This makes it
+>>   *		easy to skip menu items that are not valid. If bit X is set,
+>>   *		then menu item X is skipped. Of course, this only works for
+>> @@ -228,6 +229,7 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
+>>   *		:math:`ceil(\frac{maximum - minimum}{step}) + 1`.
+>>   *		Used only if the @type is %V4L2_CTRL_TYPE_INTEGER_MENU.
+>>   * @flags:	The control's flags.
+>> + * @fraction_bits: The number of fraction bits for fixed point values.
+>>   * @priv:	The control's private pointer. For use by the driver. It is
+>>   *		untouched by the control framework. Note that this pointer is
+>>   *		not freed when the control is deleted. Should this be needed
+>> @@ -286,6 +288,7 @@ struct v4l2_ctrl {
+>>  	u32 new_elems;
+>>  	u32 dims[V4L2_CTRL_MAX_DIMS];
+>>  	u32 nr_of_dims;
+>> +	u32 fraction_bits;
+>>  	union {
+>>  		u64 step;
+>>  		u64 menu_skip_mask;
+>> @@ -426,6 +429,7 @@ struct v4l2_ctrl_handler {
+>>   * @dims:	The size of each dimension.
+>>   * @elem_size:	The size in bytes of the control.
+>>   * @flags:	The control's flags.
+>> + * @fraction_bits: The number of fraction bits for fixed point values.
+>>   * @menu_skip_mask: The control's skip mask for menu controls. This makes it
+>>   *		easy to skip menu items that are not valid. If bit X is set,
+>>   *		then menu item X is skipped. Of course, this only works for
+>> @@ -455,6 +459,7 @@ struct v4l2_ctrl_config {
+>>  	u32 dims[V4L2_CTRL_MAX_DIMS];
+>>  	u32 elem_size;
+>>  	u32 flags;
+>> +	u32 fraction_bits;
+>>  	u64 menu_skip_mask;
+>>  	const char * const *qmenu;
+>>  	const s64 *qmenu_int;
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index c3d4e490ce7c..26ecac19722a 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -1944,9 +1944,27 @@ struct v4l2_query_ext_ctrl {
+>>  	__u32                elems;
+>>  	__u32                nr_of_dims;
+>>  	__u32                dims[V4L2_CTRL_MAX_DIMS];
+>> -	__u32		     reserved[32];
+>> +	__u32                fraction_bits;
+> 
+> u8 would suffice. Not that we'd be short of space but still...
+> 
+>> +	__u32		     reserved[31];
+>>  };
+>>
+>> +static inline __s64 v4l2_fp_compose(__s64 i, __s64 f, unsigned int fraction_bits)
+>> +{
+>> +	return (i << fraction_bits) + f;
+>> +}
+>> +
+>> +static inline __s64 v4l2_fp_integer(__s64 v, unsigned int fraction_bits)
+>> +{
+>> +	return v / (1LL << fraction_bits);
+> 
+> Why not just:
+> 
+> 	return v >> fraction_bits;
 
-I've split the large PR into two smaller ones, this one contains the
-sub-device state cleanups and refactoring that affect a large number of
-sub-device drivers as well as the V4L2 sub-device framework.
+That works if v >= 0, but not for v < 0. Getting this right for negative
+fixed point values was rather tricky. Actually, it is still wrong if
+fraction_bits == 63. This works:
 
-Please pull.
+static inline long long v4l2_fp_integer(long long v, unsigned int fraction_bits)
+{
+        if (fraction_bits >= 63)
+                return v < 0 ? -1 : 0;
+        return v / (1ULL << fraction_bits);
+}
 
+> 
+> I'd use macros so you could use whatever control types with this without
+> casting. E.g.
+> 
+> #define V4L2_FP_INTEGER(v, fraction_bits) ((v) >> fraction_bits)
+> 
+> A more generic way to expose this could be to have base and exponent, the
+> base being 2 in this case. Just an idea. This would of course be a little
+> bit more difficult to use.
 
-The following changes since commit 1865913dd590ca6d5e3207b15099a1210dd62f29:
+To be honest, I am not at all certain this should be in a public header.
+I am inclined to drop it, especially since in userspace you can just use
+floating point operations which makes working with fixed point a lot easier.
 
-  media: meson-ir-tx: Drop usage of platform_driver_probe() (2023-11-16 13:56:48 +0100)
+The code to extract the integer and fraction part is really only relevant
+when logging the fixed point value.
 
-are available in the Git repository at:
+Regards,
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.8-2.1-signed
+	Hans
 
-for you to fetch changes up to 2fc528c2f73ec378ba7af7007856e245364bec6a:
+> 
+>> +}
+>> +
+>> +static inline __s64 v4l2_fp_fraction(__s64 v, unsigned int fraction_bits)
+>> +{
+>> +	__u64 mask = (1ULL << fraction_bits) - 1;
+>> +
+>> +	return v < 0 ? -((-v) & mask) : (v & mask);
+>> +}
+>> +
+>>  /*  Used in the VIDIOC_QUERYMENU ioctl for querying menu items */
+>>  struct v4l2_querymenu {
+>>  	__u32		id;
+> 
 
-  media: v4l: subdev: Return NULL from pad access functions on error (2023-11-17 15:17:53 +0200)
-
-----------------------------------------------------------------
-V4L2 patches for 6.8
-
-----------------------------------------------------------------
-Laurent Pinchart (15):
-      media: atmel-isi: Use accessors for pad config 'try_*' fields
-      media: microchip-isc: Use accessors for pad config 'try_*' fields
-      media: atmel-isc: Use accessors for pad config 'try_*' fields
-      media: atomisp: Use accessors for pad config 'try_*' fields
-      media: tegra-video: Use accessors for pad config 'try_*' fields
-      media: i2c: Use accessors for pad config 'try_*' fields
-      media: v4l2-subdev: Rename pad config 'try_*' fields
-      media: v4l2-subdev: Drop outdated comment for v4l2_subdev_pad_config
-      media: ipu3-cio2: Drop comment blocks for subdev op handlers
-      media: xilinx: csi2rxss: Drop comment blocks for subdev op handlers
-      media: v4l2-subdev: Fix references to pad config
-      media: qcom: camss: Fix references to pad config
-      media: ti: omap3isp: Fix references to pad config
-      media: ti: omap4iss: Fix references to pad config
-      media: i2c: Fix references to pad config
-
-Sakari Ailus (9):
-      media: v4l: subdev: Store the sub-device in the sub-device state
-      media: v4l: subdev: Also return pads array information on stream functions
-      media: v4l: subdev: Rename sub-device state information access functions
-      media: v4l: subdev: v4l2_subdev_state_get_format always returns format now
-      media: v4l: subdev: Make stream argument optional in state access functions
-      media: v4l: subdev: Always compile sub-device state access functions
-      media: v4l: subdev: Switch to stream-aware state functions
-      media: v4l: subdev: Remove stream-unaware sub-device state access
-      media: v4l: subdev: Return NULL from pad access functions on error
-
- Documentation/driver-api/media/v4l2-subdev.rst     |   4 +-
- drivers/media/i2c/adv7180.c                        |   4 +-
- drivers/media/i2c/adv7183.c                        |   2 +-
- drivers/media/i2c/adv748x/adv748x-afe.c            |   6 +-
- drivers/media/i2c/adv748x/adv748x-csi2.c           |   2 +-
- drivers/media/i2c/adv748x/adv748x-hdmi.c           |   6 +-
- drivers/media/i2c/adv7511-v4l2.c                   |   4 +-
- drivers/media/i2c/adv7604.c                        |   4 +-
- drivers/media/i2c/adv7842.c                        |   4 +-
- drivers/media/i2c/ar0521.c                         |   5 +-
- drivers/media/i2c/ccs/ccs-core.c                   |  22 +-
- drivers/media/i2c/ds90ub913.c                      |   3 +-
- drivers/media/i2c/ds90ub953.c                      |   3 +-
- drivers/media/i2c/ds90ub960.c                      |  12 +-
- drivers/media/i2c/et8ek8/et8ek8_driver.c           |   3 +-
- drivers/media/i2c/hi556.c                          |  13 +-
- drivers/media/i2c/hi846.c                          |  11 +-
- drivers/media/i2c/hi847.c                          |   9 +-
- drivers/media/i2c/imx208.c                         |   9 +-
- drivers/media/i2c/imx214.c                         |   4 +-
- drivers/media/i2c/imx219.c                         |  12 +-
- drivers/media/i2c/imx258.c                         |   9 +-
- drivers/media/i2c/imx274.c                         |  12 +-
- drivers/media/i2c/imx290.c                         |   8 +-
- drivers/media/i2c/imx296.c                         |  18 +-
- drivers/media/i2c/imx319.c                         |   7 +-
- drivers/media/i2c/imx334.c                         |  12 +-
- drivers/media/i2c/imx335.c                         |  12 +-
- drivers/media/i2c/imx355.c                         |   7 +-
- drivers/media/i2c/imx412.c                         |  12 +-
- drivers/media/i2c/imx415.c                         |   6 +-
- drivers/media/i2c/isl7998x.c                       |   6 +-
- drivers/media/i2c/max9286.c                        |   4 +-
- drivers/media/i2c/mt9m001.c                        |   6 +-
- drivers/media/i2c/mt9m111.c                        |   6 +-
- drivers/media/i2c/mt9m114.c                        |  58 +++---
- drivers/media/i2c/mt9p031.c                        |   6 +-
- drivers/media/i2c/mt9t112.c                        |   2 +-
- drivers/media/i2c/mt9v011.c                        |   2 +-
- drivers/media/i2c/mt9v032.c                        |  10 +-
- drivers/media/i2c/mt9v111.c                        |   4 +-
- drivers/media/i2c/og01a1b.c                        |  10 +-
- drivers/media/i2c/ov01a10.c                        |   2 +-
- drivers/media/i2c/ov02a10.c                        |   6 +-
- drivers/media/i2c/ov08d10.c                        |   9 +-
- drivers/media/i2c/ov08x40.c                        |   7 +-
- drivers/media/i2c/ov13858.c                        |  10 +-
- drivers/media/i2c/ov13b10.c                        |  10 +-
- drivers/media/i2c/ov2640.c                         |   6 +-
- drivers/media/i2c/ov2659.c                         |   6 +-
- drivers/media/i2c/ov2680.c                         |  10 +-
- drivers/media/i2c/ov2685.c                         |   4 +-
- drivers/media/i2c/ov2740.c                         |   4 +-
- drivers/media/i2c/ov4689.c                         |   2 +-
- drivers/media/i2c/ov5640.c                         |   9 +-
- drivers/media/i2c/ov5645.c                         |   4 +-
- drivers/media/i2c/ov5647.c                         |  12 +-
- drivers/media/i2c/ov5648.c                         |   6 +-
- drivers/media/i2c/ov5670.c                         |  13 +-
- drivers/media/i2c/ov5675.c                         |   9 +-
- drivers/media/i2c/ov5693.c                         |   4 +-
- drivers/media/i2c/ov5695.c                         |   8 +-
- drivers/media/i2c/ov6650.c                         |  34 ++--
- drivers/media/i2c/ov7251.c                         |   4 +-
- drivers/media/i2c/ov7670.c                         |   7 +-
- drivers/media/i2c/ov772x.c                         |   2 +-
- drivers/media/i2c/ov7740.c                         |   7 +-
- drivers/media/i2c/ov8856.c                         |   9 +-
- drivers/media/i2c/ov8858.c                         |   6 +-
- drivers/media/i2c/ov8865.c                         |   8 +-
- drivers/media/i2c/ov9282.c                         |  14 +-
- drivers/media/i2c/ov9640.c                         |   2 +-
- drivers/media/i2c/ov9650.c                         |   7 +-
- drivers/media/i2c/ov9734.c                         |   9 +-
- drivers/media/i2c/rj54n1cb0c.c                     |   2 +-
- drivers/media/i2c/s5c73m3/s5c73m3-core.c           |  37 ++--
- drivers/media/i2c/s5k5baf.c                        |  35 ++--
- drivers/media/i2c/s5k6a3.c                         |   8 +-
- drivers/media/i2c/saa6752hs.c                      |   2 +-
- drivers/media/i2c/st-mipid02.c                     |  11 +-
- drivers/media/i2c/st-vgxy61.c                      |   5 +-
- drivers/media/i2c/tc358746.c                       |  12 +-
- drivers/media/i2c/tda1997x.c                       |   6 +-
- drivers/media/i2c/tvp5150.c                        |   2 +-
- drivers/media/i2c/tvp7002.c                        |   6 +-
- drivers/media/i2c/tw9910.c                         |   2 +-
- drivers/media/pci/intel/ipu3/ipu3-cio2.c           |  24 +--
- drivers/media/pci/intel/ivsc/mei_csi.c             |   4 +-
- drivers/media/platform/atmel/atmel-isi.c           |  12 +-
- drivers/media/platform/cadence/cdns-csi2rx.c       |   4 +-
- drivers/media/platform/cadence/cdns-csi2tx.c       |   3 +-
- .../media/platform/microchip/microchip-csi2dc.c    |  15 +-
- .../media/platform/microchip/microchip-isc-base.c  |  10 +-
- .../platform/microchip/microchip-isc-scaler.c      |  16 +-
- drivers/media/platform/nxp/imx-mipi-csis.c         |  10 +-
- drivers/media/platform/nxp/imx7-media-csi.c        |  16 +-
- .../platform/nxp/imx8-isi/imx8-isi-crossbar.c      |  10 +-
- .../media/platform/nxp/imx8-isi/imx8-isi-pipe.c    |  18 +-
- .../media/platform/nxp/imx8-isi/imx8-isi-video.c   |   2 +-
- drivers/media/platform/nxp/imx8mq-mipi-csi2.c      |  13 +-
- drivers/media/platform/qcom/camss/camss-csid.c     |  15 +-
- drivers/media/platform/qcom/camss/camss-csiphy.c   |  15 +-
- drivers/media/platform/qcom/camss/camss-ispif.c    |  15 +-
- drivers/media/platform/qcom/camss/camss-vfe.c      |  34 ++--
- drivers/media/platform/renesas/rcar-isp.c          |   4 +-
- .../media/platform/renesas/rcar-vin/rcar-csi2.c    |   4 +-
- .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c  |   6 +-
- .../media/platform/renesas/rzg2l-cru/rzg2l-ip.c    |   6 +-
- drivers/media/platform/renesas/vsp1/vsp1_brx.c     |   2 +-
- drivers/media/platform/renesas/vsp1/vsp1_entity.c  |   8 +-
- drivers/media/platform/renesas/vsp1/vsp1_rwpf.c    |   3 +-
- .../media/platform/rockchip/rkisp1/rkisp1-csi.c    |  16 +-
- .../media/platform/rockchip/rkisp1/rkisp1-isp.c    | 103 +++++-----
- .../platform/rockchip/rkisp1/rkisp1-resizer.c      |  53 ++---
- .../platform/samsung/exynos4-is/fimc-capture.c     |  12 +-
- .../media/platform/samsung/exynos4-is/fimc-isp.c   |  24 +--
- .../media/platform/samsung/exynos4-is/fimc-lite.c  |  16 +-
- .../media/platform/samsung/exynos4-is/mipi-csis.c  |   3 +-
- .../platform/samsung/s3c-camif/camif-capture.c     |   8 +-
- .../media/platform/sunxi/sun4i-csi/sun4i_v4l2.c    |   8 +-
- .../platform/sunxi/sun6i-csi/sun6i_csi_bridge.c    |   8 +-
- .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c        |   8 +-
- .../sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c    |   8 +-
- drivers/media/platform/ti/cal/cal-camerarx.c       |  18 +-
- drivers/media/platform/ti/cal/cal-video.c          |   2 +-
- drivers/media/platform/ti/omap3isp/ispccdc.c       |  19 +-
- drivers/media/platform/ti/omap3isp/ispccp2.c       |  13 +-
- drivers/media/platform/ti/omap3isp/ispcsi2.c       |   9 +-
- drivers/media/platform/ti/omap3isp/isppreview.c    |  18 +-
- drivers/media/platform/ti/omap3isp/ispresizer.c    |  21 +-
- drivers/media/platform/video-mux.c                 |  18 +-
- drivers/media/platform/xilinx/xilinx-csi2rxss.c    |  64 +-----
- drivers/media/platform/xilinx/xilinx-tpg.c         |   9 +-
- drivers/media/platform/xilinx/xilinx-vip.c         |   4 +-
- drivers/media/test-drivers/vimc/vimc-debayer.c     |  10 +-
- drivers/media/test-drivers/vimc/vimc-scaler.c      |   9 +-
- drivers/media/test-drivers/vimc/vimc-sensor.c      |   6 +-
- drivers/media/v4l2-core/v4l2-subdev.c              | 181 ++++++++++-------
- drivers/staging/media/atomisp/i2c/atomisp-gc0310.c |   2 +-
- drivers/staging/media/atomisp/i2c/atomisp-gc2235.c |   2 +-
- .../staging/media/atomisp/i2c/atomisp-mt9m114.c    |   2 +-
- drivers/staging/media/atomisp/i2c/atomisp-ov2722.c |   2 +-
- drivers/staging/media/atomisp/pci/atomisp_csi2.c   |   3 +-
- drivers/staging/media/atomisp/pci/atomisp_subdev.c |   6 +-
- drivers/staging/media/atomisp/pci/atomisp_tpg.c    |   2 +-
- .../media/deprecated/atmel/atmel-isc-base.c        |  10 +-
- drivers/staging/media/imx/imx-ic-prp.c             |   4 +-
- drivers/staging/media/imx/imx-ic-prpencvf.c        |   4 +-
- drivers/staging/media/imx/imx-media-csi.c          |   8 +-
- drivers/staging/media/imx/imx-media-utils.c        |   2 +-
- drivers/staging/media/imx/imx-media-vdic.c         |   2 +-
- drivers/staging/media/imx/imx6-mipi-csi2.c         |   2 +-
- drivers/staging/media/ipu3/ipu3-v4l2.c             |  14 +-
- drivers/staging/media/omap4iss/iss_csi2.c          |   9 +-
- drivers/staging/media/omap4iss/iss_ipipe.c         |  11 +-
- drivers/staging/media/omap4iss/iss_ipipeif.c       |  11 +-
- drivers/staging/media/omap4iss/iss_resizer.c       |  11 +-
- drivers/staging/media/starfive/camss/stf-isp.c     |  25 ++-
- .../staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c |   8 +-
- drivers/staging/media/tegra-video/vi.c             |  14 +-
- include/media/v4l2-subdev.h                        | 225 ++++++++-------------
- 161 files changed, 941 insertions(+), 1112 deletions(-)
-
--- 
-Sakari Ailus
 
