@@ -1,114 +1,126 @@
-Return-Path: <linux-media+bounces-513-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-514-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B16187EF54B
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 16:30:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 534DD7EF581
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 16:42:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E32441C20965
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 15:30:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E494EB20BA4
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 15:42:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17DD836B00;
-	Fri, 17 Nov 2023 15:30:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9B7934CE3;
+	Fri, 17 Nov 2023 15:42:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="blLMrax6"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Yb+6bvWS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69E4BD67;
-	Fri, 17 Nov 2023 07:30:21 -0800 (PST)
-Received: from ideasonboard.com (unknown [IPv6:2001:b07:5d2e:52c9:cc1e:e404:491f:e6ea])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DDFA4922;
-	Fri, 17 Nov 2023 16:29:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700234991;
-	bh=utT3/dTTeL7oLW2POSo7P38xjokH9LBGVLKIoVrvtng=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=blLMrax6OMTC2IRDTmb5SxQ/cJnbEia45xWI+FoO7My0uNMDBdfii/xJRinwJfBIt
-	 xLYvQjnjN/H0CSwUdOri6ZYHBYnAhfn2tvxKUh+BqOSIs4dvJQEPS1TmPUzPEPZp7J
-	 Pvgh6yr65wxwO75A6DgyuRGx1O/bSD21FUpKhcXg=
-Date: Fri, 17 Nov 2023 16:30:15 +0100
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org, linux-media@vger.kernel.org, 
-	rafael@kernel.org, jacopo.mondi@ideasonboard.com, laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH v2 5/7] media: ov8858: Use pm_runtime_get_if_active(),
- put usage_count correctly
-Message-ID: <ledwhthyoc6h5ccmwdvyl7cqrp3kdwijcpkzxpp4jvemd6iz2a@na2elf7674a5>
-References: <20231117111433.1561669-1-sakari.ailus@linux.intel.com>
- <20231117111433.1561669-6-sakari.ailus@linux.intel.com>
+Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1FE6E6;
+	Fri, 17 Nov 2023 07:42:33 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 9B8D61BF204;
+	Fri, 17 Nov 2023 15:42:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700235752;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=yNqh1W+l1xyxCiKwmG3HCTekXHZkRRwcjr0CZxdvgL4=;
+	b=Yb+6bvWSy9bvYwB3oTuh9ttCmd2iHinW74sbHwSeHKzbL+T5BHhSwT+nXBLUbo82l0M5vj
+	xTRY2Sj8+Sp+TKAsZRpWT2Q9s66zL+ZbYX9sz8OIG3rlXfpKhMcpP+E6L5p8BoqUO5M+QH
+	POxIUP1bazxDidjeESogrwg5e8GfzAdUoLFTxAfQyS3xoEI6FPe3Am7F1ZqjoPdQfUyDg7
+	NGHfJugs5alDUL/aESpAoUWg0mE85UADWmKDsOhxnsOSk1S6IHfUmpk79CDmxUoWlkpdJA
+	sxqOH4wWFc0d64qeRe5oXFl7TpbMb9HK3+4zDbIcSDfOBJyoWShppANZEQCoLA==
+From: Mehdi Djait <mehdi.djait@bootlin.com>
+To: mchehab@kernel.org,
+	heiko@sntech.de,
+	hverkuil-cisco@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	thomas.petazzoni@bootlin.com,
+	alexandre.belloni@bootlin.com,
+	maxime.chevallier@bootlin.com,
+	paul.kocialkowski@bootlin.com,
+	Mehdi Djait <mehdi.djait@bootlin.com>
+Subject: [PATCH v9 0/3] media: i2c: Introduce driver for the TW9900 video decoder
+Date: Fri, 17 Nov 2023 16:42:26 +0100
+Message-ID: <cover.1700235276.git.mehdi.djait@bootlin.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231117111433.1561669-6-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+X-GND-Sasl: mehdi.djait@bootlin.com
 
-Hi Sakari
+Hello everyone,
 
-On Fri, Nov 17, 2023 at 01:14:31PM +0200, Sakari Ailus wrote:
-> Use pm_runtime_get_if_active() to get the device's runtime PM usage_count
-> and set controls, then use runtime PM autosuspend once the controls have
-> been set (instead of likely transitioning to suspended state immediately).
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/ov8858.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
-> index 3af6125a2eee..a99b91700a8d 100644
-> --- a/drivers/media/i2c/ov8858.c
-> +++ b/drivers/media/i2c/ov8858.c
-> @@ -1538,7 +1538,7 @@ static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
->  	struct v4l2_subdev_state *state;
->  	u16 digi_gain;
->  	s64 max_exp;
-> -	int ret;
-> +	int ret, pm_status;
->
->  	/*
->  	 * The control handler and the subdev state use the same mutex and the
-> @@ -1561,7 +1561,8 @@ static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
->  		break;
->  	}
->
-> -	if (!pm_runtime_get_if_in_use(&client->dev))
-> +	pm_status = pm_runtime_get_if_active(&client->dev);
-> +	if (!pm_status)
->  		return 0;
->
->  	switch (ctrl->id) {
-> @@ -1601,7 +1602,8 @@ static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
->  		break;
->  	}
->
-> -	pm_runtime_put(&client->dev);
-> +	if (pm_status > 0)
+V8 of the series adding support for the Techwell TW9900 multi standard decoder.
+It's a pretty simple decoder compared to the TW9910, since it doesn't have a 
+built-in scaler/crop engine.
 
-I'm not 100% sure I get this bit.
+v8 => v9:
+- added a "depends on" GPIOLIB, PM and "select" V4L2_ASYNC to Kconfig
+- reworked the locking to protect the tw9900->streaming global state
+- folded power_on and power_off into runtime_resume and runtime_suspend
+  callbacks
+- used pm_runtime_resume_and get instead pm_runtime_get_sync
 
-If we get here it means pm_status is either -EINVAL or > 0, otherwise
-we would have exited earlier.
+v7 => v8:
+- fixed the number of analog input ports: it is just one.
+- added endpoints of the analog input port
+- added vdd-supply to the required in the dt-binding documentation
+- added back pm_runtime
+- added a mutex to Serialize access to hardware and current mode configuration
+- split get_fmt and set_fmt callbacks 
+- removed the tw9900_cancel_autodetect()
 
-What's the point of checking for > 0 here ?
+v6 => v7:
+- added powerdown-gpios and input ports to dt-bindings
+- added #include <linux/bitfield.h> to fix a Warning from the kernel
+  robot
+- removed a dev_info and replaced a dev_err by dev_err_probe
 
-There are two cases where pm_status is -EINVAL, either !CONFIG_PM and
-the the below call is a nop, or if pm_runtime has not been enabled by
-the driver, which means the driver doesn't use pm_runtime at all.
+v5[1] => v6:
+- dropped .skip_top and .field in the supported_modes
+- added error handling for the i2c writes/reads
+- added the colorimetry information to fill_fmt
+- removed pm_runtime
+- added the g_input_status callback
+- dropped SECAM
+- dropped the non-standard PAL/NTSC variants
 
-Are there other cases I have missed that require checking here for
-pm_status > 0 ?
+Any feedback is appreciated,
 
-> +		pm_runtime_mark_busy_autosusp(&client->dev);
->
->  	return ret;
->  }
-> --
-> 2.39.2
->
+Mehdi Djait
+
+media_tree, base-commit: 3e238417254bfdcc23fe207780b59cbb08656762
+
+[1] https://lore.kernel.org/linux-media/20210401070802.1685823-1-maxime.chevallier@bootlin.com/
+
+Mehdi Djait (3):
+  dt-bindings: vendor-prefixes: Add techwell vendor prefix
+  media: dt-bindings: media: i2c: Add bindings for TW9900
+  media: i2c: Introduce a driver for the Techwell TW9900 decoder
+
+ .../bindings/media/i2c/techwell,tw9900.yaml   | 137 +++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ MAINTAINERS                                   |   6 +
+ drivers/media/i2c/Kconfig                     |  15 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/tw9900.c                    | 777 ++++++++++++++++++
+ 6 files changed, 938 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
+ create mode 100644 drivers/media/i2c/tw9900.c
+
+-- 
+2.41.0
+
 
