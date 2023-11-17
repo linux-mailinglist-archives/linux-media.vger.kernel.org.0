@@ -1,54 +1,53 @@
-Return-Path: <linux-media+bounces-496-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-497-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D717EF275
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 13:16:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBBB77EF283
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 13:18:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CAE721C209FB
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 12:16:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E3761F27C21
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 12:18:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEC8230656;
-	Fri, 17 Nov 2023 12:16:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3BE93FE4;
+	Fri, 17 Nov 2023 12:18:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="UnZlqsnD"
+	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="Lp9RS8uw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR01-VE1-obe.outbound.protection.outlook.com (mail-ve1eur01on2055.outbound.protection.outlook.com [40.107.14.55])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83583196;
-	Fri, 17 Nov 2023 04:15:58 -0800 (PST)
+Received: from EUR05-VI1-obe.outbound.protection.outlook.com (mail-vi1eur05on2053.outbound.protection.outlook.com [40.107.21.53])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05C1AD51;
+	Fri, 17 Nov 2023 04:18:11 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=TC5zTTEQkzfOlfAX/KS2XSJ1Fe55bq2xLzNbBwzm6yhiBi+5IXkXgxeQJHlizoV9gykqZYS0xk23xsvcJthOeo2ygzDpXccVfzRQYYsbExZCaeE3bHQ2gEXYH9r/IoPw5JSCZQHwCj/2K76Mi9jQPtka7TiRv4wvBWYBPLGoLo09v/FSQVOiM7GG2dfdJZO32SA5dl09ZNAYpTki9O5xpOPgOxUDE7bSuBEfO9l8X6+TPLBgaf6ahATEtQrRyFkKP5dRX7asSokbCwymyIHQLNe9P0HCKGgYpHe0g18t8qCxNFdkm5Z8seS3mIdEFJ1MiFolWfm1pZYo6JcMCiPjZA==
+ b=d5IhOdNj+yKTvXiL2M2uN5FufGNGreT9mzkbX16SAEkRS3k/2KETIuiGqnCNF9R2ND4i9HaT83p39Q/qys+lm3f2Cv+SN6NvA/Qb/dwPakJLu7s50R8Z0GM+DT0VR/mAjeUz9P/TDLChc/dhuM2VVMetvXpYwG8r3OwTzIPHfG6eQgNvJZMKmHvjo0uxrRBhktMHoGf9XHVuQ/ixaeO/RI4tGDLDcLaFv0AuwXv/1LDcJiXBqsZWgrhqcsbSUpxbfA2vfLWMBj4zbDVKgqR5tONtCCis6S0SMtBFfpyhlGhxcowEys8RIgbIXlMwCaNzK8L8WBbay6PBvbt+UJcV3A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=6oQivDRcVc2tYZ+iYZyvBx9mWvK6bp0A82dsI9N9puo=;
- b=Sqv3dmd2C4A3BBo5zOJC/r1iBc6MCIPIEcP1Uhq89iOX77mpcPl2D+dMGNvZQU8LVCoB5F7Es/0lzWMv2XQ1AAdUGlwkvlbkkwTnq/FcYfnCL/p+Bb+Y8BQkfoZiuU9ELVCJeA+eotaJT9IDUgdgASiWNp01AxMVRUv5V/P0WS/FyGxmiZC2z4L01puVoZaEn+eNhmfbcK7pE4g8kWYQnAmCscWaR++fqAlvJihErQu2cLm9I6BHIbESjmxMlkBI2FKzZoKUkPK0gyoZWqQ4kYoPwYmzSlKPB31fEGrI/DyY7atdadp73RY9alwosAK9ex6Gi3hJUWdiZvCJmQbP0g==
+ bh=sDFlZafxIXciPkTWKyM+/TrkPiqLR3mnmij9iofiTOM=;
+ b=A/CE592/VspTqr4zZW2Y/Ky9qLvy7bmE0T6WVEqfNO7dq2Q7fJEn1T1VXWkWpo937dZKI2gyartGA8/DxGwl2x1BvFzB43C0xbmklRKKhF4gawLnvHl270fQqy3cg8mA8Q5k1u+z2TMBc/+WsXYb4XnS8/gXUSuN+INZ61Vbc56IfM5y2llJG5n6L66NgjESV6qkhYB91rLzhPSk+nrI29zvSVrByBMqpOL9H/jo2HvvjBck8lHK+3cd21NEI/HdMaLsdsyZkOZK+PmHWprXH+xzSzvm+vo1pnqAC3em1sf7KvnzFuhuM0xp7AQtBM7a8knGqljcKrHIix1QEJSdIw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=wolfvision.net; dmarc=pass action=none
  header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=6oQivDRcVc2tYZ+iYZyvBx9mWvK6bp0A82dsI9N9puo=;
- b=UnZlqsnDe0yHmoXW9tf70rdwHq2rliKqqF4g+KH6xmLbhzkzPiKlkpH53PDEDaZpNgoozqiGG6uvuzgYbdkhHrqD3AxY8MmgQdn+Lk1hbQfDK1NJtKgTxb45hpv3QO/sOwOQ4Jrp3dFsJsjNe3DrsGwYw09ltA65q9IXFGZ4XtI=
+ bh=sDFlZafxIXciPkTWKyM+/TrkPiqLR3mnmij9iofiTOM=;
+ b=Lp9RS8uwZndD95VVYKQvs1anK8r+sL7zhF4tuWYyvtT4miD4QlZ1yyU54qeAN0VXevoDNl1mIq95PVbQAgJ8kg9Q+SqJC3BOccdwpq9e0OsEiin/4NCnbh9G9atXUsUV6JCJFHSpmiQ6xqbf5m7egyWc8wYXjNJpqlSmZt1avHE=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=wolfvision.net;
 Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
- by AS4PR08MB7632.eurprd08.prod.outlook.com (2603:10a6:20b:4cf::20) with
+ by GV2PR08MB10381.eurprd08.prod.outlook.com (2603:10a6:150:bd::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.21; Fri, 17 Nov
- 2023 12:15:54 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.20; Fri, 17 Nov
+ 2023 12:18:07 +0000
 Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
  ([fe80::79a1:5ad6:b221:ad]) by DU0PR08MB9155.eurprd08.prod.outlook.com
  ([fe80::79a1:5ad6:b221:ad%4]) with mapi id 15.20.7002.022; Fri, 17 Nov 2023
- 12:15:54 +0000
-Message-ID: <431375a9-4f62-419c-9ad7-90f3cf892181@wolfvision.net>
-Date: Fri, 17 Nov 2023 13:15:52 +0100
+ 12:18:06 +0000
+Message-ID: <ecac085f-b957-4c96-8e45-63daf8a70904@wolfvision.net>
+Date: Fri, 17 Nov 2023 13:18:04 +0100
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 1/3] media: dt-bindings: media: add bindings for
- Rockchip CIF
+Subject: Re: [PATCH v11 3/3] arm64: dts: rockchip: Add the camera interface
 Content-Language: en-US
 To: Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
  heiko@sntech.de, hverkuil-cisco@xs4all.nl,
@@ -58,14 +57,14 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
  paul.kocialkowski@bootlin.com
 References: <cover.1700132457.git.mehdi.djait@bootlin.com>
- <a0af1d30e79fb1f2567297c951781996836d6db6.1700132457.git.mehdi.djait@bootlin.com>
+ <3566c176d1ef5ae93aa54587a14ccfa80974e872.1700132457.git.mehdi.djait@bootlin.com>
 From: Michael Riesch <michael.riesch@wolfvision.net>
 Organization: WolfVision GmbH
-In-Reply-To: <a0af1d30e79fb1f2567297c951781996836d6db6.1700132457.git.mehdi.djait@bootlin.com>
+In-Reply-To: <3566c176d1ef5ae93aa54587a14ccfa80974e872.1700132457.git.mehdi.djait@bootlin.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR07CA0297.eurprd07.prod.outlook.com
- (2603:10a6:800:130::25) To DU0PR08MB9155.eurprd08.prod.outlook.com
+X-ClientProxiedBy: VI1PR0102CA0065.eurprd01.prod.exchangelabs.com
+ (2603:10a6:803::42) To DU0PR08MB9155.eurprd08.prod.outlook.com
  (2603:10a6:10:416::5)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -74,293 +73,105 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|AS4PR08MB7632:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6301f74b-1409-49d3-ec01-08dbe766f273
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|GV2PR08MB10381:EE_
+X-MS-Office365-Filtering-Correlation-Id: 07d7aa22-b9ed-4d4f-4add-08dbe7674169
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
 X-Microsoft-Antispam-Message-Info:
-	jOsTpeuoFL/kxAti3e73Aq8HeARraw6udUzRX7qJwA+XpQ1xXwr2mc1XY97BUYhsM5e+d9rgXob7FrDAYbIVbciQk5BFpUDQC2kApGnKKnp9I7iWx8t+yCZIwL59nQyKC5H9zQiV2tF3s2TpbbXTWJGsdP053SG72LXcPd7G2vjYoGtF8kTkiIPhSh5E9uNysg+NyOgmgHWgxq7Gjud1+MXbxbc7OmVQKgm5d4b/20b/7k0ajqGZuKXwgSPjdTHTMEhO554yXsk2IJYXgJeGWlKOYGysS5HNi32Si/PFS6nDIUjYLnTVO52R7e2CW8dPYs8TPiaTE/D6125zooWlAXN7mTTbvNwkpmckNwu4rSVnqEUAcDM7XwFyux1ir6bIEUKeH2ybxmtQq9dydWgkPI2OSaphlBZlxJGKfKiU/vE/yKk+2L9gWpttedAM6PgEWyTIeETuknqPklB79JjgRDDJZUfGVOeCf/0GvDh2DEV3MCCP6X5pghwSQat+JC+o9bkqvUeO4PG3DCFizkR7wFfJzGFbtC+162lUshS3G2A9Iv8T8X53XpFUI+p90Q8/96ozn1mpJqI60Fv3qRSPL1mFz1+4pwqynxgt5E1F/iG9H3YjUcFFGaKFgd+yaByeHrApW7BDouKEL3N07z8raA==
+	ew9gSYG+dDhB3uyloAMbUuougoi+qlK5t1xAekGNg0NejKBsLCox/l80NxpFCplH6Qlth4MjxbXwG33V8zPEPbJ14rjIAGqi9mwDxIh6GeNtL9+l159hfRISfPza6ivAjF1HSEPFuS7Ot9/SbbZujaOQCxepqXqJH/mtIQVdkNS+vWDkzGh44sq2txkDYscKWBtEZowekGXVKKzJ9WNF7S3enECpr4c1ZBt5YmG8g0v84UU2XrHTMKfDJiQHN0ieSnB4gpLXWB6ZD3m5PmrqnKNt1QKJv1WUWpYTchnxaNyWFjLlr5flJP2lUPp7kMEkwlLdrYr7+/4KNeEcA5o4Fc6E0hzXryvMDqoNEsjUJpy1t34D00KC316pcnWfeCMiXKjINL8Wnquyte4DRhZ/wDxAt+7ipO76FZvgRICy0L2R4obttVh5LAzlwWyXiJakV6zb06ZSFBTd2iUFyfQseOh1K+ShmmvnGbABo7UM1vStVOeBxzgH6i7IK6mQnROHmlJmsf58qeIHX4hYjFCZ4AkvWoBpkL537rfkSPsW3bEEwIPDeNoiGuseY7BDuaz1qvIL/64YW1Wm9Yg5Ts61EGvfu4xpS5yQT1OnRqD+HOg/MEX616+vlIqSYmuNlXfnL3uaIaYjA6F24Cvf8JfPBg==
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(346002)(396003)(136003)(376002)(366004)(230922051799003)(64100799003)(186009)(1800799009)(451199024)(36756003)(41300700001)(31686004)(38100700002)(2906002)(83380400001)(5660300002)(7416002)(26005)(86362001)(31696002)(2616005)(53546011)(36916002)(44832011)(6512007)(6506007)(966005)(6486002)(66476007)(4326008)(478600001)(8936002)(8676002)(66556008)(66946007)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(39850400004)(366004)(376002)(346002)(396003)(230922051799003)(1800799009)(64100799003)(186009)(451199024)(7416002)(2906002)(36756003)(316002)(8936002)(44832011)(6506007)(36916002)(66476007)(66556008)(53546011)(6512007)(26005)(4326008)(66946007)(31696002)(2616005)(6486002)(478600001)(38100700002)(5660300002)(83380400001)(86362001)(8676002)(41300700001)(31686004)(43740500002)(45980500001);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RXUyWXR3U3FOUEd5R0lpTFIvaUtjakNLY0RKMnAzNlV3c0VtQUZPSFJyU29R?=
- =?utf-8?B?MUxTQmE3MmRYeGl3bjBtQkMvbks5WEpBZlB5TGd3ekc5MTdJUnMzdXl5NWk0?=
- =?utf-8?B?TmlyNjR4dkNqei9ac09vYmpLdWpPazZmL1JUU01JRVgrMDROZ1ZUcHpaQzVu?=
- =?utf-8?B?SkcwemxVbDdoZmlmN1h6cWZ1ZExEN3A1WnhmQnFCUjYwUUVUM2pMYkFxOFd1?=
- =?utf-8?B?UE9uRS9iWFZzQjhkMnBYS3FFa25OOC9jemxDS0ZFeGVibG9PRmVKZGxWeFIv?=
- =?utf-8?B?MmdJdTB5c2dSRnU3NGJGLzcyOGdhcWdNejduTmFrTkw2VUp6TjluUWt6Z1VH?=
- =?utf-8?B?RkJzUkJJU2hKT1lkNmFsQnJhVlk2d0RmRU5XeDQrMFJJMFVpNmprMG8rb1Vi?=
- =?utf-8?B?RGtlUmJ0cTlpQmhwaTdIb0VhSjJLaUZzQ3E4bmtTdFNVSjZMc0Z1b3NFd3ho?=
- =?utf-8?B?Tk8weHFmUTkwSEFKWXU5UlhUc0IwSnYxbTRHVmNqdjJKeUl6QzRWZXFSWFkz?=
- =?utf-8?B?VXJwaWRJaEY1RWdNVklrbjhjYTZJTTQ5Mll2NFIrMnRXZ3BjMEJ3OU9ZZ0JU?=
- =?utf-8?B?V21CT0NvdzJGVzFzQ0dTZmo0eTVweFVQdmY2YWU1QVdrK0JNOTZqaVpMRWdn?=
- =?utf-8?B?Wlg5d3pCalRNVEJVejhMdjlWWGFzWUtvR2JEd1BjaW5KRW0yY2tBSjc3WWhN?=
- =?utf-8?B?ZVJFaGowQkRBVkdTNUdMbHNRT09IMWhkTjhSd3NxajFvdjJsVFNaU2JxSUZU?=
- =?utf-8?B?RDhXUmxTV1V6Z3RCblpabnUzUG5iRkMzaUQ2VGhQR3V2MUh1a01mUnJPM3F4?=
- =?utf-8?B?MXJnS2U2ZFhqWVJKenJpL05lejdWMDVxWmVFcmtaRnYycmMwaHpwaFB0MlJa?=
- =?utf-8?B?YTZid2pQTzd3V01jRGF4YnFvYXFRSGl3TkNIRUNiK0dPVk5CUnZ3WHlDSlRu?=
- =?utf-8?B?ajFjNjBZeER0MjBpZmZ0ekZzUWRpclJaODRqN1BGYkJmMzNXQ2tVeDJOS2hk?=
- =?utf-8?B?TEoyaHJCTEFNeGJwVksrM2tEdi9aOW1vcVZWMzlzaVBvUmNTeHRCeUwzOU1s?=
- =?utf-8?B?Wm1qZlZEcElSbkJMVlpkQUNoRnRld2daSTZ1QzVrMVNCQ1BMOVBjSEc0OGtV?=
- =?utf-8?B?Q1g3dTVMMWxNbzI0eFVkWkZrY0h4K3ZxdVlKT3NwMkwzQW4wUmM2Rnp0YUNJ?=
- =?utf-8?B?ODF5c3lIMWxJaThBcHRySzBpd0Era2srSHlXaW1zdjZxZnBiMDkxQXBoQkx1?=
- =?utf-8?B?MVBTUkFDeHcxYzVpdVFLaHo5Y1djcy9vdDd3TXZPTFNnUVVJVHFMYzZXT2hU?=
- =?utf-8?B?YmxuYUNHYlM4UENnckNEUVY5OVlMTEF6MENnT0hWVk1wOHhQNnNxaTJwanpP?=
- =?utf-8?B?VUtaUDJOWURldmhVVm5KcWlKS3JOcnZZTkJHOVdCN3BPVUtSckh2Z2pHbWJG?=
- =?utf-8?B?anFaaUU2Yk0yY2RwRVdmWVhVYTQ3Ykc2OGhWUVo0UXRLZEh6MnZ0ZE1WUzIx?=
- =?utf-8?B?dS8wWkZjRlMwSDdGWVRQaXdhUnVoRWJDaSs4eFVIcEtrK2hEUjlYZUFWTGdD?=
- =?utf-8?B?dG1uRWxMY2lPV3I2T05CWlkyS0grMU5XUVdjaGNVSTdacjFJNGpXNFR4Y29o?=
- =?utf-8?B?ZGJSNjRENEFNaU5hajNjWFU1c0FJVnNQem5GekIxbE53djJMQ0VCOGt1U0NC?=
- =?utf-8?B?RWw4bzhROVUvUGo3d1dzZVAyTW5XNDd2SDh2c2QvV29pZXQyMDZVb2wzZWhm?=
- =?utf-8?B?SHhtNnlVajV0Skh3YzhtZGl2MHpaRXd0cDUrem5tWG5KRnFaUWdLelo1N1pp?=
- =?utf-8?B?ai9WeER4d0ppNE1hNnR2dVZzWlRjanNLcUVVR0gxRHNreUJDcXBwVklqVFhK?=
- =?utf-8?B?amI0WnU2NWNyUHFoMFl1MVB0NldzWWtpOHlLYm45Ky9MbExaU2R3RlNlUE83?=
- =?utf-8?B?TmFoWThWaFk3TGhXYXY1cDRhUElpend0VGdxYVhCOW1tWVJBdUt2TFhRM3RG?=
- =?utf-8?B?YnN4cW5LdGdlMEF0WFVsODQzSThHelZ2QzNvQmZUN1JFTXVJWFNTQ2xEVEJC?=
- =?utf-8?B?NGpxNFJzOUQwTGZSMDZWN21MZ0dnYkVJZ3lJek5XMGV2YnhBZnIrWDZpZGtQ?=
- =?utf-8?B?WGlLZmt0NkxPWEJxakpvc2hjNFZRNkw4NWd4YzdPRWtyQUdDNE8yMVlrMVlz?=
- =?utf-8?B?amc9PQ==?=
+	=?utf-8?B?S2NPK0MrWmFUNFNsY1QxWUxtOEtYMXNiMUdtY05DSVVMdE9vRDI1aHpiWFZM?=
+ =?utf-8?B?aUFWdDVZVHRVR0pvbE9wbGNMWmpidVgyVk1oS3RkZFV3SEJtL05Da05KNFpK?=
+ =?utf-8?B?SnNnalRPL0hrSElHN3FFTTFQNEFrekV0ZVQycEN4WVkyK1dqaUxhMTc2K2R4?=
+ =?utf-8?B?elVVU0x5YWVtaHZLNkdmSjYzTVJMbStQSGI2YkNVdTdSWVZtdmgwTkE3cnRr?=
+ =?utf-8?B?dU1TT1huUjZPUG1BUFRBczU2N2E5RFdpMm1pZDJCeFRXT3VKaGRvOVAwcnpv?=
+ =?utf-8?B?RklvUHI4WFJrVC9aa3N0Z0E5TVZ6RmkxSjF1dlZKQ1FYdFlqV3JldlQya3FF?=
+ =?utf-8?B?VFJoUjNqQUovRWtZZkExRnpocGd6SWcwdmNBbG92cnhVU1d4YmpRcFJkNjlS?=
+ =?utf-8?B?Z2taTCtGQm5jWGYvcU9CT3lPSjJKRXNteVlGWUtrR0lBZ1dlcG9CZnRFTWRv?=
+ =?utf-8?B?R3k4c3kxbTNHL0gvRHk3b28zaVh3eG0wZTB4WFc2UE55eHpKUHBGWWpHemJ3?=
+ =?utf-8?B?T0hRblE5cUVHbTZ3bkJNb2N5L25FeDBmaXVjcU03TW9JYTlzREczcnlQYXZo?=
+ =?utf-8?B?K0JXM2EvVzRRcEFteUtOYkE5b1VmbTR2byszT1d0R1laQlhmSVlFMlE3Nllj?=
+ =?utf-8?B?QmlJNWE2UHBtNHZ1ZVEyMjBXZENXR1NDb2YrQ0hUY0dsQnNhbmx2TnlLVThh?=
+ =?utf-8?B?TElQY2R5cGl6alZIcEhSRXNNU29OY1BGdFFtNTRobnV3WTNFUmI4OVJ6cEZB?=
+ =?utf-8?B?b3o0cnlFeGoyRTJwa20ycWNmV1U3dHZOVjlpTVZTK0p3N240S1hwcVhLdHhw?=
+ =?utf-8?B?VFlmem9haW9SM1dVcklYLzlFUURsT0NDbzA1M25JZDlxK1owQWJRWWEwUWY1?=
+ =?utf-8?B?Ky9kT3ZKRFJNOEtFQW1lVXdXTm1GNUFkTEdNb2tHK3k3VTA0YjNleENzZ2s3?=
+ =?utf-8?B?MkxsdklZVmwvQTFGb0txWDRSczhJeXA1TytTNWdRRi95Qy82N2lQZGFFOXFy?=
+ =?utf-8?B?UENCTHprcWhHOWhSUEt5bjVHaGpNNXp6SEd0Z3RSdU9jUFVWMm1laW5NM2hl?=
+ =?utf-8?B?dXRuQmc2dnFNYnNiaVBvZUYrL29ldHRrUUJTQklXRWFrNjZhdm1hdTg4d2ww?=
+ =?utf-8?B?c3N4bEVSbDN2TXBMc2ttUE9RTkV0b2NiVjh2MjNYU0g2b01PMS9xZUJwbFRt?=
+ =?utf-8?B?VmpvR1d1NFFNY3Y3T1hmYkx4MjZtdXFxVkxvcWhJTHJ0R3dEMXFuRnNsMGpW?=
+ =?utf-8?B?S3dDWHQ3UHpNWDA0SFRFdlJHVzJLSUFKRFJRYzZ0bUhxVGZFakJ3ZzlHaUpF?=
+ =?utf-8?B?eU5pV0dLYy94aSt6WmVybWNRcXd6Tkl6NExHSHk5SnZzMEdJL0h6a1BNakxH?=
+ =?utf-8?B?R3cvZTNGRDFPdlhjUWw0MzZBZTVKeG5FS3Nid2R4Y0J2alIzcmVtK1phREI0?=
+ =?utf-8?B?S0ZWTFIvREpOenExQ2hFK0xDUUNqM2xVSzY2TThqRDFkTnVFNXNNSzBWNjlR?=
+ =?utf-8?B?bmMyZDNTOXIxcytvdzd2UEtvNjFGRFI0aGNJNzI2eFVkQUpGcUsya1oxdDYv?=
+ =?utf-8?B?dUtlRjJ6ci9HT3ZhakwveVBaZ3RmZjJvOHl4RlAzT29YbVNkdmdYZ2ZRMGN1?=
+ =?utf-8?B?dFJBTHg4VDF1V0FlSjFXZ3dwMmZJcGFBRjFlNUlzWk5Oc3krSVE3eHJRVlVr?=
+ =?utf-8?B?QzJxd2ZVc09ZSndCR0JwK25PZERiWm8yQytsQ2pCSWcxNUF0dWJESUFWVHBK?=
+ =?utf-8?B?blBjWFhlVk1MTGxrWXkxeFoxelBBL1hvdmEyYlRHemcxWjhxUTR4YkEzeU5H?=
+ =?utf-8?B?V3BCOWZTcWF2UENyc1UramY4YnRQQXdxaHk5VHdFNnR6azhBSW1JVnorU2Js?=
+ =?utf-8?B?clpUMzV1WTF4YnBZUE9HTGgzaGp0MDJwaHBSTlBueTNmR0Jsd1Nidmd0YkFR?=
+ =?utf-8?B?L01NeWwyc2RTellxc0pEWlN3ZWsrNXV0V1hUbS96eTh5YzJTa0srb20vdUdD?=
+ =?utf-8?B?dmY4YVpkTTYzQUN1OGN0VFZ5WVpHaGt5aUl5LzdhcjlsM1pxc2JMR0N5V25E?=
+ =?utf-8?B?OFZaeUYrbjhtT1Joa1lWNXFVUG5EQlJ5R0RqWnFISjg2cEp1K1FiRWRrZVAw?=
+ =?utf-8?B?Z01PeE1GWG1BK3ZTbTN4akFRN2wwekVNUk13Z1FsNDBzc3BsU3RvaHhwSXAx?=
+ =?utf-8?B?a1E9PQ==?=
 X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6301f74b-1409-49d3-ec01-08dbe766f273
+X-MS-Exchange-CrossTenant-Network-Message-Id: 07d7aa22-b9ed-4d4f-4add-08dbe7674169
 X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2023 12:15:54.4640
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Nov 2023 12:18:06.9362
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: upzMZj2DQ3bBp7LPBSQD5+JbLhsADFUc0rBy8bVDHXS501AyUh2iXCwk3Wvyq8ydIWChIg4uX/dX4NBMlVm+7cTLSnlvDr99qt/CQziHSvI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR08MB7632
+X-MS-Exchange-CrossTenant-UserPrincipalName: flZOehDmzBPNrllBhdgKUlYPt5oWnSM3WhsBLR9okGVLSTFAerUFCYLKvnt6G6cQIQU1lcPxGbRz3CGawv/uup6FqOlZwcSi64ABEvmLTNI=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2PR08MB10381
 
 Hi Mehdi,
 
 On 11/16/23 12:04, Mehdi Djait wrote:
-> Add a documentation for the Rockchip Camera Interface binding.
+> The PX30 has a video capture component, supporting the BT.656
+> parallel interface. Add a DT description for it.
 > 
+> Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> ---
->  .../bindings/media/rockchip,px30-vip.yaml     | 173 ++++++++++++++++++
->  1 file changed, 173 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> new file mode 100644
-> index 000000000000..580ed654000c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
-> @@ -0,0 +1,173 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/rockchip,px30-vip.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Rockchip CIF Camera Interface
-
-May I suggest "Rockchip Camera Interface (CIF)"?
-
-> +
-> +maintainers:
-> +  - Mehdi Djait <mehdi.djait@bootlin.com>
-> +
-> +description:
-> +  CIF is a camera interface present on some rockchip SoCs. It receives the data
-
-s/rockchip/Rockchip
-
-> +  from Camera sensor or CCIR656 encoder and transfers it into system main memory
-> +  by AXI bus.
-> +
-> +properties:
-> +  compatible:
-> +    const: rockchip,px30-vip
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: ACLK
-> +      - description: HCLK
-> +      - description: PCLK
-> +
-> +  clock-names:
-> +    items:
-> +      - const: aclk
-> +      - const: hclk
-> +      - const: pclk
-> +
-> +  resets:
-> +    items:
-> +      - description: AXI
-> +      - description: AHB
-> +      - description: PCLK IN
-> +
-> +  reset-names:
-> +    items:
-> +      - const: axi
-> +      - const: ahb
-> +      - const: pclkin
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: input port on the parallel interface
-
-In more recent Rockchip SoCs this seems to be described as "DVP
-interface (digital parallel input)". Maybe we could use this description
-here as well?
-
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              bus-type:
-> +                enum: [5, 6]
-
-Not sure whether this is possible, but if we could use the
-MEDIA_BUS_TYPE_PARALLEL	and MEDIA_BUS_TYPE_BT656 defines here it would
-be way more descriptive.
-
-> +
-> +            required:
-> +              - bus-type
-> +
-> +    required:
-> +      - port@0
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/px30-cru.h>
-> +    #include <dt-bindings/display/sdtv-standards.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/media/video-interfaces.h>
-> +    #include <dt-bindings/power/px30-power.h>
-> +
-> +    parent {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        video-capture@ff490000 {
-> +            compatible = "rockchip,px30-vip";
-> +            reg = <0x0 0xff490000 0x0 0x200>;
-> +            interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
-> +            clock-names = "aclk", "hclk", "pclk";
-> +            resets = <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN>;
-> +            reset-names = "axi", "ahb", "pclkin";
-> +            power-domains = <&power PX30_PD_VI>;
-
-Sort alphabetically: power-domains before resets.
-
-> +
-> +            ports {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +
-> +                port@0 {
-> +                    reg = <0>;
-> +
-> +                    cif_in: endpoint {
-> +                        remote-endpoint = <&tw9900_out>;
-> +                        bus-type = <MEDIA_BUS_TYPE_BT656>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +
-> +        composite_connector {
-> +            compatible = "composite-video-connector";
-> +            label = "tv";
-> +            sdtv-standards = <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
-> +
-> +            port {
-> +                composite_to_tw9900: endpoint {
-> +                    remote-endpoint = <&tw9900_to_composite>;
-> +                };
-> +            };
-> +        };
-> +
-> +        i2c {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            video-decoder@44 {
-> +                compatible = "techwell,tw9900";
-> +                reg = <0x44>;
-> +
-> +                vdd-supply = <&tw9900_supply>;
-> +                reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
-
-This goes before vdd-supply (alphabetical sorting). No need for blank
-lines between the properties.
-
-> +
-> +                ports {
-> +                    #address-cells = <1>;
-> +                    #size-cells = <0>;
-> +
-> +                    port@0 {
-> +                        #address-cells = <1>;
-> +                        #size-cells = <0>;
-> +
-> +                        reg = <0>;
-
-I think reg property goes first, then the others. No blank lines between
-properties, but one blank line between properties and nodes.
-
-> +                        tw9900_to_composite: endpoint@0 {
-> +                            reg = <0>;
-> +                            remote-endpoint = <&composite_to_tw9900>;
-> +                        };
-> +                    };
-> +
-> +                    port@1 {
-> +                        reg = <1>;
-
-Same here.
-
-> +                        tw9900_out: endpoint {
-> +                            remote-endpoint = <&cif_in>;
-> +                        };
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> +...
-
-With the inline comments addressed,
 
 Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
 
-Thanks for your efforts!
-
-Best regards,
+Thanks and best regards,
 Michael
+
+> ---
+>  arch/arm64/boot/dts/rockchip/px30.dtsi | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
+> index 42ce78beb413..3a4e859e5a49 100644
+> --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
+> @@ -1281,6 +1281,18 @@ isp_mmu: iommu@ff4a8000 {
+>  		#iommu-cells = <0>;
+>  	};
+>  
+> +	cif: video-capture@ff490000 {
+> +		compatible = "rockchip,px30-vip";
+> +		reg = <0x0 0xff490000 0x0 0x200>;
+> +		interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
+> +		clocks = <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
+> +		clock-names = "aclk", "hclk", "pclk";
+> +		power-domains = <&power PX30_PD_VI>;
+> +		resets = <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN>;
+> +		reset-names = "axi", "ahb", "pclkin";
+> +		status = "disabled";
+> +	};
+> +
+>  	qos_gmac: qos@ff518000 {
+>  		compatible = "rockchip,px30-qos", "syscon";
+>  		reg = <0x0 0xff518000 0x0 0x20>;
 
