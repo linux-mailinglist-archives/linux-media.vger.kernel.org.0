@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-472-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-473-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2598B7EEDC6
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 09:49:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E875E7EEE09
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 10:02:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C49851F2630B
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 08:49:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 159071C20B1B
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 09:02:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 143A8CA67;
-	Fri, 17 Nov 2023 08:49:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B449EDF60;
+	Fri, 17 Nov 2023 09:02:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="yokiESdx"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="quZWRCfE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6ADE81AD;
-	Fri, 17 Nov 2023 00:49:21 -0800 (PST)
-Received: from pps.filterd (m0369458.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AH8aYhJ005749;
-	Fri, 17 Nov 2023 09:49:01 +0100
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2CDC311F;
+	Fri, 17 Nov 2023 01:02:38 -0800 (PST)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AH5IQSR030464;
+	Fri, 17 Nov 2023 10:02:09 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
 	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=selector1; bh=QKT/BbvuuLqFyTHfMeRVQ
-	6bgO8hrF5ObSu+PK0LQuFI=; b=yokiESdx1OWmgjYc8s3puTM8OiVUeMXL4GJsq
-	StkJum325rJ1mq4kOvHgZb+RpJSF2iAXxfVGcrdykyjcMU4u4Dk6DF7vmvXV16Vu
-	2yIKxPHK0TjVUD7kKdn1O7wTRh0onNBChD2kz9ytk/2mQ1X/sk/2LsutiA7ii8S2
-	VSKsOevKrLQvQpsC3GvkBd1JwJXZEqUdUd9+UYR/iPf9JkQlG4cT2N6w9l7q7Vpg
-	sulB826Pc+re1AIkPK9tpYvYEG3jPY3oLaaO/h2oQegkZvDwMa9GHFvsrBsoi37k
-	vXCYaBOysiF39w4pT6FteHYPEyeOcwYCE/UIJKii0c8hI6skw==
+	:content-type:in-reply-to; s=selector1; bh=9l8YIXvr1qCb4mjD4T+dz
+	Zsbd0D1nt4OOpppCFXT1bE=; b=quZWRCfEARhxtxImgE/22rUGQWRFKFiXH/f9c
+	ugAWKAgOQj2eZtLDZomMdVgDLuFjnwq72+YOsmBRqup9VrdzvXfav2Edr60CToDu
+	97r75SRBfh9h8N8IB88K6B7bFaXw1wobs95yKyPdcHiEp3XNYos/ZQ1Qtt+qLBfv
+	pGpu+q07MUF+efJSqTFsa4uBBm/VvwzGiZU9kwFkI72fPDJKS8HyNk57RQpiENqL
+	EQ5M3aXLp60SW+8zYjG0tMg+5vBkFJ1WDPVUq9BSYKFOceozMre6ls9zuIdREVlx
+	3iXKJlvf+4ILXTpmGDhvciRmdAKULgDrFwQL3sAr3nlY+EGMg==
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ud8c5empr-1
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ua1u2a9kw-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 17 Nov 2023 09:49:01 +0100 (CET)
+	Fri, 17 Nov 2023 10:02:09 +0100 (CET)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 24E2610002A;
-	Fri, 17 Nov 2023 09:48:59 +0100 (CET)
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id AB89110002A;
+	Fri, 17 Nov 2023 10:02:07 +0100 (CET)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id E2EFB210F71;
-	Fri, 17 Nov 2023 09:48:59 +0100 (CET)
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id A2F7D211603;
+	Fri, 17 Nov 2023 10:02:07 +0100 (CET)
 Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
  (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 17 Nov
- 2023 09:48:59 +0100
-Date: Fri, 17 Nov 2023 09:48:54 +0100
+ 2023 10:02:07 +0100
+Date: Fri, 17 Nov 2023 10:02:06 +0100
 From: Alain Volmat <alain.volmat@foss.st.com>
 To: Pavel Machek <pavel@ucw.cz>
 CC: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -58,12 +58,11 @@ CC: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	<jacopo.mondi@ideasonboard.com>,
         Kieran Bingham
 	<kieran.bingham@ideasonboard.com>,
-        Conor Dooley <conor.dooley@microchip.com>,
         Rob Herring <robh@kernel.org>, <linux-media@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v3 2/3] dt-bindings: media: i2c: add galaxycore,gc2145
- dt-bindings
-Message-ID: <20231117084854.GA523678@gnbcxd0016.gnb.st.com>
+Subject: Re: [PATCH v3 3/3] media: i2c: gc2145: Galaxy Core GC2145 sensor
+ support
+Message-ID: <20231117090206.GB523678@gnbcxd0016.gnb.st.com>
 Mail-Followup-To: Pavel Machek <pavel@ucw.cz>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
@@ -72,12 +71,11 @@ Mail-Followup-To: Pavel Machek <pavel@ucw.cz>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Conor Dooley <conor.dooley@microchip.com>,
 	Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20231107081345.3172392-1-alain.volmat@foss.st.com>
- <20231107081345.3172392-3-alain.volmat@foss.st.com>
- <ZU/QyrbaeyoV5+ON@duo.ucw.cz>
+ <20231107081345.3172392-4-alain.volmat@foss.st.com>
+ <ZU/UX9Jjk288ELUx@duo.ucw.cz>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,7 +84,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <ZU/QyrbaeyoV5+ON@duo.ucw.cz>
+In-Reply-To: <ZU/UX9Jjk288ELUx@duo.ucw.cz>
 X-Disclaimer: ce message est personnel / this message is private
 X-Originating-IP: [10.129.178.213]
 X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
@@ -97,55 +95,202 @@ X-Proofpoint-Virus-Version: vendor=baseguard
 
 Hi Pavel,
 
-thanks for the review.
-
-On Sat, Nov 11, 2023 at 08:23:13PM +0100, Pavel Machek wrote:
+On Sat, Nov 11, 2023 at 08:22:07PM +0100, Pavel Machek wrote:
 > Hi!
 > 
-> > Introduction of the Galaxy Core GC2145 XVGA CMOS camera sensor.
+> > Addition of support for the Galaxy Core GC2145 XVGA sensor.
+> > The sensor supports both DVP and CSI-2 interfaces however for
+> > the time being only CSI-2 is implemented.
+> > 
+> > Configurations is currently based on initialization scripts
 > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
-> > new file mode 100644
-> > index 000000000000..94d194cf5452
+> "are"?
+
+Fixed
+
+> 
+> > coming from Galaxy Core and for that purpose only 3 static
+> 
+> "and so"?
+
+Fixed
+
+> 
+> > resolutions are supported.
+> 
+> "supported:"?
+
+Fixed
+
+> 
+> >  - 640x480
+> >  - 1280x720
+> >  - 1600x1200
+> 
+> 
 > > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
-> > @@ -0,0 +1,104 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/galaxycore,gc2145.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Galaxy Core 1/5'' UXGA CMOS Image Sensor
-> > +
-> > +maintainers:
-> > +  - Alain Volmat <alain.volmat@foss.st.com>
-> > +
-> > +description:
-> > +  The Galaxy Core GC2145 is a high quality 2 Mega CMOS image sensor, for mobile
+> > +++ b/drivers/media/i2c/gc2145.c
+> > @@ -0,0 +1,1404 @@
+> > +// SPDX-License-Identifier: GPL-2.0
+> > +/*
+> > + * A V4L2 driver for Galaxycore GC2145 camera.
+> > + * Copyright (C) 2023, STMicroelectronics SA
+> > + *
+> > + * Inspired from the imx219.c driver
 > 
-> I'd drop "high quality" and add "pixel".
+> "by the"?
 
-Ok, done in v4.
+Fixed
 
 > 
-> > +  phone camera applications and digital camera products. GC2145 incorporates a
-> > +  1616V x 1232H active pixel array, on-chip 10-bit ADC, and image signal
-> > +  processor. It is programmable through an I2C interface. Image data is sent
-> > +  either through a parallel interface or through MIPI CSI-2.
+> Link to some kind of datasheet / documentation /... would be welcome
+> here.
+
+Seems an old version of the datasheet is available on pine64.org so I
+guess I could add a link to this one.
+
+http://files.pine64.org/doc/datasheet/PinebookPro/GC2145%20CSP%20DataSheet%20release%20V1.0_20131201.pdf
+
 > 
-> Short note what the on-board ISP can do might be welcome here.
+> > +/**
+> > + * struct gc2145_mode - GC2145 mode description
+> > + * @width: frame width (in pixel)
+> > + * @height: frame height (in pixel)
+> 
+> "in pixels".
 
-Ok, done in v4.
+Ok
 
+> 
+> > +static const struct gc2145_mode supported_modes[] = {
+> ...
+> > +	{
+> > +		/* 1280x720 30fps mode */
+> > +		.width = 1280,
+> > +		.height = 720,
+> > +		.reg_seq = gc2145_mode_1280_720_regs,
+> > +		.reg_seq_size = ARRAY_SIZE(gc2145_mode_1280_720_regs),
+> > +		.pixel_rate = GC2145_1280_720_PIXELRATE,
+> > +		.crop = {
+> > +			.top = 160,
+> > +			.left = 240,
+> > +			.width = 1280,
+> > +			.height = 720,
+> > +		},
+> > +		.hblank = GC2145_1280_720_HBLANK,
+> > +		.vblank = GC2145_1280_720_VBLANK,
+> > +	},
+> 
+> Won't this result in 1120x480 mode due to crop?
+
+The crop struct indicates the top left corner and width/height so this
+leads to 720p mode.
+
+> 
+> > +/* All supported formats */
+> > +static const struct gc2145_format supported_formats[] = {
+> > +	{
+> > +		.code		= MEDIA_BUS_FMT_UYVY8_1X16,
+> > +		.code		= MEDIA_BUS_FMT_VYUY8_1X16,
+> > +		.code		= MEDIA_BUS_FMT_YUYV8_1X16,
+> > +		.code		= MEDIA_BUS_FMT_YVYU8_1X16,
+> > +		.code		= MEDIA_BUS_FMT_RGB565_1X16,
+> > +};
+> 
+> So ... the hardware can do 10bit ADC, but we don't actually have a
+> mode exposing that?
+
+We don't have YET (in the driver).  Choice is to have this first serie
+with only non-RAW modes.  RAW8/10 will be added later on.
+
+> 
+> > +	 * Adjust the MIPI buffer settings.
+> > +	 * For YUV/RGB, LWC = image width * 2
+> > +	 * For RAW8, LWC = image width
+> > +	 * For RAW10, LWC = image width * 1.25
+> > +	 */
+> > +	lwc = gc2145->mode->width * 2;
+> > +	cci_write(gc2145->regmap, GC2145_REG_LWC_HIGH, lwc >> 8, &ret);
+> > +	cci_write(gc2145->regmap, GC2145_REG_LWC_LOW, lwc & 0xff, &ret);
+> > +
+> > +	/*
+> > +	 * Adjust the MIPI Fifo Full Level
+> 
+> Fifo -> FIFO?
+
+Ok
+
+> 
+> > +	/*
+> > +	 * Set the fifo gate mode / MIPI wdiv set:
+> > +	 * 0xf1 in case of RAW mode and 0xf0 otherwise
+> > +	 */
+> 
+> fifo -> FIFO?
+
+Ok
+
+> 
+> > +	/*
+> > +	 * Datasheet doesn't mention timing between PWDN/RESETB control and
+> > +	 * i2c access however experimentation shows that a rather big delay is
+> > +	 * needed
+> > +	 */
+> 
+> "however," "needed."
+
+Ok
+
+> 
+> > +static const struct v4l2_ctrl_ops gc2145_ctrl_ops = {
+> > +	.s_ctrl = gc2145_s_ctrl,
+> > +};
+> > +
+> > +/* Initialize control handlers */
+> > +static int gc2145_init_controls(struct gc2145 *gc2145)
+> > +{
+> > +	ret = v4l2_ctrl_handler_init(hdl, 12);
+> > +	if (ret)
+> > +		return ret;
+> > +
+> > +	ctrls->pixel_rate = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE,
+> > +					      GC2145_640_480_PIXELRATE,
+> > +					      GC2145_1280_720_PIXELRATE, 1,
+> 
+> Should the second pixelrate be one from 1600x1200?
+
+Indeed.  This will actually evolve in the v4 since I implemented instead
+the V4L2_CID_LINK_FREQ control.
+
+> 
+> > +static int gc2145_check_hwcfg(struct device *dev)
+> > +{
+> > +	struct fwnode_handle *endpoint;
+> > +	struct v4l2_fwnode_endpoint ep_cfg = {
+> > +		.bus_type = V4L2_MBUS_CSI2_DPHY
+> > +	};
+> > +	int ret = -EINVAL;
+> 
+> This "ret" value is unused. Not sure if something will warn about this.
+
+Corrected.
+
+> 
+> > +MODULE_AUTHOR("Alain Volmat <alain.volmat@foss.st.com");
+> 
+> ">" is missing at the end of address.
+
+Done.
+
+> 
+> The driver looks good, thank you!
 > 
 > Best regards,
-> 							Pavel
+> 								Pavel
 > -- 
 > People of Russia, stop Putin before his war on Ukraine escalates.
 
 Regards,
 Alain
-
 
 
