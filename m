@@ -1,117 +1,130 @@
-Return-Path: <linux-media+bounces-502-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-503-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85807EF396
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 14:16:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 882AD7EF3AA
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 14:19:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 043C21C209F3
-	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 13:16:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 348AA2813BC
+	for <lists+linux-media@lfdr.de>; Fri, 17 Nov 2023 13:19:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5C5E31A74;
-	Fri, 17 Nov 2023 13:16:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9741131A9D;
+	Fri, 17 Nov 2023 13:19:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="knprkTdL"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="PjQ2pSJd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0F9AD55
-	for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 05:16:27 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (185-9-10-242.cust.suomicom.net [185.9.10.242])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4SWy8p0bFQzyYM
-	for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 15:16:22 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1700226986;
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9EF5E0;
+	Fri, 17 Nov 2023 05:19:40 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 99FF4E0003;
+	Fri, 17 Nov 2023 13:19:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1700227179;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=Vwtte2qM0LNtr5cyHyx7BoMJZFYKCAjd0dv7qwsJ6KA=;
-	b=knprkTdLr3nnk4Ujw8Rhfhrafoc88WIwjwhhtGJDRaUU1d9j+Tr2HuqUS0yl4ALlzRRbC/
-	oWYUyQteeM0Vw6fL4nBhFeNtNNuPLJqz2fqaJnFrxIOssqddw1QZR0SXynahfQa0pChirN
-	G0G4h4PkUFodcMaBL9CYc7DIZudPnRQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1700226986;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type;
-	bh=Vwtte2qM0LNtr5cyHyx7BoMJZFYKCAjd0dv7qwsJ6KA=;
-	b=omxNitFGPyo1wuDkiHL2s1dQe/uXx7KYV3lSfGEwTtn5NqS0S7sb5XT/GCbpCNsOAGG0ae
-	Qr+SY+p1uS19Sb+uRJZE6jR4fdhbwrlqqFh2etAqRX1if0niAw3CH/uHZkvTzqIkXD4iDr
-	EiR9PJD0eWgJ9Gm/KwJG+6ylQMI6C9U=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1700226986; a=rsa-sha256; cv=none;
-	b=EnII1soXqVkvklk34OkbVs2ur9xVv/NYUV+mK1tnkYa+WwKBz5xes/A56pwJA+NBa1NwU/
-	PnZxJRC7vzSJzRRUvbK8ZSYg4emDF37UC/uDQXK5SkM/ImccE5s9zJWbl8+/LdE7rp3MUR
-	R1ii0x8CSTMVIwg81oU0Mo0pCHMEVKY=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 42323634C94
-	for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 15:16:22 +0200 (EET)
-Date: Fri, 17 Nov 2023 13:16:22 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Subject: [GIT PULL FOR 6.8] V4L2 subdev patches
-Message-ID: <ZVdnpn9EpuY9phPg@valkosipuli.retiisi.eu>
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=FoBJqFPZps/IfTWChc3pHLcKO0nSjgo4MRL5iaSeOk0=;
+	b=PjQ2pSJdu9x5ihXwMQAH4DLve4Tq7tBDAn/SBjaOXh+lKzC1L0Gi7wEMV113BVBWXN89UT
+	VuqQ2p9jKeGm0lNWjmCwz8AdmfozHIOGZa2yo6iPNuKhP5vRU18squYOBVZKjux2WM0izA
+	xeGzy3J8mwq8OQ6oHTGIFIgnut/z8z1DSbiTzJi6fmYogiM2GpYqHtWmroebymlEjBn1NO
+	d45wq6H8ND0urpxOnyU7c/aIKyGq11Sg6xKS8hL1ypvc5h4QvJaQdtZMqkCpX5I+KDGzSs
+	59a5zRN3swyuAx/p0+IaFNnu/bDpfAw/FE0+Ih2HvJBdSu5IlBnAu4qrIlv2MQ==
+Date: Fri, 17 Nov 2023 14:19:38 +0100
+From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To: Mehdi Djait <mehdi.djait@bootlin.com>
+Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
+	conor+dt@kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
+	maxime.chevallier@bootlin.com, michael.riesch@wolfvision.net
+Subject: Re: [PATCH v11 3/3] arm64: dts: rockchip: Add the camera interface
+Message-ID: <ZVdoaqgS7Fy8fC1y@aptenodytes>
+References: <cover.1700132457.git.mehdi.djait@bootlin.com>
+ <3566c176d1ef5ae93aa54587a14ccfa80974e872.1700132457.git.mehdi.djait@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="TFD2HmYut63ln2GZ"
 Content-Disposition: inline
-
-Hi Mauro, Hans,
-
-I've split the large PR into two smaller ones, this only contains
-relatively unimportant fixes and cleanups mainly for the recenlty merged
-IVSC driver, but also one for the CCS driver as well as an indentation fix
-for the v4l2-subdev.h header.
-
-Please pull.
+In-Reply-To: <3566c176d1ef5ae93aa54587a14ccfa80974e872.1700132457.git.mehdi.djait@bootlin.com>
+X-GND-Sasl: paul.kocialkowski@bootlin.com
 
 
-The following changes since commit 1865913dd590ca6d5e3207b15099a1210dd62f29:
+--TFD2HmYut63ln2GZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-  media: meson-ir-tx: Drop usage of platform_driver_probe() (2023-11-16 13:56:48 +0100)
+Hi Mehdi,
 
-are available in the Git repository at:
+On Thu 16 Nov 23, 12:04, Mehdi Djait wrote:
+> The PX30 has a video capture component, supporting the BT.656
+> parallel interface. Add a DT description for it.
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.8-3-signed
+One thing I missed: you need the commit title to mention the PX30, otherwise
+we cannot see which chip you are adding camera support for.
 
-for you to fetch changes up to 27b4ca9ef301b2475d4a72d2a8c264ebe7f91482:
+> Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> ---
+>  arch/arm64/boot/dts/rockchip/px30.dtsi | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts=
+/rockchip/px30.dtsi
+> index 42ce78beb413..3a4e859e5a49 100644
+> --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
+> @@ -1281,6 +1281,18 @@ isp_mmu: iommu@ff4a8000 {
+>  		#iommu-cells =3D <0>;
+>  	};
+> =20
+> +	cif: video-capture@ff490000 {
+> +		compatible =3D "rockchip,px30-vip";
+> +		reg =3D <0x0 0xff490000 0x0 0x200>;
+> +		interrupts =3D <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
+> +		clocks =3D <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
+> +		clock-names =3D "aclk", "hclk", "pclk";
+> +		power-domains =3D <&power PX30_PD_VI>;
+> +		resets =3D <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN=
+>;
+> +		reset-names =3D "axi", "ahb", "pclkin";
+> +		status =3D "disabled";
+> +	};
+> +
+>  	qos_gmac: qos@ff518000 {
+>  		compatible =3D "rockchip,px30-qos", "syscon";
+>  		reg =3D <0x0 0xff518000 0x0 0x20>;
+> --=20
+> 2.41.0
+>=20
 
-  media: ivsc: csi: Check number of lanes on source, too (2023-11-17 09:41:52 +0200)
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-----------------------------------------------------------------
-V4L2 patches for 6.8
+--TFD2HmYut63ln2GZ
+Content-Type: application/pgp-signature; name="signature.asc"
 
-----------------------------------------------------------------
-Laurent Pinchart (1):
-      media: v4l2-subdev: Fix indentation in v4l2-subdev.h
+-----BEGIN PGP SIGNATURE-----
 
-Sakari Ailus (7):
-      media: ccs: Ensure control handlers have been set up after probe
-      media: ivsc: csi: Don't parse remote endpoints
-      media: ivsc: csi: Clean up V4L2 async notifier on error
-      media: ivsc: csi: Clean up notifier set-up
-      media: ivsc: csi: Clean up parsing firmware and setting up async notifier
-      media: ivsc: csi: Don't mask v4l2_fwnode_endpoint_parse return value
-      media: ivsc: csi: Check number of lanes on source, too
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVXaGoACgkQ3cLmz3+f
+v9FIRAf8CSuN94tBIxlWPN+Yhiy8dbHRhZ9rV2bkQ2+eJ/8f7y5OFlsXVoeTk3Bd
+sFsN74KvBzgsxB8z6Lfon1xz44Dd+d8gR588ZFhTgk4h8Dllj5JtN6Qr/CCTXI9X
+YqrA6vRba93rUuuy/2AWtTHFZizD0sU43n9mMOuzxCSrZrY6OlE4UG7ctvsNMTf5
+pl4s1LUP2Dn7ZXmxFnlYCe9/1Y3YXH3bUnbNU/bXFUsUIg6mwyJbdvFFn9aSe/BH
+JxCbu44eS/T/0yG2Rbk7qqhKT+P8CDVblmRRv0Exve2AhizkVK32Tiv0+6WVIOzQ
+QTDVBDCRScDZbTVyk2d408rCJgC57w==
+=iLKP
+-----END PGP SIGNATURE-----
 
- drivers/media/i2c/ccs/ccs-core.c       |  5 ++-
- drivers/media/i2c/ccs/ccs.h            |  1 +
- drivers/media/pci/intel/ivsc/mei_csi.c | 69 ++++++++++++++++++++++------------
- include/uapi/linux/v4l2-subdev.h       |  2 +-
- 4 files changed, 50 insertions(+), 27 deletions(-)
-
--- 
-Sakari Ailus
+--TFD2HmYut63ln2GZ--
 
