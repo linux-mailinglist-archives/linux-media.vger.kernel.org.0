@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-528-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-529-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4877E7EFC90
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 01:32:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD157EFCA1
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 01:38:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E1F6E281455
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 00:32:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C9F41C20B47
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 00:38:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB033A3F;
-	Sat, 18 Nov 2023 00:32:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC171A48;
+	Sat, 18 Nov 2023 00:38:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lYqCknMv"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Uhz7XqG8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B824A10C6
-	for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 16:32:35 -0800 (PST)
-Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-9e62f903e88so334353166b.2
-        for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 16:32:35 -0800 (PST)
+Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6BD6110C6
+	for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 16:38:14 -0800 (PST)
+Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-53d8320f0easo3709498a12.3
+        for <linux-media@vger.kernel.org>; Fri, 17 Nov 2023 16:38:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700267554; x=1700872354; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1700267893; x=1700872693; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ACuE1Cjpg+/+S3TvL8RQf3mAriRh2LNm7WasFktjKbM=;
-        b=lYqCknMvnM8+KV58ELIXQtx4h3aqdNuogmXFOwmrayV9kKnVc1P2WB8/sIkyXIYHdF
-         wAOj5luskMzTNGGbNRLw3AS8QR+uJJHsnjrPdlw6iHfgsCc6t48L2GOuiSZHTNlxHRJM
-         7iYgn7h87DllvW/7CXTg2JXT+jX/S2Ux6xreQSGeGLcuEbo0DZQ78u0VKapTy0rxN7uV
-         ZmnTITe6dwFbeCS09EK5S6uhLPMG1/xtGfTR9Myt9WEvrVpg0NGmyQ4gqcmYHW0RfonQ
-         Ao+S+ExoZ7Iz+zJklR0LtqGtK0d1ok+0OBC/GB5m9op8miaoj7KRMblBx2R86fFf+7Pr
-         6+Mw==
+        bh=rQf4cNwr3OWtrAW3jv3pETjipAWA+/tCzrUVBB66YE0=;
+        b=Uhz7XqG8nCENjUeYkuNZcnflmxj6nPvIZ46i+NGtS11BrQ+FgB7iwQfFMfx5YaSamV
+         shGOmmzpm3VR1oP9tBdaX8hzgxO055NyVwR7C2fWQHPa+NEWORcXkjJ+aClCfN0IMZ74
+         cgaikX55OoyjPrTTYZprQJXTYnuK3jfjMXISLz1U1zNeBHsh/QS8bYXUHEjGR7U4VFkR
+         BkkZozGEySFaV0IpRcnFonG6OTIpxzLz9jQcKvsDw5QtfzKm25o/ETjWTUxycVo6g1RD
+         V/7ROj8RZkXUDRnST2oo8ve0WOpXgkKxCQwEcAWWmYP6f1EII4wUFJ8EnXG5dfB8+4KR
+         d76w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700267554; x=1700872354;
+        d=1e100.net; s=20230601; t=1700267893; x=1700872693;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ACuE1Cjpg+/+S3TvL8RQf3mAriRh2LNm7WasFktjKbM=;
-        b=NJ06WWIqr+Gmmo/MG8f9B8iolPgvAnlC4Ft2VpzBSMvf6hfoFvvrLyBobFIAcVUC9X
-         ZXGsvODKknxkOSemgzeAoGIWDGJE1wCU1u6AYdxZS8yr1HbZsRAz/6BMqqL/GxNHL0kh
-         BrKoaXLlaiziHdekDvTsKc4jOV4TcIiZoomkr8QQQOcv/U0gcsLIO4dIAT+rOXs7o6lr
-         DE1n4Je/2xWSasFyHXQMC1XP1Rw8vyMrp7P80Dc1ZjFJnm1gaIOPAqVnGpc3f3K844y4
-         z4iRgVxbpaTg6FeiCsCQZ9k7peKbf8lQ+CWFfUBHPXkD9FJQKne/Gy06BHRisgIQ/a9J
-         MH8g==
-X-Gm-Message-State: AOJu0YzM6TTeGy9h1erfO/LIh7lJfWuJP1NK/IOMu9kANWMQk08vIxEn
-	PoDWXxESPcJZMCq7JHKLSO17yQ==
-X-Google-Smtp-Source: AGHT+IH2neK8i+4Zeth3crgZdPw0mhXcfQVQqJTSVY6vp9EsHL0jduvcgyLBRLTSwNAQNErhC2Uk/A==
-X-Received: by 2002:a17:906:5352:b0:9bf:70ea:6926 with SMTP id j18-20020a170906535200b009bf70ea6926mr662922ejo.2.1700267554094;
-        Fri, 17 Nov 2023 16:32:34 -0800 (PST)
+        bh=rQf4cNwr3OWtrAW3jv3pETjipAWA+/tCzrUVBB66YE0=;
+        b=W2joKF01PvIKDkzL1PzVnzsIHktytEh8k/t5idQXh0ag78XtN1JJ1oOMcZABjVUrGt
+         UzAeMrbdd/d0fJb+osYJe8DsMMA7geEDLkZyWH/MyDdZOuNphCgvkgMg0WbUS2x5p9KB
+         vOZcwBs903nQaq/IqXCfOo1X4N/32QDmQblDOTBBFiay4TjgyIFNDVwz+xDRNGzsJ/Xs
+         hsVPQvDioMFVMaUv0ll52o2ClEsosjXkiSzxVqhuVLshIBGKMH3P1FWguUZX65hOqm0n
+         oWHMC6YaWItnmSlGZYOwXfvhesG+Smzte3E9YWodo2K9Y0j/7+TY/ul+VNSnO9LUNOwg
+         qK4w==
+X-Gm-Message-State: AOJu0YwuCaVOutN/J/3ebji+l+UZRIT1f1ydbSbLFnFeuOANLwDw3hSb
+	isDGSV4ciaDQtdCMlXo6JZBF2w==
+X-Google-Smtp-Source: AGHT+IHlKI9TtCAOc+iD/j9jxd8FBUb9QMgtygbvqzpfVmgmsMChJl3e8bAc5wvGi372DfO/i23YMA==
+X-Received: by 2002:a17:906:11d0:b0:9dd:8b5b:7873 with SMTP id o16-20020a17090611d000b009dd8b5b7873mr540383eja.52.1700267892924;
+        Fri, 17 Nov 2023 16:38:12 -0800 (PST)
 Received: from [192.168.201.100] (178235187040.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.40])
-        by smtp.gmail.com with ESMTPSA id w22-20020a170906131600b009de11bcbbcasm1318413ejb.175.2023.11.17.16.32.32
+        by smtp.gmail.com with ESMTPSA id m8-20020a170906234800b009bf94de8971sm1326178eja.70.2023.11.17.16.38.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Nov 2023 16:32:33 -0800 (PST)
-Message-ID: <0fbef967-62db-4c5f-8108-2c545c53a39e@linaro.org>
-Date: Sat, 18 Nov 2023 01:32:31 +0100
+        Fri, 17 Nov 2023 16:38:12 -0800 (PST)
+Message-ID: <9752f4ab-5e08-4d1b-9ed4-6aa280c87a36@linaro.org>
+Date: Sat, 18 Nov 2023 01:38:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,8 +62,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/7] media: qcom: camss: Move VFE power-domain
- specifics into vfe.c
+Subject: Re: [PATCH v4 5/7] media: qcom: camss: Add support for named
+ power-domains
 Content-Language: en-US
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, hverkuil-cisco@xs4all.nl,
  laurent.pinchart@ideasonboard.com, Robert Foss <rfoss@kernel.org>,
@@ -74,7 +74,7 @@ To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, hverkuil-cisco@xs4all.nl,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20231103-b4-camss-named-power-domains-v4-0-33a905359dbc@linaro.org>
- <20231103-b4-camss-named-power-domains-v4-4-33a905359dbc@linaro.org>
+ <20231103-b4-camss-named-power-domains-v4-5-33a905359dbc@linaro.org>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -111,65 +111,40 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20231103-b4-camss-named-power-domains-v4-4-33a905359dbc@linaro.org>
+In-Reply-To: <20231103-b4-camss-named-power-domains-v4-5-33a905359dbc@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 3.11.2023 13:29, Bryan O'Donoghue wrote:
-> Moving the location of the hooks to VFE power domains has several
-> advantages.
+> Right now we use fixed indexes to assign power-domains, with a
+> requirement for the TOP GDSC to come last in the list.
 > 
-> 1. Separation of concerns and functional decomposition.
->    vfe.c should be responsible for and know best how manage
->    power-domains for a VFE, excising from camss.c follows this
->    principle.
+> Adding support for named power-domains means the declaration in the dtsi
+> can come in any order.
 > 
-> 2. Embedding a pointer to genpd in struct camss_vfe{} meas that we can
->    dispense with a bunch of kmalloc array inside of camss.c.
+> After this change we continue to support the old indexing - if a SoC
+> resource declaration or the in-use dtb doesn't declare power-domain names
+> we fall back to the default legacy indexing.
 > 
-> 3. Splitting up titan top gdsc from vfe/ife gdsc provides a base for
->    breaking up magic indexes in dtsi.
+> From this point on though new SoC additions should contain named
+> power-domains, eventually we will drop support for legacy indexing.
 > 
-> Suggested-by: Matti Lehtimäki <matti.lehtimaki@gmail.com>
 > Tested-by: Matti Lehtimäki <matti.lehtimaki@gmail.com>
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
-[...]
+rg -l "&cc.* \{" arch/arm64/boot/dts/qcom # (the bus is named cci or cciN)
 
-> +/*
-> + * msm_vfe_genpd_cleanup - Cleanup VFE genpd linkages
-> + * @vfe: VFE device
-You can even give this an upgrade to kerneldoc! :)
+arch/arm64/boot/dts/qcom/sm7225-fairphone-fp4.dts
+arch/arm64/boot/dts/qcom/sdm845-db845c-navigation-mezzanine.dts
+arch/arm64/boot/dts/qcom/apq8016-sbc-d3-camera-mezzanine.dts
+arch/arm64/boot/dts/qcom/qrb5165-rb5-vision-mezzanine.dts
 
-[...]
+the FP4 only has bus enablements (i.e. no attached sensors)
+the number of working DB845c/RB3s is probably single-digit today
 
-> +	/* count the # of VFEs which have flagged power-domain */
-[...]
-
-Personal peeve, but this comment seems a bit excessive
-
-> +	for (vfepd_num = i = 0; i < camss->vfe_total_num; i++) {
-> +		if (res->vfe_res[i].has_pd)
-> +			vfepd_num++;
-> +	}
->  
-> -	camss->genpd_link = devm_kmalloc_array(dev, camss->genpd_num,
-> -					       sizeof(*camss->genpd_link),
-> -					       GFP_KERNEL);
-> -	if (!camss->genpd_link)
-> -		return -ENOMEM;
-> +	/*
-> +	 * If the number of power-domains is greater than the number of VFEs
-> +	 * then the additional power-domain is for the entire CAMSS block the
-> +	 * 'top' power-domain.
-the last 3 words seem out of place
-
-> +	 */
-> +	if (camss->genpd_num <= vfepd_num)
-> +		return 0;
-if (!(camss->genpd_num > vfepd_num))
-
-would probably be easier to follow given your comment above
+410c and rb5 are probably legit users.. part of me would like to
+get rid of this messy old binding ASAP.. but then are there really
+non-Bryans with these boards and the camera mezzs?
 
 Konrad
 
