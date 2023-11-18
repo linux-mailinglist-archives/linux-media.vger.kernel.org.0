@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-545-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-546-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AFD37EFFBB
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 14:11:44 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 024AC7F002C
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 15:43:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 37DC51C20919
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 13:11:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 734211F23045
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 14:43:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19E7A12E4E;
-	Sat, 18 Nov 2023 13:11:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 281EE101D0;
+	Sat, 18 Nov 2023 14:43:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="nmrhzHE2"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="uNjWasXD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 662DF127;
-	Sat, 18 Nov 2023 05:11:32 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1141C0;
+	Sat, 18 Nov 2023 06:43:43 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1700313067; x=1700917867; i=wahrenst@gmx.net;
-	bh=4GHN1I2o8mfnCqibdGh38n79/fp2eZe21rBwxEeuUcM=;
+	s=s31663417; t=1700318597; x=1700923397; i=wahrenst@gmx.net;
+	bh=I55FSw1BmvsjYif7K0yxKJuRFN2szcFKJRArmYqf0EM=;
 	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
 	 In-Reply-To;
-	b=nmrhzHE25VsoOqF67ebHXzcV4lJFtO0CAB4pez+TgcEfUkDcyrudHmTTOCWC7op0
-	 X7hOdpgU4QElx8d0KTQzBmmQyWxZhsdp1q5kG0NA241sHnigDvUkdrHmz5ZsaZj0R
-	 cC6pMTIxXJjAGZzY4a9yy8AWkJdxYXYXNYZ/wNEv+vYDQeJOZTBsSMHQtR1Sf+mam
-	 E9kv1iH+w3D3FLRqmOq8YxtUK1+g8SbmRfZAY8L78vbJD+tEVnqiuvq1A/9uslWh2
-	 CnLyx4sTq0lZ5iR/W0HTCpLitbgjQ5j8OK/9NEjeTFf4gYvxf4LLwnH3mT1itHOT2
-	 d4BrdveGYgtJhYmTFg==
+	b=uNjWasXDDS32haFTz1gRjCnQhPadxtZIvEJ6b01rLhBxbNYCA8z5xXtWwbBfdZb5
+	 5ff8Sd2F75YAbWdyC4lh9V0hQJ9ZEjmCIWEANelCsQzqJXou8gJW2LIrj5/S6Dxhz
+	 7yUNbEmhnFaxW71GFKsqjMprWQTh6bxpKJ5LBHzh1oRBZnxzNJCVMazmcUK6HDMGH
+	 hA5tYdkEEG8dnc2asWoaqxl4Cyrp3gwgezrL2VCkNAoWFSYgTEmtSI5vWN7IqK6s1
+	 8svnqHV231zB+SduEGNR5/sNJbTU08+SM/+vDa65ugJx4zPnKiFnobqwR/6vT+lZb
+	 znrhfffLMsxbzY9iEQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MeU0q-1reUjX1MLU-00aSfu; Sat, 18
- Nov 2023 14:11:07 +0100
-Message-ID: <6e06ee01-4ccb-4e34-bb6c-1d5fb8ab9e3c@gmx.net>
-Date: Sat, 18 Nov 2023 14:11:06 +0100
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MJE27-1qlJSJ3xUp-00Khzp; Sat, 18
+ Nov 2023 15:43:17 +0100
+Message-ID: <5a51d89c-a1d5-4d70-a578-8e8be39152f1@gmx.net>
+Date: Sat, 18 Nov 2023 15:43:15 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -42,8 +42,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/15] media: uapi: v4l2-core: Add ISP statistics
- output V4L2 fourcc type
+Subject: Re: [PATCH v2 09/15] staging: vc04_services: Add helpers for vchiq
+ driver data
 Content-Language: en-US
 To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
  kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
@@ -53,153 +53,73 @@ Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  "Ricardo B . Marliere" <ricardo@marliere.net>,
- Dan Carpenter <error27@gmail.com>, Naushir Patuck <naush@raspberrypi.com>
+ Dan Carpenter <error27@gmail.com>
 References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
- <20231109210309.638594-8-umang.jain@ideasonboard.com>
+ <20231109210309.638594-10-umang.jain@ideasonboard.com>
 From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231109210309.638594-8-umang.jain@ideasonboard.com>
+In-Reply-To: <20231109210309.638594-10-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:mok/l9H4EgXzDMAqsEorwz3K0kHDKvDb/+AnL3QpGrYz/nY00hc
- 4aCZwPmkXHdl76/Z1rnjIqjrbckT9Rmh2h7dk5j0Peee9TJ2Rj586ed6MB2PV7am6I9R63w
- R1q9p3hmJjeaRNB/d4tQa9vPpWPdo7aNsO92rLfx8DYr+xSfbGBUB794XfKYna3lqZVN2z4
- lg+IG3QDUdR0B5gr7OHcA==
-UI-OutboundReport: notjunk:1;M01:P0:j6sNYU9OcmM=;DfliXwKQeoFkn8/f/qSPj3kZOox
- BMy9OSdKXVRRE7EzKOeXkQpm4ePwEbeGqp7sj+t7DtGR44GaK7mYcJ/JYwGtTY4ZTSLKUZL0o
- rjx0kd2igRU9SzjJyhLQ+/TxeM/Bkyv4OhtnvEXjk40lucvxxKRuVZMi01KQ1KdIx7xwDdx2x
- TKGhKrYppQ5OlCXh1eHOsWFFVYPzcAxQAaufZ7GS6u8nvnx6TD5PrqI53NDl1E/mg70VJ4FsV
- B3I5sev1UrEf+Xx1yy9wwODSxPDmvOR6xJj7DYR6YAA8usvjRQ731VN8zTirT8Wxk4ZQC3eke
- 7YChuNeLYmKry/GUmxePiAzk3yqPKB2PUVEVgyfwZetGtwnu8yr6baUBgckuwXyTWYvuTOGrL
- Ffda/Bd/4cRp4c+UtlZOjjoN2QCKv8WLiupv2I15z1gbuXXuyfgAtCcBJC1afCrDUuTn6ASL8
- L8qDeZLzwUylcX6pcAPrFRt0U4pS58djjM2Yhn2S5Zdn0YAf+uFimjl4w8JkQVYvha+0iwLwM
- MJ0Cs1Dul52mRmySmkQm0aT7LPznQBOXYPWsGEWZ+KN9IIMJQaUPObCd1w7n3eQtqZyhmIrKF
- GyghlHQgPfNtFTbaJzSmIFF+zxBIBg6ThS2j1wvvOUv/Prx2pBYvYyz1ZP3L2pMqSLUTQ3HXj
- GzrPngqlz1WHZCEK6FkxWSSo+TivyXEHqPBzA3VLauxRUm4iYtlIdYBcOETyIV8k3CuzmXZvc
- qpCQr6/aPxWTGH1WAuCrKpJ3GZQEVXu6CV80CeXxsqO7/Y4EESlIFWC4zd6ZAisO01227tCQh
- p+1lpp+AYXKQeiXWRBtJ/JK7ciU0yn6emrvGZJNezh+MnkrQowlQCPOodSE+QEc8/TwjNOUHR
- GmSZi2Ogdm2Gk08Efoub3kbwALqBfxBUPVcszE1gtggLSVx0/fV7QCWWGDpw7QqRmYvRu+gVJ
- 82N9Ag==
+X-Provags-ID: V03:K1:BP2bhsuxoeOywqHABcg5IF5JMGovXeW98X8ses7HkRcZErxfOYM
+ dytDlgewRBd1YtdPeEtk9O+nZgfjcKJem7D+3v+HSDjdUMiRzUtDpL2LB6HeBn5Dva47nQE
+ /DrieKjxsaVr0B+eo5MJpe82X3akx37QPGh7uViml8i9mNqEqja1W/N218iEYBrZazHyvEq
+ mlc+F/Tspsp2gVLfm0ztw==
+UI-OutboundReport: notjunk:1;M01:P0:9/urxu4z5zQ=;qUeComnGWgCkcn6OgtcBu+S9hZk
+ npwHY37HMLFfLMgRQQ8sQBTpSVUMP17z+gGikTDBwfKuUB33NQTo6gaDFoCb/BBVEaTiY49ra
+ Qa5OJ5IBbI0gVt+CKv81H73qqi1MWoi0yW31LrGOn6cHMCW8orsNMJdoEJpXum6JfGIquoTVa
+ nJnyXrE3axiBIv9yxAWSX1Hn7BTcZAWpOTqme8/1Jn6z+ZOdAQE9zWhKUwaokxaSIHhZSX22x
+ HNE4MnggB+zW6TsuzZ4xYtN6DCzViDWhHBxepS7k2+HAhCQ+kO39mFepBOM7w8ZKsPv8zspdC
+ I7uCLe8ZFuCnBPDFIAVKm8YDOu4ECgkmsbs58gsCHqBUF8Z5GvpSogENWC8zNp9ppD5A5Oee/
+ vnzuyVlAYot+5BKbiB+/xewEK2LbuqcSPhIKezUThBqk+LxpwsxB2houdIXq4thQMKTTEu35v
+ c1f8LwniprkUlxYvyiKGC4LcHnsoeDsJGa/jD1QutmOF5iAkjisKNODFxVNsZBaamvkhr3rq5
+ uwuvtOVd1Dtya2kR+hN71Vs96nFpm5CEpbNLo5KcfitwKomBawsE5LaA3D9hNnSxJRJFdTJRL
+ gTYVXCg65lesTIlOgieoUXoIyv/qD145MH8NQzomT2EUNiG4dKVMGz73N5FYC3zhhK2yHPLER
+ xBCu3Y3j5NvGMB3vogo1IzeMqVrUAHUOmoLG5FpsvDSV7nMNwNA2ngI2akFDBr73mNlSudGFj
+ JsEUoXCjuKuLKVx5qT+QrINB22fxBDTf9ZPqLrrOFbCvu5z09nxazyEOgnSktoi/W2T/PfySr
+ PAaSJH11Ix61sqrnpzSxCxkF08HzT3lxhlv2b0idKQYdwN9ZibgvoiHoD5Z8PNdqlOcOPwc/2
+ qvkG09k99i8UiVSnsal07e10KkxzFdemFX2LgfOSFgBP2vWKE3HFfdk8tnxT2tD2HZzyN0Bl7
+ H8gryA==
 
 Hi Umang,
 
-Am 09.11.23 um 22:02 schrieb Umang Jain:
-> From: Naushir Patuck <naush@raspberrypi.com>
+Am 09.11.23 um 22:03 schrieb Umang Jain:
+> Add helpers to set and get vchiq driver data.
+> vchiq_set_drvdata() and vchiq_get_drvdata() wraps
+> dev_set_drvdata() and dev_get_drvdata() respectively.
+
+no strong opinion here, but is this change a real benefit?
+
+Except of this such a change should make use of it.
+
 >
-> Add V4L2_META_FMT_BCM2835_ISP_STATS V4L2 format type.
->
-> This new format will be used by the bcm2835-isp device to return
-> out ISP statistics for 3A.
->
-> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->   .../userspace-api/media/v4l/meta-formats.rst  |  1 +
->   .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     | 32 +++++++++++++++++++
->   drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->   include/uapi/linux/videodev2.h                |  1 +
->   4 files changed, 35 insertions(+)
->   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-b=
-cm2835-isp-stats.rst
+>   .../vc04_services/interface/vchiq_arm/vchiq_bus.h      | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
 >
-> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Do=
-cumentation/userspace-api/media/v4l/meta-formats.rst
-> index 919f595576b9..534542f235bc 100644
-> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> @@ -12,6 +12,7 @@ These formats are used for the :ref:`metadata` interfa=
-ce only.
->   .. toctree::
->       :maxdepth: 1
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus=
+.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> index caa6fdf25bb1..800f53bb48c2 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_bus.h
+> @@ -34,6 +34,16 @@ static inline struct vchiq_driver *to_vchiq_driver(st=
+ruct device_driver *d)
+>   	return container_of(d, struct vchiq_driver, driver);
+>   }
 >
-> +    pixfmt-meta-bcm2835-isp-stats
->       metafmt-d4xx
->       metafmt-intel-ipu3
->       metafmt-rkisp1
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-i=
-sp-stats.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-i=
-sp-stats.rst
-> new file mode 100644
-> index 000000000000..2219235e0ecb
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-isp-stat=
-s.rst
-> @@ -0,0 +1,32 @@
-> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> +.. _v4l2-meta-fmt-bcm2835-isp-stats:
+> +static inline void *vchiq_get_drvdata(const struct vchiq_device *device=
+)
+> +{
+> +        return dev_get_drvdata(&device->dev);
+> +}
 > +
-> ++*****************************************
-> +V4L2_META_FMT_BCM2835_ISP_STATS  ('BSTA')
-> +*****************************************
+> +static inline void vchiq_set_drvdata(struct vchiq_device *device, void =
+*data)
+> +{
+> +        dev_set_drvdata(&device->dev, data);
+> +}
 > +
-> +BCM2835 ISP Statistics
-> +
-> +Description
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> +
-> +The BCM2835 ISP hardware calculate image statistics for an input Bayer =
-frame.
-> +These statistics are obtained from the "bcm2835-isp0-capture3" device n=
-ode
-> +using the :c:type:`v4l2_meta_format` interface. They are formatted as d=
-escribed
-> +by the :c:type:`bcm2835_isp_stats` structure below.
-> +
-> +.. code-block:: c
-> +
-> +       #define DEFAULT_AWB_REGIONS_X 16
-> +       #define DEFAULT_AWB_REGIONS_Y 12
-> +
-> +       #define NUM_HISTOGRAMS 2
-> +       #define NUM_HISTOGRAM_BINS 128
-> +       #define AWB_REGIONS (DEFAULT_AWB_REGIONS_X * DEFAULT_AWB_REGIONS=
-_Y)
-> +       #define FLOATING_REGIONS 16
-> +       #define AGC_REGIONS 16
-> +       #define FOCUS_REGIONS 12
-> +
-> +.. kernel-doc:: include/uapi/linux/bcm2835-isp.h
-> +   :functions: bcm2835_isp_stats_hist bcm2835_isp_stats_region
-> +                    bcm2835_isp_stats_focus bcm2835_isp_stats
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-c=
-ore/v4l2-ioctl.c
-> index 7f29886568b8..6f0f0f6526c9 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1463,6 +1463,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *=
-fmt)
->   	case V4L2_META_FMT_GENERIC_CSI2_20:	descr =3D "8b Generic Meta, 20b C=
-SI-2"; break;
->   	case V4L2_META_FMT_GENERIC_CSI2_24:	descr =3D "8b Generic Meta, 24b C=
-SI-2"; break;
->   	case V4L2_META_FMT_GENERIC_CSI2_2_24:	descr =3D "2x8b Generic Meta, 2=
-4b CSI-2"; break;
-> +	case V4L2_META_FMT_BCM2835_ISP_STATS: descr =3D "BCM2835 ISP Image Sta=
-tistics"; break;
-
-tab instead of space?
-
+>   extern struct bus_type vchiq_bus_type;
 >
->   	default:
->   		/* Compressed formats */
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videode=
-v2.h
-> index 85b60199c618..eddaea8598db 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -836,6 +836,7 @@ struct v4l2_pix_format {
->   #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* U=
-VC Payload Header metadata */
->   #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D=
-4XX Payload Header metadata */
->   #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid=
- Metadata */
-> +#define V4L2_META_FMT_BCM2835_ISP_STATS v4l2_fourcc('B', 'S', 'T', 'A')=
- /* BCM2835 ISP image statistics output */
-
-Shouldn't this go to the vendor specific ones?
-
->
->   /* Vendor specific - used for RK_ISP1 camera sub-system */
->   #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /=
-* Rockchip ISP1 3A Parameters */
+>   struct vchiq_device *
 
