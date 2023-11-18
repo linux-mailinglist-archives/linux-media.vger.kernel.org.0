@@ -1,42 +1,43 @@
-Return-Path: <linux-media+bounces-565-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-566-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD41C7F021A
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 19:50:58 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 242307F021B
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 19:52:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 65CDBB20A4F
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 18:50:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF8A11F236D9
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 18:52:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F082E199CD;
-	Sat, 18 Nov 2023 18:50:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AAA6199DD;
+	Sat, 18 Nov 2023 18:52:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BU2InGWB"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CRpvpJRw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 318E1F2;
-	Sat, 18 Nov 2023 10:50:44 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66F09B7;
+	Sat, 18 Nov 2023 10:52:43 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 062CD9B6;
-	Sat, 18 Nov 2023 19:50:13 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D2049B6;
+	Sat, 18 Nov 2023 19:52:13 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700333414;
-	bh=A+D1nmSanTzQJvrVfPUsKP8uZ0rghh5nMqAvj+bHk6A=;
+	s=mail; t=1700333533;
+	bh=J+seCFtredfCQziT/OitLEnL5PB+R3wRmiHFUZuhNDA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BU2InGWBhbiKfo4iFmN9UwjW5+yvUUhnPeKZq/izXOdL4WqLYTwFQyPomwDdjRYcy
-	 94xyMaLsa7fTt9E59o2NJWAdTHQrD/lvK/hlIJbm3jl695fzokLyt8JLSFiLaErXgz
-	 ibjv8/lBhmo8HFdjo6bzGyY4QOGTkfdd8iIe2swc=
-Date: Sat, 18 Nov 2023 20:50:49 +0200
+	b=CRpvpJRwBw/0y0FoqkuTdGBBMnDZpAoc/snQFazl8rxiOISAWqeoqp6QcHyRDMPEh
+	 CGIyBwkYZFbbYLpnqD0JvYEDFDRkvkdKMbf6sjz4Nz8BQVyFpDbipx/uSSibZaH1Zv
+	 7NBSYY6PuOOOVoPRXapkWvt17Jj+MqYBmAQYSIVI=
+Date: Sat, 18 Nov 2023 20:52:48 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
 	rafael@kernel.org, jacopo.mondi@ideasonboard.com
-Subject: Re: [PATCH v2 3/7] ACPI: Documentation: Document acpi_dev_state_d0()
-Message-ID: <20231118185049.GH20846@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 6/7] media: imx319: Put usage_count correctly in
+ s_ctrl callback
+Message-ID: <20231118185248.GI20846@pendragon.ideasonboard.com>
 References: <20231117111433.1561669-1-sakari.ailus@linux.intel.com>
- <20231117111433.1561669-4-sakari.ailus@linux.intel.com>
+ <20231117111433.1561669-7-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -45,46 +46,65 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231117111433.1561669-4-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231117111433.1561669-7-sakari.ailus@linux.intel.com>
 
 Hi Sakari,
 
 Thank you for the patch.
 
-On Fri, Nov 17, 2023 at 01:14:29PM +0200, Sakari Ailus wrote:
-> Document that acpi_dev_state_d0() can be used to tell if the device was
-> powered on for probe.
-> 
+On Fri, Nov 17, 2023 at 01:14:32PM +0200, Sakari Ailus wrote:
+> pm_runtime_get_if_in_use() returns an error if Runtime PM is disabled for
+> the device, in which case it won't increment the use count.
+> pm_runtime_put() does that unconditionally however. Only call
+> pm_runtime_put() in case pm_runtime_get_if_in_use() has returned a value >
+> 0.
+
+Why don't you use pm_runtime_get_if_active() ?
+
+Other than that, same comment as for patch 5/7, I don't like the
+increased complexity.
+
+These comments apply to 7/7 as well.
+
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  Documentation/firmware-guide/acpi/non-d0-probe.rst | 8 ++++++++
->  1 file changed, 8 insertions(+)
+>  drivers/media/i2c/imx319.c | 8 +++++---
+>  1 file changed, 5 insertions(+), 3 deletions(-)
 > 
-> diff --git a/Documentation/firmware-guide/acpi/non-d0-probe.rst b/Documentation/firmware-guide/acpi/non-d0-probe.rst
-> index 7afd16701a02..815bcc8db69f 100644
-> --- a/Documentation/firmware-guide/acpi/non-d0-probe.rst
-> +++ b/Documentation/firmware-guide/acpi/non-d0-probe.rst
-> @@ -24,6 +24,14 @@ there's a problem with the device, the driver likely probes just fine but the
->  first user will find out the device doesn't work, instead of a failure at probe
->  time. This feature should thus be used sparingly.
+> diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
+> index 5378f607f340..e7b2d0c20d29 100644
+> --- a/drivers/media/i2c/imx319.c
+> +++ b/drivers/media/i2c/imx319.c
+> @@ -1880,8 +1880,8 @@ static int imx319_set_ctrl(struct v4l2_ctrl *ctrl)
+>  	struct imx319 *imx319 = container_of(ctrl->handler,
+>  					     struct imx319, ctrl_handler);
+>  	struct i2c_client *client = v4l2_get_subdevdata(&imx319->sd);
+> +	int ret, pm_status;
+>  	s64 max;
+> -	int ret;
 >  
-> +ACPI framework
-> +--------------
-> +
-> +Use the Linux ACPI framework function :c:func:`acpi_dev_state_d0()` to tell
-> +whether the device was powered on for probe. :c:func:`acpi_dev_state_d0()`
-> +returns true if the device is powered on, false otherwise. For non-ACPI backed
-> +devices it returns true always.
-> +
-
-While this is true, I don't want to see drivers having to call
-ACPI-specific functions, the same way you dislike OF-specific functions
-in drivers. Please find a better way to handle this.
-
->  I²C
->  ---
+>  	/* Propagate change of current control to all related controls */
+>  	switch (ctrl->id) {
+> @@ -1898,7 +1898,8 @@ static int imx319_set_ctrl(struct v4l2_ctrl *ctrl)
+>  	 * Applying V4L2 control value only happens
+>  	 * when power is up for streaming
+>  	 */
+> -	if (!pm_runtime_get_if_in_use(&client->dev))
+> +	pm_status = pm_runtime_get_if_in_use(&client->dev);
+> +	if (!pm_status)
+>  		return 0;
 >  
+>  	switch (ctrl->id) {
+> @@ -1937,7 +1938,8 @@ static int imx319_set_ctrl(struct v4l2_ctrl *ctrl)
+>  		break;
+>  	}
+>  
+> -	pm_runtime_put(&client->dev);
+> +	if (pm_status > 0)
+> +		pm_runtime_put(&client->dev);
+>  
+>  	return ret;
+>  }
 
 -- 
 Regards,
