@@ -1,321 +1,205 @@
-Return-Path: <linux-media+bounces-544-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-545-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8957C7EFFBA
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 14:05:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AFD37EFFBB
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 14:11:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AAB921C20926
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 13:05:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 37DC51C20919
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 13:11:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70BEB12E75;
-	Sat, 18 Nov 2023 13:05:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19E7A12E4E;
+	Sat, 18 Nov 2023 13:11:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zt8IcNYf"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="nmrhzHE2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ABCC8F
-	for <linux-media@vger.kernel.org>; Sat, 18 Nov 2023 05:05:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700312709; x=1731848709;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=BfyJWIppSt/4t3kaCm0K281yoo3CfAHdpQTXR0DXKwE=;
-  b=Zt8IcNYfD/ePmNUeqyKiJP5sJw9gWPtjlvoCW2EMgpzqcjR/+OeQCQVl
-   MgYgAnPMT/CqkEDdsiSeWVsQPX3GcvmxczuE1OW1iGs7avp5tStzOYrwF
-   2mbaIJzHkWAcNwrg9+n4Wi4iktGSPbJQJqJQ/9l/qYSu9IH98tlTXn/Rl
-   emTw5QwSf08bCcqr2PBhip36vdGpRQoHZ2GTzSLLW7VKVyj0nm9LjTta2
-   otPLWKzFXsKC3YDlv9lmGtV/Zblt38v8Dx3l8aXUDNKhcbXvv6D2emK28
-   jrmGRL8x3sP9ocqanzbVbLQ349bJrgxgQOsU08g/+Qj+oFCRoe8aM/q+y
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="376472461"
-X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="376472461"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 05:05:08 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="939399208"
-X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
-   d="scan'208";a="939399208"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 05:05:07 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 4C46911FC2D;
-	Sat, 18 Nov 2023 15:05:04 +0200 (EET)
-Date: Sat, 18 Nov 2023 13:05:04 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Lee Jackson <lee.jackson@arducam.com>
-Subject: Re: [PATCH 2/2] media: i2c: Add driver for OmniVision OV64A40
-Message-ID: <ZVi2gGlcul_tT4e4@kekkonen.localdomain>
-References: <20231010151208.29564-1-jacopo.mondi@ideasonboard.com>
- <20231010151208.29564-3-jacopo.mondi@ideasonboard.com>
- <ZVHciyhWSogA4ckc@kekkonen.localdomain>
- <uk3jwwpwthl7es6gdfkremjf4wil5w4b2kd6amajmeigywa55f@qxsz33z5t6q6>
- <ZVJL0grMufajJ3Tm@kekkonen.localdomain>
- <w536wwkmzdxlppj7i5lbq4hvmh5owlufh3rjj5qixu3kuot2oa@toybd7h47pvv>
- <ZVO80o65pOZ9RVqz@kekkonen.localdomain>
- <3hmhyq2n2lcmllnhvkk7qblkwhelljapjmew5inqwdq2supomu@7qi3i2h7mcpb>
- <ZViUCPSk2bIjgE4j@kekkonen.localdomain>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 662DF127;
+	Sat, 18 Nov 2023 05:11:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1700313067; x=1700917867; i=wahrenst@gmx.net;
+	bh=4GHN1I2o8mfnCqibdGh38n79/fp2eZe21rBwxEeuUcM=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=nmrhzHE25VsoOqF67ebHXzcV4lJFtO0CAB4pez+TgcEfUkDcyrudHmTTOCWC7op0
+	 X7hOdpgU4QElx8d0KTQzBmmQyWxZhsdp1q5kG0NA241sHnigDvUkdrHmz5ZsaZj0R
+	 cC6pMTIxXJjAGZzY4a9yy8AWkJdxYXYXNYZ/wNEv+vYDQeJOZTBsSMHQtR1Sf+mam
+	 E9kv1iH+w3D3FLRqmOq8YxtUK1+g8SbmRfZAY8L78vbJD+tEVnqiuvq1A/9uslWh2
+	 CnLyx4sTq0lZ5iR/W0HTCpLitbgjQ5j8OK/9NEjeTFf4gYvxf4LLwnH3mT1itHOT2
+	 d4BrdveGYgtJhYmTFg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.129] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MeU0q-1reUjX1MLU-00aSfu; Sat, 18
+ Nov 2023 14:11:07 +0100
+Message-ID: <6e06ee01-4ccb-4e34-bb6c-1d5fb8ab9e3c@gmx.net>
+Date: Sat, 18 Nov 2023 14:11:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZViUCPSk2bIjgE4j@kekkonen.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/15] media: uapi: v4l2-core: Add ISP statistics
+ output V4L2 fourcc type
+Content-Language: en-US
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+ kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-staging@lists.linux.dev
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>,
+ Dan Carpenter <error27@gmail.com>, Naushir Patuck <naush@raspberrypi.com>
+References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
+ <20231109210309.638594-8-umang.jain@ideasonboard.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231109210309.638594-8-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:mok/l9H4EgXzDMAqsEorwz3K0kHDKvDb/+AnL3QpGrYz/nY00hc
+ 4aCZwPmkXHdl76/Z1rnjIqjrbckT9Rmh2h7dk5j0Peee9TJ2Rj586ed6MB2PV7am6I9R63w
+ R1q9p3hmJjeaRNB/d4tQa9vPpWPdo7aNsO92rLfx8DYr+xSfbGBUB794XfKYna3lqZVN2z4
+ lg+IG3QDUdR0B5gr7OHcA==
+UI-OutboundReport: notjunk:1;M01:P0:j6sNYU9OcmM=;DfliXwKQeoFkn8/f/qSPj3kZOox
+ BMy9OSdKXVRRE7EzKOeXkQpm4ePwEbeGqp7sj+t7DtGR44GaK7mYcJ/JYwGtTY4ZTSLKUZL0o
+ rjx0kd2igRU9SzjJyhLQ+/TxeM/Bkyv4OhtnvEXjk40lucvxxKRuVZMi01KQ1KdIx7xwDdx2x
+ TKGhKrYppQ5OlCXh1eHOsWFFVYPzcAxQAaufZ7GS6u8nvnx6TD5PrqI53NDl1E/mg70VJ4FsV
+ B3I5sev1UrEf+Xx1yy9wwODSxPDmvOR6xJj7DYR6YAA8usvjRQ731VN8zTirT8Wxk4ZQC3eke
+ 7YChuNeLYmKry/GUmxePiAzk3yqPKB2PUVEVgyfwZetGtwnu8yr6baUBgckuwXyTWYvuTOGrL
+ Ffda/Bd/4cRp4c+UtlZOjjoN2QCKv8WLiupv2I15z1gbuXXuyfgAtCcBJC1afCrDUuTn6ASL8
+ L8qDeZLzwUylcX6pcAPrFRt0U4pS58djjM2Yhn2S5Zdn0YAf+uFimjl4w8JkQVYvha+0iwLwM
+ MJ0Cs1Dul52mRmySmkQm0aT7LPznQBOXYPWsGEWZ+KN9IIMJQaUPObCd1w7n3eQtqZyhmIrKF
+ GyghlHQgPfNtFTbaJzSmIFF+zxBIBg6ThS2j1wvvOUv/Prx2pBYvYyz1ZP3L2pMqSLUTQ3HXj
+ GzrPngqlz1WHZCEK6FkxWSSo+TivyXEHqPBzA3VLauxRUm4iYtlIdYBcOETyIV8k3CuzmXZvc
+ qpCQr6/aPxWTGH1WAuCrKpJ3GZQEVXu6CV80CeXxsqO7/Y4EESlIFWC4zd6ZAisO01227tCQh
+ p+1lpp+AYXKQeiXWRBtJ/JK7ciU0yn6emrvGZJNezh+MnkrQowlQCPOodSE+QEc8/TwjNOUHR
+ GmSZi2Ogdm2Gk08Efoub3kbwALqBfxBUPVcszE1gtggLSVx0/fV7QCWWGDpw7QqRmYvRu+gVJ
+ 82N9Ag==
 
-On Sat, Nov 18, 2023 at 10:38:00AM +0000, Sakari Ailus wrote:
-> Hi Jacopo,
-> 
-> On Fri, Nov 17, 2023 at 03:59:39PM +0100, Jacopo Mondi wrote:
-> > Hi Sakari
-> > 
-> > On Tue, Nov 14, 2023 at 06:30:42PM +0000, Sakari Ailus wrote:
-> > > Hi Jacopo,
-> > >
-> > > On Tue, Nov 14, 2023 at 06:24:20PM +0100, Jacopo Mondi wrote:
-> > > > Hi Sakari
-> > > >
-> > > > On Mon, Nov 13, 2023 at 04:16:18PM +0000, Sakari Ailus wrote:
-> > > > > Hi Jacopo,
-> > > > >
-> > > > > On Mon, Nov 13, 2023 at 10:19:32AM +0100, Jacopo Mondi wrote:
-> > > > >
-> > > > > ...
-> > > > >
-> > > > > > > > +	bool vbin;
-> > > > > > > > +	bool hbin;
-> > > > > > >
-> > > > > > > I recall bool is 32 bits on arm. Is it 64 bits on arm64? Just a note, I
-> > > > > > > don't have a great suggestion here. :-)
-> > > > > > >
-> > > > > > > So only binning up to 2x2 is supported?
-> > > > > > >
-> > > > > >
-> > > > > > yes, further downscaling is obtained by skipping.
-> > > > > >
-> > > > > > The 0x3820 register has BIT(1) "vbin_vc" than enables binning, so the
-> > > > > > binning factor doesn't seem to be configurable. Of course there might
-> > > > > > be other bits/registers to control this, but I'm not aware of those
-> > > > >
-> > > > > Ack.
-> > > > >
-> > > > > > > > +static int ov64a40_start_streaming(struct ov64a40 *ov64a40,
-> > > > > > > > +				   struct v4l2_subdev_state *state)
-> > > > > > > > +{
-> > > > > > > > +	const struct ov64a40_reglist *reglist = &ov64a40->mode->reglist;
-> > > > > > > > +	unsigned long delay;
-> > > > > > > > +	int ret;
-> > > > > > > > +
-> > > > > > > > +	ret = pm_runtime_resume_and_get(ov64a40->dev);
-> > > > > > >
-> > > > > > > You seem to be using autosuspend, but you still do not try to avoid writes
-> > > > > > > of presumably the same register values if the sensor was powered on. The
-> > > > > > > register writes usually take the most of the time there.
-> > > > > >
-> > > > > > I'm not sure I get this comment. Are you afraid of multiple calls to
-> > > > > > "start_streaming" being made ? Isn't it responsibility of the bridge
-> > > > > > driver to handle this correctly ?
-> > > > >
-> > > > > It is.
-> > > > >
-> > > > > What I'm saying is that you're re-writing a lot of unchanged sensor
-> > > > > configuration below even if the sensor has not been powered off in the
-> > > > > meantime.
-> > > > >
-> > > >
-> > > > Indeed! I can move programming the long table of registers to
-> > > > power_on() so that it gets written only when the device actually
-> > > > resumes, and close calls to start_stream() won't need to do so.
-> > >
-> > > That is one option.
-> > 
-> > Unforuntately I can't do that easily. Mixing modes does not give good
-> > results if I skip re-writing the long init sequence, as the per-mode
-> > register tables, specifically the max resolution one, are designed to
-> > be applied to a configured sensor.
-> > 
-> > I tried fixing the max res mode to set all the register it needs, but
-> > I wasn't able to set all the requested registers (did I mention most
-> > of them are undocumented ?)
-> 
-> Should these registers be returned to the default values then? It seems the
-> mode specific lists are very short compared to the init sequence so if
-> you're at all concerned with the time it takes to write the long sequence,
-> this would look like a simple optimisation that would have a notable
-> effect.
-> 
-> > 
-> > >
-> > > Do note that you can't set up controls there using control handler's setup
-> > > function as pm_runtime_get_if_in_use() (or ..._active()) will return an
-> > > error there.
-> > >
-> > > >
-> > > > > >
-> > > > > > One thing for sure, I should grab a few controls (flips, link_freq)
-> > > > > > avoid them being written to HW while the sensor is streaming.
-> > > > > >
-> > > > > > >
-> > > > > > > pm_runtime_get_sync() returns 1 if the sensor was already in active state.
-> > > > > > >
-> > > > > > > I'm about to send a patchset related to this actually, I can cc you...
-> > > > > > >
-> > > >
-> > > > Please, I'm not sure I get the issue still
-> > > >
-> > > > > > > > +	if (ret < 0)
-> > > > > > > > +		return ret;
-> > > > > > > > +
-> > > > > > > > +	ret = cci_multi_reg_write(ov64a40->cci, ov64a40_init,
-> > > > > > > > +				  ARRAY_SIZE(ov64a40_init), NULL);
-> > > > > > > > +	if (ret)
-> > > > > > > > +		goto error_power_off;
-> > > > > > > > +
-> > > > > > > > +	ret = cci_multi_reg_write(ov64a40->cci, reglist->regvals,
-> > > > > > > > +				  reglist->num_regs, NULL);
-> > > > > > > > +	if (ret)
-> > > > > > > > +		goto error_power_off;
-> > > > > > > > +
-> > > > > > > > +	ret = ov64a40_program_geometry(ov64a40);
-> > > > > > > > +	if (ret)
-> > > > > > > > +		goto error_power_off;
-> > > > > > > > +
-> > > > > > > > +	ret = ov64a40_program_subsampling(ov64a40);
-> > > > > > > > +	if (ret)
-> > > > > > > > +		goto error_power_off;
-> > > > > > > > +
-> > > > > > > > +	ret =  __v4l2_ctrl_handler_setup(&ov64a40->ctrl_handler);
-> > > > > > > > +	if (ret)
-> > > > > > > > +		goto error_power_off;
-> > > > > > > > +
-> > > > > > > > +	ret = cci_write(ov64a40->cci, OV64A40_REG_SMIA,
-> > > > > > > > +			OV64A40_REG_SMIA_STREAMING, NULL);
-> > > > > > > > +	if (ret)
-> > > > > > > > +		goto error_power_off;
-> > > > > > > > +
-> > > > > > > > +	/* delay: max(4096 xclk pulses, 150usec) + exposure time */
-> > > > > > > > +	delay = DIV_ROUND_UP(4096, OV64A40_XCLK_FREQ / 1000 / 1000);
-> > > > > > > > +	delay = max(delay, 150ul);
-> > > > > > > > +	delay += DIV_ROUND_UP(ov64a40->mode->ppl * ov64a40->exposure->cur.val,
-> > > > > > > > +			      OV64A40_PIXEL_RATE / 1000 / 1000);
-> > > > > > > > +	fsleep(delay);
-> > > > > > > > +
-> > > > > > > > +	return 0;
-> > > > > > > > +
-> > > > > > > > +error_power_off:
-> > > > > > > > +	pm_runtime_mark_last_busy(ov64a40->dev);
-> > > > > > > > +	pm_runtime_put_autosuspend(ov64a40->dev);
-> > > > > > > > +
-> > > > > > > > +	return ret;
-> > > > > > > > +}
-> > > > >
-> > > > > ...
-> > > > >
-> > > > > > > > +static int ov64a40_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > > > > > > +{
-> > > > > > > > +	struct ov64a40 *ov64a40 = container_of(ctrl->handler, struct ov64a40,
-> > > > > > > > +					       ctrl_handler);
-> > > > > > > > +	int ret;
-> > > > > > > > +
-> > > > > > > > +	if (ctrl->id == V4L2_CID_VBLANK) {
-> > > > > > > > +		int exp_max = ov64a40->mode->height + ctrl->val
-> > > > > > > > +			    - OV64A40_EXPOSURE_MARGIN;
-> > > > > > > > +		int exp_val = min(ov64a40->exposure->cur.val, exp_max);
-> > > > > > > > +
-> > > > > > > > +		__v4l2_ctrl_modify_range(ov64a40->exposure,
-> > > > > > > > +					 ov64a40->exposure->minimum,
-> > > > > > > > +					 exp_max, 1, exp_val);
-> > > > > > > > +	}
-> > > > > > > > +
-> > > > > > > > +	if (pm_runtime_get_if_in_use(ov64a40->dev) == 0)
-> > > > > > >
-> > > > > > > The function you should use here is actually called
-> > > > > > > pm_runtime_get_if_active(), but this change would better be postponed after
-> > > > > > > my patchset.
-> > > > > >
-> > > > > >   `int pm_runtime_get_if_in_use(struct device *dev);`
-> > > > > >     - return -EINVAL if 'power.disable_depth' is nonzero; otherwise, if the
-> > > > > >       runtime PM status is RPM_ACTIVE and the runtime PM usage counter is
-> > > > > >       nonzero, increment the counter and return 1; otherwise return 0 without
-> > > > > >       changing the counter
-> > > > > >
-> > > > > >   `int pm_runtime_get_if_active(struct device *dev, bool ign_usage_count);`
-> > > > > >     - return -EINVAL if 'power.disable_depth' is nonzero; otherwise, if the
-> > > > > >       runtime PM status is RPM_ACTIVE, and either ign_usage_count is true
-> > > > > >       or the device's usage_count is non-zero, increment the counter and
-> > > > > >       return 1; otherwise return 0 without changing the counter
-> > > > > >
-> > > > > >
-> > > > > > The only difference I see here is the additional 'ign_usage_count'
-> > > > > > which allows to forcefully resume the device by ignoring the usage
-> > > > > > counter ? Why would you forcefully resume the device here ? Don't we
-> > > > > > actually want the opposite and use this check to only access the HW if
-> > > > > > the device is powered already ?
-> > > > > >
-> > > > >
-> > > > > It ignores the usage_count before the call while incrementing it if the
-> > > > > device was in active state. Although this change isn't useful if you
-> > > > > continue to re-write the configuration to sensor's registers in streamon
-> > > > > nevertheless.
-> > > > >
-> > > >
-> > > > I didn't get why the two things are related :)
-> > >
-> > 
-> > Ok, now that I've read your patch series this makes sense.
-> > 
-> > Did you mean:
-> > 
-> > > Consider the following:
-> > >
-> > > 1. The application stops streaming. Autosuspend timer prevents suspending
-> > >    the sensor immediately even if usage_count becomes zero.
-> > > 2. The application set a control. The sensor is still powered on so
-> > 
-> > s/so/but/
-> > 
-> > >    pm_runtime_get_if_in_use() returns 0 and the control value is written to
-> > >    registers.
-> > 
-> > s/is written/is not written/
-> 
-> Ah, indeed.
-> 
-> > 
-> > > 3. pm_runtime_put() at the end of s_ctrl() callback will power the sensor
-> > >    off immediately.
-> > > 4. Application proceeds to start streaming and the sensor is powered on
-> > >    again.
-> > >
-> > > The purpose of autosuspend is to avoid (needlessly) powering off and on the
-> > > device --- which takes time.
-> > >
-> > 
-> > Should I base my next version on top of "[PATCH v2 0/7] Small Runtime
-> > PM API changes" ? Remember I'm going to write the init sequence in
-> > start_stream() so even if I use get_if_active() I won't save much.
-> 
-> If you're going to, yes.
-> 
-> My point is that if you're using Runtime PM autosuspend properly (as in
-> checking pm_runtime_get_sync() returns 1), you have to use get_if_active()
-> there, not get_if_in_use(), as the latter will return 0 even if the device
-> is in active state.
+Hi Umang,
 
-Regarding the series --- don't depend on the new functions but otherwise I
-think the guidance should be sound. It'll probably take a while until we
-have this in media tree.
+Am 09.11.23 um 22:02 schrieb Umang Jain:
+> From: Naushir Patuck <naush@raspberrypi.com>
+>
+> Add V4L2_META_FMT_BCM2835_ISP_STATS V4L2 format type.
+>
+> This new format will be used by the bcm2835-isp device to return
+> out ISP statistics for 3A.
+>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   .../userspace-api/media/v4l/meta-formats.rst  |  1 +
+>   .../v4l/pixfmt-meta-bcm2835-isp-stats.rst     | 32 +++++++++++++++++++
+>   drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+>   include/uapi/linux/videodev2.h                |  1 +
+>   4 files changed, 35 insertions(+)
+>   create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-b=
+cm2835-isp-stats.rst
+>
+> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Do=
+cumentation/userspace-api/media/v4l/meta-formats.rst
+> index 919f595576b9..534542f235bc 100644
+> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> @@ -12,6 +12,7 @@ These formats are used for the :ref:`metadata` interfa=
+ce only.
+>   .. toctree::
+>       :maxdepth: 1
+>
+> +    pixfmt-meta-bcm2835-isp-stats
+>       metafmt-d4xx
+>       metafmt-intel-ipu3
+>       metafmt-rkisp1
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-i=
+sp-stats.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-i=
+sp-stats.rst
+> new file mode 100644
+> index 000000000000..2219235e0ecb
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-bcm2835-isp-stat=
+s.rst
+> @@ -0,0 +1,32 @@
+> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> +.. _v4l2-meta-fmt-bcm2835-isp-stats:
+> +
+> ++*****************************************
+> +V4L2_META_FMT_BCM2835_ISP_STATS  ('BSTA')
+> +*****************************************
+> +
+> +BCM2835 ISP Statistics
+> +
+> +Description
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +The BCM2835 ISP hardware calculate image statistics for an input Bayer =
+frame.
+> +These statistics are obtained from the "bcm2835-isp0-capture3" device n=
+ode
+> +using the :c:type:`v4l2_meta_format` interface. They are formatted as d=
+escribed
+> +by the :c:type:`bcm2835_isp_stats` structure below.
+> +
+> +.. code-block:: c
+> +
+> +       #define DEFAULT_AWB_REGIONS_X 16
+> +       #define DEFAULT_AWB_REGIONS_Y 12
+> +
+> +       #define NUM_HISTOGRAMS 2
+> +       #define NUM_HISTOGRAM_BINS 128
+> +       #define AWB_REGIONS (DEFAULT_AWB_REGIONS_X * DEFAULT_AWB_REGIONS=
+_Y)
+> +       #define FLOATING_REGIONS 16
+> +       #define AGC_REGIONS 16
+> +       #define FOCUS_REGIONS 12
+> +
+> +.. kernel-doc:: include/uapi/linux/bcm2835-isp.h
+> +   :functions: bcm2835_isp_stats_hist bcm2835_isp_stats_region
+> +                    bcm2835_isp_stats_focus bcm2835_isp_stats
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-c=
+ore/v4l2-ioctl.c
+> index 7f29886568b8..6f0f0f6526c9 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1463,6 +1463,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *=
+fmt)
+>   	case V4L2_META_FMT_GENERIC_CSI2_20:	descr =3D "8b Generic Meta, 20b C=
+SI-2"; break;
+>   	case V4L2_META_FMT_GENERIC_CSI2_24:	descr =3D "8b Generic Meta, 24b C=
+SI-2"; break;
+>   	case V4L2_META_FMT_GENERIC_CSI2_2_24:	descr =3D "2x8b Generic Meta, 2=
+4b CSI-2"; break;
+> +	case V4L2_META_FMT_BCM2835_ISP_STATS: descr =3D "BCM2835 ISP Image Sta=
+tistics"; break;
 
--- 
-Sakari Ailus
+tab instead of space?
+
+>
+>   	default:
+>   		/* Compressed formats */
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videode=
+v2.h
+> index 85b60199c618..eddaea8598db 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -836,6 +836,7 @@ struct v4l2_pix_format {
+>   #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* U=
+VC Payload Header metadata */
+>   #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D=
+4XX Payload Header metadata */
+>   #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid=
+ Metadata */
+> +#define V4L2_META_FMT_BCM2835_ISP_STATS v4l2_fourcc('B', 'S', 'T', 'A')=
+ /* BCM2835 ISP image statistics output */
+
+Shouldn't this go to the vendor specific ones?
+
+>
+>   /* Vendor specific - used for RK_ISP1 camera sub-system */
+>   #define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /=
+* Rockchip ISP1 3A Parameters */
 
