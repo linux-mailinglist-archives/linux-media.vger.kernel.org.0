@@ -1,107 +1,256 @@
-Return-Path: <linux-media+bounces-563-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-564-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E3B17F01DF
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 19:05:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21ABE7F0219
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 19:49:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4ED3C280EAD
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 18:05:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA23B280E76
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 18:49:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A39921CFB9;
-	Sat, 18 Nov 2023 18:05:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96CF01772E;
+	Sat, 18 Nov 2023 18:49:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dv1atdjH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TyuiHMwL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B153D58;
-	Sat, 18 Nov 2023 10:05:18 -0800 (PST)
-Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9d0b4dfd60dso398915466b.1;
-        Sat, 18 Nov 2023 10:05:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700330717; x=1700935517; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VbsbH1CThP42UiUJns2VDtTJbIoXHmLVJdFuam5YX4A=;
-        b=Dv1atdjHcnH/I2odaOBenqZknAsMnKzuSQWWgeZPa2HfRKHZJKBv9Sl+MgIYr6Y2zU
-         qnt75kcKK3rNa5np1KabUB7otAx/uHdrCDpkfxTNDq2YySVWaLAoA2YD9QzX4ZxnNYAn
-         XVNHJxftBKepdmKI+60sTXxmODw1bw19uK0o61ZK2H0EiPa+ynDxqrGRz23vfxuKyx1f
-         ISlGzp5f2j8gxxbXmg+xxvRVnWkhM3uSm2d01tFJls9GHsyI55WnagtCAyLLIuygy9hH
-         9Pn2xouodlTVkMQo0XJbA0yvvm/qzYoGxjg7v4tdZj2gwffmmA7RyDAw8a9b+g8ucMOK
-         WkVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700330717; x=1700935517;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VbsbH1CThP42UiUJns2VDtTJbIoXHmLVJdFuam5YX4A=;
-        b=jBrXXt5zX/hyUkTiM5FECe9OmA9I/R14NI2jc0mOG3jWZGQc93wDYNOK1gBqWBxKuy
-         GYIF0VsG85tKxcMupytOVm4WcfHZeM7PpgAQcsGrk7Ur3kmRNrAnq8ipleSauB0E9q26
-         JK0Fzqm3UGly+7tL64LpYUPeUyYQk3D036e9TtvieHsWSZLiY4BEWoSCe2wAFGDa5rja
-         Z5Vyw+OPUdqwpkWsBbprVr9HNC80TpxCEE4GZO1OsW+QIG/MwRQMgN7ZYynT+MfTXZ2C
-         04yR6g7bVXByu9UazPaaaZOjb/sgIa8Fw77XkGmjv73QtasT3IpB1GfzCuUIBVQjDLco
-         J+TA==
-X-Gm-Message-State: AOJu0YxTHejG0lUrJ26vB1CPgidtrfvUJvfOuu9Lorlq3Qrf1rJwcGdM
-	dGhqiO3afGPdk1uvGdN5kQE=
-X-Google-Smtp-Source: AGHT+IE6NYND1q390q99WYS/6bIoGK12vSvwGzpUiPl4o+SJV3Ry6vIbBPSwfHZdeucyCd1k1/QcHA==
-X-Received: by 2002:a17:906:d7:b0:9ae:37d9:803e with SMTP id 23-20020a17090600d700b009ae37d9803emr2558599eji.8.1700330716752;
-        Sat, 18 Nov 2023 10:05:16 -0800 (PST)
-Received: from zotac.lan. (dynamic-2a01-0c22-77bf-8300-2223-08ff-fe18-0310.c22.pool.telefonica.de. [2a01:c22:77bf:8300:2223:8ff:fe18:310])
-        by smtp.gmail.com with ESMTPSA id m20-20020a1709062b9400b009f2c769b4ebsm2079456ejg.151.2023.11.18.10.05.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Nov 2023 10:05:16 -0800 (PST)
-From: Heiner Kallweit <hkallweit1@gmail.com>
-To: Wolfram Sang <wsa@kernel.org>,
-	Sergey Kozlov <serjk@netup.ru>
-Cc: linux-i2c@vger.kernel.org,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Abylay Ospan <aospan@netup.ru>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH 08/10] drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c: Don't let i2c adapters declare I2C_CLASS_SPD support if they support I2C_CLASS_HWMON
-Date: Sat, 18 Nov 2023 19:05:02 +0100
-Message-ID: <20231118180504.1785-9-hkallweit1@gmail.com>
-X-Mailer: git-send-email 2.42.1
-In-Reply-To: <20231118180504.1785-1-hkallweit1@gmail.com>
-References: <20231118180504.1785-1-hkallweit1@gmail.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38AEEB7;
+	Sat, 18 Nov 2023 10:49:08 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EA6AC9B6;
+	Sat, 18 Nov 2023 19:48:37 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1700333318;
+	bh=Ty/rSOHosocLARDo84/B859X8cHqUg9YUPFxBCL9q7A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TyuiHMwLr9sikeyn1H5a6kIcq3L91Jkr9zjschhZFlXCw1XoyvoUW7P6AqSLxYicT
+	 aC6y+3GtRBD//miS6pEnaBDstVFqjhy6Ne2V4M3aQyW6sQY2m1VxPWPgk3ngtmnBdf
+	 ASMdamVTjcq9e8UHlJWP4YsCaB4Rt/lTTlFIx34c=
+Date: Sat, 18 Nov 2023 20:49:12 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+	rafael@kernel.org, jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH v2 4/7] media: Documentation: Improve camera sensor
+ runtime PM documentation
+Message-ID: <20231118184912.GG20846@pendragon.ideasonboard.com>
+References: <20231117111433.1561669-1-sakari.ailus@linux.intel.com>
+ <20231117111433.1561669-5-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231117111433.1561669-5-sakari.ailus@linux.intel.com>
 
-After removal of the legacy eeprom driver the only remaining I2C
-client device driver supporting I2C_CLASS_SPD is jc42. Because this
-driver also supports I2C_CLASS_HWMON, adapters don't have to
-declare support for I2C_CLASS_SPD if they support I2C_CLASS_HWMON.
-It's one step towards getting rid of I2C_CLASS_SPD mid-term.
+Hi Sakari,
 
-Series was created supported by Coccinelle and its splitpatch.
+Thank you for the patch.
 
-Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
+On Fri, Nov 17, 2023 at 01:14:30PM +0200, Sakari Ailus wrote:
+> Endorse the use of pm_runtime_get_sync() in order to resume the device and
 
----
- drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Drivers should use pm_runtime_resume_and_get(), not
+pm_runtime_get_sync().
 
-diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c b/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
-index bd38ce444..46676f2c8 100644
---- a/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
-+++ b/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
-@@ -289,7 +289,7 @@ static const struct i2c_algorithm netup_i2c_algorithm = {
- static const struct i2c_adapter netup_i2c_adapter = {
- 	.owner		= THIS_MODULE,
- 	.name		= NETUP_UNIDVB_NAME,
--	.class		= I2C_CLASS_HWMON | I2C_CLASS_SPD,
-+	.class		= I2C_CLASS_HWMON,
- 	.algo		= &netup_i2c_algorithm,
- };
- 
+> pm_runtime_get_if_active() to increment its usage_count if the device is
+> in RPM_ACTIVE state.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  .../driver-api/media/camera-sensor.rst        | 76 +++++++++++++------
+>  .../firmware-guide/acpi/non-d0-probe.rst      |  2 +
+>  2 files changed, 53 insertions(+), 25 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> index 6456145f96ed..c1bb0de40189 100644
+> --- a/Documentation/driver-api/media/camera-sensor.rst
+> +++ b/Documentation/driver-api/media/camera-sensor.rst
+> @@ -58,35 +58,55 @@ pipeline. They must obey the rules listed herein to ensure coherent power
+>  management over the pipeline.
+>  
+>  Camera sensor drivers are responsible for controlling the power state of the
+> -device they otherwise control as well. They shall use runtime PM to manage
+> -power states. Runtime PM shall be enabled at probe time and disabled at remove
+> -time. Drivers should enable runtime PM autosuspend.
+> +device they otherwise control as well. They shall use runtime PM to manage power
+> +states. Runtime PM shall be enabled at probe time using
+> +:c:func:`pm_runtime_enable()` and disabled using :c:func:`pm_runtime_disable()`
+> +at remove time. Before enabling Runtime PM, the device's Runtime PM status is
+> +set to ``RPM_ACTIVE`` using :c:func:`pm_runtime_set_active()` and after
+> +disabling set to ``RPM_SUSPENDED`` using :c:func:`pm_runtime_set_suspended()`.
 
+That's correct only if the driver powers the device up manually, which
+isn't documented here. I recommend adding code examples, and explaining
+why this particular initialization sequence is preferred.
+
+> +Drivers should enable runtime PM autosuspend.
+
+A rationale would also be useful.
+
+>  
+>  The runtime PM handlers shall handle clocks, regulators, GPIOs, and other
+>  system resources required to power the sensor up and down. For drivers that
+>  don't use any of those resources (such as drivers that support ACPI systems
+>  only), the runtime PM handlers may be left unimplemented.
+
+Unrelated to this patch, but given how many times I've been told to make
+drivers developed for OF-based systems ready for ACPI in case anyone
+would ever need that, I think we should require DT support for new
+sensor drivers even if they're developed on ACPI systems. It's just
+unfair otherwise.
+
+>  
+> -In general, the device shall be powered on at least when its registers are
+> -being accessed and when it is streaming. Drivers should use
+> -``pm_runtime_resume_and_get()`` when starting streaming and
+> -``pm_runtime_put()`` or ``pm_runtime_put_autosuspend()`` when stopping
+> -streaming. They may power the device up at probe time (for example to read
+> +In general, the device shall be powered on at least when its registers are being
+> +accessed and when it is streaming. Drivers using autosuspend should use
+> +:c:func:`pm_runtime_get_sync()` to ensure the device is powered on.
+
+This is applicable to all drivers, not just drivers using autosuspend,
+and the correct function is pm_runtime_resume_and_get().
+
+> The
+> +function increments Runtime PM ``usage_count`` which the driver is responsible
+> +for decrementing using e.g. :c:func:`pm_runtime_put_mark_busy_autosusp()`, which
+> +starts autosuspend timer to power off the device later on when its
+> +``usage_count`` is 0, or :c:func:`pm_runtime_put()` which proceeds to power off
+> +the device without a delay when its ``usage_count`` is 0.
+> +
+> +Note that runtime PM ``usage_count`` of the device must be put even if
+> +:c:func:`pm_runtime_get_sync()` fails.
+
+Let's not go back there. If pm_runtime_resume_and_get() doesn't provide
+the right return value, fix it. I do not want to see a call to any RPM
+put function in case the get function fails. That was too error prone,
+and that hasn't changed. Fix the RPM API instead. I know it's hard given
+the number of users, but that's not an excuse. If it requires the help
+of coccinelle, and touching hundreds of drivers in a large tree-wide
+patch, so be it. I'm getting tired of the pain inflicted on hundreds, of
+not thousands, of driver developers because the RPM API has been badly
+designed. This is a hard blocker for me.
+
+> :c:func:`pm_runtime_get_sync()` returns 1
+> +if the device was already powered on, which may be used as a signal for the
+> +driver that initialisation related registers need to be written to the
+> +sensor.
+> +
+> +Drivers that support Devicetree shall also power on the device explicitly in
+> +driver's probe() function and power the device off in driver's remove() function
+> +without relying on Runtime PM.
+
+This belongs to the probe/remove section above, with a clearer
+explanation.
+
+> +
+> +Drivers may power the device up at probe time (for example to read
+>  identification registers), but should not keep it powered unconditionally after
+> -probe.
+> +probe. On ACPI systems I²C devices are normally powered on for probe but
+> +:ref:`this can be avoided if needed <firmware_acpi_non_d0_probe>`.
+
+From a driver point of view, I think you should say that some firmware
+implementations request the device not to be powered up at probe time,
+and explain what the driver needs to do to handle that properly.
+
+>  
+>  At system suspend time, the whole camera pipeline must stop streaming, and
+>  restart when the system is resumed. This requires coordination between the
+>  camera sensor and the rest of the camera pipeline. Bridge drivers are
+>  responsible for this coordination, and instruct camera sensors to stop and
+> -restart streaming by calling the appropriate subdev operations
+> -(``.s_stream()``, ``.enable_streams()`` or ``.disable_streams()``). Camera
+> -sensor drivers shall therefore **not** keep track of the streaming state to
+> -stop streaming in the PM suspend handler and restart it in the resume handler.
+> -Drivers should in general not implement the system PM handlers.
+> +restart streaming by calling the appropriate subdev operations (``.s_stream()``,
+> +``.enable_streams()`` or ``.disable_streams()``). Camera sensor drivers shall
+> +therefore **not** keep track of the streaming state to stop streaming in the PM
+> +suspend handler and restart it in the resume handler. Drivers should in general
+> +not implement the system PM handlers.
+
+Reflowing text without making any other change makes review more
+difficult, you may want to split that to another patch (or drop it).
+
+>  
+>  Camera sensor drivers shall **not** implement the subdev ``.s_power()``
+> -operation, as it is deprecated. While this operation is implemented in some
+> +operation as it is deprecated. While this operation is implemented in some
+
+I don't think this change is needed.
+
+>  existing drivers as they predate the deprecation, new drivers shall use runtime
+>  PM instead. If you feel you need to begin calling ``.s_power()`` from an ISP or
+>  a bridge driver, instead add runtime PM support to the sensor driver you are
+> @@ -94,20 +114,26 @@ using and drop its ``.s_power()`` handler.
+>  
+>  Please also see :ref:`examples <media-camera-sensor-examples>`.
+>  
+> +.. _media_writing_camera_sensor_drives_control_framework:
+> +
+>  Control framework
+>  ~~~~~~~~~~~~~~~~~
+>  
+>  ``v4l2_ctrl_handler_setup()`` function may not be used in the device's runtime
+> -PM ``runtime_resume`` callback, as it has no way to figure out the power state
+> -of the device. This is because the power state of the device is only changed
+> -after the power state transition has taken place. The ``s_ctrl`` callback can be
+> -used to obtain device's power state after the power state transition:
+> -
+> -.. c:function:: int pm_runtime_get_if_in_use(struct device *dev);
+> -
+> -The function returns a non-zero value if it succeeded getting the power count or
+> -runtime PM was disabled, in either of which cases the driver may proceed to
+> -access the device.
+> +PM ``runtime_resume`` callback as it has no way to figure out the power state of
+> +the device. This is because the Runtime PM status of the device is only changed
+> +after the Runtime PM status transition has taken place. The ``s_ctrl`` callback
+> +can be used to obtain device's Runtime PM status once the transition has taken
+
+s/device/the device/
+
+> +place:
+> +
+> +.. c:function:: int pm_runtime_get_if_active(struct device *dev);
+> +
+> +The function returns a non-zero value if the device is powered on (in which case
+> +it increments the device's ``usage_count``) or runtime PM was disabled, in
+> +either of which cases the driver may proceed to access the device. Note that the
+> +device's ``usage_count`` is not incremented if the function returns an error, in
+> +which case the ``usage_count`` also must not be put using
+> +:c:func:`pm_runtime_put()` or its variants.
+
+As commented separately in another patch that makes a corresponding
+change in a sensor driver, I don't like this. Less complexity in drivers
+please, not more.
+
+>  
+>  Rotation, orientation and flipping
+>  ----------------------------------
+> diff --git a/Documentation/firmware-guide/acpi/non-d0-probe.rst b/Documentation/firmware-guide/acpi/non-d0-probe.rst
+> index 815bcc8db69f..f0669059101f 100644
+> --- a/Documentation/firmware-guide/acpi/non-d0-probe.rst
+> +++ b/Documentation/firmware-guide/acpi/non-d0-probe.rst
+> @@ -1,5 +1,7 @@
+>  .. SPDX-License-Identifier: GPL-2.0
+>  
+> +.. _firmware_acpi_non_d0_probe:
+> +
+>  ========================================
+>  Probing devices in other D states than 0
+>  ========================================
+
+-- 
+Regards,
+
+Laurent Pinchart
 
