@@ -1,43 +1,51 @@
-Return-Path: <linux-media+bounces-566-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-567-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 242307F021B
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 19:52:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EEAB7F0221
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 19:56:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BF8A11F236D9
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 18:52:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 134FBB209EA
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 18:56:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AAA6199DD;
-	Sat, 18 Nov 2023 18:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3FFB199DB;
+	Sat, 18 Nov 2023 18:56:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CRpvpJRw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="n5RjrxFs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66F09B7;
-	Sat, 18 Nov 2023 10:52:43 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DE76B7;
+	Sat, 18 Nov 2023 10:56:34 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8D2049B6;
-	Sat, 18 Nov 2023 19:52:13 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B63C59B6;
+	Sat, 18 Nov 2023 19:56:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700333533;
-	bh=J+seCFtredfCQziT/OitLEnL5PB+R3wRmiHFUZuhNDA=;
+	s=mail; t=1700333763;
+	bh=Rh0UrSp9L3/GLQFW+ybv9m3qnxHHW+PS0Ir9n1DdEh4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CRpvpJRwBw/0y0FoqkuTdGBBMnDZpAoc/snQFazl8rxiOISAWqeoqp6QcHyRDMPEh
-	 CGIyBwkYZFbbYLpnqD0JvYEDFDRkvkdKMbf6sjz4Nz8BQVyFpDbipx/uSSibZaH1Zv
-	 7NBSYY6PuOOOVoPRXapkWvt17Jj+MqYBmAQYSIVI=
-Date: Sat, 18 Nov 2023 20:52:48 +0200
+	b=n5RjrxFsWKRcdF9+XfCR69MdzRUfTdJyxcoyFFQWYVem/kC3HwDTik3uNsGVkhPKp
+	 owyrjal4MtJaFo4R0YTtPO/PpLkWvGNRO9PSuVRzNLAhGSfId5oTBFgAoJNzWCkmv5
+	 gE1FyIWL3Gq7n9cJi5mMKI6b5qGxUuf+/YTg+25A=
+Date: Sat, 18 Nov 2023 20:56:38 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-	rafael@kernel.org, jacopo.mondi@ideasonboard.com
-Subject: Re: [PATCH v2 6/7] media: imx319: Put usage_count correctly in
- s_ctrl callback
-Message-ID: <20231118185248.GI20846@pendragon.ideasonboard.com>
-References: <20231117111433.1561669-1-sakari.ailus@linux.intel.com>
- <20231117111433.1561669-7-sakari.ailus@linux.intel.com>
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-media@vger.kernel.org,
+	kernel-list@raspberrypi.com, linux-kernel@vger.kernel.org,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-staging@lists.linux.dev,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	"Ricardo B . Marliere" <ricardo@marliere.net>,
+	Dan Carpenter <error27@gmail.com>,
+	Naushir Patuck <naush@raspberrypi.com>
+Subject: Re: [PATCH v2 10/15] staging: vc04_services: bcm2835-isp: Add a more
+ complex ISP processing component
+Message-ID: <20231118185638.GJ20846@pendragon.ideasonboard.com>
+References: <20231109210309.638594-1-umang.jain@ideasonboard.com>
+ <20231109210309.638594-11-umang.jain@ideasonboard.com>
+ <414ba478-3a96-48e6-a3a7-88c920a20960@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -46,65 +54,121 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231117111433.1561669-7-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <414ba478-3a96-48e6-a3a7-88c920a20960@gmx.net>
 
-Hi Sakari,
+Hi Stefan,
 
-Thank you for the patch.
-
-On Fri, Nov 17, 2023 at 01:14:32PM +0200, Sakari Ailus wrote:
-> pm_runtime_get_if_in_use() returns an error if Runtime PM is disabled for
-> the device, in which case it won't increment the use count.
-> pm_runtime_put() does that unconditionally however. Only call
-> pm_runtime_put() in case pm_runtime_get_if_in_use() has returned a value >
-> 0.
-
-Why don't you use pm_runtime_get_if_active() ?
-
-Other than that, same comment as for patch 5/7, I don't like the
-increased complexity.
-
-These comments apply to 7/7 as well.
-
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/imx319.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+On Sat, Nov 18, 2023 at 03:53:41PM +0100, Stefan Wahren wrote:
+> Am 09.11.23 um 22:03 schrieb Umang Jain:
+> > From: Naushir Patuck <naush@raspberrypi.com>
+> >
+> > Driver for the BCM2835 ISP hardware block.  This driver uses the MMAL
+> > component to program the ISP hardware through the VC firmware.
+> >
+> > The ISP component can produce two video stream outputs, and Bayer
+> > image statistics. This can't be encompassed in a simple V4L2
+> > M2M device, so create a new device that registers 4 video nodes.
 > 
-> diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
-> index 5378f607f340..e7b2d0c20d29 100644
-> --- a/drivers/media/i2c/imx319.c
-> +++ b/drivers/media/i2c/imx319.c
-> @@ -1880,8 +1880,8 @@ static int imx319_set_ctrl(struct v4l2_ctrl *ctrl)
->  	struct imx319 *imx319 = container_of(ctrl->handler,
->  					     struct imx319, ctrl_handler);
->  	struct i2c_client *client = v4l2_get_subdevdata(&imx319->sd);
-> +	int ret, pm_status;
->  	s64 max;
-> -	int ret;
->  
->  	/* Propagate change of current control to all related controls */
->  	switch (ctrl->id) {
-> @@ -1898,7 +1898,8 @@ static int imx319_set_ctrl(struct v4l2_ctrl *ctrl)
->  	 * Applying V4L2 control value only happens
->  	 * when power is up for streaming
->  	 */
-> -	if (!pm_runtime_get_if_in_use(&client->dev))
-> +	pm_status = pm_runtime_get_if_in_use(&client->dev);
-> +	if (!pm_status)
->  		return 0;
->  
->  	switch (ctrl->id) {
-> @@ -1937,7 +1938,8 @@ static int imx319_set_ctrl(struct v4l2_ctrl *ctrl)
->  		break;
->  	}
->  
-> -	pm_runtime_put(&client->dev);
-> +	if (pm_status > 0)
-> +		pm_runtime_put(&client->dev);
->  
->  	return ret;
->  }
+> sorry, i don't have much knowledge about V4L2, so someone else should
+> review this in depth.
+> 
+> But from my PoV, patch 11, 12, 13 and 15 should be squash into this one.
+
+For 11 and 12, I agree. 13 is a bit of a workaround for a missing
+feature in V4L2, and while it's acceptable today, having it as a
+separate commit may make it easier to revert it in the future when the
+V4L2 API will be extended (that may or may not happen, and I wouldn't
+count on it happening quickly in any case). I would keep patch 15
+separate as it's not part of this driver.
+
+> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > ---
+> >   MAINTAINERS                                   |    9 +
+> >   drivers/staging/vc04_services/Kconfig         |    2 +
+> >   drivers/staging/vc04_services/Makefile        |    1 +
+> >   .../staging/vc04_services/bcm2835-isp/Kconfig |   14 +
+> >   .../vc04_services/bcm2835-isp/Makefile        |    4 +
+> >   .../bcm2835-isp/bcm2835-isp-ctrls.h           |   72 +
+> >   .../bcm2835-isp/bcm2835-isp-fmts.h            |  482 +++++
+> >   .../bcm2835-isp/bcm2835-v4l2-isp.c            | 1712 +++++++++++++++++
+> >   .../vc04_services/vchiq-mmal/mmal-encodings.h |    4 +
+> >   .../vchiq-mmal/mmal-parameters.h              |  165 +-
+> >   include/uapi/linux/bcm2835-isp.h              |   27 +
+> >   11 files changed, 2491 insertions(+), 1 deletion(-)
+> >   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Kconfig
+> >   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/Makefile
+> >   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-ctrls.h
+> >   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-isp-fmts.h
+> >   create mode 100644 drivers/staging/vc04_services/bcm2835-isp/bcm2835-v4l2-isp.c
+> >
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index 0748cc15588c..8670a8d95400 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -3976,6 +3976,15 @@ F:	Documentation/devicetree/bindings/mips/brcm/
+> >   F:	arch/mips/bcm47xx/*
+> >   F:	arch/mips/include/asm/mach-bcm47xx/*
+> >
+> > +BROADCOM BCM2835 ISP DRIVER
+> > +M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> > +L:	linux-media@vger.kernel.org
+> > +S:	Maintained
+> > +F:	Documentation/media/uapi/v4l/pixfmt-meta-bcm2835-isp-stats.rst
+> > +F:	Documentation/media/v4l-drivers/bcm2835-isp.rst
+> > +F:	drivers/staging/vc04_services/bcm2835-isp
+> > +F:	include/uapi/linux/bcm2835-isp.h
+> > +
+> >   BROADCOM BCM4908 ETHERNET DRIVER
+> >   M:	Rafał Miłecki <rafal@milecki.pl>
+> >   R:	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>
+> > diff --git a/drivers/staging/vc04_services/Kconfig b/drivers/staging/vc04_services/Kconfig
+> > index 6c0e77d64376..e71e5a8b820a 100644
+> > --- a/drivers/staging/vc04_services/Kconfig
+> > +++ b/drivers/staging/vc04_services/Kconfig
+> > @@ -44,6 +44,8 @@ source "drivers/staging/vc04_services/bcm2835-audio/Kconfig"
+> >
+> >   source "drivers/staging/vc04_services/bcm2835-camera/Kconfig"
+> >
+> > +source "drivers/staging/vc04_services/bcm2835-isp/Kconfig"
+> > +
+> >   source "drivers/staging/vc04_services/vchiq-mmal/Kconfig"
+> >
+> >   source "drivers/staging/vc04_services/vc-sm-cma/Kconfig"
+> > diff --git a/drivers/staging/vc04_services/Makefile b/drivers/staging/vc04_services/Makefile
+> > index 1f61a263f22d..2cebf92525a0 100644
+> > --- a/drivers/staging/vc04_services/Makefile
+> > +++ b/drivers/staging/vc04_services/Makefile
+> > @@ -16,3 +16,4 @@ obj-$(CONFIG_SND_BCM2835)		+= bcm2835-audio/
+> >   obj-$(CONFIG_VIDEO_BCM2835)		+= bcm2835-camera/
+> >   obj-$(CONFIG_BCM2835_VCHIQ_MMAL)	+= vchiq-mmal/
+> >   obj-$(CONFIG_BCM_VC_SM_CMA)		+= vc-sm-cma/
+> > +obj-$(CONFIG_VIDEO_ISP_BCM2835) 	+= bcm2835-isp/
+> > diff --git a/drivers/staging/vc04_services/bcm2835-isp/Kconfig b/drivers/staging/vc04_services/bcm2835-isp/Kconfig
+> > new file mode 100644
+> > index 000000000000..6222799ebe16
+> > --- /dev/null
+> > +++ b/drivers/staging/vc04_services/bcm2835-isp/Kconfig
+> > @@ -0,0 +1,14 @@
+> > +config VIDEO_ISP_BCM2835
+> > +	tristate "BCM2835 ISP support"
+> > +	depends on MEDIA_SUPPORT
+> > +	depends on VIDEO_DEV && (ARCH_BCM2835 || COMPILE_TEST)
+> > +	depends on MEDIA_CONTROLLER
+> > +	select BCM2835_VCHIQ_MMAL
+> > +	select VIDEOBUF2_DMA_CONTIG
+> > +	help
+> > +	  This is the V4L2 driver for the Broadcom BCM2835 ISP hardware.
+> 
+> I think the description is not helpful for all users. Not everybody
+> knows what ISP is for. Please describe it more for an end user.
+> 
+> > +	  This operates over the VCHIQ interface to a service running on
+> > +	  VideoCore.
+> > +
+> > +	  To compile this driver as a module, choose M here: the module
+> > +	  will be called bcm2835-isp.
 
 -- 
 Regards,
