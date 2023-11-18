@@ -1,76 +1,62 @@
-Return-Path: <linux-media+bounces-551-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-552-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3898F7F009E
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 16:52:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 240947F00DD
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 17:16:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D91E81F2282A
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 15:52:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5E99E1C2083D
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 16:16:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D179199C7;
-	Sat, 18 Nov 2023 15:52:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3681B182B5;
+	Sat, 18 Nov 2023 16:16:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cioG4iq4"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="PLFePGTJ";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="oTGl5NKh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D72561FD2;
-	Sat, 18 Nov 2023 07:51:47 -0800 (PST)
-Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-5a84204e7aeso33080057b3.0;
-        Sat, 18 Nov 2023 07:51:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700322706; x=1700927506; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=+wZmOHN/Mg2WsccYCg7xC7qQhfAqQUan5w/+E5l83yM=;
-        b=cioG4iq440S8UbfRh0/MZWlkYyGhkicQn7v7zVRG+6tK6pFqDhQXlCb3/U8Axte3nu
-         nhoGZb0O4z4D9XcEMxWHkks53RfHl2N2inPX5H3K+3ZY4cO3O9bR8nsbWMAOKzvUl7m4
-         bp7nrP4mQ23b7742UAG6wQUQMkb9VzNV9sTijPlxOm680tpPlauMRaK3wg039To86Iii
-         6lVkJ+4KkYI5K8LzhFU//cOCRK/qO1eceR6oawjQj5tSL+zxyboPsGi5ub312TMS1MEB
-         FOxI4zFhncEw0O2kSbIeUysYeeJYmLWwvtVQRAjV7fb0yZVpV+s/pM29qz9zQMy0BaZv
-         5pOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700322706; x=1700927506;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=+wZmOHN/Mg2WsccYCg7xC7qQhfAqQUan5w/+E5l83yM=;
-        b=TZFdpTxEA7HZI+e1/e8+/xaNziTNx1yxHA9+xxMvNisafaSa/0HQTvqKo1BbkeXqsj
-         /Yx+DG3JBwDKsLGMXWuwuPYDFm1nZiQ+wyFs6m7XGcZW3/cI0hSqiIXQD/lOipOMhdVa
-         jLMLYT/BKWj/RxcQro6NZGvD68R/BiIlKgN2oCC+LvAEfIBY7pA+SokALX9RxpG//XN2
-         yITM5HZE5EWM+lMJAM9/35qAHQRKauVR7Z5WWxldz6uQ5csOTQqLl7DEcPrHWd854IAd
-         yBnWEhRCqTqW6OfgkmhT6hsYsy19406p6yWDwCYjUVN13HI4BkOt0j9UrcVMR79V6ZVy
-         45tA==
-X-Gm-Message-State: AOJu0YxzF9Te+udH47+rGExGLbPlS+U0Wq2Y+VuS5G/rT1uqpOmRTsSt
-	9aUrCTdrtZRAydkGEeN9w0Qk1vXQmCTIGGgM
-X-Google-Smtp-Source: AGHT+IGmbeF69W2mApLtp2TFzllWj55CQ7MKd/oTUsvyCnOVTANukMUN2r2bgNvuI8ZjHjDNDSI/Gg==
-X-Received: by 2002:a0d:d48a:0:b0:59b:5d6b:5110 with SMTP id w132-20020a0dd48a000000b0059b5d6b5110mr2902658ywd.21.1700322706091;
-        Sat, 18 Nov 2023 07:51:46 -0800 (PST)
-Received: from localhost ([2601:344:8301:57f0:48a9:bd4c:868d:dc97])
-        by smtp.gmail.com with ESMTPSA id m2-20020a819c02000000b0057a44e20fb8sm1163887ywa.73.2023.11.18.07.51.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Nov 2023 07:51:45 -0800 (PST)
-From: Yury Norov <yury.norov@gmail.com>
-To: linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Yury Norov <yury.norov@gmail.com>,
-	linux-media@vger.kernel.org
-Cc: Jan Kara <jack@suse.cz>,
-	Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
-	Matthew Wilcox <willy@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-	Alexey Klimov <klimov.linux@gmail.com>
-Subject: [PATCH 25/34] media: em28xx: cx231xx: fix opencoded find_and_set_bit()
-Date: Sat, 18 Nov 2023 07:50:56 -0800
-Message-Id: <20231118155105.25678-26-yury.norov@gmail.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231118155105.25678-1-yury.norov@gmail.com>
-References: <20231118155105.25678-1-yury.norov@gmail.com>
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C10EEC0;
+	Sat, 18 Nov 2023 08:16:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1700324201; bh=TbyBy9m0d9jULVS5yI832xaLc5u65iiOEGuBD5bHlNM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PLFePGTJYUfJsnZa+spu2rw/J58n3tZehqbv/bRSUnZ/DuNP+RpbYJnaGp7/NJMQL
+	 PyZ1qUnOgjFJ+hMABRcvsMdTr8UfZ73e/baUANGklXC47K38OR7kQbTWaVoWuPNTl8
+	 pX0gt4PfqBqOmmfPInwuONOv3YDvaOh0Nj8bxwMpaRfeIrP09MDOMC3vaYP5XJfBxV
+	 t3ymV/HkuJ2RGz0y9KrhmgUMP7cyLAmTylNyrEUDUhDJDQ26qs5sJ3kz3EuVaGp0qB
+	 1sUmRsRS+3KCGaHOVoqKUcRZauxKG2pAdfo/OECDJIJNvV8ASAkZnkGfeLkQruhI+T
+	 0GHMisimL0p/Q==
+Received: by gofer.mess.org (Postfix, from userid 501)
+	id 1FE49100105; Sat, 18 Nov 2023 16:16:41 +0000 (GMT)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1700324198; bh=TbyBy9m0d9jULVS5yI832xaLc5u65iiOEGuBD5bHlNM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oTGl5NKhXMTt0l+U7k+FprBUobCPuuWoIrSune/IBrfmLyF8X6c/6KgV7bPj8nZJU
+	 wKMt/Ral2Mc4LbFzPcjjBhNEIrjQ4pkZaqES6+cl9gtHYV/qSl+5I5XNMECt9B3G8x
+	 fT5+kopb22VCIU6CGH2zBrlvRHNgmU3RyX8r1Te6Sb19QEJW7zn5jlAMvVH0THgwQG
+	 t7kA94YYE8RcyyAfaJo6Qaq6hhUSpnn9nkO7i5Nol/TuQS57Qopm8bErazhWBbWV4C
+	 hCDMi5rgSjRy4a+L4W9b1P+BVEqVoh6ZQAkvUt9MamFRGFrq8xn4HHuqJBGdCNqIzk
+	 6foPC8AsmllEw==
+Received: from bigcore.mess.org (bigcore-239.local [IPv6:2a02:8011:d000:212:ca7f:54ff:fe51:14d6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gofer.mess.org (Postfix) with ESMTPSA id E781E100064;
+	Sat, 18 Nov 2023 16:16:38 +0000 (GMT)
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Sean Young <sean@mess.org>
+Subject: [PATCH v5 0/4] Improve pwm-ir-tx precision
+Date: Sat, 18 Nov 2023 16:16:16 +0000
+Message-ID: <cover.1700323916.git.sean@mess.org>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,98 +65,67 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Functions in the media/usb drivers opencode find_and_set_bit() by
-polling on a found bit in a while-loop.
+The pwm-ir-tx driver has to turn the pwm signal on and off, and suffers
+from delays as this is done in process context. Make this work in atomic
+context.
 
-Signed-off-by: Yury Norov <yury.norov@gmail.com>
----
- drivers/media/usb/cx231xx/cx231xx-cards.c | 16 ++++------
- drivers/media/usb/em28xx/em28xx-cards.c   | 37 +++++++++--------------
- 2 files changed, 21 insertions(+), 32 deletions(-)
+changes:
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
-index 92efe6c1f47b..b314603932d7 100644
---- a/drivers/media/usb/cx231xx/cx231xx-cards.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
-@@ -1708,16 +1708,12 @@ static int cx231xx_usb_probe(struct usb_interface *interface,
- 		return -ENODEV;
- 
- 	/* Check to see next free device and mark as used */
--	do {
--		nr = find_first_zero_bit(&cx231xx_devused, CX231XX_MAXBOARDS);
--		if (nr >= CX231XX_MAXBOARDS) {
--			/* No free device slots */
--			dev_err(d,
--				"Supports only %i devices.\n",
--				CX231XX_MAXBOARDS);
--			return -ENOMEM;
--		}
--	} while (test_and_set_bit(nr, &cx231xx_devused));
-+	nr = find_and_set_bit(&cx231xx_devused, CX231XX_MAXBOARDS);
-+	if (nr >= CX231XX_MAXBOARDS) {
-+		/* No free device slots */
-+		dev_err(d, "Supports only %i devices.\n", CX231XX_MAXBOARDS);
-+		return -ENOMEM;
-+	}
- 
- 	udev = usb_get_dev(interface_to_usbdev(interface));
- 
-diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-index 4d037c92af7c..af4809fe74a8 100644
---- a/drivers/media/usb/em28xx/em28xx-cards.c
-+++ b/drivers/media/usb/em28xx/em28xx-cards.c
-@@ -3684,17 +3684,14 @@ static int em28xx_duplicate_dev(struct em28xx *dev)
- 		return -ENOMEM;
- 	}
- 	/* Check to see next free device and mark as used */
--	do {
--		nr = find_first_zero_bit(em28xx_devused, EM28XX_MAXBOARDS);
--		if (nr >= EM28XX_MAXBOARDS) {
--			/* No free device slots */
--			dev_warn(&dev->intf->dev, ": Supports only %i em28xx boards.\n",
--				 EM28XX_MAXBOARDS);
--			kfree(sec_dev);
--			dev->dev_next = NULL;
--			return -ENOMEM;
--		}
--	} while (test_and_set_bit(nr, em28xx_devused));
-+	nr = find_and_set_bit(em28xx_devused, EM28XX_MAXBOARDS);
-+	if (nr >= EM28XX_MAXBOARDS) {
-+		/* No free device slots */
-+		dev_warn(&dev->intf->dev, ": Supports only %i em28xx boards.\n", EM28XX_MAXBOARDS);
-+		kfree(sec_dev);
-+		dev->dev_next = NULL;
-+		return -ENOMEM;
-+	}
- 	sec_dev->devno = nr;
- 	snprintf(sec_dev->name, 28, "em28xx #%d", nr);
- 	sec_dev->dev_next = NULL;
-@@ -3827,17 +3824,13 @@ static int em28xx_usb_probe(struct usb_interface *intf,
- 	udev = usb_get_dev(interface_to_usbdev(intf));
- 
- 	/* Check to see next free device and mark as used */
--	do {
--		nr = find_first_zero_bit(em28xx_devused, EM28XX_MAXBOARDS);
--		if (nr >= EM28XX_MAXBOARDS) {
--			/* No free device slots */
--			dev_err(&intf->dev,
--				"Driver supports up to %i em28xx boards.\n",
--			       EM28XX_MAXBOARDS);
--			retval = -ENOMEM;
--			goto err_no_slot;
--		}
--	} while (test_and_set_bit(nr, em28xx_devused));
-+	nr = find_and_set_bit(em28xx_devused, EM28XX_MAXBOARDS);
-+	if (nr >= EM28XX_MAXBOARDS) {
-+		/* No free device slots */
-+		dev_err(&intf->dev, "Driver supports up to %i em28xx boards.\n", EM28XX_MAXBOARDS);
-+		retval = -ENOMEM;
-+		goto err_no_slot;
-+	}
- 
- 	/* Don't register audio interfaces */
- 	if (intf->altsetting[0].desc.bInterfaceClass == USB_CLASS_AUDIO) {
+v5:
+ - Use dev_err_probe() as Uwe suggested
+ - rebase
+
+v4:
+ - Split out the pwm_apply_state() rename into seperate commit
+ - Atomic pwm function is called pwm_apply_atomic() and sleeping
+   counterpart pwm_apply_cansleep()
+ - Fix commit messages
+
+v3:
+ - Renamed pwm_apply_state() to pwm_apply_cansleep()
+ - Moved pwm atomic to struct pwm_chip
+ - Fixed pwm docs
+ - Other minor code review comments
+
+v2:
+ - Simplified the pwm ir tx based on Ivaylo Dimitrov suggestions
+ - Renamed pwm_can_sleep() to pwm_is_atomic
+ - Fix sleeping issue in pwm-bcm2835 (clk_get_rate() can sleep)
+ - use non_block_start() in pwm to check atomic-ness
+
+
+Sean Young (4):
+  pwm: rename pwm_apply_state() to pwm_apply_cansleep()
+  pwm: make it possible to apply pwm changes in atomic context
+  pwm: bcm2835: allow pwm driver to be used in atomic context
+  media: pwm-ir-tx: trigger edges from hrtimer interrupt context
+
+ Documentation/driver-api/pwm.rst              | 17 +++-
+ .../gpu/drm/i915/display/intel_backlight.c    |  6 +-
+ drivers/gpu/drm/solomon/ssd130x.c             |  2 +-
+ drivers/hwmon/pwm-fan.c                       |  8 +-
+ drivers/input/misc/da7280.c                   |  4 +-
+ drivers/input/misc/pwm-beeper.c               |  4 +-
+ drivers/input/misc/pwm-vibra.c                |  8 +-
+ drivers/leds/leds-pwm.c                       |  2 +-
+ drivers/leds/rgb/leds-pwm-multicolor.c        |  4 +-
+ drivers/media/rc/pwm-ir-tx.c                  | 83 +++++++++++++++++--
+ drivers/platform/x86/lenovo-yogabook.c        |  2 +-
+ drivers/pwm/core.c                            | 75 +++++++++++++----
+ drivers/pwm/pwm-bcm2835.c                     | 31 ++++---
+ drivers/pwm/pwm-renesas-tpu.c                 |  1 -
+ drivers/pwm/pwm-twl-led.c                     |  2 +-
+ drivers/pwm/pwm-vt8500.c                      |  2 +-
+ drivers/pwm/sysfs.c                           | 10 +--
+ drivers/regulator/pwm-regulator.c             |  4 +-
+ drivers/video/backlight/lm3630a_bl.c          |  2 +-
+ drivers/video/backlight/lp855x_bl.c           |  2 +-
+ drivers/video/backlight/pwm_bl.c              | 12 +--
+ drivers/video/fbdev/ssd1307fb.c               |  2 +-
+ include/linux/pwm.h                           | 57 +++++++++----
+ 23 files changed, 248 insertions(+), 92 deletions(-)
+
 -- 
-2.39.2
+2.42.1
 
 
