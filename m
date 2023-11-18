@@ -1,242 +1,321 @@
-Return-Path: <linux-media+bounces-543-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-544-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40007EFF7C
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 13:12:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8957C7EFFBA
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 14:05:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 203E2B20E05
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 12:12:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AAB921C20926
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 13:05:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E62114287;
-	Sat, 18 Nov 2023 12:11:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70BEB12E75;
+	Sat, 18 Nov 2023 13:05:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zncfqTX3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zt8IcNYf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-x22f.google.com (mail-lj1-x22f.google.com [IPv6:2a00:1450:4864:20::22f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DD1A910EF
-	for <linux-media@vger.kernel.org>; Sat, 18 Nov 2023 04:11:49 -0800 (PST)
-Received: by mail-lj1-x22f.google.com with SMTP id 38308e7fff4ca-2c523ac38fbso36513311fa.0
-        for <linux-media@vger.kernel.org>; Sat, 18 Nov 2023 04:11:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700309508; x=1700914308; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BR+YBWVQ86ytjIlOGmAW4/tQxNcN+mCsodRc3VxcTJs=;
-        b=zncfqTX3Nvxwo2AFLAxC5Yn1v3ZzJvYY+M/7ID/N/OdrhcO4h6X59h4oSWXxia0srC
-         jaXXK2QgP0NUeN+bW2u8TiSyGYYk7McC2iZsAp2Sw9j8036ZOZDPcihLurFbfG7HKcfg
-         pZkp5MaDXMIcOj/zThyNBI0jyipETaVZ8eNXCfJR9Fs5XzXuzPLt5iU48g4QYbVnwQ9/
-         fGnufvgIAbs9BNrEDZQtPIJH/CaJ+HNXpA3TlGgQBiEuY8NRXOFKU5QuynR4Wqzg5Jek
-         3r9gKbhF+5vx3KyIUUV2C7gFDrbVeNk9B78eIrFXHb03m8W0auwZUXZr/OWsy059k/M/
-         znBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700309508; x=1700914308;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BR+YBWVQ86ytjIlOGmAW4/tQxNcN+mCsodRc3VxcTJs=;
-        b=oNxHpnphNywd5o32kElpDyUCGi6a4QumylfLis1tAf5NQyfpqZHd6o37B7u4GsYrMl
-         x90UC4r5MoM/0cZDFERQ5atWmTt2VOGYIq9ifflXemIj7aWP4G9faig6uVCor45U6BQ5
-         P0Yr76mG0kGLly9DEOsa28/LF5yN+VretJt+f0IA8IIG0ZwZL0mdappLWLjlCdeHe5PW
-         rqZyPsWkgYWLPXgC+TuEC69V4YLA89+rkSudnszele0cNV3K7/k0OdAmM9679zYIvOlP
-         iA+jg7SNyb9IQyu9MsKSrrOwLA8cuvBuCfnwMhA/HqqNGwP472S7381y/Q9cmGp44zU0
-         e8LQ==
-X-Gm-Message-State: AOJu0YxgO/C7wYcekJGtRQyUtoPZSwYmSaBbKgCMGvBKzY9zkJBa51q9
-	h0zPaDofMMTkK3K4XPjH6Wmhcw==
-X-Google-Smtp-Source: AGHT+IEwFLtIvB7rdi/2cIANfML23FJgQwzpDWS30semnBmuFWv4znpRQ54wyWrQGkPPS687i3IDHQ==
-X-Received: by 2002:a2e:b0f1:0:b0:2c6:edfd:658a with SMTP id h17-20020a2eb0f1000000b002c6edfd658amr1607592ljl.31.1700309508101;
-        Sat, 18 Nov 2023 04:11:48 -0800 (PST)
-Received: from [127.0.0.1] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id n18-20020a05600c3b9200b00407efbc4361sm10955775wms.9.2023.11.18.04.11.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Nov 2023 04:11:47 -0800 (PST)
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Date: Sat, 18 Nov 2023 12:11:41 +0000
-Subject: [PATCH v5 7/7] media: qcom: camss: Flag CSID-lites to support more
- CSIDs
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7ABCC8F
+	for <linux-media@vger.kernel.org>; Sat, 18 Nov 2023 05:05:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700312709; x=1731848709;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BfyJWIppSt/4t3kaCm0K281yoo3CfAHdpQTXR0DXKwE=;
+  b=Zt8IcNYfD/ePmNUeqyKiJP5sJw9gWPtjlvoCW2EMgpzqcjR/+OeQCQVl
+   MgYgAnPMT/CqkEDdsiSeWVsQPX3GcvmxczuE1OW1iGs7avp5tStzOYrwF
+   2mbaIJzHkWAcNwrg9+n4Wi4iktGSPbJQJqJQ/9l/qYSu9IH98tlTXn/Rl
+   emTw5QwSf08bCcqr2PBhip36vdGpRQoHZ2GTzSLLW7VKVyj0nm9LjTta2
+   otPLWKzFXsKC3YDlv9lmGtV/Zblt38v8Dx3l8aXUDNKhcbXvv6D2emK28
+   jrmGRL8x3sP9ocqanzbVbLQ349bJrgxgQOsU08g/+Qj+oFCRoe8aM/q+y
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="376472461"
+X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
+   d="scan'208";a="376472461"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 05:05:08 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10897"; a="939399208"
+X-IronPort-AV: E=Sophos;i="6.04,209,1695711600"; 
+   d="scan'208";a="939399208"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2023 05:05:07 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4C46911FC2D;
+	Sat, 18 Nov 2023 15:05:04 +0200 (EET)
+Date: Sat, 18 Nov 2023 13:05:04 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Lee Jackson <lee.jackson@arducam.com>
+Subject: Re: [PATCH 2/2] media: i2c: Add driver for OmniVision OV64A40
+Message-ID: <ZVi2gGlcul_tT4e4@kekkonen.localdomain>
+References: <20231010151208.29564-1-jacopo.mondi@ideasonboard.com>
+ <20231010151208.29564-3-jacopo.mondi@ideasonboard.com>
+ <ZVHciyhWSogA4ckc@kekkonen.localdomain>
+ <uk3jwwpwthl7es6gdfkremjf4wil5w4b2kd6amajmeigywa55f@qxsz33z5t6q6>
+ <ZVJL0grMufajJ3Tm@kekkonen.localdomain>
+ <w536wwkmzdxlppj7i5lbq4hvmh5owlufh3rjj5qixu3kuot2oa@toybd7h47pvv>
+ <ZVO80o65pOZ9RVqz@kekkonen.localdomain>
+ <3hmhyq2n2lcmllnhvkk7qblkwhelljapjmew5inqwdq2supomu@7qi3i2h7mcpb>
+ <ZViUCPSk2bIjgE4j@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20231118-b4-camss-named-power-domains-v5-7-55eb0f35a30a@linaro.org>
-References: <20231118-b4-camss-named-power-domains-v5-0-55eb0f35a30a@linaro.org>
-In-Reply-To: <20231118-b4-camss-named-power-domains-v5-0-55eb0f35a30a@linaro.org>
-To: hverkuil-cisco@xs4all.nl, laurent.pinchart@ideasonboard.com, 
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, matti.lehtimaki@gmail.com, 
- quic_grosikop@quicinc.com
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org
-X-Mailer: b4 0.13-dev-26615
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZViUCPSk2bIjgE4j@kekkonen.localdomain>
 
-From: Matti Lehtimäki <matti.lehtimaki@gmail.com>
+On Sat, Nov 18, 2023 at 10:38:00AM +0000, Sakari Ailus wrote:
+> Hi Jacopo,
+> 
+> On Fri, Nov 17, 2023 at 03:59:39PM +0100, Jacopo Mondi wrote:
+> > Hi Sakari
+> > 
+> > On Tue, Nov 14, 2023 at 06:30:42PM +0000, Sakari Ailus wrote:
+> > > Hi Jacopo,
+> > >
+> > > On Tue, Nov 14, 2023 at 06:24:20PM +0100, Jacopo Mondi wrote:
+> > > > Hi Sakari
+> > > >
+> > > > On Mon, Nov 13, 2023 at 04:16:18PM +0000, Sakari Ailus wrote:
+> > > > > Hi Jacopo,
+> > > > >
+> > > > > On Mon, Nov 13, 2023 at 10:19:32AM +0100, Jacopo Mondi wrote:
+> > > > >
+> > > > > ...
+> > > > >
+> > > > > > > > +	bool vbin;
+> > > > > > > > +	bool hbin;
+> > > > > > >
+> > > > > > > I recall bool is 32 bits on arm. Is it 64 bits on arm64? Just a note, I
+> > > > > > > don't have a great suggestion here. :-)
+> > > > > > >
+> > > > > > > So only binning up to 2x2 is supported?
+> > > > > > >
+> > > > > >
+> > > > > > yes, further downscaling is obtained by skipping.
+> > > > > >
+> > > > > > The 0x3820 register has BIT(1) "vbin_vc" than enables binning, so the
+> > > > > > binning factor doesn't seem to be configurable. Of course there might
+> > > > > > be other bits/registers to control this, but I'm not aware of those
+> > > > >
+> > > > > Ack.
+> > > > >
+> > > > > > > > +static int ov64a40_start_streaming(struct ov64a40 *ov64a40,
+> > > > > > > > +				   struct v4l2_subdev_state *state)
+> > > > > > > > +{
+> > > > > > > > +	const struct ov64a40_reglist *reglist = &ov64a40->mode->reglist;
+> > > > > > > > +	unsigned long delay;
+> > > > > > > > +	int ret;
+> > > > > > > > +
+> > > > > > > > +	ret = pm_runtime_resume_and_get(ov64a40->dev);
+> > > > > > >
+> > > > > > > You seem to be using autosuspend, but you still do not try to avoid writes
+> > > > > > > of presumably the same register values if the sensor was powered on. The
+> > > > > > > register writes usually take the most of the time there.
+> > > > > >
+> > > > > > I'm not sure I get this comment. Are you afraid of multiple calls to
+> > > > > > "start_streaming" being made ? Isn't it responsibility of the bridge
+> > > > > > driver to handle this correctly ?
+> > > > >
+> > > > > It is.
+> > > > >
+> > > > > What I'm saying is that you're re-writing a lot of unchanged sensor
+> > > > > configuration below even if the sensor has not been powered off in the
+> > > > > meantime.
+> > > > >
+> > > >
+> > > > Indeed! I can move programming the long table of registers to
+> > > > power_on() so that it gets written only when the device actually
+> > > > resumes, and close calls to start_stream() won't need to do so.
+> > >
+> > > That is one option.
+> > 
+> > Unforuntately I can't do that easily. Mixing modes does not give good
+> > results if I skip re-writing the long init sequence, as the per-mode
+> > register tables, specifically the max resolution one, are designed to
+> > be applied to a configured sensor.
+> > 
+> > I tried fixing the max res mode to set all the register it needs, but
+> > I wasn't able to set all the requested registers (did I mention most
+> > of them are undocumented ?)
+> 
+> Should these registers be returned to the default values then? It seems the
+> mode specific lists are very short compared to the init sequence so if
+> you're at all concerned with the time it takes to write the long sequence,
+> this would look like a simple optimisation that would have a notable
+> effect.
+> 
+> > 
+> > >
+> > > Do note that you can't set up controls there using control handler's setup
+> > > function as pm_runtime_get_if_in_use() (or ..._active()) will return an
+> > > error there.
+> > >
+> > > >
+> > > > > >
+> > > > > > One thing for sure, I should grab a few controls (flips, link_freq)
+> > > > > > avoid them being written to HW while the sensor is streaming.
+> > > > > >
+> > > > > > >
+> > > > > > > pm_runtime_get_sync() returns 1 if the sensor was already in active state.
+> > > > > > >
+> > > > > > > I'm about to send a patchset related to this actually, I can cc you...
+> > > > > > >
+> > > >
+> > > > Please, I'm not sure I get the issue still
+> > > >
+> > > > > > > > +	if (ret < 0)
+> > > > > > > > +		return ret;
+> > > > > > > > +
+> > > > > > > > +	ret = cci_multi_reg_write(ov64a40->cci, ov64a40_init,
+> > > > > > > > +				  ARRAY_SIZE(ov64a40_init), NULL);
+> > > > > > > > +	if (ret)
+> > > > > > > > +		goto error_power_off;
+> > > > > > > > +
+> > > > > > > > +	ret = cci_multi_reg_write(ov64a40->cci, reglist->regvals,
+> > > > > > > > +				  reglist->num_regs, NULL);
+> > > > > > > > +	if (ret)
+> > > > > > > > +		goto error_power_off;
+> > > > > > > > +
+> > > > > > > > +	ret = ov64a40_program_geometry(ov64a40);
+> > > > > > > > +	if (ret)
+> > > > > > > > +		goto error_power_off;
+> > > > > > > > +
+> > > > > > > > +	ret = ov64a40_program_subsampling(ov64a40);
+> > > > > > > > +	if (ret)
+> > > > > > > > +		goto error_power_off;
+> > > > > > > > +
+> > > > > > > > +	ret =  __v4l2_ctrl_handler_setup(&ov64a40->ctrl_handler);
+> > > > > > > > +	if (ret)
+> > > > > > > > +		goto error_power_off;
+> > > > > > > > +
+> > > > > > > > +	ret = cci_write(ov64a40->cci, OV64A40_REG_SMIA,
+> > > > > > > > +			OV64A40_REG_SMIA_STREAMING, NULL);
+> > > > > > > > +	if (ret)
+> > > > > > > > +		goto error_power_off;
+> > > > > > > > +
+> > > > > > > > +	/* delay: max(4096 xclk pulses, 150usec) + exposure time */
+> > > > > > > > +	delay = DIV_ROUND_UP(4096, OV64A40_XCLK_FREQ / 1000 / 1000);
+> > > > > > > > +	delay = max(delay, 150ul);
+> > > > > > > > +	delay += DIV_ROUND_UP(ov64a40->mode->ppl * ov64a40->exposure->cur.val,
+> > > > > > > > +			      OV64A40_PIXEL_RATE / 1000 / 1000);
+> > > > > > > > +	fsleep(delay);
+> > > > > > > > +
+> > > > > > > > +	return 0;
+> > > > > > > > +
+> > > > > > > > +error_power_off:
+> > > > > > > > +	pm_runtime_mark_last_busy(ov64a40->dev);
+> > > > > > > > +	pm_runtime_put_autosuspend(ov64a40->dev);
+> > > > > > > > +
+> > > > > > > > +	return ret;
+> > > > > > > > +}
+> > > > >
+> > > > > ...
+> > > > >
+> > > > > > > > +static int ov64a40_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > > > > > > +{
+> > > > > > > > +	struct ov64a40 *ov64a40 = container_of(ctrl->handler, struct ov64a40,
+> > > > > > > > +					       ctrl_handler);
+> > > > > > > > +	int ret;
+> > > > > > > > +
+> > > > > > > > +	if (ctrl->id == V4L2_CID_VBLANK) {
+> > > > > > > > +		int exp_max = ov64a40->mode->height + ctrl->val
+> > > > > > > > +			    - OV64A40_EXPOSURE_MARGIN;
+> > > > > > > > +		int exp_val = min(ov64a40->exposure->cur.val, exp_max);
+> > > > > > > > +
+> > > > > > > > +		__v4l2_ctrl_modify_range(ov64a40->exposure,
+> > > > > > > > +					 ov64a40->exposure->minimum,
+> > > > > > > > +					 exp_max, 1, exp_val);
+> > > > > > > > +	}
+> > > > > > > > +
+> > > > > > > > +	if (pm_runtime_get_if_in_use(ov64a40->dev) == 0)
+> > > > > > >
+> > > > > > > The function you should use here is actually called
+> > > > > > > pm_runtime_get_if_active(), but this change would better be postponed after
+> > > > > > > my patchset.
+> > > > > >
+> > > > > >   `int pm_runtime_get_if_in_use(struct device *dev);`
+> > > > > >     - return -EINVAL if 'power.disable_depth' is nonzero; otherwise, if the
+> > > > > >       runtime PM status is RPM_ACTIVE and the runtime PM usage counter is
+> > > > > >       nonzero, increment the counter and return 1; otherwise return 0 without
+> > > > > >       changing the counter
+> > > > > >
+> > > > > >   `int pm_runtime_get_if_active(struct device *dev, bool ign_usage_count);`
+> > > > > >     - return -EINVAL if 'power.disable_depth' is nonzero; otherwise, if the
+> > > > > >       runtime PM status is RPM_ACTIVE, and either ign_usage_count is true
+> > > > > >       or the device's usage_count is non-zero, increment the counter and
+> > > > > >       return 1; otherwise return 0 without changing the counter
+> > > > > >
+> > > > > >
+> > > > > > The only difference I see here is the additional 'ign_usage_count'
+> > > > > > which allows to forcefully resume the device by ignoring the usage
+> > > > > > counter ? Why would you forcefully resume the device here ? Don't we
+> > > > > > actually want the opposite and use this check to only access the HW if
+> > > > > > the device is powered already ?
+> > > > > >
+> > > > >
+> > > > > It ignores the usage_count before the call while incrementing it if the
+> > > > > device was in active state. Although this change isn't useful if you
+> > > > > continue to re-write the configuration to sensor's registers in streamon
+> > > > > nevertheless.
+> > > > >
+> > > >
+> > > > I didn't get why the two things are related :)
+> > >
+> > 
+> > Ok, now that I've read your patch series this makes sense.
+> > 
+> > Did you mean:
+> > 
+> > > Consider the following:
+> > >
+> > > 1. The application stops streaming. Autosuspend timer prevents suspending
+> > >    the sensor immediately even if usage_count becomes zero.
+> > > 2. The application set a control. The sensor is still powered on so
+> > 
+> > s/so/but/
+> > 
+> > >    pm_runtime_get_if_in_use() returns 0 and the control value is written to
+> > >    registers.
+> > 
+> > s/is written/is not written/
+> 
+> Ah, indeed.
+> 
+> > 
+> > > 3. pm_runtime_put() at the end of s_ctrl() callback will power the sensor
+> > >    off immediately.
+> > > 4. Application proceeds to start streaming and the sensor is powered on
+> > >    again.
+> > >
+> > > The purpose of autosuspend is to avoid (needlessly) powering off and on the
+> > > device --- which takes time.
+> > >
+> > 
+> > Should I base my next version on top of "[PATCH v2 0/7] Small Runtime
+> > PM API changes" ? Remember I'm going to write the init sequence in
+> > start_stream() so even if I use get_if_active() I won't save much.
+> 
+> If you're going to, yes.
+> 
+> My point is that if you're using Runtime PM autosuspend properly (as in
+> checking pm_runtime_get_sync() returns 1), you have to use get_if_active()
+> there, not get_if_in_use(), as the latter will return 0 even if the device
+> is in active state.
 
-Some platforms such as SC7280 have 3 CSIDs and 2 CSID-lites but current
-code has hardcoded 2 as the maximum number of CSIDs. Remove the hardcoded
-maximum number of VFEs to handle all possible combinations of CSIDs and
-CSID-lites.
-
-Signed-off-by: Matti Lehtimäki <matti.lehtimaki@gmail.com>
-Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
----
- .../media/platform/qcom/camss/camss-csid-gen2.c    | 31 +++++++++++-----------
- drivers/media/platform/qcom/camss/camss-csid.c     |  5 ++++
- drivers/media/platform/qcom/camss/camss-csid.h     |  7 +++++
- drivers/media/platform/qcom/camss/camss.c          |  3 +++
- 4 files changed, 30 insertions(+), 16 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-csid-gen2.c b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-index 05ff5fa8095a8..b11de4797ccae 100644
---- a/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid-gen2.c
-@@ -21,7 +21,6 @@
-  * interface support. As a result of that it has an
-  * alternate register layout.
-  */
--#define IS_LITE		(csid->id >= 2 ? 1 : 0)
- 
- #define CSID_HW_VERSION		0x0
- #define		HW_VERSION_STEPPING	0
-@@ -35,13 +34,13 @@
- #define	CSID_CSI2_RX_IRQ_MASK	0x24
- #define CSID_CSI2_RX_IRQ_CLEAR	0x28
- 
--#define CSID_CSI2_RDIN_IRQ_STATUS(rdi)		((IS_LITE ? 0x30 : 0x40) \
-+#define CSID_CSI2_RDIN_IRQ_STATUS(rdi)		((csid_is_lite(csid) ? 0x30 : 0x40) \
- 						 + 0x10 * (rdi))
--#define CSID_CSI2_RDIN_IRQ_MASK(rdi)		((IS_LITE ? 0x34 : 0x44) \
-+#define CSID_CSI2_RDIN_IRQ_MASK(rdi)		((csid_is_lite(csid) ? 0x34 : 0x44) \
- 						 + 0x10 * (rdi))
--#define CSID_CSI2_RDIN_IRQ_CLEAR(rdi)		((IS_LITE ? 0x38 : 0x48) \
-+#define CSID_CSI2_RDIN_IRQ_CLEAR(rdi)		((csid_is_lite(csid) ? 0x38 : 0x48) \
- 						 + 0x10 * (rdi))
--#define CSID_CSI2_RDIN_IRQ_SET(rdi)		((IS_LITE ? 0x3C : 0x4C) \
-+#define CSID_CSI2_RDIN_IRQ_SET(rdi)		((csid_is_lite(csid) ? 0x3C : 0x4C) \
- 						 + 0x10 * (rdi))
- 
- #define CSID_TOP_IRQ_STATUS	0x70
-@@ -73,7 +72,7 @@
- #define			CGC_MODE_DYNAMIC_GATING		0
- #define			CGC_MODE_ALWAYS_ON		1
- 
--#define CSID_RDI_CFG0(rdi)			((IS_LITE ? 0x200 : 0x300) \
-+#define CSID_RDI_CFG0(rdi)			((csid_is_lite(csid) ? 0x200 : 0x300) \
- 						 + 0x100 * (rdi))
- #define		RDI_CFG0_BYTE_CNTR_EN		0
- #define		RDI_CFG0_FORMAT_MEASURE_EN	1
-@@ -98,32 +97,32 @@
- #define		RDI_CFG0_PACKING_FORMAT		30
- #define		RDI_CFG0_ENABLE			31
- 
--#define CSID_RDI_CFG1(rdi)			((IS_LITE ? 0x204 : 0x304)\
-+#define CSID_RDI_CFG1(rdi)			((csid_is_lite(csid) ? 0x204 : 0x304)\
- 						+ 0x100 * (rdi))
- #define		RDI_CFG1_TIMESTAMP_STB_SEL	0
- 
--#define CSID_RDI_CTRL(rdi)			((IS_LITE ? 0x208 : 0x308)\
-+#define CSID_RDI_CTRL(rdi)			((csid_is_lite(csid) ? 0x208 : 0x308)\
- 						+ 0x100 * (rdi))
- #define		RDI_CTRL_HALT_CMD		0
- #define			HALT_CMD_HALT_AT_FRAME_BOUNDARY		0
- #define			HALT_CMD_RESUME_AT_FRAME_BOUNDARY	1
- #define		RDI_CTRL_HALT_MODE		2
- 
--#define CSID_RDI_FRM_DROP_PATTERN(rdi)			((IS_LITE ? 0x20C : 0x30C)\
-+#define CSID_RDI_FRM_DROP_PATTERN(rdi)			((csid_is_lite(csid) ? 0x20C : 0x30C)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_FRM_DROP_PERIOD(rdi)			((IS_LITE ? 0x210 : 0x310)\
-+#define CSID_RDI_FRM_DROP_PERIOD(rdi)			((csid_is_lite(csid) ? 0x210 : 0x310)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_IRQ_SUBSAMPLE_PATTERN(rdi)		((IS_LITE ? 0x214 : 0x314)\
-+#define CSID_RDI_IRQ_SUBSAMPLE_PATTERN(rdi)		((csid_is_lite(csid) ? 0x214 : 0x314)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_IRQ_SUBSAMPLE_PERIOD(rdi)		((IS_LITE ? 0x218 : 0x318)\
-+#define CSID_RDI_IRQ_SUBSAMPLE_PERIOD(rdi)		((csid_is_lite(csid) ? 0x218 : 0x318)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_RPP_PIX_DROP_PATTERN(rdi)		((IS_LITE ? 0x224 : 0x324)\
-+#define CSID_RDI_RPP_PIX_DROP_PATTERN(rdi)		((csid_is_lite(csid) ? 0x224 : 0x324)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_RPP_PIX_DROP_PERIOD(rdi)		((IS_LITE ? 0x228 : 0x328)\
-+#define CSID_RDI_RPP_PIX_DROP_PERIOD(rdi)		((csid_is_lite(csid) ? 0x228 : 0x328)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_RPP_LINE_DROP_PATTERN(rdi)		((IS_LITE ? 0x22C : 0x32C)\
-+#define CSID_RDI_RPP_LINE_DROP_PATTERN(rdi)		((csid_is_lite(csid) ? 0x22C : 0x32C)\
- 							+ 0x100 * (rdi))
--#define CSID_RDI_RPP_LINE_DROP_PERIOD(rdi)		((IS_LITE ? 0x230 : 0x330)\
-+#define CSID_RDI_RPP_LINE_DROP_PERIOD(rdi)		((csid_is_lite(csid) ? 0x230 : 0x330)\
- 							+ 0x100 * (rdi))
- 
- #define CSID_TPG_CTRL		0x600
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-index 95873f988f7e2..d393618ed54cb 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.c
-+++ b/drivers/media/platform/qcom/camss/camss-csid.c
-@@ -897,3 +897,8 @@ void msm_csid_unregister_entity(struct csid_device *csid)
- 	media_entity_cleanup(&csid->subdev.entity);
- 	v4l2_ctrl_handler_free(&csid->ctrls);
- }
-+
-+inline bool csid_is_lite(struct csid_device *csid)
-+{
-+	return csid->camss->res->csid_res[csid->id].is_lite;
-+}
-diff --git a/drivers/media/platform/qcom/camss/camss-csid.h b/drivers/media/platform/qcom/camss/camss-csid.h
-index 30d94eb2eb041..fddccb69da13a 100644
---- a/drivers/media/platform/qcom/camss/camss-csid.h
-+++ b/drivers/media/platform/qcom/camss/camss-csid.h
-@@ -215,5 +215,12 @@ extern const struct csid_hw_ops csid_ops_4_1;
- extern const struct csid_hw_ops csid_ops_4_7;
- extern const struct csid_hw_ops csid_ops_gen2;
- 
-+/*
-+ * csid_is_lite - Check if CSID is CSID lite.
-+ * @csid: CSID Device
-+ *
-+ * Return whether CSID is CSID lite
-+ */
-+bool csid_is_lite(struct csid_device *csid);
- 
- #endif /* QC_MSM_CAMSS_CSID_H */
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index ea0038f62b807..a0fbbfccf3b7e 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -638,6 +638,7 @@ static const struct camss_subdev_resources csid_res_845[] = {
- 				{ 384000000 } },
- 		.reg = { "csid2" },
- 		.interrupt = { "csid2" },
-+		.is_lite = true,
- 		.ops = &csid_ops_gen2
- 	}
- };
-@@ -812,6 +813,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "csid2" },
- 		.interrupt = { "csid2" },
-+		.is_lite = true,
- 		.ops = &csid_ops_gen2
- 	},
- 	/* CSID3 */
-@@ -824,6 +826,7 @@ static const struct camss_subdev_resources csid_res_8250[] = {
- 				{ 0 } },
- 		.reg = { "csid3" },
- 		.interrupt = { "csid3" },
-+		.is_lite = true,
- 		.ops = &csid_ops_gen2
- 	}
- };
+Regarding the series --- don't depend on the new functions but otherwise I
+think the guidance should be sound. It'll probably take a while until we
+have this in media tree.
 
 -- 
-2.42.0
-
+Sakari Ailus
 
