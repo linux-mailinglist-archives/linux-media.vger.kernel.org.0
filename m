@@ -1,74 +1,73 @@
-Return-Path: <linux-media+bounces-550-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-551-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 620247F0093
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 16:52:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3898F7F009E
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 16:52:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 177611F2289B
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 15:52:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D91E81F2282A
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 15:52:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61D1118C3B;
-	Sat, 18 Nov 2023 15:52:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D179199C7;
+	Sat, 18 Nov 2023 15:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zxvk2SQ2"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cioG4iq4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-x112a.google.com (mail-yw1-x112a.google.com [IPv6:2607:f8b0:4864:20::112a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 765A2D58;
-	Sat, 18 Nov 2023 07:51:37 -0800 (PST)
-Received: by mail-yw1-x112a.google.com with SMTP id 00721157ae682-5c9adcaf514so405017b3.2;
-        Sat, 18 Nov 2023 07:51:37 -0800 (PST)
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D72561FD2;
+	Sat, 18 Nov 2023 07:51:47 -0800 (PST)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-5a84204e7aeso33080057b3.0;
+        Sat, 18 Nov 2023 07:51:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700322696; x=1700927496; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1700322706; x=1700927506; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=X35XMuOkQGRdZiwlzwdQZgjDPtyUYCVaMlOgAQr4CJI=;
-        b=Zxvk2SQ2TdWAKA7Wv5MzEaJezJmEcN2rcF2SkfgbS5YuiJd6L5S23PmiwXpjZyE0/G
-         hikIQFfpvqVVy2YKm3u3dnMMi+p0fKJ0kSHGbTQ3lGkDLzR75nnRcILlrZIgkeO3DSyw
-         3cDAB1lNohNnAQTDUXZz9g7G3JfaxW2hXsD5EMOsqc2rYrjxEuzjiv+1n8YOorCzC+EE
-         UE2dWl1llANf6D5P5n/VheWWZCzrZwO8thOMAXPjm7By55LjQPf791oSOItviPs9JXfj
-         Fl0l5uqtfSC8nNMZRqnjUnUF49mdCcfquaFEHstRQeYJOS8Cq3PWs5Bp31RoGxjjDB5O
-         XYUw==
+        bh=+wZmOHN/Mg2WsccYCg7xC7qQhfAqQUan5w/+E5l83yM=;
+        b=cioG4iq440S8UbfRh0/MZWlkYyGhkicQn7v7zVRG+6tK6pFqDhQXlCb3/U8Axte3nu
+         nhoGZb0O4z4D9XcEMxWHkks53RfHl2N2inPX5H3K+3ZY4cO3O9bR8nsbWMAOKzvUl7m4
+         bp7nrP4mQ23b7742UAG6wQUQMkb9VzNV9sTijPlxOm680tpPlauMRaK3wg039To86Iii
+         6lVkJ+4KkYI5K8LzhFU//cOCRK/qO1eceR6oawjQj5tSL+zxyboPsGi5ub312TMS1MEB
+         FOxI4zFhncEw0O2kSbIeUysYeeJYmLWwvtVQRAjV7fb0yZVpV+s/pM29qz9zQMy0BaZv
+         5pOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700322696; x=1700927496;
+        d=1e100.net; s=20230601; t=1700322706; x=1700927506;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=X35XMuOkQGRdZiwlzwdQZgjDPtyUYCVaMlOgAQr4CJI=;
-        b=jH96M27GtpaMUlix3CdFYCsYagsGJng1oNeVdZFmQp2vbjJemDB/4TZ51JgWjcIqLd
-         uHfffyxJ0s1JrscxnUezxpoA1e2wrspu8b/d+8gLMf1Ebq8Nq/aWZmHf0P+OxQPW6guW
-         zX4kHrpWm7baOoCCI3EmzlWSP8h/kY762mNKQVyjJE9+ukQWLTvR7P9RkDOuX5NFSR+X
-         Xu1386e5vH9NkgYSFyXIhTFS1d1x3w0GUrrIjACJc2b+IDWG7RI0r1wiWFeyz8tq+14r
-         cepecTd4RGuU9mLokeLOUi7PpZI66EtGjnmXaqUboeCF/8HguNjRuibUEPOcJGPGYdb+
-         0nsw==
-X-Gm-Message-State: AOJu0Yyeh6OhiQLXzwpLmdCrbCpUYjD2MjMHdzAI0jVca7eyQmlMuqpY
-	IJK8kXgKrNQSQNTDq8epBzr+OKL6Bovhu5+j
-X-Google-Smtp-Source: AGHT+IHAhvZBoGNxpPDB2BCWYJwaK4V04ZOAMY/osneEuJm+eKrAFTeb+/vBc80W6VqFpHOGlnjhyA==
-X-Received: by 2002:a81:a141:0:b0:5a7:b819:648f with SMTP id y62-20020a81a141000000b005a7b819648fmr2715402ywg.4.1700322696135;
-        Sat, 18 Nov 2023 07:51:36 -0800 (PST)
+        bh=+wZmOHN/Mg2WsccYCg7xC7qQhfAqQUan5w/+E5l83yM=;
+        b=TZFdpTxEA7HZI+e1/e8+/xaNziTNx1yxHA9+xxMvNisafaSa/0HQTvqKo1BbkeXqsj
+         /Yx+DG3JBwDKsLGMXWuwuPYDFm1nZiQ+wyFs6m7XGcZW3/cI0hSqiIXQD/lOipOMhdVa
+         jLMLYT/BKWj/RxcQro6NZGvD68R/BiIlKgN2oCC+LvAEfIBY7pA+SokALX9RxpG//XN2
+         yITM5HZE5EWM+lMJAM9/35qAHQRKauVR7Z5WWxldz6uQ5csOTQqLl7DEcPrHWd854IAd
+         yBnWEhRCqTqW6OfgkmhT6hsYsy19406p6yWDwCYjUVN13HI4BkOt0j9UrcVMR79V6ZVy
+         45tA==
+X-Gm-Message-State: AOJu0YxzF9Te+udH47+rGExGLbPlS+U0Wq2Y+VuS5G/rT1uqpOmRTsSt
+	9aUrCTdrtZRAydkGEeN9w0Qk1vXQmCTIGGgM
+X-Google-Smtp-Source: AGHT+IGmbeF69W2mApLtp2TFzllWj55CQ7MKd/oTUsvyCnOVTANukMUN2r2bgNvuI8ZjHjDNDSI/Gg==
+X-Received: by 2002:a0d:d48a:0:b0:59b:5d6b:5110 with SMTP id w132-20020a0dd48a000000b0059b5d6b5110mr2902658ywd.21.1700322706091;
+        Sat, 18 Nov 2023 07:51:46 -0800 (PST)
 Received: from localhost ([2601:344:8301:57f0:48a9:bd4c:868d:dc97])
-        by smtp.gmail.com with ESMTPSA id b65-20020a0dd944000000b005a8c392f498sm1167744ywe.82.2023.11.18.07.51.35
+        by smtp.gmail.com with ESMTPSA id m2-20020a819c02000000b0057a44e20fb8sm1163887ywa.73.2023.11.18.07.51.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 18 Nov 2023 07:51:35 -0800 (PST)
+        Sat, 18 Nov 2023 07:51:45 -0800 (PST)
 From: Yury Norov <yury.norov@gmail.com>
 To: linux-kernel@vger.kernel.org,
-	Hans Verkuil <hverkuil@xs4all.nl>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Yury Norov <yury.norov@gmail.com>,
 	linux-media@vger.kernel.org
-Cc: Yury Norov <yury.norov@gmail.com>,
-	Jan Kara <jack@suse.cz>,
+Cc: Jan Kara <jack@suse.cz>,
 	Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
 	Matthew Wilcox <willy@infradead.org>,
 	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
 	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
 	Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
 	Alexey Klimov <klimov.linux@gmail.com>
-Subject: [PATCH 18/34] media: radio-shark: use atomic find_bit() API where appropriate
-Date: Sat, 18 Nov 2023 07:50:49 -0800
-Message-Id: <20231118155105.25678-19-yury.norov@gmail.com>
+Subject: [PATCH 25/34] media: em28xx: cx231xx: fix opencoded find_and_set_bit()
+Date: Sat, 18 Nov 2023 07:50:56 -0800
+Message-Id: <20231118155105.25678-26-yury.norov@gmail.com>
 X-Mailer: git-send-email 2.40.1
 In-Reply-To: <20231118155105.25678-1-yury.norov@gmail.com>
 References: <20231118155105.25678-1-yury.norov@gmail.com>
@@ -80,47 +79,97 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Despite that it's only 2- or 3-bit maps, convert for-loop followed by
-test_bit() to for_each_test_and_clear_bit() as it makes the code cleaner.
+Functions in the media/usb drivers opencode find_and_set_bit() by
+polling on a found bit in a while-loop.
 
 Signed-off-by: Yury Norov <yury.norov@gmail.com>
 ---
- drivers/media/radio/radio-shark.c  | 5 +----
- drivers/media/radio/radio-shark2.c | 5 +----
- 2 files changed, 2 insertions(+), 8 deletions(-)
+ drivers/media/usb/cx231xx/cx231xx-cards.c | 16 ++++------
+ drivers/media/usb/em28xx/em28xx-cards.c   | 37 +++++++++--------------
+ 2 files changed, 21 insertions(+), 32 deletions(-)
 
-diff --git a/drivers/media/radio/radio-shark.c b/drivers/media/radio/radio-shark.c
-index 127a3be0e0f0..0c50b3a9623e 100644
---- a/drivers/media/radio/radio-shark.c
-+++ b/drivers/media/radio/radio-shark.c
-@@ -158,10 +158,7 @@ static void shark_led_work(struct work_struct *work)
- 		container_of(work, struct shark_device, led_work);
- 	int i, res, brightness, actual_len;
+diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
+index 92efe6c1f47b..b314603932d7 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-cards.c
++++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
+@@ -1708,16 +1708,12 @@ static int cx231xx_usb_probe(struct usb_interface *interface,
+ 		return -ENODEV;
  
--	for (i = 0; i < 3; i++) {
--		if (!test_and_clear_bit(i, &shark->brightness_new))
--			continue;
--
-+	for_each_test_and_clear_bit(i, &shark->brightness_new, 3) {
- 		brightness = atomic_read(&shark->brightness[i]);
- 		memset(shark->transfer_buffer, 0, TB_LEN);
- 		if (i != RED_LED) {
-diff --git a/drivers/media/radio/radio-shark2.c b/drivers/media/radio/radio-shark2.c
-index f1c5c0a6a335..d9ef241e1778 100644
---- a/drivers/media/radio/radio-shark2.c
-+++ b/drivers/media/radio/radio-shark2.c
-@@ -145,10 +145,7 @@ static void shark_led_work(struct work_struct *work)
- 		container_of(work, struct shark_device, led_work);
- 	int i, res, brightness, actual_len;
+ 	/* Check to see next free device and mark as used */
+-	do {
+-		nr = find_first_zero_bit(&cx231xx_devused, CX231XX_MAXBOARDS);
+-		if (nr >= CX231XX_MAXBOARDS) {
+-			/* No free device slots */
+-			dev_err(d,
+-				"Supports only %i devices.\n",
+-				CX231XX_MAXBOARDS);
+-			return -ENOMEM;
+-		}
+-	} while (test_and_set_bit(nr, &cx231xx_devused));
++	nr = find_and_set_bit(&cx231xx_devused, CX231XX_MAXBOARDS);
++	if (nr >= CX231XX_MAXBOARDS) {
++		/* No free device slots */
++		dev_err(d, "Supports only %i devices.\n", CX231XX_MAXBOARDS);
++		return -ENOMEM;
++	}
  
--	for (i = 0; i < 2; i++) {
--		if (!test_and_clear_bit(i, &shark->brightness_new))
--			continue;
--
-+	for_each_test_and_clear_bit(i, &shark->brightness_new, 2) {
- 		brightness = atomic_read(&shark->brightness[i]);
- 		memset(shark->transfer_buffer, 0, TB_LEN);
- 		shark->transfer_buffer[0] = 0x83 + i;
+ 	udev = usb_get_dev(interface_to_usbdev(interface));
+ 
+diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
+index 4d037c92af7c..af4809fe74a8 100644
+--- a/drivers/media/usb/em28xx/em28xx-cards.c
++++ b/drivers/media/usb/em28xx/em28xx-cards.c
+@@ -3684,17 +3684,14 @@ static int em28xx_duplicate_dev(struct em28xx *dev)
+ 		return -ENOMEM;
+ 	}
+ 	/* Check to see next free device and mark as used */
+-	do {
+-		nr = find_first_zero_bit(em28xx_devused, EM28XX_MAXBOARDS);
+-		if (nr >= EM28XX_MAXBOARDS) {
+-			/* No free device slots */
+-			dev_warn(&dev->intf->dev, ": Supports only %i em28xx boards.\n",
+-				 EM28XX_MAXBOARDS);
+-			kfree(sec_dev);
+-			dev->dev_next = NULL;
+-			return -ENOMEM;
+-		}
+-	} while (test_and_set_bit(nr, em28xx_devused));
++	nr = find_and_set_bit(em28xx_devused, EM28XX_MAXBOARDS);
++	if (nr >= EM28XX_MAXBOARDS) {
++		/* No free device slots */
++		dev_warn(&dev->intf->dev, ": Supports only %i em28xx boards.\n", EM28XX_MAXBOARDS);
++		kfree(sec_dev);
++		dev->dev_next = NULL;
++		return -ENOMEM;
++	}
+ 	sec_dev->devno = nr;
+ 	snprintf(sec_dev->name, 28, "em28xx #%d", nr);
+ 	sec_dev->dev_next = NULL;
+@@ -3827,17 +3824,13 @@ static int em28xx_usb_probe(struct usb_interface *intf,
+ 	udev = usb_get_dev(interface_to_usbdev(intf));
+ 
+ 	/* Check to see next free device and mark as used */
+-	do {
+-		nr = find_first_zero_bit(em28xx_devused, EM28XX_MAXBOARDS);
+-		if (nr >= EM28XX_MAXBOARDS) {
+-			/* No free device slots */
+-			dev_err(&intf->dev,
+-				"Driver supports up to %i em28xx boards.\n",
+-			       EM28XX_MAXBOARDS);
+-			retval = -ENOMEM;
+-			goto err_no_slot;
+-		}
+-	} while (test_and_set_bit(nr, em28xx_devused));
++	nr = find_and_set_bit(em28xx_devused, EM28XX_MAXBOARDS);
++	if (nr >= EM28XX_MAXBOARDS) {
++		/* No free device slots */
++		dev_err(&intf->dev, "Driver supports up to %i em28xx boards.\n", EM28XX_MAXBOARDS);
++		retval = -ENOMEM;
++		goto err_no_slot;
++	}
+ 
+ 	/* Don't register audio interfaces */
+ 	if (intf->altsetting[0].desc.bInterfaceClass == USB_CLASS_AUDIO) {
 -- 
 2.39.2
 
