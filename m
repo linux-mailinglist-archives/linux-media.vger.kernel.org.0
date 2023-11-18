@@ -1,109 +1,118 @@
-Return-Path: <linux-media+bounces-561-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-562-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F95A7F01B6
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 18:49:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DFD07F01D3
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 19:05:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 168F31F23221
-	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 17:49:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B5042B209D4
+	for <lists+linux-media@lfdr.de>; Sat, 18 Nov 2023 18:05:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 561401A70B;
-	Sat, 18 Nov 2023 17:49:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C16D1BDF8;
+	Sat, 18 Nov 2023 18:05:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YWg8XCld"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UnP9jCsU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FA87C5;
-	Sat, 18 Nov 2023 09:48:58 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6CA56DA7;
-	Sat, 18 Nov 2023 18:48:28 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700329708;
-	bh=gv7BZ1cWzZD4SGo3P2LtWqP2L13lwUy+e9n0VS8QOzI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YWg8XCldXYen+V7Ii8eZSi2fcYNhxl+To20iNk+FXI7apT3U2LTsqlchBN4Bj8Ycs
-	 +wrkeaPlza96CnA2O4mXzoqAvm73sJHb+eqE1XXWJxOb5AvjLpaaOkUSz0PpyhzAmC
-	 I/2imyAFEx84O+MkpjWrEdpTMMj2E2kZ4EnbX3IY=
-Date: Sat, 18 Nov 2023 19:49:03 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-	rafael@kernel.org, jacopo.mondi@ideasonboard.com
-Subject: Re: [PATCH v2 2/7] pm: runtime: Add
- pm_runtime_put_mark_busy_autosusp() helper
-Message-ID: <20231118174903.GF20846@pendragon.ideasonboard.com>
-References: <20231117111433.1561669-1-sakari.ailus@linux.intel.com>
- <20231117111433.1561669-3-sakari.ailus@linux.intel.com>
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3D32AA;
+	Sat, 18 Nov 2023 10:05:10 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2c87acba73bso1553431fa.1;
+        Sat, 18 Nov 2023 10:05:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700330709; x=1700935509; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=mu6uKqetedFX6br/8gaH2MKtwUbnJweRqllZD/aw3RQ=;
+        b=UnP9jCsUWC29/s+NC+cz1N6kqRrEKoCIbfW2YrVFq4910JkmHcTTOOBnxSpwHAgKdQ
+         UFF6c9yTh81IOFqjWKjbi1YJfVJrITvHyU+KgVmJT7od5Nxv2hbosw/xmuodtju8oT7p
+         ktS4hnOaG1UfvcAfjGGv76GY4Ll8SV7Cl82OjoQSgUAB72kmsjwSeJ/R4sa9ncOWMfHs
+         4+do9HZwRudipRKWzT+0f1VVQSkzR0NqFlqbornppcB6tKG3g6rLxLvOee2JivucQa0x
+         wgUgGip/NvDz6cUB2VCE5cSX2VgfIpYogcS91p9NcgtXSkvwTAblKZoOqmDypMlOJXMa
+         bKxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700330709; x=1700935509;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=mu6uKqetedFX6br/8gaH2MKtwUbnJweRqllZD/aw3RQ=;
+        b=lldtx2DrQfWRDCE3PRO+QHz3bs8xkItkXOtykQPwnH2RWjFZCCIhcFDnlAlQKMgMAW
+         ZpkZjDO/FWS2YAivNewrE3sEsrn3RGKHJFAFC1ohHAxZKevBKp3LxAKRabDYAt/3rrqO
+         d4uVDAsJPr4LXgfBGzlEVWlPlq7L5ogew6eswkf6cAmSGpEdAxa+sJVmQs/VHtMm4Tnw
+         Sk/xtKa5tlIbZ0UqYLb3FuRFPK3hZXipvNGIaXgF0gEsOwk+HTlfdsENsftp4ceWxirD
+         N/HjBrQGIlSP135bAr0HWHMab/Qy22ae8T5bvWsPbMCVwsoOzTPorIGeidkgUKuOwl3E
+         taOg==
+X-Gm-Message-State: AOJu0Ywl8YGOsZ1YGRQTs0YIRaoVP3TkkYCQRRr/Rdl59zg7vjnaoIVQ
+	SSCaIsetJoAg3cy5vcwd+m0ZlvNin2rNng==
+X-Google-Smtp-Source: AGHT+IHyeiAuLwBQ6RhMnfmUjm6ZpWN6lhi+Qcl6w/VI4MWj6Kf1RrN8easfjONwVJiPd/NUafO3dQ==
+X-Received: by 2002:a2e:9c84:0:b0:2c5:1ea4:4e99 with SMTP id x4-20020a2e9c84000000b002c51ea44e99mr2049253lji.48.1700330708944;
+        Sat, 18 Nov 2023 10:05:08 -0800 (PST)
+Received: from zotac.lan. (dynamic-2a01-0c22-77bf-8300-2223-08ff-fe18-0310.c22.pool.telefonica.de. [2a01:c22:77bf:8300:2223:8ff:fe18:310])
+        by smtp.gmail.com with ESMTPSA id m20-20020a1709062b9400b009f2c769b4ebsm2079456ejg.151.2023.11.18.10.05.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 18 Nov 2023 10:05:08 -0800 (PST)
+From: Heiner Kallweit <hkallweit1@gmail.com>
+To: Wolfram Sang <wsa@kernel.org>,
+	linuxppc-dev@lists.ozlabs.org
+Cc: linux-i2c@vger.kernel.org,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	greybus-dev@lists.linaro.org,
+	linux-staging@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [PATCH 00/10] Don't let i2c adapters declare I2C_CLASS_SPD support if they support I2C_CLASS_HWMON
+Date: Sat, 18 Nov 2023 19:04:54 +0100
+Message-ID: <20231118180504.1785-1-hkallweit1@gmail.com>
+X-Mailer: git-send-email 2.42.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231117111433.1561669-3-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
+After removal of the legacy eeprom driver the only remaining I2C
+client device driver supporting I2C_CLASS_SPD is jc42. Because this
+driver also supports I2C_CLASS_HWMON, adapters don't have to
+declare support for I2C_CLASS_SPD if they support I2C_CLASS_HWMON.
+It's one step towards getting rid of I2C_CLASS_SPD mid-term.
 
-Thank you for the patch.
+Series was created supported by Coccinelle and its splitpatch.
 
-On Fri, Nov 17, 2023 at 01:14:28PM +0200, Sakari Ailus wrote:
-> Add pm_runtime_put_mark_busy_autosusp() helper function for users that
-> wish to set the last_busy timestamp to current time and put the
-> usage_count of the device and set the autosuspend timer.
-> 
-> Essentially calling pm_runtime_suspend_mark_busy_autosusp() equal to
-> calling first pm_runtime_mark_last_busy() and then
-> pm_runtime_put_autosuspend().
+Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
-The vast majority if the pm_runtime_put_autosuspend() users call
-pm_runtime_mark_last_busy() right before. Let's make the
-pm_runtime_put_autosuspend() function do that by default, and add a
-__pm_runtime_put_autosuspend() (name to be bikshedded) for the minority
-of cases where updating the last busy timestamp isn't desired. We want
-to simplify the API, not make it more complex.
+---
 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  include/linux/pm_runtime.h | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
-> 
-> diff --git a/include/linux/pm_runtime.h b/include/linux/pm_runtime.h
-> index 13cd526634c1..4afe7b0b9d7e 100644
-> --- a/include/linux/pm_runtime.h
-> +++ b/include/linux/pm_runtime.h
-> @@ -495,6 +495,23 @@ static inline int pm_runtime_put_autosuspend(struct device *dev)
->  	    RPM_GET_PUT | RPM_ASYNC | RPM_AUTO);
->  }
->  
-> +/**
-> + * pm_runtime_put_mark_busy_autosusp - Update the last access time of a device
-> + *				       and drop device usage counter and queue
-> + *				       autosuspend if 0.
-> + * @dev: Target device.
-> + *
-> + * Update the last access time of @dev using pm_runtime_mark_last_busy(), then
-> + * decrement the runtime PM usage counter of @dev and if it turns out to be
-> + * equal to 0, queue up a work item for @dev like in pm_request_autosuspend().
-> + */
-> +static inline int pm_runtime_put_mark_busy_autosusp(struct device *dev)
-> +{
-> +	pm_runtime_mark_last_busy(dev);
-> +
-> +	return pm_runtime_autosuspend(dev);
-> +}
-> +
->  /**
->   * pm_runtime_put_sync - Drop device usage counter and run "idle check" if 0.
->   * @dev: Target device.
-
--- 
-Regards,
-
-Laurent Pinchart
+ drivers/i2c/busses/i2c-ali1535.c                  |    2 +-
+ drivers/i2c/busses/i2c-ali1563.c                  |    2 +-
+ drivers/i2c/busses/i2c-ali15x3.c                  |    2 +-
+ drivers/i2c/busses/i2c-amd756.c                   |    2 +-
+ drivers/i2c/busses/i2c-amd8111.c                  |    2 +-
+ drivers/i2c/busses/i2c-elektor.c                  |    2 +-
+ drivers/i2c/busses/i2c-gpio.c                     |    2 +-
+ drivers/i2c/busses/i2c-ibm_iic.c                  |    2 +-
+ drivers/i2c/busses/i2c-iop3xx.c                   |    2 +-
+ drivers/i2c/busses/i2c-isch.c                     |    2 +-
+ drivers/i2c/busses/i2c-kempld.c                   |    4 ++--
+ drivers/i2c/busses/i2c-mlxcpld.c                  |    2 +-
+ drivers/i2c/busses/i2c-nforce2.c                  |    2 +-
+ drivers/i2c/busses/i2c-pasemi-pci.c               |    2 +-
+ drivers/i2c/busses/i2c-piix4.c                    |    2 +-
+ drivers/i2c/busses/i2c-scmi.c                     |    2 +-
+ drivers/i2c/busses/i2c-sh7760.c                   |    2 +-
+ drivers/i2c/busses/i2c-sibyte.c                   |    4 ++--
+ drivers/i2c/busses/i2c-sis5595.c                  |    2 +-
+ drivers/i2c/busses/i2c-sis630.c                   |    2 +-
+ drivers/i2c/busses/i2c-sis96x.c                   |    2 +-
+ drivers/i2c/busses/i2c-via.c                      |    2 +-
+ drivers/i2c/busses/i2c-viapro.c                   |    2 +-
+ drivers/i2c/busses/scx200_acb.c                   |    2 +-
+ drivers/i2c/i2c-stub.c                            |    2 +-
+ drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c |    2 +-
+ drivers/staging/greybus/i2c.c                     |    2 +-
+ 27 files changed, 29 insertions(+), 29 deletions(-)
 
