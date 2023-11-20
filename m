@@ -1,284 +1,147 @@
-Return-Path: <linux-media+bounces-626-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-627-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71527F1D1F
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 20:09:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 846A77F1DB9
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 21:04:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E374D1C21868
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 19:09:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2EC901F25FD8
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 20:04:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF41D341BF;
-	Mon, 20 Nov 2023 19:09:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 780EE37178;
+	Mon, 20 Nov 2023 20:03:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="S1H1Dqkn"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HojFHuvG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2DF73D9
-	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 11:09:08 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4SYxrL0SFfzyRq;
-	Mon, 20 Nov 2023 21:09:03 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1700507346;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hV9+DFtkRpvclV1eJbNIlo1N5/Tb4Ytu6SPLYgOZX/Y=;
-	b=S1H1Dqkn4CPWnAq2Lt80+Lx2suuMvupz9Y7bq5siKAvvramiMY819r5UpCpO9pOanggpnN
-	9VB+BBVUiRzYk8JcmtFQ68IxnHiZlfYoy24wuLJvH1NuxNDUh5FcxoI4vVCUj63O5lgzWe
-	2i32pnn3WWpA0z9lNGX2BbX0tiIchYI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1700507346;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=hV9+DFtkRpvclV1eJbNIlo1N5/Tb4Ytu6SPLYgOZX/Y=;
-	b=TFsO6lZnyenJfQ+27HbHdbzf4kwYpLFh7XUPSL8bKVy2ZHiLMGRiCniPY7V0SwDPH2AzsI
-	B6i6afUsCDez3LJsSM9/mPIB5UGGRu/rgnRIOXHRXwHvgSVMy3zxIJSeXVLaTmwR3bs+5m
-	UE9EJHFSnRdp21k9avv5VhoCpSNcG94=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1700507346; a=rsa-sha256; cv=none;
-	b=y3zz315puA6Or9UVteylyo8x8H5+PBjGHKbIOJ9WWS6CssULP/slvuYpp+9aZJD+9UC6vY
-	tycjlPGiSj18kObFeyAxrulBSP8t0iEePxPGIJ35fu5PyVwKJTiB/PpjR0es/TYEiqAeWX
-	w+u4gjdYulnJ1LVuAlIeQIz9NPN3CXs=
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 92441634C93;
-	Mon, 20 Nov 2023 21:09:02 +0200 (EET)
-Date: Mon, 20 Nov 2023 19:09:02 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH v3 2/2] Documentation: v4l: Exposure/gain for camera
- sensor
-Message-ID: <ZVuuznjcZVueSG8W@valkosipuli.retiisi.eu>
-References: <20230710132240.7864-1-jacopo.mondi@ideasonboard.com>
- <20230710132240.7864-3-jacopo.mondi@ideasonboard.com>
- <ZLUW1eBTH3GpnSlW@valkosipuli.retiisi.eu>
- <wdhkxxokan2gk4m2b3gwro7d6j6ie4zhshfman456dhvjqokxm@67jcmm3bewgb>
- <ZVsYCTe12NpHjxva@valkosipuli.retiisi.eu>
- <xnm7y7thxderbs4ka4qkpgs6r3rjjehmqkniagnkxgjzy5zyyz@vsgjiczgzket>
- <ZVujQotfUK5kICbo@valkosipuli.retiisi.eu>
- <yweowlgjl67mo63njqxz7z36ek2htr7rzurgq7z5dqwbusymjc@vwss2ob7d4dh>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E3E7C7;
+	Mon, 20 Nov 2023 12:03:51 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700510631; x=1732046631;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=t6Dv6YDHJcRv2aKl2S442OlbO9EGY0J3t7fr7FBbj60=;
+  b=HojFHuvGKUnB6xUYc+sWWojvRdX0WB/i5ga3wuGkjpthVbygPhamx4p4
+   X/yKdfb4OvAT0LwD0C+aJQX8qZQ0mEeALrzoXpsd854TZSL1L1/PmR0B/
+   lBg+uFXPmAesnvWNKUKTZ8tpqWaZvpAW8/cm5mfJhQL/+VdDYl/1EFUhd
+   +4K0bCMHtgVgWJ9d9CgcSbOYsX4ao+0zRxxCL9whlnIoycrYe/b7vFa74
+   GbNmtI/kJHs+TIecxv0OtPZxHZKKcCkWHII6bbccUVXip3MhMFjK3Kb8E
+   PVzcu2vu1MJEF5AzRoPKFbCk+9NTQ3rGsxhEJrjrf7q3NmtUwWp1ZYt0p
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="390553412"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="390553412"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:03:51 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="766410842"
+X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
+   d="scan'208";a="766410842"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 12:03:23 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2521F11FAE8;
+	Mon, 20 Nov 2023 22:03:20 +0200 (EET)
+Date: Mon, 20 Nov 2023 20:03:20 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+	jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH v2 3/7] ACPI: Documentation: Document acpi_dev_state_d0()
+Message-ID: <ZVu7iMimov2c5QFM@kekkonen.localdomain>
+References: <20231117111433.1561669-1-sakari.ailus@linux.intel.com>
+ <20231117111433.1561669-4-sakari.ailus@linux.intel.com>
+ <20231118185049.GH20846@pendragon.ideasonboard.com>
+ <ZVsnYjjWAiNPdHPG@kekkonen.localdomain>
+ <CAJZ5v0h+tP1=PW4C44LCfyJcDXhcUQ4+BHPP9vBM19rtfqukWA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <yweowlgjl67mo63njqxz7z36ek2htr7rzurgq7z5dqwbusymjc@vwss2ob7d4dh>
+In-Reply-To: <CAJZ5v0h+tP1=PW4C44LCfyJcDXhcUQ4+BHPP9vBM19rtfqukWA@mail.gmail.com>
 
-Hi Jacopo,
+Hi Rafael,
 
-On Mon, Nov 20, 2023 at 07:47:11PM +0100, Jacopo Mondi wrote:
-> Hi Sakari
+On Mon, Nov 20, 2023 at 01:52:39PM +0100, Rafael J. Wysocki wrote:
+> On Mon, Nov 20, 2023 at 10:31â€¯AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hi Laurent,
+> >
+> > On Sat, Nov 18, 2023 at 08:50:49PM +0200, Laurent Pinchart wrote:
+> > > Hi Sakari,
+> > >
+> > > Thank you for the patch.
+> > >
+> > > On Fri, Nov 17, 2023 at 01:14:29PM +0200, Sakari Ailus wrote:
+> > > > Document that acpi_dev_state_d0() can be used to tell if the device was
+> > > > powered on for probe.
+> > > >
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >  Documentation/firmware-guide/acpi/non-d0-probe.rst | 8 ++++++++
+> > > >  1 file changed, 8 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/firmware-guide/acpi/non-d0-probe.rst b/Documentation/firmware-guide/acpi/non-d0-probe.rst
+> > > > index 7afd16701a02..815bcc8db69f 100644
+> > > > --- a/Documentation/firmware-guide/acpi/non-d0-probe.rst
+> > > > +++ b/Documentation/firmware-guide/acpi/non-d0-probe.rst
+> > > > @@ -24,6 +24,14 @@ there's a problem with the device, the driver likely probes just fine but the
+> > > >  first user will find out the device doesn't work, instead of a failure at probe
+> > > >  time. This feature should thus be used sparingly.
+> > > >
+> > > > +ACPI framework
+> > > > +--------------
+> > > > +
+> > > > +Use the Linux ACPI framework function :c:func:`acpi_dev_state_d0()` to tell
+> > > > +whether the device was powered on for probe. :c:func:`acpi_dev_state_d0()`
+> > > > +returns true if the device is powered on, false otherwise. For non-ACPI backed
+> > > > +devices it returns true always.
+> > > > +
+> > >
+> > > While this is true, I don't want to see drivers having to call
+> > > ACPI-specific functions, the same way you dislike OF-specific functions
+> > > in drivers. Please find a better way to handle this.
+> >
+> > The functionality is only available on ACPI and the function does the right
+> > thing on non-ACPI platforms. I don't see an issue here.
 > 
-> On Mon, Nov 20, 2023 at 06:19:46PM +0000, Sakari Ailus wrote:
-> > Hi Jacopo,
-> >
-> > On Mon, Nov 20, 2023 at 05:49:30PM +0100, Jacopo Mondi wrote:
-> > > Hi Sakari
-> > >
-> > > On Mon, Nov 20, 2023 at 08:25:45AM +0000, Sakari Ailus wrote:
-> > > > Hi Jacopo,
-> > > >
-> > > > Just found this old e-mail I apparently forgot to reply...
-> > > >
-> > >
-> > > This really fell into the cracks for me as well
-> > >
-> > > > On Thu, Jul 27, 2023 at 11:42:45AM +0200, Jacopo Mondi wrote:
-> > > > > Hi Sakari
-> > > > >
-> > > > > On Mon, Jul 17, 2023 at 10:24:21AM +0000, Sakari Ailus wrote:
-> > > > > > Hi Jacopo,
-> > > > > >
-> > > > > > On Mon, Jul 10, 2023 at 03:22:40PM +0200, Jacopo Mondi wrote:
-> > > > > > > Document the suggested way to exposure controls for exposure and gain
-> > > > > > > for camera sensor drivers.
-> > > > > > >
-> > > > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > > > > > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> > > > > > > ---
-> > > > > > >  .../driver-api/media/camera-sensor.rst        | 27 +++++++++++++++++++
-> > > > > > >  1 file changed, 27 insertions(+)
-> > > > > > >
-> > > > > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
-> > > > > > > index cd915ca119ea..67fe77b1edb9 100644
-> > > > > > > --- a/Documentation/driver-api/media/camera-sensor.rst
-> > > > > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
-> > > > > > > @@ -189,3 +189,30 @@ the ``V4L2_CID_VFLIP`` and ``V4L2_CID_HFLIP`` controls with the
-> > > > > > >  a flip can potentially change the output buffer content layout. Flips should
-> > > > > > >  also be taken into account when enumerating and handling media bus formats
-> > > > > > >  on the camera sensor source pads.
-> > > > > > > +
-> > > > > > > +Exposure and Gain Control
-> > > > > > > +-------------------------
-> > > > > > > +
-> > > > > > > +Camera sensor drivers that allow applications to control the image exposure
-> > > > > > > +and gain should do so by exposing dedicated controls to applications.
-> > > > > > > +
-> > > > > > > +Exposure time is controlled by registering the ``V4L2_CID_EXPOSURE`` control.
-> > > > > > > +The control definition does not specify a unit to allow maximum flexibility
-> > > > > > > +for multiple device types, but when used for camera sensor drivers it should be
-> > > > > > > +expressed in unit of lines whenever possible.
-> > > > > >
-> > > > > > This part of the documentation applies to both raw and SoC cameras.
-> > > > > >
-> > > > > > Should the exposure unit be something more user-friendly for SoC cameras?
-> > > > >
-> > > > > SoC cameras == YUV/RGB sensors ?
-> > > > >
-> > > > > Are you thinking about using the actual exposure time for YUV/RGB
-> > > > > sensors ?
-> > > >
-> > > > Some devices support both but there are devices that don't natively support
-> > > > it, including UVC and Alvium.
-> > > >
-> > > > I wonder whether we should suggest using the control method that best works
-> > > > with device-native units? I.e. if the device natively uses frame length and
-> > > > line length, then use blankings + the pixel clock, otherwise
-> > > > [gs]_frame_interval?
-> > > >
-> > >
-> > > Are we mixing two things here ? The above documentation block is about
-> > > the suggested unit for the exposure control, while [gs]_frame_interval
-> > > vs {blankings + pixel_rate} is to control the frame duration ?
-> >
-> > Oops. The context was apparently garbled in the meantime. X-)
-> >
-> > I meant using ISO units (i.e. second) in this case.
-> >
-> > >
-> > > > >
-> > > > > >
-> > > > > > We have two exposure controls now, V4L2_CID_EXPOSURE and
-> > > > > > V4L2_CID_EXPOSURE_ABSOLUTE. The former doesn't specity a unit whereas the
-> > > > >
-> > > > > Apparently only 2 drivers in mainline register V4L2_CID_EXPOSURE_ABSOLUTE
-> > > >
-> > > > It's not very popular, no. :-) 100 µs is also a long time, I would expect
-> > > > to have issues with that large granularity.
-> > > >
-> > >
-> > > is 100 micro-seconds a too large granularity when it comes to exposure
-> > > time ??
-> >
-> > It's a pretty long time in bright lighting conditions. The problem is not a
-> > value as such, but the granularity: a change of one has a major relative
-> > effect on the exposure time.
-> >
-> > In practice this value is translated to some number of lines, and the
-> > granularity shouldn't be worse than that. I'd therefore make this µs
-> > instead.
-> >
+> The issue would be calling an ACPI-specific function from code that's
+> otherwise firmware-agnostic, AFAICS.
 > 
-> Yeah, you're right, the two controls' granularity should be similar.
-> 
-> I actually wonder if that's enough. C-PHY has a total bandwidth of 5.8Gbps
-> if I'm not mistaken, and assuming 12bpp and a line lenght of 4000
-> pixels (arbitrary pick) the line time is 8usec. I wonder if we
-> shouldn't go for nanoseconds and be done with that.
+> It would be good to have a more generic way of checking whether or not
+> a device is operational.
 
-That limits the maximum time to around 2 s, but I guess one could use
-64-bit controls, too. But how about 10 ns?
+In DT case it's up to the driver to do that, so the device is powered off.
 
 > 
-> > >
-> > > > >
-> > > > > > latter suggests the unit of 100 µs.
-> > > > > >
-> > > > > > As exposure is specific to cameras, I think at least a part of this should
-> > > > > > make it to the controls documentation. The UVC, for instance, uses
-> > > > > > EXPOSURE_ABSOLUTE.
-> > > > > >
-> > > > > > Could we document V4L2_CID_EXPOSURE is in lines (if possible)?
-> > > > >
-> > > > > I would indeed be happy with something like "The suggested unit for
-> > > > > the control is lines"
-> > > >
-> > > > Should there be another control for exposure in (µ)s then?
-> > > >
-> > >
-> > > Isn't it V4L2_CID_EXPOSURE_ABSOLUTE ?
-> >
-> > I guess we could use that but the control name makes no sense, there is
-> > also some amount of former use. I'd create a new one instead. At this point
-> > it shouldn't really matter for the user space.
-> >
-> > The existing drivers will continue to also use whatever they're using now
-> > (I guess?).
-> >
+> > Feel free to post DT binding patches on suggested device power state during
+> > probe. :-) I think DT would benefit from this as well: the at24 driver is
+> > widely used and suddenly making probe() not talk to the chip (or even power
+> > it up) at all would probably be seen as a regression.
 > 
-> if we introduce a new control V4L2_CID_EXPOSURE_USEC (name to be
-> 
->    V4L2_CID_EXPOSURE in lines
->    V4L2_CID_EXPOSURE_ABSOLUTE in 100usec
->    V4L2_CID_EXPOSURE_USEC in 1usec/nanosecs
-> 
-> isn't it very confusing ?
-> 
-> Ideally there should have been V4L2_CID_EXPOSURE_LINES and
-> V4L2_CID_EXPOSURE_USEC from the start, but how to get there without
-> breaking existing users or duplicating controls is not easy...
+> In the DT case it is more complicated, though, at least in general,
+> because there may be multiple clocks and regulators the device depends
+> on and you may need to toggle a GPIO line too.
 
-I wonder what Laurent and Hans think about this.
+I don't think it is as what's missing is the desired power state during
+probe, i.e. whether or not the device will be powered on. It wasn't there
+in ACPI either before it was added.
 
-I'll form my opinion tomorrow. :-)
-
-> 
-> > >
-> > > > >
-> > > > > >
-> > > > > > > +
-> > > > > > > +To convert lines into units of time, the total line length (visible and
-> > > > > > > +not visible pixels) has to be divided by the pixel rate::
-> > > > > > > +
-> > > > > > > +        line duration = total line length / pixel rate
-> > > > > > > +                      = (image width + horizontal blanking) / pixel rate
-> > > > > > > +
-> > > > > > > +Camera sensor driver should try whenever possible to distinguish between the
-> > > > > > > +analogue and digital gain control functions. Analogue gain is a multiplication
-> > > > > > > +factor applied to all color channels on the pixel array before they get
-> > > > > > > +converted into the digital domain. It should be made controllable by
-> > > > > >
-> > > > > > The analogue gain may not be linear. This depends on the sensor. I'd thus
-> > > > > > drop the wording related to multiplication factor.
-> > > > > >
-> > > > >
-> > > > > I might have missed why the gain being linear or not has implications
-> > > > > on the fact it acts as a multiplication factor for the color
-> > > > > channels...
-> > > >
-> > > > I must have read this as the analogue gain being the control value. Could
-> > > > you still add that the analogue gain factor may have a non-linear relation
-> > > > to the control value?
-> > > >
-> > >
-> > > Sure!
-> > >
-> > > Thanks for digging this one out!
-> >
-> > You're welcome! :-)
-> >
+The problem is slightly lesser on DT though as it's up to the driver
+whether or not to power on the device. In the example I gave above,
+however, e.g. the at24 driver can't be modified to keep the device powered
+off and at the same time expected people would remain content with it. So
+this information should come from firmware.
 
 -- 
 Regards,
