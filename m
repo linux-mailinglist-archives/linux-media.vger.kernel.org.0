@@ -1,70 +1,240 @@
-Return-Path: <linux-media+bounces-606-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-604-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E1F77F1335
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 13:25:55 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95DB47F11FB
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 12:30:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CCA9C1F2321B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 12:25:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B4C19B21791
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 11:30:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996418C08;
-	Mon, 20 Nov 2023 12:25:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DD5814AAF;
+	Mon, 20 Nov 2023 11:29:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Sh875DbS";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="6yVY8yRi"
 X-Original-To: linux-media@vger.kernel.org
-X-Greylist: delayed 1248 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 20 Nov 2023 04:25:45 PST
-Received: from GHMG01.great-harvest.local (mail.great-harvest.com.hk [202.82.82.2])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 491FDD3
-	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 04:25:45 -0800 (PST)
-X-AuditID: c0a80a26-927612400000462b-c0-655b2a432565
-Received: from [194.26.192.108] (194.26.192.108.powered.by.rdp.sh [194.26.192.108])
-	(using TLS with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client did not present a certificate)
-	by GHMG01.great-harvest.local (Symantec Messaging Gateway) with SMTP id 08.90.17963.34A2B556; Mon, 20 Nov 2023 17:43:32 +0800 (HKT)
-Content-Type: text/plain; charset="iso-8859-1"
-Message-ID: <08.90.17963.34A2B556@GHMG01.great-harvest.local>
+Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.220.29])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1947BCF;
+	Mon, 20 Nov 2023 03:29:49 -0800 (PST)
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by smtp-out2.suse.de (Postfix) with ESMTPS id 864441F85D;
+	Mon, 20 Nov 2023 11:29:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1700479787; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=F4vJXyYyx4PKDOE1oTUwTNljyWQfMCua7+2bkVkhQsM=;
+	b=Sh875DbSQpgjOfXrGI3a2446y/EiV6pRDrmzBTbf1hq65B4HGVf+raFtlcrf3Lbrx8Yacs
+	Cw8Qo6/MtLNU7BiHE7HTTnbrpmPI0VNJuqxyc9XbfkWI0lq0XuvlCnSUy6/Ch/DI4yQt+7
+	kbh8AkusBNB5JQj6I8zrT8n24eJ4fbc=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1700479787;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=F4vJXyYyx4PKDOE1oTUwTNljyWQfMCua7+2bkVkhQsM=;
+	b=6yVY8yRiZmZptSpDBE3ZiqQaMtWjLJ1vBOjcyxeZ9/sgFTeXDcTW+PIk09fCYeP5fYyw/X
+	JN2poACRXz+TDpCg==
+Received: from imap2.suse-dmz.suse.de (imap2.suse-dmz.suse.de [192.168.254.74])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-521) server-digest SHA512)
+	(No client certificate requested)
+	by imap2.suse-dmz.suse.de (Postfix) with ESMTPS id 5F08013499;
+	Mon, 20 Nov 2023 11:29:47 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([192.168.254.65])
+	by imap2.suse-dmz.suse.de with ESMTPSA
+	id Cy7EFStDW2WrOAAAMHmgww
+	(envelope-from <tzimmermann@suse.de>); Mon, 20 Nov 2023 11:29:47 +0000
+Message-ID: <b76d22af-9b22-4869-bd68-3311bac3a7db@suse.de>
+Date: Mon, 20 Nov 2023 12:29:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Description: Mail message body
-Subject: Investment Expression of Interest (IEOI)
-To: linux-media@vger.kernel.org
-From: "Ramadan Ahmad" <Ahmadramcfa03@pobox.com>
-Date: Mon, 20 Nov 2023 10:43:30 +0100
-Reply-To: finance@almnadrinvestment.com
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrJJMWRmVeSWpSXmKPExsVySOpAjq6LVnSqwYLHPBY9G7ayOjB6fN4k
-	F8AYxWWTkpqTWZZapG+XwJXx9N1k1oJDzBV3n65kbGD8wNTFyMkhIWAicfDAPmYQW0hgH5NE
-	Q48miM0soCdxY+oUNhCbV8BWYtqlHkYIW1Di5MwnLBA12hLLFr4G6uUAstUkvnaVgISFBQwl
-	nh65ClYuIiAv8aT3BhtICZuAvsTcTXkgYRYBVYmb626yQ2xVlzg/9QrTBEaeWUgWz0KybBaS
-	ZbMQli1gZFnFKOXu4etuYKiXXpSaWKKbkVhUllpcopeTn5yYs4kRGDoHVnCp7WD8OOmj3iFG
-	Jg7GQ4wSHMxKIrzfhCJShXhTEiurUovy44tKc1KLDzFKc7AoifMGBEjFCwmkJ5akZqemFqQW
-	wWSZODilGpgUmNMFr2zeYXpaJeSr1YGbS35+6Hk5fe6PqIYvu6Z1rddb7+Fwaoum2dqdh+wf
-	S7bKS1vcijvVfMHP1ePc2WTuW/oO58/+2Lrgu8cVEcPXJwrjt678d+D/5Q+mDM6TVIoNPp/9
-	pvr7RBgLz9Srjocl0w71zJu1dO9txdVhBSGtlXUH+AKP6182YeKMfP2ywqTk28zFU2NfH4nj
-	aX34sUkuMMvoVVti0N5LHm6LPuUf3zr90bKiaesr/hrM6D88X7R5zbopx7dKJRs8rZ1/jP8P
-	y5tr350Mq8uOXIuZsCniyuWkS1OnaNTtmfAo5vL36+X3/2yblnP2XUB8zeQrmZvPzJlkO4P7
-	7EqdiFmZ37tzjGcosRRnJBpqMRcVJwIAkOEkIIwCAAA=
-X-Spam-Level: ***
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 20/32] media/ivtvfb: Initialize fb_ops to fbdev I/O-memory
+ helpers
+Content-Language: en-US
+To: Hans Verkuil <hverkuil@xs4all.nl>, deller@gmx.de, javierm@redhat.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andy Walls <awalls@md.metrocast.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <20231115102954.7102-1-tzimmermann@suse.de>
+ <20231115102954.7102-21-tzimmermann@suse.de>
+ <3103e3a1-7dfd-4db0-b67e-b8857b8027e7@xs4all.nl>
+From: Thomas Zimmermann <tzimmermann@suse.de>
+Autocrypt: addr=tzimmermann@suse.de; keydata=
+ xsBNBFs50uABCADEHPidWt974CaxBVbrIBwqcq/WURinJ3+2WlIrKWspiP83vfZKaXhFYsdg
+ XH47fDVbPPj+d6tQrw5lPQCyqjwrCPYnq3WlIBnGPJ4/jreTL6V+qfKRDlGLWFjZcsrPJGE0
+ BeB5BbqP5erN1qylK9i3gPoQjXGhpBpQYwRrEyQyjuvk+Ev0K1Jc5tVDeJAuau3TGNgah4Yc
+ hdHm3bkPjz9EErV85RwvImQ1dptvx6s7xzwXTgGAsaYZsL8WCwDaTuqFa1d1jjlaxg6+tZsB
+ 9GluwvIhSezPgnEmimZDkGnZRRSFiGP8yjqTjjWuf0bSj5rUnTGiyLyRZRNGcXmu6hjlABEB
+ AAHNJ1Rob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPsLAjgQTAQgAOAIb
+ AwULCQgHAgYVCgkICwIEFgIDAQIeAQIXgBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftODH
+ AAoJEGgNwR1TC3ojx1wH/0hKGWugiqDgLNXLRD/4TfHBEKmxIrmfu9Z5t7vwUKfwhFL6hqvo
+ lXPJJKQpQ2z8+X2vZm/slsLn7J1yjrOsoJhKABDi+3QWWSGkaGwRJAdPVVyJMfJRNNNIKwVb
+ U6B1BkX2XDKDGffF4TxlOpSQzdtNI/9gleOoUA8+jy8knnDYzjBNOZqLG2FuTdicBXblz0Mf
+ vg41gd9kCwYXDnD91rJU8tzylXv03E75NCaTxTM+FBXPmsAVYQ4GYhhgFt8S2UWMoaaABLDe
+ 7l5FdnLdDEcbmd8uLU2CaG4W2cLrUaI4jz2XbkcPQkqTQ3EB67hYkjiEE6Zy3ggOitiQGcqp
+ j//OwE0EWznS4AEIAMYmP4M/V+T5RY5at/g7rUdNsLhWv1APYrh9RQefODYHrNRHUE9eosYb
+ T6XMryR9hT8XlGOYRwKWwiQBoWSDiTMo/Xi29jUnn4BXfI2px2DTXwc22LKtLAgTRjP+qbU6
+ 3Y0xnQN29UGDbYgyyK51DW3H0If2a3JNsheAAK+Xc9baj0LGIc8T9uiEWHBnCH+RdhgATnWW
+ GKdDegUR5BkDfDg5O/FISymJBHx2Dyoklv5g4BzkgqTqwmaYzsl8UxZKvbaxq0zbehDda8lv
+ hFXodNFMAgTLJlLuDYOGLK2AwbrS3Sp0AEbkpdJBb44qVlGm5bApZouHeJ/+n+7r12+lqdsA
+ EQEAAcLAdgQYAQgAIAIbDBYhBHIX+6yM6c9jRKFo5WgNwR1TC3ojBQJftOH6AAoJEGgNwR1T
+ C3ojVSkIALpAPkIJPQoURPb1VWjh34l0HlglmYHvZszJWTXYwavHR8+k6Baa6H7ufXNQtThR
+ yIxJrQLW6rV5lm7TjhffEhxVCn37+cg0zZ3j7zIsSS0rx/aMwi6VhFJA5hfn3T0TtrijKP4A
+ SAQO9xD1Zk9/61JWk8OysuIh7MXkl0fxbRKWE93XeQBhIJHQfnc+YBLprdnxR446Sh8Wn/2D
+ Ya8cavuWf2zrB6cZurs048xe0UbSW5AOSo4V9M0jzYI4nZqTmPxYyXbm30Kvmz0rYVRaitYJ
+ 4kyYYMhuULvrJDMjZRvaNe52tkKAvMevcGdt38H4KSVXAylqyQOW5zvPc4/sq9c=
+In-Reply-To: <3103e3a1-7dfd-4db0-b67e-b8857b8027e7@xs4all.nl>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------th4kWWp1ZDcYmoeqYHDz4X0N"
+Authentication-Results: smtp-out2.suse.de;
+	none
+X-Spam-Level: 
+X-Spam-Score: -9.29
+X-Spamd-Result: default: False [-9.29 / 50.00];
+	 ARC_NA(0.00)[];
+	 RCVD_VIA_SMTP_AUTH(0.00)[];
+	 XM_UA_NO_VERSION(0.01)[];
+	 FROM_HAS_DN(0.00)[];
+	 TO_DN_SOME(0.00)[];
+	 FREEMAIL_ENVRCPT(0.00)[gmx.de,xs4all.nl];
+	 TO_MATCH_ENVRCPT_ALL(0.00)[];
+	 MIME_GOOD(-0.20)[multipart/signed,multipart/mixed,text/plain];
+	 HAS_ATTACHMENT(0.00)[];
+	 REPLY(-4.00)[];
+	 MIME_BASE64_TEXT_BOGUS(1.00)[];
+	 BAYES_HAM(-3.00)[100.00%];
+	 NEURAL_HAM_LONG(-1.00)[-1.000];
+	 DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	 NEURAL_HAM_SHORT(-0.20)[-1.000];
+	 MIME_BASE64_TEXT(0.10)[];
+	 RCPT_COUNT_SEVEN(0.00)[8];
+	 SIGNED_PGP(-2.00)[];
+	 FREEMAIL_TO(0.00)[xs4all.nl,gmx.de,redhat.com];
+	 FUZZY_BLOCKED(0.00)[rspamd.com];
+	 FROM_EQ_ENVFROM(0.00)[];
+	 MIME_TRACE(0.00)[0:+,1:+,2:+,3:~];
+	 RCVD_COUNT_TWO(0.00)[2];
+	 RCVD_TLS_ALL(0.00)[];
+	 MID_RHS_MATCH_FROM(0.00)[]
 
-Attn: linux-media@vger.kernel.org
-Date: 20-11-2023
-Subject: Investment Expression of Interest (IEOI)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------th4kWWp1ZDcYmoeqYHDz4X0N
+Content-Type: multipart/mixed; boundary="------------Y3wD0kn1if6ZFoVnVaBfgcO0";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Hans Verkuil <hverkuil@xs4all.nl>, deller@gmx.de, javierm@redhat.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andy Walls <awalls@md.metrocast.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+Message-ID: <b76d22af-9b22-4869-bd68-3311bac3a7db@suse.de>
+Subject: Re: [PATCH 20/32] media/ivtvfb: Initialize fb_ops to fbdev I/O-memory
+ helpers
+References: <20231115102954.7102-1-tzimmermann@suse.de>
+ <20231115102954.7102-21-tzimmermann@suse.de>
+ <3103e3a1-7dfd-4db0-b67e-b8857b8027e7@xs4all.nl>
+In-Reply-To: <3103e3a1-7dfd-4db0-b67e-b8857b8027e7@xs4all.nl>
 
-Dear Sir,
+--------------Y3wD0kn1if6ZFoVnVaBfgcO0
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
 
-Having been referred to your investment by my team, we would be honored to =
-review your available investment projects for onward referral to my princip=
-al investors who can allocate capital for the financing of it.
+SGkNCg0KQW0gMjAuMTEuMjMgdW0gMDk6NTIgc2NocmllYiBIYW5zIFZlcmt1aWw6DQo+IEhp
+IFRob21hcywNCj4gDQo+IE9uIDE1LzExLzIwMjMgMTE6MTksIFRob21hcyBaaW1tZXJtYW5u
+IHdyb3RlOg0KPj4gSW5pdGlhbGl6ZSB0aGUgaW5zdGFuY2Ugb2Ygc3RydWN0IGZiX29wcyB3
+aXRoIGZiZGV2IGluaXRpYWxpemVyDQo+PiBtYWNyb3MgZm9yIGZyYW1lYnVmZmVycyBpbiBJ
+L08gYWRkcmVzcyBzcGFjZS4gVGhpcyBleHBsaWN0aWx5IHNldHMNCj4+IHRoZSByZWFkL3dy
+aXRlLCBkcmF3IGFuZCBtbWFwIGNhbGxiYWNrcyB0byB0aGUgY29ycmVjdCBkZWZhdWx0DQo+
+PiBpbXBsZW1lbnRhdGlvbi4NCj4+DQo+PiBGYmRldiBkcml2ZXJzIHNvbWV0aW1lcyByZWx5
+IG9uIHRoZSBjYWxsYmFja3MgYmVpbmcgTlVMTCBmb3IgYQ0KPj4gZGVmYXVsdCBpbXBsZW1l
+bnRhdGlvbiB0byBiZSBpbnZva2VkOyBoZW5jZSByZXF1aXJlaW5nIHRoZSBJL08NCj4+IGhl
+bHBlcnMgdG8gYmUgYnVpbHQgaW4gYW55IGNhc2UuIFNldHRpbmcgYWxsIGNhbGxiYWNrcyBp
+biBhbGwNCj4+IGRyaXZlcnMgZXhwbGljaXRseSB3aWxsIGFsbG93IHRvIG1ha2UgdGhlIEkv
+TyBoZWxwZXJzIG9wdGlvbmFsLg0KPj4gVGhpcyBiZW5lZml0cyBzeXN0ZW1zIHRoYXQgZG8g
+bm90IHVzZSB0aGVzZSBmdW5jdGlvbnMuDQo+Pg0KPj4gU2V0IHRoZSBjYWxsYmFja3Mgdmlh
+IG1hY3Jvcy4gTm8gZnVuY3Rpb25hbCBjaGFuZ2VzLg0KPiANCj4gTWFrZXMgc2Vuc2UsIHNo
+YWxsIEkgcGljayB1cCB0aGlzIHBhdGNoPw0KPiANCj4gSWYgeW91IHByZWZlciB0byB0YWtl
+IGl0LCB0aGVuIHlvdSBjYW4gYWRkOg0KPiANCj4gUmV2aWV3ZWQtYnk6IEhhbnMgVmVya3Vp
+bCA8aHZlcmt1aWwtY2lzY29AeHM0YWxsLm5sPg0KDQpUaGFua3MuIFRoZSBzZXJpZXMnIGZp
+bmFsIHBhdGNoZXMgZGVwZW5kIG9uIHRoaXMgb25lLiBJJ2QgcHJlZmVyYWJseSANCm1lcmdl
+IGl0IGF0IG9uY2UgdGhyb3VnaCBkcm0tbWlzYy4NCg0KQmVzdCByZWdhcmRzDQpUaG9tYXMN
+Cg0KPiANCj4gUmVnYXJkcywNCj4gDQo+IAlIYW5zDQo+IA0KPj4NCj4+IFNpZ25lZC1vZmYt
+Ynk6IFRob21hcyBaaW1tZXJtYW5uIDx0emltbWVybWFubkBzdXNlLmRlPg0KPj4gQ2M6IEFu
+ZHkgV2FsbHMgPGF3YWxsc0BtZC5tZXRyb2Nhc3QubmV0Pg0KPj4gQ2M6IE1hdXJvIENhcnZh
+bGhvIENoZWhhYiA8bWNoZWhhYkBrZXJuZWwub3JnPg0KPj4gQ2M6IGxpbnV4LW1lZGlhQHZn
+ZXIua2VybmVsLm9yZw0KPj4gLS0tDQo+PiAgIGRyaXZlcnMvbWVkaWEvcGNpL2l2dHYvS2Nv
+bmZpZyAgfCA0ICstLS0NCj4+ICAgZHJpdmVycy9tZWRpYS9wY2kvaXZ0di9pdnR2ZmIuYyB8
+IDYgKysrLS0tDQo+PiAgIDIgZmlsZXMgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspLCA2IGRl
+bGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9kcml2ZXJzL21lZGlhL3BjaS9pdnR2
+L0tjb25maWcgYi9kcml2ZXJzL21lZGlhL3BjaS9pdnR2L0tjb25maWcNCj4+IGluZGV4IDli
+ZTUyMTAxYmM0ZjIuLjI0OThmOTA3OWI3NTYgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL21l
+ZGlhL3BjaS9pdnR2L0tjb25maWcNCj4+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGNpL2l2dHYv
+S2NvbmZpZw0KPj4gQEAgLTQ4LDkgKzQ4LDcgQEAgY29uZmlnIFZJREVPX0lWVFZfQUxTQQ0K
+Pj4gICBjb25maWcgVklERU9fRkJfSVZUVg0KPj4gICAJdHJpc3RhdGUgIkNvbmV4YW50IGN4
+MjM0MTUgZnJhbWVidWZmZXIgc3VwcG9ydCINCj4+ICAgCWRlcGVuZHMgb24gVklERU9fSVZU
+ViAmJiBGQg0KPj4gLQlzZWxlY3QgRkJfQ0ZCX0ZJTExSRUNUDQo+PiAtCXNlbGVjdCBGQl9D
+RkJfQ09QWUFSRUENCj4+IC0Jc2VsZWN0IEZCX0NGQl9JTUFHRUJMSVQNCj4+ICsJc2VsZWN0
+IEZCX0lPTUVNX0hFTFBFUlMNCj4+ICAgCWhlbHANCj4+ICAgCSAgVGhpcyBpcyBhIGZyYW1l
+YnVmZmVyIGRyaXZlciBmb3IgdGhlIENvbmV4YW50IGN4MjM0MTUgTVBFRw0KPj4gICAJICBl
+bmNvZGVyL2RlY29kZXIuDQo+PiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wY2kvaXZ0
+di9pdnR2ZmIuYyBiL2RyaXZlcnMvbWVkaWEvcGNpL2l2dHYvaXZ0dmZiLmMNCj4+IGluZGV4
+IDIzYzhjMDk0ZTc5MWIuLjQxMDQ3N2UzZTYyMTYgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJz
+L21lZGlhL3BjaS9pdnR2L2l2dHZmYi5jDQo+PiArKysgYi9kcml2ZXJzL21lZGlhL3BjaS9p
+dnR2L2l2dHZmYi5jDQo+PiBAQCAtOTI3LDE3ICs5MjcsMTcgQEAgc3RhdGljIGludCBpdnR2
+ZmJfYmxhbmsoaW50IGJsYW5rX21vZGUsIHN0cnVjdCBmYl9pbmZvICppbmZvKQ0KPj4gICAN
+Cj4+ICAgc3RhdGljIGNvbnN0IHN0cnVjdCBmYl9vcHMgaXZ0dmZiX29wcyA9IHsNCj4+ICAg
+CS5vd25lciA9IFRISVNfTU9EVUxFLA0KPj4gKwkuZmJfcmVhZCAgICAgICAgPSBmYl9pb19y
+ZWFkLA0KPj4gICAJLmZiX3dyaXRlICAgICAgID0gaXZ0dmZiX3dyaXRlLA0KPj4gICAJLmZi
+X2NoZWNrX3ZhciAgID0gaXZ0dmZiX2NoZWNrX3ZhciwNCj4+ICAgCS5mYl9zZXRfcGFyICAg
+ICA9IGl2dHZmYl9zZXRfcGFyLA0KPj4gICAJLmZiX3NldGNvbHJlZyAgID0gaXZ0dmZiX3Nl
+dGNvbHJlZywNCj4+IC0JLmZiX2ZpbGxyZWN0ICAgID0gY2ZiX2ZpbGxyZWN0LA0KPj4gLQku
+ZmJfY29weWFyZWEgICAgPSBjZmJfY29weWFyZWEsDQo+PiAtCS5mYl9pbWFnZWJsaXQgICA9
+IGNmYl9pbWFnZWJsaXQsDQo+PiArCV9fRkJfREVGQVVMVF9JT01FTV9PUFNfRFJBVywNCj4+
+ICAgCS5mYl9jdXJzb3IgICAgICA9IE5VTEwsDQo+PiAgIAkuZmJfaW9jdGwgICAgICAgPSBp
+dnR2ZmJfaW9jdGwsDQo+PiAgIAkuZmJfcGFuX2Rpc3BsYXkgPSBpdnR2ZmJfcGFuX2Rpc3Bs
+YXksDQo+PiAgIAkuZmJfYmxhbmsgICAgICAgPSBpdnR2ZmJfYmxhbmssDQo+PiArCV9fRkJf
+REVGQVVMVF9JT01FTV9PUFNfTU1BUCwNCj4+ICAgfTsNCj4+ICAgDQo+PiAgIC8qIFJlc3Rv
+cmUgaGFyZHdhcmUgYWZ0ZXIgZmlybXdhcmUgcmVzdGFydCAqLw0KPiANCg0KLS0gDQpUaG9t
+YXMgWmltbWVybWFubg0KR3JhcGhpY3MgRHJpdmVyIERldmVsb3Blcg0KU1VTRSBTb2Z0d2Fy
+ZSBTb2x1dGlvbnMgR2VybWFueSBHbWJIDQpGcmFua2Vuc3RyYXNzZSAxNDYsIDkwNDYxIE51
+ZXJuYmVyZywgR2VybWFueQ0KR0Y6IEl2byBUb3RldiwgQW5kcmV3IE15ZXJzLCBBbmRyZXcg
+TWNEb25hbGQsIEJvdWRpZW4gTW9lcm1hbg0KSFJCIDM2ODA5IChBRyBOdWVybmJlcmcpDQo=
 
-kindly advise at your convenience
 
-Best Regards,
-Ramadan Ahmad CFA
-Chartered Finance Investment Analyst
+--------------Y3wD0kn1if6ZFoVnVaBfgcO0--
+
+--------------th4kWWp1ZDcYmoeqYHDz4X0N
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAmVbQyoFAwAAAAAACgkQlh/E3EQov+B9
+zRAAs0Fyac7IuPdV2ILsbCZjAJuhAYkYZzxrGzkmNf0aXzm7oy4aINEPSchjDRrFYyj9TL7JEYKy
+dVweLlbmaR7ku2lhaZrE6IwELczlxxwZcR3XX7X1nBIZejOFOBN4Awv+OOsn2mRKcWKgaHvHFnlx
+75H2npyyaDp7oE1NFmMczbCE5ZOpaoPHm1onU8VdDyC6HBcib5OrN6mDtb6CpwR3+2gnMNwHWHv2
+0a+CELAu8pWsYymjPgGc92PeJewfE+hPNLVaS/qO4uk8gFcqkINdX1qxc7On0BHHkY25Q0o1OBls
+aqPLCYpFNEQhB8vPnwBkluZOFq3eJzGzaG/KeAC9gMn2p5Dbh/7jUSq8aW2YrPIgjJ4tSIz7678x
+Wvn8QQflXRYvzlJHLVuQACJTiTW1VsA9DXEPJ2ZH9dFyOfMqoCdqwScgV8RaaSsFclQYkCST9GoZ
+BDgLEvjsnS5wzZXgLKd9uEf47owxdZG/d/rRPmdp2cD0R1kmssVAIUWfwb1CRL2jiLrmnU0pxebe
+xRebTYfOv8qrcBOdjxY3F9PdknS0IvPXM+uWC2/XP/vWwMZIfxx4bX3DpimI+1e/REIhzs0mQXG8
+KTcrus34iCvjqnn3HMaUe1gRaR32xyuTdkYWdpY75x+jWPiIYI/cSSdKaiXOFBAEln9H1YVnFD1A
+phA=
+=srht
+-----END PGP SIGNATURE-----
+
+--------------th4kWWp1ZDcYmoeqYHDz4X0N--
 
