@@ -1,171 +1,168 @@
-Return-Path: <linux-media+bounces-597-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-598-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C46F67F0F98
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 10:58:54 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 913127F0F9D
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 11:00:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 00B501C2114F
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 09:58:54 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EFB13B2135A
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 10:00:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4201F125C3;
-	Mon, 20 Nov 2023 09:58:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8782F125D8;
+	Mon, 20 Nov 2023 09:59:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Xf81EliQ"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZXDVaxP/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A64C8F
-	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 01:58:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1700474324;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=332vkApsXHsrWIjkkuK5LmA8mBeV5SS3dbZDWGiD6U0=;
-	b=Xf81EliQLDeRBTqlp+X/t+i48fkRmwiGit6333ZfpG1BCcsbz48nTwECMOz2clWm/tfNlb
-	gdvp3JR+NadR7LL4RMDqGl+3fjenZ7QTISD9uP9Ta+qlaStnzYqI58KySnBdHGNQSzb0KJ
-	F+/yrZ3fhg7l9mDq7yWBuHDXBUMi6oU=
-Received: from mail-ej1-f70.google.com (mail-ej1-f70.google.com
- [209.85.218.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-258-kYQR9Cf1MQ6y-ExReyUDjg-1; Mon, 20 Nov 2023 04:58:43 -0500
-X-MC-Unique: kYQR9Cf1MQ6y-ExReyUDjg-1
-Received: by mail-ej1-f70.google.com with SMTP id a640c23a62f3a-9e15f05c3ceso293332466b.3
-        for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 01:58:43 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700474322; x=1701079122;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=332vkApsXHsrWIjkkuK5LmA8mBeV5SS3dbZDWGiD6U0=;
-        b=Io13+8bBorMKQ09eONJv34L3amO01UzSP3iT2iWy6hZ1lCnqXewiz2LbMyHdVeftvV
-         oiMPHBa+AeAjbOoTNVexs7EGnTMvlplCUvU+J/FGuI1vS3Ijro83RnjWjXo2sBRUvtEU
-         OTSpT+zZM+cmpLNBxRrI7ryq6BxWzYJtDL89egjQUqBd4/JPHqztPlgpMPxiM6QUbg8s
-         MOYMlC9CCFkMqUITKbnnq/TmQappVbnoJxlGSBCmtsTN3c3yB+pz/JqV1aYD+nxbZ5yM
-         4y5CdXy5YQzlAlS6HMhlGukaYOjUEcpb+kubAwlbpjFDyEXVgFjeRRx119t8xlVnxftz
-         OTsA==
-X-Gm-Message-State: AOJu0YwvFOcUj3d4bfTPLGzHxtL0WNO4BpuiQOALro7X+R8+4VEhYJKE
-	6uMD2F3P/SN8ZeW0Ab10SnoqdvhozVA1OQmLlkfXgWgGuH//fzzYlIQAIlw9IMqbalrhY5SyNKH
-	sdpBFVadV1Fri5q4zmpusKms=
-X-Received: by 2002:a17:906:1c91:b0:9bf:889e:32a4 with SMTP id g17-20020a1709061c9100b009bf889e32a4mr5355124ejh.54.1700474322275;
-        Mon, 20 Nov 2023 01:58:42 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IFyDXvYx6FbES6ogVQOhacFJ8I0goE4dQ0+LonCW75hzsBEXZTSnHMR9VgVP+5zkawos7Vb2A==
-X-Received: by 2002:a17:906:1c91:b0:9bf:889e:32a4 with SMTP id g17-20020a1709061c9100b009bf889e32a4mr5355110ejh.54.1700474321951;
-        Mon, 20 Nov 2023 01:58:41 -0800 (PST)
-Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
-        by smtp.gmail.com with ESMTPSA id dx25-20020a170906a85900b009f826f1238esm3565520ejb.100.2023.11.20.01.58.41
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Nov 2023 01:58:41 -0800 (PST)
-Message-ID: <9960589d-a91b-4edf-ba42-c6331ecc4cb8@redhat.com>
-Date: Mon, 20 Nov 2023 10:58:40 +0100
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2071.outbound.protection.outlook.com [40.107.94.71])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 65CAC95;
+	Mon, 20 Nov 2023 01:59:54 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=KSNoqBDHIQ7VRGPH3wrOZh78CCxdqKAiCa49ky/Z0OOjUhIIBrhRqtxZp0kofZnPWTIywZ0IZuGo8cmX/OCQvhpMn/uyF5p2l38MYnznc3pY1QK+ype5jk/y8y0ol1q6mXXqq85xG3gTPYMCzzJrb+r8v1+6znzCYGjNkGlA/1rfx0OkEtttv7pLB/MdCiFzTNS7TnLGB0TMWwh2HbPKJE343gXr6kfpHYYIns5fGduX08oZtsD+JXwn/KlQzj61ij1+GctlOgrTU4HPQznc/k1BK4v3IbkSMg4HFSBtdMVlZgtmTUMDdLbdP4JCSHR8WF64ByDINp8rpVHWOqPvFQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AFrh/sC7ndqdMaGUxMamCl3xy+XKX/8AaSQFawSJf2c=;
+ b=hZouQWpLBmO+SZcFwSsHnxZjaPkx68RIDQpPmPCG3XneW3vuEd77FFmAoNvRzjsFx/8osje9c7cCzEOj4mmEdCy2CMZI9YE61dguO/SiKq2p5Y9b5Td97458DWLHQAPOyLQMqnhfB1tkODkvnixadloVaCwCv4aE6wEbcT2D5kgSZydKHlGlGc1qPJ/si+2nd75OC3gGVfq6t8rzFjCXMkk+7w6tpMF+WiijDnuQ47Wa/QLJ38dT2MfMNXvpCzhFE2ipQFoAOaHLiiX8lqCxtW6ldJ50+rSuwWzTeM8OA1P1HYvbCJsPuvUzDU96sipMVolwL25uh9Fr5MXZGT7rHA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AFrh/sC7ndqdMaGUxMamCl3xy+XKX/8AaSQFawSJf2c=;
+ b=ZXDVaxP/IDbd7mUlciA5kKraxuIUlZIWqmTJ3O7irmcqdvERKi5yyqMAZKUkbcZygAkjVqCYRu76YlUoXZKMO7EeUTF+cXVXthQ+0k4hc/WmV0dzOT7kA3Gy+JcR3JxJAVvNOo5rESyd5Qg7hcyAYDMGE7ogT/6PyQwAWJhiW48=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by MW3PR12MB4523.namprd12.prod.outlook.com (2603:10b6:303:5b::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Mon, 20 Nov
+ 2023 09:59:50 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7002.027; Mon, 20 Nov 2023
+ 09:59:50 +0000
+Message-ID: <4ff92772-9194-42db-b8af-8024e1fdf59f@amd.com>
+Date: Mon, 20 Nov 2023 10:59:45 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: Replace strlcpy() with strscpy()
+Content-Language: en-US
+To: "T.J. Mercier" <tjmercier@google.com>, Kees Cook <keescook@chromium.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Azeem Shaikh <azeemshaikh38@gmail.com>,
+ linaro-mm-sig@lists.linaro.org, linux-hardening@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20231116191409.work.634-kees@kernel.org>
+ <CABdmKX1oNw+quAd+ALcgGoz-PPsvy=O6YM4f2_SmP+dQBddzAA@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CABdmKX1oNw+quAd+ALcgGoz-PPsvy=O6YM4f2_SmP+dQBddzAA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR3P281CA0154.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:a2::7) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: ov2740: Add support for reset GPIO
-Content-Language: en-US, nl
-To: Bingbu Cao <bingbu.cao@linux.intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Tianshu Qiu <tian.shu.qiu@intel.com>, Bingbu Cao <bingbu.cao@intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Kate Hsuan <hpa@redhat.com>,
- linux-media@vger.kernel.org
-References: <20231115123817.196252-1-hdegoede@redhat.com>
- <20231115123817.196252-2-hdegoede@redhat.com>
- <8a2988c5-e01d-1515-b908-2e28a6545120@linux.intel.com>
-From: Hans de Goede <hdegoede@redhat.com>
-In-Reply-To: <8a2988c5-e01d-1515-b908-2e28a6545120@linux.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|MW3PR12MB4523:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8fd0e950-2d36-4e28-a66b-08dbe9af6f43
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	jvhKcHeoH3d+DNh2eztHUQeuZdT67txD0KPKCwosdqLqoWYGcKuisRlvSOB1EhGcTXXRLGOLHMoCiLeF6+kXMg9q1h1nH38KuqmMPuqMLboH9RXD6KL267RDH81CLjLn4bS5tkAaeWJbSG9DkO8TxqRd60dmgjtkMMbfA5HTwBGw+aLGf7xkJol59/jhlgyk0G0NW4ElT7fOS4YEwL6Lbrl4QD/CU7wGMNnuQAUtDobBW+YlqlVhxUDnm/SI+tUbxYRoEQtkEbZcmqQyGaLZsPm518UrI7UJsqKWUAC61FS8mD/9g5mzq+MXNDp4+K7a+R0w7ClaVfnMexdsvyjLRvqk21Euz2hf2/r/Zz6d32TdUTKhYotGDcRFgScp/I46w324BldTRqMT7kDtZDkFl/ZFIIhsiO2corWHMQenD/8FPgwWA0W5RD/Wtse8JwyRavCXWBU+noaQm+Y2hEhmfIUcMocSGc8LHAifX1ujrapkf6jQABQRtBnRWroG0WIHpiM+YdSoPTggM+EhhIjESCCQHTvycZSXXSHXFlY9FZ3jn6yb8gbGM//NYZmoxcji4mZYB4Xm+3IHeHtVSBXYPXDg3Qfs/5FUEcDdcSqfyxNXkki3FrnphSxkEbnRNg7dKTblCAC05oBkSfUQAieSlZbZHIVtQxcy2vVZJSHh7MeRUzr1ORyBFQJbERxO9Ju6
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(136003)(396003)(376002)(39860400002)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(2906002)(8936002)(4326008)(8676002)(5660300002)(38100700002)(86362001)(31696002)(41300700001)(36756003)(2616005)(6512007)(26005)(6666004)(53546011)(6506007)(31686004)(83380400001)(66574015)(478600001)(66556008)(66946007)(66476007)(54906003)(110136005)(316002)(966005)(6486002)(43740500002)(45980500001);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?MjA2ekIwZDhNemZFYVArYmNkdWVwZ3EvYWswek83eGpDYi8xUUM2MWJlWndt?=
+ =?utf-8?B?bXZBV0szeU9Yb1dKbjVNTDhWRDI0SnBjT0VKMVdFRGVNUVBXU3NuaGtqM0ly?=
+ =?utf-8?B?a0ZYRzZmU1ZVSmFhbmhwL2dPcmRhS3pRZktoUHAzbVZGamR6Z0crbXNUZHR6?=
+ =?utf-8?B?SVQ2SWxsZ3NCQ2p3alkrOU15R3lLN24xb0hhWnpLVE9ZajdKMGE2NzlVbDRS?=
+ =?utf-8?B?Nkl5WnNPeURHSFFuSkpBLzM2MU8wRUNqYUVPc1YrQ0s0eXNFdnQwanpoT1NC?=
+ =?utf-8?B?NCtuM0VVMGZJb29FN2QzYkltdHhZdzM2RDdWVG1KY3ZWRGFSSG5ZdTlqcSt5?=
+ =?utf-8?B?QVlMc3Axd3NKcmdwUVloa0VLanZHSkpDRldvSWR6SUNCQUtscGl5SWVCOUR2?=
+ =?utf-8?B?M3RURE1PeHJjcXBnSWtNVmpaeWdzWDFETmIzQkJNMzhZcVRTbklSMHg1Y3py?=
+ =?utf-8?B?L2lvbzJjZlFDK0lCcGorYzdhTHpmaVYvZUNIcWpnYkd0clBYeXJSclJDQ2Nk?=
+ =?utf-8?B?Yk1xcWFrd3o4djhTQjloNHlBZUZHNHpXazlyTTdiMUtnZUp1OFhQc3p2YVRk?=
+ =?utf-8?B?RDUrZTRXUXJBUXNWVlIvT2NVM09UMGJ0TWFiVEdpRmNVZG1SOExMVWpUK3ho?=
+ =?utf-8?B?OTdzcmI4MklwSTJxaGIyUEhQYTU0MCtYOFJLN2JhV3kyaEMwdzIyZ3BlcnIw?=
+ =?utf-8?B?aTJUOEdqU3ZEU0JJMWFDUkxjZHUrRW5tMitZVDcvdngwdnRHTHZITHl5b0s0?=
+ =?utf-8?B?R2EvOVVvc0pjRTdCMXRPQWtFVktNMmdoSmNsbVRNTFlsRC9xZTd4NmxXbkl4?=
+ =?utf-8?B?eVZVYURucXNnMTY2QVZGSXlyeUkrVkcyYUN0VGdjWG1kUlZwUkdqNW90UWZI?=
+ =?utf-8?B?Wk1BQ2xXSjZTRVBWUTQ0bk45TmkwNTk5cUdFb3BOVUdFaDd2VlRCSWJZQk43?=
+ =?utf-8?B?aGRCZGJiZXNhVWZoWDQ0MjlEbFh0S3grVkRwVG5GSFRBQ0k1NzROaGVYU1l1?=
+ =?utf-8?B?UU5VZUY5YVI3RCthY0ZPL0Yxekg4YkdoaVVPbXNDNzh5YkZkZ2NMVzhkcEJY?=
+ =?utf-8?B?VUFpR05wWTBYTTFjYlRpR0NsUXNRaVRHUjFrNmxRSmk0Z2lweXhOOVBwTTI0?=
+ =?utf-8?B?YUF5U1VpSjBhZW1MaU9qcXY2V3dMSnN1bFRjUmkxKzhQTXNUUEdnZXRRemUv?=
+ =?utf-8?B?ZDcrUE8yYkt0cmh5WFJXWS9tT3YrdmEyRE9wRkY5TEw2M1pLREVZcGJnK2FS?=
+ =?utf-8?B?anRjOTZzeEhGOFVTT0VqWG0xcURNTCszZjRXK2JwTlFUcFZjR2VDM1ljbmdo?=
+ =?utf-8?B?YjU0VUtZYnJCd1V5WGNRWnRHNFprTzhKQU9pN3J5dEdQYjVSK3lEVGpFdSs4?=
+ =?utf-8?B?MlRSK0lzOExsVzljdEJ1K3NwQ1B2ZzJ4VEJQeTZjL2h4OTlpU3ZoZEpxcnA3?=
+ =?utf-8?B?dzlPb1dMY3N2WE1hNWlaOWxuZ2NNMnQxS1dxTUZTS0VkUVJzZFNrQmh1TkRs?=
+ =?utf-8?B?WlQvQ01nVFZUNE0zeFBLUmpQWlZlRG9yM3h0eUQxK1ZQY3RrM0gxNTdyYUl1?=
+ =?utf-8?B?dU5PMHVvZVBqZlplaUFDSUJmWHp5QVhETUdUWlcyWEtyYzVrWTloUVVqUlhw?=
+ =?utf-8?B?N3ZCZnd6MklaNlNwTlRUUE1sMERWOE1RQm11MmVabUVtVmM5QUZXYVB2eHVN?=
+ =?utf-8?B?aGcwZTl5ZGp5a01jWTdPeGE0NHpRVlU1Q2RwN1ZsKzFjbk9lcDhoOVFlcHpG?=
+ =?utf-8?B?OUFMaThzcVpVajFNcWFOblN2Yjk4MXRLeVhvalpRVks4aUU3UGlTNERxRXVw?=
+ =?utf-8?B?dTBMbEJxdVl3ZWEzb0lNVi8rVzgzYnp1TDczR29SRW5hc2c2L1ZQRUEzSUh4?=
+ =?utf-8?B?a04xL0dxYkl3KzNUUjVHbGFFK0w3WEszOW8wZ1kxU3JId3cvTGg4elBhYlls?=
+ =?utf-8?B?QVhpMXFlS2IybmhqRUZRTnpMVFdTNFBvRFdDTkRWR1o4MDdudnkrZFdpYnBE?=
+ =?utf-8?B?azJOQUZKNWkvM1VxanVmZWFrVmdPbEw0YWZUNDloaEV6cVBhSWxYRnhBUDA3?=
+ =?utf-8?B?K1VmTWduTU41ZHhkTE16MkRKRjMyOE5zdFZxOGpwYkUzQ0I0TVBtOWNpQUJt?=
+ =?utf-8?Q?2lhY=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8fd0e950-2d36-4e28-a66b-08dbe9af6f43
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Nov 2023 09:59:50.0857
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: YivVTmkAJGrSyJapH69LLPoAr4pkBBTerGKFYT/cSU663UBMeAQMIDt+MwVkPc45
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW3PR12MB4523
 
-Hi Bingbu,
-
-Thank you for the review!
-
-On 11/20/23 05:04, Bingbu Cao wrote:
-> 
-> Hans,
-> 
-> Thanks for your patch.
-> 
-> On 11/15/23 8:38 PM, Hans de Goede wrote:
->> On some ACPI platforms, such as Chromebooks the ACPI methods to
->> change the power-state (_PS0 and _PS3) fully take care of powering
->> on/off the sensor.
+Am 17.11.23 um 19:50 schrieb T.J. Mercier:
+> On Thu, Nov 16, 2023 at 11:14 AM Kees Cook <keescook@chromium.org> wrote:
+>> strlcpy() reads the entire source buffer first. This read may exceed
+>> the destination size limit. This is both inefficient and can lead
+>> to linear read overflows if a source string is not NUL-terminated[1].
+>> Additionally, it returns the size of the source string, not the
+>> resulting size of the destination string. In an effort to remove strlcpy()
+>> completely[2], replace strlcpy() here with strscpy().
 >>
->> On other ACPI platforms, such as e.g. various ThinkPad models with
->> IPU6 + ov2740 sensor, the sensor driver must control the reset GPIO
->> and the sensor's clock itself.
->>
->> Add support for having the driver control an optional reset GPIO.
->>
->> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
->> ---
->>  drivers/media/i2c/ov2740.c | 48 ++++++++++++++++++++++++++++++++++++--
->>  1 file changed, 46 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
->> index 24e468485fbf..e5f9569a229d 100644
->> --- a/drivers/media/i2c/ov2740.c
->> +++ b/drivers/media/i2c/ov2740.c
->> @@ -4,6 +4,7 @@
->>  #include <asm/unaligned.h>
->>  #include <linux/acpi.h>
->>  #include <linux/delay.h>
->> +#include <linux/gpio/consumer.h>
->>  #include <linux/i2c.h>
->>  #include <linux/module.h>
->>  #include <linux/pm_runtime.h>
->> @@ -333,6 +334,9 @@ struct ov2740 {
->>  	struct v4l2_ctrl *hblank;
->>  	struct v4l2_ctrl *exposure;
->>  
->> +	/* GPIOs, clocks */
-> 
-> It looks like the 'clock' should be in another one (2/2), :).
+>> Link: https://www.kernel.org/doc/html/latest/process/deprecated.html#strlcpy [1]
+>> Link: https://github.com/KSPP/linux/issues/89 [2]
+>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>> Cc: "Christian König" <christian.koenig@amd.com>
+>> Cc: Azeem Shaikh <azeemshaikh38@gmail.com>
+>> Cc: linux-media@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Cc: linaro-mm-sig@lists.linaro.org
+>> Signed-off-by: Kees Cook <keescook@chromium.org>
+> Reviewed-by: T.J. Mercier <tjmercier@google.com>
+>
+> strscpy returns -E2BIG when it truncates / force null-terminates which
+> would provide the wrong argument for dynamic_dname, but
+> dma_buf_set_name{_user} makes sure we have a null-terminated string of
+> the appropriate maximum size in dmabuf->name.
 
-This was intentional to avoid churn in the form of
-immediately changing the comment in the second patch :)
+Thanks for that background check, I was about to note that this might 
+not be a good idea.
 
->> +	struct gpio_desc *reset_gpio;
->> +
->>  	/* Current mode */
->>  	const struct ov2740_mode *cur_mode;
->>  
->> @@ -1058,6 +1062,26 @@ static int ov2740_register_nvmem(struct i2c_client *client,
->>  	return 0;
->>  }
->>  
->> +static int ov2740_suspend(struct device *dev)
->> +{
->> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->> +	struct ov2740 *ov2740 = to_ov2740(sd);
->> +
->> +	gpiod_set_value_cansleep(ov2740->reset_gpio, 1);
->> +	return 0;
->> +}
->> +
->> +static int ov2740_resume(struct device *dev)
->> +{
->> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->> +	struct ov2740 *ov2740 = to_ov2740(sd);
->> +
->> +	gpiod_set_value_cansleep(ov2740->reset_gpio, 0);
->> +	msleep(20);
-> 
-> I remember that usleep_range() is prefered for <=20ms.
+Linus pretty clearly stated that he doesn't want to see patches like 
+that one here, see this article as well. https://lwn.net/Articles/659214/
 
-I think that only applies to msleep <= 10ms, at least
-check-patch is happy with this and I know it complains
-about too short msleep() calls.
+I think the commit message gives enough reason to merge the patch, so 
+I'm going to push it to drm-misc-next. But please make sure to triple 
+check stuff like this before sending.
 
-Regards,
-
-Hans
-
+Thanks,
+Christian.
 
