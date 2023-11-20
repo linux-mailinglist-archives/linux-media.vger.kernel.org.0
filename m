@@ -1,160 +1,204 @@
-Return-Path: <linux-media+bounces-586-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-587-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A3ED7F0D68
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 09:21:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA8177F0D74
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 09:26:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1520A1F21C1D
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 08:21:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 698B8B2105F
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 08:26:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39D79E579;
-	Mon, 20 Nov 2023 08:21:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07963E578;
+	Mon, 20 Nov 2023 08:26:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SEjUIH9A"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="cYT4dPXZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3BE97B9;
-	Mon, 20 Nov 2023 00:20:57 -0800 (PST)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AK7Lvn3003771;
-	Mon, 20 Nov 2023 08:20:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=gba2Tcl2eMbmK/kLsFECV0armcjkhrFttLQIW9wsuXo=;
- b=SEjUIH9AP531QvS27jtrUrKOEiN62KB4ujjYrcXzL+gsPHPbnUmXbp/g+4BsxBgP1VJO
- /r5pOXHdHPqxM5z4FvPh0AqPjZlsZpr7B+h9OxUJxZTMM1A6GGsu+pQSHw6hgk2bZ8ZU
- 51UZSv24m4pkbOzQRtX7cnApm42JqdqIQf9n7ZVh8Loa981roaNY8oCnxhksNUGMZomZ
- rc6UrsgjN+1jw6k6qFNVknyQnAnzPVIb4cVovjOki/vwOcmTSJxqfsGwyUk7mOiCHdJM
- xQ+E1TDFXE/IHqFUurcG/Lti3T4bqcffPHY8mnCEf6Zxgl85rnpLQz21JKBwCKy9+rDO lw== 
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3ug30mg41t-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 20 Nov 2023 08:20:36 +0000
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AK8Kasq029827
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 20 Nov 2023 08:20:36 GMT
-Received: from [10.216.59.34] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 20 Nov
- 2023 00:20:27 -0800
-Message-ID: <5ecab46b-3808-4e89-a5ac-3c13e0c0a216@quicinc.com>
-Date: Mon, 20 Nov 2023 13:50:23 +0530
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5207B9
+	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 00:26:00 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (185-9-10-242.cust.suomicom.net [185.9.10.242])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4SYgZD1nHpzyxL;
+	Mon, 20 Nov 2023 10:25:46 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1700468758;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ip8v13NsessFlMJ9yCF1TPDLZo27z7iN/m0g+1zSfek=;
+	b=cYT4dPXZF5ZPzQthhQdWey6AHaXsR4NBBf6kxumt3acJSk9KMwFhWfoAZehBWej6RMu/Hn
+	pIZDtwgYhshSHHvXUmcTY/dK1kiiYkYp7swbueShY13CUc5//V1U0tu9MueOiQ9jgm7ftU
+	mKpwoDBfee8TQ0/T4l2rOPYUfbmgWkE=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1700468758;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Ip8v13NsessFlMJ9yCF1TPDLZo27z7iN/m0g+1zSfek=;
+	b=Q1pJjxH1McXbp5GHfztVKGccyRZkkz95ts5nwZ6KvywRJ4DE/+6VF0tqT+K3iq/eVzLA4l
+	ChvLS9m1ix7TIzHjWHtfUsY/12QuerQl8kZBqaxYfMhJ3Q+k1QhTeqy0h7L8BPtlP5X9XH
+	IupQAD1WmaUWDm2dx4ITGlA4mjlJC9E=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1700468758; a=rsa-sha256; cv=none;
+	b=GxiXX0zwyUWZ0lVquTX8aPfNkjFAjUzC8+9JBBTyUBF1hYTMvoU8R97Ah6MB8eKK4Qx6xI
+	9oLhFat6v06zzOOXCfhVu5Isd/x67HOFnphccKHb0nJnW4RWtc6dVRWjFJxJuAyqCjXXN9
+	KiRkonRzCougFeCJDIoQSKbK0WpaNBg=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 9CBFA634C93;
+	Mon, 20 Nov 2023 10:25:45 +0200 (EET)
+Date: Mon, 20 Nov 2023 08:25:45 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v3 2/2] Documentation: v4l: Exposure/gain for camera
+ sensor
+Message-ID: <ZVsYCTe12NpHjxva@valkosipuli.retiisi.eu>
+References: <20230710132240.7864-1-jacopo.mondi@ideasonboard.com>
+ <20230710132240.7864-3-jacopo.mondi@ideasonboard.com>
+ <ZLUW1eBTH3GpnSlW@valkosipuli.retiisi.eu>
+ <wdhkxxokan2gk4m2b3gwro7d6j6ie4zhshfman456dhvjqokxm@67jcmm3bewgb>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/9] dt-bindings: reserved-memory: MediaTek: Add reserved
- memory for SVP
-Content-Language: en-US
-To: =?UTF-8?B?WW9uZyBXdSAo5ZC05YuHKQ==?= <Yong.Wu@mediatek.com>,
-        "matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-        "christian.koenig@amd.com"
-	<christian.koenig@amd.com>,
-        "quic_vjitta@quicinc.com"
-	<quic_vjitta@quicinc.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-        "jstultz@google.com" <jstultz@google.com>,
-        "linaro-mm-sig@lists.linaro.org"
-	<linaro-mm-sig@lists.linaro.org>,
-        "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>,
-        "devicetree@vger.kernel.org"
-	<devicetree@vger.kernel.org>,
-        =?UTF-8?B?SmlhbmppYW8gWmVuZyAo5pu+5YGl5aejKQ==?=
-	<Jianjiao.Zeng@mediatek.com>,
-        =?UTF-8?B?S3VvaG9uZyBXYW5nICjnjovlnIvptLsp?=
-	<kuohong.wang@mediatek.com>,
-        "conor+dt@kernel.org" <conor+dt@kernel.org>,
-        "Brian.Starkey@arm.com" <Brian.Starkey@arm.com>,
-        "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
-        "tjmercier@google.com" <tjmercier@google.com>,
-        "krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-        "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>,
-        "angelogioacchino.delregno@collabora.com"
-	<angelogioacchino.delregno@collabora.com>
-References: <20230911023038.30649-1-yong.wu@mediatek.com>
- <20230911023038.30649-9-yong.wu@mediatek.com>
- <d4d471e7-64cf-42bf-a061-82934c904691@quicinc.com>
- <2c3ad77806df3ef23cb69336f2049821529e337b.camel@mediatek.com>
- <a83b00c4-a33a-4687-b024-173c6c5a66a0@quicinc.com>
- <8666e39c6b59322af6a9637121ed22f291830c46.camel@mediatek.com>
-From: Jaskaran Singh <quic_jasksing@quicinc.com>
-In-Reply-To: <8666e39c6b59322af6a9637121ed22f291830c46.camel@mediatek.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: NFg0IuWqxZGtZ8GVXpsSQaeo7n2SJGkl
-X-Proofpoint-ORIG-GUID: NFg0IuWqxZGtZ8GVXpsSQaeo7n2SJGkl
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-20_06,2023-11-17_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 malwarescore=0
- clxscore=1011 mlxlogscore=999 priorityscore=1501 lowpriorityscore=0
- spamscore=0 phishscore=0 adultscore=0 bulkscore=0 suspectscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311200054
+In-Reply-To: <wdhkxxokan2gk4m2b3gwro7d6j6ie4zhshfman456dhvjqokxm@67jcmm3bewgb>
 
+Hi Jacopo,
 
+Just found this old e-mail I apparently forgot to reply...
 
-On 11/6/2023 11:26 AM, Yong Wu (å´å‹‡) wrote:
-> On Wed, 2023-11-01 at 11:20 +0530, Jaskaran Singh wrote:
->>  	 
->> External email : Please do not click links or open attachments until
->> you have verified the sender or the content.
->>  On 10/20/2023 3:20 PM, Yong Wu (å´å‹‡) wrote:
->>> On Thu, 2023-10-19 at 10:16 +0530, Vijayanand Jitta wrote:
->>>>   
->>>> Instead of having a vendor specific binding for cma area, How
->> about
->>>> retrieving
->>>>
->>>
->> https://lore.kernel.org/lkml/1594948208-4739-1-git-send-email-hayashi.kunihiko@socionext.com/
->>>>  ?
->>>> dma_heap_add_cma can just associate cma region and create a heap.
->> So,
->>>> we can reuse cma heap
->>>> code for allocation instead of replicating that code here.
->>>>
->>>
->>> Thanks for the reference. I guess we can't use it. There are two
->>> reasons:
->>>   
->>> a) The secure heap driver is a pure software driver and we have no
->>> device for it, therefore we cannot call dma_heap_add_cma.
->>>   
->>
->> Hi Yong,
->>
->> We're considering using struct cma as the function argument to
->> dma_heap_add_cma() rather than struct device. Would this help
->> resolve the problem of usage with dma_heap_add_cma()?
+On Thu, Jul 27, 2023 at 11:42:45AM +0200, Jacopo Mondi wrote:
+> Hi Sakari
 > 
-> Yes. If we use "struct cma", I guess it works.
->
+> On Mon, Jul 17, 2023 at 10:24:21AM +0000, Sakari Ailus wrote:
+> > Hi Jacopo,
+> >
+> > On Mon, Jul 10, 2023 at 03:22:40PM +0200, Jacopo Mondi wrote:
+> > > Document the suggested way to exposure controls for exposure and gain
+> > > for camera sensor drivers.
+> > >
+> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > ---
+> > >  .../driver-api/media/camera-sensor.rst        | 27 +++++++++++++++++++
+> > >  1 file changed, 27 insertions(+)
+> > >
+> > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > > index cd915ca119ea..67fe77b1edb9 100644
+> > > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > > @@ -189,3 +189,30 @@ the ``V4L2_CID_VFLIP`` and ``V4L2_CID_HFLIP`` controls with the
+> > >  a flip can potentially change the output buffer content layout. Flips should
+> > >  also be taken into account when enumerating and handling media bus formats
+> > >  on the camera sensor source pads.
+> > > +
+> > > +Exposure and Gain Control
+> > > +-------------------------
+> > > +
+> > > +Camera sensor drivers that allow applications to control the image exposure
+> > > +and gain should do so by exposing dedicated controls to applications.
+> > > +
+> > > +Exposure time is controlled by registering the ``V4L2_CID_EXPOSURE`` control.
+> > > +The control definition does not specify a unit to allow maximum flexibility
+> > > +for multiple device types, but when used for camera sensor drivers it should be
+> > > +expressed in unit of lines whenever possible.
+> >
+> > This part of the documentation applies to both raw and SoC cameras.
+> >
+> > Should the exposure unit be something more user-friendly for SoC cameras?
+> 
+> SoC cameras == YUV/RGB sensors ?
+> 
+> Are you thinking about using the actual exposure time for YUV/RGB
+> sensors ?
 
-Great; I've posted a v2[1] for the API incorporating this change.
+Some devices support both but there are devices that don't natively support
+it, including UVC and Alvium.
 
-Thanks,
-Jaskaran.
+I wonder whether we should suggest using the control method that best works
+with device-native units? I.e. if the device natively uses frame length and
+line length, then use blankings + the pixel clock, otherwise
+[gs]_frame_interval?
 
-[1]
-https://lore.kernel.org/lkml/20231117100337.5215-1-quic_jasksing@quicinc.com/
+> 
+> >
+> > We have two exposure controls now, V4L2_CID_EXPOSURE and
+> > V4L2_CID_EXPOSURE_ABSOLUTE. The former doesn't specity a unit whereas the
+> 
+> Apparently only 2 drivers in mainline register V4L2_CID_EXPOSURE_ABSOLUTE
+
+It's not very popular, no. :-) 100 µs is also a long time, I would expect
+to have issues with that large granularity.
+
+> 
+> > latter suggests the unit of 100 µs.
+> >
+> > As exposure is specific to cameras, I think at least a part of this should
+> > make it to the controls documentation. The UVC, for instance, uses
+> > EXPOSURE_ABSOLUTE.
+> >
+> > Could we document V4L2_CID_EXPOSURE is in lines (if possible)?
+> 
+> I would indeed be happy with something like "The suggested unit for
+> the control is lines"
+
+Should there be another control for exposure in (µ)s then?
+
+> 
+> >
+> > > +
+> > > +To convert lines into units of time, the total line length (visible and
+> > > +not visible pixels) has to be divided by the pixel rate::
+> > > +
+> > > +        line duration = total line length / pixel rate
+> > > +                      = (image width + horizontal blanking) / pixel rate
+> > > +
+> > > +Camera sensor driver should try whenever possible to distinguish between the
+> > > +analogue and digital gain control functions. Analogue gain is a multiplication
+> > > +factor applied to all color channels on the pixel array before they get
+> > > +converted into the digital domain. It should be made controllable by
+> >
+> > The analogue gain may not be linear. This depends on the sensor. I'd thus
+> > drop the wording related to multiplication factor.
+> >
+> 
+> I might have missed why the gain being linear or not has implications
+> on the fact it acts as a multiplication factor for the color
+> channels...
+
+I must have read this as the analogue gain being the control value. Could
+you still add that the analogue gain factor may have a non-linear relation
+to the control value?
+
+> 
+> > > +registering the ``V4L2_CID_ANALOGUE_GAIN`` control, expressed as a device
+> > > +specific gain code. Digital gain control is optional and should be exposed to
+> > > +applications by registering ``V4L2_CID_DIGITAL_GAIN``. Camera sensor drivers are
+> > > +discouraged from using ``V4L2_CID_GAIN`` as it doesn't allow differentiation of
+> > > +analogue vs digital gain.
+> >
+
+-- 
+Regards,
+
+Sakari Ailus
 
