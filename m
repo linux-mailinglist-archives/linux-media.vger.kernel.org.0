@@ -1,159 +1,167 @@
-Return-Path: <linux-media+bounces-589-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-590-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE8F7F0D93
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 09:31:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A4737F0E28
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 09:52:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 53275B211AF
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 08:31:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C0598B21546
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 08:52:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8131F503;
-	Mon, 20 Nov 2023 08:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jzyyzV7J"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1A66F9D3;
+	Mon, 20 Nov 2023 08:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 625A2137;
-	Mon, 20 Nov 2023 00:31:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700469075; x=1732005075;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xSqxMouuJFaVnVg+4nvXMXYc/b/CnBPtnslafhZwyjQ=;
-  b=jzyyzV7JGIfYVwXgkuwNFKLQzrE+9xqe7WcaRUc5Tg7EpNk5ZxfRq2Uc
-   hhPgmEKkMrY5Nx6avp0XGGuzaNwSv+cMtefwzcDrmieVSPDj2OVTaAcUM
-   9YH63JvQVG+1V7zDjQeU9TVgXTsjhD77SG5Kh81v539sb+RA3OMhJmFGZ
-   MKwaFJGnKLh2gkRfuOv+0O8hVkB/be/IfED3VySBlHx04lObcwOaNaTkn
-   gjdQLUhSRxGhgOt9E4jEcWGT9QLVefQca3STuHFvC7DDZ87v3XZKUllc8
-   tyahSAgIG4uKn+IE5plZCSX/M+IpeqGv/GAe7vvzTbRTtc0FBUiOvNzxP
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="13128819"
-X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="13128819"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 00:31:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="795401503"
-X-IronPort-AV: E=Sophos;i="6.04,213,1695711600"; 
-   d="scan'208";a="795401503"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 00:31:12 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 35DC7120A59;
-	Mon, 20 Nov 2023 10:31:09 +0200 (EET)
-Date: Mon, 20 Nov 2023 08:31:09 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
-	rafael@kernel.org
-Subject: Re: [PATCH v2 5/7] media: ov8858: Use pm_runtime_get_if_active(),
- put usage_count correctly
-Message-ID: <ZVsZTbd2U4IX2v1j@kekkonen.localdomain>
-References: <20231117111433.1561669-1-sakari.ailus@linux.intel.com>
- <20231117111433.1561669-6-sakari.ailus@linux.intel.com>
- <ledwhthyoc6h5ccmwdvyl7cqrp3kdwijcpkzxpp4jvemd6iz2a@na2elf7674a5>
- <ZVicKX8kw94TuOxA@kekkonen.localdomain>
- <20231118173315.GD20846@pendragon.ideasonboard.com>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B08AF4F3;
+	Mon, 20 Nov 2023 08:52:48 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E9C97C433C8;
+	Mon, 20 Nov 2023 08:52:46 +0000 (UTC)
+Message-ID: <3103e3a1-7dfd-4db0-b67e-b8857b8027e7@xs4all.nl>
+Date: Mon, 20 Nov 2023 09:52:45 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231118173315.GD20846@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 20/32] media/ivtvfb: Initialize fb_ops to fbdev I/O-memory
+ helpers
+Content-Language: en-US, nl
+To: Thomas Zimmermann <tzimmermann@suse.de>, deller@gmx.de, javierm@redhat.com
+Cc: linux-fbdev@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ Andy Walls <awalls@md.metrocast.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <20231115102954.7102-1-tzimmermann@suse.de>
+ <20231115102954.7102-21-tzimmermann@suse.de>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
+ BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
+ yw55SOK2JBSq7hueotWLfJLobMWhQii0Zd83hGT9SIt9uHaHjgwmtTH7MSTIiaY6N14nw2Ud
+ C6Uykc1va0Wqqc2ov5ihgk/2k2SKa02ookQI3e79laOrbZl5BOXNKR9LguuOZdX4XYR3Zi6/
+ BsJ7pVCK9xkiVf8svlEl94IHb+sa1KrlgGv3fn5xgzDw8Z222TfFceDL/2EzUyTdWc4GaPMC
+ E/c1B4UOle6ZHg02+I8tZicjzj5+yffv1lB5A1btG+AmoZrgf0X2O1B96fqgHx8w9PIpVERN
+ YsmkfxvhfP3MO3oHh8UY1OLKdlKamMneCLk2up1Zlli347KMjHAVjBAiy8qOguKF9k7HOjif
+ JCLYTkggrRiEiE1xg4tblBNj8WGyKH+u/hwwwBqCd/Px2HvhAsJQ7DwuuB3vBAp845BJYUU3
+ 06kRihFqbO0vEt4QmcQDcbWINeZ2zX5TK7QQ91ldHdqJn6MhXulPKcM8tCkdD8YNXXKyKqNl
+ UVqXnarz8m2JCbHgjEkUlAJCNd6m3pfESLZwSWsLYL49R5yxIwARAQABzSFIYW5zIFZlcmt1
+ aWwgPGh2ZXJrdWlsQHhzNGFsbC5ubD7CwZUEEwECACgFAlQ84W0CGwMFCRLMAwAGCwkIBwMC
+ BhUIAgkKCwQWAgMBAh4BAheAACEJEL0tYUhmFDtMFiEEBSzee8IVBTtonxvKvS1hSGYUO0wT
+ 7w//frEmPBAwu3OdvAk9VDkH7X+7RcFpiuUcJxs3Xl6jpaA+SdwtZra6W1uMrs2RW8eXXiq/
+ 80HXJtYnal1Y8MKUBoUVhT/+5+KcMyfVQK3VFRHnNxCmC9HZV+qdyxAGwIscUd4hSlweuU6L
+ 6tI7Dls6NzKRSTFbbGNZCRgl8OrF01TBH+CZrcFIoDgpcJA5Pw84mxo+wd2BZjPA4TNyq1od
+ +slSRbDqFug1EqQaMVtUOdgaUgdlmjV0+GfBHoyCGedDE0knv+tRb8v5gNgv7M3hJO3Nrl+O
+ OJVoiW0G6OWVyq92NNCKJeDy8XCB1yHCKpBd4evO2bkJNV9xcgHtLrVqozqxZAiCRKN1elWF
+ 1fyG8KNquqItYedUr+wZZacqW+uzpVr9pZmUqpVCk9s92fzTzDZcGAxnyqkaO2QTgdhPJT2m
+ wpG2UwIKzzi13tmwakY7OAbXm76bGWVZCO3QTHVnNV8ku9wgeMc/ZGSLUT8hMDZlwEsW7u/D
+ qt+NlTKiOIQsSW7u7h3SFm7sMQo03X/taK9PJhS2BhhgnXg8mOa6U+yNaJy+eU0Lf5hEUiDC
+ vDOI5x++LD3pdrJVr/6ZB0Qg3/YzZ0dk+phQ+KlP6HyeO4LG662toMbFbeLcBjcC/ceEclII
+ 90QNEFSZKM6NVloM+NaZRYVO3ApxWkFu+1mrVTXOwU0EVDzhbQEQANzLiI6gHkIhBQKeQaYs
+ p2SSqF9c++9LOy5x6nbQ4s0X3oTKaMGfBZuiKkkU6NnHCSa0Az5ScRWLaRGu1PzjgcVwzl5O
+ sDawR1BtOG/XoPRNB2351PRp++W8TWo2viYYY0uJHKFHML+ku9q0P+NkdTzFGJLP+hn7x0RT
+ DMbhKTHO3H2xJz5TXNE9zTJuIfGAz3ShDpijvzYieY330BzZYfpgvCllDVM5E4XgfF4F/N90
+ wWKu50fMA01ufwu+99GEwTFVG2az5T9SXd7vfSgRSkzXy7hcnxj4IhOfM6Ts85/BjMeIpeqy
+ TDdsuetBgX9DMMWxMWl7BLeiMzMGrfkJ4tvlof0sVjurXibTibZyfyGR2ricg8iTbHyFaAzX
+ 2uFVoZaPxrp7udDfQ96sfz0hesF9Zi8d7NnNnMYbUmUtaS083L/l2EDKvCIkhSjd48XF+aO8
+ VhrCfbXWpGRaLcY/gxi2TXRYG9xCa7PINgz9SyO34sL6TeFPSZn4bPQV5O1j85Dj4jBecB1k
+ z2arzwlWWKMZUbR04HTeAuuvYvCKEMnfW3ABzdonh70QdqJbpQGfAF2p4/iCETKWuqefiOYn
+ pR8PqoQA1DYv3t7y9DIN5Jw/8Oj5wOeEybw6vTMB0rrnx+JaXvxeHSlFzHiD6il/ChDDkJ9J
+ /ejCHUQIl40wLSDRABEBAAHCwXwEGAECAA8FAlQ84W0CGwwFCRLMAwAAIQkQvS1hSGYUO0wW
+ IQQFLN57whUFO2ifG8q9LWFIZhQ7TA1WD/9yxJvQrpf6LcNrr8uMlQWCg2iz2q1LGt1Itkuu
+ KaavEF9nqHmoqhSfZeAIKAPn6xuYbGxXDrpN7dXCOH92fscLodZqZtK5FtbLvO572EPfxneY
+ UT7JzDc/5LT9cFFugTMOhq1BG62vUm/F6V91+unyp4dRlyryAeqEuISykhvjZCVHk/woaMZv
+ c1Dm4Uvkv0Ilelt3Pb9J7zhcx6sm5T7v16VceF96jG61bnJ2GFS+QZerZp3PY27XgtPxRxYj
+ AmFUeF486PHx/2Yi4u1rQpIpC5inPxIgR1+ZFvQrAV36SvLFfuMhyCAxV6WBlQc85ArOiQZB
+ Wm7L0repwr7zEJFEkdy8C81WRhMdPvHkAIh3RoY1SGcdB7rB3wCzfYkAuCBqaF7Zgfw8xkad
+ KEiQTexRbM1sc/I8ACpla3N26SfQwrfg6V7TIoweP0RwDrcf5PVvwSWsRQp2LxFCkwnCXOra
+ gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
+ sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
+ UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
+In-Reply-To: <20231115102954.7102-21-tzimmermann@suse.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
+Hi Thomas,
 
-On Sat, Nov 18, 2023 at 07:33:15PM +0200, Laurent Pinchart wrote:
-> Hi Sakari
+On 15/11/2023 11:19, Thomas Zimmermann wrote:
+> Initialize the instance of struct fb_ops with fbdev initializer
+> macros for framebuffers in I/O address space. This explictily sets
+> the read/write, draw and mmap callbacks to the correct default
+> implementation.
 > 
-> On Sat, Nov 18, 2023 at 11:12:41AM +0000, Sakari Ailus wrote:
-> > On Fri, Nov 17, 2023 at 04:30:15PM +0100, Jacopo Mondi wrote:
-> > > On Fri, Nov 17, 2023 at 01:14:31PM +0200, Sakari Ailus wrote:
-> > > > Use pm_runtime_get_if_active() to get the device's runtime PM usage_count
-> > > > and set controls, then use runtime PM autosuspend once the controls have
-> > > > been set (instead of likely transitioning to suspended state immediately).
-> > > >
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  drivers/media/i2c/ov8858.c | 8 +++++---
-> > > >  1 file changed, 5 insertions(+), 3 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/ov8858.c b/drivers/media/i2c/ov8858.c
-> > > > index 3af6125a2eee..a99b91700a8d 100644
-> > > > --- a/drivers/media/i2c/ov8858.c
-> > > > +++ b/drivers/media/i2c/ov8858.c
-> > > > @@ -1538,7 +1538,7 @@ static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > >  	struct v4l2_subdev_state *state;
-> > > >  	u16 digi_gain;
-> > > >  	s64 max_exp;
-> > > > -	int ret;
-> > > > +	int ret, pm_status;
-> > > >
-> > > >  	/*
-> > > >  	 * The control handler and the subdev state use the same mutex and the
-> > > > @@ -1561,7 +1561,8 @@ static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > >  		break;
-> > > >  	}
-> > > >
-> > > > -	if (!pm_runtime_get_if_in_use(&client->dev))
-> > > > +	pm_status = pm_runtime_get_if_active(&client->dev);
-> > > > +	if (!pm_status)
-> > > >  		return 0;
-> > > >
-> > > >  	switch (ctrl->id) {
-> > > > @@ -1601,7 +1602,8 @@ static int ov8858_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > >  		break;
-> > > >  	}
-> > > >
-> > > > -	pm_runtime_put(&client->dev);
-> > > > +	if (pm_status > 0)
-> > > 
-> > > I'm not 100% sure I get this bit.
-> > > 
-> > > If we get here it means pm_status is either -EINVAL or > 0, otherwise
-> > > we would have exited earlier.
-> > > 
-> > > What's the point of checking for > 0 here ?
-> > > 
-> > > There are two cases where pm_status is -EINVAL, either !CONFIG_PM and
-> > > the the below call is a nop, or if pm_runtime has not been enabled by
-> > > the driver, which means the driver doesn't use pm_runtime at all.
-> > > 
-> > > Are there other cases I have missed that require checking here for
-> > > pm_status > 0 ?
-> > 
-> > Other than Runtime PM being disabled, I don't think that should happen.
-> > 
-> > So as such this patch does not fix a bug. I just prefer to be extra
-> > cautious when it comes to use counts.
+> Fbdev drivers sometimes rely on the callbacks being NULL for a
+> default implementation to be invoked; hence requireing the I/O
+> helpers to be built in any case. Setting all callbacks in all
+> drivers explicitly will allow to make the I/O helpers optional.
+> This benefits systems that do not use these functions.
 > 
-> What happened to the old motto of "if it's not broken, don't fix it" ?
+> Set the callbacks via macros. No functional changes.
 
-People tend to take patterns used in drivers and this indeed works here,
-but only when taken with the rest of the Runtime PM API usage.
+Makes sense, shall I pick up this patch?
 
-> :-) I like how this series (slightly) simplifies the runtime PM API by
-> giving pm_runtime_get_if_active() the right behaviour for the most
-> common use cases. Let's continue in that direction, and evolve the API
-> to simplify driver, not render them more complex.
-> 
-> I would prefer refactoring this series to first switch drivers to
-> pm_runtime_get_if_active(), and then use autosuspend at the end of the
-> .s_ctrl() handler. That can be two patches, each modifying all relevant
-> sensor driver.
+If you prefer to take it, then you can add:
 
-I think it should be fine to do both in the same patch indeed.
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> Cc: Andy Walls <awalls@md.metrocast.net>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: linux-media@vger.kernel.org
+> ---
+>  drivers/media/pci/ivtv/Kconfig  | 4 +---
+>  drivers/media/pci/ivtv/ivtvfb.c | 6 +++---
+>  2 files changed, 4 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/pci/ivtv/Kconfig b/drivers/media/pci/ivtv/Kconfig
+> index 9be52101bc4f2..2498f9079b756 100644
+> --- a/drivers/media/pci/ivtv/Kconfig
+> +++ b/drivers/media/pci/ivtv/Kconfig
+> @@ -48,9 +48,7 @@ config VIDEO_IVTV_ALSA
+>  config VIDEO_FB_IVTV
+>  	tristate "Conexant cx23415 framebuffer support"
+>  	depends on VIDEO_IVTV && FB
+> -	select FB_CFB_FILLRECT
+> -	select FB_CFB_COPYAREA
+> -	select FB_CFB_IMAGEBLIT
+> +	select FB_IOMEM_HELPERS
+>  	help
+>  	  This is a framebuffer driver for the Conexant cx23415 MPEG
+>  	  encoder/decoder.
+> diff --git a/drivers/media/pci/ivtv/ivtvfb.c b/drivers/media/pci/ivtv/ivtvfb.c
+> index 23c8c094e791b..410477e3e6216 100644
+> --- a/drivers/media/pci/ivtv/ivtvfb.c
+> +++ b/drivers/media/pci/ivtv/ivtvfb.c
+> @@ -927,17 +927,17 @@ static int ivtvfb_blank(int blank_mode, struct fb_info *info)
+>  
+>  static const struct fb_ops ivtvfb_ops = {
+>  	.owner = THIS_MODULE,
+> +	.fb_read        = fb_io_read,
+>  	.fb_write       = ivtvfb_write,
+>  	.fb_check_var   = ivtvfb_check_var,
+>  	.fb_set_par     = ivtvfb_set_par,
+>  	.fb_setcolreg   = ivtvfb_setcolreg,
+> -	.fb_fillrect    = cfb_fillrect,
+> -	.fb_copyarea    = cfb_copyarea,
+> -	.fb_imageblit   = cfb_imageblit,
+> +	__FB_DEFAULT_IOMEM_OPS_DRAW,
+>  	.fb_cursor      = NULL,
+>  	.fb_ioctl       = ivtvfb_ioctl,
+>  	.fb_pan_display = ivtvfb_pan_display,
+>  	.fb_blank       = ivtvfb_blank,
+> +	__FB_DEFAULT_IOMEM_OPS_MMAP,
+>  };
+>  
+>  /* Restore hardware after firmware restart */
+
 
