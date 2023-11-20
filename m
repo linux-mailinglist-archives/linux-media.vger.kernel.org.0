@@ -1,187 +1,192 @@
-Return-Path: <linux-media+bounces-577-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-578-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E6697F0919
-	for <lists+linux-media@lfdr.de>; Sun, 19 Nov 2023 22:13:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 508317F09F1
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 01:09:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B2DDD1F21DA3
-	for <lists+linux-media@lfdr.de>; Sun, 19 Nov 2023 21:13:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8DDF9280C77
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 00:09:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 547A2156DB;
-	Sun, 19 Nov 2023 21:13:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VbZiV5g2"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E36A381D;
+	Mon, 20 Nov 2023 00:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6AD78E0;
-	Sun, 19 Nov 2023 13:13:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700428412; x=1731964412;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zpvcNPT2dQhT6/8aFXx0UZ9y0EBRO4b8OkktezR++f0=;
-  b=VbZiV5g2lI3AejmoBlX3rnTtkaoW7g0aP4WMUz8xeCslMXfg3DaITe3X
-   +t/hEJ7HeIoweZ6/ZBzU+wQ+kMfgRHSh1cTSjZq6p0hG4AThCNwQ7WGS5
-   JWQKRbcRkmLugHihGdziKGmvHpjZrDsBRD3kMdDvM6M2z73cIO3mZ+VD0
-   C8TIUTyRcu4B+36VxgefeQVYVL8arnnqDEHF3CKb6UyRFq6MvwCVqXyjx
-   24mCmks676p0AsU2JecWsFhb9djg5gi/mE6pqjFGpYawpsI9BieQ9TiSh
-   NbIlaXDmgeNHMkXeVWx2oOHRXUNhVUKJJtfOhhUdTGyimucZ3pQEtLoy7
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="4694614"
-X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
-   d="scan'208";a="4694614"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2023 13:13:32 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10899"; a="759641618"
-X-IronPort-AV: E=Sophos;i="6.04,212,1695711600"; 
-   d="scan'208";a="759641618"
-Received: from lkp-server02.sh.intel.com (HELO b8de5498638e) ([10.239.97.151])
-  by orsmga007.jf.intel.com with ESMTP; 19 Nov 2023 13:13:27 -0800
-Received: from kbuild by b8de5498638e with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r4p6a-0005YI-2q;
-	Sun, 19 Nov 2023 21:13:24 +0000
-Date: Mon, 20 Nov 2023 05:12:34 +0800
-From: kernel test robot <lkp@intel.com>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, hverkuil-cisco@xs4all.nl,
-	laurent.pinchart@ideasonboard.com, Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	matti.lehtimaki@gmail.com, quic_grosikop@quicinc.com
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 6/7] media: qcom: camss: Flag VFE-lites to support
- more VFEs
-Message-ID: <202311200405.h6G4L9oe-lkp@intel.com>
-References: <20231118-b4-camss-named-power-domains-v5-6-55eb0f35a30a@linaro.org>
+Received: from mail-pl1-f208.google.com (mail-pl1-f208.google.com [209.85.214.208])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 069F6E0
+	for <linux-media@vger.kernel.org>; Sun, 19 Nov 2023 16:09:26 -0800 (PST)
+Received: by mail-pl1-f208.google.com with SMTP id d9443c01a7336-1cc41aed6a5so48132085ad.0
+        for <linux-media@vger.kernel.org>; Sun, 19 Nov 2023 16:09:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700438965; x=1701043765;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bm9eGPc0RwqPbRbgp3iTFtDeXXeqtjeXeTQl0nd1FoI=;
+        b=F7IDaaihcUggKcaMhf+PQgybt/Y0JOvqri4sqs81NdzwdwBLY73JHI4NYUrGvdvI4M
+         yH8wOkJOkjqCE/P+DezBkPUzunbq5hkwe2SECiIuyn48bJBe1GBFfXGOKCqK9Mcw1kFH
+         LSZZF0decDHjdnLqwGrludQiR4KyWYkjtrx3lF8RwM4iW2V/zrssykBsxOga5RYcsvqT
+         iBPPX7eimU+An43zPSb/M/kWtbcvc2TxsFEKFL9N/gi6LpS3kQhWv7ND3vXwSSk/LE8A
+         H1Kw5o3L2FZ6oY0XLckRAcy6M4hKQ6qmonxdZUj892KsqRFNLTBLK/DYaP0wRKWzNZ7D
+         bsLQ==
+X-Gm-Message-State: AOJu0YyqBqkRw/puzbYmHlBloiincxhaT0xL0SJBvbxJqC9gI8+NSFWp
+	GHhf38Z5g/vjEfyFNgaklujc8AAZsSmPvQQk/VuXAveSHVno
+X-Google-Smtp-Source: AGHT+IE+tfsFbkR7yz8cn8gaIyXCEYM3FadsbSsqz2LGgiXDKBu6dN0M+i8azKecC/7TiH14onfmFR9HmffSM7xYWD7i5/LM1Qca
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231118-b4-camss-named-power-domains-v5-6-55eb0f35a30a@linaro.org>
+X-Received: by 2002:a17:902:7792:b0:1cc:4327:8bbc with SMTP id
+ o18-20020a170902779200b001cc43278bbcmr1559454pll.10.1700438965521; Sun, 19
+ Nov 2023 16:09:25 -0800 (PST)
+Date: Sun, 19 Nov 2023 16:09:25 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000809328060a8a4c1c@google.com>
+Subject: [syzbot] [staging?] [usb?] memory leak in _r8712_init_xmit_priv (2)
+From: syzbot <syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com>
+To: Larry.Finger@lwfinger.net, florian.c.schilhabel@googlemail.com, 
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
+	linux-usb@vger.kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Bryan,
+Hello,
 
-kernel test robot noticed the following build warnings:
+syzbot found the following issue on:
 
-[auto build test WARNING on 48016737a9af47328dd321df4dd3479ed5e2041d]
+HEAD commit:    c42d9eeef8e5 Merge tag 'hardening-v6.7-rc2' of git://git.k..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=13bff22f680000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=e71d284dd6560ca8
+dashboard link: https://syzkaller.appspot.com/bug?extid=83763e624cfec6b462cb
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Debian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1564223f680000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=17a7c024e80000
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Bryan-O-Donoghue/media-qcom-camss-Flag-which-VFEs-require-a-power-domain/20231118-201456
-base:   48016737a9af47328dd321df4dd3479ed5e2041d
-patch link:    https://lore.kernel.org/r/20231118-b4-camss-named-power-domains-v5-6-55eb0f35a30a%40linaro.org
-patch subject: [PATCH v5 6/7] media: qcom: camss: Flag VFE-lites to support more VFEs
-config: powerpc-randconfig-r111-20231119 (https://download.01.org/0day-ci/archive/20231120/202311200405.h6G4L9oe-lkp@intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231120/202311200405.h6G4L9oe-lkp@intel.com/reproduce)
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/026cc0fc446f/disk-c42d9eee.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/c4b4d6d092c1/vmlinux-c42d9eee.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/1865f885e9d6/bzImage-c42d9eee.xz
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202311200405.h6G4L9oe-lkp@intel.com/
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+83763e624cfec6b462cb@syzkaller.appspotmail.com
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/media/platform/qcom/camss/camss-vfe-480.c: note: in included file (through drivers/media/platform/qcom/camss/camss.h):
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
->> drivers/media/platform/qcom/camss/camss-vfe.h:237:24: sparse: sparse: marked inline, but without a definition
+executing program
+BUG: memory leak
+unreferenced object 0xffff888107a5c000 (size 4096):
+  comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+    [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
+    [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
+    [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+    [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+    [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
+    [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
+    [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
+    [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
+    [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
+    [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
+    [<ffffffff82c3bb06>] really_probe+0x126/0x440 drivers/base/dd.c:658
+    [<ffffffff82c3bee3>] __driver_probe_device+0xc3/0x190 drivers/base/dd.c:800
+    [<ffffffff82c3bfda>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:830
+    [<ffffffff82c3c1d4>] __device_attach_driver+0x104/0x160 drivers/base/dd.c:958
+    [<ffffffff82c38f5d>] bus_for_each_drv+0xcd/0x120 drivers/base/bus.c:457
+    [<ffffffff82c3c6fa>] __device_attach+0xfa/0x290 drivers/base/dd.c:1030
+    [<ffffffff82c3a6ca>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
+    [<ffffffff82c36b7e>] device_add+0x9be/0xc90 drivers/base/core.c:3625
+    [<ffffffff832cdfd7>] usb_set_configuration+0x967/0xc70 drivers/usb/core/message.c:2207
+    [<ffffffff832e0cac>] usb_generic_driver_probe+0x9c/0xf0 drivers/usb/core/generic.c:238
 
-vim +237 drivers/media/platform/qcom/camss/camss-vfe.h
+BUG: memory leak
+unreferenced object 0xffff888107a59000 (size 4096):
+  comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+    [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
+    [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
+    [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+    [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+    [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
+    [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
+    [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
+    [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
+    [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
+    [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
+    [<ffffffff82c3bb06>] really_probe+0x126/0x440 drivers/base/dd.c:658
+    [<ffffffff82c3bee3>] __driver_probe_device+0xc3/0x190 drivers/base/dd.c:800
+    [<ffffffff82c3bfda>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:830
+    [<ffffffff82c3c1d4>] __device_attach_driver+0x104/0x160 drivers/base/dd.c:958
+    [<ffffffff82c38f5d>] bus_for_each_drv+0xcd/0x120 drivers/base/bus.c:457
+    [<ffffffff82c3c6fa>] __device_attach+0xfa/0x290 drivers/base/dd.c:1030
+    [<ffffffff82c3a6ca>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
+    [<ffffffff82c36b7e>] device_add+0x9be/0xc90 drivers/base/core.c:3625
+    [<ffffffff832cdfd7>] usb_set_configuration+0x967/0xc70 drivers/usb/core/message.c:2207
+    [<ffffffff832e0cac>] usb_generic_driver_probe+0x9c/0xf0 drivers/usb/core/generic.c:238
 
-   228	
-   229	/*
-   230	 * vfe_is_lite - Return if VFE is VFE lite.
-   231	 * @vfe: VFE Device
-   232	 *
-   233	 * Some VFE lites have a different register layout.
-   234	 *
-   235	 * Return whether VFE is VFE lite
-   236	 */
- > 237	inline bool vfe_is_lite(struct vfe_device *vfe);
-   238	
+BUG: memory leak
+unreferenced object 0xffff888108475000 (size 4096):
+  comm "kworker/1:0", pid 22, jiffies 4294943134 (age 18.720s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+    00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
+  backtrace:
+    [<ffffffff816337cd>] kmemleak_alloc_recursive include/linux/kmemleak.h:42 [inline]
+    [<ffffffff816337cd>] slab_post_alloc_hook mm/slab.h:766 [inline]
+    [<ffffffff816337cd>] slab_alloc_node mm/slub.c:3478 [inline]
+    [<ffffffff816337cd>] __kmem_cache_alloc_node+0x2dd/0x3f0 mm/slub.c:3517
+    [<ffffffff8157e625>] kmalloc_trace+0x25/0x90 mm/slab_common.c:1098
+    [<ffffffff83cee442>] kmalloc include/linux/slab.h:600 [inline]
+    [<ffffffff83cee442>] _r8712_init_xmit_priv+0x2b2/0x6e0 drivers/staging/rtl8712/rtl871x_xmit.c:130
+    [<ffffffff83ce9033>] r8712_init_drv_sw+0xc3/0x290 drivers/staging/rtl8712/os_intfs.c:311
+    [<ffffffff83ce7ce6>] r871xu_drv_init+0x1c6/0x920 drivers/staging/rtl8712/usb_intf.c:386
+    [<ffffffff832d0f0b>] usb_probe_interface+0x16b/0x3a0 drivers/usb/core/driver.c:396
+    [<ffffffff82c3bb06>] call_driver_probe drivers/base/dd.c:579 [inline]
+    [<ffffffff82c3bb06>] really_probe+0x126/0x440 drivers/base/dd.c:658
+    [<ffffffff82c3bee3>] __driver_probe_device+0xc3/0x190 drivers/base/dd.c:800
+    [<ffffffff82c3bfda>] driver_probe_device+0x2a/0x120 drivers/base/dd.c:830
+    [<ffffffff82c3c1d4>] __device_attach_driver+0x104/0x160 drivers/base/dd.c:958
+    [<ffffffff82c38f5d>] bus_for_each_drv+0xcd/0x120 drivers/base/bus.c:457
+    [<ffffffff82c3c6fa>] __device_attach+0xfa/0x290 drivers/base/dd.c:1030
+    [<ffffffff82c3a6ca>] bus_probe_device+0xca/0xd0 drivers/base/bus.c:532
+    [<ffffffff82c36b7e>] device_add+0x9be/0xc90 drivers/base/core.c:3625
+    [<ffffffff832cdfd7>] usb_set_configuration+0x967/0xc70 drivers/usb/core/message.c:2207
+    [<ffffffff832e0cac>] usb_generic_driver_probe+0x9c/0xf0 drivers/usb/core/generic.c:238
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
