@@ -1,28 +1,28 @@
-Return-Path: <linux-media+bounces-602-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-603-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A1DE7F1080
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 11:35:58 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0AA87F10C9
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 11:50:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C07B7B21712
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 10:35:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5880A1F23642
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 10:50:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 90DBE11713;
-	Mon, 20 Nov 2023 10:35:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BEFB6FC8;
+	Mon, 20 Nov 2023 10:50:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08FA13ADB
-	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 10:35:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 876D4C433C7;
-	Mon, 20 Nov 2023 10:35:50 +0000 (UTC)
-Message-ID: <cec82507-ced9-4e7d-802c-04a40f84a4b4@xs4all.nl>
-Date: Mon, 20 Nov 2023 11:35:48 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A07366D1B
+	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 10:50:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95C2EC433C8;
+	Mon, 20 Nov 2023 10:50:48 +0000 (UTC)
+Message-ID: <8086ca7b-60b6-442a-a5ce-438722a505b7@xs4all.nl>
+Date: Mon, 20 Nov 2023 11:50:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -30,11 +30,21 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: videobuf2-dma-sg: use v{un,}map instead of
+ vm_{un,}map_ram
 Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: Michael Grzeschik <mgr@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>
+Cc: linux-media@vger.kernel.org, m.szyprowski@samsung.com,
+ kernel@pengutronix.de, Andrzej Pietrasiewicz <andrzej.p@collabora.com>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>
+References: <20221120234441.550908-1-m.grzeschik@pengutronix.de>
+ <5e585a78-15c8-fd17-bc34-96f7ed18f592@xs4all.nl>
+ <CAAFQd5Aicurw-pjYpWJK_qNemy1qszvN4rL=TfAuxhOdAOTGNg@mail.gmail.com>
+ <20230510142509.GA14356@pengutronix.de>
+ <CAAFQd5AmVBc6LQ1eyZ=WrvtLR4oSD4K0mMeszcuY12CK7djiUA@mail.gmail.com>
+ <CAAFQd5D_o3wE98=wFXR2nbWkpCAdCDxz2tP8ssSSYVkZ5iC1Qg@mail.gmail.com>
+ <ZVU8Kpp83bOjq0fL@pengutronix.de>
 From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] media: v4l2-ctrls: add support for fraction_bits
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
  BFUlg7JzJoUuRbKxkYb8mmqOe722j7N3HO8+ofnio5cAP5W0WwDpM0kM84BeHU0aPSTsWiGR
@@ -78,353 +88,88 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
+In-Reply-To: <ZVU8Kpp83bOjq0fL@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-This adds support for the fraction_bits field, used with integer controls.
-This allows fixed point formats to be described.
+Hi Michael,
 
-The fraction_bits field is only exposed through VIDIOC_QUERY_EXT_CTRL.
+On 15/11/2023 22:46, Michael Grzeschik wrote:
+> On Wed, Nov 01, 2023 at 12:43:25PM +0900, Tomasz Figa wrote:
+>> On Tue, May 16, 2023 at 7:50 PM Tomasz Figa <tfiga@chromium.org> wrote:
+>>>
+>>> Hi Michael,
+>>>
+>>> On Wed, May 10, 2023 at 11:25 PM Michael Grzeschik <mgr@pengutronix.de> wrote:
+>>> >
+>>> > Sorry for the late comeback, however here are some thoughts.
+>>> >
+>>> > On Fri, Dec 02, 2022 at 06:01:02PM +0900, Tomasz Figa wrote:
+>>> > >On Thu, Nov 24, 2022 at 10:35 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>> > >>
+>>> > >> On 21/11/2022 00:44, Michael Grzeschik wrote:
+>>> > >> > The comments before the vm_map_ram function state that it should be used
+>>> > >> > for up to 256 KB only, and video buffers are definitely much larger. It
+>>> > >> > recommends using vmap in that case.
+>>> > >> >
+>>> > >> > Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+>>> > >> > ---
+>>> > >> >  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 7 ++++---
+>>> > >>
+>>> > >> drivers/media/common/videobuf2/videobuf2-vmalloc.c uses it as well,
+>>> > >> probably also incorrectly. It makes sense to change that one as well.
+>>> > >
+>>> > >Comparing vm_map_ram() and vmap(..., VM_MAP, PAGE_KERNEL), for blocks
+>>> > >bigger than VMAP_MAX_ALLOC they're equivalent and for smaller blocks
+>>> > >the former should be faster, so I don't see what's wrong with the
+>>> > >current code.
+>>> >
+>>> > I got another comment on this from Andrzej Pietrasiewicz
+>>> > where he expands the comment on the use of vmap over vm_map_ram.
+>>> >
+>>> > https://lore.kernel.org/linux-media/64375ff4-dbbb-3d5b-eaf6-32d6780fd496@collabora.com
+>>> >
+>>> > As I understand this, we should probably update the vm_map_ram to vmap,
+>>> > due to the expectation that video buffers are long-living objects.
+>>> >
+>>> > Since there are some more places that would probably need to be updated
+>>> > if we should decide to use vmap over vm_map_ram in the whole
+>>> > videbuf2-* users, I would like to clarify on this before making
+>>> > a series.
+>>>
+>>> Ah, I see. Thanks for the pointer.
+>>>
+>>> VB2 buffers would usually require long-lived mappings, so based on
+>>> that, we should switch to vmap() indeed.
+>>>
+>>> As a side note, not directly related to this patch, I wonder if we
+>>> should also call invalidate/flush_kernel_vmap_range() in
+>>> vb2_dma_sg_prepare/finish(). (In principle we shouldn't, but so far
+>>> our drivers don't explicitly call begin/end_cpu_access() and rely on
+>>> prepare/finish to handle the cache maintenance of the kernel
+>>> mapping...) Let me also add Sergey on CC for visibility.
+>>
+>> Sorry, I forgot last time, so maybe it wasn't clear I'm good with this patch:
+>>
+>> Acked-by: Tomasz Figa <tfiga@chromium.org>
+>>
+>> Hans, will you pick it? Thanks!
+> 
+> Gentle Ping!
+> 
 
-For a given signed two's complement Qf fixed point value 'f' equals
-fraction_bits.
+This patch is marked with "Changes Requested" in patchwork:
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-This is the cleaned up version of my earlier RFC patch.
+https://patchwork.linuxtv.org/project/linux-media/patch/20221120234441.550908-1-m.grzeschik@pengutronix.de/
 
-Shengjiu, for your next patch series just use this patch.
+Looking at the comments, there is a request to improve a comment and a request
+from me to make the same change to videobuf2-vmalloc.c.
 
-Note that I dropped the inline helpers in videodev2.h, but I am not sure
-if there shouldn't still be a helper added to include/media/v4l2-ctrls.h
-in order to fill in a fixed point value.
+I have no problem with the change itself, it makes sense to use vmap.
+
+In any case, a v2 is needed.
 
 Regards,
 
 	Hans
----
- .../media/v4l/vidioc-queryctrl.rst            | 11 ++-
- drivers/media/v4l2-core/v4l2-ctrls-api.c      |  1 +
- drivers/media/v4l2-core/v4l2-ctrls-core.c     | 93 +++++++++++++++----
- include/media/v4l2-ctrls.h                    |  7 +-
- include/uapi/linux/videodev2.h                |  3 +-
- 5 files changed, 95 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-index 4d38acafe8e1..e65c7e5d78ec 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-@@ -267,7 +267,16 @@ See also the examples in :ref:`control`.
-       - The size of each dimension. The first ``nr_of_dims`` elements of
- 	this array must be non-zero, all remaining elements must be zero.
-     * - __u32
--      - ``reserved``\ [32]
-+      - ``fraction_bits``
-+      - The number of least significant bits of the control value that
-+        form the fraction of the fixed point value. This is 0 if the value
-+	is a regular integer. This can be used with all integer control types
-+	(``INTEGER``, ``INTEGER64``, ``U8``, ``U16`` and ``U32``).
-+	For the signed types the signed two's complement representation is used.
-+	This field applies to the control value as well as the ``minimum``,
-+	``maximum``, ``step`` and ``default_value`` fields.
-+    * - __u32
-+      - ``reserved``\ [31]
-       - Reserved for future extensions. Applications and drivers must set
- 	the array to zero.
-
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-api.c b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-index 002ea6588edf..3132df315b17 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-api.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-api.c
-@@ -1101,6 +1101,7 @@ int v4l2_query_ext_ctrl(struct v4l2_ctrl_handler *hdl, struct v4l2_query_ext_ctr
- 	qc->elems = ctrl->elems;
- 	qc->nr_of_dims = ctrl->nr_of_dims;
- 	memcpy(qc->dims, ctrl->dims, qc->nr_of_dims * sizeof(qc->dims[0]));
-+	qc->fraction_bits = ctrl->fraction_bits;
- 	qc->minimum = ctrl->minimum;
- 	qc->maximum = ctrl->maximum;
- 	qc->default_value = ctrl->default_value;
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index a662fb60f73f..65e76a1351b1 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -252,12 +252,61 @@ void v4l2_ctrl_type_op_init(const struct v4l2_ctrl *ctrl, u32 from_idx,
- }
- EXPORT_SYMBOL(v4l2_ctrl_type_op_init);
-
-+static void v4l2_ctrl_log_fp(s64 v, unsigned int fraction_bits)
-+{
-+	s64 i, f, mask;
-+
-+	if (!fraction_bits) {
-+		pr_cont("%lld", v);
-+		return;
-+	}
-+
-+	mask = (1ULL << fraction_bits) - 1;
-+
-+	/*
-+	 * Note: this function does not support fixed point u64 with
-+	 * fraction_bits set to 64. At the moment there is no U64
-+	 * control type, but if that is added, then this code will have
-+	 * to add support for it.
-+	 */
-+	if (fraction_bits >= 63)
-+		i = v < 0 ? -1 : 0;
-+	else
-+		i = v / (1LL << fraction_bits);
-+
-+	f = v < 0 ? -((-v) & mask) : (v & mask);
-+
-+	if (!f) {
-+		pr_cont("%lld", i);
-+	} else if (fraction_bits < 20) {
-+		u64 div = 1ULL << fraction_bits;
-+
-+		if (!i && f < 0)
-+			pr_cont("-%lld/%llu", -f, div);
-+		else if (!i)
-+			pr_cont("%lld/%llu", f, div);
-+		else if (i < 0 || f < 0)
-+			pr_cont("-%lld-%llu/%llu", -i, -f, div);
-+		else
-+			pr_cont("%lld+%llu/%llu", i, f, div);
-+	} else {
-+		if (!i && f < 0)
-+			pr_cont("-%lld/(2^%u)", -f, fraction_bits);
-+		else if (!i)
-+			pr_cont("%lld/(2^%u)", f, fraction_bits);
-+		else if (i < 0 || f < 0)
-+			pr_cont("-%lld-%llu/(2^%u)", -i, -f, fraction_bits);
-+		else
-+			pr_cont("%lld+%llu/(2^%u)", i, f, fraction_bits);
-+	}
-+}
-+
- void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
- {
- 	union v4l2_ctrl_ptr ptr = ctrl->p_cur;
-
- 	if (ctrl->is_array) {
--		unsigned i;
-+		unsigned int i;
-
- 		for (i = 0; i < ctrl->nr_of_dims; i++)
- 			pr_cont("[%u]", ctrl->dims[i]);
-@@ -266,7 +315,7 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
-
- 	switch (ctrl->type) {
- 	case V4L2_CTRL_TYPE_INTEGER:
--		pr_cont("%d", *ptr.p_s32);
-+		v4l2_ctrl_log_fp(*ptr.p_s32, ctrl->fraction_bits);
- 		break;
- 	case V4L2_CTRL_TYPE_BOOLEAN:
- 		pr_cont("%s", *ptr.p_s32 ? "true" : "false");
-@@ -281,19 +330,19 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
- 		pr_cont("0x%08x", *ptr.p_s32);
- 		break;
- 	case V4L2_CTRL_TYPE_INTEGER64:
--		pr_cont("%lld", *ptr.p_s64);
-+		v4l2_ctrl_log_fp(*ptr.p_s64, ctrl->fraction_bits);
- 		break;
- 	case V4L2_CTRL_TYPE_STRING:
- 		pr_cont("%s", ptr.p_char);
- 		break;
- 	case V4L2_CTRL_TYPE_U8:
--		pr_cont("%u", (unsigned)*ptr.p_u8);
-+		v4l2_ctrl_log_fp(*ptr.p_u8, ctrl->fraction_bits);
- 		break;
- 	case V4L2_CTRL_TYPE_U16:
--		pr_cont("%u", (unsigned)*ptr.p_u16);
-+		v4l2_ctrl_log_fp(*ptr.p_u16, ctrl->fraction_bits);
- 		break;
- 	case V4L2_CTRL_TYPE_U32:
--		pr_cont("%u", (unsigned)*ptr.p_u32);
-+		v4l2_ctrl_log_fp(*ptr.p_u32, ctrl->fraction_bits);
- 		break;
- 	case V4L2_CTRL_TYPE_H264_SPS:
- 		pr_cont("H264_SPS");
-@@ -1752,11 +1801,12 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 			u32 id, const char *name, enum v4l2_ctrl_type type,
- 			s64 min, s64 max, u64 step, s64 def,
- 			const u32 dims[V4L2_CTRL_MAX_DIMS], u32 elem_size,
--			u32 flags, const char * const *qmenu,
-+			u32 fraction_bits, u32 flags, const char * const *qmenu,
- 			const s64 *qmenu_int, const union v4l2_ctrl_ptr p_def,
- 			void *priv)
- {
- 	struct v4l2_ctrl *ctrl;
-+	unsigned int max_fraction_bits = 0;
- 	unsigned sz_extra;
- 	unsigned nr_of_dims = 0;
- 	unsigned elems = 1;
-@@ -1778,20 +1828,28 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
-
- 	/* Prefill elem_size for all types handled by std_type_ops */
- 	switch ((u32)type) {
-+	case V4L2_CTRL_TYPE_INTEGER:
-+		elem_size = sizeof(s32);
-+		max_fraction_bits = 31;
-+		break;
- 	case V4L2_CTRL_TYPE_INTEGER64:
- 		elem_size = sizeof(s64);
-+		max_fraction_bits = 63;
- 		break;
- 	case V4L2_CTRL_TYPE_STRING:
- 		elem_size = max + 1;
- 		break;
- 	case V4L2_CTRL_TYPE_U8:
- 		elem_size = sizeof(u8);
-+		max_fraction_bits = 8;
- 		break;
- 	case V4L2_CTRL_TYPE_U16:
- 		elem_size = sizeof(u16);
-+		max_fraction_bits = 16;
- 		break;
- 	case V4L2_CTRL_TYPE_U32:
- 		elem_size = sizeof(u32);
-+		max_fraction_bits = 32;
- 		break;
- 	case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
- 		elem_size = sizeof(struct v4l2_ctrl_mpeg2_sequence);
-@@ -1875,10 +1933,10 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	}
-
- 	/* Sanity checks */
--	if (id == 0 || name == NULL || !elem_size ||
--	    id >= V4L2_CID_PRIVATE_BASE ||
--	    (type == V4L2_CTRL_TYPE_MENU && qmenu == NULL) ||
--	    (type == V4L2_CTRL_TYPE_INTEGER_MENU && qmenu_int == NULL)) {
-+	if (id == 0 || !name || !elem_size ||
-+	    fraction_bits > max_fraction_bits || id >= V4L2_CID_PRIVATE_BASE ||
-+	    (type == V4L2_CTRL_TYPE_MENU && !qmenu) ||
-+	    (type == V4L2_CTRL_TYPE_INTEGER_MENU && !qmenu_int)) {
- 		handler_set_err(hdl, -ERANGE);
- 		return NULL;
- 	}
-@@ -1939,6 +1997,7 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
- 	ctrl->name = name;
- 	ctrl->type = type;
- 	ctrl->flags = flags;
-+	ctrl->fraction_bits = fraction_bits;
- 	ctrl->minimum = min;
- 	ctrl->maximum = max;
- 	ctrl->step = step;
-@@ -2037,7 +2096,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_custom(struct v4l2_ctrl_handler *hdl,
- 	ctrl = v4l2_ctrl_new(hdl, cfg->ops, cfg->type_ops, cfg->id, name,
- 			type, min, max,
- 			is_menu ? cfg->menu_skip_mask : step, def,
--			cfg->dims, cfg->elem_size,
-+			cfg->dims, cfg->elem_size, cfg->fraction_bits,
- 			flags, qmenu, qmenu_int, cfg->p_def, priv);
- 	if (ctrl)
- 		ctrl->is_private = cfg->is_private;
-@@ -2062,7 +2121,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std(struct v4l2_ctrl_handler *hdl,
- 		return NULL;
- 	}
- 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
--			     min, max, step, def, NULL, 0,
-+			     min, max, step, def, NULL, 0, 0,
- 			     flags, NULL, NULL, ptr_null, NULL);
- }
- EXPORT_SYMBOL(v4l2_ctrl_new_std);
-@@ -2095,7 +2154,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu(struct v4l2_ctrl_handler *hdl,
- 		return NULL;
- 	}
- 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
--			     0, max, mask, def, NULL, 0,
-+			     0, max, mask, def, NULL, 0, 0,
- 			     flags, qmenu, qmenu_int, ptr_null, NULL);
- }
- EXPORT_SYMBOL(v4l2_ctrl_new_std_menu);
-@@ -2127,7 +2186,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_menu_items(struct v4l2_ctrl_handler *hdl,
- 		return NULL;
- 	}
- 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
--			     0, max, mask, def, NULL, 0,
-+			     0, max, mask, def, NULL, 0, 0,
- 			     flags, qmenu, NULL, ptr_null, NULL);
-
- }
-@@ -2149,7 +2208,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_std_compound(struct v4l2_ctrl_handler *hdl,
- 		return NULL;
- 	}
- 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
--			     min, max, step, def, NULL, 0,
-+			     min, max, step, def, NULL, 0, 0,
- 			     flags, NULL, NULL, p_def, NULL);
- }
- EXPORT_SYMBOL(v4l2_ctrl_new_std_compound);
-@@ -2173,7 +2232,7 @@ struct v4l2_ctrl *v4l2_ctrl_new_int_menu(struct v4l2_ctrl_handler *hdl,
- 		return NULL;
- 	}
- 	return v4l2_ctrl_new(hdl, ops, NULL, id, name, type,
--			     0, max, 0, def, NULL, 0,
-+			     0, max, 0, def, NULL, 0, 0,
- 			     flags, NULL, qmenu_int, ptr_null, NULL);
- }
- EXPORT_SYMBOL(v4l2_ctrl_new_int_menu);
-diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-index 59679a42b3e7..c35514c5bf88 100644
---- a/include/media/v4l2-ctrls.h
-+++ b/include/media/v4l2-ctrls.h
-@@ -211,7 +211,8 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
-  *		except for dynamic arrays. In that case it is in the range of
-  *		1 to @p_array_alloc_elems.
-  * @dims:	The size of each dimension.
-- * @nr_of_dims:The number of dimensions in @dims.
-+ * @nr_of_dims: The number of dimensions in @dims.
-+ * @fraction_bits: The number of fraction bits for fixed point values.
-  * @menu_skip_mask: The control's skip mask for menu controls. This makes it
-  *		easy to skip menu items that are not valid. If bit X is set,
-  *		then menu item X is skipped. Of course, this only works for
-@@ -228,6 +229,7 @@ typedef void (*v4l2_ctrl_notify_fnc)(struct v4l2_ctrl *ctrl, void *priv);
-  *		:math:`ceil(\frac{maximum - minimum}{step}) + 1`.
-  *		Used only if the @type is %V4L2_CTRL_TYPE_INTEGER_MENU.
-  * @flags:	The control's flags.
-+ * @fraction_bits: The number of fraction bits for fixed point values.
-  * @priv:	The control's private pointer. For use by the driver. It is
-  *		untouched by the control framework. Note that this pointer is
-  *		not freed when the control is deleted. Should this be needed
-@@ -286,6 +288,7 @@ struct v4l2_ctrl {
- 	u32 new_elems;
- 	u32 dims[V4L2_CTRL_MAX_DIMS];
- 	u32 nr_of_dims;
-+	u32 fraction_bits;
- 	union {
- 		u64 step;
- 		u64 menu_skip_mask;
-@@ -426,6 +429,7 @@ struct v4l2_ctrl_handler {
-  * @dims:	The size of each dimension.
-  * @elem_size:	The size in bytes of the control.
-  * @flags:	The control's flags.
-+ * @fraction_bits: The number of fraction bits for fixed point values.
-  * @menu_skip_mask: The control's skip mask for menu controls. This makes it
-  *		easy to skip menu items that are not valid. If bit X is set,
-  *		then menu item X is skipped. Of course, this only works for
-@@ -455,6 +459,7 @@ struct v4l2_ctrl_config {
- 	u32 dims[V4L2_CTRL_MAX_DIMS];
- 	u32 elem_size;
- 	u32 flags;
-+	u32 fraction_bits;
- 	u64 menu_skip_mask;
- 	const char * const *qmenu;
- 	const s64 *qmenu_int;
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index c3d4e490ce7c..3813212a5cd3 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -1944,7 +1944,8 @@ struct v4l2_query_ext_ctrl {
- 	__u32                elems;
- 	__u32                nr_of_dims;
- 	__u32                dims[V4L2_CTRL_MAX_DIMS];
--	__u32		     reserved[32];
-+	__u32                fraction_bits;
-+	__u32		     reserved[31];
- };
-
- /*  Used in the VIDIOC_QUERYMENU ioctl for querying menu items */
--- 
-2.42.0
-
 
