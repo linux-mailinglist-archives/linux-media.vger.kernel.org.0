@@ -1,109 +1,112 @@
-Return-Path: <linux-media+bounces-630-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-631-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7EE4D7F1EA2
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 22:18:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 047B77F1F22
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 22:23:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 290F51F262B2
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 21:18:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9ACBE281850
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 21:23:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2FFD374DC;
-	Mon, 20 Nov 2023 21:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HYWHvejA"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B195438DDE;
+	Mon, 20 Nov 2023 21:23:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70BB3C4;
-	Mon, 20 Nov 2023 13:18:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700515128; x=1732051128;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xYtfmY3EVWUKUBltmFEPvtVvDbJhLP5vaAHjt99/IKw=;
-  b=HYWHvejAYsV4atKsHgJNalI0chJRRNs4nr51JtduVgoFnUFWl8zq3QtZ
-   5aR4hQbQhRbX2Lt/RsZG7PL0Q/9JAsVs1EL8T54ldteSzu+1y6REE6Q8p
-   ADmSz1dneJcPPUQzWOEoPLKcxJb1QpoxtMgJjb6j8vBKMZGZrJrdWfvTy
-   LNnqXQ/1VdTrhM4A6jmB4/cA/CdAovAO0u18LY0qySFykLrhbTbLf6h72
-   2E0R4/92GAEdDJfGoagSWClr0E+W5fUGPCtzcxI8qdcPDTts5484gFHko
-   JgrzM6r7GuisLAMXn1++sK5jZ9Ku2LDc24AWNtbHTGYm9yEwbMns0d3iR
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="388860353"
-X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="388860353"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 13:18:47 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="716329079"
-X-IronPort-AV: E=Sophos;i="6.04,214,1695711600"; 
-   d="scan'208";a="716329079"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2023 13:18:42 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 423A911FAC4;
-	Mon, 20 Nov 2023 23:18:40 +0200 (EET)
-Date: Mon, 20 Nov 2023 21:18:40 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Alain Volmat <alain.volmat@foss.st.com>
-Cc: Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dan Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 0/5] Add support for DCMIPP camera interface of
- STMicroelectronics STM32 SoC series
-Message-ID: <ZVvNMPfW7OhPByZk@kekkonen.localdomain>
-References: <20231120170809.728941-1-alain.volmat@foss.st.com>
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10651CD
+	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 13:23:38 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5Bjr-0004El-AH; Mon, 20 Nov 2023 22:23:27 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5Bjq-00AR9R-B5; Mon, 20 Nov 2023 22:23:26 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1r5Bjq-004dnV-1t; Mon, 20 Nov 2023 22:23:26 +0100
+Date: Mon, 20 Nov 2023 22:23:25 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-tegra@vger.kernel.org,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-staging@lists.linux.dev, kernel@pengutronix.de,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH] staging: media: tegra-video: Convert to platform remove
+ callback returning void
+Message-ID: <20231120212325.4wbjoys6ez73gtfq@pengutronix.de>
+References: <20231026214739.2509271-2-u.kleine-koenig@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="mz5q3snxap7iktcd"
 Content-Disposition: inline
-In-Reply-To: <20231120170809.728941-1-alain.volmat@foss.st.com>
+In-Reply-To: <20231026214739.2509271-2-u.kleine-koenig@pengutronix.de>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Hi Alain,
 
-On Mon, Nov 20, 2023 at 06:07:56PM +0100, Alain Volmat wrote:
-> This patchset introduces support for Digital Camera Memory Interface
-> Pixel Processor (DCMIPP) of STMicroelectronics STM32 SoC series.
-> 
-> This initial support implements a single capture pipe
-> allowing RGB565, YUV, Y, RAW8 and JPEG capture with
-> frame skipping, prescaling and cropping.
-> 
-> DCMIPP is exposed through 3 subdevices:
-> - dcmipp_dump_parallel: parallel interface handling
-> - dcmipp_dump_postproc: frame skipping, prescaling and cropping control
-> - dcmipp_dump_capture: video device capture node
-> 
-> v7:
->   - correct byteproc set_fmt handling and compose/crop/fmt handling
->   - replace few v4l2_subdev_get_try_* into v4l2_subdev_get_pad_*
+--mz5q3snxap7iktcd
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Can you rebase this on my my linuxtv.org tree master branch
-<URL:https://git.linuxtv.org/sailus/media_tree.git/log/>?
+Hello,
 
-These will be called v4l2_subdev_state_get_* now.
+On Thu, Oct 26, 2023 at 11:47:40PM +0200, Uwe Kleine-K=F6nig wrote:
+> The .remove() callback for a platform driver returns an int which makes
+> many driver authors wrongly assume it's possible to do error handling by
+> returning an error code. However the value returned is ignored (apart
+> from emitting a warning) and this typically results in resource leaks.
+>=20
+> To improve here there is a quest to make the remove callback return
+> void. In the first step of this quest all drivers are converted to
+> .remove_new(), which already returns void. Eventually after all drivers
+> are converted, .remove_new() will be renamed to .remove().
+>=20
+> Trivially convert the three tegra-video drivers from always returning
+> zero in the remove callback to the void returning variant.
+>=20
+> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@pengutronix.de>
 
-Thanks.
+who feels responsible to pick up this patch?
 
--- 
-Regards,
+Best regards
+Uwe
 
-Sakari Ailus
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--mz5q3snxap7iktcd
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVbzk0ACgkQj4D7WH0S
+/k7r5wf8CX9mMyqwzyJ6tpB5hPAG+N8GGNa/IoiYHFr08gcvADUL3t1smIjE85W1
+u3t4a2ZC1tv6u6xDjLAuiz8XPZONpPYaXuNBBHHJpM9jjt4yGB02vI+GhKDyRQ2n
+YoZdAc88NK6YgYT6AMynNTXI09N0GL5V0H1bZj4hNxQZIgbawhqi1dyOW4U7vWXz
+y/TXPuCjDBa9hnPDYHTx37S8ShwXyZ4MK3wiBMVIa4WftBxOJBWP47RPAaOQ8LNq
+aCdH8AcSRoY6/3jmemxjBGfjdtzUl0xYOb6XLD4LoPGLk24L/VKbQz1h5DPa1JAv
+Hc9dKbIEvkS4a0mvzjbw4sTkq1viCw==
+=21Dw
+-----END PGP SIGNATURE-----
+
+--mz5q3snxap7iktcd--
 
