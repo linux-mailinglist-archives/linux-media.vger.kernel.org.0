@@ -1,28 +1,42 @@
-Return-Path: <linux-media+bounces-611-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-612-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FEDE7F18CF
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 17:43:27 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 709A47F18D5
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 17:43:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 06CDF28241B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 16:43:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C885282401
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 16:43:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3C0C1B294;
-	Mon, 20 Nov 2023 16:43:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 647641CF90;
+	Mon, 20 Nov 2023 16:43:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="frl33V6d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1604BA;
+	Mon, 20 Nov 2023 08:43:28 -0800 (PST)
+Received: from [100.116.125.19] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BDC718E18
-	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 16:43:20 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 51C1CC433C7;
-	Mon, 20 Nov 2023 16:43:19 +0000 (UTC)
-Message-ID: <0bef37f1-b848-4af3-9b97-3dbb6e0efc04@xs4all.nl>
-Date: Mon, 20 Nov 2023 17:43:17 +0100
+	(Authenticated sender: andrzej.p)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 97CCF6606EC6;
+	Mon, 20 Nov 2023 16:43:25 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1700498607;
+	bh=T86lVH6WrePaaBJ4ehPf9NNYAA5v+uXQRLRc4pJx1Sg=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=frl33V6dO2+PolmiRIL3oRLTMnyhaVdeYOTtJQYGgferMvqqJn7vBmptfyeUeHxiv
+	 8P/oaShXyHbXt5hjT8EUEkUa91e/g/kw+ICtBRSIV1KAMt4LrAnmCPHnBNWGOsn8ks
+	 lgvij76J768n3gd5hwO7xtvdDOs2waY4nfpY/IEga87AKJNcEZTaC5d2Tqv9NJF1nN
+	 /ormwfML3a5nrKMfGCw9tegEYrKw5+VC6c9LhYRlobQbQu/Wvu5kh9lwAvX80OfgaA
+	 f2JUOQQgndOuo/PJSdYvyOv5kypLBRsVkBnPE+RAVtmIbMAfDTOek6sYjzqq+NLUUD
+	 W7plFrikDOEsA==
+Message-ID: <300cd83a-eb15-44c8-a15f-acbbbe850fe8@collabora.com>
+Date: Mon, 20 Nov 2023 17:43:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -30,137 +44,317 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [RFC] Proposal to clean up queue_setup()/min_buffers_needed (ab)use
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Subject: Re: [RFC 1/6] media: uapi: Add VP8 stateless encoder controls
+To: Steve Cho <stevecho@chromium.org>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Daniel Almeida <daniel.almeida@collabora.com>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Heiko Stuebner <heiko@sntech.de>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-media@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ linux-stm32@st-md-mailman.stormreply.com, Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, Marco Felsch <m.felsch@pengutronix.de>,
+ Adam Ford <aford173@gmail.com>
+References: <20231004103720.3540436-1-hugues.fruchet@foss.st.com>
+ <20231004103720.3540436-2-hugues.fruchet@foss.st.com>
+ <CAC-pXoMMsvNG2PCzKbgmBNev6dmPhJb15hJi=W=fki4cSZcupg@mail.gmail.com>
+Content-Language: en-US
+From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+In-Reply-To: <CAC-pXoMMsvNG2PCzKbgmBNev6dmPhJb15hJi=W=fki4cSZcupg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi all,
+Hi Steve,
 
-While working on the support for deleting buffers we came across messy driver
-code that needs some work to clean up.
+Thanks for looking into it,
 
-It concerns drivers that want (or sometimes require) a minimum number of buffers,
-and will check that in the vb2 queue_setup() callback.
+W dniu 14.11.2023 o 23:19, Steve Cho pisze:
+> Few comments.
+> 
+>> +               if (p_vp8_encode_params->loop_filter_level > 63)
+>> +                       return -EINVAL;
+>> +
+>> +               if (p_vp8_encode_params->sharpness_level > 7)
+>> +                       return -EINVAL;
+> 
+> Can we define these magic numbers 63, 7?
 
-Analyzing drivers shows that there are a number of variations, each with
-different problems.
+ok
 
-First of all there are drivers that abuse the min_buffers_needed field: this
-field is meant to specify the minimum number of buffers that have to be queued
-before the DMA engine can start. Typically 0, 1 or 2.
+> 
+> 
+>> +       case V4L2_CID_STATELESS_VP8_ENCODE_QP:                  return "VP8 Encode QP";
+> 
+> Can we add more details about this CID? Or let me know if I missed it
+> somewhere in the series.
 
-To actually be able to dequeue a buffer you need to allocate one more buffer,
-otherwise the DMA engine would never be able to return a buffer.
+The documenation was missing indeed, which was mentioned in the cover letter.
 
-Unfortunately, some drivers set this field to the minimum number of buffers
-that they want to allocate, entirely unrelated to the DMA engine requirements.
-It is really a bug since start_streaming won't be called until that many
-buffers are queued, even though the DMA engine didn't need that many buffers
-at all.
+> 
+> 
+>> +#define V4L2_CID_STATELESS_VP8_ENCODE_PARAMS   (V4L2_CID_CODEC_STATELESS_BASE + 601)
+> 
+> Can we put 2 CIDs in the same place? I think it is more readable that
+> way. I also see that was the case for HEVC.
+> https://git.linuxtv.org/media_tree.git/tree/include/uapi/linux/v4l2-controls.h?h=master&id=c91fd7b7a8ae17ab8be0b6e765e4a38783749330#n2062
 
-Other drivers check the number of requested buffers in queue_setup(): they
-increase the number of buffers requested if it is less than what they require.
+If there's "prior art" for that, I see no objections.
 
-This code is often buggy in that they do not handle the VIDIOC_CREATE_BUFS
-case correctly.
+> 
+> 
+>> + * @loop_filter_level: sets the strength of the applied loop filter.
+>> + *                    Set to a value from the rage 0..63.
+> 
+> typo s/rage/range/
 
-Regardless, drivers that want a minimum of N allocated buffers pose a problem
-when we add support for deleting buffers. Since what to do if you delete
-buffers so you are below N? Stop streaming? Ignore?
+Thanks for spotting it, this rage should be stopped ;)
 
-Note that deleting buffers is not a problem with min_buffers_needed: there
-are always that many buffers in use by the DMA engine, and you can't delete
-buffers that are in use. The only way to delete those buffers is to stop
-streaming altogether.
+> 
+> 
+>> + * @copy_buffer_to_alternate: specifies the atlref frame refresh strategy.
+>> + *                           Set to one of V4L2_VP8_FRAME_FLAG_ALTREF_{}.
+> 
+> nit: typo s/atlref/altref/
 
-In my view changing the number of buffers requested should only be done
-when called from VIDIOC_REQBUFS: applications can request 1 buffer, but
-the driver has to be able to increase that to the minimum viable number of
-buffers (1 plus the minimum needed for DMA). Applications today rely on
-that feature as this was there from the very beginnings of the V4L2 API.
-
-However, for VIDIOC_CREATE_BUFS I believe it should not increase the
-number of requested buffers (it may of course decrease if there is not
-enough memory for all requested buffers). The whole point of CREATE_BUFS is
-to provide better control of the buffers you allocate, and it shouldn't
-unexpectedly allocate more. Especially when DELETE_BUFS is added you don't
-want surprises like that.
-
-So a number of cleanups need to be made:
-
-1) Rename min_buffers_needed to min_dma_buffers_needed, and improve the
-   corresponding documentation.
-
-2) Add a new field: min_reqbufs_buffers (name TBD). Drivers can set this
-   if they want VIDIOC_REQBUFS to allocate a minimum number of buffers.
-   If 0, then the core uses min_dma_buffers_needed + 1. The core will handle
-   this, so drivers no longer need to care about it.
-
-   Note: some drivers seem to do this for no clear reason, we might want
-   to consider just removing this minimum. Usually it is for codecs that
-   really need more than the typical 3 buffers to operate.
-
-I think 1+2 should be done before adding DELETE_BUFS support: it simplifies
-drivers and especially allows CREATE_BUFS to be used to get more fine grained
-control over the number of buffers allocated.
-
-Note that 2 does change the uAPI slightly: CREATE_BUFS will no longer allocate
-more than requested if it is called for the first time (i.e. instead of REQBUFS).
-
-I am not aware of any application doing that, though.
-
-An alternative is to make the CREATE_BUFS behavior driver dependent (i.e. should
-it obey min_reqbufs_buffers when called for the first time?) to keep existing
-behavior. It will probably depend a bit on which drivers are affected.
+Thanks!
 
 Regards,
 
-	Hans
+Andrzej
+
+> 
+> On Wed, Oct 4, 2023 at 3:37 AM Hugues Fruchet
+> <hugues.fruchet@foss.st.com> wrote:
+>>
+>> From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>>
+>> Add uAPI for stateless VP8 encoders.
+>>
+>> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-ctrls-core.c | 13 ++++
+>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c |  5 ++
+>>   include/media/v4l2-ctrls.h                |  2 +
+>>   include/uapi/linux/v4l2-controls.h        | 91 +++++++++++++++++++++++
+>>   include/uapi/linux/videodev2.h            |  3 +
+>>   5 files changed, 114 insertions(+)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> index a662fb60f73f..c7799ceb3d6d 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> @@ -811,6 +811,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>>          struct v4l2_ctrl_hevc_pps *p_hevc_pps;
+>>          struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>>          struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
+>> +       struct v4l2_ctrl_vp8_encode_params *p_vp8_encode_params;
+>>          struct v4l2_area *area;
+>>          void *p = ptr.p + idx * ctrl->elem_size;
+>>          unsigned int i;
+>> @@ -1047,6 +1048,15 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>>                  zero_padding(p_vp8_frame->coder_state);
+>>                  break;
+>>
+>> +       case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
+>> +               p_vp8_encode_params = p;
+>> +               if (p_vp8_encode_params->loop_filter_level > 63)
+>> +                       return -EINVAL;
+>> +
+>> +               if (p_vp8_encode_params->sharpness_level > 7)
+>> +                       return -EINVAL;
+>> +               break;
+>> +
+>>          case V4L2_CTRL_TYPE_HEVC_SPS:
+>>                  p_hevc_sps = p;
+>>
+>> @@ -1868,6 +1878,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>>          case V4L2_CTRL_TYPE_AREA:
+>>                  elem_size = sizeof(struct v4l2_area);
+>>                  break;
+>> +       case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
+>> +               elem_size = sizeof(struct v4l2_ctrl_vp8_encode_params);
+>> +               break;
+>>          default:
+>>                  if (type < V4L2_CTRL_COMPOUND_TYPES)
+>>                          elem_size = sizeof(s32);
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> index 8696eb1cdd61..bd26f1d89bd5 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> @@ -1236,6 +1236,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>          case V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY:           return "AV1 Tile Group Entry";
+>>          case V4L2_CID_STATELESS_AV1_FRAME:                      return "AV1 Frame Parameters";
+>>          case V4L2_CID_STATELESS_AV1_FILM_GRAIN:                 return "AV1 Film Grain";
+>> +       case V4L2_CID_STATELESS_VP8_ENCODE_PARAMS:              return "VP8 Encode Parameters";
+>> +       case V4L2_CID_STATELESS_VP8_ENCODE_QP:                  return "VP8 Encode QP";
+>>
+>>          /* Colorimetry controls */
+>>          /* Keep the order of the 'case's the same as in v4l2-controls.h! */
+>> @@ -1592,6 +1594,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>>          case V4L2_CID_STATELESS_AV1_FILM_GRAIN:
+>>                  *type = V4L2_CTRL_TYPE_AV1_FILM_GRAIN;
+>>                  break;
+>> +       case V4L2_CID_STATELESS_VP8_ENCODE_PARAMS:
+>> +               *type = V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS;
+>> +               break;
+>>          case V4L2_CID_UNIT_CELL_SIZE:
+>>                  *type = V4L2_CTRL_TYPE_AREA;
+>>                  *flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+>> index 59679a42b3e7..a165719e1139 100644
+>> --- a/include/media/v4l2-ctrls.h
+>> +++ b/include/media/v4l2-ctrls.h
+>> @@ -56,6 +56,7 @@ struct video_device;
+>>    * @p_av1_tile_group_entry:    Pointer to an AV1 tile group entry structure.
+>>    * @p_av1_frame:               Pointer to an AV1 frame structure.
+>>    * @p_av1_film_grain:          Pointer to an AV1 film grain structure.
+>> + * @p_vp8_encode_params:       Pointer to a VP8 encode parameter structure.
+>>    * @p:                         Pointer to a compound value.
+>>    * @p_const:                   Pointer to a constant compound value.
+>>    */
+>> @@ -89,6 +90,7 @@ union v4l2_ctrl_ptr {
+>>          struct v4l2_ctrl_av1_tile_group_entry *p_av1_tile_group_entry;
+>>          struct v4l2_ctrl_av1_frame *p_av1_frame;
+>>          struct v4l2_ctrl_av1_film_grain *p_av1_film_grain;
+>> +       struct v4l2_ctrl_vp8_encode_params *p_vp8_encode_params;
+>>          void *p;
+>>          const void *p_const;
+>>   };
+>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>> index c3604a0a3e30..fdec5764e09c 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -3479,6 +3479,97 @@ struct v4l2_ctrl_av1_film_grain {
+>>          __u8 reserved[4];
+>>   };
+>>
+>> +#define V4L2_CID_STATELESS_VP8_ENCODE_PARAMS   (V4L2_CID_CODEC_STATELESS_BASE + 601)
+>> +
+>> +#define V4L2_VP8_FRAME_FLAG_SHOWFRAME                  0x1
+>> +#define V4L2_VP8_FRAME_FLAG_GOLDEN_REFRESH             0x2
+>> +#define V4L2_VP8_FRAME_FLAG_ALTREF_REFRESH             0x4
+>> +#define V4L2_VP8_FRAME_FLAG_SEGMENT_ENABLED            0x8
+>> +#define V4L2_VP8_FRAME_FLAG_LOOP_FILTER_ADJ_ENABLED    0x10
+>> +#define V4L2_VP8_FRAME_FLAG_REFRESH_ENTROPY_PROBS      0x20
+>> +
+>> +#define V4L2_VP8_FRAME_TYPE_KEYFRAME   0
+>> +#define V4L2_VP8_FRAME_TYPE_INTER      1
+>> +
+>> +#define V4L2_VP8_FRAME_COLOR_SPACE_YUV         0
+>> +#define V4L2_VP8_FRAME_COLOR_SPACE_RESERVED    1
+>> +
+>> +#define V4L2_VP8_FRAME_CLAMPING_REQUIRED       0
+>> +#define V4L2_VP8_FRAME_CLAMPING_NO             1
+>> +
+>> +#define V4L2_VP8_FRAME_FILTER_TYPE_NORMAL      0
+>> +#define V4L2_VP8_FRAME_FILTER_TYPE_SIMPLE      1
+>> +
+>> +#define V4L2_VP8_FRAME_NBR_DCT_PARTITIONS_1    0
+>> +#define V4L2_VP8_FRAME_NBR_DCT_PARTITIONS_2    1
+>> +#define V4L2_VP8_FRAME_NBR_DCT_PARTITIONS_4    2
+>> +#define V4L2_VP8_FRAME_NBR_DCT_PARTITIONS_8    3
+>> +
+>> +#define V4L2_VP8_FRAME_GOLDEN_KEEP             0
+>> +#define V4L2_VP8_FRAME_GOLDEN_LASTFRAME                1
+>> +#define V4L2_VP8_FRAME_GOLDEN_ALTREF           2
+>> +
+>> +#define V4L2_VP8_FRAME_ALTREF_KEEP             0
+>> +#define V4L2_VP8_FRAME_ALTREF_LASTFRAME                1
+>> +#define V4L2_VP8_FRAME_ALTREF_GOLDEN           2
+>> +
+>> +#define V4L2_VP8_FRAME_REF_LAST                0
+>> +#define V4L2_VP8_FRAME_REF_GOLDEN      1
+>> +#define V4L2_VP8_FRAME_REF_ALT         2
+>> +
+>> +/**
+>> + * struct v4l2_ctrl_vp8_encode_params - VP8 encode parameters
+>> + * @flags: combination of V4L2_VP8_FRAME_FLAG_{} flags.
+>> + * @frame_type: specifies the frame type (key or inter).
+>> + *             Set to one of V4L2_VP8_FRAME_TYPE_{}.
+>> + * @color_space: defines the YUV color space of the sequence.
+>> + *              V4L2_VP8_FRAME_TYPE_INTER frames shall set this field to zero.
+>> + *              Set to one of V4L2_VP8_FRAME_COLOR_SPACE_{}.
+>> + * @clamping_type: defines pixel value clamping type.
+>> + *                V4L2_VP8_FRAME_TYPE_INTER frames shall set this field to zero.
+>> + *                Set to one of V4L2_VP8_FRAME_CLAMPING_{}.
+>> + * @loop_filter_type: selects the type of loop filter applied.
+>> + *                   Set to one of V4L2_VP8_FRAME_FILTER_TYPE_{}.
+>> + * @loop_filter_level: sets the strength of the applied loop filter.
+>> + *                    Set to a value from the rage 0..63.
+>> + * @sharpness_level: sets the sharpness of the applied loop filter.
+>> + *                  Set to a value from the range 0..7.
+>> + * @log2_nbr_of_dct_partitions: determines the number of separate partitions
+>> + *                             containing the DCT coefficients of macroblocks.
+>> + *                             Set to one of V4L2_VP8_FRAME_NBR_DCT_PARTITIONS_{}.
+>> + * @prob_intra: indicates the probability of an intra macroblock.
+>> + *             Set to a value from the range 0..255.
+>> + * @prob_last: indicates the probability that the last reference frame is used for inter-prediction.
+>> + *            Set to a value from the range 0..255.
+>> + * @prob_gf: indicates the probability that the golden reference frame is used for inter-prediction.
+>> + *          Set to a value from the range 0..255.
+>> + * @copy_buffer_to_golden: specifies the golden frame refresh strategy.
+>> + *                        Set to one of V4L2_VP8_FRAME_FLAG_GOLDEN_{}.
+>> + * @copy_buffer_to_alternate: specifies the atlref frame refresh strategy.
+>> + *                           Set to one of V4L2_VP8_FRAME_FLAG_ALTREF_{}.
+>> + * @reference_type: specifies what kind of reference to use for current inter frame.
+>> + *                 V4L2_VP8_FRAME_TYPE_KEYFRAME shall set this field to zero.
+>> + *                 Set to one of V4L2_VP8_FRAME_REF_{}.
+>> + */
+>> +struct v4l2_ctrl_vp8_encode_params {
+>> +       __u32 flags;
+>> +       __u8 frame_type;
+>> +       __u8 color_space;
+>> +       __u8 clamping_type;
+>> +       __u8 loop_filter_type;
+>> +       __u8 loop_filter_level;
+>> +       __u8 sharpness_level;
+>> +       __u8 log2_nbr_of_dct_partitions;
+>> +       __u8 prob_intra;
+>> +       __u8 prob_last;
+>> +       __u8 prob_gf;
+>> +       __u8 copy_buffer_to_golden;
+>> +       __u8 copy_buffer_to_alternate;
+>> +       __u8 reference_type;
+>> +};
+>> +
+>> +#define V4L2_CID_STATELESS_VP8_ENCODE_QP       (V4L2_CID_CODEC_STATELESS_BASE + 602)
+>> +
+>>   /* MPEG-compression definitions kept for backwards compatibility */
+>>   #ifndef __KERNEL__
+>>   #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index 78260e5d9985..b3cbdc60b82c 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -1836,6 +1836,7 @@ struct v4l2_ext_control {
+>>                  struct v4l2_ctrl_av1_tile_group_entry __user *p_av1_tile_group_entry;
+>>                  struct v4l2_ctrl_av1_frame __user *p_av1_frame;
+>>                  struct v4l2_ctrl_av1_film_grain __user *p_av1_film_grain;
+>> +               struct v4l2_ctrl_vp8_encode_params __user *p_vp8_encode_params;
+>>                  void __user *ptr;
+>>          };
+>>   } __attribute__ ((packed));
+>> @@ -1914,6 +1915,8 @@ enum v4l2_ctrl_type {
+>>          V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY = 0x281,
+>>          V4L2_CTRL_TYPE_AV1_FRAME            = 0x282,
+>>          V4L2_CTRL_TYPE_AV1_FILM_GRAIN       = 0x283,
+>> +
+>> +       V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS        = 0x0290,
+>>   };
+>>
+>>   /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
+>> --
+>> 2.25.1
+>>
+
 
