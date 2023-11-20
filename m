@@ -1,415 +1,248 @@
-Return-Path: <linux-media+bounces-621-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-622-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BC417F1C01
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 19:10:02 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F3257F1C2A
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 19:20:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C61B1C21662
-	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 18:10:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DF5561F256B1
+	for <lists+linux-media@lfdr.de>; Mon, 20 Nov 2023 18:20:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C24743033E;
-	Mon, 20 Nov 2023 18:09:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DD333035C;
+	Mon, 20 Nov 2023 18:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="NF9IUYJN"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="CmyHNZrN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-x233.google.com (mail-oi1-x233.google.com [IPv6:2607:f8b0:4864:20::233])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43600BA
-	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 10:09:50 -0800 (PST)
-Received: by mail-oi1-x233.google.com with SMTP id 5614622812f47-3b2df2fb611so3402140b6e.0
-        for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 10:09:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1700503789; x=1701108589; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=C1JrAippIOjd//vYzGyHU8g1IP/pfT07LStfr2qyMeA=;
-        b=NF9IUYJNBGBtMu+FyIooXTaDXBKpBPYw47Q9tlbUKPr+PG7/+Q28p4TnBMtFY5c+OW
-         e+m0TQDA526GbD2cN3ftYxFegkHj120gsvoAxAmMmukY1popq+RMRIVgIEs0qklGwKnk
-         W6FmVXfinAVvkxyT1HjOxsw18HT50DMpWguvM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700503789; x=1701108589;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=C1JrAippIOjd//vYzGyHU8g1IP/pfT07LStfr2qyMeA=;
-        b=lmu3GIjigg+klB+8FZ+VrhVoX0grM+2ZxP11D3ESCrqVMpriiVywUO2kWyANQEtTjp
-         HTrZiuG2VlIP9yDFUTrDLkFzMEwkUEAMS4K7kLrGXNtRqhoyoJdVWwqzLeeqtGRB+5W/
-         DvlqRgmUodmjdidSwyZLaNXEf+PtsGfNuKj3Q3klkurd/fyCmLIWaf/UNuXxMtGdzGxJ
-         kdaYjakYrU6WXOFMWckPtv4jzeO8t7cCUTSd2MPHaPiHyhJYdX1OPBsM6NNYTLGhlVr1
-         Q6z1YfHXXGJ752qj0g2apy9oEqjQf43Ipzua9sZyntZ4oyv0Xtg7ix853GdSShb7sWw1
-         uMrQ==
-X-Gm-Message-State: AOJu0YzG7yZEt3/kk8F85VnaY+Hg/n6UzY5jccAtdOAfPIyU5KDlMjnb
-	x81HHqxhIoQ2vviF8blRyw5GYwOfzZUyCE5n9YgubA==
-X-Google-Smtp-Source: AGHT+IE3Q9YiKdhHPw+dqEdWTa+pQ92eiDhjOS0WgdjcPjtkQ5goA6t+HxA002o60utb8wpT1n9dfexSqU/MoTh/ET4=
-X-Received: by 2002:a05:6358:cc1a:b0:16d:e598:4f54 with SMTP id
- gx26-20020a056358cc1a00b0016de5984f54mr1411738rwb.29.1700503789423; Mon, 20
- Nov 2023 10:09:49 -0800 (PST)
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DF35D8
+	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 10:19:56 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4SYwlX00JzzyRq;
+	Mon, 20 Nov 2023 20:19:47 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1700504393;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=olwfimsV37OJHX/VHV94lkHtIqIjhDyovkhpcXkOM8w=;
+	b=CmyHNZrN1E6CEVi6WlwMEpATXDra9d+EshLaukQJ77W/1ad2rxRI5qwnA2whwX6FwVovG6
+	3P1HKGc2iNopXo0T9MbI9DfebP55h49rL092P17sM3l2aWAPfInwlx0CbwZEr15kAJO0PO
+	p8tdQ/FS/8qvQBR1lIyS4YxavOj53ro=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1700504393;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=olwfimsV37OJHX/VHV94lkHtIqIjhDyovkhpcXkOM8w=;
+	b=mrysAgrE23rn5ESUzQTBU5k0yuLKQvFatuw1lGulyLaaAmHGzLfLReIubPMk13kHHjRm6t
+	9MDH6MpsBRh58vn1Ebb1qRJ7Tl1jOo0ZMBvanfd8ND1jIbN4lxV51NrMqxUPrs0XmgOT3b
+	YSuil8WWHe4ps3IbTYqm4cw0UNMAHd8=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1700504393; a=rsa-sha256; cv=none;
+	b=g4Sev+A1UCMV+Kvntj+nbXtAtmEif3bWQetY6W+3SRXoAmfyufbmMfTp550Yc83jOIq4Op
+	OUZmbUS0pTzHyKXZqBFPknl3aWawPtYVax07g8LabV14nGcEN/V+p2YyWAGwSD02EhYwUQ
+	J9ry0L8pYYxSjLBygau8kkzzQ6AZtMc=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 3B73F634C93;
+	Mon, 20 Nov 2023 20:19:46 +0200 (EET)
+Date: Mon, 20 Nov 2023 18:19:46 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v3 2/2] Documentation: v4l: Exposure/gain for camera
+ sensor
+Message-ID: <ZVujQotfUK5kICbo@valkosipuli.retiisi.eu>
+References: <20230710132240.7864-1-jacopo.mondi@ideasonboard.com>
+ <20230710132240.7864-3-jacopo.mondi@ideasonboard.com>
+ <ZLUW1eBTH3GpnSlW@valkosipuli.retiisi.eu>
+ <wdhkxxokan2gk4m2b3gwro7d6j6ie4zhshfman456dhvjqokxm@67jcmm3bewgb>
+ <ZVsYCTe12NpHjxva@valkosipuli.retiisi.eu>
+ <xnm7y7thxderbs4ka4qkpgs6r3rjjehmqkniagnkxgjzy5zyyz@vsgjiczgzket>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231004103720.3540436-1-hugues.fruchet@foss.st.com>
- <20231004103720.3540436-2-hugues.fruchet@foss.st.com> <CAC-pXoMMsvNG2PCzKbgmBNev6dmPhJb15hJi=W=fki4cSZcupg@mail.gmail.com>
- <300cd83a-eb15-44c8-a15f-acbbbe850fe8@collabora.com>
-In-Reply-To: <300cd83a-eb15-44c8-a15f-acbbbe850fe8@collabora.com>
-From: Steve Cho <stevecho@chromium.org>
-Date: Mon, 20 Nov 2023 10:09:38 -0800
-Message-ID: <CAC-pXoMERLQuOKNtM81PM2uJszgXCrR22EDjMKFEQ72u9t8++Q@mail.gmail.com>
-Subject: Re: [RFC 1/6] media: uapi: Add VP8 stateless encoder controls
-To: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-Cc: Hugues Fruchet <hugues.fruchet@foss.st.com>, 
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Daniel Almeida <daniel.almeida@collabora.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Heiko Stuebner <heiko@sntech.de>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org, 
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>, Alexandre Torgue <alexandre.torgue@foss.st.com>, 
-	linux-stm32@st-md-mailman.stormreply.com, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	Marco Felsch <m.felsch@pengutronix.de>, Adam Ford <aford173@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <xnm7y7thxderbs4ka4qkpgs6r3rjjehmqkniagnkxgjzy5zyyz@vsgjiczgzket>
 
-Thank you Andrzej for the follow up!
+Hi Jacopo,
 
-On Mon, Nov 20, 2023 at 8:43=E2=80=AFAM Andrzej Pietrasiewicz
-<andrzej.p@collabora.com> wrote:
->
-> Hi Steve,
->
-> Thanks for looking into it,
->
-> W dniu 14.11.2023 o 23:19, Steve Cho pisze:
-> > Few comments.
+On Mon, Nov 20, 2023 at 05:49:30PM +0100, Jacopo Mondi wrote:
+> Hi Sakari
+> 
+> On Mon, Nov 20, 2023 at 08:25:45AM +0000, Sakari Ailus wrote:
+> > Hi Jacopo,
 > >
-> >> +               if (p_vp8_encode_params->loop_filter_level > 63)
-> >> +                       return -EINVAL;
-> >> +
-> >> +               if (p_vp8_encode_params->sharpness_level > 7)
-> >> +                       return -EINVAL;
+> > Just found this old e-mail I apparently forgot to reply...
 > >
-> > Can we define these magic numbers 63, 7?
->
-> ok
->
+> 
+> This really fell into the cracks for me as well
+> 
+> > On Thu, Jul 27, 2023 at 11:42:45AM +0200, Jacopo Mondi wrote:
+> > > Hi Sakari
+> > >
+> > > On Mon, Jul 17, 2023 at 10:24:21AM +0000, Sakari Ailus wrote:
+> > > > Hi Jacopo,
+> > > >
+> > > > On Mon, Jul 10, 2023 at 03:22:40PM +0200, Jacopo Mondi wrote:
+> > > > > Document the suggested way to exposure controls for exposure and gain
+> > > > > for camera sensor drivers.
+> > > > >
+> > > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > > > Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> > > > > ---
+> > > > >  .../driver-api/media/camera-sensor.rst        | 27 +++++++++++++++++++
+> > > > >  1 file changed, 27 insertions(+)
+> > > > >
+> > > > > diff --git a/Documentation/driver-api/media/camera-sensor.rst b/Documentation/driver-api/media/camera-sensor.rst
+> > > > > index cd915ca119ea..67fe77b1edb9 100644
+> > > > > --- a/Documentation/driver-api/media/camera-sensor.rst
+> > > > > +++ b/Documentation/driver-api/media/camera-sensor.rst
+> > > > > @@ -189,3 +189,30 @@ the ``V4L2_CID_VFLIP`` and ``V4L2_CID_HFLIP`` controls with the
+> > > > >  a flip can potentially change the output buffer content layout. Flips should
+> > > > >  also be taken into account when enumerating and handling media bus formats
+> > > > >  on the camera sensor source pads.
+> > > > > +
+> > > > > +Exposure and Gain Control
+> > > > > +-------------------------
+> > > > > +
+> > > > > +Camera sensor drivers that allow applications to control the image exposure
+> > > > > +and gain should do so by exposing dedicated controls to applications.
+> > > > > +
+> > > > > +Exposure time is controlled by registering the ``V4L2_CID_EXPOSURE`` control.
+> > > > > +The control definition does not specify a unit to allow maximum flexibility
+> > > > > +for multiple device types, but when used for camera sensor drivers it should be
+> > > > > +expressed in unit of lines whenever possible.
+> > > >
+> > > > This part of the documentation applies to both raw and SoC cameras.
+> > > >
+> > > > Should the exposure unit be something more user-friendly for SoC cameras?
+> > >
+> > > SoC cameras == YUV/RGB sensors ?
+> > >
+> > > Are you thinking about using the actual exposure time for YUV/RGB
+> > > sensors ?
 > >
+> > Some devices support both but there are devices that don't natively support
+> > it, including UVC and Alvium.
 > >
-> >> +       case V4L2_CID_STATELESS_VP8_ENCODE_QP:                  return=
- "VP8 Encode QP";
+> > I wonder whether we should suggest using the control method that best works
+> > with device-native units? I.e. if the device natively uses frame length and
+> > line length, then use blankings + the pixel clock, otherwise
+> > [gs]_frame_interval?
 > >
-> > Can we add more details about this CID? Or let me know if I missed it
-> > somewhere in the series.
->
-> The documenation was missing indeed, which was mentioned in the cover let=
-ter.
->
+> 
+> Are we mixing two things here ? The above documentation block is about
+> the suggested unit for the exposure control, while [gs]_frame_interval
+> vs {blankings + pixel_rate} is to control the frame duration ?
+
+Oops. The context was apparently garbled in the meantime. X-)
+
+I meant using ISO units (i.e. second) in this case.
+
+> 
+> > >
+> > > >
+> > > > We have two exposure controls now, V4L2_CID_EXPOSURE and
+> > > > V4L2_CID_EXPOSURE_ABSOLUTE. The former doesn't specity a unit whereas the
+> > >
+> > > Apparently only 2 drivers in mainline register V4L2_CID_EXPOSURE_ABSOLUTE
 > >
+> > It's not very popular, no. :-) 100 µs is also a long time, I would expect
+> > to have issues with that large granularity.
 > >
-> >> +#define V4L2_CID_STATELESS_VP8_ENCODE_PARAMS   (V4L2_CID_CODEC_STATEL=
-ESS_BASE + 601)
+> 
+> is 100 micro-seconds a too large granularity when it comes to exposure
+> time ??
+
+It's a pretty long time in bright lighting conditions. The problem is not a
+value as such, but the granularity: a change of one has a major relative
+effect on the exposure time.
+
+In practice this value is translated to some number of lines, and the
+granularity shouldn't be worse than that. I'd therefore make this µs
+instead.
+
+> 
+> > >
+> > > > latter suggests the unit of 100 µs.
+> > > >
+> > > > As exposure is specific to cameras, I think at least a part of this should
+> > > > make it to the controls documentation. The UVC, for instance, uses
+> > > > EXPOSURE_ABSOLUTE.
+> > > >
+> > > > Could we document V4L2_CID_EXPOSURE is in lines (if possible)?
+> > >
+> > > I would indeed be happy with something like "The suggested unit for
+> > > the control is lines"
 > >
-> > Can we put 2 CIDs in the same place? I think it is more readable that
-> > way. I also see that was the case for HEVC.
-> > https://git.linuxtv.org/media_tree.git/tree/include/uapi/linux/v4l2-con=
-trols.h?h=3Dmaster&id=3Dc91fd7b7a8ae17ab8be0b6e765e4a38783749330#n2062
->
-> If there's "prior art" for that, I see no objections.
->
+> > Should there be another control for exposure in (µ)s then?
 > >
+> 
+> Isn't it V4L2_CID_EXPOSURE_ABSOLUTE ?
+
+I guess we could use that but the control name makes no sense, there is
+also some amount of former use. I'd create a new one instead. At this point
+it shouldn't really matter for the user space.
+
+The existing drivers will continue to also use whatever they're using now
+(I guess?).
+
+> 
+> > >
+> > > >
+> > > > > +
+> > > > > +To convert lines into units of time, the total line length (visible and
+> > > > > +not visible pixels) has to be divided by the pixel rate::
+> > > > > +
+> > > > > +        line duration = total line length / pixel rate
+> > > > > +                      = (image width + horizontal blanking) / pixel rate
+> > > > > +
+> > > > > +Camera sensor driver should try whenever possible to distinguish between the
+> > > > > +analogue and digital gain control functions. Analogue gain is a multiplication
+> > > > > +factor applied to all color channels on the pixel array before they get
+> > > > > +converted into the digital domain. It should be made controllable by
+> > > >
+> > > > The analogue gain may not be linear. This depends on the sensor. I'd thus
+> > > > drop the wording related to multiplication factor.
+> > > >
+> > >
+> > > I might have missed why the gain being linear or not has implications
+> > > on the fact it acts as a multiplication factor for the color
+> > > channels...
 > >
-> >> + * @loop_filter_level: sets the strength of the applied loop filter.
-> >> + *                    Set to a value from the rage 0..63.
+> > I must have read this as the analogue gain being the control value. Could
+> > you still add that the analogue gain factor may have a non-linear relation
+> > to the control value?
 > >
-> > typo s/rage/range/
->
-> Thanks for spotting it, this rage should be stopped ;)
->
-> >
-> >
-> >> + * @copy_buffer_to_alternate: specifies the atlref frame refresh stra=
-tegy.
-> >> + *                           Set to one of V4L2_VP8_FRAME_FLAG_ALTREF=
-_{}.
-> >
-> > nit: typo s/atlref/altref/
->
-> Thanks!
->
-> Regards,
->
-> Andrzej
->
-> >
-> > On Wed, Oct 4, 2023 at 3:37=E2=80=AFAM Hugues Fruchet
-> > <hugues.fruchet@foss.st.com> wrote:
-> >>
-> >> From: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> >>
-> >> Add uAPI for stateless VP8 encoders.
-> >>
-> >> Signed-off-by: Andrzej Pietrasiewicz <andrzej.p@collabora.com>
-> >> ---
-> >>   drivers/media/v4l2-core/v4l2-ctrls-core.c | 13 ++++
-> >>   drivers/media/v4l2-core/v4l2-ctrls-defs.c |  5 ++
-> >>   include/media/v4l2-ctrls.h                |  2 +
-> >>   include/uapi/linux/v4l2-controls.h        | 91 +++++++++++++++++++++=
-++
-> >>   include/uapi/linux/videodev2.h            |  3 +
-> >>   5 files changed, 114 insertions(+)
-> >>
-> >> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media=
-/v4l2-core/v4l2-ctrls-core.c
-> >> index a662fb60f73f..c7799ceb3d6d 100644
-> >> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> >> @@ -811,6 +811,7 @@ static int std_validate_compound(const struct v4l2=
-_ctrl *ctrl, u32 idx,
-> >>          struct v4l2_ctrl_hevc_pps *p_hevc_pps;
-> >>          struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
-> >>          struct v4l2_ctrl_hevc_decode_params *p_hevc_decode_params;
-> >> +       struct v4l2_ctrl_vp8_encode_params *p_vp8_encode_params;
-> >>          struct v4l2_area *area;
-> >>          void *p =3D ptr.p + idx * ctrl->elem_size;
-> >>          unsigned int i;
-> >> @@ -1047,6 +1048,15 @@ static int std_validate_compound(const struct v=
-4l2_ctrl *ctrl, u32 idx,
-> >>                  zero_padding(p_vp8_frame->coder_state);
-> >>                  break;
-> >>
-> >> +       case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
-> >> +               p_vp8_encode_params =3D p;
-> >> +               if (p_vp8_encode_params->loop_filter_level > 63)
-> >> +                       return -EINVAL;
-> >> +
-> >> +               if (p_vp8_encode_params->sharpness_level > 7)
-> >> +                       return -EINVAL;
-> >> +               break;
-> >> +
-> >>          case V4L2_CTRL_TYPE_HEVC_SPS:
-> >>                  p_hevc_sps =3D p;
-> >>
-> >> @@ -1868,6 +1878,9 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4=
-l2_ctrl_handler *hdl,
-> >>          case V4L2_CTRL_TYPE_AREA:
-> >>                  elem_size =3D sizeof(struct v4l2_area);
-> >>                  break;
-> >> +       case V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS:
-> >> +               elem_size =3D sizeof(struct v4l2_ctrl_vp8_encode_param=
-s);
-> >> +               break;
-> >>          default:
-> >>                  if (type < V4L2_CTRL_COMPOUND_TYPES)
-> >>                          elem_size =3D sizeof(s32);
-> >> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media=
-/v4l2-core/v4l2-ctrls-defs.c
-> >> index 8696eb1cdd61..bd26f1d89bd5 100644
-> >> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> >> @@ -1236,6 +1236,8 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >>          case V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY:           retur=
-n "AV1 Tile Group Entry";
-> >>          case V4L2_CID_STATELESS_AV1_FRAME:                      retur=
-n "AV1 Frame Parameters";
-> >>          case V4L2_CID_STATELESS_AV1_FILM_GRAIN:                 retur=
-n "AV1 Film Grain";
-> >> +       case V4L2_CID_STATELESS_VP8_ENCODE_PARAMS:              return=
- "VP8 Encode Parameters";
-> >> +       case V4L2_CID_STATELESS_VP8_ENCODE_QP:                  return=
- "VP8 Encode QP";
-> >>
-> >>          /* Colorimetry controls */
-> >>          /* Keep the order of the 'case's the same as in v4l2-controls=
-.h! */
-> >> @@ -1592,6 +1594,9 @@ void v4l2_ctrl_fill(u32 id, const char **name, e=
-num v4l2_ctrl_type *type,
-> >>          case V4L2_CID_STATELESS_AV1_FILM_GRAIN:
-> >>                  *type =3D V4L2_CTRL_TYPE_AV1_FILM_GRAIN;
-> >>                  break;
-> >> +       case V4L2_CID_STATELESS_VP8_ENCODE_PARAMS:
-> >> +               *type =3D V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS;
-> >> +               break;
-> >>          case V4L2_CID_UNIT_CELL_SIZE:
-> >>                  *type =3D V4L2_CTRL_TYPE_AREA;
-> >>                  *flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-> >> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> >> index 59679a42b3e7..a165719e1139 100644
-> >> --- a/include/media/v4l2-ctrls.h
-> >> +++ b/include/media/v4l2-ctrls.h
-> >> @@ -56,6 +56,7 @@ struct video_device;
-> >>    * @p_av1_tile_group_entry:    Pointer to an AV1 tile group entry st=
-ructure.
-> >>    * @p_av1_frame:               Pointer to an AV1 frame structure.
-> >>    * @p_av1_film_grain:          Pointer to an AV1 film grain structur=
-e.
-> >> + * @p_vp8_encode_params:       Pointer to a VP8 encode parameter stru=
-cture.
-> >>    * @p:                         Pointer to a compound value.
-> >>    * @p_const:                   Pointer to a constant compound value.
-> >>    */
-> >> @@ -89,6 +90,7 @@ union v4l2_ctrl_ptr {
-> >>          struct v4l2_ctrl_av1_tile_group_entry *p_av1_tile_group_entry=
-;
-> >>          struct v4l2_ctrl_av1_frame *p_av1_frame;
-> >>          struct v4l2_ctrl_av1_film_grain *p_av1_film_grain;
-> >> +       struct v4l2_ctrl_vp8_encode_params *p_vp8_encode_params;
-> >>          void *p;
-> >>          const void *p_const;
-> >>   };
-> >> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v=
-4l2-controls.h
-> >> index c3604a0a3e30..fdec5764e09c 100644
-> >> --- a/include/uapi/linux/v4l2-controls.h
-> >> +++ b/include/uapi/linux/v4l2-controls.h
-> >> @@ -3479,6 +3479,97 @@ struct v4l2_ctrl_av1_film_grain {
-> >>          __u8 reserved[4];
-> >>   };
-> >>
-> >> +#define V4L2_CID_STATELESS_VP8_ENCODE_PARAMS   (V4L2_CID_CODEC_STATEL=
-ESS_BASE + 601)
-> >> +
-> >> +#define V4L2_VP8_FRAME_FLAG_SHOWFRAME                  0x1
-> >> +#define V4L2_VP8_FRAME_FLAG_GOLDEN_REFRESH             0x2
-> >> +#define V4L2_VP8_FRAME_FLAG_ALTREF_REFRESH             0x4
-> >> +#define V4L2_VP8_FRAME_FLAG_SEGMENT_ENABLED            0x8
-> >> +#define V4L2_VP8_FRAME_FLAG_LOOP_FILTER_ADJ_ENABLED    0x10
-> >> +#define V4L2_VP8_FRAME_FLAG_REFRESH_ENTROPY_PROBS      0x20
-> >> +
-> >> +#define V4L2_VP8_FRAME_TYPE_KEYFRAME   0
-> >> +#define V4L2_VP8_FRAME_TYPE_INTER      1
-> >> +
-> >> +#define V4L2_VP8_FRAME_COLOR_SPACE_YUV         0
-> >> +#define V4L2_VP8_FRAME_COLOR_SPACE_RESERVED    1
-> >> +
-> >> +#define V4L2_VP8_FRAME_CLAMPING_REQUIRED       0
-> >> +#define V4L2_VP8_FRAME_CLAMPING_NO             1
-> >> +
-> >> +#define V4L2_VP8_FRAME_FILTER_TYPE_NORMAL      0
-> >> +#define V4L2_VP8_FRAME_FILTER_TYPE_SIMPLE      1
-> >> +
-> >> +#define V4L2_VP8_FRAME_NBR_DCT_PARTITIONS_1    0
-> >> +#define V4L2_VP8_FRAME_NBR_DCT_PARTITIONS_2    1
-> >> +#define V4L2_VP8_FRAME_NBR_DCT_PARTITIONS_4    2
-> >> +#define V4L2_VP8_FRAME_NBR_DCT_PARTITIONS_8    3
-> >> +
-> >> +#define V4L2_VP8_FRAME_GOLDEN_KEEP             0
-> >> +#define V4L2_VP8_FRAME_GOLDEN_LASTFRAME                1
-> >> +#define V4L2_VP8_FRAME_GOLDEN_ALTREF           2
-> >> +
-> >> +#define V4L2_VP8_FRAME_ALTREF_KEEP             0
-> >> +#define V4L2_VP8_FRAME_ALTREF_LASTFRAME                1
-> >> +#define V4L2_VP8_FRAME_ALTREF_GOLDEN           2
-> >> +
-> >> +#define V4L2_VP8_FRAME_REF_LAST                0
-> >> +#define V4L2_VP8_FRAME_REF_GOLDEN      1
-> >> +#define V4L2_VP8_FRAME_REF_ALT         2
-> >> +
-> >> +/**
-> >> + * struct v4l2_ctrl_vp8_encode_params - VP8 encode parameters
-> >> + * @flags: combination of V4L2_VP8_FRAME_FLAG_{} flags.
-> >> + * @frame_type: specifies the frame type (key or inter).
-> >> + *             Set to one of V4L2_VP8_FRAME_TYPE_{}.
-> >> + * @color_space: defines the YUV color space of the sequence.
-> >> + *              V4L2_VP8_FRAME_TYPE_INTER frames shall set this field=
- to zero.
-> >> + *              Set to one of V4L2_VP8_FRAME_COLOR_SPACE_{}.
-> >> + * @clamping_type: defines pixel value clamping type.
-> >> + *                V4L2_VP8_FRAME_TYPE_INTER frames shall set this fie=
-ld to zero.
-> >> + *                Set to one of V4L2_VP8_FRAME_CLAMPING_{}.
-> >> + * @loop_filter_type: selects the type of loop filter applied.
-> >> + *                   Set to one of V4L2_VP8_FRAME_FILTER_TYPE_{}.
-> >> + * @loop_filter_level: sets the strength of the applied loop filter.
-> >> + *                    Set to a value from the rage 0..63.
-> >> + * @sharpness_level: sets the sharpness of the applied loop filter.
-> >> + *                  Set to a value from the range 0..7.
-> >> + * @log2_nbr_of_dct_partitions: determines the number of separate par=
-titions
-> >> + *                             containing the DCT coefficients of mac=
-roblocks.
-> >> + *                             Set to one of V4L2_VP8_FRAME_NBR_DCT_P=
-ARTITIONS_{}.
-> >> + * @prob_intra: indicates the probability of an intra macroblock.
-> >> + *             Set to a value from the range 0..255.
-> >> + * @prob_last: indicates the probability that the last reference fram=
-e is used for inter-prediction.
-> >> + *            Set to a value from the range 0..255.
-> >> + * @prob_gf: indicates the probability that the golden reference fram=
-e is used for inter-prediction.
-> >> + *          Set to a value from the range 0..255.
-> >> + * @copy_buffer_to_golden: specifies the golden frame refresh strateg=
-y.
-> >> + *                        Set to one of V4L2_VP8_FRAME_FLAG_GOLDEN_{}=
-.
-> >> + * @copy_buffer_to_alternate: specifies the atlref frame refresh stra=
-tegy.
-> >> + *                           Set to one of V4L2_VP8_FRAME_FLAG_ALTREF=
-_{}.
-> >> + * @reference_type: specifies what kind of reference to use for curre=
-nt inter frame.
-> >> + *                 V4L2_VP8_FRAME_TYPE_KEYFRAME shall set this field =
-to zero.
-> >> + *                 Set to one of V4L2_VP8_FRAME_REF_{}.
-> >> + */
-> >> +struct v4l2_ctrl_vp8_encode_params {
-> >> +       __u32 flags;
-> >> +       __u8 frame_type;
-> >> +       __u8 color_space;
-> >> +       __u8 clamping_type;
-> >> +       __u8 loop_filter_type;
-> >> +       __u8 loop_filter_level;
-> >> +       __u8 sharpness_level;
-> >> +       __u8 log2_nbr_of_dct_partitions;
-> >> +       __u8 prob_intra;
-> >> +       __u8 prob_last;
-> >> +       __u8 prob_gf;
-> >> +       __u8 copy_buffer_to_golden;
-> >> +       __u8 copy_buffer_to_alternate;
-> >> +       __u8 reference_type;
-> >> +};
-> >> +
-> >> +#define V4L2_CID_STATELESS_VP8_ENCODE_QP       (V4L2_CID_CODEC_STATEL=
-ESS_BASE + 602)
-> >> +
-> >>   /* MPEG-compression definitions kept for backwards compatibility */
-> >>   #ifndef __KERNEL__
-> >>   #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
-> >> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/video=
-dev2.h
-> >> index 78260e5d9985..b3cbdc60b82c 100644
-> >> --- a/include/uapi/linux/videodev2.h
-> >> +++ b/include/uapi/linux/videodev2.h
-> >> @@ -1836,6 +1836,7 @@ struct v4l2_ext_control {
-> >>                  struct v4l2_ctrl_av1_tile_group_entry __user *p_av1_t=
-ile_group_entry;
-> >>                  struct v4l2_ctrl_av1_frame __user *p_av1_frame;
-> >>                  struct v4l2_ctrl_av1_film_grain __user *p_av1_film_gr=
-ain;
-> >> +               struct v4l2_ctrl_vp8_encode_params __user *p_vp8_encod=
-e_params;
-> >>                  void __user *ptr;
-> >>          };
-> >>   } __attribute__ ((packed));
-> >> @@ -1914,6 +1915,8 @@ enum v4l2_ctrl_type {
-> >>          V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY =3D 0x281,
-> >>          V4L2_CTRL_TYPE_AV1_FRAME            =3D 0x282,
-> >>          V4L2_CTRL_TYPE_AV1_FILM_GRAIN       =3D 0x283,
-> >> +
-> >> +       V4L2_CTRL_TYPE_VP8_ENCODE_PARAMS        =3D 0x0290,
-> >>   };
-> >>
-> >>   /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
-> >> --
-> >> 2.25.1
-> >>
->
+> 
+> Sure!
+> 
+> Thanks for digging this one out!
+
+You're welcome! :-)
+
+-- 
+Regards,
+
+Sakari Ailus
 
