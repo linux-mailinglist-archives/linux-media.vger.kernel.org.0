@@ -1,155 +1,318 @@
-Return-Path: <linux-media+bounces-667-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-668-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A54E77F299C
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 11:00:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5D2E7F29B4
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 11:03:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 11609B217ED
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 10:00:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8D1B01F2547F
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 10:03:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 955CB3C697;
-	Tue, 21 Nov 2023 10:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98A163C6A2;
+	Tue, 21 Nov 2023 10:03:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="duMtLH8l"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VD0H/kzr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EDD2184;
-	Tue, 21 Nov 2023 02:00:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1700560819; x=1732096819;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=gJC13Z8A3YEItyajBlDhtPhLjRfyBkmoP3LffPWAULk=;
-  b=duMtLH8lvVw/ZqZMi01knsIFD95q+iKl5MYryitgTPrYLfVtQgKrkN7h
-   f8L6F8OGLyN1aKi6A77qHKRyYxaZzXnuWdSdnNjEwiWzyaReH7kaRyWmB
-   JteqRstQxyoaSTEaXcGSsti3yAtVZMDZOUfRVDLjSyxywBMZ62f72DaOe
-   yNaLYvCMlqewpA4X7oiTENwCCEthVoitXIcRQ2kfHjQWYlm0rEtzDIiwV
-   ja3ltwae3wzJdzsBBT4Szs30qwoet8TtNEMuvx5EHn+/mA+8187z85H1C
-   Uzzdq81EFR88G7w64M+Co5u9/AYtd7nPRlqxaKMYwh6h7kxihjvmzlMfL
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="388951697"
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="388951697"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 02:00:19 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="884151027"
-X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
-   d="scan'208";a="884151027"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 02:00:17 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id E189A11FC2D;
-	Tue, 21 Nov 2023 12:00:14 +0200 (EET)
-Date: Tue, 21 Nov 2023 10:00:14 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-acpi@vger.kernel.org,
-	linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com
-Subject: Re: [PATCH v2 2/7] pm: runtime: Add
- pm_runtime_put_mark_busy_autosusp() helper
-Message-ID: <ZVx_rmzI11r7C_M6@kekkonen.localdomain>
-References: <20231117111433.1561669-1-sakari.ailus@linux.intel.com>
- <20231117111433.1561669-3-sakari.ailus@linux.intel.com>
- <20231118174903.GF20846@pendragon.ideasonboard.com>
- <CAJZ5v0jaPT2ZHtUTvqF=j=xwpWreEPGCRLrP8ypYU7qOUeYSWA@mail.gmail.com>
- <20231118213031.GD28790@pendragon.ideasonboard.com>
- <ZVsml5E46uAM-94q@kekkonen.localdomain>
- <20231120094743.GC6824@pendragon.ideasonboard.com>
- <ZVxtPvS5UdTGPs38@kekkonen.localdomain>
- <20231121085056.GC8627@pendragon.ideasonboard.com>
+Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83FE6C1;
+	Tue, 21 Nov 2023 02:03:37 -0800 (PST)
+Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6c4cf0aea06so5096617b3a.0;
+        Tue, 21 Nov 2023 02:03:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700561017; x=1701165817; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7IdtMPB4/7uJbY1z0IHZnX7eXnXCeIomsPVSXPesfLU=;
+        b=VD0H/kzrpPfl6K/4x/30QeA3opzXfdzZPPD85bIocAyM2WOBlSGX9mlnomXXMbOoU3
+         E156gT4XbP75WIIkkT8s5Uzj5xVxux8s/wroQg/3PGieY67SvyM5xV/U/VoKCfMA0E+o
+         RYHfgpurbpkkypoOLB1K4icMlBzXpVGV6AC2PsTZhP0Zp1Zg8j8JW1Z9/SSScEGmirzr
+         d9A+3YGrYTPsoVmpu7yNG7nDsbABWp/tDPr9+XiazPtVLF3A/yc3h9/TvVjlwlUp40Ve
+         ZldwHGZhOIX4E/2SWCIrpobOxqnVFRXgadSiLuoozvDy709JKI4B7iTTHZZQm2FEXcm9
+         xDYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700561017; x=1701165817;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7IdtMPB4/7uJbY1z0IHZnX7eXnXCeIomsPVSXPesfLU=;
+        b=eVCR2Yf0S1GIaYmw5qFlRkN0lfU00suIdI2qAxK2KZ8KYklAE1DMPUy/CnvvQt01yV
+         2JV/HZtia9RbnzfGzdTF7rdVg9fTCYosrtYPh8OQL+Caw0JVEGHcIlBXG/RrEHK5VITV
+         3a+3C7m01OGNXwjfvnjLY6YXItTkRQvF1//52c2jy+6NJJMQz/mOIVUr2ctpDZbBHn5F
+         ggKoFrJ6nf+A54NRIBB8uM4iyJ1bW0IZwwnrW1vZSozP7kfhbEy0t2AGKO9e5WDb24j7
+         dDqN8yqq/StsPqb5I/4twML83PBQhnMiK8njG+U2zq02GEG3IABBYcRAL/zoLG+CzUhl
+         JSsg==
+X-Gm-Message-State: AOJu0YzQWkbtcTtKXBPXpplHk3euVKq04JYfDobZKjCNR3FNl9knLOtK
+	N2irJsNwvkuRnvVn/W959prtOhO8MXXdYXTrt6+mGj0W1Yc=
+X-Google-Smtp-Source: AGHT+IEhDjVYipyrVPlpzBI+rpeAtcq8ah4DfgpqQ7DHBDrltVevTS1J2kec+wzzM8Uup1RKyipn3G5y0qZHiDlY3Xc=
+X-Received: by 2002:a05:6a20:914a:b0:18a:df45:fad4 with SMTP id
+ x10-20020a056a20914a00b0018adf45fad4mr1762392pzc.37.1700561016867; Tue, 21
+ Nov 2023 02:03:36 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231121085056.GC8627@pendragon.ideasonboard.com>
+References: <1700552255-5364-1-git-send-email-shengjiu.wang@nxp.com> <71ce6d8b-90c2-4ef6-9883-129861dcab02@xs4all.nl>
+In-Reply-To: <71ce6d8b-90c2-4ef6-9883-129861dcab02@xs4all.nl>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Tue, 21 Nov 2023 18:03:25 +0800
+Message-ID: <CAA+D8ANvK5O2TXnjM_YqsHE8ycen9jrw_HXL+eJWtwJ_OZXeJA@mail.gmail.com>
+Subject: Re: [PATCH v10 00/14] Add audio support in v4l2 framework
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi, tfiga@chromium.org, 
+	m.szyprowski@samsung.com, mchehab@kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+On Tue, Nov 21, 2023 at 5:22=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> w=
+rote:
+>
+> On 21/11/2023 08:37, Shengjiu Wang wrote:
+> > Audio signal processing also has the requirement for memory to
+> > memory similar as Video.
+> >
+> > This asrc memory to memory (memory ->asrc->memory) case is a non
+> > real time use case.
+> >
+> > User fills the input buffer to the asrc module, after conversion, then =
+asrc
+> > sends back the output buffer to user. So it is not a traditional ALSA p=
+layback
+> > and capture case.
+> >
+> > It is a specific use case,  there is no reference in current kernel.
+> > v4l2 memory to memory is the closed implementation,  v4l2 current
+> > support video, image, radio, tuner, touch devices, so it is not
+> > complicated to add support for this specific audio case.
+> >
+> > Because we had implemented the "memory -> asrc ->i2s device-> codec"
+> > use case in ALSA.  Now the "memory->asrc->memory" needs
+> > to reuse the code in asrc driver, so the first 3 patches is for refinin=
+g
+> > the code to make it can be shared by the "memory->asrc->memory"
+> > driver.
+> >
+> > The main change is in the v4l2 side, A /dev/vl4-audioX will be created,
+> > user applications only use the ioctl of v4l2 framework.
+> >
+> > Other change is to add memory to memory support for two kinds of i.MX A=
+SRC
+> > module.
+> >
+> > changes in v10
+> > - remove FIXED_POINT type
+> > - change code base on media: v4l2-ctrls: add support for fraction_bits
+> > - fix issue reported by kernel test robot
+> > - remove module_alias
+>
+> Note that I still need a patch for vivid adding a fixed point test contro=
+l.
+>
+> I think I want two controls: one INTEGER Q16 and one INTEGER64 Q63 (a nic=
+e
+> corner case).
+>
 
-On Tue, Nov 21, 2023 at 10:50:56AM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> On Tue, Nov 21, 2023 at 08:41:34AM +0000, Sakari Ailus wrote:
-> > On Mon, Nov 20, 2023 at 11:47:43AM +0200, Laurent Pinchart wrote:
-> > > On Mon, Nov 20, 2023 at 09:27:51AM +0000, Sakari Ailus wrote:
-> > > > On Sat, Nov 18, 2023 at 11:30:31PM +0200, Laurent Pinchart wrote:
-> > > > > On Sat, Nov 18, 2023 at 10:20:46PM +0100, Rafael J. Wysocki wrote:
-> > > > > > On Sat, Nov 18, 2023 at 6:49 PM Laurent Pinchart wrote:
-> > > > > > > On Fri, Nov 17, 2023 at 01:14:28PM +0200, Sakari Ailus wrote:
-> > > > > > > > Add pm_runtime_put_mark_busy_autosusp() helper function for users that
-> > > > > > > > wish to set the last_busy timestamp to current time and put the
-> > > > > > > > usage_count of the device and set the autosuspend timer.
-> > > > > > > >
-> > > > > > > > Essentially calling pm_runtime_suspend_mark_busy_autosusp() equal to
-> > > > > > > > calling first pm_runtime_mark_last_busy() and then
-> > > > > > > > pm_runtime_put_autosuspend().
-> > > > > > >
-> > > > > > > The vast majority if the pm_runtime_put_autosuspend() users call
-> > > > > > > pm_runtime_mark_last_busy() right before. Let's make the
-> > > > > > > pm_runtime_put_autosuspend() function do that by default, and add a
-> > > > > > > __pm_runtime_put_autosuspend() (name to be bikshedded) for the minority
-> > > > > > > of cases where updating the last busy timestamp isn't desired. We want
-> > > > > > > to simplify the API, not make it more complex.
-> > > > > > 
-> > > > > > I would also prefer it to be done this way if not too problematic.
-> > > > > 
-> > > > > I'm glad you agree :-) The change will probably be a bit painful, but I
-> > > > > think it's for the best. Sakari, please let me know if I can help.
-> > > > 
-> > > > I actually do prefer this approach, too.
-> > > > 
-> > > > There about 350 drivers using pm_runtime_autosuspend() currently. Around
-> > > > 150 uses pm_runtime_autosuspend() which is not preceded by
-> > > > pm_runtime_mark_last_busy(). Call-wise the numbers are ~ 1050 and ~ 330.
-> > > > 
-> > > > I checked some of what's left: most do still call both, but in a way that
-> > > > evades Coccinelle matching. Some omissions seem to remain.
-> > > > 
-> > > > Given that there are way more users that do also call
-> > > > pm_runtime_mark_last_busy(), I think I'll try to introduce
-> > > > __pm_runtime_put_autosuspend() and pm_runtime_put_autosuspend()
-> > > > documentation change first and then rename the callers that don't use
-> > > > pm_runtime_mark_last_busy().
-> > > 
-> > > And also drop pm_runtime_mark_last_busy() from the drivers that call
-> > > pm_runtime_put_autosuspend(), right ?
-> > 
-> > That should be done but as it doesn't affect the functionality, it can (and
-> > may only) be done later on --- the current users need to be converted to
-> > use the to-be-added __pm_runtime_put_autosuspend() first.
-> 
-> True. If you're going to send a series that change things tree-wide I
-> was thinking that it would be best to address multiple tree-wide changes
-> at the same time, that would be less churn, especially if it can be
-> mostly scripted with Coccinelle. That would be my preference (especially
-> because the issue will then be solved and we'll be able to move to
-> something else, instead of leaving old code lingering on for a long
-> time), but it's up to you.
+Not sure if we can do like this:
 
-This will mean around 1000 changed lines in 350 files.
+diff --git a/drivers/media/test-drivers/vivid/vivid-core.h
+b/drivers/media/test-drivers/vivid/vivid-core.h
+index cfb8e66083f6..def8cf6c30c1 100644
+--- a/drivers/media/test-drivers/vivid/vivid-core.h
++++ b/drivers/media/test-drivers/vivid/vivid-core.h
+@@ -222,6 +222,8 @@ struct vivid_dev {
+        struct v4l2_ctrl                *boolean;
+        struct v4l2_ctrl                *int32;
+        struct v4l2_ctrl                *int64;
++       struct v4l2_ctrl                *int32Q16;
++       struct v4l2_ctrl                *int64Q63;
+        struct v4l2_ctrl                *menu;
+        struct v4l2_ctrl                *string;
+        struct v4l2_ctrl                *bitmask;
+diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c
+b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+index f2b20e25a7a4..c912b6776775 100644
+--- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
++++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+@@ -182,6 +182,28 @@ static const struct v4l2_ctrl_config vivid_ctrl_int64 =
+=3D {
+        .step =3D 1,
+ };
 
-Given the number of changes and how they're scattered around, I'd expect
-to merge first the Runtime PM API change, then later on the driver specific
-changes via their own trees. Doing it differently risks a large number of
-conflicts.
++static const struct v4l2_ctrl_config vivid_ctrl_int32Q16 =3D {
++       .ops =3D &vivid_user_gen_ctrl_ops,
++       .id =3D VIVID_CID_INTEGER,
++       .name =3D "Integer 32 Bits Q16",
++       .type =3D V4L2_CTRL_TYPE_INTEGER,
++       .min =3D 0xffffffff80000000ULL,
++       .max =3D 0x7fffffff,
++       .step =3D 1,
++       .fraction_bits =3D 16,
++};
++
++static const struct v4l2_ctrl_config vivid_ctrl_int64Q63 =3D {
++       .ops =3D &vivid_user_gen_ctrl_ops,
++       .id =3D VIVID_CID_INTEGER64,
++       .name =3D "Integer 64 Bits Q63",
++       .type =3D V4L2_CTRL_TYPE_INTEGER64,
++       .min =3D 0x8000000000000000ULL,
++       .max =3D 0x7fffffffffffffffLL,
++       .step =3D 1,
++       .fraction_bits =3D 63,
++};
++
+ static const struct v4l2_ctrl_config vivid_ctrl_u32_array =3D {
+        .ops =3D &vivid_user_gen_ctrl_ops,
+        .id =3D VIVID_CID_U32_ARRAY,
+@@ -1670,6 +1692,8 @@ int vivid_create_controls(struct vivid_dev *dev,
+bool show_ccs_cap,
+        dev->button =3D v4l2_ctrl_new_custom(hdl_user_gen,
+&vivid_ctrl_button, NULL);
+        dev->int32 =3D v4l2_ctrl_new_custom(hdl_user_gen,
+&vivid_ctrl_int32, NULL);
+        dev->int64 =3D v4l2_ctrl_new_custom(hdl_user_gen,
+&vivid_ctrl_int64, NULL);
++       dev->int32Q16 =3D v4l2_ctrl_new_custom(hdl_user_gen,
+&vivid_ctrl_int32Q16, NULL);
++       dev->int64Q63 =3D v4l2_ctrl_new_custom(hdl_user_gen,
+&vivid_ctrl_int64Q63, NULL);
+        dev->boolean =3D v4l2_ctrl_new_custom(hdl_user_gen,
+&vivid_ctrl_boolean, NULL);
+        dev->menu =3D v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_menu, =
+NULL);
+        dev->string =3D v4l2_ctrl_new_custom(hdl_user_gen,
+&vivid_ctrl_string, NULL);
+(END)
 
-Hopefully faster than changing the I²C driver probe function though.
 
-We also need to have some time before all users of
-pm_runtime_put_autosuspend() have been converted, including new ones merged
-meanwhile.
-
--- 
-Regards,
-
-Sakari Ailus
+> Regards,
+>
+>         Hans
+>
+> >
+> > changes in v9:
+> > - add MEDIA_ENT_F_PROC_AUDIO_RESAMPLER.
+> > - add MEDIA_INTF_T_V4L_AUDIO
+> > - add media controller support
+> > - refine the vim2m-audio to support 8k<->16k conversion.
+> >
+> > changes in v8:
+> > - refine V4L2_CAP_AUDIO_M2M to be 0x00000008
+> > - update doc for FIXED_POINT
+> > - address comments for imx-asrc
+> >
+> > changes in v7:
+> > - add acked-by from Mark
+> > - separate commit for fixed point, m2m audio class, audio rate controls
+> > - use INTEGER_MENU for rate,  FIXED_POINT for rate offset
+> > - remove used fmts
+> > - address other comments for Hans
+> >
+> > changes in v6:
+> > - use m2m_prepare/m2m_unprepare/m2m_start/m2m_stop to replace
+> >   m2m_start_part_one/m2m_stop_part_one, m2m_start_part_two/m2m_stop_par=
+t_two.
+> > - change V4L2_CTRL_TYPE_ASRC_RATE to V4L2_CTRL_TYPE_FIXED_POINT
+> > - fix warning by kernel test rebot
+> > - remove some unused format V4L2_AUDIO_FMT_XX
+> > - Get SNDRV_PCM_FORMAT from V4L2_AUDIO_FMT in driver.
+> > - rename audm2m to viaudm2m.
+> >
+> > changes in v5:
+> > - remove V4L2_AUDIO_FMT_LPCM
+> > - define audio pixel format like V4L2_AUDIO_FMT_S8...
+> > - remove rate and format in struct v4l2_audio_format.
+> > - Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE controls
+> > - updata document accordingly.
+> >
+> > changes in v4:
+> > - update document style
+> > - separate V4L2_AUDIO_FMT_LPCM and V4L2_CAP_AUDIO_M2M in separate commi=
+t
+> >
+> > changes in v3:
+> > - Modify documents for adding audio m2m support
+> > - Add audio virtual m2m driver
+> > - Defined V4L2_AUDIO_FMT_LPCM format type for audio.
+> > - Defined V4L2_CAP_AUDIO_M2M capability type for audio m2m case.
+> > - with modification in v4l-utils, pass v4l2-compliance test.
+> >
+> > changes in v2:
+> > - decouple the implementation in v4l2 and ALSA
+> > - implement the memory to memory driver as a platfrom driver
+> >   and move it to driver/media
+> > - move fsl_asrc_common.h to include/sound folder
+> >
+> > Shengjiu Wang (14):
+> >   ASoC: fsl_asrc: define functions for memory to memory usage
+> >   ASoC: fsl_easrc: define functions for memory to memory usage
+> >   ASoC: fsl_asrc: move fsl_asrc_common.h to include/sound
+> >   ASoC: fsl_asrc: register m2m platform device
+> >   ASoC: fsl_easrc: register m2m platform device
+> >   media: uapi: Add V4L2_CAP_AUDIO_M2M capability flag
+> >   media: v4l2: Add audio capture and output support
+> >   media: uapi: Define audio sample format fourcc type
+> >   media: uapi: Add V4L2_CTRL_CLASS_M2M_AUDIO
+> >   media: uapi: Add audio rate controls support
+> >   media: uapi: Declare interface types for Audio
+> >   media: uapi: Add an entity type for audio resampler
+> >   media: imx-asrc: Add memory to memory driver
+> >   media: vim2m-audio: add virtual driver for audio memory to memory
+> >
+> >  .../media/mediactl/media-types.rst            |   11 +
+> >  .../userspace-api/media/v4l/buffer.rst        |    6 +
+> >  .../userspace-api/media/v4l/common.rst        |    1 +
+> >  .../media/v4l/dev-audio-mem2mem.rst           |   71 +
+> >  .../userspace-api/media/v4l/devices.rst       |    1 +
+> >  .../media/v4l/ext-ctrls-audio-m2m.rst         |   41 +
+> >  .../userspace-api/media/v4l/pixfmt-audio.rst  |   87 ++
+> >  .../userspace-api/media/v4l/pixfmt.rst        |    1 +
+> >  .../media/v4l/vidioc-enum-fmt.rst             |    2 +
+> >  .../media/v4l/vidioc-g-ext-ctrls.rst          |    4 +
+> >  .../userspace-api/media/v4l/vidioc-g-fmt.rst  |    4 +
+> >  .../media/v4l/vidioc-querycap.rst             |    3 +
+> >  .../media/videodev2.h.rst.exceptions          |    3 +
+> >  .../media/common/videobuf2/videobuf2-v4l2.c   |    4 +
+> >  drivers/media/platform/nxp/Kconfig            |   13 +
+> >  drivers/media/platform/nxp/Makefile           |    1 +
+> >  drivers/media/platform/nxp/imx-asrc.c         | 1264 +++++++++++++++++
+> >  drivers/media/test-drivers/Kconfig            |   11 +
+> >  drivers/media/test-drivers/Makefile           |    1 +
+> >  drivers/media/test-drivers/vim2m-audio.c      |  799 +++++++++++
+> >  drivers/media/v4l2-core/v4l2-compat-ioctl32.c |    9 +
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   10 +
+> >  drivers/media/v4l2-core/v4l2-dev.c            |   21 +
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          |   66 +
+> >  drivers/media/v4l2-core/v4l2-mem2mem.c        |   13 +-
+> >  include/media/v4l2-dev.h                      |    2 +
+> >  include/media/v4l2-ioctl.h                    |   34 +
+> >  .../fsl =3D> include/sound}/fsl_asrc_common.h   |   60 +
+> >  include/uapi/linux/media.h                    |    2 +
+> >  include/uapi/linux/v4l2-controls.h            |    9 +
+> >  include/uapi/linux/videodev2.h                |   41 +
+> >  sound/soc/fsl/fsl_asrc.c                      |  144 ++
+> >  sound/soc/fsl/fsl_asrc.h                      |    4 +-
+> >  sound/soc/fsl/fsl_asrc_dma.c                  |    2 +-
+> >  sound/soc/fsl/fsl_easrc.c                     |  233 +++
+> >  sound/soc/fsl/fsl_easrc.h                     |    6 +-
+> >  36 files changed, 2977 insertions(+), 7 deletions(-)
+> >  create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem=
+2mem.rst
+> >  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-aud=
+io-m2m.rst
+> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.=
+rst
+> >  create mode 100644 drivers/media/platform/nxp/imx-asrc.c
+> >  create mode 100644 drivers/media/test-drivers/vim2m-audio.c
+> >  rename {sound/soc/fsl =3D> include/sound}/fsl_asrc_common.h (60%)
+> >
+>
 
