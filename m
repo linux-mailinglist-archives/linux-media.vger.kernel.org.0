@@ -1,167 +1,151 @@
-Return-Path: <linux-media+bounces-669-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-670-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9764A7F29C4
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 11:06:00 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38DC67F29DC
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 11:11:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C5ED281F22
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 10:05:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5F4728165F
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 10:11:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16DE53C6BC;
-	Tue, 21 Nov 2023 10:05:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7A173D385;
+	Tue, 21 Nov 2023 10:11:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="YAR3enM0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U1vMUiC7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR02-DB5-obe.outbound.protection.outlook.com (mail-db5eur02on2055.outbound.protection.outlook.com [40.107.249.55])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D950136;
-	Tue, 21 Nov 2023 02:05:49 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=gnGb6WN+j7J8I2xeHoKUm69DmztFB1DQQzlj78ImUuQC0xQ9UBah354USW/QkVXJIxOsRp/26F443tFmKtFt/D31bW1pBm4oBWOza6mhe7yAOVUmufS5m6pynLisSJ5702qKxQtSlMtQ/13b4TAyw1gLuJsum++95YZk3sXZZwR4UGS8Rfa50DMwi9HMm+uY8v6yPtKSHrlsMAnFmXVYhIh5RAjiOwIeqp7QTaJWWVbJb9DkDX7Nco262zRowPp5UTqj/BQAsUgla94YqwnE3xYIc69pPV+fDTAObzfEJ526fTEvJMebhHuhjCqB9Sk/7/0Lu5t4FbA69qtjBJ48Dw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YTYnnhnpP0p/42phfufQU+vI2ViwzxH7/n/2lKZ3X5Y=;
- b=gm23gTrR3l6RX0dRvYPswD4m31t/+FM/azHYyyVhVrJFPIIr2v6IJDTE9KgPlg7i06yhMXNTgmwVyAtxFUuiTCz19RxV3u2ZTBgSZxH+YQE4uQDD9oNC4JwSTXQTrYx8G1Q/IBvZGoC6KHOKms6+30JfZ57OJkfrlZ17PM1+g/vDkgZXN3co4bZ37w+VGqt9tbkuRUybaBqBL6NPSHi9huv3FOTlLUttE4SUfxt9Mzk11YJYWgA+Y5sO8R7rxlLHbPQ4s9yLdD3fsheZsEfoL5yfOZuk5KVcxt0XL2JLRmCGqf8iB1B7/Ipi7NqiytkHAHsZT17bmq3NK8YYnM41DA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YTYnnhnpP0p/42phfufQU+vI2ViwzxH7/n/2lKZ3X5Y=;
- b=YAR3enM0qvj0We8zg1qKM3xhlw0iZba11q+rpWXBeHUmrJb0meFej3qdKdfebwgRjZZyvFvUzOXXEadA5Dm0kkGZ0JG2Z/1V8T2dWGq0NqQ3GEOZ2RDEA/520WvSDkYjmKmpbyfTrPbFszLi4zSgoE29w57zrnyHyVnnMbrIyps=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
- by AS8PR08MB6183.eurprd08.prod.outlook.com (2603:10a6:20b:29e::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Tue, 21 Nov
- 2023 10:05:46 +0000
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::79a1:5ad6:b221:ad]) by DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::79a1:5ad6:b221:ad%4]) with mapi id 15.20.7002.028; Tue, 21 Nov 2023
- 10:05:46 +0000
-Message-ID: <8853d53a-fc22-4983-bbc0-414ebb481745@wolfvision.net>
-Date: Tue, 21 Nov 2023 11:05:43 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 2/3] media: rockchip: Add a driver for Rockchip's
- camera interface
-Content-Language: en-US
-To: Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
- heiko@sntech.de, hverkuil-cisco@xs4all.nl,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
- alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
- paul.kocialkowski@bootlin.com
-References: <cover.1700132457.git.mehdi.djait@bootlin.com>
- <db605935ad21c4780b73db87605b52d30bc936a4.1700132457.git.mehdi.djait@bootlin.com>
-From: Michael Riesch <michael.riesch@wolfvision.net>
-Organization: WolfVision GmbH
-In-Reply-To: <db605935ad21c4780b73db87605b52d30bc936a4.1700132457.git.mehdi.djait@bootlin.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0902CA0038.eurprd09.prod.outlook.com
- (2603:10a6:802:1::27) To DU0PR08MB9155.eurprd08.prod.outlook.com
- (2603:10a6:10:416::5)
+Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0816FC1;
+	Tue, 21 Nov 2023 02:11:45 -0800 (PST)
+Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-6cb74a527ceso1660090b3a.2;
+        Tue, 21 Nov 2023 02:11:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700561504; x=1701166304; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=h77UCHBzfS9YsxxGuMxQKATmfaJKyNycbGsrjaUmphU=;
+        b=U1vMUiC7Kj96pVlXogZWS8uk5x5NwUT3uzMVQoIZJSkW0JbbrRSD1ScaoQpW3vDZFl
+         dcSUePPgJkYAQZTcFBkbTs1v1uuub2zheqZTflwUqTzyYPI9EgDKaZ+XkkG/N25KftXk
+         goChYmzJdeQqyZhb+Iqcp1TbKF99L5zH3yMrBrTJwWTc5+/2RhE3ZPYmNe5JLXG/hxnH
+         /4Uq2QNT3YiRO7QAUm5b5oW4f0WIM7cMTJI4cM15lbtzTbIKzI7ZQNPwJPqP9t1b2y0M
+         cdJ62GL5ijKR6Cr+cscL/JwF78/DRNEYmipDOQ8S4R5ALYeEwrl1qLRkjv+AictMLmJ0
+         +BuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700561504; x=1701166304;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=h77UCHBzfS9YsxxGuMxQKATmfaJKyNycbGsrjaUmphU=;
+        b=Ak6H/jwWPzSm8xy6WuE0SI6RvLJ5POoklKNDwIDgTTFl73IedzNH1X8gH1XA/H5uWZ
+         nvH+CC7JJ3qHhg+vJVWweZa442vN6oQqJxQeNx/UyKqmuEUjiN0qJJJ7dYfYOBn+pld/
+         bQ0pN8bDHgnccNw7K9X7HjzALaphnQrZJ9RC3gEDP5jK7UpIWaHngCCabzjG+kziuVWA
+         UdqtqcX1ZRZxLSUzsiCqsPlmXD3+gQoD7lsG/kxdP0LLL4uUVqad8ioJgnXRGVy1miku
+         MyPZEzQivVZ4LT0LO7bOpW/f8phr7jQ1pWuaXMclFPi+e/w/Hm+MtZ1b3jWr/cJNfWoQ
+         ihLg==
+X-Gm-Message-State: AOJu0YxPlTzBPuGS/GdMGIqgetyoBpNdGl8CxD4hYYNQU7vrNBCoVojl
+	WNemgq3mIXkjQmlz4ybjOZRsZWkgeHoper3dI0s=
+X-Google-Smtp-Source: AGHT+IEp8j+Xt8I0EWdsh1ssJvEqhJY59UJ9RwYFSlAvOSHCZgQnKLiiltgHL/5rsbh4MhNNEDWqB0d6Hu9FlWOpSMc=
+X-Received: by 2002:a05:6a21:789d:b0:187:15e2:fdd9 with SMTP id
+ bf29-20020a056a21789d00b0018715e2fdd9mr8857392pzc.39.1700561504425; Tue, 21
+ Nov 2023 02:11:44 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|AS8PR08MB6183:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4312ec1d-82a8-46ef-7516-08dbea796e3a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	adsdB4QOWeaatPid7ZRKZvRcNZJTOsFpYQG8kZQnk8TfSQv+4KtYI1OLGjfL9s8YjI8iPds96maBdk3/tSt01aKaYkY9jcZQpvJ++mr60ut/moeis3pfeC6QICj1gBg7UMUN85cj50JZeSq2MzWJIRcSSXy5uCTPtFybAwIY3MJkDXnw8o6z4kIxUPqpPDZcZyk9VfTLO0raDV3yy9hlzJibYlbGV5wHf6ntdQkNorVwdizb46oaAhMYJF4MRLPR0TAtSuN/TPkSkkaA7N9Ib1kyWft2lai/vjPyGjQ1xl1K2LGLCbFPgzaaEYu4re3QN29mRuAT7Pl9tjZQzPlBKLNEDU+pJ7rnWpyX+TwcvC8TQ9qygbzZWdXn41Z1cr8towR4e31/q336+WcWRcUicH4g5zRYdXrPisbdOoVqB+tJNFTRugVIJLfe0IrsZkTK2OInKvIndHdS7/R9YKD0jgJzVLJaXcgEF/5GkxV9Pjmpy/TQbjJilmn9+bP1jr60qA3R+PLGfyWM2sD1XDzQQF4xiNKn+qxWylDT3pB83d/VTgHbtj/i6SWLDhgUGOI6Z8pRAR/wrDriNkUviy8dhI3a4YEhFdiXhmVzsbGZoe/wm3VmuvHLrkMg4JGQ+bzSkY1fyf3cTzPIbaHEXDBssQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(136003)(376002)(366004)(396003)(39850400004)(346002)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(6666004)(2616005)(6512007)(36916002)(66946007)(31686004)(66476007)(66556008)(4326008)(316002)(8676002)(8936002)(478600001)(26005)(6506007)(53546011)(83380400001)(6486002)(38100700002)(44832011)(31696002)(5660300002)(7416002)(2906002)(4744005)(41300700001)(86362001)(36756003)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UnUvMzNhOGdGYVpBeGhsU1VUcE54Y0RjZFBwTHNYcHFTSVVEMWxQWFIyUWs1?=
- =?utf-8?B?UVd3eENlbDhWWHlKbHFjeVFFRVhibmM4bVVjaFg0S3ZhVDJzbEhBSW5Da28x?=
- =?utf-8?B?ZlJTOTNadU5teUs0WGZQMy9kY1RBeTFOeDJwNDFSelkzenljRzlHTENSa3JI?=
- =?utf-8?B?eU5pc2hPWVJaRGZVZ3gyWkY0eWh0TE5vK0JxcmJJQ1JGcC9GYUNQaVRtZnJM?=
- =?utf-8?B?VE5Cd2JtdWJicFo4amFOb3FnclZ1N3ZrS3NrcHBKWXlmTndqRGlvc1ZnVXRj?=
- =?utf-8?B?TUlCQUJCSjZSTnlMVlNFemRrSWZtNzJQTlNCa1BQNXh1bnNPNEVtTkEzcU96?=
- =?utf-8?B?c3pYdi94VHBpa0srL3k1ZEV4eDR3eEtCeWZzNnVLalk5MnhVaWN2UjBBN0hM?=
- =?utf-8?B?aXVEclhSUWV0Rm5KL1A1aE42ZCtuSzUxNC9DSmxUckw5aXlOUDJxemZ0ZmlG?=
- =?utf-8?B?S254T2hKV0JKaTA2NUJqZDRXMldxNXpSVmIxQXdQVW96NEJwRHZUMmpQY21u?=
- =?utf-8?B?QzYxZ0RlUnovanNUSWw0YUlCdS9uUkpraCtJMEQreUg5REhzZ3RUVDJQL0VI?=
- =?utf-8?B?cjdJR3VNbDl5UkF2dXUxQ25udVIycjc3N3FXajlvWjIxb0lVT3BVb05sdzdj?=
- =?utf-8?B?YjJuWDh4d2p3SEJqUExnb29SVE82dFJKc2VuWms1akFnTmt4YnlrM0gxMlA1?=
- =?utf-8?B?NlQ0UFZ3UlZUQW9ad1FPajUzcUtKb1l3emdzM3JSdVlUQmdUeGRKM1FmaStY?=
- =?utf-8?B?THZ0djFobGZ3TklYc3J4M0o0YmFVNG43Ni81OWQwSjc3TTE4NkNQK21GYXBn?=
- =?utf-8?B?Wkd5blZVcURNTHErcVE3dGhFUVhTOEFlUjdqckVhZk9SQVUzVzZIK0RjTkVV?=
- =?utf-8?B?MExEN1ZWbzE4eTVvUVljenNockFKVlkyR0VUUEdIU2tDcVl2YmlJbDFEWXd0?=
- =?utf-8?B?NUNLUHAzVzhqaGJpbFl1Vi9oL1BER2ZQb1ZJWnNvaDVUZmFQUTBaTXUySXZN?=
- =?utf-8?B?MWJSdW1UNy9KR0RBVlUwbzl3T2NWd2oyajNOWkY2QmR5ckY4dWRXYnVmMi9P?=
- =?utf-8?B?MVRTUnVvbmp0NlRHbk5NZ1VDSVk2MlJDSHRBeGdkVzdiYi82cHBHd3dJV0VP?=
- =?utf-8?B?dS9qQm5uSjBFZzd1T2k0aFhBNU9EbzVFWWw2SVZrcXBKZWRUSWUxVEZONFpG?=
- =?utf-8?B?Z1V1UFNsS1B6L3ZkNDJ1M1ArblU2cXBBY01oZW52MWFhTHQvSnA3Z0tvVFI0?=
- =?utf-8?B?RW5PVTZ5VWVBYWZuUXhGSmNGeFdSbUhxakFsREFoR2lBRytwUGlQOUZ5aDBI?=
- =?utf-8?B?dk4vNnFqNVBSa0NEMGFmMG1FekdwRG56NU5xQXNDOHIwa3lRVGszOE8zandn?=
- =?utf-8?B?eWM1WkMwRzdXSXllTVdxUWJWbXQyNjZyTlRiVDc4b1p0eE5RSjlTYjVJWEtG?=
- =?utf-8?B?SlJSdWdHYUUwOXdxTVk1TGcvbjhOWjgwbEd0amJua1l5UzB5N1N6OUE5b25S?=
- =?utf-8?B?UmI0WEZKYUduSW53K0dUaTZDcGRLTE9tdzllYnZ6ZEFoWmRZaEh3S2N0Z1Q2?=
- =?utf-8?B?OFU3alVoU01qWVJFdXpKdCsvcWJvRzROUWxGRUxTdkVnbkVrOGY1Smg2TjY4?=
- =?utf-8?B?S0xHUUhiVUhxVjFqd0d5WVFRTU1RUTZtR25HeHdWYy9GNFJ0MFFDa3BXOHg5?=
- =?utf-8?B?S1F6Z09xUG03YitONTJ2QjdKenFyMzlMTXM1M1hhQ2R3Z2luZTc4OWdvQU9K?=
- =?utf-8?B?ZnJtOWcvbDhWVlRzZGRZL20zQnpiSlp5cjZMM2Vyb2t2U0hOKzRBdWZQUnNM?=
- =?utf-8?B?R0xqQ3pzNExLcDlXa1N1cytMN0pseXQwcS9XNVkxN1EyQkJsSVp1UlR3QkpT?=
- =?utf-8?B?c3FwelBPTUdtMmhWRVJWNGFSNlZHay9pNG95S1Zzb1VNY2VtUUUrS1VJaEVw?=
- =?utf-8?B?NDFoeVlUMWlmQjVzamVqNktKM0FCcXVNOWNmdGJScEpFMEdUeEE2Wmtnd3hi?=
- =?utf-8?B?Z0tQdkFESFVBM2phRmc4eFEvUnBneTdzbzJZSXB5YlpvZnJ4b2RaWllXRS91?=
- =?utf-8?B?RXZYQ1RlLzFyemlER0p4K3NxTXRlSmRyTkpQYUVmT1BNSnNZTk1lTkpuY1Bz?=
- =?utf-8?B?ZFA3WTI5bWdOeW1POUg3emsyTHFKM2x4YzBqOXBTS3paOUZrZEg1QzYrY3NB?=
- =?utf-8?B?bnc9PQ==?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4312ec1d-82a8-46ef-7516-08dbea796e3a
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 10:05:46.5815
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: VbgnDEQIN9/csr0K1fI79HoAbKx6R11DMz2Guuj1Tg8QIwCf3N4G5MJYJnJjWJ4pmlqKc2J2Jp5Ekcp6+LiqUPxAH2afe2Ypvf+R+n2tH9w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR08MB6183
+References: <1700552255-5364-1-git-send-email-shengjiu.wang@nxp.com>
+ <1700552255-5364-14-git-send-email-shengjiu.wang@nxp.com> <0026a04d-8a04-4eeb-9f03-c68be6da5ec5@xs4all.nl>
+In-Reply-To: <0026a04d-8a04-4eeb-9f03-c68be6da5ec5@xs4all.nl>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Tue, 21 Nov 2023 18:11:33 +0800
+Message-ID: <CAA+D8APe+-_Z-vE2rffnF7S6Bss_3bigzb-Z2zHKof-7RARBKg@mail.gmail.com>
+Subject: Re: [PATCH v10 13/14] media: imx-asrc: Add memory to memory driver
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi, tfiga@chromium.org, 
+	m.szyprowski@samsung.com, mchehab@kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Mehdi,
+On Tue, Nov 21, 2023 at 5:20=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> w=
+rote:
+>
+> On 21/11/2023 08:37, Shengjiu Wang wrote:
+> > Implement the ASRC memory to memory function using
+> > the v4l2 framework, user can use this function with
+> > v4l2 ioctl interface.
+> >
+> > User send the output and capture buffer to driver and
+> > driver store the converted data to the capture buffer.
+> >
+> > This feature can be shared by ASRC and EASRC drivers
+> >
+> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
+> > ---
+> >  drivers/media/platform/nxp/Kconfig    |   13 +
+> >  drivers/media/platform/nxp/Makefile   |    1 +
+> >  drivers/media/platform/nxp/imx-asrc.c | 1264 +++++++++++++++++++++++++
+> >  3 files changed, 1278 insertions(+)
+> >  create mode 100644 drivers/media/platform/nxp/imx-asrc.c
+> >
+>
+> <snip>
+>
+> > +static const struct v4l2_ctrl_config asrc_src_rate_off_control =3D {
+> > +     .ops =3D &asrc_m2m_ctrl_ops,
+> > +     .id =3D V4L2_CID_M2M_AUDIO_SOURCE_RATE_OFFSET,
+> > +     .name =3D "Audio Source Sample Rate Offset",
+> > +     .type =3D V4L2_CTRL_TYPE_INTEGER64,
+>
+> Do you need this to be INTEGER64? If the actual number of bits
+> of the fixed point value that the hardware uses fits in 32 bits,
+> then you can just use the INTEGER type.
+>
+> > +     .min =3D 0xFFFFFF0000000000,
+> > +     .max =3D 0x7fffffffff,
+> > +     .def =3D 0,
+> > +     .step =3D 1,
+> > +     .flags =3D V4L2_CTRL_FLAG_UPDATE,
+> > +     .fraction_bits =3D 32,
+>
+> Can't you use the actual number of fraction bits that the hardware
+> uses? I can't imagine that it is actually 32 bits, it is almost
+> certainly less.
+>
+From the ratio point view, it is 44bits.  maximum 39 fractional bits.
 
-During testing I found another issue:
+> I do think that we need a helper function to fill in the min/max values.
 
-On 11/16/23 12:04, Mehdi Djait wrote:
-> [...]
-> +static int cif_stream_start(struct cif_stream *stream)
-> +{
-> +	u32 val, mbus_flags, href_pol, vsync_pol, fmt_type,
-> +	    xfer_mode = 0;
-> +	struct cif_device *cif_dev = stream->cifdev;
-> +	struct cif_remote *remote_info = &cif_dev->remote;
-> +	int ret;
-> +	u32 input_mode;
-> +
-> +	stream->frame_idx = 0;
-> +
-> +	fmt_type = stream->cif_fmt_in->fmt_type;
-> +	input_mode = (remote_info->std == V4L2_STD_NTSC) ?
-> +		      CIF_FORMAT_INPUT_MODE_NTSC :
-> +		      CIF_FORMAT_INPUT_MODE_PAL;
-> +	mbus_flags = remote_info->mbus.bus.parallel.flags;
+what's the helper function look like?  Where can I find an example?
 
-remote_info->mbus is accessed here, but where/how is it actually set? It
-seems that the struct is actually zero'd.
+best regards
+wang shengjiu
 
-Best regards,
-Michael
 
-> [...]
+>
+> Regards,
+>
+>         Hans
+>
+> > +};
+> > +
+> > +static const struct v4l2_ctrl_config asrc_dst_rate_off_control =3D {
+> > +     .ops =3D &asrc_m2m_ctrl_ops,
+> > +     .id =3D V4L2_CID_M2M_AUDIO_DEST_RATE_OFFSET,
+> > +     .name =3D "Audio Dest Sample Rate Offset",
+> > +     .type =3D V4L2_CTRL_TYPE_INTEGER64,
+> > +     .min =3D 0xFFFFFF0000000000,
+> > +     .max =3D 0x7fffffffff,
+> > +     .def =3D 0,
+> > +     .step =3D 1,
+> > +     .flags =3D V4L2_CTRL_FLAG_UPDATE,
+> > +     .fraction_bits =3D 32,
+> > +};
+>
 
