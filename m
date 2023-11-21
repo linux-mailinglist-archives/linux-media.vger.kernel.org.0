@@ -1,100 +1,365 @@
-Return-Path: <linux-media+bounces-634-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-635-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67D9E7F2280
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 01:50:43 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 696CC7F22F4
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 02:13:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EC3CEB217A8
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 00:50:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1DD322818D8
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 01:13:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9195F17CA;
-	Tue, 21 Nov 2023 00:50:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2FF15C98;
+	Tue, 21 Nov 2023 01:13:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.com header.i=@amazon.com header.b="oRda8OLG"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bdPhmdb7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-fw-80007.amazon.com (smtp-fw-80007.amazon.com [99.78.197.218])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 179FC91
-	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 16:50:32 -0800 (PST)
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBF7CA2
+	for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 17:13:27 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id 5b1f17b1804b1-40b27726369so2462025e9.0
+        for <linux-media@vger.kernel.org>; Mon, 20 Nov 2023 17:13:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazon201209;
-  t=1700527832; x=1732063832;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/PssODP5EgrKhulbQ1d5krAiw6qLK9nwNHe3ETP23+E=;
-  b=oRda8OLGyTlXgblQL95ac70UQWeopoBDrIzsxhWxOtj7YwOgidFyeryw
-   neyon0Vb4zHzZ0//NRJnetVetXaGlsfJ2JGybLlwSgiBmDezAnjSsggaq
-   LFIMjKHMezx+E8HmAPfhrmh9SLqyHx/Gf4BHdSd8OnJnWnvUNYR0yxtBx
-   Q=;
-X-IronPort-AV: E=Sophos;i="6.04,214,1695686400"; 
-   d="scan'208";a="254332195"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO email-inbound-relay-pdx-2a-m6i4x-1cca8d67.us-west-2.amazon.com) ([10.25.36.210])
-  by smtp-border-fw-80007.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 00:50:32 +0000
-Received: from smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev (pdx2-ws-svc-p26-lb5-vlan3.pdx.amazon.com [10.39.38.70])
-	by email-inbound-relay-pdx-2a-m6i4x-1cca8d67.us-west-2.amazon.com (Postfix) with ESMTPS id 811D28034A;
-	Tue, 21 Nov 2023 00:50:31 +0000 (UTC)
-Received: from EX19MTAUWC002.ant.amazon.com [10.0.7.35:9972]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.48.37:2525] with esmtp (Farcaster)
- id ce8b3783-25f9-4755-86e0-d0e6e79e5c15; Tue, 21 Nov 2023 00:50:31 +0000 (UTC)
-X-Farcaster-Flow-ID: ce8b3783-25f9-4755-86e0-d0e6e79e5c15
-Received: from EX19D028UWA002.ant.amazon.com (10.13.138.248) by
- EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Tue, 21 Nov 2023 00:50:30 +0000
-Received: from uda95858fd22f53.ant.amazon.com (10.106.239.31) by
- EX19D028UWA002.ant.amazon.com (10.13.138.248) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.39; Tue, 21 Nov 2023 00:50:29 +0000
-From: Mengchi Cheng <mengcc@amazon.com>
-To: <sumit.semwal@linaro.org>, <christian.koenig@amd.com>
-CC: <linux-media@vger.kernel.org>, <kamatam@amazon.com>, Mengchi Cheng
-	<mengcc@amazon.com>
-Subject: Inconsistent fence info between 6.1 and 5.15 kernel
-Date: Mon, 20 Nov 2023 16:50:14 -0800
-Message-ID: <20231121005014.4074003-1-mengcc@amazon.com>
-X-Mailer: git-send-email 2.25.1
+        d=linaro.org; s=google; t=1700529206; x=1701134006; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=d+V8m9rGjlqHOkAe7opi5BbbJj9tL4XyGei+Q738HT0=;
+        b=bdPhmdb7ViYO6KQ5HxaQlDsU3slAlXoMb3osv3rDP5SbAXUDmKGkvAKRjDgudW4oho
+         Mh56xpcliFs/ZWiIFnp8OBW/Skyy1s/ODQdjIB2eU4BGFpS7qaN7ygWlTcMwr/NzHotv
+         UglNIvx1dYNkqK26YvYxC3eDV9Wet51gRxAzeTWRDZzFgReMSe978aMxsguoq1vk7KCR
+         FNXrDib4sGRC7bSjYc4tMYLGdZAMFf7SvfO9RQw0ghgAWUpn776uxf72mWtNpj0AOEHL
+         xv6UF4HXkZv/sHvqygYt1kIyAyayZQEVhrfXxQWEVqp7Z/G+cOtuaYzWCDGWt/r5yy0y
+         OiCw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700529206; x=1701134006;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=d+V8m9rGjlqHOkAe7opi5BbbJj9tL4XyGei+Q738HT0=;
+        b=n74jhKP47G4oeFrZPVdE1uev34AEwvcUosLYXRCxt+FEiLkq338l2xnOI18S/fOIEE
+         iu5nut5FO51QkYA+uqjoZzKolo0kuJzRLsfb4pssRSO2bcZ3/f15sqKx0hNMklNxH00a
+         Sh/HoP/AsYqjhQNnQpsfmx3nIqx/e7sS7ZA0pZ3eHHCrF85Y08Ia9WzM/0vYQeIKmTlr
+         ulOlx6YmHi5vMZPF+aTQeehKEX80kgQiOxXaAhMxg+Psdf3d9oZdMwSNfP4buboKGvRW
+         GiHT6qOQaLNZuSdSjVVgXnLFNHvkaFmmJWg+FG00YbwGxCUH8XyAfBSPIpcTl9/OZ5ql
+         MRkA==
+X-Gm-Message-State: AOJu0YwmQ/q3TclzMav86lunf57az2hodn24tcGTdhlfZq9d72c9N1ZM
+	qQhqlQiLn2NIldWbWHigctDQow==
+X-Google-Smtp-Source: AGHT+IFEWbryaOwRrgMvz6UDDhe9oJNP3A+S6Hz+hWXIegeS61CWeU0ouIoSH95qIrQIPZ1eh70xgA==
+X-Received: by 2002:a05:600c:1c0a:b0:408:3c8a:65ec with SMTP id j10-20020a05600c1c0a00b004083c8a65ecmr6849421wms.8.1700529206070;
+        Mon, 20 Nov 2023 17:13:26 -0800 (PST)
+Received: from sagittarius-a.nxsw.local ([37.228.218.3])
+        by smtp.gmail.com with ESMTPSA id 1-20020a05600c230100b003fefb94ccc9sm14913452wmo.11.2023.11.20.17.13.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Nov 2023 17:13:25 -0800 (PST)
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To: hverkuil-cisco@xs4all.nl,
+	laurent.pinchart@ideasonboard.com,
+	rfoss@kernel.org,
+	todor.too@gmail.com,
+	bryan.odonoghue@linaro.org,
+	agross@kernel.org,
+	andersson@kernel.org,
+	konrad.dybcio@linaro.org,
+	mchehab@kernel.org,
+	matti.lehtimaki@gmail.com,
+	quic_grosikop@quicinc.com
+Cc: linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kernel test robot <lkp@intel.com>
+Subject: [PATCH v5.1] media: qcom: camss: Flag VFE-lites to support more VFEs
+Date: Tue, 21 Nov 2023 01:13:20 +0000
+Message-ID: <20231121011320.2545959-1-bryan.odonoghue@linaro.org>
+X-Mailer: git-send-email 2.42.0
+In-Reply-To: <20231118-b4-camss-named-power-domains-v5-6-55eb0f35a30a@linaro.org>
+References: <20231118-b4-camss-named-power-domains-v5-6-55eb0f35a30a@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.106.239.31]
-X-ClientProxiedBy: EX19D038UWB002.ant.amazon.com (10.13.139.185) To
- EX19D028UWA002.ant.amazon.com (10.13.138.248)
 
-Hello,                                                                  
-                                                                        
-We are upleveling kernel from 5.15.32 to 6.1.62 for our system. The     
-kernels we use are all vanila kernel from upstream without any extra    
-patches. But we see our graphics application crashed in the 6.1.        
-                                                                        
-And later we found that 6.1 has DMA_BUF_IOCTL_EXPORT_SYNC_FILE option   
-added into dma_buf_ioctl. It initialized dma_fence_stub and returned    
-with a sync_file. So then our app called sync_file_ioctl_fence_info to  
-inquire fence info, it returns info of dma_fence_stub, which was not    
-expected. As the result, the app aborted because of it.                 
-                                                                        
-Meanwhile, with the 5.15 kernel, our app somehow also called            
-DMA_BUF_IOCTL_EXPORT_SYNC_FILE. Since it returned -ENOTTY, the app did  
-not further ask for fence info.                                         
-                                                                        
-I am not a graphics engineer. I do not know if userspace is handling    
-dma_fence_stub correctly. But since the addition of                     
-DMA_BUF_IOCTL_EXPORT_SYNC_FILE is causing differnet behavior, I am      
-wondering if there is a way to keep things consistent in the kernel.    
-For example, add a macro to provide a choice disabling it? There is
-probably a better solution to it. Look forward to your reply.                                                          
-                                                                        
-                                                                        
-Best,                                                                   
-Mengchi Cheng
+From: Matti Lehtimäki <matti.lehtimaki@gmail.com>
 
+Some platforms such as SC7280 have three VFEs and two VFE-lites. Current
+code has hard-coded two as the maximum number of VFEs. Remove the
+hard-coded maximum number of VFEs to handle all possible combinations of
+VFEs and VFE-lites.
+
+Signed-off-by: Matti Lehtimäki <matti.lehtimaki@gmail.com>
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202311200405.h6G4L9oe-lkp@intel.com
+Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+---
+ .../media/platform/qcom/camss/camss-vfe-480.c | 33 +++++++++----------
+ drivers/media/platform/qcom/camss/camss-vfe.c |  5 +++
+ drivers/media/platform/qcom/camss/camss-vfe.h | 10 ++++++
+ drivers/media/platform/qcom/camss/camss.c     | 26 +++++++--------
+ drivers/media/platform/qcom/camss/camss.h     |  3 +-
+ 5 files changed, 44 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe-480.c b/drivers/media/platform/qcom/camss/camss-vfe-480.c
+index 4652e8b4cff58..dc2735476c823 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe-480.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe-480.c
+@@ -15,31 +15,28 @@
+ #include "camss.h"
+ #include "camss-vfe.h"
+ 
+-/* VFE 2/3 are lite and have a different register layout */
+-#define IS_LITE		(vfe->id >= 2 ? 1 : 0)
+-
+ #define VFE_HW_VERSION			(0x00)
+ 
+-#define VFE_GLOBAL_RESET_CMD		(IS_LITE ? 0x0c : 0x1c)
+-#define	    GLOBAL_RESET_HW_AND_REG	(IS_LITE ? BIT(1) : BIT(0))
++#define VFE_GLOBAL_RESET_CMD		(vfe_is_lite(vfe) ? 0x0c : 0x1c)
++#define	    GLOBAL_RESET_HW_AND_REG	(vfe_is_lite(vfe) ? BIT(1) : BIT(0))
+ 
+-#define VFE_REG_UPDATE_CMD		(IS_LITE ? 0x20 : 0x34)
++#define VFE_REG_UPDATE_CMD		(vfe_is_lite(vfe) ? 0x20 : 0x34)
+ static inline int reg_update_rdi(struct vfe_device *vfe, int n)
+ {
+-	return IS_LITE ? BIT(n) : BIT(1 + (n));
++	return vfe_is_lite(vfe) ? BIT(n) : BIT(1 + (n));
+ }
+ 
+ #define	    REG_UPDATE_RDI		reg_update_rdi
+-#define VFE_IRQ_CMD			(IS_LITE ? 0x24 : 0x38)
++#define VFE_IRQ_CMD			(vfe_is_lite(vfe) ? 0x24 : 0x38)
+ #define     IRQ_CMD_GLOBAL_CLEAR	BIT(0)
+ 
+-#define VFE_IRQ_MASK(n)			((IS_LITE ? 0x28 : 0x3c) + (n) * 4)
+-#define	    IRQ_MASK_0_RESET_ACK	(IS_LITE ? BIT(17) : BIT(0))
+-#define	    IRQ_MASK_0_BUS_TOP_IRQ	(IS_LITE ? BIT(4) : BIT(7))
+-#define VFE_IRQ_CLEAR(n)		((IS_LITE ? 0x34 : 0x48) + (n) * 4)
+-#define VFE_IRQ_STATUS(n)		((IS_LITE ? 0x40 : 0x54) + (n) * 4)
++#define VFE_IRQ_MASK(n)			((vfe_is_lite(vfe) ? 0x28 : 0x3c) + (n) * 4)
++#define	    IRQ_MASK_0_RESET_ACK	(vfe_is_lite(vfe) ? BIT(17) : BIT(0))
++#define	    IRQ_MASK_0_BUS_TOP_IRQ	(vfe_is_lite(vfe) ? BIT(4) : BIT(7))
++#define VFE_IRQ_CLEAR(n)		((vfe_is_lite(vfe) ? 0x34 : 0x48) + (n) * 4)
++#define VFE_IRQ_STATUS(n)		((vfe_is_lite(vfe) ? 0x40 : 0x54) + (n) * 4)
+ 
+-#define BUS_REG_BASE			(IS_LITE ? 0x1a00 : 0xaa00)
++#define BUS_REG_BASE			(vfe_is_lite(vfe) ? 0x1a00 : 0xaa00)
+ 
+ #define VFE_BUS_WM_CGC_OVERRIDE		(BUS_REG_BASE + 0x08)
+ #define		WM_CGC_OVERRIDE_ALL	(0x3FFFFFF)
+@@ -49,13 +46,13 @@ static inline int reg_update_rdi(struct vfe_device *vfe, int n)
+ #define VFE_BUS_IRQ_MASK(n)		(BUS_REG_BASE + 0x18 + (n) * 4)
+ static inline int bus_irq_mask_0_rdi_rup(struct vfe_device *vfe, int n)
+ {
+-	return IS_LITE ? BIT(n) : BIT(3 + (n));
++	return vfe_is_lite(vfe) ? BIT(n) : BIT(3 + (n));
+ }
+ 
+ #define     BUS_IRQ_MASK_0_RDI_RUP	bus_irq_mask_0_rdi_rup
+ static inline int bus_irq_mask_0_comp_done(struct vfe_device *vfe, int n)
+ {
+-	return IS_LITE ? BIT(4 + (n)) : BIT(6 + (n));
++	return vfe_is_lite(vfe) ? BIT(4 + (n)) : BIT(6 + (n));
+ }
+ 
+ #define     BUS_IRQ_MASK_0_COMP_DONE	bus_irq_mask_0_comp_done
+@@ -90,8 +87,8 @@ static inline int bus_irq_mask_0_comp_done(struct vfe_device *vfe, int n)
+ /* for titan 480, each bus client is hardcoded to a specific path
+  * and each bus client is part of a hardcoded "comp group"
+  */
+-#define RDI_WM(n)			((IS_LITE ? 0 : 23) + (n))
+-#define RDI_COMP_GROUP(n)		((IS_LITE ? 0 : 11) + (n))
++#define RDI_WM(n)			((vfe_is_lite(vfe) ? 0 : 23) + (n))
++#define RDI_COMP_GROUP(n)		((vfe_is_lite(vfe) ? 0 : 11) + (n))
+ 
+ #define MAX_VFE_OUTPUT_LINES	4
+ 
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+index 123e5ead7602d..7bcf9ddb3537a 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+@@ -1742,3 +1742,8 @@ void msm_vfe_unregister_entities(struct vfe_device *vfe)
+ 		media_entity_cleanup(&sd->entity);
+ 	}
+ }
++
++bool vfe_is_lite(struct vfe_device *vfe)
++{
++	return vfe->camss->res->vfe_res[vfe->id].is_lite;
++}
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.h b/drivers/media/platform/qcom/camss/camss-vfe.h
+index cdbe59d8d437e..0572c9b08e112 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.h
++++ b/drivers/media/platform/qcom/camss/camss-vfe.h
+@@ -226,4 +226,14 @@ extern const struct vfe_hw_ops vfe_ops_480;
+ int vfe_get(struct vfe_device *vfe);
+ void vfe_put(struct vfe_device *vfe);
+ 
++/*
++ * vfe_is_lite - Return if VFE is VFE lite.
++ * @vfe: VFE Device
++ *
++ * Some VFE lites have a different register layout.
++ *
++ * Return whether VFE is VFE lite
++ */
++bool vfe_is_lite(struct vfe_device *vfe);
++
+ #endif /* QC_MSM_CAMSS_VFE_H */
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index ee3e8cefa9b1f..ea0038f62b807 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -706,6 +706,7 @@ static const struct camss_subdev_resources vfe_res_845[] = {
+ 				{ 384000000 } },
+ 		.reg = { "vfe_lite" },
+ 		.interrupt = { "vfe_lite" },
++		.is_lite = true,
+ 		.line_num = 4,
+ 		.ops = &vfe_ops_170
+ 	}
+@@ -886,6 +887,7 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
+ 				{ 0 } },
+ 		.reg = { "vfe_lite0" },
+ 		.interrupt = { "vfe_lite0" },
++		.is_lite = true,
+ 		.line_num = 4,
+ 		.ops = &vfe_ops_480
+ 	},
+@@ -905,6 +907,7 @@ static const struct camss_subdev_resources vfe_res_8250[] = {
+ 				{ 0 } },
+ 		.reg = { "vfe_lite1" },
+ 		.interrupt = { "vfe_lite1" },
++		.is_lite = true,
+ 		.line_num = 4,
+ 		.ops = &vfe_ops_480
+ 	},
+@@ -1204,7 +1207,7 @@ static int camss_init_subdevices(struct camss *camss)
+ 	}
+ 
+ 	/* note: SM8250 requires VFE to be initialized before CSID */
+-	for (i = 0; i < camss->vfe_total_num; i++) {
++	for (i = 0; i < camss->res->vfe_num; i++) {
+ 		ret = msm_vfe_subdev_init(camss, &camss->vfe[i],
+ 					  &res->vfe_res[i], i);
+ 		if (ret < 0) {
+@@ -1276,7 +1279,7 @@ static int camss_register_entities(struct camss *camss)
+ 		goto err_reg_ispif;
+ 	}
+ 
+-	for (i = 0; i < camss->vfe_total_num; i++) {
++	for (i = 0; i < camss->res->vfe_num; i++) {
+ 		ret = msm_vfe_register_entities(&camss->vfe[i],
+ 						&camss->v4l2_dev);
+ 		if (ret < 0) {
+@@ -1348,7 +1351,7 @@ static int camss_register_entities(struct camss *camss)
+ 				}
+ 	} else {
+ 		for (i = 0; i < camss->res->csid_num; i++)
+-			for (k = 0; k < camss->vfe_total_num; k++)
++			for (k = 0; k < camss->res->vfe_num; k++)
+ 				for (j = 0; j < camss->vfe[k].line_num; j++) {
+ 					struct v4l2_subdev *csid = &camss->csid[i].subdev;
+ 					struct v4l2_subdev *vfe = &camss->vfe[k].line[j].subdev;
+@@ -1372,7 +1375,7 @@ static int camss_register_entities(struct camss *camss)
+ 	return 0;
+ 
+ err_link:
+-	i = camss->vfe_total_num;
++	i = camss->res->vfe_num;
+ err_reg_vfe:
+ 	for (i--; i >= 0; i--)
+ 		msm_vfe_unregister_entities(&camss->vfe[i]);
+@@ -1411,7 +1414,7 @@ static void camss_unregister_entities(struct camss *camss)
+ 
+ 	msm_ispif_unregister_entities(camss->ispif);
+ 
+-	for (i = 0; i < camss->vfe_total_num; i++)
++	for (i = 0; i < camss->res->vfe_num; i++)
+ 		msm_vfe_unregister_entities(&camss->vfe[i]);
+ }
+ 
+@@ -1509,7 +1512,7 @@ static int camss_configure_pd(struct camss *camss)
+ 		return 0;
+ 
+ 	/* count the # of VFEs which have flagged power-domain */
+-	for (vfepd_num = i = 0; i < camss->vfe_total_num; i++) {
++	for (vfepd_num = i = 0; i < camss->res->vfe_num; i++) {
+ 		if (res->vfe_res[i].has_pd)
+ 			vfepd_num++;
+ 	}
+@@ -1584,7 +1587,7 @@ static void camss_genpd_subdevice_cleanup(struct camss *camss)
+ {
+ 	int i;
+ 
+-	for (i = 0; i < camss->vfe_total_num; i++)
++	for (i = 0; i < camss->res->vfe_num; i++)
+ 		msm_vfe_genpd_cleanup(&camss->vfe[i]);
+ }
+ 
+@@ -1641,8 +1644,7 @@ static int camss_probe(struct platform_device *pdev)
+ 			return -ENOMEM;
+ 	}
+ 
+-	camss->vfe_total_num = camss->res->vfe_num + camss->res->vfe_lite_num;
+-	camss->vfe = devm_kcalloc(dev, camss->vfe_total_num,
++	camss->vfe = devm_kcalloc(dev, camss->res->vfe_num,
+ 				  sizeof(*camss->vfe), GFP_KERNEL);
+ 	if (!camss->vfe)
+ 		return -ENOMEM;
+@@ -1800,8 +1802,7 @@ static const struct camss_resources sdm845_resources = {
+ 	.vfe_res = vfe_res_845,
+ 	.csiphy_num = ARRAY_SIZE(csiphy_res_845),
+ 	.csid_num = ARRAY_SIZE(csid_res_845),
+-	.vfe_num = 2,
+-	.vfe_lite_num = 1,
++	.vfe_num = ARRAY_SIZE(vfe_res_845),
+ };
+ 
+ static const struct camss_resources sm8250_resources = {
+@@ -1813,8 +1814,7 @@ static const struct camss_resources sm8250_resources = {
+ 	.icc_path_num = ARRAY_SIZE(icc_res_sm8250),
+ 	.csiphy_num = ARRAY_SIZE(csiphy_res_8250),
+ 	.csid_num = ARRAY_SIZE(csid_res_8250),
+-	.vfe_num = 2,
+-	.vfe_lite_num = 2,
++	.vfe_num = ARRAY_SIZE(vfe_res_8250),
+ };
+ 
+ static const struct of_device_id camss_dt_match[] = {
+diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+index cd8186fe1797b..a0c2dcc779f05 100644
+--- a/drivers/media/platform/qcom/camss/camss.h
++++ b/drivers/media/platform/qcom/camss/camss.h
+@@ -51,6 +51,7 @@ struct camss_subdev_resources {
+ 	char *pd_name;
+ 	u8 line_num;
+ 	bool has_pd;
++	bool is_lite;
+ 	const void *ops;
+ };
+ 
+@@ -95,7 +96,6 @@ struct camss_resources {
+ 	const unsigned int csiphy_num;
+ 	const unsigned int csid_num;
+ 	const unsigned int vfe_num;
+-	const unsigned int vfe_lite_num;
+ };
+ 
+ struct camss {
+@@ -113,7 +113,6 @@ struct camss {
+ 	struct device_link *genpd_link;
+ 	struct icc_path *icc_path[ICC_SM8250_COUNT];
+ 	const struct camss_resources *res;
+-	unsigned int vfe_total_num;
+ };
+ 
+ struct camss_camera_interface {
 -- 
-2.40.1
+2.42.0
 
 
