@@ -1,109 +1,127 @@
-Return-Path: <linux-media+bounces-662-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-663-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A827B7F27F1
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 09:49:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8566A7F2800
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 09:51:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6317E282971
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 08:49:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B65401C210C7
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 08:51:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8083200D8;
-	Tue, 21 Nov 2023 08:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70487208BE;
+	Tue, 21 Nov 2023 08:50:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="SPXpTXhL"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Hyo5T/HG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D74A6B9;
-	Tue, 21 Nov 2023 00:49:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1700556547; bh=egr6QPRR9Clv2sUAEns/EfkbP1lJ5EI3ebm2kJE4fCA=;
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5895BD;
+	Tue, 21 Nov 2023 00:50:51 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D038276;
+	Tue, 21 Nov 2023 09:50:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1700556620;
+	bh=VWsx4ndl8n6hpB0oxZr76PMib8fxm2VHoooiEJBZ358=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SPXpTXhLW51zme8728ZWWqLOhKqSZavJpO94u+DXxZM5sdRYzhbwt08Vmol5W6H7x
-	 VAVxmJ7IN1vDG4hy1XS3HBMTzMP7+4CRD7YsMfR7CVMg/Sva1YRHD+2ynwCoDQs/gD
-	 7sgYtRBjK5OKNCLOz6nw5cktuAjpqcSbBa+ExWDvnsvj+S7y2IM1e7/kGDSm/yTI3K
-	 YRFLJaUNN+I9++PsqRKP+EIAtHPkaWSEwwZoJUcuTr/NxYTWq/mMkuNtKKtoPhmFjJ
-	 sxXqhZ+bfxlHrChjUC9Eb0qBBqsrYgtc7W+C7k6uJc7N1W7YgLXhf1yiMsZ4mXbpNO
-	 AfrfO+YEhg4Ag==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id 668C91000CD; Tue, 21 Nov 2023 08:49:07 +0000 (GMT)
-Date: Tue, 21 Nov 2023 08:49:07 +0000
-From: Sean Young <sean@mess.org>
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: drivers/media/rc/ttusbir.c:1: warning: no structured comments
- found
-Message-ID: <ZVxvA58WvjBCRQyP@gofer.mess.org>
-References: <202311210746.QM5MR14D-lkp@intel.com>
+	b=Hyo5T/HGnSOhEJwPtjlAGjijKYGDbyhBvT6ZH8ttMPsOEGaWRowAxC5m52RaBaN+V
+	 SR/xVYa9hp2H56RlFO2K810QQ/MThiAYVqC9GOvlS+/Tk+dCgQ96gA2agejz5yReat
+	 bv9dDawZoipGg0t81VI6zWPkTYRKXiLhMZgIWQEs=
+Date: Tue, 21 Nov 2023 10:50:56 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: "Rafael J. Wysocki" <rafael@kernel.org>, linux-acpi@vger.kernel.org,
+	linux-media@vger.kernel.org, jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH v2 2/7] pm: runtime: Add
+ pm_runtime_put_mark_busy_autosusp() helper
+Message-ID: <20231121085056.GC8627@pendragon.ideasonboard.com>
+References: <20231117111433.1561669-1-sakari.ailus@linux.intel.com>
+ <20231117111433.1561669-3-sakari.ailus@linux.intel.com>
+ <20231118174903.GF20846@pendragon.ideasonboard.com>
+ <CAJZ5v0jaPT2ZHtUTvqF=j=xwpWreEPGCRLrP8ypYU7qOUeYSWA@mail.gmail.com>
+ <20231118213031.GD28790@pendragon.ideasonboard.com>
+ <ZVsml5E46uAM-94q@kekkonen.localdomain>
+ <20231120094743.GC6824@pendragon.ideasonboard.com>
+ <ZVxtPvS5UdTGPs38@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <202311210746.QM5MR14D-lkp@intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ZVxtPvS5UdTGPs38@kekkonen.localdomain>
 
-On Tue, Nov 21, 2023 at 07:39:58AM +0800, kernel test robot wrote:
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> head:   98b1cc82c4affc16f5598d4fa14b1858671b2263
-> commit: b9e1486e0e4b5e0fc0cde214ceecec8a5734f620 media: rc-core: do not depend on MEDIA_SUPPORT
-> date:   6 years ago
+Hi Sakari,
 
-A bug report on a 6 year old commit? This is nowhere near current master.
-
-> config: i386-randconfig-005-20231120 (https://download.01.org/0day-ci/archive/20231121/202311210746.QM5MR14D-lkp@intel.com/config)
-> compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-> reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231121/202311210746.QM5MR14D-lkp@intel.com/reproduce)
+On Tue, Nov 21, 2023 at 08:41:34AM +0000, Sakari Ailus wrote:
+> On Mon, Nov 20, 2023 at 11:47:43AM +0200, Laurent Pinchart wrote:
+> > On Mon, Nov 20, 2023 at 09:27:51AM +0000, Sakari Ailus wrote:
+> > > On Sat, Nov 18, 2023 at 11:30:31PM +0200, Laurent Pinchart wrote:
+> > > > On Sat, Nov 18, 2023 at 10:20:46PM +0100, Rafael J. Wysocki wrote:
+> > > > > On Sat, Nov 18, 2023 at 6:49 PM Laurent Pinchart wrote:
+> > > > > > On Fri, Nov 17, 2023 at 01:14:28PM +0200, Sakari Ailus wrote:
+> > > > > > > Add pm_runtime_put_mark_busy_autosusp() helper function for users that
+> > > > > > > wish to set the last_busy timestamp to current time and put the
+> > > > > > > usage_count of the device and set the autosuspend timer.
+> > > > > > >
+> > > > > > > Essentially calling pm_runtime_suspend_mark_busy_autosusp() equal to
+> > > > > > > calling first pm_runtime_mark_last_busy() and then
+> > > > > > > pm_runtime_put_autosuspend().
+> > > > > >
+> > > > > > The vast majority if the pm_runtime_put_autosuspend() users call
+> > > > > > pm_runtime_mark_last_busy() right before. Let's make the
+> > > > > > pm_runtime_put_autosuspend() function do that by default, and add a
+> > > > > > __pm_runtime_put_autosuspend() (name to be bikshedded) for the minority
+> > > > > > of cases where updating the last busy timestamp isn't desired. We want
+> > > > > > to simplify the API, not make it more complex.
+> > > > > 
+> > > > > I would also prefer it to be done this way if not too problematic.
+> > > > 
+> > > > I'm glad you agree :-) The change will probably be a bit painful, but I
+> > > > think it's for the best. Sakari, please let me know if I can help.
+> > > 
+> > > I actually do prefer this approach, too.
+> > > 
+> > > There about 350 drivers using pm_runtime_autosuspend() currently. Around
+> > > 150 uses pm_runtime_autosuspend() which is not preceded by
+> > > pm_runtime_mark_last_busy(). Call-wise the numbers are ~ 1050 and ~ 330.
+> > > 
+> > > I checked some of what's left: most do still call both, but in a way that
+> > > evades Coccinelle matching. Some omissions seem to remain.
+> > > 
+> > > Given that there are way more users that do also call
+> > > pm_runtime_mark_last_busy(), I think I'll try to introduce
+> > > __pm_runtime_put_autosuspend() and pm_runtime_put_autosuspend()
+> > > documentation change first and then rename the callers that don't use
+> > > pm_runtime_mark_last_busy().
+> > 
+> > And also drop pm_runtime_mark_last_busy() from the drivers that call
+> > pm_runtime_put_autosuspend(), right ?
 > 
-> If you fix the issue in a separate patch/commit (i.e. not just a new version of
-> the same patch/commit), kindly add following tags
-> | Reported-by: kernel test robot <lkp@intel.com>
-> | Closes: https://lore.kernel.org/oe-kbuild-all/202311210746.QM5MR14D-lkp@intel.com/
-> 
-> All warnings (new ones prefixed by >>):
-> 
-> >> drivers/media/rc/ttusbir.c:1: warning: no structured comments found
+> That should be done but as it doesn't affect the functionality, it can (and
+> may only) be done later on --- the current users need to be converted to
+> use the to-be-added __pm_runtime_put_autosuspend() first.
 
-What does that mean? Not a helpful warning message.
+True. If you're going to send a series that change things tree-wide I
+was thinking that it would be best to address multiple tree-wide changes
+at the same time, that would be less churn, especially if it can be
+mostly scripted with Coccinelle. That would be my preference (especially
+because the issue will then be solved and we'll be able to move to
+something else, instead of leaving old code lingering on for a long
+time), but it's up to you.
 
-> vim +1 drivers/media/rc/ttusbir.c
+> > This sounds good to me. Thank you for working on this. Two RPM API
+> > simplifications in a week, it feels like Christmas is coming :-)
 > 
-> 0938069fa08970 Sean Young 2012-08-13  @1  /*
-> 0938069fa08970 Sean Young 2012-08-13   2   * TechnoTrend USB IR Receiver
-> 0938069fa08970 Sean Young 2012-08-13   3   *
-> 0938069fa08970 Sean Young 2012-08-13   4   * Copyright (C) 2012 Sean Young <sean@mess.org>
-> 0938069fa08970 Sean Young 2012-08-13   5   *
-> 0938069fa08970 Sean Young 2012-08-13   6   * This program is free software; you can redistribute it and/or modify
-> 0938069fa08970 Sean Young 2012-08-13   7   * it under the terms of the GNU General Public License as published by
-> 0938069fa08970 Sean Young 2012-08-13   8   * the Free Software Foundation; either version 2 of the License, or
-> 0938069fa08970 Sean Young 2012-08-13   9   * (at your option) any later version.
-> 0938069fa08970 Sean Young 2012-08-13  10   *
-> 0938069fa08970 Sean Young 2012-08-13  11   * This program is distributed in the hope that it will be useful,
-> 0938069fa08970 Sean Young 2012-08-13  12   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> 0938069fa08970 Sean Young 2012-08-13  13   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-> 0938069fa08970 Sean Young 2012-08-13  14   * GNU General Public License for more details.
-> 0938069fa08970 Sean Young 2012-08-13  15   */
-> 0938069fa08970 Sean Young 2012-08-13  16  
+> Yes. And it's always the case actually! Only the time that it takes
+> differs.
 
-Like I said, that is pretty ancient code.
+-- 
+Regards,
 
-
-Sean
-
-> 
-> :::::: The code at line 1 was first introduced by commit
-> :::::: 0938069fa08970f1c898970c1331a029efe9a1ce [media] rc: Add support for the TechnoTrend USB IR Receiver
-> 
-> :::::: TO: Sean Young <sean@mess.org>
-> :::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
-> 
-> -- 
-> 0-DAY CI Kernel Test Service
-> https://github.com/intel/lkp-tests/wiki
+Laurent Pinchart
 
