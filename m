@@ -1,171 +1,150 @@
-Return-Path: <linux-media+bounces-657-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-658-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3CA7F2734
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 09:18:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 372F77F273D
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 09:19:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5C1C41C218AA
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 08:18:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4BC7DB21AFA
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 08:19:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2F8C3B29A;
-	Tue, 21 Nov 2023 08:18:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC9B83A286;
+	Tue, 21 Nov 2023 08:19:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="1KVFgIet"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OyohiAcW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2043.outbound.protection.outlook.com [40.107.220.43])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE5B610CE
-	for <linux-media@vger.kernel.org>; Tue, 21 Nov 2023 00:17:56 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=HN4ZHqcsEAllUdsBcsKWBOf5onvzLYcNq/upOPhVIiFx6vTN+oy3Z5Ri9edbuMGWkm7bn8hzyvUns6PevkaluDxu8GHVT8NeQAoQleKtnhZOyKm0fIPpdAE1H2Fg3oFzSWpEbcepGe7fhxBfYl61TttQ3q36MIvbys0/4swiHZDp7OGsQtruW5VoOsp1mHVQzwmovi/v+2iZhVUQp/INPGYSwdcgaOGKY5Flo4LFj0l9lXeDNK+YObtnrsxVALLP3t+Pu9h7cLbhXrsxFu4itXZDiel39pZ4kBwKiXJLr4YXoDCYXLeNTOgvP81xhRhhLUBQor5bB0+F29tc4D/YsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H5kc7D7HeURWLQySO1dE7uSABrrYoRndlYmm3titysA=;
- b=TVVCZBQQJtuWyz96AvTmdHX+wBaecWAWTOJwqGF7LlSigeqYlXSYoH/oEpcMY1zIpBpbb+v8vmnKIkqI4Ce32zpn34kl6IoLxfUwSNfaVq+XnwyLFoMoW8xz+SN5gCRbOIyivcYS8ZsZSHHM1RqGae/3Un3DhQbTe32dL1MloXnKXemn0LCmEU0dKqu6fYM89NyuctGaPo4FLQhZrqOkFc97VgEmP2M3FV7aX66GdiSwDdI6/6PIkXH4FBG2Yf7cNzqYyPl2JJtxygFW/k0shmlz3FItdbHFWebU/Rpa3FxtTiblEOr2caUbxy8DX1mImu4gbD7N7/ymy1gfkwRXew==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H5kc7D7HeURWLQySO1dE7uSABrrYoRndlYmm3titysA=;
- b=1KVFgIetJNh2OZIBADrRx3QNbuoF8lhE/OMC9vJjueKZDap09i9OixVBzxmRpViGil9B+iPrBxusZTKDGmGqdAd3jee4wpFSUnWXxRcykzWMGnAYgr6eby1Jtn5QsiZWykvMimGU5DdVqBNFBMXNddRn6ETT+DWw0Vv91Rsn2Z8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by IA0PR12MB7722.namprd12.prod.outlook.com (2603:10b6:208:432::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.27; Tue, 21 Nov
- 2023 08:17:54 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7002.028; Tue, 21 Nov 2023
- 08:17:53 +0000
-Message-ID: <b450abbd-8dca-4ff4-8b20-0b7ecaebe96e@amd.com>
-Date: Tue, 21 Nov 2023 09:17:47 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: Inconsistent fence info between 6.1 and 5.15 kernel
-Content-Language: en-US
-To: Mengchi Cheng <mengcc@amazon.com>, sumit.semwal@linaro.org
-Cc: linux-media@vger.kernel.org, kamatam@amazon.com
-References: <20231121005014.4074003-1-mengcc@amazon.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20231121005014.4074003-1-mengcc@amazon.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR0P281CA0263.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:b5::6) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B81641FE7;
+	Tue, 21 Nov 2023 00:18:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700554713; x=1732090713;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1gP/kyd2HuAZq2Svti1WDK6qsZC2V7l/JkjgJHKc99s=;
+  b=OyohiAcWqUU1BsPLAJv2t1Pe3PzGGyPlUpkrBnTNF770ScWhJF4Mg5B6
+   PkC0Q0Hs4fTABzMAdgvMCCHMxDwJoVaLR30N3Aqj7AnfxFHetjnWhey1P
+   3/U58Rrzpc7tad2fKf8mGMArf+Qg99eOWLSY0fxEld9yT6UHuF84vCz4g
+   y1q98IjmS85b7EXL6CNRKPEAotLjADC9NFJdWARR0F98XynC7ieqKVQ/r
+   56N8i4h8gqy5IFGRFjaX9G0E5sEBTs7gHe9/HgSCKH5BPDNDxcapC5hQa
+   aAyzvR6VSdeZimBcp2XLCD74OcwWI7FfI57xTE1ttB2COiVtUbg+RP3Cx
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="4985079"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="4985079"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 00:18:30 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10900"; a="910378508"
+X-IronPort-AV: E=Sophos;i="6.04,215,1695711600"; 
+   d="scan'208";a="910378508"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Nov 2023 00:18:27 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 7AFA811FC2D;
+	Tue, 21 Nov 2023 10:18:24 +0200 (EET)
+Date: Tue, 21 Nov 2023 08:18:24 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-acpi@vger.kernel.org, linux-media@vger.kernel.org,
+	rafael@kernel.org, jacopo.mondi@ideasonboard.com
+Subject: Re: [PATCH v2 6/7] media: imx319: Put usage_count correctly in
+ s_ctrl callback
+Message-ID: <ZVxn0Em-RmfZP-Pm@kekkonen.localdomain>
+References: <20231117111433.1561669-1-sakari.ailus@linux.intel.com>
+ <20231117111433.1561669-7-sakari.ailus@linux.intel.com>
+ <20231118185248.GI20846@pendragon.ideasonboard.com>
+ <ZVsnmk2JrCsYNGQT@kekkonen.localdomain>
+ <20231120094503.GB6824@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA0PR12MB7722:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59965832-12de-4924-32d0-08dbea6a5b03
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	YK4ctDSQtqqjhV9mPfbgzgbhwTuRdvRbWTF7nn9WGlzTVogP8bactOj6MXneURtcJmrRiTSSbgwi5N0jhi42Kh4awpJsbxcy2TLgZ8MfCh9C91nZpvA+53TuGYzdUdZ11TvlGUWI2t/n8QI46xU5zJkwm4WvOUVqy4UTulDWbm+GishAtp2GWhmmppVoNSDgt8tJ6RLCgdOhVnRDcQdc/lhSTaUr40ZDUIBcwHY0X75yaykVa9INV7yacbT9pU8IaBCBhI+bl0rnEtaJsxjxDlRapqimKmdT+O8XjFo2j8zqtIDq5kA48r4qMgRZi7IoZQXY6zSOnFcKe4Qr1eP2HJ9+/Eg1vZJ52RpwArmtBaQyl9rcJKer8+MnmR00ashyUlTpi1eGRnm0dL6Wlp82+xEpDL2jexngmWP9uOALZXbR4kG1GB34n6L5k+PqJ2oosPJtJ6dk8LNbOuFOob4vPYsglia+VqxoTDr/N/8XpyZI/DSQaz56+PporocJhp1Li1e/DDsjrCVmLYrJlhKRTj4P7+HXjLYS9uJmH4B7BZPrQKWG8cLCNWV9B6nANi2o9jvjk4EDOKn/+nH8neniyvoEwwsDICdBb2vyDWEJl1MO6SmDHR4AV2viA6apfV16g4jH02aPUd8G/gcGgNpmIQ==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(366004)(376002)(136003)(396003)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(2616005)(86362001)(31696002)(31686004)(6486002)(6666004)(6506007)(66476007)(66556008)(316002)(66946007)(36756003)(6512007)(26005)(2906002)(478600001)(5660300002)(41300700001)(38100700002)(8936002)(4326008)(8676002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SkZ0eWNvRHJ0Rk5QRTZDS1U3T3pYbVA5c2hRekpaYmZ1RExvL3NIWGtLcHZn?=
- =?utf-8?B?eHhFekpIbWlmYUhVZkhNc0Z4SWVUNEY2MGRZS3dNVmxMY3FUMmxHWUNCU2p0?=
- =?utf-8?B?em92MUE1N1l0bkpmSTdDUVluNGdTcHhWVUJ5alo1bUJBQ1dVTzlWcU1jSEt5?=
- =?utf-8?B?U1IvQllwYlEyQ2UzZXdxYnZuTFUzT1JoUy9zc0taYWtwMVEyZ3VBVTROelJq?=
- =?utf-8?B?bkVhTWpxT1VLaEk0RG1STFpFZU9YU1pWbm00cDhjMWdhSVhBVTRlNW04RHpy?=
- =?utf-8?B?eUxrQ1JybGY4K0hDWVFCd3NxUlJLaDBiTjluOUFHS1JsM1F4d1VNY2NXVFQx?=
- =?utf-8?B?Y3RlSjE4Z2tCT2VkM3FDYUZROGZGNXNmQlZjRkpWZU50T3RsUUZYZU1UeGhF?=
- =?utf-8?B?NFJ3QmNRK21RZTZ1RXhvNmV0aU9KUGYwdHRFY2gzZmtieEY0TFdPUWUrQndn?=
- =?utf-8?B?aHdmSUxmaDROMisyVkhLbThIQ1lFYWJhaVR6ZkJKSzcwNC9OQWE0OHdNYnUz?=
- =?utf-8?B?ZEFzdUF2M0xWenZ1RktWVXVzUlhrcy9TcHZLRS9ua254c2kyVGJKcnZVaS9R?=
- =?utf-8?B?a2pmbnhHSVlEVVEwdFdwWGFGT0tydkxYY2gvTVJWaFNHbkJlSDNWZE1OQnNu?=
- =?utf-8?B?UDJsZ3puTHQzRTR2N2kxbEc3cDVsbmdMRXVoeDhRanNRdWl4QSswazZCOHVk?=
- =?utf-8?B?ZXdMMkIyN250d1RtNGFVN3d2WU4xUUVPNGtidm9saHZQajdDNmZNbjNQRXMr?=
- =?utf-8?B?ZCt0Y2FpWXV3L09aYytja3dkZ0UzUnFWSGpuZklhSjZUVmNWdUs5YjBzTlc0?=
- =?utf-8?B?WFUxcGJ2MnA0c3ZHY1AxY2JjR1IvVFFLek5MRzBZNEFxVTRpZFo2WUt3T2xi?=
- =?utf-8?B?amo0Nlg1MTJpaVI0UGtJa3J4TS95ZmgvS01PdWNzOFpzVDY3OHdqZkpyNnRB?=
- =?utf-8?B?aFpKMnNNUHo3eE45R09PeS9yalU3c0RudzM3elUwcDZxV094UDZiNzd2S0VG?=
- =?utf-8?B?ZE05QlR3cTNWemFWOFl3Mmlma2tHbmJKMldBSmN0T1p6bUpyYk5BRXFYUSsx?=
- =?utf-8?B?YWZFRUJJTC8xMXNpRStCYnNsRmY3TmhRaUxuMDlITnU2aFEvN2RLTzJpNkgz?=
- =?utf-8?B?ZndETmZUNjBrd2lRSDNTMG9UVW82UEtQK0NibG5XQzlhZ0d2ZURrUlMyQXBI?=
- =?utf-8?B?eTVpekZGb1VCUkVPbTh3U2loUUZBV0tuemlsZnh0WTdsaWNkdDI0RnlkMWl2?=
- =?utf-8?B?MjdMZHZEdWlxdERYR0JkT0Q2dVlDMkVCd0c2c3ZkajhiYnl1M0N2R3N2d1Jp?=
- =?utf-8?B?bFN4SzQ3MktseDdlcXV0OStPb09kamdNU2haMi9IcnhZaDZ5eEFWbVlUKzB6?=
- =?utf-8?B?ZjlVS3JmWStoMUQvK0NubS8rbEkxUWhyS1BIcUFjZGZYYy8yK25TQXpUNWVL?=
- =?utf-8?B?YUV3NXlvelRPZm1RdXJPQ2ZIZXNadndadVRBeWhZa3QyOG92VFVhMnQ2WGNo?=
- =?utf-8?B?Y0JrVnhRYzVPUFlmcXRUemM2T2Vjd3JEMDFQNXR5aXFRWW1LU1ROYVZkN091?=
- =?utf-8?B?T1dGS1FPZVI2NndENkI0aUVzazRoUUl6eEVWWTNQKzFQdjJUNlUzUmtEa2Ja?=
- =?utf-8?B?SHJkazB4dVJXQ2xqYVRtcm1uOENWWWFrUHM3b0ozUTlmbVl4VGo0Rk5rbFNL?=
- =?utf-8?B?eWdlRUN6Z1JSUUxxdVVyKzR6RmFaN3FNN3Y0UHVyYUNoYkk1eEJOWDlQVjNL?=
- =?utf-8?B?cWhHOW9PR1c4a3hTalJBVWRDcWllMlowZXJyQXlUS2JCZGJpd2J2YllMdkZM?=
- =?utf-8?B?OElOdituZHMwazcwWGcxRE9qT3FzdVU3TjlWR1RpQStVM2FNNVpac3FEamVs?=
- =?utf-8?B?UFpVS0tZMFFla01MWEpyaG1aQmJzd1JGTGZQRHE0YjhSelZzWjRlM1VoYXdC?=
- =?utf-8?B?eGttV3E0b2l5VjZIcC9GKzdHZUtvam90NVZjdGRpYWJ4czBIclFXZzVWOGZJ?=
- =?utf-8?B?M2hSNktMUENlSG1YRjI1b29CS3dRWG5sOXpFU2ltc21VRlZhaXhlaVQrVkVv?=
- =?utf-8?B?S3JzSEx0VFF2blZycWV2OHI5d3kxNnNFTit3VVZjbWdhclNBelBiZzJLanJY?=
- =?utf-8?Q?vZuO1FJHssQu3DgYouhwtxmeH?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59965832-12de-4924-32d0-08dbea6a5b03
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Nov 2023 08:17:52.7694
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KLx8X8eDHaBiTjPfaG2l2/tstYvvUO20Q7Vm1woBIAZzhIAZaUBrdj0nLHwRxSbZ
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB7722
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231120094503.GB6824@pendragon.ideasonboard.com>
 
-Am 21.11.23 um 01:50 schrieb Mengchi Cheng:
-> Hello,
->                                                                          
-> We are upleveling kernel from 5.15.32 to 6.1.62 for our system. The
-> kernels we use are all vanila kernel from upstream without any extra
-> patches. But we see our graphics application crashed in the 6.1.
->                                                                          
-> And later we found that 6.1 has DMA_BUF_IOCTL_EXPORT_SYNC_FILE option
-> added into dma_buf_ioctl. It initialized dma_fence_stub and returned
-> with a sync_file. So then our app called sync_file_ioctl_fence_info to
-> inquire fence info, it returns info of dma_fence_stub, which was not
-> expected. As the result, the app aborted because of it.
->                                                                          
-> Meanwhile, with the 5.15 kernel, our app somehow also called
-> DMA_BUF_IOCTL_EXPORT_SYNC_FILE. Since it returned -ENOTTY, the app did
-> not further ask for fence info.
->                                                                          
-> I am not a graphics engineer. I do not know if userspace is handling
-> dma_fence_stub correctly. But since the addition of
-> DMA_BUF_IOCTL_EXPORT_SYNC_FILE is causing differnet behavior, I am
-> wondering if there is a way to keep things consistent in the kernel.
-> For example, add a macro to provide a choice disabling it? There is
-> probably a better solution to it. Look forward to your reply.
+Hi Laurent,
 
-At least of hand that simply sounds like incorrect behavior of the 
-application.
+On Mon, Nov 20, 2023 at 11:45:03AM +0200, Laurent Pinchart wrote:
+> On Mon, Nov 20, 2023 at 09:32:10AM +0000, Sakari Ailus wrote:
+> > On Sat, Nov 18, 2023 at 08:52:48PM +0200, Laurent Pinchart wrote:
+> > > On Fri, Nov 17, 2023 at 01:14:32PM +0200, Sakari Ailus wrote:
+> > > > pm_runtime_get_if_in_use() returns an error if Runtime PM is disabled for
+> > > > the device, in which case it won't increment the use count.
+> > > > pm_runtime_put() does that unconditionally however. Only call
+> > > > pm_runtime_put() in case pm_runtime_get_if_in_use() has returned a value >
+> > > > 0.
+> > > 
+> > > Why don't you use pm_runtime_get_if_active() ?
+> > 
+> > It's only meaningful if the driver uses autosuspend. The imx319 driver does
+> > not.
+> 
+> Does pm_runtime_get_if_active() causes issues with the driver uses
+> autosuspend ? Standardizing on a single API that covers all the use
+> cases would increase consistency and make the code base easier to
+> understand. Beside, the driver should switch to autosuspend :-) Using
+> the correct RPM calls already is a good thing, if they don't introduce
+> any issue.
 
-You can't blame the kernel if the application tried to call an IOCTL 
-which didn't existed on older kernels and get some undefined behavior on 
-newer kernels.
+Both are fine but they're there for a different purpose. The driver should
+consistently use either usage_count or status based calls (for autosuspend
+to make sense).
 
-Question is why exactly is the application not happy with the results of 
-the sync_file? We had some fixing around the reported timestamps after a 
-sync_file merge.
+> 
+> > > Other than that, same comment as for patch 5/7, I don't like the
+> > > increased complexity.
+> > > 
+> > > These comments apply to 7/7 as well.
+> > > 
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >  drivers/media/i2c/imx319.c | 8 +++++---
+> > > >  1 file changed, 5 insertions(+), 3 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/media/i2c/imx319.c b/drivers/media/i2c/imx319.c
+> > > > index 5378f607f340..e7b2d0c20d29 100644
+> > > > --- a/drivers/media/i2c/imx319.c
+> > > > +++ b/drivers/media/i2c/imx319.c
+> > > > @@ -1880,8 +1880,8 @@ static int imx319_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > >  	struct imx319 *imx319 = container_of(ctrl->handler,
+> > > >  					     struct imx319, ctrl_handler);
+> > > >  	struct i2c_client *client = v4l2_get_subdevdata(&imx319->sd);
+> > > > +	int ret, pm_status;
+> > > >  	s64 max;
+> > > > -	int ret;
+> > > >  
+> > > >  	/* Propagate change of current control to all related controls */
+> > > >  	switch (ctrl->id) {
+> > > > @@ -1898,7 +1898,8 @@ static int imx319_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > >  	 * Applying V4L2 control value only happens
+> > > >  	 * when power is up for streaming
+> > > >  	 */
+> > > > -	if (!pm_runtime_get_if_in_use(&client->dev))
+> > > > +	pm_status = pm_runtime_get_if_in_use(&client->dev);
+> > > > +	if (!pm_status)
+> > > >  		return 0;
+> > > >  
+> > > >  	switch (ctrl->id) {
+> > > > @@ -1937,7 +1938,8 @@ static int imx319_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > >  		break;
+> > > >  	}
+> > > >  
+> > > > -	pm_runtime_put(&client->dev);
+> > > > +	if (pm_status > 0)
+> > > > +		pm_runtime_put(&client->dev);
+> > > >  
+> > > >  	return ret;
+> > > >  }
+> 
 
+-- 
 Regards,
-Christian.
 
->                                                                          
->                                                                          
-> Best,
-> Mengchi Cheng
->
-
+Sakari Ailus
 
