@@ -1,151 +1,320 @@
-Return-Path: <linux-media+bounces-670-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-671-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38DC67F29DC
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 11:11:54 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96D317F2A34
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 11:21:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5F4728165F
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 10:11:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E9357B21AD3
+	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 10:21:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B7A173D385;
-	Tue, 21 Nov 2023 10:11:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U1vMUiC7"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB2D73D97A;
+	Tue, 21 Nov 2023 10:21:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-x435.google.com (mail-pf1-x435.google.com [IPv6:2607:f8b0:4864:20::435])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0816FC1;
-	Tue, 21 Nov 2023 02:11:45 -0800 (PST)
-Received: by mail-pf1-x435.google.com with SMTP id d2e1a72fcca58-6cb74a527ceso1660090b3a.2;
-        Tue, 21 Nov 2023 02:11:45 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700561504; x=1701166304; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=h77UCHBzfS9YsxxGuMxQKATmfaJKyNycbGsrjaUmphU=;
-        b=U1vMUiC7Kj96pVlXogZWS8uk5x5NwUT3uzMVQoIZJSkW0JbbrRSD1ScaoQpW3vDZFl
-         dcSUePPgJkYAQZTcFBkbTs1v1uuub2zheqZTflwUqTzyYPI9EgDKaZ+XkkG/N25KftXk
-         goChYmzJdeQqyZhb+Iqcp1TbKF99L5zH3yMrBrTJwWTc5+/2RhE3ZPYmNe5JLXG/hxnH
-         /4Uq2QNT3YiRO7QAUm5b5oW4f0WIM7cMTJI4cM15lbtzTbIKzI7ZQNPwJPqP9t1b2y0M
-         cdJ62GL5ijKR6Cr+cscL/JwF78/DRNEYmipDOQ8S4R5ALYeEwrl1qLRkjv+AictMLmJ0
-         +BuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700561504; x=1701166304;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=h77UCHBzfS9YsxxGuMxQKATmfaJKyNycbGsrjaUmphU=;
-        b=Ak6H/jwWPzSm8xy6WuE0SI6RvLJ5POoklKNDwIDgTTFl73IedzNH1X8gH1XA/H5uWZ
-         nvH+CC7JJ3qHhg+vJVWweZa442vN6oQqJxQeNx/UyKqmuEUjiN0qJJJ7dYfYOBn+pld/
-         bQ0pN8bDHgnccNw7K9X7HjzALaphnQrZJ9RC3gEDP5jK7UpIWaHngCCabzjG+kziuVWA
-         UdqtqcX1ZRZxLSUzsiCqsPlmXD3+gQoD7lsG/kxdP0LLL4uUVqad8ioJgnXRGVy1miku
-         MyPZEzQivVZ4LT0LO7bOpW/f8phr7jQ1pWuaXMclFPi+e/w/Hm+MtZ1b3jWr/cJNfWoQ
-         ihLg==
-X-Gm-Message-State: AOJu0YxPlTzBPuGS/GdMGIqgetyoBpNdGl8CxD4hYYNQU7vrNBCoVojl
-	WNemgq3mIXkjQmlz4ybjOZRsZWkgeHoper3dI0s=
-X-Google-Smtp-Source: AGHT+IEp8j+Xt8I0EWdsh1ssJvEqhJY59UJ9RwYFSlAvOSHCZgQnKLiiltgHL/5rsbh4MhNNEDWqB0d6Hu9FlWOpSMc=
-X-Received: by 2002:a05:6a21:789d:b0:187:15e2:fdd9 with SMTP id
- bf29-20020a056a21789d00b0018715e2fdd9mr8857392pzc.39.1700561504425; Tue, 21
- Nov 2023 02:11:44 -0800 (PST)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B50F3C079
+	for <linux-media@vger.kernel.org>; Tue, 21 Nov 2023 10:21:13 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0A9B6C433C8;
+	Tue, 21 Nov 2023 10:21:09 +0000 (UTC)
+Message-ID: <5256d62c-a501-41c3-bf0d-1e0d451930eb@xs4all.nl>
+Date: Tue, 21 Nov 2023 11:21:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 00/14] Add audio support in v4l2 framework
+Content-Language: en-US
+To: Shengjiu Wang <shengjiu.wang@gmail.com>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi,
+ tfiga@chromium.org, m.szyprowski@samsung.com, mchehab@kernel.org,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Xiubo.Lee@gmail.com, festevam@gmail.com, nicoleotsuka@gmail.com,
+ lgirdwood@gmail.com, broonie@kernel.org, perex@perex.cz, tiwai@suse.com,
+ alsa-devel@alsa-project.org, linuxppc-dev@lists.ozlabs.org
 References: <1700552255-5364-1-git-send-email-shengjiu.wang@nxp.com>
- <1700552255-5364-14-git-send-email-shengjiu.wang@nxp.com> <0026a04d-8a04-4eeb-9f03-c68be6da5ec5@xs4all.nl>
-In-Reply-To: <0026a04d-8a04-4eeb-9f03-c68be6da5ec5@xs4all.nl>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Tue, 21 Nov 2023 18:11:33 +0800
-Message-ID: <CAA+D8APe+-_Z-vE2rffnF7S6Bss_3bigzb-Z2zHKof-7RARBKg@mail.gmail.com>
-Subject: Re: [PATCH v10 13/14] media: imx-asrc: Add memory to memory driver
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi, tfiga@chromium.org, 
-	m.szyprowski@samsung.com, mchehab@kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ <71ce6d8b-90c2-4ef6-9883-129861dcab02@xs4all.nl>
+ <CAA+D8ANvK5O2TXnjM_YqsHE8ycen9jrw_HXL+eJWtwJ_OZXeJA@mail.gmail.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+In-Reply-To: <CAA+D8ANvK5O2TXnjM_YqsHE8ycen9jrw_HXL+eJWtwJ_OZXeJA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Nov 21, 2023 at 5:20=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> w=
-rote:
->
-> On 21/11/2023 08:37, Shengjiu Wang wrote:
-> > Implement the ASRC memory to memory function using
-> > the v4l2 framework, user can use this function with
-> > v4l2 ioctl interface.
-> >
-> > User send the output and capture buffer to driver and
-> > driver store the converted data to the capture buffer.
-> >
-> > This feature can be shared by ASRC and EASRC drivers
-> >
-> > Signed-off-by: Shengjiu Wang <shengjiu.wang@nxp.com>
-> > ---
-> >  drivers/media/platform/nxp/Kconfig    |   13 +
-> >  drivers/media/platform/nxp/Makefile   |    1 +
-> >  drivers/media/platform/nxp/imx-asrc.c | 1264 +++++++++++++++++++++++++
-> >  3 files changed, 1278 insertions(+)
-> >  create mode 100644 drivers/media/platform/nxp/imx-asrc.c
-> >
->
-> <snip>
->
-> > +static const struct v4l2_ctrl_config asrc_src_rate_off_control =3D {
-> > +     .ops =3D &asrc_m2m_ctrl_ops,
-> > +     .id =3D V4L2_CID_M2M_AUDIO_SOURCE_RATE_OFFSET,
-> > +     .name =3D "Audio Source Sample Rate Offset",
-> > +     .type =3D V4L2_CTRL_TYPE_INTEGER64,
->
-> Do you need this to be INTEGER64? If the actual number of bits
-> of the fixed point value that the hardware uses fits in 32 bits,
-> then you can just use the INTEGER type.
->
-> > +     .min =3D 0xFFFFFF0000000000,
-> > +     .max =3D 0x7fffffffff,
-> > +     .def =3D 0,
-> > +     .step =3D 1,
-> > +     .flags =3D V4L2_CTRL_FLAG_UPDATE,
-> > +     .fraction_bits =3D 32,
->
-> Can't you use the actual number of fraction bits that the hardware
-> uses? I can't imagine that it is actually 32 bits, it is almost
-> certainly less.
->
-From the ratio point view, it is 44bits.  maximum 39 fractional bits.
+On 11/21/23 11:03, Shengjiu Wang wrote:
+> On Tue, Nov 21, 2023 at 5:22 PM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>>
+>> On 21/11/2023 08:37, Shengjiu Wang wrote:
+>>> Audio signal processing also has the requirement for memory to
+>>> memory similar as Video.
+>>>
+>>> This asrc memory to memory (memory ->asrc->memory) case is a non
+>>> real time use case.
+>>>
+>>> User fills the input buffer to the asrc module, after conversion, then asrc
+>>> sends back the output buffer to user. So it is not a traditional ALSA playback
+>>> and capture case.
+>>>
+>>> It is a specific use case,  there is no reference in current kernel.
+>>> v4l2 memory to memory is the closed implementation,  v4l2 current
+>>> support video, image, radio, tuner, touch devices, so it is not
+>>> complicated to add support for this specific audio case.
+>>>
+>>> Because we had implemented the "memory -> asrc ->i2s device-> codec"
+>>> use case in ALSA.  Now the "memory->asrc->memory" needs
+>>> to reuse the code in asrc driver, so the first 3 patches is for refining
+>>> the code to make it can be shared by the "memory->asrc->memory"
+>>> driver.
+>>>
+>>> The main change is in the v4l2 side, A /dev/vl4-audioX will be created,
+>>> user applications only use the ioctl of v4l2 framework.
+>>>
+>>> Other change is to add memory to memory support for two kinds of i.MX ASRC
+>>> module.
+>>>
+>>> changes in v10
+>>> - remove FIXED_POINT type
+>>> - change code base on media: v4l2-ctrls: add support for fraction_bits
+>>> - fix issue reported by kernel test robot
+>>> - remove module_alias
+>>
+>> Note that I still need a patch for vivid adding a fixed point test control.
+>>
+>> I think I want two controls: one INTEGER Q16 and one INTEGER64 Q63 (a nice
+>> corner case).
+>>
+> 
+> Not sure if we can do like this:
+> 
+> diff --git a/drivers/media/test-drivers/vivid/vivid-core.h
+> b/drivers/media/test-drivers/vivid/vivid-core.h
+> index cfb8e66083f6..def8cf6c30c1 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-core.h
+> +++ b/drivers/media/test-drivers/vivid/vivid-core.h
+> @@ -222,6 +222,8 @@ struct vivid_dev {
+>         struct v4l2_ctrl                *boolean;
+>         struct v4l2_ctrl                *int32;
+>         struct v4l2_ctrl                *int64;
+> +       struct v4l2_ctrl                *int32Q16;
 
-> I do think that we need a helper function to fill in the min/max values.
+I would call this int32_q16. This to avoid checkpatch CamelCase warnings.
 
-what's the helper function look like?  Where can I find an example?
+> +       struct v4l2_ctrl                *int64Q63;
 
-best regards
-wang shengjiu
+ditto
 
+>         struct v4l2_ctrl                *menu;
+>         struct v4l2_ctrl                *string;
+>         struct v4l2_ctrl                *bitmask;
+> diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> index f2b20e25a7a4..c912b6776775 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> +++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+> @@ -182,6 +182,28 @@ static const struct v4l2_ctrl_config vivid_ctrl_int64 = {
+>         .step = 1,
+>  };
+> 
+> +static const struct v4l2_ctrl_config vivid_ctrl_int32Q16 = {
+> +       .ops = &vivid_user_gen_ctrl_ops,
+> +       .id = VIVID_CID_INTEGER,
 
->
-> Regards,
->
->         Hans
->
-> > +};
-> > +
-> > +static const struct v4l2_ctrl_config asrc_dst_rate_off_control =3D {
-> > +     .ops =3D &asrc_m2m_ctrl_ops,
-> > +     .id =3D V4L2_CID_M2M_AUDIO_DEST_RATE_OFFSET,
-> > +     .name =3D "Audio Dest Sample Rate Offset",
-> > +     .type =3D V4L2_CTRL_TYPE_INTEGER64,
-> > +     .min =3D 0xFFFFFF0000000000,
-> > +     .max =3D 0x7fffffffff,
-> > +     .def =3D 0,
-> > +     .step =3D 1,
-> > +     .flags =3D V4L2_CTRL_FLAG_UPDATE,
-> > +     .fraction_bits =3D 32,
-> > +};
->
+You need to add new CIDs. E.g. VIVID_CID_INT_Q4_16.
+
+> +       .name = "Integer 32 Bits Q16",
+
+Q4.16
+
+> +       .type = V4L2_CTRL_TYPE_INTEGER,
+> +       .min = 0xffffffff80000000ULL,
+
+Let's make this a Q4.16 integer.
+
+I think it is worth adding this to the v4l2-ctrls.h header:
+
+#define v4l2_ctrl_fp_compose(i, f, fraction_bits) \
+	(((i) << fraction_bits) + (f))
+
+Then you can do:
+
+	.min = v4l2_ctrl_fp_compose(-16, 0),
+	.max = v4l2_ctrl_fp_compose(15, 0xffff),
+
+> +       .max = 0x7fffffff,
+> +       .step = 1,
+> +       .fraction_bits = 16,
+> +};
+> +
+> +static const struct v4l2_ctrl_config vivid_ctrl_int64Q63 = {
+> +       .ops = &vivid_user_gen_ctrl_ops,
+> +       .id = VIVID_CID_INTEGER64,
+> +       .name = "Integer 64 Bits Q63",
+> +       .type = V4L2_CTRL_TYPE_INTEGER64,
+> +       .min = 0x8000000000000000ULL,
+> +       .max = 0x7fffffffffffffffLL,
+
+	.min = v4l2_ctrl_fp_compose(-1, 0),
+	.max = v4l2_ctrl_fp_compose(0, LLONG_MAX),
+
+> +       .step = 1,
+> +       .fraction_bits = 63,
+> +};
+
+Looks good otherwise.
+
+The purpose is that v4l2-compliance can test such control types using a
+hw emulation driver like vivid.
+
+Regards,
+
+	Hans
+
+> +
+>  static const struct v4l2_ctrl_config vivid_ctrl_u32_array = {
+>         .ops = &vivid_user_gen_ctrl_ops,
+>         .id = VIVID_CID_U32_ARRAY,
+> @@ -1670,6 +1692,8 @@ int vivid_create_controls(struct vivid_dev *dev,
+> bool show_ccs_cap,
+>         dev->button = v4l2_ctrl_new_custom(hdl_user_gen,
+> &vivid_ctrl_button, NULL);
+>         dev->int32 = v4l2_ctrl_new_custom(hdl_user_gen,
+> &vivid_ctrl_int32, NULL);
+>         dev->int64 = v4l2_ctrl_new_custom(hdl_user_gen,
+> &vivid_ctrl_int64, NULL);
+> +       dev->int32Q16 = v4l2_ctrl_new_custom(hdl_user_gen,
+> &vivid_ctrl_int32Q16, NULL);
+> +       dev->int64Q63 = v4l2_ctrl_new_custom(hdl_user_gen,
+> &vivid_ctrl_int64Q63, NULL);
+>         dev->boolean = v4l2_ctrl_new_custom(hdl_user_gen,
+> &vivid_ctrl_boolean, NULL);
+>         dev->menu = v4l2_ctrl_new_custom(hdl_user_gen, &vivid_ctrl_menu, NULL);
+>         dev->string = v4l2_ctrl_new_custom(hdl_user_gen,
+> &vivid_ctrl_string, NULL);
+> (END)
+> 
+> 
+>> Regards,
+>>
+>>         Hans
+>>
+>>>
+>>> changes in v9:
+>>> - add MEDIA_ENT_F_PROC_AUDIO_RESAMPLER.
+>>> - add MEDIA_INTF_T_V4L_AUDIO
+>>> - add media controller support
+>>> - refine the vim2m-audio to support 8k<->16k conversion.
+>>>
+>>> changes in v8:
+>>> - refine V4L2_CAP_AUDIO_M2M to be 0x00000008
+>>> - update doc for FIXED_POINT
+>>> - address comments for imx-asrc
+>>>
+>>> changes in v7:
+>>> - add acked-by from Mark
+>>> - separate commit for fixed point, m2m audio class, audio rate controls
+>>> - use INTEGER_MENU for rate,  FIXED_POINT for rate offset
+>>> - remove used fmts
+>>> - address other comments for Hans
+>>>
+>>> changes in v6:
+>>> - use m2m_prepare/m2m_unprepare/m2m_start/m2m_stop to replace
+>>>   m2m_start_part_one/m2m_stop_part_one, m2m_start_part_two/m2m_stop_part_two.
+>>> - change V4L2_CTRL_TYPE_ASRC_RATE to V4L2_CTRL_TYPE_FIXED_POINT
+>>> - fix warning by kernel test rebot
+>>> - remove some unused format V4L2_AUDIO_FMT_XX
+>>> - Get SNDRV_PCM_FORMAT from V4L2_AUDIO_FMT in driver.
+>>> - rename audm2m to viaudm2m.
+>>>
+>>> changes in v5:
+>>> - remove V4L2_AUDIO_FMT_LPCM
+>>> - define audio pixel format like V4L2_AUDIO_FMT_S8...
+>>> - remove rate and format in struct v4l2_audio_format.
+>>> - Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE controls
+>>> - updata document accordingly.
+>>>
+>>> changes in v4:
+>>> - update document style
+>>> - separate V4L2_AUDIO_FMT_LPCM and V4L2_CAP_AUDIO_M2M in separate commit
+>>>
+>>> changes in v3:
+>>> - Modify documents for adding audio m2m support
+>>> - Add audio virtual m2m driver
+>>> - Defined V4L2_AUDIO_FMT_LPCM format type for audio.
+>>> - Defined V4L2_CAP_AUDIO_M2M capability type for audio m2m case.
+>>> - with modification in v4l-utils, pass v4l2-compliance test.
+>>>
+>>> changes in v2:
+>>> - decouple the implementation in v4l2 and ALSA
+>>> - implement the memory to memory driver as a platfrom driver
+>>>   and move it to driver/media
+>>> - move fsl_asrc_common.h to include/sound folder
+>>>
+>>> Shengjiu Wang (14):
+>>>   ASoC: fsl_asrc: define functions for memory to memory usage
+>>>   ASoC: fsl_easrc: define functions for memory to memory usage
+>>>   ASoC: fsl_asrc: move fsl_asrc_common.h to include/sound
+>>>   ASoC: fsl_asrc: register m2m platform device
+>>>   ASoC: fsl_easrc: register m2m platform device
+>>>   media: uapi: Add V4L2_CAP_AUDIO_M2M capability flag
+>>>   media: v4l2: Add audio capture and output support
+>>>   media: uapi: Define audio sample format fourcc type
+>>>   media: uapi: Add V4L2_CTRL_CLASS_M2M_AUDIO
+>>>   media: uapi: Add audio rate controls support
+>>>   media: uapi: Declare interface types for Audio
+>>>   media: uapi: Add an entity type for audio resampler
+>>>   media: imx-asrc: Add memory to memory driver
+>>>   media: vim2m-audio: add virtual driver for audio memory to memory
+>>>
+>>>  .../media/mediactl/media-types.rst            |   11 +
+>>>  .../userspace-api/media/v4l/buffer.rst        |    6 +
+>>>  .../userspace-api/media/v4l/common.rst        |    1 +
+>>>  .../media/v4l/dev-audio-mem2mem.rst           |   71 +
+>>>  .../userspace-api/media/v4l/devices.rst       |    1 +
+>>>  .../media/v4l/ext-ctrls-audio-m2m.rst         |   41 +
+>>>  .../userspace-api/media/v4l/pixfmt-audio.rst  |   87 ++
+>>>  .../userspace-api/media/v4l/pixfmt.rst        |    1 +
+>>>  .../media/v4l/vidioc-enum-fmt.rst             |    2 +
+>>>  .../media/v4l/vidioc-g-ext-ctrls.rst          |    4 +
+>>>  .../userspace-api/media/v4l/vidioc-g-fmt.rst  |    4 +
+>>>  .../media/v4l/vidioc-querycap.rst             |    3 +
+>>>  .../media/videodev2.h.rst.exceptions          |    3 +
+>>>  .../media/common/videobuf2/videobuf2-v4l2.c   |    4 +
+>>>  drivers/media/platform/nxp/Kconfig            |   13 +
+>>>  drivers/media/platform/nxp/Makefile           |    1 +
+>>>  drivers/media/platform/nxp/imx-asrc.c         | 1264 +++++++++++++++++
+>>>  drivers/media/test-drivers/Kconfig            |   11 +
+>>>  drivers/media/test-drivers/Makefile           |    1 +
+>>>  drivers/media/test-drivers/vim2m-audio.c      |  799 +++++++++++
+>>>  drivers/media/v4l2-core/v4l2-compat-ioctl32.c |    9 +
+>>>  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   10 +
+>>>  drivers/media/v4l2-core/v4l2-dev.c            |   21 +
+>>>  drivers/media/v4l2-core/v4l2-ioctl.c          |   66 +
+>>>  drivers/media/v4l2-core/v4l2-mem2mem.c        |   13 +-
+>>>  include/media/v4l2-dev.h                      |    2 +
+>>>  include/media/v4l2-ioctl.h                    |   34 +
+>>>  .../fsl => include/sound}/fsl_asrc_common.h   |   60 +
+>>>  include/uapi/linux/media.h                    |    2 +
+>>>  include/uapi/linux/v4l2-controls.h            |    9 +
+>>>  include/uapi/linux/videodev2.h                |   41 +
+>>>  sound/soc/fsl/fsl_asrc.c                      |  144 ++
+>>>  sound/soc/fsl/fsl_asrc.h                      |    4 +-
+>>>  sound/soc/fsl/fsl_asrc_dma.c                  |    2 +-
+>>>  sound/soc/fsl/fsl_easrc.c                     |  233 +++
+>>>  sound/soc/fsl/fsl_easrc.h                     |    6 +-
+>>>  36 files changed, 2977 insertions(+), 7 deletions(-)
+>>>  create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem2mem.rst
+>>>  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-audio-m2m.rst
+>>>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.rst
+>>>  create mode 100644 drivers/media/platform/nxp/imx-asrc.c
+>>>  create mode 100644 drivers/media/test-drivers/vim2m-audio.c
+>>>  rename {sound/soc/fsl => include/sound}/fsl_asrc_common.h (60%)
+>>>
+>>
+
 
