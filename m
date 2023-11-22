@@ -1,95 +1,132 @@
-Return-Path: <linux-media+bounces-834-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-835-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CCBB7F49B4
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:05:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997137F49F2
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:12:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B2FA1C20C3E
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:05:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C90731C20B18
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:12:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EA4F4E1DF;
-	Wed, 22 Nov 2023 15:05:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 358314C3A8;
+	Wed, 22 Nov 2023 15:12:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CShra8iy"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k380wJmS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B80A3;
-	Wed, 22 Nov 2023 07:05:27 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A3F8B29A;
-	Wed, 22 Nov 2023 16:04:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700665494;
-	bh=8pF7Wg5LEFskYqmGH2k4O2UFRmY8lfO9msZUpnevj7g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CShra8iyVGhL/seg8ngLF0omh8ppTpS6fheUMXaFeIPh35gDLO3lI9zoQ8az5KjUU
-	 n55jw8XjIERadtTj31vPB8hIJ9+RAL35BjYl3dBxBaTyuFGxEagyXxj/L7+DJxGGjz
-	 N+cTzMP2JWtSaeGmmbIZ5uTqRfSvxkLLTeJufE+M=
-Date: Wed, 22 Nov 2023 17:05:32 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C20F492;
+	Wed, 22 Nov 2023 07:12:21 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-a00f67f120aso336539566b.2;
+        Wed, 22 Nov 2023 07:12:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700665940; x=1701270740; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JQfIch1n/oRDhqVwiC5BqHYmxmK2tX6xAmCbIID5gio=;
+        b=k380wJmStBa1k33QXwY+ybrAokpE37D+XWpisBwJuKe9ZtU8+HF8eSKhJG+pAUr3vP
+         tGEMg1nBipl/gLlZBN3OhttDEd2E1MmZSgpYV9U3g51+RwKUuOdzhPz7sfB3Lpkzwn6b
+         oXI8euXlm2l5JyLz7Tli+5afNpJzfZmwTOkgI95iePtd2GaRj4UVyfKTYHVf1TTaGtf1
+         Gp6jZQttEb3wVSfEMjVBeZBLDSDy75msg79n2DJHSLcfNmwepFXG4MOOPqbj5IYB/8gT
+         EvDSOsjZKtMZUZ503kWqM5/6B0CkcCnE4zYsz1S8sY/cj3/DUp3gfmc8SCM2OBhBI0Ao
+         RYkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700665940; x=1701270740;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JQfIch1n/oRDhqVwiC5BqHYmxmK2tX6xAmCbIID5gio=;
+        b=CcH/LI48JJwYKbFSPyqWH64esKA+J0CNq4g5MG5S8TL/VZVLE0fDKD/sU3M0zXF6Wf
+         UL1ZAoeRvddIG4LAdMplfF5lbXNai6pcAQe7zIKuql4z6WnZOYhTLNMupttofS3X7f52
+         Kvt07Lli4XJysEjwa/IbAFpDIGX7sAJN1SV+IGCZKo9R/vIwzCCYvk4KHO4VkGWA9w6Z
+         3FjBwX2WfW8/nja5piKSoRK4TugeY9O9MnZMQdSmb2TIvordTIQziG54KNq2wxxUkWfl
+         VEWx8Q5C0w3QGyZ1qpivXNQ6ftBbJ6P6I2k+pZBdkypaFRq2/pFC+ov98geQZ+KwxXGp
+         w27Q==
+X-Gm-Message-State: AOJu0Yz9GMtHNlH0vID9hkVxJfTWH25c859mopTClaxQUYP8iGeWIY8Z
+	PZnHQP9rHoM/UsTTWCE5F2w=
+X-Google-Smtp-Source: AGHT+IHiLgBVKOXhv7+TxBpeKUaX4wKMK5XDupDn+7Jg4ZH8f40KnSZtsabsjI+c1Zsx7zphFi/2RA==
+X-Received: by 2002:a17:906:10d:b0:a04:837e:a955 with SMTP id 13-20020a170906010d00b00a04837ea955mr1124649eje.32.1700665939918;
+        Wed, 22 Nov 2023 07:12:19 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-142-131.cust.vodafonedsl.it. [2.39.142.131])
+        by smtp.gmail.com with ESMTPSA id i18-20020a17090671d200b009fc3845adc1sm4816513ejk.154.2023.11.22.07.12.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Nov 2023 07:12:19 -0800 (PST)
+Date: Wed, 22 Nov 2023 16:12:17 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Fabio Estevam <festevam@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
+Cc: Dafna Hirschfeld <dafna@fastmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
+	Heiko Stuebner <heiko@sntech.de>,
+	Jacob Chen <jacob2.chen@rock-chips.com>,
+	Yichong Zhong <zyc@rock-chips.com>,
+	Shunqian Zheng <zhengsq@rock-chips.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Eddie Cai <eddie.cai.linux@gmail.com>,
+	Allon Huang <allon.huang@rock-chips.com>,
+	Jeffy Chen <jeffy.chen@rock-chips.com>, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/2] media: imx-mipi-csis: csis clock fixes
-Message-ID: <20231122150532.GG8627@pendragon.ideasonboard.com>
-References: <20231122-imx-csis-v1-0-0617368eb996@ideasonboard.com>
- <CAOMZO5AW0qft5ciGAWuX=RC0zHwAWEpLCyB5TbeE0QH3Nb+nQQ@mail.gmail.com>
- <61de2617-fdc2-4f0c-8ffc-5dfc99b825e7@ideasonboard.com>
+Subject: Re: [PATCH 1/2] media: rkisp1: Fix media device memory leak
+Message-ID: <ZV4aUfNGS/C/8cAM@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231122-rkisp-fixes-v1-0-1958af371e39@ideasonboard.com>
+ <20231122-rkisp-fixes-v1-1-1958af371e39@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <61de2617-fdc2-4f0c-8ffc-5dfc99b825e7@ideasonboard.com>
+In-Reply-To: <20231122-rkisp-fixes-v1-1-1958af371e39@ideasonboard.com>
 
-On Wed, Nov 22, 2023 at 03:44:33PM +0200, Tomi Valkeinen wrote:
-> On 22/11/2023 15:21, Fabio Estevam wrote:
-> > On Wed, Nov 22, 2023 at 10:14 AM Tomi Valkeinen wrote:
-> >>
-> >> Two fixes to the csis driver: One to fix remove() another to only enable
-> >> the clocks when needed.
-> >>
-> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> >> ---
-> >> Tomi Valkeinen (2):
-> >>        media: imx-mipi-csis: Fix clock handling in remove()
-> >>        media: imx-mipi-csis: Drop extra clock enable at probe()
-> > 
-> > Shouldn't both patches contain a Fixes tag?
-> 
-> I think the issue is there in the original commit adding the driver:
-> 
-> 7807063b862b ("media: staging/imx7: add MIPI CSI-2 receiver subdev for 
-> i.MX7")
-> 
-> However, the driver has changed along the way, and I'm not sure if the 
-> original one had an actual bug. Nevertheless, the same pattern (wrt. 
-> clocks and runtime) is there in the original one, and I think that 
-> pattern is not correct even if it wouldn't have caused any visible issue.
-> 
-> So I'll add that commit as Fixes-tag, but if someone with more knowledge 
-> about the driver can verify this, that'd be great.
+Hi Tomi,
 
-Sounds fine to me. I assume you'll send a v2.
+On Wed, Nov 22, 2023 at 04:42:22PM +0200, Tomi Valkeinen wrote:
+> Add missing calls to media_device_cleanup() to fix memory leak.
+> 
+> Fixes: d65dd85281fb ("media: staging: rkisp1: add Rockchip ISP1 base driver")
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> ---
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 3 +++
+>  1 file changed, 3 insertions(+)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index c41abd2833f1..e10cc2881757 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -617,6 +617,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+>  	media_device_unregister(&rkisp1->media_dev);
+>  err_unreg_v4l2_dev:
+>  	v4l2_device_unregister(&rkisp1->v4l2_dev);
+> +	media_device_cleanup(&rkisp1->media_dev);
+>  err_pm_runtime_disable:
+>  	pm_runtime_disable(&pdev->dev);
+>  	return ret;
+> @@ -637,6 +638,8 @@ static void rkisp1_remove(struct platform_device *pdev)
+>  	media_device_unregister(&rkisp1->media_dev);
+>  	v4l2_device_unregister(&rkisp1->v4l2_dev);
+>  
+> +	media_device_cleanup(&rkisp1->media_dev);
+> +
+>  	pm_runtime_disable(&pdev->dev);
+>  }
 
--- 
-Regards,
+Looks good to me.
+Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
 
-Laurent Pinchart
+Thanks & Regards,
+Tommaso
+
+>  
+> 
+> -- 
+> 2.34.1
+> 
+> 
 
