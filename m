@@ -1,277 +1,497 @@
-Return-Path: <linux-media+bounces-841-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-842-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61AB37F4A3A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:25:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B03317F4A91
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:34:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 15F5F280FAE
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:25:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D23BA1C20B2D
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:34:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D4907468;
-	Wed, 22 Nov 2023 15:25:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rqOjTSYr"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6425F4CDEF;
+	Wed, 22 Nov 2023 15:34:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64EE74C3D0
-	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 15:25:53 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDDBDC433C7;
-	Wed, 22 Nov 2023 15:25:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1700666753;
-	bh=+aMtF9o/I+2Y/BQkCHJeGkWK7rYW/+sp7CQq2jIm2wk=;
-	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
-	b=rqOjTSYrhOIq0Uu+k2isGwQOOGyM6ANvDLEZMM0uU02tjCjNqKilNrOyjg9V3zbcR
-	 2wJyT6PoX2uxn6R1pzDz/611Orm5nnE/bO2j7y6m3ftLPQtSeyPbrtJbCjDmkqWBr8
-	 C+Qkzimr0sK+w/tvtIrpiIwIm0JPWzb7Ri5tWrdEkI/SpYE0mo/tFVgBKkUCxyNfoO
-	 O30/qhVzrQYpafqLcOYBE0Tz2R7YlvnClf4vOGitVwPBvvzCs2qvAZBVhwguz2r9Fg
-	 Q4Ca6Ul1jKxRpWTKoEgCkCpHvrQEykFH+W99e5vxU7a/3IUeciQei4qZtd186QlvI2
-	 J/Ix20Kg7qjoA==
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-1cf52e5e07eso7316975ad.0;
-        Wed, 22 Nov 2023 07:25:52 -0800 (PST)
-X-Gm-Message-State: AOJu0YyGUOBl8mybuYfe0kgf69I0KHDY3KbMnLdNA++Sgc9615lHNRWZ
-	oVZAEjkYR+2DiN0At9WBEjQjl87d0ag/MFR5TkA=
-X-Google-Smtp-Source: AGHT+IFuaX1vlFLiWY1su1XZ/dCeNdLqMXHHIn0JR9kAzO60/vRWQflUQCRJ0HY1dUAaBB8PlTlXErykm9YbN2wf+YI=
-X-Received: by 2002:a17:90b:2684:b0:27d:2d2f:9ca2 with SMTP id
- pl4-20020a17090b268400b0027d2d2f9ca2mr8585449pjb.24.1700666752477; Wed, 22
- Nov 2023 07:25:52 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AA424CDEA;
+	Wed, 22 Nov 2023 15:34:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48997C433B7;
+	Wed, 22 Nov 2023 15:34:09 +0000 (UTC)
+Message-ID: <d7aa0485-2f67-497d-bca4-8111fa68d27d@xs4all.nl>
+Date: Wed, 22 Nov 2023 16:34:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231105233630.3927502-1-jonas@kwiboo.se> <39d991e9-6afd-4207-ad09-e342a6c02485@xs4all.nl>
- <c35c91be-a931-47e8-b5e8-5a4a83c841da@kwiboo.se> <82f81f63-3dfa-42fe-8744-63f36d73bb77@xs4all.nl>
-In-Reply-To: <82f81f63-3dfa-42fe-8744-63f36d73bb77@xs4all.nl>
-Reply-To: wens@kernel.org
-From: Chen-Yu Tsai <wens@kernel.org>
-Date: Wed, 22 Nov 2023 23:25:41 +0800
-X-Gmail-Original-Message-ID: <CAGb2v66PHCo1aEdEv3UCVLC_b7SodTuveqn7XWdOyCmaLSiWMg@mail.gmail.com>
-Message-ID: <CAGb2v66PHCo1aEdEv3UCVLC_b7SodTuveqn7XWdOyCmaLSiWMg@mail.gmail.com>
-Subject: Re: [PATCH 0/9] media: rkvdec: Add HEVC backend
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Jonas Karlman <jonas@kwiboo.se>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Alex Bee <knaerzche@gmail.com>, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	Sebastian Fricke <sebastian.fricke@collabora.com>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Christopher Obbard <chris.obbard@collabora.com>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-staging@lists.linux.dev, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Patch v4 03/11] media: s5p-mfc: Add initial support for MFCv12
+Content-Language: en-US, nl
+To: Aakarsh Jain <aakarsh.jain@samsung.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, dillon.minfei@gmail.com,
+ david.plowman@raspberrypi.com, mark.rutland@arm.com, robh+dt@kernel.org,
+ conor+dt@kernel.org, linux-samsung-soc@vger.kernel.org, andi@etezian.org,
+ gost.dev@samsung.com, alim.akhtar@samsung.com, aswani.reddy@samsung.com,
+ pankaj.dubey@samsung.com, ajaykumar.rs@samsung.com, linux-fsd@tesla.com,
+ Smitha T Murthy <smithatmurthy@gmail.com>
+References: <20231025102216.50480-1-aakarsh.jain@samsung.com>
+ <CGME20231025102240epcas5p1551ac81bc2cd45f6c84e2eebc11571c4@epcas5p1.samsung.com>
+ <20231025102216.50480-4-aakarsh.jain@samsung.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231025102216.50480-4-aakarsh.jain@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Nov 22, 2023 at 11:23=E2=80=AFPM Hans Verkuil <hverkuil-cisco@xs4al=
-l.nl> wrote:
->
-> On 09/11/2023 18:44, Jonas Karlman wrote:
-> > Hi Hans,
-> >
-> > On 2023-11-07 14:49, Hans Verkuil wrote:
-> >> Hi Jonas,
-> >>
-> >> On 06/11/2023 00:36, Jonas Karlman wrote:
-> >>> This series add a HEVC backend to the Rockchip Video Decoder driver.
-> >>>
-> >>> A version of this HEVC backend has been in use by the LibreELEC distr=
-o
-> >>> for the past 3+ years [1]. It was initially created based on a copy o=
-f
-> >>> the H264 backend, unstable HEVC uAPI controls and a cabac table + sca=
-ling
-> >>> matrix functions shamelessly copied 1:1 from the Rockchip mpp library=
-.
-> >>>
-> >>> It has since then been extended to use the stable HEVC uAPI controls =
-and
-> >>> improved opon e.g. to include support for rk3288 and fix decoding iss=
-ues
-> >>> by Alex Bee and Nicolas Dufresne.
-> >>>
-> >>> The version submitted in this series is based on the code currently u=
-sed
-> >>> by the LibreELEC distro, excluding hard/soft reset, and with cabac ta=
-ble
-> >>> and scaling matrix functions picked from Sebastian Fricke prior serie=
-s
-> >>> to add a HEVC backend [2].
-> >>>
-> >>> Big thanks to Alex Bee, Nicolas Dufresne and Sebastian Fricke for mak=
-ing
-> >>> this series possible!
-> >>
-> >> I ran this series through smatch and found these two issues:
-> >>
-> >> drivers/staging/media/rkvdec/rkvdec-hevc.c: In function 'transpose_and=
-_flatten_matrices':
-> >> drivers/staging/media/rkvdec/rkvdec-hevc.c:429:83: warning: variable '=
-new_value' set but not used [-Wunused-but-set-variable]
-> >>   429 |         int i, j, row, x_offset, matrix_offset, rot_index, y_o=
-ffset, matrix_size, new_value;
-> >>       |                                                               =
-                    ^~~~~~~~~
-> >> drivers/staging/media/rkvdec/rkvdec-hevc.c:756 rkvdec_hevc_run_preambl=
-e() error: we previously assumed 'ctrl' could be null (see line 755)
-> >
-> > Thanks, will fix in v2.
-> >
-> >>
-> >> Also, this series drops the HEVC part from the TODO file, but
-> >> I wonder if the last remaining item is still valid:
-> >>
-> >> * Evaluate introducing a helper to consolidate duplicated
-> >>   code in rkvdec_request_validate and cedrus_request_validate.
-> >>   The helper needs to the driver private data associated with
-> >>   the videobuf2 queue, from a media request.
-> >>
-> >> It doesn't look like there is much duplicate code at all. It is certai=
-nly not
-> >> something that prevents this driver from moving out of staging.
-> >
-> > I agree, if this is still valid it is not something that should prevent
-> > this driver from moving out of staging.
-> >
-> > There is however one remaining feature/issue that is not listed in TODO=
-.
-> >
-> > In certain situations the hw block may need a reset after there has bee=
-n
-> > a decoding error, especially after a hevc decoding error. Decoding can
-> > typically be re-started with successful result after a short pm
-> > autosuspend timeout.
-> >
-> > We do have a soft/hard reset implementation in LibreELEC-distro,
-> > excluded it from this series because reset is typically not needed, and
-> > I think the reset code need some rework to be upstream ready.
-> >
-> > Would missing hard reset support be a reason for keeping this driver
-> > in staging?
->
-> I think Nicolas would be better placed to comment on that. If it is not
-> considered a blocker, shouldn't there at least be a patch adding comments
-> at the relevant place describing this issue? That way it is at least
-> documented as a known issue.
+On 25/10/2023 12:22, Aakarsh Jain wrote:
+> Add support for MFCv12, with a new register file and necessary hw
+> control, decoder, encoder and structural changes. Add luma dbp, chroma
+> dpb and mv sizes for each codec as per the UM for MFCv12, along with
+> appropriate alignment.
+> 
+> Cc: linux-fsd@tesla.com
+> Signed-off-by: Smitha T Murthy <smithatmurthy@gmail.com>
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+> ---
+>  .../platform/samsung/s5p-mfc/regs-mfc-v12.h   | 50 +++++++++++
+>  .../media/platform/samsung/s5p-mfc/s5p_mfc.c  | 30 +++++++
+>  .../platform/samsung/s5p-mfc/s5p_mfc_common.h | 15 +++-
+>  .../platform/samsung/s5p-mfc/s5p_mfc_ctrl.c   |  2 +-
+>  .../platform/samsung/s5p-mfc/s5p_mfc_dec.c    |  6 +-
+>  .../platform/samsung/s5p-mfc/s5p_mfc_enc.c    |  5 +-
+>  .../platform/samsung/s5p-mfc/s5p_mfc_opr.h    |  8 +-
+>  .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c | 83 ++++++++++++++++---
+>  .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h |  6 +-
+>  9 files changed, 175 insertions(+), 30 deletions(-)
+>  create mode 100644 drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h
+> 
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h b/drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h
+> new file mode 100644
+> index 000000000000..6c68a45082d0
+> --- /dev/null
+> +++ b/drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h
+> @@ -0,0 +1,50 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Register definition file for Samsung MFC V12.x Interface (FIMV) driver
+> + *
+> + * Copyright (c) 2020 Samsung Electronics Co., Ltd.
+> + *     http://www.samsung.com/
+> + */
+> +
+> +#ifndef _REGS_MFC_V12_H
+> +#define _REGS_MFC_V12_H
+> +
+> +#include <linux/sizes.h>
+> +#include "regs-mfc-v10.h"
+> +
+> +/* MFCv12 Context buffer sizes */
+> +#define MFC_CTX_BUF_SIZE_V12		(30 * SZ_1K)
+> +#define MFC_H264_DEC_CTX_BUF_SIZE_V12	(2 * SZ_1M)
+> +#define MFC_OTHER_DEC_CTX_BUF_SIZE_V12	(30 * SZ_1K)
+> +#define MFC_H264_ENC_CTX_BUF_SIZE_V12	(100 * SZ_1K)
+> +#define MFC_HEVC_ENC_CTX_BUF_SIZE_V12	(40 * SZ_1K)
+> +#define MFC_OTHER_ENC_CTX_BUF_SIZE_V12	(25 * SZ_1K)
+> +
+> +/* MFCv12 variant defines */
+> +#define MAX_FW_SIZE_V12			(SZ_1M)
+> +#define MAX_CPB_SIZE_V12		(7 * SZ_1M)
+> +#define MFC_VERSION_V12			0xC0
+> +#define MFC_NUM_PORTS_V12		1
+> +#define S5P_FIMV_CODEC_VP9_ENC		27
+> +
+> +/* Encoder buffer size for MFCv12 */
+> +#define ENC_V120_BASE_SIZE(x, y) \
+> +	(((x + 3) * (y + 3) * 8) \
+> +	+ (((y * 64) + 2304) * (x + 7) / 8))
+> +
+> +#define ENC_V120_H264_ME_SIZE(x, y) \
+> +	ALIGN((ENC_V120_BASE_SIZE(x, y) \
+> +	+ (DIV_ROUND_UP(x * y, 64) * 32)), 256)
+> +
+> +#define ENC_V120_MPEG4_ME_SIZE(x, y) \
+> +	ALIGN((ENC_V120_BASE_SIZE(x, y) \
+> +	+ (DIV_ROUND_UP(x * y, 128) * 16)), 256)
+> +
+> +#define ENC_V120_VP8_ME_SIZE(x, y) \
+> +	ALIGN(ENC_V120_BASE_SIZE(x, y), 256)
+> +
+> +#define ENC_V120_HEVC_ME_SIZE(x, y)     \
+> +	ALIGN((((x + 3) * (y + 3) * 32)       \
+> +	+ (((y * 128) + 2304) * (x + 3) / 4)), 256)
+> +
+> +#endif /*_REGS_MFC_V12_H*/
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+> index e30e54935d79..dee9ef017997 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c
+> @@ -790,6 +790,8 @@ static int s5p_mfc_open(struct file *file)
+>  	INIT_LIST_HEAD(&ctx->dst_queue);
+>  	ctx->src_queue_cnt = 0;
+>  	ctx->dst_queue_cnt = 0;
+> +	ctx->is_422 = 0;
+> +	ctx->is_10bit = 0;
+>  	/* Get context number */
+>  	ctx->num = 0;
+>  	while (dev->ctx[ctx->num]) {
+> @@ -1660,6 +1662,31 @@ static struct s5p_mfc_variant mfc_drvdata_v10 = {
+>  	.fw_name[0]     = "s5p-mfc-v10.fw",
+>  };
+>  
+> +static struct s5p_mfc_buf_size_v6 mfc_buf_size_v12 = {
+> +	.dev_ctx        = MFC_CTX_BUF_SIZE_V12,
+> +	.h264_dec_ctx   = MFC_H264_DEC_CTX_BUF_SIZE_V12,
+> +	.other_dec_ctx  = MFC_OTHER_DEC_CTX_BUF_SIZE_V12,
+> +	.h264_enc_ctx   = MFC_H264_ENC_CTX_BUF_SIZE_V12,
+> +	.hevc_enc_ctx   = MFC_HEVC_ENC_CTX_BUF_SIZE_V12,
+> +	.other_enc_ctx  = MFC_OTHER_ENC_CTX_BUF_SIZE_V12,
+> +};
+> +
+> +static struct s5p_mfc_buf_size buf_size_v12 = {
+> +	.fw     = MAX_FW_SIZE_V12,
+> +	.cpb    = MAX_CPB_SIZE_V12,
+> +	.priv   = &mfc_buf_size_v12,
+> +};
+> +
+> +static struct s5p_mfc_variant mfc_drvdata_v12 = {
+> +	.version        = MFC_VERSION_V12,
+> +	.version_bit    = MFC_V12_BIT,
+> +	.port_num       = MFC_NUM_PORTS_V12,
+> +	.buf_size       = &buf_size_v12,
+> +	.fw_name[0]     = "s5p-mfc-v12.fw",
 
-FWIW Hantro on i.MX8MM doesn't either.
+Is this fw in the process of being added to linux-firmware? (Or perhaps it
+is already there).
 
-ChenYu
+Regards,
 
-> Regards,
->
->         Hans
->
-> >
-> > Regards,
-> > Jonas
-> >
-> >>
-> >> Regards,
-> >>
-> >>      Hans
-> >>
-> >>>
-> >>> Patch 1 add the new HEVC backend.
-> >>> Patch 2-3 add variants support to the driver.
-> >>> Patch 4 add support for a rk3288 variant.
-> >>> Patch 5 add a rk3328 variant to work around hw quirks.
-> >>> Patch 6-7 add device tree node for rk3288.
-> >>> Patch 8-9 extend vdec node reg size to include cache/perf registers.
-> >>>
-> >>> This was tested on a ROCK Pi 4 (RK3399) and Rock64 (RK3328):
-> >>>
-> >>>   v4l2-compliance 1.24.1, 64 bits, 64-bit time_t
-> >>>   ...
-> >>>   Total for rkvdec device /dev/video1: 46, Succeeded: 46, Failed: 0, =
-Warnings: 0
-> >>>
-> >>>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-re=
-quest
-> >>>   ...
-> >>>   Ran 135/147 tests successfully
-> >>>
-> >>>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-re=
-quest
-> >>>   ...
-> >>>   Ran 9/9 tests successfully
-> >>>
-> >>> And on a TinkerBoard (RK3288):
-> >>>
-> >>>   v4l2-compliance 1.24.1, 32 bits, 32-bit time_t
-> >>>   ...
-> >>>   Total for rkvdec device /dev/video3: 47, Succeeded: 47, Failed: 0, =
-Warnings: 0
-> >>>
-> >>>   Running test suite JCT-VC-HEVC_V1 with decoder FFmpeg-H.265-V4L2-re=
-quest
-> >>>   ...
-> >>>   Ran 137/147 tests successfully
-> >>>
-> >>>   Running test suite JCT-VC-MV-HEVC with decoder FFmpeg-H.265-V4L2-re=
-quest
-> >>>   ...
-> >>>   Ran 9/9 tests successfully
-> >>>
-> >>> This series depend on the following series:
-> >>> - media: rkvdec: Add H.264 High 10 and 4:2:2 profile support [3]
-> >>>
-> >>> To fully runtime test this series you need above series and ffmpeg
-> >>> patches from [4], this series and its depends is also available at [5=
-].
-> >>>
-> >>> Full summary of fluster run can be found at [6].
-> >>>
-> >>> [1] https://github.com/LibreELEC/LibreELEC.tv/blob/master/projects/Ro=
-ckchip/patches/linux/default/linux-2000-v4l2-wip-rkvdec-hevc.patch
-> >>> [2] https://lore.kernel.org/linux-media/20230101-patch-series-v2-6-2-=
-rc1-v2-0-fa1897efac14@collabora.com/
-> >>> [3] https://lore.kernel.org/linux-media/20231105165521.3592037-1-jona=
-s@kwiboo.se/
-> >>> [4] https://github.com/Kwiboo/FFmpeg/commits/v4l2-request-n6.1-dev/
-> >>> [5] https://github.com/Kwiboo/linux-rockchip/commits/linuxtv-rkvdec-h=
-evc-v1/
-> >>> [6] https://gist.github.com/Kwiboo/4c0ed87774dede44ce6838451a1ec93d
-> >>>
-> >>> Regards,
-> >>> Jonas
-> >>>
-> >>> Alex Bee (5):
-> >>>   media: rkvdec: Add variants support
-> >>>   media: rkvdec: Add RK3288 variant
-> >>>   media: rkvdec: Disable QoS for HEVC and VP9 on RK3328
-> >>>   ARM: dts: rockchip: Add vdec node for RK3288
-> >>>   arm64: dts: rockchip: Expand reg size of vdec node for RK3399
-> >>>
-> >>> Jonas Karlman (4):
-> >>>   media: rkvdec: Add HEVC backend
-> >>>   media: rkvdec: Implement capability filtering
-> >>>   media: dt-bindings: rockchip,vdec: Add RK3288 compatible
-> >>>   arm64: dts: rockchip: Expand reg size of vdec node for RK3328
-> >>>
-> >>>  .../bindings/media/rockchip,vdec.yaml         |    4 +-
-> >>>  arch/arm/boot/dts/rockchip/rk3288.dtsi        |   17 +-
-> >>>  arch/arm64/boot/dts/rockchip/rk3328.dtsi      |    2 +-
-> >>>  arch/arm64/boot/dts/rockchip/rk3399.dtsi      |    6 +-
-> >>>  drivers/staging/media/rkvdec/Makefile         |    2 +-
-> >>>  drivers/staging/media/rkvdec/TODO             |    7 -
-> >>>  .../staging/media/rkvdec/rkvdec-hevc-data.c   | 1848 +++++++++++++++=
-++
-> >>>  drivers/staging/media/rkvdec/rkvdec-hevc.c    |  823 ++++++++
-> >>>  drivers/staging/media/rkvdec/rkvdec-regs.h    |    3 +
-> >>>  drivers/staging/media/rkvdec/rkvdec-vp9.c     |   10 +
-> >>>  drivers/staging/media/rkvdec/rkvdec.c         |  180 +-
-> >>>  drivers/staging/media/rkvdec/rkvdec.h         |   15 +
-> >>>  12 files changed, 2886 insertions(+), 31 deletions(-)
-> >>>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc-data.c
-> >>>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-hevc.c
-> >>>
-> >>
-> >
->
->
+	Hans
+
+> +	.clk_names	= {"mfc"},
+> +	.num_clocks	= 1,
+> +};
+> +
+>  static const struct of_device_id exynos_mfc_match[] = {
+>  	{
+>  		.compatible = "samsung,mfc-v5",
+> @@ -1682,6 +1709,9 @@ static const struct of_device_id exynos_mfc_match[] = {
+>  	}, {
+>  		.compatible = "samsung,mfc-v10",
+>  		.data = &mfc_drvdata_v10,
+> +	}, {
+> +		.compatible = "tesla,fsd-mfc",
+> +		.data = &mfc_drvdata_v12,
+>  	},
+>  	{},
+>  };
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
+> index e6ec4a43b290..dd2e9f7704ab 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h
+> @@ -19,7 +19,7 @@
+>  #include <media/v4l2-ioctl.h>
+>  #include <media/videobuf2-v4l2.h>
+>  #include "regs-mfc.h"
+> -#include "regs-mfc-v10.h"
+> +#include "regs-mfc-v12.h"
+>  
+>  #define S5P_MFC_NAME		"s5p-mfc"
+>  
+> @@ -720,6 +720,8 @@ struct s5p_mfc_ctx {
+>  	struct v4l2_ctrl *ctrls[MFC_MAX_CTRLS];
+>  	struct v4l2_ctrl_handler ctrl_handler;
+>  	size_t scratch_buf_size;
+> +	int is_10bit;
+> +	int is_422;
+>  };
+>  
+>  /*
+> @@ -775,6 +777,7 @@ void s5p_mfc_cleanup_queue(struct list_head *lh, struct vb2_queue *vq);
+>  #define IS_MFCV7_PLUS(dev)	(dev->variant->version >= 0x70)
+>  #define IS_MFCV8_PLUS(dev)	(dev->variant->version >= 0x80)
+>  #define IS_MFCV10_PLUS(dev)	(dev->variant->version >= 0xA0)
+> +#define IS_MFCV12(dev)		(dev->variant->version >= 0xC0)
+>  #define FW_HAS_E_MIN_SCRATCH_BUF(dev) (IS_MFCV10_PLUS(dev))
+>  
+>  #define MFC_V5_BIT	BIT(0)
+> @@ -782,11 +785,15 @@ void s5p_mfc_cleanup_queue(struct list_head *lh, struct vb2_queue *vq);
+>  #define MFC_V7_BIT	BIT(2)
+>  #define MFC_V8_BIT	BIT(3)
+>  #define MFC_V10_BIT	BIT(5)
+> +#define MFC_V12_BIT	BIT(7)
+>  
+>  #define MFC_V5PLUS_BITS		(MFC_V5_BIT | MFC_V6_BIT | MFC_V7_BIT | \
+> -					MFC_V8_BIT | MFC_V10_BIT)
+> +					MFC_V8_BIT | MFC_V10_BIT | MFC_V12_BIT)
+>  #define MFC_V6PLUS_BITS		(MFC_V6_BIT | MFC_V7_BIT | MFC_V8_BIT | \
+> -					MFC_V10_BIT)
+> -#define MFC_V7PLUS_BITS		(MFC_V7_BIT | MFC_V8_BIT | MFC_V10_BIT)
+> +					MFC_V10_BIT | MFC_V12_BIT)
+> +#define MFC_V7PLUS_BITS		(MFC_V7_BIT | MFC_V8_BIT | MFC_V10_BIT | \
+> +					MFC_V12_BIT)
+> +
+> +#define MFC_V10PLUS_BITS	(MFC_V10_BIT | MFC_V12_BIT)
+>  
+>  #endif /* S5P_MFC_COMMON_H_ */
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
+> index 54b54b2fa9b1..b49159142c53 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
+> @@ -130,7 +130,7 @@ int s5p_mfc_reset(struct s5p_mfc_dev *dev)
+>  			mfc_write(dev, 0, S5P_FIMV_REG_CLEAR_BEGIN_V6 + (i*4));
+>  
+>  		/* check bus reset control before reset */
+> -		if (dev->risc_on)
+> +		if (dev->risc_on && !IS_MFCV12(dev))
+>  			if (s5p_mfc_bus_reset(dev))
+>  				return -EIO;
+>  		/* Reset
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
+> index 268ffe4da53c..e219cbcd86d5 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_dec.c
+> @@ -146,7 +146,7 @@ static struct s5p_mfc_fmt formats[] = {
+>  		.codec_mode	= S5P_FIMV_CODEC_HEVC_DEC,
+>  		.type		= MFC_FMT_DEC,
+>  		.num_planes	= 1,
+> -		.versions	= MFC_V10_BIT,
+> +		.versions	= MFC_V10PLUS_BITS,
+>  		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION |
+>  				  V4L2_FMT_FLAG_CONTINUOUS_BYTESTREAM,
+>  	},
+> @@ -155,7 +155,7 @@ static struct s5p_mfc_fmt formats[] = {
+>  		.codec_mode	= S5P_FIMV_CODEC_VP9_DEC,
+>  		.type		= MFC_FMT_DEC,
+>  		.num_planes	= 1,
+> -		.versions	= MFC_V10_BIT,
+> +		.versions	= MFC_V10PLUS_BITS,
+>  		.flags		= V4L2_FMT_FLAG_DYN_RESOLUTION,
+>  	},
+>  };
+> @@ -355,7 +355,7 @@ static int vidioc_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
+>  		pix_mp->width = ctx->buf_width;
+>  		pix_mp->height = ctx->buf_height;
+>  		pix_mp->field = V4L2_FIELD_NONE;
+> -		pix_mp->num_planes = 2;
+> +		pix_mp->num_planes = ctx->dst_fmt->num_planes;
+>  		/* Set pixelformat to the format in which MFC
+>  		   outputs the decoded frame */
+>  		pix_mp->pixelformat = ctx->dst_fmt->fourcc;
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
+> index f62703cebb77..e4d6e7c117b5 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
+> @@ -92,7 +92,7 @@ static struct s5p_mfc_fmt formats[] = {
+>  		.codec_mode	= S5P_FIMV_CODEC_HEVC_ENC,
+>  		.type		= MFC_FMT_ENC,
+>  		.num_planes	= 1,
+> -		.versions	= MFC_V10_BIT,
+> +		.versions	= MFC_V10PLUS_BITS,
+>  	},
+>  };
+>  
+> @@ -1179,7 +1179,8 @@ static int enc_post_seq_start(struct s5p_mfc_ctx *ctx)
+>  		if (FW_HAS_E_MIN_SCRATCH_BUF(dev)) {
+>  			ctx->scratch_buf_size = s5p_mfc_hw_call(dev->mfc_ops,
+>  					get_e_min_scratch_buf_size, dev);
+> -			ctx->bank1.size += ctx->scratch_buf_size;
+> +			if (!IS_MFCV12(dev))
+> +				ctx->bank1.size += ctx->scratch_buf_size;
+>  		}
+>  		ctx->state = MFCINST_HEAD_PRODUCED;
+>  	}
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr.h b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr.h
+> index b9831275f3ab..87ac56756a16 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr.h
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr.h
+> @@ -166,9 +166,9 @@ struct s5p_mfc_regs {
+>  	void __iomem *d_decoded_third_addr;/* only v7 */
+>  	void __iomem *d_used_dpb_flag_upper;/* v7 and v8 */
+>  	void __iomem *d_used_dpb_flag_lower;/* v7 and v8 */
+> -	void __iomem *d_min_scratch_buffer_size; /* v10 */
+> -	void __iomem *d_static_buffer_addr; /* v10 */
+> -	void __iomem *d_static_buffer_size; /* v10 */
+> +	void __iomem *d_min_scratch_buffer_size; /* v10 and v12 */
+> +	void __iomem *d_static_buffer_addr; /* v10 and v12 */
+> +	void __iomem *d_static_buffer_size; /* v10 and v12 */
+>  
+>  	/* encoder registers */
+>  	void __iomem *e_frame_width;
+> @@ -268,7 +268,7 @@ struct s5p_mfc_regs {
+>  	void __iomem *e_vp8_hierarchical_qp_layer0;/* v7 and v8 */
+>  	void __iomem *e_vp8_hierarchical_qp_layer1;/* v7 and v8 */
+>  	void __iomem *e_vp8_hierarchical_qp_layer2;/* v7 and v8 */
+> -	void __iomem *e_min_scratch_buffer_size; /* v10 */
+> +	void __iomem *e_min_scratch_buffer_size; /* v10 and v12 */
+>  	void __iomem *e_num_t_layer; /* v10 */
+>  	void __iomem *e_hier_qp_layer0; /* v10 */
+>  	void __iomem *e_hier_bit_rate_layer0; /* v10 */
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
+> index 882166e4ac50..fb3f0718821d 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
+> @@ -60,12 +60,14 @@ static void s5p_mfc_release_dec_desc_buffer_v6(struct s5p_mfc_ctx *ctx)
+>  static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
+>  {
+>  	struct s5p_mfc_dev *dev = ctx->dev;
+> -	unsigned int mb_width, mb_height;
+> +	unsigned int mb_width, mb_height, width64, height32;
+>  	unsigned int lcu_width = 0, lcu_height = 0;
+>  	int ret;
+>  
+>  	mb_width = MB_WIDTH(ctx->img_width);
+>  	mb_height = MB_HEIGHT(ctx->img_height);
+> +	width64 = ALIGN(ctx->img_width, 64);
+> +	height32 = ALIGN(ctx->img_height, 32);
+>  
+>  	if (ctx->type == MFCINST_DECODER) {
+>  		mfc_debug(2, "Luma size:%d Chroma size:%d MV size:%d\n",
+> @@ -82,7 +84,44 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
+>  			ctx->tmv_buffer_size = S5P_FIMV_NUM_TMV_BUFFERS_V6 *
+>  			ALIGN(S5P_FIMV_TMV_BUFFER_SIZE_V6(mb_width, mb_height),
+>  			S5P_FIMV_TMV_BUFFER_ALIGN_V6);
+> -		if (IS_MFCV10_PLUS(dev)) {
+> +		if (IS_MFCV12(dev)) {
+> +			lcu_width = S5P_MFC_LCU_WIDTH(ctx->img_width);
+> +			lcu_height = S5P_MFC_LCU_HEIGHT(ctx->img_height);
+> +			if (ctx->codec_mode == S5P_FIMV_CODEC_HEVC_ENC &&
+> +								ctx->is_10bit) {
+> +				ctx->luma_dpb_size =
+> +					width64 * height32 +
+> +					ALIGN(DIV_ROUND_UP(lcu_width * 32, 4),
+> +							16) * height32 + 128;
+> +				if (ctx->is_422)
+> +					ctx->chroma_dpb_size =
+> +						ctx->luma_dpb_size;
+> +				else
+> +					ctx->chroma_dpb_size =
+> +						width64 * height32 / 2 +
+> +						ALIGN(DIV_ROUND_UP(lcu_width *
+> +						32, 4), 16) * height32 / 2 + 128;
+> +			} else if (ctx->codec_mode == S5P_FIMV_CODEC_VP9_ENC &&
+> +					ctx->is_10bit) {
+> +				ctx->luma_dpb_size =
+> +					ALIGN(ctx->img_width * 2, 128) *
+> +					height32 + 64;
+> +				ctx->chroma_dpb_size =
+> +					ALIGN(ctx->img_width * 2, 128) *
+> +					height32 / 2 + 64;
+> +			} else {
+> +				ctx->luma_dpb_size =
+> +					width64 * height32 + 64;
+> +				if (ctx->is_422)
+> +					ctx->chroma_dpb_size =
+> +						ctx->luma_dpb_size;
+> +				else
+> +					ctx->chroma_dpb_size =
+> +						width64 * height32 / 2 + 64;
+> +			}
+> +			ctx->luma_dpb_size = ALIGN(ctx->luma_dpb_size + 256, SZ_2K);
+> +			ctx->chroma_dpb_size = ALIGN(ctx->chroma_dpb_size + 256, SZ_2K);
+> +		} else if (IS_MFCV10_PLUS(dev)) {
+>  			lcu_width = S5P_MFC_LCU_WIDTH(ctx->img_width);
+>  			lcu_height = S5P_MFC_LCU_HEIGHT(ctx->img_height);
+>  			if (ctx->codec_mode != S5P_FIMV_CODEC_HEVC_ENC) {
+> @@ -230,7 +269,11 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
+>  			DEC_VP9_STATIC_BUFFER_SIZE;
+>  		break;
+>  	case S5P_MFC_CODEC_H264_ENC:
+> -		if (IS_MFCV10_PLUS(dev)) {
+> +		if (IS_MFCV12(dev)) {
+> +			mfc_debug(2, "Use min scratch buffer size\n");
+> +			ctx->me_buffer_size =
+> +				ENC_V120_H264_ME_SIZE(mb_width, mb_height);
+> +		} else if (IS_MFCV10_PLUS(dev)) {
+>  			mfc_debug(2, "Use min scratch buffer size\n");
+>  			ctx->me_buffer_size =
+>  			ALIGN(ENC_V100_H264_ME_SIZE(mb_width, mb_height), 16);
+> @@ -254,7 +297,11 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
+>  		break;
+>  	case S5P_MFC_CODEC_MPEG4_ENC:
+>  	case S5P_MFC_CODEC_H263_ENC:
+> -		if (IS_MFCV10_PLUS(dev)) {
+> +		if (IS_MFCV12(dev)) {
+> +			mfc_debug(2, "Use min scratch buffer size\n");
+> +			ctx->me_buffer_size =
+> +				ENC_V120_MPEG4_ME_SIZE(mb_width, mb_height);
+> +		} else if (IS_MFCV10_PLUS(dev)) {
+>  			mfc_debug(2, "Use min scratch buffer size\n");
+>  			ctx->me_buffer_size =
+>  				ALIGN(ENC_V100_MPEG4_ME_SIZE(mb_width,
+> @@ -273,7 +320,11 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
+>  		ctx->bank2.size = 0;
+>  		break;
+>  	case S5P_MFC_CODEC_VP8_ENC:
+> -		if (IS_MFCV10_PLUS(dev)) {
+> +		if (IS_MFCV12(dev)) {
+> +			mfc_debug(2, "Use min scratch buffer size\n");
+> +			ctx->me_buffer_size =
+> +				ENC_V120_VP8_ME_SIZE(mb_width, mb_height);
+> +		} else if (IS_MFCV10_PLUS(dev)) {
+>  			mfc_debug(2, "Use min scratch buffer size\n");
+>  			ctx->me_buffer_size =
+>  				ALIGN(ENC_V100_VP8_ME_SIZE(mb_width, mb_height),
+> @@ -297,9 +348,14 @@ static int s5p_mfc_alloc_codec_buffers_v6(struct s5p_mfc_ctx *ctx)
+>  		ctx->bank2.size = 0;
+>  		break;
+>  	case S5P_MFC_CODEC_HEVC_ENC:
+> +		if (IS_MFCV12(dev))
+> +			ctx->me_buffer_size =
+> +				ENC_V120_HEVC_ME_SIZE(lcu_width, lcu_height);
+> +		else
+> +			ctx->me_buffer_size =
+> +				ALIGN(ENC_V100_HEVC_ME_SIZE(lcu_width,
+> +							lcu_height), 16);
+>  		mfc_debug(2, "Use min scratch buffer size\n");
+> -		ctx->me_buffer_size =
+> -			ALIGN(ENC_V100_HEVC_ME_SIZE(lcu_width, lcu_height), 16);
+>  		ctx->scratch_buf_size = ALIGN(ctx->scratch_buf_size, 256);
+>  		ctx->bank1.size =
+>  			ctx->scratch_buf_size + ctx->tmv_buffer_size +
+> @@ -452,12 +508,15 @@ static void s5p_mfc_dec_calc_dpb_size_v6(struct s5p_mfc_ctx *ctx)
+>  
+>  	if (ctx->codec_mode == S5P_MFC_CODEC_H264_DEC ||
+>  			ctx->codec_mode == S5P_MFC_CODEC_H264_MVC_DEC) {
+> -		if (IS_MFCV10_PLUS(dev)) {
+> -			ctx->mv_size = S5P_MFC_DEC_MV_SIZE_V10(ctx->img_width,
+> -					ctx->img_height);
+> +		if (IS_MFCV12(dev)) {
+> +			ctx->mv_size = S5P_MFC_DEC_MV_SIZE(ctx->img_width,
+> +					ctx->img_height, 1024);
+> +		} else if (IS_MFCV10_PLUS(dev)) {
+> +			ctx->mv_size = S5P_MFC_DEC_MV_SIZE(ctx->img_width,
+> +					ctx->img_height, 512);
+>  		} else {
+> -			ctx->mv_size = S5P_MFC_DEC_MV_SIZE_V6(ctx->img_width,
+> -					ctx->img_height);
+> +			ctx->mv_size = S5P_MFC_DEC_MV_SIZE(ctx->img_width,
+> +					ctx->img_height, 128);
+>  		}
+>  	} else if (ctx->codec_mode == S5P_MFC_CODEC_HEVC_DEC) {
+>  		ctx->mv_size = s5p_mfc_dec_hevc_mv_size(ctx->img_width,
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h
+> index e4dd03c5454c..30269f3e68e8 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h
+> @@ -19,10 +19,8 @@
+>  
+>  #define MB_WIDTH(x_size)		DIV_ROUND_UP(x_size, 16)
+>  #define MB_HEIGHT(y_size)		DIV_ROUND_UP(y_size, 16)
+> -#define S5P_MFC_DEC_MV_SIZE_V6(x, y)	(MB_WIDTH(x) * \
+> -					(((MB_HEIGHT(y)+1)/2)*2) * 64 + 128)
+> -#define S5P_MFC_DEC_MV_SIZE_V10(x, y)	(MB_WIDTH(x) * \
+> -					(((MB_HEIGHT(y)+1)/2)*2) * 64 + 512)
+> +#define S5P_MFC_DEC_MV_SIZE(x, y, offset)	(MB_WIDTH(x) * \
+> +					(((MB_HEIGHT(y)+1)/2)*2) * 64 + offset)
+>  #define S5P_MFC_LCU_WIDTH(x_size)	DIV_ROUND_UP(x_size, 32)
+>  #define S5P_MFC_LCU_HEIGHT(y_size)	DIV_ROUND_UP(y_size, 32)
+>  
+
 
