@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-837-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-838-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE6F7F4A27
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:22:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F337F4A28
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:22:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD4D51C20BD2
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:22:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4E96D2810B7
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:22:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5456E4E63A;
-	Wed, 22 Nov 2023 15:21:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B7314EB42;
+	Wed, 22 Nov 2023 15:21:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QYlGi4rR"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wIgzJjSf"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 54FAFF9;
-	Wed, 22 Nov 2023 07:21:53 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E5A2109;
+	Wed, 22 Nov 2023 07:21:54 -0800 (PST)
 Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9C144276;
-	Wed, 22 Nov 2023 16:21:19 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9BFE529A;
+	Wed, 22 Nov 2023 16:21:20 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700666480;
-	bh=JHQBIVvAtxouujp8N06sHZVSSTpxaJ5CroHpbgMgE80=;
-	h=From:Subject:Date:To:Cc:From;
-	b=QYlGi4rR/O0h+uI6TPBbW4jXdQv4XVNOfV/WObPMWv766uzeZtcaJwJBBlkxNbnuS
-	 2g4JNEaSnBdEQWHC8LNn6394Ak+gLnrNDUr1KBQvAQzaTtGE4YSRi/5cwM+5c1Y4OU
-	 voamnmlDebPOif7cniJwLAvjaW/QNf6PjBwl1+k0=
+	s=mail; t=1700666481;
+	bh=a5vaX6GZvtlfsAJNQBP0qAAJygXfjxV7faNEkvKdK9o=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=wIgzJjSfWQ/kP8yC8CEoH2R9L9SOleWmnXyPCuqzZaeqVR6Lgd/2/rcRNG+chaYbi
+	 IVIJGZar0WWFOA0Ys5uFHR+YFnZEmlfCAfE+DNSsY8Qqq5vfipWuiLY0Qq4+1jO23O
+	 3/prCLB2LmnzDJwVOVx897QIqgCnzhMtV/Wz0rUQ=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v2 0/2] media: imx-mipi-csis: csis clock fixes
-Date: Wed, 22 Nov 2023 17:21:33 +0200
-Message-Id: <20231122-imx-csis-v2-0-e44b8dc4cb66@ideasonboard.com>
+Date: Wed, 22 Nov 2023 17:21:34 +0200
+Subject: [PATCH v2 1/2] media: imx-mipi-csis: Fix clock handling in
+ remove()
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -40,9 +40,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAH0cXmUC/23MQQ6CMBCF4auQWVvTGSJYV9zDsKB0lFlATccQD
- Ondraxd/i8v3w7KSVjhVu2QeBWVuJSgUwXjNCxPNhJKA1mqEYmMzJsZVdS0LpDFEC7oHZT7K/F
- DtoO696Un0XdMn0Ne8bf+QVY01tgG27q5sneu6STwoHHxcUjhPMYZ+pzzF62+Pp2nAAAA
+Message-Id: <20231122-imx-csis-v2-1-e44b8dc4cb66@ideasonboard.com>
+References: <20231122-imx-csis-v2-0-e44b8dc4cb66@ideasonboard.com>
+In-Reply-To: <20231122-imx-csis-v2-0-e44b8dc4cb66@ideasonboard.com>
 To: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
  Rui Miguel Silva <rmfrfs@gmail.com>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -55,46 +55,56 @@ Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=754;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1351;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=JHQBIVvAtxouujp8N06sHZVSSTpxaJ5CroHpbgMgE80=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlXhyKSHEnOeVxC8w9rkJHWfhlX1Z9pE6Q03rVn
- lxBW6uioIWJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZV4cigAKCRD6PaqMvJYe
- 9eI1D/48oW/RmCr9/xtb5mxj2EhZiv65oCIgRh/JrhyTNY+3mZImlvmC+Eg+U6K/h78sJq1/89c
- VqziH6IwEMVZ9V5oT3w5AECzw28kedZZZozptf0uhU4RGoA+gW148SOAWN4PTnofuHZvZOzh/3b
- /RrD7gl9Hx8CD0s5nxQZJtqXalFknqYEa0uqYmwSBMjtKQkQCyuhnfU9tOdFWCbkMmkspA/Fb17
- qfZy3BEEFke9K4EGKgV/DL0PEY+0VqUhcuT02oTCgJPmGLzv/JQDSQulbjO57f0ZL6SscEdgLmm
- YxQL5+JTsTQgwabF9U/9VyewL/D829SItBS6tOAMW5fuTuzn4rbjLGkfQkotIxWfzUqmtF7xXFv
- 2jEFVdUBH2wCMddk/8QDDQgnbrxWkuOBOXqaKFVx5BkWfCAF2bThnzwDmnNjx6248/f1jSlEgxC
- x6CJzwGjGGQa4Nwv128qQKtkn5Nb6riBxgNMiu0prrYn0FxGV13H4GIzYFHIPW4nBui/v0oNWOM
- eGCP9tqmrvnJRVcxsxmqTtTxVXG08Hx1xcwHZ8zKkdtV3sZX8nIqhWfsYrarncKfwAgb8+j9P1y
- 8LjtP+VMtJU8zA396LvV5WLj1bmos+SMOigU83Y4rSs1fQSpVdI7ExU5jf5yNYdGYVvNGDgCWVM
- 7541bgg2n4bcxFA==
+ bh=a5vaX6GZvtlfsAJNQBP0qAAJygXfjxV7faNEkvKdK9o=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlXhyNxfbxyP5pZgrruxd6JZbUxZTPsCrogRzmE
+ YfMDSZT4t2JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZV4cjQAKCRD6PaqMvJYe
+ 9fOTD/0bQ/m+qas+P6A2bvwFTA9FVHi6b1pk2wZNrbMFhwjOFDiTRQSfKsR8sOKfoWBuXR7YQ9p
+ 0DahtKNW5EmY1OBIgnapXcjvWnZ/pFq10bhbWs/ocsggSRacLTCit9yN9y/GevVxFM8pDDEBoca
+ YxpJE3VUBlBY8TbOGksntlttUj93EdwjoDju2+zSFVLxENApox4jDvuotlgHxHI/5HZzJthT/Fk
+ wODTbbq/EMqsD7lJkTDyzvfxzf1zDJ+X1bgMkVQPyq5EsSl2YKv5k+dE/a8Mr9UmFdroNLvWiGB
+ qi8jA8qyDYqsXc10QfJTCwj7s/+NQbgliO0jGkuXgtKK4h4evfaeO8KXREkYzxRwAcbyl5rcnHz
+ n+BvqCDb5AhUbJXqDvNKrthoJD4L9hlJICLRXWlNyeO9XHhxfb/FuchG3M0U2rXQ4F7BxtvhYGP
+ UlsKx7opxlWlEmSROo6Sa3il5PtvWRz0ZgFkF3TiFGiKGdsKMW+5lwITUtu0mRw+fOt9LKSixPI
+ JPIjlkdOo4OJTqmz7GHMHGNjPN+57s8QYWMbANpeQj3rSupQyAhCJyR4Hg3exPAbZ2aZA9AyAlT
+ 5Oo8YUO4GQ3lSvVl7XA9xhHTgSr6DvTGWluI6pNfkbB8uNvA2y01kAyGgCy00cALlCOHZNhUPod
+ nvdkjvcWVSiQx8A==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Two fixes to the csis driver: One to fix remove() another to only enable
-the clocks when needed.
+The driver always calls mipi_csis_runtime_suspend() and
+mipi_csis_clk_disable() in remove(). This causes multiple WARNs from the
+kernel, as the clocks get disabled too many times.
 
+Fix the remove() to call mipi_csis_runtime_suspend() and
+mipi_csis_clk_disable() in a way that reverses what is done in probe().
+
+Fixes: 7807063b862b ("media: staging/imx7: add MIPI CSI-2 receiver subdev for i.MX7")
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
-Changes in v2:
-- Add Fixes and Rb tags
-- Link to v1: https://lore.kernel.org/r/20231122-imx-csis-v1-0-0617368eb996@ideasonboard.com
+ drivers/media/platform/nxp/imx-mipi-csis.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
----
-Tomi Valkeinen (2):
-      media: imx-mipi-csis: Fix clock handling in remove()
-      media: imx-mipi-csis: Drop extra clock enable at probe()
+diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+index 6cb20b45e0a1..b39d7aeba750 100644
+--- a/drivers/media/platform/nxp/imx-mipi-csis.c
++++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+@@ -1502,8 +1502,10 @@ static void mipi_csis_remove(struct platform_device *pdev)
+ 	v4l2_async_nf_cleanup(&csis->notifier);
+ 	v4l2_async_unregister_subdev(&csis->sd);
+ 
++	if (!pm_runtime_enabled(&pdev->dev))
++		mipi_csis_runtime_suspend(&pdev->dev);
++
+ 	pm_runtime_disable(&pdev->dev);
+-	mipi_csis_runtime_suspend(&pdev->dev);
+ 	mipi_csis_clk_disable(csis);
+ 	v4l2_subdev_cleanup(&csis->sd);
+ 	media_entity_cleanup(&csis->sd.entity);
 
- drivers/media/platform/nxp/imx-mipi-csis.c | 17 +++++------------
- 1 file changed, 5 insertions(+), 12 deletions(-)
----
-base-commit: 1865913dd590ca6d5e3207b15099a1210dd62f29
-change-id: 20231122-imx-csis-79d201dd51b9
-
-Best regards,
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+2.34.1
 
 
