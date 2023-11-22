@@ -1,308 +1,255 @@
-Return-Path: <linux-media+bounces-821-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-822-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479087F481A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:48:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41C627F4866
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:00:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1DD628145A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:48:38 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 756EBB20F62
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:00:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C0F62032F;
-	Wed, 22 Nov 2023 13:48:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E98325571;
+	Wed, 22 Nov 2023 13:59:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="J6jxerl9"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="Lo9EZXeN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 730AE19D;
-	Wed, 22 Nov 2023 05:48:33 -0800 (PST)
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AMCm85S020119;
-	Wed, 22 Nov 2023 13:48:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type; s=qcppdkim1;
- bh=yFVlfEta1AlqEBCGjV2ZWmy6xgPox6Zrn9VgPiKWHp0=;
- b=J6jxerl9D191YkK9beDjbU0oV+wOBNAvLc7U1wBREdRkYSsRIfl6niTX3BOnW3DlDtBY
- 21aL7mxsJpegtyPorKXZ9HEzaXLCOLYGIrzYFccbPOtyAg50lHx9zZnD2RJdlat5Yjiy
- TWrzT/tkFPbb76C8PqEkIovMYkEVNONLJ1cqFA+T5AUmc40m/ezK+LGuLLhAvDMRIveq
- QiLTrR0t35DcOP1hv/5C8ox5UZoI08BNJCXdzLKOaDr5OynwLRj3egtgxhze9/DjsQmV
- 4LRo6kcrfjv8qGXP9jb3K6eJOvD97sZKFAeKAFAem7mO8odHwcH450zm7HZaKCvWD8Mj 5A== 
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uhey58kv2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Nov 2023 13:48:24 +0000
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA03.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AMDmNHR014703
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 22 Nov 2023 13:48:23 GMT
-Received: from hu-pbrahma-hyd.qualcomm.com (10.80.80.8) by
- nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.40; Wed, 22 Nov 2023 05:48:19 -0800
-From: Pratyush Brahma <quic_pbrahma@quicinc.com>
-To: <sumit.semwal@linaro.org>, <benjamin.gaignard@collabora.com>,
-        <Brian.Starkey@arm.com>, <jstultz@google.com>, <tjmercier@google.com>,
-        <christian.koenig@amd.com>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-        <linux-kernel@vger.kernel.org>, <quic_guptap@quicinc.com>
-CC: Vijayanand Jitta <quic_vjitta@quicinc.com>
-Subject: [PATCH 2/2] dma-buf: heaps: secure_heap: Add qcom secure system heap
-Date: Wed, 22 Nov 2023 19:17:47 +0530
-Message-ID: <128a84b983d1ddd192e98a42bc6a15030bb60d75.1700544802.git.quic_vjitta@quicinc.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <cover.1700544802.git.quic_vjitta@quicinc.com>
-References: <cover.1700544802.git.quic_vjitta@quicinc.com>
+Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD5EE197
+	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 05:59:49 -0800 (PST)
+Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-1ef370c2e12so3865029fac.1
+        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 05:59:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1700661588; x=1701266388; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=D6DKXVEGFtP618IWdtKwLgwiHtnsTox1dLjqRW4wwcY=;
+        b=Lo9EZXeNSzLqA4Di37WMHUE84LYjntTKML2DaOoNZZnUnPiLvVs0c/67ritmLayzXI
+         rDaOcS2cSsStbXdoAYF3uszcIx5zgguxpXt3ZvnZ0gpcYlO0eDOhXW8C2AmQUObLyJz7
+         /yXfS8xoPoUWxtnw7whTwQXn1LlS/CTKQu42U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700661588; x=1701266388;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D6DKXVEGFtP618IWdtKwLgwiHtnsTox1dLjqRW4wwcY=;
+        b=oPpgdg8lBxiv1h9apJ1EkH7IqzCJ+aYzlaV9EFOyD2pdF2XK2lEvtUzsrWRa+sfQ4H
+         NFXi1nWQBHtm3nmtaPlC39CYrYE7LwY+5wMCjWk2b9JD0MQEesIc9/aqSa7NWzbMHS/o
+         ifM+ueiv/eJos27/qryWEncB+pehi83NFAhm9DoRYnIZAJBRphIHtDFIQcLfGVxqXFWS
+         iCwx2hdMnZw88oP/x3XlV2gzuqbHuKvUacaN+g9XUaAnO3GpswONEK2HJkKuIOwP72gk
+         BQxVUCtAbPW2LKIrJqLjYMesNbHc5lzdz65+Cl2d79f9haTZ9sbs59nJpl5L9iW9SvyQ
+         K7Ow==
+X-Gm-Message-State: AOJu0YyNQ8aW94pKUUI8qZN1lBlTxd+DiLEo1K8DdNyPXcuczhYI/y1z
+	XNqa1tq1jZN/6lFMBuMzMzxXUxCTZ2kUBJz6il+LCQ==
+X-Google-Smtp-Source: AGHT+IGJSz3o7KivCCiCDQF4nQTC2iRM1ErukykN7ulC4vrOWNhQ+TLVS0JXLPqIkiefmKD5s2nWFQ==
+X-Received: by 2002:a05:6870:f71f:b0:1dc:7e71:d475 with SMTP id ej31-20020a056870f71f00b001dc7e71d475mr2736517oab.4.1700661588754;
+        Wed, 22 Nov 2023 05:59:48 -0800 (PST)
+Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com. [209.85.219.50])
+        by smtp.gmail.com with ESMTPSA id df25-20020a05622a0ed900b00419c39dd28fsm4431671qtb.20.2023.11.22.05.59.47
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Nov 2023 05:59:47 -0800 (PST)
+Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-66d1a05b816so25935546d6.1
+        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 05:59:47 -0800 (PST)
+X-Received: by 2002:a05:6214:5193:b0:671:dac1:c856 with SMTP id
+ kl19-20020a056214519300b00671dac1c856mr2106687qvb.53.1700661587263; Wed, 22
+ Nov 2023 05:59:47 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: 3oe11wEQMEXdPBVDvkEMLtHC49khnTZy
-X-Proofpoint-GUID: 3oe11wEQMEXdPBVDvkEMLtHC49khnTZy
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-22_09,2023-11-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=827
- lowpriorityscore=0 spamscore=0 impostorscore=0 suspectscore=0
- priorityscore=1501 mlxscore=0 malwarescore=0 clxscore=1015 phishscore=0
- bulkscore=0 adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311220097
+References: <20231121-guenter-mini-v3-0-d8a5eae2312b@chromium.org>
+ <20231121-guenter-mini-v3-3-d8a5eae2312b@chromium.org> <ZV3WEDZ0EfdYrImE@valkosipuli.retiisi.eu>
+ <20231122131455.GC3909@pendragon.ideasonboard.com>
+In-Reply-To: <20231122131455.GC3909@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Wed, 22 Nov 2023 14:59:31 +0100
+X-Gmail-Original-Message-ID: <CANiDSCs9wQyrDt8i7Rk8yFVdBEzdE_AcJWKU4m9iX5EHn8ATqQ@mail.gmail.com>
+Message-ID: <CANiDSCs9wQyrDt8i7Rk8yFVdBEzdE_AcJWKU4m9iX5EHn8ATqQ@mail.gmail.com>
+Subject: Re: [PATCH v3 3/3] media: uvcvideo: Lock video streams and queues
+ while unregistering
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@iki.fi>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Guenter Roeck <linux@roeck-us.net>, Tomasz Figa <tfiga@chromium.org>, 
+	Alan Stern <stern@rowland.harvard.edu>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Sean Paul <seanpaul@chromium.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Dan Williams <dan.j.williams@intel.com>, Sergey Senozhatsky <senozhatsky@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 
-From: Vijayanand Jitta <quic_vjitta@quicinc.com>
+Hi Laurent
 
-Add secure system for Pixel and Non pixel video usecases, this
-allocates from system heap and secures using qcom_scm_aasign_mem.
+On Wed, 22 Nov 2023 at 14:14, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> CC'ing Dan Williams.
+>
+> On Wed, Nov 22, 2023 at 10:21:04AM +0000, Sakari Ailus wrote:
+> > Hi Ricardo,
+> >
+> > On Tue, Nov 21, 2023 at 07:53:50PM +0000, Ricardo Ribalda wrote:
+> > > From: Guenter Roeck <linux@roeck-us.net>
+> > >
+> > > The call to uvc_disconnect() is not protected by any mutex.
+> > > This means it can and will be called while other accesses to the video
+> > > device are in progress. This can cause all kinds of race conditions,
+> > > including crashes such as the following.
+> > >
+> > > usb 1-4: USB disconnect, device number 3
+> > > BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+> > > PGD 0 P4D 0
+> > > Oops: 0000 [#1] PREEMPT SMP PTI
+> > > CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
+> > > Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
+> > > RIP: 0010:usb_ifnum_to_if+0x29/0x40
+> > > Code: <...>
+> > > RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
+> > > RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
+> > > RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
+> > > RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
+> > > R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
+> > > R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
+> > > FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
+> > > CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > > CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
+> > > Call Trace:
+> > >  usb_hcd_alloc_bandwidth+0x1ee/0x30f
+> > >  usb_set_interface+0x1a3/0x2b7
+> > >  uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
+> > >  uvc_video_start_streaming+0x91/0xdd [uvcvideo]
+> > >  uvc_start_streaming+0x28/0x5d [uvcvideo]
+> > >  vb2_start_streaming+0x61/0x143 [videobuf2_common]
+> > >  vb2_core_streamon+0xf7/0x10f [videobuf2_common]
+> > >  uvc_queue_streamon+0x2e/0x41 [uvcvideo]
+> > >  uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
+> > >  __video_do_ioctl+0x33d/0x42a
+> > >  video_usercopy+0x34e/0x5ff
+> > >  ? video_ioctl2+0x16/0x16
+> > >  v4l2_ioctl+0x46/0x53
+> > >  do_vfs_ioctl+0x50a/0x76f
+> > >  ksys_ioctl+0x58/0x83
+> > >  __x64_sys_ioctl+0x1a/0x1e
+> > >  do_syscall_64+0x54/0xde
+> > >
+> > > usb_set_interface() should not be called after the USB device has been
+> > > unregistered. However, in the above case the disconnect happened after
+> > > v4l2_ioctl() was called, but before the call to usb_ifnum_to_if().
+> > >
+> > > Acquire various mutexes in uvc_unregister_video() to fix the majority
+> > > (maybe all) of the observed race conditions.
+> > >
+> > > The uvc_device lock prevents races against suspend and resume calls
+> > > and the poll function.
+> > >
+> > > The uvc_streaming lock prevents races against stream related functions;
+> > > for the most part, those are ioctls. This lock also requires other
+> > > functions using this lock to check if a video device is still registered
+> > > after acquiring it. For example, it was observed that the video device
+> > > was already unregistered by the time the stream lock was acquired in
+> > > uvc_ioctl_streamon().
+> > >
+> > > The uvc_queue lock prevents races against queue functions, Most of
+> > > those are already protected by the uvc_streaming lock, but some
+> > > are called directly. This is done as added protection; an actual race
+> > > was not (yet) observed.
+> > >
+> > > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Cc: Alan Stern <stern@rowland.harvard.edu>
+> > > Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > > Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> > > Reviewed-by: Sean Paul <seanpaul@chromium.org>
+> > > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+> > >  1 file changed, 9 insertions(+)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > index 413c32867617..3408b865d346 100644
+> > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > @@ -1907,14 +1907,22 @@ static void uvc_unregister_video(struct uvc_device *dev)
+> > >  {
+> > >     struct uvc_streaming *stream;
+> > >
+> > > +   mutex_lock(&dev->lock);
+> > > +
+> > >     list_for_each_entry(stream, &dev->streams, list) {
+> > >             if (!video_is_registered(&stream->vdev))
+> > >                     continue;
+> > >
+> > > +           mutex_lock(&stream->mutex);
+> > > +           mutex_lock(&stream->queue.mutex);
+> > > +
+> > >             video_unregister_device(&stream->vdev);
+> > >             video_unregister_device(&stream->meta.vdev);
+> > >
+> > >             uvc_debugfs_cleanup_stream(stream);
+> > > +
+> > > +           mutex_unlock(&stream->queue.mutex);
+> > > +           mutex_unlock(&stream->mutex);
+> > >     }
+> > >
+> > >     uvc_status_unregister(dev);
+> > > @@ -1925,6 +1933,7 @@ static void uvc_unregister_video(struct uvc_device *dev)
+> > >     if (media_devnode_is_registered(dev->mdev.devnode))
+> > >             media_device_unregister(&dev->mdev);
+> > >  #endif
+> > > +   mutex_unlock(&dev->lock);
+> > >  }
+> > >
+> > >  int uvc_register_video_device(struct uvc_device *dev,
+> > >
+> >
+> > Instead of acquiring all the possible locks, could you instead take the
+> > same approach as you do with ISP? It should use refcount_t btw.
+> > <URL:https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/kcam-6.1/drivers/isp/isp-device.c:
+>
+> The right approach, as I've said countless of times, is to fix this at
+> the cdev and V4L2 level. Dan Williams has done some ground work on this
+> a while ago ([1]), and before that I posted an RFC series that
+> overlapped with Dan's work (with a more naive and less efficient
+> implementation of refcounting, see [2]).
+>
+> [1] https://lore.kernel.org/all/161117153776.2853729.6944617921517514510.stgit@dwillia2-desk3.amr.corp.intel.com/
+> [2] https://lore.kernel.org/linux-media/20171116003349.19235-2-laurent.pinchart+renesas@ideasonboard.com/
 
-Change-Id: If0702f85bff651843c6a5c83694043364229e66b
-Signed-off-by: Vijayanand Jitta <quic_vjitta@quicinc.com>
----
- drivers/dma-buf/heaps/secure_heap.c | 163 +++++++++++++++++++++++++++-
- 1 file changed, 160 insertions(+), 3 deletions(-)
+The UVC driver is violating the USB driver API [1] causing crashes and
+probably security vulnerabilities. It has to be fixed.
 
-diff --git a/drivers/dma-buf/heaps/secure_heap.c b/drivers/dma-buf/heaps/secure_heap.c
-index 04e2ee000e19..cdcf4b3f5333 100644
---- a/drivers/dma-buf/heaps/secure_heap.c
-+++ b/drivers/dma-buf/heaps/secure_heap.c
-@@ -58,6 +58,11 @@ enum secure_memory_type {
- 	 * protect it, then the detail memory management also is inside the TEE.
- 	 */
- 	SECURE_MEMORY_TYPE_MTK_CM_CMA	= 2,
-+	/*
-+	 * QCOM secure system heap, use system heap to alloc/free.
-+	 * and use qcom_scm_assign_mem to secure the memory.
-+	 */
-+	SECURE_MEMORY_TYPE_QCOM_SYSTEM	= 3,
- };
- 
- struct secure_buffer {
-@@ -69,6 +74,7 @@ struct secure_buffer {
- 	 */
- 	u32				sec_handle;
- 	struct page			*cma_page;
-+	struct sg_table			sg_table;
- };
- 
- #define TEE_MEM_COMMAND_ID_BASE_MTK	0x10000
-@@ -329,11 +335,26 @@ static int secure_heap_qcom_secure_memory(struct secure_heap *sec_heap,
- 	next[0].vmid = data->vmid;
- 	next[0].perm = data->perm;
- 
--
--	ret = qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
-+	if (sec_heap->mem_type == SECURE_MEMORY_TYPE_CMA) {
-+		ret = qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
- 				sec_buf->size, &src_perms,
- 				next, 1);
-+	} else if (sec_heap->mem_type == SECURE_MEMORY_TYPE_QCOM_SYSTEM) {
-+		struct sg_table *table;
-+		struct scatterlist *sg;
-+		int i = 0;
-+
-+		table = &sec_buf->sg_table;
-+		for_each_sgtable_sg(table, sg, i) {
-+			struct page *page = sg_page(sg);
- 
-+			ret = qcom_scm_assign_mem(page_to_phys(page),
-+				page_size(page), &src_perms,
-+				next, 1);
-+			if (ret)
-+				break;
-+		}
-+	}
- 	return ret;
- }
- 
-@@ -347,9 +368,24 @@ static void secure_heap_qcom_unsecure_memory(struct secure_heap *sec_heap,
- 	next[0].vmid = QCOM_SCM_VMID_HLOS;
- 	next[0].perm = QCOM_SCM_PERM_RWX;
- 
--	qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
-+	if (sec_heap->mem_type == SECURE_MEMORY_TYPE_CMA) {
-+		qcom_scm_assign_mem(page_to_phys(sec_buf->cma_page),
- 				sec_buf->size, &src_perms,
- 				next, 1);
-+	} else if (sec_heap->mem_type == SECURE_MEMORY_TYPE_QCOM_SYSTEM) {
-+		struct sg_table *table;
-+		struct scatterlist *sg;
-+		int i = 0;
-+
-+		table = &sec_buf->sg_table;
-+		for_each_sgtable_sg(table, sg, i) {
-+			struct page *page = sg_page(sg);
-+
-+			qcom_scm_assign_mem(page_to_phys(page),
-+				page_size(page), &src_perms,
-+				next, 1);
-+		}
-+	}
- }
- 
- const struct secure_heap_prv_data qcom_cma_sec_mem_data = {
-@@ -361,6 +397,117 @@ const struct secure_heap_prv_data qcom_cma_sec_mem_data = {
- 	.unsecure_the_memory    = secure_heap_qcom_unsecure_memory,
- };
- 
-+/* Using system heap allocator */
-+#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO)
-+#define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
-+				| __GFP_NORETRY) & ~__GFP_RECLAIM) \
-+				| __GFP_COMP)
-+static gfp_t order_flags[] = {HIGH_ORDER_GFP, HIGH_ORDER_GFP, LOW_ORDER_GFP};
-+static const unsigned int orders[] = {8, 4, 0};
-+#define NUM_ORDERS ARRAY_SIZE(orders)
-+
-+static struct page *alloc_largest_available(unsigned long size,
-+					    unsigned int max_order)
-+{
-+	struct page *page;
-+	int i;
-+
-+	for (i = 0; i < NUM_ORDERS; i++) {
-+		if (size <  (PAGE_SIZE << orders[i]))
-+			continue;
-+		if (max_order < orders[i])
-+			continue;
-+
-+		page = alloc_pages(order_flags[i], orders[i]);
-+		if (!page)
-+			continue;
-+		return page;
-+	}
-+	return NULL;
-+}
-+
-+static int qcom_system_secure_memory_allocate(struct secure_heap *sec_heap,
-+				      struct secure_buffer *sec_buf)
-+{
-+	unsigned long size_remaining = sec_buf->size;
-+	unsigned int max_order = orders[0];
-+	struct sg_table *table;
-+	struct scatterlist *sg;
-+	struct list_head pages;
-+	struct page *page, *tmp_page;
-+	int i = 0, ret = -ENOMEM;
-+
-+	INIT_LIST_HEAD(&pages);
-+	while (size_remaining > 0) {
-+		/*
-+		 * Avoid trying to allocate memory if the process
-+		 * has been killed by SIGKILL
-+		 */
-+		if (fatal_signal_pending(current)) {
-+			return -EINTR;
-+		}
-+
-+		page = alloc_largest_available(size_remaining, max_order);
-+		if (!page)
-+			goto free;
-+
-+		list_add_tail(&page->lru, &pages);
-+		size_remaining -= page_size(page);
-+		max_order = compound_order(page);
-+		i++;
-+	}
-+	table = &sec_buf->sg_table;
-+	if (sg_alloc_table(table, i, GFP_KERNEL))
-+		goto free;
-+
-+	sg = table->sgl;
-+	list_for_each_entry_safe(page, tmp_page, &pages, lru) {
-+		sg_set_page(sg, page, page_size(page), 0);
-+		sg = sg_next(sg);
-+		list_del(&page->lru);
-+	}
-+	return 0;
-+free:
-+	list_for_each_entry_safe(page, tmp_page, &pages, lru)
-+		__free_pages(page, compound_order(page));
-+
-+	return ret;
-+}
-+
-+static void qcom_system_secure_memory_free(struct secure_heap *sec_heap,
-+				   struct secure_buffer *sec_buf)
-+{
-+	struct sg_table *table;
-+	struct scatterlist *sg;
-+	int i;
-+
-+	table = &sec_buf->sg_table;
-+	for_each_sgtable_sg(table, sg, i) {
-+		struct page *page = sg_page(sg);
-+
-+		__free_pages(page, compound_order(page));
-+	}
-+	sg_free_table(table);
-+}
-+
-+const struct secure_heap_prv_data qcom_system_pixel_sec_mem_data = {
-+	.vmid           = QCOM_SCM_VMID_CP_PIXEL,
-+	.perm		= QCOM_SCM_PERM_RW,
-+	.memory_alloc	= qcom_system_secure_memory_allocate,
-+	.memory_free	= qcom_system_secure_memory_free,
-+	.secure_the_memory	= secure_heap_qcom_secure_memory,
-+	.unsecure_the_memory	= secure_heap_qcom_unsecure_memory,
-+};
-+
-+const struct secure_heap_prv_data qcom_system_non_pixel_sec_mem_data = {
-+	.vmid           = QCOM_SCM_VMID_CP_NON_PIXEL,
-+	.perm		= QCOM_SCM_PERM_RW,
-+	.memory_alloc	= qcom_system_secure_memory_allocate,
-+	.memory_free	= qcom_system_secure_memory_free,
-+	.secure_the_memory	= secure_heap_qcom_secure_memory,
-+	.unsecure_the_memory	= secure_heap_qcom_unsecure_memory,
-+};
-+
- static int secure_heap_secure_memory_allocate(struct secure_heap *sec_heap,
- 					      struct secure_buffer *sec_buf)
- {
-@@ -585,6 +732,16 @@ static struct secure_heap secure_heaps[] = {
- 		.mem_type	= SECURE_MEMORY_TYPE_MTK_CM_CMA,
- 		.data		= &mtk_sec_mem_data_cma,
- 	},
-+	{
-+		.name		= "secure_system_pixel",
-+		.mem_type	= SECURE_MEMORY_TYPE_QCOM_SYSTEM,
-+		.data		= &qcom_system_pixel_sec_mem_data,
-+	},
-+	{
-+		.name		= "secure_system_non_pixel",
-+		.mem_type	= SECURE_MEMORY_TYPE_QCOM_SYSTEM,
-+		.data		= &qcom_system_non_pixel_sec_mem_data,
-+	},
- };
- 
- static int __init secure_cma_init(struct reserved_mem *rmem)
--- 
-2.34.1
+If there was a different way TODAY to do this, I would very happily
+implement it differently. But your patchset is 6 years old and Dan's 2
+and they have not landed. How many kernel versions is ok to put our
+users willingly at risk?
 
+This patch simply serialises unregister_video? How can this patch
+affect the viability of your patchset or Dan's patch? If this patch is
+not needed in the future we can simply revert it.
+
+When/If there is a better way to implement this, I would very happily
+send a follow-up patch to use that framework.
+
+[1] https://www.kernel.org/doc/html/latest/driver-api/usb/callbacks.html#the-disconnect-callback
+
+
+
+
+
+
+
+
+
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+--
+Ricardo Ribalda
 
