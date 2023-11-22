@@ -1,170 +1,239 @@
-Return-Path: <linux-media+bounces-816-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-817-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D66A37F47DB
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:34:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A64C07F47F2
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:40:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D96C281390
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:34:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0D283B20E66
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:40:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3EC755C15;
-	Wed, 22 Nov 2023 13:34:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E31256472;
+	Wed, 22 Nov 2023 13:39:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RiIIggGw"
+	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="C08xxQAU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E1311A5;
-	Wed, 22 Nov 2023 05:34:17 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-a02d91ab195so227201266b.3;
-        Wed, 22 Nov 2023 05:34:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700660055; x=1701264855; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qLq5b4Qnnzc05lrLd5F9jEP0bqZahQJ7HMcnCcsQpuU=;
-        b=RiIIggGwva9hVd3DEDAlLI2IVyJkrmw4TdtUJwcvOfavW7h5as3lhoJ+Ha2iF8LiOL
-         JcIWkuiePyTuhVoR1NF5+eC86AhvPesXQyUAEmpPfhrUiiJXHHT+ZeVBeutEM9HlVgu0
-         sbvc1z0hHQe/S0e9i9OIw/BNP/ZQn5kgfrX3sJzQrckn/OWm8lqLT9S6aR7R1xhhknjT
-         bQurRJ69U45vqZk90FK3dS2jnpuwFfMlIJhz4LsNVzcs+iWTHJOs8nI6naKWaBeozLmb
-         zpATWdt66SOku9ISCOT4p9rPqJCmSfkpFRdjmGIM60lWlZ++TW9JUOCuYslCu1ja+Zvu
-         X2SA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700660055; x=1701264855;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qLq5b4Qnnzc05lrLd5F9jEP0bqZahQJ7HMcnCcsQpuU=;
-        b=aAuCLAn8Q5XH/eAebqGHsEJ4uSjD2dFmXaZS5bYo6XJKzlLo8TWadbGn5vrV1q9Mvz
-         JxbV0OXE1n02K3lsxOtdu0/saPv2+gWhciKXAoSSoPEqfoNOjjAp8wgwxKUwhWl65jLr
-         3yJO6FBV0OaITe4XleAaE8laxgt9mC+O6BUAJx2cUTKuC0uRFA/5eX7rMbK32xsrhSYh
-         df9edmCc/FZgbgJA3T1VjQjnhM5b877Cb/i8Xum4xrhOGuYoFLuX28/hkLVwY7TfnhNA
-         Z+/kqr9I2XefTwW78AaSxuJVK0dfxCEGCQd6f8EotwncfzGqTB6RWp/4gPZy4XxRdaaJ
-         IAQA==
-X-Gm-Message-State: AOJu0YwWc4XNgYF5lVTHUrPe6VBJXCWJOTZsyBzrs3aNCjg3fdkpm7TF
-	tMlopVKS+CjsDfani1GX8mU=
-X-Google-Smtp-Source: AGHT+IG8BfMbHPH1HT18+iwDGrq0HmcWfR8g+5g/QGsygFZaB/ToAgDWUlQu1eRvzTaR7eKzM0e/hg==
-X-Received: by 2002:a17:907:d046:b0:9be:77cd:4c2c with SMTP id vb6-20020a170907d04600b009be77cd4c2cmr1649995ejc.28.1700660033136;
-        Wed, 22 Nov 2023 05:33:53 -0800 (PST)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-142-131.cust.vodafonedsl.it. [2.39.142.131])
-        by smtp.gmail.com with ESMTPSA id jz2-20020a170906bb0200b009ddf38056f8sm6633988ejb.118.2023.11.22.05.33.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 05:33:52 -0800 (PST)
-Date: Wed, 22 Nov 2023 14:33:50 +0100
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Michael Riesch <michael.riesch@wolfvision.net>
-Cc: Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
-	heiko@sntech.de, hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org,
-	conor+dt@kernel.org, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-	maxime.chevallier@bootlin.com, paul.kocialkowski@bootlin.com
+Received: from EUR03-DBA-obe.outbound.protection.outlook.com (mail-dbaeur03on2064.outbound.protection.outlook.com [40.107.104.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09784D5C;
+	Wed, 22 Nov 2023 05:39:50 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=fDlYFyFkitlfEpSR9vfg/m6MFD1fKFpql4rwKqOJjeMEtTywcbjQfWuffRUrAVMiDitGG8zFzr9GL6Hqhqd+gYjLFjR5XIeiFvuI3Wi3hdWCfir7v99DRciJzbXwVx9jXth6LZqbnlZdY3Uqt/nNX0dzWiquPfLInZCIOMErRPCbKsuheE3a8SpKlJzM3vcvxpWu8HifdgtGw4qBiAbefAupdet/JFTmFk4z+6jI7kegNGbVbV83d3WZ7kZ3XtDhJXIrCgA7ZKCxbqzDzi4e3Ls0b7wCExqePesan4aHKlzTVSY7ub4AJU7i/eQbBGVr+QLrlOAZ05orTHHWb6MBwA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qtdYOdCiYP2cb3Ohof6ccfOMbawRf+U9hP18gukFsXw=;
+ b=SM9/sMHjHhpEfa+PkywFfQpAi45xic5iTthxaA/oOESQKFcl5ErMdMTQ6icIOFZLR37Bno+guhHX8zzre1xISAlCM7SEF7dOlW/dd47m40D/ILzzlzIQWZvR1Mul0jCzS81VB+efg4j+m68jZyrk8Y8zuqKfqHbAyid21D8p8WdNCKErRxVFHm9W7EyHMgmaCeZRaST6dQK5kYfjE/CzyoeyaTC6Tbgl0TGOjnFd5Edq72b257VWk0HVbrf2A0UR10qBGBhG2lHyWk0NkzyO6TJTuMJ5UWzq+ZXe7inusoeyzWhy0Er1grhK8IRO6xFOe8q9Vuh5IrbGx5C4krZxTw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=wolfvision.net; dmarc=pass action=none
+ header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=qtdYOdCiYP2cb3Ohof6ccfOMbawRf+U9hP18gukFsXw=;
+ b=C08xxQAUYiFdx+5744JWQiEkivD//CpexucZb9iDqJSQ9tmtNSb3DP8JYYU7z4/vP8XCBPxpPc+KvEYFGpf7Qn95qYLfhev/DBamD1OIbsfEeMafsqqwR+yCHv0J3fuHftY9wZJFnhK3DYZCwPVOHNUWYzGkHfRa+1FFCWrHgXs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=wolfvision.net;
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
+ by GV1PR08MB8283.eurprd08.prod.outlook.com (2603:10a6:150:a4::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Wed, 22 Nov
+ 2023 13:39:44 +0000
+Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::79a1:5ad6:b221:ad]) by DU0PR08MB9155.eurprd08.prod.outlook.com
+ ([fe80::79a1:5ad6:b221:ad%4]) with mapi id 15.20.7002.028; Wed, 22 Nov 2023
+ 13:39:44 +0000
+Message-ID: <64c2bc47-e922-4655-a5ef-6d3aab51058b@wolfvision.net>
+Date: Wed, 22 Nov 2023 14:39:41 +0100
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v11 2/3] media: rockchip: Add a driver for Rockchip's
  camera interface
-Message-ID: <ZV4DPsL4zkDkAuwj@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Content-Language: en-US
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: Mehdi Djait <mehdi.djait@bootlin.com>, mchehab@kernel.org,
+ heiko@sntech.de, hverkuil-cisco@xs4all.nl,
+ krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org,
+ linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
+ alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
+ paul.kocialkowski@bootlin.com
 References: <cover.1700132457.git.mehdi.djait@bootlin.com>
  <db605935ad21c4780b73db87605b52d30bc936a4.1700132457.git.mehdi.djait@bootlin.com>
  <ZVz58b0r4gtxyVQy@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
  <9570dc1c-a437-46d4-95e7-1f3dd399e458@wolfvision.net>
+ <ZV4DPsL4zkDkAuwj@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+From: Michael Riesch <michael.riesch@wolfvision.net>
+Organization: WolfVision GmbH
+In-Reply-To: <ZV4DPsL4zkDkAuwj@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR04CA0114.eurprd04.prod.outlook.com
+ (2603:10a6:803:64::49) To DU0PR08MB9155.eurprd08.prod.outlook.com
+ (2603:10a6:10:416::5)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9570dc1c-a437-46d4-95e7-1f3dd399e458@wolfvision.net>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|GV1PR08MB8283:EE_
+X-MS-Office365-Filtering-Correlation-Id: f0ba36cb-0e80-4506-5a62-08dbeb607cc2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	Z2C5hTz1Wl79nTbwEqamJ2T5l/kd6mpuoEEt9PQ29Pzi9dwLPZmWV1hiHETvvy26OzcyD1V3l8SHPSB6JPYwN3NUZ8Gxq9Jg2U0b1PPrZurPB7l8dXuxPfeUaRLBPvdj3QIY8iQLFZWKKW6WSgDcuAq/JQAuRaQcwS9hXtz/nfB95G8xV3s4739NRfbroT2L+eSOizzDL0dn2QYUlY0S0t30pQwS1AL6y6e/DYBoqkEEBd4vY2cMN2WxAGiwF9OirkKQPhyEURKIpsCiBiyEgipWYXxwjch0LTREZzpznC0tTi+KczErlqPMa+Qsjs3O9Wx+Xo1g8BS9wq9XoH6ghFA7Ee+TtbFY2Nhj6LpV/eeM6mr2ptDGa8l83yVB6t5xdPk6rGDkKfO+yp+RSodpdnQx/Pv1R/qxOYdokjF8yAME8WhrP7NTbu9XykSZnzEN+NJEpLjro6+LgD8LDp6YsZ179uvxG7LQ6WFv8Hc/FMbuAQc6Wn17ryF8rd9bHnt7i8aqTHYAGP71gXw/jCRbq/jz1NQz1Bkveckdb+tQpwLONwI3eth14juPgkWnX85k7UiQZhregSlRcIWtzO7WrFc0mkZMWZHNj6MWvONdRjwRg5HCVYMpTZqtin87FA6YvwNzZTQkO/q9GhgRDJyueg==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(366004)(376002)(136003)(39850400004)(396003)(230922051799003)(64100799003)(186009)(1800799012)(451199024)(2616005)(31686004)(86362001)(31696002)(6666004)(316002)(36916002)(6916009)(66946007)(66476007)(66556008)(36756003)(53546011)(5660300002)(6512007)(83380400001)(7416002)(26005)(44832011)(2906002)(478600001)(6486002)(6506007)(8676002)(41300700001)(38100700002)(4326008)(8936002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?QjhMQTc2V2FnQ2U1OEdnRnFuMU5zSVBVdDN4N2o1QXZpSVNpRm1FMnpCZVgv?=
+ =?utf-8?B?OGtnNjU4QldZNWRSMjMreHFFcTZISTFjeWw1TUQvWjJMc25NbGdXYlpLc3I3?=
+ =?utf-8?B?bzRxeE1oempEbzRQQTBXZ1p6SmhzcDdyaWFpTHRqc284TzFBSkFnS2lUTWpo?=
+ =?utf-8?B?Zk1UcVQ1MU1FdVpsYkgrTjVXaXQ2Q1k1RlRQcWdURGUzTElwTGpvdVYxYU5w?=
+ =?utf-8?B?RjZ1alZKVVRaYjRZNlpsczlHM2dFV1pWd1FrQmNJVDBQN0M2ZzZqVm9JR1pi?=
+ =?utf-8?B?clpKVUM1ZTV0a3p6bWx3YkpyQ3NWQUI0WkI1a3Z0cXRvTW1SYlJtUHpuMk9E?=
+ =?utf-8?B?MG9pL2VSckZUVWtwSlNWMjlzbHBBSGVYYlQ4Ri9WSmNadm5TcG1oYUd6TldT?=
+ =?utf-8?B?b0VTTHAvbm43RExlaFlkYnJUNStRc1VldUZqSGRQb3l6bHBDd1hSOEw4YzRm?=
+ =?utf-8?B?MndGR3BjTkJ5VkhIZmNtTjNrY3dHNXE4WWYwdmZJLzVQMEMybnFNNDNuenRN?=
+ =?utf-8?B?TW56OUptNWFUdUZGbUN1MnVLcTFBQldkbXN1cGd0ekxQb3NVQkJjd0ZDa1R4?=
+ =?utf-8?B?Qmxvc0hlVDNTcGN1Ymh1ZzMvSkhPby9IeVoydko1ZUk4dkxrM0Rpa04vZ1kz?=
+ =?utf-8?B?YkQ4SW53VGgrNHBDV2N2UG0rajRRVVg0Y2Q5UDZCbmFlNXRzZDFGUmJaRmt0?=
+ =?utf-8?B?OExWZXZxRTBMYW10NnZYcVZ4T3NXMzFCemJlbkpoTXd4OW43MkJNL1h5c0tz?=
+ =?utf-8?B?SnhqZjNReW5XdUJHVTlsd3JFVmZ1STNrU25helFOcS9zVUlHUlVsK1I5NUg1?=
+ =?utf-8?B?Vmp5bE13Y3FCTTE3U1hlUzhIUEUvZythYXpvVTZ1TXV1UkJ1WnM5b0Npb2J2?=
+ =?utf-8?B?cC8wSUN4bHpMa2srQlFnejFvRksvUXBpQ2lab2ZPYU1xMlZqaVdEZ0phZWdr?=
+ =?utf-8?B?b1hFVUFrb1ViRmNCN3lrVlZDV3JMRVpXb0J4M1dwaDllVE1SVUwreHp6MGNm?=
+ =?utf-8?B?Vlc4TmlMdkRibDhOaW9CbWlVTm1iY29DbmNFK2tXUlNKVXdFU04zbGF5ODA5?=
+ =?utf-8?B?aFRoaU92VURHdE1sQnRxcEZsVmhYMDUzdmxvUG5TN0JhV2lCK3c3OHlCT1FW?=
+ =?utf-8?B?NGEvbUdOZFZpWXZhTDBVeEFWclRTWGJCTUY2dEZUTGZRS1FWM2NKMkNWMzVV?=
+ =?utf-8?B?UkVDbHkrSUVEZERsejdtV3NaaUduSVZ1NGFmY0E5K0ZxaWVtNGoyWm9BOWFD?=
+ =?utf-8?B?cjdHNVBZUVMzZVFraFJnOWcyS0pXV0RDc2QyZi9Zc2ZJWkpmMlNFUTZCclQw?=
+ =?utf-8?B?ZlFTd2lMbGZYWjVmWXRycVpydGR1NnpSbDFINmduSW9PNXRlblRQNklhZE5p?=
+ =?utf-8?B?bGpQaUwzbHZQNVZQNDYxelFtam5Fc2N5TEN4KzJJMHRwazNSZy93NG96ZTVw?=
+ =?utf-8?B?WmJjZ0VqVjF1TjFub3hTYnNJd3MrczZqbzUxNXZPVjdSQ05rMjNoRGRsMXRQ?=
+ =?utf-8?B?elFNa3hEbityQjByVU1YNVZ4MktxZE1nRDRGSGRRbnZVczZKTFpkQ25KMXBC?=
+ =?utf-8?B?YVI4TkorSDY0Y3VmVm5VTlpOamJ5dEllM2p4SlZVRVNpeFQyS1MxNDJuQzlX?=
+ =?utf-8?B?elZPSmRYTHFtWUJlWnlCbFV4eml5N292UFJNRjdtcTMxdjNrSXdlakZGN2pY?=
+ =?utf-8?B?VjBZOWpHSm56dkNvRm9nZExBTTBTcGpEOW1leG1nVmc5TElVZENLTzNsYXEw?=
+ =?utf-8?B?NCs3UEpudnFPQ2dqVE9DS1FFQTNxa2dWd3lhYTlSVFZVTXJzclRCTzlUa0Jy?=
+ =?utf-8?B?UXVQV2ZHYXhCTEE5M0lERDdwZ2dpTFVMdXJwd1hhR1ViV0RNdUFKWnJvVUFS?=
+ =?utf-8?B?YjE1aEVDRklVVFpjcWZRelJxMCthWEN4UnZkOG1SS2VmYzJIcGN3V3FKWVht?=
+ =?utf-8?B?U0lUcDVudFp4TkwvYVRYc2VML1FlRW05TlNmUW9NKy9LVjI3d09qUW1iRElC?=
+ =?utf-8?B?aFRCWmdiMkl1YUtGckVESG1wazF1MEtiY3c1ejFYK0ZxVUVSL3JaVzMzOFc2?=
+ =?utf-8?B?a0pZenE5c2xFT0pMOW1QRHNETlozSTR1N1FwSytkbXFMNEp2bWlwb283bzhP?=
+ =?utf-8?B?S1hUWXgxOXozR2Y3OWpoaGtIUGJBOGJoOStPdlVmNmFWUFVFaWdoYXZWWC9p?=
+ =?utf-8?B?cHc9PQ==?=
+X-OriginatorOrg: wolfvision.net
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0ba36cb-0e80-4506-5a62-08dbeb607cc2
+X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 13:39:44.7318
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 9Alerxd7RGusIKnVq0/jMzj8O8NJgqDgtatNym9mVVYtX6RztIuiiMfV+lJczDaRyXGIC5QM1nBy+RkfMLDCGybZmvvWww/eGo6eckkL2+I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR08MB8283
 
-Hi Michael,
-Thanks for your comment.
+Hi Paul, Tommaso,
 
-On Wed, Nov 22, 2023 at 01:42:50PM +0100, Michael Riesch wrote:
-> Hi Tommaso,
+On 11/22/23 14:33, Tommaso Merciai wrote:
+> Hi Michael,
+> Thanks for your comment.
 > 
-> On 11/21/23 19:41, Tommaso Merciai wrote:
-> > Hi Mehdi,
-> > 
-> > On Thu, Nov 16, 2023 at 12:04:39PM +0100, Mehdi Djait wrote:
-> >> This introduces a V4L2 driver for the Rockchip CIF video capture controller.
-> >>
-> >> This controller supports multiple parallel interfaces, but for now only the
-> >> BT.656 interface could be tested, hence it's the only one that's supported
-> >> in the first version of this driver.
-> >>
-> >> This controller can be found on RK3066, PX30, RK1808, RK3128 and RK3288,
-> >> but for now it's only been tested on the PX30.
-> >>
-> >> CIF is implemented as a video node-centric driver.
-> >>
-> >> Most of this driver was written following the BSP driver from rockchip,
-> >> removing the parts that either didn't fit correctly the guidelines, or that
-> >> couldn't be tested.
-> >>
-> >> This basic version doesn't support cropping nor scaling and is only
-> >> designed with one SDTV video decoder being attached to it at any time.
-> >>
-> >> This version uses the "pingpong" mode of the controller, which is a
-> >> double-buffering mechanism.
-> >>
-> >> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> >> ---
-> >>  MAINTAINERS                                   |    7 +
-> >>  drivers/media/platform/rockchip/Kconfig       |    1 +
-> >>  drivers/media/platform/rockchip/Makefile      |    1 +
-> >>  drivers/media/platform/rockchip/cif/Kconfig   |   13 +
-> >>  drivers/media/platform/rockchip/cif/Makefile  |    3 +
-> >>  drivers/media/platform/rockchip/cif/capture.c | 1120 +++++++++++++++++
-> >>  drivers/media/platform/rockchip/cif/capture.h |   21 +
-> >>  drivers/media/platform/rockchip/cif/common.h  |  129 ++
-> >>  drivers/media/platform/rockchip/cif/dev.c     |  302 +++++
-> >>  drivers/media/platform/rockchip/cif/regs.h    |  127 ++
-> >>  10 files changed, 1724 insertions(+)
-> >>  create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
-> >>  create mode 100644 drivers/media/platform/rockchip/cif/Makefile
-> >>  create mode 100644 drivers/media/platform/rockchip/cif/capture.c
-> >>  create mode 100644 drivers/media/platform/rockchip/cif/capture.h
-> >>  create mode 100644 drivers/media/platform/rockchip/cif/common.h
-> >>  create mode 100644 drivers/media/platform/rockchip/cif/dev.c
-> >>  create mode 100644 drivers/media/platform/rockchip/cif/regs.h
-> > 
-> > Just a logigistic comment on my side for now, sorry :)
-> > What about use cif-* prefix in front of driver files?
-> > 
-> > like:
-> > 
-> > cif-capture.c
-> > cif-capture.h
-> > cif-common.h
-> > cif-dev.c
-> > cif-regs.h
+> On Wed, Nov 22, 2023 at 01:42:50PM +0100, Michael Riesch wrote:
+>> Hi Tommaso,
+>>
+>> On 11/21/23 19:41, Tommaso Merciai wrote:
+>>> Hi Mehdi,
+>>>
+>>> On Thu, Nov 16, 2023 at 12:04:39PM +0100, Mehdi Djait wrote:
+>>>> This introduces a V4L2 driver for the Rockchip CIF video capture controller.
+>>>>
+>>>> This controller supports multiple parallel interfaces, but for now only the
+>>>> BT.656 interface could be tested, hence it's the only one that's supported
+>>>> in the first version of this driver.
+>>>>
+>>>> This controller can be found on RK3066, PX30, RK1808, RK3128 and RK3288,
+>>>> but for now it's only been tested on the PX30.
+>>>>
+>>>> CIF is implemented as a video node-centric driver.
+>>>>
+>>>> Most of this driver was written following the BSP driver from rockchip,
+>>>> removing the parts that either didn't fit correctly the guidelines, or that
+>>>> couldn't be tested.
+>>>>
+>>>> This basic version doesn't support cropping nor scaling and is only
+>>>> designed with one SDTV video decoder being attached to it at any time.
+>>>>
+>>>> This version uses the "pingpong" mode of the controller, which is a
+>>>> double-buffering mechanism.
+>>>>
+>>>> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+>>>> ---
+>>>>  MAINTAINERS                                   |    7 +
+>>>>  drivers/media/platform/rockchip/Kconfig       |    1 +
+>>>>  drivers/media/platform/rockchip/Makefile      |    1 +
+>>>>  drivers/media/platform/rockchip/cif/Kconfig   |   13 +
+>>>>  drivers/media/platform/rockchip/cif/Makefile  |    3 +
+>>>>  drivers/media/platform/rockchip/cif/capture.c | 1120 +++++++++++++++++
+>>>>  drivers/media/platform/rockchip/cif/capture.h |   21 +
+>>>>  drivers/media/platform/rockchip/cif/common.h  |  129 ++
+>>>>  drivers/media/platform/rockchip/cif/dev.c     |  302 +++++
+>>>>  drivers/media/platform/rockchip/cif/regs.h    |  127 ++
+>>>>  10 files changed, 1724 insertions(+)
+>>>>  create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
+>>>>  create mode 100644 drivers/media/platform/rockchip/cif/Makefile
+>>>>  create mode 100644 drivers/media/platform/rockchip/cif/capture.c
+>>>>  create mode 100644 drivers/media/platform/rockchip/cif/capture.h
+>>>>  create mode 100644 drivers/media/platform/rockchip/cif/common.h
+>>>>  create mode 100644 drivers/media/platform/rockchip/cif/dev.c
+>>>>  create mode 100644 drivers/media/platform/rockchip/cif/regs.h
+>>>
+>>> Just a logigistic comment on my side for now, sorry :)
+>>> What about use cif-* prefix in front of driver files?
+>>>
+>>> like:
+>>>
+>>> cif-capture.c
+>>> cif-capture.h
+>>> cif-common.h
+>>> cif-dev.c
+>>> cif-regs.h
+>>
+>> What would be the rationale here?
+>>
+>> IMHO the files are in a folder named cif, so adding this prefix seems
+>> kind of redundant.
+>>
+>> That said, if there is a good reason I could live with cif-*.{c,h} as
+>> well, of course. My only request would be to agree on something ASAP.
 > 
-> What would be the rationale here?
+> Others platform drivers are using this pattern prefix.
+> Please check:
 > 
-> IMHO the files are in a folder named cif, so adding this prefix seems
-> kind of redundant.
+> tree -l 2 ./drivers/media/platform/
 > 
-> That said, if there is a good reason I could live with cif-*.{c,h} as
-> well, of course. My only request would be to agree on something ASAP.
-
-Others platform drivers are using this pattern prefix.
-Please check:
-
-tree -l 2 ./drivers/media/platform/
-
-Would be better for me to align with this common pattern.
-But this is my personal idea :)
-
-Thanks & Regards,
-Tommaso
-
+> Would be better for me to align with this common pattern.
+> But this is my personal idea :)
 > 
-> > Thanks & Regards,
-> > Tommaso
-> > [...]
-> Best regards,
-> Michael
+> Thanks & Regards,
+> Tommaso
+> 
+>>
+>>> Thanks & Regards,
+>>> Tommaso
+>>> [...]
+>> Best regards,
+>> Michael
+
+Right, thanks for the explanations. No objections to renaming the files
+to cif-*.{c,h} from my side, but let's get the naming discussions sorted
+out quickly :-)
+
+Best regards,
+Michael
 
