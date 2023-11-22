@@ -1,155 +1,106 @@
-Return-Path: <linux-media+bounces-847-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-848-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F387F4B5F
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:45:12 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B1067F4B94
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:50:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 096F6B20EBB
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:45:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 540371C20AA3
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:50:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69EDF56B7D;
-	Wed, 22 Nov 2023 15:45:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98BC756B99;
+	Wed, 22 Nov 2023 15:50:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ALyxTC3T"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pKEFlqZ6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 543192722;
-	Wed, 22 Nov 2023 07:44:59 -0800 (PST)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C11E4276;
-	Wed, 22 Nov 2023 16:44:25 +0100 (CET)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAA1C10EB;
+	Wed, 22 Nov 2023 07:50:30 -0800 (PST)
+Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6167A276;
+	Wed, 22 Nov 2023 16:49:56 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700667867;
-	bh=uSrQ991ZFeEqfoMON5T0KDJA53kshPmpTEd52a8NqXM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ALyxTC3Tu8ZjqW0JGzE76fp4G8uW8Fhd9hEHp2C7db6fWtkcyO5sPfrnqwHGzghJU
-	 yS31jbNEvodMg/KvdyjgGTJ5JirY74KlS8cPC4KB+0HJTTKOFu1ex13YZ280PvRKj9
-	 I8zPaD3diILilEqk/os91qTofMoTevTt7ytacTe4=
-Message-ID: <d14360bb-924f-46b3-bc65-cd5bf7043052@ideasonboard.com>
-Date: Wed, 22 Nov 2023 17:44:53 +0200
+	s=mail; t=1700668197;
+	bh=uilUL/CQsGPrrLqlIQUCAs9mt6Z3Ge5A5dVOnCwLOH8=;
+	h=From:Subject:Date:To:Cc:From;
+	b=pKEFlqZ6tZyPJKdJPQ2vpW0utUX81Kc4bcsr5Q7jTyzuRrN5ENrYrZoYWg4RPNx7m
+	 qk+N6xUD+YulmxPAPSqMJ0pwXluuvSc/KHK1evbW+B4mAZwMZiRPa+un+SpKCotjZ2
+	 rGI5QAYRrDe3Ephui0Z3EhxkI1qA1BpaZaFsRWfE=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH v2 0/2] media: rkisp1: Fix memory leaks
+Date: Wed, 22 Nov 2023 17:50:06 +0200
+Message-Id: <20231122-rkisp-fixes-v2-0-78bfb63cdcf8@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] media: rkisp1: Fix media device memory leak
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Jacob Chen <jacob2.chen@rock-chips.com>,
- Yichong Zhong <zyc@rock-chips.com>, Shunqian Zheng <zhengsq@rock-chips.com>,
- Paul Elder <paul.elder@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Eddie Cai <eddie.cai.linux@gmail.com>,
- Allon Huang <allon.huang@rock-chips.com>,
- Jeffy Chen <jeffy.chen@rock-chips.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20231122-rkisp-fixes-v1-0-1958af371e39@ideasonboard.com>
- <20231122-rkisp-fixes-v1-1-1958af371e39@ideasonboard.com>
- <20231122154231.GH3909@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20231122154231.GH3909@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAC8jXmUC/22MQQ7CIBBFr9LMWkwZQiquvIfpAmGwE2NpGNNoG
+ u4udu3y/Z/3NhAqTALnboNCKwvnuQEeOgiTn++kODYG7NFojajKg2VRid8kKuDgbPApeovQjKX
+ QfjThOjaeWF65fPb4qn/r/86qVa+0syefzKDJuAtH8pLnW/YlHkN+wlhr/QJrEkERrQAAAA==
+To: Dafna Hirschfeld <dafna@fastmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Jacob Chen <jacob2.chen@rock-chips.com>, 
+ Yichong Zhong <zyc@rock-chips.com>, Shunqian Zheng <zhengsq@rock-chips.com>, 
+ Paul Elder <paul.elder@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+ Eddie Cai <eddie.cai.linux@gmail.com>, 
+ Allon Huang <allon.huang@rock-chips.com>, 
+ Jeffy Chen <jeffy.chen@rock-chips.com>, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Tommaso Merciai <tomm.merciai@gmail.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=778;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=uilUL/CQsGPrrLqlIQUCAs9mt6Z3Ge5A5dVOnCwLOH8=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlXiM+yWSEQjnzVopQU/vU15HIG5yo5Ka7LV1xp
+ NJTFvoLROyJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZV4jPgAKCRD6PaqMvJYe
+ 9f9OD/9KTCA0JW6Wlg2TCo5NrOiPtGYya55O0RsHyI7KES2PUlXXdCtR+J5tQxqD9ordIK1uC+d
+ LcnCwl0P+lpLDXrRyLoSdF762OfRFtHbz1x4EcnORDkmKKATPxHfIcIFFtC9nLcdGnwRkacAVj5
+ 2AnoRI1i5FrfbT/6jRde4dnELZAxNnt5zid6ICLlmF7GKUN+tk6w602rpka8jtnif7dbPQGpRHb
+ wbhzK9bJnHRbyDmOc9HFm9ELcVPxpP5+XFk+xWQ4gDBQ6e7mMA3LXOLLHBWJ3EqyJwHiRPY/wwX
+ VyHnZQLvpE1Ibu1wKEPN2tDhbDRbRbEdpLu2Iu8Xp4fsSOTbRsUdo/s++CIZJ6Iy6Yf35AwUrvo
+ J2T++IS8Gs8qFy7gt6WdkdoXShSrp25VkWHZ+z90jtO6bs8zNuRlbWcsmpSv3n4HhlS6BPxMBuH
+ ntXPwxMInEo/nLR01cq+T8QzOeNsXss3s0oD5AN7wG7aJ2LsYuwtdKpEJnyqBB3TwL1ebn+SrUl
+ +Gcc6q7H+tPc4Sen0FcoyiqGR2GsO2IVc6r0A8p4nO5fYXScGypVzzzT8PjdUeyxG37xlwrfMfu
+ Djlemo0wFtnO0HgTeqfSodEDhmHNKR9uR3F8y51M+ZjsL2vPJK2LVYvzB/fYKhv7h+sZNEXr5k6
+ ol+NnYTyQ8BB+5g==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-On 22/11/2023 17:42, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Nov 22, 2023 at 04:42:22PM +0200, Tomi Valkeinen wrote:
->> Add missing calls to media_device_cleanup() to fix memory leak.
->>
->> Fixes: d65dd85281fb ("media: staging: rkisp1: add Rockchip ISP1 base driver")
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 3 +++
->>   1 file changed, 3 insertions(+)
->>
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> index c41abd2833f1..e10cc2881757 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> @@ -617,6 +617,7 @@ static int rkisp1_probe(struct platform_device *pdev)
->>   	media_device_unregister(&rkisp1->media_dev);
->>   err_unreg_v4l2_dev:
->>   	v4l2_device_unregister(&rkisp1->v4l2_dev);
->> +	media_device_cleanup(&rkisp1->media_dev);
-> 
-> As media_device_cleanup() cleans up for media_device_init(), shouldn't
-> it go to the err_pm_runtime_disable label ? The label may need to be
-> renamed to err_media_cleanup then.
+Fix two memory leaks in rkisp1 driver.
 
-Oops, you're right. I'll fix that.
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Changes in v2:
+- Fix error path code for rkisp1_probe()
+- Add Rbs
+- Link to v1: https://lore.kernel.org/r/20231122-rkisp-fixes-v1-0-1958af371e39@ideasonboard.com
 
-  Tomi
+---
+Tomi Valkeinen (2):
+      media: rkisp1: Fix media device memory leak
+      media: rkisp1: Fix memory leaks in rkisp1_isp_unregister()
 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
->>   err_pm_runtime_disable:
->>   	pm_runtime_disable(&pdev->dev);
->>   	return ret;
->> @@ -637,6 +638,8 @@ static void rkisp1_remove(struct platform_device *pdev)
->>   	media_device_unregister(&rkisp1->media_dev);
->>   	v4l2_device_unregister(&rkisp1->v4l2_dev);
->>   
->> +	media_device_cleanup(&rkisp1->media_dev);
->> +
->>   	pm_runtime_disable(&pdev->dev);
->>   }
->>   
-> 
+ drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 6 +++++-
+ drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 1 +
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+---
+base-commit: 1865913dd590ca6d5e3207b15099a1210dd62f29
+change-id: 20231122-rkisp-fixes-c2795cafda52
+
+Best regards,
+-- 
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
 
