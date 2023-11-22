@@ -1,105 +1,116 @@
-Return-Path: <linux-media+bounces-858-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-859-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8DA7F4D2E
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 17:49:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EED77F4D5D
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 17:52:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8216828141D
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:49:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D67A2B20F97
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:52:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EDFA4C3C2;
-	Wed, 22 Nov 2023 16:49:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6952C4EB38;
+	Wed, 22 Nov 2023 16:52:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jk1KD73N"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="S67VFX9b"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6BC7F9;
-	Wed, 22 Nov 2023 08:49:11 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 178E1D50;
+	Wed, 22 Nov 2023 08:51:59 -0800 (PST)
 Received: from arisu.localnet (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 9C0166607391;
-	Wed, 22 Nov 2023 16:49:09 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id B622E6607392;
+	Wed, 22 Nov 2023 16:51:56 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1700671750;
-	bh=kZZVgMd43cIxply6qs3meHVC0n1uBKxNoWcslKFq91o=;
+	s=mail; t=1700671918;
+	bh=1VPwfkITmRU+YlSEzmhy+Urrbi2kRzxRc9orsM0XTDI=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=jk1KD73NYTQ5ojjViH79sZewAN1hrsZCqLVMq+eTWqNs4jmdncMj+K89AdIbxAs7/
-	 J8hPy1a92z5TaIaZ+yOBYf/UoLW63KswqxyzM5lv0alJzU1bI7/VoyuP7q4k92fotx
-	 nPeirJiE6fccsd3LqcEt/gkp5BhySjXBg/TWwLzgH/JvL94o5e2v3jSFcO4AkWE2rf
-	 mkJ6npiZNSGhf7BbsdRN+0+c6WUCuTybKX2aD7w5v8K8mn3EW9eOHmNFqJ24fhFMbX
-	 lcAzXGecsDuXIvZFb+Ez3j1gHHwXnVKpfAsL/mXjue0a3you6Bx/PKOTMBDJ9IYtjU
-	 gRTBiDrdzKFtg==
+	b=S67VFX9bpyIDMeZrQ8Ey1Q3nX0BMmBgqlMykUWO3c/JvbJZkpTqvRkZiZ4m3oMDiX
+	 eFcI7xehaZurotFxE5hoNqIAUpmOv4GzY84D1P/E8JPx3Jcesjxovafw0kOVW61xX6
+	 x+yKzvZBvjKUzXN4KsO9KbhHipCf0yiG9XXze2iIvsKN+YueHgtZIwpro2pGHo8BEc
+	 IBl2KrDHPrARiZw39HIepVMGj+GDjIODhn2OqXJttTJ9/ZZSHyQ+y0ciSvCwTqmSQf
+	 3GBjR3UzdrWprh5A2O6FCHKBFQDG/otXYK2u5vMbvC4RK33iYDcQyzzJrnqZgByQmB
+	 0FQFb3uNs5wWw==
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
 Cc: linux-media@vger.kernel.org,
  Daniel Almeida <daniel.almeida@collabora.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 2/5] media: visl: Add a stable_output parameter
-Date: Wed, 22 Nov 2023 11:49:21 -0500
-Message-ID: <2913770.e9J7NaK4W3@arisu>
-In-Reply-To: <e8594414-eaea-4022-8835-0c093657b005@xs4all.nl>
+Subject: Re: [PATCH v2 4/5] visl: Add a codec specific variability parameter
+Date: Wed, 22 Nov 2023 11:52:08 -0500
+Message-ID: <10376589.nUPlyArG6x@arisu>
+In-Reply-To: <bbc673bd-de2c-43eb-81c0-16a9dfad4c4e@xs4all.nl>
 References:
  <20231024191027.305622-1-detlev.casanova@collabora.com>
- <20231024191027.305622-3-detlev.casanova@collabora.com>
- <e8594414-eaea-4022-8835-0c093657b005@xs4all.nl>
+ <20231024191027.305622-5-detlev.casanova@collabora.com>
+ <bbc673bd-de2c-43eb-81c0-16a9dfad4c4e@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="nextPart3264630.aeNJFYEL58";
+Content-Type: multipart/signed; boundary="nextPart2250269.iZASKD2KPV";
  micalg="pgp-sha256"; protocol="application/pgp-signature"
 
---nextPart3264630.aeNJFYEL58
+--nextPart2250269.iZASKD2KPV
 Content-Transfer-Encoding: 7Bit
 Content-Type: text/plain; charset="us-ascii"; protected-headers="v1"
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH v2 2/5] media: visl: Add a stable_output parameter
-Date: Wed, 22 Nov 2023 11:49:21 -0500
-Message-ID: <2913770.e9J7NaK4W3@arisu>
-In-Reply-To: <e8594414-eaea-4022-8835-0c093657b005@xs4all.nl>
+Date: Wed, 22 Nov 2023 11:52:08 -0500
+Message-ID: <10376589.nUPlyArG6x@arisu>
+In-Reply-To: <bbc673bd-de2c-43eb-81c0-16a9dfad4c4e@xs4all.nl>
 MIME-Version: 1.0
 
-On Wednesday, November 22, 2023 11:03:53 A.M. EST Hans Verkuil wrote:
+On Wednesday, November 22, 2023 11:07:18 A.M. EST Hans Verkuil wrote:
 > On 24/10/2023 21:09, Detlev Casanova wrote:
-> > This parameter is used to ensure that for a given input, the output
-> > frames are always identical so that it can be compared against
-> > a reference in automatic tests.
+> > When running tests with different input data, the stable output frames
+> > could be too similar and hide possible issues.
+> > 
+> > This commit adds variation by using some codec specific parameters.
+> > 
+> > Only HEVC and H.264 support this.
 > > 
 > > Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 > > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 > > ---
 > > 
-> >  drivers/media/test-drivers/visl/visl-core.c |   5 +
-> >  drivers/media/test-drivers/visl/visl-dec.c  | 125 +++++++++++---------
-> >  drivers/media/test-drivers/visl/visl.h      |   1 +
-> >  3 files changed, 77 insertions(+), 54 deletions(-)
+> >  drivers/media/test-drivers/visl/visl-core.c |  5 ++++
+> >  drivers/media/test-drivers/visl/visl-dec.c  | 27 +++++++++++++++++++++
+> >  drivers/media/test-drivers/visl/visl.h      |  1 +
+> >  3 files changed, 33 insertions(+)
 > > 
 > > diff --git a/drivers/media/test-drivers/visl/visl-core.c
 > > b/drivers/media/test-drivers/visl/visl-core.c index
-> > df6515530fbf..d28d50afec02 100644
+> > d28d50afec02..e7466f6a91e1 100644
 > > --- a/drivers/media/test-drivers/visl/visl-core.c
 > > +++ b/drivers/media/test-drivers/visl/visl-core.c
-> > @@ -88,6 +88,11 @@ module_param(bitstream_trace_nframes, uint, 0);
+> > @@ -93,6 +93,11 @@ module_param(stable_output, bool, 0644);
 > > 
-> >  MODULE_PARM_DESC(bitstream_trace_nframes,
+> >  MODULE_PARM_DESC(stable_output,
 > >  
-> >  		 " the number of frames to dump the bitstream through 
-debugfs");
-> > 
-> > +bool stable_output;
-> > +module_param(stable_output, bool, 0644);
-> > +MODULE_PARM_DESC(stable_output,
-> > +		 " only write stable data for a given input on the 
+> >  		 " only write stable data for a given input on the 
 output frames");
+> > 
+> > +bool codec_variability;
+> > +module_param(codec_variability, bool, 0644);
+> > +MODULE_PARM_DESC(codec_variability,
+> > +		 " add codec specific variability data to generate more 
+unique frames.
+> > (Only h.264 and hevc)");
+> Why make this a module parameter instead of always doing this?
+> 
+> It's not clear from the commit log why a parameter is needed.
+
+I agree with that, I started as a parameter when I wasn't sure what 
+variability values or method would be used, but just showing a value can be 
+integrated without a parameter and keep it more simple. I'll change that.
+
 > > +
 > > 
 > >  static const struct visl_ctrl_desc visl_fwht_ctrl_descs[] = {
@@ -110,291 +121,108 @@ output frames");
 > > 
 > > diff --git a/drivers/media/test-drivers/visl/visl-dec.c
 > > b/drivers/media/test-drivers/visl/visl-dec.c index
-> > 318d675e5668..61cfca49ead9 100644
+> > 61cfca49ead9..002d5e3b0ea4 100644
 > > --- a/drivers/media/test-drivers/visl/visl-dec.c
 > > +++ b/drivers/media/test-drivers/visl/visl-dec.c
-> > @@ -197,19 +197,30 @@ static void visl_tpg_fill_sequence(struct visl_ctx
+> > @@ -223,6 +223,26 @@ static void visl_tpg_fill_sequence(struct visl_ctx
 > > *ctx,> 
+> >  	}
+> >  
+> >  }
+> > 
+> > +static bool visl_tpg_fill_codec_specific(struct visl_ctx *ctx,
+> > +					 struct visl_run *run,
+> > +					 char buf[], size_t 
+bufsz)
+> > +{
+> > +	switch (ctx->current_codec) {
+> > +	case VISL_CODEC_H264:
+> > +		scnprintf(buf, bufsz,
+> > +			  "H264: %u", run->h264.dpram-
+>pic_order_cnt_lsb);
+> > +		break;
+> > +	case VISL_CODEC_HEVC:
+> > +		scnprintf(buf, bufsz,
+> > +			  "HEVC: %d", run->hevc.dpram-
+>pic_order_cnt_val);
+> > +		break;
+> 
+> Perhaps mention here why these specific values are chosen?
+
+Will do.
+
+> > +	default:
+> > +		return false;
+> > +	}
+> > +
+> > +	return true;
+> > +}
+> > +
+> > 
+> >  static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
 > >  {
 > >  
-> >  	u32 stream_ms;
+> >  	u8 *basep[TPG_MAX_PLANES][2];
 > > 
-> > -	stream_ms = jiffies_to_msecs(get_jiffies_64() -
-> > ctx->capture_streamon_jiffies); -
-> > -	scnprintf(buf, bufsz,
-> > -		  "stream time: %02d:%02d:%02d:%03d sequence:%u 
-timestamp:%lld
-> > field:%s", -		  (stream_ms / (60 * 60 * 1000)) % 24,
-> > -		  (stream_ms / (60 * 1000)) % 60,
-> > -		  (stream_ms / 1000) % 60,
-> > -		  stream_ms % 1000,
-> > -		  run->dst->sequence,
-> > -		  run->dst->vb2_buf.timestamp,
-> > -		  (run->dst->field == V4L2_FIELD_ALTERNATE) ?
-> > -		  (run->dst->field == V4L2_FIELD_TOP ?
-> > -		  " top" : " bottom") : "none");
-> > +	if (!stable_output) {
-> > +		stream_ms = jiffies_to_msecs(get_jiffies_64() -
-> > ctx->capture_streamon_jiffies); +
-> > +		scnprintf(buf, bufsz,
-> > +			  "stream time: %02d:%02d:%02d:%03d 
-sequence:%u timestamp:%lld
-> > field:%s", +			  (stream_ms / (60 * 60 * 
-1000)) % 24,
-> > +			  (stream_ms / (60 * 1000)) % 60,
-> > +			  (stream_ms / 1000) % 60,
-> > +			  stream_ms % 1000,
-> 
-> How useful is this 'stream time' anyway? I don't think this adds anything
-> useful.
-
-I suppose that the more debug information is shown, the better.
-
-> > +			  run->dst->sequence,
-> > +			  run->dst->vb2_buf.timestamp,
-> > +			  (run->dst->field == V4L2_FIELD_ALTERNATE) ?
-> > +			  (run->dst->field == V4L2_FIELD_TOP ?
-> > +			  " top" : " bottom") : "none");
-> > +	} else {
-> > +		scnprintf(buf, bufsz,
-> > +			  "sequence:%u timestamp:%lld field:%s",
-> > +			  run->dst->sequence,
-> > +			  run->dst->vb2_buf.timestamp,
-> > +			  (run->dst->field == V4L2_FIELD_ALTERNATE) ?
-> > +			  (run->dst->field == V4L2_FIELD_TOP ?
-> > +			  " top" : " bottom") : "none");
-> > +
-> > +	}
-> > 
-> >  }
-> >  
-> >  static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
-> > 
-> > @@ -244,15 +255,17 @@ static void visl_tpg_fill(struct visl_ctx *ctx,
+> > @@ -255,6 +275,13 @@ static void visl_tpg_fill(struct visl_ctx *ctx,
 > > struct visl_run *run)> 
 > >  	frame_dprintk(ctx->dev, run->dst->sequence, "");
 > >  	line++;
 > > 
-> > -	visl_get_ref_frames(ctx, buf, TPG_STR_BUF_SZ, run);
-> 
-> This function shows both the ts of the ref frames and the buffer
-> index. Is it just the buffer index that causes the problem? If so,
-> then wouldn't it be better to either never show the buffer index
-> or only if !stable_output.
-
-Indeed, the buffer index is the issue, but I did not check if the ref frames ts 
-are stable. I'll do some tests with it and keep the ref frames in stable 
-output mode if they are stable.
-
-> > +	if (!stable_output) {
-> > +		visl_get_ref_frames(ctx, buf, TPG_STR_BUF_SZ, run);
-> > 
-> > -	while ((line_str = strsep(&tmp, "\n")) && strlen(line_str)) {
-> > -		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 
-16, line_str);
-> > -		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", 
-line_str);
-> > -	}
-> > +		while ((line_str = strsep(&tmp, "\n")) && 
-strlen(line_str)) {
-> > +			tpg_gen_text(&ctx->tpg, basep, line++ * 
-line_height, 16, line_str);
-> > +			frame_dprintk(ctx->dev, run->dst->sequence, 
-"%s\n", line_str);
-> > +		}
-> > 
-> > -	frame_dprintk(ctx->dev, run->dst->sequence, "");
-> > -	line++;
+> > +	if (codec_variability && visl_tpg_fill_codec_specific(ctx, run, buf,
+> > TPG_STR_BUF_SZ)) { +		tpg_gen_text(&ctx->tpg, basep, line++ *
+> > line_height, 16, buf);
+> > +		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", 
+buf);
 > > +		frame_dprintk(ctx->dev, run->dst->sequence, "");
 > > +		line++;
 > > +	}
+> > +
 > > 
-> >  	scnprintf(buf,
+> >  	if (!stable_output) {
 > >  	
-> >  		  TPG_STR_BUF_SZ,
-> > 
-> > @@ -280,28 +293,30 @@ static void visl_tpg_fill(struct visl_ctx *ctx,
-> > struct visl_run *run)> 
-> >  		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", 
-buf);
-> >  	
-> >  	}
-> > 
-> > -	line++;
-> > -	frame_dprintk(ctx->dev, run->dst->sequence, "");
-> > -	scnprintf(buf, TPG_STR_BUF_SZ, "Output queue status:");
-> > -	tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, buf);
-> > -	frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
-> > +	if (!stable_output) {
-> > +		line++;
-> > +		frame_dprintk(ctx->dev, run->dst->sequence, "");
-> > +		scnprintf(buf, TPG_STR_BUF_SZ, "Output queue status:");
-> > +		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 
-16, buf);
-> > +		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", 
-buf);
-> > 
-> > -	len = 0;
-> > -	for (i = 0; i < out_q->num_buffers; i++) {
-> > -		char entry[] = "index: %u, state: %s, request_fd: %d, 
-";
-> > -		u32 old_len = len;
-> > -		char *q_status = visl_get_vb2_state(out_q->bufs[i]-
->state);
-> > +		len = 0;
-> > +		for (i = 0; i < out_q->num_buffers; i++) {
-> > +			char entry[] = "index: %u, state: %s, 
-request_fd: %d, ";
-> > +			u32 old_len = len;
-> > +			char *q_status = visl_get_vb2_state(out_q-
->bufs[i]->state);
-> > 
-> > -		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
-> > -				 entry, i, q_status,
-> > -				 to_vb2_v4l2_buffer(out_q-
->bufs[i])->request_fd);
-> > +			len += scnprintf(&buf[len], TPG_STR_BUF_SZ - 
-len,
-> > +					 entry, i, q_status,
-> > +					 
-to_vb2_v4l2_buffer(out_q->bufs[i])->request_fd);
-> > 
-> > -		len += visl_fill_bytesused(to_vb2_v4l2_buffer(out_q-
->bufs[i]),
-> > -					   &buf[len],
-> > -					   TPG_STR_BUF_SZ - 
-len);
-> > +			len += 
-visl_fill_bytesused(to_vb2_v4l2_buffer(out_q->bufs[i]),
-> > +						   
-&buf[len],
-> > +						   
-TPG_STR_BUF_SZ - len);
-> > 
-> > -		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 
-16,
-> > &buf[old_len]);
-> > -		frame_dprintk(ctx->dev, run->dst->sequence, "%s", 
-&buf[old_len]);
-> > +			tpg_gen_text(&ctx->tpg, basep, line++ * 
-line_height, 16,
-> > &buf[old_len]); +			frame_dprintk(ctx->dev, run-
->dst->sequence, "%s",
-> > &buf[old_len]); +		}
-> > 
-> >  	}
-> >  	
-> >  	line++;
-> > 
-> > @@ -333,25 +348,27 @@ static void visl_tpg_fill(struct visl_ctx *ctx,
-> > struct visl_run *run)> 
-> >  		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", 
-buf);
-> >  	
-> >  	}
-> > 
-> > -	line++;
-> > -	frame_dprintk(ctx->dev, run->dst->sequence, "");
-> > -	scnprintf(buf, TPG_STR_BUF_SZ, "Capture queue status:");
-> > -	tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, buf);
-> > -	frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
-> > +	if (!stable_output) {
-> > +		line++;
-> > +		frame_dprintk(ctx->dev, run->dst->sequence, "");
-> > +		scnprintf(buf, TPG_STR_BUF_SZ, "Capture queue 
-status:");
-> > +		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 
-16, buf);
-> > +		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", 
-buf);
-> > 
-> > -	len = 0;
-> > -	for (i = 0; i < cap_q->num_buffers; i++) {
-> > -		u32 old_len = len;
-> > -		char *q_status = visl_get_vb2_state(cap_q->bufs[i]-
->state);
-> > +		len = 0;
-> > +		for (i = 0; i < cap_q->num_buffers; i++) {
-> > +			u32 old_len = len;
-> > +			char *q_status = visl_get_vb2_state(cap_q-
->bufs[i]->state);
-> > 
-> > -		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
-> > -				 "index: %u, status: %s, 
-timestamp: %llu, is_held: %d",
-> > -				 cap_q->bufs[i]->index, q_status,
-> > -				 cap_q->bufs[i]->timestamp,
-> > -				 to_vb2_v4l2_buffer(cap_q-
->bufs[i])->is_held);
-> > +			len += scnprintf(&buf[len], TPG_STR_BUF_SZ - 
-len,
-> > +					 "index: %u, status: 
-%s, timestamp: %llu, is_held: %d",
-> > +					 cap_q->bufs[i]-
->index, q_status,
-> > +					 cap_q->bufs[i]-
->timestamp,
-> > +					 
-to_vb2_v4l2_buffer(cap_q->bufs[i])->is_held);
-> > 
-> > -		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 
-16,
-> > &buf[old_len]);
-> > -		frame_dprintk(ctx->dev, run->dst->sequence, "%s", 
-&buf[old_len]);
-> > +			tpg_gen_text(&ctx->tpg, basep, line++ * 
-line_height, 16,
-> > &buf[old_len]); +			frame_dprintk(ctx->dev, run-
->dst->sequence, "%s",
-> > &buf[old_len]); +		}
-> > 
-> >  	}
-> >  
-> >  }
+> >  		visl_get_ref_frames(ctx, buf, TPG_STR_BUF_SZ, run);
 > > 
 > > diff --git a/drivers/media/test-drivers/visl/visl.h
-> > b/drivers/media/test-drivers/visl/visl.h index 31639f2e593d..5a81b493f121
+> > b/drivers/media/test-drivers/visl/visl.h index 5a81b493f121..4ac2d1783020
 > > 100644
 > > --- a/drivers/media/test-drivers/visl/visl.h
 > > +++ b/drivers/media/test-drivers/visl/visl.h
-> > @@ -85,6 +85,7 @@ extern unsigned int visl_dprintk_nframes;
+> > @@ -86,6 +86,7 @@ extern bool keep_bitstream_buffers;
 > > 
-> >  extern bool keep_bitstream_buffers;
 > >  extern int bitstream_trace_frame_start;
 > >  extern unsigned int bitstream_trace_nframes;
+> >  extern bool stable_output;
 > > 
-> > +extern bool stable_output;
+> > +extern bool codec_variability;
 > > 
 > >  #define frame_dprintk(dev, current, fmt, arg...) \
 > >  
 > >  	do { \
 > 
-> Should stable_output perhaps be 1 by default?
+> Regards,
+> 
+> 	Hans
 
-In that case, why not use the visl_debug parameter and show the unstable data 
-only when it is set to one ?
 
---
-Detlev
-
---nextPart3264630.aeNJFYEL58
+--nextPart2250269.iZASKD2KPV
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part.
 Content-Transfer-Encoding: 7Bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAABCAAdFiEEonF9IvGrXNkDg+CX5EFKUk4x7bYFAmVeMREACgkQ5EFKUk4x
-7baiLQgAnNXNQEBpHOKQSfJzPc0ohDxroLGL3Se0aYP4pkeJb4+EIQO/tvWFKJtU
-PWcSwFYzIoAloUcQCBDF68UkqE+TBDqEHyNKrW2kPwCq5gWanG64M4Embeby/Ebs
-R2P7uiLKkPSXxrvzHf+fZk4SJAQChRs2VDdx5C7GXmq/ZscLHxN1JlynEYUMvr7e
-BxqzI10JGHztK58YQA21AjVyX1K/2EwC9QTqrmKOnG1ThhbkBBZT5jYf6PLC3hMv
-NLeDizNIeZggVNpeQJGEyRbIybE4l7UPUD5WTnm3io8Lq4uUDobe3uoqTuNm2dw1
-6sEFHlOWWUGBn3yAVupFTl8JyknNvg==
-=rzUM
+iQEzBAABCAAdFiEEonF9IvGrXNkDg+CX5EFKUk4x7bYFAmVeMbgACgkQ5EFKUk4x
+7bbEgwf9FHsPocHfueH/kMUZBCVG54oUWXAp8/xnRXclmaGhbQ8W58q4rvF868aU
+QaF6Nt63eTSEMj9h9xyqjKQbZX9JT7YgvOtN6C+6og3cGdg5+0k8/wdjww/QCYvl
+61EvpvrktJYt9+60g/bB4Vv2m5a1AzJdpuUvFb9vughsrEJpoEFNkaSb1STh5xPL
+frGUAPDP35aD2L1+gJa8mshRiadh9pGDp2k/uY1+LEq1AUly09TwxEyiIRSb/9VJ
+w2iZCRDeZgRVdZmaV6ImvkzNDxXaiiaYtcXF/Xmtu6A3asNkEDYXFn4vu2C8AjNw
+hVo1uyjutdQr2Mv4VM9ZsMc318S6pg==
+=buIh
 -----END PGP SIGNATURE-----
 
---nextPart3264630.aeNJFYEL58--
+--nextPart2250269.iZASKD2KPV--
 
 
 
