@@ -1,33 +1,33 @@
-Return-Path: <linux-media+bounces-696-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-698-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E24D7F3CCC
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 05:30:38 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2627F3CCF
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 05:30:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E170DB21B0C
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 04:30:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD14C280D4B
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 04:30:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 661FFC134;
-	Wed, 22 Nov 2023 04:30:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 888B011C96;
+	Wed, 22 Nov 2023 04:30:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="re4d2+jd"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dghfjNqr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6827D18D;
-	Tue, 21 Nov 2023 20:30:18 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E59DB1A4;
+	Tue, 21 Nov 2023 20:30:19 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 75C4DDB7;
-	Wed, 22 Nov 2023 05:29:38 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44FCB128D;
+	Wed, 22 Nov 2023 05:29:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700627378;
-	bh=ATpew07XsnMkuQSi1R1gYHH/mtFeXCD+2efEUZYi5FE=;
+	s=mail; t=1700627380;
+	bh=yS/Oux+pXiXLp0wWEGoSxpw7w1avThLNA2g6ZYdZ3Gs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=re4d2+jdqxfQ57Iz0FpHHw3JS4xxUvtPY+LxvTeeONFzs2gmait8f1KZE6EMLcij5
-	 2fnyUuWs4jFm5DWNh+21miBEcAGnAunOu8hGYah6J89ITLsrCHqAo5pxhzTdkAb/oL
-	 r2Ys78Q7zzpkM30N7L3rpsPpntj8EVJlQGrKzEAU=
+	b=dghfjNqroIn+oB5DlnwtZb5kOjhSacTXpRm8Sab4lIPDynde+VYCVwfL9SqjhbuGd
+	 ANhEWg9YYXS9DmyxdoZnYu4Hoa/2CVj2TGwSxXu6p6Ud9eLlvvOurak4x7SinGf6rM
+	 R9i9zFFo83hUo2XKCP1WxBMdzl4xdgFky35VtACM=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
@@ -36,9 +36,9 @@ Cc: linux-renesas-soc@vger.kernel.org,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [RFC PATCH v1 04/19] media: renesas: vsp1: Drop brx_get_compose() wrapper
-Date: Wed, 22 Nov 2023 06:29:54 +0200
-Message-ID: <20231122043009.2741-5-laurent.pinchart+renesas@ideasonboard.com>
+Subject: [RFC PATCH v1 05/19] media: renesas: vsp1: Drop custom .get_fmt() handler for histogram
+Date: Wed, 22 Nov 2023 06:29:55 +0200
+Message-ID: <20231122043009.2741-6-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -52,60 +52,73 @@ Content-Transfer-Encoding: 8bit
 
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The brx_get_compose() function is just a wrapper around
-v4l2_subdev_state_get_compose() without any added value. Drop it and
-call v4l2_subdev_state_get_compose() directly.
+The histogram module is the only one that has a custom .get_fmt()
+handler, to handle the special case of the output format being fixed.
+This can equally well be handled in the .set_fmt() handler instead.
+Beside avoiding special cases and using the same .get_fmt() handler in
+all modules, it ensures that the correct format is stored in the active
+state for the source pad, including when .set_fmt() is called from
+vsp1_entity_init_state(). Both are needed to later switch to the V4L2
+subdev active state API.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- drivers/media/platform/renesas/vsp1/vsp1_brx.c | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
+ .../media/platform/renesas/vsp1/vsp1_histo.c  | 29 +++++++------------
+ 1 file changed, 10 insertions(+), 19 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_brx.c b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-index 0eb4d8fe4285..05940d0427bf 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_brx.c
-@@ -96,13 +96,6 @@ static int brx_enum_frame_size(struct v4l2_subdev *subdev,
- 	return 0;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+index 576270cb3e63..a4076d82651e 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
+@@ -356,30 +356,21 @@ static int histo_set_selection(struct v4l2_subdev *subdev,
+ 	return ret;
  }
  
--static struct v4l2_rect *brx_get_compose(struct vsp1_brx *brx,
--					 struct v4l2_subdev_state *sd_state,
--					 unsigned int pad)
+-static int histo_get_format(struct v4l2_subdev *subdev,
+-			    struct v4l2_subdev_state *sd_state,
+-			    struct v4l2_subdev_format *fmt)
 -{
--	return v4l2_subdev_state_get_compose(sd_state, pad);
+-	if (fmt->pad == HISTO_PAD_SOURCE) {
+-		fmt->format.code = MEDIA_BUS_FMT_FIXED;
+-		fmt->format.width = 0;
+-		fmt->format.height = 0;
+-		fmt->format.field = V4L2_FIELD_NONE;
+-		fmt->format.colorspace = V4L2_COLORSPACE_RAW;
+-		return 0;
+-	}
+-
+-	return vsp1_subdev_get_pad_format(subdev, sd_state, fmt);
 -}
 -
- static void brx_try_format(struct vsp1_brx *brx,
- 			   struct v4l2_subdev_state *sd_state,
- 			   unsigned int pad, struct v4l2_mbus_framefmt *fmt)
-@@ -157,7 +150,7 @@ static int brx_set_format(struct v4l2_subdev *subdev,
- 	if (fmt->pad != brx->entity.source_pad) {
- 		struct v4l2_rect *compose;
+ static int histo_set_format(struct v4l2_subdev *subdev,
+ 			    struct v4l2_subdev_state *sd_state,
+ 			    struct v4l2_subdev_format *fmt)
+ {
+ 	struct vsp1_histogram *histo = subdev_to_histo(subdev);
  
--		compose = brx_get_compose(brx, state, fmt->pad);
-+		compose = v4l2_subdev_state_get_compose(state, fmt->pad);
- 		compose->left = 0;
- 		compose->top = 0;
- 		compose->width = format->width;
-@@ -204,7 +197,7 @@ static int brx_get_selection(struct v4l2_subdev *subdev,
- 			return -EINVAL;
+-	if (fmt->pad != HISTO_PAD_SINK)
+-		return histo_get_format(subdev, sd_state, fmt);
++	if (fmt->pad == HISTO_PAD_SOURCE) {
++		fmt->format.code = MEDIA_BUS_FMT_FIXED;
++		fmt->format.width = 0;
++		fmt->format.height = 0;
++		fmt->format.field = V4L2_FIELD_NONE;
++		fmt->format.colorspace = V4L2_COLORSPACE_RAW;
++
++		return 0;
++	}
  
- 		mutex_lock(&brx->entity.lock);
--		sel->r = *brx_get_compose(brx, state, sel->pad);
-+		sel->r = *v4l2_subdev_state_get_compose(state, sel->pad);
- 		mutex_unlock(&brx->entity.lock);
- 		return 0;
- 
-@@ -253,7 +246,7 @@ static int brx_set_selection(struct v4l2_subdev *subdev,
- 	sel->r.width = format->width;
- 	sel->r.height = format->height;
- 
--	compose = brx_get_compose(brx, state, sel->pad);
-+	compose = v4l2_subdev_state_get_compose(state, sel->pad);
- 	*compose = sel->r;
- 
- done:
+ 	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt,
+ 					  histo->formats, histo->num_formats,
+@@ -390,7 +381,7 @@ static int histo_set_format(struct v4l2_subdev *subdev,
+ static const struct v4l2_subdev_pad_ops histo_pad_ops = {
+ 	.enum_mbus_code = histo_enum_mbus_code,
+ 	.enum_frame_size = histo_enum_frame_size,
+-	.get_fmt = histo_get_format,
++	.get_fmt = vsp1_subdev_get_pad_format,
+ 	.set_fmt = histo_set_format,
+ 	.get_selection = histo_get_selection,
+ 	.set_selection = histo_set_selection,
 -- 
 Regards,
 
