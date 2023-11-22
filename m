@@ -1,142 +1,190 @@
-Return-Path: <linux-media+bounces-853-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-854-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A0317F4BEA
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 17:06:19 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8D8F7F4BF3
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 17:07:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9D5E21C20A39
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:06:18 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 796D3B20F08
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:07:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DFEB57895;
-	Wed, 22 Nov 2023 16:06:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="R+gNuEkm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE5A15789E;
+	Wed, 22 Nov 2023 16:07:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2083.outbound.protection.outlook.com [40.107.243.83])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48F0E9F;
-	Wed, 22 Nov 2023 08:06:10 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=F75zKz2uyLa5jPpB1aeIuWyYIfeWsSqMQIqAcmW0nUCdDpfiUxu75f0thG5ebvOZcpeWuI+AONmJ/4MLyBXp6Vi+TPNfXYgCTzkEstbam3DzfaWrJZ6EguL0Cweqh+DMqxOjbQKtQ8FZ+RuNiumwQc/2sV1SUDy5chFLJ6yR2NkPGxyQtmA4D+7GgO7RAfe+rF5kT2LLQNlNslAvDZ03Ths+fOERuvSZiOYCq8eBZvnLDR0t7Mycxvo4GSBvF69iltvu50/y+MGPbp7huZMu8f4tlGxm7iX17AtUrulNndfKBvqp5GADU1mnxQ/1WW4WLjK14SOv8d4NFbTQQgVGRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ssQ4Yr7Ver3oTpMBl/KrUoFjnDijHLncadph/ptPiV0=;
- b=R5OUM3GDlMcS4O3XRPZNRLL5dd3dAlSi+58/2mjVjuCdkKkPa58m299EIhTlOMPEmXKo+yV4GE0+g3zfTlvjmp2h7oYUKxQ3DZtro3XGX/ov3V3LrbJbCMrpgos9ZB7mgt74gnQJk9dmGnPOrHYbjL02H5AzEfeC2tBFPFcm7E1UnJ4lL2cRruNP0jWIibQegbS6xolRO71QVvnlm+i8F91kYsdhxAgfomnN7d3RCvT0pKdY771dpgTR6ESL+a4DMI8zHRE/LEr+GzJztJ8LGxvJOlLcyGYfKM4RxG2PIyoIue7t/IzVi3vSgkjECV26AQV3SU2f8vx6aIeDMPsf5A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=lists.freedesktop.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ssQ4Yr7Ver3oTpMBl/KrUoFjnDijHLncadph/ptPiV0=;
- b=R+gNuEkmsX2UjLOVK7lCldTik7/WlAkiMvPDi4+UwpRpjMSUM81l8EWTFdr8KjVJEjQGBQ3D9ciBNUzr+7e7WlkJhbdnzScPgHuAAr6B+qH8feGhL4Dhg9ya8FUhF/E8YucsGC5PwECYsYMBkL6xxlgEVaSaXCyq0a4aVYn1WGg=
-Received: from DM6PR02CA0131.namprd02.prod.outlook.com (2603:10b6:5:1b4::33)
- by MW6PR12MB9017.namprd12.prod.outlook.com (2603:10b6:303:23b::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.28; Wed, 22 Nov
- 2023 16:06:07 +0000
-Received: from DS1PEPF00017096.namprd05.prod.outlook.com
- (2603:10b6:5:1b4:cafe::4d) by DM6PR02CA0131.outlook.office365.com
- (2603:10b6:5:1b4::33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.19 via Frontend
- Transport; Wed, 22 Nov 2023 16:06:07 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF00017096.mail.protection.outlook.com (10.167.18.100) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7025.12 via Frontend Transport; Wed, 22 Nov 2023 16:06:07 +0000
-Received: from KfdLnx23.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Wed, 22 Nov
- 2023 10:06:06 -0600
-From: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
-To: <amd-gfx@lists.freedesktop.org>, <christian.koenig@amd.com>,
-	<sumit.semwal@linaro.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
-	<linux-kernel@vger.kernel.org>
-CC: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
-Subject: [PATCH] dma-buf: Correct the documentation of name and exp_name symbols
-Date: Wed, 22 Nov 2023 10:05:56 -0600
-Message-ID: <20231122160556.24948-1-Ramesh.Errabolu@amd.com>
-X-Mailer: git-send-email 2.34.1
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1109B57885
+	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 16:07:21 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61A79C433C7;
+	Wed, 22 Nov 2023 16:07:20 +0000 (UTC)
+Message-ID: <bbc673bd-de2c-43eb-81c0-16a9dfad4c4e@xs4all.nl>
+Date: Wed, 22 Nov 2023 17:07:18 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017096:EE_|MW6PR12MB9017:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4d719f19-5872-4469-ae89-08dbeb74efa6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	lDhYJdv/R0P45oUCt1aSWdGZQHUUqbdA7ao1p/TFSKlEb2ZaDghmS7FXrFC/ML3ccyehRFm8BuuG2IjJsIts7lvLM1+iage75S4b1Iv7XhYb3b+VATbkBTJYu+orZevYQWgYiDr99Bn/21gjx0H6aupAb41DntrXryvuc8ue+CdDOL++qRUPIgU2R0dlbwX53+nF1r4sixgYpvB2EQiJGEilS/VP4iDvYWvd0C2JtsXQsdCVyEFCXnFbdPZKCHTRaEqf97nncZmQnP1ySBD7IvSVTTuuiBYu2/9qw8etAYFgAAHMXHq0JegYH8urcjRKwlOQOMMA+AptnP/xEo+Om/U1AyvE7Ei9A7iA8KBKcAEYc4tJwD19UajHO4SziXwrNPsT6dlHWt6GmO0iXBk918r4ABXa5l1yVEcYZjwy5PhDSWCej8dOu1Mk/iK616hrFRcucIv2xWPuZBSDtrpuSUxJsRSQanFE9Wh1X5+y6sJO/GAuqPguAeYDg3mH+6z7qSIeWa5W9ou/5JL7SHWjyw8BZl/CQxdIsWsVBvDvAbnnYpCbDDwYUyEvS28xHOIiprQO/vqRHWdhXWbFHb+g8z5z1Rg6mHV7YsYSBkIIJ9+w17y1NLp2iUw6MhpRXkqR6AHF0Z68yeqZl/QZ5Z2GMxlsNnXsZfqv4OSHiTNHroWMyRT2UbKM5C4UcitkLam5SH6bYuso8Cv/qBnrE/doiZ3A/9l3Wzq3/uxgw+zpso3TtUxRTloenMwErysbGbOAbBSxJg9D1cz0YFMORfiVE9nXsddDofoTkgO7uQep/Bw=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(376002)(39860400002)(346002)(136003)(396003)(230922051799003)(186009)(64100799003)(1800799012)(451199024)(82310400011)(40470700004)(36840700001)(46966006)(40480700001)(7696005)(6666004)(47076005)(82740400003)(478600001)(83380400001)(81166007)(70586007)(110136005)(316002)(70206006)(8676002)(8936002)(4326008)(36860700001)(16526019)(356005)(2616005)(426003)(26005)(336012)(86362001)(40460700003)(5660300002)(1076003)(41300700001)(36756003)(2906002)(36900700001)(2101003);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 16:06:07.1687
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d719f19-5872-4469-ae89-08dbeb74efa6
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS1PEPF00017096.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB9017
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] visl: Add a codec specific variability parameter
+Content-Language: en-US, nl
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+ linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org, Daniel Almeida
+ <daniel.almeida@collabora.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20231024191027.305622-1-detlev.casanova@collabora.com>
+ <20231024191027.305622-5-detlev.casanova@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20231024191027.305622-5-detlev.casanova@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Fix the documentation of struct dma_buf members name and exp_name
-as to how these members are to be used and accessed.
+On 24/10/2023 21:09, Detlev Casanova wrote:
+> When running tests with different input data, the stable output frames
+> could be too similar and hide possible issues.
+> 
+> This commit adds variation by using some codec specific parameters.
+> 
+> Only HEVC and H.264 support this.
+> 
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> ---
+>  drivers/media/test-drivers/visl/visl-core.c |  5 ++++
+>  drivers/media/test-drivers/visl/visl-dec.c  | 27 +++++++++++++++++++++
+>  drivers/media/test-drivers/visl/visl.h      |  1 +
+>  3 files changed, 33 insertions(+)
+> 
+> diff --git a/drivers/media/test-drivers/visl/visl-core.c b/drivers/media/test-drivers/visl/visl-core.c
+> index d28d50afec02..e7466f6a91e1 100644
+> --- a/drivers/media/test-drivers/visl/visl-core.c
+> +++ b/drivers/media/test-drivers/visl/visl-core.c
+> @@ -93,6 +93,11 @@ module_param(stable_output, bool, 0644);
+>  MODULE_PARM_DESC(stable_output,
+>  		 " only write stable data for a given input on the output frames");
+>  
+> +bool codec_variability;
+> +module_param(codec_variability, bool, 0644);
+> +MODULE_PARM_DESC(codec_variability,
+> +		 " add codec specific variability data to generate more unique frames. (Only h.264 and hevc)");
 
-Signed-off-by: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
----
- include/linux/dma-buf.h | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+Why make this a module parameter instead of always doing this?
 
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 3f31baa3293f..8ff4add71f88 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -343,16 +343,19 @@ struct dma_buf {
- 	/**
- 	 * @exp_name:
- 	 *
--	 * Name of the exporter; useful for debugging. See the
--	 * DMA_BUF_SET_NAME IOCTL.
-+	 * Name of the exporter; useful for debugging. Must not be NULL
- 	 */
- 	const char *exp_name;
- 
- 	/**
- 	 * @name:
- 	 *
--	 * Userspace-provided name; useful for accounting and debugging,
--	 * protected by dma_resv_lock() on @resv and @name_lock for read access.
-+	 * Userspace-provided name. Default value is NULL. If not NULL,
-+	 * length cannot be longer than DMA_BUF_NAME_LEN, including NIL
-+	 * char. Useful for accounting and debugging. Read/Write accesses
-+	 * are protected by @name_lock
-+	 *
-+	 * See the IOCTLs DMA_BUF_SET_NAME or DMA_BUF_SET_NAME_A/B
- 	 */
- 	const char *name;
- 
--- 
-2.34.1
+It's not clear from the commit log why a parameter is needed.
 
+> +
+>  static const struct visl_ctrl_desc visl_fwht_ctrl_descs[] = {
+>  	{
+>  		.cfg.id = V4L2_CID_STATELESS_FWHT_PARAMS,
+> diff --git a/drivers/media/test-drivers/visl/visl-dec.c b/drivers/media/test-drivers/visl/visl-dec.c
+> index 61cfca49ead9..002d5e3b0ea4 100644
+> --- a/drivers/media/test-drivers/visl/visl-dec.c
+> +++ b/drivers/media/test-drivers/visl/visl-dec.c
+> @@ -223,6 +223,26 @@ static void visl_tpg_fill_sequence(struct visl_ctx *ctx,
+>  	}
+>  }
+>  
+> +static bool visl_tpg_fill_codec_specific(struct visl_ctx *ctx,
+> +					 struct visl_run *run,
+> +					 char buf[], size_t bufsz)
+> +{
+> +	switch (ctx->current_codec) {
+> +	case VISL_CODEC_H264:
+> +		scnprintf(buf, bufsz,
+> +			  "H264: %u", run->h264.dpram->pic_order_cnt_lsb);
+> +		break;
+> +	case VISL_CODEC_HEVC:
+> +		scnprintf(buf, bufsz,
+> +			  "HEVC: %d", run->hevc.dpram->pic_order_cnt_val);
+> +		break;
+
+Perhaps mention here why these specific values are chosen?
+
+> +	default:
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +
+>  static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+>  {
+>  	u8 *basep[TPG_MAX_PLANES][2];
+> @@ -255,6 +275,13 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+>  	frame_dprintk(ctx->dev, run->dst->sequence, "");
+>  	line++;
+>  
+> +	if (codec_variability && visl_tpg_fill_codec_specific(ctx, run, buf, TPG_STR_BUF_SZ)) {
+> +		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, buf);
+> +		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+> +		frame_dprintk(ctx->dev, run->dst->sequence, "");
+> +		line++;
+> +	}
+> +
+>  	if (!stable_output) {
+>  		visl_get_ref_frames(ctx, buf, TPG_STR_BUF_SZ, run);
+>  
+> diff --git a/drivers/media/test-drivers/visl/visl.h b/drivers/media/test-drivers/visl/visl.h
+> index 5a81b493f121..4ac2d1783020 100644
+> --- a/drivers/media/test-drivers/visl/visl.h
+> +++ b/drivers/media/test-drivers/visl/visl.h
+> @@ -86,6 +86,7 @@ extern bool keep_bitstream_buffers;
+>  extern int bitstream_trace_frame_start;
+>  extern unsigned int bitstream_trace_nframes;
+>  extern bool stable_output;
+> +extern bool codec_variability;
+>  
+>  #define frame_dprintk(dev, current, fmt, arg...) \
+>  	do { \
+
+Regards,
+
+	Hans
 
