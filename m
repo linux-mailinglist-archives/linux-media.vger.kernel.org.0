@@ -1,134 +1,105 @@
-Return-Path: <linux-media+bounces-818-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-819-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75BD77F480E
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:44:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2D647F4817
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:48:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 994221C2090F
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:44:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D4B8E1C20A0A
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:48:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 996C95811F;
-	Wed, 22 Nov 2023 13:44:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD2861D533;
+	Wed, 22 Nov 2023 13:48:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Sp3DqZur"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="o3aQWRUQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B7FC197;
-	Wed, 22 Nov 2023 05:44:39 -0800 (PST)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3CE44276;
-	Wed, 22 Nov 2023 14:44:05 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700660646;
-	bh=NNvbi3QaKLirKQR4zeYQdjwcOYIhvWXeoAayyskGO6c=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Sp3DqZurSZF5ueDgg5plN6bAuajh0uZf5NE0CrWMvI8G1h3mSIXguF6wRzGRHu3d4
-	 aeiSFsdMLkm9+lxnKuqCfv+p9QjjPXLQhPk5bfcWunxVGQJOokmyEf+Jw/XC6N8Tg5
-	 Bm8hgmdYnukMUZsIQ/cdokhiZeOrr6V1Ke3CsMFA=
-Message-ID: <61de2617-fdc2-4f0c-8ffc-5dfc99b825e7@ideasonboard.com>
-Date: Wed, 22 Nov 2023 15:44:33 +0200
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76890109;
+	Wed, 22 Nov 2023 05:48:23 -0800 (PST)
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AM9cmE8019629;
+	Wed, 22 Nov 2023 13:48:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=from : to : cc :
+ subject : date : message-id : in-reply-to : references : mime-version :
+ content-type; s=qcppdkim1;
+ bh=kRLjiWkafDJYF06vr/3OJ9/aGHRTxVUHSlMfQx8SFQo=;
+ b=o3aQWRUQeFKqHV1EHPT4x1rcBitP+cSjDedUMCQ688XoeEUGmxCdlogd6K/T7OQF0Adq
+ nAviOLT9uCCk8aG+LVpv211DqYufBVXwAF1X1C8vLCyGUHL7cClh54Gu6xlqAnPBv1X9
+ YnTrThUoOJMqPbewquiK9+WdM+0xnlKFBxJHHmFr4+RRwBxewIgrNPt+/4kDZyAyp5Jw
+ stgJfotbMSdhBYh15Yx4KUf60u6HNCeP/bNBQOgHaNJDi1iCuywTZIee5vAwLQvgRBZf
+ APix9nJTNJT8GZsD2QUhCCQU0hyZQaVxnIoN3DWVmm20PK5oEOAuSy99qHz8sQui9MYZ 7g== 
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uhf668kc4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 Nov 2023 13:48:12 +0000
+Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
+	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AMDmBEO005280
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 Nov 2023 13:48:11 GMT
+Received: from hu-pbrahma-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01c.na.qualcomm.com (10.45.79.139) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.40; Wed, 22 Nov 2023 05:48:07 -0800
+From: Pratyush Brahma <quic_pbrahma@quicinc.com>
+To: <sumit.semwal@linaro.org>, <benjamin.gaignard@collabora.com>,
+        <Brian.Starkey@arm.com>, <jstultz@google.com>, <tjmercier@google.com>,
+        <christian.koenig@amd.com>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+        <linux-kernel@vger.kernel.org>, <quic_guptap@quicinc.com>
+CC: Vijayanand Jitta <quic_vjitta@quicinc.com>
+Subject: [PATCH 0/2] Add qcom secure heaps
+Date: Wed, 22 Nov 2023 19:17:45 +0530
+Message-ID: <cover.1700544802.git.quic_vjitta@quicinc.com>
+X-Mailer: git-send-email 2.17.1
+In-Reply-To: <y>
+References: <y>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] media: imx-mipi-csis: csis clock fixes
-Content-Language: en-US
-To: Fabio Estevam <festevam@gmail.com>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Rui Miguel Silva <rmfrfs@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20231122-imx-csis-v1-0-0617368eb996@ideasonboard.com>
- <CAOMZO5AW0qft5ciGAWuX=RC0zHwAWEpLCyB5TbeE0QH3Nb+nQQ@mail.gmail.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <CAOMZO5AW0qft5ciGAWuX=RC0zHwAWEpLCyB5TbeE0QH3Nb+nQQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01c.na.qualcomm.com (10.45.79.139)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: vBiTNP9YsZc5lBQg9comOWQGsHORWSZU
+X-Proofpoint-GUID: vBiTNP9YsZc5lBQg9comOWQGsHORWSZU
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-22_09,2023-11-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxscore=0 adultscore=0
+ clxscore=1011 bulkscore=0 mlxlogscore=495 lowpriorityscore=0
+ priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0
+ impostorscore=0 phishscore=0 classifier=spam adjust=0 reason=mlx
+ scancount=1 engine=8.12.0-2311060000 definitions=main-2311220097
 
-On 22/11/2023 15:21, Fabio Estevam wrote:
-> Hi Tomi,
-> 
-> On Wed, Nov 22, 2023 at 10:14 AM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->>
->> Two fixes to the csis driver: One to fix remove() another to only enable
->> the clocks when needed.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->> Tomi Valkeinen (2):
->>        media: imx-mipi-csis: Fix clock handling in remove()
->>        media: imx-mipi-csis: Drop extra clock enable at probe()
-> 
-> Shouldn't both patches contain a Fixes tag?
+From: Vijayanand Jitta <quic_vjitta@quicinc.com>
 
-I think the issue is there in the original commit adding the driver:
+This patch series is based on mtk patch series [1] of
+adding secure heap support.
 
-7807063b862b ("media: staging/imx7: add MIPI CSI-2 receiver subdev for 
-i.MX7")
+This patch series adds support for qcom secure heaps which
+include secure cma heap and secure system heap, this does
+use qcom_scm_assign_mem to secure the memory.
 
-However, the driver has changed along the way, and I'm not sure if the 
-original one had an actual bug. Nevertheless, the same pattern (wrt. 
-clocks and runtime) is there in the original one, and I think that 
-pattern is not correct even if it wouldn't have caused any visible issue.
+Video would be the user of these heaps and the corresponding
+VMIDs are also as added as part of these.
 
-So I'll add that commit as Fixes-tag, but if someone with more knowledge 
-about the driver can verify this, that'd be great.
 
-  Tomi
+[1] https://lore.kernel.org/linux-arm-kernel/20231111111559.8218-2-yong.wu@mediatek.com/T/
+
+Vijayanand Jitta (2):
+  dma-buf: heaps: secure_heap: Add secure ops for CMA heap
+  dma-buf: heaps: secure_heap: Add qcom secure system heap
+
+ drivers/dma-buf/heaps/secure_heap.c | 207 +++++++++++++++++++++++++++-
+ 1 file changed, 204 insertions(+), 3 deletions(-)
+
+-- 
+2.34.1
 
 
