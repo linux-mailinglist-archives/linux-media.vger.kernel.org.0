@@ -1,73 +1,72 @@
-Return-Path: <linux-media+bounces-733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-750-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 855447F3F66
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 09:01:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A4F7F3FAA
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 09:07:33 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3EFC1282200
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 08:01:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D3AE51C20B6B
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 08:07:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEEC620B22;
-	Wed, 22 Nov 2023 08:01:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AD9F21109;
+	Wed, 22 Nov 2023 08:07:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="R9zSnFGK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OAlHcKef"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-x433.google.com (mail-pf1-x433.google.com [IPv6:2607:f8b0:4864:20::433])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52649F9
-	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 00:01:37 -0800 (PST)
-Received: by mail-pf1-x433.google.com with SMTP id d2e1a72fcca58-6cbc8199a2aso805434b3a.1
-        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 00:01:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1700640097; x=1701244897; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=vMmjhnu0PvfBZhQhustU0DH60MxPgIkfUurMB4lRK1U=;
-        b=R9zSnFGKEZ5FPcLqarhekvkDlcMotsnh9Bv36hA5B0s8COuClFyhr4P5aC9lM6ftTj
-         ks+WdrB06oV0PsSEHXUQ3eu0HsTxygpHA11tCXeHOdjSFRmIoHE4oED9Wx+fXj9Lklgk
-         9ice6PrrNTy2bvUjM0T1Ivomxpv6JHBNUqL5M=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700640097; x=1701244897;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vMmjhnu0PvfBZhQhustU0DH60MxPgIkfUurMB4lRK1U=;
-        b=nAVHTAt/i2iv7YSAjq2JsCBjM7ONYC1NnRT5RyJXMrYq/TkgdOzcW9DJB5C+vrYkwd
-         +7HwEsz8qrY2kwiI8Kenbe3Q+ZRqRodJce0lmPZS8zRB/DPy6B+F2XOdve4U8Q2ahdeC
-         1Bjj7s324YNzMlLhMJe4y1q+9ThIP0Dzv1QOwCtlSa+RHaN2FQiLTXM8/noPol49N1in
-         DfbXiFJZg2LlFNvdC1lWhH6PxpdyiqcuWwdryPmpbQ7cmWsU/0PRqYbYZKKrTVUgbDy6
-         jN2FPd4lVLTJ4/Dj6oH/X/66hNd0UzsgXGLzbWIPpuQudj/FiFoVcEtNkAWF2Ddx9KB/
-         bz+A==
-X-Gm-Message-State: AOJu0Yx/L+xFOhYYTfFlp/KjElyIqUk50RHzwTSei7oiKvA7Am2sn+Eb
-	TV2C6B3jFkvom0SDkkQG64qSf8J7lvpsfVZI558=
-X-Google-Smtp-Source: AGHT+IHN/u7HmN+bTOEsR0eDkQ7DJteSflN8Sc29ZQN2H1z6RusngfhDIKmoCGd6Y4A8KibwRamZIA==
-X-Received: by 2002:a05:6a00:1c9c:b0:6cb:a60c:2143 with SMTP id y28-20020a056a001c9c00b006cba60c2143mr1807945pfw.9.1700640096790;
-        Wed, 22 Nov 2023 00:01:36 -0800 (PST)
-Received: from google.com ([2401:fa00:8f:203:1aba:fb75:807e:7620])
-        by smtp.gmail.com with ESMTPSA id v1-20020aa78081000000b0065a1b05193asm9219898pff.185.2023.11.22.00.01.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 00:01:36 -0800 (PST)
-Date: Wed, 22 Nov 2023 17:01:32 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Tomasz Figa <tfiga@chromium.org>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C620718E;
+	Wed, 22 Nov 2023 00:07:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1700640440; x=1732176440;
+  h=date:from:to:subject:message-id:references:mime-version:
+   in-reply-to;
+  bh=HzCmIqjiD/db2OVbbJ6fw6PB9pWnFmcUdmjHwNUjwaw=;
+  b=OAlHcKef/5awVohSEwnbUzrwn8UiUXJaV+oOQgkLCc5wIazlg/a3TCBy
+   Jw027fPq+iqzo7N3VPjSd7b3hJYx/bKE8qjFZHckSoZmC9SakW7+lePWe
+   hLU9BXbg2GfeSvHya+6ht/Np70eIo0D5yI4NKyqlRUSWZHT/7y990X+Ne
+   GNjmSymw6MWgFEjEG/Us0szn5Xjzc539Pqya16z3kwiK0tbXOU1ER2cm/
+   915R1xl0G4Xx9D/PaX/KELD5/RUe6TuSKfizIdoyFCydOmjTKYV4Zkr80
+   sji4P7dr69tgYanjtujn4oxkNvtKmRbquSj0JqDWYjgwwHNY7gZm22Vpq
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="478214281"
+X-IronPort-AV: E=Sophos;i="6.04,218,1695711600"; 
+   d="scan'208";a="478214281"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 00:07:20 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10901"; a="832934951"
+X-IronPort-AV: E=Sophos;i="6.04,218,1695711600"; 
+   d="scan'208";a="832934951"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Nov 2023 00:07:16 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 110AF1202B6;
+	Wed, 22 Nov 2023 10:07:14 +0200 (EET)
+Date: Wed, 22 Nov 2023 08:07:14 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sean Paul <seanpaul@chromium.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH v3 2/3] media: uvcvideo: Do not halt the device after
- disconnect
-Message-ID: <20231122080132.GA1526356@google.com>
-References: <20231121-guenter-mini-v3-0-d8a5eae2312b@chromium.org>
- <20231121-guenter-mini-v3-2-d8a5eae2312b@chromium.org>
- <20231122074742.GB1465745@google.com>
+	Dan Scally <dan.scally@ideasonboard.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 0/5] Add support for DCMIPP camera interface of
+ STMicroelectronics STM32 SoC series
+Message-ID: <ZV22srRYwqKf3eKs@kekkonen.localdomain>
+References: <20231120170809.728941-1-alain.volmat@foss.st.com>
+ <ZVvNMPfW7OhPByZk@kekkonen.localdomain>
+ <20231122074404.GA787777@gnbcxd0016.gnb.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,27 +75,46 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231122074742.GB1465745@google.com>
+In-Reply-To: <20231122074404.GA787777@gnbcxd0016.gnb.st.com>
 
-On (23/11/22 16:47), Sergey Senozhatsky wrote:
-> Can the following happen?
+Hi Alain,
 
-Consider the following case (when CPU1 experienced a delay, a preemption
-or anything):
-
-> CPU0                                            CPU1
->  uvc_disconnect()
-> 						uvc_video_stop_streaming()
->  usb_set_intfdata()
->  uvc_unregister_video()
+On Wed, Nov 22, 2023 at 08:44:04AM +0100, Alain Volmat wrote:
+> Hi Sakari,
 > 
-> 						if (!smp_load(&dev->disconnected))
+> On Mon, Nov 20, 2023 at 09:18:40PM +0000, Sakari Ailus wrote:
+> > Hi Alain,
+> > 
+> > On Mon, Nov 20, 2023 at 06:07:56PM +0100, Alain Volmat wrote:
+> > > This patchset introduces support for Digital Camera Memory Interface
+> > > Pixel Processor (DCMIPP) of STMicroelectronics STM32 SoC series.
+> > > 
+> > > This initial support implements a single capture pipe
+> > > allowing RGB565, YUV, Y, RAW8 and JPEG capture with
+> > > frame skipping, prescaling and cropping.
+> > > 
+> > > DCMIPP is exposed through 3 subdevices:
+> > > - dcmipp_dump_parallel: parallel interface handling
+> > > - dcmipp_dump_postproc: frame skipping, prescaling and cropping control
+> > > - dcmipp_dump_capture: video device capture node
+> > > 
+> > > v7:
+> > >   - correct byteproc set_fmt handling and compose/crop/fmt handling
+> > >   - replace few v4l2_subdev_get_try_* into v4l2_subdev_get_pad_*
+> > 
+> > Can you rebase this on my my linuxtv.org tree master branch
+> > <URL:https://git.linuxtv.org/sailus/media_tree.git/log/>?
+> > 
+> > These will be called v4l2_subdev_state_get_* now.
 > 
->  smp_store_release(&dev->disconnected, true);
-> 
->  kref_put(&dev->ref, uvc_delete);
+> Ok, serie v8 is now rebased on top of the master branch of your tree.
+> I'm going to push the rebased gc2145 sensor driver as well in a moment.
 
-> 							uvc_video_halt()
+Thanks. Hans said he's going to merge the API change later this week (Mauro
+might do that earlier), I'll take these then.
 
-That uvc_video_halt() cannot be legal, right?
+-- 
+Regards,
+
+Sakari Ailus
 
