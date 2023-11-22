@@ -1,211 +1,159 @@
-Return-Path: <linux-media+bounces-800-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-801-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09BAF7F4681
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:43:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC6F7F46F3
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:51:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B6FB32810A0
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 12:43:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBF682811D8
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 12:51:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24BAC2D63B;
-	Wed, 22 Nov 2023 12:43:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BFBC4BAAD;
+	Wed, 22 Nov 2023 12:51:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=wolfvision.net header.i=@wolfvision.net header.b="SuQBbuac"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="LJvl5TlC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from EUR03-AM7-obe.outbound.protection.outlook.com (mail-am7eur03on2084.outbound.protection.outlook.com [40.107.105.84])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29F4D1AC;
-	Wed, 22 Nov 2023 04:42:57 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FrdeGY170kaQE257N3ia51YahDhlop7A6UGYvpfoz7fg0gaQDxtZkH0yYJCPD0NhJlZzLexYfhUjEtAalgZVf2dRJ2nQnAcngjfN2QhZLNInM0SbelPb3mKlZwqw0jEEUhWU0to19N04L6vjiSmkXS5gWCkLwJhn/2QXFa3HY6jhH7nguaPj9jHhWVO4RESyqHoPzgprxZfFniHyAe4PUGENYKz2nauS0gRM3I7tp74Fe4ZiAPIGrwth4HiTCVp8CvBqLLugbmtW00vlkDKJl3dkXxk7hzeAwbh77ieqHHtT+uOeCTsHd0PCUbM6zHo/EjVQQDaiArfHcXNIkqJcvA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xw9nDk05ibDyx0nDbnTFrtCbzaNjXmmQZ5uv0GBQsxU=;
- b=Q2FOysUkbRE9TgNEFqqedMLdwwGj3ZWWQeMJ5CVIoBiumEsqNw9YDq0IHXgoDpgJwkTaCXQwXCMVSNBPz/sf5iG4TvH2HNJ3pGVaqNaagAwHXupRLMGoUzlDgCHwlj5vdLii5iTTD1WcNOaMSYMPuW4QbbtVMqygQdR66KVk/RNSofjhoka1r6I2wj6Z05c2Tvr9Umcpdawtc+6L7X8LDhTm4lB6ckjYGRpcFyXOAoUL2Yy45cWHbWK4+ZrUyS7+YjgRwzpFwVs4V/f11I9YzHPsiank6UburroJAxXQB/k7hkoAVTcCiqjSg/B6uMbw+yHRkdxYv3abv5mcZ5zjhA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xw9nDk05ibDyx0nDbnTFrtCbzaNjXmmQZ5uv0GBQsxU=;
- b=SuQBbuacWXQXEgtvb5IFM3Ln3AKR4KSGkcviFfh/5F3m/m0DWa7OYoJ1GCGHl483SLG7fChllLW76nt/FRd4IgoI5MMUbEqNYQm6qIDx36XYRgEmEbO4D8oPBr1yJ+MRFXkJskPfuXWRhCJg7WcceZN/8ktTuL+DQVh7+ELXOCk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wolfvision.net;
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com (2603:10a6:10:416::5)
- by DB9PR08MB7448.eurprd08.prod.outlook.com (2603:10a6:10:36c::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
- 2023 12:42:53 +0000
-Received: from DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::79a1:5ad6:b221:ad]) by DU0PR08MB9155.eurprd08.prod.outlook.com
- ([fe80::79a1:5ad6:b221:ad%4]) with mapi id 15.20.7002.028; Wed, 22 Nov 2023
- 12:42:53 +0000
-Message-ID: <9570dc1c-a437-46d4-95e7-1f3dd399e458@wolfvision.net>
-Date: Wed, 22 Nov 2023 13:42:50 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 2/3] media: rockchip: Add a driver for Rockchip's
- camera interface
-Content-Language: en-US
-To: Tommaso Merciai <tomm.merciai@gmail.com>,
- Mehdi Djait <mehdi.djait@bootlin.com>
-Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
- krzysztof.kozlowski+dt@linaro.org, robh+dt@kernel.org, conor+dt@kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, thomas.petazzoni@bootlin.com,
- alexandre.belloni@bootlin.com, maxime.chevallier@bootlin.com,
- paul.kocialkowski@bootlin.com
-References: <cover.1700132457.git.mehdi.djait@bootlin.com>
- <db605935ad21c4780b73db87605b52d30bc936a4.1700132457.git.mehdi.djait@bootlin.com>
- <ZVz58b0r4gtxyVQy@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-From: Michael Riesch <michael.riesch@wolfvision.net>
-Organization: WolfVision GmbH
-In-Reply-To: <ZVz58b0r4gtxyVQy@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1P194CA0040.EURP194.PROD.OUTLOOK.COM
- (2603:10a6:803:3c::29) To DU0PR08MB9155.eurprd08.prod.outlook.com
- (2603:10a6:10:416::5)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ADCA118D;
+	Wed, 22 Nov 2023 04:51:24 -0800 (PST)
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AM5Vcqs013032;
+	Wed, 22 Nov 2023 12:51:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=27Z8pqIwCURhifVSG9XX//Qs1tVHrqv8hOikZ4CO4PY=;
+ b=LJvl5TlCGFNaosRuNZfVGSH7xk+GwH2XL37EmKbaC0SRjyKdgqN5BrdSq3xwgO04BGcU
+ xuLqW/Q/C1qwDXDh0fFlC6znlNvQDzn9C8/UngmwE20B1St8+mXt6Fz50Q77+pXbjXsh
+ 1R6enMYzurvTKGo9oqLOPy+Em8abG3SdqqAFjkZ5EkFC69Eifs5j2vXp8dCtq91f5tUg
+ EkbxDj6MEiPnVSY4W5mg1kj5MYJxQCNrErNK6Zk63yWdhweTb6r+uUvH6uwGOPIdbTKC
+ 5gxQn8wYM8fvdmHCPRDOLK4r+/w2wwf+yR7mG1/y3lrg1vlAFEnKmk8UFkLTyDuIS6dh UQ== 
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uhbjvh6m3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 Nov 2023 12:51:10 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AMCp9tq022472
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 22 Nov 2023 12:51:09 GMT
+Received: from [10.206.101.41] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 22 Nov
+ 2023 04:51:02 -0800
+Message-ID: <4f5d4019-ffae-1eed-be7f-14e68d933063@quicinc.com>
+Date: Wed, 22 Nov 2023 18:20:59 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU0PR08MB9155:EE_|DB9PR08MB7448:EE_
-X-MS-Office365-Filtering-Correlation-Id: f00b9656-22d1-44cc-3a12-08dbeb588b7d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	QbpklOylQg2WL2Fql3oiuttENwvZYYttf+QL/I+GRgYv3tgJsLCB2uI94zoFyYBpfYWiZb8JCzzU59pgueZrAsQdYr3k4Cko9YzpvuK59wQRrhp/xPa4GiGvEJnKv968TesF/ZQhTgbpmEYoxg2Xc27BeRlM6BlqW+MJQzlK3GDSY2G9BLsycpXqngWp1McvRpB9ahokpKR771kCx6+jS2yHWJuW3XeUbJ0pkQ0I4mk6EgDutic2K+utLKE3gBi4Ghf3icgWeQb9fs4bO4bhIvrxCjJ0VHtQgN0quWFEWPgFU90ZtOC+udZCd6rmCbzHoZVBo5HfC+t9eP0fieu2kUbyplhQYycfwhoxSisxFl/KyIytjdvTXHxHWeIJwErplNZNCCypxpwCZo6LHyuG69jcfftUVf5aEl23UXC2CE/LMlvMjSnubCpLWB2NIg0kK5EN/x+I8n/Kd0jMzR2mGNfTxPGhWvLFg6QfF1/9DX2GsCe2eMkWaA1BeOXBq9U/5CFS1pF9gPOwXt3ImfUQGJbPaMukP1lsjbjRYfZwWrtGLD3friJOIMCUiCIrhGUi4xbbNHux3DZkXKmSdacxUFp0QI+KyAkGOsI/QbTiXCg2pGANs0sZPFgkmd8ljuqAERp5a27ODsSadXZU8kUnwg==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU0PR08MB9155.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39850400004)(136003)(396003)(346002)(376002)(366004)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(7416002)(41300700001)(2906002)(4326008)(8676002)(8936002)(316002)(5660300002)(86362001)(44832011)(31696002)(36756003)(31686004)(6486002)(478600001)(2616005)(6506007)(26005)(36916002)(53546011)(83380400001)(6512007)(38100700002)(66556008)(110136005)(66476007)(66946007)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SWp5K2hLMk1NczlvL3Y2dWNDTVVKVVRyNkp6STZndDl6V2NkTU5ja1F3b0ow?=
- =?utf-8?B?Z1hLNHBpMGZ1V1p1dllXT2pONnMvUnVyMnB4UFhQNGV2OCthSVQyQ3FJdnZk?=
- =?utf-8?B?MDQraXJXbTQ4NWxxZ1ZPWnBwUGFiZWFnK2x1M3RUUWR1emhoSnU2OS9EUUZH?=
- =?utf-8?B?YTllM0laNkxrM1BYWGRlc3dhU0x2VE5xL0JZRUQ2ajZtdVAvTkVud250VmNW?=
- =?utf-8?B?Rk9CV1pOZjNRVUtwMHB1ckduMDdWb0RRbXI4SDA5M3hISkYvOS9ibjlRYWVV?=
- =?utf-8?B?SEgwT3dtaStOM1VYMm5iQzZZdE9BRnA2VjVkekdsVmJuZUY5ODlrSWhQTTdH?=
- =?utf-8?B?bE5sZGJCTDJGQWlWVDlQZWJXczdJTUdRanRacGFuWkVWU3hXaG1WU3VRc1Yx?=
- =?utf-8?B?VDVWZFZCMy9HUGwyQnZXSHlObjJyUTZNNnpObE5Yd2V4azRsNTk4Rk5mdHFk?=
- =?utf-8?B?N2haTFVxZEhvSWVmdGJSTnh4V2hFaGY3MW9RQmZyZkltcFo3UGFEMnZBSWEz?=
- =?utf-8?B?NmJhS1Q0dlZGWHdrUktCQXF6VWNlMW4vTlQ1MkpiRTFjVlg1akdaQXRmMStx?=
- =?utf-8?B?bStwQkNpSFF2VEEyUzVhSVh3TTdienNSMVgzdzBaN0ZpUFRSMklYUStBeVNJ?=
- =?utf-8?B?b21qcnFOdzIzS2VkV1hHSUtFSXo3VXBGS2xLYmROT0FQUFRQZ05RNTNJMkRs?=
- =?utf-8?B?NjZQY1BibFF4dEhuQnpFYlBlMzBGVWh6NW1ZZG5pTS9zYVFCRXE4Z1NpMGUx?=
- =?utf-8?B?dXYzcDNhREZHellMdmZOaTBndytwbmk5U0Rucy9MRVM2OG9pWHJDSmNjUm5G?=
- =?utf-8?B?ZTd0STBVVlV5azlMQkVGeStQL0E3aVVFZCtxUFVQZWNiVFlkV3VESEpOTFU2?=
- =?utf-8?B?aVNYZXJHSzdqUFI0WG1WajlwVmJwT3dvY3E5RXJpQnZpalgwLytIY3RSQkpV?=
- =?utf-8?B?RCt4WDVLdEpHWVRJendmRFlvdTJjcFI4RG9YUy9pSnZhM3VVK1hZYnk0Q0hO?=
- =?utf-8?B?YUZaQTVRTEl6QVNqOEtkVUo1Q0U4aW9DTXFNSkFyYTZQUzNwYkVjdmtxamZU?=
- =?utf-8?B?TWFIQ0xZSXZlSmhUQUdDa1FEWU9jU2FLeEs2ZlJZU2FVN3VObDVUR2RXcUtW?=
- =?utf-8?B?enFGZ3pFVTRkd0Q0bER5YkRxeVFQcExJbm9wM0Fmam9FNG5ZYlFKZ3Y1Sk1v?=
- =?utf-8?B?eVFEVG9uZHNKbThwQmVXK0MxTmhJWkhJdnFLZzJ5bzl0SFc4T3lsYlVsYTZ4?=
- =?utf-8?B?RGYvbnZESXhWNmtOMWtEMnVYV3U4RGxNKzR6Qi9lbTQzckpPRWtJYWY0cGov?=
- =?utf-8?B?RkVTb1huUFFjeVMxbVNvMW9kajhZenUvUG1Bc0dzUm1OY1QvR01ycjdURWJz?=
- =?utf-8?B?LzN0U2p1OHVxUk9wTHVYUUk1anJURkNkWkdhTHY3aFd0bjljYkFRWFdLbWpJ?=
- =?utf-8?B?MFZ1c01RSU93ZGt2bHYxQUkyajFlaTlhcm5pam9uRS9PdG1yRnNHcHdvYXVs?=
- =?utf-8?B?MjIzRGcreVVaUDVLelFtZXJ2VHFHdVlUbEhXNlczVnByaXUzODl0S213ZzE5?=
- =?utf-8?B?SlhOeVJkbjBFdzVLTWpQWHh3WFN2U1BZNHgxUzhmSXU5QmJ4diszQjJYNXNR?=
- =?utf-8?B?RHA2d0VrNUhSV0tJU0d4ZXhhay9wbUcrTWI5alRsT3gzeEpMTGYrMEl0UTl5?=
- =?utf-8?B?ZlNjRG4xUVFTOFZiZ2E0TGhNS1pBc3dUcW95czFKeWVFMHJYWnY1cGQ3TTU0?=
- =?utf-8?B?Y3hVSDBmOFpkZS8wcmZWRERSU1pxQS91a0ZlN2xsN3hBSkNPYzh6TTAvcjl2?=
- =?utf-8?B?NVVjdXRoUUlSanl4K1A3YThjdC9iMzhiWTJEUXV1YUdESlF1Q2JLQVpYZGRP?=
- =?utf-8?B?WnA1YUY5ZktLbnFiWWlwQVVEMjRZOEZTbTYrd2F1dlBPZTdiZjd2YUVERUpO?=
- =?utf-8?B?ZVFoTndkbkFKWEs4bFpVeTN0bTFVWWNMcjNKVy9odFdDQnpMN3Q2UmxBcUhC?=
- =?utf-8?B?R1lacG16dVR5MndJTThYbC9WVFJXeVRDUUNNOTY5Rm9QSlR1TzU2SSs1OEtj?=
- =?utf-8?B?YlR2YzNJVEhvTm1FMXFJcUZSWUduSDZBOVFta0NHUUpoZXdRZ1JNV0lTVkh5?=
- =?utf-8?B?eG5aWjNINXVvTmNHcFFPaGo3VWRNYUhuajJoZURmMmRpR2FwejEwVkVHMmtz?=
- =?utf-8?B?Wmc9PQ==?=
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: f00b9656-22d1-44cc-3a12-08dbeb588b7d
-X-MS-Exchange-CrossTenant-AuthSource: DU0PR08MB9155.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 12:42:53.4095
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B6Dt0dgYMFDouZxpG1LGSAZe2coQKFzMXQjez7Eb4nTAnFoyOaRmh5Zski/m8bhDO9ZfG+Rt0tCvAATXwt7h9YM/RaoE8SKSE6WfNSTuRyI=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR08MB7448
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH RESEND v3 4/5] clk: qcom: Use HW_CTRL_TRIGGER flag to
+ switch video GDSC to HW mode
+To: Jagadeesh Kona <quic_jkona@quicinc.com>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Abel Vesa <abel.vesa@linaro.org>
+CC: "Rafael J. Wysocki" <rafael@kernel.org>,
+        Kevin Hilman
+	<khilman@kernel.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>, Pavel Machek
+	<pavel@ucw.cz>,
+        Len Brown <len.brown@intel.com>,
+        Greg Kroah-Hartman
+	<gregkh@linuxfoundation.org>,
+        Andy Gross <agross@kernel.org>,
+        Konrad Dybcio
+	<konrad.dybcio@linaro.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Taniya Das <tdas@qti.qualcomm.com>, <linux-pm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-clk@vger.kernel.org>, <linux-media@vger.kernel.org>
+References: <20231101-gdsc-hwctrl-v3-0-0740ae6b2b04@linaro.org>
+ <20231101-gdsc-hwctrl-v3-4-0740ae6b2b04@linaro.org>
+ <v4dnsawo7s74spccrsvjwmal73tqfq4aptiny25tyyp6ungxha@jlbywvcssqtl>
+ <d716fbbe-b681-af41-bfe7-85448cc47c7c@quicinc.com>
+Content-Language: en-US
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <d716fbbe-b681-af41-bfe7-85448cc47c7c@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: JOFdN4YIviS_rQmdT3WYhksczd3WaO3o
+X-Proofpoint-ORIG-GUID: JOFdN4YIviS_rQmdT3WYhksczd3WaO3o
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-22_08,2023-11-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1011 malwarescore=0
+ spamscore=0 impostorscore=0 lowpriorityscore=0 mlxlogscore=999
+ suspectscore=0 adultscore=0 mlxscore=0 phishscore=0 bulkscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311220090
 
-Hi Tommaso,
-
-On 11/21/23 19:41, Tommaso Merciai wrote:
-> Hi Mehdi,
+On 11/10/2023 2:02 PM, Jagadeesh Kona wrote:
 > 
-> On Thu, Nov 16, 2023 at 12:04:39PM +0100, Mehdi Djait wrote:
->> This introduces a V4L2 driver for the Rockchip CIF video capture controller.
->>
->> This controller supports multiple parallel interfaces, but for now only the
->> BT.656 interface could be tested, hence it's the only one that's supported
->> in the first version of this driver.
->>
->> This controller can be found on RK3066, PX30, RK1808, RK3128 and RK3288,
->> but for now it's only been tested on the PX30.
->>
->> CIF is implemented as a video node-centric driver.
->>
->> Most of this driver was written following the BSP driver from rockchip,
->> removing the parts that either didn't fit correctly the guidelines, or that
->> couldn't be tested.
->>
->> This basic version doesn't support cropping nor scaling and is only
->> designed with one SDTV video decoder being attached to it at any time.
->>
->> This version uses the "pingpong" mode of the controller, which is a
->> double-buffering mechanism.
->>
->> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
->> ---
->>  MAINTAINERS                                   |    7 +
->>  drivers/media/platform/rockchip/Kconfig       |    1 +
->>  drivers/media/platform/rockchip/Makefile      |    1 +
->>  drivers/media/platform/rockchip/cif/Kconfig   |   13 +
->>  drivers/media/platform/rockchip/cif/Makefile  |    3 +
->>  drivers/media/platform/rockchip/cif/capture.c | 1120 +++++++++++++++++
->>  drivers/media/platform/rockchip/cif/capture.h |   21 +
->>  drivers/media/platform/rockchip/cif/common.h  |  129 ++
->>  drivers/media/platform/rockchip/cif/dev.c     |  302 +++++
->>  drivers/media/platform/rockchip/cif/regs.h    |  127 ++
->>  10 files changed, 1724 insertions(+)
->>  create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
->>  create mode 100644 drivers/media/platform/rockchip/cif/Makefile
->>  create mode 100644 drivers/media/platform/rockchip/cif/capture.c
->>  create mode 100644 drivers/media/platform/rockchip/cif/capture.h
->>  create mode 100644 drivers/media/platform/rockchip/cif/common.h
->>  create mode 100644 drivers/media/platform/rockchip/cif/dev.c
->>  create mode 100644 drivers/media/platform/rockchip/cif/regs.h
 > 
-> Just a logigistic comment on my side for now, sorry :)
-> What about use cif-* prefix in front of driver files?
+> On 11/4/2023 1:45 AM, Bjorn Andersson wrote:
+>> On Wed, Nov 01, 2023 at 11:04:10AM +0200, Abel Vesa wrote:
+>>> From: Jagadeesh Kona <quic_jkona@quicinc.com>
+>>>
+>>> The current HW_CTRL flag switches the video GDSC to HW control mode as
+>>> part of GDSC enable itself, instead of that use HW_CTRL_TRIGGER flag to
+>>> give consumer drivers more control and switch the GDSC mode as and when
+>>> required.
+>>>
+>>> HW_CTRL_TRIGGER flag allows consumer drivers to switch the video GDSC to
+>>> HW/SW control modes at runtime using dev_pm_genpd_set_hwmode API.
+>>>
+>>
+>> This states what the code currently does, and what the new code will do.
+>> But I don't find that it adequately describes _why_ this is done.
+>>
+>>
+>> In the current implementation, the hardware is might collapse the GDSC
+>> anytime between gdsc_enable() and gdsc_disable(). By giving "drivers
+>> more control" the time spent in this state is reduced to some fraction
+>> of that span, which to me implies higher power consumption.
+>>
+>> Under the assumption that we don't want to consume more power without
+>> reason, I'm forced to guess that there might be some scenarios that we
+>> want this feature to keep the GDSC non-collapsed against the indication
+>> of the hardware - to avoid some instability somewhere, perhaps?
+>>
 > 
-> like:
+> Thanks Bjorn for your review. Sure, will update commit text with details in next
+> series.
 > 
-> cif-capture.c
-> cif-capture.h
-> cif-common.h
-> cif-dev.c
-> cif-regs.h
+> Normally, consumers will enable the GDSC and then the required clocks. If GDSC
+> is moved to HW mode in gdsc_enable() itself, the subsequent clocks enablement
+> that are dependent on GDSC might fail since GDSC could be turned off by HW. The
+> consumers can still switch the GDSC to HW mode with new API right after the
+> clocks are enabled and the control will be taken back to SW mode just before
+> disabling the GDSC, so even with the newer implementation, HW can collapse the
+> GDSC anytime for most of the duration between gdsc_enable() and gdsc_disable().
+> This API adds more flexibility for consumer drivers to control the GDSC mode as
+> per their
+> requirements.
+There is one more scenario where the driver would like GDSC in driver
+controlled. Let say video hardware, which is under vcodec0_gdsc, have registers
+to be programmed by TZ. In such scenario, the GDSC should be non collapsed,
+while TZ programs those registers precisely while loading the firmware and
+bringing hardware out of reset.
 
-What would be the rationale here?
+Regards,
+Vikash
 
-IMHO the files are in a folder named cif, so adding this prefix seems
-kind of redundant.
-
-That said, if there is a good reason I could live with cif-*.{c,h} as
-well, of course. My only request would be to agree on something ASAP.
-
-> Thanks & Regards,
-> Tommaso
-> [...]
-Best regards,
-Michael
 
