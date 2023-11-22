@@ -1,45 +1,51 @@
-Return-Path: <linux-media+bounces-798-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-799-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C8C7F45D8
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:21:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDE197F45E5
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:23:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 866D9281357
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 12:21:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id F17BFB2113D
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 12:23:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDE16584E2;
-	Wed, 22 Nov 2023 12:20:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C23CCC13F;
+	Wed, 22 Nov 2023 12:23:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="DA+dU0F/"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="2YTstX2M"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 028851706
-	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 04:19:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1700655596; bh=C5uEHWw0ck0yC6ePUY2cLaXlArnY9vjuPeY5+3yy3Qw=;
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF629156F9;
+	Wed, 22 Nov 2023 12:23:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE7CFC433C7;
+	Wed, 22 Nov 2023 12:23:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1700655784;
+	bh=DFhsCyEH5nky3Jc1oIQ8dW/1lPBVcizFpK8ZXl27xXg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DA+dU0F/SErJhIw9vAicDxhQJtSc+H+pGD4Jm+kiIpjhnmszG/OjHQsIk9LGI4KXO
-	 HkVdOHLFVUV3/zTstgPZmoM+eSzQaZsovXWhkcqtK19jiN6dizKt2e0ZBxlJz6bb8G
-	 a6YIpEIUe5dHw3STzjdBvUBVVqoOC3hlKueY7EGyDy6MSFp5//W1+CdxBfnDLrEZcU
-	 DpRTKqT2ILmI6wznbIZaFoqngMb1ia75RIfpYF94dXhhMBnpVTPSGHsDTpI0MJVpDx
-	 inO+veeEuMvbzQ+Bdj1u6EaFvGcm5+uEUCKcUomdN7bs9/eIomf+TB2OWScSM/iDaM
-	 Pdqflo+rDpdAQ==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id 68D301000CD; Wed, 22 Nov 2023 12:19:56 +0000 (GMT)
-Date: Wed, 22 Nov 2023 12:19:56 +0000
-From: Sean Young <sean@mess.org>
-To: Gregor Jasny <gjasny@googlemail.com>
-Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: New v4l-utils release?
-Message-ID: <ZV3x7EBufjZd6Pkg@gofer.mess.org>
-References: <12b6687c-2517-4844-abd4-1e64f83c27b6@googlemail.com>
+	b=2YTstX2MYQv0mw9KfEDkiXLQ6NHWhsucvPF4FUR4ltAkcqYMd19EFBp2ruC4yMR01
+	 tw5Vd9qVwhjn7oKsdbtg4vwFNYUMFunO+RGYk+VLhIi522hKYQ+mOJcb6LKMo40T7w
+	 B3u9LsEw01kru4z1ieQyCHG1YLWWwDV4vBpXBuUI=
+Date: Wed, 22 Nov 2023 12:23:00 +0000
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Stefan Wahren <wahrenst@gmx.net>
+Cc: Florian Fainelli <florian.fainelli@broadcom.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-staging@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	"Ricardo B . Marliere" <ricardo@marliere.net>
+Subject: Re: [PATCH V2 0/3] staging: vchiq_arm: move state dump to debugfs
+Message-ID: <2023112238-acting-removing-50bd@gregkh>
+References: <20231029124837.119832-1-wahrenst@gmx.net>
+ <8351ddaf-c63e-4527-809f-d002bd79ad14@gmx.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,17 +54,38 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <12b6687c-2517-4844-abd4-1e64f83c27b6@googlemail.com>
+In-Reply-To: <8351ddaf-c63e-4527-809f-d002bd79ad14@gmx.net>
 
-On Wed, Nov 22, 2023 at 01:03:34PM +0100, Gregor Jasny wrote:
-> Hello,
+On Wed, Nov 22, 2023 at 01:17:07PM +0100, Stefan Wahren wrote:
+> Hi Greg,
 > 
-> do you have any objections or blockers for a new v4l-utils release on the
-> upcoming weekend?
+> Am 29.10.23 um 13:48 schrieb Stefan Wahren:
+> > Hello,
+> > 
+> > since recent discussion raised the question about the future of debugfs
+> > for vchiq [1], i want to submit this cleanup patch series as part of the
+> > discussion and a small Halloween present ;-)
+> > 
+> > Best regards
+> > 
+> > Changes in V2:
+> > - rebase on top of current staging-next
+> > - address suggestion from Laurent Pinchart in patch 1
+> > - fix checkpatch issue (too long line) in patch 2
+> > 
+> > [1] - https://lore.kernel.org/lkml/7ea529c2-3da6-47df-9b09-28d4ab36c4ef@kadam.mountain/T/
+> > 
+> > Stefan Wahren (3):
+> >    staging: vchiq_core: Make vchiq_dump_service_state static
+> >    staging: vchiq_core: Shorten bulk TX/RX pending dump
+> >    staging: vchiq_arm: move state dump to debugfs
+> 
+> should i resend incl. the received Reviewed-by tags?
 
-Nothing from me - however there are a bunch of IR fixes that would be
-nice to get released, so I'm all for a release. Thanks!
+No, just wait for me to catch up with staging patches.  Should be a week
+or so...
 
+tjhanks,
 
-Sean
+greg k-h
 
