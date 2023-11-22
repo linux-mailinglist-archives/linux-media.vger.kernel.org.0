@@ -1,119 +1,142 @@
-Return-Path: <linux-media+bounces-685-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-686-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A5467F3923
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 23:29:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9B797F3B38
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 02:25:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 62D361C21003
-	for <lists+linux-media@lfdr.de>; Tue, 21 Nov 2023 22:29:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 16E631C20EDD
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 01:25:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3110756750;
-	Tue, 21 Nov 2023 22:29:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2018E17CE;
+	Wed, 22 Nov 2023 01:25:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sensoray.com header.i=@sensoray.com header.b="RDVtHjuV"
+	dkim=pass (2048-bit key) header.d=hotmail.com header.i=@hotmail.com header.b="Mn6HXyd2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from omta36.uswest2.a.cloudfilter.net (omta36.uswest2.a.cloudfilter.net [35.89.44.35])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAE8E113
-	for <linux-media@vger.kernel.org>; Tue, 21 Nov 2023 14:29:44 -0800 (PST)
-Received: from eig-obgw-6010a.ext.cloudfilter.net ([10.0.30.248])
-	by cmsmtp with ESMTPS
-	id 5X9brkbp6hqFd5ZFYrm67r; Tue, 21 Nov 2023 22:29:44 +0000
-Received: from gator3086.hostgator.com ([50.87.144.121])
-	by cmsmtp with ESMTPS
-	id 5ZFXrgOqA8vT05ZFXrY6Te; Tue, 21 Nov 2023 22:29:44 +0000
-X-Authority-Analysis: v=2.4 cv=ffi+dmcF c=1 sm=1 tr=0 ts=655d2f58
- a=qMXOcmIMY6YlrKEg1GzxDg==:117 a=QsTHvn2EeHXCImuSLmd++Q==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=BNY50KLci1gA:10 a=6kiSLZGAxYIA:10 a=wXneSEFuAAAA:8 a=VC_xR60dxTVBsFwuytIA:9
- a=YVKGGmaMxpnpCiYzuRtG:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sensoray.com; s=default; h=Content-Transfer-Encoding:MIME-Version:
-	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=PUrOPhMI0C22u5bm2K9bKF41FZZi4GKEWRO52jvI60g=; b=RDVtHjuVBhEsjBWN0RJhXmcjyh
-	PX+TVvvhhYM8nPWHYoZCRRdrwsokz2uJrYrwW5yR2sVKaopC9E9gl4+BBOahXZEcOYx3ehkmzruC9
-	Cz0sKymnXsZRw87eejO2vapZilouSOYmkV8vsP/d5h25HsmSY1ln4sAdwS5ZpXCZjiDE=;
-Received: from [50.126.89.90] (port=45404 helo=localhost.localdomain)
-	by gator3086.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.95)
-	(envelope-from <dean@sensoray.com>)
-	id 1r5ZFX-000mGr-31;
-	Tue, 21 Nov 2023 16:29:43 -0600
-From: Dean Anderson <dean@sensoray.com>
-To: linux-media@vger.kernel.org,
-	mchehab@kernel.org
-Cc: linux-dev@sensoray.com,
-	Dean Anderson <dean@sensoray.com>
-Subject: [PATCH] media: usb: s2255: endian fix
-Date: Tue, 21 Nov 2023 14:29:59 -0800
-Message-Id: <20231121222959.473403-1-dean@sensoray.com>
-X-Mailer: git-send-email 2.30.2
+Received: from APC01-TYZ-obe.outbound.protection.outlook.com (mail-tyzapc01olkn2040.outbound.protection.outlook.com [40.92.107.40])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D97691;
+	Tue, 21 Nov 2023 17:25:01 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=M52MVz1xCaFzwQTmWVCvFYyNWg14a9JON5a29X69f36DnAoY0EUI2s0hmI+7jXqi4ucOFny5+iy3efzs1VLnRkkhntb4R/XGhdtsTaxvd2oPMS1WBUnoBzRUQv/gFRuuVHE3p8v79yKf7rUNsEa6VplIoJmIiOGHM5P5YhnAMBbsvbywatd70GkLK+Lbjn4zbm2jhYsFv/Md5B2HeFic3S9MaHmoyVlv94s8QyDyMx/6IuDKv/aHQ587iIYkmHzHEgJjrinKfsQ5G8W92jvPS1lk0JWfZJ7ark4UShN1yMfnrku6TMm/FoWzQ+KJLg3EFx2akX/JBDIGVdv8c8VuHg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=B4nagn7wz/9YH++vhzfM+ICRMfPQv8SJawrhaEoQTsI=;
+ b=TqzIi5fDPn3UYMfjMONqEy3DKZGYjnWDmmysK1fvT8hnmefapcLYMKcAuozV3pcvdhJQbk6vm8T+1M9W/DRuUrVVjqvYHtN0QddbNhkOXiQ58M/kDy0mk74b5uhUyh0j2v+gmPaYD4go0MQLeTVS0ZSMs7tNuXCYV2GnGnugaJo2S4p7RMkDlew4CinQ6d6XMTTSv712qdwZofeXvQ3/HKGchrCIG9TkrntpFiLlOvy1NK/gQ9PgwRU7kHqaRTIGfOQcJdpwWsY8Nllabok1WCmgJrNONu55TMjD7Pgf4nOyF8pRPmKYMhFWFjYSLRAgErOntypoCA8HTaydAkQf8A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hotmail.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=B4nagn7wz/9YH++vhzfM+ICRMfPQv8SJawrhaEoQTsI=;
+ b=Mn6HXyd2qSVj8JLjGEyIjHQbdghNJEeRtUFk4TcMaP/sP1T5ztr8MgYig+bSa+Z29UC+/0MRIsaCaDFKQ8ILRo8u4UT6fIPMlYl/fCb9mC3fuvg5mmwTJjd/NJuwc/t+S31ByG3qkrshyQpibA2apLPrkrIB4DQ7x3n5m904OifVV5hJDi6pNDkGy2SJMJfR3sYS5dlVm4DVq5+JLCBT7GK2V2G6KJt3jU1gNUsTicpbCJ2yavRRHcOi2PqJTdBtWsDbBuZQ6FeSvIoITN77eEUBOpQi1TMqmk8Gwyu2kA/YG+lM3Xxe+ob7QDNnf+z2SzGrgxFQStR5wy4ZI60Ojw==
+Received: from KL1PR01MB3809.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:41::14) by TY2PR0101MB3632.apcprd01.prod.exchangelabs.com
+ (2603:1096:404:8003::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
+ 2023 01:24:57 +0000
+Received: from KL1PR01MB3809.apcprd01.prod.exchangelabs.com
+ ([fe80::907f:e0c0:d442:e14f]) by KL1PR01MB3809.apcprd01.prod.exchangelabs.com
+ ([fe80::907f:e0c0:d442:e14f%3]) with mapi id 15.20.7002.028; Wed, 22 Nov 2023
+ 01:24:56 +0000
+From: Ken Lin <ken_lin5@hotmail.com>
+To: LKML <linux-kernel@vger.kernel.org>
+Cc: groeck@chromium.org,
+	Benson Leung <bleung@chromium.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Reka Norman <rekanorman@chromium.org>,
+	Stefan Adolfsson <sadolfsson@chromium.org>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	Zoey Wu <zoey_wu@wistron.corp-partner.google.com>,
+	chrome-platform@lists.linux.dev,
+	linux-media@vger.kernel.org
+Subject: [PATCH] media: platform: cros-ec: Add Dexi to the match table
+Date: Wed, 22 Nov 2023 09:24:43 +0800
+Message-ID:
+ <KL1PR01MB38096A17A4F89721CC3DA073AEBAA@KL1PR01MB3809.apcprd01.prod.exchangelabs.com>
+X-Mailer: git-send-email 2.25.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TMN: [tHznemHqqNXdxnt8FUH0WB/VJfdl1mG6]
+X-ClientProxiedBy: SG2PR06CA0246.apcprd06.prod.outlook.com
+ (2603:1096:4:ac::30) To KL1PR01MB3809.apcprd01.prod.exchangelabs.com
+ (2603:1096:820:41::14)
+X-Microsoft-Original-Message-ID:
+ <20231122092333.1.I02f6efa3023c0bcb437ee3b7ebaa2910a89ab0e9@changeid>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator3086.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - sensoray.com
-X-BWhitelist: no
-X-Source-IP: 50.126.89.90
-X-Source-L: No
-X-Exim-ID: 1r5ZFX-000mGr-31
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: (localhost.localdomain) [50.126.89.90]:45404
-X-Source-Auth: dean@sensoray.com
-X-Email-Count: 2
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: c2Vuc29yYXk7c2Vuc29yYXk7Z2F0b3IzMDg2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfJtG2T3QjdHzEvFLpuesaQFPJ7iYqGGCqfa7NEimc/qHDGeMLdwPsduatQedvU9BhGGGkKP6LtWMN0SE8devepPIoex8nELPZDmXmr0DHHsx4iChogwl
- oM2fUIur0s3PwxxGd34I8b8p0sYkVC77Exaz624W4GNr7NKYF0iD9qVd2u6PDDN++KaN4le/T6PEXl2uUv7diMs6Txz/egQLOGQ=
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KL1PR01MB3809:EE_|TY2PR0101MB3632:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3f52483-6c78-4438-d792-08dbeaf9d583
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	VJJ2g01ij4Rouzu8nbABsc0AqUuyO8BMcFVOAwFBRBuBUIErEdf8YrmRpedI49wnTzWMaPea0FehLntPs59BWUH1Qdmy5r8NOQXzA21R8Gx+2XtjFRYvm+NbXiBoWww+ic32MQFqiX8Bt8hte9KKVlHDzwGkYyPkBlvPtQwUZw9QWWMnpfFIb95zivUyiSLZ/fYv+TPUDYjS8bDF3LktA36iJO9v6oYqp7l199ZNwxopoTPxHrecFlM9NXNkqyPYvW563VGg1qPguK5adPjZyaAvu7oOsy55paeR80On40x4n7MnBNH1DVDIGB7KpG2jbohLk182vaud02A9xFy+/phLzAEeJIQWqV7Wsovg1jwOb/5DSOCUryZlYgB2NUiVNetl7lpVnJ2e36cfBS4yyE3oWCGeWgrLQndwWz1d4dFGm6FH3BpASlcALTQ06A0jklsojehK0wijkX1bwsRXotroMb+13fehJ5MWOKseCS9Ok+IMh+2JhihLW2+jwx7n3lRI8bXZGk2qDUwlmcvN5KekNlgjidfrOom39apK9LQuaRP8VnaDuRjNrwFGFbQ9
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?qjS21Lt24kQOJ5bNrh5gbSjqm0bxk7SzRacrq2t4k0fb7YpoYbND6NZExw5D?=
+ =?us-ascii?Q?Z4+sMgMgchSAsWWmdP3bjS9C/w8lk8p2wCdJnd3WMwqAWjFD8ibFa2cQBKGS?=
+ =?us-ascii?Q?eMz4VLDZHjWNgu5CY2yQl2TxlOWrh7ENgATzrF6GNVOedEbAWS3ovMnLy6mG?=
+ =?us-ascii?Q?bmguNdxQAKC31sdnaarUmUFBhcFzSSNyUUlHThIQrQTReE9MYdyh3rQYrLkA?=
+ =?us-ascii?Q?9YE6BknLrRYqTR6Sd7CLaDKp/hqWRvCGjrKzf6tXA64KBRIDyN/H0iL6dR7a?=
+ =?us-ascii?Q?UbenKgyCcZQumOzEri7eBnV40NJqJ4DT2Vjo+fhJdgRl51j+EwbdZdfsa8Ja?=
+ =?us-ascii?Q?5nDRj+VgD0Nty6FxSGgEJ0kZIgZJHk8m3uLbB4kifdSgJTPMMVUO3Up+cEpn?=
+ =?us-ascii?Q?FQxTcl29YCv3fmUZfa1WOBZSQyePkCO+PFWjHvYasY0Eo4fumK/6nIxpelW0?=
+ =?us-ascii?Q?cXDLvvQtCdbhrbhGmKbEtqOBeRZkk/TU5kyZpsnSdd5nB1mQvJWRT8ox0nNa?=
+ =?us-ascii?Q?30YzCGH1mH3zdevlEb54+8XbwxvdakI8kTy9n9aURDoWxCyp9A50M7470l5d?=
+ =?us-ascii?Q?bigSqFlif9sUXBLVaKWiUALDoeDjdG4Bav7xD/WVhQOQrvHRYHmckxr5teIU?=
+ =?us-ascii?Q?DRGvEeptA0uyZhsPJQwIhZFlGSes7aXpjLBUaa3tbdKeo3ScPFkg0Ksqdf8Z?=
+ =?us-ascii?Q?H8PG9NBx8w7H2i7tSaEf5xvX32Y9l9siKZ2f77bOOsVJrBpBzNib0lK5wSX4?=
+ =?us-ascii?Q?dn3aBmyPEolHyAoOMmnWpyDXMHBIQOV13MMe+saWwVmR7KISIfZ1eV9YqdMe?=
+ =?us-ascii?Q?rMG/cstyOsuZhlK5aJFIluiAiQ+Idm4FapgvW2fi7pNUcOd8FuItFnqhdWvF?=
+ =?us-ascii?Q?O2PjfY7v3NOqCwXbd2fqDP3UrGXzOLqD676OC/PAHtxogKDRqCeNShI8A6Pj?=
+ =?us-ascii?Q?It43DzP1KGib0OjwTHdLXCv9dkSsbTKuWOEnzv5GTqFIz2xO0nXXNoaWtvUH?=
+ =?us-ascii?Q?efxjpkuXtTvv64bz9/5XHqPN7GMwPSUEls7/R1PS4gEYLtJijhpe3pEedgxQ?=
+ =?us-ascii?Q?xBEHPeLXor6rguHzT7jddhbeMBbdVqkaSR/+0sOnh4IaCqtLj5qQhyagYjHe?=
+ =?us-ascii?Q?7o8HJnD69ndMpErwejEsdlxNMwFvcQDJczDatDKLNScGl7Kp+E/Q3W2is/tH?=
+ =?us-ascii?Q?W4gxDnb/KrqbH1GwKAaSC5w0GFlEKEibICtP+Q=3D=3D?=
+X-OriginatorOrg: sct-15-20-4755-11-msonline-outlook-d8e84.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3f52483-6c78-4438-d792-08dbeaf9d583
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR01MB3809.apcprd01.prod.exchangelabs.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 01:24:56.7937
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PR0101MB3632
 
-Magic number fix, endian fix, and comment style change.
-This patch depends on "PATCH] media: usb: s2255: custom V4L2_CIDs"
+The Google Dexi device uses the same approach as the Google Brask
+which enables the HDMI CEC via the cros-ec-cec driver.
 
-Signed-off-by: Dean Anderson <dean@sensoray.com>
-
+Signed-off-by: Ken Lin <ken_lin5@hotmail.com>
 ---
- drivers/media/usb/s2255/s2255drv.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/usb/s2255/s2255drv.c b/drivers/media/usb/s2255/s2255drv.c
-index 1c7cb1d37353..ce6fb6c4481c 100644
---- a/drivers/media/usb/s2255/s2255drv.c
-+++ b/drivers/media/usb/s2255/s2255drv.c
-@@ -60,6 +60,7 @@
- #define S2255_MIN_BUFS          2
- #define S2255_SETMODE_TIMEOUT   500
- #define S2255_VIDSTATUS_TIMEOUT 350
-+#define S2255_MARKER_FIRMWARE	cpu_to_le32(0xDDCCBBAAL)
- #define S2255_MARKER_FRAME	cpu_to_le32(0x2255DA4AL)
- #define S2255_MARKER_RESPONSE	cpu_to_le32(0x2255ACACL)
- #define S2255_RESPONSE_SETMODE  cpu_to_le32(0x01)
-@@ -1276,8 +1277,8 @@ static int s2255_g_volatile_ctrl(struct v4l2_ctrl *ctrl)
- 		kfree(outbuf);
- 		return rc;
- 	}
--	// verify marker code
--	if (*(unsigned int *)outbuf != 0xddccbbaa) {
-+	/* verify marker code */
-+	if (*(__le32 *)outbuf != S2255_MARKER_FIRMWARE) {
- 		kfree(outbuf);
- 		return -EFAULT;
- 	}
+ drivers/media/cec/platform/cros-ec/cros-ec-cec.c | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+index 42dde3f0dbde..52ec0ba4b339 100644
+--- a/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
++++ b/drivers/media/cec/platform/cros-ec/cros-ec-cec.c
+@@ -324,6 +324,8 @@ static const struct cec_dmi_match cec_dmi_match_table[] = {
+ 	{ "Google", "Boxy", "0000:00:02.0", port_d_conns },
+ 	/* Google Taranza */
+ 	{ "Google", "Taranza", "0000:00:02.0", port_db_conns },
++	/* Google Dexi */
++	{ "Google", "Dexi", "0000:00:02.0", port_db_conns },
+ };
+ 
+ static struct device *cros_ec_cec_find_hdmi_dev(struct device *dev,
 -- 
-2.30.2
+2.25.1
 
 
