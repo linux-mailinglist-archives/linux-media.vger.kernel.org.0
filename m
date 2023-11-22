@@ -1,37 +1,38 @@
-Return-Path: <linux-media+bounces-833-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-834-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 528AF7F499A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:04:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CCBB7F49B4
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:05:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C6381C20BC2
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:04:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5B2FA1C20C3E
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:05:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C4F34E1BA;
-	Wed, 22 Nov 2023 15:04:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EA4F4E1DF;
+	Wed, 22 Nov 2023 15:05:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AswJOSfm"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CShra8iy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEDB092;
-	Wed, 22 Nov 2023 07:04:05 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12B80A3;
+	Wed, 22 Nov 2023 07:05:27 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A829C276;
-	Wed, 22 Nov 2023 16:03:32 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A3F8B29A;
+	Wed, 22 Nov 2023 16:04:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700665412;
-	bh=Khzc5e3MF7Rql+822BCxtzuamdUU+FbcCsol+NM5omk=;
+	s=mail; t=1700665494;
+	bh=8pF7Wg5LEFskYqmGH2k4O2UFRmY8lfO9msZUpnevj7g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AswJOSfmq6jWjqkIxgblejlN62dmvtlzl37M8vuQGgBZBmIsx26UtuYGztLY0u0n6
-	 uVBswsKVdRwNhFnxuCRFlLaXRb4HBY4E2DFHPsRdG0fYwEADJUFgoKkrWG+nPp7aVD
-	 IfrZ5CQIb56bscsj4eIMFYAo3EkrsgwH3CLFa4wA=
-Date: Wed, 22 Nov 2023 17:04:10 +0200
+	b=CShra8iyVGhL/seg8ngLF0omh8ppTpS6fheUMXaFeIPh35gDLO3lI9zoQ8az5KjUU
+	 n55jw8XjIERadtTj31vPB8hIJ9+RAL35BjYl3dBxBaTyuFGxEagyXxj/L7+DJxGGjz
+	 N+cTzMP2JWtSaeGmmbIZ5uTqRfSvxkLLTeJufE+M=
+Date: Wed, 22 Nov 2023 17:05:32 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+Cc: Fabio Estevam <festevam@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Rui Miguel Silva <rmfrfs@gmail.com>,
 	Martin Kepplinger <martink@posteo.de>,
 	Purism Kernel Team <kernel@puri.sm>,
@@ -39,14 +40,13 @@ Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Shawn Guo <shawnguo@kernel.org>,
 	Sascha Hauer <s.hauer@pengutronix.de>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
 	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: imx-mipi-csis: Drop extra clock enable at
- probe()
-Message-ID: <20231122150410.GF8627@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 0/2] media: imx-mipi-csis: csis clock fixes
+Message-ID: <20231122150532.GG8627@pendragon.ideasonboard.com>
 References: <20231122-imx-csis-v1-0-0617368eb996@ideasonboard.com>
- <20231122-imx-csis-v1-2-0617368eb996@ideasonboard.com>
+ <CAOMZO5AW0qft5ciGAWuX=RC0zHwAWEpLCyB5TbeE0QH3Nb+nQQ@mail.gmail.com>
+ <61de2617-fdc2-4f0c-8ffc-5dfc99b825e7@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,83 +55,38 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231122-imx-csis-v1-2-0617368eb996@ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <61de2617-fdc2-4f0c-8ffc-5dfc99b825e7@ideasonboard.com>
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Wed, Nov 22, 2023 at 03:13:49PM +0200, Tomi Valkeinen wrote:
-> The driver always enables the clocks at probe() and disables them only
-> at remove(). It is not clear why the driver does this, as it supports
-> runtime PM, and enables and disables the clocks in the runtime resume
-> and suspend callbacks. Also, in the case runtime PM is not available,
-> the driver calls the resume and suspend callbacks manually from probe()
-> and remove().
-
-Probably a historical mistake. It predates my involvement with the
-driver :-)
-
-> Drop the unnecessary clock enable, thus enabling the clocks only when
-> actually needed.
+On Wed, Nov 22, 2023 at 03:44:33PM +0200, Tomi Valkeinen wrote:
+> On 22/11/2023 15:21, Fabio Estevam wrote:
+> > On Wed, Nov 22, 2023 at 10:14 AM Tomi Valkeinen wrote:
+> >>
+> >> Two fixes to the csis driver: One to fix remove() another to only enable
+> >> the clocks when needed.
+> >>
+> >> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> >> ---
+> >> Tomi Valkeinen (2):
+> >>        media: imx-mipi-csis: Fix clock handling in remove()
+> >>        media: imx-mipi-csis: Drop extra clock enable at probe()
+> > 
+> > Shouldn't both patches contain a Fixes tag?
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/platform/nxp/imx-mipi-csis.c | 13 ++-----------
->  1 file changed, 2 insertions(+), 11 deletions(-)
+> I think the issue is there in the original commit adding the driver:
 > 
-> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> index b39d7aeba750..b08f6d2e7516 100644
-> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> @@ -1435,24 +1435,18 @@ static int mipi_csis_probe(struct platform_device *pdev)
->  	/* Reset PHY and enable the clocks. */
->  	mipi_csis_phy_reset(csis);
->  
-> -	ret = mipi_csis_clk_enable(csis);
-> -	if (ret < 0) {
-> -		dev_err(csis->dev, "failed to enable clocks: %d\n", ret);
-> -		return ret;
-> -	}
-> -
->  	/* Now that the hardware is initialized, request the interrupt. */
->  	ret = devm_request_irq(dev, irq, mipi_csis_irq_handler, 0,
->  			       dev_name(dev), csis);
->  	if (ret) {
->  		dev_err(dev, "Interrupt request failed\n");
-> -		goto err_disable_clock;
-> +		return ret;
->  	}
->  
->  	/* Initialize and register the subdev. */
->  	ret = mipi_csis_subdev_init(csis);
->  	if (ret < 0)
-> -		goto err_disable_clock;
-> +		return ret;
->  
->  	platform_set_drvdata(pdev, &csis->sd);
->  
-> @@ -1486,8 +1480,6 @@ static int mipi_csis_probe(struct platform_device *pdev)
->  	v4l2_async_nf_unregister(&csis->notifier);
->  	v4l2_async_nf_cleanup(&csis->notifier);
->  	v4l2_async_unregister_subdev(&csis->sd);
-> -err_disable_clock:
-> -	mipi_csis_clk_disable(csis);
->  
->  	return ret;
->  }
-> @@ -1506,7 +1498,6 @@ static void mipi_csis_remove(struct platform_device *pdev)
->  		mipi_csis_runtime_suspend(&pdev->dev);
->  
->  	pm_runtime_disable(&pdev->dev);
-> -	mipi_csis_clk_disable(csis);
->  	v4l2_subdev_cleanup(&csis->sd);
->  	media_entity_cleanup(&csis->sd.entity);
->  	pm_runtime_set_suspended(&pdev->dev);
+> 7807063b862b ("media: staging/imx7: add MIPI CSI-2 receiver subdev for 
+> i.MX7")
 > 
+> However, the driver has changed along the way, and I'm not sure if the 
+> original one had an actual bug. Nevertheless, the same pattern (wrt. 
+> clocks and runtime) is there in the original one, and I think that 
+> pattern is not correct even if it wouldn't have caused any visible issue.
+> 
+> So I'll add that commit as Fixes-tag, but if someone with more knowledge 
+> about the driver can verify this, that'd be great.
+
+Sounds fine to me. I assume you'll send a v2.
 
 -- 
 Regards,
