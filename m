@@ -1,28 +1,28 @@
-Return-Path: <linux-media+bounces-851-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-852-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B5A17F4BB6
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:56:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56EB77F4BE2
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 17:04:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8C60F1C2082A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:56:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B69528127B
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:04:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E41504EB4E;
-	Wed, 22 Nov 2023 15:56:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56A167468;
+	Wed, 22 Nov 2023 16:03:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52BF756B70
-	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 15:56:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A90C4C433C8;
-	Wed, 22 Nov 2023 15:56:22 +0000 (UTC)
-Message-ID: <e647782f-6ed5-4d1f-b318-2d83d713b9b1@xs4all.nl>
-Date: Wed, 22 Nov 2023 16:56:20 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9185157862
+	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 16:03:56 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D0BCCC433C8;
+	Wed, 22 Nov 2023 16:03:54 +0000 (UTC)
+Message-ID: <e8594414-eaea-4022-8835-0c093657b005@xs4all.nl>
+Date: Wed, 22 Nov 2023 17:03:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -30,15 +30,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] media: visl: Fix params permissions/defaults
- mismatch
+Subject: Re: [PATCH v2 2/5] media: visl: Add a stable_output parameter
 Content-Language: en-US, nl
 To: Detlev Casanova <detlev.casanova@collabora.com>,
  linux-kernel@vger.kernel.org
 Cc: linux-media@vger.kernel.org, Daniel Almeida
  <daniel.almeida@collabora.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
 References: <20231024191027.305622-1-detlev.casanova@collabora.com>
- <20231024191027.305622-2-detlev.casanova@collabora.com>
+ <20231024191027.305622-3-detlev.casanova@collabora.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -83,46 +82,231 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231024191027.305622-2-detlev.casanova@collabora.com>
+In-Reply-To: <20231024191027.305622-3-detlev.casanova@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 24/10/2023 21:09, Detlev Casanova wrote:
-> `false` was used as the keep_bitstream_buffers parameter permissions.
-> This looks more like a default value for the parameter, so change it to
-> 0 to avoid confusion.
+> This parameter is used to ensure that for a given input, the output
+> frames are always identical so that it can be compared against
+> a reference in automatic tests.
 > 
 > Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
 > Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 > ---
->  drivers/media/test-drivers/visl/visl-core.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/media/test-drivers/visl/visl-core.c |   5 +
+>  drivers/media/test-drivers/visl/visl-dec.c  | 125 +++++++++++---------
+>  drivers/media/test-drivers/visl/visl.h      |   1 +
+>  3 files changed, 77 insertions(+), 54 deletions(-)
 > 
 > diff --git a/drivers/media/test-drivers/visl/visl-core.c b/drivers/media/test-drivers/visl/visl-core.c
-> index 9970dc739ca5..df6515530fbf 100644
+> index df6515530fbf..d28d50afec02 100644
 > --- a/drivers/media/test-drivers/visl/visl-core.c
 > +++ b/drivers/media/test-drivers/visl/visl-core.c
-> @@ -74,7 +74,7 @@ MODULE_PARM_DESC(visl_dprintk_nframes,
->  		 " the number of frames to trace with dprintk");
+> @@ -88,6 +88,11 @@ module_param(bitstream_trace_nframes, uint, 0);
+>  MODULE_PARM_DESC(bitstream_trace_nframes,
+>  		 " the number of frames to dump the bitstream through debugfs");
 >  
->  bool keep_bitstream_buffers;
-> -module_param(keep_bitstream_buffers, bool, false);
-> +module_param(keep_bitstream_buffers, bool, 0);
+> +bool stable_output;
+> +module_param(stable_output, bool, 0644);
+> +MODULE_PARM_DESC(stable_output,
+> +		 " only write stable data for a given input on the output frames");
+> +
+>  static const struct visl_ctrl_desc visl_fwht_ctrl_descs[] = {
+>  	{
+>  		.cfg.id = V4L2_CID_STATELESS_FWHT_PARAMS,
+> diff --git a/drivers/media/test-drivers/visl/visl-dec.c b/drivers/media/test-drivers/visl/visl-dec.c
+> index 318d675e5668..61cfca49ead9 100644
+> --- a/drivers/media/test-drivers/visl/visl-dec.c
+> +++ b/drivers/media/test-drivers/visl/visl-dec.c
+> @@ -197,19 +197,30 @@ static void visl_tpg_fill_sequence(struct visl_ctx *ctx,
+>  {
+>  	u32 stream_ms;
+>  
+> -	stream_ms = jiffies_to_msecs(get_jiffies_64() - ctx->capture_streamon_jiffies);
+> -
+> -	scnprintf(buf, bufsz,
+> -		  "stream time: %02d:%02d:%02d:%03d sequence:%u timestamp:%lld field:%s",
+> -		  (stream_ms / (60 * 60 * 1000)) % 24,
+> -		  (stream_ms / (60 * 1000)) % 60,
+> -		  (stream_ms / 1000) % 60,
+> -		  stream_ms % 1000,
+> -		  run->dst->sequence,
+> -		  run->dst->vb2_buf.timestamp,
+> -		  (run->dst->field == V4L2_FIELD_ALTERNATE) ?
+> -		  (run->dst->field == V4L2_FIELD_TOP ?
+> -		  " top" : " bottom") : "none");
+> +	if (!stable_output) {
+> +		stream_ms = jiffies_to_msecs(get_jiffies_64() - ctx->capture_streamon_jiffies);
+> +
+> +		scnprintf(buf, bufsz,
+> +			  "stream time: %02d:%02d:%02d:%03d sequence:%u timestamp:%lld field:%s",
+> +			  (stream_ms / (60 * 60 * 1000)) % 24,
+> +			  (stream_ms / (60 * 1000)) % 60,
+> +			  (stream_ms / 1000) % 60,
+> +			  stream_ms % 1000,
 
-???
+How useful is this 'stream time' anyway? I don't think this adds anything
+useful.
 
-This last parameter is the permission, it makes no sense that this
-is either 0 or false: then nobody can see it in /sys/modules/.
+> +			  run->dst->sequence,
+> +			  run->dst->vb2_buf.timestamp,
+> +			  (run->dst->field == V4L2_FIELD_ALTERNATE) ?
+> +			  (run->dst->field == V4L2_FIELD_TOP ?
+> +			  " top" : " bottom") : "none");
+> +	} else {
+> +		scnprintf(buf, bufsz,
+> +			  "sequence:%u timestamp:%lld field:%s",
+> +			  run->dst->sequence,
+> +			  run->dst->vb2_buf.timestamp,
+> +			  (run->dst->field == V4L2_FIELD_ALTERNATE) ?
+> +			  (run->dst->field == V4L2_FIELD_TOP ?
+> +			  " top" : " bottom") : "none");
+> +
+> +	}
+>  }
+>  
+>  static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+> @@ -244,15 +255,17 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+>  	frame_dprintk(ctx->dev, run->dst->sequence, "");
+>  	line++;
+>  
+> -	visl_get_ref_frames(ctx, buf, TPG_STR_BUF_SZ, run);
 
-Typically this is 0444 if it is readable only, or 0644 if it can be
-written by root.
+This function shows both the ts of the ref frames and the buffer
+index. Is it just the buffer index that causes the problem? If so,
+then wouldn't it be better to either never show the buffer index
+or only if !stable_output.
+
+> +	if (!stable_output) {
+> +		visl_get_ref_frames(ctx, buf, TPG_STR_BUF_SZ, run);
+>  
+> -	while ((line_str = strsep(&tmp, "\n")) && strlen(line_str)) {
+> -		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, line_str);
+> -		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", line_str);
+> -	}
+> +		while ((line_str = strsep(&tmp, "\n")) && strlen(line_str)) {
+> +			tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, line_str);
+> +			frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", line_str);
+> +		}
+>  
+> -	frame_dprintk(ctx->dev, run->dst->sequence, "");
+> -	line++;
+> +		frame_dprintk(ctx->dev, run->dst->sequence, "");
+> +		line++;
+> +	}
+>  
+>  	scnprintf(buf,
+>  		  TPG_STR_BUF_SZ,
+> @@ -280,28 +293,30 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+>  		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+>  	}
+>  
+> -	line++;
+> -	frame_dprintk(ctx->dev, run->dst->sequence, "");
+> -	scnprintf(buf, TPG_STR_BUF_SZ, "Output queue status:");
+> -	tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, buf);
+> -	frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+> +	if (!stable_output) {
+> +		line++;
+> +		frame_dprintk(ctx->dev, run->dst->sequence, "");
+> +		scnprintf(buf, TPG_STR_BUF_SZ, "Output queue status:");
+> +		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, buf);
+> +		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+>  
+> -	len = 0;
+> -	for (i = 0; i < out_q->num_buffers; i++) {
+> -		char entry[] = "index: %u, state: %s, request_fd: %d, ";
+> -		u32 old_len = len;
+> -		char *q_status = visl_get_vb2_state(out_q->bufs[i]->state);
+> +		len = 0;
+> +		for (i = 0; i < out_q->num_buffers; i++) {
+> +			char entry[] = "index: %u, state: %s, request_fd: %d, ";
+> +			u32 old_len = len;
+> +			char *q_status = visl_get_vb2_state(out_q->bufs[i]->state);
+>  
+> -		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+> -				 entry, i, q_status,
+> -				 to_vb2_v4l2_buffer(out_q->bufs[i])->request_fd);
+> +			len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+> +					 entry, i, q_status,
+> +					 to_vb2_v4l2_buffer(out_q->bufs[i])->request_fd);
+>  
+> -		len += visl_fill_bytesused(to_vb2_v4l2_buffer(out_q->bufs[i]),
+> -					   &buf[len],
+> -					   TPG_STR_BUF_SZ - len);
+> +			len += visl_fill_bytesused(to_vb2_v4l2_buffer(out_q->bufs[i]),
+> +						   &buf[len],
+> +						   TPG_STR_BUF_SZ - len);
+>  
+> -		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
+> -		frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
+> +			tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
+> +			frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
+> +		}
+>  	}
+>  
+>  	line++;
+> @@ -333,25 +348,27 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+>  		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+>  	}
+>  
+> -	line++;
+> -	frame_dprintk(ctx->dev, run->dst->sequence, "");
+> -	scnprintf(buf, TPG_STR_BUF_SZ, "Capture queue status:");
+> -	tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, buf);
+> -	frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+> +	if (!stable_output) {
+> +		line++;
+> +		frame_dprintk(ctx->dev, run->dst->sequence, "");
+> +		scnprintf(buf, TPG_STR_BUF_SZ, "Capture queue status:");
+> +		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, buf);
+> +		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+>  
+> -	len = 0;
+> -	for (i = 0; i < cap_q->num_buffers; i++) {
+> -		u32 old_len = len;
+> -		char *q_status = visl_get_vb2_state(cap_q->bufs[i]->state);
+> +		len = 0;
+> +		for (i = 0; i < cap_q->num_buffers; i++) {
+> +			u32 old_len = len;
+> +			char *q_status = visl_get_vb2_state(cap_q->bufs[i]->state);
+>  
+> -		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+> -				 "index: %u, status: %s, timestamp: %llu, is_held: %d",
+> -				 cap_q->bufs[i]->index, q_status,
+> -				 cap_q->bufs[i]->timestamp,
+> -				 to_vb2_v4l2_buffer(cap_q->bufs[i])->is_held);
+> +			len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+> +					 "index: %u, status: %s, timestamp: %llu, is_held: %d",
+> +					 cap_q->bufs[i]->index, q_status,
+> +					 cap_q->bufs[i]->timestamp,
+> +					 to_vb2_v4l2_buffer(cap_q->bufs[i])->is_held);
+>  
+> -		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
+> -		frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
+> +			tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
+> +			frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
+> +		}
+>  	}
+>  }
+>  
+> diff --git a/drivers/media/test-drivers/visl/visl.h b/drivers/media/test-drivers/visl/visl.h
+> index 31639f2e593d..5a81b493f121 100644
+> --- a/drivers/media/test-drivers/visl/visl.h
+> +++ b/drivers/media/test-drivers/visl/visl.h
+> @@ -85,6 +85,7 @@ extern unsigned int visl_dprintk_nframes;
+>  extern bool keep_bitstream_buffers;
+>  extern int bitstream_trace_frame_start;
+>  extern unsigned int bitstream_trace_nframes;
+> +extern bool stable_output;
+>  
+>  #define frame_dprintk(dev, current, fmt, arg...) \
+>  	do { \
+
+Should stable_output perhaps be 1 by default?
 
 Regards,
 
 	Hans
-
->  MODULE_PARM_DESC(keep_bitstream_buffers,
->  		 " keep bitstream buffers in debugfs after streaming is stopped");
->  
-
 
