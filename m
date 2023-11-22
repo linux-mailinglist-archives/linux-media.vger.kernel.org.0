@@ -1,274 +1,132 @@
-Return-Path: <linux-media+bounces-786-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-787-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DAC87F44F7
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 12:35:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92D0A7F4502
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 12:40:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D6E328150E
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 11:35:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8D00EB210C5
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 11:40:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 458E8584E9;
-	Wed, 22 Nov 2023 11:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D1F9584E2;
+	Wed, 22 Nov 2023 11:40:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="io2stwu1"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="V2TadWeB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-x836.google.com (mail-qt1-x836.google.com [IPv6:2607:f8b0:4864:20::836])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D7B21A2
-	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 03:35:44 -0800 (PST)
-Received: by mail-qt1-x836.google.com with SMTP id d75a77b69052e-42135f8e08fso40130781cf.1
-        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 03:35:44 -0800 (PST)
+Received: from mail-pl1-x62b.google.com (mail-pl1-x62b.google.com [IPv6:2607:f8b0:4864:20::62b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2B301BB
+	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 03:40:11 -0800 (PST)
+Received: by mail-pl1-x62b.google.com with SMTP id d9443c01a7336-1cf5ceadfd8so190655ad.0
+        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 03:40:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1700652943; x=1701257743; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=nKCzP1gjVynV6gUUEtVMbrveg7//HaaaERWD1+hGAUY=;
-        b=io2stwu1GohT+Y7HAaxEe6XCWwjpCP1xlhvARYV66ykrPWWZFNRViznC9ijEFzbfFL
-         nVc7dFkg+y3vq9pu5ahCzDEVWYl7/1EBPuHoSCNCIX5SMG+N164ueh4eXdCTgnKcaVKd
-         SetdLbL9d1syMj9WY+hXNiQc/NtyFbo8HdRHo=
+        d=google.com; s=20230601; t=1700653211; x=1701258011; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3Lluk3sxaDufWvRRHog2K6boAXw3L6t6DxADVDkrIhI=;
+        b=V2TadWeB3dFTClHliXaf/QTxmNpe00DBBFLjWe9rNTX+1PxBv3ECQZ22Hqf3ojF8Mb
+         /oqydbjbLsM8YX5uM/alPM4xrb0QIE/rRwmd6gKqLkkQcdk7QnEw5IFyfy1LdAFNUUDH
+         NY3x7a/BDIaRsJgPhdDjTbANsCWSkarfMlgi0TzdTjHrFVivyp0WOHZstJ6422Mf82BE
+         WghhsifdXHcKyLi9HpzJMeH7wc62RIJ4b32IokBoycAQbmP6SEhfk573t8xsJzXza5mz
+         8LzLIpR0q28/UBRd3TaxOITYiYR4IXssjNQLyr/A9sWesqafX+SnNhODmTRTE9Mlc7L8
+         pj8A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700652943; x=1701257743;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nKCzP1gjVynV6gUUEtVMbrveg7//HaaaERWD1+hGAUY=;
-        b=YTddDMCnn/YCQ0AQuA1YucMub2IFlLuohIZdMnN9he1iWoPg+x7JiqVmIDdxF8/Vid
-         k29NrBhtL1i/UBT151PfxD8z2ZGQ2AP/40bol4sVJFdqfsJj8ftn5L1ztZBbGP5nOOr1
-         Ojd8BSKgUfwY/uOJXb14oUirEWPsmMBUD4wCsLYYs5up/2YoATl6LcqqSj8e5CTv8wWg
-         l1ClvPmvESrpxjvmEkGsBiT47JwIcLS9zCPv3YKb0gpy8c6YWfGi+xlt4gSHLl+CVEhn
-         ia0XaTQ/pXEbKRQPfAE3dklNKgJoqmNqc3jVU/fKlJ6IQDMp7hDDYDBFbEILafyuUm8/
-         Zu7A==
-X-Gm-Message-State: AOJu0Yws7PMX1dI5bP0/2gg+1R5OLo+Ed7/lKB3rsHqHTUFh2eitJl8+
-	ZpnxoM0hRvQfqZ9K9xglxbEkJL8/eWCwG/ad9E1XBg==
-X-Google-Smtp-Source: AGHT+IFZWAGMCD2bL5hxIkCEgW6/Ur8iouzsPjCgRdCcAoTNifsbcDlZuBcQnBmWelFlO44+jVd6Wg==
-X-Received: by 2002:ac8:7fd3:0:b0:423:756c:93f0 with SMTP id b19-20020ac87fd3000000b00423756c93f0mr2021398qtk.67.1700652943210;
-        Wed, 22 Nov 2023 03:35:43 -0800 (PST)
-Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com. [209.85.222.180])
-        by smtp.gmail.com with ESMTPSA id k21-20020ac84795000000b0041812703b7esm4345155qtq.52.2023.11.22.03.35.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Nov 2023 03:35:42 -0800 (PST)
-Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-77d6b28aa9aso10219985a.3
-        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 03:35:41 -0800 (PST)
-X-Received: by 2002:a05:6214:27ed:b0:679:f232:b938 with SMTP id
- jt13-20020a05621427ed00b00679f232b938mr2365229qvb.8.1700652941316; Wed, 22
- Nov 2023 03:35:41 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700653211; x=1701258011;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3Lluk3sxaDufWvRRHog2K6boAXw3L6t6DxADVDkrIhI=;
+        b=mJnECH5jglUpcZgubhBw5YNaMtMrndePxFWRqKPicJZpdSMWosEDHr8sun7AqqvTiV
+         xZkEUBXDgbRHjG1aIW5YRdHoH095iS4tK4RdEXFErmCJKiQHiAsYtI5Ta22RkakLa5O5
+         lUkr8Y5pftYx2aMMjT2Buy7k6+RX71fEcZCPw8rNTeqY+BZ1wt2TgVy31m4BAgz/+Avt
+         x7c/An6OMm529llzf3ybIHIsc4611KDJ3regMNG+VosqVFx2wqm4FMlay0I+KaIlM3sp
+         t0dtd7UQGpVF3rVCxoEUYk0AmNxm17LlJg33N7G/ikzuy7PyWXW5lBMvxveALHbrgAak
+         4MJw==
+X-Gm-Message-State: AOJu0YyKbH3pkB3THrn9WVsCqaBYX1ub+mSfik4R3Icyo2TUUMXB549b
+	uYiuwJ8aDer9SidNmDCe+kfq1xCXqYOHoWMrhzgraw==
+X-Google-Smtp-Source: AGHT+IHJxduaYetIEC6/naZ4h7Q74HCwny7yIKJCmAYpFQsBgE3tvaa7aw/0dNY9WbXigs0npyfK6618r1P9K4U7GnI=
+X-Received: by 2002:a17:902:f7c6:b0:1cf:5c9b:bb69 with SMTP id
+ h6-20020a170902f7c600b001cf5c9bbb69mr173637plw.11.1700653210859; Wed, 22 Nov
+ 2023 03:40:10 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231121-guenter-mini-v3-0-d8a5eae2312b@chromium.org>
- <20231121-guenter-mini-v3-2-d8a5eae2312b@chromium.org> <ZV3XDtUKJPuGLhw9@valkosipuli.retiisi.eu>
- <CANiDSCuXXD_GWadSJo43zxscGAOPzxhODK=TKixn0OPn7z_tCw@mail.gmail.com> <ZV3gHn8CuK_JJZbu@valkosipuli.retiisi.eu>
-In-Reply-To: <ZV3gHn8CuK_JJZbu@valkosipuli.retiisi.eu>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 22 Nov 2023 12:35:27 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsoJR+eaj=7cxrZ0EWiBT7sWQSSqRcB-HdRvhbKmD26cA@mail.gmail.com>
-Message-ID: <CANiDSCsoJR+eaj=7cxrZ0EWiBT7sWQSSqRcB-HdRvhbKmD26cA@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] media: uvcvideo: Do not halt the device after disconnect
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
-	Tomasz Figa <tfiga@chromium.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Alan Stern <stern@rowland.harvard.edu>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Sean Paul <seanpaul@chromium.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <0000000000003ee3610599d20096@google.com> <0000000000002a1fec060ab0120c@google.com>
+ <20231121214541.GB3909@pendragon.ideasonboard.com>
+In-Reply-To: <20231121214541.GB3909@pendragon.ideasonboard.com>
+From: Aleksandr Nogikh <nogikh@google.com>
+Date: Wed, 22 Nov 2023 12:39:58 +0100
+Message-ID: <CANp29Y5DNhTA8Oi1B2Kdmog-6tbuSL8mz66P7=dHR0hEgGAZnQ@mail.gmail.com>
+Subject: Re: [syzbot] KASAN: use-after-free Read in __media_entity_remove_links
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: syzbot <syzbot+0b0095300dfeb8a83dc8@syzkaller.appspotmail.com>, 
+	andreyknvl@google.com, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-usb@vger.kernel.org, mchehab@kernel.org, 
+	sakari.ailus@linux.intel.com, syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi
+Thanks for reporting the problem!
 
-On Wed, 22 Nov 2023 at 12:04, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+Syzbot looked at the last ~1.5 years of commit history to find the
+commit, which is almost always enough, but not in this particular
+case.
+
+I've filed https://github.com/google/syzkaller/issues/4347 to fix the
+syzbot code.
+
+--=20
+Aleksandr
+
+On Tue, Nov 21, 2023 at 10:45=E2=80=AFPM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
 >
-> Hi Ricardo,
+> On Tue, Nov 21, 2023 at 01:13:15PM -0800, syzbot wrote:
+> > This bug is marked as fixed by commit:
+> > media: uvcvideo: Avoid cyclic entity chains due to malformed USB descri=
+ptors
+> >
+> > But I can't find it in the tested trees[1] for more than 90 days.
+> > Is it a correct commit? Please update it by replying:
+> >
+> > #syz fix: exact-commit-title
 >
-> On Wed, Nov 22, 2023 at 11:32:16AM +0100, Ricardo Ribalda wrote:
-> > Hi Sakari
-> >
-> > On Wed, 22 Nov 2023 at 11:25, Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> > >
-> > > Hi Ricardo,
-> > >
-> > > Thank you for the patch.
-> > >
-> > > On Tue, Nov 21, 2023 at 07:53:49PM +0000, Ricardo Ribalda wrote:
-> > > > usb drivers should not call to any usb_() function after the
-> > > > .disconnect() callback has been triggered.
-> > > >
-> > > > If the camera is streaming, the uvc driver will call usb_set_interface or
-> > > > usb_clear_halt once the device is being released. Let's fix this issue.
-> > > >
-> > > > This is probably not the only driver affected with this kind of bug, but
-> > > > until there is a better way to do it in the core this is the way to
-> > > > solve this issue.
-> > > >
-> > > > When/if a different mechanism is implemented in the core to solve the
-> > > > lifetime of devices we will adopt it in uvc.
-> > > >
-> > > > Trace:
-> > > > [ 1065.389723] drivers/media/usb/uvc/uvc_driver.c:2248 uvc_disconnect enter
-> > > > [ 1065.390160] drivers/media/usb/uvc/uvc_driver.c:2264 uvc_disconnect exit
-> > > > [ 1065.433956] drivers/media/usb/uvc/uvc_v4l2.c:659 uvc_v4l2_release enter
-> > > > [ 1065.433973] drivers/media/usb/uvc/uvc_video.c:2274 uvc_video_stop_streaming enter
-> > > > [ 1065.434560] drivers/media/usb/uvc/uvc_video.c:2285 uvc_video_stop_streaming exit
-> > > > [ 1065.435154] drivers/media/usb/uvc/uvc_v4l2.c:680 uvc_v4l2_release exit
-> > > > [ 1065.435188] drivers/media/usb/uvc/uvc_driver.c:2248 uvc_disconnect enter
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > ---
-> > > >  drivers/media/usb/uvc/uvc_driver.c |  2 ++
-> > > >  drivers/media/usb/uvc/uvc_video.c  | 45 ++++++++++++++++++++++++--------------
-> > > >  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
-> > > >  3 files changed, 32 insertions(+), 17 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > > index 08fcd2ffa727..413c32867617 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > > @@ -2257,6 +2257,8 @@ static void uvc_disconnect(struct usb_interface *intf)
-> > > >               return;
-> > > >
-> > > >       uvc_unregister_video(dev);
-> > > > +     /* Barrier needed to synchronize with uvc_video_stop_streaming(). */
-> > > > +     smp_store_release(&dev->disconnected, true);
-> > > >       kref_put(&dev->ref, uvc_delete);
-> > > >  }
-> > > >
-> > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> > > > index 28dde08ec6c5..032b44e45b22 100644
-> > > > --- a/drivers/media/usb/uvc/uvc_video.c
-> > > > +++ b/drivers/media/usb/uvc/uvc_video.c
-> > > > @@ -2243,28 +2243,39 @@ int uvc_video_start_streaming(struct uvc_streaming *stream)
-> > > >       return ret;
-> > > >  }
-> > > >
-> > > > -void uvc_video_stop_streaming(struct uvc_streaming *stream)
-> > > > +static void uvc_video_halt(struct uvc_streaming *stream)
-> > > >  {
-> > > > -     uvc_video_stop_transfer(stream, 1);
-> > > > +     unsigned int epnum;
-> > > > +     unsigned int pipe;
-> > > > +     unsigned int dir;
-> > > >
-> > > >       if (stream->intf->num_altsetting > 1) {
-> > >
-> > > Doesn't this imply the device is using isochronous mode?
-> >
-> > I haven't changed the behaviour for halt, it is just that git diff is
-> > being a bit too creative here:
-> >
-> > Basically it is doing:
-> >
-> > void video_halt() {
-> >    if (is_isoc()) {
-> >      usb_set_interface(stream->dev->udev, stream->intfnum, 0);
-> >      return;
-> >    }
-> >    usb_clear_halt();
-> > }
-> >
-> > instead of the old:
-> >
-> > void video_halt() {
-> >    if (is_isoc()) {
-> >      usb_set_interface(stream->dev->udev, stream->intfnum, 0);
-> >    }  else {
-> >       usb_clear_halt();
-> >    }
-> > }
-> >
-> > Thanks!
+> What logic does syzbot use to try and find the commit upstream ? There's
+> a commit with the exact same subject, what was missing to find it
+> automatically ?
 >
-> Oops. I missed the removal of the else branch altogether while reading the
-> patch.
->
-> Shouldn't you also ensure the disconnect callback won't return until the
-> streaming has been stopped here?
-
-This patch is just for calls after .disconnect. It will not protect
-for concurrent calls.
-
-I have sent a v4 making this explicit. We still need:
-
-media: uvcvideo: Lock video streams and queues while unregistering
-
-or similar.
-
-Thanks!
-
->
-> > >
-> > > >               usb_set_interface(stream->dev->udev, stream->intfnum, 0);
-> > > > -     } else {
-> > > > -             /*
-> > > > -              * UVC doesn't specify how to inform a bulk-based device
-> > > > -              * when the video stream is stopped. Windows sends a
-> > > > -              * CLEAR_FEATURE(HALT) request to the video streaming
-> > > > -              * bulk endpoint, mimic the same behaviour.
-> > > > -              */
-> > > > -             unsigned int epnum = stream->header.bEndpointAddress
-> > > > -                                & USB_ENDPOINT_NUMBER_MASK;
-> > > > -             unsigned int dir = stream->header.bEndpointAddress
-> > > > -                              & USB_ENDPOINT_DIR_MASK;
-> > > > -             unsigned int pipe;
-> > > > -
-> > > > -             pipe = usb_sndbulkpipe(stream->dev->udev, epnum) | dir;
-> > > > -             usb_clear_halt(stream->dev->udev, pipe);
-> > > > +             return;
-> > > >       }
-> > > >
-> > > > +     /*
-> > > > +      * UVC doesn't specify how to inform a bulk-based device
-> > >
-> > > Then this comment doesn't look right. What about the code? This isn't
-> > > mentioned in the commit message either.
-> > >
-> > > > +      * when the video stream is stopped. Windows sends a
-> > > > +      * CLEAR_FEATURE(HALT) request to the video streaming
-> > > > +      * bulk endpoint, mimic the same behaviour.
-> > > > +      */
-> > > > +     epnum = stream->header.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK;
-> > > > +     dir = stream->header.bEndpointAddress & USB_ENDPOINT_DIR_MASK;
-> > > > +     pipe = usb_sndbulkpipe(stream->dev->udev, epnum) | dir;
-> > > > +     usb_clear_halt(stream->dev->udev, pipe);
-> > > > +}
-> > > > +
-> > > > +void uvc_video_stop_streaming(struct uvc_streaming *stream)
-> > > > +{
-> > > > +     uvc_video_stop_transfer(stream, 1);
-> > > > +
-> > > > +     /*
-> > > > +      * Barrier needed to synchronize with uvc_disconnect().
-> > > > +      * We cannot call usb_* functions on a disconnected USB device.
-> > > > +      */
-> > > > +     if (!smp_load_acquire(&stream->dev->disconnected))
-> > > > +             uvc_video_halt(stream);
-> > > > +
-> > > >       uvc_video_clock_cleanup(stream);
-> > > >  }
-> > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > index 6fb0a78b1b00..4318ce8e31db 100644
-> > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > @@ -559,6 +559,8 @@ struct uvc_device {
-> > > >       unsigned int users;
-> > > >       atomic_t nmappings;
-> > > >
-> > > > +     bool disconnected;
-> > > > +
-> > > >       /* Video control interface */
-> > > >  #ifdef CONFIG_MEDIA_CONTROLLER
-> > > >       struct media_device mdev;
+> > Until then the bug is still considered open and new crashes with
+> > the same signature are ignored.
+> >
+> > Kernel: Linux
+> > Dashboard link: https://syzkaller.appspot.com/bug?extid=3D0b0095300dfeb=
+8a83dc8
+> >
+> > ---
+> > [1] I expect the commit to be present in:
+> >
+> > 1. for-kernelci branch of
+> > git://git.kernel.org/pub/scm/linux/kernel/git/arm64/linux.git
+> >
+> > 2. master branch of
+> > git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git
+> >
+> > 3. master branch of
+> > git://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf.git
+> >
+> > 4. main branch of
+> > git://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git
+> >
+> > The full list of 9 trees can be found at
+> > https://syzkaller.appspot.com/upstream/repos
 >
 > --
-> Kind regards,
+> Regards,
 >
-> Sakari Ailus
-
-
-
--- 
-Ricardo Ribalda
+> Laurent Pinchart
 
