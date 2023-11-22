@@ -1,59 +1,28 @@
-Return-Path: <linux-media+bounces-794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-795-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 17EB37F4552
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:03:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 760057F4563
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:07:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 492321C2090B
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 12:03:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B06EB1C209CE
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 12:07:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 615255647B;
-	Wed, 22 Nov 2023 12:03:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=googlemail.com header.i=@googlemail.com header.b="Egzu2h+C"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B66714BA95;
+	Wed, 22 Nov 2023 12:07:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3048ED40
-	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 04:03:39 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-50aaaf6e58fso5324468e87.2
-        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 04:03:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=googlemail.com; s=20230601; t=1700654617; x=1701259417; darn=vger.kernel.org;
-        h=content-transfer-encoding:subject:from:to:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cTmUhwIZMdUL5arPtjIIT/xe6vK2ULCVvZmlUK+YHG4=;
-        b=Egzu2h+CxaadwU9RuomR7oDOwcCnu9V5dREqGgv+Tyrob/AdlxmfWtOkNZvrNzvcpv
-         SO8tUOm/WKy2a2za2iivNiEM7MVYKOjOn2ROU58oUCEvhk4rOHAa8bw12He3nGgjV4H9
-         6yDGhd601QrUlW3LrWYe3fqPNM6DDIXv1eMNRs0RUQnoK7NQ3qbfgNkMQlA6UXLK4o4Z
-         jOQnTxNqpqFyIBK0ZFtCBRB4VLPf4q2WX17cg/eP2xqlQOiJA+/dLVLVTVSW0nCZI7Xg
-         zPMzU2NQ6EKmZqrmc+XCm1h4ebOJbxi/EQ7GGV28felew1Y+oaF4nl0I97z0/PvvaP/d
-         fKzw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700654617; x=1701259417;
-        h=content-transfer-encoding:subject:from:to:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cTmUhwIZMdUL5arPtjIIT/xe6vK2ULCVvZmlUK+YHG4=;
-        b=ssN1BlPb/jcvfVaYZungbgLRxct+HEwIEA/a4XLcivSDuKMKaQAZeG5mwQZk8yMkN8
-         fchVd4V+v21AiFUyexIxDuFqis0khlswhHo0OkjykbX0GclW5twYc/FfrxBF653rUYcz
-         FVnBQtYOfvqab+aBqux8wEVvZWhm/IasbzqKC+kLbaVdSy+eBeSDVROb4bhF2Y+R97HP
-         tuyyBh8N4YQMHfkq3b6cpg/mUurgGuWeK5bYAj8OAbuxgFbBd5r/1kd4tfqitWWH/wBV
-         UUWp80/2irtiozG+FEwUJMWzltSknrVgt6VLkcvks+3pHv5i5otgg8DgUz1GQCC+wjfn
-         kHyw==
-X-Gm-Message-State: AOJu0YxWURcPdn5NSiexwBZNm4/n+6kqvfz8kO2nErGxehoCY4KiRZBZ
-	5TxdsamB0GXwiq15qBmFyV6Mw/FpSPjrUw==
-X-Google-Smtp-Source: AGHT+IE7X0iY0mjqXc5DelFnS06RCPlGVMKB3g5POZuohPBHdY5VmNL/NE4Zxihx1q7LfpnLKIJivQ==
-X-Received: by 2002:ac2:5589:0:b0:50a:6f95:3b50 with SMTP id v9-20020ac25589000000b0050a6f953b50mr107211lfg.16.1700654616664;
-        Wed, 22 Nov 2023 04:03:36 -0800 (PST)
-Received: from [192.168.0.210] ([95.90.91.143])
-        by smtp.gmail.com with ESMTPSA id q25-20020a17090676d900b00a0173cfaab6sm2375328ejn.44.2023.11.22.04.03.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Nov 2023 04:03:35 -0800 (PST)
-Message-ID: <12b6687c-2517-4844-abd4-1e64f83c27b6@googlemail.com>
-Date: Wed, 22 Nov 2023 13:03:34 +0100
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C70118E02
+	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 12:07:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 40B6FC433C9;
+	Wed, 22 Nov 2023 12:07:35 +0000 (UTC)
+Message-ID: <b83fbc11-47b6-4818-9a9b-7dc8bcdfa145@xs4all.nl>
+Date: Wed, 22 Nov 2023 13:07:33 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,20 +30,76 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-To: Linux Media Mailing List <linux-media@vger.kernel.org>,
+Subject: Re: New v4l-utils release?
+Content-Language: en-US, nl
+To: Gregor Jasny <gjasny@googlemail.com>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
  Sakari Ailus <sakari.ailus@linux.intel.com>, Sean Young <sean@mess.org>,
- Hans de Goede <hdegoede@redhat.com>, Hans Verkuil <hverkuil@xs4all.nl>
-From: Gregor Jasny <gjasny@googlemail.com>
-Subject: New v4l-utils release?
-Content-Type: text/plain; charset=UTF-8; format=flowed
+ Hans de Goede <hdegoede@redhat.com>
+References: <12b6687c-2517-4844-abd4-1e64f83c27b6@googlemail.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <12b6687c-2517-4844-abd4-1e64f83c27b6@googlemail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hello,
+On 22/11/2023 13:03, Gregor Jasny wrote:
+> Hello,
+> 
+> do you have any objections or blockers for a new v4l-utils release on the upcoming weekend?
+> 
+> Thanks,
+> Gregor
 
-do you have any objections or blockers for a new v4l-utils release on 
-the upcoming weekend?
+Good to know that you are planning this. There are some outstanding v4l-utils patches,
+so I'll take a look at those today.
 
-Thanks,
-Gregor
+I have no objections to a new release this weekend.
+
+Regards,
+
+	Hans
 
