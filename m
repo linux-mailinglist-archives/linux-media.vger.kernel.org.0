@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-768-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-769-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3FA8D7F42E6
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 10:54:22 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 862387F42F4
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 10:56:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DE4C11F21D58
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 09:54:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E5CE8B20D28
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 09:56:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D287E5914B;
-	Wed, 22 Nov 2023 09:54:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D66721352;
+	Wed, 22 Nov 2023 09:56:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="CrQm3wm1"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="C93DymPH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-x831.google.com (mail-qt1-x831.google.com [IPv6:2607:f8b0:4864:20::831])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1AC01A2
-	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 01:54:07 -0800 (PST)
-Received: by mail-qt1-x831.google.com with SMTP id d75a77b69052e-41cc75c55f0so5345291cf.1
-        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 01:54:07 -0800 (PST)
+Received: from mail-yw1-x1133.google.com (mail-yw1-x1133.google.com [IPv6:2607:f8b0:4864:20::1133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3744010F9
+	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 01:55:30 -0800 (PST)
+Received: by mail-yw1-x1133.google.com with SMTP id 00721157ae682-5cbbe2cba33so14199537b3.1
+        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 01:55:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1700646846; x=1701251646; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1700646928; x=1701251728; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=gqpYEFiVYvZlFazdN/UQMK6Ht63BG7ibp8wzUAhE94Q=;
-        b=CrQm3wm1OwJfjag1w8DQg4Dk+3Jj85l4erIOutyZp7vjr0djhCg2kNQvMHSbCE+36C
-         UrvKBgBff0Bq84m2ddnKNI1Izy2HpkbwpCUeL6DV9Lu/ycc01gP3UR8HbYtXLMQK6rm+
-         7sl/tuyzP/Ed2Abd89lh8MOBRn1e8PdIE5XUU=
+        bh=R43NIo2R73VFGzF1JM47RjgeeYfm8PK9++R7O6siHDc=;
+        b=C93DymPHwAeqrJ61DqxMBceoZr5Dleo4gbsUe9uqNfgEncXtZ3nH0YmQ0nb4pVJYQc
+         wB1/Lb5ulr7noGMjYgC6+/e0/8IkOGI6Bk4aP5Va3en/kPGCaiWia4Ss11UgypNnyaqN
+         FyBeuTQMp5xIrv+86vzggkLPvLWZ9m+sJoZoM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700646846; x=1701251646;
+        d=1e100.net; s=20230601; t=1700646928; x=1701251728;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gqpYEFiVYvZlFazdN/UQMK6Ht63BG7ibp8wzUAhE94Q=;
-        b=YmgzGwA3KFA7MD01qy1Oeol0Lw4fXpRICahV9L+n+glYArEUi0IVQv5ZLACsI2JaF+
-         Pcb6rMpIS+r94oso5PtiGLcZrBxkyr2f3GtKuWbLTrhIoxu/mzkR8yCKJGEk4PiJxR4b
-         RiCKUrctHyHjwY63R19/xmz0xKcuS+Zceb6lvQ8NvmDvjgnzWH2K2vrO0gl1qpS9OCFy
-         Mt9upgZF0mLw2D7pdgDVeDe22sN2B1sHZELTVdls8Nq9jBepuOVIs/YA6EyD4Wt2B0Kx
-         tiPBg+eEjcNbmLin78zv6lA3gS603Czl2DSCaSstCLv8jKfYRBRdlKLOr4+KCZQ8bSYc
-         i3DQ==
-X-Gm-Message-State: AOJu0YyxfrJyOzVKOWcugvJ2zRax3UzJe40LxT0yiizq3AVEKnrp4scv
-	DsWgCngE4P7wiK8vtzO42F42EPfKaJTpOUBxa/aXuA==
-X-Google-Smtp-Source: AGHT+IHCNrrWx92FMem7IGALOwA4e406p8Cl3SmILP8+MnTfvJ5kv7+WFRvXNjGWQP98N/64A1Tocw==
-X-Received: by 2002:ac8:5e50:0:b0:423:6f55:3bbe with SMTP id i16-20020ac85e50000000b004236f553bbemr2556299qtx.32.1700646846212;
-        Wed, 22 Nov 2023 01:54:06 -0800 (PST)
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com. [209.85.219.45])
-        by smtp.gmail.com with ESMTPSA id x12-20020ac84a0c000000b004181a8a3e2dsm4300313qtq.41.2023.11.22.01.54.05
+        bh=R43NIo2R73VFGzF1JM47RjgeeYfm8PK9++R7O6siHDc=;
+        b=iUwWXa93I04Tpe7zVlUSivpAt7ZCxA4JskbqhfYOmajnggGpjaEugNghNgmR+B5R3/
+         Xa0eLE4LT3RxpAjsWtpgKEJDt7z6yK2lPI06Pk9VdMenQs5iwqTXc64hFhtJrAmL8UnI
+         gBvc9wPiZKwEtaHyT1a2920B4bZmCflzhNM0Y9eaj4Xyb0Gkqa5tQIrvLUbh1mcWsX9c
+         NwZBYRvlcnO6HTWln+rj536BSB6nF8J80YyuXW3W6IY2Lo85rgOqYQbu7EWItT2w2Dan
+         VqH+1Giw4FINzszpn5zvz9lKpn8TsCBvmEQ510q4zkLO3MxzX+PtEOhj9lwxsQK+4sFS
+         KMLA==
+X-Gm-Message-State: AOJu0Yy9goO3+rAqUJHNOwQLQtyIbF2SahT0vE5WTBvx9ej4wEyWzN5C
+	E5VspKWX5ra50/tBfWrwrC6EKikf8VJRhPlfn6HWwg==
+X-Google-Smtp-Source: AGHT+IGcvfZgVgCvBJvWAWus6NY/kiiqBvI05+KMcYf5yy8j963Lwsx14ykezjC8W2FxFYqK37So2w==
+X-Received: by 2002:a0d:cc49:0:b0:5ca:8979:e65d with SMTP id o70-20020a0dcc49000000b005ca8979e65dmr1676595ywd.1.1700646928364;
+        Wed, 22 Nov 2023 01:55:28 -0800 (PST)
+Received: from mail-qv1-f41.google.com (mail-qv1-f41.google.com. [209.85.219.41])
+        by smtp.gmail.com with ESMTPSA id ne7-20020a056214424700b00679f2d55852sm781620qvb.3.2023.11.22.01.55.28
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Nov 2023 01:54:05 -0800 (PST)
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-677fba00a49so5518646d6.1
-        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 01:54:05 -0800 (PST)
-X-Received: by 2002:a05:6214:1782:b0:66f:ac87:73b7 with SMTP id
- ct2-20020a056214178200b0066fac8773b7mr8770176qvb.15.1700646844595; Wed, 22
- Nov 2023 01:54:04 -0800 (PST)
+        Wed, 22 Nov 2023 01:55:28 -0800 (PST)
+Received: by mail-qv1-f41.google.com with SMTP id 6a1803df08f44-66d0c777bf0so25832066d6.3
+        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 01:55:28 -0800 (PST)
+X-Received: by 2002:a05:6214:27c9:b0:679:e48e:1ec1 with SMTP id
+ ge9-20020a05621427c900b00679e48e1ec1mr1682833qvb.38.1700646927641; Wed, 22
+ Nov 2023 01:55:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,14 +62,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20231121-guenter-mini-v3-0-d8a5eae2312b@chromium.org>
- <20231121-guenter-mini-v3-1-d8a5eae2312b@chromium.org> <20231122072108.GA1465745@google.com>
- <CANiDSCunwy4wYL3-J5KNp4cG4mGsq8FtoyJ6hOr3VK+9+L2LgA@mail.gmail.com>
-In-Reply-To: <CANiDSCunwy4wYL3-J5KNp4cG4mGsq8FtoyJ6hOr3VK+9+L2LgA@mail.gmail.com>
+ <20231121-guenter-mini-v3-2-d8a5eae2312b@chromium.org> <20231122074742.GB1465745@google.com>
+ <20231122080132.GA1526356@google.com>
+In-Reply-To: <20231122080132.GA1526356@google.com>
 From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 22 Nov 2023 10:53:53 +0100
-X-Gmail-Original-Message-ID: <CANiDSCs9BZWOjDM6fxz-ipXqDAm9==aRw9giKRnk1XXyc1J35A@mail.gmail.com>
-Message-ID: <CANiDSCs9BZWOjDM6fxz-ipXqDAm9==aRw9giKRnk1XXyc1J35A@mail.gmail.com>
-Subject: Re: [PATCH v3 1/3] media: uvcvideo: Always use uvc_status_stop()
+Date: Wed, 22 Nov 2023 10:55:16 +0100
+X-Gmail-Original-Message-ID: <CANiDSCuT6uK+qGJJus=s2DjsnvqxKg4ek9xbssOw5bpmQm_e-A@mail.gmail.com>
+Message-ID: <CANiDSCuT6uK+qGJJus=s2DjsnvqxKg4ek9xbssOw5bpmQm_e-A@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] media: uvcvideo: Do not halt the device after disconnect
 To: Sergey Senozhatsky <senozhatsky@chromium.org>
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Guenter Roeck <linux@roeck-us.net>, 
 	Tomasz Figa <tfiga@chromium.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -80,77 +80,38 @@ Content-Type: text/plain; charset="UTF-8"
 
 Hi Sergey
 
-On Wed, 22 Nov 2023 at 08:35, Ricardo Ribalda <ribalda@chromium.org> wrote:
+On Wed, 22 Nov 2023 at 09:01, Sergey Senozhatsky
+<senozhatsky@chromium.org> wrote:
 >
-> Hi Sergey
+> On (23/11/22 16:47), Sergey Senozhatsky wrote:
+> > Can the following happen?
 >
-> On Wed, 22 Nov 2023 at 08:21, Sergey Senozhatsky
-> <senozhatsky@chromium.org> wrote:
+> Consider the following case (when CPU1 experienced a delay, a preemption
+> or anything):
+>
+> > CPU0                                            CPU1
+> >  uvc_disconnect()
+> >                                               uvc_video_stop_streaming()
+> >  usb_set_intfdata()
+> >  uvc_unregister_video()
 > >
-> > On (23/11/21 19:53), Ricardo Ribalda wrote:
-> > > uvc_status_stop() handles properly the race conditions with the
-> > > asynchronous worker.
-> > > Let's use uvc_status_stop() for all the code paths that require stopping
-> > > it.
-> > >
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_ctrl.c   | 4 ----
-> > >  drivers/media/usb/uvc/uvc_status.c | 2 +-
-> > >  2 files changed, 1 insertion(+), 5 deletions(-)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > index e59a463c2761..8e22a07e3e7b 100644
-> > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > @@ -2765,10 +2765,6 @@ void uvc_ctrl_cleanup_device(struct uvc_device *dev)
-> > >       struct uvc_entity *entity;
-> > >       unsigned int i;
-> > >
-> > > -     /* Can be uninitialized if we are aborting on probe error. */
-> > > -     if (dev->async_ctrl.work.func)
-> > > -             cancel_work_sync(&dev->async_ctrl.work);
-> > > -
-> > >       /* Free controls and control mappings for all entities. */
-> > >       list_for_each_entry(entity, &dev->entities, list) {
-> > >               for (i = 0; i < entity->ncontrols; ++i) {
-> > > diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-> > > index a78a88c710e2..0208612a9f12 100644
-> > > --- a/drivers/media/usb/uvc/uvc_status.c
-> > > +++ b/drivers/media/usb/uvc/uvc_status.c
-> > > @@ -292,7 +292,7 @@ int uvc_status_init(struct uvc_device *dev)
-> > >
-> > >  void uvc_status_unregister(struct uvc_device *dev)
-> > >  {
-> > > -     usb_kill_urb(dev->int_urb);
-> > > +     uvc_status_stop(dev);
+> >                                               if (!smp_load(&dev->disconnected))
 > >
-> > Sort of feels like this needs dev->lock somewhere here. Should we move 3/3
-> > to the head of the series?
+> >  smp_store_release(&dev->disconnected, true);
 > >
-> > The question is, can this be called in parallel with uvc_v4l2_release(),
-> > for instance?
+> >  kref_put(&dev->ref, uvc_delete);
 >
-> I can be called in parallel with uvc_v4l2_release(), but
-> uvc_status_stop() is thread-safe and does not take any locks after:
-> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=619d9b710cf06f7a00a17120ca92333684ac45a8
+> >                                                       uvc_video_halt()
 >
-> So this "should" be good. key-word here is should :P
+> That uvc_video_halt() cannot be legal, right?
 
-To be on the safe side I am not going to run the async work on the
-release path. will send a new revision
+This patch only takes care of calls to uvc_video_stop_streaming()
+after .disconnect.
 
->
->
-> >
-> > >       uvc_input_unregister(dev);
-> > >  }
->
->
->
-> --
-> Ricardo Ribalda
+Guenter's patch from this series should take care of the concurrent
+calls. I will resend making it explicit.
 
+Thanks!
 
 
 -- 
