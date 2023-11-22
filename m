@@ -1,143 +1,196 @@
-Return-Path: <linux-media+bounces-804-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-805-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 577917F4770
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:14:29 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20D807F4777
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:15:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A3F52811BD
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:14:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 435D21C208FE
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:14:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56AA251015;
-	Wed, 22 Nov 2023 13:14:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25A334D5A5;
+	Wed, 22 Nov 2023 13:14:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jjQAnthg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="swIZNt/s"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75A29191;
-	Wed, 22 Nov 2023 05:14:16 -0800 (PST)
-Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1D1EC6EF;
-	Wed, 22 Nov 2023 14:13:42 +0100 (CET)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B358219E;
+	Wed, 22 Nov 2023 05:14:49 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89721276;
+	Wed, 22 Nov 2023 14:14:17 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700658822;
-	bh=grxjc5oPfkc4yi8C+sR2kDM81apJg3ELEbrGiy+KFM0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jjQAnthgxn697I6YpYq0XmJj7SdfyCi69X8jm9bc82FxI506m7dUHWO5mM5RPCwwY
-	 9zEZaqo0gmCbZ+gn7OtwptjWQqpFPMRDTuhYr8O85fkAXcaJWV2sirPpVyx8PYfVzf
-	 3C1ydHpkVGZCW3Msl5TJjeuZvu3+wVziP62Eu2kc=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Wed, 22 Nov 2023 15:13:49 +0200
-Subject: [PATCH 2/2] media: imx-mipi-csis: Drop extra clock enable at
- probe()
+	s=mail; t=1700658857;
+	bh=I9y4sun9NeXdT7AZljuwRol7VPibB34QiqgjRQUZFpo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=swIZNt/sv5KAV2KlMVIqUpuJ0ECH71R84iDO/VHU3YXKGBo8la459hrmNMnogg4GR
+	 bozwtL/zl6Qj4mBnM56gTPQN2VyVNl+BUuiCALRMniJLAcs1Rg1ws659YmjEryR2T8
+	 CIVoV+uo6kmBRm/+nsJ9ANBw7U06KqNasYIy+nB8=
+Date: Wed, 22 Nov 2023 15:14:55 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sean Paul <seanpaul@chromium.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v3 3/3] media: uvcvideo: Lock video streams and queues
+ while unregistering
+Message-ID: <20231122131455.GC3909@pendragon.ideasonboard.com>
+References: <20231121-guenter-mini-v3-0-d8a5eae2312b@chromium.org>
+ <20231121-guenter-mini-v3-3-d8a5eae2312b@chromium.org>
+ <ZV3WEDZ0EfdYrImE@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231122-imx-csis-v1-2-0617368eb996@ideasonboard.com>
-References: <20231122-imx-csis-v1-0-0617368eb996@ideasonboard.com>
-In-Reply-To: <20231122-imx-csis-v1-0-0617368eb996@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
- Rui Miguel Silva <rmfrfs@gmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
- Sascha Hauer <s.hauer@pengutronix.de>, 
- Pengutronix Kernel Team <kernel@pengutronix.de>, 
- Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>
-Cc: linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2282;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=grxjc5oPfkc4yi8C+sR2kDM81apJg3ELEbrGiy+KFM0=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlXf6ixWjeF0HRbIjAcZmWDEdLJA0x39UzpL+dN
- knosF/zzH2JAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZV3+ogAKCRD6PaqMvJYe
- 9em+D/91Yj9X6HpvONi/OwvSPfSqgLbmZ4TlEQXnG25MJEds11sjNcKvQQS/TnppGbgnE295I0p
- dMJDjjrn9uqMxEQzJBme0qn3+13vBh7bxpEqr9i7Psr0Zb80KO48Vk051lWSarMw851beZT5y0Z
- tf1ItS/9MNxVg3CdXsIvy1wW9XMWCoZHIZIA8kD7xBA4JvJYoR1Odbq/80QZz0KcB09cE6nsT6f
- yMQ8PZgm8IB4/pYrN5EceOqFpbvyDScIEv8aCVL23dd/Oh2Lb7LHvXiBMf0ASgXydoErHoEYjm1
- WB9HntxOiYpMa2yfu+lsdFT4gTtM3dQhJ4oSSmdOknlDsgOg+e+5gkw8OLLzoMUv4M1RwNZLOtk
- KzbQQm2o2mlPkXHxa5Sw3WmTTw/uSH2WE5rBYuW5OuY/1qmD/QvPOy5tKtVzlOkEJtVVB4jpQnM
- T/Kr6WqOXAR2A/3sTOvGD7CBY0nszOvkC0DTXLzZHbXa1912R78h/06yDliBj5i6FwzEqE0sCgy
- ChhVFPi/rIQtkO8y/vz/cO429l1zzprFjDKwYYOcf94Cw3b2MkImKX5UIhOiElz5sKhjgGqiTcI
- N1SFkJbF5JxP/tmtP7WnqoiKJ/nvmZlRpQigzoPNpiI69PNqLND2L7jtyY5353T9DpkjFUlpHji
- kyIaf9QL0Ft2trQ==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <ZV3WEDZ0EfdYrImE@valkosipuli.retiisi.eu>
 
-The driver always enables the clocks at probe() and disables them only
-at remove(). It is not clear why the driver does this, as it supports
-runtime PM, and enables and disables the clocks in the runtime resume
-and suspend callbacks. Also, in the case runtime PM is not available,
-the driver calls the resume and suspend callbacks manually from probe()
-and remove().
+CC'ing Dan Williams.
 
-Drop the unnecessary clock enable, thus enabling the clocks only when
-actually needed.
+On Wed, Nov 22, 2023 at 10:21:04AM +0000, Sakari Ailus wrote:
+> Hi Ricardo,
+> 
+> On Tue, Nov 21, 2023 at 07:53:50PM +0000, Ricardo Ribalda wrote:
+> > From: Guenter Roeck <linux@roeck-us.net>
+> > 
+> > The call to uvc_disconnect() is not protected by any mutex.
+> > This means it can and will be called while other accesses to the video
+> > device are in progress. This can cause all kinds of race conditions,
+> > including crashes such as the following.
+> > 
+> > usb 1-4: USB disconnect, device number 3
+> > BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+> > PGD 0 P4D 0
+> > Oops: 0000 [#1] PREEMPT SMP PTI
+> > CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
+> > Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
+> > RIP: 0010:usb_ifnum_to_if+0x29/0x40
+> > Code: <...>
+> > RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
+> > RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
+> > RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
+> > RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
+> > R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
+> > R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
+> > FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
+> > CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> > CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
+> > Call Trace:
+> >  usb_hcd_alloc_bandwidth+0x1ee/0x30f
+> >  usb_set_interface+0x1a3/0x2b7
+> >  uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
+> >  uvc_video_start_streaming+0x91/0xdd [uvcvideo]
+> >  uvc_start_streaming+0x28/0x5d [uvcvideo]
+> >  vb2_start_streaming+0x61/0x143 [videobuf2_common]
+> >  vb2_core_streamon+0xf7/0x10f [videobuf2_common]
+> >  uvc_queue_streamon+0x2e/0x41 [uvcvideo]
+> >  uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
+> >  __video_do_ioctl+0x33d/0x42a
+> >  video_usercopy+0x34e/0x5ff
+> >  ? video_ioctl2+0x16/0x16
+> >  v4l2_ioctl+0x46/0x53
+> >  do_vfs_ioctl+0x50a/0x76f
+> >  ksys_ioctl+0x58/0x83
+> >  __x64_sys_ioctl+0x1a/0x1e
+> >  do_syscall_64+0x54/0xde
+> > 
+> > usb_set_interface() should not be called after the USB device has been
+> > unregistered. However, in the above case the disconnect happened after
+> > v4l2_ioctl() was called, but before the call to usb_ifnum_to_if().
+> > 
+> > Acquire various mutexes in uvc_unregister_video() to fix the majority
+> > (maybe all) of the observed race conditions.
+> > 
+> > The uvc_device lock prevents races against suspend and resume calls
+> > and the poll function.
+> > 
+> > The uvc_streaming lock prevents races against stream related functions;
+> > for the most part, those are ioctls. This lock also requires other
+> > functions using this lock to check if a video device is still registered
+> > after acquiring it. For example, it was observed that the video device
+> > was already unregistered by the time the stream lock was acquired in
+> > uvc_ioctl_streamon().
+> > 
+> > The uvc_queue lock prevents races against queue functions, Most of
+> > those are already protected by the uvc_streaming lock, but some
+> > are called directly. This is done as added protection; an actual race
+> > was not (yet) observed.
+> > 
+> > Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Cc: Alan Stern <stern@rowland.harvard.edu>
+> > Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> > Reviewed-by: Sean Paul <seanpaul@chromium.org>
+> > Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> > 
+> > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > index 413c32867617..3408b865d346 100644
+> > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > @@ -1907,14 +1907,22 @@ static void uvc_unregister_video(struct uvc_device *dev)
+> >  {
+> >  	struct uvc_streaming *stream;
+> >  
+> > +	mutex_lock(&dev->lock);
+> > +
+> >  	list_for_each_entry(stream, &dev->streams, list) {
+> >  		if (!video_is_registered(&stream->vdev))
+> >  			continue;
+> >  
+> > +		mutex_lock(&stream->mutex);
+> > +		mutex_lock(&stream->queue.mutex);
+> > +
+> >  		video_unregister_device(&stream->vdev);
+> >  		video_unregister_device(&stream->meta.vdev);
+> >  
+> >  		uvc_debugfs_cleanup_stream(stream);
+> > +
+> > +		mutex_unlock(&stream->queue.mutex);
+> > +		mutex_unlock(&stream->mutex);
+> >  	}
+> >  
+> >  	uvc_status_unregister(dev);
+> > @@ -1925,6 +1933,7 @@ static void uvc_unregister_video(struct uvc_device *dev)
+> >  	if (media_devnode_is_registered(dev->mdev.devnode))
+> >  		media_device_unregister(&dev->mdev);
+> >  #endif
+> > +	mutex_unlock(&dev->lock);
+> >  }
+> >  
+> >  int uvc_register_video_device(struct uvc_device *dev,
+> > 
+> 
+> Instead of acquiring all the possible locks, could you instead take the
+> same approach as you do with ISP? It should use refcount_t btw.
+> <URL:https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/kcam-6.1/drivers/isp/isp-device.c:
 
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/platform/nxp/imx-mipi-csis.c | 13 ++-----------
- 1 file changed, 2 insertions(+), 11 deletions(-)
+The right approach, as I've said countless of times, is to fix this at
+the cdev and V4L2 level. Dan Williams has done some ground work on this
+a while ago ([1]), and before that I posted an RFC series that
+overlapped with Dan's work (with a more naive and less efficient
+implementation of refcounting, see [2]).
 
-diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-index b39d7aeba750..b08f6d2e7516 100644
---- a/drivers/media/platform/nxp/imx-mipi-csis.c
-+++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-@@ -1435,24 +1435,18 @@ static int mipi_csis_probe(struct platform_device *pdev)
- 	/* Reset PHY and enable the clocks. */
- 	mipi_csis_phy_reset(csis);
- 
--	ret = mipi_csis_clk_enable(csis);
--	if (ret < 0) {
--		dev_err(csis->dev, "failed to enable clocks: %d\n", ret);
--		return ret;
--	}
--
- 	/* Now that the hardware is initialized, request the interrupt. */
- 	ret = devm_request_irq(dev, irq, mipi_csis_irq_handler, 0,
- 			       dev_name(dev), csis);
- 	if (ret) {
- 		dev_err(dev, "Interrupt request failed\n");
--		goto err_disable_clock;
-+		return ret;
- 	}
- 
- 	/* Initialize and register the subdev. */
- 	ret = mipi_csis_subdev_init(csis);
- 	if (ret < 0)
--		goto err_disable_clock;
-+		return ret;
- 
- 	platform_set_drvdata(pdev, &csis->sd);
- 
-@@ -1486,8 +1480,6 @@ static int mipi_csis_probe(struct platform_device *pdev)
- 	v4l2_async_nf_unregister(&csis->notifier);
- 	v4l2_async_nf_cleanup(&csis->notifier);
- 	v4l2_async_unregister_subdev(&csis->sd);
--err_disable_clock:
--	mipi_csis_clk_disable(csis);
- 
- 	return ret;
- }
-@@ -1506,7 +1498,6 @@ static void mipi_csis_remove(struct platform_device *pdev)
- 		mipi_csis_runtime_suspend(&pdev->dev);
- 
- 	pm_runtime_disable(&pdev->dev);
--	mipi_csis_clk_disable(csis);
- 	v4l2_subdev_cleanup(&csis->sd);
- 	media_entity_cleanup(&csis->sd.entity);
- 	pm_runtime_set_suspended(&pdev->dev);
+[1] https://lore.kernel.org/all/161117153776.2853729.6944617921517514510.stgit@dwillia2-desk3.amr.corp.intel.com/
+[2] https://lore.kernel.org/linux-media/20171116003349.19235-2-laurent.pinchart+renesas@ideasonboard.com/
 
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
 
