@@ -1,124 +1,213 @@
-Return-Path: <linux-media+bounces-717-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-734-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 600C67F3ECF
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 08:22:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8A5C7F3F75
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 09:04:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0187DB21118
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 07:22:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 58919B20E76
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 08:04:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9A9F1E52C;
-	Wed, 22 Nov 2023 07:22:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="OTXSxcB/"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1767420B3D;
+	Wed, 22 Nov 2023 08:04:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-x42e.google.com (mail-pf1-x42e.google.com [IPv6:2607:f8b0:4864:20::42e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BEE5D50
-	for <linux-media@vger.kernel.org>; Tue, 21 Nov 2023 23:21:14 -0800 (PST)
-Received: by mail-pf1-x42e.google.com with SMTP id d2e1a72fcca58-6c4eaa5202aso6501884b3a.1
-        for <linux-media@vger.kernel.org>; Tue, 21 Nov 2023 23:21:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1700637673; x=1701242473; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=btzJxuP/9DloLjZH5Va9+pYoBGlTVhIo1JatCNov9xI=;
-        b=OTXSxcB/hdCPN9wWpvhc1t9YyOZCEl8YYTNquxBsentcZgQTu8CODH6gO7ctNQfpYr
-         8E5wjKhJvFsPPSUWpKXHMvNH+Bf3CXUUG5Uz3M8EHnaYqnnZa7FDiFPU888bIo9VR67n
-         4GC7la2XlPg1inBa6FT+aS4OuyCaSx0+vFG1Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700637673; x=1701242473;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=btzJxuP/9DloLjZH5Va9+pYoBGlTVhIo1JatCNov9xI=;
-        b=vE/H/S5N+nipYcT2cQJq74p6CWTWmZszNM/9k4uLPB89UP5a2DkM9IU925XCYe8un+
-         y6xmeZcOiX183Q9Sm0T/2Ya547fiB+o4H4oqFOpc4ant+kbxgyMl8LiAClhfpcy4y9LZ
-         prqxpgOp3bSfgibPqdu8p06hahqs8znkqtwXYDb2TaeUEEhXL+hR++gE7pw10QTYCbx0
-         RybFLDZjwMHDSmap93vcbQwvWDviPWQ8KQ5eSScWtkxzpYjR6GVNy5SPa/LYnkBzjIFZ
-         RTySWhdgXgHXWWTGB4UlaUDPatI73MCH+JRa8kXhHL63Wbk7duG75pRJHsgLlYr5+yav
-         /Obw==
-X-Gm-Message-State: AOJu0Yz+CoDzFQE71oor9c4TwQLtqwjjHUBiDtcnhE2ciRH3DKoUTOjg
-	iyljTSrqK39awE4RGmHYyJxFFA==
-X-Google-Smtp-Source: AGHT+IG/SnMh/5aBN5j16Wk503icTKW0NfJndoV03B0S/arEvoFTCyFqbThSvKq/emWxyGb5baAOFw==
-X-Received: by 2002:a05:6a21:3288:b0:186:736f:7798 with SMTP id yt8-20020a056a21328800b00186736f7798mr1645887pzb.11.1700637673410;
-        Tue, 21 Nov 2023 23:21:13 -0800 (PST)
-Received: from google.com ([2401:fa00:8f:203:1aba:fb75:807e:7620])
-        by smtp.gmail.com with ESMTPSA id f4-20020a170902860400b001c74df14e6fsm9024022plo.284.2023.11.21.23.21.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 21 Nov 2023 23:21:13 -0800 (PST)
-Date: Wed, 22 Nov 2023 16:21:08 +0900
-From: Sergey Senozhatsky <senozhatsky@chromium.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Alan Stern <stern@rowland.harvard.edu>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sean Paul <seanpaul@chromium.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH v3 1/3] media: uvcvideo: Always use uvc_status_stop()
-Message-ID: <20231122072108.GA1465745@google.com>
-References: <20231121-guenter-mini-v3-0-d8a5eae2312b@chromium.org>
- <20231121-guenter-mini-v3-1-d8a5eae2312b@chromium.org>
+Received: from inva020.nxp.com (inva020.nxp.com [92.121.34.13])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE72D77;
+	Wed, 22 Nov 2023 00:03:55 -0800 (PST)
+Received: from inva020.nxp.com (localhost [127.0.0.1])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 7EBDC1A1662;
+	Wed, 22 Nov 2023 09:03:54 +0100 (CET)
+Received: from aprdc01srsp001v.ap-rdc01.nxp.com (aprdc01srsp001v.ap-rdc01.nxp.com [165.114.16.16])
+	by inva020.eu-rdc02.nxp.com (Postfix) with ESMTP id 1A1DE1A1672;
+	Wed, 22 Nov 2023 09:03:54 +0100 (CET)
+Received: from localhost.localdomain (shlinux2.ap.freescale.net [10.192.224.44])
+	by aprdc01srsp001v.ap-rdc01.nxp.com (Postfix) with ESMTP id 2149B181D0E2;
+	Wed, 22 Nov 2023 16:03:52 +0800 (+08)
+From: Shengjiu Wang <shengjiu.wang@nxp.com>
+To: hverkuil@xs4all.nl,
+	sakari.ailus@iki.fi,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	mchehab@kernel.org,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	shengjiu.wang@gmail.com,
+	Xiubo.Lee@gmail.com,
+	festevam@gmail.com,
+	nicoleotsuka@gmail.com,
+	lgirdwood@gmail.com,
+	broonie@kernel.org,
+	perex@perex.cz,
+	tiwai@suse.com,
+	alsa-devel@alsa-project.org,
+	linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH v11 00/15] Add audio support in v4l2 framework
+Date: Wed, 22 Nov 2023 15:23:43 +0800
+Message-Id: <1700637838-6743-1-git-send-email-shengjiu.wang@nxp.com>
+X-Mailer: git-send-email 2.7.4
+X-Virus-Scanned: ClamAV using ClamSMTP
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231121-guenter-mini-v3-1-d8a5eae2312b@chromium.org>
 
-On (23/11/21 19:53), Ricardo Ribalda wrote:
-> uvc_status_stop() handles properly the race conditions with the
-> asynchronous worker.
-> Let's use uvc_status_stop() for all the code paths that require stopping
-> it.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c   | 4 ----
->  drivers/media/usb/uvc/uvc_status.c | 2 +-
->  2 files changed, 1 insertion(+), 5 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index e59a463c2761..8e22a07e3e7b 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -2765,10 +2765,6 @@ void uvc_ctrl_cleanup_device(struct uvc_device *dev)
->  	struct uvc_entity *entity;
->  	unsigned int i;
->  
-> -	/* Can be uninitialized if we are aborting on probe error. */
-> -	if (dev->async_ctrl.work.func)
-> -		cancel_work_sync(&dev->async_ctrl.work);
-> -
->  	/* Free controls and control mappings for all entities. */
->  	list_for_each_entry(entity, &dev->entities, list) {
->  		for (i = 0; i < entity->ncontrols; ++i) {
-> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-> index a78a88c710e2..0208612a9f12 100644
-> --- a/drivers/media/usb/uvc/uvc_status.c
-> +++ b/drivers/media/usb/uvc/uvc_status.c
-> @@ -292,7 +292,7 @@ int uvc_status_init(struct uvc_device *dev)
->  
->  void uvc_status_unregister(struct uvc_device *dev)
->  {
-> -	usb_kill_urb(dev->int_urb);
-> +	uvc_status_stop(dev);
+Audio signal processing also has the requirement for memory to
+memory similar as Video.
 
-Sort of feels like this needs dev->lock somewhere here. Should we move 3/3
-to the head of the series?
+This asrc memory to memory (memory ->asrc->memory) case is a non
+real time use case.
 
-The question is, can this be called in parallel with uvc_v4l2_release(),
-for instance?
+User fills the input buffer to the asrc module, after conversion, then asrc
+sends back the output buffer to user. So it is not a traditional ALSA playback
+and capture case.
 
->  	uvc_input_unregister(dev);
->  }
+It is a specific use case,  there is no reference in current kernel.
+v4l2 memory to memory is the closed implementation,  v4l2 current
+support video, image, radio, tuner, touch devices, so it is not
+complicated to add support for this specific audio case.
+
+Because we had implemented the "memory -> asrc ->i2s device-> codec"
+use case in ALSA.  Now the "memory->asrc->memory" needs
+to reuse the code in asrc driver, so the first 3 patches is for refining
+the code to make it can be shared by the "memory->asrc->memory"
+driver.
+
+The main change is in the v4l2 side, A /dev/vl4-audioX will be created,
+user applications only use the ioctl of v4l2 framework.
+
+Other change is to add memory to memory support for two kinds of i.MX ASRC
+module.
+
+changes in v11
+- add add-fixed-point-test-controls in vivid.
+- add v4l2_ctrl_fp_compose() helper function for min and max
+
+changes in v10
+- remove FIXED_POINT type
+- change code base on media: v4l2-ctrls: add support for fraction_bits
+- fix issue reported by kernel test robot
+- remove module_alias
+
+changes in v9:
+- add MEDIA_ENT_F_PROC_AUDIO_RESAMPLER.
+- add MEDIA_INTF_T_V4L_AUDIO
+- add media controller support
+- refine the vim2m-audio to support 8k<->16k conversion.
+
+changes in v8:
+- refine V4L2_CAP_AUDIO_M2M to be 0x00000008
+- update doc for FIXED_POINT
+- address comments for imx-asrc
+
+changes in v7:
+- add acked-by from Mark
+- separate commit for fixed point, m2m audio class, audio rate controls
+- use INTEGER_MENU for rate,  FIXED_POINT for rate offset
+- remove used fmts
+- address other comments for Hans
+
+changes in v6:
+- use m2m_prepare/m2m_unprepare/m2m_start/m2m_stop to replace
+  m2m_start_part_one/m2m_stop_part_one, m2m_start_part_two/m2m_stop_part_two.
+- change V4L2_CTRL_TYPE_ASRC_RATE to V4L2_CTRL_TYPE_FIXED_POINT
+- fix warning by kernel test rebot
+- remove some unused format V4L2_AUDIO_FMT_XX
+- Get SNDRV_PCM_FORMAT from V4L2_AUDIO_FMT in driver.
+- rename audm2m to viaudm2m.
+
+changes in v5:
+- remove V4L2_AUDIO_FMT_LPCM
+- define audio pixel format like V4L2_AUDIO_FMT_S8...
+- remove rate and format in struct v4l2_audio_format.
+- Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE controls
+- updata document accordingly.
+
+changes in v4:
+- update document style
+- separate V4L2_AUDIO_FMT_LPCM and V4L2_CAP_AUDIO_M2M in separate commit
+
+changes in v3:
+- Modify documents for adding audio m2m support
+- Add audio virtual m2m driver
+- Defined V4L2_AUDIO_FMT_LPCM format type for audio.
+- Defined V4L2_CAP_AUDIO_M2M capability type for audio m2m case.
+- with modification in v4l-utils, pass v4l2-compliance test.
+
+changes in v2:
+- decouple the implementation in v4l2 and ALSA
+- implement the memory to memory driver as a platfrom driver
+  and move it to driver/media
+- move fsl_asrc_common.h to include/sound folder
+
+Shengjiu Wang (15):
+  ASoC: fsl_asrc: define functions for memory to memory usage
+  ASoC: fsl_easrc: define functions for memory to memory usage
+  ASoC: fsl_asrc: move fsl_asrc_common.h to include/sound
+  ASoC: fsl_asrc: register m2m platform device
+  ASoC: fsl_easrc: register m2m platform device
+  media: uapi: Add V4L2_CAP_AUDIO_M2M capability flag
+  media: v4l2: Add audio capture and output support
+  media: uapi: Define audio sample format fourcc type
+  media: uapi: Add V4L2_CTRL_CLASS_M2M_AUDIO
+  media: uapi: Add audio rate controls support
+  media: uapi: Declare interface types for Audio
+  media: uapi: Add an entity type for audio resampler
+  media: vivid: add fixed point test controls
+  media: imx-asrc: Add memory to memory driver
+  media: vim2m-audio: add virtual driver for audio memory to memory
+
+ .../media/mediactl/media-types.rst            |   11 +
+ .../userspace-api/media/v4l/buffer.rst        |    6 +
+ .../userspace-api/media/v4l/common.rst        |    1 +
+ .../media/v4l/dev-audio-mem2mem.rst           |   71 +
+ .../userspace-api/media/v4l/devices.rst       |    1 +
+ .../media/v4l/ext-ctrls-audio-m2m.rst         |   41 +
+ .../userspace-api/media/v4l/pixfmt-audio.rst  |   87 ++
+ .../userspace-api/media/v4l/pixfmt.rst        |    1 +
+ .../media/v4l/vidioc-enum-fmt.rst             |    2 +
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |    4 +
+ .../userspace-api/media/v4l/vidioc-g-fmt.rst  |    4 +
+ .../media/v4l/vidioc-querycap.rst             |    3 +
+ .../media/videodev2.h.rst.exceptions          |    3 +
+ .../media/common/videobuf2/videobuf2-v4l2.c   |    4 +
+ drivers/media/platform/nxp/Kconfig            |   13 +
+ drivers/media/platform/nxp/Makefile           |    1 +
+ drivers/media/platform/nxp/imx-asrc.c         | 1264 +++++++++++++++++
+ drivers/media/test-drivers/Kconfig            |   11 +
+ drivers/media/test-drivers/Makefile           |    1 +
+ drivers/media/test-drivers/vim2m-audio.c      |  799 +++++++++++
+ drivers/media/test-drivers/vivid/vivid-core.h |    2 +
+ .../media/test-drivers/vivid/vivid-ctrls.c    |   26 +
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c |    9 +
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   10 +
+ drivers/media/v4l2-core/v4l2-dev.c            |   21 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   66 +
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |   13 +-
+ include/media/v4l2-ctrls.h                    |    3 +
+ include/media/v4l2-dev.h                      |    2 +
+ include/media/v4l2-ioctl.h                    |   34 +
+ .../fsl => include/sound}/fsl_asrc_common.h   |   60 +
+ include/uapi/linux/media.h                    |    2 +
+ include/uapi/linux/v4l2-controls.h            |    9 +
+ include/uapi/linux/videodev2.h                |   41 +
+ sound/soc/fsl/fsl_asrc.c                      |  144 ++
+ sound/soc/fsl/fsl_asrc.h                      |    4 +-
+ sound/soc/fsl/fsl_asrc_dma.c                  |    2 +-
+ sound/soc/fsl/fsl_easrc.c                     |  233 +++
+ sound/soc/fsl/fsl_easrc.h                     |    6 +-
+ 39 files changed, 3008 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem2mem.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-audio-m2m.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.rst
+ create mode 100644 drivers/media/platform/nxp/imx-asrc.c
+ create mode 100644 drivers/media/test-drivers/vim2m-audio.c
+ rename {sound/soc/fsl => include/sound}/fsl_asrc_common.h (60%)
+
+-- 
+2.34.1
+
 
