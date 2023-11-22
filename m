@@ -1,270 +1,210 @@
-Return-Path: <linux-media+bounces-775-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-777-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F19297F438F
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 11:20:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E55397F439D
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 11:21:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 67C58B20E57
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 10:20:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 138F71C209E6
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 10:21:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 961A154BC8;
-	Wed, 22 Nov 2023 10:19:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0E151C4C;
+	Wed, 22 Nov 2023 10:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="eosc7BWl"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="TOc6B7UG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-xf31.google.com (mail-qv1-xf31.google.com [IPv6:2607:f8b0:4864:20::f31])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DD4283
-	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 02:19:49 -0800 (PST)
-Received: by mail-qv1-xf31.google.com with SMTP id 6a1803df08f44-6779fe2b7c6so24382676d6.0
-        for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 02:19:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1700648388; x=1701253188; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zcSnz+Cq458gO5KcUl518VSe/I/HM4THBDX1iPhbXu0=;
-        b=eosc7BWlY3t6SpC4ba6ZKyR2i8BfXEqZnp3Pq7hq7mHoa3gefHM3JxvEawJnepJZLj
-         jJo+LudlO27c0GktgqtF+kuGkMUHbVpj79p2Q2V3SXB7AV7NInsGRIX751NI2t+L71Y+
-         tfIh30YhWFp5mHjGRKmcOFpy7TZq5O1+KYPSA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700648388; x=1701253188;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zcSnz+Cq458gO5KcUl518VSe/I/HM4THBDX1iPhbXu0=;
-        b=SZpagzY3z+oeyaVXt+Qf6VUk83LfbJpA9lLboQFRAy/e1EkM/DIrlbFliM+UeFuRJP
-         CfHIEG6NNwOETFHEhbnA9xreheUdMXQzYswFSqtNj4i1riyhVLBr81aUhOJ4P9dfnw/b
-         7qUBlb6YB6ohBEah6UGQc3JD6L7BAslpLtHI2NFN2aK1Kx4xf1f73voc1uUszKDAF7mo
-         O6d0UZqpyQPdSabFsLT6YCUd6H10YQhWYv3DfK5oxUHImwIW3dSNOPpsvrj8eZkg+1XZ
-         pTItbH/V5gB6zCkxU2EJ8te7LyTzGA52e5CyfC+hsXRyU+K7GNTAVtrvGIS5n0JD40i9
-         P8zA==
-X-Gm-Message-State: AOJu0YxFVDV72pxmrA3jxD/QsvrJqW0DyNz5iPO+77h0ZKN9UyB7DEEi
-	40/zAGmY9uYdt5/DcoZkoodexA==
-X-Google-Smtp-Source: AGHT+IG1ql5Yo3ogWmJdOzQ74AC/uO3K/j8p3a33lIt+ZLaUQh5UXd2Km9Sf+UeohFhiDjYNr+7Lnw==
-X-Received: by 2002:ad4:5c68:0:b0:656:4712:af9f with SMTP id i8-20020ad45c68000000b006564712af9fmr2569070qvh.13.1700648388258;
-        Wed, 22 Nov 2023 02:19:48 -0800 (PST)
-Received: from denia.c.googlers.com (228.221.150.34.bc.googleusercontent.com. [34.150.221.228])
-        by smtp.gmail.com with ESMTPSA id di6-20020ad458e6000000b0066d1d2242desm4739352qvb.120.2023.11.22.02.19.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Nov 2023 02:19:47 -0800 (PST)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 22 Nov 2023 10:19:36 +0000
-Subject: [PATCH v4 3/3] media: uvcvideo: Do not use usb_* functions after
- .disconnect
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6EFD10D4
+	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 02:21:15 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4SZy2G0SWmzyNj;
+	Wed, 22 Nov 2023 12:21:04 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1700648472;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0TzkqQN1+5yoo0ZuLdxWhDntJnvV3RU/VE4SFGBlUyg=;
+	b=TOc6B7UGd1COAxPoERaXNLfdG55KwwAuaFSMrPmeMnkiSdgFGlcho/xwSVdpwnvg/xa7rk
+	4JMmKzGvr2tb3dahSuhkPzzxufpwHoodtFWOxo2aQpw/pXfLYsytlCBz0src33s5dJeRr5
+	JTZ24r0fvV3w9Cm5iKTjl+/vA2EVH8s=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1700648472;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0TzkqQN1+5yoo0ZuLdxWhDntJnvV3RU/VE4SFGBlUyg=;
+	b=pVc3KtTbUb0lSGYuF7NneQUpvUvetScx/PwSC35MIsLQh3rPZFGboQTEbch5S+OF45AIUA
+	lWk1SiX++m+GSSUgwZe8pttt/Zjg3Dxg4RThKe3cv5QIq+b8mX44mGl2d5Xus2VC8EUhUF
+	C3kNEdTX2oLSd8LA7QVBaNDwVMjJPmo=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1700648472; a=rsa-sha256; cv=none;
+	b=qu2IxDVD0IMvjsS26Vu0E0ds+B9n4XTVKiECt6ndoSw/4Za+f9cdUslzVuvA8RH7avEdOY
+	4o/nLjmNBhBT86Vqsu+79yrbMyjqQ+fUFovfC6fhRQfdDqKTAOK/JGJAo2l+OTiDFmcOU+
+	xhwbnwb7vDhC8j4nJam7bPEWAXgogfU=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 54E46634C94;
+	Wed, 22 Nov 2023 12:21:04 +0200 (EET)
+Date: Wed, 22 Nov 2023 10:21:04 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sean Paul <seanpaul@chromium.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v3 3/3] media: uvcvideo: Lock video streams and queues
+ while unregistering
+Message-ID: <ZV3WEDZ0EfdYrImE@valkosipuli.retiisi.eu>
+References: <20231121-guenter-mini-v3-0-d8a5eae2312b@chromium.org>
+ <20231121-guenter-mini-v3-3-d8a5eae2312b@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231122-guenter-mini-v4-3-3d94e1e34dc1@chromium.org>
-References: <20231122-guenter-mini-v4-0-3d94e1e34dc1@chromium.org>
-In-Reply-To: <20231122-guenter-mini-v4-0-3d94e1e34dc1@chromium.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Guenter Roeck <linux@roeck-us.net>, Tomasz Figa <tfiga@chromium.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Alan Stern <stern@rowland.harvard.edu>, 
- Hans Verkuil <hverkuil-cisco@xs4all.nl>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Sean Paul <seanpaul@chromium.org>, 
- Ricardo Ribalda <ribalda@chromium.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-X-Mailer: b4 0.12.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231121-guenter-mini-v3-3-d8a5eae2312b@chromium.org>
 
-usb drivers should not call to any I/O function after the
-.disconnect() callback has been triggered.
-https://www.kernel.org/doc/html/latest/driver-api/usb/callbacks.html#the-disconnect-callback
+Hi Ricardo,
 
-If an application is receiving frames form a camera and the device is
-disconnected: the device will call close() after the usb .disconnect()
-callback has been called. The streamoff path will call usb_set_interface
-or usb_clear_halt, which is not allowed.
+On Tue, Nov 21, 2023 at 07:53:50PM +0000, Ricardo Ribalda wrote:
+> From: Guenter Roeck <linux@roeck-us.net>
+> 
+> The call to uvc_disconnect() is not protected by any mutex.
+> This means it can and will be called while other accesses to the video
+> device are in progress. This can cause all kinds of race conditions,
+> including crashes such as the following.
+> 
+> usb 1-4: USB disconnect, device number 3
+> BUG: unable to handle kernel NULL pointer dereference at 0000000000000000
+> PGD 0 P4D 0
+> Oops: 0000 [#1] PREEMPT SMP PTI
+> CPU: 0 PID: 5633 Comm: V4L2CaptureThre Not tainted 4.19.113-08536-g5d29ca36db06 #1
+> Hardware name: GOOGLE Edgar, BIOS Google_Edgar.7287.167.156 03/25/2019
+> RIP: 0010:usb_ifnum_to_if+0x29/0x40
+> Code: <...>
+> RSP: 0018:ffffa46f42a47a80 EFLAGS: 00010246
+> RAX: 0000000000000000 RBX: 0000000000000000 RCX: ffff904a396c9000
+> RDX: ffff904a39641320 RSI: 0000000000000001 RDI: 0000000000000000
+> RBP: ffffa46f42a47a80 R08: 0000000000000002 R09: 0000000000000000
+> R10: 0000000000009975 R11: 0000000000000009 R12: 0000000000000000
+> R13: ffff904a396b3800 R14: ffff904a39e88000 R15: 0000000000000000
+> FS: 00007f396448e700(0000) GS:ffff904a3ba00000(0000) knlGS:0000000000000000
+> CS: 0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 0000000000000000 CR3: 000000016cb46000 CR4: 00000000001006f0
+> Call Trace:
+>  usb_hcd_alloc_bandwidth+0x1ee/0x30f
+>  usb_set_interface+0x1a3/0x2b7
+>  uvc_video_start_transfer+0x29b/0x4b8 [uvcvideo]
+>  uvc_video_start_streaming+0x91/0xdd [uvcvideo]
+>  uvc_start_streaming+0x28/0x5d [uvcvideo]
+>  vb2_start_streaming+0x61/0x143 [videobuf2_common]
+>  vb2_core_streamon+0xf7/0x10f [videobuf2_common]
+>  uvc_queue_streamon+0x2e/0x41 [uvcvideo]
+>  uvc_ioctl_streamon+0x42/0x5c [uvcvideo]
+>  __video_do_ioctl+0x33d/0x42a
+>  video_usercopy+0x34e/0x5ff
+>  ? video_ioctl2+0x16/0x16
+>  v4l2_ioctl+0x46/0x53
+>  do_vfs_ioctl+0x50a/0x76f
+>  ksys_ioctl+0x58/0x83
+>  __x64_sys_ioctl+0x1a/0x1e
+>  do_syscall_64+0x54/0xde
+> 
+> usb_set_interface() should not be called after the USB device has been
+> unregistered. However, in the above case the disconnect happened after
+> v4l2_ioctl() was called, but before the call to usb_ifnum_to_if().
+> 
+> Acquire various mutexes in uvc_unregister_video() to fix the majority
+> (maybe all) of the observed race conditions.
+> 
+> The uvc_device lock prevents races against suspend and resume calls
+> and the poll function.
+> 
+> The uvc_streaming lock prevents races against stream related functions;
+> for the most part, those are ioctls. This lock also requires other
+> functions using this lock to check if a video device is still registered
+> after acquiring it. For example, it was observed that the video device
+> was already unregistered by the time the stream lock was acquired in
+> uvc_ioctl_streamon().
+> 
+> The uvc_queue lock prevents races against queue functions, Most of
+> those are already protected by the uvc_streaming lock, but some
+> are called directly. This is done as added protection; an actual race
+> was not (yet) observed.
+> 
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Alan Stern <stern@rowland.harvard.edu>
+> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+> Reviewed-by: Sean Paul <seanpaul@chromium.org>
+> Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index 413c32867617..3408b865d346 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -1907,14 +1907,22 @@ static void uvc_unregister_video(struct uvc_device *dev)
+>  {
+>  	struct uvc_streaming *stream;
+>  
+> +	mutex_lock(&dev->lock);
+> +
+>  	list_for_each_entry(stream, &dev->streams, list) {
+>  		if (!video_is_registered(&stream->vdev))
+>  			continue;
+>  
+> +		mutex_lock(&stream->mutex);
+> +		mutex_lock(&stream->queue.mutex);
+> +
+>  		video_unregister_device(&stream->vdev);
+>  		video_unregister_device(&stream->meta.vdev);
+>  
+>  		uvc_debugfs_cleanup_stream(stream);
+> +
+> +		mutex_unlock(&stream->queue.mutex);
+> +		mutex_unlock(&stream->mutex);
+>  	}
+>  
+>  	uvc_status_unregister(dev);
+> @@ -1925,6 +1933,7 @@ static void uvc_unregister_video(struct uvc_device *dev)
+>  	if (media_devnode_is_registered(dev->mdev.devnode))
+>  		media_device_unregister(&dev->mdev);
+>  #endif
+> +	mutex_unlock(&dev->lock);
+>  }
+>  
+>  int uvc_register_video_device(struct uvc_device *dev,
+> 
 
-This patch only solves the calls to close() *after* .disconnect() is
-being called.
-
-Trace:
-[ 1065.389723] drivers/media/usb/uvc/uvc_driver.c:2248 uvc_disconnect enter
-[ 1065.390160] drivers/media/usb/uvc/uvc_driver.c:2264 uvc_disconnect exit
-[ 1065.433956] drivers/media/usb/uvc/uvc_v4l2.c:659 uvc_v4l2_release enter
-[ 1065.433973] drivers/media/usb/uvc/uvc_video.c:2274 uvc_video_stop_streaming enter
-[ 1065.434560] drivers/media/usb/uvc/uvc_video.c:2285 uvc_video_stop_streaming exit
-[ 1065.435154] drivers/media/usb/uvc/uvc_v4l2.c:680 uvc_v4l2_release exit
-[ 1065.435188] drivers/media/usb/uvc/uvc_driver.c:2248 uvc_disconnect enter
-
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_driver.c |  4 +++-
- drivers/media/usb/uvc/uvc_status.c |  8 +++----
- drivers/media/usb/uvc/uvc_v4l2.c   |  2 +-
- drivers/media/usb/uvc/uvc_video.c  | 45 ++++++++++++++++++++++++--------------
- drivers/media/usb/uvc/uvcvideo.h   |  4 +++-
- 5 files changed, 39 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index ded2cb6ce14f..d78640d422f4 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2266,6 +2266,8 @@ static void uvc_disconnect(struct usb_interface *intf)
- 		return;
- 
- 	uvc_unregister_video(dev);
-+	/* Barrier needed to pair with uvc_video_stop_streaming(). */
-+	smp_store_release(&dev->disconnected, true);
- 	kref_put(&dev->ref, uvc_delete);
- }
- 
-@@ -2282,7 +2284,7 @@ static int uvc_suspend(struct usb_interface *intf, pm_message_t message)
- 	    UVC_SC_VIDEOCONTROL) {
- 		mutex_lock(&dev->lock);
- 		if (dev->users)
--			uvc_status_stop(dev);
-+			uvc_status_stop(dev, true);
- 		mutex_unlock(&dev->lock);
- 		return 0;
- 	}
-diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
-index 0208612a9f12..9c5da1244999 100644
---- a/drivers/media/usb/uvc/uvc_status.c
-+++ b/drivers/media/usb/uvc/uvc_status.c
-@@ -292,7 +292,7 @@ int uvc_status_init(struct uvc_device *dev)
- 
- void uvc_status_unregister(struct uvc_device *dev)
- {
--	uvc_status_stop(dev);
-+	uvc_status_stop(dev, false);
- 	uvc_input_unregister(dev);
- }
- 
-@@ -310,7 +310,7 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
- 	return usb_submit_urb(dev->int_urb, flags);
- }
- 
--void uvc_status_stop(struct uvc_device *dev)
-+void uvc_status_stop(struct uvc_device *dev, bool run_async_work)
- {
- 	struct uvc_ctrl_work *w = &dev->async_ctrl;
- 
-@@ -326,7 +326,7 @@ void uvc_status_stop(struct uvc_device *dev)
- 	 * Cancel any pending asynchronous work. If any status event was queued,
- 	 * process it synchronously.
- 	 */
--	if (cancel_work_sync(&w->work))
-+	if (cancel_work_sync(&w->work) && run_async_work)
- 		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
- 
- 	/* Kill the urb. */
-@@ -338,7 +338,7 @@ void uvc_status_stop(struct uvc_device *dev)
- 	 * cancelled before returning or it could then race with a future
- 	 * uvc_status_start() call.
- 	 */
--	if (cancel_work_sync(&w->work))
-+	if (cancel_work_sync(&w->work) && run_async_work)
- 		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
- 
- 	/*
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index f4988f03640a..f90206263ff4 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -672,7 +672,7 @@ static int uvc_v4l2_release(struct file *file)
- 
- 	mutex_lock(&stream->dev->lock);
- 	if (--stream->dev->users == 0)
--		uvc_status_stop(stream->dev);
-+		uvc_status_stop(stream->dev, false);
- 	mutex_unlock(&stream->dev->lock);
- 
- 	usb_autopm_put_interface(stream->dev->intf);
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 28dde08ec6c5..f5ef375088de 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -2243,28 +2243,39 @@ int uvc_video_start_streaming(struct uvc_streaming *stream)
- 	return ret;
- }
- 
--void uvc_video_stop_streaming(struct uvc_streaming *stream)
-+static void uvc_video_halt(struct uvc_streaming *stream)
- {
--	uvc_video_stop_transfer(stream, 1);
-+	unsigned int epnum;
-+	unsigned int pipe;
-+	unsigned int dir;
- 
- 	if (stream->intf->num_altsetting > 1) {
- 		usb_set_interface(stream->dev->udev, stream->intfnum, 0);
--	} else {
--		/*
--		 * UVC doesn't specify how to inform a bulk-based device
--		 * when the video stream is stopped. Windows sends a
--		 * CLEAR_FEATURE(HALT) request to the video streaming
--		 * bulk endpoint, mimic the same behaviour.
--		 */
--		unsigned int epnum = stream->header.bEndpointAddress
--				   & USB_ENDPOINT_NUMBER_MASK;
--		unsigned int dir = stream->header.bEndpointAddress
--				 & USB_ENDPOINT_DIR_MASK;
--		unsigned int pipe;
--
--		pipe = usb_sndbulkpipe(stream->dev->udev, epnum) | dir;
--		usb_clear_halt(stream->dev->udev, pipe);
-+		return;
- 	}
- 
-+	/*
-+	 * UVC doesn't specify how to inform a bulk-based device
-+	 * when the video stream is stopped. Windows sends a
-+	 * CLEAR_FEATURE(HALT) request to the video streaming
-+	 * bulk endpoint, mimic the same behaviour.
-+	 */
-+	epnum = stream->header.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK;
-+	dir = stream->header.bEndpointAddress & USB_ENDPOINT_DIR_MASK;
-+	pipe = usb_sndbulkpipe(stream->dev->udev, epnum) | dir;
-+	usb_clear_halt(stream->dev->udev, pipe);
-+}
-+
-+void uvc_video_stop_streaming(struct uvc_streaming *stream)
-+{
-+	uvc_video_stop_transfer(stream, 1);
-+
-+	/*
-+	 * Barrier needed to pair with uvc_disconnect().
-+	 * We cannot call usb_* functions on a disconnected USB device.
-+	 */
-+	if (!smp_load_acquire(&stream->dev->disconnected))
-+		uvc_video_halt(stream);
-+
- 	uvc_video_clock_cleanup(stream);
- }
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 6fb0a78b1b00..5b1a3643de05 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -559,6 +559,8 @@ struct uvc_device {
- 	unsigned int users;
- 	atomic_t nmappings;
- 
-+	bool disconnected;
-+
- 	/* Video control interface */
- #ifdef CONFIG_MEDIA_CONTROLLER
- 	struct media_device mdev;
-@@ -745,7 +747,7 @@ int uvc_status_init(struct uvc_device *dev);
- void uvc_status_unregister(struct uvc_device *dev);
- void uvc_status_cleanup(struct uvc_device *dev);
- int uvc_status_start(struct uvc_device *dev, gfp_t flags);
--void uvc_status_stop(struct uvc_device *dev);
-+void uvc_status_stop(struct uvc_device *dev, bool run_async_work);
- 
- /* Controls */
- extern const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited;
+Instead of acquiring all the possible locks, could you instead take the
+same approach as you do with ISP? It should use refcount_t btw.
+<URL:https://chromium.googlesource.com/chromiumos/third_party/kernel/+/refs/heads/kcam-6.1/drivers/isp/isp-device.c:
 
 -- 
-2.43.0.rc1.413.gea7ed67945-goog
+Regards,
 
+Sakari Ailus
 
