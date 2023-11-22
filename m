@@ -1,171 +1,191 @@
-Return-Path: <linux-media+bounces-861-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-862-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB5A57F5012
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 19:59:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B48037F50E4
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 20:48:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5A06281645
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 18:59:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 158E0B20C0B
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 19:48:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B0B75C8E5;
-	Wed, 22 Nov 2023 18:59:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D95F63D3A9;
+	Wed, 22 Nov 2023 19:48:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="SfmhPXUW"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sensoray.com header.i=@sensoray.com header.b="UTXca7fw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2042.outbound.protection.outlook.com [40.107.92.42])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 077131AE;
-	Wed, 22 Nov 2023 10:58:08 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=hYA0m8RAFYrlEi2KSJQwcLcnbJvWhV0quu2Na8SIqSQHxkLGYc2cMxCH+js9Jm29FeHCHTk3lisrJg0MD0WGoUSKe73HnFEhVI+5vxaUMNcGyfsyDK70AfZydOCswtxRaUcu4BIpnwEwfSuqVZyJQiKFPGqhHI6Ie5A3pjqg3UUZdtUavtf2n9OWGedcKjs0bw2FMtMC4skYR9MK2jLU82NvC0Bf+khWi2R6mWmrZ3RI6oknTZ0e9R8e+s6OpluY9kvjhPeZuDOzdKvTmMCwYFSAfd5Q99Gf9L5EpS4RzjNFa42T8vM08suA4E/D2RGNMX/PVqgvA6ffYviIutUcJA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UG62bpOSXNPnq8W0MEokfLx+N7IK/57iX9YjTdYeHNs=;
- b=igHJuk3KynjIQFw64RGfJdbE+jNsBCHAaC1lJHrqDj6KI4sNOgEiZ+b5EBd+pqcwfbgJEHi6IoaTl5tLywrHzw0QhHrNSt0jz3krwKWW5pwy6ZGTxgJajyL/EG4UusJcwDysnF/6E9RUmowHyPG+iZnGQE6mDtjWM0PjKui7Qp5qTuNFbnKpkfC2yDQhmNkLkhoWRkuLwa+vYRDeI3+4Yw9oDqtxNLSBmmtJjga830c1Xcr6Jt6sXYOG5YJ+Sk4KadswS2ycYfYL55/4TskVEwXhTdfAM1I1PTWOmiQ2l1AVj6bOawftTJSwq6qGzmXb8w1rOIVDBTjdO2xYa17NJQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UG62bpOSXNPnq8W0MEokfLx+N7IK/57iX9YjTdYeHNs=;
- b=SfmhPXUWrHt3b76uO2RKE/Y9AacYTy2EfzVSQ7ha53Ukk7FwxUPIeLhYqi/MdKjKWAF8dwVWG3944p7Xi2Xubajs5YoxuJE8RJxc+WQQOLeuXwnMxRnieb9p9TuWUo8t4bZEAyy0tP8fXJ6w9mENHCZcs+wvIzcdRqxTat89SqE=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
- by SN7PR12MB7955.namprd12.prod.outlook.com (2603:10b6:806:34d::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7002.26; Wed, 22 Nov
- 2023 18:58:05 +0000
-Received: from BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
- ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7025.019; Wed, 22 Nov 2023
- 18:58:05 +0000
-Message-ID: <c5ae3f32-0779-4583-8fe6-92f5dea5ede6@amd.com>
-Date: Wed, 22 Nov 2023 19:58:00 +0100
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf: Correct the documentation of name and exp_name
- symbols
-Content-Language: en-US
-To: Ramesh Errabolu <Ramesh.Errabolu@amd.com>, amd-gfx@lists.freedesktop.org,
- sumit.semwal@linaro.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org
-References: <20231122160556.24948-1-Ramesh.Errabolu@amd.com>
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20231122160556.24948-1-Ramesh.Errabolu@amd.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0015.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:c8::7) To BN8PR12MB3587.namprd12.prod.outlook.com
- (2603:10b6:408:43::13)
+Received: from omta38.uswest2.a.cloudfilter.net (omta38.uswest2.a.cloudfilter.net [35.89.44.37])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3AFBB98
+	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 11:48:19 -0800 (PST)
+Received: from eig-obgw-6006a.ext.cloudfilter.net ([10.0.30.182])
+	by cmsmtp with ESMTPS
+	id 5sNErIpgHKOkL5tCsrljFZ; Wed, 22 Nov 2023 19:48:18 +0000
+Received: from gator3086.hostgator.com ([50.87.144.121])
+	by cmsmtp with ESMTPS
+	id 5tCsriC7aGKIc5tCsrMxtL; Wed, 22 Nov 2023 19:48:18 +0000
+X-Authority-Analysis: v=2.4 cv=E+beGIRl c=1 sm=1 tr=0 ts=655e5b02
+ a=qMXOcmIMY6YlrKEg1GzxDg==:117 a=QsTHvn2EeHXCImuSLmd++Q==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=BNY50KLci1gA:10 a=6kiSLZGAxYIA:10 a=wXneSEFuAAAA:8 a=O5gdn_nqc15GaX5jBfQA:9
+ a=YVKGGmaMxpnpCiYzuRtG:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sensoray.com; s=default; h=Content-Transfer-Encoding:MIME-Version:
+	Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=FxgRLDfk2DeJrI/hOHa3514IqQg2KmB3MnVQtTz3KSE=; b=UTXca7fwdVk7Sb1lC1QeZ2JsUb
+	c3TPHTzpZJQMbSLEDr5tooNqh/yzu+C8Blc/G238UgMehwfUxBQbzYHh6DRxer2Pi+rIIdLyEJfvo
+	5XqwSiy3XXIZy8JXFJgJ8jDVLHNTnisOxZaMaFgG967uIAe7NSgtqRBlkhqlVYG5YbEw=;
+Received: from [50.126.89.90] (port=34980 helo=localhost.localdomain)
+	by gator3086.hostgator.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.95)
+	(envelope-from <dean@sensoray.com>)
+	id 1r5tCr-000OEw-Rl;
+	Wed, 22 Nov 2023 13:48:17 -0600
+From: Dean Anderson <dean@sensoray.com>
+To: linux-media@vger.kernel.org
+Cc: dean@sensoray.com
+Subject: [PATCH] media: usb: s2255: device-id custom V4L2_CID
+Date: Wed, 22 Nov 2023 11:48:38 -0800
+Message-Id: <20231122194838.13285-1-dean@sensoray.com>
+X-Mailer: git-send-email 2.30.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|SN7PR12MB7955:EE_
-X-MS-Office365-Filtering-Correlation-Id: a901da26-9356-4525-8f9f-08dbeb8cf5a6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	FumYCVb9oDKeqwSysGFDRIk9NdaErTRHq+37S3Q5Xs4D5Uc3ZE414SDwCoOOeCzmt7cUEAxEsPYlbatZV1l9jzC9dr+heCcVYRD0UmIPnICYWNhmgXmN03zeDE8EyOPqwV63/mQaucHLyT9Cs5vybwuGuuJzqWFEVlaR6USYiILouGimPv0WjmYnKOX/V0WXx6y0f7wzWrYkE/PwEYxtoB8Rpw5jP1zH1V2UeJbbI763yXn21HBP9stMDm03DyMHyJuaxiW+hWm/c0hNgBTViBocT7quqjLZE5RlC9MSdJfjjUdPFfC4DrS8OAX1BJfnHn0dzEg3JZxI8BG/zBePOfGZpoKeLTFFqeEkDcLtLePX0tr2TBrU+asKpOelXqmejDGWVxuSZZlq10EjKEtMQwUqeNxROHnX+QYwL0+E0+C4IhdZZ20W+WgU7dg7mRq3ibG1G0xc4HAL5RkQ9Ex3ujt7Sz/xaQ5m5iAiIFdocuoWHWsw1aT26JEMRB6ny7R9Z54vRnXpwTYQTwu+BWuVsALM5qBJzTzrDXiEeY5s2JDM3olIbTuNJ1ajzQ4/MIeMhNd6b3hC4qHV5mJSL2wyDG9RLr+mEZoTaBnjkP70OYnsdLXzgsIrVAvrJIWiU+/Y5wDc3ffRQO1IpXjwU/y5nA==
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(396003)(39860400002)(376002)(366004)(230922051799003)(451199024)(186009)(64100799003)(1800799012)(66574015)(2906002)(6506007)(26005)(5660300002)(41300700001)(6512007)(83380400001)(2616005)(38100700002)(8676002)(8936002)(478600001)(6486002)(36756003)(66476007)(66556008)(66946007)(316002)(6666004)(31696002)(86362001)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RXppNUhLY29wNVRqVEtHVjJhVy9OVitLdjgxWGxiM2t5Q2RwWEVCRDZSeVVN?=
- =?utf-8?B?NW9USGhyRjV1UWVoYXNiT1ZzdkpRSmUwYUVSNmxHVEN6d1NFb3IxaUtIeUxx?=
- =?utf-8?B?aVVLZWtPTWI2YXh1aUg4RGZpN2MrakpyMGhweUtKWE5lTjJaK0xodXNTZXNK?=
- =?utf-8?B?aVllL1NaUFZtZHNkWTRHVEZlTGI4eUtrc3A4cEREaHlKRTF1dS9qckptL2hO?=
- =?utf-8?B?THhxRmJwQ2MxZ3FSa3FBaXBQK1Vmbjk3ZlBMQk1XbkYyRWNya0tDcWZzSU1C?=
- =?utf-8?B?OEJGenp3aTE0dzZBS05sV1YyRWdWN1hRbFl1aHB3SFdFZXdjUGgybUFIekJZ?=
- =?utf-8?B?VGxUdmhQSzliUk45TkFNeEhnWjN3dXJncGxKZitETDZJRzlwTlZSeHR5akRv?=
- =?utf-8?B?VTBkVFRxMkRTMEkxMGY1cytHY0xwOUtLZG1EeWlrcmNnSm9ydSt2WmkwUFNL?=
- =?utf-8?B?bVJCMmNseGJyb1ZkU0ovZCtFVWRNakhrQUpGV1dsMitNMTY4bDFCbDlXeTVU?=
- =?utf-8?B?YnhXbCtQM3UyWmRHWGRZQzUyK05nbjI4dGJEaWFYeGtDNjVmYnVZc1A3NDh5?=
- =?utf-8?B?ei8zbUEzdTNmTC9ZQlFacm8wMVJmbkRTMnZLcGJoZk9GbEVIdy9zaVRNcjR0?=
- =?utf-8?B?ZlJOdjJMSXVQTnMwcCsvK25ZOXh4M1d4SHlVblJ2aG9iUXE0b2t4SWFtZ1pm?=
- =?utf-8?B?VGo4TkJkTFAzWmttRWlSK0tkSDBzeExYRUszNzZPZGdJNis0RDNmbmJBRHY0?=
- =?utf-8?B?ZkNiaHo4MkNVV2ZRK1dxc0xyT3Vqb1FCSDQ5ZjczMmFaWlF3eEFEUVliT1lU?=
- =?utf-8?B?WGJsWUJSdEJZVlVpWDM4alNSVmlFZnBDRzlldi9uR2Z6elYvY0xJY0Zpb2w0?=
- =?utf-8?B?YnVFRDB1NjVGNGEvU21MMm91SWU0Z2UvdjB6NVN4QlExR0J4MSs0bWphQVNa?=
- =?utf-8?B?dkNzRnA1QTFjSEliMWlwckhFOG9HMENkb0hTdG5pRXNUVlY0ZXhpSWsvbngy?=
- =?utf-8?B?T1dYMUs2dXE3bW1uZ3lZVmZCMWU5a2k5Q05wN2YyOUtVbjNCS0V0TWh0cGda?=
- =?utf-8?B?b2MwVGZlaVorNnZCTzlER0R6bEU0NDljeGtTVkM1VDB6b1VNR3JuMnNJeTds?=
- =?utf-8?B?blQ3MG10RVZzaTBrekJwcEpRMTJSZFBDQjZzZWV6bFQ4c2lqbFh6R2thYnNm?=
- =?utf-8?B?T21SNWdvZER3WGt3azExa0xmWDRXVlgrYjJYRCtvU054YkJtZk1qREJmdVZY?=
- =?utf-8?B?QnhMVGhwYTZ4bGdtaWFnWGNCVW5sUmRpSTlGelliQitraVdhdWFKQU1HaVl4?=
- =?utf-8?B?azFNMFdmckcvemlZRXpud2h1MldPWjJndnhHT3FuTTNLRWNxalRDZ3ZaSmxH?=
- =?utf-8?B?Z3RDN0VDcHFEbmJzT3dXbGU4T1AyZjhSMHB6Ly9rUldOd1UvbEhybWRGeDlU?=
- =?utf-8?B?SWlvb1FYVzcvTm9MajB6TGdDK2dGWGVPdUwzREQyVVY2T1RxbjREd1orb09l?=
- =?utf-8?B?QUxrTjY4U2VpUzFoZTBGbEkvZk44MzNiU3dERW4waG9VUnpydElHOEZpQUt3?=
- =?utf-8?B?QlpOOEpBUDNsMlZVS3RPU3NLMWx5a3JKZENwRGkvODdmSVRpTzE4WGNGWjdD?=
- =?utf-8?B?QW5MK2M3VGtEa2JLNmQvRTlPa0JNdUFTK09Sc1dQQUFyd3pZa1JPL0s4WnNk?=
- =?utf-8?B?SnJtWmNwUmRmY1BET2VrY1BiZkMxYTlHWWEwTkF4MWJXUkplUkczY2dEMHY5?=
- =?utf-8?B?QlRDTGtCeURtM0hnN2x0dlRLUXVlMW41VHZRdE1XYUxUZytnZWZiaW4wVnZT?=
- =?utf-8?B?QXZSY0xURWpmQWxkY0kyQm44VlNYcGd2RVVMMVpaNGwzV0RLdkRKREN1TG82?=
- =?utf-8?B?dVd0c0RUWUM4RzNtbFluNGpYYXlIMllkbFd0T3hzQVlrQTYrdGx6blJ1bTM4?=
- =?utf-8?B?a3ZQY1dpTVg4QWM5WDlOOFdPZHlLNEhYbm9xaFhQRG1lUFNJMGRlU1BJRWwy?=
- =?utf-8?B?K0w3WnY2azNSSGllRUV2c2dRTDFhRHZjb3ZnWWxnQ2lqMDhxVk0xWmRqeklL?=
- =?utf-8?B?M3RPemd2eEVWbnhVK3AvWVQrNkVqTzcvT3BPemlWZnNPU1Y3RHNXNDBRYm1C?=
- =?utf-8?Q?YbzhoflzHUJjkoysGYd6g0+md?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a901da26-9356-4525-8f9f-08dbeb8cf5a6
-X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 18:58:05.4384
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: aKK1XNzlh9WuZiAvNf2luWdmMv6j+jc3urnvhCRG7Szt3hszuEZ4DzCRt7bLpMrc
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB7955
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator3086.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - sensoray.com
+X-BWhitelist: no
+X-Source-IP: 50.126.89.90
+X-Source-L: No
+X-Exim-ID: 1r5tCr-000OEw-Rl
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: (localhost.localdomain) [50.126.89.90]:34980
+X-Source-Auth: dean@sensoray.com
+X-Email-Count: 4
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: c2Vuc29yYXk7c2Vuc29yYXk7Z2F0b3IzMDg2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfEocSfzPWi+b+vOItzuuHwhbx7a9YXOsp3eMulpkCgjfgELQJKe4ocz+TyJexhQZsW8SGnewjGTMwfpypHgsJCGqmjW2z8UQvFUSFlCl4UUNcEeHzCrI
+ JkjRVNRKFg9msJxAvDf1qxSPKpVWV3nRRvKXFF5jL2oAm2SeIsUz6/xkmYJnBPnDhurRQcIlh/Nm+Jyos6rhfIEAj9EY/ScV/X4=
 
-Am 22.11.23 um 17:05 schrieb Ramesh Errabolu:
-> Fix the documentation of struct dma_buf members name and exp_name
-> as to how these members are to be used and accessed.
->
-> Signed-off-by: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
+Adding V4L2 read-only control id for device id as hardware
+does not support embedding the device-id in the USB device descriptors.
 
-Reviewed-by: Christian König <christian.koenig@amd.com>
+base-commit: 3e238417254bfdcc23fe207780b59cbb08656762
 
-> ---
->   include/linux/dma-buf.h | 11 +++++++----
->   1 file changed, 7 insertions(+), 4 deletions(-)
->
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index 3f31baa3293f..8ff4add71f88 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -343,16 +343,19 @@ struct dma_buf {
->   	/**
->   	 * @exp_name:
->   	 *
-> -	 * Name of the exporter; useful for debugging. See the
-> -	 * DMA_BUF_SET_NAME IOCTL.
-> +	 * Name of the exporter; useful for debugging. Must not be NULL
->   	 */
->   	const char *exp_name;
->   
->   	/**
->   	 * @name:
->   	 *
-> -	 * Userspace-provided name; useful for accounting and debugging,
-> -	 * protected by dma_resv_lock() on @resv and @name_lock for read access.
-> +	 * Userspace-provided name. Default value is NULL. If not NULL,
-> +	 * length cannot be longer than DMA_BUF_NAME_LEN, including NIL
-> +	 * char. Useful for accounting and debugging. Read/Write accesses
-> +	 * are protected by @name_lock
-> +	 *
-> +	 * See the IOCTLs DMA_BUF_SET_NAME or DMA_BUF_SET_NAME_A/B
->   	 */
->   	const char *name;
->   
+Signed-off-by: Dean Anderson <dean@sensoray.com>
+
+---
+ drivers/media/usb/s2255/s2255drv.c | 49 +++++++++++++++++++++++++++++-
+ 1 file changed, 48 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/s2255/s2255drv.c b/drivers/media/usb/s2255/s2255drv.c
+index 3c2627712fe9..c2248bbc7840 100644
+--- a/drivers/media/usb/s2255/s2255drv.c
++++ b/drivers/media/usb/s2255/s2255drv.c
+@@ -40,7 +40,7 @@
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-event.h>
+ 
+-#define S2255_VERSION		"1.25.1"
++#define S2255_VERSION		"1.26.1"
+ #define FIRMWARE_FILE_NAME "f2255usb.bin"
+ 
+ /* default JPEG quality */
+@@ -60,6 +60,7 @@
+ #define S2255_MIN_BUFS          2
+ #define S2255_SETMODE_TIMEOUT   500
+ #define S2255_VIDSTATUS_TIMEOUT 350
++#define S2255_MARKER_FIRMWARE	cpu_to_le32(0xDDCCBBAAL)
+ #define S2255_MARKER_FRAME	cpu_to_le32(0x2255DA4AL)
+ #define S2255_MARKER_RESPONSE	cpu_to_le32(0x2255ACACL)
+ #define S2255_RESPONSE_SETMODE  cpu_to_le32(0x01)
+@@ -323,6 +324,7 @@ struct s2255_buffer {
+ #define S2255_V4L2_YC_ON  1
+ #define S2255_V4L2_YC_OFF 0
+ #define V4L2_CID_S2255_COLORFILTER (V4L2_CID_USER_S2255_BASE + 0)
++#define V4L2_CID_S2255_DEVICEID (V4L2_CID_USER_S2255_BASE + 1)
+ 
+ /* frame prefix size (sent once every frame) */
+ #define PREFIX_SIZE		512
+@@ -1232,6 +1234,37 @@ static int s2255_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	return 0;
+ }
+ 
++/* deviceid/serial number is not used in usb device descriptors.
++ * returns device-id/serial number from device, 0 if none found.
++ */
++#define S2255_DEVICEID_NONE 0
++static int s2255_g_deviceid(struct s2255_dev *dev)
++{
++	u8 *outbuf;
++	int rc;
++	int deviceid = S2255_DEVICEID_NONE;
++#define S2255_I2C_SIZE     16
++	outbuf = kzalloc(S2255_I2C_SIZE * sizeof(u8), GFP_KERNEL);
++	if (outbuf == NULL)
++		return deviceid;
++#define S2255_I2C_SNDEV    0xa2
++#define S2255_I2C_SNOFFSET 0x1ff0
++#define S2255_USBVENDOR_READREG 0x22
++	rc = s2255_vendor_req(dev, S2255_USBVENDOR_READREG, S2255_I2C_SNOFFSET,
++			S2255_I2C_SNDEV >> 1, outbuf, S2255_I2C_SIZE, 0);
++	if (rc < 0)
++		goto exit_g_deviceid;
++
++	/* verify marker code */
++	if (*(__le32 *)outbuf != S2255_MARKER_FIRMWARE)
++		goto exit_g_deviceid;
++
++	deviceid = (outbuf[12] << 24) + (outbuf[13] << 16) + (outbuf[14] << 8) + outbuf[15];
++exit_g_deviceid:
++	kfree(outbuf);
++	return deviceid;
++}
++
+ static int vidioc_g_jpegcomp(struct file *file, void *priv,
+ 			 struct v4l2_jpegcompression *jc)
+ {
+@@ -1581,6 +1614,17 @@ static const struct v4l2_ctrl_config color_filter_ctrl = {
+ 	.def = 1,
+ };
+ 
++static struct v4l2_ctrl_config v4l2_ctrl_deviceid = {
++	.ops = &s2255_ctrl_ops,
++	.name = "Device ID",
++	.id = V4L2_CID_S2255_DEVICEID,
++	.type = V4L2_CTRL_TYPE_INTEGER,
++	.max = 0xffffffff,
++	.min = 0,
++	.step = 1,
++	.flags = V4L2_CTRL_FLAG_READ_ONLY,
++};
++
+ static int s2255_probe_v4l(struct s2255_dev *dev)
+ {
+ 	int ret;
+@@ -1615,6 +1659,9 @@ static int s2255_probe_v4l(struct s2255_dev *dev)
+ 		    (dev->pid != 0x2257 || vc->idx <= 1))
+ 			v4l2_ctrl_new_custom(&vc->hdl, &color_filter_ctrl,
+ 					     NULL);
++		v4l2_ctrl_deviceid.def = s2255_g_deviceid(dev);
++		v4l2_ctrl_new_custom(&vc->hdl, &v4l2_ctrl_deviceid,
++					NULL);
+ 		if (vc->hdl.error) {
+ 			ret = vc->hdl.error;
+ 			v4l2_ctrl_handler_free(&vc->hdl);
+-- 
+2.30.2
 
 
