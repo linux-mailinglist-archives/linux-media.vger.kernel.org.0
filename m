@@ -1,44 +1,43 @@
-Return-Path: <linux-media+bounces-698-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-700-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C2627F3CCF
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 05:30:42 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ED357F3CD4
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 05:30:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DD14C280D4B
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 04:30:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25117281FCC
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 04:30:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 888B011C96;
-	Wed, 22 Nov 2023 04:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B751012B6D;
+	Wed, 22 Nov 2023 04:30:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dghfjNqr"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Oet5Mbt3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E59DB1A4;
-	Tue, 21 Nov 2023 20:30:19 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A36B198;
+	Tue, 21 Nov 2023 20:30:21 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 44FCB128D;
-	Wed, 22 Nov 2023 05:29:40 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 89F311434;
+	Wed, 22 Nov 2023 05:29:41 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700627380;
-	bh=yS/Oux+pXiXLp0wWEGoSxpw7w1avThLNA2g6ZYdZ3Gs=;
+	s=mail; t=1700627381;
+	bh=b63L/bnqE52ON+MnUqXixVM/lHBYBvYtoq/r8YFxJsY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dghfjNqroIn+oB5DlnwtZb5kOjhSacTXpRm8Sab4lIPDynde+VYCVwfL9SqjhbuGd
-	 ANhEWg9YYXS9DmyxdoZnYu4Hoa/2CVj2TGwSxXu6p6Ud9eLlvvOurak4x7SinGf6rM
-	 R9i9zFFo83hUo2XKCP1WxBMdzl4xdgFky35VtACM=
+	b=Oet5Mbt3UQVNkbSJkZCF9N4eqW27xwKjJqm0MTz6Ft5s/zj2MYUYYs04PaACwkVjd
+	 9rCRGrK4btzJPvFC0vq+5SEw+Kb1IGiQx72CW/UpxAuNdwAwpT9c2rENPILtLX82Ak
+	 E97Mh/4UTilX6gNmxZz2N3KBdcz9WwEFQZdRqCGE=
 From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	Sakari Ailus <sakari.ailus@iki.fi>,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: [RFC PATCH v1 05/19] media: renesas: vsp1: Drop custom .get_fmt() handler for histogram
-Date: Wed, 22 Nov 2023 06:29:55 +0200
-Message-ID: <20231122043009.2741-6-laurent.pinchart+renesas@ideasonboard.com>
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [RFC PATCH v1 06/19] media: renesas: vsp1: Move partition calculation to vsp1_pipe.c
+Date: Wed, 22 Nov 2023 06:29:56 +0200
+Message-ID: <20231122043009.2741-7-laurent.pinchart+renesas@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
 References: <20231122043009.2741-1-laurent.pinchart+renesas@ideasonboard.com>
@@ -50,75 +49,329 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+The partition calculation code, located in vsp1_video.c, is not specific
+to video pipelines. To prepare for its usage in DRM pipelines, move it
+to vsp1_pipe.c.
 
-The histogram module is the only one that has a custom .get_fmt()
-handler, to handle the special case of the output format being fixed.
-This can equally well be handled in the .set_fmt() handler instead.
-Beside avoiding special cases and using the same .get_fmt() handler in
-all modules, it ensures that the correct format is stored in the active
-state for the source pad, including when .set_fmt() is called from
-vsp1_entity_init_state(). Both are needed to later switch to the V4L2
-subdev active state API.
-
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- .../media/platform/renesas/vsp1/vsp1_histo.c  | 29 +++++++------------
- 1 file changed, 10 insertions(+), 19 deletions(-)
+ .../media/platform/renesas/vsp1/vsp1_pipe.c   |  85 ++++++++-
+ .../media/platform/renesas/vsp1/vsp1_pipe.h   |   6 +-
+ .../media/platform/renesas/vsp1/vsp1_video.c  | 169 +++++-------------
+ 3 files changed, 130 insertions(+), 130 deletions(-)
 
-diff --git a/drivers/media/platform/renesas/vsp1/vsp1_histo.c b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-index 576270cb3e63..a4076d82651e 100644
---- a/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-+++ b/drivers/media/platform/renesas/vsp1/vsp1_histo.c
-@@ -356,30 +356,21 @@ static int histo_set_selection(struct v4l2_subdev *subdev,
- 	return ret;
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+index 68d05243c3ee..b90240b24b3a 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.c
+@@ -444,6 +444,10 @@ void vsp1_pipeline_propagate_alpha(struct vsp1_pipeline *pipe,
+ 	vsp1_uds_set_alpha(pipe->uds, dlb, alpha);
  }
  
--static int histo_get_format(struct v4l2_subdev *subdev,
--			    struct v4l2_subdev_state *sd_state,
--			    struct v4l2_subdev_format *fmt)
++/* -----------------------------------------------------------------------------
++ * VSP1 Partition Algorithm support
++ */
++
+ /*
+  * Propagate the partition calculations through the pipeline
+  *
+@@ -452,10 +456,10 @@ void vsp1_pipeline_propagate_alpha(struct vsp1_pipeline *pipe,
+  * source. Each entity must produce the partition required for the previous
+  * entity in the pipeline.
+  */
+-void vsp1_pipeline_propagate_partition(struct vsp1_pipeline *pipe,
+-				       struct vsp1_partition *partition,
+-				       unsigned int index,
+-				       struct vsp1_partition_window *window)
++static void vsp1_pipeline_propagate_partition(struct vsp1_pipeline *pipe,
++					      struct vsp1_partition *partition,
++					      unsigned int index,
++					      struct vsp1_partition_window *window)
+ {
+ 	struct vsp1_entity *entity;
+ 
+@@ -466,3 +470,76 @@ void vsp1_pipeline_propagate_partition(struct vsp1_pipeline *pipe,
+ 	}
+ }
+ 
++/*
++ * vsp1_pipeline_calculate_partition - Calculate pipeline configuration for a
++ *	partition
++ *
++ * @pipe: the pipeline
++ * @partition: partition that will hold the calculated values
++ * @div_size: pre-determined maximum partition division size
++ * @index: partition index
++ */
++void vsp1_pipeline_calculate_partition(struct vsp1_pipeline *pipe,
++				       struct vsp1_partition *partition,
++				       unsigned int div_size,
++				       unsigned int index)
++{
++	const struct v4l2_mbus_framefmt *format;
++	struct vsp1_partition_window window;
++	unsigned int modulus;
++
++	/*
++	 * Partitions are computed on the size before rotation, use the format
++	 * at the WPF sink.
++	 */
++	format = v4l2_subdev_state_get_format(pipe->output->entity.state,
++					      RWPF_PAD_SINK);
++
++	/* A single partition simply processes the output size in full. */
++	if (pipe->partitions <= 1) {
++		window.left = 0;
++		window.width = format->width;
++
++		vsp1_pipeline_propagate_partition(pipe, partition, index,
++						  &window);
++		return;
++	}
++
++	/* Initialise the partition with sane starting conditions. */
++	window.left = index * div_size;
++	window.width = div_size;
++
++	modulus = format->width % div_size;
++
++	/*
++	 * We need to prevent the last partition from being smaller than the
++	 * *minimum* width of the hardware capabilities.
++	 *
++	 * If the modulus is less than half of the partition size,
++	 * the penultimate partition is reduced to half, which is added
++	 * to the final partition: |1234|1234|1234|12|341|
++	 * to prevent this:        |1234|1234|1234|1234|1|.
++	 */
++	if (modulus) {
++		/*
++		 * pipe->partitions is 1 based, whilst index is a 0 based index.
++		 * Normalise this locally.
++		 */
++		unsigned int partitions = pipe->partitions - 1;
++
++		if (modulus < div_size / 2) {
++			if (index == partitions - 1) {
++				/* Halve the penultimate partition. */
++				window.width = div_size / 2;
++			} else if (index == partitions) {
++				/* Increase the final partition. */
++				window.width = (div_size / 2) + modulus;
++				window.left -= div_size / 2;
++			}
++		} else if (index == partitions) {
++			window.width = modulus;
++		}
++	}
++
++	vsp1_pipeline_propagate_partition(pipe, partition, index, &window);
++}
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+index 674b5748d929..02e98d843730 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
++++ b/drivers/media/platform/renesas/vsp1/vsp1_pipe.h
+@@ -166,10 +166,10 @@ void vsp1_pipeline_propagate_alpha(struct vsp1_pipeline *pipe,
+ 				   struct vsp1_dl_body *dlb,
+ 				   unsigned int alpha);
+ 
+-void vsp1_pipeline_propagate_partition(struct vsp1_pipeline *pipe,
++void vsp1_pipeline_calculate_partition(struct vsp1_pipeline *pipe,
+ 				       struct vsp1_partition *partition,
+-				       unsigned int index,
+-				       struct vsp1_partition_window *window);
++				       unsigned int div_size,
++				       unsigned int index);
+ 
+ const struct vsp1_format_info *vsp1_get_format_info(struct vsp1_device *vsp1,
+ 						    u32 fourcc);
+diff --git a/drivers/media/platform/renesas/vsp1/vsp1_video.c b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+index 9cb81b4c65ed..ea5773af54d6 100644
+--- a/drivers/media/platform/renesas/vsp1/vsp1_video.c
++++ b/drivers/media/platform/renesas/vsp1/vsp1_video.c
+@@ -172,129 +172,6 @@ static int __vsp1_video_try_format(struct vsp1_video *video,
+ 	return 0;
+ }
+ 
+-/* -----------------------------------------------------------------------------
+- * VSP1 Partition Algorithm support
+- */
+-
+-/**
+- * vsp1_video_calculate_partition - Calculate the active partition output window
+- *
+- * @pipe: the pipeline
+- * @partition: partition that will hold the calculated values
+- * @div_size: pre-determined maximum partition division size
+- * @index: partition index
+- */
+-static void vsp1_video_calculate_partition(struct vsp1_pipeline *pipe,
+-					   struct vsp1_partition *partition,
+-					   unsigned int div_size,
+-					   unsigned int index)
 -{
--	if (fmt->pad == HISTO_PAD_SOURCE) {
--		fmt->format.code = MEDIA_BUS_FMT_FIXED;
--		fmt->format.width = 0;
--		fmt->format.height = 0;
--		fmt->format.field = V4L2_FIELD_NONE;
--		fmt->format.colorspace = V4L2_COLORSPACE_RAW;
--		return 0;
+-	const struct v4l2_mbus_framefmt *format;
+-	struct vsp1_partition_window window;
+-	unsigned int modulus;
+-
+-	/*
+-	 * Partitions are computed on the size before rotation, use the format
+-	 * at the WPF sink.
+-	 */
+-	format = v4l2_subdev_state_get_format(pipe->output->entity.state,
+-					      RWPF_PAD_SINK);
+-
+-	/* A single partition simply processes the output size in full. */
+-	if (pipe->partitions <= 1) {
+-		window.left = 0;
+-		window.width = format->width;
+-
+-		vsp1_pipeline_propagate_partition(pipe, partition, index,
+-						  &window);
+-		return;
 -	}
 -
--	return vsp1_subdev_get_pad_format(subdev, sd_state, fmt);
+-	/* Initialise the partition with sane starting conditions. */
+-	window.left = index * div_size;
+-	window.width = div_size;
+-
+-	modulus = format->width % div_size;
+-
+-	/*
+-	 * We need to prevent the last partition from being smaller than the
+-	 * *minimum* width of the hardware capabilities.
+-	 *
+-	 * If the modulus is less than half of the partition size,
+-	 * the penultimate partition is reduced to half, which is added
+-	 * to the final partition: |1234|1234|1234|12|341|
+-	 * to prevent this:        |1234|1234|1234|1234|1|.
+-	 */
+-	if (modulus) {
+-		/*
+-		 * pipe->partitions is 1 based, whilst index is a 0 based index.
+-		 * Normalise this locally.
+-		 */
+-		unsigned int partitions = pipe->partitions - 1;
+-
+-		if (modulus < div_size / 2) {
+-			if (index == partitions - 1) {
+-				/* Halve the penultimate partition. */
+-				window.width = div_size / 2;
+-			} else if (index == partitions) {
+-				/* Increase the final partition. */
+-				window.width = (div_size / 2) + modulus;
+-				window.left -= div_size / 2;
+-			}
+-		} else if (index == partitions) {
+-			window.width = modulus;
+-		}
+-	}
+-
+-	vsp1_pipeline_propagate_partition(pipe, partition, index, &window);
 -}
 -
- static int histo_set_format(struct v4l2_subdev *subdev,
- 			    struct v4l2_subdev_state *sd_state,
- 			    struct v4l2_subdev_format *fmt)
- {
- 	struct vsp1_histogram *histo = subdev_to_histo(subdev);
+-static int vsp1_video_pipeline_setup_partitions(struct vsp1_pipeline *pipe)
+-{
+-	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
+-	const struct v4l2_mbus_framefmt *format;
+-	struct vsp1_entity *entity;
+-	unsigned int div_size;
+-	unsigned int i;
+-
+-	/*
+-	 * Partitions are computed on the size before rotation, use the format
+-	 * at the WPF sink.
+-	 */
+-	format = v4l2_subdev_state_get_format(pipe->output->entity.state,
+-					      RWPF_PAD_SINK);
+-	div_size = format->width;
+-
+-	/*
+-	 * Only Gen3+ hardware requires image partitioning, Gen2 will operate
+-	 * with a single partition that covers the whole output.
+-	 */
+-	if (vsp1->info->gen >= 3) {
+-		list_for_each_entry(entity, &pipe->entities, list_pipe) {
+-			unsigned int entity_max;
+-
+-			if (!entity->ops->max_width)
+-				continue;
+-
+-			entity_max = entity->ops->max_width(entity, pipe);
+-			if (entity_max)
+-				div_size = min(div_size, entity_max);
+-		}
+-	}
+-
+-	pipe->partitions = DIV_ROUND_UP(format->width, div_size);
+-	pipe->part_table = kcalloc(pipe->partitions, sizeof(*pipe->part_table),
+-				   GFP_KERNEL);
+-	if (!pipe->part_table)
+-		return -ENOMEM;
+-
+-	for (i = 0; i < pipe->partitions; ++i)
+-		vsp1_video_calculate_partition(pipe, &pipe->part_table[i],
+-					       div_size, i);
+-
+-	return 0;
+-}
+-
+ /* -----------------------------------------------------------------------------
+  * Pipeline Management
+  */
+@@ -782,6 +659,52 @@ static void vsp1_video_buffer_queue(struct vb2_buffer *vb)
+ 	spin_unlock_irqrestore(&pipe->irqlock, flags);
+ }
  
--	if (fmt->pad != HISTO_PAD_SINK)
--		return histo_get_format(subdev, sd_state, fmt);
-+	if (fmt->pad == HISTO_PAD_SOURCE) {
-+		fmt->format.code = MEDIA_BUS_FMT_FIXED;
-+		fmt->format.width = 0;
-+		fmt->format.height = 0;
-+		fmt->format.field = V4L2_FIELD_NONE;
-+		fmt->format.colorspace = V4L2_COLORSPACE_RAW;
++static int vsp1_video_pipeline_setup_partitions(struct vsp1_pipeline *pipe)
++{
++	struct vsp1_device *vsp1 = pipe->output->entity.vsp1;
++	const struct v4l2_mbus_framefmt *format;
++	struct vsp1_entity *entity;
++	unsigned int div_size;
++	unsigned int i;
 +
-+		return 0;
++	/*
++	 * Partitions are computed on the size before rotation, use the format
++	 * at the WPF sink.
++	 */
++	format = v4l2_subdev_state_get_format(pipe->output->entity.state,
++					      RWPF_PAD_SINK);
++	div_size = format->width;
++
++	/*
++	 * Only Gen3+ hardware requires image partitioning, Gen2 will operate
++	 * with a single partition that covers the whole output.
++	 */
++	if (vsp1->info->gen >= 3) {
++		list_for_each_entry(entity, &pipe->entities, list_pipe) {
++			unsigned int entity_max;
++
++			if (!entity->ops->max_width)
++				continue;
++
++			entity_max = entity->ops->max_width(entity, pipe);
++			if (entity_max)
++				div_size = min(div_size, entity_max);
++		}
 +	}
- 
- 	return vsp1_subdev_set_pad_format(subdev, sd_state, fmt,
- 					  histo->formats, histo->num_formats,
-@@ -390,7 +381,7 @@ static int histo_set_format(struct v4l2_subdev *subdev,
- static const struct v4l2_subdev_pad_ops histo_pad_ops = {
- 	.enum_mbus_code = histo_enum_mbus_code,
- 	.enum_frame_size = histo_enum_frame_size,
--	.get_fmt = histo_get_format,
-+	.get_fmt = vsp1_subdev_get_pad_format,
- 	.set_fmt = histo_set_format,
- 	.get_selection = histo_get_selection,
- 	.set_selection = histo_set_selection,
++
++	pipe->partitions = DIV_ROUND_UP(format->width, div_size);
++	pipe->part_table = kcalloc(pipe->partitions, sizeof(*pipe->part_table),
++				   GFP_KERNEL);
++	if (!pipe->part_table)
++		return -ENOMEM;
++
++	for (i = 0; i < pipe->partitions; ++i)
++		vsp1_pipeline_calculate_partition(pipe, &pipe->part_table[i],
++						  div_size, i);
++
++	return 0;
++}
++
+ static int vsp1_video_setup_pipeline(struct vsp1_pipeline *pipe)
+ {
+ 	struct vsp1_entity *entity;
 -- 
 Regards,
 
