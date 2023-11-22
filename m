@@ -1,90 +1,123 @@
-Return-Path: <linux-media+bounces-812-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-813-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 808DA7F479F
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:21:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D64477F47A2
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:22:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1FD15B20D53
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:21:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8B04FB20D5D
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:22:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BDA94C61E;
-	Wed, 22 Nov 2023 13:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3FFD54BC1;
+	Wed, 22 Nov 2023 13:22:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fdLMBnnP"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UtjrWzUn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-x62e.google.com (mail-pl1-x62e.google.com [IPv6:2607:f8b0:4864:20::62e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CDADE193;
-	Wed, 22 Nov 2023 05:21:13 -0800 (PST)
-Received: by mail-pl1-x62e.google.com with SMTP id d9443c01a7336-1cf73e25b72so3323665ad.0;
-        Wed, 22 Nov 2023 05:21:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700659273; x=1701264073; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fNGFlXpLeFTnJCRR6Y2M9TMyhiU71gt62Qctjghc6I8=;
-        b=fdLMBnnPP6LoerFhnTOGVm+pI2puYNOvqEWNY/+Z7zrrdqDOWRZRBUMNx/pVJUc9cL
-         fsDrkNvoXzEQP4Cju0aO4GsCB1jtLrFpH243rQASuD1TvjH8dhwoMQHBTxrX8rvkwIcP
-         xtv0sIdydELCJH/Jje2xQo8uiJ5rj3OKvPTdPP9dh+xGDgANZuNpEGj2794fLyFCuiRx
-         aXz/nIG8EjMjT8YM1TyVWvw9OKUGdyW7eb2BUcWsVShBS4xuHKUhkRG8CG9kqb8Vnt3h
-         lo58OhTYkmeWPXUyPLLLPOcjBNGyPxG04bf7OqQhamI6yh/zyivlmZHFGhLkdKcA1ooU
-         DohA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700659273; x=1701264073;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=fNGFlXpLeFTnJCRR6Y2M9TMyhiU71gt62Qctjghc6I8=;
-        b=jV60AAHaNv+k7wgcT5FsHZTquP2dCJDH9oTqvBo10MtT0ux8zA+ebOrjS06J8A9z0U
-         kYr7VPuHYIF7yDGkPVoek5HAE/XfP8BANy7yD558pfBXcUBdhbvOkUqcvi5kuUpsVgzq
-         orm1HQvmA9fvQo6SDIQZ3TxmVY7dBTujei60gZNUIu0ryfYmvwZjqthXUF+yFXD2QQwi
-         FQWG/gmZHa3eI3eM4hFNeBBETbGTk+FymoQXiquA4JDWLZWPIcgCW1GoPtTAtAX+YE8P
-         EO8KtrIdvq3N5qEMcq8hxP2R7PDH3B5CbLsT3ypxszpk9sSVXZmEfhYt3mZ6ylg26nYN
-         XHmA==
-X-Gm-Message-State: AOJu0YwzZl4uWVMeCJ1d7y5aDInBACdz9DRHPWDKeW0vmHN+0RtmI2sL
-	es1V15Z2VFSK8HYmtrhcLFUR8SigVA1RbwrtibQ=
-X-Google-Smtp-Source: AGHT+IGzBPf4hDlXNcGQRCu8WY4gcdSOLM7a7oO6hsUAEw72nGXyHtvJtwrK9TdLMRMrIoNMgAb/QwNGirnNQOyx2Cg=
-X-Received: by 2002:a17:90b:3606:b0:281:2d56:e751 with SMTP id
- ml6-20020a17090b360600b002812d56e751mr2322112pjb.0.1700659273253; Wed, 22 Nov
- 2023 05:21:13 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB34193;
+	Wed, 22 Nov 2023 05:22:21 -0800 (PST)
+Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BAC3D276;
+	Wed, 22 Nov 2023 14:21:47 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1700659308;
+	bh=tGiriDSkF/C/iAXuOguUEVwKk341wI19ma8+JAzCBQo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=UtjrWzUnHbkDjBnpP7CBMMyYU+9hu8jFiQuquBMcCvou3fVKUIVLuLdfJEEQvfDfD
+	 OTSBgZl3cREXxCyIS5V/N5JtVtMYYS5cqqsEHpLZgqIZV1oMnDCLSNWsD3Vf56GR3e
+	 CQ3r6t/3OtFRClTf3dI09pt0LEUVtwZQaOLPMB2c=
+Message-ID: <7fc809a2-5eef-47c6-a2ff-24d47f505521@ideasonboard.com>
+Date: Wed, 22 Nov 2023 15:22:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231122-imx-csis-v1-0-0617368eb996@ideasonboard.com>
-In-Reply-To: <20231122-imx-csis-v1-0-0617368eb996@ideasonboard.com>
-From: Fabio Estevam <festevam@gmail.com>
-Date: Wed, 22 Nov 2023 10:21:01 -0300
-Message-ID: <CAOMZO5AW0qft5ciGAWuX=RC0zHwAWEpLCyB5TbeE0QH3Nb+nQQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 0/2] media: imx-mipi-csis: csis clock fixes
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>, Rui Miguel Silva <rmfrfs@gmail.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Martin Kepplinger <martink@posteo.de>, 
-	Purism Kernel Team <kernel@puri.sm>, Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+To: Fabio Estevam <festevam@gmail.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Rui Miguel Silva <rmfrfs@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+References: <20231122-imx-csis-v1-0-0617368eb996@ideasonboard.com>
+ <CAOMZO5AW0qft5ciGAWuX=RC0zHwAWEpLCyB5TbeE0QH3Nb+nQQ@mail.gmail.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <CAOMZO5AW0qft5ciGAWuX=RC0zHwAWEpLCyB5TbeE0QH3Nb+nQQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Tomi,
+On 22/11/2023 15:21, Fabio Estevam wrote:
+> Hi Tomi,
+> 
+> On Wed, Nov 22, 2023 at 10:14 AM Tomi Valkeinen
+> <tomi.valkeinen@ideasonboard.com> wrote:
+>>
+>> Two fixes to the csis driver: One to fix remove() another to only enable
+>> the clocks when needed.
+>>
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>> Tomi Valkeinen (2):
+>>        media: imx-mipi-csis: Fix clock handling in remove()
+>>        media: imx-mipi-csis: Drop extra clock enable at probe()
+> 
+> Shouldn't both patches contain a Fixes tag?
 
-On Wed, Nov 22, 2023 at 10:14=E2=80=AFAM Tomi Valkeinen
-<tomi.valkeinen@ideasonboard.com> wrote:
->
-> Two fixes to the csis driver: One to fix remove() another to only enable
-> the clocks when needed.
->
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
-> Tomi Valkeinen (2):
->       media: imx-mipi-csis: Fix clock handling in remove()
->       media: imx-mipi-csis: Drop extra clock enable at probe()
+Indeed, yes, I'll add that.
 
-Shouldn't both patches contain a Fixes tag?
+  Tomi
+
 
