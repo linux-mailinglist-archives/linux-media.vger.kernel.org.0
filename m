@@ -1,123 +1,179 @@
-Return-Path: <linux-media+bounces-813-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-814-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id D64477F47A2
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:22:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DB6F7F47D6
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 14:32:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8B04FB20D5D
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:22:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCBD92813FB
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 13:32:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3FFD54BC1;
-	Wed, 22 Nov 2023 13:22:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54A465578C;
+	Wed, 22 Nov 2023 13:32:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="UtjrWzUn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L/eiRLii"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB34193;
-	Wed, 22 Nov 2023 05:22:21 -0800 (PST)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BAC3D276;
-	Wed, 22 Nov 2023 14:21:47 +0100 (CET)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1413BC;
+	Wed, 22 Nov 2023 05:32:19 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 05306276;
+	Wed, 22 Nov 2023 14:31:46 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700659308;
-	bh=tGiriDSkF/C/iAXuOguUEVwKk341wI19ma8+JAzCBQo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UtjrWzUnHbkDjBnpP7CBMMyYU+9hu8jFiQuquBMcCvou3fVKUIVLuLdfJEEQvfDfD
-	 OTSBgZl3cREXxCyIS5V/N5JtVtMYYS5cqqsEHpLZgqIZV1oMnDCLSNWsD3Vf56GR3e
-	 CQ3r6t/3OtFRClTf3dI09pt0LEUVtwZQaOLPMB2c=
-Message-ID: <7fc809a2-5eef-47c6-a2ff-24d47f505521@ideasonboard.com>
-Date: Wed, 22 Nov 2023 15:22:15 +0200
+	s=mail; t=1700659907;
+	bh=E5/m/rqwfREn1ed0gWEEq3irr5h/sFczHfzDfuCVRaw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=L/eiRLiiFnEZlQBVQA6UwO2FVnWMQptylAS2QIwiYJKVq6nl3IBykaDM2fYB5hlWh
+	 BNH37s20AHoR57bp+gl01GHWWKNE4D05BGjZNXYm3aNPXW5LW041E2bTYb46/H+ohi
+	 27zmWo8btF+A0dryOD9S8kaUHUqylOGaoCclxeLk=
+Date: Wed, 22 Nov 2023 15:32:24 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sean Paul <seanpaul@chromium.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v5 2/3] media: uvcvideo: Always use uvc_status_stop()
+Message-ID: <20231122133224.GD3909@pendragon.ideasonboard.com>
+References: <20231122-guenter-mini-v5-0-15d8cd8ed74f@chromium.org>
+ <20231122-guenter-mini-v5-2-15d8cd8ed74f@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/2] media: imx-mipi-csis: csis clock fixes
-Content-Language: en-US
-To: Fabio Estevam <festevam@gmail.com>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Rui Miguel Silva <rmfrfs@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20231122-imx-csis-v1-0-0617368eb996@ideasonboard.com>
- <CAOMZO5AW0qft5ciGAWuX=RC0zHwAWEpLCyB5TbeE0QH3Nb+nQQ@mail.gmail.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <CAOMZO5AW0qft5ciGAWuX=RC0zHwAWEpLCyB5TbeE0QH3Nb+nQQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231122-guenter-mini-v5-2-15d8cd8ed74f@chromium.org>
 
-On 22/11/2023 15:21, Fabio Estevam wrote:
-> Hi Tomi,
+Hi Ricardo,
+
+Thank you for the patch.
+
+On Wed, Nov 22, 2023 at 11:45:48AM +0000, Ricardo Ribalda wrote:
+> The only thread safe way to stop the status handler is with uvc_status.
+
+The commit message should explain why.
+
+> Let's remove all the code paths partially stopping uvc_status.
+
+And should explain what the implications are.
+
+> Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c   | 4 ----
+>  drivers/media/usb/uvc/uvc_driver.c | 2 +-
+>  drivers/media/usb/uvc/uvc_status.c | 8 ++++----
+>  drivers/media/usb/uvc/uvc_v4l2.c   | 2 +-
+>  drivers/media/usb/uvc/uvcvideo.h   | 2 +-
+>  5 files changed, 7 insertions(+), 11 deletions(-)
 > 
-> On Wed, Nov 22, 2023 at 10:14 AM Tomi Valkeinen
-> <tomi.valkeinen@ideasonboard.com> wrote:
->>
->> Two fixes to the csis driver: One to fix remove() another to only enable
->> the clocks when needed.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->> Tomi Valkeinen (2):
->>        media: imx-mipi-csis: Fix clock handling in remove()
->>        media: imx-mipi-csis: Drop extra clock enable at probe()
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index e59a463c2761..8e22a07e3e7b 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -2765,10 +2765,6 @@ void uvc_ctrl_cleanup_device(struct uvc_device *dev)
+>  	struct uvc_entity *entity;
+>  	unsigned int i;
+>  
+> -	/* Can be uninitialized if we are aborting on probe error. */
+> -	if (dev->async_ctrl.work.func)
+> -		cancel_work_sync(&dev->async_ctrl.work);
+> -
+>  	/* Free controls and control mappings for all entities. */
+>  	list_for_each_entry(entity, &dev->entities, list) {
+>  		for (i = 0; i < entity->ncontrols; ++i) {
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index ded2cb6ce14f..d5dbf2644272 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2282,7 +2282,7 @@ static int uvc_suspend(struct usb_interface *intf, pm_message_t message)
+>  	    UVC_SC_VIDEOCONTROL) {
+>  		mutex_lock(&dev->lock);
+>  		if (dev->users)
+> -			uvc_status_stop(dev);
+> +			uvc_status_stop(dev, true);
+>  		mutex_unlock(&dev->lock);
+>  		return 0;
+>  	}
+> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+> index a78a88c710e2..9c5da1244999 100644
+> --- a/drivers/media/usb/uvc/uvc_status.c
+> +++ b/drivers/media/usb/uvc/uvc_status.c
+> @@ -292,7 +292,7 @@ int uvc_status_init(struct uvc_device *dev)
+>  
+>  void uvc_status_unregister(struct uvc_device *dev)
+>  {
+> -	usb_kill_urb(dev->int_urb);
+> +	uvc_status_stop(dev, false);
+>  	uvc_input_unregister(dev);
+>  }
+>  
+> @@ -310,7 +310,7 @@ int uvc_status_start(struct uvc_device *dev, gfp_t flags)
+>  	return usb_submit_urb(dev->int_urb, flags);
+>  }
+>  
+> -void uvc_status_stop(struct uvc_device *dev)
+> +void uvc_status_stop(struct uvc_device *dev, bool run_async_work)
+>  {
+>  	struct uvc_ctrl_work *w = &dev->async_ctrl;
+>  
+> @@ -326,7 +326,7 @@ void uvc_status_stop(struct uvc_device *dev)
+>  	 * Cancel any pending asynchronous work. If any status event was queued,
+>  	 * process it synchronously.
+>  	 */
+> -	if (cancel_work_sync(&w->work))
+> +	if (cancel_work_sync(&w->work) && run_async_work)
+>  		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+>  
+>  	/* Kill the urb. */
+> @@ -338,7 +338,7 @@ void uvc_status_stop(struct uvc_device *dev)
+>  	 * cancelled before returning or it could then race with a future
+>  	 * uvc_status_start() call.
+>  	 */
+> -	if (cancel_work_sync(&w->work))
+> +	if (cancel_work_sync(&w->work) && run_async_work)
+>  		uvc_ctrl_status_event(w->chain, w->ctrl, w->data);
+>  
+>  	/*
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index f4988f03640a..f90206263ff4 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -672,7 +672,7 @@ static int uvc_v4l2_release(struct file *file)
+>  
+>  	mutex_lock(&stream->dev->lock);
+>  	if (--stream->dev->users == 0)
+> -		uvc_status_stop(stream->dev);
+> +		uvc_status_stop(stream->dev, false);
+>  	mutex_unlock(&stream->dev->lock);
+>  
+>  	usb_autopm_put_interface(stream->dev->intf);
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 6fb0a78b1b00..ba8f8c1f2c83 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -745,7 +745,7 @@ int uvc_status_init(struct uvc_device *dev);
+>  void uvc_status_unregister(struct uvc_device *dev);
+>  void uvc_status_cleanup(struct uvc_device *dev);
+>  int uvc_status_start(struct uvc_device *dev, gfp_t flags);
+> -void uvc_status_stop(struct uvc_device *dev);
+> +void uvc_status_stop(struct uvc_device *dev, bool run_async_work);
+>  
+>  /* Controls */
+>  extern const struct uvc_control_mapping uvc_ctrl_power_line_mapping_limited;
 > 
-> Shouldn't both patches contain a Fixes tag?
 
-Indeed, yes, I'll add that.
+-- 
+Regards,
 
-  Tomi
-
+Laurent Pinchart
 
