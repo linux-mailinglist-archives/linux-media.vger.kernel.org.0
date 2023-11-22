@@ -1,149 +1,181 @@
-Return-Path: <linux-media+bounces-715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76FC7F3D5A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 06:31:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DC617F3DBE
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 06:49:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 124F81C20DA7
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 05:31:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BE9EEB219C5
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 05:49:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FA5E11C9E;
-	Wed, 22 Nov 2023 05:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7E48213FEB;
+	Wed, 22 Nov 2023 05:49:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Om6VUEwT"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SPHWhP/8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2085.outbound.protection.outlook.com [40.107.96.85])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FB5C1BC;
-	Tue, 21 Nov 2023 21:31:12 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=YsRJW9tDxwQSwFc9w9nNYBvNj92ckrummSjd9NzgP0g8BNk9qbORBNL8FaAX5n4mXAw8BiVx/Vb/9os5ESLSxtB/KBeCvd+xrtBVSyXGVftnxZTLsyoR7Jww6/aJzKwesjnOl9drsrMBd73JCpEOKdu43fpz3Z1ET9PX8E0gznLNZ/dRfB2xxZxBfrggpkpm8l2P8haWDzjd9vMApW1cMGdcwfbMCHh1rJuUieY2xAsPCaDp0zdeai4ju4ynGt9ON+PdiEK8wk8mqKLqMZboV3M9FhmFobpECSoQv3kj7Fk1RJqQkfHOJadoWqnhEN/mnjYqACo6VMs4Ohd/uOdHzQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vTw4SoSSLjZh8+v4JCagfM9/lx9KlKg4pAxKEQ2dA0A=;
- b=kLxZMRO/qR6xsFajevf5cUF0DWORBGOJeikwk7X/0/Em0VWoniaicoVSA0VBRjPJOZy5hJ+5vtP0jiyegL6V7X0lBWAzfKBnsFS1mFnx/wrNdVJgGVHwxK1V9z2tiFOK5J+LqmrmizGpQ2RnoSHfksBhKddM4Y1v99Byhgb7j/V89x9okEhdp322Hk5yMA3OluNp7v8/fc9YDkvINb6w48mVFIGqrnCxkjEM0D/RX8kV+eVyk+OofkZdYmaao6lCCs6z+DtNhmjTGaLbs+HT6gnw2sUV4SDQFBUTo1Kqd3FVSi8+q8ziClGfpJ7ie9aUgffgfQccChRax4KbgSvZEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vTw4SoSSLjZh8+v4JCagfM9/lx9KlKg4pAxKEQ2dA0A=;
- b=Om6VUEwTe/wjIzJgNhGasGVcZtU/Lx+UuXe515283eh5NNbkyByA8kfvVI5zLsGYGtvnj1D8oEE+5lmJA7eyYVAIswGc7tQDfg0wv29iSdTOYtqOez7oWYrUAe0nMYWOHMR0XA6Xyxn62RDTfcKcMyToTUDg/J7r4oep8wEDibo=
-Received: from MN2PR05CA0060.namprd05.prod.outlook.com (2603:10b6:208:236::29)
- by SJ1PR12MB6121.namprd12.prod.outlook.com (2603:10b6:a03:45c::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18; Wed, 22 Nov
- 2023 05:31:09 +0000
-Received: from BL6PEPF0001AB4B.namprd04.prod.outlook.com
- (2603:10b6:208:236:cafe::e9) by MN2PR05CA0060.outlook.office365.com
- (2603:10b6:208:236::29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.18 via Frontend
- Transport; Wed, 22 Nov 2023 05:31:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BL6PEPF0001AB4B.mail.protection.outlook.com (10.167.242.69) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.7025.12 via Frontend Transport; Wed, 22 Nov 2023 05:31:09 +0000
-Received: from localhost (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.34; Tue, 21 Nov
- 2023 23:31:07 -0600
-From: Nava kishore Manne <nava.kishore.manne@amd.com>
-To: <mdf@kernel.org>, <hao.wu@intel.com>, <yilun.xu@intel.com>,
-	<trix@redhat.com>, <sumit.semwal@linaro.org>, <christian.koenig@amd.com>,
-	<linux-fpga@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-	<linaro-mm-sig@lists.linaro.org>
-Subject: [RFC 2/2] fpga: versal: Use the scatterlist interface
-Date: Wed, 22 Nov 2023 11:00:35 +0530
-Message-ID: <20231122053035.3758124-3-nava.kishore.manne@amd.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231122053035.3758124-1-nava.kishore.manne@amd.com>
-References: <20231122053035.3758124-1-nava.kishore.manne@amd.com>
+Received: from mail-ed1-x52b.google.com (mail-ed1-x52b.google.com [IPv6:2a00:1450:4864:20::52b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56C3110C
+	for <linux-media@vger.kernel.org>; Tue, 21 Nov 2023 21:49:42 -0800 (PST)
+Received: by mail-ed1-x52b.google.com with SMTP id 4fb4d7f45d1cf-543923af573so9307141a12.0
+        for <linux-media@vger.kernel.org>; Tue, 21 Nov 2023 21:49:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1700632180; x=1701236980; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=128iwxYAf0xK5G8ivVWudK6jlM7qVWKNttFBIEHXoEE=;
+        b=SPHWhP/8VAKpqvwY2ugd4sX2RIno/MVRXnMQbeGDWrhtfrEIQTmHc7ASDjerC/gy7d
+         sV2iNihqd4wD7J64xTLm9bB2wfIKaEvsAQTyNSU2/dR413q1UxlY13eA7dUq7aVrmkxm
+         Ydt1NcH3DyHNCVgw2N83ufc5xhqYNzr2Pa1OI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700632180; x=1701236980;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=128iwxYAf0xK5G8ivVWudK6jlM7qVWKNttFBIEHXoEE=;
+        b=bX4cxdUhAD6ulhJZNzl0jHyvy3kjAYTTPdpEW1DNrTDU0CF30l72WOAUoS45ngcRsw
+         v5wVj/JLK812YC81CumiDXPFE+P2mf72gUHx9B+dVcuBkI+qYdWer1PFf2ddd+Qb4zN4
+         rKvR6q0Wc/YSHnDzXJG6Cxv7rA4pE7IPwjzYQhSxB97QodvQJL2LEC87EkL19hJUYIll
+         KVSyDG0AaFcty06x1c5aLcH++3+Zyw2awBKCPWOrLnz5FxrH2wPBnZTmyZWXYyGEklnm
+         05CLnNziR42MZregkQqHJoonspib8/cC/wZGWWvssKJ7neOWAW+RvZ8/qsVaqJ6hMkhx
+         owPA==
+X-Gm-Message-State: AOJu0Yyp9e6rMC1A/FP6GAZisKLufUS5RDWI+AE4zTeTdE8rMSCtyyjZ
+	gEgYZ+lBdazN5TXR5nBp3IXn6SjANl7e4kwZDm9mWKep
+X-Google-Smtp-Source: AGHT+IFrdhLFQAi1EdnS6KuScyhmKL81Tem+eqMHGn28WSekn9RL0VQIYQJqhXxJeahWRdjTEigJNg==
+X-Received: by 2002:a17:906:68d:b0:a01:a8e1:2a46 with SMTP id u13-20020a170906068d00b00a01a8e12a46mr547286ejb.64.1700632179799;
+        Tue, 21 Nov 2023 21:49:39 -0800 (PST)
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com. [209.85.221.41])
+        by smtp.gmail.com with ESMTPSA id o8-20020a17090637c800b009fcb0e0758bsm3972242ejc.195.2023.11.21.21.49.39
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 21 Nov 2023 21:49:39 -0800 (PST)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3316a4bc37dso3281109f8f.2
+        for <linux-media@vger.kernel.org>; Tue, 21 Nov 2023 21:49:39 -0800 (PST)
+X-Received: by 2002:adf:cc82:0:b0:321:7093:53f5 with SMTP id
+ p2-20020adfcc82000000b00321709353f5mr718132wrj.64.1700632178843; Tue, 21 Nov
+ 2023 21:49:38 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL6PEPF0001AB4B:EE_|SJ1PR12MB6121:EE_
-X-MS-Office365-Filtering-Correlation-Id: c6e237e2-dc7b-424d-b4a5-08dbeb1c3b63
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	JwjNquiUm35KZMw693YQBgtiGD8W5B/2gXSBxriH2FTqDpp4Hvez2QjxAU81g4dOLrzk7UrNv4R1i7j+9t/ovpxDJwCxfyVA/Kfj7LvkShbfwiVsHM3xPD59IaecnrGpRdRumlewZzYenIFSx6usRY6mTPYwrzq87UVu8QhknrhTHAx7ne7RfrBtspw6J9dm6etP+EAWiYp0E3J6CIvfGvaNKVNa0KGf3zYv+qjYjM4C0lbjEDbV1Bru+z8DS9k1gY45tE38FLSRbcJ+clYB4WShPMqvmHJ9Mey6HgV0TgZn9kBeAXW4cSOHkL8sifsCTi4PZvJZfhNpBB/nilAWZc2obXAv6asnBvq1z3r6oi/B4wIbqy3yIDPV4PQUsF4nJvnbLxwVO6bao5clyWxOSKMV8FdEuaJQmDEatgNwzkaeByAqD305iJE/bgTeIxVbKkzPWcAbJBoC+rKnU1qL9uO/Q8ulzHefGcGYop3jsZShVFlxOr4ILfn0WNZoWOfMUB5iQfckX6uXedMPpiFDlHWcw3UUPiXE/C+gM45gdpyGa66wR+lpjX2IXmH8AKP8/tcMwbYfbag6/LCJfceErvwde7oSbAuy33ds/KWWXnKBpe0FkJXDa1HBHTAeUvwGWRMq52fT28H7aPo87P4PS1/CBCdShvsK3g2+bBVeAP3Jgbb5qWVxGx+yfQS7SgIiPS6YgMM9h8VnoiCkYsPx/8EiqeyZqdwhwmdnR3PYV1Y+kw2u+rxbkQOrF3d+YBevaL544ERzkE6PEQMJGihVrNzt+9o35spmsdOSaSCkyZk=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230031)(4636009)(136003)(39860400002)(376002)(346002)(396003)(230922051799003)(1800799012)(82310400011)(186009)(451199024)(64100799003)(40470700004)(36840700001)(46966006)(7416002)(5660300002)(2906002)(41300700001)(8936002)(70586007)(110136005)(316002)(8676002)(6666004)(40480700001)(478600001)(70206006)(2616005)(26005)(1076003)(83380400001)(16526019)(426003)(336012)(40460700003)(36860700001)(921008)(47076005)(81166007)(356005)(86362001)(103116003)(82740400003)(36756003)(36900700001);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Nov 2023 05:31:09.0590
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c6e237e2-dc7b-424d-b4a5-08dbeb1c3b63
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL6PEPF0001AB4B.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ1PR12MB6121
+References: <20231031230435.3356103-1-m.grzeschik@pengutronix.de>
+ <CAAFQd5CCr0ivS8REcwHwJweCTk29+wVGZVjgL0mnZzPQ47kAVw@mail.gmail.com> <ZVyxDAKYz1OaGGQZ@pengutronix.de>
+In-Reply-To: <ZVyxDAKYz1OaGGQZ@pengutronix.de>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Wed, 22 Nov 2023 14:49:19 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5AHdWS9zMSyG83LSQOMeGL852xq6APZm0ibiCJ3eMgtNQ@mail.gmail.com>
+Message-ID: <CAAFQd5AHdWS9zMSyG83LSQOMeGL852xq6APZm0ibiCJ3eMgtNQ@mail.gmail.com>
+Subject: Re: [PATCH v3] media: videobuf2-dma-sg: fix vmap and vunmap callbacks
+To: Michael Grzeschik <mgr@pengutronix.de>
+Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl, m.szyprowski@samsung.com, 
+	mchehab@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com, 
+	kernel@pengutronix.de, stable@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Allows drivers to request the Configuration image
-be loaded from dma-able continuous buffer to avoid
-needless memory pressure and delays due to multiple
-copies.
-
-Signed-off-by: Nava kishore Manne <nava.kishore.manne@amd.com>
----
- drivers/fpga/versal-fpga.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
-
-diff --git a/drivers/fpga/versal-fpga.c b/drivers/fpga/versal-fpga.c
-index 3710e8f01be2..bf4fb4426417 100644
---- a/drivers/fpga/versal-fpga.c
-+++ b/drivers/fpga/versal-fpga.c
-@@ -19,6 +19,18 @@ static int versal_fpga_ops_write_init(struct fpga_manager *mgr,
- 	return 0;
- }
- 
-+static int versal_fpga_ops_write_sg(struct fpga_manager *mgr,
-+				    struct sg_table *sgt)
-+{
-+	dma_addr_t dma_addr;
-+	int ret;
+On Tue, Nov 21, 2023 at 10:30=E2=80=AFPM Michael Grzeschik <mgr@pengutronix=
+.de> wrote:
+>
+> On Wed, Nov 01, 2023 at 12:48:21PM +0900, Tomasz Figa wrote:
+> >Hi Michael,
+> >
+> >
+> >On Wed, Nov 1, 2023 at 8:04=E2=80=AFAM Michael Grzeschik
+> ><m.grzeschik@pengutronix.de> wrote:
+> >>
+> >> For dmabuf import users to be able to use the vaddr from another
+> >> videobuf2-dma-sg source, the exporter needs to set a proper vaddr on
+> >> vb2_dma_sg_dmabuf_ops_vmap callback.
+> >>
+> >> This patch adds vmap on map if buf->vaddr was not set, and also
+> >> adds the vb2_dma_sg_dmabuf_ops_vunmap function to remove the mapping
+> >> afterwards.
+> >>
+> >> Cc: stable@kernel.org
+> >> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
+> >>
+> >> ---
+> >> v2 -> v3: resend as a single patch
+> >> v1 -> v2: using vmap and vunmap instead of vm_map_ram and vm_unmap_ram
+> >>
+> >
+> >First of all, thanks for the patch!
+> >
+> >Please check my comments inline.
+> >
+> >>  .../media/common/videobuf2/videobuf2-dma-sg.c    | 16 +++++++++++++++=
 +
-+	dma_addr = sg_dma_address(sgt->sgl);
-+	ret = zynqmp_pm_load_pdi(PDI_SRC_DDR, dma_addr);
-+
-+	return ret;
-+}
-+
- static int versal_fpga_ops_write(struct fpga_manager *mgr,
- 				 const char *buf, size_t size)
- {
-@@ -40,6 +52,7 @@ static int versal_fpga_ops_write(struct fpga_manager *mgr,
- static const struct fpga_manager_ops versal_fpga_ops = {
- 	.write_init = versal_fpga_ops_write_init,
- 	.write = versal_fpga_ops_write,
-+	.write_sg = versal_fpga_ops_write_sg,
- };
- 
- static int versal_fpga_probe(struct platform_device *pdev)
--- 
-2.25.1
+> >>  1 file changed, 16 insertions(+)
+> >>
+> >> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drive=
+rs/media/common/videobuf2/videobuf2-dma-sg.c
+> >> index 28f3fdfe23a298..05b43edda94a7e 100644
+> >> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> >> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
+> >> @@ -489,11 +489,26 @@ static int vb2_dma_sg_dmabuf_ops_vmap(struct dma=
+_buf *dbuf,
+> >>  {
+> >>         struct vb2_dma_sg_buf *buf =3D dbuf->priv;
+> >>
+> >> +       if (!buf->vaddr)
+> >> +               buf->vaddr =3D vmap(buf->pages, buf->num_pages, VM_MAP=
+,
+> >> +                                 PAGE_KERNEL);
+> >> +
+> >
+> >Would it make sense to use vb2_dma_sg_vaddr() instead of open coding
+> >the mapping again?
+> >
+>
+> So in the end the whole patch would look like this:
+>
+>         buf->vaddr =3D vb2_dma_sg_vaddr(NULL, buf);
+>         if (!buf->vaddr)
+>                 return -ENOMEM;
 
+Yes, but buf->vaddr is already updated by vb2_dma_sg_vaddr(), so we
+should just save the return value to a local variable.
+
+>
+> >>         iosys_map_set_vaddr(map, buf->vaddr);
+> >>
+> >>         return 0;
+> >>  }
+> >>
+> >> +static void vb2_dma_sg_dmabuf_ops_vunmap(struct dma_buf *dbuf,
+> >> +                                     struct iosys_map *map)
+> >> +{
+> >> +       struct vb2_dma_sg_buf *buf =3D dbuf->priv;
+> >> +
+> >> +       if (buf->vaddr)
+> >> +               vunmap(buf->vaddr);
+> >> +
+> >> +       buf->vaddr =3D NULL;
+> >> +}
+> >
+> >This could be potentially dangerous. Please consider the situation
+> >when the exporting V4L2 driver needs the CPU mapping for its own
+> >usage. It would call vb2_dma_sg_vaddr(), which would return the
+> >mapping. Then the importer could call vunmap, which would destroy the
+> >mapping that is still in use by the exporter internally.
+> >
+> >The idea of the current implementation is that we just create a kernel
+> >mapping when it's needed first and just keep it around until the
+> >entire buffer is destroyed.
+>
+> In this patch I will drop the while vunmap callback then.
+
+Ack.
+
+I think in the long term we may want to rework vb2_plane_vaddr()
+semantics so that the mapping can be reference counted, but that would
+require quite a bit of a change around the vb2 framework and existing
+drivers. (Has been on my list for a while...)
+
+Best regards,
+Tomasz
 
