@@ -1,97 +1,93 @@
-Return-Path: <linux-media+bounces-845-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-846-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D074C7F4B4A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:43:32 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D847D7F4B56
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 16:44:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0CFB41C208FA
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:43:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 682F1B20E86
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 15:44:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A2955B1FD;
-	Wed, 22 Nov 2023 15:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="hnMtkywL"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A47B856B7B;
+	Wed, 22 Nov 2023 15:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE4A01990;
-	Wed, 22 Nov 2023 07:43:21 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 947C8276;
-	Wed, 22 Nov 2023 16:42:48 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700667768;
-	bh=k29ozEbJ8zlLnjX66MhNGx4brAb6opLBW5VLft4t83g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=hnMtkywL1K930hJV+LYSEbgVBb/a2anGMk3b/mOd+i4Gy3ZO8YKZLlyHZTkH9HUpH
-	 b1JBkvYGM0fbqWNOEXvbQyQ3tiIHw5TP2y+o+TjvtLcTRRcoit5kYVOUdg/gye8hOJ
-	 6a45U4Ho++QFBds3fX0zShk+DxGra47hG4XBi8+c=
-Date: Wed, 22 Nov 2023 17:43:26 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Jacob Chen <jacob2.chen@rock-chips.com>,
-	Yichong Zhong <zyc@rock-chips.com>,
-	Shunqian Zheng <zhengsq@rock-chips.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Eddie Cai <eddie.cai.linux@gmail.com>,
-	Allon Huang <allon.huang@rock-chips.com>,
-	Jeffy Chen <jeffy.chen@rock-chips.com>, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: rkisp1: Fix memory leaks in
- rkisp1_isp_unregister()
-Message-ID: <20231122154326.GI3909@pendragon.ideasonboard.com>
-References: <20231122-rkisp-fixes-v1-0-1958af371e39@ideasonboard.com>
- <20231122-rkisp-fixes-v1-2-1958af371e39@ideasonboard.com>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E31A114F69;
+	Wed, 22 Nov 2023 15:44:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D15B0C433C7;
+	Wed, 22 Nov 2023 15:44:26 +0000 (UTC)
+Message-ID: <2ecdfff5-501a-452f-af90-0806f463a51c@xs4all.nl>
+Date: Wed, 22 Nov 2023 16:44:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231122-rkisp-fixes-v1-2-1958af371e39@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Patch v4 09/11] media: s5p-mfc: Load firmware for each run in
+ MFCv12.
+Content-Language: en-US, nl
+To: Aakarsh Jain <aakarsh.jain@samsung.com>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org, dillon.minfei@gmail.com,
+ david.plowman@raspberrypi.com, mark.rutland@arm.com, robh+dt@kernel.org,
+ conor+dt@kernel.org, linux-samsung-soc@vger.kernel.org, andi@etezian.org,
+ gost.dev@samsung.com, alim.akhtar@samsung.com, aswani.reddy@samsung.com,
+ pankaj.dubey@samsung.com, ajaykumar.rs@samsung.com, linux-fsd@tesla.com,
+ Smitha T Murthy <smithatmurthy@gmail.com>
+References: <20231025102216.50480-1-aakarsh.jain@samsung.com>
+ <CGME20231025102300epcas5p2c266a078b70614dc948b0e47cd5cf788@epcas5p2.samsung.com>
+ <20231025102216.50480-10-aakarsh.jain@samsung.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231025102216.50480-10-aakarsh.jain@samsung.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Tomi,
+On 25/10/2023 12:22, Aakarsh Jain wrote:
+> In MFCv12, some section of firmware gets updated at each MFC run.
+> Hence we need to reload original firmware for each run at the start.
 
-Thank you for the patch.
+Huh? This is very weird. This definitely deserves a comment in the actual
+code rather than just the commit log.
 
-On Wed, Nov 22, 2023 at 04:42:23PM +0200, Tomi Valkeinen wrote:
-> Add missing call to v4l2_subdev_cleanup() to fix memory leak.
-> 
-> Fixes: 2cce0a369dbd ("media: rkisp1: isp: Use V4L2 subdev active state")
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Do you know what is going on? What part is updated? Are you sure it isn't
+a driver bug somehow?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
->  drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> index 88ca8b2283b7..45d1ab96fc6e 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> @@ -933,6 +933,7 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
->  		return;
->  
->  	v4l2_device_unregister_subdev(&isp->sd);
-> +	v4l2_subdev_cleanup(&isp->sd);
->  	media_entity_cleanup(&isp->sd.entity);
->  }
->  
-
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+> Cc: linux-fsd@tesla.com
+> Signed-off-by: Smitha T Murthy <smithatmurthy@gmail.com>
+> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
+> ---
+>  drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
+> index b49159142c53..057088b9d327 100644
+> --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
+> +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
+> @@ -51,8 +51,9 @@ int s5p_mfc_load_firmware(struct s5p_mfc_dev *dev)
+>  	 * into kernel. */
+>  	mfc_debug_enter();
+>  
+> -	if (dev->fw_get_done)
+> -		return 0;
+> +	if (!IS_MFCV12(dev))
+> +		if (dev->fw_get_done)
+> +			return 0;
+>  
+>  	for (i = MFC_FW_MAX_VERSIONS - 1; i >= 0; i--) {
+>  		if (!dev->variant->fw_name[i])
+
 
