@@ -1,171 +1,260 @@
-Return-Path: <linux-media+bounces-783-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-784-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADC227F44A5
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 12:03:09 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E608D7F44AA
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 12:04:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 625732814C4
-	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 11:03:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 44721B21040
+	for <lists+linux-media@lfdr.de>; Wed, 22 Nov 2023 11:04:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B3A454BD3;
-	Wed, 22 Nov 2023 11:03:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60A15495FB;
+	Wed, 22 Nov 2023 11:04:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="eOL/23D2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [IPv6:2001:67c:2b0:1c1::201])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59FBED6E;
+	Wed, 22 Nov 2023 03:04:04 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5B2D4AF66
-	for <linux-media@vger.kernel.org>; Wed, 22 Nov 2023 11:03:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1919FC433CD;
-	Wed, 22 Nov 2023 11:03:03 +0000 (UTC)
-Message-ID: <38207856-0310-46b9-85d3-98553a2533a7@xs4all.nl>
-Date: Wed, 22 Nov 2023 12:03:02 +0100
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4SZyzj4NX0zyhg;
+	Wed, 22 Nov 2023 13:03:59 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1700651042;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=585S0owi5MJXgIPgSKoJ9Ihh8XN58xdRy/pLG757tes=;
+	b=eOL/23D2NaatR6obTyHJYyvsL1NtLFxkYi4UtqJn3PPes2H9d4D9wA62QrHe4eqTVS5/kI
+	JU31IIvXVe/yn4nA9dQuMc0yQh5aua9ZkcwW4zbueJE9zeV1LglMfCIS2Ua1rehlj7x73e
+	VRtCzDss2OhmA3hqjllvuMu4FGOqr5w=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1700651042;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=585S0owi5MJXgIPgSKoJ9Ihh8XN58xdRy/pLG757tes=;
+	b=r2b/miPIaYp0iDff0JP4lAFMrlqVdJH98J64EuQ4HrTJaK332vuEkJIOMnzp8v2bhd0MdU
+	VqVHvAbabAJikwzjI5/ZuRmgLCu6oUvFj5rfsJlC+CDFMydgB4pdJ1qR9rUkR5XQqUOymQ
+	xm6xRM7qkeCPnLykP1f/U6wADECIw+c=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1700651042; a=rsa-sha256; cv=none;
+	b=PySPdJTcS0BMQGSq06sQwYL3wQ5h2EHJcymHhvLnaI7Z4AtfZZRbVeyiEsqqF0+wLuImpH
+	l3VdoMqRVlK/cgRHRFF1zFkpWqhIgpMf1v4csytZU0pTynLKTqr4LtrSWx9HzdI6xzqA5O
+	gxoNN35fu0zXqBlW102Y9ZoSfxoSbm0=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1D94D634C93;
+	Wed, 22 Nov 2023 13:03:59 +0200 (EET)
+Date: Wed, 22 Nov 2023 11:03:58 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Alan Stern <stern@rowland.harvard.edu>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Sean Paul <seanpaul@chromium.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v3 2/3] media: uvcvideo: Do not halt the device after
+ disconnect
+Message-ID: <ZV3gHn8CuK_JJZbu@valkosipuli.retiisi.eu>
+References: <20231121-guenter-mini-v3-0-d8a5eae2312b@chromium.org>
+ <20231121-guenter-mini-v3-2-d8a5eae2312b@chromium.org>
+ <ZV3XDtUKJPuGLhw9@valkosipuli.retiisi.eu>
+ <CANiDSCuXXD_GWadSJo43zxscGAOPzxhODK=TKixn0OPn7z_tCw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [EXT] [PATCH] media: amphion: Move the blocking
- check_is_responsed() out of wait event loop
-Content-Language: en-US, nl
-To: Ming Qian <ming.qian@nxp.com>, Xiaolei Wang <xiaolei.wang@windriver.com>,
- Eagle Zhou <eagle.zhou@nxp.com>, "mchehab@kernel.org" <mchehab@kernel.org>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-References: <20231024052709.2897714-1-xiaolei.wang@windriver.com>
- <AM6PR04MB6341E9DCD1BC75F6F7773DA9E7DFA@AM6PR04MB6341.eurprd04.prod.outlook.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <AM6PR04MB6341E9DCD1BC75F6F7773DA9E7DFA@AM6PR04MB6341.eurprd04.prod.outlook.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiDSCuXXD_GWadSJo43zxscGAOPzxhODK=TKixn0OPn7z_tCw@mail.gmail.com>
 
-On 24/10/2023 09:12, Ming Qian wrote:
->> From: Xiaolei Wang <xiaolei.wang@windriver.com>
->> Sent: 2023年10月24日 13:27
->> To: Ming Qian <ming.qian@nxp.com>; Eagle Zhou <eagle.zhou@nxp.com>;
->> hverkuil-cisco@xs4all.nl; mchehab@kernel.org
->> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org
->> Subject: [EXT] [PATCH] media: amphion: Move the blocking
->> check_is_responsed() out of wait event loop
->>
->> Caution: This is an external email. Please take care when clicking links or
->> opening attachments. When in doubt, report the message using the 'Report
->> this email' button
->>
->>
->> The blocking ops can't be used as a condition parameter of
->> wait_event_timeout(), otherwise we would get a warning like below:
->>
->> do not call blocking ops when !TASK_RUNNING; state=2
->> WARNING: CPU: 5 PID: 741 at kernel/sched/core.c:9859
->> __might_sleep+0x80/0xa4
->> CPU: 5 PID: 741 Comm: mxc_v4l2_vpu_te Tainted: G         C         6.1.55-yocto-
->> standard #1
->> Hardware name: Freescale i.MX8QM MEK (DT)
->> pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)  pc :
->> __might_sleep+0x80/0xa4  lr : __might_sleep+0x80/0xa4  sp : ffffffc0123738a0
->> x29: ffffffc0123738a0 x28: ffffffc009194c48 x27: ffffffc00bbc1050
->> x26: ffffff8814b282f0 x25: ffffff8814b280d0 x24: ffffff8814b28080
->> x23: 0000000000000001 x22: 0000000000000032 x21: ffffffc00bbc1000
->> x20: 000000000000011b x19: ffffffc009324670 x18: 00000000fffffffd
->> x17: 30303c5b20746120 x16: 74657320323d6574 x15: 617473203b474e49
->> x14: 00058b5b8b9aa1f1 x13: ffffffc00903cda0 x12: 00000000d744fcc9
->> x11: 000000000000001c x10: 00000000000009a0 x9 : ffffffc0090201f4
->> x8 : ffffff8828245000 x7 : 0000000000000001 x6 : 0000000000000001
->> x5 : 00000000410fd080 x4 : 0000000000000002 x3 : ffffff8815aab4c8
->> x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff8828244600
->>  Call trace:
->>  __might_sleep+0x80/0xa4
->>  mutex_lock+0x2c/0x80
->>  sync_session_response+0x110/0x310
->>  vpu_session_send_cmd+0x18c/0x244
->>  vpu_session_start+0x38/0x70
->>  vdec_start_session+0x1b4/0x3e0
->>  vpu_vb2_start_streaming+0xa0/0x1c4
->>  vb2_start_streaming+0x74/0x160
->>  vb2_core_qbuf+0x488/0x650
->>  vb2_qbuf+0x9c/0x100
->>  v4l2_m2m_qbuf+0x7c/0x224
->>  v4l2_m2m_ioctl_qbuf+0x20/0x2c
->>  v4l_qbuf+0x50/0x6c
->>  __video_do_ioctl+0x174/0x3f0
->>  video_usercopy+0x210/0x7cc
->>  video_ioctl2+0x20/0x30
->>  v4l2_ioctl+0x48/0x6c
->>
->> It is not easy to convert the check_is_responsed() to a non-block function. In
->> order to fix this issue, use a unwinding implementation of
->> wait_event_timeout().
+Hi Ricardo,
+
+On Wed, Nov 22, 2023 at 11:32:16AM +0100, Ricardo Ribalda wrote:
+> Hi Sakari
 > 
-> Hi Xiaolei,
+> On Wed, 22 Nov 2023 at 11:25, Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> >
+> > Hi Ricardo,
+> >
+> > Thank you for the patch.
+> >
+> > On Tue, Nov 21, 2023 at 07:53:49PM +0000, Ricardo Ribalda wrote:
+> > > usb drivers should not call to any usb_() function after the
+> > > .disconnect() callback has been triggered.
+> > >
+> > > If the camera is streaming, the uvc driver will call usb_set_interface or
+> > > usb_clear_halt once the device is being released. Let's fix this issue.
+> > >
+> > > This is probably not the only driver affected with this kind of bug, but
+> > > until there is a better way to do it in the core this is the way to
+> > > solve this issue.
+> > >
+> > > When/if a different mechanism is implemented in the core to solve the
+> > > lifetime of devices we will adopt it in uvc.
+> > >
+> > > Trace:
+> > > [ 1065.389723] drivers/media/usb/uvc/uvc_driver.c:2248 uvc_disconnect enter
+> > > [ 1065.390160] drivers/media/usb/uvc/uvc_driver.c:2264 uvc_disconnect exit
+> > > [ 1065.433956] drivers/media/usb/uvc/uvc_v4l2.c:659 uvc_v4l2_release enter
+> > > [ 1065.433973] drivers/media/usb/uvc/uvc_video.c:2274 uvc_video_stop_streaming enter
+> > > [ 1065.434560] drivers/media/usb/uvc/uvc_video.c:2285 uvc_video_stop_streaming exit
+> > > [ 1065.435154] drivers/media/usb/uvc/uvc_v4l2.c:680 uvc_v4l2_release exit
+> > > [ 1065.435188] drivers/media/usb/uvc/uvc_driver.c:2248 uvc_disconnect enter
+> > >
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_driver.c |  2 ++
+> > >  drivers/media/usb/uvc/uvc_video.c  | 45 ++++++++++++++++++++++++--------------
+> > >  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
+> > >  3 files changed, 32 insertions(+), 17 deletions(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> > > index 08fcd2ffa727..413c32867617 100644
+> > > --- a/drivers/media/usb/uvc/uvc_driver.c
+> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
+> > > @@ -2257,6 +2257,8 @@ static void uvc_disconnect(struct usb_interface *intf)
+> > >               return;
+> > >
+> > >       uvc_unregister_video(dev);
+> > > +     /* Barrier needed to synchronize with uvc_video_stop_streaming(). */
+> > > +     smp_store_release(&dev->disconnected, true);
+> > >       kref_put(&dev->ref, uvc_delete);
+> > >  }
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > index 28dde08ec6c5..032b44e45b22 100644
+> > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > @@ -2243,28 +2243,39 @@ int uvc_video_start_streaming(struct uvc_streaming *stream)
+> > >       return ret;
+> > >  }
+> > >
+> > > -void uvc_video_stop_streaming(struct uvc_streaming *stream)
+> > > +static void uvc_video_halt(struct uvc_streaming *stream)
+> > >  {
+> > > -     uvc_video_stop_transfer(stream, 1);
+> > > +     unsigned int epnum;
+> > > +     unsigned int pipe;
+> > > +     unsigned int dir;
+> > >
+> > >       if (stream->intf->num_altsetting > 1) {
+> >
+> > Doesn't this imply the device is using isochronous mode?
 > 
->     Thanks for your patch, this issue is caused by calling mutex_lock() in condition parameter of
-> wait_event_timeout(), I think we can fix this issue, then we can still use wait_event_timeout()
-> instead of rewrite it.
-
-Based on this reply I am marking this in patchwork as "Changes Requested".
-Let me know if I misinterpreted this.
-
-Regards,
-
-	Hans
-
+> I haven't changed the behaviour for halt, it is just that git diff is
+> being a bit too creative here:
 > 
-> Ming
+> Basically it is doing:
 > 
->>
->> Signed-off-by: Xiaolei Wang <xiaolei.wang@windriver.com>
->>
->> squash! media: amphion: Move the blocking check_is_responsed() out of wait
->> event loop
->> ---
->> drivers/media/platform/amphion/vpu_cmds.c | 15 ++++++++++++++-
->> 1 file changed, 14 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/media/platform/amphion/vpu_cmds.c
->> b/drivers/media/platform/amphion/vpu_cmds.c
->> index c2337812573e..1abec8d9dad5 100644
->> --- a/drivers/media/platform/amphion/vpu_cmds.c
->> +++ b/drivers/media/platform/amphion/vpu_cmds.c
->> @@ -271,6 +271,7 @@ static bool check_is_responsed(struct vpu_inst *inst,
->> unsigned long key)  static int sync_session_response(struct vpu_inst *inst,
->> unsigned long key, long timeout, int try)  {
->>        struct vpu_core *core;
->> +       struct wait_queue_entry wq_entry;
->>
->>        if (!inst || !inst->core)
->>                return -EINVAL;
->> @@ -278,7 +279,19 @@ static int sync_session_response(struct vpu_inst *inst,
->> unsigned long key, long
->>        core = inst->core;
->>
->>        call_void_vop(inst, wait_prepare);
->> -       wait_event_timeout(core->ack_wq, check_is_responsed(inst, key),
->> timeout);
->> +       init_wait_entry(&wq_entry, 0);
->> +       for (;;) {
->> +               if (check_is_responsed(inst, key))
->> +                       break;
->> +
->> +               prepare_to_wait_event(&core->ack_wq, &wq_entry,
->> + TASK_UNINTERRUPTIBLE);
->> +
->> +               timeout = schedule_timeout(timeout);
->> +               if (!timeout)
->> +                       break;
->> +       }
->> +
->> +       finish_wait(&core->ack_wq, &wq_entry);
->>        call_void_vop(inst, wait_finish);
->>
->>        if (!check_is_responsed(inst, key)) {
->> --
->> 2.25.1
+> void video_halt() {
+>    if (is_isoc()) {
+>      usb_set_interface(stream->dev->udev, stream->intfnum, 0);
+>      return;
+>    }
+>    usb_clear_halt();
+> }
 > 
+> instead of the old:
+> 
+> void video_halt() {
+>    if (is_isoc()) {
+>      usb_set_interface(stream->dev->udev, stream->intfnum, 0);
+>    }  else {
+>       usb_clear_halt();
+>    }
+> }
+> 
+> Thanks!
 
+Oops. I missed the removal of the else branch altogether while reading the
+patch.
+
+Shouldn't you also ensure the disconnect callback won't return until the
+streaming has been stopped here?
+
+> >
+> > >               usb_set_interface(stream->dev->udev, stream->intfnum, 0);
+> > > -     } else {
+> > > -             /*
+> > > -              * UVC doesn't specify how to inform a bulk-based device
+> > > -              * when the video stream is stopped. Windows sends a
+> > > -              * CLEAR_FEATURE(HALT) request to the video streaming
+> > > -              * bulk endpoint, mimic the same behaviour.
+> > > -              */
+> > > -             unsigned int epnum = stream->header.bEndpointAddress
+> > > -                                & USB_ENDPOINT_NUMBER_MASK;
+> > > -             unsigned int dir = stream->header.bEndpointAddress
+> > > -                              & USB_ENDPOINT_DIR_MASK;
+> > > -             unsigned int pipe;
+> > > -
+> > > -             pipe = usb_sndbulkpipe(stream->dev->udev, epnum) | dir;
+> > > -             usb_clear_halt(stream->dev->udev, pipe);
+> > > +             return;
+> > >       }
+> > >
+> > > +     /*
+> > > +      * UVC doesn't specify how to inform a bulk-based device
+> >
+> > Then this comment doesn't look right. What about the code? This isn't
+> > mentioned in the commit message either.
+> >
+> > > +      * when the video stream is stopped. Windows sends a
+> > > +      * CLEAR_FEATURE(HALT) request to the video streaming
+> > > +      * bulk endpoint, mimic the same behaviour.
+> > > +      */
+> > > +     epnum = stream->header.bEndpointAddress & USB_ENDPOINT_NUMBER_MASK;
+> > > +     dir = stream->header.bEndpointAddress & USB_ENDPOINT_DIR_MASK;
+> > > +     pipe = usb_sndbulkpipe(stream->dev->udev, epnum) | dir;
+> > > +     usb_clear_halt(stream->dev->udev, pipe);
+> > > +}
+> > > +
+> > > +void uvc_video_stop_streaming(struct uvc_streaming *stream)
+> > > +{
+> > > +     uvc_video_stop_transfer(stream, 1);
+> > > +
+> > > +     /*
+> > > +      * Barrier needed to synchronize with uvc_disconnect().
+> > > +      * We cannot call usb_* functions on a disconnected USB device.
+> > > +      */
+> > > +     if (!smp_load_acquire(&stream->dev->disconnected))
+> > > +             uvc_video_halt(stream);
+> > > +
+> > >       uvc_video_clock_cleanup(stream);
+> > >  }
+> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > index 6fb0a78b1b00..4318ce8e31db 100644
+> > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > @@ -559,6 +559,8 @@ struct uvc_device {
+> > >       unsigned int users;
+> > >       atomic_t nmappings;
+> > >
+> > > +     bool disconnected;
+> > > +
+> > >       /* Video control interface */
+> > >  #ifdef CONFIG_MEDIA_CONTROLLER
+> > >       struct media_device mdev;
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
