@@ -1,126 +1,282 @@
-Return-Path: <linux-media+bounces-935-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-936-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E5EFB7F65DD
-	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 19:00:27 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C7E27F661C
+	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 19:22:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7EC03B212CC
-	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 18:00:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79F851C20EA3
+	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 18:22:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 729674AF6F;
-	Thu, 23 Nov 2023 18:00:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DE524B5DA;
+	Thu, 23 Nov 2023 18:22:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FpLR4xZ2"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="zEn7F6RB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D90D11F
-	for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 10:00:18 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8033F25A;
-	Thu, 23 Nov 2023 18:59:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700762383;
-	bh=otF3xnDoMKltj64ljgmuZNSylUKTcDap4wTEpG0CEkc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FpLR4xZ2gsa50gmPpMcJ/25Onc/Dygn7llj4BlCIj8Yyw6Z9h+TS/D5VqN6r+g/Da
-	 zFjOJn0dnizGPL3BYJGw7zPf5Z9N+yvKceBmeN3i7hYGkrRZ0ZtV6aFBTv0WeP9sWc
-	 BqPXY01sxheexIPPNVTUZMwnavKbGpnrmT7nBcWQ=
-Date: Thu, 23 Nov 2023 20:00:22 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	Stefan Wahren <stefan.wahren@i2se.com>,
-	Dan Carpenter <error27@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Phil Elwell <phil@raspberrypi.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 6/9] staging: vc04_services: Drop vchiq_log_error() in
- favour of dev_dbg
-Message-ID: <20231123180022.GA20170@pendragon.ideasonboard.com>
-References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
- <20231107095156.365492-7-umang.jain@ideasonboard.com>
- <2023112322-wife-aspect-135b@gregkh>
- <20231123134941.GD16377@pendragon.ideasonboard.com>
- <2023112338-scrambler-utilize-a31d@gregkh>
- <20231123172825.GJ16377@pendragon.ideasonboard.com>
- <2023112343-bobbed-throbbing-2c36@gregkh>
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D885B9
+	for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 10:22:14 -0800 (PST)
+Received: by mail-oi1-x22b.google.com with SMTP id 5614622812f47-3b83fc26e4cso696428b6e.2
+        for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 10:22:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1700763733; x=1701368533; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=QgSFVLXdiiVlFncJG5xnGMZmf3/Lcv/2SbxbrtDMVHM=;
+        b=zEn7F6RBkQg1dH+lgFglNvoTr4hfTWzcvCZOl7p+4Lqkb3KCsHK7DETy6Vbk9IyCzq
+         g803IXMLZXdNZGJ8BMyh3F+8ylJc+H0XWJEg+J2WqniB4SRnRyGUdvSjBBvDUTnZRAHl
+         s60gZPTbiC5t+oxZ7PKVLOBYUn8bjqY/9FtzoYB7RRmiC8YA1qKuzPzA25AHJOH7AfmP
+         TTL5Ta9ikXinurYqsRo/nPF4ikjXGYRQ7LsY3rMPGpfkxlaX6xPyVnHBeo3uLCyTJs+w
+         BKtcq/YTGjXdAWGPujZTFgoUF8Yt6k9a6uGhz5n9Il7EnMmse4KRcHSUHB0o36Hq74PM
+         od9A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700763733; x=1701368533;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QgSFVLXdiiVlFncJG5xnGMZmf3/Lcv/2SbxbrtDMVHM=;
+        b=FO2sCw6si6Upr0VDQy/3O0s30mqm8ecjWLn6QPZtepMp7YbqCLezj+OdqgVvHMwAVZ
+         1JVzbHsOcnEq/RnJ4XZJYGme6fbNrVHaR/5sj5MsOHQ4MDL8ukw4vEh09eU8rhdMZ4Qq
+         WcFVrZeg3i9QlNr8Wso4IPhxrNLgCUV8O3AVt85tIgzLU3fwRAO+F5pQrb03lzLP8JvH
+         9v90PJSzXtjX6TnccLvQvdXDRdt5FKqKSzDpLMbPz6goWj17Evtm2dtQnTLzmrHxQi/Z
+         CMG4uVFZi6vweHixpleCUFGV4F7gPLAng3YhR0l4TimqYckDfYNrkVpm7YRMvlWQ6J92
+         0aRQ==
+X-Gm-Message-State: AOJu0YxIIN/JKPIDjN+wSUS4Jucr3ZoHBG803VeL7IDYQVwrW63PVNc1
+	zE/nn6MGSymrt7vQ0ddQ5HCDsw==
+X-Google-Smtp-Source: AGHT+IF3P8f9G8z9cBesH4gZimJTvSi3PylasM1ZQxb1/VVqU5icDdUiOk0n+6nNy/V0MrxC6p6jEg==
+X-Received: by 2002:a05:6870:c6a5:b0:1f0:597d:fe25 with SMTP id cv37-20020a056870c6a500b001f0597dfe25mr111773oab.45.1700763733463;
+        Thu, 23 Nov 2023 10:22:13 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:10:3ac8::7a9])
+        by smtp.gmail.com with ESMTPSA id d13-20020a0cf6cd000000b0067a063e606asm697875qvo.52.2023.11.23.10.22.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 23 Nov 2023 10:22:12 -0800 (PST)
+Message-ID: <ded0b788f5896621cffd8f64c679ef375231b6d1.camel@ndufresne.ca>
+Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Ricardo Ribalda <ribalda@chromium.org>, Laurent Pinchart
+	 <laurent.pinchart@ideasonboard.com>
+Cc: Esker Wong <esker@google.com>, Kieran Bingham
+ <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>,
+ Esker Wong <esker@chromium.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>,  linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Thu, 23 Nov 2023 13:22:11 -0500
+In-Reply-To: <CANiDSCuD=Z2FVaSnejCfLnRJXUSE99GQkK=4tRAXBbxpUqEVHg@mail.gmail.com>
+References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org>
+	 <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu>
+	 <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
+	 <fe672e31315b8f9c44a693c909d464a299e76093.camel@ndufresne.ca>
+	 <CAEZL83qR2bDq35yvCV-WvkaL6ZbPvSxQH+j=ViG6Kq8-0Mzq1Q@mail.gmail.com>
+	 <CANiDSCtDQ9Wg57YzVAJ1o5WQRmy1QPW8td8V2Scc08MmWtOwFg@mail.gmail.com>
+	 <03ac47742945cc04e4663b87563b47a96ed3ec1f.camel@ndufresne.ca>
+	 <CANiDSCunRRyod3Rg+L9ZsffOZyC7CKbMVTHX3u-n5iuNyZQk0w@mail.gmail.com>
+	 <20231109000327.GE21616@pendragon.ideasonboard.com>
+	 <CANiDSCuD=Z2FVaSnejCfLnRJXUSE99GQkK=4tRAXBbxpUqEVHg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <2023112343-bobbed-throbbing-2c36@gregkh>
 
-On Thu, Nov 23, 2023 at 05:31:32PM +0000, Greg Kroah-Hartman wrote:
-> On Thu, Nov 23, 2023 at 07:28:25PM +0200, Laurent Pinchart wrote:
-> > On Thu, Nov 23, 2023 at 01:53:42PM +0000, Greg Kroah-Hartman wrote:
-> > > On Thu, Nov 23, 2023 at 03:49:41PM +0200, Laurent Pinchart wrote:
-> > > > On Thu, Nov 23, 2023 at 01:02:45PM +0000, Greg Kroah-Hartman wrote:
-> > > > > On Tue, Nov 07, 2023 at 04:51:53AM -0500, Umang Jain wrote:
-> > > > > > Drop vchiq_log_error() macro which wraps dev_dbg(). Introduce the usage
-> > > > > > of dev_dbg() directly.
-> > > > > > 
-> > > > > > Add a new enum vchiq_log_type and log_type() helper to faciliate the
-> > > > > > type of logging in dev_dbg(). This will help to determine the type of
-> > > > > > logging("error", "warning", "debug", "trace") to dynamic debug.
-> > > > > > 
-> > > > > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > > > > > ---
-> > > > > >  .../interface/vchiq_arm/vchiq_arm.c           |  54 ++++----
-> > > > > >  .../interface/vchiq_arm/vchiq_connected.c     |   6 +-
-> > > > > >  .../interface/vchiq_arm/vchiq_core.c          | 126 ++++++++++--------
-> > > > > >  .../interface/vchiq_arm/vchiq_core.h          |  23 +++-
-> > > > > >  .../interface/vchiq_arm/vchiq_dev.c           |  47 ++++---
-> > > > > >  5 files changed, 143 insertions(+), 113 deletions(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > index 9fb3e240d9de..2cb2a6503058 100644
-> > > > > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > > > > @@ -696,8 +696,8 @@ int vchiq_initialise(struct vchiq_instance **instance_out)
-> > > > > >  
-> > > > > >  	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
-> > > > > >  	if (!instance) {
-> > > > > > -		vchiq_log_error(state->dev, VCHIQ_CORE,
-> > > > > > -				"%s: error allocating vchiq instance\n", __func__);
-> > > > > > +		dev_dbg(state->dev, "%s: %s: %s: error allocating vchiq instance\n",
-> > > > > > +			log_cat(VCHIQ_CORE), log_type(ERROR), __func__);
-> > > > > 
-> > > > > All dev_dbg() calls have __func__ in them automatically, you never need
-> > > > > to duplicate it again as that's redundant :(
-> > > > 
-> > > > Oh ? I didn't know that, and can't find it in the code. I may be missing
-> > > > something though. Are you referring to the +f flag for dynamic debug
-> > > > entries ? It won't work if dynamic debug isn't enabled though, but maybe
-> > > > we don't care about that ?
-> > > 
-> > > Yes, the "f" flag is what controls this, and if dynamic debug isn't
-> > > enabled, you don't get any message here and we don't care about it :)
-> > 
-> > You do if you #define DEBUG, that's one of the three options for
-> > dev_dbg() (dynamic debug and no_printk() being the other two). Maybe
-> > __func__ should be added to the dev_printk() version of dev_dbg() to
-> > have a consistent behaviour.
-> 
-> Drivers should NOT be defining DEBUG for anything in the tree, just use
-> the normal interfaces, as no one will be selecting debug options from
-> Kconfig.  DEBUG is really only good for out-of-tree work.
+Le jeudi 09 novembre 2023 =C3=A0 01:27 +0100, Ricardo Ribalda a =C3=A9crit=
+=C2=A0:
+> Hi Laurent
+>=20
+> On Thu, 9 Nov 2023 at 01:03, Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >=20
+> > Hi Ricardo,
+> >=20
+> > On Wed, Nov 08, 2023 at 11:46:40PM +0100, Ricardo Ribalda wrote:
+> > > On Wed, 8 Nov 2023 at 21:32, <nicolas@ndufresne.ca> wrote:
+> > > >=20
+> > > > The fact that you interpret the time from FRAME_SYNC to DQBUF (well=
+ the
+> > > > READ IO notification) as the actual latency is yours of course. It
+> > > > assumes that the camera on the other end does not introduce other
+> > >=20
+> > > We want to use this signal to measure how much power is used since we
+> > > start receiving the frame until we can use it.
+> > > I agree with you that the latency between capture and dqbuf should be
+> > > measured using the timestamp. That is not our use case here.
+> > >=20
+> > > > source of latency (or that these are negligible). You are also goin=
+g to
+> > > > introduce a lot of jitter, since it relies on when the OS decides t=
+o
+> > > > wake up your process.
+> > >=20
+> > > We have measured a jitter of around 2.5 msec, which is acceptable for=
+ our needs.
+> > >=20
+> > > > I think my opinion resides in if you can accurately *enough* implem=
+ent
+> > > > what the spec says for FRAME_SYNC then do it, otherwise just don't =
+lie.
+> > >=20
+> > > What the specs says is:
+> > > ```
+> > > Triggered immediately when the reception of a frame has begun
+> > > ```
+> > > In my opinion, that is true for usb devices, we are triggering it as
+> > > soon as the transfer has started to the eyes of the driver. We cannot
+> > > trigger earlier than that.
+> > >=20
+> > >=20
+> > > > I think for ISO, "after the first chunk" i a small lie, but accepta=
+ble.
+> > > > But for BULK, the way it was explained is that it will be always ve=
+ry
+> > > > close to DQBUF time. and it should not emit FRAME_SYNC for this typ=
+e of
+> > > > UVC device. If it fits other events fine of course, I'm just making=
+ a
+> > > > judgment on if its fits V4L2_EVENT_FRAME_SYNC or not.
+> > >=20
+> > > nit: I believe that you have swapped iso and bulk on this description
+> >=20
+> > I've confused the USB packet size and the UVC payload size. The latter
+> > is typically much bigger for bulk devices than isoc devices, but the
+> > former will be in similar order of magnitudes in a large number of
+> > cases, but not all cases.
+> >=20
+> > The URB size is the result of the USB packet size and number of packets
+> > per URB. The uvcvideo driver currently sets the number of packets per
+> > URB to 32 at most (and lowers it if the frame size is small, or if not
+> > enough memory can be allocated). This could be increased or made dynami=
+c
+> > in the future, as higher speeds typically benefit from larger URB sizes=
+.
+> > The packet size differs between bulk and isoc endpoints.
+> >=20
+> > For bulk, the packet size can be up to 512 bytes for USB 2.0 and 1024
+> > bytes for USB 3.0, and the device can select a smaller size. The larges=
+t
+> > URB size (again based on the current implementation of the uvcvideo
+> > driver) is thus 32 KiB.
+> >=20
+> > For isochronous the situation is more complicated. The term "packet" as
+> > used in the uvcvideo driver actually means all the data transferred in
+> > one service interval, thus made of multiple isoc packets. It is heavily
+> > dependent on the USB speed, and the device can advertise different
+> > supported sizes (which translate directly to the reserved bandwidth for
+> > the transfer), with the driver picking the smallest bandwidth large
+> > enough for the data rate required by the resolution and frame rate. The
+> > theoretical worst case is 1024 bytes per isoc packet * 16 isoc packets
+> > per burst * 6 burst per interval * 32 "packets" per URB, equal to 3 MiB=
+.
+> >=20
+> > Even with the largest URB size you have witnessed of ~1 MiB, we will en=
+d
+> > up lying quite a bit if we consider the URB completion callback for the
+> > first URB of the frame as indicating the start of reception.
+> >=20
+> > > > In term of accuracy, if timestamp was passed with the FRAME_SYNC ev=
+ent,
+> > > > it would not matter how fast your process the event anymore and gre=
+atly
+> > > > improve accuracy.
+> > >=20
+> > > +1 to that. If we could easily change the uAPI for FRAME_SYNC that
+> > > should definitely be implemented.
+> > >=20
+> > > > > Not to mention that the UVC timestamping requires a bit of love.
+> > > > >=20
+> > > > > @Laurent Pinchart, @Kieran Bingham  any progress reviewing :P :
+> > > > > https://patchwork.linuxtv.org/project/linux-media/list/?series=3D=
+10083
+> > > >=20
+> > > > Thanks for working on this by the way, hope someone will find the t=
+ime
+> > > > to review this. The timestamps should in theory provide a jitter fr=
+ee
+> > >=20
+> > > It already has a couple of Reviewed-by stamped in.... ;)
+> > >=20
+> > > > measurement of the delay Esker is trying to measure, and if it wasn=
+'t
+> > > > of bugs (and crazy complexity) it would in the worst case match the
+> > > > transfer time.
+> > >=20
+> > > Sorry to repeat myself, but just to avoid the confusion: Esker needs
+> > > to know how much power is used since we start receiving a frame until
+> > > it is available for dqbuf, not de frame latency.
+> >=20
+> > As I think everybody is aware, the earliest notification you get on the
+> > CPU side is the *end* of reception of the first URB, which can possibly
+> > be significantly later than the start of reception of the frame.
+> >=20
+> > Based on what I understand, the goal is to measure the CPU power
+> > consumption related to CPU processing of the frame. If that's the case,
+> > there's good and bad news. The good news is that the CPU doesn't proces=
+s
+> > the frame at all until the URB has been received (if you were to measur=
+e
+> > the power consumption of the USB host controller too, it would be a
+> > different story), so the delay shouldn't be a problem. The bad news is
+> > that I don't see how the information you're trying to get will help you=
+,
+> > as there's plenty of other things unrelated to the uvcvideo driver that
+> > can take CPU time while a frame is being received. That may not be any
+> > of my business, but from the point of view of the uvcvideo driver, I'm
+> > less inclined to accept a possibly significant V4L2_EVENT_FRAME_SYNC li=
+e
+> > if the use case ends up making little sense :-)
+>=20
+> Just to add some numbers to add some context:
+>=20
+>  V4L2_EVENT_FRAME_SYNC for BULK and ISO will be delayed from:
+> ```
+> Triggered immediately when the reception of a frame has begun
+> ```
+> one urb.
+>=20
+> For bulk devices this is a maximum of 0.05 msec (32KiB/600MBps)
 
-I didn't know that either. Of course '#define DEBUG' shouldn't be merged
-upstream, but I thought it was supported by the kernel to make that
-possible during development, as an alternative to dynamic debug. Does it
-mean we should drop '#define DEBUG' support from dev_dbg() eventually ?
+I lack a bit of knowledge on how to scale this to different devices, with
+different speed/framesize. My only bulk device is:
 
--- 
-Regards,
+https://inogeni.com/product/4k2usb3/
 
-Laurent Pinchart
+Which is USB 3.0, and have raw (NV12) resolution from 640x480 (max 60pfs) t=
+o 4K
+(max 30fps). What would the error look like with that ?
+
+> For 1MiB transfer isoc devices (which is the biggest we have seen),
+> that is 1.8 msec.
+> In both cases, this is smaller than the jitter to process the event
+> itself by userspace.
+>=20
+> The time from V4L2_EVENT_FRAME_SYNC to DQBUF is around 30 msec.
+>=20
+> I do not know how much delay is considered acceptable... but if we
+> take the delay argument to the extreme, we could say that
+> V4L2_EVENT_FRAME_SYNC can never be implemented, because the event will
+> always be delayed by something.
+
+We have v4l2_event.timestamp for all events, so the jitter to process the e=
+vent
+by userpace can be removed reliably already.
+
+Nicolas
+
+p.s. missed it earlier
+
+>=20
+> >=20
+> > --
+> > Regards,
+> >=20
+> > Laurent Pinchart
+>=20
+>=20
+>=20
+
 
