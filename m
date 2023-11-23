@@ -1,282 +1,130 @@
-Return-Path: <linux-media+bounces-936-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-937-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C7E27F661C
-	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 19:22:24 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EF5C7F6643
+	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 19:31:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79F851C20EA3
-	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 18:22:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED69E281CB9
+	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 18:31:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DE524B5DA;
-	Thu, 23 Nov 2023 18:22:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E79D3E49F;
+	Thu, 23 Nov 2023 18:31:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="zEn7F6RB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sSwA2vh8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D885B9
-	for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 10:22:14 -0800 (PST)
-Received: by mail-oi1-x22b.google.com with SMTP id 5614622812f47-3b83fc26e4cso696428b6e.2
-        for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 10:22:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1700763733; x=1701368533; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=QgSFVLXdiiVlFncJG5xnGMZmf3/Lcv/2SbxbrtDMVHM=;
-        b=zEn7F6RBkQg1dH+lgFglNvoTr4hfTWzcvCZOl7p+4Lqkb3KCsHK7DETy6Vbk9IyCzq
-         g803IXMLZXdNZGJ8BMyh3F+8ylJc+H0XWJEg+J2WqniB4SRnRyGUdvSjBBvDUTnZRAHl
-         s60gZPTbiC5t+oxZ7PKVLOBYUn8bjqY/9FtzoYB7RRmiC8YA1qKuzPzA25AHJOH7AfmP
-         TTL5Ta9ikXinurYqsRo/nPF4ikjXGYRQ7LsY3rMPGpfkxlaX6xPyVnHBeo3uLCyTJs+w
-         BKtcq/YTGjXdAWGPujZTFgoUF8Yt6k9a6uGhz5n9Il7EnMmse4KRcHSUHB0o36Hq74PM
-         od9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700763733; x=1701368533;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QgSFVLXdiiVlFncJG5xnGMZmf3/Lcv/2SbxbrtDMVHM=;
-        b=FO2sCw6si6Upr0VDQy/3O0s30mqm8ecjWLn6QPZtepMp7YbqCLezj+OdqgVvHMwAVZ
-         1JVzbHsOcnEq/RnJ4XZJYGme6fbNrVHaR/5sj5MsOHQ4MDL8ukw4vEh09eU8rhdMZ4Qq
-         WcFVrZeg3i9QlNr8Wso4IPhxrNLgCUV8O3AVt85tIgzLU3fwRAO+F5pQrb03lzLP8JvH
-         9v90PJSzXtjX6TnccLvQvdXDRdt5FKqKSzDpLMbPz6goWj17Evtm2dtQnTLzmrHxQi/Z
-         CMG4uVFZi6vweHixpleCUFGV4F7gPLAng3YhR0l4TimqYckDfYNrkVpm7YRMvlWQ6J92
-         0aRQ==
-X-Gm-Message-State: AOJu0YxIIN/JKPIDjN+wSUS4Jucr3ZoHBG803VeL7IDYQVwrW63PVNc1
-	zE/nn6MGSymrt7vQ0ddQ5HCDsw==
-X-Google-Smtp-Source: AGHT+IF3P8f9G8z9cBesH4gZimJTvSi3PylasM1ZQxb1/VVqU5icDdUiOk0n+6nNy/V0MrxC6p6jEg==
-X-Received: by 2002:a05:6870:c6a5:b0:1f0:597d:fe25 with SMTP id cv37-20020a056870c6a500b001f0597dfe25mr111773oab.45.1700763733463;
-        Thu, 23 Nov 2023 10:22:13 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:10:3ac8::7a9])
-        by smtp.gmail.com with ESMTPSA id d13-20020a0cf6cd000000b0067a063e606asm697875qvo.52.2023.11.23.10.22.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Nov 2023 10:22:12 -0800 (PST)
-Message-ID: <ded0b788f5896621cffd8f64c679ef375231b6d1.camel@ndufresne.ca>
-Subject: Re: [PATCH v2] media: uvcvideo: Implement V4L2_EVENT_FRAME_SYNC
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Ricardo Ribalda <ribalda@chromium.org>, Laurent Pinchart
-	 <laurent.pinchart@ideasonboard.com>
-Cc: Esker Wong <esker@google.com>, Kieran Bingham
- <kieran.bingham@ideasonboard.com>, Sakari Ailus <sakari.ailus@iki.fi>,
- Esker Wong <esker@chromium.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Thu, 23 Nov 2023 13:22:11 -0500
-In-Reply-To: <CANiDSCuD=Z2FVaSnejCfLnRJXUSE99GQkK=4tRAXBbxpUqEVHg@mail.gmail.com>
-References: <20231106-uvc-event-v2-1-7d8e36f0df16@chromium.org>
-	 <ZUjIlq0cxSv9Cut0@valkosipuli.retiisi.eu>
-	 <CAN_q1f_HV7Etb9i2c2_c6Trm2hAJUyd068UskJfMvT=OyiKXpA@mail.gmail.com>
-	 <fe672e31315b8f9c44a693c909d464a299e76093.camel@ndufresne.ca>
-	 <CAEZL83qR2bDq35yvCV-WvkaL6ZbPvSxQH+j=ViG6Kq8-0Mzq1Q@mail.gmail.com>
-	 <CANiDSCtDQ9Wg57YzVAJ1o5WQRmy1QPW8td8V2Scc08MmWtOwFg@mail.gmail.com>
-	 <03ac47742945cc04e4663b87563b47a96ed3ec1f.camel@ndufresne.ca>
-	 <CANiDSCunRRyod3Rg+L9ZsffOZyC7CKbMVTHX3u-n5iuNyZQk0w@mail.gmail.com>
-	 <20231109000327.GE21616@pendragon.ideasonboard.com>
-	 <CANiDSCuD=Z2FVaSnejCfLnRJXUSE99GQkK=4tRAXBbxpUqEVHg@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98FF24C3A7
+	for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 18:31:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 29F41C433C7;
+	Thu, 23 Nov 2023 18:31:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700764298;
+	bh=24Uq7WK8dsTpcsc+4/DvLuXT2HlvhDJHUNfuBy6tNTY=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=sSwA2vh8Gd4VAetxhILxIlCb6/AUupXiBXf5GbjUad5cp5Z9wWYGFd/RUUT/B4xvA
+	 JFkN0PRj6xVmnmZg0+oox4uWUZmijMCe8325sAh1umP2Xtf4bJ6X7hWco/7Y6gp7tn
+	 Ebj8RyZmW/5jAdScLf9YdJYJ5muvfddOimGt2gRhMCUmV+vdvlGBgY0r5+j2ikB5dY
+	 ti2Rf41XE/FwGp+fn8X8nPJeyll740Npi+qsOqUoqDSaubvsWt4bbK2dHvrRig9A79
+	 UACrrqr0US1v0pz5ivKKuA97ip6arMSOXIi0hFL2raIQ0WL3D85WwKJMpV3bPbk7Vz
+	 lGkyCaE5ZkxfA==
+Date: Thu, 23 Nov 2023 19:31:33 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Chen-Yu Tsai <wens@kernel.org>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>,
+ linux-media@vger.kernel.org
+Subject: Re: [GIT PULL FOR 6.7] Mediatek Vcodec: Codec profile and level
+ setting
+Message-ID: <20231123193133.5f7323bb@coco.lan>
+In-Reply-To: <CAGb2v64+-DE0t0M0aVQ4tBnMgsmaP96AeAJDy4AWPc0icAKfng@mail.gmail.com>
+References: <20231027085058.k65rwgxepmx5ivu5@basti-XPS-13-9310>
+	<20231123110230.7c7a9d8e@coco.lan>
+	<CAGb2v64+-DE0t0M0aVQ4tBnMgsmaP96AeAJDy4AWPc0icAKfng@mail.gmail.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Le jeudi 09 novembre 2023 =C3=A0 01:27 +0100, Ricardo Ribalda a =C3=A9crit=
-=C2=A0:
-> Hi Laurent
->=20
-> On Thu, 9 Nov 2023 at 01:03, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >=20
-> > Hi Ricardo,
-> >=20
-> > On Wed, Nov 08, 2023 at 11:46:40PM +0100, Ricardo Ribalda wrote:
-> > > On Wed, 8 Nov 2023 at 21:32, <nicolas@ndufresne.ca> wrote:
-> > > >=20
-> > > > The fact that you interpret the time from FRAME_SYNC to DQBUF (well=
- the
-> > > > READ IO notification) as the actual latency is yours of course. It
-> > > > assumes that the camera on the other end does not introduce other
-> > >=20
-> > > We want to use this signal to measure how much power is used since we
-> > > start receiving the frame until we can use it.
-> > > I agree with you that the latency between capture and dqbuf should be
-> > > measured using the timestamp. That is not our use case here.
-> > >=20
-> > > > source of latency (or that these are negligible). You are also goin=
-g to
-> > > > introduce a lot of jitter, since it relies on when the OS decides t=
-o
-> > > > wake up your process.
-> > >=20
-> > > We have measured a jitter of around 2.5 msec, which is acceptable for=
- our needs.
-> > >=20
-> > > > I think my opinion resides in if you can accurately *enough* implem=
-ent
-> > > > what the spec says for FRAME_SYNC then do it, otherwise just don't =
-lie.
-> > >=20
-> > > What the specs says is:
-> > > ```
-> > > Triggered immediately when the reception of a frame has begun
-> > > ```
-> > > In my opinion, that is true for usb devices, we are triggering it as
-> > > soon as the transfer has started to the eyes of the driver. We cannot
-> > > trigger earlier than that.
-> > >=20
-> > >=20
-> > > > I think for ISO, "after the first chunk" i a small lie, but accepta=
-ble.
-> > > > But for BULK, the way it was explained is that it will be always ve=
-ry
-> > > > close to DQBUF time. and it should not emit FRAME_SYNC for this typ=
-e of
-> > > > UVC device. If it fits other events fine of course, I'm just making=
- a
-> > > > judgment on if its fits V4L2_EVENT_FRAME_SYNC or not.
-> > >=20
-> > > nit: I believe that you have swapped iso and bulk on this description
-> >=20
-> > I've confused the USB packet size and the UVC payload size. The latter
-> > is typically much bigger for bulk devices than isoc devices, but the
-> > former will be in similar order of magnitudes in a large number of
-> > cases, but not all cases.
-> >=20
-> > The URB size is the result of the USB packet size and number of packets
-> > per URB. The uvcvideo driver currently sets the number of packets per
-> > URB to 32 at most (and lowers it if the frame size is small, or if not
-> > enough memory can be allocated). This could be increased or made dynami=
-c
-> > in the future, as higher speeds typically benefit from larger URB sizes=
-.
-> > The packet size differs between bulk and isoc endpoints.
-> >=20
-> > For bulk, the packet size can be up to 512 bytes for USB 2.0 and 1024
-> > bytes for USB 3.0, and the device can select a smaller size. The larges=
-t
-> > URB size (again based on the current implementation of the uvcvideo
-> > driver) is thus 32 KiB.
-> >=20
-> > For isochronous the situation is more complicated. The term "packet" as
-> > used in the uvcvideo driver actually means all the data transferred in
-> > one service interval, thus made of multiple isoc packets. It is heavily
-> > dependent on the USB speed, and the device can advertise different
-> > supported sizes (which translate directly to the reserved bandwidth for
-> > the transfer), with the driver picking the smallest bandwidth large
-> > enough for the data rate required by the resolution and frame rate. The
-> > theoretical worst case is 1024 bytes per isoc packet * 16 isoc packets
-> > per burst * 6 burst per interval * 32 "packets" per URB, equal to 3 MiB=
-.
-> >=20
-> > Even with the largest URB size you have witnessed of ~1 MiB, we will en=
-d
-> > up lying quite a bit if we consider the URB completion callback for the
-> > first URB of the frame as indicating the start of reception.
-> >=20
-> > > > In term of accuracy, if timestamp was passed with the FRAME_SYNC ev=
-ent,
-> > > > it would not matter how fast your process the event anymore and gre=
-atly
-> > > > improve accuracy.
-> > >=20
-> > > +1 to that. If we could easily change the uAPI for FRAME_SYNC that
-> > > should definitely be implemented.
-> > >=20
-> > > > > Not to mention that the UVC timestamping requires a bit of love.
-> > > > >=20
-> > > > > @Laurent Pinchart, @Kieran Bingham  any progress reviewing :P :
-> > > > > https://patchwork.linuxtv.org/project/linux-media/list/?series=3D=
-10083
-> > > >=20
-> > > > Thanks for working on this by the way, hope someone will find the t=
-ime
-> > > > to review this. The timestamps should in theory provide a jitter fr=
-ee
-> > >=20
-> > > It already has a couple of Reviewed-by stamped in.... ;)
-> > >=20
-> > > > measurement of the delay Esker is trying to measure, and if it wasn=
-'t
-> > > > of bugs (and crazy complexity) it would in the worst case match the
-> > > > transfer time.
-> > >=20
-> > > Sorry to repeat myself, but just to avoid the confusion: Esker needs
-> > > to know how much power is used since we start receiving a frame until
-> > > it is available for dqbuf, not de frame latency.
-> >=20
-> > As I think everybody is aware, the earliest notification you get on the
-> > CPU side is the *end* of reception of the first URB, which can possibly
-> > be significantly later than the start of reception of the frame.
-> >=20
-> > Based on what I understand, the goal is to measure the CPU power
-> > consumption related to CPU processing of the frame. If that's the case,
-> > there's good and bad news. The good news is that the CPU doesn't proces=
-s
-> > the frame at all until the URB has been received (if you were to measur=
-e
-> > the power consumption of the USB host controller too, it would be a
-> > different story), so the delay shouldn't be a problem. The bad news is
-> > that I don't see how the information you're trying to get will help you=
-,
-> > as there's plenty of other things unrelated to the uvcvideo driver that
-> > can take CPU time while a frame is being received. That may not be any
-> > of my business, but from the point of view of the uvcvideo driver, I'm
-> > less inclined to accept a possibly significant V4L2_EVENT_FRAME_SYNC li=
-e
-> > if the use case ends up making little sense :-)
->=20
-> Just to add some numbers to add some context:
->=20
->  V4L2_EVENT_FRAME_SYNC for BULK and ISO will be delayed from:
-> ```
-> Triggered immediately when the reception of a frame has begun
-> ```
-> one urb.
->=20
-> For bulk devices this is a maximum of 0.05 msec (32KiB/600MBps)
+Em Thu, 23 Nov 2023 18:38:38 +0800
+Chen-Yu Tsai <wens@kernel.org> escreveu:
 
-I lack a bit of knowledge on how to scale this to different devices, with
-different speed/framesize. My only bulk device is:
-
-https://inogeni.com/product/4k2usb3/
-
-Which is USB 3.0, and have raw (NV12) resolution from 640x480 (max 60pfs) t=
-o 4K
-(max 30fps). What would the error look like with that ?
-
-> For 1MiB transfer isoc devices (which is the biggest we have seen),
-> that is 1.8 msec.
-> In both cases, this is smaller than the jitter to process the event
-> itself by userspace.
+> On Thu, Nov 23, 2023 at 6:02=E2=80=AFPM Mauro Carvalho Chehab
+> <mchehab@kernel.org> wrote:
+> >
+> > Em Fri, 27 Oct 2023 10:50:58 +0200
+> > Sebastian Fricke <sebastian.fricke@collabora.com> escreveu:
+> > =20
+> > > Hey Mauro and Hans,
+> > >
+> > > first attempt at doing a PR, could you please check and pull this?
+> > >
+> > > The following changes since commit 19e67e01eb1e84f3529770d084b93f16a4=
+894c42:
+> > >
+> > >    media: venus: Fix firmware path for resources (2023-10-23 12:24:53=
+ +0200)
+> > >
+> > > are available in the Git repository at:
+> > >
+> > >    https://gitlab.collabora.com/sebastianfricke/linux tags/for-6.7-si=
+gned
+> > >
+> > > for you to fetch changes up to ccd08a80f5e1844819874b01c5ff61e18aa9e1=
+33:
+> > >
+> > >    media: mediatek: vcodec: Set the supported vp9 profile for each pl=
+atform (2023-10-26 09:09:21 +0200) =20
+> >
+> >
+> > Checkpatch is producing some warnings here:
+> >
+> > WARNING:COMMIT_LOG_LONG_LINE: Prefer a maximum 75 chars per line (possi=
+ble unwrapped commit description?)
+> > #32:
+> > The following changes since commit 19e67e01eb1e84f3529770d084b93f16a489=
+4c42:
+> >
+> > ERROR:GIT_COMMIT_ID: Please use git commit description style 'commit <1=
+2+ chars of sha1> ("<title line>")' - ie: 'commit 19e67e01eb1e ("media: ven=
+us: Fix firmware path for resources")'
+> > #32:
+> > The following changes since commit 19e67e01eb1e84f3529770d084b93f16a489=
+4c42:
+> >
+> > ERROR:NOT_UNIFIED_DIFF: Does not appear to be a unified-diff format pat=
+ch
+> >
+> > Could you please double-check those? =20
 >=20
-> The time from V4L2_EVENT_FRAME_SYNC to DQBUF is around 30 msec.
->=20
-> I do not know how much delay is considered acceptable... but if we
-> take the delay argument to the extreme, we could say that
-> V4L2_EVENT_FRAME_SYNC can never be implemented, because the event will
-> always be delayed by something.
+> It seems like you ran checkpatch against this pull request email, not
+> the patches to be pulled in?
 
-We have v4l2_event.timestamp for all events, so the jitter to process the e=
-vent
-by userpace can be removed reliably already.
+True. The problem seems to be due to whatever tool Sebastian made this PR.
 
-Nicolas
+My scripts rely on the format produced by "git pull", being picky with
+the URL there. In particular, on Sebastian's PR, the URL is:
 
-p.s. missed it earlier
+   https://gitlab.collabora.com/sebastianfricke/linux tags/for-6.7-signed
 
->=20
-> >=20
-> > --
-> > Regards,
-> >=20
-> > Laurent Pinchart
->=20
->=20
->=20
+(3 spaces before URL)
 
+While git request-pull produces:
+
+  https://gitlab.collabora.com/sebastianfricke/linux tags/for-6.7-signed
+
+(2 spaces before URL)
+
+Anyway, PR applied by Hans.
+
+Regards,
+Mauro
 
