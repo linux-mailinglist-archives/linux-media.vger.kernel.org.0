@@ -1,35 +1,35 @@
-Return-Path: <linux-media+bounces-929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C03F7F653E
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C64467F653F
 	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 18:22:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 83698B2135C
-	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 17:22:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D314281B49
+	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 17:22:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A6D93FE28;
-	Thu, 23 Nov 2023 17:22:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9D945405CC;
+	Thu, 23 Nov 2023 17:22:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="ZJbL2IbQ"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="tq9eJ/6y"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EB3F3FE4E;
-	Thu, 23 Nov 2023 17:22:33 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C207C433CA;
-	Thu, 23 Nov 2023 17:22:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D16813FE4E;
+	Thu, 23 Nov 2023 17:22:36 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F23B4C433CA;
+	Thu, 23 Nov 2023 17:22:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1700760153;
-	bh=Uzgttd6rcXSVlPlqk1vUw05LAy6cR6LhDMD0kUveHm4=;
+	s=korg; t=1700760156;
+	bh=0YrnFGZ6QHkvwo7JE//eP9vpdVSncHZkxX9I2Hi8upU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZJbL2IbQPsgwKH79xt11331R+43HtTZgGu/j3yZtJAtETb1YAQRA6lLf0sv1GqraX
-	 wRYmpHVL6ArfpVkpx+TWqKIeoD5F9b+14+BfVSLn/NnhtbApKeHN3oAhVrxbAY7eqx
-	 /GhVy5NwALzrST15kB0xggboNBazY+hENq/Drg+g=
-Date: Thu, 23 Nov 2023 13:53:42 +0000
+	b=tq9eJ/6y+XOYym7djDhmD9M/GAQwCLx6ahz+n+BKxlSZAqCTPOJubI4mlstLXZVBJ
+	 Nm87g68jZH/poxfucgGXimM3goLVAx9wUWyuu2A3uTZua07uTpA7wW5T+Qd2BdqxyU
+	 1XpEnExqBTWepe515OfkAReQuUCCkhZi46jX/dk0=
+Date: Thu, 23 Nov 2023 13:55:03 +0000
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
@@ -40,13 +40,15 @@ Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Phil Elwell <phil@raspberrypi.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>
-Subject: Re: [PATCH 6/9] staging: vc04_services: Drop vchiq_log_error() in
- favour of dev_dbg
-Message-ID: <2023112338-scrambler-utilize-a31d@gregkh>
+Subject: Re: [PATCH 5/9] staging: vc04_services: Do not pass NULL to
+ vchiq_log_error()
+Message-ID: <2023112331-cupid-neon-836a@gregkh>
 References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
- <20231107095156.365492-7-umang.jain@ideasonboard.com>
- <2023112322-wife-aspect-135b@gregkh>
- <20231123134941.GD16377@pendragon.ideasonboard.com>
+ <20231107095156.365492-6-umang.jain@ideasonboard.com>
+ <20231107122551.GA3051@pendragon.ideasonboard.com>
+ <4a5f6ae3-2a1f-f708-d9e0-fad4f5b60a43@ideasonboard.com>
+ <2023112341-daughter-richness-c87b@gregkh>
+ <20231123134127.GB16377@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,52 +57,64 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231123134941.GD16377@pendragon.ideasonboard.com>
+In-Reply-To: <20231123134127.GB16377@pendragon.ideasonboard.com>
 
-On Thu, Nov 23, 2023 at 03:49:41PM +0200, Laurent Pinchart wrote:
-> On Thu, Nov 23, 2023 at 01:02:45PM +0000, Greg Kroah-Hartman wrote:
-> > On Tue, Nov 07, 2023 at 04:51:53AM -0500, Umang Jain wrote:
-> > > Drop vchiq_log_error() macro which wraps dev_dbg(). Introduce the usage
-> > > of dev_dbg() directly.
+On Thu, Nov 23, 2023 at 03:41:27PM +0200, Laurent Pinchart wrote:
+> On Thu, Nov 23, 2023 at 12:57:14PM +0000, Greg Kroah-Hartman wrote:
+> > On Tue, Nov 07, 2023 at 06:01:58PM +0530, Umang Jain wrote:
+> > > Hi Laurent,
 > > > 
-> > > Add a new enum vchiq_log_type and log_type() helper to faciliate the
-> > > type of logging in dev_dbg(). This will help to determine the type of
-> > > logging("error", "warning", "debug", "trace") to dynamic debug.
+> > > On 11/7/23 5:55 PM, Laurent Pinchart wrote:
+> > > > Hi Umang,
+> > > > 
+> > > > Thank you for the patch.
+> > > > 
+> > > > On Tue, Nov 07, 2023 at 04:51:52AM -0500, Umang Jain wrote:
+> > > > > vchiq_add_connected_callback() logs using vchiq_log_error() macro,
+> > > > > but passes NULL instead of a struct device pointer. Fix it.
+> > > > > 
+> > > > > vchiq_add_connected_callback() is not used anywhere in the vc04_services
+> > > > > as of now. It will be used when we add new drivers(VC shared memory and
+> > > > > bcm2835-isp), hence it kept as it is for now.
+> > > > > 
+> > > > > Fixes: 1d8915cf8899 ("staging: vc04: Convert vchiq_log_error() to use dynamic debug")
+> > > > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > > > > ---
+> > > > >   .../vc04_services/interface/vchiq_arm/vchiq_connected.c       | 4 ++--
+> > > > >   .../vc04_services/interface/vchiq_arm/vchiq_connected.h       | 4 +++-
+> > > > >   2 files changed, 5 insertions(+), 3 deletions(-)
+> > > > > 
+> > > > > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> > > > > index b3928bd8c9c6..21f9fa1a1713 100644
+> > > > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> > > > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.c
+> > > > > @@ -27,7 +27,7 @@ static void connected_init(void)
+> > > > >    * be made immediately, otherwise it will be deferred until
+> > > > >    * vchiq_call_connected_callbacks is called.
+> > > > >    */
+> > > > > -void vchiq_add_connected_callback(void (*callback)(void))
+> > > > > +void vchiq_add_connected_callback(struct vchiq_device *device, void (*callback)(void))
+> > > > You're changing the prototype of the function, but the patch doesn't
+> > > > update any user. If the function is unused, it looks like you can drop
+> > > > it instead. Looking at the rest of the vchiq_connected.c file, I think
+> > > > you can actually drop the whole file.
 > > > 
-> > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> > > ---
-> > >  .../interface/vchiq_arm/vchiq_arm.c           |  54 ++++----
-> > >  .../interface/vchiq_arm/vchiq_connected.c     |   6 +-
-> > >  .../interface/vchiq_arm/vchiq_core.c          | 126 ++++++++++--------
-> > >  .../interface/vchiq_arm/vchiq_core.h          |  23 +++-
-> > >  .../interface/vchiq_arm/vchiq_dev.c           |  47 ++++---
-> > >  5 files changed, 143 insertions(+), 113 deletions(-)
-> > > 
-> > > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > index 9fb3e240d9de..2cb2a6503058 100644
-> > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> > > @@ -696,8 +696,8 @@ int vchiq_initialise(struct vchiq_instance **instance_out)
-> > >  
-> > >  	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
-> > >  	if (!instance) {
-> > > -		vchiq_log_error(state->dev, VCHIQ_CORE,
-> > > -				"%s: error allocating vchiq instance\n", __func__);
-> > > +		dev_dbg(state->dev, "%s: %s: %s: error allocating vchiq instance\n",
-> > > +			log_cat(VCHIQ_CORE), log_type(ERROR), __func__);
+> > > I mentioned in the commit message of this patch. There will be users in the
+> > > near future.
 > > 
-> > All dev_dbg() calls have __func__ in them automatically, you never need
-> > to duplicate it again as that's redundant :(
+> > We write code for today, not any potential users in the future.  If it's
+> > not used now, let's delete it and then when we need it in the future,
+> > you can add it back then.
 > 
-> Oh ? I didn't know that, and can't find it in the code. I may be missing
-> something though. Are you referring to the +f flag for dynamic debug
-> entries ? It won't work if dynamic debug isn't enabled though, but maybe
-> we don't care about that ?
+> What was the near future on November the 7th is now the present :-)
+> Umang has sent a new version of the ISP driver that uses this API. I
+> think this kind of near future is fine, and we routinely do the same
+> during review when large feature are split across multiple series
+> (whether those series are merged together or independently is another
+> question of course).
 
-Yes, the "f" flag is what controls this, and if dynamic debug isn't
-enabled, you don't get any message here and we don't care about it :)
-
-thanks,
+That other series is long gone from my review queue after the first
+round of issues found with it, I had forgotten all about it :)
 
 greg k-h
 
