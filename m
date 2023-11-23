@@ -1,104 +1,156 @@
-Return-Path: <linux-media+bounces-883-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-884-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5F07F5C8A
-	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 11:38:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DB087F5C92
+	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 11:38:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6B274281A08
-	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 10:38:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 549B32819EC
+	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 10:38:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 454FC224FB;
-	Thu, 23 Nov 2023 10:38:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BD04A2137A;
+	Thu, 23 Nov 2023 10:38:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BN/4y5wM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PHMiaI+c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E0B6D4E;
-	Thu, 23 Nov 2023 02:38:13 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-5482df11e73so999424a12.0;
-        Thu, 23 Nov 2023 02:38:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700735892; x=1701340692; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/10f0Z5slGSAKwMhtMcE4JVOhjTmJuQd6yxBSQebl1Q=;
-        b=BN/4y5wMFp8+XUVwUz0orNEfc7B4Y9xcjHRLVhX9M2kFzhghbf+ClVdoNsqrGFtg7r
-         kIn7xC1JF38EXzJ0m5YyQ1/7M2IS+6J/PzRHxjILVxnVgMTc00jh+tOcbaQz6HZ4uegD
-         iNo7pz4eNR6MXgW4k2oaBiRfPXWgiJ1X/pLJ5/ZIRmWmWK14hBfz4F/1aGAimo+TavWX
-         m/OcmON1gCEjdfKOR84F3jLt5GqQ9L/G7P92LqILqJ0U+PPqe2OrNGRE4xyuiqFowsMS
-         c/e+5REXwGQgOF7F4pHfnFaa71AbLaNUm27EKqt9hXRGikU5NB59hxyBlpPqrsPbcjTQ
-         ARGg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700735892; x=1701340692;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/10f0Z5slGSAKwMhtMcE4JVOhjTmJuQd6yxBSQebl1Q=;
-        b=hX+6eVvHcSsDriYP7IqnvUM1EV3zeSXEgP+UY2d8dpil2FkMQJXYFcEPFezQvJdb+X
-         u9WtrVfE6NTf6XpiP5f+hwAbe9hFsIIYHjMIdx4y99fE41BDAVU6xHlg4qZofCdHOA+2
-         WuvHlQeVKwAbpmQjVKZ7vGZQH3hPNr/0vuZ2/kpv++7BIvw7ltCDnc05rxyYk4/O44/c
-         XcVV9VRjSdQxtw9ETd/1CIt/EWS9FnMT+059g/Uk0VFoyKz6+bs+SnWAMyoSthfkSnk2
-         kUp5QNAuR3hxAe9uFz85JYfawT5aP/XbDYOjJccQH1dy+Z7/hI5ShlVc18UTwIEQBeLW
-         qi9A==
-X-Gm-Message-State: AOJu0YxaW/PTLxV3jW5wjRtIQo6Rt/p7I3HKgbzPsAGEamm4iBySUQqI
-	YSE2mBbgyKk0wkmR1nBQs16HD54Mwug=
-X-Google-Smtp-Source: AGHT+IHlzD3nvSyI/45B5PJ+YhvgKPsItsZOGvtSg8j3cEuomylmjSj4riDSySJf9GaOj2wfNWEA0g==
-X-Received: by 2002:a17:906:104c:b0:9fe:380e:9055 with SMTP id j12-20020a170906104c00b009fe380e9055mr3146320ejj.8.1700735891528;
-        Thu, 23 Nov 2023 02:38:11 -0800 (PST)
-Received: from felia.fritz.box ([2a02:810d:7e40:14b0:d183:a5d9:39a9:cd13])
-        by smtp.gmail.com with ESMTPSA id w8-20020a170906184800b009fca9484a62sm594511eje.200.2023.11.23.02.38.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Nov 2023 02:38:10 -0800 (PST)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
-	Alim Akhtar <alim.akhtar@samsung.com>,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-samsung-soc@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] exynos-gsc: remove unused improper CONFIG definition
-Date: Thu, 23 Nov 2023 11:38:08 +0100
-Message-Id: <20231123103808.17848-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05BAC1C28C
+	for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 10:38:50 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE516C433CB
+	for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 10:38:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1700735929;
+	bh=p2hyFSZMchP3/9dCAytYtSTF0O7fbXlOb4QBMO8rtU4=;
+	h=References:In-Reply-To:Reply-To:From:Date:Subject:To:Cc:From;
+	b=PHMiaI+crM4Uy1jOHYuodN1GYtWbC2YSBekq/MY1WNUXxrzg1N/RfVw7Uo2oVncaP
+	 nG/V5cKH0tSuGppMX3AIfbRrGjWKRMJTfYRQVh1gfQaY6gqpiK7X7MUe4XekvJLMub
+	 uKreh03e8DaxrCaR8Iqdzh7+BQ//oj85SXGtEfvpJSiYPeUaT3n9LD/gR5Ry93H+b6
+	 G8S61/JozkIdm5eD+xBtM8fhEPlwhsbT4xwB+vtbnw9jEn/eQr+7SWzWmNy28gP6j6
+	 8lzz1Cd/4JurUc7QcsF1+Z5HHI9VnoWJiihhKU5ftDFPmGo5cwwyNUilhMI+R9I/uY
+	 TO+JDMp2MErAA==
+Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-5c1a75a4b6cso453175a12.2
+        for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 02:38:49 -0800 (PST)
+X-Gm-Message-State: AOJu0YyBhCGVay1aHIbqd++EsSpKmkcrrwut0is7pjZZy7mMjKF69xjB
+	GPCrePNdOT6PQxfmUQacGRUqJtB4CJ+D/nU/Ftw=
+X-Google-Smtp-Source: AGHT+IFHkmKesjjeYxAKXV7h+TUtecJsw79S2bL8Fr7wbH+uQKWzGp2Bc1z2r6iMR4jjvMTM5aJogh36smnwlH1K3/I=
+X-Received: by 2002:a05:6a20:4401:b0:18b:386a:46a5 with SMTP id
+ ce1-20020a056a20440100b0018b386a46a5mr4820129pzb.17.1700735929131; Thu, 23
+ Nov 2023 02:38:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20231027085058.k65rwgxepmx5ivu5@basti-XPS-13-9310> <20231123110230.7c7a9d8e@coco.lan>
+In-Reply-To: <20231123110230.7c7a9d8e@coco.lan>
+Reply-To: wens@kernel.org
+From: Chen-Yu Tsai <wens@kernel.org>
+Date: Thu, 23 Nov 2023 18:38:38 +0800
+X-Gmail-Original-Message-ID: <CAGb2v64+-DE0t0M0aVQ4tBnMgsmaP96AeAJDy4AWPc0icAKfng@mail.gmail.com>
+Message-ID: <CAGb2v64+-DE0t0M0aVQ4tBnMgsmaP96AeAJDy4AWPc0icAKfng@mail.gmail.com>
+Subject: Re: [GIT PULL FOR 6.7] Mediatek Vcodec: Codec profile and level setting
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Sebastian Fricke <sebastian.fricke@collabora.com>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Defines prefixed with "CONFIG" should be limited to proper Kconfig options,
-that are introduced in a Kconfig file.
+On Thu, Nov 23, 2023 at 6:02=E2=80=AFPM Mauro Carvalho Chehab
+<mchehab@kernel.org> wrote:
+>
+> Em Fri, 27 Oct 2023 10:50:58 +0200
+> Sebastian Fricke <sebastian.fricke@collabora.com> escreveu:
+>
+> > Hey Mauro and Hans,
+> >
+> > first attempt at doing a PR, could you please check and pull this?
+> >
+> > The following changes since commit 19e67e01eb1e84f3529770d084b93f16a489=
+4c42:
+> >
+> >    media: venus: Fix firmware path for resources (2023-10-23 12:24:53 +=
+0200)
+> >
+> > are available in the Git repository at:
+> >
+> >    https://gitlab.collabora.com/sebastianfricke/linux tags/for-6.7-sign=
+ed
+> >
+> > for you to fetch changes up to ccd08a80f5e1844819874b01c5ff61e18aa9e133=
+:
+> >
+> >    media: mediatek: vcodec: Set the supported vp9 profile for each plat=
+form (2023-10-26 09:09:21 +0200)
+>
+>
+> Checkpatch is producing some warnings here:
+>
+> WARNING:COMMIT_LOG_LONG_LINE: Prefer a maximum 75 chars per line (possibl=
+e unwrapped commit description?)
+> #32:
+> The following changes since commit 19e67e01eb1e84f3529770d084b93f16a4894c=
+42:
+>
+> ERROR:GIT_COMMIT_ID: Please use git commit description style 'commit <12+=
+ chars of sha1> ("<title line>")' - ie: 'commit 19e67e01eb1e ("media: venus=
+: Fix firmware path for resources")'
+> #32:
+> The following changes since commit 19e67e01eb1e84f3529770d084b93f16a4894c=
+42:
+>
+> ERROR:NOT_UNIFIED_DIFF: Does not appear to be a unified-diff format patch
+>
+> Could you please double-check those?
 
-In the driver code, there is a define for CONFIG_VB2_GSC_DMA_CONTIG, but
-this is not used anywhere in the code.
+It seems like you ran checkpatch against this pull request email, not
+the patches to be pulled in?
 
-Just remove this unused definition.
+ChenYu
 
-No functional change.
-
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- drivers/media/platform/samsung/exynos-gsc/gsc-core.h | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/drivers/media/platform/samsung/exynos-gsc/gsc-core.h b/drivers/media/platform/samsung/exynos-gsc/gsc-core.h
-index 1ea5fa1bf3c8..b9777e07fb6d 100644
---- a/drivers/media/platform/samsung/exynos-gsc/gsc-core.h
-+++ b/drivers/media/platform/samsung/exynos-gsc/gsc-core.h
-@@ -26,7 +26,6 @@
- 
- #include "gsc-regs.h"
- 
--#define CONFIG_VB2_GSC_DMA_CONTIG	1
- #define GSC_MODULE_NAME			"exynos-gsc"
- 
- #define GSC_SHUTDOWN_TIMEOUT		((100*HZ)/1000)
--- 
-2.17.1
-
+> Regards,
+> Mauro
+>
+> >
+> > ----------------------------------------------------------------
+> > Mediatek Codec patches for 6.7
+> >
+> > ----------------------------------------------------------------
+> > Yunfei Dong (7):
+> >        media: mediatek: vcodec: Get the chip name for each platform
+> >        media: mediatek: vcodec: Set the supported h264 level for each p=
+latform
+> >        media: mediatek: vcodec: Set the supported h265 level for each p=
+latform
+> >        media: mediatek: vcodec: Set the supported h264 profile for each=
+ platform
+> >        media: mediatek: vcodec: Set the supported h265 profile for each=
+ platform
+> >        media: mediatek: vcodec: Set the supported vp9 level for each pl=
+atform
+> >        media: mediatek: vcodec: Set the supported vp9 profile for each =
+platform
+> >
+> >   drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c      =
+     |  24 +-----------------
+> >   drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c  =
+     |  26 ++++++++++++++++++++
+> >   drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h  =
+     |  14 +++++++++++
+> >   drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_statele=
+ss.c | 168 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
+> >   4 files changed, 208 insertions(+), 24 deletions(-)
+> >
+> > Greetings,
+> > Sebastian
+>
+>
+>
+> Thanks,
+> Mauro
+>
 
