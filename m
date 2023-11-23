@@ -1,61 +1,60 @@
-Return-Path: <linux-media+bounces-876-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-877-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA4F7F5B1D
-	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 10:33:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5AC37F5B22
+	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 10:37:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D79C281888
-	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 09:33:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 951AB281863
+	for <lists+linux-media@lfdr.de>; Thu, 23 Nov 2023 09:37:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B88121107;
-	Thu, 23 Nov 2023 09:33:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 861F92110F;
+	Thu, 23 Nov 2023 09:37:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j+wheTU1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MjmENV62"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-x636.google.com (mail-ej1-x636.google.com [IPv6:2a00:1450:4864:20::636])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 23396BA
-	for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 01:33:49 -0800 (PST)
-Received: by mail-ej1-x636.google.com with SMTP id a640c23a62f3a-9fffa4c4f43so86028666b.3
-        for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 01:33:49 -0800 (PST)
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 661F9BA
+	for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 01:37:12 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-a02c48a0420so82456066b.2
+        for <linux-media@vger.kernel.org>; Thu, 23 Nov 2023 01:37:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700732027; x=1701336827; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1700732231; x=1701337031; darn=vger.kernel.org;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=EThZP+s7LosLrND8TNDZ0ZkFhj32e4dK+SWbnYppBiY=;
-        b=j+wheTU1sTsuijnqZepYlH6fbYblxqg3fbL5MfWVedWbW3/GHSqXb9Rxf0LwmWZ8nJ
-         bwgsWKsJGxrLVExaMJrvAZyv7udQ3okCEHbxxGq5v1eE4E7PsVWsT3FHKaF1/qB6T7jj
-         /OqTTbM4ZHvKA56RT9L2t1hLsHKU7vXNkw459KAUY6gtiefCgaMoPR8e23/zewbZShuj
-         5Qmgco2lVossl7fVwZuR4FnMC8Srv/RiMOBfsAO5NFnfvbI+s1ltOhR1QysANOtKV1QG
-         coMxpAWM1Uc2y58RLMzlLs2hkRsILw45SrVCn9+NqdSMYOrFg4dnCaSIqNj6YBd2iDpK
-         RcZw==
+        bh=d3OEXqd+yzQvKvfiB5kLk1mHve3SfHCT9h4p7ZvjMuo=;
+        b=MjmENV62QzKunldRhvjm0W0x6s/AWzurI/yGgmQsrxPa01FN4BMDAHpDNsvdwIfK6U
+         WTkFjcDCTZ4aLGXVfM71hreiog5iW2EeEJ8uOnbWT7EIoG5RT01nDM5nTX6iA4m2NnxQ
+         E7WccL6LAHy++gIWxc5mDG9Upzl52V4hTuhx/NMZ6jEpiLeNk5z5oOtiLmnBitGDw457
+         ajw894cn/m2sPEWn0CTX6d1V0RgO/IP9UBwiDdAzwA7E7GaHuEYqjbsgCnj0MuFRMFGh
+         iDTnMLIyHIt8+HFnCgjrhicZoV7uu48RJ2aXNirWHZQ3vfkdNaZusgD/uA67T7srPQPp
+         229Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700732027; x=1701336827;
+        d=1e100.net; s=20230601; t=1700732231; x=1701337031;
         h=mime-version:user-agent:content-transfer-encoding:references
          :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=EThZP+s7LosLrND8TNDZ0ZkFhj32e4dK+SWbnYppBiY=;
-        b=pF31JJGfuGk8FA6AMJCtvCJYg9BlVjrxA2IdchC8SBQS1A+ccD87uLiXEgOZ7e+f3N
-         7spS1Ln3Ry/A1SDCrToseH4s/xnk/57DJRKJkLLNwxNyZP7jh/RrJOwSGrefiY6mX5ip
-         iPMnCDrSUEL9b8AEZM3Wp82SGaGi8v7LD8enTDniBhpa5d/otYexAJBdtYr+fM7d2FBR
-         Un4yyG8m7hqrKF4IjBCuBKVnxDgvMlZYY1WsIRGqYqqXRKYMLOqtJHlP2lfCQnsfujbb
-         LdgBAlGwfXmRSmQHYmVpS8Gy09b6c84K1stOJrxCSvWZh4gcQgMAKULx2u4Shw0POJV4
-         bPQg==
-X-Gm-Message-State: AOJu0YwKEaAKTc6pSEMfUSxYIa3p4uVK3pBYWIxh4MZf5MjY6u5KKwxA
-	NGxmH4587Lf+9ZRmEXyvjXo=
-X-Google-Smtp-Source: AGHT+IHRu47B2DKIfueRfkwxq0TosxUQbpJOzkRuTbM0X6i3RZ2sh/06F58V7pMYOjUBypvbtN3jMA==
-X-Received: by 2002:a17:906:51ca:b0:9ae:699d:8a2a with SMTP id v10-20020a17090651ca00b009ae699d8a2amr3234401ejk.5.1700732027160;
-        Thu, 23 Nov 2023 01:33:47 -0800 (PST)
+        bh=d3OEXqd+yzQvKvfiB5kLk1mHve3SfHCT9h4p7ZvjMuo=;
+        b=UO4BKPK9oUSY+3k2feT9Mg2LZM8B3vNf2dtW0gqQfE5jeZQNwf8FdRyyKvVsiIccYf
+         94RG7eA7+FIpnfviTXlQwgHTTHBZBGufY/NI6a9yPanIa4X3FSh5Ock8oU8sIgO1uydG
+         Qx686iQHKMRwmRstuqK2nctfpVZ9KzJoyvxKBwu2dOlc9uFnTBiNVS/YZ3FhXjUBeRQ5
+         cSGYcY2nVUVp8nZJ8gHkxC7s19viGpb5AozHz9mrF0hDEAonPBZP2YkxaKN2OG9Yvm57
+         k8HrvNyrKa72sxg4WQKUq7gD8yh3cCNZXHAa8/XKWA9oI4n8xGiM9enLaoTZ7r5C9bLE
+         q24g==
+X-Gm-Message-State: AOJu0Yz4OGWze8X0tpAQnY77pTxan+/F3USx3IZmSFIWG4nMdHbIhDAa
+	nT+mC/6/4Uwr8obzjvNnyz8=
+X-Google-Smtp-Source: AGHT+IEkQI5px0iu6ruJkeOBFxb/xSiL2tQg52IlSMw0lrfm0+UNfc0pJxYgMe60V7rd4gPBrzkFDA==
+X-Received: by 2002:a17:906:b11a:b0:a02:54fa:4f31 with SMTP id u26-20020a170906b11a00b00a0254fa4f31mr3024766ejy.59.1700732230721;
+        Thu, 23 Nov 2023 01:37:10 -0800 (PST)
 Received: from [192.168.50.250] (c-x599688ac.customers.hiper-net.dk. [89.150.136.172])
-        by smtp.gmail.com with ESMTPSA id u3-20020a17090626c300b009a5f1d15644sm532554ejc.119.2023.11.23.01.33.45
+        by smtp.gmail.com with ESMTPSA id ch5-20020a170906c2c500b009e656ce2930sm550739ejb.60.2023.11.23.01.37.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 23 Nov 2023 01:33:46 -0800 (PST)
-Message-ID: <c8ad7da6ea24b31aab2eead0d822f8dc897a105e.camel@gmail.com>
-Subject: Re: [PATCH v2 06/15] media: intel/ipu6: add syscom interfaces
- between firmware and driver
+        Thu, 23 Nov 2023 01:37:10 -0800 (PST)
+Message-ID: <91ad817652ccdb703e8c1ccc4db3756f0512ad0b.camel@gmail.com>
+Subject: Re: [PATCH v2 10/15] media: intel/ipu6: add input system driver
 From: Andreas Helbech Kleist <andreaskleist@gmail.com>
 To: bingbu.cao@intel.com, linux-media@vger.kernel.org, 
 	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
@@ -64,12 +63,12 @@ Cc: andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
  tfiga@chromium.org,  senozhatsky@chromium.org,
  tomi.valkeinen@ideasonboard.com,  bingbu.cao@linux.intel.com,
  tian.shu.qiu@intel.com, hongju.wang@intel.com
-Date: Thu, 23 Nov 2023 10:33:44 +0100
-In-Reply-To: <20231024112924.3934228-7-bingbu.cao@intel.com>
+Date: Thu, 23 Nov 2023 10:37:08 +0100
+In-Reply-To: <20231024112924.3934228-11-bingbu.cao@intel.com>
 References: <20231024112924.3934228-1-bingbu.cao@intel.com>
-	 <20231024112924.3934228-7-bingbu.cao@intel.com>
+	 <20231024112924.3934228-11-bingbu.cao@intel.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: base64
 User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -78,119 +77,92 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Hi,
+SGkgQmluZ2J1LAoKRm9yIHNvbWUgcmVhc29uIG15IG1haWwgY2xpZW50IGRlY2lkZWQgdG8gYWRk
+IGRvdWJsZSA+ID4gYmVsb3cuIEhvcGUgaXQKaXMgbm90IHRvbyBjb25mdXNpbmcuCgpPbiBUdWUs
+IDIwMjMtMTAtMjQgYXQgMTk6MjkgKzA4MDAsIGJpbmdidS5jYW9AaW50ZWwuY29tIHdyb3RlOgo+
+ID4gRnJvbTogQmluZ2J1IENhbyA8YmluZ2J1LmNhb0BpbnRlbC5jb20+Cj4gPiAKPiA+IElucHV0
+IHN5c3RlbSBkcml2ZXIgZG8gYmFzaWMgaXN5cyBoYXJkd2FyZSBzZXR1cCBhbmQgaXJxIGhhbmRs
+aW5nCj4gPiBhbmQgd29yayB3aXRoIGZ3bm9kZSBhbmQgdjRsMiB0byByZWdpc3RlciB0aGUgSVNZ
+UyB2NGwyIGRldmljZXMuCj4gPiAKPiA+IFNpZ25lZC1vZmYtYnk6IEJpbmdidSBDYW8gPGJpbmdi
+dS5jYW9AaW50ZWwuY29tPgo+ID4gU2lnbmVkLW9mZi1ieTogSGFucyBkZSBHb2VkZSA8aGRlZ29l
+ZGVAcmVkaGF0LmNvbT4KPiA+IFJlcG9ydGVkLWJ5OiBDbGF1cyBTdG92Z2FhcmQgPGNsYXVzLnN0
+b3ZnYWFyZEBnbWFpbC5jb20+Cj4gPiAtLS0KPiA+IMKgZHJpdmVycy9tZWRpYS9wY2kvaW50ZWwv
+aXB1Ni9pcHU2LWlzeXMuYyB8IDEzNDUgPgo+ID4gKysrKysrKysrKysrKysrKysrKysrKwo+ID4g
+wqBkcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pcHU2L2lwdTYtaXN5cy5oIHzCoCAyMDEgKysrKwo+
+ID4gwqAyIGZpbGVzIGNoYW5nZWQsIDE1NDYgaW5zZXJ0aW9ucygrKQo+ID4gwqBjcmVhdGUgbW9k
+ZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wY2kvaW50ZWwvaXB1Ni9pcHU2LWlzeXMuYwo+ID4gwqBj
+cmVhdGUgbW9kZSAxMDA2NDQgZHJpdmVycy9tZWRpYS9wY2kvaW50ZWwvaXB1Ni9pcHU2LWlzeXMu
+aAo+ID4gCi4uLgo+ID4gK3N0YXRpYyBpbnQgaXN5c19yZWdpc3Rlcl92aWRlb19kZXZpY2VzKHN0
+cnVjdCBpcHU2X2lzeXMgKmlzeXMpCj4gPiArewo+ID4gK8KgwqDCoMKgwqDCoMKgdW5zaWduZWQg
+aW50IGk7Cj4gPiArwqDCoMKgwqDCoMKgwqBpbnQgcmV0Owo+ID4gKwo+ID4gK8KgwqDCoMKgwqDC
+oMKgZm9yIChpID0gMDsgaSA8IE5SX09GX1ZJREVPX0RFVklDRTsgaSsrKSB7Cj4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgc25wcmludGYoaXN5cy0+YXZbaV0udmRldi5uYW1lLCA+
+IHNpemVvZihpc3lzLQo+ID4gPmF2W2ldLnZkZXYubmFtZSksCj4gPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBJUFU2X0lTWVNfRU5USVRZX1BSRUZJWCAi
+IElTWVMgQ2FwdHVyZQo+ID4gJXUiLCA+IGkpOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoGlzeXMtPmF2W2ldLmlzeXMgPSBpc3lzOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoGlzeXMtPmF2W2ldLmFxLmJ1Zl9wcmVwYXJlID0gaXB1Nl9pc3lzX2J1Zl9wcmVw
+YXJlOwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlzeXMtPmF2W2ldLmFxLmZp
+bGxfZnJhbWVfYnVmX3NldCA9Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoGlwdTZfaXN5c19idWZfdG9fZndfZnJhbWVfYnVmX3BpbjsKPiA+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpc3lzLT5hdltpXS5hcS5saW5rX2ZtdF92YWxpZGF0
+ZSA9ID4KPiA+IGlwdTZfaXN5c19saW5rX2ZtdF92YWxpZGF0ZTsKClRoZXNlIDMgZnVuY3Rpb24g
+cG9pbnRlcnMgYXJlIGFsd2F5cyBzZXQgdG8gdGhlIHNhbWUgdmFsdWUsIGlzIHRoZXJlCmFueSBw
+b2ludCBpbiB0aGF0LCBvciBjb3VsZCB0aGV5IGJlIGNhbGxlZCBkaXJlY3RseT8KCQo+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGlzeXMtPmF2W2ldLmFxLnZicS5idWZfc3RydWN0
+X3NpemUgPQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBzaXplb2Yoc3RydWN0IGlwdTZfaXN5c192aWRlb19idWZmZXIpOwo+ID4gK8KgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoGlzeXMtPmF2W2ldLnBmbXQgPSAmaXB1Nl9pc3lzX3BmbXRzWzBd
+Owo+ID4gKwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJldCA9IGlwdTZfaXN5
+c192aWRlb19pbml0KCZpc3lzLT5hdltpXSk7Cj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgaWYgKHJldCkKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgZ290byBmYWlsOwo+ID4gK8KgwqDCoMKgwqDCoMKgfQo+ID4gKwo+ID4gK8KgwqDC
+oMKgwqDCoMKgcmV0dXJuIDA7Cj4gPiArCj4gPiArZmFpbDoKPiA+ICvCoMKgwqDCoMKgwqDCoHdo
+aWxlIChpLS0pCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaXB1Nl9pc3lzX3Zp
+ZGVvX2NsZWFudXAoJmlzeXMtPmF2W2ldKTsKPiA+ICsKPiA+ICvCoMKgwqDCoMKgwqDCoHJldHVy
+biByZXQ7Cj4gPiArfQoKLi4uCgo+ID4gK8KgwqDCoMKgwqDCoMKgaWYgKHJlc3AtPmVycm9yX2lu
+Zm8uZXJyb3IgPT0gPgo+ID4gSVBVNl9GV19JU1lTX0VSUk9SX1NUUkVBTV9JTl9TVVNQRU5TSU9O
+KQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoC8qIFN1c3BlbnNpb24gaXMga2lu
+ZCBvZiBzcGVjaWFsIGNhc2U6IG5vdCBlbm91Z2ggPgo+ID4gYnVmZmVycyAqLwo+ID4gK8KgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRldl9kYmcoJmFkZXYtPmF1eGRldi5kZXYsCj4gPiAr
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCJGVyBlcnJvciBy
+ZXNwICUwMmQgJXMsIHN0cmVhbSAldSwgZXJyb3IgPgo+ID4gU1VTUEVOU0lPTiwgZGV0YWlscyAl
+ZCwgdGltZXN0YW1wIDB4JTE2LjE2bGx4LCBwaW4gJWRcbiIsCj4gPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlc3AtPnR5cGUsCj4gPiArwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZ3X21zZ1tyZXNwX3R5cGVfdG9f
+aW5kZXgocmVzcC0+dHlwZSldLm1zZywKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgcmVzcC0+c3RyZWFtX2hhbmRsZSwKPiA+ICvCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgcmVzcC0+ZXJyb3JfaW5mby5lcnJvcl9k
+ZXRhaWxzLAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqBmd19tc2dbcmVzcF90eXBlX3RvX2luZGV4KHJlc3AtCj4gPiA+dHlwZSldLnZhbGlkXz4gdHMg
+Pwo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqB0cyA6
+IDAsIHJlc3AtPnBpbl9pZCk7Cj4gPiArwqDCoMKgwqDCoMKgwqBlbHNlIGlmIChyZXNwLT5lcnJv
+cl9pbmZvLmVycm9yKQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRldl9kYmco
+JmFkZXYtPmF1eGRldi5kZXYsCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoCJGVyBlcnJvciByZXNwICUwMmQgJXMsIHN0cmVhbSAldSwgZXJyb3IKPiA+
+ICVkLCA+IGRldGFpbHMgJWQsIHRpbWVzdGFtcCAweCUxNi4xNmxseCwgcGluICVkXG4iLAo+ID4g
+K8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXNwLT50eXBl
+LAo+ID4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBmd19t
+c2dbcmVzcF90eXBlX3RvX2luZGV4KHJlc3AtPnR5cGUpXS5tc2csCj4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlc3AtPnN0cmVhbV9oYW5kbGUsCj4g
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlc3AtPmVy
+cm9yX2luZm8uZXJyb3IsID4gcmVzcC0KPiA+ID5lcnJvcl9pbmZvLmVycm9yX2RldGFpbHMsCj4g
+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZ3X21zZ1ty
+ZXNwX3R5cGVfdG9faW5kZXgocmVzcC0KPiA+ID50eXBlKV0udmFsaWRfPiB0cyA/Cj4gPiArwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHRzIDogMCwgcmVzcC0+
+cGluX2lkKTsKPiA+ICvCoMKgwqDCoMKgwqDCoGVsc2UKPiA+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqBkZXZfZGJnKCZhZGV2LT5hdXhkZXYuZGV2LAo+ID4gK8KgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAiRlcgcmVzcCAlMDJkICVzLCBzdHJlYW0g
+JXUsIHRpbWVzdGFtcCA+Cj4gPiAweCUxNi4xNmxseCwgcGluICVkXG4iLAo+ID4gK8KgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqByZXNwLT50eXBlLAo+ID4gK8Kg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBmd19tc2dbcmVzcF90
+eXBlX3RvX2luZGV4KHJlc3AtPnR5cGUpXS5tc2csCj4gPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHJlc3AtPnN0cmVhbV9oYW5kbGUsCj4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGZ3X21zZ1tyZXNwX3R5cGVf
+dG9faW5kZXgocmVzcC0KPiA+ID50eXBlKV0udmFsaWRfPiB0cyA/Cj4gPiArwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoHRzIDogMCwgcmVzcC0+cGluX2lkKTsK
+CmZ3X21zZ1tyZXNwX3R5cGVfdG9faW5kZXgocmVzcC0+dHlwZSldIGlzIGR1cGxpY2F0ZWQgNiB0
+aW1lcyBhYm92ZS4gSXQKd291bGQgYmUgYSBsb3QgY2xlYW5lciBpZiB5b3UgZGlkIHRoZSBsb29r
+dXAgb25jZSBiZWZvcmUgdGhlIGlmL2Vsc2UKaWYvZWxzZSBibG9jay4KCj4gCi9BbmRyZWFzCg==
 
-On Tue, 2023-10-24 at 19:29 +0800, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
->=20
-> Syscom is an inter-process(or) communication mechanism between an IPU
-> and host. Syscom uses message queues for message exchange between IPU
-> and host. Each message queue has its consumer and producer, host
-> queue
-> messages to firmware as the producer and then firmware to dequeue the
-> messages as consumer and vice versa. IPU and host use shared
-> registers
-> or memory to reside the read and write indices which are updated by
-> consumer and producer.
->=20
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> ---
-> =C2=A0drivers/media/pci/intel/ipu6/ipu6-fw-com.c | 411
-> +++++++++++++++++++++
-> =C2=A0drivers/media/pci/intel/ipu6/ipu6-fw-com.h |=C2=A0 47 +++
-> =C2=A02 files changed, 458 insertions(+)
-> =C2=A0create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-com.c
-> =C2=A0create mode 100644 drivers/media/pci/intel/ipu6/ipu6-fw-com.h
-...
-> +struct ipu6_fw_com_context {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ipu6_bus_device *adev;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0void __iomem *dmem_addr;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int (*cell_ready)(struct ipu6_=
-bus_device *adev);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0void (*cell_start)(struct ipu6=
-_bus_device *adev);
-
-Why are cell_ready and cell_start function pointers? They seem to
-always be set to query_sp and start_sp.
-
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0void *dma_buffer;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0dma_addr_t dma_addr;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int dma_size;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned long attrs;
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ipu6_fw_sys_queue *inpu=
-t_queue;=C2=A0=C2=A0/* array of host to
-> SP queues */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ipu6_fw_sys_queue *outp=
-ut_queue;=C2=A0/* array of SP to
-> host */
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0u32 config_vied_addr;
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int buttress_boot_off=
-set;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0void __iomem *base_addr;
-> +};
-> +
-> +#define FW_COM_WR_REG 0
-> +#define FW_COM_RD_REG 4
-> +
-> +#define REGMEM_OFFSET 0
-> +#define TUNIT_MAGIC_PATTERN 0x5a5a5a5a
-> +
-> +enum regmem_id {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* pass pkg_dir address to SPC=
- in non-secure mode */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0PKG_DIR_ADDR_REG =3D 0,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Tunit CFG blob for secure -=
- provided by host.*/
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0TUNIT_CFG_DWR_REG =3D 1,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* syscom commands - modified =
-by the host */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SYSCOM_COMMAND_REG =3D 2,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* Store interrupt status - up=
-dated by SP */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SYSCOM_IRQ_REG =3D 3,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* first syscom queue pointer =
-register */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0SYSCOM_QPR_BASE_REG =3D 4
-> +};
-> +
-> +enum message_direction {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0DIR_RECV =3D 0,
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0DIR_SEND
-> +};
-
-Not used?
-
-
-...
-> +struct ipu6_fw_com_cfg {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int num_input_queues;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int num_output_queues=
-;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ipu6_fw_syscom_queue_co=
-nfig *input;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0struct ipu6_fw_syscom_queue_co=
-nfig *output;
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int dmem_addr;
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/* firmware-specific configura=
-tion data */
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0void *specific_addr;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int specific_size;
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0int (*cell_ready)(struct ipu6_=
-bus_device *adev);
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0void (*cell_start)(struct ipu6=
-_bus_device *adev);
-> +
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0unsigned int buttress_boot_off=
-set;
-
-This seems to always be 0 (set by ipu6-fw-isys.c), seems to be trivial
-to remove.
-
-/Andreas
 
