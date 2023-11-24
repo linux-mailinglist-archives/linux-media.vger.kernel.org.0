@@ -1,152 +1,244 @@
-Return-Path: <linux-media+bounces-979-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-980-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E9557F7522
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 14:31:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D657F7554
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 14:35:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5F0661C20E9C
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 13:31:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C379281FB8
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 13:35:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2508228E25;
-	Fri, 24 Nov 2023 13:31:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A743B20B0D;
+	Fri, 24 Nov 2023 13:35:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jc7pzhnd"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="F858Zkew"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-x62c.google.com (mail-ej1-x62c.google.com [IPv6:2a00:1450:4864:20::62c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6032B1721;
-	Fri, 24 Nov 2023 05:31:23 -0800 (PST)
-Received: by mail-ej1-x62c.google.com with SMTP id a640c23a62f3a-a00f67f120aso263956766b.2;
-        Fri, 24 Nov 2023 05:31:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700832682; x=1701437482; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xqoNh8/DGOCDjWGBAsyHy8zDaolvBGz6WR/aPalN8vA=;
-        b=jc7pzhndHV74TrW5Y6euP8yk3htKIp8W3o1J4svRrdUUZjIdDRWgvExoS9S0QJD/zU
-         rBFEIT2MxFeZ/RzClYiIL0/02BNJdUr2xcGIsYQ77LaRf35g73whiGnOOChNAdVWSOrI
-         3hoq8vKd69rpowWA013qKYH7Bo61cWyy4QgiMXLsdISIwruZm2QyMOky9gdvpigFT2kh
-         1fDO4jvhAIcvXHr6BSmtl7uTFXktnDXDFMVWUS4DaHBnHSBtYtswpMLFp79/pPk1yWRG
-         hmZEhc/S29RsphTAt0pf2F0NPDGxYOfd/0JNu3TNk7MPkdFYp/43uE6PvHkLxFHbM6ee
-         ZfYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700832682; x=1701437482;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xqoNh8/DGOCDjWGBAsyHy8zDaolvBGz6WR/aPalN8vA=;
-        b=C0nGbEllQd0ZR9UGYNYIabEcZU4JD8C4NYjDZNpA7s+0dg2NqPP62OPWLMLz/5M+78
-         tmpXg8oVR1r1kZlVcj8bEdUHzE3TPASfVNWVYIHvrhKOQoQYzN0wuRoyMRLPPE/+6Ovy
-         ZADRjidfCaGRO9R8L+NVGSt9DfoHfPWXnLMvxpTMKbojBG56AvwWtji0wwC1jWKR/131
-         /BKk4Zi6MGdDyIz9IRP9E/sQDEELpVn1H/Ist3FnTBsPOM0reHjQ0Xr+OaRIPGOobYge
-         XINBminf+wxL25fA4hoDhLRwrTKsXxPIaP0D1X5uq7tFW57KBgHdj36ParxPaVNgGetL
-         ah2g==
-X-Gm-Message-State: AOJu0Yxm62nmPBvJXSHKOOIkD7oKbpAsw8xRU5Yr17p55DoW6b0eC3DF
-	kyWzyWAWzcpI3hUuINPbNBs=
-X-Google-Smtp-Source: AGHT+IF2CMWqW6QgTEUE8dPizHd4yGlrN9Vk/VgdOvaxxbdjXw50mDYgNNx7FjDnvVExXduvtyJWvw==
-X-Received: by 2002:a17:906:5da:b0:a03:a857:c6e0 with SMTP id t26-20020a17090605da00b00a03a857c6e0mr1663923ejt.77.1700832681495;
-        Fri, 24 Nov 2023 05:31:21 -0800 (PST)
-Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id c24-20020a170906529800b009fe2f96ee9bsm2064075ejm.8.2023.11.24.05.31.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 05:31:21 -0800 (PST)
-Date: Fri, 24 Nov 2023 14:31:18 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] pwm: rename pwm_apply_state() to
- pwm_apply_cansleep()
-Message-ID: <ZWClpnMRg_vjuI_R@orome.fritz.box>
-References: <cover.1700323916.git.sean@mess.org>
- <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B2F41BDA;
+	Fri, 24 Nov 2023 05:35:20 -0800 (PST)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AOB66Yc021975;
+	Fri, 24 Nov 2023 13:35:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
+ mime-version : subject : to : cc : references : from : in-reply-to :
+ content-type : content-transfer-encoding; s=qcppdkim1;
+ bh=+R2Z2mui4vhi2W3BWLJFCXxNxKXVWypDUeYDVpwIypo=;
+ b=F858ZkewDQJhSnp9iBgQtQmDiD9R4DpEM7wb/4pTqNfLIOQPuoMu4PtlISgIe+TnOisn
+ pG448+wfx5cveZovZ4FYN9nSyqN+cHknPfXY4ZB52c8Eizm+Ju/rLOM9zO9+JcObCGJR
+ FOrA9MYsQGXWm/t/qpYJNI7GbyiBPLacPN5S9sS34eszRj7d3Q2eImznY+i//iB1xizH
+ IDvF/WdCgf2P9k+/pjAAyKDZLh6x8vHE76JkC3ZQMAPupRLcaeimN4PAjec/nHgncqMq
+ J0Djf9/u/xaGqxKZt97VxQsB6UY25oj60iHbaPgiSOAb/CF3huvcYr9DaUyVXnumVaEB 1A== 
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uhwmec377-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 Nov 2023 13:35:10 +0000
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AODZ9Tt025066
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 24 Nov 2023 13:35:09 GMT
+Received: from [10.216.35.253] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Fri, 24 Nov
+ 2023 05:35:04 -0800
+Message-ID: <e6d80982-1674-d0c4-9dbe-94d77079f6ba@quicinc.com>
+Date: Fri, 24 Nov 2023 19:05:00 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="mURPCj0PduVIws0V"
-Content-Disposition: inline
-In-Reply-To: <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
-User-Agent: Mutt/2.2.12 (2023-09-09)
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 2/3] arm64: dts: qcom: sc7280: Move video-firmware to
+ chrome-common
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+CC: Luca Weiss <luca.weiss@fairphone.com>,
+        Stanimir Varbanov
+	<stanimir.k.varbanov@gmail.com>,
+        Bryan O'Donoghue
+	<bryan.odonoghue@linaro.org>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@linaro.org>,
+        Mauro
+ Carvalho Chehab <mchehab@kernel.org>,
+        <cros-qcom-dts-watchers@chromium.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <20231002-sc7280-venus-pas-v2-0-bd2408891317@fairphone.com>
+ <20231002-sc7280-venus-pas-v2-2-bd2408891317@fairphone.com>
+ <4cfad910-1821-3a31-c372-3f6b199e8f71@quicinc.com>
+ <CX5ENKY70B5J.2D6DXKGI4EGX3@fairphone.com>
+ <ff021f49-f81b-0fd1-bd2c-895dbbb03d56@quicinc.com>
+ <CX70EBXCOB66.3998C482R86CN@fairphone.com>
+ <a29123a3-afe1-8f92-ff6c-835926d411af@quicinc.com>
+ <CAA8EJppkjpMmcHCvxomgUMPxGpf77iN9roRvb=NEcxdk237-UA@mail.gmail.com>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <CAA8EJppkjpMmcHCvxomgUMPxGpf77iN9roRvb=NEcxdk237-UA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: TSlz7DsFHz2MxteAoyLfcdPS2NtftLR4
+X-Proofpoint-ORIG-GUID: TSlz7DsFHz2MxteAoyLfcdPS2NtftLR4
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-23_15,2023-11-22_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=0 clxscore=1011
+ priorityscore=1501 malwarescore=0 mlxlogscore=999 lowpriorityscore=0
+ impostorscore=0 mlxscore=0 adultscore=0 bulkscore=0 spamscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2311060000 definitions=main-2311240106
 
 
---mURPCj0PduVIws0V
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 18, 2023 at 04:16:17PM +0000, Sean Young wrote:
-> In order to introduce a pwm api which can be used from atomic context,
-> we will need two functions for applying pwm changes:
->=20
-> 	int pwm_apply_cansleep(struct pwm *, struct pwm_state *);
-> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
->=20
-> This commit just deals with renaming pwm_apply_state(), a following
-> commit will introduce the pwm_apply_atomic() function.
+On 11/24/2023 6:23 PM, Dmitry Baryshkov wrote:
+> On Fri, 24 Nov 2023 at 14:30, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
+>>
+>> On 11/24/2023 5:05 PM, Luca Weiss wrote:
+>>> On Fri Nov 24, 2023 at 7:38 AM CET, Vikash Garodia wrote:
+>>>>
+>>>> On 11/22/2023 7:50 PM, Luca Weiss wrote:
+>>>>> On Wed Nov 22, 2023 at 2:17 PM CET, Vikash Garodia wrote:
+>>>>>>
+>>>>>> On 10/2/2023 7:50 PM, Luca Weiss wrote:
+>>>>>>> If the video-firmware node is present, the venus driver assumes we're on
+>>>>>>> a system that doesn't use TZ for starting venus, like on ChromeOS
+>>>>>>> devices.
+>>>>>>>
+>>>>>>> Move the video-firmware node to chrome-common.dtsi so we can use venus
+>>>>>>> on a non-ChromeOS devices.
+>>>>>>>
+>>>>>>> At the same time also disable the venus node by default in the dtsi,
+>>>>>>> like it's done on other SoCs.
+>>>>>>>
+>>>>>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>>>>>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+>>>>>>> ---
+>>>>>>>  arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi | 8 ++++++++
+>>>>>>>  arch/arm64/boot/dts/qcom/sc7280.dtsi               | 6 ++----
+>>>>>>>  2 files changed, 10 insertions(+), 4 deletions(-)
+>>>>>>>
+>>>>>>> diff --git a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+>>>>>>> index 5d462ae14ba1..cd491e46666d 100644
+>>>>>>> --- a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+>>>>>>> +++ b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+>>>>>>> @@ -104,6 +104,14 @@ &scm {
+>>>>>>>   dma-coherent;
+>>>>>>>  };
+>>>>>>>
+>>>>>>> +&venus {
+>>>>>>> + status = "okay";
+>>>>>>> +
+>>>>>>> + video-firmware {
+>>>>>>> +         iommus = <&apps_smmu 0x21a2 0x0>;
+>>>>>>> + };
+>>>>>>> +};
+>>>>>>> +
+>>>>>>>  &watchdog {
+>>>>>>>   status = "okay";
+>>>>>>>  };
+>>>>>>> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+>>>>>>> index 66f1eb83cca7..fa53f54d4675 100644
+>>>>>>> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+>>>>>>> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+>>>>>>> @@ -3740,6 +3740,8 @@ venus: video-codec@aa00000 {
+>>>>>>>                            <&apps_smmu 0x2184 0x20>;
+>>>> 0x2184 is a secure SID. I think qcm6490-fairphone-fp5.dts needs to override the
+>>>> iommus property as well to retain only the non secure SID i.e 0x2180 ? I am
+>>>> seeing below crash
+>>>>
+>>>> Call trace:
+>>>> [   47.663593]  qcom_smmu_write_s2cr+0x64/0xa4
+>>>> [   47.663616]  arm_smmu_attach_dev+0x120/0x284
+>>>> [   47.663647]  __iommu_attach_device+0x24/0xf8
+>>>> [   47.676845]  __iommu_device_set_domain+0x70/0xd0
+>>>> [   47.681632]  __iommu_group_set_domain_internal+0x60/0x1b4
+>>>> [   47.687218]  iommu_setup_default_domain+0x358/0x418
+>>>> [   47.692258]  __iommu_probe_device+0x3e4/0x404
+>>>>
+>>>> Could you please reconfirm if Video SID 0x2184 (and mask) is allowed by the
+>>>> qcm6490-fairphone-fp5 hardware having TZ ?
+>>>
+>>> Hi,
+>>>
+>>> On FP5 it seems it's no problem to have both SIDs in there, probe and
+>>> using venus appears to work fine.
+>>>
+>>> Are you using different firmware than QCM6490.LA.3.0 on the device where
+>>> you tested this?
+>> I was testing this on RB3 board which uses firmware [1].
+> 
+> There is something wrong here.
+> 
+> RB3 board uses venus-5.2
+> RB5 board uses vpu-1.0
+> Only sc7280 uses vpu-2.0
 
-Sorry, I still don't agree with that _cansleep suffix. I think it's the
-wrong terminology. Just because something can sleep doesn't mean that it
-ever will. "Might sleep" is much more accurate because it says exactly
-what might happen and indicates what we're guarding against.
+Tested on QCM6490 IDP board, which is QCOM internal board similar to RB3 gen2.
 
-Thierry
-
---mURPCj0PduVIws0V
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmVgpaQACgkQ3SOs138+
-s6HS8A/7BjtLlUH5CMfFlBTprZQsDfOXKtQTFT7vSIrS5EOAuemIkCNWaesc5juC
-gFpHk93q2Y8+pTg499tii+Ztr7m6Z00sAA8fpGEFwUn03iU9qrrC6/7gwVu8Dsjv
-m326JeQsUo8SL3s5JqH7vKQDUU0agG/rMAFwo5nIzD5xRGmtg1VB+Vg57/T0K4a4
-W99vEqpxwYAZLNQeId2ZTCZHREypDELrwcq0l0JYOOXdsvYa4r34dPep1KDfTvxK
-p6fGafsCc1qJ8S9ygxlTGPv/5+56JXyOEB75XXxBK2QaqEz9iHPxgfJsHz7K3DFx
-cpZtcEd899PpMbAiW5fag0BJcnUNffFf4CoZU34H8MPsp4DzKs7UvJlbQ79KNz6N
-VIjXUsk876G5NuLjwomvkmaxx1cQPbom4YknTav6Zm5dloV36kppnYuZ9+PV8NlW
-uudn06BsR8Yp7d2hpCHK6Vou1zbJtQHxQosq3e4e11mnMXxpnftSCuWZCeUedAhG
-zufpjdOkX1q24J9odZWGWz8rhGWgJUwtIpF8SOkPromrYAxZK+yJAb7AvepYNQNh
-i3X0j8HUnYCWUx7ty20NjF5rVY/GJh5DXncoB5cQqVlLCr8YUvFsOQ9YaUuFa/J5
-M/YrTcS9Bi0p3ps9qE3ec5+WY2E85s4+KeG0Z0/GD1ifS+r4fls=
-=1cUS
------END PGP SIGNATURE-----
-
---mURPCj0PduVIws0V--
+>>
+>> Regards,
+>> Vikash
+>>
+>> [1]
+>> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/qcom/vpu-2.0
+>>
+>>>>
+>>>>>>>                   memory-region = <&video_mem>;
+>>>>>>>
+>>>>>>> +                 status = "disabled";
+>>>>>>> +
+>>>>>>>                   video-decoder {
+>>>>>>>                           compatible = "venus-decoder";
+>>>>>>>                   };
+>>>>>>> @@ -3748,10 +3750,6 @@ video-encoder {
+>>>>>>>                           compatible = "venus-encoder";
+>>>>>>>                   };
+>>>>>>>
+>>>>>>> -                 video-firmware {
+>>>>>>> -                         iommus = <&apps_smmu 0x21a2 0x0>;
+>>>>>>> -                 };
+>>>>>>> -
+>>>>>>>                   venus_opp_table: opp-table {
+>>>>>>>                           compatible = "operating-points-v2";
+>>>>>>>
+>>>>>>>
+>>>>>> Changes look good. Is this tested on SC7280 ?
+>>>>>
+>>>>> Hi Vikash,
+>>>>>
+>>>>> I didn't test it myself on sc7280 (just qcm6490-fp5) but dtx_diff
+>>>>> reports no differences except for status = okay property being added, so
+>>>>> there should be no change on those boards. See below.
+>>>>>
+>>>>> Regards
+>>>>> Luca
+>>>>
+>>>> I tested on SC7280 (herobrine) and all good.
+>>>
+>>> Great, thanks!
+>>>
+>>> Regards
+>>> Luca
+>>>
+>>>>
+>>>> Regards,
+>>>> Vikash
+>>>
+>>
+> 
+> 
 
