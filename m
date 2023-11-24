@@ -1,191 +1,255 @@
-Return-Path: <linux-media+bounces-990-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-991-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535247F77DB
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 16:31:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 345827F7864
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 16:56:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C21E3B214D1
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 15:31:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DCCBD2810AE
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 15:56:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E5992EAE5;
-	Fri, 24 Nov 2023 15:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C251D2D63A;
+	Fri, 24 Nov 2023 15:56:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="NYuGxzqA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8CBAE1727
-	for <linux-media@vger.kernel.org>; Fri, 24 Nov 2023 07:31:42 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1r6Y9R-0006J7-B4; Fri, 24 Nov 2023 16:31:29 +0100
-Received: from [2a0a:edc0:2:b01:1d::c0] (helo=ptx.whiteo.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1r6Y9J-00BIVB-UV; Fri, 24 Nov 2023 16:31:21 +0100
-Received: from mtr by ptx.whiteo.stw.pengutronix.de with local (Exim 4.92)
-	(envelope-from <mtr@pengutronix.de>)
-	id 1r6Y9J-003eTy-Qk; Fri, 24 Nov 2023 16:31:21 +0100
-Date: Fri, 24 Nov 2023 16:31:21 +0100
-From: Michael Tretter <m.tretter@pengutronix.de>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Shengyu Qu <wiagn233@outlook.com>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Diederik de Haas <didi.debian@cknow.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
-Subject: Re: [PATCH v2 00/13] media: rockchip: rga: add support for
- multi-planar formats
-Message-ID: <20231124153121.GL592330@pengutronix.de>
-Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Jacob Chen <jacob-chen@iotwrt.com>,
-	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>, Shengyu Qu <wiagn233@outlook.com>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Diederik de Haas <didi.debian@cknow.org>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
-References: <20230914-rockchip-rga-multiplanar-v2-0-bbfa6abf8bbf@pengutronix.de>
- <b851e2e8-ebcb-40a9-934b-dddcb28a45c9@xs4all.nl>
+Received: from mail-ej1-x632.google.com (mail-ej1-x632.google.com [IPv6:2a00:1450:4864:20::632])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FD6119A2
+	for <linux-media@vger.kernel.org>; Fri, 24 Nov 2023 07:56:11 -0800 (PST)
+Received: by mail-ej1-x632.google.com with SMTP id a640c23a62f3a-9ffef4b2741so285217766b.3
+        for <linux-media@vger.kernel.org>; Fri, 24 Nov 2023 07:56:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1700841369; x=1701446169; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nw3Uf93v4iSEa/tdYMiQyvWyR4Di+Wg4uCLDclNVmg0=;
+        b=NYuGxzqABuzAmy6p/kptBJtRuMvWkMfsoJSnoYeqfe9MFUh4mKd6b/bEJZ5udax3tH
+         xzFWyA7g5o65v9079Tg0tYVMCAa4lfJarcKH3WeNSdycwiz9e2WbTKJV1UOjg16T/en1
+         7Ki9iYsLxkTjD/f+NPFb588cbentamfYG+dIdQ8ZLcW5Pnseoy4X4tfbNgqE48X45FrH
+         LfppJMWeSCpQT2MF7i752EHV8JOiLi9fnd0CRwaVRc991riZEoLhijudpYHv/DewCZ4P
+         u3TTcSZQvFDG1Q1JCdclHRTqon7Rh+YBUlnjnE53cA3h5d3DDEeF+7LpUtTJzIHtZ8MZ
+         g5/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700841369; x=1701446169;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nw3Uf93v4iSEa/tdYMiQyvWyR4Di+Wg4uCLDclNVmg0=;
+        b=N+fXJe5Y4Idk36f4gvLIz69z3ZFgfFHcshdmJLiRSqtNacEE3fzIvP39u0ov8F7Jq9
+         g0t5YaVhdQpLhhFjjmOfLYoKFS0vGuYomMQ1cbVidSSBDASy2il8ghuh7wnKrMfuJ+Z6
+         clBCVqsP6kaRp43592CLmQVezpRKDzN29p3+tyqn2lJd5JN40EfUvzZ9exMpSOakHyEk
+         ukq5YawtQ9rWAa6Zn1SVBqpuI0OTrloVdhA7Fcv+hP5QXzyMtTPJSHrXPUleMn71h9ZV
+         jTngrc0jx3CJp9NmkP+VJIvMhGdJrd2ndT8C62OThPcO+u4schm/7GX0ci1S2QNXkinG
+         15Ow==
+X-Gm-Message-State: AOJu0YxylqK0/AmccjMgEPMoFQCF6Dl4yyAkQdNXRHeVT60HSdaUJKw+
+	q7N7zF72IovW+B91nLcKHUpteA==
+X-Google-Smtp-Source: AGHT+IHdYT+wamtbURTY6Lg3vipmmatxHpZyDbbDEqCD+868icucZy3YUAsomjQh8KBK3Ob6gLqU1Q==
+X-Received: by 2002:a17:906:747:b0:9e2:af47:54c9 with SMTP id z7-20020a170906074700b009e2af4754c9mr2612285ejb.19.1700841369481;
+        Fri, 24 Nov 2023 07:56:09 -0800 (PST)
+Received: from localhost (dhcp-089-099-055-216.chello.nl. [89.99.55.216])
+        by smtp.gmail.com with ESMTPSA id k18-20020a17090646d200b009f826f1238esm2205215ejs.100.2023.11.24.07.56.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 24 Nov 2023 07:56:09 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <b851e2e8-ebcb-40a9-934b-dddcb28a45c9@xs4all.nl>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: mtr@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 24 Nov 2023 16:56:08 +0100
+Message-Id: <CX75Y1X2QIN7.1GRH1YI56MMZ@fairphone.com>
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Vikash Garodia" <quic_vgarodia@quicinc.com>, "Dmitry Baryshkov"
+ <dmitry.baryshkov@linaro.org>
+Cc: "Stanimir Varbanov" <stanimir.k.varbanov@gmail.com>, "Bryan O'Donoghue"
+ <bryan.odonoghue@linaro.org>, "Andy Gross" <agross@kernel.org>, "Bjorn
+ Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konrad.dybcio@linaro.org>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ <cros-qcom-dts-watchers@chromium.org>, "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, <~postmarketos/upstreaming@lists.sr.ht>,
+ <phone-devel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v2 2/3] arm64: dts: qcom: sc7280: Move video-firmware to
+ chrome-common
+X-Mailer: aerc 0.15.2
+References: <20231002-sc7280-venus-pas-v2-0-bd2408891317@fairphone.com>
+ <20231002-sc7280-venus-pas-v2-2-bd2408891317@fairphone.com>
+ <4cfad910-1821-3a31-c372-3f6b199e8f71@quicinc.com>
+ <CX5ENKY70B5J.2D6DXKGI4EGX3@fairphone.com>
+ <ff021f49-f81b-0fd1-bd2c-895dbbb03d56@quicinc.com>
+ <CX70EBXCOB66.3998C482R86CN@fairphone.com>
+ <a29123a3-afe1-8f92-ff6c-835926d411af@quicinc.com>
+ <CAA8EJppkjpMmcHCvxomgUMPxGpf77iN9roRvb=NEcxdk237-UA@mail.gmail.com>
+ <e6d80982-1674-d0c4-9dbe-94d77079f6ba@quicinc.com>
+In-Reply-To: <e6d80982-1674-d0c4-9dbe-94d77079f6ba@quicinc.com>
 
-Hi Hans,
+On Fri Nov 24, 2023 at 2:35 PM CET, Vikash Garodia wrote:
+>
+>
+> On 11/24/2023 6:23 PM, Dmitry Baryshkov wrote:
+> > On Fri, 24 Nov 2023 at 14:30, Vikash Garodia <quic_vgarodia@quicinc.com=
+> wrote:
+> >>
+> >> On 11/24/2023 5:05 PM, Luca Weiss wrote:
+> >>> On Fri Nov 24, 2023 at 7:38 AM CET, Vikash Garodia wrote:
+> >>>>
+> >>>> On 11/22/2023 7:50 PM, Luca Weiss wrote:
+> >>>>> On Wed Nov 22, 2023 at 2:17 PM CET, Vikash Garodia wrote:
+> >>>>>>
+> >>>>>> On 10/2/2023 7:50 PM, Luca Weiss wrote:
+> >>>>>>> If the video-firmware node is present, the venus driver assumes w=
+e're on
+> >>>>>>> a system that doesn't use TZ for starting venus, like on ChromeOS
+> >>>>>>> devices.
+> >>>>>>>
+> >>>>>>> Move the video-firmware node to chrome-common.dtsi so we can use =
+venus
+> >>>>>>> on a non-ChromeOS devices.
+> >>>>>>>
+> >>>>>>> At the same time also disable the venus node by default in the dt=
+si,
+> >>>>>>> like it's done on other SoCs.
+> >>>>>>>
+> >>>>>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> >>>>>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> >>>>>>> ---
+> >>>>>>>  arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi | 8 ++++++++
+> >>>>>>>  arch/arm64/boot/dts/qcom/sc7280.dtsi               | 6 ++----
+> >>>>>>>  2 files changed, 10 insertions(+), 4 deletions(-)
+> >>>>>>>
+> >>>>>>> diff --git a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi b=
+/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+> >>>>>>> index 5d462ae14ba1..cd491e46666d 100644
+> >>>>>>> --- a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+> >>>>>>> +++ b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
+> >>>>>>> @@ -104,6 +104,14 @@ &scm {
+> >>>>>>>   dma-coherent;
+> >>>>>>>  };
+> >>>>>>>
+> >>>>>>> +&venus {
+> >>>>>>> + status =3D "okay";
+> >>>>>>> +
+> >>>>>>> + video-firmware {
+> >>>>>>> +         iommus =3D <&apps_smmu 0x21a2 0x0>;
+> >>>>>>> + };
+> >>>>>>> +};
+> >>>>>>> +
+> >>>>>>>  &watchdog {
+> >>>>>>>   status =3D "okay";
+> >>>>>>>  };
+> >>>>>>> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/bo=
+ot/dts/qcom/sc7280.dtsi
+> >>>>>>> index 66f1eb83cca7..fa53f54d4675 100644
+> >>>>>>> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> >>>>>>> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
+> >>>>>>> @@ -3740,6 +3740,8 @@ venus: video-codec@aa00000 {
+> >>>>>>>                            <&apps_smmu 0x2184 0x20>;
+> >>>> 0x2184 is a secure SID. I think qcm6490-fairphone-fp5.dts needs to o=
+verride the
+> >>>> iommus property as well to retain only the non secure SID i.e 0x2180=
+ ? I am
+> >>>> seeing below crash
+> >>>>
+> >>>> Call trace:
+> >>>> [   47.663593]  qcom_smmu_write_s2cr+0x64/0xa4
+> >>>> [   47.663616]  arm_smmu_attach_dev+0x120/0x284
+> >>>> [   47.663647]  __iommu_attach_device+0x24/0xf8
+> >>>> [   47.676845]  __iommu_device_set_domain+0x70/0xd0
+> >>>> [   47.681632]  __iommu_group_set_domain_internal+0x60/0x1b4
+> >>>> [   47.687218]  iommu_setup_default_domain+0x358/0x418
+> >>>> [   47.692258]  __iommu_probe_device+0x3e4/0x404
+> >>>>
+> >>>> Could you please reconfirm if Video SID 0x2184 (and mask) is allowed=
+ by the
+> >>>> qcm6490-fairphone-fp5 hardware having TZ ?
+> >>>
+> >>> Hi,
+> >>>
+> >>> On FP5 it seems it's no problem to have both SIDs in there, probe and
+> >>> using venus appears to work fine.
+> >>>
+> >>> Are you using different firmware than QCM6490.LA.3.0 on the device wh=
+ere
+> >>> you tested this?
+> >> I was testing this on RB3 board which uses firmware [1].
+> >=20
+> > There is something wrong here.
+> >=20
+> > RB3 board uses venus-5.2
+> > RB5 board uses vpu-1.0
+> > Only sc7280 uses vpu-2.0
+>
+> Tested on QCM6490 IDP board, which is QCOM internal board similar to RB3 =
+gen2.
 
-On Fri, 24 Nov 2023 14:39:37 +0100, Hans Verkuil wrote:
-> On 13/10/2023 13:00, Michael Tretter wrote:
-> > This is v2 of the series that adds support for the V4L2 multi-planar API
-> > to the Rockchip RGA driver. Once the RGA driver supports the
-> > multi-planar API, it is easier to share buffers with other V4L2 drivers
-> > that also support the multi-planar API and may not expose planar formats
-> > with contiguous planes.
-> > 
-> > v2 fixes the smatch warnings and compile errors of v1. Furthermore, now
-> > the DMA mask is set to 32 bits for coherent, too, and the gfp_flags are
-> > configured to ensure that buffers are allocated in the lower 4GB area.
-> > 
-> > With non-contiguous planes, the U and V planes may not start at the same
-> > offset as with the continuous planes. Therefore, the RGA driver cannot
-> > rely on its calculation of the plane offsets based on the format and
-> > frame size anymore, but must remember the offsets when it created the
-> > mapping. Therefore, I also reworked how the DMA mapping is handled.
-> > 
-> > As a bonus, the RGA driver should now work correctly on devices with
-> > more than 4 GB of memory. Video buffers should now be allocated within
-> > the 4 GB boundary and an import of buffers that have higher addresses
-> > into the driver should fail.
-> > 
-> > Patch 1 fixes the swizzling of RGA formats. While testing all formats of
-> > the driver on rk3568, I discovered that the color channels of the RGB
-> > formats are wrong when converting to NV12. I didn't test this on other
-> > SoCs with an RGA and I am not sure, if they behave differently regarding
-> > the color channels. Please report, if this breaks the color conversion
-> > on other SoCs, and I will make this SoC-specific.
-> > 
-> > Patches 2 to 6 are the rework the DMA descriptor handling for the RGA
-> > MMU. The patches clean up, how the driver uses the DMA API, and make the
-> > creation of the descriptor list more explicit. Furthermore, the driver
-> > is changed to keep the mapping per video buffer instead of using a
-> > single mapping that is updated with every buffer.
-> > 
-> > Patches 7 to 11 prepare the driver for the multi-planar API including a
-> > cleanup of the format handling in the buffer, and finally switch to the
-> > multi-planar API.
-> 
-> Switching over to the multi-planar API is always a bit scary. How did you
-> test this? Using gstreamer? Other apps?
+In any case, I don't know much about the venus & iommu setup here. I can
+try removing the 0x2184 SID and test if venus still works on FP5.
+Also should the chromebooks keep that iommu entry or not?
 
-I tested with GStreamer. My use case is using the RGA to convert RGB Buffers
-to NV12 to feed them to a Hantro JPEG encoder. I also tried to separate the
-preparatory work, the switch to the multi-planar API, and the addition of
-actually multi-planar formats into separate patches.
+Regards
+Luca
 
-Is there anything that I should take special care of or explicitly test, when
-switching the driver to the multi-planar API?
+>
+> >>
+> >> Regards,
+> >> Vikash
+> >>
+> >> [1]
+> >> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmwar=
+e.git/tree/qcom/vpu-2.0
+> >>
+> >>>>
+> >>>>>>>                   memory-region =3D <&video_mem>;
+> >>>>>>>
+> >>>>>>> +                 status =3D "disabled";
+> >>>>>>> +
+> >>>>>>>                   video-decoder {
+> >>>>>>>                           compatible =3D "venus-decoder";
+> >>>>>>>                   };
+> >>>>>>> @@ -3748,10 +3750,6 @@ video-encoder {
+> >>>>>>>                           compatible =3D "venus-encoder";
+> >>>>>>>                   };
+> >>>>>>>
+> >>>>>>> -                 video-firmware {
+> >>>>>>> -                         iommus =3D <&apps_smmu 0x21a2 0x0>;
+> >>>>>>> -                 };
+> >>>>>>> -
+> >>>>>>>                   venus_opp_table: opp-table {
+> >>>>>>>                           compatible =3D "operating-points-v2";
+> >>>>>>>
+> >>>>>>>
+> >>>>>> Changes look good. Is this tested on SC7280 ?
+> >>>>>
+> >>>>> Hi Vikash,
+> >>>>>
+> >>>>> I didn't test it myself on sc7280 (just qcm6490-fp5) but dtx_diff
+> >>>>> reports no differences except for status =3D okay property being ad=
+ded, so
+> >>>>> there should be no change on those boards. See below.
+> >>>>>
+> >>>>> Regards
+> >>>>> Luca
+> >>>>
+> >>>> I tested on SC7280 (herobrine) and all good.
+> >>>
+> >>> Great, thanks!
+> >>>
+> >>> Regards
+> >>> Luca
+> >>>
+> >>>>
+> >>>> Regards,
+> >>>> Vikash
+> >>>
+> >>
+> >=20
+> >=20
 
-Michael
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > 
-> > Patch 12 updates the code that creates the DMA-descriptor mapping to
-> > correctly handle buffers with multiple planes. The driver has to iterate
-> > all planes and make them the continuous for the RGA.
-> > 
-> > Patch 13 enables the NV12M format, which is the multi-planar variant of
-> > the NV12 format.
-> > 
-> > Michael
-> > 
-> > Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
-> > ---
-> > Changes in v2:
-> > - Fix smatch warnings
-> > - Fix cast to dst_mmu_pages/src_mmu_pages to fix compile error in Patch 2
-> > - Remove check for upper_32_bits when filling the DMA descriptor table
-> > - Remove useless dma_sync_single_for_device()
-> > - Set DMA mask for DMA coherent
-> > - Set gfp_flags to __GFP_DMA32
-> > - Link to v1: https://lore.kernel.org/r/20230914-rockchip-rga-multiplanar-v1-0-abfd77260ae3@pengutronix.de
-> > 
-> > ---
-> > Michael Tretter (13):
-> >       media: rockchip: rga: fix swizzling for RGB formats
-> >       media: rockchip: rga: extract helper to fill descriptors
-> >       media: rockchip: rga: allocate DMA descriptors per buffer
-> >       media: rockchip: rga: split src and dst buffer setup
-> >       media: rockchip: rga: pre-calculate plane offsets
-> >       media: rockchip: rga: set dma mask to 32 bits
-> >       media: rockchip: rga: use clamp() to clamp size to limits
-> >       media: rockchip: rga: use pixelformat to find format
-> >       media: rockchip: rga: add local variable for pix_format
-> >       media: rockchip: rga: use macros for testing buffer type
-> >       media: rockchip: rga: switch to multi-planar API
-> >       media: rockchip: rga: rework buffer handling for multi-planar formats
-> >       media: rockchip: rga: add NV12M support
-> > 
-> >  drivers/media/platform/rockchip/rga/rga-buf.c | 162 ++++++++++++++++------
-> >  drivers/media/platform/rockchip/rga/rga-hw.c  | 146 ++++++++++++--------
-> >  drivers/media/platform/rockchip/rga/rga.c     | 189 ++++++++++++--------------
-> >  drivers/media/platform/rockchip/rga/rga.h     |  35 ++++-
-> >  4 files changed, 328 insertions(+), 204 deletions(-)
-> > ---
-> > base-commit: 2c1bae27df787c9535e48cc27bbd11c3c3e0a235
-> > change-id: 20230914-rockchip-rga-multiplanar-0d7c79b1ba93
-> > 
-> > Best regards,
-> 
-> 
 
