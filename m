@@ -1,72 +1,73 @@
-Return-Path: <linux-media+bounces-970-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-971-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37157F7117
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 11:16:33 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3726B7F7122
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 11:16:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EE6D281ABC
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 10:16:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 680971C20A22
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 10:16:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B61518AEF;
-	Fri, 24 Nov 2023 10:16:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2226218B1B;
+	Fri, 24 Nov 2023 10:16:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H9oGC3/D"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="X9oKWUBI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B95410FB;
-	Fri, 24 Nov 2023 02:16:25 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-a00b01955acso250333766b.1;
-        Fri, 24 Nov 2023 02:16:25 -0800 (PST)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F11E21981;
+	Fri, 24 Nov 2023 02:16:33 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-54a95657df3so2603916a12.0;
+        Fri, 24 Nov 2023 02:16:33 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700820984; x=1701425784; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZcMLBYSAsdprviXMYBJT1guiAaPHdo15Q++eqKUBcSs=;
-        b=H9oGC3/Dn98DTg3y5OxQQ/Z0liFVXxq36ApycQAZvr8+5baUjSGhfCVvjYM/2Wv6KP
-         rAmFhUUr59CnqJ17CRMy/DgzRCO1G7DeW9GooNqTvjLdmDnd1Gck67QEDsdLi6d1RyBb
-         QeGSVQFoAvYajHLreGo0WxRxhdoMe5aiP6Oi4MKE17nqO44bJwQjkgOZsEfWbY8GxMBY
-         Cnd7QUN5XkJEZdAPlvYNil7jmrSv02sLidPgd36x8Zg8bPgYHuiqVp3rylZ4so5b8AsE
-         X+k0cZlGpGUDD0WFUFKXpTXgnLeS8kjY2174iYzJ+L4S9Q8BC8eKALzrcBl5ztkguTJv
-         KQtQ==
+        d=gmail.com; s=20230601; t=1700820992; x=1701425792; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=VbsbH1CThP42UiUJns2VDtTJbIoXHmLVJdFuam5YX4A=;
+        b=X9oKWUBID6OlknMR76MJ8/PNkQP+IG+lRE5M9SgcBKo/JZ4naaHuCI3TtoEhE3RvL1
+         CEvlGrDhruiRHkgZ9bUue+5m5VtBqjtV4nrTuKtcEtTLE5KmvqUnPzYZbFI2tLEPBSl4
+         9P8s/CDNOwkDDhoR6qyd/wOiBNhWMZ3Ah9c17hdtPV4daxBY+D4AbiUtxLrKgmUpCjMG
+         isiEemXpWfZGCXci0Im2UIHrn3gJMgF/y/pS1uCWaYuV5DsN7uSwNFXMqNUvS7uzWKv4
+         /PX0ChxgiWUPgHUQRTsywQH83bn8yCMOArya6EwQACA2XGO+GhURd6Cv8Zw9QAhwIecy
+         EYuA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700820984; x=1701425784;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=ZcMLBYSAsdprviXMYBJT1guiAaPHdo15Q++eqKUBcSs=;
-        b=QgoITgtD3cyXPvFYWoiLeRP3rek5zCgWPuWBQ4KDMtqLvvXGsGuHjEb9heUghlLFpl
-         PKtZ/9/G/E559QPQT+4KKdKtL5JGp7UTdpZmAI3t4sksDd5vvKueNOUYj/RTNze2qUY5
-         KI71t2vy6ejtbVkO4eaKGB/YgpBh9e26xdm/wIvSOYeBZs0a4krF62cbZVmp+zKt74tF
-         cJzteKcre6MiEDBpgFX7LpB8Sz4TYBTtaxHvVlDY8cRl3sas/1q39kn+JDqHBCZZq4CP
-         qfP/qxIcvY7mBvFxMNZokHQ6iFdTfLQN/B/PuBLXIuAHQBWupnfO1sxJFYNB0IW7i0HA
-         gqqQ==
-X-Gm-Message-State: AOJu0YwvJVKG7aTbXblb2I/qi+d5hRgSSkjjkpr2G6BBDMGzrFM7ep8c
-	Sq5M/M4PMwxA9IZ407rs3ek=
-X-Google-Smtp-Source: AGHT+IHMyVQ9DHJdncIOviYJm5Op4owrfc9bHRGqIAVNz9Kh2xDLtmkrUG13pmyHarsniEeVN07dLw==
-X-Received: by 2002:a17:906:2bd1:b0:a04:3571:e165 with SMTP id n17-20020a1709062bd100b00a043571e165mr1192100ejg.52.1700820983400;
-        Fri, 24 Nov 2023 02:16:23 -0800 (PST)
+        d=1e100.net; s=20230601; t=1700820992; x=1701425792;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=VbsbH1CThP42UiUJns2VDtTJbIoXHmLVJdFuam5YX4A=;
+        b=QVcmSUqoKb0amngK6ZFz4hle4Y/iKjktHheJfO0pYGUVUj695yQymfyZ+989RsKF/E
+         Yq3b+/xdoH1gAuQpCWAWK9lTUaUoYgT+yxxeDNOyF3KeLppY4wdlxPX4Wl6IpUmiH90y
+         xLPHCP8SXuSXN4dyXR8oq6OUojLddXfhh/dfjpdu+S2u1DHGw7sZXdcyC/KqbztyEwhF
+         SGQTarE8gqXS8dYtV2mWE8yOk8dgIIU3FFl5ikZF9IpUgYRVe5PX0sK8fUypUoxwJ06U
+         svQ5d3LJLt0ObME1xnDgayGSXbCCfsxpeHdMywHHgo3G3/0qejt7srlYBq0YRvAJpht4
+         oJig==
+X-Gm-Message-State: AOJu0YxfPKR1ThakTVqAw2579TGvs8PBF4RKxmqo2lvL0qjwudTTcQkX
+	JJxPQGo7ioST8lpW8lAXju8=
+X-Google-Smtp-Source: AGHT+IEl7DVOh1yNeZ0+PXY4g23+UeNxF96Aj9qPHe8kNZb0s0xY2k4/cW8g1WnJAVASNqPSlqExJQ==
+X-Received: by 2002:a17:906:590e:b0:a04:837e:a955 with SMTP id h14-20020a170906590e00b00a04837ea955mr1609642ejq.32.1700820992151;
+        Fri, 24 Nov 2023 02:16:32 -0800 (PST)
 Received: from zotac.lan. (dynamic-2a01-0c22-72cf-8300-2223-08ff-fe18-0310.c22.pool.telefonica.de. [2a01:c22:72cf:8300:2223:8ff:fe18:310])
-        by smtp.gmail.com with ESMTPSA id oq12-20020a170906cc8c00b009fbf15cee7fsm1887801ejb.69.2023.11.24.02.16.22
+        by smtp.gmail.com with ESMTPSA id oq12-20020a170906cc8c00b009fbf15cee7fsm1887801ejb.69.2023.11.24.02.16.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 02:16:22 -0800 (PST)
+        Fri, 24 Nov 2023 02:16:31 -0800 (PST)
 From: Heiner Kallweit <hkallweit1@gmail.com>
 To: Wolfram Sang <wsa@kernel.org>,
-	linuxppc-dev@lists.ozlabs.org
+	Sergey Kozlov <serjk@netup.ru>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
 Cc: linux-i2c@vger.kernel.org,
 	Heiner Kallweit <hkallweit1@gmail.com>,
-	Christophe Leroy <christophe.leroy@csgroup.eu>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	greybus-dev@lists.linaro.org,
-	linux-staging@lists.linux.dev,
-	linux-media@vger.kernel.org
-Subject: [PATCH v2 00/10] Don't let i2c adapters declare I2C_CLASS_SPD support if they support I2C_CLASS_HWMON
-Date: Fri, 24 Nov 2023 11:16:09 +0100
-Message-ID: <20231124101619.6470-1-hkallweit1@gmail.com>
+	Abylay Ospan <aospan@netup.ru>,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 08/10] media: netup_unidvb: Don't let i2c adapters declare I2C_CLASS_SPD support if they support I2C_CLASS_HWMON
+Date: Fri, 24 Nov 2023 11:16:17 +0100
+Message-ID: <20231124101619.6470-9-hkallweit1@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20231124101619.6470-1-hkallweit1@gmail.com>
+References: <20231124101619.6470-1-hkallweit1@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,41 +84,24 @@ It's one step towards getting rid of I2C_CLASS_SPD mid-term.
 
 Series was created supported by Coccinelle and its splitpatch.
 
-v2:
-- fix style issue in patch 4
-- add ack in patch 2
-- set proper subject prefix for all patches
-
 Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
 
 ---
-
- drivers/i2c/busses/i2c-ali1535.c                  |    2 +-
- drivers/i2c/busses/i2c-ali1563.c                  |    2 +-
- drivers/i2c/busses/i2c-ali15x3.c                  |    2 +-
- drivers/i2c/busses/i2c-amd756.c                   |    2 +-
- drivers/i2c/busses/i2c-amd8111.c                  |    2 +-
- drivers/i2c/busses/i2c-elektor.c                  |    2 +-
- drivers/i2c/busses/i2c-gpio.c                     |    2 +-
- drivers/i2c/busses/i2c-ibm_iic.c                  |    2 +-
- drivers/i2c/busses/i2c-iop3xx.c                   |    2 +-
- drivers/i2c/busses/i2c-isch.c                     |    2 +-
- drivers/i2c/busses/i2c-kempld.c                   |    3 +--
- drivers/i2c/busses/i2c-mlxcpld.c                  |    2 +-
- drivers/i2c/busses/i2c-nforce2.c                  |    2 +-
- drivers/i2c/busses/i2c-pasemi-pci.c               |    2 +-
- drivers/i2c/busses/i2c-piix4.c                    |    2 +-
- drivers/i2c/busses/i2c-scmi.c                     |    2 +-
- drivers/i2c/busses/i2c-sh7760.c                   |    2 +-
- drivers/i2c/busses/i2c-sibyte.c                   |    4 ++--
- drivers/i2c/busses/i2c-sis5595.c                  |    2 +-
- drivers/i2c/busses/i2c-sis630.c                   |    2 +-
- drivers/i2c/busses/i2c-sis96x.c                   |    2 +-
- drivers/i2c/busses/i2c-via.c                      |    2 +-
- drivers/i2c/busses/i2c-viapro.c                   |    2 +-
- drivers/i2c/busses/scx200_acb.c                   |    2 +-
- drivers/i2c/i2c-stub.c                            |    2 +-
  drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c |    2 +-
- drivers/staging/greybus/i2c.c                     |    2 +-
- 27 files changed, 28 insertions(+), 29 deletions(-)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c b/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
+index bd38ce444..46676f2c8 100644
+--- a/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
++++ b/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
+@@ -289,7 +289,7 @@ static const struct i2c_algorithm netup_i2c_algorithm = {
+ static const struct i2c_adapter netup_i2c_adapter = {
+ 	.owner		= THIS_MODULE,
+ 	.name		= NETUP_UNIDVB_NAME,
+-	.class		= I2C_CLASS_HWMON | I2C_CLASS_SPD,
++	.class		= I2C_CLASS_HWMON,
+ 	.algo		= &netup_i2c_algorithm,
+ };
+ 
+
 
