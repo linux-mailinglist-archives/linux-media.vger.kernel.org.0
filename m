@@ -1,2436 +1,1636 @@
-Return-Path: <linux-media+bounces-988-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-989-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0867F7653
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 15:26:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1558B7F7797
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 16:23:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E0F2D1C211C2
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 14:26:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BA78F28224F
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 15:23:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 319322D624;
-	Fri, 24 Nov 2023 14:26:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0D202EAF0;
+	Fri, 24 Nov 2023 15:23:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lSLiEbs5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DzjocEHd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D24D519A7
-	for <linux-media@vger.kernel.org>; Fri, 24 Nov 2023 06:26:29 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AFCAC1AB9;
-	Fri, 24 Nov 2023 15:25:52 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1700835953;
-	bh=7WJ3GM1l91Zt+mRUJd+iIX4wxj3wIe4/Rd2lJ0w9vr8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lSLiEbs5IpPKm1kfruK3sYjMq5+p+BCwG4e+DGbdBC0E0OC7f4mrqfKVwtE+OU4cS
-	 r21ThWCmYSt2rHM7mvH0FBoa+YfppxeSoIlzaGjL4XWke/LRJgpVk6F5r9gDpDf/Sg
-	 eJSN2HNVV8D4YFINxspje23ZTtfdla7FCgFeBb4w=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Paul Elder <paul.elder@ideasonboard.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Julien Stephan <jstephan@baylibre.com>,
-	Sakari Ailus <sakari.ailus@iki.fi>,
-	linux-mediatek@lists.infradead.org
-Subject: [PATCH v8 3/3] media: i2c: Add driver for THine THP7312
-Date: Fri, 24 Nov 2023 16:26:25 +0200
-Message-ID: <20231124142625.25979-4-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231124142625.25979-1-laurent.pinchart@ideasonboard.com>
-References: <20231124142625.25979-1-laurent.pinchart@ideasonboard.com>
+Received: from mail-ej1-x62f.google.com (mail-ej1-x62f.google.com [IPv6:2a00:1450:4864:20::62f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1EE9F1733;
+	Fri, 24 Nov 2023 07:22:50 -0800 (PST)
+Received: by mail-ej1-x62f.google.com with SMTP id a640c23a62f3a-a013d22effcso277976566b.2;
+        Fri, 24 Nov 2023 07:22:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700839368; x=1701444168; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZEUJRLeDrb2NOUHQE2jEpGek/NJXO3U7+tfINzHpx9Q=;
+        b=DzjocEHdC8Cy8nSKCcbLHenDSDZQ2oDxBaxPf9YkqqPaY54kQNESsCutRK1IaykXIU
+         ILugukcjAyIlgBmXaXiBpvuzFlbkVnHcK74O7fTH1MXQc7Cp9BhIe9+93Akb0NiYqdSq
+         p6QZ0MpL0hGLvbPC/+Vj0gtSm1HUzBgsbPCVRYiLV7/M+XKXFxpBN8AuPtIqfr+TXn7v
+         X3xQzeXA4S3TDR6o7YVkJ0Z0jvJhRgn+zfzSdk0MFHnoJdQEEf3iH61Z+c7V5fxb/eXO
+         XF6VL4HNg0WjDVSD6E9FiLuzfw1Qm/j9VoP4+Y3Msr8LsUWGCV+qaKZwNCWYjPTG82CV
+         z9gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700839368; x=1701444168;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ZEUJRLeDrb2NOUHQE2jEpGek/NJXO3U7+tfINzHpx9Q=;
+        b=qpeOJa9zXaAwUz8ONsAlj6jyLcIOS8QFSGzTSd6ARNlDbZGu/9Ii74IakDc9MOHMwq
+         XeIiyv9w8IX3mZ9fol2y8A1s63M4YckxNGlZYpQpPhdlPRYkA1+c5RQAHURpa/g0vgfU
+         E8E6XeuCIx83ppDg//qUyBdKwcAZTX1pv2gH+o0+pe+Z0F39JhdaIGlZHzo8bZ6Zj+rY
+         267oD1MX3+ICvfwBlmBxK+7DijguIbDWObxsvHionG1wEVsAYdKzv/7vBLOojbXnblD/
+         ABBCXOMnGMM/GaJCKCfMNT0DCbPoqcglzvxiWPrFQYhIPQfGpkQN6ifKDiAzR1YYDVWz
+         U6eg==
+X-Gm-Message-State: AOJu0Yx93vwsxNpHMcjH/9Rpweo+3dOQpDHFHywytTq4bcmt67qwCha9
+	r6oFKBqnvit3KNY1MiDTlrM=
+X-Google-Smtp-Source: AGHT+IGN6G7NyHHZiieuHaym2PfhinctnFWlzbN3qqaY0D0WZzbKnFBH3ZlK0I6teXMGtdbcLQtFKg==
+X-Received: by 2002:a17:906:33c1:b0:9e7:d1ab:e90b with SMTP id w1-20020a17090633c100b009e7d1abe90bmr2463976eja.19.1700839367917;
+        Fri, 24 Nov 2023 07:22:47 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-142-131.cust.vodafonedsl.it. [2.39.142.131])
+        by smtp.gmail.com with ESMTPSA id ks20-20020a170906f85400b009db53aa4f7bsm2169023ejb.28.2023.11.24.07.22.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 24 Nov 2023 07:22:47 -0800 (PST)
+Date: Fri, 24 Nov 2023 16:22:45 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Sebastian Reichel <sre@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 6/6] media: i2c: gc0308: new driver
+Message-ID: <ZWC/xYwn928nPYvo@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231113230421.226808-1-sre@kernel.org>
+ <20231113230421.226808-7-sre@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231113230421.226808-7-sre@kernel.org>
 
-From: Paul Elder <paul.elder@ideasonboard.com>
+Hi Sabastian,
 
-The THP7312 is an external camera ISP from THine. Add a V4L2 subdev
-driver for it.
+On Mon, Nov 13, 2023 at 11:57:25PM +0100, Sebastian Reichel wrote:
+> Introduce new driver for GalaxyCore GC0308, which is a cheap
+> 640x480 with an on-chip ISP sensor sold since 2010. Data is
+> provided via parallel bus.
+> 
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Signed-off-by: Sebastian Reichel <sre@kernel.org>
+> ---
+>  MAINTAINERS                |    7 +
+>  drivers/media/i2c/Kconfig  |   10 +
+>  drivers/media/i2c/Makefile |    1 +
+>  drivers/media/i2c/gc0308.c | 1436 ++++++++++++++++++++++++++++++++++++
+>  4 files changed, 1454 insertions(+)
+>  create mode 100644 drivers/media/i2c/gc0308.c
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index c41fcf10e356..a49b624b70ea 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -8770,6 +8770,13 @@ F:	drivers/mfd/gateworks-gsc.c
+>  F:	include/linux/mfd/gsc.h
+>  F:	include/linux/platform_data/gsc_hwmon.h
+>  
+> +GC0308 GALAXYCORE CAMERA SENSOR DRIVER
+> +M:	Sebastian Reichel <sre@kernel.org>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/i2c/galaxycore,gc0308.yaml
+> +F:	drivers/media/i2c/gc0308.c
+> +
+>  GCC PLUGINS
+>  M:	Kees Cook <keescook@chromium.org>
+>  L:	linux-hardening@vger.kernel.org
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 59ee0ca2c978..ca81e51ecdae 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -50,6 +50,16 @@ config VIDEO_AR0521
+>  	  To compile this driver as a module, choose M here: the
+>  	  module will be called ar0521.
+>  
+> +config VIDEO_GC0308
+> +	tristate "GalaxyCore GC0308 sensor support"
+> +	select V4L2_CCI_I2C
+> +	help
+> +	  This is a Video4Linux2 sensor driver for the GalaxyCore
+> +	  GC0308 camera.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called gc0308.
+> +
+>  config VIDEO_HI556
+>  	tristate "Hynix Hi-556 sensor support"
+>  	help
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index f5010f80a21f..8f57c9a20b1a 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -36,6 +36,7 @@ obj-$(CONFIG_VIDEO_DW9719) += dw9719.o
+>  obj-$(CONFIG_VIDEO_DW9768) += dw9768.o
+>  obj-$(CONFIG_VIDEO_DW9807_VCM) += dw9807-vcm.o
+>  obj-$(CONFIG_VIDEO_ET8EK8) += et8ek8/
+> +obj-$(CONFIG_VIDEO_GC0308) += gc0308.o
+>  obj-$(CONFIG_VIDEO_HI556) += hi556.o
+>  obj-$(CONFIG_VIDEO_HI846) += hi846.o
+>  obj-$(CONFIG_VIDEO_HI847) += hi847.o
+> diff --git a/drivers/media/i2c/gc0308.c b/drivers/media/i2c/gc0308.c
+> new file mode 100644
+> index 000000000000..e522e34443c2
+> --- /dev/null
+> +++ b/drivers/media/i2c/gc0308.c
+> @@ -0,0 +1,1436 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Driver for the GalaxyCore GC0308 camera sensor.
+> + *
+> + * Copyright (c) 2023 Sebastian Reichel <sre@kernel.org>
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/device.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/mod_devicetable.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +
+> +#include <media/v4l2-cci.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include <media/v4l2-subdev.h>
+> +
+> +/* Analog & CISCTL*/
+> +#define GC0308_CHIP_ID			CCI_REG8(0x000)
+> +#define GC0308_HBLANK			CCI_REG8(0x001)
+> +#define GC0308_VBLANK			CCI_REG8(0x002)
+> +#define GC0308_EXP			CCI_REG16(0x003)
+> +#define GC0308_ROW_START		CCI_REG16(0x005)
+> +#define GC0308_COL_START		CCI_REG16(0x007)
+> +#define GC0308_WIN_HEIGHT		CCI_REG16(0x009)
+> +#define GC0308_WIN_WIDTH		CCI_REG16(0x00b)
+> +#define GC0308_VS_START_TIME		CCI_REG8(0x00d) /* in rows */
+> +#define GC0308_VS_END_TIME		CCI_REG8(0x00e) /* in rows */
+> +#define GC0308_VB_HB			CCI_REG8(0x00f)
+> +#define GC0308_RSH_WIDTH		CCI_REG8(0x010)
+> +#define GC0308_TSP_WIDTH		CCI_REG8(0x011)
+> +#define GC0308_SAMPLE_HOLD_DELAY	CCI_REG8(0x012)
+> +#define GC0308_ROW_TAIL_WIDTH		CCI_REG8(0x013)
+> +#define GC0308_CISCTL_MODE1		CCI_REG8(0x014)
+> +#define GC0308_CISCTL_MODE2		CCI_REG8(0x015)
+> +#define GC0308_CISCTL_MODE3		CCI_REG8(0x016)
+> +#define GC0308_CISCTL_MODE4		CCI_REG8(0x017)
+> +#define GC0308_ANALOG_MODE1		CCI_REG8(0x01a)
+> +#define GC0308_ANALOG_MODE2		CCI_REG8(0x01b)
+> +#define GC0308_HRST_RSG_V18		CCI_REG8(0x01c)
+> +#define GC0308_VREF_V25			CCI_REG8(0x01d)
+> +#define GC0308_ADC_R			CCI_REG8(0x01e)
+> +#define GC0308_PAD_DRV			CCI_REG8(0x01f)
+> +#define GC0308_SOFT_RESET		CCI_REG8(0x0fe)
+> +
+> +/* ISP */
+> +#define GC0308_BLOCK_EN1		CCI_REG8(0x020)
+> +#define GC0308_BLOCK_EN2		CCI_REG8(0x021)
+> +#define GC0308_AAAA_EN			CCI_REG8(0x022)
+> +#define GC0308_SPECIAL_EFFECT		CCI_REG8(0x023)
+> +#define GC0308_OUT_FORMAT		CCI_REG8(0x024)
+> +#define GC0308_OUT_EN			CCI_REG8(0x025)
+> +#define GC0308_SYNC_MODE		CCI_REG8(0x026)
+> +#define GC0308_CLK_DIV_MODE		CCI_REG8(0x028)
+> +#define GC0308_BYPASS_MODE		CCI_REG8(0x029)
+> +#define GC0308_CLK_GATING		CCI_REG8(0x02a)
+> +#define GC0308_DITHER_MODE		CCI_REG8(0x02b)
+> +#define GC0308_DITHER_BIT		CCI_REG8(0x02c)
+> +#define GC0308_DEBUG_MODE1		CCI_REG8(0x02d)
+> +#define GC0308_DEBUG_MODE2		CCI_REG8(0x02e)
+> +#define GC0308_DEBUG_MODE3		CCI_REG8(0x02f)
+> +#define GC0308_CROP_WIN_MODE		CCI_REG8(0x046)
+> +#define GC0308_CROP_WIN_Y1		CCI_REG8(0x047)
+> +#define GC0308_CROP_WIN_X1		CCI_REG8(0x048)
+> +#define GC0308_CROP_WIN_HEIGHT		CCI_REG16(0x049)
+> +#define GC0308_CROP_WIN_WIDTH		CCI_REG16(0x04b)
+> +
+> +/* BLK */
+> +#define GC0308_BLK_MODE			CCI_REG8(0x030)
+> +#define GC0308_BLK_LIMIT_VAL		CCI_REG8(0x031)
+> +#define GC0308_GLOBAL_OFF		CCI_REG8(0x032)
+> +#define GC0308_CURRENT_R_OFF		CCI_REG8(0x033)
+> +#define GC0308_CURRENT_G_OFF		CCI_REG8(0x034)
+> +#define GC0308_CURRENT_B_OFF		CCI_REG8(0x035)
+> +#define GC0308_CURRENT_R_DARK_CURRENT	CCI_REG8(0x036)
+> +#define GC0308_CURRENT_G_DARK_CURRENT	CCI_REG8(0x037)
+> +#define GC0308_CURRENT_B_DARK_CURRENT	CCI_REG8(0x038)
+> +#define GC0308_EXP_RATE_DARKC		CCI_REG8(0x039)
+> +#define GC0308_OFF_SUBMODE		CCI_REG8(0x03a)
+> +#define GC0308_DARKC_SUBMODE		CCI_REG8(0x03b)
+> +#define GC0308_MANUAL_G1_OFF		CCI_REG8(0x03c)
+> +#define GC0308_MANUAL_R1_OFF		CCI_REG8(0x03d)
+> +#define GC0308_MANUAL_B2_OFF		CCI_REG8(0x03e)
+> +#define GC0308_MANUAL_G2_OFF		CCI_REG8(0x03f)
+> +
+> +/* PREGAIN */
+> +#define GC0308_GLOBAL_GAIN		CCI_REG8(0x050)
+> +#define GC0308_AUTO_PREGAIN		CCI_REG8(0x051)
+> +#define GC0308_AUTO_POSTGAIN		CCI_REG8(0x052)
+> +#define GC0308_CHANNEL_GAIN_G1		CCI_REG8(0x053)
+> +#define GC0308_CHANNEL_GAIN_R		CCI_REG8(0x054)
+> +#define GC0308_CHANNEL_GAIN_B		CCI_REG8(0x055)
+> +#define GC0308_CHANNEL_GAIN_G2		CCI_REG8(0x056)
+> +#define GC0308_R_RATIO			CCI_REG8(0x057)
+> +#define GC0308_G_RATIO			CCI_REG8(0x058)
+> +#define GC0308_B_RATIO			CCI_REG8(0x059)
+> +#define GC0308_AWB_R_GAIN		CCI_REG8(0x05a)
+> +#define GC0308_AWB_G_GAIN		CCI_REG8(0x05b)
+> +#define GC0308_AWB_B_GAIN		CCI_REG8(0x05c)
+> +#define GC0308_LSC_DEC_LVL1		CCI_REG8(0x05d)
+> +#define GC0308_LSC_DEC_LVL2		CCI_REG8(0x05e)
+> +#define GC0308_LSC_DEC_LVL3		CCI_REG8(0x05f)
+> +
+> +/* DNDD */
+> +#define GC0308_DN_MODE_EN		CCI_REG8(0x060)
+> +#define GC0308_DN_MODE_RATIO		CCI_REG8(0x061)
+> +#define GC0308_DN_BILAT_B_BASE		CCI_REG8(0x062)
+> +#define GC0308_DN_B_INCR		CCI_REG8(0x063)
+> +#define GC0308_DN_BILAT_N_BASE		CCI_REG8(0x064)
+> +#define GC0308_DN_N_INCR		CCI_REG8(0x065)
+> +#define GC0308_DD_DARK_BRIGHT_TH	CCI_REG8(0x066)
+> +#define GC0308_DD_FLAT_TH		CCI_REG8(0x067)
+> +#define GC0308_DD_LIMIT			CCI_REG8(0x068)
+> +
+> +/* ASDE - Auto Saturation De-noise and Edge-Enhancement */
+> +#define GC0308_ASDE_GAIN_TRESH		CCI_REG8(0x069)
+> +#define GC0308_ASDE_GAIN_MODE		CCI_REG8(0x06a)
+> +#define GC0308_ASDE_DN_SLOPE		CCI_REG8(0x06b)
+> +#define GC0308_ASDE_DD_BRIGHT		CCI_REG8(0x06c)
+> +#define GC0308_ASDE_DD_LIMIT		CCI_REG8(0x06d)
+> +#define GC0308_ASDE_AUTO_EE1		CCI_REG8(0x06e)
+> +#define GC0308_ASDE_AUTO_EE2		CCI_REG8(0x06f)
+> +#define GC0308_ASDE_AUTO_SAT_DEC_SLOPE	CCI_REG8(0x070)
+> +#define GC0308_ASDE_AUTO_SAT_LOW_LIMIT	CCI_REG8(0x071)
+> +
+> +/* INTPEE - Interpolation and Edge-Enhancement */
+> +#define GC0308_EEINTP_MODE_1		CCI_REG8(0x072)
+> +#define GC0308_EEINTP_MODE_2		CCI_REG8(0x073)
+> +#define GC0308_DIRECTION_TH1		CCI_REG8(0x074)
+> +#define GC0308_DIRECTION_TH2		CCI_REG8(0x075)
+> +#define GC0308_DIFF_HV_TI_TH		CCI_REG8(0x076)
+> +#define GC0308_EDGE12_EFFECT		CCI_REG8(0x077)
+> +#define GC0308_EDGE_POS_RATIO		CCI_REG8(0x078)
+> +#define GC0308_EDGE1_MINMAX		CCI_REG8(0x079)
+> +#define GC0308_EDGE2_MINMAX		CCI_REG8(0x07a)
+> +#define GC0308_EDGE12_TH		CCI_REG8(0x07b)
+> +#define GC0308_EDGE_MAX			CCI_REG8(0x07c)
+> +
+> +/* ABB - Auto Black Balance */
+> +#define GC0308_ABB_MODE			CCI_REG8(0x080)
+> +#define GC0308_ABB_TARGET_AVGH		CCI_REG8(0x081)
+> +#define GC0308_ABB_TARGET_AVGL		CCI_REG8(0x082)
+> +#define GC0308_ABB_LIMIT_VAL		CCI_REG8(0x083)
+> +#define GC0308_ABB_SPEED		CCI_REG8(0x084)
+> +#define GC0308_CURR_R_BLACK_LVL		CCI_REG8(0x085)
+> +#define GC0308_CURR_G_BLACK_LVL		CCI_REG8(0x086)
+> +#define GC0308_CURR_B_BLACK_LVL		CCI_REG8(0x087)
+> +#define GC0308_CURR_R_BLACK_FACTOR	CCI_REG8(0x088)
+> +#define GC0308_CURR_G_BLACK_FACTOR	CCI_REG8(0x089)
+> +#define GC0308_CURR_B_BLACK_FACTOR	CCI_REG8(0x08a)
+> +
+> +/* LSC - Lens Shading Correction */
+> +#define GC0308_LSC_RED_B2		CCI_REG8(0x08b)
+> +#define GC0308_LSC_GREEN_B2		CCI_REG8(0x08c)
+> +#define GC0308_LSC_BLUE_B2		CCI_REG8(0x08d)
+> +#define GC0308_LSC_RED_B4		CCI_REG8(0x08e)
+> +#define GC0308_LSC_GREEN_B4		CCI_REG8(0x08f)
+> +#define GC0308_LSC_BLUE_B4		CCI_REG8(0x090)
+> +#define GC0308_LSC_ROW_CENTER		CCI_REG8(0x091)
+> +#define GC0308_LSC_COL_CENTER		CCI_REG8(0x092)
+> +
+> +/* CC - Channel Coefficient */
+> +#define GC0308_CC_MATRIX_C11		CCI_REG8(0x093)
+> +#define GC0308_CC_MATRIX_C12		CCI_REG8(0x094)
+> +#define GC0308_CC_MATRIX_C13		CCI_REG8(0x095)
+> +#define GC0308_CC_MATRIX_C21		CCI_REG8(0x096)
+> +#define GC0308_CC_MATRIX_C22		CCI_REG8(0x097)
+> +#define GC0308_CC_MATRIX_C23		CCI_REG8(0x098)
+> +#define GC0308_CC_MATRIX_C41		CCI_REG8(0x09c)
+> +#define GC0308_CC_MATRIX_C42		CCI_REG8(0x09d)
+> +#define GC0308_CC_MATRIX_C43		CCI_REG8(0x09e)
+> +
+> +/* GAMMA */
+> +#define GC0308_GAMMA_OUT0		CCI_REG8(0x09f)
+> +#define GC0308_GAMMA_OUT1		CCI_REG8(0x0a0)
+> +#define GC0308_GAMMA_OUT2		CCI_REG8(0x0a1)
+> +#define GC0308_GAMMA_OUT3		CCI_REG8(0x0a2)
+> +#define GC0308_GAMMA_OUT4		CCI_REG8(0x0a3)
+> +#define GC0308_GAMMA_OUT5		CCI_REG8(0x0a4)
+> +#define GC0308_GAMMA_OUT6		CCI_REG8(0x0a5)
+> +#define GC0308_GAMMA_OUT7		CCI_REG8(0x0a6)
+> +#define GC0308_GAMMA_OUT8		CCI_REG8(0x0a7)
+> +#define GC0308_GAMMA_OUT9		CCI_REG8(0x0a8)
+> +#define GC0308_GAMMA_OUT10		CCI_REG8(0x0a9)
+> +#define GC0308_GAMMA_OUT11		CCI_REG8(0x0aa)
+> +#define GC0308_GAMMA_OUT12		CCI_REG8(0x0ab)
+> +#define GC0308_GAMMA_OUT13		CCI_REG8(0x0ac)
+> +#define GC0308_GAMMA_OUT14		CCI_REG8(0x0ad)
+> +#define GC0308_GAMMA_OUT15		CCI_REG8(0x0ae)
+> +#define GC0308_GAMMA_OUT16		CCI_REG8(0x0af)
+> +
+> +/* YCP */
+> +#define GC0308_GLOBAL_SATURATION	CCI_REG8(0x0b0)
+> +#define GC0308_SATURATION_CB		CCI_REG8(0x0b1)
+> +#define GC0308_SATURATION_CR		CCI_REG8(0x0b2)
+> +#define GC0308_LUMA_CONTRAST		CCI_REG8(0x0b3)
+> +#define GC0308_CONTRAST_CENTER		CCI_REG8(0x0b4)
+> +#define GC0308_LUMA_OFFSET		CCI_REG8(0x0b5)
+> +#define GC0308_SKIN_CB_CENTER		CCI_REG8(0x0b6)
+> +#define GC0308_SKIN_CR_CENTER		CCI_REG8(0x0b7)
+> +#define GC0308_SKIN_RADIUS_SQUARE	CCI_REG8(0x0b8)
+> +#define GC0308_SKIN_BRIGHTNESS		CCI_REG8(0x0b9)
+> +#define GC0308_FIXED_CB			CCI_REG8(0x0ba)
+> +#define GC0308_FIXED_CR			CCI_REG8(0x0bb)
+> +#define GC0308_EDGE_DEC_SA		CCI_REG8(0x0bd)
+> +#define GC0308_AUTO_GRAY_MODE		CCI_REG8(0x0be)
+> +#define GC0308_SATURATION_SUB_STRENGTH	CCI_REG8(0x0bf)
+> +#define GC0308_Y_GAMMA_OUT0		CCI_REG8(0x0c0)
+> +#define GC0308_Y_GAMMA_OUT1		CCI_REG8(0x0c1)
+> +#define GC0308_Y_GAMMA_OUT2		CCI_REG8(0x0c2)
+> +#define GC0308_Y_GAMMA_OUT3		CCI_REG8(0x0c3)
+> +#define GC0308_Y_GAMMA_OUT4		CCI_REG8(0x0c4)
+> +#define GC0308_Y_GAMMA_OUT5		CCI_REG8(0x0c5)
+> +#define GC0308_Y_GAMMA_OUT6		CCI_REG8(0x0c6)
+> +#define GC0308_Y_GAMMA_OUT7		CCI_REG8(0x0c7)
+> +#define GC0308_Y_GAMMA_OUT8		CCI_REG8(0x0c8)
+> +#define GC0308_Y_GAMMA_OUT9		CCI_REG8(0x0c9)
+> +#define GC0308_Y_GAMMA_OUT10		CCI_REG8(0x0ca)
+> +#define GC0308_Y_GAMMA_OUT11		CCI_REG8(0x0cb)
+> +#define GC0308_Y_GAMMA_OUT12		CCI_REG8(0x0cc)
+> +
+> +/* AEC - Automatic Exposure Control */
+> +#define GC0308_AEC_MODE1		CCI_REG8(0x0d0)
+> +#define GC0308_AEC_MODE2		CCI_REG8(0x0d1)
+> +#define GC0308_AEC_MODE3		CCI_REG8(0x0d2)
+> +#define GC0308_AEC_TARGET_Y		CCI_REG8(0x0d3)
+> +#define GC0308_Y_AVG			CCI_REG8(0x0d4)
+> +#define GC0308_AEC_HIGH_LOW_RANGE	CCI_REG8(0x0d5)
+> +#define GC0308_AEC_IGNORE		CCI_REG8(0x0d6)
+> +#define GC0308_AEC_LIMIT_HIGH_RANGE	CCI_REG8(0x0d7)
+> +#define GC0308_AEC_R_OFFSET		CCI_REG8(0x0d9)
+> +#define GC0308_AEC_GB_OFFSET		CCI_REG8(0x0da)
+> +#define GC0308_AEC_SLOW_MARGIN		CCI_REG8(0x0db)
+> +#define GC0308_AEC_FAST_MARGIN		CCI_REG8(0x0dc)
+> +#define GC0308_AEC_EXP_CHANGE_GAIN	CCI_REG8(0x0dd)
+> +#define GC0308_AEC_STEP2_SUNLIGHT	CCI_REG8(0x0de)
+> +#define GC0308_AEC_I_FRAMES		CCI_REG8(0x0df)
+> +#define GC0308_AEC_I_STOP_L_MARGIN	CCI_REG8(0x0e0)
+> +#define GC0308_AEC_I_STOP_MARGIN	CCI_REG8(0x0e1)
+> +#define GC0308_ANTI_FLICKER_STEP	CCI_REG16(0x0e2)
+> +#define GC0308_EXP_LVL_1		CCI_REG16(0x0e4)
+> +#define GC0308_EXP_LVL_2		CCI_REG16(0x0e6)
+> +#define GC0308_EXP_LVL_3		CCI_REG16(0x0e8)
+> +#define GC0308_EXP_LVL_4		CCI_REG16(0x0ea)
+> +#define GC0308_MAX_EXP_LVL		CCI_REG8(0x0ec)
+> +#define GC0308_EXP_MIN_L		CCI_REG8(0x0ed)
+> +#define GC0308_MAX_POST_DF_GAIN		CCI_REG8(0x0ee)
+> +#define GC0308_MAX_PRE_DG_GAIN		CCI_REG8(0x0ef)
+> +
+> +/* ABS */
+> +#define GC0308_ABS_RANGE_COMP		CCI_REG8(0x0f0)
+> +#define GC0308_ABS_STOP_MARGIN		CCI_REG8(0x0f1)
+> +#define GC0308_Y_S_COMP			CCI_REG8(0x0f2)
+> +#define GC0308_Y_STRETCH_LIMIT		CCI_REG8(0x0f3)
+> +#define GC0308_Y_TILT			CCI_REG8(0x0f4)
+> +#define GC0308_Y_STRETCH		CCI_REG8(0x0f5)
+> +
+> +/* Measure Window */
+> +#define GC0308_BIG_WIN_X0		CCI_REG8(0x0f7)
+> +#define GC0308_BIG_WIN_Y0		CCI_REG8(0x0f8)
+> +#define GC0308_BIG_WIN_X1		CCI_REG8(0x0f9)
+> +#define GC0308_BIG_WIN_Y1		CCI_REG8(0x0fa)
+> +#define GC0308_DIFF_Y_BIG_THD		CCI_REG8(0x0fb)
+> +
+> +/* OUT Module (P1) */
+> +#define GC0308_CLOSE_FRAME_EN		CCI_REG8(0x150)
+> +#define GC0308_CLOSE_FRAME_NUM1		CCI_REG8(0x151)
+> +#define GC0308_CLOSE_FRAME_NUM2		CCI_REG8(0x152)
+> +#define GC0308_BAYER_MODE		CCI_REG8(0x153)
+> +#define GC0308_SUBSAMPLE		CCI_REG8(0x154)
+> +#define GC0308_SUBMODE			CCI_REG8(0x155)
+> +#define GC0308_SUB_ROW_N1		CCI_REG8(0x156)
+> +#define GC0308_SUB_ROW_N2		CCI_REG8(0x157)
+> +#define GC0308_SUB_COL_N1		CCI_REG8(0x158)
+> +#define GC0308_SUB_COL_N2		CCI_REG8(0x159)
+> +
+> +/* AWB (P1) - Auto White Balance */
+> +#define GC0308_AWB_RGB_HIGH_LOW		CCI_REG8(0x100)
+> +#define GC0308_AWB_Y_TO_C_DIFF2		CCI_REG8(0x102)
+> +#define GC0308_AWB_C_MAX		CCI_REG8(0x104)
+> +#define GC0308_AWB_C_INTER		CCI_REG8(0x105)
+> +#define GC0308_AWB_C_INTER2		CCI_REG8(0x106)
+> +#define GC0308_AWB_C_MAX_BIG		CCI_REG8(0x108)
+> +#define GC0308_AWB_Y_HIGH		CCI_REG8(0x109)
+> +#define GC0308_AWB_NUMBER_LIMIT		CCI_REG8(0x10a)
+> +#define GC0308_KWIN_RATIO		CCI_REG8(0x10b)
+> +#define GC0308_KWIN_THD			CCI_REG8(0x10c)
+> +#define GC0308_LIGHT_GAIN_RANGE		CCI_REG8(0x10d)
+> +#define GC0308_SMALL_WIN_WIDTH_STEP	CCI_REG8(0x10e)
+> +#define GC0308_SMALL_WIN_HEIGHT_STEP	CCI_REG8(0x10f)
+> +#define GC0308_AWB_YELLOW_TH		CCI_REG8(0x110)
+> +#define GC0308_AWB_MODE			CCI_REG8(0x111)
+> +#define GC0308_AWB_ADJUST_SPEED		CCI_REG8(0x112)
+> +#define GC0308_AWB_EVERY_N		CCI_REG8(0x113)
+> +#define GC0308_R_AVG_USE		CCI_REG8(0x1d0)
+> +#define GC0308_G_AVG_USE		CCI_REG8(0x1d1)
+> +#define GC0308_B_AVG_USE		CCI_REG8(0x1d2)
+> +
+> +#define GC0308_HBLANK_MIN		0x021
+> +#define GC0308_HBLANK_MAX		0xfff
+> +#define GC0308_HBLANK_DEF		0x040
+> +
+> +#define GC0308_VBLANK_MIN		0x000
+> +#define GC0308_VBLANK_MAX		0xfff
+> +#define GC0308_VBLANK_DEF		0x020
+> +
+> +#define GC0308_PIXEL_RATE		24000000
+> +
+> +/*
+> + * frame_time = (BT + height + 8) * row_time
+> + * width = 640 (driver does not change window size)
+> + * height = 480 (driver does not change window size)
+> + * row_time = HBLANK + SAMPLE_HOLD_DELAY + width + 8 + 4
+> + *
+> + * When EXP_TIME > (BT + height):
+> + *     BT = EXP_TIME - height - 8 - VS_START_TIME + VS_END_TIME
+> + * else:
+> + *     BT = VBLANK + VS_START_TIME + VS_END_TIME
+> + *
+> + * max is 30 FPS
+> + *
+> + * In my tests frame rate mostly depends on exposure time. Unfortuantely
+> + * it's unclear how this is calculated exactly. Also since we enable AEC,
+> + * the frame times vary depending on ambient light conditions.
+> + */
+> +#define GC0308_FRAME_RATE_MAX		30
+> +
+> +enum gc0308_exp_val {
+> +	GC0308_EXP_M4 = 0,
+> +	GC0308_EXP_M3,
+> +	GC0308_EXP_M2,
+> +	GC0308_EXP_M1,
+> +	GC0308_EXP_0,
+> +	GC0308_EXP_P1,
+> +	GC0308_EXP_P2,
+> +	GC0308_EXP_P3,
+> +	GC0308_EXP_P4,
+> +};
+> +
+> +static const s64 gc0308_exposure_menu[] = {
+> +	-4, -3, -2, -1, 0, 1, 2, 3, 4
+> +};
+> +
+> +struct gc0308_exposure {
+> +	u8 luma_offset;
+> +	u8 aec_target_y;
+> +};
+> +
+> +#define GC0308_EXPOSURE(luma_offset_reg, aec_target_y_reg) \
+> +	{ .luma_offset = luma_offset_reg, .aec_target_y = aec_target_y_reg }
+> +
+> +static const struct gc0308_exposure gc0308_exposure_values[] = {
+> +	[GC0308_EXP_M4] = GC0308_EXPOSURE(0xc0, 0x30),
+> +	[GC0308_EXP_M3] = GC0308_EXPOSURE(0xd0, 0x38),
+> +	[GC0308_EXP_M2] = GC0308_EXPOSURE(0xe0, 0x40),
+> +	[GC0308_EXP_M1] = GC0308_EXPOSURE(0xf0, 0x48),
+> +	[GC0308_EXP_0]  = GC0308_EXPOSURE(0x08, 0x50),
+> +	[GC0308_EXP_P1] = GC0308_EXPOSURE(0x10, 0x5c),
+> +	[GC0308_EXP_P2] = GC0308_EXPOSURE(0x20, 0x60),
+> +	[GC0308_EXP_P3] = GC0308_EXPOSURE(0x30, 0x68),
+> +	[GC0308_EXP_P4] = GC0308_EXPOSURE(0x40, 0x70),
+> +};
+> +
+> +struct gc0308_awb_gains {
+> +	u8 r;
+> +	u8 g;
+> +	u8 b;
+> +};
+> +
+> +#define GC0308_AWB_GAINS(red, green, blue) \
+> +	{ .r = red, .g = green, .b = blue }
+> +
+> +static const struct gc0308_awb_gains gc0308_awb_gains[] = {
+> +	[V4L2_WHITE_BALANCE_AUTO]         = GC0308_AWB_GAINS(0x56, 0x40, 0x4a),
+> +	[V4L2_WHITE_BALANCE_CLOUDY]       = GC0308_AWB_GAINS(0x8c, 0x50, 0x40),
+> +	[V4L2_WHITE_BALANCE_DAYLIGHT]     = GC0308_AWB_GAINS(0x74, 0x52, 0x40),
+> +	[V4L2_WHITE_BALANCE_INCANDESCENT] = GC0308_AWB_GAINS(0x48, 0x40, 0x5c),
+> +	[V4L2_WHITE_BALANCE_FLUORESCENT]  = GC0308_AWB_GAINS(0x40, 0x42, 0x50),
+> +};
+> +
+> +struct gc0308_format {
+> +	u32 code;
+> +	u8 regval;
+> +};
+> +
+> +#define GC0308_FORMAT(v4l2_code, gc0308_regval) \
+> +	{ .code = v4l2_code, .regval = gc0308_regval }
+> +
+> +static const struct gc0308_format gc0308_formats[] = {
+> +	GC0308_FORMAT(MEDIA_BUS_FMT_UYVY8_2X8, 0x00),
+> +	GC0308_FORMAT(MEDIA_BUS_FMT_VYUY8_2X8, 0x01),
+> +	GC0308_FORMAT(MEDIA_BUS_FMT_YUYV8_2X8, 0x02),
+> +	GC0308_FORMAT(MEDIA_BUS_FMT_YVYU8_2X8, 0x03),
+> +	GC0308_FORMAT(MEDIA_BUS_FMT_RGB565_2X8_BE, 0x06),
+> +	GC0308_FORMAT(MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE, 0x07),
+> +	GC0308_FORMAT(MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE, 0x09),
+> +};
+> +
+> +struct gc0308_frame_size {
+> +	u8 subsample;
+> +	u32 width;
+> +	u32 height;
+> +};
+> +
+> +#define GC0308_FRAME_SIZE(s, w, h) \
+> +	{ .subsample = s, .width = w, .height = h }
+> +
+> +static const struct gc0308_frame_size gc0308_frame_sizes[] = {
+> +	GC0308_FRAME_SIZE(0x11, 640, 480),
+> +	GC0308_FRAME_SIZE(0x22, 320, 240),
+> +	GC0308_FRAME_SIZE(0x44, 160, 120),
+> +};
+> +
+> +struct gc0308_mode_registers {
+> +	u8 out_format;
+> +	u8 subsample;
+> +	u16 width;
+> +	u16 height;
+> +};
+> +
+> +struct gc0308 {
+> +	struct v4l2_subdev sd;
+> +	struct v4l2_ctrl_handler hdl;
+> +	struct media_pad pad;
+> +	struct device *dev;
+> +	struct clk *clk;
+> +	struct regmap *regmap;
+> +	struct regulator *vdd;
+> +	struct gpio_desc *pwdn_gpio;
+> +	struct gpio_desc *reset_gpio;
+> +	unsigned int mbus_config;
+> +	struct gc0308_mode_registers mode;
+> +	struct {
+> +		/* mirror cluster */
+> +		struct v4l2_ctrl *hflip;
+> +		struct v4l2_ctrl *vflip;
+> +	};
+> +	struct {
+> +		/* blanking cluster */
+> +		struct v4l2_ctrl *hblank;
+> +		struct v4l2_ctrl *vblank;
+> +	};
+> +};
+> +
+> +static inline struct gc0308 *to_gc0308(struct v4l2_subdev *sd)
+> +{
+> +	return container_of(sd, struct gc0308, sd);
+> +}
+> +
+> +static const struct regmap_range_cfg gc0308_ranges[] = {
+> +	{
+> +		.range_min	= 0x0000,
+> +		.range_max	= 0x01ff,
+> +		.selector_reg	= 0xfe,
+> +		.selector_mask	= 0x01,
+> +		.selector_shift	= 0x00,
+> +		.window_start	= 0x00,
+> +		.window_len	= 0x100,
+> +	},
+> +};
+> +
+> +static const struct regmap_config gc0308_regmap_config = {
+> +	.reg_bits = 8,
+> +	.val_bits = 8,
+> +	.reg_format_endian = REGMAP_ENDIAN_BIG,
+> +	.max_register = 0x1ff,
+> +	.ranges = gc0308_ranges,
+> +	.num_ranges = ARRAY_SIZE(gc0308_ranges),
+> +	.disable_locking = true,
+> +};
+> +
+> +static const struct cci_reg_sequence sensor_default_regs[] = {
+> +	{GC0308_VB_HB, 0x00},
+> +	{GC0308_HBLANK, 0x40},
+> +	{GC0308_VBLANK, 0x20},
+> +	{GC0308_EXP, 0x0258},
+> +	{GC0308_AWB_R_GAIN, 0x56},
+> +	{GC0308_AWB_G_GAIN, 0x40},
+> +	{GC0308_AWB_B_GAIN, 0x4a},
+> +	{GC0308_ANTI_FLICKER_STEP, 0x0078},
+> +	{GC0308_EXP_LVL_1, 0x0258},
+> +	{GC0308_EXP_LVL_2, 0x0258},
+> +	{GC0308_EXP_LVL_3, 0x0258},
+> +	{GC0308_EXP_LVL_4, 0x0ea6},
+> +	{GC0308_MAX_EXP_LVL, 0x20},
+> +	{GC0308_ROW_START, 0x0000},
+> +	{GC0308_COL_START, 0x0000},
+> +	{GC0308_WIN_HEIGHT, 488},
+> +	{GC0308_WIN_WIDTH, 648},
+> +	{GC0308_VS_START_TIME, 0x02},
+> +	{GC0308_VS_END_TIME, 0x02},
+> +	{GC0308_RSH_WIDTH, 0x22},
+> +	{GC0308_TSP_WIDTH, 0x0d},
+> +	{GC0308_SAMPLE_HOLD_DELAY, 0x50},
+> +	{GC0308_ROW_TAIL_WIDTH, 0x0f},
+> +	{GC0308_CISCTL_MODE1, 0x10},
+> +	{GC0308_CISCTL_MODE2, 0x0a},
+> +	{GC0308_CISCTL_MODE3, 0x05},
+> +	{GC0308_CISCTL_MODE4, 0x01},
+> +	{CCI_REG8(0x018), 0x44}, /* undocumented */
+> +	{CCI_REG8(0x019), 0x44}, /* undocumented */
+> +	{GC0308_ANALOG_MODE1, 0x2a},
+> +	{GC0308_ANALOG_MODE2, 0x00},
+> +	{GC0308_HRST_RSG_V18, 0x49},
+> +	{GC0308_VREF_V25, 0x9a},
+> +	{GC0308_ADC_R, 0x61},
+> +	{GC0308_PAD_DRV, 0x01}, /* drv strength: pclk=4mA */
+> +	{GC0308_BLOCK_EN1, 0x7f},
+> +	{GC0308_BLOCK_EN2, 0xfa},
+> +	{GC0308_AAAA_EN, 0x57},
+> +	{GC0308_OUT_FORMAT, 0xa2}, /* YCbYCr */
+> +	{GC0308_OUT_EN, 0x0f},
+> +	{GC0308_SYNC_MODE, 0x03},
+> +	{GC0308_CLK_DIV_MODE, 0x00},
+> +	{GC0308_DEBUG_MODE1, 0x0a},
+> +	{GC0308_DEBUG_MODE2, 0x00},
+> +	{GC0308_DEBUG_MODE3, 0x01},
+> +	{GC0308_BLK_MODE, 0xf7},
+> +	{GC0308_BLK_LIMIT_VAL, 0x50},
+> +	{GC0308_GLOBAL_OFF, 0x00},
+> +	{GC0308_CURRENT_R_OFF, 0x28},
+> +	{GC0308_CURRENT_G_OFF, 0x2a},
+> +	{GC0308_CURRENT_B_OFF, 0x28},
+> +	{GC0308_EXP_RATE_DARKC, 0x04},
+> +	{GC0308_OFF_SUBMODE, 0x20},
+> +	{GC0308_DARKC_SUBMODE, 0x20},
+> +	{GC0308_MANUAL_G1_OFF, 0x00},
+> +	{GC0308_MANUAL_R1_OFF, 0x00},
+> +	{GC0308_MANUAL_B2_OFF, 0x00},
+> +	{GC0308_MANUAL_G2_OFF, 0x00},
+> +	{GC0308_GLOBAL_GAIN, 0x14},
+> +	{GC0308_AUTO_POSTGAIN, 0x41},
+> +	{GC0308_CHANNEL_GAIN_G1, 0x80},
+> +	{GC0308_CHANNEL_GAIN_R, 0x80},
+> +	{GC0308_CHANNEL_GAIN_B, 0x80},
+> +	{GC0308_CHANNEL_GAIN_G2, 0x80},
+> +	{GC0308_LSC_RED_B2, 0x20},
+> +	{GC0308_LSC_GREEN_B2, 0x20},
+> +	{GC0308_LSC_BLUE_B2, 0x20},
+> +	{GC0308_LSC_RED_B4, 0x14},
+> +	{GC0308_LSC_GREEN_B4, 0x10},
+> +	{GC0308_LSC_BLUE_B4, 0x14},
+> +	{GC0308_LSC_ROW_CENTER, 0x3c},
+> +	{GC0308_LSC_COL_CENTER, 0x50},
+> +	{GC0308_LSC_DEC_LVL1, 0x12},
+> +	{GC0308_LSC_DEC_LVL2, 0x1a},
+> +	{GC0308_LSC_DEC_LVL3, 0x24},
+> +	{GC0308_DN_MODE_EN, 0x07},
+> +	{GC0308_DN_MODE_RATIO, 0x15},
+> +	{GC0308_DN_BILAT_B_BASE, 0x08},
+> +	{GC0308_DN_BILAT_N_BASE, 0x03},
+> +	{GC0308_DD_DARK_BRIGHT_TH, 0xe8},
+> +	{GC0308_DD_FLAT_TH, 0x86},
+> +	{GC0308_DD_LIMIT, 0x82},
+> +	{GC0308_ASDE_GAIN_TRESH, 0x18},
+> +	{GC0308_ASDE_GAIN_MODE, 0x0f},
+> +	{GC0308_ASDE_DN_SLOPE, 0x00},
+> +	{GC0308_ASDE_DD_BRIGHT, 0x5f},
+> +	{GC0308_ASDE_DD_LIMIT, 0x8f},
+> +	{GC0308_ASDE_AUTO_EE1, 0x55},
+> +	{GC0308_ASDE_AUTO_EE2, 0x38},
+> +	{GC0308_ASDE_AUTO_SAT_DEC_SLOPE, 0x15},
+> +	{GC0308_ASDE_AUTO_SAT_LOW_LIMIT, 0x33},
+> +	{GC0308_EEINTP_MODE_1, 0xdc},
+> +	{GC0308_EEINTP_MODE_2, 0x00},
+> +	{GC0308_DIRECTION_TH1, 0x02},
+> +	{GC0308_DIRECTION_TH2, 0x3f},
+> +	{GC0308_DIFF_HV_TI_TH, 0x02},
+> +	{GC0308_EDGE12_EFFECT, 0x38},
+> +	{GC0308_EDGE_POS_RATIO, 0x88},
+> +	{GC0308_EDGE1_MINMAX, 0x81},
+> +	{GC0308_EDGE2_MINMAX, 0x81},
+> +	{GC0308_EDGE12_TH, 0x22},
+> +	{GC0308_EDGE_MAX, 0xff},
+> +	{GC0308_CC_MATRIX_C11, 0x48},
+> +	{GC0308_CC_MATRIX_C12, 0x02},
+> +	{GC0308_CC_MATRIX_C13, 0x07},
+> +	{GC0308_CC_MATRIX_C21, 0xe0},
+> +	{GC0308_CC_MATRIX_C22, 0x40},
+> +	{GC0308_CC_MATRIX_C23, 0xf0},
+> +	{GC0308_SATURATION_CB, 0x40},
+> +	{GC0308_SATURATION_CR, 0x40},
+> +	{GC0308_LUMA_CONTRAST, 0x40},
+> +	{GC0308_SKIN_CB_CENTER, 0xe0},
+> +	{GC0308_EDGE_DEC_SA, 0x38},
+> +	{GC0308_AUTO_GRAY_MODE, 0x36},
+> +	{GC0308_AEC_MODE1, 0xcb},
+> +	{GC0308_AEC_MODE2, 0x10},
+> +	{GC0308_AEC_MODE3, 0x90},
+> +	{GC0308_AEC_TARGET_Y, 0x48},
+> +	{GC0308_AEC_HIGH_LOW_RANGE, 0xf2},
+> +	{GC0308_AEC_IGNORE, 0x16},
+> +	{GC0308_AEC_SLOW_MARGIN, 0x92},
+> +	{GC0308_AEC_FAST_MARGIN, 0xa5},
+> +	{GC0308_AEC_I_FRAMES, 0x23},
+> +	{GC0308_AEC_R_OFFSET, 0x00},
+> +	{GC0308_AEC_GB_OFFSET, 0x00},
+> +	{GC0308_AEC_I_STOP_L_MARGIN, 0x09},
+> +	{GC0308_EXP_MIN_L, 0x04},
+> +	{GC0308_MAX_POST_DF_GAIN, 0xa0},
+> +	{GC0308_MAX_PRE_DG_GAIN, 0x40},
+> +	{GC0308_ABB_MODE, 0x03},
+> +	{GC0308_GAMMA_OUT0, 0x10},
+> +	{GC0308_GAMMA_OUT1, 0x20},
+> +	{GC0308_GAMMA_OUT2, 0x38},
+> +	{GC0308_GAMMA_OUT3, 0x4e},
+> +	{GC0308_GAMMA_OUT4, 0x63},
+> +	{GC0308_GAMMA_OUT5, 0x76},
+> +	{GC0308_GAMMA_OUT6, 0x87},
+> +	{GC0308_GAMMA_OUT7, 0xa2},
+> +	{GC0308_GAMMA_OUT8, 0xb8},
+> +	{GC0308_GAMMA_OUT9, 0xca},
+> +	{GC0308_GAMMA_OUT10, 0xd8},
+> +	{GC0308_GAMMA_OUT11, 0xe3},
+> +	{GC0308_GAMMA_OUT12, 0xeb},
+> +	{GC0308_GAMMA_OUT13, 0xf0},
+> +	{GC0308_GAMMA_OUT14, 0xf8},
+> +	{GC0308_GAMMA_OUT15, 0xfd},
+> +	{GC0308_GAMMA_OUT16, 0xff},
+> +	{GC0308_Y_GAMMA_OUT0, 0x00},
+> +	{GC0308_Y_GAMMA_OUT1, 0x10},
+> +	{GC0308_Y_GAMMA_OUT2, 0x1c},
+> +	{GC0308_Y_GAMMA_OUT3, 0x30},
+> +	{GC0308_Y_GAMMA_OUT4, 0x43},
+> +	{GC0308_Y_GAMMA_OUT5, 0x54},
+> +	{GC0308_Y_GAMMA_OUT6, 0x65},
+> +	{GC0308_Y_GAMMA_OUT7, 0x75},
+> +	{GC0308_Y_GAMMA_OUT8, 0x93},
+> +	{GC0308_Y_GAMMA_OUT9, 0xb0},
+> +	{GC0308_Y_GAMMA_OUT10, 0xcb},
+> +	{GC0308_Y_GAMMA_OUT11, 0xe6},
+> +	{GC0308_Y_GAMMA_OUT12, 0xff},
+> +	{GC0308_ABS_RANGE_COMP, 0x02},
+> +	{GC0308_ABS_STOP_MARGIN, 0x01},
+> +	{GC0308_Y_S_COMP, 0x02},
+> +	{GC0308_Y_STRETCH_LIMIT, 0x30},
+> +	{GC0308_BIG_WIN_X0, 0x12},
+> +	{GC0308_BIG_WIN_Y0, 0x0a},
+> +	{GC0308_BIG_WIN_X1, 0x9f},
+> +	{GC0308_BIG_WIN_Y1, 0x78},
+> +	{GC0308_AWB_RGB_HIGH_LOW, 0xf5},
+> +	{GC0308_AWB_Y_TO_C_DIFF2, 0x20},
+> +	{GC0308_AWB_C_MAX, 0x10},
+> +	{GC0308_AWB_C_INTER, 0x08},
+> +	{GC0308_AWB_C_INTER2, 0x20},
+> +	{GC0308_AWB_C_MAX_BIG, 0x0a},
+> +	{GC0308_AWB_NUMBER_LIMIT, 0xa0},
+> +	{GC0308_KWIN_RATIO, 0x60},
+> +	{GC0308_KWIN_THD, 0x08},
+> +	{GC0308_SMALL_WIN_WIDTH_STEP, 0x44},
+> +	{GC0308_SMALL_WIN_HEIGHT_STEP, 0x32},
+> +	{GC0308_AWB_YELLOW_TH, 0x41},
+> +	{GC0308_AWB_MODE, 0x37},
+> +	{GC0308_AWB_ADJUST_SPEED, 0x22},
+> +	{GC0308_AWB_EVERY_N, 0x19},
+> +	{CCI_REG8(0x114), 0x44}, /* AWB set1 */
+> +	{CCI_REG8(0x115), 0x44}, /* AWB set1 */
+> +	{CCI_REG8(0x116), 0xc2}, /* AWB set1 */
+> +	{CCI_REG8(0x117), 0xa8}, /* AWB set1 */
+> +	{CCI_REG8(0x118), 0x18}, /* AWB set1 */
+> +	{CCI_REG8(0x119), 0x50}, /* AWB set1 */
+> +	{CCI_REG8(0x11a), 0xd8}, /* AWB set1 */
+> +	{CCI_REG8(0x11b), 0xf5}, /* AWB set1 */
+> +	{CCI_REG8(0x170), 0x40}, /* AWB set2 */
+> +	{CCI_REG8(0x171), 0x58}, /* AWB set2 */
+> +	{CCI_REG8(0x172), 0x30}, /* AWB set2 */
+> +	{CCI_REG8(0x173), 0x48}, /* AWB set2 */
+> +	{CCI_REG8(0x174), 0x20}, /* AWB set2 */
+> +	{CCI_REG8(0x175), 0x60}, /* AWB set2 */
+> +	{CCI_REG8(0x177), 0x20}, /* AWB set2 */
+> +	{CCI_REG8(0x178), 0x32}, /* AWB set2 */
+> +	{CCI_REG8(0x130), 0x03}, /* undocumented */
+> +	{CCI_REG8(0x131), 0x40}, /* undocumented */
+> +	{CCI_REG8(0x132), 0x10}, /* undocumented */
+> +	{CCI_REG8(0x133), 0xe0}, /* undocumented */
+> +	{CCI_REG8(0x134), 0xe0}, /* undocumented */
+> +	{CCI_REG8(0x135), 0x00}, /* undocumented */
+> +	{CCI_REG8(0x136), 0x80}, /* undocumented */
+> +	{CCI_REG8(0x137), 0x00}, /* undocumented */
+> +	{CCI_REG8(0x138), 0x04}, /* undocumented */
+> +	{CCI_REG8(0x139), 0x09}, /* undocumented */
+> +	{CCI_REG8(0x13a), 0x12}, /* undocumented */
+> +	{CCI_REG8(0x13b), 0x1c}, /* undocumented */
+> +	{CCI_REG8(0x13c), 0x28}, /* undocumented */
+> +	{CCI_REG8(0x13d), 0x31}, /* undocumented */
+> +	{CCI_REG8(0x13e), 0x44}, /* undocumented */
+> +	{CCI_REG8(0x13f), 0x57}, /* undocumented */
+> +	{CCI_REG8(0x140), 0x6c}, /* undocumented */
+> +	{CCI_REG8(0x141), 0x81}, /* undocumented */
+> +	{CCI_REG8(0x142), 0x94}, /* undocumented */
+> +	{CCI_REG8(0x143), 0xa7}, /* undocumented */
+> +	{CCI_REG8(0x144), 0xb8}, /* undocumented */
+> +	{CCI_REG8(0x145), 0xd6}, /* undocumented */
+> +	{CCI_REG8(0x146), 0xee}, /* undocumented */
+> +	{CCI_REG8(0x147), 0x0d}, /* undocumented */
+> +	{CCI_REG8(0x162), 0xf7}, /* undocumented */
+> +	{CCI_REG8(0x163), 0x68}, /* undocumented */
+> +	{CCI_REG8(0x164), 0xd3}, /* undocumented */
+> +	{CCI_REG8(0x165), 0xd3}, /* undocumented */
+> +	{CCI_REG8(0x166), 0x60}, /* undocumented */
+> +};
+> +
+> +struct gc0308_colormode {
+> +	u8 special_effect;
+> +	u8 dbg_mode1;
+> +	u8 block_en1;
+> +	u8 aec_mode3;
+> +	u8 eeintp_mode_2;
+> +	u8 edge12_effect;
+> +	u8 luma_contrast;
+> +	u8 contrast_center;
+> +	u8 fixed_cb;
+> +	u8 fixed_cr;
+> +};
+> +
+> +#define GC0308_COLOR_FX(reg_special_effect, reg_dbg_mode1, reg_block_en1, \
+> +			reg_aec_mode3, reg_eeintp_mode_2, reg_edge12_effect, \
+> +			reg_luma_contrast, reg_contrast_center, \
+> +			reg_fixed_cb, reg_fixed_cr) \
+> +	{ \
+> +		.special_effect = reg_special_effect, \
+> +		.dbg_mode1 = reg_dbg_mode1, \
+> +		.block_en1 = reg_block_en1, \
+> +		.aec_mode3 = reg_aec_mode3, \
+> +		.eeintp_mode_2 = reg_eeintp_mode_2, \
+> +		.edge12_effect = reg_edge12_effect, \
+> +		.luma_contrast = reg_luma_contrast, \
+> +		.contrast_center = reg_contrast_center, \
+> +		.fixed_cb = reg_fixed_cb, \
+> +		.fixed_cr = reg_fixed_cr, \
+> +	}
+> +
+> +static const struct gc0308_colormode gc0308_colormodes[] = {
+> +	[V4L2_COLORFX_NONE] =
+> +		GC0308_COLOR_FX(0x00, 0x0a, 0xff, 0x90, 0x00,
+> +				0x54, 0x3c, 0x80, 0x00, 0x00),
+> +	[V4L2_COLORFX_BW] =
+> +		GC0308_COLOR_FX(0x02, 0x0a, 0xff, 0x90, 0x00,
+> +				0x54, 0x40, 0x80, 0x00, 0x00),
+> +	[V4L2_COLORFX_SEPIA] =
+> +		GC0308_COLOR_FX(0x02, 0x0a, 0xff, 0x90, 0x00,
+> +				0x38, 0x40, 0x80, 0xd0, 0x28),
+> +	[V4L2_COLORFX_NEGATIVE] =
+> +		GC0308_COLOR_FX(0x01, 0x0a, 0xff, 0x90, 0x00,
+> +				0x38, 0x40, 0x80, 0x00, 0x00),
+> +	[V4L2_COLORFX_EMBOSS] =
+> +		GC0308_COLOR_FX(0x02, 0x0a, 0xbf, 0x10, 0x01,
+> +				0x38, 0x40, 0x80, 0x00, 0x00),
+> +	[V4L2_COLORFX_SKETCH] =
+> +		GC0308_COLOR_FX(0x02, 0x0a, 0xff, 0x10, 0x80,
+> +				0x38, 0x80, 0x90, 0x00, 0x00),
+> +	[V4L2_COLORFX_SKY_BLUE] =
+> +		GC0308_COLOR_FX(0x02, 0x0a, 0xff, 0x90, 0x00,
+> +				0x38, 0x40, 0x80, 0x50, 0xe0),
+> +	[V4L2_COLORFX_GRASS_GREEN] =
+> +		GC0308_COLOR_FX(0x02, 0x0a, 0xff, 0x90, 0x01,
+> +				0x38, 0x40, 0x80, 0xc0, 0xc0),
+> +	[V4L2_COLORFX_SKIN_WHITEN] =
+> +		GC0308_COLOR_FX(0x02, 0x0a, 0xbf, 0x10, 0x01,
+> +				0x38, 0x60, 0x40, 0x00, 0x00),
+> +};
+> +
+> +static int gc0308_power_on(struct device *dev)
+> +{
+> +	struct gc0308 *gc0308 = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = regulator_enable(gc0308->vdd);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = clk_prepare_enable(gc0308->clk);
+> +	if (ret)
+> +		goto clk_fail;
+> +
+> +	gpiod_set_value_cansleep(gc0308->pwdn_gpio, 0);
+> +	usleep_range(10000, 20000);
+> +
+> +	gpiod_set_value_cansleep(gc0308->reset_gpio, 1);
+> +	usleep_range(10000, 20000);
+> +	gpiod_set_value_cansleep(gc0308->reset_gpio, 0);
+> +	msleep(30);
+> +
+> +	return 0;
+> +
+> +clk_fail:
+> +	regulator_disable(gc0308->vdd);
+> +	return ret;
+> +}
+> +
+> +static int gc0308_power_off(struct device *dev)
+> +{
+> +	struct gc0308 *gc0308 = dev_get_drvdata(dev);
+> +
+> +	gpiod_set_value_cansleep(gc0308->pwdn_gpio, 1);
+> +	clk_disable_unprepare(gc0308->clk);
+> +	regulator_disable(gc0308->vdd);
+> +
+> +	return 0;
+> +}
+> +
+> +#ifdef CONFIG_VIDEO_ADV_DEBUG
+> +static int gc0308_g_register(struct v4l2_subdev *sd,
+> +			     struct v4l2_dbg_register *reg)
+> +{
+> +	struct gc0308 *gc0308 = to_gc0308(sd);
+> +
+> +	return cci_read(gc0308->regmap, CCI_REG8(reg->reg), &reg->val, NULL);
+> +}
+> +
+> +static int gc0308_s_register(struct v4l2_subdev *sd,
+> +			     const struct v4l2_dbg_register *reg)
+> +{
+> +	struct gc0308 *gc0308 = to_gc0308(sd);
+> +
+> +	return cci_write(gc0308->regmap, CCI_REG8(reg->reg), reg->val, NULL);
+> +}
+> +#endif
+> +
+> +static int gc0308_set_exposure(struct gc0308 *gc0308, enum gc0308_exp_val exp)
+> +{
+> +	const struct gc0308_exposure *regs = &gc0308_exposure_values[exp];
+> +	struct cci_reg_sequence exposure_reg_seq[] = {
+> +		{GC0308_LUMA_OFFSET, regs->luma_offset},
+> +		{GC0308_AEC_TARGET_Y, regs->aec_target_y},
+> +	};
+> +
+> +	return cci_multi_reg_write(gc0308->regmap, exposure_reg_seq,
+> +				   ARRAY_SIZE(exposure_reg_seq), NULL);
+> +}
+> +
+> +static int gc0308_set_awb_mode(struct gc0308 *gc0308,
+> +			       enum v4l2_auto_n_preset_white_balance val)
+> +{
+> +	const struct gc0308_awb_gains *regs = &gc0308_awb_gains[val];
+> +	struct cci_reg_sequence awb_reg_seq[] = {
+> +		{GC0308_AWB_R_GAIN, regs->r},
+> +		{GC0308_AWB_G_GAIN, regs->g},
+> +		{GC0308_AWB_B_GAIN, regs->b},
+> +	};
+> +	int ret;
+> +
+> +	ret = cci_update_bits(gc0308->regmap, GC0308_AAAA_EN,
+> +			      BIT(1), val == V4L2_WHITE_BALANCE_AUTO, NULL);
+> +	ret = cci_multi_reg_write(gc0308->regmap, awb_reg_seq,
+> +				  ARRAY_SIZE(awb_reg_seq), &ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int gc0308_set_colormode(struct gc0308 *gc0308, enum v4l2_colorfx mode)
+> +{
+> +	const struct gc0308_colormode *regs = &gc0308_colormodes[mode];
+> +	struct cci_reg_sequence colormode_reg_seq[] = {
+> +		{GC0308_SPECIAL_EFFECT, regs->special_effect},
+> +		{GC0308_DEBUG_MODE1, regs->dbg_mode1},
+> +		{GC0308_BLOCK_EN1, regs->block_en1},
+> +		{GC0308_AEC_MODE3, regs->aec_mode3},
+> +		{GC0308_EEINTP_MODE_2, regs->eeintp_mode_2},
+> +		{GC0308_EDGE12_EFFECT, regs->edge12_effect},
+> +		{GC0308_LUMA_CONTRAST, regs->luma_contrast},
+> +		{GC0308_CONTRAST_CENTER, regs->contrast_center},
+> +		{GC0308_FIXED_CB, regs->fixed_cb},
+> +		{GC0308_FIXED_CR, regs->fixed_cr},
+> +	};
+> +
+> +	return cci_multi_reg_write(gc0308->regmap, colormode_reg_seq,
+> +				   ARRAY_SIZE(colormode_reg_seq), NULL);
+> +}
+> +
+> +static int gc0308_set_power_line_freq(struct gc0308 *gc0308, int frequency)
+> +{
+> +	static const struct cci_reg_sequence pwr_line_50hz[] = {
+> +		{GC0308_ANTI_FLICKER_STEP, 0x0078},
+> +		{GC0308_EXP_LVL_1, 0x0258},
+> +		{GC0308_EXP_LVL_2, 0x0348},
+> +		{GC0308_EXP_LVL_3, 0x04b0},
+> +		{GC0308_EXP_LVL_4, 0x05a0},
+> +	};
+> +	static const struct cci_reg_sequence pwr_line_60hz[] = {
+> +		{GC0308_ANTI_FLICKER_STEP, 0x0064},
+> +		{GC0308_EXP_LVL_1, 0x0258},
+> +		{GC0308_EXP_LVL_2, 0x0384},
+> +		{GC0308_EXP_LVL_3, 0x04b0},
+> +		{GC0308_EXP_LVL_4, 0x05dc},
+> +	};
+> +
+> +	switch (frequency) {
+> +	case V4L2_CID_POWER_LINE_FREQUENCY_60HZ:
+> +		return cci_multi_reg_write(gc0308->regmap, pwr_line_60hz,
+> +					   ARRAY_SIZE(pwr_line_60hz), NULL);
+> +	case V4L2_CID_POWER_LINE_FREQUENCY_50HZ:
+> +		return cci_multi_reg_write(gc0308->regmap, pwr_line_50hz,
+> +					   ARRAY_SIZE(pwr_line_50hz), NULL);
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int gc0308_update_mirror(struct gc0308 *gc0308)
+> +{
+> +	u8 regval = 0x00;
+> +
+> +	if (gc0308->vflip->val)
+> +		regval |= BIT(1);
+> +
+> +	if (gc0308->hflip->val)
+> +		regval |= BIT(0);
+> +
+> +	return cci_update_bits(gc0308->regmap, GC0308_CISCTL_MODE1,
+> +			       GENMASK(1, 0), regval, NULL);
+> +}
+> +
+> +static int gc0308_update_blanking(struct gc0308 *gc0308)
+> +{
+> +	u16 vblank = gc0308->vblank->val;
+> +	u16 hblank = gc0308->hblank->val;
+> +	u8 vbhb = ((vblank >> 4) & 0xf0) | ((hblank >> 8) & 0x0f);
+> +	int ret = 0;
+> +
+> +	cci_write(gc0308->regmap, GC0308_VB_HB, vbhb, &ret);
+> +	cci_write(gc0308->regmap, GC0308_HBLANK, hblank & 0xff, &ret);
+> +	cci_write(gc0308->regmap, GC0308_VBLANK, vblank & 0xff, &ret);
+> +
+> +	return ret;
+> +}
+> +
+> +static int _gc0308_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct gc0308 *gc0308 = container_of(ctrl->handler, struct gc0308, hdl);
+> +	uint8_t flipval = ctrl->val ? 0xff : 0x00;
 
-Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
-Changes since v7:
+Use u8 instead of uint8_t
 
-- Initialize new_state variable in thp7312_set_focus()
+> +
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_HBLANK:
+> +	case V4L2_CID_VBLANK:
+> +		return gc0308_update_blanking(gc0308);
+> +	case V4L2_CID_VFLIP:
+> +	case V4L2_CID_HFLIP:
+> +		return gc0308_update_mirror(gc0308);
+> +	case V4L2_CID_AUTO_WHITE_BALANCE:
+> +		return cci_update_bits(gc0308->regmap, GC0308_AAAA_EN,
+> +				       BIT(1), flipval, NULL);
+> +	case V4L2_CID_AUTO_N_PRESET_WHITE_BALANCE:
+> +		return gc0308_set_awb_mode(gc0308, ctrl->val);
+> +	case V4L2_CID_POWER_LINE_FREQUENCY:
+> +		return gc0308_set_power_line_freq(gc0308, ctrl->val);
+> +	case V4L2_CID_COLORFX:
+> +		return gc0308_set_colormode(gc0308, ctrl->val);
+> +	case V4L2_CID_TEST_PATTERN:
+> +		return cci_update_bits(gc0308->regmap, GC0308_DEBUG_MODE2,
+> +				       GENMASK(1, 0), ctrl->val, NULL);
+> +	case V4L2_CID_AUTO_EXPOSURE_BIAS:
+> +		return gc0308_set_exposure(gc0308, ctrl->val);
+> +	}
+> +
+> +	return -EINVAL;
+> +}
+> +
+> +static int gc0308_s_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct gc0308 *gc0308 = container_of(ctrl->handler, struct gc0308, hdl);
+> +	int ret;
+> +
+> +	if (!pm_runtime_get_if_in_use(gc0308->dev))
+> +		return 0;
+> +
+> +	ret = _gc0308_s_ctrl(ctrl);
+ Extra new line here I think :)
+> +	if (ret)
+> +		dev_err(gc0308->dev, "failed to set control: %d\n", ret);
+> +
+> +	pm_runtime_mark_last_busy(gc0308->dev);
+> +	pm_runtime_put_autosuspend(gc0308->dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops gc0308_ctrl_ops = {
+> +	.s_ctrl = gc0308_s_ctrl,
+> +};
+> +
+> +static const struct v4l2_subdev_core_ops gc0308_core_ops = {
+> +	.log_status = v4l2_ctrl_subdev_log_status,
+> +	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> +	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> +#ifdef CONFIG_VIDEO_ADV_DEBUG
+> +	.g_register	= gc0308_g_register,
+> +	.s_register	= gc0308_s_register,
+> +#endif
+> +};
+> +
+> +static int gc0308_enum_mbus_code(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_state *sd_state,
+> +				 struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	if (code->index >= ARRAY_SIZE(gc0308_formats))
+> +		return -EINVAL;
+> +
+> +	code->code = gc0308_formats[code->index].code;
+> +
+> +	return 0;
+> +}
+> +
+> +static int gc0308_get_format_idx(u32 code)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(gc0308_formats); i++) {
+> +		if (gc0308_formats[i].code == code)
+> +			return i;
+> +	}
+> +
+> +	return -1;
+> +}
+> +
+> +static int gc0308_enum_frame_size(struct v4l2_subdev *subdev,
+> +				  struct v4l2_subdev_state *sd_state,
+> +				  struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	if (fse->index >= ARRAY_SIZE(gc0308_frame_sizes))
+> +		return -EINVAL;
+> +
+> +	if (gc0308_get_format_idx(fse->code) < 0)
+> +		return -EINVAL;
+> +
+> +	fse->min_width = gc0308_frame_sizes[fse->index].width;
+> +	fse->max_width = gc0308_frame_sizes[fse->index].width;
+> +	fse->min_height = gc0308_frame_sizes[fse->index].height;
+> +	fse->max_height = gc0308_frame_sizes[fse->index].height;
+> +
+> +	return 0;
+> +}
+> +
+> +static void gc0308_update_pad_format(const struct gc0308_frame_size *mode,
+> +				     struct v4l2_mbus_framefmt *fmt, u32 code)
+> +{
+> +	fmt->width = mode->width;
+> +	fmt->height = mode->height;
+> +	fmt->code = code;
+> +	fmt->field = V4L2_FIELD_NONE;
+> +	fmt->colorspace = V4L2_COLORSPACE_SRGB;
+> +}
+> +
+> +static int gc0308_set_format(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_state *sd_state,
+> +			     struct v4l2_subdev_format *fmt)
+> +{
+> +	struct gc0308 *gc0308 = to_gc0308(sd);
+> +	const struct gc0308_frame_size *mode;
+> +	int i = gc0308_get_format_idx(fmt->format.code);
+> +
+> +	if (i < 0)
+> +		i = 0;
+> +
+> +	mode = v4l2_find_nearest_size(gc0308_frame_sizes,
+> +				      ARRAY_SIZE(gc0308_frame_sizes), width,
+> +				      height, fmt->format.width,
+> +				      fmt->format.height);
+> +
+> +	gc0308_update_pad_format(mode, &fmt->format, gc0308_formats[i].code);
+> +	*v4l2_subdev_get_pad_format(sd, sd_state, fmt->pad) = fmt->format;
 
-Changes since v6:
+I think here you need to use new:
 
-- Rebase on top of subdev API changes scheduled for v6.8
+	*v4l2_subdev_state_get_format(sd_state, 0) = fmt->format;
 
-Changes since v5:
+> +
+> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> +		return 0;
+> +
+> +	gc0308->mode.out_format = gc0308_formats[i].regval;
+> +	gc0308->mode.subsample = mode->subsample;
+> +	gc0308->mode.width = mode->width;
+> +	gc0308->mode.height = mode->height;
+> +
+> +	return 0;
+> +}
+> +
+> +static int gc0308_init_cfg(struct v4l2_subdev *sd,
+> +			   struct v4l2_subdev_state *sd_state)
+> +{
+> +	struct v4l2_mbus_framefmt *format =
+> +		v4l2_subdev_get_try_format(sd, sd_state, 0);
 
-- Use fwnode API
-- Use uapi/ in header path
-- Drop TODO comment about THP7312_REG_AF_SETTING
-- Drop TODO comment about boot mode check
-- Store firmware version in single 16-bit field
-- Don't expose AF controls if not supported by the sensor
-- Use THP7312_FOCUS_METHOD_* values in AF method control definition
-- Drop unused i2c_addr field from thp7312_sensor_info
-- Drop support for sensor regulators
+Same here:
+	struct v4l2_mbus_framefmt *format =
+		v4l2_subdev_state_get_format(sd_state, 0);
 
-Changes since v4:
+> +
+> +	format->width		= 640;
+> +	format->height		= 480;
+> +	format->code		= gc0308_formats[0].code;
+> +	format->colorspace	= V4L2_COLORSPACE_SRGB;
+> +	format->field		= V4L2_FIELD_NONE;
+> +	format->ycbcr_enc	= V4L2_YCBCR_ENC_DEFAULT;
+> +	format->quantization	= V4L2_QUANTIZATION_DEFAULT;
+> +	format->xfer_func	= V4L2_XFER_FUNC_DEFAULT;
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_pad_ops gc0308_pad_ops = {
+> +	.init_cfg = gc0308_init_cfg,
+> +	.enum_mbus_code = gc0308_enum_mbus_code,
+> +	.enum_frame_size = gc0308_enum_frame_size,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+> +	.set_fmt = gc0308_set_format,
+> +};
+> +
+> +static int gc0308_set_resolution(struct gc0308 *gc0308, int *ret)
+> +{
+> +	struct cci_reg_sequence resolution_regs[] = {
+> +		{GC0308_SUBSAMPLE, gc0308->mode.subsample},
+> +		{GC0308_SUBMODE, 0x03},
+> +		{GC0308_SUB_ROW_N1, 0x00},
+> +		{GC0308_SUB_ROW_N2, 0x00},
+> +		{GC0308_SUB_COL_N1, 0x00},
+> +		{GC0308_SUB_COL_N2, 0x00},
+> +		{GC0308_CROP_WIN_MODE, 0x80},
+> +		{GC0308_CROP_WIN_Y1, 0x00},
+> +		{GC0308_CROP_WIN_X1, 0x00},
+> +		{GC0308_CROP_WIN_HEIGHT, gc0308->mode.height},
+> +		{GC0308_CROP_WIN_WIDTH, gc0308->mode.width},
+> +	};
+> +
+> +	return cci_multi_reg_write(gc0308->regmap, resolution_regs,
+> +				   ARRAY_SIZE(resolution_regs), ret);
+> +}
+> +
+> +static int gc0308_start_stream(struct gc0308 *gc0308)
+> +{
+> +	int ret, sync_mode;
+> +
+> +	ret = pm_runtime_resume_and_get(gc0308->dev);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	cci_multi_reg_write(gc0308->regmap, sensor_default_regs,
+> +			    ARRAY_SIZE(sensor_default_regs), &ret);
+> +	cci_update_bits(gc0308->regmap, GC0308_OUT_FORMAT,
+> +			GENMASK(4, 0), gc0308->mode.out_format, &ret);
+> +	gc0308_set_resolution(gc0308, &ret);
+> +
+> +	if (ret) {
+> +		dev_err(gc0308->dev, "failed to update registers: %d\n", ret);
+> +		goto disable_pm;
+> +	}
+> +
+> +	ret = __v4l2_ctrl_handler_setup(&gc0308->hdl);
+> +	if (ret) {
+> +		dev_err(gc0308->dev, "failed to setup controls\n");
+> +		goto disable_pm;
+> +	}
+> +
+> +	/* HSYNC/VSYNC polarity */
+> +	sync_mode = 0x3;
+> +	if (gc0308->mbus_config & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> +		sync_mode &= ~BIT(0);
+> +	if (gc0308->mbus_config & V4L2_MBUS_HSYNC_ACTIVE_LOW)
+> +		sync_mode &= ~BIT(1);
+> +	ret = cci_write(gc0308->regmap, GC0308_SYNC_MODE, sync_mode, NULL);
+> +	if (ret)
+> +		goto disable_pm;
+> +
+> +	return 0;
+> +
+> +disable_pm:
+> +	pm_runtime_mark_last_busy(gc0308->dev);
+> +	pm_runtime_put_autosuspend(gc0308->dev);
+> +	return ret;
+> +}
+> +
+> +static int gc0308_stop_stream(struct gc0308 *gc0308)
+> +{
+> +	pm_runtime_mark_last_busy(gc0308->dev);
+> +	pm_runtime_put_autosuspend(gc0308->dev);
+> +	return 0;
+> +}
+> +
+> +static int gc0308_s_stream(struct v4l2_subdev *sd, int enable)
+> +{
+> +	struct gc0308 *gc0308 = to_gc0308(sd);
+> +	struct v4l2_subdev_state *sd_state;
+> +	int ret;
+> +
+> +	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+> +
+> +	if (enable)
+> +		ret = gc0308_start_stream(gc0308);
+> +	else
+> +		ret = gc0308_stop_stream(gc0308);
+> +
+> +	v4l2_subdev_unlock_state(sd_state);
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_subdev_video_ops gc0308_video_ops = {
+> +	.s_stream		= gc0308_s_stream,
+> +};
+> +
+> +static const struct v4l2_subdev_ops gc0308_subdev_ops = {
+> +	.core	= &gc0308_core_ops,
+> +	.pad	= &gc0308_pad_ops,
+> +	.video	= &gc0308_video_ops,
+> +};
+> +
+> +static int gc0308_bus_config(struct gc0308 *gc0308)
+> +{
+> +	struct device *dev = gc0308->dev;
+> +	struct v4l2_fwnode_endpoint bus_cfg = {
+> +		.bus_type = V4L2_MBUS_PARALLEL
+> +	};
+> +	struct fwnode_handle *ep;
+> +	int ret;
+> +
+> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), 0, 0, 0);
+> +	if (!ep)
+> +		return -EINVAL;
+> +
+> +	ret = v4l2_fwnode_endpoint_parse(ep, &bus_cfg);
+> +	fwnode_handle_put(ep);
+> +	if (ret)
+> +		return ret;
+> +
+> +	gc0308->mbus_config = bus_cfg.bus.parallel.flags;
+> +
+> +	return 0;
+> +}
+> +
+> +static const char * const gc0308_test_pattern_menu[] = {
+> +	"Disabled",
+> +	"Test Image 1",
+> +	"Test Image 2",
+> +};
+> +
+> +static int gc0308_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct gc0308 *gc0308;
+> +	unsigned long clkrate;
+> +	u64 regval;
+> +	int ret;
+> +
+> +	gc0308 = devm_kzalloc(dev, sizeof(*gc0308), GFP_KERNEL);
+> +	if (!gc0308)
+> +		return -ENOMEM;
+> +
+> +	gc0308->dev = dev;
+> +	dev_set_drvdata(dev, gc0308);
+> +
+> +	ret = gc0308_bus_config(gc0308);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to get bus config\n");
+> +
+> +	gc0308->clk = devm_clk_get_optional(dev, NULL);
+> +	if (IS_ERR(gc0308->clk))
+> +		return dev_err_probe(dev, PTR_ERR(gc0308->clk),
+> +				     "could not get clk\n");
+> +
+> +	gc0308->vdd = devm_regulator_get(dev, "vdd28");
+> +	if (IS_ERR(gc0308->vdd))
+> +		return dev_err_probe(dev, PTR_ERR(gc0308->vdd),
+> +				     "failed to get vdd28 regulator\n");
+> +
+> +	gc0308->pwdn_gpio = devm_gpiod_get(dev, "powerdown", GPIOD_OUT_LOW);
+> +	if (IS_ERR(gc0308->pwdn_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(gc0308->pwdn_gpio),
+> +				     "failed to get powerdown gpio\n");
+> +
+> +	gc0308->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(gc0308->reset_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(gc0308->reset_gpio),
+> +				     "failed to get reset gpio\n");
+> +
+> +	/*
+> +	 * This is not using devm_cci_regmap_init_i2c(), because the driver
+> +	 * makes use of regmap's pagination feature. The chosen settings are
+> +	 * compatible with the CCI helpers.
+> +	 */
+> +	gc0308->regmap = devm_regmap_init_i2c(client, &gc0308_regmap_config);
+> +	if (IS_ERR(gc0308->regmap))
+> +		return dev_err_probe(dev, PTR_ERR(gc0308->regmap),
+> +				     "failed to init regmap\n");
+> +
+> +	v4l2_i2c_subdev_init(&gc0308->sd, client, &gc0308_subdev_ops);
+> +	gc0308->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	gc0308->sd.flags |= V4L2_SUBDEV_FL_HAS_EVENTS;
+> +
 
-- Mark runtime PM handlers with __maybe_unused
-- Fix indentation in register macros
-- Replace ROTATE control with HFLIP and VFLIP
-- Add more register bits macros
-- Replace macros with direct usage of ARRAY_SIZE
-- Drop unused structure fields
-- Reorder fw update fields to save space
-- Pass explicit true/false values to thp7312_stream_enable()
-- Reduce reset pulse length
-- White space fixes
-- Drop unneeded dev_dbg() message
-- Drop unneeded value clamp
-- Initialize bus type explicitly
-- Move sensor_info to thp7312_sensor
-- Cache data lane mappings
-- Add LINK_FREQ control
-- Rename error labels
-- Fix runtime PM initialization and cleanup
-- Use runtime PM autosuspend
-- Fix power handling in firmware update mode
-- Configure MIPI lanes at power up
-- Don't setup controls unnecessarily
-- Drop unneeded local variable
-- Use pm_runtime_get_if_active()
+What about moving this into static int gc0308_init_controls(struct gc0308 *gc0308) ??
+------
 
-Changes since v3:
+> +	v4l2_ctrl_handler_init(&gc0308->hdl, 11);
+> +	gc0308->hblank = v4l2_ctrl_new_std(&gc0308->hdl, &gc0308_ctrl_ops,
+> +					   V4L2_CID_HBLANK, GC0308_HBLANK_MIN,
+> +					   GC0308_HBLANK_MAX, 1,
+> +					   GC0308_HBLANK_DEF);
+> +	gc0308->vblank = v4l2_ctrl_new_std(&gc0308->hdl, &gc0308_ctrl_ops,
+> +					   V4L2_CID_VBLANK, GC0308_VBLANK_MIN,
+> +					   GC0308_VBLANK_MAX, 1,
+> +					   GC0308_VBLANK_DEF);
+> +	gc0308->hflip = v4l2_ctrl_new_std(&gc0308->hdl, &gc0308_ctrl_ops,
+> +					  V4L2_CID_HFLIP, 0, 1, 1, 0);
+> +	gc0308->vflip = v4l2_ctrl_new_std(&gc0308->hdl, &gc0308_ctrl_ops,
+> +					  V4L2_CID_VFLIP, 0, 1, 1, 0);
+> +	v4l2_ctrl_new_std(&gc0308->hdl, &gc0308_ctrl_ops, V4L2_CID_PIXEL_RATE,
+> +			  GC0308_PIXEL_RATE, GC0308_PIXEL_RATE, 1,
+> +			  GC0308_PIXEL_RATE);
+> +	v4l2_ctrl_new_std(&gc0308->hdl, &gc0308_ctrl_ops,
+> +			  V4L2_CID_AUTO_WHITE_BALANCE, 0, 1, 1, 1);
+> +	v4l2_ctrl_new_std_menu_items(&gc0308->hdl, &gc0308_ctrl_ops,
+> +				     V4L2_CID_TEST_PATTERN,
+> +				     ARRAY_SIZE(gc0308_test_pattern_menu) - 1,
+> +				     0, 0, gc0308_test_pattern_menu);
+> +	v4l2_ctrl_new_std_menu(&gc0308->hdl, &gc0308_ctrl_ops,
+> +			       V4L2_CID_AUTO_N_PRESET_WHITE_BALANCE,
+> +			       8, ~0x14e, V4L2_WHITE_BALANCE_AUTO);
+> +	v4l2_ctrl_new_std_menu(&gc0308->hdl, &gc0308_ctrl_ops,
+> +			       V4L2_CID_COLORFX, 8, 0, V4L2_COLORFX_NONE);
+> +	v4l2_ctrl_new_std_menu(&gc0308->hdl, &gc0308_ctrl_ops,
+> +			       V4L2_CID_POWER_LINE_FREQUENCY,
+> +			       V4L2_CID_POWER_LINE_FREQUENCY_60HZ,
+> +			       ~0x6, V4L2_CID_POWER_LINE_FREQUENCY_50HZ);
+> +	v4l2_ctrl_new_int_menu(&gc0308->hdl, &gc0308_ctrl_ops,
+> +			       V4L2_CID_AUTO_EXPOSURE_BIAS,
+> +			       ARRAY_SIZE(gc0308_exposure_menu) - 1,
+> +			       ARRAY_SIZE(gc0308_exposure_menu)/2,
 
-- Move thp7312_get_regulators() to probe section
-- Turn firmware update handlers static
-- Wire up power management in struct driver
-- Remove unnecessary double underscore function prefixes
-- Configure CSI-2 lanes at stream on time
-- Clean up naming of power management functions
+CHECK: spaces preferred around that '/' (ctx:VxV)
+#1390: FILE: drivers/media/i2c/gc0308.c:1320:
++			       ARRAY_SIZE(gc0308_exposure_menu)/2,
+ 			                                       ^
 
-Changes since v2:
 
-- Make boot-mode property optional
-- Fix dev_err_probe() usage in DT parsing
-- Additional dev_err_probe() usage
-- Use %u instead of %d for unsigned values
-- Don't split lines unnecessarily
-- Fix error handling in firmware upload initialization
-- Use CCI helpers in firmware update code
-- Fix runtime PM usage count
----
- MAINTAINERS                 |    1 +
- drivers/media/i2c/Kconfig   |   16 +
- drivers/media/i2c/Makefile  |    1 +
- drivers/media/i2c/thp7312.c | 2237 +++++++++++++++++++++++++++++++++++
- 4 files changed, 2255 insertions(+)
- create mode 100644 drivers/media/i2c/thp7312.c
+> +			       gc0308_exposure_menu);
+> +
+> +	gc0308->sd.ctrl_handler = &gc0308->hdl;
+> +	if (gc0308->hdl.error) {
+> +		ret = gc0308->hdl.error;
+> +		goto fail_ctrl_hdl_cleanup;
+> +	}
+> +
+> +	v4l2_ctrl_cluster(2, &gc0308->hflip);
+> +	v4l2_ctrl_cluster(2, &gc0308->hblank);
+-----------------------------
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ec901fe33692..8106242785c7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -21662,6 +21662,7 @@ S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
- F:	Documentation/userspace-api/media/drivers/thp7312.rst
-+F:	drivers/media/i2c/thp7312.c
- F:	include/uapi/linux/thp7312.h
- 
- THUNDERBOLT DMA TRAFFIC TEST DRIVER
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 59ee0ca2c978..aa659bea91b3 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -628,6 +628,22 @@ source "drivers/media/i2c/et8ek8/Kconfig"
- 
- endif
- 
-+menu "Camera ISPs"
-+	visible if MEDIA_CAMERA_SUPPORT
-+
-+config VIDEO_THP7312
-+	tristate "THine THP7312 support"
-+	depends on I2C
-+	select MEDIA_CONTROLLER
-+	select V4L2_CCI_I2C
-+	select V4L2_FWNODE
-+	select VIDEO_V4L2_SUBDEV_API
-+	help
-+	  This is a Video4Linux2 sensor-level driver for the THine
-+	  THP7312 ISP.
-+
-+endmenu
-+
- menu "Lens drivers"
- 	visible if MEDIA_CAMERA_SUPPORT
- 
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index f5010f80a21f..5e67217ede45 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -128,6 +128,7 @@ obj-$(CONFIG_VIDEO_TDA7432) += tda7432.o
- obj-$(CONFIG_VIDEO_TDA9840) += tda9840.o
- obj-$(CONFIG_VIDEO_TEA6415C) += tea6415c.o
- obj-$(CONFIG_VIDEO_TEA6420) += tea6420.o
-+obj-$(CONFIG_VIDEO_THP7312) += thp7312.o
- obj-$(CONFIG_VIDEO_THS7303) += ths7303.o
- obj-$(CONFIG_VIDEO_THS8200) += ths8200.o
- obj-$(CONFIG_VIDEO_TLV320AIC23B) += tlv320aic23b.o
-diff --git a/drivers/media/i2c/thp7312.c b/drivers/media/i2c/thp7312.c
-new file mode 100644
-index 000000000000..8d818ce055de
---- /dev/null
-+++ b/drivers/media/i2c/thp7312.c
-@@ -0,0 +1,2237 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Copyright (C) 2021 THine Electronics, Inc.
-+ * Copyright (C) 2023 Ideas on Board Oy
-+ */
-+
-+#include <asm/unaligned.h>
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/device.h>
-+#include <linux/firmware.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/init.h>
-+#include <linux/iopoll.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/mtd/spi-nor.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/property.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
-+
-+#include <media/v4l2-async.h>
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-fwnode.h>
-+#include <media/v4l2-subdev.h>
-+
-+#include <uapi/linux/thp7312.h>
-+
-+/* ISP registers */
-+
-+#define THP7312_REG_FIRMWARE_VERSION_1			CCI_REG8(0xf000)
-+#define THP7312_REG_CAMERA_STATUS			CCI_REG8(0xf001)
-+#define THP7312_REG_FIRMWARE_VERSION_2			CCI_REG8(0xf005)
-+#define THP7312_REG_SET_OUTPUT_ENABLE			CCI_REG8(0xf008)
-+#define THP7312_OUTPUT_ENABLE				0x01
-+#define THP7312_OUTPUT_DISABLE				0x00
-+#define THP7312_REG_SET_OUTPUT_COLOR_COMPRESSION	CCI_REG8(0xf009)
-+#define THP7312_REG_SET_OUTPUT_COLOR_UYVY		0x00
-+#define THP7312_REG_SET_OUTPUT_COLOR_YUY2		0x04
-+#define THP7312_REG_FLIP_MIRROR				CCI_REG8(0xf00c)
-+#define THP7312_REG_FLIP_MIRROR_FLIP			BIT(0)
-+#define THP7312_REG_FLIP_MIRROR_MIRROR			BIT(1)
-+#define THP7312_REG_VIDEO_IMAGE_SIZE			CCI_REG8(0xf00d)
-+#define THP7312_VIDEO_IMAGE_SIZE_640x360		0x52
-+#define THP7312_VIDEO_IMAGE_SIZE_640x460		0x03
-+#define THP7312_VIDEO_IMAGE_SIZE_1280x720		0x0a
-+#define THP7312_VIDEO_IMAGE_SIZE_1920x1080		0x0b
-+#define THP7312_VIDEO_IMAGE_SIZE_3840x2160		0x0d
-+#define THP7312_VIDEO_IMAGE_SIZE_4160x3120		0x14
-+#define THP7312_VIDEO_IMAGE_SIZE_2016x1512		0x20
-+#define THP7312_VIDEO_IMAGE_SIZE_2048x1536		0x21
-+#define THP7312_REG_VIDEO_FRAME_RATE_MODE		CCI_REG8(0xf00f)
-+#define THP7312_VIDEO_FRAME_RATE_MODE1			0x80
-+#define THP7312_VIDEO_FRAME_RATE_MODE2			0x81
-+#define THP7312_VIDEO_FRAME_RATE_MODE3			0x82
-+#define THP7312_REG_SET_DRIVING_MODE			CCI_REG8(0xf010)
-+#define THP7312_REG_DRIVING_MODE_STATUS			CCI_REG8(0xf011)
-+#define THP7312_REG_JPEG_COMPRESSION_FACTOR		CCI_REG8(0xf01b)
-+#define THP7312_REG_AE_EXPOSURE_COMPENSATION		CCI_REG8(0xf022)
-+#define THP7312_REG_AE_FLICKER_MODE			CCI_REG8(0xf023)
-+#define THP7312_AE_FLICKER_MODE_50			0x00
-+#define THP7312_AE_FLICKER_MODE_60			0x01
-+#define THP7312_AE_FLICKER_MODE_DISABLE			0x80
-+#define THP7312_REG_AE_FIX_FRAME_RATE			CCI_REG8(0xf02e)
-+#define THP7312_REG_MANUAL_WB_RED_GAIN			CCI_REG8(0xf036)
-+#define THP7312_REG_MANUAL_WB_BLUE_GAIN			CCI_REG8(0xf037)
-+#define THP7312_REG_WB_MODE				CCI_REG8(0xf039)
-+#define THP7312_WB_MODE_AUTO				0x00
-+#define THP7312_WB_MODE_MANUAL				0x11
-+#define THP7312_REG_MANUAL_FOCUS_POSITION		CCI_REG16(0xf03c)
-+#define THP7312_REG_AF_CONTROL				CCI_REG8(0xf040)
-+#define THP7312_REG_AF_CONTROL_AF			0x01
-+#define THP7312_REG_AF_CONTROL_MANUAL			0x10
-+#define THP7312_REG_AF_CONTROL_LOCK			0x80
-+#define THP7312_REG_AF_SETTING				CCI_REG8(0xf041)
-+#define THP7312_REG_AF_SETTING_ONESHOT_CONTRAST		0x00
-+#define THP7312_REG_AF_SETTING_ONESHOT_PDAF		0x40
-+#define THP7312_REG_AF_SETTING_ONESHOT_HYBRID		0x80
-+#define THP7312_REG_AF_SETTING_CONTINUOUS_CONTRAST	0x30
-+#define THP7312_REG_AF_SETTING_CONTINUOUS_PDAF		0x70
-+#define THP7312_REG_AF_SETTING_CONTINUOUS_HYBRID	0xf0
-+#define THP7312_REG_AF_SUPPORT				CCI_REG8(0xf043)
-+#define THP7312_AF_SUPPORT_PDAF				BIT(1)
-+#define THP7312_AF_SUPPORT_CONTRAST			BIT(0)
-+#define THP7312_REG_SATURATION				CCI_REG8(0xf052)
-+#define THP7312_REG_SHARPNESS				CCI_REG8(0xf053)
-+#define THP7312_REG_BRIGHTNESS				CCI_REG8(0xf056)
-+#define THP7312_REG_CONTRAST				CCI_REG8(0xf057)
-+#define THP7312_REG_NOISE_REDUCTION			CCI_REG8(0xf059)
-+#define THP7312_REG_NOISE_REDUCTION_FIXED		BIT(7)
-+
-+#define TH7312_REG_CUSTOM_MIPI_SET			CCI_REG8(0xf0f6)
-+#define TH7312_REG_CUSTOM_MIPI_STATUS			CCI_REG8(0xf0f7)
-+#define TH7312_REG_CUSTOM_MIPI_RD			CCI_REG8(0xf0f8)
-+#define TH7312_REG_CUSTOM_MIPI_TD			CCI_REG8(0xf0f9)
-+
-+/*
-+ * Firmware update registers. Those use a different address space than the
-+ * normal operation ISP registers.
-+ */
-+
-+#define THP7312_REG_FW_DRIVABILITY			CCI_REG32(0xd65c)
-+#define THP7312_REG_FW_DEST_BANK_ADDR			CCI_REG32(0xff08)
-+#define THP7312_REG_FW_VERIFY_RESULT			CCI_REG8(0xff60)
-+#define THP7312_REG_FW_RESET_FLASH			CCI_REG8(0xff61)
-+#define THP7312_REG_FW_MEMORY_IO_SETTING		CCI_REG8(0xff62)
-+#define THP7312_FW_MEMORY_IO_GPIO0			1
-+#define THP7312_FW_MEMORY_IO_GPIO1			0
-+#define THP7312_REG_FW_CRC_RESULT			CCI_REG32(0xff64)
-+#define THP7312_REG_FW_STATUS				CCI_REG8(0xfffc)
-+
-+#define THP7312_FW_VERSION(major, minor)		(((major) << 8) | (minor))
-+#define THP7312_FW_VERSION_MAJOR(v)			((v) >> 8)
-+#define THP7312_FW_VERSION_MINOR(v)			((v) & 0xff)
-+
-+enum thp7312_focus_method {
-+	THP7312_FOCUS_METHOD_CONTRAST,
-+	THP7312_FOCUS_METHOD_PDAF,
-+	THP7312_FOCUS_METHOD_HYBRID,
-+};
-+
-+/*
-+ * enum thp7312_focus_state - State of the focus handler
-+ *
-+ * @THP7312_FOCUS_STATE_MANUAL: Manual focus, controlled through the
-+ *	V4L2_CID_FOCUS_ABSOLUTE control
-+ * @THP7312_FOCUS_STATE_AUTO: Continuous auto-focus
-+ * @THP7312_FOCUS_STATE_LOCKED: Lock the focus to a fixed position. This state
-+ *	is entered when switching from auto to manual mode.
-+ * @THP7312_FOCUS_STATE_ONESHOT: One-shot auto-focus
-+ *
-+ * Valid transitions are as follow:
-+ *
-+ * digraph fsm {
-+ *         node [shape=circle];
-+ *
-+ *         manual [label="MANUAL"];
-+ *         auto [label="AUTO"];
-+ *         locked [label="LOCKED"];
-+ *         oneshot [label="ONESHOT"];
-+ *
-+ *         manual -> auto [label="FOCUS_AUTO <- true"]
-+ *         locked -> auto [label="FOCUS_AUTO <- true"]
-+ *         oneshot -> auto [label="FOCUS_AUTO <- true"]
-+ *         auto -> locked [label="FOCUS_AUTO <- false"]
-+ *
-+ *         locked -> manual [label="FOCUS_ABSOLUTE <- *"]
-+ *         oneshot -> manual [label="FOCUS_ABSOLUTE <- *"]
-+ *
-+ *         manual -> oneshot [label="FOCUS_START <- *"]
-+ *         locked -> oneshot [label="FOCUS_START <- *"]
-+ * }
-+ */
-+enum thp7312_focus_state {
-+	THP7312_FOCUS_STATE_MANUAL,
-+	THP7312_FOCUS_STATE_AUTO,
-+	THP7312_FOCUS_STATE_LOCKED,
-+	THP7312_FOCUS_STATE_ONESHOT,
-+};
-+
-+enum thp7312_boot_mode {
-+	THP7312_BOOT_MODE_2WIRE_SLAVE = 0,
-+	THP7312_BOOT_MODE_SPI_MASTER = 1,
-+};
-+
-+struct thp7312_frame_rate {
-+	u32 fps;
-+	u32 link_freq;
-+	u8 reg_frame_rate_mode;
-+};
-+
-+struct thp7312_mode_info {
-+	u32 width;
-+	u32 height;
-+	u8 reg_image_size;
-+	const struct thp7312_frame_rate *rates;
-+};
-+
-+static const u32 thp7312_colour_fmts[] = {
-+	MEDIA_BUS_FMT_YUYV8_1X16,
-+};
-+
-+/* regulator supplies */
-+static const char * const thp7312_supply_name[] = {
-+	"vddcore",
-+	"vhtermrx",
-+	"vddtx",
-+	"vddhost",
-+	"vddcmos",
-+	"vddgpio-0",
-+	"vddgpio-1",
-+};
-+
-+static const struct thp7312_mode_info thp7312_mode_info_data[] = {
-+	{
-+		.width = 1920,
-+		.height = 1080,
-+		.reg_image_size = THP7312_VIDEO_IMAGE_SIZE_1920x1080,
-+		.rates = (const struct thp7312_frame_rate[]) {
-+			{ 30, 300000000, 0x81 },
-+			{ 60, 387500000, 0x82 },
-+			{ 0 }
-+		},
-+	}, {
-+		.width = 2048,
-+		.height = 1536,
-+		.reg_image_size = THP7312_VIDEO_IMAGE_SIZE_2048x1536,
-+		.rates = (const struct thp7312_frame_rate[]) {
-+			{ 30, 300000000, 0x81 },
-+			{ 0 }
-+		}
-+	}, {
-+		.width = 3840,
-+		.height = 2160,
-+		.reg_image_size = THP7312_VIDEO_IMAGE_SIZE_3840x2160,
-+		.rates = (const struct thp7312_frame_rate[]) {
-+			{ 30, 600000000, 0x81 },
-+			{ 0 }
-+		},
-+	}, {
-+		.width = 4160,
-+		.height = 3120,
-+		.reg_image_size = THP7312_VIDEO_IMAGE_SIZE_4160x3120,
-+		.rates = (const struct thp7312_frame_rate[]) {
-+			{ 20, 600000000, 0x81 },
-+			{ 0 }
-+		},
-+	},
-+};
-+
-+struct thp7312_device;
-+
-+struct thp7312_sensor_info {
-+	const char *model;
-+};
-+
-+struct thp7312_sensor {
-+	const struct thp7312_sensor_info *info;
-+	u8 lane_remap;
-+};
-+
-+struct thp7312_device {
-+	struct device *dev;
-+	struct regmap *regmap;
-+
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+
-+	struct gpio_desc *reset_gpio;
-+	struct regulator_bulk_data supplies[ARRAY_SIZE(thp7312_supply_name)];
-+	struct clk *iclk;
-+
-+	u8 lane_remap;
-+
-+	struct thp7312_sensor sensors[1];
-+
-+	enum thp7312_boot_mode boot_mode;
-+
-+	struct v4l2_ctrl_handler ctrl_handler;
-+	bool ctrls_applied;
-+
-+	/* These are protected by v4l2 active state */
-+	const struct thp7312_mode_info *current_mode;
-+	const struct thp7312_frame_rate *current_rate;
-+	s64 link_freq;
-+
-+	struct {
-+		struct v4l2_ctrl *hflip;
-+		struct v4l2_ctrl *vflip;
-+	};
-+
-+	struct {
-+		struct v4l2_ctrl *focus_auto;
-+		struct v4l2_ctrl *focus_absolute;
-+		struct v4l2_ctrl *focus_start;
-+		struct v4l2_ctrl *focus_method;
-+	};
-+
-+	enum thp7312_focus_state focus_state;
-+
-+	struct {
-+		struct v4l2_ctrl *noise_reduction_auto;
-+		struct v4l2_ctrl *noise_reduction_absolute;
-+	};
-+
-+	/* Lock to protect fw_cancel */
-+	struct mutex fw_lock;
-+	struct fw_upload *fwl;
-+	u8 *fw_write_buf;
-+	bool fw_cancel;
-+
-+	u16 fw_version;
-+};
-+
-+static const struct thp7312_sensor_info thp7312_sensor_info[] = {
-+	{
-+		.model = "sony,imx258",
-+	},
-+};
-+
-+static inline struct thp7312_device *to_thp7312_dev(struct v4l2_subdev *sd)
-+{
-+	return container_of(sd, struct thp7312_device, sd);
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Device Access & Configuration
-+ */
-+
-+#define thp7312_read_poll_timeout(dev, addr, val, cond, sleep_us, timeout_us) \
-+({ \
-+	int __ret, __err; \
-+	__ret = read_poll_timeout(cci_read, __err, __err || (cond), sleep_us, \
-+				  timeout_us, false, (dev)->regmap, addr, \
-+				  &(val), NULL); \
-+	__ret ? : __err; \
-+})
-+
-+static int thp7312_map_data_lanes(u8 *lane_remap, const u8 *lanes, u8 num_lanes)
-+{
-+	u8 used_lanes = 0;
-+	u8 val = 0;
-+	unsigned int i;
-+
-+	/*
-+	 * The value that we write to the register is the index in the
-+	 * data-lanes array, so we need to do a conversion. Do this in the same
-+	 * pass as validating data-lanes.
-+	 */
-+	for (i = 0; i < num_lanes; i++) {
-+		if (lanes[i] < 1 || lanes[i] > 4)
-+			return -EINVAL;
-+
-+		if (used_lanes & (BIT(lanes[i])))
-+			return -EINVAL;
-+
-+		used_lanes |= BIT(lanes[i]);
-+
-+		/*
-+		 * data-lanes is 1-indexed while the field position in the
-+		 * register is 0-indexed.
-+		 */
-+		val |= i << ((lanes[i] - 1) * 2);
-+	}
-+
-+	*lane_remap = val;
-+
-+	return 0;
-+}
-+
-+static int thp7312_set_mipi_lanes(struct thp7312_device *thp7312)
-+{
-+	struct device *dev = thp7312->dev;
-+	int ret = 0;
-+	u64 val;
-+
-+	cci_write(thp7312->regmap, TH7312_REG_CUSTOM_MIPI_RD,
-+		  thp7312->sensors[0].lane_remap, &ret);
-+	cci_write(thp7312->regmap, TH7312_REG_CUSTOM_MIPI_TD,
-+		  thp7312->lane_remap, &ret);
-+	cci_write(thp7312->regmap, TH7312_REG_CUSTOM_MIPI_SET, 1, &ret);
-+
-+	if (ret)
-+		return ret;
-+
-+	ret = thp7312_read_poll_timeout(thp7312, TH7312_REG_CUSTOM_MIPI_STATUS,
-+					val, val == 0x00, 100000, 2000000);
-+	if (ret) {
-+		dev_err(dev, "Failed to poll MIPI lane status: %d\n", ret);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int thp7312_change_mode(struct thp7312_device *thp7312,
-+			       const struct thp7312_mode_info *mode,
-+			       const struct thp7312_frame_rate *rate)
-+{
-+	struct device *dev = thp7312->dev;
-+	u64 val = 0;
-+	int ret;
-+
-+	ret = thp7312_read_poll_timeout(thp7312, THP7312_REG_CAMERA_STATUS, val,
-+					val == 0x80, 20000, 200000);
-+	if (ret < 0) {
-+		dev_err(dev, "%s(): failed to poll ISP: %d\n", __func__, ret);
-+		return ret;
-+	}
-+
-+	cci_write(thp7312->regmap, THP7312_REG_VIDEO_IMAGE_SIZE,
-+		  mode->reg_image_size, &ret);
-+	cci_write(thp7312->regmap, THP7312_REG_VIDEO_FRAME_RATE_MODE,
-+		  rate->reg_frame_rate_mode, &ret);
-+	cci_write(thp7312->regmap, THP7312_REG_JPEG_COMPRESSION_FACTOR, 0x5e,
-+		  &ret);
-+	cci_write(thp7312->regmap, THP7312_REG_SET_DRIVING_MODE, 0x01, &ret);
-+
-+	if (ret)
-+		return ret;
-+
-+	ret = thp7312_read_poll_timeout(thp7312, THP7312_REG_DRIVING_MODE_STATUS,
-+					val, val == 0x01, 20000, 100000);
-+	if (ret < 0) {
-+		dev_err(dev, "%s(): failed\n", __func__);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int thp7312_set_framefmt(struct thp7312_device *thp7312,
-+				struct v4l2_mbus_framefmt *format)
-+{
-+	u8 val;
-+
-+	switch (format->code) {
-+	case MEDIA_BUS_FMT_UYVY8_1X16:
-+		/* YUV422, UYVY */
-+		val = THP7312_REG_SET_OUTPUT_COLOR_UYVY;
-+		break;
-+	case MEDIA_BUS_FMT_YUYV8_1X16:
-+		/* YUV422, YUYV */
-+		val = THP7312_REG_SET_OUTPUT_COLOR_YUY2;
-+		break;
-+	default:
-+		/* Should never happen */
-+		return -EINVAL;
-+	}
-+
-+	return cci_write(thp7312->regmap,
-+			 THP7312_REG_SET_OUTPUT_COLOR_COMPRESSION, val, NULL);
-+}
-+
-+static int thp7312_init_mode(struct thp7312_device *thp7312,
-+			     struct v4l2_subdev_state *sd_state)
-+{
-+	struct v4l2_mbus_framefmt *fmt;
-+	int ret;
-+
-+	fmt = v4l2_subdev_state_get_format(sd_state, 0);
-+
-+	ret = thp7312_set_framefmt(thp7312, fmt);
-+	if (ret)
-+		return ret;
-+
-+	return thp7312_change_mode(thp7312, thp7312->current_mode,
-+				   thp7312->current_rate);
-+}
-+
-+static int thp7312_stream_enable(struct thp7312_device *thp7312, bool enable)
-+{
-+	return cci_write(thp7312->regmap, THP7312_REG_SET_OUTPUT_ENABLE,
-+			 enable ? THP7312_OUTPUT_ENABLE : THP7312_OUTPUT_DISABLE,
-+			 NULL);
-+}
-+
-+static int thp7312_check_status_stream_mode(struct thp7312_device *thp7312)
-+{
-+	struct device *dev = thp7312->dev;
-+	u64 status = 0;
-+	int ret;
-+
-+	while (status != 0x80) {
-+		ret = cci_read(thp7312->regmap, THP7312_REG_CAMERA_STATUS,
-+			       &status, NULL);
-+		if (ret)
-+			return ret;
-+
-+		if (status == 0x80) {
-+			dev_dbg(dev, "Camera initialization done\n");
-+			return 0;
-+		}
-+
-+		if (status != 0x00) {
-+			dev_err(dev, "Invalid camera status %llx\n", status);
-+			return -EINVAL;
-+		}
-+
-+		dev_dbg(dev, "Camera initializing...\n");
-+		usleep_range(70000, 80000);
-+	}
-+
-+	return 0;
-+}
-+
-+static void thp7312_reset(struct thp7312_device *thp7312)
-+{
-+	unsigned long rate;
-+
-+	gpiod_set_value_cansleep(thp7312->reset_gpio, 1);
-+
-+	/*
-+	 * The minimum reset duration is 8 clock cycles, make it 10 to provide
-+	 * a safety margin.
-+	 */
-+	rate = clk_get_rate(thp7312->iclk);
-+	fsleep(DIV_ROUND_UP(10 * USEC_PER_SEC, rate));
-+
-+	gpiod_set_value_cansleep(thp7312->reset_gpio, 0);
-+
-+	/*
-+	 * TODO: The documentation states that the device needs 2ms to
-+	 * initialize after reset is deasserted. It then proceeds to load the
-+	 * firmware from the flash memory, which takes an unspecified amount of
-+	 * time. Check if this delay could be reduced.
-+	 */
-+	fsleep(300000);
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Power Management
-+ */
-+
-+static void __thp7312_power_off(struct thp7312_device *thp7312)
-+{
-+	regulator_bulk_disable(ARRAY_SIZE(thp7312->supplies), thp7312->supplies);
-+	clk_disable_unprepare(thp7312->iclk);
-+}
-+
-+static void thp7312_power_off(struct thp7312_device *thp7312)
-+{
-+	__thp7312_power_off(thp7312);
-+}
-+
-+static int __thp7312_power_on(struct thp7312_device *thp7312)
-+{
-+	struct device *dev = thp7312->dev;
-+	int ret;
-+
-+	ret = regulator_bulk_enable(ARRAY_SIZE(thp7312->supplies),
-+				    thp7312->supplies);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = clk_prepare_enable(thp7312->iclk);
-+	if (ret < 0) {
-+		dev_err(dev, "clk prepare enable failed\n");
-+		regulator_bulk_disable(ARRAY_SIZE(thp7312->supplies),
-+				       thp7312->supplies);
-+		return ret;
-+	}
-+
-+	/*
-+	 * We cannot assume that turning off and on again will reset, so do a
-+	 * software reset on power up.
-+	 */
-+	thp7312_reset(thp7312);
-+
-+	return 0;
-+}
-+
-+static int thp7312_power_on(struct thp7312_device *thp7312)
-+{
-+	int ret;
-+
-+	ret = __thp7312_power_on(thp7312);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = thp7312_check_status_stream_mode(thp7312);
-+	if (ret < 0)
-+		goto error;
-+
-+	ret = thp7312_set_mipi_lanes(thp7312);
-+	if (ret)
-+		goto error;
-+
-+	return 0;
-+
-+error:
-+	thp7312_power_off(thp7312);
-+	return ret;
-+}
-+
-+static int __maybe_unused thp7312_pm_runtime_suspend(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
-+
-+	thp7312_power_off(thp7312);
-+
-+	thp7312->ctrls_applied = false;
-+
-+	return 0;
-+}
-+
-+static int __maybe_unused thp7312_pm_runtime_resume(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
-+
-+	return thp7312_power_on(thp7312);
-+}
-+
-+static const struct dev_pm_ops thp7312_pm_ops = {
-+	SET_RUNTIME_PM_OPS(thp7312_pm_runtime_suspend,
-+			   thp7312_pm_runtime_resume, NULL)
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * V4L2 Subdev Operations
-+ */
-+
-+static bool thp7312_find_bus_code(u32 code)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(thp7312_colour_fmts); ++i) {
-+		if (thp7312_colour_fmts[i] == code)
-+			return true;
-+	}
-+
-+	return false;
-+}
-+
-+static const struct thp7312_mode_info *
-+thp7312_find_mode(unsigned int width, unsigned int height, bool nearest)
-+{
-+	const struct thp7312_mode_info *mode;
-+
-+	mode = v4l2_find_nearest_size(thp7312_mode_info_data,
-+				      ARRAY_SIZE(thp7312_mode_info_data),
-+				      width, height, width, height);
-+
-+	if (!nearest && (mode->width != width || mode->height != height))
-+		return NULL;
-+
-+	return mode;
-+}
-+
-+static void thp7312_set_frame_rate(struct thp7312_device *thp7312,
-+				   const struct thp7312_frame_rate *rate)
-+{
-+	thp7312->link_freq = rate->link_freq;
-+	thp7312->current_rate = rate;
-+}
-+
-+static int thp7312_enum_mbus_code(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	if (code->index >= ARRAY_SIZE(thp7312_colour_fmts))
-+		return -EINVAL;
-+
-+	code->code = thp7312_colour_fmts[code->index];
-+
-+	return 0;
-+}
-+
-+static int thp7312_enum_frame_size(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *sd_state,
-+				   struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	if (!thp7312_find_bus_code(fse->code))
-+		return -EINVAL;
-+
-+	if (fse->index >= ARRAY_SIZE(thp7312_mode_info_data))
-+		return -EINVAL;
-+
-+	fse->min_width = thp7312_mode_info_data[fse->index].width;
-+	fse->max_width = fse->min_width;
-+	fse->min_height = thp7312_mode_info_data[fse->index].height;
-+	fse->max_height = fse->min_height;
-+
-+	return 0;
-+}
-+
-+static int thp7312_enum_frame_interval(struct v4l2_subdev *sd,
-+				       struct v4l2_subdev_state *sd_state,
-+				       struct v4l2_subdev_frame_interval_enum *fie)
-+{
-+	const struct thp7312_frame_rate *rate;
-+	const struct thp7312_mode_info *mode;
-+	unsigned int index = fie->index;
-+
-+	if (!thp7312_find_bus_code(fie->code))
-+		return -EINVAL;
-+
-+	mode = thp7312_find_mode(fie->width, fie->height, false);
-+	if (!mode)
-+		return -EINVAL;
-+
-+	for (rate = mode->rates; rate->fps; ++rate, --index) {
-+		if (!index) {
-+			fie->interval.numerator = 1;
-+			fie->interval.denominator = rate->fps;
-+
-+			return 0;
-+		}
-+	}
-+
-+	return -EINVAL;
-+}
-+
-+static int thp7312_set_fmt(struct v4l2_subdev *sd,
-+			   struct v4l2_subdev_state *sd_state,
-+			   struct v4l2_subdev_format *format)
-+{
-+	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
-+	struct v4l2_mbus_framefmt *mbus_fmt = &format->format;
-+	struct v4l2_mbus_framefmt *fmt;
-+	const struct thp7312_mode_info *mode;
-+
-+	if (!thp7312_find_bus_code(mbus_fmt->code))
-+		mbus_fmt->code = thp7312_colour_fmts[0];
-+
-+	mode = thp7312_find_mode(mbus_fmt->width, mbus_fmt->height, true);
-+
-+	fmt = v4l2_subdev_state_get_format(sd_state, 0);
-+
-+	fmt->code = mbus_fmt->code;
-+	fmt->width = mode->width;
-+	fmt->height = mode->height;
-+	fmt->colorspace = V4L2_COLORSPACE_SRGB;
-+	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
-+	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
-+
-+	*mbus_fmt = *fmt;
-+
-+	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-+		thp7312->current_mode = mode;
-+		thp7312_set_frame_rate(thp7312, &mode->rates[0]);
-+	}
-+
-+	return 0;
-+}
-+
-+static int thp7312_g_frame_interval(struct v4l2_subdev *sd,
-+				    struct v4l2_subdev_frame_interval *fi)
-+{
-+	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
-+	struct v4l2_subdev_state *sd_state;
-+
-+	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
-+	fi->interval.numerator = 1;
-+	fi->interval.denominator = thp7312->current_rate->fps;
-+	v4l2_subdev_unlock_state(sd_state);
-+
-+	return 0;
-+}
-+
-+static int thp7312_s_frame_interval(struct v4l2_subdev *sd,
-+				    struct v4l2_subdev_frame_interval *fi)
-+{
-+	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
-+	const struct thp7312_mode_info *mode;
-+	const struct thp7312_frame_rate *best_rate = NULL;
-+	const struct thp7312_frame_rate *rate;
-+	struct v4l2_subdev_state *sd_state;
-+	unsigned int best_delta = UINT_MAX;
-+	unsigned int fps;
-+
-+	/* Avoid divisions by 0, pick the highest frame if the interval is 0. */
-+	fps = fi->interval.numerator
-+	    ? DIV_ROUND_CLOSEST(fi->interval.denominator, fi->interval.numerator)
-+	    : UINT_MAX;
-+
-+	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
-+
-+	mode = thp7312->current_mode;
-+
-+	for (rate = mode->rates; rate->fps && best_delta; ++rate) {
-+		unsigned int delta = abs(rate->fps - fps);
-+
-+		if (delta <= best_delta) {
-+			best_delta = delta;
-+			best_rate = rate;
-+		}
-+	}
-+
-+	thp7312_set_frame_rate(thp7312, best_rate);
-+
-+	v4l2_subdev_unlock_state(sd_state);
-+
-+	fi->interval.numerator = 1;
-+	fi->interval.denominator = best_rate->fps;
-+
-+	return 0;
-+}
-+
-+static int thp7312_s_stream(struct v4l2_subdev *sd, int enable)
-+{
-+	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
-+	struct v4l2_subdev_state *sd_state;
-+	int ret;
-+
-+	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
-+
-+	if (!enable) {
-+		thp7312_stream_enable(thp7312, false);
-+
-+		pm_runtime_mark_last_busy(thp7312->dev);
-+		pm_runtime_put_autosuspend(thp7312->dev);
-+
-+		v4l2_subdev_unlock_state(sd_state);
-+
-+		return 0;
-+	}
-+
-+	ret = pm_runtime_resume_and_get(thp7312->dev);
-+	if (ret)
-+		goto finish_unlock;
-+
-+	ret = thp7312_init_mode(thp7312, sd_state);
-+	if (ret)
-+		goto finish_pm;
-+
-+	if (!thp7312->ctrls_applied) {
-+		ret = __v4l2_ctrl_handler_setup(&thp7312->ctrl_handler);
-+		if (ret)
-+			goto finish_pm;
-+
-+		thp7312->ctrls_applied = true;
-+	}
-+
-+	ret = thp7312_stream_enable(thp7312, true);
-+	if (ret)
-+		goto finish_pm;
-+
-+	goto finish_unlock;
-+
-+finish_pm:
-+	pm_runtime_mark_last_busy(thp7312->dev);
-+	pm_runtime_put_autosuspend(thp7312->dev);
-+finish_unlock:
-+	v4l2_subdev_unlock_state(sd_state);
-+
-+	return ret;
-+}
-+
-+static int thp7312_init_cfg(struct v4l2_subdev *sd,
-+			    struct v4l2_subdev_state *sd_state)
-+{
-+	const struct thp7312_mode_info *default_mode = &thp7312_mode_info_data[0];
-+	struct v4l2_mbus_framefmt *fmt;
-+
-+	fmt = v4l2_subdev_state_get_format(sd_state, 0);
-+
-+	/*
-+	 * default init sequence initialize thp7312 to
-+	 * YUV422 YUYV VGA@30fps
-+	 */
-+	fmt->code = MEDIA_BUS_FMT_YUYV8_1X16;
-+	fmt->colorspace = V4L2_COLORSPACE_SRGB;
-+	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
-+	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
-+	fmt->width = default_mode->width;
-+	fmt->height = default_mode->height;
-+	fmt->field = V4L2_FIELD_NONE;
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_core_ops thp7312_core_ops = {
-+	.log_status = v4l2_ctrl_subdev_log_status,
-+	.subscribe_event = v4l2_ctrl_subdev_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
-+static const struct v4l2_subdev_video_ops thp7312_video_ops = {
-+	.g_frame_interval = thp7312_g_frame_interval,
-+	.s_frame_interval = thp7312_s_frame_interval,
-+	.s_stream = thp7312_s_stream,
-+};
-+
-+static const struct v4l2_subdev_pad_ops thp7312_pad_ops = {
-+	.enum_mbus_code = thp7312_enum_mbus_code,
-+	.init_cfg = thp7312_init_cfg,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = thp7312_set_fmt,
-+	.enum_frame_size = thp7312_enum_frame_size,
-+	.enum_frame_interval = thp7312_enum_frame_interval,
-+};
-+
-+static const struct v4l2_subdev_ops thp7312_subdev_ops = {
-+	.core = &thp7312_core_ops,
-+	.video = &thp7312_video_ops,
-+	.pad = &thp7312_pad_ops,
-+};
-+
-+/* -----------------------------------------------------------------------------
-+ * V4L2 Control Operations
-+ */
-+
-+static inline struct thp7312_device *to_thp7312_from_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	return container_of(ctrl->handler, struct thp7312_device, ctrl_handler);
-+}
-+
-+/* 0: 3000cm, 18: 8cm */
-+static const u16 thp7312_focus_values[] = {
-+	3000, 1000, 600, 450, 350,
-+	290,  240,  200, 170, 150,
-+	140,  130,  120, 110, 100,
-+	93,   87,   83,  80,
-+};
-+
-+static int thp7312_set_focus(struct thp7312_device *thp7312)
-+{
-+	enum thp7312_focus_state new_state = thp7312->focus_state;
-+	bool continuous;
-+	u8 af_control;
-+	u8 af_setting;
-+	int ret = 0;
-+
-+	/* Start by programming the manual focus position if it has changed. */
-+	if (thp7312->focus_absolute->is_new) {
-+		unsigned int value;
-+
-+		value = thp7312_focus_values[thp7312->focus_absolute->val];
-+
-+		ret = cci_write(thp7312->regmap,
-+				THP7312_REG_MANUAL_FOCUS_POSITION, value, NULL);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	/* Calculate the new focus state. */
-+	switch (thp7312->focus_state) {
-+	case THP7312_FOCUS_STATE_MANUAL:
-+	default:
-+		if (thp7312->focus_auto->val)
-+			new_state = THP7312_FOCUS_STATE_AUTO;
-+		else if (thp7312->focus_start->is_new)
-+			new_state = THP7312_FOCUS_STATE_ONESHOT;
-+		break;
-+
-+	case THP7312_FOCUS_STATE_AUTO:
-+		if (!thp7312->focus_auto->val)
-+			new_state = THP7312_FOCUS_STATE_LOCKED;
-+		break;
-+
-+	case THP7312_FOCUS_STATE_LOCKED:
-+		if (thp7312->focus_auto->val)
-+			new_state = THP7312_FOCUS_STATE_AUTO;
-+		else if (thp7312->focus_start->is_new)
-+			new_state = THP7312_FOCUS_STATE_ONESHOT;
-+		else if (thp7312->focus_absolute->is_new)
-+			new_state = THP7312_FOCUS_STATE_MANUAL;
-+		break;
-+
-+	case THP7312_FOCUS_STATE_ONESHOT:
-+		if (thp7312->focus_auto->val)
-+			new_state = THP7312_FOCUS_STATE_AUTO;
-+		else if (thp7312->focus_start->is_new)
-+			new_state = THP7312_FOCUS_STATE_ONESHOT;
-+		else if (thp7312->focus_absolute->is_new)
-+			new_state = THP7312_FOCUS_STATE_MANUAL;
-+		break;
-+	}
-+
-+	/*
-+	 * If neither the state nor the focus method has changed, and no new
-+	 * one-shot focus is requested, there's nothing new to program to the
-+	 * hardware.
-+	 */
-+	if (thp7312->focus_state == new_state &&
-+	    !thp7312->focus_method->is_new && !thp7312->focus_start->is_new)
-+		return 0;
-+
-+	continuous = new_state == THP7312_FOCUS_STATE_MANUAL ||
-+		     new_state == THP7312_FOCUS_STATE_ONESHOT;
-+
-+	switch (thp7312->focus_method->val) {
-+	case THP7312_FOCUS_METHOD_CONTRAST:
-+	default:
-+		af_setting = continuous
-+			   ? THP7312_REG_AF_SETTING_CONTINUOUS_CONTRAST
-+			   : THP7312_REG_AF_SETTING_ONESHOT_CONTRAST;
-+		break;
-+	case THP7312_FOCUS_METHOD_PDAF:
-+		af_setting = continuous
-+			   ? THP7312_REG_AF_SETTING_CONTINUOUS_PDAF
-+			   : THP7312_REG_AF_SETTING_ONESHOT_PDAF;
-+		break;
-+	case THP7312_FOCUS_METHOD_HYBRID:
-+		af_setting = continuous
-+			   ? THP7312_REG_AF_SETTING_CONTINUOUS_HYBRID
-+			   : THP7312_REG_AF_SETTING_ONESHOT_HYBRID;
-+		break;
-+	}
-+
-+	switch (new_state) {
-+	case THP7312_FOCUS_STATE_MANUAL:
-+	default:
-+		af_control = THP7312_REG_AF_CONTROL_MANUAL;
-+		break;
-+	case THP7312_FOCUS_STATE_AUTO:
-+	case THP7312_FOCUS_STATE_ONESHOT:
-+		af_control = THP7312_REG_AF_CONTROL_AF;
-+		break;
-+	case THP7312_FOCUS_STATE_LOCKED:
-+		af_control = THP7312_REG_AF_CONTROL_LOCK;
-+		break;
-+	}
-+
-+	cci_write(thp7312->regmap, THP7312_REG_AF_SETTING, af_setting, &ret);
-+
-+	if (new_state == THP7312_FOCUS_STATE_MANUAL &&
-+	    (thp7312->focus_state == THP7312_FOCUS_STATE_AUTO ||
-+	     thp7312->focus_state == THP7312_FOCUS_STATE_ONESHOT)) {
-+		/* When switching to manual state, lock AF first. */
-+		cci_write(thp7312->regmap, THP7312_REG_AF_CONTROL,
-+			  THP7312_REG_AF_CONTROL_LOCK, &ret);
-+	}
-+
-+	cci_write(thp7312->regmap, THP7312_REG_AF_CONTROL, af_control, &ret);
-+
-+	if (ret)
-+		return ret;
-+
-+	thp7312->focus_state = new_state;
-+
-+	return 0;
-+}
-+
-+static int thp7312_s_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct thp7312_device *thp7312 = to_thp7312_from_ctrl(ctrl);
-+	int ret = 0;
-+	u8 value;
-+
-+	if (ctrl->flags & V4L2_CTRL_FLAG_INACTIVE)
-+		return -EINVAL;
-+
-+	if (!pm_runtime_get_if_active(thp7312->dev, true))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_BRIGHTNESS:
-+		cci_write(thp7312->regmap, THP7312_REG_BRIGHTNESS,
-+			  ctrl->val + 10, &ret);
-+		break;
-+
-+	case V4L2_CID_THP7312_LOW_LIGHT_COMPENSATION:
-+		/* 0 = Auto adjust frame rate, 1 = Fix frame rate */
-+		cci_write(thp7312->regmap, THP7312_REG_AE_FIX_FRAME_RATE,
-+			  ctrl->val ? 0 : 1, &ret);
-+		break;
-+
-+	case V4L2_CID_FOCUS_AUTO:
-+	case V4L2_CID_FOCUS_ABSOLUTE:
-+	case V4L2_CID_AUTO_FOCUS_START:
-+	case V4L2_CID_THP7312_AUTO_FOCUS_METHOD:
-+		ret = thp7312_set_focus(thp7312);
-+		break;
-+
-+	case V4L2_CID_HFLIP:
-+	case V4L2_CID_VFLIP:
-+		value = (thp7312->hflip->val ? THP7312_REG_FLIP_MIRROR_MIRROR : 0)
-+		      | (thp7312->vflip->val ? THP7312_REG_FLIP_MIRROR_FLIP : 0);
-+
-+		cci_write(thp7312->regmap, THP7312_REG_FLIP_MIRROR, value, &ret);
-+		break;
-+
-+	case V4L2_CID_THP7312_NOISE_REDUCTION_AUTO:
-+	case V4L2_CID_THP7312_NOISE_REDUCTION_ABSOLUTE:
-+		value = thp7312->noise_reduction_auto->val ? 0
-+		      : THP7312_REG_NOISE_REDUCTION_FIXED |
-+			thp7312->noise_reduction_absolute->val;
-+
-+		cci_write(thp7312->regmap, THP7312_REG_NOISE_REDUCTION, value,
-+			  &ret);
-+		break;
-+
-+	case V4L2_CID_AUTO_WHITE_BALANCE:
-+		value = ctrl->val ? THP7312_WB_MODE_AUTO : THP7312_WB_MODE_MANUAL;
-+
-+		cci_write(thp7312->regmap, THP7312_REG_WB_MODE, value, &ret);
-+		break;
-+
-+	case V4L2_CID_RED_BALANCE:
-+		cci_write(thp7312->regmap, THP7312_REG_MANUAL_WB_RED_GAIN,
-+			  ctrl->val, &ret);
-+		break;
-+
-+	case V4L2_CID_BLUE_BALANCE:
-+		cci_write(thp7312->regmap, THP7312_REG_MANUAL_WB_BLUE_GAIN,
-+			  ctrl->val, &ret);
-+		break;
-+
-+	case V4L2_CID_AUTO_EXPOSURE_BIAS:
-+		cci_write(thp7312->regmap, THP7312_REG_AE_EXPOSURE_COMPENSATION,
-+			  ctrl->val, &ret);
-+		break;
-+
-+	case V4L2_CID_POWER_LINE_FREQUENCY:
-+		if (ctrl->val == V4L2_CID_POWER_LINE_FREQUENCY_60HZ) {
-+			value = THP7312_AE_FLICKER_MODE_60;
-+		} else if (ctrl->val == V4L2_CID_POWER_LINE_FREQUENCY_50HZ) {
-+			value = THP7312_AE_FLICKER_MODE_50;
-+		} else {
-+			if (thp7312->fw_version == THP7312_FW_VERSION(40, 3)) {
-+				/* THP7312_AE_FLICKER_MODE_DISABLE is not supported */
-+				value = THP7312_AE_FLICKER_MODE_50;
-+			} else {
-+				value = THP7312_AE_FLICKER_MODE_DISABLE;
-+			}
-+		}
-+
-+		cci_write(thp7312->regmap, THP7312_REG_AE_FLICKER_MODE,
-+			  value, &ret);
-+		break;
-+
-+	case V4L2_CID_SATURATION:
-+		cci_write(thp7312->regmap, THP7312_REG_SATURATION,
-+			  ctrl->val, &ret);
-+		break;
-+
-+	case V4L2_CID_CONTRAST:
-+		cci_write(thp7312->regmap, THP7312_REG_CONTRAST,
-+			  ctrl->val, &ret);
-+		break;
-+
-+	case V4L2_CID_SHARPNESS:
-+		cci_write(thp7312->regmap, THP7312_REG_SHARPNESS,
-+			  ctrl->val, &ret);
-+		break;
-+
-+	default:
-+		break;
-+	}
-+
-+	pm_runtime_mark_last_busy(thp7312->dev);
-+	pm_runtime_put_autosuspend(thp7312->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops thp7312_ctrl_ops = {
-+	.s_ctrl = thp7312_s_ctrl,
-+};
-+
-+/*
-+ * Refer to Documentation/userspace-api/media/drivers/thp7312.rst for details.
-+ */
-+static const struct v4l2_ctrl_config thp7312_ctrl_focus_method_cdaf = {
-+	.ops = &thp7312_ctrl_ops,
-+	.id = V4L2_CID_THP7312_AUTO_FOCUS_METHOD,
-+	.name = "Auto-Focus Method",
-+	.type = V4L2_CTRL_TYPE_INTEGER,
-+	.min = THP7312_FOCUS_METHOD_CONTRAST,
-+	.def = THP7312_FOCUS_METHOD_CONTRAST,
-+	.max = THP7312_FOCUS_METHOD_CONTRAST,
-+	.step = 1,
-+};
-+
-+static const struct v4l2_ctrl_config thp7312_ctrl_focus_method_pdaf = {
-+	.ops = &thp7312_ctrl_ops,
-+	.id = V4L2_CID_THP7312_AUTO_FOCUS_METHOD,
-+	.name = "Auto-Focus Method",
-+	.type = V4L2_CTRL_TYPE_INTEGER,
-+	.min = THP7312_FOCUS_METHOD_CONTRAST,
-+	.def = THP7312_FOCUS_METHOD_HYBRID,
-+	.max = THP7312_FOCUS_METHOD_HYBRID,
-+	.step = 1,
-+};
-+
-+static const struct v4l2_ctrl_config thp7312_v4l2_ctrls_custom[] = {
-+	{
-+		.ops = &thp7312_ctrl_ops,
-+		.id = V4L2_CID_THP7312_LOW_LIGHT_COMPENSATION,
-+		.name = "Low Light Compensation",
-+		.type = V4L2_CTRL_TYPE_BOOLEAN,
-+		.min = 0,
-+		.def = 1,
-+		.max = 1,
-+		.step = 1,
-+	}, {
-+		.ops = &thp7312_ctrl_ops,
-+		.id = V4L2_CID_THP7312_NOISE_REDUCTION_AUTO,
-+		.name = "Noise Reduction Auto",
-+		.type = V4L2_CTRL_TYPE_BOOLEAN,
-+		.min = 0,
-+		.def = 1,
-+		.max = 1,
-+		.step = 1,
-+	}, {
-+		.ops = &thp7312_ctrl_ops,
-+		.id = V4L2_CID_THP7312_NOISE_REDUCTION_ABSOLUTE,
-+		.name = "Noise Reduction Level",
-+		.type = V4L2_CTRL_TYPE_INTEGER,
-+		.min = 0,
-+		.def = 0,
-+		.max = 10,
-+		.step = 1,
-+	},
-+};
-+
-+static const s64 exp_bias_qmenu[] = {
-+	-2000, -1667, -1333, -1000, -667, -333, 0, 333, 667, 1000, 1333, 1667, 2000
-+};
-+
-+static int thp7312_init_controls(struct thp7312_device *thp7312)
-+{
-+	struct v4l2_ctrl_handler *hdl = &thp7312->ctrl_handler;
-+	struct device *dev = thp7312->dev;
-+	struct v4l2_fwnode_device_properties props;
-+	struct v4l2_ctrl *link_freq;
-+	unsigned int num_controls;
-+	unsigned int i;
-+	u8 af_support;
-+	int ret;
-+
-+	/*
-+	 * Check what auto-focus methods the connected sensor supports, if any.
-+	 * Firmwares before v90.03 didn't expose the AF_SUPPORT register,
-+	 * consider both CDAF and PDAF as supported in that case.
-+	 */
-+	if (thp7312->fw_version >= THP7312_FW_VERSION(90, 3)) {
-+		u64 val;
-+
-+		ret = cci_read(thp7312->regmap, THP7312_REG_AF_SUPPORT, &val,
-+			       NULL);
-+		if (ret)
-+			return ret;
-+
-+		af_support = val & (THP7312_AF_SUPPORT_PDAF |
-+				    THP7312_AF_SUPPORT_CONTRAST);
-+	} else {
-+		af_support = THP7312_AF_SUPPORT_PDAF
-+			   | THP7312_AF_SUPPORT_CONTRAST;
-+	}
-+
-+	num_controls = 14 + ARRAY_SIZE(thp7312_v4l2_ctrls_custom)
-+		     + (af_support ? 4 : 0);
-+
-+	v4l2_ctrl_handler_init(hdl, num_controls);
-+
-+	if (af_support) {
-+		const struct v4l2_ctrl_config *af_method;
-+
-+		af_method = af_support & THP7312_AF_SUPPORT_PDAF
-+			  ? &thp7312_ctrl_focus_method_pdaf
-+			  : &thp7312_ctrl_focus_method_cdaf;
-+
-+		thp7312->focus_state = THP7312_FOCUS_STATE_MANUAL;
-+
-+		thp7312->focus_auto =
-+			v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops,
-+					  V4L2_CID_FOCUS_AUTO,
-+					  0, 1, 1, 1);
-+		thp7312->focus_absolute =
-+			v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops,
-+					  V4L2_CID_FOCUS_ABSOLUTE,
-+					  0, ARRAY_SIZE(thp7312_focus_values),
-+					  1, 0);
-+		thp7312->focus_method =
-+			v4l2_ctrl_new_custom(hdl, af_method, NULL);
-+		thp7312->focus_start =
-+			v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops,
-+					  V4L2_CID_AUTO_FOCUS_START,
-+					  1, 1, 1, 1);
-+
-+		v4l2_ctrl_cluster(4, &thp7312->focus_auto);
-+	}
-+
-+	v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops, V4L2_CID_AUTO_WHITE_BALANCE,
-+			  0, 1, 1, 1);
-+	/* 32: 1x, 255: 7.95x */
-+	v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops, V4L2_CID_RED_BALANCE,
-+			  32, 255, 1, 64);
-+	/* 32: 1x, 255: 7.95x */
-+	v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops, V4L2_CID_BLUE_BALANCE,
-+			  32, 255, 1, 50);
-+
-+	v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops, V4L2_CID_BRIGHTNESS,
-+			  -10, 10, 1, 0);
-+	v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops, V4L2_CID_SATURATION,
-+			  0, 31, 1, 10);
-+	v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops, V4L2_CID_CONTRAST,
-+			  0, 20, 1, 10);
-+	v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops, V4L2_CID_SHARPNESS,
-+			  0, 31, 1, 8);
-+
-+	thp7312->hflip = v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops,
-+					   V4L2_CID_HFLIP, 0, 1, 1, 0);
-+	thp7312->vflip = v4l2_ctrl_new_std(hdl, &thp7312_ctrl_ops,
-+					   V4L2_CID_VFLIP, 0, 1, 1, 0);
-+
-+	v4l2_ctrl_cluster(2, &thp7312->hflip);
-+
-+	v4l2_ctrl_new_int_menu(hdl, &thp7312_ctrl_ops,
-+			       V4L2_CID_AUTO_EXPOSURE_BIAS,
-+			       ARRAY_SIZE(exp_bias_qmenu) - 1,
-+			       ARRAY_SIZE(exp_bias_qmenu) / 2, exp_bias_qmenu);
-+
-+	v4l2_ctrl_new_std_menu(hdl, &thp7312_ctrl_ops,
-+			       V4L2_CID_POWER_LINE_FREQUENCY,
-+			       V4L2_CID_POWER_LINE_FREQUENCY_60HZ, 0,
-+			       V4L2_CID_POWER_LINE_FREQUENCY_50HZ);
-+
-+	link_freq = v4l2_ctrl_new_int_menu(hdl, &thp7312_ctrl_ops,
-+					   V4L2_CID_LINK_FREQ, 0, 0,
-+					   &thp7312->link_freq);
-+
-+	/* Set properties from fwnode (e.g. rotation, orientation). */
-+	ret = v4l2_fwnode_device_parse(dev, &props);
-+	if (ret) {
-+		dev_err(dev, "Failed to parse fwnode: %d\n", ret);
-+		goto error;
-+	}
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(hdl, &thp7312_ctrl_ops, &props);
-+	if (ret) {
-+		dev_err(dev, "Failed to create new v4l2 ctrl for fwnode properties: %d\n", ret);
-+		goto error;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(thp7312_v4l2_ctrls_custom); i++) {
-+		const struct v4l2_ctrl_config *ctrl_cfg =
-+			&thp7312_v4l2_ctrls_custom[i];
-+		struct v4l2_ctrl *ctrl;
-+
-+		ctrl = v4l2_ctrl_new_custom(hdl, ctrl_cfg, NULL);
-+
-+		if (ctrl_cfg->id == V4L2_CID_THP7312_NOISE_REDUCTION_AUTO)
-+			thp7312->noise_reduction_auto = ctrl;
-+		else if (ctrl_cfg->id == V4L2_CID_THP7312_NOISE_REDUCTION_ABSOLUTE)
-+			thp7312->noise_reduction_absolute = ctrl;
-+	}
-+
-+	v4l2_ctrl_cluster(2, &thp7312->noise_reduction_auto);
-+
-+	if (hdl->error) {
-+		dev_err(dev, "v4l2_ctrl_handler error\n");
-+		ret = hdl->error;
-+		goto error;
-+	}
-+
-+	link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	return ret;
-+
-+error:
-+	v4l2_ctrl_handler_free(hdl);
-+	return ret;
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Firmware Update
-+ */
-+
-+/*
-+ * The firmware data is made of 128kB of RAM firmware, followed by a
-+ * variable-size "header". Both are stored in flash memory.
-+ */
-+#define THP7312_FW_RAM_SIZE			(128 * 1024)
-+#define THP7312_FW_MIN_SIZE			(THP7312_FW_RAM_SIZE + 4)
-+#define THP7312_FW_MAX_SIZE			(THP7312_FW_RAM_SIZE + 64 * 1024)
-+
-+/*
-+ * Data is first uploaded to the THP7312 128kB SRAM, and then written to flash.
-+ * The SRAM is exposed over I2C as 32kB banks, and up to 4kB of data can be
-+ * transferred in a single I2C write.
-+ */
-+#define THP7312_RAM_BANK_SIZE			(32 * 1024)
-+#define THP7312_FW_DOWNLOAD_UNIT		(4 * 1024)
-+
-+#define THP7312_FLASH_MEMORY_ERASE_TIMEOUT	40
-+
-+#define THP7312_FLASH_MAX_REG_READ_SIZE		10
-+#define THP7312_FLASH_MAX_REG_DATA_SIZE		10
-+
-+static const u8 thp7312_cmd_config_flash_mem_if[] = {
-+	0xd5, 0x18, 0x00, 0x00, 0x00, 0x80
-+};
-+
-+static const u8 thp7312_cmd_write_to_reg[] = {
-+	0xd5, 0x0c, 0x80, 0x00, 0x00, 0x00
-+};
-+
-+static const u8 thp7312_cmd_read_reg[] = {
-+	0xd5, 0x04
-+};
-+
-+/*
-+ * THP7312 Write data from RAM to Flash Memory
-+ * Command ID FF700F
-+ * Format: FF700F AA AA AA BB BB BB
-+ * AA AA AA: destination start address
-+ * BB BB BB: (write size - 1)
-+ * Source address always starts from 0
-+ */
-+static const u8 thp7312_cmd_write_ram_to_flash[] = { 0xff, 0x70, 0x0f };
-+
-+/*
-+ * THP7312 Calculate CRC command
-+ * Command ID: FF70 09
-+ * Format: FF70 09 AA AA AA BB BB BB
-+ * AA AA AA: Start address of calculation
-+ * BB BB BB: (calculate size - 1)
-+ */
-+static const u8 thp7312_cmd_calc_crc[] = { 0xff, 0x70, 0x09 };
-+
-+static const u8 thp7312_jedec_rdid[] = { SPINOR_OP_RDID, 0x00, 0x00, 0x00 };
-+static const u8 thp7312_jedec_rdsr[] = { SPINOR_OP_RDSR, 0x00, 0x00, 0x00 };
-+static const u8 thp7312_jedec_wen[] = { SPINOR_OP_WREN };
-+
-+static int thp7312_read_firmware_version(struct thp7312_device *thp7312)
-+{
-+	u64 val = 0;
-+	int ret = 0;
-+	u8 major;
-+	u8 minor;
-+
-+	cci_read(thp7312->regmap, THP7312_REG_FIRMWARE_VERSION_1, &val, &ret);
-+	major = val;
-+
-+	cci_read(thp7312->regmap, THP7312_REG_FIRMWARE_VERSION_2, &val, &ret);
-+	minor = val;
-+
-+	thp7312->fw_version = THP7312_FW_VERSION(major, minor);
-+	return ret;
-+}
-+
-+static int thp7312_write_buf(struct thp7312_device *thp7312,
-+			     const u8 *write_buf, u16 write_size)
-+{
-+	struct i2c_client *client = to_i2c_client(thp7312->dev);
-+	int ret;
-+
-+	ret = i2c_master_send(client, write_buf, write_size);
-+	return ret >= 0 ? 0 : ret;
-+}
-+
-+static int __thp7312_flash_reg_write(struct thp7312_device *thp7312,
-+				     const u8 *write_buf, u16 write_size)
-+{
-+	struct device *dev = thp7312->dev;
-+	u8 temp_write_buf[THP7312_FLASH_MAX_REG_DATA_SIZE + 2];
-+	int ret;
-+
-+	if (write_size > THP7312_FLASH_MAX_REG_DATA_SIZE) {
-+		dev_err(dev, "%s: Write size error size = %d\n",
-+			__func__, write_size);
-+		return -EINVAL;
-+	}
-+
-+	ret = thp7312_write_buf(thp7312, thp7312_cmd_config_flash_mem_if,
-+				sizeof(thp7312_cmd_config_flash_mem_if));
-+	if (ret < 0) {
-+		dev_err(dev, "%s: Failed to config flash memory IF: %d\n",
-+			__func__, ret);
-+		return ret;
-+	}
-+
-+	temp_write_buf[0] = 0xd5;
-+	temp_write_buf[1] = 0x00;
-+	memcpy((temp_write_buf + 2), write_buf, write_size);
-+	ret = thp7312_write_buf(thp7312, temp_write_buf, write_size + 2);
-+	if (ret < 0)
-+		return ret;
-+
-+	thp7312_write_buf(thp7312, thp7312_cmd_write_to_reg,
-+			  sizeof(thp7312_cmd_write_to_reg));
-+
-+	return 0;
-+}
-+
-+static int __thp7312_flash_reg_read(struct thp7312_device *thp7312,
-+				    const u8 *write_buf, u16 write_size,
-+				    u8 *read_buf, u16 read_size)
-+{
-+	struct i2c_client *client = to_i2c_client(thp7312->dev);
-+	struct i2c_msg msgs[2];
-+	int ret;
-+
-+	ret = __thp7312_flash_reg_write(thp7312, write_buf, write_size);
-+	if (ret)
-+		return ret;
-+
-+	msgs[0].addr = client->addr;
-+	msgs[0].flags = 0;
-+	msgs[0].len = sizeof(thp7312_cmd_read_reg),
-+	msgs[0].buf = (u8 *)thp7312_cmd_read_reg;
-+
-+	msgs[1].addr = client->addr;
-+	msgs[1].flags = I2C_M_RD;
-+	msgs[1].len = read_size;
-+	msgs[1].buf = read_buf;
-+
-+	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-+	return ret >= 0 ? 0 : ret;
-+}
-+
-+#define thp7312_flash_reg_write(thp7312, wrbuf) \
-+	__thp7312_flash_reg_write(thp7312, wrbuf, sizeof(wrbuf))
-+
-+#define thp7312_flash_reg_read(thp7312, wrbuf, rdbuf) \
-+	__thp7312_flash_reg_read(thp7312, wrbuf, sizeof(wrbuf), \
-+				 rdbuf, sizeof(rdbuf))
-+
-+static enum fw_upload_err thp7312_fw_prepare_config(struct thp7312_device *thp7312)
-+{
-+	struct device *dev = thp7312->dev;
-+	int ret;
-+
-+	ret = cci_write(thp7312->regmap, THP7312_REG_FW_MEMORY_IO_SETTING,
-+			THP7312_FW_MEMORY_IO_GPIO0, NULL);
-+	if (ret) {
-+		dev_err(dev, "Failed to set flash memory I/O\n");
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+	}
-+
-+	/* Set max drivability. */
-+	ret = cci_write(thp7312->regmap, THP7312_REG_FW_DRIVABILITY, 0x00777777,
-+			NULL);
-+	if (ret) {
-+		dev_err(dev, "Failed to set drivability: %d\n", ret);
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+	}
-+
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+static enum fw_upload_err thp7312_fw_prepare_check(struct thp7312_device *thp7312)
-+{
-+	struct device *dev = thp7312->dev;
-+	u8 read_buf[3] = { 0 };
-+	int ret;
-+
-+	/* Get JEDEC ID */
-+	ret = thp7312_flash_reg_read(thp7312, thp7312_jedec_rdid, read_buf);
-+	if (ret) {
-+		dev_err(dev, "Failed to get JEDEC ID: %d\n", ret);
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+	}
-+
-+	dev_dbg(dev, "Flash Memory: JEDEC ID = 0x%x 0x%x 0x%x\n",
-+		read_buf[0], read_buf[1], read_buf[2]);
-+
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+static enum fw_upload_err thp7312_fw_prepare_reset(struct thp7312_device *thp7312)
-+{
-+	struct device *dev = thp7312->dev;
-+	int ret;
-+
-+	ret = cci_write(thp7312->regmap, THP7312_REG_FW_RESET_FLASH, 0x81, NULL);
-+	if (ret) {
-+		dev_err(dev, "Failed to reset flash memory: %d\n", ret);
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+	}
-+
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+/* TODO: Erase only the amount of blocks necessary */
-+static enum fw_upload_err thp7312_flash_erase(struct thp7312_device *thp7312)
-+{
-+	struct device *dev = thp7312->dev;
-+	u8 read_buf[1] = { 0 };
-+	unsigned int i;
-+	u8 block;
-+	int ret;
-+
-+	for (block = 0; block < 3; block++) {
-+		const u8 jedec_se[] = { SPINOR_OP_SE, block, 0x00, 0x00 };
-+
-+		ret = thp7312_flash_reg_write(thp7312, thp7312_jedec_wen);
-+		if (ret < 0) {
-+			dev_err(dev, "Failed to enable flash for writing\n");
-+			return FW_UPLOAD_ERR_RW_ERROR;
-+		}
-+
-+		ret = thp7312_flash_reg_write(thp7312, jedec_se);
-+		if (ret < 0) {
-+			dev_err(dev, "Failed to erase flash sector\n");
-+			return FW_UPLOAD_ERR_RW_ERROR;
-+		}
-+
-+		for (i = 0; i < THP7312_FLASH_MEMORY_ERASE_TIMEOUT; i++) {
-+			usleep_range(100000, 101000);
-+			thp7312_flash_reg_read(thp7312, thp7312_jedec_rdsr,
-+					       read_buf);
-+
-+			/* Check Busy bit. Busy == 0x0 means erase complete. */
-+			if (!(read_buf[0] & SR_WIP))
-+				break;
-+		}
-+
-+		if (i == THP7312_FLASH_MEMORY_ERASE_TIMEOUT)
-+			return FW_UPLOAD_ERR_TIMEOUT;
-+	}
-+
-+	thp7312_flash_reg_read(thp7312, thp7312_jedec_rdsr, read_buf);
-+
-+	/* Check WEL bit. */
-+	if (read_buf[0] & SR_WEL)
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+static enum fw_upload_err
-+thp7312_write_download_data_by_unit(struct thp7312_device *thp7312,
-+				    unsigned int addr, const u8 *data,
-+				    unsigned int size)
-+{
-+	struct device *dev = thp7312->dev;
-+	u8 *write_buf = thp7312->fw_write_buf;
-+	int ret;
-+
-+	dev_dbg(dev, "%s: addr = 0x%04x, data = 0x%p, size = %u\n",
-+		__func__, addr, data, size);
-+
-+	write_buf[0] = (addr >> 8) & 0xff;
-+	write_buf[1] = (addr >> 0) & 0xff;
-+	memcpy(&write_buf[2], data, size);
-+
-+	/*
-+	 * THP7312 Firmware download to RAM
-+	 * Command ID (address to download): 0x0000 - 0x7fff
-+	 * Format:: 0000 XX XX XX ........ XX
-+	 */
-+	ret = thp7312_write_buf(thp7312, write_buf, size + 2);
-+	if (ret < 0)
-+		dev_err(dev, "Unit transfer ERROR %s(): ret = %d\n", __func__, ret);
-+
-+	return ret >= 0 ? FW_UPLOAD_ERR_NONE : FW_UPLOAD_ERR_RW_ERROR;
-+}
-+
-+static enum fw_upload_err thp7312_fw_load_to_ram(struct thp7312_device *thp7312,
-+						 const u8 *data, u32 size)
-+{
-+	struct device *dev = thp7312->dev;
-+	enum fw_upload_err ret;
-+	unsigned int num_banks;
-+	unsigned int i, j;
-+
-+	num_banks = DIV_ROUND_UP(size, THP7312_RAM_BANK_SIZE);
-+
-+	dev_dbg(dev, "%s: loading %u bytes in SRAM (%u banks)\n", __func__,
-+		size, num_banks);
-+
-+	for (i = 0; i < num_banks; i++) {
-+		const u32 bank_addr = 0x10000000 | (i * THP7312_RAM_BANK_SIZE);
-+		unsigned int bank_size;
-+		unsigned int num_chunks;
-+
-+		ret = cci_write(thp7312->regmap, THP7312_REG_FW_DEST_BANK_ADDR,
-+				bank_addr, NULL);
-+		if (ret)
-+			return FW_UPLOAD_ERR_HW_ERROR;
-+
-+		bank_size = min_t(u32, size, THP7312_RAM_BANK_SIZE);
-+		num_chunks = DIV_ROUND_UP(bank_size, THP7312_FW_DOWNLOAD_UNIT);
-+
-+		dev_dbg(dev, "%s: loading %u bytes in SRAM bank %u (%u chunks)\n",
-+			__func__, bank_size, i, num_chunks);
-+
-+		for (j = 0 ; j < num_chunks; j++) {
-+			unsigned int chunk_addr;
-+			unsigned int chunk_size;
-+
-+			chunk_addr = j * THP7312_FW_DOWNLOAD_UNIT;
-+			chunk_size = min_t(u32, size, THP7312_FW_DOWNLOAD_UNIT);
-+
-+			ret = thp7312_write_download_data_by_unit(thp7312, chunk_addr,
-+								  data, chunk_size);
-+			if (ret != FW_UPLOAD_ERR_NONE) {
-+				dev_err(dev, "Unit transfer ERROR at bank transfer %s(): %d\n",
-+					__func__, j);
-+				return ret;
-+			}
-+
-+			data += chunk_size;
-+			size -= chunk_size;
-+		}
-+	}
-+
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+static enum fw_upload_err thp7312_fw_write_to_flash(struct thp7312_device *thp7312,
-+						    u32 dest, u32 write_size)
-+{
-+	u8 command[sizeof(thp7312_cmd_write_ram_to_flash) + 6];
-+	static const u32 cmd_size = sizeof(thp7312_cmd_write_ram_to_flash);
-+	u64 val;
-+	int ret;
-+
-+	memcpy(command, thp7312_cmd_write_ram_to_flash, cmd_size);
-+
-+	command[cmd_size] = (dest & 0xff0000) >> 16;
-+	command[cmd_size + 1] = (dest & 0x00ff00) >> 8;
-+	command[cmd_size + 2] = (dest & 0x0000ff);
-+	command[cmd_size + 3] = ((write_size - 1) & 0xff0000) >> 16;
-+	command[cmd_size + 4] = ((write_size - 1) & 0x00ff00) >> 8;
-+	command[cmd_size + 5] = ((write_size - 1) & 0x0000ff);
-+
-+	ret = thp7312_write_buf(thp7312, command, sizeof(command));
-+	if (ret < 0)
-+		return FW_UPLOAD_ERR_RW_ERROR;
-+
-+	usleep_range(8000000, 8100000);
-+
-+	ret = cci_read(thp7312->regmap, THP7312_REG_FW_VERIFY_RESULT, &val,
-+		       NULL);
-+	if (ret < 0)
-+		return FW_UPLOAD_ERR_RW_ERROR;
-+
-+	return val ?  FW_UPLOAD_ERR_HW_ERROR : FW_UPLOAD_ERR_NONE;
-+}
-+
-+static enum fw_upload_err thp7312_fw_check_crc(struct thp7312_device *thp7312,
-+					       const u8 *fw_data, u32 fw_size)
-+{
-+	struct device *dev = thp7312->dev;
-+	u16 header_size = fw_size - THP7312_FW_RAM_SIZE;
-+	u8 command[sizeof(thp7312_cmd_calc_crc) + 6];
-+	static const u32 cmd_size = sizeof(thp7312_cmd_calc_crc);
-+	u32 size = THP7312_FW_RAM_SIZE - 4;
-+	u32 fw_crc;
-+	u64 crc;
-+	int ret;
-+
-+	memcpy(command, thp7312_cmd_calc_crc, cmd_size);
-+
-+	command[cmd_size] = 0;
-+	command[cmd_size + 1] = (header_size >> 8) & 0xff;
-+	command[cmd_size + 2] = header_size & 0xff;
-+
-+	command[cmd_size + 3] = (size >> 16) & 0xff;
-+	command[cmd_size + 4] = (size >> 8) & 0xff;
-+	command[cmd_size + 5] = size & 0xff;
-+
-+	ret = thp7312_write_buf(thp7312, command, sizeof(command));
-+	if (ret < 0)
-+		return FW_UPLOAD_ERR_RW_ERROR;
-+
-+	usleep_range(2000000, 2100000);
-+
-+	fw_crc = get_unaligned_be32(&fw_data[fw_size - 4]);
-+
-+	ret = cci_read(thp7312->regmap, THP7312_REG_FW_CRC_RESULT, &crc, NULL);
-+	if (ret < 0)
-+		return FW_UPLOAD_ERR_RW_ERROR;
-+
-+	if (fw_crc != crc) {
-+		dev_err(dev, "CRC mismatch: firmware 0x%08x, flash 0x%08llx\n",
-+			fw_crc, crc);
-+		return FW_UPLOAD_ERR_HW_ERROR;
-+	}
-+
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+static enum fw_upload_err thp7312_fw_prepare(struct fw_upload *fw_upload,
-+					     const u8 *data, u32 size)
-+{
-+	struct thp7312_device *thp7312 = fw_upload->dd_handle;
-+	struct device *dev = thp7312->dev;
-+	enum fw_upload_err ret;
-+
-+	mutex_lock(&thp7312->fw_lock);
-+	thp7312->fw_cancel = false;
-+	mutex_unlock(&thp7312->fw_lock);
-+
-+	if (size < THP7312_FW_MIN_SIZE || size > THP7312_FW_MAX_SIZE) {
-+		dev_err(dev, "%s: Invalid firmware size %d; must be between %d and %d\n",
-+			__func__, size, THP7312_FW_MIN_SIZE, THP7312_FW_MAX_SIZE);
-+		return FW_UPLOAD_ERR_INVALID_SIZE;
-+	}
-+
-+	ret = thp7312_fw_prepare_config(thp7312);
-+	if (ret != FW_UPLOAD_ERR_NONE)
-+		return ret;
-+
-+	ret = thp7312_fw_prepare_check(thp7312);
-+	if (ret != FW_UPLOAD_ERR_NONE)
-+		return ret;
-+
-+	ret = thp7312_fw_prepare_reset(thp7312);
-+	if (ret != FW_UPLOAD_ERR_NONE)
-+		return ret;
-+
-+	mutex_lock(&thp7312->fw_lock);
-+	ret = thp7312->fw_cancel ? FW_UPLOAD_ERR_CANCELED : FW_UPLOAD_ERR_NONE;
-+	mutex_unlock(&thp7312->fw_lock);
-+
-+	return ret;
-+}
-+
-+static enum fw_upload_err thp7312_fw_write(struct fw_upload *fw_upload,
-+					   const u8 *data, u32 offset,
-+					   u32 size, u32 *written)
-+{
-+	struct thp7312_device *thp7312 = fw_upload->dd_handle;
-+	struct device *dev = thp7312->dev;
-+	u16 header_size = size - THP7312_FW_RAM_SIZE;
-+	enum fw_upload_err ret;
-+
-+	mutex_lock(&thp7312->fw_lock);
-+	if (thp7312->fw_cancel)
-+		return FW_UPLOAD_ERR_CANCELED;
-+	mutex_unlock(&thp7312->fw_lock);
-+
-+	ret = thp7312_flash_erase(thp7312);
-+	if (ret != FW_UPLOAD_ERR_NONE)
-+		return ret;
-+
-+	ret = thp7312_fw_load_to_ram(thp7312, data, THP7312_FW_RAM_SIZE);
-+	if (ret != FW_UPLOAD_ERR_NONE)
-+		return ret;
-+
-+	ret = thp7312_fw_write_to_flash(thp7312, 0, 0x1ffff);
-+	if (ret != FW_UPLOAD_ERR_NONE)
-+		return ret;
-+
-+	ret = thp7312_fw_load_to_ram(thp7312, data + THP7312_FW_RAM_SIZE, header_size);
-+	if (ret != FW_UPLOAD_ERR_NONE)
-+		return ret;
-+
-+	ret = thp7312_fw_write_to_flash(thp7312, 0x20000, header_size - 1);
-+	if (ret != FW_UPLOAD_ERR_NONE)
-+		return ret;
-+
-+	ret = thp7312_fw_check_crc(thp7312, data, size);
-+	if (ret != FW_UPLOAD_ERR_NONE)
-+		return ret;
-+
-+	dev_info(dev, "Successfully wrote firmware\n");
-+
-+	*written = size;
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+static enum fw_upload_err thp7312_fw_poll_complete(struct fw_upload *fw_upload)
-+{
-+	return FW_UPLOAD_ERR_NONE;
-+}
-+
-+/*
-+ * This may be called asynchronously with an on-going update.  All other
-+ * functions are called sequentially in a single thread. To avoid contention on
-+ * register accesses, only update the cancel_request flag. Other functions will
-+ * check this flag and handle the cancel request synchronously.
-+ */
-+static void thp7312_fw_cancel(struct fw_upload *fw_upload)
-+{
-+	struct thp7312_device *thp7312 = fw_upload->dd_handle;
-+
-+	mutex_lock(&thp7312->fw_lock);
-+	thp7312->fw_cancel = true;
-+	mutex_unlock(&thp7312->fw_lock);
-+}
-+
-+static const struct fw_upload_ops thp7312_fw_upload_ops = {
-+	.prepare = thp7312_fw_prepare,
-+	.write = thp7312_fw_write,
-+	.poll_complete = thp7312_fw_poll_complete,
-+	.cancel = thp7312_fw_cancel,
-+};
-+
-+static int thp7312_register_flash_mode(struct thp7312_device *thp7312)
-+{
-+	struct device *dev = thp7312->dev;
-+	struct fw_upload *fwl;
-+	u64 val;
-+	int ret;
-+
-+	dev_info(dev, "booted in flash mode\n");
-+
-+	mutex_init(&thp7312->fw_lock);
-+
-+	thp7312->fw_write_buf = devm_kzalloc(dev, THP7312_FW_DOWNLOAD_UNIT + 2,
-+					     GFP_KERNEL);
-+	if (!thp7312->fw_write_buf)
-+		return -ENOMEM;
-+
-+	ret = __thp7312_power_on(thp7312);
-+	if (ret < 0)
-+		return dev_err_probe(dev, ret, "Failed to power on\n");
-+
-+	ret = cci_read(thp7312->regmap, THP7312_REG_FW_STATUS, &val, NULL);
-+	if (ret) {
-+		dev_err_probe(dev, ret, "Camera status read failed\n");
-+		goto error;
-+	}
-+
-+	fwl = firmware_upload_register(THIS_MODULE, dev, "thp7312-firmware",
-+				       &thp7312_fw_upload_ops, thp7312);
-+	if (IS_ERR(fwl)) {
-+		ret = PTR_ERR(fwl);
-+		dev_err_probe(dev, ret, "Failed to register firmware upload\n");
-+		goto error;
-+	}
-+
-+	thp7312->fwl = fwl;
-+	return 0;
-+
-+error:
-+	__thp7312_power_off(thp7312);
-+	return ret;
-+}
-+
-+/* -----------------------------------------------------------------------------
-+ * Probe & Remove
-+ */
-+
-+static int thp7312_get_regulators(struct thp7312_device *thp7312)
-+{
-+	unsigned int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(thp7312->supplies); i++)
-+		thp7312->supplies[i].supply = thp7312_supply_name[i];
-+
-+	return devm_regulator_bulk_get(thp7312->dev,
-+				       ARRAY_SIZE(thp7312->supplies),
-+				       thp7312->supplies);
-+}
-+
-+static int thp7312_sensor_parse_dt(struct thp7312_device *thp7312,
-+				   struct fwnode_handle *node)
-+{
-+	struct device *dev = thp7312->dev;
-+	struct thp7312_sensor *sensor;
-+	const char *model;
-+	u8 data_lanes[4];
-+	u32 values[4];
-+	unsigned int i;
-+	u32 reg;
-+	int ret;
-+
-+	/* Retrieve the sensor index from the reg property. */
-+	ret = fwnode_property_read_u32(node, "reg", &reg);
-+	if (ret < 0) {
-+		dev_err(dev, "'reg' property missing in sensor node\n");
-+		return -EINVAL;
-+	}
-+
-+	if (reg >= ARRAY_SIZE(thp7312->sensors)) {
-+		dev_err(dev, "Out-of-bounds 'reg' value %u\n", reg);
-+		return -EINVAL;
-+	}
-+
-+	sensor = &thp7312->sensors[reg];
-+	if (sensor->info) {
-+		dev_err(dev, "Duplicate entry for sensor %u\n", reg);
-+		return -EINVAL;
-+	}
-+
-+	ret = fwnode_property_read_string(node, "thine,model", &model);
-+	if (ret < 0) {
-+		dev_err(dev, "'thine,model' property missing in sensor node\n");
-+		return -EINVAL;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(thp7312_sensor_info); i++) {
-+		const struct thp7312_sensor_info *info =
-+			&thp7312_sensor_info[i];
-+
-+		if (!strcmp(info->model, model)) {
-+			sensor->info = info;
-+			break;
-+		}
-+	}
-+
-+	if (!sensor->info) {
-+		dev_err(dev, "Unsupported sensor model %s\n", model);
-+		return -EINVAL;
-+	}
-+
-+	ret = fwnode_property_read_u32_array(node, "data-lanes", values,
-+					     ARRAY_SIZE(values));
-+	if (ret < 0) {
-+		dev_err(dev, "Failed to read property data-lanes: %d\n", ret);
-+		return ret;
-+	}
-+
-+	for (i = 0; i < ARRAY_SIZE(data_lanes); ++i)
-+		data_lanes[i] = values[i];
-+
-+	ret = thp7312_map_data_lanes(&sensor->lane_remap, data_lanes,
-+				     ARRAY_SIZE(data_lanes));
-+	if (ret) {
-+		dev_err(dev, "Invalid sensor@%u data-lanes value\n", reg);
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int thp7312_parse_dt(struct thp7312_device *thp7312)
-+{
-+	struct v4l2_fwnode_endpoint ep = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY,
-+	};
-+	struct device *dev = thp7312->dev;
-+	struct fwnode_handle *endpoint;
-+	struct fwnode_handle *sensors;
-+	unsigned int num_sensors = 0;
-+	struct fwnode_handle *node;
-+	int ret;
-+
-+	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-+	if (!endpoint)
-+		return dev_err_probe(dev, -EINVAL, "Endpoint node not found\n");
-+
-+	ret = v4l2_fwnode_endpoint_parse(endpoint, &ep);
-+	fwnode_handle_put(endpoint);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Could not parse endpoint\n");
-+
-+	ret = thp7312_map_data_lanes(&thp7312->lane_remap,
-+				     ep.bus.mipi_csi2.data_lanes,
-+				     ep.bus.mipi_csi2.num_data_lanes);
-+	if (ret) {
-+		dev_err(dev, "Invalid data-lanes value\n");
-+		return ret;
-+	}
-+
-+	/*
-+	 * The thine,boot-mode property is optional and default to
-+	 * THP7312_BOOT_MODE_SPI_MASTER (1).
-+	 */
-+	thp7312->boot_mode = THP7312_BOOT_MODE_SPI_MASTER;
-+	ret = device_property_read_u32(dev, "thine,boot-mode",
-+				       &thp7312->boot_mode);
-+	if (ret && ret != -EINVAL)
-+		return dev_err_probe(dev, ret, "Property '%s' is invalid\n",
-+				     "thine,boot-mode");
-+
-+	if (thp7312->boot_mode != THP7312_BOOT_MODE_2WIRE_SLAVE &&
-+	    thp7312->boot_mode != THP7312_BOOT_MODE_SPI_MASTER)
-+		return dev_err_probe(dev, -EINVAL, "Invalid '%s' value %u\n",
-+				     "thine,boot-mode", thp7312->boot_mode);
-+
-+	/* Sensors */
-+	sensors = device_get_named_child_node(dev, "sensors");
-+	if (!sensors) {
-+		dev_err(dev, "'sensors' child node not found\n");
-+		return -EINVAL;
-+	}
-+
-+	fwnode_for_each_available_child_node(sensors, node) {
-+		if (fwnode_name_eq(node, "sensor")) {
-+			if (!thp7312_sensor_parse_dt(thp7312, node))
-+				num_sensors++;
-+		}
-+	}
-+
-+	fwnode_handle_put(sensors);
-+
-+	if (!num_sensors) {
-+		dev_err(dev, "No sensor found\n");
-+		return -EINVAL;
-+	}
-+
-+	return 0;
-+}
-+
-+static int thp7312_probe(struct i2c_client *client)
-+{
-+	struct device *dev = &client->dev;
-+	struct v4l2_subdev_state *sd_state;
-+	struct thp7312_device *thp7312;
-+	int ret;
-+
-+	thp7312 = devm_kzalloc(dev, sizeof(*thp7312), GFP_KERNEL);
-+	if (!thp7312)
-+		return -ENOMEM;
-+
-+	thp7312->dev = dev;
-+
-+	thp7312->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(thp7312->regmap))
-+		return dev_err_probe(dev, PTR_ERR(thp7312->regmap),
-+				     "Unable to initialize I2C\n");
-+
-+	ret = thp7312_parse_dt(thp7312);
-+	if (ret < 0)
-+		return ret;
-+
-+	ret = thp7312_get_regulators(thp7312);
-+	if (ret)
-+		return dev_err_probe(dev, ret, "Failed to get regulators\n");
-+
-+	thp7312->iclk = devm_clk_get(dev, NULL);
-+	if (IS_ERR(thp7312->iclk))
-+		return dev_err_probe(dev, PTR_ERR(thp7312->iclk),
-+				     "Failed to get iclk\n");
-+
-+	thp7312->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_HIGH);
-+	if (IS_ERR(thp7312->reset_gpio))
-+		return dev_err_probe(dev, PTR_ERR(thp7312->reset_gpio),
-+				     "Failed to get reset gpio\n");
-+
-+	if (thp7312->boot_mode == THP7312_BOOT_MODE_2WIRE_SLAVE)
-+		return thp7312_register_flash_mode(thp7312);
-+
-+	v4l2_i2c_subdev_init(&thp7312->sd, client, &thp7312_subdev_ops);
-+	thp7312->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
-+	thp7312->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	thp7312->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+
-+	ret = media_entity_pads_init(&thp7312->sd.entity, 1, &thp7312->pad);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * Enable power management. The driver supports runtime PM, but needs to
-+	 * work when runtime PM is disabled in the kernel. To that end, power
-+	 * the device manually here.
-+	 */
-+	ret = thp7312_power_on(thp7312);
-+	if (ret)
-+		goto err_entity_cleanup;
-+
-+	ret = thp7312_read_firmware_version(thp7312);
-+	if (ret < 0) {
-+		dev_err(dev, "Camera is not found\n");
-+		goto err_power_off;
-+	}
-+
-+	ret = thp7312_init_controls(thp7312);
-+	if (ret) {
-+		dev_err(dev, "Failed to initialize controls\n");
-+		goto err_power_off;
-+	}
-+
-+	thp7312->sd.ctrl_handler = &thp7312->ctrl_handler;
-+	thp7312->sd.state_lock = thp7312->ctrl_handler.lock;
-+
-+	ret = v4l2_subdev_init_finalize(&thp7312->sd);
-+	if (ret < 0) {
-+		dev_err(dev, "Subdev active state initialization failed\n");
-+		goto err_free_ctrls;
-+	}
-+
-+	sd_state = v4l2_subdev_lock_and_get_active_state(&thp7312->sd);
-+	thp7312->current_mode = &thp7312_mode_info_data[0];
-+	thp7312_set_frame_rate(thp7312, &thp7312->current_mode->rates[0]);
-+	v4l2_subdev_unlock_state(sd_state);
-+
-+	/*
-+	 * Enable runtime PM with autosuspend. As the device has been powered
-+	 * manually, mark it as active, and increase the usage count without
-+	 * resuming the device.
-+	 */
-+	pm_runtime_set_active(dev);
-+	pm_runtime_get_noresume(dev);
-+	pm_runtime_enable(dev);
-+	pm_runtime_set_autosuspend_delay(dev, 1000);
-+	pm_runtime_use_autosuspend(dev);
-+
-+	ret = v4l2_async_register_subdev(&thp7312->sd);
-+	if (ret < 0) {
-+		dev_err(dev, "Subdev registration failed\n");
-+		goto err_pm;
-+	}
-+
-+	/*
-+	 * Decrease the PM usage count. The device will get suspended after the
-+	 * autosuspend delay, turning the power off.
-+	 */
-+	pm_runtime_mark_last_busy(dev);
-+	pm_runtime_put_autosuspend(dev);
-+
-+	dev_info(dev, "THP7312 firmware version %02u.%02u\n",
-+		 THP7312_FW_VERSION_MAJOR(thp7312->fw_version),
-+		 THP7312_FW_VERSION_MINOR(thp7312->fw_version));
-+
-+	return 0;
-+
-+err_pm:
-+	pm_runtime_disable(dev);
-+	pm_runtime_put_noidle(dev);
-+	v4l2_subdev_cleanup(&thp7312->sd);
-+err_free_ctrls:
-+	v4l2_ctrl_handler_free(&thp7312->ctrl_handler);
-+err_power_off:
-+	thp7312_power_off(thp7312);
-+err_entity_cleanup:
-+	media_entity_cleanup(&thp7312->sd.entity);
-+	return ret;
-+}
-+
-+static void thp7312_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
-+
-+	if (thp7312->boot_mode == THP7312_BOOT_MODE_2WIRE_SLAVE) {
-+		firmware_upload_unregister(thp7312->fwl);
-+		__thp7312_power_off(thp7312);
-+		return;
-+	}
-+
-+	v4l2_async_unregister_subdev(&thp7312->sd);
-+	v4l2_subdev_cleanup(&thp7312->sd);
-+	media_entity_cleanup(&thp7312->sd.entity);
-+	v4l2_ctrl_handler_free(&thp7312->ctrl_handler);
-+
-+	/*
-+	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
-+	 * make sure to turn power off manually.
-+	 */
-+	pm_runtime_disable(thp7312->dev);
-+	if (!pm_runtime_status_suspended(thp7312->dev))
-+		thp7312_power_off(thp7312);
-+	pm_runtime_set_suspended(thp7312->dev);
-+}
-+
-+static const struct of_device_id thp7312_dt_ids[] = {
-+	{ .compatible = "thine,thp7312" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, thp7312_dt_ids);
-+
-+static struct i2c_driver thp7312_i2c_driver = {
-+	.driver = {
-+		.name  = "thp7312",
-+		.pm = &thp7312_pm_ops,
-+		.of_match_table	= thp7312_dt_ids,
-+	},
-+	.probe = thp7312_probe,
-+	.remove = thp7312_remove,
-+};
-+
-+module_i2c_driver(thp7312_i2c_driver);
-+
-+MODULE_DESCRIPTION("THP7312 MIPI Camera Subdev Driver");
-+MODULE_LICENSE("GPL");
--- 
-Regards,
+> +
+> +	gc0308->sd.state_lock = gc0308->hdl.lock;
+> +	gc0308->pad.flags = MEDIA_PAD_FL_SOURCE;
+> +	gc0308->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +	ret = media_entity_pads_init(&gc0308->sd.entity, 1, &gc0308->pad);
+> +	if (ret < 0)
+> +		goto fail_ctrl_hdl_cleanup;
+> +
+> +	ret = v4l2_subdev_init_finalize(&gc0308->sd);
+> +	if (ret)
+> +		goto fail_media_entity_cleanup;
 
-Laurent Pinchart
+Then you can call here:
+	ret = gc0308_init_controls(gc0308);
+	if (ret)
+		goto fail_media_entity_cleanup;
 
+This to keep probe function as clean a possible.
+
+> +
+> +	ret = gc0308_power_on(dev);
+> +	if (ret)
+> +		goto fail_subdev_cleanup;
+> +
+> +	if (gc0308->clk) {
+> +		clkrate = clk_get_rate(gc0308->clk);
+> +		if (clkrate != 24000000)
+> +			dev_warn(dev, "unexpected clock rate: %lu\n", clkrate);
+> +	}
+> +
+> +	ret = cci_read(gc0308->regmap, GC0308_CHIP_ID, &regval, NULL);
+> +	if (ret < 0) {
+> +		dev_err_probe(dev, ret, "failed to read chip ID\n");
+> +		goto fail_power_off;
+> +	}
+> +
+> +	if (regval != 0x9b) {
+> +		ret = -EINVAL;
+> +		dev_err_probe(dev, ret, "invalid chip ID (%02llx)\n", regval);
+> +		goto fail_power_off;
+> +	}
+> +
+> +	/*
+> +	 * Enable runtime PM with autosuspend. As the device has been powered
+> +	 * manually, mark it as active, and increase the usage count without
+> +	 * resuming the device.
+> +	 */
+> +	pm_runtime_set_active(dev);
+> +	pm_runtime_get_noresume(dev);
+> +	pm_runtime_enable(dev);
+> +	pm_runtime_set_autosuspend_delay(dev, 1000);
+> +	pm_runtime_use_autosuspend(dev);
+> +
+> +	ret = v4l2_async_register_subdev(&gc0308->sd);
+> +	if (ret) {
+> +		dev_err_probe(dev, ret, "failed to register v4l subdev\n");
+> +		goto fail_rpm;
+> +	}
+> +
+> +	return 0;
+> +
+> +fail_rpm:
+> +	pm_runtime_disable(dev);
+> +	pm_runtime_put_noidle(dev);
+> +fail_power_off:
+> +	gc0308_power_off(dev);
+> +fail_subdev_cleanup:
+> +	v4l2_subdev_cleanup(&gc0308->sd);
+> +fail_media_entity_cleanup:
+> +	media_entity_cleanup(&gc0308->sd.entity);
+> +fail_ctrl_hdl_cleanup:
+> +	v4l2_ctrl_handler_free(&gc0308->hdl);
+> +	return ret;
+> +}
+> +
+> +static void gc0308_remove(struct i2c_client *client)
+> +{
+> +	struct gc0308 *gc0308 = i2c_get_clientdata(client);
+> +	struct device *dev = &client->dev;
+> +
+> +	v4l2_async_unregister_subdev(&gc0308->sd);
+> +	v4l2_ctrl_handler_free(&gc0308->hdl);
+> +	media_entity_cleanup(&gc0308->sd.entity);
+> +
+> +	pm_runtime_disable(dev);
+> +	if (!pm_runtime_status_suspended(dev))
+> +		gc0308_power_off(dev);
+> +	pm_runtime_set_suspended(dev);
+> +}
+> +
+> +static const struct dev_pm_ops gc0308_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(gc0308_power_off, gc0308_power_on, NULL)
+> +};
+> +
+> +static const struct of_device_id gc0308_of_match[] = {
+> +	{ .compatible = "galaxycore,gc0308" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, gc0308_of_match);
+> +
+> +static struct i2c_driver gc0308_i2c_driver = {
+> +	.driver = {
+> +		.name  = "gc0308",
+> +		.pm = &gc0308_pm_ops,
+> +		.of_match_table = gc0308_of_match,
+> +	},
+> +	.probe  = gc0308_probe,
+> +	.remove = gc0308_remove,
+> +};
+> +module_i2c_driver(gc0308_i2c_driver);
+> +
+> +MODULE_DESCRIPTION("GalaxyCore GC0308 Camera Driver");
+> +MODULE_AUTHOR("Sebastian Reichel <sre@kernel.org>");
+> +MODULE_LICENSE("GPL");
+> -- 
+> 2.42.0
+
+Apart of this few comments on my side.
+This looks good to me.
+
+Thanks & Regards,
+Tommaso
+
+
+> 
+> 
 
