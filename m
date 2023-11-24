@@ -1,197 +1,89 @@
-Return-Path: <linux-media+bounces-953-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-954-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4E9E07F6C60
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 07:39:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F5EB7F6CE0
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 08:23:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 42EAE1C20A0F
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 06:39:23 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 70EDE1C20E5B
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 07:23:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0360B5239;
-	Fri, 24 Nov 2023 06:39:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="h0fdekOx"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A72865239;
+	Fri, 24 Nov 2023 07:23:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1935FD46;
-	Thu, 23 Nov 2023 22:39:15 -0800 (PST)
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AO5IuF2010656;
-	Fri, 24 Nov 2023 06:39:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=XJfK9r4difAVXV2U8xd6TIUL/J9MDrHGpJaRZDcJCwI=;
- b=h0fdekOxqWrWsryVRzqxaaHAQbLQjrwxHHlkirtJc59pqArq9WjoC4Vou5OLdRI3tJnX
- eWXLumG5capce5VZlagy3M0IH5VNCr8I7Ld+ukz8Zw7BlTWobW7viWs7jI2DFkIkBADu
- OUytbTh+kL0U/pT7UvJaB8u9SU2oTTb4HGZYKOSwova8fLkdjfQVDe+qyoeQ3iYsMPly
- pBgMEiGFFgrNOxzYvxCOA+ub3GNDBwJKzL6f/3xIrJ15Th5bkVq/QIVP5xEuVsoXsagr
- BfAveWxBo+FbBHsoWzZq3W/GETbe3tqrsw58UP/2dbI9NH69QFU21VqUETG5GMf5c4VM XQ== 
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3uj4hwhw4x-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 Nov 2023 06:39:09 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AO6d8Su006461
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 24 Nov 2023 06:39:08 GMT
-Received: from [10.216.35.253] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Thu, 23 Nov
- 2023 22:39:02 -0800
-Message-ID: <ff021f49-f81b-0fd1-bd2c-895dbbb03d56@quicinc.com>
-Date: Fri, 24 Nov 2023 12:08:59 +0530
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08BB963D5
+	for <linux-media@vger.kernel.org>; Fri, 24 Nov 2023 07:23:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 12554C433C7;
+	Fri, 24 Nov 2023 07:23:24 +0000 (UTC)
+Message-ID: <67201f49-aacb-48a4-a11c-38a8875440b4@xs4all.nl>
+Date: Fri, 24 Nov 2023 08:23:22 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 2/3] arm64: dts: qcom: sc7280: Move video-firmware to
- chrome-common
-Content-Language: en-US
-To: Luca Weiss <luca.weiss@fairphone.com>,
-        Stanimir Varbanov
-	<stanimir.k.varbanov@gmail.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro
- Carvalho Chehab <mchehab@kernel.org>,
-        <cros-qcom-dts-watchers@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>
-CC: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20231002-sc7280-venus-pas-v2-0-bd2408891317@fairphone.com>
- <20231002-sc7280-venus-pas-v2-2-bd2408891317@fairphone.com>
- <4cfad910-1821-3a31-c372-3f6b199e8f71@quicinc.com>
- <CX5ENKY70B5J.2D6DXKGI4EGX3@fairphone.com>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <CX5ENKY70B5J.2D6DXKGI4EGX3@fairphone.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: build scripts: branches with forward slashes in names
+To: Deborah Brouwer <deborah.brouwer@collabora.com>
+Cc: linux-media@vger.kernel.org
+References: <ZV_QuX5YScktbQi3@mz550>
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <ZV_QuX5YScktbQi3@mz550>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: _2PehKUl5y5-OQPPRjcBhX25pqjQpTVO
-X-Proofpoint-ORIG-GUID: _2PehKUl5y5-OQPPRjcBhX25pqjQpTVO
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-23_15,2023-11-22_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 priorityscore=1501 bulkscore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 phishscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2311060000 definitions=main-2311240049
 
-
-On 11/22/2023 7:50 PM, Luca Weiss wrote:
-> On Wed Nov 22, 2023 at 2:17 PM CET, Vikash Garodia wrote:
->>
->> On 10/2/2023 7:50 PM, Luca Weiss wrote:
->>> If the video-firmware node is present, the venus driver assumes we're on
->>> a system that doesn't use TZ for starting venus, like on ChromeOS
->>> devices.
->>>
->>> Move the video-firmware node to chrome-common.dtsi so we can use venus
->>> on a non-ChromeOS devices.
->>>
->>> At the same time also disable the venus node by default in the dtsi,
->>> like it's done on other SoCs.
->>>
->>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->>> ---
->>>  arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi | 8 ++++++++
->>>  arch/arm64/boot/dts/qcom/sc7280.dtsi               | 6 ++----
->>>  2 files changed, 10 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
->>> index 5d462ae14ba1..cd491e46666d 100644
->>> --- a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
->>> @@ -104,6 +104,14 @@ &scm {
->>>  	dma-coherent;
->>>  };
->>>  
->>> +&venus {
->>> +	status = "okay";
->>> +
->>> +	video-firmware {
->>> +		iommus = <&apps_smmu 0x21a2 0x0>;
->>> +	};
->>> +};
->>> +
->>>  &watchdog {
->>>  	status = "okay";
->>>  };
->>> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
->>> index 66f1eb83cca7..fa53f54d4675 100644
->>> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
->>> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
->>> @@ -3740,6 +3740,8 @@ venus: video-codec@aa00000 {
->>>  				 <&apps_smmu 0x2184 0x20>;
-0x2184 is a secure SID. I think qcm6490-fairphone-fp5.dts needs to override the
-iommus property as well to retain only the non secure SID i.e 0x2180 ? I am
-seeing below crash
-
-Call trace:
-[   47.663593]  qcom_smmu_write_s2cr+0x64/0xa4
-[   47.663616]  arm_smmu_attach_dev+0x120/0x284
-[   47.663647]  __iommu_attach_device+0x24/0xf8
-[   47.676845]  __iommu_device_set_domain+0x70/0xd0
-[   47.681632]  __iommu_group_set_domain_internal+0x60/0x1b4
-[   47.687218]  iommu_setup_default_domain+0x358/0x418
-[   47.692258]  __iommu_probe_device+0x3e4/0x404
-
-Could you please reconfirm if Video SID 0x2184 (and mask) is allowed by the
-qcm6490-fairphone-fp5 hardware having TZ ?
-
->>>  			memory-region = <&video_mem>;
->>>  
->>> +			status = "disabled";
->>> +
->>>  			video-decoder {
->>>  				compatible = "venus-decoder";
->>>  			};
->>> @@ -3748,10 +3750,6 @@ video-encoder {
->>>  				compatible = "venus-encoder";
->>>  			};
->>>  
->>> -			video-firmware {
->>> -				iommus = <&apps_smmu 0x21a2 0x0>;
->>> -			};
->>> -
->>>  			venus_opp_table: opp-table {
->>>  				compatible = "operating-points-v2";
->>>  
->>>
->> Changes look good. Is this tested on SC7280 ?
+On 23/11/2023 23:22, Deborah Brouwer wrote:
+> Hi Hans,
 > 
-> Hi Vikash,
+> Have you ever had a problem running the build scripts on branches with
+> forward slashes in their names?
 > 
-> I didn't test it myself on sc7280 (just qcm6490-fp5) but dtx_diff
-> reports no differences except for status = okay property being added, so
-> there should be no change on those boards. See below.
+> So, for example, I add my repo to env.sh
+> myrepo=https://gitlab.collabora.com/chipsnmedia/kernel
 > 
-> Regards
-> Luca
+> I run ./build.sh setup and I can see it fetching my repo and including
+> my branch "dbrouwer/KConfig_fix", but if try to run:
+> 
+> ./build.sh -test all dbrouwer/KConfig_fix
+> 
+> I get this error:
+> 
+> "fatal: 'dbrouwer/KConfig_fix' is not a commit and a branch 'build-test' cannot be created from it"
+> 
+> But then if I change the branch name to remove the forward slash "KConfig_fix" it works fine again.
+> 
+> Have you noticed anything similar? Could it be easily fixed?
+> 
+> Thanks,
+> Deborah
+> 
 
-I tested on SC7280 (herobrine) and all good.
+From the README:
+
+"If <branch> is absent, then it will default to media_stage/master. If it
+contains a / character, then the branch name will be used as-is (e.g.
+use <remote>/<branch> to build a branch on a specific remote), otherwise
+the branch name will be prefixed by main/ (e.g. main/<branch>), which
+uses the branch on your '$myrepo' repository."
+
+I never use / in branch names (too confusing with / in pathnames), and since
+I developed these scripts originally for myself, I just grepped for /.
+
+Perhaps the build script should allow for 0-2 arguments at the end:
+nothing means media_stage/master, 1 arg means main/<branch> and 2 args
+means <remote>/<branch>.
+
+Let me see what I can do.
 
 Regards,
-Vikash
+
+	Hans
 
