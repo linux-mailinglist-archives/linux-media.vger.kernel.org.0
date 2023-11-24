@@ -1,108 +1,114 @@
-Return-Path: <linux-media+bounces-995-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-996-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBE2F7F80BF
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 19:52:26 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5412F7F8252
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 20:06:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 091D21C2161E
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 18:52:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E8ED8B23C95
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 19:06:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22A0C33CC7;
-	Fri, 24 Nov 2023 18:52:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64B76364A7;
+	Fri, 24 Nov 2023 19:06:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ek20PJmB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j/hN45v4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B72A1BCE;
-	Fri, 24 Nov 2023 10:49:18 -0800 (PST)
-Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-548a2c20f50so3062059a12.1;
-        Fri, 24 Nov 2023 10:49:18 -0800 (PST)
+Received: from mail-wm1-x331.google.com (mail-wm1-x331.google.com [IPv6:2a00:1450:4864:20::331])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 177F02108;
+	Fri, 24 Nov 2023 11:02:12 -0800 (PST)
+Received: by mail-wm1-x331.google.com with SMTP id 5b1f17b1804b1-40b34563987so13082015e9.1;
+        Fri, 24 Nov 2023 11:02:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700851757; x=1701456557; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iFy/9Swy0nVL292Sr+H5OQDTykZcfrct9MdwEGt+ZX8=;
-        b=ek20PJmBhPDFhu9z/MpOV1Vaq2zIt8YMe+dq1kTrPHPIfsFVlJ68mh+oWQxRCiV6Ee
-         GIgFZbZ3RGAMvtKBrVsB+YlwiK98G7xg/hTf5DuBTwcMbzXUR6idljJELhbPZj1ztS45
-         D+FkPgbXRDtMER3F09Ox83AQhsvzpRJBs2MiOLfRU92TOUSJQ3XO0nkBns6ztGUv7Zbr
-         TlO0sTHHd/52puU2sEM949r0esqKYqvU+25Su1Q8B5GKoiXWu/olNtw+RtOvXHcbyzhH
-         srzddvLQ/TvRCgWWqarYOYCPxbmYJ+P9x6fs/NIjvUqMUTDIG6hz6Q4r1VEsLaBldMVa
-         Zw8Q==
+        d=gmail.com; s=20230601; t=1700852530; x=1701457330; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=3F184n6UjoTn10axaf6jM7akcWXmYa+p+MWYHZqrJs8=;
+        b=j/hN45v4FQsWMXGs+8+2sZEh/jjM912rRTYIdIbr/N6AQQ49XVmkcx9VC0ZIDRAHst
+         5kat03W7Ji+l9IszlqRqcRZmsPIG/3224+WXfH8SP38SAbgFNCkirpeq//aPzMTShbHG
+         Fk/8WqJdj1TfS3NNxJWljcU0MMfgJ61gjwdyeMLeKf2nVdbSZjgsRzXxI21UL1fSOcu4
+         rOWqbmZff/wETsGLHjQhBPoFlmLMX71IRk3nMjBiAqCNeVtf02wuutkIR2YEpu1dO6Rq
+         NHDaZ9kTIh007gfRXlH92w3dSDIVJfH4KmtP9/9pi9mcfMWEyZ6oO3E3uM6uSuXDDiEN
+         PC/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700851757; x=1701456557;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iFy/9Swy0nVL292Sr+H5OQDTykZcfrct9MdwEGt+ZX8=;
-        b=qQH2nAvkQROzX8O6DvFJK4Pk1gdis1TN9pli78mKN8yAv6oQ4I9eIzucoAw/bUb0sw
-         4fJfu/jj3EtPPZljTVqjwNcCbXCiy6TIHCQitn2i8BLj8T3XAFbfMZzyPveRMRbQPuZw
-         g6yxSy4iBf7/h2dnQDbGJvkXnUbOQDNo0gl43kY29j9+utQMO0oIiJXslW3l1gvN15VR
-         9crsxuUWz2UbJWY2aYv860ptMYwI6M8ElDtYJhdIhLoJ4frqOgY1a0Tjx2gYrVjKYHs4
-         TpV1/9R1BqljGcxm4r8O22JjB1eAStRbHgk3lkTsHzrtAW6vVQOXlQWij+mi+sA35bjd
-         r1Hg==
-X-Gm-Message-State: AOJu0YzxEzCEMy8OWe3ZZl82wcVQzKifxguegDZT4MeUFd1iL4EJ428X
-	/2wUeid0wdTswXNtOlNXEeBX+4dg9WI=
-X-Google-Smtp-Source: AGHT+IEAzF1fbt8ouA4LKE2Woe0cjgW5E5MlrK+5YdnokLIt7m9eZzR2YgjWCzDWn8qBpVxA3z9rWg==
-X-Received: by 2002:a17:907:3ac2:b0:9c7:5a14:ecf2 with SMTP id fi2-20020a1709073ac200b009c75a14ecf2mr2498318ejc.56.1700851756476;
-        Fri, 24 Nov 2023 10:49:16 -0800 (PST)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.station (net-2-39-142-131.cust.vodafonedsl.it. [2.39.142.131])
-        by smtp.gmail.com with ESMTPSA id e8-20020a170906080800b009fdc15b5304sm2385388ejd.102.2023.11.24.10.49.15
+        d=1e100.net; s=20230601; t=1700852530; x=1701457330;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3F184n6UjoTn10axaf6jM7akcWXmYa+p+MWYHZqrJs8=;
+        b=jri7KSfL2Jb2OZNQl/LIR53W1cbyoR/asndOAJNClwBa3Jg5MMKlzC+isatADQhmTS
+         jty68owdUUgcyYixsDhiaf1IcL27Lm5zftqaBtZ+EVvMkDAdI2REcBSGXJuGVM6Pbz/i
+         NyWtphU8NZcUB+VWX2DcjEH6StEdBKkerk5mzHpoWk8M5F7BfXHrYr8Y/qW8++9ZKaDX
+         Er0xgNDzXNmCDniYn0G4yJk5Qn1mLX3EPmGjrFpn+8bJk4C44dndK/U+UXO/eaG4HQjE
+         /oEWugFyi7IZ6wGQ+iK7bWwjpYYb7DxUCi6pxUNyGCvRCKJTbfozYzAZz6c6jmXDQ9EZ
+         itew==
+X-Gm-Message-State: AOJu0Yy1V54LcL+8KLIE6kpCtWzzFaA1Gkw/HRJotiVhT+adEXLIaQ4r
+	bfWwcdo0xbLePyKir4K1iekHYkY5lKU=
+X-Google-Smtp-Source: AGHT+IEr8R0bjRHS1Q3ctxq1KlZDmX/mctw6yiB1b/S6iJmCxuRKkpYr6xemVADvY+PFad6B0EFxjg==
+X-Received: by 2002:a05:600c:6d3:b0:408:37aa:774a with SMTP id b19-20020a05600c06d300b0040837aa774amr6691625wmn.17.1700852530228;
+        Fri, 24 Nov 2023 11:02:10 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-142-131.cust.vodafonedsl.it. [2.39.142.131])
+        by smtp.gmail.com with ESMTPSA id v9-20020adfe4c9000000b00332c6f1beccsm4862181wrm.66.2023.11.24.11.02.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 10:49:16 -0800 (PST)
+        Fri, 24 Nov 2023 11:02:09 -0800 (PST)
+Date: Fri, 24 Nov 2023 20:02:07 +0100
 From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: 
-Cc: linuxfancy@googlegroups.com,
-	laurent.pinchart@ideasonboard.com,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
+To: linuxfancy@googlegroups.com, laurent.pinchart@ideasonboard.com,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Steve Longerbeam <slongerbeam@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: ov5640: add missing v4l2_subdev_init_finalize
-Date: Fri, 24 Nov 2023 19:49:13 +0100
-Message-Id: <20231124184913.2574925-1-tomm.merciai@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: ov5640: add missing v4l2_subdev_init_finalize
+Message-ID: <ZWDzL+prP90gV6m2@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231124184913.2574925-1-tomm.merciai@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231124184913.2574925-1-tomm.merciai@gmail.com>
 
-After the ov5640 configurations steps let's add v4l2_subdev_init_finalize
-that finalizes the initialization of the subdevice.
+Hi,
 
-References:
- - https://linuxtv.org/downloads/v4l-dvb-apis/driver-api/v4l2-subdev.html
+On Fri, Nov 24, 2023 at 07:49:13PM +0100, Tommaso Merciai wrote:
+> After the ov5640 configurations steps let's add v4l2_subdev_init_finalize
+> that finalizes the initialization of the subdevice.
+> 
+> References:
+>  - https://linuxtv.org/downloads/v4l-dvb-apis/driver-api/v4l2-subdev.html
+> 
+> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> ---
+>  drivers/media/i2c/ov5640.c | 6 ++++++
+>  1 file changed, 6 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 3f79a3b77044..338eea802ab8 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -3924,6 +3924,12 @@ static int ov5640_probe(struct i2c_client *client)
+>  	if (ret)
+>  		goto entity_cleanup;
+>  
+> +	ret = v4l2_subdev_init_finalize(&sensor->sd);
+> +	if (ret < 0) {
+> +		dev_err(dev, "subdev init error: %d\n", ret);
+> +		goto entity_cleanup;
+> +	}
+> +
+>  	ret = ov5640_sensor_resume(dev);
+>  	if (ret) {
+>  		dev_err(dev, "failed to power on\n");
+> -- 
+> 2.34.1
+> 
 
-Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
----
- drivers/media/i2c/ov5640.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+Ignore this patch please. I forget the cleanup part.
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 3f79a3b77044..338eea802ab8 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -3924,6 +3924,12 @@ static int ov5640_probe(struct i2c_client *client)
- 	if (ret)
- 		goto entity_cleanup;
- 
-+	ret = v4l2_subdev_init_finalize(&sensor->sd);
-+	if (ret < 0) {
-+		dev_err(dev, "subdev init error: %d\n", ret);
-+		goto entity_cleanup;
-+	}
-+
- 	ret = ov5640_sensor_resume(dev);
- 	if (ret) {
- 		dev_err(dev, "failed to power on\n");
--- 
-2.34.1
-
+Thanks & regards,
+Tommaso
 
