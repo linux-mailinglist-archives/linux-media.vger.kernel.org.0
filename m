@@ -1,130 +1,191 @@
-Return-Path: <linux-media+bounces-981-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-982-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D8F57F7559
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 14:37:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A047F7560
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 14:39:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AEE1B1C20FEC
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 13:37:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E38BD281FEA
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 13:39:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BD3028E25;
-	Fri, 24 Nov 2023 13:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H/MNj97M"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A9FB28E26;
+	Fri, 24 Nov 2023 13:39:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BDBDD4E;
-	Fri, 24 Nov 2023 05:36:56 -0800 (PST)
-Received: by mail-ej1-x635.google.com with SMTP id a640c23a62f3a-9fa45e75ed9so274596066b.1;
-        Fri, 24 Nov 2023 05:36:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700833014; x=1701437814; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dLmOSbrE/2kU+ec8KehbdILGLwTk1RjiZ7PfntVZKVg=;
-        b=H/MNj97MjDGEA1MgnCDp19yM0I3dylVoY4KFDr2weMkdgp48P9JPSGEPS35cytroUW
-         gt+kAEYIsdZdqnMi5ugeuwpwvtRKPswOv+/Sd+BgJz8l0/d1XlJN+bUGDgy4hAijd1si
-         35b2WDWZcah4QUP++IEsaUT0+M3V6b0nIV/gpY806nIkN+L2uFAamqrNPPoRQv3pMJ72
-         0GkOGxAQVQUmHL8Uyp0lhNOky04SOm3bKYVoYn0AL5DlmHNkMKUeDw6lvK6aLS8Kf4pg
-         P7yd7I+HeRlREgeUxebbRd+NWfCSM0ws7LUe+rbUWVsFgDsP5B39vlyEYUZE0V6PNmbJ
-         7ymg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700833014; x=1701437814;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dLmOSbrE/2kU+ec8KehbdILGLwTk1RjiZ7PfntVZKVg=;
-        b=Gyo/napN2oHVcY5tQassTWjPyySvKtQgzk6kIZkHKrfyb7syJ4GPwE/J/CJfxHfn/M
-         XwAPHj5U3qyg2/JiYhtMqy1Wyiawzg8rxbeXoz9QsyKljFcDf1Fsq3VJ+ozzxHqMCx3c
-         l3YbdxhU0P8mbDyvLxCVVpmfkE2liup8+KzrAlkIGWTlAGY8si4XBDqOMXfCL8q8g7QY
-         vN0iibgQejUfHWAhWNL5Yq65+OOyvIx0ouuBHmE7aGUZ5rGAx0UbPWKayUXmy/J7OrCd
-         nMbbrWqRz0GsSXsFpNhWzU29dW1Sl3eJtkHqGGSexYj4XPYXzvmedI38K5u18owroeIz
-         wMqA==
-X-Gm-Message-State: AOJu0YxxAIwIvDU6bbZWSpQfd//2k5qwjlJ6oJf8ClbYv+hfduNA/ZkV
-	DILMxDHfPaEU+ZUwCPVmoJc=
-X-Google-Smtp-Source: AGHT+IFqZ50WMt2oUp76dypCcRHmS7//0BjeidS5jzxRO70QfgZZCnN5MAFNHkmo8jgNyiAQWLfVCQ==
-X-Received: by 2002:a17:906:12:b0:9ff:7164:c1fa with SMTP id 18-20020a170906001200b009ff7164c1famr2422356eja.13.1700833013605;
-        Fri, 24 Nov 2023 05:36:53 -0800 (PST)
-Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id z2-20020a170906434200b009ad7fc17b2asm2049547ejm.224.2023.11.24.05.36.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 05:36:53 -0800 (PST)
-Date: Fri, 24 Nov 2023 14:36:51 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] pwm: make it possible to apply pwm changes in
- atomic context
-Message-ID: <ZWCm8_S7epYQwZiG@orome.fritz.box>
-References: <cover.1700323916.git.sean@mess.org>
- <ab49d3c11dd3fa432459cc8e11a77127f1a803dd.1700323916.git.sean@mess.org>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1655168A6
+	for <linux-media@vger.kernel.org>; Fri, 24 Nov 2023 13:39:42 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75782C433C7;
+	Fri, 24 Nov 2023 13:39:39 +0000 (UTC)
+Message-ID: <b851e2e8-ebcb-40a9-934b-dddcb28a45c9@xs4all.nl>
+Date: Fri, 24 Nov 2023 14:39:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="hgjpG1/obTMMognX"
-Content-Disposition: inline
-In-Reply-To: <ab49d3c11dd3fa432459cc8e11a77127f1a803dd.1700323916.git.sean@mess.org>
-User-Agent: Mutt/2.2.12 (2023-09-09)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 00/13] media: rockchip: rga: add support for
+ multi-planar formats
+Content-Language: en-US, nl
+To: Michael Tretter <m.tretter@pengutronix.de>,
+ Jacob Chen <jacob-chen@iotwrt.com>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Shengyu Qu <wiagn233@outlook.com>,
+ Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+ Robin Murphy <robin.murphy@arm.com>, Diederik de Haas
+ <didi.debian@cknow.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de
+References: <20230914-rockchip-rga-multiplanar-v2-0-bbfa6abf8bbf@pengutronix.de>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20230914-rockchip-rga-multiplanar-v2-0-bbfa6abf8bbf@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Michael,
 
---hgjpG1/obTMMognX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On 13/10/2023 13:00, Michael Tretter wrote:
+> This is v2 of the series that adds support for the V4L2 multi-planar API
+> to the Rockchip RGA driver. Once the RGA driver supports the
+> multi-planar API, it is easier to share buffers with other V4L2 drivers
+> that also support the multi-planar API and may not expose planar formats
+> with contiguous planes.
+> 
+> v2 fixes the smatch warnings and compile errors of v1. Furthermore, now
+> the DMA mask is set to 32 bits for coherent, too, and the gfp_flags are
+> configured to ensure that buffers are allocated in the lower 4GB area.
+> 
+> With non-contiguous planes, the U and V planes may not start at the same
+> offset as with the continuous planes. Therefore, the RGA driver cannot
+> rely on its calculation of the plane offsets based on the format and
+> frame size anymore, but must remember the offsets when it created the
+> mapping. Therefore, I also reworked how the DMA mapping is handled.
+> 
+> As a bonus, the RGA driver should now work correctly on devices with
+> more than 4 GB of memory. Video buffers should now be allocated within
+> the 4 GB boundary and an import of buffers that have higher addresses
+> into the driver should fail.
+> 
+> Patch 1 fixes the swizzling of RGA formats. While testing all formats of
+> the driver on rk3568, I discovered that the color channels of the RGB
+> formats are wrong when converting to NV12. I didn't test this on other
+> SoCs with an RGA and I am not sure, if they behave differently regarding
+> the color channels. Please report, if this breaks the color conversion
+> on other SoCs, and I will make this SoC-specific.
+> 
+> Patches 2 to 6 are the rework the DMA descriptor handling for the RGA
+> MMU. The patches clean up, how the driver uses the DMA API, and make the
+> creation of the descriptor list more explicit. Furthermore, the driver
+> is changed to keep the mapping per video buffer instead of using a
+> single mapping that is updated with every buffer.
+> 
+> Patches 7 to 11 prepare the driver for the multi-planar API including a
+> cleanup of the format handling in the buffer, and finally switch to the
+> multi-planar API.
 
-On Sat, Nov 18, 2023 at 04:16:18PM +0000, Sean Young wrote:
-[...]
-> diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-> index c4b066f7c5097..495aba06c64c3 100644
-> --- a/include/linux/pwm.h
-> +++ b/include/linux/pwm.h
-> @@ -286,6 +286,7 @@ struct pwm_ops {
->   * @npwm: number of PWMs controlled by this chip
->   * @of_xlate: request a PWM device given a device tree PWM specifier
->   * @of_pwm_n_cells: number of cells expected in the device tree PWM specifier
-> + * @atomic: can the driver execute pwm_apply_cansleep in atomic context
+Switching over to the multi-planar API is always a bit scary. How did you
+test this? Using gstreamer? Other apps?
 
-I'm a little reluctant to suggest that we rename this to might_sleep as
-well because it would require that we audit each and every driver to set
-this properly, since by default all devices have so far been defaulting
-to "might_sleep". But then again, I think that's something that we're
-going to need to do at some point anyway.
+Regards,
 
-In the interim, I think we could keep it like this and address this as a
-follow-up.
+	Hans
 
-Thierry
+> 
+> Patch 12 updates the code that creates the DMA-descriptor mapping to
+> correctly handle buffers with multiple planes. The driver has to iterate
+> all planes and make them the continuous for the RGA.
+> 
+> Patch 13 enables the NV12M format, which is the multi-planar variant of
+> the NV12 format.
+> 
+> Michael
+> 
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+> ---
+> Changes in v2:
+> - Fix smatch warnings
+> - Fix cast to dst_mmu_pages/src_mmu_pages to fix compile error in Patch 2
+> - Remove check for upper_32_bits when filling the DMA descriptor table
+> - Remove useless dma_sync_single_for_device()
+> - Set DMA mask for DMA coherent
+> - Set gfp_flags to __GFP_DMA32
+> - Link to v1: https://lore.kernel.org/r/20230914-rockchip-rga-multiplanar-v1-0-abfd77260ae3@pengutronix.de
+> 
+> ---
+> Michael Tretter (13):
+>       media: rockchip: rga: fix swizzling for RGB formats
+>       media: rockchip: rga: extract helper to fill descriptors
+>       media: rockchip: rga: allocate DMA descriptors per buffer
+>       media: rockchip: rga: split src and dst buffer setup
+>       media: rockchip: rga: pre-calculate plane offsets
+>       media: rockchip: rga: set dma mask to 32 bits
+>       media: rockchip: rga: use clamp() to clamp size to limits
+>       media: rockchip: rga: use pixelformat to find format
+>       media: rockchip: rga: add local variable for pix_format
+>       media: rockchip: rga: use macros for testing buffer type
+>       media: rockchip: rga: switch to multi-planar API
+>       media: rockchip: rga: rework buffer handling for multi-planar formats
+>       media: rockchip: rga: add NV12M support
+> 
+>  drivers/media/platform/rockchip/rga/rga-buf.c | 162 ++++++++++++++++------
+>  drivers/media/platform/rockchip/rga/rga-hw.c  | 146 ++++++++++++--------
+>  drivers/media/platform/rockchip/rga/rga.c     | 189 ++++++++++++--------------
+>  drivers/media/platform/rockchip/rga/rga.h     |  35 ++++-
+>  4 files changed, 328 insertions(+), 204 deletions(-)
+> ---
+> base-commit: 2c1bae27df787c9535e48cc27bbd11c3c3e0a235
+> change-id: 20230914-rockchip-rga-multiplanar-0d7c79b1ba93
+> 
+> Best regards,
 
---hgjpG1/obTMMognX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmVgpvMACgkQ3SOs138+
-s6HAAw//ct4gKrWjBExDza1kxoB9kMmSwy8Ix26Sb4TjW89uZEp7FQCAgvsILRk2
-XVKu9xl2vdM/WBprSkvv/UQdBz+g18xJVFKbJdz4WYwrYjdRic5vdlpUsrkbjYUr
-WbccEEMdQN+s4c6QpRCFxAEJbwTvI5KY/HG5cRhfp6EtwfXgBnjtjwRcYc+4/jEm
-AaJ/fEdpKd9biRwFIkFyrZsZef3MJI4KVE5Nfkz+lkMCZuSCehkKO/Mw4gNsbgWR
-ehd9Gcz+nBZDPYgn87UTrOJfM13DBIRpLT087OK/MObKvzYGH9z0q5UcoFoCMdPD
-v70M5i+jFEDTkjYoIibeftoL88uq0boga3YwU8UP8KhlnJSW4gUubDfP31W8SGcB
-ZUEwW6Z0hxmDMOdH9FvikAdWYhopwu+Y8kcZUkDVFO6FiNZihP3pm/Pdc0RSf/Vc
-WaA9mFhHOngaOde/dLx5E8OYc37WHqXehS3TsfExjkuiUEJv9hBIkx4AT47mSEKi
-AQstSySIApc0vaXsT0DZ6BCNah6MBGmAchtX1t9jtf2k4bW0iv2fh3z6maOS3U3S
-Yk/XhoT9Zrsaxd+30PaaoU5HFNEFzT0n86QyLecTnGX5jdd1ecLn4V/QslJFon7A
-BrpbbhA0oiKZ05xlpvjL3I24i6lFx59EI76uFrxDh/kMkdESiiM=
-=NVyq
------END PGP SIGNATURE-----
-
---hgjpG1/obTMMognX--
 
