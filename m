@@ -1,113 +1,116 @@
-Return-Path: <linux-media+bounces-973-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-974-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2419F7F7298
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 12:21:15 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E3C57F72A3
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 12:24:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A94E42817CC
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 11:21:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 723C01C20CEB
+	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 11:24:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A5071D554;
-	Fri, 24 Nov 2023 11:21:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2A781D68F;
+	Fri, 24 Nov 2023 11:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="bdT73Uya"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82AE910EB;
+	Fri, 24 Nov 2023 03:24:29 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 855CE1CFB7
-	for <linux-media@vger.kernel.org>; Fri, 24 Nov 2023 11:21:09 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A2756C433C8
-	for <linux-media@vger.kernel.org>; Fri, 24 Nov 2023 11:21:08 +0000 (UTC)
-Date: Fri, 24 Nov 2023 12:21:06 +0100
-Message-ID: <6e17f4d783e5d142f4cac69129e84873.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4ScCLK45YLzySy;
+	Fri, 24 Nov 2023 13:24:22 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1700825066;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4HYZA0J4KQ7QUzTmkn08hgDrWms9zYebzose47qF6ys=;
+	b=bdT73UyaM43US7lT95gmMyRSURsEo0y0B/VDZdb3FRFSIylAxTdbAbSlmUBiFkhcF85V8u
+	b4wwWm0cRw76HJCAUMlAwm7d5Xxg/ciIZkHKLakqt8Otw+Zk9VIyPonLmzHPEpnl6yYTPs
+	mCaPqH1Q7DKppHdQ3HLkm8KuxGDmKcA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1700825066;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=4HYZA0J4KQ7QUzTmkn08hgDrWms9zYebzose47qF6ys=;
+	b=gt81+2kmTfRWj89+d+m/yqW+5yosKPG8/aja5RYkdcJQD6KhWORNZoiBCyCDif4yGMVrYw
+	MxgXrEJMZfaJ52QrA0UGbF1ORIdrSHldP3qu2zfNVBWW+WZv/TtNweBt1FuLwYUG+skj9i
+	89mFhpdQW4XWAn3CIlNQUKpLHwvvUKc=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1700825066; a=rsa-sha256; cv=none;
+	b=bzLKCnugxYFOsFYYMdKfaUnzxlQboycZqzFZDwedICvgAF+AxTukH+Dcz3ufqGiSnU00B1
+	I7OqWxkqUGAq23lrj73bTLDo/jl2irxfgN82ObKLfksLka1DeAc5mSmf5p11rHL5b7WLk2
+	+ks8c1qZz9RG8H8UlREkpFXkf9Xec8Y=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4CE50634C93;
+	Fri, 24 Nov 2023 13:24:21 +0200 (EET)
+Date: Fri, 24 Nov 2023 11:24:21 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Sebastian Reichel <sre@kernel.org>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/6] GC0308 Camera Sensor
+Message-ID: <ZWCH5cT51XGky6d9@valkosipuli.retiisi.eu>
+References: <20231113230421.226808-1-sre@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231113230421.226808-1-sre@kernel.org>
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Hi Sebastian,
 
-Results of the daily build of media_tree:
+On Mon, Nov 13, 2023 at 11:57:19PM +0100, Sebastian Reichel wrote:
+> Hi,
+> 
+> I did the following tests on an i.MX6ULL based system [0]:
+> 
+>  * v4l2-compliance -u /dev/v4l-subdev1
+>    - v4l2-compliance 1.24.1, 32 bits, 32-bit time_t
+>      (from Debian testing)
+>    - Total for device /dev/v4l-subdev1: 44, Succeeded: 44
+>  * Using gstreamer + v4l2-ctl
+>    - Tried 640x480, 320x240, 160x120 YUYV8_2X8 formats
+>    - Tested effect of all exposed user controls
+>  * checkpatch does not report any driver issues
+>  * dt_binding_check does not report anything
+>  * rebinding driver works
 
-date:			Fri Nov 24 10:38:58 CET 2023
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	a00b3f296eac3d43328615c3113e1a74143fc67a
-v4l-utils git hash:	017644ebac36797cb2b1014a631a9216a90e8afa
-edid-decode git hash:	d6d86cb9c9e13c7bbc6854699940f2d5a73567f5
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8523-g045d29f9
-sparse version:		v0.5.0-8523-g045d29f9
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0e92f35343cd1684f7ff2d0d8814d821953976f2
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+I forgot to ask this earlier --- the sub-device state information access
+functions have been reworked and that resulted in renaming the functions
+this driver uses. Could you rebase this on the current stage tree?
 
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-x86_64: OK
-linux-git-i686: OK
-no-of.config: WARNINGS:
+The commit doing this for all merged drivers was
+bc0e8d91feec72b19199298dca470c5816a52105 .
 
-drivers/media/platform/chips-media/wave5/wave5-vpu.c:274:34: warning: 'wave5_dt_ids' defined but not used [-Wunused-const-variable=]
-  274 | static const struct of_device_id wave5_dt_ids[] = {
-      |                                  ^~~~~~~~~~~~
+Could you also add Cc: stable for the v4l2-async list fix?
 
-no-pm-sleep.config: OK
-no-pm.config: OK
-no-debug-fs.config: OK
-no-acpi.config: OK
-sparse: WARNINGS:
+Thanks.
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+-- 
+Kind regards,
 
-smatch: WARNINGS:
-
-drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Fri Nov 24 11:39:45 CET 2023
-virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 4
-virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 2
-
-date:			Fri Nov 24 12:19:51 CET 2023
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Friday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+Sakari Ailus
 
