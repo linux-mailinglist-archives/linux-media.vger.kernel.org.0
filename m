@@ -1,82 +1,75 @@
-Return-Path: <linux-media+bounces-1016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1017-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83A57F8C5D
-	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 17:27:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B65857F8C8B
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 17:50:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 451DBB210FF
-	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 16:27:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA3D61C20C01
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 16:50:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6A1929438;
-	Sat, 25 Nov 2023 16:27:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B26F328DA2;
+	Sat, 25 Nov 2023 16:50:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="Ak23BEoP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="T1KtlGsz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D96FB
-	for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 08:27:37 -0800 (PST)
-Received: from epcas2p4.samsung.com (unknown [182.195.41.56])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20231125162734epoutp046ae0579e670997ee3b33811ae32f3d1a~a6oJFBCtF0387803878epoutp04R
-	for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 16:27:34 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20231125162734epoutp046ae0579e670997ee3b33811ae32f3d1a~a6oJFBCtF0387803878epoutp04R
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1700929654;
-	bh=9/mt4hKtXbPt9JTfCxZXcTOLXHjVOEDr7yiZBBoORKs=;
-	h=Subject:Reply-To:From:To:Date:References:From;
-	b=Ak23BEoP1GsvpKzCq1Kkenss5BtsuBRhunBAGOqEL08TT6p2ttgKTFxmB+TLQwDSs
-	 0ZJNg3nc5WkF2KV/uK9sWkD2MleIqRctKldWtTW2xUcE1NIm/wwVJd1UUMlfka9d07
-	 sz5CxkU7uoo9hRtuD480x4TZnBrNI3Uf3I08RCTo=
-Received: from epsmgec2p1.samsung.com (unknown [182.195.42.67]) by
-	epcas2p3.samsung.com (KnoxPortal) with ESMTP id
-	20231125162733epcas2p3e850aa8e97c961549563a559647be03a~a6oIO89Fo2994929949epcas2p3z
-	for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 16:27:33 +0000 (GMT)
-X-AuditID: b6c32a43-4b3ff700000021c8-eb-656220751215
-Received: from epcas2p2.samsung.com ( [182.195.41.54]) by
-	epsmgec2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	2E.28.08648.57022656; Sun, 26 Nov 2023 01:27:33 +0900 (KST)
+Received: from mail-vs1-xe2a.google.com (mail-vs1-xe2a.google.com [IPv6:2607:f8b0:4864:20::e2a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35972AA
+	for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 08:50:13 -0800 (PST)
+Received: by mail-vs1-xe2a.google.com with SMTP id ada2fe7eead31-45da9f949aaso790357137.2
+        for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 08:50:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1700931012; x=1701535812; darn=vger.kernel.org;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=T1KtlGszjiiJj9lC8RSLsdhpe1YaY1xqopMeY/Q4ZbCFm4m8Pb9BshPhtjDL0A4Mlq
+         RO2BfcuCNaeJR6vMt2VSZ7VOf4rQh54qBpPoSYAqBTv38NuNtxJtDoE8UllzKWUgh3pC
+         wrC2ks+lMPJ3n3Os1l0fHtlZSsnLE5ljUdpV5teYftoUdMCjRNGHlBGsOMJ4lfWdFPMO
+         30I9cf8zVCjR8YSmeHDnI7E0nSZ1w4HotKuEuD+7mH/ZJ8nduE9AHjIM9exon5k2/AAw
+         pKYYhYHas1z6aya3QIA1FlYDwz7BlB8HHpBJltTOYcVWMXhdWslwoZh8QPhTWCixeY9j
+         59+w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700931012; x=1701535812;
+        h=content-transfer-encoding:subject:from:content-language:to
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=IyuGt51QrWxaYHYo6yxeW4I0QXqZCkyhmWGefZ+yX0vVW3/QWdCOo41NdJkex+al1N
+         vAganGXIcFjrE8BPPW/BmQEWC3Y1L+5Bzah3WyjQgf4xNQhw0L/1dZHEMXJd54KGtdV0
+         n8f1rwd8Mfoy5TM9AxfMKLYM/f2mALCoWSl7x+EwGA4eSO1GpBt9Y8zCkUNFqTfevaVx
+         I1JaEBo/FloX6AhmLdLD+llvcGLkZ8bIcEzUvvqea9MGge950LHQNpSPj/auqKzpXIYP
+         44qgwWhXFu0Cj6l254WC5HLBsP/mvtXaifJARpduQP+RPyE/uHMZJ/BWLkhqwYh+5NAc
+         9QbA==
+X-Gm-Message-State: AOJu0YwRr11EnVZcuCRKFDhGBgnKhYGR3aoFIQa8hMtLxrS+44rD21bk
+	VSZDZeJSpRiUb4HBw67QFdC1QVu3ejo=
+X-Google-Smtp-Source: AGHT+IEp8vWl7n+fSCljhacCmQKt7OM5e5/4T+437QOTyZk2GUkiyLEoleA0GNKVyNOKcKOpejF7Kg==
+X-Received: by 2002:a05:6102:7af:b0:462:86cc:92d with SMTP id x15-20020a05610207af00b0046286cc092dmr7085415vsg.11.1700931011795;
+        Sat, 25 Nov 2023 08:50:11 -0800 (PST)
+Received: from [192.168.1.200] ([95.138.85.237])
+        by smtp.gmail.com with ESMTPSA id l12-20020a056102308c00b0045f128ead10sm1052010vsb.4.2023.11.25.08.50.11
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Nov 2023 08:50:11 -0800 (PST)
+Message-ID: <a87e3e66-ca4f-4a32-be65-787483f2b75f@gmail.com>
+Date: Sat, 25 Nov 2023 12:50:08 -0400
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Subject: unsubscribe linux-media
-Reply-To: sungchun.kang@samsung.com
-Sender: =?UTF-8?B?6rCV7ISx7LKc?= <sungchun.kang@samsung.com>
-From: =?UTF-8?B?6rCV7ISx7LKc?= <sungchun.kang@samsung.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
 To: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-X-Priority: 3
-X-Content-Kind-Code: NORMAL
-X-Drm-Type: N,general
-X-Msg-Generator: Mail
-X-Msg-Type: PERSONAL
-X-Reply-Demand: N
-Message-ID: <20231125162732epcms2p529beaf1da3d267cba40064275c470667@epcms2p5>
-Date: Sat, 25 Nov 2023 17:27:32 +0100
-X-CMS-MailID: 20231125162732epcms2p529beaf1da3d267cba40064275c470667
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-CMS-TYPE: 102P
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFlrLIsWRmVeSWpSXmKPExsWy7bCmmW6pQlKqwd5PshY9G7ayOjB6fN4k
-	F8AYxWWTkpqTWZZapG+XwJXx+sURlgLdistNh1gbGDW6GDk5JARMJLYefMbcxcjFISSwg1Gi
-	9eYvli5GDg5eAUGJvzuEQWqEBRQkJk19zwQSFhJQlrjzNQDEFBawkZjyLh+kgk3ASmL5pPfM
-	ILaIgL3E8taVzBDTeSVmtD9lgbClJbYv38oIYYtK3Fz9lh3Gfn9sPlRcRKL13lmoXkGJBz93
-	M8L0fri8lhXCzpa4vPACE4RdIXFszg2oGnOJncdmM0Mc7ysx72MIiMkioCrxaasdiCkh4CLR
-	fywdpJhZQFti2cLXYMXMApoS63fpQ4T5JDoO/2WHuX3HvCdMEJ3qEr3rDSHCshIvrqyBWu8h
-	MWXic7D1QgKBEssuLGGcwCg7CxF8s5DsmoWwawEj8ypGsdSC4tz01GSjAkO94sTc4tK8dL3k
-	/NxNjOAY1XLewXhl/j+9Q4xMHIyHGCU4mJVEeHP/xKcK8aYkVlalFuXHF5XmpBYfYpTmYFES
-	573XOjdFSCA9sSQ1OzW1ILUIJsvEwSnVwHTh1483/ldLbjbJib+6c+BL4Tm1Uo6OYPVn87t4
-	jv3WY3ZnexFdv3WpbeJSm3uc98Xfix9r/6Jrum6NjbFp167CO0+3ezxiyv/AeqN6j63n7Xib
-	F0FrFXxLjjFfU4qZGFO17uz37EO239XOirfOYDkWl3t6Z6nm1iUKKkYfJiSl3mn61TNTJGX5
-	xyfTTeZMlZe5tciPra55t2Z8s5bFvq/H5JhYspa/PXjG/Hva9AlTjUQ/JyROmZWlMOmKz6l/
-	b52P+LQrXTx2Y32QYfbJu0Uyr2ZzbOLRdOuMlIiN+Oy4W7N/Ondpy9+adKm6Hsua6cZ2rvFq
-	62uS7odM/W/gIXxg6YnKA2dq164qyvJa3aXEUpyRaKjFXFScCAAIsJnjQAMAAA==
-X-CMS-RootMailID: 20231125155712epcms2p6b4f5710f594fd1704f85424754f7c61d
-References: <CGME20231125155712epcms2p6b4f5710f594fd1704f85424754f7c61d@epcms2p5>
+Content-Language: en-US
+From: Emmanuel ALLAUD <eallaud@gmail.com>
+Subject: unsubscribe
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Level: *
 
-unsubscribe linux-media
-=C2=A0=0D=0A=0D=0A
+
 
