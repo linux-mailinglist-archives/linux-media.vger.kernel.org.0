@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-1012-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1013-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF557F8ADB
-	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 13:50:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 838387F8AF0
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 13:54:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E17FC1C20D94
-	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 12:50:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B5ACF1C20B04
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 12:54:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBF01FC03;
-	Sat, 25 Nov 2023 12:50:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E98F101FF;
+	Sat, 25 Nov 2023 12:54:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AgLGP1CU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="B7Df0Am3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05330D0
-	for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 04:49:57 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54b0310f536so2275232a12.0
-        for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 04:49:56 -0800 (PST)
+Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8C31BDA
+	for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 04:54:00 -0800 (PST)
+Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a002562bd8bso528704666b.0
+        for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 04:54:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1700916595; x=1701521395; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1700916839; x=1701521639; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=gpAtV0FS3gS4I5s7lG5X3wgMGcSVSh9Gs8Iqyw/MnO8=;
-        b=AgLGP1CUP6EjPA9rrw2Lu/PA1VN4d7PpyT8GT0aGNSgQHsR0QnrJFHO8JB88b0XaN7
-         hFBKBm+DKr0HfX3K3s1TvGMFc0kknHa6K9bkX8GACbfp4HrOTicEnFqKQ7V9JS77pKK0
-         dCBj8QFFKomtMgXEmEA2UlWU+ophjP3rlEZM9zO6m4gYHGqncyVN2fqfihQEj+YFXqQl
-         nYnpRboKQEqA39XOfaLPARtOKdh0eW4YA/28V4tBFUSO/SRjzRasUH5mATKXMDBCNen3
-         kSyWjBAmKhko8l8BJRJMfR9+Q5bK74WNEGDEYTqSdqPVgOLMd7YkjVgRM9osTu/0X9Q7
-         BBLg==
+        bh=g5upvyQLnMuRo1dbMadphRh3m2TM7U1uw9oHbCa8dgk=;
+        b=B7Df0Am3pyoIQYq0xhvtSjOEXvdbWc09hVJo9c4w74x3Vs6KAOLc7zk7fxHJbCxcul
+         OEB1bup/x7272hkXD2UUbwvnCLKFsMg/1FJqzCDqPnAiMDNF2mNW/KvGkP+sowb5l5g7
+         J9TK668r78b+EUAF95D8FiAs8Lo2BYBDq8MvxC3IhftaQAQsCszjk6mZM6FUlidjWLX9
+         aru+YAYraWxpOT8TIJt2GkjoHVWnYeEYC7jZ3FhVMkG/XqoURMjb3leX1N1AFWIGJLYQ
+         fFmMP2sNZu/Wh//Ra9d3mxK+La/yKVWsTPTxLzZsYTBmHoWvxfts5meC4dF0TZU0vjly
+         MFEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700916595; x=1701521395;
+        d=1e100.net; s=20230601; t=1700916839; x=1701521639;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gpAtV0FS3gS4I5s7lG5X3wgMGcSVSh9Gs8Iqyw/MnO8=;
-        b=Vhwffw30xNauf/eSO74fAXglDAU00VMsMCMYha/RftlWoL1aZpkEYMShoMs3+dJMc4
-         JdZPbkVIz6s5cAnksxcKwB37WbXLgoDIK3FKgAcIqojnbCEk+5ibNp/vI0sNr3/0EnUg
-         EXNtY/bLbK+mjq7xnuZSdWKiQSg5qct3NtOGisZV2PVcHtPC3Rhk4QafjaSeL8Z+k9sm
-         ixuSlyvNwXP4sz1vIzFZ8yxWKNEoHRTnltKCsRZTM8VSdolS6K2r8M5TnXpAp+jkelZe
-         9/4Clak7b7KV+d3eCIyTBMsfX7EVZ3RHRDJmzU3nuiT2rbPhQi7ko07Toh4YdYNiIbIE
-         eehA==
-X-Gm-Message-State: AOJu0Yzyth2DYuHCnwbkFt0+TeLKLRHwbkcfY0TmpMjbGOKYwjVvNV+/
-	xMg9xQ/DpzzclalEuKTzCDm+ng==
-X-Google-Smtp-Source: AGHT+IH25NLMfB6zeP8SLzWprul/iFntBgIHVCwAHigzP+QC8ru563i6kTL6sxSHOftO02DnXDeY2g==
-X-Received: by 2002:aa7:c608:0:b0:54a:f1db:c2b6 with SMTP id h8-20020aa7c608000000b0054af1dbc2b6mr4675877edq.20.1700916595502;
-        Sat, 25 Nov 2023 04:49:55 -0800 (PST)
+        bh=g5upvyQLnMuRo1dbMadphRh3m2TM7U1uw9oHbCa8dgk=;
+        b=JRiqH+aaHBMjwvPu0UkOiDpBMSgkHG63nlJFxFJ60EIK5SI1hX4gcK9l9whzpHtsyj
+         P1F7ifKwlyLEntQLDVC4CS58SMVh8W2BsogXTyZAaupgGpZYPBK6tDeBLMvJtGuq5CsG
+         lgIAfEkUAXfXt5xB2l7iyXlEW7YMr3WXATvHGDhkcFDFEPY0mKur6eaRGlzlz7Zjh5U4
+         GqnSLs+MWROVKuQsHP+GizSL/MPdCP8b86grC6N6Cg6/jaYpztK3BHQmBfmHRobCz7t+
+         tJv40w4k0dbETvXCxl7VG4NVeF79Y/HV7Iazbd/HtkKKxXlfG/ZyDfFGlEsr5J0kgfb2
+         YSVA==
+X-Gm-Message-State: AOJu0Yx9QSPFGE7YFmUbcotOQ97ZZCjxUF+xBouD01MzTM9kBW/Hmi6Y
+	wU2rxazpRXYxB/xYjbXSlrMa1w==
+X-Google-Smtp-Source: AGHT+IGSc5yefHXWkLQTXSaNg4wx9Y+3010q0VXtS0JCv4yg12Ipub8YWCyuolbbylixV9gAb8aohA==
+X-Received: by 2002:a17:907:7da9:b0:9fd:9e54:a4fc with SMTP id oz41-20020a1709077da900b009fd9e54a4fcmr10176305ejc.15.1700916839279;
+        Sat, 25 Nov 2023 04:53:59 -0800 (PST)
 Received: from [192.168.201.100] (178235187180.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.180])
-        by smtp.gmail.com with ESMTPSA id s25-20020a05640217d900b0054b314f8ab1sm240307edy.50.2023.11.25.04.49.53
+        by smtp.gmail.com with ESMTPSA id uz2-20020a170907118200b00a098348d803sm1983946ejb.141.2023.11.25.04.53.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 25 Nov 2023 04:49:55 -0800 (PST)
-Message-ID: <fd075d7b-1cac-4964-bd97-8f481a385bd7@linaro.org>
-Date: Sat, 25 Nov 2023 13:49:52 +0100
+        Sat, 25 Nov 2023 04:53:58 -0800 (PST)
+Message-ID: <3b8e6b65-5f37-49e5-b83e-b89726867ed2@linaro.org>
+Date: Sat, 25 Nov 2023 13:53:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,8 +62,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 7/8] media: qcom: camss: Flag CSID-lites to support
- more CSIDs
+Subject: Re: [PATCH v6 4/8] media: qcom: camss: Move VFE power-domain
+ specifics into vfe.c
 Content-Language: en-US
 To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, hverkuil-cisco@xs4all.nl,
  laurent.pinchart@ideasonboard.com, Robert Foss <rfoss@kernel.org>,
@@ -74,7 +74,7 @@ To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, hverkuil-cisco@xs4all.nl,
 Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20231123-b4-camss-named-power-domains-v6-0-3ec2fd9e8e36@linaro.org>
- <20231123-b4-camss-named-power-domains-v6-7-3ec2fd9e8e36@linaro.org>
+ <20231123-b4-camss-named-power-domains-v6-4-3ec2fd9e8e36@linaro.org>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -111,22 +111,30 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <20231123-b4-camss-named-power-domains-v6-7-3ec2fd9e8e36@linaro.org>
+In-Reply-To: <20231123-b4-camss-named-power-domains-v6-4-3ec2fd9e8e36@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 23.11.2023 18:03, Bryan O'Donoghue wrote:
-> From: Matti Lehtimäki <matti.lehtimaki@gmail.com>
+> Moving the location of the hooks to VFE power domains has several
+> advantages.
 > 
-> Some platforms such as SC7280 have 3 CSIDs and 2 CSID-lites but current
-> code has hardcoded 2 as the maximum number of CSIDs. Remove the hardcoded
-> maximum number of VFEs to handle all possible combinations of CSIDs and
-> CSID-lites.
+> 1. Separation of concerns and functional decomposition.
+>    vfe.c should be responsible for and know best how manage
+>    power-domains for a VFE, excising from camss.c follows this
+>    principle.
 > 
-> Signed-off-by: Matti Lehtimäki <matti.lehtimaki@gmail.com>
+> 2. Embedding a pointer to genpd in struct camss_vfe{} meas that we can
+>    dispense with a bunch of kmalloc array inside of camss.c.
+> 
+> 3. Splitting up titan top gdsc from vfe/ife gdsc provides a base for
+>    breaking up magic indexes in dtsi.
+> 
+> Suggested-by: Matti Lehtimäki <matti.lehtimaki@gmail.com>
+> Tested-by: Matti Lehtimäki <matti.lehtimaki@gmail.com>
 > Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Reviewed-by: Konrad Dybcio <konrad.dybciolinaro.org>
 
 Konrad
 
