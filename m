@@ -1,68 +1,59 @@
-Return-Path: <linux-media+bounces-998-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-999-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78A337F8626
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 23:30:11 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 71F417F875B
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 01:40:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 26AA2282B04
-	for <lists+linux-media@lfdr.de>; Fri, 24 Nov 2023 22:30:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28A1A28148B
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 00:40:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A8D93D976;
-	Fri, 24 Nov 2023 22:30:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96DDC7F9;
+	Sat, 25 Nov 2023 00:40:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=philpotter-co-uk.20230601.gappssmtp.com header.i=@philpotter-co-uk.20230601.gappssmtp.com header.b="mpKF3jkv"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hLu1MVm5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A03C10F4
-	for <linux-media@vger.kernel.org>; Fri, 24 Nov 2023 14:30:02 -0800 (PST)
-Received: by mail-wm1-x336.google.com with SMTP id 5b1f17b1804b1-40b2fa4ec5eso16520235e9.2
-        for <linux-media@vger.kernel.org>; Fri, 24 Nov 2023 14:30:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=philpotter-co-uk.20230601.gappssmtp.com; s=20230601; t=1700865001; x=1701469801; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=N9aMoVAYZDthyr2anGCDJRxJF5mVykGeJEK+2TP+uDA=;
-        b=mpKF3jkvLQkZD3AydPUFWQgxTtNJ5BpR+u5CWkZSHj66HKpXkh6NYDf8iI4KTZdHxw
-         b+N/rdZcKumT0oDyCJlgLfzSsoqudC6zoVJv10aL4zkrumjviYZLlLWoLZpjfNLqzcQl
-         yjIbOA4BOOanvOsw9BU7VF7bA3rNIAWsnEg1xqZqIqbMeeNM3ztwwk/bu5odN4Y4i65C
-         ynsbgnk2FD9PDr+80W234Rinv1Ri7c4cKS0HcbF1nd90QuYUDZCVFM7CAOvlElCiMcnT
-         fufl7nbPlLZOXq6t4ZrIbze0/j1QyRQ1ZFnka9IVKiH81A8MJnRqzfYXU1ZfjMSQ0cp5
-         e/uw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700865001; x=1701469801;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=N9aMoVAYZDthyr2anGCDJRxJF5mVykGeJEK+2TP+uDA=;
-        b=A5u9di1lUZUl1iDj1/0GIBftl3NkIE41qKyinCPImsB+2qpjYEzJuh2xlTMmIDgd1r
-         wpXRrlcKH2RlFeSa/MC6dk2SYuh0qX4dVFK5Ow2/emSaPWI8ar5SdD1jnLDCED5VZ1Dy
-         7/y11TrUKyhphvQrSQ6VSef+ZlvWfbk2Qa6Bs6q8N2G0IOb8l2bA/ofNH8CAlNlQ179t
-         RyMVYbHPA8u0yXG2lSm1PLIihawtDW5Vt9h4ddg2vtT57bNxktOdZyyS+Z4tQ+rE/qZH
-         iHcNcdAt2fHxfmOOQtp44JFdfqxE2OoP//oJ3XHs2HdS4qZY8mmN+S328Jo7TsaXoCQB
-         WW/g==
-X-Gm-Message-State: AOJu0YzCl6PBgf+VWqW6PlLIurDLoGK7AjodxPX8BEgnt0kyqFEIIzKf
-	OII3gNN4mKwJL5E5DIEEVkv1VpnYILoq9p1BSuFl2fjW
-X-Google-Smtp-Source: AGHT+IEriUeR3Amtpl0U1j/IWdPGBWZcNP0dPbDNg/M3cJq/yy5X8cAy7YxhVmrIlfkD8JFMWZQvYg==
-X-Received: by 2002:a7b:c857:0:b0:40b:35f2:3b42 with SMTP id c23-20020a7bc857000000b0040b35f23b42mr3286516wml.22.1700865000755;
-        Fri, 24 Nov 2023 14:30:00 -0800 (PST)
-Received: from equinox (2.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0.a.1.e.e.d.f.d.0.b.8.0.1.0.0.2.ip6.arpa. [2001:8b0:dfde:e1a0::2])
-        by smtp.gmail.com with ESMTPSA id m5-20020a5d56c5000000b00332cbd59f8bsm5274213wrw.25.2023.11.24.14.30.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Nov 2023 14:30:00 -0800 (PST)
-Date: Fri, 24 Nov 2023 22:29:58 +0000
-From: Phillip Potter <phil@philpotter.co.uk>
-To: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
-Cc: ezequiel@vanguardiasur.com.ar, mchehab@kernel.org,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: Re: [PATCH V2] media: stk1160: Fixed high volume of stk1160_dbg
- messages
-Message-ID: <ZWEj5sDUs83qn0pc@equinox>
-References: <20231122161304.12434-1-ghanshyam1898@gmail.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFBF11739
+	for <linux-media@vger.kernel.org>; Fri, 24 Nov 2023 16:40:03 -0800 (PST)
+Received: from localhost (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: dbrouwer)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8B700660739A;
+	Sat, 25 Nov 2023 00:40:01 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1700872801;
+	bh=bynndVqydqsjkhi9n3htwlx+9RQy0P5LjMM5oe2L3Vs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hLu1MVm5mXfzIHtY4yHB8x+uZNUtk0HApZbJHlihqookmqDhdnJn9axuSrlZZ8WOi
+	 clKWQDkBj5/f+lGVKoY91AA0ovwDhaZetKwqRturKWLsW+7EuChrAqS95BikLscnlS
+	 zzJeExGneQ4mjziisnvaZP+rm2zK/RpIXE5OlU759Xr0nfAR+ziu5VVvTwetZGHSk6
+	 5Tg2zYzI4SQAmPCRvU8gOx0+1kARm2d8dHPlZfW21Rd0d/gqKfD8E2gPLDYTx0hSB8
+	 JWKF3BcjosIKzEBV0b3zIV7dhPAMAUWcOQBVzeNufsDmfwaa3O16T5RNXi43ect5jS
+	 TXpq4VKF5KM2Q==
+Date: Fri, 24 Nov 2023 16:39:57 -0800
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: Michael Tretter <m.tretter@pengutronix.de>
+Cc: Jacob Chen <jacob-chen@iotwrt.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>, Shengyu Qu <wiagn233@outlook.com>,
+	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Diederik de Haas <didi.debian@cknow.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, kernel@pengutronix.de,
+	nicolas.dufresne@collabora.com
+Subject: Re: [PATCH v2 01/13] media: rockchip: rga: fix swizzling for RGB
+ formats
+Message-ID: <ZWFCXaB5KpRL0Ssf@mz550>
+References: <20230914-rockchip-rga-multiplanar-v2-0-bbfa6abf8bbf@pengutronix.de>
+ <20230914-rockchip-rga-multiplanar-v2-1-bbfa6abf8bbf@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -71,41 +62,90 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231122161304.12434-1-ghanshyam1898@gmail.com>
+In-Reply-To: <20230914-rockchip-rga-multiplanar-v2-1-bbfa6abf8bbf@pengutronix.de>
 
-On Wed, Nov 22, 2023 at 09:43:04PM +0530, Ghanshyam Agrawal wrote:
-> The function stk1160_dbg gets called too many times, which causes
-> the output to get flooded with messages. Since stk1160_dbg uses
-> printk, it is now replaced with dev_warn_ratelimited.
+On Fri, Oct 13, 2023 at 01:00:22PM +0200, Michael Tretter wrote:
+
+Hi Michael,
+
+> When using 32 bit RGB formats, the RGA on the rk3568 produces wrong
+> colors as the wrong color channels are read or written.  The reason is
+> that the format description for the channel swizzeling is wrong and the
+> wrong bits are configured. For example, when converting ARGB32 to NV12,
+> the alpha channel is used as blue channel.. This doesn't happen if the
+> color format is the same on both sides.
 > 
-> Suggested-by: Phillip Potter <phil@philpotter.co.uk>
-> Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
+> Fix the color_swap settings of the formats to correctly handle 32 bit
+> RGB formats.
+
+You mentioned in your cover letter that you only tested this on rk3568
+so I tested it on an rk3399 as well.
+
+I used gstreamer to convert each of the formats that you changed
+(V4L2_PIX_FMT_ARGB32, V4L2_PIX_FMT_ABGR32, V4L2_PIX_FMT_XBGR32) into
+each of:
+BA24, AR24, XR24, RGB3, BGRI 3, NV21, YU12, 422P, YV12, and NM12.
+
+All the colour conversions are working and much better than before which
+I could see was definitely broken.
+
+Tested-by: Deborah Brouwer <deborah.brouwer@collabora.com>
+
+> 
+> For RGA_COLOR_FMT_XBGR8888, the RGA_COLOR_ALPHA_SWAP bit doesn't have an
+> effect. Thus, it isn't possible to handle the V4L2_PIX_FMT_XRGB32. Thus,
+> it is removed from the list of supported formats.
+> 
+> Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 > ---
-> v2:
-> Thanks for your suggestions Phillip. I have updated the TODO comment and 
-> used dev_warn_ratelimited for inclusion of kernel warning.
+> Changes in v2: None
+> ---
+>  drivers/media/platform/rockchip/rga/rga.c | 15 +++------------
+>  1 file changed, 3 insertions(+), 12 deletions(-)
 > 
->  drivers/media/usb/stk1160/stk1160-video.c | 12 +++++++++++-
->  1 file changed, 11 insertions(+), 1 deletion(-)
+> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+> index f1c532a5802a..25f5b5eebf13 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.c
+> +++ b/drivers/media/platform/rockchip/rga/rga.c
+> @@ -184,25 +184,16 @@ static int rga_setup_ctrls(struct rga_ctx *ctx)
+>  static struct rga_fmt formats[] = {
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_ARGB32,
+> -		.color_swap = RGA_COLOR_RB_SWAP,
+> +		.color_swap = RGA_COLOR_ALPHA_SWAP,
+>  		.hw_format = RGA_COLOR_FMT_ABGR8888,
+>  		.depth = 32,
+>  		.uv_factor = 1,
+>  		.y_div = 1,
+>  		.x_div = 1,
+>  	},
+> -	{
+> -		.fourcc = V4L2_PIX_FMT_XRGB32,
+> -		.color_swap = RGA_COLOR_RB_SWAP,
+> -		.hw_format = RGA_COLOR_FMT_XBGR8888,
+> -		.depth = 32,
+> -		.uv_factor = 1,
+> -		.y_div = 1,
+> -		.x_div = 1,
+> -	},
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_ABGR32,
+> -		.color_swap = RGA_COLOR_ALPHA_SWAP,
+> +		.color_swap = RGA_COLOR_RB_SWAP,
+>  		.hw_format = RGA_COLOR_FMT_ABGR8888,
+>  		.depth = 32,
+>  		.uv_factor = 1,
+> @@ -211,7 +202,7 @@ static struct rga_fmt formats[] = {
+>  	},
+>  	{
+>  		.fourcc = V4L2_PIX_FMT_XBGR32,
+> -		.color_swap = RGA_COLOR_ALPHA_SWAP,
+> +		.color_swap = RGA_COLOR_RB_SWAP,
+>  		.hw_format = RGA_COLOR_FMT_XBGR8888,
+>  		.depth = 32,
+>  		.uv_factor = 1,
 > 
-> diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
-
-Hi Ghanshyam,
-
-Thank you for the patch, but it is sadly incorrect.
-
-You have created this V2 against a tree including the V1 version of your
-patch. A V2 patch should apply cleanly against the source tree, with no
-previous version first needing to be applied.
-
-On another note, why are you using dev_warn_ratelimited here, and if
-there's a good reason, why not use it for the other callsites in this
-function? (Genuine question here, I've not studied the difference).
-
-Please create a V3, many thanks.
-
-Nacked-by: Phillip Potter <phil@philpotter.co.uk>
-
-Regards,
-Phil
+> -- 
+> 2.39.2
+> 
 
