@@ -1,187 +1,132 @@
-Return-Path: <linux-media+bounces-1011-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1012-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38FA67F89DF
-	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 11:06:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BEF557F8ADB
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 13:50:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 872FDB212F1
-	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 10:06:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E17FC1C20D94
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 12:50:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FB17CA5D;
-	Sat, 25 Nov 2023 10:06:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBF01FC03;
+	Sat, 25 Nov 2023 12:50:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=yandex.com header.i=@yandex.com header.b="DHHfCL7i"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AgLGP1CU"
 X-Original-To: linux-media@vger.kernel.org
-X-Greylist: delayed 315 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Sat, 25 Nov 2023 02:06:22 PST
-Received: from forward501b.mail.yandex.net (forward501b.mail.yandex.net [178.154.239.145])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB05B10DC;
-	Sat, 25 Nov 2023 02:06:22 -0800 (PST)
-Received: from mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net [IPv6:2a02:6b8:c14:6e01:0:640:627f:0])
-	by forward501b.mail.yandex.net (Yandex) with ESMTP id DB35C60FAE;
-	Sat, 25 Nov 2023 13:00:58 +0300 (MSK)
-Received: by mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net (smtp/Yandex) with ESMTPSA id q0Owa29FViE0-sB5ZypyC;
-	Sat, 25 Nov 2023 13:00:57 +0300
-X-Yandex-Fwd: 1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex.com; s=mail;
-	t=1700906457; bh=3CNf1YUwxPcXKoagyMGFPDxulGH1Yq2+32NGw4WJ5MU=;
-	h=From:In-Reply-To:Cc:Date:References:To:Subject:Message-ID;
-	b=DHHfCL7iGm5GVPbUq82yaVHggXkMmPsxE/T3itgPUjMM9Qc8MuvqC5nawCxZdSsw1
-	 yRwAAYQAaPfRihZvyhcAXNT57r2XEHlYFvgsbbFmkV4/IxHE5jZUKmIppWvxnMABNz
-	 94DFUYxjCcq10vL19DtPAJ6AV3anLqh4JDOEICLA=
-Authentication-Results: mail-nwsmtp-smtp-production-main-63.sas.yp-c.yandex.net; dkim=pass header.i=@yandex.com
-Message-ID: <52b232e4-7ffa-1d01-efa6-a0af84729483@yandex.com>
-Date: Sat, 25 Nov 2023 11:00:52 +0100
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05330D0
+	for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 04:49:57 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54b0310f536so2275232a12.0
+        for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 04:49:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1700916595; x=1701521395; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gpAtV0FS3gS4I5s7lG5X3wgMGcSVSh9Gs8Iqyw/MnO8=;
+        b=AgLGP1CUP6EjPA9rrw2Lu/PA1VN4d7PpyT8GT0aGNSgQHsR0QnrJFHO8JB88b0XaN7
+         hFBKBm+DKr0HfX3K3s1TvGMFc0kknHa6K9bkX8GACbfp4HrOTicEnFqKQ7V9JS77pKK0
+         dCBj8QFFKomtMgXEmEA2UlWU+ophjP3rlEZM9zO6m4gYHGqncyVN2fqfihQEj+YFXqQl
+         nYnpRboKQEqA39XOfaLPARtOKdh0eW4YA/28V4tBFUSO/SRjzRasUH5mATKXMDBCNen3
+         kSyWjBAmKhko8l8BJRJMfR9+Q5bK74WNEGDEYTqSdqPVgOLMd7YkjVgRM9osTu/0X9Q7
+         BBLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1700916595; x=1701521395;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gpAtV0FS3gS4I5s7lG5X3wgMGcSVSh9Gs8Iqyw/MnO8=;
+        b=Vhwffw30xNauf/eSO74fAXglDAU00VMsMCMYha/RftlWoL1aZpkEYMShoMs3+dJMc4
+         JdZPbkVIz6s5cAnksxcKwB37WbXLgoDIK3FKgAcIqojnbCEk+5ibNp/vI0sNr3/0EnUg
+         EXNtY/bLbK+mjq7xnuZSdWKiQSg5qct3NtOGisZV2PVcHtPC3Rhk4QafjaSeL8Z+k9sm
+         ixuSlyvNwXP4sz1vIzFZ8yxWKNEoHRTnltKCsRZTM8VSdolS6K2r8M5TnXpAp+jkelZe
+         9/4Clak7b7KV+d3eCIyTBMsfX7EVZ3RHRDJmzU3nuiT2rbPhQi7ko07Toh4YdYNiIbIE
+         eehA==
+X-Gm-Message-State: AOJu0Yzyth2DYuHCnwbkFt0+TeLKLRHwbkcfY0TmpMjbGOKYwjVvNV+/
+	xMg9xQ/DpzzclalEuKTzCDm+ng==
+X-Google-Smtp-Source: AGHT+IH25NLMfB6zeP8SLzWprul/iFntBgIHVCwAHigzP+QC8ru563i6kTL6sxSHOftO02DnXDeY2g==
+X-Received: by 2002:aa7:c608:0:b0:54a:f1db:c2b6 with SMTP id h8-20020aa7c608000000b0054af1dbc2b6mr4675877edq.20.1700916595502;
+        Sat, 25 Nov 2023 04:49:55 -0800 (PST)
+Received: from [192.168.201.100] (178235187180.dynamic-4-waw-k-2-3-0.vectranet.pl. [178.235.187.180])
+        by smtp.gmail.com with ESMTPSA id s25-20020a05640217d900b0054b314f8ab1sm240307edy.50.2023.11.25.04.49.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 25 Nov 2023 04:49:55 -0800 (PST)
+Message-ID: <fd075d7b-1cac-4964-bd97-8f481a385bd7@linaro.org>
+Date: Sat, 25 Nov 2023 13:49:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH RFC v3 22/37] drm/rockchip: inno_hdmi: Remove useless
- output format
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev
-References: <20231031-kms-hdmi-connector-state-v3-0-328b0fae43a7@kernel.org>
- <20231031-kms-hdmi-connector-state-v3-22-328b0fae43a7@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v6 7/8] media: qcom: camss: Flag CSID-lites to support
+ more CSIDs
 Content-Language: en-US
-From: Johan Jonker <jbx6244@yandex.com>
-In-Reply-To: <20231031-kms-hdmi-connector-state-v3-22-328b0fae43a7@kernel.org>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, hverkuil-cisco@xs4all.nl,
+ laurent.pinchart@ideasonboard.com, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, matti.lehtimaki@gmail.com,
+ quic_grosikop@quicinc.com
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20231123-b4-camss-named-power-domains-v6-0-3ec2fd9e8e36@linaro.org>
+ <20231123-b4-camss-named-power-domains-v6-7-3ec2fd9e8e36@linaro.org>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
+ 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
+ izWDgYvmBE8=
+In-Reply-To: <20231123-b4-camss-named-power-domains-v6-7-3ec2fd9e8e36@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Hi Maxime,
-
-In stead of further cripplingRockchip HDMI drivers one could also make it functional based  on EDID info.
-
-To start with the output could you turn RGB888 input and switch between
-
-RGB444, YCBCR444 and YCBCR422 output.
-
-Johan
-
-On 10/31/23 17:48, Maxime Ripard wrote:
-> Similarly to the input format, the driver has a lot of code to deal with
-> various output format, but the driver hardcodes it to RGB always.
->
-> Let's get rid of the dead code.
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+On 23.11.2023 18:03, Bryan O'Donoghue wrote:
+> From: Matti Lehtimäki <matti.lehtimaki@gmail.com>
+> 
+> Some platforms such as SC7280 have 3 CSIDs and 2 CSID-lites but current
+> code has hardcoded 2 as the maximum number of CSIDs. Remove the hardcoded
+> maximum number of VFEs to handle all possible combinations of CSIDs and
+> CSID-lites.
+> 
+> Signed-off-by: Matti Lehtimäki <matti.lehtimaki@gmail.com>
+> Signed-off-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->  drivers/gpu/drm/rockchip/inno_hdmi.c | 57 ++++--------------------------------
->  1 file changed, 6 insertions(+), 51 deletions(-)
->
-> diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-> index e0696ab16da3..0c6c550e0ce7 100644
-> --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
-> +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-> @@ -28,7 +28,6 @@
->  #include "inno_hdmi.h"
->  
->  struct hdmi_data_info {
-> -	unsigned int enc_out_format;
->  	unsigned int colorimetry;
->  };
->  
-> @@ -296,26 +295,14 @@ static int inno_hdmi_config_video_avi(struct inno_hdmi *hdmi,
->  	rc = drm_hdmi_avi_infoframe_from_display_mode(&frame.avi,
->  						      &hdmi->connector,
->  						      mode);
-> -
-> -	if (hdmi->hdmi_data.enc_out_format == HDMI_COLORSPACE_YUV444)
-> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV444;
-> -	else if (hdmi->hdmi_data.enc_out_format == HDMI_COLORSPACE_YUV422)
-> -		frame.avi.colorspace = HDMI_COLORSPACE_YUV422;
-> -	else
-> -		frame.avi.colorspace = HDMI_COLORSPACE_RGB;
-> +	frame.avi.colorspace = HDMI_COLORSPACE_RGB;
->  
->  	return inno_hdmi_upload_frame(hdmi, rc, &frame, INFOFRAME_AVI, 0, 0, 0);
->  }
->  
->  static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
->  {
-> -	struct hdmi_data_info *data = &hdmi->hdmi_data;
-> -	int c0_c2_change = 0;
-> -	int csc_enable = 0;
-> -	int csc_mode = 0;
-> -	int auto_csc = 0;
->  	int value;
-> -	int i;
->  
->  	/* Input video mode is SDR RGB24bit, data enable signal from external */
->  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL1, v_DE_EXTERNAL |
-> @@ -327,43 +314,13 @@ static int inno_hdmi_config_video_csc(struct inno_hdmi *hdmi)
->  		v_VIDEO_INPUT_CSP(0);
->  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL2, value);
->  
-> -	if (HDMI_COLORSPACE_RGB == data->enc_out_format) {
-> -		value = v_SOF_DISABLE | v_COLOR_DEPTH_NOT_INDICATED(1);
-> -		hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL3, value);
-> -
-> -		hdmi_modb(hdmi, HDMI_VIDEO_CONTRL,
-> -			  m_VIDEO_AUTO_CSC | m_VIDEO_C0_C2_SWAP,
-> -			  v_VIDEO_AUTO_CSC(AUTO_CSC_DISABLE) |
-> -			  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
-> -		return 0;
-> -	}
-> -
-> -	if (data->colorimetry == HDMI_COLORIMETRY_ITU_601) {
-> -		if (data->enc_out_format == HDMI_COLORSPACE_YUV444) {
-> -			csc_mode = CSC_RGB_0_255_TO_ITU601_16_235_8BIT;
-> -			auto_csc = AUTO_CSC_DISABLE;
-> -			c0_c2_change = C0_C2_CHANGE_DISABLE;
-> -			csc_enable = v_CSC_ENABLE;
-> -		}
-> -	} else {
-> -		if (data->enc_out_format == HDMI_COLORSPACE_YUV444) {
-> -			csc_mode = CSC_RGB_0_255_TO_ITU709_16_235_8BIT;
-> -			auto_csc = AUTO_CSC_DISABLE;
-> -			c0_c2_change = C0_C2_CHANGE_DISABLE;
-> -			csc_enable = v_CSC_ENABLE;
-> -		}
-> -	}
-> -
-> -	for (i = 0; i < 24; i++)
-> -		hdmi_writeb(hdmi, HDMI_VIDEO_CSC_COEF + i,
-> -			    coeff_csc[csc_mode][i]);
-> -
-> -	value = v_SOF_DISABLE | csc_enable | v_COLOR_DEPTH_NOT_INDICATED(1);
-> +	value = v_SOF_DISABLE | v_COLOR_DEPTH_NOT_INDICATED(1);
->  	hdmi_writeb(hdmi, HDMI_VIDEO_CONTRL3, value);
-> -	hdmi_modb(hdmi, HDMI_VIDEO_CONTRL, m_VIDEO_AUTO_CSC |
-> -		  m_VIDEO_C0_C2_SWAP, v_VIDEO_AUTO_CSC(auto_csc) |
-> -		  v_VIDEO_C0_C2_SWAP(c0_c2_change));
->  
-> +	hdmi_modb(hdmi, HDMI_VIDEO_CONTRL,
-> +		  m_VIDEO_AUTO_CSC | m_VIDEO_C0_C2_SWAP,
-> +		  v_VIDEO_AUTO_CSC(AUTO_CSC_DISABLE) |
-> +		  v_VIDEO_C0_C2_SWAP(C0_C2_CHANGE_DISABLE));
->  	return 0;
->  }
->  
-> @@ -425,8 +382,6 @@ static int inno_hdmi_setup(struct inno_hdmi *hdmi,
->  	struct drm_display_info *display = &hdmi->connector.display_info;
->  	u8 vic = drm_match_cea_mode(mode);
->  
-> -	hdmi->hdmi_data.enc_out_format = HDMI_COLORSPACE_RGB;
-> -
->  	if ((vic == 6) || (vic == 7) ||
->  	    (vic == 21) || (vic == 22) ||
->  	    (vic == 2) || (vic == 3) ||
->
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+
+Konrad
 
