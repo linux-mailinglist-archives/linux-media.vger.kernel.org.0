@@ -1,131 +1,90 @@
-Return-Path: <linux-media+bounces-1018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25DB27F8CB0
-	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 18:18:37 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9195B7F8CE1
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 18:46:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F55E1C20C66
-	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 17:18:36 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7F647B210C3
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 17:46:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACEBB2C860;
-	Sat, 25 Nov 2023 17:18:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BB782D041;
+	Sat, 25 Nov 2023 17:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="1LlHdCXH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from www.linuxtv.org (www.linuxtv.org [130.149.80.248])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E456BB6
-	for <linux-media@vger.kernel.org>; Sat, 25 Nov 2023 09:18:27 -0800 (PST)
-Received: from builder.linuxtv.org ([140.211.167.10])
-	by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1r6wIU-000O9e-72; Sat, 25 Nov 2023 17:18:26 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-	by builder.linuxtv.org with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1r6wIQ-00FyoE-23;
-	Sat, 25 Nov 2023 17:18:23 +0000
-Date: Sat, 25 Nov 2023 17:18:23 +0000 (UTC)
-From: Jenkins Builder Robot  <jenkins@linuxtv.org>
-To: mchehab@kernel.org, linux-media@vger.kernel.org,
-	libcamera-devel@lists.libcamera.org
-Message-ID: <1871854536.0.1700932703904@builder.linuxtv.org>
-Subject: Build failed in Jenkins: libcamera #1138
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7727AD5;
+	Sat, 25 Nov 2023 09:46:41 -0800 (PST)
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3APDTRoR020744;
+	Sat, 25 Nov 2023 18:46:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding:content-type; s=selector1; bh=eOwChtT
+	kTf51cQ+B99qQKr3Mv07Cb4dOooViFH+WIec=; b=1LlHdCXHtVAmZSTv+dQMHLT
+	tU8/LOV8YwCW4LGdAbZWSjwmcpejr3vEmV1qZkvTlB8WXdjxOdzvt6o2UCqYbTR2
+	3qAk2m4Y4zt8DzXUs6vwzGdPoU4A15+RBSjkt/aqfeNR7K/5enVfEuZTnSx8C+TY
+	/+8oUNxlmXdWGMIlv8pW4ThJuO+5JoUXRACjLKlTmOOs40NiSGXiqd7vcVXP1wSN
+	8KIUuMvi80gLy+1l7rG+lO+6Pb8rHneagpfiM9pWtKycV8BIUU+Hy9w7sH5Z3IrB
+	hxT+iXSnlA+IUEzUIAOHD/4I6hJMjNOrqZCPfR8SUHqThMPkiCtBI45sxvUOmhw=
+	=
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3uk951htjn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 25 Nov 2023 18:46:25 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 5D7C510002A;
+	Sat, 25 Nov 2023 18:46:24 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 12B1F237D60;
+	Sat, 25 Nov 2023 18:46:24 +0100 (CET)
+Received: from localhost (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Sat, 25 Nov
+ 2023 18:46:24 +0100
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Benjamin Mugnier
+	<benjamin.mugnier@foss.st.com>,
+        Sylvain Petinot
+	<sylvain.petinot@foss.st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: Alain Volmat <alain.volmat@foss.st.com>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH 0/2] media: i2c: st-vgxy61: add subdev events & fwnode ctrls
+Date: Sat, 25 Nov 2023 18:46:01 +0100
+Message-ID: <20231125174604.1378485-1-alain.volmat@foss.st.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: libcamera
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-25_17,2023-11-22_01,2023-05-22_02
 
-See <https://builder.linuxtv.org/job/libcamera/1138/display/redirect>
+Correct v4l2-compliance test by adding flag V4L2_SUBDEV_FL_HAS_EVENTS
+and subscribe hooks and add fwnode properties in order to be able to
+expose sensor properties such as orientation & rotation.
 
-Changes:
+Alain Volmat (2):
+  media: i2c: st-vgxy61: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe
+    hooks
+  media: i2c: st-vgxy61: add v4l2_fwnode ctrls parse and addition
 
+ drivers/media/i2c/st-vgxy61.c | 19 ++++++++++++++++++-
+ 1 file changed, 18 insertions(+), 1 deletion(-)
 
-------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave2 in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --resolve-git-dir <https://builder.linuxtv.org/job/libcamera/ws/.git> # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/libcamera.git
- > git --version # timeout=10
- > git --version # 'git version 2.39.2'
- > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision e25003e78b13b7db5d24a1082294d9596c735fd6 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f e25003e78b13b7db5d24a1082294d9596c735fd6 # timeout=10
-Commit message: "Documentation: contributing: Integrate the code of conduct"
- > git rev-list --no-walk 62e5289819789e37cb169af94869fea0c86c8e9c # timeout=10
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse e25003e78b13b7db5d24a1082294d9596c735fd6^{commit} # timeout=10
-The recommended git tool is: NONE
-No credentials specified
-java.lang.Exception: Object was recently deallocated
-    #5 (ref.0) : object=null type=hudson.plugins.git.GitAPI interfaces=[hudson.plugins.git.IGitAPI]
-	at hudson.remoting.ExportTable.diagnoseInvalidObjectId(ExportTable.java:429)
-Also:   hudson.remoting.Channel$CallSiteStackTrace: Remote call to slave2
-		at hudson.remoting.Channel.attachCallSiteStackTrace(Channel.java:1784)
-		at hudson.remoting.UserRequest$ExceptionResponse.retrieve(UserRequest.java:356)
-		at hudson.remoting.Channel.call(Channel.java:1000)
-		at hudson.remoting.RemoteInvocationHandler.invoke(RemoteInvocationHandler.java:285)
-		at jdk.proxy16/jdk.proxy16.$Proxy70.withRepository(Unknown Source)
-		at org.jenkinsci.plugins.gitclient.RemoteGitImpl.withRepository(RemoteGitImpl.java:261)
-		at io.jenkins.plugins.forensics.git.reference.GitCheckoutListener.recordCommitsSincePreviousBuild(GitCheckoutListener.java:125)
-		at io.jenkins.plugins.forensics.git.reference.GitCheckoutListener.recordNewCommits(GitCheckoutListener.java:100)
-		at io.jenkins.plugins.forensics.git.reference.GitCheckoutListener.recordNewCommits(GitCheckoutListener.java:71)
-		at io.jenkins.plugins.forensics.git.reference.GitCheckoutListener.onCheckout(GitCheckoutListener.java:49)
-		at hudson.model.AbstractBuild$AbstractBuildExecution.defaultCheckout(AbstractBuild.java:654)
-		at jenkins.scm.SCMCheckoutStrategy.checkout(SCMCheckoutStrategy.java:85)
-		at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:521)
-		at hudson.model.Run.execute(Run.java:1900)
-		at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:44)
-		at hudson.model.ResourceController.execute(ResourceController.java:101)
-		at hudson.model.Executor.run(Executor.java:442)
-Caused: java.util.concurrent.ExecutionException: Invalid object ID 5 iota=6
-	at hudson.remoting.ExportTable.diagnoseInvalidObjectId(ExportTable.java:441)
-	at hudson.remoting.ExportTable.get(ExportTable.java:358)
-	at hudson.remoting.Channel.getExportedObject(Channel.java:824)
-	at hudson.remoting.RemoteInvocationHandler$RPCRequest.perform(RemoteInvocationHandler.java:915)
-	at hudson.remoting.RemoteInvocationHandler$RPCRequest.call(RemoteInvocationHandler.java:902)
-	at hudson.remoting.RemoteInvocationHandler$RPCRequest.call(RemoteInvocationHandler.java:853)
-	at hudson.remoting.UserRequest.perform(UserRequest.java:211)
-	at hudson.remoting.UserRequest.perform(UserRequest.java:54)
-	at hudson.remoting.Request$2.run(Request.java:377)
-	at hudson.remoting.InterceptingExecutorService.lambda$wrap$0(InterceptingExecutorService.java:78)
-	at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
-	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1136)
-	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:635)
-	at java.base/java.lang.Thread.run(Thread.java:833)
-Caused: hudson.remoting.RemotingSystemException
-	at hudson.remoting.RemoteInvocationHandler.invoke(RemoteInvocationHandler.java:301)
-	at jdk.proxy16/jdk.proxy16.$Proxy70.withRepository(Unknown Source)
-	at org.jenkinsci.plugins.gitclient.RemoteGitImpl.withRepository(RemoteGitImpl.java:261)
-	at io.jenkins.plugins.forensics.git.reference.GitCheckoutListener.recordCommitsSincePreviousBuild(GitCheckoutListener.java:125)
-	at io.jenkins.plugins.forensics.git.reference.GitCheckoutListener.recordNewCommits(GitCheckoutListener.java:100)
-	at io.jenkins.plugins.forensics.git.reference.GitCheckoutListener.recordNewCommits(GitCheckoutListener.java:71)
-	at io.jenkins.plugins.forensics.git.reference.GitCheckoutListener.onCheckout(GitCheckoutListener.java:49)
-	at hudson.model.AbstractBuild$AbstractBuildExecution.defaultCheckout(AbstractBuild.java:654)
-Caused: java.io.IOException
-	at hudson.model.AbstractBuild$AbstractBuildExecution.defaultCheckout(AbstractBuild.java:656)
-	at jenkins.scm.SCMCheckoutStrategy.checkout(SCMCheckoutStrategy.java:85)
-	at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:521)
-	at hudson.model.Run.execute(Run.java:1900)
-	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:44)
-	at hudson.model.ResourceController.execute(ResourceController.java:101)
-	at hudson.model.Executor.run(Executor.java:442)
+-- 
+2.25.1
+
 
