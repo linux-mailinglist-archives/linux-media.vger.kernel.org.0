@@ -1,133 +1,126 @@
-Return-Path: <linux-media+bounces-1008-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1009-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC5A17F8973
-	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 10:03:20 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 524F17F89CD
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 10:56:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 57388B212C2
-	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 09:03:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 062F02816F4
+	for <lists+linux-media@lfdr.de>; Sat, 25 Nov 2023 09:56:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FD1A9460;
-	Sat, 25 Nov 2023 09:03:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41AFDC8E7;
+	Sat, 25 Nov 2023 09:56:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cuSaSWpY"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GvYyssJu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-x634.google.com (mail-pl1-x634.google.com [IPv6:2607:f8b0:4864:20::634])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52BD518B;
-	Sat, 25 Nov 2023 01:03:07 -0800 (PST)
-Received: by mail-pl1-x634.google.com with SMTP id d9443c01a7336-1cc9b626a96so19513105ad.2;
-        Sat, 25 Nov 2023 01:03:07 -0800 (PST)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C6B10D8;
+	Sat, 25 Nov 2023 01:56:30 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-32deb2809daso1723868f8f.3;
+        Sat, 25 Nov 2023 01:56:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1700902987; x=1701507787; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=lO9T1f7+xQGxacGqr4UGfolgAcK+nTqINcLwMQXMAsg=;
-        b=cuSaSWpYZKDgP5OZznBQC+hhG5HpKPrbP5shtmLwgz5AMkLuF6ouFTwNuBLxkgr69r
-         lZEu4ScQ+Oyko6jH+WHOr3DBSRVrHbAxOOElT98QCMV8Y8BDmdo2vBeB8jL2quclGMtw
-         WYdP3+syqXKG0GgmhCvn6Apts4Y3mb+MYileTT2JiLvc0L5JTpaeTEvi6ajYlPfi0c2M
-         ycH6T2ZBPtgL2PiZbvXNFElLUQ41Jldr/ttTdYBpeFD+2oDW/npnIe3dRt7Eupy2NQVv
-         ln208jFf9fFoEVdNsRgUxO70reY0J1Qq6ApE629KD3qbyZALate/3Ix66wN0MDhSJ1M4
-         KDrg==
+        d=gmail.com; s=20230601; t=1700906188; x=1701510988; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kZ8S4GA8sQkyoXQhisIQDzUpRENnlBDkm/bXMs/5Ous=;
+        b=GvYyssJuxVYCgblC+6Loghzan5kk2TtjZ6KLgeZhGS+pPT/qBR6l4l7B5SgUX9MAx8
+         8RSBdn4ND6+i9Kd0h9y4n5Y+EBL2U0PLmV51PW+ieIDRII90wKT82SiW6sFLIPu4f4DY
+         tcZluTLyNDGo90L845Kiet27CjAhHLVnaqWmya+BcD8WA3wZCBGfCUKD8v4/alNO2wqW
+         0X2dRLQz2e0dSUhI2vpxYoy2OpJ13dWOlyvWyoWnascvXzU5h6PB2WUf8I5kl9q94Wdz
+         4/37Vhdk4q90NuFDFyL7z2kerzUAMsJgHllKmpoo93k/WDrv2HBDFgFp4rwnI5th1eFX
+         HV0Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1700902987; x=1701507787;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lO9T1f7+xQGxacGqr4UGfolgAcK+nTqINcLwMQXMAsg=;
-        b=bpbXgo3tw/NoHQbSKT2qtiTTSUvwGrOP0or+mW7jRRbkikSGtUxq6UlIKCoucHIHCM
-         CmcfluoS8IsId5TdJ/8f9V5Xz7jN2io14dlFtEld43piNnZtVn4r5Nntu+aB6/FNMlkX
-         lOL+Vum+DduRVKgie0FK4bRep4g7Cdm9mhswL4OBybuXs3vrAXQFFByXno35Dy1H9YvP
-         1QTaApPIJYVY5X6hCj7+Mkyz+b9JOoZ+FXVUw9mF+uWG2SPrKPcw3nFbVNFvgaTtn5pv
-         VBHwsEJLrxrBnv0PXR0XOpqdj1b+Lv9+G0J3shSr2uWi9udyP9YiHvThWnmJGMPbSwOM
-         NV8A==
-X-Gm-Message-State: AOJu0Yw/QAlyDmjdSTRReziH6+GvWfWXaPId3K2ziuPSWYnGWqrgugOZ
-	x1eCvNFEVVYXdtMUVAqYN98=
-X-Google-Smtp-Source: AGHT+IHzHe+EX24z8BHIjaM3k4H/XwNhsDntn0KLOhQQwYivmHfHFxBAmxTh6FhgpXNa1WfjFYXxJQ==
-X-Received: by 2002:a05:6a20:6a22:b0:18c:346c:d59f with SMTP id p34-20020a056a206a2200b0018c346cd59fmr1985559pzk.62.1700902986672;
-        Sat, 25 Nov 2023 01:03:06 -0800 (PST)
-Received: from localhost.localdomain ([2401:4900:716a:b035:7b6d:4b79:e0d7:1a84])
-        by smtp.gmail.com with ESMTPSA id o10-20020a17090a3d4a00b0027dafa55306sm4511646pjf.40.2023.11.25.01.03.03
+        d=1e100.net; s=20230601; t=1700906188; x=1701510988;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kZ8S4GA8sQkyoXQhisIQDzUpRENnlBDkm/bXMs/5Ous=;
+        b=Rcg7mVcv7bFEeiArl+TT4fAlLSkL12M6XcmnrNi14b6G1C9ptbrVxiOSqx7w8sxzqn
+         c6wtui9qNSplNZzdvZSauhjNUu22mm4PLCa49T1bW3U4l9R93J7u6qY0OC1xMs1FVu4X
+         YrsG3llNuASgDccv/hqFl3vENmeoJUEVpNK/linLUVLYQURyNL+rs9a7caVdYBoyAPoU
+         /ZY14mADfMgJY5N7bkOWDZhR8HvK9jizOsnykiztRjm1wssF6CNr9v8taoZbBq3vfkrY
+         DCtSgyDWc8MuPwOcgkaSDyqID+HC+GYcsTYMYJFqCpRj5oZoS4h1hq76W8ZtsT4RpMdO
+         ccEQ==
+X-Gm-Message-State: AOJu0YwVpBUhRnhrzeg1usD1xkeQMAk91oJC4gjggB4UBIkB8CT7ccLj
+	y1suvOBGgRIIOGhCshGHKpE=
+X-Google-Smtp-Source: AGHT+IFR76D/Z3NnhOZcXwwWy53fQMzD2iIudvyif4u1evQbeuZ6YlwCg4M2HJ6jn16olrapoOYp8A==
+X-Received: by 2002:a5d:58d3:0:b0:32d:89b5:7fd9 with SMTP id o19-20020a5d58d3000000b0032d89b57fd9mr4160331wrf.56.1700906188192;
+        Sat, 25 Nov 2023 01:56:28 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-142-131.cust.vodafonedsl.it. [2.39.142.131])
+        by smtp.gmail.com with ESMTPSA id t5-20020a5d49c5000000b00327b5ca093dsm6229834wrs.117.2023.11.25.01.56.27
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 25 Nov 2023 01:03:06 -0800 (PST)
-From: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
-To: ezequiel@vanguardiasur.com.ar,
-	mchehab@kernel.org
-Cc: Ghanshyam Agrawal <ghanshyam1898@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org,
-	Phillip Potter <phil@philpotter.co.uk>
-Subject: [PATCH V4] media: stk1160: Fixed high volume of stk1160_dbg messages
-Date: Sat, 25 Nov 2023 14:32:36 +0530
-Message-Id: <20231125090236.654605-1-ghanshyam1898@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        Sat, 25 Nov 2023 01:56:27 -0800 (PST)
+Date: Sat, 25 Nov 2023 10:56:25 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linuxfancy@googlegroups.com,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: ov5640: add missing v4l2_subdev_init_finalize
+Message-ID: <ZWHEyTSnbuhH1Xdu@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231124184913.2574925-1-tomm.merciai@gmail.com>
+ <ZWDzL+prP90gV6m2@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <20231124190636.GA15686@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231124190636.GA15686@pendragon.ideasonboard.com>
 
-The function stk1160_dbg gets called too many times, which causes
-the output to get flooded with messages. Since stk1160_dbg uses
-printk, it is now replaced with printk_ratelimited.
+Hi Laurent,
 
-Suggested-by: Phillip Potter <phil@philpotter.co.uk>
-Signed-off-by: Ghanshyam Agrawal <ghanshyam1898@gmail.com>
----
-V4:
-Updated printk_ratelimited to KERN_DEBUG level instead of
-KERN_WARNING level since the original function in use,
-stk1160_dbg, uses KERN_DEBUG level.
+On Fri, Nov 24, 2023 at 09:06:36PM +0200, Laurent Pinchart wrote:
+> On Fri, Nov 24, 2023 at 08:02:07PM +0100, Tommaso Merciai wrote:
+> > On Fri, Nov 24, 2023 at 07:49:13PM +0100, Tommaso Merciai wrote:
+> > > After the ov5640 configurations steps let's add v4l2_subdev_init_finalize
+> > > that finalizes the initialization of the subdevice.
+> > > 
+> > > References:
+> > >  - https://linuxtv.org/downloads/v4l-dvb-apis/driver-api/v4l2-subdev.html
+> > > 
+> > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > > ---
+> > >  drivers/media/i2c/ov5640.c | 6 ++++++
+> > >  1 file changed, 6 insertions(+)
+> > > 
+> > > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> > > index 3f79a3b77044..338eea802ab8 100644
+> > > --- a/drivers/media/i2c/ov5640.c
+> > > +++ b/drivers/media/i2c/ov5640.c
+> > > @@ -3924,6 +3924,12 @@ static int ov5640_probe(struct i2c_client *client)
+> > >  	if (ret)
+> > >  		goto entity_cleanup;
+> > >  
+> > > +	ret = v4l2_subdev_init_finalize(&sensor->sd);
+> > > +	if (ret < 0) {
+> > > +		dev_err(dev, "subdev init error: %d\n", ret);
+> > > +		goto entity_cleanup;
+> > > +	}
+> > > +
+> > >  	ret = ov5640_sensor_resume(dev);
+> > >  	if (ret) {
+> > >  		dev_err(dev, "failed to power on\n");
+> > 
+> > Ignore this patch please. I forget the cleanup part.
+> 
+> And you also forgot the conversion to the V4L2 subdev active state API
+> :-) See commit e8a5b1df000e ("media: i2c: imx219: Use subdev active
+> state") for an example.
 
-V3:
-Fixed the issue with my patch needing previous versions being applied
-first.
+Yup, thanks mb :'(
+Thanks for sharing this :)
 
-Used printk_ratelimited instead of dev_warn_ratelimited because
-of compiler error "incompatible pointer type".
-
-V2:
-To add KERN_WARNING in printk_ratelimited, and later as per warning by
-the checkpatch script, replaced  printk_ratelimited with
-dev_warn_ratelimited.
-
-V1:
-The function stk1160_dbg gets called too many times, which causes
-the output to get flooded with messages. Since stk1160_dbg uses
-printk, it is now replaced with dev_warn_ratelimited.
-
- drivers/media/usb/stk1160/stk1160-video.c | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
-
-diff --git a/drivers/media/usb/stk1160/stk1160-video.c b/drivers/media/usb/stk1160/stk1160-video.c
-index 4e966f6bf608..366f0e4a5dc0 100644
---- a/drivers/media/usb/stk1160/stk1160-video.c
-+++ b/drivers/media/usb/stk1160/stk1160-video.c
-@@ -107,8 +107,7 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
- 
- 	/*
- 	 * TODO: These stk1160_dbg are very spammy!
--	 * We should 1) check why we are getting them
--	 * and 2) add ratelimit.
-+	 * We should check why we are getting them.
- 	 *
- 	 * UPDATE: One of the reasons (the only one?) for getting these
- 	 * is incorrect standard (mismatch between expected and configured).
-@@ -151,7 +150,7 @@ void stk1160_copy_video(struct stk1160 *dev, u8 *src, int len)
- 
- 	/* Let the bug hunt begin! sanity checks! */
- 	if (lencopy < 0) {
--		stk1160_dbg("copy skipped: negative lencopy\n");
-+		printk_ratelimited(KERN_DEBUG "copy skipped: negative lencopy\n");
- 		return;
- 	}
- 
--- 
-2.25.1
-
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
