@@ -1,105 +1,158 @@
-Return-Path: <linux-media+bounces-1052-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1054-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 51B0A7F95AB
-	for <lists+linux-media@lfdr.de>; Sun, 26 Nov 2023 23:06:57 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AF577F9689
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 00:32:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DDB11C20754
-	for <lists+linux-media@lfdr.de>; Sun, 26 Nov 2023 22:06:56 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 86684B20B2E
+	for <lists+linux-media@lfdr.de>; Sun, 26 Nov 2023 23:32:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B6F2B13FE9;
-	Sun, 26 Nov 2023 22:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F818171DD;
+	Sun, 26 Nov 2023 23:32:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GeWv4p0B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtprelay06.ispgateway.de (smtprelay06.ispgateway.de [80.67.18.29])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82943B6;
-	Sun, 26 Nov 2023 14:06:46 -0800 (PST)
-Received: from [92.206.191.233] (helo=note-book.lan)
-	by smtprelay06.ispgateway.de with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96.1)
-	(envelope-from <git@apitzsch.eu>)
-	id 1r7NH0-0006tk-1U;
-	Sun, 26 Nov 2023 23:06:42 +0100
-Message-ID: <77408abedfbb92ac06e6399861c280923a2a19d2.camel@apitzsch.eu>
-Subject: Re: [PATCH v3 0/4] media: i2c: imx214: Extend with sensor size and
- firmware information
-From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To: Ricardo Ribalda <ribalda@kernel.org>, Sakari Ailus
-	 <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>, Jacopo Mondi
- <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, 
- linux-kernel@vger.kernel.org, ~postmarketos/upstreaming@lists.sr.ht,
- Ricardo Ribalda <ribalda@chromium.org>
-Date: Sun, 26 Nov 2023 23:06:40 +0100
-In-Reply-To: <20231028-imx214-v3-0-cd4bf77f9690@apitzsch.eu>
-References: <20231028-imx214-v3-0-cd4bf77f9690@apitzsch.eu>
-Autocrypt: addr=git@apitzsch.eu; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.1 
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.151])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF2D8111
+	for <linux-media@vger.kernel.org>; Sun, 26 Nov 2023 15:32:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701041539; x=1732577539;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=sX5xVwqRXIsF6CBEM3D5DwfYSIWpXhFypi7fVenWT6s=;
+  b=GeWv4p0B05oYLKALOO7Ls9hOYac1Flyxz8mGxmCwQYlYsZkfi/Ko4oCV
+   QFGmwQTeCIv69hTIYy3M3QgD+kJh2ZXT5QPgfAXFstNrO4pGIGXGqCj80
+   enWalccsd3JcHQBGdMPjJlzOvfggca95hyGtnHtjbHtgN40g0E8Q91Q4i
+   6e8pBDN5MtrI7ZMUEojA1Iw38mfWBCd8vp976C025642Bp7NpQYJsbO5w
+   DZAOrOX3aUW+KPEseev6W8g63vlIC+31XIP/RCJLXdtc//HVvTpr364hX
+   I3vQGeAM3pjxUqHkU79WGdawuVBvXYeXyovEZdqc+lN7ZrFvC7XcvlXEH
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="372768310"
+X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
+   d="scan'208";a="372768310"
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 15:32:19 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="858862275"
+X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
+   d="scan'208";a="858862275"
+Received: from lkp-server01.sh.intel.com (HELO d584ee6ebdcc) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 26 Nov 2023 15:32:17 -0800
+Received: from kbuild by d584ee6ebdcc with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r7Obn-0005d5-0p;
+	Sun, 26 Nov 2023 23:32:15 +0000
+Date: Mon, 27 Nov 2023 07:31:59 +0800
+From: kernel test robot <lkp@intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-media@vger.kernel.org,
+	Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [sailus-media-tree:test 19/20]
+ drivers/media/v4l2-core/v4l2-subdev.c:1473:6: warning: variable 'ret' is
+ uninitialized when used here
+Message-ID: <202311270412.AMfCcbby-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Df-Sender: YW5kcmVAYXBpdHpzY2guZXU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Am Samstag, dem 28.10.2023 um 10:41 +0200 schrieb Andr=C3=A9 Apitzsch:
-> Add the effective and active sensor sizes and add functionality to
-> read
-> rotation and orientation from device trees.
->=20
-> Signed-off-by: Andr=C3=A9 Apitzsch <git@apitzsch.eu>
-> ---
-> Changes in v3:
-> - Squash patch 5/5 with patch 2/5
-> - Link to v2:
-> https://lore.kernel.org/r/20231028-imx214-v2-0-69a8fb730d6e@apitzsch.eu
->=20
-> Changes in v2:
-> - Use integer representation for default exposure (Kieran)
-> - Replace dev_err_probe() by dev_err()
-> - Increase number of pre-allocated control slots (Jacopo)
-> - Fix typo in commit message (Jacopo)
-> - Add r-b tags
-> - Add patch to fix ctrls init error handling
-> - Link to v1:
-> https://lore.kernel.org/r/20231023-imx214-v1-0-b33f1bbd1fcf@apitzsch.eu
->=20
-> ---
-> Andr=C3=A9 Apitzsch (4):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Explain some magic num=
-bers
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Move controls init to =
-separate function
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Read orientation and r=
-otation from system
-> firmware
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: i2c: imx214: Add sensor's pixel mat=
-rix size
->=20
-> =C2=A0drivers/media/i2c/imx214.c | 175 +++++++++++++++++++++++++++++++---=
--
-> ----------
-> =C2=A01 file changed, 120 insertions(+), 55 deletions(-)
-> ---
-> base-commit: 66f1e1ea3548378ff6387b1ce0b40955d54e86aa
-> change-id: 20231023-imx214-68c438ebfb0c
->=20
-> Best regards,
+tree:   git://linuxtv.org/sailus/media_tree.git test
+head:   1c12986c58defb1d262ac0fa851066fc724e617e
+commit: 4c7fd566e013fd0ec5cfc3243b63bf2804c4e9fe [19/20] media: v4l2-subdev: Rename .init_cfg() operation to .init_state()
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231127/202311270412.AMfCcbby-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231127/202311270412.AMfCcbby-lkp@intel.com/reproduce)
 
-Hi,
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202311270412.AMfCcbby-lkp@intel.com/
 
-what's missing to get this series accepted. Shall I resend?
+All warnings (new ones prefixed by >>):
 
-Best regards,
-Andr=C3=A9
+>> drivers/media/v4l2-core/v4l2-subdev.c:1473:6: warning: variable 'ret' is uninitialized when used here [-Wuninitialized]
+           if (ret < 0 && ret != -ENOIOCTLCMD)
+               ^~~
+   drivers/media/v4l2-core/v4l2-subdev.c:1439:9: note: initialize the variable 'ret' to silence this warning
+           int ret;
+                  ^
+                   = 0
+   1 warning generated.
+
+
+vim +/ret +1473 drivers/media/v4l2-core/v4l2-subdev.c
+
+33c0ddbe56905c Tomi Valkeinen   2021-07-15  1433  
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1434  struct v4l2_subdev_state *
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1435  __v4l2_subdev_state_alloc(struct v4l2_subdev *sd, const char *lock_name,
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1436  			  struct lock_class_key *lock_key)
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1437  {
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1438  	struct v4l2_subdev_state *state;
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1439  	int ret;
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1440  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1441  	state = kzalloc(sizeof(*state), GFP_KERNEL);
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1442  	if (!state)
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1443  		return ERR_PTR(-ENOMEM);
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1444  
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1445  	__mutex_init(&state->_lock, lock_name, lock_key);
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1446  	if (sd->state_lock)
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1447  		state->lock = sd->state_lock;
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1448  	else
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1449  		state->lock = &state->_lock;
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1450  
+52c2575db8faa1 Sakari Ailus     2023-10-13  1451  	state->sd = sd;
+52c2575db8faa1 Sakari Ailus     2023-10-13  1452  
+2f91e10ee6fd4c Tomi Valkeinen   2021-12-21  1453  	/* Drivers that support streams do not need the legacy pad config */
+2f91e10ee6fd4c Tomi Valkeinen   2021-12-21  1454  	if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS) && sd->entity.num_pads) {
+8af592e2ecbcd2 Hans Verkuil     2022-05-02  1455  		state->pads = kvcalloc(sd->entity.num_pads,
+8af592e2ecbcd2 Hans Verkuil     2022-05-02  1456  				       sizeof(*state->pads), GFP_KERNEL);
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1457  		if (!state->pads) {
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1458  			ret = -ENOMEM;
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1459  			goto err;
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1460  		}
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1461  	}
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1462  
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1463  	/*
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1464  	 * There can be no race at this point, but we lock the state anyway to
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1465  	 * satisfy lockdep checks.
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1466  	 */
+4c7fd566e013fd Laurent Pinchart 2023-11-26  1467  	if (sd->internal_ops && sd->internal_ops->init_state) {
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1468  		v4l2_subdev_lock_state(state);
+4c7fd566e013fd Laurent Pinchart 2023-11-26  1469  		sd->internal_ops->init_state(sd, state);
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1470  		v4l2_subdev_unlock_state(state);
+4c7fd566e013fd Laurent Pinchart 2023-11-26  1471  	}
+ed647ea668fb27 Tomi Valkeinen   2022-04-12  1472  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10 @1473  	if (ret < 0 && ret != -ENOIOCTLCMD)
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1474  		goto err;
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1475  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1476  	return state;
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1477  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1478  err:
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1479  	if (state && state->pads)
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1480  		kvfree(state->pads);
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1481  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1482  	kfree(state);
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1483  
+0d346d2a6f54f0 Tomi Valkeinen   2021-06-10  1484  	return ERR_PTR(ret);
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1485  }
+40aaab9d773b07 Tomi Valkeinen   2022-04-12  1486  EXPORT_SYMBOL_GPL(__v4l2_subdev_state_alloc);
+9b02cbb3ede89b Laurent Pinchart 2015-04-24  1487  
+
+:::::: The code at line 1473 was first introduced by commit
+:::::: 0d346d2a6f54f06f36b224fd27cd6eafe8c83be9 media: v4l2-subdev: add subdev-wide state struct
+
+:::::: TO: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
