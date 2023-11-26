@@ -1,108 +1,129 @@
-Return-Path: <linux-media+bounces-1035-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1036-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3FFA7F9101
-	for <lists+linux-media@lfdr.de>; Sun, 26 Nov 2023 03:49:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D56917F9227
+	for <lists+linux-media@lfdr.de>; Sun, 26 Nov 2023 11:26:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A1239B20F81
-	for <lists+linux-media@lfdr.de>; Sun, 26 Nov 2023 02:49:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EEA561C20AE5
+	for <lists+linux-media@lfdr.de>; Sun, 26 Nov 2023 10:26:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15FDC15D5;
-	Sun, 26 Nov 2023 02:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D1F2C8CC;
+	Sun, 26 Nov 2023 10:26:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="RHY62DzX"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C592645
-	for <linux-media@vger.kernel.org>; Sun, 26 Nov 2023 02:49:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D31CC433C8
-	for <linux-media@vger.kernel.org>; Sun, 26 Nov 2023 02:49:24 +0000 (UTC)
-Date: Sun, 26 Nov 2023 03:49:22 +0100
-Message-ID: <7f7b36c21711b919a624c3c4ca9a08f6.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DB82440C;
+	Sun, 26 Nov 2023 10:26:44 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8CA2C433C7;
+	Sun, 26 Nov 2023 10:26:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1700994404;
+	bh=Rbjmx5g+UHi3YATwPl+JU2+ZSzYVcBAbawTJnIiyC7E=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RHY62DzXrTR8ClW1VyTByBR+9PRYreUCZ5eRXRGI/PlzKRdjRSjr3zzxEPrGOulwc
+	 TQWEb80iGXQnRGiJw8Ottrk6Y5XEc54/CVBJbQiVH4+XuaAK4ntUdzA/bHcnjeHmv6
+	 wREj2Kd80Ym342UYdaW03DFMlQuJFmxD7OtR5wpg=
+Date: Sun, 26 Nov 2023 10:26:41 +0000
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	Stefan Wahren <stefan.wahren@i2se.com>,
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Phil Elwell <phil@raspberrypi.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH 6/9] staging: vc04_services: Drop vchiq_log_error() in
+ favour of dev_dbg
+Message-ID: <2023112643-algebra-exorcist-5e6c@gregkh>
+References: <20231107095156.365492-1-umang.jain@ideasonboard.com>
+ <20231107095156.365492-7-umang.jain@ideasonboard.com>
+ <2023112322-wife-aspect-135b@gregkh>
+ <20231123134941.GD16377@pendragon.ideasonboard.com>
+ <2023112338-scrambler-utilize-a31d@gregkh>
+ <20231123172825.GJ16377@pendragon.ideasonboard.com>
+ <2023112343-bobbed-throbbing-2c36@gregkh>
+ <20231123180022.GA20170@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231123180022.GA20170@pendragon.ideasonboard.com>
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+On Thu, Nov 23, 2023 at 08:00:22PM +0200, Laurent Pinchart wrote:
+> On Thu, Nov 23, 2023 at 05:31:32PM +0000, Greg Kroah-Hartman wrote:
+> > On Thu, Nov 23, 2023 at 07:28:25PM +0200, Laurent Pinchart wrote:
+> > > On Thu, Nov 23, 2023 at 01:53:42PM +0000, Greg Kroah-Hartman wrote:
+> > > > On Thu, Nov 23, 2023 at 03:49:41PM +0200, Laurent Pinchart wrote:
+> > > > > On Thu, Nov 23, 2023 at 01:02:45PM +0000, Greg Kroah-Hartman wrote:
+> > > > > > On Tue, Nov 07, 2023 at 04:51:53AM -0500, Umang Jain wrote:
+> > > > > > > Drop vchiq_log_error() macro which wraps dev_dbg(). Introduce the usage
+> > > > > > > of dev_dbg() directly.
+> > > > > > > 
+> > > > > > > Add a new enum vchiq_log_type and log_type() helper to faciliate the
+> > > > > > > type of logging in dev_dbg(). This will help to determine the type of
+> > > > > > > logging("error", "warning", "debug", "trace") to dynamic debug.
+> > > > > > > 
+> > > > > > > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> > > > > > > ---
+> > > > > > >  .../interface/vchiq_arm/vchiq_arm.c           |  54 ++++----
+> > > > > > >  .../interface/vchiq_arm/vchiq_connected.c     |   6 +-
+> > > > > > >  .../interface/vchiq_arm/vchiq_core.c          | 126 ++++++++++--------
+> > > > > > >  .../interface/vchiq_arm/vchiq_core.h          |  23 +++-
+> > > > > > >  .../interface/vchiq_arm/vchiq_dev.c           |  47 ++++---
+> > > > > > >  5 files changed, 143 insertions(+), 113 deletions(-)
+> > > > > > > 
+> > > > > > > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > > > > > > index 9fb3e240d9de..2cb2a6503058 100644
+> > > > > > > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > > > > > > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> > > > > > > @@ -696,8 +696,8 @@ int vchiq_initialise(struct vchiq_instance **instance_out)
+> > > > > > >  
+> > > > > > >  	instance = kzalloc(sizeof(*instance), GFP_KERNEL);
+> > > > > > >  	if (!instance) {
+> > > > > > > -		vchiq_log_error(state->dev, VCHIQ_CORE,
+> > > > > > > -				"%s: error allocating vchiq instance\n", __func__);
+> > > > > > > +		dev_dbg(state->dev, "%s: %s: %s: error allocating vchiq instance\n",
+> > > > > > > +			log_cat(VCHIQ_CORE), log_type(ERROR), __func__);
+> > > > > > 
+> > > > > > All dev_dbg() calls have __func__ in them automatically, you never need
+> > > > > > to duplicate it again as that's redundant :(
+> > > > > 
+> > > > > Oh ? I didn't know that, and can't find it in the code. I may be missing
+> > > > > something though. Are you referring to the +f flag for dynamic debug
+> > > > > entries ? It won't work if dynamic debug isn't enabled though, but maybe
+> > > > > we don't care about that ?
+> > > > 
+> > > > Yes, the "f" flag is what controls this, and if dynamic debug isn't
+> > > > enabled, you don't get any message here and we don't care about it :)
+> > > 
+> > > You do if you #define DEBUG, that's one of the three options for
+> > > dev_dbg() (dynamic debug and no_printk() being the other two). Maybe
+> > > __func__ should be added to the dev_printk() version of dev_dbg() to
+> > > have a consistent behaviour.
+> > 
+> > Drivers should NOT be defining DEBUG for anything in the tree, just use
+> > the normal interfaces, as no one will be selecting debug options from
+> > Kconfig.  DEBUG is really only good for out-of-tree work.
+> 
+> I didn't know that either. Of course '#define DEBUG' shouldn't be merged
+> upstream, but I thought it was supported by the kernel to make that
+> possible during development, as an alternative to dynamic debug. Does it
+> mean we should drop '#define DEBUG' support from dev_dbg() eventually ?
 
-Results of the daily build of media_tree:
+Probably, once all of the "define DEBUG" lines are dropped from the
+kernel itself, which might take a while :)
 
-date:			Sun Nov 26 03:00:06 CET 2023
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	3b8551e73271fc375b15c887db54ad31686eb2ea
-v4l-utils git hash:	82eeb6be4bfd4e4b0ce7dd8ef90f57206b46ce13
-edid-decode git hash:	a1fc8c8a17138000acc128870e837a0d6d54e584
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8523-g045d29f9
-sparse version:		v0.5.0-8523-g045d29f9
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0e92f35343cd1684f7ff2d0d8814d821953976f2
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
-
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm-sleep.config: OK
-no-pm.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Sun Nov 26 03:19:22 CET 2023
-virtme-64: OK: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 2
-
-date:			Sun Nov 26 03:48:06 CET 2023
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Sunday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
+greg k-h
 
