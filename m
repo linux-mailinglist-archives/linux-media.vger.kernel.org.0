@@ -1,179 +1,137 @@
-Return-Path: <linux-media+bounces-1102-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1103-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDCAE7FA1A3
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 14:55:56 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DB8A7FA5A8
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 17:07:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 69476B21071
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 13:55:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D90862818C7
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 16:07:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB33E3064F;
-	Mon, 27 Nov 2023 13:55:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="1XjDfyKO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8D8A3588F;
+	Mon, 27 Nov 2023 16:07:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D11701BFD;
-	Mon, 27 Nov 2023 05:55:33 -0800 (PST)
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3AR8W491020325;
-	Mon, 27 Nov 2023 14:55:09 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	date:from:to:cc:subject:message-id:references:mime-version
-	:content-type:in-reply-to; s=selector1; bh=c7sVCLbdbIsSSVXrD1aEo
-	LgXUO8xa7qqmhRYF03VJgc=; b=1XjDfyKOELRTgDd6RM601zZBHKa4C6eUWK7Tj
-	Ml4RnWHCCSMR8PjBTOkvJqqUvJ4/3XZycnRSif74GQKGsp5JsyyT7sOCLRGl7Bud
-	+JkYOozYc2E81/a81bSylEIkSoM6A4qe+wgrsfhyCWxaXCTroo3+8E06iowGGTdx
-	OouPXrukmWxNgndazEobvaFEbF5jjPvJ14E1GuWAZMgKF6OTNM3SIeHaHUfrBq/A
-	lX6jbm7BxMmA3YQCBdqe650rbxtN73bdvs9SssGs/5AfdE4i/7hP120VxQIhd/fM
-	gs6ka3dMgkBzhNNbg28xc0JwqNrijwS63dHQA4YbT7QUzWVEA==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3uk8pjqq1k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Nov 2023 14:55:09 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id DAF7610002A;
-	Mon, 27 Nov 2023 14:55:08 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id D189A2291C4;
-	Mon, 27 Nov 2023 14:55:08 +0100 (CET)
-Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 27 Nov
- 2023 14:55:08 +0100
-Date: Mon, 27 Nov 2023 14:55:03 +0100
-From: Alain Volmat <alain.volmat@foss.st.com>
-To: Philipp Zabel <p.zabel@pengutronix.de>
-CC: Hugues Fruchet <hugues.fruchet@foss.st.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Alexandre Torgue
-	<alexandre.torgue@foss.st.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Sakari
- Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>,
-        Dan Scally
-	<dan.scally@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v8 3/5] media: stm32-dcmipp: STM32 DCMIPP camera
- interface driver
-Message-ID: <20231127135503.GA1423796@gnbcxd0016.gnb.st.com>
-Mail-Followup-To: Philipp Zabel <p.zabel@pengutronix.de>,
-	Hugues Fruchet <hugues.fruchet@foss.st.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dan Scally <dan.scally@ideasonboard.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20231122073927.788810-1-alain.volmat@foss.st.com>
- <20231122073927.788810-4-alain.volmat@foss.st.com>
- <ba856a09de62a6ddbf1c19d5fd502de1cbc3e273.camel@pengutronix.de>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3924334562
+	for <linux-media@vger.kernel.org>; Mon, 27 Nov 2023 16:07:26 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED518C433C7;
+	Mon, 27 Nov 2023 16:07:25 +0000 (UTC)
+Message-ID: <b4c65911-6655-4f0a-bd1d-acba6d6c3b54@xs4all.nl>
+Date: Mon, 27 Nov 2023 17:07:24 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <ba856a09de62a6ddbf1c19d5fd502de1cbc3e273.camel@pengutronix.de>
-X-Disclaimer: ce message est personnel / this message is private
-X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-27_11,2023-11-27_01,2023-05-22_02
+User-Agent: Mozilla Thunderbird
+Subject: Re: [GIT FIXES FOR v6.7] Two mgb4 fixes and one v4l2-subdev.h fix
+Content-Language: en-US, nl
+To: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>,
+ Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc: =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+References: <e8f53c2c-aaa6-4878-befe-230b91933297@xs4all.nl>
+ <22c04a23-63b9-4e62-8094-ab194c1796ea@gpxsee.org>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <22c04a23-63b9-4e62-8094-ab194c1796ea@gpxsee.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Philipp,
+On 27/11/2023 12:36, Martin Tůma wrote:
+> Hi,
+> It has been a while since those patches have been accepted by Hans but I still do not see them in media_tree.git or media_stage.git. Is there some problem with the patches that I didn't notice or is
+> it just they haven't yet been processed? Thanks for any info.
 
-On Mon, Nov 27, 2023 at 12:38:21PM +0100, Philipp Zabel wrote:
-> On Mi, 2023-11-22 at 08:39 +0100, Alain Volmat wrote:
-> > From: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> > 
-> > This V4L2 subdev driver enables Digital Camera Memory Interface
-> > Pixel Processor(DCMIPP) of STMicroelectronics STM32 SoC series.
-> > 
-> > Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> > Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-> > ---
-> [...]
-> > diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-> > new file mode 100644
-> > index 000000000000..28ddb26314c3
-> > --- /dev/null
-> > +++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
-> > @@ -0,0 +1,604 @@
-> [...]
-> > +struct dcmipp_device {
-> > +	/* The platform device */
-> > +	struct platform_device		pdev;
-> > +	struct device			*dev;
-> > +
-> > +	/* Hardware resources */
-> > +	struct reset_control		*rstc;
-> 
-> As long as rstc is only used in dcmipp_probe(), there is no need to
-> carry it around in struct dcmipp_device.
-
-Oups, thanks.  Indeed, in first series reset was being used in another
-place but this is no longer necessary now.  Thanks.
-
-I fixed this and will push it into the v9.
+Good question, I pinged Mauro.
 
 Regards,
-Alain
+
+	Hans
+
 > 
-> [...]
-> > +static int dcmipp_probe(struct platform_device *pdev)
-> > +{
-> > +	struct dcmipp_device *dcmipp;
-> > +	struct clk *kclk;
+> M.
 > 
-> rstc could be a local variable here.
+> On 16. 11. 23 9:42, Hans Verkuil wrote:
+>> The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
+>>
+>>    Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
+>>
+>> are available in the Git repository at:
+>>
+>>    git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.7a
+>>
+>> for you to fetch changes up to 823d64edba8784e7c490a05a48eea0f01fa628f6:
+>>
+>>    media: pci: mgb4: add COMMON_CLK dependency (2023-11-16 09:37:01 +0100)
+>>
+>> ----------------------------------------------------------------
+>> Tag branch
+>>
+>> ----------------------------------------------------------------
+>> Arnd Bergmann (1):
+>>        media: pci: mgb4: add COMMON_CLK dependency
+>>
+>> Dan Carpenter (1):
+>>        media: v4l2-subdev: Fix a 64bit bug
+>>
+>> Martin Tůma (1):
+>>        media: mgb4: Added support for T200 card variant
+>>
+>>   drivers/media/pci/mgb4/Kconfig     |  1 +
+>>   drivers/media/pci/mgb4/mgb4_core.c | 20 +++++++++++++++-----
+>>   include/uapi/linux/v4l2-subdev.h   |  2 +-
+>>   3 files changed, 17 insertions(+), 6 deletions(-)
+>>
 > 
-> [...]
 > 
-> > +	/* Get hardware resources from devicetree */
-> > +	dcmipp->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
-> > +	if (IS_ERR(dcmipp->rstc))
-> > +		return dev_err_probe(&pdev->dev, PTR_ERR(dcmipp->rstc),
-> > +				     "Could not get reset control\n");
-> [...]
-> > +	/* Reset device */
-> > +	ret = reset_control_assert(dcmipp->rstc);
-> > +	if (ret) {
-> > +		dev_err(&pdev->dev, "Failed to assert the reset line\n");
-> > +		return ret;
-> > +	}
-> > +
-> > +	usleep_range(3000, 5000);
-> > +
-> > +	ret = reset_control_deassert(dcmipp->rstc);
-> > +	if (ret) {
-> > +		dev_err(&pdev->dev, "Failed to deassert the reset line\n");
-> > +		return ret;
-> > +	}
-> 
-> regards
-> Philipp
+
 
