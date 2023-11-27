@@ -1,282 +1,376 @@
-Return-Path: <linux-media+bounces-1069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1071-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 032CE7F9B00
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 08:31:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C8417F9B35
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 08:55:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE21F280CC6
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 07:31:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38B44280DB8
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 07:55:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1B04107BD;
-	Mon, 27 Nov 2023 07:31:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C4810A0E;
+	Mon, 27 Nov 2023 07:55:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="J4b9KG4A"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OuApuTvc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F6C612F;
-	Sun, 26 Nov 2023 23:31:34 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701070294; x=1732606294;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=gtQ80KsDToORt7lKjdUpnw79pkC2wloyzOLRHXg4Skk=;
-  b=J4b9KG4AX3A/9g/jvP2PrDOuewdOWXhlOORGUM97TwUOm56J1OVl9YVI
-   GTPsi1nEy/lE3TSOfinrJ3hWg+n73dQ3oqCekD0+CL9U3aL0CBtbX98+t
-   1dbg4S4NeTS/bMfITwYL+zlrvfEIT7EjccXWWgk/YOsWtX9X5JPmiKgiJ
-   1s+yE9k4E+LqMAZ+E9xrbg/I8iFxlaK75bR3m+0yJhHwceEle41KYe4P6
-   u77s1NURaU6mqMYNNfYxOXmsC/YkJ+EkEZi8jQX4ImES+FGKH8WN29q1L
-   AMYJVOoW9lIbLJAnu0b98C0oWAbE2clSt9expeZg4J9+BwlocyBGiIkOs
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="395469568"
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="395469568"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 23:31:28 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,230,1695711600"; 
-   d="scan'208";a="9695814"
-Received: from fmsmsx601.amr.corp.intel.com ([10.18.126.81])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/AES256-GCM-SHA384; 26 Nov 2023 23:31:29 -0800
-Received: from fmsmsx610.amr.corp.intel.com (10.18.126.90) by
- fmsmsx601.amr.corp.intel.com (10.18.126.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34; Sun, 26 Nov 2023 23:31:28 -0800
-Received: from fmsedg602.ED.cps.intel.com (10.1.192.136) by
- fmsmsx610.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.34 via Frontend Transport; Sun, 26 Nov 2023 23:31:28 -0800
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.169)
- by edgegateway.intel.com (192.55.55.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.34; Sun, 26 Nov 2023 23:31:27 -0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MIsPIe4hYWVEjdmPl4NJ7sPbz/W684jITH/aPgUX0j6Nfqcyhga9VgBqcLXO9DkzEG2M/+iR/ukol5ZtMKpWfmzMtrSiB0i2Q6gZ64Z5jtKjkRr1IaL+CU+KIZmtSU4izsBPl/oeAqGkEDNXBG8bplVMGkg1Y8CJlVDGBHB9VsC4JnKvINHNdJn7jcDg/iUW8GKo5Imqy+pyNmQ6d6cfDP6s0/8N8/HL1VLjRhbG0EiMWISjCfVigz7rd+kbIyj/a6XABQFuyzTQbmif1hE9zXsoWTgSrpx0Vz2gDAAFdcSkTA9UUjxueRB6tVAqfpBXZPwgluRXyi5dgu5tOgmjNA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4dZM2XIGgVS0E4D6EmDrBUwgGimYBEZSwFJxKVA0pzU=;
- b=A/YxNVb2592Y7H3Fnw3oxXIp1+uIhFPx/AcbBQog5o5fkMQoSXBNveBGOLTw3Or0jwoisjT52lPoFtRDw0QSczeI7vOxXMWNmHfWLv5oxol13pXu0ouzImeQ6Xup5gRUY2EDQUP4BUZXT3bzcJQQ1l+QPFJKBXriVZNwR+nH3/yM5UaYezknCgUfdKNcjhnwiiWVTWayZ2twNn46YamJQhwxxnpK47jCfU2xb+rG4RnT1sCSsfPGOyrRD2Q8+4ZIwKcZs6u3YwsAq8cQvF43V1gUIQfh787wwHRe4ZkBlDGajJvZ5PKD2jZJmju/Q0ZAOoVzSUzm7sPkldtsqKsuwA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BY5PR11MB4071.namprd11.prod.outlook.com (2603:10b6:a03:18c::28)
- by PH8PR11MB8015.namprd11.prod.outlook.com (2603:10b6:510:23b::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7025.27; Mon, 27 Nov
- 2023 07:31:20 +0000
-Received: from BY5PR11MB4071.namprd11.prod.outlook.com
- ([fe80::9661:77fe:ef12:6189]) by BY5PR11MB4071.namprd11.prod.outlook.com
- ([fe80::9661:77fe:ef12:6189%4]) with mapi id 15.20.7025.022; Mon, 27 Nov 2023
- 07:31:20 +0000
-Message-ID: <8d401a84-6142-41d7-8094-0bfc680fa9a8@intel.com>
-Date: Mon, 27 Nov 2023 15:31:13 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] platform/x86: int3472: Add handshake GPIO function
-Content-Language: en-US
-To: Hans de Goede <hdegoede@redhat.com>, Dan Scally
-	<dan.scally@ideasonboard.com>, <djrscally@gmail.com>, Sakari Ailus
-	<sakari.ailus@intel.com>
-CC: Bingbu Cao <bingbu.cao@intel.com>, <platform-driver-x86@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, Andy Shevchenko
-	<andriy.shevchenko@linux.intel.com>
-References: <20231007021225.9240-1-hao.yao@intel.com>
- <186830d2-dd18-7948-b2c5-bcda934ad3e8@redhat.com>
-From: Hao Yao <hao.yao@intel.com>
-In-Reply-To: <186830d2-dd18-7948-b2c5-bcda934ad3e8@redhat.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI1PR02CA0028.apcprd02.prod.outlook.com
- (2603:1096:4:1f4::6) To BY5PR11MB4071.namprd11.prod.outlook.com
- (2603:10b6:a03:18c::28)
+Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0F15CE;
+	Sun, 26 Nov 2023 23:55:41 -0800 (PST)
+Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-544455a4b56so5125215a12.1;
+        Sun, 26 Nov 2023 23:55:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701071740; x=1701676540; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=NKFhQZzTRAdLfUmZy1AosIZUEfwSZzLxXA7XkXOLKRs=;
+        b=OuApuTvcymLZoxe18N4f5hW/viHCdk8ZIYGZCKJuiviOmJ3x4Dx1sL4TPX8qsQa/Xn
+         7wH/U8iMplxaP30qAGFBAqHTWGIPinMZxgerojNEavlrftQLgtkZqJ/hO5UErmVNbfOk
+         MYtlxDJeygl+APizqK2nIXMsDcDOAQqqcDJ5IuyuN7/0dDLDIWW+OxHH7WpS13N9PdIJ
+         2g0eStvcB1dk5hHbGHmSAYKGIt3zclrltactkZ2fkNMpXr+p4QRHFzFWVA7YV9WkbeyZ
+         XqI9fk7jNZvbVWh2vV+m4b6YJNjgMFGjwMKT8BhCnHztLdZ6P6LQ2z0k02YrM4sUWBbJ
+         /lXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701071740; x=1701676540;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NKFhQZzTRAdLfUmZy1AosIZUEfwSZzLxXA7XkXOLKRs=;
+        b=aCayitqSSi7KRsGZ7zUvfDM0pu+telaTrRrSfsNpnfIJO+UTaFRAzfkB3d0HtZUxe2
+         DQ02tmWzRzmuG+P0DDiagyR5rEN7zayS7LCUt+wWZOsRLLwIvqYCPJil45YbajK+oNnR
+         XKTR7WcQWQdIKzNfUQRqOClKCqD5WUKYG/LwSCnyAnb4GTnNhgEDiybwGx9cZDIKERf8
+         XGiRddhq+XtsWEOK9i5nN10q9X9o6tXVC55IjeFzxFHTh/KfTstEx27WIocZUD5ERD79
+         zc2HPMxZ9ePtjQ/U8IXhfKpVwOsK5pkY78H2HICLLNfntSYPhRN8YJZ/WP29bfvpR0fs
+         79Ww==
+X-Gm-Message-State: AOJu0Yybo0ebqwPIbqyS6fFF8zRBGXGbjx767e51x51T4C7le3GoXLlq
+	es6nYl0hnNC/0xAZhcolEcY=
+X-Google-Smtp-Source: AGHT+IGek8HCBd/k9DEQ1g6pLBK87DNH2XDxGI/lW5Mt03fKMrmd5jWoU+wc1c3cn4CR13XIeye1iQ==
+X-Received: by 2002:a17:907:2992:b0:9ff:2374:1571 with SMTP id eu18-20020a170907299200b009ff23741571mr5685820ejc.69.1701071739736;
+        Sun, 26 Nov 2023 23:55:39 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-143-167.cust.vodafonedsl.it. [2.39.143.167])
+        by smtp.gmail.com with ESMTPSA id hg12-20020a170906f34c00b00a10f3030e11sm261234ejb.1.2023.11.26.23.55.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Nov 2023 23:55:39 -0800 (PST)
+Date: Mon, 27 Nov 2023 08:55:37 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linuxfancy@googlegroups.com, Steve Longerbeam <slongerbeam@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: ov5640: use subdev active state
+Message-ID: <ZWRLeTTxNDB7YpBS@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231126103401.2617585-1-tomm.merciai@gmail.com>
+ <20231126144828.GA12891@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BY5PR11MB4071:EE_|PH8PR11MB8015:EE_
-X-MS-Office365-Filtering-Correlation-Id: b2daa2d8-a470-4637-c8b5-08dbef1ad94d
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: xk+YpU/X48KM0rncrt84ene30by5GBIF5100LkaoTU/c43D5O+Mk/LaqBeYz6vdGOQ+Y90+M1tcK9Tib1vrsTez7jOj2RCJzmfHSFPU2+gTyNRrOxY45Vliuqg892WNMBpYNAxNqJCefbBvsIe0TG/H4e2CRHe1ht8/uwZ6Rde47qqy6m9I1qfKaqGy07Bn+TiPPYz7fziudkdZGS/ewJq+x1QId4OsWbNIhXRZGSaf+Wo+2A6n0aPY4DLZz/3HPrS/IsrUKTyVEWczgi8wCKCXGm81EM20TK/rd3QH0dRrCvAUZ2n7+gcuAYQDewoqB4cWSvdlC3tv+YZ3MONUj9ZAfONMcP4ees8+YX3UZnjXDf5QICakNCYzE8EW9iBW9TGmdyZnO6/fvGI+ICq8U7v4T6HXEndj5NUa5DMAPHgn+teZwgfj2e3cNj91CopxHhz3mLQQbuIcU28Ak8Fn24W1OLrE7jzjSDkmhfRYdWoAdUS0iq+IOfnM0wOvb61M+evaJTf7j8Zhrs0f2FT4hG+Xjr0ug8hZmvGvumRuBVZk0PYO//Aj85y7DpWQppQ+dspqrCr4f4qIBmxYG0rXxXH+MeqNfFPufVSQn5yZoA4tEP97Wx6L0cLDrWYxNwPahIgvGKXOPnE/8RvcgUCt6rg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BY5PR11MB4071.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(136003)(366004)(376002)(39860400002)(396003)(230922051799003)(64100799003)(1800799012)(451199024)(186009)(38100700002)(41300700001)(36756003)(31686004)(2906002)(83380400001)(5660300002)(82960400001)(26005)(86362001)(2616005)(44832011)(66476007)(6512007)(53546011)(6506007)(8936002)(6666004)(8676002)(31696002)(4326008)(478600001)(6486002)(6636002)(66556008)(66946007)(110136005)(54906003)(66899024)(316002)(43740500002)(45980500001);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?YVVvMVZ1anpSZTZBempwQ1BuejVFZ25jOWNpc0NmNHZlRmI1dU1OZDl0dTFk?=
- =?utf-8?B?OGpMbXZyTWhXS1ovaGd5SWRZbVdobUV2L3VPa3krYUJWWnVxSC91L2p1TzJn?=
- =?utf-8?B?dTUySFFiUjFGWXpXU0IxY3dJeWE3Sk5lWmtOT2dsc3IzQUY3akdvSlBpdjlt?=
- =?utf-8?B?ZlcvNEFQanNMSHBKOENscmdJWU5oS2ROZGozYzk5RlZNRzhvTEc4cTlhU0kr?=
- =?utf-8?B?bURhZ3BlTzZrTmZEWm85elBZM3B0Nm8yc3k1MTMxUnl2d1Q2LzhBS3lIdmd0?=
- =?utf-8?B?bExCaTZLdG03MEowai8rVWZ5ZlFTLzVhM2hNL05LT1JvM2RTTGZmcGFYSkVp?=
- =?utf-8?B?b0x5b2s1Q1ZLR1ZQL2JTeW9ENkNxZFRHZDZndHJ5bDl2MVhnM0xwMkljRE9i?=
- =?utf-8?B?NVFZNE9adW9paHB3a1pRMHBLa0RlSlp3azl0Y1lUYmxUL09NOFRMMUVyZjZ2?=
- =?utf-8?B?MzF4V2xkRTN1bXUyakt6TDl3VjBSbU1mc0hQd0xTTmpyS0tCM0FSalhuV2ZX?=
- =?utf-8?B?UUJrNmRqTVI0dStQREcxdW5WekV5TGgyM3QreHRpU2krOHdkN3MzaUhkTU10?=
- =?utf-8?B?aThEQnpGUlRWeTVKQm5GMHZQNHF6dWZXYll0dzJlL2VnR3FjWDhVTEQxcHEy?=
- =?utf-8?B?THlmckcrd2RXRnk2VGFjbnUzNWRlc00yamlTQ3hCNThFK0hRTzczMnZQa0dF?=
- =?utf-8?B?OWJQVjA0MVpzWnZIZGZQQzZZcDI3eUMvZlo5UlRyK2lOZ0F4emVhYVd6REd3?=
- =?utf-8?B?OHRyTDdIK1lnT0pyQkJYSDh0bW1ZbUpTUWhGTi92UEQzazZzbWhjOXVtSEVa?=
- =?utf-8?B?N0xiTDRlcXhQRm04MC91djd1MXl5Q3licjlmNS9saWVES1lwVFJKcUc5RjdQ?=
- =?utf-8?B?VXY2bGtRTU0rNDBSTUtYeUxGcmNtTlp0a1BtOHRsTmUwci9JYzNQSHl6VUgx?=
- =?utf-8?B?Um45TGRDRzRBTFdITHoxWFB1c3hzMXhrdTA1NkRBbUx4UTM2S0VnM21adVAx?=
- =?utf-8?B?RmhkREMra1J1MDA0VzlxSjRZc2Q5ZjYwbTNOeTVOd1hNUm5CL3Vjb0t4ZVEz?=
- =?utf-8?B?ZlJYNEhHRzhKekZuaTd2VHBiLzFRUzh0YkhSWWVzUk50VGlXVm1BWDZwN1or?=
- =?utf-8?B?R0dEUFJUcnRDZzZRWmdlbFJiQzgzRnRqbTgwUGFLYWduOG4rV1Bid1FSbEsx?=
- =?utf-8?B?Nm0rOFhRZFg4cm9TQlpYcForN0tmZUNSY1VJN1Jjb3UrNHZ3b1IwR25QbGhl?=
- =?utf-8?B?cnA5UlRYVVlaL0RRVDJhSitOMG01M1dNZFJjYVVpQ253TEU5UWhWMDBCU2xn?=
- =?utf-8?B?Sk5Za3VlWjBBSUNYWHE2bDRPK0xTU3JHU3Q4bUJaOVlFV2xZR21wbU10ZzNX?=
- =?utf-8?B?aGZrdjltUzFWTSs1RjA1V0NJc1E0bm94eGNqS1JDNGxIVC85d0VSUWJlWENi?=
- =?utf-8?B?ejlWOXk1cDE2eDQycHB2VDdFZm9tdWs5b0kyNHNjektRMStoRzkwRFZNeXVy?=
- =?utf-8?B?S2pCMU01YnR5Vzl2ZGhqVWFLOUIxdEdtRVVkZTQzcG5yaVdYMXdtd0pYcDFJ?=
- =?utf-8?B?cUpJc3NMcnhvaXZFRXNjWFRKR0NOUkkzRDJZbmxaMlFidVRxdVV6NE41SzNK?=
- =?utf-8?B?WDVENGttV0Z3ckZxcmNkU3NNV0EwV1VKTDIwMGZWUEtJNkpkdWJnNlBsRnRo?=
- =?utf-8?B?WkJlTmJCM0c1MzdwMjd4NHF3NlB2OGN4RWhrdmNXaVQ1QmtWekVDcHNQdEd2?=
- =?utf-8?B?Mi9Jd0ZHVUdWK0d4eFRFZTk5MmRKVmVoS0FxK0trNURmeG9nMVhoRnZGR05C?=
- =?utf-8?B?VEhyU3R6KzN2K2JGdXp5UmxrNklHTUIyWUJCQkpOUWpycW5nODkvWmNFWUpM?=
- =?utf-8?B?OXk0dXFWa2NrVTlyL0MyODdQRzIwRllNZDY5MUdKemduTURObUNoelRtVmRD?=
- =?utf-8?B?RGpNMnhSZWQrd1NXREdiU1hRYVVORjJoZWtINTF3WTNxOVdjUnBINnZEZG12?=
- =?utf-8?B?aG5UTm1ZUU9NQThKZzIvWEg3RDRkU1hIaTBWaWd2aVpUNkxScXpieEE4akpl?=
- =?utf-8?B?eTZOZlBuU2J0RFJWbXNkcU5ZejdlMjhuQUxzdU5lSTJpRmErL2UxblZLaFll?=
- =?utf-8?Q?fsOKNNSCbKoaFzeG3RdzOtfEN?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: b2daa2d8-a470-4637-c8b5-08dbef1ad94d
-X-MS-Exchange-CrossTenant-AuthSource: BY5PR11MB4071.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Nov 2023 07:31:20.0250
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 88xP3XwMMOQclgI4qTzalV16YGtrzfVTj9pvzwiilDCizm305nrk/hEhM4jXlr6VKSqvfLvrUvrZD9g0Bn1oSA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR11MB8015
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231126144828.GA12891@pendragon.ideasonboard.com>
 
-Hans,
+Hi Laurent,
+Thanks for reviewing this.
 
-Sorry for the late response.
-
-The power control logic settings in ACPI table are the same between 
-Windows OS and Linux, so I directly add another "handshake" pin handling 
-to Linux power control driver as what Windows power control driver did.
-
-On 2023/10/12 20:22, Hans de Goede wrote:
-> Hi,
+On Sun, Nov 26, 2023 at 04:48:28PM +0200, Laurent Pinchart wrote:
+> Hi Tommaso,
 > 
-> On 10/7/23 04:12, Hao Yao wrote:
->> Handshake pin is used for Lattice MIPI aggregator to enable the
->> camera sensor. After pulled up, recommend to wail ~250ms to get
->> everything ready.
-> > If this is a pin on the "Lattice MIPI aggregator" and
-> not on the sensor itself then this really should be
-> modeled as such and should not be registered as a GPIO
-> consumed by the sensor since the actual sensor does not
-> have a handshake pin at all.
+> Thank you for the patch.
 > 
-
-Yes. This pin is actually connects to Lattice, not sensor.
-
-> Also we really don't want to need to patch all involved
-> sensor drivers to toggle a handshake pin, especially since
-> the sensor itself does not physically have this pin.
-
-I agree. Adding GPIO pin controlling code in all sensor drivers is not a 
-good idea.
-
-> Can you explain a bit more:
+> On Sun, Nov 26, 2023 at 11:34:01AM +0100, Tommaso Merciai wrote:
+> > Port the ov5640 sensor driver to use the subdev active state.
+> > 
+> > After the ov5640 configurations steps call v4l2_subdev_init_finalize
+> > that finalizes the initialization of the subdevice.
+> > From now we use subdevice active state to simplify format handling and
+> > locking
+> > 
+> > References:
+> >  - https://patchwork.kernel.org/project/linux-media/patch/20230710155203.92366-6-jacopo.mondi@ideasonboard.com/
+> >  - https://linuxtv.org/downloads/v4l-dvb-apis/driver-api/v4l2-subdev.html#c.v4l2_subdev_cleanup
+> > 
+> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > ---
+> >  drivers/media/i2c/ov5640.c | 89 ++++++++++----------------------------
+> >  1 file changed, 24 insertions(+), 65 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> > index 3f79a3b77044..44a073d3df64 100644
+> > --- a/drivers/media/i2c/ov5640.c
+> > +++ b/drivers/media/i2c/ov5640.c
+> > @@ -446,9 +446,6 @@ struct ov5640_dev {
+> >  	struct gpio_desc *pwdn_gpio;
+> >  	bool   upside_down;
+> >  
+> > -	/* lock to protect all members below */
+> > -	struct mutex lock;
+> > -
+> >  	struct v4l2_mbus_framefmt fmt;
 > 
-> 1. What the "Lattice MIPI aggregator" is
+> This field should go too. The point of using the subdev active state is
+> to move state information from the device-specific structure to the
+> subdev state.
 
-It actually manages all MIPI lanes, both RGB and IR cameras. It is 
-something like the iVSC + LJCA combination which are in kernel v6.6 
-mainline.
+Thanks for the clarification.
 
-> 2. What its functions are, does this control reset + pwdn
->     GPIOs for the sensor? Voltages to the sensor? Clk
->     to the sensor ?
-
-It starts outputing MIPI packages when we pull handshake pins high. It 
-also has USB-IO function which can supply virtual I2C and GPIO for host 
-to control the camera (not physically as actually Lattice handles them). 
-I didn't get the schematics, but I believe the GPIOs/Voltages/clocks are 
-all controlled by Lattice.
-
-> 3. How the aggregator is connected to both the main
->     CPU/SoC as well as how it is connected to the sensor ?
->     Some example diagram would be really helpful here.
-
-In this case Lattice stands between host SoC and camera sensors. All 
-MIPI lanes from sensor and all reset/power pins are managed by Lattice. 
-Once one of the "handshake" pins on Lattice is pulled high, Lattice 
-start to passthrough MIPI packages from corresponding sensor to host SoC.
-
-> Then with this info in hand we can try to come up
-> with a way how to model this.
 > 
-> Assuming this controls the entire power-up sequence
-> for the sensor then I think it could be modelled
-> as a GPIO regulator. This also allows making the
-> regulator core take care of the necessary delay
-> between setting the GPIO and trying to talk to
-> the sensor.
+> Ideally the pending_fmt_change, current_mode, last_mode, current_fr,
+> frame_interval and pending_mode_change fields should go too. That's more
+> work and it's probably OK if we keep some of those fields for the time
+> being.
 > 
+> One low(er) hanging fruit is current_fr and frame_interval, which would
+> be nice to address soon. Removing them completely will require the "[RFC
+> PATCH v1 0/4] media: v4l2-subdev: Improve frame interval handling" patch
+> series ([1]), for which I plan to send a v2 soon. You can submit a v2 of
+> this patch, dropping the fmt field, without waiting for the improved
+> frame interval handling. It should however be fairly to merge the
+> current_fr and frame_interval fields (dropping the ov5640_frame_rate
+> enum as a result), it would be nice to see that as a patch already.
+> 
+> [1] https://lore.kernel.org/linux-media/20231024005130.28026-1-laurent.pinchart@ideasonboard.com
+
+No problem I can wait. And work on top of your work later.
+Please let me know if you need some test, I have a working imx8mp-evk +
+ov5640 env on my side on top of sailus/media_tree/master (Actually I'm
+using this for alvium driver upstream)
+
+Hope this can help :)
+
+Regards,
+Tommaso
+
+> 
+> >  	bool pending_fmt_change;
+> >  
+> > @@ -2784,30 +2781,6 @@ static int ov5640_try_frame_interval(struct ov5640_dev *sensor,
+> >  	return mode ? rate : -EINVAL;
+> >  }
+> >  
+> > -static int ov5640_get_fmt(struct v4l2_subdev *sd,
+> > -			  struct v4l2_subdev_state *sd_state,
+> > -			  struct v4l2_subdev_format *format)
+> > -{
+> > -	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> > -	struct v4l2_mbus_framefmt *fmt;
+> > -
+> > -	if (format->pad != 0)
+> > -		return -EINVAL;
+> > -
+> > -	mutex_lock(&sensor->lock);
+> > -
+> > -	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
+> > -		fmt = v4l2_subdev_state_get_format(sd_state, format->pad);
+> > -	else
+> > -		fmt = &sensor->fmt;
+> > -
+> > -	format->format = *fmt;
+> > -
+> > -	mutex_unlock(&sensor->lock);
+> > -
+> > -	return 0;
+> > -}
+> > -
+> >  static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
+> >  				   struct v4l2_mbus_framefmt *fmt,
+> >  				   const struct ov5640_mode_info **new_mode)
+> > @@ -2958,21 +2931,14 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+> >  	if (format->pad != 0)
+> >  		return -EINVAL;
+> >  
+> > -	mutex_lock(&sensor->lock);
+> > -
+> > -	if (sensor->streaming) {
+> > -		ret = -EBUSY;
+> > -		goto out;
+> > -	}
+> > +	if (sensor->streaming)
+> > +		return -EBUSY;
+> >  
+> >  	ret = ov5640_try_fmt_internal(sd, mbus_fmt, &new_mode);
+> >  	if (ret)
+> > -		goto out;
+> > +		return ret;
+> >  
+> > -	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+> > -		*v4l2_subdev_state_get_format(sd_state, 0) = *mbus_fmt;
+> > -		goto out;
+> > -	}
+> > +	*v4l2_subdev_state_get_format(sd_state, 0) = *mbus_fmt;
+> >  
+> >  	if (new_mode != sensor->current_mode) {
+> >  		sensor->current_fr = new_mode->def_fps;
+> > @@ -2987,26 +2953,16 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
+> >  
+> >  	ov5640_update_pixel_rate(sensor);
+> >  
+> > -out:
+> > -	mutex_unlock(&sensor->lock);
+> > -	return ret;
+> > +	return 0;
+> >  }
+> >  
+> >  static int ov5640_get_selection(struct v4l2_subdev *sd,
+> >  				struct v4l2_subdev_state *sd_state,
+> >  				struct v4l2_subdev_selection *sel)
+> >  {
+> > -	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> > -	const struct ov5640_mode_info *mode = sensor->current_mode;
+> > -	const struct ov5640_timings *timings;
+> > -
+> >  	switch (sel->target) {
+> >  	case V4L2_SEL_TGT_CROP: {
+> > -		mutex_lock(&sensor->lock);
+> > -		timings = ov5640_timings(sensor, mode);
+> > -		sel->r = timings->analog_crop;
+> > -		mutex_unlock(&sensor->lock);
+> > -
+> > +		sel->r = *v4l2_subdev_state_get_crop(sd_state, 0);
+> >  		return 0;
+> >  	}
+> >  
+> > @@ -3441,9 +3397,6 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
+> >  
+> >  	v4l2_ctrl_handler_init(hdl, 32);
+> >  
+> > -	/* we can use our own mutex for the ctrl lock */
+> > -	hdl->lock = &sensor->lock;
+> > -
+> >  	/* Clock related controls */
+> >  	ctrls->pixel_rate = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE,
+> >  			      ov5640_pixel_rates[OV5640_NUM_PIXEL_RATES - 1],
+> > @@ -3609,9 +3562,7 @@ static int ov5640_g_frame_interval(struct v4l2_subdev *sd,
+> >  {
+> >  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> >  
+> > -	mutex_lock(&sensor->lock);
+> >  	fi->interval = sensor->frame_interval;
+> > -	mutex_unlock(&sensor->lock);
+> >  
+> >  	return 0;
+> >  }
+> > @@ -3620,13 +3571,14 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
+> >  				   struct v4l2_subdev_frame_interval *fi)
+> >  {
+> >  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> > +	struct v4l2_subdev_state *state;
+> >  	const struct ov5640_mode_info *mode;
+> >  	int frame_rate, ret = 0;
+> >  
+> >  	if (fi->pad != 0)
+> >  		return -EINVAL;
+> >  
+> > -	mutex_lock(&sensor->lock);
+> > +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> >  
+> >  	if (sensor->streaming) {
+> >  		ret = -EBUSY;
+> > @@ -3663,7 +3615,7 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
+> >  		ov5640_update_pixel_rate(sensor);
+> >  	}
+> >  out:
+> > -	mutex_unlock(&sensor->lock);
+> > +	v4l2_subdev_unlock_state(state);
+> >  	return ret;
+> >  }
+> >  
+> > @@ -3694,6 +3646,7 @@ static int ov5640_enum_mbus_code(struct v4l2_subdev *sd,
+> >  static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+> >  {
+> >  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
+> > +	struct v4l2_subdev_state *state;
+> >  	int ret = 0;
+> >  
+> >  	if (enable) {
+> > @@ -3708,7 +3661,7 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+> >  		}
+> >  	}
+> >  
+> > -	mutex_lock(&sensor->lock);
+> > +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> >  
+> >  	if (sensor->streaming == !enable) {
+> >  		if (enable && sensor->pending_mode_change) {
+> > @@ -3734,7 +3687,7 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+> >  	}
+> >  
+> >  out:
+> > -	mutex_unlock(&sensor->lock);
+> > +	v4l2_subdev_unlock_state(state);
+> >  
+> >  	if (!enable || ret) {
+> >  		pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
+> > @@ -3778,7 +3731,7 @@ static const struct v4l2_subdev_video_ops ov5640_video_ops = {
+> >  static const struct v4l2_subdev_pad_ops ov5640_pad_ops = {
+> >  	.init_cfg = ov5640_init_cfg,
+> >  	.enum_mbus_code = ov5640_enum_mbus_code,
+> > -	.get_fmt = ov5640_get_fmt,
+> > +	.get_fmt = v4l2_subdev_get_fmt,
+> >  	.set_fmt = ov5640_set_fmt,
+> >  	.get_selection = ov5640_get_selection,
+> >  	.enum_frame_size = ov5640_enum_frame_size,
+> > @@ -3918,8 +3871,6 @@ static int ov5640_probe(struct i2c_client *client)
+> >  	if (ret)
+> >  		goto entity_cleanup;
+> >  
+> > -	mutex_init(&sensor->lock);
+> > -
+> >  	ret = ov5640_init_controls(sensor);
+> >  	if (ret)
+> >  		goto entity_cleanup;
+> > @@ -3938,9 +3889,16 @@ static int ov5640_probe(struct i2c_client *client)
+> >  	if (ret)
+> >  		goto err_pm_runtime;
+> >  
+> > +	sensor->sd.state_lock = sensor->ctrls.handler.lock;
+> > +	ret = v4l2_subdev_init_finalize(&sensor->sd);
+> > +	if (ret < 0) {
+> > +		dev_err(dev, "subdev init error: %d\n", ret);
+> > +		goto err_pm_runtime;
+> > +	}
+> > +
+> >  	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
+> >  	if (ret)
+> > -		goto err_pm_runtime;
+> > +		goto subdev_cleanup;
+> >  
+> >  	pm_runtime_set_autosuspend_delay(dev, 1000);
+> >  	pm_runtime_use_autosuspend(dev);
+> > @@ -3949,6 +3907,8 @@ static int ov5640_probe(struct i2c_client *client)
+> >  
+> >  	return 0;
+> >  
+> > +subdev_cleanup:
+> > +	v4l2_subdev_cleanup(&sensor->sd);
+> >  err_pm_runtime:
+> >  	pm_runtime_put_noidle(dev);
+> >  	pm_runtime_disable(dev);
+> > @@ -3957,7 +3917,6 @@ static int ov5640_probe(struct i2c_client *client)
+> >  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+> >  entity_cleanup:
+> >  	media_entity_cleanup(&sensor->sd.entity);
+> > -	mutex_destroy(&sensor->lock);
+> >  	return ret;
+> >  }
+> >  
+> > @@ -3973,9 +3932,9 @@ static void ov5640_remove(struct i2c_client *client)
+> >  	pm_runtime_set_suspended(dev);
+> >  
+> >  	v4l2_async_unregister_subdev(&sensor->sd);
+> > +	v4l2_subdev_cleanup(sd);
+> >  	media_entity_cleanup(&sensor->sd.entity);
+> >  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
+> > -	mutex_destroy(&sensor->lock);
+> >  }
+> >  
+> >  static const struct dev_pm_ops ov5640_pm_ops = {
+> 
+> -- 
 > Regards,
 > 
-> Hans
-> 
-> 
-> 
->>
->> Signed-off-by: Hao Yao <hao.yao@intel.com>
->> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->> ---
->>   drivers/platform/x86/intel/int3472/common.h   | 1 +
->>   drivers/platform/x86/intel/int3472/discrete.c | 5 +++++
->>   2 files changed, 6 insertions(+)
->>
->> diff --git a/drivers/platform/x86/intel/int3472/common.h b/drivers/platform/x86/intel/int3472/common.h
->> index 655ae3ec0593..3ad4c72afb45 100644
->> --- a/drivers/platform/x86/intel/int3472/common.h
->> +++ b/drivers/platform/x86/intel/int3472/common.h
->> @@ -23,6 +23,7 @@
->>   #define INT3472_GPIO_TYPE_POWER_ENABLE				0x0b
->>   #define INT3472_GPIO_TYPE_CLK_ENABLE				0x0c
->>   #define INT3472_GPIO_TYPE_PRIVACY_LED				0x0d
->> +#define INT3472_GPIO_TYPE_HANDSHAKE				0x12
->>   
->>   #define INT3472_PDEV_MAX_NAME_LEN				23
->>   #define INT3472_MAX_SENSOR_GPIOS				3
->> diff --git a/drivers/platform/x86/intel/int3472/discrete.c b/drivers/platform/x86/intel/int3472/discrete.c
->> index b644ce65c990..4753161b4080 100644
->> --- a/drivers/platform/x86/intel/int3472/discrete.c
->> +++ b/drivers/platform/x86/intel/int3472/discrete.c
->> @@ -111,6 +111,10 @@ static void int3472_get_func_and_polarity(u8 type, const char **func, u32 *polar
->>   		*func = "power-enable";
->>   		*polarity = GPIO_ACTIVE_HIGH;
->>   		break;
->> +	case INT3472_GPIO_TYPE_HANDSHAKE:
->> +		*func = "handshake";
->> +		*polarity = GPIO_ACTIVE_HIGH;
->> +		break;
->>   	default:
->>   		*func = "unknown";
->>   		*polarity = GPIO_ACTIVE_HIGH;
->> @@ -201,6 +205,7 @@ static int skl_int3472_handle_gpio_resources(struct acpi_resource *ares,
->>   	switch (type) {
->>   	case INT3472_GPIO_TYPE_RESET:
->>   	case INT3472_GPIO_TYPE_POWERDOWN:
->> +	case INT3472_GPIO_TYPE_HANDSHAKE:
->>   		ret = skl_int3472_map_gpio_to_sensor(int3472, agpio, func, polarity);
->>   		if (ret)
->>   			err_msg = "Failed to map GPIO pin to sensor\n";
-> 
-
-Best Regards,
-Hao Yao
+> Laurent Pinchart
 
