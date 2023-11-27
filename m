@@ -1,163 +1,132 @@
-Return-Path: <linux-media+bounces-1094-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1095-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11BE57FA08F
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 14:17:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1D507FA0F8
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 14:24:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4D906B20EA4
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 13:17:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C13E28159C
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 13:24:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DC1C2D7AE;
-	Mon, 27 Nov 2023 13:17:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7816C2E41D;
+	Mon, 27 Nov 2023 13:24:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XfisF3sG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [195.135.223.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4BA341BD;
-	Mon, 27 Nov 2023 05:17:06 -0800 (PST)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id C5F61203F9;
-	Mon, 27 Nov 2023 13:17:04 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id 8D7B713B3A;
-	Mon, 27 Nov 2023 13:17:04 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id yGR/IdCWZGUhLQAAn2gu4w
-	(envelope-from <tzimmermann@suse.de>); Mon, 27 Nov 2023 13:17:04 +0000
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: javierm@redhat.com,
-	deller@gmx.de
-Cc: linux-fbdev@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Andy Walls <awalls@md.metrocast.net>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v2 20/32] media/ivtvfb: Initialize fb_ops to fbdev I/O-memory helpers
-Date: Mon, 27 Nov 2023 14:15:49 +0100
-Message-ID: <20231127131655.4020-21-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231127131655.4020-1-tzimmermann@suse.de>
-References: <20231127131655.4020-1-tzimmermann@suse.de>
+Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7A41D4B
+	for <linux-media@vger.kernel.org>; Mon, 27 Nov 2023 05:24:25 -0800 (PST)
+Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40b473d3debso5335085e9.2
+        for <linux-media@vger.kernel.org>; Mon, 27 Nov 2023 05:24:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701091464; x=1701696264; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=FH0s3pNKOJxZQ6z+iEoKI4AAtRx5ZhF+IIxrjC4hS7Y=;
+        b=XfisF3sG2wjGjthMn7jHwVYSzVX/3ZwAQR1epmNIkMccCi3Aojisj6n2kZ3r82YsDF
+         hIW+z/SRQINW3Y6h5qs9rLjvARwKGEm/2A1FI+x+ji4VEBGJGTLM4BSQgA/Wux4roxcB
+         67chnQm8zNzjdSmDnuRxKa5B4czPp4wX6Ok4yE2ocOXQJ9PUAOTBLjfjItMy3rqaG9dd
+         MUj6Q3wjftf7DwhFUgVnjXN9pKaXQ6fAgK41kI74klOwDa6urpznH8igD7hA6Yv6dT8c
+         FA6Xg3owQfy8Zc0GjFdHzBhiyJ0oEzPlT0PmDPTlb9tkNVTeZzUA/791x+r2D3XnHM6/
+         RXTw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701091464; x=1701696264;
+        h=content-transfer-encoding:in-reply-to:references:to:from
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=FH0s3pNKOJxZQ6z+iEoKI4AAtRx5ZhF+IIxrjC4hS7Y=;
+        b=Es7l5vNN40BY3s1zi0OFTD7EdZmtoZUlnUsARg/XJjJtqKURoF8cIjTr7HtVUS1LRV
+         dTFoPEShqgqw6rlT8TR/S2FjfknLQgw9ZpfvjzqiPFk+FQyP5SzblNdtpC2O1lDjyY2G
+         9hxQ90lAAuvAh6jfBtkxc2eNuR4cuo/O5K59B65T0l3PHTAj3AKpJzeJ6LJJ1Xyif//M
+         oaHSKg5oc6IW1dpNzgOPMSSlEdASfVM+GBiXzB8hbqL93oHGWfBcwLuXY9dXr1vC0TZ8
+         ur0B3E3I+wbe9w2yJfdCq9OM+95H9ZkjyZuDmvh95k19cuke6GT5Q0Fyqk29C0ptGWkY
+         tpiA==
+X-Gm-Message-State: AOJu0YwRB5hw88sHEujj2xvH7vV0JS3fnpmrMlCYLts5G7GJmTa71n2G
+	37Y6zwa4fj61MBlDRxLPUT+a8QZuTE0=
+X-Google-Smtp-Source: AGHT+IEkgZi6dHQenViMLORQ+BGP+Cu5JcNbxI8Ky4tY3ox+8USr6NjXaEho/GBtYPZe71+Kc5fs3g==
+X-Received: by 2002:a05:600c:3106:b0:40b:3df2:c5f8 with SMTP id g6-20020a05600c310600b0040b3df2c5f8mr5896949wmo.36.1701091463940;
+        Mon, 27 Nov 2023 05:24:23 -0800 (PST)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id e25-20020a5d5959000000b00332eb96cb73sm8652933wri.73.2023.11.27.05.24.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 27 Nov 2023 05:24:19 -0800 (PST)
+Message-ID: <e35e67dd-fd96-4ac5-a6ba-f351f12a146c@gmail.com>
+Date: Mon, 27 Nov 2023 14:24:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-buf: fix check in dma_resv_add_fence
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+To: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Alex Deucher <Alexander.Deucher@amd.com>
+References: <20231115093035.1889-1-christian.koenig@amd.com>
+In-Reply-To: <20231115093035.1889-1-christian.koenig@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Spamd-Bar: +++++++
-X-Spam-Score: 7.61
-X-Rspamd-Server: rspamd1
-Authentication-Results: smtp-out2.suse.de;
-	dkim=none;
-	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither permitted nor denied by domain of tzimmermann@suse.de) smtp.mailfrom=tzimmermann@suse.de;
-	dmarc=fail reason="No valid SPF, No valid DKIM" header.from=suse.de (policy=none)
-X-Rspamd-Queue-Id: C5F61203F9
-X-Spamd-Result: default: False [7.61 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 TO_DN_SOME(0.00)[];
-	 R_MISSING_CHARSET(2.50)[];
-	 BROKEN_CONTENT_TYPE(1.50)[];
-	 R_SPF_SOFTFAIL(4.60)[~all:c];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 MX_GOOD(-0.01)[];
-	 NEURAL_HAM_SHORT(-0.19)[-0.949];
-	 RCPT_COUNT_SEVEN(0.00)[9];
-	 FREEMAIL_TO(0.00)[redhat.com,gmx.de];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
-	 MIME_TRACE(0.00)[0:+];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[gmx.de,xs4all.nl];
-	 TO_MATCH_ENVRCPT_ALL(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 NEURAL_HAM_LONG(-1.00)[-0.995];
-	 MID_CONTAINS_FROM(1.00)[];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 FREEMAIL_CC(0.00)[vger.kernel.org,lists.freedesktop.org,suse.de,md.metrocast.net,kernel.org,xs4all.nl];
-	 RCVD_TLS_ALL(0.00)[];
-	 DMARC_POLICY_SOFTFAIL(0.10)[suse.de : No valid SPF, No valid DKIM,none]
 
-Initialize the instance of struct fb_ops with fbdev initializer
-macros for framebuffers in I/O address space. This explictily sets
-the read/write, draw and mmap callbacks to the correct default
-implementation.
+Ping? Can I get an rb or acked-by for that?
 
-Fbdev drivers sometimes rely on the callbacks being NULL for a
-default implementation to be invoked; hence requireing the I/O
-helpers to be built in any case. Setting all callbacks in all
-drivers explicitly will allow to make the I/O helpers optional.
-This benefits systems that do not use these functions.
+Thanks,
+Christian.
 
-Set the callbacks via macros. No functional changes.
-
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Andy Walls <awalls@md.metrocast.net>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org
-Reviewed-by: Javier Martinez Canillas <javierm@redhat.com>
-Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/pci/ivtv/Kconfig  | 4 +---
- drivers/media/pci/ivtv/ivtvfb.c | 6 +++---
- 2 files changed, 4 insertions(+), 6 deletions(-)
-
-diff --git a/drivers/media/pci/ivtv/Kconfig b/drivers/media/pci/ivtv/Kconfig
-index 9be52101bc4f2..2498f9079b756 100644
---- a/drivers/media/pci/ivtv/Kconfig
-+++ b/drivers/media/pci/ivtv/Kconfig
-@@ -48,9 +48,7 @@ config VIDEO_IVTV_ALSA
- config VIDEO_FB_IVTV
- 	tristate "Conexant cx23415 framebuffer support"
- 	depends on VIDEO_IVTV && FB
--	select FB_CFB_FILLRECT
--	select FB_CFB_COPYAREA
--	select FB_CFB_IMAGEBLIT
-+	select FB_IOMEM_HELPERS
- 	help
- 	  This is a framebuffer driver for the Conexant cx23415 MPEG
- 	  encoder/decoder.
-diff --git a/drivers/media/pci/ivtv/ivtvfb.c b/drivers/media/pci/ivtv/ivtvfb.c
-index 23c8c094e791b..410477e3e6216 100644
---- a/drivers/media/pci/ivtv/ivtvfb.c
-+++ b/drivers/media/pci/ivtv/ivtvfb.c
-@@ -927,17 +927,17 @@ static int ivtvfb_blank(int blank_mode, struct fb_info *info)
- 
- static const struct fb_ops ivtvfb_ops = {
- 	.owner = THIS_MODULE,
-+	.fb_read        = fb_io_read,
- 	.fb_write       = ivtvfb_write,
- 	.fb_check_var   = ivtvfb_check_var,
- 	.fb_set_par     = ivtvfb_set_par,
- 	.fb_setcolreg   = ivtvfb_setcolreg,
--	.fb_fillrect    = cfb_fillrect,
--	.fb_copyarea    = cfb_copyarea,
--	.fb_imageblit   = cfb_imageblit,
-+	__FB_DEFAULT_IOMEM_OPS_DRAW,
- 	.fb_cursor      = NULL,
- 	.fb_ioctl       = ivtvfb_ioctl,
- 	.fb_pan_display = ivtvfb_pan_display,
- 	.fb_blank       = ivtvfb_blank,
-+	__FB_DEFAULT_IOMEM_OPS_MMAP,
- };
- 
- /* Restore hardware after firmware restart */
--- 
-2.43.0
+Am 15.11.23 um 10:30 schrieb Christian König:
+> It's valid to add the same fence multiple times to a dma-resv object and
+> we shouldn't need one extra slot for each.
+>
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> Fixes: a3f7c10a269d5 ("dma-buf/dma-resv: check if the new fence is really later")
+> Cc: stable@vger.kernel.org # v5.19+
+> ---
+>   drivers/dma-buf/dma-resv.c |  2 +-
+>   include/linux/dma-fence.h  | 15 +++++++++++++++
+>   2 files changed, 16 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+> index 38b4110378de..eb8b733065b2 100644
+> --- a/drivers/dma-buf/dma-resv.c
+> +++ b/drivers/dma-buf/dma-resv.c
+> @@ -301,7 +301,7 @@ void dma_resv_add_fence(struct dma_resv *obj, struct dma_fence *fence,
+>   
+>   		dma_resv_list_entry(fobj, i, obj, &old, &old_usage);
+>   		if ((old->context == fence->context && old_usage >= usage &&
+> -		     dma_fence_is_later(fence, old)) ||
+> +		     dma_fence_is_later_or_same(fence, old)) ||
+>   		    dma_fence_is_signaled(old)) {
+>   			dma_resv_list_set(fobj, i, fence, usage);
+>   			dma_fence_put(old);
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index ebe78bd3d121..b3772edca2e6 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -498,6 +498,21 @@ static inline bool dma_fence_is_later(struct dma_fence *f1,
+>   	return __dma_fence_is_later(f1->seqno, f2->seqno, f1->ops);
+>   }
+>   
+> +/**
+> + * dma_fence_is_later_or_same - return true if f1 is later or same as f2
+> + * @f1: the first fence from the same context
+> + * @f2: the second fence from the same context
+> + *
+> + * Returns true if f1 is chronologically later than f2 or the same fence. Both
+> + * fences must be from the same context, since a seqno is not re-used across
+> + * contexts.
+> + */
+> +static inline bool dma_fence_is_later_or_same(struct dma_fence *f1,
+> +					      struct dma_fence *f2)
+> +{
+> +	return f1 == f2 || dma_fence_is_later(f1, f2);
+> +}
+> +
+>   /**
+>    * dma_fence_later - return the chronologically later fence
+>    * @f1:	the first fence from the same context
 
 
