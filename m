@@ -1,134 +1,139 @@
-Return-Path: <linux-media+bounces-1064-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1065-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D3A27F97FE
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 04:46:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B24D27F9831
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 05:20:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8A7D51C20902
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 03:46:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 09547B20AA8
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 04:20:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0115846A3;
-	Mon, 27 Nov 2023 03:46:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18E465382;
+	Mon, 27 Nov 2023 04:20:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="iTKdWMDK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RtY9jo71"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x529.google.com (mail-ed1-x529.google.com [IPv6:2a00:1450:4864:20::529])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6B64D127
-	for <linux-media@vger.kernel.org>; Sun, 26 Nov 2023 19:46:32 -0800 (PST)
-Received: by mail-ed1-x529.google.com with SMTP id 4fb4d7f45d1cf-54b07ba599fso2770260a12.0
-        for <linux-media@vger.kernel.org>; Sun, 26 Nov 2023 19:46:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701056790; x=1701661590; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=snVMIApfbCCQ5357llYuGgzTSJ1SSM+A71pqHnL+F+4=;
-        b=iTKdWMDKP5PFv+Do6Vir67uOoial9YHEWicvMDk8d7rbfTTV2WR88eGdI4+H8o1fmj
-         nSmQ37l5wPQbZfOC7aguY8MFtC4A3mg5IWnMmfT2H8y6mAcxSgtBHJdDCLZQ+nRVTo+J
-         SLqdzytC0EpoIKjRd0Zf3UjSt4eDRvWAWetZA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701056790; x=1701661590;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=snVMIApfbCCQ5357llYuGgzTSJ1SSM+A71pqHnL+F+4=;
-        b=gokJBSDAcYQ8JVvNP3ewYs79OWUMKi0MuITqThdsdMTLfgZ/4oA/EoiEaEjuWVvgmM
-         u9V3QvGaS3UNGArjjtiOtnYhl8ydmr6xEyfGp5Q+5Gz7w/DWW/pWoHJky4NhQYSuy0ri
-         CtrOIXEsd65rI8x+22o3HJ2hX1/7KPL1RxBC5VfQzBjoyz8zepPv684bZDerqgY9YQpV
-         246cPLSaVBcqHwDbkr85C+Hy7C98D9ph5mrCzp6MsMfjNLrNGlQmHeYgjdlW1OWN90R/
-         dSdpeXUSUcA2N5xlnFrhddGqEqk8TOT6BrG0qXaf7GiY7U0Mb3G1x6o4He9gOQuDIAhR
-         pm7Q==
-X-Gm-Message-State: AOJu0Yxt1ogT2FFCxGX4COhTO5DM9Qe8CB1ybrenZ5luyIfu4uXKZ81m
-	puLEDW0p62WLek2+Pyr/WrO9cHYyO0bnVfRHSAKVV4sp
-X-Google-Smtp-Source: AGHT+IELjsjQiZAjDS7xVgiEpi7icXndATy/3h35JWMJUrvlCEFLgmkAlFJCLHFDb/DUMrEJAUyWlg==
-X-Received: by 2002:a05:6402:b12:b0:54a:eeae:a63 with SMTP id bm18-20020a0564020b1200b0054aeeae0a63mr6788197edb.21.1701056790071;
-        Sun, 26 Nov 2023 19:46:30 -0800 (PST)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
-        by smtp.gmail.com with ESMTPSA id d11-20020a056402000b00b0054851cd28d2sm4736954edu.79.2023.11.26.19.46.29
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Nov 2023 19:46:29 -0800 (PST)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-332c7d4a6a7so2503479f8f.2
-        for <linux-media@vger.kernel.org>; Sun, 26 Nov 2023 19:46:29 -0800 (PST)
-X-Received: by 2002:adf:f6d1:0:b0:321:6005:8979 with SMTP id
- y17-20020adff6d1000000b0032160058979mr6523124wrp.17.1701056788758; Sun, 26
- Nov 2023 19:46:28 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CEC1BF0
+	for <linux-media@vger.kernel.org>; Sun, 26 Nov 2023 20:19:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701058797; x=1732594797;
+  h=subject:to:cc:references:from:message-id:date:
+   mime-version:in-reply-to:content-transfer-encoding;
+  bh=sZHh++W9MKcahXq5iwf7eRvzKprihcWAfY8NBo+lgcA=;
+  b=RtY9jo71tc27WYFcujkFKVThaa3IQNMX12R2yA9tHek2P0SIwv18zEZx
+   1Nyle+OnKtKAhvWiYPbfFxgyjTwzFhhp4JOuxRfRjyPRyzS6blDX1u8Mq
+   zKXHKATl/WFVbTzxFQsm+c190tQNpJrKjAqq8x/y8Rp+aHbQnIitkanPL
+   YDSwR1qx3IujCgqujrwJM/EjWsjfmK7cOtD+xy6xucDOQuKMKvZSohTif
+   R4BAql+IWbOTJ72bIrbKdcmpOY2l9WP7aymcIauJe02QXkzHXkBz3XbQx
+   IRMDARLwhTFwu/fIm4iKql5shGzN9xIk6gND1JUll5GDzhZPjkXD9NEM8
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10906"; a="478823000"
+X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
+   d="scan'208";a="478823000"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2023 20:19:57 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,229,1695711600"; 
+   d="scan'208";a="16482770"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
+  by fmviesa001.fm.intel.com with ESMTP; 26 Nov 2023 20:19:55 -0800
+Subject: Re: [PATCH v2 8/9] media: ov2740: Add a sleep after resetting the
+ sensor
+To: Hans de Goede <hdegoede@redhat.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>, Bingbu Cao <bingbu.cao@intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Kate Hsuan <hpa@redhat.com>,
+ linux-media@vger.kernel.org, "Yao, Hao" <hao.yao@intel.com>
+References: <20231126141517.7534-1-hdegoede@redhat.com>
+ <20231126141517.7534-9-hdegoede@redhat.com>
+From: Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <493daf1a-373d-ed48-8136-0aab3ab925f4@linux.intel.com>
+Date: Mon, 27 Nov 2023 12:15:27 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAAFQd5AHdWS9zMSyG83LSQOMeGL852xq6APZm0ibiCJ3eMgtNQ@mail.gmail.com>
- <20231123223205.1425234-1-m.grzeschik@pengutronix.de>
-In-Reply-To: <20231123223205.1425234-1-m.grzeschik@pengutronix.de>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Mon, 27 Nov 2023 12:46:11 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5AZy1bFw3FnBVGFiRcAcf7V4un5d_O0+6f4xTU_psM40w@mail.gmail.com>
-Message-ID: <CAAFQd5AZy1bFw3FnBVGFiRcAcf7V4un5d_O0+6f4xTU_psM40w@mail.gmail.com>
-Subject: Re: [PATCH v4] media: videobuf2-dma-sg: fix vmap callback
-To: Michael Grzeschik <m.grzeschik@pengutronix.de>
-Cc: linux-media@vger.kernel.org, hverkuil@xs4all.nl, m.szyprowski@samsung.com, 
-	mchehab@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com, 
-	kernel@pengutronix.de, stable@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231126141517.7534-9-hdegoede@redhat.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-On Fri, Nov 24, 2023 at 7:32=E2=80=AFAM Michael Grzeschik
-<m.grzeschik@pengutronix.de> wrote:
->
-> For dmabuf import users to be able to use the vaddr from another
-> videobuf2-dma-sg source, the exporter needs to set a proper vaddr on
-> vb2_dma_sg_dmabuf_ops_vmap callback. This patch adds vmap on map if
-> buf->vaddr was not set.
->
-> Cc: stable@kernel.org
-> Signed-off-by: Michael Grzeschik <m.grzeschik@pengutronix.de>
->
+
+Hans,
+
+On 11/26/23 10:15 PM, Hans de Goede wrote:
+> Split the resetting of the sensor out of the link_freq_config reg_list
+> and add a delay after this.
+> 
+> This hopefully fixes the stream sometimes not starting, this was
+> taken from the ov2740 sensor driver in the out of tree IPU6 driver:
+
+Thanks for your patch.
+
+I don't know the details for ov2740 here, we met some similar issues
+with another OminiVision camera sensor, it is somehow related to the
+OTP read. Unfortunately, we didn't find the root-cause.
+
+Maybe you can remove the OTP read to check, I think the OTP is useless
+if I don't forget anything.
+
+Hao, do you have any details for this issue?
+
+> 
+> https://github.com/intel/ipu6-drivers/
+> 
+> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
 > ---
-> v3 -> v4: drop vunmap function and make use of vb2_dma_sg_vaddr in vmap c=
-allback
-> v2 -> v3: resend as a single patch
-> v1 -> v2: using vmap and vunmap instead of vm_map_ram and vm_unmap_ram
->
->  drivers/media/common/videobuf2/videobuf2-dma-sg.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/common/videobuf2/videobuf2-dma-sg.c b/drivers/=
-media/common/videobuf2/videobuf2-dma-sg.c
-> index 28f3fdfe23a298..6975a71d740f6d 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-dma-sg.c
-> @@ -487,9 +487,15 @@ vb2_dma_sg_dmabuf_ops_end_cpu_access(struct dma_buf =
-*dbuf,
->  static int vb2_dma_sg_dmabuf_ops_vmap(struct dma_buf *dbuf,
->                                       struct iosys_map *map)
->  {
-> -       struct vb2_dma_sg_buf *buf =3D dbuf->priv;
-> +       struct vb2_dma_sg_buf *buf;
-> +       void *vaddr;
+>  drivers/media/i2c/ov2740.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+> index 8f5c33f68d42..a49c065c6cf4 100644
+> --- a/drivers/media/i2c/ov2740.c
+> +++ b/drivers/media/i2c/ov2740.c
+> @@ -128,7 +128,6 @@ struct ov2740_mode {
+>  };
+>  
+>  static const struct ov2740_reg mipi_data_rate_720mbps[] = {
+> -	{0x0103, 0x01},
+>  	{0x0302, 0x4b},
+>  	{0x030d, 0x4b},
+>  	{0x030e, 0x02},
+> @@ -137,7 +136,6 @@ static const struct ov2740_reg mipi_data_rate_720mbps[] = {
+>  };
+>  
+>  static const struct ov2740_reg mipi_data_rate_360mbps[] = {
+> -	{0x0103, 0x01},
+>  	{0x0302, 0x4b},
+>  	{0x0303, 0x01},
+>  	{0x030d, 0x4b},
+> @@ -935,6 +933,15 @@ static int ov2740_start_streaming(struct ov2740 *ov2740)
+>  	if (ov2740->nvm)
+>  		ov2740_load_otp_data(ov2740->nvm);
+>  
+> +	/* Reset the sensor */
+> +	ret = ov2740_write_reg(ov2740, 0x0103, 1, 0x01);
+> +	if (ret) {
+> +		dev_err(&client->dev, "failed to reset\n");
+> +		return ret;
+> +	}
 > +
-> +       buf =3D dbuf->priv;
-> +       vaddr =3D vb2_dma_sg_vaddr(buf->vb, buf);
-> +       if (!vaddr)
-> +               return -EINVAL;
->
-> -       iosys_map_set_vaddr(map, buf->vaddr);
-> +       iosys_map_set_vaddr(map, vaddr);
->
->         return 0;
->  }
-> --
-> 2.39.2
->
+> +	usleep_range(10000, 15000);
+> +
+>  	link_freq_index = ov2740->cur_mode->link_freq_index;
+>  	reg_list = &link_freq_configs[link_freq_index].reg_list;
+>  	ret = ov2740_write_reg_list(ov2740, reg_list);
+> 
 
-Thanks for addressing the comments.
-
-Acked-by: Tomasz Figa <tfiga@chromium.org>
-
+-- 
 Best regards,
-Tomasz
+Bingbu Cao
 
