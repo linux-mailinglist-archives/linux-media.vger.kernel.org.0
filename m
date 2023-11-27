@@ -1,132 +1,219 @@
-Return-Path: <linux-media+bounces-1104-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1105-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 359E97FA6DA
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 17:49:57 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B73FC7FA6EC
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 17:55:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B06E6B21312
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 16:49:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6BE392818D4
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 16:55:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6030435882;
-	Mon, 27 Nov 2023 16:49:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E5D836AEB;
+	Mon, 27 Nov 2023 16:55:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=shipmail.org header.i=@shipmail.org header.b="GpjuXaEF"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="BKqP/9i7"
 X-Original-To: linux-media@vger.kernel.org
-X-Greylist: delayed 90 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 27 Nov 2023 08:49:44 PST
-Received: from ts201-smtpout75.ddc.teliasonera.net (ts201-smtpout75.ddc.teliasonera.net [81.236.60.180])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4B4069B
-	for <linux-media@vger.kernel.org>; Mon, 27 Nov 2023 08:49:44 -0800 (PST)
-X-RG-Rigid: 6516966F025C2C69
-X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedvkedrudeiuddgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvffgnffktefuhgdpggftfghnshhusghstghrihgsvgdpqfgfvfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfesthekredttdefjeenucfhrhhomhepvfhhohhmrghsucfjvghllhhsthhrnphmucdlkfhnthgvlhdmuceothhhohhmrghspghoshesshhhihhpmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpeelteegvedvjefgieejtdetffegteefteeuteeukeefvdfgtdeukefhkeefhedtjeenucfkphepkedurddvvdelrdejvddruddvjedpudefgedrudeluddrvdefvddrkeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehhvghlohepmhgrihhluddrshhhihhpmhgrihhlrdhorhhgpdhinhgvthepkedurddvvdelrdejvddruddvjedpmhgrihhlfhhrohhmpehthhhomhgrshgpohhssehshhhiphhmrghilhdrohhrghdpnhgspghrtghpthhtohephedprhgtphhtthhopeetlhgvgigrnhguvghrrdffvghutghhvghrsegrmhgurdgtohhmpdhrtghpthhtoheptghkohgvnhhighdrlhgvihgthhhtiihumhgvrhhkvghnsehgmhgrihhlrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphht
-	thhopehlihhnrghrohdqmhhmqdhsihhgsehlihhsthhsrdhlihhnrghrohdrohhrghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-RazorGate-Vade-Verdict: clean 0
-X-RazorGate-Vade-Classification: clean
-Received: from mail1.shipmail.org (81.229.72.127) by ts201-smtpout75.ddc.teliasonera.net (5.8.716)
-        id 6516966F025C2C69; Mon, 27 Nov 2023 17:48:03 +0100
-Received: from [192.168.0.209] (unknown [134.191.232.83])
-	by mail1.shipmail.org (Postfix) with ESMTPSA id 30C7D3606B4;
-	Mon, 27 Nov 2023 17:48:01 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
-	t=1701103682; bh=N6spvplnQJmWTN5fRtgemnRL8z3vIYOHsD5+Cv5u6D0=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=GpjuXaEFuFfB6+KC218RvbWuVKolEo6TaHQV6IM3mNy0t278N8YUMgV2eEcL3mRwi
-	 hut37fZdIq3+pVMZy1nDOsIDd3HP8JQfFEbAClG3kNbL6UWzbCPEjRHW9ihw1ELtWV
-	 uVV0MBK0kRGtyZE31dr16L8NCeIdukeQewgqEq8k=
-Message-ID: <8e434475-94f5-8e93-e0bd-3693e4587824@shipmail.org>
-Date: Mon, 27 Nov 2023 17:47:58 +0100
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28773198;
+	Mon, 27 Nov 2023 08:55:07 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C629866022D3;
+	Mon, 27 Nov 2023 16:55:04 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701104105;
+	bh=rawetfLv3yml/uOqktsA6Qgft44fu5ZD8CPwijNnuHg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=BKqP/9i7IEToJQk/VKzgc0QkRmPkiB+gHtNYrx/yxFbj8LT6M7IsW7MIoDAkoXYhR
+	 JP3XhklEoqpWtmulOwo05HfeTyY/EcABj+lj92hHwMp8TR95vUTvNpU+xmNmZNFPvo
+	 wN//ek/AsihWgRjFZHKsxwRdD1+7OvWq8oflG94W5PNzfp6qA2pHmpCtrO9QxEHtwN
+	 O/U7fpmlW8m93tVUUSd5xfVll+LIhkZxPVB+m5c9tML9aGt+3UrxMrOupFreyDZgCr
+	 h7XTnZQKYm9mRAle2ysQZyPL7pQWqIw2qqjhH3Bbp3jRgIxSSPTP3lp9+2LMw+mmIt
+	 6k+EZfKcyW7tg==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	matt.ranostay@konsulko.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH 00/55] Clean up queue_setup()/min_buffers_needed (ab)use
+Date: Mon, 27 Nov 2023 17:53:59 +0100
+Message-Id: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: fix check in
- dma_resv_add_fence
-Content-Language: en-US
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, Alex Deucher <Alexander.Deucher@amd.com>
-References: <20231115093035.1889-1-christian.koenig@amd.com>
- <e35e67dd-fd96-4ac5-a6ba-f351f12a146c@gmail.com>
-From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
-In-Reply-To: <e35e67dd-fd96-4ac5-a6ba-f351f12a146c@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+This series implement Hans's RFC: https://www.spinics.net/lists/linux-media/msg244455.html
 
-On 11/27/23 14:24, Christian König wrote:
-> Ping? Can I get an rb or acked-by for that?
->
-> Thanks,
-> Christian.
->
-> Am 15.11.23 um 10:30 schrieb Christian König:
->> It's valid to add the same fence multiple times to a dma-resv object and
->> we shouldn't need one extra slot for each.
->>
->> Signed-off-by: Christian König <christian.koenig@amd.com>
->> Fixes: a3f7c10a269d5 ("dma-buf/dma-resv: check if the new fence is 
->> really later")
->> Cc: stable@vger.kernel.org # v5.19+
+To summarize Hans's proposal it is needed to distinguish two cases:
+- the minimal number of buffers to be allocated when calling
+  VIDIOC_REQBUFS.
+- the minimale number of buffers to be present before start streaming
+  (mostly for DMA engine purpose).
+Until now drivers use vb2_queue min_buffers_needed field in the both
+cases but before introduce delete buffers we need to clarify for which
+usage each of them use min_buffers_needed field.
 
+I have done this in 3 steps:
+- add min_reqbufs_allocation field and convert all the drivers that I
+  believe use min_buffers_needed field for VIDIOC_REQBUF purpose.
+- add min_dma_buffers_needed field and convert all the drivers with DMA
+  engine needs.
+- remove min_buffers_needed from videobuf2 core.
 
-Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+The branch with all patches is here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/clean_min_need_buffers_v1
 
+I have tested with this command line, I haven't notice issues:
+./test-media -kmemleak mc
 
->> ---
->>   drivers/dma-buf/dma-resv.c |  2 +-
->>   include/linux/dma-fence.h  | 15 +++++++++++++++
->>   2 files changed, 16 insertions(+), 1 deletion(-)
->>
->> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
->> index 38b4110378de..eb8b733065b2 100644
->> --- a/drivers/dma-buf/dma-resv.c
->> +++ b/drivers/dma-buf/dma-resv.c
->> @@ -301,7 +301,7 @@ void dma_resv_add_fence(struct dma_resv *obj, 
->> struct dma_fence *fence,
->>             dma_resv_list_entry(fobj, i, obj, &old, &old_usage);
->>           if ((old->context == fence->context && old_usage >= usage &&
->> -             dma_fence_is_later(fence, old)) ||
->> +             dma_fence_is_later_or_same(fence, old)) ||
->>               dma_fence_is_signaled(old)) {
->>               dma_resv_list_set(fobj, i, fence, usage);
->>               dma_fence_put(old);
->> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
->> index ebe78bd3d121..b3772edca2e6 100644
->> --- a/include/linux/dma-fence.h
->> +++ b/include/linux/dma-fence.h
->> @@ -498,6 +498,21 @@ static inline bool dma_fence_is_later(struct 
->> dma_fence *f1,
->>       return __dma_fence_is_later(f1->seqno, f2->seqno, f1->ops);
->>   }
->>   +/**
->> + * dma_fence_is_later_or_same - return true if f1 is later or same 
->> as f2
->> + * @f1: the first fence from the same context
->> + * @f2: the second fence from the same context
->> + *
->> + * Returns true if f1 is chronologically later than f2 or the same 
->> fence. Both
->> + * fences must be from the same context, since a seqno is not 
->> re-used across
->> + * contexts.
->> + */
->> +static inline bool dma_fence_is_later_or_same(struct dma_fence *f1,
->> +                          struct dma_fence *f2)
->> +{
->> +    return f1 == f2 || dma_fence_is_later(f1, f2);
->> +}
->> +
->>   /**
->>    * dma_fence_later - return the chronologically later fence
->>    * @f1:    the first fence from the same context
->
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+Regards,
+Benjamin
+
+Benjamin Gaignard (55):
+  videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
+  media: test-drivers: Stop abusing of min_buffers_needed field
+  media: usb: cx231xx: Stop abusing of min_buffers_needed field
+  media: usb: dvb-usb: cxusb-analog: Stop abusing of min_buffers_needed
+    field
+  media: usb: gspca: Stop abusing of min_buffers_needed field
+  media: atmel: Stop abusing of min_buffers_needed field
+  media: imx8-isi: Stop abusing of min_buffers_needed field
+  media: imx7-media-csi: Stop abusing of min_buffers_needed field
+  media: chips-media: coda: Stop abusing of min_buffers_needed field
+  media: nuvoton: Stop abusing of min_buffers_needed field
+  media: sti: hva: Stop abusing of min_buffers_needed field
+  media: rockchip: rkisp1: Stop abusing of min_buffers_needed field
+  media: aspeed: Stop abusing of min_buffers_needed field
+  media: microchip: Stop abusing of min_buffers_needed field
+  media: amphion: Stop abusing of min_buffers_needed field
+  media: qcom: venus: Stop abusing of min_buffers_needed field
+  media: sun4i-csi: Stop abusing of min_buffers_needed field
+  media: sunxi: sun8i-di: Stop abusing of min_buffers_needed field
+  media: sun8i-rotate: Stop abusing of min_buffers_needed field
+  media: sunxi: sun6i-csi: Stop abusing of min_buffers_needed field
+  media: i2c: video-i2c: Stop abusing of min_buffers_needed field
+  media: dvb-core: Stop abusing of min_buffers_needed field
+  media: imx: Stop abusing of min_buffers_needed field
+  media: atmel: Stop abusing of min_buffers_needed field
+  media: ipu3: Stop abusing of min_buffers_needed field
+  media: starfive: Stop abusing of min_buffers_needed field
+  media: sun6i-isp: Stop abusing of min_buffers_needed field
+  media: tegra-video: Stop abusing of min_buffers_needed field
+  media: ti: am437x: Stop abusing of min_buffers_needed field
+  media: ti: cal: Stop abusing of min_buffers_needed field
+  media: ti: davinci: Stop abusing of min_buffers_needed field
+  media: saa7146: Stop abusing of min_buffers_needed field
+  input: touchscreen: atmel: Stop abusing of min_buffers_needed field
+  input: touchscreen: sur40: Stop abusing of min_buffers_needed field
+  videobuf2: core: Add min_dma_buffers_needed field to vb2_queue
+  media: stm32: stm32-dcmi: Use min_dma_buffers_needed field
+  media: renesas: Use min_dma_buffers_needed field
+  media: ti: j721e-csi2rx: Use min_dma_buffers_needed field
+  media: ti: omap: Use min_dma_buffers_needed field
+  samples: v4l2: pci: Use min_dma_buffers_needed field
+  media: pci: intel: ipu3: Use min_dma_buffers_needed field
+  media: pci: dt3155: Use min_dma_buffers_needed field
+  media: pci: bt8xx: Use min_dma_buffers_needed field
+  media: pci: cx18: Use min_dma_buffers_needed field
+  media: pci: mgb4: Use min_dma_buffers_needed field
+  media: pci: tw68: Use min_dma_buffers_needed field
+  media: pci: cx25821: Use min_dma_buffers_needed field
+  media: pci: tw5864: Use min_dma_buffers_needed field
+  media: pci: tw686x: Use min_dma_buffers_needed field
+  media: pci: cx88: Use min_dma_buffers_needed field
+  media: pci: cx23885: Use min_dma_buffers_needed field
+  media: pci: zoran: Use min_dma_buffers_needed field
+  media: pci: cobalt: Use min_dma_buffers_needed field
+  media: meson: vdec: Use min_dma_buffers_needed field
+  media: videobuf2: core: Remove 'min_buffers_needed' field
+
+ drivers/input/touchscreen/atmel_mxt_ts.c      |  2 +-
+ drivers/input/touchscreen/sur40.c             |  2 +-
+ drivers/media/common/saa7146/saa7146_fops.c   |  2 +-
+ .../media/common/videobuf2/videobuf2-core.c   | 26 +++++++++++--------
+ drivers/media/dvb-core/dvb_vb2.c              |  2 +-
+ drivers/media/i2c/video-i2c.c                 |  2 +-
+ drivers/media/pci/bt8xx/bttv-driver.c         |  2 +-
+ drivers/media/pci/cobalt/cobalt-v4l2.c        |  2 +-
+ drivers/media/pci/cx18/cx18-streams.c         |  2 +-
+ drivers/media/pci/cx23885/cx23885-417.c       |  2 +-
+ drivers/media/pci/cx23885/cx23885-dvb.c       |  2 +-
+ drivers/media/pci/cx23885/cx23885-video.c     |  4 +--
+ drivers/media/pci/cx25821/cx25821-video.c     |  2 +-
+ drivers/media/pci/cx88/cx88-blackbird.c       |  2 +-
+ drivers/media/pci/cx88/cx88-dvb.c             |  2 +-
+ drivers/media/pci/cx88/cx88-video.c           |  4 +--
+ drivers/media/pci/dt3155/dt3155.c             |  2 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  2 +-
+ drivers/media/pci/mgb4/mgb4_vin.c             |  2 +-
+ drivers/media/pci/mgb4/mgb4_vout.c            |  2 +-
+ drivers/media/pci/tw5864/tw5864-video.c       |  2 +-
+ drivers/media/pci/tw68/tw68-video.c           |  2 +-
+ drivers/media/pci/tw686x/tw686x-video.c       |  2 +-
+ drivers/media/pci/zoran/zoran_driver.c        |  5 +---
+ drivers/media/platform/amphion/vpu_v4l2.c     |  4 +--
+ drivers/media/platform/aspeed/aspeed-video.c  |  2 +-
+ drivers/media/platform/atmel/atmel-isi.c      |  2 +-
+ .../platform/chips-media/coda/coda-common.c   |  2 +-
+ .../platform/microchip/microchip-isc-base.c   |  2 +-
+ drivers/media/platform/nuvoton/npcm-video.c   |  2 +-
+ drivers/media/platform/nxp/imx7-media-csi.c   |  2 +-
+ .../platform/nxp/imx8-isi/imx8-isi-video.c    |  2 +-
+ drivers/media/platform/qcom/venus/vdec.c      |  4 +--
+ drivers/media/platform/qcom/venus/venc.c      |  4 +--
+ .../platform/renesas/rcar-vin/rcar-dma.c      |  2 +-
+ drivers/media/platform/renesas/renesas-ceu.c  |  2 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  |  2 +-
+ drivers/media/platform/renesas/sh_vou.c       |  2 +-
+ .../platform/rockchip/rkisp1/rkisp1-capture.c |  2 +-
+ drivers/media/platform/st/sti/hva/hva-v4l2.c  |  4 +--
+ drivers/media/platform/st/stm32/stm32-dcmi.c  |  2 +-
+ .../platform/sunxi/sun4i-csi/sun4i_dma.c      |  2 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  2 +-
+ .../media/platform/sunxi/sun8i-di/sun8i-di.c  |  4 +--
+ .../sunxi/sun8i-rotate/sun8i_rotate.c         |  4 +--
+ .../media/platform/ti/am437x/am437x-vpfe.c    |  2 +-
+ drivers/media/platform/ti/cal/cal-video.c     |  2 +-
+ .../media/platform/ti/davinci/vpif_capture.c  |  2 +-
+ .../media/platform/ti/davinci/vpif_display.c  |  2 +-
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   |  2 +-
+ drivers/media/platform/ti/omap/omap_vout.c    |  2 +-
+ .../media/test-drivers/vimc/vimc-capture.c    |  2 +-
+ drivers/media/test-drivers/vivid/vivid-core.c |  4 +--
+ drivers/media/usb/cx231xx/cx231xx-417.c       |  2 +-
+ drivers/media/usb/cx231xx/cx231xx-video.c     |  4 +--
+ drivers/media/usb/dvb-usb/cxusb-analog.c      |  2 +-
+ drivers/media/usb/gspca/gspca.c               |  6 ++---
+ .../media/deprecated/atmel/atmel-isc-base.c   |  2 +-
+ drivers/staging/media/imx/imx-media-capture.c |  2 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c        |  2 +-
+ drivers/staging/media/meson/vdec/vdec.c       |  6 ++---
+ .../staging/media/starfive/camss/stf-video.c  |  2 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c |  2 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  |  2 +-
+ drivers/staging/media/tegra-video/vi.c        |  2 +-
+ include/media/videobuf2-core.h                | 10 +++++--
+ samples/v4l/v4l2-pci-skeleton.c               |  2 +-
+ 67 files changed, 102 insertions(+), 95 deletions(-)
+
+-- 
+2.39.2
+
 
