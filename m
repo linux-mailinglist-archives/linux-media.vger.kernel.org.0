@@ -1,376 +1,199 @@
-Return-Path: <linux-media+bounces-1071-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1072-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C8417F9B35
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 08:55:52 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 984177F9C5D
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 10:07:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 38B44280DB8
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 07:55:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB6BE1C209B9
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 09:07:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36C4810A0E;
-	Mon, 27 Nov 2023 07:55:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E88BD134BF;
+	Mon, 27 Nov 2023 09:07:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OuApuTvc"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WL/48UD0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x52f.google.com (mail-ed1-x52f.google.com [IPv6:2a00:1450:4864:20::52f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0F15CE;
-	Sun, 26 Nov 2023 23:55:41 -0800 (PST)
-Received: by mail-ed1-x52f.google.com with SMTP id 4fb4d7f45d1cf-544455a4b56so5125215a12.1;
-        Sun, 26 Nov 2023 23:55:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701071740; x=1701676540; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=NKFhQZzTRAdLfUmZy1AosIZUEfwSZzLxXA7XkXOLKRs=;
-        b=OuApuTvcymLZoxe18N4f5hW/viHCdk8ZIYGZCKJuiviOmJ3x4Dx1sL4TPX8qsQa/Xn
-         7wH/U8iMplxaP30qAGFBAqHTWGIPinMZxgerojNEavlrftQLgtkZqJ/hO5UErmVNbfOk
-         MYtlxDJeygl+APizqK2nIXMsDcDOAQqqcDJ5IuyuN7/0dDLDIWW+OxHH7WpS13N9PdIJ
-         2g0eStvcB1dk5hHbGHmSAYKGIt3zclrltactkZ2fkNMpXr+p4QRHFzFWVA7YV9WkbeyZ
-         XqI9fk7jNZvbVWh2vV+m4b6YJNjgMFGjwMKT8BhCnHztLdZ6P6LQ2z0k02YrM4sUWBbJ
-         /lXA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701071740; x=1701676540;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NKFhQZzTRAdLfUmZy1AosIZUEfwSZzLxXA7XkXOLKRs=;
-        b=aCayitqSSi7KRsGZ7zUvfDM0pu+telaTrRrSfsNpnfIJO+UTaFRAzfkB3d0HtZUxe2
-         DQ02tmWzRzmuG+P0DDiagyR5rEN7zayS7LCUt+wWZOsRLLwIvqYCPJil45YbajK+oNnR
-         XKTR7WcQWQdIKzNfUQRqOClKCqD5WUKYG/LwSCnyAnb4GTnNhgEDiybwGx9cZDIKERf8
-         XGiRddhq+XtsWEOK9i5nN10q9X9o6tXVC55IjeFzxFHTh/KfTstEx27WIocZUD5ERD79
-         zc2HPMxZ9ePtjQ/U8IXhfKpVwOsK5pkY78H2HICLLNfntSYPhRN8YJZ/WP29bfvpR0fs
-         79Ww==
-X-Gm-Message-State: AOJu0Yybo0ebqwPIbqyS6fFF8zRBGXGbjx767e51x51T4C7le3GoXLlq
-	es6nYl0hnNC/0xAZhcolEcY=
-X-Google-Smtp-Source: AGHT+IGek8HCBd/k9DEQ1g6pLBK87DNH2XDxGI/lW5Mt03fKMrmd5jWoU+wc1c3cn4CR13XIeye1iQ==
-X-Received: by 2002:a17:907:2992:b0:9ff:2374:1571 with SMTP id eu18-20020a170907299200b009ff23741571mr5685820ejc.69.1701071739736;
-        Sun, 26 Nov 2023 23:55:39 -0800 (PST)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-143-167.cust.vodafonedsl.it. [2.39.143.167])
-        by smtp.gmail.com with ESMTPSA id hg12-20020a170906f34c00b00a10f3030e11sm261234ejb.1.2023.11.26.23.55.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 26 Nov 2023 23:55:39 -0800 (PST)
-Date: Mon, 27 Nov 2023 08:55:37 +0100
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linuxfancy@googlegroups.com, Steve Longerbeam <slongerbeam@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A612C111
+	for <linux-media@vger.kernel.org>; Mon, 27 Nov 2023 01:07:42 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 027B19D5;
+	Mon, 27 Nov 2023 10:07:04 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701076024;
+	bh=pyI0FKzKufJ2KXP0At6L09LYpgcg8OIP37kg3YsIZi8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=WL/48UD06xza9annff7ByHK8kX/FsdFTpQ65wJGjVglu9mPf6zDLSnsVcIDRJh7de
+	 VxzIB52S7Q3ec6A93cNlerp7qCw3chnpI8UhHySCbsJPNLSwJXxvUywUcDVTmj4Xm5
+	 uU/30qe/lJGB4QOex0fNKKZHxBnvpO5zkRqNnR+M=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@iki.fi>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Ricardo Ribalda <ribalda@kernel.org>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Michael Riesch <michael.riesch@wolfvision.net>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Nicholas Roth <nicholas@rothemail.net>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Tim Harvey <tharvey@gateworks.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Eugen Hristev <eugen.hristev@collabora.com>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Yong Deng <yong.deng@magewell.com>,
+	Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+	Benoit Parrot <bparrot@ti.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Shuah Khan <skhan@linuxfoundation.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: ov5640: use subdev active state
-Message-ID: <ZWRLeTTxNDB7YpBS@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20231126103401.2617585-1-tomm.merciai@gmail.com>
- <20231126144828.GA12891@pendragon.ideasonboard.com>
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	Alain Volmat <alain.volmat@foss.st.com>
+Subject: [PATCH v4 0/1] media: v4l2-subdev: Make .init_cfg() an internal operation
+Date: Mon, 27 Nov 2023 11:07:43 +0200
+Message-ID: <20231127090744.30012-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231126144828.GA12891@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent,
-Thanks for reviewing this.
+Hello,
 
-On Sun, Nov 26, 2023 at 04:48:28PM +0200, Laurent Pinchart wrote:
-> Hi Tommaso,
-> 
-> Thank you for the patch.
-> 
-> On Sun, Nov 26, 2023 at 11:34:01AM +0100, Tommaso Merciai wrote:
-> > Port the ov5640 sensor driver to use the subdev active state.
-> > 
-> > After the ov5640 configurations steps call v4l2_subdev_init_finalize
-> > that finalizes the initialization of the subdevice.
-> > From now we use subdevice active state to simplify format handling and
-> > locking
-> > 
-> > References:
-> >  - https://patchwork.kernel.org/project/linux-media/patch/20230710155203.92366-6-jacopo.mondi@ideasonboard.com/
-> >  - https://linuxtv.org/downloads/v4l-dvb-apis/driver-api/v4l2-subdev.html#c.v4l2_subdev_cleanup
-> > 
-> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > ---
-> >  drivers/media/i2c/ov5640.c | 89 ++++++++++----------------------------
-> >  1 file changed, 24 insertions(+), 65 deletions(-)
-> > 
-> > diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> > index 3f79a3b77044..44a073d3df64 100644
-> > --- a/drivers/media/i2c/ov5640.c
-> > +++ b/drivers/media/i2c/ov5640.c
-> > @@ -446,9 +446,6 @@ struct ov5640_dev {
-> >  	struct gpio_desc *pwdn_gpio;
-> >  	bool   upside_down;
-> >  
-> > -	/* lock to protect all members below */
-> > -	struct mutex lock;
-> > -
-> >  	struct v4l2_mbus_framefmt fmt;
-> 
-> This field should go too. The point of using the subdev active state is
-> to move state information from the device-specific structure to the
-> subdev state.
+This patch addresses a historical issue in the V4L2 subdev in-kernel
+API.
 
-Thanks for the clarification.
+The subdev .init_cfg() pad operation used to initialize a
+v4l2_subdev_pad_config structure. This was changed to initializing a
+v4l2_subdev_state a while ago, but the operation wasn't renamed, and
+stayed a pad operation. Not only is the name confusing for new
+developers, it is also the only pad operation that doesn't operate on a
+pad, leading to more confusion.
 
-> 
-> Ideally the pending_fmt_change, current_mode, last_mode, current_fr,
-> frame_interval and pending_mode_change fields should go too. That's more
-> work and it's probably OK if we keep some of those fields for the time
-> being.
-> 
-> One low(er) hanging fruit is current_fr and frame_interval, which would
-> be nice to address soon. Removing them completely will require the "[RFC
-> PATCH v1 0/4] media: v4l2-subdev: Improve frame interval handling" patch
-> series ([1]), for which I plan to send a v2 soon. You can submit a v2 of
-> this patch, dropping the fmt field, without waiting for the improved
-> frame interval handling. It should however be fairly to merge the
-> current_fr and frame_interval fields (dropping the ov5640_frame_rate
-> enum as a result), it would be nice to see that as a patch already.
-> 
-> [1] https://lore.kernel.org/linux-media/20231024005130.28026-1-laurent.pinchart@ideasonboard.com
+This patch addresses those two issues by renaming the operation to
+.init_cfg() and moving it to the subdev internal operations. All of the
+preparatory patches from previous version have been applied by Sakari
+already, leaving only this patch for a respin.
 
-No problem I can wait. And work on top of your work later.
-Please let me know if you need some test, I have a working imx8mp-evk +
-ov5640 env on my side on top of sailus/media_tree/master (Actually I'm
-using this for alvium driver upstream)
+The patch is based on Sakari's latest test branch ([1]), containing
+patches scheduled for v6.8. I would like to get it merged in v6.8 as
+well, as it touches many drivers and rebasing it is painful. Mauro,
+Hans, for this reason, I would appreciate if you could review this patch
+now and not when Sakari or I will send a pull request.
 
-Hope this can help :)
+[1] https://git.linuxtv.org/sailus/media_tree.git/log/?h=test
 
+Laurent Pinchart (1):
+  media: v4l2-subdev: Rename .init_cfg() operation to .init_state()
+
+ drivers/media/i2c/adv7180.c                   | 10 ++--
+ drivers/media/i2c/ccs/ccs-core.c              |  6 +--
+ drivers/media/i2c/ds90ub913.c                 | 10 ++--
+ drivers/media/i2c/ds90ub953.c                 | 10 ++--
+ drivers/media/i2c/ds90ub960.c                 | 11 ++--
+ drivers/media/i2c/gc2145.c                    | 10 ++--
+ drivers/media/i2c/hi846.c                     | 10 ++--
+ drivers/media/i2c/imx214.c                    | 12 +++--
+ drivers/media/i2c/imx219.c                    |  9 ++--
+ drivers/media/i2c/imx290.c                    | 10 ++--
+ drivers/media/i2c/imx296.c                    | 10 ++--
+ drivers/media/i2c/imx334.c                    | 12 +++--
+ drivers/media/i2c/imx335.c                    | 12 +++--
+ drivers/media/i2c/imx412.c                    | 12 +++--
+ drivers/media/i2c/imx415.c                    | 10 ++--
+ drivers/media/i2c/mt9m001.c                   | 10 ++--
+ drivers/media/i2c/mt9m111.c                   | 10 ++--
+ drivers/media/i2c/mt9m114.c                   | 16 +++---
+ drivers/media/i2c/mt9p031.c                   |  8 +--
+ drivers/media/i2c/mt9v111.c                   | 10 ++--
+ drivers/media/i2c/ov01a10.c                   | 10 ++--
+ drivers/media/i2c/ov02a10.c                   | 10 ++--
+ drivers/media/i2c/ov2640.c                    | 10 ++--
+ drivers/media/i2c/ov2680.c                    | 10 ++--
+ drivers/media/i2c/ov2740.c                    | 10 ++--
+ drivers/media/i2c/ov5640.c                    | 10 ++--
+ drivers/media/i2c/ov5645.c                    | 12 +++--
+ drivers/media/i2c/ov5670.c                    | 10 ++--
+ drivers/media/i2c/ov7251.c                    | 12 +++--
+ drivers/media/i2c/ov8858.c                    | 10 ++--
+ drivers/media/i2c/ov9282.c                    | 12 +++--
+ drivers/media/i2c/st-vgxy61.c                 | 10 ++--
+ drivers/media/i2c/tc358746.c                  | 10 ++--
+ drivers/media/i2c/tda1997x.c                  | 10 ++--
+ drivers/media/i2c/thp7312.c                   | 10 ++--
+ drivers/media/i2c/tvp5150.c                   |  6 +--
+ drivers/media/pci/intel/ivsc/mei_csi.c        | 10 ++--
+ drivers/media/platform/cadence/cdns-csi2rx.c  | 10 ++--
+ .../platform/microchip/microchip-csi2dc.c     | 10 ++--
+ .../platform/microchip/microchip-isc-scaler.c | 10 ++--
+ drivers/media/platform/nxp/imx-mipi-csis.c    | 10 ++--
+ drivers/media/platform/nxp/imx7-media-csi.c   |  6 +--
+ .../platform/nxp/imx8-isi/imx8-isi-crossbar.c | 10 ++--
+ .../platform/nxp/imx8-isi/imx8-isi-pipe.c     | 10 ++--
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 10 ++--
+ .../platform/renesas/rzg2l-cru/rzg2l-csi2.c   | 10 ++--
+ .../platform/renesas/rzg2l-cru/rzg2l-ip.c     | 10 ++--
+ .../media/platform/renesas/vsp1/vsp1_brx.c    |  1 -
+ .../media/platform/renesas/vsp1/vsp1_clu.c    |  1 -
+ .../media/platform/renesas/vsp1/vsp1_entity.c | 53 +++++++++----------
+ .../media/platform/renesas/vsp1/vsp1_entity.h |  2 -
+ .../media/platform/renesas/vsp1/vsp1_hsit.c   |  1 -
+ .../media/platform/renesas/vsp1/vsp1_lif.c    |  1 -
+ .../media/platform/renesas/vsp1/vsp1_lut.c    |  1 -
+ .../media/platform/renesas/vsp1/vsp1_rwpf.c   |  1 -
+ .../media/platform/renesas/vsp1/vsp1_sru.c    |  1 -
+ .../media/platform/renesas/vsp1/vsp1_uds.c    |  1 -
+ .../media/platform/renesas/vsp1/vsp1_uif.c    |  1 -
+ .../platform/rockchip/rkisp1/rkisp1-csi.c     | 10 ++--
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 10 ++--
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c | 10 ++--
+ .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c   |  6 +--
+ .../st/stm32/stm32-dcmipp/dcmipp-parallel.c   |  6 +--
+ .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  1 +
+ .../platform/sunxi/sun4i-csi/sun4i_csi.h      |  1 +
+ .../platform/sunxi/sun4i-csi/sun4i_v4l2.c     |  9 ++--
+ .../sunxi/sun6i-csi/sun6i_csi_bridge.c        | 10 ++--
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 10 ++--
+ .../sun8i_a83t_mipi_csi2.c                    | 10 ++--
+ drivers/media/platform/ti/cal/cal-camerarx.c  | 10 ++--
+ drivers/media/platform/video-mux.c            | 10 ++--
+ .../media/platform/xilinx/xilinx-csi2rxss.c   | 10 ++--
+ .../media/test-drivers/vimc/vimc-debayer.c    | 11 ++--
+ drivers/media/test-drivers/vimc/vimc-scaler.c | 11 ++--
+ drivers/media/test-drivers/vimc/vimc-sensor.c | 11 ++--
+ drivers/media/v4l2-core/v4l2-subdev.c         | 20 +++----
+ drivers/staging/media/imx/imx-ic-prp.c        |  2 +-
+ drivers/staging/media/imx/imx-ic-prpencvf.c   |  2 +-
+ drivers/staging/media/imx/imx-media-csi.c     |  2 +-
+ drivers/staging/media/imx/imx-media-utils.c   |  8 +--
+ drivers/staging/media/imx/imx-media-vdic.c    |  2 +-
+ drivers/staging/media/imx/imx-media.h         |  4 +-
+ drivers/staging/media/imx/imx6-mipi-csi2.c    |  2 +-
+ .../staging/media/starfive/camss/stf-isp.c    |  6 ++-
+ .../media/sunxi/sun6i-isp/sun6i_isp_proc.c    | 10 ++--
+ include/media/v4l2-subdev.h                   |  7 +--
+ 86 files changed, 487 insertions(+), 264 deletions(-)
+
+
+base-commit: 851fbdaebd3b1b4c47c2e2e38342c5ccf292ce27
+-- 
 Regards,
-Tommaso
 
-> 
-> >  	bool pending_fmt_change;
-> >  
-> > @@ -2784,30 +2781,6 @@ static int ov5640_try_frame_interval(struct ov5640_dev *sensor,
-> >  	return mode ? rate : -EINVAL;
-> >  }
-> >  
-> > -static int ov5640_get_fmt(struct v4l2_subdev *sd,
-> > -			  struct v4l2_subdev_state *sd_state,
-> > -			  struct v4l2_subdev_format *format)
-> > -{
-> > -	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> > -	struct v4l2_mbus_framefmt *fmt;
-> > -
-> > -	if (format->pad != 0)
-> > -		return -EINVAL;
-> > -
-> > -	mutex_lock(&sensor->lock);
-> > -
-> > -	if (format->which == V4L2_SUBDEV_FORMAT_TRY)
-> > -		fmt = v4l2_subdev_state_get_format(sd_state, format->pad);
-> > -	else
-> > -		fmt = &sensor->fmt;
-> > -
-> > -	format->format = *fmt;
-> > -
-> > -	mutex_unlock(&sensor->lock);
-> > -
-> > -	return 0;
-> > -}
-> > -
-> >  static int ov5640_try_fmt_internal(struct v4l2_subdev *sd,
-> >  				   struct v4l2_mbus_framefmt *fmt,
-> >  				   const struct ov5640_mode_info **new_mode)
-> > @@ -2958,21 +2931,14 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
-> >  	if (format->pad != 0)
-> >  		return -EINVAL;
-> >  
-> > -	mutex_lock(&sensor->lock);
-> > -
-> > -	if (sensor->streaming) {
-> > -		ret = -EBUSY;
-> > -		goto out;
-> > -	}
-> > +	if (sensor->streaming)
-> > +		return -EBUSY;
-> >  
-> >  	ret = ov5640_try_fmt_internal(sd, mbus_fmt, &new_mode);
-> >  	if (ret)
-> > -		goto out;
-> > +		return ret;
-> >  
-> > -	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-> > -		*v4l2_subdev_state_get_format(sd_state, 0) = *mbus_fmt;
-> > -		goto out;
-> > -	}
-> > +	*v4l2_subdev_state_get_format(sd_state, 0) = *mbus_fmt;
-> >  
-> >  	if (new_mode != sensor->current_mode) {
-> >  		sensor->current_fr = new_mode->def_fps;
-> > @@ -2987,26 +2953,16 @@ static int ov5640_set_fmt(struct v4l2_subdev *sd,
-> >  
-> >  	ov5640_update_pixel_rate(sensor);
-> >  
-> > -out:
-> > -	mutex_unlock(&sensor->lock);
-> > -	return ret;
-> > +	return 0;
-> >  }
-> >  
-> >  static int ov5640_get_selection(struct v4l2_subdev *sd,
-> >  				struct v4l2_subdev_state *sd_state,
-> >  				struct v4l2_subdev_selection *sel)
-> >  {
-> > -	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> > -	const struct ov5640_mode_info *mode = sensor->current_mode;
-> > -	const struct ov5640_timings *timings;
-> > -
-> >  	switch (sel->target) {
-> >  	case V4L2_SEL_TGT_CROP: {
-> > -		mutex_lock(&sensor->lock);
-> > -		timings = ov5640_timings(sensor, mode);
-> > -		sel->r = timings->analog_crop;
-> > -		mutex_unlock(&sensor->lock);
-> > -
-> > +		sel->r = *v4l2_subdev_state_get_crop(sd_state, 0);
-> >  		return 0;
-> >  	}
-> >  
-> > @@ -3441,9 +3397,6 @@ static int ov5640_init_controls(struct ov5640_dev *sensor)
-> >  
-> >  	v4l2_ctrl_handler_init(hdl, 32);
-> >  
-> > -	/* we can use our own mutex for the ctrl lock */
-> > -	hdl->lock = &sensor->lock;
-> > -
-> >  	/* Clock related controls */
-> >  	ctrls->pixel_rate = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_PIXEL_RATE,
-> >  			      ov5640_pixel_rates[OV5640_NUM_PIXEL_RATES - 1],
-> > @@ -3609,9 +3562,7 @@ static int ov5640_g_frame_interval(struct v4l2_subdev *sd,
-> >  {
-> >  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> >  
-> > -	mutex_lock(&sensor->lock);
-> >  	fi->interval = sensor->frame_interval;
-> > -	mutex_unlock(&sensor->lock);
-> >  
-> >  	return 0;
-> >  }
-> > @@ -3620,13 +3571,14 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
-> >  				   struct v4l2_subdev_frame_interval *fi)
-> >  {
-> >  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> > +	struct v4l2_subdev_state *state;
-> >  	const struct ov5640_mode_info *mode;
-> >  	int frame_rate, ret = 0;
-> >  
-> >  	if (fi->pad != 0)
-> >  		return -EINVAL;
-> >  
-> > -	mutex_lock(&sensor->lock);
-> > +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> >  
-> >  	if (sensor->streaming) {
-> >  		ret = -EBUSY;
-> > @@ -3663,7 +3615,7 @@ static int ov5640_s_frame_interval(struct v4l2_subdev *sd,
-> >  		ov5640_update_pixel_rate(sensor);
-> >  	}
-> >  out:
-> > -	mutex_unlock(&sensor->lock);
-> > +	v4l2_subdev_unlock_state(state);
-> >  	return ret;
-> >  }
-> >  
-> > @@ -3694,6 +3646,7 @@ static int ov5640_enum_mbus_code(struct v4l2_subdev *sd,
-> >  static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
-> >  {
-> >  	struct ov5640_dev *sensor = to_ov5640_dev(sd);
-> > +	struct v4l2_subdev_state *state;
-> >  	int ret = 0;
-> >  
-> >  	if (enable) {
-> > @@ -3708,7 +3661,7 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
-> >  		}
-> >  	}
-> >  
-> > -	mutex_lock(&sensor->lock);
-> > +	state = v4l2_subdev_lock_and_get_active_state(sd);
-> >  
-> >  	if (sensor->streaming == !enable) {
-> >  		if (enable && sensor->pending_mode_change) {
-> > @@ -3734,7 +3687,7 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
-> >  	}
-> >  
-> >  out:
-> > -	mutex_unlock(&sensor->lock);
-> > +	v4l2_subdev_unlock_state(state);
-> >  
-> >  	if (!enable || ret) {
-> >  		pm_runtime_mark_last_busy(&sensor->i2c_client->dev);
-> > @@ -3778,7 +3731,7 @@ static const struct v4l2_subdev_video_ops ov5640_video_ops = {
-> >  static const struct v4l2_subdev_pad_ops ov5640_pad_ops = {
-> >  	.init_cfg = ov5640_init_cfg,
-> >  	.enum_mbus_code = ov5640_enum_mbus_code,
-> > -	.get_fmt = ov5640_get_fmt,
-> > +	.get_fmt = v4l2_subdev_get_fmt,
-> >  	.set_fmt = ov5640_set_fmt,
-> >  	.get_selection = ov5640_get_selection,
-> >  	.enum_frame_size = ov5640_enum_frame_size,
-> > @@ -3918,8 +3871,6 @@ static int ov5640_probe(struct i2c_client *client)
-> >  	if (ret)
-> >  		goto entity_cleanup;
-> >  
-> > -	mutex_init(&sensor->lock);
-> > -
-> >  	ret = ov5640_init_controls(sensor);
-> >  	if (ret)
-> >  		goto entity_cleanup;
-> > @@ -3938,9 +3889,16 @@ static int ov5640_probe(struct i2c_client *client)
-> >  	if (ret)
-> >  		goto err_pm_runtime;
-> >  
-> > +	sensor->sd.state_lock = sensor->ctrls.handler.lock;
-> > +	ret = v4l2_subdev_init_finalize(&sensor->sd);
-> > +	if (ret < 0) {
-> > +		dev_err(dev, "subdev init error: %d\n", ret);
-> > +		goto err_pm_runtime;
-> > +	}
-> > +
-> >  	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
-> >  	if (ret)
-> > -		goto err_pm_runtime;
-> > +		goto subdev_cleanup;
-> >  
-> >  	pm_runtime_set_autosuspend_delay(dev, 1000);
-> >  	pm_runtime_use_autosuspend(dev);
-> > @@ -3949,6 +3907,8 @@ static int ov5640_probe(struct i2c_client *client)
-> >  
-> >  	return 0;
-> >  
-> > +subdev_cleanup:
-> > +	v4l2_subdev_cleanup(&sensor->sd);
-> >  err_pm_runtime:
-> >  	pm_runtime_put_noidle(dev);
-> >  	pm_runtime_disable(dev);
-> > @@ -3957,7 +3917,6 @@ static int ov5640_probe(struct i2c_client *client)
-> >  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
-> >  entity_cleanup:
-> >  	media_entity_cleanup(&sensor->sd.entity);
-> > -	mutex_destroy(&sensor->lock);
-> >  	return ret;
-> >  }
-> >  
-> > @@ -3973,9 +3932,9 @@ static void ov5640_remove(struct i2c_client *client)
-> >  	pm_runtime_set_suspended(dev);
-> >  
-> >  	v4l2_async_unregister_subdev(&sensor->sd);
-> > +	v4l2_subdev_cleanup(sd);
-> >  	media_entity_cleanup(&sensor->sd.entity);
-> >  	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
-> > -	mutex_destroy(&sensor->lock);
-> >  }
-> >  
-> >  static const struct dev_pm_ops ov5640_pm_ops = {
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+Laurent Pinchart
+
 
