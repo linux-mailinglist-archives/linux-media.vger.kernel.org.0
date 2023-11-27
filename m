@@ -1,137 +1,132 @@
-Return-Path: <linux-media+bounces-1103-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1104-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DB8A7FA5A8
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 17:07:34 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 359E97FA6DA
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 17:49:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D90862818C7
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 16:07:32 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B06E6B21312
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 16:49:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8D8A3588F;
-	Mon, 27 Nov 2023 16:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6030435882;
+	Mon, 27 Nov 2023 16:49:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=shipmail.org header.i=@shipmail.org header.b="GpjuXaEF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3924334562
-	for <linux-media@vger.kernel.org>; Mon, 27 Nov 2023 16:07:26 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ED518C433C7;
-	Mon, 27 Nov 2023 16:07:25 +0000 (UTC)
-Message-ID: <b4c65911-6655-4f0a-bd1d-acba6d6c3b54@xs4all.nl>
-Date: Mon, 27 Nov 2023 17:07:24 +0100
+X-Greylist: delayed 90 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 27 Nov 2023 08:49:44 PST
+Received: from ts201-smtpout75.ddc.teliasonera.net (ts201-smtpout75.ddc.teliasonera.net [81.236.60.180])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 4B4069B
+	for <linux-media@vger.kernel.org>; Mon, 27 Nov 2023 08:49:44 -0800 (PST)
+X-RG-Rigid: 6516966F025C2C69
+X-RazorGate-Vade: gggruggvucftvghtrhhoucdtuddrgedvkedrudeiuddgleefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuvffgnffktefuhgdpggftfghnshhusghstghrihgsvgdpqfgfvfenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhepkfffgggfuffvfhfhjggtgfesthekredttdefjeenucfhrhhomhepvfhhohhmrghsucfjvghllhhsthhrnphmucdlkfhnthgvlhdmuceothhhohhmrghspghoshesshhhihhpmhgrihhlrdhorhhgqeenucggtffrrghtthgvrhhnpeelteegvedvjefgieejtdetffegteefteeuteeukeefvdfgtdeukefhkeefhedtjeenucfkphepkedurddvvdelrdejvddruddvjedpudefgedrudeluddrvdefvddrkeefnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehhvghlohepmhgrihhluddrshhhihhpmhgrihhlrdhorhhgpdhinhgvthepkedurddvvdelrdejvddruddvjedpmhgrihhlfhhrohhmpehthhhomhgrshgpohhssehshhhiphhmrghilhdrohhrghdpnhgspghrtghpthhtohephedprhgtphhtthhopeetlhgvgigrnhguvghrrdffvghutghhvghrsegrmhgurdgtohhmpdhrtghpthhtoheptghkohgvnhhighdrlhgvihgthhhtiihumhgvrhhkvghnsehgmhgrihhlrdgtohhmpdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhophdrohhrghdprhgtphht
+	thhopehlihhnrghrohdqmhhmqdhsihhgsehlihhsthhsrdhlihhnrghrohdrohhrghdprhgtphhtthhopehlihhnuhigqdhmvgguihgrsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-RazorGate-Vade-Verdict: clean 0
+X-RazorGate-Vade-Classification: clean
+Received: from mail1.shipmail.org (81.229.72.127) by ts201-smtpout75.ddc.teliasonera.net (5.8.716)
+        id 6516966F025C2C69; Mon, 27 Nov 2023 17:48:03 +0100
+Received: from [192.168.0.209] (unknown [134.191.232.83])
+	by mail1.shipmail.org (Postfix) with ESMTPSA id 30C7D3606B4;
+	Mon, 27 Nov 2023 17:48:01 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=shipmail.org; s=mail;
+	t=1701103682; bh=N6spvplnQJmWTN5fRtgemnRL8z3vIYOHsD5+Cv5u6D0=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=GpjuXaEFuFfB6+KC218RvbWuVKolEo6TaHQV6IM3mNy0t278N8YUMgV2eEcL3mRwi
+	 hut37fZdIq3+pVMZy1nDOsIDd3HP8JQfFEbAClG3kNbL6UWzbCPEjRHW9ihw1ELtWV
+	 uVV0MBK0kRGtyZE31dr16L8NCeIdukeQewgqEq8k=
+Message-ID: <8e434475-94f5-8e93-e0bd-3693e4587824@shipmail.org>
+Date: Mon, 27 Nov 2023 17:47:58 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT FIXES FOR v6.7] Two mgb4 fixes and one v4l2-subdev.h fix
-Content-Language: en-US, nl
-To: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <e8f53c2c-aaa6-4878-befe-230b91933297@xs4all.nl>
- <22c04a23-63b9-4e62-8094-ab194c1796ea@gpxsee.org>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <22c04a23-63b9-4e62-8094-ab194c1796ea@gpxsee.org>
-Content-Type: text/plain; charset=UTF-8
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: fix check in
+ dma_resv_add_fence
+Content-Language: en-US
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, Alex Deucher <Alexander.Deucher@amd.com>
+References: <20231115093035.1889-1-christian.koenig@amd.com>
+ <e35e67dd-fd96-4ac5-a6ba-f351f12a146c@gmail.com>
+From: =?UTF-8?Q?Thomas_Hellstr=c3=b6m_=28Intel=29?= <thomas_os@shipmail.org>
+In-Reply-To: <e35e67dd-fd96-4ac5-a6ba-f351f12a146c@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 27/11/2023 12:36, Martin Tůma wrote:
-> Hi,
-> It has been a while since those patches have been accepted by Hans but I still do not see them in media_tree.git or media_stage.git. Is there some problem with the patches that I didn't notice or is
-> it just they haven't yet been processed? Thanks for any info.
 
-Good question, I pinged Mauro.
+On 11/27/23 14:24, Christian König wrote:
+> Ping? Can I get an rb or acked-by for that?
+>
+> Thanks,
+> Christian.
+>
+> Am 15.11.23 um 10:30 schrieb Christian König:
+>> It's valid to add the same fence multiple times to a dma-resv object and
+>> we shouldn't need one extra slot for each.
+>>
+>> Signed-off-by: Christian König <christian.koenig@amd.com>
+>> Fixes: a3f7c10a269d5 ("dma-buf/dma-resv: check if the new fence is 
+>> really later")
+>> Cc: stable@vger.kernel.org # v5.19+
 
-Regards,
 
-	Hans
+Reviewed-by: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 
-> 
-> M.
-> 
-> On 16. 11. 23 9:42, Hans Verkuil wrote:
->> The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
->>
->>    Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
->>
->> are available in the Git repository at:
->>
->>    git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.7a
->>
->> for you to fetch changes up to 823d64edba8784e7c490a05a48eea0f01fa628f6:
->>
->>    media: pci: mgb4: add COMMON_CLK dependency (2023-11-16 09:37:01 +0100)
->>
->> ----------------------------------------------------------------
->> Tag branch
->>
->> ----------------------------------------------------------------
->> Arnd Bergmann (1):
->>        media: pci: mgb4: add COMMON_CLK dependency
->>
->> Dan Carpenter (1):
->>        media: v4l2-subdev: Fix a 64bit bug
->>
->> Martin Tůma (1):
->>        media: mgb4: Added support for T200 card variant
->>
->>   drivers/media/pci/mgb4/Kconfig     |  1 +
->>   drivers/media/pci/mgb4/mgb4_core.c | 20 +++++++++++++++-----
->>   include/uapi/linux/v4l2-subdev.h   |  2 +-
->>   3 files changed, 17 insertions(+), 6 deletions(-)
->>
-> 
-> 
 
+>> ---
+>>   drivers/dma-buf/dma-resv.c |  2 +-
+>>   include/linux/dma-fence.h  | 15 +++++++++++++++
+>>   2 files changed, 16 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/drivers/dma-buf/dma-resv.c b/drivers/dma-buf/dma-resv.c
+>> index 38b4110378de..eb8b733065b2 100644
+>> --- a/drivers/dma-buf/dma-resv.c
+>> +++ b/drivers/dma-buf/dma-resv.c
+>> @@ -301,7 +301,7 @@ void dma_resv_add_fence(struct dma_resv *obj, 
+>> struct dma_fence *fence,
+>>             dma_resv_list_entry(fobj, i, obj, &old, &old_usage);
+>>           if ((old->context == fence->context && old_usage >= usage &&
+>> -             dma_fence_is_later(fence, old)) ||
+>> +             dma_fence_is_later_or_same(fence, old)) ||
+>>               dma_fence_is_signaled(old)) {
+>>               dma_resv_list_set(fobj, i, fence, usage);
+>>               dma_fence_put(old);
+>> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+>> index ebe78bd3d121..b3772edca2e6 100644
+>> --- a/include/linux/dma-fence.h
+>> +++ b/include/linux/dma-fence.h
+>> @@ -498,6 +498,21 @@ static inline bool dma_fence_is_later(struct 
+>> dma_fence *f1,
+>>       return __dma_fence_is_later(f1->seqno, f2->seqno, f1->ops);
+>>   }
+>>   +/**
+>> + * dma_fence_is_later_or_same - return true if f1 is later or same 
+>> as f2
+>> + * @f1: the first fence from the same context
+>> + * @f2: the second fence from the same context
+>> + *
+>> + * Returns true if f1 is chronologically later than f2 or the same 
+>> fence. Both
+>> + * fences must be from the same context, since a seqno is not 
+>> re-used across
+>> + * contexts.
+>> + */
+>> +static inline bool dma_fence_is_later_or_same(struct dma_fence *f1,
+>> +                          struct dma_fence *f2)
+>> +{
+>> +    return f1 == f2 || dma_fence_is_later(f1, f2);
+>> +}
+>> +
+>>   /**
+>>    * dma_fence_later - return the chronologically later fence
+>>    * @f1:    the first fence from the same context
+>
+> _______________________________________________
+> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
+> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
 
