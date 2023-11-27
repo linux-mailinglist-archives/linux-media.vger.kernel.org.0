@@ -1,84 +1,129 @@
-Return-Path: <linux-media+bounces-1090-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1091-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F437F9EBB
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 12:37:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41CD47F9EC2
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 12:39:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 21423B20FE1
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 11:37:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F143E2812B9
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 11:39:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83A291A702;
-	Mon, 27 Nov 2023 11:37:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82EF51A706;
+	Mon, 27 Nov 2023 11:39:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id EC2F4186
-	for <linux-media@vger.kernel.org>; Mon, 27 Nov 2023 03:36:55 -0800 (PST)
-Received: from [192.168.4.14] (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id B0E1C51407;
-	Mon, 27 Nov 2023 12:36:53 +0100 (CET)
-Message-ID: <22c04a23-63b9-4e62-8094-ab194c1796ea@gpxsee.org>
-Date: Mon, 27 Nov 2023 12:36:52 +0100
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2EDF813A
+	for <linux-media@vger.kernel.org>; Mon, 27 Nov 2023 03:38:57 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1r7Zwb-0002vG-1v; Mon, 27 Nov 2023 12:38:29 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1r7ZwY-00Bvkh-VA; Mon, 27 Nov 2023 12:38:26 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1r7ZwT-000AAH-2o;
+	Mon, 27 Nov 2023 12:38:21 +0100
+Message-ID: <ba856a09de62a6ddbf1c19d5fd502de1cbc3e273.camel@pengutronix.de>
+Subject: Re: [PATCH v8 3/5] media: stm32-dcmipp: STM32 DCMIPP camera
+ interface driver
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Alain Volmat <alain.volmat@foss.st.com>, Hugues Fruchet
+ <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,  Alexandre Torgue
+ <alexandre.torgue@foss.st.com>, Russell King <linux@armlinux.org.uk>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Dan Scally
+ <dan.scally@ideasonboard.com>,  linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-stm32@st-md-mailman.stormreply.com,
+ linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
+Date: Mon, 27 Nov 2023 12:38:21 +0100
+In-Reply-To: <20231122073927.788810-4-alain.volmat@foss.st.com>
+References: <20231122073927.788810-1-alain.volmat@foss.st.com>
+	 <20231122073927.788810-4-alain.volmat@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [GIT FIXES FOR v6.7] Two mgb4 fixes and one v4l2-subdev.h fix
-To: Hans Verkuil <hverkuil@xs4all.nl>,
- Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: =?UTF-8?Q?Martin_T=C5=AFma?= <martin.tuma@digiteqautomotive.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-References: <e8f53c2c-aaa6-4878-befe-230b91933297@xs4all.nl>
-Content-Language: en-US
-From: =?UTF-8?Q?Martin_T=C5=AFma?= <tumic@gpxsee.org>
-In-Reply-To: <e8f53c2c-aaa6-4878-befe-230b91933297@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Hi,
-It has been a while since those patches have been accepted by Hans but I 
-still do not see them in media_tree.git or media_stage.git. Is there 
-some problem with the patches that I didn't notice or is it just they 
-haven't yet been processed? Thanks for any info.
+On Mi, 2023-11-22 at 08:39 +0100, Alain Volmat wrote:
+> From: Hugues Fruchet <hugues.fruchet@foss.st.com>
+>=20
+> This V4L2 subdev driver enables Digital Camera Memory Interface
+> Pixel Processor(DCMIPP) of STMicroelectronics STM32 SoC series.
+>=20
+> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+> Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
+> ---
+[...]
+> diff --git a/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c b=
+/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+> new file mode 100644
+> index 000000000000..28ddb26314c3
+> --- /dev/null
+> +++ b/drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+> @@ -0,0 +1,604 @@
+[...]
+> +struct dcmipp_device {
+> +	/* The platform device */
+> +	struct platform_device		pdev;
+> +	struct device			*dev;
+> +
+> +	/* Hardware resources */
+> +	struct reset_control		*rstc;
 
-M.
+As long as rstc is only used in dcmipp_probe(), there is no need to
+carry it around in struct dcmipp_device.
 
-On 16. 11. 23 9:42, Hans Verkuil wrote:
-> The following changes since commit b85ea95d086471afb4ad062012a4d73cd328fa86:
-> 
->    Linux 6.7-rc1 (2023-11-12 16:19:07 -0800)
-> 
-> are available in the Git repository at:
-> 
->    git://linuxtv.org/hverkuil/media_tree.git tags/br-v6.7a
-> 
-> for you to fetch changes up to 823d64edba8784e7c490a05a48eea0f01fa628f6:
-> 
->    media: pci: mgb4: add COMMON_CLK dependency (2023-11-16 09:37:01 +0100)
-> 
-> ----------------------------------------------------------------
-> Tag branch
-> 
-> ----------------------------------------------------------------
-> Arnd Bergmann (1):
->        media: pci: mgb4: add COMMON_CLK dependency
-> 
-> Dan Carpenter (1):
->        media: v4l2-subdev: Fix a 64bit bug
-> 
-> Martin Tůma (1):
->        media: mgb4: Added support for T200 card variant
-> 
->   drivers/media/pci/mgb4/Kconfig     |  1 +
->   drivers/media/pci/mgb4/mgb4_core.c | 20 +++++++++++++++-----
->   include/uapi/linux/v4l2-subdev.h   |  2 +-
->   3 files changed, 17 insertions(+), 6 deletions(-)
-> 
+[...]
+> +static int dcmipp_probe(struct platform_device *pdev)
+> +{
+> +	struct dcmipp_device *dcmipp;
+> +	struct clk *kclk;
 
+rstc could be a local variable here.
+
+[...]
+
+> +	/* Get hardware resources from devicetree */
+> +	dcmipp->rstc =3D devm_reset_control_get_exclusive(&pdev->dev, NULL);
+> +	if (IS_ERR(dcmipp->rstc))
+> +		return dev_err_probe(&pdev->dev, PTR_ERR(dcmipp->rstc),
+> +				     "Could not get reset control\n");
+[...]
+> +	/* Reset device */
+> +	ret =3D reset_control_assert(dcmipp->rstc);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to assert the reset line\n");
+> +		return ret;
+> +	}
+> +
+> +	usleep_range(3000, 5000);
+> +
+> +	ret =3D reset_control_deassert(dcmipp->rstc);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "Failed to deassert the reset line\n");
+> +		return ret;
+> +	}
+
+regards
+Philipp
 
