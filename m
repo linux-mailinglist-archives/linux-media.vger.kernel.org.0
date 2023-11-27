@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-1167-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1169-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75A3B7FA7A9
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 18:10:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C21907FA7B2
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 18:11:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 29EF5280294
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 17:10:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F36AC1C20A1B
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 17:11:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F253637166;
-	Mon, 27 Nov 2023 17:10:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB0F13716F;
+	Mon, 27 Nov 2023 17:10:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="rPYNvv8k"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="wU8oj20B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F60FD72;
-	Mon, 27 Nov 2023 09:10:28 -0800 (PST)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3ARDZ5qk028462;
-	Mon, 27 Nov 2023 18:10:11 +0100
+Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7314FD5B;
+	Mon, 27 Nov 2023 09:10:54 -0800 (PST)
+Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3ARDqXKS029391;
+	Mon, 27 Nov 2023 18:10:36 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
 	from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding:content-type; s=
-	selector1; bh=fE1n5RTIzcUozo7IYZhXqyrLMqCuRn0oukoD09IgbtQ=; b=rP
-	YNvv8kO/rbTPin7DFY8ZqjoA520BmLcVUUjiL+sEiaH8NLdxKICz8S5SWp1p0ps6
-	WLFaqYQI3XHpU8uMtpML1Xm5072o/egUrBds9nCiebvAAEqdYEOWKNxG1dQzFqtg
-	9+EPZ8ZxfpZkPQDO+lMp2ev2P1IKdnyGldomhzOEnCeeUt1iUVyWIWKp0ZIGRA3U
-	qLNCwytSe/US2UxoOtu5qwUvMDK6IZqpYv5XHGU9wg6Tmew2+YLpQBX3J5TRfDj+
-	XkQ37/lg0pShjfq2P5FS3Plk0/2TzNlKhlTjdFVDOfTsQDPMti8jbBTFFcRqb5Mt
-	jfGcUNjuktICpQshgo7g==
+	selector1; bh=C6SZxz0TGWAZCG4nQZS/IpSyh67G5SmFl9Z8NkWEcG0=; b=wU
+	8oj20B2ZzoVSAZ01JiQlzIiRNt7OlWv6HU95xj36UBeJGAl6tE7Yc0XDZFe0XZav
+	tssIvJ0x906yIamWxHfKkHJL3reVgtJwBk65/RVtOMKW9GLMHv7s44TEObBOq4NN
+	O8XdUJPIzvWUfEDUp3IXm9M1/3gFg+xGTM73zmmOXfF+PNrS6iUWiwQyCCAO5pLp
+	ZbwwMehsVSRxpiOvL2m+w7/twKeIiSXl+vtdqde5vteBIXL8FcXO7gw6sGmrqs1S
+	hLtxCmC89PpzlUyVuXtBfVVBzNL/RQu3sTmbCk+4KBZXS0WzNa7BNa5XQRVID2gv
+	RpEUGJhGxtsw6VtvfM6w==
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3uk951rq11-1
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3ukvrp5vf6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 27 Nov 2023 18:10:11 +0100 (CET)
+	Mon, 27 Nov 2023 18:10:36 +0100 (CET)
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 2D9AA10002A;
-	Mon, 27 Nov 2023 18:10:11 +0100 (CET)
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 8C2B810002A;
+	Mon, 27 Nov 2023 18:10:35 +0100 (CET)
 Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2251124B8B3;
-	Mon, 27 Nov 2023 18:10:11 +0100 (CET)
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8200324B8AF;
+	Mon, 27 Nov 2023 18:10:35 +0100 (CET)
 Received: from localhost (10.129.178.213) by SHFDAG1NODE1.st.com
  (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 27 Nov
- 2023 18:10:10 +0100
+ 2023 18:10:35 +0100
 From: Alain Volmat <alain.volmat@foss.st.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring
@@ -68,9 +68,9 @@ CC: Sakari Ailus <sakari.ailus@linux.intel.com>,
         <devicetree@vger.kernel.org>,
         <linux-stm32@st-md-mailman.stormreply.com>,
         <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-Subject: [PATCH v9 4/5] ARM: dts: stm32: add dcmipp support to stm32mp135
-Date: Mon, 27 Nov 2023 18:08:18 +0100
-Message-ID: <20231127170828.1426117-5-alain.volmat@foss.st.com>
+Subject: [PATCH v9 5/5] ARM: multi_v7_defconfig: enable STM32 DCMIPP media support
+Date: Mon, 27 Nov 2023 18:08:19 +0100
+Message-ID: <20231127170828.1426117-6-alain.volmat@foss.st.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20231127170828.1426117-1-alain.volmat@foss.st.com>
 References: <20231127170828.1426117-1-alain.volmat@foss.st.com>
@@ -90,36 +90,26 @@ X-Proofpoint-Virus-Version: vendor=baseguard
 
 From: Hugues Fruchet <hugues.fruchet@foss.st.com>
 
-Add dcmipp support to STM32MP135.
+Enables support of STM32 DCMIPP V4L2 media driver.
 
 Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
 Signed-off-by: Alain Volmat <alain.volmat@foss.st.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- arch/arm/boot/dts/st/stm32mp135.dtsi | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ arch/arm/configs/multi_v7_defconfig | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/arch/arm/boot/dts/st/stm32mp135.dtsi b/arch/arm/boot/dts/st/stm32mp135.dtsi
-index abf2acd37b4e..68d32f9f5314 100644
---- a/arch/arm/boot/dts/st/stm32mp135.dtsi
-+++ b/arch/arm/boot/dts/st/stm32mp135.dtsi
-@@ -8,5 +8,16 @@
- 
- / {
- 	soc {
-+		dcmipp: dcmipp@5a000000 {
-+			compatible = "st,stm32mp13-dcmipp";
-+			reg = <0x5a000000 0x400>;
-+			interrupts = <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>;
-+			resets = <&rcc DCMIPP_R>;
-+			clocks = <&rcc DCMIPP_K>;
-+			status = "disabled";
-+
-+			port {
-+			};
-+		};
- 	};
- };
+diff --git a/arch/arm/configs/multi_v7_defconfig b/arch/arm/configs/multi_v7_defconfig
+index 10fd74bf85f9..016e768f03f2 100644
+--- a/arch/arm/configs/multi_v7_defconfig
++++ b/arch/arm/configs/multi_v7_defconfig
+@@ -691,6 +691,7 @@ CONFIG_VIDEO_STI_BDISP=m
+ CONFIG_VIDEO_STI_DELTA=m
+ CONFIG_VIDEO_STI_HVA=m
+ CONFIG_VIDEO_STM32_DCMI=m
++CONFIG_VIDEO_STM32_DCMIPP=m
+ CONFIG_V4L_TEST_DRIVERS=y
+ CONFIG_VIDEO_VIVID=m
+ CONFIG_VIDEO_S5C73M3=m
 -- 
 2.25.1
 
