@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-1111-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1112-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2911E7FA6F9
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 17:55:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75AB07FA6FB
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 17:55:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D79312818D0
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 16:55:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 795F11C20B75
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 16:55:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D85734CDE;
-	Mon, 27 Nov 2023 16:55:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A895374F5;
+	Mon, 27 Nov 2023 16:55:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Vpjk+xeW"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="okc0FZ7T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6FA6198;
-	Mon, 27 Nov 2023 08:55:10 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6ADD1BB;
+	Mon, 27 Nov 2023 08:55:11 -0800 (PST)
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 237A166072A7;
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0396866072C1;
 	Mon, 27 Nov 2023 16:55:09 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701104109;
-	bh=CXOqINnxnCzQ6XOL+VA2AacFLu6JKWe+Zb7RZAzp+MY=;
+	s=mail; t=1701104110;
+	bh=fG8KYI7BVcY4T+xVPe1Um4HGw++yjE8jKZBIAJBoZlg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Vpjk+xeWjjWP+R3N2SKM7woEQxBddVhXmlMwS3d0XkmMR9tHChI6HMPtT76eZVEGq
-	 KJjCRoykTj4IatyWsm9Z9aUQE4UWPj2h8ain2VdzOA7oHZMmej8UFS0YQuBTSvNial
-	 2YdTFMo+0i2XSDZeogZXKs9/sVscCNm4SEmrQgNui+yp3QTAgFroSE73sHIg1TKVf/
-	 NOzPbr8by7halFECH/emHR+T8pNaqeXCWfxrxXrlS3RPnPfAqHmv1vBUNl9VCrDXXV
-	 Vr1LE52EG94i4bmz9DywsOdMD45T5Sb53ELbT7JavhlUajhQimVCpnVLEkgfM5jLOr
-	 UjnbE5+ZuJxjg==
+	b=okc0FZ7TcnIOKXeJLnL2uTUwCwKyTO6cS1aLjFdac1E4ZKrZwt3bTF/ighydvER8N
+	 ADY4RmMXQ8JqgohutdfrYL3oh7WEZuyVPzqQ1Q81My7g/TG3K0vB50IudIAJ/mEPeH
+	 dguTHusau2bnbf3UU85pnxkZanK+mhfD1IOHHtUENOzPfedaPJ4Y8bU5WzRgc3V12L
+	 yWAiBVsKZGBIMfTw+j3EUIwco2urZjuTWOty9AbSJx7iKfO3u9HRGRe8EP6f8CKNBc
+	 LwL/pozPg1KZV+PzopLCbBaOWH3Da9+PcPNcltYbTI4zvCpBPYhze/yyx0FB7yaCjK
+	 1PykHWF9j1vfQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -46,13 +46,15 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Eugen Hristev <eugen.hristev@collabora.com>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>
-Subject: [PATCH 06/55] media: atmel: Stop abusing of min_buffers_needed field
-Date: Mon, 27 Nov 2023 17:54:05 +0100
-Message-Id: <20231127165454.166373-7-benjamin.gaignard@collabora.com>
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>
+Subject: [PATCH 07/55] media: imx8-isi: Stop abusing of min_buffers_needed field
+Date: Mon, 27 Nov 2023 17:54:06 +0100
+Message-Id: <20231127165454.166373-8-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
 References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
@@ -66,33 +68,35 @@ Content-Transfer-Encoding: 8bit
 
 'min_buffers_needed' is suppose to be used to indicate the number
 of buffers needed by DMA engine to start streaming.
-atmel-isi driver doesn't use DMA engine and just want to specify
+imx8-isi driver doesn't use DMA engine and just want to specify
 the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
 That 'min_reqbufs_allocation' field purpose so use it.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Eugen Hristev <eugen.hristev@collabora.com>
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Nicolas Ferre <nicolas.ferre@microchip.com>
-CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+CC: Shawn Guo <shawnguo@kernel.org>
+CC: Sascha Hauer <s.hauer@pengutronix.de>
+CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+CC: Fabio Estevam <festevam@gmail.com>
+CC: NXP Linux Team <linux-imx@nxp.com>
 ---
- drivers/media/platform/atmel/atmel-isi.c | 2 +-
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/atmel/atmel-isi.c b/drivers/media/platform/atmel/atmel-isi.c
-index da58f33b6b0a..9c156771568a 100644
---- a/drivers/media/platform/atmel/atmel-isi.c
-+++ b/drivers/media/platform/atmel/atmel-isi.c
-@@ -1244,7 +1244,7 @@ static int atmel_isi_probe(struct platform_device *pdev)
- 	q->ops = &isi_video_qops;
+diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+index 49bca2b01cc6..81673ff9084b 100644
+--- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
++++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+@@ -1453,7 +1453,7 @@ int mxc_isi_video_register(struct mxc_isi_pipe *pipe,
  	q->mem_ops = &vb2_dma_contig_memops;
+ 	q->buf_struct_size = sizeof(struct mxc_isi_buffer);
  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
 -	q->min_buffers_needed = 2;
 +	q->min_reqbufs_allocation = 2;
- 	q->dev = &pdev->dev;
+ 	q->lock = &video->lock;
+ 	q->dev = pipe->isi->dev;
  
- 	ret = vb2_queue_init(q);
 -- 
 2.39.2
 
