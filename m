@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-1117-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1116-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id C52427FA701
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 17:56:07 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EF607FA6FF
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 17:56:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 64C54B2158E
-	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 16:56:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A08F31C20CD2
+	for <lists+linux-media@lfdr.de>; Mon, 27 Nov 2023 16:56:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63DBE3A8C3;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13DA839FFB;
 	Mon, 27 Nov 2023 16:55:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EJ2rDmOH"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Err5SscR"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB93D5B;
-	Mon, 27 Nov 2023 08:55:15 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40433D62;
+	Mon, 27 Nov 2023 08:55:16 -0800 (PST)
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8AD836607323;
-	Mon, 27 Nov 2023 16:55:13 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 4ABBA66072A4;
+	Mon, 27 Nov 2023 16:55:14 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
 	s=mail; t=1701104114;
-	bh=q+PBOieh7TUOZfOTD/eax3kPGizf1naDWVCgdVzk/Rg=;
+	bh=TyWnSNSrmM8e46vPb9QIHFcmc4e6SFgOyK7FFQxtbXw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EJ2rDmOHuYC+RuIZhYXo8DzC0Rkky/qSkpSFNsGMMVKLXohgncgJ1VcjJ74ikJGtf
-	 pY+o9OAvZ02fx9XYYChpfQcBnLpuhwM0fXK8/MYElMkedofzaOuGcYCgGIGgD9L3/t
-	 Qfqaciz57Axsq9LOu5/sBoxUQbbYMlFof/CVjj1OHKZnXjIhLO2lhxnpDDLE9KhY1q
-	 rCMIlMoSpiJy5nHB+B5Qpfv51KH3hA8Y28gS7RQFBGvGvtaHEvY8HKUFMR2m21KaLd
-	 qDYw4OTcBnjIUkRd6LlPfmV7RjT1KDoCeaKCHbUzFubxnZFKp5UK+/Ug0zAxL588t3
-	 o9asdDeXrRa9A==
+	b=Err5SscROifk648ZJExh4TQcnejZoFk5VctUstRXFW7HD/aTCrbJQJX8ZSLDvvyRL
+	 MQLLvghzMeFsGURIpqImWeUvuqVd/eyR8Azsb4eHTgSWBKOUcyPuPWfFnhvWe/zshf
+	 a0DtV3EBKK37x+NgmCtrbbdsIevIEP65WtQyWnxpmnRZq9ZlZ3eemnDf+sWtBRIyCa
+	 rttpbZsQHyXxXKX2GYv69QEk3eyMnHYeAYyQp/VaT1vJJpl0TRoFihbCrCg1NzoNao
+	 rFxqDtpQmDWOg0mLYj8078e7FMg89rwT+n01VTwqP2Jy1V9cqPCCXEK006LM0k7fZN
+	 5qi/QTyW5oC8w==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -46,10 +46,12 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
-Subject: [PATCH 11/55] media: sti: hva: Stop abusing of min_buffers_needed field
-Date: Mon, 27 Nov 2023 17:54:10 +0100
-Message-Id: <20231127165454.166373-12-benjamin.gaignard@collabora.com>
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-rockchip@lists.infradead.org
+Subject: [PATCH 12/55] media: rockchip: rkisp1: Stop abusing of min_buffers_needed field
+Date: Mon, 27 Nov 2023 17:54:11 +0100
+Message-Id: <20231127165454.166373-13-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
 References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
@@ -63,38 +65,31 @@ Content-Transfer-Encoding: 8bit
 
 'min_buffers_needed' is suppose to be used to indicate the number
 of buffers needed by DMA engine to start streaming.
-hva driver doesn't use DMA engine and just want to specify
+rkisp1 driver doesn't use DMA engine and just want to specify
 the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
 That 'min_reqbufs_allocation' field purpose so use it.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Jean-Christophe Trotin <jean-christophe.trotin@foss.st.com>
+CC: Dafna Hirschfeld <dafna@fastmail.com> (maintainer:ROCKCHIP ISP V1 DRIVER)
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com> (maintainer:ROCKCHIP ISP V1 DRIVER)
+CC: linux-rockchip@lists.infradead.org (open list:ROCKCHIP ISP V1 DRIVER)
 ---
- drivers/media/platform/st/sti/hva/hva-v4l2.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/st/sti/hva/hva-v4l2.c b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-index cfe83e9dc01b..d7bc25b0d69e 100644
---- a/drivers/media/platform/st/sti/hva/hva-v4l2.c
-+++ b/drivers/media/platform/st/sti/hva/hva-v4l2.c
-@@ -1142,7 +1142,7 @@ static int hva_queue_init(void *priv, struct vb2_queue *src_vq,
- 
- 	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
- 	src_vq->buf_struct_size = sizeof(struct hva_frame);
--	src_vq->min_buffers_needed = MIN_FRAMES;
-+	src_vq->min_reqbufs_allocation = MIN_FRAMES;
- 	src_vq->dev = ctx->hva_dev->dev;
- 
- 	ret = queue_init(ctx, src_vq);
-@@ -1151,7 +1151,7 @@ static int hva_queue_init(void *priv, struct vb2_queue *src_vq,
- 
- 	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
- 	dst_vq->buf_struct_size = sizeof(struct hva_stream);
--	dst_vq->min_buffers_needed = MIN_STREAMS;
-+	dst_vq->min_reqbufs_allocation = MIN_STREAMS;
- 	dst_vq->dev = ctx->hva_dev->dev;
- 
- 	return queue_init(ctx, dst_vq);
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+index c6d7e01c8949..de3d89b1fac7 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+@@ -1431,7 +1431,7 @@ static int rkisp1_register_capture(struct rkisp1_capture *cap)
+ 	q->ops = &rkisp1_vb2_ops;
+ 	q->mem_ops = &vb2_dma_contig_memops;
+ 	q->buf_struct_size = sizeof(struct rkisp1_buffer);
+-	q->min_buffers_needed = RKISP1_MIN_BUFFERS_NEEDED;
++	q->min_reqbufs_allocation = RKISP1_MIN_BUFFERS_NEEDED;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	q->lock = &node->vlock;
+ 	q->dev = cap->rkisp1->dev;
 -- 
 2.39.2
 
