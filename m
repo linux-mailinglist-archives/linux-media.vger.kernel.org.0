@@ -1,96 +1,97 @@
-Return-Path: <linux-media+bounces-1209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1210-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D3D17FB6B8
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 11:06:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C707FB6B9
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 11:06:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BC197B21AD2
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 10:06:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9E0E1282915
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 10:06:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 891CE4D587;
-	Tue, 28 Nov 2023 10:06:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 504B64D11F;
+	Tue, 28 Nov 2023 10:06:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZJDl4ZEy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A19CDC
-	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 02:06:18 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1r7uyX-0006Iy-JU; Tue, 28 Nov 2023 11:05:53 +0100
-Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1r7uyT-00C8vc-R9; Tue, 28 Nov 2023 11:05:49 +0100
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1r7uyT-0005Fe-2Q;
-	Tue, 28 Nov 2023 11:05:49 +0100
-Message-ID: <a50e1be1430ad1e84290df53a13c6c696632456c.camel@pengutronix.de>
-Subject: Re: [PATCH v2 1/4] media: v4l2-subdev: Turn .[gs]_frame_interval
- into pad operations
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	linux-media@vger.kernel.org
-Cc: Akinobu Mita <akinobu.mita@gmail.com>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Daniel Scally <djrscally@gmail.com>, Hans
- Verkuil <hverkuil-cisco@xs4all.nl>, Hans de Goede <hansg@kernel.org>,
- Jacopo Mondi <jacopo+renesas@jmondi.org>, Jonathan Hunter
- <jonathanh@nvidia.com>, Kieran Bingham
- <kieran.bingham+renesas@ideasonboard.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Leon Luo <leonl@leopardimaging.com>, Luca Ceresoli
- <luca.ceresoli@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Niklas =?ISO-8859-1?Q?S=F6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>,  Paul Elder
- <paul.elder@ideasonboard.com>, Pavel Machek <pavel@ucw.cz>, Ricardo Ribalda
- <ribalda@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Sowjanya Komatineni
- <skomatineni@nvidia.com>,  Steve Longerbeam <slongerbeam@gmail.com>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>, Thierry Reding
- <thierry.reding@gmail.com>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>,  linux-tegra@vger.kernel.org
-Date: Tue, 28 Nov 2023 11:05:49 +0100
-In-Reply-To: <20231127111359.30315-2-laurent.pinchart@ideasonboard.com>
-References: <20231127111359.30315-1-laurent.pinchart@ideasonboard.com>
-	 <20231127111359.30315-2-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E880BF
+	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 02:06:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701165999; x=1732701999;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=BMYQJRXWnxkDLd78kI/QmxvWaeoD+RJoupD+8uMcz4I=;
+  b=ZJDl4ZEy7c839En9ORTbcg5GWeND1mXmAZyspOeXYH2Gthpef1RAd6HY
+   SOVvsHldYkSANMXc+CVDbVbrIpZBckgyayOORYr6e0Y+/4jRgATxWJe/2
+   WQA1P70HYtQNGazp08Axl32io7/rrzh07cERKIdUh3JwxLAwExGy74uB7
+   Gr58DAcubOBus/yfGl+Z92C2khbbHGxt9qjgWmGAV20TwqPa0Kkc7Ewfq
+   wX0ZG5xxi1+npC7f1xAuNooXGJuVZitYW7HiGyvt+6mZEhNlD3uyFvvGV
+   TkZu5fDkE4K9TVffVhQzGz2x6PL7KcJg5LDdz1uaZ4jUSg0wyEHMDFWTB
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="479091621"
+X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
+   d="scan'208";a="479091621"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 02:06:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="718334288"
+X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
+   d="scan'208";a="718334288"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 02:06:36 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id B25BF11F915;
+	Tue, 28 Nov 2023 12:06:33 +0200 (EET)
+Date: Tue, 28 Nov 2023 10:06:33 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hans de Goede <hdegoede@redhat.com>
+Cc: Tianshu Qiu <tian.shu.qiu@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Kate Hsuan <hpa@redhat.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v3 0/9] media: ov2740: reset GPIO, clk and 180 MHz
+ link-frequency support
+Message-ID: <ZWW7qZjl4JVqaTsm@kekkonen.localdomain>
+References: <20231128100047.17529-1-hdegoede@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231128100047.17529-1-hdegoede@redhat.com>
 
-On Mo, 2023-11-27 at 13:13 +0200, Laurent Pinchart wrote:
-> The subdev .[gs]_frame_interval are video operations, but they operate
-> on pads (and even on streams). Not only is this confusing, it causes
-> practical issues for drivers as the operations don't receive a subdev
-> state pointer, requiring manual state handling.
->=20
-> To improve the situation, turn the operations into pad operations, and
-> extend them to receive a state pointer like other pad operations.
->=20
-> While at it, rename the operations to .[gs]et_frame_interval at the same
-> time to match the naming scheme of other pad operations. This isn't
-> strictly necessary, but given that all drivers using those operations
-> need to be modified, handling the rename separately would generate more
-> churn for very little gain (if at all).
->=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Hi Hans,
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de> # for imx-media
+On Tue, Nov 28, 2023 at 11:00:38AM +0100, Hans de Goede wrote:
+> Hi All,
+> 
+> Here is v3 of my patch series to allow the mainline ov2740 driver to be
+> used on various Lenovo ThinkPad models using the IPU6 + ov2740 for their
+> camera. This series has been tested on a Lenovo ThinkPad X1 yoga gen 8
+> with both:
+> 
+> 1. The out of tree IPU6 driver with Intel's proprietary userspace stack
+> 2. The pending mainline IPU6 CSI2 receiver patches using raw bayer capture
+>    in combination with the WIP libcamera SoftISP code
+> 
+> Changes in v3:
+> - Add missing fwnode_handle_put() in error-exit-paths in patch 3/9
+> 
+> Changes in v2:
+> - Add patches 3-9 which add 180 MHz link-frequency support
+> - Fix code in patch 2/9 to stay in 80 chars limit
 
-regards
-Philipp
+I tried to apply these but it seems that these no longer apply with the API
+changes in my tree. Could you still rebase these, please?
+<URL:https://git.linuxtv.org/sailus/media_tree.git/log/>
+
+-- 
+Regards,
+
+Sakari Ailus
 
