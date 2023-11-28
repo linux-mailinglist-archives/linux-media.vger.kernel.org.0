@@ -1,128 +1,111 @@
-Return-Path: <linux-media+bounces-1277-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1278-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF4657FBBD8
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 14:49:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46E9E7FBCA3
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 15:21:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9A5BB282E59
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 13:49:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 766721C20AA2
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 14:21:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FFAD58AD6;
-	Tue, 28 Nov 2023 13:49:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0CA45B5BA;
+	Tue, 28 Nov 2023 14:21:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HPGndlVu"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lKKIARly"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 982391BB;
-	Tue, 28 Nov 2023 05:49:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701179376; x=1732715376;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ho8ya67y0bcAC8iRE41B+MB3YSCUZNByqFAIWF4TZg8=;
-  b=HPGndlVuHasbVuRsfz4yI9RO89sry5KLzLp2AkdsjazcIgwsgjFtzv6O
-   oa1F/rZYDpgA04yo57DUT3vhQ5UucrlAk2jQuC772WTFjs1jA/RiqrhDt
-   Ei1R0mWvvHeuJtQtn6OdGrlWa39/mycnacPbKL59QRq+wcHFn/ePFk8Be
-   MWSaW6ZFPz5c4aENMcrB6Enov2Q64uC2m5jPB2em6et9RtSJvpSjkyx9C
-   AmJ1JUb+Jsfr+vuLRgIK6wOOTzBi3J+Y+V/4u3fnKf2/BBeBE+hQe2IdJ
-   g/SV5HFIp198uQO7G+sFzEf8hbWFxWx5M1pncDmtQD+k0by75r7ZxqE1/
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="392676347"
-X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="392676347"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2023 05:49:15 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10907"; a="761938211"
-X-IronPort-AV: E=Sophos;i="6.04,233,1695711600"; 
-   d="scan'208";a="761938211"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga007.jf.intel.com with SMTP; 28 Nov 2023 05:49:08 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Tue, 28 Nov 2023 15:49:08 +0200
-Date: Tue, 28 Nov 2023 15:49:08 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-Message-ID: <ZWXv1Oi_sH0BRWao@intel.com>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+X-Greylist: delayed 583 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 28 Nov 2023 06:21:32 PST
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [IPv6:2001:41d0:1004:224b::b4])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40A99D64
+	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 06:21:31 -0800 (PST)
+Message-ID: <6d0f8057-70f9-46f9-828a-df03c753b42b@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1701180706;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Hxr6Qi8uAR1GAsmRwi31SrOVsQk0+PK+MAopQh8m5vk=;
+	b=lKKIARlyv1H6YGZl6IGyLBEni04sQJfG863/4ZgCGXNR9S/hHpHmfvXyouaj//rnKHuvYk
+	43za6NCU8WEn9fiHOOidCkKIH83XwBPPuHZ4e1Grw5BHUwFC6vH+V7cw0wmx5/w3WiJdFA
+	LOF/zVvAJBOiCI+vxywRaIkiRGMDZMs=
+Date: Tue, 28 Nov 2023 22:11:24 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
-X-Patchwork-Hint: comment
+Subject: Re: [v4,43/45] drm/sun4i: hdmi: Switch to container_of_const
+Content-Language: en-US
+To: Maxime Ripard <mripard@kernel.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
+ Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
+ =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
+ Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ Samuel Holland <samuel@sholland.org>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20231128-kms-hdmi-connector-state-v4-43-c7602158306e@kernel.org>
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sui Jingfeng <sui.jingfeng@linux.dev>
+In-Reply-To: <20231128-kms-hdmi-connector-state-v4-43-c7602158306e@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
-> Hi Jani,
-> 
-> On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
-> > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> > > All the drm_connector_init variants take at least a pointer to the
-> > > device, connector and hooks implementation.
-> > >
-> > > However, none of them check their value before dereferencing those
-> > > pointers which can lead to a NULL-pointer dereference if the author
-> > > isn't careful.
-> > 
-> > Arguably oopsing on the spot is preferrable when this can't be caused by
-> > user input. It's always a mistake that should be caught early during
-> > development.
-> > 
-> > Not everyone checks the return value of drm_connector_init and friends,
-> > so those cases will lead to more mysterious bugs later. And probably
-> > oopses as well.
-> 
-> So maybe we can do both then, with something like
-> 
-> if (WARN_ON(!dev))
->    return -EINVAL
-> 
-> if (drm_WARN_ON(dev, !connector || !funcs))
->    return -EINVAL;
-> 
-> I'd still like to check for this, so we can have proper testing, and we
-> already check for those pointers in some places (like funcs in
-> drm_connector_init), so if we don't cover everything we're inconsistent.
+Hi,
 
-People will invariably cargo-cult this kind of stuff absolutely
-everywhere and then all your functions will have tons of dead
-code to check their arguments. I'd prefer not to go there
-usually.
 
-Should we perhaps start to use the (arguably hideous)
- - void f(struct foo *bar)
- + void f(struct foo bar[static 1])
-syntax to tell the compiler we don't accept NULL pointers?
+On 2023/11/28 18:24, Maxime Ripard wrote:
+> container_of_const() allows to preserve the pointer constness and is
+> thus more flexible than inline functions.
+>
+> Let's switch all our instances of container_of() to container_of_const().
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-Hmm. Apparently that has the same problem as using any
-other kind of array syntax in the prototype. That is,
-the compiler demands to know the definition of 'struct foo'
-even though we're passing in effectively a pointer. Sigh.
 
--- 
-Ville Syrjälä
-Intel
+LGTM,
+
+Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
+
+
+> ---
+>   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 16 ++++------------
+>   1 file changed, 4 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> index bae69d696765..c276d984da6b 100644
+> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
+> @@ -30,19 +30,11 @@
+>   #include "sun4i_drv.h"
+>   #include "sun4i_hdmi.h"
+>   
+> -static inline struct sun4i_hdmi *
+> -drm_encoder_to_sun4i_hdmi(struct drm_encoder *encoder)
+> -{
+> -	return container_of(encoder, struct sun4i_hdmi,
+> -			    encoder);
+> -}
+> +#define drm_encoder_to_sun4i_hdmi(e)		\
+> +	container_of_const(e, struct sun4i_hdmi, encoder)
+>   
+> -static inline struct sun4i_hdmi *
+> -drm_connector_to_sun4i_hdmi(struct drm_connector *connector)
+> -{
+> -	return container_of(connector, struct sun4i_hdmi,
+> -			    connector);
+> -}
+> +#define drm_connector_to_sun4i_hdmi(c)		\
+> +	container_of_const(c, struct sun4i_hdmi, connector)
+>   
+>   static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
+>   					   struct drm_display_mode *mode)
 
