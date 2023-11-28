@@ -1,140 +1,154 @@
-Return-Path: <linux-media+bounces-1193-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1194-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2448F7FB5EB
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 10:34:43 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1DAD7FB5F7
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 10:36:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D41D828271C
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 09:34:41 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F5211C2106D
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 09:36:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 285C649F80;
-	Tue, 28 Nov 2023 09:34:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8413949F89;
+	Tue, 28 Nov 2023 09:36:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=protonmail.com header.i=@protonmail.com header.b="eVtpW1Ym"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="KDh3+BdH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-4319.protonmail.ch (mail-4319.protonmail.ch [185.70.43.19])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B454109
-	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 01:34:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=protonmail.com;
-	s=protonmail3; t=1701164073; x=1701423273;
-	bh=CRK7C20YrPxM8btnj+K/OYyYmppC/jXXJ3DZupd/6l8=;
-	h=Date:To:From:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
-	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=eVtpW1Ymfg1SHmuqgte6q4wv5UosgEBhirb/tvT5OfRYwrzygTl4GOQRKgepoTf1K
-	 wxdUV4X3AzUKNvBGo3f+mgepCcxyo1aH2sJ5Ax8e2FRZBr2CTBBVpKhugBSGIpLln6
-	 PuMBFlfvq4+LoUc5ccCoNh6hxl98zO1gMWJMiofEDyRpugyFj0kDNpVwvflfqOBJP2
-	 WL1ifFWVv1KO8dssVWBy+oGCe5doKuEUauv7UqZjdQ+/4YiaB2/HyLNs2vfpB4CQsl
-	 cWoHM6lYej/bF74RG+5V+Dw2h0gR5CxZRnKV9L4pK1zlBa5JSoh2KzlkSJlPb7XbMv
-	 hWMRQCs43R0Fw==
-Date: Tue, 28 Nov 2023 09:34:15 +0000
-To: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-From: rgem0 <rgem0@protonmail.com>
-Subject: 20230115205210.20077-1-laurent.pinchart@ideasonboard.com
-Message-ID: <MTHBXabvGtupXpPx3DLoDeC__bFtPZDSkuRzPj7x5-gi-GCE3_bJGLpnpFVkt2iMxFMB-ETDnsGQbu8Mwk0uC4kWnNfGIY2fNktVNMb8iHg=@protonmail.com>
-Feedback-ID: 32723246:user:proton
+Received: from mail-ej1-x62a.google.com (mail-ej1-x62a.google.com [IPv6:2a00:1450:4864:20::62a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90214DA
+	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 01:36:13 -0800 (PST)
+Received: by mail-ej1-x62a.google.com with SMTP id a640c23a62f3a-a00b056ca38so696085666b.2
+        for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 01:36:13 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701164172; x=1701768972; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=gn4UB1lK5iWfBPlsVj0cmidPsZvNY1ecgwO2dUiuTUo=;
+        b=KDh3+BdHyKsVGepfyaAiW45JL3m3G+bitGeBQTFkjxh00xRKuBZDsqWvymSNQ/8hQQ
+         yV56ZuoQo/hW3ltN4Fnu/bibHDM6XTj8IgJ8F8Ge0xcu8rNd5+3GIRYgVfQU7Hcc1Xp4
+         FdCWp351Egv2hYaCOnvadSjqWjTfGvspI6Gcs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701164172; x=1701768972;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=gn4UB1lK5iWfBPlsVj0cmidPsZvNY1ecgwO2dUiuTUo=;
+        b=UeNHHrw5oTMWrHqi3UAoTGaMV8MB71/1FH34GoJH6XnC1gBlBfdpFnYErqGNmVdcBE
+         Pq2UEVHd6n8cPIB6xaozjexygkZuo05cNYkHrEvR1jVm7lY7ddyMfYZiHB2P3CWKoETw
+         UwwYi2JXsTz2BcIJEzH67mCoLs2WnK0EX8fs7thx337Iwd1Fzz2Xcxv9oZMGZOD5iSUk
+         UQ1z4X2MlRUH9VNZoEY/npn7s7EGY3tc39nCnuaunqDpt6HedKdb7u062BDOOlfCLY5t
+         93EbXSLunaNTRJebyLDGoBD92ooGcYSeqRLqPelj85BQ+uC6yCfr+3kDUpwub7JqwC3O
+         00kg==
+X-Gm-Message-State: AOJu0YyhL4veL9jaXnrZvlwV3Yce9mNMYX8HfEBYREmtf4m9YeSF+xqX
+	wjsREy+lLiFrVoUQLgsS4zxkxUDWLmzMXx/fBOQOAtbG
+X-Google-Smtp-Source: AGHT+IH1wCoyB75kegT9SJ9N0lNcj7tPd0/WX+wtkB/Wmkf0hUePpukezZNQohWSEhgjHPr/B8H85w==
+X-Received: by 2002:a17:906:298c:b0:a11:b67f:e3a3 with SMTP id x12-20020a170906298c00b00a11b67fe3a3mr2648442eje.8.1701164171668;
+        Tue, 28 Nov 2023 01:36:11 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
+        by smtp.gmail.com with ESMTPSA id h18-20020a1709063b5200b009fdd2c6d042sm6750051ejf.148.2023.11.28.01.36.11
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Nov 2023 01:36:11 -0800 (PST)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-332d5c852a0so3271908f8f.3
+        for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 01:36:11 -0800 (PST)
+X-Received: by 2002:adf:fcc8:0:b0:32d:a495:a9b7 with SMTP id
+ f8-20020adffcc8000000b0032da495a9b7mr9105847wrs.61.1701164171112; Tue, 28 Nov
+ 2023 01:36:11 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
+ <20231127165454.166373-8-benjamin.gaignard@collabora.com> <20231127170700.GC31314@pendragon.ideasonboard.com>
+ <6fa1ec09-3e30-475e-9718-29d23586753e@collabora.com>
+In-Reply-To: <6fa1ec09-3e30-475e-9718-29d23586753e@collabora.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Tue, 28 Nov 2023 18:35:51 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DCVTLpPoKSp_OA6fe_Hqt-oV7=AsCZWSmkJORvLSgUiw@mail.gmail.com>
+Message-ID: <CAAFQd5DCVTLpPoKSp_OA6fe_Hqt-oV7=AsCZWSmkJORvLSgUiw@mail.gmail.com>
+Subject: Re: [PATCH 07/55] media: imx8-isi: Stop abusing of min_buffers_needed field
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hverkuil@xs4all.nl, 
+	mchehab@kernel.org, m.szyprowski@samsung.com, matt.ranostay@konsulko.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, kernel@collabora.com, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Jan. 16, 2023, 3:11 p.m. UTC, Ricardo Ribalda wrote:
+On Tue, Nov 28, 2023 at 6:31=E2=80=AFPM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
+>
+>
+> Le 27/11/2023 =C3=A0 18:07, Laurent Pinchart a =C3=A9crit :
+> > Hi Benjamin,
+> >
+> > Thank you for the patch.
+> >
+> > On Mon, Nov 27, 2023 at 05:54:06PM +0100, Benjamin Gaignard wrote:
+> >> 'min_buffers_needed' is suppose to be used to indicate the number
+> >> of buffers needed by DMA engine to start streaming.
+> >> imx8-isi driver doesn't use DMA engine and just want to specify
+> > What do you mean, "doesn't use DMA engine" ? The ISI surely has DMA
+> > engines :-)
+>
+> I have done assumption on drivers given if they use or dma_* functions.
 
-> no need to change any code. Just do:
->=20
-> sudo rmmod uvcvideo; sudo modprobe uvcvideo =C2=A0trace=3D0xffffffff
->=20
-> then get some frames
->=20
-> yavta --capture=3D3 /dev/video0
->=20
-> then run dmesg
->=20
-> Thanks!
+I suspect the use of vb2_dma_sg_plane_desc() and
+vb2_dma_contig_plane_dma_addr() may be more correlated to whether
+there is a DMA involved or not. Usually V4L2 drivers don't really have
+to deal with the DMA API explicitly, because the vb2 framework handles
+most of the work.
 
+Best regards,
+Tomasz
 
-
-Hi Ricardo,
-I have a 4035:4035 and compiled the patched module today.
-As I didn't see any update on the patchwork, I suppose no logs were brought=
- to you and therefore thought I could contribute.
-
-Here is the dmesg output:
-
-
-`[13784.543780] usb 3-6: uvc_v4l2_open
-[13784.546197] usb 3-6: uvc_v4l2_mmap
-[13784.546384] usb 3-6: uvc_v4l2_mmap
-[13784.546497] usb 3-6: uvc_v4l2_mmap
-[13784.546583] usb 3-6: uvc_v4l2_mmap
-[13784.546668] usb 3-6: uvc_v4l2_mmap
-[13784.546762] usb 3-6: uvc_v4l2_mmap
-[13784.546853] usb 3-6: uvc_v4l2_mmap
-[13784.546943] usb 3-6: uvc_v4l2_mmap
-[13784.554953] usb 3-6: Device requested 3060 B/frame bandwidth
-[13784.554965] usb 3-6: Selecting alternate setting 11 (3060 B/frame bandwi=
-dth)
-[13784.555469] usb 3-6: Allocated 5 URB buffers of 32x3060 bytes each
-[13785.143551] usb 3-6: Frame complete (EOF found)
-[13785.143556] usb 3-6: EOF in empty payload
-[13785.143558] usb 3-6: frame 1 stats: 3967/694/4677 packets, 1/3966/4677 p=
-ts (early initial), 4676/4677 scr, last pts/stc/sof 2481712061/2486485544/4=
-59
-[13785.143735] usb 3-6: uvc_v4l2_poll
-[13785.243551] usb 3-6: Frame complete (EOF found)
-[13785.243557] usb 3-6: frame 2 stats: 88/695/798 packets, 1/87/798 pts (ea=
-rly initial), 797/798 scr, last pts/stc/sof 2486500781/2491273546/559
-[13785.243749] usb 3-6: uvc_v4l2_poll
-[13785.343633] usb 3-6: Frame complete (EOF found)
-[13785.343648] usb 3-6: frame 3 stats: 88/694/798 packets, 1/87/798 pts (ea=
-rly initial), 797/798 scr, last pts/stc/sof 2491289501/2496061546/658
-[13785.343851] usb 3-6: uvc_v4l2_poll
-[13785.344131] usb 3-6: uvc_v4l2_poll
-[13785.345209] usb 3-6: uvc_v4l2_poll
-[13785.345752] usb 3-6: uvc_v4l2_poll
-[13785.346174] usb 3-6: uvc_v4l2_release`
-
-
-
-And the yavta output:
-
-
-
-`Device /dev/video0 opened: ACER HD User Facing: ACER HD Us (usb-0000:00:14=
-.0-6).
-Video format: YUYV (56595559) 1280x720
-8 buffers requested.
-length: 1843200 offset: 0
-Buffer 0 mapped at address 0x7f9834044000.
-length: 1843200 offset: 1843200
-Buffer 1 mapped at address 0x7f9833e82000.
-length: 1843200 offset: 3686400
-Buffer 2 mapped at address 0x7f9833cc0000.
-length: 1843200 offset: 5529600
-Buffer 3 mapped at address 0x7f9833afe000.
-length: 1843200 offset: 7372800
-Buffer 4 mapped at address 0x7f983393c000.
-length: 1843200 offset: 9216000
-Buffer 5 mapped at address 0x7f983377a000.
-length: 1843200 offset: 11059200
-Buffer 6 mapped at address 0x7f98335b8000.
-length: 1843200 offset: 12902400
-Buffer 7 mapped at address 0x7f98333f6000.
-0 (0) [-] 0 1843200 bytes 13784.183367 1701162393.013189
-1 (1) [-] 1 1843200 bytes 13784.767378 1701162393.113229
-2 (2) [-] 2 1843200 bytes 13784.867377 1701162393.213291
-Captured 2 frames in 0.200301 seconds (9.984973 fps, 27606452.289305 B/s).
-8 buffers released.`
-
-
-Tell me if you need me to provide anything else.
-Sorry if this issue has already been solved - I am new to this !
-
-Best Regards
+> I have considers that all PCI drivers are using DMA engine and
+> I don't know the design for each drivers so I hope to get this informatio=
+n
+> from maintainers and fix that in v2.
+> If imx8-isi driver needs a minimum number of buffers before start streami=
+ng
+> I will do a v2 and use min_dma_buffers_needed instead.
+>
+> Regards,
+> Benjamin
+>
+> >
+> >> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
+> >> That 'min_reqbufs_allocation' field purpose so use it.
+> >>
+> >> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >> CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+> >> CC: Shawn Guo <shawnguo@kernel.org>
+> >> CC: Sascha Hauer <s.hauer@pengutronix.de>
+> >> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+> >> CC: Fabio Estevam <festevam@gmail.com>
+> >> CC: NXP Linux Team <linux-imx@nxp.com>
+> >> ---
+> >>   drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c | 2 +-
+> >>   1 file changed, 1 insertion(+), 1 deletion(-)
+> >>
+> >> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/dr=
+ivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> >> index 49bca2b01cc6..81673ff9084b 100644
+> >> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> >> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> >> @@ -1453,7 +1453,7 @@ int mxc_isi_video_register(struct mxc_isi_pipe *=
+pipe,
+> >>      q->mem_ops =3D &vb2_dma_contig_memops;
+> >>      q->buf_struct_size =3D sizeof(struct mxc_isi_buffer);
+> >>      q->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> >> -    q->min_buffers_needed =3D 2;
+> >> +    q->min_reqbufs_allocation =3D 2;
+> >>      q->lock =3D &video->lock;
+> >>      q->dev =3D pipe->isi->dev;
+> >>
 
