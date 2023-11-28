@@ -1,111 +1,98 @@
-Return-Path: <linux-media+bounces-1278-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1279-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E9E7FBCA3
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 15:21:45 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7B117FBCE3
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 15:40:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 766721C20AA2
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 14:21:44 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A4356282EDD
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 14:40:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0CA45B5BA;
-	Tue, 28 Nov 2023 14:21:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9A464F881;
+	Tue, 28 Nov 2023 14:40:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="lKKIARly"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q4KjlMdx"
 X-Original-To: linux-media@vger.kernel.org
-X-Greylist: delayed 583 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Tue, 28 Nov 2023 06:21:32 PST
-Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [IPv6:2001:41d0:1004:224b::b4])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40A99D64
-	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 06:21:31 -0800 (PST)
-Message-ID: <6d0f8057-70f9-46f9-828a-df03c753b42b@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1701180706;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Hxr6Qi8uAR1GAsmRwi31SrOVsQk0+PK+MAopQh8m5vk=;
-	b=lKKIARlyv1H6YGZl6IGyLBEni04sQJfG863/4ZgCGXNR9S/hHpHmfvXyouaj//rnKHuvYk
-	43za6NCU8WEn9fiHOOidCkKIH83XwBPPuHZ4e1Grw5BHUwFC6vH+V7cw0wmx5/w3WiJdFA
-	LOF/zVvAJBOiCI+vxywRaIkiRGMDZMs=
-Date: Tue, 28 Nov 2023 22:11:24 +0800
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63A68D4B
+	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 06:40:03 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-332fd81fc8dso1827037f8f.3
+        for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 06:40:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701182402; x=1701787202; darn=vger.kernel.org;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pf2DfL3Xh784BuSAN82jj5QlQKywpWu+Wh7+Xy6CbRs=;
+        b=Q4KjlMdxTapkbOb2ioTBUKEAMM7mscUzFNvl3IAywCoIfG02lqJK80lq+VHdm//JGf
+         JX2d69F9/hLq216t5NI151MiQ2IJg57vE2zhNSc7F2BE+eTSgIDcLd9vsNkF5pqQGR2y
+         6Dcv353IlXNpTW35MLzdf4JK8uvEhJFSe6QzHfMVCtJFVvrMfNJdRsdRB8QbKp7+v0Bp
+         K2QYm99Idl60pHeSvrHeLaYr21n4urgY31MaErZ8cY+Lwc11/li5F4jx6IdihmfQU34W
+         Ed94XFQr1VLlnj2flMInPylulZqAiS1jg1ngVhcN3wEtq8QthlFsxYWgdKIQx3ncZdPU
+         3Yww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701182402; x=1701787202;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=pf2DfL3Xh784BuSAN82jj5QlQKywpWu+Wh7+Xy6CbRs=;
+        b=K4aZvkHDHVtxfTFsQ43iQBUvtUBt8E9O2iPBjsByEdxd2Yd22PtbrajJMaa8dNaxsH
+         QicaODmSbUKM7Tb3yMpCJpvS1MQmq7fZKLcz5XOCeM7txESGwOBWU2zB+RSq+QK2wYoZ
+         lk1nIUiRqp/XTf+OIVyoRtWBQJoGoYNfLFAZX90oxdmYhSxUW5uERbfaTi8dVYnRluPb
+         c4N28iCVfDlFnQ47qX0RKmRd8gYBXPEl9BZqxSc1nZQoR7IOPfMmWVv2MKgojSe2zlMT
+         HJ7vRCMMxwbOg4sL54ICwRC4CgBkxadAa6RVwZ2y694zlzYblxwzGI2BEEbpeHUUPqhO
+         uLYw==
+X-Gm-Message-State: AOJu0YyiPXbr7ATKe99wT21bWQ5XwXTyNNqMDf4NjHj++sl3Iw8MlyeZ
+	IsC1wT8Jkwta9xAVERz8daG7TA==
+X-Google-Smtp-Source: AGHT+IGYMuSYtzC3hhgkKzrn7uQuIfeDdduNP779y1aGb9C8fmBYxztzj7SxI0lLQ+DhL8H4tStW1Q==
+X-Received: by 2002:a5d:484c:0:b0:32f:80cf:c3cd with SMTP id n12-20020a5d484c000000b0032f80cfc3cdmr11478470wrs.4.1701182401913;
+        Tue, 28 Nov 2023 06:40:01 -0800 (PST)
+Received: from localhost ([102.36.222.112])
+        by smtp.gmail.com with ESMTPSA id t6-20020a05600001c600b00332ff21038fsm6730985wrx.106.2023.11.28.06.40.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 28 Nov 2023 06:40:01 -0800 (PST)
+Date: Tue, 28 Nov 2023 17:39:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Nas Chung <nas.chung@chipsnmedia.com>
+Cc: Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	kernel-janitors@vger.kernel.org
+Subject: [PATCH] media: chips-media: wave5: remove duplicate check
+Message-ID: <9bdce1f1-b2f0-4b11-9dfd-16ca7048281b@moroto.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [v4,43/45] drm/sun4i: hdmi: Switch to container_of_const
-Content-Language: en-US
-To: Maxime Ripard <mripard@kernel.org>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>,
- =?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>,
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- Samuel Holland <samuel@sholland.org>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20231128-kms-hdmi-connector-state-v4-43-c7602158306e@kernel.org>
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sui Jingfeng <sui.jingfeng@linux.dev>
-In-Reply-To: <20231128-kms-hdmi-connector-state-v4-43-c7602158306e@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Mailer: git-send-email haha only kidding
 
-Hi,
+We already verified that "ret" is zero a few lines earlier.  Delete this
+duplicate check.
 
+Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
+---
+ drivers/media/platform/chips-media/wave5/wave5-hw.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
-On 2023/11/28 18:24, Maxime Ripard wrote:
-> container_of_const() allows to preserve the pointer constness and is
-> thus more flexible than inline functions.
->
-> Let's switch all our instances of container_of() to container_of_const().
->
-> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+index 3fcb2d92add8..f1e022fb148e 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+@@ -578,9 +578,6 @@ int wave5_vpu_dec_init_seq(struct vpu_instance *inst)
+ 	dev_dbg(inst->dev->dev, "%s: init seq sent (queue %u : %u)\n", __func__,
+ 		p_dec_info->instance_queue_count, p_dec_info->report_queue_count);
+ 
+-	if (ret)
+-		return ret;
+-
+ 	return 0;
+ }
+ 
+-- 
+2.42.0
 
-
-LGTM,
-
-Reviewed-by: Sui Jingfeng <sui.jingfeng@linux.dev>
-
-
-> ---
->   drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 16 ++++------------
->   1 file changed, 4 insertions(+), 12 deletions(-)
->
-> diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> index bae69d696765..c276d984da6b 100644
-> --- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> +++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-> @@ -30,19 +30,11 @@
->   #include "sun4i_drv.h"
->   #include "sun4i_hdmi.h"
->   
-> -static inline struct sun4i_hdmi *
-> -drm_encoder_to_sun4i_hdmi(struct drm_encoder *encoder)
-> -{
-> -	return container_of(encoder, struct sun4i_hdmi,
-> -			    encoder);
-> -}
-> +#define drm_encoder_to_sun4i_hdmi(e)		\
-> +	container_of_const(e, struct sun4i_hdmi, encoder)
->   
-> -static inline struct sun4i_hdmi *
-> -drm_connector_to_sun4i_hdmi(struct drm_connector *connector)
-> -{
-> -	return container_of(connector, struct sun4i_hdmi,
-> -			    connector);
-> -}
-> +#define drm_connector_to_sun4i_hdmi(c)		\
-> +	container_of_const(c, struct sun4i_hdmi, connector)
->   
->   static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
->   					   struct drm_display_mode *mode)
 
