@@ -1,165 +1,253 @@
-Return-Path: <linux-media+bounces-1211-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1212-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2FB57FB6FB
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 11:18:16 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A74667FB6FD
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 11:18:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 82B40B219D0
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 10:18:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4A201B21219
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 10:18:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA75B4E1C6;
-	Tue, 28 Nov 2023 10:18:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC3CA4E1C9;
+	Tue, 28 Nov 2023 10:18:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lCrYMtBb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1034F381A7;
-	Tue, 28 Nov 2023 10:18:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D239BC433C7;
-	Tue, 28 Nov 2023 10:18:06 +0000 (UTC)
-Message-ID: <44ca55bf-978d-47e8-abd2-8e3adb5071a2@xs4all.nl>
-Date: Tue, 28 Nov 2023 11:18:05 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD5FF10E
+	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 02:18:19 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 513DBBB2;
+	Tue, 28 Nov 2023 11:17:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701166662;
+	bh=q+KvTB9o+uK998Y2nRrZnhUu9XymOJNU9G1SsEdAG5c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lCrYMtBb8EO0Insw6P9mJL7TaqwNYDH6Tu4Bkjsfx/gl++d4gXzKWTka593d3TzJj
+	 AHLeM+yOUbL2Rc8PvvN5tFzJ4xtb9SQudjOdFX7RFJIYU3qzfASRk1dM/8paAb/UX3
+	 Q1LKiCMWNotlI45nvQiVxZHZuqAT7SYo+Dqc/ups=
+Date: Tue, 28 Nov 2023 12:18:23 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: linux-media@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v2 3/4] media: v4l2-subdev: Store frame interval in
+ subdev state
+Message-ID: <20231128101823.GE31314@pendragon.ideasonboard.com>
+References: <20231127111359.30315-1-laurent.pinchart@ideasonboard.com>
+ <20231127111703.30527-1-laurent.pinchart@ideasonboard.com>
+ <cce5102a-edc7-441a-b1f3-704a237fe273@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 03/55] media: usb: cx231xx: Stop abusing of
- min_buffers_needed field
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, matt.ranostay@konsulko.com
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
- <20231127165454.166373-4-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231127165454.166373-4-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <cce5102a-edc7-441a-b1f3-704a237fe273@xs4all.nl>
 
-On 27/11/2023 17:54, Benjamin Gaignard wrote:
-> 'min_buffers_needed' is suppose to be used to indicate the number
-> of buffers needed by DMA engine to start streaming.
-> cx231xx driver doesn't use DMA engine and just want to specify
-> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
-> That 'min_reqbufs_allocation' field purpose so use it.
+Hi Hans,
+
+On Tue, Nov 28, 2023 at 10:42:58AM +0100, Hans Verkuil wrote:
+> On 27/11/2023 12:17, Laurent Pinchart wrote:
+> > Subdev states store all standard pad configuration data, except for
+> > frame intervals. Fix it by adding interval fields in the
+> > v4l2_subdev_pad_config and v4l2_subdev_stream_config structures, with
+> > corresponding accessor functions and a helper function to implement the
+> > .get_frame_interval() operation.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> > Changes since v1:
+> > 
+> > - Use __v4l2_subdev_state_gen_call()
+> > ---
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 50 +++++++++++++++++++++++++++
+> >  include/media/v4l2-subdev.h           | 43 +++++++++++++++++++++++
+> >  2 files changed, 93 insertions(+)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index 4cbe4024ff67..559d6a5082b1 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -1651,6 +1651,40 @@ __v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
+> >  }
+> >  EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_compose);
+> >  
+> > +struct v4l2_fract *
+> > +__v4l2_subdev_state_get_interval(struct v4l2_subdev_state *state,
+> > +				 unsigned int pad, u32 stream)
+> > +{
+> > +	struct v4l2_subdev_stream_configs *stream_configs;
+> > +	unsigned int i;
+> > +
+> > +	if (WARN_ON(!state))
+> > +		return NULL;
+> > +
+> > +	lockdep_assert_held(state->lock);
+> > +
+> > +	if (state->pads) {
+> > +		if (stream)
+> > +			return NULL;
+> > +
+> > +		if (WARN_ON(pad >= state->sd->entity.num_pads))
+> > +			pad = 0;
 > 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/media/usb/cx231xx/cx231xx-417.c   | 2 +-
->  drivers/media/usb/cx231xx/cx231xx-video.c | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+> In the other variants (e.g. __v4l2_subdev_state_get_compose) there
+> is no WARN_ON and it just returns NULL.
 > 
-> diff --git a/drivers/media/usb/cx231xx/cx231xx-417.c b/drivers/media/usb/cx231xx/cx231xx-417.c
-> index 45973fe690b2..66043ed50c8e 100644
-> --- a/drivers/media/usb/cx231xx/cx231xx-417.c
-> +++ b/drivers/media/usb/cx231xx/cx231xx-417.c
-> @@ -1782,7 +1782,7 @@ int cx231xx_417_register(struct cx231xx *dev)
->  	q->ops = &cx231xx_video_qops;
->  	q->mem_ops = &vb2_vmalloc_memops;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> -	q->min_buffers_needed = 1;
-> +	q->min_reqbufs_allocation = 1;
+> > +
+> > +		return &state->pads[pad].interval;
+> > +	}
+> 
+> The other variants have a lockdep_assert_held(state->lock); here.
+> 
+> I think this should be the same as the other variants.
 
-There is no point setting min_reqbufs_allocation to 1: you can't allocate
-less than 1 buffer after all.
+I think this is because I wrote this patch before the other variants
+were changed. I'll update it for the next version.
 
-It is different in that respect from min_buffers_needed: you can call
-VIDIOC_STREAMON (and thus start_streaming) without any buffers queued.
+> > +
+> > +	stream_configs = &state->stream_configs;
+> > +
+> > +	for (i = 0; i < stream_configs->num_configs; ++i) {
+> > +		if (stream_configs->configs[i].pad == pad &&
+> > +		    stream_configs->configs[i].stream == stream)
+> > +			return &stream_configs->configs[i].interval;
+> > +	}
+> > +
+> > +	return NULL;
+> > +}
+> > +EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_interval);
+> > +
+> >  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+> >  
+> >  static int
+> > @@ -1717,6 +1751,22 @@ int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_subdev_get_fmt);
+> >  
+> > +int v4l2_subdev_get_frame_interval(struct v4l2_subdev *sd,
+> > +				   struct v4l2_subdev_state *state,
+> > +				   struct v4l2_subdev_frame_interval *fi)
+> > +{
+> > +	struct v4l2_fract *interval;
+> > +
+> > +	interval = v4l2_subdev_state_get_interval(state, fi->pad, fi->stream);
+> > +	if (!interval)
+> > +		return -EINVAL;
+> > +
+> > +	fi->interval = *interval;
+> > +
+> > +	return 0;
+> > +}
+> > +EXPORT_SYMBOL_GPL(v4l2_subdev_get_frame_interval);
+> > +
+> >  int v4l2_subdev_set_routing(struct v4l2_subdev *sd,
+> >  			    struct v4l2_subdev_state *state,
+> >  			    const struct v4l2_subdev_krouting *routing)
+> > diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> > index b2dbaa739afa..4d87e8ece872 100644
+> > --- a/include/media/v4l2-subdev.h
+> > +++ b/include/media/v4l2-subdev.h
+> > @@ -681,11 +681,13 @@ struct v4l2_subdev_ir_ops {
+> >   * @format: &struct v4l2_mbus_framefmt
+> >   * @crop: &struct v4l2_rect to be used for crop
+> >   * @compose: &struct v4l2_rect to be used for compose
+> > + * @interval: frame interval
+> >   */
+> >  struct v4l2_subdev_pad_config {
+> >  	struct v4l2_mbus_framefmt format;
+> >  	struct v4l2_rect crop;
+> >  	struct v4l2_rect compose;
+> > +	struct v4l2_fract interval;
+> >  };
+> >  
+> >  /**
+> > @@ -697,6 +699,7 @@ struct v4l2_subdev_pad_config {
+> >   * @fmt: &struct v4l2_mbus_framefmt
+> >   * @crop: &struct v4l2_rect to be used for crop
+> >   * @compose: &struct v4l2_rect to be used for compose
+> > + * @interval: frame interval
+> >   *
+> >   * This structure stores configuration for a stream.
+> >   */
+> > @@ -708,6 +711,7 @@ struct v4l2_subdev_stream_config {
+> >  	struct v4l2_mbus_framefmt fmt;
+> >  	struct v4l2_rect crop;
+> >  	struct v4l2_rect compose;
+> > +	struct v4l2_fract interval;
+> >  };
+> >  
+> >  /**
+> > @@ -1494,6 +1498,24 @@ __v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
+> >  int v4l2_subdev_get_fmt(struct v4l2_subdev *sd, struct v4l2_subdev_state *state,
+> >  			struct v4l2_subdev_format *format);
+> >  
+> > +/**
+> > + * v4l2_subdev_get_frame_interval() - Fill frame interval based on state
+> > + * @sd: subdevice
+> > + * @state: subdevice state
+> > + * @fi: pointer to &struct v4l2_subdev_frame_interval
+> > + *
+> > + * Fill @fi->interval field based on the information in the @fi struct.
+> > + *
+> > + * This function can be used by the subdev drivers which support active state to
+> > + * implement v4l2_subdev_pad_ops.get_frame_interval if the subdev driver does
+> > + * not need to do anything special in their get_frame_interval op.
+> > + *
+> > + * Returns 0 on success, error value otherwise.
+> > + */
+> > +int v4l2_subdev_get_frame_interval(struct v4l2_subdev *sd,
+> > +				   struct v4l2_subdev_state *state,
+> > +				   struct v4l2_subdev_frame_interval *fi);
+> > +
+> >  /**
+> >   * v4l2_subdev_set_routing() - Set given routing to subdev state
+> >   * @sd: The subdevice
+> > @@ -1539,6 +1561,27 @@ int v4l2_subdev_set_routing_with_fmt(struct v4l2_subdev *sd,
+> >  				     const struct v4l2_subdev_krouting *routing,
+> >  				     const struct v4l2_mbus_framefmt *fmt);
+> >  
+> > +/**
+> > + * v4l2_subdev_state_get_interval() - Get pointer to a stream frame interval
+> > + * @state: subdevice state
+> > + * @pad: pad id
+> > + * @...: stream id (optional argument)
+> > + *
+> > + * This returns a pointer to the frame interval for the given pad + stream in
+> > + * the subdev state.
+> > + *
+> > + * For stream-unaware drivers the frame interval for the corresponding pad is
+> > + * returned. If the pad does not exist, NULL is returned.
+> > + */
+> > +#define v4l2_subdev_state_get_interval(state, pad, ...)			\
+> > +	__v4l2_subdev_state_gen_call(interval, ##__VA_ARGS__, , _pad)	\
+> > +		(state, pad, ##__VA_ARGS__)
+> > +#define __v4l2_subdev_state_get_interval_pad(state, pad)	\
+> > +	__v4l2_subdev_state_get_interval(state, pad, 0)
+> > +struct v4l2_fract *
+> > +__v4l2_subdev_state_get_interval(struct v4l2_subdev_state *state,
+> > +				 unsigned int pad, u32 stream);
+> > +
+> >  /**
+> >   * v4l2_subdev_routing_find_opposite_end() - Find the opposite stream
+> >   * @routing: routing used to find the opposite side
+> 
+> Regards,
+> 
+> 	Hans
 
-This also suggests a better name for min_buffers_needed: min_queued_buffers
-
-So 'min_queued_buffers' buffers have to be queued before start_streaming can
-be called.
-
-The old min_buffers_needed mixed up the two requirements of the minimum
-number of buffers to allocate in REQBUFS and the minimum number of buffers
-that need to be queued before you can start streaming. Separating these two
-meanings should make things easier to understand.
-
-The only relationship between the two is that min_reqbufs_allocation >
-min_queued_buffers, otherwise you would end up in a state where the
-driver would just cycle buffers and never be able to return a buffer
-to userspace to process.
-
+-- 
 Regards,
 
-	Hans
-
->  	q->lock = &dev->lock;
->  	err = vb2_queue_init(q);
->  	if (err)
-> diff --git a/drivers/media/usb/cx231xx/cx231xx-video.c b/drivers/media/usb/cx231xx/cx231xx-video.c
-> index c8eb4222319d..df572c466bfb 100644
-> --- a/drivers/media/usb/cx231xx/cx231xx-video.c
-> +++ b/drivers/media/usb/cx231xx/cx231xx-video.c
-> @@ -1811,7 +1811,7 @@ int cx231xx_register_analog_devices(struct cx231xx *dev)
->  	q->ops = &cx231xx_video_qops;
->  	q->mem_ops = &vb2_vmalloc_memops;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> -	q->min_buffers_needed = 1;
-> +	q->min_reqbufs_allocation = 1;
->  	q->lock = &dev->lock;
->  	ret = vb2_queue_init(q);
->  	if (ret)
-> @@ -1871,7 +1871,7 @@ int cx231xx_register_analog_devices(struct cx231xx *dev)
->  	q->ops = &cx231xx_vbi_qops;
->  	q->mem_ops = &vb2_vmalloc_memops;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> -	q->min_buffers_needed = 1;
-> +	q->min_reqbufs_allocation = 1;
->  	q->lock = &dev->lock;
->  	ret = vb2_queue_init(q);
->  	if (ret)
-
+Laurent Pinchart
 
