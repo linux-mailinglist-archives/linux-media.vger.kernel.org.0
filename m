@@ -1,268 +1,207 @@
-Return-Path: <linux-media+bounces-1187-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1188-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE5057FB3BD
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 09:14:41 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 54C517FB4EC
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 09:55:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3428E282350
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 08:14:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8659E1C21021
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 08:55:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFBEA1798C;
-	Tue, 28 Nov 2023 08:14:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="N+aB0tQS"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F258430CE2;
+	Tue, 28 Nov 2023 08:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F37BCE;
-	Tue, 28 Nov 2023 00:14:28 -0800 (PST)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3AS4KoE4009769;
-	Tue, 28 Nov 2023 08:14:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=message-id : date :
- mime-version : subject : to : cc : references : from : in-reply-to :
- content-type : content-transfer-encoding; s=qcppdkim1;
- bh=guuOMbz3l0LYG0OKUpwSPI8VLzr9E5tLRgYzgSVkmA0=;
- b=N+aB0tQSxGe6q8bI6pecGjQg9+7D9+XOPqLl35CqfoPQ0oFv+0Y0nBzozkYwq0uMHW12
- uvB8iPBRqihWMp8SwHTiLu4Rf7IcY9KAL+zinmIbYRCTOhJ3Im4/aV67mc9sr2kagNV1
- bFD2vT4UfpmSRBtwHNsZCrA5cCY/cwjtMOV9KcudejKYVFeKwv4YFV20ldXoaUNfTKvF
- kBEkSSW7c3iQuFN3vL1jD8xRLVi7XRtGsmNUA569lmKk0Gg34QPHJ2IDklRk90oy2bLZ
- La8dqKQYKS6/nt32OsCL4X6/mD6OV5FUxJax4D/RtHMbM6VOa7aXXvOKJmvPUKbGuJZw nA== 
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3umrqq2xwc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 Nov 2023 08:14:20 +0000
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA01.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3AS8EJtV030775
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 28 Nov 2023 08:14:19 GMT
-Received: from [10.216.60.229] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 28 Nov
- 2023 00:14:13 -0800
-Message-ID: <a4e8b531-49f9-f4a1-51cb-e422c56281cc@quicinc.com>
-Date: Tue, 28 Nov 2023 13:44:10 +0530
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BE4010A32
+	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 08:55:15 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FD0AC433C8;
+	Tue, 28 Nov 2023 08:55:09 +0000 (UTC)
+Message-ID: <a3bfe0e7-45de-41ce-b720-078f69cdcd69@xs4all.nl>
+Date: Tue, 28 Nov 2023 09:55:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2 2/3] arm64: dts: qcom: sc7280: Move video-firmware to
- chrome-common
-Content-Language: en-US
-To: Luca Weiss <luca.weiss@fairphone.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@linaro.org>
-CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-        Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson
-	<andersson@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@linaro.org>,
-        Mauro
- Carvalho Chehab <mchehab@kernel.org>,
-        <cros-qcom-dts-watchers@chromium.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20231002-sc7280-venus-pas-v2-0-bd2408891317@fairphone.com>
- <20231002-sc7280-venus-pas-v2-2-bd2408891317@fairphone.com>
- <4cfad910-1821-3a31-c372-3f6b199e8f71@quicinc.com>
- <CX5ENKY70B5J.2D6DXKGI4EGX3@fairphone.com>
- <ff021f49-f81b-0fd1-bd2c-895dbbb03d56@quicinc.com>
- <CX70EBXCOB66.3998C482R86CN@fairphone.com>
- <a29123a3-afe1-8f92-ff6c-835926d411af@quicinc.com>
- <CAA8EJppkjpMmcHCvxomgUMPxGpf77iN9roRvb=NEcxdk237-UA@mail.gmail.com>
- <e6d80982-1674-d0c4-9dbe-94d77079f6ba@quicinc.com>
- <CX75Y1X2QIN7.1GRH1YI56MMZ@fairphone.com>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <CX75Y1X2QIN7.1GRH1YI56MMZ@fairphone.com>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 1/1] media: v4l2-subdev: Rename .init_cfg() operation
+ to .init_state()
+Content-Language: en-US, nl
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@iki.fi>, Lars-Peter Clausen <lars@metafoo.de>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Martin Kepplinger <martink@posteo.de>, Ricardo Ribalda <ribalda@kernel.org>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ Manivannan Sadhasivam <mani@kernel.org>,
+ Michael Riesch <michael.riesch@wolfvision.net>,
+ Jacopo Mondi <jacopo@jmondi.org>, Bingbu Cao <bingbu.cao@intel.com>,
+ Rui Miguel Silva <rmfrfs@gmail.com>, Hans de Goede <hansg@kernel.org>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Steve Longerbeam <slongerbeam@gmail.com>,
+ Nicholas Roth <nicholas@rothemail.net>,
+ Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+ Sylvain Petinot <sylvain.petinot@foss.st.com>,
+ Tim Harvey <tharvey@gateworks.com>, Maxime Ripard <mripard@kernel.org>,
+ Eugen Hristev <eugen.hristev@collabora.com>,
+ Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+ Dafna Hirschfeld <dafna@fastmail.com>, Yong Deng <yong.deng@magewell.com>,
+ Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+ Benoit Parrot <bparrot@ti.com>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Shuah Khan <skhan@linuxfoundation.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hugues Fruchet <hugues.fruchet@foss.st.com>,
+ Alain Volmat <alain.volmat@foss.st.com>
+References: <20231127090744.30012-1-laurent.pinchart@ideasonboard.com>
+ <20231127090744.30012-2-laurent.pinchart@ideasonboard.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231127090744.30012-2-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: SWNyR8CKJr76zR2CihilRb79841x5gCd
-X-Proofpoint-GUID: SWNyR8CKJr76zR2CihilRb79841x5gCd
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.987,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-11-28_07,2023-11-27_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- malwarescore=0 clxscore=1015 lowpriorityscore=0 mlxscore=0
- priorityscore=1501 adultscore=0 phishscore=0 bulkscore=0 suspectscore=0
- spamscore=0 mlxlogscore=999 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.12.0-2311060000 definitions=main-2311280063
 
+Hi Laurent,
 
-On 11/24/2023 9:26 PM, Luca Weiss wrote:
-> On Fri Nov 24, 2023 at 2:35 PM CET, Vikash Garodia wrote:
->>
->>
->> On 11/24/2023 6:23 PM, Dmitry Baryshkov wrote:
->>> On Fri, 24 Nov 2023 at 14:30, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
->>>>
->>>> On 11/24/2023 5:05 PM, Luca Weiss wrote:
->>>>> On Fri Nov 24, 2023 at 7:38 AM CET, Vikash Garodia wrote:
->>>>>>
->>>>>> On 11/22/2023 7:50 PM, Luca Weiss wrote:
->>>>>>> On Wed Nov 22, 2023 at 2:17 PM CET, Vikash Garodia wrote:
->>>>>>>>
->>>>>>>> On 10/2/2023 7:50 PM, Luca Weiss wrote:
->>>>>>>>> If the video-firmware node is present, the venus driver assumes we're on
->>>>>>>>> a system that doesn't use TZ for starting venus, like on ChromeOS
->>>>>>>>> devices.
->>>>>>>>>
->>>>>>>>> Move the video-firmware node to chrome-common.dtsi so we can use venus
->>>>>>>>> on a non-ChromeOS devices.
->>>>>>>>>
->>>>>>>>> At the same time also disable the venus node by default in the dtsi,
->>>>>>>>> like it's done on other SoCs.
->>>>>>>>>
->>>>>>>>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->>>>>>>>> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
->>>>>>>>> ---
->>>>>>>>>  arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi | 8 ++++++++
->>>>>>>>>  arch/arm64/boot/dts/qcom/sc7280.dtsi               | 6 ++----
->>>>>>>>>  2 files changed, 10 insertions(+), 4 deletions(-)
->>>>>>>>>
->>>>>>>>> diff --git a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
->>>>>>>>> index 5d462ae14ba1..cd491e46666d 100644
->>>>>>>>> --- a/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
->>>>>>>>> +++ b/arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi
->>>>>>>>> @@ -104,6 +104,14 @@ &scm {
->>>>>>>>>   dma-coherent;
->>>>>>>>>  };
->>>>>>>>>
->>>>>>>>> +&venus {
->>>>>>>>> + status = "okay";
->>>>>>>>> +
->>>>>>>>> + video-firmware {
->>>>>>>>> +         iommus = <&apps_smmu 0x21a2 0x0>;
->>>>>>>>> + };
->>>>>>>>> +};
->>>>>>>>> +
->>>>>>>>>  &watchdog {
->>>>>>>>>   status = "okay";
->>>>>>>>>  };
->>>>>>>>> diff --git a/arch/arm64/boot/dts/qcom/sc7280.dtsi b/arch/arm64/boot/dts/qcom/sc7280.dtsi
->>>>>>>>> index 66f1eb83cca7..fa53f54d4675 100644
->>>>>>>>> --- a/arch/arm64/boot/dts/qcom/sc7280.dtsi
->>>>>>>>> +++ b/arch/arm64/boot/dts/qcom/sc7280.dtsi
->>>>>>>>> @@ -3740,6 +3740,8 @@ venus: video-codec@aa00000 {
->>>>>>>>>                            <&apps_smmu 0x2184 0x20>;
->>>>>> 0x2184 is a secure SID. I think qcm6490-fairphone-fp5.dts needs to override the
->>>>>> iommus property as well to retain only the non secure SID i.e 0x2180 ? I am
->>>>>> seeing below crash
->>>>>>
->>>>>> Call trace:
->>>>>> [   47.663593]  qcom_smmu_write_s2cr+0x64/0xa4
->>>>>> [   47.663616]  arm_smmu_attach_dev+0x120/0x284
->>>>>> [   47.663647]  __iommu_attach_device+0x24/0xf8
->>>>>> [   47.676845]  __iommu_device_set_domain+0x70/0xd0
->>>>>> [   47.681632]  __iommu_group_set_domain_internal+0x60/0x1b4
->>>>>> [   47.687218]  iommu_setup_default_domain+0x358/0x418
->>>>>> [   47.692258]  __iommu_probe_device+0x3e4/0x404
->>>>>>
->>>>>> Could you please reconfirm if Video SID 0x2184 (and mask) is allowed by the
->>>>>> qcm6490-fairphone-fp5 hardware having TZ ?
->>>>>
->>>>> Hi,
->>>>>
->>>>> On FP5 it seems it's no problem to have both SIDs in there, probe and
->>>>> using venus appears to work fine.
->>>>>
->>>>> Are you using different firmware than QCM6490.LA.3.0 on the device where
->>>>> you tested this?
->>>> I was testing this on RB3 board which uses firmware [1].
->>>
->>> There is something wrong here.
->>>
->>> RB3 board uses venus-5.2
->>> RB5 board uses vpu-1.0
->>> Only sc7280 uses vpu-2.0
->>
->> Tested on QCM6490 IDP board, which is QCOM internal board similar to RB3 gen2.
+On 27/11/2023 10:07, Laurent Pinchart wrote:
+> The subdev .init_cfg() operation is affected by two issues:
 > 
-> In any case, I don't know much about the venus & iommu setup here. I can
-> try removing the 0x2184 SID and test if venus still works on FP5.
+> - It has long been extended to initialize a whole v4l2_subdev_state
+>   instead of just a v4l2_subdev_pad_config, but its name has stuck
+>   around.
+> 
+> - Despite operating on a whole subdev state and not being directly
+>   exposed to the subdev users (either in-kernel or through the userspace
+>   API), .init_cfg() is categorized as a subdev pad operation.
+> 
+> This participates in making the subdev API confusing for new developers.
+> Fix it by renaming the operation to .init_state(), and make it a subdev
+> internal operation.
+> 
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Acked-by: Michael Riesch <michael.riesch@wolfvision.net> # for imx415
+> Acked-by: Shuah Khan <skhan@linuxfoundation.org> # for vimc
+> ---
+> Changes since v3:
+> 
+> - Rebase on top of the new stm32-dcmipp driver
+> - Fix uninitialized variable in __v4l2_subdev_state_alloc() due to bad
+>   rebase
+> 
+> Changes since v2:
+> 
+> - Rebase on top of the latest media tree
+> 
+> Changes since v1:
+> 
+> - Fix compilation of the vsp1 driver
+> ---
 
-Please remove 0x2184 SID and confirm specifically encoder works. This SID is for
-encoder.
+<snip>
 
-> Also should the chromebooks keep that iommu entry or not?
-Chrome-common can have 0x2184 since its no-TZ based solution. So in sc7280.dtsi,
-you can keep the default SID i.e 0x2180 (with respective mask) and in
-chrome-common, we can override the iommus property with 0x2180 and 0x2184.
+> diff --git a/drivers/media/platform/renesas/vsp1/vsp1_entity.c b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> index 0280b8ff7ba9..0a5a7f9cc870 100644
+> --- a/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> +++ b/drivers/media/platform/renesas/vsp1/vsp1_entity.c
+> @@ -170,33 +170,6 @@ vsp1_entity_get_pad_selection(struct vsp1_entity *entity,
+>  	}
+>  }
+>  
+> -/*
+> - * vsp1_entity_init_cfg - Initialize formats on all pads
+> - * @subdev: V4L2 subdevice
+> - * @sd_state: V4L2 subdev state
+> - *
+> - * Initialize all pad formats with default values in the given subdev state.
+> - * This function can be used as a handler for the subdev pad::init_cfg
+> - * operation.
+> - */
+> -int vsp1_entity_init_cfg(struct v4l2_subdev *subdev,
+> -			 struct v4l2_subdev_state *sd_state)
+> -{
+> -	unsigned int pad;
+> -
+> -	for (pad = 0; pad < subdev->entity.num_pads - 1; ++pad) {
+> -		struct v4l2_subdev_format format = {
+> -			.pad = pad,
+> -			.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY
+> -			       : V4L2_SUBDEV_FORMAT_ACTIVE,
+> -		};
+> -
+> -		v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &format);
+> -	}
+> -
+> -	return 0;
+> -}
+> -
+>  /*
+>   * vsp1_subdev_get_pad_format - Subdev pad get_fmt handler
+>   * @subdev: V4L2 subdevice
+> @@ -424,6 +397,29 @@ int vsp1_subdev_set_pad_format(struct v4l2_subdev *subdev,
+>  	return ret;
+>  }
+>  
+> +static int vsp1_entity_init_state(struct v4l2_subdev *subdev,
+> +				  struct v4l2_subdev_state *sd_state)
+> +{
+> +	unsigned int pad;
+> +
+> +	/* Initialize all pad formats with default values. */
+> +	for (pad = 0; pad < subdev->entity.num_pads - 1; ++pad) {
+> +		struct v4l2_subdev_format format = {
+> +			.pad = pad,
+> +			.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY
+> +			       : V4L2_SUBDEV_FORMAT_ACTIVE,
+> +		};
+> +
+> +		v4l2_subdev_call(subdev, pad, set_fmt, sd_state, &format);
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_internal_ops vsp1_entity_internal_ops = {
+> +	.init_state = vsp1_entity_init_state,
+> +};
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Media Operations
+>   */
+> @@ -658,6 +654,7 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
+>  	/* Initialize the V4L2 subdev. */
+>  	subdev = &entity->subdev;
+>  	v4l2_subdev_init(subdev, ops);
+> +	subdev->internal_ops = &vsp1_entity_internal_ops;
+>  
+>  	subdev->entity.function = function;
+>  	subdev->entity.ops = &vsp1->media_ops;
+> @@ -666,7 +663,7 @@ int vsp1_entity_init(struct vsp1_device *vsp1, struct vsp1_entity *entity,
+>  	snprintf(subdev->name, sizeof(subdev->name), "%s %s",
+>  		 dev_name(vsp1->dev), name);
+>  
+> -	vsp1_entity_init_cfg(subdev, NULL);
+> +	vsp1_entity_init_state(subdev, NULL);
+
+This is the only media driver that calls init_cfg/state directly.
+That's a bit unexpected, and perhaps this could use a comment. That
+can be a follow-up patch as well.
+
+>  
+>  	/*
+>  	 * Allocate the subdev state to store formats and selection
+
+In any case, you can add my:
+
+Reviewed-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+to this patch.
 
 Regards,
-Vikash
 
-> Regards
-> Luca
-> 
->>
->>>>
->>>> Regards,
->>>> Vikash
->>>>
->>>> [1]
->>>> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/qcom/vpu-2.0
->>>>
->>>>>>
->>>>>>>>>                   memory-region = <&video_mem>;
->>>>>>>>>
->>>>>>>>> +                 status = "disabled";
->>>>>>>>> +
->>>>>>>>>                   video-decoder {
->>>>>>>>>                           compatible = "venus-decoder";
->>>>>>>>>                   };
->>>>>>>>> @@ -3748,10 +3750,6 @@ video-encoder {
->>>>>>>>>                           compatible = "venus-encoder";
->>>>>>>>>                   };
->>>>>>>>>
->>>>>>>>> -                 video-firmware {
->>>>>>>>> -                         iommus = <&apps_smmu 0x21a2 0x0>;
->>>>>>>>> -                 };
->>>>>>>>> -
->>>>>>>>>                   venus_opp_table: opp-table {
->>>>>>>>>                           compatible = "operating-points-v2";
->>>>>>>>>
->>>>>>>>>
->>>>>>>> Changes look good. Is this tested on SC7280 ?
->>>>>>>
->>>>>>> Hi Vikash,
->>>>>>>
->>>>>>> I didn't test it myself on sc7280 (just qcm6490-fp5) but dtx_diff
->>>>>>> reports no differences except for status = okay property being added, so
->>>>>>> there should be no change on those boards. See below.
->>>>>>>
->>>>>>> Regards
->>>>>>> Luca
->>>>>>
->>>>>> I tested on SC7280 (herobrine) and all good.
->>>>>
->>>>> Great, thanks!
->>>>>
->>>>> Regards
->>>>> Luca
->>>>>
->>>>>>
->>>>>> Regards,
->>>>>> Vikash
->>>>>
->>>>
->>>
->>>
-> 
+	Hans
+
 
