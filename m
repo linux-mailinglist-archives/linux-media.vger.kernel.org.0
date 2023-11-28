@@ -1,183 +1,208 @@
-Return-Path: <linux-media+bounces-1306-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1307-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A394D7FCDCA
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 05:17:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCEB47FCF4D
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 07:40:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BFDC1C2104D
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 04:17:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EFEC21C20CF8
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 06:40:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5C6B6ADC;
-	Wed, 29 Nov 2023 04:17:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42FB463DE;
+	Wed, 29 Nov 2023 06:40:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SPvxAzUi"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="A5ZrghXp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA3C1AE
-	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 20:17:35 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-54b0310f536so939308a12.0
-        for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 20:17:35 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701231452; x=1701836252; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NZzuVjJtlnAafrGnIlhuyzTMjINdeQbe2IGSLVE2qCI=;
-        b=SPvxAzUi+vT+NqZfuXZuGIacAeirhF28NP5E+7tCxJi1cWoPPNRLUnheGHmy2B/J7T
-         wGnBdkSFIGIsTj5rYyqYSFG/K/iKKi2nWwSVhjL7UWX2Enhy6aU9BHrVS/6aOVm/8JpE
-         LLlhmT3E7FrXUd5G01kWM7lf+SE9z5LmhpoF8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701231452; x=1701836252;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NZzuVjJtlnAafrGnIlhuyzTMjINdeQbe2IGSLVE2qCI=;
-        b=iUB8Q24e2m8jIF2NFMXqCgxMwM8leRWmCgGzPhyTNgVIbeJI8E1DZfUacVsf8g4b3E
-         itEhmVFylvObLxjRJ8CCzvrEQHATphGwo7Qqo+FPoX7bPPqP7l8xi/A19VDGy03uXOUn
-         XHr7DUn6jWBzhs48g0+e3XXxYTJon0lb/97TIWVVS/P6OXkzSgNVV+wxHiZeE9W2JVha
-         COImT25eI9O/XlcL5MxJcFhOrC60Q53L06PTtY2sDwt/+01qoAmwRllPNAzRR5coMGcO
-         P2pIuat8DMf9fz1XYO5r37LLB3b0QjpUOIlFgWd8MVq02mck6fL5VgWhsZgVQG4KmiQ1
-         pl5w==
-X-Gm-Message-State: AOJu0YyDbEQWs+pfQUCgF6PD8yoCCqp9plt3AyhXispfqMA2UtYlBSUA
-	/MjEnYs9x2Ktx5CK28ujp1gcJAJepLOGEmnNqfq/yb8o
-X-Google-Smtp-Source: AGHT+IGB+P6owAKiT8TAFRolqqm+MMgSO6X7xy219DTBVYmQWgsbPTtbeH3+xAW7XBq0lEz2ahcbng==
-X-Received: by 2002:a50:fa8f:0:b0:54b:5a7:1435 with SMTP id w15-20020a50fa8f000000b0054b05a71435mr13572805edr.4.1701231452318;
-        Tue, 28 Nov 2023 20:17:32 -0800 (PST)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
-        by smtp.gmail.com with ESMTPSA id cw13-20020a056402228d00b0054b651ce8a1sm2943573edb.45.2023.11.28.20.17.31
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Nov 2023 20:17:31 -0800 (PST)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-332ddd8e0bdso261379f8f.0
-        for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 20:17:31 -0800 (PST)
-X-Received: by 2002:adf:f10d:0:b0:332:cae1:dd5 with SMTP id
- r13-20020adff10d000000b00332cae10dd5mr13790346wro.34.1701231450791; Tue, 28
- Nov 2023 20:17:30 -0800 (PST)
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BCCD170B
+	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 22:40:45 -0800 (PST)
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231129064043epoutp0230933ff7ab086cb4e1ac29b1c1d5b28f~cBM5szwQ80465404654epoutp02z
+	for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 06:40:43 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231129064043epoutp0230933ff7ab086cb4e1ac29b1c1d5b28f~cBM5szwQ80465404654epoutp02z
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1701240043;
+	bh=QT80ABfKOaLje3F85OKrmKtMSJbzSbx1fuPt9p4WfE4=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=A5ZrghXpyPvTQ6SVXuYynacjuH8+uDg3jxtrHzoWbhr9vrBvT6eiT6xkOCbliQyw2
+	 U8UeT1X5Rd68lryd+hKFAgLefu8yLbS5RQlbxN1c5/f4M/UzNWjEA+NvhmcBtDGlXE
+	 7uo+Xdct7IQfQHPCcmXiVYCHZJiWoaQ5KIZoAoPo=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20231129064043epcas5p28000276dad4ee238a8f98aef82e1cb58~cBM5Rq5_-3188331883epcas5p2f;
+	Wed, 29 Nov 2023 06:40:43 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.177]) by
+	epsnrtp3.localdomain (Postfix) with ESMTP id 4Sg8pd4xJDz4x9Pt; Wed, 29 Nov
+	2023 06:40:41 +0000 (GMT)
+Received: from epcas5p1.samsung.com ( [182.195.41.39]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	59.D0.10009.9ECD6656; Wed, 29 Nov 2023 15:40:41 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20231128103157epcas5p46a8113988067721e720ecdf955b21d50~bwtf9ZPIP1279812798epcas5p4u;
+	Tue, 28 Nov 2023 10:31:57 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20231128103157epsmtrp26fb71d9d8e134b06e5c1abc6c2dece99~bwtf8Q_Jf2706527065epsmtrp2C;
+	Tue, 28 Nov 2023 10:31:57 +0000 (GMT)
+X-AuditID: b6c32a4a-ff1ff70000002719-88-6566dce90e69
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	F1.59.08755.C91C5656; Tue, 28 Nov 2023 19:31:56 +0900 (KST)
+Received: from FDSFTE308 (unknown [107.122.81.79]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20231128103153epsmtip29adf4fc5cef15cfe1d4d50ff05a7e44a~bwtcrmXJ01570715707epsmtip2O;
+	Tue, 28 Nov 2023 10:31:53 +0000 (GMT)
+From: "Aakarsh Jain" <aakarsh.jain@samsung.com>
+To: "'Hans Verkuil'" <hverkuil-cisco@xs4all.nl>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+Cc: <m.szyprowski@samsung.com>, <andrzej.hajda@intel.com>,
+	<mchehab@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+	<dillon.minfei@gmail.com>, <david.plowman@raspberrypi.com>,
+	<mark.rutland@arm.com>, <robh+dt@kernel.org>, <conor+dt@kernel.org>,
+	<linux-samsung-soc@vger.kernel.org>, <andi@etezian.org>,
+	<gost.dev@samsung.com>, <alim.akhtar@samsung.com>,
+	<aswani.reddy@samsung.com>, <pankaj.dubey@samsung.com>,
+	<ajaykumar.rs@samsung.com>, <linux-fsd@tesla.com>, "'Smitha T Murthy'"
+	<smithatmurthy@gmail.com>
+In-Reply-To: <2ecdfff5-501a-452f-af90-0806f463a51c@xs4all.nl>
+Subject: RE: [Patch v4 09/11] media: s5p-mfc: Load firmware for each run in
+ MFCv12.
+Date: Tue, 28 Nov 2023 16:01:52 +0530
+Message-ID: <0fe601da21e6$1cb6aee0$56240ca0$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
- <20231127165454.166373-8-benjamin.gaignard@collabora.com> <20231127170700.GC31314@pendragon.ideasonboard.com>
- <6fa1ec09-3e30-475e-9718-29d23586753e@collabora.com> <CAAFQd5DCVTLpPoKSp_OA6fe_Hqt-oV7=AsCZWSmkJORvLSgUiw@mail.gmail.com>
- <995eb6c2-cc7f-4217-bc37-4ab1a32f36ee@collabora.com>
-In-Reply-To: <995eb6c2-cc7f-4217-bc37-4ab1a32f36ee@collabora.com>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Wed, 29 Nov 2023 13:17:09 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5Bv5kc9TfNM5CkKowvaoRndTmkmU6+0LyCG8YbOKy=hxQ@mail.gmail.com>
-Message-ID: <CAAFQd5Bv5kc9TfNM5CkKowvaoRndTmkmU6+0LyCG8YbOKy=hxQ@mail.gmail.com>
-Subject: Re: [PATCH 07/55] media: imx8-isi: Stop abusing of min_buffers_needed field
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hverkuil@xs4all.nl, 
-	mchehab@kernel.org, m.szyprowski@samsung.com, matt.ranostay@konsulko.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, kernel@collabora.com, 
-	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
-	NXP Linux Team <linux-imx@nxp.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQLm4twfZx4yvmLB3iF6RxvUJv+HzQGgpOOWAUC8sUkCb5CW0a5La1+A
+Content-Language: en-in
+X-Brightmail-Tracker: H4sIAAAAAAAAA02TezBcVxzHe+69+5BGe4PUqb5kQzvSwa5lHSlJQ2JuVESZTkeaGbbrFrV2
+	d/buatLpTKShHYLQ0TYxSMQjop7rHdR6NY16RFKkhsp6VDETggqJie66tP77/B7f3znfc+bH
+	xy1SeDb8KIWGViukcgF3F1Hb7vCO48zIZ7Tw1yI7pJ9vJdDDnFouyludxtBY3hKB2qpqeKik
+	uRdDN27rOehqRy8H1bWOE+gPfQOG+q+MEij1bwOOdBODHGSY/Rjdv5XFRckVNRx0ue9nDJV2
+	jPJQwVA/hgp16xi6XrPMQwnNHTwUfz6f8741VZJTAqih/EWcasgc5VF5TTMYpStO5FIjg01c
+	qir/HJXQ+ZSgUquLAfX862wetaR7k+r6Z4kXuPtUtGckLQ2n1ba0QqYMj1JEeAk+CA71CXWT
+	CEWOIg/kLrBVSGNoL8FR/0BH3yi50bfANlYq1xpTgVKGETgf8lQrtRraNlLJaLwEtCpcrnJV
+	OTHSGEariHBS0JqDIqHQxc3YGBYdOTtVC1QFr5zRTw1gceCeRRIw40PSFS4UJBJJYBffgmwE
+	sKPhJsYGiwB2Vnbz2GAFwNnkx9i25NLiJM4WmgHMzn+wJZkGcHiyhDB1cUlnONaVzDEVrMh6
+	AHMNPZtynLxIwKxvXExsRnrBgcY8YGJL8iO4fn8FNzFB2sNncelcE5uTHnDjwiMOy3vgnSuT
+	BDvnXViYO4ezV7KFa1OFmz1WpC9M3egFbI817FxL3rwqJBvNoOFuktEQ3xgchSnt0azWEs7e
+	ruaxbAOXHjVzWZbBieszW/PlsLwpg2D5MNT/nkWYxuCkAyy/5cym34Dfd5VtWXwJpjyb3Hot
+	c1ifs81vw6yRVQ7Lr8P2nwpAGhBk7nCWucNZ5g4Hmf+fdg0QxeBVWsXERNCMm8pFQX/x34/L
+	lDE6sLkXB/zqgeHhglMbwPigDUA+LrAyd3osoy3Mw6Vnv6TVylC1Vk4zbcDN+NzpuM1emdK4
+	WApNqMjVQ+gqkUhcPcQSkcDafC4hO9yCjJBq6GiaVtHqbR3GN7OJw2LP7jGMRaWJu+FJ9/0d
+	dht+g9cC9gX92DL1iQeWkGjjQ0B/yamhpyO2Nz7/9nQ90WJvd2hg7kSZR1jeRO1KUFzZ8XNr
+	La8lwQr9h5UL673hJ737rQefuPvbiXYLeb3paTq532BYWnyQvc+0+OWEOgfw1mWs9CbOfR7p
+	TecvdzgEhrgGmBsuXgiOZQ7PV2vHmlvbzvTVzIas5iacCHkyfkT86b6h38SWd1Splf3i8taM
+	ihZvHRg+X/Ug4PifRYL+RXLvvf0Zx9xB0cHuXyRe48xffd9pNT3zvqVE3lfDd6lg8em6UOqH
+	0pLltBdzXhBb9oRdPfbe2JF4GS4xFKx4NrUECQgmUio6gKsZ6b8ZCgXkoAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrOIsWRmVeSWpSXmKPExsWy7bCSvO6cg6mpBvM+WFsceH+QxeLBvG1s
+	Fot/PGeyuL/4M4vFoc1b2S3W7D3HZLH8+AFWi/lHzrFabD/4iMXi5oGdTBYXZ95lseh78ZDZ
+	YtPja6wWD1+FW1zeNYfNomfDVlaLGef3MVmsPXKX3WLp9YtMFss2/WGyWLT1C7tF694j7BYt
+	jUtYHcQ91sxbw+hxfcknZo+ds+6yeyze85LJY9OqTjaPO9f2sHlsXlLv0Xr0F4tH35ZVjB7/
+	muaye3zeJOdx6utn9gCeKC6blNSczLLUIn27BK6M/u9PGQuui1ZsaTvO1MDYItTFyMkhIWAi
+	0f/pCXMXIxeHkMBuRolbxw8xQiRkJP63HWOHsIUlVv57zg5R9JRR4tHX12BFbAL6EvdP9bCC
+	JEQE9jBKHN29BqyKWWAui8S/I7NZIFo+A81tecIK0sIpYCtxdfdisHZhgWCJxbv3MIPYLAKq
+	Er8bJrKB2LwClhL/m9+xQtiCEidnPmEBsZkFtCWe3nwKZy9b+JoZ4j4FiZ9Pl4HViwi4SfT9
+	P8cIUSMucfRnD/MERuFZSEbNQjJqFpJRs5C0LGBkWcUomVpQnJueW2xYYJiXWq5XnJhbXJqX
+	rpecn7uJEZw2tDR3MG5f9UHvECMTB+MhRgkOZiURXr2PyalCvCmJlVWpRfnxRaU5qcWHGKU5
+	WJTEecVf9KYICaQnlqRmp6YWpBbBZJk4OKUamBzVuM78miCgytrS4v239Z18eozsnW0vzqZa
+	W3+xYjI2cPzR/eFo9ulJntNF7MounRa+eoljiz6zToheuQBbXWb3LukdXlwb+ewYC/b+6fC9
+	+2mzuWtdW3WV8LLrD+ceeWHwctJkgx387RYausblBsrvZbjk8oKWiJ4VV/W0/St9e92305zC
+	4e3KP4pepoW12/0VzQmay3rMfl/502q+ZUWvVZbU1QQ23F8vbpt7N2Peir9OOd8yQhfGvFxW
+	uT+ldXHssp+v8hsmH/zL97a78Mfpt++0tZn+zxdXcdRZeKl15/l7b5qb5F3P7fPfnJYXLxN4
+	85FO3bQz7c9eJhXGX5791y/uwbHwFgvWfTcXKLEUZyQaajEXFScCAO8jLtyKAwAA
+X-CMS-MailID: 20231128103157epcas5p46a8113988067721e720ecdf955b21d50
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231025102300epcas5p2c266a078b70614dc948b0e47cd5cf788
+References: <20231025102216.50480-1-aakarsh.jain@samsung.com>
+	<CGME20231025102300epcas5p2c266a078b70614dc948b0e47cd5cf788@epcas5p2.samsung.com>
+	<20231025102216.50480-10-aakarsh.jain@samsung.com>
+	<2ecdfff5-501a-452f-af90-0806f463a51c@xs4all.nl>
 
-On Tue, Nov 28, 2023 at 7:26=E2=80=AFPM Benjamin Gaignard
-<benjamin.gaignard@collabora.com> wrote:
->
->
-> Le 28/11/2023 =C3=A0 10:35, Tomasz Figa a =C3=A9crit :
-> > On Tue, Nov 28, 2023 at 6:31=E2=80=AFPM Benjamin Gaignard
-> > <benjamin.gaignard@collabora.com> wrote:
-> >>
-> >> Le 27/11/2023 =C3=A0 18:07, Laurent Pinchart a =C3=A9crit :
-> >>> Hi Benjamin,
-> >>>
-> >>> Thank you for the patch.
-> >>>
-> >>> On Mon, Nov 27, 2023 at 05:54:06PM +0100, Benjamin Gaignard wrote:
-> >>>> 'min_buffers_needed' is suppose to be used to indicate the number
-> >>>> of buffers needed by DMA engine to start streaming.
-> >>>> imx8-isi driver doesn't use DMA engine and just want to specify
-> >>> What do you mean, "doesn't use DMA engine" ? The ISI surely has DMA
-> >>> engines :-)
-> >> I have done assumption on drivers given if they use or dma_* functions=
-.
-> > I suspect the use of vb2_dma_sg_plane_desc() and
-> > vb2_dma_contig_plane_dma_addr() may be more correlated to whether
-> > there is a DMA involved or not. Usually V4L2 drivers don't really have
-> > to deal with the DMA API explicitly, because the vb2 framework handles
-> > most of the work.
->
-> Unfortunately isn't not true either, for example verisilicon driver use
-> these function but doesn't need DMA engine.
+Hi Hans,
 
-That sounds weird. Why would a driver that doesn't have a DMA engine
-need to obtain a scatterlist or the DMA address of the buffer?
-
-> I haven't found yet a 100% criteria to decide if driver use or not DMA en=
-gine
-> so I plan to fix case by case given maintainers remarks.
-
-Yeah, there probably wouldn't be a way that would give one a 100%
-certainty, although I'd still insist that the two functions I
-mentioned should be close to that. Of course a driver can use those
-functions for some queues, while other queues would be pure software
-queues, e.g. for some metadata - a simple grep is not enough. Is that
-perhaps the case for the verisilicon driver?
-
-Best regards,
-Tomasz
-
->
+> -----Original Message-----
+> From: Hans Verkuil <hverkuil-cisco=40xs4all.nl>
+> Sent: 22 November 2023 21:14
+> To: Aakarsh Jain <aakarsh.jain=40samsung.com>; linux-arm-
+> kernel=40lists.infradead.org; linux-media=40vger.kernel.org; linux-
+> kernel=40vger.kernel.org; devicetree=40vger.kernel.org
+> Cc: m.szyprowski=40samsung.com; andrzej.hajda=40intel.com;
+> mchehab=40kernel.org; krzysztof.kozlowski+dt=40linaro.org;
+> dillon.minfei=40gmail.com; david.plowman=40raspberrypi.com;
+> mark.rutland=40arm.com; robh+dt=40kernel.org; conor+dt=40kernel.org; linu=
+x-
+> samsung-soc=40vger.kernel.org; andi=40etezian.org; gost.dev=40samsung.com=
+;
+> alim.akhtar=40samsung.com; aswani.reddy=40samsung.com;
+> pankaj.dubey=40samsung.com; ajaykumar.rs=40samsung.com; linux-
+> fsd=40tesla.com; Smitha T Murthy <smithatmurthy=40gmail.com>
+> Subject: Re: =5BPatch v4 09/11=5D media: s5p-mfc: Load firmware for each =
+run in
+> MFCv12.
+>=20
+> On 25/10/2023 12:22, Aakarsh Jain wrote:
+> > In MFCv12, some section of firmware gets updated at each MFC run.
+> > Hence we need to reload original firmware for each run at the start.
+>=20
+> Huh? This is very weird. This definitely deserves a comment in the actual
+> code rather than just the commit log.
+>=20
+> Do you know what is going on? What part is updated? Are you sure it isn't=
+ a
+> driver bug somehow?
+>=20
 > Regards,
-> Benjamin
->
+>=20
+> 	Hans
+>=20
+During SYS_INIT command sent to MFC sequentially, firmware is not able to i=
+nitialize the hardware due to incorrect firmware transfer and in current sc=
+enario the firmware is not loaded again in the Reserved memory area.
+In this case RET_SYS_INIT response from hardware is failing. So we need to =
+load firmware every time we open the device node.
+I will add comment in the code why this change is needed.
+
+Thanks for the review.
 > >
-> > Best regards,
-> > Tomasz
+> > Cc: linux-fsd=40tesla.com
+> > Signed-off-by: Smitha T Murthy <smithatmurthy=40gmail.com>
+> > Signed-off-by: Aakarsh Jain <aakarsh.jain=40samsung.com>
+> > ---
+> >  drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c =7C 5 +++--
+> >  1 file changed, 3 insertions(+), 2 deletions(-)
 > >
-> >> I have considers that all PCI drivers are using DMA engine and
-> >> I don't know the design for each drivers so I hope to get this informa=
-tion
-> >> from maintainers and fix that in v2.
-> >> If imx8-isi driver needs a minimum number of buffers before start stre=
-aming
-> >> I will do a v2 and use min_dma_buffers_needed instead.
-> >>
-> >> Regards,
-> >> Benjamin
-> >>
-> >>>> the minimum number of buffers to allocate when calling VIDIOC_REQBUF=
-S.
-> >>>> That 'min_reqbufs_allocation' field purpose so use it.
-> >>>>
-> >>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> >>>> CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>>> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-> >>>> CC: Shawn Guo <shawnguo@kernel.org>
-> >>>> CC: Sascha Hauer <s.hauer@pengutronix.de>
-> >>>> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
-> >>>> CC: Fabio Estevam <festevam@gmail.com>
-> >>>> CC: NXP Linux Team <linux-imx@nxp.com>
-> >>>> ---
-> >>>>    drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c | 2 +-
-> >>>>    1 file changed, 1 insertion(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/=
-drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> >>>> index 49bca2b01cc6..81673ff9084b 100644
-> >>>> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> >>>> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> >>>> @@ -1453,7 +1453,7 @@ int mxc_isi_video_register(struct mxc_isi_pipe=
- *pipe,
-> >>>>       q->mem_ops =3D &vb2_dma_contig_memops;
-> >>>>       q->buf_struct_size =3D sizeof(struct mxc_isi_buffer);
-> >>>>       q->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> >>>> -    q->min_buffers_needed =3D 2;
-> >>>> +    q->min_reqbufs_allocation =3D 2;
-> >>>>       q->lock =3D &video->lock;
-> >>>>       q->dev =3D pipe->isi->dev;
-> >>>>
+> > diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
+> > b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
+> > index b49159142c53..057088b9d327 100644
+> > --- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
+> > +++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_ctrl.c
+> > =40=40 -51,8 +51,9 =40=40 int s5p_mfc_load_firmware(struct s5p_mfc_dev
+> *dev)
+> >  	 * into kernel. */
+> >  	mfc_debug_enter();
+> >
+> > -	if (dev->fw_get_done)
+> > -		return 0;
+> > +	if (=21IS_MFCV12(dev))
+> > +		if (dev->fw_get_done)
+> > +			return 0;
+> >
+> >  	for (i =3D MFC_FW_MAX_VERSIONS - 1; i >=3D 0; i--) =7B
+> >  		if (=21dev->variant->fw_name=5Bi=5D)
+
+
 
