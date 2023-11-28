@@ -1,102 +1,101 @@
-Return-Path: <linux-media+bounces-1207-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1208-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 948B97FB68E
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 11:01:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 580E57FB6B5
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 11:06:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C673C1C2107B
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 10:01:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8893E1C2125E
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 10:06:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E52F4D11F;
-	Tue, 28 Nov 2023 10:01:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MCRnM0Xz"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CE644D11F;
+	Tue, 28 Nov 2023 10:06:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57AFB1B8
-	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 02:01:11 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701165670;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=KCKhLRnQDtnZkqxQQSWrlj7RcZm7z14IhJgsBTHOrUc=;
-	b=MCRnM0XzXRAktLLhwVJAONgGrVo2O4l57CAFLWzvWuUlRgjoWm41meLal/aIw0+5h8DY/G
-	tU4rdtpeul/VsYybXRrYGSrSF6tfU5Kf8ogeaEaPhnfiqOtvbimFXCfd8RjVNKSxgRJTfu
-	qM33i8aYNRaWrErNMJkDLve/CX5fJAs=
-Received: from mimecast-mx02.redhat.com (mimecast-mx02.redhat.com
- [66.187.233.88]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-436-rNBoQrTrPROrIwPLh6nACA-1; Tue, 28 Nov 2023 05:01:07 -0500
-X-MC-Unique: rNBoQrTrPROrIwPLh6nACA-1
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.rdu2.redhat.com [10.11.54.4])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mimecast-mx02.redhat.com (Postfix) with ESMTPS id C2AF5101A54C;
-	Tue, 28 Nov 2023 10:01:06 +0000 (UTC)
-Received: from localhost.localdomain (unknown [10.39.194.244])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id CBF8C20268D9;
-	Tue, 28 Nov 2023 10:01:05 +0000 (UTC)
-From: Hans de Goede <hdegoede@redhat.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Kate Hsuan <hpa@redhat.com>,
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85211BF
+	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 02:06:18 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1r7uyX-0006Iw-JM; Tue, 28 Nov 2023 11:05:53 +0100
+Received: from [2a0a:edc0:0:900:1d::4e] (helo=lupine)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1r7uyS-00C8vZ-Iu; Tue, 28 Nov 2023 11:05:48 +0100
+Received: from pza by lupine with local (Exim 4.96)
+	(envelope-from <p.zabel@pengutronix.de>)
+	id 1r7uyS-0005FM-0z;
+	Tue, 28 Nov 2023 11:05:48 +0100
+Message-ID: <1840fa86aa1451f7ab8c982d706fe3ad2459080f.camel@pengutronix.de>
+Subject: Re: [PATCH v2 2/4] media: v4l2-subdev: Add which field to struct
+ v4l2_subdev_frame_interval
+From: Philipp Zabel <p.zabel@pengutronix.de>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
 	linux-media@vger.kernel.org
-Subject: [PATCH v3 9/9] media: ipu-bridge: Change ov2740 link-frequency to 180 MHz
-Date: Tue, 28 Nov 2023 11:00:47 +0100
-Message-ID: <20231128100047.17529-10-hdegoede@redhat.com>
-In-Reply-To: <20231128100047.17529-1-hdegoede@redhat.com>
-References: <20231128100047.17529-1-hdegoede@redhat.com>
+Cc: Akinobu Mita <akinobu.mita@gmail.com>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Daniel Scally <djrscally@gmail.com>, Hans
+ Verkuil <hverkuil-cisco@xs4all.nl>, Hans de Goede <hansg@kernel.org>,
+ Jacopo Mondi <jacopo+renesas@jmondi.org>, Jonathan Hunter
+ <jonathanh@nvidia.com>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Leon Luo <leonl@leopardimaging.com>, Luca Ceresoli
+ <luca.ceresoli@bootlin.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Niklas =?ISO-8859-1?Q?S=F6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>,  Paul Elder
+ <paul.elder@ideasonboard.com>, Pavel Machek <pavel@ucw.cz>, Ricardo Ribalda
+ <ribalda@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Sowjanya Komatineni
+ <skomatineni@nvidia.com>,  Steve Longerbeam <slongerbeam@gmail.com>,
+ Sylwester Nawrocki <s.nawrocki@samsung.com>, Thierry Reding
+ <thierry.reding@gmail.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>,  linux-tegra@vger.kernel.org
+Date: Tue, 28 Nov 2023 11:05:48 +0100
+In-Reply-To: <20231127111359.30315-3-laurent.pinchart@ideasonboard.com>
+References: <20231127111359.30315-1-laurent.pinchart@ideasonboard.com>
+	 <20231127111359.30315-3-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.46.4-2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.11.54.4
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-The only known devices that use an ov2740 sensor in combination with
-the ipu-bridge code are various Lenovo ThinkPad models, which all
-need the link-frequency to be 180 MHz for things to work properly.
+On Mo, 2023-11-27 at 13:13 +0200, Laurent Pinchart wrote:
+> Due to a historical mishap, the v4l2_subdev_frame_interval structure
+> is the only part of the V4L2 subdev userspace API that doesn't contain a
+> 'which' field. This prevents trying frame intervals using the subdev
+> 'TRY' state mechanism.
+>=20
+> Adding a 'which' field is simple as the structure has 8 reserved fields.
+> This would however break userspace as the field is currently set to 0,
+> corresponding to V4L2_SUBDEV_FORMAT_TRY, while the corresponding ioctls
+> currently operate on the 'ACTIVE' state. We thus need to add a new
+> subdev client cap, V4L2_SUBDEV_CLIENT_CAP_WHICH_INTERVAL, to indicate
+> that userspace is aware of this new field.
+>=20
+> All drivers that implement the subdev .get_frame_interval() and
+> .set_frame_interval() operations are updated to return -EINVAL when
+> operating on the TRY state, preserving the current behaviour.
+>=20
+> While at it, fix a bad copy&paste in the documentation of the struct
+> v4l2_subdev_frame_interval_enum 'which' field.
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The ov2740 driver used to only support 360 MHz link-frequency,
-which is why the ipu-bridge entry used 360 MHz, but now the
-ov2740 driver has been extended to also support 180 MHz.
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de> # for imx-media
 
-The ov2740 is actually used with 360 MHz link-frequency on Chromebooks.
-On Chromebooks the camera/sensor fwnode graph is part of the ACPI tables.
-The ipu-bridge code is used to dynamically generate the graph when it is
-missing, so it is not used on Chromebooks and the ov2740 will keep using
-360 MHz link-frequency there as before.
-
-Signed-off-by: Hans de Goede <hdegoede@redhat.com>
----
- drivers/media/pci/intel/ipu-bridge.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/pci/intel/ipu-bridge.c b/drivers/media/pci/intel/ipu-bridge.c
-index e38198e259c0..f980e3125a7b 100644
---- a/drivers/media/pci/intel/ipu-bridge.c
-+++ b/drivers/media/pci/intel/ipu-bridge.c
-@@ -53,7 +53,7 @@ static const struct ipu_sensor_config ipu_supported_sensors[] = {
- 	/* Omnivision ov8856 */
- 	IPU_SENSOR_CONFIG("OVTI8856", 3, 180000000, 360000000, 720000000),
- 	/* Omnivision ov2740 */
--	IPU_SENSOR_CONFIG("INT3474", 1, 360000000),
-+	IPU_SENSOR_CONFIG("INT3474", 1, 180000000),
- 	/* Hynix hi556 */
- 	IPU_SENSOR_CONFIG("INT3537", 1, 437000000),
- 	/* Omnivision ov13b10 */
--- 
-2.41.0
-
+regards
+Philipp
 
