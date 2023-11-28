@@ -1,71 +1,108 @@
-Return-Path: <linux-media+bounces-1181-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1182-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BFC67FAF81
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 02:27:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E093C7FB034
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 03:49:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A46F1281B71
-	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 01:27:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9BCCE281CC9
+	for <lists+linux-media@lfdr.de>; Tue, 28 Nov 2023 02:49:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 895C31848;
-	Tue, 28 Nov 2023 01:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dyy1imTO"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5F0A5679;
+	Tue, 28 Nov 2023 02:49:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1F937E9
-	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 01:26:57 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 51EFCC433C7;
-	Tue, 28 Nov 2023 01:26:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701134817;
-	bh=304OXdRp3q77PbuDSglYezsNDo3afMy2fuAaYHSgFIU=;
-	h=Subject:From:In-Reply-To:References:Date:To:Cc:From;
-	b=dyy1imTO+Qo374XYNns7SMw+1yrw8plCJY11CrJsTr9SLP0P3nRe+NoTJkGBfhbkh
-	 GK+gYj8Ff7+t863IkTftbHLdM0buKAXo+JzgO2rIPHOpQxfL9Zvo0M802RrZhattup
-	 25LIg331+A/IGyVMVZjrbhuHLh6EOhm7AS/bGVawa/72GOBg2UE5dwW8SbPTaduNyM
-	 9ATcZfIisUKNrmRK1qAit0oHplwccnma9mKnb6UtwhmJiwNZN98qmFarJZv0PC5miC
-	 mMqMw0AEVgg+WPaQMj5jNFM5DKGhzam3siYV8si7S9rHF0/A1/AuLrKODD8DM0uXCg
-	 Q41YIFyB6NYUA==
-Received: from aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by aws-us-west-2-korg-oddjob-1.ci.codeaurora.org (Postfix) with ESMTP id 38013E00090;
-	Tue, 28 Nov 2023 01:26:57 +0000 (UTC)
-Subject: Re: [GIT PULL for v6.7-rc3] media fixes
-From: pr-tracker-bot@kernel.org
-In-Reply-To: <20231127181013.7fdc3484@coco.lan>
-References: <20231127181013.7fdc3484@coco.lan>
-X-PR-Tracked-List-Id: <linux-kernel.vger.kernel.org>
-X-PR-Tracked-Message-Id: <20231127181013.7fdc3484@coco.lan>
-X-PR-Tracked-Remote: git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.7-2
-X-PR-Tracked-Commit-Id: 32138be394e5d32c095a413949e6ab4875b2aec0
-X-PR-Merge-Tree: torvalds/linux.git
-X-PR-Merge-Refname: refs/heads/master
-X-PR-Merge-Commit-Id: d095b18f3e22257ab5fb0d1eae76bf1c0f5260f8
-Message-Id: <170113481721.2219.11433428833454711228.pr-tracker-bot@kernel.org>
-Date: Tue, 28 Nov 2023 01:26:57 +0000
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton <akpm@linux-foundation.org>, Linux Media Mailing List <linux-media@vger.kernel.org>, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12420ED3
+	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 02:49:28 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3C541C433C7
+	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 02:49:28 +0000 (UTC)
+Date: Tue, 28 Nov 2023 03:49:26 +0100
+Message-ID: <ad5d4a22be79d46d62cef040dddfdae4.hverkuil@xs4all.nl>
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 
-The pull request you sent on Mon, 27 Nov 2023 18:10:13 +0100:
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-> git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v6.7-2
+Results of the daily build of media_tree:
 
-has been merged into torvalds/linux.git:
-https://git.kernel.org/torvalds/c/d095b18f3e22257ab5fb0d1eae76bf1c0f5260f8
+date:			Tue Nov 28 03:00:07 CET 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	3b8551e73271fc375b15c887db54ad31686eb2ea
+v4l-utils git hash:	82eeb6be4bfd4e4b0ce7dd8ef90f57206b46ce13
+edid-decode git hash:	08b5ddb2ed529e1e0bbfa8d6f1af836712bac327
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8523-g045d29f9
+sparse version:		v0.5.0-8523-g045d29f9
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0e92f35343cd1684f7ff2d0d8814d821953976f2
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
-Thank you!
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/prtracker.html
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Tue Nov 28 03:19:43 CET 2023
+virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 4
+virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 2
+
+date:			Tue Nov 28 03:48:13 CET 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Tuesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
