@@ -1,33 +1,33 @@
-Return-Path: <linux-media+bounces-1322-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1323-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE28E7FD291
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:28:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 917297FD290
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:28:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 984B7282FAC
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 09:28:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C27821C20F5B
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 09:28:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1CA314AA3;
-	Wed, 29 Nov 2023 09:28:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9403C14ABF;
+	Wed, 29 Nov 2023 09:28:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="cdIKcKef"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mWAGRWl6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9020626B3;
-	Wed, 29 Nov 2023 01:28:16 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 788632706;
+	Wed, 29 Nov 2023 01:28:22 -0800 (PST)
 Received: from pyrite.hamster-moth.ts.net (h175-177-049-135.catv02.itscom.jp [175.177.49.135])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 99D122B6;
-	Wed, 29 Nov 2023 10:27:35 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85838842;
+	Wed, 29 Nov 2023 10:27:39 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701250058;
-	bh=TEIBgpUjK6NYJRiaGUhsgKnE4DjYmC8agG6/GUA9vAM=;
-	h=From:To:Cc:Subject:Date:From;
-	b=cdIKcKefkWjwzhIvpuWrxnGyyHUS9fT9pqK9a/uCs+7BYq+w5lWzHI5A3SEFv6/xp
-	 1tShxd13EgaI4oarWFRcC6RYkS1wDdgNy6qwmh6bJqiYbX3XUvdRhAW9tHGfdWSpVB
-	 QcKFGgqtKLDDbqgWn7eJ9VnJYHWdkex0l8ZgribY=
+	s=mail; t=1701250064;
+	bh=SjKWGUjzBOSKDAkaKb/3kcfoD2ymulmTRPrrsHFvNhE=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=mWAGRWl65QM9cFSf91puVzKkUK+VF6E0BI3ACjbryr69dmxjB5qLS4bDAquezPsTg
+	 1aaVdwbrrTdb+BL/W8jwzuJjt0w8cy+qxodW+GCiHcRgBHe8vUHB2leNnzC2CWtKVE
+	 2695IXvO9lKy5O7oiloQ+2kbR4AAQ5PSPDJjWoM8=
 From: Paul Elder <paul.elder@ideasonboard.com>
 To: linux-media@vger.kernel.org,
 	linux-rockchip@lists.infradead.org,
@@ -36,11 +36,19 @@ Cc: kieran.bingham@ideasonboard.com,
 	tomi.valkeinen@ideasonboard.com,
 	umang.jain@ideasonboard.com,
 	aford173@gmail.com,
-	Paul Elder <paul.elder@ideasonboard.com>
-Subject: [PATCH v4 00/11] media: rkisp1: Add support for i.MX8MP
-Date: Wed, 29 Nov 2023 18:27:48 +0900
-Message-Id: <20231129092759.242641-1-paul.elder@ideasonboard.com>
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-arm-kernel@lists.infradead.org (moderated list:ARM/Rockchip SoC support),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v4 01/11] media: rkisp1: Add and use rkisp1_has_feature() macro
+Date: Wed, 29 Nov 2023 18:27:49 +0900
+Message-Id: <20231129092759.242641-2-paul.elder@ideasonboard.com>
 X-Mailer: git-send-email 2.39.2
+In-Reply-To: <20231129092759.242641-1-paul.elder@ideasonboard.com>
+References: <20231129092759.242641-1-paul.elder@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -49,48 +57,100 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This series extends the rkisp1 driver to support the ISP found in the
-NXP i.MX8MP SoC.
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
-and in the NXP i.MX8MP have the same origin, and have slightly diverged
-over time as they are now independently developed (afaik) by Rockchip
-and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
-and is close enough to the RK3399 ISP that it can easily be supported by
-the same driver.
+Simplify feature tests with a macro that shortens lines.
 
-The last two patches add support for UYVY output format, which can be
-implemented on the ISP version in the i.MX8MP but not in the one in the
-RK3399.
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Paul Elder <paul.elder@ideasonboard.com>
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+---
+ .../media/platform/rockchip/rkisp1/rkisp1-common.h |  3 +++
+ .../media/platform/rockchip/rkisp1/rkisp1-dev.c    | 14 +++++++-------
+ 2 files changed, 10 insertions(+), 7 deletions(-)
 
-This version of the series specifically has been tested on a Polyhex
-Debix model A with an imx219 (Raspberry Pi cam v2).
-
-Laurent Pinchart (2):
-  media: rkisp1: Add and use rkisp1_has_feature() macro
-  media: rkisp1: Configure gasket on i.MX8MP
-
-Paul Elder (9):
-  media: rkisp1: Support setting memory stride for main path
-  media: rkisp1: Support devices lacking self path
-  media: rkisp1: Support devices lacking dual crop
-  media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
-  dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
-  media: rkisp1: Add match data for i.MX8MP ISP
-  media: rkisp1: Shift DMA buffer addresses on i.MX8MP
-  media: rkisp1: Add YC swap capability
-  media: rkisp1: Add UYVY as an output format
-
- .../bindings/media/rockchip-isp1.yaml         |  37 ++++-
- .../platform/rockchip/rkisp1/rkisp1-capture.c | 128 ++++++++++++-----
- .../platform/rockchip/rkisp1/rkisp1-common.h  |  35 ++++-
- .../platform/rockchip/rkisp1/rkisp1-dev.c     |  66 +++++++--
- .../platform/rockchip/rkisp1/rkisp1-isp.c     | 131 +++++++++++++++++-
- .../platform/rockchip/rkisp1/rkisp1-regs.h    |  32 +++++
- .../platform/rockchip/rkisp1/rkisp1-resizer.c |  27 ++--
- include/uapi/linux/rkisp1-config.h            |   2 +
- 8 files changed, 398 insertions(+), 60 deletions(-)
-
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index be69173958a4..24adcd2d99a3 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -111,6 +111,9 @@ enum rkisp1_feature {
+ 	RKISP1_FEATURE_MIPI_CSI2 = BIT(0),
+ };
+ 
++#define rkisp1_has_feature(rkisp1, feature) \
++	((rkisp1)->info->features & RKISP1_FEATURE_##feature)
++
+ /*
+  * struct rkisp1_info - Model-specific ISP Information
+  *
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+index c41abd2833f1..c1985243b42e 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+@@ -206,7 +206,7 @@ static int rkisp1_subdev_notifier_register(struct rkisp1_device *rkisp1)
+ 		switch (reg) {
+ 		case 0:
+ 			/* MIPI CSI-2 port */
+-			if (!(rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)) {
++			if (!rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+ 				dev_err(rkisp1->dev,
+ 					"internal CSI must be available for port 0\n");
+ 				ret = -EINVAL;
+@@ -338,7 +338,7 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+ 	unsigned int i;
+ 	int ret;
+ 
+-	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
++	if (rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+ 		/* Link the CSI receiver to the ISP. */
+ 		ret = media_create_pad_link(&rkisp1->csi.sd.entity,
+ 					    RKISP1_CSI_PAD_SRC,
+@@ -390,7 +390,7 @@ static int rkisp1_create_links(struct rkisp1_device *rkisp1)
+ 
+ static void rkisp1_entities_unregister(struct rkisp1_device *rkisp1)
+ {
+-	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
++	if (rkisp1_has_feature(rkisp1, MIPI_CSI2))
+ 		rkisp1_csi_unregister(rkisp1);
+ 	rkisp1_params_unregister(rkisp1);
+ 	rkisp1_stats_unregister(rkisp1);
+@@ -423,7 +423,7 @@ static int rkisp1_entities_register(struct rkisp1_device *rkisp1)
+ 	if (ret)
+ 		goto error;
+ 
+-	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
++	if (rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+ 		ret = rkisp1_csi_register(rkisp1);
+ 		if (ret)
+ 			goto error;
+@@ -590,7 +590,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 		goto err_unreg_v4l2_dev;
+ 	}
+ 
+-	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2) {
++	if (rkisp1_has_feature(rkisp1, MIPI_CSI2)) {
+ 		ret = rkisp1_csi_init(rkisp1);
+ 		if (ret)
+ 			goto err_unreg_media_dev;
+@@ -611,7 +611,7 @@ static int rkisp1_probe(struct platform_device *pdev)
+ err_unreg_entities:
+ 	rkisp1_entities_unregister(rkisp1);
+ err_cleanup_csi:
+-	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
++	if (rkisp1_has_feature(rkisp1, MIPI_CSI2))
+ 		rkisp1_csi_cleanup(rkisp1);
+ err_unreg_media_dev:
+ 	media_device_unregister(&rkisp1->media_dev);
+@@ -630,7 +630,7 @@ static void rkisp1_remove(struct platform_device *pdev)
+ 	v4l2_async_nf_cleanup(&rkisp1->notifier);
+ 
+ 	rkisp1_entities_unregister(rkisp1);
+-	if (rkisp1->info->features & RKISP1_FEATURE_MIPI_CSI2)
++	if (rkisp1_has_feature(rkisp1, MIPI_CSI2))
+ 		rkisp1_csi_cleanup(rkisp1);
+ 	rkisp1_debug_cleanup(rkisp1);
+ 
 -- 
 2.39.2
 
