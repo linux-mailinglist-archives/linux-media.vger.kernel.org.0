@@ -1,33 +1,33 @@
-Return-Path: <linux-media+bounces-1384-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1385-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 936087FE0C2
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 21:07:01 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DC7987FE0D8
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 21:14:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3C761C20EA8
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 20:07:00 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 67424B211C3
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 20:14:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9FCF5EE88;
-	Wed, 29 Nov 2023 20:06:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 480CC60ECA;
+	Wed, 29 Nov 2023 20:14:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VL05jxid"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TZ021HKV"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F80FD69;
-	Wed, 29 Nov 2023 12:06:52 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D5A131;
+	Wed, 29 Nov 2023 12:14:47 -0800 (PST)
 Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F8556F0;
-	Wed, 29 Nov 2023 21:06:15 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9735B6F0;
+	Wed, 29 Nov 2023 21:14:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701288375;
-	bh=pr+DI5rX3G04hdirVZl6BkJQ1CLmT65yZtHt6DXjLiQ=;
+	s=mail; t=1701288849;
+	bh=uJx2WyhfAxcEwQ+ee41/z9G2InAvJw4jSMa05qDKaAs=;
 	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=VL05jxidfay1sFOSzYKbcy2FZEW1U8kscMsQ8whITFDm3SfVNs5cKFR7evcrNSPhR
-	 ID63lSLDWx5GiIxP4UAeBXndZgTHzGth7c2fg1EKtEd+zDlMwV1zJWVD542Bw+TAXk
-	 I1wr5C5rutATEIoNtXji7z4ziw6/lhFH/+D1DkT4=
+	b=TZ021HKV3henHtehwczYCqsqTxFs1KZRgdIoYtxe64lWfIZh/UwEa3vOWl/1G2spW
+	 yt1cy9gKg0as1rKOs5K869+XC4R3yks5V5eFYbFChameoMDnTeJdPvZznKhFGdixRB
+	 rTXms0JuWC3kud3Yr5Am3954wtVSGcxSIShacVnw=
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -36,75 +36,175 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20231129092956.250129-4-paul.elder@ideasonboard.com>
-References: <20231129092956.250129-1-paul.elder@ideasonboard.com> <20231129092956.250129-4-paul.elder@ideasonboard.com>
-Subject: Re: [PATCH 3/3] media: rkisp1: debug: Count completed frame interrupts
+In-Reply-To: <20231129105536.GE24293@pendragon.ideasonboard.com>
+References: <20230417055627.16482-1-laurent.pinchart@ideasonboard.com> <20230417055627.16482-2-laurent.pinchart@ideasonboard.com> <CAHCN7x+kymRGO2kxvN2=zLiqRjfTc3hdf3VdNVkWjsW3La0bnA@mail.gmail.com> <20231129105536.GE24293@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v1 1/2] arm64: dts: imx8mp: Add CSIS DT nodes
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com, Paul Elder <paul.elder@ideasonboard.com>, Dafna Hirschfeld <dafna@fastmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-To: Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Date: Wed, 29 Nov 2023 20:06:48 +0000
-Message-ID: <170128840893.3048548.12921821466589985052@ping.linuxembedded.co.uk>
+Cc: Marco Felsch <m.felsch@pengutronix.de>, Alexander Stein <alexander.stein@ew.tq-group.com>, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-imx@nxp.com, kernel@pengutronix.de, Shawn Guo <shawnguo@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+To: Adam Ford <aford173@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Date: Wed, 29 Nov 2023 20:14:42 +0000
+Message-ID: <170128888298.3048548.2160913449516998097@ping.linuxembedded.co.uk>
 User-Agent: alot/0.10
 
-Quoting Paul Elder (2023-11-29 09:29:56)
-> Add a counter to debugfs to count the number of frame-end interrupts.
+Quoting Laurent Pinchart (2023-11-29 10:55:36)
+> Hi Adam,
 >=20
-
-And I alway like having counters for debug ... so I like this.
-
-
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> ---
->  drivers/media/platform/rockchip/rkisp1/rkisp1-common.h | 1 +
->  drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c  | 2 ++
->  drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c    | 2 ++
->  3 files changed, 5 insertions(+)
+> (CC'ing Kieran)
 >=20
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/dri=
-vers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index 1e7cea1bea5e..be69173958a4 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -417,6 +417,7 @@ struct rkisp1_debug {
->         unsigned long stats_error;
->         unsigned long stop_timeout[2];
->         unsigned long frame_drop[2];
-> +       unsigned long complete_frames;
->  };
-> =20
->  /*
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/driv=
-ers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> index f66b9754472e..1b1edfd3ab6c 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> @@ -232,6 +232,8 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
->                              &debug->frame_drop[RKISP1_MAINPATH]);
->         debugfs_create_ulong("sp_frame_drop", 0444, debug->debugfs_dir,
->                              &debug->frame_drop[RKISP1_SELFPATH]);
-> +       debugfs_create_ulong("complete_frames", 0444, debug->debugfs_dir,
-> +                            &debug->complete_frames);
->         debugfs_create_file("input_status", 0444, debug->debugfs_dir, rki=
-sp1,
->                             &rkisp1_debug_input_status_fops);
-> =20
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/driver=
-s/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> index 64a956b9f2d0..06cdb4edf19c 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> @@ -991,6 +991,8 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
->         if (status & RKISP1_CIF_ISP_FRAME) {
->                 u32 isp_ris;
-> =20
-> +               rkisp1->debug.complete_frames++;
-> +
->                 /* New frame from the sensor received */
->                 isp_ris =3D rkisp1_read(rkisp1, RKISP1_CIF_ISP_RIS);
->                 if (isp_ris & RKISP1_STATS_MEAS_MASK)
+> On Tue, Nov 28, 2023 at 09:17:51PM -0600, Adam Ford wrote:
+> > On Mon, Apr 17, 2023 at 1:01=E2=80=AFAM Laurent Pinchart wrote:
+> > >
+> > > Add DT nodes for the two CSI-2 receivers of the i.MX8MP.
+> > >
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> >=20
+> > Laurent,
+> >=20
+> > Sorry to dig up an old thread, but I have a concern about the clock
+> > ratings and nominal mode vs overdrive mode.  I started investigating
+> > the different data sheets amongst the various imx8m[mnp] families to
+> > make the default device trees run at nominal mode while also creating
+> > a separate dtsi file with settings for overdrive so boards who use it
+> > can include them without having to duplicate the clock settings for
+> > everyone who supports overdrive.
+> >=20
+> > >  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 60 +++++++++++++++++++++=
+++
+> > >  1 file changed, 60 insertions(+)
+> > >
+> > > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/b=
+oot/dts/freescale/imx8mp.dtsi
+> > > index 2dd60e3252f3..2a374a4c14a2 100644
+> > > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > > @@ -1239,6 +1239,66 @@ ldb_lvds_ch1: endpoint {
+> > >                                 };
+> > >                         };
+> > >
+> > > +                       mipi_csi_0: csi@32e40000 {
+> > > +                               compatible =3D "fsl,imx8mp-mipi-csi2"=
+, "fsl,imx8mm-mipi-csi2";
+> > > +                               reg =3D <0x32e40000 0x10000>;
+> > > +                               interrupts =3D <GIC_SPI 17 IRQ_TYPE_L=
+EVEL_HIGH>;
+> > > +                               clock-frequency =3D <500000000>;
+> > > +                               clocks =3D <&clk IMX8MP_CLK_MEDIA_APB=
+_ROOT>,
+> > > +                                        <&clk IMX8MP_CLK_MEDIA_CAM1_=
+PIX_ROOT>,
+> > > +                                        <&clk IMX8MP_CLK_MEDIA_MIPI_=
+PHY1_REF_ROOT>,
+> > > +                                        <&clk IMX8MP_CLK_MEDIA_AXI_R=
+OOT>;
+> > > +                               clock-names =3D "pclk", "wrap", "phy"=
+, "axi";
+> > > +                               assigned-clocks =3D <&clk IMX8MP_CLK_=
+MEDIA_CAM1_PIX>;
+> > > +                               assigned-clock-parents =3D <&clk IMX8=
+MP_SYS_PLL2_1000M>;
+> > > +                               assigned-clock-rates =3D <500000000>;
+> >=20
+> > According to Rev 2.1 of the Data sheet (IMX8MPCEC), dated July 2023,
+> > 500MHz is listed as single-camera, overdrive mode.  Single-camera,
+> > nominal mode is 400MHz, but there is more...
+> > If configured for dual cameras, both CSI can only support up to
+> > 266MHz, but we have partially configured both albeit without the
+> > actual camera sensors connected.
+> >=20
+> > > +                               power-domains =3D <&media_blk_ctrl IM=
+X8MP_MEDIABLK_PD_MIPI_CSI2_1>;
+> > > +                               status =3D "disabled";
+> > > +
+> > > +                               ports {
+> > > +                                       #address-cells =3D <1>;
+> > > +                                       #size-cells =3D <0>;
+> > > +
+> > > +                                       port@0 {
+> > > +                                               reg =3D <0>;
+> > > +                                       };
+> > > +
+> > > +                                       port@1 {
+> > > +                                               reg =3D <1>;
+> > > +                                       };
+> > > +                               };
+> > > +                       };
+> > > +
+> > > +                       mipi_csi_1: csi@32e50000 {
+> > > +                               compatible =3D "fsl,imx8mp-mipi-csi2"=
+, "fsl,imx8mm-mipi-csi2";
+> > > +                               reg =3D <0x32e50000 0x10000>;
+> > > +                               interrupts =3D <GIC_SPI 80 IRQ_TYPE_L=
+EVEL_HIGH>;
+> > > +                               clock-frequency =3D <266000000>;
+> > > +                               clocks =3D <&clk IMX8MP_CLK_MEDIA_APB=
+_ROOT>,
+> > > +                                        <&clk IMX8MP_CLK_MEDIA_CAM2_=
+PIX_ROOT>,
+> > > +                                        <&clk IMX8MP_CLK_MEDIA_MIPI_=
+PHY1_REF_ROOT>,
+> > > +                                        <&clk IMX8MP_CLK_MEDIA_AXI_R=
+OOT>;
+> > > +                               clock-names =3D "pclk", "wrap", "phy"=
+, "axi";
+> > > +                               assigned-clocks =3D <&clk IMX8MP_CLK_=
+MEDIA_CAM2_PIX>;
+> > > +                               assigned-clock-parents =3D <&clk IMX8=
+MP_SYS_PLL2_1000M>;
+> > > +                               assigned-clock-rates =3D <266000000>;
+> >=20
+> > 266MHz is correct for dual camera, but in single camera, the second
+> > CSI is capable of 277MHz.
+> >=20
+> > At a minimum, I'd like to fix the overdrive frequency to nominal, but
+> > since we're plumbing in both cameras, I wonder if it would be better
+> > to run both at 266MHz with a note on CSI0 that states it could run at
+> > 400 or 500 if the second CSI is disabled and a note on the second CSI
+> > that it could run at 277 when the first one is disabled? What are your
+> > thoughts?
+>=20
+> My thoughts is that this all should be selected at runtime, based on how
+> many cameras are used. That won't be trivial to do though :-S Kieran,
+> you've been working with two cameras, any opinion ?
+
+Well I've been seeing issues like dropped packets and various issues on
+the CSI2 receiver that could be because of badly configured clocks ...
+so there's definitely some things to check and validate here still.
+
+I don't know how the clocking would be adapted at runtime yet either ...
+but it might be something interesting to look at. It's likely more
+difficult as it's two separate nodes that would have to know about each
+other at some level.
+
+--
+Kieran
+
+
+>=20
+> > > +                               power-domains =3D <&media_blk_ctrl IM=
+X8MP_MEDIABLK_PD_MIPI_CSI2_2>;
+> > > +                               status =3D "disabled";
+> > > +
+> > > +                               ports {
+> > > +                                       #address-cells =3D <1>;
+> > > +                                       #size-cells =3D <0>;
+> > > +
+> > > +                                       port@0 {
+> > > +                                               reg =3D <0>;
+> > > +                                       };
+> > > +
+> > > +                                       port@1 {
+> > > +                                               reg =3D <1>;
+> > > +                                       };
+> > > +                               };
+> > > +                       };
+> > > +
+> > >                         pcie_phy: pcie-phy@32f00000 {
+> > >                                 compatible =3D "fsl,imx8mp-pcie-phy";
+> > >                                 reg =3D <0x32f00000 0x10000>;
+>=20
 > --=20
-> 2.39.2
->
+> Regards,
+>=20
+> Laurent Pinchart
 
