@@ -1,131 +1,164 @@
-Return-Path: <linux-media+bounces-1344-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1345-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F0337FD3BF
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 11:13:27 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 872297FD3E9
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 11:18:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F86E1C203B9
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:13:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1A617B21AB0
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:18:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5805A19BB9;
-	Wed, 29 Nov 2023 10:13:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB5911A72B;
+	Wed, 29 Nov 2023 10:17:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GKlf5lT5"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="kYIGOJf7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A6961BCF;
-	Wed, 29 Nov 2023 02:13:19 -0800 (PST)
-Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-50bc8a9503fso74775e87.3;
-        Wed, 29 Nov 2023 02:13:19 -0800 (PST)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 203A619BC;
+	Wed, 29 Nov 2023 02:17:47 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701252797; x=1701857597; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=gCZTkTf5gNqH/rsoLk7etD6DwWJwR710k5LJwshNSuI=;
-        b=GKlf5lT5LfTn+FOIKdk4+B/fsnJPS5/dZaR06MKOv57OcUU11MD9L/FVkI2tSsJpOW
-         17Z34nxsL7V7w49178dmUlbgWCtUIxQCGTGXGFZNSM8tmet1Xm3nvJYTJ4pB3I8ncCXx
-         JFljOhwkeriSwVBgPGEVCLGyC1i4o54dArHOPssOmTq3Y1+cV7nbMQWwSGuLmk7EvZ6h
-         4w0EVo5MZfE/zt3qU1C+rkGy8ogu4pxx6ye/1W6X9yK+aHHxyBx+MT9iYboTuTk0hw5T
-         WzGoz5hvq5ofm1F/d1WNBbb5FCZ9+tYMiBUDEYEDI8voEHzd0pEeGszidbRcc2/OUhQW
-         yzkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701252797; x=1701857597;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=gCZTkTf5gNqH/rsoLk7etD6DwWJwR710k5LJwshNSuI=;
-        b=p9dtK1arQeX5CrM7b1F+lJ6jg30D+7RIfUaxkyHKSB/KMUZINPwCpbB4SGq16UiOZZ
-         wJoTrjdPFyV2c4jMZ+Mgtht009NSDV70R4Trv+HdjdGdHA+ylpt82hggsuPOpGToHzsa
-         rnS7AFQUb5WljNSRXih7Tp0lyTWC8bdTs7+U8NuNU8RMyt5xyE06H/LQpwhBSFMxfYFv
-         Ptnqqmw0jUHx1Xp48XR5PpQYb0GoH5jzJqqUgiom0mQY4OjZXkESYfW8AF27mHX+qV7m
-         lH/NWi5HidUjCyvhThE3PenXOkSGH6gUG6f20rwTW+7blDwk3/OgDZa2NPq62SwSNUHF
-         3Ghw==
-X-Gm-Message-State: AOJu0YxjUosEhzCYnYuRberXMNI0QsimDNpOeSnGBmtzRAKC/sqdRwOD
-	AuA+QFN2nHG/v6T5pQ08yFg=
-X-Google-Smtp-Source: AGHT+IEqoByK4nUUfepBkFUQYGj/+qIG7mkFMGeDo/wE/qhqodU6sLdPk1cmUua5FNVdwpoUj02mkQ==
-X-Received: by 2002:a19:f60e:0:b0:507:cfbc:bf8d with SMTP id x14-20020a19f60e000000b00507cfbcbf8dmr11730596lfe.16.1701252797196;
-        Wed, 29 Nov 2023 02:13:17 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id q9-20020a0565123a8900b0050abbda2c52sm2140292lfu.157.2023.11.29.02.13.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 02:13:16 -0800 (PST)
-Date: Wed, 29 Nov 2023 12:12:59 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc: Maxime Ripard <mripard@kernel.org>, Jani Nikula
- <jani.nikula@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
- Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>, Sandy
- Huang <hjc@rock-chips.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
- linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-Message-ID: <20231129121259.47746996@eldfell>
-In-Reply-To: <ZWXv1Oi_sH0BRWao@intel.com>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
-	<20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
-	<87h6l66nth.fsf@intel.com>
-	<v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
-	<ZWXv1Oi_sH0BRWao@intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1701253068; x=1732789068;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=FTnVkFfWKUdm2qh0fpbqtR+pAnlFpnKuhuB2nJV91Uk=;
+  b=kYIGOJf7h1YkACgM02M2DRcQ0n7aQuPxJSbW7SFNmf1/CzLtYm8NBW0H
+   uq1hxYymdDKnw6/tGDYrH14k2MNqyRBRxvpeu1LWYrDFyCN7EcVvdYyTd
+   tzfv51wGXeDinukyqXj7+WTTTvDf7SBdhK6iFhaMR5guIxtbFHXiXddUg
+   rqO/ECqD/jTG/8+2V89wgjCpjjQv9dFDlwy1+yH0qkBIDSMRNdEyAx9A7
+   SOpQGX/4JqmCCy1zV8PV3B491ojnwrIN6ajDMrR/X4LErHfIXheZR6iNP
+   jm5T+rNJR32TPxR52ePKLaMwBeXM5KYvBenGKdHMn60z28Vv8qyPAnIq6
+   w==;
+X-IronPort-AV: E=Sophos;i="6.04,235,1695679200"; 
+   d="scan'208";a="34234189"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 29 Nov 2023 11:17:45 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 6612D280075;
+	Wed, 29 Nov 2023 11:17:45 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, Paul Elder <paul.elder@ideasonboard.com>
+Cc: kieran.bingham@ideasonboard.com, tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com, Paul Elder <paul.elder@ideasonboard.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Marek Vasut <marex@denx.de>, Lucas Stach <l.stach@pengutronix.de>, Adam Ford <aford173@gmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Frank Li <Frank.Li@nxp.com>, "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>, open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 1/2] arm64: dts: imx8mp: Add DT nodes for the two ISPs
+Date: Wed, 29 Nov 2023 11:17:44 +0100
+Message-ID: <7150709.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20231129093113.255161-2-paul.elder@ideasonboard.com>
+References: <20231129093113.255161-1-paul.elder@ideasonboard.com> <20231129093113.255161-2-paul.elder@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-
---Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Tue, 28 Nov 2023 15:49:08 +0200
-Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
+Hi Paul,
 
-> Should we perhaps start to use the (arguably hideous)
->  - void f(struct foo *bar)
->  + void f(struct foo bar[static 1])
-> syntax to tell the compiler we don't accept NULL pointers?
+Am Mittwoch, 29. November 2023, 10:31:12 CET schrieb Paul Elder:
+> The ISP supports both CSI and parallel interfaces, where port 0
+> corresponds to the former and port 1 corresponds to the latter. Since
+> the i.MX8MP's ISPs are connected by the parallel interface to the CSI
+> receiver, set them both to port 1.
 >=20
-> Hmm. Apparently that has the same problem as using any
-> other kind of array syntax in the prototype. That is,
-> the compiler demands to know the definition of 'struct foo'
-> even though we're passing in effectively a pointer. Sigh.
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+
+Thanks for the patch. I'm running with for a while now.
+Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+
+> ---
+>  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 50 +++++++++++++++++++++++
+>  1 file changed, 50 insertions(+)
+>=20
+> diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> b/arch/arm64/boot/dts/freescale/imx8mp.dtsi index
+> c9a610ba4836..25579d4c58f2 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> @@ -1604,6 +1604,56 @@ isi_in_1: endpoint {
+>  				};
+>  			};
+>=20
+> +			isp_0: isp@32e10000 {
+> +				compatible =3D "fsl,imx8mp-isp";
+> +				reg =3D <0x32e10000 0x10000>;
+> +				interrupts =3D <GIC_SPI 74=20
+IRQ_TYPE_LEVEL_HIGH>;
+> +				clocks =3D <&clk=20
+IMX8MP_CLK_MEDIA_ISP_ROOT>,
+> +					 <&clk=20
+IMX8MP_CLK_MEDIA_AXI_ROOT>,
+> +					 <&clk=20
+IMX8MP_CLK_MEDIA_APB_ROOT>;
+> +				clock-names =3D "isp", "aclk", "hclk";
+> +				assigned-clocks =3D <&clk=20
+IMX8MP_CLK_MEDIA_ISP>;
+> +				assigned-clock-parents =3D <&clk=20
+IMX8MP_SYS_PLL2_500M>;
+> +				assigned-clock-rates =3D <500000000>;
+> +				power-domains =3D <&media_blk_ctrl=20
+IMX8MP_MEDIABLK_PD_ISP>;
+> +				fsl,blk-ctrl =3D <&media_blk_ctrl 0>;
+> +				status =3D "disabled";
+> +
+> +				ports {
+> +					#address-cells =3D <1>;
+> +					#size-cells =3D <0>;
+> +
+> +					port@1 {
+> +						reg =3D <1>;
+> +					};
+> +				};
+> +			};
+> +
+> +			isp_1: isp@32e20000 {
+> +				compatible =3D "fsl,imx8mp-isp";
+> +				reg =3D <0x32e20000 0x10000>;
+> +				interrupts =3D <GIC_SPI 75=20
+IRQ_TYPE_LEVEL_HIGH>;
+> +				clocks =3D <&clk=20
+IMX8MP_CLK_MEDIA_ISP_ROOT>,
+> +					 <&clk=20
+IMX8MP_CLK_MEDIA_AXI_ROOT>,
+> +					 <&clk=20
+IMX8MP_CLK_MEDIA_APB_ROOT>;
+> +				clock-names =3D "isp", "aclk", "hclk";
+> +				assigned-clocks =3D <&clk=20
+IMX8MP_CLK_MEDIA_ISP>;
+> +				assigned-clock-parents =3D <&clk=20
+IMX8MP_SYS_PLL2_500M>;
+> +				assigned-clock-rates =3D <500000000>;
+> +				power-domains =3D <&media_blk_ctrl=20
+IMX8MP_MEDIABLK_PD_ISP>;
+> +				fsl,blk-ctrl =3D <&media_blk_ctrl 1>;
+> +				status =3D "disabled";
+> +
+> +				ports {
+> +					#address-cells =3D <1>;
+> +					#size-cells =3D <0>;
+> +
+> +					port@1 {
+> +						reg =3D <1>;
+> +					};
+> +				};
+> +			};
+> +
+>  			dewarp: dwe@32e30000 {
+>  				compatible =3D "nxp,imx8mp-dw100";
+>  				reg =3D <0x32e30000 0x10000>;
 
 
-__attribute__((nonnull)) ?
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
 
-Thanks,
-pq
-
---Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVnDqsACgkQI1/ltBGq
-qqde7A/+LfG5e8v6ABH2JqANkfijej4EDU9sSC3ZWBaUspi3UJEY1U0ZrDHgQd27
-lLSoxs0tguK5Dtehhk/Mn4S1XmyDtRrKNB/2L/rNqilREqQa5ciQG9OFjpqnepS2
-3kONuuooZchgnujkUjmgCg+L1X05peA166I3R9MkD4N3eqBH++XmohBaeUJDpUnN
-n1OATmnWyX2df7p/qBpOhVaNT+zu8HCgsIZq//PDNTxQxmHP5CPqbxbxuBjcwFHt
-bX1coZ602jx16CsrwaVYgVsHehXW0ru901OSPJ4flgpx/EyAjA4hHuVg+lJIZKqs
-wQRR4p/QdyBRULqGl/+4VML92ccuHFCedEtbLyH+RXSTlM547Q9nwtUPw1lB7tYQ
-Zx0BchNXyqKGnYvQUx5rTpJlTjwwq/IqkGkXnzpc3tIuj7hNTXEE1+3voPqNlnlU
-J16Lt49s2r4J2ufAykGzgqC19HM5baSykl006GFCpzLrH6iETMejOymRxAFlnE8m
-NdVHVD2YMPW9c21sJ+UjfbGrvF3H6E6MYZLDQLRnL44aHuYkCK6uSBfpgF1ugEqP
-Tzqd5wGEhEeH6OmzYEiwWHBkNJdiGnA4yo1dzpLdgdGaEKHRfdcGePGcNlLdtNcI
-AQZwl9NR+mk0zozfoa9HsXTUv+Su0TXpgD/prZ7PyqzSeM/SmkE=
-=Sfat
------END PGP SIGNATURE-----
-
---Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz--
 
