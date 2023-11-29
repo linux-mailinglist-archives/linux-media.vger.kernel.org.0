@@ -1,205 +1,177 @@
-Return-Path: <linux-media+bounces-1346-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1347-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFA4E7FD3FD
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 11:20:21 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AEBD07FD40D
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 11:24:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2C74EB20DEF
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:20:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43BFC1F20FE8
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:24:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 837C71B268;
-	Wed, 29 Nov 2023 10:20:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2347A1A73D;
+	Wed, 29 Nov 2023 10:24:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="Z9DqCNf/"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="oqdRt6ow"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 441B7AF;
-	Wed, 29 Nov 2023 02:20:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1701253210; x=1732789210;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=KZkH8bl3BtculFLewEii2JTZkTpl2Gc15g5xYx6zHoQ=;
-  b=Z9DqCNf/6k10xKzhLFM1lpDEiya4zzh8+W7mjBUN5+bmbc0Zq4d40gIG
-   +9AZtgejVTDpkFAbs6HbDZS7wxnL/6+rxK0EQyNVguWPprczA2Jn2lML1
-   9ILvU1xY6SBufQXG2j1e6+QRZ8i+jgD5ux33938sCK/UcRvibfuDERPlf
-   vIFo/7lkM8Wt4dY2Y8MKwVXiIB+fP4T2IT1EGJLEwfbWZHxfA4n8okEqD
-   eYOgMZWo3+dFq1ElOiMjZ/WhgtDr6H5813rZvK1UdemAxpWU76JDpyqMP
-   AAK0tmTh3zzjzGE24Thf7O5R/Q8burtiyztVx25+eE2A93ksCTIjxj80/
-   A==;
-X-IronPort-AV: E=Sophos;i="6.04,235,1695679200"; 
-   d="scan'208";a="34234253"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 29 Nov 2023 11:20:08 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 240C3280075;
-	Wed, 29 Nov 2023 11:20:08 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, Paul Elder <paul.elder@ideasonboard.com>
-Cc: kieran.bingham@ideasonboard.com, tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Paul Elder <paul.elder@ideasonboard.com>, Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, NXP Linux Team <linux-imx@nxp.com>, Tim Harvey <tharvey@gateworks.com>, Philippe Schenker <philippe.schenker@toradex.com>, Marek Vasut <marex@denx.de>, Gregor Herburger <gregor.herburger@ew.tq-group.com>, Marcel Ziswiler <marcel.ziswiler@toradex.com>, open list <linux-kernel@vger.kernel.org>, "moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 2/2] arm64: dts: imx8mp: Add overlays for ISP instances
-Date: Wed, 29 Nov 2023 11:20:07 +0100
-Message-ID: <7122934.GXAFRqVoOG@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20231129093113.255161-3-paul.elder@ideasonboard.com>
-References: <20231129093113.255161-1-paul.elder@ideasonboard.com> <20231129093113.255161-3-paul.elder@ideasonboard.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C6EDC4;
+	Wed, 29 Nov 2023 02:24:29 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DE29842;
+	Wed, 29 Nov 2023 11:23:51 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701253431;
+	bh=Y6AJ/kPLyDOivircGV4x/fYC3/RvS1k47yzPnXLdMyY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=oqdRt6owFMYgaCAV7pN799tF/mF11HYqekY+EQzfpOGqTL4rLzkdOJkis1PKVuI/C
+	 QLrBkvODzfLuGVblA56vejCHbZcza/M/V+rQf+Usxfj+KRqvVn41jkyD/gCBFqvRJJ
+	 ZLbM9hCj61pwJI4w8W/KDaVEsHalLLAOCSnKEV9U=
+Date: Wed, 29 Nov 2023 12:24:34 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomasz Figa <tfiga@chromium.org>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, hverkuil@xs4all.nl,
+	mchehab@kernel.org, m.szyprowski@samsung.com,
+	matt.ranostay@konsulko.com, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-staging@lists.linux.dev,
+	kernel@collabora.com, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>
+Subject: Re: [PATCH 07/55] media: imx8-isi: Stop abusing of
+ min_buffers_needed field
+Message-ID: <20231129102434.GD18109@pendragon.ideasonboard.com>
+References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
+ <20231127165454.166373-8-benjamin.gaignard@collabora.com>
+ <20231127170700.GC31314@pendragon.ideasonboard.com>
+ <6fa1ec09-3e30-475e-9718-29d23586753e@collabora.com>
+ <CAAFQd5DCVTLpPoKSp_OA6fe_Hqt-oV7=AsCZWSmkJORvLSgUiw@mail.gmail.com>
+ <995eb6c2-cc7f-4217-bc37-4ab1a32f36ee@collabora.com>
+ <CAAFQd5Bv5kc9TfNM5CkKowvaoRndTmkmU6+0LyCG8YbOKy=hxQ@mail.gmail.com>
+ <b68b3fa5-a152-4b23-9451-61a89530512c@collabora.com>
+ <CAAFQd5DXhDtcfjgds6qu2YZXkkcvJdygkvtFknrHRGRC5oRHkA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAFQd5DXhDtcfjgds6qu2YZXkkcvJdygkvtFknrHRGRC5oRHkA@mail.gmail.com>
 
-Hi Paul,
+On Wed, Nov 29, 2023 at 05:39:25PM +0900, Tomasz Figa wrote:
+> On Wed, Nov 29, 2023 at 5:28 PM Benjamin Gaignard wrote:
+> > Le 29/11/2023 à 05:17, Tomasz Figa a écrit :
+> > > On Tue, Nov 28, 2023 at 7:26 PM Benjamin Gaignard wrote:
+> > >> Le 28/11/2023 à 10:35, Tomasz Figa a écrit :
+> > >>> On Tue, Nov 28, 2023 at 6:31 PM Benjamin Gaignard wrote:
+> > >>>> Le 27/11/2023 à 18:07, Laurent Pinchart a écrit :
+> > >>>>> On Mon, Nov 27, 2023 at 05:54:06PM +0100, Benjamin Gaignard wrote:
+> > >>>>>> 'min_buffers_needed' is suppose to be used to indicate the number
+> > >>>>>> of buffers needed by DMA engine to start streaming.
+> > >>>>>> imx8-isi driver doesn't use DMA engine and just want to specify
+> > >>>>>
+> > >>>>> What do you mean, "doesn't use DMA engine" ? The ISI surely has DMA
+> > >>>>> engines :-)
+> > >>>>
+> > >>>> I have done assumption on drivers given if they use or dma_* functions.
+> > >>>
+> > >>> I suspect the use of vb2_dma_sg_plane_desc() and
+> > >>> vb2_dma_contig_plane_dma_addr() may be more correlated to whether
+> > >>> there is a DMA involved or not. Usually V4L2 drivers don't really have
+> > >>> to deal with the DMA API explicitly, because the vb2 framework handles
+> > >>> most of the work.
+> > >>
+> > >> Unfortunately isn't not true either, for example verisilicon driver use
+> > >> these function but doesn't need DMA engine.
+> > >
+> > > That sounds weird. Why would a driver that doesn't have a DMA engine
+> > > need to obtain a scatterlist or the DMA address of the buffer?
+> >
+> > Just because the hardware needs the physical address of the buffer to access it.
+> 
+> Right, and the part of the hardware that accesses the memory is called
+> a DMA engine.
+> 
+> > >> I haven't found yet a 100% criteria to decide if driver use or not DMA engine
+> > >> so I plan to fix case by case given maintainers remarks.
+> > >
+> > > Yeah, there probably wouldn't be a way that would give one a 100%
+> > > certainty, although I'd still insist that the two functions I
+> > > mentioned should be close to that. Of course a driver can use those
+> > > functions for some queues, while other queues would be pure software
+> > > queues, e.g. for some metadata - a simple grep is not enough. Is that
+> > > perhaps the case for the verisilicon driver?
+> >
+> > Verisilicon hardware block doesn't have IOMMU so it needs the physical
+> > addresses of all the buffers it use (input buffer, reference frame buffers, etc...).
+> > No DMA engine involved here it is just how the hardware is working.
+> 
+> I think we need to clarify what you mean by DMA engine. If it's
+> basically a standalone hardware block that does the DMA for another
+> hardware block, i.e. such as the standalone DMA engines under
+> drivers/dma, then I'd like to ask what the relation is between using
+> an external DMA engine and min_buffers_needed.
 
-thanks for the patch.
+Yes, there seems to have been some confusion, DMA engine != dmaengine.h.
 
-Am Mittwoch, 29. November 2023, 10:31:13 CET schrieb Paul Elder:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->=20
-> Add two overlay to enable each ISP instance. The ISP is wired directly
-> to the CSIS for now, bypassing the ISI completely.
+> > Expect functions like dma_release_channel() or being in PCI directory,
+> > I don't have found any magical way to know if a driver needs a minimum number of buffers before start streaming.
+> > I can only read the code and do assumptions for the other cases.
+> > I hope maintainers, like Laurent or you, will answer to this question for each driver.
+> 
+> In theory that could work too, so hopefully we can achieve that. Some
+> drivers may not have very active maintainers... And other maintainers
+> who never worked with such drivers are as suited to read the code and
+> guess the expected state as you. That said, let's make sure that
+> everyone involved does their best, without pushing the task around.
 
-I'm not sure if this is worth adding in a separate overlay.
+We can rely on individual drivers maintainers for review, but the
+initial work needs to make a reasonable effort to analyze the drivers
+and find the right value for min_buffers_needed and
+min_reqbufs_allocation.
 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> ---
->  arch/arm64/boot/dts/freescale/Makefile        |  2 ++
->  .../arm64/boot/dts/freescale/imx8mp-isp1.dtso | 36 +++++++++++++++++++
->  .../arm64/boot/dts/freescale/imx8mp-isp2.dtso | 36 +++++++++++++++++++
->  3 files changed, 74 insertions(+)
->  create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-isp1.dtso
->  create mode 100644 arch/arm64/boot/dts/freescale/imx8mp-isp2.dtso
->=20
-> diff --git a/arch/arm64/boot/dts/freescale/Makefile
-> b/arch/arm64/boot/dts/freescale/Makefile index 300049037eb0..f97dfac11189
-> 100644
-> --- a/arch/arm64/boot/dts/freescale/Makefile
-> +++ b/arch/arm64/boot/dts/freescale/Makefile
-> @@ -113,6 +113,8 @@ dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-dhcom-pdk2.dtb
->  dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-dhcom-pdk3.dtb
->  dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-evk.dtb
->  dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-icore-mx8mp-edimm2.2.dtb
-> +dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-isp1.dtbo
-> +dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-isp2.dtbo
->  dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-msc-sm2s-ep1.dtb
->  dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-phyboard-pollux-rdk.dtb
->  dtb-$(CONFIG_ARCH_MXC) +=3D imx8mp-tqma8mpql-mba8mpxl.dtb
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-isp1.dtso
-> b/arch/arm64/boot/dts/freescale/imx8mp-isp1.dtso new file mode 100644
-> index 000000000000..cf394ed224ab
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp-isp1.dtso
-> @@ -0,0 +1,36 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright 2022 Ideas on Board Oy
-> + */
-> +
-> +/dts-v1/;
-> +/plugin/;
-> +
-> +#include <dt-bindings/media/video-interfaces.h>
-> +
-> +&isi_0 {
-> +	status =3D "disabled";
+> > >>>> I have considers that all PCI drivers are using DMA engine and
+> > >>>> I don't know the design for each drivers so I hope to get this information
+> > >>>> from maintainers and fix that in v2.
+> > >>>> If imx8-isi driver needs a minimum number of buffers before start streaming
+> > >>>> I will do a v2 and use min_dma_buffers_needed instead.
+> > >>>>
+> > >>>>>> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
+> > >>>>>> That 'min_reqbufs_allocation' field purpose so use it.
+> > >>>>>>
+> > >>>>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > >>>>>> CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > >>>>>> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > >>>>>> CC: Shawn Guo <shawnguo@kernel.org>
+> > >>>>>> CC: Sascha Hauer <s.hauer@pengutronix.de>
+> > >>>>>> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+> > >>>>>> CC: Fabio Estevam <festevam@gmail.com>
+> > >>>>>> CC: NXP Linux Team <linux-imx@nxp.com>
+> > >>>>>> ---
+> > >>>>>>     drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c | 2 +-
+> > >>>>>>     1 file changed, 1 insertion(+), 1 deletion(-)
+> > >>>>>>
+> > >>>>>> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> > >>>>>> index 49bca2b01cc6..81673ff9084b 100644
+> > >>>>>> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> > >>>>>> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> > >>>>>> @@ -1453,7 +1453,7 @@ int mxc_isi_video_register(struct mxc_isi_pipe *pipe,
+> > >>>>>>        q->mem_ops = &vb2_dma_contig_memops;
+> > >>>>>>        q->buf_struct_size = sizeof(struct mxc_isi_buffer);
+> > >>>>>>        q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> > >>>>>> -    q->min_buffers_needed = 2;
+> > >>>>>> +    q->min_reqbufs_allocation = 2;
+> > >>>>>>        q->lock = &video->lock;
+> > >>>>>>        q->dev = pipe->isi->dev;
+> > >>>>>>
 
-ISI is disabled by default. What is your intention here?
+-- 
+Regards,
 
-> +
-> +	ports {
-> +		port@0 {
-> +			/delete-node/ endpoint;
-
-This doesn't work in overlays. See [1]. Otherwise the OF graph connections=
-=20
-look fine to me. I'm using the same in my local overlay.
-
-Best regards,
-Alexander
-
-[1] https://lore.kernel.org/all/
-CAMuHMdWu4KZbBkvEofUV2wuA1g2S=3DXHHM3RUN1cNrcZBkhsPZA@mail.gmail.com/
-
-> +		};
-> +	};
-> +};
-> +
-> +&isp_0 {
-> +	status =3D "okay";
-> +
-> +	ports {
-> +		port@1 {
-> +			isp0_in: endpoint {
-> +				bus-type =3D <MEDIA_BUS_TYPE_PARALLEL>;
-> +				remote-endpoint =3D <&mipi_csi_0_out>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&mipi_csi_0_out {
-> +	remote-endpoint =3D <&isp0_in>;
-> +};
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mp-isp2.dtso
-> b/arch/arm64/boot/dts/freescale/imx8mp-isp2.dtso new file mode 100644
-> index 000000000000..14e2e7b2617f
-> --- /dev/null
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp-isp2.dtso
-> @@ -0,0 +1,36 @@
-> +// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +/*
-> + * Copyright 2022 Ideas on Board Oy
-> + */
-> +
-> +/dts-v1/;
-> +/plugin/;
-> +
-> +#include <dt-bindings/media/video-interfaces.h>
-> +
-> +&isi_0 {
-> +	status =3D "disabled";
-> +
-> +	ports {
-> +		port@1 {
-> +			/delete-node/ endpoint;
-> +		};
-> +	};
-> +};
-> +
-> +&isp_1 {
-> +	status =3D "okay";
-> +
-> +	ports {
-> +		port@1 {
-> +			isp1_in: endpoint {
-> +				bus-type =3D <MEDIA_BUS_TYPE_PARALLEL>;
-> +				remote-endpoint =3D <&mipi_csi_1_out>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&mipi_csi_1_out {
-> +	remote-endpoint =3D <&isp1_in>;
-> +};
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+Laurent Pinchart
 
