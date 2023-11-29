@@ -1,101 +1,107 @@
-Return-Path: <linux-media+bounces-1379-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1380-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5516F7FDC25
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 17:03:30 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C7A47FDE1E
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 18:15:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D7F8028292A
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 16:03:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AECEA1C20BA9
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 17:15:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F02513987B;
-	Wed, 29 Nov 2023 16:03:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B6A645014;
+	Wed, 29 Nov 2023 17:15:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d2xIBMS5"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="evbDLOpR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AEF4BF;
-	Wed, 29 Nov 2023 08:03:18 -0800 (PST)
-Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-a013d22effcso935082166b.2;
-        Wed, 29 Nov 2023 08:03:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701273797; x=1701878597; darn=vger.kernel.org;
-        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p0ai8ILE74HcwdOUqvcTpl9qjFRf+Vf4A3Z9OcifiLY=;
-        b=d2xIBMS50Dd47pj3uwPWU91qG6MkJQgowYrsyTgYmhTWzpZgQCBgvz85++iaDiR1/Q
-         RDf534I25mMPqyrzUUyl0yd5SORtKnNPk7nrvOWU/aUvtmERIKmoM902sTuvaZKfdfP2
-         0WOdxiVZ7BrQ0HliVNInZ6e1qr5bBxaM0/nNlGVa92mzq1srmoKMsqW1UNwLyBLVesw3
-         E3YWgvI6uL9woY9DtfBLo8ypfHzQWs4F4QClLRhTUlpJvRQxxQPd5TBzxXcAcXv/RqD1
-         iKnLdo6MEREN0eTCi6y0SOEn2tHHlwjzlHkTsRjMcT8l7zZFRxKLbsMZJbY22Yz3yMZG
-         UUXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701273797; x=1701878597;
-        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p0ai8ILE74HcwdOUqvcTpl9qjFRf+Vf4A3Z9OcifiLY=;
-        b=sVeiOFA5V4VKw9wjAwM/MTJ/9C0geSltvZ6hd9wu56WtMFhvn3wZrX+Jxw73YK5RzR
-         DnpbkHHbnJ4mLROmCs6Pg6FO08Uc98R970ycyeXDHIbzirJWFwIr8CmzJvtRFL81nMUf
-         9lh2IqHPyV6NRrUaR+0YuwUWs4tvVIz3BFY4gxF811gwbaXAEULdfy6BcMAmphHh7QEY
-         toofiJjftJ8BjDB/bMMZ+foKVLov/5vxJzVBn9bu2AJL2nWYZ3BDkqwxafGVsmK2Kos/
-         dY55CMRbFcigAbRk3GWwdxp9+UjttLJ+WJMTGR+n3Jj6PqSIU3e2WyuXYYX1MIxmJLXA
-         NQyQ==
-X-Gm-Message-State: AOJu0YxRdvY3MbVY8SBLrJk6whHA+tEhSyUOQt9mapCkv7Ga6EmvqG09
-	IcIhRTx572BZck4pR2Z7KRC8y0HuvxI=
-X-Google-Smtp-Source: AGHT+IFZVdYm5uGTUWgukbhvvqVrPFRUit9xzFKUvmv5eU26LhTvANp9htEXiGH1vrlI6oIoceMNRA==
-X-Received: by 2002:a17:906:5302:b0:a0c:5bf7:c675 with SMTP id h2-20020a170906530200b00a0c5bf7c675mr8264434ejo.40.1701273796612;
-        Wed, 29 Nov 2023 08:03:16 -0800 (PST)
-Received: from felia.fritz.box ([2a02:810d:7e40:14b0:2564:b975:71ee:2d88])
-        by smtp.gmail.com with ESMTPSA id oq14-20020a170906cc8e00b009fdcc65d720sm8023872ejb.72.2023.11.29.08.03.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 08:03:15 -0800 (PST)
-From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
-To: Nas Chung <nas.chung@chipsnmedia.com>,
-	Jackson Lee <jackson.lee@chipsnmedia.com>,
-	linux-media@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Lukas Bulwahn <lukas.bulwahn@gmail.com>
-Subject: [PATCH] media: MAINTAINERS: correct file entry in WAVE5 VPU CODEC DRIVER
-Date: Wed, 29 Nov 2023 17:03:13 +0100
-Message-Id: <20231129160313.12093-1-lukas.bulwahn@gmail.com>
-X-Mailer: git-send-email 2.17.1
+Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14726B2
+	for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 09:15:15 -0800 (PST)
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3ATGwbg6005251;
+	Wed, 29 Nov 2023 18:15:14 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	date:from:to:cc:subject:message-id:mime-version:content-type; s=
+	selector1; bh=XZHq+X2VPKMut9kIMb69IhrXhDh79IRPoIXITApInVU=; b=ev
+	bDLOpRuH+qWiVXxyIgGVCCYIXfo5UOU4nr5p6b7w2ebjValQEAfkPB6hSUc4KR4a
+	wPUbWrtqhP9RPZ5SvxLUi4gXTDRbKZh98vGxDkuCoXjmebvl3EAQO6T1EyYAk8pz
+	4JcNWL3wdCuwhRf0X/wHF9gJkNBna+F1GnkjJNxW1/I8eORlmHWHLAcBZBqX2hLw
+	HFsFjD6HJZbACTt8MfMBP9p30tRmYLmNroT/lCQlw1ZyHzrPDK3xF4wjNVdgesCb
+	sU8Pppu557ZWEkbOtN4fAEQn/T+yfT2byloyqtGUoBqMjzXG+xfJnbYhYkm9hJmk
+	TzTCaQR08zWJnW/yjaag==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3unffdx2c6-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 29 Nov 2023 18:15:13 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 7A97510002A;
+	Wed, 29 Nov 2023 18:15:13 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 5D11D22FA30;
+	Wed, 29 Nov 2023 18:15:13 +0100 (CET)
+Received: from gnbcxd0016.gnb.st.com (10.129.178.213) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Wed, 29 Nov
+ 2023 18:15:13 +0100
+Date: Wed, 29 Nov 2023 18:15:07 +0100
+From: Alain Volmat <alain.volmat@foss.st.com>
+To: <linux-media@vger.kernel.org>
+CC: Dan Scally <dan.scally@ideasonboard.com>,
+        Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>
+Subject: [RFC] frame rate control on a (non sensor) subdev
+Message-ID: <20231129171407.GA1705272@gnbcxd0016.gnb.st.com>
+Mail-Followup-To: linux-media@vger.kernel.org,
+	Dan Scally <dan.scally@ideasonboard.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+X-Disclaimer: ce message est personnel / this message is private
+X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-11-29_15,2023-11-29_01,2023-05-22_02
 
-Commit 26dde1beb359 ("media: chips-media: wave5: Add wave5 driver to
-maintainers file") adds the MAINTAINERS section WAVE5 VPU CODEC DRIVER
-referring to the 'cnm,wave5.yaml' media devicetree binding, but the file
-actually added in the commit de4b9f7e371a ("dt-bindings: media: wave5: add
-yaml devicetree bindings") is named 'cnm,wave521c.yaml'.
+Hi,
 
-Correct the file entry in WAVE5 VPU CODEC DRIVER.
+the DCMIPP Camera interface (platform/st/stm32/stm32-dcmipp) is able to adjust
+the capture rate.  As an example, even if a sensor is streaming at 30fps, it is
+possible to either capture:
+   - all frames (aka 30fps)
+   - 1 frame out of 2 (aka 15 fps)
+   - 1 frame out of 4 ...
+   - 1 frame out of 8 ...
 
-Fixes: 26dde1beb359 ("media: chips-media: wave5: Add wave5 driver to maintainers file")
-Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
----
- MAINTAINERS | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+In such case the dropped frames won't go to the memory and will be dropped
+internally by the HW.
+This allows for reduction of the amount of captured data, reduce the bus usage,
+and can also be useful when the same sensor data must be captured in parallel
+by several pipelines outputting in different formats/framerates. (the current
+stm32mp13 has a single pipeline but the stm32mp25 has several).
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 8b108946b00d..31baa4bf525b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -23485,7 +23485,7 @@ M:	Nas Chung <nas.chung@chipsnmedia.com>
- M:	Jackson Lee <jackson.lee@chipsnmedia.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/bindings/media/cnm,wave5.yaml
-+F:	Documentation/devicetree/bindings/media/cnm,wave521c.yaml
- F:	drivers/media/platform/chips-media/wave5/
- 
- WHISKEYCOVE PMIC GPIO DRIVER
--- 
-2.17.1
+Having a look at existing subdevs within the media tree, I couldn't find similar
+subdev having an impact on the framerate (apart from the sensors).  I first
+implemented this behavior using frame_interval control on both SINK and SOURCE
+pads of the subdev however linux-media doc clearly mentions that frame_interval
+should only be done on one pad.  Original idea was to compute the difference of
+frame_interval between the SOURCE and SINK pad and thus apply the settings.  As
+an example, having a SINK pad frame_interval corresponding to 30fps (coming from
+the sensor), and setting a frame_interval of 15fps on the SOURCE pad would lead
+to configuring the DCMIPP to perform capture of 1 frame out of 2.
 
+Another approach I could think of would be to have a dedicated ctrl on the subdev
+to control the frame rate adjustment factor.
+
+Do you have guidelines regarding how such functionality should be exposed ?
+
+Regards,
+Alain
 
