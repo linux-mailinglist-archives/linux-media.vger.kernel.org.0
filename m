@@ -1,152 +1,184 @@
-Return-Path: <linux-media+bounces-1349-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1350-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A34097FD465
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 11:38:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BE27FD4C0
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 11:55:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2AFFDB20AA6
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:38:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BA7A1C20F61
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:55:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D969B1B28F;
-	Wed, 29 Nov 2023 10:37:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32C291BDCF;
+	Wed, 29 Nov 2023 10:55:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="RxPjpMoY"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XWiYmfme"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 606761BD3
-	for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 02:37:51 -0800 (PST)
-Received: by mail-wm1-x32b.google.com with SMTP id 5b1f17b1804b1-40b4f6006d5so11759295e9.1
-        for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 02:37:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701254270; x=1701859070; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=s7sxeOizxeeQP9IDj8gb2CduxEiKvpNt2VF3HpmNNvU=;
-        b=RxPjpMoYQbjorrjk/dGyZpVwvst4oDzUJtcI92E9d3wwDXzhYFaPhYt5X2ZLq6xU8m
-         5v8Q/LNKJZKb/PMGLYNfQQWbew+2EflKdCtA2MHkmcW7BA0dx1A6BLcw4Q7XtI59oDzl
-         nZDCSFsrIpLdBfFjyAPNzghOhwOYHekD6QmnLFHZ4F3yAfwzSnheUm2n9kEaYFAqh7Cg
-         /+uRWupLXv2t4TPyY7K/jN9szBGKP//uVIgAwKliiwMhiG6t3L6sHi+dY1Njs0L2t+IW
-         /x3c0FyeowP2NAneaJ4dAUuBnwYjfNm75ZEPEhtGAa19n1eFrX4xY2tPJUgZwsJY65WC
-         67FQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701254270; x=1701859070;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=s7sxeOizxeeQP9IDj8gb2CduxEiKvpNt2VF3HpmNNvU=;
-        b=A4IuDbjNifKMKKI2jt1iEGt0ST0wtluK2z8eOCYZLTdk/84DRoQX6GkuSey5+wD+i4
-         eYkcc1vAzjwrM1j9QvX5avMez0qi3JaW+0/zqU5sBn6B8r6FOpbSD9cCuueZOfXc6CzA
-         +Qi9C6DoDocHaEOpc+LdD7BdxKbu8CGufZVvP1U0NpU5nN6m/2OUqY1g9g3HAZu6Cf2n
-         bZhhGjwI4RYUUSJGyjIVFZJ02s8VT2t8gE1NKGf0nOXjZ4FCQipM+/9WtsrU7jQecomQ
-         BudnsqNo15XROgDvEQXAi614C9QZAWoH0pCOMSu7J6C6ouTaJxB8DeFV2oa3jOZoLugt
-         hyKw==
-X-Gm-Message-State: AOJu0YynIqt5duXXDIDALy5798BTNUeyALDpkvbqx8yuLm+VRtC255m5
-	4pYKDdHcpXx3UTnI9BkVSyfwCGzlCHxyAf31JQM=
-X-Google-Smtp-Source: AGHT+IH0y2oAKRYEHw284HB6475mCMq0AgQJqvJZxc8ce/C8PK+m9gn3Qf0tRYCIbHTY6hkfvPST0Q==
-X-Received: by 2002:a05:600c:a0b:b0:40b:3643:48bf with SMTP id z11-20020a05600c0a0b00b0040b364348bfmr7870901wmp.17.1701254269661;
-        Wed, 29 Nov 2023 02:37:49 -0800 (PST)
-Received: from [192.168.1.20] ([2a01:cb19:95ba:5000:d6dd:417f:52ac:335b])
-        by smtp.gmail.com with ESMTPSA id k18-20020a05600c1c9200b0040b2976eb02sm1700502wms.10.2023.11.29.02.37.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 29 Nov 2023 02:37:49 -0800 (PST)
-From: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-Date: Wed, 29 Nov 2023 11:37:40 +0100
-Subject: [PATCH] media: chips-media: wave5: fix panic on decoding
- DECODED_IDX_FLAG_SKIP
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68E1795;
+	Wed, 29 Nov 2023 02:55:31 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2C3CF842;
+	Wed, 29 Nov 2023 11:54:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701255293;
+	bh=+thUs3ZwcJ7OeP27zmFr2bOov1zQu5Uq4z2RuS7YBr0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XWiYmfmeMKqDhB0F2WsNEs6VV63CnIAh3vt3iikQMvWHm6oJaFzS3UNUeiotYfog1
+	 8/CaBBCqAbFGlgxu2wuse+PbF5pu3CKhP+UiRQ79+Tq/nVH2tGI99CcUOXyr9UYrv4
+	 A2zvZ/HRl0wBisDUrTq7BNS4EFf+O5ON+G/Kdz3A=
+Date: Wed, 29 Nov 2023 12:55:36 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Adam Ford <aford173@gmail.com>
+Cc: Marco Felsch <m.felsch@pengutronix.de>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-imx@nxp.com,
+	kernel@pengutronix.de, Shawn Guo <shawnguo@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: Re: [PATCH v1 1/2] arm64: dts: imx8mp: Add CSIS DT nodes
+Message-ID: <20231129105536.GE24293@pendragon.ideasonboard.com>
+References: <20230417055627.16482-1-laurent.pinchart@ideasonboard.com>
+ <20230417055627.16482-2-laurent.pinchart@ideasonboard.com>
+ <CAHCN7x+kymRGO2kxvN2=zLiqRjfTc3hdf3VdNVkWjsW3La0bnA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231129-wave5-panic-v1-1-e0fb5a1a8af4@baylibre.com>
-X-B4-Tracking: v=1; b=H4sIAHMUZ2UC/x3MQQqAIBBA0avErBN0LKiuEi1Ex5qNiYIF4t2Tl
- m/xf4VMiSnDNlRIVDjzHTrUOIC9TDhJsOsGlKiVwlU8ptAsoglsxYJk0GkpJ/TQi5jI8/vf9qO
- 1D4mDPJldAAAA
-To: Nas Chung <nas.chung@chipsnmedia.com>, 
- Jackson Lee <jackson.lee@chipsnmedia.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Guillaume La Roque <glaroque@baylibre.com>, 
- Brandon Brnich <b-brnich@ti.com>, 
- Sebastian Fricke <sebastian.fricke@collabora.com>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Mattijs Korpershoek <mkorpershoek@baylibre.com>
-X-Mailer: b4 0.12.4-dev-9f269
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHCN7x+kymRGO2kxvN2=zLiqRjfTc3hdf3VdNVkWjsW3La0bnA@mail.gmail.com>
 
-The display frame region information received from the vpu also
-contains the frame display index: info->index_frame_display.
+Hi Adam,
 
-This index, being a s32, can be negative when a skip option is passed.
-In that case, its value is DECODED_IDX_FLAG_SKIP (-2).
+(CC'ing Kieran)
 
-When disp_idx == -2, the following exception occurs:
+On Tue, Nov 28, 2023 at 09:17:51PM -0600, Adam Ford wrote:
+> On Mon, Apr 17, 2023 at 1:01 AM Laurent Pinchart wrote:
+> >
+> > Add DT nodes for the two CSI-2 receivers of the i.MX8MP.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> 
+> Laurent,
+> 
+> Sorry to dig up an old thread, but I have a concern about the clock
+> ratings and nominal mode vs overdrive mode.  I started investigating
+> the different data sheets amongst the various imx8m[mnp] families to
+> make the default device trees run at nominal mode while also creating
+> a separate dtsi file with settings for overdrive so boards who use it
+> can include them without having to duplicate the clock settings for
+> everyone who supports overdrive.
+> 
+> >  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 60 +++++++++++++++++++++++
+> >  1 file changed, 60 insertions(+)
+> >
+> > diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > index 2dd60e3252f3..2a374a4c14a2 100644
+> > --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
+> > @@ -1239,6 +1239,66 @@ ldb_lvds_ch1: endpoint {
+> >                                 };
+> >                         };
+> >
+> > +                       mipi_csi_0: csi@32e40000 {
+> > +                               compatible = "fsl,imx8mp-mipi-csi2", "fsl,imx8mm-mipi-csi2";
+> > +                               reg = <0x32e40000 0x10000>;
+> > +                               interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
+> > +                               clock-frequency = <500000000>;
+> > +                               clocks = <&clk IMX8MP_CLK_MEDIA_APB_ROOT>,
+> > +                                        <&clk IMX8MP_CLK_MEDIA_CAM1_PIX_ROOT>,
+> > +                                        <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF_ROOT>,
+> > +                                        <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>;
+> > +                               clock-names = "pclk", "wrap", "phy", "axi";
+> > +                               assigned-clocks = <&clk IMX8MP_CLK_MEDIA_CAM1_PIX>;
+> > +                               assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
+> > +                               assigned-clock-rates = <500000000>;
+> 
+> According to Rev 2.1 of the Data sheet (IMX8MPCEC), dated July 2023,
+> 500MHz is listed as single-camera, overdrive mode.  Single-camera,
+> nominal mode is 400MHz, but there is more...
+> If configured for dual cameras, both CSI can only support up to
+> 266MHz, but we have partially configured both albeit without the
+> actual camera sensors connected.
+> 
+> > +                               power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_1>;
+> > +                               status = "disabled";
+> > +
+> > +                               ports {
+> > +                                       #address-cells = <1>;
+> > +                                       #size-cells = <0>;
+> > +
+> > +                                       port@0 {
+> > +                                               reg = <0>;
+> > +                                       };
+> > +
+> > +                                       port@1 {
+> > +                                               reg = <1>;
+> > +                                       };
+> > +                               };
+> > +                       };
+> > +
+> > +                       mipi_csi_1: csi@32e50000 {
+> > +                               compatible = "fsl,imx8mp-mipi-csi2", "fsl,imx8mm-mipi-csi2";
+> > +                               reg = <0x32e50000 0x10000>;
+> > +                               interrupts = <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>;
+> > +                               clock-frequency = <266000000>;
+> > +                               clocks = <&clk IMX8MP_CLK_MEDIA_APB_ROOT>,
+> > +                                        <&clk IMX8MP_CLK_MEDIA_CAM2_PIX_ROOT>,
+> > +                                        <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1_REF_ROOT>,
+> > +                                        <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>;
+> > +                               clock-names = "pclk", "wrap", "phy", "axi";
+> > +                               assigned-clocks = <&clk IMX8MP_CLK_MEDIA_CAM2_PIX>;
+> > +                               assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_1000M>;
+> > +                               assigned-clock-rates = <266000000>;
+> 
+> 266MHz is correct for dual camera, but in single camera, the second
+> CSI is capable of 277MHz.
+> 
+> At a minimum, I'd like to fix the overdrive frequency to nominal, but
+> since we're plumbing in both cameras, I wonder if it would be better
+> to run both at 266MHz with a note on CSI0 that states it could run at
+> 400 or 500 if the second CSI is disabled and a note on the second CSI
+> that it could run at 277 when the first one is disabled? What are your
+> thoughts?
 
-[ 1530.782246][ T1900] Hardware name: Texas Instruments AM62P5 SK (DT)
-[ 1530.788501][ T1900] pstate: a0400005 (NzCv daif +PAN -UAO -TCO -DIT -SSBS BTYPE=--)
-[ 1530.796144][ T1900] pc : wave5_vpu_dec_get_output_info+0x300/0x308 [wave5]
-[ 1530.803060][ T1900] lr : wave5_vpu_dec_get_output_info+0x80/0x308 [wave5]
-[ 1530.809873][ T1900] sp : ffffffc00b85bc00
-[ 1530.813872][ T1900] x29: ffffffc00b85bc00 x28: 0000000000000000 x27: 0000000000000001
-[ 1530.821695][ T1900] x26: 00000000fffffffd x25: 00000000ffffffff x24: ffffff8812820000
-[ 1530.829516][ T1900] x23: ffffff88199f7840 x22: ffffff8873f5e000 x21: ffffffc00b85bc58
-[ 1530.837336][ T1900] x20: 0000000000000000 x19: ffffff88199f7920 x18: ffffffc00a899030
-[ 1530.845156][ T1900] x17: 00000000529c6ef0 x16: 00000000529c6ef0 x15: 0000000000198487
-[ 1530.852975][ T1900] x14: ffffffc009f2b650 x13: 0000000000058016 x12: 0000000005000000
-[ 1530.860795][ T1900] x11: 0000000000000000 x10: 0000000000000000 x9 : 0000000000000000
-[ 1530.868615][ T1900] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0000000000004086
-[ 1530.876434][ T1900] x5 : 0000000000000001 x4 : ffffffc001454b94 x3 : ffffffc001454d94
-[ 1530.884256][ T1900] x2 : ffffffc00b8201d0 x1 : 0000000000000020 x0 : 0000000000000000
-[ 1530.892087][ T1900] Call trace:
-[ 1530.895225][ T1900]  wave5_vpu_dec_get_output_info+0x300/0x308 [wave5]
-[ 1530.901788][ T1900]  wave5_vpu_dec_finish_decode+0x6c/0x3dc [wave5]
-[ 1530.908081][ T1900]  wave5_vpu_irq_thread+0x140/0x168 [wave5]
-[ 1530.913856][ T1900]  irq_thread_fn+0x44/0xa4
-[ 1530.918154][ T1900]  irq_thread+0x15c/0x288
-[ 1530.922330][ T1900]  kthread+0x104/0x1d4
-[ 1530.926247][ T1900]  ret_from_fork+0x10/0x20
-[ 1530.930520][ T1900] Code: 2a1f03ea 2a1f03eb 35ffef2c 17ffff74 (d42aa240)
-[ 1530.937296][ T1900] ---[ end trace 0000000000000000 ]---
-[ 1530.942596][ T1900] Kernel panic - not syncing: BRK handler: Fatal exception
-[ 1530.949629][ T1900] SMP: stopping secondary CPUs
-[ 1530.954244][ T1900] Kernel Offset: disabled
-[ 1530.958415][ T1900] CPU features: 0x00,00000000,00800184,0000421b
-[ 1530.964496][ T1900] Memory Limit: none
+My thoughts is that this all should be selected at runtime, based on how
+many cameras are used. That won't be trivial to do though :-S Kieran,
+you've been working with two cameras, any opinion ?
 
-Move the disp_info assignment after testing that the index is positive
-to avoid the exception.
+> > +                               power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_2>;
+> > +                               status = "disabled";
+> > +
+> > +                               ports {
+> > +                                       #address-cells = <1>;
+> > +                                       #size-cells = <0>;
+> > +
+> > +                                       port@0 {
+> > +                                               reg = <0>;
+> > +                                       };
+> > +
+> > +                                       port@1 {
+> > +                                               reg = <1>;
+> > +                                       };
+> > +                               };
+> > +                       };
+> > +
+> >                         pcie_phy: pcie-phy@32f00000 {
+> >                                 compatible = "fsl,imx8mp-pcie-phy";
+> >                                 reg = <0x32f00000 0x10000>;
 
-Fixes: 45d1a2b93277 ("media: chips-media: wave5: Add vpuapi layer")
-Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
----
- drivers/media/platform/chips-media/wave5/wave5-vpuapi.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-index 86b3993722db..1a3efb638dde 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-@@ -508,8 +508,8 @@ int wave5_vpu_dec_get_output_info(struct vpu_instance *inst, struct dec_output_i
- 	info->rc_decoded = rect_info;
- 
- 	disp_idx = info->index_frame_display;
--	disp_info = &p_dec_info->dec_out_info[disp_idx];
- 	if (info->index_frame_display >= 0 && info->index_frame_display < WAVE5_MAX_FBS) {
-+		disp_info = &p_dec_info->dec_out_info[disp_idx];
- 		if (info->index_frame_display != info->index_frame_decoded) {
- 			/*
- 			 * when index_frame_decoded < 0, and index_frame_display >= 0
-
----
-base-commit: a00b3f296eac3d43328615c3113e1a74143fc67a
-change-id: 20231129-wave5-panic-82ea2d30042f
-
-Best regards,
 -- 
-Mattijs Korpershoek <mkorpershoek@baylibre.com>
+Regards,
 
+Laurent Pinchart
 
