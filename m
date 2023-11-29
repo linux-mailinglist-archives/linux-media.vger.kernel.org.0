@@ -1,214 +1,183 @@
-Return-Path: <linux-media+bounces-1305-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1306-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FD287FCD5C
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 04:18:14 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A394D7FCDCA
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 05:17:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DAF19B2155C
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 03:18:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BFDC1C2104D
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 04:17:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C585566F;
-	Wed, 29 Nov 2023 03:18:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5C6B6ADC;
+	Wed, 29 Nov 2023 04:17:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k+LQl0K3"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="SPvxAzUi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-x436.google.com (mail-pf1-x436.google.com [IPv6:2607:f8b0:4864:20::436])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD4961990;
-	Tue, 28 Nov 2023 19:18:03 -0800 (PST)
-Received: by mail-pf1-x436.google.com with SMTP id d2e1a72fcca58-6cd89f2af9dso3141167b3a.1;
-        Tue, 28 Nov 2023 19:18:03 -0800 (PST)
+Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CA3C1AE
+	for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 20:17:35 -0800 (PST)
+Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-54b0310f536so939308a12.0
+        for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 20:17:35 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701227883; x=1701832683; darn=vger.kernel.org;
+        d=chromium.org; s=google; t=1701231452; x=1701836252; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=LSpkPO6mTZBYtP6dAin29JDzMqWLZ10a/rujYdeVJco=;
-        b=k+LQl0K3mxREL4/76iVeIuXcjNCivsVSEVcN2Tsu7RQwKRi6Vj3Ryti7LKqUDVeMJD
-         XYNbRpyFePapQSwqjeVtfuHAuNTkT1HyIP0F3fT2wVez/OgxSVeNFXUN9p+BWIMAMg5u
-         R6dnon5N1oQbciJX+Sq+77X/bzL04LVoHZZuezzSzPxxBKj0pdEboLZuaOV2tdHq4ksE
-         BZijOQdqu2cHBayCb3HvN5nTSUYzg4LgZxgkGS291Eat/RV+jTADMGKQjTVfJbnYVh3n
-         NLRJZpQAYbF+LL9iDMQpO8K+8BYIYsYCyEjuBEt0aYef/dXKjaC8ArNcofnhxLooKTSX
-         TCVQ==
+        bh=NZzuVjJtlnAafrGnIlhuyzTMjINdeQbe2IGSLVE2qCI=;
+        b=SPvxAzUi+vT+NqZfuXZuGIacAeirhF28NP5E+7tCxJi1cWoPPNRLUnheGHmy2B/J7T
+         wGnBdkSFIGIsTj5rYyqYSFG/K/iKKi2nWwSVhjL7UWX2Enhy6aU9BHrVS/6aOVm/8JpE
+         LLlhmT3E7FrXUd5G01kWM7lf+SE9z5LmhpoF8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701227883; x=1701832683;
+        d=1e100.net; s=20230601; t=1701231452; x=1701836252;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=LSpkPO6mTZBYtP6dAin29JDzMqWLZ10a/rujYdeVJco=;
-        b=wMZX0Bt9OGI37EpaxsDo5zgXnYM7Gd1Xgu9AgpsaIuE76NK1sQns36uhdphWIYrjc5
-         SoLspuhWokwZxvXWN1t1m4q4D/eXWrGzPKLXjAKCHnONoQKNsdsPXMXHtnEIbqyyxMLf
-         bc+QADnHX7BK0o+5kLGdLDuYrTFUWvbkkEmDGps78U+pxOAthRda7J+IzTGYstdYBRzn
-         1I1nlCmaoC/uxLgsIJ874vdNm1rl8moaStdBTwT0Kxxpai/3itKJBRWNOR4BCXSykHK9
-         UZvdyyhNUjHu4eOTWsMsP0ngjI5rRjFrH7gP5hZx/4Mq/sg6xIe6JGHl8XF1B5xKAdpn
-         dxKg==
-X-Gm-Message-State: AOJu0Yzommmeky5ULRqNHfrWDmMOTo9ithAdzYh/vcS5urOQB/MoOjrd
-	STWPhHd4hPBy5X3VMo4qpfgCJPOO9Ej3Q9tR24A=
-X-Google-Smtp-Source: AGHT+IEWDbBNmR0nirBoEL9DEds4xbi+UWqa34Xsn/yQiOPJ4jkWNHD5NUpZZkwLIrnhH7zrk+T8hEP/AmF9GEwRu6w=
-X-Received: by 2002:a05:6a20:d704:b0:181:44c:d6a with SMTP id
- iz4-20020a056a20d70400b00181044c0d6amr26074616pzb.21.1701227882873; Tue, 28
- Nov 2023 19:18:02 -0800 (PST)
+        bh=NZzuVjJtlnAafrGnIlhuyzTMjINdeQbe2IGSLVE2qCI=;
+        b=iUB8Q24e2m8jIF2NFMXqCgxMwM8leRWmCgGzPhyTNgVIbeJI8E1DZfUacVsf8g4b3E
+         itEhmVFylvObLxjRJ8CCzvrEQHATphGwo7Qqo+FPoX7bPPqP7l8xi/A19VDGy03uXOUn
+         XHr7DUn6jWBzhs48g0+e3XXxYTJon0lb/97TIWVVS/P6OXkzSgNVV+wxHiZeE9W2JVha
+         COImT25eI9O/XlcL5MxJcFhOrC60Q53L06PTtY2sDwt/+01qoAmwRllPNAzRR5coMGcO
+         P2pIuat8DMf9fz1XYO5r37LLB3b0QjpUOIlFgWd8MVq02mck6fL5VgWhsZgVQG4KmiQ1
+         pl5w==
+X-Gm-Message-State: AOJu0YyDbEQWs+pfQUCgF6PD8yoCCqp9plt3AyhXispfqMA2UtYlBSUA
+	/MjEnYs9x2Ktx5CK28ujp1gcJAJepLOGEmnNqfq/yb8o
+X-Google-Smtp-Source: AGHT+IGB+P6owAKiT8TAFRolqqm+MMgSO6X7xy219DTBVYmQWgsbPTtbeH3+xAW7XBq0lEz2ahcbng==
+X-Received: by 2002:a50:fa8f:0:b0:54b:5a7:1435 with SMTP id w15-20020a50fa8f000000b0054b05a71435mr13572805edr.4.1701231452318;
+        Tue, 28 Nov 2023 20:17:32 -0800 (PST)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
+        by smtp.gmail.com with ESMTPSA id cw13-20020a056402228d00b0054b651ce8a1sm2943573edb.45.2023.11.28.20.17.31
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Nov 2023 20:17:31 -0800 (PST)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-332ddd8e0bdso261379f8f.0
+        for <linux-media@vger.kernel.org>; Tue, 28 Nov 2023 20:17:31 -0800 (PST)
+X-Received: by 2002:adf:f10d:0:b0:332:cae1:dd5 with SMTP id
+ r13-20020adff10d000000b00332cae10dd5mr13790346wro.34.1701231450791; Tue, 28
+ Nov 2023 20:17:30 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20230417055627.16482-1-laurent.pinchart@ideasonboard.com> <20230417055627.16482-2-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20230417055627.16482-2-laurent.pinchart@ideasonboard.com>
-From: Adam Ford <aford173@gmail.com>
-Date: Tue, 28 Nov 2023 21:17:51 -0600
-Message-ID: <CAHCN7x+kymRGO2kxvN2=zLiqRjfTc3hdf3VdNVkWjsW3La0bnA@mail.gmail.com>
-Subject: Re: [PATCH v1 1/2] arm64: dts: imx8mp: Add CSIS DT nodes
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	Marco Felsch <m.felsch@pengutronix.de>, Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-imx@nxp.com, kernel@pengutronix.de, 
-	Shawn Guo <shawnguo@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Rob Herring <robh+dt@kernel.org>, 
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Xavier Roumegue <xavier.roumegue@oss.nxp.com>
+References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
+ <20231127165454.166373-8-benjamin.gaignard@collabora.com> <20231127170700.GC31314@pendragon.ideasonboard.com>
+ <6fa1ec09-3e30-475e-9718-29d23586753e@collabora.com> <CAAFQd5DCVTLpPoKSp_OA6fe_Hqt-oV7=AsCZWSmkJORvLSgUiw@mail.gmail.com>
+ <995eb6c2-cc7f-4217-bc37-4ab1a32f36ee@collabora.com>
+In-Reply-To: <995eb6c2-cc7f-4217-bc37-4ab1a32f36ee@collabora.com>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Wed, 29 Nov 2023 13:17:09 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5Bv5kc9TfNM5CkKowvaoRndTmkmU6+0LyCG8YbOKy=hxQ@mail.gmail.com>
+Message-ID: <CAAFQd5Bv5kc9TfNM5CkKowvaoRndTmkmU6+0LyCG8YbOKy=hxQ@mail.gmail.com>
+Subject: Re: [PATCH 07/55] media: imx8-isi: Stop abusing of min_buffers_needed field
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, hverkuil@xs4all.nl, 
+	mchehab@kernel.org, m.szyprowski@samsung.com, matt.ranostay@konsulko.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, kernel@collabora.com, 
+	Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, 
+	Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, 
+	NXP Linux Team <linux-imx@nxp.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 17, 2023 at 1:01=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
+On Tue, Nov 28, 2023 at 7:26=E2=80=AFPM Benjamin Gaignard
+<benjamin.gaignard@collabora.com> wrote:
 >
-> Add DT nodes for the two CSI-2 receivers of the i.MX8MP.
 >
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-
-Laurent,
-
-Sorry to dig up an old thread, but I have a concern about the clock
-ratings and nominal mode vs overdrive mode.  I started investigating
-the different data sheets amongst the various imx8m[mnp] families to
-make the default device trees run at nominal mode while also creating
-a separate dtsi file with settings for overdrive so boards who use it
-can include them without having to duplicate the clock settings for
-everyone who supports overdrive.
-
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 60 +++++++++++++++++++++++
->  1 file changed, 60 insertions(+)
+> Le 28/11/2023 =C3=A0 10:35, Tomasz Figa a =C3=A9crit :
+> > On Tue, Nov 28, 2023 at 6:31=E2=80=AFPM Benjamin Gaignard
+> > <benjamin.gaignard@collabora.com> wrote:
+> >>
+> >> Le 27/11/2023 =C3=A0 18:07, Laurent Pinchart a =C3=A9crit :
+> >>> Hi Benjamin,
+> >>>
+> >>> Thank you for the patch.
+> >>>
+> >>> On Mon, Nov 27, 2023 at 05:54:06PM +0100, Benjamin Gaignard wrote:
+> >>>> 'min_buffers_needed' is suppose to be used to indicate the number
+> >>>> of buffers needed by DMA engine to start streaming.
+> >>>> imx8-isi driver doesn't use DMA engine and just want to specify
+> >>> What do you mean, "doesn't use DMA engine" ? The ISI surely has DMA
+> >>> engines :-)
+> >> I have done assumption on drivers given if they use or dma_* functions=
+.
+> > I suspect the use of vb2_dma_sg_plane_desc() and
+> > vb2_dma_contig_plane_dma_addr() may be more correlated to whether
+> > there is a DMA involved or not. Usually V4L2 drivers don't really have
+> > to deal with the DMA API explicitly, because the vb2 framework handles
+> > most of the work.
 >
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/=
-dts/freescale/imx8mp.dtsi
-> index 2dd60e3252f3..2a374a4c14a2 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> @@ -1239,6 +1239,66 @@ ldb_lvds_ch1: endpoint {
->                                 };
->                         };
+> Unfortunately isn't not true either, for example verisilicon driver use
+> these function but doesn't need DMA engine.
+
+That sounds weird. Why would a driver that doesn't have a DMA engine
+need to obtain a scatterlist or the DMA address of the buffer?
+
+> I haven't found yet a 100% criteria to decide if driver use or not DMA en=
+gine
+> so I plan to fix case by case given maintainers remarks.
+
+Yeah, there probably wouldn't be a way that would give one a 100%
+certainty, although I'd still insist that the two functions I
+mentioned should be close to that. Of course a driver can use those
+functions for some queues, while other queues would be pure software
+queues, e.g. for some metadata - a simple grep is not enough. Is that
+perhaps the case for the verisilicon driver?
+
+Best regards,
+Tomasz
+
 >
-> +                       mipi_csi_0: csi@32e40000 {
-> +                               compatible =3D "fsl,imx8mp-mipi-csi2", "f=
-sl,imx8mm-mipi-csi2";
-> +                               reg =3D <0x32e40000 0x10000>;
-> +                               interrupts =3D <GIC_SPI 17 IRQ_TYPE_LEVEL=
-_HIGH>;
-> +                               clock-frequency =3D <500000000>;
-> +                               clocks =3D <&clk IMX8MP_CLK_MEDIA_APB_ROO=
-T>,
-> +                                        <&clk IMX8MP_CLK_MEDIA_CAM1_PIX_=
-ROOT>,
-> +                                        <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1=
-_REF_ROOT>,
-> +                                        <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>=
-;
-> +                               clock-names =3D "pclk", "wrap", "phy", "a=
-xi";
-> +                               assigned-clocks =3D <&clk IMX8MP_CLK_MEDI=
-A_CAM1_PIX>;
-> +                               assigned-clock-parents =3D <&clk IMX8MP_S=
-YS_PLL2_1000M>;
-> +                               assigned-clock-rates =3D <500000000>;
-
-According to Rev 2.1 of the Data sheet (IMX8MPCEC), dated July 2023,
-500MHz is listed as single-camera, overdrive mode.  Single-camera,
-nominal mode is 400MHz, but there is more...
-If configured for dual cameras, both CSI can only support up to
-266MHz, but we have partially configured both albeit without the
-actual camera sensors connected.
-
-> +                               power-domains =3D <&media_blk_ctrl IMX8MP=
-_MEDIABLK_PD_MIPI_CSI2_1>;
-> +                               status =3D "disabled";
-> +
-> +                               ports {
-> +                                       #address-cells =3D <1>;
-> +                                       #size-cells =3D <0>;
-> +
-> +                                       port@0 {
-> +                                               reg =3D <0>;
-> +                                       };
-> +
-> +                                       port@1 {
-> +                                               reg =3D <1>;
-> +                                       };
-> +                               };
-> +                       };
-> +
-> +                       mipi_csi_1: csi@32e50000 {
-> +                               compatible =3D "fsl,imx8mp-mipi-csi2", "f=
-sl,imx8mm-mipi-csi2";
-> +                               reg =3D <0x32e50000 0x10000>;
-> +                               interrupts =3D <GIC_SPI 80 IRQ_TYPE_LEVEL=
-_HIGH>;
-> +                               clock-frequency =3D <266000000>;
-> +                               clocks =3D <&clk IMX8MP_CLK_MEDIA_APB_ROO=
-T>,
-> +                                        <&clk IMX8MP_CLK_MEDIA_CAM2_PIX_=
-ROOT>,
-> +                                        <&clk IMX8MP_CLK_MEDIA_MIPI_PHY1=
-_REF_ROOT>,
-> +                                        <&clk IMX8MP_CLK_MEDIA_AXI_ROOT>=
-;
-> +                               clock-names =3D "pclk", "wrap", "phy", "a=
-xi";
-> +                               assigned-clocks =3D <&clk IMX8MP_CLK_MEDI=
-A_CAM2_PIX>;
-> +                               assigned-clock-parents =3D <&clk IMX8MP_S=
-YS_PLL2_1000M>;
-> +                               assigned-clock-rates =3D <266000000>;
-
-266MHz is correct for dual camera, but in single camera, the second
-CSI is capable of 277MHz.
-
-At a minimum, I'd like to fix the overdrive frequency to nominal, but
-since we're plumbing in both cameras, I wonder if it would be better
-to run both at 266MHz with a note on CSI0 that states it could run at
-400 or 500 if the second CSI is disabled and a note on the second CSI
-that it could run at 277 when the first one is disabled? What are your
-thoughts?
-
-
-> +                               power-domains =3D <&media_blk_ctrl IMX8MP=
-_MEDIABLK_PD_MIPI_CSI2_2>;
-> +                               status =3D "disabled";
-> +
-> +                               ports {
-> +                                       #address-cells =3D <1>;
-> +                                       #size-cells =3D <0>;
-> +
-> +                                       port@0 {
-> +                                               reg =3D <0>;
-> +                                       };
-> +
-> +                                       port@1 {
-> +                                               reg =3D <1>;
-> +                                       };
-> +                               };
-> +                       };
-> +
->                         pcie_phy: pcie-phy@32f00000 {
->                                 compatible =3D "fsl,imx8mp-pcie-phy";
->                                 reg =3D <0x32f00000 0x10000>;
-> --
 > Regards,
+> Benjamin
 >
-> Laurent Pinchart
->
+> >
+> > Best regards,
+> > Tomasz
+> >
+> >> I have considers that all PCI drivers are using DMA engine and
+> >> I don't know the design for each drivers so I hope to get this informa=
+tion
+> >> from maintainers and fix that in v2.
+> >> If imx8-isi driver needs a minimum number of buffers before start stre=
+aming
+> >> I will do a v2 and use min_dma_buffers_needed instead.
+> >>
+> >> Regards,
+> >> Benjamin
+> >>
+> >>>> the minimum number of buffers to allocate when calling VIDIOC_REQBUF=
+S.
+> >>>> That 'min_reqbufs_allocation' field purpose so use it.
+> >>>>
+> >>>> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> >>>> CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>>> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+> >>>> CC: Shawn Guo <shawnguo@kernel.org>
+> >>>> CC: Sascha Hauer <s.hauer@pengutronix.de>
+> >>>> CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+> >>>> CC: Fabio Estevam <festevam@gmail.com>
+> >>>> CC: NXP Linux Team <linux-imx@nxp.com>
+> >>>> ---
+> >>>>    drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c | 2 +-
+> >>>>    1 file changed, 1 insertion(+), 1 deletion(-)
+> >>>>
+> >>>> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/=
+drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> >>>> index 49bca2b01cc6..81673ff9084b 100644
+> >>>> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> >>>> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+> >>>> @@ -1453,7 +1453,7 @@ int mxc_isi_video_register(struct mxc_isi_pipe=
+ *pipe,
+> >>>>       q->mem_ops =3D &vb2_dma_contig_memops;
+> >>>>       q->buf_struct_size =3D sizeof(struct mxc_isi_buffer);
+> >>>>       q->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> >>>> -    q->min_buffers_needed =3D 2;
+> >>>> +    q->min_reqbufs_allocation =3D 2;
+> >>>>       q->lock =3D &video->lock;
+> >>>>       q->dev =3D pipe->isi->dev;
+> >>>>
 
