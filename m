@@ -1,318 +1,138 @@
-Return-Path: <linux-media+bounces-1370-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1371-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A40937FD922
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 15:19:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7DA7FD94C
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 15:26:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0361CB2134E
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 14:19:22 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 68586B21471
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 14:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9A7C30F97;
-	Wed, 29 Nov 2023 14:19:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NSWbRRtY"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA0FD31581;
+	Wed, 29 Nov 2023 14:26:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 29 Nov 2023 06:19:10 PST
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 71349AF
-	for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 06:19:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701267551; x=1732803551;
-  h=date:from:to:cc:subject:message-id:mime-version:
-   content-transfer-encoding;
-  bh=/zky3zQld+TNsg9gjrBPXs6epdO84achSSjlIAHHjFY=;
-  b=NSWbRRtYaAQu4Y6QmEPejUgPYanDrpUOtEfMPoBZwYVjRJmujbu5Y54O
-   QgWYZ5G9N6l3kBUI9pnwxmCAsQLgfCwC9KFAjPtCj6JkEN/87nF6RNgyO
-   25ynWb/wLZX1wkHybHyVV8ggJMlbWDZsag51Dx3PsAYFcJpmScSRh3EpH
-   9FUyA9vdyR/JLlMdfJ2gIgW5gRG/5u4Dlbnbh7/7g9oHg9ZRdaZ31r43R
-   F/l0mdi9RKEqpWnl2IDqAkKniXsYozw7FjG8R68TPUhZFHVnHLNxw9snH
-   ooqFbMcWlemOKJQ7mpc6J7ObnWD5M79pSVEHwtk704GuprHXOwR0lr7A/
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="154413"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="154413"
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 06:18:09 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="912869273"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="912869273"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga001.fm.intel.com with ESMTP; 29 Nov 2023 06:18:06 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1r8LO5-0000JG-21;
-	Wed, 29 Nov 2023 14:18:03 +0000
-Date: Wed, 29 Nov 2023 22:16:40 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata] BUILD SUCCESS WITH WARNING
- d7f1e9eefb0ffe8ed37933b2dbd1806401f5beaf
-Message-ID: <202311292235.jIhlQQrL-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2A4E2033C
+	for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 14:26:02 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9CC4DC433C8;
+	Wed, 29 Nov 2023 14:26:01 +0000 (UTC)
+Message-ID: <c64a2df0-929f-41ec-b24e-385f1c11a53c@xs4all.nl>
+Date: Wed, 29 Nov 2023 15:26:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] media: vivid: Don't explicitly set bus_info
+Content-Language: en-US, nl
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Cc: Shuah Khan <skhan@linuxfoundation.org>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>
+References: <20231129141545.87461-1-sakari.ailus@linux.intel.com>
+ <20231129141545.87461-2-sakari.ailus@linux.intel.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20231129141545.87461-2-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
-branch HEAD: d7f1e9eefb0ffe8ed37933b2dbd1806401f5beaf  media: ov2740: Add s=
-upport for embedded data
+On 29/11/2023 15:15, Sakari Ailus wrote:
+> The bus_info field in both struct media_device and struct v4l2_capability
+> is assigned by the framework for platform devices. Do not set it in the
+> driver.
 
-Warning reports:
+That doesn't work for vivid. The problem is that if you create multiple instances
+(e.g. modprobe vivid n_devs=2), then each instance will report "platform:vivid.0"
+as bus info, but they must give different bus_info names since that has to be unique.
 
-https://lore.kernel.org/oe-kbuild-all/202311290535.b6I99nud-lkp@intel.com
+It should be fine for vimc, though, since that's just a single instance.
 
-Warning: (recently discovered and may have been fixed)
+So vivid is an exception to the rule. Rather than removing these snprintf lines,
+adding a comment might be better.
 
-Documentation/userspace-api/media/glossary.rst:123: WARNING: term not in gl=
-ossary: digital tv api
-Documentation/userspace-api/media/glossary.rst:124: WARNING: term not in gl=
-ossary: mc api
-Documentation/userspace-api/media/glossary.rst:125: WARNING: term not in gl=
-ossary: rc api
-Documentation/userspace-api/media/glossary.rst:126: WARNING: term not in gl=
-ossary: v4l2 api
-Documentation/userspace-api/media/glossary.rst:139: WARNING: term not in gl=
-ossary: v4l2 hardware
-Documentation/userspace-api/media/glossary.rst:160: WARNING: term not in gl=
-ossary: hardware peripheral
-Documentation/userspace-api/media/glossary.rst:17: WARNING: term not in glo=
-ssary: device driver
-Documentation/userspace-api/media/glossary.rst:198: WARNING: term not in gl=
-ossary: device node
-Documentation/userspace-api/media/glossary.rst:216: WARNING: term not in gl=
-ossary: v4l2 sub-device
-Documentation/userspace-api/media/glossary.rst:48: WARNING: term not in glo=
-ssary: media hardware
-Documentation/userspace-api/media/glossary.rst:56: WARNING: term not in glo=
-ssary: microprocessor
-Documentation/userspace-api/media/glossary.rst:62: WARNING: term not in glo=
-ssary: ic
-Documentation/userspace-api/media/glossary.rst:68: WARNING: term not in glo=
-ssary: fpga
-Documentation/userspace-api/media/glossary.rst:68: WARNING: term not in glo=
-ssary: ip block
-Documentation/userspace-api/media/glossary.rst:68: WARNING: term not in glo=
-ssary: i=C2=B2c
-Documentation/userspace-api/media/glossary.rst:68: WARNING: term not in glo=
-ssary: soc
-Documentation/userspace-api/media/glossary.rst:68: WARNING: term not in glo=
-ssary: spi
-Documentation/userspace-api/media/glossary.rst:73: WARNING: term not in glo=
-ssary: hardware component
-Documentation/userspace-api/media/glossary.rst:73: WARNING: term not in glo=
-ssary: isp
-Documentation/userspace-api/media/glossary.rst:79: WARNING: term not in glo=
-ssary: peripheral
+For the record: I tried exactly the same thing myself some time ago, and then
+discovered that that didn't fly.
 
-Unverified Warning (likely false positive, please contact us if interested):
+Regards,
 
-drivers/media/i2c/ccs/ccs-core.c: media/v4l2-fwnode.h is included more than=
- once.
+	Hans
 
-Warning ids grouped by kconfigs:
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/test-drivers/vivid/vivid-core.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
+> index 353f035fcd19..fdd070876a6d 100644
+> --- a/drivers/media/test-drivers/vivid/vivid-core.c
+> +++ b/drivers/media/test-drivers/vivid/vivid-core.c
+> @@ -239,8 +239,6 @@ static int vidioc_querycap(struct file *file, void  *priv,
+>  
+>  	strscpy(cap->driver, "vivid", sizeof(cap->driver));
+>  	strscpy(cap->card, "vivid", sizeof(cap->card));
+> -	snprintf(cap->bus_info, sizeof(cap->bus_info),
+> -		 "platform:%s-%03d", VIVID_MODULE_NAME, dev->inst);
+>  
+>  	cap->capabilities = dev->vid_cap_caps | dev->vid_out_caps |
+>  		dev->vbi_cap_caps | dev->vbi_out_caps |
+> @@ -1762,8 +1760,6 @@ static int vivid_create_instance(struct platform_device *pdev, int inst)
+>  
+>  	/* Initialize media device */
+>  	strscpy(dev->mdev.model, VIVID_MODULE_NAME, sizeof(dev->mdev.model));
+> -	snprintf(dev->mdev.bus_info, sizeof(dev->mdev.bus_info),
+> -		 "platform:%s-%03d", VIVID_MODULE_NAME, inst);
+>  	dev->mdev.dev = &pdev->dev;
+>  	media_device_init(&dev->mdev);
+>  	dev->mdev.ops = &vivid_media_ops;
 
-gcc_recent_errors
-`-- x86_64-allnoconfig
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:device-driver
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:device-node
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:digital-tv-api
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:fpga
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:hardware-component
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:hardware-peripheral
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:i-c
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:ic
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:ip-block
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:isp
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:mc-api
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:media-hardware
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:microprocessor
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:peripheral
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:rc-api
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:soc
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:spi
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:v4l2-api
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:v4l2-hardware
-    |-- Documentation-userspace-api-media-glossary.rst:WARNING:term-not-in-=
-glossary:v4l2-sub-device
-    `-- drivers-media-i2c-ccs-ccs-core.c:media-v4l2-fwnode.h-is-included-mo=
-re-than-once.
-
-elapsed time: 1506m
-
-configs tested: 138
-configs skipped: 0
-
-tested configs:
-alpha                             allnoconfig   gcc =20
-alpha                            allyesconfig   gcc =20
-alpha                               defconfig   gcc =20
-arc                              allmodconfig   gcc =20
-arc                               allnoconfig   gcc =20
-arc                              allyesconfig   gcc =20
-arc                                 defconfig   gcc =20
-arc                   randconfig-001-20231128   gcc =20
-arc                   randconfig-002-20231128   gcc =20
-arm                              allmodconfig   gcc =20
-arm                               allnoconfig   gcc =20
-arm                              allyesconfig   gcc =20
-arm                                 defconfig   clang
-arm                   randconfig-001-20231128   clang
-arm                   randconfig-002-20231128   clang
-arm                   randconfig-003-20231128   clang
-arm                   randconfig-004-20231128   clang
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc =20
-arm64                               defconfig   gcc =20
-arm64                 randconfig-001-20231128   clang
-arm64                 randconfig-002-20231128   clang
-arm64                 randconfig-003-20231128   clang
-arm64                 randconfig-004-20231128   clang
-csky                             allmodconfig   gcc =20
-csky                              allnoconfig   gcc =20
-csky                             allyesconfig   gcc =20
-csky                                defconfig   gcc =20
-csky                  randconfig-001-20231128   gcc =20
-csky                  randconfig-002-20231128   gcc =20
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20231128   clang
-hexagon               randconfig-002-20231128   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231128   clang
-i386         buildonly-randconfig-002-20231128   clang
-i386         buildonly-randconfig-003-20231128   clang
-i386         buildonly-randconfig-004-20231128   clang
-i386         buildonly-randconfig-005-20231128   clang
-i386         buildonly-randconfig-006-20231128   clang
-i386                                defconfig   gcc =20
-i386                  randconfig-001-20231128   clang
-i386                  randconfig-002-20231128   clang
-i386                  randconfig-003-20231128   clang
-i386                  randconfig-004-20231128   clang
-i386                  randconfig-005-20231128   clang
-i386                  randconfig-006-20231128   clang
-i386                  randconfig-011-20231128   gcc =20
-i386                  randconfig-012-20231128   gcc =20
-i386                  randconfig-013-20231128   gcc =20
-i386                  randconfig-014-20231128   gcc =20
-i386                  randconfig-015-20231128   gcc =20
-i386                  randconfig-016-20231128   gcc =20
-loongarch                        allmodconfig   gcc =20
-loongarch                         allnoconfig   gcc =20
-loongarch             randconfig-001-20231128   gcc =20
-loongarch             randconfig-002-20231128   gcc =20
-m68k                             allmodconfig   gcc =20
-m68k                              allnoconfig   gcc =20
-m68k                             allyesconfig   gcc =20
-microblaze                       allmodconfig   gcc =20
-microblaze                        allnoconfig   gcc =20
-microblaze                       allyesconfig   gcc =20
-mips                             allyesconfig   gcc =20
-nios2                            allmodconfig   gcc =20
-nios2                            allyesconfig   gcc =20
-nios2                 randconfig-001-20231128   gcc =20
-nios2                 randconfig-002-20231128   gcc =20
-openrisc                         allyesconfig   gcc =20
-parisc                           allmodconfig   gcc =20
-parisc                           allyesconfig   gcc =20
-parisc                randconfig-001-20231128   gcc =20
-parisc                randconfig-002-20231128   gcc =20
-powerpc                          allmodconfig   clang
-powerpc                          allyesconfig   clang
-powerpc               randconfig-001-20231128   clang
-powerpc               randconfig-002-20231128   clang
-powerpc               randconfig-003-20231128   clang
-powerpc64             randconfig-001-20231128   clang
-powerpc64             randconfig-002-20231128   clang
-powerpc64             randconfig-003-20231128   clang
-riscv                            allmodconfig   gcc =20
-riscv                            allyesconfig   gcc =20
-riscv                 randconfig-001-20231128   clang
-riscv                 randconfig-002-20231128   clang
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc =20
-s390                             allyesconfig   gcc =20
-s390                  randconfig-001-20231128   gcc =20
-s390                  randconfig-002-20231128   gcc =20
-sh                               allmodconfig   gcc =20
-sh                               allyesconfig   gcc =20
-sh                    randconfig-001-20231128   gcc =20
-sh                    randconfig-002-20231128   gcc =20
-sparc                            allmodconfig   gcc =20
-sparc64                          allmodconfig   gcc =20
-sparc64                          allyesconfig   gcc =20
-sparc64               randconfig-001-20231128   gcc =20
-sparc64               randconfig-002-20231128   gcc =20
-um                               allmodconfig   clang
-um                               allyesconfig   clang
-um                    randconfig-001-20231128   clang
-um                    randconfig-002-20231128   clang
-x86_64                            allnoconfig   gcc =20
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231128   clang
-x86_64       buildonly-randconfig-002-20231128   clang
-x86_64       buildonly-randconfig-003-20231128   clang
-x86_64       buildonly-randconfig-004-20231128   clang
-x86_64       buildonly-randconfig-005-20231128   clang
-x86_64       buildonly-randconfig-006-20231128   clang
-x86_64                              defconfig   gcc =20
-x86_64                randconfig-001-20231128   gcc =20
-x86_64                randconfig-002-20231128   gcc =20
-x86_64                randconfig-003-20231128   gcc =20
-x86_64                randconfig-004-20231128   gcc =20
-x86_64                randconfig-005-20231128   gcc =20
-x86_64                randconfig-006-20231128   gcc =20
-x86_64                randconfig-011-20231128   clang
-x86_64                randconfig-012-20231128   clang
-x86_64                randconfig-013-20231128   clang
-x86_64                randconfig-014-20231128   clang
-x86_64                randconfig-015-20231128   clang
-x86_64                randconfig-016-20231128   clang
-x86_64                randconfig-071-20231128   clang
-x86_64                randconfig-072-20231128   clang
-x86_64                randconfig-073-20231128   clang
-x86_64                randconfig-074-20231128   clang
-x86_64                randconfig-075-20231128   clang
-x86_64                randconfig-076-20231128   clang
-x86_64                          rhel-8.3-rust   clang
-xtensa                randconfig-001-20231128   gcc =20
-xtensa                randconfig-002-20231128   gcc =20
-
---=20
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
