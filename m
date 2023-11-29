@@ -1,166 +1,193 @@
-Return-Path: <linux-media+bounces-1342-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1343-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C01BB7FD2F0
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:38:59 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C66877FD332
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:48:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F0FF21C21191
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 09:38:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FBDC282F9D
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 09:48:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 973A11864E;
-	Wed, 29 Nov 2023 09:38:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5B2218E12;
+	Wed, 29 Nov 2023 09:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="oEC1EpQo"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FsaqE7jL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 829261999;
-	Wed, 29 Nov 2023 01:38:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701250731; x=1732786731;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=AKuXrJt5cSWlwQTjHEOlVJMaFv/ThpR7gpZ8mCu+jiM=;
-  b=oEC1EpQo5rf8b6v1akur41tQJRUNUQjy6Bv2QHzwhIehBvQo0kICStJm
-   Q9x+di2pNCxRZglfOYp8W61hdpAJxt4KtE9bDcDYbUTBiVkeatdXo1ghS
-   KmmBm99laTrCHU8YSurt7L6dDTzWp4hCRO4hODFm5tETqVJCO+F80IDDn
-   Vd+D4BL+r9eyui3YMKwlPGGAZzSs23K/jp1baNi4bEFCw8cx4RLuxwyOV
-   25nXF/1PmYuRuPbUWpPSxGEC7dR1g5HMj3G6MLPPe4IKgsSU5VXP323x1
-   DydywNxTQ7jO7LHKCs4dcaH5cp8RfJPCWYW9i9rVgH2CGkAVD2JKwzIfh
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="424277739"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="424277739"
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 01:38:51 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="745194703"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="745194703"
-Received: from dstavrak-mobl.ger.corp.intel.com (HELO localhost) ([10.252.60.61])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 01:38:45 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>, Ville =?utf-8?B?U3lyasOkbMOk?=
- <ville.syrjala@linux.intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>,
- Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, Samuel
- Holland <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, Jernej
- Skrabec <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org, Hans
- Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, Chen-Yu
- Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-In-Reply-To: <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
- <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
-Date: Wed, 29 Nov 2023 11:38:42 +0200
-Message-ID: <8734wo7vbx.fsf@intel.com>
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA0692114
+	for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 01:48:35 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50bc36725bbso955415e87.2
+        for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 01:48:35 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1701251314; x=1701856114; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1Mx325DtRKaxi+9uS3mKSouj4W90XaTo1Gq8eIdHtzI=;
+        b=FsaqE7jLU97/EJKeoxPCH61jaAYwzlL0hZ6apWnoLJjD4KnbGtu+/ITAlSe05sheDW
+         I4E8Rg/75YyV62X9kqfWLoPPGwa7NmkJixDX+BWv0GlrDCp1LjyEm4UUwTDpfzdr+3s7
+         GwFN1spp1532goxyuuQEwngF8U45yCZGcGx1I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701251314; x=1701856114;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=1Mx325DtRKaxi+9uS3mKSouj4W90XaTo1Gq8eIdHtzI=;
+        b=WIffhCUFBp9qbW5AsrlJRfpD4KZpEolqSswAAtvgNIenWNycLGR4PTBK7YI/YlPZ/C
+         xGqgkJ5UBAnImlxS0o9HHYx+sEpmGLEdNW9jsP913vSAFPZ/2fODLoVMyFeA2PeygJqy
+         S0K3HljUcJMypdMStC+k65YiIQleL3YdC49GB+rbSJFugKJ8QzI8mTEDWQGiwTfBDe/u
+         ve+y+SO9NBa1MGJpl4f+b4oTfAPF/8kUBGRsYFW2QcGczbnyNXh+lUsHsgzoRrEbukv1
+         oMLG1uBu+1IGiDJSJFhbwQK0pbVYH0lU7TJ1gy7o4ZfDzxGFyQxzAcUJd2rO3Kcjl89F
+         Lagw==
+X-Gm-Message-State: AOJu0YwIGiRRSTGs6NvBBpFHDXgu01ERH4vx1/5TMpy65PgToBs6pcFs
+	fQxpMociMHjy+UcN6zX0k7v+NLqNxzBWd3JrSv6xZjiQ
+X-Google-Smtp-Source: AGHT+IEGr9QRfoqZRyvPiEgk5lfhp9nMFhd5TxuoZ1DGXT4SpTXvfepKdDytPmCoNeebLFclMmlihw==
+X-Received: by 2002:a05:6512:3c8f:b0:509:4587:bdd0 with SMTP id h15-20020a0565123c8f00b005094587bdd0mr11767795lfv.7.1701251313612;
+        Wed, 29 Nov 2023 01:48:33 -0800 (PST)
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
+        by smtp.gmail.com with ESMTPSA id a28-20020ac2521c000000b0050ab88758b8sm2110546lfl.84.2023.11.29.01.48.33
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 29 Nov 2023 01:48:33 -0800 (PST)
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c9b8363683so18141741fa.3
+        for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 01:48:33 -0800 (PST)
+X-Received: by 2002:a2e:b008:0:b0:2c9:bf5b:5408 with SMTP id
+ y8-20020a2eb008000000b002c9bf5b5408mr833397ljk.24.1701251313149; Wed, 29 Nov
+ 2023 01:48:33 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
+ <20231127165454.166373-17-benjamin.gaignard@collabora.com> <cf444351-4305-450d-9b3a-a02a310543c7@xs4all.nl>
+In-Reply-To: <cf444351-4305-450d-9b3a-a02a310543c7@xs4all.nl>
+From: Tomasz Figa <tfiga@chromium.org>
+Date: Wed, 29 Nov 2023 18:48:15 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5DHQvvodpKTYN4AE6Q=48Mby+qtt_kE9xjgarn1jQextw@mail.gmail.com>
+Message-ID: <CAAFQd5DHQvvodpKTYN4AE6Q=48Mby+qtt_kE9xjgarn1jQextw@mail.gmail.com>
+Subject: Re: [PATCH 16/55] media: qcom: venus: Stop abusing of
+ min_buffers_needed field
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org, 
+	m.szyprowski@samsung.com, matt.ranostay@konsulko.com, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-staging@lists.linux.dev, kernel@collabora.com, 
+	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
+	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Andy Gross <agross@kernel.org>, 
+	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
+	linux-arm-msm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> Hi Ville,
+On Tue, Nov 28, 2023 at 7:26=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> w=
+rote:
 >
-> On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=C3=A4l=C3=A4 wrote:
->> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
->> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
->> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
->> > > > All the drm_connector_init variants take at least a pointer to the
->> > > > device, connector and hooks implementation.
->> > > >
->> > > > However, none of them check their value before dereferencing those
->> > > > pointers which can lead to a NULL-pointer dereference if the author
->> > > > isn't careful.
->> > >=20
->> > > Arguably oopsing on the spot is preferrable when this can't be cause=
-d by
->> > > user input. It's always a mistake that should be caught early during
->> > > development.
->> > >=20
->> > > Not everyone checks the return value of drm_connector_init and frien=
-ds,
->> > > so those cases will lead to more mysterious bugs later. And probably
->> > > oopses as well.
->> >=20
->> > So maybe we can do both then, with something like
->> >=20
->> > if (WARN_ON(!dev))
->> >    return -EINVAL
->> >=20
->> > if (drm_WARN_ON(dev, !connector || !funcs))
->> >    return -EINVAL;
->> >=20
->> > I'd still like to check for this, so we can have proper testing, and we
->> > already check for those pointers in some places (like funcs in
->> > drm_connector_init), so if we don't cover everything we're inconsisten=
-t.
->>=20
->> People will invariably cargo-cult this kind of stuff absolutely
->> everywhere and then all your functions will have tons of dead
->> code to check their arguments.
+> On 27/11/2023 17:54, Benjamin Gaignard wrote:
+> > 'min_buffers_needed' is suppose to be used to indicate the number
+> > of buffers needed by DMA engine to start streaming.
+> > venus driver doesn't use DMA engine and just want to specify
+> > the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
+> > That 'min_reqbufs_allocation' field purpose so use it.
+> >
+> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> > CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com> (maintainer:QUALC=
+OMM VENUS VIDEO ACCELERATOR DRIVER)
+> > CC: Vikash Garodia <quic_vgarodia@quicinc.com> (maintainer:QUALCOMM VEN=
+US VIDEO ACCELERATOR DRIVER)
+> > CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org> (reviewer:QUALCOMM =
+VENUS VIDEO ACCELERATOR DRIVER)
+> > CC: Andy Gross <agross@kernel.org> (maintainer:ARM/QUALCOMM SUPPORT)
+> > CC: Bjorn Andersson <andersson@kernel.org> (maintainer:ARM/QUALCOMM SUP=
+PORT)
+> > CC: Konrad Dybcio <konrad.dybcio@linaro.org> (maintainer:ARM/QUALCOMM S=
+UPPORT)
+> > CC: linux-arm-msm@vger.kernel.org
+> > ---
+> >  drivers/media/platform/qcom/venus/vdec.c | 4 ++--
+> >  drivers/media/platform/qcom/venus/venc.c | 4 ++--
+> >  2 files changed, 4 insertions(+), 4 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/p=
+latform/qcom/venus/vdec.c
+> > index dbf305cec120..16b8d0dde10d 100644
+> > --- a/drivers/media/platform/qcom/venus/vdec.c
+> > +++ b/drivers/media/platform/qcom/venus/vdec.c
+> > @@ -1641,7 +1641,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
+queue *src_vq,
+> >       src_vq->drv_priv =3D inst;
+> >       src_vq->buf_struct_size =3D sizeof(struct venus_buffer);
+> >       src_vq->allow_zero_bytesused =3D 1;
+> > -     src_vq->min_buffers_needed =3D 0;
+> > +     src_vq->min_reqbufs_allocation =3D 0;
 >
-> And that's a bad thing because... ?
+> Just drop this.
 >
-> Also, are you really saying that checking that your arguments make sense
-> is cargo-cult?
+> >       src_vq->dev =3D inst->core->dev;
+> >       src_vq->lock =3D &inst->ctx_q_lock;
+> >       ret =3D vb2_queue_init(src_vq);
+> > @@ -1656,7 +1656,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
+queue *src_vq,
+> >       dst_vq->drv_priv =3D inst;
+> >       dst_vq->buf_struct_size =3D sizeof(struct venus_buffer);
+> >       dst_vq->allow_zero_bytesused =3D 1;
+> > -     dst_vq->min_buffers_needed =3D 0;
+> > +     dst_vq->min_reqbufs_allocation =3D 0;
+> >       dst_vq->dev =3D inst->core->dev;
+> >       dst_vq->lock =3D &inst->ctx_q_lock;
+> >       return vb2_queue_init(dst_vq);
+> > diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/p=
+latform/qcom/venus/venc.c
+> > index 44b13696cf82..e399d01c208c 100644
+> > --- a/drivers/media/platform/qcom/venus/venc.c
+> > +++ b/drivers/media/platform/qcom/venus/venc.c
+> > @@ -1398,7 +1398,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
+queue *src_vq,
+> >       src_vq->drv_priv =3D inst;
+> >       src_vq->buf_struct_size =3D sizeof(struct venus_buffer);
+> >       src_vq->allow_zero_bytesused =3D 1;
+> > -     src_vq->min_buffers_needed =3D 1;
+> > +     src_vq->min_reqbufs_allocation =3D 1;
+>
+> So for platform drivers like this it is going to be more difficult to
+> determine which meaning min_buffers_needed had: is at least one queued
+> buffer needed before you can start streaming, or is this for a minimum
+> buffer allocation?
 
-It's a powerful thing to be able to assume a NULL argument is always a
-fatal programming error on the caller's side, and should oops and get
-caught immediately. It's an assertion.
-
-We're not talking about user input or anything like that here.
-
-If you start checking for things that can't happen, and return errors
-for them, you start gracefully handling things that don't have anything
-graceful about them.
-
-Having such checks in place trains people to think they *may* happen.
-
-While it should fail fast and loud at the developer's first smoke test,
-and get fixed then and there.
-
-
-BR,
-Jani.
-
+By the way, for stateful decoders, we also have the
+V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control, which tells the userspace
+the minimum buffers that need to be allocated and the drivers also
+should adjust the number requested in REQBUFS to be at least that.
 
 >
-> We're already doing it in some parts of KMS, so we have to be
-> consistent, and the answer to "most drivers don't check the error"
-> cannot be "let's just give on error checking then".
+> In the case of m2m devices using the v4l2-mem2mem framework it is almost
+> certainly the minimum buffer allocation since the m2m framework already
+> checks that there are input and output buffers queued (__v4l2_m2m_try_que=
+ue).
 >
->> I'd prefer not to go there usually.
->>=20
->> Should we perhaps start to use the (arguably hideous)
->>  - void f(struct foo *bar)
->>  + void f(struct foo bar[static 1])
->> syntax to tell the compiler we don't accept NULL pointers?
->>=20
->> Hmm. Apparently that has the same problem as using any
->> other kind of array syntax in the prototype. That is,
->> the compiler demands to know the definition of 'struct foo'
->> even though we're passing in effectively a pointer. Sigh.
+> So just delete the src_vq->min_buffers_needed =3D 1; line, and there is
+> no need to set min_reqbufs_allocation.
 >
-> Honestly, I don't care as long as it's something we can unit-test to
-> make sure we make it consistent. We can't unit test a complete kernel
-> crash.
-
---=20
-Jani Nikula, Intel
+> >       src_vq->dev =3D inst->core->dev;
+> >       src_vq->lock =3D &inst->ctx_q_lock;
+> >       if (inst->core->res->hfi_version =3D=3D HFI_VERSION_1XX)
+> > @@ -1415,7 +1415,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
+queue *src_vq,
+> >       dst_vq->drv_priv =3D inst;
+> >       dst_vq->buf_struct_size =3D sizeof(struct venus_buffer);
+> >       dst_vq->allow_zero_bytesused =3D 1;
+> > -     dst_vq->min_buffers_needed =3D 1;
+> > +     dst_vq->min_reqbufs_allocation =3D 1;
+> >       dst_vq->dev =3D inst->core->dev;
+> >       dst_vq->lock =3D &inst->ctx_q_lock;
+> >       return vb2_queue_init(dst_vq);
+>
+> Ditto.
+>
+> Regards,
+>
+>         Hans
 
