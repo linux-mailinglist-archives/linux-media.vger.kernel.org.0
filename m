@@ -1,37 +1,37 @@
-Return-Path: <linux-media+bounces-1374-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1375-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 594FC7FDA5B
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 15:51:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B393F7FDAB2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 16:02:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DDD8CB21441
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 14:51:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6FC1D2826A2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 15:02:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64209347AC;
-	Wed, 29 Nov 2023 14:50:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8252637154;
+	Wed, 29 Nov 2023 15:02:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IU5r85yU"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="E+jLAui0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3509EBE;
-	Wed, 29 Nov 2023 06:50:48 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C1CCA240005;
-	Wed, 29 Nov 2023 14:50:45 +0000 (UTC)
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8681CD63;
+	Wed, 29 Nov 2023 07:02:11 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 323E0E0005;
+	Wed, 29 Nov 2023 15:02:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701269446;
+	t=1701270130;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Zvhoy3MWU/kAI5JAksznH8O+bfmDG28Swkq325dgEQc=;
-	b=IU5r85yUfzxDrsmU6tvwihH1x9zyvHde0BuNpwSYc7ufd5mB/Zzjm0I5QsjWyN+05xFd2R
-	hVHbfBLQiMF8py9iAz7EqseLWAcTWSvVSPjn+ICbuydn4D1vLOSKUb8r/mW5bkfOzqp3A3
-	5YGAwOvZzec+EHfLTrgtdyFdvcceXEDoCEIun2K4+PXO76h9l33ozsmWEdJ260VAXWXd4r
-	+KKf7vVP5pyBaQxtWL5ROchoOhB0ZojiNAzzBdriVAzUr1i0mF/DgBjRQHmNDPkaeOE+3j
-	HEvMlUjgOSTeXV3dctOFenhqncAqpdziMZPZu8Nb2li9BZPWKZx+GR/oSGNAnQ==
-Date: Wed, 29 Nov 2023 15:50:45 +0100
+	bh=FqEXn4TkNGmRqOG8wUHq0Wi1OtW5C8oFhPUq5ry9A8E=;
+	b=E+jLAui0VL91nd52Dvf3cRY0kx7RLWv49clkgeDoW80bFX6OLdPW8bq/jKE9X7eTmJe6PF
+	z2J9HMO1R/IJFwr8oZEz3HHa1noeLNzk+3heXTuIxWfeuIZ3aEibhCqcAsM4t7Qe9HXzc8
+	YA5cP88WBKEzqKczbe9JHSHfS5zKORGDRT52GJnl647+KN8LCeMIH5VaCfszweBSIzkK0q
+	RGqMm+FZvpRRfil41AaRZUWU+Vk7S8R8PV6sflgaODMafXaaBcsOJfW7PMyr3N1mMWuiTS
+	v8FDtsZQDMfMwcl2/3bfVyebkRcp1xTLhMXl7deko05NeNn8bVelDqOAABlS8A==
+Date: Wed, 29 Nov 2023 16:02:08 +0100
 From: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To: Mehdi Djait <mehdi.djait@bootlin.com>
 Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
@@ -40,12 +40,12 @@ Cc: mchehab@kernel.org, heiko@sntech.de, hverkuil-cisco@xs4all.nl,
 	conor+dt@kernel.org, linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
 	thomas.petazzoni@bootlin.com, alexandre.belloni@bootlin.com,
-	maxime.chevallier@bootlin.com, Rob Herring <robh@kernel.org>
-Subject: Re: [PATCH v9 2/3] media: dt-bindings: media: i2c: Add bindings for
- TW9900
-Message-ID: <ZWdPxfiB7sEUEKdd@aptenodytes>
+	maxime.chevallier@bootlin.com
+Subject: Re: [PATCH v9 3/3] media: i2c: Introduce a driver for the Techwell
+ TW9900 decoder
+Message-ID: <ZWdScBVicBfjPuVA@aptenodytes>
 References: <cover.1700235276.git.mehdi.djait@bootlin.com>
- <de0f0831cbbd64328b1e348168d5d6cf4bc65b0d.1700235276.git.mehdi.djait@bootlin.com>
+ <dc65a89e7803782a75bf663158e031356ef7cb1a.1700235276.git.mehdi.djait@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,210 +53,139 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="a9fMN3vXS4yRSY1P"
+	protocol="application/pgp-signature"; boundary="Mt5NDXBwaHl6onk+"
 Content-Disposition: inline
-In-Reply-To: <de0f0831cbbd64328b1e348168d5d6cf4bc65b0d.1700235276.git.mehdi.djait@bootlin.com>
+In-Reply-To: <dc65a89e7803782a75bf663158e031356ef7cb1a.1700235276.git.mehdi.djait@bootlin.com>
 X-GND-Sasl: paul.kocialkowski@bootlin.com
 
 
---a9fMN3vXS4yRSY1P
+--Mt5NDXBwaHl6onk+
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+Hi Mehdi,
 
 On Fri 17 Nov 23, 16:42, Mehdi Djait wrote:
-> The Techwell TW9900 is a video decoder supporting multiple input
-> standards such as PAL and NTSC and has a parallel BT.656 output
-> interface.
+> The Techwell video decoder supports PAL, NTSC standards and
+> has a parallel BT.656 output interface.
 >=20
-> It's designed to be low-power, posesses some features such as a
-> programmable comb-filter, and automatic input standard detection
+> This commit adds support for this device, with basic support
+> for NTSC and PAL, along with brightness and contrast controls.
 >=20
-> Reviewed-by: Rob Herring <robh@kernel.org>
-> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+> The TW9900 is capable of automatic standard detection. This
+> driver is implemented with support for PAL and NTSC
+> autodetection.
 
+Very nice work on this iteration, I am quite happy with it!
+
+There is just one cosmetic comment below. With that fixed, you can add my:
 Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
 Cheers,
 
 Paul
 
+> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
 > ---
->  .../bindings/media/i2c/techwell,tw9900.yaml   | 137 ++++++++++++++++++
->  1 file changed, 137 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/techwell,=
-tw9900.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/media/i2c/techwell,tw9900.=
-yaml b/Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
+>  MAINTAINERS                |   6 +
+>  drivers/media/i2c/Kconfig  |  15 +
+>  drivers/media/i2c/Makefile |   1 +
+>  drivers/media/i2c/tw9900.c | 777 +++++++++++++++++++++++++++++++++++++
+>  4 files changed, 799 insertions(+)
+>  create mode 100644 drivers/media/i2c/tw9900.c
+
+[...]
+
+> diff --git a/drivers/media/i2c/tw9900.c b/drivers/media/i2c/tw9900.c
 > new file mode 100644
-> index 000000000000..e37317f81072
+> index 000000000000..895ca459087b
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/techwell,tw9900.yaml
-> @@ -0,0 +1,137 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/techwell,tw9900.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +++ b/drivers/media/i2c/tw9900.c
+> @@ -0,0 +1,777 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +/*
+> + * Driver for the Techwell TW9900 multi-standard video decoder.
+> + *
+> + * Copyright (C) 2018 Fuzhou Rockchip Electronics Co., Ltd.
+> + * Copyright (C) 2020 Maxime Chevallier <maxime.chevallier@bootlin.com>
+> + * Copyright (C) 2023 Mehdi Djait <mehdi.djait@bootlin.com>
+> + */
 > +
-> +title: Techwell TW9900 NTSC/PAL video decoder
+> +#include <linux/bitfield.h>
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/module.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <media/media-entity.h>
+> +#include <media/v4l2-async.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-subdev.h>
 > +
-> +maintainers:
-> +  - Mehdi Djait <mehdi.djait@bootlin.com>
-> +
-> +description:
-> +  The tw9900 is a multi-standard video decoder, supporting NTSC, PAL sta=
-ndards
-> +  with auto-detection features.
-> +
-> +properties:
-> +  compatible:
-> +    const: techwell,tw9900
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  vdd-supply:
-> +    description: VDD power supply
-> +
-> +  reset-gpios:
-> +    description: GPIO descriptor for the RESET input pin
-> +    maxItems: 1
-> +
-> +  powerdown-gpios:
-> +    description: GPIO descriptor for the POWERDOWN input pin
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        description: Analog input port
-> +
-> +        properties:
-> +          endpoint@0:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description: CVBS over MUX0
-> +
-> +          endpoint@1:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description: CVBS over MUX1
-> +
-> +          endpoint@2:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description: Chroma over CIN0 and Y over MUX0
-> +
-> +          endpoint@3:
-> +            $ref: /schemas/graph.yaml#/properties/endpoint
-> +            description: Chroma over CIN0 and Y over MUX1
-> +
-> +        oneOf:
-> +          - required:
-> +              - endpoint@0
-> +          - required:
-> +              - endpoint@1
-> +          - required:
-> +              - endpoint@2
-> +          - required:
-> +              - endpoint@3
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: Video port for the decoder output.
-> +
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - ports
-> +  - reg
-> +  - vdd-supply
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/display/sdtv-standards.h>
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    composite_connector {
-> +        compatible =3D "composite-video-connector";
-> +        label =3D "tv";
-> +        sdtv-standards =3D <(SDTV_STD_PAL | SDTV_STD_NTSC)>;
-> +
-> +        port {
-> +            composite_to_tw9900: endpoint {
-> +                remote-endpoint =3D <&tw9900_to_composite>;
-> +            };
-> +        };
-> +    };
-> +
-> +    i2c {
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        video-decoder@44 {
-> +            compatible =3D "techwell,tw9900";
-> +            reg =3D <0x44>;
-> +
-> +            vdd-supply =3D <&tw9900_supply>;
-> +            reset-gpios =3D <&gpio2 5 GPIO_ACTIVE_LOW>;
-> +
-> +            ports {
-> +                #address-cells =3D <1>;
-> +                #size-cells =3D <0>;
-> +
-> +                port@0 {
-> +                    #address-cells =3D <1>;
-> +                    #size-cells =3D <0>;
-> +
-> +                    reg =3D <0>;
-> +                    tw9900_to_composite: endpoint@0 {
-> +                        reg =3D <0>;
-> +                        remote-endpoint =3D <&composite_to_tw9900>;
-> +                    };
-> +                };
-> +
-> +                port@1 {
-> +                    reg =3D <1>;
-> +                    endpoint {
-> +                        remote-endpoint =3D <&cif_in>;
-> +                    };
-> +                };
-> +            };
-> +        };
-> +    };
-> --=20
-> 2.41.0
->=20
+> +#define TW9900_REG_CHIP_ID			0x00
+> +#define TW9900_REG_CHIP_STATUS			0x01
+> +#define TW9900_REG_CHIP_STATUS_VDLOSS		BIT(7)
+> +#define TW9900_REG_CHIP_STATUS_HLOCK		BIT(6)
+> +#define TW9900_REG_OUT_FMT_CTL			0x03
+> +#define TW9900_REG_OUT_FMT_CTL_STANDBY		0xA7
+> +#define TW9900_REG_OUT_FMT_CTL_STREAMING	0xA0
+> +#define TW9900_REG_CKHY_HSDLY			0x04
+> +#define TW9900_REG_OUT_CTRL_I			0x05
+> +#define TW9900_REG_ANALOG_CTL			0x06
+> +#define TW9900_REG_CROP_HI			0x07
+> +#define TW9900_REG_VDELAY_LO			0x08
+> +#define TW9900_REG_VACTIVE_LO			0x09
+> +#define TW9900_REG_HACTIVE_LO			0x0B
+> +#define TW9900_REG_CNTRL1			0x0C
+> +#define TW9900_REG_BRIGHT_CTL			0x10
+> +#define TW9900_REG_CONTRAST_CTL			0x11
+> +#define TW9900_REG_VBI_CNTL			0x19
+> +#define TW9900_REG_ANAL_CTL_II			0x1A
+> +#define TW9900_REG_OUT_CTRL_II			0x1B
+> +#define TW9900_REG_STD				0x1C
+> +#define TW9900_REG_STD_AUTO_PROGRESS		BIT(7)
+> +#define TW9900_STDNOW_MASK			GENMASK(6, 4)
+> +#define TW9900_REG_STDR				0x1D
+> +#define TW9900_REG_MISSCNT			0x26
+> +#define TW9900_REG_MISC_CTL_II			0x2F
+> +#define TW9900_REG_VVBI				0x55
+
+Please reintroduce the newline here...
+
+> +#define TW9900_CHIP_ID				0x00
+> +#define TW9900_STD_NTSC_M			0
+> +#define TW9900_STD_PAL_BDGHI			1
+> +#define TW9900_STD_AUTO				7
+
+=2E.. and here to separate between register definitions and more general va=
+lues.
+
+> +#define TW9900_VIDEO_POLL_TRIES			20
 
 --=20
 Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---a9fMN3vXS4yRSY1P
+--Mt5NDXBwaHl6onk+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVnT8UACgkQ3cLmz3+f
-v9ESKwf8DdcZc4vGwQ10PLCRGzjLRppEKoEyFXbC+BIQH/6ymemelleAp4rsqax+
-j5Vb4+DpA7G73lnNlcgMicJBm9vIuvRTGIfgPdur0aK8GYg81Hx1uWL7jaC0/+e3
-Q6MXtDYPrlsM9eMXRES68pS+gfTHnmkNUYsOI3oMgeWObyQP+IB+h00YLCgkAvGj
-YeGT2/6ztevYBdVemYkTofUTUD5XQCEOrW1S9MnGcRGW5p6SLvTnE71k60orjncN
-Jcss/QV07LktCWev+xWO6G8g3FK0mV5MeyTRUx/jbmf1oreiS2h6YGN8lSMGbFbb
-1KOzl+MfasZrldZXsJjUG5BGRuY2xQ==
-=JVMJ
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAmVnUnAACgkQ3cLmz3+f
+v9FDmAf+JO+XU2DEEL1k7QGncbc3yYPy1S/nrSHdwgazhkCcEUsOhO33tsv6Cha0
+XB2pQEq3vYMH0KweFc2cD1ljvioqld//oxl1bgCNu2BkpcJxU5KwEfOO0Xxi4c+k
+gnkhovi2t/8z4yQ2jPQQfaaJre9IsQN7EBlRz7Gf+toXfiyzJNgcIuVk5LtoH26B
+CZNDNVHuRSLovT7SHBfNRKucRyZdNB64yyHurJwSbrAb6dVKAuJul422LRYT1TUD
+PCYULKA+gfytvbH+VUQwsBC82ThQZND4YhouBj1TjSKsTBmjE5jzvUFZPg8bhtoa
+7UdiOQIPyb7Rn4p8hPv2gWqal8idbg==
+=q+aS
 -----END PGP SIGNATURE-----
 
---a9fMN3vXS4yRSY1P--
+--Mt5NDXBwaHl6onk+--
 
