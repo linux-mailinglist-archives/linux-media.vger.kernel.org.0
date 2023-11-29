@@ -1,33 +1,33 @@
-Return-Path: <linux-media+bounces-1383-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1384-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90F747FE0BE
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 21:05:57 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 936087FE0C2
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 21:07:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C2DF71C20FCB
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 20:05:56 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C3C761C20EA8
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 20:07:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B67F25EE86;
-	Wed, 29 Nov 2023 20:05:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9FCF5EE88;
+	Wed, 29 Nov 2023 20:06:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZFigpqTD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VL05jxid"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C60FBF;
-	Wed, 29 Nov 2023 12:05:47 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F80FD69;
+	Wed, 29 Nov 2023 12:06:52 -0800 (PST)
 Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 228F36F0;
-	Wed, 29 Nov 2023 21:05:09 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5F8556F0;
+	Wed, 29 Nov 2023 21:06:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701288309;
-	bh=spSf15rTwxA5JE7+sp4ojIqhMxZPcSNcX/1hS4MkL7c=;
+	s=mail; t=1701288375;
+	bh=pr+DI5rX3G04hdirVZl6BkJQ1CLmT65yZtHt6DXjLiQ=;
 	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=ZFigpqTDQUCC6I06rU2X8xxZonJ1X7078Tw2MM4eOeygEbZtgA9UtiYi78FLQQGPE
-	 ZJnR43Ero5GduQP4r6TqehBjBSQl3VtnAp2quLJmwe8NRo2h4Q6FYDBdlAxcz+rRAD
-	 9GmrFLNdgklQuYXYJSL7PoJjYXDe2HxTLGzwtle8=
+	b=VL05jxidfay1sFOSzYKbcy2FZEW1U8kscMsQ8whITFDm3SfVNs5cKFR7evcrNSPhR
+	 ID63lSLDWx5GiIxP4UAeBXndZgTHzGth7c2fg1EKtEd+zDlMwV1zJWVD542Bw+TAXk
+	 I1wr5C5rutATEIoNtXji7z4ziw6/lhFH/+D1DkT4=
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -36,76 +36,74 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20231129092956.250129-3-paul.elder@ideasonboard.com>
-References: <20231129092956.250129-1-paul.elder@ideasonboard.com> <20231129092956.250129-3-paul.elder@ideasonboard.com>
-Subject: Re: [PATCH 2/3] media: rkisp1: debug: Add register dump for IS
+In-Reply-To: <20231129092956.250129-4-paul.elder@ideasonboard.com>
+References: <20231129092956.250129-1-paul.elder@ideasonboard.com> <20231129092956.250129-4-paul.elder@ideasonboard.com>
+Subject: Re: [PATCH 3/3] media: rkisp1: debug: Count completed frame interrupts
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Cc: tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com, Paul Elder <paul.elder@ideasonboard.com>, Dafna Hirschfeld <dafna@fastmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 To: Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Date: Wed, 29 Nov 2023 20:05:42 +0000
-Message-ID: <170128834260.3048548.11979514587961676400@ping.linuxembedded.co.uk>
+Date: Wed, 29 Nov 2023 20:06:48 +0000
+Message-ID: <170128840893.3048548.12921821466589985052@ping.linuxembedded.co.uk>
 User-Agent: alot/0.10
 
-Quoting Paul Elder (2023-11-29 09:29:55)
-> Add register dump for the image stabilizer module to debugfs.
+Quoting Paul Elder (2023-11-29 09:29:56)
+> Add a counter to debugfs to count the number of frame-end interrupts.
 >=20
 
-Is the Image Stabilizer on all variants of the ISP?
+And I alway like having counters for debug ... so I like this.
 
-I.e. is it valid register space on the RK3399 implementation?
 
-If so then:
 Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
 > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
 > ---
->  .../platform/rockchip/rkisp1/rkisp1-debug.c    | 18 ++++++++++++++++++
->  1 file changed, 18 insertions(+)
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-common.h | 1 +
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c  | 2 ++
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c    | 2 ++
+>  3 files changed, 5 insertions(+)
 >=20
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/dri=
+vers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index 1e7cea1bea5e..be69173958a4 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -417,6 +417,7 @@ struct rkisp1_debug {
+>         unsigned long stats_error;
+>         unsigned long stop_timeout[2];
+>         unsigned long frame_drop[2];
+> +       unsigned long complete_frames;
+>  };
+> =20
+>  /*
 > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/driv=
 ers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> index 71df3dc95e6f..f66b9754472e 100644
+> index f66b9754472e..1b1edfd3ab6c 100644
 > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
 > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> @@ -139,6 +139,21 @@ static int rkisp1_debug_dump_mi_mp_show(struct seq_f=
-ile *m, void *p)
->  }
->  DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_mi_mp);
+> @@ -232,6 +232,8 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>                              &debug->frame_drop[RKISP1_MAINPATH]);
+>         debugfs_create_ulong("sp_frame_drop", 0444, debug->debugfs_dir,
+>                              &debug->frame_drop[RKISP1_SELFPATH]);
+> +       debugfs_create_ulong("complete_frames", 0444, debug->debugfs_dir,
+> +                            &debug->complete_frames);
+>         debugfs_create_file("input_status", 0444, debug->debugfs_dir, rki=
+sp1,
+>                             &rkisp1_debug_input_status_fops);
 > =20
-> +static int rkisp1_debug_dump_is_show(struct seq_file *m, void *p)
-> +{
-> +       static const struct rkisp1_debug_register registers[] =3D {
-> +               RKISP1_DEBUG_SHD_REG(ISP_IS_H_OFFS),
-> +               RKISP1_DEBUG_SHD_REG(ISP_IS_V_OFFS),
-> +               RKISP1_DEBUG_SHD_REG(ISP_IS_H_SIZE),
-> +               RKISP1_DEBUG_SHD_REG(ISP_IS_V_SIZE),
-
-I expect so as you haven't added the register macros in this series so
-they must already be there ...
-
-
-> +               { /* Sentinel */ },
-> +       };
-> +       struct rkisp1_device *rkisp1 =3D m->private;
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/driver=
+s/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> index 64a956b9f2d0..06cdb4edf19c 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> @@ -991,6 +991,8 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+>         if (status & RKISP1_CIF_ISP_FRAME) {
+>                 u32 isp_ris;
+> =20
+> +               rkisp1->debug.complete_frames++;
 > +
-> +       return rkisp1_debug_dump_regs(rkisp1, m, 0, registers);
-> +}
-> +DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_is);
-> +
->  #define RKISP1_DEBUG_DATA_COUNT_BINS   32
->  #define RKISP1_DEBUG_DATA_COUNT_STEP   (4096 / RKISP1_DEBUG_DATA_COUNT_B=
-INS)
-> =20
-> @@ -235,6 +250,9 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
-> =20
->         debugfs_create_file("mi_mp", 0444, regs_dir, rkisp1,
->                             &rkisp1_debug_dump_mi_mp_fops);
-> +
-> +       debugfs_create_file("is", 0444, regs_dir, rkisp1,
-> +                           &rkisp1_debug_dump_is_fops);
->  }
-> =20
->  void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
+>                 /* New frame from the sensor received */
+>                 isp_ris =3D rkisp1_read(rkisp1, RKISP1_CIF_ISP_RIS);
+>                 if (isp_ris & RKISP1_STATS_MEAS_MASK)
 > --=20
 > 2.39.2
 >
