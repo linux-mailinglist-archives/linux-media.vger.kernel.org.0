@@ -1,104 +1,147 @@
-Return-Path: <linux-media+bounces-1314-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1315-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 314637FD1BD
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:09:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 536F57FD1D1
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:11:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 324C51C20EDE
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 09:09:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 859251C20F82
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 09:11:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 60D5512B8F;
-	Wed, 29 Nov 2023 09:09:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 781FA12E4A;
+	Wed, 29 Nov 2023 09:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="BAZ/6qGN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Nwbfrj7P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31E0385;
-	Wed, 29 Nov 2023 01:08:56 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1701248932; bh=Xv3LVDjykwD/IOkFuRPxIVNxFelutLAZSXS7jeSQqIE=;
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2D55101F3;
+	Wed, 29 Nov 2023 09:11:29 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0045CC433C7;
+	Wed, 29 Nov 2023 09:11:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1701249089;
+	bh=cAQDm1OHi6AwpFtu2oyoP4lirQiWSiJNR9l7GsKXbG0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=BAZ/6qGNguReQ4NFwPXT8Bi2uaQNZ0Q93gRgXJPFRYxINiE+0NAHwqYEo8gcRktTI
-	 g5OWo09C5jJHok3S1c3vfX72MgTtnOlRCfK/TqM9Rhw5IHY9zlrMU0Lm6ESMeYefR5
-	 o0o+IWUBwaImm3Ew7Uz5W7jNB5PpjVR/Xzp9G3VEMAH3MPFJnFwTN5A/JF0jvSM53H
-	 TD72MGqWdop+SC6I4X83nrxxAJKPcPymeSSvEn8ptLrmEICedV7+oDpdhH/aFgVPau
-	 +Aaz/bRn6yA421udzBxvVtiTPtc21WHM3jUynkqXosp+xZ5HbIh4FPd2hzKqYs08uU
-	 fPTAj/lk7FXSA==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id CB5B0100100; Wed, 29 Nov 2023 09:08:52 +0000 (GMT)
-Date: Wed, 29 Nov 2023 09:08:52 +0000
-From: Sean Young <sean@mess.org>
-To: Thierry Reding <thierry.reding@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] pwm: rename pwm_apply_state() to
- pwm_apply_cansleep()
-Message-ID: <ZWb_pEixK07cRlnr@gofer.mess.org>
-References: <cover.1700323916.git.sean@mess.org>
- <2b973840d800ffb71c2683c37bc996e0cf90a140.1700323916.git.sean@mess.org>
- <ZWClpnMRg_vjuI_R@orome.fritz.box>
+	b=Nwbfrj7Pk2t2Z7wByu0jHudFVV4zAocI0bejf4VNuJ94Gv2F5DMNrfE6wB3QNldRG
+	 z7A40mmCnCiugGuIop83o5nbsu/un4/gm+L4OOyqOZJplUGWVy/fy/5V0Ah0fTKds9
+	 uirW/8qj7vfQGn5bztbUXZUFHO0buy0PYmdbSucg5HbE2qjcBV261rqO1/NFYhSkkL
+	 e0on0p9J42TspyvoUFNBGMB/Ol6v34YBgC3waQmjoDLU7fUO4D4w9YGZ09qh7H51YI
+	 z5suLwGP2CTJLldp9JIdJfUJghx2Nxbf1Dp07okJGX4uvEwzQQOFvu+Xv1trZEo4hX
+	 sKILXaByCcPog==
+Date: Wed, 29 Nov 2023 10:11:26 +0100
+From: Maxime Ripard <mripard@kernel.org>
+To: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>, 
+	Sandy Huang <hjc@rock-chips.com>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>, 
+	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
+ pointers arguments
+Message-ID: <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
+References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
+ <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
+ <87h6l66nth.fsf@intel.com>
+ <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+ <ZWXv1Oi_sH0BRWao@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="5yeernlclvkai5mu"
 Content-Disposition: inline
-In-Reply-To: <ZWClpnMRg_vjuI_R@orome.fritz.box>
-
-On Fri, Nov 24, 2023 at 02:31:18PM +0100, Thierry Reding wrote:
-> On Sat, Nov 18, 2023 at 04:16:17PM +0000, Sean Young wrote:
-> > In order to introduce a pwm api which can be used from atomic context,
-> > we will need two functions for applying pwm changes:
-> > 
-> > 	int pwm_apply_cansleep(struct pwm *, struct pwm_state *);
-> > 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
-> > 
-> > This commit just deals with renaming pwm_apply_state(), a following
-> > commit will introduce the pwm_apply_atomic() function.
-> 
-> Sorry, I still don't agree with that _cansleep suffix. I think it's the
-> wrong terminology. Just because something can sleep doesn't mean that it
-> ever will. "Might sleep" is much more accurate because it says exactly
-> what might happen and indicates what we're guarding against.
-
-Sorry, I forgot about this in the last round. I've renamed it _might_sleep
-in v6 which I'll post shortly.
+In-Reply-To: <ZWXv1Oi_sH0BRWao@intel.com>
 
 
-Sean
+--5yeernlclvkai5mu
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi Ville,
+
+On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=E4l=E4 wrote:
+> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
+> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
+> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
+> > > > All the drm_connector_init variants take at least a pointer to the
+> > > > device, connector and hooks implementation.
+> > > >
+> > > > However, none of them check their value before dereferencing those
+> > > > pointers which can lead to a NULL-pointer dereference if the author
+> > > > isn't careful.
+> > >=20
+> > > Arguably oopsing on the spot is preferrable when this can't be caused=
+ by
+> > > user input. It's always a mistake that should be caught early during
+> > > development.
+> > >=20
+> > > Not everyone checks the return value of drm_connector_init and friend=
+s,
+> > > so those cases will lead to more mysterious bugs later. And probably
+> > > oopses as well.
+> >=20
+> > So maybe we can do both then, with something like
+> >=20
+> > if (WARN_ON(!dev))
+> >    return -EINVAL
+> >=20
+> > if (drm_WARN_ON(dev, !connector || !funcs))
+> >    return -EINVAL;
+> >=20
+> > I'd still like to check for this, so we can have proper testing, and we
+> > already check for those pointers in some places (like funcs in
+> > drm_connector_init), so if we don't cover everything we're inconsistent.
+>=20
+> People will invariably cargo-cult this kind of stuff absolutely
+> everywhere and then all your functions will have tons of dead
+> code to check their arguments.
+
+And that's a bad thing because... ?
+
+Also, are you really saying that checking that your arguments make sense
+is cargo-cult?
+
+We're already doing it in some parts of KMS, so we have to be
+consistent, and the answer to "most drivers don't check the error"
+cannot be "let's just give on error checking then".
+
+> I'd prefer not to go there usually.
+>=20
+> Should we perhaps start to use the (arguably hideous)
+>  - void f(struct foo *bar)
+>  + void f(struct foo bar[static 1])
+> syntax to tell the compiler we don't accept NULL pointers?
+>=20
+> Hmm. Apparently that has the same problem as using any
+> other kind of array syntax in the prototype. That is,
+> the compiler demands to know the definition of 'struct foo'
+> even though we're passing in effectively a pointer. Sigh.
+
+Honestly, I don't care as long as it's something we can unit-test to
+make sure we make it consistent. We can't unit test a complete kernel
+crash.
+
+--5yeernlclvkai5mu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZWcAPgAKCRDj7w1vZxhR
+xdiAAP9/Y3QZYC3QOV7WWulwxqeWACuHSjmA+KHPl8qOdVnh+AD9HTqYM7+ypKLa
+CFZu3zXCIPjDPQmXptfe2oXEaBjpwQA=
+=KUBI
+-----END PGP SIGNATURE-----
+
+--5yeernlclvkai5mu--
 
