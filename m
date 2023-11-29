@@ -1,94 +1,101 @@
-Return-Path: <linux-media+bounces-1378-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1379-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3467F7FDBF1
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 16:49:52 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5516F7FDC25
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 17:03:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B03B6B2132E
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 15:49:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D7F8028292A
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 16:03:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44EFB39858;
-	Wed, 29 Nov 2023 15:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F02513987B;
+	Wed, 29 Nov 2023 16:03:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cfXeQofV"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="d2xIBMS5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14C6983
-	for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 07:49:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701272981; x=1732808981;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=geQVgVzyS90Mpx8QqGlloWOjEaxEOxFJETrs/wpwb8c=;
-  b=cfXeQofVKDOaoEYBEylr55kYJTcJFszMqKKo/W8Ikw2Ak+y+BwJooMM5
-   PtKTX2+L1FwqAqpGW19cjyiGK5FEc/8mDP8RDgbPRLqElvUxG5jDsEQKY
-   +HyB5FEcQus7a36ORjFflBqwxBzvbVlO9o7EOjWiTbFKDeA9e37sRpwnt
-   2lF7ien7ds+JetxLSOfIFEri73XaHXc5V/4cF5o7LtW920biOhJiqYN8x
-   0Jk679d9sJFwMMFgkDvrf5y76uAU635Sc1GhRaB1ceMzS+ArK/fRWwn4P
-   8QwLnaSw8V3xJgJJ+ZYyfcLVyrDzZVZbg2ikx98obk998C0ztky23emaR
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="172997"
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="172997"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 07:49:36 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="17046215"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 07:49:35 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 8A91111F915;
-	Wed, 29 Nov 2023 17:49:31 +0200 (EET)
-Date: Wed, 29 Nov 2023 15:49:31 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org, Shuah Khan <skhan@linuxfoundation.org>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: Re: [PATCH 1/2] media: vivid: Don't explicitly set bus_info
-Message-ID: <ZWddi1pURkX4qLKz@kekkonen.localdomain>
-References: <20231129141545.87461-1-sakari.ailus@linux.intel.com>
- <20231129141545.87461-2-sakari.ailus@linux.intel.com>
- <c64a2df0-929f-41ec-b24e-385f1c11a53c@xs4all.nl>
+Received: from mail-ej1-x631.google.com (mail-ej1-x631.google.com [IPv6:2a00:1450:4864:20::631])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AEF4BF;
+	Wed, 29 Nov 2023 08:03:18 -0800 (PST)
+Received: by mail-ej1-x631.google.com with SMTP id a640c23a62f3a-a013d22effcso935082166b.2;
+        Wed, 29 Nov 2023 08:03:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701273797; x=1701878597; darn=vger.kernel.org;
+        h=message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=p0ai8ILE74HcwdOUqvcTpl9qjFRf+Vf4A3Z9OcifiLY=;
+        b=d2xIBMS50Dd47pj3uwPWU91qG6MkJQgowYrsyTgYmhTWzpZgQCBgvz85++iaDiR1/Q
+         RDf534I25mMPqyrzUUyl0yd5SORtKnNPk7nrvOWU/aUvtmERIKmoM902sTuvaZKfdfP2
+         0WOdxiVZ7BrQ0HliVNInZ6e1qr5bBxaM0/nNlGVa92mzq1srmoKMsqW1UNwLyBLVesw3
+         E3YWgvI6uL9woY9DtfBLo8ypfHzQWs4F4QClLRhTUlpJvRQxxQPd5TBzxXcAcXv/RqD1
+         iKnLdo6MEREN0eTCi6y0SOEn2tHHlwjzlHkTsRjMcT8l7zZFRxKLbsMZJbY22Yz3yMZG
+         UUXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701273797; x=1701878597;
+        h=message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=p0ai8ILE74HcwdOUqvcTpl9qjFRf+Vf4A3Z9OcifiLY=;
+        b=sVeiOFA5V4VKw9wjAwM/MTJ/9C0geSltvZ6hd9wu56WtMFhvn3wZrX+Jxw73YK5RzR
+         DnpbkHHbnJ4mLROmCs6Pg6FO08Uc98R970ycyeXDHIbzirJWFwIr8CmzJvtRFL81nMUf
+         9lh2IqHPyV6NRrUaR+0YuwUWs4tvVIz3BFY4gxF811gwbaXAEULdfy6BcMAmphHh7QEY
+         toofiJjftJ8BjDB/bMMZ+foKVLov/5vxJzVBn9bu2AJL2nWYZ3BDkqwxafGVsmK2Kos/
+         dY55CMRbFcigAbRk3GWwdxp9+UjttLJ+WJMTGR+n3Jj6PqSIU3e2WyuXYYX1MIxmJLXA
+         NQyQ==
+X-Gm-Message-State: AOJu0YxRdvY3MbVY8SBLrJk6whHA+tEhSyUOQt9mapCkv7Ga6EmvqG09
+	IcIhRTx572BZck4pR2Z7KRC8y0HuvxI=
+X-Google-Smtp-Source: AGHT+IFZVdYm5uGTUWgukbhvvqVrPFRUit9xzFKUvmv5eU26LhTvANp9htEXiGH1vrlI6oIoceMNRA==
+X-Received: by 2002:a17:906:5302:b0:a0c:5bf7:c675 with SMTP id h2-20020a170906530200b00a0c5bf7c675mr8264434ejo.40.1701273796612;
+        Wed, 29 Nov 2023 08:03:16 -0800 (PST)
+Received: from felia.fritz.box ([2a02:810d:7e40:14b0:2564:b975:71ee:2d88])
+        by smtp.gmail.com with ESMTPSA id oq14-20020a170906cc8e00b009fdcc65d720sm8023872ejb.72.2023.11.29.08.03.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 08:03:15 -0800 (PST)
+From: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To: Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	linux-media@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] media: MAINTAINERS: correct file entry in WAVE5 VPU CODEC DRIVER
+Date: Wed, 29 Nov 2023 17:03:13 +0100
+Message-Id: <20231129160313.12093-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <c64a2df0-929f-41ec-b24e-385f1c11a53c@xs4all.nl>
 
-Hi Hans,
+Commit 26dde1beb359 ("media: chips-media: wave5: Add wave5 driver to
+maintainers file") adds the MAINTAINERS section WAVE5 VPU CODEC DRIVER
+referring to the 'cnm,wave5.yaml' media devicetree binding, but the file
+actually added in the commit de4b9f7e371a ("dt-bindings: media: wave5: add
+yaml devicetree bindings") is named 'cnm,wave521c.yaml'.
 
-Thanks for the review.
+Correct the file entry in WAVE5 VPU CODEC DRIVER.
 
-On Wed, Nov 29, 2023 at 03:26:00PM +0100, Hans Verkuil wrote:
-> On 29/11/2023 15:15, Sakari Ailus wrote:
-> > The bus_info field in both struct media_device and struct v4l2_capability
-> > is assigned by the framework for platform devices. Do not set it in the
-> > driver.
-> 
-> That doesn't work for vivid. The problem is that if you create multiple instances
-> (e.g. modprobe vivid n_devs=2), then each instance will report "platform:vivid.0"
-> as bus info, but they must give different bus_info names since that has to be unique.
-> 
-> It should be fine for vimc, though, since that's just a single instance.
-> 
-> So vivid is an exception to the rule. Rather than removing these snprintf lines,
-> adding a comment might be better.
+Fixes: 26dde1beb359 ("media: chips-media: wave5: Add wave5 driver to maintainers file")
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+ MAINTAINERS | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Sounds reasonable. I'll do this in v2.
-
-> 
-> For the record: I tried exactly the same thing myself some time ago, and then
-> discovered that that didn't fly.
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 8b108946b00d..31baa4bf525b 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -23485,7 +23485,7 @@ M:	Nas Chung <nas.chung@chipsnmedia.com>
+ M:	Jackson Lee <jackson.lee@chipsnmedia.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/media/cnm,wave5.yaml
++F:	Documentation/devicetree/bindings/media/cnm,wave521c.yaml
+ F:	drivers/media/platform/chips-media/wave5/
+ 
+ WHISKEYCOVE PMIC GPIO DRIVER
 -- 
-Sakari Ailus
+2.17.1
+
 
