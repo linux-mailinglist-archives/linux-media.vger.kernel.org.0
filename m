@@ -1,117 +1,86 @@
-Return-Path: <linux-media+bounces-1312-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1313-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 751497FD18A
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:00:45 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD997FD1AF
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:07:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A573D1C208FF
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 09:00:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 15B4B1F20EFA
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 09:07:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 511E212B7B;
-	Wed, 29 Nov 2023 09:00:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43DFB12B8F;
+	Wed, 29 Nov 2023 09:07:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="j9c8t25h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F972125CE
-	for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 09:00:39 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AC66AC433C7;
-	Wed, 29 Nov 2023 09:00:38 +0000 (UTC)
-Message-ID: <c642a8b3-378a-4419-ad63-87b1c5d9d945@xs4all.nl>
-Date: Wed, 29 Nov 2023 10:00:36 +0100
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B874A85;
+	Wed, 29 Nov 2023 01:07:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1701248857; bh=MxUryVoPVuqc8qu9wP86kz9GHNHSIGe1UNdivmza+6Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=j9c8t25hLZJsozRtTBaNhLoj/t99xeMdmAkcekGME2psqMNdAm4GTkYl70HG+PNre
+	 QVSy4PdC2FGq8SB0t2Qypdg7k3hDSSTFc8sPTIrP+ZD9X+y3MN20zQvY0WIeZoo3dR
+	 q/45oByqYGu9kkAdUrc36gEhASWcTT3gMIPWch+r82uIaf5t1XEdL3U9KdLnB9k4D1
+	 qwC0aPIWgcc7M2R2Em2i8U1P0UOhAdRx/ZfHygKqsmFC68hKE+97pjYWd2In9RjeO4
+	 cxm/v+W+bz3YX3uMlYqK5dM1lmiT86XEluXCSn+ATD31jjvxTrqdy+Lal8HDTMaell
+	 kI0+G7Hj4I1bA==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 373ED100100; Wed, 29 Nov 2023 09:07:37 +0000 (GMT)
+Date: Wed, 29 Nov 2023 09:07:37 +0000
+From: Sean Young <sean@mess.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/4] pwm: make it possible to apply pwm changes in
+ atomic context
+Message-ID: <ZWb_WR1T9HiQuiBs@gofer.mess.org>
+References: <cover.1700323916.git.sean@mess.org>
+ <ab49d3c11dd3fa432459cc8e11a77127f1a803dd.1700323916.git.sean@mess.org>
+ <ZWCm8_S7epYQwZiG@orome.fritz.box>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] sync-with-kernel.sh: create v4l2-tracer patches
-Content-Language: en-US, nl
-To: Deborah Brouwer <deborah.brouwer@collabora.com>,
- linux-media@vger.kernel.org
-References: <cover.1701114910.git.deborah.brouwer@collabora.com>
- <d470d99e37e94ad79ccc8888f0a1bec5f51d66c4.1701114910.git.deborah.brouwer@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <d470d99e37e94ad79ccc8888f0a1bec5f51d66c4.1701114910.git.deborah.brouwer@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZWCm8_S7epYQwZiG@orome.fritz.box>
 
-Hi Deb,
-
-On 27/11/2023 21:09, Deborah Brouwer wrote:
-> After v4l-utils is synced with the latest kernel headers, generate and
-> apply patches for the changes that need to be made to the v4l2-tracer.
-> This makes it easier to see how the kernel headers are changing the
-> v4l2-tracer and also to revert those changes if necessary.
+On Fri, Nov 24, 2023 at 02:36:51PM +0100, Thierry Reding wrote:
+> On Sat, Nov 18, 2023 at 04:16:18PM +0000, Sean Young wrote:
+> [...]
+> > diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+> > index c4b066f7c5097..495aba06c64c3 100644
+> > --- a/include/linux/pwm.h
+> > +++ b/include/linux/pwm.h
+> > @@ -286,6 +286,7 @@ struct pwm_ops {
+> >   * @npwm: number of PWMs controlled by this chip
+> >   * @of_xlate: request a PWM device given a device tree PWM specifier
+> >   * @of_pwm_n_cells: number of cells expected in the device tree PWM specifier
+> > + * @atomic: can the driver execute pwm_apply_cansleep in atomic context
 > 
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
-> ---
->  .gitignore          |  1 +
->  sync-with-kernel.sh | 25 +++++++++++++++++++++++++
->  2 files changed, 26 insertions(+)
+> I'm a little reluctant to suggest that we rename this to might_sleep as
+> well because it would require that we audit each and every driver to set
+> this properly, since by default all devices have so far been defaulting
+> to "might_sleep". But then again, I think that's something that we're
+> going to need to do at some point anyway.
 > 
-> diff --git a/.gitignore b/.gitignore
-> index ef546cd4..fcd3d43b 100644
-> --- a/.gitignore
-> +++ b/.gitignore
-> @@ -2,3 +2,4 @@
->  patches/
->  build/
->  *.pc
-> +v4l2-tracer-gen/
+> In the interim, I think we could keep it like this and address this as a
+> follow-up.
 
-I don't really like adding a new directory just for the sync-with-kernel.sh bit.
+Yes, I agree that the name atomic is not ideal. However, calling it
+might_sleep means we have to touch every driver. That's not impossible,
+but not ideal either.
 
-> diff --git a/sync-with-kernel.sh b/sync-with-kernel.sh
-> index ad5681c6..cd6c2b09 100755
-> --- a/sync-with-kernel.sh
-> +++ b/sync-with-kernel.sh
-> @@ -115,8 +115,33 @@ function freebsd {
->  	quilt push -a
->  }
->  
-> +function v4l2-tracer {
-> +	V4L2TRACERDIR="${TOPSRCDIR}/utils/v4l2-tracer"
-> +	V4L2TRACERSOURCES="${TOPSRCDIR}/include/linux/v4l2-controls.h "
-> +	V4L2TRACERSOURCES+="${TOPSRCDIR}/include/linux/videodev2.h "
-> +	V4L2TRACERSOURCES+="${TOPSRCDIR}/include/linux/media.h "
-> +	V4L2TRACERSOURCES+="${TOPSRCDIR}/include/linux/v4l2-common.h "
-> +
-> +	mkdir -p $V4L2TRACERDIR/v4l2-tracer-gen
+For now, I'll leave it as is.
 
-I would suggest using mktemp -d and also delete that directory + contents at the end.
 
-> +
-> +	perl "${V4L2TRACERDIR}/v4l2-tracer-gen.pl" -o $V4L2TRACERDIR/v4l2-tracer-gen $V4L2TRACERSOURCES
-> +
-> +	diff -Naur "${V4L2TRACERDIR}/trace-gen.cpp" "${V4L2TRACERDIR}/v4l2-tracer-gen/trace-gen.cpp" > "${V4L2TRACERDIR}/v4l2-tracer-gen/trace-gen.patch"
-> +	diff -Naur "${V4L2TRACERDIR}/trace-gen.h" "${V4L2TRACERDIR}/v4l2-tracer-gen/trace-gen.h" > "${V4L2TRACERDIR}/v4l2-tracer-gen/trace-gen-h.patch"
-> +	diff -Naur "${V4L2TRACERDIR}/retrace-gen.cpp" "${V4L2TRACERDIR}/v4l2-tracer-gen/retrace-gen.cpp" > "${V4L2TRACERDIR}/v4l2-tracer-gen/retrace-gen.patch"
-> +	diff -Naur "${V4L2TRACERDIR}/retrace-gen.h" "${V4L2TRACERDIR}/v4l2-tracer-gen/retrace-gen.h" > "${V4L2TRACERDIR}/v4l2-tracer-gen/retrace-gen-h.patch"
-> +	diff -Naur "${V4L2TRACERDIR}/v4l2-tracer-info-gen.h" "${V4L2TRACERDIR}/v4l2-tracer-gen/v4l2-tracer-info-gen.h" > "${V4L2TRACERDIR}/v4l2-tracer-gen/v4l2-tracer-info-gen-h.patch"
-> +
-> +	patch -d ${V4L2TRACERDIR} --no-backup-if-mismatch <${V4L2TRACERDIR}/v4l2-tracer-gen/trace-gen.patch
-> +	patch -d ${V4L2TRACERDIR} --no-backup-if-mismatch <${V4L2TRACERDIR}/v4l2-tracer-gen/trace-gen-h.patch
-> +	patch -d ${V4L2TRACERDIR} --no-backup-if-mismatch <${V4L2TRACERDIR}/v4l2-tracer-gen/retrace-gen.patch
-> +	patch -d ${V4L2TRACERDIR} --no-backup-if-mismatch <${V4L2TRACERDIR}/v4l2-tracer-gen/retrace-gen-h.patch
-> +	patch -d ${V4L2TRACERDIR} --no-backup-if-mismatch <${V4L2TRACERDIR}/v4l2-tracer-gen/v4l2-tracer-info-gen-h.patch
-> +}
-> +
->  keytable
->  libdvbv5
->  freebsd
->  ioctl-test
->  xc3028-firmware
-> +v4l2-tracer
-
-Otherwise this series makes a lot of sense.
-
-Regards,
-
-	Hans
+Sean
 
