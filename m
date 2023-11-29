@@ -1,193 +1,131 @@
-Return-Path: <linux-media+bounces-1343-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1344-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66877FD332
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:48:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0337FD3BF
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 11:13:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7FBDC282F9D
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 09:48:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F86E1C203B9
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 10:13:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5B2218E12;
-	Wed, 29 Nov 2023 09:48:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5805A19BB9;
+	Wed, 29 Nov 2023 10:13:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FsaqE7jL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GKlf5lT5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA0692114
-	for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 01:48:35 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50bc36725bbso955415e87.2
-        for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 01:48:35 -0800 (PST)
+Received: from mail-lf1-x12b.google.com (mail-lf1-x12b.google.com [IPv6:2a00:1450:4864:20::12b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A6961BCF;
+	Wed, 29 Nov 2023 02:13:19 -0800 (PST)
+Received: by mail-lf1-x12b.google.com with SMTP id 2adb3069b0e04-50bc8a9503fso74775e87.3;
+        Wed, 29 Nov 2023 02:13:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1701251314; x=1701856114; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1Mx325DtRKaxi+9uS3mKSouj4W90XaTo1Gq8eIdHtzI=;
-        b=FsaqE7jLU97/EJKeoxPCH61jaAYwzlL0hZ6apWnoLJjD4KnbGtu+/ITAlSe05sheDW
-         I4E8Rg/75YyV62X9kqfWLoPPGwa7NmkJixDX+BWv0GlrDCp1LjyEm4UUwTDpfzdr+3s7
-         GwFN1spp1532goxyuuQEwngF8U45yCZGcGx1I=
+        d=gmail.com; s=20230601; t=1701252797; x=1701857597; darn=vger.kernel.org;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=gCZTkTf5gNqH/rsoLk7etD6DwWJwR710k5LJwshNSuI=;
+        b=GKlf5lT5LfTn+FOIKdk4+B/fsnJPS5/dZaR06MKOv57OcUU11MD9L/FVkI2tSsJpOW
+         17Z34nxsL7V7w49178dmUlbgWCtUIxQCGTGXGFZNSM8tmet1Xm3nvJYTJ4pB3I8ncCXx
+         JFljOhwkeriSwVBgPGEVCLGyC1i4o54dArHOPssOmTq3Y1+cV7nbMQWwSGuLmk7EvZ6h
+         4w0EVo5MZfE/zt3qU1C+rkGy8ogu4pxx6ye/1W6X9yK+aHHxyBx+MT9iYboTuTk0hw5T
+         WzGoz5hvq5ofm1F/d1WNBbb5FCZ9+tYMiBUDEYEDI8voEHzd0pEeGszidbRcc2/OUhQW
+         yzkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701251314; x=1701856114;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1Mx325DtRKaxi+9uS3mKSouj4W90XaTo1Gq8eIdHtzI=;
-        b=WIffhCUFBp9qbW5AsrlJRfpD4KZpEolqSswAAtvgNIenWNycLGR4PTBK7YI/YlPZ/C
-         xGqgkJ5UBAnImlxS0o9HHYx+sEpmGLEdNW9jsP913vSAFPZ/2fODLoVMyFeA2PeygJqy
-         S0K3HljUcJMypdMStC+k65YiIQleL3YdC49GB+rbSJFugKJ8QzI8mTEDWQGiwTfBDe/u
-         ve+y+SO9NBa1MGJpl4f+b4oTfAPF/8kUBGRsYFW2QcGczbnyNXh+lUsHsgzoRrEbukv1
-         oMLG1uBu+1IGiDJSJFhbwQK0pbVYH0lU7TJ1gy7o4ZfDzxGFyQxzAcUJd2rO3Kcjl89F
-         Lagw==
-X-Gm-Message-State: AOJu0YwIGiRRSTGs6NvBBpFHDXgu01ERH4vx1/5TMpy65PgToBs6pcFs
-	fQxpMociMHjy+UcN6zX0k7v+NLqNxzBWd3JrSv6xZjiQ
-X-Google-Smtp-Source: AGHT+IEGr9QRfoqZRyvPiEgk5lfhp9nMFhd5TxuoZ1DGXT4SpTXvfepKdDytPmCoNeebLFclMmlihw==
-X-Received: by 2002:a05:6512:3c8f:b0:509:4587:bdd0 with SMTP id h15-20020a0565123c8f00b005094587bdd0mr11767795lfv.7.1701251313612;
-        Wed, 29 Nov 2023 01:48:33 -0800 (PST)
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com. [209.85.208.181])
-        by smtp.gmail.com with ESMTPSA id a28-20020ac2521c000000b0050ab88758b8sm2110546lfl.84.2023.11.29.01.48.33
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 29 Nov 2023 01:48:33 -0800 (PST)
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2c9b8363683so18141741fa.3
-        for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 01:48:33 -0800 (PST)
-X-Received: by 2002:a2e:b008:0:b0:2c9:bf5b:5408 with SMTP id
- y8-20020a2eb008000000b002c9bf5b5408mr833397ljk.24.1701251313149; Wed, 29 Nov
- 2023 01:48:33 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701252797; x=1701857597;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=gCZTkTf5gNqH/rsoLk7etD6DwWJwR710k5LJwshNSuI=;
+        b=p9dtK1arQeX5CrM7b1F+lJ6jg30D+7RIfUaxkyHKSB/KMUZINPwCpbB4SGq16UiOZZ
+         wJoTrjdPFyV2c4jMZ+Mgtht009NSDV70R4Trv+HdjdGdHA+ylpt82hggsuPOpGToHzsa
+         rnS7AFQUb5WljNSRXih7Tp0lyTWC8bdTs7+U8NuNU8RMyt5xyE06H/LQpwhBSFMxfYFv
+         Ptnqqmw0jUHx1Xp48XR5PpQYb0GoH5jzJqqUgiom0mQY4OjZXkESYfW8AF27mHX+qV7m
+         lH/NWi5HidUjCyvhThE3PenXOkSGH6gUG6f20rwTW+7blDwk3/OgDZa2NPq62SwSNUHF
+         3Ghw==
+X-Gm-Message-State: AOJu0YxjUosEhzCYnYuRberXMNI0QsimDNpOeSnGBmtzRAKC/sqdRwOD
+	AuA+QFN2nHG/v6T5pQ08yFg=
+X-Google-Smtp-Source: AGHT+IEqoByK4nUUfepBkFUQYGj/+qIG7mkFMGeDo/wE/qhqodU6sLdPk1cmUua5FNVdwpoUj02mkQ==
+X-Received: by 2002:a19:f60e:0:b0:507:cfbc:bf8d with SMTP id x14-20020a19f60e000000b00507cfbcbf8dmr11730596lfe.16.1701252797196;
+        Wed, 29 Nov 2023 02:13:17 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id q9-20020a0565123a8900b0050abbda2c52sm2140292lfu.157.2023.11.29.02.13.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 29 Nov 2023 02:13:16 -0800 (PST)
+Date: Wed, 29 Nov 2023 12:12:59 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Ville =?UTF-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Jani Nikula
+ <jani.nikula@linux.intel.com>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
+ linux-kernel@vger.kernel.org, Samuel Holland <samuel@sholland.org>, Sandy
+ Huang <hjc@rock-chips.com>, Jernej Skrabec <jernej.skrabec@gmail.com>,
+ linux-doc@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
+ linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+ linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
+ pointers arguments
+Message-ID: <20231129121259.47746996@eldfell>
+In-Reply-To: <ZWXv1Oi_sH0BRWao@intel.com>
+References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
+	<20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
+	<87h6l66nth.fsf@intel.com>
+	<v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
+	<ZWXv1Oi_sH0BRWao@intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
- <20231127165454.166373-17-benjamin.gaignard@collabora.com> <cf444351-4305-450d-9b3a-a02a310543c7@xs4all.nl>
-In-Reply-To: <cf444351-4305-450d-9b3a-a02a310543c7@xs4all.nl>
-From: Tomasz Figa <tfiga@chromium.org>
-Date: Wed, 29 Nov 2023 18:48:15 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5DHQvvodpKTYN4AE6Q=48Mby+qtt_kE9xjgarn1jQextw@mail.gmail.com>
-Message-ID: <CAAFQd5DHQvvodpKTYN4AE6Q=48Mby+qtt_kE9xjgarn1jQextw@mail.gmail.com>
-Subject: Re: [PATCH 16/55] media: qcom: venus: Stop abusing of
- min_buffers_needed field
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org, 
-	m.szyprowski@samsung.com, matt.ranostay@konsulko.com, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-staging@lists.linux.dev, kernel@collabora.com, 
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Andy Gross <agross@kernel.org>, 
-	Bjorn Andersson <andersson@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	linux-arm-msm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; boundary="Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
+
+--Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Nov 28, 2023 at 7:26=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> w=
-rote:
->
-> On 27/11/2023 17:54, Benjamin Gaignard wrote:
-> > 'min_buffers_needed' is suppose to be used to indicate the number
-> > of buffers needed by DMA engine to start streaming.
-> > venus driver doesn't use DMA engine and just want to specify
-> > the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
-> > That 'min_reqbufs_allocation' field purpose so use it.
-> >
-> > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> > CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com> (maintainer:QUALC=
-OMM VENUS VIDEO ACCELERATOR DRIVER)
-> > CC: Vikash Garodia <quic_vgarodia@quicinc.com> (maintainer:QUALCOMM VEN=
-US VIDEO ACCELERATOR DRIVER)
-> > CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org> (reviewer:QUALCOMM =
-VENUS VIDEO ACCELERATOR DRIVER)
-> > CC: Andy Gross <agross@kernel.org> (maintainer:ARM/QUALCOMM SUPPORT)
-> > CC: Bjorn Andersson <andersson@kernel.org> (maintainer:ARM/QUALCOMM SUP=
-PORT)
-> > CC: Konrad Dybcio <konrad.dybcio@linaro.org> (maintainer:ARM/QUALCOMM S=
-UPPORT)
-> > CC: linux-arm-msm@vger.kernel.org
-> > ---
-> >  drivers/media/platform/qcom/venus/vdec.c | 4 ++--
-> >  drivers/media/platform/qcom/venus/venc.c | 4 ++--
-> >  2 files changed, 4 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/p=
-latform/qcom/venus/vdec.c
-> > index dbf305cec120..16b8d0dde10d 100644
-> > --- a/drivers/media/platform/qcom/venus/vdec.c
-> > +++ b/drivers/media/platform/qcom/venus/vdec.c
-> > @@ -1641,7 +1641,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
-queue *src_vq,
-> >       src_vq->drv_priv =3D inst;
-> >       src_vq->buf_struct_size =3D sizeof(struct venus_buffer);
-> >       src_vq->allow_zero_bytesused =3D 1;
-> > -     src_vq->min_buffers_needed =3D 0;
-> > +     src_vq->min_reqbufs_allocation =3D 0;
->
-> Just drop this.
->
-> >       src_vq->dev =3D inst->core->dev;
-> >       src_vq->lock =3D &inst->ctx_q_lock;
-> >       ret =3D vb2_queue_init(src_vq);
-> > @@ -1656,7 +1656,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
-queue *src_vq,
-> >       dst_vq->drv_priv =3D inst;
-> >       dst_vq->buf_struct_size =3D sizeof(struct venus_buffer);
-> >       dst_vq->allow_zero_bytesused =3D 1;
-> > -     dst_vq->min_buffers_needed =3D 0;
-> > +     dst_vq->min_reqbufs_allocation =3D 0;
-> >       dst_vq->dev =3D inst->core->dev;
-> >       dst_vq->lock =3D &inst->ctx_q_lock;
-> >       return vb2_queue_init(dst_vq);
-> > diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/p=
-latform/qcom/venus/venc.c
-> > index 44b13696cf82..e399d01c208c 100644
-> > --- a/drivers/media/platform/qcom/venus/venc.c
-> > +++ b/drivers/media/platform/qcom/venus/venc.c
-> > @@ -1398,7 +1398,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
-queue *src_vq,
-> >       src_vq->drv_priv =3D inst;
-> >       src_vq->buf_struct_size =3D sizeof(struct venus_buffer);
-> >       src_vq->allow_zero_bytesused =3D 1;
-> > -     src_vq->min_buffers_needed =3D 1;
-> > +     src_vq->min_reqbufs_allocation =3D 1;
->
-> So for platform drivers like this it is going to be more difficult to
-> determine which meaning min_buffers_needed had: is at least one queued
-> buffer needed before you can start streaming, or is this for a minimum
-> buffer allocation?
+On Tue, 28 Nov 2023 15:49:08 +0200
+Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com> wrote:
 
-By the way, for stateful decoders, we also have the
-V4L2_CID_MIN_BUFFERS_FOR_CAPTURE control, which tells the userspace
-the minimum buffers that need to be allocated and the drivers also
-should adjust the number requested in REQBUFS to be at least that.
+> Should we perhaps start to use the (arguably hideous)
+>  - void f(struct foo *bar)
+>  + void f(struct foo bar[static 1])
+> syntax to tell the compiler we don't accept NULL pointers?
+>=20
+> Hmm. Apparently that has the same problem as using any
+> other kind of array syntax in the prototype. That is,
+> the compiler demands to know the definition of 'struct foo'
+> even though we're passing in effectively a pointer. Sigh.
 
->
-> In the case of m2m devices using the v4l2-mem2mem framework it is almost
-> certainly the minimum buffer allocation since the m2m framework already
-> checks that there are input and output buffers queued (__v4l2_m2m_try_que=
-ue).
->
-> So just delete the src_vq->min_buffers_needed =3D 1; line, and there is
-> no need to set min_reqbufs_allocation.
->
-> >       src_vq->dev =3D inst->core->dev;
-> >       src_vq->lock =3D &inst->ctx_q_lock;
-> >       if (inst->core->res->hfi_version =3D=3D HFI_VERSION_1XX)
-> > @@ -1415,7 +1415,7 @@ static int m2m_queue_init(void *priv, struct vb2_=
-queue *src_vq,
-> >       dst_vq->drv_priv =3D inst;
-> >       dst_vq->buf_struct_size =3D sizeof(struct venus_buffer);
-> >       dst_vq->allow_zero_bytesused =3D 1;
-> > -     dst_vq->min_buffers_needed =3D 1;
-> > +     dst_vq->min_reqbufs_allocation =3D 1;
-> >       dst_vq->dev =3D inst->core->dev;
-> >       dst_vq->lock =3D &inst->ctx_q_lock;
-> >       return vb2_queue_init(dst_vq);
->
-> Ditto.
->
-> Regards,
->
->         Hans
+
+__attribute__((nonnull)) ?
+
+
+Thanks,
+pq
+
+--Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmVnDqsACgkQI1/ltBGq
+qqde7A/+LfG5e8v6ABH2JqANkfijej4EDU9sSC3ZWBaUspi3UJEY1U0ZrDHgQd27
+lLSoxs0tguK5Dtehhk/Mn4S1XmyDtRrKNB/2L/rNqilREqQa5ciQG9OFjpqnepS2
+3kONuuooZchgnujkUjmgCg+L1X05peA166I3R9MkD4N3eqBH++XmohBaeUJDpUnN
+n1OATmnWyX2df7p/qBpOhVaNT+zu8HCgsIZq//PDNTxQxmHP5CPqbxbxuBjcwFHt
+bX1coZ602jx16CsrwaVYgVsHehXW0ru901OSPJ4flgpx/EyAjA4hHuVg+lJIZKqs
+wQRR4p/QdyBRULqGl/+4VML92ccuHFCedEtbLyH+RXSTlM547Q9nwtUPw1lB7tYQ
+Zx0BchNXyqKGnYvQUx5rTpJlTjwwq/IqkGkXnzpc3tIuj7hNTXEE1+3voPqNlnlU
+J16Lt49s2r4J2ufAykGzgqC19HM5baSykl006GFCpzLrH6iETMejOymRxAFlnE8m
+NdVHVD2YMPW9c21sJ+UjfbGrvF3H6E6MYZLDQLRnL44aHuYkCK6uSBfpgF1ugEqP
+Tzqd5wGEhEeH6OmzYEiwWHBkNJdiGnA4yo1dzpLdgdGaEKHRfdcGePGcNlLdtNcI
+AQZwl9NR+mk0zozfoa9HsXTUv+Su0TXpgD/prZ7PyqzSeM/SmkE=
+=Sfat
+-----END PGP SIGNATURE-----
+
+--Sig_/qS7Sjt2IF0HAAZwDWVWm5Tz--
 
