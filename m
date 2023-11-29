@@ -1,215 +1,240 @@
-Return-Path: <linux-media+bounces-1357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1358-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46E4B7FD5F0
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 12:42:02 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D2127FD5FF
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 12:48:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A67FDB216E8
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 11:41:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C6101C210CD
+	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 11:48:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0863B1D528;
-	Wed, 29 Nov 2023 11:41:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9F8C1D529;
+	Wed, 29 Nov 2023 11:48:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IVIY59PY"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZd47t7g"
 X-Original-To: linux-media@vger.kernel.org
-X-Greylist: delayed 62 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Wed, 29 Nov 2023 03:41:49 PST
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D8703C4;
-	Wed, 29 Nov 2023 03:41:49 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 26B77183
+	for <linux-media@vger.kernel.org>; Wed, 29 Nov 2023 03:48:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701258110; x=1732794110;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version:content-transfer-encoding;
-  bh=w91TqZU/Sz95TBAtE+lLgPRTyMnYI3/7ak+ZXvIxwqY=;
-  b=IVIY59PY2nmI34Vxl+3e70xlIK4bnrx6q7yyTPt0My8bGdNinYgSBbIy
-   OElb5mjET9zVtpoTq2JdYV8ARKdl/9dOPQVFUD88SimIq1a6D4swPHpAB
-   ai5mXguu4Ry/0T3sdLLLw89UzK4FJhAB98+lufdce4aTwJn5uANQGFGpw
-   olcagkl67s51Jz3KcyksvcIxoJcCWmgS1w3g7yST8g2X/lhyj7Vs6e/L9
-   0IcME2kDIFWl2vVo0W3LRa0GBFnp9CFLTyT1hwT0gtMaJPZOtG1PS971k
-   /bNjkOxwyKglRkseeGlrVr5gvIGNUyI4unFHw+5IC/7u8LHLMTOMasbNL
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="35035"
+  t=1701258531; x=1732794531;
+  h=date:from:to:cc:subject:message-id;
+  bh=rFHbYoeRWfXpw7HkZkPNbh0zluA9GRtRH36GXIbShUI=;
+  b=WZd47t7g10jw0MQsFt+Eh7z1hSG02CRnYVcI2xHjJh5cGaQ3IeIJm9SO
+   egSXURxyFAcmPFD/YjOnIpwcR5A/eJ9pqSdOVdTt5kth75FLDQ0ZdR7UH
+   2kDNBkKG9g87PeTm/2l0LQOOjsRBat9X2qwh/ryCafj+DpDvjN9BFykSO
+   urMNfDKkoDFFfg8enqKbxzZYqrNjRw2ODdruL2b8g7Kd4XBD6a7AwALEC
+   YZ9ssyhgN4EXXI9j8wDruJPfqAec4Esxccf6tD9eAdfetY9khcTJHQWx2
+   27+7zMiWpSD65YQ3WXCUE6jKv+NEKg5PGvxQPNnN8QngOMEuOP07KYF2L
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="479348134"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="35035"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 03:40:47 -0800
+   d="scan'208";a="479348134"
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 03:48:50 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="942291528"
+X-IronPort-AV: E=McAfee;i="6600,9927,10908"; a="762292420"
 X-IronPort-AV: E=Sophos;i="6.04,235,1695711600"; 
-   d="scan'208";a="942291528"
-Received: from dstavrak-mobl.ger.corp.intel.com (HELO localhost) ([10.252.60.61])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Nov 2023 03:40:40 -0800
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, Thomas
- Zimmermann
- <tzimmermann@suse.de>, Emma Anholt <emma@anholt.net>, Jonathan Corbet
- <corbet@lwn.net>, linux-kernel@vger.kernel.org, Samuel Holland
- <samuel@sholland.org>, Sandy Huang <hjc@rock-chips.com>, Jernej Skrabec
- <jernej.skrabec@gmail.com>, linux-doc@vger.kernel.org, Hans Verkuil
- <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, Chen-Yu Tsai
- <wens@csie.org>, dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org, linux-sunxi@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-In-Reply-To: <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
- <2mnodqvu2oo674vspiy4gxhglu3it5cq47acx5itnbwevgc4cf@c7h2bvnx3m2n>
- <8734wo7vbx.fsf@intel.com>
- <kygezdrfz56zj6lmq6l5s5yyys2urgq3id7r5n4mb3afn5kc5q@eswnd6a2ihqc>
-Date: Wed, 29 Nov 2023 13:40:38 +0200
-Message-ID: <87ttp46b49.fsf@intel.com>
+   d="scan'208";a="762292420"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga007.jf.intel.com with ESMTP; 29 Nov 2023 03:48:49 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r8J3f-0000BY-0p;
+	Wed, 29 Nov 2023 11:48:47 +0000
+Date: Wed, 29 Nov 2023 19:48:35 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:cleanup] BUILD SUCCESS
+ d940503dc621ded42c2816d5d693453d90d5cf64
+Message-ID: <202311291933.UJLNSXDX-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
-> On Wed, Nov 29, 2023 at 11:38:42AM +0200, Jani Nikula wrote:
->> On Wed, 29 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
->> > Hi Ville,
->> >
->> > On Tue, Nov 28, 2023 at 03:49:08PM +0200, Ville Syrj=C3=A4l=C3=A4 wrot=
-e:
->> >> On Tue, Nov 28, 2023 at 02:29:40PM +0100, Maxime Ripard wrote:
->> >> > On Tue, Nov 28, 2023 at 02:54:02PM +0200, Jani Nikula wrote:
->> >> > > On Tue, 28 Nov 2023, Maxime Ripard <mripard@kernel.org> wrote:
->> >> > > > All the drm_connector_init variants take at least a pointer to =
-the
->> >> > > > device, connector and hooks implementation.
->> >> > > >
->> >> > > > However, none of them check their value before dereferencing th=
-ose
->> >> > > > pointers which can lead to a NULL-pointer dereference if the au=
-thor
->> >> > > > isn't careful.
->> >> > >=20
->> >> > > Arguably oopsing on the spot is preferrable when this can't be ca=
-used by
->> >> > > user input. It's always a mistake that should be caught early dur=
-ing
->> >> > > development.
->> >> > >=20
->> >> > > Not everyone checks the return value of drm_connector_init and fr=
-iends,
->> >> > > so those cases will lead to more mysterious bugs later. And proba=
-bly
->> >> > > oopses as well.
->> >> >=20
->> >> > So maybe we can do both then, with something like
->> >> >=20
->> >> > if (WARN_ON(!dev))
->> >> >    return -EINVAL
->> >> >=20
->> >> > if (drm_WARN_ON(dev, !connector || !funcs))
->> >> >    return -EINVAL;
->> >> >=20
->> >> > I'd still like to check for this, so we can have proper testing, an=
-d we
->> >> > already check for those pointers in some places (like funcs in
->> >> > drm_connector_init), so if we don't cover everything we're inconsis=
-tent.
->> >>=20
->> >> People will invariably cargo-cult this kind of stuff absolutely
->> >> everywhere and then all your functions will have tons of dead
->> >> code to check their arguments.
->> >
->> > And that's a bad thing because... ?
->> >
->> > Also, are you really saying that checking that your arguments make sen=
-se
->> > is cargo-cult?
->>=20
->> It's a powerful thing to be able to assume a NULL argument is always a
->> fatal programming error on the caller's side, and should oops and get
->> caught immediately. It's an assertion.
->
-> Yeah, but we're not really doing that either. We have no explicit
-> assertion anywhere. We take a pointer in, and just hope that it will be
-> dereferenced later on and that the kernel will crash. The pointer to the
-> functions especially is only deferenced very later on.
->
-> And assertions might be powerful, but being able to notice errors and
-> debug them is too. A panic takes away basically any remote access to
-> debug. If you don't have a console, you're done.
->
->> We're not talking about user input or anything like that here.
->>=20
->> If you start checking for things that can't happen, and return errors
->> for them, you start gracefully handling things that don't have anything
->> graceful about them.
->
-> But there's nothing graceful to do here: you just return from your probe
-> function that you couldn't probe and that's it. Just like you do when
-> you can't map your registers, or get your interrupt, or register into
-> any framework (including drm_dev_register that pretty much every driver
-> handles properly if it returns an error, without being graceful about
-> it).
+tree/branch: git://linuxtv.org/sailus/media_tree.git cleanup
+branch HEAD: d940503dc621ded42c2816d5d693453d90d5cf64  media: v4l2-subdev: Fix indentation in v4l2-subdev.h
 
-Those are all dynamic things that can fail.
+elapsed time: 1498m
 
-Quite different from passing NULL dev, connector, or funcs to
-drm_connector_init() and friends.
+configs tested: 162
+configs skipped: 2
 
-I think it's wrong to set the example that everything needs to be
-checked, everything needs to return an error, every call needs to check
-for error return, all the time, everywhere. People absolutely will cargo
-cult that, and that's what Ville is referring to.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-If you pass NULL dev, connector, or funcs to drm_connector_init() I
-think you absolutely deserve to get an oops.
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231128   gcc  
+arc                   randconfig-002-20231128   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                   randconfig-001-20231128   clang
+arm                   randconfig-002-20231128   clang
+arm                   randconfig-003-20231128   clang
+arm                   randconfig-004-20231128   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231128   clang
+arm64                 randconfig-002-20231128   clang
+arm64                 randconfig-003-20231128   clang
+arm64                 randconfig-004-20231128   clang
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231128   gcc  
+csky                  randconfig-002-20231128   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231128   clang
+hexagon               randconfig-002-20231128   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231128   clang
+i386         buildonly-randconfig-002-20231128   clang
+i386         buildonly-randconfig-003-20231128   clang
+i386         buildonly-randconfig-004-20231128   clang
+i386         buildonly-randconfig-005-20231128   clang
+i386         buildonly-randconfig-006-20231128   clang
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231128   clang
+i386                  randconfig-002-20231128   clang
+i386                  randconfig-003-20231128   clang
+i386                  randconfig-004-20231128   clang
+i386                  randconfig-005-20231128   clang
+i386                  randconfig-006-20231128   clang
+i386                  randconfig-011-20231128   gcc  
+i386                  randconfig-012-20231128   gcc  
+i386                  randconfig-013-20231128   gcc  
+i386                  randconfig-014-20231128   gcc  
+i386                  randconfig-015-20231128   gcc  
+i386                  randconfig-016-20231128   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231128   gcc  
+loongarch             randconfig-002-20231128   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231128   gcc  
+nios2                 randconfig-002-20231128   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231128   gcc  
+parisc                randconfig-002-20231128   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc               randconfig-001-20231128   clang
+powerpc               randconfig-002-20231128   clang
+powerpc               randconfig-003-20231128   clang
+powerpc64             randconfig-001-20231128   clang
+powerpc64             randconfig-002-20231128   clang
+powerpc64             randconfig-003-20231128   clang
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231128   clang
+riscv                 randconfig-002-20231128   clang
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231128   gcc  
+s390                  randconfig-002-20231128   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                    randconfig-001-20231128   gcc  
+sh                    randconfig-002-20231128   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231128   gcc  
+sparc64               randconfig-002-20231128   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231128   clang
+um                    randconfig-002-20231128   clang
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231128   clang
+x86_64       buildonly-randconfig-002-20231128   clang
+x86_64       buildonly-randconfig-003-20231128   clang
+x86_64       buildonly-randconfig-004-20231128   clang
+x86_64       buildonly-randconfig-005-20231128   clang
+x86_64       buildonly-randconfig-006-20231128   clang
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231128   gcc  
+x86_64                randconfig-002-20231128   gcc  
+x86_64                randconfig-003-20231128   gcc  
+x86_64                randconfig-004-20231128   gcc  
+x86_64                randconfig-005-20231128   gcc  
+x86_64                randconfig-006-20231128   gcc  
+x86_64                randconfig-011-20231128   clang
+x86_64                randconfig-012-20231128   clang
+x86_64                randconfig-013-20231128   clang
+x86_64                randconfig-014-20231128   clang
+x86_64                randconfig-015-20231128   clang
+x86_64                randconfig-016-20231128   clang
+x86_64                randconfig-071-20231128   clang
+x86_64                randconfig-072-20231128   clang
+x86_64                randconfig-073-20231128   clang
+x86_64                randconfig-074-20231128   clang
+x86_64                randconfig-075-20231128   clang
+x86_64                randconfig-076-20231128   clang
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                randconfig-001-20231128   gcc  
+xtensa                randconfig-002-20231128   gcc  
 
-For dev, you could possibly not have reached the function with NULL
-dev. (And __drm_connector_init() has dev->mode_config before the check,
-so you'll get a static analyzer warning about dereference before the
-check.) If you have NULL connector, you didn't check for allocation
-failure earlier. If you have NULL funcs, you just passed NULL, because
-it's generally supposed to be a pointer to a static const struct.
-
->> Having such checks in place trains people to think they *may* happen.
->
-> In most cases, kmalloc can't fail. We seem to have a very different
-> policy towards it.
-
-Again, dynamic in nature and can fail.
-
->> While it should fail fast and loud at the developer's first smoke test,
->> and get fixed then and there.
->
-> Returning an error + a warning also qualifies for "fail fast and loud".
-> But keeps the system alive for someone to notice in any case.
-
-But where do you draw the line? If we keep adding these checks to things
-that actually can't happen, we teach developers we need to check for
-impossible things. And we teach them not to trust anything.
-
-I scroll down the file and reach
-drm_connector_attach_edid_property(). Should we NULL check connector?
-Should we change the function to int and return a value? Should the
-caller check the value? Then there's drm_connector_attach_encoder(). And
-drm_connector_has_possible_encoder(). And so on and so forth.
-
-Where do you draw the line?
-
-
-BR,
-Jani.
-
-
---=20
-Jani Nikula, Intel
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
