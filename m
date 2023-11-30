@@ -1,155 +1,219 @@
-Return-Path: <linux-media+bounces-1401-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1402-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834737FEE02
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 12:34:19 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ED317FEF9F
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 13:59:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0B7CFB20DDC
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 11:34:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D07FE1C20AFD
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 12:59:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F5123C6A5;
-	Thu, 30 Nov 2023 11:34:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 456E33BB39;
+	Thu, 30 Nov 2023 12:59:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ufA17wQ0"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CKkaee7V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21D4210CE;
-	Thu, 30 Nov 2023 03:34:06 -0800 (PST)
-Received: from pyrite.rasen.tech (h175-177-049-156.catv02.itscom.jp [175.177.49.156])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 16425276;
-	Thu, 30 Nov 2023 12:33:22 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701344007;
-	bh=dUdQo/NnsNM0ahRbgo/sOvGeBK2fSa+ow0mpMw2kxiM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ufA17wQ07OWsddNEeEKk0rpmFotp+SrjId4NeAj9f0nM69ANSnBI6AEOrAtqDsNEq
-	 NKXuDyvRnP7mJhrclRVYpchhgfyc8qhev4w3uA8yvJjWKEfRWvCj0VDewkdz8SeWBk
-	 BtLIO5D62xclXqLIGt9Mv8CGzVkIii01BMPsn2eA=
-Date: Thu, 30 Nov 2023 20:33:53 +0900
-From: Paul Elder <paul.elder@ideasonboard.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: rkisp1: debug: Add register dump for IS
-Message-ID: <ZWhzIeW0VlDRztmS@pyrite.rasen.tech>
-References: <20231129092956.250129-1-paul.elder@ideasonboard.com>
- <170128834260.3048548.11979514587961676400@ping.linuxembedded.co.uk>
- <ZWhaFL48cgdHsOPN@pyrite.rasen.tech>
- <4881112.31r3eYUQgx@steina-w>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03A9A10D4
+	for <linux-media@vger.kernel.org>; Thu, 30 Nov 2023 04:59:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701349155; x=1732885155;
+  h=date:from:to:cc:subject:message-id;
+  bh=UNlKbUXQHEH/g4RN9Y9mIAIizVmqXT6aymIdzeJjrgU=;
+  b=CKkaee7VlBOb06R0bvLtadW2uExHbWtUqie25c22DJypwyzv11Dy/4Sp
+   LxY7afALA6TEzh/06QlaG3ZJMiq5dUvswu58GWGbtRR6PIxisS+7zXhYX
+   kFjU9lxm266RC4YLuX5DeWFAMLKneHocngDGx3A9BpIokHrAI9BFBv8Bc
+   C7nKhtNC6X7yslooerMq6DgMB07FAi1JjXxUSHS3rclU5PrqV5sHl8uCJ
+   RljWuXM2ZTHvSzxU81sMPLMSo5gmRXuKdjIObmXjdgX73GUwiMaqvdgvR
+   A2mMzAf2BBvCsGXh/6T0xtOfjhXlk8n7uZ5RKGNzM4ijFSOJWs+gbiKMP
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="6594647"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
+   d="scan'208";a="6594647"
+Received: from fmsmga005.fm.intel.com ([10.253.24.32])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2023 04:59:13 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10909"; a="1100934478"
+X-IronPort-AV: E=Sophos;i="6.04,239,1695711600"; 
+   d="scan'208";a="1100934478"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga005.fm.intel.com with ESMTP; 30 Nov 2023 04:59:12 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r8gdK-0001yR-1S;
+	Thu, 30 Nov 2023 12:59:10 +0000
+Date: Thu, 30 Nov 2023 20:58:12 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:master] BUILD SUCCESS
+ 99e560d51f6c59ded60c03657134eb569592ae72
+Message-ID: <202311302010.rAFAmrQt-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <4881112.31r3eYUQgx@steina-w>
 
-On Thu, Nov 30, 2023 at 10:54:46AM +0100, Alexander Stein wrote:
-> Hi Paul,
-> 
-> Am Donnerstag, 30. November 2023, 10:47:00 CET schrieb Paul Elder:
-> > On Wed, Nov 29, 2023 at 08:05:42PM +0000, Kieran Bingham wrote:
-> > > Quoting Paul Elder (2023-11-29 09:29:55)
-> > > 
-> > > > Add register dump for the image stabilizer module to debugfs.
-> > > 
-> > > Is the Image Stabilizer on all variants of the ISP?
-> > > 
-> > > I.e. is it valid register space on the RK3399 implementation?
-> > 
-> > Yes, it is.
-> 
-> Is there some public documentation available how this ISP works? For RK3399 or 
-> i.MX8MP.
+tree/branch: git://linuxtv.org/sailus/media_tree.git master
+branch HEAD: 99e560d51f6c59ded60c03657134eb569592ae72  media: stm32-dcmipp: STM32 DCMIPP camera interface driver
 
-Not that I'm aware of. I've been told there's some leaked documentation
-in the RK3288 (without registers), and another one for the RK3399 (with
-registers)?
+Warning ids grouped by kconfigs:
 
+gcc_recent_errors
+`-- x86_64-randconfig-161-20231130
+    `-- drivers-media-dvb-frontends-mb86a16.c-mb86a16_set_fe()-warn:Function-too-hairy.-No-more-merges.
+clang_recent_errors
+`-- x86_64-randconfig-004-20231130
+    |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn30-display_mode_vba_30.c:warning:stack-frame-size-()-exceeds-limit-()-in-DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculati
+    |-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn31-display_mode_vba_31.c:warning:stack-frame-size-()-exceeds-limit-()-in-DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalculati
+    `-- drivers-gpu-drm-amd-amdgpu-..-display-dc-dml-dcn314-display_mode_vba_314.c:warning:stack-frame-size-()-exceeds-limit-()-in-DISPCLKDPPCLKDCFCLKDeepSleepPrefetchParametersWatermarksAndPerformanceCalcula
 
-Paul
+elapsed time: 1458m
 
-> 
-> > 
-> > > If so then:
-> > > Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> > > 
-> > > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
-> > > > ---
-> > > > 
-> > > >  .../platform/rockchip/rkisp1/rkisp1-debug.c    | 18 ++++++++++++++++++
-> > > >  1 file changed, 18 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > > > b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c index
-> > > > 71df3dc95e6f..f66b9754472e 100644
-> > > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
-> > > > @@ -139,6 +139,21 @@ static int rkisp1_debug_dump_mi_mp_show(struct
-> > > > seq_file *m, void *p)> > 
-> > > >  }
-> > > >  DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_mi_mp);
-> > > > 
-> > > > +static int rkisp1_debug_dump_is_show(struct seq_file *m, void *p)
-> > > > +{
-> > > > +       static const struct rkisp1_debug_register registers[] = {
-> > > > +               RKISP1_DEBUG_SHD_REG(ISP_IS_H_OFFS),
-> > > > +               RKISP1_DEBUG_SHD_REG(ISP_IS_V_OFFS),
-> > > > +               RKISP1_DEBUG_SHD_REG(ISP_IS_H_SIZE),
-> > > > +               RKISP1_DEBUG_SHD_REG(ISP_IS_V_SIZE),
-> > > 
-> > > I expect so as you haven't added the register macros in this series so
-> > > they must already be there ...
-> > 
-> > Yep :)
-> > 
-> > 
-> > Paul
-> > 
-> > > > +               { /* Sentinel */ },
-> > > > +       };
-> > > > +       struct rkisp1_device *rkisp1 = m->private;
-> > > > +
-> > > > +       return rkisp1_debug_dump_regs(rkisp1, m, 0, registers);
-> > > > +}
-> > > > +DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_is);
-> > > > +
-> > > > 
-> > > >  #define RKISP1_DEBUG_DATA_COUNT_BINS   32
-> > > >  #define RKISP1_DEBUG_DATA_COUNT_STEP   (4096 /
-> > > >  RKISP1_DEBUG_DATA_COUNT_BINS)> > 
-> > > > @@ -235,6 +250,9 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
-> > > > 
-> > > >         debugfs_create_file("mi_mp", 0444, regs_dir, rkisp1,
-> > > >         
-> > > >                             &rkisp1_debug_dump_mi_mp_fops);
-> > > > 
-> > > > +
-> > > > +       debugfs_create_file("is", 0444, regs_dir, rkisp1,
-> > > > +                           &rkisp1_debug_dump_is_fops);
-> > > > 
-> > > >  }
-> > > >  
-> > > >  void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
-> 
-> 
-> -- 
-> TQ-Systems GmbH | Mühlstraße 2, Gut Delling | 82229 Seefeld, Germany
-> Amtsgericht München, HRB 105018
-> Geschäftsführer: Detlef Schneider, Rüdiger Stahl, Stefan Schneider
-> http://www.tq-group.com/
-> 
-> 
+configs tested: 130
+configs skipped: 0
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+arc                   randconfig-001-20231130   gcc  
+arc                   randconfig-002-20231130   gcc  
+arm                       aspeed_g4_defconfig   clang
+arm                     davinci_all_defconfig   clang
+arm                       multi_v4t_defconfig   gcc  
+arm                         orion5x_defconfig   clang
+arm                   randconfig-001-20231130   gcc  
+arm                   randconfig-002-20231130   gcc  
+arm                   randconfig-003-20231130   gcc  
+arm                   randconfig-004-20231130   gcc  
+arm                           stm32_defconfig   gcc  
+arm                           sunxi_defconfig   gcc  
+arm64                 randconfig-001-20231130   gcc  
+arm64                 randconfig-002-20231130   gcc  
+arm64                 randconfig-003-20231130   gcc  
+arm64                 randconfig-004-20231130   gcc  
+csky                  randconfig-001-20231130   gcc  
+csky                  randconfig-002-20231130   gcc  
+hexagon               randconfig-001-20231130   clang
+hexagon               randconfig-002-20231130   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231130   gcc  
+i386         buildonly-randconfig-002-20231130   gcc  
+i386         buildonly-randconfig-003-20231130   gcc  
+i386         buildonly-randconfig-004-20231130   gcc  
+i386         buildonly-randconfig-005-20231130   gcc  
+i386         buildonly-randconfig-006-20231130   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231130   gcc  
+i386                  randconfig-002-20231130   gcc  
+i386                  randconfig-003-20231130   gcc  
+i386                  randconfig-004-20231130   gcc  
+i386                  randconfig-005-20231130   gcc  
+i386                  randconfig-006-20231130   gcc  
+i386                  randconfig-011-20231130   clang
+i386                  randconfig-012-20231130   clang
+i386                  randconfig-013-20231130   clang
+i386                  randconfig-014-20231130   clang
+i386                  randconfig-015-20231130   clang
+i386                  randconfig-016-20231130   clang
+loongarch                        allmodconfig   gcc  
+loongarch             randconfig-001-20231130   gcc  
+loongarch             randconfig-002-20231130   gcc  
+m68k                             allmodconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                        mvme16x_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                       allyesconfig   gcc  
+mips                             allyesconfig   gcc  
+mips                  cavium_octeon_defconfig   clang
+mips                      malta_kvm_defconfig   clang
+nios2                         3c120_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                 randconfig-001-20231130   gcc  
+nios2                 randconfig-002-20231130   gcc  
+openrisc                         allyesconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                generic-32bit_defconfig   gcc  
+parisc                randconfig-001-20231130   gcc  
+parisc                randconfig-002-20231130   gcc  
+powerpc                          allmodconfig   clang
+powerpc                          allyesconfig   clang
+powerpc                       holly_defconfig   gcc  
+powerpc                 mpc837x_rdb_defconfig   gcc  
+powerpc                  mpc885_ads_defconfig   clang
+powerpc               randconfig-001-20231130   gcc  
+powerpc               randconfig-002-20231130   gcc  
+powerpc               randconfig-003-20231130   gcc  
+powerpc64             randconfig-001-20231130   gcc  
+powerpc64             randconfig-002-20231130   gcc  
+powerpc64             randconfig-003-20231130   gcc  
+riscv                            allmodconfig   gcc  
+riscv                            allyesconfig   gcc  
+riscv                 randconfig-001-20231130   gcc  
+riscv                 randconfig-002-20231130   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                  randconfig-001-20231130   clang
+s390                  randconfig-002-20231130   clang
+sh                               allmodconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                         ap325rxa_defconfig   gcc  
+sh                        edosk7705_defconfig   gcc  
+sh                    randconfig-001-20231130   gcc  
+sh                    randconfig-002-20231130   gcc  
+sh                   secureedge5410_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64               randconfig-001-20231130   gcc  
+sparc64               randconfig-002-20231130   gcc  
+um                               allmodconfig   clang
+um                               allyesconfig   clang
+um                    randconfig-001-20231130   gcc  
+um                    randconfig-002-20231130   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231130   gcc  
+x86_64       buildonly-randconfig-002-20231130   gcc  
+x86_64       buildonly-randconfig-003-20231130   gcc  
+x86_64       buildonly-randconfig-004-20231130   gcc  
+x86_64       buildonly-randconfig-005-20231130   gcc  
+x86_64       buildonly-randconfig-006-20231130   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231130   clang
+x86_64                randconfig-002-20231130   clang
+x86_64                randconfig-003-20231130   clang
+x86_64                randconfig-004-20231130   clang
+x86_64                randconfig-005-20231130   clang
+x86_64                randconfig-006-20231130   clang
+x86_64                randconfig-011-20231130   gcc  
+x86_64                randconfig-012-20231130   gcc  
+x86_64                randconfig-013-20231130   gcc  
+x86_64                randconfig-014-20231130   gcc  
+x86_64                randconfig-015-20231130   gcc  
+x86_64                randconfig-016-20231130   gcc  
+x86_64                randconfig-071-20231130   gcc  
+x86_64                randconfig-072-20231130   gcc  
+x86_64                randconfig-073-20231130   gcc  
+x86_64                randconfig-074-20231130   gcc  
+x86_64                randconfig-075-20231130   gcc  
+x86_64                randconfig-076-20231130   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                randconfig-001-20231130   gcc  
+xtensa                randconfig-002-20231130   gcc  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
