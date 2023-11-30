@@ -1,108 +1,100 @@
-Return-Path: <linux-media+bounces-1388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1389-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D45817FE768
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 03:49:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D1E357FE7B3
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 04:37:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C363282446
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 02:49:31 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 290CD281E37
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 03:37:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 307B7F9E7;
-	Thu, 30 Nov 2023 02:49:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dkim=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E557134A9;
+	Thu, 30 Nov 2023 03:37:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Or7KV+5s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3A54CB3C
-	for <linux-media@vger.kernel.org>; Thu, 30 Nov 2023 02:49:25 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D51DC433C8
-	for <linux-media@vger.kernel.org>; Thu, 30 Nov 2023 02:49:24 +0000 (UTC)
-Date: Thu, 30 Nov 2023 03:49:22 +0100
-Message-ID: <f2051764df918908d276e9d42fd4822b.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+Received: from m15.mail.163.com (m15.mail.163.com [45.254.50.219])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 0A8DD1B4;
+	Wed, 29 Nov 2023 19:37:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id; bh=ZQQnG7Xd6nXerp8hNY
+	w4rgyz/Uv30Jfz7wNiiBGv9JU=; b=Or7KV+5so84/3kvDLVCgswxFhait3VnExe
+	Nte5r1Nducmti/M6QaLchtA+XXsk+nnpcuXjfnjYbld0ezdEYRqvQdG9TMxC290V
+	h3mLwRNCK7fMlU0/heS6TK/ki4mteTVkafey1gfgR9SqEUnchj5ZGDajYvl5hRfb
+	0e+8SYlLo=
+Received: from localhost.localdomain (unknown [39.144.190.126])
+	by zwqz-smtp-mta-g2-1 (Coremail) with SMTP id _____wD3_liBA2hlqnEuEQ--.45301S2;
+	Thu, 30 Nov 2023 11:37:37 +0800 (CST)
+From: Haoran Liu <liuhaoran14@163.com>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Haoran Liu <liuhaoran14@163.com>
+Subject: [PATCH] [media] usbtv: Add error handling for usb_submit_urb in usbtv_audio_start
+Date: Wed, 29 Nov 2023 19:37:35 -0800
+Message-Id: <20231130033735.36013-1-liuhaoran14@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:_____wD3_liBA2hlqnEuEQ--.45301S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7ZF4UJw4UKryftF18tr17trb_yoW8Zr48pa
+	13Wa15ZFWDJw43ZrnrJFs5Cr1Fvan3tFW8CF9rG39xZws8ta1Yqa40y34a9r48CryxJw13
+	tr1qqrW5uwsFv37anT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0zEBTYUUUUUU=
+X-CM-SenderInfo: xolxxtxrud0iqu6rljoofrz/1tbiwhQ4glc662t4DAABs0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+This patch introduces improved error handling for the usb_submit_urb call
+in the usbtv_audio_start function. Prior to this change, the function did
+not handle the scenario where usb_submit_urb could fail, potentially
+leading to inconsistent state and unreliable audio streaming.
 
-Results of the daily build of media_tree:
+Although the error addressed by this patch may not occur in the current
+environment, I still suggest implementing these error handling routines
+if the function is not highly time-sensitive. As the environment evolves
+or the code gets reused in different contexts, there's a possibility that
+these errors might occur. Addressing them now can prevent potential
+debugging efforts in the future, which could be quite resource-intensive.
 
-date:			Thu Nov 30 03:00:07 CET 2023
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	3b8551e73271fc375b15c887db54ad31686eb2ea
-v4l-utils git hash:	db9478a91120dccc18d1388fe9b812567e33b6bb
-edid-decode git hash:	08b5ddb2ed529e1e0bbfa8d6f1af836712bac327
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8526-gd4827317
-sparse version:		v0.5.0-8526-gd4827317
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 0e92f35343cd1684f7ff2d0d8814d821953976f2
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+Signed-off-by: Haoran Liu <liuhaoran14@163.com>
+---
+ drivers/media/usb/usbtv/usbtv-audio.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+diff --git a/drivers/media/usb/usbtv/usbtv-audio.c b/drivers/media/usb/usbtv/usbtv-audio.c
+index 333bd305a4f9..81d6d54fd12c 100644
+--- a/drivers/media/usb/usbtv/usbtv-audio.c
++++ b/drivers/media/usb/usbtv/usbtv-audio.c
+@@ -172,6 +172,7 @@ static void usbtv_audio_urb_received(struct urb *urb)
+ static int usbtv_audio_start(struct usbtv *chip)
+ {
+ 	unsigned int pipe;
++	int err;
+ 	static const u16 setup[][2] = {
+ 		/* These seem to enable the device. */
+ 		{ USBTV_BASE + 0x0008, 0x0001 },
+@@ -216,7 +217,15 @@ static int usbtv_audio_start(struct usbtv *chip)
+ 	usbtv_set_regs(chip, setup, ARRAY_SIZE(setup));
+ 
+ 	usb_clear_halt(chip->udev, pipe);
+-	usb_submit_urb(chip->snd_bulk_urb, GFP_ATOMIC);
++	err = usb_submit_urb(chip->snd_bulk_urb, GFP_ATOMIC);
++	if (err) {
++		dev_err(&chip->udev->dev,
++			"usb_submit_urb failed: %d\n", err);
++		kfree(chip->snd_bulk_urb->transfer_buffer);
++		usb_free_urb(chip->snd_bulk_urb);
++		chip->snd_bulk_urb = NULL;
++		return err;
++	}
+ 
+ 	return 0;
+ 
+-- 
+2.17.1
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: WARNINGS:
-
-drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Thu Nov 30 03:19:34 CET 2023
-virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 4
-
-date:			Thu Nov 30 03:48:10 CET 2023
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
 
