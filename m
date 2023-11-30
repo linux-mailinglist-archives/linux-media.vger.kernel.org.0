@@ -1,98 +1,155 @@
-Return-Path: <linux-media+bounces-1396-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1397-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BA207FEC3C
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 10:53:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC5337FEC4D
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 10:55:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9CCCF1C20E47
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 09:53:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 884C32824D6
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 09:55:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A1EF3A29A;
-	Thu, 30 Nov 2023 09:53:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA3A03AC1A;
+	Thu, 30 Nov 2023 09:54:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ot1ulRvQ"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="f4yDez26"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02CD010E3;
-	Thu, 30 Nov 2023 01:53:21 -0800 (PST)
-Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 676F99A;
+	Thu, 30 Nov 2023 01:54:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1701338089; x=1732874089;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=hnCrBJas0jHQljOR6WgW83uYftpb7okUoxTkkR1KEP0=;
+  b=f4yDez26/NW9ycGezqecZMSzjmRIMYmE/8N9ICAf7hDrfgfXGrv/D+rm
+   RhBb1BdPkaC5Rc6x2Eqw2ecGHeqtFNIXaLsWnp/kPSmsk13DyN+Itc78e
+   30thGbIumx2Mk33w9AokbYBGhGjWfePdrpHwrUTyFMGyl/LJ0u2MXvBFj
+   opM/lo7dEDbthhlWe1sCB5bMkCy/BvNy6C2C/DjtPt934HGheS73wc+Mf
+   2zXMncYR2F8j6XnIhhNtVSkNyg7gJGAgaQxjmbjtH7jNMVTMuGGlRRVZl
+   toKYmeR+2TMsOe0EgxrUGd+1RtqmLY4OVJv+eB+k27m9R21eHx+Vo2hG8
+   A==;
+X-IronPort-AV: E=Sophos;i="6.04,237,1695679200"; 
+   d="scan'208";a="34256271"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 30 Nov 2023 10:54:47 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: sebastianfricke)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 0E525660734A;
-	Thu, 30 Nov 2023 09:53:19 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701337999;
-	bh=JsvgpBm+jN736PjJX3c1tvCgfoG0+lhKgsKFQCA5mw0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ot1ulRvQCpjwK/uj8QKL57IJsxS0S+kocRXYM9NYNHPSMJs75/0FZDVnA8wMZDYmx
-	 AdkvZ2p1hEVYOfeyKgIbr8GF/22+5IhRiwsXJ2QSPkSc8hFS4SnfPfBM3YJuBNZwIn
-	 bgkephfNyTbI+kbl1iqrTRjHbZ4jyzN1xRZXb1mukHpymmA3uGUJ4Fvrq4+BqHe0XR
-	 RsBl4SMzgV/20wEO+OSrIZ6PZQDOrgZcYrDwa38T/FcKJ1WAx0orqijVkfEtwgajYf
-	 fs7/VHK8R/BRADuBtMeXmPxpp9ItmavZ8qReklR0eoLdkDeLQSltXKf+0uC4231C/L
-	 6L50Hd9jnS76A==
-Date: Thu, 30 Nov 2023 10:53:16 +0100
-From: Sebastian Fricke <sebastian.fricke@collabora.com>
-To: Yang Li <yang.lee@linux.alibaba.com>
-Cc: nas.chung@chipsnmedia.com, jackson.lee@chipsnmedia.com,
-	mchehab@kernel.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Abaci Robot <abaci@linux.alibaba.com>
-Subject: Re: [PATCH -next 1/2] media: chips-media: wave5: Remove unneeded
- semicolon
-Message-ID: <20231130095316.ckchdgnblkmsdmci@basti-XPS-13-9310>
-References: <20231127005959.108764-1-yang.lee@linux.alibaba.com>
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 84613280075;
+	Thu, 30 Nov 2023 10:54:47 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>, Paul Elder <paul.elder@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com, Dafna Hirschfeld <dafna@fastmail.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: rkisp1: debug: Add register dump for IS
+Date: Thu, 30 Nov 2023 10:54:46 +0100
+Message-ID: <4881112.31r3eYUQgx@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <ZWhaFL48cgdHsOPN@pyrite.rasen.tech>
+References: <20231129092956.250129-1-paul.elder@ideasonboard.com> <170128834260.3048548.11979514587961676400@ping.linuxembedded.co.uk> <ZWhaFL48cgdHsOPN@pyrite.rasen.tech>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-In-Reply-To: <20231127005959.108764-1-yang.lee@linux.alibaba.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Hey Yang,
+Hi Paul,
 
-On 27.11.2023 08:59, Yang Li wrote:
->./drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c:95:2-3: Unneeded semicolon
+Am Donnerstag, 30. November 2023, 10:47:00 CET schrieb Paul Elder:
+> On Wed, Nov 29, 2023 at 08:05:42PM +0000, Kieran Bingham wrote:
+> > Quoting Paul Elder (2023-11-29 09:29:55)
+> >=20
+> > > Add register dump for the image stabilizer module to debugfs.
+> >=20
+> > Is the Image Stabilizer on all variants of the ISP?
+> >=20
+> > I.e. is it valid register space on the RK3399 implementation?
+>=20
+> Yes, it is.
 
-Just pasting this line here makes the commit look a bit confusing.
-It would be enough to simply write:
+Is there some public documentation available how this ISP works? For RK3399=
+ or=20
+i.MX8MP.
 
-A switch statement does not require a semicolon after the closing curly
-bracket, remove it.
+Best regards,
+Alexander
 
-The same applies for the second patch.
+>=20
+> > If so then:
+> > Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> >=20
+> > > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > > ---
+> > >=20
+> > >  .../platform/rockchip/rkisp1/rkisp1-debug.c    | 18 ++++++++++++++++=
+++
+> > >  1 file changed, 18 insertions(+)
+> > >=20
+> > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> > > b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c index
+> > > 71df3dc95e6f..f66b9754472e 100644
+> > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> > > @@ -139,6 +139,21 @@ static int rkisp1_debug_dump_mi_mp_show(struct
+> > > seq_file *m, void *p)> >=20
+> > >  }
+> > >  DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_mi_mp);
+> > >=20
+> > > +static int rkisp1_debug_dump_is_show(struct seq_file *m, void *p)
+> > > +{
+> > > +       static const struct rkisp1_debug_register registers[] =3D {
+> > > +               RKISP1_DEBUG_SHD_REG(ISP_IS_H_OFFS),
+> > > +               RKISP1_DEBUG_SHD_REG(ISP_IS_V_OFFS),
+> > > +               RKISP1_DEBUG_SHD_REG(ISP_IS_H_SIZE),
+> > > +               RKISP1_DEBUG_SHD_REG(ISP_IS_V_SIZE),
+> >=20
+> > I expect so as you haven't added the register macros in this series so
+> > they must already be there ...
+>=20
+> Yep :)
+>=20
+>=20
+> Paul
+>=20
+> > > +               { /* Sentinel */ },
+> > > +       };
+> > > +       struct rkisp1_device *rkisp1 =3D m->private;
+> > > +
+> > > +       return rkisp1_debug_dump_regs(rkisp1, m, 0, registers);
+> > > +}
+> > > +DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_dump_is);
+> > > +
+> > >=20
+> > >  #define RKISP1_DEBUG_DATA_COUNT_BINS   32
+> > >  #define RKISP1_DEBUG_DATA_COUNT_STEP   (4096 /
+> > >  RKISP1_DEBUG_DATA_COUNT_BINS)> >=20
+> > > @@ -235,6 +250,9 @@ void rkisp1_debug_init(struct rkisp1_device *rkis=
+p1)
+> > >=20
+> > >         debugfs_create_file("mi_mp", 0444, regs_dir, rkisp1,
+> > >        =20
+> > >                             &rkisp1_debug_dump_mi_mp_fops);
+> > >=20
+> > > +
+> > > +       debugfs_create_file("is", 0444, regs_dir, rkisp1,
+> > > +                           &rkisp1_debug_dump_is_fops);
+> > >=20
+> > >  }
+> > > =20
+> > >  void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1)
 
-Greetings,
-Sebastian
->
->Reported-by: Abaci Robot <abaci@linux.alibaba.com>
->Closes: https://bugzilla.openanolis.cn/show_bug.cgi?id=7633
->Signed-off-by: Yang Li <yang.lee@linux.alibaba.com>
->---
-> drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->index f29cfa3af94a..8bbf9d10b467 100644
->--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->@@ -92,7 +92,7 @@ static int switch_state(struct vpu_instance *inst, enum vpu_instance_state state
-> 		break;
-> 	case VPU_INST_STATE_STOP:
-> 		break;
->-	};
->+	}
->
-> 	dev_dbg(inst->dev->dev, "Switch state from %s to %s.\n",
-> 		state_to_str(inst->state), state_to_str(state));
->-- 
->2.20.1.7.g153144c
->
->
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
+
 
