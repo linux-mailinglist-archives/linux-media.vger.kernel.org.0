@@ -1,59 +1,42 @@
-Return-Path: <linux-media+bounces-1424-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1426-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF5497FF84A
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 18:32:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 69EA47FF851
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 18:32:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6907E2817B7
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 17:32:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 256AA2816DE
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 17:32:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D30958112;
-	Thu, 30 Nov 2023 17:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="IfWT2Tvm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EB795677D;
+	Thu, 30 Nov 2023 17:32:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EBA810DF;
-	Thu, 30 Nov 2023 09:31:54 -0800 (PST)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8F512E000A;
-	Thu, 30 Nov 2023 17:31:52 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1701365513;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=M+WnBVPp/orBWqi+tGtSgIbyT8pSAzIoy9yyOa5BwcA=;
-	b=IfWT2TvmzgqeMa5T0LXgKsYiSPYzeKOQD0IOhwlLJkvTuHV1/48HcS0ZxNxcLEWm4J/pC+
-	9TIBnVFmSV2mAlH55EMcIqTJRkQyHxdMU6Zfe47CpW4RcZCkwQLzyiOHYxwYVSLoeCdLhP
-	cvpS4dKZD/b6wdN2v5YMYYFbpNqfdoqCZGo0rosjjuPlZZjLzQJtvfC7OOditzNyxEkBOm
-	j1wY3/aMoA3udAMJ+b4Wu5KvoQGhiaDN5hEkn3C1lZv+pyDx7WQjm98fynXMXIT8NFEqrT
-	tR5hokquTc9mkGRSm+cycXNmKq+DDrav+0AmESKFsjW4x8zfAvFpwiD2xvMqBQ==
-From: Mehdi Djait <mehdi.djait@bootlin.com>
-To: mchehab@kernel.org,
-	heiko@sntech.de,
-	hverkuil-cisco@xs4all.nl,
-	krzysztof.kozlowski+dt@linaro.org,
-	robh+dt@kernel.org,
-	conor+dt@kernel.org
-Cc: linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	thomas.petazzoni@bootlin.com,
-	alexandre.belloni@bootlin.com,
-	maxime.chevallier@bootlin.com,
-	paul.kocialkowski@bootlin.com,
-	michael.riesch@wolfvision.net,
-	Mehdi Djait <mehdi.djait@bootlin.com>
-Subject: [PATCH V12 3/3] arm64: dts: rockchip: Add the px30 camera interface
-Date: Thu, 30 Nov 2023 18:31:46 +0100
-Message-ID: <c6ed429258a4db6730ba43136d8d9e25762c8f0a.1701364052.git.mehdi.djait@bootlin.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <cover.1701364052.git.mehdi.djait@bootlin.com>
-References: <cover.1701364052.git.mehdi.djait@bootlin.com>
+Received: from relmlie6.idc.renesas.com (relmlor2.renesas.com [210.160.252.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 945DA1700;
+	Thu, 30 Nov 2023 09:32:41 -0800 (PST)
+X-IronPort-AV: E=Sophos;i="6.04,239,1695654000"; 
+   d="scan'208";a="188746418"
+Received: from unknown (HELO relmlir6.idc.renesas.com) ([10.200.68.152])
+  by relmlie6.idc.renesas.com with ESMTP; 01 Dec 2023 02:32:40 +0900
+Received: from localhost.localdomain (unknown [10.226.92.210])
+	by relmlir6.idc.renesas.com (Postfix) with ESMTP id C734A401786F;
+	Fri,  1 Dec 2023 02:32:37 +0900 (JST)
+From: Biju Das <biju.das.jz@bp.renesas.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Biju Das <biju.das.jz@bp.renesas.com>,
+	linux-media@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.au@gmail.com>,
+	linux-renesas-soc@vger.kernel.org
+Subject: [PATCH] media: v4l: async: Fix double pointer free on v4l2_async_unregister_subdev()
+Date: Thu, 30 Nov 2023 17:32:32 +0000
+Message-Id: <20231130173232.130731-1-biju.das.jz@bp.renesas.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -61,42 +44,39 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-GND-Sasl: mehdi.djait@bootlin.com
 
-The px30 has a video capture component, supporting the BT.656
-parallel interface. Add a DT description for it.
+The v4l2_async_unbind_subdev_one() deallocates the pointer
+&asc->asc_subdev_entry. The same pointer is again used to
+deallocate in list_del() leading to the below kernel crash.
 
-Reviewed-by: Michael Riesch <michael.riesch@wolfvision.net>
-Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
+Unable to handle kernel paging request at virtual address dead000000000108
+v4l2_async_unregister_subdev+0xf8/0x164
+rzg2l_csi2_remove+0x30/0x5c
+platform_remove+0x28/0x64
+device_remove+0x48/0x74
+device_release_driver_internal+0x1d8/0x234
+device_driver_detach+0x14/0x1c
+unbind_store+0xac/0xb0
+
+Fixes: 28a1295795d8 ("media: v4l: async: Allow multiple connections between entities")
+Signed-off-by: Biju Das <biju.das.jz@bp.renesas.com>
 ---
- arch/arm64/boot/dts/rockchip/px30.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ drivers/media/v4l2-core/v4l2-async.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
-index 42ce78beb413..3a4e859e5a49 100644
---- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-@@ -1281,6 +1281,18 @@ isp_mmu: iommu@ff4a8000 {
- 		#iommu-cells = <0>;
- 	};
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index 091e8cf4114b..8cfd593d293d 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -880,7 +880,6 @@ void v4l2_async_unregister_subdev(struct v4l2_subdev *sd)
+ 				  &asc->notifier->waiting_list);
  
-+	cif: video-capture@ff490000 {
-+		compatible = "rockchip,px30-vip";
-+		reg = <0x0 0xff490000 0x0 0x200>;
-+		interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
-+		clock-names = "aclk", "hclk", "pclk";
-+		power-domains = <&power PX30_PD_VI>;
-+		resets = <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN>;
-+		reset-names = "axi", "ahb", "pclkin";
-+		status = "disabled";
-+	};
-+
- 	qos_gmac: qos@ff518000 {
- 		compatible = "rockchip,px30-qos", "syscon";
- 		reg = <0x0 0xff518000 0x0 0x20>;
+ 			v4l2_async_unbind_subdev_one(asc->notifier, asc);
+-			list_del(&asc->asc_subdev_entry);
+ 		}
+ 	}
+ 
 -- 
-2.41.0
+2.25.1
 
 
