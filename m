@@ -1,127 +1,108 @@
-Return-Path: <linux-media+bounces-1387-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1388-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADDC97FE1A9
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 22:19:03 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D45817FE768
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 03:49:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B6FE9B21073
-	for <lists+linux-media@lfdr.de>; Wed, 29 Nov 2023 21:19:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C363282446
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 02:49:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2851061683;
-	Wed, 29 Nov 2023 21:18:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QjsUzCp5"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 307B7F9E7;
+	Thu, 30 Nov 2023 02:49:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dkim=none
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oa1-x2a.google.com (mail-oa1-x2a.google.com [IPv6:2001:4860:4864:20::2a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52CA4D66;
-	Wed, 29 Nov 2023 13:18:51 -0800 (PST)
-Received: by mail-oa1-x2a.google.com with SMTP id 586e51a60fabf-1f9ef233912so95684fac.2;
-        Wed, 29 Nov 2023 13:18:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701292730; x=1701897530; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WS8gBGQpXQrZRMsSNBag3Tt7HvnBrgRu9OXK2ug1d00=;
-        b=QjsUzCp58+8LDzYbBeTYjv6otvQK9j3U8rINdDBS+sLKdXstbd65tzhGv0zWO5yqJP
-         dtiTZw4rAImo6cVVu5iUATjjoPwRDa0HOhMU49fzHS1rpQpOT83zNRiLM/cRPctOaTsW
-         a/NMWn1wEPY9LHa0SWgT9aVT0QKQaL68VZnGK1kVx0y5SNO6OrQjSWOifWn/Vh8zcJGr
-         MSnjoS9TOGy31XYnGezVdAZDwcW8mi4elcl1POBfBMnojPX2DzEmGfTXEVy6YXlO7gdC
-         eA2MPNnFQ8zMd8IKUksn+ab2etZWjRqSKZBiKQQVHLd4BNkAj7sO0Z27WTjPlcK+PuBv
-         OuSQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701292730; x=1701897530;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WS8gBGQpXQrZRMsSNBag3Tt7HvnBrgRu9OXK2ug1d00=;
-        b=YJ5PJY4AvZqmysvb++1DeQ9Bvj4nGhbTIWWxJhNiBwrKF4514UBbPPcOkeGbmXZ6oF
-         T9fu1nojOU0S1QpLAdp/Q4aSrL0konhhvp86ySVzPZOMwPvklcVWcH4yE0CVCeVz/OxV
-         +C+BLJIh9YYh9XbDmSvel3mnD6e5E4Bjjn2nGbZA8MUchMbsq9v32sHqqOfGrRmTHToi
-         32kGveLsZ6W56l0d/PR+9o3bratwGfYfJtTDm8nTAwucvCHKgLUE3NGwdzoBNzWo5gZi
-         1tzl/+gyrBYOGZKRn7NqNOBO+rwopcFCHq9UYImPnwnRDWUOIl3Jig1MR6jX/hr7tKva
-         H8Ug==
-X-Gm-Message-State: AOJu0YzWjH46sPvLqPhVqyALbn8No8OTqXO8f/EOobbsWOrfN8aLYkIb
-	USzC9IE6kK/0/w6SO3SeleZm9jddD7s6kTapfx2cI9nz
-X-Google-Smtp-Source: AGHT+IHoa2uzgpSCk5/ua6lNSfqbjchnHD4WUwl8N9K8d67JpoJqLMPCK5zWvuA0I1GukMTG2oUufTYweHYHVEnlxdM=
-X-Received: by 2002:a05:6871:810:b0:1fa:79c:ad71 with SMTP id
- q16-20020a056871081000b001fa079cad71mr17816587oap.39.1701292730655; Wed, 29
- Nov 2023 13:18:50 -0800 (PST)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3A54CB3C
+	for <linux-media@vger.kernel.org>; Thu, 30 Nov 2023 02:49:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D51DC433C8
+	for <linux-media@vger.kernel.org>; Thu, 30 Nov 2023 02:49:24 +0000 (UTC)
+Date: Thu, 30 Nov 2023 03:49:22 +0100
+Message-ID: <f2051764df918908d276e9d42fd4822b.hverkuil@xs4all.nl>
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20231122160556.24948-1-Ramesh.Errabolu@amd.com> <c5ae3f32-0779-4583-8fe6-92f5dea5ede6@amd.com>
-In-Reply-To: <c5ae3f32-0779-4583-8fe6-92f5dea5ede6@amd.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Wed, 29 Nov 2023 16:18:39 -0500
-Message-ID: <CADnq5_OJbURbVzXVypohp7gCjE+ckHkEnDD67H7KTDJZt_e3HA@mail.gmail.com>
-Subject: Re: [Linaro-mm-sig] Re: [PATCH] dma-buf: Correct the documentation of
- name and exp_name symbols
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: Ramesh Errabolu <Ramesh.Errabolu@amd.com>, amd-gfx@lists.freedesktop.org, 
-	sumit.semwal@linaro.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Wed, Nov 22, 2023 at 1:58=E2=80=AFPM Christian K=C3=B6nig
-<christian.koenig@amd.com> wrote:
->
-> Am 22.11.23 um 17:05 schrieb Ramesh Errabolu:
-> > Fix the documentation of struct dma_buf members name and exp_name
-> > as to how these members are to be used and accessed.
-> >
-> > Signed-off-by: Ramesh Errabolu <Ramesh.Errabolu@amd.com>
->
-> Reviewed-by: Christian K=C3=B6nig <christian.koenig@amd.com>
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-Please apply this to drm-misc.
+Results of the daily build of media_tree:
 
-Alex
+date:			Thu Nov 30 03:00:07 CET 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	3b8551e73271fc375b15c887db54ad31686eb2ea
+v4l-utils git hash:	db9478a91120dccc18d1388fe9b812567e33b6bb
+edid-decode git hash:	08b5ddb2ed529e1e0bbfa8d6f1af836712bac327
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8526-gd4827317
+sparse version:		v0.5.0-8526-gd4827317
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 0e92f35343cd1684f7ff2d0d8814d821953976f2
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
->
-> > ---
-> >   include/linux/dma-buf.h | 11 +++++++----
-> >   1 file changed, 7 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> > index 3f31baa3293f..8ff4add71f88 100644
-> > --- a/include/linux/dma-buf.h
-> > +++ b/include/linux/dma-buf.h
-> > @@ -343,16 +343,19 @@ struct dma_buf {
-> >       /**
-> >        * @exp_name:
-> >        *
-> > -      * Name of the exporter; useful for debugging. See the
-> > -      * DMA_BUF_SET_NAME IOCTL.
-> > +      * Name of the exporter; useful for debugging. Must not be NULL
-> >        */
-> >       const char *exp_name;
-> >
-> >       /**
-> >        * @name:
-> >        *
-> > -      * Userspace-provided name; useful for accounting and debugging,
-> > -      * protected by dma_resv_lock() on @resv and @name_lock for read =
-access.
-> > +      * Userspace-provided name. Default value is NULL. If not NULL,
-> > +      * length cannot be longer than DMA_BUF_NAME_LEN, including NIL
-> > +      * char. Useful for accounting and debugging. Read/Write accesses
-> > +      * are protected by @name_lock
-> > +      *
-> > +      * See the IOCTLs DMA_BUF_SET_NAME or DMA_BUF_SET_NAME_A/B
-> >        */
-> >       const char *name;
-> >
->
-> _______________________________________________
-> Linaro-mm-sig mailing list -- linaro-mm-sig@lists.linaro.org
-> To unsubscribe send an email to linaro-mm-sig-leave@lists.linaro.org
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Thu Nov 30 03:19:34 CET 2023
+virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 4
+
+date:			Thu Nov 30 03:48:10 CET 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
