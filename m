@@ -1,95 +1,113 @@
-Return-Path: <linux-media+bounces-1391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1392-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60DC37FEB4D
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 10:03:54 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B56C7FEC1C
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 10:46:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 74F9E1C209A3
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 09:03:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D41C1C20E25
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 09:46:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE11F347B0;
-	Thu, 30 Nov 2023 09:03:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5447C3986D;
+	Thu, 30 Nov 2023 09:46:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=kapsi.fi header.i=@kapsi.fi header.b="slPw/G+D"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="r0Uj9+5q"
 X-Original-To: linux-media@vger.kernel.org
-X-Greylist: delayed 1220 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 30 Nov 2023 01:03:41 PST
-Received: from mail.kapsi.fi (mail.kapsi.fi [IPv6:2001:67c:1be8::25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA6DCF;
-	Thu, 30 Nov 2023 01:03:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=kapsi.fi;
-	s=20161220; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=VUOHRCWSSDj9SUGnDOEGQBP38JOlQPsdYrhMvEeHZGI=; b=slPw/G+DUnfvlNG7emUtFMnJKd
-	huL/uuSj0UPvcQExlq++KradoKLHcdlquM/zl239Ve4fEZGRjy83MH11n0b8wgpfiXBkfk59on9CK
-	WAwRdYPV6TsZCx5RdEWsxpLIhRLN8XN6KnE0yTwlGLGtT71siPATP4K7in/cB6eANQ7QO5DksvdzY
-	hwk4vlhYCCiDUnDrycagBoOjJtMO94agPmPR5SFZ2olqzrP3CyZL3FBeE48G4teECXrQoIH5ZXqHe
-	JJ7DTouNSjZUbkZ8BqDFC3y6+tDQR5zpv0S0Iv10Avkab31N1HEk+iVOhFK1h+QtzZBWm+nhHMgho
-	kzuRav4A==;
-Received: from 87-100-223-88.bb.dnainternet.fi ([87.100.223.88] helo=[192.168.1.241])
-	by mail.kapsi.fi with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.96)
-	(envelope-from <crope@iki.fi>)
-	id 1r8cdh-00F9fP-0v;
-	Thu, 30 Nov 2023 10:43:17 +0200
-Message-ID: <9da4252b-269b-c25b-c485-afdcd8207268@iki.fi>
-Date: Thu, 30 Nov 2023 10:43:16 +0200
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DD8B10D4;
+	Thu, 30 Nov 2023 01:46:02 -0800 (PST)
+Received: from pyrite.rasen.tech (h175-177-049-156.catv02.itscom.jp [175.177.49.156])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4C8FA8C1;
+	Thu, 30 Nov 2023 10:45:20 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701337523;
+	bh=WV7upD+FFFLTGLLvYXanKOUa5AfZ/hueHZz/fvxdFs4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=r0Uj9+5qe67C6Pydq2UHI1hU/Hen3vw9eP2fegrtiiJHGHALBlTm9iQfnAvJSiw4t
+	 9iwswI/vIKzyTdqRk3QdkY/bbmflEs6SSb4KmmqmoXtjGVvLbq5+oWeFgWTWq/sant
+	 D4jRguRlCRe4weLwctTbLoDc81RjbkuwG4A7b2u4=
+Date: Thu, 30 Nov 2023 18:45:48 +0900
+From: Paul Elder <paul.elder@ideasonboard.com>
+To: Adam Ford <aford173@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	devicetree@vger.kernel.org, kieran.bingham@ideasonboard.com,
+	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com
+Subject: Re: [PATCH v4 00/11] media: rkisp1: Add support for i.MX8MP
+Message-ID: <ZWhZzNQ6VWcfvWZy@pyrite.rasen.tech>
+References: <20231129092759.242641-1-paul.elder@ideasonboard.com>
+ <CAHCN7xLgypy8YMhxM1g27DWU7hY3nwAYLYRSMMDtODeGdd_CQg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH] MAINTAINERS: Drop Antti Palosaari
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- Linux Media Subsystem <linux-media@vger.kernel.org>,
- Linux Memory Management List <linux-mm@kvack.org>,
- Linux Kernel Janitors <kernel-janitors@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>
-References: <20231130083848.5396-1-bagasdotme@gmail.com>
-Content-Language: en-US
-From: Antti Palosaari <crope@iki.fi>
-In-Reply-To: <20231130083848.5396-1-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 87.100.223.88
-X-SA-Exim-Mail-From: crope@iki.fi
-X-SA-Exim-Scanned: No (on mail.kapsi.fi); SAEximRunCond expanded to false
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHCN7xLgypy8YMhxM1g27DWU7hY3nwAYLYRSMMDtODeGdd_CQg@mail.gmail.com>
 
-Hello,
-
-On 11/30/23 10:38, Bagas Sanjaya wrote:
-> He is currently inactive (last message from him is two years ago [1]).
-> His media tree [2] is also dormant (latest activity is 6 years ago),
-> yet his site is still online [3].
+On Wed, Nov 29, 2023 at 05:36:25AM -0600, Adam Ford wrote:
+> On Wed, Nov 29, 2023 at 3:28 AM Paul Elder <paul.elder@ideasonboard.com> wrote:
+> >
+> > This series extends the rkisp1 driver to support the ISP found in the
+> > NXP i.MX8MP SoC.
+> >
+> > The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
+> > and in the NXP i.MX8MP have the same origin, and have slightly diverged
+> > over time as they are now independently developed (afaik) by Rockchip
+> > and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
+> > and is close enough to the RK3399 ISP that it can easily be supported by
+> > the same driver.
+> >
+> > The last two patches add support for UYVY output format, which can be
+> > implemented on the ISP version in the i.MX8MP but not in the one in the
+> > RK3399.
+> >
+> > This version of the series specifically has been tested on a Polyhex
+> > Debix model A with an imx219 (Raspberry Pi cam v2).
 > 
-> Drop him from MAINTAINERS and add CREDITS entry for him. We thank him
-> for maintaining various DVB drivers.
-> 
-> [1]: https://lore.kernel.org/all/660772b3-0597-02db-ed94-c6a9be04e8e8@iki.fi/
-> [2]: https://git.linuxtv.org/anttip/media_tree.git/
-> [3]: https://palosaari.fi/linux/
-> 
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
-> Essentially no change from RFC [1]. However, since there is no response on
-> RFC (including from Antti), let's drop him so that Cc: lists can be
-> a bit shorter.
+> I have tested previous versions with a imx219 camera running in 4-lane
+> mode with great success.  Should I apply this series against
+> linux-next, or do I need to apply it against something in the media
+> tree to test?  I hope to test it tonight or tomorrow.
 
-Acked-by: Antti Palosaari <crope@iki.fi>
+I have it applied on 6.7-rc1.
 
-regards
-Antti
+
+Thanks,
+
+Paul
+
+> >
+> > Laurent Pinchart (2):
+> >   media: rkisp1: Add and use rkisp1_has_feature() macro
+> >   media: rkisp1: Configure gasket on i.MX8MP
+> >
+> > Paul Elder (9):
+> >   media: rkisp1: Support setting memory stride for main path
+> >   media: rkisp1: Support devices lacking self path
+> >   media: rkisp1: Support devices lacking dual crop
+> >   media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
+> >   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
+> >   media: rkisp1: Add match data for i.MX8MP ISP
+> >   media: rkisp1: Shift DMA buffer addresses on i.MX8MP
+> >   media: rkisp1: Add YC swap capability
+> >   media: rkisp1: Add UYVY as an output format
+> >
+> >  .../bindings/media/rockchip-isp1.yaml         |  37 ++++-
+> >  .../platform/rockchip/rkisp1/rkisp1-capture.c | 128 ++++++++++++-----
+> >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  35 ++++-
+> >  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  66 +++++++--
+> >  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 131 +++++++++++++++++-
+> >  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  32 +++++
+> >  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  27 ++--
+> >  include/uapi/linux/rkisp1-config.h            |   2 +
+> >  8 files changed, 398 insertions(+), 60 deletions(-)
+> >
+> > --
+> > 2.39.2
+> >
 
