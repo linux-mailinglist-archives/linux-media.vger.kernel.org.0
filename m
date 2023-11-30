@@ -1,81 +1,56 @@
-Return-Path: <linux-media+bounces-1421-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1422-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50DC97FF7D8
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 18:14:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B82D7FF847
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 18:32:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 728DD1C20EF6
-	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 17:14:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8CE7D1C20FE9
+	for <lists+linux-media@lfdr.de>; Thu, 30 Nov 2023 17:32:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9F9755C3E;
-	Thu, 30 Nov 2023 17:14:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A40F258101;
+	Thu, 30 Nov 2023 17:31:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YeUx76iA"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="M7zYogQY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCE7C10D9
-	for <linux-media@vger.kernel.org>; Thu, 30 Nov 2023 09:14:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1701364476;
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [IPv6:2001:4b98:dc4:8::224])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB2CE10E4;
+	Thu, 30 Nov 2023 09:31:49 -0800 (PST)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id DB54EE0007;
+	Thu, 30 Nov 2023 17:31:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1701365508;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
 	 content-transfer-encoding:content-transfer-encoding;
-	bh=sdJLGFUsBvRPgmsAPdEnB3Yq8nzOIqNpJn9wW0/735U=;
-	b=YeUx76iA+W5jLiiXqIgBkASEE+V8GW4V2SAWqZhZV67ueizynonk9phOMMOKL0OoU+M9Vx
-	DyigfRy+A/L+uPn5MO2+cqCZDe3e/1yRJZvhIiXqjiqUIt+God6zDwtTOzJi6/mpGWKri/
-	lSp4tPzOybukzJMtLjnbTOQM1yfzWPc=
-Received: from mail-qv1-f69.google.com (mail-qv1-f69.google.com
- [209.85.219.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-464-pKnV5z8EMiGBnTj0zD8M3w-1; Thu, 30 Nov 2023 12:14:33 -0500
-X-MC-Unique: pKnV5z8EMiGBnTj0zD8M3w-1
-Received: by mail-qv1-f69.google.com with SMTP id 6a1803df08f44-67a4bb77f47so26282536d6.0
-        for <linux-media@vger.kernel.org>; Thu, 30 Nov 2023 09:14:33 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701364473; x=1701969273;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sdJLGFUsBvRPgmsAPdEnB3Yq8nzOIqNpJn9wW0/735U=;
-        b=CtxWvCighdSdS/WrthDgZ2juFFbXr44ByC6KyFGwYJKm1fZvVJXpNuBtDybR9rT6JE
-         VKkUPO0DU/fnv023wXlO5UcCFtCi64dqn7VygN6GU+AqXmsqatK7Eks5botT9x1NoX5H
-         Zyb/rPcgdyftwEuEj/pqlsXlMJnT9RNi5hf3+K6ikUWiBgwIRWO7fsiOjyfAii483cbi
-         rOhp8xOd2HOFQ39A5oo0v8hKxugcbmk8rSNfhXhA/ImfZx4mdAYkOjRwRqxt9WyYJirt
-         kqE7YZxcVeYshmnK5P7QLMxSsGTUElM1skuYEs6oaWev8+LFAi81iZZfPyM2CCaRTnWa
-         jJhA==
-X-Gm-Message-State: AOJu0YxXeqFK1BUzNMszD6ht7DAsbSSuJ+uLk9eM0wgzzsPtnwfWxFpm
-	NEnJJ9akEs981ad9iCgHcnMHzk5q02wDBAlIOLIp/XcPKDfrZjyq7JtWsaZlDnfozYY1+yVQkfO
-	5L4aYQiLff0sxhLC87Gjxzw==
-X-Received: by 2002:a05:6214:d0c:b0:67a:542a:dba1 with SMTP id 12-20020a0562140d0c00b0067a542adba1mr19722581qvh.17.1701364473129;
-        Thu, 30 Nov 2023 09:14:33 -0800 (PST)
-X-Google-Smtp-Source: AGHT+IGj2Bf1J8SDqB0wuqLQHTMYnj3qEz2o57Mqa6dPV3K7TvyTfFtsgHvGRGXfYxFzIcG4opxh9w==
-X-Received: by 2002:a05:6214:d0c:b0:67a:542a:dba1 with SMTP id 12-20020a0562140d0c00b0067a542adba1mr19722523qvh.17.1701364472771;
-        Thu, 30 Nov 2023 09:14:32 -0800 (PST)
-Received: from klayman.redhat.com (net-2-34-30-38.cust.vodafonedsl.it. [2.34.30.38])
-        by smtp.gmail.com with ESMTPSA id r12-20020a0ce28c000000b0067a24f5b432sm169478qvl.62.2023.11.30.09.14.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 30 Nov 2023 09:14:32 -0800 (PST)
-From: Marco Pagani <marpagan@redhat.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian Koenig <christian.koenig@amd.com>
-Cc: Marco Pagani <marpagan@redhat.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
+	bh=KR5nShstfQxSJuUb0FunRbFP+7crGVsxiHun0Bpfis4=;
+	b=M7zYogQY/TMRTXapWM7ThUU4xq/iacM+eVH7fEuafMl2RtAnjdEbX2fFgEnvPK1jOQK7cO
+	0kS0BoqNWCV6X9DIS8Fho89ygn2k0qoYjn9hN2kcEO7Yh6t3QCo/ztBilTzwc55J7nIBNE
+	NzNX02MR89pK3/oCwVXie7Etw2oa1tzvg4eyuUMK4qNQKyH1MZmUrZEIezXrcBoWjBfQTV
+	dGbLNFvx+sbHNvV60ODV/IxPZ/wh7uZGx1jbsxqe+d9zhH4VqmIrGrEJ/aQCAL3pXPwNto
+	8a7g0I5RRLjIdF8XQ9gN1KTX5hKZauMEBuyn3gAN/hwYz2apdSH3mRRpbEtcgw==
+From: Mehdi Djait <mehdi.djait@bootlin.com>
+To: mchehab@kernel.org,
+	heiko@sntech.de,
+	hverkuil-cisco@xs4all.nl,
+	krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org,
+	conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v5] drm/test: add a test suite for GEM objects backed by shmem
-Date: Thu, 30 Nov 2023 18:14:16 +0100
-Message-ID: <20231130171417.74162-1-marpagan@redhat.com>
-X-Mailer: git-send-email 2.43.0
+	thomas.petazzoni@bootlin.com,
+	alexandre.belloni@bootlin.com,
+	maxime.chevallier@bootlin.com,
+	paul.kocialkowski@bootlin.com,
+	michael.riesch@wolfvision.net,
+	Mehdi Djait <mehdi.djait@bootlin.com>
+Subject: [PATCH V12 0/3] media: rockchip: Add a driver for Rockchip's camera interface
+Date: Thu, 30 Nov 2023 18:31:43 +0100
+Message-ID: <cover.1701364052.git.mehdi.djait@bootlin.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,455 +58,269 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-GND-Sasl: mehdi.djait@bootlin.com
 
-This patch introduces an initial KUnit test suite for GEM objects
-backed by shmem buffers.
+Hello everyone,
 
-Suggested-by: Javier Martinez Canillas <javierm@redhat.com>
-Signed-off-by: Marco Pagani <marpagan@redhat.com>
+V12 for basic support of the Camera Interface found on the Rockchip PX30 SoC
 
-v5:
-- using __drm_kunit_helper_alloc_drm_device() to avoid local struct
-v4:
-- Add missing MMU dependency for DRM_GEM_SHMEM_HELPER (kernel test robot)
-v3:
-- Explicitly cast pointers in the helpers
-- Removed unused pointer to parent dev in struct fake_dev
-- Test entries reordering in Kconfig and Makefile sent as a separate patch
-v2:
-- Improved description of test cases
-- Cleaner error handling using KUnit actions
-- Alphabetical order in Kconfig and Makefile
----
- drivers/gpu/drm/Kconfig                    |   3 +-
- drivers/gpu/drm/tests/Makefile             |   1 +
- drivers/gpu/drm/tests/drm_gem_shmem_test.c | 383 +++++++++++++++++++++
- 3 files changed, 386 insertions(+), 1 deletion(-)
- create mode 100644 drivers/gpu/drm/tests/drm_gem_shmem_test.c
+Most of this driver was written following the BSP driver from rockchip,
+removing the parts that either didn't fit correctly the guidelines, or
+that couldn't be tested.
 
-diff --git a/drivers/gpu/drm/Kconfig b/drivers/gpu/drm/Kconfig
-index 740c1c0bd068..b7abd436455f 100644
---- a/drivers/gpu/drm/Kconfig
-+++ b/drivers/gpu/drm/Kconfig
-@@ -74,12 +74,13 @@ config DRM_KUNIT_TEST_HELPERS
- 
- config DRM_KUNIT_TEST
- 	tristate "KUnit tests for DRM" if !KUNIT_ALL_TESTS
--	depends on DRM && KUNIT
-+	depends on DRM && KUNIT && MMU
- 	select DRM_BUDDY
- 	select DRM_DISPLAY_DP_HELPER
- 	select DRM_DISPLAY_HELPER
- 	select DRM_EXEC
- 	select DRM_EXPORT_FOR_TESTS if m
-+	select DRM_GEM_SHMEM_HELPER
- 	select DRM_KMS_HELPER
- 	select DRM_KUNIT_TEST_HELPERS
- 	select DRM_LIB_RANDOM
-diff --git a/drivers/gpu/drm/tests/Makefile b/drivers/gpu/drm/tests/Makefile
-index 2645af241ff0..d6183b3d7688 100644
---- a/drivers/gpu/drm/tests/Makefile
-+++ b/drivers/gpu/drm/tests/Makefile
-@@ -13,6 +13,7 @@ obj-$(CONFIG_DRM_KUNIT_TEST) += \
- 	drm_format_helper_test.o \
- 	drm_format_test.o \
- 	drm_framebuffer_test.o \
-+	drm_gem_shmem_test.o \
- 	drm_managed_test.o \
- 	drm_mm_test.o \
- 	drm_modes_test.o \
-diff --git a/drivers/gpu/drm/tests/drm_gem_shmem_test.c b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-new file mode 100644
-index 000000000000..91202e40cde9
---- /dev/null
-+++ b/drivers/gpu/drm/tests/drm_gem_shmem_test.c
-@@ -0,0 +1,383 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * KUnit test suite for GEM objects backed by shmem buffers
-+ *
-+ * Copyright (C) 2023 Red Hat, Inc.
-+ *
-+ * Author: Marco Pagani <marpagan@redhat.com>
-+ */
-+
-+#include <linux/dma-buf.h>
-+#include <linux/iosys-map.h>
-+#include <linux/sizes.h>
-+
-+#include <kunit/test.h>
-+
-+#include <drm/drm_device.h>
-+#include <drm/drm_drv.h>
-+#include <drm/drm_gem.h>
-+#include <drm/drm_gem_shmem_helper.h>
-+#include <drm/drm_kunit_helpers.h>
-+
-+#define TEST_SIZE		SZ_1M
-+#define TEST_BYTE		0xae
-+
-+/*
-+ * Wrappers to avoid an explicit type casting when passing action
-+ * functions to kunit_add_action().
-+ */
-+static void kfree_wrapper(void *ptr)
-+{
-+	const void *obj = ptr;
-+
-+	kfree(obj);
-+}
-+
-+static void sg_free_table_wrapper(void *ptr)
-+{
-+	struct sg_table *sgt = ptr;
-+
-+	sg_free_table(sgt);
-+}
-+
-+static void drm_gem_shmem_free_wrapper(void *ptr)
-+{
-+	struct drm_gem_shmem_object *shmem = ptr;
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/*
-+ * Test creating a shmem GEM object backed by shmem buffer. The test
-+ * case succeeds if the GEM object is successfully allocated with the
-+ * shmem file node and object functions attributes set, and the size
-+ * attribute is equal to the correct size.
-+ */
-+static void drm_gem_shmem_test_obj_create(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_EXPECT_EQ(test, shmem->base.size, TEST_SIZE);
-+	KUNIT_EXPECT_NOT_NULL(test, shmem->base.filp);
-+	KUNIT_EXPECT_NOT_NULL(test, shmem->base.funcs);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/*
-+ * Test creating a shmem GEM object from a scatter/gather table exported
-+ * via a DMA-BUF. The test case succeed if the GEM object is successfully
-+ * created with the shmem file node attribute equal to NULL and the sgt
-+ * attribute pointing to the scatter/gather table that has been imported.
-+ */
-+static void drm_gem_shmem_test_obj_create_private(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct drm_gem_object *gem_obj;
-+	struct dma_buf buf_mock;
-+	struct dma_buf_attachment attach_mock;
-+	struct sg_table *sgt;
-+	char *buf;
-+	int ret;
-+
-+	/* Create a mock scatter/gather table */
-+	buf = kunit_kzalloc(test, TEST_SIZE, GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, buf);
-+
-+	sgt = kzalloc(sizeof(*sgt), GFP_KERNEL);
-+	KUNIT_ASSERT_NOT_NULL(test, sgt);
-+
-+	ret = kunit_add_action_or_reset(test, kfree_wrapper, sgt);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = sg_alloc_table(sgt, 1, GFP_KERNEL);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = kunit_add_action_or_reset(test, sg_free_table_wrapper, sgt);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	sg_init_one(sgt->sgl, buf, TEST_SIZE);
-+
-+	/* Init a mock DMA-BUF */
-+	buf_mock.size = TEST_SIZE;
-+	attach_mock.dmabuf = &buf_mock;
-+
-+	gem_obj = drm_gem_shmem_prime_import_sg_table(drm_dev, &attach_mock, sgt);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, gem_obj);
-+	KUNIT_EXPECT_EQ(test, gem_obj->size, TEST_SIZE);
-+	KUNIT_EXPECT_NULL(test, gem_obj->filp);
-+	KUNIT_EXPECT_NOT_NULL(test, gem_obj->funcs);
-+
-+	/* The scatter/gather table will be freed by drm_gem_shmem_free */
-+	kunit_remove_action(test, sg_free_table_wrapper, sgt);
-+	kunit_remove_action(test, kfree_wrapper, sgt);
-+
-+	shmem = to_drm_gem_shmem_obj(gem_obj);
-+	KUNIT_EXPECT_PTR_EQ(test, shmem->sgt, sgt);
-+
-+	drm_gem_shmem_free(shmem);
-+}
-+
-+/*
-+ * Test pinning backing pages for a shmem GEM object. The test case
-+ * succeeds if a suitable number of backing pages are allocated, and
-+ * the pages table counter attribute is increased by one.
-+ */
-+static void drm_gem_shmem_test_pin_pages(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	int i, ret;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_EXPECT_NULL(test, shmem->pages);
-+	KUNIT_EXPECT_EQ(test, shmem->pages_use_count, 0);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_gem_shmem_pin(shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->pages);
-+	KUNIT_EXPECT_EQ(test, shmem->pages_use_count, 1);
-+
-+	for (i = 0; i < (shmem->base.size >> PAGE_SHIFT); i++)
-+		KUNIT_ASSERT_NOT_NULL(test, shmem->pages[i]);
-+
-+	drm_gem_shmem_unpin(shmem);
-+	KUNIT_EXPECT_NULL(test, shmem->pages);
-+	KUNIT_EXPECT_EQ(test, shmem->pages_use_count, 0);
-+}
-+
-+/*
-+ * Test creating a virtual mapping for a shmem GEM object. The test
-+ * case succeeds if the backing memory is mapped and the reference
-+ * counter for virtual mapping is increased by one. Moreover, the test
-+ * case writes and then reads a test pattern over the mapped memory.
-+ */
-+static void drm_gem_shmem_test_vmap(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct iosys_map map;
-+	int ret, i;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_EXPECT_NULL(test, shmem->vaddr);
-+	KUNIT_EXPECT_EQ(test, shmem->vmap_use_count, 0);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_gem_shmem_vmap(shmem, &map);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->vaddr);
-+	KUNIT_ASSERT_FALSE(test, iosys_map_is_null(&map));
-+	KUNIT_EXPECT_EQ(test, shmem->vmap_use_count, 1);
-+
-+	iosys_map_memset(&map, 0, TEST_BYTE, TEST_SIZE);
-+	for (i = 0; i < TEST_SIZE; i++)
-+		KUNIT_EXPECT_EQ(test, iosys_map_rd(&map, i, u8), TEST_BYTE);
-+
-+	drm_gem_shmem_vunmap(shmem, &map);
-+	KUNIT_EXPECT_NULL(test, shmem->vaddr);
-+	KUNIT_EXPECT_EQ(test, shmem->vmap_use_count, 0);
-+}
-+
-+/*
-+ * Test exporting a scatter/gather table of pinned pages suitable for
-+ * PRIME usage from a shmem GEM object. The test case succeeds if a
-+ * scatter/gather table large enough to accommodate the backing memory
-+ * is successfully exported.
-+ */
-+static void drm_gem_shmem_test_get_pages_sgt(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	struct scatterlist *sg;
-+	unsigned int si, len = 0;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_gem_shmem_pin(shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	sgt = drm_gem_shmem_get_sg_table(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+	KUNIT_EXPECT_NULL(test, shmem->sgt);
-+
-+	ret = kunit_add_action_or_reset(test, sg_free_table_wrapper, sgt);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	for_each_sgtable_sg(sgt, sg, si) {
-+		KUNIT_EXPECT_NOT_NULL(test, sg);
-+		len += sg->length;
-+	}
-+
-+	KUNIT_EXPECT_GE(test, len, TEST_SIZE);
-+}
-+
-+/*
-+ * Test pinning pages and exporting a scatter/gather table suitable for
-+ * driver usage from a shmem GEM object. The test case succeeds if the
-+ * backing pages are pinned and a scatter/gather table large enough to
-+ * accommodate the backing memory is successfully exported.
-+ */
-+static void drm_gem_shmem_test_get_sg_table(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	struct scatterlist *sg;
-+	unsigned int si, ret, len = 0;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	/* The scatter/gather table will be freed by drm_gem_shmem_free */
-+	sgt = drm_gem_shmem_get_pages_sgt(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+	KUNIT_ASSERT_NOT_NULL(test, shmem->pages);
-+	KUNIT_EXPECT_EQ(test, shmem->pages_use_count, 1);
-+	KUNIT_EXPECT_PTR_EQ(test, sgt, shmem->sgt);
-+
-+	for_each_sgtable_sg(sgt, sg, si) {
-+		KUNIT_EXPECT_NOT_NULL(test, sg);
-+		len += sg->length;
-+	}
-+
-+	KUNIT_EXPECT_GE(test, len, TEST_SIZE);
-+}
-+
-+/*
-+ * Test updating the madvise state of a shmem GEM object. The test
-+ * case checks that the function for setting madv updates it only if
-+ * its current value is greater or equal than zero and returns false
-+ * if it has a negative value.
-+ */
-+static void drm_gem_shmem_test_madvise(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, 0);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_gem_shmem_madvise(shmem, 1);
-+	KUNIT_EXPECT_TRUE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, 1);
-+
-+	/* Set madv to a negative value */
-+	ret = drm_gem_shmem_madvise(shmem, -1);
-+	KUNIT_EXPECT_FALSE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-+
-+	/* Check that madv cannot be set back to a positive value */
-+	ret = drm_gem_shmem_madvise(shmem, 0);
-+	KUNIT_EXPECT_FALSE(test, ret);
-+	KUNIT_ASSERT_EQ(test, shmem->madv, -1);
-+}
-+
-+/*
-+ * Test purging a shmem GEM object. First, assert that a newly created
-+ * shmem GEM object is not purgeable. Then, set madvise to a positive
-+ * value and call drm_gem_shmem_get_pages_sgt() to pin and dma-map the
-+ * backing pages. Finally, assert that the shmem GEM object is now
-+ * purgeable and purge it.
-+ */
-+static void drm_gem_shmem_test_purge(struct kunit *test)
-+{
-+	struct drm_device *drm_dev = test->priv;
-+	struct drm_gem_shmem_object *shmem;
-+	struct sg_table *sgt;
-+	int ret;
-+
-+	shmem = drm_gem_shmem_create(drm_dev, TEST_SIZE);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, shmem);
-+
-+	ret = kunit_add_action_or_reset(test, drm_gem_shmem_free_wrapper, shmem);
-+	KUNIT_ASSERT_EQ(test, ret, 0);
-+
-+	ret = drm_gem_shmem_is_purgeable(shmem);
-+	KUNIT_EXPECT_FALSE(test, ret);
-+
-+	ret = drm_gem_shmem_madvise(shmem, 1);
-+	KUNIT_EXPECT_TRUE(test, ret);
-+
-+	/* The scatter/gather table will be freed by drm_gem_shmem_free */
-+	sgt = drm_gem_shmem_get_pages_sgt(shmem);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, sgt);
-+
-+	ret = drm_gem_shmem_is_purgeable(shmem);
-+	KUNIT_EXPECT_TRUE(test, ret);
-+
-+	drm_gem_shmem_purge(shmem);
-+	KUNIT_EXPECT_NULL(test, shmem->pages);
-+	KUNIT_EXPECT_NULL(test, shmem->sgt);
-+	KUNIT_EXPECT_EQ(test, shmem->madv, -1);
-+}
-+
-+static int drm_gem_shmem_test_init(struct kunit *test)
-+{
-+	struct device *dev;
-+	struct drm_device *drm_dev;
-+
-+	/* Allocate a parent device */
-+	dev = drm_kunit_helper_alloc_device(test);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dev);
-+
-+	/*
-+	 * The DRM core will automatically initialize the GEM core and create
-+	 * a DRM Memory Manager object which provides an address space pool
-+	 * for GEM objects allocation.
-+	 */
-+	drm_dev = __drm_kunit_helper_alloc_drm_device(test, dev, sizeof(*drm_dev),
-+						      0, DRIVER_GEM);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, drm_dev);
-+
-+	test->priv = drm_dev;
-+
-+	return 0;
-+}
-+
-+static struct kunit_case drm_gem_shmem_test_cases[] = {
-+	KUNIT_CASE(drm_gem_shmem_test_obj_create),
-+	KUNIT_CASE(drm_gem_shmem_test_obj_create_private),
-+	KUNIT_CASE(drm_gem_shmem_test_pin_pages),
-+	KUNIT_CASE(drm_gem_shmem_test_vmap),
-+	KUNIT_CASE(drm_gem_shmem_test_get_pages_sgt),
-+	KUNIT_CASE(drm_gem_shmem_test_get_sg_table),
-+	KUNIT_CASE(drm_gem_shmem_test_madvise),
-+	KUNIT_CASE(drm_gem_shmem_test_purge),
-+	{}
-+};
-+
-+static struct kunit_suite drm_gem_shmem_suite = {
-+	.name = "drm_gem_shmem",
-+	.init = drm_gem_shmem_test_init,
-+	.test_cases = drm_gem_shmem_test_cases
-+};
-+
-+kunit_test_suite(drm_gem_shmem_suite);
-+
-+MODULE_LICENSE("GPL");
+In the BSP, this driver is known as the "cif" driver, but this
+controller was renamed to "vip" in the datasheet.
 
-base-commit: a13fee31f56449fc600d9e064c7b32302f92dcef
+This version of the driver supports ONLY the parallel interface BT656
+and was tested/implemented using an SDTV video decoder.
+
+media_tree, base-commit: a00b3f296eac3d43328615c3113e1a74143fc67a
+
+V11 => V12:
+cif/cif-capture.c cif/cif-dev.c cif/cif-common.h cif/cif-capture.h:
+- changed the name of the files to add "cif-"
+- made use of the reset array in the pmruntime suspend and resume
+  functions
+- made the subdev stop before the cif in cif_stop_streaming()
+- removed pinctrl_pm_select_sleep_state()
+- removed cif_soft_reset()
+- changed the dt-binding filename in the MAINTAINERS file
+- removed remote_info->mbus
+rockchip,px30-vip.yaml:
+- removed the undocumented compatible in the example
+
+V10 => V11:
+cif/capture.c cif/dev.c cif/common.h cif/capture.h:
+- removed the csi_fmt_val and all the CSI reg defines
+- removed the setting of buffer numbers in the queue_setup vb2_ops
+  callback
+- changed the v4l2_fwnode_endpoint declaration to V4L2_MBUS_UNKNOWN:
+  letting the device tree decide which bus is being used
+- split dev.h into common.h and capture.h
+
+rockchip,px30-vip.yaml:
+- renamed rockchip,rk3066-cif.yaml back to rockchip,px30-vip.yaml as
+  suggested by Conor
+- added the description of the port's endpoint bus-type property
+- extended the example to include the definition of the corresponding
+  video-decoder
+
+V9 => V10:
+cif/capture.c cif/dev.c cif/dev.h:
+as suggested by Paul:
+- ensured that the lock is still being held when accessing
+  stream->buffs[0,1]
+- adjusted the comment explaining why the spinlock is used
+
+as suggested by Michael:
+- made the IRQ requested SHARED: the cif shares the IRQ with the io_mmu
+
+rockchip,rk3066-cif.yaml:
+- dropped the rk3066-cif compatible but kept the name and added the
+  reason for this in the commit msg: the name of the file rk3066 is the first
+  Rockchip SoC generation that uses cif instead of the px30 which is just one
+  of the many iterations of the unit.
+
+V8 => V9:
+cif/capture.c cif/dev.c cif/dev.h:
+as suggested by Paul:
+- changed the name from "vip" back to "cif"
+- removed the scratch buffer and added frame dropping
+- removed mplane, only single plane formats are supported anyway
+- adjusted the Kconfig
+- added the match_data to the stream struct
+- some cosmetics, and error return codes changes
+
+as suggested by Michael:
+- changed the writel and readl helpers to be inline functions and
+  changed the name
+- fixed typos in the commit message
+- changed the cif_device struct element "sensor" to "remote"
+
+rockchip,rk3066-cif.yaml:
+- changed the compatible rockchip,px30-vip to rockchip,rk3066-cif:
+  rk3066 is the earliest Rockchip SoC that uses cif and it is the
+  first model starting the RK30 lineup.
+- changed the node name to video-capture
+- adjusted the description
+
+V7 => V8:
+vip/capture.c:
+- fixed a warning: unused variable reported by the kernel test robot
+
+V6 => V7:
+vip/capture.c vip/dev.c vip/dev.h
+- renamed all struct rk_vip_dev dev => struct rk_vip_dev vip_dev
+- added some error when rk_vip_get_buffer() returns NULL
+- removed a WARN_ON
+- made the irq NOT shared
+- dropped of_match_ptr
+- added the rk_vip_get_resource() function
+
+rockchip,px30-vip.yaml:
+- changed filename to match the compatible
+- dropped the mention of the other rockchip SoC in the dt-binding
+  description and added a more detailed description of VIP
+- removed unused labels in the example
+
+V5[1] => V6:
+vip/capture.c vip/dev.c vip/dev.h
+- added a video g_input_status subdev call, V4L2_IN_CAP_STD and the
+  supported stds in rk_vip_enum_input callback
+- added rk_vip_g_std, rk_vip_s_std and rk_vip_querystd callbacks
+- added the supported video_device->tvnorms
+- s_std will now update the format as this depends on the standard
+  NTSC/PAL (as suggested by Hans in [1])
+- removed STD_ATSC
+- moved the colorimetry information to come from the subdev
+- removed the core s_power subdev calls
+- dropped cropping in rk_vip_stream struct
+
+rockchip-vip.yaml:
+- fixed a mistake in the name of third clock plckin -> plck
+- changed the reg maxItems 2 -> 1
+
+[1] https://lore.kernel.org/linux-media/20201229161724.511102-1-maxime.chevallier@bootlin.com/
+
+I used v4l-utils with HEAD: commit db9478a91120dccc18d1388fe9b812567e33b6bb
+
+# v4l2-compliance 
+v4l2-compliance 1.27.0, 64 bits, 64-bit time_t
+
+Compliance test for rockchip-cif device /dev/video0:
+
+Driver Info:
+        Driver name      : rockchip-cif
+        Card type        : rockchip-cif
+        Bus info         : platform:ff490000.video-capture
+        Driver version   : 6.7.0
+        Capabilities     : 0x84200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+                Device Capabilities
+        Device Caps      : 0x04200001
+                Video Capture
+                Streaming
+                Extended Pix Format
+Media Driver Info:
+        Driver name      : rockchip-cif
+        Model            : cif
+        Serial           : 
+        Bus info         : platform:ff490000.video-capture
+        Media version    : 6.7.0
+        Hardware revision: 0x00000000 (0)
+        Driver version   : 6.7.0
+Interface Info:
+        ID               : 0x03000003
+        Type             : V4L Video
+Entity Info:
+        ID               : 0x00000001 (1)
+        Name             : rockchip_cif
+        Function         : V4L2 I/O
+        Pad 0x01000002   : 0: Sink
+          Link 0x02000009: from remote pad 0x1000006 of entity 'tw9900 2-0044' (Digital Video Decoder): Data, Enabled
+
+Required ioctls:
+        test MC information (see 'Media Driver Info' above): OK
+        test VIDIOC_QUERYCAP: OK
+        test invalid ioctls: OK
+
+Allow for multiple opens:
+        test second /dev/video0 open: OK
+        test VIDIOC_QUERYCAP: OK
+        test VIDIOC_G/S_PRIORITY: OK
+        test for unlimited opens: OK
+
+Debug ioctls:
+        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+        test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+        test VIDIOC_ENUMAUDIO: OK (Not Supported)
+        test VIDIOC_G/S/ENUMINPUT: OK
+        test VIDIOC_G/S_AUDIO: OK (Not Supported)
+        Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+        Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+        test VIDIOC_ENUM/G/S/QUERY_STD: OK
+        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+        test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+        test VIDIOC_QUERYCTRL: OK (Not Supported)
+        test VIDIOC_G/S_CTRL: OK (Not Supported)
+        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+        Standard Controls: 0 Private Controls: 0
+
+Format ioctls (Input 0):
+        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+        test VIDIOC_G/S_PARM: OK (Not Supported)
+        test VIDIOC_G_FBUF: OK (Not Supported)
+        test VIDIOC_G_FMT: OK
+        test VIDIOC_TRY_FMT: OK
+        test VIDIOC_S_FMT: OK
+        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+        test Cropping: OK (Not Supported)
+        test Composing: OK (Not Supported)
+        test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
+
+Total for rockchip-cif device /dev/video0: 47, Succeeded: 47, Failed: 0, Warnings: 0
+
+Mehdi Djait (3):
+  media: dt-bindings: media: add bindings for Rockchip CIF
+  media: rockchip: Add a driver for Rockchip's camera interface
+  arm64: dts: rockchip: Add the px30 camera interface
+
+ .../bindings/media/rockchip,px30-vip.yaml     |  123 ++
+ MAINTAINERS                                   |    7 +
+ arch/arm64/boot/dts/rockchip/px30.dtsi        |   12 +
+ drivers/media/platform/rockchip/Kconfig       |    1 +
+ drivers/media/platform/rockchip/Makefile      |    1 +
+ drivers/media/platform/rockchip/cif/Kconfig   |   14 +
+ drivers/media/platform/rockchip/cif/Makefile  |    3 +
+ .../media/platform/rockchip/cif/cif-capture.c | 1111 +++++++++++++++++
+ .../media/platform/rockchip/cif/cif-capture.h |   20 +
+ .../media/platform/rockchip/cif/cif-common.h  |  128 ++
+ drivers/media/platform/rockchip/cif/cif-dev.c |  308 +++++
+ .../media/platform/rockchip/cif/cif-regs.h    |  127 ++
+ 12 files changed, 1855 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/rockchip,px30-vip.yaml
+ create mode 100644 drivers/media/platform/rockchip/cif/Kconfig
+ create mode 100644 drivers/media/platform/rockchip/cif/Makefile
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.c
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-capture.h
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-common.h
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-dev.c
+ create mode 100644 drivers/media/platform/rockchip/cif/cif-regs.h
+
 -- 
-2.43.0
+2.41.0
 
 
