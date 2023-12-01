@@ -1,188 +1,303 @@
-Return-Path: <linux-media+bounces-1496-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1497-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC78801433
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 21:18:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 622F7801437
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 21:21:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD721281CDD
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 20:18:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 84B9C1C20A6E
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 20:21:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 436DB56B8C;
-	Fri,  1 Dec 2023 20:18:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 459AE56B8E;
+	Fri,  1 Dec 2023 20:21:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="w9hwIdyS"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="liWnEOm2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-x72d.google.com (mail-qk1-x72d.google.com [IPv6:2607:f8b0:4864:20::72d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6CD310C2
-	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 12:18:44 -0800 (PST)
-Received: by mail-qk1-x72d.google.com with SMTP id af79cd13be357-77896da2118so150611285a.1
-        for <linux-media@vger.kernel.org>; Fri, 01 Dec 2023 12:18:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1701461923; x=1702066723; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=zbcp2+55huQu8CPla8lueZSpUNVj33kTQg+RzcFANMw=;
-        b=w9hwIdyS5PRbuxX7aMk5xNmb2foZM7+uA5o6IV3i4Ve/Vtys9fWx6Q2VnzW5pTK6tZ
-         vZ4xNsiP5eA9wKY1WQ0+1wmgQv9vuiGyFy9mPX9BfU6LJxy3Q+EsvNJlTmYw023f3I+E
-         InFjsWX1WB/tX62cjjZ+6flWjPRzcJP19PEp9xhkv3np5X/dgcV/Us4+BaV1ZbXQUKIA
-         H3Ee8UctsKSXovsB8v4xalGA/YYLEtG0xyxcbkq+9XACnmDwhITw3i+nnDSgNlwoaS/L
-         kK8zZJGyf0mWGrH5SnT+OFo4ciJSGOLNBkKU/kM1ltQNnuzNzlvdI2aJIdLDESTrF9QM
-         TIJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701461923; x=1702066723;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zbcp2+55huQu8CPla8lueZSpUNVj33kTQg+RzcFANMw=;
-        b=LCFMj4OWz1xKxzEU+Qr3+Xi4q3cNeQ1Xm3LHc5ox9LBmR0bb2SWUlybVrcouSiHl8e
-         Oo2vtAEjRESYuM6eBzIE207z6jnZyaEfYzNlMz4Ta1akLZRAfKtHIDAZmiUIRfvyh1hZ
-         EKdnN7Jdg2I63xSgOqlmOB1zpOGe/xRgLCwmyr+zp6XWzJbSUHnJ7LfrAhmbTYTiVjzy
-         CGCSnJihW1j5C6Z/egpZHeVF4McTJ7vyxP5DYReDW4c64mpRSo8aE9a59XguhdFDGYVZ
-         W9+18wD+l9po1Z0oqtHo7uhZSUlZl6m9SpcBk3QqU47N9tuSEIvVG3hRhjw4vuAPpZyn
-         zKZA==
-X-Gm-Message-State: AOJu0Yy5ECbEszl+C1fqtf/2+ZvvJfIZeLKYXYtrv2kIbFtQtj9q4doh
-	kRdT8jR83f4vae3UsaYz4PXXsQ==
-X-Google-Smtp-Source: AGHT+IFFZVY2Y5BOabysTp6MzRHSEt7/6Z7Fuagdwp+VGYsWIecSTvUjtfbdrC/p0Af42tLvNmkdOQ==
-X-Received: by 2002:a05:620a:838b:b0:77e:fba3:9d00 with SMTP id pb11-20020a05620a838b00b0077efba39d00mr47167qkn.100.1701461923638;
-        Fri, 01 Dec 2023 12:18:43 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:17:b5c::7a9])
-        by smtp.gmail.com with ESMTPSA id pf20-20020a05620a859400b0077dcd786533sm1802471qkn.16.2023.12.01.12.18.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 12:18:43 -0800 (PST)
-Message-ID: <42c1c5e14a30730bc140b6791f25e55d434aa4e3.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: chips-media: wave5: fix panic on decoding
- DECODED_IDX_FLAG_SKIP
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Mattijs Korpershoek <mkorpershoek@baylibre.com>, Nas Chung
-	 <nas.chung@chipsnmedia.com>, Jackson Lee <jackson.lee@chipsnmedia.com>, 
-	Mauro Carvalho Chehab
-	 <mchehab@kernel.org>
-Cc: Guillaume La Roque <glaroque@baylibre.com>, Brandon Brnich
- <b-brnich@ti.com>,  Sebastian Fricke <sebastian.fricke@collabora.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Fri, 01 Dec 2023 15:18:42 -0500
-In-Reply-To: <20231129-wave5-panic-v1-1-e0fb5a1a8af4@baylibre.com>
-References: <20231129-wave5-panic-v1-1-e0fb5a1a8af4@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0AF25A0
+	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 12:21:30 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Shkwl5rFKz49PwY
+	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 22:21:25 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1701462087;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jlv4W0R0RlvTGslQn5/XteTFJ+4jBjYrZfdyJ3emQWg=;
+	b=liWnEOm2eULfnmDsIUTkX3mH0ODoXjRGRDWqMbWAlIAyEI/CBnKdqqswva+UQd8Md2UKOZ
+	58FxE9Lhoscr7tOyORRhvy6BpbdYejNVd6Uq5WBLzKLiLCWX3rs25SAIqCifmse9JCh8Ii
+	SfqXlTvB7qYLpZqPx444hET7CoBvlD350JgtRMU8gjx/xWvWEjuD5kEQMmwgPV21YAP+pz
+	PqHcyHnJNDfDqofqVPW+IQxFf5s5AWsB221Gv/CdZKYNAqfUmaTQxhVXGnZsv9x53lq3xQ
+	6xG4faYHGUeNXwJgCly0QyZv0BUgk5drN9Ed4lfMIwhxUYmk/weVlz8uQUz9Pw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1701462087;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=jlv4W0R0RlvTGslQn5/XteTFJ+4jBjYrZfdyJ3emQWg=;
+	b=RCJiPGiB3nt0yaOOgHIT+O+QGlQ1mSSGgQlmbnStsw7ylJESqeLHw7f+c5JeLexW5MxYON
+	raVN65G8VtI7FjMOKedGxXsT5zCEksps3btwUugc19D+QUoPqH+Ej3aVY1APeJyjRvuvMx
+	s/LziwfaZ2y/HT2/drtCFEZICzydJap6qPFWvSlPcQuq5A3kcIQYHEp542sgPfYKwnXemH
+	O0GxjY3ZfZ0qUSelZRRT4d7ohkq+Icftig4o6ocNcResAxWYshLQ2RMJ7lownhcDQIomdL
+	51tscx4epH90mHlqFFUxhcABXehO9c2a3R3NngJJ9v39Dg3lkFG9PZiW0H560w==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1701462087; a=rsa-sha256;
+	cv=none;
+	b=a4oRarc2IGaUtAc+nQNicZu+lFt3Y8Ueg2HPCEOobuv6CKR61UfQG699kghnHVu9mfXCEX
+	PgW+CczgTeOIFeE9C2DkEa1G80yxPyA1NbpxJ/Vdpl4rTO6J+Si21Ry95EoVAgZjOAt4uN
+	zhId0gTba/xKPuEHHzGYACx/ddRjzohmtcn5Fgpm7+CGGTB1Y0mNFE2J2DrdU+NBq1tims
+	wxfIbGh3S9q5hdzkn/boWPqp+wWHk+ToeS+LhBeTPrwJA6fABUw4wjMsMd/knBtRlpEyFW
+	tj3XMeIsxLDAK6CuQt1ShEAoYtPzXpRwrXIH7eXLzrxVODOCopcy0R/H/K1W4Q==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1EC68634C8F
+	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 22:21:25 +0200 (EET)
+Date: Fri, 1 Dec 2023 20:21:24 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL v3 FOR 6.8] V4L2 sub-device API changes plus new drivers
+Message-ID: <ZWpARHGoj_jMx8D0@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-Hi Mattijs,
+Hi Mauro, Hans,
 
-Le mercredi 29 novembre 2023 =C3=A0 11:37 +0100, Mattijs Korpershoek a =C3=
-=A9crit=C2=A0:
-> The display frame region information received from the vpu also
-> contains the frame display index: info->index_frame_display.
->=20
-> This index, being a s32, can be negative when a skip option is passed.
-> In that case, its value is DECODED_IDX_FLAG_SKIP (-2).
->=20
-> When disp_idx =3D=3D -2, the following exception occurs:
->=20
-> [ 1530.782246][ T1900] Hardware name: Texas Instruments AM62P5 SK (DT)
-> [ 1530.788501][ T1900] pstate: a0400005 (NzCv daif +PAN -UAO -TCO -DIT -S=
-SBS BTYPE=3D--)
-> [ 1530.796144][ T1900] pc : wave5_vpu_dec_get_output_info+0x300/0x308 [wa=
-ve5]
-> [ 1530.803060][ T1900] lr : wave5_vpu_dec_get_output_info+0x80/0x308 [wav=
-e5]
-> [ 1530.809873][ T1900] sp : ffffffc00b85bc00
-> [ 1530.813872][ T1900] x29: ffffffc00b85bc00 x28: 0000000000000000 x27: 0=
-000000000000001
-> [ 1530.821695][ T1900] x26: 00000000fffffffd x25: 00000000ffffffff x24: f=
-fffff8812820000
-> [ 1530.829516][ T1900] x23: ffffff88199f7840 x22: ffffff8873f5e000 x21: f=
-fffffc00b85bc58
-> [ 1530.837336][ T1900] x20: 0000000000000000 x19: ffffff88199f7920 x18: f=
-fffffc00a899030
-> [ 1530.845156][ T1900] x17: 00000000529c6ef0 x16: 00000000529c6ef0 x15: 0=
-000000000198487
-> [ 1530.852975][ T1900] x14: ffffffc009f2b650 x13: 0000000000058016 x12: 0=
-000000005000000
-> [ 1530.860795][ T1900] x11: 0000000000000000 x10: 0000000000000000 x9 : 0=
-000000000000000
-> [ 1530.868615][ T1900] x8 : 0000000000000000 x7 : 0000000000000000 x6 : 0=
-000000000004086
-> [ 1530.876434][ T1900] x5 : 0000000000000001 x4 : ffffffc001454b94 x3 : f=
-fffffc001454d94
-> [ 1530.884256][ T1900] x2 : ffffffc00b8201d0 x1 : 0000000000000020 x0 : 0=
-000000000000000
-> [ 1530.892087][ T1900] Call trace:
-> [ 1530.895225][ T1900]  wave5_vpu_dec_get_output_info+0x300/0x308 [wave5]
-> [ 1530.901788][ T1900]  wave5_vpu_dec_finish_decode+0x6c/0x3dc [wave5]
-> [ 1530.908081][ T1900]  wave5_vpu_irq_thread+0x140/0x168 [wave5]
-> [ 1530.913856][ T1900]  irq_thread_fn+0x44/0xa4
-> [ 1530.918154][ T1900]  irq_thread+0x15c/0x288
-> [ 1530.922330][ T1900]  kthread+0x104/0x1d4
-> [ 1530.926247][ T1900]  ret_from_fork+0x10/0x20
-> [ 1530.930520][ T1900] Code: 2a1f03ea 2a1f03eb 35ffef2c 17ffff74 (d42aa24=
-0)
-> [ 1530.937296][ T1900] ---[ end trace 0000000000000000 ]---
-> [ 1530.942596][ T1900] Kernel panic - not syncing: BRK handler: Fatal exc=
-eption
-> [ 1530.949629][ T1900] SMP: stopping secondary CPUs
-> [ 1530.954244][ T1900] Kernel Offset: disabled
-> [ 1530.958415][ T1900] CPU features: 0x00,00000000,00800184,0000421b
-> [ 1530.964496][ T1900] Memory Limit: none
->=20
-> Move the disp_info assignment after testing that the index is positive
-> to avoid the exception.
->=20
-> Fixes: 45d1a2b93277 ("media: chips-media: wave5: Add vpuapi layer")
-> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-> ---
->  drivers/media/platform/chips-media/wave5/wave5-vpuapi.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/dr=
-ivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> index 86b3993722db..1a3efb638dde 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> @@ -508,8 +508,8 @@ int wave5_vpu_dec_get_output_info(struct vpu_instance=
- *inst, struct dec_output_i
->  	info->rc_decoded =3D rect_info;
-> =20
->  	disp_idx =3D info->index_frame_display;
-> -	disp_info =3D &p_dec_info->dec_out_info[disp_idx];
->  	if (info->index_frame_display >=3D 0 && info->index_frame_display < WAV=
-E5_MAX_FBS) {
-> +		disp_info =3D &p_dec_info->dec_out_info[disp_idx];
+Here are a bunch of new drivers (Thine ISP, gc2145 sensor driver, dcmipp
+camera interface driver) and an init_cfg pad op change to init_state
+internal op. Included is also the media tree portion of the DisCo for
+Imaging support and a new fwnode property API function, needed by the Thine
+ISP driver. Also a number of fixes and improvements to the mipid02 and
+vgxy61 drivers are included --- they also depend on the sub-device API
+changes.
 
-I could not reproduce the crash, it probably depends on the compiler versio=
-n and
-compiler options. This negative index should normally generate a pointer, e=
-ven
-if that points to bad location. I'd like to understand how that lead to a c=
-rash.
-If you have further information on this, I really like to get to the bottom=
- on
-these subjects.
+since v2:
 
-Meanwhile, this fix is obviously correct, we should not do that unless we h=
-ave a
-valid index.
+- Use media stage tree as the base, not media master. The tag is the same.
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+since v1:
 
->  		if (info->index_frame_display !=3D info->index_frame_decoded) {
->  			/*
->  			 * when index_frame_decoded < 0, and index_frame_display >=3D 0
->=20
-> ---
-> base-commit: a00b3f296eac3d43328615c3113e1a74143fc67a
-> change-id: 20231129-wave5-panic-82ea2d30042f
->=20
-> Best regards,
+- Merge media/v6.7-2 (fixes merged by Linus) on media stage tree and rebase
+  patches on top.
 
+Please pull.
+
+
+The following changes since commit 3b8551e73271fc375b15c887db54ad31686eb2ea:
+
+  media: wave5: add OF and V4L_MEM2MEM_DRIVERS dependencies (2023-11-24 14:11:22 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.8-4.2-signed
+
+for you to fetch changes up to 79adb3adb3316b6729a33e37a12006689a23a214:
+
+  media: stm32-dcmipp: STM32 DCMIPP camera interface driver (2023-12-01 13:03:09 +0200)
+
+----------------------------------------------------------------
+V4L2 patches for 6.8
+
+----------------------------------------------------------------
+Alain Volmat (15):
+      dt-bindings: vendor-prefixes: Add prefix for GalaxyCore Inc.
+      dt-bindings: media: i2c: add galaxycore,gc2145 dt-bindings
+      media: i2c: gc2145: Galaxy Core GC2145 sensor support
+      media: i2c: st-mipid02: correct format propagation
+      media: i2c: st-mipid02: add usage of v4l2_get_link_freq
+      media: i2c: st-mipid02: don't keep track of streaming status
+      media: i2c: st-mipid02: use cci_* helpers for register access.
+      media: i2c: st-mipid02: use active state to store pad formats
+      media: i2c: st-mipid02: use mipi-csi macro for data-type
+      media: i2c: st-mipid02: removal of unused link_frequency variable
+      media: i2c: st-mipid02: add Y8 format support
+      media: i2c: st-vgxy61: Add V4L2_SUBDEV_FL_HAS_EVENTS and subscribe hooks
+      media: i2c: st-vgxy61: add v4l2_fwnode ctrls parse and addition
+      dt-bindings: media: add bindings for stm32 dcmipp
+      media: MAINTAINERS: add entry for STM32 DCMIPP driver
+
+Arnd Bergmann (1):
+      media: pci: mgb4: add COMMON_CLK dependency
+
+Dan Carpenter (1):
+      media: v4l2-subdev: Fix a 64bit bug
+
+Hans Verkuil (1):
+      Merge tag 'media-renesas-fixes-20231113' of git://git.kernel.org/pub/scm/linux/kernel/git/pinchartl/linux.git
+
+Hugues Fruchet (1):
+      media: stm32-dcmipp: STM32 DCMIPP camera interface driver
+
+Laurent Pinchart (4):
+      media: vsp1: Remove unbalanced .s_stream(0) calls
+      media: renesas: vsp1: Fix references to pad config
+      media: uapi: Add controls for the THP7312 ISP
+      media: v4l2-subdev: Rename .init_cfg() operation to .init_state()
+
+Martin Tůma (1):
+      media: mgb4: Added support for T200 card variant
+
+Paul Elder (2):
+      dt-bindings: media: Add bindings for THine THP7312 ISP
+      media: i2c: Add driver for THine THP7312
+
+Sakari Ailus (3):
+      Merge tag 'media/v6.7-2' into HEAD
+      device property: Add fwnode_name_eq()
+      media: v4l: fwnode: Parse MIPI DisCo for Imaging properties
+
+ .../bindings/media/i2c/galaxycore,gc2145.yaml      |  113 +
+ .../bindings/media/i2c/thine,thp7312.yaml          |  224 ++
+ .../devicetree/bindings/media/st,stm32-dcmipp.yaml |   89 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
+ .../userspace-api/media/drivers/index.rst          |    1 +
+ .../userspace-api/media/drivers/thp7312.rst        |   39 +
+ MAINTAINERS                                        |   24 +-
+ drivers/base/property.c                            |   28 +
+ drivers/media/i2c/Kconfig                          |   27 +
+ drivers/media/i2c/Makefile                         |    2 +
+ drivers/media/i2c/adv7180.c                        |   10 +-
+ drivers/media/i2c/ccs/ccs-core.c                   |    6 +-
+ drivers/media/i2c/ds90ub913.c                      |   10 +-
+ drivers/media/i2c/ds90ub953.c                      |   10 +-
+ drivers/media/i2c/ds90ub960.c                      |   11 +-
+ drivers/media/i2c/gc2145.c                         | 1450 +++++++++++++
+ drivers/media/i2c/hi846.c                          |   10 +-
+ drivers/media/i2c/imx214.c                         |   12 +-
+ drivers/media/i2c/imx219.c                         |    9 +-
+ drivers/media/i2c/imx290.c                         |   10 +-
+ drivers/media/i2c/imx296.c                         |   10 +-
+ drivers/media/i2c/imx334.c                         |   12 +-
+ drivers/media/i2c/imx335.c                         |   12 +-
+ drivers/media/i2c/imx412.c                         |   12 +-
+ drivers/media/i2c/imx415.c                         |   10 +-
+ drivers/media/i2c/mt9m001.c                        |   10 +-
+ drivers/media/i2c/mt9m111.c                        |   10 +-
+ drivers/media/i2c/mt9m114.c                        |   16 +-
+ drivers/media/i2c/mt9p031.c                        |    8 +-
+ drivers/media/i2c/mt9v111.c                        |   10 +-
+ drivers/media/i2c/ov01a10.c                        |   10 +-
+ drivers/media/i2c/ov02a10.c                        |   10 +-
+ drivers/media/i2c/ov2640.c                         |   10 +-
+ drivers/media/i2c/ov2680.c                         |   10 +-
+ drivers/media/i2c/ov2740.c                         |   10 +-
+ drivers/media/i2c/ov5640.c                         |   10 +-
+ drivers/media/i2c/ov5645.c                         |   12 +-
+ drivers/media/i2c/ov5670.c                         |   10 +-
+ drivers/media/i2c/ov7251.c                         |   12 +-
+ drivers/media/i2c/ov8858.c                         |   10 +-
+ drivers/media/i2c/ov9282.c                         |   12 +-
+ drivers/media/i2c/st-mipid02.c                     |  480 ++---
+ drivers/media/i2c/st-vgxy61.c                      |   29 +-
+ drivers/media/i2c/tc358746.c                       |   10 +-
+ drivers/media/i2c/tda1997x.c                       |   10 +-
+ drivers/media/i2c/thp7312.c                        | 2244 ++++++++++++++++++++
+ drivers/media/i2c/tvp5150.c                        |    6 +-
+ drivers/media/pci/intel/ivsc/mei_csi.c             |   10 +-
+ drivers/media/pci/mgb4/Kconfig                     |    1 +
+ drivers/media/pci/mgb4/mgb4_core.c                 |   20 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c       |   10 +-
+ .../media/platform/microchip/microchip-csi2dc.c    |   10 +-
+ .../platform/microchip/microchip-isc-scaler.c      |   10 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c         |   10 +-
+ drivers/media/platform/nxp/imx7-media-csi.c        |    6 +-
+ .../platform/nxp/imx8-isi/imx8-isi-crossbar.c      |   10 +-
+ .../media/platform/nxp/imx8-isi/imx8-isi-pipe.c    |   10 +-
+ drivers/media/platform/nxp/imx8mq-mipi-csi2.c      |   10 +-
+ .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c  |   10 +-
+ .../media/platform/renesas/rzg2l-cru/rzg2l-ip.c    |   10 +-
+ drivers/media/platform/renesas/vsp1/vsp1_brx.c     |   41 +-
+ drivers/media/platform/renesas/vsp1/vsp1_clu.c     |    4 +-
+ drivers/media/platform/renesas/vsp1/vsp1_entity.c  |  130 +-
+ drivers/media/platform/renesas/vsp1/vsp1_entity.h  |   12 +-
+ drivers/media/platform/renesas/vsp1/vsp1_hgo.c     |    4 +-
+ drivers/media/platform/renesas/vsp1/vsp1_hgt.c     |    4 +-
+ drivers/media/platform/renesas/vsp1/vsp1_histo.c   |   24 +-
+ drivers/media/platform/renesas/vsp1/vsp1_hsit.c    |   12 +-
+ drivers/media/platform/renesas/vsp1/vsp1_lif.c     |    3 +-
+ drivers/media/platform/renesas/vsp1/vsp1_lut.c     |    1 -
+ drivers/media/platform/renesas/vsp1/vsp1_pipe.c    |    2 +-
+ drivers/media/platform/renesas/vsp1/vsp1_rpf.c     |   18 +-
+ drivers/media/platform/renesas/vsp1/vsp1_rwpf.c    |   46 +-
+ drivers/media/platform/renesas/vsp1/vsp1_rwpf.h    |    4 +-
+ drivers/media/platform/renesas/vsp1/vsp1_sru.c     |   37 +-
+ drivers/media/platform/renesas/vsp1/vsp1_uds.c     |   40 +-
+ drivers/media/platform/renesas/vsp1/vsp1_uif.c     |   25 +-
+ drivers/media/platform/renesas/vsp1/vsp1_video.c   |    4 +-
+ drivers/media/platform/renesas/vsp1/vsp1_wpf.c     |   39 +-
+ .../media/platform/rockchip/rkisp1/rkisp1-csi.c    |   10 +-
+ .../media/platform/rockchip/rkisp1/rkisp1-isp.c    |   10 +-
+ .../platform/rockchip/rkisp1/rkisp1-resizer.c      |   10 +-
+ drivers/media/platform/st/stm32/Kconfig            |   16 +
+ drivers/media/platform/st/stm32/Makefile           |    1 +
+ .../media/platform/st/stm32/stm32-dcmipp/Makefile  |    4 +
+ .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c         |  956 +++++++++
+ .../st/stm32/stm32-dcmipp/dcmipp-byteproc.c        |  565 +++++
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-common.c |  111 +
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-common.h |  218 ++
+ .../platform/st/stm32/stm32-dcmipp/dcmipp-core.c   |  604 ++++++
+ .../st/stm32/stm32-dcmipp/dcmipp-parallel.c        |  440 ++++
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c |    1 +
+ drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.h |    1 +
+ .../media/platform/sunxi/sun4i-csi/sun4i_v4l2.c    |    9 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi_bridge.c    |   10 +-
+ .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c        |   10 +-
+ .../sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c    |   10 +-
+ drivers/media/platform/ti/cal/cal-camerarx.c       |   10 +-
+ drivers/media/platform/video-mux.c                 |   10 +-
+ drivers/media/platform/xilinx/xilinx-csi2rxss.c    |   10 +-
+ drivers/media/test-drivers/vimc/vimc-debayer.c     |   11 +-
+ drivers/media/test-drivers/vimc/vimc-scaler.c      |   11 +-
+ drivers/media/test-drivers/vimc/vimc-sensor.c      |   11 +-
+ drivers/media/v4l2-core/v4l2-fwnode.c              |    4 +-
+ drivers/media/v4l2-core/v4l2-subdev.c              |   20 +-
+ drivers/staging/media/imx/imx-ic-prp.c             |    2 +-
+ drivers/staging/media/imx/imx-ic-prpencvf.c        |    2 +-
+ drivers/staging/media/imx/imx-media-csi.c          |    2 +-
+ drivers/staging/media/imx/imx-media-utils.c        |    8 +-
+ drivers/staging/media/imx/imx-media-vdic.c         |    2 +-
+ drivers/staging/media/imx/imx-media.h              |    4 +-
+ drivers/staging/media/imx/imx6-mipi-csi2.c         |    2 +-
+ drivers/staging/media/starfive/camss/stf-isp.c     |    6 +-
+ .../staging/media/sunxi/sun6i-isp/sun6i_isp_proc.c |   10 +-
+ include/linux/property.h                           |    1 +
+ include/media/v4l2-subdev.h                        |    7 +-
+ include/uapi/linux/thp7312.h                       |   19 +
+ include/uapi/linux/v4l2-controls.h                 |    6 +
+ include/uapi/linux/v4l2-subdev.h                   |    2 +-
+ 119 files changed, 8016 insertions(+), 799 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc2145.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/thine,thp7312.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/st,stm32-dcmipp.yaml
+ create mode 100644 Documentation/userspace-api/media/drivers/thp7312.rst
+ create mode 100644 drivers/media/i2c/gc2145.c
+ create mode 100644 drivers/media/i2c/thp7312.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/Makefile
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-bytecap.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-byteproc.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-common.h
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-core.c
+ create mode 100644 drivers/media/platform/st/stm32/stm32-dcmipp/dcmipp-parallel.c
+ create mode 100644 include/uapi/linux/thp7312.h
+
+-- 
+Sakari Ailus
 
