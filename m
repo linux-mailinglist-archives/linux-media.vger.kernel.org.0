@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-1490-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1491-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CED3480125B
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 19:14:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ADC880125D
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 19:14:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0CC101C20B86
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 18:14:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCBFC1C20987
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 18:14:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BD424F20B;
-	Fri,  1 Dec 2023 18:14:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 692394F1ED;
+	Fri,  1 Dec 2023 18:14:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mailoo.org header.i=@mailoo.org header.b="YYuY5Df9"
+	dkim=pass (1024-bit key) header.d=mailoo.org header.i=@mailoo.org header.b="BlRJe1Xo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailo.com (msg-4.mailo.com [213.182.54.15])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A33F5F9;
+Received: from mailo.com (msg-2.mailo.com [213.182.54.12])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3F3A10D;
 	Fri,  1 Dec 2023 10:14:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
-	t=1701454445; bh=66Wxc8oBzIfIpIL64ix8lAT/45XRAd7lEKzgQU4F6ns=;
+	t=1701454446; bh=8ItrQJpfnYJNBvx9/ZxfYVCB4X1PSHGmZpReeVMVCbM=;
 	h=X-EA-Auth:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
 	 References:MIME-Version:Content-Transfer-Encoding;
-	b=YYuY5Df9ro3GQCMYQnTidpOqX/jxNc+xTKpHlonbxjgDNJIx7OaW5VtF6XW5Adgrd
-	 2bjl8S5T4Ruv7CX0ISfJDVK1h+a8chyZSBl23UCD5TtwU3b0JQOzkWmyM23XyGExNb
-	 CqMOuiOl6JzSBTaBpycSlbUG36Wjj8L33xkXrN+M=
+	b=BlRJe1XoLRRfLfBlqX9FKJXDcczc9GjGwiHexrrf2wJDGyH4QwQYFcMP2gml325Ew
+	 x7N8QzhHSsMKY7CiqKsYPa6vBzklsiX/NIoj3ILcNFVOLU8i9gQdnDCOwfhj/oiF8Q
+	 B3zFDEDOCYN62u80TcrXeY4f3rb7yGbgSSfNzuis=
 Received: by b221-6.in.mailobj.net [192.168.90.26] with ESMTP
 	via ip-22.mailoo.org [213.182.54.22]
 	Fri,  1 Dec 2023 19:14:05 +0100 (CET)
-X-EA-Auth: n5s91a8huocHReaPogKTmuy+cMqxvoEKUxxcrW3YBBVPcZ0xU9Fy/MUNkEjicxBFv3ibysTPbAnbuEIqKIdDfo6iVQY91FjXy9E1pb+sHAQ=
+X-EA-Auth: ym1ciIqVgZ9eNjymoAMtLEFtuPM6bDp74qWVWVEHmy5LVtFvlqvwNHZnHGLyOdmKhJr18Ui7S9JftJCkKqCam+ZcJB/sbMs1XtBetbwXJJ0=
 From: Vincent Knecht <vincent.knecht@mailoo.org>
 To: Tianshu Qiu <tian.shu.qiu@intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -40,11 +40,10 @@ To: Tianshu Qiu <tian.shu.qiu@intel.com>,
 	linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Cc: Vincent Knecht <vincent.knecht@mailoo.org>,
-	Conor Dooley <conor.dooley@microchip.com>
-Subject: [PATCH v2 2/3] media: dt-bindings: ak7375: Add ak7345 support
-Date: Fri,  1 Dec 2023 19:13:49 +0100
-Message-ID: <20231201181350.26454-2-vincent.knecht@mailoo.org>
+Cc: Vincent Knecht <vincent.knecht@mailoo.org>
+Subject: [PATCH v2 3/3] media: i2c: ak7375: Add support for ak7345
+Date: Fri,  1 Dec 2023 19:13:50 +0100
+Message-ID: <20231201181350.26454-3-vincent.knecht@mailoo.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231201181350.26454-1-vincent.knecht@mailoo.org>
 References: <20231201181350.26454-1-vincent.knecht@mailoo.org>
@@ -56,33 +55,83 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document AK7345 bindings.
-Compared to AK7375, it has only 9 bits position values (instead of 12),
-20 ms power-up delay (instead of 10), and no known standby register setting.
+Add support for ak7345 VCM, which has 9 bits position values,
+longer power-up delay, and no known standby register setting.
+Might be compatible as-is with ak7348.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Tested on msm8916-alcatel-idol347 phone.
+
 Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
 ---
-v2 : changed commit message with details about AK7345 vs. AK7375
+v2: no change
 ---
- .../devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml     | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ drivers/media/i2c/ak7375.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml b/Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
-index 22a810fc7222..fe312cc6a873 100644
---- a/Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/asahi-kasei,ak7375.yaml
-@@ -15,7 +15,9 @@ description:
+diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
+index 3a14eff41531..9a2432cea3ff 100644
+--- a/drivers/media/i2c/ak7375.c
++++ b/drivers/media/i2c/ak7375.c
+@@ -16,6 +16,7 @@ struct ak73xx_chipdef {
+ 	u8 shift_pos;
+ 	u8 mode_active;
+ 	u8 mode_standby;
++	bool has_standby;	/* Some chips may not have standby mode */
+ 	u16 focus_pos_max;
+ 	/*
+ 	 * This sets the minimum granularity for the focus positions.
+@@ -37,12 +38,26 @@ struct ak73xx_chipdef {
+ 	u16 power_delay_us;
+ };
  
- properties:
-   compatible:
--    const: asahi-kasei,ak7375
-+    enum:
-+      - asahi-kasei,ak7345
-+      - asahi-kasei,ak7375
++static const struct ak73xx_chipdef ak7345_cdef = {
++	.reg_position	= 0x0,
++	.reg_cont	= 0x2,
++	.shift_pos	= 7,	/* 9 bits position values, need to << 7 */
++	.mode_active	= 0x0,
++	.has_standby	= false,
++	.focus_pos_max	= 511,
++	.focus_steps	= 1,
++	.ctrl_steps	= 16,
++	.ctrl_delay_us	= 1000,
++	.power_delay_us	= 20000,
++};
++
+ static const struct ak73xx_chipdef ak7375_cdef = {
+ 	.reg_position	= 0x0,
+ 	.reg_cont	= 0x2,
+ 	.shift_pos	= 4,	/* 12 bits position values, need to << 4 */
+ 	.mode_active	= 0x0,
+ 	.mode_standby	= 0x40,
++	.has_standby	= true,
+ 	.focus_pos_max	= 4095,
+ 	.focus_steps	= 1,
+ 	.ctrl_steps	= 64,
+@@ -249,10 +264,12 @@ static int __maybe_unused ak7375_vcm_suspend(struct device *dev)
+ 		usleep_range(cdef->ctrl_delay_us, cdef->ctrl_delay_us + 10);
+ 	}
  
-   reg:
-     maxItems: 1
+-	ret = ak7375_i2c_write(ak7375_dev, cdef->reg_cont,
+-			       cdef->mode_standby, 1);
+-	if (ret)
+-		dev_err(dev, "%s I2C failure: %d\n", __func__, ret);
++	if (cdef->has_standby) {
++		ret = ak7375_i2c_write(ak7375_dev, cdef->reg_cont,
++				       cdef->mode_standby, 1);
++		if (ret)
++			dev_err(dev, "%s I2C failure: %d\n", __func__, ret);
++	}
+ 
+ 	ret = regulator_bulk_disable(ARRAY_SIZE(ak7375_supply_names),
+ 				     ak7375_dev->supplies);
+@@ -312,6 +329,7 @@ static int __maybe_unused ak7375_vcm_resume(struct device *dev)
+ }
+ 
+ static const struct of_device_id ak7375_of_table[] = {
++	{ .compatible = "asahi-kasei,ak7345", .data = &ak7345_cdef, },
+ 	{ .compatible = "asahi-kasei,ak7375", .data = &ak7375_cdef, },
+ 	{ /* sentinel */ }
+ };
 -- 
 2.43.0
 
