@@ -1,114 +1,105 @@
-Return-Path: <linux-media+bounces-1467-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1468-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 876FD800722
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 10:34:16 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CF85C800A76
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 13:07:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B766F1C208D2
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 09:34:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CF7DD1C20E0E
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 12:07:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3642A1D545;
-	Fri,  1 Dec 2023 09:33:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1116225D7;
+	Fri,  1 Dec 2023 12:07:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="FHU+4D2j"
+	dkim=pass (2048-bit key) header.d=ragnatech-se.20230601.gappssmtp.com header.i=@ragnatech-se.20230601.gappssmtp.com header.b="QI1sgGCT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x534.google.com (mail-ed1-x534.google.com [IPv6:2a00:1450:4864:20::534])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EADD210B
-	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 01:33:48 -0800 (PST)
-Received: by mail-ed1-x534.google.com with SMTP id 4fb4d7f45d1cf-54b545ec229so2201744a12.0
-        for <linux-media@vger.kernel.org>; Fri, 01 Dec 2023 01:33:48 -0800 (PST)
+Received: from mail-lf1-x129.google.com (mail-lf1-x129.google.com [IPv6:2a00:1450:4864:20::129])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56E7C1BE7
+	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 04:07:30 -0800 (PST)
+Received: by mail-lf1-x129.google.com with SMTP id 2adb3069b0e04-50bbb4de875so2818763e87.0
+        for <linux-media@vger.kernel.org>; Fri, 01 Dec 2023 04:07:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1701423226; x=1702028026; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QTbESXzcXZ37/AxtizRE/kwCz5vVYNKpF/F7wAyS+CQ=;
-        b=FHU+4D2jfOed21rv2GRbIh5eCFWePtkFS4/1YT1fFDfLl6PM5vuIzNJ6VtzjVcrByC
-         KZQzEBAZGglRUyDL77gtZ6XDcVe2UAFTQgsKRc5Mq/iCf0nYlf0j1lIe3JRQZiR/QLn0
-         tOpdOscWM7Ows1ddqtYYqmoknObhETrAhzb+M5a6aiyEN6Sy4TAvm7V+iuCcblqqZRMS
-         l71ht+NOOuHJwdEYZX868VUkzNn83sMqqooFyYF6ztCesc7Fb8ZSXQU5RmdEwCpU+cQ1
-         VjmpcWmPYPtHNFBhPli6fth+H693c6y8zStpKMM6S9QqTMvTTiR2yAlAvsXa0eoYZ0Co
-         6jHw==
+        d=ragnatech-se.20230601.gappssmtp.com; s=20230601; t=1701432448; x=1702037248; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=ld796iPDsS/HIVvP7w7PB/lqEfZHZ7EhyA8gH1ALk3s=;
+        b=QI1sgGCTHCMa+ydQJry0cT01FDFopZL4C9WtFa02Y6rzqti4oBPYRpPSN/iIjy/WeN
+         DG7CoJ1pHdix7dDAderPbr1hc2AVEKFGOBuB3HK4xrA6/eKoKVOnYr7Sy3R4O/V24b1G
+         odAUHXYcK8SJVuHabs5g6L6nyE5eL281A7qhQT+xVQjDXyFcHlFM3+b1P7zc1e3w0ADk
+         2ZhlNJyE7MirstQ9iTXjp70MHwpE6KeRD/iZkuPODbtBo2+5XUsQQ4rAxldQ13VDsZrS
+         xrCLLYjjcUUHlFxRVGWKVK1QGhyBoNMyY5KmsrjtE9PuJh9F4BJYbQ3Qwe10MWMcW8Zp
+         qrMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701423226; x=1702028026;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=QTbESXzcXZ37/AxtizRE/kwCz5vVYNKpF/F7wAyS+CQ=;
-        b=olzfqDRcvc75zufHPrJ7TfBvjt/axqfjYiLIQty5Ddr3Pbvvi3C4ldR56rC9FeACe7
-         s9Ua53/YEP59Jt5sZoQv5W/kV6w4rI5QvR8rRsEijqCVDlMSvbZ66MVfnKpOr85tT19C
-         zI35OVo3mASWLJwLm4+HDS4eZSVZe8XRU1V8/Cl3ZQutgQVEIQWe+iRfK91ULokOGqpr
-         RL5j2D8t8PgTJjnLk7nItHP01b17FgBrI+YpQ0MIfl7Y40AzwMvzIWKF7GlOUdbie4M7
-         dqo0mc93YXNnFWR+n/qojL8k2AiAv94+vx0jxswXZ/ta7k9c9VhoBGw2fah8ap0ZTcS6
-         QFrA==
-X-Gm-Message-State: AOJu0YygQsL6/9UWljCrXAldNR77dmvN/Q6l95ImdMS0QtBwXzLr5B9U
-	m/LLCRu/DbRAEuCVi14f84S2Bw==
-X-Google-Smtp-Source: AGHT+IEzLImOfl+SUEo6jVo606UYx0ucUdZyTVpCROkXcLzAMFsH7RPCUeL8vivDWmRZ7rZQP1JLUA==
-X-Received: by 2002:a50:d4d2:0:b0:54c:4837:a663 with SMTP id e18-20020a50d4d2000000b0054c4837a663mr468061edj.80.1701423226576;
-        Fri, 01 Dec 2023 01:33:46 -0800 (PST)
-Received: from otso.luca.vpn.lucaweiss.eu (dhcp-089-099-055-216.chello.nl. [89.99.55.216])
-        by smtp.gmail.com with ESMTPSA id b16-20020a05640202d000b0054bbc6b6580sm1423708edx.31.2023.12.01.01.33.45
+        d=1e100.net; s=20230601; t=1701432448; x=1702037248;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ld796iPDsS/HIVvP7w7PB/lqEfZHZ7EhyA8gH1ALk3s=;
+        b=D/N6bUSqPIeMrvWB/TUVm4gElxtHg9xvS1nZb7x5nN7GceSsXqaC2LB5+Erx8sqmaC
+         KK7Kn72AOrY0Y6TcO4mZkYiC7qMUskSeLu/n4KKrHo5HcMARtEAryaotr53t/U4SiFI0
+         dKAh+keYU2bpPH2vzTO3VBikezg80SofnvsM9WwpFX6JMhFc2Nek6eZZIn3xBLvbjeey
+         nTfi39WWSnc3EP4QM3S50pHmsMhKM+kUDsHrOJ+INSsCsvI700Svfen+ifQF5tS0av89
+         8xnYHtSf55mVB81TGf2EQsshjAYSF0XIcqAWpp/jmyqh/cvpJGmTRRRPtwARg47EkYD9
+         E4sw==
+X-Gm-Message-State: AOJu0YxDUbV3Cy78hz4FtGp5TYck0xY4ZY+eVwe3WMIFlNAyZlvUu8hJ
+	Jh99cF9HcLcC4simB2S212tMuJlt3hDt48kLkik=
+X-Google-Smtp-Source: AGHT+IGsrE93liKAZolC8G8WXET7gLNXDHqJNS2z6TcNiio4ZxjrJ/SrX10j4SrUKcRLaazKtoz1vQ==
+X-Received: by 2002:a05:6512:48c3:b0:50b:c999:8660 with SMTP id er3-20020a05651248c300b0050bc9998660mr500702lfb.54.1701432448501;
+        Fri, 01 Dec 2023 04:07:28 -0800 (PST)
+Received: from localhost (h-46-59-36-206.A463.priv.bahnhof.se. [46.59.36.206])
+        by smtp.gmail.com with ESMTPSA id h40-20020a0565123ca800b0050bc57e1419sm407684lfv.243.2023.12.01.04.07.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 01:33:45 -0800 (PST)
-From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Fri, 01 Dec 2023 10:33:20 +0100
-Subject: [PATCH v3 3/3] arm64: dts: qcom: qcm6490-fairphone-fp5: Enable
- venus node
+        Fri, 01 Dec 2023 04:07:27 -0800 (PST)
+Date: Fri, 1 Dec 2023 13:07:26 +0100
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] MAINTAINERS: Add missing bindings for max96712
+Message-ID: <ZWnMfsqUGRCDa3HR@oden.dyn.berto.se>
+References: <20231115164127.2790596-1-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20231201-sc7280-venus-pas-v3-3-bc132dc5fc30@fairphone.com>
-References: <20231201-sc7280-venus-pas-v3-0-bc132dc5fc30@fairphone.com>
-In-Reply-To: <20231201-sc7280-venus-pas-v3-0-bc132dc5fc30@fairphone.com>
-To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
- Vikash Garodia <quic_vgarodia@quicinc.com>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konrad.dybcio@linaro.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- cros-qcom-dts-watchers@chromium.org, Rob Herring <robh+dt@kernel.org>, 
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org, 
- Luca Weiss <luca.weiss@fairphone.com>
-X-Mailer: b4 0.12.4
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231115164127.2790596-1-niklas.soderlund+renesas@ragnatech.se>
 
-Enable the venus node so that the video encoder/decoder will start
-working.
+Hi Mauro,
 
-Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
----
- arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 5 +++++
- 1 file changed, 5 insertions(+)
+Ping on this patch.
 
-diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-index 762c5db29520..cc092735ce17 100644
---- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-+++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
-@@ -688,3 +688,8 @@ &usb_1_qmpphy {
- 
- 	status = "okay";
- };
-+
-+&venus {
-+	firmware-name = "qcom/qcm6490/fairphone5/venus.mbn";
-+	status = "okay";
-+};
+On 2023-11-15 17:41:27 +0100, Niklas Söderlund wrote:
+> Add the binding documentation to the entry in the MAINTAINERS file.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5c9f868e13b6..ea14bd4198a3 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13014,6 +13014,7 @@ MAX96712 QUAD GMSL2 DESERIALIZER DRIVER
+>  M:	Niklas Söderlund <niklas.soderlund@ragnatech.se>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/i2c/maxim,max96712.yaml
+>  F:	drivers/staging/media/max96712/max96712.c
+>  
+>  MAX9860 MONO AUDIO VOICE CODEC DRIVER
+> -- 
+> 2.42.1
+> 
 
 -- 
-2.43.0
-
+Kind Regards,
+Niklas Söderlund
 
