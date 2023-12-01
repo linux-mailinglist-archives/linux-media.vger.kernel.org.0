@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-1464-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1465-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADDAE80071A
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 10:33:58 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F2F480071D
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 10:34:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF1741C20A57
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 09:33:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C55C8B21043
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 09:34:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 292D91DA4D;
-	Fri,  1 Dec 2023 09:33:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E09B51DFF5;
+	Fri,  1 Dec 2023 09:33:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="SeYjkzI5"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="EeD95u3m"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x52a.google.com (mail-ed1-x52a.google.com [IPv6:2a00:1450:4864:20::52a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F4583271
-	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 01:33:45 -0800 (PST)
-Received: by mail-ed1-x52a.google.com with SMTP id 4fb4d7f45d1cf-54c64316a22so246917a12.0
-        for <linux-media@vger.kernel.org>; Fri, 01 Dec 2023 01:33:45 -0800 (PST)
+Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40D58358A
+	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 01:33:46 -0800 (PST)
+Received: by mail-ed1-x532.google.com with SMTP id 4fb4d7f45d1cf-54af1daf6a9so3173680a12.1
+        for <linux-media@vger.kernel.org>; Fri, 01 Dec 2023 01:33:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1701423223; x=1702028023; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZHVrjeIvHlbkENQloINWmB2dsPrtzcOkwkp/DcbG/G4=;
-        b=SeYjkzI5cMP4BR3ShT0Idgn/x3Hwp6sH51dI4B22CW1dIk8SqdWWvwyopbnhyu3K7A
-         9TQzlCeKuDZU9QiOl94uNgX1Ki3IRgcncVjBQsC7Fp45meFHumK5P/D5wBLk815qzAls
-         7t9hr3D56tqLFo4SK7QMVrVyWZGKiOjSXQukdnuIxhmy60BWctFCuYKKXXCTeWIN7e9G
-         x/iKEJFNAMr++56ndZ9LMFLgetxcsoaVB5r2Ws3aP/lgZTAHbhuh0JRjLEOqGRkLyjE7
-         eFcfdMvB0tLPNsSIRWIADsvn1TqdI+Z5HCCeVuEO9xHzMMJ+M8m9GCoFPXk6Jak3S+tu
-         Df9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701423223; x=1702028023;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=fairphone.com; s=fair; t=1701423224; x=1702028024; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=ZHVrjeIvHlbkENQloINWmB2dsPrtzcOkwkp/DcbG/G4=;
-        b=byRNeuBEvoGTTT4TMRe7rRzJyByhTSYrbvZmDvS7njpCM40Ibc7fqHzyPdf/mtBUHD
-         7e34WMyNcdblGIKfctivMjZUBjzV8Owl9q8ntvuceN2cKwFfcI6fO1JxbmXpEMmXnlbV
-         Q5q0y5xKZ8gC5d8Rhd+krTZJfTrot0zSTn41TmOyYssNL8+NzgmeFM+8qBs1yVm7uMCJ
-         JrHZ0YuFurvkojpUh9l5IrhHAI5Nt//P2tv+HJLi3cBjggx5RebdD2yPcvDpsDjXNufF
-         k9/JtWQQMGj5A6czsgzrrdO1oGlJRsEdf4Wf/YTfRN+5oOctllthWiiC75bjN4/P1mYf
-         e5Kw==
-X-Gm-Message-State: AOJu0Yzg5Esmr2U/QDL1TBqzjP8Ahx7ESUUAoTOoiwW51EEMKi7E2dLd
-	OSHD3MCClkJUaJm0ba6tTpNVQQ==
-X-Google-Smtp-Source: AGHT+IEid4Ye47Vw7u2H0QYSqPZWJcAhKKUil0A7lFg/3cgLgNI+1GrOrPS+aUv+vw6IHdlWx7zz+g==
-X-Received: by 2002:a50:c251:0:b0:54b:7a1c:6b01 with SMTP id t17-20020a50c251000000b0054b7a1c6b01mr589403edf.33.1701423223596;
-        Fri, 01 Dec 2023 01:33:43 -0800 (PST)
+        bh=niGbj670flkgPie6QF876KkLwnZEAB/QBU6SIajf+Qs=;
+        b=EeD95u3mVtGo/1uuMTq9lGsHSm2JbpAUkH2nRPe0QRKZhr/XIkqRvlwp+Y3yNHdx1r
+         moVhNc3PvJd9S2sX3BcjuSEnZenCKg3c0Ggb2JX7XRInjkpzw9nLZSWUn5AcxHSTeJI8
+         BzXb1vhQY7e8IxTgs/4Yu/6xeZkNEb2ms/kwqSNUVlensm3Fj6IOjpGPORL5DJU4fN5j
+         GrB2JQQwWJw4u0mmI2q+I3zLbwdisBSuXcOnNVs5eD72pq4C3qESmrxxIfC5A2I33DeY
+         YXWNyKdC91Ph+3dGjlPpLCczoN1adoIwBZTNI5w8C4MySJAD9ps5jKRwhSmxZ99JG+aH
+         PKFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701423224; x=1702028024;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=niGbj670flkgPie6QF876KkLwnZEAB/QBU6SIajf+Qs=;
+        b=SVyzpfdoguDRcw+JpPrWezc+zrmvD7HqOln/VCaTICvPgYyi3QDtHWRISToEgi/MWH
+         RwRVF0hClT+ojESK22Rs5RGGkqvMWbcxd0YBnCYKoIbonCO2EwBe0z5AAPzlRgapDx+c
+         hm01SB34dMT34irYllC4ex9SjgJJjpGBlIqccU8GQZDPCqZ0obHXY0rmULtGXj0nVLgO
+         2e0MxELWxbEo/5rrHroRwxpztp5yhtx83x6PWJLeIJ9sgQe0KynmY5DwUDlkrAEVVcjj
+         roAq6CnbXwQ4La002kOPjqISnIDPbVpMD3b/S8RRRMXyQkYBQ0ihfdSGlsy//H/MRJFS
+         27SQ==
+X-Gm-Message-State: AOJu0Yw8/utieY961HqmWxLnKbFMLpJocUgjWQ6kmyejTAertTx+gjH8
+	828DovTxl9Qjmsk3lwTtIciWVA==
+X-Google-Smtp-Source: AGHT+IFJZAiqLGITBB9Yi0hCcn8yRnUqkmyP8eOY/RIfQMB3OI8uDZT1rn/dXA6QXyfX1QB/Ha0Z1A==
+X-Received: by 2002:a50:8d52:0:b0:54c:48aa:cd0e with SMTP id t18-20020a508d52000000b0054c48aacd0emr1134309edt.30.1701423224409;
+        Fri, 01 Dec 2023 01:33:44 -0800 (PST)
 Received: from otso.luca.vpn.lucaweiss.eu (dhcp-089-099-055-216.chello.nl. [89.99.55.216])
-        by smtp.gmail.com with ESMTPSA id b16-20020a05640202d000b0054bbc6b6580sm1423708edx.31.2023.12.01.01.33.42
+        by smtp.gmail.com with ESMTPSA id b16-20020a05640202d000b0054bbc6b6580sm1423708edx.31.2023.12.01.01.33.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 01 Dec 2023 01:33:43 -0800 (PST)
+        Fri, 01 Dec 2023 01:33:44 -0800 (PST)
 From: Luca Weiss <luca.weiss@fairphone.com>
-Subject: [PATCH v3 0/3] Enable venus on Fairphone 5 / non-ChromeOS sc7280
- venus support
-Date: Fri, 01 Dec 2023 10:33:17 +0100
-Message-Id: <20231201-sc7280-venus-pas-v3-0-bc132dc5fc30@fairphone.com>
+Date: Fri, 01 Dec 2023 10:33:18 +0100
+Subject: [PATCH v3 1/3] media: venus: core: Set up secure memory ranges for
+ SC7280
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,10 +65,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAF2oaWUC/33NsQ7CIBDG8VcxzGKOQwo4+R7GAenVMkgbUKJp+
- u7SDg7GOP6/5H43sUwpUGaHzcQSlZDDEGvI7Yb53sUr8dDWZggowaLl2Ws0wAvFR+ajy5ycbSQ
- oVFpJVs/GRF14ruTpXLsP+T6k1/qhiGX9gxXBgVvfaGl8J5R2x86FNPZDpJ0fbmwBC34QAYA/E
- KzIpcU9GGOFFPobmef5DTjxykT5AAAA
+Message-Id: <20231201-sc7280-venus-pas-v3-1-bc132dc5fc30@fairphone.com>
+References: <20231201-sc7280-venus-pas-v3-0-bc132dc5fc30@fairphone.com>
+In-Reply-To: <20231201-sc7280-venus-pas-v3-0-bc132dc5fc30@fairphone.com>
 To: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
  Vikash Garodia <quic_vgarodia@quicinc.com>, 
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
@@ -84,40 +83,36 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  Luca Weiss <luca.weiss@fairphone.com>
 X-Mailer: b4 0.12.4
 
-Devices with Qualcomm firmware (compared to ChromeOS firmware) need some
-changes in the venus driver and dts layout so that venus can initialize.
+Not all SC7280 devices ship with ChromeOS firmware. Other devices need
+PAS for image authentication. That requires the predefined virtual
+address ranges to be passed via scm calls. Define them to enable Venus
+on non-CrOS SC7280 devices.
 
-Do these changes, similar to sc7180.
-
+Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 ---
-Changes in v3:
-- Move 0x2184 iommu from sc7280.dtsi to sc7280-chrome-common.dtsi since
-  it seems to cause crash on some boards (Vikash)
-- Pick up tags
-- Link to v2: https://lore.kernel.org/r/20231002-sc7280-venus-pas-v2-0-bd2408891317@fairphone.com
+ drivers/media/platform/qcom/venus/core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-Changes in v2:
-- Reword commit message 2/3 to be clearer (Konrad)
-- Link to v1: https://lore.kernel.org/r/20230929-sc7280-venus-pas-v1-0-9c6738cf157a@fairphone.com
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 9cffe975581b..a712dd4f02a5 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -881,6 +881,10 @@ static const struct venus_resources sc7280_res = {
+ 	.vmem_size = 0,
+ 	.vmem_addr = 0,
+ 	.dma_mask = 0xe0000000 - 1,
++	.cp_start = 0,
++	.cp_size = 0x25800000,
++	.cp_nonpixel_start = 0x1000000,
++	.cp_nonpixel_size = 0x24800000,
+ 	.fwname = "qcom/vpu-2.0/venus.mbn",
+ };
+ 
 
----
-Luca Weiss (3):
-      media: venus: core: Set up secure memory ranges for SC7280
-      arm64: dts: qcom: sc7280: Move video-firmware to chrome-common
-      arm64: dts: qcom: qcm6490-fairphone-fp5: Enable venus node
-
- arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts |  5 +++++
- arch/arm64/boot/dts/qcom/sc7280-chrome-common.dtsi | 11 +++++++++++
- arch/arm64/boot/dts/qcom/sc7280.dtsi               |  9 +++------
- drivers/media/platform/qcom/venus/core.c           |  4 ++++
- 4 files changed, 23 insertions(+), 6 deletions(-)
----
-base-commit: b2a4d0696192f24f79ea71fea2d775da28fb9157
-change-id: 20230929-sc7280-venus-pas-ea9630525753
-
-Best regards,
 -- 
-Luca Weiss <luca.weiss@fairphone.com>
+2.43.0
 
 
