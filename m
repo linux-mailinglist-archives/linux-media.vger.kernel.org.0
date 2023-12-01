@@ -1,127 +1,220 @@
-Return-Path: <linux-media+bounces-1481-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1482-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B092800E67
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 16:17:51 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B5537800E9A
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 16:30:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8752281B2F
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 15:17:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46583B21267
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 15:30:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3F0F4A9AC;
-	Fri,  1 Dec 2023 15:17:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DE4F4AF6C;
+	Fri,  1 Dec 2023 15:30:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BSk1eTp8"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Reysu4Uk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 52F2C1726;
-	Fri,  1 Dec 2023 07:17:42 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701443862; x=1732979862;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=wYPSx9+wbY4jC6jNQkQIxE7XoYAMfQUsgyw8T5lmYsg=;
-  b=BSk1eTp8KH6vv/xHR/hqBvxjsmTmsyXdzRXG1Wo/L7e7G5SfwQylPMG+
-   YkXtbigEZsO5w1S2iweiDGXZE3iSHwiy2hGcke9MzRQ/Wf7+7RbPJQ0yB
-   d5mUl2JYLwlSiJrwkHCENgayWrszw5EjLyyMilpOztM5ZkiPV97WaZgEB
-   gc1xMQicCyPCHH5B7GT7jFQ5weEzDjCf6ukWsA9WbX9GbpQp1Sn42gvk5
-   4GkvCDs2urtN9tMD9T1hSlgCLTLIcZiQkznmc4o0i9HFLq0MGqG2C3/Kv
-   uxzckUkozpf2PnDJddt/I/gU8IcgbWVvio6fga4qiMB/dCuJZVeDyDUHJ
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="362668"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="362668"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2023 07:17:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="763178004"
-X-IronPort-AV: E=Sophos;i="6.04,241,1695711600"; 
-   d="scan'208";a="763178004"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orsmga007.jf.intel.com with SMTP; 01 Dec 2023 07:17:36 -0800
-Received: by stinkbox (sSMTP sendmail emulation); Fri, 01 Dec 2023 17:17:35 +0200
-Date: Fri, 1 Dec 2023 17:17:35 +0200
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Pekka Paalanen <ppaalanen@gmail.com>
-Cc: Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>,
-	dri-devel@lists.freedesktop.org,
-	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Sandy Huang <hjc@rock-chips.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	linux-rockchip@lists.infradead.org, Chen-Yu Tsai <wens@csie.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 05/45] drm/connector: Check drm_connector_init
- pointers arguments
-Message-ID: <ZWn5D387DYmsh1sa@intel.com>
-References: <20231128-kms-hdmi-connector-state-v4-0-c7602158306e@kernel.org>
- <20231128-kms-hdmi-connector-state-v4-5-c7602158306e@kernel.org>
- <87h6l66nth.fsf@intel.com>
- <v3hplco5fdedv6bnc6mwx2zhhw4xxdiekha26ykhc5cmy7ol77@2irk3w4hmabw>
- <ZWXv1Oi_sH0BRWao@intel.com>
- <20231129121259.47746996@eldfell>
- <ZWcRoTJ9VgOqZ3ts@intel.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC01A103;
+	Fri,  1 Dec 2023 07:30:47 -0800 (PST)
+Received: from pendragon.ideasonboard.com (aztw-30-b2-v4wan-166917-cust845.vm26.cable.virginm.net [82.37.23.78])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6ACBD52;
+	Fri,  1 Dec 2023 16:30:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701444608;
+	bh=FTr9jD8Lm2XwjtyGHb2zex8kSear/RyYVG6QAL8cQOw=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=Reysu4UkUxuLjHQtxGH/l4zxCZSpvfkhmjL2HESDiSHqLzcLZtAw7inb/beM659MB
+	 ZD57gii2iVjKADR+1Y+Qn5+vprQnp+vwEu1BcvPu6dkyQhNe4FD4XMcPxZAGISJXoD
+	 08BfENw0V0oq+uXIkUbjCe9xBAAHO31+2cLp2aqY=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ZWcRoTJ9VgOqZ3ts@intel.com>
-X-Patchwork-Hint: comment
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20231201140433.2126011-5-paul.elder@ideasonboard.com>
+References: <20231201140433.2126011-1-paul.elder@ideasonboard.com> <20231201140433.2126011-5-paul.elder@ideasonboard.com>
+Subject: Re: [PATCH v2 4/4] media: rkisp1: debug: Consolidate counter debugfs files
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: laurent.pinchart@ideasonboard.com, tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com, Paul Elder <paul.elder@ideasonboard.com>, Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+To: Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
+Date: Fri, 01 Dec 2023 15:30:42 +0000
+Message-ID: <170144464218.1400840.7647651809740627975@ping.linuxembedded.co.uk>
+User-Agent: alot/0.10
 
-On Wed, Nov 29, 2023 at 12:25:37PM +0200, Ville Syrjälä wrote:
-> On Wed, Nov 29, 2023 at 12:12:59PM +0200, Pekka Paalanen wrote:
-> > On Tue, 28 Nov 2023 15:49:08 +0200
-> > Ville Syrjälä <ville.syrjala@linux.intel.com> wrote:
-> > 
-> > > Should we perhaps start to use the (arguably hideous)
-> > >  - void f(struct foo *bar)
-> > >  + void f(struct foo bar[static 1])
-> > > syntax to tell the compiler we don't accept NULL pointers?
-> > > 
-> > > Hmm. Apparently that has the same problem as using any
-> > > other kind of array syntax in the prototype. That is,
-> > > the compiler demands to know the definition of 'struct foo'
-> > > even though we're passing in effectively a pointer. Sigh.
-> > 
-> > 
-> > __attribute__((nonnull)) ?
-> 
-> I guess that would work, though the syntax is horrible when
-> you need to flag specific arguments.
+Quoting Paul Elder (2023-12-01 14:04:33)
+> Consolidate all the debugfs files that were each a single counter into a
+> single "counters" file.
+>=20
+> While at it, reset the counters at stream on time to make it easier for
+> to interpret the values in userspace.
 
-I played around with this a bit (blindly cocci'd tons of
-drm and i915 function declarations with the nonnull attribute)
-and it's somewhat underwhelming unfortunately.
+That gives a better atomicity here I think so that's good. I guess the
+debug struct could have a lock around it sometime - but I don't think
+that matters in this context.
 
-It will trip only if the compiler is 100% sure you're passing
-in a NULL. There is no way to eg. tell the compiler that a
-function can return a NULL and thus anything coming from it
-should be checked by the caller before passing it on to
-something with the nonnull attribute. And I suppose error
-pointers would also screw that idea over anyway.
+Resetting at stream on looks to make sense so:
 
-Additionally the NULL device checks being being done in 
-the drm_err/dbg macros trip this up left right and center.
-And hiding that check inside a function (instead of having
-it in the macro) is also ruined by the fact that we apparently
-pass different types of pointers to these macros :( Generics
-could be used to sort out that type mess I suppose, or the
-code that passes the wrong type (DSI code at least) should
-just be changed to not do that. But not sure if there's enough
-benefit to warrant the work.
 
--- 
-Ville Syrjälä
-Intel
+Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+
+>=20
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+>=20
+> ---
+> New in v2
+>=20
+>  .../platform/rockchip/rkisp1/rkisp1-capture.c |  2 +
+>  .../platform/rockchip/rkisp1/rkisp1-common.h  |  4 ++
+>  .../platform/rockchip/rkisp1/rkisp1-debug.c   | 69 ++++++++++++-------
+>  3 files changed, 50 insertions(+), 25 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/dr=
+ivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> index c6d7e01c8949..67b2e94dfd67 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> @@ -1030,6 +1030,8 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue,=
+ unsigned int count)
+>         struct media_entity *entity =3D &cap->vnode.vdev.entity;
+>         int ret;
+> =20
+> +       rkisp1_debug_reset_counters(cap->rkisp1);
+> +
+>         mutex_lock(&cap->rkisp1->stream_lock);
+> =20
+>         ret =3D video_device_pipeline_start(&cap->vnode.vdev, &cap->rkisp=
+1->pipe);
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/dri=
+vers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index be69173958a4..789259fb304a 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -599,9 +599,13 @@ int rkisp1_params_register(struct rkisp1_device *rki=
+sp1);
+>  void rkisp1_params_unregister(struct rkisp1_device *rkisp1);
+> =20
+>  #if IS_ENABLED(CONFIG_DEBUG_FS)
+> +void rkisp1_debug_reset_counters(struct rkisp1_device *rkisp1);
+>  void rkisp1_debug_init(struct rkisp1_device *rkisp1);
+>  void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1);
+>  #else
+> +static inline void rkisp1_debug_reset_counters(struct rkisp1_device *rki=
+sp1)
+> +{
+> +}
+>  static inline void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>  {
+>  }
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/driv=
+ers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> index 79cda589d935..4358ed1367ed 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> @@ -25,6 +25,11 @@ struct rkisp1_debug_register {
+>         const char * const name;
+>  };
+> =20
+> +struct rkisp1_debug_counter {
+> +       const char * const name;
+> +       unsigned long *value;
+> +};
+> +
+>  #define RKISP1_DEBUG_REG(name)         { RKISP1_CIF_##name, 0, #name }
+>  #define RKISP1_DEBUG_SHD_REG(name) { \
+>         RKISP1_CIF_##name, RKISP1_CIF_##name##_SHD, #name \
+> @@ -191,6 +196,43 @@ static int rkisp1_debug_input_status_show(struct seq=
+_file *m, void *p)
+>  }
+>  DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_input_status);
+> =20
+> +static int rkisp1_debug_counters_show(struct seq_file *m, void *p)
+> +{
+> +       struct rkisp1_device *rkisp1 =3D m->private;
+> +       struct rkisp1_debug *debug =3D &rkisp1->debug;
+> +
+> +       const struct rkisp1_debug_counter counters[] =3D {
+> +               { "data_loss", &debug->data_loss },
+> +               { "outform_size_err", &debug->outform_size_error },
+> +               { "img_stabilization_size_error", &debug->img_stabilizati=
+on_size_error },
+> +               { "inform_size_error", &debug->inform_size_error },
+> +               { "irq_delay", &debug->irq_delay },
+> +               { "mipi_error", &debug->mipi_error },
+> +               { "stats_error", &debug->stats_error },
+> +               { "mp_stop_timeout", &debug->stop_timeout[RKISP1_MAINPATH=
+] },
+> +               { "sp_stop_timeout", &debug->stop_timeout[RKISP1_SELFPATH=
+] },
+> +               { "mp_frame_drop", &debug->frame_drop[RKISP1_MAINPATH] },
+> +               { "sp_frame_drop", &debug->frame_drop[RKISP1_SELFPATH] },
+> +               { "complete_frames", &debug->complete_frames },
+> +               { /* Sentinel */ },
+> +       };
+> +
+> +       const struct rkisp1_debug_counter *counter =3D counters;
+> +
+> +       for (; counter->name; ++counter)
+> +               seq_printf(m, "%s: %lu\n", counter->name, *counter->value=
+);
+> +
+> +       return 0;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_counters);
+> +
+> +void rkisp1_debug_reset_counters(struct rkisp1_device *rkisp1)
+> +{
+> +       struct dentry *debugfs_dir =3D rkisp1->debug.debugfs_dir;
+> +       memset(&rkisp1->debug, 0, sizeof(rkisp1->debug));
+> +       rkisp1->debug.debugfs_dir =3D debugfs_dir;
+> +}
+> +
+>  void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>  {
+>         struct rkisp1_debug *debug =3D &rkisp1->debug;
+> @@ -198,31 +240,8 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+> =20
+>         debug->debugfs_dir =3D debugfs_create_dir(dev_name(rkisp1->dev), =
+NULL);
+> =20
+> -       debugfs_create_ulong("data_loss", 0444, debug->debugfs_dir,
+> -                            &debug->data_loss);
+> -       debugfs_create_ulong("outform_size_err", 0444,  debug->debugfs_di=
+r,
+> -                            &debug->outform_size_error);
+> -       debugfs_create_ulong("img_stabilization_size_error", 0444,
+> -                            debug->debugfs_dir,
+> -                            &debug->img_stabilization_size_error);
+> -       debugfs_create_ulong("inform_size_error", 0444,  debug->debugfs_d=
+ir,
+> -                            &debug->inform_size_error);
+> -       debugfs_create_ulong("irq_delay", 0444,  debug->debugfs_dir,
+> -                            &debug->irq_delay);
+> -       debugfs_create_ulong("mipi_error", 0444, debug->debugfs_dir,
+> -                            &debug->mipi_error);
+> -       debugfs_create_ulong("stats_error", 0444, debug->debugfs_dir,
+> -                            &debug->stats_error);
+> -       debugfs_create_ulong("mp_stop_timeout", 0444, debug->debugfs_dir,
+> -                            &debug->stop_timeout[RKISP1_MAINPATH]);
+> -       debugfs_create_ulong("sp_stop_timeout", 0444, debug->debugfs_dir,
+> -                            &debug->stop_timeout[RKISP1_SELFPATH]);
+> -       debugfs_create_ulong("mp_frame_drop", 0444, debug->debugfs_dir,
+> -                            &debug->frame_drop[RKISP1_MAINPATH]);
+> -       debugfs_create_ulong("sp_frame_drop", 0444, debug->debugfs_dir,
+> -                            &debug->frame_drop[RKISP1_SELFPATH]);
+> -       debugfs_create_ulong("complete_frames", 0444, debug->debugfs_dir,
+> -                            &debug->complete_frames);
+> +       debugfs_create_file("counters", 0444, debug->debugfs_dir, rkisp1,
+> +                           &rkisp1_debug_counters_fops);
+>         debugfs_create_file("input_status", 0444, debug->debugfs_dir, rki=
+sp1,
+>                             &rkisp1_debug_input_status_fops);
+> =20
+> --=20
+> 2.39.2
+>
 
