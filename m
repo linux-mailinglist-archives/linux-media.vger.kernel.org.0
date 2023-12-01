@@ -1,140 +1,156 @@
-Return-Path: <linux-media+bounces-1491-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1493-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADC880125D
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 19:14:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D5F801271
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 19:18:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCBFC1C20987
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 18:14:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B66AD1C209BD
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 18:18:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 692394F1ED;
-	Fri,  1 Dec 2023 18:14:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DBE74F21E;
+	Fri,  1 Dec 2023 18:18:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mailoo.org header.i=@mailoo.org header.b="BlRJe1Xo"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="B8e+7oFg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailo.com (msg-2.mailo.com [213.182.54.12])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3F3A10D;
-	Fri,  1 Dec 2023 10:14:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mailoo.org; s=mailo;
-	t=1701454446; bh=8ItrQJpfnYJNBvx9/ZxfYVCB4X1PSHGmZpReeVMVCbM=;
-	h=X-EA-Auth:From:To:Cc:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
-	 References:MIME-Version:Content-Transfer-Encoding;
-	b=BlRJe1XoLRRfLfBlqX9FKJXDcczc9GjGwiHexrrf2wJDGyH4QwQYFcMP2gml325Ew
-	 x7N8QzhHSsMKY7CiqKsYPa6vBzklsiX/NIoj3ILcNFVOLU8i9gQdnDCOwfhj/oiF8Q
-	 B3zFDEDOCYN62u80TcrXeY4f3rb7yGbgSSfNzuis=
-Received: by b221-6.in.mailobj.net [192.168.90.26] with ESMTP
-	via ip-22.mailoo.org [213.182.54.22]
-	Fri,  1 Dec 2023 19:14:05 +0100 (CET)
-X-EA-Auth: ym1ciIqVgZ9eNjymoAMtLEFtuPM6bDp74qWVWVEHmy5LVtFvlqvwNHZnHGLyOdmKhJr18Ui7S9JftJCkKqCam+ZcJB/sbMs1XtBetbwXJJ0=
-From: Vincent Knecht <vincent.knecht@mailoo.org>
-To: Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Yassine Oudjana <y.oudjana@protonmail.com>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Vincent Knecht <vincent.knecht@mailoo.org>
-Subject: [PATCH v2 3/3] media: i2c: ak7375: Add support for ak7345
-Date: Fri,  1 Dec 2023 19:13:50 +0100
-Message-ID: <20231201181350.26454-3-vincent.knecht@mailoo.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231201181350.26454-1-vincent.knecht@mailoo.org>
-References: <20231201181350.26454-1-vincent.knecht@mailoo.org>
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 195E9F9
+	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 10:18:00 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4ShhBF18R5z49Q33
+	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 20:17:54 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1701454678;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=ygZj9mTLM8KyZe137fcpvxZ0hmQXIg2DGFyHmdSR9YQ=;
+	b=B8e+7oFg1hNTX1c3Vg53SyfxcHIpsPcB5OBlFO51gBnFJHvTrST/jhLb2WO0RT3cyUDSBz
+	N6b5ANXeyB1uyCnGyAwCO4HJhxlB0UamGtZ/3LzzRwfWVCEVV0y1KBYadM+koyxGDH2SyY
+	nPMXhlFNz1CqToR2BdrkRooT94lMKj+bsAVQuJO3yqe/fL7QhPEIpdwLR5LxRERJ6djLs8
+	UF47FSoKIAqdg3x77QjBJOn5sHck0e/tMSNOMcvRq1TTehUoAGiriEhJAMMDXICvBoyUz8
+	qGoj65BoDA3rpxhrjF24K8S16VU5PUjnEphC4v+FU0eaAfTCyrcgTgFr6vPDkw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1701454678;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type;
+	bh=ygZj9mTLM8KyZe137fcpvxZ0hmQXIg2DGFyHmdSR9YQ=;
+	b=lYqNUdD00R58F8FO6xlaqmWxfo9cES71gRZXASwXlTAT+lKABrGZjNhLvdkUGLilaAGZlY
+	RANYv2hfEXIzeVkbNRNbwmaO1yO27+MHp+3qcnNTT7C8UpWMU/pLAWhjbMTUQ6EqtMfqni
+	vmJ42rs25BWUT1fJRWb27WPWz5nn3NSlIplixh95c7VeVXGlKiZT3T6t3ATanEwWVdsOO+
+	7oqiTC9pObCds9dDrcopCNoDzGTEErZrNkd9T3yHXKv57QeJfp56IIRnPmBDlaYVvsgvJe
+	cqwpmouniDSAcjdhJSqZv0jweiyW3/9xl8L9FJu7/eVT3dMeCcGiM1SgLsV1cA==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1701454678; a=rsa-sha256;
+	cv=none;
+	b=B7WP0idcb2DLUdxD9ncAScoDrMEUE+dT0B0CHJcWn3YKhBLn/poEoxhyRcFFIlR+3TiNi1
+	Y+5cF7yKl9Omt9WbOnCcBocUo8/6ro1drWV5+lN5d88i+Hcuy9Z3K+3V4nYr/ThwlWRd8q
+	JG6i7X4gCIQQ3PQGAWjiCubT1VrmYUqGMS/ak6pqtOMZEHlVCUS849NaCOj2SBBQpm9WAW
+	XfskXHG9KEsoc8g9oHUI0Va3AgIPsoVg25W1kly1qEL958eik+aY/qBYt47ZnHV4wONpXp
+	Z2k388x+mgyyinW5jBbDJcLNfHARybd7vTp4HbuWd4w/FZkXM1ts3pXX82Hu1Q==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 1274C634C8F
+	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 20:17:54 +0200 (EET)
+Date: Fri, 1 Dec 2023 18:17:53 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL v2 FOR 6.8] V4L2 cleanups and fixes
+Message-ID: <ZWojUQS_icPbhNQV@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Add support for ak7345 VCM, which has 9 bits position values,
-longer power-up delay, and no known standby register setting.
-Might be compatible as-is with ak7348.
+Hi Hans, Mauro,
 
-Tested on msm8916-alcatel-idol347 phone.
+Here's a small set of fixes and cleanups for 6.8. In particular, there are
+Runtime PM API usage fixes for a couple of drivers from Bingbu and myself,
+moving the CCS driver to use V4L2 CCI as well as a few random fixes and
+cleanups.
 
-Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
----
-v2: no change
----
- drivers/media/i2c/ak7375.c | 26 ++++++++++++++++++++++----
- 1 file changed, 22 insertions(+), 4 deletions(-)
+since v1:
 
-diff --git a/drivers/media/i2c/ak7375.c b/drivers/media/i2c/ak7375.c
-index 3a14eff41531..9a2432cea3ff 100644
---- a/drivers/media/i2c/ak7375.c
-+++ b/drivers/media/i2c/ak7375.c
-@@ -16,6 +16,7 @@ struct ak73xx_chipdef {
- 	u8 shift_pos;
- 	u8 mode_active;
- 	u8 mode_standby;
-+	bool has_standby;	/* Some chips may not have standby mode */
- 	u16 focus_pos_max;
- 	/*
- 	 * This sets the minimum granularity for the focus positions.
-@@ -37,12 +38,26 @@ struct ak73xx_chipdef {
- 	u16 power_delay_us;
- };
- 
-+static const struct ak73xx_chipdef ak7345_cdef = {
-+	.reg_position	= 0x0,
-+	.reg_cont	= 0x2,
-+	.shift_pos	= 7,	/* 9 bits position values, need to << 7 */
-+	.mode_active	= 0x0,
-+	.has_standby	= false,
-+	.focus_pos_max	= 511,
-+	.focus_steps	= 1,
-+	.ctrl_steps	= 16,
-+	.ctrl_delay_us	= 1000,
-+	.power_delay_us	= 20000,
-+};
-+
- static const struct ak73xx_chipdef ak7375_cdef = {
- 	.reg_position	= 0x0,
- 	.reg_cont	= 0x2,
- 	.shift_pos	= 4,	/* 12 bits position values, need to << 4 */
- 	.mode_active	= 0x0,
- 	.mode_standby	= 0x40,
-+	.has_standby	= true,
- 	.focus_pos_max	= 4095,
- 	.focus_steps	= 1,
- 	.ctrl_steps	= 64,
-@@ -249,10 +264,12 @@ static int __maybe_unused ak7375_vcm_suspend(struct device *dev)
- 		usleep_range(cdef->ctrl_delay_us, cdef->ctrl_delay_us + 10);
- 	}
- 
--	ret = ak7375_i2c_write(ak7375_dev, cdef->reg_cont,
--			       cdef->mode_standby, 1);
--	if (ret)
--		dev_err(dev, "%s I2C failure: %d\n", __func__, ret);
-+	if (cdef->has_standby) {
-+		ret = ak7375_i2c_write(ak7375_dev, cdef->reg_cont,
-+				       cdef->mode_standby, 1);
-+		if (ret)
-+			dev_err(dev, "%s I2C failure: %d\n", __func__, ret);
-+	}
- 
- 	ret = regulator_bulk_disable(ARRAY_SIZE(ak7375_supply_names),
- 				     ak7375_dev->supplies);
-@@ -312,6 +329,7 @@ static int __maybe_unused ak7375_vcm_resume(struct device *dev)
- }
- 
- static const struct of_device_id ak7375_of_table[] = {
-+	{ .compatible = "asahi-kasei,ak7345", .data = &ak7345_cdef, },
- 	{ .compatible = "asahi-kasei,ak7375", .data = &ak7375_cdef, },
- 	{ /* sentinel */ }
- };
+- Include Sebastian's v4l2-async fixes. The other one is cc'd to the stable
+  tree.
+
+Please pull.
+
+
+The following changes since commit 3b8551e73271fc375b15c887db54ad31686eb2ea:
+
+  media: wave5: add OF and V4L_MEM2MEM_DRIVERS dependencies (2023-11-24 14:11:22 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.8-5.1-signed
+
+for you to fetch changes up to c44c7f880ba22a99424b556638a05c1c2bf2d3e8:
+
+  media: v4l: async: Drop useless list move operation (2023-12-01 13:06:27 +0200)
+
+----------------------------------------------------------------
+V4L2 patches for 6.8
+
+----------------------------------------------------------------
+Bingbu Cao (4):
+      media: imx355: Enable runtime PM before registering async sub-device
+      media: ov01a10: Enable runtime PM before registering async sub-device
+      media: ov13b10: Enable runtime PM before registering async sub-device
+      media: ov9734: Enable runtime PM before registering async sub-device
+
+Laurent Pinchart (2):
+      media: microchip-isc: Remove dead code in pipeline validation
+      media: v4l2-subdev: Fix indentation in v4l2-subdev.h
+
+Sakari Ailus (9):
+      media: ccs: Print ireal and float limits converted to integers
+      media: imx319: Enable runtime PM before registering async sub-device
+      media: Documentation: Initialisation finishes before subdev registration
+      media: v4l: cci: Include linux/bits.h
+      media: v4l: cci: Add driver-private bit definitions
+      media: v4l: cci: Add macros to obtain register width and address
+      media: ccs: Generate V4L2 CCI compliant register definitions
+      media: ccs: Better separate CCS static data access
+      media: ccs: Use V4L2 CCI for accessing sensor registers
+
+Sebastian Reichel (2):
+      media: v4l: async: Fix duplicated list deletion
+      media: v4l: async: Drop useless list move operation
+
+ Documentation/driver-api/media/camera-sensor.rst   |   3 +-
+ .../driver-api/media/drivers/ccs/mk-ccs-regs       | 104 ++-
+ Documentation/driver-api/media/v4l2-subdev.rst     |   7 +
+ drivers/media/i2c/ccs/ccs-core.c                   | 101 ++-
+ drivers/media/i2c/ccs/ccs-reg-access.c             | 213 +----
+ drivers/media/i2c/ccs/ccs-regs.h                   | 906 ++++++++++----------
+ drivers/media/i2c/ccs/ccs.h                        |   2 +
+ drivers/media/i2c/ccs/smiapp-reg-defs.h            | 951 +++++++++++----------
+ drivers/media/i2c/imx319.c                         |  12 +-
+ drivers/media/i2c/imx355.c                         |  12 +-
+ drivers/media/i2c/ov01a10.c                        |  18 +-
+ drivers/media/i2c/ov13b10.c                        |  14 +-
+ drivers/media/i2c/ov9734.c                         |  19 +-
+ .../media/platform/microchip/microchip-isc-base.c  |  41 -
+ drivers/media/v4l2-core/v4l2-async.c               |   4 -
+ drivers/media/v4l2-core/v4l2-cci.c                 |   8 +-
+ include/media/v4l2-cci.h                           |  11 +
+ include/uapi/linux/v4l2-subdev.h                   |   2 +-
+ 18 files changed, 1171 insertions(+), 1257 deletions(-)
+
 -- 
-2.43.0
-
-
-
+Sakari Ailus
 
