@@ -1,131 +1,126 @@
-Return-Path: <linux-media+bounces-1445-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1446-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3E9C8003EB
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 07:33:40 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD724800491
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 08:19:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 87330B2128F
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 06:33:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DD06D1C20E96
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 07:19:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42FA81172A;
-	Fri,  1 Dec 2023 06:33:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 166B912B7E;
+	Fri,  1 Dec 2023 07:19:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="yNkbszn6"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mxrsXSSl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C51DDE;
-	Thu, 30 Nov 2023 22:33:31 -0800 (PST)
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3B16XAPa046868;
-	Fri, 1 Dec 2023 00:33:10 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1701412390;
-	bh=R3JOMs+GLcTvTmXuGQ+uZWSEdM5pv0lZocvcKZHDUSY=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=yNkbszn6/F7jIaLVqhcX0SwjspqMmcnD/VB+kCC6iGtV3l64BIVvBDdvnaSprN/k1
-	 D5nFt/F8uioG9/TU7eoMTdPtsb39NVv6GXZsYbqvDn3QtdAAmcNSIqefXpne0KkoAF
-	 R4bzE1sRH+xUmR54Nj0rK4BqcwG8TuRs+eszBTB4=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3B16XAIt004605
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Fri, 1 Dec 2023 00:33:10 -0600
-Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Fri, 1
- Dec 2023 00:33:10 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE108.ent.ti.com
- (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Fri, 1 Dec 2023 00:33:10 -0600
-Received: from localhost (ileaxei01-snat2.itg.ti.com [10.180.69.6])
-	by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3B16X9SM105901;
-	Fri, 1 Dec 2023 00:33:09 -0600
-Date: Fri, 1 Dec 2023 00:33:09 -0600
-From: Nishanth Menon <nm@ti.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-CC: Sebastian Fricke <sebastian.fricke@collabora.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel
- Team <kernel@pengutronix.de>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Nas Chung
-	<nas.chung@chipsnmedia.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-        Jackson Lee
-	<jackson.lee@chipsnmedia.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer
-	<s.hauer@pengutronix.de>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel
-	<p.zabel@pengutronix.de>,
-        Rob Herring <robh+dt@kernel.org>, Ivan Bornyakov
-	<brnkv.i1@gmail.com>,
-        Deborah Brouwer <deborah.brouwer@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        <devicetree@vger.kernel.org>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        <linux-arm-kernel@lists.infradead.org>, <kernel@collabora.com>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        "R, Vignesh"
-	<vigneshr@ti.com>, Tero Kristo <kristo@kernel.org>
-Subject: Re: [PATCH v14 6/8] dt-bindings: media: wave5: add yaml devicetree
- bindings
-Message-ID: <20231201063309.tingjc3cjhsqb6r7@confusing>
-References: <20231108-wave5-v14-rebased-v14-0-0b4af1258656@collabora.com>
- <20231108-wave5-v14-rebased-v14-6-0b4af1258656@collabora.com>
- <CAMuHMdUYOq=q1j=d+Eac28hthOUAaNUkuvxmRu-mUN1pLKq69g@mail.gmail.com>
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9E1B193
+	for <linux-media@vger.kernel.org>; Thu, 30 Nov 2023 23:19:14 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-db547d41413so213660276.0
+        for <linux-media@vger.kernel.org>; Thu, 30 Nov 2023 23:19:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701415154; x=1702019954; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=0ly40XWtK8l7GtZTrOUAU5wEMWBLy5hr8qAfEHApx3g=;
+        b=mxrsXSSlXAIoZ72Z60EDPqm82qMynMYvw/AyEOCg9JvLnjU4SS3om3ua9sOtW99fh5
+         OBDx3CaHuOCJj8rFPGvkIp6amRJynYZ1hcNniggpIzF9BIPa8d/oE6srQIpM0q9DvVQj
+         oozHFkdsqFJ/pJGc9Kw6OJgg9ch2xzXJkyemM4nedLSFzZcr9nfYraZKy2r6TDPxbc1m
+         IvfowlXxB4/mv0/+bsdHxcUwyEKABLUT23uwqCoLlxmh8EjFoETJNcSmZtaQGro2drvS
+         lFCrGyQUDIETNnJboMMDfQo7ECw6QY5YHyxAcn1I4evkeKq+YCg0NLkzQM664PswC2B6
+         ROTQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701415154; x=1702019954;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=0ly40XWtK8l7GtZTrOUAU5wEMWBLy5hr8qAfEHApx3g=;
+        b=cWFXJMWKmmKj0wIO0C00TAF5SXX+U7iynAI415XMM52IxAkSV+/yMOFuYTJSh6pKMC
+         uFTbu7u1chj+RHX4C6B1XZwhJ8Gu/hd5B035EGVSrhpAAoCaZcUZjHgzY+c8REj6b72q
+         JbAM5HvOw0og3phkp6NMHwAQ51OeEiQMEDrxYXcBAn0g6qI/fXYKsFn/DVtf7Ikd19Ga
+         HuLdAUdbcNdD2vkPkWPMpyZHb7U5FHzIOt49ESjfWEqTc6RIqAtca3JgMTVqiVW9jfqE
+         Uu+oKt96/iPkTIZb90XUUd5eGXjnH39yUnh/NO1kZ8Ew4h81RYLzdSs7UyZshopf9fMk
+         YGuw==
+X-Gm-Message-State: AOJu0YyECgkCjJ9EoJv90gaSIRwN+R8Yt6BNDGOvVHQM0Ur9eCTA2ewf
+	7wstHySatsjV3YS2W9M4Rtj9lc1EwFk=
+X-Google-Smtp-Source: AGHT+IF5BydPl/8Xatq3zC4YF9I0iscbZ4ltMjWaeFjAeVQagnrhRjWn48E9ronCQimS/SJIJubFgaytuoU=
+X-Received: from yunkec1.tok.corp.google.com ([2401:fa00:8f:203:ea68:7c7a:2356:8a4a])
+ (user=yunkec job=sendgmr) by 2002:a25:3055:0:b0:ca3:3341:6315 with SMTP id
+ w82-20020a253055000000b00ca333416315mr847832ybw.0.1701415153876; Thu, 30 Nov
+ 2023 23:19:13 -0800 (PST)
+Date: Fri,  1 Dec 2023 16:18:51 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdUYOq=q1j=d+Eac28hthOUAaNUkuvxmRu-mUN1pLKq69g@mail.gmail.com>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.43.0.rc2.451.g8631bc7472-goog
+Message-ID: <20231201071907.3080126-1-yunkec@google.com>
+Subject: [PATCH v14 00/11] Implement UVC v1.5 ROI
+From: Yunke Cao <yunkec@google.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Daniel Scally <dan.scally@ideasonboard.com>
+Cc: Tomasz Figa <tfiga@chromium.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
+	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org, 
+	Yunke Cao <yunkec@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 11:27-20231128, Geert Uytterhoeven wrote:
-> Hi Sebastian,
-> 
-> CC TI K3
+Hi,
 
-Thanks for looping us in Geert.
+This patch set implements UVC v1.5 region of interest using V4L2
+control API.
 
+ROI control is consisted two uvc specific controls.
+1. A rectangle control with a newly added type V4L2_CTRL_TYPE_RECT.
+2. An auto control with type bitmask.
 
-[...]
-> > +
-> > +properties:
-> > +  compatible:
-> > +    items:
-> > +      - enum:
-> > +          - ti,k3-j721s2-wave521c
-> 
-> This is the only compatible value defined which contains both "k3"
-> and "j72*".  I assume the "k3-" part should be dropped?
+V4L2_CTRL_WHICH_MIN/MAX_VAL is added to support the rectangle control.
 
-Correct - we have not been using architecture prefix such as k3- in
-compatibles for any other peripheral and that lines up with DT spec[1]
+The corresponding v4l-utils series can be found at
+https://patchwork.linuxtv.org/project/linux-media/list/?series=11069 .
 
-$ git grep ti, Documentation/|grep compatible|grep yaml|cut -d ':' -f2|grep k3-
-is empty.
+Tested with v4l2-compliance, v4l2-ctl, calling ioctls on usb cameras and
+VIVID with a newly added V4L2_CTRL_TYPE_RECT control.
 
-I have for asked this to be cleared up[2] before I can pick the dts changes
-corresponding to the binding.. I will wait for the bindings to hit linus
-master prior to looking at the dts changes.
+Hans Verkuil (1):
+  v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
 
-[1] https://github.com/devicetree-org/devicetree-specification/releases/tag/v0.4
-[2] https://lore.kernel.org/all/20231201062427.6fw5gn2zgkkurv4q@shadow/
+Yunke Cao (10):
+  media: v4l2_ctrl: Add V4L2_CTRL_TYPE_RECT
+  media: uvcvideo: add uvc_ctrl_get_boundary for getting default value
+  media: uvcvideo: introduce __uvc_ctrl_get_std()
+  media: uvcvideo: Split uvc_control_mapping.size to v4l2 and data size
+  media: uvcvideo: Add support for compound controls
+  media: vivid: Add an rectangle control
+  media: uvcvideo: support V4L2_CTRL_WHICH_MIN/MAX_VAL
+  media: uvcvideo: implement UVC v1.5 ROI
+  media: uvcvideo: initilaize ROI control to default value
+  media: uvcvideo: document UVC v1.5 ROI
+
+ .../userspace-api/media/drivers/uvcvideo.rst  |  64 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |  26 +-
+ .../media/v4l/vidioc-queryctrl.rst            |  14 +
+ .../media/videodev2.h.rst.exceptions          |   4 +
+ drivers/media/i2c/imx214.c                    |   5 +-
+ .../media/platform/qcom/venus/venc_ctrls.c    |   9 +-
+ .../media/test-drivers/vivid/vivid-ctrls.c    |  34 +
+ drivers/media/usb/uvc/uvc_ctrl.c              | 721 ++++++++++++++----
+ drivers/media/usb/uvc/uvc_v4l2.c              |  18 +-
+ drivers/media/usb/uvc/uvcvideo.h              |  24 +-
+ drivers/media/v4l2-core/v4l2-ctrls-api.c      |  54 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c     | 167 +++-
+ drivers/media/v4l2-core/v4l2-ioctl.c          |   4 +-
+ include/media/v4l2-ctrls.h                    |  38 +-
+ include/uapi/linux/usb/video.h                |   1 +
+ include/uapi/linux/uvcvideo.h                 |  13 +
+ include/uapi/linux/v4l2-controls.h            |   9 +
+ include/uapi/linux/videodev2.h                |   5 +
+ 18 files changed, 997 insertions(+), 213 deletions(-)
+
 -- 
-Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+2.43.0.rc2.451.g8631bc7472-goog
+
 
