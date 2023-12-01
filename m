@@ -1,117 +1,101 @@
-Return-Path: <linux-media+bounces-1483-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1484-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDDF0800EBA
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 16:42:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1691D8010E2
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 18:14:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79B7E281C20
-	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 15:41:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C79FA281CB6
+	for <lists+linux-media@lfdr.de>; Fri,  1 Dec 2023 17:14:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF34F4AF9D;
-	Fri,  1 Dec 2023 15:41:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCD584E1A7;
+	Fri,  1 Dec 2023 17:13:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VBvTh41K"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hoPXWejB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90538C1
+	for <linux-media@vger.kernel.org>; Fri,  1 Dec 2023 09:13:52 -0800 (PST)
+Received: from mz550.lan (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF7914AF87;
-	Fri,  1 Dec 2023 15:41:51 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07DAEC433C9;
-	Fri,  1 Dec 2023 15:41:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701445311;
-	bh=JGX/Z3BTWHIf5qRlqFz/16EnPOGE2v0/UGv9oJWij2U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VBvTh41K3htiHVvOXeF2xq0TovBOYbSQnYtZ7onB7gNOqr46wMQNhy41h/9YkWIJc
-	 UKKmOuGeImfn0stD5ZejQhae+qgNneoCJ+t3yKCC12NdMAZcmfL0uNYpMMjjGKOhj4
-	 azb/kAIlJZFRKtmz/+4eORtZ1JzpXli1Fb0DXl+wvPlvbI4zYqHfl2rQL+VJaVatS0
-	 KPYRpfoOYZjw4AD4MBVyZ0nlSdqBA9JOonb3pEUfYwVT2PjaxYixPoFv7A8kKwr5qt
-	 beAwPhKfnDdB4p01Rt9XFOS/n8+ZbjB4taZ0oiqJOER0z2rBNJu1xZs3s6izFGWhTm
-	 yft3boi4ZkflQ==
-Date: Fri, 1 Dec 2023 15:41:46 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Fabio Estevam <festevam@gmail.com>
-Cc: sakari.ailus@linux.intel.com, rfoss@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	mchehab@kernel.org, laurent.pinchart@ideasonboard.com,
-	devicetree@vger.kernel.org, linux-media@vger.kernel.org,
-	xji@analogixsemi.com, Fabio Estevam <festevam@denx.de>
-Subject: Re: [PATCH v2 1/3] dt-bindings: drm/bridge: anx7625: Remove
- incorrect bus-type
-Message-ID: <20231201-blush-hate-165029f3e2c9@spud>
-References: <20231201123935.1057929-1-festevam@gmail.com>
+	(Authenticated sender: dbrouwer)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C36FA660739A;
+	Fri,  1 Dec 2023 17:13:50 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701450831;
+	bh=K6689urYwukADKizndmQyRGC1BCM31US/har+45fqH0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=hoPXWejBMP+dXvbnL2NTjS5NCEGqJ703nZolsfXZ+2SAqwicmL3Q4IAO/Df0QP1f0
+	 wJTO+s8u1RPpks8xCCkRNYkC1p389p1mU8zVtBtva+Nu6DHnRQb4PlgKeaEIaib0Wv
+	 cYlq8d7/tsCiP6oLbfDuAR+nkBkAq/Z+84zqchqN0lBVteyxfY6Na1zzg54SLS4LqU
+	 P7YbbVYSCP88L/93rbD2EDdxMQgG4SEcTKHR40x+70P2k6Zv4Z4YGzC0KpxAK4Fgip
+	 A4xFAxNS/+iT6ax9cJo8EaX38QOc1Q/nCvOiKnjuzKY2LqujdPS21E+0+H6oE05sWR
+	 UuuoutCm4ztsw==
+From: Deborah Brouwer <deborah.brouwer@collabora.com>
+To: linux-media@vger.kernel.org
+Cc: hverkuil-cisco@xs4all.nl,
+	Deborah Brouwer <deborah.brouwer@collabora.com>
+Subject: [PATCH v3 0/4] v4l2-tracer: track changes from syncing with kernel
+Date: Fri,  1 Dec 2023 09:13:29 -0800
+Message-ID: <cover.1701450544.git.deborah.brouwer@collabora.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="a0SSux8lcc0JVEmQ"
-Content-Disposition: inline
-In-Reply-To: <20231201123935.1057929-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+This patch series aims to solve the potential breakage of the v4l2-tracer
+every time that v4l-utils is synced with the latest kernel headers.
+
+Currently the v4l2-tracer autogeneration script is run by meson. If the script gets
+confused by changes to the latest kernel headers, then the v4l2-tracer won’t compile.
+And, even worse, the autogeneration script will have overwritten the autogenerated
+files so there is no history of the changes that broke the compilation.
+
+This series solves the problem by adding the autogenerated files to the git repository.
+It stops using meson to create the files and instead, patches the v4l2-tracer whenever
+v4l-utils is synced with the latest kernel headers. If compilation breaks, it is easy
+to fix by just removing the v4l2-tracer patches before committing the other changes
+related to the sync.
 
 
---a0SSux8lcc0JVEmQ
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Changes in v3:
+  * Rename TMPDIR to V4L2TRACERTMPDIR
 
-On Fri, Dec 01, 2023 at 09:39:33AM -0300, Fabio Estevam wrote:
-> From: Fabio Estevam <festevam@denx.de>
->=20
-> bus-type =3D <7> is incorrect as this is a DSI endpoint, not a DPI
-> endpoint.
->=20
-> Reported-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Fabio Estevam <festevam@denx.de>
+Changes in v2:
+  * Use a temporary directory to store the generated files
+  and remove it afterward.
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Deborah Brouwer (4):
+  v4l2-tracer: autogenerate files that can be added to git
+  v4l2-tracer: add auto-generated files to git repo
+  v4l2-tracer: stop auto-generating files with meson
+  sync-with-kernel.sh: create v4l2-tracer patches
 
-Cheers,
-Conor.
+ sync-with-kernel.sh                      |   27 +
+ utils/v4l2-tracer/meson.build            |   55 +-
+ utils/v4l2-tracer/retrace-gen.cpp        | 5664 ++++++++++++++++++++++
+ utils/v4l2-tracer/retrace-gen.h          |  144 +
+ utils/v4l2-tracer/trace-gen.cpp          | 3225 ++++++++++++
+ utils/v4l2-tracer/trace-gen.h            |  144 +
+ utils/v4l2-tracer/v4l2-tracer-gen.pl     |   12 +-
+ utils/v4l2-tracer/v4l2-tracer-info-gen.h | 2419 +++++++++
+ 8 files changed, 11633 insertions(+), 57 deletions(-)
+ create mode 100644 utils/v4l2-tracer/retrace-gen.cpp
+ create mode 100644 utils/v4l2-tracer/retrace-gen.h
+ create mode 100644 utils/v4l2-tracer/trace-gen.cpp
+ create mode 100644 utils/v4l2-tracer/trace-gen.h
+ create mode 100644 utils/v4l2-tracer/v4l2-tracer-info-gen.h
 
-> ---
-> Changes since v1:
-> - Newly introduced.
->=20
->  .../devicetree/bindings/display/bridge/analogix,anx7625.yaml     | 1 -
->  1 file changed, 1 deletion(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,an=
-x7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7=
-625.yaml
-> index a1ed1004651b..f043d57dd25a 100644
-> --- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.y=
-aml
-> +++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.y=
-aml
-> @@ -157,7 +157,6 @@ examples:
->                      reg =3D <0>;
->                      anx7625_in: endpoint {
->                          remote-endpoint =3D <&mipi_dsi>;
-> -                        bus-type =3D <7>;
->                          data-lanes =3D <0 1 2 3>;
->                      };
->                  };
-> --=20
-> 2.34.1
->=20
+-- 
+2.41.0
 
---a0SSux8lcc0JVEmQ
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZWn+ugAKCRB4tDGHoIJi
-0pwbAP4kUsMwJf9u4n8qY79s14gi3VfWFhuvGADbI8Owh+jBpwEAjOvwNa+ntY8u
-/Rmldu7f38EDDH716Tcm+1GrOtvqQA4=
-=S40e
------END PGP SIGNATURE-----
-
---a0SSux8lcc0JVEmQ--
 
