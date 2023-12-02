@@ -1,354 +1,256 @@
-Return-Path: <linux-media+bounces-1503-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1504-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id ACB21801BA6
-	for <lists+linux-media@lfdr.de>; Sat,  2 Dec 2023 10:32:27 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5585801CA9
+	for <lists+linux-media@lfdr.de>; Sat,  2 Dec 2023 13:40:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 104AE281DD4
-	for <lists+linux-media@lfdr.de>; Sat,  2 Dec 2023 09:32:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 76335B20C4D
+	for <lists+linux-media@lfdr.de>; Sat,  2 Dec 2023 12:40:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E42F111CAB;
-	Sat,  2 Dec 2023 09:32:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA76C15AF7;
+	Sat,  2 Dec 2023 12:40:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WHnyfBFR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CxU9YlVD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x535.google.com (mail-ed1-x535.google.com [IPv6:2a00:1450:4864:20::535])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E71C0133;
-	Sat,  2 Dec 2023 01:32:16 -0800 (PST)
-Received: by mail-ed1-x535.google.com with SMTP id 4fb4d7f45d1cf-54c64316a22so1620957a12.0;
-        Sat, 02 Dec 2023 01:32:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701509535; x=1702114335; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Tjm3Z8e51xh9ur94+JSTarGM/3ngKWUFP0d+MYEouyc=;
-        b=WHnyfBFRNjoH4hG0cK4DwkoEZ2JdixQwMgzITMW5VZbfRzQJgW55/G/4HHCQhBo3ms
-         4esC24cSabnUfPk6V26E2Lt2UbqJOoUG3Rfl/VoJtRBXwN7/j2yiWWH+rRsXGBgBYIis
-         3eA5uExE2kY4imvlPdqjFZxxAzAjNbB1+H4Xmd4VHHnLrmCN0MwGeyMLcTObC8pl9KuL
-         Kl/lEq82CX8AtfTZLex22JoGzsTPIitPZsFNuILP29mxmN5CJi2G/2Yj6C1KsE1VD7Z7
-         7XykgpLkyU7SgiPptE1EXWVqU/4+7m3mjkFP+DtiG4URlsQXGQc5buvTGaxbE+XFXz9F
-         gtCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701509535; x=1702114335;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Tjm3Z8e51xh9ur94+JSTarGM/3ngKWUFP0d+MYEouyc=;
-        b=BItwxwn+U2pizf85kRCcKK/3um2xFUsfVviM6dTka85EfqZz5bCejJL8xAT4ltXvuW
-         nUH8kXR/WJK9+hfWw0tp4SaTbJlgNCDzwMoYiNsxiiz6EGbVhtMn2DBQIfVD/EXoFN9h
-         ZTG88re5qvxlWFU60WKRNjRuepUYxJQHG0tBJPpRAeUZavIDWc2vfsYX+8LFFhj3QRiB
-         If7V65Zkil0wrg2r1WVuiCksMyPps2gwPB0NUGviUrMOlqy3i6zAUkTiUkjup41/XO90
-         v1/4SBoRNYVpgpMVxWB8+3ZJzV5t1DPKYr2c23TaksZHF5K1JuF2PR2kGoUm1jxRa3qm
-         KqmA==
-X-Gm-Message-State: AOJu0YyDTOecrOT0GkxEJ+AiFZSG35fQE6FO0HWUym6N/ohOZhVQlhd+
-	bEyMwPg1e27gGNjdwLey+sU=
-X-Google-Smtp-Source: AGHT+IE3p9+YKRbx421ox6k4SNb3LJTEn/h4ZI0UHwsnCmfmZ6NcHfhYQem3R8Ke+65FcmDGnl1Reg==
-X-Received: by 2002:a50:c251:0:b0:54b:7a1c:6b01 with SMTP id t17-20020a50c251000000b0054b7a1c6b01mr1615286edf.33.1701509535016;
-        Sat, 02 Dec 2023 01:32:15 -0800 (PST)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-2-39-143-167.cust.vodafonedsl.it. [2.39.143.167])
-        by smtp.gmail.com with ESMTPSA id y24-20020a056402135800b00548d649f638sm2433836edw.96.2023.12.02.01.32.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 02 Dec 2023 01:32:14 -0800 (PST)
-Date: Sat, 2 Dec 2023 10:32:11 +0100
-From: Tommaso Merciai <tomm.merciai@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03CCB12D
+	for <linux-media@vger.kernel.org>; Sat,  2 Dec 2023 04:40:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701520839; x=1733056839;
+  h=date:from:to:cc:subject:message-id;
+  bh=Tbzj/Hz1cg7fkss62nRSyIZrSVIOz2QrV8IdBQQOivY=;
+  b=CxU9YlVDHWgxn1KyDbuSbOnu6aijhdJ5OoeY0zNLT6ZDk7aI56rHVXXa
+   EP8NYMwmfT8IuNyK7o6ujHz37R7ok5YFypEHhCFqfMP+arIZ1OK1gWXeO
+   dWfiNy3j+utaaGPctfluY/s3jJmsx/YSqJKCcSwvM6YbyrrP0i392U990
+   n6taG+7utW9D/KjgwBRznvaC2qyzHQ16FcC5rGVRe+lJcIAglJARaUCpu
+   ufx+Myjg8ArirYFTBe2A8NiDKeVNYWkIJ8esBz5BkbMm4s+NKV+H/h3jJ
+   ODAkpcUoC5ONRjrlNxw6VDcLfUxnJ3GpAss6SeRMBnaUk4ouWidJQItMz
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="632001"
+X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
+   d="scan'208";a="632001"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2023 04:40:39 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10911"; a="840495914"
+X-IronPort-AV: E=Sophos;i="6.04,246,1695711600"; 
+   d="scan'208";a="840495914"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 02 Dec 2023 04:40:37 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1r9PIQ-0005B7-32;
+	Sat, 02 Dec 2023 12:40:34 +0000
+Date: Sat, 02 Dec 2023 20:39:41 +0800
+From: kernel test robot <lkp@intel.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: laurent.pinchart@ideasonboard.com, martin.hecht@avnet.eu,
-	michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
-	mhecht73@gmail.com, christophe.jaillet@wanadoo.fr,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v14 3/3] media: i2c: Add support for alvium camera
-Message-ID: <ZWr5my7SVKE2HPTZ@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20231124093011.2095073-1-tomm.merciai@gmail.com>
- <20231124093011.2095073-4-tomm.merciai@gmail.com>
- <ZWpJcS7aJmnRm1CB@kekkonen.localdomain>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:cleanup] BUILD SUCCESS
+ c44c7f880ba22a99424b556638a05c1c2bf2d3e8
+Message-ID: <202312022039.GMJlpWCO-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZWpJcS7aJmnRm1CB@kekkonen.localdomain>
 
-Hi Sakari,
-Thanks for your comments.
+tree/branch: git://linuxtv.org/sailus/media_tree.git cleanup
+branch HEAD: c44c7f880ba22a99424b556638a05c1c2bf2d3e8  media: v4l: async: Drop useless list move operation
 
-On Fri, Dec 01, 2023 at 09:00:33PM +0000, Sakari Ailus wrote:
-> Hi Tommaso,
-> 
-> A few more comments below...
-> 
-> On Fri, Nov 24, 2023 at 10:30:07AM +0100, Tommaso Merciai wrote:
-> 
-> ...
-> 
-> > +static int alvium_get_bcrm_vers(struct alvium_dev *alvium)
-> > +{
-> > +	struct device *dev = &alvium->i2c_client->dev;
-> > +	struct alvium_bcrm_vers *v;
-> > +	u64 val;
-> > +	int ret;
-> > +
-> > +	ret = alvium_read(alvium, REG_BCRM_VERSION_R, &val, NULL);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	v = (struct alvium_bcrm_vers *)&val;
-> 
-> You're still reading the entire struct using a single read. :-( This won't
-> work on a BE machine as while the struct fields are in the same memory
-> locations, the respective data in a single 64-bit value is not.
+elapsed time: 1463m
 
-What about splitting REG_BCRM_VERSION_R in:
+configs tested: 178
+configs skipped: 2
 
-#define REG_BCRM_MINOR_VERSION_R			CCI_REG16(0x0000)
-#define REG_BCRM_MAJOR_VERSION_R			CCI_REG16(0x0002)
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-and REG_BCRM_DEVICE_FIRMWARE_VERSION_R in:
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231201   gcc  
+arc                   randconfig-002-20231201   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                       multi_v4t_defconfig   gcc  
+arm                   randconfig-001-20231201   gcc  
+arm                   randconfig-002-20231201   gcc  
+arm                   randconfig-003-20231201   gcc  
+arm                   randconfig-004-20231201   gcc  
+arm                           stm32_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231201   gcc  
+arm64                 randconfig-002-20231201   gcc  
+arm64                 randconfig-003-20231201   gcc  
+arm64                 randconfig-004-20231201   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231201   gcc  
+csky                  randconfig-002-20231201   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231201   clang
+hexagon               randconfig-002-20231201   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231201   gcc  
+i386         buildonly-randconfig-002-20231201   gcc  
+i386         buildonly-randconfig-003-20231201   gcc  
+i386         buildonly-randconfig-004-20231201   gcc  
+i386         buildonly-randconfig-005-20231201   gcc  
+i386         buildonly-randconfig-006-20231201   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231201   gcc  
+i386                  randconfig-002-20231201   gcc  
+i386                  randconfig-003-20231201   gcc  
+i386                  randconfig-004-20231201   gcc  
+i386                  randconfig-005-20231201   gcc  
+i386                  randconfig-006-20231201   gcc  
+i386                  randconfig-011-20231201   clang
+i386                  randconfig-012-20231201   clang
+i386                  randconfig-013-20231201   clang
+i386                  randconfig-014-20231201   clang
+i386                  randconfig-015-20231201   clang
+i386                  randconfig-016-20231201   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231201   gcc  
+loongarch             randconfig-002-20231201   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+microblaze                      mmu_defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                           mtx1_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231201   gcc  
+nios2                 randconfig-002-20231201   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+openrisc                 simple_smp_defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231201   gcc  
+parisc                randconfig-002-20231201   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      arches_defconfig   gcc  
+powerpc                      ep88xc_defconfig   gcc  
+powerpc                        fsp2_defconfig   clang
+powerpc                  iss476-smp_defconfig   gcc  
+powerpc               randconfig-001-20231201   gcc  
+powerpc               randconfig-002-20231201   gcc  
+powerpc               randconfig-003-20231201   gcc  
+powerpc                  storcenter_defconfig   gcc  
+powerpc64             randconfig-001-20231201   gcc  
+powerpc64             randconfig-002-20231201   gcc  
+powerpc64             randconfig-003-20231201   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231201   gcc  
+riscv                 randconfig-002-20231201   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231201   clang
+s390                  randconfig-002-20231201   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                             espt_defconfig   gcc  
+sh                 kfr2r09-romimage_defconfig   gcc  
+sh                    randconfig-001-20231201   gcc  
+sh                    randconfig-002-20231201   gcc  
+sh                          rsk7201_defconfig   gcc  
+sh                        sh7763rdp_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231201   gcc  
+sparc64               randconfig-002-20231201   gcc  
+um                               alldefconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231201   gcc  
+um                    randconfig-002-20231201   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231201   gcc  
+x86_64       buildonly-randconfig-002-20231201   gcc  
+x86_64       buildonly-randconfig-003-20231201   gcc  
+x86_64       buildonly-randconfig-004-20231201   gcc  
+x86_64       buildonly-randconfig-005-20231201   gcc  
+x86_64       buildonly-randconfig-006-20231201   gcc  
+x86_64                              defconfig   gcc  
+x86_64                randconfig-001-20231201   clang
+x86_64                randconfig-002-20231201   clang
+x86_64                randconfig-003-20231201   clang
+x86_64                randconfig-004-20231201   clang
+x86_64                randconfig-005-20231201   clang
+x86_64                randconfig-006-20231201   clang
+x86_64                randconfig-011-20231201   gcc  
+x86_64                randconfig-012-20231201   gcc  
+x86_64                randconfig-013-20231201   gcc  
+x86_64                randconfig-014-20231201   gcc  
+x86_64                randconfig-015-20231201   gcc  
+x86_64                randconfig-016-20231201   gcc  
+x86_64                randconfig-071-20231201   gcc  
+x86_64                randconfig-072-20231201   gcc  
+x86_64                randconfig-073-20231201   gcc  
+x86_64                randconfig-074-20231201   gcc  
+x86_64                randconfig-075-20231201   gcc  
+x86_64                randconfig-076-20231201   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
+xtensa                  nommu_kc705_defconfig   gcc  
+xtensa                randconfig-001-20231201   gcc  
+xtensa                randconfig-002-20231201   gcc  
 
-#define REG_BCRM_DEVICE_FW_SPEC_VERSION_R		REG_BCRM_V4L2_8BIT(0x0010)
-#define REG_BCRM_DEVICE_FW_MAJOR_VERSION_R		REG_BCRM_V4L2_8BIT(0x0011)
-#define REG_BCRM_DEVICE_FW_MINOR_VERSION_R		REG_BCRM_V4L2_16BIT(0x0012)
-#define REG_BCRM_DEVICE_FW_PATCH_VERSION_R		REG_BCRM_V4L2_32BIT(0x0014)
-
-
-Then reading those values as a single values as you suggest:
-
-static int alvium_get_bcrm_vers(struct alvium_dev *alvium)
-{
-	struct device *dev = &alvium->i2c_client->dev;
-	u64 min, maj;
-	int ret = 0;
-
-	ret = alvium_read(alvium, REG_BCRM_MINOR_VERSION_R, &min, &ret);
-	ret = alvium_read(alvium, REG_BCRM_MAJOR_VERSION_R, &maj, &ret);
-	if (ret)
-		return ret;
-
-	dev_info(dev, "bcrm version: %llu.%llu\n", min, maj);
-
-	return 0;
-}
-
-static int alvium_get_fw_version(struct alvium_dev *alvium)
-{
-	struct device *dev = &alvium->i2c_client->dev;
-	u64 spec, maj, min, pat;
-	int ret = 0;
-
-	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_SPEC_VERSION_R, &spec, &ret);
-	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MAJOR_VERSION_R, &maj, &ret);
-	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MINOR_VERSION_R, &min, &ret);
-	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_PATCH_VERSION_R, &pat, &ret);
-	if (ret)
-		return ret;
-
-	dev_info(dev, "fw version: %llu.%llu.%llu.%llu\n", spec, maj, min, pat);
-
-	return 0;
-}
-
-Then I'm going to remove alvium_bcrm_vers and alvium_fw_vers.
-And alvium_is_alive became: 
-
-static int alvium_is_alive(struct alvium_dev *alvium)
-{
-	u64 bcrm, hbeat;
-	int ret = 0;
-
-	alvium_read(alvium, REG_BCRM_MINOR_VERSION_R, &bcrm, &ret);
-	alvium_read(alvium, REG_BCRM_HEARTBEAT_RW, &hbeat, &ret);
-	if (ret)
-		return ret;
-
-	return hbeat;
-}
-
-What do you think? Let me know.
-(Maybe is this that you are trying to explain me but I haven't catch,
-sorry) :)
-
-
-> 
-> > +
-> > +	dev_info(dev, "bcrm version: %u.%u\n", v->minor, v->major);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int alvium_get_fw_version(struct alvium_dev *alvium)
-> > +{
-> > +	struct device *dev = &alvium->i2c_client->dev;
-> > +	struct alvium_fw_vers *fw_v;
-> > +	u64 val;
-> > +	int ret;
-> > +
-> > +	ret = alvium_read(alvium, REG_BCRM_DEVICE_FIRMWARE_VERSION_R, &val, NULL);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	fw_v = (struct alvium_fw_vers *)&val;
-> 
-> Same here.
-> 
-> > +
-> > +	dev_info(dev, "fw version: %u.%u.%u.%u\n", fw_v->special, fw_v->major,
-> > +		 fw_v->minor, fw_v->patch);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int alvium_get_bcrm_addr(struct alvium_dev *alvium)
-> > +{
-> > +	u64 val;
-> > +	int ret;
-> > +
-> > +	ret = alvium_read(alvium, REG_BCRM_REG_ADDR_R, &val, NULL);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	alvium->bcrm_addr = val;
-> > +
-> > +	return 0;
-> > +}
-> 
-> ...
-> 
-> > +static int alvium_setup_mipi_fmt(struct alvium_dev *alvium)
-> > +{
-> > +	unsigned int avail_fmt_cnt = 0;
-> > +	unsigned int fmt = 0;
-> > +	size_t sz = 0;
-> > +
-> > +	alvium->alvium_csi2_fmt = NULL;
-> 
-> This seems to be unnnecessary: the field is assigned below without using it
-> (obviously).
-
-Ok, I will remove this in v15.
-
-> 
-> > +
-> > +	/* calculate fmt array size */
-> > +	for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
-> > +		if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
-> > +			continue;
-> > +
-> > +		if ((!alvium_csi2_fmts[fmt].is_raw) ||
-> > +		    (alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]))
-> > +			sz++;
-> > +	}
-> > +
-> > +	/* init alvium_csi2_fmt array */
-> > +	alvium->alvium_csi2_fmt_n = sz;
-> > +	alvium->alvium_csi2_fmt =
-> > +		kmalloc_array(sz, sizeof(struct alvium_pixfmt), GFP_KERNEL);
-> > +	if (!alvium->alvium_csi2_fmt)
-> > +		return -ENOMEM;
-> > +
-> > +	/* Create the alvium_csi2 fmt array from formats available */
-> > +	for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
-> > +		if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
-> > +			continue;
-> > +
-> > +		if ((!alvium_csi2_fmts[fmt].is_raw) ||
-> > +		    (alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit])) {
-> > +			alvium->alvium_csi2_fmt[avail_fmt_cnt] = alvium_csi2_fmts[fmt];
-> > +			avail_fmt_cnt++;
-> > +		}
-> > +	}
-> > +
-> > +	return 0;
-> > +}
-> 
-> ...
-> 
-> > +static const struct alvium_pixfmt *
-> > +alvium_code_to_pixfmt(struct alvium_dev *alvium, u32 code)
-> > +{
-> > +	const struct alvium_pixfmt *formats = alvium->alvium_csi2_fmt;
-> 
-> I'd use alvium->alvium_csi2_fmt and not add a local variable. Up to you.
-
-Ok also for me.
-
-> 
-> > +	unsigned int i;
-> > +
-> > +	for (i = 0; formats[i].code; ++i)
-> > +		if (formats[i].code == code)
-> > +			return &formats[i];
-> > +
-> > +	return &formats[0];
-> > +}
-> > +
-> > +static int alvium_set_mode(struct alvium_dev *alvium,
-> > +			   struct v4l2_subdev_state *state)
-> > +{
-> > +	struct v4l2_mbus_framefmt *fmt;
-> > +	struct v4l2_rect *crop;
-> > +	int ret;
-> > +
-> > +	crop = v4l2_subdev_state_get_crop(state, 0);
-> > +	fmt = v4l2_subdev_state_get_format(state, 0);
-> > +
-> > +	v4l_bound_align_image(&fmt->width, alvium->img_min_width,
-> > +			      alvium->img_max_width, 0,
-> > +			      &fmt->height, alvium->img_min_height,
-> > +			      alvium->img_max_height, 0, 0);
-> > +
-> > +	/* alvium don't accept negative crop left/top */
-> > +	crop->left = clamp((u32)max(0, crop->left), alvium->min_offx,
-> > +			   (u32)(alvium->img_max_width - fmt->width));
-> > +	crop->top = clamp((u32)max(0, crop->top), alvium->min_offy,
-> > +			  (u32)(alvium->img_max_height - fmt->height));
-> > +
-> > +	ret = alvium_set_img_width(alvium, fmt->width);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = alvium_set_img_height(alvium, fmt->height);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = alvium_set_img_offx(alvium, crop->left);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = alvium_set_img_offy(alvium, crop->top);
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	return 0;
-> > +}
-
-I'm going to rebase v15 on top of your master branch.
-My plan is moving alvium_init_cfg now alvium_init_state into
-v4l2_subdev_internal_ops.
-
-
-Thanks & Regards,
-Tommaso
-
-> 
-> -- 
-> Kind regards,
-> 
-> Sakari Ailus
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
