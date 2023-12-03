@@ -1,133 +1,107 @@
-Return-Path: <linux-media+bounces-1509-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1510-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F6F80259F
-	for <lists+linux-media@lfdr.de>; Sun,  3 Dec 2023 17:46:59 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0ABB8025CF
+	for <lists+linux-media@lfdr.de>; Sun,  3 Dec 2023 18:00:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4922C280E32
-	for <lists+linux-media@lfdr.de>; Sun,  3 Dec 2023 16:46:58 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0BBC11C208DB
+	for <lists+linux-media@lfdr.de>; Sun,  3 Dec 2023 17:00:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EAA315AE4;
-	Sun,  3 Dec 2023 16:46:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10EB1168B4;
+	Sun,  3 Dec 2023 17:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="NfbBxYC6"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="k9fwLMPl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.treblig.org (mx.treblig.org [IPv6:2a00:1098:5b::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C3C1D9
-	for <linux-media@vger.kernel.org>; Sun,  3 Dec 2023 08:46:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID
-	:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID
-	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
-	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
-	:List-Post:List-Owner:List-Archive;
-	bh=AJkb4GVvtRjzkLLIIe/Ye571aABj7mhdVAX0XG+nPi4=; b=NfbBxYC6QxWBlAqcLEgMR9+Fid
-	AUxSA/46XeninItxVejwhrvrZ24XFBMG8uYe83kSPiuNSiqwXAuj2uwPudz89ArpXepEJS+Z4D+to
-	3a2hjxCOFgoKYwNuuqFTFvya0COarjg6ks5slbTH8O7/HucEIjHivRFtM19IkHElIxWs4pKhYw+X7
-	nOAjq2FufTH1VUXUGQNMAaR88aWOjHArIZcAhjwig/OZQFe92v4Zic7L9Fd66KbwDVTQRCrJPrwOi
-	ZxDQv+y/5PvsXTijq2SHoDEFqa2Kc0vBP0GaUH5QvtFzo0kv26QKvRlzCr0NwRf075m2N34VIIY1v
-	DyA3ogAQ==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1r9pcE-00C16B-2H;
-	Sun, 03 Dec 2023 16:46:46 +0000
-Date: Sun, 3 Dec 2023 16:46:46 +0000
-From: "Dr. David Alan Gilbert" <dave@treblig.org>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, a.j.buxton@gmail.com
-Cc: linux-media@vger.kernel.org,
-	Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: Re: [PATCH 3/3] media: videobuf2: request more buffers for vb2_read
-Message-ID: <ZWyw9us9hvj9X4gF@gallifrey>
-References: <cover.1701349092.git.hverkuil-cisco@xs4all.nl>
- <86ad4808718ff07ab8ac64b62170b789c16b2581.1701349092.git.hverkuil-cisco@xs4all.nl>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C288EB
+	for <linux-media@vger.kernel.org>; Sun,  3 Dec 2023 08:59:55 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 15A2D149B;
+	Sun,  3 Dec 2023 17:59:14 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701622754;
+	bh=Wll7qA2nBllPjDux3ZIC+rA/HpAF7oXRAYjRWwWyufw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=k9fwLMPlu26j9n6YEs+kkObh2xcTKF1+O5WFahMbsLv+jSyibsYe5c+gygjSzBl8e
+	 EqOQJx0KS7P+wNLSMpXTfy6hBH7IXM6ue6EtiiCTHv/sOL4Jsn3L7bgecp3X+o9JHS
+	 vdCRV+196ocsZ6niQ91jjKNXumrO0XM1Ojlpzmlc=
+Date: Sun, 3 Dec 2023 18:59:59 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Marek Vasut <marex@denx.de>
+Cc: linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH] media: nxp: isi: Check whether pad is non-NULL before
+ access
+Message-ID: <20231203165959.GA22111@pendragon.ideasonboard.com>
+References: <20231201150614.63300-1-marex@denx.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <86ad4808718ff07ab8ac64b62170b789c16b2581.1701349092.git.hverkuil-cisco@xs4all.nl>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-12-amd64 (x86_64)
-X-Uptime: 16:44:51 up 78 days, 19:43,  1 user,  load average: 0.00, 0.00, 0.00
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <20231201150614.63300-1-marex@denx.de>
 
-* Hans Verkuil (hverkuil-cisco@xs4all.nl) wrote:
-> The vb2 read support requests 1 buffer, leaving it to the driver
-> to increase this number to something that works.
-> 
-> Unfortunately, drivers do not deal with this reliably, and in fact
-> this caused problems for the bttv driver and reading from /dev/vbiX,
-> causing every other VBI frame to be all 0.
-> 
-> Instead, request as the number of buffers whatever is the maximum of
-> 2 and q->min_buffers_needed+1.
-> 
-> In order to start streaming you need at least q->min_buffers_needed
-> queued buffers, so add 1 buffer for processing. And if that field
-> is 0, then choose 2 (again, one buffer is being filled while the
-> other one is being processed).
-> 
-> This certainly makes more sense than requesting just 1 buffer, and
-> the VBI bttv support is now working again.
-> 
-> It turns out that the old videobuf1 behavior of bttv was to allocate
-> 8 (video) and 4 (vbi) buffers when used with read(). After the vb2
-> conversion that changed to 2 for both. With this patch it is 3, which
-> is really all you need.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Fixes: b7ec3212a73a ("media: bttv: convert to vb2")
+Hi Marek,
 
-This looks like it's working nicely;  I've tested it with both
-Alistair's test stream and a real signal, and I'm getting
-a consistent 25fps out of the VBI with or without xawtv
-grabbing, and the test stream looks good to me.
+Thank you for the patch.
 
-So,
+On Fri, Dec 01, 2023 at 04:06:04PM +0100, Marek Vasut wrote:
+> The pad can be NULL if media controller routing is not set up correctly.
+> Check whether the pad is NULL before using it, otherwise it is possible
+> to achieve NULL pointer dereference.
 
-Tested-by: Dr. David Alan Gilbert <dave@treblig.org>
+Could you share more information about how to misconfigure the routing ?
 
-Thanks for fixing this!
-
-Dave
-
+> Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
+> Signed-off-by: Marek Vasut <marex@denx.de>
 > ---
->  drivers/media/common/videobuf2/videobuf2-core.c | 9 +++++++--
->  1 file changed, 7 insertions(+), 2 deletions(-)
+> Cc: Fabio Estevam <festevam@gmail.com>
+> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: NXP Linux Team <linux-imx@nxp.com>
+> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+> Cc: Sascha Hauer <s.hauer@pengutronix.de>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-media@vger.kernel.org
+> ---
+>  drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c | 8 +++++++-
+>  1 file changed, 7 insertions(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 8c1df829745b..40d89f29fa33 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -2735,9 +2735,14 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
->  		return -EBUSY;
+> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> index 792f031e032ae..44354931cf8a1 100644
+> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
+> @@ -160,8 +160,14 @@ mxc_isi_crossbar_xlate_streams(struct mxc_isi_crossbar *xbar,
+>  	}
 >  
->  	/*
-> -	 * Start with count 1, driver can increase it in queue_setup()
-> +	 * Start with q->min_buffers_needed + 1, driver can increase it in
-> +	 * queue_setup()
-> +	 *
-> +	 * 'min_buffers_needed' buffers need to be queued up before you
-> +	 * can start streaming, plus 1 for userspace (or in this case,
-> +	 * kernelspace) processing.
->  	 */
-> -	count = 1;
-> +	count = max(2, q->min_buffers_needed + 1);
+>  	pad = media_pad_remote_pad_first(&xbar->pads[sink_pad]);
+> -	sd = media_entity_to_v4l2_subdev(pad->entity);
+> +	if (!pad) {
+> +		dev_dbg(xbar->isi->dev,
+> +			"no pad connected to crossbar input %u\n",
+> +			sink_pad);
+> +		return ERR_PTR(-EPIPE);
+> +	}
 >  
->  	dprintk(q, 3, "setting up file io: mode %s, count %d, read_once %d, write_immediately %d\n",
->  		(read) ? "read" : "write", count, q->fileio_read_once,
-> -- 
-> 2.42.0
-> 
+> +	sd = media_entity_to_v4l2_subdev(pad->entity);
+>  	if (!sd) {
+>  		dev_dbg(xbar->isi->dev,
+>  			"no entity connected to crossbar input %u\n",
+
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Regards,
+
+Laurent Pinchart
 
