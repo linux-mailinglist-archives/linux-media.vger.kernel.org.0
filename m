@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-1508-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1509-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B1B7802559
-	for <lists+linux-media@lfdr.de>; Sun,  3 Dec 2023 17:17:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2F6F80259F
+	for <lists+linux-media@lfdr.de>; Sun,  3 Dec 2023 17:46:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11789280E04
-	for <lists+linux-media@lfdr.de>; Sun,  3 Dec 2023 16:17:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4922C280E32
+	for <lists+linux-media@lfdr.de>; Sun,  3 Dec 2023 16:46:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7257015AC8;
-	Sun,  3 Dec 2023 16:17:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EAA315AE4;
+	Sun,  3 Dec 2023 16:46:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="SyLQnzd2"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="NfbBxYC6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx.treblig.org (mx.treblig.org [IPv6:2a00:1098:5b::1])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C843AB6
-	for <linux-media@vger.kernel.org>; Sun,  3 Dec 2023 08:17:34 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C3C1D9
+	for <linux-media@vger.kernel.org>; Sun,  3 Dec 2023 08:46:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
 	; s=bytemarkmx; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID
 	:Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID
 	:Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:
 	Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe
 	:List-Post:List-Owner:List-Archive;
-	bh=GtjvlowD4clEU/GY/DczAXjR86cG0CYDXUccAvsvfLc=; b=SyLQnzd2efj6snRBbqBTAr7L89
-	M75v/jiBSw5J0/magbgHXMoU1yPT4uWcqFCS7OPXYjsHYSbYsRkDfvGUxovMDG8XTciZnJQ9XjWJh
-	cn42rLRb8CZpeCm2hwPDgpcbA6wvzNfwL2LHQvUGUH7J+u4vR8mg+0Er4R08QZKtrBcJPUdFbBWxv
-	JPhW7QPpeBBGGqpe3AFaQeFJXodHTAkVTWzPeh5rjZ/1jPKGhJq1VcLptJvvTcMUidjl/SA9A2C/k
-	GHCU1TsEWU3d4/+yGN/ewebB19UTg8SeXaW91GIYcoJHd9pfnDma1BLZ04ygAYDV7k3w5tT/ozyeN
-	P2uyRUfA==;
+	bh=AJkb4GVvtRjzkLLIIe/Ye571aABj7mhdVAX0XG+nPi4=; b=NfbBxYC6QxWBlAqcLEgMR9+Fid
+	AUxSA/46XeninItxVejwhrvrZ24XFBMG8uYe83kSPiuNSiqwXAuj2uwPudz89ArpXepEJS+Z4D+to
+	3a2hjxCOFgoKYwNuuqFTFvya0COarjg6ks5slbTH8O7/HucEIjHivRFtM19IkHElIxWs4pKhYw+X7
+	nOAjq2FufTH1VUXUGQNMAaR88aWOjHArIZcAhjwig/OZQFe92v4Zic7L9Fd66KbwDVTQRCrJPrwOi
+	ZxDQv+y/5PvsXTijq2SHoDEFqa2Kc0vBP0GaUH5QvtFzo0kv26QKvRlzCr0NwRf075m2N34VIIY1v
+	DyA3ogAQ==;
 Received: from dg by mx.treblig.org with local (Exim 4.96)
 	(envelope-from <dg@treblig.org>)
-	id 1r9p9w-00C0xp-04;
-	Sun, 03 Dec 2023 16:17:32 +0000
-Date: Sun, 3 Dec 2023 16:17:31 +0000
+	id 1r9pcE-00C16B-2H;
+	Sun, 03 Dec 2023 16:46:46 +0000
+Date: Sun, 3 Dec 2023 16:46:46 +0000
 From: "Dr. David Alan Gilbert" <dave@treblig.org>
 To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, a.j.buxton@gmail.com
 Cc: linux-media@vger.kernel.org,
 	Deborah Brouwer <deborah.brouwer@collabora.com>
-Subject: Re: [PATCH 2/3] media: bttv: add back vbi hack
-Message-ID: <ZWyqG2XEYrYUB7X_@gallifrey>
+Subject: Re: [PATCH 3/3] media: videobuf2: request more buffers for vb2_read
+Message-ID: <ZWyw9us9hvj9X4gF@gallifrey>
 References: <cover.1701349092.git.hverkuil-cisco@xs4all.nl>
- <16f3b2a896e2a3788e8e33ab7a0e55cbad4bbd81.1701349092.git.hverkuil-cisco@xs4all.nl>
+ <86ad4808718ff07ab8ac64b62170b789c16b2581.1701349092.git.hverkuil-cisco@xs4all.nl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,69 +51,77 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <16f3b2a896e2a3788e8e33ab7a0e55cbad4bbd81.1701349092.git.hverkuil-cisco@xs4all.nl>
+In-Reply-To: <86ad4808718ff07ab8ac64b62170b789c16b2581.1701349092.git.hverkuil-cisco@xs4all.nl>
 X-Chocolate: 70 percent or better cocoa solids preferably
 X-Operating-System: Linux/6.1.0-12-amd64 (x86_64)
-X-Uptime: 16:16:43 up 78 days, 19:15,  1 user,  load average: 0.00, 0.00, 0.00
+X-Uptime: 16:44:51 up 78 days, 19:43,  1 user,  load average: 0.00, 0.00, 0.00
 User-Agent: Mutt/2.2.12 (2023-09-09)
 
 * Hans Verkuil (hverkuil-cisco@xs4all.nl) wrote:
-> The old (now removed) videobuf framework had an optional vbi hack where
-> the sequence number of the frame counter was copied in the last 4 bytes
-> of the buffer. This hack was active only for the read() interface
-> (so not for streaming I/O), and it was enabled by bttv. This allowed
-> applications that used read() for the VBI data to match it with the
-> corresponding video frame.
+> The vb2 read support requests 1 buffer, leaving it to the driver
+> to increase this number to something that works.
 > 
-> When bttv was converted to vb2 this hack was forgotten, but some old
-> applications rely on this.
+> Unfortunately, drivers do not deal with this reliably, and in fact
+> this caused problems for the bttv driver and reading from /dev/vbiX,
+> causing every other VBI frame to be all 0.
 > 
-> So add this back, but this time in the bttv driver rather than in the
-> vb2 framework.
+> Instead, request as the number of buffers whatever is the maximum of
+> 2 and q->min_buffers_needed+1.
+> 
+> In order to start streaming you need at least q->min_buffers_needed
+> queued buffers, so add 1 buffer for processing. And if that field
+> is 0, then choose 2 (again, one buffer is being filled while the
+> other one is being processed).
+> 
+> This certainly makes more sense than requesting just 1 buffer, and
+> the VBI bttv support is now working again.
+> 
+> It turns out that the old videobuf1 behavior of bttv was to allocate
+> 8 (video) and 4 (vbi) buffers when used with read(). After the vb2
+> conversion that changed to 2 for both. With this patch it is 3, which
+> is really all you need.
 > 
 > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > Fixes: b7ec3212a73a ("media: bttv: convert to vb2")
 
-Thanks; this seems to fix the sequence number errors I was getting,
-so:
+This looks like it's working nicely;  I've tested it with both
+Alistair's test stream and a real signal, and I'm getting
+a consistent 25fps out of the VBI with or without xawtv
+grabbing, and the test stream looks good to me.
+
+So,
+
 Tested-by: Dr. David Alan Gilbert <dave@treblig.org>
 
+Thanks for fixing this!
+
+Dave
+
 > ---
->  drivers/media/pci/bt8xx/bttv-driver.c | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
+>  drivers/media/common/videobuf2/videobuf2-core.c | 9 +++++++--
+>  1 file changed, 7 insertions(+), 2 deletions(-)
 > 
-> diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
-> index 8e8c9dada67a..49a3dd70ec0f 100644
-> --- a/drivers/media/pci/bt8xx/bttv-driver.c
-> +++ b/drivers/media/pci/bt8xx/bttv-driver.c
-> @@ -2772,6 +2772,27 @@ bttv_irq_wakeup_vbi(struct bttv *btv, struct bttv_buffer *wakeup,
->  		return;
->  	wakeup->vbuf.vb2_buf.timestamp = ktime_get_ns();
->  	wakeup->vbuf.sequence = btv->field_count >> 1;
-> +
-> +	/*
-> +	 * Ugly hack for backwards compatibility.
-> +	 * Some applications expect that the last 4 bytes of
-> +	 * the VBI data contains the sequence number.
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 8c1df829745b..40d89f29fa33 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -2735,9 +2735,14 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>  		return -EBUSY;
+>  
+>  	/*
+> -	 * Start with count 1, driver can increase it in queue_setup()
+> +	 * Start with q->min_buffers_needed + 1, driver can increase it in
+> +	 * queue_setup()
 > +	 *
-> +	 * This makes it possible to associate the VBI data
-> +	 * with the video frame if you use read() to get the
-> +	 * VBI data.
-> +	 */
-> +	if (vb2_fileio_is_active(wakeup->vbuf.vb2_buf.vb2_queue)) {
-> +		u32 *vaddr = vb2_plane_vaddr(&wakeup->vbuf.vb2_buf, 0);
-> +		unsigned long size =
-> +			vb2_get_plane_payload(&wakeup->vbuf.vb2_buf, 0) / 4;
-> +
-> +		if (vaddr && size) {
-> +			vaddr += size - 1;
-> +			*vaddr = wakeup->vbuf.sequence;
-> +		}
-> +	}
-> +
->  	vb2_buffer_done(&wakeup->vbuf.vb2_buf, state);
->  	if (btv->field_count == 0)
->  		btor(BT848_INT_VSYNC, BT848_INT_MASK);
+> +	 * 'min_buffers_needed' buffers need to be queued up before you
+> +	 * can start streaming, plus 1 for userspace (or in this case,
+> +	 * kernelspace) processing.
+>  	 */
+> -	count = 1;
+> +	count = max(2, q->min_buffers_needed + 1);
+>  
+>  	dprintk(q, 3, "setting up file io: mode %s, count %d, read_once %d, write_immediately %d\n",
+>  		(read) ? "read" : "write", count, q->fileio_read_once,
 > -- 
 > 2.42.0
 > 
