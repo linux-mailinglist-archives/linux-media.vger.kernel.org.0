@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-1561-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1562-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8DD080347F
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:24:08 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D0300803481
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:24:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6E7BA1F21053
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:24:08 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 55610B20B08
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:24:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA65A250F9;
-	Mon,  4 Dec 2023 13:23:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E9AE24B5B;
+	Mon,  4 Dec 2023 13:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RQhD8+PK"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DRrAzwNQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7807C4;
-	Mon,  4 Dec 2023 05:23:46 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9A92D2;
+	Mon,  4 Dec 2023 05:23:48 -0800 (PST)
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id BFC276602026;
-	Mon,  4 Dec 2023 13:23:44 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 275526602020;
+	Mon,  4 Dec 2023 13:23:47 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701696225;
-	bh=Dywo70CQG363NbYL8uLIRlzPbx56pDtvUEKi675FEes=;
+	s=mail; t=1701696227;
+	bh=jON8BOdCAHEK/Xd0Dl3W1Jb3UXgsTiGXSbXsYdLJdIY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RQhD8+PKDoxYdoPM4Ao1lagEw4nKvvEQJorzb4rCzzTZtgUARwzbUeralYHdgJu0j
-	 lN9R+DCAN7FbZamZnn+YIJvE/IbgyM/egma+s9RcVmF+w07BkZQvseYPKntPS+Zvyt
-	 YDMD/Lwx+Kp/xMe9H7361+qBQHdt+KU7ZLVeAZ9WvkJi8/cBmG78hFKTteBWQIwkxR
-	 6mDdqwHuNIk7UceZdtv8j35Br69iXMeWZkJPvPQvtoSpeVP5D5O0MDQdfZ93S9hbeQ
-	 zPDyOACJlcJaQiZrwCmPPdAp7vocEuT7RHlYOj+z81pUm2P6jisNZD/eJlb8og+0yZ
-	 9OLTh1x4wHtZg==
+	b=DRrAzwNQiG4aTqwGt24i0ROd0oGyvYIvQoLFxdhV2VVgvYsljYfEhYcQkBslVXJig
+	 ZSEOGDiKkbaKKqcfCpQsALuYmKrRM6y9U9ZTrKCpTvLi+/vIBEdDcE3xTiRvzTO/Lh
+	 d7Ngg6cYlsOqWbNqxL0N4oxbdBCnE68dzmZkAWfewpr22zpU9Z2K5jAuajOlnyj5ZS
+	 bNHQuVPYCMi1o16ue5fP/0IY9xUdvQIEmC0C2WTNaGdkeNDB9nL12p5D15uE/ixo2i
+	 vwbFEwI5bya62nzVGDU1WcTBJo2a+38rG0nvQUeCy9MEyQ76ao8B2lIuN88juzYftp
+	 WglNxhx/vKSbw==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -45,17 +45,10 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Stanimir Varbanov <stanimir.k.varbanov@gmail.com>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-	Andy Gross <agross@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konrad.dybcio@linaro.org>,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH v2 05/36] media: qcom: venus: Remove useless setting of min_buffers_needed
-Date: Mon,  4 Dec 2023 14:22:52 +0100
-Message-Id: <20231204132323.22811-6-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 06/36] media: i2c: video-i2c: Remove useless setting of min_buffers_needed
+Date: Mon,  4 Dec 2023 14:22:53 +0100
+Message-Id: <20231204132323.22811-7-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
 References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
@@ -74,58 +67,22 @@ it can stream fine without any buffers queued.
 Just drop this unnecessary restriction.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Stanimir Varbanov <stanimir.k.varbanov@gmail.com> (maintainer:QUALCOMM VENUS VIDEO ACCELERATOR DRIVER)
-CC: Vikash Garodia <quic_vgarodia@quicinc.com> (maintainer:QUALCOMM VENUS VIDEO ACCELERATOR DRIVER)
-CC: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org> (reviewer:QUALCOMM VENUS VIDEO ACCELERATOR DRIVER)
-CC: Andy Gross <agross@kernel.org> (maintainer:ARM/QUALCOMM SUPPORT)
-CC: Bjorn Andersson <andersson@kernel.org> (maintainer:ARM/QUALCOMM SUPPORT)
-CC: Konrad Dybcio <konrad.dybcio@linaro.org> (maintainer:ARM/QUALCOMM SUPPORT)
-CC: linux-arm-msm@vger.kernel.org
 ---
- drivers/media/platform/qcom/venus/vdec.c | 2 --
- drivers/media/platform/qcom/venus/venc.c | 2 --
- 2 files changed, 4 deletions(-)
+ drivers/media/i2c/video-i2c.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-index dbf305cec120..8bdffe546219 100644
---- a/drivers/media/platform/qcom/venus/vdec.c
-+++ b/drivers/media/platform/qcom/venus/vdec.c
-@@ -1641,7 +1641,6 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
- 	src_vq->drv_priv = inst;
- 	src_vq->buf_struct_size = sizeof(struct venus_buffer);
- 	src_vq->allow_zero_bytesused = 1;
--	src_vq->min_buffers_needed = 0;
- 	src_vq->dev = inst->core->dev;
- 	src_vq->lock = &inst->ctx_q_lock;
- 	ret = vb2_queue_init(src_vq);
-@@ -1656,7 +1655,6 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->drv_priv = inst;
- 	dst_vq->buf_struct_size = sizeof(struct venus_buffer);
- 	dst_vq->allow_zero_bytesused = 1;
--	dst_vq->min_buffers_needed = 0;
- 	dst_vq->dev = inst->core->dev;
- 	dst_vq->lock = &inst->ctx_q_lock;
- 	return vb2_queue_init(dst_vq);
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 44b13696cf82..f2e6bd44ed15 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -1398,7 +1398,6 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
- 	src_vq->drv_priv = inst;
- 	src_vq->buf_struct_size = sizeof(struct venus_buffer);
- 	src_vq->allow_zero_bytesused = 1;
--	src_vq->min_buffers_needed = 1;
- 	src_vq->dev = inst->core->dev;
- 	src_vq->lock = &inst->ctx_q_lock;
- 	if (inst->core->res->hfi_version == HFI_VERSION_1XX)
-@@ -1415,7 +1414,6 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->drv_priv = inst;
- 	dst_vq->buf_struct_size = sizeof(struct venus_buffer);
- 	dst_vq->allow_zero_bytesused = 1;
--	dst_vq->min_buffers_needed = 1;
- 	dst_vq->dev = inst->core->dev;
- 	dst_vq->lock = &inst->ctx_q_lock;
- 	return vb2_queue_init(dst_vq);
+diff --git a/drivers/media/i2c/video-i2c.c b/drivers/media/i2c/video-i2c.c
+index ebf2ac98a068..8d7f01b50aa7 100644
+--- a/drivers/media/i2c/video-i2c.c
++++ b/drivers/media/i2c/video-i2c.c
+@@ -795,7 +795,6 @@ static int video_i2c_probe(struct i2c_client *client)
+ 	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	queue->drv_priv = data;
+ 	queue->buf_struct_size = sizeof(struct video_i2c_buffer);
+-	queue->min_buffers_needed = 1;
+ 	queue->ops = &video_i2c_video_qops;
+ 	queue->mem_ops = &vb2_vmalloc_memops;
+ 
 -- 
 2.39.2
 
