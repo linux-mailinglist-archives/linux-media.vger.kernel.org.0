@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-1574-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1575-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F25C0803499
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:25:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B214680349C
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:25:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9C31F1F20FF8
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:25:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E4B8C1C20968
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:25:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F7EA25764;
-	Mon,  4 Dec 2023 13:24:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD3D325105;
+	Mon,  4 Dec 2023 13:24:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Q16SfkSU"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ItkreTcL"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E0151134;
-	Mon,  4 Dec 2023 05:24:08 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31E3619D;
+	Mon,  4 Dec 2023 05:24:10 -0800 (PST)
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 362426607090;
-	Mon,  4 Dec 2023 13:24:07 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8B87766072E6;
+	Mon,  4 Dec 2023 13:24:08 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701696247;
-	bh=nXea1hVd1CLJC4QjmTPo1Qmgjq3TpB25wTNYX2076fw=;
+	s=mail; t=1701696249;
+	bh=cSCDQ8wlrHHxZIMdX6yERM4DP0+7F96unl/YfCpM+80=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Q16SfkSUODOUuv0aRr1a3vsuwi50wG5boYx5dbxzV+1JktEOinEGm2IbRY9SpbKIV
-	 uM2jMqTnnGkJTXKKIa8mKU7hq6w1abgA7+HUszwqS82ybLLjoXljwQygr7sorOQRB7
-	 KZwGn6pABnYlJv7ayfvX9QB860fC9ChvBaocsCayHnHRWp4AJE6RWCnPzPBxda0HHt
-	 vnVWvcjjNz7i1wyRuKe2qbBTVG9/qsj5O/UOfArfMDW43kU60C6gjjfNL3VH36Cp9Y
-	 BLJsRd8531dND0h9nAJRsyvud+k5/sVWisQpOXTHzV/objUYPOyC4YM4mU6wdBvTA6
-	 kz5tfeY4HaeOg==
+	b=ItkreTcLbIUWjrggv+eBydLFkXe5BAIpJoa2R/UzOo0kch36mgtQE5M7SmUk2KbUi
+	 Ml9N0D2Z+myIvIoFBmd61zoLNXl33ivazxw/vaDFXAh60T1/hJzvVN7zxianSIYtvN
+	 0KkH/xOHVYfzHE/H85y4sANcUJdLU5eGR9pTsbWz8alHpX+NcrldS7oZLk8ooaxDjf
+	 OJsG7qvi0VMLggkv1csdCGLIIvtCrnARMFcctD6IZaGSL3cgSk4wppqIrYKQsRLH7Q
+	 ZWGkjaYqQ/KUtcsAZfJCnu1K5lNXr114+PC7CHbadgq8OGvnSvheAjP5DEBGPFzGB/
+	 a/Yqt3ouhA81w==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -45,11 +45,10 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Michael Krufky <mkrufky@linuxtv.org>
-Subject: [PATCH v2 18/36] media: usb: dvb-usb: cxusb-analog: Fix misuse of min_buffers_needed field
-Date: Mon,  4 Dec 2023 14:23:05 +0100
-Message-Id: <20231204132323.22811-19-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 19/36] media: usb: gspca: Fix misuse of min_buffers_needed field
+Date: Mon,  4 Dec 2023 14:23:06 +0100
+Message-Id: <20231204132323.22811-20-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
 References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
@@ -63,29 +62,46 @@ Content-Transfer-Encoding: 8bit
 
 'min_buffers_needed' is suppose to be used to indicate the number
 of buffers needed by DMA engine to start streaming.
-cxusb-analog driver doesn't use DMA engine and just want to specify
+gspca driver doesn't use DMA engine and just want to specify
 the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
 That 'min_reqbufs_allocation' field purpose so use it.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Michael Krufky <mkrufky@linuxtv.org>
 ---
- drivers/media/usb/dvb-usb/cxusb-analog.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/usb/gspca/gspca.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/media/usb/dvb-usb/cxusb-analog.c b/drivers/media/usb/dvb-usb/cxusb-analog.c
-index deba5224cb8d..a038d97dd62e 100644
---- a/drivers/media/usb/dvb-usb/cxusb-analog.c
-+++ b/drivers/media/usb/dvb-usb/cxusb-analog.c
-@@ -1632,7 +1632,7 @@ static int cxusb_medion_register_analog_video(struct dvb_usb_device *dvbdev)
- 	cxdev->videoqueue.buf_struct_size =
- 		sizeof(struct cxusb_medion_vbuffer);
- 	cxdev->videoqueue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--	cxdev->videoqueue.min_buffers_needed = 6;
-+	cxdev->videoqueue.min_reqbufs_allocation = 6;
- 	cxdev->videoqueue.lock = &cxdev->dev_lock;
+diff --git a/drivers/media/usb/gspca/gspca.c b/drivers/media/usb/gspca/gspca.c
+index 770714c34295..7b701275f76d 100644
+--- a/drivers/media/usb/gspca/gspca.c
++++ b/drivers/media/usb/gspca/gspca.c
+@@ -1257,7 +1257,7 @@ static int vidioc_g_parm(struct file *filp, void *priv,
+ {
+ 	struct gspca_dev *gspca_dev = video_drvdata(filp);
  
- 	ret = vb2_queue_init(&cxdev->videoqueue);
+-	parm->parm.capture.readbuffers = gspca_dev->queue.min_buffers_needed;
++	parm->parm.capture.readbuffers = gspca_dev->queue.min_reqbufs_allocation;
+ 
+ 	if (!gspca_dev->sd_desc->get_streamparm)
+ 		return 0;
+@@ -1273,7 +1273,7 @@ static int vidioc_s_parm(struct file *filp, void *priv,
+ {
+ 	struct gspca_dev *gspca_dev = video_drvdata(filp);
+ 
+-	parm->parm.capture.readbuffers = gspca_dev->queue.min_buffers_needed;
++	parm->parm.capture.readbuffers = gspca_dev->queue.min_reqbufs_allocation;
+ 
+ 	if (!gspca_dev->sd_desc->set_streamparm) {
+ 		parm->parm.capture.capability = 0;
+@@ -1517,7 +1517,7 @@ int gspca_dev_probe2(struct usb_interface *intf,
+ 	q->ops = &gspca_qops;
+ 	q->mem_ops = &vb2_vmalloc_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_buffers_needed = 2;
++	q->min_reqbufs_allocation = 2;
+ 	q->lock = &gspca_dev->usb_lock;
+ 	ret = vb2_queue_init(q);
+ 	if (ret)
 -- 
 2.39.2
 
