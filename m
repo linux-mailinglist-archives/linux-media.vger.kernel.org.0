@@ -1,358 +1,679 @@
-Return-Path: <linux-media+bounces-1592-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1593-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AC7480350D
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:36:35 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C47880352C
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:39:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D233B2810AB
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:36:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6FAD01C20AF6
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:39:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA5E525114;
-	Mon,  4 Dec 2023 13:36:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3147C25555;
+	Mon,  4 Dec 2023 13:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="C3yEGz1A"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 803A61728;
+	Mon,  4 Dec 2023 05:39:35 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48B4C249ED
-	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 13:36:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50833C433C9;
-	Mon,  4 Dec 2023 13:36:25 +0000 (UTC)
-Message-ID: <554fe06a-2c70-4d6b-abed-305a27972fb8@xs4all.nl>
-Date: Mon, 4 Dec 2023 14:36:23 +0100
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 61BDC6607090;
+	Mon,  4 Dec 2023 13:39:32 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701697174;
+	bh=zab2+gIouwIIrR/jbmb5javdyyicwi0wlU6M2LP0J9A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=C3yEGz1AtsCUnmpYiP7RLQXkPIce0mD2t6t13sSe+HsAsgmtqTIsHHlJTq9Cjr8UB
+	 yxd+/D5gj5vb/Q2Xn2xa/+Cm0dSm+QmKtPLNGHpqnZMBbntWdcJQcQnQY/c1DElN36
+	 GH8ZIKXJhoJ/XIEihNuqnJtaTlHcrzZrQwvP7DIh7QVCY5yZfy+oJQYdzonOdHwXGc
+	 Snums99MRWSrOz6lMgX7YhAV3hz/kHb2QGEZUTVyKOB+7Df6/JcVwXGX+3Upe7tfR3
+	 dJZQzdA3SrxkcBOtex3l6FhtjXub9TqfPvKqNqOfukHfFro2aXICKFeDSdcw3g6ixZ
+	 zjuwSHAqyBe6g==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org,
+	tfiga@chromium.org,
+	m.szyprowski@samsung.com,
+	matt.ranostay@konsulko.com
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>,
+	Hugues Fruchet <hugues.fruchet@foss.st.com>,
+	linux-stm32@st-md-mailman.stormreply.com,
+	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	linux-renesas-soc@vger.kernel.org,
+	Andy Walls <awalls@md.metrocast.net>,
+	Martin Tuma <martin.tuma@digiteqautomotive.com>,
+	Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
+	Anton Sviridenko <anton@corp.bluecherry.net>,
+	Andrey Utkin <andrey.utkin@corp.bluecherry.net>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Corentin Labbe <clabbe@baylibre.com>,
+	mjpeg-users@lists.sourceforge.net,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-amlogic@lists.infradead.org
+Subject: [PATCH v2 36/36] videobuf2: core: Rename min_buffers_needed field to vb2_queue
+Date: Mon,  4 Dec 2023 14:39:20 +0100
+Message-Id: <20231204133920.23930-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 16/28] media: v4l: subdev: Add len_routes field to
- struct v4l2_subdev_routing
-Content-Language: en-US, nl
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- tomi.valkeinen@ideasonboard.com, bingbu.cao@intel.com,
- hongju.wang@intel.com, Andrey Konovalov <andrey.konovalov@linaro.org>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Dmitry Perchanov <dmitry.perchanov@intel.com>,
- "Ng, Khai Wen" <khai.wen.ng@intel.com>
-References: <20231003115237.76828-1-sakari.ailus@linux.intel.com>
- <20231003120813.77726-7-sakari.ailus@linux.intel.com>
- <a7afd593-b90c-4109-88b7-84d368ee9e5d@xs4all.nl>
- <ZWXrhE3FTLVdgcUS@kekkonen.localdomain>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <ZWXrhE3FTLVdgcUS@kekkonen.localdomain>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 28/11/2023 14:30, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> Thank you for the review. I somehow missed replying to this earlier, before
-> posting v7.
-> 
-> On Thu, Oct 05, 2023 at 01:00:15PM +0200, Hans Verkuil wrote:
->> On 03/10/2023 14:08, Sakari Ailus wrote:
->>> The len_routes field is used to tell the size of the routes array in
->>> struct v4l2_subdev_routing. This way the number of routes returned from
->>> S_ROUTING IOCTL may be larger than the number of routes provided, in case
->>> there are more routes returned by the driver.
->>>
->>> Note that this changes the (now-disabled) UAPI, users must be updated.
->>
->> With "now-disabled" you mean "still disabled", right?
->>
->> So:
->>
->> "Note that this uAPI is still disabled in the code, so this change can
->> safely be done. Anyone who manually patched the code to enable this uAPI
->> must update their code."
-> 
-> I can add that.
-> 
->>
->>>
->>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->>> ---
->>>  .../media/v4l/vidioc-subdev-g-routing.rst     | 31 ++++++++++++-------
->>>  drivers/media/v4l2-core/v4l2-ioctl.c          |  4 +--
->>>  drivers/media/v4l2-core/v4l2-subdev.c         |  6 +++-
->>>  include/media/v4l2-subdev.h                   |  2 ++
->>>  include/uapi/linux/v4l2-subdev.h              |  8 +++--
->>>  5 files changed, 34 insertions(+), 17 deletions(-)
->>>
->>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
->>> index 72677a280cd6..9a9765ddc316 100644
->>> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
->>> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
->>> @@ -46,20 +46,26 @@ with the ``VIDIOC_SUBDEV_S_ROUTING`` ioctl, by adding or removing routes and
->>>  setting or clearing flags of the  ``flags`` field of a
->>>  struct :c:type:`v4l2_subdev_route`.
->>>  
->>> -All stream configurations are reset when ``VIDIOC_SUBDEV_S_ROUTING`` is called. This
->>> -means that the userspace must reconfigure all streams after calling the ioctl
->>> -with e.g. ``VIDIOC_SUBDEV_S_FMT``.
->>> +All stream configurations are reset when ``VIDIOC_SUBDEV_S_ROUTING`` is
->>> +called. This means that the userspace must reconfigure all streams after calling
->>> +the ioctl with e.g. ``VIDIOC_SUBDEV_S_FMT``.
->>>  
->>>  Only subdevices which have both sink and source pads can support routing.
->>>  
->>> -When inspecting routes through ``VIDIOC_SUBDEV_G_ROUTING`` and the application
->>> -provided ``num_routes`` is not big enough to contain all the available routes
->>> -the subdevice exposes, drivers return the ENOSPC error code and adjust the
->>> -value of the ``num_routes`` field. Application should then reserve enough memory
->>> -for all the route entries and call ``VIDIOC_SUBDEV_G_ROUTING`` again.
->>> +The ``num_routes`` field is used to denote the number of routes set (set by user
->>> +space on ``VIDIOC_SUBDEV_S_ROUTING`` argument) on the routing table as well as
->>> +the number of routes returned back from both IOCTLs. The ``len_routes``
->>> +signifies the number of routes that can fit into the ``routes`` array. The
->>> +userspace shall set ``len_routes`` for both IOCTLs and ``num_routes`` for
->>> +``VIDIOC_SUBDEV_S_ROUTING``.
->>>  
->>> -On a successful ``VIDIOC_SUBDEV_G_ROUTING`` call the driver updates the
->>> -``num_routes`` field to reflect the actual number of routes returned.
->>> +On a ``VIDIOC_SUBDEV_G_ROUTING`` call the driver updates the ``num_routes``
->>> +field to reflect the actual number of routes known by the driver. ``num_routes``
->>> +larger than ``len_routes`` in both IOCTLs. In this ``len_routes`` were returned
->>> +back to the userspace. This is not an error.
->>
->> This paragraph is garbled.
-> 
-> Oops. This intended to read:
-> 
-> On a ``VIDIOC_SUBDEV_G_ROUTING`` call the driver updates the ``num_routes``
-> field to reflect the actual number of routes known by the driver.
-> ``num_routes`` larger than ``len_routes`` may be returned by both IOCTLs to
-> indicate there are more routes than fits to the ``routes`` array. In this
-> case first ``len_routes`` were returned back to the userspace in the
-> ``routes`` array. This is not considered as an error.
-> 
->>
->>> +
->>> +Also ``VIDIOC_SUBDEV_S_ROUTING`` may return more route than the user provided in
->>> +``num_routes`` field due to e.g. hardware properties.
->>>  
->>>  .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
->>>  
->>> @@ -74,6 +80,9 @@ On a successful ``VIDIOC_SUBDEV_G_ROUTING`` call the driver updates the
->>>        - ``which``
->>>        - Format to modified, from enum
->>>          :ref:`v4l2_subdev_format_whence <v4l2-subdev-format-whence>`.
->>> +    * - __u32
->>> +      - ``len_routes``
->>> +      - The length of the array (as in memory reserved for the array)
->>
->> So is this in bytes or in number of route entries?
->>
->> I think 'len_routes' is a terribly confusing name.
->>
->> How about 'max_num_routes'? Or 'max_route_elems/entries'?
->>
->>>      * - struct :c:type:`v4l2_subdev_route`
->>>        - ``routes[]``
->>>        - Array of struct :c:type:`v4l2_subdev_route` entries
->>> @@ -81,7 +90,7 @@ On a successful ``VIDIOC_SUBDEV_G_ROUTING`` call the driver updates the
->>>        - ``num_routes``
->>>        - Number of entries of the routes array
->>
->> This is now a very confusing field description.
->>
->> How about:
->>
->> 'max_num_routes': Maximum number of entries that can fit in the routes array
->> 'num_routes': Actual number of entries stored in the routes array.
->>
->>>      * - __u32
->>> -      - ``reserved``\ [5]
->>> +      - ``reserved``\ [11]
->>>        - Reserved for future extensions. Applications and drivers must set
->>>  	the array to zero.
->>>  
->>> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
->>> index 6921a72566df..1e3da9d64958 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->>> @@ -3155,13 +3155,13 @@ static int check_array_args(unsigned int cmd, void *parg, size_t *array_size,
->>>  	case VIDIOC_SUBDEV_S_ROUTING: {
->>>  		struct v4l2_subdev_routing *routing = parg;
->>>  
->>> -		if (routing->num_routes > 256)
->>> +		if (routing->len_routes > 256)
->>>  			return -E2BIG;
->>>  
->>>  		*user_ptr = u64_to_user_ptr(routing->routes);
->>>  		*kernel_ptr = (void **)&routing->routes;
->>>  		*array_size = sizeof(struct v4l2_subdev_route)
->>> -			    * routing->num_routes;
->>> +			    * routing->len_routes;
->>>  		ret = 1;
->>>  		break;
->>>  	}
->>> diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
->>> index 614ff0031831..bd1e8205913c 100644
->>> --- a/drivers/media/v4l2-core/v4l2-subdev.c
->>> +++ b/drivers/media/v4l2-core/v4l2-subdev.c
->>> @@ -903,6 +903,9 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>>  		if (routing->which != V4L2_SUBDEV_FORMAT_TRY && ro_subdev)
->>>  			return -EPERM;
->>>  
->>> +		if (routing->num_routes > routing->len_routes)
->>> +			return -EINVAL;
-> 0> > +
->>>  		memset(routing->reserved, 0, sizeof(routing->reserved));
->>>  
->>>  		for (i = 0; i < routing->num_routes; ++i) {
->>> @@ -929,6 +932,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>>  		}
->>>  
->>>  		krouting.num_routes = routing->num_routes;
->>> +		krouting.len_routes = routing->len_routes;
->>>  		krouting.routes = routes;
->>>  
->>>  		return v4l2_subdev_call(sd, pad, set_routing, state,
->>> @@ -949,7 +953,7 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
->>>  
->>>  		krouting = &state->routing;
->>>  
->>> -		if (routing->num_routes < krouting->num_routes) {
->>> +		if (routing->len_routes < krouting->num_routes) {
->>>  			routing->num_routes = krouting->num_routes;
->>>  			return -ENOSPC;
->>>  		}
->>> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
->>> index e49e8af2fb52..baaa81a9497e 100644
->>> --- a/include/media/v4l2-subdev.h
->>> +++ b/include/media/v4l2-subdev.h
->>> @@ -741,12 +741,14 @@ struct v4l2_subdev_stream_configs {
->>>  /**
->>>   * struct v4l2_subdev_krouting - subdev routing table
->>>   *
->>> + * @len_routes: length of routes array, in routes
->>>   * @num_routes: number of routes
->>>   * @routes: &struct v4l2_subdev_route
->>>   *
->>>   * This structure contains the routing table for a subdev.
->>>   */
->>>  struct v4l2_subdev_krouting {
->>> +	unsigned int len_routes;
->>>  	unsigned int num_routes;
->>>  	struct v4l2_subdev_route *routes;
->>>  };
->>> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
->>> index 4a195b68f28f..b57fb89caa9e 100644
->>> --- a/include/uapi/linux/v4l2-subdev.h
->>> +++ b/include/uapi/linux/v4l2-subdev.h
->>> @@ -222,15 +222,17 @@ struct v4l2_subdev_route {
->>>   * struct v4l2_subdev_routing - Subdev routing information
->>>   *
->>>   * @which: configuration type (from enum v4l2_subdev_format_whence)
->>> - * @num_routes: the total number of routes in the routes array
->>> + * @len_routes: the length of the routes array, in routes
->>>   * @routes: pointer to the routes array
->>> + * @num_routes: the total number of routes in the routes array
-> 
-> I'll change this to reflect there may be more routes than fits to the
-> array.
-> 
->>>   * @reserved: drivers and applications must zero this array
->>>   */
->>>  struct v4l2_subdev_routing {
->>>  	__u32 which;
->>> -	__u32 num_routes;
->>> +	__u32 len_routes;
->>>  	__u64 routes;
->>> -	__u32 reserved[6];
->>> +	__u32 num_routes;
->>> +	__u32 reserved[11];
->>>  };
->>>  
->>>  /*
->>
->> I'm going with a NACK for the 'len_routes' name, it's a really, really
->> bad name.
->>
->> So:
->>
->> Nacked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> 
-> That's bit harsh judgement due to a differing opinion on a field name. I
-> think len_routes is fine as it's the length of the routes array, not the
-> number of entries in it but I'm totally fine changing it.
-> 
-> max_num_routes isn't great either as num_routes can effectively be larger
-> than max_num_routes.
-> 
-> How about "size_routes", for instance? Or "max_elems_routes"?
-> 
+Rename min_buffers_needed into min_queued_buffers and update
+the documentation about it.
 
-I think we should keep the meaning of num_routes as exactly that: the
-number of routes that can be stored in the routes array. This is consistent
-with the struct media_v2_topology use of the num_ fields.
+Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 
-What you want is to be able to tell the driver how many of the routes
-in the routes array should be used for setting routes.
+CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: Shawn Guo <shawnguo@kernel.org>
+CC: Sascha Hauer <s.hauer@pengutronix.de>
+CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+CC: Fabio Estevam <festevam@gmail.com>
+CC: NXP Linux Team <linux-imx@nxp.com>
+CC: Hugues Fruchet <hugues.fruchet@foss.st.com>
+CC: linux-stm32@st-md-mailman.stormreply.com
+CC: "Niklas Söderlund" <niklas.soderlund@ragnatech.se>
+CC: Jacopo Mondi <jacopo@jmondi.org>
+CC: linux-renesas-soc@vger.kernel.org
+CC: Andy Walls <awalls@md.metrocast.net>
+CC: Martin Tuma <martin.tuma@digiteqautomotive.com>
+CC: Bluecherry Maintainers <maintainers@bluecherrydvr.com>
+CC: Anton Sviridenko <anton@corp.bluecherry.net>
+CC: Andrey Utkin <andrey.utkin@corp.bluecherry.net>
+CC: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+CC: Corentin Labbe <clabbe@baylibre.com>
+CC: mjpeg-users@lists.sourceforge.net
+CC: Neil Armstrong <neil.armstrong@linaro.org>
+CC: Kevin Hilman <khilman@baylibre.com>
+CC: Jerome Brunet <jbrunet@baylibre.com>
+CC: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: linux-amlogic@lists.infradead.org
+---
+ .../media/common/videobuf2/videobuf2-core.c   | 29 ++++++++++---------
+ drivers/media/pci/bt8xx/bttv-driver.c         |  2 +-
+ drivers/media/pci/cobalt/cobalt-v4l2.c        |  2 +-
+ drivers/media/pci/cx18/cx18-streams.c         |  2 +-
+ drivers/media/pci/cx23885/cx23885-417.c       |  2 +-
+ drivers/media/pci/cx23885/cx23885-dvb.c       |  2 +-
+ drivers/media/pci/cx23885/cx23885-video.c     |  4 +--
+ drivers/media/pci/cx25821/cx25821-video.c     |  2 +-
+ drivers/media/pci/cx88/cx88-blackbird.c       |  2 +-
+ drivers/media/pci/cx88/cx88-dvb.c             |  2 +-
+ drivers/media/pci/cx88/cx88-video.c           |  4 +--
+ drivers/media/pci/dt3155/dt3155.c             |  2 +-
+ drivers/media/pci/mgb4/mgb4_vin.c             |  2 +-
+ drivers/media/pci/mgb4/mgb4_vout.c            |  2 +-
+ drivers/media/pci/tw5864/tw5864-video.c       |  2 +-
+ drivers/media/pci/tw68/tw68-video.c           |  2 +-
+ drivers/media/pci/tw686x/tw686x-video.c       |  2 +-
+ drivers/media/pci/zoran/zoran_driver.c        |  5 +---
+ .../platform/nxp/imx8-isi/imx8-isi-video.c    |  2 +-
+ .../platform/renesas/rcar-vin/rcar-dma.c      |  2 +-
+ drivers/media/platform/renesas/renesas-ceu.c  |  2 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  |  2 +-
+ drivers/media/platform/renesas/sh_vou.c       |  2 +-
+ drivers/media/platform/st/stm32/stm32-dcmi.c  |  2 +-
+ drivers/staging/media/meson/vdec/vdec.c       |  4 +--
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c |  2 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  |  2 +-
+ include/media/videobuf2-core.h                |  6 ++--
+ samples/v4l/v4l2-pci-skeleton.c               |  2 +-
+ 29 files changed, 49 insertions(+), 49 deletions(-)
 
-How about adding a field "set_routes" instead? It is ignored by G_ROUTING,
-and S_ROUTING will set the first 'set_routes' elements in the 'routes'
-array. I'm not sure if set_routes should be set to 0 upon return: does
-the ordering of the routes change? Or are the first 'set_routes' elements
-the same as what the user put in originally?
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index c224d13b3105..b251cde33ca5 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -816,7 +816,7 @@ static bool verify_coherency_flags(struct vb2_queue *q, bool non_coherent_mem)
+ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 		     unsigned int flags, unsigned int *count)
+ {
+-	unsigned int num_buffers, allocated_buffers, num_planes = 0;
++	unsigned int num_buffers, allocated_buffers, min_reqbufs_needed, num_planes = 0;
+ 	unsigned int q_num_bufs = vb2_get_num_buffers(q);
+ 	unsigned plane_sizes[VB2_MAX_PLANES] = { };
+ 	bool non_coherent_mem = flags & V4L2_MEMORY_FLAG_NON_COHERENT;
+@@ -865,8 +865,11 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	/*
+ 	 * Make sure the requested values and current defaults are sane.
+ 	 */
+-	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
+-	num_buffers = max_t(unsigned int, num_buffers, q->min_reqbufs_allocation);
++	if (q->min_reqbufs_allocation)
++		num_buffers = max_t(unsigned int, *count, q->min_reqbufs_allocation);
++	else
++		num_buffers = max_t(unsigned int, *count, q->min_queued_buffers + 1);
++	min_reqbufs_needed = num_buffers;
+ 	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
+ 	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+ 	/*
+@@ -918,7 +921,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	 * There is no point in continuing if we can't allocate the minimum
+ 	 * number of buffers needed by this vb2_queue.
+ 	 */
+-	if (allocated_buffers < q->min_buffers_needed)
++	if (allocated_buffers < min_reqbufs_needed)
+ 		ret = -ENOMEM;
+ 
+ 	/*
+@@ -1654,7 +1657,7 @@ EXPORT_SYMBOL_GPL(vb2_core_prepare_buf);
+  * @q:		videobuf2 queue
+  *
+  * Attempt to start streaming. When this function is called there must be
+- * at least q->min_buffers_needed buffers queued up (i.e. the minimum
++ * at least q->min_queued_buffers queued up (i.e. the minimum
+  * number of buffers required for the DMA engine to function). If the
+  * @start_streaming op fails it is supposed to return all the driver-owned
+  * buffers back to vb2 in state QUEUED. Check if that happened and if
+@@ -1847,7 +1850,7 @@ int vb2_core_qbuf(struct vb2_queue *q, struct vb2_buffer *vb, void *pb,
+ 	 * then we can finally call start_streaming().
+ 	 */
+ 	if (q->streaming && !q->start_streaming_called &&
+-	    q->queued_count >= q->min_buffers_needed) {
++	    q->queued_count >= q->min_queued_buffers) {
+ 		ret = vb2_start_streaming(q);
+ 		if (ret) {
+ 			/*
+@@ -2211,9 +2214,9 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
+ 		return -EINVAL;
+ 	}
+ 
+-	if (q_num_bufs < q->min_buffers_needed) {
+-		dprintk(q, 1, "need at least %u allocated buffers\n",
+-				q->min_buffers_needed);
++	if (q_num_bufs < q->min_queued_buffers) {
++		dprintk(q, 1, "need at least %u queued buffers\n",
++			q->min_queued_buffers);
+ 		return -EINVAL;
+ 	}
+ 
+@@ -2225,7 +2228,7 @@ int vb2_core_streamon(struct vb2_queue *q, unsigned int type)
+ 	 * Tell driver to start streaming provided sufficient buffers
+ 	 * are available.
+ 	 */
+-	if (q->queued_count >= q->min_buffers_needed) {
++	if (q->queued_count >= q->min_queued_buffers) {
+ 		ret = vb2_start_streaming(q);
+ 		if (ret)
+ 			goto unprepare;
+@@ -2505,7 +2508,7 @@ int vb2_core_queue_init(struct vb2_queue *q)
+ 		return -EINVAL;
+ 
+ 	if (WARN_ON(q->max_num_buffers > MAX_BUFFER_INDEX) ||
+-	    WARN_ON(q->min_buffers_needed > q->max_num_buffers))
++	    WARN_ON(q->min_queued_buffers > q->max_num_buffers))
+ 		return -EINVAL;
+ 
+ 	if (WARN_ON(q->requires_requests && !q->supports_requests))
+@@ -2513,13 +2516,13 @@ int vb2_core_queue_init(struct vb2_queue *q)
+ 
+ 	/*
+ 	 * This combination is not allowed since a non-zero value of
+-	 * q->min_buffers_needed can cause vb2_core_qbuf() to fail if
++	 * q->min_queued_buffers can cause vb2_core_qbuf() to fail if
+ 	 * it has to call start_streaming(), and the Request API expects
+ 	 * that queueing a request (and thus queueing a buffer contained
+ 	 * in that request) will always succeed. There is no method of
+ 	 * propagating an error back to userspace.
+ 	 */
+-	if (WARN_ON(q->supports_requests && q->min_buffers_needed))
++	if (WARN_ON(q->supports_requests && q->min_queued_buffers))
+ 		return -EINVAL;
+ 
+ 	INIT_LIST_HEAD(&q->queued_list);
+diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
+index 09a193bb87df..24ebb66a5988 100644
+--- a/drivers/media/pci/bt8xx/bttv-driver.c
++++ b/drivers/media/pci/bt8xx/bttv-driver.c
+@@ -3094,7 +3094,7 @@ static int vdev_init(struct bttv *btv, struct video_device *vfd,
+ 	q->gfp_flags = __GFP_DMA32;
+ 	q->buf_struct_size = sizeof(struct bttv_buffer);
+ 	q->lock = &btv->lock;
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	q->dev = &btv->c.pci->dev;
+ 	err = vb2_queue_init(q);
+ 	if (err)
+diff --git a/drivers/media/pci/cobalt/cobalt-v4l2.c b/drivers/media/pci/cobalt/cobalt-v4l2.c
+index 26bf58d17a3d..77ba08ace29f 100644
+--- a/drivers/media/pci/cobalt/cobalt-v4l2.c
++++ b/drivers/media/pci/cobalt/cobalt-v4l2.c
+@@ -1260,7 +1260,7 @@ static int cobalt_node_register(struct cobalt *cobalt, int node)
+ 	q->ops = &cobalt_qops;
+ 	q->mem_ops = &vb2_dma_sg_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	q->lock = &s->lock;
+ 	q->dev = &cobalt->pci_dev->dev;
+ 	vdev->queue = q;
+diff --git a/drivers/media/pci/cx18/cx18-streams.c b/drivers/media/pci/cx18/cx18-streams.c
+index cfbc4a907802..acc6418db425 100644
+--- a/drivers/media/pci/cx18/cx18-streams.c
++++ b/drivers/media/pci/cx18/cx18-streams.c
+@@ -287,7 +287,7 @@ static int cx18_stream_init(struct cx18 *cx, int type)
+ 		s->vidq.ops = &cx18_vb2_qops;
+ 		s->vidq.mem_ops = &vb2_vmalloc_memops;
+ 		s->vidq.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-		s->vidq.min_buffers_needed = 2;
++		s->vidq.min_queued_buffers = 2;
+ 		s->vidq.gfp_flags = GFP_DMA32;
+ 		s->vidq.dev = &cx->pci_dev->dev;
+ 		s->vidq.lock = &cx->serialize_lock;
+diff --git a/drivers/media/pci/cx23885/cx23885-417.c b/drivers/media/pci/cx23885/cx23885-417.c
+index 434677bd4ad1..fdb96f80c036 100644
+--- a/drivers/media/pci/cx23885/cx23885-417.c
++++ b/drivers/media/pci/cx23885/cx23885-417.c
+@@ -1525,7 +1525,7 @@ int cx23885_417_register(struct cx23885_dev *dev)
+ 	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+ 	q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF | VB2_READ;
+ 	q->gfp_flags = GFP_DMA32;
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	q->drv_priv = dev;
+ 	q->buf_struct_size = sizeof(struct cx23885_buffer);
+ 	q->ops = &cx23885_qops;
+diff --git a/drivers/media/pci/cx23885/cx23885-dvb.c b/drivers/media/pci/cx23885/cx23885-dvb.c
+index 7551ca4a322a..3d01cdc4c7f3 100644
+--- a/drivers/media/pci/cx23885/cx23885-dvb.c
++++ b/drivers/media/pci/cx23885/cx23885-dvb.c
+@@ -2667,7 +2667,7 @@ int cx23885_dvb_register(struct cx23885_tsport *port)
+ 		q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+ 		q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF | VB2_READ;
+ 		q->gfp_flags = GFP_DMA32;
+-		q->min_buffers_needed = 2;
++		q->min_queued_buffers = 2;
+ 		q->drv_priv = port;
+ 		q->buf_struct_size = sizeof(struct cx23885_buffer);
+ 		q->ops = &dvb_qops;
+diff --git a/drivers/media/pci/cx23885/cx23885-video.c b/drivers/media/pci/cx23885/cx23885-video.c
+index 9af2c5596121..42fdcf992e48 100644
+--- a/drivers/media/pci/cx23885/cx23885-video.c
++++ b/drivers/media/pci/cx23885/cx23885-video.c
+@@ -1321,7 +1321,7 @@ int cx23885_video_register(struct cx23885_dev *dev)
+ 	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+ 	q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF | VB2_READ;
+ 	q->gfp_flags = GFP_DMA32;
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	q->drv_priv = dev;
+ 	q->buf_struct_size = sizeof(struct cx23885_buffer);
+ 	q->ops = &cx23885_video_qops;
+@@ -1338,7 +1338,7 @@ int cx23885_video_register(struct cx23885_dev *dev)
+ 	q->type = V4L2_BUF_TYPE_VBI_CAPTURE;
+ 	q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF | VB2_READ;
+ 	q->gfp_flags = GFP_DMA32;
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	q->drv_priv = dev;
+ 	q->buf_struct_size = sizeof(struct cx23885_buffer);
+ 	q->ops = &cx23885_vbi_qops;
+diff --git a/drivers/media/pci/cx25821/cx25821-video.c b/drivers/media/pci/cx25821/cx25821-video.c
+index 1b80c990cb94..0bee4b728a60 100644
+--- a/drivers/media/pci/cx25821/cx25821-video.c
++++ b/drivers/media/pci/cx25821/cx25821-video.c
+@@ -730,7 +730,7 @@ int cx25821_video_register(struct cx25821_dev *dev)
+ 		q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
+ 		q->io_modes |= is_output ? VB2_WRITE : VB2_READ;
+ 		q->gfp_flags = GFP_DMA32;
+-		q->min_buffers_needed = 2;
++		q->min_queued_buffers = 2;
+ 		q->drv_priv = chan;
+ 		q->buf_struct_size = sizeof(struct cx25821_buffer);
+ 		q->ops = &cx25821_video_qops;
+diff --git a/drivers/media/pci/cx88/cx88-blackbird.c b/drivers/media/pci/cx88/cx88-blackbird.c
+index c1b41a9283c1..d55df8fdb3b6 100644
+--- a/drivers/media/pci/cx88/cx88-blackbird.c
++++ b/drivers/media/pci/cx88/cx88-blackbird.c
+@@ -1195,7 +1195,7 @@ static int cx8802_blackbird_probe(struct cx8802_driver *drv)
+ 	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+ 	q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF | VB2_READ;
+ 	q->gfp_flags = GFP_DMA32;
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	q->drv_priv = dev;
+ 	q->buf_struct_size = sizeof(struct cx88_buffer);
+ 	q->ops = &blackbird_qops;
+diff --git a/drivers/media/pci/cx88/cx88-dvb.c b/drivers/media/pci/cx88/cx88-dvb.c
+index 2087f2491c42..b33b3a5e32ec 100644
+--- a/drivers/media/pci/cx88/cx88-dvb.c
++++ b/drivers/media/pci/cx88/cx88-dvb.c
+@@ -1776,7 +1776,7 @@ static int cx8802_dvb_probe(struct cx8802_driver *drv)
+ 		q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+ 		q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF | VB2_READ;
+ 		q->gfp_flags = GFP_DMA32;
+-		q->min_buffers_needed = 2;
++		q->min_queued_buffers = 2;
+ 		q->drv_priv = dev;
+ 		q->buf_struct_size = sizeof(struct cx88_buffer);
+ 		q->ops = &dvb_qops;
+diff --git a/drivers/media/pci/cx88/cx88-video.c b/drivers/media/pci/cx88/cx88-video.c
+index c0ef03ed74f9..cefb6b25e921 100644
+--- a/drivers/media/pci/cx88/cx88-video.c
++++ b/drivers/media/pci/cx88/cx88-video.c
+@@ -1411,7 +1411,7 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
+ 	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+ 	q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF | VB2_READ;
+ 	q->gfp_flags = GFP_DMA32;
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	q->drv_priv = dev;
+ 	q->buf_struct_size = sizeof(struct cx88_buffer);
+ 	q->ops = &cx8800_video_qops;
+@@ -1428,7 +1428,7 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
+ 	q->type = V4L2_BUF_TYPE_VBI_CAPTURE;
+ 	q->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF | VB2_READ;
+ 	q->gfp_flags = GFP_DMA32;
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	q->drv_priv = dev;
+ 	q->buf_struct_size = sizeof(struct cx88_buffer);
+ 	q->ops = &cx8800_vbi_qops;
+diff --git a/drivers/media/pci/dt3155/dt3155.c b/drivers/media/pci/dt3155/dt3155.c
+index d09cde2f6ee4..dff853e73fdc 100644
+--- a/drivers/media/pci/dt3155/dt3155.c
++++ b/drivers/media/pci/dt3155/dt3155.c
+@@ -517,7 +517,7 @@ static int dt3155_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+ 	pd->vidq.ops = &q_ops;
+ 	pd->vidq.mem_ops = &vb2_dma_contig_memops;
+ 	pd->vidq.drv_priv = pd;
+-	pd->vidq.min_buffers_needed = 2;
++	pd->vidq.min_queued_buffers = 2;
+ 	pd->vidq.gfp_flags = GFP_DMA32;
+ 	pd->vidq.lock = &pd->mux; /* for locking v4l2_file_operations */
+ 	pd->vidq.dev = &pdev->dev;
+diff --git a/drivers/media/pci/mgb4/mgb4_vin.c b/drivers/media/pci/mgb4/mgb4_vin.c
+index d72b07b87cd1..2cd78c539889 100644
+--- a/drivers/media/pci/mgb4/mgb4_vin.c
++++ b/drivers/media/pci/mgb4/mgb4_vin.c
+@@ -849,7 +849,7 @@ struct mgb4_vin_dev *mgb4_vin_create(struct mgb4_dev *mgbdev, int id)
+ 	vindev->queue.mem_ops = &vb2_dma_sg_memops;
+ 	vindev->queue.gfp_flags = GFP_DMA32;
+ 	vindev->queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	vindev->queue.min_buffers_needed = 2;
++	vindev->queue.min_queued_buffers = 2;
+ 	vindev->queue.drv_priv = vindev;
+ 	vindev->queue.lock = &vindev->lock;
+ 	vindev->queue.dev = dev;
+diff --git a/drivers/media/pci/mgb4/mgb4_vout.c b/drivers/media/pci/mgb4/mgb4_vout.c
+index 857fc7bbd21a..241353ee77a5 100644
+--- a/drivers/media/pci/mgb4/mgb4_vout.c
++++ b/drivers/media/pci/mgb4/mgb4_vout.c
+@@ -523,7 +523,7 @@ struct mgb4_vout_dev *mgb4_vout_create(struct mgb4_dev *mgbdev, int id)
+ 	voutdev->queue.mem_ops = &vb2_dma_sg_memops;
+ 	voutdev->queue.gfp_flags = GFP_DMA32;
+ 	voutdev->queue.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	voutdev->queue.min_buffers_needed = 2;
++	voutdev->queue.min_queued_buffers = 2;
+ 	voutdev->queue.drv_priv = voutdev;
+ 	voutdev->queue.lock = &voutdev->lock;
+ 	voutdev->queue.dev = dev;
+diff --git a/drivers/media/pci/tw5864/tw5864-video.c b/drivers/media/pci/tw5864/tw5864-video.c
+index 197ed8978102..8b1aae4b6319 100644
+--- a/drivers/media/pci/tw5864/tw5864-video.c
++++ b/drivers/media/pci/tw5864/tw5864-video.c
+@@ -1114,7 +1114,7 @@ static int tw5864_video_input_init(struct tw5864_input *input, int video_nr)
+ 	input->vidq.gfp_flags = 0;
+ 	input->vidq.buf_struct_size = sizeof(struct tw5864_buf);
+ 	input->vidq.lock = &input->lock;
+-	input->vidq.min_buffers_needed = 2;
++	input->vidq.min_queued_buffers = 2;
+ 	input->vidq.dev = &input->root->pci->dev;
+ 	ret = vb2_queue_init(&input->vidq);
+ 	if (ret)
+diff --git a/drivers/media/pci/tw68/tw68-video.c b/drivers/media/pci/tw68/tw68-video.c
+index 79b627ebc92a..cdf5d733b863 100644
+--- a/drivers/media/pci/tw68/tw68-video.c
++++ b/drivers/media/pci/tw68/tw68-video.c
+@@ -952,7 +952,7 @@ int tw68_video_init2(struct tw68_dev *dev, int video_nr)
+ 	dev->vidq.gfp_flags = __GFP_DMA32 | __GFP_KSWAPD_RECLAIM;
+ 	dev->vidq.buf_struct_size = sizeof(struct tw68_buf);
+ 	dev->vidq.lock = &dev->lock;
+-	dev->vidq.min_buffers_needed = 2;
++	dev->vidq.min_queued_buffers = 2;
+ 	dev->vidq.dev = &dev->pci->dev;
+ 	ret = vb2_queue_init(&dev->vidq);
+ 	if (ret)
+diff --git a/drivers/media/pci/tw686x/tw686x-video.c b/drivers/media/pci/tw686x/tw686x-video.c
+index 6bc6d143d18c..63be95fce83d 100644
+--- a/drivers/media/pci/tw686x/tw686x-video.c
++++ b/drivers/media/pci/tw686x/tw686x-video.c
+@@ -1222,7 +1222,7 @@ int tw686x_video_init(struct tw686x_dev *dev)
+ 		vc->vidq.ops = &tw686x_video_qops;
+ 		vc->vidq.mem_ops = dev->dma_ops->mem_ops;
+ 		vc->vidq.timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-		vc->vidq.min_buffers_needed = 2;
++		vc->vidq.min_queued_buffers = 2;
+ 		vc->vidq.lock = &vc->vb_mutex;
+ 		vc->vidq.gfp_flags = dev->dma_mode != TW686X_DMA_MODE_MEMCPY ?
+ 				     GFP_DMA32 : 0;
+diff --git a/drivers/media/pci/zoran/zoran_driver.c b/drivers/media/pci/zoran/zoran_driver.c
+index fa672cc8bc67..2c91f75e8d79 100644
+--- a/drivers/media/pci/zoran/zoran_driver.c
++++ b/drivers/media/pci/zoran/zoran_driver.c
+@@ -749,9 +749,6 @@ static int zr_vb2_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers, unsi
+ 
+ 	zr->buf_in_reserve = 0;
+ 
+-	if (*nbuffers < vq->min_buffers_needed)
+-		*nbuffers = vq->min_buffers_needed;
+-
+ 	if (*nplanes) {
+ 		if (sizes[0] < size)
+ 			return -EINVAL;
+@@ -971,7 +968,7 @@ int zoran_queue_init(struct zoran *zr, struct vb2_queue *vq, int dir)
+ 	vq->mem_ops = &vb2_dma_contig_memops;
+ 	vq->gfp_flags = GFP_DMA32;
+ 	vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	vq->min_buffers_needed = 9;
++	vq->min_queued_buffers = 9;
+ 	vq->lock = &zr->lock;
+ 	err = vb2_queue_init(vq);
+ 	if (err)
+diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+index 49bca2b01cc6..4091f1c0e78b 100644
+--- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
++++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
+@@ -1453,7 +1453,7 @@ int mxc_isi_video_register(struct mxc_isi_pipe *pipe,
+ 	q->mem_ops = &vb2_dma_contig_memops;
+ 	q->buf_struct_size = sizeof(struct mxc_isi_buffer);
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	q->lock = &video->lock;
+ 	q->dev = pipe->isi->dev;
+ 
+diff --git a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+index 2a77353f10b5..e2c40abc6d3d 100644
+--- a/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
++++ b/drivers/media/platform/renesas/rcar-vin/rcar-dma.c
+@@ -1559,7 +1559,7 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+ 	q->ops = &rvin_qops;
+ 	q->mem_ops = &vb2_dma_contig_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_buffers_needed = 4;
++	q->min_queued_buffers = 4;
+ 	q->dev = vin->dev;
+ 
+ 	ret = vb2_queue_init(q);
+diff --git a/drivers/media/platform/renesas/renesas-ceu.c b/drivers/media/platform/renesas/renesas-ceu.c
+index 2562b30acfb9..167760276796 100644
+--- a/drivers/media/platform/renesas/renesas-ceu.c
++++ b/drivers/media/platform/renesas/renesas-ceu.c
+@@ -1399,7 +1399,7 @@ static int ceu_notify_complete(struct v4l2_async_notifier *notifier)
+ 	q->mem_ops		= &vb2_dma_contig_memops;
+ 	q->buf_struct_size	= sizeof(struct ceu_buffer);
+ 	q->timestamp_flags	= V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_buffers_needed	= 2;
++	q->min_queued_buffers	= 2;
+ 	q->lock			= &ceudev->mlock;
+ 	q->dev			= ceudev->v4l2_dev.dev;
+ 
+diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+index e6eedd65b71d..d0ffa90bc656 100644
+--- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
++++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
+@@ -767,7 +767,7 @@ int rzg2l_cru_dma_register(struct rzg2l_cru_dev *cru)
+ 	q->ops = &rzg2l_cru_qops;
+ 	q->mem_ops = &vb2_dma_contig_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_buffers_needed = 4;
++	q->min_queued_buffers = 4;
+ 	q->dev = cru->dev;
+ 
+ 	ret = vb2_queue_init(q);
+diff --git a/drivers/media/platform/renesas/sh_vou.c b/drivers/media/platform/renesas/sh_vou.c
+index f792aedc9d82..1e74dd601c2b 100644
+--- a/drivers/media/platform/renesas/sh_vou.c
++++ b/drivers/media/platform/renesas/sh_vou.c
+@@ -1297,7 +1297,7 @@ static int sh_vou_probe(struct platform_device *pdev)
+ 	q->ops = &sh_vou_qops;
+ 	q->mem_ops = &vb2_dma_contig_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	q->lock = &vou_dev->fop_lock;
+ 	q->dev = &pdev->dev;
+ 	ret = vb2_queue_init(q);
+diff --git a/drivers/media/platform/st/stm32/stm32-dcmi.c b/drivers/media/platform/st/stm32/stm32-dcmi.c
+index 48140fdf40bb..c4610e305546 100644
+--- a/drivers/media/platform/st/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/st/stm32/stm32-dcmi.c
+@@ -2031,7 +2031,7 @@ static int dcmi_probe(struct platform_device *pdev)
+ 	q->ops = &dcmi_video_qops;
+ 	q->mem_ops = &vb2_dma_contig_memops;
+ 	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	q->allow_cache_hints = 1;
+ 	q->dev = &pdev->dev;
+ 
+diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
+index 1e2369f104c8..167ffe764a41 100644
+--- a/drivers/staging/media/meson/vdec/vdec.c
++++ b/drivers/staging/media/meson/vdec/vdec.c
+@@ -184,7 +184,7 @@ static void process_num_buffers(struct vb2_queue *q,
+ 	 * we need all of them to be queued into the driver
+ 	 */
+ 	sess->num_dst_bufs = q_num_bufs + *num_buffers;
+-	q->min_buffers_needed = max(fmt_out->min_buffers, sess->num_dst_bufs);
++	q->min_queued_buffers = max(fmt_out->min_buffers, sess->num_dst_bufs);
+ }
+ 
+ static int vdec_queue_setup(struct vb2_queue *q, unsigned int *num_buffers,
+@@ -825,7 +825,6 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+ 	src_vq->mem_ops = &vb2_dma_contig_memops;
+ 	src_vq->drv_priv = sess;
+ 	src_vq->buf_struct_size = sizeof(struct dummy_buf);
+-	src_vq->min_buffers_needed = 1;
+ 	src_vq->dev = sess->core->dev;
+ 	src_vq->lock = &sess->lock;
+ 	ret = vb2_queue_init(src_vq);
+@@ -839,7 +838,6 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
+ 	dst_vq->mem_ops = &vb2_dma_contig_memops;
+ 	dst_vq->drv_priv = sess;
+ 	dst_vq->buf_struct_size = sizeof(struct dummy_buf);
+-	dst_vq->min_buffers_needed = 1;
+ 	dst_vq->dev = sess->core->dev;
+ 	dst_vq->lock = &sess->lock;
+ 	return vb2_queue_init(dst_vq);
+diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+index 1595a9607775..0eea4c2c3627 100644
+--- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
++++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_capture.c
+@@ -660,7 +660,7 @@ int sun6i_isp_capture_setup(struct sun6i_isp_device *isp_dev)
+ 	queue->buf_struct_size = sizeof(struct sun6i_isp_buffer);
+ 	queue->ops = &sun6i_isp_capture_queue_ops;
+ 	queue->mem_ops = &vb2_dma_contig_memops;
+-	queue->min_buffers_needed = 2;
++	queue->min_queued_buffers = 2;
+ 	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	queue->lock = &capture->lock;
+ 	queue->dev = isp_dev->dev;
+diff --git a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+index e28be895b486..53d05e8a364b 100644
+--- a/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
++++ b/drivers/staging/media/sunxi/sun6i-isp/sun6i_isp_params.c
+@@ -489,7 +489,7 @@ int sun6i_isp_params_setup(struct sun6i_isp_device *isp_dev)
+ 	queue->buf_struct_size = sizeof(struct sun6i_isp_buffer);
+ 	queue->ops = &sun6i_isp_params_queue_ops;
+ 	queue->mem_ops = &vb2_vmalloc_memops;
+-	queue->min_buffers_needed = 1;
++	queue->min_queued_buffers = 1;
+ 	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	queue->lock = &params->lock;
+ 	queue->dev = isp_dev->dev;
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index 17cacd696ab4..e8fda582f0d1 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -546,13 +546,15 @@ struct vb2_buf_ops {
+  * @gfp_flags:	additional gfp flags used when allocating the buffers.
+  *		Typically this is 0, but it may be e.g. %GFP_DMA or %__GFP_DMA32
+  *		to force the buffer allocation to a specific memory zone.
+- * @min_buffers_needed: the minimum number of buffers needed before
++ * @min_queued_buffers: the minimum number of queued buffers needed before
+  *		@start_streaming can be called. Used when a DMA engine
+  *		cannot be started unless at least this number of buffers
+  *		have been queued into the driver.
+  * @min_reqbufs_allocation: the minimum number of buffers allocated when
+  *		calling VIDIOC_REQBUFS. Used when drivers need a to
+  *		specify a minimum buffers allocation before setup a queue.
++ *		If set to 0 then min_queued_buffers + 1 value is used
++ *		as minimum numbers of buffers value.
+  */
+ /*
+  * Private elements (won't appear at the uAPI book):
+@@ -617,7 +619,7 @@ struct vb2_queue {
+ 	unsigned int			buf_struct_size;
+ 	u32				timestamp_flags;
+ 	gfp_t				gfp_flags;
+-	u32				min_buffers_needed;
++	u32				min_queued_buffers;
+ 	u32				min_reqbufs_allocation;
+ 
+ 	struct device			*alloc_devs[VB2_MAX_PLANES];
+diff --git a/samples/v4l/v4l2-pci-skeleton.c b/samples/v4l/v4l2-pci-skeleton.c
+index a65aa9d1e9da..4fe8f58b270f 100644
+--- a/samples/v4l/v4l2-pci-skeleton.c
++++ b/samples/v4l/v4l2-pci-skeleton.c
+@@ -821,7 +821,7 @@ static int skeleton_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
+ 	 * available before it can be started. The start_streaming() op
+ 	 * won't be called until at least this many buffers are queued up.
+ 	 */
+-	q->min_buffers_needed = 2;
++	q->min_queued_buffers = 2;
+ 	/*
+ 	 * The serialization lock for the streaming ioctls. This is the same
+ 	 * as the main serialization lock, but if some of the non-streaming
+-- 
+2.39.2
 
-If set_routes > num_routes, then return -EINVAL. If set_routes is 0, would
-that clear all routing?
-
-With a naming scheme like this it can also be used if we ever implement a
-S_TOPOLOGY ioctl.
-
-Regards,
-
-	Hans
 
