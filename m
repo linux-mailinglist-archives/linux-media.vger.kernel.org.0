@@ -1,322 +1,260 @@
-Return-Path: <linux-media+bounces-1613-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1614-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 840D780398E
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 17:04:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FB78803A5F
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 17:35:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 11E091F21265
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 16:04:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25A972810D4
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 16:35:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 722642E645;
-	Mon,  4 Dec 2023 16:04:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2004F2E626;
+	Mon,  4 Dec 2023 16:35:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wdc.com header.i=@wdc.com header.b="aM7RSVlu";
-	dkim=pass (1024-bit key) header.d=sharedspace.onmicrosoft.com header.i=@sharedspace.onmicrosoft.com header.b="sjAbVveG"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PxBF/RRu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from esa2.hgst.iphmx.com (esa2.hgst.iphmx.com [68.232.143.124])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D5C0A9;
-	Mon,  4 Dec 2023 08:03:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-  t=1701705834; x=1733241834;
-  h=from:to:cc:subject:date:message-id:content-id:
-   content-transfer-encoding:mime-version;
-  bh=6u5YTk6DEWnxOgD5MmLMI0tZynO2Y2LILJcyXBleFHo=;
-  b=aM7RSVluGS7FOoLxp7U6dkLkAiyZQcvNvSRtpySejqHkaHh2kVmbNWf1
-   vIDXvwqhfDR1sFzoD8RbS3/M1yHAmj1kSwIpm0Rx+FUrNZ/8jQ6ieMJsJ
-   MNkBfIuyLwJLB1OGBQHRVCVCX1NqBjIvzMQc6Fi5v537nFuH4llTqW93g
-   UJlaGZ+ECNv6vhZfWyNl4fzIregF4+wWbRfO41LZcc8xxkXA6SkWrc/yU
-   B3TOKDa5huW0IR/GbqmpLPZry87me/ybxk1MaryF224Ffn9YP7CYxuy1Y
-   uAxR3u7Tj7TtpuaWw2WCBkPUyhPTl85796HsKy1EsnY9vxw98ALqmOE/5
-   A==;
-X-CSE-ConnectionGUID: RXGd1JzjQQOCKEjLnb4CAw==
-X-CSE-MsgGUID: eq3qDhoRR3abv5q6IcdtaQ==
-X-IronPort-AV: E=Sophos;i="6.04,250,1695657600"; 
-   d="scan'208";a="3967080"
-Received: from mail-mw2nam12lp2040.outbound.protection.outlook.com (HELO NAM12-MW2-obe.outbound.protection.outlook.com) ([104.47.66.40])
-  by ob1.hgst.iphmx.com with ESMTP; 05 Dec 2023 00:03:49 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=O0sFAgg9jRoy2QVFOzupSWAOHQdfrN48V/hMO8KaSUEkDMHVAs2vBLjAbt/MTZcE1vpDMHjojo35Kfy6vPsxIBPX3nSfjcFfKN2L1smCkJsqgLr8do5za9h0Ovrr9lUcsXt8wz/C19P92LcBmingJ+ZsnszKhM5OwPce9gorfXqEjararANYfbS01KDnw2+3DfbaNtsp2TV6dmB0R494yZ8WX7T96rjGseC1n5L3OqPO9Mrvv2XrV4heqVEq94JRXkstxZoxSgTaTp7pfXeOuUTE9+o/gd2PaCJKHvJNWkSKPhALoERkheG9hyARqvHrQFP7bch0I9ZFMo0ty5mTCQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bJAqSE1DwdlYMGe5sd0S2Z9quPCn4sf/ygxCV+Ud63Q=;
- b=KteHXaRG4BsnEuil7/vEX7UM6VG/K10uxPA/D7CrelU1jCfVs86DOLPX4hnP6iKhVFCBH/kv2ydGpPLpWPwKfrZzk424tDXBtxwy0+3JLLh5S7jCKXNUgtBzvhhiXHBbyNOqfVWIPzj+rj1cZT+2KjskHTZ9IwgVHs8wJp+2IBygmkHcayw99wvy1eePXkt1vZK9NyMs1kUM7Eyr6z697OdNxCeMg9HCSaSYayQiMgbfGkGJaLO5+lgXFKzwXb9eTNvJgiYodjkpp9uJx+ELZKJoSGE0kEZG9kHLFgyUkKuTFfoaUFOFL7l3Jpfkm39O7E53wQJKwV3STIEPYskwQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wdc.com; dmarc=pass action=none header.from=wdc.com; dkim=pass
- header.d=wdc.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=sharedspace.onmicrosoft.com; s=selector2-sharedspace-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bJAqSE1DwdlYMGe5sd0S2Z9quPCn4sf/ygxCV+Ud63Q=;
- b=sjAbVveGyjDKbd2X4DgAviSBf8LkFm+ResNdEXCIhmv7mv0setXog/ATyUizTvrLEKnTt5dJ/auJZVWjAn4wCJ9U00M1u8L4xdRzJgfXnGVDSDsxrXkgOBZH1KZLfeD6g5AKAsKojBHLcOWYwz9a4khnxkCP85ttV14N58B9K4c=
-Received: from SJ0PR04MB7776.namprd04.prod.outlook.com (2603:10b6:a03:300::11)
- by SJ0PR04MB7263.namprd04.prod.outlook.com (2603:10b6:a03:29e::20) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.22; Mon, 4 Dec
- 2023 16:03:47 +0000
-Received: from SJ0PR04MB7776.namprd04.prod.outlook.com
- ([fe80::9511:64b5:654e:7a8a]) by SJ0PR04MB7776.namprd04.prod.outlook.com
- ([fe80::9511:64b5:654e:7a8a%4]) with mapi id 15.20.7046.033; Mon, 4 Dec 2023
- 16:03:47 +0000
-From: Naohiro Aota <Naohiro.Aota@wdc.com>
-To: Tejun Heo <tj@kernel.org>, Lai Jiangshan <jiangshanlai@gmail.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>
-CC: "ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
-	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>, "coreteam@netfilter.org"
-	<coreteam@netfilter.org>, "dm-devel@lists.linux.dev"
-	<dm-devel@lists.linux.dev>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "gfs2@lists.linux.dev"
-	<gfs2@lists.linux.dev>, "intel-gfx@lists.freedesktop.org"
-	<intel-gfx@lists.freedesktop.org>, "iommu@lists.linux.dev"
-	<iommu@lists.linux.dev>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-bcachefs@vger.kernel.org"
-	<linux-bcachefs@vger.kernel.org>, "linux-block@vger.kernel.org"
-	<linux-block@vger.kernel.org>, "linux-cachefs@redhat.com"
-	<linux-cachefs@redhat.com>, "linux-cifs@vger.kernel.org"
-	<linux-cifs@vger.kernel.org>, "linux-crypto@vger.kernel.org"
-	<linux-crypto@vger.kernel.org>, "linux-erofs@lists.ozlabs.org"
-	<linux-erofs@lists.ozlabs.org>, "linux-f2fs-devel@lists.sourceforge.net"
-	<linux-f2fs-devel@lists.sourceforge.net>, "linux-fscrypt@vger.kernel.org"
-	<linux-fscrypt@vger.kernel.org>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
-	<linux-mediatek@lists.infradead.org>, "linux-mm@kvack.org"
-	<linux-mm@kvack.org>, "linux-mmc@vger.kernel.org"
-	<linux-mmc@vger.kernel.org>, "linux-nfs@vger.kernel.org"
-	<linux-nfs@vger.kernel.org>, "linux-nvme@lists.infradead.org"
-	<linux-nvme@lists.infradead.org>, "linux-raid@vger.kernel.org"
-	<linux-raid@vger.kernel.org>, "linux-rdma@vger.kernel.org"
-	<linux-rdma@vger.kernel.org>, "linux-remoteproc@vger.kernel.org"
-	<linux-remoteproc@vger.kernel.org>, "linux-scsi@vger.kernel.org"
-	<linux-scsi@vger.kernel.org>, "linux-trace-kernel@vger.kernel.org"
-	<linux-trace-kernel@vger.kernel.org>, "linux-usb@vger.kernel.org"
-	<linux-usb@vger.kernel.org>, "linux-wireless@vger.kernel.org"
-	<linux-wireless@vger.kernel.org>, "linux-xfs@vger.kernel.org"
-	<linux-xfs@vger.kernel.org>, "nbd@other.debian.org" <nbd@other.debian.org>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>, "ntb@lists.linux.dev"
-	<ntb@lists.linux.dev>, "open-iscsi@googlegroups.com"
-	<open-iscsi@googlegroups.com>, "oss-drivers@corigine.com"
-	<oss-drivers@corigine.com>, "platform-driver-x86@vger.kernel.org"
-	<platform-driver-x86@vger.kernel.org>, "samba-technical@lists.samba.org"
-	<samba-technical@lists.samba.org>, "target-devel@vger.kernel.org"
-	<target-devel@vger.kernel.org>, "virtualization@lists.linux.dev"
-	<virtualization@lists.linux.dev>, "wireguard@lists.zx2c4.com"
-	<wireguard@lists.zx2c4.com>
-Subject: Performance drop due to alloc_workqueue() misuse and recent change
-Thread-Topic: Performance drop due to alloc_workqueue() misuse and recent
- change
-Thread-Index: AQHaJst2DrltZgUPc0+0c5JqMqZ1aA==
-Date: Mon, 4 Dec 2023 16:03:47 +0000
-Message-ID: <dbu6wiwu3sdhmhikb2w6lns7b27gbobfavhjj57kwi2quafgwl@htjcc5oikcr3>
-Accept-Language: ja-JP, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=wdc.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SJ0PR04MB7776:EE_|SJ0PR04MB7263:EE_
-x-ms-office365-filtering-correlation-id: 14b1b8b6-3d5d-4b15-bfe5-08dbf4e29941
-wdcipoutbound: EOP-TRUE
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info:
- Vm+8YZI1X28OILC7M6WWiHOq8z3Oz6aJ9cfuK/9N8axIHOImG1m5DdK1qQXqXiI3vd6cI/fkagewknUyS4U4URTy+XOHaj/V0wganxERlMatItj7U3f+X6TbnwKc7k/RjrnN7rfWr+JcUY+CVtG3LCgSeSmA8pHlvzVgwnDqS2R4/lUxYPuvbFaISU0QZPgtyT4vntLvt3yKO0rfbTjOB+ymzSb5OeEk9ppGf3F+94Dx4AI1WgMBLyRBTnB6N77jDSqbdrsrWY9WjVZIGSKTfRvyOvhU5DeapF2HPeEitoCWLq2+SaktiO4dRIbldo1PfCcLG4SmE6fqQb+f8Opw0fJL/s/L6rG/0v+2jQXJTeaaKdyLb3TyvMCHpjJuuZ4ne8eEQuEhENfcqvYkTgeM+pMxWqV85MdtB050ctPDU+OjQx8mSr2qUZDHavhcswCENptCoCaK4bB70GI256HFdDb1stPpl448VrWu5K9UfzGHN+9FnCp6vuqhkrJETQ26l5UxP3+Z+XzMTgMd9GgrHYYwhWCz4ACkACQ3NPnXbdAe6CFGp29Qg4OU4mko3Ez7iSrOMz4/LLUBAnonsQpKrfrsfw5mEs4pjYPWcUNg5tydGUMagqjc5pMPcV+Ymddb
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ0PR04MB7776.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(7916004)(346002)(396003)(136003)(366004)(376002)(39860400002)(230922051799003)(186009)(1800799012)(451199024)(64100799003)(41300700001)(91956017)(478600001)(316002)(54906003)(66476007)(8936002)(66946007)(8676002)(6486002)(19627235002)(110136005)(64756008)(76116006)(66446008)(4326008)(5660300002)(86362001)(7406005)(7416002)(2906002)(82960400001)(122000001)(66556008)(6512007)(26005)(83380400001)(6506007)(71200400001)(38100700002)(9686003)(38070700009)(33716001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?j+KsPRv8/bQqiQH0QsLGZctWR4vdyu7XJZy/rTLsOSO8nDndW/4PMwL/X8wx?=
- =?us-ascii?Q?wiwHtYoaIyXpY9cOS3SQl5/qD6SVd1AAEJKh9yMu+1zC2tE/5AWhwc/yHk0U?=
- =?us-ascii?Q?FE9vN9qpMMHr4TaSsPwJvq7wZfJc7YqzMX8U4sT9pEc02NKiddz5jlfoY5hG?=
- =?us-ascii?Q?hpgo7sV0u8VXoYBnm5mhvj82wnm+F+c1jLAzbhqlit2c7rLGWogAc8E5w+sP?=
- =?us-ascii?Q?KwlpTTuZ17Z+W8qdD9PrEBDxOmHveyWKzlvmLk4sl+7sBZXjU9YEqCF4LH6B?=
- =?us-ascii?Q?LlIUtBIpBSUJ8VCXL5Llx57+Pfu/17790M9o/gE/TNVhULM1QApswCHgY3oi?=
- =?us-ascii?Q?JXBwxfcPN5+6MMNmxFDAQoITn/ZguHzwIr4mSO2ZQjPA8B2FxjiezeNNOdKZ?=
- =?us-ascii?Q?JwMVCNZuTx3QJ5wfAQUwQiy636xPmKx/sXzZYu92KaW/npW+1Cynu6cpx0K7?=
- =?us-ascii?Q?Ak5g/82rLz/a8zgi8aeHvv5faeOYjBH73x29ECzro18TQQEmNdz+DtOB/N1z?=
- =?us-ascii?Q?LStu41QjqoforOGVF37mQ1TNYANwSRLUsbFo5izHFL0WRf0LJC6Owh1PByD4?=
- =?us-ascii?Q?ZERVA6I/OocOF0rw0r/shFdxSvKkVdksm4SSDSj4WXXgla8M86G7Ds39wmzy?=
- =?us-ascii?Q?Srh0esHApUQyHfkUbE7PFdrX3i2O7FKCoPzqwlI3gKVZgxv0YIl53E7x27Qi?=
- =?us-ascii?Q?r1jxfuAj5Jw3exmLTq58237fmDwib1M26HFUB0s0wi9BMoL4Ydp3J57FZfsl?=
- =?us-ascii?Q?9JfRuCDjepEC/VCXNWZprGC7suO9+T0pC3NHYiLwoFKmpucL5koyZ89NEh25?=
- =?us-ascii?Q?1a5C0yEujkylr+IJyTDBgP2ka/SKxbvmlcP3xMnTIq/tzS/a1rzbfR/v5Ytq?=
- =?us-ascii?Q?ATKjUvvLGaZOvCAotl8Meuts6O5B1iEUWcehHxxGzNcuZJgdeMzPlpQ5/xLU?=
- =?us-ascii?Q?imyy33+QODBx3IjTaP6aVoZ538Ox49wPWyaM3bUMgCyFYa+EUugTjrSjgnjo?=
- =?us-ascii?Q?N9+fgO7t0gUmclpg0SP2VZw7MesW/28nN/xkt5w+/vQi3uAPnk9zJtc66+fa?=
- =?us-ascii?Q?YzrIN3McFDWLN4XGOdzQGZ04yUHCjhD+izDCCP2xSramFCZst6sriRqmyRO8?=
- =?us-ascii?Q?uBc7L4Ic6Y5WJ41XwWtsTZP9lqOsjzMnwD0G0oH6/oEviMRgz+pqU/KXf/sh?=
- =?us-ascii?Q?5jtFxa8msulm5WpzakkAEY7ZGqlShgmR5ggeBM3vXyvQ1uBfpOfPdueWIJXE?=
- =?us-ascii?Q?IgpCWVHLoST/aNkMGQTNdHICl6MBvBRp+OW1Phl4eQDNW5bg50X2w8pL8btU?=
- =?us-ascii?Q?G5DM0wSdmZ9W/+OM7V6puTxQgASweFrLc7dN2UbESHCUZilu5XdLCnqnCe1n?=
- =?us-ascii?Q?tq52CRhHdEYeBBCBh+2HbmZZdqVezNt/LCgilXRwXZN4nSbk9aC1ym6M8ujf?=
- =?us-ascii?Q?KOGI6qCJ0jH3SQXk77FNP3NVhS2BK4tVZEBXS/FZTmZeFyKcrWmjSIxnWZV/?=
- =?us-ascii?Q?/I27lGBhsq7GBTkr5dFBu9/z/S3/DUz8kgeTrjWIsCIWk7ywjOwp2vT78S6h?=
- =?us-ascii?Q?6zAHhhPRpS+ZrN0sWt9gypmnUMbzYvHB7j/fYQrcX42Xg8TuDsLhVjH7A+dn?=
- =?us-ascii?Q?eg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <22F9E65C59846241A1DB30938AC4A5FD@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: quoted-printable
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B21A3D5
+	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 08:35:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1701707726;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fEQrIUvvB0ZHrmUoOwDMHpHhUKTAQCdSNLvdtY6Yjqw=;
+	b=PxBF/RRuJmGPY8HLM1DDBIyWAXVahkpybZIKZSvCgP1rV5saCxM/kP8cMsOZSb6xQJD+GX
+	sXDvckRye6r3e3tfxZwIQBJKRkkHd8b1KrWhJF15/m2zCbIJOxsWnrf/zJpOhviqJlEgcO
+	joxf1xOoZPEVX8Fqrw2wAOokBriJ0IY=
+Received: from mail-lf1-f69.google.com (mail-lf1-f69.google.com
+ [209.85.167.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-418-weNYAKyTMT28myeuSUXgXQ-1; Mon, 04 Dec 2023 11:35:20 -0500
+X-MC-Unique: weNYAKyTMT28myeuSUXgXQ-1
+Received: by mail-lf1-f69.google.com with SMTP id 2adb3069b0e04-50bf07e91b7so1086707e87.0
+        for <linux-media@vger.kernel.org>; Mon, 04 Dec 2023 08:35:20 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701707718; x=1702312518;
+        h=in-reply-to:content-language:references:cc:to:subject:from
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=fEQrIUvvB0ZHrmUoOwDMHpHhUKTAQCdSNLvdtY6Yjqw=;
+        b=F/EbrKhc7YwHYHx+EG8co5TrEqjUiv56cie7axrphhYHY/AUTA/qUjJkiRKSG+3d1x
+         9UTt3pjc2gPnWeI+1HCxxBEOywFqo4QWNcdmNhWZdoM4oP/XDoKgNwRBRqjQLygnKhi/
+         ZIUtBd3o8w9AD4ZDcUueh4YXodvsuoEEPL7DbUiZTo4TSWNYi26ICBJhocsK7PmvORxS
+         YpikEnMPj/WpOWo3SmQtjKEGLcyzxbzgzCVZ1QEJWe+eY7jbo6jcYk8kgm3iPmX/g+l5
+         00mLFern3BG9ypYX6eFdXWe4barPbk8G3hcyUsQaUia4Ve9sIW/pM7YSICsEwdfIKBBB
+         Yq7Q==
+X-Gm-Message-State: AOJu0YyMW3gJYa8abHS1pkMCV05cKNOQQ0Mh0KBicU1eUHhsgKuUlFpL
+	Lp5N8Itb2mdztwvLcSbI5anNIjcUH1In/S6G7rE4wNAxNEtiEzLgxumPxwMu/xft+MkjNB6QqNP
+	UXP6ah44Ak87UoVoheXP+hVZ5n6Svhqc=
+X-Received: by 2002:ac2:4101:0:b0:50b:d763:fe43 with SMTP id b1-20020ac24101000000b0050bd763fe43mr2721650lfi.94.1701707718488;
+        Mon, 04 Dec 2023 08:35:18 -0800 (PST)
+X-Google-Smtp-Source: AGHT+IFlLKJuJtmVyLXHDtYOMRP2bxFGra6iPBTaNikqLRB+AD7efzplfFvncX/wQzCfDNUXLNRi5Q==
+X-Received: by 2002:ac2:4101:0:b0:50b:d763:fe43 with SMTP id b1-20020ac24101000000b0050bd763fe43mr2721631lfi.94.1701707718137;
+        Mon, 04 Dec 2023 08:35:18 -0800 (PST)
+Received: from ?IPV6:2001:1c00:c32:7800:5bfa:a036:83f0:f9ec? (2001-1c00-0c32-7800-5bfa-a036-83f0-f9ec.cable.dynamic.v6.ziggo.nl. [2001:1c00:c32:7800:5bfa:a036:83f0:f9ec])
+        by smtp.gmail.com with ESMTPSA id v25-20020a509559000000b0054cacb41abasm2081677eda.60.2023.12.04.08.35.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 04 Dec 2023 08:35:17 -0800 (PST)
+Content-Type: multipart/mixed; boundary="------------tPbU0VzV79v7PNh0ewqBtP95"
+Message-ID: <4768df6c-3b2d-4bca-afcd-553a272dc9fd@redhat.com>
+Date: Mon, 4 Dec 2023 17:35:16 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
-	=?us-ascii?Q?4yUaCuEtjLOvaGDjN0S1vwBhvGpctH16i5NYJFA0pw2YDoI1S5/jpgleB4Sl?=
- =?us-ascii?Q?Y76wG+K8GzfsqIUoH58V4ogBgzPRn96CIOUXtyObv31sBu/Qng8TPv1MTiNy?=
- =?us-ascii?Q?80Gi+pmsywzUORH7l4Ktg18JawdvoAmFClqlO93GMSi+DWKUxYx5YOdSBGfQ?=
- =?us-ascii?Q?HRmm46HxW1YYM66yhsa0XxFmlBmjcrV0pDr4N4aTTsWVs71sBqimTXrwjpmv?=
- =?us-ascii?Q?0dA+YuqC/K3x+G4OCxAQV7AQ7vIvVouJqkS2e+Jxrs53jNUVSgzG2u459pcj?=
- =?us-ascii?Q?bXi+E2xyDr71RBUqXBwl4IdE3Vwon3qYYYQL1dUVXEI+cZJ19+3hCnINPqN3?=
- =?us-ascii?Q?b2s9NJ0f8APjhQKQ7xMg0CydcsJ/V0HkDwYmyBoVUif1vVoWTLla0fo6d2W3?=
- =?us-ascii?Q?pUJgVOZhNQw/NXpN2Kr/nEJrJoY42fagezjipvFwAIWo/T46fZYJWPMGgu+9?=
- =?us-ascii?Q?jRlG9JtWZxYVb9NNkYJNFfJ44/9KqaSGMUULxiLEEqLdnYnAM+Pu6wiwJsC+?=
- =?us-ascii?Q?SlxPGPYpDv4LPdSKdTWemoAg0y17vTamcxgL9tYHOZnk6i7POLrvxR6DE9o/?=
- =?us-ascii?Q?30H9yc05GcF39Hc0/HfaLUlBiC9MEbZVd4WFZLbeTYOBZdQ2x7LImeKFxl8e?=
- =?us-ascii?Q?MQ7ccN0fzGW5NKOZylbCANE/o8MMsjve0E9IQcERzgRj4Jv7SKFxjdtUZqGp?=
- =?us-ascii?Q?AK2gMVjwASLR9izMuqRef0Q66WoPExrx5dVx1gIpQbAUBa1EyHI9sOyr4W7F?=
- =?us-ascii?Q?3ikpJ634Su1l9tH/Hmizjg95G4FpEQ7QlHePXyPkJ9t2u4Rln3CHPquqVtFo?=
- =?us-ascii?Q?KUj8w7LyvpF52bp6JMBDqYE5lWsIbTvsiXV2ePlcF+pmNKmK2HwfDsZyUQJy?=
- =?us-ascii?Q?DePzFuKBaTXWGLaE5cLQIyQ9i8Z+e/hJq+sk9xV0BW/28+ububKioRGw4688?=
- =?us-ascii?Q?1JcgWJ8PU9oIgCoITcy6MJlDpOBYjHyfd7D50tXbWNvsaSqU+a/HAwOyW1Oz?=
- =?us-ascii?Q?CRXyh11/rV45hdszNnWFvoXS8QljU/bqpD2g4uBzP6rTQsnSfmE2Sq5tWop7?=
- =?us-ascii?Q?iZg6dm72vBSXfQZ81fxeq5/tJY2dHz5VAdbVOClNa4jktktIAlDrrVv8Y0+r?=
- =?us-ascii?Q?BtPYlOAg9J+GpZpx/2PaUUtfkptPvIB+yjm3sShY32y28B6GJ2MWyN8Ii46g?=
- =?us-ascii?Q?Hde0RlJc4n4vsilUj3JnZVOTCo0Tf7lraasNJhi/sJ6txDE2FgIzSWlN1ruT?=
- =?us-ascii?Q?TIbWLeFmUGyLryW8eYOZYSPIlx33/ioId24TmUN8HN/rtYgEJ+5sWFUvolOx?=
- =?us-ascii?Q?S88ClA4b3uYoDD31n8Fle2428J0xxsKYUSPE5fkwgS77+611ccKDc5A8LGCz?=
- =?us-ascii?Q?04feASjVaawHaxrvSDLcpTqsVo3c3Z9yOM5Ljhmp6mUMCOd/SQ=3D=3D?=
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SJ0PR04MB7776.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 14b1b8b6-3d5d-4b15-bfe5-08dbf4e29941
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Dec 2023 16:03:47.4049
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: OSCmkbRh8n8vcbIS1VZaFJ/iwoKklNFRq1yI+59VAycKCqtgB8CdeOIO6fVe7X6AHWwLpdqObwIgs8E8UvLmEg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR04MB7263
+User-Agent: Mozilla Thunderbird
+From: Hans de Goede <hdegoede@redhat.com>
+Subject: Re: [PATCH v2 00/15] Intel IPU6 and IPU6 input system drivers
+To: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+ sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com,
+ "Martti Groenen (19174837)" <M.Groenen@student.hhs.nl>
+Cc: andriy.shevchenko@linux.intel.com, hdegoede@redhat.com,
+ ilpo.jarvinen@linux.intel.com, andreaskleist@gmail.com,
+ claus.stovgaard@gmail.com, tfiga@chromium.org, senozhatsky@chromium.org,
+ tomi.valkeinen@ideasonboard.com, bingbu.cao@linux.intel.com,
+ tian.shu.qiu@intel.com, hongju.wang@intel.com
+References: <20231024112924.3934228-1-bingbu.cao@intel.com>
+ <e1b060be-793f-4482-b0dc-670984bbbd84@hansg.org>
+Content-Language: en-US, nl
+In-Reply-To: <e1b060be-793f-4482-b0dc-670984bbbd84@hansg.org>
 
-Recently, commit 636b927eba5b ("workqueue: Make unbound workqueues to use
-per-cpu pool_workqueues") changed WQ_UNBOUND workqueue's behavior. It
-changed the meaning of alloc_workqueue()'s max_active from an upper limit
-imposed per NUMA node to a limit per CPU. As a result, massive number of
-workers can be running at the same time, especially if the workqueue user
-thinks the max_active is a global limit.
+This is a multi-part message in MIME format.
+--------------tPbU0VzV79v7PNh0ewqBtP95
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Actually, it is already written it is per-CPU limit in the documentation
-before the commit. However, several callers seem to misuse max_active,
-maybe thinking it is a global limit. It is an unexpected behavior change
-for them.
+Hi,
 
-For example, these callers set max_active =3D num_online_cpus(), which is a
-suspicious limit applying to per-CPU. This config means we can have nr_cpu
-* nr_cpu active tasks working at the same time.
+On 11/8/23 12:59, Hans de Goede wrote:
+> Hi Bingbu,
+> 
+> On 10/24/23 13:29, bingbu.cao@intel.com wrote:
+>> From: Bingbu Cao <bingbu.cao@intel.com>
+>>
+>> This patch series adds a driver for Intel IPU6 input system.
+>> IPU6 is the sixth generation of Imaging Processing Unit, it is a PCI
+>> device which can be found in some Intel Client Platforms. User can use
+>> IPU6 to capture images from MIPI camera sensors.
+>>
+>> IPU6 has its own firmware which exposes ABIs to driver, and communicates
+>> with CSE to do firmware authentication. IPU6 has its MMU hardware, so
+>> the driver sets up a page table to allow IPU6 DMA to access the system
+>> memory.
+>>
+>> IPU6 input system driver uses MC and V4L2 sub-device APIs besides V4L2.
+> 
+> I have been testing this on a TigerLake system, a Dell Latitude 9420
+> with ov01a1s and the packed 10 bit bayer pixel fmt: V4L2_PIX_FMT_SGRBG10P,
+> which libcamera together with (WIP) software debayer support picks
+> by default does not work. There are many many CSI errors in dmesg
+> and only the first 10 or so lines of the image show.
+> 
+> Disabling the packed format by removing it from ipu6_isys_pfmts[],
+> making libcamera pick the unpacked (every 10 bits per pixel data
+> stored in a 16 bit word in output buffer) fixes this.
+> 
+> Are the packed bayer formats supposed to work on Tiger Lake, or
+> is this a known issue which Intel's own userspace stack avoids
+> by always picking the unpacked format ?
 
-fs/f2fs/data.c: sbi->post_read_wq =3D alloc_workqueue("f2fs_post_read_wq",
-fs/f2fs/data.c-                                          WQ_UNBOUND | WQ_HI=
-GHPRI,
-fs/f2fs/data.c-                                          num_online_cpus())=
-;
+I have just rebased my personal tree with these patches in it
+on top of media_staging. I had to make some changes to make
+this series work on top of media_staging.
 
-fs/crypto/crypto.c:     fscrypt_read_workqueue =3D alloc_workqueue("fscrypt=
-_read_queue",
-fs/crypto/crypto.c-                                              WQ_UNBOUND=
- | WQ_HIGHPRI,
-fs/crypto/crypto.c-                                              num_online=
-_cpus());
+I'm attaching these changes here as a patch in case they
+are useful for someone else. Feel free to squash these
+into the next version.
 
-fs/verity/verify.c:     fsverity_read_workqueue =3D alloc_workqueue("fsveri=
-ty_read_queue",
-fs/verity/verify.c-                                               WQ_HIGHPR=
-I,
-fs/verity/verify.c-                                               num_onlin=
-e_cpus());
+Talking about a next version I would think it is about
+time to post a v3 of this ?
 
-drivers/crypto/hisilicon/qm.c:  qm->wq =3D alloc_workqueue("%s", WQ_HIGHPRI=
- | WQ_MEM_RECLAIM |
-drivers/crypto/hisilicon/qm.c-                           WQ_UNBOUND, num_on=
-line_cpus(),
-drivers/crypto/hisilicon/qm.c-                           pci_name(qm->pdev)=
-);
+--------------tPbU0VzV79v7PNh0ewqBtP95
+Content-Type: text/x-patch; charset=UTF-8;
+ name="0001-media-ipu6-Add-support-for-kernel-6.8.patch"
+Content-Disposition: attachment;
+ filename="0001-media-ipu6-Add-support-for-kernel-6.8.patch"
+Content-Transfer-Encoding: base64
 
-block/blk-crypto-fallback.c:    blk_crypto_wq =3D alloc_workqueue("blk_cryp=
-to_wq",
-block/blk-crypto-fallback.c-                                    WQ_UNBOUND =
-| WQ_HIGHPRI |
-block/blk-crypto-fallback.c-                                    WQ_MEM_RECL=
-AIM, num_online_cpus());
+RnJvbSA5M2QyM2UzNDZhYWEyZTJiYTU5YjRiYzk1Y2EwMjliNjc0ZTAxMTk1IE1vbiBTZXAg
+MTcgMDA6MDA6MDAgMjAwMQpGcm9tOiBIYW5zIGRlIEdvZWRlIDxoZGVnb2VkZUByZWRoYXQu
+Y29tPgpEYXRlOiBNb24sIDQgRGVjIDIwMjMgMTI6MTM6MDIgKzAxMDAKU3ViamVjdDogW1BB
+VENIXSBtZWRpYTogaXB1NjogQWRkIHN1cHBvcnQgZm9yIGtlcm5lbCA2LjgKCkFkZCBzdXBw
+b3J0IGZvciB0aGUgdXBjb21pbmcgdjRsMi1zdWJkZXYgQVBJIGNoYW5nZXMgaW4ga2VybmVs
+IDYuOC4KClNpZ25lZC1vZmYtYnk6IEhhbnMgZGUgR29lZGUgPGhkZWdvZWRlQHJlZGhhdC5j
+b20+Ci0tLQogZHJpdmVycy9tZWRpYS9wY2kvaW50ZWwvaXB1Ni9pcHU2LWlzeXMtY3NpMi5j
+IHwgIDggKysrLS0tLS0KIC4uLi9tZWRpYS9wY2kvaW50ZWwvaXB1Ni9pcHU2LWlzeXMtc3Vi
+ZGV2LmMgICB8IDE5ICsrKysrKysrKysrLS0tLS0tLS0KIC4uLi9tZWRpYS9wY2kvaW50ZWwv
+aXB1Ni9pcHU2LWlzeXMtc3ViZGV2LmggICB8ICAyIC0tCiAuLi4vbWVkaWEvcGNpL2ludGVs
+L2lwdTYvaXB1Ni1pc3lzLXZpZGVvLmMgICAgfCAgMyArLS0KIDQgZmlsZXMgY2hhbmdlZCwg
+MTUgaW5zZXJ0aW9ucygrKSwgMTcgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9tZWRpYS9wY2kvaW50ZWwvaXB1Ni9pcHU2LWlzeXMtY3NpMi5jIGIvZHJpdmVycy9tZWRp
+YS9wY2kvaW50ZWwvaXB1Ni9pcHU2LWlzeXMtY3NpMi5jCmluZGV4IDJkYTgyYTc0ZmQxOC4u
+MWQ0MGJmYTk5MmE2IDEwMDY0NAotLS0gYS9kcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pcHU2
+L2lwdTYtaXN5cy1jc2kyLmMKKysrIGIvZHJpdmVycy9tZWRpYS9wY2kvaW50ZWwvaXB1Ni9p
+cHU2LWlzeXMtY3NpMi5jCkBAIC0zODYsMTIgKzM4NiwxMSBAQCBzdGF0aWMgaW50IGlwdTZf
+aXN5c19jc2kyX3NldF9zZWwoc3RydWN0IHY0bDJfc3ViZGV2ICpzZCwKIAlpZiAoIXNpbmtf
+ZmZtdCkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKLQlzcmNfZmZtdCA9IHY0bDJfc3ViZGV2X3N0
+YXRlX2dldF9zdHJlYW1fZm9ybWF0KHN0YXRlLCBzZWwtPnBhZCwKLQkJCQkJCSAgICAgICBz
+ZWwtPnN0cmVhbSk7CisJc3JjX2ZmbXQgPSB2NGwyX3N1YmRldl9zdGF0ZV9nZXRfZm9ybWF0
+KHN0YXRlLCBzZWwtPnBhZCwgc2VsLT5zdHJlYW0pOwogCWlmICghc3JjX2ZmbXQpCiAJCXJl
+dHVybiAtRUlOVkFMOwogCi0JY3JvcCA9IHY0bDJfc3ViZGV2X3N0YXRlX2dldF9zdHJlYW1f
+Y3JvcChzdGF0ZSwgc2VsLT5wYWQsIHNlbC0+c3RyZWFtKTsKKwljcm9wID0gdjRsMl9zdWJk
+ZXZfc3RhdGVfZ2V0X2Nyb3Aoc3RhdGUsIHNlbC0+cGFkLCBzZWwtPnN0cmVhbSk7CiAJaWYg
+KCFjcm9wKQogCQlyZXR1cm4gLUVJTlZBTDsKIApAQCAtNDM2LDcgKzQzNSw3IEBAIHN0YXRp
+YyBpbnQgaXB1Nl9pc3lzX2NzaTJfZ2V0X3NlbChzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkLAog
+CWlmICghc2lua19mZm10KQogCQlyZXR1cm4gLUVJTlZBTDsKIAotCWNyb3AgPSB2NGwyX3N1
+YmRldl9zdGF0ZV9nZXRfc3RyZWFtX2Nyb3Aoc3RhdGUsIHNlbC0+cGFkLCBzZWwtPnN0cmVh
+bSk7CisJY3JvcCA9IHY0bDJfc3ViZGV2X3N0YXRlX2dldF9jcm9wKHN0YXRlLCBzZWwtPnBh
+ZCwgc2VsLT5zdHJlYW0pOwogCWlmICghY3JvcCkKIAkJcmV0dXJuIC1FSU5WQUw7CiAKQEAg
+LTQ2Myw3ICs0NjIsNiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IHY0bDJfc3ViZGV2X3ZpZGVv
+X29wcyBjc2kyX3NkX3ZpZGVvX29wcyA9IHsKIH07CiAKIHN0YXRpYyBjb25zdCBzdHJ1Y3Qg
+djRsMl9zdWJkZXZfcGFkX29wcyBjc2kyX3NkX3BhZF9vcHMgPSB7Ci0JLmluaXRfY2ZnID0g
+aXB1Nl9pc3lzX3N1YmRldl9pbml0X2NmZywKIAkuZ2V0X2ZtdCA9IHY0bDJfc3ViZGV2X2dl
+dF9mbXQsCiAJLnNldF9mbXQgPSBpcHU2X2lzeXNfc3ViZGV2X3NldF9mbXQsCiAJLmdldF9z
+ZWxlY3Rpb24gPSBpcHU2X2lzeXNfY3NpMl9nZXRfc2VsLApkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9tZWRpYS9wY2kvaW50ZWwvaXB1Ni9pcHU2LWlzeXMtc3ViZGV2LmMgYi9kcml2ZXJzL21l
+ZGlhL3BjaS9pbnRlbC9pcHU2L2lwdTYtaXN5cy1zdWJkZXYuYwppbmRleCA3ZjEwNDIwNWQx
+NTMuLjU5OGJkZjY5YjM2NCAxMDA2NDQKLS0tIGEvZHJpdmVycy9tZWRpYS9wY2kvaW50ZWwv
+aXB1Ni9pcHU2LWlzeXMtc3ViZGV2LmMKKysrIGIvZHJpdmVycy9tZWRpYS9wY2kvaW50ZWwv
+aXB1Ni9pcHU2LWlzeXMtc3ViZGV2LmMKQEAgLTE0Myw4ICsxNDMsNyBAQCBpbnQgaXB1Nl9p
+c3lzX3N1YmRldl9zZXRfZm10KHN0cnVjdCB2NGwyX3N1YmRldiAqc2QsCiAJZm9ybWF0LT5m
+b3JtYXQuZmllbGQgPSBWNEwyX0ZJRUxEX05PTkU7CiAKIAkvKiBTdG9yZSB0aGUgZm9ybWF0
+IGFuZCBwcm9wYWdhdGUgaXQgdG8gdGhlIHNvdXJjZSBwYWQuICovCi0JZm10ID0gdjRsMl9z
+dWJkZXZfc3RhdGVfZ2V0X3N0cmVhbV9mb3JtYXQoc3RhdGUsIGZvcm1hdC0+cGFkLAotCQkJ
+CQkJICBmb3JtYXQtPnN0cmVhbSk7CisJZm10ID0gdjRsMl9zdWJkZXZfc3RhdGVfZ2V0X2Zv
+cm1hdChzdGF0ZSwgZm9ybWF0LT5wYWQsIGZvcm1hdC0+c3RyZWFtKTsKIAlpZiAoIWZtdCkK
+IAkJcmV0dXJuIC1FSU5WQUw7CiAKQEAgLTE2OSw4ICsxNjgsNyBAQCBpbnQgaXB1Nl9pc3lz
+X3N1YmRldl9zZXRfZm10KHN0cnVjdCB2NGwyX3N1YmRldiAqc2QsCiAJaWYgKHJldCkKIAkJ
+cmV0dXJuIC1FSU5WQUw7CiAKLQljcm9wID0gdjRsMl9zdWJkZXZfc3RhdGVfZ2V0X3N0cmVh
+bV9jcm9wKHN0YXRlLCBvdGhlcl9wYWQsCi0JCQkJCQkgb3RoZXJfc3RyZWFtKTsKKwljcm9w
+ID0gdjRsMl9zdWJkZXZfc3RhdGVfZ2V0X2Nyb3Aoc3RhdGUsIG90aGVyX3BhZCwgb3RoZXJf
+c3RyZWFtKTsKIAkvKiByZXNldCBjcm9wICovCiAJY3JvcC0+bGVmdCA9IDA7CiAJY3JvcC0+
+dG9wID0gMDsKQEAgLTIyOSw3ICsyMjcsNyBAQCBpbnQgaXB1Nl9pc3lzX2dldF9zdHJlYW1f
+cGFkX2ZtdChzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkLCB1MzIgcGFkLCB1MzIgc3RyZWFtLAog
+CQlyZXR1cm4gLUVJTlZBTDsKIAogCXN0YXRlID0gdjRsMl9zdWJkZXZfbG9ja19hbmRfZ2V0
+X2FjdGl2ZV9zdGF0ZShzZCk7Ci0JZm10ID0gdjRsMl9zdWJkZXZfc3RhdGVfZ2V0X3N0cmVh
+bV9mb3JtYXQoc3RhdGUsIHBhZCwgc3RyZWFtKTsKKwlmbXQgPSB2NGwyX3N1YmRldl9zdGF0
+ZV9nZXRfZm9ybWF0KHN0YXRlLCBwYWQsIHN0cmVhbSk7CiAJaWYgKGZtdCkgewogCQkqZm9y
+bWF0ID0gKmZtdDsKIAkJcmV0ID0gMDsKQEAgLTI1MCw3ICsyNDgsNyBAQCBpbnQgaXB1Nl9p
+c3lzX2dldF9zdHJlYW1fcGFkX2Nyb3Aoc3RydWN0IHY0bDJfc3ViZGV2ICpzZCwgdTMyIHBh
+ZCwgdTMyIHN0cmVhbSwKIAkJcmV0dXJuIC1FSU5WQUw7CiAKIAlzdGF0ZSA9IHY0bDJfc3Vi
+ZGV2X2xvY2tfYW5kX2dldF9hY3RpdmVfc3RhdGUoc2QpOwotCXJlY3QgPSB2NGwyX3N1YmRl
+dl9zdGF0ZV9nZXRfc3RyZWFtX2Nyb3Aoc3RhdGUsIHBhZCwgc3RyZWFtKTsKKwlyZWN0ID0g
+djRsMl9zdWJkZXZfc3RhdGVfZ2V0X2Nyb3Aoc3RhdGUsIHBhZCwgc3RyZWFtKTsKIAlpZiAo
+cmVjdCkgewogCQkqY3JvcCA9ICpyZWN0OwogCQlyZXQgPSAwOwpAQCAtMjg0LDggKzI4Miw4
+IEBAIHUzMiBpcHU2X2lzeXNfZ2V0X3NyY19zdHJlYW1fYnlfc3JjX3BhZChzdHJ1Y3QgdjRs
+Ml9zdWJkZXYgKnNkLCB1MzIgcGFkKQogCXJldHVybiBzb3VyY2Vfc3RyZWFtOwogfQogCi1p
+bnQgaXB1Nl9pc3lzX3N1YmRldl9pbml0X2NmZyhzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkLAot
+CQkJICAgICAgc3RydWN0IHY0bDJfc3ViZGV2X3N0YXRlICpzdGF0ZSkKK3N0YXRpYyBpbnQg
+aXB1Nl9pc3lzX3N1YmRldl9pbml0X3N0YXRlKHN0cnVjdCB2NGwyX3N1YmRldiAqc2QsCisJ
+CQkJICAgICAgIHN0cnVjdCB2NGwyX3N1YmRldl9zdGF0ZSAqc3RhdGUpCiB7CiAJc3RydWN0
+IHY0bDJfc3ViZGV2X3JvdXRlIHJvdXRlID0gewogCQkuc2lua19wYWQgPSAwLApAQCAtMzEw
+LDYgKzMwOCwxMCBAQCBpbnQgaXB1Nl9pc3lzX3N1YmRldl9zZXRfcm91dGluZyhzdHJ1Y3Qg
+djRsMl9zdWJkZXYgKnNkLAogCXJldHVybiBzdWJkZXZfc2V0X3JvdXRpbmcoc2QsIHN0YXRl
+LCByb3V0aW5nKTsKIH0KIAorc3RhdGljIGNvbnN0IHN0cnVjdCB2NGwyX3N1YmRldl9pbnRl
+cm5hbF9vcHMgaXB1Nl9pc3lzX3N1YmRldl9pbnRlcm5hbF9vcHMgPSB7CisJLmluaXRfc3Rh
+dGUgPSBpcHU2X2lzeXNfc3ViZGV2X2luaXRfc3RhdGUsCit9OworCiBpbnQgaXB1Nl9pc3lz
+X3N1YmRldl9pbml0KHN0cnVjdCBpcHU2X2lzeXNfc3ViZGV2ICphc2QsCiAJCQkgIGNvbnN0
+IHN0cnVjdCB2NGwyX3N1YmRldl9vcHMgKm9wcywKIAkJCSAgdW5zaWduZWQgaW50IG5yX2N0
+cmxzLApAQCAtMzI3LDYgKzMyOSw3IEBAIGludCBpcHU2X2lzeXNfc3ViZGV2X2luaXQoc3Ry
+dWN0IGlwdTZfaXN5c19zdWJkZXYgKmFzZCwKIAkJCSBWNEwyX1NVQkRFVl9GTF9TVFJFQU1T
+OwogCWFzZC0+c2Qub3duZXIgPSBUSElTX01PRFVMRTsKIAlhc2QtPnNkLmVudGl0eS5mdW5j
+dGlvbiA9IE1FRElBX0VOVF9GX1ZJRF9JRl9CUklER0U7CisJYXNkLT5zZC5pbnRlcm5hbF9v
+cHMgPSAmaXB1Nl9pc3lzX3N1YmRldl9pbnRlcm5hbF9vcHM7CiAKIAlhc2QtPnBhZCA9IGRl
+dm1fa2NhbGxvYygmYXNkLT5pc3lzLT5hZGV2LT5hdXhkZXYuZGV2LCBudW1fcGFkcywKIAkJ
+CQlzaXplb2YoKmFzZC0+cGFkKSwgR0ZQX0tFUk5FTCk7CmRpZmYgLS1naXQgYS9kcml2ZXJz
+L21lZGlhL3BjaS9pbnRlbC9pcHU2L2lwdTYtaXN5cy1zdWJkZXYuaCBiL2RyaXZlcnMvbWVk
+aWEvcGNpL2ludGVsL2lwdTYvaXB1Ni1pc3lzLXN1YmRldi5oCmluZGV4IDEzZTJjNTdlZmFl
+YS4uZWY3ODcxMDJlZDk4IDEwMDY0NAotLS0gYS9kcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9p
+cHU2L2lwdTYtaXN5cy1zdWJkZXYuaAorKysgYi9kcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9p
+cHU2L2lwdTYtaXN5cy1zdWJkZXYuaApAQCAtNDMsOCArNDMsNiBAQCBpbnQgaXB1Nl9pc3lz
+X2dldF9zdHJlYW1fcGFkX2ZtdChzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkLCB1MzIgcGFkLCB1
+MzIgc3RyZWFtLAogCQkJCSBzdHJ1Y3QgdjRsMl9tYnVzX2ZyYW1lZm10ICpmb3JtYXQpOwog
+aW50IGlwdTZfaXN5c19nZXRfc3RyZWFtX3BhZF9jcm9wKHN0cnVjdCB2NGwyX3N1YmRldiAq
+c2QsIHUzMiBwYWQsIHUzMiBzdHJlYW0sCiAJCQkJICBzdHJ1Y3QgdjRsMl9yZWN0ICpjcm9w
+KTsKLWludCBpcHU2X2lzeXNfc3ViZGV2X2luaXRfY2ZnKHN0cnVjdCB2NGwyX3N1YmRldiAq
+c2QsCi0JCQkgICAgICBzdHJ1Y3QgdjRsMl9zdWJkZXZfc3RhdGUgKnN0YXRlKTsKIGludCBp
+cHU2X2lzeXNfc3ViZGV2X3NldF9yb3V0aW5nKHN0cnVjdCB2NGwyX3N1YmRldiAqc2QsCiAJ
+CQkJIHN0cnVjdCB2NGwyX3N1YmRldl9zdGF0ZSAqc3RhdGUsCiAJCQkJIGVudW0gdjRsMl9z
+dWJkZXZfZm9ybWF0X3doZW5jZSB3aGljaCwKZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEv
+cGNpL2ludGVsL2lwdTYvaXB1Ni1pc3lzLXZpZGVvLmMgYi9kcml2ZXJzL21lZGlhL3BjaS9p
+bnRlbC9pcHU2L2lwdTYtaXN5cy12aWRlby5jCmluZGV4IGU3M2E0NmViN2ZkMy4uZGMxZGFi
+NzEzYmI2IDEwMDY0NAotLS0gYS9kcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pcHU2L2lwdTYt
+aXN5cy12aWRlby5jCisrKyBiL2RyaXZlcnMvbWVkaWEvcGNpL2ludGVsL2lwdTYvaXB1Ni1p
+c3lzLXZpZGVvLmMKQEAgLTI4MSw4ICsyODEsNyBAQCBzdGF0aWMgaW50IGxpbmtfdmFsaWRh
+dGUoc3RydWN0IG1lZGlhX2xpbmsgKmxpbmspCiAKIAl2NGwyX3N1YmRldl9sb2NrX3N0YXRl
+KHNfc3RhdGUpOwogCi0Jc19mbXQgPSB2NGwyX3N1YmRldl9zdGF0ZV9nZXRfc3RyZWFtX2Zv
+cm1hdChzX3N0YXRlLCBzX3BhZC0+aW5kZXgsCi0JCQkJCQkgICAgc19zdHJlYW0pOworCXNf
+Zm10ID0gdjRsMl9zdWJkZXZfc3RhdGVfZ2V0X2Zvcm1hdChzX3N0YXRlLCBzX3BhZC0+aW5k
+ZXgsIHNfc3RyZWFtKTsKIAlpZiAoIXNfZm10KSB7CiAJCWRldl9lcnIoZGV2LCAiZmFpbGVk
+IHRvIGdldCBzb3VyY2UgcGFkIGZvcm1hdFxuIik7CiAJCWdvdG8gdW5sb2NrOwotLSAKMi40
+MS4wCgo=
 
-drivers/md/dm-crypt.c:          cc->crypt_queue =3D alloc_workqueue("kcrypt=
-d/%s",
-drivers/md/dm-crypt.c-                                            WQ_CPU_IN=
-TENSIVE | WQ_MEM_RECLAIM | WQ_UNBOUND,
-drivers/md/dm-crypt.c-                                            num_onlin=
-e_cpus(), devname);
+--------------tPbU0VzV79v7PNh0ewqBtP95--
 
-Furthermore, the change affects performance in a certain case.
-
-Btrfs creates several WQ_UNBOUND workqueues with a default max_active =3D
-min(NRCPUS + 2, 8). As my machine has 96 CPUs with NUMA disabled, this
-max_active config allows running over 700 active works. Before the commit,
-it is limited to 8 if NUMA is disabled or limited to 16 if NUMA nodes is 2.
-
-I reverted the workqueue code back to before the commit, and I ran the
-following fio command on RAID0 btrfs on 6 SSDs.
-
-fio --group_reporting --eta=3Dalways --eta-interval=3D30s --eta-newline=3D3=
-0s \
-    --rw=3Dwrite --fallocate=3Dnone \
-    --direct=3D1 --ioengine=3Dlibaio --iodepth=3D32 \
-    --filesize=3D100G \
-    --blocksize=3D64k \
-    --time_based --runtime=3D300s \
-    --end_fsync=3D1 \
-    --directory=3D${MNT} \
-    --name=3Dwriter --numjobs=3D32
-
-By changing workqueue's max_active, the result varies.
-
-- wq max_active=3D8   (intended limit by btrfs?)
-  WRITE: bw=3D2495MiB/s (2616MB/s), 2495MiB/s-2495MiB/s (2616MB/s-2616MB/s)=
-, io=3D753GiB (808GB), run=3D308953-308953msec
-- wq max_active=3D16  (actual limit on 2 NUMA nodes setup)
-  WRITE: bw=3D1736MiB/s (1820MB/s), 1736MiB/s-1736MiB/s (1820MB/s-1820MB/s)=
-, io=3D670GiB (720GB), run=3D395532-395532msec
-- wq max_active=3D768 (simulating current limit)
-  WRITE: bw=3D1276MiB/s (1338MB/s), 1276MiB/s-1276MiB/s (1338MB/s-1338MB/s)=
-, io=3D375GiB (403GB), run=3D300984-300984msec
-
-The current performance is slower than the previous limit (max_active=3D16)
-by 27%, or it is 50% slower than the intended limit.  The performance drop
-might be due to contention of the btrfs-endio-write works. There are over
-700 kworker instances were created and 100 works are on the 'D' state
-competing for a lock.
-
-More specifically, I tested the same workload on the commit.
-
-- At commit 636b927eba5b ("workqueue: Make unbound workqueues to use per-cp=
-u pool_workqueues")
-  WRITE: bw=3D1191MiB/s (1249MB/s), 1191MiB/s-1191MiB/s (1249MB/s-1249MB/s)=
-, io=3D350GiB (376GB), run=3D300714-300714msec
-- At the previous commit =3D 4cbfd3de73 ("workqueue: Call wq_update_unbound=
-_numa() on all CPUs in NUMA node on CPU hotplug")
-  WRITE: bw=3D1747MiB/s (1832MB/s), 1747MiB/s-1747MiB/s (1832MB/s-1832MB/s)=
-, io=3D748GiB (803GB), run=3D438134-438134msec
-
-So, it is -31.8% performance down with the commit.
-
-In summary, we misuse max_active, considering it is a global limit. And,
-the recent commit introduced a huge performance drop in some cases.  We
-need to review alloc_workqueue() usage to check if its max_active setting
-is proper or not.=
 
