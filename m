@@ -1,27 +1,27 @@
-Return-Path: <linux-media+bounces-1602-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1603-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E5DE8036A5
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 15:29:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id D420C8036AE
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 15:30:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9EDCD1C20A55
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:29:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F7371F211EB
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:30:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A2C9428DCA;
-	Mon,  4 Dec 2023 14:29:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C38028DC0;
+	Mon,  4 Dec 2023 14:30:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BE0928DB0;
-	Mon,  4 Dec 2023 14:29:24 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D2E7C433C8;
-	Mon,  4 Dec 2023 14:29:22 +0000 (UTC)
-Message-ID: <8527a401-46a8-4916-993f-ede154eccd9b@xs4all.nl>
-Date: Mon, 4 Dec 2023 15:29:20 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCBE228DC4;
+	Mon,  4 Dec 2023 14:30:11 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39F85C433C7;
+	Mon,  4 Dec 2023 14:30:09 +0000 (UTC)
+Message-ID: <e063f152-1b64-4307-b76b-482e905b6bbd@xs4all.nl>
+Date: Mon, 4 Dec 2023 15:30:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -29,7 +29,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 10/36] media: ti: am437x: Remove useless setting of
+Subject: Re: [PATCH v2 11/36] media: ti: davinci: Remove useless setting of
  min_buffers_needed
 Content-Language: en-US, nl
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
@@ -38,7 +38,7 @@ Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-staging@lists.linux.dev, kernel@collabora.com,
  "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
- <20231204132323.22811-11-benjamin.gaignard@collabora.com>
+ <20231204132323.22811-12-benjamin.gaignard@collabora.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -83,7 +83,7 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231204132323.22811-11-benjamin.gaignard@collabora.com>
+In-Reply-To: <20231204132323.22811-12-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -97,23 +97,36 @@ On 04/12/2023 14:22, Benjamin Gaignard wrote:
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 > CC: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
 > ---
->  drivers/media/platform/ti/am437x/am437x-vpfe.c | 1 -
->  1 file changed, 1 deletion(-)
+>  drivers/media/platform/ti/davinci/vpif_capture.c | 1 -
+>  drivers/media/platform/ti/davinci/vpif_display.c | 1 -
+>  2 files changed, 2 deletions(-)
 > 
-> diff --git a/drivers/media/platform/ti/am437x/am437x-vpfe.c b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-> index f18acf9286a2..228920450e7a 100644
-> --- a/drivers/media/platform/ti/am437x/am437x-vpfe.c
-> +++ b/drivers/media/platform/ti/am437x/am437x-vpfe.c
-> @@ -2234,7 +2234,6 @@ static int vpfe_probe_complete(struct vpfe_device *vpfe)
->  	q->buf_struct_size = sizeof(struct vpfe_cap_buffer);
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->  	q->lock = &vpfe->lock;
-> -	q->min_buffers_needed = 1;
->  	q->dev = vpfe->pdev;
+> diff --git a/drivers/media/platform/ti/davinci/vpif_capture.c b/drivers/media/platform/ti/davinci/vpif_capture.c
+> index fc42b4bc37e6..300c3cb5cbed 100644
+> --- a/drivers/media/platform/ti/davinci/vpif_capture.c
+> +++ b/drivers/media/platform/ti/davinci/vpif_capture.c
+> @@ -1429,7 +1429,6 @@ static int vpif_probe_complete(void)
+>  		q->mem_ops = &vb2_dma_contig_memops;
+>  		q->buf_struct_size = sizeof(struct vpif_cap_buffer);
+>  		q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> -		q->min_buffers_needed = 1;
+>  		q->lock = &common->lock;
+>  		q->dev = vpif_dev;
 >  
->  	err = vb2_queue_init(q);
+> diff --git a/drivers/media/platform/ti/davinci/vpif_display.c b/drivers/media/platform/ti/davinci/vpif_display.c
+> index 9dbab1003c1d..d45391a4d8f2 100644
+> --- a/drivers/media/platform/ti/davinci/vpif_display.c
+> +++ b/drivers/media/platform/ti/davinci/vpif_display.c
+> @@ -1169,7 +1169,6 @@ static int vpif_probe_complete(void)
+>  		q->mem_ops = &vb2_dma_contig_memops;
+>  		q->buf_struct_size = sizeof(struct vpif_disp_buffer);
+>  		q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> -		q->min_buffers_needed = 1;
+>  		q->lock = &common->lock;
+>  		q->dev = vpif_dev;
+>  		err = vb2_queue_init(q);
 
-This driver needs one buffer as well, so drop this patch.
+Drop this patch, this is really needed.
 
 Regards,
 
