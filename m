@@ -1,27 +1,27 @@
-Return-Path: <linux-media+bounces-1599-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1600-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B891480366B
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 15:23:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03D7580367F
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 15:25:01 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5BB41B20AF9
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:23:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B3BA1C20AFE
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:25:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A1E128DAD;
-	Mon,  4 Dec 2023 14:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C97E28DBB;
+	Mon,  4 Dec 2023 14:24:54 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E21C9249ED;
-	Mon,  4 Dec 2023 14:23:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 84CC3C433CA;
-	Mon,  4 Dec 2023 14:23:35 +0000 (UTC)
-Message-ID: <55243cab-40bb-4e3b-acc9-92d85cc6da70@xs4all.nl>
-Date: Mon, 4 Dec 2023 15:23:34 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9483B28DA7;
+	Mon,  4 Dec 2023 14:24:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BF4EBC433C7;
+	Mon,  4 Dec 2023 14:24:50 +0000 (UTC)
+Message-ID: <12500a4e-04b3-4033-9e23-7be89be7fd7d@xs4all.nl>
+Date: Mon, 4 Dec 2023 15:24:50 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -29,15 +29,19 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 07/36] media: dvb-core: Remove useless setting of
+Subject: Re: [PATCH v2 08/36] media: atmel: Remove useless setting of
  min_buffers_needed
 Content-Language: en-US, nl
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
  tfiga@chromium.org, m.szyprowski@samsung.com, matt.ranostay@konsulko.com
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
+ linux-staging@lists.linux.dev, kernel@collabora.com,
+ Eugen Hristev <eugen.hristev@collabora.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>
 References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
- <20231204132323.22811-8-benjamin.gaignard@collabora.com>
+ <20231204132323.22811-9-benjamin.gaignard@collabora.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -82,7 +86,7 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231204132323.22811-8-benjamin.gaignard@collabora.com>
+In-Reply-To: <20231204132323.22811-9-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
@@ -92,33 +96,34 @@ On 04/12/2023 14:22, Benjamin Gaignard wrote:
 > buffers are queued. However, this driver doesn't need this,
 > it can stream fine without any buffers queued.
 > Just drop this unnecessary restriction.
+> 
+> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+> CC: Eugen Hristev <eugen.hristev@collabora.com>
+> CC: Nicolas Ferre <nicolas.ferre@microchip.com>
+> CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> CC: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+> ---
+>  drivers/staging/media/deprecated/atmel/atmel-isc-base.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/deprecated/atmel/atmel-isc-base.c b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
+> index 468568b5bb7a..c18f3ba5ae1a 100644
+> --- a/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
+> +++ b/drivers/staging/media/deprecated/atmel/atmel-isc-base.c
+> @@ -1871,7 +1871,6 @@ static int isc_async_complete(struct v4l2_async_notifier *notifier)
+>  	q->mem_ops		= &vb2_dma_contig_memops;
+>  	q->timestamp_flags	= V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+>  	q->lock			= &isc->lock;
+> -	q->min_buffers_needed	= 1;
+>  	q->dev			= isc->dev;
+>  
+>  	ret = vb2_queue_init(q);
 
-This text needs to be updated: this isn't a driver, this is the
-dvb_vb2 core framework.
+This also expects one buffer to be queued on start_streaming.
 
-In any case, the patch itself is correct.
+So this patch can be dropped.
 
 Regards,
 
 	Hans
-
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> ---
->  drivers/media/dvb-core/dvb_vb2.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/media/dvb-core/dvb_vb2.c b/drivers/media/dvb-core/dvb_vb2.c
-> index 167ff82a6fed..54a3649d8424 100644
-> --- a/drivers/media/dvb-core/dvb_vb2.c
-> +++ b/drivers/media/dvb-core/dvb_vb2.c
-> @@ -171,7 +171,6 @@ int dvb_vb2_init(struct dvb_vb2_ctx *ctx, const char *name, int nonblocking)
->  	q->io_modes = VB2_MMAP;
->  	q->drv_priv = ctx;
->  	q->buf_struct_size = sizeof(struct dvb_buffer);
-> -	q->min_buffers_needed = 1;
->  	q->ops = &dvb_vb2_qops;
->  	q->mem_ops = &vb2_vmalloc_memops;
->  	q->buf_ops = &dvb_vb2_buf_ops;
-
 
