@@ -1,110 +1,351 @@
-Return-Path: <linux-media+bounces-1530-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1531-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 971FA802E59
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 10:17:31 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B42802E99
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 10:30:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6BB71C209E1
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 09:17:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7DA7FB20A08
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 09:30:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A80CA14F92;
-	Mon,  4 Dec 2023 09:17:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AE3A199A4;
+	Mon,  4 Dec 2023 09:30:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eawrxYmV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D3B010E;
-	Mon,  4 Dec 2023 01:17:12 -0800 (PST)
-X-UUID: b2dd1cfb302648d6995e901358889f68-20231204
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.33,REQID:f37ac697-bef6-4a90-bbfa-bc0369ecf577,IP:15,
-	URL:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
-	N:release,TS:10
-X-CID-INFO: VERSION:1.1.33,REQID:f37ac697-bef6-4a90-bbfa-bc0369ecf577,IP:15,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:-5,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:10
-X-CID-META: VersionHash:364b77b,CLOUDID:6c2143fd-4a48-46e2-b946-12f04f20af8c,B
-	ulkID:231204164052U6WTZBVA,BulkQuantity:4,Recheck:0,SF:66|38|24|72|19|44|1
-	02,TC:nil,Content:0,EDM:-3,IP:-2,URL:0,File:nil,Bulk:40,QS:nil,BEC:nil,COL
-	:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_FSD,TF_CID_SPAM_FSI
-X-UUID: b2dd1cfb302648d6995e901358889f68-20231204
-X-User: zengchi@kylinos.cn
-Received: from localhost.localdomain [(116.128.244.169)] by mailgw
-	(envelope-from <zengchi@kylinos.cn>)
-	(Generic MTA)
-	with ESMTP id 895367361; Mon, 04 Dec 2023 17:16:58 +0800
-From: Zeng Chi <zengchi@kylinos.cn>
-To: nas.chung@chipsnmedia.com,
-	jackson.lee@chipsnmedia.com,
-	mchehab@kernel.org,
-	sebastian.fricke@collabora.com,
-	nicolas.dufresne@collabora.com,
-	hverkuil-cisco@xs4all.nl,
-	bob.beckett@collabora.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	zengchi@kylinos.cn
-Subject: [PATCH] Fix memory leaks in wave5_vpu_open_enc() and wave5_vpu_open_dec()
-Date: Mon,  4 Dec 2023 17:16:49 +0800
-Message-Id: <20231204091649.3418987-1-zengchi@kylinos.cn>
-X-Mailer: git-send-email 2.25.1
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.65])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C13FD6;
+	Mon,  4 Dec 2023 01:30:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701682233; x=1733218233;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=o0v8o+XtHGMscrSv359utGlA1pDAUKnyad14ly7KCOM=;
+  b=eawrxYmVZrBqn0rtbH8C/gJGUATHibyD4jmc5kdJFeP3mhVYIdDOBop0
+   sH29xKZbFZC11CMNXulzSWG19tWVb26UNmLL3UwAZBYjKLJkd6kJt8lEs
+   qhUk0rMqr4y9kvrUTWol8LzIeH+nDQbI+PG7gQ4wzcdjmdHDKrZhqOuU0
+   i51uKMFNuH7QLUecZcGXJ7+AuTqbi5Zc3gpeC6u+O5KRF/Xv5HO8UgX7S
+   xmsWxSf3BUPbvMv7lq0GsI1NNvt0qWf3UXvJbIpOf082mW/XG8WhHHsHP
+   ZK2AGm7+pe06J0jP6mtUjIelRcrIJPmERdETSVt3MXBsJpSW0qkfvFOes
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="397594306"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="397594306"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 01:30:32 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10913"; a="943819114"
+X-IronPort-AV: E=Sophos;i="6.04,249,1695711600"; 
+   d="scan'208";a="943819114"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2023 01:30:27 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 658F91206B4;
+	Mon,  4 Dec 2023 11:30:24 +0200 (EET)
+Date: Mon, 4 Dec 2023 09:30:24 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: laurent.pinchart@ideasonboard.com, martin.hecht@avnet.eu,
+	michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
+	mhecht73@gmail.com, christophe.jaillet@wanadoo.fr,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Gerald Loacker <gerald.loacker@wolfvision.net>,
+	Nicholas Roth <nicholas@rothemail.net>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v14 3/3] media: i2c: Add support for alvium camera
+Message-ID: <ZW2cMPpbDN8xrOM9@kekkonen.localdomain>
+References: <20231124093011.2095073-1-tomm.merciai@gmail.com>
+ <20231124093011.2095073-4-tomm.merciai@gmail.com>
+ <ZWpJcS7aJmnRm1CB@kekkonen.localdomain>
+ <ZWr5my7SVKE2HPTZ@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZWr5my7SVKE2HPTZ@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 
-This patch fixes memory leaks on error escapes in wave5_vpu_open_enc()
-and wave5_vpu_open_dec().
+Hi Tommaso,
 
-Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
-Signed-off-by: Zeng Chi <zengchi@kylinos.cn>
----
- drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 5 +++--
- drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 5 +++--
- 2 files changed, 6 insertions(+), 4 deletions(-)
+On Sat, Dec 02, 2023 at 10:32:11AM +0100, Tommaso Merciai wrote:
+> Hi Sakari,
+> Thanks for your comments.
+> 
+> On Fri, Dec 01, 2023 at 09:00:33PM +0000, Sakari Ailus wrote:
+> > Hi Tommaso,
+> > 
+> > A few more comments below...
+> > 
+> > On Fri, Nov 24, 2023 at 10:30:07AM +0100, Tommaso Merciai wrote:
+> > 
+> > ...
+> > 
+> > > +static int alvium_get_bcrm_vers(struct alvium_dev *alvium)
+> > > +{
+> > > +	struct device *dev = &alvium->i2c_client->dev;
+> > > +	struct alvium_bcrm_vers *v;
+> > > +	u64 val;
+> > > +	int ret;
+> > > +
+> > > +	ret = alvium_read(alvium, REG_BCRM_VERSION_R, &val, NULL);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	v = (struct alvium_bcrm_vers *)&val;
+> > 
+> > You're still reading the entire struct using a single read. :-( This won't
+> > work on a BE machine as while the struct fields are in the same memory
+> > locations, the respective data in a single 64-bit value is not.
+> 
+> What about splitting REG_BCRM_VERSION_R in:
+> 
+> #define REG_BCRM_MINOR_VERSION_R			CCI_REG16(0x0000)
+> #define REG_BCRM_MAJOR_VERSION_R			CCI_REG16(0x0002)
+> 
+> and REG_BCRM_DEVICE_FIRMWARE_VERSION_R in:
+> 
+> #define REG_BCRM_DEVICE_FW_SPEC_VERSION_R		REG_BCRM_V4L2_8BIT(0x0010)
+> #define REG_BCRM_DEVICE_FW_MAJOR_VERSION_R		REG_BCRM_V4L2_8BIT(0x0011)
+> #define REG_BCRM_DEVICE_FW_MINOR_VERSION_R		REG_BCRM_V4L2_16BIT(0x0012)
+> #define REG_BCRM_DEVICE_FW_PATCH_VERSION_R		REG_BCRM_V4L2_32BIT(0x0014)
+> 
+> 
+> Then reading those values as a single values as you suggest:
+> 
+> static int alvium_get_bcrm_vers(struct alvium_dev *alvium)
+> {
+> 	struct device *dev = &alvium->i2c_client->dev;
+> 	u64 min, maj;
+> 	int ret = 0;
+> 
+> 	ret = alvium_read(alvium, REG_BCRM_MINOR_VERSION_R, &min, &ret);
+> 	ret = alvium_read(alvium, REG_BCRM_MAJOR_VERSION_R, &maj, &ret);
+> 	if (ret)
+> 		return ret;
+> 
+> 	dev_info(dev, "bcrm version: %llu.%llu\n", min, maj);
+> 
+> 	return 0;
+> }
+> 
+> static int alvium_get_fw_version(struct alvium_dev *alvium)
+> {
+> 	struct device *dev = &alvium->i2c_client->dev;
+> 	u64 spec, maj, min, pat;
+> 	int ret = 0;
+> 
+> 	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_SPEC_VERSION_R, &spec, &ret);
+> 	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MAJOR_VERSION_R, &maj, &ret);
+> 	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MINOR_VERSION_R, &min, &ret);
+> 	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_PATCH_VERSION_R, &pat, &ret);
+> 	if (ret)
+> 		return ret;
+> 
+> 	dev_info(dev, "fw version: %llu.%llu.%llu.%llu\n", spec, maj, min, pat);
+> 
+> 	return 0;
+> }
+> 
+> Then I'm going to remove alvium_bcrm_vers and alvium_fw_vers.
+> And alvium_is_alive became: 
+> 
+> static int alvium_is_alive(struct alvium_dev *alvium)
+> {
+> 	u64 bcrm, hbeat;
+> 	int ret = 0;
+> 
+> 	alvium_read(alvium, REG_BCRM_MINOR_VERSION_R, &bcrm, &ret);
+> 	alvium_read(alvium, REG_BCRM_HEARTBEAT_RW, &hbeat, &ret);
+> 	if (ret)
+> 		return ret;
+> 
+> 	return hbeat;
+> }
+> 
+> What do you think? Let me know.
+> (Maybe is this that you are trying to explain me but I haven't catch,
+> sorry) :)
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-index 8b1417ece96e..b0a045346bb7 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-@@ -1802,9 +1802,10 @@ static int wave5_vpu_open_dec(struct file *filp)
- 	spin_lock_init(&inst->state_spinlock);
- 
- 	inst->codec_info = kzalloc(sizeof(*inst->codec_info), GFP_KERNEL);
--	if (!inst->codec_info)
-+	if (!inst->codec_info) {
-+		kfree(inst);
- 		return -ENOMEM;
--
-+	}
- 	v4l2_fh_init(&inst->v4l2_fh, vdev);
- 	filp->private_data = &inst->v4l2_fh;
- 	v4l2_fh_add(&inst->v4l2_fh);
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-index f29cfa3af94a..bc94de9ea546 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-@@ -1546,9 +1546,10 @@ static int wave5_vpu_open_enc(struct file *filp)
- 	inst->ops = &wave5_vpu_enc_inst_ops;
- 
- 	inst->codec_info = kzalloc(sizeof(*inst->codec_info), GFP_KERNEL);
--	if (!inst->codec_info)
-+	if (!inst->codec_info) {
-+		kfree(inst);
- 		return -ENOMEM;
--
-+	}
- 	v4l2_fh_init(&inst->v4l2_fh, vdev);
- 	filp->private_data = &inst->v4l2_fh;
- 	v4l2_fh_add(&inst->v4l2_fh);
+Yes. The above code looks good to me.
+
+> 
+> 
+> > 
+> > > +
+> > > +	dev_info(dev, "bcrm version: %u.%u\n", v->minor, v->major);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int alvium_get_fw_version(struct alvium_dev *alvium)
+> > > +{
+> > > +	struct device *dev = &alvium->i2c_client->dev;
+> > > +	struct alvium_fw_vers *fw_v;
+> > > +	u64 val;
+> > > +	int ret;
+> > > +
+> > > +	ret = alvium_read(alvium, REG_BCRM_DEVICE_FIRMWARE_VERSION_R, &val, NULL);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	fw_v = (struct alvium_fw_vers *)&val;
+> > 
+> > Same here.
+> > 
+> > > +
+> > > +	dev_info(dev, "fw version: %u.%u.%u.%u\n", fw_v->special, fw_v->major,
+> > > +		 fw_v->minor, fw_v->patch);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int alvium_get_bcrm_addr(struct alvium_dev *alvium)
+> > > +{
+> > > +	u64 val;
+> > > +	int ret;
+> > > +
+> > > +	ret = alvium_read(alvium, REG_BCRM_REG_ADDR_R, &val, NULL);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	alvium->bcrm_addr = val;
+> > > +
+> > > +	return 0;
+> > > +}
+> > 
+> > ...
+> > 
+> > > +static int alvium_setup_mipi_fmt(struct alvium_dev *alvium)
+> > > +{
+> > > +	unsigned int avail_fmt_cnt = 0;
+> > > +	unsigned int fmt = 0;
+> > > +	size_t sz = 0;
+> > > +
+> > > +	alvium->alvium_csi2_fmt = NULL;
+> > 
+> > This seems to be unnnecessary: the field is assigned below without using it
+> > (obviously).
+> 
+> Ok, I will remove this in v15.
+> 
+> > 
+> > > +
+> > > +	/* calculate fmt array size */
+> > > +	for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
+> > > +		if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
+> > > +			continue;
+> > > +
+> > > +		if ((!alvium_csi2_fmts[fmt].is_raw) ||
+> > > +		    (alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]))
+> > > +			sz++;
+> > > +	}
+> > > +
+> > > +	/* init alvium_csi2_fmt array */
+> > > +	alvium->alvium_csi2_fmt_n = sz;
+> > > +	alvium->alvium_csi2_fmt =
+> > > +		kmalloc_array(sz, sizeof(struct alvium_pixfmt), GFP_KERNEL);
+> > > +	if (!alvium->alvium_csi2_fmt)
+> > > +		return -ENOMEM;
+> > > +
+> > > +	/* Create the alvium_csi2 fmt array from formats available */
+> > > +	for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
+> > > +		if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
+> > > +			continue;
+> > > +
+> > > +		if ((!alvium_csi2_fmts[fmt].is_raw) ||
+> > > +		    (alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit])) {
+> > > +			alvium->alvium_csi2_fmt[avail_fmt_cnt] = alvium_csi2_fmts[fmt];
+> > > +			avail_fmt_cnt++;
+> > > +		}
+> > > +	}
+> > > +
+> > > +	return 0;
+> > > +}
+> > 
+> > ...
+> > 
+> > > +static const struct alvium_pixfmt *
+> > > +alvium_code_to_pixfmt(struct alvium_dev *alvium, u32 code)
+> > > +{
+> > > +	const struct alvium_pixfmt *formats = alvium->alvium_csi2_fmt;
+> > 
+> > I'd use alvium->alvium_csi2_fmt and not add a local variable. Up to you.
+> 
+> Ok also for me.
+> 
+> > 
+> > > +	unsigned int i;
+> > > +
+> > > +	for (i = 0; formats[i].code; ++i)
+> > > +		if (formats[i].code == code)
+> > > +			return &formats[i];
+> > > +
+> > > +	return &formats[0];
+> > > +}
+> > > +
+> > > +static int alvium_set_mode(struct alvium_dev *alvium,
+> > > +			   struct v4l2_subdev_state *state)
+> > > +{
+> > > +	struct v4l2_mbus_framefmt *fmt;
+> > > +	struct v4l2_rect *crop;
+> > > +	int ret;
+> > > +
+> > > +	crop = v4l2_subdev_state_get_crop(state, 0);
+> > > +	fmt = v4l2_subdev_state_get_format(state, 0);
+> > > +
+> > > +	v4l_bound_align_image(&fmt->width, alvium->img_min_width,
+> > > +			      alvium->img_max_width, 0,
+> > > +			      &fmt->height, alvium->img_min_height,
+> > > +			      alvium->img_max_height, 0, 0);
+> > > +
+> > > +	/* alvium don't accept negative crop left/top */
+> > > +	crop->left = clamp((u32)max(0, crop->left), alvium->min_offx,
+> > > +			   (u32)(alvium->img_max_width - fmt->width));
+> > > +	crop->top = clamp((u32)max(0, crop->top), alvium->min_offy,
+> > > +			  (u32)(alvium->img_max_height - fmt->height));
+> > > +
+> > > +	ret = alvium_set_img_width(alvium, fmt->width);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret = alvium_set_img_height(alvium, fmt->height);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret = alvium_set_img_offx(alvium, crop->left);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	ret = alvium_set_img_offy(alvium, crop->top);
+> > > +	if (ret)
+> > > +		return ret;
+> > > +
+> > > +	return 0;
+> > > +}
+> 
+> I'm going to rebase v15 on top of your master branch.
+> My plan is moving alvium_init_cfg now alvium_init_state into
+> v4l2_subdev_internal_ops.
+
+Ack, thanks!
+
 -- 
-2.25.1
+Regards,
 
+Sakari Ailus
 
