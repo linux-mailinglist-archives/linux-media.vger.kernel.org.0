@@ -1,35 +1,35 @@
-Return-Path: <linux-media+bounces-1538-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1539-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C916803278
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:22:08 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 561E4803279
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:22:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16829280FD8
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 12:22:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 869701C209D2
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 12:22:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F5C9241E5;
-	Mon,  4 Dec 2023 12:22:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F467241F1;
+	Mon,  4 Dec 2023 12:22:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="AfFK+HOg"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="o8PKmUAZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9D9D2375B;
-	Mon,  4 Dec 2023 12:21:59 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 09E4AC433C7;
-	Mon,  4 Dec 2023 12:21:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E3862375B;
+	Mon,  4 Dec 2023 12:22:01 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25AA5C433BA;
+	Mon,  4 Dec 2023 12:22:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1701692519;
-	bh=+MF1TQtCp94CVORJQ7s0p1ZHpXbLCbspCjVzcdll2n8=;
+	s=korg; t=1701692521;
+	bh=NcAANKt1lnRvaxYqIUFqYUMHhA7/3PgO5ncSrMk9pSk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AfFK+HOgosUm6FfM0C1uZB/77869CB60mNLJlxrq2hETV1jDkD+Sy1rI+A3DN7ezM
-	 vbnJ5u/uvQHkGoS9//wZRHIXroYAqEACNlTJVVWwB8000cK986x1HwY2nkdsp1uvvQ
-	 VRZY/6QzqRpm2ihLspcYbTXmUn4liAa/UMHTqauA=
-Date: Mon, 4 Dec 2023 08:07:47 +0100
+	b=o8PKmUAZKUvlwxeNS4xMomT8R7/MVUYVoiobUamnKqtoUTu3bIb1qEBqes/PdiJNQ
+	 J+1FpJZPGSg+STyvpglw8l/ZxtjnXcsgXhTl2JWXseitoxNh0xk2CbwcqPE0zq21Oo
+	 jV067nCYDxmqJd/PAaQ7Scu+EJtOshr925tJep1U=
+Date: Mon, 4 Dec 2023 08:08:27 +0100
 From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 To: Umang Jain <umang.jain@ideasonboard.com>
 Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
@@ -40,11 +40,9 @@ Cc: linux-staging@lists.linux.dev, linux-rpi-kernel@lists.infradead.org,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
 	Dave Stevenson <dave.stevenson@raspberrypi.com>,
 	"Ricardo B . Marliere" <ricardo@marliere.net>
-Subject: Re: [PATCH v2 1/2] staging: vc04_services: Use %p to log pointer
- address
-Message-ID: <2023120430-calibrate-defender-cee4@gregkh>
+Subject: Re: [PATCH v2 0/2] staging: vc04_services: Use %p to log pointer
+Message-ID: <2023120459-irregular-cost-1785@gregkh>
 References: <20231128202007.489294-1-umang.jain@ideasonboard.com>
- <20231128202007.489294-2-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,25 +51,36 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231128202007.489294-2-umang.jain@ideasonboard.com>
+In-Reply-To: <20231128202007.489294-1-umang.jain@ideasonboard.com>
 
-On Wed, Nov 29, 2023 at 01:50:06AM +0530, Umang Jain wrote:
-> Solves the following Smatch warnings:
+On Wed, Nov 29, 2023 at 01:50:05AM +0530, Umang Jain wrote:
+> %lx is used to print the unmodified pointer address for debugging.
+> %p will print the hashed pointer address to avoid leaking information
+> about kernel memory layout to userspace. But when `no_hash_pointers`
+> is passed as kernel parameter, unmodified pointer address will be
+> printed.
+> 
+> Hence, drop %lx in favour of %p. For debugging purposes, one can
+> easily depend on `no_hash_pointers`.
+> 
+> This also solves the following smatch warnings:
 > service_callback() warn: argument 7 to %lx specifier is cast from pointer
 > service_callback() warn: argument 11 to %lx specifier is cast from pointer
 > service_callback() warn: argument 12 to %lx specifier is cast from pointer
 > service_callback() warn: argument 13 to %lx specifier is cast from pointer
+> vchiq_release() warn: argument 7 to %lx specifier is cast from pointer
 > 
-> %p will print the hashed pointer to dynamic debug.
-> In order to print the unmodified pointer address, one can use the
-> `no_hash_pointers` via kernel parameters.
+> Changes in v2:
+> - Built/Rebased on top of:
+>   [PATCH v2 0/5] staging: vc04_services: Drop custom logging
 > 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> ---
->  .../staging/vc04_services/interface/vchiq_arm/vchiq_arm.c  | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+> Umang Jain (2):
+>   staging: vc04_services: Use %p to log pointer address
+>   staging: vc04_services: Use %p to log pointer address
 
-Does not apply to my tree, is it because I just took your other patch?
+You have 2 different patches that do different things, yet have the
+identical subject lines.  That needs to be fixed up before I can take
+them.
 
 thanks,
 
