@@ -1,27 +1,27 @@
-Return-Path: <linux-media+bounces-1524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1525-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33C21802D6F
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 09:43:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B39C802D85
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 09:48:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 654C41C209F8
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 08:43:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 686A61C20A28
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 08:48:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BE24F9C3;
-	Mon,  4 Dec 2023 08:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21418FBE5;
+	Mon,  4 Dec 2023 08:48:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E8BE565
-	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 08:43:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE95C433C9;
-	Mon,  4 Dec 2023 08:43:01 +0000 (UTC)
-Message-ID: <89469115-445b-4875-b1d7-3ab0ce942572@xs4all.nl>
-Date: Mon, 4 Dec 2023 09:43:00 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992CEC8F9
+	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 08:48:34 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 89F84C433C8;
+	Mon,  4 Dec 2023 08:48:33 +0000 (UTC)
+Message-ID: <ce56b148-62a6-45bb-af87-bbf8feb96f45@xs4all.nl>
+Date: Mon, 4 Dec 2023 09:48:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -29,119 +29,96 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 20/35] media: radio-shark: use atomic find_bit() API
- where appropriate
+Subject: Re: [PATCH 3/3] media: videobuf2: request more buffers for vb2_read
 Content-Language: en-US, nl
-To: Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-Cc: Jan Kara <jack@suse.cz>, Mirsad Todorovac
- <mirsad.todorovac@alu.unizg.hr>, Matthew Wilcox <willy@infradead.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
- Alexey Klimov <klimov.linux@gmail.com>, Bart Van Assche
- <bvanassche@acm.org>, Sergey Shtylyov <s.shtylyov@omp.ru>
-References: <20231203192422.539300-1-yury.norov@gmail.com>
- <20231203193307.542794-1-yury.norov@gmail.com>
- <20231203193307.542794-19-yury.norov@gmail.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231203193307.542794-19-yury.norov@gmail.com>
+To: "Dr. David Alan Gilbert" <dave@treblig.org>, a.j.buxton@gmail.com
+Cc: linux-media@vger.kernel.org,
+ Deborah Brouwer <deborah.brouwer@collabora.com>
+References: <cover.1701349092.git.hverkuil-cisco@xs4all.nl>
+ <86ad4808718ff07ab8ac64b62170b789c16b2581.1701349092.git.hverkuil-cisco@xs4all.nl>
+ <ZWyw9us9hvj9X4gF@gallifrey>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <ZWyw9us9hvj9X4gF@gallifrey>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/12/2023 20:32, Yury Norov wrote:
-> Despite that it's only 2- or 3-bit maps, convert for-loop followed by
-> test_bit() to for_each_test_and_clear_bit() as it makes the code cleaner.
+On 03/12/2023 17:46, Dr. David Alan Gilbert wrote:
+> * Hans Verkuil (hverkuil-cisco@xs4all.nl) wrote:
+>> The vb2 read support requests 1 buffer, leaving it to the driver
+>> to increase this number to something that works.
+>>
+>> Unfortunately, drivers do not deal with this reliably, and in fact
+>> this caused problems for the bttv driver and reading from /dev/vbiX,
+>> causing every other VBI frame to be all 0.
+>>
+>> Instead, request as the number of buffers whatever is the maximum of
+>> 2 and q->min_buffers_needed+1.
+>>
+>> In order to start streaming you need at least q->min_buffers_needed
+>> queued buffers, so add 1 buffer for processing. And if that field
+>> is 0, then choose 2 (again, one buffer is being filled while the
+>> other one is being processed).
+>>
+>> This certainly makes more sense than requesting just 1 buffer, and
+>> the VBI bttv support is now working again.
+>>
+>> It turns out that the old videobuf1 behavior of bttv was to allocate
+>> 8 (video) and 4 (vbi) buffers when used with read(). After the vb2
+>> conversion that changed to 2 for both. With this patch it is 3, which
+>> is really all you need.
+>>
+>> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>> Fixes: b7ec3212a73a ("media: bttv: convert to vb2")
 > 
-> Signed-off-by: Yury Norov <yury.norov@gmail.com>
+> This looks like it's working nicely;  I've tested it with both
+> Alistair's test stream and a real signal, and I'm getting
+> a consistent 25fps out of the VBI with or without xawtv
+> grabbing, and the test stream looks good to me.
+> 
+> So,
+> 
+> Tested-by: Dr. David Alan Gilbert <dave@treblig.org>
+> 
+> Thanks for fixing this!
 
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Thank you for testing this!
 
-You can take this patch yourself as well.
+Much appreciated.
 
 Regards,
 
 	Hans
 
-> ---
->  drivers/media/radio/radio-shark.c  | 5 +----
->  drivers/media/radio/radio-shark2.c | 5 +----
->  2 files changed, 2 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/media/radio/radio-shark.c b/drivers/media/radio/radio-shark.c
-> index 127a3be0e0f0..0c50b3a9623e 100644
-> --- a/drivers/media/radio/radio-shark.c
-> +++ b/drivers/media/radio/radio-shark.c
-> @@ -158,10 +158,7 @@ static void shark_led_work(struct work_struct *work)
->  		container_of(work, struct shark_device, led_work);
->  	int i, res, brightness, actual_len;
->  
-> -	for (i = 0; i < 3; i++) {
-> -		if (!test_and_clear_bit(i, &shark->brightness_new))
-> -			continue;
-> -
-> +	for_each_test_and_clear_bit(i, &shark->brightness_new, 3) {
->  		brightness = atomic_read(&shark->brightness[i]);
->  		memset(shark->transfer_buffer, 0, TB_LEN);
->  		if (i != RED_LED) {
-> diff --git a/drivers/media/radio/radio-shark2.c b/drivers/media/radio/radio-shark2.c
-> index f1c5c0a6a335..d9ef241e1778 100644
-> --- a/drivers/media/radio/radio-shark2.c
-> +++ b/drivers/media/radio/radio-shark2.c
-> @@ -145,10 +145,7 @@ static void shark_led_work(struct work_struct *work)
->  		container_of(work, struct shark_device, led_work);
->  	int i, res, brightness, actual_len;
->  
-> -	for (i = 0; i < 2; i++) {
-> -		if (!test_and_clear_bit(i, &shark->brightness_new))
-> -			continue;
-> -
-> +	for_each_test_and_clear_bit(i, &shark->brightness_new, 2) {
->  		brightness = atomic_read(&shark->brightness[i]);
->  		memset(shark->transfer_buffer, 0, TB_LEN);
->  		shark->transfer_buffer[0] = 0x83 + i;
+> Dave
+> 
+>> ---
+>>  drivers/media/common/videobuf2/videobuf2-core.c | 9 +++++++--
+>>  1 file changed, 7 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+>> index 8c1df829745b..40d89f29fa33 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+>> @@ -2735,9 +2735,14 @@ static int __vb2_init_fileio(struct vb2_queue *q, int read)
+>>  		return -EBUSY;
+>>  
+>>  	/*
+>> -	 * Start with count 1, driver can increase it in queue_setup()
+>> +	 * Start with q->min_buffers_needed + 1, driver can increase it in
+>> +	 * queue_setup()
+>> +	 *
+>> +	 * 'min_buffers_needed' buffers need to be queued up before you
+>> +	 * can start streaming, plus 1 for userspace (or in this case,
+>> +	 * kernelspace) processing.
+>>  	 */
+>> -	count = 1;
+>> +	count = max(2, q->min_buffers_needed + 1);
+>>  
+>>  	dprintk(q, 3, "setting up file io: mode %s, count %d, read_once %d, write_immediately %d\n",
+>>  		(read) ? "read" : "write", count, q->fileio_read_once,
+>> -- 
+>> 2.42.0
+>>
 
 
