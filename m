@@ -1,123 +1,344 @@
-Return-Path: <linux-media+bounces-1611-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1612-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD77A803858
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 16:10:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6FC8038CC
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 16:29:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 61F281F21247
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 15:10:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 92ECC2811BF
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 15:28:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44D8E2C195;
-	Mon,  4 Dec 2023 15:10:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04EC02C84E;
+	Mon,  4 Dec 2023 15:28:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="A5YCkmKW";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="aqmWXD+5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F268A5
+	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 07:28:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1701703724; bh=CERYJNnDvi36EkZkzBXw3WcTASikuCbMApDjBT6G7RQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=A5YCkmKWHqEKcLuvosVXNBLH0Rk1wCBP7qbX5GdkCPp9hc2pFAu2xay1VnjKnR4kt
+	 1+fTLAUJjXWfUDwJizoi6KZ2uo8Jyht1BXNJv2enSJeY0HFOpkxou5Ko0ZPWV8HoBR
+	 Xmm2ckrQsOVhIpbZD+V06sgFMSCBlVNsGOrBaWKg3hCr7h+2EN6Hc+H4y211dJ5pdo
+	 UEMOGE/QvmLciND9nqa4FF7y/r9g9/wqW2PN5UUwdH/R6pEGFr9jZ6t+iAb6Ac4FKT
+	 hQXsDY47WCHJbUSxLnF6hFMLnmApxOJKa4Q9XgiFKB4iCGADwTwkv9BxaIA86bRZmp
+	 WrSLgmXMA+CZA==
+Received: by gofer.mess.org (Postfix, from userid 501)
+	id 7BDA7100103; Mon,  4 Dec 2023 15:28:44 +0000 (GMT)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1701703721; bh=CERYJNnDvi36EkZkzBXw3WcTASikuCbMApDjBT6G7RQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=aqmWXD+5FBoC+0Yd1pe3+4OzVzPuoAj/znvlLIg17yZAzL+lRkVhKFaOc+oz/w60V
+	 njZ8zAHwi2JNUt9BPdSjn3s1Pj0jPrSaO8yc6oZL4jrjbCSPVP4cP9nvrL1jArxnva
+	 CdvMmff0cJ+Gtz61+GwvU2i+RdY+oNfuvhExf8VhvKVGYgYh+YWhowTdSK3IRf+P3Q
+	 YROoQkJrjTV90uLSerJTnZ4Z/zVVfW4vvDHZAYbQoHmXL3YwHyCCId/7hZpp4ezwXf
+	 UckrLgbJw4b1odh4Evc4DmOMbngWLTiQf06TZn52yDGANtTDDEJHFCFi9wBryUkyA6
+	 g9O05r7bAUHtg==
+Received: from localhost.localdomain (unknown [IPv6:2a02:8011:d000:212:ca7f:54ff:fe51:14d6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CD7728DD7;
-	Mon,  4 Dec 2023 15:10:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A2E0C433C8;
-	Mon,  4 Dec 2023 15:10:09 +0000 (UTC)
-Message-ID: <85b8cdf7-a05f-44d2-a678-af121231261f@xs4all.nl>
-Date: Mon, 4 Dec 2023 16:10:08 +0100
+	by gofer.mess.org (Postfix) with ESMTPSA id A91AB10005E;
+	Mon,  4 Dec 2023 15:28:41 +0000 (GMT)
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org
+Cc: Gregor Jasny <gjasny@googlemail.com>,
+	Joe Kesselman <keshlam@alum.mit.edu>,
+	Sean Young <sean@mess.org>
+Subject: [PATCH v4l-utils] keytable: remove line length limits
+Date: Mon,  4 Dec 2023 15:26:55 +0000
+Message-ID: <20231204152655.109938-1-sean@mess.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 33/36] media: ti: cal: Fix misuse of min_buffers_needed
- field
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org, m.szyprowski@samsung.com, matt.ranostay@konsulko.com
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel@collabora.com,
- Benoit Parrot <bparrot@ti.com>
-References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
- <20231204132323.22811-34-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231204132323.22811-34-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 04/12/2023 14:23, Benjamin Gaignard wrote:
-> 'min_buffers_needed' is suppose to be used to indicate the number
-> of buffers needed by DMA engine to start streaming.
-> Cal driver doesn't use DMA engine and just want to specify
-> the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
-> That 'min_reqbufs_allocation' field purpose so use it.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> CC: Benoit Parrot <bparrot@ti.com>
-> ---
->  drivers/media/platform/ti/cal/cal-video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/ti/cal/cal-video.c b/drivers/media/platform/ti/cal/cal-video.c
-> index e1c5e68e945b..04709dac7221 100644
-> --- a/drivers/media/platform/ti/cal/cal-video.c
-> +++ b/drivers/media/platform/ti/cal/cal-video.c
-> @@ -1010,7 +1010,7 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
->  	q->mem_ops = &vb2_dma_contig_memops;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
->  	q->lock = &ctx->mutex;
-> -	q->min_buffers_needed = 3;
-> +	q->min_reqbufs_allocation = 3;
->  	q->dev = ctx->cal->dev;
->  
->  	ret = vb2_queue_init(q);
+Use getline() rather than fgets().
 
-This driver definitely needs 1 buffer before it can start DMA, so set
-min_buffers_needed to 1.
+Signed-off-by: Sean Young <sean@mess.org>
+---
+ utils/common/keymap.c     | 16 ++++++-----
+ utils/keytable/keytable.c | 60 ++++++++++++++++++++++++++++-----------
+ 2 files changed, 52 insertions(+), 24 deletions(-)
 
-Regards,
+diff --git a/utils/common/keymap.c b/utils/common/keymap.c
+index 47d36152..00082439 100644
+--- a/utils/common/keymap.c
++++ b/utils/common/keymap.c
+@@ -74,8 +74,9 @@ void free_keymap(struct keymap *map)
+ static error_t parse_plain_keymap(char *fname, struct keymap **keymap, bool verbose)
+ {
+ 	FILE *fin;
+-	int line = 0;
+-	char *scancode, *keycode, s[2048];
++	int line_no = 0;
++	char *scancode, *keycode, *line;
++	size_t line_size;
+ 	struct scancode_entry *se;
+ 	struct keymap *map;
+ 
+@@ -94,13 +95,13 @@ static error_t parse_plain_keymap(char *fname, struct keymap **keymap, bool verb
+ 		return EINVAL;
+ 	}
+ 
+-	while (fgets(s, sizeof(s), fin)) {
+-		char *p = s;
++	while (getline(&line, &line_size, fin)) {
++		char *p = line;
+ 
+-		line++;
++		line_no++;
+ 		while (*p == ' ' || *p == '\t')
+ 			p++;
+-		if (line==1 && p[0] == '#') {
++		if (line_no==1 && p[0] == '#') {
+ 			p++;
+ 			p = strtok(p, "\n\t =:");
+ 			do {
+@@ -168,6 +169,7 @@ static error_t parse_plain_keymap(char *fname, struct keymap **keymap, bool verb
+ 		map->scancode = se;
+ 	}
+ 	fclose(fin);
++	free(line);
+ 
+ 	if (!map->protocol) {
+ 		fprintf(stderr, _("Missing protocol in %s\n"), fname);
+@@ -181,7 +183,7 @@ static error_t parse_plain_keymap(char *fname, struct keymap **keymap, bool verb
+ err_einval:
+ 	free_keymap(map);
+ 	fprintf(stderr, _("Invalid parameter on line %d of %s\n"),
+-		line, fname);
++		line_no, fname);
+ 	return EINVAL;
+ }
+ 
+diff --git a/utils/keytable/keytable.c b/utils/keytable/keytable.c
+index 62f4531e..2929db40 100644
+--- a/utils/keytable/keytable.c
++++ b/utils/keytable/keytable.c
+@@ -459,9 +459,9 @@ static int add_keymap(struct keymap *map, const char *fname)
+ static error_t parse_cfgfile(char *fname)
+ {
+ 	FILE *fin;
+-	int line = 0;
+-	char s[2048];
+-	char *driver, *table, *filename;
++	int line_no = 0;
++	char *driver, *table, *filename, *line = NULL;
++	size_t line_size;
+ 	struct cfgfile *nextcfg = &cfg;
+ 
+ 	if (debug)
+@@ -473,10 +473,10 @@ static error_t parse_cfgfile(char *fname)
+ 		return errno;
+ 	}
+ 
+-	while (fgets(s, sizeof(s), fin)) {
+-		char *p = s;
++	while (getline(&line, &line_size, fin)) {
++		char *p = line;
+ 
+-		line++;
++		line_no++;
+ 		while (*p == ' ' || *p == '\t')
+ 			p++;
+ 
+@@ -511,17 +511,22 @@ static error_t parse_cfgfile(char *fname)
+ 		nextcfg->next = calloc(1, sizeof(*nextcfg));
+ 		if (!nextcfg->next) {
+ 			perror("parse_cfgfile");
++			fclose(fin);
++			free(line);
+ 			return ENOMEM;
+ 		}
+ 		nextcfg = nextcfg->next;
+ 	}
+ 	fclose(fin);
++	free(line);
+ 
+ 	return 0;
+ 
+ err_einval:
++	free(line);
++	fclose(fin);
+ 	fprintf(stderr, _("Invalid parameter on line %d of %s\n"),
+-		line, fname);
++		line_no, fname);
+ 	return EINVAL;
+ 
+ }
+@@ -825,7 +830,8 @@ static struct uevents *read_sysfs_uevents(char *dname)
+ {
+ 	FILE		*fp;
+ 	struct uevents	*next, *uevent;
+-	char		*event = "uevent", *file, s[4096];
++	char		*event = "uevent", *file, *line = NULL;
++	size_t		line_size;
+ 
+ 	next = uevent = calloc(1, sizeof(*uevent));
+ 
+@@ -843,13 +849,15 @@ static struct uevents *read_sysfs_uevents(char *dname)
+ 		free(file);
+ 		return NULL;
+ 	}
+-	while (fgets(s, sizeof(s), fp)) {
+-		char *p = strtok(s, "=");
++	while (getline(&line, &line_size, fp)) {
++		char *p = strtok(line, "=");
+ 		if (!p)
+ 			continue;
+ 		next->key = malloc(strlen(p) + 1);
+ 		if (!next->key) {
+ 			perror("next->key");
++			fclose(fp);
++			free(line);
+ 			free(file);
+ 			free_uevent(uevent);
+ 			return NULL;
+@@ -860,6 +868,7 @@ static struct uevents *read_sysfs_uevents(char *dname)
+ 		if (!p) {
+ 			fprintf(stderr, _("Error on uevent information\n"));
+ 			fclose(fp);
++			free(line);
+ 			free(file);
+ 			free_uevent(uevent);
+ 			return NULL;
+@@ -867,6 +876,8 @@ static struct uevents *read_sysfs_uevents(char *dname)
+ 		next->value = malloc(strlen(p) + 1);
+ 		if (!next->value) {
+ 			perror("next->value");
++			fclose(fp);
++			free(line);
+ 			free(file);
+ 			free_uevent(uevent);
+ 			return NULL;
+@@ -879,13 +890,16 @@ static struct uevents *read_sysfs_uevents(char *dname)
+ 		next->next = calloc(1, sizeof(*next));
+ 		if (!next->next) {
+ 			perror("next->next");
++			fclose(fp);
+ 			free(file);
++			free(line);
+ 			free_uevent(uevent);
+ 			return NULL;
+ 		}
+ 		next = next->next;
+ 	}
+ 	fclose(fp);
++	free(line);
+ 	free(file);
+ 
+ 	return uevent;
+@@ -979,7 +993,8 @@ static enum sysfs_protocols load_bpf_for_unsupported(enum sysfs_protocols protoc
+ static enum sysfs_protocols v1_get_hw_protocols(char *name)
+ {
+ 	FILE *fp;
+-	char *p, buf[4096];
++	char *p, *buf = NULL;
++	size_t buf_size;
+ 	enum sysfs_protocols protocols = 0;
+ 
+ 	fp = fopen(name, "r");
+@@ -988,8 +1003,9 @@ static enum sysfs_protocols v1_get_hw_protocols(char *name)
+ 		return 0;
+ 	}
+ 
+-	if (!fgets(buf, sizeof(buf), fp)) {
++	if (!getline(&buf, &buf_size, fp)) {
+ 		perror(name);
++		free(buf);
+ 		fclose(fp);
+ 		return 0;
+ 	}
+@@ -1007,6 +1023,7 @@ static enum sysfs_protocols v1_get_hw_protocols(char *name)
+ 		protocols |= protocol;
+ 	}
+ 
++	free(buf);
+ 	fclose(fp);
+ 
+ 	return protocols;
+@@ -1038,7 +1055,8 @@ static int v1_set_hw_protocols(struct rc_device *rc_dev)
+ static int v1_get_sw_enabled_protocol(char *dirname)
+ {
+ 	FILE *fp;
+-	char *p, buf[4096], name[512];
++	char *p, *buf = NULL, name[512];
++	size_t buf_size;
+ 	int rc;
+ 
+ 	strcpy(name, dirname);
+@@ -1050,14 +1068,16 @@ static int v1_get_sw_enabled_protocol(char *dirname)
+ 		return 0;
+ 	}
+ 
+-	if (!fgets(buf, sizeof(buf), fp)) {
++	if (!getline(&buf, &buf_size, fp)) {
+ 		perror(name);
++		free(buf);
+ 		fclose(fp);
+ 		return 0;
+ 	}
+ 
+ 	if (fclose(fp)) {
+ 		perror(name);
++		free(buf);
+ 		return errno;
+ 	}
+ 
+@@ -1073,9 +1093,12 @@ static int v1_get_sw_enabled_protocol(char *dirname)
+ 		fprintf(stderr, _("protocol %s is %s\n"),
+ 			name, rc? _("enabled") : _("disabled"));
+ 
+-	if (atoi(p) == 1)
++	if (atoi(p) == 1) {
++		free(buf);
+ 		return 1;
++	}
+ 
++	free(buf);
+ 	return 0;
+ }
+ 
+@@ -1111,7 +1134,8 @@ static int v1_set_sw_enabled_protocol(struct rc_device *rc_dev,
+ static enum sysfs_protocols v2_get_protocols(struct rc_device *rc_dev, char *name)
+ {
+ 	FILE *fp;
+-	char *p, buf[4096];
++	char *p, *buf = NULL;
++	size_t buf_size;
+ 	int enabled;
+ 
+ 	fp = fopen(name, "r");
+@@ -1120,7 +1144,8 @@ static enum sysfs_protocols v2_get_protocols(struct rc_device *rc_dev, char *nam
+ 		return 0;
+ 	}
+ 
+-	if (!fgets(buf, sizeof(buf), fp)) {
++	if (!getline(&buf, &buf_size, fp)) {
++		free(buf);
+ 		perror(name);
+ 		fclose(fp);
+ 		return 0;
+@@ -1151,6 +1176,7 @@ static enum sysfs_protocols v2_get_protocols(struct rc_device *rc_dev, char *nam
+ 	}
+ 
+ 	fclose(fp);
++	free(buf);
+ 
+ 	return 0;
+ }
+-- 
+2.43.0
 
-	Hans
 
