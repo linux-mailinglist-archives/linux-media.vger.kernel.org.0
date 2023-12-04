@@ -1,27 +1,27 @@
-Return-Path: <linux-media+bounces-1608-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1609-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B71A803792
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 15:52:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 897C68037EF
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 15:59:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3CD031C20BB3
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:52:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2F5191F21249
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:59:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A446A28DD1;
-	Mon,  4 Dec 2023 14:52:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E857E28E26;
+	Mon,  4 Dec 2023 14:59:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191D21799E;
-	Mon,  4 Dec 2023 14:52:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DFEEC433C7;
-	Mon,  4 Dec 2023 14:52:34 +0000 (UTC)
-Message-ID: <0f61ac19-b74d-4493-99de-eb293e41e9a8@xs4all.nl>
-Date: Mon, 4 Dec 2023 15:52:32 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3EA28DD7;
+	Mon,  4 Dec 2023 14:59:07 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62FB8C433C7;
+	Mon,  4 Dec 2023 14:59:04 +0000 (UTC)
+Message-ID: <e920d35c-dd2f-48f6-aad8-5c7dd4a4987d@xs4all.nl>
+Date: Mon, 4 Dec 2023 15:59:02 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -29,19 +29,18 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 20/36] media: atmel: Fix misuse of min_buffers_needed
+Subject: Re: [PATCH v2 25/36] media: aspeed: Fix misuse of min_buffers_needed
  field
 Content-Language: en-US, nl
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
  tfiga@chromium.org, m.szyprowski@samsung.com, matt.ranostay@konsulko.com
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-staging@lists.linux.dev, kernel@collabora.com,
- Eugen Hristev <eugen.hristev@collabora.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Claudiu Beznea <claudiu.beznea@tuxon.dev>
+ Eddie James <eajames@linux.ibm.com>, Joel Stanley <joel@jms.id.au>,
+ Andrew Jeffery <andrew@codeconstruct.com.au>, openbmc@lists.ozlabs.org,
+ linux-aspeed@lists.ozlabs.org
 References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
- <20231204132323.22811-21-benjamin.gaignard@collabora.com>
+ <20231204132323.22811-26-benjamin.gaignard@collabora.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -86,51 +85,51 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231204132323.22811-21-benjamin.gaignard@collabora.com>
+In-Reply-To: <20231204132323.22811-26-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 04/12/2023 14:23, Benjamin Gaignard wrote:
 > 'min_buffers_needed' is suppose to be used to indicate the number
 > of buffers needed by DMA engine to start streaming.
-> atmel-isi driver doesn't use DMA engine and just want to specify
+> aspeed doesn't use DMA engine and just want to specify
 > the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
 > That 'min_reqbufs_allocation' field purpose so use it.
-
-It definitely has a DMA engine, it just can still work if there are no
-buffers queued.
-
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> CC: Eugen Hristev <eugen.hristev@collabora.com>
-> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-> CC: Nicolas Ferre <nicolas.ferre@microchip.com>
-> CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
-> CC: Claudiu Beznea <claudiu.beznea@tuxon.dev>
+> Reviewed-by: Eddie James <eajames@linux.ibm.com>
+> CC: Joel Stanley <joel@jms.id.au> (supporter:ARM/ASPEED MACHINE SUPPORT)
+> CC: Andrew Jeffery <andrew@codeconstruct.com.au> (reviewer:ARM/ASPEED MACHINE SUPPORT)
+> CC: openbmc@lists.ozlabs.org (moderated list:ASPEED VIDEO ENGINE DRIVER)
+> CC: linux-aspeed@lists.ozlabs.org (moderated list:ARM/ASPEED MACHINE SUPPORT)
 > ---
->  drivers/media/platform/atmel/atmel-isi.c | 2 +-
+>  drivers/media/platform/aspeed/aspeed-video.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/platform/atmel/atmel-isi.c b/drivers/media/platform/atmel/atmel-isi.c
-> index da58f33b6b0a..9c156771568a 100644
-> --- a/drivers/media/platform/atmel/atmel-isi.c
-> +++ b/drivers/media/platform/atmel/atmel-isi.c
-> @@ -1244,7 +1244,7 @@ static int atmel_isi_probe(struct platform_device *pdev)
->  	q->ops = &isi_video_qops;
->  	q->mem_ops = &vb2_dma_contig_memops;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> -	q->min_buffers_needed = 2;
-> +	q->min_reqbufs_allocation = 2;
+> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+> index d08aa7f73d4f..c28b10808cda 100644
+> --- a/drivers/media/platform/aspeed/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed/aspeed-video.c
+> @@ -2034,7 +2034,7 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+>  	vbq->drv_priv = video;
+>  	vbq->buf_struct_size = sizeof(struct aspeed_video_buffer);
+>  	vbq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+> -	vbq->min_buffers_needed = ASPEED_VIDEO_V4L2_MIN_BUF_REQ;
+> +	vbq->min_reqbufs_allocation = ASPEED_VIDEO_V4L2_MIN_BUF_REQ;
 
-The problem is that this really needs to be tested since this change
-will enable code paths that haven't been used before.
+Looking at the start_streaming code I think min_buffers_needed should be 1, since
+otherwise start_streaming would return -EPROTO.
+
+But clearly the intent is also that 3 buffers minimum are allocated.
+
+So in this case both fields should be set.
 
 Regards,
 
 	Hans
 
->  	q->dev = &pdev->dev;
 >  
->  	ret = vb2_queue_init(q);
+>  	rc = vb2_queue_init(vbq);
+>  	if (rc) {
 
 
