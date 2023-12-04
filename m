@@ -1,247 +1,310 @@
-Return-Path: <linux-media+bounces-1621-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1622-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6721803D80
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 19:51:34 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EF8F80412F
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 22:54:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D5E871C20A91
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 18:51:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 022DF1F211FF
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 21:54:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E93CE2FE2A;
-	Mon,  4 Dec 2023 18:51:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFDEF39FF4;
+	Mon,  4 Dec 2023 21:54:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OQhyiLHF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out2.suse.de (smtp-out2.suse.de [IPv6:2a07:de40:b251:101:10:150:64:2])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D096AF;
-	Mon,  4 Dec 2023 10:51:04 -0800 (PST)
-Received: from imap2.dmz-prg2.suse.org (imap2.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:98])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out2.suse.de (Postfix) with ESMTPS id 14A361FE6A;
-	Mon,  4 Dec 2023 18:51:02 +0000 (UTC)
-Received: from imap2.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap2.dmz-prg2.suse.org (Postfix) with ESMTPS id F113513B65;
-	Mon,  4 Dec 2023 18:51:01 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([10.150.64.162])
-	by imap2.dmz-prg2.suse.org with ESMTPSA
-	id dGqaOpUfbmXlYQAAn2gu4w
-	(envelope-from <jack@suse.cz>); Mon, 04 Dec 2023 18:51:01 +0000
-Received: by quack3.suse.cz (Postfix, from userid 1000)
-	id 6870FA07DB; Mon,  4 Dec 2023 19:51:01 +0100 (CET)
-Date: Mon, 4 Dec 2023 19:51:01 +0100
-From: Jan Kara <jack@suse.cz>
-To: Yury Norov <yury.norov@gmail.com>
-Cc: linux-kernel@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	"James E.J. Bottomley" <jejb@linux.ibm.com>,
-	"K. Y. Srinivasan" <kys@microsoft.com>,
-	"Md. Haris Iqbal" <haris.iqbal@ionos.com>,
-	Akinobu Mita <akinobu.mita@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Borislav Petkov <bp@alien8.de>, Chaitanya Kulkarni <kch@nvidia.com>,
-	Christian Brauner <brauner@kernel.org>,
-	Damien Le Moal <damien.lemoal@opensource.wdc.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	David Disseldorp <ddiss@suse.de>,
-	Edward Cree <ecree.xilinx@gmail.com>,
-	Eric Dumazet <edumazet@google.com>,
-	Fenghua Yu <fenghua.yu@intel.com>,
-	Geert Uytterhoeven <geert@linux-m68k.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Gregory Greenman <gregory.greenman@intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hugh Dickins <hughd@google.com>, Ingo Molnar <mingo@redhat.com>,
-	Jakub Kicinski <kuba@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-	Jiri Pirko <jiri@resnulli.us>, Jiri Slaby <jirislaby@kernel.org>,
-	Kalle Valo <kvalo@kernel.org>, Karsten Graul <kgraul@linux.ibm.com>,
-	Karsten Keil <isdn@linux-pingi.de>,
-	Kees Cook <keescook@chromium.org>,
-	Leon Romanovsky <leon@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Martin Habets <habetsm.xilinx@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Michal Simek <monstr@monstr.eu>,
-	Nicholas Piggin <npiggin@gmail.com>,
-	Oliver Neukum <oneukum@suse.com>, Paolo Abeni <pabeni@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ping-Ke Shih <pkshih@realtek.com>, Rich Felker <dalias@libc.org>,
-	Rob Herring <robh@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Sean Christopherson <seanjc@google.com>,
-	Shuai Xue <xueshuai@linux.alibaba.com>,
-	Stanislaw Gruszka <stf_xl@wp.pl>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Valentin Schneider <vschneid@redhat.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Wenjia Zhang <wenjia@linux.ibm.com>, Will Deacon <will@kernel.org>,
-	Yoshinori Sato <ysato@users.sourceforge.jp>,
-	GR-QLogic-Storage-Upstream@marvell.com, alsa-devel@alsa-project.org,
-	ath10k@lists.infradead.org, dmaengine@vger.kernel.org,
-	iommu@lists.linux.dev, kvm@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-arm-msm@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-	linux-hyperv@vger.kernel.org, linux-m68k@lists.linux-m68k.org,
-	linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-	linux-net-drivers@amd.com, linux-pci@vger.kernel.org,
-	linux-rdma@vger.kernel.org, linux-s390@vger.kernel.org,
-	linux-scsi@vger.kernel.org, linux-serial@vger.kernel.org,
-	linux-sh@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linuxppc-dev@lists.ozlabs.org, mpi3mr-linuxdrv.pdl@broadcom.com,
-	netdev@vger.kernel.org, sparclinux@vger.kernel.org, x86@kernel.org,
-	Jan Kara <jack@suse.cz>,
-	Mirsad Todorovac <mirsad.todorovac@alu.unizg.hr>,
-	Matthew Wilcox <willy@infradead.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Maxim Kuvyrkov <maxim.kuvyrkov@linaro.org>,
-	Alexey Klimov <klimov.linux@gmail.com>,
-	Bart Van Assche <bvanassche@acm.org>,
-	Sergey Shtylyov <s.shtylyov@omp.ru>
-Subject: Re: [PATCH v2 00/35] bitops: add atomic find_bit() operations
-Message-ID: <20231204185101.ddmkvsr2xxsmoh2u@quack3>
-References: <20231203192422.539300-1-yury.norov@gmail.com>
+Received: from mail-ed1-x530.google.com (mail-ed1-x530.google.com [IPv6:2a00:1450:4864:20::530])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEF5CC3;
+	Mon,  4 Dec 2023 13:54:14 -0800 (PST)
+Received: by mail-ed1-x530.google.com with SMTP id 4fb4d7f45d1cf-54c70c70952so3664655a12.3;
+        Mon, 04 Dec 2023 13:54:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1701726853; x=1702331653; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BlZLmeqxpiGQQSs10LoTtpiBgorU3TT3VUZTA6H0DRg=;
+        b=OQhyiLHFdeGndwRT8/xpYQzTXwui3fbX+0vafumUYF6B7r1Z0bhgl2+GpBjFGHPpeH
+         t9VsCzkOHWXRuzBLI9vKamPDQa4wQUei/jxZQaZnXl7SjfYpBMyfHgqhv55XYRu8FF0z
+         sSNlPXI8fsNfBukT7LM1tWUK8l2k+VUdNQ12uqFLC+fdKqBojdnr/moJQBwiJHj7cyZ6
+         d4s0pnd8SYSX5A9OGLVBN8oM5x3bCNiOZWe0aY1ZPzRan5BgBfCEshlNzhw4Vd9FmV8q
+         SVU36DaW7DObBbzkf2d3eLYBB3s/fmJfpOo7hFNxa4JbxCipIY0tNbndeHHs39d/RBqG
+         ZM8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701726853; x=1702331653;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BlZLmeqxpiGQQSs10LoTtpiBgorU3TT3VUZTA6H0DRg=;
+        b=niSumKhy5o8xOwEJ5MbFYuxiHgtB+ay8g5clRHUz6uI3JyB4+tklQ6MW/w/dygp1aO
+         MQI4YT99U1leA/z0o0VA4xhIv6QlIL4KHqqnTrVaRftxhNMa25M1Z0tvHgpKEQBsQfNn
+         VZmvYbnRaD+V7ROO23qehYvCdmzpr2sIcjw1CB5rPK05hAGV+NYBwtP0NxHt6Vfrngfa
+         30BnlsONgyAZuyy/q2++Jp7o22sK7najWGofw/lbH/HcvmQz7DsZPd4Zvtk596efvc07
+         nMaGdqBqd8FJ186yw+qBvsoezPodv8v1YB1ViLchD2n7YXpKpQzyUO8rXYM1p2AajrcN
+         s//w==
+X-Gm-Message-State: AOJu0YzydVDak55kyLuSm4unyHxYbR7JE7YiZeP256Os8tFRgV9CU7MG
+	EqTR6ml/OifU4N8dc2uethGly1SHOBaiV14hnt0=
+X-Google-Smtp-Source: AGHT+IHLb6cOm/rSV+8ZQDXUTAc7/tdhPwiDOu1giLgNpUuulAb5IUur2kx36jKOArzZ7OT3QTPrJ5xd+t3zYomTLWs=
+X-Received: by 2002:a50:ab12:0:b0:54c:ba16:f573 with SMTP id
+ s18-20020a50ab12000000b0054cba16f573mr1121210edc.69.1701726852960; Mon, 04
+ Dec 2023 13:54:12 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231203192422.539300-1-yury.norov@gmail.com>
-X-Spamd-Bar: ++++++++++++++
-X-Spam-Score: 14.88
-X-Rspamd-Server: rspamd1
-Authentication-Results: smtp-out2.suse.de;
-	dkim=none;
-	spf=softfail (smtp-out2.suse.de: 2a07:de40:b281:104:10:150:64:98 is neither permitted nor denied by domain of jack@suse.cz) smtp.mailfrom=jack@suse.cz;
-	dmarc=none
-X-Rspamd-Queue-Id: 14A361FE6A
-X-Spamd-Result: default: False [14.88 / 50.00];
-	 RCVD_VIA_SMTP_AUTH(0.00)[];
-	 SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:98:from];
-	 TO_DN_SOME(0.00)[];
-	 R_SPF_SOFTFAIL(4.60)[~all];
-	 RCVD_COUNT_THREE(0.00)[3];
-	 MX_GOOD(-0.01)[];
-	 RCPT_COUNT_GT_50(0.00)[100];
-	 FREEMAIL_TO(0.00)[gmail.com];
-	 FROM_EQ_ENVFROM(0.00)[];
-	 R_DKIM_NA(2.20)[];
-	 MIME_TRACE(0.00)[0:+];
-	 FORGED_RECIPIENTS(2.00)[m:yury.norov@gmail.com,m:davem@davemloft.net,m:jejb@linux.ibm.com,m:haris.iqbal@ionos.com,m:akinobu.mita@gmail.com,m:akpm@linux-foundation.org,m:andersson@kernel.org,m:bp@alien8.de,m:brauner@kernel.org,m:dave.hansen@linux.intel.com,m:ecree.xilinx@gmail.com,m:edumazet@google.com,m:fenghua.yu@intel.com,m:geert@linux-m68k.org,m:gregory.greenman@intel.com,m:hughd@google.com,m:kuba@kernel.org,m:axboe@kernel.dk,m:jirislaby@kernel.org,m:kvalo@kernel.org,m:kgraul@linux.ibm.com,m:isdn@linux-pingi.de,m:keescook@chromium.org,m:leon@kernel.org,m:mark.rutland@arm.com,m:habetsm.xilinx@gmail.com,m:mchehab@kernel.org,m:mpe@ellerman.id.au,m:npiggin@gmail.com,m:peterz@infradead.org,m:dalias@libc.org,m:robh@kernel.org,m:robin.murphy@arm.com,m:seanjc@google.com,m:xueshuai@linux.alibaba.com,m:rostedt@goodmis.org,m:tsbogend@alpha.franken.de,m:tglx@linutronix.de,m:wenjia@linux.ibm.com,m:will@kernel.org,m:alsa-devel@alsa-project.org,m:linux-net-drivers@amd.com,m:mpi3mr-linuxdrv.pdl
- @broadcom.com,m:x86@kernel.org,m:mirsad.todorovac@alu.unizg.hr,m:willy@infradead.org,m:andriy.shevchenko@linux.intel.com,m:maxim.kuvyrkov@linaro.org,m:klimov.linux@gmail.com,m:bvanassche@acm.org,s:s.shtylyov@omp.ru];
-	 BAYES_HAM(-3.00)[100.00%];
-	 ARC_NA(0.00)[];
-	 FROM_HAS_DN(0.00)[];
-	 FREEMAIL_ENVRCPT(0.00)[wp.pl,xs4all.nl];
-	 NEURAL_SPAM_SHORT(2.49)[0.832];
-	 TAGGED_RCPT(0.00)[];
-	 MIME_GOOD(-0.10)[text/plain];
-	 DMARC_NA(1.20)[suse.cz];
-	 TO_MATCH_ENVRCPT_SOME(0.00)[];
-	 NEURAL_SPAM_LONG(3.50)[1.000];
-	 DBL_BLOCKED_OPENRESOLVER(0.00)[suse.com:email];
-	 FUZZY_BLOCKED(0.00)[rspamd.com];
-	 MID_RHS_NOT_FQDN(0.50)[];
-	 FREEMAIL_CC(0.00)[vger.kernel.org,davemloft.net,zytor.com,linux.ibm.com,microsoft.com,ionos.com,gmail.com,linux-foundation.org,kernel.org,alien8.de,nvidia.com,opensource.wdc.com,linux.intel.com,suse.de,google.com,intel.com,linux-m68k.org,linuxfoundation.org,xs4all.nl,redhat.com,perex.cz,ziepe.ca,kernel.dk,resnulli.us,linux-pingi.de,chromium.org,arm.com,ellerman.id.au,monstr.eu,suse.com,infradead.org,realtek.com,libc.org,linux.alibaba.com,wp.pl,goodmis.org,alpha.franken.de,linutronix.de,users.sourceforge.jp,marvell.com,alsa-project.org,lists.infradead.org,lists.linux.dev,lists.linux-m68k.org,amd.com,lists.ozlabs.org,broadcom.com,suse.cz,alu.unizg.hr,rasmusvillemoes.dk,linaro.org,acm.org,omp.ru];
-	 RCVD_TLS_ALL(0.00)[];
-	 SUSPICIOUS_RECIPS(1.50)[]
+References: <20230322224403.35742-1-robdclark@gmail.com> <b9fb81f1-ac9e-cf3f-5cf4-f2d972d3ed3d@amd.com>
+ <CAF6AEGvMwZCLntfYeH3Vg_Z7kYynqdVrinp+pmcbREksK1WGMA@mail.gmail.com>
+ <e2fa296b-9b71-a41b-d37d-33f0fac2cd4e@amd.com> <CAF6AEGvdVca_mnZVo9He9oKVfYp84e_kOPWaxX+K5aV4Es9kcQ@mail.gmail.com>
+In-Reply-To: <CAF6AEGvdVca_mnZVo9He9oKVfYp84e_kOPWaxX+K5aV4Es9kcQ@mail.gmail.com>
+From: Rob Clark <robdclark@gmail.com>
+Date: Mon, 4 Dec 2023 13:54:00 -0800
+Message-ID: <CAF6AEGt2D6Ei6OkUK5osz+jWzmkX8tmB1KGi305HaNd=bnQSoA@mail.gmail.com>
+Subject: Re: [RFC] drm/scheduler: Unwrap job dependencies
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
+	Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>, 
+	Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	open list <linux-kernel@vger.kernel.org>, 
+	"open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, 
+	"moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Yury!
+On Thu, Mar 23, 2023 at 2:30=E2=80=AFPM Rob Clark <robdclark@gmail.com> wro=
+te:
+>
+> On Thu, Mar 23, 2023 at 7:03=E2=80=AFAM Christian K=C3=B6nig
+> <christian.koenig@amd.com> wrote:
+> >
+> > Am 23.03.23 um 14:54 schrieb Rob Clark:
+> > > On Thu, Mar 23, 2023 at 12:35=E2=80=AFAM Christian K=C3=B6nig
+> > > <christian.koenig@amd.com> wrote:
+> > >> Am 22.03.23 um 23:44 schrieb Rob Clark:
+> > >>> From: Rob Clark <robdclark@chromium.org>
+> > >>>
+> > >>> Container fences have burner contexts, which makes the trick to sto=
+re at
+> > >>> most one fence per context somewhat useless if we don't unwrap arra=
+y or
+> > >>> chain fences.
+> > >> Mhm, we intentionally kept them not unwrapped since this way they on=
+ly
+> > >> occupy one fence slot.
+> > >>
+> > >> But it might be better to unwrap them if you add many of those depen=
+dencies.
+> > >>
+> > >>> Signed-off-by: Rob Clark <robdclark@chromium.org>
+> > >>> ---
+> > >>> tbh, I'm not sure why we weren't doing this already, unless there i=
+s
+> > >>> something I'm overlooking
+> > >>>
+> > >>>    drivers/gpu/drm/scheduler/sched_main.c | 43 +++++++++++++++++---=
+------
+> > >>>    1 file changed, 28 insertions(+), 15 deletions(-)
+> > >>>
+> > >>> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/d=
+rm/scheduler/sched_main.c
+> > >>> index c2ee44d6224b..f59e5335afbb 100644
+> > >>> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> > >>> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> > >>> @@ -41,20 +41,21 @@
+> > >>>     * 4. Entities themselves maintain a queue of jobs that will be =
+scheduled on
+> > >>>     *    the hardware.
+> > >>>     *
+> > >>>     * The jobs in a entity are always scheduled in the order that t=
+hey were pushed.
+> > >>>     */
+> > >>>
+> > >>>    #include <linux/kthread.h>
+> > >>>    #include <linux/wait.h>
+> > >>>    #include <linux/sched.h>
+> > >>>    #include <linux/completion.h>
+> > >>> +#include <linux/dma-fence-unwrap.h>
+> > >>>    #include <linux/dma-resv.h>
+> > >>>    #include <uapi/linux/sched/types.h>
+> > >>>
+> > >>>    #include <drm/drm_print.h>
+> > >>>    #include <drm/drm_gem.h>
+> > >>>    #include <drm/gpu_scheduler.h>
+> > >>>    #include <drm/spsc_queue.h>
+> > >>>
+> > >>>    #define CREATE_TRACE_POINTS
+> > >>>    #include "gpu_scheduler_trace.h"
+> > >>> @@ -665,41 +666,27 @@ void drm_sched_job_arm(struct drm_sched_job *=
+job)
+> > >>>        sched =3D entity->rq->sched;
+> > >>>
+> > >>>        job->sched =3D sched;
+> > >>>        job->s_priority =3D entity->rq - sched->sched_rq;
+> > >>>        job->id =3D atomic64_inc_return(&sched->job_id_count);
+> > >>>
+> > >>>        drm_sched_fence_init(job->s_fence, job->entity);
+> > >>>    }
+> > >>>    EXPORT_SYMBOL(drm_sched_job_arm);
+> > >>>
+> > >>> -/**
+> > >>> - * drm_sched_job_add_dependency - adds the fence as a job dependen=
+cy
+> > >>> - * @job: scheduler job to add the dependencies to
+> > >>> - * @fence: the dma_fence to add to the list of dependencies.
+> > >>> - *
+> > >>> - * Note that @fence is consumed in both the success and error case=
+s.
+> > >>> - *
+> > >>> - * Returns:
+> > >>> - * 0 on success, or an error on failing to expand the array.
+> > >>> - */
+> > >>> -int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> > >>> -                              struct dma_fence *fence)
+> > >>> +static int _add_dependency(struct drm_sched_job *job, struct dma_f=
+ence *fence)
+> > >> Please keep the drm_sched_job_ prefix here even for static functions=
+.
+> > >> The symbol _add_dependency just sucks in a backtrace, especially whe=
+n
+> > >> it's tail optimized.
+> > >>
+> > >>>    {
+> > >>>        struct dma_fence *entry;
+> > >>>        unsigned long index;
+> > >>>        u32 id =3D 0;
+> > >>>        int ret;
+> > >>>
+> > >>> -     if (!fence)
+> > >>> -             return 0;
+> > >>> -
+> > >>>        /* Deduplicate if we already depend on a fence from the same=
+ context.
+> > >>>         * This lets the size of the array of deps scale with the nu=
+mber of
+> > >>>         * engines involved, rather than the number of BOs.
+> > >>>         */
+> > >>>        xa_for_each(&job->dependencies, index, entry) {
+> > >>>                if (entry->context !=3D fence->context)
+> > >>>                        continue;
+> > >>>
+> > >>>                if (dma_fence_is_later(fence, entry)) {
+> > >>>                        dma_fence_put(entry);
+> > >>> @@ -709,20 +696,46 @@ int drm_sched_job_add_dependency(struct drm_s=
+ched_job *job,
+> > >>>                }
+> > >>>                return 0;
+> > >>>        }
+> > >>>
+> > >>>        ret =3D xa_alloc(&job->dependencies, &id, fence, xa_limit_32=
+b, GFP_KERNEL);
+> > >>>        if (ret !=3D 0)
+> > >>>                dma_fence_put(fence);
+> > >>>
+> > >>>        return ret;
+> > >>>    }
+> > >>> +
+> > >>> +/**
+> > >>> + * drm_sched_job_add_dependency - adds the fence as a job dependen=
+cy
+> > >>> + * @job: scheduler job to add the dependencies to
+> > >>> + * @fence: the dma_fence to add to the list of dependencies.
+> > >>> + *
+> > >>> + * Note that @fence is consumed in both the success and error case=
+s.
+> > >>> + *
+> > >>> + * Returns:
+> > >>> + * 0 on success, or an error on failing to expand the array.
+> > >>> + */
+> > >>> +int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> > >>> +                              struct dma_fence *fence)
+> > >> Maybe name the new function drm_sched_job_unwrap_add_dependency or
+> > >> something like this.
+> > >>
+> > >> I need to double check, but I think for some cases we don't need or
+> > >> don't even want this in the driver.
+> > > I'd be curious to know the cases where you don't want this.. one thin=
+g
+> > > I was thinking about, what if you have a container fence with two
+> > > contained fences.  One is on the same ctx as the job, one is not but
+> > > signals sooner.  You end up artificially waiting on both, which seems
+> > > sub-optimal.
+> >
+> > Well resv objects don't contain other containers for example.
+>
+> I suppose I have the explicit sync case more in mind, where the
+> dependent fence ends up being a chain or array (if userspace is
+> merging fence fd's).
+>
+> > Then we also have an use case in amdgpu where fence need to be
+> > explicitly waited for even when they are from the same ctx as the job
+> > because otherwise we wouldn't see everything cache coherent.
+>
+> This was the kinda weird case I wanted to make sure I wasn't breaking.
+> I remember seeing something fly by for this, but can't find it now or
+> remember what amdgpu's solution was..
+>
+> > On the other hand we currently handle that amdgpu use case differently
+> > and the extra overhead of unwrapping fences even if they can't be
+> > containers is probably negligible.
+> >
+> > > Anyways, I can make this a new entrypoint which unwraps, and/or renam=
+e
+> > > the internal static function, if we think this is a good idea.
+> >
+> > If you think that's unnecessary keeping your original approach is fine
+> > with me as well.
+>
+> I'm going to assume unnecessary until someone speaks up with their
+> weird specific case ;-)
 
-On Sun 03-12-23 11:23:47, Yury Norov wrote:
-> Add helpers around test_and_{set,clear}_bit() that allow to search for
-> clear or set bits and flip them atomically.
-> 
-> The target patterns may look like this:
-> 
-> 	for (idx = 0; idx < nbits; idx++)
-> 		if (test_and_clear_bit(idx, bitmap))
-> 			do_something(idx);
-> 
-> Or like this:
-> 
-> 	do {
-> 		bit = find_first_bit(bitmap, nbits);
-> 		if (bit >= nbits)
-> 			return nbits;
-> 	} while (!test_and_clear_bit(bit, bitmap));
-> 	return bit;
-> 
-> In both cases, the opencoded loop may be converted to a single function
-> or iterator call. Correspondingly:
-> 
-> 	for_each_test_and_clear_bit(idx, bitmap, nbits)
-> 		do_something(idx);
-> 
-> Or:
-> 	return find_and_clear_bit(bitmap, nbits);
+So, this patch turns out to blow up spectacularly with dma_fence
+refcnt underflows when I enable DRIVER_SYNCOBJ_TIMELINE .. I think,
+because it starts unwrapping fence chains, possibly in parallel with
+fence signaling on the retire path.  Is it supposed to be permissible
+to unwrap a fence chain concurrently?
 
-These are fine cleanups but they actually don't address the case that has
-triggered all these changes - namely the xarray use of find_next_bit() in
-xas_find_chunk().
+BR,
+-R
 
-...
-> This series is a result of discussion [1]. All find_bit() functions imply
-> exclusive access to the bitmaps. However, KCSAN reports quite a number
-> of warnings related to find_bit() API. Some of them are not pointing
-> to real bugs because in many situations people intentionally allow
-> concurrent bitmap operations.
-> 
-> If so, find_bit() can be annotated such that KCSAN will ignore it:
-> 
->         bit = data_race(find_first_bit(bitmap, nbits));
-
-No, this is not a correct thing to do. If concurrent bitmap changes can
-happen, find_first_bit() as it is currently implemented isn't ever a safe
-choice because it can call __ffs(0) which is dangerous as you properly note
-above. I proposed adding READ_ONCE() into find_first_bit() / find_next_bit()
-implementation to fix this issue but you disliked that. So other option we
-have is adding find_first_bit() and find_next_bit() variants that take
-volatile 'addr' and we have to use these in code like xas_find_chunk()
-which cannot be converted to your new helpers.
-
-> This series addresses the other important case where people really need
-> atomic find ops. As the following patches show, the resulting code
-> looks safer and more verbose comparing to opencoded loops followed by
-> atomic bit flips.
-> 
-> In [1] Mirsad reported 2% slowdown in a single-thread search test when
-> switching find_bit() function to treat bitmaps as volatile arrays. On
-> the other hand, kernel robot in the same thread reported +3.7% to the
-> performance of will-it-scale.per_thread_ops test.
-
-It was actually me who reported the regression here [2] but whatever :)
-
-[2] https://lore.kernel.org/all/20231011150252.32737-1-jack@suse.cz
-
-> Assuming that our compilers are sane and generate better code against
-> properly annotated data, the above discrepancy doesn't look weird. When
-> running on non-volatile bitmaps, plain find_bit() outperforms atomic
-> find_and_bit(), and vice-versa.
-> 
-> So, all users of find_bit() API, where heavy concurrency is expected,
-> are encouraged to switch to atomic find_and_bit() as appropriate.
-
-Well, all users where any concurrency can happen should switch. Otherwise
-they are prone to the (admittedly mostly theoretical) data race issue.
-
-								Honza
--- 
-Jan Kara <jack@suse.com>
-SUSE Labs, CR
+> BR,
+> -R
+>
+> > Regards,
+> > Christian.
+> >
+> > >
+> > > BR,
+> > > -R
+> > >
+> > >> Christian.
+> > >>
+> > >>> +{
+> > >>> +     struct dma_fence_unwrap iter;
+> > >>> +     struct dma_fence *f;
+> > >>> +     int ret =3D 0;
+> > >>> +
+> > >>> +     dma_fence_unwrap_for_each (f, &iter, fence) {
+> > >>> +             ret =3D _add_dependency(job, f);
+> > >>> +             if (ret)
+> > >>> +                     break;
+> > >>> +     }
+> > >>> +
+> > >>> +     return ret;
+> > >>> +}
+> > >>>    EXPORT_SYMBOL(drm_sched_job_add_dependency);
+> > >>>
+> > >>>    /**
+> > >>>     * drm_sched_job_add_resv_dependencies - add all fences from the=
+ resv to the job
+> > >>>     * @job: scheduler job to add the dependencies to
+> > >>>     * @resv: the dma_resv object to get the fences from
+> > >>>     * @usage: the dma_resv_usage to use to filter the fences
+> > >>>     *
+> > >>>     * This adds all fences matching the given usage from @resv to @=
+job.
+> > >>>     * Must be called with the @resv lock held.
+> >
 
