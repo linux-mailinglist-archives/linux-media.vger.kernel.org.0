@@ -1,27 +1,27 @@
-Return-Path: <linux-media+bounces-1522-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1524-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BE62802D60
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 09:40:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33C21802D6F
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 09:43:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F5BF1C20A3F
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 08:40:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 654C41C209F8
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 08:43:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76936DF56;
-	Mon,  4 Dec 2023 08:40:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BE24F9C3;
+	Mon,  4 Dec 2023 08:43:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF75EE542
-	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 08:40:04 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE88AC433C7;
-	Mon,  4 Dec 2023 08:40:01 +0000 (UTC)
-Message-ID: <40783b7c-4353-4366-ad49-95ac87c5f8be@xs4all.nl>
-Date: Mon, 4 Dec 2023 09:39:59 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3E8BE565
+	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 08:43:04 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id ADE95C433C9;
+	Mon,  4 Dec 2023 08:43:01 +0000 (UTC)
+Message-ID: <89469115-445b-4875-b1d7-3ab0ce942572@xs4all.nl>
+Date: Mon, 4 Dec 2023 09:43:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -29,8 +29,9 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 27/35] media: em28xx: cx231xx: fix opencoded
- find_and_set_bit()
+Subject: Re: [PATCH v2 20/35] media: radio-shark: use atomic find_bit() API
+ where appropriate
+Content-Language: en-US, nl
 To: Yury Norov <yury.norov@gmail.com>, linux-kernel@vger.kernel.org,
  Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
 Cc: Jan Kara <jack@suse.cz>, Mirsad Todorovac
@@ -42,8 +43,7 @@ Cc: Jan Kara <jack@suse.cz>, Mirsad Todorovac
  <bvanassche@acm.org>, Sergey Shtylyov <s.shtylyov@omp.ru>
 References: <20231203192422.539300-1-yury.norov@gmail.com>
  <20231203193307.542794-1-yury.norov@gmail.com>
- <20231203193307.542794-26-yury.norov@gmail.com>
-Content-Language: en-US, nl
+ <20231203193307.542794-19-yury.norov@gmail.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -88,112 +88,60 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231203193307.542794-26-yury.norov@gmail.com>
+In-Reply-To: <20231203193307.542794-19-yury.norov@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 03/12/2023 20:32, Yury Norov wrote:
-> Functions in the media/usb drivers opencode find_and_set_bit() by
-> polling on a found bit in a while-loop.
+> Despite that it's only 2- or 3-bit maps, convert for-loop followed by
+> test_bit() to for_each_test_and_clear_bit() as it makes the code cleaner.
 > 
 > Signed-off-by: Yury Norov <yury.norov@gmail.com>
 
 Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Feel free to take this yourself through the bitmap tree.
-
-It's a nice improvement.
+You can take this patch yourself as well.
 
 Regards,
 
 	Hans
 
 > ---
->  drivers/media/usb/cx231xx/cx231xx-cards.c | 16 ++++------
->  drivers/media/usb/em28xx/em28xx-cards.c   | 37 +++++++++--------------
->  2 files changed, 21 insertions(+), 32 deletions(-)
+>  drivers/media/radio/radio-shark.c  | 5 +----
+>  drivers/media/radio/radio-shark2.c | 5 +----
+>  2 files changed, 2 insertions(+), 8 deletions(-)
 > 
-> diff --git a/drivers/media/usb/cx231xx/cx231xx-cards.c b/drivers/media/usb/cx231xx/cx231xx-cards.c
-> index 92efe6c1f47b..b314603932d7 100644
-> --- a/drivers/media/usb/cx231xx/cx231xx-cards.c
-> +++ b/drivers/media/usb/cx231xx/cx231xx-cards.c
-> @@ -1708,16 +1708,12 @@ static int cx231xx_usb_probe(struct usb_interface *interface,
->  		return -ENODEV;
+> diff --git a/drivers/media/radio/radio-shark.c b/drivers/media/radio/radio-shark.c
+> index 127a3be0e0f0..0c50b3a9623e 100644
+> --- a/drivers/media/radio/radio-shark.c
+> +++ b/drivers/media/radio/radio-shark.c
+> @@ -158,10 +158,7 @@ static void shark_led_work(struct work_struct *work)
+>  		container_of(work, struct shark_device, led_work);
+>  	int i, res, brightness, actual_len;
 >  
->  	/* Check to see next free device and mark as used */
-> -	do {
-> -		nr = find_first_zero_bit(&cx231xx_devused, CX231XX_MAXBOARDS);
-> -		if (nr >= CX231XX_MAXBOARDS) {
-> -			/* No free device slots */
-> -			dev_err(d,
-> -				"Supports only %i devices.\n",
-> -				CX231XX_MAXBOARDS);
-> -			return -ENOMEM;
-> -		}
-> -	} while (test_and_set_bit(nr, &cx231xx_devused));
-> +	nr = find_and_set_bit(&cx231xx_devused, CX231XX_MAXBOARDS);
-> +	if (nr >= CX231XX_MAXBOARDS) {
-> +		/* No free device slots */
-> +		dev_err(d, "Supports only %i devices.\n", CX231XX_MAXBOARDS);
-> +		return -ENOMEM;
-> +	}
+> -	for (i = 0; i < 3; i++) {
+> -		if (!test_and_clear_bit(i, &shark->brightness_new))
+> -			continue;
+> -
+> +	for_each_test_and_clear_bit(i, &shark->brightness_new, 3) {
+>  		brightness = atomic_read(&shark->brightness[i]);
+>  		memset(shark->transfer_buffer, 0, TB_LEN);
+>  		if (i != RED_LED) {
+> diff --git a/drivers/media/radio/radio-shark2.c b/drivers/media/radio/radio-shark2.c
+> index f1c5c0a6a335..d9ef241e1778 100644
+> --- a/drivers/media/radio/radio-shark2.c
+> +++ b/drivers/media/radio/radio-shark2.c
+> @@ -145,10 +145,7 @@ static void shark_led_work(struct work_struct *work)
+>  		container_of(work, struct shark_device, led_work);
+>  	int i, res, brightness, actual_len;
 >  
->  	udev = usb_get_dev(interface_to_usbdev(interface));
->  
-> diff --git a/drivers/media/usb/em28xx/em28xx-cards.c b/drivers/media/usb/em28xx/em28xx-cards.c
-> index 4d037c92af7c..af4809fe74a8 100644
-> --- a/drivers/media/usb/em28xx/em28xx-cards.c
-> +++ b/drivers/media/usb/em28xx/em28xx-cards.c
-> @@ -3684,17 +3684,14 @@ static int em28xx_duplicate_dev(struct em28xx *dev)
->  		return -ENOMEM;
->  	}
->  	/* Check to see next free device and mark as used */
-> -	do {
-> -		nr = find_first_zero_bit(em28xx_devused, EM28XX_MAXBOARDS);
-> -		if (nr >= EM28XX_MAXBOARDS) {
-> -			/* No free device slots */
-> -			dev_warn(&dev->intf->dev, ": Supports only %i em28xx boards.\n",
-> -				 EM28XX_MAXBOARDS);
-> -			kfree(sec_dev);
-> -			dev->dev_next = NULL;
-> -			return -ENOMEM;
-> -		}
-> -	} while (test_and_set_bit(nr, em28xx_devused));
-> +	nr = find_and_set_bit(em28xx_devused, EM28XX_MAXBOARDS);
-> +	if (nr >= EM28XX_MAXBOARDS) {
-> +		/* No free device slots */
-> +		dev_warn(&dev->intf->dev, ": Supports only %i em28xx boards.\n", EM28XX_MAXBOARDS);
-> +		kfree(sec_dev);
-> +		dev->dev_next = NULL;
-> +		return -ENOMEM;
-> +	}
->  	sec_dev->devno = nr;
->  	snprintf(sec_dev->name, 28, "em28xx #%d", nr);
->  	sec_dev->dev_next = NULL;
-> @@ -3827,17 +3824,13 @@ static int em28xx_usb_probe(struct usb_interface *intf,
->  	udev = usb_get_dev(interface_to_usbdev(intf));
->  
->  	/* Check to see next free device and mark as used */
-> -	do {
-> -		nr = find_first_zero_bit(em28xx_devused, EM28XX_MAXBOARDS);
-> -		if (nr >= EM28XX_MAXBOARDS) {
-> -			/* No free device slots */
-> -			dev_err(&intf->dev,
-> -				"Driver supports up to %i em28xx boards.\n",
-> -			       EM28XX_MAXBOARDS);
-> -			retval = -ENOMEM;
-> -			goto err_no_slot;
-> -		}
-> -	} while (test_and_set_bit(nr, em28xx_devused));
-> +	nr = find_and_set_bit(em28xx_devused, EM28XX_MAXBOARDS);
-> +	if (nr >= EM28XX_MAXBOARDS) {
-> +		/* No free device slots */
-> +		dev_err(&intf->dev, "Driver supports up to %i em28xx boards.\n", EM28XX_MAXBOARDS);
-> +		retval = -ENOMEM;
-> +		goto err_no_slot;
-> +	}
->  
->  	/* Don't register audio interfaces */
->  	if (intf->altsetting[0].desc.bInterfaceClass == USB_CLASS_AUDIO) {
+> -	for (i = 0; i < 2; i++) {
+> -		if (!test_and_clear_bit(i, &shark->brightness_new))
+> -			continue;
+> -
+> +	for_each_test_and_clear_bit(i, &shark->brightness_new, 2) {
+>  		brightness = atomic_read(&shark->brightness[i]);
+>  		memset(shark->transfer_buffer, 0, TB_LEN);
+>  		shark->transfer_buffer[0] = 0x83 + i;
 
 
