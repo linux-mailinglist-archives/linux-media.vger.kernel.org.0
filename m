@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-1585-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1586-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D55C8034AE
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:25:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C6DC28034B0
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:25:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 41DB81F21081
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:25:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BB3A0B210DD
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:25:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CF1625561;
-	Mon,  4 Dec 2023 13:24:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1448828DB6;
+	Mon,  4 Dec 2023 13:24:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="f7AymoDN"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Pbi5bF6Y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CD2719A4;
-	Mon,  4 Dec 2023 05:24:23 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DE0E919A9;
+	Mon,  4 Dec 2023 05:24:25 -0800 (PST)
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 19C1C660711D;
-	Mon,  4 Dec 2023 13:24:22 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 517856607090;
+	Mon,  4 Dec 2023 13:24:23 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701696262;
-	bh=Gl50yamOqxp5F3J61bdrX38ELoxqbgPRLIk274ynKbw=;
+	s=mail; t=1701696264;
+	bh=ORlm67uM5fv255axUnsY7LF5+NRgLL1FXRZ/tIF2QjU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=f7AymoDN23peeo2rYK+6KBvHLhLevEnsznJewdctG2+XbxaZqVFAotigw//kcWyeL
-	 0/yS9hdKsu8JlMHkZ48H6r22r5ftYMnRpd9yo6OAq02BPB8bEg4w5Eu3R1kq3g+FCX
-	 Cl2cfj8wftNOLQSM5Gk/Rknxfeg/SuoH+xUr3+0OVDpaloGrFqo0Z6oyDVA8S/Quzr
-	 /jEejnMap3aV9zOb04kFrMuMWSk9j6SwwrJ70/ZfucGS4taGygNhCYAUVm5ZKqwHBd
-	 Me8/GJU6+c2Jpgq4Whw6bxOGbcbr9ZswbeULXElhiFk+pwpJ72KU867vQIkSDbu1xf
-	 XAMJB4rlRNaiQ==
+	b=Pbi5bF6Y+KYs5YKI1S/bwWzcWq4rEoIhjVQhuizPnCrVxvAqKlVVQMhzVzTsHJHmQ
+	 LKxFor4iEZQHTxyGhn0BShMXGrQ+3+y+ee2miBCFH/cDiri2bhznfEFF0pInt9NmnW
+	 Ckr931qgtWKEBNvnTKolamn58mHqDp8QfNYKLjxrUGYLIQcFSu9aK6tEuaffTXB0Vn
+	 TX6+KEepBNhnRil5YxfJeTUjF4qZu2WrVqXe914jnFcbVJLlfb/Bh7sDb2IVRXgOEA
+	 5LTa+NFAfKJkvyH78BRkN5iNMt9cXsIkRng3oYaRzh11tpPmVfydCXV0h2R7hGZAa/
+	 0GTS4JiMTnFkA==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -46,12 +46,17 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
 	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Chen-Yu Tsai <wens@csie.org>,
-	Jernej Skrabec <jernej.skrabec@gmail.com>,
-	Samuel Holland <samuel@sholland.org>
-Subject: [PATCH v2 29/36] media: sunxi: sun6i-csi: Fix misuse of min_buffers_needed field
-Date: Mon,  4 Dec 2023 14:23:16 +0100
-Message-Id: <20231204132323.22811-30-benjamin.gaignard@collabora.com>
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	NXP Linux Team <linux-imx@nxp.com>
+Subject: [PATCH v2 30/36] media: imx: Fix misuse of min_buffers_needed field
+Date: Mon,  4 Dec 2023 14:23:17 +0100
+Message-Id: <20231204132323.22811-31-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
 References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
@@ -65,31 +70,36 @@ Content-Transfer-Encoding: 8bit
 
 'min_buffers_needed' is suppose to be used to indicate the number
 of buffers needed by DMA engine to start streaming.
-sun6i-csi driver doesn't use DMA engine and just want to specify
+imx-media-capture driver doesn't use DMA engine and just want to specify
 the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
 That 'min_reqbufs_allocation' field purpose so use it.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Chen-Yu Tsai <wens@csie.org>
-CC: Jernej Skrabec <jernej.skrabec@gmail.com>
-CC: Samuel Holland <samuel@sholland.org>
+CC: Steve Longerbeam <slongerbeam@gmail.com>
+CC: Philipp Zabel <p.zabel@pengutronix.de>
+CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+CC: Shawn Guo <shawnguo@kernel.org>
+CC: Sascha Hauer <s.hauer@pengutronix.de>
+CC: Pengutronix Kernel Team <kernel@pengutronix.de>
+CC: Fabio Estevam <festevam@gmail.com>
+CC: NXP Linux Team <linux-imx@nxp.com>
 ---
- drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c | 2 +-
+ drivers/staging/media/imx/imx-media-capture.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-index cf6aadbc130b..73e721936d27 100644
---- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-+++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi_capture.c
-@@ -1010,7 +1010,7 @@ int sun6i_csi_capture_setup(struct sun6i_csi_device *csi_dev)
- 	queue->buf_struct_size = sizeof(struct sun6i_csi_buffer);
- 	queue->ops = &sun6i_csi_capture_queue_ops;
- 	queue->mem_ops = &vb2_dma_contig_memops;
--	queue->min_buffers_needed = 2;
-+	queue->min_reqbufs_allocation = 2;
- 	queue->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
- 	queue->lock = &capture->lock;
- 	queue->dev = csi_dev->dev;
+diff --git a/drivers/staging/media/imx/imx-media-capture.c b/drivers/staging/media/imx/imx-media-capture.c
+index ce02199e7b1b..5bb1ebd35d89 100644
+--- a/drivers/staging/media/imx/imx-media-capture.c
++++ b/drivers/staging/media/imx/imx-media-capture.c
+@@ -1022,7 +1022,7 @@ imx_media_capture_device_init(struct device *dev, struct v4l2_subdev *src_sd,
+ 	vq->mem_ops = &vb2_dma_contig_memops;
+ 	vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
+ 	vq->lock = &priv->mutex;
+-	vq->min_buffers_needed = 2;
++	vq->min_reqbufs_allocation = 2;
+ 	vq->dev = priv->dev;
+ 
+ 	ret = vb2_queue_init(vq);
 -- 
 2.39.2
 
