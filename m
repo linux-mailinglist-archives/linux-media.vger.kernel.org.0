@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-1571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1572-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A07FB803492
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:24:49 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FD75803495
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:24:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 583581F21118
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:24:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A17981C2095F
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 13:24:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F203D2574B;
-	Mon,  4 Dec 2023 13:24:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D213325755;
+	Mon,  4 Dec 2023 13:24:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ScY/owUY"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RX7xrmq4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 92C1418F;
-	Mon,  4 Dec 2023 05:24:04 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F27E210C1;
+	Mon,  4 Dec 2023 05:24:05 -0800 (PST)
 Received: from benjamin-XPS-13-9310.. (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id B79946607090;
-	Mon,  4 Dec 2023 13:24:02 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 530C5660715D;
+	Mon,  4 Dec 2023 13:24:04 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701696243;
-	bh=hw+EcJmQWwZPR1A5B99ReLj35TY7AMeTL9JoTuzkKAo=;
+	s=mail; t=1701696244;
+	bh=7RGpb9eXUi6lQdxW/1vzQwvC1+GPAwIhQ8xVVzZPHxM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ScY/owUYVMArpLwsZLqwD8BURKTytyZwaGhIdZHnATD5V85sPJdmyfgFtfJ3W58n1
-	 AzJOV3V9/JsgScBZdgNAdJY9+25vMZ5RiDFw9inseTsVPtLLrZ+jueagxnryoW3wk0
-	 3Krn8WecTG7xtTt3bIhU/cwVFCTe7JG7YYmjkJLgi3dkMOw9vVOqt5Puo4w3vwMvrr
-	 dTxcbbpDVNka5SRJH3yZagQbR3c96AdjTNGETYIVjf1cQvRFDZkUEKXg9qT7b7CTe3
-	 aFnm2Cg6rjBUGVDvm5fxjhAtsj/PK3ikUklYREsbhNeyZD/tQpaFVkqWXKI5TmAM1r
-	 GaIgzX1iEKCzw==
+	b=RX7xrmq4GvDpj91MiwF1uNjqVz+SU/11KD+Xm+ywaqLks0X9rMkTF7m/RG8XRMzrJ
+	 WfiCHUFrHW417ILh7VWCUvx2L9hp1ykHPTLwD75nyB/iJIQJdOtae6nOhBaOeYtARk
+	 fwxUz5tSA164f+bkA+2V+CB0VsEvs8m/VJt6wy4eGjBenoGp3gfqM861pwIBleDBz1
+	 YjLORInZGn4FnY77jh6RfCJ5QASWOM7YVm+3pbVdFe0ZUdLa6N0lmbWlk0ddd1Xmbz
+	 mLNhisE1aNKveXIFGwSH+AYBbmdBUVNSJ2jZOzPauBiY6j6vvy16YWly9BBsFCA5T2
+	 P+YtjxCcm+9oQ==
 From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
 To: hverkuil@xs4all.nl,
 	mchehab@kernel.org,
@@ -45,15 +45,10 @@ Cc: linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org,
 	linux-staging@lists.linux.dev,
 	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Yong Zhi <yong.zhi@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Dan Scally <djrscally@gmail.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>
-Subject: [PATCH v2 15/36] media: pci: intel: ipu3: Remove useless setting of min_buffers_needed
-Date: Mon,  4 Dec 2023 14:23:02 +0100
-Message-Id: <20231204132323.22811-16-benjamin.gaignard@collabora.com>
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v2 16/36] videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
+Date: Mon,  4 Dec 2023 14:23:03 +0100
+Message-Id: <20231204132323.22811-17-benjamin.gaignard@collabora.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
 References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
@@ -65,34 +60,52 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This driver uses min_buffers_needed which vb2 uses to ensure
-start_streaming is called when at least 'min_buffers_needed'
-buffers are queued. However, this driver doesn't need this,
-it can stream fine without any buffers queued.
-Just drop this unnecessary restriction.
+Add 'min_reqbufs_allocation' field in vb2_queue structure so drivers
+can specificy the minimum number of buffers to allocate when calling
+VIDIOC_REQBUFS.
+Later that will help to distinguish the minimum number of buffers
+needed to start streaming versus the minimum allocation requirement.
 
 Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-CC: Yong Zhi <yong.zhi@intel.com>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Bingbu Cao <bingbu.cao@intel.com>
-CC: Dan Scally <djrscally@gmail.com>
-CC: Tianshu Qiu <tian.shu.qiu@intel.com>
 ---
- drivers/media/pci/intel/ipu3/ipu3-cio2.c | 1 -
- 1 file changed, 1 deletion(-)
+ drivers/media/common/videobuf2/videobuf2-core.c | 1 +
+ include/media/videobuf2-core.h                  | 4 ++++
+ 2 files changed, 5 insertions(+)
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-index 5d3b0ffd3d08..7f72be686981 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-@@ -1589,7 +1589,6 @@ static int cio2_queue_init(struct cio2_device *cio2, struct cio2_queue *q)
- 	vbq->mem_ops = &vb2_dma_sg_memops;
- 	vbq->buf_struct_size = sizeof(struct cio2_buffer);
- 	vbq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
--	vbq->min_buffers_needed = 1;
- 	vbq->drv_priv = cio2;
- 	vbq->lock = &q->lock;
- 	r = vb2_queue_init(vbq);
+diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+index 8c1df829745b..c224d13b3105 100644
+--- a/drivers/media/common/videobuf2/videobuf2-core.c
++++ b/drivers/media/common/videobuf2/videobuf2-core.c
+@@ -866,6 +866,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+ 	 * Make sure the requested values and current defaults are sane.
+ 	 */
+ 	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
++	num_buffers = max_t(unsigned int, num_buffers, q->min_reqbufs_allocation);
+ 	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
+ 	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+ 	/*
+diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+index 5557d78b6f20..17cacd696ab4 100644
+--- a/include/media/videobuf2-core.h
++++ b/include/media/videobuf2-core.h
+@@ -550,6 +550,9 @@ struct vb2_buf_ops {
+  *		@start_streaming can be called. Used when a DMA engine
+  *		cannot be started unless at least this number of buffers
+  *		have been queued into the driver.
++ * @min_reqbufs_allocation: the minimum number of buffers allocated when
++ *		calling VIDIOC_REQBUFS. Used when drivers need a to
++ *		specify a minimum buffers allocation before setup a queue.
+  */
+ /*
+  * Private elements (won't appear at the uAPI book):
+@@ -615,6 +618,7 @@ struct vb2_queue {
+ 	u32				timestamp_flags;
+ 	gfp_t				gfp_flags;
+ 	u32				min_buffers_needed;
++	u32				min_reqbufs_allocation;
+ 
+ 	struct device			*alloc_devs[VB2_MAX_PLANES];
+ 
 -- 
 2.39.2
 
