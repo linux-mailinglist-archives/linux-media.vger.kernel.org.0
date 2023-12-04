@@ -1,212 +1,244 @@
-Return-Path: <linux-media+bounces-1616-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1617-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93D30803BFC
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 18:49:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77A7A803C69
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 19:07:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 201CA28111B
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 17:49:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9BE201C20AD8
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 18:07:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E70D22E85F;
-	Mon,  4 Dec 2023 17:49:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C5482FC41;
+	Mon,  4 Dec 2023 18:07:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="v/wo/cmb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Sbzk/cJa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F46FF
-	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 09:49:36 -0800 (PST)
-Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-3332ad5b3e3so3261832f8f.2
-        for <linux-media@vger.kernel.org>; Mon, 04 Dec 2023 09:49:36 -0800 (PST)
+Received: from mail-pf1-x42a.google.com (mail-pf1-x42a.google.com [IPv6:2607:f8b0:4864:20::42a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 816DD129;
+	Mon,  4 Dec 2023 10:07:10 -0800 (PST)
+Received: by mail-pf1-x42a.google.com with SMTP id d2e1a72fcca58-6ce46470647so821732b3a.1;
+        Mon, 04 Dec 2023 10:07:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1701712175; x=1702316975; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1701713230; x=1702318030; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=9nMTL/hfEaPmfeAjvrqag0PKWdLeKIP4No4LGE5wQRg=;
-        b=v/wo/cmbdS5QPCQENYPfqrMbNveWokKVH1KXfmvECebw6NS4a5eWM6jlctIykLsXti
-         PpIihcNP3uKVDC7odSe8U5El9VpUx044HL0Wa/o7yziTGdPokVh8C/m3T4/trG3P20/B
-         QfCMsFL2OV+T2JOm7OtAUS4UvHdCyBQay7MC7XrCfplITIZKSEDMIh29vlL732r1+HYM
-         y4QAkljh/ru1ek3KMaefkflBsOlZB0bEMzcxpAzTkcWHhNBFZk3tHsoX3vyTZKBT/CUM
-         V7aYBiV3v3uC1UT3yPbJ/YOn6aLdv8tj/JkhSOXMoDtws1dfEJ3brCSGOpP/uyhmTeJt
-         BP9A==
+        bh=vnKGL9rVmaXJ0k7UQTGGb8qgGBw3yaFYXulmlj0ClVk=;
+        b=Sbzk/cJarJS+HKABhyq9ZXjIKHReZXRZD2BmG6K1tjWjkQP6qWn2M1Hej+A0irmaku
+         MiQQibihKqnyE5TVi9uvaP+TQXi4717965Cj5SWoxsFXT08rL/dq7gcQha9HMJ+iJ6E4
+         BVSsykoGX1GtN128YVvHFOLoVXyY9pSvbwxF1qFD/Yff8eCGgX7GFA1jKFa07niVVpY4
+         d9OCXuF3WhLpOcz+yEjCxARi6Zebpvmf8U8x8xjf+1Jj/H4bG5JnvtbOkN1l+9J9gmEl
+         oiEG7ELXzD08vZaeO7QyUcVFM2Rqj1v3KKn+P22m3559f6bBVfzqLvxbIyP1mZuhfgJK
+         shBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701712175; x=1702316975;
-        h=content-transfer-encoding:mime-version:message-id:date:references
-         :in-reply-to:subject:cc:to:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1701713230; x=1702318030;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=9nMTL/hfEaPmfeAjvrqag0PKWdLeKIP4No4LGE5wQRg=;
-        b=RvL+I3SpCi6HOa3hVoYuCSp9eR3cEc6bfD0Q4JZ8m/Cub98T77tI1QrNBG9TsEjeCR
-         tCDWESxnhjdUt6ZvuT+AOLfU+/uwWAWzLLQ8wRWIzxNAk2RK7jpFKPJrkjsWDdi45Dqz
-         k9+q2nwnIkHb7UPye/4qehu7yH7siztGRgWGT1U5VZPz7gx19skliHDXT+cqK1JeO5mP
-         crobAto69HHcqcbUcYFh1gQ7bXdkwD7QzkDAVV/aLQZiYOhysm/ydv45bRl14+cVWiBJ
-         DdhqhbnWt9rIk4AWRfSyC998v5sVuITuTH4cdZYYOWgVbTQmSNu0tMHw6f2n9+ZCUBph
-         7hRg==
-X-Gm-Message-State: AOJu0YzMZj+j6+mzl362tf8SrKp4G+BYpUlBfu/MC0BX0tSs87HP5X3f
-	kemBBS4ArVOSl39JHDHHf00iDg==
-X-Google-Smtp-Source: AGHT+IEZ7kB3cx7KQ8/SrkE8m8JSF0rnEkwEdjOi/inIqL/SKS50oF93F8hnwxRYY4xwJgZ52qJh7Q==
-X-Received: by 2002:a5d:5f49:0:b0:333:4296:3c0a with SMTP id cm9-20020a5d5f49000000b0033342963c0amr1444977wrb.133.1701712175176;
-        Mon, 04 Dec 2023 09:49:35 -0800 (PST)
-Received: from localhost ([2a01:cb19:95ba:5000:d6dd:417f:52ac:335b])
-        by smtp.gmail.com with ESMTPSA id b4-20020a5d4b84000000b003333c9ad4d6sm6652265wrt.116.2023.12.04.09.49.34
+        bh=vnKGL9rVmaXJ0k7UQTGGb8qgGBw3yaFYXulmlj0ClVk=;
+        b=AYyMCAiofwW1w8/LKfRAUteUMOKs3IGWzjKZ81HOLm4Qog7YCel+I5tMBELYkYd3Ic
+         C4T4qpkFlGZeeXP+bncCihQfhjeGD3TsJFVqGBXi/XIjoPO4B2kA2Qlk2CwoPwhDujan
+         +NNUBj2hdZwzJF+J3y4w2hEVmDWduaQnATolFiBBR9nrKzAorPwLhVN5eBryUxtqzHrX
+         V+Fk7vGMXsTDRx7WiPSB9OD38PTNnbefsY008s69lgAXGCZSuKzQm1is49s8RxAW7uOj
+         fmc91cbZIRseHKFcBH1ZvFv+pbAs/b98BwWxq9xVaO3s3RAhfCBsGBSyGFZhNwjbcZOo
+         v/lw==
+X-Gm-Message-State: AOJu0YygE6uwIjeYYcpP+0PeLWzLwNjgGit6simtM/p2Q2tE1GHwtNrK
+	68fyZnN9/CqU4w30ZC6sDjE=
+X-Google-Smtp-Source: AGHT+IGDIGeeBa7UWPj4E4w2SIGHBjZgGz8oxGqwAWzNb+KD7mpnEvIno4bt3NIHORxil3wMtNwC4w==
+X-Received: by 2002:a05:6a20:1448:b0:18c:374c:6e64 with SMTP id a8-20020a056a20144800b0018c374c6e64mr27716780pzi.36.1701713229690;
+        Mon, 04 Dec 2023 10:07:09 -0800 (PST)
+Received: from localhost ([2620:10d:c090:400::4:27ef])
+        by smtp.gmail.com with ESMTPSA id u2-20020a056a00158200b006cdd507ca2esm7943470pfk.167.2023.12.04.10.07.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 04 Dec 2023 09:49:34 -0800 (PST)
-From: Mattijs Korpershoek <mkorpershoek@baylibre.com>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>, Nas Chung
- <nas.chung@chipsnmedia.com>, Jackson Lee <jackson.lee@chipsnmedia.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Guillaume La Roque <glaroque@baylibre.com>, Brandon Brnich
- <b-brnich@ti.com>, Sebastian Fricke <sebastian.fricke@collabora.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: chips-media: wave5: fix panic on decoding
- DECODED_IDX_FLAG_SKIP
-In-Reply-To: <42c1c5e14a30730bc140b6791f25e55d434aa4e3.camel@ndufresne.ca>
-References: <20231129-wave5-panic-v1-1-e0fb5a1a8af4@baylibre.com>
- <42c1c5e14a30730bc140b6791f25e55d434aa4e3.camel@ndufresne.ca>
-Date: Mon, 04 Dec 2023 18:49:34 +0100
-Message-ID: <87jzpt3ljl.fsf@baylibre.com>
+        Mon, 04 Dec 2023 10:07:09 -0800 (PST)
+Sender: Tejun Heo <htejun@gmail.com>
+Date: Mon, 4 Dec 2023 08:07:07 -1000
+From: Tejun Heo <tj@kernel.org>
+To: Naohiro Aota <Naohiro.Aota@wdc.com>
+Cc: Lai Jiangshan <jiangshanlai@gmail.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+	"ceph-devel@vger.kernel.org" <ceph-devel@vger.kernel.org>,
+	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+	"coreteam@netfilter.org" <coreteam@netfilter.org>,
+	"dm-devel@lists.linux.dev" <dm-devel@lists.linux.dev>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"gfs2@lists.linux.dev" <gfs2@lists.linux.dev>,
+	"intel-gfx@lists.freedesktop.org" <intel-gfx@lists.freedesktop.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-bcachefs@vger.kernel.org" <linux-bcachefs@vger.kernel.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-cachefs@redhat.com" <linux-cachefs@redhat.com>,
+	"linux-cifs@vger.kernel.org" <linux-cifs@vger.kernel.org>,
+	"linux-crypto@vger.kernel.org" <linux-crypto@vger.kernel.org>,
+	"linux-erofs@lists.ozlabs.org" <linux-erofs@lists.ozlabs.org>,
+	"linux-f2fs-devel@lists.sourceforge.net" <linux-f2fs-devel@lists.sourceforge.net>,
+	"linux-fscrypt@vger.kernel.org" <linux-fscrypt@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+	"linux-nfs@vger.kernel.org" <linux-nfs@vger.kernel.org>,
+	"linux-nvme@lists.infradead.org" <linux-nvme@lists.infradead.org>,
+	"linux-raid@vger.kernel.org" <linux-raid@vger.kernel.org>,
+	"linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>,
+	"linux-remoteproc@vger.kernel.org" <linux-remoteproc@vger.kernel.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-trace-kernel@vger.kernel.org" <linux-trace-kernel@vger.kernel.org>,
+	"linux-usb@vger.kernel.org" <linux-usb@vger.kernel.org>,
+	"linux-wireless@vger.kernel.org" <linux-wireless@vger.kernel.org>,
+	"linux-xfs@vger.kernel.org" <linux-xfs@vger.kernel.org>,
+	"nbd@other.debian.org" <nbd@other.debian.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"ntb@lists.linux.dev" <ntb@lists.linux.dev>,
+	"open-iscsi@googlegroups.com" <open-iscsi@googlegroups.com>,
+	"oss-drivers@corigine.com" <oss-drivers@corigine.com>,
+	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+	"samba-technical@lists.samba.org" <samba-technical@lists.samba.org>,
+	"target-devel@vger.kernel.org" <target-devel@vger.kernel.org>,
+	"virtualization@lists.linux.dev" <virtualization@lists.linux.dev>,
+	"wireguard@lists.zx2c4.com" <wireguard@lists.zx2c4.com>
+Subject: Re: Performance drop due to alloc_workqueue() misuse and recent
+ change
+Message-ID: <ZW4VS3Z0auYCjg-W@slm.duckdns.org>
+References: <dbu6wiwu3sdhmhikb2w6lns7b27gbobfavhjj57kwi2quafgwl@htjcc5oikcr3>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <dbu6wiwu3sdhmhikb2w6lns7b27gbobfavhjj57kwi2quafgwl@htjcc5oikcr3>
 
-Hi Nicolas,
+Hello,
 
-Thank you for your review.
+On Mon, Dec 04, 2023 at 04:03:47PM +0000, Naohiro Aota wrote:
+> Recently, commit 636b927eba5b ("workqueue: Make unbound workqueues to use
+> per-cpu pool_workqueues") changed WQ_UNBOUND workqueue's behavior. It
+> changed the meaning of alloc_workqueue()'s max_active from an upper limit
+> imposed per NUMA node to a limit per CPU. As a result, massive number of
+> workers can be running at the same time, especially if the workqueue user
+> thinks the max_active is a global limit.
+> 
+> Actually, it is already written it is per-CPU limit in the documentation
+> before the commit. However, several callers seem to misuse max_active,
+> maybe thinking it is a global limit. It is an unexpected behavior change
+> for them.
 
-On Fri, Dec 01, 2023 at 15:18, Nicolas Dufresne <nicolas@ndufresne.ca> wrot=
-e:
+Right, and the behavior has been like that for a very long time and there
+was no other way to achieve reasonable level of concurrency, so the current
+situation is expected.
 
-> Hi Mattijs,
->
-> Le mercredi 29 novembre 2023 =C3=A0 11:37 +0100, Mattijs Korpershoek a =
-=C3=A9crit=C2=A0:
->> The display frame region information received from the vpu also
->> contains the frame display index: info->index_frame_display.
->>=20
->> This index, being a s32, can be negative when a skip option is passed.
->> In that case, its value is DECODED_IDX_FLAG_SKIP (-2).
->>=20
->> When disp_idx =3D=3D -2, the following exception occurs:
->>=20
->> [ 1530.782246][ T1900] Hardware name: Texas Instruments AM62P5 SK (DT)
->> [ 1530.788501][ T1900] pstate: a0400005 (NzCv daif +PAN -UAO -TCO -DIT -=
-SSBS BTYPE=3D--)
->> [ 1530.796144][ T1900] pc : wave5_vpu_dec_get_output_info+0x300/0x308 [w=
-ave5]
->> [ 1530.803060][ T1900] lr : wave5_vpu_dec_get_output_info+0x80/0x308 [wa=
-ve5]
->> [ 1530.809873][ T1900] sp : ffffffc00b85bc00
->> [ 1530.813872][ T1900] x29: ffffffc00b85bc00 x28: 0000000000000000 x27: =
-0000000000000001
->> [ 1530.821695][ T1900] x26: 00000000fffffffd x25: 00000000ffffffff x24: =
-ffffff8812820000
->> [ 1530.829516][ T1900] x23: ffffff88199f7840 x22: ffffff8873f5e000 x21: =
-ffffffc00b85bc58
->> [ 1530.837336][ T1900] x20: 0000000000000000 x19: ffffff88199f7920 x18: =
-ffffffc00a899030
->> [ 1530.845156][ T1900] x17: 00000000529c6ef0 x16: 00000000529c6ef0 x15: =
-0000000000198487
->> [ 1530.852975][ T1900] x14: ffffffc009f2b650 x13: 0000000000058016 x12: =
-0000000005000000
->> [ 1530.860795][ T1900] x11: 0000000000000000 x10: 0000000000000000 x9 : =
-0000000000000000
->> [ 1530.868615][ T1900] x8 : 0000000000000000 x7 : 0000000000000000 x6 : =
-0000000000004086
->> [ 1530.876434][ T1900] x5 : 0000000000000001 x4 : ffffffc001454b94 x3 : =
-ffffffc001454d94
->> [ 1530.884256][ T1900] x2 : ffffffc00b8201d0 x1 : 0000000000000020 x0 : =
-0000000000000000
->> [ 1530.892087][ T1900] Call trace:
->> [ 1530.895225][ T1900]  wave5_vpu_dec_get_output_info+0x300/0x308 [wave5]
->> [ 1530.901788][ T1900]  wave5_vpu_dec_finish_decode+0x6c/0x3dc [wave5]
->> [ 1530.908081][ T1900]  wave5_vpu_irq_thread+0x140/0x168 [wave5]
->> [ 1530.913856][ T1900]  irq_thread_fn+0x44/0xa4
->> [ 1530.918154][ T1900]  irq_thread+0x15c/0x288
->> [ 1530.922330][ T1900]  kthread+0x104/0x1d4
->> [ 1530.926247][ T1900]  ret_from_fork+0x10/0x20
->> [ 1530.930520][ T1900] Code: 2a1f03ea 2a1f03eb 35ffef2c 17ffff74 (d42aa2=
-40)
->> [ 1530.937296][ T1900] ---[ end trace 0000000000000000 ]---
->> [ 1530.942596][ T1900] Kernel panic - not syncing: BRK handler: Fatal ex=
-ception
->> [ 1530.949629][ T1900] SMP: stopping secondary CPUs
->> [ 1530.954244][ T1900] Kernel Offset: disabled
->> [ 1530.958415][ T1900] CPU features: 0x00,00000000,00800184,0000421b
->> [ 1530.964496][ T1900] Memory Limit: none
->>=20
->> Move the disp_info assignment after testing that the index is positive
->> to avoid the exception.
->>=20
->> Fixes: 45d1a2b93277 ("media: chips-media: wave5: Add vpuapi layer")
->> Signed-off-by: Mattijs Korpershoek <mkorpershoek@baylibre.com>
->> ---
->>  drivers/media/platform/chips-media/wave5/wave5-vpuapi.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/d=
-rivers/media/platform/chips-media/wave5/wave5-vpuapi.c
->> index 86b3993722db..1a3efb638dde 100644
->> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
->> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
->> @@ -508,8 +508,8 @@ int wave5_vpu_dec_get_output_info(struct vpu_instanc=
-e *inst, struct dec_output_i
->>  	info->rc_decoded =3D rect_info;
->>=20=20
->>  	disp_idx =3D info->index_frame_display;
->> -	disp_info =3D &p_dec_info->dec_out_info[disp_idx];
->>  	if (info->index_frame_display >=3D 0 && info->index_frame_display < WA=
-VE5_MAX_FBS) {
->> +		disp_info =3D &p_dec_info->dec_out_info[disp_idx];
->
-> I could not reproduce the crash, it probably depends on the compiler vers=
-ion and
-> compiler options. This negative index should normally generate a pointer,=
- even
-> if that points to bad location. I'd like to understand how that lead to a=
- crash.
-> If you have further information on this, I really like to get to the bott=
-om on
-> these subjects.
+> For example, these callers set max_active = num_online_cpus(), which is a
+> suspicious limit applying to per-CPU. This config means we can have nr_cpu
+> * nr_cpu active tasks working at the same time.
 
-I can reproduce it consistently with my setup:
-https://pastebin.com/0Mdfw1EC
+Yeah, that sounds like a good indicator.
 
-Here is a copy of the .config when my kernel is build:
-https://pastebin.com/RHxLV8cf
+> fs/f2fs/data.c: sbi->post_read_wq = alloc_workqueue("f2fs_post_read_wq",
+> fs/f2fs/data.c-                                          WQ_UNBOUND | WQ_HIGHPRI,
+> fs/f2fs/data.c-                                          num_online_cpus());
+> 
+> fs/crypto/crypto.c:     fscrypt_read_workqueue = alloc_workqueue("fscrypt_read_queue",
+> fs/crypto/crypto.c-                                              WQ_UNBOUND | WQ_HIGHPRI,
+> fs/crypto/crypto.c-                                              num_online_cpus());
+> 
+> fs/verity/verify.c:     fsverity_read_workqueue = alloc_workqueue("fsverity_read_queue",
+> fs/verity/verify.c-                                               WQ_HIGHPRI,
+> fs/verity/verify.c-                                               num_online_cpus());
+> 
+> drivers/crypto/hisilicon/qm.c:  qm->wq = alloc_workqueue("%s", WQ_HIGHPRI | WQ_MEM_RECLAIM |
+> drivers/crypto/hisilicon/qm.c-                           WQ_UNBOUND, num_online_cpus(),
+> drivers/crypto/hisilicon/qm.c-                           pci_name(qm->pdev));
+> 
+> block/blk-crypto-fallback.c:    blk_crypto_wq = alloc_workqueue("blk_crypto_wq",
+> block/blk-crypto-fallback.c-                                    WQ_UNBOUND | WQ_HIGHPRI |
+> block/blk-crypto-fallback.c-                                    WQ_MEM_RECLAIM, num_online_cpus());
+> 
+> drivers/md/dm-crypt.c:          cc->crypt_queue = alloc_workqueue("kcryptd/%s",
+> drivers/md/dm-crypt.c-                                            WQ_CPU_INTENSIVE | WQ_MEM_RECLAIM | WQ_UNBOUND,
+> drivers/md/dm-crypt.c-                                            num_online_cpus(), devname);
 
-I build the kernel via KLeaf (Android's way of building kernels) so I'm
-not sure how I can provide you with the exact compile command.
+Most of these work items are CPU bound but not completley so. e.g.
+kcrypt_crypt_write_continue() does wait_for_completion(), so setting
+max_active to 1 likely isn't what they want either. They mostly want some
+reasonable system-wide concurrency limit w.r.t. the CPU count while keeping
+some level of flexibility in terms of task placement.
 
-I do know that LTO is used, if that gives any hint.
+The previous max_active wasn't great for this because its meaning changed
+depending on the number of nodes. Now, the meaning doesn't change but it's
+not really useful for the above purpose. It's only useful for avoiding
+melting the system completely.
 
-If prefer chatting about this, I'm also reachable on irc (oftc.net, nicknam=
-e:
-mkorpershoek)
+One way to go about it is to declare that concurrency level management for
+unbound workqueue is on users but that seems not ideal given many use cases
+would want it anyway.
 
-Let me know if other information is needed to get to the bottom on this.
+Let me think it over but I think the right way to go about it is going the
+other direction - ie. making max_active apply to the whole system regardless
+of the number of nodes / ccx's / whatever.
 
->
-> Meanwhile, this fix is obviously correct, we should not do that unless we=
- have a
-> valid index.
->
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->
->>  		if (info->index_frame_display !=3D info->index_frame_decoded) {
->>  			/*
->>  			 * when index_frame_decoded < 0, and index_frame_display >=3D 0
->>=20
->> ---
->> base-commit: a00b3f296eac3d43328615c3113e1a74143fc67a
->> change-id: 20231129-wave5-panic-82ea2d30042f
->>=20
->> Best regards,
+> Furthermore, the change affects performance in a certain case.
+> 
+> Btrfs creates several WQ_UNBOUND workqueues with a default max_active =
+> min(NRCPUS + 2, 8). As my machine has 96 CPUs with NUMA disabled, this
+> max_active config allows running over 700 active works. Before the commit,
+> it is limited to 8 if NUMA is disabled or limited to 16 if NUMA nodes is 2.
+> 
+> I reverted the workqueue code back to before the commit, and I ran the
+> following fio command on RAID0 btrfs on 6 SSDs.
+> 
+> fio --group_reporting --eta=always --eta-interval=30s --eta-newline=30s \
+>     --rw=write --fallocate=none \
+>     --direct=1 --ioengine=libaio --iodepth=32 \
+>     --filesize=100G \
+>     --blocksize=64k \
+>     --time_based --runtime=300s \
+>     --end_fsync=1 \
+>     --directory=${MNT} \
+>     --name=writer --numjobs=32
+> 
+> By changing workqueue's max_active, the result varies.
+> 
+> - wq max_active=8   (intended limit by btrfs?)
+>   WRITE: bw=2495MiB/s (2616MB/s), 2495MiB/s-2495MiB/s (2616MB/s-2616MB/s), io=753GiB (808GB), run=308953-308953msec
+> - wq max_active=16  (actual limit on 2 NUMA nodes setup)
+>   WRITE: bw=1736MiB/s (1820MB/s), 1736MiB/s-1736MiB/s (1820MB/s-1820MB/s), io=670GiB (720GB), run=395532-395532msec
+> - wq max_active=768 (simulating current limit)
+>   WRITE: bw=1276MiB/s (1338MB/s), 1276MiB/s-1276MiB/s (1338MB/s-1338MB/s), io=375GiB (403GB), run=300984-300984msec
+> 
+> The current performance is slower than the previous limit (max_active=16)
+> by 27%, or it is 50% slower than the intended limit.  The performance drop
+> might be due to contention of the btrfs-endio-write works. There are over
+> 700 kworker instances were created and 100 works are on the 'D' state
+> competing for a lock.
+> 
+> More specifically, I tested the same workload on the commit.
+> 
+> - At commit 636b927eba5b ("workqueue: Make unbound workqueues to use per-cpu pool_workqueues")
+>   WRITE: bw=1191MiB/s (1249MB/s), 1191MiB/s-1191MiB/s (1249MB/s-1249MB/s), io=350GiB (376GB), run=300714-300714msec
+> - At the previous commit = 4cbfd3de73 ("workqueue: Call wq_update_unbound_numa() on all CPUs in NUMA node on CPU hotplug")
+>   WRITE: bw=1747MiB/s (1832MB/s), 1747MiB/s-1747MiB/s (1832MB/s-1832MB/s), io=748GiB (803GB), run=438134-438134msec
+> 
+> So, it is -31.8% performance down with the commit.
+> 
+> In summary, we misuse max_active, considering it is a global limit. And,
+> the recent commit introduced a huge performance drop in some cases.  We
+> need to review alloc_workqueue() usage to check if its max_active setting
+> is proper or not.
+
+Thanks a lot for the report. I think it's a lot more reasonable to assume
+that max_active is global for unbound workqueues. The current workqueue
+behavior is not very intuitive or useful. I'll try to find something more
+reasonable. Thanks for the report and analysis. Much appreciated.
+
+Thanks.
+
+-- 
+tejun
 
