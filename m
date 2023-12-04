@@ -1,27 +1,27 @@
-Return-Path: <linux-media+bounces-1607-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1608-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3080F803728
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 15:42:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0B71A803792
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 15:52:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 614FF1C20C1C
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:42:33 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3CD031C20BB3
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 14:52:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C5FC28DC5;
-	Mon,  4 Dec 2023 14:42:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A446A28DD1;
+	Mon,  4 Dec 2023 14:52:37 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BB0928DB6;
-	Mon,  4 Dec 2023 14:42:30 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB7D9C433C7;
-	Mon,  4 Dec 2023 14:42:27 +0000 (UTC)
-Message-ID: <5bc3e0e7-36b4-4553-8a2a-353fe533fe78@xs4all.nl>
-Date: Mon, 4 Dec 2023 15:42:26 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191D21799E;
+	Mon,  4 Dec 2023 14:52:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3DFEEC433C7;
+	Mon,  4 Dec 2023 14:52:34 +0000 (UTC)
+Message-ID: <0f61ac19-b74d-4493-99de-eb293e41e9a8@xs4all.nl>
+Date: Mon, 4 Dec 2023 15:52:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -29,17 +29,19 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 17/36] media: test-drivers: Fix misuse of
- min_buffers_needed field
+Subject: Re: [PATCH v2 20/36] media: atmel: Fix misuse of min_buffers_needed
+ field
 Content-Language: en-US, nl
 To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
  tfiga@chromium.org, m.szyprowski@samsung.com, matt.ranostay@konsulko.com
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-staging@lists.linux.dev, kernel@collabora.com,
- Shuah Khan <skhan@linuxfoundation.org>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>
+ Eugen Hristev <eugen.hristev@collabora.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>
 References: <20231204132323.22811-1-benjamin.gaignard@collabora.com>
- <20231204132323.22811-18-benjamin.gaignard@collabora.com>
+ <20231204132323.22811-21-benjamin.gaignard@collabora.com>
 From: Hans Verkuil <hverkuil@xs4all.nl>
 Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  xsFNBFQ84W0BEAC7EF1iL4s3tY8cRTVkJT/297h0Hz0ypA+ByVM4CdU9sN6ua/YoFlr9k0K4
@@ -84,74 +86,51 @@ Autocrypt: addr=hverkuil@xs4all.nl; keydata=
  gYmkrmv0duG1FStpY+IIQn1TOkuXrciTVfZY1cZD0aVxwlxXBnUNZZNslldvXFtndxR0SFat
  sflovhDxKyhFwXOP0Rv8H378/+14TaykknRBIKEc0+lcr+EMOSUR5eg4aURb8Gc3Uc7fgQ6q
  UssTXzHPyj1hAyDpfu8DzAwlh4kKFTodxSsKAjI45SLjadSc94/5Gy8645Y1KgBzBPTH7Q==
-In-Reply-To: <20231204132323.22811-18-benjamin.gaignard@collabora.com>
+In-Reply-To: <20231204132323.22811-21-benjamin.gaignard@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 04/12/2023 14:23, Benjamin Gaignard wrote:
 > 'min_buffers_needed' is suppose to be used to indicate the number
 > of buffers needed by DMA engine to start streaming.
-> Obvious test-drivers don't use DMA engine and just want to specify
+> atmel-isi driver doesn't use DMA engine and just want to specify
 > the minimum number of buffers to allocate when calling VIDIOC_REQBUFS.
 > That 'min_reqbufs_allocation' field purpose so use it.
-> While at it rename function parameter.
+
+It definitely has a DMA engine, it just can still work if there are no
+buffers queued.
+
 > 
 > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> CC: Shuah Khan <skhan@linuxfoundation.org>
-> CC: Kieran Bingham <kieran.bingham@ideasonboard.com>
+> CC: Eugen Hristev <eugen.hristev@collabora.com>
+> CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+> CC: Nicolas Ferre <nicolas.ferre@microchip.com>
+> CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+> CC: Claudiu Beznea <claudiu.beznea@tuxon.dev>
 > ---
->  drivers/media/test-drivers/vimc/vimc-capture.c | 2 +-
->  drivers/media/test-drivers/vivid/vivid-core.c  | 4 ++--
->  2 files changed, 3 insertions(+), 3 deletions(-)
+>  drivers/media/platform/atmel/atmel-isi.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-> index aa944270e716..97693561f1e4 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-capture.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-> @@ -432,7 +432,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
->  	q->mem_ops = vimc_allocator == VIMC_ALLOCATOR_DMA_CONTIG
->  		   ? &vb2_dma_contig_memops : &vb2_vmalloc_memops;
+> diff --git a/drivers/media/platform/atmel/atmel-isi.c b/drivers/media/platform/atmel/atmel-isi.c
+> index da58f33b6b0a..9c156771568a 100644
+> --- a/drivers/media/platform/atmel/atmel-isi.c
+> +++ b/drivers/media/platform/atmel/atmel-isi.c
+> @@ -1244,7 +1244,7 @@ static int atmel_isi_probe(struct platform_device *pdev)
+>  	q->ops = &isi_video_qops;
+>  	q->mem_ops = &vb2_dma_contig_memops;
 >  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
 > -	q->min_buffers_needed = 2;
 > +	q->min_reqbufs_allocation = 2;
->  	q->lock = &vcapture->lock;
->  	q->dev = v4l2_dev->dev;
->  
 
-That's OK.
-
-> diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-> index 353f035fcd19..b4e888ac6016 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-core.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-core.c
-> @@ -861,7 +861,7 @@ static const struct media_device_ops vivid_media_ops = {
->  static int vivid_create_queue(struct vivid_dev *dev,
->  			      struct vb2_queue *q,
->  			      u32 buf_type,
-> -			      unsigned int min_buffers_needed,
-> +			      unsigned int min_reqbufs_allocation,
->  			      const struct vb2_ops *ops)
->  {
->  	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE && dev->multiplanar)
-> @@ -898,7 +898,7 @@ static int vivid_create_queue(struct vivid_dev *dev,
->  	q->mem_ops = allocators[dev->inst] == 1 ? &vb2_dma_contig_memops :
->  						  &vb2_vmalloc_memops;
->  	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> -	q->min_buffers_needed = supports_requests[dev->inst] ? 0 : min_buffers_needed;
-> +	q->min_reqbufs_allocation = supports_requests[dev->inst] ? 0 : min_reqbufs_allocation;
-
-But here you can simplify this to:
-
-	q->min_reqbufs_allocation = min_reqbufs_allocation;
-
-The 'supports_requests' restriction is only relevant for q->min_buffers_needed.
+The problem is that this really needs to be tested since this change
+will enable code paths that haven't been used before.
 
 Regards,
 
 	Hans
 
->  	q->lock = &dev->mutex;
->  	q->dev = dev->v4l2_dev.dev;
->  	q->supports_requests = supports_requests[dev->inst];
+>  	q->dev = &pdev->dev;
+>  
+>  	ret = vb2_queue_init(q);
 
 
