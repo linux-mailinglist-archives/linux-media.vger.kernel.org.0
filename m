@@ -1,119 +1,88 @@
-Return-Path: <linux-media+bounces-1527-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1528-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDF9F802DC4
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 10:04:16 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CD37802DF1
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 10:11:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 33CED1C209AD
-	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 09:04:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D6ADD1F21122
+	for <lists+linux-media@lfdr.de>; Mon,  4 Dec 2023 09:11:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AF03125BE;
-	Mon,  4 Dec 2023 09:04:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C281312E70;
+	Mon,  4 Dec 2023 09:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b="lxDYBfuo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28A89EADA
-	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 09:04:08 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1CBE8C433C7;
-	Mon,  4 Dec 2023 09:04:07 +0000 (UTC)
-Message-ID: <b2ffcc21-813f-48ec-9ade-210e5d24dca8@xs4all.nl>
-Date: Mon, 4 Dec 2023 10:04:06 +0100
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF84BCD
+	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 01:11:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1701681101; x=1702285901; i=ps.report@gmx.net;
+	bh=6MdaBM6FTXM/uKwm6B0rZvxYs+PwzqLO7HhYo30Pw00=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date;
+	b=lxDYBfuoNYW3ujwbmQpZyFurvo1i+DM00HkW3NHefxORU6h976y1rivqzxXv+vg1
+	 aWSTBhD66HKBlzOUH7KxdVOxSke92/hRQw8wYSlyyt39Hio9vhuO10JBjYFDQ/khS
+	 FyGe0i2LRnKx5ZTWhqPEma1DUl5xKcmP34BYms0Rk7QfC2oaC1We5zYt9za+STwi3
+	 Bhbge6h+/0tjU2abCwfsGVYZCpVGDfAgY1XZ+Fm2YOAVfpeB6aNLqzuLIKkoSKYFM
+	 C6tttADoCeSRX4vEztDYYmhMnG6UZjxqeo0hGslhKcgz8p2WvrG1hu5f2Ew2oGZmG
+	 feSQY8fmNXd10ZInUw==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost.fritz.box ([62.216.209.4]) by mail.gmx.net (mrgmx005
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1M59GA-1r8yWf07C0-001BDD; Mon, 04
+ Dec 2023 10:11:41 +0100
+From: Peter Seiderer <ps.report@gmx.net>
+To: linux-media@vger.kernel.org
+Cc: Peter Seiderer <ps.report@gmx.net>
+Subject: [PATCH v4l-utils v1 1/2] meson: fix has_function fork detection (needs suitable include)
+Date: Mon,  4 Dec 2023 10:11:33 +0100
+Message-ID: <20231204091134.28481-1-ps.report@gmx.net>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] sync-with-kernel.sh: create v4l2-tracer patches
-Content-Language: en-US, nl
-To: Deborah Brouwer <deborah.brouwer@collabora.com>,
- linux-media@vger.kernel.org
-References: <cover.1701450544.git.deborah.brouwer@collabora.com>
- <2f09965e148881405e6a029778ff887d459e65d3.1701450544.git.deborah.brouwer@collabora.com>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-In-Reply-To: <2f09965e148881405e6a029778ff887d459e65d3.1701450544.git.deborah.brouwer@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
+X-Provags-ID: V03:K1:o9UbxOuIOG+oU0iS8G03TH6U6twlB2GaExQ8DEte4ZCvTh9m/cT
+ wswz9DRBIjZwTvnLf+U/NKH6uizfwLd9f4c12jUgcqH24+xApj5VFEa1rddW3+RXdXQqV8V
+ RKXuxL2OdZC9qrsjQXJIJxHAa9pqJFGbl1SMvv9cOYawESVUuySX81btwLf8Q+Fo1toVYe/
+ g99LSGeFPmyyS8D9jkLaQ==
+UI-OutboundReport: notjunk:1;M01:P0:+WsZ58SuuKA=;syXuxZtRgCgkjw0r5vlwsM7286V
+ ZqCtEDKY4S2ijXrV32L/h4zUb9c6tiX2LqM4srQsQD2QnkX1u911zyovT3Q/9FAd2ciKzTEb3
+ iw+Lb/G6KbhZ19x94lPxPKMggmL9P2OQRLtaoOskZ9f6O1r7nZ0wLF5sueQS3eETxuh8Kzdsq
+ R4ricgSqklYGD8wmQlu3pcJLZcVBcU4dB17H711ePc9SY1xnOHKg48MORqaHY9UepfvRVaoyt
+ iSzikT0JU/26TfJdLb5A6f1ciOFc/+AT0hNLpTFLubDv/9pMe7z/rZZNTpRM/TF1gfwu9QHaE
+ XYF/+sdITrpJ7WbBT2Iz0wKEPGQd4vbifq0wTv4IOEm0+PL7hpeoRhiDaIkQImEpXLALb8EpY
+ DilyLD4f9RNAqAdZ2ux/9uAG60/NxnnVzLK7LpOhsob0rx/1F7wK+HY5nWgTuEbsnI1jiDjyr
+ LVqesg7wPavRwBO89ue44NLYjuOniI7RSU24OzAIZv0CBavfFYyw6NLGZ7IPo3JJX0jyhsN5x
+ b890MkRj+GZ4nLXcHUvIykJI9sgSiy1r1VujUYX/ZILRYqx/plhMks6nsOdrH4va/E1s3ZvOm
+ +kSPmAYA/1GYXVPPGL7hCtOs4YX8xJpvdimye3TPBXUxKEPKOSmd2ftLyPvnUUHm3+mI27n9Z
+ q4zIwm4gzXgoXX+uq/z/CYs2osjm3yUzLyK6k7MnhXXKoIpy7Lund5fBPHtR1+IMG4+XdpusV
+ bIquMjEuhEwTZYzrij8ganRrJ3T5sNC3gAYV+LToiIRlmzfPHjXgOVCavsEhLG+3kJMjfK/JO
+ a6TfJascdM4FbYb4rjpcaENhI/kmFDqPdq6XbvO7FbTUerU+YtfErd4F6tLaPcjEMzK2vEsfk
+ w7kJPWfg/Nl/34F0bVwZES0FsX/6ALKp9WbsSfo/pWTtdIgIQJK4s8m19b8j9yyRGmua61ErR
+ L2cNXO65nYykINoYx1UZK+vgTYc=
 
-On 01/12/2023 18:13, Deborah Brouwer wrote:
-> After v4l-utils is synced with the latest kernel headers, generate and
-> apply patches for the changes that need to be made to the v4l2-tracer.
-> This makes it easier to see how the kernel headers are changing the
-> v4l2-tracer and also to revert those changes if necessary.
-> 
-> Signed-off-by: Deborah Brouwer <deborah.brouwer@collabora.com>
-> ---
->  sync-with-kernel.sh | 27 +++++++++++++++++++++++++++
->  1 file changed, 27 insertions(+)
-> 
-> diff --git a/sync-with-kernel.sh b/sync-with-kernel.sh
-> index ad5681c6..8c9106aa 100755
-> --- a/sync-with-kernel.sh
-> +++ b/sync-with-kernel.sh
-> @@ -115,8 +115,35 @@ function freebsd {
->  	quilt push -a
->  }
->  
-> +function v4l2-tracer {
-> +	V4L2TRACERDIR="${TOPSRCDIR}/utils/v4l2-tracer"
-> +	V4L2TRACERSOURCES="${TOPSRCDIR}/include/linux/v4l2-controls.h "
-> +	V4L2TRACERSOURCES+="${TOPSRCDIR}/include/linux/videodev2.h "
-> +	V4L2TRACERSOURCES+="${TOPSRCDIR}/include/linux/media.h "
-> +	V4L2TRACERSOURCES+="${TOPSRCDIR}/include/linux/v4l2-common.h "
-> +
-> +	V4L2TRACERTMPDIR=$(mktemp -d "${V4L2TRACERDIR}/v4l2-tracer-gen.XXXXXXXXXX")
-
-That still doesn't work. This will now create a temp dir in V4L2TRACERDIR:
-
-utils/v4l2-tracer/v4l2-tracer-gen.Jci48B9lCw/
-
-That's not what you want either. If e.g. one of the patch commands fails, you'll
-end up with an extra directory in utils/v4l2-tracer.
-
-I've changed the line above to:
-
-	V4L2TRACERTMPDIR=$(mktemp --tmpdir -d "v4l2-tracer-gen.XXXXXXXXXX")
-
-That creates a temp dir in /tmp, which is what you want.
-
-I'll take this, with the above change as it is not worth the effort doing a v4.
-
-Note that you can even install a trap handler in this script that will delete the
-directory in case of Ctrl-C, but that's overkill in this case. Besides, if something
-goes wrong you might want to be able to look at the contents of V4L2TRACERTMPDIR.
-
-Regards,
-
-	Hans
-
-> +
-> +	perl "${V4L2TRACERDIR}/v4l2-tracer-gen.pl" -o $V4L2TRACERTMPDIR $V4L2TRACERSOURCES
-> +
-> +	diff -Naur "${V4L2TRACERDIR}/trace-gen.cpp" "${V4L2TRACERTMPDIR}/trace-gen.cpp" > "${V4L2TRACERTMPDIR}/trace-gen.patch"
-> +	diff -Naur "${V4L2TRACERDIR}/trace-gen.h" "${V4L2TRACERTMPDIR}/trace-gen.h" > "${V4L2TRACERTMPDIR}/trace-gen-h.patch"
-> +	diff -Naur "${V4L2TRACERDIR}/retrace-gen.cpp" "${V4L2TRACERTMPDIR}/retrace-gen.cpp" > "${V4L2TRACERTMPDIR}/retrace-gen.patch"
-> +	diff -Naur "${V4L2TRACERDIR}/retrace-gen.h" "${V4L2TRACERTMPDIR}/retrace-gen.h" > "${V4L2TRACERTMPDIR}/retrace-gen-h.patch"
-> +	diff -Naur "${V4L2TRACERDIR}/v4l2-tracer-info-gen.h" "${V4L2TRACERTMPDIR}/v4l2-tracer-info-gen.h" > "${V4L2TRACERTMPDIR}/v4l2-tracer-info-gen-h.patch"
-> +
-> +	patch -d ${V4L2TRACERDIR} --no-backup-if-mismatch <${V4L2TRACERTMPDIR}/trace-gen.patch
-> +	patch -d ${V4L2TRACERDIR} --no-backup-if-mismatch <${V4L2TRACERTMPDIR}/trace-gen-h.patch
-> +	patch -d ${V4L2TRACERDIR} --no-backup-if-mismatch <${V4L2TRACERTMPDIR}/retrace-gen.patch
-> +	patch -d ${V4L2TRACERDIR} --no-backup-if-mismatch <${V4L2TRACERTMPDIR}/retrace-gen-h.patch
-> +	patch -d ${V4L2TRACERDIR} --no-backup-if-mismatch <${V4L2TRACERTMPDIR}/v4l2-tracer-info-gen-h.patch
-> +
-> +	rm -r "$V4L2TRACERTMPDIR"
-> +}
-> +
->  keytable
->  libdvbv5
->  freebsd
->  ioctl-test
->  xc3028-firmware
-> +v4l2-tracer
-
+LSBmaXggbWVzb24gaGFzX2Z1bmN0aW9uKCdmb3JrJykgZGV0ZWN0aW9uLCBuZWVkcyBzdWl0YWJs
+ZSBpbmNsdWRlIHRvIGF2b2lkCiAgZmFsc2UgcG9zaXRpdmUgKHNlZSBbMV0gZm9yIGRldGFpbHMp
+CgpGaXhlczoKCiAgLi4uL2Jvb3RsaW4tYXJtdjdtLXVjbGliYy9ob3N0L29wdC9leHQtdG9vbGNo
+YWluL2FybS1idWlsZHJvb3QtdWNsaW51eC11Y2xpYmNnbnVlYWJpL2Jpbi9sZC5yZWFsOiBsaWIv
+bGlidjRsY29udmVydC9saWJ2NGxjb252ZXJ0LmEoaGVscGVyLmMubyk6IGluIGZ1bmN0aW9uIGB2
+NGxjb252ZXJ0X2hlbHBlcl9kZWNvbXByZXNzJzoKICBoZWxwZXIuYzooLnRleHQrMHgxNGUpOiB1
+bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBmb3JrJwogIGNvbGxlY3QyOiBlcnJvcjogbGQgcmV0dXJu
+ZWQgMSBleGl0IHN0YXR1cwoKWzFdIGh0dHBzOi8vZ2l0aHViLmNvbS9tZXNvbmJ1aWxkL21lc29u
+L2lzc3Vlcy83NjUyCgpTaWduZWQtb2ZmLWJ5OiBQZXRlciBTZWlkZXJlciA8cHMucmVwb3J0QGdt
+eC5uZXQ+Ci0tLQogbWVzb24uYnVpbGQgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
+b24oKyksIDEgZGVsZXRpb24oLSkKCmRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1
+aWxkCmluZGV4IGI0MDE4YzgyLi4wMzUwOGJjOCAxMDA2NDQKLS0tIGEvbWVzb24uYnVpbGQKKysr
+IGIvbWVzb24uYnVpbGQKQEAgLTEyOCw3ICsxMjgsNyBAQCBkZXBfdGhyZWFkcyA9IGRlcGVuZGVu
+Y3koJ3RocmVhZHMnKQogZGVwX3gxMSA9IGRlcGVuZGVuY3koJ3gxMScsIHJlcXVpcmVkIDogZmFs
+c2UpCiBkZXBfeG1scnBjID0gZGVwZW5kZW5jeSgneG1scnBjJywgcmVxdWlyZWQgOiBmYWxzZSkK
+IAotaGF2ZV9mb3JrID0gY2MuaGFzX2Z1bmN0aW9uKCdmb3JrJykKK2hhdmVfZm9yayA9IGNjLmhh
+c19mdW5jdGlvbignZm9yaycsIHByZWZpeDogJyNpbmNsdWRlIDx1bmlzdGQuaD4nKQogaGF2ZV9p
+MmNfZGV2ID0gY2MuaGFzX2hlYWRlcignbGludXgvaTJjLWRldi5oJykKIAogaWYgaGF2ZV92aXNp
+YmlsaXR5Ci0tIAoyLjQzLjAKCg==
 
