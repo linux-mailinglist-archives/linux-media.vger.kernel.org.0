@@ -1,579 +1,325 @@
-Return-Path: <linux-media+bounces-1655-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1656-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B492E8051BC
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 12:13:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6CFC8051CF
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 12:15:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EA359B20C4F
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 11:13:15 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D94A41C20B5F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 11:15:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB20055C23;
-	Tue,  5 Dec 2023 11:13:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27FF656759;
+	Tue,  5 Dec 2023 11:15:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="PaaPWGXw"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EonfOIeg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D3DFC116
-	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 03:12:59 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1701774780; x=1733310780;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=z9cLPYAzn8E8qQS2feEwp3gO6vg5mADVtCN1oSE9ZGM=;
-  b=PaaPWGXw93PeQ/+oFtFzTe9xlgcswFd1ZRwYyJFQjAfzbzGzw8/ni6d5
-   S7X0IyYSh0LtD9h8tf3d36YcqK90hN62xwQFF5waM8QQlGU2hmMkDwL+E
-   iSS3zoNdQp0ly12PDap5vCz9O4ewcvU6gBcvfSK7+PItShi697Dm7maqB
-   ojU6W3QCmpUybY2jN1nmVQIxfhiBgXm7zSaYr8gRaLeJohWWO7XhO+Bim
-   H/lkB8FITrl2ICgwL0wHzADq3UEgYvnv9WYR9JTu3CQ8Sgmo+9B9QATd0
-   KJrYSTy4IXb3itHhqO9HllcOMKcfSayORccb6Ep444IrLLpBfD66Xvuqd
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AC2E116
+	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 03:15:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701774927; x=1733310927;
+  h=date:from:to:cc:subject:message-id;
+  bh=h8mUr3hdfCT72LUwLfWchKfqTiybG8NFtplBUTLBSlw=;
+  b=EonfOIegNsUIzYH8gdrfC6FwwA6z2rc3V6rPRHX5MN4GISWdbn+8qpMJ
+   aV36IPNL8Sl7OodApW1M4NKJAwE9h9mGa7I+aRYm+0iIAIQk7NvoClOf1
+   QixNcsZ2HFEElg3sAh/yaPIajAKs6Ye3BA1/xzjIcQ5FksVOh2V7/EBL9
+   LFCe8mquilVtiX+cJ9rYToc1NOw7WThU6n/naCUEGOV8C0Ts6mNKR0Npi
+   sv8mhmIOYkoKHkrjxbt+/hkD3pISBgs0YyM2uCWnVtFRJNxdVMRCW2x1L
+   fzG9Xmv+E2STmBbHq8pO96GUX288vydq3VJvzEO1rdm/WNZ2YFt0FPoEN
    A==;
-X-IronPort-AV: E=Sophos;i="6.04,252,1695679200"; 
-   d="scan'208";a="34333587"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 05 Dec 2023 12:12:58 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id DF820280075;
-	Tue,  5 Dec 2023 12:12:57 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Michael Riesch <michael.riesch@wolfvision.net>, Sakari Ailus <sakari.ailus@linux.intel.com>, Gerald Loacker <gerald.loacker@wolfvision.net>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 3/3] media: i2c: imx415: Add more supported modes
-Date: Tue, 05 Dec 2023 12:12:57 +0100
-Message-ID: <12337827.O9o76ZdvQC@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20231205104509.GB17394@pendragon.ideasonboard.com>
-References: <20231205090557.298680-1-alexander.stein@ew.tq-group.com> <20231205090557.298680-4-alexander.stein@ew.tq-group.com> <20231205104509.GB17394@pendragon.ideasonboard.com>
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="7223272"
+X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
+   d="scan'208";a="7223272"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 03:15:27 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10914"; a="720663323"
+X-IronPort-AV: E=Sophos;i="6.04,252,1695711600"; 
+   d="scan'208";a="720663323"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 05 Dec 2023 03:15:25 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rATOc-0008qJ-1W;
+	Tue, 05 Dec 2023 11:15:22 +0000
+Date: Tue, 05 Dec 2023 19:14:22 +0800
+From: kernel test robot <lkp@intel.com>
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:master] BUILD SUCCESS
+ bec3db03911bd85da29c1c8ee556162153002c9a
+Message-ID: <202312051919.XvWJf28W-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-Hi Laurent,
+tree/branch: https://git.linuxtv.org/media_stage.git master
+branch HEAD: bec3db03911bd85da29c1c8ee556162153002c9a  media: v4l: async: Drop useless list move operation
 
-Am Dienstag, 5. Dezember 2023, 11:45:09 CET schrieb Laurent Pinchart:
-> Hi Alexander,
->=20
-> Thank you for the patch.
->=20
-> On Tue, Dec 05, 2023 at 10:05:57AM +0100, Alexander Stein wrote:
-> > These modes are listed in section "All-pixel mode" of the datasheet
-> > IMX415-AAQR-C (Rev. E19504, 2019/05/21).
-> > hmax_pix and pixel_rate are taken from the comment above the mode list.
-> >=20
-> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > ---
-> >=20
-> >  drivers/media/i2c/imx415.c | 362 +++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 362 insertions(+)
-> >=20
-> > diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
-> > index a222b9134aa2..48b8ae6d790d 100644
-> > --- a/drivers/media/i2c/imx415.c
-> > +++ b/drivers/media/i2c/imx415.c
-> > @@ -445,6 +445,38 @@ static const struct imx415_clk_params
-> > imx415_clk_params[] =3D {>=20
-> >  	},
-> > =20
-> >  };
-> >=20
-> > +/* all-pixel 2-lane 594 Mbps 10 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_2_594[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x0CE4 },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-> > +	{ IMX415_TCLKPOST, 0x0067 },
-> > +	{ IMX415_TCLKPREPARE, 0x0027 },
-> > +	{ IMX415_TCLKTRAIL, 0x0027 },
-> > +	{ IMX415_TCLKZERO, 0x00B7 },
-> > +	{ IMX415_THSPREPARE, 0x002F },
-> > +	{ IMX415_THSZERO, 0x004F },
-> > +	{ IMX415_THSTRAIL, 0x002F },
-> > +	{ IMX415_THSEXIT, 0x0047 },
-> > +	{ IMX415_TLPX, 0x0027 },
-> > +};
-> > +
-> > +/* all-pixel 2-lane 891 Mbps 15 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_2_891[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x0898 },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-> > +	{ IMX415_TCLKPOST, 0x007F },
-> > +	{ IMX415_TCLKPREPARE, 0x0037 },
-> > +	{ IMX415_TCLKTRAIL, 0x0037 },
-> > +	{ IMX415_TCLKZERO, 0x00F7 },
-> > +	{ IMX415_THSPREPARE, 0x003F },
-> > +	{ IMX415_THSZERO, 0x006F },
-> > +	{ IMX415_THSTRAIL, 0x003F },
-> > +	{ IMX415_THSEXIT, 0x005F },
-> > +	{ IMX415_TLPX, 0x002F },
-> > +};
-> > +
-> >=20
-> >  /* all-pixel 2-lane 720 Mbps 15.74 Hz mode */
-> >  static const struct cci_reg_sequence imx415_mode_2_720[] =3D {
-> > =20
-> >  	{ IMX415_VMAX, 0x08CA },
-> >=20
-> > @@ -461,6 +493,38 @@ static const struct cci_reg_sequence
-> > imx415_mode_2_720[] =3D {>=20
-> >  	{ IMX415_TLPX, 0x0027 },
-> > =20
-> >  };
-> >=20
-> > +/* all-pixel 2-lane 1782 Mbps 30 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_2_1782[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x044C },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-> > +	{ IMX415_TCLKPOST, 0x00B7 },
-> > +	{ IMX415_TCLKPREPARE, 0x0067 },
-> > +	{ IMX415_TCLKTRAIL, 0x006F },
-> > +	{ IMX415_TCLKZERO, 0x01DF },
-> > +	{ IMX415_THSPREPARE, 0x006F },
-> > +	{ IMX415_THSZERO, 0x00CF },
-> > +	{ IMX415_THSTRAIL, 0x006F },
-> > +	{ IMX415_THSEXIT, 0x00B7 },
-> > +	{ IMX415_TLPX, 0x005F },
-> > +};
-> > +
-> > +/* all-pixel 2-lane 2079 Mbps 30 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_2_2079[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x044C },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-> > +	{ IMX415_TCLKPOST, 0x00D7 },
-> > +	{ IMX415_TCLKPREPARE, 0x007F },
-> > +	{ IMX415_TCLKTRAIL, 0x007F },
-> > +	{ IMX415_TCLKZERO, 0x0237 },
-> > +	{ IMX415_THSPREPARE, 0x0087 },
-> > +	{ IMX415_THSZERO, 0x00EF },
-> > +	{ IMX415_THSTRAIL, 0x0087 },
-> > +	{ IMX415_THSEXIT, 0x00DF },
-> > +	{ IMX415_TLPX, 0x006F },
-> > +};
-> > +
-> >=20
-> >  /* all-pixel 2-lane 1440 Mbps 30.01 Hz mode */
-> >  static const struct cci_reg_sequence imx415_mode_2_1440[] =3D {
-> > =20
-> >  	{ IMX415_VMAX, 0x08CA },
-> >=20
-> > @@ -477,6 +541,70 @@ static const struct cci_reg_sequence
-> > imx415_mode_2_1440[] =3D {>=20
-> >  	{ IMX415_TLPX, 0x004F },
-> > =20
-> >  };
-> >=20
-> > +/* all-pixel 4-lane 594 Mbps 20 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_4_594_20fps[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x0672 },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-> > +	{ IMX415_TCLKPOST, 0x0067 },
-> > +	{ IMX415_TCLKPREPARE, 0x0027 },
-> > +	{ IMX415_TCLKTRAIL, 0x0027 },
-> > +	{ IMX415_TCLKZERO, 0x00B7 },
-> > +	{ IMX415_THSPREPARE, 0x002F },
-> > +	{ IMX415_THSZERO, 0x004F },
-> > +	{ IMX415_THSTRAIL, 0x002F },
-> > +	{ IMX415_THSEXIT, 0x0047 },
-> > +	{ IMX415_TLPX, 0x0027 },
-> > +};
-> > +
-> > +/* all-pixel 4-lane 594 Mbps 25 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_4_594_25fps[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x0528 },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-> > +	{ IMX415_TCLKPOST, 0x0067 },
-> > +	{ IMX415_TCLKPREPARE, 0x0027 },
-> > +	{ IMX415_TCLKTRAIL, 0x0027 },
-> > +	{ IMX415_TCLKZERO, 0x00B7 },
-> > +	{ IMX415_THSPREPARE, 0x002F },
-> > +	{ IMX415_THSZERO, 0x004F },
-> > +	{ IMX415_THSTRAIL, 0x002F },
-> > +	{ IMX415_THSEXIT, 0x0047 },
-> > +	{ IMX415_TLPX, 0x0027 },
-> > +};
-> > +
-> > +/* all-pixel 4-lane 720 Mbps 25 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_4_720_25fps[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x0500 },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-> > +	{ IMX415_TCLKPOST, 0x006F },
-> > +	{ IMX415_TCLKPREPARE, 0x002F },
-> > +	{ IMX415_TCLKTRAIL, 0x002F },
-> > +	{ IMX415_TCLKZERO, 0x00BF },
-> > +	{ IMX415_THSPREPARE, 0x002F },
-> > +	{ IMX415_THSZERO, 0x0057 },
-> > +	{ IMX415_THSTRAIL, 0x002F },
-> > +	{ IMX415_THSEXIT, 0x004F },
-> > +	{ IMX415_TLPX, 0x0027 },
-> > +};
-> > +
-> > +/* all-pixel 4-lane 720 Mbps 30.01 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_4_720_30fps[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x042A },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-> > +	{ IMX415_TCLKPOST, 0x006F },
-> > +	{ IMX415_TCLKPREPARE, 0x002F },
-> > +	{ IMX415_TCLKTRAIL, 0x002F },
-> > +	{ IMX415_TCLKZERO, 0x00BF },
-> > +	{ IMX415_THSPREPARE, 0x002F },
-> > +	{ IMX415_THSZERO, 0x0057 },
-> > +	{ IMX415_THSTRAIL, 0x002F },
-> > +	{ IMX415_THSEXIT, 0x004F },
-> > +	{ IMX415_TLPX, 0x0027 },
-> > +};
-> > +
-> >=20
-> >  /* all-pixel 4-lane 891 Mbps 30 Hz mode */
-> >  static const struct cci_reg_sequence imx415_mode_4_891[] =3D {
-> > =20
-> >  	{ IMX415_VMAX, 0x08CA },
-> >=20
-> > @@ -493,6 +621,102 @@ static const struct cci_reg_sequence
-> > imx415_mode_4_891[] =3D {>=20
-> >  	{ IMX415_TLPX, 0x002F },
-> > =20
-> >  };
-> >=20
-> > +/* all-pixel 4-lane 1440 Mbps 30.01 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_4_1440_30fps[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x042A },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-> > +	{ IMX415_TCLKPOST, 0x009F },
-> > +	{ IMX415_TCLKPREPARE, 0x0057 },
-> > +	{ IMX415_TCLKTRAIL, 0x0057 },
-> > +	{ IMX415_TCLKZERO, 0x0187 },
-> > +	{ IMX415_THSPREPARE, 0x005F },
-> > +	{ IMX415_THSZERO, 0x00A7 },
-> > +	{ IMX415_THSTRAIL, 0x005F },
-> > +	{ IMX415_THSEXIT, 0x0097 },
-> > +	{ IMX415_TLPX, 0x004F },
-> > +};
-> > +
-> > +/* all-pixel 4-lane 1440 Mbps 60.03 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_4_1440_60fps[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x0215 },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-> > +	{ IMX415_TCLKPOST, 0x009F },
-> > +	{ IMX415_TCLKPREPARE, 0x0057 },
-> > +	{ IMX415_TCLKTRAIL, 0x0057 },
-> > +	{ IMX415_TCLKZERO, 0x0187 },
-> > +	{ IMX415_THSPREPARE, 0x005F },
-> > +	{ IMX415_THSZERO, 0x00A7 },
-> > +	{ IMX415_THSTRAIL, 0x005F },
-> > +	{ IMX415_THSEXIT, 0x0097 },
-> > +	{ IMX415_TLPX, 0x004F },
-> > +};
-> > +
-> > +/* all-pixel 4-lane 1485 Mbps 60 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_4_1485[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x0226 },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-> > +	{ IMX415_TCLKPOST, 0x00A7 },
-> > +	{ IMX415_TCLKPREPARE, 0x0057 },
-> > +	{ IMX415_TCLKTRAIL, 0x005F },
-> > +	{ IMX415_TCLKZERO, 0x0197 },
-> > +	{ IMX415_THSPREPARE, 0x005F },
-> > +	{ IMX415_THSZERO, 0x00AF },
-> > +	{ IMX415_THSTRAIL, 0x005F },
-> > +	{ IMX415_THSEXIT, 0x009F },
-> > +	{ IMX415_TLPX, 0x004F },
-> > +};
-> > +
-> > +/* all-pixel 4-lane 1782 Mbps 60 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_4_1782[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x0226 },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-> > +	{ IMX415_TCLKPOST, 0x00B7 },
-> > +	{ IMX415_TCLKPREPARE, 0x0067 },
-> > +	{ IMX415_TCLKTRAIL, 0x006F },
-> > +	{ IMX415_TCLKZERO, 0x01DF },
-> > +	{ IMX415_THSPREPARE, 0x006F },
-> > +	{ IMX415_THSZERO, 0x00CF },
-> > +	{ IMX415_THSTRAIL, 0x006F },
-> > +	{ IMX415_THSEXIT, 0x00B7 },
-> > +	{ IMX415_TLPX, 0x005F },
-> > +};
-> > +
-> > +/* all-pixel 4-lane 2079 Mbps 60 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_4_2079[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x0226 },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-> > +	{ IMX415_TCLKPOST, 0x00D7 },
-> > +	{ IMX415_TCLKPREPARE, 0x007F },
-> > +	{ IMX415_TCLKTRAIL, 0x007F },
-> > +	{ IMX415_TCLKZERO, 0x0237 },
-> > +	{ IMX415_THSPREPARE, 0x0087 },
-> > +	{ IMX415_THSZERO, 0x00EF },
-> > +	{ IMX415_THSTRAIL, 0x0087 },
-> > +	{ IMX415_THSEXIT, 0x00DF },
-> > +	{ IMX415_TLPX, 0x006F },
-> > +};
-> > +
-> > +/* all-pixel 4-lane 2376 Mbps 60 Hz mode */
-> > +static const struct cci_reg_sequence imx415_mode_4_2376[] =3D {
-> > +	{ IMX415_VMAX, 0x08CA },
-> > +	{ IMX415_HMAX, 0x016E },
-> > +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
-> > +	{ IMX415_TCLKPOST, 0x00E7 },
-> > +	{ IMX415_TCLKPREPARE, 0x008F },
-> > +	{ IMX415_TCLKTRAIL, 0x008F },
-> > +	{ IMX415_TCLKZERO, 0x027F },
-> > +	{ IMX415_THSPREPARE, 0x0097 },
-> > +	{ IMX415_THSZERO, 0x010F },
-> > +	{ IMX415_THSTRAIL, 0x0097 },
-> > +	{ IMX415_THSEXIT, 0x00F7 },
-> > +	{ IMX415_TLPX, 0x007F },
-> > +};
-> > +
-> >=20
-> >  struct imx415_mode_reg_list {
-> > =20
-> >  	u32 num_of_regs;
-> >  	const struct cci_reg_sequence *regs;
-> >=20
-> > @@ -536,6 +760,26 @@ struct imx415_mode {
-> >=20
-> >  /* mode configs */
-> >  static const struct imx415_mode supported_modes[] =3D {
-> >=20
-> > +	{
-> > +		.lane_rate =3D 594000000,
-> > +		.lanes =3D 2,
-> > +		.hmax_pix =3D 4400,
-> > +		.pixel_rate =3D 99000000,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_2_594),
-> > +			.regs =3D imx415_mode_2_594,
-> > +		},
-> > +	},
-> > +	{
-> > +		.lane_rate =3D 891000000,
-> > +		.lanes =3D 2,
-> > +		.hmax_pix =3D 4400,
-> > +		.pixel_rate =3D 148500000,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_2_891),
-> > +			.regs =3D imx415_mode_2_891,
-> > +		},
-> > +	},
-> >=20
-> >  	{
-> >  =09
-> >  		.lane_rate =3D 720000000,
-> >  		.lanes =3D 2,
-> >=20
-> > @@ -547,6 +791,24 @@ static const struct imx415_mode supported_modes[] =
-=3D {
-> >=20
-> >  		},
-> >  =09
-> >  	},
-> >  	{
-> >=20
-> > +		.lane_rate =3D 1782000000,
-> > +		.lanes =3D 2,
-> > +		.hmax_pix =3D 4400,
-> > +		.pixel_rate =3D 297000000,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_2_1782),
-> > +			.regs =3D imx415_mode_2_1782,
-> > +		},
-> > +	},	{
-> > +		.lane_rate =3D 2079000000,
-> > +		.lanes =3D 2,
-> > +		.hmax_pix =3D 4400,
-> > +		.pixel_rate =3D 304615385,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_2_2079),
-> > +			.regs =3D imx415_mode_2_2079,
-> > +		},
-> > +	},	{
-> >=20
-> >  		.lane_rate =3D 1440000000,
-> >  		.lanes =3D 2,
-> >  		.hmax_pix =3D 4510,
-> >=20
-> > @@ -556,6 +818,46 @@ static const struct imx415_mode supported_modes[] =
-=3D {
-> >=20
-> >  			.regs =3D imx415_mode_2_1440,
-> >  	=09
-> >  		},
-> >  =09
-> >  	},
-> >=20
-> > +	{
-> > +		.lane_rate =3D 594000000,
-> > +		.lanes =3D 4,
-> > +		.hmax_pix =3D 5500,
-> > +		.pixel_rate =3D 247500000,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D=20
-ARRAY_SIZE(imx415_mode_4_594_20fps),
-> > +			.regs =3D imx415_mode_4_594_20fps,
-> > +		},
-> > +	},
-> > +	{
-> > +		.lane_rate =3D 594000000,
-> > +		.lanes =3D 4,
->=20
-> The mode is selected from the number of data lanes and the lane rate.
-> They're the same as the previous entry, so this entry will never be
-> selected. Same below.
+elapsed time: 1461m
 
-I noticed that as well. The datasheet lists different FPS for the same link=
-=20
-frequency / lane combination, only HMAX being different. Right now HMAX/VMA=
-X=20
-is fixed, so is FPS.
-I am aware there is no way to select between these modes, but I added them =
-for=20
-completeness.
+configs tested: 247
+configs skipped: 2
 
-Best regards
-Alexander
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
->=20
-> > +		.hmax_pix =3D 4400,
-> > +		.pixel_rate =3D 247500000,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D=20
-ARRAY_SIZE(imx415_mode_4_594_25fps),
-> > +			.regs =3D imx415_mode_4_594_25fps,
-> > +		},
-> > +	},
-> > +	{
-> > +		.lane_rate =3D 720000000,
-> > +		.lanes =3D 4,
-> > +		.hmax_pix =3D 4400,
-> > +		.pixel_rate =3D 247500000,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D=20
-ARRAY_SIZE(imx415_mode_4_720_25fps),
-> > +			.regs =3D imx415_mode_4_720_25fps,
-> > +		},
-> > +	},
-> > +	{
-> > +		.lane_rate =3D 720000000,
-> > +		.lanes =3D 4,
-> > +		.hmax_pix =3D 4510,
-> > +		.pixel_rate =3D 304615385,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D=20
-ARRAY_SIZE(imx415_mode_4_720_30fps),
-> > +			.regs =3D imx415_mode_4_720_30fps,
-> > +		},
-> > +	},
-> >=20
-> >  	{
-> >  =09
-> >  		.lane_rate =3D 891000000,
-> >  		.lanes =3D 4,
-> >=20
-> > @@ -566,6 +868,66 @@ static const struct imx415_mode supported_modes[] =
-=3D {
-> >=20
-> >  			.regs =3D imx415_mode_4_891,
-> >  	=09
-> >  		},
-> >  =09
-> >  	},
-> >=20
-> > +	{
-> > +		.lane_rate =3D 1440000000,
-> > +		.lanes =3D 4,
-> > +		.hmax_pix =3D 4510,
-> > +		.pixel_rate =3D 304615385,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D=20
-ARRAY_SIZE(imx415_mode_4_1440_30fps),
-> > +			.regs =3D imx415_mode_4_1440_30fps,
-> > +		},
-> > +	},
-> > +	{
-> > +		.lane_rate =3D 1440000000,
-> > +		.lanes =3D 4,
-> > +		.hmax_pix =3D 4510,
-> > +		.pixel_rate =3D 609230769,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D=20
-ARRAY_SIZE(imx415_mode_4_1440_60fps),
-> > +			.regs =3D imx415_mode_4_1440_60fps,
-> > +		},
-> > +	},
-> > +	{
-> > +		.lane_rate =3D 1485000000,
-> > +		.lanes =3D 4,
-> > +		.hmax_pix =3D 4400,
-> > +		.pixel_rate =3D 594000000,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_4_1485),
-> > +			.regs =3D imx415_mode_4_1485,
-> > +		},
-> > +	},
-> > +	{
-> > +		.lane_rate =3D 1782000000,
-> > +		.lanes =3D 4,
-> > +		.hmax_pix =3D 4400,
-> > +		.pixel_rate =3D 594000000,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_4_1782),
-> > +			.regs =3D imx415_mode_4_1782,
-> > +		},
-> > +	},
-> > +	{
-> > +		.lane_rate =3D 2079000000,
-> > +		.lanes =3D 4,
-> > +		.hmax_pix =3D 4400,
-> > +		.pixel_rate =3D 594000000,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_4_2079),
-> > +			.regs =3D imx415_mode_4_2079,
-> > +		},
-> > +	},
-> > +	{
-> > +		.lane_rate =3D 12376000000,
-> > +		.lanes =3D 4,
-> > +		.hmax_pix =3D 4392,
-> > +		.pixel_rate =3D 891000000,
-> > +		.reg_list =3D {
-> > +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_4_2376),
-> > +			.regs =3D imx415_mode_4_2376,
-> > +		},
-> > +	},
-> >=20
-> >  };
-> > =20
-> >  static const char *const imx415_test_pattern_menu[] =3D {
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                            hsdk_defconfig   gcc  
+arc                   randconfig-001-20231204   gcc  
+arc                   randconfig-001-20231205   gcc  
+arc                   randconfig-002-20231204   gcc  
+arc                   randconfig-002-20231205   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                       omap2plus_defconfig   gcc  
+arm                   randconfig-001-20231204   clang
+arm                   randconfig-001-20231205   gcc  
+arm                   randconfig-002-20231204   clang
+arm                   randconfig-002-20231205   gcc  
+arm                   randconfig-003-20231204   clang
+arm                   randconfig-003-20231205   gcc  
+arm                   randconfig-004-20231204   clang
+arm                   randconfig-004-20231205   gcc  
+arm                         wpcm450_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231204   clang
+arm64                 randconfig-001-20231205   gcc  
+arm64                 randconfig-002-20231204   clang
+arm64                 randconfig-002-20231205   gcc  
+arm64                 randconfig-003-20231204   clang
+arm64                 randconfig-003-20231205   gcc  
+arm64                 randconfig-004-20231204   clang
+arm64                 randconfig-004-20231205   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231204   gcc  
+csky                  randconfig-001-20231205   gcc  
+csky                  randconfig-002-20231204   gcc  
+csky                  randconfig-002-20231205   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231204   clang
+hexagon               randconfig-002-20231204   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231204   clang
+i386         buildonly-randconfig-002-20231204   clang
+i386         buildonly-randconfig-003-20231204   clang
+i386         buildonly-randconfig-004-20231204   clang
+i386         buildonly-randconfig-005-20231204   clang
+i386         buildonly-randconfig-006-20231204   clang
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231204   clang
+i386                  randconfig-002-20231204   clang
+i386                  randconfig-003-20231204   clang
+i386                  randconfig-004-20231204   clang
+i386                  randconfig-005-20231204   clang
+i386                  randconfig-006-20231204   clang
+i386                  randconfig-011-20231204   gcc  
+i386                  randconfig-012-20231204   gcc  
+i386                  randconfig-013-20231204   gcc  
+i386                  randconfig-014-20231204   gcc  
+i386                  randconfig-015-20231204   gcc  
+i386                  randconfig-016-20231204   gcc  
+loongarch                        alldefconfig   gcc  
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                        allyesconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231204   gcc  
+loongarch             randconfig-001-20231205   gcc  
+loongarch             randconfig-002-20231204   gcc  
+loongarch             randconfig-002-20231205   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                         apollo_defconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                             allmodconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                  maltasmvp_eva_defconfig   gcc  
+mips                           rs90_defconfig   clang
+mips                         rt305x_defconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231204   gcc  
+nios2                 randconfig-001-20231205   gcc  
+nios2                 randconfig-002-20231204   gcc  
+nios2                 randconfig-002-20231205   gcc  
+openrisc                         allmodconfig   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231204   gcc  
+parisc                randconfig-001-20231205   gcc  
+parisc                randconfig-002-20231204   gcc  
+parisc                randconfig-002-20231205   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      bamboo_defconfig   gcc  
+powerpc                      cm5200_defconfig   gcc  
+powerpc                      ep88xc_defconfig   gcc  
+powerpc                        fsp2_defconfig   clang
+powerpc                  mpc885_ads_defconfig   clang
+powerpc                      pcm030_defconfig   gcc  
+powerpc                      pmac32_defconfig   clang
+powerpc                         ps3_defconfig   gcc  
+powerpc               randconfig-001-20231204   clang
+powerpc               randconfig-001-20231205   gcc  
+powerpc               randconfig-002-20231204   clang
+powerpc               randconfig-002-20231205   gcc  
+powerpc               randconfig-003-20231204   clang
+powerpc               randconfig-003-20231205   gcc  
+powerpc                     redwood_defconfig   gcc  
+powerpc                    sam440ep_defconfig   gcc  
+powerpc                     tqm8555_defconfig   gcc  
+powerpc64             randconfig-001-20231204   clang
+powerpc64             randconfig-001-20231205   gcc  
+powerpc64             randconfig-002-20231204   clang
+powerpc64             randconfig-002-20231205   gcc  
+powerpc64             randconfig-003-20231204   clang
+powerpc64             randconfig-003-20231205   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                 randconfig-001-20231204   clang
+riscv                 randconfig-001-20231205   gcc  
+riscv                 randconfig-002-20231204   clang
+riscv                 randconfig-002-20231205   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231204   gcc  
+s390                  randconfig-002-20231204   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                        apsh4ad0a_defconfig   gcc  
+sh                                  defconfig   gcc  
+sh                         ecovec24_defconfig   gcc  
+sh                    randconfig-001-20231204   gcc  
+sh                    randconfig-001-20231205   gcc  
+sh                    randconfig-002-20231204   gcc  
+sh                    randconfig-002-20231205   gcc  
+sh                           se7724_defconfig   gcc  
+sh                   secureedge5410_defconfig   gcc  
+sh                     sh7710voipgw_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc                            allyesconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231204   gcc  
+sparc64               randconfig-001-20231205   gcc  
+sparc64               randconfig-002-20231204   gcc  
+sparc64               randconfig-002-20231205   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231204   clang
+um                    randconfig-001-20231205   gcc  
+um                    randconfig-002-20231204   clang
+um                    randconfig-002-20231205   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64       buildonly-randconfig-001-20231204   clang
+x86_64       buildonly-randconfig-001-20231205   gcc  
+x86_64       buildonly-randconfig-002-20231204   clang
+x86_64       buildonly-randconfig-002-20231205   gcc  
+x86_64       buildonly-randconfig-003-20231204   clang
+x86_64       buildonly-randconfig-003-20231205   gcc  
+x86_64       buildonly-randconfig-004-20231204   clang
+x86_64       buildonly-randconfig-004-20231205   gcc  
+x86_64       buildonly-randconfig-005-20231204   clang
+x86_64       buildonly-randconfig-005-20231205   gcc  
+x86_64       buildonly-randconfig-006-20231204   clang
+x86_64       buildonly-randconfig-006-20231205   gcc  
+x86_64                              defconfig   gcc  
+x86_64                                  kexec   gcc  
+x86_64                randconfig-001-20231204   gcc  
+x86_64                randconfig-002-20231204   gcc  
+x86_64                randconfig-003-20231204   gcc  
+x86_64                randconfig-004-20231204   gcc  
+x86_64                randconfig-005-20231204   gcc  
+x86_64                randconfig-006-20231204   gcc  
+x86_64                randconfig-011-20231204   clang
+x86_64                randconfig-011-20231205   gcc  
+x86_64                randconfig-012-20231204   clang
+x86_64                randconfig-012-20231205   gcc  
+x86_64                randconfig-013-20231204   clang
+x86_64                randconfig-013-20231205   gcc  
+x86_64                randconfig-014-20231204   clang
+x86_64                randconfig-014-20231205   gcc  
+x86_64                randconfig-015-20231204   clang
+x86_64                randconfig-015-20231205   gcc  
+x86_64                randconfig-016-20231204   clang
+x86_64                randconfig-016-20231205   gcc  
+x86_64                randconfig-071-20231204   clang
+x86_64                randconfig-071-20231205   gcc  
+x86_64                randconfig-072-20231204   clang
+x86_64                randconfig-072-20231205   gcc  
+x86_64                randconfig-073-20231204   clang
+x86_64                randconfig-073-20231205   gcc  
+x86_64                randconfig-074-20231204   clang
+x86_64                randconfig-074-20231205   gcc  
+x86_64                randconfig-075-20231204   clang
+x86_64                randconfig-075-20231205   gcc  
+x86_64                randconfig-076-20231204   clang
+x86_64                randconfig-076-20231205   gcc  
+x86_64                          rhel-8.3-rust   clang
+x86_64                               rhel-8.3   gcc  
+xtensa                            allnoconfig   gcc  
+xtensa                           allyesconfig   gcc  
+xtensa                randconfig-001-20231204   gcc  
+xtensa                randconfig-001-20231205   gcc  
+xtensa                randconfig-002-20231204   gcc  
+xtensa                randconfig-002-20231205   gcc  
+xtensa                    smp_lx200_defconfig   gcc  
+xtensa                    xip_kc705_defconfig   gcc  
 
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
