@@ -1,33 +1,33 @@
-Return-Path: <linux-media+bounces-1641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0852804CCB
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 09:42:28 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09509804CCC
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 09:42:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 007111C20E2D
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 08:42:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3DC47B20E6D
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 08:42:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 275DF2C18D;
-	Tue,  5 Dec 2023 08:42:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99C962420B;
+	Tue,  5 Dec 2023 08:42:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Rw9P3g34"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YZJTp2p9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF699C
-	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 00:42:17 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA806FA
+	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 00:42:20 -0800 (PST)
 Received: from umang.jain (unknown [103.251.226.73])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F19434DB;
-	Tue,  5 Dec 2023 09:41:33 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 32A5AA06;
+	Tue,  5 Dec 2023 09:41:36 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701765696;
-	bh=v93HBZ7R8LJu0PkIp3jPISWjOgnt4Jn2W7X5Ca4hAzM=;
+	s=mail; t=1701765700;
+	bh=C7Pvdfot9rrSGJ2M5qin6AvVb6hM2JXNJBFAc3ASIeQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Rw9P3g34Zd8WsuNmkTvzIXTRYEMVtds833NvrfNAWkCiKmiZrdRCVTWP9qX5/sSkS
-	 AvwjikAsr2RSk8ZfkAJA9mxaciycRgVDb6UdPNz4RccP4035xo4a4J2/l9qhrfggCf
-	 n7Re1IgVu0F+0halKuAY/Ep6JQL8uvl+9fzjqGV4=
+	b=YZJTp2p9gwBWIx98PWLsuvRWR9gLtPrqBe73wotkt2FNsjxI4smnz5JMglyGrYIDF
+	 K0BQd9VR06l9gvmSivIjkSxV8WxZ0HnlvKzb1k9GMhwWeZitY01IWZHfQbXdW1sIz/
+	 u1bgM6rlT2zn/C87XPKgFUYXsTxJ+K0N75Wmiekc=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: linux-staging@lists.linux.dev,
 	linux-rpi-kernel@lists.infradead.org,
@@ -39,9 +39,9 @@ Cc: Stefan Wahren <stefan.wahren@i2se.com>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	"Ricardo B . Marliere" <ricardo@marliere.net>,
 	Umang Jain <umang.jain@ideasonboard.com>
-Subject: [PATCH v3 3/4] staging: vc04_services: Drop vchiq_log_trace() in favour of dev_dbg
-Date: Tue,  5 Dec 2023 14:11:56 +0530
-Message-ID: <20231205084157.73819-4-umang.jain@ideasonboard.com>
+Subject: [PATCH v3 4/4] staging: vc04_services: Drop vchiq_log_debug() in favour of dev_dbg
+Date: Tue,  5 Dec 2023 14:11:57 +0530
+Message-ID: <20231205084157.73819-5-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231205084157.73819-1-umang.jain@ideasonboard.com>
 References: <20231205084157.73819-1-umang.jain@ideasonboard.com>
@@ -53,442 +53,661 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Drop vchiq_log_trace() macro which wraps dev_dbg(). Introduce the usage
+Drop vchiq_log_debug() macro which wraps dev_dbg(). Introduce the usage
 of dev_dbg() directly.
 
 Meanwhile at it, drop the usage of __func__ from the logs.
 Dynamic debug supports this via the 'f'  decorator flag.
 
+Remove the entry from TODO regarding custom logging. VC04 is now
+aligned according to the standard kernel logging mechanisms.
+
 Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 ---
- .../interface/vchiq_arm/vchiq_arm.c           |  53 ++++-----
- .../interface/vchiq_arm/vchiq_core.c          | 101 +++++++++---------
- .../interface/vchiq_arm/vchiq_core.h          |   4 -
- .../interface/vchiq_arm/vchiq_dev.c           |  15 ++-
- 4 files changed, 78 insertions(+), 95 deletions(-)
+ drivers/staging/vc04_services/interface/TODO  |   5 -
+ .../interface/vchiq_arm/vchiq_arm.c           |  45 +++--
+ .../interface/vchiq_arm/vchiq_core.c          | 159 ++++++++----------
+ .../interface/vchiq_arm/vchiq_core.h          |  26 ---
+ .../interface/vchiq_arm/vchiq_dev.c           |  32 ++--
+ 5 files changed, 106 insertions(+), 161 deletions(-)
 
+diff --git a/drivers/staging/vc04_services/interface/TODO b/drivers/staging/vc04_services/interface/TODO
+index 6d9d4a800aa7..05eb5140d096 100644
+--- a/drivers/staging/vc04_services/interface/TODO
++++ b/drivers/staging/vc04_services/interface/TODO
+@@ -23,11 +23,6 @@ should properly handle a module unload. This also includes that all
+ resources must be freed (kthreads, debugfs entries, ...) and global
+ variables avoided.
+ 
+-* Cleanup logging mechanism
+-
+-The driver should probably be using the standard kernel logging mechanisms
+-such as dev_info, dev_dbg, and friends.
+-
+ * Documentation
+ 
+ A short top-down description of this driver's architecture (function of
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-index 56326b59a718..e337b8387647 100644
+index e337b8387647..4b4ff469d3a3 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-@@ -255,8 +255,7 @@ create_pagelist(struct vchiq_instance *instance, char *buf, char __user *ubuf,
- 	pagelist = dma_alloc_coherent(instance->state->dev, pagelist_size, &dma_addr,
- 				      GFP_KERNEL);
+@@ -310,9 +310,8 @@ create_pagelist(struct vchiq_instance *instance, char *buf, char __user *ubuf,
+ 						   type == PAGELIST_READ, pages);
  
--	vchiq_log_trace(instance->state->dev, VCHIQ_ARM,
--			"%s - %pK", __func__, pagelist);
-+	dev_dbg(instance->state->dev, "arm: %pK\n", pagelist);
+ 		if (actual_pages != num_pages) {
+-			vchiq_log_debug(instance->state->dev, VCHIQ_ARM,
+-					"%s - only %d/%d pages locked",
+-					__func__, actual_pages, num_pages);
++			dev_dbg(instance->state->dev, "arm: Only %d/%d pages locked\n",
++				actual_pages, num_pages);
  
- 	if (!pagelist)
- 		return NULL;
-@@ -407,8 +406,7 @@ free_pagelist(struct vchiq_instance *instance, struct vchiq_pagelist_info *pagel
- 	struct page **pages = pagelistinfo->pages;
- 	unsigned int num_pages = pagelistinfo->num_pages;
- 
--	vchiq_log_trace(instance->state->dev, VCHIQ_ARM,
--			"%s - %pK, %d", __func__, pagelistinfo->pagelist, actual);
-+	dev_dbg(instance->state->dev, "arm: %pK, %d\n", pagelistinfo->pagelist, actual);
- 
- 	/*
- 	 * NOTE: dma_unmap_sg must be called before the
-@@ -708,8 +706,7 @@ int vchiq_initialise(struct vchiq_instance **instance_out)
- 	ret = 0;
- 
- failed:
--	vchiq_log_trace(state->dev, VCHIQ_CORE,
--			"%s(%p): returning %d", __func__, instance, ret);
-+	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, ret);
- 
- 	return ret;
- }
-@@ -742,8 +739,7 @@ int vchiq_shutdown(struct vchiq_instance *instance)
- 
- 	mutex_unlock(&state->mutex);
- 
--	vchiq_log_trace(state->dev, VCHIQ_CORE,
--			"%s(%p): returning %d", __func__, instance, status);
-+	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, status);
- 
- 	free_bulk_waiter(instance);
- 	kfree(instance);
-@@ -763,8 +759,8 @@ int vchiq_connect(struct vchiq_instance *instance)
- 	struct vchiq_state *state = instance->state;
- 
- 	if (mutex_lock_killable(&state->mutex)) {
--		vchiq_log_trace(state->dev, VCHIQ_CORE,
--				"%s: call to mutex_lock failed", __func__);
-+		dev_dbg(state->dev,
-+			"core: call to mutex_lock failed\n");
- 		status = -EAGAIN;
- 		goto failed;
- 	}
-@@ -776,8 +772,7 @@ int vchiq_connect(struct vchiq_instance *instance)
- 	mutex_unlock(&state->mutex);
- 
- failed:
--	vchiq_log_trace(state->dev, VCHIQ_CORE,
--			"%s(%p): returning %d", __func__, instance, status);
-+	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, status);
- 
- 	return status;
- }
-@@ -808,8 +803,7 @@ vchiq_add_service(struct vchiq_instance *instance,
- 		status = -EINVAL;
+ 			/* This is probably due to the process being killed */
+ 			if (actual_pages > 0)
+@@ -554,8 +553,8 @@ static int vchiq_platform_init(struct platform_device *pdev, struct vchiq_state
+ 		return -ENXIO;
  	}
  
--	vchiq_log_trace(state->dev, VCHIQ_CORE,
--			"%s(%p): returning %d", __func__, instance, status);
-+	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, status);
+-	vchiq_log_debug(&pdev->dev, VCHIQ_ARM, "vchiq_init - done (slots %pK, phys %pad)",
+-			vchiq_slot_zero, &slot_phys);
++	dev_dbg(&pdev->dev, "arm: vchiq_init - done (slots %pK, phys %pad)\n",
++		vchiq_slot_zero, &slot_phys);
  
- 	return status;
+ 	vchiq_call_connected_callbacks();
+ 
+@@ -719,9 +718,9 @@ void free_bulk_waiter(struct vchiq_instance *instance)
+ 	list_for_each_entry_safe(waiter, next,
+ 				 &instance->bulk_waiter_list, list) {
+ 		list_del(&waiter->list);
+-		vchiq_log_debug(instance->state->dev, VCHIQ_ARM,
+-				"bulk_waiter - cleaned up %pK for pid %d",
+-				waiter, waiter->pid);
++		dev_dbg(instance->state->dev,
++			"arm: bulk_waiter - cleaned up %pK for pid %d\n",
++			waiter, waiter->pid);
+ 		kfree(waiter);
+ 	}
  }
-@@ -840,8 +834,7 @@ vchiq_open_service(struct vchiq_instance *instance,
+@@ -981,9 +980,8 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *instance, unsigned int handl
+ 		mutex_lock(&instance->bulk_waiter_list_mutex);
+ 		list_add(&waiter->list, &instance->bulk_waiter_list);
+ 		mutex_unlock(&instance->bulk_waiter_list_mutex);
+-		vchiq_log_debug(instance->state->dev, VCHIQ_ARM,
+-				"saved bulk_waiter %pK for pid %d", waiter,
+-				current->pid);
++		dev_dbg(instance->state->dev, "arm: saved bulk_waiter %pK for pid %d\n",
++			waiter, current->pid);
  	}
  
- failed:
--	vchiq_log_trace(state->dev, VCHIQ_CORE,
--			"%s(%p): returning %d", __func__, instance, status);
-+	dev_dbg(state->dev, "core: (%p): returning %d\n", instance, status);
- 
  	return status;
- }
-@@ -1010,8 +1003,7 @@ add_completion(struct vchiq_instance *instance, enum vchiq_reason reason,
- 	while ((insert - instance->completion_remove) >= MAX_COMPLETIONS) {
- 		/* Out of space - wait for the client */
- 		DEBUG_TRACE(SERVICE_CALLBACK_LINE);
--		vchiq_log_trace(instance->state->dev, VCHIQ_CORE,
--				"%s - completion queue full", __func__);
-+		dev_dbg(instance->state->dev, "core: completion queue full\n");
+@@ -1006,12 +1004,10 @@ add_completion(struct vchiq_instance *instance, enum vchiq_reason reason,
+ 		dev_dbg(instance->state->dev, "core: completion queue full\n");
  		DEBUG_COUNT(COMPLETION_QUEUE_FULL_COUNT);
  		if (wait_for_completion_interruptible(&instance->remove_event)) {
- 			vchiq_log_debug(instance->state->dev, VCHIQ_ARM,
-@@ -1099,11 +1091,11 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
- 	vchiq_service_get(service);
- 	rcu_read_unlock();
+-			vchiq_log_debug(instance->state->dev, VCHIQ_ARM,
+-					"service_callback interrupted");
++			dev_dbg(instance->state->dev, "arm: service_callback interrupted\n");
+ 			return -EAGAIN;
+ 		} else if (instance->closing) {
+-			vchiq_log_debug(instance->state->dev, VCHIQ_ARM,
+-					"service_callback closing");
++			dev_dbg(instance->state->dev, "arm: service_callback closing\n");
+ 			return 0;
+ 		}
+ 		DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+@@ -1113,8 +1109,8 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
+ 				instance->completion_remove) < 0) {
+ 				int status;
  
--	vchiq_log_trace(service->state->dev, VCHIQ_ARM,
--			"%s - service %lx(%d,%p), reason %d, header %lx, instance %lx, bulk_userdata %lx",
--			__func__, (unsigned long)user_service, service->localport,
--			user_service->userdata, reason, (unsigned long)header,
--			(unsigned long)instance, (unsigned long)bulk_userdata);
-+	dev_dbg(service->state->dev,
-+		"arm: service %lx(%d,%p), reason %d, header %lx, instance %lx, bulk_userdata %lx\n",
-+		(unsigned long)user_service, service->localport,
-+		user_service->userdata, reason, (unsigned long)header,
-+		(unsigned long)instance, (unsigned long)bulk_userdata);
+-				vchiq_log_debug(instance->state->dev, VCHIQ_ARM,
+-						"Inserting extra MESSAGE_AVAILABLE");
++				dev_dbg(instance->state->dev,
++					"arm: Inserting extra MESSAGE_AVAILABLE\n");
+ 				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+ 				status = add_completion(instance, reason, NULL, user_service,
+ 							bulk_userdata);
+@@ -1127,14 +1123,12 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
  
- 	if (header && user_service->is_vchi) {
- 		spin_lock(&msg_queue_spinlock);
-@@ -1112,8 +1104,7 @@ service_callback(struct vchiq_instance *instance, enum vchiq_reason reason,
- 			spin_unlock(&msg_queue_spinlock);
  			DEBUG_TRACE(SERVICE_CALLBACK_LINE);
- 			DEBUG_COUNT(MSG_QUEUE_FULL_COUNT);
--			vchiq_log_trace(service->state->dev, VCHIQ_ARM,
--					"%s - msg queue full", __func__);
-+			dev_dbg(service->state->dev, "arm: msg queue full\n");
- 			/*
- 			 * If there is no MESSAGE_AVAILABLE in the completion
- 			 * queue, add one
-@@ -1405,8 +1396,8 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
- 	local_uc = ++arm_state->videocore_use_count;
- 	++(*entity_uc);
+ 			if (wait_for_completion_interruptible(&user_service->remove_event)) {
+-				vchiq_log_debug(instance->state->dev, VCHIQ_ARM,
+-						"%s interrupted", __func__);
++				dev_dbg(instance->state->dev, "arm: interrupted\n");
+ 				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+ 				vchiq_service_put(service);
+ 				return -EAGAIN;
+ 			} else if (instance->closing) {
+-				vchiq_log_debug(instance->state->dev, VCHIQ_ARM,
+-						"%s closing", __func__);
++				dev_dbg(instance->state->dev, "arm: closing\n");
+ 				DEBUG_TRACE(SERVICE_CALLBACK_LINE);
+ 				vchiq_service_put(service);
+ 				return -EINVAL;
+@@ -1686,8 +1680,8 @@ void vchiq_platform_conn_state_changed(struct vchiq_state *state,
+ 	struct vchiq_arm_state *arm_state = vchiq_platform_get_arm_state(state);
+ 	char threadname[16];
  
--	vchiq_log_trace(state->dev, VCHIQ_SUSPEND, "%s %s count %d, state count %d",
--			__func__, entity, *entity_uc, local_uc);
-+	dev_dbg(state->dev, "suspend: %s count %d, state count %d\n",
-+		entity, *entity_uc, local_uc);
+-	vchiq_log_debug(state->dev, VCHIQ_SUSPEND, "%d: %s->%s", state->id,
+-			get_conn_state_name(oldstate), get_conn_state_name(newstate));
++	dev_dbg(state->dev, "suspend: %d: %s->%s\n",
++		state->id, get_conn_state_name(oldstate), get_conn_state_name(newstate));
+ 	if (state->conn_state != VCHIQ_CONNSTATE_CONNECTED)
+ 		return;
  
- 	write_unlock_bh(&arm_state->susp_res_lock);
+@@ -1751,9 +1745,8 @@ static int vchiq_probe(struct platform_device *pdev)
  
-@@ -1425,7 +1416,7 @@ vchiq_use_internal(struct vchiq_state *state, struct vchiq_service *service,
- 	}
+ 	vchiq_debugfs_init();
  
- out:
--	vchiq_log_trace(state->dev, VCHIQ_SUSPEND, "%s exit %d", __func__, ret);
-+	dev_dbg(state->dev, "suspend: exit %d\n", ret);
- 	return ret;
- }
+-	vchiq_log_debug(&pdev->dev, VCHIQ_ARM,
+-			"vchiq: platform initialised - version %d (min %d)",
+-			VCHIQ_VERSION, VCHIQ_VERSION_MIN);
++	dev_dbg(&pdev->dev, "arm: platform initialised - version %d (min %d)\n",
++		VCHIQ_VERSION, VCHIQ_VERSION_MIN);
  
-@@ -1463,14 +1454,14 @@ vchiq_release_internal(struct vchiq_state *state, struct vchiq_service *service)
- 	--arm_state->videocore_use_count;
- 	--(*entity_uc);
- 
--	vchiq_log_trace(state->dev, VCHIQ_SUSPEND, "%s %s count %d, state count %d",
--			__func__, entity, *entity_uc, arm_state->videocore_use_count);
-+	dev_dbg(state->dev, "suspend: %s count %d, state count %d\n",
-+		entity, *entity_uc, arm_state->videocore_use_count);
- 
- unlock:
- 	write_unlock_bh(&arm_state->susp_res_lock);
- 
- out:
--	vchiq_log_trace(state->dev, VCHIQ_SUSPEND, "%s exit %d", __func__, ret);
-+	dev_dbg(state->dev, "suspend: exit %d\n", ret);
- 	return ret;
- }
- 
+ 	/*
+ 	 * Simply exit on error since the function handles cleanup in
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-index 2fd793954001..d197e4504bd4 100644
+index d197e4504bd4..76c27778154a 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-@@ -459,9 +459,9 @@ make_service_callback(struct vchiq_service *service, enum vchiq_reason reason,
+@@ -217,10 +217,10 @@ static const char *msg_type_str(unsigned int msg_type)
+ static inline void
+ set_service_state(struct vchiq_service *service, int newstate)
  {
- 	int status;
+-	vchiq_log_debug(service->state->dev, VCHIQ_CORE, "%d: srv:%d %s->%s",
+-			service->state->id, service->localport,
+-			srvstate_names[service->srvstate],
+-			srvstate_names[newstate]);
++	dev_dbg(service->state->dev, "core: %d: srv:%d %s->%s\n",
++		service->state->id, service->localport,
++		srvstate_names[service->srvstate],
++		srvstate_names[newstate]);
+ 	service->srvstate = newstate;
+ }
  
--	vchiq_log_trace(service->state->dev, VCHIQ_CORE, "%d: callback:%d (%s, %pK, %pK)",
--			service->state->id, service->localport, reason_names[reason],
--			header, bulk_userdata);
-+	dev_dbg(service->state->dev, "core: %d: callback:%d (%s, %pK, %pK)\n",
-+		service->state->id, service->localport, reason_names[reason],
-+		header, bulk_userdata);
- 	status = service->base.callback(service->instance, reason, header, service->handle,
- 					bulk_userdata);
- 	if (status && (status != -EAGAIN)) {
-@@ -763,8 +763,8 @@ process_free_data_message(struct vchiq_state *state, u32 *service_found,
- 			 * it has dropped below its quota
- 			 */
- 			complete(&quota->quota_event);
--			vchiq_log_trace(state->dev, VCHIQ_CORE, "%d: pfq:%d %x@%pK - slot_use->%d",
--					state->id, port, header->size, header, count - 1);
-+			dev_dbg(state->dev, "core: %d: pfq:%d %x@%pK - slot_use->%d\n",
-+				state->id, port, header->size, header, count - 1);
- 		} else {
- 			dev_err(state->dev,
- 				"core: service %d slot_use_count=%d (header %pK, msgid %x, header->msgid %x, header->size %x)\n",
-@@ -809,9 +809,9 @@ process_free_queue(struct vchiq_state *state, u32 *service_found,
- 		 */
- 		rmb();
+@@ -245,8 +245,7 @@ find_service_by_handle(struct vchiq_instance *instance, unsigned int handle)
+ 		return service;
+ 	}
+ 	rcu_read_unlock();
+-	vchiq_log_debug(instance->state->dev, VCHIQ_CORE,
+-			"Invalid service handle 0x%x", handle);
++	dev_dbg(instance->state->dev, "core: Invalid service handle 0x%x\n", handle);
+ 	return NULL;
+ }
  
--		vchiq_log_trace(state->dev, VCHIQ_CORE, "%d: pfq %d=%pK %x %x",
--				state->id, slot_index, data, local->slot_queue_recycle,
--				slot_queue_available);
-+		dev_dbg(state->dev, "core: %d: pfq %d=%pK %x %x\n",
-+			state->id, slot_index, data, local->slot_queue_recycle,
-+			slot_queue_available);
+@@ -266,8 +265,7 @@ find_service_by_port(struct vchiq_state *state, unsigned int localport)
+ 		}
+ 		rcu_read_unlock();
+ 	}
+-	vchiq_log_debug(state->dev, VCHIQ_CORE,
+-			"Invalid port %u", localport);
++	dev_dbg(state->dev, "core: Invalid port %u\n", localport);
+ 	return NULL;
+ }
  
- 		/* Initialise the bitmask for services which have used this slot */
- 		memset(service_found, 0, length);
-@@ -980,10 +980,10 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
- 		       ((tx_end_index != quota->previous_tx_index) &&
- 			(quota->slot_use_count == quota->slot_quota))) {
- 			spin_unlock(&quota_spinlock);
--			vchiq_log_trace(state->dev, VCHIQ_CORE,
--					"%d: qm:%d %s,%zx - quota stall (msg %d, slot %d)",
--					state->id, service->localport, msg_type_str(type), size,
--					quota->message_use_count, quota->slot_use_count);
-+			dev_dbg(state->dev,
-+				"core: %d: qm:%d %s,%zx - quota stall (msg %d, slot %d)\n",
-+				state->id, service->localport, msg_type_str(type), size,
-+				quota->message_use_count, quota->slot_use_count);
- 			VCHIQ_SERVICE_STATS_INC(service, quota_stalls);
- 			mutex_unlock(&state->slot_mutex);
- 			if (wait_for_completion_interruptible(&quota->quota_event))
-@@ -1073,10 +1073,9 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
- 		spin_unlock(&quota_spinlock);
+@@ -287,8 +285,7 @@ find_service_for_instance(struct vchiq_instance *instance, unsigned int handle)
+ 		return service;
+ 	}
+ 	rcu_read_unlock();
+-	vchiq_log_debug(instance->state->dev, VCHIQ_CORE,
+-			"Invalid service handle 0x%x", handle);
++	dev_dbg(instance->state->dev, "core: Invalid service handle 0x%x\n", handle);
+ 	return NULL;
+ }
  
- 		if (slot_use_count)
--			vchiq_log_trace(state->dev, VCHIQ_CORE,
--					"%d: qm:%d %s,%zx - slot_use->%d (hdr %p)", state->id,
--					service->localport, msg_type_str(VCHIQ_MSG_TYPE(msgid)),
--					size, slot_use_count, header);
-+			dev_dbg(state->dev, "core: %d: qm:%d %s,%zx - slot_use->%d (hdr %p)\n",
-+				state->id, service->localport, msg_type_str(VCHIQ_MSG_TYPE(msgid)),
-+				size, slot_use_count, header);
+@@ -310,8 +307,7 @@ find_closed_service_for_instance(struct vchiq_instance *instance, unsigned int h
+ 		return service;
+ 	}
+ 	rcu_read_unlock();
+-	vchiq_log_debug(instance->state->dev, VCHIQ_CORE,
+-			"Invalid service handle 0x%x", handle);
++	dev_dbg(instance->state->dev, "core: Invalid service handle 0x%x\n", handle);
+ 	return service;
+ }
  
+@@ -482,8 +478,8 @@ vchiq_set_conn_state(struct vchiq_state *state, enum vchiq_connstate newstate)
+ {
+ 	enum vchiq_connstate oldstate = state->conn_state;
+ 
+-	vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: %s->%s", state->id, conn_state_names[oldstate],
+-			conn_state_names[newstate]);
++	dev_dbg(state->dev, "core: %d: %s->%s\n",
++		state->id, conn_state_names[oldstate], conn_state_names[newstate]);
+ 	state->conn_state = newstate;
+ 	vchiq_platform_conn_state_changed(state, oldstate, newstate);
+ }
+@@ -1023,9 +1019,9 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
+ 		int tx_end_index;
+ 		int slot_use_count;
+ 
+-		vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: qm %s@%pK,%zx (%d->%d)", state->id,
+-				msg_type_str(VCHIQ_MSG_TYPE(msgid)), header, size,
+-				VCHIQ_MSG_SRCPORT(msgid), VCHIQ_MSG_DSTPORT(msgid));
++		dev_dbg(state->dev, "core: %d: qm %s@%pK,%zx (%d->%d)\n",
++			state->id, msg_type_str(VCHIQ_MSG_TYPE(msgid)), header, size,
++			VCHIQ_MSG_SRCPORT(msgid), VCHIQ_MSG_DSTPORT(msgid));
+ 
+ 		WARN_ON(flags & (QMFLAGS_NO_MUTEX_LOCK |
+ 				 QMFLAGS_NO_MUTEX_UNLOCK));
+@@ -1080,9 +1076,9 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
  		VCHIQ_SERVICE_STATS_INC(service, ctrl_tx_count);
  		VCHIQ_SERVICE_STATS_ADD(service, ctrl_tx_bytes, size);
-@@ -1205,11 +1204,11 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
+ 	} else {
+-		vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: qm %s@%pK,%zx (%d->%d)", state->id,
+-				msg_type_str(VCHIQ_MSG_TYPE(msgid)), header, size,
+-				VCHIQ_MSG_SRCPORT(msgid), VCHIQ_MSG_DSTPORT(msgid));
++		dev_dbg(state->dev, "core: %d: qm %s@%pK,%zx (%d->%d)\n",
++			state->id, msg_type_str(VCHIQ_MSG_TYPE(msgid)), header, size,
++			VCHIQ_MSG_SRCPORT(msgid), VCHIQ_MSG_DSTPORT(msgid));
+ 		if (size != 0) {
+ 			/*
+ 			 * It is assumed for now that this code path
+@@ -1110,11 +1106,9 @@ queue_message(struct vchiq_state *state, struct vchiq_service *service,
+ 			? service->base.fourcc
+ 			: VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
+ 
+-		vchiq_log_debug(state->dev, VCHIQ_CORE_MSG,
+-				"Sent Msg %s(%u) to %p4cc s:%u d:%d len:%zu",
+-				msg_type_str(VCHIQ_MSG_TYPE(msgid)), VCHIQ_MSG_TYPE(msgid),
+-				&svc_fourcc, VCHIQ_MSG_SRCPORT(msgid),
+-				VCHIQ_MSG_DSTPORT(msgid), size);
++		dev_dbg(state->dev, "core_msg: Sent Msg %s(%u) to %p4cc s:%u d:%d len:%zu\n",
++			msg_type_str(VCHIQ_MSG_TYPE(msgid)), VCHIQ_MSG_TYPE(msgid),
++			&svc_fourcc, VCHIQ_MSG_SRCPORT(msgid), VCHIQ_MSG_DSTPORT(msgid), size);
+ 	}
+ 
+ 	/* Make sure the new header is visible to the peer. */
+@@ -1170,11 +1164,9 @@ queue_message_sync(struct vchiq_state *state, struct vchiq_service *service,
+ 				state->id, oldmsgid);
+ 	}
+ 
+-	vchiq_log_debug(state->dev, VCHIQ_SYNC,
+-			"%d: qms %s@%pK,%x (%d->%d)", state->id,
+-			msg_type_str(VCHIQ_MSG_TYPE(msgid)),
+-			header, size, VCHIQ_MSG_SRCPORT(msgid),
+-			VCHIQ_MSG_DSTPORT(msgid));
++	dev_dbg(state->dev, "sync: %d: qms %s@%pK,%x (%d->%d)\n",
++		state->id, msg_type_str(VCHIQ_MSG_TYPE(msgid)), header, size,
++		VCHIQ_MSG_SRCPORT(msgid), VCHIQ_MSG_DSTPORT(msgid));
+ 
+ 	callback_result =
+ 		copy_message_data(copy_callback, context,
+@@ -1260,9 +1252,9 @@ release_slot(struct vchiq_state *state, struct vchiq_slot_info *slot_info,
+ 			VCHIQ_SLOT_QUEUE_MASK] =
+ 			SLOT_INDEX_FROM_INFO(state, slot_info);
+ 		state->remote->slot_queue_recycle = slot_queue_recycle + 1;
+-		vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: %s %d - recycle->%x",
+-				state->id, __func__, SLOT_INDEX_FROM_INFO(state, slot_info),
+-				state->remote->slot_queue_recycle);
++		dev_dbg(state->dev, "core: %d: %d - recycle->%x\n",
++			state->id, SLOT_INDEX_FROM_INFO(state, slot_info),
++			state->remote->slot_queue_recycle);
+ 
+ 		/*
+ 		 * A write barrier is necessary, but remote_event_signal
+@@ -1381,8 +1373,8 @@ poll_services_of_group(struct vchiq_state *state, int group)
+ 
+ 		service_flags = atomic_xchg(&service->poll_flags, 0);
+ 		if (service_flags & BIT(VCHIQ_POLL_REMOVE)) {
+-			vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: ps - remove %d<->%d",
+-					state->id, service->localport, service->remoteport);
++			dev_dbg(state->dev, "core: %d: ps - remove %d<->%d\n",
++				state->id, service->localport, service->remoteport);
+ 
+ 			/*
+ 			 * Make it look like a client, because
+@@ -1394,8 +1386,8 @@ poll_services_of_group(struct vchiq_state *state, int group)
+ 			if (vchiq_close_service_internal(service, NO_CLOSE_RECVD))
+ 				request_poll(state, service, VCHIQ_POLL_REMOVE);
+ 		} else if (service_flags & BIT(VCHIQ_POLL_TERMINATE)) {
+-			vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: ps - terminate %d<->%d",
+-					state->id, service->localport, service->remoteport);
++			dev_dbg(state->dev, "core: %d: ps - terminate %d<->%d\n",
++				state->id, service->localport, service->remoteport);
+ 			if (vchiq_close_service_internal(service, NO_CLOSE_RECVD))
+ 				request_poll(state, service, VCHIQ_POLL_TERMINATE);
+ 		}
+@@ -1447,11 +1439,11 @@ abort_outstanding_bulks(struct vchiq_service *service,
+ 		if (queue->process != queue->local_insert) {
+ 			vchiq_complete_bulk(service->instance, bulk);
+ 
+-			vchiq_log_debug(service->state->dev, VCHIQ_CORE_MSG,
+-					"%s %p4cc d:%d ABORTED - tx len:%d, rx len:%d",
+-					is_tx ? "Send Bulk to" : "Recv Bulk from",
+-					&service->base.fourcc,
+-					service->remoteport, bulk->size, bulk->remote_size);
++			dev_dbg(service->state->dev,
++				"core_msg: %s %p4cc d:%d ABORTED - tx len:%d, rx len:%d\n",
++				is_tx ? "Send Bulk to" : "Recv Bulk from",
++				&service->base.fourcc,
++				service->remoteport, bulk->size, bulk->remote_size);
+ 		} else {
+ 			/* fabricate a matching dummy bulk */
+ 			bulk->data = 0;
+@@ -1484,8 +1476,8 @@ parse_open(struct vchiq_state *state, struct vchiq_header *header)
+ 
+ 	payload = (struct vchiq_open_payload *)header->data;
+ 	fourcc = payload->fourcc;
+-	vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: prs OPEN@%pK (%d->'%p4cc')",
+-			state->id, header, localport, &fourcc);
++	dev_dbg(state->dev, "core: %d: prs OPEN@%pK (%d->'%p4cc')\n",
++		state->id, header, localport, &fourcc);
+ 
+ 	service = get_listening_service(state, fourcc);
+ 	if (!service)
+@@ -1630,10 +1622,8 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
  	svc_fourcc = service ? service->base.fourcc
  			     : VCHIQ_MAKE_FOURCC('?', '?', '?', '?');
  
--	vchiq_log_trace(state->dev, VCHIQ_SYNC,
--			"Sent Sync Msg %s(%u) to %p4cc s:%u d:%d len:%d",
--			msg_type_str(VCHIQ_MSG_TYPE(msgid)), VCHIQ_MSG_TYPE(msgid),
--			&svc_fourcc, VCHIQ_MSG_SRCPORT(msgid),
--			VCHIQ_MSG_DSTPORT(msgid), size);
-+	dev_dbg(state->dev,
-+		"sync: Sent Sync Msg %s(%u) to %p4cc s:%u d:%d len:%d\n",
-+		msg_type_str(VCHIQ_MSG_TYPE(msgid)), VCHIQ_MSG_TYPE(msgid),
-+		&svc_fourcc, VCHIQ_MSG_SRCPORT(msgid),
-+		VCHIQ_MSG_DSTPORT(msgid), size);
+-	vchiq_log_debug(state->dev, VCHIQ_CORE_MSG,
+-			"Rcvd Msg %s(%u) from %p4cc s:%d d:%d len:%d",
+-			msg_type_str(type), type, &svc_fourcc,
+-			remoteport, localport, size);
++	dev_dbg(state->dev, "core_msg: Rcvd Msg %s(%u) from %p4cc s:%d d:%d len:%d\n",
++		msg_type_str(type), type, &svc_fourcc, remoteport, localport, size);
+ 	if (size > 0)
+ 		vchiq_log_dump_mem(state->dev, "Rcvd", 0, header->data, min(16, size));
  
- 	remote_event_signal(&state->remote->sync_trigger);
+@@ -1657,10 +1647,10 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 				header->data;
+ 			service->peer_version = payload->version;
+ 		}
+-		vchiq_log_debug(state->dev, VCHIQ_CORE,
+-				"%d: prs OPENACK@%pK,%x (%d->%d) v:%d",
+-				state->id, header, size, remoteport, localport,
+-				service->peer_version);
++		dev_dbg(state->dev,
++			"core: %d: prs OPENACK@%pK,%x (%d->%d) v:%d\n",
++			state->id, header, size, remoteport, localport,
++			service->peer_version);
+ 		if (service->srvstate == VCHIQ_SRVSTATE_OPENING) {
+ 			service->remoteport = remoteport;
+ 			set_service_state(service, VCHIQ_SRVSTATE_OPEN);
+@@ -1673,21 +1663,20 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 	case VCHIQ_MSG_CLOSE:
+ 		WARN_ON(size); /* There should be no data */
  
-@@ -1298,11 +1297,11 @@ notify_bulks(struct vchiq_service *service, struct vchiq_bulk_queue *queue,
- {
- 	int status = 0;
+-		vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: prs CLOSE@%pK (%d->%d)",
+-				state->id, header, remoteport, localport);
++		dev_dbg(state->dev, "core: %d: prs CLOSE@%pK (%d->%d)\n",
++			state->id, header, remoteport, localport);
  
--	vchiq_log_trace(service->state->dev, VCHIQ_CORE,
--			"%d: nb:%d %cx - p=%x rn=%x r=%x",
--			service->state->id, service->localport,
--			(queue == &service->bulk_tx) ? 't' : 'r',
--			queue->process, queue->remote_notify, queue->remove);
-+	dev_dbg(service->state->dev,
-+		"core: %d: nb:%d %cx - p=%x rn=%x r=%x\n",
-+		service->state->id, service->localport,
-+		(queue == &service->bulk_tx) ? 't' : 'r',
-+		queue->process, queue->remote_notify, queue->remove);
+ 		mark_service_closing_internal(service, 1);
  
- 	queue->remote_notify = queue->process;
+ 		if (vchiq_close_service_internal(service, CLOSE_RECVD) == -EAGAIN)
+ 			goto bail_not_ready;
  
-@@ -1425,11 +1424,11 @@ abort_outstanding_bulks(struct vchiq_service *service,
- {
- 	int is_tx = (queue == &service->bulk_tx);
+-		vchiq_log_debug(state->dev, VCHIQ_CORE, "Close Service %p4cc s:%u d:%d",
+-				&service->base.fourcc,
+-				service->localport, service->remoteport);
++		dev_dbg(state->dev, "core: Close Service %p4cc s:%u d:%d\n",
++			&service->base.fourcc, service->localport, service->remoteport);
+ 		break;
+ 	case VCHIQ_MSG_DATA:
+-		vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: prs DATA@%pK,%x (%d->%d)",
+-				state->id, header, size, remoteport, localport);
++		dev_dbg(state->dev, "core: %d: prs DATA@%pK,%x (%d->%d)\n",
++			state->id, header, size, remoteport, localport);
  
--	vchiq_log_trace(service->state->dev, VCHIQ_CORE,
--			"%d: aob:%d %cx - li=%x ri=%x p=%x",
--			service->state->id, service->localport,
--			is_tx ? 't' : 'r', queue->local_insert,
--			queue->remote_insert, queue->process);
-+	dev_dbg(service->state->dev,
-+		"core: %d: aob:%d %cx - li=%x ri=%x p=%x\n",
-+		service->state->id, service->localport,
-+		is_tx ? 't' : 'r', queue->local_insert,
-+		queue->remote_insert, queue->process);
- 
- 	WARN_ON((int)(queue->local_insert - queue->process) < 0);
- 	WARN_ON((int)(queue->remote_insert - queue->process) < 0);
-@@ -1764,10 +1763,10 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
- 					state->id, msg_type_str(type), header, remoteport,
- 					localport, bulk->actual, &bulk->data);
- 
--			vchiq_log_trace(state->dev, VCHIQ_CORE, "%d: prs:%d %cx li=%x ri=%x p=%x",
--					state->id, localport,
--					(type == VCHIQ_MSG_BULK_RX_DONE) ? 'r' : 't',
--					queue->local_insert, queue->remote_insert, queue->process);
-+			dev_dbg(state->dev, "core: %d: prs:%d %cx li=%x ri=%x p=%x\n",
-+				state->id, localport,
-+				(type == VCHIQ_MSG_BULK_RX_DONE) ? 'r' : 't',
-+				queue->local_insert, queue->remote_insert, queue->process);
- 
- 			DEBUG_TRACE(PARSE_LINE);
- 			WARN_ON(queue->process == queue->local_insert);
-@@ -1780,13 +1779,13 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 		if ((service->remoteport == remoteport) &&
+ 		    (service->srvstate == VCHIQ_SRVSTATE_OPEN)) {
+@@ -1706,8 +1695,8 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
  		}
  		break;
- 	case VCHIQ_MSG_PADDING:
--		vchiq_log_trace(state->dev, VCHIQ_CORE, "%d: prs PADDING@%pK,%x",
--				state->id, header, size);
-+		dev_dbg(state->dev, "core: %d: prs PADDING@%pK,%x\n",
-+			state->id, header, size);
- 		break;
- 	case VCHIQ_MSG_PAUSE:
- 		/* If initiated, signal the application thread */
--		vchiq_log_trace(state->dev, VCHIQ_CORE, "%d: prs PAUSE@%pK,%x",
--				state->id, header, size);
-+		dev_dbg(state->dev, "core: %d: prs PAUSE@%pK,%x\n",
-+			state->id, header, size);
- 		if (state->conn_state == VCHIQ_CONNSTATE_PAUSED) {
- 			dev_err(state->dev, "core: %d: PAUSE received in state PAUSED\n",
- 				state->id);
-@@ -1802,8 +1801,8 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
- 		vchiq_set_conn_state(state, VCHIQ_CONNSTATE_PAUSED);
- 		break;
- 	case VCHIQ_MSG_RESUME:
--		vchiq_log_trace(state->dev, VCHIQ_CORE, "%d: prs RESUME@%pK,%x",
--				state->id, header, size);
-+		dev_dbg(state->dev, "core: %d: prs RESUME@%pK,%x\n",
-+			state->id, header, size);
- 		/* Release the slot mutex */
- 		mutex_unlock(&state->slot_mutex);
- 		vchiq_set_conn_state(state, VCHIQ_CONNSTATE_CONNECTED);
-@@ -2040,10 +2039,8 @@ sync_func(void *v)
+ 	case VCHIQ_MSG_CONNECT:
+-		vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: prs CONNECT@%pK",
+-				state->id, header);
++		dev_dbg(state->dev, "core: %d: prs CONNECT@%pK\n",
++			state->id, header);
+ 		state->version_common =	((struct vchiq_slot_zero *)
+ 					 state->slot_data)->version;
+ 		complete(&state->connect);
+@@ -1758,10 +1747,9 @@ parse_message(struct vchiq_state *state, struct vchiq_header *header)
+ 			bulk->actual = *(int *)header->data;
+ 			queue->remote_insert++;
  
- 		svc_fourcc = service->base.fourcc;
+-			vchiq_log_debug(state->dev, VCHIQ_CORE,
+-					"%d: prs %s@%pK (%d->%d) %x@%pad",
+-					state->id, msg_type_str(type), header, remoteport,
+-					localport, bulk->actual, &bulk->data);
++			dev_dbg(state->dev, "core: %d: prs %s@%pK (%d->%d) %x@%pad\n",
++				state->id, msg_type_str(type), header, remoteport,
++				localport, bulk->actual, &bulk->data);
  
--		vchiq_log_trace(state->dev, VCHIQ_SYNC,
--				"Rcvd Msg %s from %p4cc s:%d d:%d len:%d",
--				msg_type_str(type), &svc_fourcc,
--				remoteport, localport, size);
-+		dev_dbg(state->dev, "sync: Rcvd Msg %s from %p4cc s:%d d:%d len:%d\n",
-+			msg_type_str(type), &svc_fourcc, remoteport, localport, size);
- 		if (size > 0)
- 			vchiq_log_dump_mem(state->dev, "Rcvd", 0, header->data, min(16, size));
+ 			dev_dbg(state->dev, "core: %d: prs:%d %cx li=%x ri=%x p=%x\n",
+ 				state->id, localport,
+@@ -2052,9 +2040,9 @@ sync_func(void *v)
+ 					header->data;
+ 				service->peer_version = payload->version;
+ 			}
+-			vchiq_log_debug(state->dev, VCHIQ_SYNC, "%d: sf OPENACK@%pK,%x (%d->%d) v:%d",
+-					state->id, header, size, remoteport, localport,
+-					service->peer_version);
++			dev_err(state->dev, "sync: %d: sf OPENACK@%pK,%x (%d->%d) v:%d\n",
++				state->id, header, size, remoteport, localport,
++				service->peer_version);
+ 			if (service->srvstate == VCHIQ_SRVSTATE_OPENING) {
+ 				service->remoteport = remoteport;
+ 				set_service_state(service, VCHIQ_SRVSTATE_OPENSYNC);
+@@ -2456,9 +2444,9 @@ vchiq_add_service_internal(struct vchiq_state *state,
+ 	/* Bring this service online */
+ 	set_service_state(service, srvstate);
  
-@@ -2068,8 +2065,8 @@ sync_func(void *v)
- 			break;
+-	vchiq_log_debug(state->dev, VCHIQ_CORE_MSG, "%s Service %p4cc SrcPort:%d",
+-			(srvstate == VCHIQ_SRVSTATE_OPENING) ? "Open" : "Add",
+-			&params->fourcc, service->localport);
++	dev_dbg(state->dev, "core_msg: %s Service %p4cc SrcPort:%d\n",
++		(srvstate == VCHIQ_SRVSTATE_OPENING) ? "Open" : "Add",
++		&params->fourcc, service->localport);
  
- 		case VCHIQ_MSG_DATA:
--			vchiq_log_trace(state->dev, VCHIQ_SYNC, "%d: sf DATA@%pK,%x (%d->%d)",
--					state->id, header, size, remoteport, localport);
-+			dev_dbg(state->dev, "sync: %d: sf DATA@%pK,%x (%d->%d)\n",
-+				state->id, header, size, remoteport, localport);
+ 	/* Don't unlock the service - leave it with a ref_count of 1. */
  
- 			if ((service->remoteport == remoteport) &&
- 			    (service->srvstate == VCHIQ_SRVSTATE_OPENSYNC)) {
-@@ -3111,9 +3108,9 @@ int vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
- 	mutex_unlock(&state->slot_mutex);
- 	mutex_unlock(&service->bulk_mutex);
+@@ -2553,8 +2541,7 @@ release_service_messages(struct vchiq_service *service)
+ 			int port = VCHIQ_MSG_DSTPORT(msgid);
  
--	vchiq_log_trace(state->dev, VCHIQ_CORE, "%d: bt:%d %cx li=%x ri=%x p=%x",
--			state->id, service->localport, dir_char, queue->local_insert,
--			queue->remote_insert, queue->process);
-+	dev_dbg(state->dev, "core: %d: bt:%d %cx li=%x ri=%x p=%x\n",
-+		state->id, service->localport, dir_char, queue->local_insert,
-+		queue->remote_insert, queue->process);
+ 			if ((port == service->localport) && (msgid & VCHIQ_MSGID_CLAIMED)) {
+-				vchiq_log_debug(state->dev, VCHIQ_CORE,
+-						"  fsi - hdr %pK", header);
++				dev_dbg(state->dev, "core:  fsi - hdr %pK\n", header);
+ 				release_slot(state, slot_info, header, NULL);
+ 			}
+ 			pos += calc_stride(header->size);
+@@ -2662,8 +2649,9 @@ vchiq_close_service_internal(struct vchiq_service *service, int close_recvd)
+ 	int close_id = MAKE_CLOSE(service->localport,
+ 				  VCHIQ_MSG_DSTPORT(service->remoteport));
  
- waiting:
- 	vchiq_service_put(service);
-@@ -3579,9 +3576,9 @@ void vchiq_log_dump_mem(struct device *dev, const char *label, u32 addr,
- 		*s++ = '\0';
+-	vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: csi:%d,%d (%s)", service->state->id,
+-			service->localport, close_recvd, srvstate_names[service->srvstate]);
++	dev_dbg(state->dev, "core: %d: csi:%d,%d (%s)\n",
++		service->state->id, service->localport, close_recvd,
++		srvstate_names[service->srvstate]);
  
- 		if (label && (*label != '\0'))
--			vchiq_log_trace(dev, VCHIQ_CORE, "%s: %08x: %s", label, addr, line_buf);
-+			dev_dbg(dev, "core: %s: %08x: %s\n", label, addr, line_buf);
- 		else
--			vchiq_log_trace(dev, VCHIQ_CORE, "%s: %08x: %s", label, addr, line_buf);
-+			dev_dbg(dev, "core: %s: %08x: %s\n", label, addr, line_buf);
+ 	switch (service->srvstate) {
+ 	case VCHIQ_SRVSTATE_CLOSED:
+@@ -2773,8 +2761,8 @@ vchiq_terminate_service_internal(struct vchiq_service *service)
+ {
+ 	struct vchiq_state *state = service->state;
  
- 		addr += 16;
- 		mem += 16;
+-	vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: tsi - (%d<->%d)", state->id,
+-			service->localport, service->remoteport);
++	dev_dbg(state->dev, "core: %d: tsi - (%d<->%d)\n",
++		state->id, service->localport, service->remoteport);
+ 
+ 	mark_service_closing(service);
+ 
+@@ -2788,8 +2776,7 @@ vchiq_free_service_internal(struct vchiq_service *service)
+ {
+ 	struct vchiq_state *state = service->state;
+ 
+-	vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: fsi - (%d)",
+-			state->id, service->localport);
++	dev_dbg(state->dev, "core: %d: fsi - (%d)\n", state->id, service->localport);
+ 
+ 	switch (service->srvstate) {
+ 	case VCHIQ_SRVSTATE_OPENING:
+@@ -2869,8 +2856,8 @@ vchiq_close_service(struct vchiq_instance *instance, unsigned int handle)
+ 	if (!service)
+ 		return -EINVAL;
+ 
+-	vchiq_log_debug(service->state->dev, VCHIQ_CORE, "%d: close_service:%d",
+-			service->state->id, service->localport);
++	dev_dbg(service->state->dev, "core: %d: close_service:%d\n",
++		service->state->id, service->localport);
+ 
+ 	if ((service->srvstate == VCHIQ_SRVSTATE_FREE) ||
+ 	    (service->srvstate == VCHIQ_SRVSTATE_LISTENING) ||
+@@ -2927,8 +2914,8 @@ vchiq_remove_service(struct vchiq_instance *instance, unsigned int handle)
+ 	if (!service)
+ 		return -EINVAL;
+ 
+-	vchiq_log_debug(service->state->dev, VCHIQ_CORE, "%d: remove_service:%d",
+-			service->state->id, service->localport);
++	dev_dbg(service->state->dev, "core: %d: remove_service:%d\n",
++		service->state->id, service->localport);
+ 
+ 	if (service->srvstate == VCHIQ_SRVSTATE_FREE) {
+ 		vchiq_service_put(service);
+@@ -3071,9 +3058,9 @@ int vchiq_bulk_transfer(struct vchiq_instance *instance, unsigned int handle,
+ 	 */
+ 	wmb();
+ 
+-	vchiq_log_debug(state->dev, VCHIQ_CORE, "%d: bt (%d->%d) %cx %x@%pad %pK",
+-			state->id, service->localport, service->remoteport,
+-			dir_char, size, &bulk->data, userdata);
++	dev_dbg(state->dev, "core: %d: bt (%d->%d) %cx %x@%pad %pK\n",
++		state->id, service->localport, service->remoteport,
++		dir_char, size, &bulk->data, userdata);
+ 
+ 	/*
+ 	 * The slot mutex must be held when the service is being closed, so
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-index bc980a001711..36e34a7fc628 100644
+index 36e34a7fc628..c8527551b58c 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-@@ -57,10 +57,6 @@ static inline const char *log_category_str(enum vchiq_log_category c)
- #define vchiq_log_debug(dev, cat, fmt, ...) \
- 	do { dev_dbg(dev, "%s debug: " fmt, log_category_str(cat), ##__VA_ARGS__); } while (0)
- #endif
--#ifndef vchiq_log_trace
--#define vchiq_log_trace(dev, cat, fmt, ...) \
--	do { dev_dbg(dev, "%s trace: " fmt, log_category_str(cat), ##__VA_ARGS__); } while (0)
--#endif
+@@ -32,32 +32,6 @@
+ #define VCHIQ_SLOT_SIZE     4096
+ #define VCHIQ_MAX_MSG_SIZE  (VCHIQ_SLOT_SIZE - sizeof(struct vchiq_header))
  
+-enum vchiq_log_category {
+-	VCHIQ_ARM,
+-	VCHIQ_CORE,
+-	VCHIQ_CORE_MSG,
+-	VCHIQ_SYNC,
+-	VCHIQ_SUSPEND,
+-};
+-
+-static inline const char *log_category_str(enum vchiq_log_category c)
+-{
+-	static const char * const strings[] = {
+-		"vchiq_arm",
+-		"vchiq_core",
+-		"vchiq_core_msg",
+-		"vchiq_sync",
+-		"vchiq_suspend",
+-	};
+-
+-	return strings[c];
+-};
+-
+-#ifndef vchiq_log_debug
+-#define vchiq_log_debug(dev, cat, fmt, ...) \
+-	do { dev_dbg(dev, "%s debug: " fmt, log_category_str(cat), ##__VA_ARGS__); } while (0)
+-#endif
+-
  #define VCHIQ_SLOT_MASK        (VCHIQ_SLOT_SIZE - 1)
  #define VCHIQ_SLOT_QUEUE_MASK  (VCHIQ_MAX_SLOTS_PER_SIDE - 1)
+ #define VCHIQ_SLOT_ZERO_SLOTS  DIV_ROUND_UP(sizeof(struct vchiq_slot_zero), \
 diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-index ba287cb4c87b..38841c9d8ef9 100644
+index 38841c9d8ef9..68c8897c504c 100644
 --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
 +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-@@ -582,10 +582,9 @@ vchiq_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 	long ret = 0;
- 	int i, rc;
+@@ -47,9 +47,8 @@ user_service_free(void *userdata)
  
--	vchiq_log_trace(instance->state->dev, VCHIQ_ARM,
--			"%s - instance %pK, cmd %s, arg %lx", __func__, instance,
--			((_IOC_TYPE(cmd) == VCHIQ_IOC_MAGIC) && (_IOC_NR(cmd) <= VCHIQ_IOC_MAX)) ?
--			ioctl_names[_IOC_NR(cmd)] : "<invalid>", arg);
-+	dev_dbg(instance->state->dev, "arm: instance %pK, cmd %s, arg %lx\n", instance,
-+		((_IOC_TYPE(cmd) == VCHIQ_IOC_MAGIC) && (_IOC_NR(cmd) <= VCHIQ_IOC_MAX)) ?
-+		ioctl_names[_IOC_NR(cmd)] : "<invalid>", arg);
+ static void close_delivered(struct user_service *user_service)
+ {
+-	vchiq_log_debug(user_service->service->state->dev, VCHIQ_ARM,
+-			"%s(handle=%x)",
+-			__func__, user_service->service->handle);
++	dev_dbg(user_service->service->state->dev,
++		"arm: (handle=%x)\n", user_service->service->handle);
  
- 	switch (cmd) {
- 	case VCHIQ_IOC_SHUTDOWN:
-@@ -873,10 +872,10 @@ vchiq_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
- 				instance, (_IOC_NR(cmd) <= VCHIQ_IOC_MAX) ?
- 				ioctl_names[_IOC_NR(cmd)] : "<invalid>", status, ret);
+ 	if (user_service->close_pending) {
+ 		/* Allow the underlying service to be culled */
+@@ -235,8 +234,7 @@ static int vchiq_ioc_dequeue_message(struct vchiq_instance *instance,
+ 			spin_unlock(&msg_queue_spinlock);
+ 			DEBUG_TRACE(DEQUEUE_MESSAGE_LINE);
+ 			if (wait_for_completion_interruptible(&user_service->insert_event)) {
+-				vchiq_log_debug(service->state->dev, VCHIQ_ARM,
+-						"DEQUEUE_MESSAGE interrupted");
++				dev_dbg(service->state->dev, "arm: DEQUEUE_MESSAGE interrupted\n");
+ 				ret = -EINTR;
+ 				break;
+ 			}
+@@ -323,8 +321,8 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
+ 			ret = -ESRCH;
+ 			goto out;
+ 		}
+-		vchiq_log_debug(service->state->dev, VCHIQ_ARM,
+-				"found bulk_waiter %pK for pid %d", waiter, current->pid);
++		dev_dbg(service->state->dev, "arm: found bulk_waiter %pK for pid %d\n",
++			waiter, current->pid);
+ 		userdata = &waiter->bulk_waiter;
  	} else {
--		vchiq_log_trace(instance->state->dev, VCHIQ_ARM,
+ 		userdata = args->userdata;
+@@ -355,8 +353,8 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_instance *instance,
+ 		mutex_lock(&instance->bulk_waiter_list_mutex);
+ 		list_add(&waiter->list, &instance->bulk_waiter_list);
+ 		mutex_unlock(&instance->bulk_waiter_list_mutex);
+-		vchiq_log_debug(service->state->dev, VCHIQ_ARM,
+-				"saved bulk_waiter %pK for pid %d", waiter, current->pid);
++		dev_dbg(service->state->dev, "arm: saved bulk_waiter %pK for pid %d\n",
++			waiter, current->pid);
+ 
+ 		ret = put_user(mode_waiting, mode);
+ 	}
+@@ -455,8 +453,7 @@ static int vchiq_ioc_await_completion(struct vchiq_instance *instance,
+ 		mutex_lock(&instance->completion_mutex);
+ 		if (rc) {
+ 			DEBUG_TRACE(AWAIT_COMPLETION_LINE);
+-			vchiq_log_debug(instance->state->dev, VCHIQ_ARM,
+-					"AWAIT_COMPLETION interrupted");
++			dev_dbg(instance->state->dev, "arm: AWAIT_COMPLETION interrupted\n");
+ 			ret = -EINTR;
+ 			goto out;
+ 		}
+@@ -867,10 +864,10 @@ vchiq_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+ 	}
+ 
+ 	if (!status && (ret < 0) && (ret != -EINTR) && (ret != -EWOULDBLOCK)) {
+-		vchiq_log_debug(instance->state->dev, VCHIQ_ARM,
 -				"  ioctl instance %pK, cmd %s -> status %d, %ld",
 -				instance, (_IOC_NR(cmd) <= VCHIQ_IOC_MAX) ?
 -				ioctl_names[_IOC_NR(cmd)] : "<invalid>", status, ret);
 +		dev_dbg(instance->state->dev,
-+			"arm: ioctl instance %pK, cmd %s -> status %d\n, %ld\n",
++			"arm: ioctl instance %pK, cmd %s -> status %d, %ld\n",
 +			instance, (_IOC_NR(cmd) <= VCHIQ_IOC_MAX) ?
 +			ioctl_names[_IOC_NR(cmd)] : "<invalid>", status, ret);
- 	}
+ 	} else {
+ 		dev_dbg(instance->state->dev,
+ 			"arm: ioctl instance %pK, cmd %s -> status %d\n, %ld\n",
+@@ -1169,7 +1166,7 @@ static int vchiq_open(struct inode *inode, struct file *file)
+ 	struct vchiq_state *state = vchiq_get_state();
+ 	struct vchiq_instance *instance;
  
- 	return ret;
+-	vchiq_log_debug(state->dev, VCHIQ_ARM, "vchiq_open");
++	dev_dbg(state->dev, "arm: vchiq open\n");
+ 
+ 	if (!state) {
+ 		dev_err(state->dev, "arm: vchiq has no connection to VideoCore\n");
+@@ -1204,8 +1201,7 @@ static int vchiq_release(struct inode *inode, struct file *file)
+ 	int ret = 0;
+ 	int i;
+ 
+-	vchiq_log_debug(state->dev, VCHIQ_ARM, "%s: instance=%lx", __func__,
+-			(unsigned long)instance);
++	dev_dbg(state->dev, "arm: instance=%lx\n", (unsigned long)instance);
+ 
+ 	if (!state) {
+ 		ret = -EPERM;
 -- 
 2.41.0
 
