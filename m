@@ -1,178 +1,126 @@
-Return-Path: <linux-media+bounces-1686-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1687-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60C71805AF6
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 18:14:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A43AA805B39
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 18:37:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A70F281E55
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 17:14:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F2051F21568
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 17:37:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 373B5692AA;
-	Tue,  5 Dec 2023 17:14:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CA2668B76;
+	Tue,  5 Dec 2023 17:37:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="W868Khef"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TCv6P8tj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33D311B2;
-	Tue,  5 Dec 2023 09:14:21 -0800 (PST)
-Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-54c9116d05fso3910506a12.3;
-        Tue, 05 Dec 2023 09:14:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701796459; x=1702401259; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YRWCEbwpa+lEbKRH93JbcpIUltHp9P4l3x5jAvbRhYU=;
-        b=W868KhefZRQGzMB4CEBc+ttQr318fTUsmrPYsSqSzVLvpAVwYm5OdnlWzxrFMzSkTx
-         hzkK9G3s6pn1xCPPJW58frcLALCg/g9ygDnjmGmsId7aCOIX+NAIqIDMJUo0qmyPjple
-         ZCgzfuAGTnw8srZzI1DIpP0+OY58ThmvPPT3dz1IYE4bwe+JAhhSYAAiqOmqVDGemgJ1
-         g98gboarIPWvFwD6ua5XxxoL3RjpeGoLBdBMtJszBoDv9/2CPF5pQzdLWC8/p9MFvxmH
-         8aRYOhxhNNh+S9W72kvhRRQJC4/3Y8Ewjzyb4nuz+P19pZQeF4gwjzXvVj/juvqTo+wq
-         tTLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701796459; x=1702401259;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YRWCEbwpa+lEbKRH93JbcpIUltHp9P4l3x5jAvbRhYU=;
-        b=uH1ayPkwfT1jDp7ynylTpE/EHwWh6Ow/mGPFKEs3MFTwuS4Jjsj0V3cAljdthghEio
-         pcEYSSvHH4+vczYKDOVLN2OIRp1qjl+wqwMIvSkPAAilIaN4EpUgrXzTeIoHyXBaOIiP
-         trJrRco4xwvkjCgNYZ9pzj80wBAdIKpxHDdbCls9cPmrANVA6M0aIMavP8D4gox5+Xo8
-         7tl4ugn3FjyRINptA0jm2EXp5kbT6ZEW3jTwziXhR4gayQIQnVWFa9zpLjaUyJbw+gsr
-         Ou1J7EaxhcViS6jAymZpUIEWToPlwxmLLv8VcuQzCmvfkoDdgCITphFHn98/I37s2k8/
-         oqLA==
-X-Gm-Message-State: AOJu0YzY+wLSyyCKW7c2QFBnzg9GIEVAjaGwAGrHqRUpb53KW/e4gU1c
-	fxtrE/nZ4WtaQui3YI44WiBlUX87/VT+4VR5Hso=
-X-Google-Smtp-Source: AGHT+IHO2bnhMHc7TCbx5rnqpkgXvooRmLWUByXMa0WUN3FxPFT6t/93eaEMC2EdK3+y7PInpH1Btu/MUBEMFX9ncbg=
-X-Received: by 2002:a17:906:2091:b0:a1c:5fa9:5320 with SMTP id
- 17-20020a170906209100b00a1c5fa95320mr497872ejq.252.1701796459254; Tue, 05 Dec
- 2023 09:14:19 -0800 (PST)
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5560FCA;
+	Tue,  5 Dec 2023 09:36:56 -0800 (PST)
+Received: from [100.90.159.192] (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: bbeckett)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id B760866072A7;
+	Tue,  5 Dec 2023 17:36:54 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701797815;
+	bh=D+BnC18dTewKG1sYUbVzU1UQZRYC0I7GsxPXzOUgVz8=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=TCv6P8tjumaojN4l2jHlx/wDgUI1veQ5m1geiEqrwI4i4bUW39XwQAS9QWbVskzbK
+	 krpHBbvW5oiKHqYfWR1cVGzaUhRYKi4pZRx5wVMZZESyhBH5TV29i+y6D+ek7+9lJz
+	 pu78E++D7lfHnN6Tvd8TZI3nCpq/c/SXqNbBZ0mkxext2dvJOQpuTj+nUzWD1yMws5
+	 /YWD69LRDL2dnrAgZVvfAom89rc1Q/KfYRTiqJao4ewbvV4ARkfKMDId304oHf3rVV
+	 aDWTlrKUUytKiuZ0TsODB4bzHBGmehCJ+HpvVMRjMdyzhOOsiZFn+sv+izgXmWN+ao
+	 o4JZyqQowy+3A==
+Message-ID: <e891ae21-2b3a-4d99-9f5c-fb387438ffef@collabora.com>
+Date: Tue, 5 Dec 2023 17:36:43 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20230322224403.35742-1-robdclark@gmail.com> <b9fb81f1-ac9e-cf3f-5cf4-f2d972d3ed3d@amd.com>
- <CAF6AEGvMwZCLntfYeH3Vg_Z7kYynqdVrinp+pmcbREksK1WGMA@mail.gmail.com>
- <e2fa296b-9b71-a41b-d37d-33f0fac2cd4e@amd.com> <CAF6AEGvdVca_mnZVo9He9oKVfYp84e_kOPWaxX+K5aV4Es9kcQ@mail.gmail.com>
- <CAF6AEGt2D6Ei6OkUK5osz+jWzmkX8tmB1KGi305HaNd=bnQSoA@mail.gmail.com>
- <69d66b9e-5810-4844-a53f-08b7fd8eeccf@amd.com> <CAF6AEGuSexYVL2RF4yVCJptfJgN9vvTgzGWn3CminbsYvctTaw@mail.gmail.com>
- <96665cc5-01ab-4446-af37-e0f456bfe093@amd.com> <CAF6AEGtyUsARUTJb=+LwRQ96665tdcLLBxXH--18FDECuYOP6Q@mail.gmail.com>
-In-Reply-To: <CAF6AEGtyUsARUTJb=+LwRQ96665tdcLLBxXH--18FDECuYOP6Q@mail.gmail.com>
-From: Rob Clark <robdclark@gmail.com>
-Date: Tue, 5 Dec 2023 09:14:07 -0800
-Message-ID: <CAF6AEGs5uh1sRDzz7xeDr5xZrXdtg7eoWJhPhRgqhcqAeTX1Jg@mail.gmail.com>
-Subject: Re: [RFC] drm/scheduler: Unwrap job dependencies
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>, 
-	Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>, 
-	"moderated list:DMA BUFFER SHARING FRAMEWORK" <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+From: Robert Beckett <bob.beckett@collabora.com>
+Subject: Re: [PATCH] Fix memory leaks in wave5_vpu_open_enc() and
+ wave5_vpu_open_dec()
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Zeng Chi <zengchi@kylinos.cn>, nas.chung@chipsnmedia.com,
+ jackson.lee@chipsnmedia.com, mchehab@kernel.org,
+ sebastian.fricke@collabora.com, hverkuil-cisco@xs4all.nl
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231204091649.3418987-1-zengchi@kylinos.cn>
+ <a4c47b282d9e3bc5c2891ac1b9cafb9c9970975c.camel@collabora.com>
+Content-Language: en-US
+In-Reply-To: <a4c47b282d9e3bc5c2891ac1b9cafb9c9970975c.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 5, 2023 at 8:56=E2=80=AFAM Rob Clark <robdclark@gmail.com> wrot=
-e:
->
-> On Tue, Dec 5, 2023 at 7:58=E2=80=AFAM Christian K=C3=B6nig <christian.ko=
-enig@amd.com> wrote:
-> >
-> > Am 05.12.23 um 16:41 schrieb Rob Clark:
-> > > On Mon, Dec 4, 2023 at 10:46=E2=80=AFPM Christian K=C3=B6nig
-> > > <christian.koenig@amd.com> wrote:
-> > >> Am 04.12.23 um 22:54 schrieb Rob Clark:
-> > >>> On Thu, Mar 23, 2023 at 2:30=E2=80=AFPM Rob Clark <robdclark@gmail.=
-com> wrote:
-> > >>>> [SNIP]
-> > >>> So, this patch turns out to blow up spectacularly with dma_fence
-> > >>> refcnt underflows when I enable DRIVER_SYNCOBJ_TIMELINE .. I think,
-> > >>> because it starts unwrapping fence chains, possibly in parallel wit=
-h
-> > >>> fence signaling on the retire path.  Is it supposed to be permissib=
-le
-> > >>> to unwrap a fence chain concurrently?
-> > >> The DMA-fence chain object and helper functions were designed so tha=
-t
-> > >> concurrent accesses to all elements are always possible.
-> > >>
-> > >> See dma_fence_chain_walk() and dma_fence_chain_get_prev() for exampl=
-e.
-> > >> dma_fence_chain_walk() starts with a reference to the current fence =
-(the
-> > >> anchor of the walk) and tries to grab an up to date reference on the
-> > >> previous fence in the chain. Only after that reference is successful=
-ly
-> > >> acquired we drop the reference to the anchor where we started.
-> > >>
-> > >> Same for dma_fence_array_first(), dma_fence_array_next(). Here we ho=
-ld a
-> > >> reference to the array which in turn holds references to each fence
-> > >> inside the array until it is destroyed itself.
-> > >>
-> > >> When this blows up we have somehow mixed up the references somewhere=
-.
-> > > That's what it looked like to me, but wanted to make sure I wasn't
-> > > overlooking something subtle.  And in this case, the fence actually
-> > > should be the syncobj timeline point fence, not the fence chain.
-> > > Virtgpu has essentially the same logic (there we really do want to
-> > > unwrap fences so we can pass host fences back to host rather than
-> > > waiting in guest), I'm not sure if it would blow up in the same way.
-> >
-> > Well do you have a backtrace of what exactly happens?
-> >
-> > Maybe we have some _put() before _get() or something like this.
->
-> I hacked up something to store the backtrace in dma_fence_release()
-> (and leak the block so the backtrace would still be around later when
-> dma_fence_get/put was later called) and ended up with:
->
-> [  152.811360] freed at:
-> [  152.813718]  dma_fence_release+0x30/0x134
-> [  152.817865]  dma_fence_put+0x38/0x98 [gpu_sched]
-> [  152.822657]  drm_sched_job_add_dependency+0x160/0x18c [gpu_sched]
-> [  152.828948]  drm_sched_job_add_syncobj_dependency+0x58/0x88 [gpu_sched=
-]
-> [  152.835770]  msm_ioctl_gem_submit+0x580/0x1160 [msm]
-> [  152.841070]  drm_ioctl_kernel+0xec/0x16c
-> [  152.845132]  drm_ioctl+0x2e8/0x3f4
-> [  152.848646]  vfs_ioctl+0x30/0x50
-> [  152.851982]  __arm64_sys_ioctl+0x80/0xb4
-> [  152.856039]  invoke_syscall+0x8c/0x120
-> [  152.859919]  el0_svc_common.constprop.0+0xc0/0xdc
-> [  152.864777]  do_el0_svc+0x24/0x30
-> [  152.868207]  el0_svc+0x8c/0xd8
-> [  152.871365]  el0t_64_sync_handler+0x84/0x12c
-> [  152.875771]  el0t_64_sync+0x190/0x194
->
-> I suppose that doesn't guarantee that this was the problematic put.
-> But dropping this patch to unwrap the fence makes the problem go
-> away..
 
-Oh, hmm, _add_dependency() is consuming the fence reference
-
-BR,
--R
-
-> BR,
-> -R
+On 04/12/2023 13:55, Nicolas Dufresne wrote:
+> Hi,
 >
-> > Thanks,
-> > Christian.
-> >
-> > >
-> > > BR,
-> > > -R
-> > >
-> > >> Regards,
-> > >> Christian.
-> > >>
-> > >>> BR,
-> > >>> -R
-> >
+> Le lundi 04 décembre 2023 à 17:16 +0800, Zeng Chi a écrit :
+>> This patch fixes memory leaks on error escapes in wave5_vpu_open_enc()
+>> and wave5_vpu_open_dec().
+> Please avoid sending twice the same patch. This is still a NAK.
+
+tbf, this is a different patch, concerning the allocation of the 
+codec_info within inst, not inst itself.
+
+> regards,
+> Nicolas
+>
+>> Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
+>> Signed-off-by: Zeng Chi<zengchi@kylinos.cn>
+>> ---
+>>   drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 5 +++--
+>>   drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 5 +++--
+>>   2 files changed, 6 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+>> index 8b1417ece96e..b0a045346bb7 100644
+>> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+>> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+>> @@ -1802,9 +1802,10 @@ static int wave5_vpu_open_dec(struct file *filp)
+>>   	spin_lock_init(&inst->state_spinlock);
+>>   
+>>   	inst->codec_info = kzalloc(sizeof(*inst->codec_info), GFP_KERNEL);
+>> -	if (!inst->codec_info)
+>> +	if (!inst->codec_info) {
+>> +		kfree(inst);
+
+for consistency, would be better to jump to cleanup_inst.
+
+Also, maybe consider embedding codec_info  in to struct vpu_instance to 
+avoid the double alloc. I've not checked whether this is viable 
+throughout the code, but from a quick scan of the original patch, it 
+looks like it is always allocated and freed alongside inst.
+
+>>   		return -ENOMEM;
+>> -
+>> +	}
+>>   	v4l2_fh_init(&inst->v4l2_fh, vdev);
+>>   	filp->private_data = &inst->v4l2_fh;
+>>   	v4l2_fh_add(&inst->v4l2_fh);
+>> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+>> index f29cfa3af94a..bc94de9ea546 100644
+>> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+>> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+>> @@ -1546,9 +1546,10 @@ static int wave5_vpu_open_enc(struct file *filp)
+>>   	inst->ops = &wave5_vpu_enc_inst_ops;
+>>   
+>>   	inst->codec_info = kzalloc(sizeof(*inst->codec_info), GFP_KERNEL);
+>> -	if (!inst->codec_info)
+>> +	if (!inst->codec_info) {
+>> +		kfree(inst);
+>>   		return -ENOMEM;
+>> -
+>> +	}
+>>   	v4l2_fh_init(&inst->v4l2_fh, vdev);
+>>   	filp->private_data = &inst->v4l2_fh;
+>>   	v4l2_fh_add(&inst->v4l2_fh);
 
