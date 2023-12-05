@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-1692-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1693-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE0D805EA8
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 20:33:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 29306805EB1
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 20:38:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 19607281FB5
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 19:33:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A9161F21656
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 19:38:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 662346A336;
-	Tue,  5 Dec 2023 19:33:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88CEF6AB94;
+	Tue,  5 Dec 2023 19:38:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="stGJzJdn"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="ndjYTD/r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85D0DA5
-	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 11:33:05 -0800 (PST)
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EE9EE135
+	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 11:38:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1701804765; x=1702409565; i=wahrenst@gmx.net;
-	bh=tzVTlWqho8OD/yE09J1CnFYsUEzmFcW5qDtwDxAyp0g=;
+	s=s31663417; t=1701805059; x=1702409859; i=wahrenst@gmx.net;
+	bh=uSqNzqEiDjK4KC1PHbda+YgTmvfPz7wepmRB/7L6lkY=;
 	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
 	 In-Reply-To;
-	b=stGJzJdnJ8kw1uJLblAy9xhTwBol55TRjmS/tfw3Kj5FkWIY4QLGtE4VU1EgpNE4
-	 m9OD9PLPHyqZfjNXaOnTkaEkz394H+6/ycqZ1oYDNHKAk6nI1ZPEapy+x8rDnxmI0
-	 medt4rBPWSHvFnzNTGKOExmpNkvAWLld+lGmuJpLAZegnZyoUnBZhhSUgX9VzTrlv
-	 OulGiXJek68Wkx6nSXczzVpuJBFCipE7nKo7qyZKCNwagbdELXCwQA05+OYlz69Wr
-	 1sxHroMTfGzEqJZeGt3ObVz34iQD+IdqN7hs0HeyZ5UJQan8z0hG8sS+hjNJuMedy
-	 u6+pj5WIC0PVoqYZTQ==
+	b=ndjYTD/r7unWH5w/zObwe1/KXMiDR5c7dvYlEF7lElMmACIwGnjjbMaUQs49XOgg
+	 Vjb0xSBAtD6brKExKwW2Z64q/imwI4JXNyk6Hsqg8g919FYbgt5FX+G/gRDMEJ9Ot
+	 /4P6INx//1Vlv1WMASPCjjoV+iRhvavTS75QQfdNoPDwONLL1mM7bxGJN0TMUTajK
+	 rJ/rcckY3zMLJGihwetOMIU2uSwF5dVE4MIu8/sRLp5SVWgj1HXIqjA0ZKeoI2O2X
+	 EgwivJrFJgRplw4+CBb424iOGI3LD4IgoSzn1b/gFhRnH2nyHnMCSrqeQaTGJl+vh
+	 nLDFP+YiHuAswu7FfQ==
 X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx104
- [212.227.17.168]) with ESMTPSA (Nemesis) id 1MzQgC-1rWeDN1rX6-00vQm4; Tue, 05
- Dec 2023 20:32:45 +0100
-Message-ID: <d6bf7115-dd15-43a0-b45a-41fc778ff160@gmx.net>
-Date: Tue, 5 Dec 2023 20:32:44 +0100
+Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1ML9yc-1qsNtZ2amY-00I9u6; Tue, 05
+ Dec 2023 20:37:39 +0100
+Message-ID: <cd08e69d-a54e-411d-bee9-5c827ed257ba@gmx.net>
+Date: Tue, 5 Dec 2023 20:37:38 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -42,8 +42,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] staging: vc04_services: Drop vchiq_log_error() in
- favour of dev_err
+Subject: Re: [PATCH v3 2/4] staging: vc04_services: Drop vchiq_log_warning()
+ in favour of dev_warn
 Content-Language: en-US
 To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
  linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
@@ -54,534 +54,195 @@ Cc: Stefan Wahren <stefan.wahren@i2se.com>,
  Kieran Bingham <kieran.bingham@ideasonboard.com>,
  "Ricardo B . Marliere" <ricardo@marliere.net>
 References: <20231205084157.73819-1-umang.jain@ideasonboard.com>
- <20231205084157.73819-2-umang.jain@ideasonboard.com>
+ <20231205084157.73819-3-umang.jain@ideasonboard.com>
 From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <20231205084157.73819-2-umang.jain@ideasonboard.com>
+In-Reply-To: <20231205084157.73819-3-umang.jain@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:MDAKMaw3TTndClCtE11Tc8MaCHj0bCG+fJpa+ULwLPg7TaILwt/
- 2L1iRpqj/Grk7c4lJVA5glWbFczS4PmAFxRuuM0CPiL3LWtFj1Noeb39dR6ZH4R3edxLmRW
- 3S3A2apg/BDUYZyVvOhZgHd0foI8E9dcjJzGyUOoxadWK3ER0tuNtBZ3Cu/r0n1WDq90IW9
- PI5JNNd2QE5zez3BAeYCQ==
-UI-OutboundReport: notjunk:1;M01:P0:PnESvkf7zTw=;CJSASxsLBbrs9BOEcaJwyQqxmFE
- IMfMgJ+H5cAZC/c0ryyXmi53U/SdgggrdkXL/F13IzxrIUEgCoAkKUFCZiTIfjdFgVvWXajI9
- Z3XAA/iMXYNUA8SGregB2WZnsz55bblnusvkK2+M0gLpjHD4Iy1IMbMyeu/47fw37Y2ZfnzLV
- HgISTefEnY2zmGtufaE9e5sUZfSEBK05UdCe05I2EAHy6AnSBacSg2QMrAk8v3L3aytRIzayc
- WmZM7zVZQ31Xukq/VzVPhMNuycOuoo/A2JtDPZqhHnUpOjSlivH9l9TiOw3qaFKUvBHL4o4qP
- GFXzQ6nfUTVOtNQuPviirBxLIXKfOGuO3R5FC9FNKh4yCk8FnFTwg3R1bWHFdLu9woiI1RzAD
- w/TYYqSGAuUdXFDdSrbWligduqQg6xDndtNALjWckALc9foU7oXEwwyHkv3h9a2Z6sTC2bHVm
- AHoGMF/oeCGUu/ZUACXZRw+pYWviqRR9EOYa01IEJRaEy/y3tXc8zZtYg2QEnM2OldlLj55nO
- 5l+IlTJcKeAKv5UICvqNdUwkxLPbDKvmbWvM/RErV5cVzmIlhzKC5QygsctKIq6Zx5DauUwO6
- hSz3585fE8sEUTUAT1gX1Flldb+jRBSIpJXwycCmJue8YfZBiLpESkDnxUTK5KS8uVU8Ag3j6
- o+k3NCNZXvDxMH8XJNNxALSPiZC5z3G2XNEMQo2gLOEeF8gAqPbBurSdPh2AmBCGmD+wtnK+O
- 1Gi+MCUo5rhcykqdIBuExTxZP1DVly3rWojRcdfmX94u7MliS/FPTjIpLPRXe7PNAhK8DubYT
- U/crTP7RUKqehM41ImNBvE4UfeSeSyeXLQRTBuRN8R9iaCVeRtTPXJCNU2a+0gb4WCLIi6/7D
- 8QiCP6hRN5JakdCJ6EXKpBuQEidg28mUr36qHCqrKezpmAG46qnFRrmO0WXyHTm4+w1Rqz0Kk
- 5urZs9KWjcKxbON88ZuMMKjSXtY=
+X-Provags-ID: V03:K1:gpb9oVl3QS8X1cnhoRMvZxP/epKwCnYcJEeylAG6jXTg+s66gTc
+ plf98QlCHpkA+Yic3JpWWYyDeXWSO7EWuZhH7YHt44hDZsBI2Svqb5peAURM1Egi1V/oBxC
+ RwGShiJ68mnADU/gexeyXZ+dGMyw64+RU3GywDm4LrorX/lPMyNdxq9mvZdCKa0fYnilrHG
+ UnR3ZfKLkjzLi9TEzbreg==
+UI-OutboundReport: notjunk:1;M01:P0:k+gnkTss+IQ=;x3xCfXDEv+iL4e3L/BHSQxTB5Q1
+ nR49cq6S4hozUuD9e20qbjGn0pY2StCSIE5NCDPVo6zPK1ifwnaMRfMfSmi4Ngd4AJO7COoN6
+ 89SCj7jNnnnGBdrrSrK0KoY6uwMe71EZtIamrQeFrz9dkLGVTWUucO27LSZkXyVmRMgBjtkpH
+ avrd8ZtWj1dG/ALgmDauF3iOD06jN0W7UllkpRYPv5X+iIzWteMEk2LXbD3cz4aja0vwqPnlS
+ X0zuSknG4TAs9B2jKg3azkvcOFgymg+vYEjj55HyaSAvWf0lSykS+qHGzM7pRdfo1HdkWlk9W
+ x7OdcywC+b+2ryxhQyjS6upZms+oFlcNw+jaN5a7cRh04RNgNke0fC6k4xCxeq/fBn6hJo4a+
+ DWB0P8GhfoihoiBhQ7z5S5egiiVD3til+pXwitE0rI1N6XWtjxATMyQnidb2qb55dG/BCfIhz
+ l5cWGJ/r/oSTCPqd7Y/z0A5LaFBdj/K7oLmGjTUfy2aRMPJwl6Lq63pMnNolRYeHcCoQWXWJM
+ G+6ToSriSO+5RY91tAqlNXhHOcj+5hiR8K2Dmx0nx8OROrbpUhBObzeotiJqP+/m6NiOMSwqM
+ 4997VWyXuZC9gnC5nlRvsHAuHQax0zB1uZvrEYuXT9204Klkc+1ZDHkoJSA/X0PTvhmYvulUz
+ +PzwowGmiE4o139d3YUvxkvW/XyFe746IBQ5Qaxq/h0acRJEYWqeBNTy7o84GxOT6txRWy83q
+ nhbg9yOyW8/7sGHfDeyXY5iLhvpgQioGJKrzuAtJxmMrC5Jp14ve/AU82cKxsiVUyXlnMbdzv
+ mS/Uzo1s9BwdF1j/BMw2+VKMc5UJog1JD1iw+yh4ctSt7prRGUZbV5ZbE96shFd8gYlQEWClA
+ TLF7EJQxHG708f1shNh27n53YCR0jMTTpRy7bFtXuSVuUTU+umOSpq1IS81qCcJEu6tRVSH4u
+ hxehsD33HgUIkCfF0oOCdD8dEfQ=
 
 Hi Umang,
 
 Am 05.12.23 um 09:41 schrieb Umang Jain:
-> Drop vchiq_log_error() macro which wraps dev_dbg(). Introduce the usage
-> of dev_err() directly.
-sorry, i missed to review the last change. So the change won't be that
-trivial.
+> Drop vchiq_log_warning() macro which wraps dev_dbg(). Introduce the usag=
+e
+> of dev_warn() directly.
 >
 > Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
 > ---
->   .../interface/vchiq_arm/vchiq_arm.c           |  50 ++++----
->   .../interface/vchiq_arm/vchiq_connected.c     |   6 +-
->   .../interface/vchiq_arm/vchiq_core.c          | 113 +++++++++---------
->   .../interface/vchiq_arm/vchiq_core.h          |   4 -
->   .../interface/vchiq_arm/vchiq_dev.c           |  45 ++++---
->   5 files changed, 101 insertions(+), 117 deletions(-)
+>   .../interface/vchiq_arm/vchiq_arm.c           | 30 +++++++++----------
+>   .../interface/vchiq_arm/vchiq_core.c          | 30 +++++++++----------
+>   .../interface/vchiq_arm/vchiq_core.h          |  4 ---
+>   3 files changed, 29 insertions(+), 35 deletions(-)
 >
 > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm=
 .c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> index 7978fb6dc4fb..b403400edd8e 100644
+> index b403400edd8e..56326b59a718 100644
 > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
 > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
-> @@ -683,8 +683,7 @@ int vchiq_initialise(struct vchiq_instance **instanc=
+> @@ -687,8 +687,8 @@ int vchiq_initialise(struct vchiq_instance **instanc=
 e_out)
->   		usleep_range(500, 600);
->   	}
->   	if (i =3D=3D VCHIQ_INIT_RETRIES) {
-> -		vchiq_log_error(state->dev, VCHIQ_CORE, "%s: videocore not initialize=
-d\n",
-> -				__func__);
-> +		dev_err(state->dev, "core: %s: Videocore not initialized\n", __func__=
-);
 >   		ret =3D -ENOTCONN;
 >   		goto failed;
 >   	} else if (i > 0) {
-> @@ -694,8 +693,7 @@ int vchiq_initialise(struct vchiq_instance **instanc=
-e_out)
+> -		vchiq_log_warning(state->dev, VCHIQ_CORE,
+> -				  "%s: videocore initialized after %d retries\n", __func__, i);
+> +		dev_warn(state->dev, "core: %s: videocore initialized after %d retrie=
+s\n",
+> +			 __func__, i);
+>   	}
 >
 >   	instance =3D kzalloc(sizeof(*instance), GFP_KERNEL);
->   	if (!instance) {
-> -		vchiq_log_error(state->dev, VCHIQ_CORE,
-> -				"%s: error allocating vchiq instance\n", __func__);
-> +		dev_err(state->dev, "core: %s: Cannot allocate vchiq instance\n", __f=
-unc__);
-please drop because kzalloc already report such errors
->   		ret =3D -ENOMEM;
->   		goto failed;
->   	}
-> @@ -967,8 +965,7 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *=
-instance, unsigned int handl
->   	} else {
->   		waiter =3D kzalloc(sizeof(*waiter), GFP_KERNEL);
->   		if (!waiter) {
-> -			vchiq_log_error(service->state->dev, VCHIQ_CORE,
-> -					"%s - out of memory", __func__);
-> +			dev_err(service->state->dev, "core: %s: - Out of memory\n", __func__=
-);
-ditto
->   			return -ENOMEM;
->   		}
->   	}
-> @@ -1290,8 +1287,8 @@ vchiq_keepalive_vchiq_callback(struct vchiq_instan=
-ce *instance,
->   			       struct vchiq_header *header,
->   			       unsigned int service_user, void *bulk_user)
->   {
-> -	vchiq_log_error(instance->state->dev, VCHIQ_SUSPEND,
-> -			"%s callback reason %d", __func__, reason);
-> +	dev_err(instance->state->dev, "suspend: %s: callback reason %d\n",
-> +		__func__, reason);
->   	return 0;
->   }
->
-> @@ -1315,22 +1312,20 @@ vchiq_keepalive_thread_func(void *v)
->
->   	ret =3D vchiq_initialise(&instance);
->   	if (ret) {
-> -		vchiq_log_error(state->dev, VCHIQ_SUSPEND,
-> -				"%s vchiq_initialise failed %d", __func__, ret);
-> +		dev_err(state->dev, "suspend: %s: vchiq_initialise failed %d\n", __fu=
-nc__, ret);
->   		goto exit;
->   	}
->
->   	status =3D vchiq_connect(instance);
->   	if (status) {
-> -		vchiq_log_error(state->dev, VCHIQ_SUSPEND,
-> -				"%s vchiq_connect failed %d", __func__, status);
-> +		dev_err(state->dev, "suspend: %s: vchiq_connect failed %d\n", __func_=
-_, status);
->   		goto shutdown;
->   	}
->
->   	status =3D vchiq_add_service(instance, &params, &ka_handle);
->   	if (status) {
-> -		vchiq_log_error(state->dev, VCHIQ_SUSPEND,
-> -				"%s vchiq_open_service failed %d", __func__, status);
-> +		dev_err(state->dev, "suspend: %s: vchiq_open_service failed %d\n",
-> +			__func__, status);
->   		goto shutdown;
->   	}
->
-> @@ -1338,8 +1333,7 @@ vchiq_keepalive_thread_func(void *v)
->   		long rc =3D 0, uc =3D 0;
->
->   		if (wait_for_completion_interruptible(&arm_state->ka_evt)) {
-> -			vchiq_log_error(state->dev, VCHIQ_SUSPEND,
-> -					"%s interrupted", __func__);
-> +			dev_err(state->dev, "suspend: %s: interrupted\n", __func__);
-I think this isn't an error and we should use dev_dbg here.
->   			flush_signals(current);
->   			continue;
->   		}
-> @@ -1359,16 +1353,15 @@ vchiq_keepalive_thread_func(void *v)
->   			atomic_inc(&arm_state->ka_use_ack_count);
->   			status =3D vchiq_use_service(instance, ka_handle);
->   			if (status) {
-> -				vchiq_log_error(state->dev, VCHIQ_SUSPEND,
-> -						"%s vchiq_use_service error %d", __func__, status);
-> +				dev_err(state->dev, "suspend: %s: vchiq_use_service error %d\n",
-> +					__func__, status);
->   			}
->   		}
->   		while (rc--) {
->   			status =3D vchiq_release_service(instance, ka_handle);
->   			if (status) {
-> -				vchiq_log_error(state->dev, VCHIQ_SUSPEND,
-> -						"%s vchiq_release_service error %d", __func__,
-> -						status);
-> +				dev_err(state->dev, "suspend: %s: vchiq_release_service error %d\n"=
-,
-> +					__func__, status);
->   			}
->   		}
->   	}
-> @@ -1403,7 +1396,7 @@ vchiq_use_internal(struct vchiq_state *state, stru=
-ct vchiq_service *service,
->   			 service->client_id);
->   		entity_uc =3D &service->service_use_count;
->   	} else {
-> -		vchiq_log_error(state->dev, VCHIQ_SUSPEND, "%s null service ptr", __f=
-unc__);
-> +		dev_err(state->dev, "suspend: %s: null service ptr\n", __func__);
-Instead of dev_err() i would suggest a WARN() here
->   		ret =3D -EINVAL;
->   		goto out;
->   	}
-> @@ -1686,10 +1679,10 @@ vchiq_check_service(struct vchiq_service *servic=
-e)
+> @@ -1644,20 +1644,19 @@ vchiq_dump_service_use_state(struct vchiq_state =
+*state)
 >   	read_unlock_bh(&arm_state->susp_res_lock);
 >
->   	if (ret) {
-> -		vchiq_log_error(service->state->dev, VCHIQ_SUSPEND,
-> -				"%s ERROR - %p4cc:%d service count %d, state count %d", __func__,
-> -				&service->base.fourcc, service->client_id,
-> -				service->service_use_count, arm_state->videocore_use_count);
-> +		dev_err(service->state->dev,
-> +			"suspend: %s:  %p4cc:%d service count %d, state count %d\n",
-> +			__func__, &service->base.fourcc, service->client_id,
-> +			service->service_use_count, arm_state->videocore_use_count);
->   		vchiq_dump_service_use_state(service->state);
+>   	if (only_nonzero)
+> -		vchiq_log_warning(state->dev, VCHIQ_SUSPEND,
+> -				  "Too many active services (%d). Only dumping up to first %d servi=
+ces with non-zero use-count",
+> -				  active_services, found);
+> +		dev_warn(state->dev,
+> +			 "suspend: Too many active services (%d). Only dumping up to first %=
+d services with non-zero use-count\n",
+> +			 active_services, found);
+>
+>   	for (i =3D 0; i < found; i++) {
+> -		vchiq_log_warning(state->dev, VCHIQ_SUSPEND,
+> -				  "%p4cc:%d service count %d %s",
+> -				  &service_data[i].fourcc,
+> -				  service_data[i].clientid, service_data[i].use_count,
+> -				  service_data[i].use_count ? nz : "");
+> +		dev_warn(state->dev,
+> +			 "suspend: %p4cc:%d service count %d %s\n",
+> +			 &service_data[i].fourcc,
+> +			 service_data[i].clientid, service_data[i].use_count,
+> +			 service_data[i].use_count ? nz : "");
 >   	}
->   out:
-> @@ -1722,9 +1715,8 @@ void vchiq_platform_conn_state_changed(struct vchi=
-q_state *state,
->   					      (void *)state,
->   					      threadname);
->   	if (IS_ERR(arm_state->ka_thread)) {
-> -		vchiq_log_error(state->dev, VCHIQ_SUSPEND,
-> -				"vchiq: FATAL: couldn't create thread %s",
-> -				threadname);
-> +		dev_err(state->dev, "suspend: Couldn't create thread %s\n",
-> +			threadname);
->   	} else {
->   		wake_up_process(arm_state->ka_thread);
+> -	vchiq_log_warning(state->dev, VCHIQ_SUSPEND, "VCHIQ use count %d", pee=
+r_count);
+> -	vchiq_log_warning(state->dev, VCHIQ_SUSPEND, "Overall vchiq instance u=
+se count %d",
+> -			  vc_use_count);
+> +	dev_warn(state->dev, "suspend: VCHIQ use count %d\n", peer_count);
+> +	dev_warn(state->dev, "suspend: Overall vchiq instance use count %d\n",=
+ vc_use_count);
+>
+>   	kfree(service_data);
+>   }
+> @@ -1771,8 +1770,7 @@ static int vchiq_probe(struct platform_device *pde=
+v)
+>   	 */
+>   	err =3D vchiq_register_chrdev(&pdev->dev);
+>   	if (err) {
+> -		vchiq_log_warning(&pdev->dev, VCHIQ_ARM,
+> -				  "Failed to initialize vchiq cdev");
+> +		dev_warn(&pdev->dev, "arm: Failed to initialize vchiq cdev\n");
+I think a dev_err() would fit better here.
+>   		goto error_exit;
 >   	}
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_con=
-nected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connect=
-ed.c
-> index 21f9fa1a1713..3cad13f09e37 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.=
-c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.=
-c
-> @@ -39,9 +39,9 @@ void vchiq_add_connected_callback(struct vchiq_device =
-*device, void (*callback)(
->   		callback();
->   	} else {
->   		if (g_num_deferred_callbacks >=3D MAX_CALLBACKS) {
-> -			vchiq_log_error(&device->dev, VCHIQ_CORE,
-> -					"There already %d callback registered - please increase MAX_CALLBA=
-CKS",
-> -					g_num_deferred_callbacks);
-> +			dev_err(&device->dev,
-> +				"core: There already %d callback registered - please increase MAX_C=
-ALLBACKS\n",
-> +				g_num_deferred_callbacks);
->   		} else {
->   			g_deferred_callback[g_num_deferred_callbacks] =3D
->   				callback;
+>
+> @@ -1782,7 +1780,7 @@ static int vchiq_probe(struct platform_device *pde=
+v)
+>   	return 0;
+>
+>   failed_platform_init:
+> -	vchiq_log_warning(&pdev->dev, VCHIQ_ARM, "could not initialize vchiq p=
+latform");
+> +	dev_warn(&pdev->dev, "arm: Could not initialize vchiq platform\n");
+ditto
+>   error_exit:
+>   	return err;
+>   }
 > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_cor=
 e.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> index e0022acb4c58..63f412815a32 100644
+> index 63f412815a32..2fd793954001 100644
 > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
 > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
-> @@ -741,10 +741,10 @@ process_free_data_message(struct vchiq_state *stat=
-e, u32 *service_found,
->   		 */
->   		complete(&quota->quota_event);
->   	} else if (count =3D=3D 0) {
-> -		vchiq_log_error(state->dev, VCHIQ_CORE,
-> -				"service %d message_use_count=3D%d (header %pK, msgid %x, header->m=
-sgid %x, header->size %x)",
-> -				port, quota->message_use_count, header, msgid, header->msgid,
-> -				header->size);
-> +		dev_err(state->dev,
-> +			"core: service %d message_use_count=3D%d (header %pK, msgid %x, head=
-er->msgid %x, header->size %x)\n",
-> +			port, quota->message_use_count, header, msgid,
-> +			header->msgid, header->size);
->   		WARN(1, "invalid message use count\n");
->   	}
->   	if (!BITSET_IS_SET(service_found, port)) {
-> @@ -766,9 +766,9 @@ process_free_data_message(struct vchiq_state *state,=
- u32 *service_found,
->   			vchiq_log_trace(state->dev, VCHIQ_CORE, "%d: pfq:%d %x@%pK - slot_u=
-se->%d",
->   					state->id, port, header->size, header, count - 1);
->   		} else {
-> -			vchiq_log_error(state->dev, VCHIQ_CORE,
-> -					"service %d slot_use_count=3D%d (header %pK, msgid %x, header->msg=
-id %x, header->size %x)",
-> -					port, count, header, msgid, header->msgid, header->size);
-> +			dev_err(state->dev,
-> +				"core: service %d slot_use_count=3D%d (header %pK, msgid %x, header=
-->msgid %x, header->size %x)\n",
-> +				port, count, header, msgid, header->msgid, header->size);
->   			WARN(1, "bad slot use count\n");
->   		}
->   	}
-> @@ -831,9 +831,9 @@ process_free_queue(struct vchiq_state *state, u32 *s=
-ervice_found,
->
->   			pos +=3D calc_stride(header->size);
->   			if (pos > VCHIQ_SLOT_SIZE) {
-> -				vchiq_log_error(state->dev, VCHIQ_CORE,
-> -						"pfq - pos %x: header %pK, msgid %x, header->msgid %x, header->si=
-ze %x",
-> -						pos, header, msgid, header->msgid, header->size);
-> +				dev_err(state->dev,
-> +					"core: pfq - pos %x: header %pK, msgid %x, header->msgid %x, heade=
-r->size %x\n",
-> +					pos, header, msgid, header->msgid, header->size);
->   				WARN(1, "invalid slot position\n");
->   			}
->   		}
-> @@ -1167,8 +1167,8 @@ queue_message_sync(struct vchiq_state *state, stru=
-ct vchiq_service *service,
->   		int oldmsgid =3D header->msgid;
->
->   		if (oldmsgid !=3D VCHIQ_MSGID_PADDING)
-> -			vchiq_log_error(state->dev, VCHIQ_CORE, "%d: qms - msgid %x, not PAD=
-DING",
-> -					state->id, oldmsgid);
-> +			dev_err(state->dev, "core: %d: qms - msgid %x, not PADDING\n",
-> +				state->id, oldmsgid);
+> @@ -465,9 +465,9 @@ make_service_callback(struct vchiq_service *service,=
+ enum vchiq_reason reason,
+>   	status =3D service->base.callback(service->instance, reason, header, =
+service->handle,
+>   					bulk_userdata);
+>   	if (status && (status !=3D -EAGAIN)) {
+> -		vchiq_log_warning(service->state->dev, VCHIQ_CORE,
+> -				  "%d: ignoring ERROR from callback to service %x",
+> -				  service->state->id, service->handle);
+> +		dev_warn(service->state->dev,
+> +			 "core: %d: ignoring ERROR from callback to service %x\n",
+> +			 service->state->id, service->handle);
+>   		status =3D 0;
 >   	}
 >
->   	vchiq_log_debug(state->dev, VCHIQ_SYNC,
-> @@ -1616,10 +1616,10 @@ parse_message(struct vchiq_state *state, struct =
+> @@ -1609,10 +1609,10 @@ parse_message(struct vchiq_state *state, struct =
 vchiq_header *header)
+>   				vchiq_service_put(service);
+>   			service =3D get_connected_service(state, remoteport);
+>   			if (service)
+> -				vchiq_log_warning(state->dev, VCHIQ_CORE,
+> -						  "%d: prs %s@%pK (%d->%d) - found connected service %d",
+> -						  state->id, msg_type_str(type), header,
+> -						  remoteport, localport, service->localport);
+> +				dev_warn(state->dev,
+> +					 "core: %d: prs %s@%pK (%d->%d) - found connected service %d\n",
+> +					 state->id, msg_type_str(type), header,
+> +					 remoteport, localport, service->localport);
 >   		}
 >
 >   		if (!service) {
-> -			vchiq_log_error(state->dev, VCHIQ_CORE,
-> -					"%d: prs %s@%pK (%d->%d) - invalid/closed service %d",
-> -					state->id, msg_type_str(type), header, remoteport,
-> -					localport, localport);
-> +			dev_err(state->dev,
-> +				"core: %d: prs %s@%pK (%d->%d) - invalid/closed service %d\n",
-> +				state->id, msg_type_str(type), header, remoteport,
-> +				localport, localport);
->   			goto skip_message;
->   		}
->   		break;
-> @@ -1640,9 +1640,8 @@ parse_message(struct vchiq_state *state, struct vc=
-hiq_header *header)
->
->   	if (((unsigned long)header & VCHIQ_SLOT_MASK) +
->   	    calc_stride(size) > VCHIQ_SLOT_SIZE) {
-> -		vchiq_log_error(state->dev, VCHIQ_CORE,
-> -				"header %pK (msgid %x) - size %x too big for slot",
-> -				header, (unsigned int)msgid, (unsigned int)size);
-> +		dev_err(state->dev, "core: header %pK (msgid %x) - size %x too big fo=
-r slot\n",
-> +			header, (unsigned int)msgid, (unsigned int)size);
->   		WARN(1, "oversized for slot\n");
->   	}
->
-> @@ -1668,8 +1667,8 @@ parse_message(struct vchiq_state *state, struct vc=
-hiq_header *header)
->   			set_service_state(service, VCHIQ_SRVSTATE_OPEN);
->   			complete(&service->remove_event);
->   		} else {
-> -			vchiq_log_error(state->dev, VCHIQ_CORE, "OPENACK received in state %=
-s",
-> -					srvstate_names[service->srvstate]);
-> +			dev_err(state->dev, "core: OPENACK received in state %s\n",
-> +				srvstate_names[service->srvstate]);
->   		}
->   		break;
->   	case VCHIQ_MSG_CLOSE:
-> @@ -1740,11 +1739,10 @@ parse_message(struct vchiq_state *state, struct =
-vchiq_header *header)
->   			}
->   			if ((int)(queue->remote_insert -
->   				queue->local_insert) >=3D 0) {
-> -				vchiq_log_error(state->dev, VCHIQ_CORE,
-> -						"%d: prs %s@%pK (%d->%d) unexpected (ri=3D%d,li=3D%d)",
-> -						state->id, msg_type_str(type), header, remoteport,
-> -						localport, queue->remote_insert,
-> -						queue->local_insert);
-> +				dev_err(state->dev,
-> +					"core: %d: prs %s@%pK (%d->%d) unexpected (ri=3D%d,li=3D%d)\n",
-> +					state->id, msg_type_str(type), header, remoteport,
-> +					localport, queue->remote_insert, queue->local_insert);
->   				mutex_unlock(&service->bulk_mutex);
->   				break;
->   			}
-> @@ -1790,8 +1788,8 @@ parse_message(struct vchiq_state *state, struct vc=
-hiq_header *header)
->   		vchiq_log_trace(state->dev, VCHIQ_CORE, "%d: prs PAUSE@%pK,%x",
->   				state->id, header, size);
->   		if (state->conn_state =3D=3D VCHIQ_CONNSTATE_PAUSED) {
-> -			vchiq_log_error(state->dev, VCHIQ_CORE,
-> -					"%d: PAUSE received in state PAUSED", state->id);
-> +			dev_err(state->dev, "core: %d: PAUSE received in state PAUSED\n",
-> +				state->id);
->   			break;
->   		}
->   		if (state->conn_state !=3D VCHIQ_CONNSTATE_PAUSE_SENT) {
-> @@ -1821,8 +1819,8 @@ parse_message(struct vchiq_state *state, struct vc=
-hiq_header *header)
->   		break;
->
->   	default:
-> -		vchiq_log_error(state->dev, VCHIQ_CORE, "%d: prs invalid msgid %x@%pK=
-,%x",
-> -				state->id, msgid, header, size);
-> +		dev_err(state->dev, "core: %d: prs invalid msgid %x@%pK,%x\n",
-> +			state->id, msgid, header, size);
->   		WARN(1, "invalid message\n");
->   		break;
->   	}
-> @@ -1932,7 +1930,7 @@ handle_poll(struct vchiq_state *state)
->   			 * since the PAUSE should have flushed
->   			 * through outstanding messages.
->   			 */
-> -			vchiq_log_error(state->dev, VCHIQ_CORE, "Failed to send RESUME messa=
-ge");
-> +			dev_err(state->dev, "core: Failed to send RESUME message\n");
->   		}
->   		break;
->   	default:
-> @@ -2032,10 +2030,10 @@ sync_func(void *v)
->   		service =3D find_service_by_port(state, localport);
->
->   		if (!service) {
-> -			vchiq_log_error(state->dev, VCHIQ_SYNC,
-> -					"%d: sf %s@%pK (%d->%d) - invalid/closed service %d",
-> -					state->id, msg_type_str(type), header,
-> -					remoteport, localport, localport);
-> +			dev_err(state->dev,
-> +				"sync: %d: sf %s@%pK (%d->%d) - invalid/closed service %d\n",
-> +				state->id, msg_type_str(type), header, remoteport,
-> +				localport, localport);
->   			release_message_sync(state, header);
->   			continue;
->   		}
-> @@ -2077,15 +2075,15 @@ sync_func(void *v)
->   			    (service->srvstate =3D=3D VCHIQ_SRVSTATE_OPENSYNC)) {
->   				if (make_service_callback(service, VCHIQ_MESSAGE_AVAILABLE, header=
-,
->   							  NULL) =3D=3D -EAGAIN)
-> -					vchiq_log_error(state->dev, VCHIQ_SYNC,
-> -							"synchronous callback to service %d returns -EAGAIN",
-> -							localport);
-> +					dev_err(state->dev,
-> +						"sync: error: synchronous callback to service %d returns -EAGAIN\=
-n",
-> +						localport);
->   			}
+> @@ -2903,10 +2903,10 @@ vchiq_close_service(struct vchiq_instance *insta=
+nce, unsigned int handle)
+>   		    (service->srvstate =3D=3D VCHIQ_SRVSTATE_OPEN))
 >   			break;
 >
->   		default:
-> -			vchiq_log_error(state->dev, VCHIQ_SYNC, "%d: sf unexpected msgid %x@=
-%pK,%x",
-> -					state->id, msgid, header, size);
-> +			dev_err(state->dev, "sync: error: %d: sf unexpected msgid %x@%pK,%x\=
-n",
-> +				state->id, msgid, header, size);
->   			release_message_sync(state, header);
+> -		vchiq_log_warning(service->state->dev, VCHIQ_CORE,
+> -				  "%d: close_service:%d - waiting in state %s",
+> -				  service->state->id, service->localport,
+> -				  srvstate_names[service->srvstate]);
+> +		dev_warn(service->state->dev,
+> +			 "core: %d: close_service:%d - waiting in state %s\n",
+> +			 service->state->id, service->localport,
+> +			 srvstate_names[service->srvstate]);
+>   	}
+>
+>   	if (!status &&
+> @@ -2964,10 +2964,10 @@ vchiq_remove_service(struct vchiq_instance *inst=
+ance, unsigned int handle)
+>   		    (service->srvstate =3D=3D VCHIQ_SRVSTATE_OPEN))
 >   			break;
->   		}
-> @@ -2118,8 +2116,8 @@ vchiq_init_slots(struct device *dev, void *mem_bas=
-e, int mem_size)
->   	num_slots -=3D first_data_slot;
 >
->   	if (num_slots < 4) {
-> -		vchiq_log_error(dev, VCHIQ_CORE, "%s - insufficient memory %x bytes",
-> -				__func__, mem_size);
-> +		dev_err(dev, "core: %s: Insufficient memory %x bytes\n",
-> +			__func__, mem_size);
->   		return NULL;
+> -		vchiq_log_warning(service->state->dev, VCHIQ_CORE,
+> -				  "%d: remove_service:%d - waiting in state %s",
+> -				  service->state->id, service->localport,
+> -				  srvstate_names[service->srvstate]);
+> +		dev_warn(service->state->dev,
+> +			 "core: %d: remove_service:%d - waiting in state %s\n",
+> +			 service->state->id, service->localport,
+> +			 srvstate_names[service->srvstate]);
 >   	}
 >
-> @@ -2500,11 +2498,10 @@ vchiq_open_service_internal(struct vchiq_service=
- *service, int client_id)
->   	} else if ((service->srvstate !=3D VCHIQ_SRVSTATE_OPEN) &&
->   		   (service->srvstate !=3D VCHIQ_SRVSTATE_OPENSYNC)) {
->   		if (service->srvstate !=3D VCHIQ_SRVSTATE_CLOSEWAIT)
-> -			vchiq_log_error(service->state->dev, VCHIQ_CORE,
-> -					"%d: osi - srvstate =3D %s (ref %u)",
-> -					service->state->id,
-> -					srvstate_names[service->srvstate],
-> -					kref_read(&service->ref_count));
-> +			dev_err(service->state->dev,
-> +				"core: %d: osi - srvstate =3D %s (ref %u)\n",
-> +				service->state->id, srvstate_names[service->srvstate],
-> +				kref_read(&service->ref_count));
->   		status =3D -EINVAL;
->   		VCHIQ_SERVICE_STATS_INC(service, error_count);
->   		vchiq_release_service_internal(service);
-> @@ -2565,9 +2562,9 @@ release_service_messages(struct vchiq_service *ser=
-vice)
->   			}
->   			pos +=3D calc_stride(header->size);
->   			if (pos > VCHIQ_SLOT_SIZE) {
-> -				vchiq_log_error(state->dev, VCHIQ_CORE,
-> -						"fsi - pos %x: header %pK, msgid %x, header->msgid %x, header->si=
-ze %x",
-> -						pos, header, msgid, header->msgid, header->size);
-> +				dev_err(state->dev,
-> +					"core: fsi - pos %x: header %pK, msgid %x, header->msgid %x, heade=
-r->size %x\n",
-> +					pos, header, msgid, header->msgid, header->size);
->   				WARN(1, "invalid slot position\n");
->   			}
->   		}
-> @@ -2621,8 +2618,8 @@ close_service_complete(struct vchiq_service *servi=
-ce, int failstate)
->   	case VCHIQ_SRVSTATE_LISTENING:
->   		break;
->   	default:
-> -		vchiq_log_error(service->state->dev, VCHIQ_CORE, "%s(%x) called in st=
-ate %s",
-> -				__func__, service->handle, srvstate_names[service->srvstate]);
-> +		dev_err(service->state->dev, "core: (%x) called in state %s\n",
-> +			service->handle, srvstate_names[service->srvstate]);
->   		WARN(1, "%s in unexpected state\n", __func__);
->   		return -EINVAL;
->   	}
-> @@ -2677,8 +2674,8 @@ vchiq_close_service_internal(struct vchiq_service =
-*service, int close_recvd)
->   	case VCHIQ_SRVSTATE_LISTENING:
->   	case VCHIQ_SRVSTATE_CLOSEWAIT:
->   		if (close_recvd) {
-> -			vchiq_log_error(state->dev, VCHIQ_CORE, "%s(1) called in state %s",
-> -					__func__, srvstate_names[service->srvstate]);
-> +			dev_err(state->dev, "core: (1) called in state %s\n",
-> +				srvstate_names[service->srvstate]);
->   		} else if (is_server) {
->   			if (service->srvstate =3D=3D VCHIQ_SRVSTATE_LISTENING) {
->   				status =3D -EINVAL;
-> @@ -2765,8 +2762,8 @@ vchiq_close_service_internal(struct vchiq_service =
-*service, int close_recvd)
->   		break;
->
->   	default:
-> -		vchiq_log_error(state->dev, VCHIQ_CORE, "%s(%d) called in state %s", =
-__func__,
-> -				close_recvd, srvstate_names[service->srvstate]);
-> +		dev_err(state->dev, "core: (%d) called in state %s\n",
-> +			close_recvd, srvstate_names[service->srvstate]);
->   		break;
->   	}
->
-> @@ -2805,8 +2802,8 @@ vchiq_free_service_internal(struct vchiq_service *=
-service)
->   	case VCHIQ_SRVSTATE_CLOSEWAIT:
->   		break;
->   	default:
-> -		vchiq_log_error(state->dev, VCHIQ_CORE, "%d: fsi - (%d) in state %s",=
- state->id,
-> -				service->localport, srvstate_names[service->srvstate]);
-> +		dev_err(state->dev, "core: %d: fsi - (%d) in state %s\n",
-> +			state->id, service->localport, srvstate_names[service->srvstate]);
->   		return;
->   	}
->
+>   	if (!status && (service->srvstate !=3D VCHIQ_SRVSTATE_FREE))
 > diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_cor=
 e.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
-> index 564b5c707267..d7dcd17e4bff 100644
+> index d7dcd17e4bff..bc980a001711 100644
 > --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
 > +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
 > @@ -53,10 +53,6 @@ static inline const char *log_category_str(enum vchiq=
@@ -589,121 +250,14 @@ _log_category c)
 >   	return strings[c];
 >   };
 >
-> -#ifndef vchiq_log_error
-> -#define vchiq_log_error(dev, cat, fmt, ...) \
-> -	do { dev_dbg(dev, "%s error: " fmt, log_category_str(cat), ##__VA_ARGS=
-__); } while (0)
+> -#ifndef vchiq_log_warning
+> -#define vchiq_log_warning(dev, cat, fmt, ...) \
+> -	do { dev_dbg(dev, "%s warning: " fmt, log_category_str(cat), ##__VA_AR=
+GS__); } while (0)
 > -#endif
->   #ifndef vchiq_log_warning
->   #define vchiq_log_warning(dev, cat, fmt, ...) \
->   	do { dev_dbg(dev, "%s warning: " fmt, log_category_str(cat), ##__VA_A=
-RGS__); } while (0)
-> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev=
-.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> index 307a2d76cbb7..ba287cb4c87b 100644
-> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
-> @@ -271,9 +271,9 @@ static int vchiq_ioc_dequeue_message(struct vchiq_in=
-stance *instance,
->   			ret =3D -EFAULT;
->   		}
->   	} else {
-> -		vchiq_log_error(service->state->dev, VCHIQ_ARM,
-> -				"header %pK: bufsize %x < size %x",
-> -				header, args->bufsize, header->size);
-> +		dev_err(service->state->dev,
-> +			"arm: header %pK: bufsize %x < size %x\n",
-> +			header, args->bufsize, header->size);
->   		WARN(1, "invalid size\n");
->   		ret =3D -EMSGSIZE;
->   	}
-> @@ -318,8 +318,8 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_i=
-nstance *instance,
->   		}
->   		mutex_unlock(&instance->bulk_waiter_list_mutex);
->   		if (!waiter) {
-> -			vchiq_log_error(service->state->dev, VCHIQ_ARM,
-> -					"no bulk_waiter found for pid %d", current->pid);
-> +			dev_err(service->state->dev,
-> +				"arm: no bulk_waiter found for pid %d\n", current->pid);
->   			ret =3D -ESRCH;
->   			goto out;
->   		}
-> @@ -501,10 +501,10 @@ static int vchiq_ioc_await_completion(struct vchiq=
-_instance *instance,
->   			msglen =3D header->size + sizeof(struct vchiq_header);
->   			/* This must be a VCHIQ-style service */
->   			if (args->msgbufsize < msglen) {
-> -				vchiq_log_error(service->state->dev, VCHIQ_ARM,
-> -						"header %pK: msgbufsize %x < msglen %x",
-> -						header, args->msgbufsize, msglen);
-> -						WARN(1, "invalid message size\n");
-> +				dev_err(service->state->dev,
-> +					"arm: header %pK: msgbufsize %x < msglen %x\n",
-> +					header, args->msgbufsize, msglen);
-> +				WARN(1, "invalid message size\n");
->   				if (ret =3D=3D 0)
->   					ret =3D -EMSGSIZE;
->   				break;
-> @@ -618,9 +618,9 @@ vchiq_ioctl(struct file *file, unsigned int cmd, uns=
-igned long arg)
->   		}
->   		rc =3D mutex_lock_killable(&instance->state->mutex);
->   		if (rc) {
-> -			vchiq_log_error(instance->state->dev, VCHIQ_ARM,
-> -					"vchiq: connect: could not lock mutex for state %d: %d",
-> -					instance->state->id, rc);
-> +			dev_err(instance->state->dev,
-> +				"arm: vchiq: connect: could not lock mutex for state %d: %d\n",
-> +				instance->state->id, rc);
-I think this should be dev_dbg
->   			ret =3D -EINTR;
->   			break;
->   		}
-> @@ -630,8 +630,8 @@ vchiq_ioctl(struct file *file, unsigned int cmd, uns=
-igned long arg)
->   		if (!status)
->   			instance->connected =3D 1;
->   		else
-> -			vchiq_log_error(instance->state->dev, VCHIQ_ARM,
-> -					"vchiq: could not connect: %d", status);
-> +			dev_err(instance->state->dev,
-> +				"arm: vchiq: could not connect: %d\n", status);
->   		break;
->
->   	case VCHIQ_IOC_CREATE_SERVICE: {
-> @@ -700,13 +700,13 @@ vchiq_ioctl(struct file *file, unsigned int cmd, u=
-nsigned long arg)
->   				vchiq_use_service_internal(service) :
->   				vchiq_release_service_internal(service);
->   			if (ret) {
-> -				vchiq_log_error(instance->state->dev, VCHIQ_SUSPEND,
-> -						"%s: cmd %s returned error %ld for service %p4cc:%03d",
-> -						__func__, (cmd =3D=3D VCHIQ_IOC_USE_SERVICE) ?
-> -						"VCHIQ_IOC_USE_SERVICE" :
-> -						"VCHIQ_IOC_RELEASE_SERVICE",
-> -						ret, &service->base.fourcc,
-> -						service->client_id);
-> +				dev_err(instance->state->dev,
-> +					"suspend: cmd %s returned error %ld for service %p4cc:%03d\n",
-> +					(cmd =3D=3D VCHIQ_IOC_USE_SERVICE) ?
-> +					"VCHIQ_IOC_USE_SERVICE" :
-> +					"VCHIQ_IOC_RELEASE_SERVICE",
-> +					ret, &service->base.fourcc,
-> +					service->client_id);
->   			}
->   		} else {
->   			ret =3D -EINVAL;
-> @@ -1173,8 +1173,7 @@ static int vchiq_open(struct inode *inode, struct =
-file *file)
->   	vchiq_log_debug(state->dev, VCHIQ_ARM, "vchiq_open");
->
->   	if (!state) {
-> -		vchiq_log_error(state->dev, VCHIQ_ARM,
-> -				"vchiq has no connection to VideoCore");
-> +		dev_err(state->dev, "arm: vchiq has no connection to VideoCore\n");
->   		return -ENOTCONN;
->   	}
->
+>   #ifndef vchiq_log_debug
+>   #define vchiq_log_debug(dev, cat, fmt, ...) \
+>   	do { dev_dbg(dev, "%s debug: " fmt, log_category_str(cat), ##__VA_ARG=
+S__); } while (0)
 
 
