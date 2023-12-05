@@ -1,175 +1,198 @@
-Return-Path: <linux-media+bounces-1689-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1690-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59DD3805E47
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 20:02:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B727F805E7A
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 20:18:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0EF371F21486
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 19:02:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 692C4B21119
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 19:18:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F29BA68EBA;
-	Tue,  5 Dec 2023 19:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20D746D1D7;
+	Tue,  5 Dec 2023 19:18:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VGTyqItA"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="gt9sLDon"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-x42f.google.com (mail-pf1-x42f.google.com [IPv6:2607:f8b0:4864:20::42f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C156C0;
-	Tue,  5 Dec 2023 11:02:39 -0800 (PST)
-Received: by mail-pf1-x42f.google.com with SMTP id d2e1a72fcca58-6ce7c1b07e1so503776b3a.2;
-        Tue, 05 Dec 2023 11:02:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701802958; x=1702407758; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gr71sNINRYPArpI+CNr5Fv+CLv1NDL4SnaWZ3f+C3cc=;
-        b=VGTyqItAKaJJ121VxwJgMSOYSwDBSM1hsX9x5Lfign6yRXzCDK+EX3nhdm57ZpxAp+
-         Y7Uj7495reVgDdusIl72X8E2wRHkDMfbx3gpLgd2ykd8W71kZdq9pKYUFoTjTX06OC9P
-         bDSuhgwbh3NK47ISaCUiP01w6rNaqyKU1m6giMTQMJ89VxrR8zkVC4O9o3Ao5GIaLeRq
-         kV7E8npIDa+WPmpS1tJ0GFAtJeqxIZeEof6zFmxY1+VV573xElwO2EW36OjJGFA3gj2X
-         /4VDgRAi59RQcogoEqK3tAFcznVLs4fnY2vlFbtBGUPufqfm0WA8wou9q2ufhQwkTuyM
-         vN/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701802958; x=1702407758;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=gr71sNINRYPArpI+CNr5Fv+CLv1NDL4SnaWZ3f+C3cc=;
-        b=mdTpePcADzD0gBBUP9Wte+R9cFY+glvUCcRWU6HjlAUpE0VHEIyhTxr9B2LysePfqQ
-         648odZ9v52TptvUc75f5/QjXIi9WH+r+e3i2G7MH71lzK66t22rSjXSW4xf5LBiyRMeg
-         u537GsoCtphrxFqgw2oX0K4jFgiZvVd8F7C8XxeVj4vdvunFSnKnd65HmVhFoanGPQSf
-         EwVqdI+kZDoZXLqUjtLMOtcyklulUgWouF4gJfrO7YrKc/rzWEmrz2ctccAjHZybwUOF
-         UE9FXzDQg6sCSDXuin+BhIa/FzmpL08S9HWCXKF+zeF9bJu4ynK0zl/zgPuKHUq9Wc3q
-         4xPQ==
-X-Gm-Message-State: AOJu0Yy8XWmiCSzhqHSDYgPsEoQEh57oybkiEubkwbyxiEgUNmUU73Xi
-	H/XysRtojuUyPyeOmMByRFg=
-X-Google-Smtp-Source: AGHT+IHU2ya8bSn4bAfwtnCaBXtL2UTM+QfuRrIn5PJLt281Wya4plXg44RgEht3EFWm/rTyANJk7g==
-X-Received: by 2002:a05:6a00:1806:b0:6ce:3f02:10a3 with SMTP id y6-20020a056a00180600b006ce3f0210a3mr2331731pfa.8.1701802958385;
-        Tue, 05 Dec 2023 11:02:38 -0800 (PST)
-Received: from localhost ([2a00:79e1:2e00:1301:e1c5:6354:b45d:8ffc])
-        by smtp.gmail.com with ESMTPSA id r14-20020aa7844e000000b006ce467a2489sm4867944pfn.175.2023.12.05.11.02.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 05 Dec 2023 11:02:37 -0800 (PST)
-From: Rob Clark <robdclark@gmail.com>
-To: dri-devel@lists.freedesktop.org
-Cc: linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Rob Clark <robdclark@chromium.org>,
-	Luben Tuikov <ltuikov89@gmail.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	linux-kernel@vger.kernel.org (open list),
-	linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b),
-	linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:\bdma_(?:buf|fence|resv)\b)
-Subject: [PATCH] drm/scheduler: Unwrap job dependencies
-Date: Tue,  5 Dec 2023 11:02:33 -0800
-Message-ID: <20231205190234.371322-1-robdclark@gmail.com>
-X-Mailer: git-send-email 2.42.0
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A525C188
+	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 11:18:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1701803888; x=1702408688; i=wahrenst@gmx.net;
+	bh=KI1+Y8fdfOQSL9W8lxPeCK55g2DzejtsREPuvBG7UgI=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=gt9sLDonty5kNO5nsLaBhye7qQXnQCBsciDVrJN5Dg5tupE/w3hggQ7AqUoGC+mA
+	 UBrLDO5Hqo3X46kulPmecr43BQRsN0vgXy8lQggxEArmsOkLlrAwlpEgTOONY0fvD
+	 yFIP7xn7wHyw0jx2hu8Hf1Z+V6tbGMSlp0alk/H3eKQhjf8FmmL1qKjlJb9ZIox3v
+	 cauco29aXfDomrzKwnNmXzPxLavb2EWB+dlzCQVMuZdSfCVgf5yz249HAOxgmM5jq
+	 cCIzW/mWY4wN7yIojEJYvGPIhZPBHbOSXwz1rsDNPprmxjN8OnILbXiOIOAOEZlzU
+	 tRMmgPC6GARAsf7sTA==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MowKc-1rbdD41P9q-00qVwy; Tue, 05
+ Dec 2023 20:18:08 +0100
+Message-ID: <8d3304d4-743c-4670-ad8d-d31535738664@gmx.net>
+Date: Tue, 5 Dec 2023 20:18:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/5] staging: vc04_services: Drop custom logging
+Content-Language: en-US
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dave Stevenson <dave.stevenson@raspberrypi.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>
+References: <20231128201926.489269-1-umang.jain@ideasonboard.com>
+ <42cd081f-bee9-49ff-b8f6-17ec58f43058@gmx.net>
+ <a87efe94-b3fb-a360-dfcd-db2097b89d6f@ideasonboard.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <a87efe94-b3fb-a360-dfcd-db2097b89d6f@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:rZXCDokQ3qd9YviLdzrUIpWlqoNoLBBDXMQei1RmQvivnga2goy
+ m/d31KtwSsiiX+6ACmIrCQi0AlReBhzVjatsOe6GJ779W12vQc+06zvSETvGF+nSIdykGBJ
+ i31PEAU0wtTKPd9ra5VCPQICoBqHbTcHA3WVwStC1+bQ0ONhdlItVfq87G7SkAerVq7hLa3
+ 5UGGKTEXYYf/Xw3587aJw==
+UI-OutboundReport: notjunk:1;M01:P0:jZcQ03A9bW4=;FNHseeRlwZ41rVS3cMhmQN9LN0I
+ u/UWy7tGBNjA7ld1DByldFfdq7FwQc1uMX71XdxSMWhzm/L+3tqfcmQW08B9/0fxneQKBb30b
+ Chh6jhDB/ymH4ERuX4OXmST6nPx3/+5Sqg/8Sz+vmUC3TBRWecpzz8MNdcLigWROjigLWt0Lq
+ f3NzfGC0m0WpoDFBMWFMWYSfdXFKqjIxtbSjagwOaq1CslGg/IZRBLsNVUs++WZZu/RQyD/Gs
+ UuO8pq2sYBLY+ke49LqS/sw3ph93SzrY8vVfxSZkndnpT43cW+Ym2hyQzehqzBW5JETmv4LeR
+ r8pxzf81Fss1JEGRIZKR1p6LTMLdZyb7/AhyG2xw+JMxJW4wwnTj+aJ61uvezneqiRfjMzkKh
+ mC7M4ZL3LUwybJ0xOoLZKRCoFJy4UnQgO9SqT5ZFT6mbNEbPz6qDiVD1jmSO3zRA+vbQWaYZr
+ 3OHgUqfLt4W81NBYqiG3FxzgXzDval+54PX389LYRCuKDtsDzMobgqJfibqBy2mOJU0AtusqP
+ N+v2sguD+rXRoWxVT/u1DSjWU3Y08aORKOFJ00oSL5++oZzm3T1mQ6c57eit5L80TpZDZXDWg
+ Inq9+bLZPZFYAnmoEhqOwLg7740RlHEzwBeS6jSq+t4xrDj/ibtKbF2y20ij3VdZuX8eFEw5X
+ U/wg519LGiDrdO2N/O0suZlIGEiTZfUo97fWn9fTKHroL5iCWmK0XD/WK0ksVi+BeB/h46Wxr
+ UPiby6om7M8s47B4oV3EomIKpJ3NiNl/G1W9qf+pWj/Yt32Ladj1CtwsjC0eSA2xOqRBzJcTT
+ O+XWPzo/VNQnonlljDGqt+o3M33o3fOS5Ar2MO51dE3mCtkul+XIlAd8HZT/qNhZvy9IhPb4u
+ YXUmuIHQVWzxpQf25/BdKPZ86YhgsxH1Udc2IrbIVGAXc7xTupolF6s6PDG7qSC+fG2nvT/Fb
+ kvVkQlstiTyZ+12jYUFUZ810AzE=
 
-From: Rob Clark <robdclark@chromium.org>
+Hi Umang,
 
-Container fences have burner contexts, which makes the trick to store at
-most one fence per context somewhat useless if we don't unwrap array or
-chain fences.
+Am 05.12.23 um 07:39 schrieb Umang Jain:
+> Hi Stefan,
+>
+> On 11/29/23 4:56 AM, Stefan Wahren wrote:
+>> Hi Umang,
+>>
+>> Am 28.11.23 um 21:19 schrieb Umang Jain:
+>>> This series also removes the vchiq_log_* macro and makes use of
+>>> dev_dbg()
+>>> directly.
+>> sorry, i didn't had the time to follow the logging discussion, but the
+>> following commits:
+>>
+>> staging: vc04: Convert vchiq_log_error() to use dynamic debug
+>> staging: vc04: Convert vchiq_log_warning() to use dynamic debug
+>> staging: vc04: Convert(and rename) vchiq_log_info() to use dynamic debu=
+g
+>>
+>> changed the logging behavior. I don't think it's intended to move
+>> everything to dev_dbg.
+>>
+>> I would expected the following mapping:
+>> vchiq_log_error -> dev_err
+>> vchiq_log_warning -> dev_warn
+>
+> For this I agree,
+>> vchiq_log_info -> dev_info
+>
+> However, I think vchiq_log_info and vchiq_log_debug should be moved to
+> dev_dbg.
+>
+> Otherwise, I think they'll spew a ton of information to dmesg by default=
+.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/scheduler/sched_main.c | 47 ++++++++++++++++++--------
- 1 file changed, 32 insertions(+), 15 deletions(-)
+generally i agree. Unfortunately we need to double check every log
+message, because some of them are unnecessary.
 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 9762464e3f99..16b550949c57 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -52,6 +52,7 @@
- #include <linux/wait.h>
- #include <linux/sched.h>
- #include <linux/completion.h>
-+#include <linux/dma-fence-unwrap.h>
- #include <linux/dma-resv.h>
- #include <uapi/linux/sched/types.h>
- 
-@@ -684,27 +685,14 @@ void drm_sched_job_arm(struct drm_sched_job *job)
- }
- EXPORT_SYMBOL(drm_sched_job_arm);
- 
--/**
-- * drm_sched_job_add_dependency - adds the fence as a job dependency
-- * @job: scheduler job to add the dependencies to
-- * @fence: the dma_fence to add to the list of dependencies.
-- *
-- * Note that @fence is consumed in both the success and error cases.
-- *
-- * Returns:
-- * 0 on success, or an error on failing to expand the array.
-- */
--int drm_sched_job_add_dependency(struct drm_sched_job *job,
--				 struct dma_fence *fence)
-+static int drm_sched_job_add_single_dependency(struct drm_sched_job *job,
-+					       struct dma_fence *fence)
- {
- 	struct dma_fence *entry;
- 	unsigned long index;
- 	u32 id = 0;
- 	int ret;
- 
--	if (!fence)
--		return 0;
--
- 	/* Deduplicate if we already depend on a fence from the same context.
- 	 * This lets the size of the array of deps scale with the number of
- 	 * engines involved, rather than the number of BOs.
-@@ -728,6 +716,35 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
- 
- 	return ret;
- }
-+
-+/**
-+ * drm_sched_job_add_dependency - adds the fence as a job dependency
-+ * @job: scheduler job to add the dependencies to
-+ * @fence: the dma_fence to add to the list of dependencies.
-+ *
-+ * Note that @fence is consumed in both the success and error cases.
-+ *
-+ * Returns:
-+ * 0 on success, or an error on failing to expand the array.
-+ */
-+int drm_sched_job_add_dependency(struct drm_sched_job *job,
-+				 struct dma_fence *fence)
-+{
-+	struct dma_fence_unwrap iter;
-+	struct dma_fence *f;
-+	int ret = 0;
-+
-+	dma_fence_unwrap_for_each (f, &iter, fence) {
-+		dma_fence_get(f);
-+		ret = drm_sched_job_add_single_dependency(job, f);
-+		if (ret)
-+			break;
-+	}
-+
-+	dma_fence_put(fence);
-+
-+	return ret;
-+}
- EXPORT_SYMBOL(drm_sched_job_add_dependency);
- 
- /**
--- 
-2.42.0
+>>>
+>>> Patch 1/5 is fix. It prevents passing NULL to one of vchiq_log_error()=
+.
+>>> The function there in question, does not have any users as of
+>>> now. However, it is going to be used by the vc-sm-cma and bcm2835-isp
+>>> drivers (posted on list for review [1]). There was discussion on v1,
+>>> whether I should drop and add the function later, however, didn't
+>>> conclude.
+>>>
+>>> Patch 2/5 removes vchiq_log_error() macro
+>>> Patch 3/5 removes vchiq_log_warning() macro
+>>> Patch 4/5 removes vchiq_log_trace() macro
+>>> Patch 5/5 removes vchiq_log_debug() macro
+>>>
+>>> This completes the following TODO item:
+>>>
+>>> ```
+>>> * Cleanup logging mechanism
+>>>
+>>> The driver should probably be using the standard kernel logging
+>>> mechanisms
+>>> such as dev_info, dev_dbg, and friends.
+>>> ```
+>>>
+>>> [1]:
+>>> https://lore.kernel.org/linux-media/20231109210309.638594-1-umang.jain=
+@ideasonboard.com/
+>>>
+>>> Changes in v2:
+>>> - Separate out one fixup patch from v1 (Patch 1/9)and send separately
+>>> - Drop usage of log_type() and log_category() helpers. Directly use
+>>> =C2=A0=C2=A0 dev_dbg() as suggested by Greg KH.
+>>> - Drop __func__ annotation from all logs. Dynamic debug has 'f'
+>>> =C2=A0=C2=A0 decorator flag which can be used instead of manual __func=
+__
+>>> - Reword commit messages.
+>>>
+>>> Umang Jain (5):
+>>> =C2=A0=C2=A0 staging: vc04_services: Do not pass NULL to vchiq_log_err=
+or()
+>>> =C2=A0=C2=A0 staging: vc04_services: Drop vchiq_log_error() in favour =
+of dev_dbg
+>>> =C2=A0=C2=A0 staging: vc04_services: Drop vchiq_log_warning() in favou=
+r of
+>>> dev_dbg
+>>> =C2=A0=C2=A0 staging: vc04_services: Drop vchiq_log_trace() in favour =
+of dev_dbg
+>>> =C2=A0=C2=A0 staging: vc04_services: Drop vchiq_log_debug() in favour =
+of dev_dbg
+>>>
+>>> =C2=A0 drivers/staging/vc04_services/interface/TODO=C2=A0 |=C2=A0=C2=
+=A0 5 -
+>>> =C2=A0 .../interface/vchiq_arm/vchiq_arm.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 176 ++++----
+>>> =C2=A0 .../interface/vchiq_arm/vchiq_connected.c=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 8 +-
+>>> =C2=A0 .../interface/vchiq_arm/vchiq_connected.h=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0=C2=A0 4 +-
+>>> =C2=A0 .../interface/vchiq_arm/vchiq_core.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 402
+>>> +++++++++---------
+>>> =C2=A0 .../interface/vchiq_arm/vchiq_core.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 38 --
+>>> =C2=A0 .../interface/vchiq_arm/vchiq_dev.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 92 ++--
+>>> =C2=A0 7 files changed, 315 insertions(+), 410 deletions(-)
+>>>
+>>
+>
+>
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
 
 
