@@ -1,142 +1,168 @@
-Return-Path: <linux-media+bounces-1624-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1625-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22C9804A68
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 07:40:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC4B7804A8E
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 07:46:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7AE341F214B5
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 06:40:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46BEAB20DB2
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 06:46:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1AF512E53;
-	Tue,  5 Dec 2023 06:40:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8A4212E55;
+	Tue,  5 Dec 2023 06:46:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HhvZRnIQ"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="f0Eun7p9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E500F194
-	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 22:39:52 -0800 (PST)
-Received: from [192.168.1.105] (unknown [103.251.226.73])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 071634DB;
-	Tue,  5 Dec 2023 07:39:07 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701758350;
-	bh=KRiCRSMzhN+jR4SLc+ozbGmLLTLRTzaUA3xh6zlTM3g=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HhvZRnIQAgaqOZ4IgNNVKMD0eUUGLcFIdQa1VvZMLJ48i1f5Fpw8HoB6cy0XM3axB
-	 5eNXeNj900a+e76RzyBiJNMX6WVzGv1k076nL95xy+1UdiUvzgdZR1qfzHhyAfJnM8
-	 IkJ18aFJG7FjaJwKFsRSG0gjENrNHulGRxhV5LmI=
-Message-ID: <a87efe94-b3fb-a360-dfcd-db2097b89d6f@ideasonboard.com>
-Date: Tue, 5 Dec 2023 12:09:41 +0530
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2049.outbound.protection.outlook.com [40.107.223.49])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D559116;
+	Mon,  4 Dec 2023 22:46:19 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=mb3l6AnmB4YIyBVd98rltKkbwi9EIBMukXpGjL5ZirehXr+D/x780w/M4llIZTzsPM27RUVcHRObMB0dJXw8aPNDLxp1fNyFbCKVAbik3KukPNGBHaipw5JBVFoJAIt2ocFI2sOwC1XDVUvIqMVWqXe6dvB1Q14xmktSyD1SgE5h9nIc0ZJZ5+SLA6aHO2fu/H/IdlR3TALfVdjA3QqRtadVKp6MlKXi/Udgg8gHjOUyyVaNskGlqgOvhOcchCCjnR8rNN0bK3TCMNcHWavzhyO7g4vYMjKAB8fBUhlyBzDZOAR4wmQws6ff09ypQlPoVHuP3I9uqy8g5H/RGtC6lQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jyTlecyqbjD7w7FpPfn5ywtsnG0mOoeU6wY+B6z9WEs=;
+ b=Qwg3R2kgUO9wBlfbZK7ZPkw/WkCgld0bblQvcOO1vvqMkIKkGXTPes2Tg7IUpBlRHJWbMA2P0tqUOZq37ty1Wq1vW1BF7Se89KAWrLvEbD6e3gPHge/AuSHB6qniVAqsGeR+crSDWo5BTiuBNG23Aodq1cf2OG1M0PKEy853ZMHGfGu2hfLR7aAUIZNLrqhWb/AafZchvX4hM6u3/RfhiT9iPbev3Z/BbJr0LlOzE/vkZbeoxBR5HqYXVcoy6dRLBy+4vIZWJ4adofLU5c9gHuHlf+ano7pzPADvWNHy2+W9/p0pLSoW9FPH5tVBkeUc5X+zMRFTosLMiGhChG6Zug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jyTlecyqbjD7w7FpPfn5ywtsnG0mOoeU6wY+B6z9WEs=;
+ b=f0Eun7p9QkbloewRfZlB/0dW+rq+pA7vrO4ZDiZ4huWU4mfvVaMltuvAJK6NiyQBn8yKjG/rF1Buup801bNEfly9jSe/xvVBPCJNblMF7mmKuxZMizYtaa7056ao9+FnWZqCP8OY8+XCyws/krluARIoGmK/pQqJUU1e3llvps0=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com (2603:10b6:408:43::13)
+ by IA0PR12MB8861.namprd12.prod.outlook.com (2603:10b6:208:487::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7046.34; Tue, 5 Dec
+ 2023 06:46:15 +0000
+Received: from BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3]) by BN8PR12MB3587.namprd12.prod.outlook.com
+ ([fe80::ca80:8f1c:c11:ded3%7]) with mapi id 15.20.7046.034; Tue, 5 Dec 2023
+ 06:46:15 +0000
+Message-ID: <69d66b9e-5810-4844-a53f-08b7fd8eeccf@amd.com>
+Date: Tue, 5 Dec 2023 07:46:07 +0100
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC] drm/scheduler: Unwrap job dependencies
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, Rob Clark <robdclark@chromium.org>,
+ Luben Tuikov <luben.tuikov@amd.com>, David Airlie <airlied@gmail.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>
+References: <20230322224403.35742-1-robdclark@gmail.com>
+ <b9fb81f1-ac9e-cf3f-5cf4-f2d972d3ed3d@amd.com>
+ <CAF6AEGvMwZCLntfYeH3Vg_Z7kYynqdVrinp+pmcbREksK1WGMA@mail.gmail.com>
+ <e2fa296b-9b71-a41b-d37d-33f0fac2cd4e@amd.com>
+ <CAF6AEGvdVca_mnZVo9He9oKVfYp84e_kOPWaxX+K5aV4Es9kcQ@mail.gmail.com>
+ <CAF6AEGt2D6Ei6OkUK5osz+jWzmkX8tmB1KGi305HaNd=bnQSoA@mail.gmail.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <CAF6AEGt2D6Ei6OkUK5osz+jWzmkX8tmB1KGi305HaNd=bnQSoA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: FR0P281CA0145.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:96::18) To BN8PR12MB3587.namprd12.prod.outlook.com
+ (2603:10b6:408:43::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
- Thunderbird/102.10.0
-Subject: Re: [PATCH v2 0/5] staging: vc04_services: Drop custom logging
-To: Stefan Wahren <wahrenst@gmx.net>, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org
-Cc: Stefan Wahren <stefan.wahren@i2se.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Dave Stevenson <dave.stevenson@raspberrypi.com>,
- "Ricardo B . Marliere" <ricardo@marliere.net>
-References: <20231128201926.489269-1-umang.jain@ideasonboard.com>
- <42cd081f-bee9-49ff-b8f6-17ec58f43058@gmx.net>
-Content-Language: en-US
-From: Umang Jain <umang.jain@ideasonboard.com>
-In-Reply-To: <42cd081f-bee9-49ff-b8f6-17ec58f43058@gmx.net>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN8PR12MB3587:EE_|IA0PR12MB8861:EE_
+X-MS-Office365-Filtering-Correlation-Id: bee50c23-c474-4ca7-8f11-08dbf55ddfce
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	wEJyZDPrXf1rwNoGc5BaNjPNkZTX0cHmJrveD4VMWR8QvUKCb8MM6LhsvX23gtIyTMcE/JGoX00D5R7FodSTxpVf3GLJy5rYhNBYKKa5OHY/WCqfMSnG9p1wwuXWRkSbzmp0LSxKWRuqHCz+ZxAE5PAvwsg60ri2VRu4JUGBwlc0EFHOsyyZLFz5OYxbRAV7LJj9VLYZbGaAHk+LFxxsi+ZHn2yGGKvURwr3QEjBOt8DLFIGJpeTBKUj+qD9jOml7UP7+fdVbbHoi0varoLZs1rJKazSLKkKefyr2BKnnvpBx5NJLKzTV/7TvX/o/DAUoCB/rR6hnr98byZH4xIW6RG39plh+gvyudAHsDuJMW16Ki/wqbAqbpKXhVSeBN/cCslSIXDRSrb+uuaoNiJEY0ZYRA7IR9TKCvpJBCJaopb5Tkrt2Q7GNE9ux6C0Dgcy3Io5AUM9VEWpdYCdVccmF/plyudLSehhgZoCwhcyT3HxhD43pK3GgYR+OsgXFuXP99UaEtzdunzwsFuzAbtLctvBxR7fyP5ZtiR7TYQRLOQ9F92uwUzh8xIke5aaMO5CSnZEG6DQiEwelNKz4eV/4VoBBFMen67QcglLXIHbGMXS2wCeUKDxCABjBiVnx5hHWQldigMfBtrQL9fZ0tPrgQ==
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN8PR12MB3587.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(136003)(396003)(346002)(376002)(39860400002)(230922051799003)(1800799012)(451199024)(186009)(64100799003)(6486002)(83380400001)(478600001)(6512007)(2616005)(53546011)(6506007)(26005)(6666004)(316002)(66476007)(54906003)(6916009)(66556008)(66946007)(86362001)(41300700001)(36756003)(8676002)(4326008)(8936002)(2906002)(31696002)(5660300002)(38100700002)(31686004)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RHFlS2lwUGE5b3hyMHBqK2RFUXEzWFVlZHFmdFZ6NlArRXhvdnB1VS9iT3Ns?=
+ =?utf-8?B?WkVycjhROGM2ZXdRRnppa1pRRjdzRlF5S2NQMXB2VmpRRU1HRE5GTUpmNkth?=
+ =?utf-8?B?YWs5b1BINVNlOGdIWTNrVHRsck5Jc3R0Z3p1V2d1b0p2dEQwd1NyNGVESkpK?=
+ =?utf-8?B?d25VSzBtZzZZYThUNFJBQUpIbGhlQmN3MXdkdzZCcnBySURodmpYM1ZQNUp6?=
+ =?utf-8?B?NUVqK0dMdWFhMC9POUtvTHNBMmU5VjlXTWZKZWU2Z2RVQ1d0bThLRGRKMUpY?=
+ =?utf-8?B?UmtuOXVVTUFvL3pYR01VUUwrMlIzVzFEc0dVU2k0SDlGM3dwcEg0NEdQaVRr?=
+ =?utf-8?B?N0U3R242OTM5L2E3LzdWelZramdYMHlZS3Rybk1nVU4xSjJDQU5vaUdDeitU?=
+ =?utf-8?B?dXl2cE9UK2hsZlNvQ3B1MTh3YWNJdkl1SVdmUWRMTkYvdU0xMUVQMGNEaWxH?=
+ =?utf-8?B?VjNRU1VKMVpvNG9DWWpub1V0bk5VNDh6QWRDSnQ1RDRXTGFHMXUwRnRiVHZE?=
+ =?utf-8?B?bmJIQmJidmJYdUhJN0pubU9qSE1sVUJwdHU2SlM5TWl0THN1UFJrTmJvcHZO?=
+ =?utf-8?B?TTAyNWR3aFBMWWJibG81VzdEd2lNYTRmUUNPY1ZDc2lYNXRRYkFzd3EvN1lV?=
+ =?utf-8?B?QzBET3M4Nmc2czMyT3NGbEh6N2Z6WlR3QmxuVnRwNVg3UHRBaGZJazFBemJ4?=
+ =?utf-8?B?b0NzekRjdVVFcW9tV1dld21oTitqTjcxSjRCSTZuL0ozTlpob0p1RE9uQjlZ?=
+ =?utf-8?B?em1qaTJrQVNnenpLN0E5WjVzMjArNzUvVjVCYS8xSjh2YXVwaUNCQ1ZWUytp?=
+ =?utf-8?B?T1pGK0dRMkFrQW1rRW81Y1U5NWFKaVp0OURldWs3OFlmc2VKdVF2ZmpUZ0tZ?=
+ =?utf-8?B?Z3dqRjNTSzF0WDRSRVNXekl1U1BmVVk4ZExwOW0xbVh3citZNHlpdDBCdXRE?=
+ =?utf-8?B?S0VjVVhVN1lsVXBQQ2E4aEdheW5YdkxjTGFsOE8rd3JwUWRJc2d6Z1NhbVRl?=
+ =?utf-8?B?UjYrZTFhN3FMSWZGLzlNMk1YeVcwN1dmaHhmeDU0RERweHljSTEzMC9ZUTNY?=
+ =?utf-8?B?ejZQaEdaVWdGTlFDTmVnTHlnc2kwM1R3ZzRwajBsb0xSc0hEOUk1dmRwcVdH?=
+ =?utf-8?B?UUtLZ2JXOFJ3eGQ2bTN6em04a25HRVBmSmtvSUhWamVuQkJYNnVEaDFUVFp6?=
+ =?utf-8?B?c1FUNVFIZ2U4L1NQRDRLVW05MmZBUUZ1OWpCTVZqTmRDVTJ6SHVmRWY4U2dR?=
+ =?utf-8?B?d0NlTFFubkRacGlJcytKVEF1OFVrb3NQSHdHMTZGZU5lenI3cmxNU0hySkFn?=
+ =?utf-8?B?MllHcjVnRE10cVlmbzVNRldWbDhob0o0VGxzOVRhMitPNUZ4MnE0Q3g2M2xn?=
+ =?utf-8?B?dkFBWW5sVFhLUnFxZkQ4MzB6RTJYTG83bDhXZitOUVcyWUltdlZnWVYrdU01?=
+ =?utf-8?B?RmtYSzJZOXIzb2hTRjBNK3VlSWlJeEUyL1VQN0FOMG1ESWRLTGc0T09LL29y?=
+ =?utf-8?B?UzV3L2ZnMHhtMzdHVVd0bk5LQjlRaFdHSmZTc1QxNHArcjBWVUh5aDN4Tm9z?=
+ =?utf-8?B?c2ZEbms4dlcrQTRySy9URnpTa3F2ZjVDZ0VhSGl3M0plR1JFQjNtZ3dsOWFQ?=
+ =?utf-8?B?dll6b0UwVHY3WENyUDRLTnpQSXBhRitCTk9Bd3hCWkd5YmFROEI4Z0YvWCt4?=
+ =?utf-8?B?TEF1OXo4OHYvSlY4MzhxQmwyc043Y280S2dPMElUZDBmVFNzbitmbm9EeTQ3?=
+ =?utf-8?B?N25md3BXN041cXczd1BxMlR2dzU0UVlYaDUwVUtONWxIb0tqL0lRNFhuWXpQ?=
+ =?utf-8?B?TjV4TVFoSnY0RmRTclFWZTlMTkpsbmdOSytCNzRQSDRmU0hZT0lCOUw1NW40?=
+ =?utf-8?B?RlVDWUZpVGVtZHJCRVVZMWhkSEpwL2Q1bTBLVzlSMXlQaHBrQkZFOUxnNFlY?=
+ =?utf-8?B?dDZDNHRhdkFxTlhwdnF4VmZGdGpDUmVoaHdXZXlIOE1HYXJnRjl1aktPclpi?=
+ =?utf-8?B?cS85Ui9hVTZDNGRrRGJ4eXd3YndtdEpvUXk3eVljTk84NTVQVmlycVlaL2hw?=
+ =?utf-8?B?am13Y2FaR20yR0tNUXl2MGZpdlFvbGF4SW9BWWt1VGlhUHowNGZ6Vm52dEVI?=
+ =?utf-8?Q?9TP8=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bee50c23-c474-4ca7-8f11-08dbf55ddfce
+X-MS-Exchange-CrossTenant-AuthSource: BN8PR12MB3587.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 Dec 2023 06:46:14.0926
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gwoZ1t2r81CFWgmGWiCiw9AmYr6SkkvsYWuiebulh3WZd6vNo4wAQLnw5gRX2vh1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR12MB8861
 
-Hi Stefan,
+Am 04.12.23 um 22:54 schrieb Rob Clark:
+> On Thu, Mar 23, 2023 at 2:30 PM Rob Clark <robdclark@gmail.com> wrote:
+>> [SNIP]
+> So, this patch turns out to blow up spectacularly with dma_fence
+> refcnt underflows when I enable DRIVER_SYNCOBJ_TIMELINE .. I think,
+> because it starts unwrapping fence chains, possibly in parallel with
+> fence signaling on the retire path.  Is it supposed to be permissible
+> to unwrap a fence chain concurrently?
 
-On 11/29/23 4:56 AM, Stefan Wahren wrote:
-> Hi Umang,
+The DMA-fence chain object and helper functions were designed so that 
+concurrent accesses to all elements are always possible.
+
+See dma_fence_chain_walk() and dma_fence_chain_get_prev() for example. 
+dma_fence_chain_walk() starts with a reference to the current fence (the 
+anchor of the walk) and tries to grab an up to date reference on the 
+previous fence in the chain. Only after that reference is successfully 
+acquired we drop the reference to the anchor where we started.
+
+Same for dma_fence_array_first(), dma_fence_array_next(). Here we hold a 
+reference to the array which in turn holds references to each fence 
+inside the array until it is destroyed itself.
+
+When this blows up we have somehow mixed up the references somewhere.
+
+Regards,
+Christian.
+
 >
-> Am 28.11.23 um 21:19 schrieb Umang Jain:
->> This series also removes the vchiq_log_* macro and makes use of 
->> dev_dbg()
->> directly.
-> sorry, i didn't had the time to follow the logging discussion, but the
-> following commits:
->
-> staging: vc04: Convert vchiq_log_error() to use dynamic debug
-> staging: vc04: Convert vchiq_log_warning() to use dynamic debug
-> staging: vc04: Convert(and rename) vchiq_log_info() to use dynamic debug
->
-> changed the logging behavior. I don't think it's intended to move
-> everything to dev_dbg.
->
-> I would expected the following mapping:
-> vchiq_log_error -> dev_err
-> vchiq_log_warning -> dev_warn
-
-For this I agree,
-> vchiq_log_info -> dev_info
-
-However, I think vchiq_log_info and vchiq_log_debug should be moved to 
-dev_dbg.
-
-Otherwise, I think they'll spew a ton of information to dmesg by default.
->>
->> Patch 1/5 is fix. It prevents passing NULL to one of vchiq_log_error().
->> The function there in question, does not have any users as of
->> now. However, it is going to be used by the vc-sm-cma and bcm2835-isp
->> drivers (posted on list for review [1]). There was discussion on v1,
->> whether I should drop and add the function later, however, didn't
->> conclude.
->>
->> Patch 2/5 removes vchiq_log_error() macro
->> Patch 3/5 removes vchiq_log_warning() macro
->> Patch 4/5 removes vchiq_log_trace() macro
->> Patch 5/5 removes vchiq_log_debug() macro
->>
->> This completes the following TODO item:
->>
->> ```
->> * Cleanup logging mechanism
->>
->> The driver should probably be using the standard kernel logging 
->> mechanisms
->> such as dev_info, dev_dbg, and friends.
->> ```
->>
->> [1]: 
->> https://lore.kernel.org/linux-media/20231109210309.638594-1-umang.jain@ideasonboard.com/
->>
->> Changes in v2:
->> - Separate out one fixup patch from v1 (Patch 1/9)and send separately
->> - Drop usage of log_type() and log_category() helpers. Directly use
->>    dev_dbg() as suggested by Greg KH.
->> - Drop __func__ annotation from all logs. Dynamic debug has 'f'
->>    decorator flag which can be used instead of manual __func__
->> - Reword commit messages.
->>
->> Umang Jain (5):
->>    staging: vc04_services: Do not pass NULL to vchiq_log_error()
->>    staging: vc04_services: Drop vchiq_log_error() in favour of dev_dbg
->>    staging: vc04_services: Drop vchiq_log_warning() in favour of dev_dbg
->>    staging: vc04_services: Drop vchiq_log_trace() in favour of dev_dbg
->>    staging: vc04_services: Drop vchiq_log_debug() in favour of dev_dbg
->>
->>   drivers/staging/vc04_services/interface/TODO  |   5 -
->>   .../interface/vchiq_arm/vchiq_arm.c           | 176 ++++----
->>   .../interface/vchiq_arm/vchiq_connected.c     |   8 +-
->>   .../interface/vchiq_arm/vchiq_connected.h     |   4 +-
->>   .../interface/vchiq_arm/vchiq_core.c          | 402 +++++++++---------
->>   .../interface/vchiq_arm/vchiq_core.h          |  38 --
->>   .../interface/vchiq_arm/vchiq_dev.c           |  92 ++--
->>   7 files changed, 315 insertions(+), 410 deletions(-)
->>
->
-
+> BR,
+> -R
 
