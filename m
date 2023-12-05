@@ -1,129 +1,188 @@
-Return-Path: <linux-media+bounces-1633-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1634-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E691804C00
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 09:13:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2B63804C1F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 09:20:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F2151C20D29
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 08:13:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87B58281707
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 08:20:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05C773BB52;
-	Tue,  5 Dec 2023 08:13:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E8B13C067;
+	Tue,  5 Dec 2023 08:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NG5AsM1W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71FCA3B2A6;
-	Tue,  5 Dec 2023 08:13:37 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 234CCC433C9;
-	Tue,  5 Dec 2023 08:13:34 +0000 (UTC)
-Message-ID: <598a7ae4-03be-432b-aacb-a708df74b48d@xs4all.nl>
-Date: Tue, 5 Dec 2023 09:13:33 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE21ABA;
+	Tue,  5 Dec 2023 00:20:10 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0071D4DB;
+	Tue,  5 Dec 2023 09:19:28 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701764369;
+	bh=as9eWJPgC11SsS4l6Lvvaa+kNs5Pv8jA5yRszHq/yuw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NG5AsM1WDj/dpFyJXpfYG2U5Wk/Q8d2hWl9HP/Fi8TetGLkByR35i57owTTYVsXyF
+	 /Cjng5whpC2Ol5A6X4s58FNdlkLFMBUrWBwElrEja5csvQigusRNURPuNXtYd0zVV4
+	 +2EHuUz31Bv8ROLQhwOtdRTqg3lF3O4FVjhJgoDs=
+Date: Tue, 5 Dec 2023 10:20:16 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	kieran.bingham@ideasonboard.com, umang.jain@ideasonboard.com,
+	aford173@gmail.com, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/4] media: rkisp1: Fix IRQ handling due to shared
+ interrupts
+Message-ID: <20231205082016.GA17394@pendragon.ideasonboard.com>
+References: <20231205-rkisp-irq-fix-v1-0-f4045c74ba45@ideasonboard.com>
+ <20231205-rkisp-irq-fix-v1-3-f4045c74ba45@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 08/10] media: netup_unidvb: Don't let i2c adapters
- declare I2C_CLASS_SPD support if they support I2C_CLASS_HWMON
-Content-Language: en-US, nl
-To: Heiner Kallweit <hkallweit1@gmail.com>, Wolfram Sang <wsa@kernel.org>,
- Sergey Kozlov <serjk@netup.ru>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-i2c@vger.kernel.org, Abylay Ospan <aospan@netup.ru>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231124101619.6470-1-hkallweit1@gmail.com>
- <20231124101619.6470-9-hkallweit1@gmail.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231124101619.6470-9-hkallweit1@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231205-rkisp-irq-fix-v1-3-f4045c74ba45@ideasonboard.com>
 
-On 24/11/2023 11:16, Heiner Kallweit wrote:
-> After removal of the legacy eeprom driver the only remaining I2C
-> client device driver supporting I2C_CLASS_SPD is jc42. Because this
-> driver also supports I2C_CLASS_HWMON, adapters don't have to
-> declare support for I2C_CLASS_SPD if they support I2C_CLASS_HWMON.
-> It's one step towards getting rid of I2C_CLASS_SPD mid-term.
+Hi Tomi,
+
+Thank you for the patch.
+
+On Tue, Dec 05, 2023 at 10:09:34AM +0200, Tomi Valkeinen wrote:
+> The driver requests the interrupts as IRQF_SHARED, so the interrupt
+> handlers can be called at any time. If such a call happens while the ISP
+> is powered down, the SoC will hang as the driver tries to access the
+> ISP registers.
+
+Is IRQF_SHARED actually needed ?
+
+> Fix this by adding a new field, 'irqs_enabled', which is used to bail
+> out from the interrupt handler when the ISP is not operational.
 > 
-> Series was created supported by Coccinelle and its splitpatch.
-> 
-> Signed-off-by: Heiner Kallweit <hkallweit1@gmail.com>
-
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-
-Do you want me to take this, or will this go through the i2c subsystem?
-
-Regards,
-
-	Hans
-
-> 
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../media/platform/rockchip/rkisp1/rkisp1-capture.c |  3 +++
+>  .../media/platform/rockchip/rkisp1/rkisp1-common.h  |  2 ++
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c |  3 +++
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 21 +++++++++++++++++++++
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c |  3 +++
+>  5 files changed, 32 insertions(+)
 > 
-> diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c b/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
-> index bd38ce444..46676f2c8 100644
-> --- a/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
-> +++ b/drivers/media/pci/netup_unidvb/netup_unidvb_i2c.c
-> @@ -289,7 +289,7 @@ static const struct i2c_algorithm netup_i2c_algorithm = {
->  static const struct i2c_adapter netup_i2c_adapter = {
->  	.owner		= THIS_MODULE,
->  	.name		= NETUP_UNIDVB_NAME,
-> -	.class		= I2C_CLASS_HWMON | I2C_CLASS_SPD,
-> +	.class		= I2C_CLASS_HWMON,
->  	.algo		= &netup_i2c_algorithm,
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> index b50b044d22af..e92067897f28 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> @@ -779,6 +779,9 @@ irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
+>  	unsigned int i;
+>  	u32 status;
+>  
+> +	if (!rkisp1->irqs_enabled)
+> +		return IRQ_NONE;
+> +
+>  	status = rkisp1_read(rkisp1, RKISP1_CIF_MI_MIS);
+>  	if (!status)
+>  		return IRQ_NONE;
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index ec28907d978e..7f97fdf6e24c 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -465,6 +465,7 @@ struct rkisp1_debug {
+>   * @debug:	   debug params to be exposed on debugfs
+>   * @info:	   version-specific ISP information
+>   * @irqs:          IRQ line numbers
+> + * @irqs_enabled:  the hardware is enabled and can cause interrupts
+>   */
+>  struct rkisp1_device {
+>  	void __iomem *base_addr;
+> @@ -488,6 +489,7 @@ struct rkisp1_device {
+>  	struct rkisp1_debug debug;
+>  	const struct rkisp1_info *info;
+>  	int irqs[RKISP1_NUM_IRQS];
+> +	bool irqs_enabled;
 >  };
 >  
-> 
-> 
+>  /*
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+> index 47f4353a1784..f6b54654b435 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+> @@ -184,6 +184,9 @@ irqreturn_t rkisp1_csi_isr(int irq, void *ctx)
+>  	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
+>  	u32 val, status;
+>  
+> +	if (!rkisp1->irqs_enabled)
+> +		return IRQ_NONE;
+> +
+>  	status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
+>  	if (!status)
+>  		return IRQ_NONE;
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index 1d60f4b8bd09..fbe03f7864e3 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -306,6 +306,23 @@ static int __maybe_unused rkisp1_runtime_suspend(struct device *dev)
+>  {
+>  	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
+>  
+> +	rkisp1->irqs_enabled = false;
+> +	/* Make sure the IRQ handler will see the above */
+> +	mb();
+> +
+> +	/*
+> +	 * Wait until any running IRQ handler has returned. The IRQ handler
+> +	 * may get called even after this (as it's a shared interrupt line)
+> +	 * but the 'irqs_enabled' flag will make the handler return immediately.
+> +	 */
+> +	for (unsigned int i = 0; i < RKISP1_NUM_IRQS; ++i) {
+> +		if (rkisp1->irqs[i] == -1)
+> +			continue;
+> +
+> +		if (i == 0 || rkisp1->irqs[i - 1] != rkisp1->irqs[i])
+> +			synchronize_irq(rkisp1->irqs[i]);
+> +	}
+> +
+>  	clk_bulk_disable_unprepare(rkisp1->clk_size, rkisp1->clks);
+>  	return pinctrl_pm_select_sleep_state(dev);
+>  }
+> @@ -322,6 +339,10 @@ static int __maybe_unused rkisp1_runtime_resume(struct device *dev)
+>  	if (ret)
+>  		return ret;
+>  
+> +	rkisp1->irqs_enabled = true;
+> +	/* Make sure the IRQ handler will see the above */
+> +	mb();
+> +
+>  	return 0;
+>  }
+>  
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> index dafbfd230542..d6b8786661ad 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> @@ -1082,6 +1082,9 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+>  	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
+>  	u32 status, isp_err;
+>  
+> +	if (!rkisp1->irqs_enabled)
+> +		return IRQ_NONE;
+> +
+>  	status = rkisp1_read(rkisp1, RKISP1_CIF_ISP_MIS);
+>  	if (!status)
+>  		return IRQ_NONE;
 
+-- 
+Regards,
+
+Laurent Pinchart
 
