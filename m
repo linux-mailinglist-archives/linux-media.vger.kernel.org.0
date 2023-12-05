@@ -1,63 +1,60 @@
-Return-Path: <linux-media+bounces-1694-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1695-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 809938061B9
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 23:31:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70CEE8062B3
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 00:06:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3C451282070
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 22:31:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF97D1F216F2
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 23:06:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58D956EB63;
-	Tue,  5 Dec 2023 22:31:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BB2D405E6;
+	Tue,  5 Dec 2023 23:06:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZR+M62q3"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L9JcWRAp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97D1E188
-	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 14:30:58 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C99B510C7
+	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 15:05:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701815458; x=1733351458;
+  t=1701817553; x=1733353553;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=J7MOYVUUmMXw9Bbz68V78xjbparJszGQozDdKHc5IqI=;
-  b=ZR+M62q3aug2gPL06QFxhQWdFJLVBRLjqw+0SnI68qw14Jt/GCyd728F
-   QkcaqjCMe/vnEuvW7VEE+lcP5i/jbsKaGGnbSb99tvFfpxKzYplh85S4T
-   lhPZJjdha6ZeK4R6nMYqWx49g9K6SwdorqfH/kcr3WuHtrRuw2RgCNgSl
-   h44/wp0dMu/T/bylFJW43e0pEJIiHtGPo2mNr4kZPey9ZsMeC3OY2fP4o
-   XXoGs43XfwHSBh1PEq4se0zJwkNR+QYN7u5xun3bxVHotFqIjYXc6/aUU
-   MCGue6BmrAryK9Rn8OIjk6aDBps1GXKAHlYFnUnxZTmMeW5qwXH0X73iH
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="396760085"
+  bh=yR7NUyBqt7Ke7G0uAE/dZbZmtcrJeYch1Dyxhk5tFrg=;
+  b=L9JcWRApS9InzZrLa83ej5XHJrU2JoAFOQXsQFbaQ+35cr5VKhGKukWZ
+   r9NNQmAxDij5JAErjwPUTxyJ3IYAV2eMYtO9Ku6JfD6/oP37qG/Cv6AVH
+   NblEbw7czh/khMIzpWUSn1pBS6FdVkuEABcV9I7/Q864ndmN4jNpshXE3
+   hgi6Bn4YpvuUy++UtSk07ZkTu/yFvys5eHQlRBRkfEZ8OfA+HOOZW81vz
+   7VuD5jXXHhwz8ICa3aKJ0CTp3OZfQDYQZuxk23neEqbIxCFXQi0YABW/v
+   xvml7wiLLv4XuZ2AbcRNryE9u4Rxg7crfM48pv6g0oWRnM05/qlwJKRJj
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="396765698"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="396760085"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 14:30:58 -0800
+   d="scan'208";a="396765698"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 15:05:52 -0800
 X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="720880285"
 X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="19119382"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orviesa001.jf.intel.com with ESMTP; 05 Dec 2023 14:30:56 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAdwL-0009oE-10;
-	Tue, 05 Dec 2023 22:30:53 +0000
-Date: Wed, 6 Dec 2023 06:30:32 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yunke Cao <yunkec@google.com>, Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, Tomasz Figa <tfiga@chromium.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
-	Yunke Cao <yunkec@google.com>
-Subject: Re: [PATCH v14 06/11] v4l2-ctrls: add support for
- V4L2_CTRL_WHICH_MIN/MAX_VAL
-Message-ID: <202312060621.h935AOSJ-lkp@intel.com>
-References: <20231201071907.3080126-7-yunkec@google.com>
+   d="scan'208";a="720880285"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 15:05:50 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E082C1203A0;
+	Wed,  6 Dec 2023 01:05:46 +0200 (EET)
+Date: Tue, 5 Dec 2023 23:05:46 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+	hverkuil@xs4all.nl
+Subject: Re: [PATCH v2 1/1] media: v4l: Make sub-device state information
+ available to non-MC users
+Message-ID: <ZW-syug6iYJNQ7Ue@kekkonen.localdomain>
+References: <20231205130001.875327-1-sakari.ailus@linux.intel.com>
+ <20231205131054.GA29506@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,57 +63,188 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231201071907.3080126-7-yunkec@google.com>
+In-Reply-To: <20231205131054.GA29506@pendragon.ideasonboard.com>
 
-Hi Yunke,
+Hi Laurent,
 
-kernel test robot noticed the following build warnings:
+On Tue, Dec 05, 2023 at 03:10:54PM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
+> 
+> On Tue, Dec 05, 2023 at 03:00:01PM +0200, Sakari Ailus wrote:
+> > The sub-device state information access function were only available if
+> > CONFIG_MEDIA_CONTROLLER was defined whereas the functions themselves were
+> > used by non-MC-enabled drivers, too. Fix this by moving the definitions
+> > out of CONFIG_MEDIA_CONTROLLER dependent parts. Also make the MC dependent
+> > features conditional to CONFIG_MEDIA_CONTROLLER.
+> > 
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Closes: https://lore.kernel.org/oe-kbuild-all/202312051913.e5iif8Qz-lkp@intel.com/
+> > Fixes: bc0e8d91feec ("media: v4l: subdev: Switch to stream-aware state functions")
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> > Thanks to Laurent for review.
+> > 
+> > since v1:
+> > 
+> > - I thought the c file had already this fixed. Also fixed that now and
+> >   changed the commit message accordingly.
+> > 
+> >  drivers/media/v4l2-core/v4l2-subdev.c | 216 ++++++++++++++------------
+> >  include/media/v4l2-subdev.h           | 158 +++++++++----------
+> >  2 files changed, 193 insertions(+), 181 deletions(-)
+> > 
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+> > index 4fbefe4cd714..30746a7df259 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -1533,108 +1533,6 @@ void v4l2_subdev_cleanup(struct v4l2_subdev *sd)
+> >  }
+> >  EXPORT_SYMBOL_GPL(v4l2_subdev_cleanup);
+> >  
+> > -struct v4l2_mbus_framefmt *
+> > -__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
+> > -			       unsigned int pad, u32 stream)
+> > -{
+> > -	struct v4l2_subdev_stream_configs *stream_configs;
+> > -	unsigned int i;
+> > -
+> > -	if (WARN_ON_ONCE(!state))
+> > -		return NULL;
+> > -
+> > -	if (state->pads) {
+> > -		if (stream)
+> > -			return NULL;
+> > -
+> > -		if (pad >= state->sd->entity.num_pads)
+> > -			return NULL;
+> > -
+> > -		return &state->pads[pad].format;
+> > -	}
+> > -
+> > -	lockdep_assert_held(state->lock);
+> > -
+> > -	stream_configs = &state->stream_configs;
+> > -
+> > -	for (i = 0; i < stream_configs->num_configs; ++i) {
+> > -		if (stream_configs->configs[i].pad == pad &&
+> > -		    stream_configs->configs[i].stream == stream)
+> > -			return &stream_configs->configs[i].fmt;
+> > -	}
+> > -
+> > -	return NULL;
+> > -}
+> > -EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_format);
+> > -
+> > -struct v4l2_rect *
+> > -__v4l2_subdev_state_get_crop(struct v4l2_subdev_state *state, unsigned int pad,
+> > -			     u32 stream)
+> > -{
+> > -	struct v4l2_subdev_stream_configs *stream_configs;
+> > -	unsigned int i;
+> > -
+> > -	if (WARN_ON_ONCE(!state))
+> > -		return NULL;
+> > -
+> > -	if (state->pads) {
+> > -		if (stream)
+> > -			return NULL;
+> > -
+> > -		if (pad >= state->sd->entity.num_pads)
+> > -			return NULL;
+> > -
+> > -		return &state->pads[pad].crop;
+> > -	}
+> > -
+> > -	lockdep_assert_held(state->lock);
+> > -
+> > -	stream_configs = &state->stream_configs;
+> > -
+> > -	for (i = 0; i < stream_configs->num_configs; ++i) {
+> > -		if (stream_configs->configs[i].pad == pad &&
+> > -		    stream_configs->configs[i].stream == stream)
+> > -			return &stream_configs->configs[i].crop;
+> > -	}
+> > -
+> > -	return NULL;
+> > -}
+> > -EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_crop);
+> > -
+> > -struct v4l2_rect *
+> > -__v4l2_subdev_state_get_compose(struct v4l2_subdev_state *state,
+> > -				unsigned int pad, u32 stream)
+> > -{
+> > -	struct v4l2_subdev_stream_configs *stream_configs;
+> > -	unsigned int i;
+> > -
+> > -	if (WARN_ON_ONCE(!state))
+> > -		return NULL;
+> > -
+> > -	if (state->pads) {
+> > -		if (stream)
+> > -			return NULL;
+> > -
+> > -		if (pad >= state->sd->entity.num_pads)
+> > -			return NULL;
+> > -
+> > -		return &state->pads[pad].compose;
+> > -	}
+> > -
+> > -	lockdep_assert_held(state->lock);
+> > -
+> > -	stream_configs = &state->stream_configs;
+> > -
+> > -	for (i = 0; i < stream_configs->num_configs; ++i) {
+> > -		if (stream_configs->configs[i].pad == pad &&
+> > -		    stream_configs->configs[i].stream == stream)
+> > -			return &stream_configs->configs[i].compose;
+> > -	}
+> > -
+> > -	return NULL;
+> > -}
+> > -EXPORT_SYMBOL_GPL(__v4l2_subdev_state_get_compose);
+> > -
+> >  #if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+> >  
+> >  static int
+> > @@ -2272,6 +2170,120 @@ EXPORT_SYMBOL_GPL(v4l2_subdev_s_stream_helper);
+> >  
+> >  #endif /* CONFIG_MEDIA_CONTROLLER */
+> >  
+> > +struct v4l2_mbus_framefmt *
+> > +__v4l2_subdev_state_get_format(struct v4l2_subdev_state *state,
+> > +			       unsigned int pad, u32 stream)
+> > +{
+> > +	struct v4l2_subdev_stream_configs *stream_configs;
+> > +	unsigned int i;
+> > +
+> > +	if (WARN_ON_ONCE(!state))
+> > +		return NULL;
+> > +
+> > +	if (state->pads) {
+> > +		if (stream)
+> > +			return NULL;
+> > +
+> > +		if (pad >= state->sd->entity.num_pads)
+> 
+> This won't work, v4l2_subdev has no entity field when
+> CONFIG_MEDIA_CONTROLLER is not defined. Please compile-test further
+> versions of this patch.
+> 
+> Now, for an attempt to review v3 before you post it: dropping the
+> 
+> #if defined(CONFIG_MEDIA_CONTROLLER)
+> 
+> around the entity field of v4l2_subdev won't work either, as the
+> saa6752hs driver doesn't initialize the entity, so num_fields will be at
+> best memset to 0, at worst random. This check will then always fail.
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linuxtv-media-stage/master linus/master v6.7-rc4 next-20231205]
-[cannot apply to media-tree/master sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunke-Cao/media-v4l2_ctrl-Add-V4L2_CTRL_TYPE_RECT/20231201-152501
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20231201071907.3080126-7-yunkec%40google.com
-patch subject: [PATCH v14 06/11] v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
-config: alpha-randconfig-r122-20231202 (https://download.01.org/0day-ci/archive/20231206/202312060621.h935AOSJ-lkp@intel.com/config)
-compiler: alpha-linux-gcc (GCC) 13.2.0
-reproduce: (https://download.01.org/0day-ci/archive/20231206/202312060621.h935AOSJ-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060621.h935AOSJ-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/media/v4l2-core/v4l2-ctrls-core.c:309:6: sparse: sparse: symbol 'v4l2_ctrl_type_op_minimum' was not declared. Should it be static?
->> drivers/media/v4l2-core/v4l2-ctrls-core.c:315:6: sparse: sparse: symbol 'v4l2_ctrl_type_op_maximum' was not declared. Should it be static?
-   drivers/media/v4l2-core/v4l2-ctrls-core.c: note: in included file (through include/linux/preempt.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-   include/linux/list.h:83:21: sparse: sparse: self-comparison always evaluates to true
-
-vim +/v4l2_ctrl_type_op_minimum +309 drivers/media/v4l2-core/v4l2-ctrls-core.c
-
-   308	
- > 309	void v4l2_ctrl_type_op_minimum(const struct v4l2_ctrl *ctrl, u32 from_idx,
-   310				       union v4l2_ctrl_ptr ptr)
-   311	{
-   312		__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_MIN_VAL, ptr);
-   313	}
-   314	
- > 315	void v4l2_ctrl_type_op_maximum(const struct v4l2_ctrl *ctrl, u32 from_idx,
-   316				       union v4l2_ctrl_ptr ptr)
-   317	{
-   318		__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_MAX_VAL, ptr);
-   319	}
-   320	
+I'll prepare v3, as discussed, to address the issues in the drivers
+instead. I expect to post patches for that later this week.
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Sakari Ailus
 
