@@ -1,126 +1,91 @@
-Return-Path: <linux-media+bounces-1687-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1688-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43AA805B39
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 18:37:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 50A2A805D17
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 19:20:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F2051F21568
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 17:37:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 828821C211CE
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 18:19:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CA2668B76;
-	Tue,  5 Dec 2023 17:37:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B417768B8B;
+	Tue,  5 Dec 2023 18:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TCv6P8tj"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="DxH1pk0c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5560FCA;
-	Tue,  5 Dec 2023 09:36:56 -0800 (PST)
-Received: from [100.90.159.192] (ec2-34-240-57-77.eu-west-1.compute.amazonaws.com [34.240.57.77])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: bbeckett)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id B760866072A7;
-	Tue,  5 Dec 2023 17:36:54 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701797815;
-	bh=D+BnC18dTewKG1sYUbVzU1UQZRYC0I7GsxPXzOUgVz8=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=TCv6P8tjumaojN4l2jHlx/wDgUI1veQ5m1geiEqrwI4i4bUW39XwQAS9QWbVskzbK
-	 krpHBbvW5oiKHqYfWR1cVGzaUhRYKi4pZRx5wVMZZESyhBH5TV29i+y6D+ek7+9lJz
-	 pu78E++D7lfHnN6Tvd8TZI3nCpq/c/SXqNbBZ0mkxext2dvJOQpuTj+nUzWD1yMws5
-	 /YWD69LRDL2dnrAgZVvfAom89rc1Q/KfYRTiqJao4ewbvV4ARkfKMDId304oHf3rVV
-	 aDWTlrKUUytKiuZ0TsODB4bzHBGmehCJ+HpvVMRjMdyzhOOsiZFn+sv+izgXmWN+ao
-	 o4JZyqQowy+3A==
-Message-ID: <e891ae21-2b3a-4d99-9f5c-fb387438ffef@collabora.com>
-Date: Tue, 5 Dec 2023 17:36:43 +0000
+Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7225BAC;
+	Tue,  5 Dec 2023 10:19:50 -0800 (PST)
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3B5IJdOJ041306;
+	Tue, 5 Dec 2023 12:19:39 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1701800379;
+	bh=WAEGbkCdkZQkNXT1+Kwb7nEHiZjAZT6KEw41iaIbNQo=;
+	h=From:To:CC:Subject:Date;
+	b=DxH1pk0c8WJqs8oE4Yrex1n24HrbWfUZEafC3RW8/Wh54ZtQe7gNBNVX76a7i2rRV
+	 kPdwpNXDbeRmkKe9uz11KAndcPW2Zi7qE5s1DFlhrgekAOybMWcY/hQYqk/x2by8W5
+	 VQX+SC6aD9CuorLNUYL8VcCm4IUU5wowVshGsS7c=
+Received: from DLEE110.ent.ti.com (dlee110.ent.ti.com [157.170.170.21])
+	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3B5IJdID115823
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Tue, 5 Dec 2023 12:19:39 -0600
+Received: from DLEE108.ent.ti.com (157.170.170.38) by DLEE110.ent.ti.com
+ (157.170.170.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 5
+ Dec 2023 12:19:39 -0600
+Received: from DLEE108.ent.ti.com ([fe80::922:4dc:27cc:b334]) by
+ DLEE108.ent.ti.com ([fe80::922:4dc:27cc:b334%17]) with mapi id
+ 15.01.2507.023; Tue, 5 Dec 2023 12:19:39 -0600
+From: "Brnich, Brandon" <b-brnich@ti.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Geert Uytterhoeven
+	<geert@linux-m68k.org>,
+        "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>,
+        "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>,
+        Sebastian Fricke
+	<sebastian.fricke@collabora.com>,
+        Nas Chung <nas.chung@chipsnmedia.com>
+CC: "Menon, Nishanth" <nm@ti.com>, "Etheridge, Darren" <detheridge@ti.com>
+Subject: Re: [PATCH 1/2] dt-bindings: media: Remove K3 Family Prefix from
+ Compatible
+Thread-Topic: [PATCH 1/2] dt-bindings: media: Remove K3 Family Prefix from
+ Compatible
+Thread-Index: AdonnnBOfXbF7ysvRZOWDYpHdQCVVA==
+Date: Tue, 5 Dec 2023 18:19:39 +0000
+Message-ID: <5240cd51831a471f859a0440f5405c51@ti.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-exclaimer-md-config: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Robert Beckett <bob.beckett@collabora.com>
-Subject: Re: [PATCH] Fix memory leaks in wave5_vpu_open_enc() and
- wave5_vpu_open_dec()
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Zeng Chi <zengchi@kylinos.cn>, nas.chung@chipsnmedia.com,
- jackson.lee@chipsnmedia.com, mchehab@kernel.org,
- sebastian.fricke@collabora.com, hverkuil-cisco@xs4all.nl
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231204091649.3418987-1-zengchi@kylinos.cn>
- <a4c47b282d9e3bc5c2891ac1b9cafb9c9970975c.camel@collabora.com>
-Content-Language: en-US
-In-Reply-To: <a4c47b282d9e3bc5c2891ac1b9cafb9c9970975c.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-
-On 04/12/2023 13:55, Nicolas Dufresne wrote:
-> Hi,
->
-> Le lundi 04 décembre 2023 à 17:16 +0800, Zeng Chi a écrit :
->> This patch fixes memory leaks on error escapes in wave5_vpu_open_enc()
->> and wave5_vpu_open_dec().
-> Please avoid sending twice the same patch. This is still a NAK.
-
-tbf, this is a different patch, concerning the allocation of the 
-codec_info within inst, not inst itself.
-
-> regards,
-> Nicolas
->
->> Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
->> Signed-off-by: Zeng Chi<zengchi@kylinos.cn>
->> ---
->>   drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 5 +++--
->>   drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 5 +++--
->>   2 files changed, 6 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->> index 8b1417ece96e..b0a045346bb7 100644
->> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
->> @@ -1802,9 +1802,10 @@ static int wave5_vpu_open_dec(struct file *filp)
->>   	spin_lock_init(&inst->state_spinlock);
->>   
->>   	inst->codec_info = kzalloc(sizeof(*inst->codec_info), GFP_KERNEL);
->> -	if (!inst->codec_info)
->> +	if (!inst->codec_info) {
->> +		kfree(inst);
-
-for consistency, would be better to jump to cleanup_inst.
-
-Also, maybe consider embedding codec_info  in to struct vpu_instance to 
-avoid the double alloc. I've not checked whether this is viable 
-throughout the code, but from a quick scan of the original patch, it 
-looks like it is always allocated and freed alongside inst.
-
->>   		return -ENOMEM;
->> -
->> +	}
->>   	v4l2_fh_init(&inst->v4l2_fh, vdev);
->>   	filp->private_data = &inst->v4l2_fh;
->>   	v4l2_fh_add(&inst->v4l2_fh);
->> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->> index f29cfa3af94a..bc94de9ea546 100644
->> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->> @@ -1546,9 +1546,10 @@ static int wave5_vpu_open_enc(struct file *filp)
->>   	inst->ops = &wave5_vpu_enc_inst_ops;
->>   
->>   	inst->codec_info = kzalloc(sizeof(*inst->codec_info), GFP_KERNEL);
->> -	if (!inst->codec_info)
->> +	if (!inst->codec_info) {
->> +		kfree(inst);
->>   		return -ENOMEM;
->> -
->> +	}
->>   	v4l2_fh_init(&inst->v4l2_fh, vdev);
->>   	filp->private_data = &inst->v4l2_fh;
->>   	v4l2_fh_add(&inst->v4l2_fh);
+SGVsbG8gS3J6eXN6dG9mLA0KDQo+IE9uIDA0LzEyLzIwMjMgMTk6MTQsIEJyYW5kb24gQnJuaWNo
+IHdyb3RlOg0KPiA+IEszIGZhbWlseSBwcmVmaXggaXMgbm90IGluY2x1ZGVkIGluIG90aGVyIFRJ
+IGNvbXBhdGlibGUgc3RyaW5ncy4NCj4gPiBSZW1vdmUgdGhpcyBwcmVmaXggdG8ga2VlcCBuYW1p
+bmcgY29udmVudGlvbiBjb25zaXN0ZW50Lg0KPiA+DQo+ID4gRml4ZXM6IGRlNGI5ZjdlMzcxYSAo
+ImR0LWJpbmRpbmdzOiBtZWRpYTogd2F2ZTU6IGFkZCB5YW1sIGRldmljZXRyZWUNCj4gPiBiaW5k
+aW5ncyIpDQo+IA0KPiBUaGlzIGNoYW5nZSBicmVha3MgdGhlIEFCSSwgc28gZG9lcyBpdCBtZWFu
+IGl0IHdhcyBub3QgeWV0IHJlbGVhc2VkPw0KDQpUaGlzIGRyaXZlciBoYXMgbm90IHlldCBtYWRl
+IGl0IGludG8gcmVsZWFzZXMuIEl0IGN1cnJlbnRseSByZXNpZGVzIGluIGxpbnV4LW5leHQuIA0K
+DQo+IA0KPiBQbGVhc2UgdXNlIHNjcmlwdHMvZ2V0X21haW50YWluZXJzLnBsIHRvIGdldCBhIGxp
+c3Qgb2YgbmVjZXNzYXJ5IHBlb3BsZSBhbmQNCj4gbGlzdHMgdG8gQ0MgKGFuZCBjb25zaWRlciAt
+LW5vLWdpdC1mYWxsYmFjayBhcmd1bWVudCkuIEl0IG1pZ2h0IGhhcHBlbiwgdGhhdA0KPiBjb21t
+YW5kIHdoZW4gcnVuIG9uIGFuIG9sZGVyIGtlcm5lbCwgZ2l2ZXMgeW91IG91dGRhdGVkIGVudHJp
+ZXMuDQo+IFRoZXJlZm9yZSBwbGVhc2UgYmUgc3VyZSB5b3UgYmFzZSB5b3VyIHBhdGNoZXMgb24g
+cmVjZW50IExpbnV4IGtlcm5lbC4NCg0KSSB3aWxsIHVwZGF0ZSB0aGlzIGluIG5leHQgdmVyc2lv
+bi4NCg0KPiANCj4gQmVzdCByZWdhcmRzLA0KPiBLcnp5c3p0b2YNCg0KVGhhbmtzLA0KQnJhbmRv
+bg0KDQoNCg==
 
