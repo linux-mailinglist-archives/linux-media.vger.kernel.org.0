@@ -1,323 +1,709 @@
-Return-Path: <linux-media+bounces-1691-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1692-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 292E6805E9A
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 20:25:04 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CE0D805EA8
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 20:33:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A25091F21723
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 19:25:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 19607281FB5
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 19:33:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C60F6675C7;
-	Tue,  5 Dec 2023 19:24:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 662346A336;
+	Tue,  5 Dec 2023 19:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mdlEnrtH"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="stGJzJdn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27EF1196
-	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 11:24:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701804289; x=1733340289;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cfJFzkpdgsUS4rTefh4CKUvyIi5q0MhTzFVZ3xXG3YY=;
-  b=mdlEnrtHN9zFIezHE5F8a7d4d9xMGyM/Xi3+D6DMf7Zx2itcairSkidt
-   IgBaMkrFRcRY+7Xzb3dgghmFckb8UUo/M8qi0HyaL94yPnosd+NiuS2tX
-   rwTmMXMG3YcLy9KV0nvwOwIJHR2LN91D6z0BWz30TxEU4POmbifR4TTVd
-   E20HLD+zoBRZmsVeaWszG9YoM2uSjSmtiBwBpFeRoXKp7i1bdm297Rok2
-   6PInh9ZJS3EPkbZdcp4fEYHXDGIJAYPurqNvz4mUNEPP2wKdWi1GnqqLf
-   alzPtpbr/LgulVq4HgUYEmr2ugfJObTKjKcuU/lWkFzoM+9VUIEOAugGt
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="15497074"
-X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="15497074"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 11:24:48 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="720822558"
-X-IronPort-AV: E=Sophos;i="6.04,253,1695711600"; 
-   d="scan'208";a="720822558"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 05 Dec 2023 11:24:45 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAb2A-0009bj-2s;
-	Tue, 05 Dec 2023 19:24:42 +0000
-Date: Wed, 6 Dec 2023 03:24:25 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Michael Riesch <michael.riesch@wolfvision.net>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org,
-	Alexander Stein <alexander.stein@ew.tq-group.com>
-Subject: Re: [PATCH 1/3] media: i2c: imx415: Convert to new CCI register
- access helpers
-Message-ID: <202312060301.eWnbiFAk-lkp@intel.com>
-References: <20231205090557.298680-2-alexander.stein@ew.tq-group.com>
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85D0DA5
+	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 11:33:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1701804765; x=1702409565; i=wahrenst@gmx.net;
+	bh=tzVTlWqho8OD/yE09J1CnFYsUEzmFcW5qDtwDxAyp0g=;
+	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
+	 In-Reply-To;
+	b=stGJzJdnJ8kw1uJLblAy9xhTwBol55TRjmS/tfw3Kj5FkWIY4QLGtE4VU1EgpNE4
+	 m9OD9PLPHyqZfjNXaOnTkaEkz394H+6/ycqZ1oYDNHKAk6nI1ZPEapy+x8rDnxmI0
+	 medt4rBPWSHvFnzNTGKOExmpNkvAWLld+lGmuJpLAZegnZyoUnBZhhSUgX9VzTrlv
+	 OulGiXJek68Wkx6nSXczzVpuJBFCipE7nKo7qyZKCNwagbdELXCwQA05+OYlz69Wr
+	 1sxHroMTfGzEqJZeGt3ObVz34iQD+IdqN7hs0HeyZ5UJQan8z0hG8sS+hjNJuMedy
+	 u6+pj5WIC0PVoqYZTQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1MzQgC-1rWeDN1rX6-00vQm4; Tue, 05
+ Dec 2023 20:32:45 +0100
+Message-ID: <d6bf7115-dd15-43a0-b45a-41fc778ff160@gmx.net>
+Date: Tue, 5 Dec 2023 20:32:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231205090557.298680-2-alexander.stein@ew.tq-group.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/4] staging: vc04_services: Drop vchiq_log_error() in
+ favour of dev_err
+Content-Language: en-US
+To: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
+ linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dan Carpenter <error27@gmail.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ "Ricardo B . Marliere" <ricardo@marliere.net>
+References: <20231205084157.73819-1-umang.jain@ideasonboard.com>
+ <20231205084157.73819-2-umang.jain@ideasonboard.com>
+From: Stefan Wahren <wahrenst@gmx.net>
+In-Reply-To: <20231205084157.73819-2-umang.jain@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:MDAKMaw3TTndClCtE11Tc8MaCHj0bCG+fJpa+ULwLPg7TaILwt/
+ 2L1iRpqj/Grk7c4lJVA5glWbFczS4PmAFxRuuM0CPiL3LWtFj1Noeb39dR6ZH4R3edxLmRW
+ 3S3A2apg/BDUYZyVvOhZgHd0foI8E9dcjJzGyUOoxadWK3ER0tuNtBZ3Cu/r0n1WDq90IW9
+ PI5JNNd2QE5zez3BAeYCQ==
+UI-OutboundReport: notjunk:1;M01:P0:PnESvkf7zTw=;CJSASxsLBbrs9BOEcaJwyQqxmFE
+ IMfMgJ+H5cAZC/c0ryyXmi53U/SdgggrdkXL/F13IzxrIUEgCoAkKUFCZiTIfjdFgVvWXajI9
+ Z3XAA/iMXYNUA8SGregB2WZnsz55bblnusvkK2+M0gLpjHD4Iy1IMbMyeu/47fw37Y2ZfnzLV
+ HgISTefEnY2zmGtufaE9e5sUZfSEBK05UdCe05I2EAHy6AnSBacSg2QMrAk8v3L3aytRIzayc
+ WmZM7zVZQ31Xukq/VzVPhMNuycOuoo/A2JtDPZqhHnUpOjSlivH9l9TiOw3qaFKUvBHL4o4qP
+ GFXzQ6nfUTVOtNQuPviirBxLIXKfOGuO3R5FC9FNKh4yCk8FnFTwg3R1bWHFdLu9woiI1RzAD
+ w/TYYqSGAuUdXFDdSrbWligduqQg6xDndtNALjWckALc9foU7oXEwwyHkv3h9a2Z6sTC2bHVm
+ AHoGMF/oeCGUu/ZUACXZRw+pYWviqRR9EOYa01IEJRaEy/y3tXc8zZtYg2QEnM2OldlLj55nO
+ 5l+IlTJcKeAKv5UICvqNdUwkxLPbDKvmbWvM/RErV5cVzmIlhzKC5QygsctKIq6Zx5DauUwO6
+ hSz3585fE8sEUTUAT1gX1Flldb+jRBSIpJXwycCmJue8YfZBiLpESkDnxUTK5KS8uVU8Ag3j6
+ o+k3NCNZXvDxMH8XJNNxALSPiZC5z3G2XNEMQo2gLOEeF8gAqPbBurSdPh2AmBCGmD+wtnK+O
+ 1Gi+MCUo5rhcykqdIBuExTxZP1DVly3rWojRcdfmX94u7MliS/FPTjIpLPRXe7PNAhK8DubYT
+ U/crTP7RUKqehM41ImNBvE4UfeSeSyeXLQRTBuRN8R9iaCVeRtTPXJCNU2a+0gb4WCLIi6/7D
+ 8QiCP6hRN5JakdCJ6EXKpBuQEidg28mUr36qHCqrKezpmAG46qnFRrmO0WXyHTm4+w1Rqz0Kk
+ 5urZs9KWjcKxbON88ZuMMKjSXtY=
 
-Hi Alexander,
+Hi Umang,
 
-kernel test robot noticed the following build errors:
+Am 05.12.23 um 09:41 schrieb Umang Jain:
+> Drop vchiq_log_error() macro which wraps dev_dbg(). Introduce the usage
+> of dev_err() directly.
+sorry, i missed to review the last change. So the change won't be that
+trivial.
+>
+> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
+> ---
+>   .../interface/vchiq_arm/vchiq_arm.c           |  50 ++++----
+>   .../interface/vchiq_arm/vchiq_connected.c     |   6 +-
+>   .../interface/vchiq_arm/vchiq_core.c          | 113 +++++++++---------
+>   .../interface/vchiq_arm/vchiq_core.h          |   4 -
+>   .../interface/vchiq_arm/vchiq_dev.c           |  45 ++++---
+>   5 files changed, 101 insertions(+), 117 deletions(-)
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm=
+.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> index 7978fb6dc4fb..b403400edd8e 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_arm.c
+> @@ -683,8 +683,7 @@ int vchiq_initialise(struct vchiq_instance **instanc=
+e_out)
+>   		usleep_range(500, 600);
+>   	}
+>   	if (i =3D=3D VCHIQ_INIT_RETRIES) {
+> -		vchiq_log_error(state->dev, VCHIQ_CORE, "%s: videocore not initialize=
+d\n",
+> -				__func__);
+> +		dev_err(state->dev, "core: %s: Videocore not initialized\n", __func__=
+);
+>   		ret =3D -ENOTCONN;
+>   		goto failed;
+>   	} else if (i > 0) {
+> @@ -694,8 +693,7 @@ int vchiq_initialise(struct vchiq_instance **instanc=
+e_out)
+>
+>   	instance =3D kzalloc(sizeof(*instance), GFP_KERNEL);
+>   	if (!instance) {
+> -		vchiq_log_error(state->dev, VCHIQ_CORE,
+> -				"%s: error allocating vchiq instance\n", __func__);
+> +		dev_err(state->dev, "core: %s: Cannot allocate vchiq instance\n", __f=
+unc__);
+please drop because kzalloc already report such errors
+>   		ret =3D -ENOMEM;
+>   		goto failed;
+>   	}
+> @@ -967,8 +965,7 @@ vchiq_blocking_bulk_transfer(struct vchiq_instance *=
+instance, unsigned int handl
+>   	} else {
+>   		waiter =3D kzalloc(sizeof(*waiter), GFP_KERNEL);
+>   		if (!waiter) {
+> -			vchiq_log_error(service->state->dev, VCHIQ_CORE,
+> -					"%s - out of memory", __func__);
+> +			dev_err(service->state->dev, "core: %s: - Out of memory\n", __func__=
+);
+ditto
+>   			return -ENOMEM;
+>   		}
+>   	}
+> @@ -1290,8 +1287,8 @@ vchiq_keepalive_vchiq_callback(struct vchiq_instan=
+ce *instance,
+>   			       struct vchiq_header *header,
+>   			       unsigned int service_user, void *bulk_user)
+>   {
+> -	vchiq_log_error(instance->state->dev, VCHIQ_SUSPEND,
+> -			"%s callback reason %d", __func__, reason);
+> +	dev_err(instance->state->dev, "suspend: %s: callback reason %d\n",
+> +		__func__, reason);
+>   	return 0;
+>   }
+>
+> @@ -1315,22 +1312,20 @@ vchiq_keepalive_thread_func(void *v)
+>
+>   	ret =3D vchiq_initialise(&instance);
+>   	if (ret) {
+> -		vchiq_log_error(state->dev, VCHIQ_SUSPEND,
+> -				"%s vchiq_initialise failed %d", __func__, ret);
+> +		dev_err(state->dev, "suspend: %s: vchiq_initialise failed %d\n", __fu=
+nc__, ret);
+>   		goto exit;
+>   	}
+>
+>   	status =3D vchiq_connect(instance);
+>   	if (status) {
+> -		vchiq_log_error(state->dev, VCHIQ_SUSPEND,
+> -				"%s vchiq_connect failed %d", __func__, status);
+> +		dev_err(state->dev, "suspend: %s: vchiq_connect failed %d\n", __func_=
+_, status);
+>   		goto shutdown;
+>   	}
+>
+>   	status =3D vchiq_add_service(instance, &params, &ka_handle);
+>   	if (status) {
+> -		vchiq_log_error(state->dev, VCHIQ_SUSPEND,
+> -				"%s vchiq_open_service failed %d", __func__, status);
+> +		dev_err(state->dev, "suspend: %s: vchiq_open_service failed %d\n",
+> +			__func__, status);
+>   		goto shutdown;
+>   	}
+>
+> @@ -1338,8 +1333,7 @@ vchiq_keepalive_thread_func(void *v)
+>   		long rc =3D 0, uc =3D 0;
+>
+>   		if (wait_for_completion_interruptible(&arm_state->ka_evt)) {
+> -			vchiq_log_error(state->dev, VCHIQ_SUSPEND,
+> -					"%s interrupted", __func__);
+> +			dev_err(state->dev, "suspend: %s: interrupted\n", __func__);
+I think this isn't an error and we should use dev_dbg here.
+>   			flush_signals(current);
+>   			continue;
+>   		}
+> @@ -1359,16 +1353,15 @@ vchiq_keepalive_thread_func(void *v)
+>   			atomic_inc(&arm_state->ka_use_ack_count);
+>   			status =3D vchiq_use_service(instance, ka_handle);
+>   			if (status) {
+> -				vchiq_log_error(state->dev, VCHIQ_SUSPEND,
+> -						"%s vchiq_use_service error %d", __func__, status);
+> +				dev_err(state->dev, "suspend: %s: vchiq_use_service error %d\n",
+> +					__func__, status);
+>   			}
+>   		}
+>   		while (rc--) {
+>   			status =3D vchiq_release_service(instance, ka_handle);
+>   			if (status) {
+> -				vchiq_log_error(state->dev, VCHIQ_SUSPEND,
+> -						"%s vchiq_release_service error %d", __func__,
+> -						status);
+> +				dev_err(state->dev, "suspend: %s: vchiq_release_service error %d\n"=
+,
+> +					__func__, status);
+>   			}
+>   		}
+>   	}
+> @@ -1403,7 +1396,7 @@ vchiq_use_internal(struct vchiq_state *state, stru=
+ct vchiq_service *service,
+>   			 service->client_id);
+>   		entity_uc =3D &service->service_use_count;
+>   	} else {
+> -		vchiq_log_error(state->dev, VCHIQ_SUSPEND, "%s null service ptr", __f=
+unc__);
+> +		dev_err(state->dev, "suspend: %s: null service ptr\n", __func__);
+Instead of dev_err() i would suggest a WARN() here
+>   		ret =3D -EINVAL;
+>   		goto out;
+>   	}
+> @@ -1686,10 +1679,10 @@ vchiq_check_service(struct vchiq_service *servic=
+e)
+>   	read_unlock_bh(&arm_state->susp_res_lock);
+>
+>   	if (ret) {
+> -		vchiq_log_error(service->state->dev, VCHIQ_SUSPEND,
+> -				"%s ERROR - %p4cc:%d service count %d, state count %d", __func__,
+> -				&service->base.fourcc, service->client_id,
+> -				service->service_use_count, arm_state->videocore_use_count);
+> +		dev_err(service->state->dev,
+> +			"suspend: %s:  %p4cc:%d service count %d, state count %d\n",
+> +			__func__, &service->base.fourcc, service->client_id,
+> +			service->service_use_count, arm_state->videocore_use_count);
+>   		vchiq_dump_service_use_state(service->state);
+>   	}
+>   out:
+> @@ -1722,9 +1715,8 @@ void vchiq_platform_conn_state_changed(struct vchi=
+q_state *state,
+>   					      (void *)state,
+>   					      threadname);
+>   	if (IS_ERR(arm_state->ka_thread)) {
+> -		vchiq_log_error(state->dev, VCHIQ_SUSPEND,
+> -				"vchiq: FATAL: couldn't create thread %s",
+> -				threadname);
+> +		dev_err(state->dev, "suspend: Couldn't create thread %s\n",
+> +			threadname);
+>   	} else {
+>   		wake_up_process(arm_state->ka_thread);
+>   	}
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_con=
+nected.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connect=
+ed.c
+> index 21f9fa1a1713..3cad13f09e37 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.=
+c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_connected.=
+c
+> @@ -39,9 +39,9 @@ void vchiq_add_connected_callback(struct vchiq_device =
+*device, void (*callback)(
+>   		callback();
+>   	} else {
+>   		if (g_num_deferred_callbacks >=3D MAX_CALLBACKS) {
+> -			vchiq_log_error(&device->dev, VCHIQ_CORE,
+> -					"There already %d callback registered - please increase MAX_CALLBA=
+CKS",
+> -					g_num_deferred_callbacks);
+> +			dev_err(&device->dev,
+> +				"core: There already %d callback registered - please increase MAX_C=
+ALLBACKS\n",
+> +				g_num_deferred_callbacks);
+>   		} else {
+>   			g_deferred_callback[g_num_deferred_callbacks] =3D
+>   				callback;
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_cor=
+e.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> index e0022acb4c58..63f412815a32 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.c
+> @@ -741,10 +741,10 @@ process_free_data_message(struct vchiq_state *stat=
+e, u32 *service_found,
+>   		 */
+>   		complete(&quota->quota_event);
+>   	} else if (count =3D=3D 0) {
+> -		vchiq_log_error(state->dev, VCHIQ_CORE,
+> -				"service %d message_use_count=3D%d (header %pK, msgid %x, header->m=
+sgid %x, header->size %x)",
+> -				port, quota->message_use_count, header, msgid, header->msgid,
+> -				header->size);
+> +		dev_err(state->dev,
+> +			"core: service %d message_use_count=3D%d (header %pK, msgid %x, head=
+er->msgid %x, header->size %x)\n",
+> +			port, quota->message_use_count, header, msgid,
+> +			header->msgid, header->size);
+>   		WARN(1, "invalid message use count\n");
+>   	}
+>   	if (!BITSET_IS_SET(service_found, port)) {
+> @@ -766,9 +766,9 @@ process_free_data_message(struct vchiq_state *state,=
+ u32 *service_found,
+>   			vchiq_log_trace(state->dev, VCHIQ_CORE, "%d: pfq:%d %x@%pK - slot_u=
+se->%d",
+>   					state->id, port, header->size, header, count - 1);
+>   		} else {
+> -			vchiq_log_error(state->dev, VCHIQ_CORE,
+> -					"service %d slot_use_count=3D%d (header %pK, msgid %x, header->msg=
+id %x, header->size %x)",
+> -					port, count, header, msgid, header->msgid, header->size);
+> +			dev_err(state->dev,
+> +				"core: service %d slot_use_count=3D%d (header %pK, msgid %x, header=
+->msgid %x, header->size %x)\n",
+> +				port, count, header, msgid, header->msgid, header->size);
+>   			WARN(1, "bad slot use count\n");
+>   		}
+>   	}
+> @@ -831,9 +831,9 @@ process_free_queue(struct vchiq_state *state, u32 *s=
+ervice_found,
+>
+>   			pos +=3D calc_stride(header->size);
+>   			if (pos > VCHIQ_SLOT_SIZE) {
+> -				vchiq_log_error(state->dev, VCHIQ_CORE,
+> -						"pfq - pos %x: header %pK, msgid %x, header->msgid %x, header->si=
+ze %x",
+> -						pos, header, msgid, header->msgid, header->size);
+> +				dev_err(state->dev,
+> +					"core: pfq - pos %x: header %pK, msgid %x, header->msgid %x, heade=
+r->size %x\n",
+> +					pos, header, msgid, header->msgid, header->size);
+>   				WARN(1, "invalid slot position\n");
+>   			}
+>   		}
+> @@ -1167,8 +1167,8 @@ queue_message_sync(struct vchiq_state *state, stru=
+ct vchiq_service *service,
+>   		int oldmsgid =3D header->msgid;
+>
+>   		if (oldmsgid !=3D VCHIQ_MSGID_PADDING)
+> -			vchiq_log_error(state->dev, VCHIQ_CORE, "%d: qms - msgid %x, not PAD=
+DING",
+> -					state->id, oldmsgid);
+> +			dev_err(state->dev, "core: %d: qms - msgid %x, not PADDING\n",
+> +				state->id, oldmsgid);
+>   	}
+>
+>   	vchiq_log_debug(state->dev, VCHIQ_SYNC,
+> @@ -1616,10 +1616,10 @@ parse_message(struct vchiq_state *state, struct =
+vchiq_header *header)
+>   		}
+>
+>   		if (!service) {
+> -			vchiq_log_error(state->dev, VCHIQ_CORE,
+> -					"%d: prs %s@%pK (%d->%d) - invalid/closed service %d",
+> -					state->id, msg_type_str(type), header, remoteport,
+> -					localport, localport);
+> +			dev_err(state->dev,
+> +				"core: %d: prs %s@%pK (%d->%d) - invalid/closed service %d\n",
+> +				state->id, msg_type_str(type), header, remoteport,
+> +				localport, localport);
+>   			goto skip_message;
+>   		}
+>   		break;
+> @@ -1640,9 +1640,8 @@ parse_message(struct vchiq_state *state, struct vc=
+hiq_header *header)
+>
+>   	if (((unsigned long)header & VCHIQ_SLOT_MASK) +
+>   	    calc_stride(size) > VCHIQ_SLOT_SIZE) {
+> -		vchiq_log_error(state->dev, VCHIQ_CORE,
+> -				"header %pK (msgid %x) - size %x too big for slot",
+> -				header, (unsigned int)msgid, (unsigned int)size);
+> +		dev_err(state->dev, "core: header %pK (msgid %x) - size %x too big fo=
+r slot\n",
+> +			header, (unsigned int)msgid, (unsigned int)size);
+>   		WARN(1, "oversized for slot\n");
+>   	}
+>
+> @@ -1668,8 +1667,8 @@ parse_message(struct vchiq_state *state, struct vc=
+hiq_header *header)
+>   			set_service_state(service, VCHIQ_SRVSTATE_OPEN);
+>   			complete(&service->remove_event);
+>   		} else {
+> -			vchiq_log_error(state->dev, VCHIQ_CORE, "OPENACK received in state %=
+s",
+> -					srvstate_names[service->srvstate]);
+> +			dev_err(state->dev, "core: OPENACK received in state %s\n",
+> +				srvstate_names[service->srvstate]);
+>   		}
+>   		break;
+>   	case VCHIQ_MSG_CLOSE:
+> @@ -1740,11 +1739,10 @@ parse_message(struct vchiq_state *state, struct =
+vchiq_header *header)
+>   			}
+>   			if ((int)(queue->remote_insert -
+>   				queue->local_insert) >=3D 0) {
+> -				vchiq_log_error(state->dev, VCHIQ_CORE,
+> -						"%d: prs %s@%pK (%d->%d) unexpected (ri=3D%d,li=3D%d)",
+> -						state->id, msg_type_str(type), header, remoteport,
+> -						localport, queue->remote_insert,
+> -						queue->local_insert);
+> +				dev_err(state->dev,
+> +					"core: %d: prs %s@%pK (%d->%d) unexpected (ri=3D%d,li=3D%d)\n",
+> +					state->id, msg_type_str(type), header, remoteport,
+> +					localport, queue->remote_insert, queue->local_insert);
+>   				mutex_unlock(&service->bulk_mutex);
+>   				break;
+>   			}
+> @@ -1790,8 +1788,8 @@ parse_message(struct vchiq_state *state, struct vc=
+hiq_header *header)
+>   		vchiq_log_trace(state->dev, VCHIQ_CORE, "%d: prs PAUSE@%pK,%x",
+>   				state->id, header, size);
+>   		if (state->conn_state =3D=3D VCHIQ_CONNSTATE_PAUSED) {
+> -			vchiq_log_error(state->dev, VCHIQ_CORE,
+> -					"%d: PAUSE received in state PAUSED", state->id);
+> +			dev_err(state->dev, "core: %d: PAUSE received in state PAUSED\n",
+> +				state->id);
+>   			break;
+>   		}
+>   		if (state->conn_state !=3D VCHIQ_CONNSTATE_PAUSE_SENT) {
+> @@ -1821,8 +1819,8 @@ parse_message(struct vchiq_state *state, struct vc=
+hiq_header *header)
+>   		break;
+>
+>   	default:
+> -		vchiq_log_error(state->dev, VCHIQ_CORE, "%d: prs invalid msgid %x@%pK=
+,%x",
+> -				state->id, msgid, header, size);
+> +		dev_err(state->dev, "core: %d: prs invalid msgid %x@%pK,%x\n",
+> +			state->id, msgid, header, size);
+>   		WARN(1, "invalid message\n");
+>   		break;
+>   	}
+> @@ -1932,7 +1930,7 @@ handle_poll(struct vchiq_state *state)
+>   			 * since the PAUSE should have flushed
+>   			 * through outstanding messages.
+>   			 */
+> -			vchiq_log_error(state->dev, VCHIQ_CORE, "Failed to send RESUME messa=
+ge");
+> +			dev_err(state->dev, "core: Failed to send RESUME message\n");
+>   		}
+>   		break;
+>   	default:
+> @@ -2032,10 +2030,10 @@ sync_func(void *v)
+>   		service =3D find_service_by_port(state, localport);
+>
+>   		if (!service) {
+> -			vchiq_log_error(state->dev, VCHIQ_SYNC,
+> -					"%d: sf %s@%pK (%d->%d) - invalid/closed service %d",
+> -					state->id, msg_type_str(type), header,
+> -					remoteport, localport, localport);
+> +			dev_err(state->dev,
+> +				"sync: %d: sf %s@%pK (%d->%d) - invalid/closed service %d\n",
+> +				state->id, msg_type_str(type), header, remoteport,
+> +				localport, localport);
+>   			release_message_sync(state, header);
+>   			continue;
+>   		}
+> @@ -2077,15 +2075,15 @@ sync_func(void *v)
+>   			    (service->srvstate =3D=3D VCHIQ_SRVSTATE_OPENSYNC)) {
+>   				if (make_service_callback(service, VCHIQ_MESSAGE_AVAILABLE, header=
+,
+>   							  NULL) =3D=3D -EAGAIN)
+> -					vchiq_log_error(state->dev, VCHIQ_SYNC,
+> -							"synchronous callback to service %d returns -EAGAIN",
+> -							localport);
+> +					dev_err(state->dev,
+> +						"sync: error: synchronous callback to service %d returns -EAGAIN\=
+n",
+> +						localport);
+>   			}
+>   			break;
+>
+>   		default:
+> -			vchiq_log_error(state->dev, VCHIQ_SYNC, "%d: sf unexpected msgid %x@=
+%pK,%x",
+> -					state->id, msgid, header, size);
+> +			dev_err(state->dev, "sync: error: %d: sf unexpected msgid %x@%pK,%x\=
+n",
+> +				state->id, msgid, header, size);
+>   			release_message_sync(state, header);
+>   			break;
+>   		}
+> @@ -2118,8 +2116,8 @@ vchiq_init_slots(struct device *dev, void *mem_bas=
+e, int mem_size)
+>   	num_slots -=3D first_data_slot;
+>
+>   	if (num_slots < 4) {
+> -		vchiq_log_error(dev, VCHIQ_CORE, "%s - insufficient memory %x bytes",
+> -				__func__, mem_size);
+> +		dev_err(dev, "core: %s: Insufficient memory %x bytes\n",
+> +			__func__, mem_size);
+>   		return NULL;
+>   	}
+>
+> @@ -2500,11 +2498,10 @@ vchiq_open_service_internal(struct vchiq_service=
+ *service, int client_id)
+>   	} else if ((service->srvstate !=3D VCHIQ_SRVSTATE_OPEN) &&
+>   		   (service->srvstate !=3D VCHIQ_SRVSTATE_OPENSYNC)) {
+>   		if (service->srvstate !=3D VCHIQ_SRVSTATE_CLOSEWAIT)
+> -			vchiq_log_error(service->state->dev, VCHIQ_CORE,
+> -					"%d: osi - srvstate =3D %s (ref %u)",
+> -					service->state->id,
+> -					srvstate_names[service->srvstate],
+> -					kref_read(&service->ref_count));
+> +			dev_err(service->state->dev,
+> +				"core: %d: osi - srvstate =3D %s (ref %u)\n",
+> +				service->state->id, srvstate_names[service->srvstate],
+> +				kref_read(&service->ref_count));
+>   		status =3D -EINVAL;
+>   		VCHIQ_SERVICE_STATS_INC(service, error_count);
+>   		vchiq_release_service_internal(service);
+> @@ -2565,9 +2562,9 @@ release_service_messages(struct vchiq_service *ser=
+vice)
+>   			}
+>   			pos +=3D calc_stride(header->size);
+>   			if (pos > VCHIQ_SLOT_SIZE) {
+> -				vchiq_log_error(state->dev, VCHIQ_CORE,
+> -						"fsi - pos %x: header %pK, msgid %x, header->msgid %x, header->si=
+ze %x",
+> -						pos, header, msgid, header->msgid, header->size);
+> +				dev_err(state->dev,
+> +					"core: fsi - pos %x: header %pK, msgid %x, header->msgid %x, heade=
+r->size %x\n",
+> +					pos, header, msgid, header->msgid, header->size);
+>   				WARN(1, "invalid slot position\n");
+>   			}
+>   		}
+> @@ -2621,8 +2618,8 @@ close_service_complete(struct vchiq_service *servi=
+ce, int failstate)
+>   	case VCHIQ_SRVSTATE_LISTENING:
+>   		break;
+>   	default:
+> -		vchiq_log_error(service->state->dev, VCHIQ_CORE, "%s(%x) called in st=
+ate %s",
+> -				__func__, service->handle, srvstate_names[service->srvstate]);
+> +		dev_err(service->state->dev, "core: (%x) called in state %s\n",
+> +			service->handle, srvstate_names[service->srvstate]);
+>   		WARN(1, "%s in unexpected state\n", __func__);
+>   		return -EINVAL;
+>   	}
+> @@ -2677,8 +2674,8 @@ vchiq_close_service_internal(struct vchiq_service =
+*service, int close_recvd)
+>   	case VCHIQ_SRVSTATE_LISTENING:
+>   	case VCHIQ_SRVSTATE_CLOSEWAIT:
+>   		if (close_recvd) {
+> -			vchiq_log_error(state->dev, VCHIQ_CORE, "%s(1) called in state %s",
+> -					__func__, srvstate_names[service->srvstate]);
+> +			dev_err(state->dev, "core: (1) called in state %s\n",
+> +				srvstate_names[service->srvstate]);
+>   		} else if (is_server) {
+>   			if (service->srvstate =3D=3D VCHIQ_SRVSTATE_LISTENING) {
+>   				status =3D -EINVAL;
+> @@ -2765,8 +2762,8 @@ vchiq_close_service_internal(struct vchiq_service =
+*service, int close_recvd)
+>   		break;
+>
+>   	default:
+> -		vchiq_log_error(state->dev, VCHIQ_CORE, "%s(%d) called in state %s", =
+__func__,
+> -				close_recvd, srvstate_names[service->srvstate]);
+> +		dev_err(state->dev, "core: (%d) called in state %s\n",
+> +			close_recvd, srvstate_names[service->srvstate]);
+>   		break;
+>   	}
+>
+> @@ -2805,8 +2802,8 @@ vchiq_free_service_internal(struct vchiq_service *=
+service)
+>   	case VCHIQ_SRVSTATE_CLOSEWAIT:
+>   		break;
+>   	default:
+> -		vchiq_log_error(state->dev, VCHIQ_CORE, "%d: fsi - (%d) in state %s",=
+ state->id,
+> -				service->localport, srvstate_names[service->srvstate]);
+> +		dev_err(state->dev, "core: %d: fsi - (%d) in state %s\n",
+> +			state->id, service->localport, srvstate_names[service->srvstate]);
+>   		return;
+>   	}
+>
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_cor=
+e.h b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> index 564b5c707267..d7dcd17e4bff 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_core.h
+> @@ -53,10 +53,6 @@ static inline const char *log_category_str(enum vchiq=
+_log_category c)
+>   	return strings[c];
+>   };
+>
+> -#ifndef vchiq_log_error
+> -#define vchiq_log_error(dev, cat, fmt, ...) \
+> -	do { dev_dbg(dev, "%s error: " fmt, log_category_str(cat), ##__VA_ARGS=
+__); } while (0)
+> -#endif
+>   #ifndef vchiq_log_warning
+>   #define vchiq_log_warning(dev, cat, fmt, ...) \
+>   	do { dev_dbg(dev, "%s warning: " fmt, log_category_str(cat), ##__VA_A=
+RGS__); } while (0)
+> diff --git a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev=
+.c b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+> index 307a2d76cbb7..ba287cb4c87b 100644
+> --- a/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+> +++ b/drivers/staging/vc04_services/interface/vchiq_arm/vchiq_dev.c
+> @@ -271,9 +271,9 @@ static int vchiq_ioc_dequeue_message(struct vchiq_in=
+stance *instance,
+>   			ret =3D -EFAULT;
+>   		}
+>   	} else {
+> -		vchiq_log_error(service->state->dev, VCHIQ_ARM,
+> -				"header %pK: bufsize %x < size %x",
+> -				header, args->bufsize, header->size);
+> +		dev_err(service->state->dev,
+> +			"arm: header %pK: bufsize %x < size %x\n",
+> +			header, args->bufsize, header->size);
+>   		WARN(1, "invalid size\n");
+>   		ret =3D -EMSGSIZE;
+>   	}
+> @@ -318,8 +318,8 @@ static int vchiq_irq_queue_bulk_tx_rx(struct vchiq_i=
+nstance *instance,
+>   		}
+>   		mutex_unlock(&instance->bulk_waiter_list_mutex);
+>   		if (!waiter) {
+> -			vchiq_log_error(service->state->dev, VCHIQ_ARM,
+> -					"no bulk_waiter found for pid %d", current->pid);
+> +			dev_err(service->state->dev,
+> +				"arm: no bulk_waiter found for pid %d\n", current->pid);
+>   			ret =3D -ESRCH;
+>   			goto out;
+>   		}
+> @@ -501,10 +501,10 @@ static int vchiq_ioc_await_completion(struct vchiq=
+_instance *instance,
+>   			msglen =3D header->size + sizeof(struct vchiq_header);
+>   			/* This must be a VCHIQ-style service */
+>   			if (args->msgbufsize < msglen) {
+> -				vchiq_log_error(service->state->dev, VCHIQ_ARM,
+> -						"header %pK: msgbufsize %x < msglen %x",
+> -						header, args->msgbufsize, msglen);
+> -						WARN(1, "invalid message size\n");
+> +				dev_err(service->state->dev,
+> +					"arm: header %pK: msgbufsize %x < msglen %x\n",
+> +					header, args->msgbufsize, msglen);
+> +				WARN(1, "invalid message size\n");
+>   				if (ret =3D=3D 0)
+>   					ret =3D -EMSGSIZE;
+>   				break;
+> @@ -618,9 +618,9 @@ vchiq_ioctl(struct file *file, unsigned int cmd, uns=
+igned long arg)
+>   		}
+>   		rc =3D mutex_lock_killable(&instance->state->mutex);
+>   		if (rc) {
+> -			vchiq_log_error(instance->state->dev, VCHIQ_ARM,
+> -					"vchiq: connect: could not lock mutex for state %d: %d",
+> -					instance->state->id, rc);
+> +			dev_err(instance->state->dev,
+> +				"arm: vchiq: connect: could not lock mutex for state %d: %d\n",
+> +				instance->state->id, rc);
+I think this should be dev_dbg
+>   			ret =3D -EINTR;
+>   			break;
+>   		}
+> @@ -630,8 +630,8 @@ vchiq_ioctl(struct file *file, unsigned int cmd, uns=
+igned long arg)
+>   		if (!status)
+>   			instance->connected =3D 1;
+>   		else
+> -			vchiq_log_error(instance->state->dev, VCHIQ_ARM,
+> -					"vchiq: could not connect: %d", status);
+> +			dev_err(instance->state->dev,
+> +				"arm: vchiq: could not connect: %d\n", status);
+>   		break;
+>
+>   	case VCHIQ_IOC_CREATE_SERVICE: {
+> @@ -700,13 +700,13 @@ vchiq_ioctl(struct file *file, unsigned int cmd, u=
+nsigned long arg)
+>   				vchiq_use_service_internal(service) :
+>   				vchiq_release_service_internal(service);
+>   			if (ret) {
+> -				vchiq_log_error(instance->state->dev, VCHIQ_SUSPEND,
+> -						"%s: cmd %s returned error %ld for service %p4cc:%03d",
+> -						__func__, (cmd =3D=3D VCHIQ_IOC_USE_SERVICE) ?
+> -						"VCHIQ_IOC_USE_SERVICE" :
+> -						"VCHIQ_IOC_RELEASE_SERVICE",
+> -						ret, &service->base.fourcc,
+> -						service->client_id);
+> +				dev_err(instance->state->dev,
+> +					"suspend: cmd %s returned error %ld for service %p4cc:%03d\n",
+> +					(cmd =3D=3D VCHIQ_IOC_USE_SERVICE) ?
+> +					"VCHIQ_IOC_USE_SERVICE" :
+> +					"VCHIQ_IOC_RELEASE_SERVICE",
+> +					ret, &service->base.fourcc,
+> +					service->client_id);
+>   			}
+>   		} else {
+>   			ret =3D -EINVAL;
+> @@ -1173,8 +1173,7 @@ static int vchiq_open(struct inode *inode, struct =
+file *file)
+>   	vchiq_log_debug(state->dev, VCHIQ_ARM, "vchiq_open");
+>
+>   	if (!state) {
+> -		vchiq_log_error(state->dev, VCHIQ_ARM,
+> -				"vchiq has no connection to VideoCore");
+> +		dev_err(state->dev, "arm: vchiq has no connection to VideoCore\n");
+>   		return -ENOTCONN;
+>   	}
+>
 
-[auto build test ERROR on media-tree/master]
-[also build test ERROR on linuxtv-media-stage/master linus/master v6.7-rc4 next-20231205]
-[cannot apply to sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Alexander-Stein/media-i2c-imx415-Convert-to-new-CCI-register-access-helpers/20231205-170736
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20231205090557.298680-2-alexander.stein%40ew.tq-group.com
-patch subject: [PATCH 1/3] media: i2c: imx415: Convert to new CCI register access helpers
-config: arm-randconfig-002-20231206 (https://download.01.org/0day-ci/archive/20231206/202312060301.eWnbiFAk-lkp@intel.com/config)
-compiler: clang version 15.0.7 (https://github.com/llvm/llvm-project.git 8dfdcc7b7bf66834a761bd8de445840ef68e4d1a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312060301.eWnbiFAk-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312060301.eWnbiFAk-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
->> drivers/media/i2c/imx415.c:119:16: error: call to undeclared function 'CCI_REG16_LE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-                   .regs[0] = { IMX415_BCWAIT_TIME, 0x05D },
-                                ^
-   drivers/media/i2c/imx415.c:41:30: note: expanded from macro 'IMX415_BCWAIT_TIME'
-   #define IMX415_BCWAIT_TIME        CCI_REG16_LE(0x3008)
-                                     ^
-   drivers/media/i2c/imx415.c:119:16: error: initializer element is not a compile-time constant
-                   .regs[0] = { IMX415_BCWAIT_TIME, 0x05D },
-                                ^~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx415.c:41:30: note: expanded from macro 'IMX415_BCWAIT_TIME'
-   #define IMX415_BCWAIT_TIME        CCI_REG16_LE(0x3008)
-                                     ^~~~~~~~~~~~~~~~~~~~
->> drivers/media/i2c/imx415.c:195:4: error: call to undeclared function 'CCI_REG24_LE'; ISO C99 and later do not support implicit function declarations [-Werror,-Wimplicit-function-declaration]
-           { IMX415_VMAX, 0x08CA },
-             ^
-   drivers/media/i2c/imx415.c:53:24: note: expanded from macro 'IMX415_VMAX'
-   #define IMX415_VMAX               CCI_REG24_LE(0x3024)
-                                     ^
-   drivers/media/i2c/imx415.c:195:4: error: initializer element is not a compile-time constant
-           { IMX415_VMAX, 0x08CA },
-             ^~~~~~~~~~~
-   drivers/media/i2c/imx415.c:53:24: note: expanded from macro 'IMX415_VMAX'
-   #define IMX415_VMAX               CCI_REG24_LE(0x3024)
-                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx415.c:211:4: error: initializer element is not a compile-time constant
-           { IMX415_VMAX, 0x08CA },
-             ^~~~~~~~~~~
-   drivers/media/i2c/imx415.c:53:24: note: expanded from macro 'IMX415_VMAX'
-   #define IMX415_VMAX               CCI_REG24_LE(0x3024)
-                                     ^~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/imx415.c:227:4: error: initializer element is not a compile-time constant
-           { IMX415_VMAX, 0x08CA },
-             ^~~~~~~~~~~
-   drivers/media/i2c/imx415.c:53:24: note: expanded from macro 'IMX415_VMAX'
-   #define IMX415_VMAX               CCI_REG24_LE(0x3024)
-                                     ^~~~~~~~~~~~~~~~~~~~
-   6 errors generated.
-
-
-vim +/CCI_REG16_LE +119 drivers/media/i2c/imx415.c
-
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   31  
-a13751ef748a7a Alexander Stein 2023-12-05   32  #define IMX415_MODE		  CCI_REG8(0x3000)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   33  #define IMX415_MODE_OPERATING	  (0)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   34  #define IMX415_MODE_STANDBY	  BIT(0)
-a13751ef748a7a Alexander Stein 2023-12-05   35  #define IMX415_REGHOLD		  CCI_REG8(0x3001)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   36  #define IMX415_REGHOLD_INVALID	  (0)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   37  #define IMX415_REGHOLD_VALID	  BIT(0)
-a13751ef748a7a Alexander Stein 2023-12-05   38  #define IMX415_XMSTA		  CCI_REG8(0x3002)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   39  #define IMX415_XMSTA_START	  (0)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   40  #define IMX415_XMSTA_STOP	  BIT(0)
-a13751ef748a7a Alexander Stein 2023-12-05  @41  #define IMX415_BCWAIT_TIME	  CCI_REG16_LE(0x3008)
-a13751ef748a7a Alexander Stein 2023-12-05   42  #define IMX415_CPWAIT_TIME	  CCI_REG16_LE(0x300A)
-a13751ef748a7a Alexander Stein 2023-12-05   43  #define IMX415_WINMODE		  CCI_REG8(0x301C)
-a13751ef748a7a Alexander Stein 2023-12-05   44  #define IMX415_ADDMODE		  CCI_REG8(0x3022)
-a13751ef748a7a Alexander Stein 2023-12-05   45  #define IMX415_REVERSE		  CCI_REG8(0x3030)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   46  #define IMX415_HREVERSE_SHIFT	  (0)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   47  #define IMX415_VREVERSE_SHIFT	  BIT(0)
-a13751ef748a7a Alexander Stein 2023-12-05   48  #define IMX415_ADBIT		  CCI_REG8(0x3031)
-a13751ef748a7a Alexander Stein 2023-12-05   49  #define IMX415_MDBIT		  CCI_REG8(0x3032)
-a13751ef748a7a Alexander Stein 2023-12-05   50  #define IMX415_SYS_MODE		  CCI_REG8(0x3033)
-a13751ef748a7a Alexander Stein 2023-12-05   51  #define IMX415_OUTSEL		  CCI_REG8(0x30C0)
-a13751ef748a7a Alexander Stein 2023-12-05   52  #define IMX415_DRV		  CCI_REG8(0x30C1)
-a13751ef748a7a Alexander Stein 2023-12-05   53  #define IMX415_VMAX		  CCI_REG24_LE(0x3024)
-a13751ef748a7a Alexander Stein 2023-12-05   54  #define IMX415_HMAX		  CCI_REG16_LE(0x3028)
-a13751ef748a7a Alexander Stein 2023-12-05   55  #define IMX415_SHR0		  CCI_REG24_LE(0x3050)
-a13751ef748a7a Alexander Stein 2023-12-05   56  #define IMX415_GAIN_PCG_0	  CCI_REG16_LE(0x3090)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   57  #define IMX415_AGAIN_MIN	  0
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   58  #define IMX415_AGAIN_MAX	  100
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   59  #define IMX415_AGAIN_STEP	  1
-a13751ef748a7a Alexander Stein 2023-12-05   60  #define IMX415_BLKLEVEL		  CCI_REG16_LE(0x30E2)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   61  #define IMX415_BLKLEVEL_DEFAULT	  50
-a13751ef748a7a Alexander Stein 2023-12-05   62  #define IMX415_TPG_EN_DUOUT	  CCI_REG8(0x30E4)
-a13751ef748a7a Alexander Stein 2023-12-05   63  #define IMX415_TPG_PATSEL_DUOUT	  CCI_REG8(0x30E6)
-a13751ef748a7a Alexander Stein 2023-12-05   64  #define IMX415_TPG_COLORWIDTH	  CCI_REG8(0x30E8)
-a13751ef748a7a Alexander Stein 2023-12-05   65  #define IMX415_TESTCLKEN_MIPI	  CCI_REG8(0x3110)
-a13751ef748a7a Alexander Stein 2023-12-05   66  #define IMX415_INCKSEL1		  CCI_REG8(0x3115)
-a13751ef748a7a Alexander Stein 2023-12-05   67  #define IMX415_INCKSEL2		  CCI_REG8(0x3116)
-a13751ef748a7a Alexander Stein 2023-12-05   68  #define IMX415_INCKSEL3		  CCI_REG16_LE(0x3118)
-a13751ef748a7a Alexander Stein 2023-12-05   69  #define IMX415_INCKSEL4		  CCI_REG16_LE(0x311A)
-a13751ef748a7a Alexander Stein 2023-12-05   70  #define IMX415_INCKSEL5		  CCI_REG8(0x311E)
-a13751ef748a7a Alexander Stein 2023-12-05   71  #define IMX415_DIG_CLP_MODE	  CCI_REG8(0x32C8)
-a13751ef748a7a Alexander Stein 2023-12-05   72  #define IMX415_WRJ_OPEN		  CCI_REG8(0x3390)
-a13751ef748a7a Alexander Stein 2023-12-05   73  #define IMX415_SENSOR_INFO	  CCI_REG16_LE(0x3F12)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   74  #define IMX415_SENSOR_INFO_MASK	  0xFFF
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   75  #define IMX415_CHIP_ID		  0x514
-a13751ef748a7a Alexander Stein 2023-12-05   76  #define IMX415_LANEMODE		  CCI_REG16_LE(0x4001)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   77  #define IMX415_LANEMODE_2	  1
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   78  #define IMX415_LANEMODE_4	  3
-a13751ef748a7a Alexander Stein 2023-12-05   79  #define IMX415_TXCLKESC_FREQ	  CCI_REG16_LE(0x4004)
-a13751ef748a7a Alexander Stein 2023-12-05   80  #define IMX415_INCKSEL6		  CCI_REG8(0x400C)
-a13751ef748a7a Alexander Stein 2023-12-05   81  #define IMX415_TCLKPOST		  CCI_REG16_LE(0x4018)
-a13751ef748a7a Alexander Stein 2023-12-05   82  #define IMX415_TCLKPREPARE	  CCI_REG16_LE(0x401A)
-a13751ef748a7a Alexander Stein 2023-12-05   83  #define IMX415_TCLKTRAIL	  CCI_REG16_LE(0x401C)
-a13751ef748a7a Alexander Stein 2023-12-05   84  #define IMX415_TCLKZERO		  CCI_REG16_LE(0x401E)
-a13751ef748a7a Alexander Stein 2023-12-05   85  #define IMX415_THSPREPARE	  CCI_REG16_LE(0x4020)
-a13751ef748a7a Alexander Stein 2023-12-05   86  #define IMX415_THSZERO		  CCI_REG16_LE(0x4022)
-a13751ef748a7a Alexander Stein 2023-12-05   87  #define IMX415_THSTRAIL		  CCI_REG16_LE(0x4024)
-a13751ef748a7a Alexander Stein 2023-12-05   88  #define IMX415_THSEXIT		  CCI_REG16_LE(0x4026)
-a13751ef748a7a Alexander Stein 2023-12-05   89  #define IMX415_TLPX		  CCI_REG16_LE(0x4028)
-a13751ef748a7a Alexander Stein 2023-12-05   90  #define IMX415_INCKSEL7		  CCI_REG8(0x4074)
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   91  
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   92  static const char *const imx415_supply_names[] = {
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   93  	"dvdd",
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   94  	"ovdd",
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   95  	"avdd",
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   96  };
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   97  
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   98  /*
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30   99   * The IMX415 data sheet uses lane rates but v4l2 uses link frequency to
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  100   * describe MIPI CSI-2 speed. This driver uses lane rates wherever possible
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  101   * and converts them to link frequencies by a factor of two when needed.
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  102   */
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  103  static const s64 link_freq_menu_items[] = {
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  104  	594000000 / 2,	720000000 / 2,	891000000 / 2,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  105  	1440000000 / 2, 1485000000 / 2,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  106  };
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  107  
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  108  struct imx415_clk_params {
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  109  	u64 lane_rate;
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  110  	u64 inck;
-a13751ef748a7a Alexander Stein 2023-12-05  111  	struct cci_reg_sequence regs[IMX415_NUM_CLK_PARAM_REGS];
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  112  };
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  113  
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  114  /* INCK Settings - includes all lane rate and INCK dependent registers */
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  115  static const struct imx415_clk_params imx415_clk_params[] = {
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  116  	{
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  117  		.lane_rate = 594000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  118  		.inck = 27000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30 @119  		.regs[0] = { IMX415_BCWAIT_TIME, 0x05D },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  120  		.regs[1] = { IMX415_CPWAIT_TIME, 0x042 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  121  		.regs[2] = { IMX415_SYS_MODE, 0x7 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  122  		.regs[3] = { IMX415_INCKSEL1, 0x00 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  123  		.regs[4] = { IMX415_INCKSEL2, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  124  		.regs[5] = { IMX415_INCKSEL3, 0x084 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  125  		.regs[6] = { IMX415_INCKSEL4, 0x0E7 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  126  		.regs[7] = { IMX415_INCKSEL5, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  127  		.regs[8] = { IMX415_INCKSEL6, 0x0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  128  		.regs[9] = { IMX415_INCKSEL7, 0x1 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  129  		.regs[10] = { IMX415_TXCLKESC_FREQ, 0x06C0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  130  	},
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  131  	{
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  132  		.lane_rate = 720000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  133  		.inck = 24000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  134  		.regs[0] = { IMX415_BCWAIT_TIME, 0x054 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  135  		.regs[1] = { IMX415_CPWAIT_TIME, 0x03B },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  136  		.regs[2] = { IMX415_SYS_MODE, 0x9 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  137  		.regs[3] = { IMX415_INCKSEL1, 0x00 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  138  		.regs[4] = { IMX415_INCKSEL2, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  139  		.regs[5] = { IMX415_INCKSEL3, 0x0B4 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  140  		.regs[6] = { IMX415_INCKSEL4, 0x0FC },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  141  		.regs[7] = { IMX415_INCKSEL5, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  142  		.regs[8] = { IMX415_INCKSEL6, 0x0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  143  		.regs[9] = { IMX415_INCKSEL7, 0x1 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  144  		.regs[10] = { IMX415_TXCLKESC_FREQ, 0x0600 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  145  	},
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  146  	{
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  147  		.lane_rate = 891000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  148  		.inck = 27000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  149  		.regs[0] = { IMX415_BCWAIT_TIME, 0x05D },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  150  		.regs[1] = { IMX415_CPWAIT_TIME, 0x042 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  151  		.regs[2] = { IMX415_SYS_MODE, 0x5 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  152  		.regs[3] = { IMX415_INCKSEL1, 0x00 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  153  		.regs[4] = { IMX415_INCKSEL2, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  154  		.regs[5] = { IMX415_INCKSEL3, 0x0C6 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  155  		.regs[6] = { IMX415_INCKSEL4, 0x0E7 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  156  		.regs[7] = { IMX415_INCKSEL5, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  157  		.regs[8] = { IMX415_INCKSEL6, 0x0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  158  		.regs[9] = { IMX415_INCKSEL7, 0x1 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  159  		.regs[10] = { IMX415_TXCLKESC_FREQ, 0x06C0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  160  	},
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  161  	{
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  162  		.lane_rate = 1440000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  163  		.inck = 24000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  164  		.regs[0] = { IMX415_BCWAIT_TIME, 0x054 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  165  		.regs[1] = { IMX415_CPWAIT_TIME, 0x03B },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  166  		.regs[2] = { IMX415_SYS_MODE, 0x8 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  167  		.regs[3] = { IMX415_INCKSEL1, 0x00 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  168  		.regs[4] = { IMX415_INCKSEL2, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  169  		.regs[5] = { IMX415_INCKSEL3, 0x0B4 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  170  		.regs[6] = { IMX415_INCKSEL4, 0x0FC },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  171  		.regs[7] = { IMX415_INCKSEL5, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  172  		.regs[8] = { IMX415_INCKSEL6, 0x1 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  173  		.regs[9] = { IMX415_INCKSEL7, 0x0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  174  		.regs[10] = { IMX415_TXCLKESC_FREQ, 0x0600 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  175  	},
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  176  	{
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  177  		.lane_rate = 1485000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  178  		.inck = 27000000,
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  179  		.regs[0] = { IMX415_BCWAIT_TIME, 0x05D },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  180  		.regs[1] = { IMX415_CPWAIT_TIME, 0x042 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  181  		.regs[2] = { IMX415_SYS_MODE, 0x8 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  182  		.regs[3] = { IMX415_INCKSEL1, 0x00 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  183  		.regs[4] = { IMX415_INCKSEL2, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  184  		.regs[5] = { IMX415_INCKSEL3, 0x0A5 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  185  		.regs[6] = { IMX415_INCKSEL4, 0x0E7 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  186  		.regs[7] = { IMX415_INCKSEL5, 0x23 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  187  		.regs[8] = { IMX415_INCKSEL6, 0x1 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  188  		.regs[9] = { IMX415_INCKSEL7, 0x0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  189  		.regs[10] = { IMX415_TXCLKESC_FREQ, 0x06C0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  190  	},
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  191  };
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  192  
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  193  /* all-pixel 2-lane 720 Mbps 15.74 Hz mode */
-a13751ef748a7a Alexander Stein 2023-12-05  194  static const struct cci_reg_sequence imx415_mode_2_720[] = {
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30 @195  	{ IMX415_VMAX, 0x08CA },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  196  	{ IMX415_HMAX, 0x07F0 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  197  	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  198  	{ IMX415_TCLKPOST, 0x006F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  199  	{ IMX415_TCLKPREPARE, 0x002F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  200  	{ IMX415_TCLKTRAIL, 0x002F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  201  	{ IMX415_TCLKZERO, 0x00BF },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  202  	{ IMX415_THSPREPARE, 0x002F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  203  	{ IMX415_THSZERO, 0x0057 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  204  	{ IMX415_THSTRAIL, 0x002F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  205  	{ IMX415_THSEXIT, 0x004F },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  206  	{ IMX415_TLPX, 0x0027 },
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  207  };
-14cd15e7a1e2a3 Gerald Loacker  2023-01-30  208  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
