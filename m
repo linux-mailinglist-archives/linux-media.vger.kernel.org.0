@@ -1,37 +1,36 @@
-Return-Path: <linux-media+bounces-1628-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1629-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 63F5C804BE2
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 09:10:22 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75CF9804BE3
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 09:10:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E26281F21512
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 08:10:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id EB662B20DDA
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 08:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 622693B7A8;
-	Tue,  5 Dec 2023 08:10:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D8CE3BB48;
+	Tue,  5 Dec 2023 08:10:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HG8dG+Aq"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EbFcLUbf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A4D2211F;
-	Tue,  5 Dec 2023 00:10:05 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D58ED124;
+	Tue,  5 Dec 2023 00:10:06 -0800 (PST)
 Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 305AF4DB;
-	Tue,  5 Dec 2023 09:09:22 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 320D4A06;
+	Tue,  5 Dec 2023 09:09:23 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701763763;
-	bh=LBo5JbsGnbR2WsOpAEu7E/zZBgullH/48QZtK26TE84=;
-	h=From:Subject:Date:To:Cc:From;
-	b=HG8dG+AqXVwiQyPqiYmya9Mifng3N9a8QJ9Z0dDtj0NpJt6qqmuOX+3LKcIAfe0p7
-	 9lK0NiTjCbAEWznaPmBEYTrpmaxkmPm9YnLdsvtvVXSGfs/MXET8RcU4OUoZh2D/Ru
-	 oGxn4VUmnNt1n8uqi01LTtYoh5Zr4mdxWbSTmT3E=
+	s=mail; t=1701763764;
+	bh=1DkaPRB62rbwVz1efQTvY0qAzOElI3EW4hHk1yOlrto=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=EbFcLUbfyoORI145e9Ncnuhw2Rx35qlgXqbipmVdpnWEWL5UY2xsnrPhx4eao2C4K
+	 AV08AuQXuTi5yXrpsli5u9X8rDkM3yYGjoiTvTT6XUTfctOGz2FfN9p2MOPmbCq/gi
+	 AhC2gyw1Er9I8Z/9T0xv5apIQmC2sopo9sY7w3zw=
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH 0/4] media: rkisp1: Fix IRQ related issues
-Date: Tue, 05 Dec 2023 10:09:31 +0200
-Message-Id: <20231205-rkisp-irq-fix-v1-0-f4045c74ba45@ideasonboard.com>
+Date: Tue, 05 Dec 2023 10:09:32 +0200
+Subject: [PATCH 1/4] media: rkisp1: Store IRQ lines
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -40,9 +39,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALvabmUC/x2MSQqAMAwAvyI5G7ApLvgV8VA01SC4JCBC8e8Wj
- zMwk8BYhQ36IoHyLSbHnsGVBUxr2BdGmTMDVeQdVTXqJnai6IVRHmRHPnShaT1FyM2pnPX/G8b
- 3/QBonC03XwAAAA==
+Message-Id: <20231205-rkisp-irq-fix-v1-1-f4045c74ba45@ideasonboard.com>
+References: <20231205-rkisp-irq-fix-v1-0-f4045c74ba45@ideasonboard.com>
+In-Reply-To: <20231205-rkisp-irq-fix-v1-0-f4045c74ba45@ideasonboard.com>
 To: Dafna Hirschfeld <dafna@fastmail.com>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -54,49 +53,143 @@ Cc: Alexander Stein <alexander.stein@ew.tq-group.com>,
  linux-kernel@vger.kernel.org, 
  Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1105;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4221;
  i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=LBo5JbsGnbR2WsOpAEu7E/zZBgullH/48QZtK26TE84=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlbtrUj5VZRebXyHRSVoljHrBVDzmoMUPSIFx8k
- /xPcB8r22mJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZW7a1AAKCRD6PaqMvJYe
- 9ae2D/9AuwDX4iqBukE8T3ay9UYyBvemxwdq4+ftsjLkKjqCn3iSTKsfOZRc0/WZwzASNSFLeZF
- x0gxzoscBHX9iAvWvgCCk/oY2pj0ogx7EcaSoA2axHbZzSCBvnfm8UMjcFBWyIxVS1dJLOLAAWP
- zaclpTbmD2QBMI12o69ydjh2eJ/PbrDQJKdbcRTV22bgMscE66dLuopWcgMeAmfvKUCFkNd+fYL
- XKrQZGO4Q8z2Xs8axCIiz/2P9CVOvYX+9cYksRxq+94l30bYFtmwGDMsefKvVZ5Oge9JiqxmQk1
- wCIqH9GORY5vq/3KadNS/i0jds59CxpqpVCVoh4cAszKOeS6rLJLJEf5TSQ/PEpLVorD2ig7O2B
- RFAlcm8G6RNNmU2hQnYtayAjS5df54nYTlyyuBYs1IASOiluoZbBnHcPZ+Pvqc+ZrYqqjcQAbxM
- FFYTpscnQc570dJhuxS7P7ys2K/Pxx8zOIRngOEHoFhuaElR28Lt5PoXA5yzg1NG/3TeD3fV9lR
- I0zt9KUGeuOwUuN3WHgfVdeSXGt3EmxPmV0A3x+lCJ7cdsg5zidVaQcfcr7X7tosI4xAflCHrlJ
- dSeHiGLaFFESaNJnLCNa7ZHGxIV/JJyo5dLPLsksdu5iWPlmcVPG+s8wg9awJ08LxhFXjrqWq6D
- uJFJfN1y/UeE6vw==
+ bh=1DkaPRB62rbwVz1efQTvY0qAzOElI3EW4hHk1yOlrto=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlbtrY21tIgI6aHdBw7pS6gbN26PjpLU5dAJSUy
+ WZaxcFQhEuJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZW7a2AAKCRD6PaqMvJYe
+ 9ctUD/0U3inIQmzSNkB1t1NWxNhxajVV0i+6StgEoo97hCnE0xX6DJLLv+7sllwOh3EANrpte6E
+ X/qvXh5jeAK/Sa//aNRy9hIeB9VL1N7lMCmcAhmYxFxpxXEx7D4FkAX1QMZSxsDkbdZylZHLlsJ
+ twIsPho5MU/anu/nbLnuNJMZNrEyJaV/nhK4fepQB6L8z7RLI5vg/AIx1bqqSf3zw6Dry2juz0x
+ bSMfD6e3/EuMMq5UCmaB25WWMCjZm7mPBV3KBPwP/so9cU7p8nrCkndGyXiZuK/NFSU+4jQjB9s
+ PGGFyHg4No071VuHDBULCe/V5Euqkz86iD+wCsu7G6xUyLEE28eGNvtN4iGUbDjSIQnRy8WbR13
+ qa/0pTl30Scl+ByQHxVI6DacAJ6xrX4XVF1D0ym2ux16ftRquQu4bHxFQqLaKVILBYsZItvIrlP
+ ZyFEMcJEpOBOxKgTJJoqMbJnWaYXwnR6C8gRcNGqvHmBTf+jdgqZnuOsuLW03w2MUqnr63oK5cX
+ 0KAtbdqi1uj8Vj2ereqFt6/eEgfqKug4hrxPiLHPtWpksk31hyTGh3B9oPFSI0eM5xCArNxEXjL
+ HSuf+aZixgMu7lX+H21mo3p5ijKKZTAFRh/BRrCsQ3IyraGIGvUqFHa+GhoruHYELX9nz3fbqzH
+ ueVSB2qflbNIy3g==
 X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
  fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-These fix a few IRQ related issues I noticed when testing i.MX8MP. These
-are based on Paul's recently sent "[PATCH v4 00/11] media: rkisp1: Add
-support for i.MX8MP" series, but could also be rebased on top of
-mainline if needed.
+Store the IRQ lines used by the driver for easy access. These are needed
+in future patches which fix IRQ race issues.
 
 Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 ---
-Tomi Valkeinen (4):
-      media: rkisp1: Store IRQ lines
-      media: rkisp1: Fix IRQ handler return values
-      media: rkisp1: Fix IRQ handling due to shared interrupts
-      media: rkisp1: Fix IRQ disable race issue
+ .../media/platform/rockchip/rkisp1/rkisp1-common.h    | 11 ++++++++++-
+ drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c   | 19 ++++++++++++++-----
+ 2 files changed, 24 insertions(+), 6 deletions(-)
 
- .../platform/rockchip/rkisp1/rkisp1-capture.c      |  3 ++
- .../media/platform/rockchip/rkisp1/rkisp1-common.h | 13 ++++-
- .../media/platform/rockchip/rkisp1/rkisp1-csi.c    | 17 ++++++-
- .../media/platform/rockchip/rkisp1/rkisp1-dev.c    | 58 ++++++++++++++++++----
- .../media/platform/rockchip/rkisp1/rkisp1-isp.c    | 23 +++++++--
- 5 files changed, 100 insertions(+), 14 deletions(-)
----
-base-commit: dd19f89b915c203d49e3b23ca02446d4fb05d955
-change-id: 20231205-rkisp-irq-fix-e123a8a6732f
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index 960ab89c659b..ec28907d978e 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -62,6 +62,14 @@ struct regmap;
+ 						 RKISP1_CIF_ISP_EXP_END |	\
+ 						 RKISP1_CIF_ISP_HIST_MEASURE_RDY)
+ 
++/* IRQ lines */
++enum rkisp1_irq_line {
++	RKISP1_IRQ_ISP = 0,
++	RKISP1_IRQ_MI,
++	RKISP1_IRQ_MIPI,
++	RKISP1_NUM_IRQS,
++};
++
+ /* enum for the resizer pads */
+ enum rkisp1_rsz_pad {
+ 	RKISP1_RSZ_PAD_SINK,
+@@ -437,7 +445,6 @@ struct rkisp1_debug {
+  * struct rkisp1_device - ISP platform device
+  *
+  * @base_addr:	   base register address
+- * @irq:	   the irq number
+  * @dev:	   a pointer to the struct device
+  * @clk_size:	   number of clocks
+  * @clks:	   array of clocks
+@@ -457,6 +464,7 @@ struct rkisp1_debug {
+  * @stream_lock:   serializes {start/stop}_streaming callbacks between the capture devices.
+  * @debug:	   debug params to be exposed on debugfs
+  * @info:	   version-specific ISP information
++ * @irqs:          IRQ line numbers
+  */
+ struct rkisp1_device {
+ 	void __iomem *base_addr;
+@@ -479,6 +487,7 @@ struct rkisp1_device {
+ 	struct mutex stream_lock; /* serialize {start/stop}_streaming cb between capture devices */
+ 	struct rkisp1_debug debug;
+ 	const struct rkisp1_info *info;
++	int irqs[RKISP1_NUM_IRQS];
+ };
+ 
+ /*
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+index 2b9886fd0800..76f93614b4cf 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+@@ -115,6 +115,7 @@
+ struct rkisp1_isr_data {
+ 	const char *name;
+ 	irqreturn_t (*isr)(int irq, void *ctx);
++	u32 line_mask;
+ };
+ 
+ /* ----------------------------------------------------------------------------
+@@ -465,9 +466,9 @@ static const char * const px30_isp_clks[] = {
+ };
+ 
+ static const struct rkisp1_isr_data px30_isp_isrs[] = {
+-	{ "isp", rkisp1_isp_isr },
+-	{ "mi", rkisp1_capture_isr },
+-	{ "mipi", rkisp1_csi_isr },
++	{ "isp", rkisp1_isp_isr, BIT(RKISP1_IRQ_ISP) },
++	{ "mi", rkisp1_capture_isr, BIT(RKISP1_IRQ_MI) },
++	{ "mipi", rkisp1_csi_isr, BIT(RKISP1_IRQ_MIPI) },
+ };
+ 
+ static const struct rkisp1_info px30_isp_info = {
+@@ -488,7 +489,7 @@ static const char * const rk3399_isp_clks[] = {
+ };
+ 
+ static const struct rkisp1_isr_data rk3399_isp_isrs[] = {
+-	{ NULL, rkisp1_isr },
++	{ NULL, rkisp1_isr, BIT(RKISP1_IRQ_ISP) | BIT(RKISP1_IRQ_MI) | BIT(RKISP1_IRQ_MIPI) },
+ };
+ 
+ static const struct rkisp1_info rk3399_isp_info = {
+@@ -509,7 +510,7 @@ static const char * const imx8mp_isp_clks[] = {
+ };
+ 
+ static const struct rkisp1_isr_data imx8mp_isp_isrs[] = {
+-	{ NULL, rkisp1_isr },
++	{ NULL, rkisp1_isr, BIT(RKISP1_IRQ_ISP) | BIT(RKISP1_IRQ_MI) | BIT(RKISP1_IRQ_MIPI) },
+ };
+ 
+ static const struct rkisp1_info imx8mp_isp_info = {
+@@ -566,6 +567,9 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 	if (IS_ERR(rkisp1->base_addr))
+ 		return PTR_ERR(rkisp1->base_addr);
+ 
++	for (unsigned int il = 0; il < RKISP1_NUM_IRQS; ++il)
++		rkisp1->irqs[il] = -1;
++
+ 	for (i = 0; i < info->isr_size; i++) {
+ 		irq = info->isrs[i].name
+ 		    ? platform_get_irq_byname(pdev, info->isrs[i].name)
+@@ -573,6 +577,11 @@ static int rkisp1_probe(struct platform_device *pdev)
+ 		if (irq < 0)
+ 			return irq;
+ 
++		for (unsigned int il = 0; il < RKISP1_NUM_IRQS; ++il) {
++			if (info->isrs[i].line_mask & BIT(il))
++				rkisp1->irqs[il] = irq;
++		}
++
+ 		ret = devm_request_irq(dev, irq, info->isrs[i].isr, IRQF_SHARED,
+ 				       dev_driver_string(dev), dev);
+ 		if (ret) {
 
-Best regards,
 -- 
-Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+2.34.1
 
 
