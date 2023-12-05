@@ -1,238 +1,101 @@
-Return-Path: <linux-media+bounces-1637-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1638-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73432804C48
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 09:27:52 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CCA804CC8
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 09:42:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B9811F21493
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 08:27:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4BD25B20D85
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 08:42:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 711AF3C470;
-	Tue,  5 Dec 2023 08:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43FD22943F;
+	Tue,  5 Dec 2023 08:42:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GLdhIJbF"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QGow/qTC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C52A4FA;
-	Tue,  5 Dec 2023 00:27:40 -0800 (PST)
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4ABA64DB;
-	Tue,  5 Dec 2023 09:26:58 +0100 (CET)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90C2FC0
+	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 00:42:08 -0800 (PST)
+Received: from umang.jain (unknown [103.251.226.73])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66E244DB;
+	Tue,  5 Dec 2023 09:41:24 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701764819;
-	bh=2bWSQJ91KzxSVZZxT/S36qXml+6Tqw1sYUSNGxv6iGw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GLdhIJbFPt4zgN4FTYoadYmU7ouvQUXJvq3ThTc4rY3HAmTmAfAUp9LRkTUWgm2if
-	 0vQpGOTGw34wB/8TU7u2xlV8G8MOgSdKgJB5uN9pZuSKnlrHjjuwB3yUbFWn1/5IkF
-	 D3dsnS/fpJgAQADa8dAJ1+D1wo2LfqLzv8hBw0Nw=
-Message-ID: <9b28dcf7-c9a0-4d68-9197-cdcdd9f0393b@ideasonboard.com>
-Date: Tue, 5 Dec 2023 10:27:34 +0200
+	s=mail; t=1701765687;
+	bh=A2HMUlMpMWnq+VJUq1eO7totGVlfWFugZ78W6RBfgkI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=QGow/qTCqw0q4H1VUKO7rD5hAPJ+I6nL/k2P7TiAmiR+pj4h0kVgNFkDXFeAiF7xH
+	 KEpzm+lrvNQ1YwQDQlKUpD1ANGgdTkymi4u3FGRu04R4yyRfwMx5kI1bS6CBItbM16
+	 cm+XJbWwPAfBjYYkl3pjEWpFGjaACrpctBgv0a3w=
+From: Umang Jain <umang.jain@ideasonboard.com>
+To: linux-staging@lists.linux.dev,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-media@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Cc: Stefan Wahren <stefan.wahren@i2se.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <error27@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	"Ricardo B . Marliere" <ricardo@marliere.net>,
+	Umang Jain <umang.jain@ideasonboard.com>
+Subject: [PATCH v3 0/4] staging: vc04_services: Drop custom logging
+Date: Tue,  5 Dec 2023 14:11:53 +0530
+Message-ID: <20231205084157.73819-1-umang.jain@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] media: rkisp1: Fix IRQ handling due to shared
- interrupts
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Paul Elder <paul.elder@ideasonboard.com>,
- Alexander Stein <alexander.stein@ew.tq-group.com>,
- kieran.bingham@ideasonboard.com, umang.jain@ideasonboard.com,
- aford173@gmail.com, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20231205-rkisp-irq-fix-v1-0-f4045c74ba45@ideasonboard.com>
- <20231205-rkisp-irq-fix-v1-3-f4045c74ba45@ideasonboard.com>
- <20231205082016.GA17394@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20231205082016.GA17394@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 05/12/2023 10:20, Laurent Pinchart wrote:
-> Hi Tomi,
-> 
-> Thank you for the patch.
-> 
-> On Tue, Dec 05, 2023 at 10:09:34AM +0200, Tomi Valkeinen wrote:
->> The driver requests the interrupts as IRQF_SHARED, so the interrupt
->> handlers can be called at any time. If such a call happens while the ISP
->> is powered down, the SoC will hang as the driver tries to access the
->> ISP registers.
-> 
-> Is IRQF_SHARED actually needed ?
+This series also removes the vchiq_log_* macro and makes use of dev_*()
+logging helpers directly.
 
-I don't have any answer to that, but it seems to have always been there. 
-Dropping it would simplify the code, but we can only do that if we are 
-sure all the platforms the ISP is used on or will be used on won't share 
-the interrupt.
+Patch 1/4 removes vchiq_log_error() macro
+Patch 2/4 removes vchiq_log_warning() macro
+Patch 3/4 removes vchiq_log_trace() macro
+Patch 4/4 removes vchiq_log_debug() macro
 
-  Tomi
+This completes the following TODO item:
 
->> Fix this by adding a new field, 'irqs_enabled', which is used to bail
->> out from the interrupt handler when the ISP is not operational.
->>
->> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
->> ---
->>   .../media/platform/rockchip/rkisp1/rkisp1-capture.c |  3 +++
->>   .../media/platform/rockchip/rkisp1/rkisp1-common.h  |  2 ++
->>   drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c |  3 +++
->>   drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 21 +++++++++++++++++++++
->>   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c |  3 +++
->>   5 files changed, 32 insertions(+)
->>
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> index b50b044d22af..e92067897f28 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
->> @@ -779,6 +779,9 @@ irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
->>   	unsigned int i;
->>   	u32 status;
->>   
->> +	if (!rkisp1->irqs_enabled)
->> +		return IRQ_NONE;
->> +
->>   	status = rkisp1_read(rkisp1, RKISP1_CIF_MI_MIS);
->>   	if (!status)
->>   		return IRQ_NONE;
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
->> index ec28907d978e..7f97fdf6e24c 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
->> @@ -465,6 +465,7 @@ struct rkisp1_debug {
->>    * @debug:	   debug params to be exposed on debugfs
->>    * @info:	   version-specific ISP information
->>    * @irqs:          IRQ line numbers
->> + * @irqs_enabled:  the hardware is enabled and can cause interrupts
->>    */
->>   struct rkisp1_device {
->>   	void __iomem *base_addr;
->> @@ -488,6 +489,7 @@ struct rkisp1_device {
->>   	struct rkisp1_debug debug;
->>   	const struct rkisp1_info *info;
->>   	int irqs[RKISP1_NUM_IRQS];
->> +	bool irqs_enabled;
->>   };
->>   
->>   /*
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
->> index 47f4353a1784..f6b54654b435 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
->> @@ -184,6 +184,9 @@ irqreturn_t rkisp1_csi_isr(int irq, void *ctx)
->>   	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
->>   	u32 val, status;
->>   
->> +	if (!rkisp1->irqs_enabled)
->> +		return IRQ_NONE;
->> +
->>   	status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
->>   	if (!status)
->>   		return IRQ_NONE;
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> index 1d60f4b8bd09..fbe03f7864e3 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
->> @@ -306,6 +306,23 @@ static int __maybe_unused rkisp1_runtime_suspend(struct device *dev)
->>   {
->>   	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
->>   
->> +	rkisp1->irqs_enabled = false;
->> +	/* Make sure the IRQ handler will see the above */
->> +	mb();
->> +
->> +	/*
->> +	 * Wait until any running IRQ handler has returned. The IRQ handler
->> +	 * may get called even after this (as it's a shared interrupt line)
->> +	 * but the 'irqs_enabled' flag will make the handler return immediately.
->> +	 */
->> +	for (unsigned int i = 0; i < RKISP1_NUM_IRQS; ++i) {
->> +		if (rkisp1->irqs[i] == -1)
->> +			continue;
->> +
->> +		if (i == 0 || rkisp1->irqs[i - 1] != rkisp1->irqs[i])
->> +			synchronize_irq(rkisp1->irqs[i]);
->> +	}
->> +
->>   	clk_bulk_disable_unprepare(rkisp1->clk_size, rkisp1->clks);
->>   	return pinctrl_pm_select_sleep_state(dev);
->>   }
->> @@ -322,6 +339,10 @@ static int __maybe_unused rkisp1_runtime_resume(struct device *dev)
->>   	if (ret)
->>   		return ret;
->>   
->> +	rkisp1->irqs_enabled = true;
->> +	/* Make sure the IRQ handler will see the above */
->> +	mb();
->> +
->>   	return 0;
->>   }
->>   
->> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->> index dafbfd230542..d6b8786661ad 100644
->> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
->> @@ -1082,6 +1082,9 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
->>   	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
->>   	u32 status, isp_err;
->>   
->> +	if (!rkisp1->irqs_enabled)
->> +		return IRQ_NONE;
->> +
->>   	status = rkisp1_read(rkisp1, RKISP1_CIF_ISP_MIS);
->>   	if (!status)
->>   		return IRQ_NONE;
-> 
+```
+* Cleanup logging mechanism
+
+The driver should probably be using the standard kernel logging mechanisms
+such as dev_info, dev_dbg, and friends.
+```
+
+Changes in v3:
+- vchiq_log_error() will log to dev_err
+- vchiq_log_warn() will log to dev_warn
+- vchiq_log_trace() will log to dev_dbg
+
+Changes in v2:
+- Separate out one fixup patch from v1 (Patch 1/9)and send separately
+- Drop usage of log_type() and log_category() helpers. Directly use
+  dev_dbg() as suggested by Greg KH.
+- Drop __func__ annotation from all logs. Dynamic debug has 'f'
+  decorator flag which can be used instead of manual __func__
+- Reword commit messages.
+
+Umang Jain (4):
+  staging: vc04_services: Drop vchiq_log_error() in favour of dev_err
+  staging: vc04_services: Drop vchiq_log_warning() in favour of dev_warn
+  staging: vc04_services: Drop vchiq_log_trace() in favour of dev_dbg
+  staging: vc04_services: Drop vchiq_log_debug() in favour of dev_dbg
+
+ drivers/staging/vc04_services/interface/TODO  |   5 -
+ .../interface/vchiq_arm/vchiq_arm.c           | 178 ++++----
+ .../interface/vchiq_arm/vchiq_connected.c     |   6 +-
+ .../interface/vchiq_arm/vchiq_core.c          | 403 +++++++++---------
+ .../interface/vchiq_arm/vchiq_core.h          |  38 --
+ .../interface/vchiq_arm/vchiq_dev.c           |  92 ++--
+ 6 files changed, 314 insertions(+), 408 deletions(-)
+
+-- 
+2.41.0
 
 
