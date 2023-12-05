@@ -1,61 +1,60 @@
-Return-Path: <linux-media+bounces-1626-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1627-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15AE3804AA3
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 07:55:19 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EF37804AA4
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 07:55:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 78F44B20D00
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 06:55:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 383C3281290
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 06:55:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D634713FE2;
-	Tue,  5 Dec 2023 06:55:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD72914A80;
+	Tue,  5 Dec 2023 06:55:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wtahGc3I"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HEVDVW6y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EFEA116
-	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 22:55:04 -0800 (PST)
-Received: by mail-wr1-x42f.google.com with SMTP id ffacd0b85a97d-332c7d4a6a7so4585730f8f.2
-        for <linux-media@vger.kernel.org>; Mon, 04 Dec 2023 22:55:03 -0800 (PST)
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 172FCFA
+	for <linux-media@vger.kernel.org>; Mon,  4 Dec 2023 22:55:14 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id ffacd0b85a97d-3332f1512e8so3531081f8f.2
+        for <linux-media@vger.kernel.org>; Mon, 04 Dec 2023 22:55:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701759302; x=1702364102; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=XIAQw2nkqWN+Kmx4GyPPsCo8Q52OF7j8p5bkMe0Ci4g=;
-        b=wtahGc3IaE4s/b06PTsutvaZOYx/qt74HxFA8lzXC7+DPWuJqMFt54bxZhBYFeOiUF
-         Mg3zczpETeVRiJNQGgfnXEEKEON/CGQogUyDq1CVCQ3Cah1yXKUyvXuP0Uv+m3J6Bvm9
-         7kwoXSj5RgF9EFIzOrE0xfV+A48yaZTI5X8hIHOReLF8Y+t1S29p/MPTRNt7CLcELUSV
-         ZE52UEvSiREH6qQLY01oaj2obSuK2VKITWvHVtrhFJanFQKZMY5fFQ6VqY8aydG8Fxpb
-         kouq5fbKUxKL2lpt4nW/LkUvJAMKr2hlz3sGfMu5EYrcjclMDLtsNTtjpTPEvZEsVLfn
-         vIpA==
+        d=linaro.org; s=google; t=1701759312; x=1702364112; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=qIu5xCG7yoqDCtZ5Kp8ogKdXffu6qSe9Hjf6D85gdos=;
+        b=HEVDVW6ydWIm0kEdHHhfGHNEEd/J4pdfY2oiTAnSc0LjhGcgM2eNcU016q2LHGiAfI
+         F3TcfbusQOytY29fzG1rV7v3FE7dAZWhHlUseyTvczYIfME09+LHTY0ac4e2Iyf87VxY
+         0Dp0PUcogAIVAs6SABIbasy5CUY829jtfP90qPB0yTMAtr84hGuMH679a+nVNHmmPq+9
+         F0Smpy3xqSkSOPyKDz+wof3dVkgpJu3IixzabQayQp0rpX/Snaf0hRfv8iq10dh+Mbku
+         PsSkZEtvUn3N+3/xiDIQDiYSJdjzldLdBoIk7uoydG6UiCEOfoXbHm07fsSUu0tnnbVo
+         IXmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701759302; x=1702364102;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=XIAQw2nkqWN+Kmx4GyPPsCo8Q52OF7j8p5bkMe0Ci4g=;
-        b=PLvEzf/2hyW/hcOqVWqNDhjh4OzHGw2HFIhLTI5O9gW98Dx89CSXeMqWvPSwe+Pseh
-         lI+0Mqf5HkX60WL1jeHiUf3ddb02+GNx/MUnS0xzINC/UEbNVY9vdqFACLTrOuh3pKR+
-         u9azyH0Q+VUpju6unYT1vOyndINsTj79BlEMnlOCOSMyuOedslv15ZGOJ9A6gD+crR+l
-         KLFk3nSxrfjbYlsg4ftCSA2RmAUYqtlqc7haYrvWSS9SAm52fRq3sgcsf3ZKzepSx6+I
-         EVyzH2lUyA0rKizpPdBQGq6BKQTFPGPY0HBqPAjPOAy5/cTG6gffVwG6h7AemvnFOsPW
-         gc4g==
-X-Gm-Message-State: AOJu0YzUNuwdUDtR4OpNXWERGM/rwPaBqS6E35x+7IgAF7gbRVrplnUz
-	TCGDesCZPowxmCZ772I6oriEoPlopKHVbPlsxeQ=
-X-Google-Smtp-Source: AGHT+IFXw9n60GMHJC0LxThDr0NJnQV/cNv4nCnvbNQvZ2RWJRaccemqAyF7fom9vBcFq58vsyfVrQ==
-X-Received: by 2002:a5d:5258:0:b0:333:2fd2:3c0b with SMTP id k24-20020a5d5258000000b003332fd23c0bmr2488653wrc.196.1701759302516;
-        Mon, 04 Dec 2023 22:55:02 -0800 (PST)
+        d=1e100.net; s=20230601; t=1701759312; x=1702364112;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=qIu5xCG7yoqDCtZ5Kp8ogKdXffu6qSe9Hjf6D85gdos=;
+        b=SRX6FEYsitZy/T4CWiitOXbJazQpTSNTUEP4krnPOFXMaDxPmaFdVQWu5MEv40K3Op
+         7CVtDIcIzJaUimwQwsCxPBnCxa0WpqzzvVi9/XwLbdfnsf3IJ1Hswga8n856Pg///SEQ
+         6hDzDKUQbLRFreJKgnUjbnCE89L14tz6h/q3NKoJbGypu0guxc1kgseWcwUuXvh+C68t
+         7jqszX0fb1wGuE/0rYgFhFYRMDUPN/cpiCVgBq614Rl1kbrT3aNWFs5AhhFlEwyLy/qo
+         rDEDvSkpW7hNmZa0Ds2qlOXhR69xT49E2PQPfQezVMCiC/j+AgVfA82ss7cPo5iiArU2
+         IXIw==
+X-Gm-Message-State: AOJu0Yw1dZjVHBAqQMsImf7CzZMnBiQf7Mo3DYdchZFRHFm2Wnkedi2+
+	uVVeOxFmqrzj8n/IQeDQKxM4hg==
+X-Google-Smtp-Source: AGHT+IEsSX/97QtzGB5+PCCc9PEJb8n5T+vBurWYukpHLXw6GmuWvOlM3D3DieBYZbM2Sn/MCBflSw==
+X-Received: by 2002:adf:db4a:0:b0:332:c9ef:9ada with SMTP id f10-20020adfdb4a000000b00332c9ef9adamr3366514wrj.2.1701759312644;
+        Mon, 04 Dec 2023 22:55:12 -0800 (PST)
 Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id b12-20020a05600010cc00b0033340aa3de2sm6751763wrx.14.2023.12.04.22.55.01
+        by smtp.gmail.com with ESMTPSA id b12-20020a05600010cc00b0033340aa3de2sm6751763wrx.14.2023.12.04.22.55.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 04 Dec 2023 22:55:02 -0800 (PST)
-Message-ID: <a06e8036-e24e-4ac6-b75c-eb5efe4b0ee8@linaro.org>
-Date: Tue, 5 Dec 2023 07:55:00 +0100
+        Mon, 04 Dec 2023 22:55:12 -0800 (PST)
+Message-ID: <360d84ae-f1e6-4ed9-9ea0-97c7fcb31398@linaro.org>
+Date: Tue, 5 Dec 2023 07:55:11 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,16 +62,15 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/2] dt-bindings: media: Remove K3 Family Prefix from
- Compatible
+Subject: Re: [PATCH 2/2] media: chips-media: wave5: Remove K3 References
+Content-Language: en-US
 To: Brandon Brnich <b-brnich@ti.com>,
  Geert Uytterhoeven <geert@linux-m68k.org>, linux-media@vger.kernel.org,
  devicetree@vger.kernel.org, Sebastian Fricke
  <sebastian.fricke@collabora.com>, Nas Chung <nas.chung@chipsnmedia.com>
 Cc: Nishanth Menon <nm@ti.com>, Darren Etheridge <detheridge@ti.com>
 References: <20231204181452.1258419-1-b-brnich@ti.com>
- <20231204181452.1258419-2-b-brnich@ti.com>
-Content-Language: en-US
+ <20231204181452.1258419-3-b-brnich@ti.com>
 From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -118,24 +116,20 @@ Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
  KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
  fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
  D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231204181452.1258419-2-b-brnich@ti.com>
+In-Reply-To: <20231204181452.1258419-3-b-brnich@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 04/12/2023 19:14, Brandon Brnich wrote:
-> K3 family prefix is not included in other TI compatible
-> strings. Remove this prefix to keep naming convention
-> consistent.
+> Change compatible string to match dt bindings for
+> TI devices with Wave521c. 
 > 
-> Fixes: de4b9f7e371a ("dt-bindings: media: wave5: add yaml devicetree bindings")
+> K3 family prefix should not be included
+> as it deviates from naming convention.
 
-This change breaks the ABI, so does it mean it was not yet released?
-
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC (and consider --no-git-fallback argument). It might
-happen, that command when run on an older kernel, gives you outdated
-entries. Therefore please be sure you base your patches on recent Linux
-kernel.
+Please wrap commit message according to Linux coding style / submission
+process (neither too early nor over the limit):
+https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
 
 Best regards,
 Krzysztof
