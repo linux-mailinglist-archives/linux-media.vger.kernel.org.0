@@ -1,188 +1,275 @@
-Return-Path: <linux-media+bounces-1634-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1635-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B63804C1F
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 09:20:21 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D7748804C2F
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 09:23:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 87B58281707
-	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 08:20:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 148051C20DA9
+	for <lists+linux-media@lfdr.de>; Tue,  5 Dec 2023 08:23:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E8B13C067;
-	Tue,  5 Dec 2023 08:20:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD6213C08D;
+	Tue,  5 Dec 2023 08:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="NG5AsM1W"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fVcy5reb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE21ABA;
-	Tue,  5 Dec 2023 00:20:10 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0071D4DB;
-	Tue,  5 Dec 2023 09:19:28 +0100 (CET)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C1A7E138;
+	Tue,  5 Dec 2023 00:22:52 -0800 (PST)
+Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5CEB34DB;
+	Tue,  5 Dec 2023 09:22:10 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701764369;
-	bh=as9eWJPgC11SsS4l6Lvvaa+kNs5Pv8jA5yRszHq/yuw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NG5AsM1WDj/dpFyJXpfYG2U5Wk/Q8d2hWl9HP/Fi8TetGLkByR35i57owTTYVsXyF
-	 /Cjng5whpC2Ol5A6X4s58FNdlkLFMBUrWBwElrEja5csvQigusRNURPuNXtYd0zVV4
-	 +2EHuUz31Bv8ROLQhwOtdRTqg3lF3O4FVjhJgoDs=
-Date: Tue, 5 Dec 2023 10:20:16 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Alexander Stein <alexander.stein@ew.tq-group.com>,
-	kieran.bingham@ideasonboard.com, umang.jain@ideasonboard.com,
-	aford173@gmail.com, linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/4] media: rkisp1: Fix IRQ handling due to shared
- interrupts
-Message-ID: <20231205082016.GA17394@pendragon.ideasonboard.com>
-References: <20231205-rkisp-irq-fix-v1-0-f4045c74ba45@ideasonboard.com>
- <20231205-rkisp-irq-fix-v1-3-f4045c74ba45@ideasonboard.com>
+	s=mail; t=1701764531;
+	bh=Lh9y/UDPcpcgejbtvdp2SqZpH1oMeRlPkdcPPMctZeQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fVcy5rebgdISrcgE3t8ShSmFOGgXvacSEi47L7DeLoE+z0cJleoHQ5vhDxix69Ezz
+	 7+tqeab9fm0gaPPPrci13uL7fWQbvOeC4/8iHYhop39zerrGT9M+Ns2wjeyH7xyF1m
+	 qkqnhxXNXZtSd7C4pSD+eUmzzdbwzZiGwbJQ7FpA=
+Message-ID: <212f4a89-7135-41ca-9638-b36a474b1bfa@ideasonboard.com>
+Date: Tue, 5 Dec 2023 10:22:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231205-rkisp-irq-fix-v1-3-f4045c74ba45@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/4] media: rkisp1: debug: Consolidate counter debugfs
+ files
+Content-Language: en-US
+To: Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org
+Cc: laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com,
+ umang.jain@ideasonboard.com, Dafna Hirschfeld <dafna@fastmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>,
+ "moderated list:ARM/Rockchip SoC support"
+ <linux-arm-kernel@lists.infradead.org>,
+ open list <linux-kernel@vger.kernel.org>
+References: <20231201140433.2126011-1-paul.elder@ideasonboard.com>
+ <20231201140433.2126011-5-paul.elder@ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20231201140433.2126011-5-paul.elder@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Tomi,
-
-Thank you for the patch.
-
-On Tue, Dec 05, 2023 at 10:09:34AM +0200, Tomi Valkeinen wrote:
-> The driver requests the interrupts as IRQF_SHARED, so the interrupt
-> handlers can be called at any time. If such a call happens while the ISP
-> is powered down, the SoC will hang as the driver tries to access the
-> ISP registers.
-
-Is IRQF_SHARED actually needed ?
-
-> Fix this by adding a new field, 'irqs_enabled', which is used to bail
-> out from the interrupt handler when the ISP is not operational.
+On 01/12/2023 16:04, Paul Elder wrote:
+> Consolidate all the debugfs files that were each a single counter into a
+> single "counters" file.
 > 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> While at it, reset the counters at stream on time to make it easier for
+> to interpret the values in userspace.
+> 
+> Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> 
 > ---
->  .../media/platform/rockchip/rkisp1/rkisp1-capture.c |  3 +++
->  .../media/platform/rockchip/rkisp1/rkisp1-common.h  |  2 ++
->  drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c |  3 +++
->  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 21 +++++++++++++++++++++
->  drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c |  3 +++
->  5 files changed, 32 insertions(+)
+> New in v2
+> 
+>   .../platform/rockchip/rkisp1/rkisp1-capture.c |  2 +
+>   .../platform/rockchip/rkisp1/rkisp1-common.h  |  4 ++
+>   .../platform/rockchip/rkisp1/rkisp1-debug.c   | 69 ++++++++++++-------
+>   3 files changed, 50 insertions(+), 25 deletions(-)
 > 
 > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> index b50b044d22af..e92067897f28 100644
+> index c6d7e01c8949..67b2e94dfd67 100644
 > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
 > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -779,6 +779,9 @@ irqreturn_t rkisp1_capture_isr(int irq, void *ctx)
->  	unsigned int i;
->  	u32 status;
->  
-> +	if (!rkisp1->irqs_enabled)
-> +		return IRQ_NONE;
+> @@ -1030,6 +1030,8 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
+>   	struct media_entity *entity = &cap->vnode.vdev.entity;
+>   	int ret;
+>   
+> +	rkisp1_debug_reset_counters(cap->rkisp1);
 > +
->  	status = rkisp1_read(rkisp1, RKISP1_CIF_MI_MIS);
->  	if (!status)
->  		return IRQ_NONE;
+>   	mutex_lock(&cap->rkisp1->stream_lock);
+>   
+>   	ret = video_device_pipeline_start(&cap->vnode.vdev, &cap->rkisp1->pipe);
 > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index ec28907d978e..7f97fdf6e24c 100644
+> index be69173958a4..789259fb304a 100644
 > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
 > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -465,6 +465,7 @@ struct rkisp1_debug {
->   * @debug:	   debug params to be exposed on debugfs
->   * @info:	   version-specific ISP information
->   * @irqs:          IRQ line numbers
-> + * @irqs_enabled:  the hardware is enabled and can cause interrupts
->   */
->  struct rkisp1_device {
->  	void __iomem *base_addr;
-> @@ -488,6 +489,7 @@ struct rkisp1_device {
->  	struct rkisp1_debug debug;
->  	const struct rkisp1_info *info;
->  	int irqs[RKISP1_NUM_IRQS];
-> +	bool irqs_enabled;
->  };
->  
->  /*
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> index 47f4353a1784..f6b54654b435 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-> @@ -184,6 +184,9 @@ irqreturn_t rkisp1_csi_isr(int irq, void *ctx)
->  	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
->  	u32 val, status;
->  
-> +	if (!rkisp1->irqs_enabled)
-> +		return IRQ_NONE;
+> @@ -599,9 +599,13 @@ int rkisp1_params_register(struct rkisp1_device *rkisp1);
+>   void rkisp1_params_unregister(struct rkisp1_device *rkisp1);
+>   
+>   #if IS_ENABLED(CONFIG_DEBUG_FS)
+> +void rkisp1_debug_reset_counters(struct rkisp1_device *rkisp1);
+>   void rkisp1_debug_init(struct rkisp1_device *rkisp1);
+>   void rkisp1_debug_cleanup(struct rkisp1_device *rkisp1);
+>   #else
+> +static inline void rkisp1_debug_reset_counters(struct rkisp1_device *rkisp1)
+> +{
+> +}
+>   static inline void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>   {
+>   }
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> index 79cda589d935..4358ed1367ed 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-debug.c
+> @@ -25,6 +25,11 @@ struct rkisp1_debug_register {
+>   	const char * const name;
+>   };
+>   
+> +struct rkisp1_debug_counter {
+> +	const char * const name;
+> +	unsigned long *value;
+> +};
 > +
->  	status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
->  	if (!status)
->  		return IRQ_NONE;
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> index 1d60f4b8bd09..fbe03f7864e3 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
-> @@ -306,6 +306,23 @@ static int __maybe_unused rkisp1_runtime_suspend(struct device *dev)
->  {
->  	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
->  
-> +	rkisp1->irqs_enabled = false;
-> +	/* Make sure the IRQ handler will see the above */
-> +	mb();
+>   #define RKISP1_DEBUG_REG(name)		{ RKISP1_CIF_##name, 0, #name }
+>   #define RKISP1_DEBUG_SHD_REG(name) { \
+>   	RKISP1_CIF_##name, RKISP1_CIF_##name##_SHD, #name \
+> @@ -191,6 +196,43 @@ static int rkisp1_debug_input_status_show(struct seq_file *m, void *p)
+>   }
+>   DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_input_status);
+>   
+> +static int rkisp1_debug_counters_show(struct seq_file *m, void *p)
+> +{
+> +	struct rkisp1_device *rkisp1 = m->private;
+> +	struct rkisp1_debug *debug = &rkisp1->debug;
 > +
-> +	/*
-> +	 * Wait until any running IRQ handler has returned. The IRQ handler
-> +	 * may get called even after this (as it's a shared interrupt line)
-> +	 * but the 'irqs_enabled' flag will make the handler return immediately.
-> +	 */
-> +	for (unsigned int i = 0; i < RKISP1_NUM_IRQS; ++i) {
-> +		if (rkisp1->irqs[i] == -1)
-> +			continue;
+> +	const struct rkisp1_debug_counter counters[] = {
+> +		{ "data_loss", &debug->data_loss },
+> +		{ "outform_size_err", &debug->outform_size_error },
+> +		{ "img_stabilization_size_error", &debug->img_stabilization_size_error },
+> +		{ "inform_size_error", &debug->inform_size_error },
+> +		{ "irq_delay", &debug->irq_delay },
+> +		{ "mipi_error", &debug->mipi_error },
+> +		{ "stats_error", &debug->stats_error },
+> +		{ "mp_stop_timeout", &debug->stop_timeout[RKISP1_MAINPATH] },
+> +		{ "sp_stop_timeout", &debug->stop_timeout[RKISP1_SELFPATH] },
+> +		{ "mp_frame_drop", &debug->frame_drop[RKISP1_MAINPATH] },
+> +		{ "sp_frame_drop", &debug->frame_drop[RKISP1_SELFPATH] },
+> +		{ "complete_frames", &debug->complete_frames },
+> +		{ /* Sentinel */ },
+> +	};
 > +
-> +		if (i == 0 || rkisp1->irqs[i - 1] != rkisp1->irqs[i])
-> +			synchronize_irq(rkisp1->irqs[i]);
-> +	}
+> +	const struct rkisp1_debug_counter *counter = counters;
 > +
->  	clk_bulk_disable_unprepare(rkisp1->clk_size, rkisp1->clks);
->  	return pinctrl_pm_select_sleep_state(dev);
->  }
-> @@ -322,6 +339,10 @@ static int __maybe_unused rkisp1_runtime_resume(struct device *dev)
->  	if (ret)
->  		return ret;
->  
-> +	rkisp1->irqs_enabled = true;
-> +	/* Make sure the IRQ handler will see the above */
-> +	mb();
+> +	for (; counter->name; ++counter)
+> +		seq_printf(m, "%s: %lu\n", counter->name, *counter->value);
 > +
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> index dafbfd230542..d6b8786661ad 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> @@ -1082,6 +1082,9 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
->  	struct rkisp1_device *rkisp1 = dev_get_drvdata(dev);
->  	u32 status, isp_err;
->  
-> +	if (!rkisp1->irqs_enabled)
-> +		return IRQ_NONE;
-> +
->  	status = rkisp1_read(rkisp1, RKISP1_CIF_ISP_MIS);
->  	if (!status)
->  		return IRQ_NONE;
 
--- 
-Regards,
+You could also do:
 
-Laurent Pinchart
+	const struct {
+		const char *name;
+		unsigned long value;
+	} counters[] = {
+		{ "data_loss", debug->data_loss },
+		{ "outform_size_err", debug->outform_size_error },
+		{ "img_stabilization_size_error", debug->img_stabilization_size_error },
+		{ "inform_size_error", debug->inform_size_error },
+		{ "irq_delay", debug->irq_delay },
+		{ "mipi_error", debug->mipi_error },
+		{ "stats_error", debug->stats_error },
+		{ "mp_stop_timeout", debug->stop_timeout[RKISP1_MAINPATH] },
+		{ "sp_stop_timeout", debug->stop_timeout[RKISP1_SELFPATH] },
+		{ "mp_frame_drop", debug->frame_drop[RKISP1_MAINPATH] },
+		{ "sp_frame_drop", debug->frame_drop[RKISP1_SELFPATH] },
+		{ "complete_frames", debug->complete_frames },
+	};
+
+	for (unsigned int i = 0; i < ARRAY_SIZE(counters); ++i)
+		seq_printf(m, "%s: %lu\n", counters[i].name, counters[i].value);
+
+Not a big difference, but this doesn't "leak" the struct used only inside the
+function, doesn't need the sentinel, and I don't see a reason to store pointers
+to values, instead of just storing the values.
+
+  Tomi
+
+> +	return 0;
+> +}
+> +DEFINE_SHOW_ATTRIBUTE(rkisp1_debug_counters);
+> +
+> +void rkisp1_debug_reset_counters(struct rkisp1_device *rkisp1)
+> +{
+> +	struct dentry *debugfs_dir = rkisp1->debug.debugfs_dir;
+> +	memset(&rkisp1->debug, 0, sizeof(rkisp1->debug));
+> +	rkisp1->debug.debugfs_dir = debugfs_dir;
+> +}
+> +
+>   void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>   {
+>   	struct rkisp1_debug *debug = &rkisp1->debug;
+> @@ -198,31 +240,8 @@ void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>   
+>   	debug->debugfs_dir = debugfs_create_dir(dev_name(rkisp1->dev), NULL);
+>   
+> -	debugfs_create_ulong("data_loss", 0444, debug->debugfs_dir,
+> -			     &debug->data_loss);
+> -	debugfs_create_ulong("outform_size_err", 0444,  debug->debugfs_dir,
+> -			     &debug->outform_size_error);
+> -	debugfs_create_ulong("img_stabilization_size_error", 0444,
+> -			     debug->debugfs_dir,
+> -			     &debug->img_stabilization_size_error);
+> -	debugfs_create_ulong("inform_size_error", 0444,  debug->debugfs_dir,
+> -			     &debug->inform_size_error);
+> -	debugfs_create_ulong("irq_delay", 0444,  debug->debugfs_dir,
+> -			     &debug->irq_delay);
+> -	debugfs_create_ulong("mipi_error", 0444, debug->debugfs_dir,
+> -			     &debug->mipi_error);
+> -	debugfs_create_ulong("stats_error", 0444, debug->debugfs_dir,
+> -			     &debug->stats_error);
+> -	debugfs_create_ulong("mp_stop_timeout", 0444, debug->debugfs_dir,
+> -			     &debug->stop_timeout[RKISP1_MAINPATH]);
+> -	debugfs_create_ulong("sp_stop_timeout", 0444, debug->debugfs_dir,
+> -			     &debug->stop_timeout[RKISP1_SELFPATH]);
+> -	debugfs_create_ulong("mp_frame_drop", 0444, debug->debugfs_dir,
+> -			     &debug->frame_drop[RKISP1_MAINPATH]);
+> -	debugfs_create_ulong("sp_frame_drop", 0444, debug->debugfs_dir,
+> -			     &debug->frame_drop[RKISP1_SELFPATH]);
+> -	debugfs_create_ulong("complete_frames", 0444, debug->debugfs_dir,
+> -			     &debug->complete_frames);
+> +	debugfs_create_file("counters", 0444, debug->debugfs_dir, rkisp1,
+> +			    &rkisp1_debug_counters_fops);
+>   	debugfs_create_file("input_status", 0444, debug->debugfs_dir, rkisp1,
+>   			    &rkisp1_debug_input_status_fops);
+>   
+
 
