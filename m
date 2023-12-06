@@ -1,149 +1,265 @@
-Return-Path: <linux-media+bounces-1741-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1742-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC2DD806C00
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 11:34:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92555806C12
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 11:36:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE01F1C2096B
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 10:34:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C424C1C209E0
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 10:36:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDFF12DF92;
-	Wed,  6 Dec 2023 10:34:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97EA32DF91;
+	Wed,  6 Dec 2023 10:36:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lY1Xg/Ev"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DFrKtgoT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E67B1B5
-	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 02:33:57 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-332fd81fc8dso554592f8f.3
-        for <linux-media@vger.kernel.org>; Wed, 06 Dec 2023 02:33:57 -0800 (PST)
+Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6393137;
+	Wed,  6 Dec 2023 02:36:27 -0800 (PST)
+Received: by mail-oo1-xc34.google.com with SMTP id 006d021491bc7-58d5979c676so4210258eaf.1;
+        Wed, 06 Dec 2023 02:36:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1701858836; x=1702463636; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=vNWpu2Kl2fcT2EkQne/K9Yh75bFrD876NBGFXjjHEOg=;
-        b=lY1Xg/Ev7Cep1nYHjYiK9Gi6e4ExyoOnOq+R/RG9SWn/xLRp0vZ7ukzDs0SUHWYNhI
-         orm348jvSLqaY7x2345X+0L03k6zMDD8mViBxWN9NYZJgSWjIBYpggvHckmVAGU8cKEy
-         1XakOpMDcjYJ6KpmffM93eqpKCeujm4e+DTrRKUVvF+4iBoZPhJLD+V/sMI+yLh/cdJN
-         O3HCPGNkWDPXW/C0hBfIJt/ThX1OuQaQnaG9kMsjsKG8YudcEDagzaUHmrESf/SK+sou
-         YTMlR3FE1MFRaI/5nV/Szy0l2J5BFxpt8q95wrBFAXHLIFr3lDH05eTcVzmWVDkWwxip
-         cucA==
+        d=gmail.com; s=20230601; t=1701858987; x=1702463787; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GSHguhdYXTBvbS9uaUvEUspYNKYDJXD8tRJJNaYtm/4=;
+        b=DFrKtgoTssqiNxW2xH5rTZQmfY3nRBSyW02+5tZEM7FcNAreaT3fRgNoyRh10AOa4m
+         N6VcjBzYdBTnHKKta396F3qSbYfxRRtgtMDXRkR8n4vQ4yPkKgyxUnJ2Eiqsxcxwsymr
+         fx8qeYqYRnrKga36f8LcWzN0PzzRlgu8p/EA8dyE1CWdhOdNNVXRRAkwdBKoJAiEz+5l
+         B2ORaQN9Mlunl7CUfZDxHdWw0uQBc3gnrAixV9kD1deZb9YiQXtzieVm5miHUWBznZMa
+         lkjlfv9Jm98w0z+u2LvQ8BQLQ+Rn+nJRVirGq9nt9gvuVaD1PImzAU16dvRhY8x9sPXZ
+         WctA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701858836; x=1702463636;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
-         :to:content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=vNWpu2Kl2fcT2EkQne/K9Yh75bFrD876NBGFXjjHEOg=;
-        b=FynwiPDxdHrl0k/ZpjsXaZ+7pU0nQ+mZ0WTyFBjQ920HSwgzFDn1s2ca4ILO/haMy7
-         nipczQeX2bJYmozIpPOMWnQO7DiaPe2so89vVcc4n/ZDDl4hCVOz9DDw9L775rVR5F+W
-         6+SlaU+cw4NXqQyOXV03csRy1U0TZkjUgE6l+ubwPzJPv2ysrPuMEi41gA+u8+fsu0bI
-         tcLf9wBW2ineiwmCMungdUaE3ydqS/RPLE4HY4gBa55HWVB0+r6fS4GSNK0g2Ft4S/xP
-         VhWB+RFPbDXALVn7kcEq/12sGJu/iDSeRU9uyJxF87+4hgWQXgpH8qTkt0RquTD7bH21
-         mCSw==
-X-Gm-Message-State: AOJu0YxwJYk79dd77JvVvcNoncg7p/WZ/fVITszR+IFbrALx4D5FWYN+
-	6EtFNk71EboJWbsMFMHHQb8JIp8Gvf2wUAL9oJY=
-X-Google-Smtp-Source: AGHT+IFHTfiHp66DAws9nAd4BCQOEM5XE2vOuXTqoXBYrnMXfJG6nRGYhpFVphsYKk2ITaLUqrIXhQ==
-X-Received: by 2002:adf:e70e:0:b0:333:2fd2:68d9 with SMTP id c14-20020adfe70e000000b003332fd268d9mr394424wrm.108.1701858835916;
-        Wed, 06 Dec 2023 02:33:55 -0800 (PST)
-Received: from [192.168.1.20] ([178.197.218.27])
-        by smtp.gmail.com with ESMTPSA id b14-20020adff90e000000b0033346fe9b9bsm8429100wrr.83.2023.12.06.02.33.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 06 Dec 2023 02:33:55 -0800 (PST)
-Message-ID: <91188ba1-fd37-454f-beb1-0119bd24d3c8@linaro.org>
-Date: Wed, 6 Dec 2023 11:33:53 +0100
+        d=1e100.net; s=20230601; t=1701858987; x=1702463787;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GSHguhdYXTBvbS9uaUvEUspYNKYDJXD8tRJJNaYtm/4=;
+        b=kmYkzGTQKnCXRCnDd/5G3e6RyAD8PpcD4G4Ur5EpEkEiOC7E9Xz0M/cxOeZmsR5N/4
+         H5tNm2YJTEmOQfg2VcbYrROCLlD0y+bkilrcNGsl80Vj6aikraegqRiC314ccvOGX4S+
+         WhsrF+/8vSn+9lH+SrLu5XDq5Ya7KZEzz5Os8Y8UR+gbi4b6gbcN+alXtMCuAjQQI/9a
+         ZQfxJhanDxLl9xbswaBHQlytpafmOmDnzhSwdvIfOt/89IooqsiihuucAj7vrStTpSta
+         bLXN6D+8yDppKG8ZoyLnnAQ1yA3Qdf9sjt1bEWBhrJWgHoFfCQ3wl1/hK0sHjUf2KmpY
+         4cpw==
+X-Gm-Message-State: AOJu0YzL81lVu9jtWLQh9GVw/AYvdkizFxTcO37Iv9OO3D8jTGqP1Iib
+	DPI97KCEJsZAXhlYHe+YXw7SDezI6Th0V1n1kR0=
+X-Google-Smtp-Source: AGHT+IEOZ+MLiRmb/S6EqV/xSpTjmcXgIZjhtYgimuOsEADFi9rhPAoRfej2QsU8ydHLGgNRSK30svnwV1AzhgNSH5s=
+X-Received: by 2002:a05:6358:3399:b0:16e:29a9:f5af with SMTP id
+ i25-20020a056358339900b0016e29a9f5afmr960782rwd.27.1701858986997; Wed, 06 Dec
+ 2023 02:36:26 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch v5 11/11] arm64: dts: fsd: Add MFC related DT enteries
-Content-Language: en-US
-To: Aakarsh Jain <aakarsh.jain@samsung.com>,
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
- hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org,
- robh+dt@kernel.org, conor+dt@kernel.org, linux-samsung-soc@vger.kernel.org,
- andi@etezian.org, gost.dev@samsung.com, alim.akhtar@samsung.com,
- aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
- ajaykumar.rs@samsung.com, linux-fsd@tesla.com,
- Smitha T Murthy <smithatmurthy@gmail.com>
-References: <20231206063045.97234-1-aakarsh.jain@samsung.com>
- <CGME20231206063140epcas5p1ba86525117f4d9ec9172ae7cb18b7420@epcas5p1.samsung.com>
- <20231206063045.97234-12-aakarsh.jain@samsung.com>
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
- xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
- cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
- JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
- gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
- J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
- NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
- BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
- vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
- Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
- TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzTRLcnp5c3p0b2Yg
- S296bG93c2tpIDxrcnp5c3p0b2Yua296bG93c2tpQGxpbmFyby5vcmc+wsGUBBMBCgA+FiEE
- m9B+DgxR+NWWd7dUG5NDfTtBYpsFAmI+BxMCGwMFCRRfreEFCwkIBwIGFQoJCAsCBBYCAwEC
- HgECF4AACgkQG5NDfTtBYptgbhAAjAGunRoOTduBeC7V6GGOQMYIT5n3OuDSzG1oZyM4kyvO
- XeodvvYv49/ng473E8ZFhXfrre+c1olbr1A8pnz9vKVQs9JGVa6wwr/6ddH7/yvcaCQnHRPK
- mnXyP2BViBlyDWQ71UC3N12YCoHE2cVmfrn4JeyK/gHCvcW3hUW4i5rMd5M5WZAeiJj3rvYh
- v8WMKDJOtZFXxwaYGbvFJNDdvdTHc2x2fGaWwmXMJn2xs1ZyFAeHQvrp49mS6PBQZzcx0XL5
- cU9ZjhzOZDn6Apv45/C/lUJvPc3lo/pr5cmlOvPq1AsP6/xRXsEFX/SdvdxJ8w9KtGaxdJuf
- rpzLQ8Ht+H0lY2On1duYhmro8WglOypHy+TusYrDEry2qDNlc/bApQKtd9uqyDZ+rx8bGxyY
- qBP6bvsQx5YACI4p8R0J43tSqWwJTP/R5oPRQW2O1Ye1DEcdeyzZfifrQz58aoZrVQq+innR
- aDwu8qDB5UgmMQ7cjDSeAQABdghq7pqrA4P8lkA7qTG+aw8Z21OoAyZdUNm8NWJoQy8m4nUP
- gmeeQPRc0vjp5JkYPgTqwf08cluqO6vQuYL2YmwVBIbO7cE7LNGkPDA3RYMu+zPY9UUi/ln5
- dcKuEStFZ5eqVyqVoZ9eu3RTCGIXAHe1NcfcMT9HT0DPp3+ieTxFx6RjY3kYTGLOwU0EVUNc
- NAEQAM2StBhJERQvgPcbCzjokShn0cRA4q2SvCOvOXD+0KapXMRFE+/PZeDyfv4dEKuCqeh0
- hihSHlaxTzg3TcqUu54w2xYskG8Fq5tg3gm4kh1Gvh1LijIXX99ABA8eHxOGmLPRIBkXHqJY
- oHtCvPc6sYKNM9xbp6I4yF56xVLmHGJ61KaWKf5KKWYgA9kfHufbja7qR0c6H79LIsiYqf92
- H1HNq1WlQpu/fh4/XAAaV1axHFt/dY/2kU05tLMj8GjeQDz1fHas7augL4argt4e+jum3Nwt
- yupodQBxncKAUbzwKcDrPqUFmfRbJ7ARw8491xQHZDsP82JRj4cOJX32sBg8nO2N5OsFJOcd
- 5IE9v6qfllkZDAh1Rb1h6DFYq9dcdPAHl4zOj9EHq99/CpyccOh7SrtWDNFFknCmLpowhct9
- 5ZnlavBrDbOV0W47gO33WkXMFI4il4y1+Bv89979rVYn8aBohEgET41SpyQz7fMkcaZU+ok/
- +HYjC/qfDxT7tjKXqBQEscVODaFicsUkjheOD4BfWEcVUqa+XdUEciwG/SgNyxBZepj41oVq
- FPSVE+Ni2tNrW/e16b8mgXNngHSnbsr6pAIXZH3qFW+4TKPMGZ2rZ6zITrMip+12jgw4mGjy
- 5y06JZvA02rZT2k9aa7i9dUUFggaanI09jNGbRA/ABEBAAHCwXwEGAEKACYCGwwWIQSb0H4O
- DFH41ZZ3t1Qbk0N9O0FimwUCYDzvagUJFF+UtgAKCRAbk0N9O0Fim9JzD/0auoGtUu4mgnna
- oEEpQEOjgT7l9TVuO3Qa/SeH+E0m55y5Fjpp6ZToc481za3xAcxK/BtIX5Wn1mQ6+szfrJQ6
- 59y2io437BeuWIRjQniSxHz1kgtFECiV30yHRgOoQlzUea7FgsnuWdstgfWi6LxstswEzxLZ
- Sj1EqpXYZE4uLjh6dW292sO+j4LEqPYr53hyV4I2LPmptPE9Rb9yCTAbSUlzgjiyyjuXhcwM
- qf3lzsm02y7Ooq+ERVKiJzlvLd9tSe4jRx6Z6LMXhB21fa5DGs/tHAcUF35hSJrvMJzPT/+u
- /oVmYDFZkbLlqs2XpWaVCo2jv8+iHxZZ9FL7F6AHFzqEFdqGnJQqmEApiRqH6b4jRBOgJ+cY
- qc+rJggwMQcJL9F+oDm3wX47nr6jIsEB5ZftdybIzpMZ5V9v45lUwmdnMrSzZVgC4jRGXzsU
- EViBQt2CopXtHtYfPAO5nAkIvKSNp3jmGxZw4aTc5xoAZBLo0OV+Ezo71pg3AYvq0a3/oGRG
- KQ06ztUMRrj8eVtpImjsWCd0bDWRaaR4vqhCHvAG9iWXZu4qh3ipie2Y0oSJygcZT7H3UZxq
- fyYKiqEmRuqsvv6dcbblD8ZLkz1EVZL6djImH5zc5x8qpVxlA0A0i23v5QvN00m6G9NFF0Le
- D2GYIS41Kv4Isx2dEFh+/Q==
-In-Reply-To: <20231206063045.97234-12-aakarsh.jain@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <1700637838-6743-1-git-send-email-shengjiu.wang@nxp.com> <a318e512-393c-477d-b1db-72c75855b962@xs4all.nl>
+In-Reply-To: <a318e512-393c-477d-b1db-72c75855b962@xs4all.nl>
+From: Shengjiu Wang <shengjiu.wang@gmail.com>
+Date: Wed, 6 Dec 2023 18:36:15 +0800
+Message-ID: <CAA+D8APy4aUDgPBM0+BVmUWtHvP5g75vSMZTTzxTUASjBhY_AA@mail.gmail.com>
+Subject: Re: [PATCH v11 00/15] Add audio support in v4l2 framework
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi, tfiga@chromium.org, 
+	m.szyprowski@samsung.com, mchehab@kernel.org, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
+	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
+	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
+	linuxppc-dev@lists.ozlabs.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 06/12/2023 07:30, Aakarsh Jain wrote:
-> Add MFC DT node and reserve memory node for MFC usage.
-> 
-> Cc: linux-fsd@tesla.com
-> Signed-off-by: Smitha T Murthy <smithatmurthy@gmail.com>
-> Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
-> ---
->  arch/arm64/boot/dts/tesla/fsd.dtsi | 21 +++++++++++++++++++++
->  1 file changed, 21 insertions(+)
+On Wed, Dec 6, 2023 at 4:09=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> wr=
+ote:
+>
+> Hi Shengjiu,
+>
+> On 22/11/2023 08:23, Shengjiu Wang wrote:
+> > Audio signal processing also has the requirement for memory to
+> > memory similar as Video.
+> >
+> > This asrc memory to memory (memory ->asrc->memory) case is a non
+> > real time use case.
+> >
+> > User fills the input buffer to the asrc module, after conversion, then =
+asrc
+> > sends back the output buffer to user. So it is not a traditional ALSA p=
+layback
+> > and capture case.
+> >
+> > It is a specific use case,  there is no reference in current kernel.
+> > v4l2 memory to memory is the closed implementation,  v4l2 current
+> > support video, image, radio, tuner, touch devices, so it is not
+> > complicated to add support for this specific audio case.
+> >
+> > Because we had implemented the "memory -> asrc ->i2s device-> codec"
+> > use case in ALSA.  Now the "memory->asrc->memory" needs
+> > to reuse the code in asrc driver, so the first 3 patches is for refinin=
+g
+> > the code to make it can be shared by the "memory->asrc->memory"
+> > driver.
+> >
+> > The main change is in the v4l2 side, A /dev/vl4-audioX will be created,
+> > user applications only use the ioctl of v4l2 framework.
+> >
+> > Other change is to add memory to memory support for two kinds of i.MX A=
+SRC
+> > module.
+>
+> I just wanted to let you know that this will have to be postponed until v=
+6.8.
+> I need more time to work on the v4l-utils changes, esp. for the fraction =
+bits
+> feature, and realistically that is not going to happen before my Christma=
+s
+> vacation starts.
 
-This should be merged via Samsung SoC, so I will take it once bindings
-get accepted.
+No problem. Have a good vacation!
+Thanks.
 
-If there is going to be resend of entire patchset, please don't include
-this patch in new resend. If this patch needs resending, send it
-separately and provide lore link to the bindings.
-
-Best regards,
-Krzysztof
-
+Best Regards
+Shengjiu Wang
+>
+> Apologies for the delay.
+>
+>
+> Regards,
+>
+>         Hans
+>
+> >
+> > changes in v11
+> > - add add-fixed-point-test-controls in vivid.
+> > - add v4l2_ctrl_fp_compose() helper function for min and max
+> >
+> > changes in v10
+> > - remove FIXED_POINT type
+> > - change code base on media: v4l2-ctrls: add support for fraction_bits
+> > - fix issue reported by kernel test robot
+> > - remove module_alias
+> >
+> > changes in v9:
+> > - add MEDIA_ENT_F_PROC_AUDIO_RESAMPLER.
+> > - add MEDIA_INTF_T_V4L_AUDIO
+> > - add media controller support
+> > - refine the vim2m-audio to support 8k<->16k conversion.
+> >
+> > changes in v8:
+> > - refine V4L2_CAP_AUDIO_M2M to be 0x00000008
+> > - update doc for FIXED_POINT
+> > - address comments for imx-asrc
+> >
+> > changes in v7:
+> > - add acked-by from Mark
+> > - separate commit for fixed point, m2m audio class, audio rate controls
+> > - use INTEGER_MENU for rate,  FIXED_POINT for rate offset
+> > - remove used fmts
+> > - address other comments for Hans
+> >
+> > changes in v6:
+> > - use m2m_prepare/m2m_unprepare/m2m_start/m2m_stop to replace
+> >   m2m_start_part_one/m2m_stop_part_one, m2m_start_part_two/m2m_stop_par=
+t_two.
+> > - change V4L2_CTRL_TYPE_ASRC_RATE to V4L2_CTRL_TYPE_FIXED_POINT
+> > - fix warning by kernel test rebot
+> > - remove some unused format V4L2_AUDIO_FMT_XX
+> > - Get SNDRV_PCM_FORMAT from V4L2_AUDIO_FMT in driver.
+> > - rename audm2m to viaudm2m.
+> >
+> > changes in v5:
+> > - remove V4L2_AUDIO_FMT_LPCM
+> > - define audio pixel format like V4L2_AUDIO_FMT_S8...
+> > - remove rate and format in struct v4l2_audio_format.
+> > - Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE controls
+> > - updata document accordingly.
+> >
+> > changes in v4:
+> > - update document style
+> > - separate V4L2_AUDIO_FMT_LPCM and V4L2_CAP_AUDIO_M2M in separate commi=
+t
+> >
+> > changes in v3:
+> > - Modify documents for adding audio m2m support
+> > - Add audio virtual m2m driver
+> > - Defined V4L2_AUDIO_FMT_LPCM format type for audio.
+> > - Defined V4L2_CAP_AUDIO_M2M capability type for audio m2m case.
+> > - with modification in v4l-utils, pass v4l2-compliance test.
+> >
+> > changes in v2:
+> > - decouple the implementation in v4l2 and ALSA
+> > - implement the memory to memory driver as a platfrom driver
+> >   and move it to driver/media
+> > - move fsl_asrc_common.h to include/sound folder
+> >
+> > Shengjiu Wang (15):
+> >   ASoC: fsl_asrc: define functions for memory to memory usage
+> >   ASoC: fsl_easrc: define functions for memory to memory usage
+> >   ASoC: fsl_asrc: move fsl_asrc_common.h to include/sound
+> >   ASoC: fsl_asrc: register m2m platform device
+> >   ASoC: fsl_easrc: register m2m platform device
+> >   media: uapi: Add V4L2_CAP_AUDIO_M2M capability flag
+> >   media: v4l2: Add audio capture and output support
+> >   media: uapi: Define audio sample format fourcc type
+> >   media: uapi: Add V4L2_CTRL_CLASS_M2M_AUDIO
+> >   media: uapi: Add audio rate controls support
+> >   media: uapi: Declare interface types for Audio
+> >   media: uapi: Add an entity type for audio resampler
+> >   media: vivid: add fixed point test controls
+> >   media: imx-asrc: Add memory to memory driver
+> >   media: vim2m-audio: add virtual driver for audio memory to memory
+> >
+> >  .../media/mediactl/media-types.rst            |   11 +
+> >  .../userspace-api/media/v4l/buffer.rst        |    6 +
+> >  .../userspace-api/media/v4l/common.rst        |    1 +
+> >  .../media/v4l/dev-audio-mem2mem.rst           |   71 +
+> >  .../userspace-api/media/v4l/devices.rst       |    1 +
+> >  .../media/v4l/ext-ctrls-audio-m2m.rst         |   41 +
+> >  .../userspace-api/media/v4l/pixfmt-audio.rst  |   87 ++
+> >  .../userspace-api/media/v4l/pixfmt.rst        |    1 +
+> >  .../media/v4l/vidioc-enum-fmt.rst             |    2 +
+> >  .../media/v4l/vidioc-g-ext-ctrls.rst          |    4 +
+> >  .../userspace-api/media/v4l/vidioc-g-fmt.rst  |    4 +
+> >  .../media/v4l/vidioc-querycap.rst             |    3 +
+> >  .../media/videodev2.h.rst.exceptions          |    3 +
+> >  .../media/common/videobuf2/videobuf2-v4l2.c   |    4 +
+> >  drivers/media/platform/nxp/Kconfig            |   13 +
+> >  drivers/media/platform/nxp/Makefile           |    1 +
+> >  drivers/media/platform/nxp/imx-asrc.c         | 1264 +++++++++++++++++
+> >  drivers/media/test-drivers/Kconfig            |   11 +
+> >  drivers/media/test-drivers/Makefile           |    1 +
+> >  drivers/media/test-drivers/vim2m-audio.c      |  799 +++++++++++
+> >  drivers/media/test-drivers/vivid/vivid-core.h |    2 +
+> >  .../media/test-drivers/vivid/vivid-ctrls.c    |   26 +
+> >  drivers/media/v4l2-core/v4l2-compat-ioctl32.c |    9 +
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   10 +
+> >  drivers/media/v4l2-core/v4l2-dev.c            |   21 +
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          |   66 +
+> >  drivers/media/v4l2-core/v4l2-mem2mem.c        |   13 +-
+> >  include/media/v4l2-ctrls.h                    |    3 +
+> >  include/media/v4l2-dev.h                      |    2 +
+> >  include/media/v4l2-ioctl.h                    |   34 +
+> >  .../fsl =3D> include/sound}/fsl_asrc_common.h   |   60 +
+> >  include/uapi/linux/media.h                    |    2 +
+> >  include/uapi/linux/v4l2-controls.h            |    9 +
+> >  include/uapi/linux/videodev2.h                |   41 +
+> >  sound/soc/fsl/fsl_asrc.c                      |  144 ++
+> >  sound/soc/fsl/fsl_asrc.h                      |    4 +-
+> >  sound/soc/fsl/fsl_asrc_dma.c                  |    2 +-
+> >  sound/soc/fsl/fsl_easrc.c                     |  233 +++
+> >  sound/soc/fsl/fsl_easrc.h                     |    6 +-
+> >  39 files changed, 3008 insertions(+), 7 deletions(-)
+> >  create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem=
+2mem.rst
+> >  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-aud=
+io-m2m.rst
+> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.=
+rst
+> >  create mode 100644 drivers/media/platform/nxp/imx-asrc.c
+> >  create mode 100644 drivers/media/test-drivers/vim2m-audio.c
+> >  rename {sound/soc/fsl =3D> include/sound}/fsl_asrc_common.h (60%)
+> >
+>
 
