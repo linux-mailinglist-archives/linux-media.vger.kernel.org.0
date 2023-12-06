@@ -1,105 +1,87 @@
-Return-Path: <linux-media+bounces-1768-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1769-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B39DB807905
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 20:55:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 022D88079C8
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 21:48:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D6022281F2D
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 19:55:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0CC6282485
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 20:48:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E03A45BFA;
-	Wed,  6 Dec 2023 19:55:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7761241857;
+	Wed,  6 Dec 2023 20:48:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jU856g8G"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="4ed1oWJh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DD26D5A;
-	Wed,  6 Dec 2023 11:55:21 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8E3AF6607355;
-	Wed,  6 Dec 2023 19:55:17 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701892519;
-	bh=CkVlcx+Z8D6zKOTzgGQDWy9DnJ9h2npW9kYFRrf3yew=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=jU856g8GESQdCTMCRG7VeRN8Kjh3/NWarjQb0RBbEBnWUUvknwaVcS1Fsp7kD3vLB
-	 +67EcNM7ELH1/XWC5D+Lo8I5CKVsyp9Rr1Vqj9Ztc1ZlSL+mfE6TSz+2irKzN3PrUg
-	 zfXcY/QRXOWrZZuMuXg6y5lUn4HAd5xwjU2imvW+9zDZp+PuiohRrrtP+WgspdvF28
-	 ObdXPbrNMgDOm6h5EelzFjyMgtL7pKppMPzKZSBS1Ni1zmsyK9yP6Mf4mL29lE5kgd
-	 axTnArLo6Lmf+LGhvtallCj2gybEPxfk3FCF2athW6wgM3g2UnD0PH8ikZrsj2dHYW
-	 mkPOjopqr0yYQ==
-Message-ID: <f76f9d460b6d7e37aadc4100dbbd57321e5330c2.camel@collabora.com>
-Subject: Re: [PATCH v2 2/2] media: chips-media: wave5: Remove K3 References
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Brandon Brnich <b-brnich@ti.com>, linux-media@vger.kernel.org, 
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, Mauro Carvalho
- Chehab <mchehab@kernel.org>, Rob Herring <robh+dt@kernel.org>, Krzysztof
- Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, Nas Chung <nas.chung@chipsnmedia.com>, Jackson Lee
- <jackson.lee@chipsnmedia.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,  Robert Beckett
- <bob.beckett@collabora.com>, Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Nishanth Menon <nm@ti.com>, Darren Etheridge <detheridge@ti.com>
-Date: Wed, 06 Dec 2023 14:55:07 -0500
-In-Reply-To: <20231206185254.1748473-3-b-brnich@ti.com>
-References: <20231206185254.1748473-1-b-brnich@ti.com>
-	 <20231206185254.1748473-3-b-brnich@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D0AD7C7;
+	Wed,  6 Dec 2023 12:48:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=aBy9F9kxxPHfX2iwr4WNWrmiHbFVf5OKMgUWN/MZxMY=; b=4ed1oWJhWhoKn3jb19vkRj5F9+
+	5efmRwI3yxoAVQ0Z8U+/WE4hZLU2MEdBaI4R4U+Zmkffa7Pnc/9vUx0ii5SODjr5XlIkaAgtRQvbI
+	XT6uRlbB4yENkrokgg8fJkZVKjvxh0684zgOV7jJCCg4OD1gRrrQQTKWYQvuOtvUuef+jcB+LFDT9
+	px5ypJl1X3kV2BFc3doN0Po5bcSvGhV0tqySqFcyXb8x4lDwg5BHW8fhtFjDmDe77GcRGSfb/b4Xq
+	aF0panlrkikQ/tqWia1/j4dKF27w8Z8bA+fPamWrZpoOxTSYoxXt9ZQJPB4DbjRPUlzyBbuvzOTCO
+	h3gjnICg==;
+Received: from [50.53.46.231] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rAyov-00BFMR-0d;
+	Wed, 06 Dec 2023 20:48:37 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Nas Chung <nas.chung@chipsnmedia.com>,
+	Jackson Lee <jackson.lee@chipsnmedia.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Subject: [PATCH] media: chips-media: wave5: requires GENERIC_ALLOCATOR
+Date: Wed,  6 Dec 2023 12:48:36 -0800
+Message-ID: <20231206204836.27932-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-As this is a DT call made by TI, there is not much to review.
+This driver uses the API that is provided by GENERIC_ALLOCATOR API, so
+select it to prevent build errors:
 
-Le mercredi 06 d=C3=A9cembre 2023 =C3=A0 12:52 -0600, Brandon Brnich a =C3=
-=A9crit=C2=A0:
-> Change compatible string to match dt bindings for TI devices. K3 family
-> prefix should not be included as it deviates from naming convention.
->=20
-> Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Closes: https://lore.kernel.org/all/CAMuHMdUYOq=3Dq1j=3Dd+Eac28hthOUAaNUk=
-uvxmRu-mUN1pLKq69g@mail.gmail.com/
-> Signed-off-by: Brandon Brnich <b-brnich@ti.com>
+riscv32-linux-ld: drivers/media/platform/chips-media/wave5/wave5-vpu.o: in function `.L37':
+wave5-vpu.c:(.text+0x468): undefined reference to `of_gen_pool_get'
+riscv32-linux-ld: drivers/media/platform/chips-media/wave5/wave5-vdi.o: in function `.L116':
+wave5-vdi.c:(.text+0xaac): undefined reference to `gen_pool_dma_alloc'
+riscv32-linux-ld: drivers/media/platform/chips-media/wave5/wave5-vdi.o: in function `wave5_vdi_free_sram':
+wave5-vdi.c:(.text+0xb60): undefined reference to `gen_pool_free_owner'
 
-This should just be picked.
+Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Nas Chung <nas.chung@chipsnmedia.com>
+Cc: Jackson Lee <jackson.lee@chipsnmedia.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+---
+ drivers/media/platform/chips-media/wave5/Kconfig |    1 +
+ 1 file changed, 1 insertion(+)
 
-Acked-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-
-> ---
->  V1 -> V2: Fix style issues in commit message
->=20
->  drivers/media/platform/chips-media/wave5/wave5-vpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drive=
-rs/media/platform/chips-media/wave5/wave5-vpu.c
-> index bfe4caa79cc9..0d90b5820bef 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> @@ -272,7 +272,7 @@ static const struct wave5_match_data ti_wave521c_data=
- =3D {
->  };
-> =20
->  static const struct of_device_id wave5_dt_ids[] =3D {
-> -	{ .compatible =3D "ti,k3-j721s2-wave521c", .data =3D &ti_wave521c_data =
-},
-> +	{ .compatible =3D "ti,j721s2-wave521c", .data =3D &ti_wave521c_data },
->  	{ /* sentinel */ }
->  };
->  MODULE_DEVICE_TABLE(of, wave5_dt_ids);
-
+diff -- a/drivers/media/platform/chips-media/wave5/Kconfig b/drivers/media/platform/chips-media/wave5/Kconfig
+--- a/drivers/media/platform/chips-media/wave5/Kconfig
++++ b/drivers/media/platform/chips-media/wave5/Kconfig
+@@ -6,6 +6,7 @@ config VIDEO_WAVE_VPU
+ 	select VIDEOBUF2_DMA_CONTIG
+ 	select VIDEOBUF2_VMALLOC
+ 	select V4L2_MEM2MEM_DEV
++	select GENERIC_ALLOCATOR
+ 	help
+ 	  Chips&Media stateful encoder and decoder driver.
+ 	  The driver supports HEVC and H264 formats.
 
