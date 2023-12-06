@@ -1,184 +1,156 @@
-Return-Path: <linux-media+bounces-1759-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1760-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A8D5807313
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 15:53:18 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CF6E80743B
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 16:59:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E9486281E78
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 14:53:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FB2E1F21140
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 15:59:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 124923EA71;
-	Wed,  6 Dec 2023 14:53:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 50B8046426;
+	Wed,  6 Dec 2023 15:59:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TvsvElPb"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GAnOxxFz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x52c.google.com (mail-ed1-x52c.google.com [IPv6:2a00:1450:4864:20::52c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C85DB10E3
-	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 06:53:05 -0800 (PST)
-Received: by mail-ed1-x52c.google.com with SMTP id 4fb4d7f45d1cf-5482df11e73so8956866a12.0
-        for <linux-media@vger.kernel.org>; Wed, 06 Dec 2023 06:53:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701874384; x=1702479184; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=g8u9haPXN3CP2m9U2liqqoyZ567JwMohjrOCaZmn3hE=;
-        b=TvsvElPb//aAODmPsaUH+pO3EMp9WglxFf43eXbmaEYDV0lb6FpwZolGweNWUNNnxt
-         6A5rrNNY8WszD0o+A+nYoS7UfWjzq56U9r7JWCQKce2ZphYdXotg1Jj/mBxyy7QnBqf2
-         UfVJ+tVyldMVfYOqz9YuGFap2XEV4alGvhKt2dqt3ycLlAUehtRTAhHI3q9JatEM5GdG
-         YIRe4wQPHg9zyxCQLK6GxxgSMH22/iVs87xqfQO0J3pnbjc9aOskpUWh8zWCr1tnwzO5
-         ngflmwoy2xBNWVq+jGDW6Dh3p4TiOBg+iCPBqpusaVPMXwDPf6AXXgmtUm7FJCagPBP+
-         tXXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701874384; x=1702479184;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=g8u9haPXN3CP2m9U2liqqoyZ567JwMohjrOCaZmn3hE=;
-        b=wgcEWLRtVPa8hApmmHyBUpeCWhyAdvofEf5DQsQMAU9MM70Kt3acikkxZ5uMTGsJQO
-         6+4SHe9uI/13kjOUkkDJg6Hp3Qw7+lYffHwlO7Y5US6OqiwiiJU1TKNF5W20W+B9pakC
-         0pTpH+mQd1OSZ63SYkmcNFCST1hEobDx02X0aQ9olKVt/SZSQmVB24H+gDke5f+ZjWZz
-         TJ4thscBT8ZaBYWq1wT6+qufaw7UWCuIsOtzRyDEbsM6pK5LoteCsvZU6+3HUr5ZWCqf
-         s6hxdYDm8Vw2OWgJbslUNFIZm52vYpv9cpetwB0vFYnDmTct4qFVgbzvruJg30mv/pYP
-         cMIQ==
-X-Gm-Message-State: AOJu0YwNa8ZB+hHwIIz0ONQ8YzRM0xUGqJ0Hn299CAHMtKE3HnN2H1Jw
-	52yAJBY6xuQyrbZMBu0tIzs=
-X-Google-Smtp-Source: AGHT+IHvWBgp1oT5a6hSaeu5vJ5Xpv9EKa4LUzPVdNorqVFWlYC5FpTjKaUGtaqS5ZXqSCAvCFmWDw==
-X-Received: by 2002:a50:a691:0:b0:54c:67c0:8321 with SMTP id e17-20020a50a691000000b0054c67c08321mr558077edc.65.1701874383577;
-        Wed, 06 Dec 2023 06:53:03 -0800 (PST)
-Received: from [10.9.136.59] ([87.62.83.1])
-        by smtp.gmail.com with ESMTPSA id b7-20020aa7dc07000000b0054c50fb11cesm59423edu.50.2023.12.06.06.53.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 06 Dec 2023 06:53:02 -0800 (PST)
-Message-ID: <accabcd74cfd4017758965fd6ed6453018e5fbd8.camel@gmail.com>
-Subject: Re: [PATCH v2 05/15] media: intel/ipu6: add IPU6 DMA mapping API
- and MMU table
-From: Andreas Helbech Kleist <andreaskleist@gmail.com>
-To: bingbu.cao@intel.com, linux-media@vger.kernel.org, 
-	sakari.ailus@linux.intel.com, laurent.pinchart@ideasonboard.com
-Cc: andriy.shevchenko@linux.intel.com, hdegoede@redhat.com, 
- ilpo.jarvinen@linux.intel.com, claus.stovgaard@gmail.com,
- tfiga@chromium.org,  senozhatsky@chromium.org,
- tomi.valkeinen@ideasonboard.com,  bingbu.cao@linux.intel.com,
- tian.shu.qiu@intel.com, hongju.wang@intel.com
-Date: Wed, 06 Dec 2023 15:53:01 +0100
-In-Reply-To: <20231024112924.3934228-6-bingbu.cao@intel.com>
-References: <20231024112924.3934228-1-bingbu.cao@intel.com>
-	 <20231024112924.3934228-6-bingbu.cao@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.44.4-0ubuntu2 
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1F7ADC
+	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 07:59:26 -0800 (PST)
+Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B4980556;
+	Wed,  6 Dec 2023 16:58:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701878324;
+	bh=k8vsNMFfzOqOeCCkxFOnDIFPOYQNAtE6nmkqe2gtXr4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=GAnOxxFzh1fPpqYTsO4El0XnkQquoTDBWhvGIaavCbHUAjeIqLXc2ZtwLhl82DRvR
+	 d6MOIxqLWYPwyI4aVS0lvlsTSpohwyi5GdlU9rHXL7t3jtkKzsGFyCxtXbh9ezORGu
+	 gIyfzbfZGj2BoUbcCaag165r3q0WhFducqNFGiYk=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v5 0/2] media: i2c: Add driver for OmniVision OV64A40
+Date: Wed,  6 Dec 2023 16:58:58 +0100
+Message-ID: <20231206155900.123904-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-SGksCgpPbiBUdWUsIDIwMjMtMTAtMjQgYXQgMTk6MjkgKzA4MDAsIGJpbmdidS5jYW9AaW50ZWwu
-Y29tIHdyb3RlOgo+IEZyb206IEJpbmdidSBDYW8gPGJpbmdidS5jYW9AaW50ZWwuY29tPgo+IAo+
-IGhlIEludGVsIElQVTYgaGFzIGFuIGludGVybmFsIG1pY3JvY29udHJvbGxlciAoc2NhbGFyIHBy
-b2Nlc3NvciwgU1ApCj4gd2hpY2gKPiBpcyB1c2VkIHRvIGV4ZWN1dGUgdGhlIGZpcm13YXJlLiBU
-aGUgU1AgY2FuIGFjY2VzcyBJUFUgaW50ZXJuYWwKPiBtZW1vcnkgYW5kCj4gbWFwIHN5c3RlbSBE
-UkFNIHRvIGl0cyBhbiBpbnRlcm5hbCAzMi1iaXQgdmlydHVhbCBhZGRyZXNzIHNwYWNlLgo+IAo+
-IFRoaXMgcGF0Y2ggYWRkcyBhIGRyaXZlciBmb3IgdGhlIElQVSBNTVUgYW5kIGEgRE1BIG1hcHBp
-bmcKPiBpbXBsZW1lbnRhdGlvbgo+IHVzaW5nIHRoZSBpbnRlcm5hbCBNTVUuIFRoZSBzeXN0ZW0g
-SU9NTVUgbWF5IGJlIHVzZWQgYmVzaWRlcyB0aGUgSVBVCj4gTU1VLgo+IAo+IFNpZ25lZC1vZmYt
-Ynk6IEJpbmdidSBDYW8gPGJpbmdidS5jYW9AaW50ZWwuY29tPgo+IC0tLQo+IMKgZHJpdmVycy9t
-ZWRpYS9wY2kvaW50ZWwvaXB1Ni9pcHU2LWRtYS5jIHwgNDkxICsrKysrKysrKysrKysrCj4gwqBk
-cml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pcHU2L2lwdTYtZG1hLmggfMKgIDIwICsKPiDCoGRyaXZl
-cnMvbWVkaWEvcGNpL2ludGVsL2lwdTYvaXB1Ni1tbXUuYyB8IDgyOAo+ICsrKysrKysrKysrKysr
-KysrKysrKysrKwo+IMKgZHJpdmVycy9tZWRpYS9wY2kvaW50ZWwvaXB1Ni9pcHU2LW1tdS5oIHzC
-oCA2NyArKwo+IMKgNCBmaWxlcyBjaGFuZ2VkLCAxNDA2IGluc2VydGlvbnMoKykKPiDCoGNyZWF0
-ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pcHU2L2lwdTYtZG1hLmMKPiDC
-oGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pcHU2L2lwdTYtZG1h
-LmgKPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9pcHU2L2lw
-dTYtbW11LmMKPiDCoGNyZWF0ZSBtb2RlIDEwMDY0NCBkcml2ZXJzL21lZGlhL3BjaS9pbnRlbC9p
-cHU2L2lwdTYtbW11LmgKLi4uCgo+ICsrKyBiL2RyaXZlcnMvbWVkaWEvcGNpL2ludGVsL2lwdTYv
-aXB1Ni1tbXUuYwouLi4KPiArc3RhdGljIHN0cnVjdCBpcHU2X21tdV9pbmZvICppcHU2X21tdV9h
-bGxvYyhzdHJ1Y3QgaXB1Nl9kZXZpY2UgKmlzcCkKPiArewo+ICvCoMKgwqDCoMKgwqDCoHN0cnVj
-dCBpcHU2X21tdV9pbmZvICptbXVfaW5mbzsKPiArwqDCoMKgwqDCoMKgwqBpbnQgcmV0Owo+ICsK
-PiArwqDCoMKgwqDCoMKgwqBtbXVfaW5mbyA9IGt6YWxsb2Moc2l6ZW9mKCptbXVfaW5mbyksIEdG
-UF9LRVJORUwpOwo+ICvCoMKgwqDCoMKgwqDCoGlmICghbW11X2luZm8pCj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoHJldHVybiBOVUxMOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBtbXVf
-aW5mby0+YXBlcnR1cmVfc3RhcnQgPSAwOwo+ICvCoMKgwqDCoMKgwqDCoG1tdV9pbmZvLT5hcGVy
-dHVyZV9lbmQgPSBETUFfQklUX01BU0soaXNwLT5zZWN1cmVfbW9kZSA/Cj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgSVBVNl9NTVVfQUREUl9CSVRTIDoKPiArwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoAo+IElQVTZfTU1VX0FERFJfQklUU19OT05fU0VDVVJFKTsKPiAr
-wqDCoMKgwqDCoMKgwqBtbXVfaW5mby0+cGdzaXplX2JpdG1hcCA9IFNaXzRLOwo+ICvCoMKgwqDC
-oMKgwqDCoG1tdV9pbmZvLT5kZXYgPSAmaXNwLT5wZGV2LT5kZXY7Cj4gKwo+ICvCoMKgwqDCoMKg
-wqDCoHJldCA9IGdldF9kdW1teV9wYWdlKG1tdV9pbmZvKTsKPiArwqDCoMKgwqDCoMKgwqBpZiAo
-cmV0KQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBnb3RvIGVycl9mcmVlX2luZm87
-Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoHJldCA9IGFsbG9jX2R1bW15X2wyX3B0KG1tdV9pbmZvKTsK
-PiArwqDCoMKgwqDCoMKgwqBpZiAocmV0KQo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBnb3RvIGVycl9mcmVlX2R1bW15X3BhZ2U7Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoG1tdV9pbmZv
-LT5sMl9wdHMgPSB2emFsbG9jKElTUF9MMlBUX1BURVMgKiBzaXplb2YoKm1tdV9pbmZvLQo+ID5s
-Ml9wdHMpKTsKPiArwqDCoMKgwqDCoMKgwqBpZiAoIW1tdV9pbmZvLT5sMl9wdHMpCj4gK8KgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGdvdG8gZXJyX2ZyZWVfZHVtbXlfbDJfcHQ7Cj4gKwo+
-ICvCoMKgwqDCoMKgwqDCoC8qCj4gK8KgwqDCoMKgwqDCoMKgICogV2UgYWx3YXlzIG1hcCB0aGUg
-TDEgcGFnZSB0YWJsZSAoYSBzaW5nbGUgcGFnZSBhcyB3ZWxsIGFzCj4gK8KgwqDCoMKgwqDCoMKg
-ICogdGhlIEwyIHBhZ2UgdGFibGVzKS4KPiArwqDCoMKgwqDCoMKgwqAgKi8KPiArwqDCoMKgwqDC
-oMKgwqBtbXVfaW5mby0+bDFfcHQgPSBhbGxvY19sMV9wdChtbXVfaW5mbyk7Cj4gK8KgwqDCoMKg
-wqDCoMKgaWYgKCFtbXVfaW5mby0+bDFfcHQpCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoGdvdG8gZXJyX2ZyZWVfbDJfcHRzOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBzcGluX2xvY2tf
-aW5pdCgmbW11X2luZm8tPmxvY2spOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBkZXZfZGJnKG1tdV9p
-bmZvLT5kZXYsICJkb21haW4gaW5pdGlhbGlzZWRcbiIpOwo+ICsKPiArwqDCoMKgwqDCoMKgwqBy
-ZXR1cm4gbW11X2luZm87Cj4gKwo+ICtlcnJfZnJlZV9sMl9wdHM6Cj4gK8KgwqDCoMKgwqDCoMKg
-dmZyZWUobW11X2luZm8tPmwyX3B0cyk7Cj4gK2Vycl9mcmVlX2R1bW15X2wyX3B0Ogo+ICvCoMKg
-wqDCoMKgwqDCoGZyZWVfZHVtbXlfbDJfcHQobW11X2luZm8pOwo+ICtlcnJfZnJlZV9kdW1teV9w
-YWdlOgo+ICvCoMKgwqDCoMKgwqDCoGZyZWVfZHVtbXlfcGFnZShtbXVfaW5mbyk7Cj4gK2Vycl9m
-cmVlX2luZm86Cj4gK8KgwqDCoMKgwqDCoMKga2ZyZWUobW11X2luZm8pOwo+ICsKPiArwqDCoMKg
-wqDCoMKgwqByZXR1cm4gTlVMTDsKPiArfQoKLi4uCgoKPiArc3RhdGljIHZvaWQgaXB1Nl9tbXVf
-ZGVzdHJveShzdHJ1Y3QgaXB1Nl9tbXUgKm1tdSkKPiArewo+ICvCoMKgwqDCoMKgwqDCoHN0cnVj
-dCBpcHU2X2RtYV9tYXBwaW5nICpkbWFwID0gbW11LT5kbWFwOwo+ICvCoMKgwqDCoMKgwqDCoHN0
-cnVjdCBpcHU2X21tdV9pbmZvICptbXVfaW5mbyA9IGRtYXAtPm1tdV9pbmZvOwo+ICvCoMKgwqDC
-oMKgwqDCoHN0cnVjdCBpb3ZhICppb3ZhOwo+ICvCoMKgwqDCoMKgwqDCoHUzMiBsMV9pZHg7Cj4g
-Kwo+ICvCoMKgwqDCoMKgwqDCoGlmIChtbXUtPmlvdmFfdHJhc2hfcGFnZSkgewo+ICvCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpb3ZhID0gZmluZF9pb3ZhKCZkbWFwLT5pb3ZhZCwgUEhZ
-U19QRk4obW11LQo+ID5pb3ZhX3RyYXNoX3BhZ2UpKTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgaWYgKGlvdmEpIHsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoC8qIHVubWFwIGFuZCBmcmVlIHRoZSB0cmFzaCBidWZmZXIgaW92YSAqLwo+
-ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgaXB1Nl9tbXVf
-dW5tYXAobW11X2luZm8sIFBGTl9QSFlTKGlvdmEtCj4gPnBmbl9sbyksCj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgIFBGTl9QSFlTKGlvdmFfc2l6ZShpb3ZhKSkpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgX19mcmVlX2lvdmEoJmRtYXAtPmlvdmFkLCBpb3Zh
-KTsKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgfSBlbHNlIHsKPiArwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRldl9lcnIobW11LT5kZXYsICJ0
-cmFzaCBidWZmZXIgaW92YSBub3QKPiBmb3VuZC5cbiIpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqB9Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBtbXUtPmlv
-dmFfdHJhc2hfcGFnZSA9IDA7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoGRtYV91
-bm1hcF9wYWdlKG1tdV9pbmZvLT5kZXYsIG1tdS0+cGNpX3RyYXNoX3BhZ2UsCj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgUEFHRV9T
-SVpFLCBETUFfQklESVJFQ1RJT05BTCk7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oG1tdS0+cGNpX3RyYXNoX3BhZ2UgPSAwOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqBfX2ZyZWVfcGFnZShtbXUtPnRyYXNoX3BhZ2UpOwo+ICvCoMKgwqDCoMKgwqDCoH0KPiArCj4g
-K8KgwqDCoMKgwqDCoMKgZm9yIChsMV9pZHggPSAwOyBsMV9pZHggPCBJU1BfTDFQVF9QVEVTOyBs
-MV9pZHgrKykgewo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqBpZiAobW11X2luZm8t
-PmwxX3B0W2wxX2lkeF0gIT0gbW11X2luZm8tCj4gPmR1bW15X2wyX3B0ZXZhbCkgewo+ICvCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgZG1hX3VubWFwX3Npbmds
-ZShtbXVfaW5mby0+ZGV2LAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgVEJMX1BIWVNfQUREUiht
-bXVfaW5mby0KPiA+bDFfcHRbbDFfaWR4XSksCj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBQQUdF
-X1NJWkUsCj4gRE1BX0JJRElSRUNUSU9OQUwpOwo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgZnJlZV9wYWdlKCh1bnNpZ25lZCBsb25nKW1tdV9pbmZvLQo+
-ID5sMl9wdHNbbDFfaWR4XSk7Cj4gK8KgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoH0KPiAr
-wqDCoMKgwqDCoMKgwqB9Cj4gKwo+ICvCoMKgwqDCoMKgwqDCoGZyZWVfZHVtbXlfcGFnZShtbXVf
-aW5mbyk7Cj4gK8KgwqDCoMKgwqDCoMKgZG1hX3VubWFwX3NpbmdsZShtbXVfaW5mby0+ZGV2LCBU
-QkxfUEhZU19BRERSKG1tdV9pbmZvLQo+ID5sMV9wdF9kbWEpLAo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIFBBR0VfU0laRSwgRE1BX0JJRElSRUNUSU9O
-QUwpOwo+ICvCoMKgwqDCoMKgwqDCoGZyZWVfcGFnZSgodW5zaWduZWQgbG9uZyltbXVfaW5mby0+
-ZHVtbXlfbDJfcHQpOwo+ICvCoMKgwqDCoMKgwqDCoGZyZWVfcGFnZSgodW5zaWduZWQgbG9uZylt
-bXVfaW5mby0+bDFfcHQpOwo+ICvCoMKgwqDCoMKgwqDCoGtmcmVlKG1tdV9pbmZvKTsKPiArfQoK
-bW11X2luZm8tPmwyX3B0cyBpcyBsZWFrZWQgaGVyZS4gSXQgaXMgYWxsb2NhdGVkIGluIGlwdTZf
-bW11X2FsbG9jIGFuZApmcmVlZCBpbiB0aGUgZXJyb3IgcGF0aCBvZiB0aGF0IGZ1bmN0aW9uIGFs
-b25nIHdpdGggdGhlIG90aGVyIHN0dWZmIHlvdQpmcmVlIGhlcmUsIGJ1dCBub3QgYW55d2hlcmUg
-ZWxzZS4KCi9BbmRyZWFzCg==
+Add a v4l2 sensor driver for OmniVision OV64A40
+
+----------------- V4L2 Compliance ---------------------------------------------
+./utils/v4l2-compliance/v4l2-compliance -d /dev/v4l-subdev0
+v4l2-compliance 1.25.0-5100, 32 bits, 32-bit time_t
+v4l2-compliance SHA: 8bf6cba8c0ef 2023-10-10 12:50:46
+Total for device /dev/v4l-subdev0: 44, Succeeded: 44, Failed: 0, Warnings: 0
+
+----------------- Build scripts -----------------------------------------------
+date:                   Wed Dec  6 14:52:17 CET 2023
+media-tree git repo:    git://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git
+media-tree git branch:  jmondi/ov64a40/mainline-v5
+media-tree git hash:    e7196a51fae1cbf69ca9891711019ddc20ed0a8a
+v4l-utils git hash:     4a6a3725dd192759c2998311b00440b84c60df57
+edid-decode git hash:   5f723267e04deb3aa9610483514a02bcee10d9c2
+gcc version:            i686-linux-gcc (GCC) 13.1.0
+ccache version:         ccache version 4.7.5
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:         v0.5.0-8526-gd4827317
+sparse version:         v0.5.0-8526-gd4827317
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 745fc7cf5ba1a1a841374c61e8470852232584c1
+host hardware:          x86_64
+host os:                6.1.0-10-amd64
+
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/i2c/ov64a40.c:3562 ov64a40_probe() warn: passing zero to 'PTR_ERR'
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+spec-git: OK
+kerneldoc: OK
+-------------------------------------------------------------------------------
+
+The smatch() warning reported here above:
+drivers/media/i2c/ov64a40.c:3562 ov64a40_probe() warn: passing zero to 'PTR_ERR'
+has been fixed.
+
+v4->v5:
+* Fix review comments received on RPi pull request (thanks Dave for review)
+  https://github.com/raspberrypi/linux/pull/5708
+* Handle runtime_pm in s_ctrl like it's done in CCS
+* Add support for test patterns
+* Add 8000x6000 mode
+* Use decimal numbers in modes definitions
+
+v3->v4:
+* Fix a few additional warnings reported by kernel test robot (which arrived a
+  few minutes after sending v3 out :(
+
+v2->v3:
+* Restore max size of 9248x6944
+* Select V4L2_CCI_I2C in Kconfig
+* Fix unused variable warning
+* Fix a few minor checkpatch warnings
+
+v1->v2:
+* rebased on sailus master
+  * Use new subdev state helpers
+* link frequency support (456MHz, 360MHz)
+* invert vflip bit setting
+* remove 1280x720 mode as it was broken
+* expanded VTS range to 24 bits
+* Reduce max resolution output to 9152x6944. Using full output resolution causes
+  green frames to be produced by the ISP (the raw frames are however correct)
+* reduce max analogue gain to 16x
+
+
+
+
+Jacopo Mondi (2):
+  media: dt-bindings: Add OmniVision OV64A40
+  media: i2c: Add driver for OmniVision OV64A40
+
+ .../bindings/media/i2c/ovti,ov64a40.yaml      |   97 +
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ov64a40.c                   | 3693 +++++++++++++++++
+ 5 files changed, 3810 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
+ create mode 100644 drivers/media/i2c/ov64a40.c
+
+--
+2.41.0
 
 
