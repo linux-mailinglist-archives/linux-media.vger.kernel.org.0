@@ -1,120 +1,196 @@
-Return-Path: <linux-media+bounces-1773-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1774-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08BE7807A9B
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 22:38:23 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42E55807B1D
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 23:06:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3954C1C20F83
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 21:38:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F1BFC2816BB
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 22:06:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8500F70990;
-	Wed,  6 Dec 2023 21:38:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BEC1D5639F;
+	Wed,  6 Dec 2023 22:05:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="TNV2EDem"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KT5ng6A2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllv0016.ext.ti.com (fllv0016.ext.ti.com [198.47.19.142])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 929E018D;
-	Wed,  6 Dec 2023 13:38:06 -0800 (PST)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3B6LbkjO078625;
-	Wed, 6 Dec 2023 15:37:46 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1701898666;
-	bh=CIIFpDI2UcKsTH0G9x89mVG+vN1Kp6OZF/b5wqzbsac=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=TNV2EDemUUEpsTlQkTGzAQA4LMZ42bohZehMdzGp9F+c3TyTp3uhmfLaQu1+Tw7H4
-	 S1hyc3pdnXt4/WG02B2UCq9vEPp+ABD8xOXiBEkUQgM3uKDFLDqh0W2/3ljPNjGcG/
-	 kUFcl5f7wHmOftzG2OMdiza2/hLlU4z7zBQrQ2lk=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3B6LbkCJ022690
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Wed, 6 Dec 2023 15:37:46 -0600
-Received: from DLEE106.ent.ti.com (157.170.170.36) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Wed, 6
- Dec 2023 15:37:45 -0600
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE106.ent.ti.com
- (157.170.170.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Wed, 6 Dec 2023 15:37:45 -0600
-Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3B6Lbj9Z005244;
-	Wed, 6 Dec 2023 15:37:45 -0600
-Date: Wed, 6 Dec 2023 15:37:45 -0600
-From: Nishanth Menon <nm@ti.com>
-To: Brandon Brnich <b-brnich@ti.com>
-CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Nas
- Chung <nas.chung@chipsnmedia.com>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Sebastian Fricke
-	<sebastian.fricke@collabora.com>,
-        Dafna Hirschfeld
-	<dafna.hirschfeld@collabora.com>,
-        Robert Beckett <bob.beckett@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Geert Uytterhoeven
-	<geert@linux-m68k.org>,
-        Darren Etheridge <detheridge@ti.com>
-Subject: Re: [PATCH v2 2/2] media: chips-media: wave5: Remove K3 References
-Message-ID: <20231206213745.usdpiborqkl3w47t@squeak>
-References: <20231206185254.1748473-1-b-brnich@ti.com>
- <20231206185254.1748473-3-b-brnich@ti.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB64DE;
+	Wed,  6 Dec 2023 14:05:52 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D31F9556;
+	Wed,  6 Dec 2023 23:05:08 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701900309;
+	bh=keu6mZ1cZpht5aJTt3UURktqyYiTT3jXahRG3j0hD+g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KT5ng6A2iGFV5ef2agWZKkPeDA9NB7ofdMpJB2Iihwf+WTQ36ISkHAZTeYNxBL7s5
+	 mTQFjlpxeyyv4YOCGBpTAD2TixR2lV0T9BLPMjAHAArucOCjBpmB82AZwTt/PIfCt0
+	 hbOictZr2XBlzRqGwUlunC9QdnrLDJSgXR2ihWqk=
+Date: Thu, 7 Dec 2023 00:05:56 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	kieran.bingham@ideasonboard.com, umang.jain@ideasonboard.com,
+	aford173@gmail.com, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 3/4] media: rkisp1: Store IRQ lines
+Message-ID: <20231206220556.GC29417@pendragon.ideasonboard.com>
+References: <20231206-rkisp-irq-fix-v2-0-6ba4185eeb1f@ideasonboard.com>
+ <20231206-rkisp-irq-fix-v2-3-6ba4185eeb1f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231206185254.1748473-3-b-brnich@ti.com>
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+In-Reply-To: <20231206-rkisp-irq-fix-v2-3-6ba4185eeb1f@ideasonboard.com>
 
-On 12:52-20231206, Brandon Brnich wrote:
-> Change compatible string to match dt bindings for TI devices. K3 family
-> prefix should not be included as it deviates from naming convention.
+Hi Tomi,
+
+Thank you for the patch.
+
+On Wed, Dec 06, 2023 at 12:12:30PM +0200, Tomi Valkeinen wrote:
+> Store the IRQ lines used by the driver for easy access. These are needed
+> in future patches which fix IRQ race issues.
 > 
-> Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Closes: https://lore.kernel.org/all/CAMuHMdUYOq=q1j=d+Eac28hthOUAaNUkuvxmRu-mUN1pLKq69g@mail.gmail.com/
-> Signed-off-by: Brandon Brnich <b-brnich@ti.com>
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  V1 -> V2: Fix style issues in commit message
+>  .../media/platform/rockchip/rkisp1/rkisp1-common.h    | 11 ++++++++++-
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c   | 19 ++++++++++++++-----
+>  2 files changed, 24 insertions(+), 6 deletions(-)
 > 
->  drivers/media/platform/chips-media/wave5/wave5-vpu.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> index bfe4caa79cc9..0d90b5820bef 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
-> @@ -272,7 +272,7 @@ static const struct wave5_match_data ti_wave521c_data = {
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index 960ab89c659b..ec28907d978e 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -62,6 +62,14 @@ struct regmap;
+>  						 RKISP1_CIF_ISP_EXP_END |	\
+>  						 RKISP1_CIF_ISP_HIST_MEASURE_RDY)
+>  
+> +/* IRQ lines */
+> +enum rkisp1_irq_line {
+> +	RKISP1_IRQ_ISP = 0,
+> +	RKISP1_IRQ_MI,
+> +	RKISP1_IRQ_MIPI,
+> +	RKISP1_NUM_IRQS,
+> +};
+> +
+>  /* enum for the resizer pads */
+>  enum rkisp1_rsz_pad {
+>  	RKISP1_RSZ_PAD_SINK,
+> @@ -437,7 +445,6 @@ struct rkisp1_debug {
+>   * struct rkisp1_device - ISP platform device
+>   *
+>   * @base_addr:	   base register address
+> - * @irq:	   the irq number
+>   * @dev:	   a pointer to the struct device
+>   * @clk_size:	   number of clocks
+>   * @clks:	   array of clocks
+> @@ -457,6 +464,7 @@ struct rkisp1_debug {
+>   * @stream_lock:   serializes {start/stop}_streaming callbacks between the capture devices.
+>   * @debug:	   debug params to be exposed on debugfs
+>   * @info:	   version-specific ISP information
+> + * @irqs:          IRQ line numbers
+>   */
+>  struct rkisp1_device {
+>  	void __iomem *base_addr;
+> @@ -479,6 +487,7 @@ struct rkisp1_device {
+>  	struct mutex stream_lock; /* serialize {start/stop}_streaming cb between capture devices */
+>  	struct rkisp1_debug debug;
+>  	const struct rkisp1_info *info;
+> +	int irqs[RKISP1_NUM_IRQS];
 >  };
 >  
->  static const struct of_device_id wave5_dt_ids[] = {
-> -	{ .compatible = "ti,k3-j721s2-wave521c", .data = &ti_wave521c_data },
-> +	{ .compatible = "ti,j721s2-wave521c", .data = &ti_wave521c_data },
->  	{ /* sentinel */ }
+>  /*
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index 030eb8c79546..492ff5e6770d 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -115,6 +115,7 @@
+>  struct rkisp1_isr_data {
+>  	const char *name;
+>  	irqreturn_t (*isr)(int irq, void *ctx);
+> +	u32 line_mask;
 >  };
->  MODULE_DEVICE_TABLE(of, wave5_dt_ids);
-> -- 
-> 2.34.1
-> 
+>  
+>  /* ----------------------------------------------------------------------------
+> @@ -473,9 +474,9 @@ static const char * const px30_isp_clks[] = {
+>  };
+>  
+>  static const struct rkisp1_isr_data px30_isp_isrs[] = {
+> -	{ "isp", rkisp1_isp_isr },
+> -	{ "mi", rkisp1_capture_isr },
+> -	{ "mipi", rkisp1_csi_isr },
+> +	{ "isp", rkisp1_isp_isr, BIT(RKISP1_IRQ_ISP) },
+> +	{ "mi", rkisp1_capture_isr, BIT(RKISP1_IRQ_MI) },
+> +	{ "mipi", rkisp1_csi_isr, BIT(RKISP1_IRQ_MIPI) },
+>  };
+>  
+>  static const struct rkisp1_info px30_isp_info = {
+> @@ -496,7 +497,7 @@ static const char * const rk3399_isp_clks[] = {
+>  };
+>  
+>  static const struct rkisp1_isr_data rk3399_isp_isrs[] = {
+> -	{ NULL, rkisp1_isr },
+> +	{ NULL, rkisp1_isr, BIT(RKISP1_IRQ_ISP) | BIT(RKISP1_IRQ_MI) | BIT(RKISP1_IRQ_MIPI) },
+>  };
+>  
+>  static const struct rkisp1_info rk3399_isp_info = {
+> @@ -517,7 +518,7 @@ static const char * const imx8mp_isp_clks[] = {
+>  };
+>  
+>  static const struct rkisp1_isr_data imx8mp_isp_isrs[] = {
+> -	{ NULL, rkisp1_isr },
+> +	{ NULL, rkisp1_isr, BIT(RKISP1_IRQ_ISP) | BIT(RKISP1_IRQ_MI) | BIT(RKISP1_IRQ_MIPI) },
 
-Reviewed-by: Nishanth Menon <nm@ti.com>
+The i.MX8MP has no CSI-2 RX in the ISP, you can drop RKISP1_IRQ_MIPI.
+
+I think we can merge this series before the i.MX8MP support, could you
+base v3 on top of the master branch of the linux-media stage tree ?
+
+>  };
+>  
+>  static const struct rkisp1_info imx8mp_isp_info = {
+> @@ -574,6 +575,9 @@ static int rkisp1_probe(struct platform_device *pdev)
+>  	if (IS_ERR(rkisp1->base_addr))
+>  		return PTR_ERR(rkisp1->base_addr);
+>  
+> +	for (unsigned int il = 0; il < RKISP1_NUM_IRQS; ++il)
+
+I would use ARRAY_SIZE(rkisp1->irqs) instead of RKISP1_NUM_IRQS here.
+
+> +		rkisp1->irqs[il] = -1;
+> +
+>  	for (i = 0; i < info->isr_size; i++) {
+>  		irq = info->isrs[i].name
+>  		    ? platform_get_irq_byname(pdev, info->isrs[i].name)
+> @@ -581,6 +585,11 @@ static int rkisp1_probe(struct platform_device *pdev)
+>  		if (irq < 0)
+>  			return irq;
+>  
+> +		for (unsigned int il = 0; il < RKISP1_NUM_IRQS; ++il) {
+
+Same here.
+
+> +			if (info->isrs[i].line_mask & BIT(il))
+> +				rkisp1->irqs[il] = irq;
+> +		}
+> +
+>  		ret = devm_request_irq(dev, irq, info->isrs[i].isr, 0,
+>  				       dev_driver_string(dev), dev);
+>  		if (ret) {
+
 -- 
 Regards,
-Nishanth Menon
-Key (0xDDB5849D1736249D) / Fingerprint: F8A2 8693 54EB 8232 17A3  1A34 DDB5 849D 1736 249D
+
+Laurent Pinchart
 
