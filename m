@@ -1,27 +1,35 @@
-Return-Path: <linux-media+bounces-1727-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1728-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1BD5C806B23
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 10:58:20 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E565806B4D
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 11:08:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D4571281A80
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 09:58:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B93281F212FA
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 10:08:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12FAD1DFF4;
-	Wed,  6 Dec 2023 09:58:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A93CC28E2B;
+	Wed,  6 Dec 2023 10:08:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ejFFmGl7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EA712230C
-	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 09:58:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3132AC433C7;
-	Wed,  6 Dec 2023 09:58:12 +0000 (UTC)
-Message-ID: <e92659c0-34c1-457f-b917-0c59bdc8e081@xs4all.nl>
-Date: Wed, 6 Dec 2023 10:58:11 +0100
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C7D8109;
+	Wed,  6 Dec 2023 02:08:08 -0800 (PST)
+Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9B964E45;
+	Wed,  6 Dec 2023 11:07:23 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1701857244;
+	bh=XYVNV7G4X7YzqJ49hmgXShVAk3zY/kjKTxOWrKENMz4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ejFFmGl7bYIEd00VbGSNJVOBmRnVux/HBu5EK8nX1AhVeMCHObhj6efqrWfNm2p1M
+	 nES/yTI6Uj951BAPIlUjL95YkOfh4u5iyao+NE+ZU7JqYNvMO75ZX//hXUz27qiMI5
+	 wIRUMKsR7k+FrBvgbhtKuQW7nBPMzjpEU3mIFaeA=
+Message-ID: <c7117713-bc98-459c-a475-2ec838215cd9@ideasonboard.com>
+Date: Wed, 6 Dec 2023 12:08:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -29,122 +37,170 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] [media] usbtv: Add error handling for usb_submit_urb in
- usbtv_audio_start
-Content-Language: en-US, nl
-To: Haoran Liu <liuhaoran14@163.com>, mchehab@kernel.org
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231130033735.36013-1-liuhaoran14@163.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231130033735.36013-1-liuhaoran14@163.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH 4/4] media: rkisp1: Fix IRQ disable race issue
+Content-Language: en-US
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Paul Elder <paul.elder@ideasonboard.com>,
+ Alexander Stein <alexander.stein@ew.tq-group.com>,
+ kieran.bingham@ideasonboard.com, umang.jain@ideasonboard.com,
+ aford173@gmail.com, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20231205-rkisp-irq-fix-v1-0-f4045c74ba45@ideasonboard.com>
+ <20231205-rkisp-irq-fix-v1-4-f4045c74ba45@ideasonboard.com>
+ <20231205121355.GE17394@pendragon.ideasonboard.com>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20231205121355.GE17394@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Haoran,
-
-On 30/11/2023 04:37, Haoran Liu wrote:
-> This patch introduces improved error handling for the usb_submit_urb call
-> in the usbtv_audio_start function. Prior to this change, the function did
-> not handle the scenario where usb_submit_urb could fail, potentially
-> leading to inconsistent state and unreliable audio streaming.
+On 05/12/2023 14:13, Laurent Pinchart wrote:
+> Hi Tomi,
 > 
-> Although the error addressed by this patch may not occur in the current
-> environment, I still suggest implementing these error handling routines
-> if the function is not highly time-sensitive. As the environment evolves
-> or the code gets reused in different contexts, there's a possibility that
-> these errors might occur. Addressing them now can prevent potential
-> debugging efforts in the future, which could be quite resource-intensive.
+> Thank you for the patch.
 > 
-> Signed-off-by: Haoran Liu <liuhaoran14@163.com>
-> ---
->  drivers/media/usb/usbtv/usbtv-audio.c | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
+> On Tue, Dec 05, 2023 at 10:09:35AM +0200, Tomi Valkeinen wrote:
+>> In rkisp1_isp_stop() and rkisp1_csi_disable() the driver masks the
+>> interrupts and then apparently assumes that the interrupt handler won't
+>> be running, and proceeds in the stop procedure. This is not the case, as
+>> the interrupt handler can already be running, which would lead to the
+>> ISP being disabled while the interrupt handler handling a captured
+>> frame.
+>>
+>> It is not clear to me if this problem causes a real issue, but shutting
+>> down the ISP while an interrupt handler is running sounds rather bad.
 > 
-> diff --git a/drivers/media/usb/usbtv/usbtv-audio.c b/drivers/media/usb/usbtv/usbtv-audio.c
-> index 333bd305a4f9..81d6d54fd12c 100644
-> --- a/drivers/media/usb/usbtv/usbtv-audio.c
-> +++ b/drivers/media/usb/usbtv/usbtv-audio.c
-> @@ -172,6 +172,7 @@ static void usbtv_audio_urb_received(struct urb *urb)
->  static int usbtv_audio_start(struct usbtv *chip)
->  {
->  	unsigned int pipe;
-> +	int err;
->  	static const u16 setup[][2] = {
->  		/* These seem to enable the device. */
->  		{ USBTV_BASE + 0x0008, 0x0001 },
-> @@ -216,7 +217,15 @@ static int usbtv_audio_start(struct usbtv *chip)
->  	usbtv_set_regs(chip, setup, ARRAY_SIZE(setup));
->  
->  	usb_clear_halt(chip->udev, pipe);
-> -	usb_submit_urb(chip->snd_bulk_urb, GFP_ATOMIC);
-> +	err = usb_submit_urb(chip->snd_bulk_urb, GFP_ATOMIC);
-> +	if (err) {
-> +		dev_err(&chip->udev->dev,
-> +			"usb_submit_urb failed: %d\n", err);
-> +		kfree(chip->snd_bulk_urb->transfer_buffer);
-> +		usb_free_urb(chip->snd_bulk_urb);
-> +		chip->snd_bulk_urb = NULL;
-> +		return err;
-> +	}
+> Agreed.
+> 
+>> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+>> ---
+>>   drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c | 14 +++++++++++++-
+>>   drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 20 +++++++++++++++++---
+>>   2 files changed, 30 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+>> index f6b54654b435..f0cef766fc0c 100644
+>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+>> @@ -125,8 +125,20 @@ static void rkisp1_csi_disable(struct rkisp1_csi *csi)
+>>   	struct rkisp1_device *rkisp1 = csi->rkisp1;
+>>   	u32 val;
+>>   
+>> -	/* Mask and clear interrupts. */
+>> +	/* Mask MIPI interrupts. */
+>>   	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMSC, 0);
+>> +
+>> +	/* Flush posted writes */
+>> +	rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMSC);
+>> +
+>> +	/*
+>> +	 * Wait until the IRQ handler has ended. The IRQ handler may get called
+>> +	 * even after this, but it will return immediately as the MIPI
+>> +	 * interrupts have been masked.
+>> +	 */
+> 
+> This comment will need to be updated if patch 3/4 gets replaced by a
+> patch that drops IRQF_SHARED.
 
-This can be improved a bit. Add a new label in the clean up path to
-do the kfree, and just go to to that label.
+I don't think it needs an update, as the irq handling is divided into 
+multiple parts. The handler here may get called due to a MI or ISP 
+interrupt, and vice versa.
 
-In the error clean up part you now need to return 'err' at the end,
-so make sure you also initialize 'err' to -ENOMEM to ensure the
-correct error value is returned if usb_alloc_urb fails.
+  Tomi
 
-It's a bit cleaner that way and avoids duplicate cleanup paths.
-
-Regards,
-
-	Hans
-
->  
->  	return 0;
->  
+> 
+>> +	synchronize_irq(rkisp1->irqs[RKISP1_IRQ_MIPI]);
+>> +
+>> +	/* Clear MIPI interrupt status */
+>>   	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_ICR, ~0);
+>>   
+>>   	val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_CTRL);
+>> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+>> index d6b8786661ad..a6dd497c884c 100644
+>> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+>> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+>> @@ -364,11 +364,25 @@ static void rkisp1_isp_stop(struct rkisp1_isp *isp)
+>>   	 * ISP(mi) stop in mi frame end -> Stop ISP(mipi) ->
+>>   	 * Stop ISP(isp) ->wait for ISP isp off
+>>   	 */
+>> -	/* stop and clear MI and ISP interrupts */
+>> -	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IMSC, 0);
+>> -	rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, ~0);
+>>   
+>> +	/* Mask MI and ISP interrupts */
+>> +	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IMSC, 0);
+>>   	rkisp1_write(rkisp1, RKISP1_CIF_MI_IMSC, 0);
+>> +
+>> +	/* Flush posted writes */
+>> +	rkisp1_read(rkisp1, RKISP1_CIF_MI_IMSC);
+>> +
+>> +	/*
+>> +	 * Wait until the IRQ handler has ended. The IRQ handler may get called
+>> +	 * even after this, but it will return immediately as the MI and ISP
+>> +	 * interrupts have been masked.
+>> +	 */
+> 
+> Same here.
+> 
+>> +	synchronize_irq(rkisp1->irqs[RKISP1_IRQ_ISP]);
+>> +	if (rkisp1->irqs[RKISP1_IRQ_ISP] != rkisp1->irqs[RKISP1_IRQ_MI])
+>> +		synchronize_irq(rkisp1->irqs[RKISP1_IRQ_MI]);
+> 
+> It would be nice if we could avoid the double synchronize_irq() for
+> platforms where RKISP1_IRQ_MIPI and RKISP1_IRQ_ISP are identical, but I
+> understand that would be difficult.
+> 
+>> +
+>> +	/* Clear MI and ISP interrupt status */
+>> +	rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, ~0);
+>>   	rkisp1_write(rkisp1, RKISP1_CIF_MI_ICR, ~0);
+>>   
+>>   	/* stop ISP */
+> 
 
 
