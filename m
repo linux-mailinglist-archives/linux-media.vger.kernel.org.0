@@ -1,194 +1,208 @@
-Return-Path: <linux-media+bounces-1702-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1703-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D72A08066DA
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 06:59:42 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 39036806762
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 07:36:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0545E1C21160
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 05:59:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8D471F21587
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 06:36:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B16210952;
-	Wed,  6 Dec 2023 05:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 10969FC10;
+	Wed,  6 Dec 2023 06:36:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GfGiFxds"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="tw13r61r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.93])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECEFA18F
-	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 21:59:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701842371; x=1733378371;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=UroJcEo0o4P6l1GUSZOb2GjPv4kdP4cN0l1icHIJdsM=;
-  b=GfGiFxds/j8vJbFi3TCt40/uMq8m/bMT4r8OAfPHalG2dS74SMX/XwAy
-   OnsseK0OKQTxco1fbZz193jgYq+EyU5vBXOyRoteJ64ezKBN3d0rbZ9R4
-   8ojAcAFkWEh9aZIeXPUa/lzABu8n+8aLEEHkSM8uvBaOqN23SY0BrdS+i
-   ZhJaBH7riOSVDy4pLwtidDXHLYRZVRiw46jlXW3FrpXs3sp5U3Z3Q6aGc
-   x4lXxcF0FaMvwi6Gdxy67RY/wzHQFkmVWxD0OSZDiH0/Qe//+RR9pMzXt
-   GO9y+mcqDb18mCLAnC5BtWnRMpqwcoqVI1X9dQzxru+tiB3dGPFLn6/zN
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="391180035"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="391180035"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Dec 2023 21:59:31 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="771186340"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="771186340"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by orsmga002.jf.intel.com with ESMTP; 05 Dec 2023 21:59:28 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rAkwQ-000ALl-1j;
-	Wed, 06 Dec 2023 05:59:26 +0000
-Date: Wed, 6 Dec 2023 13:59:11 +0800
-From: kernel test robot <lkp@intel.com>
-To: Yunke Cao <yunkec@google.com>, Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Daniel Scally <dan.scally@ideasonboard.com>
-Cc: oe-kbuild-all@lists.linux.dev, Tomasz Figa <tfiga@chromium.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org,
-	Yunke Cao <yunkec@google.com>
-Subject: Re: [PATCH v14 06/11] v4l2-ctrls: add support for
- V4L2_CTRL_WHICH_MIN/MAX_VAL
-Message-ID: <202312061351.GzQ22IuG-lkp@intel.com>
-References: <20231201071907.3080126-7-yunkec@google.com>
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F116CD42
+	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 22:35:59 -0800 (PST)
+Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20231206063555epoutp03cb92544c8e7a0746bf11cbb8cdb520bd~eKpsnyZOQ1412814128epoutp03E
+	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 06:35:55 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20231206063555epoutp03cb92544c8e7a0746bf11cbb8cdb520bd~eKpsnyZOQ1412814128epoutp03E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1701844555;
+	bh=eOtPRlkv0GpFVsKpaPi+IxIe9vCjHYKTWVJ1SPsLF98=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=tw13r61rgtZErPRNssUXCcb7eBmIPq53qnFdtPR29S0Hr68rR/oZ40iuh5ovy0Exv
+	 yTG5Q4oi1PkVHlvSewDQ6t+A1govz/6AsvUF2KgK6LDxLHClXzMy3d0oOWavRclKxV
+	 avlx9sPbZrTMKbs0783kdSmStRBGjrleaHCWU7Z0=
+Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTP id
+	20231206063554epcas5p2f96c5c1476ef3e5d3fbeebd8b1433b29~eKpr1xLRb2808128081epcas5p2G;
+	Wed,  6 Dec 2023 06:35:54 +0000 (GMT)
+Received: from epsmges5p1new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp2.localdomain (Postfix) with ESMTP id 4SlSMr6vcfz4x9QC; Wed,  6 Dec
+	2023 06:35:52 +0000 (GMT)
+Received: from epcas5p4.samsung.com ( [182.195.41.42]) by
+	epsmges5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	CC.56.09634.84610756; Wed,  6 Dec 2023 15:35:52 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20231206063105epcas5p3034f89af2be6922ab04771de099a124a~eKlfV2vOw1077710777epcas5p3L;
+	Wed,  6 Dec 2023 06:31:05 +0000 (GMT)
+Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20231206063105epsmtrp2d3d99defbc4fd8f734532fa1e4682e41~eKlfUgH_01483414834epsmtrp22;
+	Wed,  6 Dec 2023 06:31:05 +0000 (GMT)
+X-AuditID: b6c32a49-eebff700000025a2-0d-657016486f85
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	C4.96.07368.92510756; Wed,  6 Dec 2023 15:31:05 +0900 (KST)
+Received: from cheetah.sa.corp.samsungelectronics.net (unknown
+	[107.109.115.53]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20231206063103epsmtip21e1f680b29e1b75c4a90176398c73196~eKlczsc1t3080830808epsmtip2e;
+	Wed,  6 Dec 2023 06:31:03 +0000 (GMT)
+From: Aakarsh Jain <aakarsh.jain@samsung.com>
+To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org, conor+dt@kernel.org, linux-samsung-soc@vger.kernel.org,
+	andi@etezian.org, gost.dev@samsung.com, alim.akhtar@samsung.com,
+	aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
+	ajaykumar.rs@samsung.com, aakarsh.jain@samsung.com
+Subject: [Patch v5 00/11] Add MFC V12 support
+Date: Wed,  6 Dec 2023 12:00:34 +0530
+Message-Id: <20231206063045.97234-1-aakarsh.jain@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA0VSbUxbZRTee297ewHLroD6rqGOXDc7SApUSrkodd9LDVtCUpMtS5DdtDct
+	0i/7MVfNsi6jycSxbAY3QbqxwYZSoNgCFigEOzLiInQ6AiKgIFuEMTq26sRIxH6h/57znOe8
+	5znnPTia4sB4eLnOzBh1tIbEElndtzKzhLIXDUzuPz4J9cBby6YGH3/DomavdGNU4+pvCPVL
+	Y4hF+T1dHKq1fxShrg6NsqnJwR6E+r52hkWdX5hDKff8OJu611uPUec6utjUZ4EBhGobmuFQ
+	N91rCHW963cOZe8f4uxKlU00PUVljb5FROZu+QiTTY/7MJmn6ZTsfGcLkIXcL8vu/BHilOBH
+	K4rUDK1kjBmMTqFXlutUUrJYXra3LF+SKxKKCqkCMkNHaxkpue9gifBAuSY8EJlxnNZYwlQJ
+	bTKROW8WGfUWM5Oh1pvMUpIxKDUGsSHbRGtNFp0qW8eYXxfl5r6WHxYeq1A3rNehBt/WE07n
+	E2ADXbwqkIBDQgyDj0bQKpCIpxB9ADavtyGx4CmA6+02LBY8A3B1pg/dKBlxdcZV/QC2D52J
+	JlIIOwJP9wmrAI5jhBCOfK2J0GnEaQDnz5ojepSwo7CyJggiidSwJvDTXBSziO3QEWiMvsMl
+	pDDY6QKxZluhs2Mw6g8SDhzah+1xF/ug60YDK4ZT4cPhTk4M82Ao2I/FsALOX1+M6zXQ5auJ
+	63fCwbF6VsQoSmRCV29OjObDT++0IxGMEsmw+u/7SIznQu+VDfwqrJ9eZcdwOrzlvBH3KYN3
+	n3hAbA+lsDHkAxcAv+7/Dg0AtIAtjMGkVTGmfINIx7z/30cp9Fo3iN5p1lteMDO7ku0HCA78
+	AOIomcbVBPRMCldJWz9gjPoyo0XDmPwgP7yziyjvBYU+fOg6c5lIXJgrlkgk4sI8iYh8ibtk
+	dyhTCBVtZioYxsAYN+oQPIFnQwQGbrrg3R83O/2XOw7bJpZrEscFhqMZzVt+vXBsUl57qPpa
+	UmsofTda1LMwYHH/fO2HrKRJxRutD4fG0uQHLr7j3rT9ske5bbOaRu5/PiDl3z55CevYJQiM
+	tfctPn9qYq9i9+Mdz8m3dR6+e0RRryzfmdeW7SD/CjxAp9aSL42U35bbVaxn77VZ1858W6BF
+	J1yCnEMF4rqpD0P7VX9yk+Y8luXRcyuKvGWnpzJ5CW2vLsm0Nn2VxD25HLw6vcDGjs9+vMfK
+	T+juduXxezaxraWlJ3qP3FuaxuWOL4NK+qxt5TuiZdK7h/xiSvFK1tvF+4d1xYHKT5xqr3SH
+	iv2ouamOZJnUtCgLNZrofwHx/52DMAQAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFLMWRmVeSWpSXmKPExsWy7bCSvK6maEGqwdpr+hZPd8xktTjw/iCL
+	xYN529gsFv94zmRxf/FnFotDm7eyW6zZe47JYv6Rc6wWNw/sZLK4OPMui0Xfi4fMFpseX2O1
+	uLxrDptFz4atrBYzzu9jslh75C67xbJNf5gsFm39wm7RuvcIu4Owx/Uln5g9Fu95yeSxaVUn
+	m8eda3vYPDYvqffo27KK0ePzJjmPU18/swdwRHHZpKTmZJalFunbJXBlLPg/i7lgj3zF6tUf
+	GRsYt0p1MXJySAiYSJxdv4Wpi5GLQ0hgN6PEuZaJLBAJGYn/bcfYIWxhiZX/nrNDFDUzSRz6
+	+Aqog4ODTUBX4uz2HJC4iEAro8T1lZ1gk5gFpjNLfH3ZCzZJGKjo/K2HjCA2i4CqxNzzi5lB
+	bF4BW4l3W9YzQmyQl1i94QDzBEaeBYwMqxglUwuKc9Nzkw0LDPNSy/WKE3OLS/PS9ZLzczcx
+	goNbS2MH4735//QOMTJxMB5ilOBgVhLhzTmfnyrEm5JYWZValB9fVJqTWnyIUZqDRUmc13DG
+	7BQhgfTEktTs1NSC1CKYLBMHp1QDk9aN7PT3vnE+EiE3vHsCzu1a98iTe8u12U9nX2LIipL/
+	UL7zZsbLS6HV0gzP/xiqS1hpCfsv+DUvvjbag1thvqnew22Xl+RuyUnf+vUkz0/L4py5P+4r
+	3F8w84jVn4Wt1omTis48km9wZj3u6ylcm1Qj5vt53tuIVQcXS03do9rKu/9298vzfV5Xljtc
+	/n4iepl0996u3RmvlWal6pyexjynOvaxzBPpaZoyJ9+UC+0PlfiQvmKjxAOmeBc5S/N/R5aF
+	Pn3zbTXT5e+8Ez55GM852XhEKNNE/5iGbKrEz2WGcqsyamIyY8zP/HWpPuZcvFlnTbuHmriM
+	4otjZTqvC9Z/t+N4zrN2jjATp8zKjUosxRmJhlrMRcWJACy7k+fdAgAA
+X-CMS-MailID: 20231206063105epcas5p3034f89af2be6922ab04771de099a124a
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231206063105epcas5p3034f89af2be6922ab04771de099a124a
+References: <CGME20231206063105epcas5p3034f89af2be6922ab04771de099a124a@epcas5p3.samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231201071907.3080126-7-yunkec@google.com>
 
-Hi Yunke,
+This patch series adds MFC v12 support. MFC v12 is used in Tesla FSD SoC.
 
-kernel test robot noticed the following build warnings:
+This adds support for following:
 
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on usb/usb-next usb/usb-linus linuxtv-media-stage/master linus/master v6.7-rc4 next-20231205]
-[cannot apply to media-tree/master sailus-media-tree/streams]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+-Add support for YV12 and I420 format (3-plane)
+-Add support for Rate Control, UHD and DMABUF for encoder
+-Add support for DPB buffers allocation based on MFC requirement
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Yunke-Cao/media-v4l2_ctrl-Add-V4L2_CTRL_TYPE_RECT/20231201-152501
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
-patch link:    https://lore.kernel.org/r/20231201071907.3080126-7-yunkec%40google.com
-patch subject: [PATCH v14 06/11] v4l2-ctrls: add support for V4L2_CTRL_WHICH_MIN/MAX_VAL
-config: hexagon-randconfig-r081-20231201 (https://download.01.org/0day-ci/archive/20231206/202312061351.GzQ22IuG-lkp@intel.com/config)
-compiler: clang version 17.0.0 (https://github.com/llvm/llvm-project.git 4a5ac14ee968ff0ad5d2cc1ffa0299048db4c88a)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231206/202312061351.GzQ22IuG-lkp@intel.com/reproduce)
+Changes since v4:
+-Addressed review comments by Krzysztof Kozlowski.
+As per discussion included iommus property in dt-schema.
+-Addressed review comments by Hans Verkuil.
+Fixed checkpatch warnings with --strict flag enabled.
+Upstreamed s5p-mfc-v12.fw to linux-firmware.
+Added comment in the patch 9 regarding loading mfc firmware v12 
+sequentially.
+-Addressed review comments by Nicolas Dufresne
+Made use of v4l2-common library to get number of planes needed for
+particular format in patch 4.
+v4 link:https://patchwork.kernel.org/project/linux-media/patch/20231025102216.50480-2-aakarsh.jain@samsung.com/
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312061351.GzQ22IuG-lkp@intel.com/
+Changes since v3:
+-Removed vp9 codec support for now and just keeping MFC v12 base
+patches with necessary hardware controls, decoder, encoder and
+structural changes. Also covers luma dbp, chroma dpb and mv sizes
+for each codec as per the UM for MFCv12, along with appropriate
+alignment.
+v3 link: https://patchwork.kernel.org/project/linux-media/cover/20221011122516.32135-1-aakarsh.jain@samsung.com/
 
-All warnings (new ones prefixed by >>):
+Changes since v2:
+-Addressed review comments by Rob Herring.
+This was regarding the errors found by Rob bot in yaml file. File
+'samsung,s5p-mfc.yaml' is already converted into json schema and is
+merged.
 
-   In file included from drivers/media/v4l2-core/v4l2-ctrls-core.c:11:
-   In file included from include/media/v4l2-ctrls.h:14:
-   In file included from include/media/media-request.h:20:
-   In file included from include/media/media-device.h:16:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:547:31: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     547 |         val = __raw_readb(PCI_IOBASE + addr);
-         |                           ~~~~~~~~~~ ^
-   include/asm-generic/io.h:560:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     560 |         val = __le16_to_cpu((__le16 __force)__raw_readw(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:37:51: note: expanded from macro '__le16_to_cpu'
-      37 | #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-         |                                                   ^
-   In file included from drivers/media/v4l2-core/v4l2-ctrls-core.c:11:
-   In file included from include/media/v4l2-ctrls.h:14:
-   In file included from include/media/media-request.h:20:
-   In file included from include/media/media-device.h:16:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:573:61: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     573 |         val = __le32_to_cpu((__le32 __force)__raw_readl(PCI_IOBASE + addr));
-         |                                                         ~~~~~~~~~~ ^
-   include/uapi/linux/byteorder/little_endian.h:35:51: note: expanded from macro '__le32_to_cpu'
-      35 | #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-         |                                                   ^
-   In file included from drivers/media/v4l2-core/v4l2-ctrls-core.c:11:
-   In file included from include/media/v4l2-ctrls.h:14:
-   In file included from include/media/media-request.h:20:
-   In file included from include/media/media-device.h:16:
-   In file included from include/linux/pci.h:38:
-   In file included from include/linux/interrupt.h:11:
-   In file included from include/linux/hardirq.h:11:
-   In file included from ./arch/hexagon/include/generated/asm/hardirq.h:1:
-   In file included from include/asm-generic/hardirq.h:17:
-   In file included from include/linux/irq.h:20:
-   In file included from include/linux/io.h:13:
-   In file included from arch/hexagon/include/asm/io.h:337:
-   include/asm-generic/io.h:584:33: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     584 |         __raw_writeb(value, PCI_IOBASE + addr);
-         |                             ~~~~~~~~~~ ^
-   include/asm-generic/io.h:594:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     594 |         __raw_writew((u16 __force)cpu_to_le16(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
-   include/asm-generic/io.h:604:59: warning: performing pointer arithmetic on a null pointer has undefined behavior [-Wnull-pointer-arithmetic]
-     604 |         __raw_writel((u32 __force)cpu_to_le32(value), PCI_IOBASE + addr);
-         |                                                       ~~~~~~~~~~ ^
->> drivers/media/v4l2-core/v4l2-ctrls-core.c:309:6: warning: no previous prototype for function 'v4l2_ctrl_type_op_minimum' [-Wmissing-prototypes]
-     309 | void v4l2_ctrl_type_op_minimum(const struct v4l2_ctrl *ctrl, u32 from_idx,
-         |      ^
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:309:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     309 | void v4l2_ctrl_type_op_minimum(const struct v4l2_ctrl *ctrl, u32 from_idx,
-         | ^
-         | static 
->> drivers/media/v4l2-core/v4l2-ctrls-core.c:315:6: warning: no previous prototype for function 'v4l2_ctrl_type_op_maximum' [-Wmissing-prototypes]
-     315 | void v4l2_ctrl_type_op_maximum(const struct v4l2_ctrl *ctrl, u32 from_idx,
-         |      ^
-   drivers/media/v4l2-core/v4l2-ctrls-core.c:315:1: note: declare 'static' if the function is not intended to be used outside of this translation unit
-     315 | void v4l2_ctrl_type_op_maximum(const struct v4l2_ctrl *ctrl, u32 from_idx,
-         | ^
-         | static 
-   8 warnings generated.
+-Addressed review comments by Krzysztof Kozlowski.
+This was regarding depricated properties mentioned in s5p-mfc.txt file.
+Review comment was addressed and 'samsung,s5p-mfc.yaml' is already
+merged now.
 
+-Addressed review comments by Andi Shyti.
+This was regarding addition of 'MFC_V10PLUS_BITS' macro in
+'s5p_mfc_common.h file.
+v2 link: https://patchwork.kernel.org/project/linux-media/cover/20220907064715.55778-1-smitha.t@samsung.com/
 
-vim +/v4l2_ctrl_type_op_minimum +309 drivers/media/v4l2-core/v4l2-ctrls-core.c
+Changes since v1:
+-Addressed review comments by Krzysztof Kozlowski.
+Separated bug fixes patches, resent again with fix tag
+and those are merged now.
+-Added SoC based compatible string.
 
-   308	
- > 309	void v4l2_ctrl_type_op_minimum(const struct v4l2_ctrl *ctrl, u32 from_idx,
-   310				       union v4l2_ctrl_ptr ptr)
-   311	{
-   312		__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_MIN_VAL, ptr);
-   313	}
-   314	
- > 315	void v4l2_ctrl_type_op_maximum(const struct v4l2_ctrl *ctrl, u32 from_idx,
-   316				       union v4l2_ctrl_ptr ptr)
-   317	{
-   318		__v4l2_ctrl_type_op_init(ctrl, from_idx, V4L2_CTRL_WHICH_MAX_VAL, ptr);
-   319	}
-   320	
+-Addressed review comments by Andrzej Hajda
+Assigned width64 and height32 variable with ALIGN(ctx->img_..)
+used in the code in 's5p_mfc_opr_v6.c' file.
+v1 link: https://patchwork.kernel.org/project/linux-media/patch/20220517125548.14746-2-smitha.t@samsung.com/
+
+Aakarsh Jain (11):
+  dt-bindings: media: s5p-mfc: Add mfcv12 variant
+  media: s5p-mfc: Rename IS_MFCV10 macro
+  media: s5p-mfc: Add initial support for MFCv12
+  media: s5p-mfc: Add YV12 and I420 multiplanar format support
+  media: s5p-mfc: Add support for rate controls in MFCv12
+  media: s5p-mfc: Add support for UHD encoding.
+  media: s5p-mfc: Add support for DMABUF for encoder
+  media: s5p-mfc: Set context for valid case before calling try_run
+  media: s5p-mfc: Load firmware for each run in MFCv12.
+  media: s5p-mfc: DPB Count Independent of VIDIOC_REQBUF
+  arm64: dts: fsd: Add MFC related DT enteries
+
+ .../bindings/media/samsung,s5p-mfc.yaml       |  18 ++
+ arch/arm64/boot/dts/tesla/fsd.dtsi            |  21 ++
+ .../platform/samsung/s5p-mfc/regs-mfc-v12.h   |  52 +++
+ .../platform/samsung/s5p-mfc/regs-mfc-v7.h    |   1 +
+ .../platform/samsung/s5p-mfc/regs-mfc-v8.h    |   3 +
+ .../media/platform/samsung/s5p-mfc/s5p_mfc.c  |  36 ++-
+ .../platform/samsung/s5p-mfc/s5p_mfc_common.h |  29 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_ctrl.c   |  10 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_dec.c    |  60 +++-
+ .../platform/samsung/s5p-mfc/s5p_mfc_enc.c    | 149 ++++++---
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr.h    |  14 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr_v5.c |  12 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c | 300 ++++++++++++++----
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h |   7 +-
+ 14 files changed, 563 insertions(+), 149 deletions(-)
+ create mode 100644 drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.17.1
+
 
