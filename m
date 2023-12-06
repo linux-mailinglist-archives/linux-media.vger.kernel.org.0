@@ -1,27 +1,27 @@
-Return-Path: <linux-media+bounces-1721-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1723-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D07806A8B
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 10:18:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A960806AEF
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 10:43:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A11B72818A0
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 09:18:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB38D1F2116B
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 09:43:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8620A1A593;
-	Wed,  6 Dec 2023 09:18:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CA0C1BDD4;
+	Wed,  6 Dec 2023 09:43:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 805DD1A71A
-	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 09:18:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2EB55C433C8;
-	Wed,  6 Dec 2023 09:18:42 +0000 (UTC)
-Message-ID: <959f7620-c489-4864-8e2a-3d4cb1125d16@xs4all.nl>
-Date: Wed, 6 Dec 2023 10:18:41 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACAEF1A718
+	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 09:43:38 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2A77C433C8;
+	Wed,  6 Dec 2023 09:43:37 +0000 (UTC)
+Message-ID: <479c1d97-6df6-4a97-9542-c8819bd03d27@xs4all.nl>
+Date: Wed, 6 Dec 2023 10:43:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -29,110 +29,205 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: pci: mgb4: remove bogus 'select' statements
+Subject: Re: [PATCH] media: usb: s2255: device-id custom V4L2_CID
 Content-Language: en-US, nl
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To: Arnd Bergmann <arnd@arndb.de>, =?UTF-8?Q?Martin_T=C5=AFma?=
- <tumic@gpxsee.org>, Arnd Bergmann <arnd@kernel.org>,
- Martin Tuma <martin.tuma@digiteqautomotive.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20231023160539.1537355-1-arnd@kernel.org>
- <20231023160539.1537355-2-arnd@kernel.org>
- <25173a48-529c-463b-88aa-2ee75dd604ff@gpxsee.org>
- <75a110d5-c544-44b3-8155-ddfadbe1bd88@app.fastmail.com>
- <49c002db-fb3e-4e2c-adb4-0be05d4b27e6@gpxsee.org>
- <2c56410f-2762-4b3c-b37e-e8db75d30560@app.fastmail.com>
- <f61f90cd-55e2-420e-be16-6b0fbd492bbd@xs4all.nl>
-In-Reply-To: <f61f90cd-55e2-420e-be16-6b0fbd492bbd@xs4all.nl>
+To: Dean Anderson <dean@sensoray.com>, linux-media@vger.kernel.org
+References: <20231122194838.13285-1-dean@sensoray.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20231122194838.13285-1-dean@sensoray.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-Arnd,
+Hi Dean,
 
-Can you post a v2 for this?
+Some comments below:
 
-Note that patch 1/1 is in v6.7 already.
+On 22/11/2023 20:48, Dean Anderson wrote:
+> Adding V4L2 read-only control id for device id as hardware
+> does not support embedding the device-id in the USB device descriptors.
+> 
+> base-commit: 3e238417254bfdcc23fe207780b59cbb08656762
+
+Just drop this line, it doesn't belong in a commit message.
+
+> 
+> Signed-off-by: Dean Anderson <dean@sensoray.com>
+> 
+> ---
+>  drivers/media/usb/s2255/s2255drv.c | 49 +++++++++++++++++++++++++++++-
+>  1 file changed, 48 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/usb/s2255/s2255drv.c b/drivers/media/usb/s2255/s2255drv.c
+> index 3c2627712fe9..c2248bbc7840 100644
+> --- a/drivers/media/usb/s2255/s2255drv.c
+> +++ b/drivers/media/usb/s2255/s2255drv.c
+> @@ -40,7 +40,7 @@
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-event.h>
+>  
+> -#define S2255_VERSION		"1.25.1"
+> +#define S2255_VERSION		"1.26.1"
+>  #define FIRMWARE_FILE_NAME "f2255usb.bin"
+>  
+>  /* default JPEG quality */
+> @@ -60,6 +60,7 @@
+>  #define S2255_MIN_BUFS          2
+>  #define S2255_SETMODE_TIMEOUT   500
+>  #define S2255_VIDSTATUS_TIMEOUT 350
+> +#define S2255_MARKER_FIRMWARE	cpu_to_le32(0xDDCCBBAAL)
+>  #define S2255_MARKER_FRAME	cpu_to_le32(0x2255DA4AL)
+>  #define S2255_MARKER_RESPONSE	cpu_to_le32(0x2255ACACL)
+>  #define S2255_RESPONSE_SETMODE  cpu_to_le32(0x01)
+> @@ -323,6 +324,7 @@ struct s2255_buffer {
+>  #define S2255_V4L2_YC_ON  1
+>  #define S2255_V4L2_YC_OFF 0
+>  #define V4L2_CID_S2255_COLORFILTER (V4L2_CID_USER_S2255_BASE + 0)
+> +#define V4L2_CID_S2255_DEVICEID (V4L2_CID_USER_S2255_BASE + 1)
+>  
+>  /* frame prefix size (sent once every frame) */
+>  #define PREFIX_SIZE		512
+> @@ -1232,6 +1234,37 @@ static int s2255_s_ctrl(struct v4l2_ctrl *ctrl)
+>  	return 0;
+>  }
+>  
+> +/* deviceid/serial number is not used in usb device descriptors.
+> + * returns device-id/serial number from device, 0 if none found.
+
+Please put the '/*' on a line by itself, that's consistent with the
+coding style for multi-line comments.
+
+Also run the patch through 'checkpatch.pl --strict'. I get several
+warnings.
+
+returns -> Returns
+
+One question about this comment: is the Device ID the same as a serial
+number? "Device ID" can mean either the ID of a device model, or a unique
+ID for each device. If it is the latter, should it perhaps be called
+"Device S/N" or just "Serial Number"?
+
+> + */
+> +#define S2255_DEVICEID_NONE 0
+> +static int s2255_g_deviceid(struct s2255_dev *dev)
+> +{
+> +	u8 *outbuf;
+> +	int rc;
+> +	int deviceid = S2255_DEVICEID_NONE;
+> +#define S2255_I2C_SIZE     16
+> +	outbuf = kzalloc(S2255_I2C_SIZE * sizeof(u8), GFP_KERNEL);
+
+Drop the "* sizeof(u8)", it serves no purpose.
+
+> +	if (outbuf == NULL)
+> +		return deviceid;
+> +#define S2255_I2C_SNDEV    0xa2
+> +#define S2255_I2C_SNOFFSET 0x1ff0
+> +#define S2255_USBVENDOR_READREG 0x22
+> +	rc = s2255_vendor_req(dev, S2255_USBVENDOR_READREG, S2255_I2C_SNOFFSET,
+> +			S2255_I2C_SNDEV >> 1, outbuf, S2255_I2C_SIZE, 0);
+> +	if (rc < 0)
+> +		goto exit_g_deviceid;
+> +
+> +	/* verify marker code */
+> +	if (*(__le32 *)outbuf != S2255_MARKER_FIRMWARE)
+> +		goto exit_g_deviceid;
+> +
+> +	deviceid = (outbuf[12] << 24) + (outbuf[13] << 16) + (outbuf[14] << 8) + outbuf[15];
+> +exit_g_deviceid:
+> +	kfree(outbuf);
+> +	return deviceid;
+
+This is overly complicated. How about this:
+
+	/* verify marker code */
+	if (*(__le32 *)outbuf == S2255_MARKER_FIRMWARE)
+		deviceid = (outbuf[12] << 24) + (outbuf[13] << 16) + (outbuf[14] << 8) + outbuf[15];
+	kfree(outbuf);
+	return deviceid;
+
+> +}
+> +
+>  static int vidioc_g_jpegcomp(struct file *file, void *priv,
+>  			 struct v4l2_jpegcompression *jc)
+>  {
+> @@ -1581,6 +1614,17 @@ static const struct v4l2_ctrl_config color_filter_ctrl = {
+>  	.def = 1,
+>  };
+>  
+> +static struct v4l2_ctrl_config v4l2_ctrl_deviceid = {
+> +	.ops = &s2255_ctrl_ops,
+> +	.name = "Device ID",
+> +	.id = V4L2_CID_S2255_DEVICEID,
+> +	.type = V4L2_CTRL_TYPE_INTEGER,
+
+Please note that TYPE_INTEGER is a signed integer.
+
+If you need an unsigned integer, then use TYPE_U32.
+
+> +	.max = 0xffffffff,
+> +	.min = 0,
+> +	.step = 1,
+> +	.flags = V4L2_CTRL_FLAG_READ_ONLY,
+> +};
+> +
+>  static int s2255_probe_v4l(struct s2255_dev *dev)
+>  {
+>  	int ret;
+> @@ -1615,6 +1659,9 @@ static int s2255_probe_v4l(struct s2255_dev *dev)
+>  		    (dev->pid != 0x2257 || vc->idx <= 1))
+>  			v4l2_ctrl_new_custom(&vc->hdl, &color_filter_ctrl,
+>  					     NULL);
+> +		v4l2_ctrl_deviceid.def = s2255_g_deviceid(dev);
+> +		v4l2_ctrl_new_custom(&vc->hdl, &v4l2_ctrl_deviceid,
+> +					NULL);
+>  		if (vc->hdl.error) {
+>  			ret = vc->hdl.error;
+>  			v4l2_ctrl_handler_free(&vc->hdl);
 
 Regards,
 
 	Hans
-
-On 13/11/2023 15:57, Hans Verkuil wrote:
-> On 10/11/2023 15:37, Arnd Bergmann wrote:
->> On Wed, Nov 8, 2023, at 19:33, Martin Tůma wrote:
->>> On 08. 11. 23 17:13, Arnd Bergmann wrote:
->>>> On Fri, Oct 27, 2023, at 16:17, Martin Tůma wrote:
->>>>> On 23. 10. 23 18:05, Arnd Bergmann wrote:
->>>>>> From: Arnd Bergmann <arnd@arndb.de>
->>>
->>> On SoCs you probably get a kernel configuration that is missing some 
->>> feature but still boots up when you do not select/depend on the exact 
->>> controller, but in the case of the mgb4 PCIe card you get a driver that 
->>> does not work at all (The SPI_XILINX dependency could theoretically be 
->>> made configurable, but you would lose the ability to flash the correct 
->>> FW for the current HW module and the access to the card's serial number. 
->>> I2C and XDMA are crucial.).
->>
->> My point was that we do this all the time for things that are
->> essential: if your clock controller or the irqchip have
->> no driver, then the camera device won't work, but neither
->> would anything else.
->>
->> So in a SoC setting, you really just need to enable all
->> the drivers for devices on that chip through the .config.
->>
->>>> Since this is a PCI device, it's a bit different, so maybe
->>>> something like this would work to correctly document which
->>>> dependencies are required at build time vs run time:
->>>>
->>>> --- a/drivers/media/pci/mgb4/Kconfig
->>>> +++ b/drivers/media/pci/mgb4/Kconfig
->>>> @@ -1,15 +1,13 @@
->>>>   # SPDX-License-Identifier: GPL-2.0-only
->>>>   config VIDEO_MGB4
->>>>          tristate "Digiteq Automotive MGB4 support"
->>>> -       depends on VIDEO_DEV && PCI && I2C && DMADEVICES && SPI && MTD && IIO
->>>> +       depends on VIDEO_DEV && PCI && I2C && SPI && MTD && IIO
->>>>          depends on COMMON_CLK
->>>> +       depends on XILINX_XDMA
->>>> +       depends on (I2C_XILINX && SPI_XILINX) || COMPILE_TEST
->>>>          select VIDEOBUF2_DMA_SG
->>>>          select IIO_BUFFER
->>>>          select IIO_TRIGGERED_BUFFER
->>>> -       select I2C_XILINX
->>>> -       select SPI_XILINX
->>>> -       select MTD_SPI_NOR
->>>> -       select XILINX_XDMA
->>>>          help
->>>>            This is a video4linux driver for Digiteq Automotive MGB4 grabber
->>>>            cards.
->>>>
->>>
->>> My motivation when using "select" was to help people using "make 
->>> menuconfig" to get the module selected/configured as they will usually 
->>> not know that there are some Xilinx IP cores used that need separate 
->>> drivers and the menuconfig GUI simply hides the mgb4 option making it 
->>> almost impossible just from the menus to find out what has to be selected.
->>>
->>> But when there are reasons, why to chose "depends on" (like various 
->>> configurations, tests or the "readability" of the dependencies) than I'm 
->>> ok with your patch proposal.
->>
->> The main reason to use 'depends on' over 'select' here is that
->> mixing the two is a common source of dependency loops that end
->> up breaking the build. As a rule of thumb, I would use 'select'
->> only for symbols that others already select, or that are hidden
->> from visibility.
->>
->>       Arnd
->>
-> 
-> Arnd, can you post a v2? I think this should go to v6.7 as a fix.
-> 
-> Regards,
-> 
-> 	Hans
-> 
-
 
