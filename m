@@ -1,175 +1,607 @@
-Return-Path: <linux-media+bounces-1714-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1715-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ECA58067A4
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 07:38:49 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DF258068B8
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 08:38:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0029FB20FD7
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 06:38:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D18561F2174D
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 07:38:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A3C112E6E;
-	Wed,  6 Dec 2023 06:38:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5DD518029;
+	Wed,  6 Dec 2023 07:38:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="X613SzLi"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="j8FsryUW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16B2E10F4
-	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 22:38:17 -0800 (PST)
-Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20231206063815epoutp01f619c5693b87c60851186a08b6272f2e~eKrvd_p5Q2682726827epoutp01k
-	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 06:38:15 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20231206063815epoutp01f619c5693b87c60851186a08b6272f2e~eKrvd_p5Q2682726827epoutp01k
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1701844695;
-	bh=+dA8CLW4Uw8h0Ln1czVzzbczb8qavjLH60g5Jc7kYyw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=X613SzLi108z59aYNcKaJ8q9JL8bSyFrxVqaTQgYOY24yD3AkQErqYBt+LBTC2/hC
-	 C2UWh9JPpD8VpozXgzsXXs0CMSVVVJfkBWHQ/zNTJj1COclxwxt1Db2ocFYdOaiVJt
-	 QxtFN9qQYTQL5cl/lgTuCdF9miQ9Y6+gQEI1und8=
-Received: from epsnrtp1.localdomain (unknown [182.195.42.162]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20231206063815epcas5p38891ae2a02cb760aaf91a073b51be495~eKru-N5ZD0692206922epcas5p36;
-	Wed,  6 Dec 2023 06:38:15 +0000 (GMT)
-Received: from epsmgec5p1new.samsung.com (unknown [182.195.38.178]) by
-	epsnrtp1.localdomain (Postfix) with ESMTP id 4SlSQY10qYz4x9Pp; Wed,  6 Dec
-	2023 06:38:13 +0000 (GMT)
-Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
-	epsmgec5p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	D7.D5.08567.5D610756; Wed,  6 Dec 2023 15:38:13 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20231206063140epcas5p1ba86525117f4d9ec9172ae7cb18b7420~eKl-klOGr1915119151epcas5p1Y;
-	Wed,  6 Dec 2023 06:31:40 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20231206063140epsmtrp1514d221fa74fb562dc52274e24214301~eKl-jYr5e1588615886epsmtrp1h;
-	Wed,  6 Dec 2023 06:31:40 +0000 (GMT)
-X-AuditID: b6c32a44-617fd70000002177-23-657016d52c4b
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	34.A6.07368.C4510756; Wed,  6 Dec 2023 15:31:40 +0900 (KST)
-Received: from cheetah.sa.corp.samsungelectronics.net (unknown
-	[107.109.115.53]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20231206063137epsmtip21b3bf3f83a9d036871d7de0b4c1cfe80~eKl80fbta0816708167epsmtip2L;
-	Wed,  6 Dec 2023 06:31:37 +0000 (GMT)
-From: Aakarsh Jain <aakarsh.jain@samsung.com>
-To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org,
-	robh+dt@kernel.org, conor+dt@kernel.org, linux-samsung-soc@vger.kernel.org,
-	andi@etezian.org, gost.dev@samsung.com, alim.akhtar@samsung.com,
-	aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
-	ajaykumar.rs@samsung.com, aakarsh.jain@samsung.com, linux-fsd@tesla.com,
-	Smitha T Murthy <smithatmurthy@gmail.com>
-Subject: [Patch v5 11/11] arm64: dts: fsd: Add MFC related DT enteries
-Date: Wed,  6 Dec 2023 12:00:45 +0530
-Message-Id: <20231206063045.97234-12-aakarsh.jain@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20231206063045.97234-1-aakarsh.jain@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrHJsWRmVeSWpSXmKPExsWy7bCmpu5VsYJUg8Y9LBZPd8xktTjw/iCL
-	xYN529gsFv94zmRxf/FnFotDm7eyW6zZe47JYv6Rc6wWNw/sZLK4OPMui0Xfi4fMFpseX2O1
-	ePgq3OLyrjlsFj0btrJazDi/j8li7ZG77BbLNv1hsli09Qu7ReveI+wWLY1LWB1EPa4v+cTs
-	sXPWXXaPxXteMnlsWtXJ5nHn2h42j81L6j36tqxi9PjXNJfd4/MmOY9TXz+zB3BFZdtkpCam
-	pBYppOYl56dk5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5+AToumXmAP2opFCWmFMKFApI
-	LC5W0rezKcovLUlVyMgvLrFVSi1IySkwKdArTswtLs1L18tLLbEyNDAwMgUqTMjO6H29lalg
-	P1fFz0XbGBsYV3B0MXJySAiYSDx51sncxcjFISSwm1Hi2aZJrBDOJ0aJRRcXQznfGCUOTb/F
-	AtNy8Ns/qJa9jBJTP11ng3BamSQ2zbgOlOHgYBPQlTi7PQekQUSgkVHicUcJSA2zwHFmiQUT
-	ZoJNEhZwk/jy/DwziM0ioCrx7MsFRhCbV8BOYn/rDmaIbfISqzccALM5geJT1iwAO0lC4AaH
-	xKutT6CKXCTmHv/ACmELS7w6voUdwpaSeNnfBmUnSzxe9BKqPkdi/Z4pUO/YSxy4MocF5Ghm
-	AU2J9bv0IcKyElNPrWMCsZkF+CR6fz9hgojzSuyYB2OrScy58wNqrYzE4dVLGSFsD4k/b6dA
-	A2Uio8TFT3uZJjDKzUJYsYCRcRWjZGpBcW56arJpgWFeajk82pLzczcxghOylssOxhvz/+kd
-	YmTiYDzEKMHBrCTCm3M+P1WINyWxsiq1KD++qDQntfgQoykwACcyS4km5wNzQl5JvKGJpYGJ
-	mZmZiaWxmaGSOO/r1rkpQgLpiSWp2ampBalFMH1MHJxSDUzh/9K/n14T7nDunkubzOQpt/7N
-	r8z4knGnSs3dfu7ajR8XenSsP6WTvt/7bFRsZo5KYfYTodsBMuf/XpjNm7S+WqXoLmPlaaaa
-	8O2KPU0FE1d9Nv3MxWojW2O43viXwIMF0fzM2W+v+pbL7VE8petlN2tS464NTIGfjrhbJG9X
-	ff/dSkxB3vfXJeae0ykbtr+7+muK+xJbxZUP3fd3MGiUa0w48PLFb+Yj/2a77E2UuaK5pPV3
-	rNexCxNEiiIZVKT3M983+KrB5y/86onjmhnyD4U6jy89efH0Z3+5pK1bQy2vnjcIW2Ef7h6/
-	9F8E494cq8aCPc5vc99KPl7SM113YtCFrLNx/OpeljeUC2uVWIozEg21mIuKEwHlnZAOUQQA
-	AA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCLMWRmVeSWpSXmKPExsWy7bCSvK6PaEGqwbyFEhZPd8xktTjw/iCL
-	xYN529gsFv94zmRxf/FnFotDm7eyW6zZe47JYv6Rc6wWNw/sZLK4OPMui0Xfi4fMFpseX2O1
-	ePgq3OLyrjlsFj0btrJazDi/j8li7ZG77BbLNv1hsli09Qu7ReveI+wWLY1LWB1EPa4v+cTs
-	sXPWXXaPxXteMnlsWtXJ5nHn2h42j81L6j36tqxi9PjXNJfd4/MmOY9TXz+zB3BFcdmkpOZk
-	lqUW6dslcGX0vt7KVLCfq+Lnom2MDYwrOLoYOTkkBEwkDn77x9zFyMUhJLCbUeLF07+sEAkZ
-	if9tx9ghbGGJlf+es0MUNTNJXGhbx9jFyMHBJqArcXZ7DkhcRKCVUeL6yk4mEIdZ4DazxKYJ
-	D8G6hQXcJL48P88MYrMIqEo8+3KBEcTmFbCT2N+6gxlig7zE6g0HwGxOoPiUNQtYQRYICdhK
-	rDzpOIGRbwEjwypGydSC4tz03GTDAsO81HK94sTc4tK8dL3k/NxNjOCI0dLYwXhv/j+9Q4xM
-	HIyHGCU4mJVEeHPO56cK8aYkVlalFuXHF5XmpBYfYpTmYFES5zWcMTtFSCA9sSQ1OzW1ILUI
-	JsvEwSnVwJSTuEv74vYl1k86zbTluzkS8kJk/Kw7FSO4P7f+Kjx2dvPdLeUPwmJDRT7csg/5
-	tzPhQ8NMk8V8L6b/X/FxxrT+e1JnbJew8Wdtjin+eSHmV7/UopWexa6KC34G5ufw3t4WeHSl
-	m9WHzo+zeDPTBUry4rk3fD93bl5i99c/qkEibzI257KtnKZ0wt7g/Oud7Jom4R8Xb/Csctc9
-	1SlwePqK//P8jQ/Lc2kEZ1h+Z1gSauol+cd1fcjzX/+3buUQ6i2fNdmXdUHtMa0TD9eW3rWM
-	XHdiEU/if747+pECytvOTb3y4KJDdLjuqe0bmHfInDzKOb1E6WYM84qgaNZT7r4Fsi1L45RX
-	Md48qjHNR12JpTgj0VCLuag4EQB5WGqRBwMAAA==
-X-CMS-MailID: 20231206063140epcas5p1ba86525117f4d9ec9172ae7cb18b7420
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231206063140epcas5p1ba86525117f4d9ec9172ae7cb18b7420
-References: <20231206063045.97234-1-aakarsh.jain@samsung.com>
-	<CGME20231206063140epcas5p1ba86525117f4d9ec9172ae7cb18b7420@epcas5p1.samsung.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 022882125
+	for <linux-media@vger.kernel.org>; Tue,  5 Dec 2023 23:38:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1701848292; x=1733384292;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=j/prfb+Jwv9Zd2EpASFrcdgUkIXBJdNB4Prj5SJo8CA=;
+  b=j8FsryUWXYNaF1tlhIXRg41wOI/9wEaqA2yytL+yevqnIJ2IFH8xH0pN
+   G88gKLrtSbAkipUTf5uicAI+Z6+8qVrHc7DWbUvMehkOHzLhtBWGUHgzx
+   lIARFPD9tMOeMYschfw2w6VKcouamjsJVWy+lOgyYOtAqk71DvSBP78Tc
+   O7KoXqW+mATVhumTurcKNtRIsYvhEL7GaVdEdsiDAeLrTcozKNQqlJHoV
+   JZzE9pokeqH3DEUN3snO/R1bV9TaZlVTJgJ2f/S405aFoaMAiXnNLJSSO
+   Y+4hu9gkB0abE+jlWimwlhSfZjYlNxshXZ2Wopk0yH9T7GpRs4FGU25EE
+   A==;
+X-IronPort-AV: E=Sophos;i="6.04,254,1695679200"; 
+   d="scan'208";a="34350168"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 06 Dec 2023 08:38:09 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 53427280075;
+	Wed,  6 Dec 2023 08:38:09 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Gerald Loacker <gerald.loacker@wolfvision.net>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Michael Riesch <michael.riesch@wolfvision.net>, Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
+Subject: Re: [PATCH 3/3] media: i2c: imx415: Add more supported modes
+Date: Wed, 06 Dec 2023 08:38:08 +0100
+Message-ID: <2309033.ElGaqSPkdT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20231205145435.GA22607@pendragon.ideasonboard.com>
+References: <20231205090557.298680-1-alexander.stein@ew.tq-group.com> <e14a0d97-7a99-4ad6-8938-3e0025437ed6@wolfvision.net> <20231205145435.GA22607@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Add MFC DT node and reserve memory node for MFC usage.
+Hi,
 
-Cc: linux-fsd@tesla.com
-Signed-off-by: Smitha T Murthy <smithatmurthy@gmail.com>
-Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
----
- arch/arm64/boot/dts/tesla/fsd.dtsi | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+Am Dienstag, 5. Dezember 2023, 15:54:35 CET schrieb Laurent Pinchart:
+> Hello,
+>=20
+> On Tue, Dec 05, 2023 at 03:47:15PM +0100, Gerald Loacker wrote:
+> > Am 05.12.2023 um 12:12 schrieb Alexander Stein:
+> > > Am Dienstag, 5. Dezember 2023, 11:45:09 CET schrieb Laurent Pinchart:
+> > >> On Tue, Dec 05, 2023 at 10:05:57AM +0100, Alexander Stein wrote:
+> > >>> These modes are listed in section "All-pixel mode" of the datasheet
+> > >>> IMX415-AAQR-C (Rev. E19504, 2019/05/21).
+> > >>> hmax_pix and pixel_rate are taken from the comment above the mode
+> > >>> list.
+> > >>>=20
+> > >>> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > >>> ---
+> > >>>=20
+> > >>>  drivers/media/i2c/imx415.c | 362
+> > >>>  +++++++++++++++++++++++++++++++++++++
+> > >>>  1 file changed, 362 insertions(+)
+> > >>>=20
+> > >>> diff --git a/drivers/media/i2c/imx415.c b/drivers/media/i2c/imx415.c
+> > >>> index a222b9134aa2..48b8ae6d790d 100644
+> > >>> --- a/drivers/media/i2c/imx415.c
+> > >>> +++ b/drivers/media/i2c/imx415.c
+> > >>> @@ -445,6 +445,38 @@ static const struct imx415_clk_params
+> > >>> imx415_clk_params[] =3D {> >>>=20
+> > >>>  	},
+> > >>> =20
+> > >>>  };
+> > >>>=20
+> > >>> +/* all-pixel 2-lane 594 Mbps 10 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_2_594[] =3D {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x0CE4 },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
+> > >>> +	{ IMX415_TCLKPOST, 0x0067 },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x0027 },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x0027 },
+> > >>> +	{ IMX415_TCLKZERO, 0x00B7 },
+> > >>> +	{ IMX415_THSPREPARE, 0x002F },
+> > >>> +	{ IMX415_THSZERO, 0x004F },
+> > >>> +	{ IMX415_THSTRAIL, 0x002F },
+> > >>> +	{ IMX415_THSEXIT, 0x0047 },
+> > >>> +	{ IMX415_TLPX, 0x0027 },
+> > >>> +};
+> > >>> +
+> > >>> +/* all-pixel 2-lane 891 Mbps 15 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_2_891[] =3D {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x0898 },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
+> > >>> +	{ IMX415_TCLKPOST, 0x007F },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x0037 },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x0037 },
+> > >>> +	{ IMX415_TCLKZERO, 0x00F7 },
+> > >>> +	{ IMX415_THSPREPARE, 0x003F },
+> > >>> +	{ IMX415_THSZERO, 0x006F },
+> > >>> +	{ IMX415_THSTRAIL, 0x003F },
+> > >>> +	{ IMX415_THSEXIT, 0x005F },
+> > >>> +	{ IMX415_TLPX, 0x002F },
+> > >>> +};
+> > >>> +
+> > >>>=20
+> > >>>  /* all-pixel 2-lane 720 Mbps 15.74 Hz mode */
+> > >>>  static const struct cci_reg_sequence imx415_mode_2_720[] =3D {
+> > >>> =20
+> > >>>  	{ IMX415_VMAX, 0x08CA },
+> > >>>=20
+> > >>> @@ -461,6 +493,38 @@ static const struct cci_reg_sequence
+> > >>> imx415_mode_2_720[] =3D {> >>>=20
+> > >>>  	{ IMX415_TLPX, 0x0027 },
+> > >>> =20
+> > >>>  };
+> > >>>=20
+> > >>> +/* all-pixel 2-lane 1782 Mbps 30 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_2_1782[] =3D {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x044C },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
+> > >>> +	{ IMX415_TCLKPOST, 0x00B7 },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x0067 },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x006F },
+> > >>> +	{ IMX415_TCLKZERO, 0x01DF },
+> > >>> +	{ IMX415_THSPREPARE, 0x006F },
+> > >>> +	{ IMX415_THSZERO, 0x00CF },
+> > >>> +	{ IMX415_THSTRAIL, 0x006F },
+> > >>> +	{ IMX415_THSEXIT, 0x00B7 },
+> > >>> +	{ IMX415_TLPX, 0x005F },
+> > >>> +};
+> > >>> +
+> > >>> +/* all-pixel 2-lane 2079 Mbps 30 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_2_2079[] =3D {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x044C },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_2 },
+> > >>> +	{ IMX415_TCLKPOST, 0x00D7 },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x007F },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x007F },
+> > >>> +	{ IMX415_TCLKZERO, 0x0237 },
+> > >>> +	{ IMX415_THSPREPARE, 0x0087 },
+> > >>> +	{ IMX415_THSZERO, 0x00EF },
+> > >>> +	{ IMX415_THSTRAIL, 0x0087 },
+> > >>> +	{ IMX415_THSEXIT, 0x00DF },
+> > >>> +	{ IMX415_TLPX, 0x006F },
+> > >>> +};
+> > >>> +
+> > >>>=20
+> > >>>  /* all-pixel 2-lane 1440 Mbps 30.01 Hz mode */
+> > >>>  static const struct cci_reg_sequence imx415_mode_2_1440[] =3D {
+> > >>> =20
+> > >>>  	{ IMX415_VMAX, 0x08CA },
+> > >>>=20
+> > >>> @@ -477,6 +541,70 @@ static const struct cci_reg_sequence
+> > >>> imx415_mode_2_1440[] =3D {> >>>=20
+> > >>>  	{ IMX415_TLPX, 0x004F },
+> > >>> =20
+> > >>>  };
+> > >>>=20
+> > >>> +/* all-pixel 4-lane 594 Mbps 20 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_4_594_20fps[] =3D=
+ {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x0672 },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
+> > >>> +	{ IMX415_TCLKPOST, 0x0067 },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x0027 },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x0027 },
+> > >>> +	{ IMX415_TCLKZERO, 0x00B7 },
+> > >>> +	{ IMX415_THSPREPARE, 0x002F },
+> > >>> +	{ IMX415_THSZERO, 0x004F },
+> > >>> +	{ IMX415_THSTRAIL, 0x002F },
+> > >>> +	{ IMX415_THSEXIT, 0x0047 },
+> > >>> +	{ IMX415_TLPX, 0x0027 },
+> > >>> +};
+> > >>> +
+> > >>> +/* all-pixel 4-lane 594 Mbps 25 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_4_594_25fps[] =3D=
+ {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x0528 },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
+> > >>> +	{ IMX415_TCLKPOST, 0x0067 },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x0027 },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x0027 },
+> > >>> +	{ IMX415_TCLKZERO, 0x00B7 },
+> > >>> +	{ IMX415_THSPREPARE, 0x002F },
+> > >>> +	{ IMX415_THSZERO, 0x004F },
+> > >>> +	{ IMX415_THSTRAIL, 0x002F },
+> > >>> +	{ IMX415_THSEXIT, 0x0047 },
+> > >>> +	{ IMX415_TLPX, 0x0027 },
+> > >>> +};
+> > >>> +
+> > >>> +/* all-pixel 4-lane 720 Mbps 25 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_4_720_25fps[] =3D=
+ {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x0500 },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
+> > >>> +	{ IMX415_TCLKPOST, 0x006F },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x002F },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x002F },
+> > >>> +	{ IMX415_TCLKZERO, 0x00BF },
+> > >>> +	{ IMX415_THSPREPARE, 0x002F },
+> > >>> +	{ IMX415_THSZERO, 0x0057 },
+> > >>> +	{ IMX415_THSTRAIL, 0x002F },
+> > >>> +	{ IMX415_THSEXIT, 0x004F },
+> > >>> +	{ IMX415_TLPX, 0x0027 },
+> > >>> +};
+> > >>> +
+> > >>> +/* all-pixel 4-lane 720 Mbps 30.01 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_4_720_30fps[] =3D=
+ {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x042A },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
+> > >>> +	{ IMX415_TCLKPOST, 0x006F },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x002F },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x002F },
+> > >>> +	{ IMX415_TCLKZERO, 0x00BF },
+> > >>> +	{ IMX415_THSPREPARE, 0x002F },
+> > >>> +	{ IMX415_THSZERO, 0x0057 },
+> > >>> +	{ IMX415_THSTRAIL, 0x002F },
+> > >>> +	{ IMX415_THSEXIT, 0x004F },
+> > >>> +	{ IMX415_TLPX, 0x0027 },
+> > >>> +};
+> > >>> +
+> > >>>=20
+> > >>>  /* all-pixel 4-lane 891 Mbps 30 Hz mode */
+> > >>>  static const struct cci_reg_sequence imx415_mode_4_891[] =3D {
+> > >>> =20
+> > >>>  	{ IMX415_VMAX, 0x08CA },
+> > >>>=20
+> > >>> @@ -493,6 +621,102 @@ static const struct cci_reg_sequence
+> > >>> imx415_mode_4_891[] =3D {> >>>=20
+> > >>>  	{ IMX415_TLPX, 0x002F },
+> > >>> =20
+> > >>>  };
+> > >>>=20
+> > >>> +/* all-pixel 4-lane 1440 Mbps 30.01 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_4_1440_30fps[] =
+=3D {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x042A },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
+> > >>> +	{ IMX415_TCLKPOST, 0x009F },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x0057 },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x0057 },
+> > >>> +	{ IMX415_TCLKZERO, 0x0187 },
+> > >>> +	{ IMX415_THSPREPARE, 0x005F },
+> > >>> +	{ IMX415_THSZERO, 0x00A7 },
+> > >>> +	{ IMX415_THSTRAIL, 0x005F },
+> > >>> +	{ IMX415_THSEXIT, 0x0097 },
+> > >>> +	{ IMX415_TLPX, 0x004F },
+> > >>> +};
+> > >>> +
+> > >>> +/* all-pixel 4-lane 1440 Mbps 60.03 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_4_1440_60fps[] =
+=3D {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x0215 },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
+> > >>> +	{ IMX415_TCLKPOST, 0x009F },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x0057 },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x0057 },
+> > >>> +	{ IMX415_TCLKZERO, 0x0187 },
+> > >>> +	{ IMX415_THSPREPARE, 0x005F },
+> > >>> +	{ IMX415_THSZERO, 0x00A7 },
+> > >>> +	{ IMX415_THSTRAIL, 0x005F },
+> > >>> +	{ IMX415_THSEXIT, 0x0097 },
+> > >>> +	{ IMX415_TLPX, 0x004F },
+> > >>> +};
+> > >>> +
+> > >>> +/* all-pixel 4-lane 1485 Mbps 60 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_4_1485[] =3D {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x0226 },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
+> > >>> +	{ IMX415_TCLKPOST, 0x00A7 },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x0057 },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x005F },
+> > >>> +	{ IMX415_TCLKZERO, 0x0197 },
+> > >>> +	{ IMX415_THSPREPARE, 0x005F },
+> > >>> +	{ IMX415_THSZERO, 0x00AF },
+> > >>> +	{ IMX415_THSTRAIL, 0x005F },
+> > >>> +	{ IMX415_THSEXIT, 0x009F },
+> > >>> +	{ IMX415_TLPX, 0x004F },
+> > >>> +};
+> > >>> +
+> > >>> +/* all-pixel 4-lane 1782 Mbps 60 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_4_1782[] =3D {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x0226 },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
+> > >>> +	{ IMX415_TCLKPOST, 0x00B7 },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x0067 },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x006F },
+> > >>> +	{ IMX415_TCLKZERO, 0x01DF },
+> > >>> +	{ IMX415_THSPREPARE, 0x006F },
+> > >>> +	{ IMX415_THSZERO, 0x00CF },
+> > >>> +	{ IMX415_THSTRAIL, 0x006F },
+> > >>> +	{ IMX415_THSEXIT, 0x00B7 },
+> > >>> +	{ IMX415_TLPX, 0x005F },
+> > >>> +};
+> > >>> +
+> > >>> +/* all-pixel 4-lane 2079 Mbps 60 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_4_2079[] =3D {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x0226 },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
+> > >>> +	{ IMX415_TCLKPOST, 0x00D7 },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x007F },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x007F },
+> > >>> +	{ IMX415_TCLKZERO, 0x0237 },
+> > >>> +	{ IMX415_THSPREPARE, 0x0087 },
+> > >>> +	{ IMX415_THSZERO, 0x00EF },
+> > >>> +	{ IMX415_THSTRAIL, 0x0087 },
+> > >>> +	{ IMX415_THSEXIT, 0x00DF },
+> > >>> +	{ IMX415_TLPX, 0x006F },
+> > >>> +};
+> > >>> +
+> > >>> +/* all-pixel 4-lane 2376 Mbps 60 Hz mode */
+> > >>> +static const struct cci_reg_sequence imx415_mode_4_2376[] =3D {
+> > >>> +	{ IMX415_VMAX, 0x08CA },
+> > >>> +	{ IMX415_HMAX, 0x016E },
+> > >>> +	{ IMX415_LANEMODE, IMX415_LANEMODE_4 },
+> > >>> +	{ IMX415_TCLKPOST, 0x00E7 },
+> > >>> +	{ IMX415_TCLKPREPARE, 0x008F },
+> > >>> +	{ IMX415_TCLKTRAIL, 0x008F },
+> > >>> +	{ IMX415_TCLKZERO, 0x027F },
+> > >>> +	{ IMX415_THSPREPARE, 0x0097 },
+> > >>> +	{ IMX415_THSZERO, 0x010F },
+> > >>> +	{ IMX415_THSTRAIL, 0x0097 },
+> > >>> +	{ IMX415_THSEXIT, 0x00F7 },
+> > >>> +	{ IMX415_TLPX, 0x007F },
+> > >>> +};
+> > >>> +
+> > >>>=20
+> > >>>  struct imx415_mode_reg_list {
+> > >>> =20
+> > >>>  	u32 num_of_regs;
+> > >>>  	const struct cci_reg_sequence *regs;
+> > >>>=20
+> > >>> @@ -536,6 +760,26 @@ struct imx415_mode {
+> > >>>=20
+> > >>>  /* mode configs */
+> > >>>  static const struct imx415_mode supported_modes[] =3D {
+> > >>>=20
+> > >>> +	{
+> > >>> +		.lane_rate =3D 594000000,
+> > >>> +		.lanes =3D 2,
+> > >>> +		.hmax_pix =3D 4400,
+> > >>> +		.pixel_rate =3D 99000000,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_2_594),
+> > >>> +			.regs =3D imx415_mode_2_594,
+> > >>> +		},
+> > >>> +	},
+> > >>> +	{
+> > >>> +		.lane_rate =3D 891000000,
+> > >>> +		.lanes =3D 2,
+> > >>> +		.hmax_pix =3D 4400,
+> > >>> +		.pixel_rate =3D 148500000,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_2_891),
+> > >>> +			.regs =3D imx415_mode_2_891,
+> > >>> +		},
+> > >>> +	},
+> > >>>=20
+> > >>>  	{
+> > >>>  =09
+> > >>>  		.lane_rate =3D 720000000,
+> > >>>  		.lanes =3D 2,
+> > >>>=20
+> > >>> @@ -547,6 +791,24 @@ static const struct imx415_mode supported_mode=
+s[]
+> > >>> =3D {
+> > >>>=20
+> > >>>  		},
+> > >>>  =09
+> > >>>  	},
+> > >>>  	{
+> > >>>=20
+> > >>> +		.lane_rate =3D 1782000000,
+> > >>> +		.lanes =3D 2,
+> > >>> +		.hmax_pix =3D 4400,
+> > >>> +		.pixel_rate =3D 297000000,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_2_1782),
+> > >>> +			.regs =3D imx415_mode_2_1782,
+> > >>> +		},
+> > >>> +	},	{
+> > >>> +		.lane_rate =3D 2079000000,
+> > >>> +		.lanes =3D 2,
+> > >>> +		.hmax_pix =3D 4400,
+> > >>> +		.pixel_rate =3D 304615385,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_2_2079),
+> > >>> +			.regs =3D imx415_mode_2_2079,
+> > >>> +		},
+> > >>> +	},	{
+> > >>>=20
+> > >>>  		.lane_rate =3D 1440000000,
+> > >>>  		.lanes =3D 2,
+> > >>>  		.hmax_pix =3D 4510,
+> > >>>=20
+> > >>> @@ -556,6 +818,46 @@ static const struct imx415_mode supported_mode=
+s[]
+> > >>> =3D {
+> > >>>=20
+> > >>>  			.regs =3D imx415_mode_2_1440,
+> > >>>  	=09
+> > >>>  		},
+> > >>>  =09
+> > >>>  	},
+> > >>>=20
+> > >>> +	{
+> > >>> +		.lane_rate =3D 594000000,
+> > >>> +		.lanes =3D 4,
+> > >>> +		.hmax_pix =3D 5500,
+> > >>> +		.pixel_rate =3D 247500000,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D=20
+ARRAY_SIZE(imx415_mode_4_594_20fps),
+> > >>> +			.regs =3D imx415_mode_4_594_20fps,
+> > >>> +		},
+> > >>> +	},
+> > >>> +	{
+> > >>> +		.lane_rate =3D 594000000,
+> > >>> +		.lanes =3D 4,
+> > >>=20
+> > >> The mode is selected from the number of data lanes and the lane rate.
+> > >> They're the same as the previous entry, so this entry will never be
+> > >> selected. Same below.
+> > >=20
+> > > I noticed that as well. The datasheet lists different FPS for the same
+> > > link
+> > > frequency / lane combination, only HMAX being different. Right now
+> > > HMAX/VMAX is fixed, so is FPS.
+> > > I am aware there is no way to select between these modes, but I added
+> > > them for completeness.
+> >=20
+> > I'd prefer to only add common and tested modes. We have to keep in mind
+> > that in future we may want to add more features as 12 bit support or
+> > HDR. Adding all modes could make this more complex.
+>=20
+> More than that, it would also be good to start computing parameters
+> dynamically instead of adding lots of hardcoded values. The
+> IMX415_LANEMODE register value in the cci_reg_sequence arrays is a
+> low-hanging fruit, the register can be programmed from the number of
+> lanes. The CSI-2 timings would also benefit from being computed
+> dynamically based on the lane rate. Dynamic calculation of the HMAX and
+> VMAX values to achieve a particular default frame rate should be
+> possible too, but more importantly, they should be configurable from
+> userspace too.
 
-diff --git a/arch/arm64/boot/dts/tesla/fsd.dtsi b/arch/arm64/boot/dts/tesla/fsd.dtsi
-index bb50a9f7db4a..f421012b0a4a 100644
---- a/arch/arm64/boot/dts/tesla/fsd.dtsi
-+++ b/arch/arm64/boot/dts/tesla/fsd.dtsi
-@@ -342,6 +342,18 @@
- 		#clock-cells = <0>;
- 	};
- 
-+	reserved-memory {
-+		#address-cells = <2>;
-+		#size-cells = <2>;
-+		ranges;
-+
-+		mfc_left: region@84000000 {
-+			compatible = "shared-dma-pool";
-+			no-map;
-+			reg = <0 0x84000000 0 0x8000000>;
-+		};
-+	};
-+
- 	soc: soc@0 {
- 		compatible = "simple-bus";
- 		#address-cells = <2>;
-@@ -956,6 +968,15 @@
- 			clock-names = "fin_pll", "mct";
- 		};
- 
-+		mfc: mfc@12880000 {
-+			compatible = "tesla,fsd-mfc";
-+			reg = <0x0 0x12880000 0x0 0x10000>;
-+			interrupts = <GIC_SPI 137 IRQ_TYPE_LEVEL_HIGH>;
-+			clock-names = "mfc";
-+			clocks = <&clock_mfc MFC_MFC_IPCLKPORT_ACLK>;
-+			memory-region = <&mfc_left>;
-+		};
-+
- 		ufs: ufs@15120000 {
- 			compatible = "tesla,fsd-ufs";
- 			reg = <0x0 0x15120000 0x0 0x200>,  /* 0: HCI standard */
--- 
-2.17.1
+=46ine by me. But I don't know when I will be able to do that.
+Nevertheless patches 1 & 2 can be applied meanwhile, if there are no commen=
+ts
+
+Best regards,
+Alexander
+
+>=20
+> > >>> +		.hmax_pix =3D 4400,
+> > >>> +		.pixel_rate =3D 247500000,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D=20
+ARRAY_SIZE(imx415_mode_4_594_25fps),
+> > >>> +			.regs =3D imx415_mode_4_594_25fps,
+> > >>> +		},
+> > >>> +	},
+> > >>> +	{
+> > >>> +		.lane_rate =3D 720000000,
+> > >>> +		.lanes =3D 4,
+> > >>> +		.hmax_pix =3D 4400,
+> > >>> +		.pixel_rate =3D 247500000,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D=20
+ARRAY_SIZE(imx415_mode_4_720_25fps),
+> > >>> +			.regs =3D imx415_mode_4_720_25fps,
+> > >>> +		},
+> > >>> +	},
+> > >>> +	{
+> > >>> +		.lane_rate =3D 720000000,
+> > >>> +		.lanes =3D 4,
+> > >>> +		.hmax_pix =3D 4510,
+> > >>> +		.pixel_rate =3D 304615385,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D=20
+ARRAY_SIZE(imx415_mode_4_720_30fps),
+> > >>> +			.regs =3D imx415_mode_4_720_30fps,
+> > >>> +		},
+> > >>> +	},
+> > >>>=20
+> > >>>  	{
+> > >>>  =09
+> > >>>  		.lane_rate =3D 891000000,
+> > >>>  		.lanes =3D 4,
+> > >>>=20
+> > >>> @@ -566,6 +868,66 @@ static const struct imx415_mode supported_mode=
+s[]
+> > >>> =3D {
+> > >>>=20
+> > >>>  			.regs =3D imx415_mode_4_891,
+> > >>>  	=09
+> > >>>  		},
+> > >>>  =09
+> > >>>  	},
+> > >>>=20
+> > >>> +	{
+> > >>> +		.lane_rate =3D 1440000000,
+> > >>> +		.lanes =3D 4,
+> > >>> +		.hmax_pix =3D 4510,
+> > >>> +		.pixel_rate =3D 304615385,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D=20
+ARRAY_SIZE(imx415_mode_4_1440_30fps),
+> > >>> +			.regs =3D imx415_mode_4_1440_30fps,
+> > >>> +		},
+> > >>> +	},
+> > >>> +	{
+> > >>> +		.lane_rate =3D 1440000000,
+> > >>> +		.lanes =3D 4,
+> > >>> +		.hmax_pix =3D 4510,
+> > >>> +		.pixel_rate =3D 609230769,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D=20
+ARRAY_SIZE(imx415_mode_4_1440_60fps),
+> > >>> +			.regs =3D imx415_mode_4_1440_60fps,
+> > >>> +		},
+> > >>> +	},
+> > >>> +	{
+> > >>> +		.lane_rate =3D 1485000000,
+> > >>> +		.lanes =3D 4,
+> > >>> +		.hmax_pix =3D 4400,
+> > >>> +		.pixel_rate =3D 594000000,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_4_1485),
+> > >>> +			.regs =3D imx415_mode_4_1485,
+> > >>> +		},
+> > >>> +	},
+> > >>> +	{
+> > >>> +		.lane_rate =3D 1782000000,
+> > >>> +		.lanes =3D 4,
+> > >>> +		.hmax_pix =3D 4400,
+> > >>> +		.pixel_rate =3D 594000000,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_4_1782),
+> > >>> +			.regs =3D imx415_mode_4_1782,
+> > >>> +		},
+> > >>> +	},
+> > >>> +	{
+> > >>> +		.lane_rate =3D 2079000000,
+> > >>> +		.lanes =3D 4,
+> > >>> +		.hmax_pix =3D 4400,
+> > >>> +		.pixel_rate =3D 594000000,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_4_2079),
+> > >>> +			.regs =3D imx415_mode_4_2079,
+> > >>> +		},
+> > >>> +	},
+> > >>> +	{
+> > >>> +		.lane_rate =3D 12376000000,
+> > >>> +		.lanes =3D 4,
+> > >>> +		.hmax_pix =3D 4392,
+> > >>> +		.pixel_rate =3D 891000000,
+> > >>> +		.reg_list =3D {
+> > >>> +			.num_of_regs =3D ARRAY_SIZE(imx415_mode_4_2376),
+> > >>> +			.regs =3D imx415_mode_4_2376,
+> > >>> +		},
+> > >>> +	},
+> > >>>=20
+> > >>>  };
+> > >>> =20
+> > >>>  static const char *const imx415_test_pattern_menu[] =3D {
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
 
