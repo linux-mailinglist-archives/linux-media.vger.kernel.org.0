@@ -1,92 +1,82 @@
-Return-Path: <linux-media+bounces-1735-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1736-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12D76806BA0
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 11:14:52 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EF310806BC2
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 11:19:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 739EAB20EC4
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 10:14:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 920511F2157E
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 10:19:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EA7E2D056;
-	Wed,  6 Dec 2023 10:14:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15D3D2D797;
+	Wed,  6 Dec 2023 10:19:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mb3yFTUz"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Ge3ih24j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3998710FB
-	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 02:14:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701857668; x=1733393668;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=G3IiAxEh20D9ZEZG3Zv9lXXsElK7pqNxC1UpsKtKhMg=;
-  b=mb3yFTUz2PobDvplW3aeGkoD5BO1h+z37Qq6nU/XsBDPDosDB4/GbPGT
-   bOqtDmRj+C/w7YgB3O30kCRa+jrUyMDNv8L47kUUijZg/w+nW/t51cIW5
-   8M6Z2/aCVJUDIwjgM7GqF1eYskDNl3u92IqfYYr6x5/639b5qLxaul55o
-   veCv+4mZZkmZ1f55PK8nGDZK84nTKnQYCgayuTIs2A7p18RmsqHnL6UFd
-   DKlR5K9bWRJ2Z5xkA2xGv77i8O5lq9LRm4nJfizQ3yuyt/wPzYXG0siJi
-   Quk02EXEEkSqvcEojK+fVWLedSz07TW2+EcIhc8UyMzimH5k2O06DcGn9
-   Q==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="924441"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="924441"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 02:14:26 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10915"; a="944603742"
-X-IronPort-AV: E=Sophos;i="6.04,254,1695711600"; 
-   d="scan'208";a="944603742"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Dec 2023 02:14:24 -0800
-Received: from punajuuri.localdomain (punajuuri.localdomain [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 6ECE911F995
-	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 12:14:21 +0200 (EET)
-Received: from sailus by punajuuri.localdomain with local (Exim 4.96)
-	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1rAous-003g8B-1m
-	for linux-media@vger.kernel.org;
-	Wed, 06 Dec 2023 12:14:06 +0200
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Subject: [PATCH 1/1] media: ccs: Select V4L2_CCI_I2C
-Date: Wed,  6 Dec 2023 12:13:56 +0200
-Message-Id: <20231206101356.876927-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33FAF109;
+	Wed,  6 Dec 2023 02:19:37 -0800 (PST)
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id E879B6607326;
+	Wed,  6 Dec 2023 10:19:34 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701857975;
+	bh=IovYJ01Jivwam/qxWADM1HZ4UJMjvtHVmaPsaZqxoro=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=Ge3ih24jaH9Ox/URbczBLz2DRMrZfkSWyobDWXa7+PBzEUH+zpDgasWrLMUcfbvEh
+	 h8tLwHEsOaQwlpVUWSj1AhstZRO8M17dTwROBWz0kfnZ8AU+oxIC+NUDb5visZyE03
+	 NTslxdBQkMfXjXEe7rbrY0EsI6BfKxdg6+/4wJSc7zOH5G41z4C5CW6FkbhM9JR7Wp
+	 tAQVenJg98xI841kHPBZJW2YvYSzK8HZhMFcme/UIS2GFO7laGznCkZsl7OWECq7WM
+	 Q1EyFeH1N7G15Ua6YS6oFaMkPzYUZcn1r3JJUdRlcrzqXnsk1WBGcyce5I875U32ka
+	 0shhZLA2THLkg==
+Message-ID: <449b9678-e3c2-4410-ac80-c50a1a25cc06@collabora.com>
+Date: Wed, 6 Dec 2023 11:19:32 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] media: mediatek: vcodec: Drop VA check against
+ mtk_vcodec_mem_free()
+Content-Language: en-US
+To: Fei Shao <fshao@chromium.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>, Irui Wang
+ <irui.wang@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ =?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>,
+ Tiffany Lin <tiffany.lin@mediatek.com>,
+ Xiaoyong Lu <xiaoyong.lu@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+References: <20231113123049.4117280-1-fshao@chromium.org>
+ <20231113123049.4117280-5-fshao@chromium.org>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20231113123049.4117280-5-fshao@chromium.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Select V4L2_CCI_I2C Kconfig option which the CCS driver now depends on.
+Il 13/11/23 13:26, Fei Shao ha scritto:
+> Now mtk_vcodec_mem_free() handles the VA-is-NULL case without generating
+> excess error log, so we don't need to check that every time before using
+> it in the driver.
+> 
+> Remove all the unnecessary if branches against mtk_vcodec_mem_free().
+> 
+> Signed-off-by: Fei Shao <fshao@chromium.org>
 
-Fixes: b72f6809088c ("media: ccs: Use V4L2 CCI for accessing sensor registers")
-Reported-by: kernel test robot <lkp@intel.com>
-Closes: https://lore.kernel.org/oe-kbuild-all/202312060941.CYiHppAp-lkp@intel.com/
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/i2c/ccs/Kconfig | 1 +
- 1 file changed, 1 insertion(+)
+For the reasons explained in patch [3/4], I'd prefer to keep those checks.
 
-diff --git a/drivers/media/i2c/ccs/Kconfig b/drivers/media/i2c/ccs/Kconfig
-index b55c93a2e204..710a729ae42d 100644
---- a/drivers/media/i2c/ccs/Kconfig
-+++ b/drivers/media/i2c/ccs/Kconfig
-@@ -2,6 +2,7 @@
- config VIDEO_CCS
- 	tristate "MIPI CCS/SMIA++/SMIA sensor support"
- 	depends on HAVE_CLK
-+	select V4L2_CCI_I2C
- 	select VIDEO_CCS_PLL
- 	help
- 	  This is a generic driver for MIPI CCS, SMIA++ and SMIA compliant
--- 
-2.39.2
-
+Cheers,
+Angelo
 
