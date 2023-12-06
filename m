@@ -1,265 +1,500 @@
-Return-Path: <linux-media+bounces-1742-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1743-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92555806C12
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 11:36:35 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC028806C71
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 11:46:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C424C1C209E0
-	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 10:36:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 588901F2113E
+	for <lists+linux-media@lfdr.de>; Wed,  6 Dec 2023 10:46:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97EA32DF91;
-	Wed,  6 Dec 2023 10:36:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DFrKtgoT"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F53B3032F;
+	Wed,  6 Dec 2023 10:46:10 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-xc34.google.com (mail-oo1-xc34.google.com [IPv6:2607:f8b0:4864:20::c34])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6393137;
-	Wed,  6 Dec 2023 02:36:27 -0800 (PST)
-Received: by mail-oo1-xc34.google.com with SMTP id 006d021491bc7-58d5979c676so4210258eaf.1;
-        Wed, 06 Dec 2023 02:36:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1701858987; x=1702463787; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GSHguhdYXTBvbS9uaUvEUspYNKYDJXD8tRJJNaYtm/4=;
-        b=DFrKtgoTssqiNxW2xH5rTZQmfY3nRBSyW02+5tZEM7FcNAreaT3fRgNoyRh10AOa4m
-         N6VcjBzYdBTnHKKta396F3qSbYfxRRtgtMDXRkR8n4vQ4yPkKgyxUnJ2Eiqsxcxwsymr
-         fx8qeYqYRnrKga36f8LcWzN0PzzRlgu8p/EA8dyE1CWdhOdNNVXRRAkwdBKoJAiEz+5l
-         B2ORaQN9Mlunl7CUfZDxHdWw0uQBc3gnrAixV9kD1deZb9YiQXtzieVm5miHUWBznZMa
-         lkjlfv9Jm98w0z+u2LvQ8BQLQ+Rn+nJRVirGq9nt9gvuVaD1PImzAU16dvRhY8x9sPXZ
-         WctA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701858987; x=1702463787;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=GSHguhdYXTBvbS9uaUvEUspYNKYDJXD8tRJJNaYtm/4=;
-        b=kmYkzGTQKnCXRCnDd/5G3e6RyAD8PpcD4G4Ur5EpEkEiOC7E9Xz0M/cxOeZmsR5N/4
-         H5tNm2YJTEmOQfg2VcbYrROCLlD0y+bkilrcNGsl80Vj6aikraegqRiC314ccvOGX4S+
-         WhsrF+/8vSn+9lH+SrLu5XDq5Ya7KZEzz5Os8Y8UR+gbi4b6gbcN+alXtMCuAjQQI/9a
-         ZQfxJhanDxLl9xbswaBHQlytpafmOmDnzhSwdvIfOt/89IooqsiihuucAj7vrStTpSta
-         bLXN6D+8yDppKG8ZoyLnnAQ1yA3Qdf9sjt1bEWBhrJWgHoFfCQ3wl1/hK0sHjUf2KmpY
-         4cpw==
-X-Gm-Message-State: AOJu0YzL81lVu9jtWLQh9GVw/AYvdkizFxTcO37Iv9OO3D8jTGqP1Iib
-	DPI97KCEJsZAXhlYHe+YXw7SDezI6Th0V1n1kR0=
-X-Google-Smtp-Source: AGHT+IEOZ+MLiRmb/S6EqV/xSpTjmcXgIZjhtYgimuOsEADFi9rhPAoRfej2QsU8ydHLGgNRSK30svnwV1AzhgNSH5s=
-X-Received: by 2002:a05:6358:3399:b0:16e:29a9:f5af with SMTP id
- i25-20020a056358339900b0016e29a9f5afmr960782rwd.27.1701858986997; Wed, 06 Dec
- 2023 02:36:26 -0800 (PST)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D525213AEA
+	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 10:46:09 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E6AAC433CD;
+	Wed,  6 Dec 2023 10:46:07 +0000 (UTC)
+Message-ID: <a44a38ed-e9fe-4a62-a376-1689a2f5f037@xs4all.nl>
+Date: Wed, 6 Dec 2023 11:46:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1700637838-6743-1-git-send-email-shengjiu.wang@nxp.com> <a318e512-393c-477d-b1db-72c75855b962@xs4all.nl>
-In-Reply-To: <a318e512-393c-477d-b1db-72c75855b962@xs4all.nl>
-From: Shengjiu Wang <shengjiu.wang@gmail.com>
-Date: Wed, 6 Dec 2023 18:36:15 +0800
-Message-ID: <CAA+D8APy4aUDgPBM0+BVmUWtHvP5g75vSMZTTzxTUASjBhY_AA@mail.gmail.com>
-Subject: Re: [PATCH v11 00/15] Add audio support in v4l2 framework
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: Shengjiu Wang <shengjiu.wang@nxp.com>, sakari.ailus@iki.fi, tfiga@chromium.org, 
-	m.szyprowski@samsung.com, mchehab@kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Xiubo.Lee@gmail.com, festevam@gmail.com, 
-	nicoleotsuka@gmail.com, lgirdwood@gmail.com, broonie@kernel.org, 
-	perex@perex.cz, tiwai@suse.com, alsa-devel@alsa-project.org, 
-	linuxppc-dev@lists.ozlabs.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/4] media: visl: Add a stable_output parameter
+Content-Language: en-US, nl
+To: Detlev Casanova <detlev.casanova@collabora.com>,
+ linux-kernel@vger.kernel.org
+Cc: linux-media@vger.kernel.org, Daniel Almeida
+ <daniel.almeida@collabora.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+References: <20231123200451.148097-1-detlev.casanova@collabora.com>
+ <20231123200451.148097-3-detlev.casanova@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20231123200451.148097-3-detlev.casanova@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, Dec 6, 2023 at 4:09=E2=80=AFPM Hans Verkuil <hverkuil@xs4all.nl> wr=
-ote:
->
-> Hi Shengjiu,
->
-> On 22/11/2023 08:23, Shengjiu Wang wrote:
-> > Audio signal processing also has the requirement for memory to
-> > memory similar as Video.
-> >
-> > This asrc memory to memory (memory ->asrc->memory) case is a non
-> > real time use case.
-> >
-> > User fills the input buffer to the asrc module, after conversion, then =
-asrc
-> > sends back the output buffer to user. So it is not a traditional ALSA p=
-layback
-> > and capture case.
-> >
-> > It is a specific use case,  there is no reference in current kernel.
-> > v4l2 memory to memory is the closed implementation,  v4l2 current
-> > support video, image, radio, tuner, touch devices, so it is not
-> > complicated to add support for this specific audio case.
-> >
-> > Because we had implemented the "memory -> asrc ->i2s device-> codec"
-> > use case in ALSA.  Now the "memory->asrc->memory" needs
-> > to reuse the code in asrc driver, so the first 3 patches is for refinin=
-g
-> > the code to make it can be shared by the "memory->asrc->memory"
-> > driver.
-> >
-> > The main change is in the v4l2 side, A /dev/vl4-audioX will be created,
-> > user applications only use the ioctl of v4l2 framework.
-> >
-> > Other change is to add memory to memory support for two kinds of i.MX A=
-SRC
-> > module.
->
-> I just wanted to let you know that this will have to be postponed until v=
-6.8.
-> I need more time to work on the v4l-utils changes, esp. for the fraction =
-bits
-> feature, and realistically that is not going to happen before my Christma=
-s
-> vacation starts.
+On 23/11/2023 20:57, Detlev Casanova wrote:
+> This parameter is used to ensure that for a given input, the output
+> frames are always identical so that it can be compared against
+> a reference in automatic tests.
+> 
+> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> ---
+>  drivers/media/test-drivers/visl/visl-core.c |   5 +
+>  drivers/media/test-drivers/visl/visl-dec.c  | 256 ++++++++++++--------
+>  drivers/media/test-drivers/visl/visl.h      |   1 +
+>  3 files changed, 166 insertions(+), 96 deletions(-)
+> 
+> diff --git a/drivers/media/test-drivers/visl/visl-core.c b/drivers/media/test-drivers/visl/visl-core.c
+> index ef89eead6671..a9c060104932 100644
+> --- a/drivers/media/test-drivers/visl/visl-core.c
+> +++ b/drivers/media/test-drivers/visl/visl-core.c
+> @@ -88,6 +88,11 @@ module_param(bitstream_trace_nframes, uint, 0444);
+>  MODULE_PARM_DESC(bitstream_trace_nframes,
+>  		 " the number of frames to dump the bitstream through debugfs");
+>  
+> +bool stable_output = true;
+> +module_param(stable_output, bool, 0644);
+> +MODULE_PARM_DESC(stable_output,
+> +		 " only write stable data for a given input on the output frames");
+> +
 
-No problem. Have a good vacation!
-Thanks.
+Seeing it like this I am still not happy with this.
 
-Best Regards
-Shengjiu Wang
->
-> Apologies for the delay.
->
->
-> Regards,
->
->         Hans
->
-> >
-> > changes in v11
-> > - add add-fixed-point-test-controls in vivid.
-> > - add v4l2_ctrl_fp_compose() helper function for min and max
-> >
-> > changes in v10
-> > - remove FIXED_POINT type
-> > - change code base on media: v4l2-ctrls: add support for fraction_bits
-> > - fix issue reported by kernel test robot
-> > - remove module_alias
-> >
-> > changes in v9:
-> > - add MEDIA_ENT_F_PROC_AUDIO_RESAMPLER.
-> > - add MEDIA_INTF_T_V4L_AUDIO
-> > - add media controller support
-> > - refine the vim2m-audio to support 8k<->16k conversion.
-> >
-> > changes in v8:
-> > - refine V4L2_CAP_AUDIO_M2M to be 0x00000008
-> > - update doc for FIXED_POINT
-> > - address comments for imx-asrc
-> >
-> > changes in v7:
-> > - add acked-by from Mark
-> > - separate commit for fixed point, m2m audio class, audio rate controls
-> > - use INTEGER_MENU for rate,  FIXED_POINT for rate offset
-> > - remove used fmts
-> > - address other comments for Hans
-> >
-> > changes in v6:
-> > - use m2m_prepare/m2m_unprepare/m2m_start/m2m_stop to replace
-> >   m2m_start_part_one/m2m_stop_part_one, m2m_start_part_two/m2m_stop_par=
-t_two.
-> > - change V4L2_CTRL_TYPE_ASRC_RATE to V4L2_CTRL_TYPE_FIXED_POINT
-> > - fix warning by kernel test rebot
-> > - remove some unused format V4L2_AUDIO_FMT_XX
-> > - Get SNDRV_PCM_FORMAT from V4L2_AUDIO_FMT in driver.
-> > - rename audm2m to viaudm2m.
-> >
-> > changes in v5:
-> > - remove V4L2_AUDIO_FMT_LPCM
-> > - define audio pixel format like V4L2_AUDIO_FMT_S8...
-> > - remove rate and format in struct v4l2_audio_format.
-> > - Add V4L2_CID_ASRC_SOURCE_RATE and V4L2_CID_ASRC_DEST_RATE controls
-> > - updata document accordingly.
-> >
-> > changes in v4:
-> > - update document style
-> > - separate V4L2_AUDIO_FMT_LPCM and V4L2_CAP_AUDIO_M2M in separate commi=
-t
-> >
-> > changes in v3:
-> > - Modify documents for adding audio m2m support
-> > - Add audio virtual m2m driver
-> > - Defined V4L2_AUDIO_FMT_LPCM format type for audio.
-> > - Defined V4L2_CAP_AUDIO_M2M capability type for audio m2m case.
-> > - with modification in v4l-utils, pass v4l2-compliance test.
-> >
-> > changes in v2:
-> > - decouple the implementation in v4l2 and ALSA
-> > - implement the memory to memory driver as a platfrom driver
-> >   and move it to driver/media
-> > - move fsl_asrc_common.h to include/sound folder
-> >
-> > Shengjiu Wang (15):
-> >   ASoC: fsl_asrc: define functions for memory to memory usage
-> >   ASoC: fsl_easrc: define functions for memory to memory usage
-> >   ASoC: fsl_asrc: move fsl_asrc_common.h to include/sound
-> >   ASoC: fsl_asrc: register m2m platform device
-> >   ASoC: fsl_easrc: register m2m platform device
-> >   media: uapi: Add V4L2_CAP_AUDIO_M2M capability flag
-> >   media: v4l2: Add audio capture and output support
-> >   media: uapi: Define audio sample format fourcc type
-> >   media: uapi: Add V4L2_CTRL_CLASS_M2M_AUDIO
-> >   media: uapi: Add audio rate controls support
-> >   media: uapi: Declare interface types for Audio
-> >   media: uapi: Add an entity type for audio resampler
-> >   media: vivid: add fixed point test controls
-> >   media: imx-asrc: Add memory to memory driver
-> >   media: vim2m-audio: add virtual driver for audio memory to memory
-> >
-> >  .../media/mediactl/media-types.rst            |   11 +
-> >  .../userspace-api/media/v4l/buffer.rst        |    6 +
-> >  .../userspace-api/media/v4l/common.rst        |    1 +
-> >  .../media/v4l/dev-audio-mem2mem.rst           |   71 +
-> >  .../userspace-api/media/v4l/devices.rst       |    1 +
-> >  .../media/v4l/ext-ctrls-audio-m2m.rst         |   41 +
-> >  .../userspace-api/media/v4l/pixfmt-audio.rst  |   87 ++
-> >  .../userspace-api/media/v4l/pixfmt.rst        |    1 +
-> >  .../media/v4l/vidioc-enum-fmt.rst             |    2 +
-> >  .../media/v4l/vidioc-g-ext-ctrls.rst          |    4 +
-> >  .../userspace-api/media/v4l/vidioc-g-fmt.rst  |    4 +
-> >  .../media/v4l/vidioc-querycap.rst             |    3 +
-> >  .../media/videodev2.h.rst.exceptions          |    3 +
-> >  .../media/common/videobuf2/videobuf2-v4l2.c   |    4 +
-> >  drivers/media/platform/nxp/Kconfig            |   13 +
-> >  drivers/media/platform/nxp/Makefile           |    1 +
-> >  drivers/media/platform/nxp/imx-asrc.c         | 1264 +++++++++++++++++
-> >  drivers/media/test-drivers/Kconfig            |   11 +
-> >  drivers/media/test-drivers/Makefile           |    1 +
-> >  drivers/media/test-drivers/vim2m-audio.c      |  799 +++++++++++
-> >  drivers/media/test-drivers/vivid/vivid-core.h |    2 +
-> >  .../media/test-drivers/vivid/vivid-ctrls.c    |   26 +
-> >  drivers/media/v4l2-core/v4l2-compat-ioctl32.c |    9 +
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |   10 +
-> >  drivers/media/v4l2-core/v4l2-dev.c            |   21 +
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          |   66 +
-> >  drivers/media/v4l2-core/v4l2-mem2mem.c        |   13 +-
-> >  include/media/v4l2-ctrls.h                    |    3 +
-> >  include/media/v4l2-dev.h                      |    2 +
-> >  include/media/v4l2-ioctl.h                    |   34 +
-> >  .../fsl =3D> include/sound}/fsl_asrc_common.h   |   60 +
-> >  include/uapi/linux/media.h                    |    2 +
-> >  include/uapi/linux/v4l2-controls.h            |    9 +
-> >  include/uapi/linux/videodev2.h                |   41 +
-> >  sound/soc/fsl/fsl_asrc.c                      |  144 ++
-> >  sound/soc/fsl/fsl_asrc.h                      |    4 +-
-> >  sound/soc/fsl/fsl_asrc_dma.c                  |    2 +-
-> >  sound/soc/fsl/fsl_easrc.c                     |  233 +++
-> >  sound/soc/fsl/fsl_easrc.h                     |    6 +-
-> >  39 files changed, 3008 insertions(+), 7 deletions(-)
-> >  create mode 100644 Documentation/userspace-api/media/v4l/dev-audio-mem=
-2mem.rst
-> >  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-aud=
-io-m2m.rst
-> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-audio.=
-rst
-> >  create mode 100644 drivers/media/platform/nxp/imx-asrc.c
-> >  create mode 100644 drivers/media/test-drivers/vim2m-audio.c
-> >  rename {sound/soc/fsl =3D> include/sound}/fsl_asrc_common.h (60%)
-> >
->
+So by default the data is stable (good!). But while disabling this option does
+indeed make the data unstable, the real reason why you want to do that is to get
+the addition information.
+
+So this module name is just weird.
+
+It is more a TPG info level that you provide here. Perhaps "tpg_verbose" is a better
+name?
+
+>  static const struct visl_ctrl_desc visl_fwht_ctrl_descs[] = {
+>  	{
+>  		.cfg.id = V4L2_CID_STATELESS_FWHT_PARAMS,
+> diff --git a/drivers/media/test-drivers/visl/visl-dec.c b/drivers/media/test-drivers/visl/visl-dec.c
+> index 318d675e5668..a6c878f0813a 100644
+> --- a/drivers/media/test-drivers/visl/visl-dec.c
+> +++ b/drivers/media/test-drivers/visl/visl-dec.c
+> @@ -52,11 +52,17 @@ static void visl_get_ref_frames(struct visl_ctx *ctx, u8 *buf,
+>  	case VISL_CODEC_FWHT: {
+>  		struct vb2_buffer *vb2_buf;
+>  
+> -		vb2_buf = vb2_find_buffer(cap_q, run->fwht.params->backward_ref_ts);
+> +		if (!stable_output) {
+
+That will also change this condition to 'if (tpg_verbose)' which is better then
+negating a boolean.
+
+> +			vb2_buf = vb2_find_buffer(cap_q, run->fwht.params->backward_ref_ts);
+> +
+> +			scnprintf(buf, buflen, "backwards_ref_ts: %lld, vb2_idx: %d",
+> +				  run->fwht.params->backward_ref_ts,
+> +				  vb2_buf ? vb2_buf->index : -1);
+> +		} else {
+> +			scnprintf(buf, buflen, "backwards_ref_ts: %lld",
+> +				  run->fwht.params->backward_ref_ts);
+> +		}
+>  
+> -		scnprintf(buf, buflen, "backwards_ref_ts: %lld, vb2_idx: %d",
+> -			  run->fwht.params->backward_ref_ts,
+> -			  vb2_buf ? vb2_buf->index : -1);
+>  		break;
+>  	}
+>  
+> @@ -64,16 +70,25 @@ static void visl_get_ref_frames(struct visl_ctx *ctx, u8 *buf,
+>  		struct vb2_buffer *b_ref;
+>  		struct vb2_buffer *f_ref;
+>  
+> -		b_ref = vb2_find_buffer(cap_q, run->mpeg2.pic->backward_ref_ts);
+> -		f_ref = vb2_find_buffer(cap_q, run->mpeg2.pic->forward_ref_ts);
+> +		if (!stable_output) {
+> +			b_ref = vb2_find_buffer(cap_q, run->mpeg2.pic->backward_ref_ts);
+> +			f_ref = vb2_find_buffer(cap_q, run->mpeg2.pic->forward_ref_ts);
+> +
+> +			scnprintf(buf, buflen,
+> +				  "backward_ref_ts: %llu, vb2_idx: %d\n"
+> +				  "forward_ref_ts: %llu, vb2_idx: %d\n",
+> +				  run->mpeg2.pic->backward_ref_ts,
+> +				  b_ref ? b_ref->index : -1,
+> +				  run->mpeg2.pic->forward_ref_ts,
+> +				  f_ref ? f_ref->index : -1);
+> +		} else {
+> +			scnprintf(buf, buflen,
+> +				  "backward_ref_ts: %llu\n"
+> +				  "forward_ref_ts: %llu\n",
+> +				  run->mpeg2.pic->backward_ref_ts,
+> +				  run->mpeg2.pic->forward_ref_ts);
+>  
+> -		scnprintf(buf, buflen,
+> -			  "backward_ref_ts: %llu, vb2_idx: %d\n"
+> -			  "forward_ref_ts: %llu, vb2_idx: %d\n",
+> -			  run->mpeg2.pic->backward_ref_ts,
+> -			  b_ref ? b_ref->index : -1,
+> -			  run->mpeg2.pic->forward_ref_ts,
+> -			  f_ref ? f_ref->index : -1);
+> +		}
+
+I'm a bit unhappy about the amount of code churn here.
+
+A lot of the time it prints a timestamp + buffer index. Perhaps a small
+helper function will help:
+
+		visl_print_ts_idx(&buf, &buflen, "backward_ref_ts", ts, b_ref);
+
+That helper only prints the vb2_idx if enabled, and it can also omit it
+if the vb2_buffer pointer == NULL.
+
+>  		break;
+>  	}
+>  
+> @@ -82,20 +97,30 @@ static void visl_get_ref_frames(struct visl_ctx *ctx, u8 *buf,
+>  		struct vb2_buffer *golden;
+>  		struct vb2_buffer *alt;
+>  
+> -		last = vb2_find_buffer(cap_q, run->vp8.frame->last_frame_ts);
+> -		golden = vb2_find_buffer(cap_q, run->vp8.frame->golden_frame_ts);
+> -		alt = vb2_find_buffer(cap_q, run->vp8.frame->alt_frame_ts);
+> -
+> -		scnprintf(buf, buflen,
+> -			  "last_ref_ts: %llu, vb2_idx: %d\n"
+> -			  "golden_ref_ts: %llu, vb2_idx: %d\n"
+> -			  "alt_ref_ts: %llu, vb2_idx: %d\n",
+> -			  run->vp8.frame->last_frame_ts,
+> -			  last ? last->index : -1,
+> -			  run->vp8.frame->golden_frame_ts,
+> -			  golden ? golden->index : -1,
+> -			  run->vp8.frame->alt_frame_ts,
+> -			  alt ? alt->index : -1);
+> +		if (!stable_output) {
+> +			last = vb2_find_buffer(cap_q, run->vp8.frame->last_frame_ts);
+> +			golden = vb2_find_buffer(cap_q, run->vp8.frame->golden_frame_ts);
+> +			alt = vb2_find_buffer(cap_q, run->vp8.frame->alt_frame_ts);
+> +
+> +			scnprintf(buf, buflen,
+> +				  "last_ref_ts: %llu, vb2_idx: %d\n"
+> +				  "golden_ref_ts: %llu, vb2_idx: %d\n"
+> +				  "alt_ref_ts: %llu, vb2_idx: %d\n",
+> +				  run->vp8.frame->last_frame_ts,
+> +				  last ? last->index : -1,
+> +				  run->vp8.frame->golden_frame_ts,
+> +				  golden ? golden->index : -1,
+> +				  run->vp8.frame->alt_frame_ts,
+> +				  alt ? alt->index : -1);
+> +		} else {
+> +			scnprintf(buf, buflen,
+> +				  "last_ref_ts: %llu\n"
+> +				  "golden_ref_ts: %llu\n"
+> +				  "alt_ref_ts: %llu\n",
+> +				  run->vp8.frame->last_frame_ts,
+> +				  run->vp8.frame->golden_frame_ts,
+> +				  run->vp8.frame->alt_frame_ts);
+> +		}
+>  		break;
+>  	}
+>  
+> @@ -104,32 +129,49 @@ static void visl_get_ref_frames(struct visl_ctx *ctx, u8 *buf,
+>  		struct vb2_buffer *golden;
+>  		struct vb2_buffer *alt;
+>  
+> -		last = vb2_find_buffer(cap_q, run->vp9.frame->last_frame_ts);
+> -		golden = vb2_find_buffer(cap_q, run->vp9.frame->golden_frame_ts);
+> -		alt = vb2_find_buffer(cap_q, run->vp9.frame->alt_frame_ts);
+> -
+> -		scnprintf(buf, buflen,
+> -			  "last_ref_ts: %llu, vb2_idx: %d\n"
+> -			  "golden_ref_ts: %llu, vb2_idx: %d\n"
+> -			  "alt_ref_ts: %llu, vb2_idx: %d\n",
+> -			  run->vp9.frame->last_frame_ts,
+> -			  last ? last->index : -1,
+> -			  run->vp9.frame->golden_frame_ts,
+> -			  golden ? golden->index : -1,
+> -			  run->vp9.frame->alt_frame_ts,
+> -			  alt ? alt->index : -1);
+> +		if (!stable_output) {
+> +			last = vb2_find_buffer(cap_q, run->vp9.frame->last_frame_ts);
+> +			golden = vb2_find_buffer(cap_q, run->vp9.frame->golden_frame_ts);
+> +			alt = vb2_find_buffer(cap_q, run->vp9.frame->alt_frame_ts);
+> +
+> +			scnprintf(buf, buflen,
+> +				  "last_ref_ts: %llu, vb2_idx: %d\n"
+> +				  "golden_ref_ts: %llu, vb2_idx: %d\n"
+> +				  "alt_ref_ts: %llu, vb2_idx: %d\n",
+> +				  run->vp9.frame->last_frame_ts,
+> +				  last ? last->index : -1,
+> +				  run->vp9.frame->golden_frame_ts,
+> +				  golden ? golden->index : -1,
+> +				  run->vp9.frame->alt_frame_ts,
+> +				  alt ? alt->index : -1);
+> +		} else {
+> +			scnprintf(buf, buflen,
+> +				  "last_ref_ts: %llu\n"
+> +				  "golden_ref_ts: %llu\n"
+> +				  "alt_ref_ts: %llu\n",
+> +				  run->vp9.frame->last_frame_ts,
+> +				  run->vp9.frame->golden_frame_ts,
+> +				  run->vp9.frame->alt_frame_ts);
+> +		}
+>  		break;
+>  	}
+>  
+>  	case VISL_CODEC_H264: {
+>  		char entry[] = "dpb[%d]:%u, vb2_index: %d\n";
+> +		char entry_stable[] = "dpb[%d]:%u\n";
+>  		struct vb2_buffer *vb2_buf;
+>  
+>  		for (i = 0; i < ARRAY_SIZE(run->h264.dpram->dpb); i++) {
+> -			vb2_buf = vb2_find_buffer(cap_q, run->h264.dpram->dpb[i].reference_ts);
+> -			len = scnprintf(buf, buflen, entry, i,
+> -					run->h264.dpram->dpb[i].reference_ts,
+> -					vb2_buf ? vb2_buf->index : -1);
+> +			if (!stable_output) {
+> +				vb2_buf = vb2_find_buffer(cap_q,
+> +							  run->h264.dpram->dpb[i].reference_ts);
+> +				len = scnprintf(buf, buflen, entry, i,
+> +						run->h264.dpram->dpb[i].reference_ts,
+> +						vb2_buf ? vb2_buf->index : -1);
+> +			} else {
+> +				len = scnprintf(buf, buflen, entry_stable, i,
+> +						run->h264.dpram->dpb[i].reference_ts);
+> +			}
+>  			buf += len;
+>  			buflen -= len;
+>  		}
+> @@ -139,13 +181,20 @@ static void visl_get_ref_frames(struct visl_ctx *ctx, u8 *buf,
+>  
+>  	case VISL_CODEC_HEVC: {
+>  		char entry[] = "dpb[%d]:%u, vb2_index: %d\n";
+> +		char entry_stable[] = "dpb[%d]:%u\n";
+>  		struct vb2_buffer *vb2_buf;
+>  
+>  		for (i = 0; i < ARRAY_SIZE(run->hevc.dpram->dpb); i++) {
+> -			vb2_buf = vb2_find_buffer(cap_q, run->hevc.dpram->dpb[i].timestamp);
+> -			len = scnprintf(buf, buflen, entry, i,
+> -					run->hevc.dpram->dpb[i].timestamp,
+> -					vb2_buf ? vb2_buf->index : -1);
+> +			if (!stable_output) {
+> +				vb2_buf = vb2_find_buffer(cap_q, run->hevc.dpram->dpb[i].timestamp);
+> +				len = scnprintf(buf, buflen, entry, i,
+> +						run->hevc.dpram->dpb[i].timestamp,
+> +						vb2_buf ? vb2_buf->index : -1);
+> +			} else {
+> +				len = scnprintf(buf, buflen, entry_stable, i,
+> +						run->hevc.dpram->dpb[i].timestamp);
+> +			}
+> +
+>  			buf += len;
+>  			buflen -= len;
+>  		}
+> @@ -197,19 +246,30 @@ static void visl_tpg_fill_sequence(struct visl_ctx *ctx,
+>  {
+>  	u32 stream_ms;
+>  
+> -	stream_ms = jiffies_to_msecs(get_jiffies_64() - ctx->capture_streamon_jiffies);
+> -
+> -	scnprintf(buf, bufsz,
+> -		  "stream time: %02d:%02d:%02d:%03d sequence:%u timestamp:%lld field:%s",
+> -		  (stream_ms / (60 * 60 * 1000)) % 24,
+> -		  (stream_ms / (60 * 1000)) % 60,
+> -		  (stream_ms / 1000) % 60,
+> -		  stream_ms % 1000,
+> -		  run->dst->sequence,
+> -		  run->dst->vb2_buf.timestamp,
+> -		  (run->dst->field == V4L2_FIELD_ALTERNATE) ?
+> -		  (run->dst->field == V4L2_FIELD_TOP ?
+> -		  " top" : " bottom") : "none");
+> +	if (!stable_output) {
+> +		stream_ms = jiffies_to_msecs(get_jiffies_64() - ctx->capture_streamon_jiffies);
+> +
+> +		scnprintf(buf, bufsz,
+> +			  "stream time: %02d:%02d:%02d:%03d sequence:%u timestamp:%lld field:%s",
+> +			  (stream_ms / (60 * 60 * 1000)) % 24,
+> +			  (stream_ms / (60 * 1000)) % 60,
+> +			  (stream_ms / 1000) % 60,
+> +			  stream_ms % 1000,
+
+The only difference here is the stream time, so just do that in a separate
+scnprintf if tpg_verbose is set.
+
+> +			  run->dst->sequence,
+> +			  run->dst->vb2_buf.timestamp,
+> +			  (run->dst->field == V4L2_FIELD_ALTERNATE) ?
+> +			  (run->dst->field == V4L2_FIELD_TOP ?
+> +			  " top" : " bottom") : "none");
+> +	} else {
+> +		scnprintf(buf, bufsz,
+> +			  "sequence:%u timestamp:%lld field:%s",
+> +			  run->dst->sequence,
+> +			  run->dst->vb2_buf.timestamp,
+> +			  (run->dst->field == V4L2_FIELD_ALTERNATE) ?
+> +			  (run->dst->field == V4L2_FIELD_TOP ?
+> +			  " top" : " bottom") : "none");
+> +
+> +	}
+>  }
+>  
+>  static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+> @@ -280,28 +340,30 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+>  		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+>  	}
+>  
+> -	line++;
+> -	frame_dprintk(ctx->dev, run->dst->sequence, "");
+> -	scnprintf(buf, TPG_STR_BUF_SZ, "Output queue status:");
+> -	tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, buf);
+> -	frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+> +	if (!stable_output) {
+> +		line++;
+> +		frame_dprintk(ctx->dev, run->dst->sequence, "");
+> +		scnprintf(buf, TPG_STR_BUF_SZ, "Output queue status:");
+> +		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, buf);
+> +		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+>  
+> -	len = 0;
+> -	for (i = 0; i < out_q->num_buffers; i++) {
+> -		char entry[] = "index: %u, state: %s, request_fd: %d, ";
+> -		u32 old_len = len;
+> -		char *q_status = visl_get_vb2_state(out_q->bufs[i]->state);
+> +		len = 0;
+> +		for (i = 0; i < out_q->num_buffers; i++) {
+> +			char entry[] = "index: %u, state: %s, request_fd: %d, ";
+> +			u32 old_len = len;
+> +			char *q_status = visl_get_vb2_state(out_q->bufs[i]->state);
+>  
+> -		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+> -				 entry, i, q_status,
+> -				 to_vb2_v4l2_buffer(out_q->bufs[i])->request_fd);
+> +			len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+> +					 entry, i, q_status,
+> +					 to_vb2_v4l2_buffer(out_q->bufs[i])->request_fd);
+>  
+> -		len += visl_fill_bytesused(to_vb2_v4l2_buffer(out_q->bufs[i]),
+> -					   &buf[len],
+> -					   TPG_STR_BUF_SZ - len);
+> +			len += visl_fill_bytesused(to_vb2_v4l2_buffer(out_q->bufs[i]),
+> +						   &buf[len],
+> +						   TPG_STR_BUF_SZ - len);
+>  
+> -		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
+> -		frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
+> +			tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
+> +			frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
+> +		}
+>  	}
+>  
+>  	line++;
+> @@ -333,25 +395,27 @@ static void visl_tpg_fill(struct visl_ctx *ctx, struct visl_run *run)
+>  		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+>  	}
+>  
+> -	line++;
+> -	frame_dprintk(ctx->dev, run->dst->sequence, "");
+> -	scnprintf(buf, TPG_STR_BUF_SZ, "Capture queue status:");
+> -	tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, buf);
+> -	frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+> +	if (!stable_output) {
+> +		line++;
+> +		frame_dprintk(ctx->dev, run->dst->sequence, "");
+> +		scnprintf(buf, TPG_STR_BUF_SZ, "Capture queue status:");
+> +		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, buf);
+> +		frame_dprintk(ctx->dev, run->dst->sequence, "%s\n", buf);
+>  
+> -	len = 0;
+> -	for (i = 0; i < cap_q->num_buffers; i++) {
+> -		u32 old_len = len;
+> -		char *q_status = visl_get_vb2_state(cap_q->bufs[i]->state);
+> +		len = 0;
+> +		for (i = 0; i < cap_q->num_buffers; i++) {
+> +			u32 old_len = len;
+> +			char *q_status = visl_get_vb2_state(cap_q->bufs[i]->state);
+>  
+> -		len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+> -				 "index: %u, status: %s, timestamp: %llu, is_held: %d",
+> -				 cap_q->bufs[i]->index, q_status,
+> -				 cap_q->bufs[i]->timestamp,
+> -				 to_vb2_v4l2_buffer(cap_q->bufs[i])->is_held);
+> +			len += scnprintf(&buf[len], TPG_STR_BUF_SZ - len,
+> +					 "index: %u, status: %s, timestamp: %llu, is_held: %d",
+> +					 cap_q->bufs[i]->index, q_status,
+> +					 cap_q->bufs[i]->timestamp,
+> +					 to_vb2_v4l2_buffer(cap_q->bufs[i])->is_held);
+>  
+> -		tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
+> -		frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
+> +			tpg_gen_text(&ctx->tpg, basep, line++ * line_height, 16, &buf[old_len]);
+> +			frame_dprintk(ctx->dev, run->dst->sequence, "%s", &buf[old_len]);
+> +		}
+>  	}
+>  }
+>  
+> diff --git a/drivers/media/test-drivers/visl/visl.h b/drivers/media/test-drivers/visl/visl.h
+> index 31639f2e593d..5a81b493f121 100644
+> --- a/drivers/media/test-drivers/visl/visl.h
+> +++ b/drivers/media/test-drivers/visl/visl.h
+> @@ -85,6 +85,7 @@ extern unsigned int visl_dprintk_nframes;
+>  extern bool keep_bitstream_buffers;
+>  extern int bitstream_trace_frame_start;
+>  extern unsigned int bitstream_trace_nframes;
+> +extern bool stable_output;
+>  
+>  #define frame_dprintk(dev, current, fmt, arg...) \
+>  	do { \
+
+Regards,
+
+	Hans
 
