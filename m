@@ -1,107 +1,139 @@
-Return-Path: <linux-media+bounces-1782-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1783-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 455FE807EF4
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 03:49:39 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1139808013
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 06:20:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E4D591F21A53
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 02:49:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E7D971C20AC8
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 05:20:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F124D1868;
-	Thu,  7 Dec 2023 02:49:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9DB510A06;
+	Thu,  7 Dec 2023 05:20:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="omfW4h7Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFB91841
-	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 02:49:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E038EC433C7
-	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 02:49:29 +0000 (UTC)
-Date: Thu, 07 Dec 2023 03:49:27 +0100
-Message-ID: <68e2ff26a9acadc093a411fbd19badfa.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE887D44;
+	Wed,  6 Dec 2023 21:20:32 -0800 (PST)
+X-UUID: 550ae12494c011eea5db2bebc7c28f94-20231207
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=5m/cIwP+brAek9B1DG5tmgUso+IIGyZtwTuV1i3LYJA=;
+	b=omfW4h7QxT70qel36iU4Wihvk0oPsejyJNTVhFP7Cc+Qc+YAKlW6a/Iv6N5FP3JlJCqk4B2GLdma5yLaJvS0jykKqZc6POiZb12iamUKJmgYrP/yiTX8qUrwowOb20Cb6gs2/sV9I3bXtKUEqjTARLNAb9ppcuQoS4YyxzqyAwU=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35,REQID:be150ecd-027b-4031-be6a-0f047f74b19a,IP:0,U
+	RL:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTIO
+	N:release,TS:-25
+X-CID-META: VersionHash:5d391d7,CLOUDID:0c8562fd-4a48-46e2-b946-12f04f20af8c,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+	DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-UUID: 550ae12494c011eea5db2bebc7c28f94-20231207
+Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
+	(envelope-from <zhi.mao@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1328425573; Thu, 07 Dec 2023 13:20:27 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Thu, 7 Dec 2023 13:20:25 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Thu, 7 Dec 2023 13:20:24 +0800
+From: Zhi Mao <zhi.mao@mediatek.com>
+To: <mchehab@kernel.org>, <robh+dt@kernel.org>,
+	<krzysztof.kozlowski+dt@linaro.org>
+CC: <shengnan.wang@mediatek.com>, <yaya.chang@mediatek.com>,
+	<10572168@qq.com>, <Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<yunkec@chromium.org>, <conor+dt@kernel.org>, <matthias.bgg@gmail.com>,
+	<angelogioacchino.delregno@collabora.com>, <jacopo.mondi@ideasonboard.com>,
+	<sakari.ailus@linux.intel.com>, <zhi.mao@mediatek.com>,
+	<hverkuil-cisco@xs4all.nl>, <heiko@sntech.de>, <jernej.skrabec@gmail.com>,
+	<macromorgan@hotmail.com>, <linus.walleij@linaro.org>,
+	<laurent.pinchart@ideasonboard.com>, <hdegoede@redhat.com>,
+	<tomi.valkeinen@ideasonboard.com>, <gerald.loacker@wolfvision.net>,
+	<andy.shevchenko@gmail.com>, <bingbu.cao@intel.com>,
+	<dan.scally@ideasonboard.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
+Subject: [PATCH v2 0/2] media: i2c: Add support for GC08A3 sensor 
+Date: Thu, 7 Dec 2023 13:20:14 +0800
+Message-ID: <20231207052016.25954-1-zhi.mao@mediatek.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--11.953300-8.000000
+X-TMASE-MatchedRID: 44Hc/KaCvIQtlu2PjaXfUW3NvezwBrVmQPCPzycuBFOl4EP+dy+wBAwF
+	qajp21ReNJCQfPeJOQovXSnelSgBMJlIfdN/LTrGdE/dhjO8a+RqYquCrLrVwhHfiujuTbedduS
+	l0OECBiYax6DXJKFg8UH+8sLaZoS5D0VXqQ1iI8djVtAwIy+afu+aBTJJYa54DFK34uTYNp9DTK
+	YgguDfmv85PXnIyicNzNny9LCRSYPNwJnbTIxiVe7KTDtx8CggKhNpTcvbdUKbKItl61J/yZ+in
+	TK0bC9eKrauXd3MZDVG0JUmJbystNn10BTO+noGPJvW94tofC0ats+ZN43x2ecHhVDiw4YD
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--11.953300-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	ACC8CC612608CD163EB92DB6552FA7018104EB61AB51DBB62DC05E34EAF8B6202000:8
+X-MTK: N
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+This series adds YAML DT binding and V4L2 sub-device driver for Galaxycore's
+GC08A3 8-megapixel 10-bit RAW CMOS 1/4" sensor, with an MIPI CSI-2 image data
+interface and the I2C control bus.
 
-Results of the daily build of media_tree:
+The driver is implemented with V4L2 framework.
+ - Async registered as a V4L2 sub-device.
+ - As the first component of camera system including Seninf, ISP pipeline.
+ - A media entity that provides one source pad in common.
+ - Used in camera features on ChromeOS application.
 
-date:			Thu Dec  7 03:00:07 CET 2023
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	bec3db03911bd85da29c1c8ee556162153002c9a
-v4l-utils git hash:	b22a2838ca31ea066f8bbc4561c3a602bd274441
-edid-decode git hash:	08b5ddb2ed529e1e0bbfa8d6f1af836712bac327
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8526-gd4827317
-sparse version:		v0.5.0-8526-gd4827317
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 7f2b6a17d7e96bd3784acdf5a85be8574a31b358
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+Also this driver supports following features:
+ - manual exposure and analog gain control support
+ - vertical blanking control support
+ - test pattern support
+ - media controller support
+ - runtime PM support
+ - support resolution: 3264x2448@30fps, 1920x1080@60fps
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+Previous versions of this patch-set can be found here:
+ v1: https://lore.kernel.org/linux-media/20231123115104.32094-1-zhi.mao@mediatek.com/
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+Changes of v2 mainly address comments from Krzysztof/Rob Herring&Conor Dooley.
+Compared to v1:
+  - Fix some review comments  
+  - Add reviewed-by for sensor driver
+  - Fix some build-error and warning message 
+ 
+Thanks
 
-smatch: WARNINGS:
 
-drivers/media/i2c/adv7180.c:1518 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1518.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+Zhi Mao (2):
+  media: i2c: Add GC08A3 image sensor driver
+  media: dt-bindings: media: i2c: Document GC08A3 bindings
 
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
+ .../bindings/media/i2c/galaxycore,gc08a3.yaml |  127 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ drivers/media/i2c/Kconfig                     |   14 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/gc08a3.c                    | 1888 +++++++++++++++++
+ 5 files changed, 2032 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
+ create mode 100644 drivers/media/i2c/gc08a3.c
 
-date:			Thu Dec  7 03:19:36 CET 2023
-virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 4
-virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 4
+-- 
+2.25.1
 
-date:			Thu Dec  7 03:48:15 CET 2023
 
-Detailed results are available here:
 
-https://hverkuil.home.xs4all.nl/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Thursday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
 
