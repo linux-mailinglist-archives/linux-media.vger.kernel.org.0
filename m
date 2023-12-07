@@ -1,54 +1,69 @@
-Return-Path: <linux-media+bounces-1901-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1902-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C076A80902A
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 19:41:15 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EDD6809107
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 20:08:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A462281DC6
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 18:41:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A3941F211E0
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 19:08:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFC734E608;
-	Thu,  7 Dec 2023 18:41:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA5614F5F9;
+	Thu,  7 Dec 2023 19:08:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="K22n2qR2"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="Pv9IcVlH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56D46171F;
-	Thu,  7 Dec 2023 10:41:08 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 731886601F0A;
-	Thu,  7 Dec 2023 18:41:05 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1701974466;
-	bh=WcT7DiTTNQxZhHjWft90cTmZ9KR+kldp0Vqu91bJDwg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=K22n2qR2PEZXpMPa0J1s535f4oylKH2qEDoXEc912HbKGwA0JRiyJwoAGS8WRVv/m
-	 cOZ02Gw8sW0UKZz4mPJFUpYM+orhr+J4sriwvAdQTZyctYc2R6rmyVu1QbQfGDgpAR
-	 NxKIZf60oC0yPrjdbA8tF4AzAXR9D6/utFylQD1SC7Bwff4o1NMD0vr+gMRm7lQQXf
-	 bn7kAjFRsPDBcnkgb/rCGeEhv2kfI93LQR2/IgtZhNTKaqqfOrbYuLtwdrIYPoEcJE
-	 zksYO95i08ihxbUUbDsNsgbwu1V9LpD6FFOZuPgNs/rBH/Zpa0ljCFIDdsay+/Tv2b
-	 yN4Tw1eWyVo+g==
-Message-ID: <64d946710b3f3e14bfeb3fa95db01a99e244f264.camel@collabora.com>
-Subject: Re: [PATCH] Fix memory leaks in wave5_vpu_open_enc() and
- wave5_vpu_open_dec()
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Robert Beckett <bob.beckett@collabora.com>, Zeng Chi
- <zengchi@kylinos.cn>,  nas.chung@chipsnmedia.com,
- jackson.lee@chipsnmedia.com, mchehab@kernel.org, 
- sebastian.fricke@collabora.com, hverkuil-cisco@xs4all.nl
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Thu, 07 Dec 2023 13:40:56 -0500
-In-Reply-To: <e891ae21-2b3a-4d99-9f5c-fb387438ffef@collabora.com>
-References: <20231204091649.3418987-1-zengchi@kylinos.cn>
-	 <a4c47b282d9e3bc5c2891ac1b9cafb9c9970975c.camel@collabora.com>
-	 <e891ae21-2b3a-4d99-9f5c-fb387438ffef@collabora.com>
+Received: from mail-oi1-x230.google.com (mail-oi1-x230.google.com [IPv6:2607:f8b0:4864:20::230])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D626A9
+	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 11:08:29 -0800 (PST)
+Received: by mail-oi1-x230.google.com with SMTP id 5614622812f47-3b9db318839so841198b6e.3
+        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 11:08:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1701976109; x=1702580909; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=n8OWS2EF/jxgGIxX7cfSGEDjvCH+3JHnn1iapS5BEtE=;
+        b=Pv9IcVlHfdK9pDYkLUhP3PBrcbdsbR3yPC/C1/+sc33u3YTBBHITNJOd8Oz0501b7/
+         rx2TaHztpC0NOwpf0z3Yk7pbU905opt1KKhtZE7qJr2760BiwF15RN/fIMMgnESzHjh4
+         bcYeMDgdILbqzjEervxU1+5Hvy74g7hd9iMd+/fDwpX7TwanSdMifIh5gNrG9LmvSYqh
+         Cdk5xq1IFSzMvInQxFo8Q4ukGbZFkelHM7HCY8S9fhXXREKgoef20nXxfaQfBv0m0jz5
+         YKqqEV2spc9NLseUoMKXX9yJKwpI2IQ2l0/vxWTJucbK6KKiMOaXz9HZQLZu7J69eiYJ
+         QjsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701976109; x=1702580909;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=n8OWS2EF/jxgGIxX7cfSGEDjvCH+3JHnn1iapS5BEtE=;
+        b=Up14N6os7ONOptHNqD256lg/hgxsODPuHBs1SZGq7daJLBlnHyiCXMDVJh9485FoUm
+         zj/KxXdArDe1Wf82WdQBXCRG+VtwIY0QDAW8QsQCqFKoyiNV69HxKNcvhKBsSuNPCyHr
+         umUTX/6AFZF/NtDuXQ4nlXvPkPmKnGHmqRhlRVCUOQoVJIP68knS6JXwHkSyvRlnpnij
+         9INu1NsxwzWav1zCoSHRyuw2KPUMxcXsaFhArmyXzuF1q/Qpp+qva3OEsr8AFoMJJzPQ
+         jmz83CEhURn5ISysev9QzluA2sduS9yr+Flr2ygY3lpShbjnDpNknpEZQfzjXJiTxIQC
+         P/NQ==
+X-Gm-Message-State: AOJu0YxfZLhFNSZfSluiC+i/CL0pZAGHwouoFLKUBfJF69MJf5RjpPbm
+	sQqKDeaPQcRNXz69jJHxNZuPuQ==
+X-Google-Smtp-Source: AGHT+IHmlEBqMLi8p7ZsVgEMreur2OTNgRYwmLDFd4yoPSVmqEsKGnS9sX3SRUQEzGPFuG0+Bp2AOQ==
+X-Received: by 2002:a05:6808:148b:b0:3b9:e475:d5e1 with SMTP id e11-20020a056808148b00b003b9e475d5e1mr957229oiw.9.1701976108782;
+        Thu, 07 Dec 2023 11:08:28 -0800 (PST)
+Received: from nicolas-tpx395.localdomain ([2606:6d00:17:b5c::7a9])
+        by smtp.gmail.com with ESMTPSA id ot20-20020a05620a819400b0077d5d1461aesm118361qkn.31.2023.12.07.11.08.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 07 Dec 2023 11:08:28 -0800 (PST)
+Message-ID: <81903c6258fe21696775a290e338cc2042a7ff64.camel@ndufresne.ca>
+Subject: Re: [PATCH] media: chips-media: wave5: remove duplicate check
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Dan Carpenter <dan.carpenter@linaro.org>, Nas Chung
+	 <nas.chung@chipsnmedia.com>
+Cc: Jackson Lee <jackson.lee@chipsnmedia.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org,  kernel-janitors@vger.kernel.org
+Date: Thu, 07 Dec 2023 14:08:26 -0500
+In-Reply-To: <9bdce1f1-b2f0-4b11-9dfd-16ca7048281b@moroto.mountain>
+References: <9bdce1f1-b2f0-4b11-9dfd-16ca7048281b@moroto.mountain>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -59,87 +74,34 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Le mardi 05 d=C3=A9cembre 2023 =C3=A0 17:36 +0000, Robert Beckett a =C3=A9c=
-rit=C2=A0:
-> On 04/12/2023 13:55, Nicolas Dufresne wrote:
-> > Hi,
-> >=20
-> > Le lundi 04 d=C3=A9cembre 2023 =C3=A0 17:16 +0800, Zeng Chi a =C3=A9cri=
-t=C2=A0:
-> > > This patch fixes memory leaks on error escapes in wave5_vpu_open_enc(=
-)
-> > > and wave5_vpu_open_dec().
-> > Please avoid sending twice the same patch. This is still a NAK.
+Le mardi 28 novembre 2023 =C3=A0 17:39 +0300, Dan Carpenter a =C3=A9crit=C2=
+=A0:
+> We already verified that "ret" is zero a few lines earlier.  Delete this
+> duplicate check.
 >=20
-> tbf, this is a different patch, concerning the allocation of the=20
-> codec_info within inst, not inst itself.
+> Signed-off-by: Dan Carpenter <dan.carpenter@linaro.org>
 
-I've stopped after reading an identical subject line. I can apology for not
-noticing the difference, but I think an effort from the submitter could
-certainly help in the future.
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
-Nicolas
-
+> ---
+>  drivers/media/platform/chips-media/wave5/wave5-hw.c | 3 ---
+>  1 file changed, 3 deletions(-)
 >=20
-> > regards,
-> > Nicolas
-> >=20
-> > > Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
-> > > Signed-off-by: Zeng Chi<zengchi@kylinos.cn>
-> > > ---
-> > >   drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 5 +++--
-> > >   drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 5 +++--
-> > >   2 files changed, 6 insertions(+), 4 deletions(-)
-> > >=20
-> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c=
- b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > > index 8b1417ece96e..b0a045346bb7 100644
-> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
-> > > @@ -1802,9 +1802,10 @@ static int wave5_vpu_open_dec(struct file *fil=
-p)
-> > >   	spin_lock_init(&inst->state_spinlock);
-> > >  =20
-> > >   	inst->codec_info =3D kzalloc(sizeof(*inst->codec_info), GFP_KERNEL=
-);
-> > > -	if (!inst->codec_info)
-> > > +	if (!inst->codec_info) {
-> > > +		kfree(inst);
->=20
-> for consistency, would be better to jump to cleanup_inst.
->=20
-> Also, maybe consider embedding codec_info=C2=A0 in to struct vpu_instance=
- to=20
-> avoid the double alloc. I've not checked whether this is viable=20
-> throughout the code, but from a quick scan of the original patch, it=20
-> looks like it is always allocated and freed alongside inst.
->=20
-> > >   		return -ENOMEM;
-> > > -
-> > > +	}
-> > >   	v4l2_fh_init(&inst->v4l2_fh, vdev);
-> > >   	filp->private_data =3D &inst->v4l2_fh;
-> > >   	v4l2_fh_add(&inst->v4l2_fh);
-> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c=
- b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > > index f29cfa3af94a..bc94de9ea546 100644
-> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-> > > @@ -1546,9 +1546,10 @@ static int wave5_vpu_open_enc(struct file *fil=
-p)
-> > >   	inst->ops =3D &wave5_vpu_enc_inst_ops;
-> > >  =20
-> > >   	inst->codec_info =3D kzalloc(sizeof(*inst->codec_info), GFP_KERNEL=
-);
-> > > -	if (!inst->codec_info)
-> > > +	if (!inst->codec_info) {
-> > > +		kfree(inst);
-> > >   		return -ENOMEM;
-> > > -
-> > > +	}
-> > >   	v4l2_fh_init(&inst->v4l2_fh, vdev);
-> > >   	filp->private_data =3D &inst->v4l2_fh;
-> > >   	v4l2_fh_add(&inst->v4l2_fh);
->=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-hw.c b/driver=
+s/media/platform/chips-media/wave5/wave5-hw.c
+> index 3fcb2d92add8..f1e022fb148e 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-hw.c
+> @@ -578,9 +578,6 @@ int wave5_vpu_dec_init_seq(struct vpu_instance *inst)
+>  	dev_dbg(inst->dev->dev, "%s: init seq sent (queue %u : %u)\n", __func__=
+,
+>  		p_dec_info->instance_queue_count, p_dec_info->report_queue_count);
+> =20
+> -	if (ret)
+> -		return ret;
+> -
+>  	return 0;
+>  }
+> =20
 
 
