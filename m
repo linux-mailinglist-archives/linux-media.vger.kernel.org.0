@@ -1,42 +1,41 @@
-Return-Path: <linux-media+bounces-1838-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1839-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id F179580883D
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 13:46:18 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BEC180884B
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 13:48:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AD3BF283AF8
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 12:46:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CB4E51C20B27
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 12:48:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4DBF3D0B9;
-	Thu,  7 Dec 2023 12:46:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 991073D0BD;
+	Thu,  7 Dec 2023 12:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pu8kSXqe"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="StZhzpdt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76DD2199E
-	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 04:46:07 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43A2B11F
+	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 04:48:39 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E8AC4669;
-	Thu,  7 Dec 2023 13:45:24 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D7425669;
+	Thu,  7 Dec 2023 13:47:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701953125;
-	bh=9TbJnZjreG5K89SZUo6x3bQEnOlCb4wIWrGa3uGlZ40=;
+	s=mail; t=1701953275;
+	bh=0lm+bxEMOVWRTtH1ivBF2nfxPkTMJTSRMcFVUWaBwYo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pu8kSXqeLCDAHZf/wVXYKPwI+k7tzn9YN3GjcioSZe8JylCn2d8QD+kGS0i/DwZyB
-	 KSXv+zNOeOz1BHqI30tm3soda6SCR+LrHI6Kh1q+i26FiwDlOhv8XwXto1hjzlES8O
-	 w/r9O6E+xSb6OWtQmWPU+udwyGz2pruCh8XqOxl4=
-Date: Thu, 7 Dec 2023 14:46:12 +0200
+	b=StZhzpdtvaddJRBKAgblB1BVpXjzYs80m8ugeEn/fJq7dVu0pMx+VJmmElQgDafNM
+	 ebCyBdHK6UfULBMPzppXD+hBDLwE4YlDcP7cTNtj+oobXokP07eAsI2a8lTJDRjtlP
+	 fiu5bFAjE4eqO7gvvQa/UMtfN7+FPvFiX2OOMis0=
+Date: Thu, 7 Dec 2023 14:48:42 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
 	hverkuil@xs4all.nl
-Subject: Re: [PATCH 6/6] media: ov9640: Don't set format in sub-device state
-Message-ID: <20231207124612.GH9675@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 0/6] Old non-MC-aware drivers have no sub-device state
+Message-ID: <20231207124842.GI9675@pendragon.ideasonboard.com>
 References: <20231207120912.270716-1-sakari.ailus@linux.intel.com>
- <20231207120912.270716-7-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -45,40 +44,50 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231207120912.270716-7-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231207120912.270716-1-sakari.ailus@linux.intel.com>
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Thu, Dec 07, 2023 at 02:09:12PM +0200, Sakari Ailus wrote:
-> For the purpose of setting old non-pad based sub-device try format as a
-> basis for VIDIOC_TRY_FMT implementation, there is no need to set the
-> format in the sub-device state. Drop the assignment to the state, which
-> would result in a NULL pointer dereference.
+On Thu, Dec 07, 2023 at 02:09:06PM +0200, Sakari Ailus wrote:
+> Hi folks,
 > 
-> Fixes: fd17e3a9a788 ("media: i2c: Use accessors for pad config 'try_*' fields")
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-> ---
->  drivers/media/i2c/ov9640.c | 2 --
->  1 file changed, 2 deletions(-)
+> This set replaces the earlier attempt to fix non-MC-aware sub-device
+> drivers that still use the set_fmt and similar sub-device ops. These
+> drivers have been converted from the olf set_fmt etc. video ops.
 > 
-> diff --git a/drivers/media/i2c/ov9640.c b/drivers/media/i2c/ov9640.c
-> index b0c171fe75bc..e9a52a8a9dc0 100644
-> --- a/drivers/media/i2c/ov9640.c
-> +++ b/drivers/media/i2c/ov9640.c
-> @@ -547,8 +547,6 @@ static int ov9640_set_fmt(struct v4l2_subdev *sd,
->  	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
->  		return ov9640_s_fmt(sd, mf);
->  
-> -	*v4l2_subdev_state_get_format(sd_state, 0) = *mf;
-> -
->  	return 0;
->  }
->  
+> The issue here is that the caller does not initialise the full sub-device
+> state so the sd field of struct v4l2_subdev_state is NULL, leading
+> currently to NULL pointer dereference, even if the code compiles. This was
+> not the case before commit fd17e3a9a7886ec949ce269a396b67875b51ff45 .
+> 
+> Even then, there's no need to access the sub-device state as the format
+> (or selection rectangle) won't be stored for a longer period of time: the
+> caller (saa7134 driver) simply uses the original configuration to obtain
+> the changed value.
+
+Just a note that he caller for the other subdev drivers, renesas-ceu,
+does exactly the same thing, so the same fix is applicable.
+
+> This patchset does not address similar issues in the ov6650 driver.
+
+The driver is not used in mainline anymore. It was merged for an old
+OMAP1 device that has been dropped from the kernel.
+
+I wonder if we should start moving some sensor drivers to staging...
+
+> Sakari Ailus (6):
+>   media: saa6752hs: Don't set format in sub-device state
+>   media: adv7183: Don't set format in sub-device state
+>   media: mt9t112: Don't set format in sub-device state
+>   media: rj54n1cb0c: Don't set format in sub-device state
+>   media: tw9910: Don't set format in sub-device state
+>   media: ov9640: Don't set format in sub-device state
+> 
+>  drivers/media/i2c/adv7183.c    | 2 --
+>  drivers/media/i2c/mt9t112.c    | 1 -
+>  drivers/media/i2c/ov9640.c     | 2 --
+>  drivers/media/i2c/rj54n1cb0c.c | 4 +---
+>  drivers/media/i2c/saa6752hs.c  | 4 +---
+>  drivers/media/i2c/tw9910.c     | 2 --
+>  6 files changed, 2 insertions(+), 13 deletions(-)
 
 -- 
 Regards,
