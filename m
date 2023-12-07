@@ -1,239 +1,267 @@
-Return-Path: <linux-media+bounces-1896-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1897-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6780808CBC
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 16:52:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB40E808DB2
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 17:43:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id ED1541F211AA
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 15:52:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62B60281DBD
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 16:43:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 413A6481CB;
-	Thu,  7 Dec 2023 15:51:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AA2C46BB5;
+	Thu,  7 Dec 2023 16:43:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qJnwixC2"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sensoray.com header.i=@sensoray.com header.b="FM7m3+5x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E87B46455;
-	Thu,  7 Dec 2023 15:51:36 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E59BBC433B7;
-	Thu,  7 Dec 2023 15:51:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701964296;
-	bh=jFJZOzfWjLZ2zEQYriox+hHfpbIA1hm9BhGPRAYICP0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qJnwixC22mN0QRYeLzQTecoFl+cSMNUKGFxUfsVGWodi3RAFZ4/IGhuPpZsieVPMY
-	 /cLipfBzSXTIESycxXbE3ULJigOpq1MHBskPrdqCL8okkPTG8Ekbzo5ttv+91UILxP
-	 WZT7YabW4Q8tTBdh42WArwkqMK/DIHBq3JZhlwK0EaE9k3ARPJGUWXkF6WtEh4OvZG
-	 fIr2bKtMtd3hVrFL6+EPz/nIq9KEM2Kg7b8k/WW8dwA8pSj2/Eq/pNbisgxf2AUiuu
-	 VTHywRgIxOETmXhFqAFe2ZOZiYYEHq4NgVhoIMn6HpQboPLu1DRTzEEG5U+RWG9jxS
-	 OvctKrrpTNXcw==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 07 Dec 2023 16:50:07 +0100
-Subject: [PATCH v5 44/44] drm/sun4i: hdmi: Switch to HDMI connector
+Received: from omta035.useast.a.cloudfilter.net (omta035.useast.a.cloudfilter.net [44.202.169.34])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EB7E10DD
+	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 08:43:01 -0800 (PST)
+Received: from eig-obgw-6002a.ext.cloudfilter.net ([10.0.30.222])
+	by cmsmtp with ESMTPS
+	id B1TZrfemugpyEBHSnrnOSV; Thu, 07 Dec 2023 16:43:01 +0000
+Received: from gator3086.hostgator.com ([50.87.144.121])
+	by cmsmtp with ESMTPS
+	id BHSmrbBI0M0U2BHSmrY6Rx; Thu, 07 Dec 2023 16:43:00 +0000
+X-Authority-Analysis: v=2.4 cv=BuKOfKb5 c=1 sm=1 tr=0 ts=6571f614
+ a=qMXOcmIMY6YlrKEg1GzxDg==:117 a=QsTHvn2EeHXCImuSLmd++Q==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=kj9zAlcOel0A:10 a=e2cXIFwxEfEA:10 a=6kiSLZGAxYIA:10 a=wXneSEFuAAAA:8
+ a=FnjLlJzlEcOYaycGDHYA:9 a=CjuIK1q_8ugA:10 a=YVKGGmaMxpnpCiYzuRtG:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sensoray.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=VcuKYZDYDb4yvJucFOc9jvnQSIg9iflSkppsed4rbcI=; b=FM7m3+5xCwvoeagyLVppmd8QRR
+	BkAttDQknfMcMI+M+iHW7qxvpQklavnhIrvwdL9STwWNDgB36A+lP/VcoCwZOMd0rLak3DJjQA9GP
+	3VjkKEc+g6qz90IgdkIWdcAWeTK2oqkQucNBdMEd3Eift4bcEBKGZ+FAIKiATMhKspPE=;
+Received: from gator3086.hostgator.com ([50.87.144.121]:28242)
+	by gator3086.hostgator.com with esmtpa (Exim 4.95)
+	(envelope-from <dean@sensoray.com>)
+	id 1rBHSl-003hNX-V5;
+	Thu, 07 Dec 2023 10:42:59 -0600
+Received: from mail.thomaswright.com ([50.126.89.90])
+ by www.sensoray.com
+ with HTTP (HTTP/1.1 POST); Thu, 07 Dec 2023 10:42:59 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Date: Thu, 07 Dec 2023 10:42:59 -0600
+From: dean@sensoray.com
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: usb: s2255: device-id custom V4L2_CID
+In-Reply-To: <479c1d97-6df6-4a97-9542-c8819bd03d27@xs4all.nl>
+References: <20231122194838.13285-1-dean@sensoray.com>
+ <479c1d97-6df6-4a97-9542-c8819bd03d27@xs4all.nl>
+User-Agent: Roundcube Webmail/1.4.12
+Message-ID: <f01afbf675616f174b75a30746a18d35@sensoray.com>
+X-Sender: dean@sensoray.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231207-kms-hdmi-connector-state-v5-44-6538e19d634d@kernel.org>
-References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
-In-Reply-To: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Daniel Vetter <daniel@ffwll.ch>, Emma Anholt <emma@anholt.net>, 
- Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
- =?utf-8?q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
- Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
- Samuel Holland <samuel@sholland.org>
-Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org, 
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6185; i=mripard@kernel.org;
- h=from:subject:message-id; bh=jFJZOzfWjLZ2zEQYriox+hHfpbIA1hm9BhGPRAYICP0=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmFL9sTlu+9fK3r9Wcmec8LgdGXEhV2HmkRfWZYwn39p
- 67lhAiHjlIWBjEuBlkxRZYYYfMlcadmve5k45sHM4eVCWQIAxenAEwkbSEjw/8Lr5fq3itau553
- z4JLWh+Orlt/V0rlllfs1sk5B+fGxG5j+J+56GebVUG77GyRsqrC7ydOLK4o/VDswh869c4Baf+
- 3rxkA
-X-Developer-Key: i=mripard@kernel.org; a=openpgp;
- fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator3086.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - sensoray.com
+X-BWhitelist: no
+X-Source-IP: 50.87.144.121
+X-Source-L: Yes
+X-Exim-ID: 1rBHSl-003hNX-V5
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: gator3086.hostgator.com [50.87.144.121]:28242
+X-Source-Auth: dean@sensoray.com
+X-Email-Count: 10
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: c2Vuc29yYXk7c2Vuc29yYXk7Z2F0b3IzMDg2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfAxulU4gQmfifNkH580NIJ2rYaK9+NWp8AHk7aFHl9WIZucu5JeFyeWnnvVl8SP+ujOQAtepdGcAYOKusoglY9jtVTIJwiPINt+N6w9n8V/2uq77iNoq
+ 2gSpyUl/ftujESyWjNQ04TC3swHWStRE6JavHVHmNTaGELPKZTRmwQpeX7n8gQWznRLcHZP5I2MBFy2wyhef3doCKRurMS8fp7I=
 
-The new HDMI connector infrastructure allows to remove some boilerplate,
-especially to generate infoframes. Let's switch to it.
+> Also run the patch through 'checkpatch.pl --strict'.
 
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c | 80 ++++++++++++++++++++++------------
- 1 file changed, 51 insertions(+), 29 deletions(-)
+Thanks for the feedback. I missed the --strict for checkpatch. Perhaps 
+it should be the default setting?
 
-diff --git a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-index b7cf369b1906..8a9106a39f23 100644
---- a/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-+++ b/drivers/gpu/drm/sun4i/sun4i_hdmi_enc.c
-@@ -36,30 +36,24 @@
- #define drm_connector_to_sun4i_hdmi(c)		\
- 	container_of_const(c, struct sun4i_hdmi, connector)
- 
--static int sun4i_hdmi_setup_avi_infoframes(struct sun4i_hdmi *hdmi,
--					   struct drm_display_mode *mode)
-+static int sun4i_hdmi_write_infoframe(struct drm_connector *connector,
-+				      enum hdmi_infoframe_type type,
-+				      const u8 *buffer, size_t len)
- {
--	struct hdmi_avi_infoframe frame;
--	u8 buffer[17];
--	int i, ret;
-+	struct sun4i_hdmi *hdmi = drm_connector_to_sun4i_hdmi(connector);
-+	int i;
- 
--	ret = drm_hdmi_avi_infoframe_from_display_mode(&frame,
--						       &hdmi->connector, mode);
--	if (ret < 0) {
--		DRM_ERROR("Failed to get infoframes from mode\n");
--		return ret;
-+	if (type != HDMI_INFOFRAME_TYPE_AVI) {
-+		drm_err(connector->dev,
-+			"Unsupported infoframe type: %u\n", type);
-+		return 0;
- 	}
- 
--	ret = hdmi_avi_infoframe_pack(&frame, buffer, sizeof(buffer));
--	if (ret < 0) {
--		DRM_ERROR("Failed to pack infoframes\n");
--		return ret;
--	}
--
--	for (i = 0; i < sizeof(buffer); i++)
-+	for (i = 0; i < len; i++)
- 		writeb(buffer[i], hdmi->base + SUN4I_HDMI_AVI_INFOFRAME_REG(i));
- 
- 	return 0;
-+
- }
- 
- static void sun4i_hdmi_disable(struct drm_encoder *encoder,
-@@ -82,14 +76,18 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- {
- 	struct drm_display_mode *mode = &encoder->crtc->state->adjusted_mode;
- 	struct sun4i_hdmi *hdmi = drm_encoder_to_sun4i_hdmi(encoder);
--	struct drm_display_info *display = &hdmi->connector.display_info;
-+	struct drm_connector *connector = &hdmi->connector;
-+	struct drm_display_info *display = &connector->display_info;
-+	struct drm_connector_state *conn_state =
-+		drm_atomic_get_new_connector_state(state, connector);
-+	unsigned long long tmds_rate = conn_state->hdmi.tmds_char_rate;
- 	unsigned int x, y;
- 	u32 val = 0;
- 
- 	DRM_DEBUG_DRIVER("Enabling the HDMI Output\n");
- 
--	clk_set_rate(hdmi->mod_clk, mode->crtc_clock * 1000);
--	clk_set_rate(hdmi->tmds_clk, mode->crtc_clock * 1000);
-+	clk_set_rate(hdmi->mod_clk, tmds_rate);
-+	clk_set_rate(hdmi->tmds_clk, tmds_rate);
- 
- 	/* Set input sync enable */
- 	writel(SUN4I_HDMI_UNKNOWN_INPUT_SYNC,
-@@ -142,7 +140,8 @@ static void sun4i_hdmi_enable(struct drm_encoder *encoder,
- 
- 	clk_prepare_enable(hdmi->tmds_clk);
- 
--	sun4i_hdmi_setup_avi_infoframes(hdmi, mode);
-+	drm_atomic_helper_connector_hdmi_update_infoframes(connector, state);
-+
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(0, SUN4I_HDMI_PKT_AVI);
- 	val |= SUN4I_HDMI_PKT_CTRL_TYPE(1, SUN4I_HDMI_PKT_END);
- 	writel(val, hdmi->base + SUN4I_HDMI_PKT_CTRL_REG(0));
-@@ -195,7 +194,7 @@ static int sun4i_hdmi_connector_atomic_check(struct drm_connector *connector,
- 	enum drm_mode_status status;
- 
- 	status = sun4i_hdmi_connector_clock_valid(connector, mode,
--						  mode->clock * 1000);
-+						  conn_state->hdmi.tmds_char_rate);
- 	if (status != MODE_OK)
- 		return -EINVAL;
- 
-@@ -206,8 +205,11 @@ static enum drm_mode_status
- sun4i_hdmi_connector_mode_valid(struct drm_connector *connector,
- 				struct drm_display_mode *mode)
- {
--	return sun4i_hdmi_connector_clock_valid(connector, mode,
--						mode->clock * 1000);
-+	unsigned long long rate =
-+		drm_connector_hdmi_compute_mode_clock(mode, 8,
-+						      HDMI_COLORSPACE_RGB);
-+
-+	return sun4i_hdmi_connector_clock_valid(connector, mode, rate);
- }
- 
- static int sun4i_hdmi_get_modes(struct drm_connector *connector)
-@@ -253,6 +255,11 @@ static struct i2c_adapter *sun4i_hdmi_get_ddc(struct device *dev)
- 	return ddc;
- }
- 
-+static const struct drm_connector_hdmi_funcs sun4i_hdmi_hdmi_connector_funcs = {
-+	.tmds_char_rate_valid	= sun4i_hdmi_connector_clock_valid,
-+	.write_infoframe	= sun4i_hdmi_write_infoframe,
-+};
-+
- static const struct drm_connector_helper_funcs sun4i_hdmi_connector_helper_funcs = {
- 	.atomic_check	= sun4i_hdmi_connector_atomic_check,
- 	.mode_valid	= sun4i_hdmi_connector_mode_valid,
-@@ -274,11 +281,17 @@ sun4i_hdmi_connector_detect(struct drm_connector *connector, bool force)
- 	return connector_status_connected;
- }
- 
-+static void sun4i_hdmi_connector_reset(struct drm_connector *connector)
-+{
-+	drm_atomic_helper_connector_reset(connector);
-+	__drm_atomic_helper_connector_hdmi_reset(connector, connector->state);
-+}
-+
- static const struct drm_connector_funcs sun4i_hdmi_connector_funcs = {
- 	.detect			= sun4i_hdmi_connector_detect,
- 	.fill_modes		= drm_helper_probe_single_connector_modes,
- 	.destroy		= drm_connector_cleanup,
--	.reset			= drm_atomic_helper_connector_reset,
-+	.reset			= sun4i_hdmi_connector_reset,
- 	.atomic_duplicate_state	= drm_atomic_helper_connector_duplicate_state,
- 	.atomic_destroy_state	= drm_atomic_helper_connector_destroy_state,
- };
-@@ -637,10 +650,19 @@ static int sun4i_hdmi_bind(struct device *dev, struct device *master,
- 
- 	drm_connector_helper_add(&hdmi->connector,
- 				 &sun4i_hdmi_connector_helper_funcs);
--	ret = drm_connector_init_with_ddc(drm, &hdmi->connector,
--					  &sun4i_hdmi_connector_funcs,
--					  DRM_MODE_CONNECTOR_HDMIA,
--					  hdmi->ddc_i2c);
-+	ret = drmm_connector_hdmi_init(drm, &hdmi->connector,
-+				       /*
-+					* NOTE: Those are likely to be
-+					* wrong, but I couldn't find the
-+					* actual ones in the BSP.
-+					*/
-+				       "AW", "HDMI",
-+				       &sun4i_hdmi_connector_funcs,
-+				       &sun4i_hdmi_hdmi_connector_funcs,
-+				       DRM_MODE_CONNECTOR_HDMIA,
-+				       hdmi->ddc_i2c,
-+				       BIT(HDMI_COLORSPACE_RGB),
-+				       8);
- 	if (ret) {
- 		dev_err(dev,
- 			"Couldn't initialise the HDMI connector\n");
+> One question about this comment: is the Device ID the same as a serial
+> number?
 
--- 
-2.43.0
+Yes, it's the serial number, unique to each board. I'll make the 
+revisions and re-submit.
 
+Regards,
+
+Dean
+
+
+
+
+On 2023-12-06 03:43, Hans Verkuil wrote:
+> Hi Dean,
+> 
+> Some comments below:
+> 
+> On 22/11/2023 20:48, Dean Anderson wrote:
+>> Adding V4L2 read-only control id for device id as hardware
+>> does not support embedding the device-id in the USB device 
+>> descriptors.
+>> 
+>> base-commit: 3e238417254bfdcc23fe207780b59cbb08656762
+> 
+> Just drop this line, it doesn't belong in a commit message.
+> 
+>> 
+>> Signed-off-by: Dean Anderson <dean@sensoray.com>
+>> 
+>> ---
+>>  drivers/media/usb/s2255/s2255drv.c | 49 
+>> +++++++++++++++++++++++++++++-
+>>  1 file changed, 48 insertions(+), 1 deletion(-)
+>> 
+>> diff --git a/drivers/media/usb/s2255/s2255drv.c 
+>> b/drivers/media/usb/s2255/s2255drv.c
+>> index 3c2627712fe9..c2248bbc7840 100644
+>> --- a/drivers/media/usb/s2255/s2255drv.c
+>> +++ b/drivers/media/usb/s2255/s2255drv.c
+>> @@ -40,7 +40,7 @@
+>>  #include <media/v4l2-ctrls.h>
+>>  #include <media/v4l2-event.h>
+>> 
+>> -#define S2255_VERSION		"1.25.1"
+>> +#define S2255_VERSION		"1.26.1"
+>>  #define FIRMWARE_FILE_NAME "f2255usb.bin"
+>> 
+>>  /* default JPEG quality */
+>> @@ -60,6 +60,7 @@
+>>  #define S2255_MIN_BUFS          2
+>>  #define S2255_SETMODE_TIMEOUT   500
+>>  #define S2255_VIDSTATUS_TIMEOUT 350
+>> +#define S2255_MARKER_FIRMWARE	cpu_to_le32(0xDDCCBBAAL)
+>>  #define S2255_MARKER_FRAME	cpu_to_le32(0x2255DA4AL)
+>>  #define S2255_MARKER_RESPONSE	cpu_to_le32(0x2255ACACL)
+>>  #define S2255_RESPONSE_SETMODE  cpu_to_le32(0x01)
+>> @@ -323,6 +324,7 @@ struct s2255_buffer {
+>>  #define S2255_V4L2_YC_ON  1
+>>  #define S2255_V4L2_YC_OFF 0
+>>  #define V4L2_CID_S2255_COLORFILTER (V4L2_CID_USER_S2255_BASE + 0)
+>> +#define V4L2_CID_S2255_DEVICEID (V4L2_CID_USER_S2255_BASE + 1)
+>> 
+>>  /* frame prefix size (sent once every frame) */
+>>  #define PREFIX_SIZE		512
+>> @@ -1232,6 +1234,37 @@ static int s2255_s_ctrl(struct v4l2_ctrl *ctrl)
+>>  	return 0;
+>>  }
+>> 
+>> +/* deviceid/serial number is not used in usb device descriptors.
+>> + * returns device-id/serial number from device, 0 if none found.
+> 
+> Please put the '/*' on a line by itself, that's consistent with the
+> coding style for multi-line comments.
+> 
+> Also run the patch through 'checkpatch.pl --strict'. I get several
+> warnings.
+> 
+> returns -> Returns
+> 
+> One question about this comment: is the Device ID the same as a serial
+> number? "Device ID" can mean either the ID of a device model, or a 
+> unique
+> ID for each device. If it is the latter, should it perhaps be called
+> "Device S/N" or just "Serial Number"?
+> 
+>> + */
+>> +#define S2255_DEVICEID_NONE 0
+>> +static int s2255_g_deviceid(struct s2255_dev *dev)
+>> +{
+>> +	u8 *outbuf;
+>> +	int rc;
+>> +	int deviceid = S2255_DEVICEID_NONE;
+>> +#define S2255_I2C_SIZE     16
+>> +	outbuf = kzalloc(S2255_I2C_SIZE * sizeof(u8), GFP_KERNEL);
+> 
+> Drop the "* sizeof(u8)", it serves no purpose.
+> 
+>> +	if (outbuf == NULL)
+>> +		return deviceid;
+>> +#define S2255_I2C_SNDEV    0xa2
+>> +#define S2255_I2C_SNOFFSET 0x1ff0
+>> +#define S2255_USBVENDOR_READREG 0x22
+>> +	rc = s2255_vendor_req(dev, S2255_USBVENDOR_READREG, 
+>> S2255_I2C_SNOFFSET,
+>> +			S2255_I2C_SNDEV >> 1, outbuf, S2255_I2C_SIZE, 0);
+>> +	if (rc < 0)
+>> +		goto exit_g_deviceid;
+>> +
+>> +	/* verify marker code */
+>> +	if (*(__le32 *)outbuf != S2255_MARKER_FIRMWARE)
+>> +		goto exit_g_deviceid;
+>> +
+>> +	deviceid = (outbuf[12] << 24) + (outbuf[13] << 16) + (outbuf[14] << 
+>> 8) + outbuf[15];
+>> +exit_g_deviceid:
+>> +	kfree(outbuf);
+>> +	return deviceid;
+> 
+> This is overly complicated. How about this:
+> 
+> 	/* verify marker code */
+> 	if (*(__le32 *)outbuf == S2255_MARKER_FIRMWARE)
+> 		deviceid = (outbuf[12] << 24) + (outbuf[13] << 16) + (outbuf[14] <<
+> 8) + outbuf[15];
+> 	kfree(outbuf);
+> 	return deviceid;
+> 
+>> +}
+>> +
+>>  static int vidioc_g_jpegcomp(struct file *file, void *priv,
+>>  			 struct v4l2_jpegcompression *jc)
+>>  {
+>> @@ -1581,6 +1614,17 @@ static const struct v4l2_ctrl_config 
+>> color_filter_ctrl = {
+>>  	.def = 1,
+>>  };
+>> 
+>> +static struct v4l2_ctrl_config v4l2_ctrl_deviceid = {
+>> +	.ops = &s2255_ctrl_ops,
+>> +	.name = "Device ID",
+>> +	.id = V4L2_CID_S2255_DEVICEID,
+>> +	.type = V4L2_CTRL_TYPE_INTEGER,
+> 
+> Please note that TYPE_INTEGER is a signed integer.
+> 
+> If you need an unsigned integer, then use TYPE_U32.
+> 
+>> +	.max = 0xffffffff,
+>> +	.min = 0,
+>> +	.step = 1,
+>> +	.flags = V4L2_CTRL_FLAG_READ_ONLY,
+>> +};
+>> +
+>>  static int s2255_probe_v4l(struct s2255_dev *dev)
+>>  {
+>>  	int ret;
+>> @@ -1615,6 +1659,9 @@ static int s2255_probe_v4l(struct s2255_dev 
+>> *dev)
+>>  		    (dev->pid != 0x2257 || vc->idx <= 1))
+>>  			v4l2_ctrl_new_custom(&vc->hdl, &color_filter_ctrl,
+>>  					     NULL);
+>> +		v4l2_ctrl_deviceid.def = s2255_g_deviceid(dev);
+>> +		v4l2_ctrl_new_custom(&vc->hdl, &v4l2_ctrl_deviceid,
+>> +					NULL);
+>>  		if (vc->hdl.error) {
+>>  			ret = vc->hdl.error;
+>>  			v4l2_ctrl_handler_free(&vc->hdl);
+> 
+> Regards,
+> 
+> 	Hans
 
