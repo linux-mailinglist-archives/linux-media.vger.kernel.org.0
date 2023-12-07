@@ -1,79 +1,54 @@
-Return-Path: <linux-media+bounces-1900-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1901-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316CA808FF4
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 19:33:54 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C076A80902A
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 19:41:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 937A8B20E22
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 18:33:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7A462281DC6
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 18:41:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C2AC4E61E;
-	Thu,  7 Dec 2023 18:33:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFC734E608;
+	Thu,  7 Dec 2023 18:41:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="AJyY+Uur"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="K22n2qR2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-x832.google.com (mail-qt1-x832.google.com [IPv6:2607:f8b0:4864:20::832])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77E091711
-	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 10:33:41 -0800 (PST)
-Received: by mail-qt1-x832.google.com with SMTP id d75a77b69052e-4259a275fa9so1668211cf.2
-        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 10:33:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1701974020; x=1702578820; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=GZWhK495VLeN7TNOf6swobaME2YnrmvMGk89MvaYBHI=;
-        b=AJyY+UurD2VyzWSnIyramL1wrfCzPSmNBHI+QAzXXvOPvucYNpbhreZo8Irf6rWwW7
-         /mAIhUo6ZJ/G6Dk5OwiTEzXtEJ4ZjzORjilsErCoJ88VsZbj/pX0Fs1/i5QjQfDkKvbq
-         CdWxWXOZ/BNoLK9K5uez7XJLVSg1ea3Mc7WfmHCJjypfE3xsTQlBFDEcfJmIEu1iSOqM
-         ShZQPG9+5iHzFqnF5bcZZPTQEXZNBzrAxdth7yqvyKE1NMJsShR1zCsdreeGbl82TIAj
-         BAIAqbHdAVFQKSxmCleOhhHPl1qWYZymd5cHXo/k8nlxIQTViGczkxX+peucwFG+Ew3R
-         jugQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1701974020; x=1702578820;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=GZWhK495VLeN7TNOf6swobaME2YnrmvMGk89MvaYBHI=;
-        b=Lz6FqoXt8JjbqPC0pbopzYEbQ+chDDUflUd1FCHrapamBxTu2l8aTmrbgiuHnYEmOW
-         7x2QuMR7VnoSc7uhqfKqTJMNP1gGsPleO7FbCkRyqEJ6hBb1vwliVP1orofjesFPYa6X
-         5Gh1D6C3UNDjS8AoQd5UIANnvgne2UacK6IEfxzMaUl8+askQoqqHfNOQbtcHkA35XIB
-         /UOiUcdPttT9PTQb5o5ijSrSDJ6EFdHKO5FmjLk0EcvMJCXjkdDSU7shSaHnc1NecItn
-         I0cffrin644gHb53Bql0+oOWE5VfRGvHM3voLaeKKKmS9Usjd6PvVb09P85P5FIkwhDR
-         WBHw==
-X-Gm-Message-State: AOJu0YxvXtfjWbf1ogWsjrsrjz8j3NPbk80JTu9CIsULZvNhx2vpsLbP
-	5I13v4ED/KAOxuci6iV/HTISk3ruTHKdcDQxy53lAg==
-X-Google-Smtp-Source: AGHT+IF44G4vo91Pehf9E6Xdpq+8M9mRAYJujL+Kh9cNIlF92TI6vHzDWOvzVRMCx1+2PXWbmtxP1Q==
-X-Received: by 2002:ac8:570b:0:b0:425:4043:41c7 with SMTP id 11-20020ac8570b000000b00425404341c7mr3133948qtw.115.1701974020565;
-        Thu, 07 Dec 2023 10:33:40 -0800 (PST)
-Received: from nicolas-tpx395.localdomain ([2606:6d00:17:b5c::7a9])
-        by smtp.gmail.com with ESMTPSA id j15-20020ac8664f000000b004255e0e5962sm131926qtp.50.2023.12.07.10.33.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 07 Dec 2023 10:33:40 -0800 (PST)
-Message-ID: <3ab3f9ea25d222c0b27e1b76f80c1abe76d27def.camel@ndufresne.ca>
-Subject: Re: [PATCH 07/55] media: imx8-isi: Stop abusing of
- min_buffers_needed field
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Tomasz Figa
-	 <tfiga@chromium.org>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, hverkuil@xs4all.nl,
-  mchehab@kernel.org, m.szyprowski@samsung.com, matt.ranostay@konsulko.com, 
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-staging@lists.linux.dev, kernel@collabora.com, Shawn Guo
- <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix
- Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>,
- NXP Linux Team <linux-imx@nxp.com>
-Date: Thu, 07 Dec 2023 13:33:38 -0500
-In-Reply-To: <20231128103117.GF31314@pendragon.ideasonboard.com>
-References: <20231127165454.166373-1-benjamin.gaignard@collabora.com>
-	 <20231127165454.166373-8-benjamin.gaignard@collabora.com>
-	 <20231127170700.GC31314@pendragon.ideasonboard.com>
-	 <6fa1ec09-3e30-475e-9718-29d23586753e@collabora.com>
-	 <CAAFQd5DCVTLpPoKSp_OA6fe_Hqt-oV7=AsCZWSmkJORvLSgUiw@mail.gmail.com>
-	 <20231128103117.GF31314@pendragon.ideasonboard.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56D46171F;
+	Thu,  7 Dec 2023 10:41:08 -0800 (PST)
+Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 731886601F0A;
+	Thu,  7 Dec 2023 18:41:05 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1701974466;
+	bh=WcT7DiTTNQxZhHjWft90cTmZ9KR+kldp0Vqu91bJDwg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=K22n2qR2PEZXpMPa0J1s535f4oylKH2qEDoXEc912HbKGwA0JRiyJwoAGS8WRVv/m
+	 cOZ02Gw8sW0UKZz4mPJFUpYM+orhr+J4sriwvAdQTZyctYc2R6rmyVu1QbQfGDgpAR
+	 NxKIZf60oC0yPrjdbA8tF4AzAXR9D6/utFylQD1SC7Bwff4o1NMD0vr+gMRm7lQQXf
+	 bn7kAjFRsPDBcnkgb/rCGeEhv2kfI93LQR2/IgtZhNTKaqqfOrbYuLtwdrIYPoEcJE
+	 zksYO95i08ihxbUUbDsNsgbwu1V9LpD6FFOZuPgNs/rBH/Zpa0ljCFIDdsay+/Tv2b
+	 yN4Tw1eWyVo+g==
+Message-ID: <64d946710b3f3e14bfeb3fa95db01a99e244f264.camel@collabora.com>
+Subject: Re: [PATCH] Fix memory leaks in wave5_vpu_open_enc() and
+ wave5_vpu_open_dec()
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Robert Beckett <bob.beckett@collabora.com>, Zeng Chi
+ <zengchi@kylinos.cn>,  nas.chung@chipsnmedia.com,
+ jackson.lee@chipsnmedia.com, mchehab@kernel.org, 
+ sebastian.fricke@collabora.com, hverkuil-cisco@xs4all.nl
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Date: Thu, 07 Dec 2023 13:40:56 -0500
+In-Reply-To: <e891ae21-2b3a-4d99-9f5c-fb387438ffef@collabora.com>
+References: <20231204091649.3418987-1-zengchi@kylinos.cn>
+	 <a4c47b282d9e3bc5c2891ac1b9cafb9c9970975c.camel@collabora.com>
+	 <e891ae21-2b3a-4d99-9f5c-fb387438ffef@collabora.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.48.4 (3.48.4-1.fc38) 
@@ -84,100 +59,87 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Le mardi 28 novembre 2023 =C3=A0 12:31 +0200, Laurent Pinchart a =C3=A9crit=
-=C2=A0:
-> On Tue, Nov 28, 2023 at 06:35:51PM +0900, Tomasz Figa wrote:
-> > On Tue, Nov 28, 2023 at 6:31=E2=80=AFPM Benjamin Gaignard wrote:
-> > > Le 27/11/2023 =C3=A0 18:07, Laurent Pinchart a =C3=A9crit :
-> > > > Hi Benjamin,
-> > > >=20
-> > > > Thank you for the patch.
-> > > >=20
-> > > > On Mon, Nov 27, 2023 at 05:54:06PM +0100, Benjamin Gaignard wrote:
-> > > > > 'min_buffers_needed' is suppose to be used to indicate the number
-> > > > > of buffers needed by DMA engine to start streaming.
-> > > > > imx8-isi driver doesn't use DMA engine and just want to specify
-> > > > What do you mean, "doesn't use DMA engine" ? The ISI surely has DMA
-> > > > engines :-)
-> > >=20
-> > > I have done assumption on drivers given if they use or dma_* function=
-s.
+Le mardi 05 d=C3=A9cembre 2023 =C3=A0 17:36 +0000, Robert Beckett a =C3=A9c=
+rit=C2=A0:
+> On 04/12/2023 13:55, Nicolas Dufresne wrote:
+> > Hi,
 > >=20
-> > I suspect the use of vb2_dma_sg_plane_desc() and
-> > vb2_dma_contig_plane_dma_addr() may be more correlated to whether
-> > there is a DMA involved or not. Usually V4L2 drivers don't really have
-> > to deal with the DMA API explicitly, because the vb2 framework handles
-> > most of the work.
+> > Le lundi 04 d=C3=A9cembre 2023 =C3=A0 17:16 +0800, Zeng Chi a =C3=A9cri=
+t=C2=A0:
+> > > This patch fixes memory leaks on error escapes in wave5_vpu_open_enc(=
+)
+> > > and wave5_vpu_open_dec().
+> > Please avoid sending twice the same patch. This is still a NAK.
 >=20
-> And this is anyway not related to DMA at all, but to the logic each
-> driver implements when it deals with buffers. There's a lower chance a
-> USB driver driver will have a hard requirement for more than one buffer
-> compared to an AMBA/platform/PCI device driver, but at the end of the
-> day, each driver needs to be analyzed individually to check what they
-> require. Benjamin, I think you'll have some more homework to do :-)
+> tbf, this is a different patch, concerning the allocation of the=20
+> codec_info within inst, not inst itself.
 
-Personally, I disagree that we should blindly patch drivers and actually ch=
-ange
-the framework behaviour. A patch that simply take what we have, and make it=
- so a
-human reader now understand what is going on should be acceptable. Maintain=
-ers
-or developer that have access to the hardware should be making this judgmen=
-t now
-that the current behaviour is visible, modify and test it.
+I've stopped after reading an identical subject line. I can apology for not
+noticing the difference, but I think an effort from the submitter could
+certainly help in the future.
 
-Asking to eye review drivers and change their behaviour without any test be=
-ing
-conducted will certainly cause regressions. I don't believe this is the rig=
-ht
-approach. Refactoring the code, making an effort to not change the behaviou=
-r
-during refactoring does make more sense to me.
-
-regards,
 Nicolas
 
 >=20
-> > > I have considers that all PCI drivers are using DMA engine and
-> > > I don't know the design for each drivers so I hope to get this inform=
-ation
-> > > from maintainers and fix that in v2.
-> > > If imx8-isi driver needs a minimum number of buffers before start str=
-eaming
-> > > I will do a v2 and use min_dma_buffers_needed instead.
+> > regards,
+> > Nicolas
+> >=20
+> > > Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
+> > > Signed-off-by: Zeng Chi<zengchi@kylinos.cn>
+> > > ---
+> > >   drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c | 5 +++--
+> > >   drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 5 +++--
+> > >   2 files changed, 6 insertions(+), 4 deletions(-)
 > > >=20
-> > > > > the minimum number of buffers to allocate when calling VIDIOC_REQ=
-BUFS.
-> > > > > That 'min_reqbufs_allocation' field purpose so use it.
-> > > > >=20
-> > > > > Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com=
->
-> > > > > CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > > > > CC: Shawn Guo <shawnguo@kernel.org>
-> > > > > CC: Sascha Hauer <s.hauer@pengutronix.de>
-> > > > > CC: Pengutronix Kernel Team <kernel@pengutronix.de>
-> > > > > CC: Fabio Estevam <festevam@gmail.com>
-> > > > > CC: NXP Linux Team <linux-imx@nxp.com>
-> > > > > ---
-> > > > >   drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c | 2 +-
-> > > > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > > > >=20
-> > > > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c=
- b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> > > > > index 49bca2b01cc6..81673ff9084b 100644
-> > > > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> > > > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-video.c
-> > > > > @@ -1453,7 +1453,7 @@ int mxc_isi_video_register(struct mxc_isi_p=
-ipe *pipe,
-> > > > >      q->mem_ops =3D &vb2_dma_contig_memops;
-> > > > >      q->buf_struct_size =3D sizeof(struct mxc_isi_buffer);
-> > > > >      q->timestamp_flags =3D V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> > > > > -    q->min_buffers_needed =3D 2;
-> > > > > +    q->min_reqbufs_allocation =3D 2;
-> > > > >      q->lock =3D &video->lock;
-> > > > >      q->dev =3D pipe->isi->dev;
-> > > > >=20
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c=
+ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> > > index 8b1417ece96e..b0a045346bb7 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+> > > @@ -1802,9 +1802,10 @@ static int wave5_vpu_open_dec(struct file *fil=
+p)
+> > >   	spin_lock_init(&inst->state_spinlock);
+> > >  =20
+> > >   	inst->codec_info =3D kzalloc(sizeof(*inst->codec_info), GFP_KERNEL=
+);
+> > > -	if (!inst->codec_info)
+> > > +	if (!inst->codec_info) {
+> > > +		kfree(inst);
+>=20
+> for consistency, would be better to jump to cleanup_inst.
+>=20
+> Also, maybe consider embedding codec_info=C2=A0 in to struct vpu_instance=
+ to=20
+> avoid the double alloc. I've not checked whether this is viable=20
+> throughout the code, but from a quick scan of the original patch, it=20
+> looks like it is always allocated and freed alongside inst.
+>=20
+> > >   		return -ENOMEM;
+> > > -
+> > > +	}
+> > >   	v4l2_fh_init(&inst->v4l2_fh, vdev);
+> > >   	filp->private_data =3D &inst->v4l2_fh;
+> > >   	v4l2_fh_add(&inst->v4l2_fh);
+> > > diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c=
+ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> > > index f29cfa3af94a..bc94de9ea546 100644
+> > > --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> > > +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> > > @@ -1546,9 +1546,10 @@ static int wave5_vpu_open_enc(struct file *fil=
+p)
+> > >   	inst->ops =3D &wave5_vpu_enc_inst_ops;
+> > >  =20
+> > >   	inst->codec_info =3D kzalloc(sizeof(*inst->codec_info), GFP_KERNEL=
+);
+> > > -	if (!inst->codec_info)
+> > > +	if (!inst->codec_info) {
+> > > +		kfree(inst);
+> > >   		return -ENOMEM;
+> > > -
+> > > +	}
+> > >   	v4l2_fh_init(&inst->v4l2_fh, vdev);
+> > >   	filp->private_data =3D &inst->v4l2_fh;
+> > >   	v4l2_fh_add(&inst->v4l2_fh);
 >=20
 
 
