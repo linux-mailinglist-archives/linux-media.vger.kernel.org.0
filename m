@@ -1,161 +1,264 @@
-Return-Path: <linux-media+bounces-1792-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1793-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A122A80823B
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 08:58:35 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D78D78082BA
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 09:18:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4B76C1F21872
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 07:58:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D29A283BDD
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 08:18:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A33D1E4B0;
-	Thu,  7 Dec 2023 07:58:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42F0E1E4B2;
+	Thu,  7 Dec 2023 08:18:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Z7OD9VzH"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Sc3utKT+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A7F1A110;
-	Wed,  6 Dec 2023 23:58:15 -0800 (PST)
-Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 29F24142F;
-	Thu,  7 Dec 2023 08:57:30 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701935850;
-	bh=PEgW8HpAPTSm60v9jbUcj/Sho2macS6ZjbgFOi8LEMg=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Z7OD9VzHz//UNCY9/z0t37lielcaegQWTDdbz4wGWH18tyuug49jKU16DEwUrlQ79
-	 NICdAfRsbysn0uIw3hv7//q5muCX7qjH/B452SwnhV77xE2MCjynxsOwrWloFgJuIY
-	 mRRKTN69+89zuZqtv8ORKbnRdguEE81yIeqVNHl8=
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Date: Thu, 07 Dec 2023 09:57:48 +0200
-Subject: [PATCH v3 4/4] media: rkisp1: Fix IRQ disable race issue
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D87310F4
+	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 00:18:27 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-33348e711e0so634638f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 00:18:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1701937106; x=1702541906; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QOiHdnlRFMkFDlB5kWfckw6pOd4LrZY+T64mekZ8KZ8=;
+        b=Sc3utKT+faJf2RLKTIIMOjv8R1v8YBK0cF3zmWbZTvdz/+wXZ/zIfgL46XegSK/xYt
+         EauILm49mpCX37ElX5alvBRy+VvMr16NAnfD0r+sldYntQ5n9XeIuH/zR0JFRJLJDH7z
+         frvVEjuE2G/tqM+ESoC8yNojLxzKbSzkj7sd8S6O9MbsPEEw1gtC9xSFOd/Aa28FgAbs
+         9IbWI9YsqOg4CZ+iTMl+Q4hysdc4aUZiOEjdJsIRyD75jpXI9XlJeAkrgi4iDdVKBzX8
+         gD5CFEy7PAah6eWySgRhP2pjJzLl3/Tt/UKHpfKKPNBypq6IM7FBu5GbqKfqq5BHEBfT
+         rz6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701937106; x=1702541906;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=QOiHdnlRFMkFDlB5kWfckw6pOd4LrZY+T64mekZ8KZ8=;
+        b=GREj2OuzYaqLP96Cd0I7AJQ9+iOLP4yzGSuRb262MnVjBVaytF8WCi4czpMF+PhPnV
+         hEOj9VNR2POoVlkrveNBx30fIONiRh+6/vEpEsF4zjwKRsIgVWfqF6RtEt0PrWeNwk5E
+         RrkWk/aUQeWH3+Ruq/rXJ9YPYEiMpmZQlr71jmmn8eejw07HH+XnUtZTqtV24Y+KNjH+
+         RxGpTID/AKWcXhaQjs8GN0+gWm7TGK8GUhJbPNGem4ap55tzP7zkGJXLV4hq4d3NiGws
+         uwoRcOktPDIFUaeM44fqf7hkeULhLylMi+GXmsSUlJCuesBEMnmESvhzbsiXmD7JMPfM
+         n6NQ==
+X-Gm-Message-State: AOJu0YyJauLnkuRHPPaQTBzCOp4Q9o5fO1/nYLFBzwtQp9L8+2HmTHHm
+	BPilBSF8lytVGQZ401KG/7XdzA==
+X-Google-Smtp-Source: AGHT+IG0Hqjq4jL95ujUQNv0S8dq6POI/VWfXbt1AkrXJOS/hFOqrD20mf12V0yHjuu6XI2Gf3wfZQ==
+X-Received: by 2002:a05:600c:6985:b0:40c:ddd:5758 with SMTP id fp5-20020a05600c698500b0040c0ddd5758mr1451711wmb.12.1701937105870;
+        Thu, 07 Dec 2023 00:18:25 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id o13-20020adfe80d000000b003333d46a9e8sm765592wrm.56.2023.12.07.00.18.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Dec 2023 00:18:25 -0800 (PST)
+Message-ID: <1d58c2b9-4206-409c-b312-87f4fb649512@linaro.org>
+Date: Thu, 7 Dec 2023 09:18:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/2] media: i2c: Add GC08A3 image sensor driver
+Content-Language: en-US
+To: Zhi Mao <zhi.mao@mediatek.com>, mchehab@kernel.org, robh+dt@kernel.org,
+ krzysztof.kozlowski+dt@linaro.org
+Cc: shengnan.wang@mediatek.com, yaya.chang@mediatek.com, 10572168@qq.com,
+ Project_Global_Chrome_Upstream_Group@mediatek.com, yunkec@chromium.org,
+ conor+dt@kernel.org, matthias.bgg@gmail.com,
+ angelogioacchino.delregno@collabora.com, jacopo.mondi@ideasonboard.com,
+ sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl, heiko@sntech.de,
+ jernej.skrabec@gmail.com, macromorgan@hotmail.com, linus.walleij@linaro.org,
+ laurent.pinchart@ideasonboard.com, hdegoede@redhat.com,
+ tomi.valkeinen@ideasonboard.com, gerald.loacker@wolfvision.net,
+ andy.shevchenko@gmail.com, bingbu.cao@intel.com,
+ dan.scally@ideasonboard.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org
+References: <20231207052016.25954-1-zhi.mao@mediatek.com>
+ <20231207052016.25954-2-zhi.mao@mediatek.com>
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <20231207052016.25954-2-zhi.mao@mediatek.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231207-rkisp-irq-fix-v3-4-358a2c871a3c@ideasonboard.com>
-References: <20231207-rkisp-irq-fix-v3-0-358a2c871a3c@ideasonboard.com>
-In-Reply-To: <20231207-rkisp-irq-fix-v3-0-358a2c871a3c@ideasonboard.com>
-To: Dafna Hirschfeld <dafna@fastmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>, Paul Elder <paul.elder@ideasonboard.com>
-Cc: Alexander Stein <alexander.stein@ew.tq-group.com>, 
- kieran.bingham@ideasonboard.com, umang.jain@ideasonboard.com, 
- aford173@gmail.com, linux-media@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-X-Mailer: b4 0.12.4
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3565;
- i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
- bh=PEgW8HpAPTSm60v9jbUcj/Sho2macS6ZjbgFOi8LEMg=;
- b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlcXsObhyE/ipqZwUoJ4G5ZPJUbcRLYb8ZvO7zA
- ynYiIDsH7uJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZXF7DgAKCRD6PaqMvJYe
- 9TqaD/4kAipjfzi4A4X3RNcutStIe6k+RrBxaUqwBCV+dvTSv+VkkyKdgnWGzVHBRiGDVectDxW
- j9oxAK/Zvx6tsTXUbRolVw9iadLBwoWgihvZpXZLaI74r1Eh3lu8BjurewK/VJItKlVcCuhpxDL
- cs4aaCTnEvkz20KajppWwJ+NRU4GcznwaQBkruV1zKnCDzW2Q6F1JlHITn7NzdRbu8Q/xJEQoSZ
- 8Ay3/4N4W8GwGB7ncx9LmXz6AA/u44Z/aJu8uKDKWML6MRBzziEFd+6CNXXwOQHFXAkeXjqJPIi
- Q+EvdaRfQjCTwCpauFBylHnRkNAs/h422SV1EzFnbikwr5PWtbNwf4djYEDNeDMog9NW8koydUN
- eGVGTT4uUnpKpHojdrw34/HNvJtEPhMiuXYVuKFrs/tfQHXUvjU6jFnDY7Db8gPYIwgaB1dEhd2
- yBuL9jW2Dl9HA4ujyR2SxsUJqqwtdn5frfYcMBDWI4mbqcjgbPRjY8+DDgqs47mH08dEXP7MGDw
- stDAQ55S6Mwdv31EoX1HAca7N+sDMZIPHAn9rT3SGL9f0dZfT7yPqX8ZI1OCwKlMWfXQL+jFuvu
- bj17pPGI3cMB4zAwvnd1vu95euLl7U7GDayI9NaB2tkMlLOq9FBrNkn/jgLj3LidAWwXebPYpTx
- Vn0WRUuLdkIdLvQ==
-X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
- fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-In rkisp1_isp_stop() and rkisp1_csi_disable() the driver masks the
-interrupts and then apparently assumes that the interrupt handler won't
-be running, and proceeds in the stop procedure. This is not the case, as
-the interrupt handler can already be running, which would lead to the
-ISP being disabled while the interrupt handler handling a captured
-frame.
+On 07/12/2023 06:20, Zhi Mao wrote:
+> Add a V4L2 sub-device driver for Galaxycore GC08A3 image sensor.
+> 
+> Reviewed-By: yunkec@chromium.org
 
-This brings up two issues: 1) the ISP could be powered off while the
-interrupt handler is still running and accessing registers, leading to
-board lockup, and 2) the interrupt handler code and the code that
-disables the streaming might do things that conflict.
+I don't see review given here:
 
-It is not clear to me if 2) causes a real issue, but 1) can be seen with
-a suitable delay (or printk in my case) in the interrupt handler,
-leading to board lockup.
+https://lore.kernel.org/linux-media/20231123115104.32094-1-zhi.mao@mediatek.com/
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Tested-by: Adam Ford <aford173@gmail.com>  #imx8mp-beacon
-Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
----
- drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c | 14 +++++++++++++-
- drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c | 20 +++++++++++++++++---
- 2 files changed, 30 insertions(+), 4 deletions(-)
+This does not look like real review. Where was it performed? How
+thorough was it? How many review iterations did it include?  Why there
+is no name but anonymous review?
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-index e6642a2167ef..b6e47e2f1b94 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-@@ -125,8 +125,20 @@ static void rkisp1_csi_disable(struct rkisp1_csi *csi)
- 	struct rkisp1_device *rkisp1 = csi->rkisp1;
- 	u32 val;
- 
--	/* Mask and clear interrupts. */
-+	/* Mask MIPI interrupts. */
- 	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_IMSC, 0);
-+
-+	/* Flush posted writes */
-+	rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMSC);
-+
-+	/*
-+	 * Wait until the IRQ handler has ended. The IRQ handler may get called
-+	 * even after this, but it will return immediately as the MIPI
-+	 * interrupts have been masked.
-+	 */
-+	synchronize_irq(rkisp1->irqs[RKISP1_IRQ_MIPI]);
-+
-+	/* Clear MIPI interrupt status */
- 	rkisp1_write(rkisp1, RKISP1_CIF_MIPI_ICR, ~0);
- 
- 	val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_CTRL);
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index ca6703bfd27b..29b538a5e1bb 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -254,11 +254,25 @@ static void rkisp1_isp_stop(struct rkisp1_isp *isp)
- 	 * ISP(mi) stop in mi frame end -> Stop ISP(mipi) ->
- 	 * Stop ISP(isp) ->wait for ISP isp off
- 	 */
--	/* stop and clear MI and ISP interrupts */
--	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IMSC, 0);
--	rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, ~0);
- 
-+	/* Mask MI and ISP interrupts */
-+	rkisp1_write(rkisp1, RKISP1_CIF_ISP_IMSC, 0);
- 	rkisp1_write(rkisp1, RKISP1_CIF_MI_IMSC, 0);
-+
-+	/* Flush posted writes */
-+	rkisp1_read(rkisp1, RKISP1_CIF_MI_IMSC);
-+
-+	/*
-+	 * Wait until the IRQ handler has ended. The IRQ handler may get called
-+	 * even after this, but it will return immediately as the MI and ISP
-+	 * interrupts have been masked.
-+	 */
-+	synchronize_irq(rkisp1->irqs[RKISP1_IRQ_ISP]);
-+	if (rkisp1->irqs[RKISP1_IRQ_ISP] != rkisp1->irqs[RKISP1_IRQ_MI])
-+		synchronize_irq(rkisp1->irqs[RKISP1_IRQ_MI]);
-+
-+	/* Clear MI and ISP interrupt status */
-+	rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, ~0);
- 	rkisp1_write(rkisp1, RKISP1_CIF_MI_ICR, ~0);
- 
- 	/* stop ISP */
 
--- 
-2.34.1
+
+> Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
+> ---
+>  drivers/media/i2c/Kconfig  |   14 +
+>  drivers/media/i2c/Makefile |    1 +
+>  drivers/media/i2c/gc08a3.c | 1888 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 1903 insertions(+)
+>  create mode 100644 drivers/media/i2c/gc08a3.c
+> 
+
+...
+
+> +static inline struct gc08a3 *to_gc08a3(struct v4l2_subdev *sd)
+> +{
+> +	return container_of(sd, struct gc08a3, sd);
+> +}
+> +
+> +static int gc08a3_power_on(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
+> +	int ret;
+> +
+> +	gpiod_set_value_cansleep(gc08a3->enable_gpio, 0);
+
+Why do you put make enable GPIO low? That's not how enable GPIO is
+supposed to work...
+
+> +	usleep_range(GC08A3_MIN_SLEEP_US, GC08A3_MAX_SLEEP_US);
+> +
+> +	ret = regulator_bulk_enable(GC08A3_NUM_SUPPLIES, gc08a3->supplies);
+> +	if (ret < 0) {
+> +		dev_err(gc08a3->dev, "failed to enable regulators: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = clk_prepare_enable(gc08a3->xclk);
+> +	if (ret < 0) {
+> +		regulator_bulk_disable(GC08A3_NUM_SUPPLIES, gc08a3->supplies);
+> +		dev_err(gc08a3->dev, "clk prepare enable failed\n");
+> +		return ret;
+> +	}
+> +
+> +	usleep_range(GC08A3_MIN_SLEEP_US, GC08A3_MAX_SLEEP_US);
+> +
+> +	gpiod_set_value_cansleep(gc08a3->enable_gpio, 1);
+> +	usleep_range(GC08A3_MIN_SLEEP_US, GC08A3_MAX_SLEEP_US);
+> +
+> +	return 0;
+> +}
+> +
+> +static int gc08a3_power_off(struct device *dev)
+> +{
+> +	struct i2c_client *client = to_i2c_client(dev);
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
+> +
+> +	gpiod_set_value_cansleep(gc08a3->enable_gpio, 0);
+
+How making enable GPIO low is related to power off? Enable means you
+turn on some feature, not shutdown. Look at common GPIO consumer
+bindings in the kernel.
+
+
+...
+
+> +static int gc08a3_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct gc08a3 *gc08a3;
+> +	int ret;
+> +
+> +	ret = gc08a3_parse_fwnode(dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	gc08a3 = devm_kzalloc(dev, sizeof(*gc08a3), GFP_KERNEL);
+> +	if (!gc08a3)
+> +		return -ENOMEM;
+> +
+> +	gc08a3->dev = dev;
+> +
+> +	gc08a3->xclk = devm_clk_get(dev, NULL);
+> +	if (IS_ERR(gc08a3->xclk))
+> +		return dev_err_probe(dev, PTR_ERR(gc08a3->xclk),
+> +					 "failed to get xclk\n");
+
+Misaligned indentation
+
+> +
+> +	ret = clk_set_rate(gc08a3->xclk, GC08A3_DEFAULT_CLK_FREQ);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +					 "failed to set xclk frequency\n");
+
+Misaligned indentation
+
+> +
+> +	ret = gc08a3_get_regulators(dev, gc08a3);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret,
+> +					 "failed to get regulators\n");
+
+Misaligned indentation
+
+> +
+> +	gc08a3->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
+> +	if (IS_ERR(gc08a3->enable_gpio))
+> +		return dev_err_probe(dev, PTR_ERR(gc08a3->enable_gpio),
+> +					 "failed to get gpio\n");
+
+Misaligned indentation... probably entire code is misaligned.
+
+
+Best regards,
+Krzysztof
 
 
