@@ -1,52 +1,62 @@
-Return-Path: <linux-media+bounces-1898-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1899-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9BE18808E6D
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 18:15:37 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B8C3808EF7
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 18:44:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA81D1C20A13
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 17:15:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C94751F21204
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 17:44:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0EF748CDD;
-	Thu,  7 Dec 2023 17:15:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F8FB4B127;
+	Thu,  7 Dec 2023 17:44:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uryj+pFN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wx2uHuTI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E745B45978;
-	Thu,  7 Dec 2023 17:15:28 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26AC0C433C8;
-	Thu,  7 Dec 2023 17:15:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C14E481A7;
+	Thu,  7 Dec 2023 17:44:41 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33A48C433C7;
+	Thu,  7 Dec 2023 17:44:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701969328;
-	bh=/NZy2kf75bJHAraLx4pRXvEeYyqAAqrTseqq1t9//Z4=;
+	s=k20201202; t=1701971081;
+	bh=kE0n2gr2CaIRus73ES8kcVH1cf0yVteSBzOYtQB63UE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Uryj+pFN/z19lqg/7cEn4xKACWxpDihfcbOk/XC7lpDOzL+WX5z5VlVKW/3cvc+s4
-	 NnYm2WFY7rSGpPSslqD1J6I3Wpr1chYU20ZNrbVvFkl2993ctJ7h/psl1WiexVzUjD
-	 8YGtfVufiZ5612U10APSlebah/U99YbyjvEdSPCgjfnElDbT0UYOawzzgTCkqdmJ2m
-	 ET+dOj3b6u51JOd/VhhorhTNoRSjmL4GcqgEbKzGpzxePYQSnCSqCXQbtGaITrMvcA
-	 hKG2dqxFyUBsO9mrBFlgazs0xmbU8WLuGrDy5M8ZlrJTb9Ehndy63JZSb5e9thcvci
-	 dhCJS1KngpLuQ==
-Date: Thu, 7 Dec 2023 17:15:23 +0000
+	b=Wx2uHuTI6SpzzO+4J24LEQXHwI8kMMjn/qOqux/fXdUtdAWG2QCL8sILWDpJv+ZRF
+	 KHg3m32XXp9M0JHczC1pJ5mbyuf2v+IBiI4TxCk3wJuJ8gF3M9cRUR/+1F7JeGjaIn
+	 sGFKQ4y5dzNIUi712KgDXAfT8xTWq/lrdNamvAiVIjOxeBxsCzjK3vwAts6s3KZll+
+	 lAHTujKHv4mzVF64GL9BrxMY0ixS8kqGzoqDwQphiKSb7NTU8hSLtNWWvAHjjsYKSn
+	 eEpZKEROovsfYnyVFHO8rc0FM5HySlfHMJ+nD6KqHaBHXSEB2auLMHiVxI+C6WhlWq
+	 rLdKHrenbru5g==
+Date: Thu, 7 Dec 2023 17:44:32 +0000
 From: Conor Dooley <conor@kernel.org>
 To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: dt-bindings: ov8856: decouple lanes and link
- frequency from driver
-Message-ID: <20231207-antics-tummy-5316e38477de@spud>
-References: <20231207142356.100453-1-krzysztof.kozlowski@linaro.org>
+	Zhi Mao <zhi.mao@mediatek.com>, mchehab@kernel.org,
+	robh+dt@kernel.org, krzysztof.kozlowski+dt@linaro.org,
+	shengnan.wang@mediatek.com, yaya.chang@mediatek.com,
+	10572168@qq.com, Project_Global_Chrome_Upstream_Group@mediatek.com,
+	yunkec@chromium.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	jacopo.mondi@ideasonboard.com, hverkuil-cisco@xs4all.nl,
+	heiko@sntech.de, jernej.skrabec@gmail.com, macromorgan@hotmail.com,
+	linus.walleij@linaro.org, laurent.pinchart@ideasonboard.com,
+	hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
+	gerald.loacker@wolfvision.net, andy.shevchenko@gmail.com,
+	bingbu.cao@intel.com, dan.scally@ideasonboard.com,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH 1/2] media: i2c: Add GC08A3 image sensor driver
+Message-ID: <20231207-outcome-acclaim-d179c8c07fff@spud>
+References: <20231207052016.25954-1-zhi.mao@mediatek.com>
+ <20231207052016.25954-2-zhi.mao@mediatek.com>
+ <ZXGtqwjYruBQVaUr@kekkonen.localdomain>
+ <129e3a8b-5e91-424a-8ff8-b015d5175f1a@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,100 +64,60 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="OSYC6STl8ciQnFnr"
+	protocol="application/pgp-signature"; boundary="N40z4CafL7X1rYMV"
 Content-Disposition: inline
-In-Reply-To: <20231207142356.100453-1-krzysztof.kozlowski@linaro.org>
+In-Reply-To: <129e3a8b-5e91-424a-8ff8-b015d5175f1a@linaro.org>
 
 
---OSYC6STl8ciQnFnr
+--N40z4CafL7X1rYMV
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Dec 07, 2023 at 03:23:56PM +0100, Krzysztof Kozlowski wrote:
-> The data lanes and link frequency were set to match exiting Linux driver
-> limitations, however bindings should be independent of chosen Linux
-> driver support.
+On Thu, Dec 07, 2023 at 01:30:35PM +0100, Krzysztof Kozlowski wrote:
+> On 07/12/2023 12:34, Sakari Ailus wrote:
+> >> +	ret =3D gc08a3_parse_fwnode(dev);
+> >> +	if (ret)
+> >> +		return ret;
+> >> +
+> >> +	gc08a3 =3D devm_kzalloc(dev, sizeof(*gc08a3), GFP_KERNEL);
+> >> +	if (!gc08a3)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	gc08a3->dev =3D dev;
+> >> +
+> >> +	gc08a3->xclk =3D devm_clk_get(dev, NULL);
+> >> +	if (IS_ERR(gc08a3->xclk))
+> >> +		return dev_err_probe(dev, PTR_ERR(gc08a3->xclk),
+> >> +					 "failed to get xclk\n");
+> >> +
+> >> +	ret =3D clk_set_rate(gc08a3->xclk, GC08A3_DEFAULT_CLK_FREQ);
+> >=20
+> > Please see:
+> > <URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html=
+#devicetree>.
 >=20
-> Decouple these properties from the driver to match what is actually
-> supported by the hardware.
 >=20
-> This also fixes DTS example:
+> Oh, that's cool it was documented!
 >=20
->   ov8856.example.dtb: camera@10: port:endpoint:link-frequencies:0: [36000=
-0000] is too short
->=20
-> Fixes: 066a94e28a23 ("media: dt-bindings: media: Use graph and video-inte=
-rfaces schemas")
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
->=20
-> ---
->=20
-> Changes in v2:
-> 1. Rework approach: decouple bindings from driver instead of fixing
->    DTS example (Sakari)
+> The canonical link would be:
+> https://www.kernel.org/doc/html/latest/driver-api/media/camera-sensor.htm=
+l#devicetree
 
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
+I believe this is that answer to the "why are these needed" that I asked
+on the previous version and never got a response to. Instead, they were
+just removed from the binding etc.
 
-Cheers,
-Conor.
-
-> ---
->  .../devicetree/bindings/media/i2c/ov8856.yaml | 21 +++++++++++--------
->  1 file changed, 12 insertions(+), 9 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Do=
-cumentation/devicetree/bindings/media/i2c/ov8856.yaml
-> index 57f5e48fd8e0..71102a71cf81 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> @@ -67,19 +67,22 @@ properties:
-> =20
->          properties:
->            data-lanes:
-> -            description: |-
-> -              The driver only supports four-lane operation.
-> -            items:
-> -              - const: 1
-> -              - const: 2
-> -              - const: 3
-> -              - const: 4
-> +            oneOf:
-> +              - items:
-> +                  - const: 1
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +              - items:
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
-> =20
->            link-frequencies:
->              description: Frequencies listed are driver, not h/w limitati=
-ons.
-> -            maxItems: 2
->              items:
-> -              enum: [ 360000000, 180000000 ]
-> +              enum: [ 1440000000, 720000000, 360000000, 180000000 ]
-> =20
->          required:
->            - link-frequencies
-> --=20
-> 2.34.1
->=20
-
---OSYC6STl8ciQnFnr
+--N40z4CafL7X1rYMV
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXH9qwAKCRB4tDGHoIJi
-0hyzAP9aNR0uAwPrTbmO+v6W10FcAGLU1UTX15VyHl6zTw/+zwD7BNYOXpLbWO6V
-oavXs+cccjna3l+eCE+iR8mzZg9kRgg=
-=+455
+iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXIEgAAKCRB4tDGHoIJi
+0ouqAQDUTa6OU1g0zJUvJGN1UaS5mtsII2EiSZDKd4calhNwgAD8D7luYf3WpePJ
+KUxA5v4yxt6pUlaZ/sKzTzU/x1c2/QQ=
+=YQab
 -----END PGP SIGNATURE-----
 
---OSYC6STl8ciQnFnr--
+--N40z4CafL7X1rYMV--
 
