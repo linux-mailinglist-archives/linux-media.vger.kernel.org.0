@@ -1,105 +1,106 @@
-Return-Path: <linux-media+bounces-1904-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1905-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3EC44809227
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 21:18:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C02B8092ED
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 22:03:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DD7B61F21289
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 20:18:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 936281C20878
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 21:03:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 353FE50267;
-	Thu,  7 Dec 2023 20:18:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21E8E51C23;
+	Thu,  7 Dec 2023 21:03:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="VZSPcQ9Y"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QaNKOo9s"
 X-Original-To: linux-media@vger.kernel.org
-X-Greylist: delayed 450 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Thu, 07 Dec 2023 12:18:33 PST
-Received: from smtp.smtpout.orange.fr (smtp-29.smtpout.orange.fr [80.12.242.29])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTP id 9B167170F
-	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 12:18:33 -0800 (PST)
-Received: from pop-os.home ([92.140.202.140])
-	by smtp.orange.fr with ESMTPA
-	id BKi4rWEPVrKXzBKi4rMu75; Thu, 07 Dec 2023 21:11:01 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1701979861;
-	bh=lrqiH8yVpgT6zM5oRkE6GFJPks/LuoT9ILt/fdADS18=;
-	h=From:To:Cc:Subject:Date;
-	b=VZSPcQ9YfoGsXgnmIKwNY2isHZdBmuBhN9Bl8vEIAFMUqL1O15e1YjavF1euIk1zS
-	 4A0GXrQhsoupjVxjO8I3pyyGagDU4Ga03RrLDbc2N2mM2wYyqcQB60YFrzpOU8RTZS
-	 s5BJ0ryxAYDsANJb0IRoZzIYFX8Forzk1vnJvyLB7GIutwow89eM0hA9sC7iHIvMB6
-	 i89qbwBxrvEyL9a8k+3PtnzgKpDLf1uv1CnQM9cmnGotx3CoJTdc88CgV3L2eKAAzL
-	 0yvqEprB95WoIP2q1NJTijsBhck/lq0yc7vUBAMQ9cfA4CPiUioBfdiNcvwdhORo5L
-	 2fImSgAiB6nmA==
-X-ME-Helo: pop-os.home
-X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
-X-ME-Date: Thu, 07 Dec 2023 21:11:01 +0100
-X-ME-IP: 92.140.202.140
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-To: Antti Palosaari <crope@iki.fi>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Brad Love <brad@nextdimension.cc>,
-	Sean Young <sean@mess.org>
-Cc: linux-kernel@vger.kernel.org,
-	kernel-janitors@vger.kernel.org,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66AC91713
+	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 13:03:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701982981; x=1733518981;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=0j1fnbhtt8O4OEiV3lSGBFRU02Dr3jEm2SvsUHtiGvs=;
+  b=QaNKOo9svYkCk7l80QL07Hq/k+Z0NQOlR3ebmMX9XW9pXuWkVFwlVOiP
+   WOl2KpsEYFpNlD2XOhypL1vLLh67VvfMWaSTQDw9MvbAzk1GjzQqtqGZY
+   7u0rzsNRdyYx5zSg0E5FBL1rvR4z9PsobD96IvEEF9Pxjg+OKruW9vyp4
+   SK4uLHSbw8JcCht/19/oXBbrT+yr0MNcahGgJAGCk1NaDcidHWsqSb9W4
+   JEDDfcAvluWr02HfWdxaZkP3D6vlkCI0BMOTA/SI+2QvE0O52APiVijey
+   2hNUPSa9qzttK1byc1oO2PfwqeGzVdQl0rWgzIMFlVK0xKGclXFEBRNPl
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="384703641"
+X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
+   d="scan'208";a="384703641"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 13:03:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="800866695"
+X-IronPort-AV: E=Sophos;i="6.04,258,1695711600"; 
+   d="scan'208";a="800866695"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 13:02:58 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id D016611FB5E;
+	Thu,  7 Dec 2023 23:02:55 +0200 (EET)
+Date: Thu, 7 Dec 2023 21:02:55 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Riesch <michael.riesch@wolfvision.net>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Gerald Loacker <gerald.loacker@wolfvision.net>,
 	linux-media@vger.kernel.org
-Subject: [PATCH] media: m88ds3103: Fix an error handling path in m88ds3103_probe()
-Date: Thu,  7 Dec 2023 21:10:56 +0100
-Message-Id: <32237b89eef582a89f64c4f6213e27d99245bafd.1701979842.git.christophe.jaillet@wanadoo.fr>
-X-Mailer: git-send-email 2.34.1
+Subject: Re: [PATCH 1/3] media: i2c: imx415: Convert to new CCI register
+ access helpers
+Message-ID: <ZXIy_-BxyiTi63yR@kekkonen.localdomain>
+References: <20231205090557.298680-1-alexander.stein@ew.tq-group.com>
+ <20231205090557.298680-2-alexander.stein@ew.tq-group.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231205090557.298680-2-alexander.stein@ew.tq-group.com>
 
-If an error occurs after a successful i2c_mux_add_adapter(),
-i2c_mux_del_adapters() should be called to avoid a some leaks, as already
-done in the .remove() function.
+Hi Alexander,
 
-Add the missing call.
+Thanks for the patch.
 
-Fixes: e6089feca460 ("media: m88ds3103: Add support for ds3103b demod")
-Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
----
- drivers/media/dvb-frontends/m88ds3103.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+On Tue, Dec 05, 2023 at 10:05:55AM +0100, Alexander Stein wrote:
+> Use the new common CCI register access helpers to replace the private
+> register access helpers in the imx415 driver.
+> 
+> Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> ---
+>  drivers/media/i2c/Kconfig  |   2 +
+>  drivers/media/i2c/imx415.c | 396 +++++++++++++++----------------------
+>  2 files changed, 162 insertions(+), 236 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index 59356eded339..71f8128f2df9 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -194,6 +194,8 @@ config VIDEO_IMX412
+>  config VIDEO_IMX415
+>  	tristate "Sony IMX415 sensor support"
+>  	depends on OF_GPIO
+> +	select REGMAP_I2C
 
-diff --git a/drivers/media/dvb-frontends/m88ds3103.c b/drivers/media/dvb-frontends/m88ds3103.c
-index 26c67ef05d13..e0272054fca5 100644
---- a/drivers/media/dvb-frontends/m88ds3103.c
-+++ b/drivers/media/dvb-frontends/m88ds3103.c
-@@ -1894,7 +1894,7 @@ static int m88ds3103_probe(struct i2c_client *client)
- 		/* get frontend address */
- 		ret = regmap_read(dev->regmap, 0x29, &utmp);
- 		if (ret)
--			goto err_kfree;
-+			goto err_del_adapters;
- 		dev->dt_addr = ((utmp & 0x80) == 0) ? 0x42 >> 1 : 0x40 >> 1;
- 		dev_dbg(&client->dev, "dt addr is 0x%02x\n", dev->dt_addr);
- 
-@@ -1902,11 +1902,14 @@ static int m88ds3103_probe(struct i2c_client *client)
- 						      dev->dt_addr);
- 		if (IS_ERR(dev->dt_client)) {
- 			ret = PTR_ERR(dev->dt_client);
--			goto err_kfree;
-+			goto err_del_adapters;
- 		}
- 	}
- 
- 	return 0;
-+
-+err_del_adapters:
-+	i2c_mux_del_adapters(dev->muxc);
- err_kfree:
- 	kfree(dev);
- err:
+No need to select REGMAP_I2C---V4L2_CCI_I2C already does it.
+
+> +	select V4L2_CCI_I2C
+>  	help
+>  	  This is a Video4Linux2 sensor driver for the Sony
+>  	  IMX415 camera.
+
 -- 
-2.34.1
+Regards,
 
+Sakari Ailus
 
