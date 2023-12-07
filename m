@@ -1,2071 +1,1241 @@
-Return-Path: <linux-media+bounces-1819-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1820-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F17D08086CB
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 12:34:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F428086DC
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 12:40:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A0507B21D70
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 11:34:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 95A031C21377
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 11:40:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E48E2381A5;
-	Thu,  7 Dec 2023 11:34:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE2DE381A7;
+	Thu,  7 Dec 2023 11:40:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BSCuOZCq"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="razS/aAI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BE34A3;
-	Thu,  7 Dec 2023 03:34:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1701948856; x=1733484856;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=aquIHHUFvHYBfT7kL+b+Q2pOZLY+cL6gqS3eYXlMxYY=;
-  b=BSCuOZCqJR1Opg++BlddLHTfGPtH4ZATVLVV7xZdmhpfA9FPYvEkcum6
-   XapCZ5QgYWOq8IfYmdleOyh+4x6MU3CZSVwuWm1QkjEoWuME9xoFO2CBB
-   U1WUSgnKtfs4pidJ5tEX82UBo7c5WdAgNhqc8lRjddqx0fn2tKD6Vys0E
-   yhrFvpzhN5g+ABqHZon7TUC0W8NzDcrgkIKdk6nQOiYaYrBf/+AsN0W9H
-   V6fJOX9V6V9Hik4o/Wfwfd3LlO+ZkMXF55LlhIoWFz3UzUTV3o9G+HBHx
-   dlFgxglvIGPlgRUpr0LmmXPfVqwSEcBxP4cyzumh/0ZtNc/bA7eYx/LRC
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1042779"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="1042779"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 03:34:14 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="944999420"
-X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
-   d="scan'208";a="944999420"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 03:34:06 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id A9EE111FB50;
-	Thu,  7 Dec 2023 13:34:03 +0200 (EET)
-Date: Thu, 7 Dec 2023 11:34:03 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Zhi Mao <zhi.mao@mediatek.com>
-Cc: mchehab@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, shengnan.wang@mediatek.com,
-	yaya.chang@mediatek.com, 10572168@qq.com,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	yunkec@chromium.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	jacopo.mondi@ideasonboard.com, hverkuil-cisco@xs4all.nl,
-	heiko@sntech.de, jernej.skrabec@gmail.com, macromorgan@hotmail.com,
-	linus.walleij@linaro.org, laurent.pinchart@ideasonboard.com,
-	hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
-	gerald.loacker@wolfvision.net, andy.shevchenko@gmail.com,
-	bingbu.cao@intel.com, dan.scally@ideasonboard.com,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 1/2] media: i2c: Add GC08A3 image sensor driver
-Message-ID: <ZXGtqwjYruBQVaUr@kekkonen.localdomain>
-References: <20231207052016.25954-1-zhi.mao@mediatek.com>
- <20231207052016.25954-2-zhi.mao@mediatek.com>
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70D16A3
+	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 03:40:06 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-db539ab8e02so966592276.0
+        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 03:40:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1701949205; x=1702554005; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=W7t6Zqou5DxeRRGHUuIgtOCTokUPgj5YcFpqptW1IlM=;
+        b=razS/aAIPO1OQWUwmg1EmzD57JPUvC7gs+/tJjCEKcxIdR1IjtbWUtEfUdINFB3z7/
+         fjVYpLapMsbbVa4uTj67eWBBagw0dJsN0YnFB5iC/m2w+I9i/7ZubAL2UizEnQRb2ftS
+         IElRTiBm3rGH1Ot5tTqbGbw8D7OvQKlizMGrRh14Xp3S2CXlimcMSkI6jZ1hTUI07jsu
+         9tJu29ez3bINAkergSS4wbRZ49LBY/RLDhuZx9G0qZQBqoEVwlpC8eXi5IipmqwkizYo
+         DiLvCnor1olvMOWhkMt/Yy6tFzEQoI5jaOuoBbqGiUQp7HNDhApa9Jp0ceIWu39qhN0v
+         l8Rw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701949205; x=1702554005;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=W7t6Zqou5DxeRRGHUuIgtOCTokUPgj5YcFpqptW1IlM=;
+        b=XBb+2qhFcXHDHKWDEztVmqJqRNpjM+eTJuqPUfWlMXRFhi2yXTl/DqO8WghhCba+1A
+         4Q12/Qb6pYf+jLpcTseubhAtXT7c/9eU8t/cqjx6qz+jYCHdW6duhsM0qa0UKgrsGXWC
+         nyY09eOq1lF6ePHWOpSXYgM53aRsb6wAxc4V8Lii4u9jZtMXD9KdTbujwXpMh9Vuld++
+         xUWT9ecrdyc/vYxrbJWhQc83t18+VO6TZR83JHrc5+DZh1KAJ+bMUg7wIE/GLTE/6Mjz
+         dK1pDlpvI0T5UNvOBP/d5zKQmK1qX9O/PapMxNQQbTXxBJkfzDIhLP7Oask33cvUoKge
+         ljeA==
+X-Gm-Message-State: AOJu0Yy0oVxGe/ybPTBP3Xxkdpqj+TxNSvjmYDxYfHkTuKQGAsdC8WZn
+	rBzT0dobTmlbLcScImiqfTwsiOYQhF+YippkuFIZ3R2NbILGYzRk0uA=
+X-Google-Smtp-Source: AGHT+IFSaJ1BbbxSyg+3P4gq1stWWBWAyK6A+ajZzi6zXLr7rcTEUfq6UbSFSFg+N4hnk23ScN2NsvwyN5v/Syonpm0=
+X-Received: by 2002:a25:cf8b:0:b0:db7:dacf:ed89 with SMTP id
+ f133-20020a25cf8b000000b00db7dacfed89mr2149777ybg.106.1701949205526; Thu, 07
+ Dec 2023 03:40:05 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231207052016.25954-2-zhi.mao@mediatek.com>
+References: <20231206155900.123904-1-jacopo.mondi@ideasonboard.com>
+ <20231206155900.123904-3-jacopo.mondi@ideasonboard.com> <CAPY8ntB9qWQQMRoVELczn_NJa2tP-=8zrH_s0zTSqgGu1YR+Kw@mail.gmail.com>
+ <2hihggebhn7b7awj6dtgazjutgpc2cqwdrfyumuxoqgphefdqi@mo2kyol54j4f>
+In-Reply-To: <2hihggebhn7b7awj6dtgazjutgpc2cqwdrfyumuxoqgphefdqi@mo2kyol54j4f>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 7 Dec 2023 11:39:50 +0000
+Message-ID: <CAPY8ntBadRyihKFUcVNXXxrkbEL9LzMOxOyr3aZuc=7qBRXoVQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/2] media: i2c: Add driver for OmniVision OV64A40
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Lee Jackson <lee.jackson@arducam.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Zhi,
+On Thu, 7 Dec 2023 at 10:19, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
+>
+> Hi Dave
+>
+> On Wed, Dec 06, 2023 at 04:36:47PM +0000, Dave Stevenson wrote:
+> > Hi Jacopo
+> >
+> > On Wed, 6 Dec 2023 at 15:59, Jacopo Mondi <jacopo.mondi@ideasonboard.com> wrote:
+> > >
+> > > Add a driver for the OmniVision OV64A40 image sensor.
+> > >
+> > > Co-developed-by: Lee Jackson <lee.jackson@arducam.com>
+> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > ---
 
-Thanks for the patch and please see my comments below.
+<snip>
 
-On Thu, Dec 07, 2023 at 01:20:15PM +0800, Zhi Mao wrote:
-> Add a V4L2 sub-device driver for Galaxycore GC08A3 image sensor.
-> 
-> Reviewed-By: yunkec@chromium.org
-> Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
-> ---
->  drivers/media/i2c/Kconfig  |   14 +
->  drivers/media/i2c/Makefile |    1 +
->  drivers/media/i2c/gc08a3.c | 1888 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 1903 insertions(+)
->  create mode 100644 drivers/media/i2c/gc08a3.c
-> 
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-> index 59ee0ca2c978..e2718bfdf369 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -50,6 +50,20 @@ config VIDEO_AR0521
->  	  To compile this driver as a module, choose M here: the
->  	  module will be called ar0521.
->  
-> +config VIDEO_GC08A3
-> +	tristate "GalaxyCore gc08a3 sensor support"
-> +	depends on GPIOLIB && I2C && VIDEO_DEV
-> +	select V4L2_FWNODE
-> +	select MEDIA_CONTROLLER
-> +	select VIDEO_V4L2_SUBDEV_API
-> +	select REGMAP_I2C
+> > > +       /* Full resolution */
+> > > +       {
+> > > +               .width = 9248,
+> > > +               .height = 6944,
+> > > +               .timings_default = {
+> > > +                       /* 2.6 FPS */
+> > > +                       [OV64A40_LINK_FREQ_456M_ID] = {
+> > > +                               .vts = 7072,
+> > > +                               .ppl = 4072,
+> > > +                       },
+> > > +                       /* 2 FPS */
+> > > +                       [OV64A40_LINK_FREQ_360M_ID] = {
+> > > +                               .vts = 7072,
+> > > +                               .ppl = 5248,
+> > > +                       },
+> > > +               },
+> > > +               .reglist = {
+> > > +                       .num_regs = ARRAY_SIZE(ov64a40_9248x6944),
+> > > +                       .regvals = ov64a40_9248x6944,
+> > > +               },
+> > > +               .analogue_crop = {
+> > > +                       .left = 0,
+> > > +                       .top = 0,
+> > > +                       .width = 9279,
+> > > +                       .height = 6975,
+> >
+> > As I just noted on our Github PR, odd numbers for width or height are
+> > unlikely to be correct as it shifts the image when flipped.
+>
+> I'm not 100% sure why they would cause issues: (ana_crop.left +
+> ana_crop.width) is only used to compute X_END, which counts from 0, so
+> using 9279 counts 9280 pixels ?
 
-These are already selected for all cameras (apart from REGMAP_I2C).
-Regarding that, could you switch to V4L2 CCI (see
-include/media/v4l2-cci.h)?
+In which case your "width" field isn't defining the width. The docs
+for v4l2_rect clearly state that the width field holds the "Width of
+the rectangle, in pixels." [1]
 
-> +	help
-> +	  This is a Video4Linux2 sensor driver for the GalaxyCore gc08a3
-> +	  camera.
-> +
-> +	  To compile this driver as a module, choose M here: the
-> +	  module will be called gc08a3.
-> +
->  config VIDEO_HI556
->  	tristate "Hynix Hi-556 sensor support"
->  	help
-> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-> index f5010f80a21f..ec40dbd75e7a 100644
-> --- a/drivers/media/i2c/Makefile
-> +++ b/drivers/media/i2c/Makefile
-> @@ -36,6 +36,7 @@ obj-$(CONFIG_VIDEO_DW9719) += dw9719.o
->  obj-$(CONFIG_VIDEO_DW9768) += dw9768.o
->  obj-$(CONFIG_VIDEO_DW9807_VCM) += dw9807-vcm.o
->  obj-$(CONFIG_VIDEO_ET8EK8) += et8ek8/
-> +obj-$(CONFIG_VIDEO_GC08A3) += gc08a3.o
->  obj-$(CONFIG_VIDEO_HI556) += hi556.o
->  obj-$(CONFIG_VIDEO_HI846) += hi846.o
->  obj-$(CONFIG_VIDEO_HI847) += hi847.o
-> diff --git a/drivers/media/i2c/gc08a3.c b/drivers/media/i2c/gc08a3.c
-> new file mode 100644
-> index 000000000000..5a9580f97807
-> --- /dev/null
-> +++ b/drivers/media/i2c/gc08a3.c
-> @@ -0,0 +1,1888 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * gc08a3.c - gc08a3 sensor driver
-> + *
-> + * Copyright 2023 MediaTek
-> + *
-> + * Zhi Mao <zhi.mao@mediatek.com>
-> + */
-> +
-> +#include <asm/unaligned.h>
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/gpio/consumer.h>
-> +#include <linux/i2c.h>
-> +#include <linux/module.h>
-> +#include <linux/pm_runtime.h>
-> +#include <linux/regulator/consumer.h>
-> +#include <media/media-entity.h>
-> +#include <media/v4l2-ctrls.h>
-> +#include <media/v4l2-fwnode.h>
-> +#include <media/v4l2-subdev.h>
-> +
-> +#define GC08A3_REG_VALUE_08BIT 1
-> +#define GC08A3_REG_VALUE_16BIT 2
-> +
-> +#define GC08A3_REG_CHIP_ID 0x03f0
-> +#define GC08A3_CHIP_ID 0x08a3
-> +
-> +#define GC08A3_NATIVE_WIDTH 3264
-> +#define GC08A3_NATIVE_HEIGHT 2448
-> +
-> +#define GC08A3_REG_TEST_PATTERN_EN 0x008c
-> +#define GC08A3_REG_TEST_PATTERN_IDX 0x008d
-> +#define GC08A3_TEST_PATTERN_EN 0x01
-> +
-> +#define GC08A3_STRAEMING_REG 0x0100
-> +
-> +#define GC08A3_DEFAULT_CLK_FREQ 24000000
-> +#define GC08A3_MBUS_CODE MEDIA_BUS_FMT_SRGGB10_1X10
-> +#define GC08A3_DATA_LANES 4
-> +
-> +/* for 1920*1080 */
-> +#define GC08A3_LINK_FREQ_207MHZ 207000000ULL
-> +/* for 3264*2448 */
-> +#define GC08A3_LINK_FREQ_336MHZ 336000000ULL
-> +
-> +#define GC08A3_RGB_DEPTH 10
-> +
-> +#define GC08A3_FRAME_LENGTH_REG 0x0340
-> +#define GC08A3_VTS_30FPS 2548
-> +#define GC08A3_VTS_30FPS_MIN 2548
-> +#define GC08A3_VTS_60FPS 1276
-> +#define GC08A3_VTS_60FPS_MIN 1276
-> +#define GC08A3_VTS_MAX 0xfff0
-> +
-> +#define GC08A3_HTS_30FPS 3640
-> +#define GC08A3_HTS_60FPS 3640
-> +
-> +#define GC08A3_EXP_REG 0x0202
-> +#define GC08A3_EXP_MARGIN 16
-> +#define GC08A3_EXP_MIN 4
-> +#define GC08A3_EXP_STEP 1
-> +
-> +#define GC08A3_FLIP_REG 0x0101
-> +#define GC08A3_FLIP_H_MASK 0x1
-> +#define GC08A3_FLIP_V_MASK 0x2
-> +
-> +#define GC08A3_AGAIN_REG 0x0204
-> +#define GC08A3_AGAIN_MIN 1024
-> +#define GC08A3_AGAIN_MAX (1024 * 16)
-> +#define GC08A3_AGAIN_STEP 1
-> +
-> +#define GC08A3_MIN_SLEEP_US  2000
-> +#define GC08A3_MAX_SLEEP_US  3000
-> +
-> +static const char *const gc08a3_test_pattern_menu[] = {
-> +	"No Pattern", "Solid Black", "Colour Bar", "Solid White",
-> +	"Solid Red", "Solid Green", "Solid Blue", "Solid Yellow",
-> +};
-> +
-> +enum {
-> +	GC08A3_LINK_FREQ_336MHZ_INDEX,
-> +	GC08A3_LINK_FREQ_207MHZ_INDEX,
-> +};
-> +
-> +static const s64 link_freq_menu_items[] = {
-> +	GC08A3_LINK_FREQ_336MHZ,
-> +	GC08A3_LINK_FREQ_207MHZ,
-> +};
-> +
-> +static const char *const gc08a3_supply_name[] = {
-> +	"avdd",
-> +	"dvdd",
-> +	"dovdd",
-> +};
-> +
-> +#define GC08A3_NUM_SUPPLIES ARRAY_SIZE(gc08a3_supply_name)
+Don't call a variable something it isn't - that's where we started on
+this as the driver was using the width field to hold X_END, and hence
+I queried a mode that appeared to have a crop that went off the
+sensor.
+My comment with regard to odd values is what tipped me off that
+something was strange with the values. If this sensor really did read
+out an odd number of pixels per line, then I would have accepted it.
 
-Please use ARRAY_SIZE(...) directly.
+[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-overlay.html#c.v4l2_rect
 
-> +
-> +struct gc08a3 {
-> +	struct device *dev;
-> +	struct v4l2_subdev sd;
-> +	struct media_pad pad;
-> +	struct v4l2_mbus_framefmt fmt;
-> +	struct i2c_client *client;
-> +
-> +	struct v4l2_rect crop;
-> +
-> +	struct clk *xclk;
-> +	struct regulator_bulk_data supplies[GC08A3_NUM_SUPPLIES];
-> +	struct gpio_desc *enable_gpio;
-> +
-> +	struct v4l2_ctrl_handler ctrls;
-> +	struct v4l2_ctrl *pixel_rate;
-> +	struct v4l2_ctrl *link_freq;
-> +	struct v4l2_ctrl *exposure;
-> +	struct v4l2_ctrl *vblank;
-> +	struct v4l2_ctrl *hblank;
-> +
-> +	/*
-> +	 * Serialize control access, get/set format, get selection
-> +	 * and start streaming.
-> +	 */
-> +	struct mutex mutex;
-> +
-> +	bool streaming;
-> +
-> +	/* Current mode */
-> +	const struct gc08a3_mode *cur_mode;
-> +};
-> +
-> +struct gc08a3_reg {
-> +	u16 address;
-> +	u8 val;
-> +};
-> +
-> +struct gc08a3_reg_list {
-> +	u32 num_of_regs;
-> +	const struct gc08a3_reg *regs;
-> +};
-> +
-> +struct gc08a3_link_freq_config {
-> +	const struct gc08a3_reg_list reg_list;
-> +};
-> +
-> +static const struct gc08a3_reg mode_3264x2448[] = {
-> +	/* system */
-> +	{ 0x031c, 0x60 },
-> +	{ 0x0337, 0x04 },
-> +	{ 0x0335, 0x51 },
-> +	{ 0x0336, 0x70 },
-> +	{ 0x0383, 0xbb },
-> +	{ 0x031a, 0x00 },
-> +	{ 0x0321, 0x10 },
-> +	{ 0x0327, 0x03 },
-> +	{ 0x0325, 0x40 },
-> +	{ 0x0326, 0x23 },
-> +	{ 0x0314, 0x11 },
-> +	{ 0x0315, 0xd6 },
-> +	{ 0x0316, 0x01 },
-> +	{ 0x0334, 0x40 },
-> +	{ 0x0324, 0x42 },
-> +	{ 0x031c, 0x00 },
-> +	{ 0x031c, 0x9f },
-> +	{ 0x0344, 0x00 },
-> +	{ 0x0345, 0x06 },
-> +	{ 0x0346, 0x00 },
-> +	{ 0x0347, 0x04 },
-> +	{ 0x0348, 0x0c },
-> +	{ 0x0349, 0xd0 },
-> +	{ 0x034a, 0x09 },
-> +	{ 0x034b, 0x9c },
-> +	{ 0x0202, 0x09 },
-> +	{ 0x0203, 0x04 },
-> +	{ 0x0340, 0x09 },
-> +	{ 0x0341, 0xf4 },
-> +	{ 0x0342, 0x07 },
-> +	{ 0x0343, 0x1c },
-> +
-> +	{ 0x0226, 0x00 },
-> +	{ 0x0227, 0x28 },
-> +	{ 0x0e38, 0x49 },
-> +	{ 0x0210, 0x13 },
-> +	{ 0x0218, 0x00 },
-> +	{ 0x0241, 0x88 },
-> +	{ 0x0392, 0x60 },
-> +
-> +	/* ISP */
-> +	{ 0x031c, 0x80 },
-> +	{ 0x03fe, 0x10 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x031c, 0x9f },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x031c, 0x80 },
-> +	{ 0x03fe, 0x10 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x031c, 0x9f },
-> +	{ 0x00a2, 0x00 },
-> +	{ 0x00a3, 0x00 },
-> +	{ 0x00ab, 0x00 },
-> +	{ 0x00ac, 0x00 },
-> +	{ 0x05a0, 0x82 },
-> +	{ 0x05ac, 0x00 },
-> +	{ 0x05ad, 0x01 },
-> +	{ 0x05ae, 0x00 },
-> +	{ 0x0800, 0x0a },
-> +	{ 0x0801, 0x14 },
-> +	{ 0x0802, 0x28 },
-> +	{ 0x0803, 0x34 },
-> +	{ 0x0804, 0x0e },
-> +	{ 0x0805, 0x33 },
-> +	{ 0x0806, 0x03 },
-> +	{ 0x0807, 0x8a },
-> +	{ 0x0808, 0x50 },
-> +	{ 0x0809, 0x00 },
-> +	{ 0x080a, 0x34 },
-> +	{ 0x080b, 0x03 },
-> +	{ 0x080c, 0x26 },
-> +	{ 0x080d, 0x03 },
-> +	{ 0x080e, 0x18 },
-> +	{ 0x080f, 0x03 },
-> +	{ 0x0810, 0x10 },
-> +	{ 0x0811, 0x03 },
-> +	{ 0x0812, 0x00 },
-> +	{ 0x0813, 0x00 },
-> +	{ 0x0814, 0x01 },
-> +	{ 0x0815, 0x00 },
-> +	{ 0x0816, 0x01 },
-> +	{ 0x0817, 0x00 },
-> +	{ 0x0818, 0x00 },
-> +	{ 0x0819, 0x0a },
-> +	{ 0x081a, 0x01 },
-> +	{ 0x081b, 0x6c },
-> +	{ 0x081c, 0x00 },
-> +	{ 0x081d, 0x0b },
-> +	{ 0x081e, 0x02 },
-> +	{ 0x081f, 0x00 },
-> +	{ 0x0820, 0x00 },
-> +	{ 0x0821, 0x0c },
-> +	{ 0x0822, 0x02 },
-> +	{ 0x0823, 0xd9 },
-> +	{ 0x0824, 0x00 },
-> +	{ 0x0825, 0x0d },
-> +	{ 0x0826, 0x03 },
-> +	{ 0x0827, 0xf0 },
-> +	{ 0x0828, 0x00 },
-> +	{ 0x0829, 0x0e },
-> +	{ 0x082a, 0x05 },
-> +	{ 0x082b, 0x94 },
-> +	{ 0x082c, 0x09 },
-> +	{ 0x082d, 0x6e },
-> +	{ 0x082e, 0x07 },
-> +	{ 0x082f, 0xe6 },
-> +	{ 0x0830, 0x10 },
-> +	{ 0x0831, 0x0e },
-> +	{ 0x0832, 0x0b },
-> +	{ 0x0833, 0x2c },
-> +	{ 0x0834, 0x14 },
-> +	{ 0x0835, 0xae },
-> +	{ 0x0836, 0x0f },
-> +	{ 0x0837, 0xc4 },
-> +	{ 0x0838, 0x18 },
-> +	{ 0x0839, 0x0e },
-> +	{ 0x05ac, 0x01 },
-> +	{ 0x059a, 0x00 },
-> +	{ 0x059b, 0x00 },
-> +	{ 0x059c, 0x01 },
-> +	{ 0x0598, 0x00 },
-> +	{ 0x0597, 0x14 },
-> +	{ 0x05ab, 0x09 },
-> +	{ 0x05a4, 0x02 },
-> +	{ 0x05a3, 0x05 },
-> +	{ 0x05a0, 0xc2 },
-> +	{ 0x0207, 0xc4 },
-> +
-> +	/* GAIN */
-> +	{ 0x0204, 0x04 },
-> +	{ 0x0205, 0x00 },
-> +	{ 0x0050, 0x5c },
-> +	{ 0x0051, 0x44 },
-> +
-> +	/* out window */
-> +	{ 0x009a, 0x66 },
-> +	{ 0x0351, 0x00 },
-> +	{ 0x0352, 0x06 },
-> +	{ 0x0353, 0x00 },
-> +	{ 0x0354, 0x08 },
-> +	{ 0x034c, 0x0c },
-> +	{ 0x034d, 0xc0 },
-> +	{ 0x034e, 0x09 },
-> +	{ 0x034f, 0x90 },
-> +
-> +	/* MIPI */
-> +	{ 0x0114, 0x03 },
-> +	{ 0x0180, 0x65 },
-> +	{ 0x0181, 0xf0 },
-> +	{ 0x0185, 0x01 },
-> +	{ 0x0115, 0x30 },
-> +	{ 0x011b, 0x12 },
-> +	{ 0x011c, 0x12 },
-> +	{ 0x0121, 0x06 },
-> +	{ 0x0122, 0x06 },
-> +	{ 0x0123, 0x15 },
-> +	{ 0x0124, 0x01 },
-> +	{ 0x0125, 0x0b },
-> +	{ 0x0126, 0x08 },
-> +	{ 0x0129, 0x06 },
-> +	{ 0x012a, 0x08 },
-> +	{ 0x012b, 0x08 },
-> +
-> +	{ 0x0a73, 0x60 },
-> +	{ 0x0a70, 0x11 },
-> +	{ 0x0313, 0x80 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0a70, 0x00 },
-> +	{ 0x00a4, 0x80 },
-> +	{ 0x0316, 0x01 },
-> +	{ 0x0a67, 0x00 },
-> +	{ 0x0084, 0x10 },
-> +	{ 0x0102, 0x09 },
-> +};
-> +
-> +static const struct gc08a3_reg mode_1920x1080[] = {
-> +	/* system */
-> +	{ 0x031c, 0x60 },
-> +	{ 0x0337, 0x04 },
-> +	{ 0x0335, 0x51 },
-> +	{ 0x0336, 0x45 },
-> +	{ 0x0383, 0x8b },
-> +	{ 0x031a, 0x00 },
-> +	{ 0x0321, 0x10 },
-> +	{ 0x0327, 0x03 },
-> +	{ 0x0325, 0x40 },
-> +	{ 0x0326, 0x23 },
-> +	{ 0x0314, 0x11 },
-> +	{ 0x0315, 0xd6 },
-> +	{ 0x0316, 0x01 },
-> +	{ 0x0334, 0x40 },
-> +	{ 0x0324, 0x42 },
-> +	{ 0x031c, 0x00 },
-> +	{ 0x031c, 0x9f },
-> +	{ 0x0344, 0x02 },
-> +	{ 0x0345, 0xa6 },
-> +	{ 0x0346, 0x02 },
-> +	{ 0x0347, 0xb0 },
-> +	{ 0x0348, 0x07 },
-> +	{ 0x0349, 0x90 },
-> +	{ 0x034a, 0x04 },
-> +	{ 0x034b, 0x44 },
-> +	{ 0x0202, 0x03 },
-> +	{ 0x0203, 0x00 },
-> +	{ 0x0340, 0x04 },
-> +	{ 0x0341, 0xfc },
-> +	{ 0x0342, 0x07 },
-> +	{ 0x0343, 0x1c },
-> +
-> +	{ 0x0226, 0x00 },
-> +	{ 0x0227, 0x88 },
-> +	{ 0x0e38, 0x49 },
-> +	{ 0x0210, 0x13 },
-> +	{ 0x0218, 0x00 },
-> +	{ 0x0241, 0x88 },
-> +	{ 0x0392, 0x60 },
-> +
-> +	/* ISP */
-> +	{ 0x031c, 0x80 },
-> +	{ 0x03fe, 0x10 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x031c, 0x9f },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x031c, 0x80 },
-> +	{ 0x03fe, 0x10 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x031c, 0x9f },
-> +	{ 0x00a2, 0xac },
-> +	{ 0x00a3, 0x02 },
-> +	{ 0x00ab, 0xa0 },
-> +	{ 0x00ac, 0x02 },
-> +	{ 0x05a0, 0x82 },
-> +	{ 0x05ac, 0x00 },
-> +	{ 0x05ad, 0x01 },
-> +	{ 0x05ae, 0x00 },
-> +	{ 0x0800, 0x0a },
-> +	{ 0x0801, 0x14 },
-> +	{ 0x0802, 0x28 },
-> +	{ 0x0803, 0x34 },
-> +	{ 0x0804, 0x0e },
-> +	{ 0x0805, 0x33 },
-> +	{ 0x0806, 0x03 },
-> +	{ 0x0807, 0x8a },
-> +	{ 0x0808, 0x50 },
-> +	{ 0x0809, 0x00 },
-> +	{ 0x080a, 0x34 },
-> +	{ 0x080b, 0x03 },
-> +	{ 0x080c, 0x26 },
-> +	{ 0x080d, 0x03 },
-> +	{ 0x080e, 0x18 },
-> +	{ 0x080f, 0x03 },
-> +	{ 0x0810, 0x10 },
-> +	{ 0x0811, 0x03 },
-> +	{ 0x0812, 0x00 },
-> +	{ 0x0813, 0x00 },
-> +	{ 0x0814, 0x01 },
-> +	{ 0x0815, 0x00 },
-> +	{ 0x0816, 0x01 },
-> +	{ 0x0817, 0x00 },
-> +	{ 0x0818, 0x00 },
-> +	{ 0x0819, 0x0a },
-> +	{ 0x081a, 0x01 },
-> +	{ 0x081b, 0x6c },
-> +	{ 0x081c, 0x00 },
-> +	{ 0x081d, 0x0b },
-> +	{ 0x081e, 0x02 },
-> +	{ 0x081f, 0x00 },
-> +	{ 0x0820, 0x00 },
-> +	{ 0x0821, 0x0c },
-> +	{ 0x0822, 0x02 },
-> +	{ 0x0823, 0xd9 },
-> +	{ 0x0824, 0x00 },
-> +	{ 0x0825, 0x0d },
-> +	{ 0x0826, 0x03 },
-> +	{ 0x0827, 0xf0 },
-> +	{ 0x0828, 0x00 },
-> +	{ 0x0829, 0x0e },
-> +	{ 0x082a, 0x05 },
-> +	{ 0x082b, 0x94 },
-> +	{ 0x082c, 0x09 },
-> +	{ 0x082d, 0x6e },
-> +	{ 0x082e, 0x07 },
-> +	{ 0x082f, 0xe6 },
-> +	{ 0x0830, 0x10 },
-> +	{ 0x0831, 0x0e },
-> +	{ 0x0832, 0x0b },
-> +	{ 0x0833, 0x2c },
-> +	{ 0x0834, 0x14 },
-> +	{ 0x0835, 0xae },
-> +	{ 0x0836, 0x0f },
-> +	{ 0x0837, 0xc4 },
-> +	{ 0x0838, 0x18 },
-> +	{ 0x0839, 0x0e },
-> +	{ 0x05ac, 0x01 },
-> +	{ 0x059a, 0x00 },
-> +	{ 0x059b, 0x00 },
-> +	{ 0x059c, 0x01 },
-> +	{ 0x0598, 0x00 },
-> +	{ 0x0597, 0x14 },
-> +	{ 0x05ab, 0x09 },
-> +	{ 0x05a4, 0x02 },
-> +	{ 0x05a3, 0x05 },
-> +	{ 0x05a0, 0xc2 },
-> +	{ 0x0207, 0xc4 },
-> +
-> +	/* GAIN */
-> +	{ 0x0204, 0x04 },
-> +	{ 0x0205, 0x00 },
-> +	{ 0x0050, 0x38 },
-> +	{ 0x0051, 0x20 },
-> +
-> +	/* out window */
-> +	{ 0x009a, 0x66 },
-> +	{ 0x0351, 0x00 },
-> +	{ 0x0352, 0x06 },
-> +	{ 0x0353, 0x00 },
-> +	{ 0x0354, 0x08 },
-> +	{ 0x034c, 0x07 },
-> +	{ 0x034d, 0x80 },
-> +	{ 0x034e, 0x04 },
-> +	{ 0x034f, 0x38 },
-> +
-> +	/* MIPI */
-> +	{ 0x0114, 0x03 },
-> +	{ 0x0180, 0x65 },
-> +	{ 0x0181, 0xf0 },
-> +	{ 0x0185, 0x01 },
-> +	{ 0x0115, 0x30 },
-> +	{ 0x011b, 0x12 },
-> +	{ 0x011c, 0x12 },
-> +	{ 0x0121, 0x02 },
-> +	{ 0x0122, 0x03 },
-> +	{ 0x0123, 0x0c },
-> +	{ 0x0124, 0x00 },
-> +	{ 0x0125, 0x09 },
-> +	{ 0x0126, 0x06 },
-> +	{ 0x0129, 0x04 },
-> +	{ 0x012a, 0x03 },
-> +	{ 0x012b, 0x06 },
-> +
-> +	{ 0x0a73, 0x60 },
-> +	{ 0x0a70, 0x11 },
-> +	{ 0x0313, 0x80 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0aff, 0x00 },
-> +	{ 0x0a70, 0x00 },
-> +	{ 0x00a4, 0x80 },
-> +	{ 0x0316, 0x01 },
-> +	{ 0x0a67, 0x00 },
-> +	{ 0x0084, 0x10 },
-> +	{ 0x0102, 0x09 },
-> +};
-> +
-> +static const struct gc08a3_reg mode_table_common[] = {
-> +	{ GC08A3_STRAEMING_REG, 0x00 },
-> +	/* system */
-> +	{ 0x031c, 0x60 },
-> +	{ 0x0337, 0x04 },
-> +	{ 0x0335, 0x51 },
-> +	{ 0x0336, 0x70 },
-> +	{ 0x0383, 0xbb },
-> +	{ 0x031a, 0x00 },
-> +	{ 0x0321, 0x10 },
-> +	{ 0x0327, 0x03 },
-> +	{ 0x0325, 0x40 },
-> +	{ 0x0326, 0x23 },
-> +	{ 0x0314, 0x11 },
-> +	{ 0x0315, 0xd6 },
-> +	{ 0x0316, 0x01 },
-> +	{ 0x0334, 0x40 },
-> +	{ 0x0324, 0x42 },
-> +	{ 0x031c, 0x00 },
-> +	{ 0x031c, 0x9f },
-> +	{ 0x039a, 0x13 },
-> +	{ 0x0084, 0x30 },
-> +	{ 0x02b3, 0x08 },
-> +	{ 0x0057, 0x0c },
-> +	{ 0x05c3, 0x50 },
-> +	{ 0x0311, 0x90 },
-> +	{ 0x05a0, 0x02 },
-> +	{ 0x0074, 0x0a },
-> +	{ 0x0059, 0x11 },
-> +	{ 0x0070, 0x05 },
-> +	{ 0x0101, 0x00 },
-> +
-> +	/* analog */
-> +	{ 0x0344, 0x00 },
-> +	{ 0x0345, 0x06 },
-> +	{ 0x0346, 0x00 },
-> +	{ 0x0347, 0x04 },
-> +	{ 0x0348, 0x0c },
-> +	{ 0x0349, 0xd0 },
-> +	{ 0x034a, 0x09 },
-> +	{ 0x034b, 0x9c },
-> +	{ 0x0202, 0x09 },
-> +	{ 0x0203, 0x04 },
-> +
-> +	{ 0x0219, 0x05 },
-> +	{ 0x0226, 0x00 },
-> +	{ 0x0227, 0x28 },
-> +	{ 0x0e0a, 0x00 },
-> +	{ 0x0e0b, 0x00 },
-> +	{ 0x0e24, 0x04 },
-> +	{ 0x0e25, 0x04 },
-> +	{ 0x0e26, 0x00 },
-> +	{ 0x0e27, 0x10 },
-> +	{ 0x0e01, 0x74 },
-> +	{ 0x0e03, 0x47 },
-> +	{ 0x0e04, 0x33 },
-> +	{ 0x0e05, 0x44 },
-> +	{ 0x0e06, 0x44 },
-> +	{ 0x0e0c, 0x1e },
-> +	{ 0x0e17, 0x3a },
-> +	{ 0x0e18, 0x3c },
-> +	{ 0x0e19, 0x40 },
-> +	{ 0x0e1a, 0x42 },
-> +	{ 0x0e28, 0x21 },
-> +	{ 0x0e2b, 0x68 },
-> +	{ 0x0e2c, 0x0d },
-> +	{ 0x0e2d, 0x08 },
-> +	{ 0x0e34, 0xf4 },
-> +	{ 0x0e35, 0x44 },
-> +	{ 0x0e36, 0x07 },
-> +	{ 0x0e38, 0x49 },
-> +	{ 0x0210, 0x13 },
-> +	{ 0x0218, 0x00 },
-> +	{ 0x0241, 0x88 },
-> +	{ 0x0e32, 0x00 },
-> +	{ 0x0e33, 0x18 },
-> +	{ 0x0e42, 0x03 },
-> +	{ 0x0e43, 0x80 },
-> +	{ 0x0e44, 0x04 },
-> +	{ 0x0e45, 0x00 },
-> +	{ 0x0e4f, 0x04 },
-> +	{ 0x057a, 0x20 },
-> +	{ 0x0381, 0x7c },
-> +	{ 0x0382, 0x9b },
-> +	{ 0x0384, 0xfb },
-> +	{ 0x0389, 0x38 },
-> +	{ 0x038a, 0x03 },
-> +	{ 0x0390, 0x6a },
-> +	{ 0x0391, 0x0b },
-> +	{ 0x0392, 0x60 },
-> +	{ 0x0393, 0xc1 },
-> +	{ 0x0396, 0xff },
-> +	{ 0x0398, 0x62 },
-> +
-> +	/* cisctl reset */
-> +	{ 0x031c, 0x80 },
-> +	{ 0x03fe, 0x10 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x031c, 0x9f },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x031c, 0x80 },
-> +	{ 0x03fe, 0x10 },
-> +	{ 0x03fe, 0x00 },
-> +	{ 0x031c, 0x9f },
-> +	{ 0x0360, 0x01 },
-> +	{ 0x0360, 0x00 },
-> +	{ 0x0316, 0x09 },
-> +	{ 0x0a67, 0x80 },
-> +	{ 0x0313, 0x00 },
-> +	{ 0x0a53, 0x0e },
-> +	{ 0x0a65, 0x17 },
-> +	{ 0x0a68, 0xa1 },
-> +	{ 0x0a58, 0x00 },
-> +	{ 0x0ace, 0x0c },
-> +	{ 0x00a4, 0x00 },
-> +	{ 0x00a5, 0x01 },
-> +	{ 0x00a7, 0x09 },
-> +	{ 0x00a8, 0x9c },
-> +	{ 0x00a9, 0x0c },
-> +	{ 0x00aa, 0xd0 },
-> +	{ 0x0a8a, 0x00 },
-> +	{ 0x0a8b, 0xe0 },
-> +	{ 0x0a8c, 0x13 },
-> +	{ 0x0a8d, 0xe8 },
-> +	{ 0x0a90, 0x0a },
-> +	{ 0x0a91, 0x10 },
-> +	{ 0x0a92, 0xf8 },
-> +	{ 0x0a71, 0xf2 },
-> +	{ 0x0a72, 0x12 },
-> +	{ 0x0a73, 0x64 },
-> +	{ 0x0a75, 0x41 },
-> +	{ 0x0a70, 0x07 },
-> +	{ 0x0313, 0x80 },
-> +
-> +	/* ISP */
-> +	{ 0x00a0, 0x01 },
-> +	{ 0x0080, 0xd2 },
-> +	{ 0x0081, 0x3f },
-> +	{ 0x0087, 0x51 },
-> +	{ 0x0089, 0x03 },
-> +	{ 0x009b, 0x40 },
-> +	{ 0x05a0, 0x82 },
-> +	{ 0x05ac, 0x00 },
-> +	{ 0x05ad, 0x01 },
-> +	{ 0x05ae, 0x00 },
-> +	{ 0x0800, 0x0a },
-> +	{ 0x0801, 0x14 },
-> +	{ 0x0802, 0x28 },
-> +	{ 0x0803, 0x34 },
-> +	{ 0x0804, 0x0e },
-> +	{ 0x0805, 0x33 },
-> +	{ 0x0806, 0x03 },
-> +	{ 0x0807, 0x8a },
-> +	{ 0x0808, 0x50 },
-> +	{ 0x0809, 0x00 },
-> +	{ 0x080a, 0x34 },
-> +	{ 0x080b, 0x03 },
-> +	{ 0x080c, 0x26 },
-> +	{ 0x080d, 0x03 },
-> +	{ 0x080e, 0x18 },
-> +	{ 0x080f, 0x03 },
-> +	{ 0x0810, 0x10 },
-> +	{ 0x0811, 0x03 },
-> +	{ 0x0812, 0x00 },
-> +	{ 0x0813, 0x00 },
-> +	{ 0x0814, 0x01 },
-> +	{ 0x0815, 0x00 },
-> +	{ 0x0816, 0x01 },
-> +	{ 0x0817, 0x00 },
-> +	{ 0x0818, 0x00 },
-> +	{ 0x0819, 0x0a },
-> +	{ 0x081a, 0x01 },
-> +	{ 0x081b, 0x6c },
-> +	{ 0x081c, 0x00 },
-> +	{ 0x081d, 0x0b },
-> +	{ 0x081e, 0x02 },
-> +	{ 0x081f, 0x00 },
-> +	{ 0x0820, 0x00 },
-> +	{ 0x0821, 0x0c },
-> +	{ 0x0822, 0x02 },
-> +	{ 0x0823, 0xd9 },
-> +	{ 0x0824, 0x00 },
-> +	{ 0x0825, 0x0d },
-> +	{ 0x0826, 0x03 },
-> +	{ 0x0827, 0xf0 },
-> +	{ 0x0828, 0x00 },
-> +	{ 0x0829, 0x0e },
-> +	{ 0x082a, 0x05 },
-> +	{ 0x082b, 0x94 },
-> +	{ 0x082c, 0x09 },
-> +	{ 0x082d, 0x6e },
-> +	{ 0x082e, 0x07 },
-> +	{ 0x082f, 0xe6 },
-> +	{ 0x0830, 0x10 },
-> +	{ 0x0831, 0x0e },
-> +	{ 0x0832, 0x0b },
-> +	{ 0x0833, 0x2c },
-> +	{ 0x0834, 0x14 },
-> +	{ 0x0835, 0xae },
-> +	{ 0x0836, 0x0f },
-> +	{ 0x0837, 0xc4 },
-> +	{ 0x0838, 0x18 },
-> +	{ 0x0839, 0x0e },
-> +	{ 0x05ac, 0x01 },
-> +	{ 0x059a, 0x00 },
-> +	{ 0x059b, 0x00 },
-> +	{ 0x059c, 0x01 },
-> +	{ 0x0598, 0x00 },
-> +	{ 0x0597, 0x14 },
-> +	{ 0x05ab, 0x09 },
-> +	{ 0x05a4, 0x02 },
-> +	{ 0x05a3, 0x05 },
-> +	{ 0x05a0, 0xc2 },
-> +	{ 0x0207, 0xc4 },
-> +
-> +	/* GAIN */
-> +	{ 0x0208, 0x01 },
-> +	{ 0x0209, 0x72 },
-> +	{ 0x0204, 0x04 },
-> +	{ 0x0205, 0x00 },
-> +
-> +	{ 0x0040, 0x22 },
-> +	{ 0x0041, 0x20 },
-> +	{ 0x0043, 0x10 },
-> +	{ 0x0044, 0x00 },
-> +	{ 0x0046, 0x08 },
-> +	{ 0x0047, 0xf0 },
-> +	{ 0x0048, 0x0f },
-> +	{ 0x004b, 0x0f },
-> +	{ 0x004c, 0x00 },
-> +	{ 0x0050, 0x5c },
-> +	{ 0x0051, 0x44 },
-> +	{ 0x005b, 0x03 },
-> +	{ 0x00c0, 0x00 },
-> +	{ 0x00c1, 0x80 },
-> +	{ 0x00c2, 0x31 },
-> +	{ 0x00c3, 0x00 },
-> +	{ 0x0460, 0x04 },
-> +	{ 0x0462, 0x08 },
-> +	{ 0x0464, 0x0e },
-> +	{ 0x0466, 0x0a },
-> +	{ 0x0468, 0x12 },
-> +	{ 0x046a, 0x12 },
-> +	{ 0x046c, 0x10 },
-> +	{ 0x046e, 0x0c },
-> +	{ 0x0461, 0x03 },
-> +	{ 0x0463, 0x03 },
-> +	{ 0x0465, 0x03 },
-> +	{ 0x0467, 0x03 },
-> +	{ 0x0469, 0x04 },
-> +	{ 0x046b, 0x04 },
-> +	{ 0x046d, 0x04 },
-> +	{ 0x046f, 0x04 },
-> +	{ 0x0470, 0x04 },
-> +	{ 0x0472, 0x10 },
-> +	{ 0x0474, 0x26 },
-> +	{ 0x0476, 0x38 },
-> +	{ 0x0478, 0x20 },
-> +	{ 0x047a, 0x30 },
-> +	{ 0x047c, 0x38 },
-> +	{ 0x047e, 0x60 },
-> +	{ 0x0471, 0x05 },
-> +	{ 0x0473, 0x05 },
-> +	{ 0x0475, 0x05 },
-> +	{ 0x0477, 0x05 },
-> +	{ 0x0479, 0x04 },
-> +	{ 0x047b, 0x04 },
-> +	{ 0x047d, 0x04 },
-> +	{ 0x047f, 0x04 },
-> +};
-> +
-> +static const struct gc08a3_link_freq_config link_freq_configs[] = {
-> +	[GC08A3_LINK_FREQ_336MHZ_INDEX] = {
-> +		.reg_list = {
-> +			.num_of_regs = ARRAY_SIZE(mode_table_common),
-> +			.regs = mode_table_common,
-> +		}
-> +	},
-> +	[GC08A3_LINK_FREQ_207MHZ_INDEX] = {
-> +		.reg_list = {
-> +			.num_of_regs = ARRAY_SIZE(mode_table_common),
-> +			.regs = mode_table_common,
-> +		}
-> +	},
-> +
-> +};
-> +
-> +struct gc08a3_mode {
-> +	u32 width;
-> +	u32 height;
-> +	const struct gc08a3_reg_list reg_list;
-> +
-> +	u32 hts; /* Horizontal timining size */
-> +	u32 vts_def; /* Default vertical timining size */
-> +	u32 vts_min; /* Min vertical timining size */
-> +	u32 link_freq_index; /* Link frequency needed for this resolution */
-> +	u32 max_framerate;
-> +
-> +};
-> +
-> +/*
-> + * Declare modes in order, from biggest
-> + * to smallest height.
-> + */
-> +static const struct gc08a3_mode gc08a3_modes[] = {
-> +	{
-> +		.width = GC08A3_NATIVE_WIDTH,
-> +		.height = GC08A3_NATIVE_HEIGHT,
-> +		.reg_list = {
-> +			.num_of_regs = ARRAY_SIZE(mode_3264x2448),
-> +			.regs = mode_3264x2448,
-> +		},
-> +		.link_freq_index = GC08A3_LINK_FREQ_336MHZ_INDEX,
-> +
-> +		.hts = GC08A3_HTS_30FPS,
-> +		.vts_def = GC08A3_VTS_30FPS,
-> +		.vts_min = GC08A3_VTS_30FPS_MIN,
-> +		.max_framerate = 300,
-> +	},
-> +	{
-> +		.width = 1920,
-> +		.height = 1080,
-> +		.reg_list = {
-> +			.num_of_regs = ARRAY_SIZE(mode_1920x1080),
-> +			.regs = mode_1920x1080,
-> +		},
-> +		.link_freq_index = GC08A3_LINK_FREQ_207MHZ_INDEX,
-> +
-> +		.hts = GC08A3_HTS_60FPS,
-> +		.vts_def = GC08A3_VTS_60FPS,
-> +		.vts_min = GC08A3_VTS_60FPS_MIN,
-> +		.max_framerate = 600,
-> +	},
-> +};
-> +
-> +static u64 to_pixel_rate(u32 f_index)
-> +{
-> +	u64 pixel_rate = link_freq_menu_items[f_index] * 2 * GC08A3_DATA_LANES;
-> +
-> +	do_div(pixel_rate, GC08A3_RGB_DEPTH);
-> +
-> +	return pixel_rate;
-> +}
-> +
-> +static int gc08a3_read_reg(struct gc08a3 *gc08a3, u16 reg, u16 len, u32 *val)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&gc08a3->sd);
-> +	struct i2c_msg msgs[2];
-> +	u8 addr_buf[2];
-> +	u8 data_buf[4] = { 0 };
-> +	int ret;
-> +
-> +	if (len > 4)
-> +		return -EINVAL;
-> +
-> +	put_unaligned_be16(reg, addr_buf);
-> +	msgs[0].addr = client->addr;
-> +	msgs[0].flags = 0;
-> +	msgs[0].len = sizeof(addr_buf);
-> +	msgs[0].buf = addr_buf;
-> +	msgs[1].addr = client->addr;
-> +	msgs[1].flags = I2C_M_RD;
-> +	msgs[1].len = len;
-> +	msgs[1].buf = &data_buf[4 - len];
-> +
-> +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-> +	if (ret != ARRAY_SIZE(msgs))
-> +		return -EIO;
-> +
-> +	*val = get_unaligned_be32(data_buf);
-> +
-> +	return 0;
-> +}
-> +
-> +static int gc08a3_write_reg(struct gc08a3 *gc08a3, u16 reg, u16 len, u32 val)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&gc08a3->sd);
-> +	u8 buf[6];
-> +
-> +	if (len > 4)
-> +		return -EINVAL;
-> +
-> +	put_unaligned_be16(reg, buf);
-> +	put_unaligned_be32(val << 8 * (4 - len), buf + 2);
-> +	if (i2c_master_send(client, buf, len + 2) != len + 2)
-> +		return -EIO;
-> +
-> +	return 0;
-> +}
-> +
-> +static int gc08a3_write_reg_list(struct gc08a3 *gc08a3,
-> +				 const struct gc08a3_reg_list *r_list)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&gc08a3->sd);
-> +	unsigned int i;
-> +	int ret;
-> +
-> +	for (i = 0; i < r_list->num_of_regs; i++) {
-> +		ret = gc08a3_write_reg(gc08a3, r_list->regs[i].address,
-> +				       GC08A3_REG_VALUE_08BIT,
-> +				       r_list->regs[i].val);
-> +		if (ret) {
-> +			dev_err_ratelimited(&client->dev,
-> +					    "failed to write reg 0x%4.4x. error = %d",
-> +					    r_list->regs[i].address, ret);
-> +			return ret;
-> +		}
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int gc08a3_identify_module(struct gc08a3 *gc08a3)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&gc08a3->sd);
-> +	u32 val = 0;
-> +
-> +	gc08a3_read_reg(gc08a3, GC08A3_REG_CHIP_ID, GC08A3_REG_VALUE_16BIT,
-> +			&val);
-> +
-> +	if (val != GC08A3_CHIP_ID) {
-> +		dev_err(&client->dev, "chip id mismatch: 0x%x!=0x%x",
-> +			GC08A3_CHIP_ID, val);
-> +		return -ENXIO;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static inline struct gc08a3 *to_gc08a3(struct v4l2_subdev *sd)
-> +{
-> +	return container_of(sd, struct gc08a3, sd);
-> +}
-> +
-> +static int gc08a3_power_on(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
-> +	int ret;
-> +
-> +	gpiod_set_value_cansleep(gc08a3->enable_gpio, 0);
-> +	usleep_range(GC08A3_MIN_SLEEP_US, GC08A3_MAX_SLEEP_US);
-> +
-> +	ret = regulator_bulk_enable(GC08A3_NUM_SUPPLIES, gc08a3->supplies);
-> +	if (ret < 0) {
-> +		dev_err(gc08a3->dev, "failed to enable regulators: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = clk_prepare_enable(gc08a3->xclk);
-> +	if (ret < 0) {
-> +		regulator_bulk_disable(GC08A3_NUM_SUPPLIES, gc08a3->supplies);
-> +		dev_err(gc08a3->dev, "clk prepare enable failed\n");
-> +		return ret;
-> +	}
-> +
-> +	usleep_range(GC08A3_MIN_SLEEP_US, GC08A3_MAX_SLEEP_US);
-> +
-> +	gpiod_set_value_cansleep(gc08a3->enable_gpio, 1);
-> +	usleep_range(GC08A3_MIN_SLEEP_US, GC08A3_MAX_SLEEP_US);
-> +
-> +	return 0;
-> +}
-> +
-> +static int gc08a3_power_off(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
-> +
-> +	gpiod_set_value_cansleep(gc08a3->enable_gpio, 0);
-> +
-> +	clk_disable_unprepare(gc08a3->xclk);
-> +
-> +	regulator_bulk_disable(GC08A3_NUM_SUPPLIES, gc08a3->supplies);
-> +	usleep_range(GC08A3_MIN_SLEEP_US, GC08A3_MAX_SLEEP_US);
-> +
-> +	return 0;
-> +}
-> +
-> +static int gc08a3_enum_mbus_code(struct v4l2_subdev *sd,
-> +				 struct v4l2_subdev_state *sd_state,
-> +				 struct v4l2_subdev_mbus_code_enum *code)
-> +{
-> +	if (code->index > 0)
-> +		return -EINVAL;
-> +
-> +	code->code = GC08A3_MBUS_CODE;
-> +
-> +	return 0;
-> +}
-> +
-> +static int gc08a3_enum_frame_size(struct v4l2_subdev *subdev,
-> +				  struct v4l2_subdev_state *sd_state,
-> +				  struct v4l2_subdev_frame_size_enum *fse)
-> +{
-> +	if (fse->code != GC08A3_MBUS_CODE)
-> +		return -EINVAL;
-> +
-> +	if (fse->index >= ARRAY_SIZE(gc08a3_modes))
-> +		return -EINVAL;
-> +
-> +	fse->min_width = gc08a3_modes[fse->index].width;
-> +	fse->max_width = gc08a3_modes[fse->index].width;
-> +	fse->min_height = gc08a3_modes[fse->index].height;
-> +	fse->max_height = gc08a3_modes[fse->index].height;
-> +
-> +	return 0;
-> +}
-> +
-> +#ifdef CONFIG_VIDEO_ADV_DEBUG
-> +static int gc08a3_g_register(struct v4l2_subdev *subdev,
-> +			     struct v4l2_dbg_register *reg)
-> +{
-> +	int ret;
-> +	u32 val;
-> +	struct gc08a3 *gc08a3 = container_of(subdev, struct gc08a3, sd);
-> +
-> +	ret = gc08a3_read_reg(gc08a3, reg->reg, GC08A3_REG_VALUE_08BIT, &val);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	reg->val = val;
-> +	reg->size = 1;
-> +
-> +	return 0;
-> +}
-> +
-> +static int gc08a3_s_register(struct v4l2_subdev *subdev,
-> +			     const struct v4l2_dbg_register *reg)
-> +{
-> +	struct gc08a3 *gc08a3 = container_of(subdev, struct gc08a3, sd);
-> +
-> +	return gc08a3_write_reg(gc08a3, reg->reg, GC08A3_REG_VALUE_08BIT,
-> +				reg->val & 0xff);
-> +}
-> +
-> +#endif
-> +
-> +static const struct v4l2_subdev_core_ops gc08a3_core_ops = {
-> +#ifdef CONFIG_VIDEO_ADV_DEBUG
-> +	.g_register = gc08a3_g_register,
-> +	.s_register = gc08a3_s_register,
-> +#endif
-> +};
-> +
-> +static struct v4l2_mbus_framefmt *
-> +__gc08a3_get_pad_format(struct gc08a3 *gc08a3,
-> +			struct v4l2_subdev_state *sd_state, unsigned int pad,
-> +			enum v4l2_subdev_format_whence which)
-> +{
-> +	switch (which) {
-> +	case V4L2_SUBDEV_FORMAT_TRY:
-> +		return v4l2_subdev_state_get_format(sd_state, pad);
+> >
+> > This came from the conversion of what were the start and end pixel
+> > values, so actually ov64a40_program_geometry wants to use
+> > anacrop->width + anacrop->left - 1
+> > and
+> > anacrop->height + anacrop->top - 1
+> > to get the same register values but with sane widths and heights.
+>
+> Or this is only about having width/height even here compensate it by
+> subtracting -1 in ov64a40_program_geometry() ?
 
-Please switch to sub-device state. An example of this can be found in
-commit 289c25923ecdde90050a0cb3904f9295ca68b425 .
+Yes, it's making the driver mode description actually match reality.
 
-> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> +		return &gc08a3->fmt;
-> +	default:
-> +		return NULL;
-> +	}
-> +}
-> +
-> +static int gc08a3_get_format(struct v4l2_subdev *sd,
-> +			     struct v4l2_subdev_state *sd_state,
-> +			     struct v4l2_subdev_format *format)
-> +{
-> +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
-> +
-> +	mutex_lock(&gc08a3->mutex);
-> +	format->format = *__gc08a3_get_pad_format(gc08a3, sd_state, format->pad,
-> +						  format->which);
-> +	mutex_unlock(&gc08a3->mutex);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct v4l2_rect *
-> +__gc08a3_get_pad_crop(struct gc08a3 *gc08a3, struct v4l2_subdev_state *sd_state,
-> +		      unsigned int pad, enum v4l2_subdev_format_whence which)
-> +{
-> +	switch (which) {
-> +	case V4L2_SUBDEV_FORMAT_TRY:
-> +		return v4l2_subdev_state_get_crop(sd_state, pad);
-> +	case V4L2_SUBDEV_FORMAT_ACTIVE:
-> +		return &gc08a3->crop;
-> +	default:
-> +		return NULL;
-> +	}
-> +}
-> +
-> +static int gc08a3_update_cur_mode_controls(struct gc08a3 *gc08a3)
-> +{
-> +	s64 exposure_max, h_blank;
-> +	int ret = 0;
-> +
-> +	ret = __v4l2_ctrl_modify_range(gc08a3->vblank,
-> +				       gc08a3->cur_mode->vts_min - gc08a3->cur_mode->height,
-> +				       GC08A3_VTS_MAX - gc08a3->cur_mode->height, 1,
-> +				       gc08a3->cur_mode->vts_def - gc08a3->cur_mode->height);
-> +	if (ret)
-> +		dev_err(gc08a3->dev, "VB ctrl range update failed\n");
-> +
-> +	h_blank = gc08a3->cur_mode->hts - gc08a3->cur_mode->width;
-> +	ret = __v4l2_ctrl_modify_range(gc08a3->hblank, h_blank, h_blank, 1,
-> +				       h_blank);
-> +	if (ret)
-> +		dev_err(gc08a3->dev, "HB ctrl range update failed\n");
-> +
-> +	exposure_max = gc08a3->cur_mode->vts_def - GC08A3_EXP_MARGIN;
-> +	ret = __v4l2_ctrl_modify_range(gc08a3->exposure, GC08A3_EXP_MIN,
-> +				       exposure_max, GC08A3_EXP_STEP,
-> +				       exposure_max);
-> +	if (ret)
-> +		dev_err(gc08a3->dev, "exposure ctrl range update failed\n");
-> +
-> +	return ret;
-> +}
-> +
-> +static int gc08a3_set_format(struct v4l2_subdev *sd,
-> +			     struct v4l2_subdev_state *sd_state,
-> +			     struct v4l2_subdev_format *format)
-> +{
-> +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
-> +	struct v4l2_mbus_framefmt *fmt;
-> +	struct v4l2_rect *crop;
-> +	const struct gc08a3_mode *mode;
-> +
-> +	mutex_lock(&gc08a3->mutex);
-> +
-> +	crop = __gc08a3_get_pad_crop(gc08a3, sd_state, format->pad,
-> +				     format->which);
-> +
-> +	mode = v4l2_find_nearest_size(gc08a3_modes, ARRAY_SIZE(gc08a3_modes),
-> +				      width, height, format->format.width,
-> +				      format->format.height);
-> +
-> +	crop->width = mode->width;
-> +	crop->height = mode->height;
-> +
-> +	fmt = __gc08a3_get_pad_format(gc08a3, sd_state, format->pad,
-> +				      format->which);
-> +	fmt->width = crop->width;
-> +	fmt->height = crop->height;
-> +	fmt->code = GC08A3_MBUS_CODE;
-> +	fmt->field = V4L2_FIELD_NONE;
-> +	fmt->colorspace = V4L2_COLORSPACE_SRGB;
-> +	fmt->ycbcr_enc = V4L2_MAP_YCBCR_ENC_DEFAULT(fmt->colorspace);
-> +	fmt->quantization =
-> +		V4L2_MAP_QUANTIZATION_DEFAULT(true,
-> +					      fmt->colorspace,
-> +					      fmt->ycbcr_enc);
-> +	fmt->xfer_func = V4L2_MAP_XFER_FUNC_DEFAULT(fmt->colorspace);
-> +
-> +	format->format = *fmt;
-> +
-> +	gc08a3->cur_mode = mode;
-> +	gc08a3_update_cur_mode_controls(gc08a3);
-> +
-> +	mutex_unlock(&gc08a3->mutex);
-> +
-> +	return 0;
-> +}
-> +
-> +static int gc08a3_get_selection(struct v4l2_subdev *sd,
-> +				struct v4l2_subdev_state *sd_state,
-> +				struct v4l2_subdev_selection *sel)
-> +{
-> +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
-> +
-> +	switch (sel->target) {
-> +	case V4L2_SEL_TGT_CROP:
-> +		mutex_lock(&gc08a3->mutex);
-> +		sel->r = *__gc08a3_get_pad_crop(gc08a3, sd_state, sel->pad, sel->which);
-> +		mutex_unlock(&gc08a3->mutex);
-> +		break;
-> +	case V4L2_SEL_TGT_CROP_BOUNDS:
-> +		sel->r.top = 0;
-> +		sel->r.left = 0;
-> +		sel->r.width = GC08A3_NATIVE_WIDTH;
-> +		sel->r.height = GC08A3_NATIVE_HEIGHT;
-> +		break;
-> +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> +		if (gc08a3->cur_mode->width == GC08A3_NATIVE_WIDTH) {
-> +			sel->r.top = 0;
-> +			sel->r.left = 0;
-> +			sel->r.width = GC08A3_NATIVE_WIDTH;
-> +			sel->r.height = GC08A3_NATIVE_HEIGHT;
-> +		} else {
-> +			sel->r.top = 0;
-> +			sel->r.left = 0;
-> +			sel->r.width = 1920;
-> +			sel->r.height = 1080;
-> +		}
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static int gc08a3_entity_init_cfg(struct v4l2_subdev *subdev,
-> +				  struct v4l2_subdev_state *sd_state)
-> +{
-> +	struct v4l2_subdev_format fmt = {};
-> +
-> +	fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY :
-> +			       V4L2_SUBDEV_FORMAT_ACTIVE;
-> +	fmt.format.width = gc08a3_modes[0].width;
-> +	fmt.format.height = gc08a3_modes[0].height;
-> +
-> +	gc08a3_set_format(subdev, sd_state, &fmt);
-> +
-> +	return 0;
-> +}
-> +
-> +static int gc08a3_set_ctrl_hflip(struct gc08a3 *gc08a3, u32 ctrl_val)
-> +{
-> +	int ret;
-> +	u32 val;
-> +
-> +	ret = gc08a3_read_reg(gc08a3, GC08A3_FLIP_REG, GC08A3_REG_VALUE_08BIT,
-> +			      &val);
-> +	if (ret) {
-> +		dev_err(gc08a3->dev, "read hflip register failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	val = ctrl_val ? (val | GC08A3_FLIP_H_MASK) :
-> +			   (val & ~GC08A3_FLIP_H_MASK);
-> +	ret = gc08a3_write_reg(gc08a3, GC08A3_FLIP_REG, GC08A3_REG_VALUE_08BIT,
-> +			       val);
-> +	if (ret < 0)
-> +		dev_err(gc08a3->dev, "Error %d\n", ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int gc08a3_set_ctrl_vflip(struct gc08a3 *gc08a3, u32 ctrl_val)
-> +{
-> +	int ret;
-> +	u32 val;
-> +
-> +	ret = gc08a3_read_reg(gc08a3, GC08A3_FLIP_REG, GC08A3_REG_VALUE_08BIT,
-> +			      &val);
-> +	if (ret) {
-> +		dev_err(gc08a3->dev, "read vflip register failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	val = ctrl_val ? (val | GC08A3_FLIP_V_MASK) :
-> +			   (val & ~GC08A3_FLIP_V_MASK);
-> +	ret = gc08a3_write_reg(gc08a3, GC08A3_FLIP_REG, GC08A3_REG_VALUE_08BIT,
-> +			       val);
-> +	if (ret < 0)
-> +		dev_err(gc08a3->dev, "Error %d\n", ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int gc08a3_test_pattern(struct gc08a3 *gc08a3, u32 pattern_menu)
-> +{
-> +	int ret = 0;
-> +	u32 pattern = 0;
-> +
-> +	if (pattern_menu) {
-> +		switch (pattern_menu) {
-> +		case 1:
-> +			pattern = 0x00;
-> +			break;
-> +		case 2:
-> +			pattern = 0x10;
-> +			break;
-> +		case 3:
-> +		case 4:
-> +		case 5:
-> +		case 6:
-> +		case 7:
-> +			pattern = pattern_menu + 1;
-> +			break;
-> +		}
-> +
-> +		ret = gc08a3_write_reg(gc08a3, GC08A3_REG_TEST_PATTERN_EN,
-> +				       GC08A3_REG_VALUE_08BIT,
-> +				       GC08A3_TEST_PATTERN_EN);
-> +		if (ret) {
-> +			dev_err(gc08a3->dev, "test pattern enable failed: %d\n", ret);
-> +			return ret;
-> +		}
-> +
-> +		ret = gc08a3_write_reg(gc08a3, GC08A3_REG_TEST_PATTERN_IDX,
-> +				       GC08A3_REG_VALUE_08BIT, pattern);
-> +		if (ret < 0)
-> +			dev_err(gc08a3->dev, "Error %d\n", ret);
-> +
-> +	} else {
-> +		ret = gc08a3_write_reg(gc08a3, GC08A3_REG_TEST_PATTERN_EN,
-> +				       GC08A3_REG_VALUE_08BIT, 0x00);
-> +		if (ret < 0)
-> +			dev_err(gc08a3->dev, "test pattern disable failed: %d\n", ret);
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int gc08a3_set_ctrl(struct v4l2_ctrl *ctrl)
-> +{
-> +	struct gc08a3 *gc08a3 =
-> +		container_of(ctrl->handler, struct gc08a3, ctrls);
-> +	int ret = 0;
-> +	s64 exposure_max;
-> +
-> +	if (ctrl->id == V4L2_CID_VBLANK) {
-> +		/* Update max exposure while meeting expected vblanking */
-> +		exposure_max = gc08a3->cur_mode->height + ctrl->val -
-> +			       GC08A3_EXP_MARGIN;
-> +		__v4l2_ctrl_modify_range(gc08a3->exposure,
-> +					 gc08a3->exposure->minimum,
-> +					 exposure_max, gc08a3->exposure->step,
-> +					 exposure_max);
-> +	}
-> +
-> +	/*
-> +	 * Applying V4L2 control value only happens
-> +	 * when power is up for streaming
-> +	 */
-> +	if (!pm_runtime_get_if_in_use(gc08a3->dev))
-> +		return 0;
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_EXPOSURE:
-> +		ret = gc08a3_write_reg(gc08a3, GC08A3_EXP_REG,
-> +				       GC08A3_REG_VALUE_16BIT, ctrl->val);
-> +		break;
-> +
-> +	case V4L2_CID_ANALOGUE_GAIN:
-> +		ret = gc08a3_write_reg(gc08a3, GC08A3_AGAIN_REG,
-> +				       GC08A3_REG_VALUE_16BIT, ctrl->val);
-> +		break;
-> +
-> +	case V4L2_CID_VBLANK:
-> +		ret = gc08a3_write_reg(gc08a3, GC08A3_FRAME_LENGTH_REG,
-> +				       GC08A3_REG_VALUE_16BIT,
-> +				       gc08a3->cur_mode->height + ctrl->val);
-> +		break;
-> +
-> +	case V4L2_CID_HFLIP:
-> +		ret = gc08a3_set_ctrl_hflip(gc08a3, ctrl->val);
-> +		break;
-> +
-> +	case V4L2_CID_VFLIP:
-> +		ret = gc08a3_set_ctrl_vflip(gc08a3, ctrl->val);
-> +		break;
-> +
-> +	case V4L2_CID_TEST_PATTERN:
-> +		ret = gc08a3_test_pattern(gc08a3, ctrl->val);
-> +		break;
-> +
-> +	default:
-> +		break;
-> +	}
-> +
-> +	pm_runtime_put(gc08a3->dev);
-> +
-> +	return ret;
-> +}
-> +
-> +static int gc08a3_try_ctrl(struct v4l2_ctrl *ctrl)
+As you say, for this mode you're programming X_START as 0 and X_END as
+9279, that is a width of 9280 pixels, so the value in "width" should
+be 9280.
+The calculation in ov64a40_program_geometry therefore needs to
+subtract 1 when computing the _END register value.
 
-No need to implement try_ctrl callback.
+  Dave
 
-> +{
-> +	int ret = 0;
-> +
-> +	switch (ctrl->id) {
-> +	case V4L2_CID_EXPOSURE:
-> +	case V4L2_CID_ANALOGUE_GAIN:
-> +	case V4L2_CID_VBLANK:
-> +	case V4L2_CID_HFLIP:
-> +	case V4L2_CID_VFLIP:
-> +	case V4L2_CID_TEST_PATTERN:
-> +	default:
-> +		return 0;
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static const struct v4l2_ctrl_ops gc08a3_ctrl_ops = {
-> +	.try_ctrl = gc08a3_try_ctrl,
-> +	.s_ctrl = gc08a3_set_ctrl,
-> +};
-> +
-> +static int gc08a3_start_streaming(struct gc08a3 *gc08a3)
-> +{
-> +	const struct gc08a3_mode *mode;
-> +	const struct gc08a3_reg_list *reg_list;
-> +	int link_freq_index;
-> +	int ret;
-> +
-> +	mutex_lock(&gc08a3->mutex);
-> +
-> +	link_freq_index = gc08a3->cur_mode->link_freq_index;
-> +
-> +	reg_list = &link_freq_configs[link_freq_index].reg_list;
-> +	ret = gc08a3_write_reg_list(gc08a3, reg_list);
-> +	if (ret) {
-> +		dev_err(gc08a3->dev, "could not sent common table %d\n", ret);
-> +		goto error;
-> +	}
-> +
-> +	mode = gc08a3->cur_mode;
-> +	reg_list = &mode->reg_list;
-> +
-> +	ret = gc08a3_write_reg_list(gc08a3, reg_list);
-> +	if (ret < 0) {
-> +		dev_err(gc08a3->dev, "could not sent mode table %d\n", ret);
-> +		goto error;
-> +	}
-> +	ret = __v4l2_ctrl_handler_setup(&gc08a3->ctrls);
-> +	if (ret < 0) {
-> +		dev_err(gc08a3->dev, "could not sync v4l2 controls\n");
-> +		goto error;
-> +	}
-> +
-> +	ret = gc08a3_write_reg(gc08a3, GC08A3_STRAEMING_REG,
-> +			       GC08A3_REG_VALUE_08BIT, 1);
-> +	if (ret < 0) {
-> +		dev_err(gc08a3->dev, "write STRAEMING_REG failed: %d\n", ret);
-> +		goto error;
-> +	}
-> +
-> +	mutex_unlock(&gc08a3->mutex);
-> +
-> +	return 0;
-> +
-> +error:
-> +	mutex_unlock(&gc08a3->mutex);
-> +	return ret;
-> +}
-> +
-> +static int gc08a3_stop_streaming(struct gc08a3 *gc08a3)
-> +{
-> +	int ret;
-> +
-> +	ret = gc08a3_write_reg(gc08a3, GC08A3_STRAEMING_REG,
-> +			       GC08A3_REG_VALUE_08BIT, 0);
-> +	if (ret < 0)
-> +		dev_err(gc08a3->dev, "could not sent stop streaming %d\n", ret);
-> +
-> +	return ret;
-> +}
-> +
-> +static int gc08a3_s_stream(struct v4l2_subdev *subdev, int enable)
-> +{
-> +	struct gc08a3 *gc08a3 = to_gc08a3(subdev);
-> +	int ret;
-> +
-> +	if (gc08a3->streaming == enable)
-> +		return 0;
-
-No need to check for this --- you can expect the caller not to call this
-unnecessarily. Please drop this.
-
-> +
-> +	if (enable) {
-> +		ret = pm_runtime_resume_and_get(gc08a3->dev);
-> +		if (ret < 0)
-> +			return ret;
-> +
-> +		ret = gc08a3_start_streaming(gc08a3);
-> +		if (ret < 0)
-> +			goto err_rpm_put;
-> +	} else {
-> +		ret = gc08a3_stop_streaming(gc08a3);
-> +		if (ret < 0)
-> +			goto err_rpm_put;
-> +		pm_runtime_put(gc08a3->dev);
-> +	}
-> +
-> +	gc08a3->streaming = enable;
-> +	return 0;
-> +
-> +err_rpm_put:
-> +	pm_runtime_put(gc08a3->dev);
-> +	return ret;
-> +}
-> +
-> +static int gc08a3_g_mbus_config(struct v4l2_subdev *sd, unsigned int pad,
-> +				struct v4l2_mbus_config *config)
-> +{
-> +	config->type = V4L2_MBUS_CSI2_DPHY;
-> +	config->bus.mipi_csi2.num_data_lanes = 4;
-> +	config->bus.mipi_csi2.flags = 0;
-> +	return 0;
-> +}
-
-As you return a static configuration, there's no need to implement
-g_mbus_config().
-
-> +
-> +static int gc08a3_g_frame_interval(struct v4l2_subdev *subdev,
-> +				   struct v4l2_subdev_frame_interval *fival)
-> +{
-> +	struct gc08a3 *gc08a3 = to_gc08a3(subdev);
-> +
-> +	fival->interval.numerator = 1;
-> +	fival->interval.denominator = gc08a3->cur_mode->max_framerate / 10;
-> +
-> +	return 0;
-> +}
-> +
-> +static int
-> +gc08a3_enum_frame_interval(struct v4l2_subdev *subdev,
-> +			   struct v4l2_subdev_state *sd_state,
-> +			   struct v4l2_subdev_frame_interval_enum *fie)
-> +{
-> +	const struct gc08a3_mode *mode;
-> +
-> +	if (fie->index != 0)
-> +		return -EINVAL;
-> +
-> +	mode = v4l2_find_nearest_size(gc08a3_modes, ARRAY_SIZE(gc08a3_modes),
-> +				      width, height, fie->width, fie->height);
-
-You should have an exact match here. I guess we could have a helper for
-that but v4l2_find_nearest_size() doesn't do it.
-
-> +
-> +	fie->code = GC08A3_MBUS_CODE;
-> +	fie->width = mode->width;
-> +	fie->height = mode->height;
-> +	fie->interval.numerator = 1;
-> +	fie->interval.denominator = mode->max_framerate / 10;
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct v4l2_subdev_video_ops gc08a3_video_ops = {
-> +	.s_stream = gc08a3_s_stream,
-> +	.g_frame_interval = gc08a3_g_frame_interval,
-> +	.s_frame_interval = gc08a3_g_frame_interval,
-> +};
-> +
-> +static const struct v4l2_subdev_pad_ops gc08a3_subdev_pad_ops = {
-> +	.enum_mbus_code = gc08a3_enum_mbus_code,
-> +	.enum_frame_size = gc08a3_enum_frame_size,
-> +	.enum_frame_interval = gc08a3_enum_frame_interval,
-> +	.get_fmt = gc08a3_get_format,
-> +	.set_fmt = gc08a3_set_format,
-> +	.get_selection = gc08a3_get_selection,
-> +	.init_cfg = gc08a3_entity_init_cfg,
-> +	.get_mbus_config = gc08a3_g_mbus_config,
-> +};
-> +
-> +static const struct v4l2_subdev_ops gc08a3_subdev_ops = {
-> +	.core = &gc08a3_core_ops,
-> +	.video = &gc08a3_video_ops,
-> +	.pad = &gc08a3_subdev_pad_ops,
-> +};
-> +
-> +static int gc08a3_get_regulators(struct device *dev, struct gc08a3 *gc08a3)
-> +{
-> +	unsigned int i;
-> +
-> +	for (i = 0; i < GC08A3_NUM_SUPPLIES; i++)
-> +		gc08a3->supplies[i].supply = gc08a3_supply_name[i];
-> +
-> +	return devm_regulator_bulk_get(dev, GC08A3_NUM_SUPPLIES,
-> +				       gc08a3->supplies);
-> +}
-> +
-> +static int gc08a3_parse_fwnode(struct device *dev)
-> +{
-> +	struct fwnode_handle *endpoint;
-> +	struct v4l2_fwnode_endpoint bus_cfg = {
-> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
-> +	};
-> +	unsigned int i, j;
-> +	int ret;
-> +
-> +	endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(dev), NULL);
-> +	if (!endpoint) {
-> +		dev_err(dev, "endpoint node not found\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &bus_cfg);
-> +	if (ret) {
-> +		dev_err(dev, "parsing endpoint node failed\n");
-> +		goto done;
-> +	}
-> +
-> +	if (!bus_cfg.nr_of_link_frequencies) {
-> +		dev_err(dev, "no link frequencies defined");
-> +		ret = -EINVAL;
-> +		goto done;
-> +	}
-> +
-> +	for (i = 0; i < ARRAY_SIZE(link_freq_menu_items); i++) {
-> +		for (j = 0; j < bus_cfg.nr_of_link_frequencies; j++) {
-> +			if (link_freq_menu_items[i] ==
-> +			    bus_cfg.link_frequencies[j])
-> +				break;
-> +		}
-> +
-> +		if (j == bus_cfg.nr_of_link_frequencies) {
-> +			dev_err(dev,
-> +				"no link frequency %lld supported, please check DT",
-> +				link_freq_menu_items[i]);
-> +			ret = -EINVAL;
-> +			goto done;
-> +		}
-> +	}
-> +
-> +done:
-> +	v4l2_fwnode_endpoint_free(&bus_cfg);
-> +	fwnode_handle_put(endpoint);
-> +	return ret;
-> +}
-> +
-> +static int __maybe_unused gc08a3_suspend(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
-> +
-> +	if (gc08a3->streaming)
-> +		gc08a3_stop_streaming(gc08a3);
-
-Resuming (or suspending) streaming shouldn't be implemented in sensor
-drivers. This is not well documented nor addressed right now, but please
-remove these for now.
-
-> +
-> +	return 0;
-> +}
-> +
-> +static int __maybe_unused gc08a3_resume(struct device *dev)
-> +{
-> +	struct i2c_client *client = to_i2c_client(dev);
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
-> +	int ret;
-> +
-> +	if (gc08a3->streaming) {
-> +		ret = gc08a3_start_streaming(gc08a3);
-> +		if (ret)
-> +			goto error;
-> +	}
-> +
-> +	return 0;
-> +
-> +error:
-> +	gc08a3_stop_streaming(gc08a3);
-> +	gc08a3->streaming = 0;
-> +	return ret;
-> +}
-> +
-> +static int gc08a3_init_controls(struct gc08a3 *gc08a3)
-> +{
-> +	struct i2c_client *client = v4l2_get_subdevdata(&gc08a3->sd);
-> +	const struct v4l2_ctrl_ops *ops = &gc08a3_ctrl_ops;
-> +	struct v4l2_fwnode_device_properties props;
-> +	struct v4l2_ctrl_handler *ctrl_hdlr;
-> +	s64 exposure_max, h_blank;
-> +	int ret;
-> +
-> +	ctrl_hdlr = &gc08a3->ctrls;
-> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ctrl_hdlr->lock = &gc08a3->mutex;
-> +
-> +	gc08a3->link_freq =
-> +		v4l2_ctrl_new_int_menu(ctrl_hdlr,
-> +				       &gc08a3_ctrl_ops,
-> +				       V4L2_CID_LINK_FREQ,
-> +				       ARRAY_SIZE(link_freq_menu_items) - 1,
-> +				       0, link_freq_menu_items);
-> +	if (gc08a3->link_freq)
-> +		gc08a3->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +
-> +	gc08a3->pixel_rate =
-> +		v4l2_ctrl_new_std(ctrl_hdlr,
-> +				  &gc08a3_ctrl_ops,
-> +				  V4L2_CID_PIXEL_RATE, 0,
-> +				  to_pixel_rate(GC08A3_LINK_FREQ_336MHZ_INDEX), 1,
-> +				  to_pixel_rate(GC08A3_LINK_FREQ_336MHZ_INDEX));
-> +
-> +	gc08a3->vblank =
-> +		v4l2_ctrl_new_std(ctrl_hdlr,
-> +				  &gc08a3_ctrl_ops, V4L2_CID_VBLANK,
-> +				  gc08a3->cur_mode->vts_min - gc08a3->cur_mode->height,
-> +				  GC08A3_VTS_MAX - gc08a3->cur_mode->height, 1,
-> +				  gc08a3->cur_mode->vts_def - gc08a3->cur_mode->height);
-> +
-> +	h_blank = gc08a3->cur_mode->hts - gc08a3->cur_mode->width;
-> +	gc08a3->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &gc08a3_ctrl_ops,
-> +					   V4L2_CID_HBLANK, h_blank, h_blank, 1,
-> +					   h_blank);
-> +	if (gc08a3->hblank)
-> +		gc08a3->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +
-> +	v4l2_ctrl_new_std(ctrl_hdlr, &gc08a3_ctrl_ops,
-> +			  V4L2_CID_ANALOGUE_GAIN, GC08A3_AGAIN_MIN,
-> +			  GC08A3_AGAIN_MAX, GC08A3_AGAIN_STEP,
-> +			  GC08A3_AGAIN_MIN);
-> +
-> +	exposure_max = gc08a3->cur_mode->vts_def - GC08A3_EXP_MARGIN;
-> +	gc08a3->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &gc08a3_ctrl_ops,
-> +					     V4L2_CID_EXPOSURE, GC08A3_EXP_MIN,
-> +					     exposure_max, GC08A3_EXP_STEP,
-> +					     exposure_max);
-> +
-> +	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &gc08a3_ctrl_ops,
-> +				     V4L2_CID_TEST_PATTERN,
-> +				     ARRAY_SIZE(gc08a3_test_pattern_menu) - 1,
-> +				     0, 0, gc08a3_test_pattern_menu);
-> +
-> +	v4l2_ctrl_new_std(ctrl_hdlr, &gc08a3_ctrl_ops, V4L2_CID_HFLIP, 0,
-> +			  1, 1, 0);
-> +
-> +	v4l2_ctrl_new_std(ctrl_hdlr, &gc08a3_ctrl_ops, V4L2_CID_VFLIP, 0,
-> +			  1, 1, 0);
-> +
-> +	/* register properties to fwnode (e.g. rotation, orientation) */
-> +	ret = v4l2_fwnode_device_parse(&client->dev, &props);
-> +	if (ret)
-> +		goto error_ctrls;
-> +
-> +	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, ops, &props);
-> +	if (ret)
-> +		goto error_ctrls;
-> +
-> +	if (ctrl_hdlr->error) {
-> +		ret = ctrl_hdlr->error;
-> +		goto error_ctrls;
-> +	}
-> +
-> +	gc08a3->sd.ctrl_handler = ctrl_hdlr;
-> +
-> +	return 0;
-> +
-> +error_ctrls:
-> +	v4l2_ctrl_handler_free(ctrl_hdlr);
-> +
-> +	return ret;
-> +}
-> +
-> +static int gc08a3_probe(struct i2c_client *client)
-> +{
-> +	struct device *dev = &client->dev;
-> +	struct gc08a3 *gc08a3;
-> +	int ret;
-> +
-> +	ret = gc08a3_parse_fwnode(dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	gc08a3 = devm_kzalloc(dev, sizeof(*gc08a3), GFP_KERNEL);
-> +	if (!gc08a3)
-> +		return -ENOMEM;
-> +
-> +	gc08a3->dev = dev;
-> +
-> +	gc08a3->xclk = devm_clk_get(dev, NULL);
-> +	if (IS_ERR(gc08a3->xclk))
-> +		return dev_err_probe(dev, PTR_ERR(gc08a3->xclk),
-> +					 "failed to get xclk\n");
-> +
-> +	ret = clk_set_rate(gc08a3->xclk, GC08A3_DEFAULT_CLK_FREQ);
-
-Please see:
-<URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html#devicetree>.
-
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +					 "failed to set xclk frequency\n");
-> +
-> +	ret = gc08a3_get_regulators(dev, gc08a3);
-> +	if (ret < 0)
-> +		return dev_err_probe(dev, ret,
-> +					 "failed to get regulators\n");
-> +
-> +	gc08a3->enable_gpio = devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
-> +	if (IS_ERR(gc08a3->enable_gpio))
-> +		return dev_err_probe(dev, PTR_ERR(gc08a3->enable_gpio),
-> +					 "failed to get gpio\n");
-> +
-> +	v4l2_i2c_subdev_init(&gc08a3->sd, client, &gc08a3_subdev_ops);
-> +
-> +	mutex_init(&gc08a3->mutex);
-> +	gc08a3->cur_mode = &gc08a3_modes[0];
-> +
-> +	ret = gc08a3_power_on(gc08a3->dev);
-> +	if (ret)
-> +		goto err_mutex;
-> +
-> +	ret = gc08a3_identify_module(gc08a3);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to find sensor: %d\n", ret);
-> +		goto err_power_off;
-> +	}
-> +
-> +	ret = gc08a3_init_controls(gc08a3);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to init controls: %d", ret);
-> +		goto err_power_off;
-> +	}
-> +
-> +	gc08a3->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-
-Please add: | V4L2_SUBDEV_FL_HAS_EVENTS;
-
-> +	gc08a3->pad.flags = MEDIA_PAD_FL_SOURCE;
-> +	gc08a3->sd.dev = &client->dev;
-> +	gc08a3->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-> +
-> +	ret = media_entity_pads_init(&gc08a3->sd.entity, 1, &gc08a3->pad);
-> +	if (ret < 0) {
-> +		dev_err(dev, "could not register media entity\n");
-> +		goto err_v4l2_ctrl_handler_free;
-> +	}
-> +
-> +	ret = v4l2_async_register_subdev_sensor(&gc08a3->sd);
-> +	if (ret < 0) {
-> +		dev_err(dev, "could not register v4l2 device\n");
-> +		goto err_media_entity_cleanup;
-> +	}
-> +
-> +	pm_runtime_set_active(gc08a3->dev);
-> +	pm_runtime_enable(gc08a3->dev);
-> +	pm_runtime_idle(gc08a3->dev);
-> +
-> +	return 0;
-> +
-> +err_media_entity_cleanup:
-> +	media_entity_cleanup(&gc08a3->sd.entity);
-> +
-> +err_v4l2_ctrl_handler_free:
-> +	v4l2_ctrl_handler_free(gc08a3->sd.ctrl_handler);
-> +
-> +err_power_off:
-> +	gc08a3_power_off(gc08a3->dev);
-> +
-> +err_mutex:
-> +	mutex_destroy(&gc08a3->mutex);
-> +
-> +	return ret;
-> +}
-> +
-> +static void gc08a3_remove(struct i2c_client *client)
-> +{
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-> +	struct gc08a3 *gc08a3 = to_gc08a3(sd);
-> +
-> +	v4l2_async_unregister_subdev(&gc08a3->sd);
-> +	media_entity_cleanup(&gc08a3->sd.entity);
-> +	v4l2_ctrl_handler_free(&gc08a3->ctrls);
-> +
-> +	pm_runtime_disable(&client->dev);
-> +	pm_runtime_set_suspended(&client->dev);
-> +
-> +	mutex_destroy(&gc08a3->mutex);
-> +}
-> +
-> +static const struct of_device_id gc08a3_of_match[] = {
-> +	{ .compatible = "galaxycore,gc08a3" },
-> +	{}
-> +};
-> +MODULE_DEVICE_TABLE(of, gc08a3_of_match);
-> +
-> +static const struct dev_pm_ops gc08a3_pm_ops = {
-> +	SET_SYSTEM_SLEEP_PM_OPS(gc08a3_suspend, gc08a3_resume)
-> +	SET_RUNTIME_PM_OPS(gc08a3_power_off, gc08a3_power_on, NULL)
-> +};
-> +
-> +static struct i2c_driver gc08a3_i2c_driver = {
-> +	.driver = {
-> +		.of_match_table = gc08a3_of_match,
-> +		.pm = &gc08a3_pm_ops,
-> +		.name  = "gc08a3",
-> +	},
-> +	.probe = gc08a3_probe,
-> +	.remove = gc08a3_remove,
-> +};
-> +
-> +module_i2c_driver(gc08a3_i2c_driver);
-> +
-> +MODULE_DESCRIPTION("GalaxyCore gc08a3 Camera driver");
-> +MODULE_AUTHOR("Zhi Mao <zhi.mao@mediatek.com>");
-> +MODULE_LICENSE("GPL");
-
--- 
-Kind regards,
-
-Sakari Ailus
+> >
+> >   Dave
+> >
+> > > +               },
+> > > +               .digital_crop = {
+> > > +                       .left = 17,
+> > > +                       .top = 16,
+> > > +                       .width = 9248,
+> > > +                       .height = 6944,
+> > > +               },
+> > > +               .subsampling = {
+> > > +                       .x_odd_inc = 1,
+> > > +                       .x_even_inc = 1,
+> > > +                       .y_odd_inc = 1,
+> > > +                       .y_even_inc = 1,
+> > > +                       .vbin = false,
+> > > +                       .hbin = false,
+> > > +               },
+> > > +       },
+> > > +       /* Analogue crop + digital crop */
+> > > +       {
+> > > +               .width = 8000,
+> > > +               .height = 6000,
+> > > +               .timings_default = {
+> > > +                       /* 3.0 FPS */
+> > > +                       [OV64A40_LINK_FREQ_456M_ID] = {
+> > > +                               .vts = 6400,
+> > > +                               .ppl = 3848,
+> > > +                       },
+> > > +                       /* 2.5 FPS */
+> > > +                       [OV64A40_LINK_FREQ_360M_ID] = {
+> > > +                               .vts = 6304,
+> > > +                               .ppl = 4736,
+> > > +                       },
+> > > +               },
+> > > +               .reglist = {
+> > > +                       .num_regs = ARRAY_SIZE(ov64a40_8000x6000),
+> > > +                       .regvals = ov64a40_8000x6000,
+> > > +               },
+> > > +               .analogue_crop = {
+> > > +                       .left = 624,
+> > > +                       .top = 472,
+> > > +                       .width = 8047,
+> > > +                       .height = 6031,
+> > > +               },
+> > > +               .digital_crop = {
+> > > +                       .left = 17,
+> > > +                       .top = 16,
+> > > +                       .width = 8000,
+> > > +                       .height = 6000,
+> > > +               },
+> > > +               .subsampling = {
+> > > +                       .x_odd_inc = 1,
+> > > +                       .x_even_inc = 1,
+> > > +                       .y_odd_inc = 1,
+> > > +                       .y_even_inc = 1,
+> > > +                       .vbin = false,
+> > > +                       .hbin = false,
+> > > +               },
+> > > +       },
+> > > +       /* 2x2 downscaled */
+> > > +       {
+> > > +               .width = 4624,
+> > > +               .height = 3472,
+> > > +               .timings_default = {
+> > > +                       /* 10 FPS */
+> > > +                       [OV64A40_LINK_FREQ_456M_ID] = {
+> > > +                               .vts = 3533,
+> > > +                               .ppl = 2112,
+> > > +                       },
+> > > +                       /* 7 FPS */
+> > > +                       [OV64A40_LINK_FREQ_360M_ID] = {
+> > > +                               .vts = 3939,
+> > > +                               .ppl = 2720,
+> > > +                       },
+> > > +               },
+> > > +               .reglist = {
+> > > +                       .num_regs = ARRAY_SIZE(ov64a40_4624_3472),
+> > > +                       .regvals = ov64a40_4624_3472,
+> > > +               },
+> > > +               .analogue_crop = {
+> > > +                       .left = 0,
+> > > +                       .top = 0,
+> > > +                       .width = 9279,
+> > > +                       .height = 6975,
+> > > +               },
+> > > +               .digital_crop = {
+> > > +                       .left = 9,
+> > > +                       .top = 8,
+> > > +                       .width = 4624,
+> > > +                       .height = 3472,
+> > > +               },
+> > > +               .subsampling = {
+> > > +                       .x_odd_inc = 3,
+> > > +                       .x_even_inc = 1,
+> > > +                       .y_odd_inc = 1,
+> > > +                       .y_even_inc = 1,
+> > > +                       .vbin = true,
+> > > +                       .hbin = false,
+> > > +               },
+> > > +       },
+> > > +       /* Analogue crop + 2x2 downscale + digital crop */
+> > > +       {
+> > > +               .width = 3840,
+> > > +               .height = 2160,
+> > > +               .timings_default = {
+> > > +                       /* 20 FPS */
+> > > +                       [OV64A40_LINK_FREQ_456M_ID] = {
+> > > +                               .vts = 2218,
+> > > +                               .ppl = 1690,
+> > > +                       },
+> > > +                       /* 15 FPS */
+> > > +                       [OV64A40_LINK_FREQ_360M_ID] = {
+> > > +                               .vts = 2270,
+> > > +                               .ppl = 2202,
+> > > +                       },
+> > > +               },
+> > > +               .reglist = {
+> > > +                       .num_regs = ARRAY_SIZE(ov64a40_3840x2160),
+> > > +                       .regvals = ov64a40_3840x2160,
+> > > +               },
+> > > +               .analogue_crop = {
+> > > +                       .left = 784,
+> > > +                       .top = 1312,
+> > > +                       .width = 7711,
+> > > +                       .height = 4351,
+> > > +               },
+> > > +               .digital_crop = {
+> > > +                       .left = 9,
+> > > +                       .top = 8,
+> > > +                       .width = 3840,
+> > > +                       .height = 2160,
+> > > +               },
+> > > +               .subsampling = {
+> > > +                       .x_odd_inc = 3,
+> > > +                       .x_even_inc = 1,
+> > > +                       .y_odd_inc = 1,
+> > > +                       .y_even_inc = 1,
+> > > +                       .vbin = true,
+> > > +                       .hbin = false,
+> > > +               },
+> > > +       },
+> > > +       /* 4x4 downscaled */
+> > > +       {
+> > > +               .width = 2312,
+> > > +               .height = 1736,
+> > > +               .timings_default = {
+> > > +                       /* 30 FPS */
+> > > +                       [OV64A40_LINK_FREQ_456M_ID] = {
+> > > +                               .vts = 1998,
+> > > +                               .ppl = 1248,
+> > > +                       },
+> > > +                       /* 25 FPS */
+> > > +                       [OV64A40_LINK_FREQ_360M_ID] = {
+> > > +                               .vts = 1994,
+> > > +                               .ppl = 1504,
+> > > +                       },
+> > > +               },
+> > > +               .reglist = {
+> > > +                       .num_regs = ARRAY_SIZE(ov64a40_2312_1736),
+> > > +                       .regvals = ov64a40_2312_1736,
+> > > +               },
+> > > +               .analogue_crop = {
+> > > +                       .left = 0,
+> > > +                       .top = 0,
+> > > +                       .width = 9279,
+> > > +                       .height = 6975,
+> > > +               },
+> > > +               .digital_crop = {
+> > > +                       .left = 5,
+> > > +                       .top = 4,
+> > > +                       .width = 2312,
+> > > +                       .height = 1736,
+> > > +               },
+> > > +               .subsampling = {
+> > > +                       .x_odd_inc = 3,
+> > > +                       .x_even_inc = 1,
+> > > +                       .y_odd_inc = 3,
+> > > +                       .y_even_inc = 1,
+> > > +                       .vbin = true,
+> > > +                       .hbin = true,
+> > > +               },
+> > > +       },
+> > > +       /* Analogue crop + 4x4 downscale + digital crop */
+> > > +       {
+> > > +               .width = 1920,
+> > > +               .height = 1080,
+> > > +               .timings_default = {
+> > > +                       /* 60 FPS */
+> > > +                       [OV64A40_LINK_FREQ_456M_ID] = {
+> > > +                               .vts = 1397,
+> > > +                               .ppl = 880,
+> > > +                       },
+> > > +                       /* 45 FPS */
+> > > +                       [OV64A40_LINK_FREQ_360M_ID] = {
+> > > +                               .vts = 1216,
+> > > +                               .ppl = 1360,
+> > > +                       },
+> > > +               },
+> > > +               .reglist = {
+> > > +                       .num_regs = ARRAY_SIZE(ov64a40_1920x1080),
+> > > +                       .regvals = ov64a40_1920x1080,
+> > > +               },
+> > > +               .analogue_crop = {
+> > > +                       .left = 784,
+> > > +                       .top = 1312,
+> > > +                       .width = 7711,
+> > > +                       .height = 4351,
+> > > +               },
+> > > +               .digital_crop = {
+> > > +                       .left = 7,
+> > > +                       .top = 6,
+> > > +                       .width = 1920,
+> > > +                       .height = 1080,
+> > > +               },
+> > > +               .subsampling = {
+> > > +                       .x_odd_inc = 3,
+> > > +                       .x_even_inc = 1,
+> > > +                       .y_odd_inc = 3,
+> > > +                       .y_even_inc = 1,
+> > > +                       .vbin = true,
+> > > +                       .hbin = true,
+> > > +               },
+> > > +       },
+> > > +};
+> > > +
+> > > +struct ov64a40 {
+> > > +       struct device *dev;
+> > > +
+> > > +       struct v4l2_subdev sd;
+> > > +       struct media_pad pad;
+> > > +
+> > > +       struct regmap *cci;
+> > > +
+> > > +       struct ov64a40_mode *mode;
+> > > +
+> > > +       struct clk *xclk;
+> > > +
+> > > +       struct gpio_desc *reset_gpio;
+> > > +       struct regulator_bulk_data supplies[ARRAY_SIZE(ov64a40_supply_names)];
+> > > +
+> > > +       s64 *link_frequencies;
+> > > +       unsigned int num_link_frequencies;
+> > > +
+> > > +       struct v4l2_ctrl_handler ctrl_handler;
+> > > +       struct v4l2_ctrl *exposure;
+> > > +       struct v4l2_ctrl *link_freq;
+> > > +       struct v4l2_ctrl *vblank;
+> > > +       struct v4l2_ctrl *hblank;
+> > > +       struct v4l2_ctrl *vflip;
+> > > +       struct v4l2_ctrl *hflip;
+> > > +};
+> > > +
+> > > +static inline struct ov64a40 *sd_to_ov64a40(struct v4l2_subdev *sd)
+> > > +{
+> > > +       return container_of_const(sd, struct ov64a40, sd);
+> > > +}
+> > > +
+> > > +static const struct ov64a40_timings *
+> > > +ov64a40_get_timings(struct ov64a40 *ov64a40, unsigned int link_freq_index)
+> > > +{
+> > > +       s64 link_freq = ov64a40->link_frequencies[link_freq_index];
+> > > +       unsigned int timings_index = link_freq == OV64A40_LINK_FREQ_360M
+> > > +                                  ? OV64A40_LINK_FREQ_360M_ID
+> > > +                                  : OV64A40_LINK_FREQ_456M_ID;
+> > > +
+> > > +       return &ov64a40->mode->timings_default[timings_index];
+> > > +}
+> > > +
+> > > +static int ov64a40_program_geometry(struct ov64a40 *ov64a40)
+> > > +{
+> > > +       struct ov64a40_mode *mode = ov64a40->mode;
+> > > +       struct v4l2_rect *anacrop = &mode->analogue_crop;
+> > > +       struct v4l2_rect *digicrop = &mode->digital_crop;
+> > > +       const struct ov64a40_timings *timings;
+> > > +       int ret = 0;
+> > > +
+> > > +       /* Analogue crop. */
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRL0,
+> > > +                 anacrop->left, &ret);
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRL2,
+> > > +                 anacrop->top, &ret);
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRL4,
+> > > +                 anacrop->width + anacrop->left, &ret);
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRL6,
+> > > +                 anacrop->height + anacrop->top, &ret);
+> > > +
+> > > +       /* ISP windowing. */
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRL10,
+> > > +                 digicrop->left, &ret);
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRL12,
+> > > +                 digicrop->top, &ret);
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRL8,
+> > > +                 digicrop->width, &ret);
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRLA,
+> > > +                 digicrop->height, &ret);
+> > > +
+> > > +       /* Total timings. */
+> > > +       timings = ov64a40_get_timings(ov64a40, ov64a40->link_freq->cur.val);
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRLC, timings->ppl, &ret);
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRLE, timings->vts, &ret);
+> > > +
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static int ov64a40_program_subsampling(struct ov64a40 *ov64a40)
+> > > +{
+> > > +       struct ov64a40_subsampling *subsampling = &ov64a40->mode->subsampling;
+> > > +       int ret = 0;
+> > > +
+> > > +       /* Skipping configuration */
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRL14,
+> > > +                 OV64A40_SKIPPING_CONFIG(subsampling->x_odd_inc,
+> > > +                                         subsampling->x_even_inc), &ret);
+> > > +       cci_write(ov64a40->cci, OV64A40_REG_TIMING_CTRL15,
+> > > +                 OV64A40_SKIPPING_CONFIG(subsampling->y_odd_inc,
+> > > +                                         subsampling->y_even_inc), &ret);
+> > > +
+> > > +       /* Binning configuration */
+> > > +       cci_update_bits(ov64a40->cci, OV64A40_REG_TIMING_CTRL_20,
+> > > +                       OV64A40_TIMING_CTRL_20_VBIN,
+> > > +                       subsampling->vbin ? OV64A40_TIMING_CTRL_20_VBIN : 0,
+> > > +                       &ret);
+> > > +       cci_update_bits(ov64a40->cci, OV64A40_REG_TIMING_CTRL_21,
+> > > +                       OV64A40_TIMING_CTRL_21_HBIN_CONF,
+> > > +                       subsampling->hbin ?
+> > > +                       OV64A40_TIMING_CTRL_21_HBIN_CONF : 0, &ret);
+> > > +
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static int ov64a40_start_streaming(struct ov64a40 *ov64a40,
+> > > +                                  struct v4l2_subdev_state *state)
+> > > +{
+> > > +       const struct ov64a40_reglist *reglist = &ov64a40->mode->reglist;
+> > > +       const struct ov64a40_timings *timings;
+> > > +       unsigned long delay;
+> > > +       int ret;
+> > > +
+> > > +       ret = pm_runtime_resume_and_get(ov64a40->dev);
+> > > +       if (ret < 0)
+> > > +               return ret;
+> > > +
+> > > +       ret = cci_multi_reg_write(ov64a40->cci, ov64a40_init,
+> > > +                                 ARRAY_SIZE(ov64a40_init), NULL);
+> > > +       if (ret)
+> > > +               goto error_power_off;
+> > > +
+> > > +       ret = cci_multi_reg_write(ov64a40->cci, reglist->regvals,
+> > > +                                 reglist->num_regs, NULL);
+> > > +       if (ret)
+> > > +               goto error_power_off;
+> > > +
+> > > +       ret = ov64a40_program_geometry(ov64a40);
+> > > +       if (ret)
+> > > +               goto error_power_off;
+> > > +
+> > > +       ret = ov64a40_program_subsampling(ov64a40);
+> > > +       if (ret)
+> > > +               goto error_power_off;
+> > > +
+> > > +       ret =  __v4l2_ctrl_handler_setup(&ov64a40->ctrl_handler);
+> > > +       if (ret)
+> > > +               goto error_power_off;
+> > > +
+> > > +       ret = cci_write(ov64a40->cci, OV64A40_REG_SMIA,
+> > > +                       OV64A40_REG_SMIA_STREAMING, NULL);
+> > > +       if (ret)
+> > > +               goto error_power_off;
+> > > +
+> > > +       /* Link frequency and flips cannot change while streaming. */
+> > > +       __v4l2_ctrl_grab(ov64a40->link_freq, true);
+> > > +       __v4l2_ctrl_grab(ov64a40->vflip, true);
+> > > +       __v4l2_ctrl_grab(ov64a40->hflip, true);
+> > > +
+> > > +       /* delay: max(4096 xclk pulses, 150usec) + exposure time */
+> > > +       timings = ov64a40_get_timings(ov64a40, ov64a40->link_freq->cur.val);
+> > > +       delay = DIV_ROUND_UP(4096, OV64A40_XCLK_FREQ / 1000 / 1000);
+> > > +       delay = max(delay, 150ul);
+> > > +
+> > > +       /* The sensor has an internal x4 multiplier on the line length. */
+> > > +       delay += DIV_ROUND_UP(timings->ppl * 4 * ov64a40->exposure->cur.val,
+> > > +                             OV64A40_PIXEL_RATE / 1000 / 1000);
+> > > +       fsleep(delay);
+> > > +
+> > > +       return 0;
+> > > +
+> > > +error_power_off:
+> > > +       pm_runtime_mark_last_busy(ov64a40->dev);
+> > > +       pm_runtime_put_autosuspend(ov64a40->dev);
+> > > +
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static int ov64a40_stop_streaming(struct ov64a40 *ov64a40,
+> > > +                                 struct v4l2_subdev_state *state)
+> > > +{
+> > > +       cci_update_bits(ov64a40->cci, OV64A40_REG_SMIA, BIT(0), 0, NULL);
+> > > +       pm_runtime_mark_last_busy(ov64a40->dev);
+> > > +       pm_runtime_put_autosuspend(ov64a40->dev);
+> > > +
+> > > +       __v4l2_ctrl_grab(ov64a40->link_freq, false);
+> > > +       __v4l2_ctrl_grab(ov64a40->vflip, false);
+> > > +       __v4l2_ctrl_grab(ov64a40->hflip, false);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int ov64a40_set_stream(struct v4l2_subdev *sd, int enable)
+> > > +{
+> > > +       struct ov64a40 *ov64a40 = sd_to_ov64a40(sd);
+> > > +       struct v4l2_subdev_state *state;
+> > > +       int ret;
+> > > +
+> > > +       state = v4l2_subdev_lock_and_get_active_state(sd);
+> > > +       if (enable)
+> > > +               ret = ov64a40_start_streaming(ov64a40, state);
+> > > +       else
+> > > +               ret = ov64a40_stop_streaming(ov64a40, state);
+> > > +       v4l2_subdev_unlock_state(state);
+> > > +
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static const struct v4l2_subdev_video_ops ov64a40_video_ops = {
+> > > +       .s_stream = ov64a40_set_stream,
+> > > +};
+> > > +
+> > > +static u32 ov64a40_mbus_code(struct ov64a40 *ov64a40)
+> > > +{
+> > > +       unsigned int index = ov64a40->hflip->val << 1 | ov64a40->vflip->val;
+> > > +
+> > > +       return ov64a40_mbus_codes[index];
+> > > +}
+> > > +
+> > > +static void ov64a40_update_pad_fmt(struct ov64a40 *ov64a40,
+> > > +                                  struct ov64a40_mode *mode,
+> > > +                                  struct v4l2_mbus_framefmt *fmt)
+> > > +{
+> > > +       fmt->code = ov64a40_mbus_code(ov64a40);
+> > > +       fmt->width = mode->width;
+> > > +       fmt->height = mode->height;
+> > > +       fmt->field = V4L2_FIELD_NONE;
+> > > +       fmt->colorspace = V4L2_COLORSPACE_RAW;
+> > > +       fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> > > +       fmt->xfer_func = V4L2_XFER_FUNC_NONE;
+> > > +       fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
+> > > +}
+> > > +
+> > > +static int ov64a40_init_cfg(struct v4l2_subdev *sd,
+> > > +                           struct v4l2_subdev_state *state)
+> > > +{
+> > > +       struct ov64a40 *ov64a40 = sd_to_ov64a40(sd);
+> > > +       struct v4l2_mbus_framefmt *format;
+> > > +       struct v4l2_rect *crop;
+> > > +
+> > > +       format = v4l2_subdev_state_get_format(state, 0);
+> > > +       ov64a40_update_pad_fmt(ov64a40, &ov64a40_modes[0], format);
+> > > +
+> > > +       crop = v4l2_subdev_state_get_crop(state, 0);
+> > > +       crop->top = OV64A40_PIXEL_ARRAY_TOP;
+> > > +       crop->left = OV64A40_PIXEL_ARRAY_LEFT;
+> > > +       crop->width = OV64A40_PIXEL_ARRAY_WIDTH;
+> > > +       crop->height = OV64A40_PIXEL_ARRAY_HEIGHT;
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int ov64a40_enum_mbus_code(struct v4l2_subdev *sd,
+> > > +                                 struct v4l2_subdev_state *state,
+> > > +                                 struct v4l2_subdev_mbus_code_enum *code)
+> > > +{
+> > > +       struct ov64a40 *ov64a40 = sd_to_ov64a40(sd);
+> > > +
+> > > +       if (code->index)
+> > > +               return -EINVAL;
+> > > +
+> > > +       code->code = ov64a40_mbus_code(ov64a40);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int ov64a40_enum_frame_size(struct v4l2_subdev *sd,
+> > > +                                  struct v4l2_subdev_state *state,
+> > > +                                  struct v4l2_subdev_frame_size_enum *fse)
+> > > +{
+> > > +       struct ov64a40 *ov64a40 = sd_to_ov64a40(sd);
+> > > +       struct ov64a40_mode *mode;
+> > > +       u32 code;
+> > > +
+> > > +       if (fse->index >= ARRAY_SIZE(ov64a40_modes))
+> > > +               return -EINVAL;
+> > > +
+> > > +       code = ov64a40_mbus_code(ov64a40);
+> > > +       if (fse->code != code)
+> > > +               return -EINVAL;
+> > > +
+> > > +       mode = &ov64a40_modes[fse->index];
+> > > +       fse->min_width = mode->width;
+> > > +       fse->max_width = mode->width;
+> > > +       fse->min_height = mode->height;
+> > > +       fse->max_height = mode->height;
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int ov64a40_get_selection(struct v4l2_subdev *sd,
+> > > +                                struct v4l2_subdev_state *state,
+> > > +                                struct v4l2_subdev_selection *sel)
+> > > +{
+> > > +       switch (sel->target) {
+> > > +       case V4L2_SEL_TGT_CROP:
+> > > +               sel->r = *v4l2_subdev_state_get_crop(state, 0);
+> > > +
+> > > +               return 0;
+> > > +
+> > > +       case V4L2_SEL_TGT_NATIVE_SIZE:
+> > > +               sel->r.top = 0;
+> > > +               sel->r.left = 0;
+> > > +               sel->r.width = OV64A40_NATIVE_WIDTH;
+> > > +               sel->r.height = OV64A40_NATIVE_HEIGHT;
+> > > +
+> > > +               return 0;
+> > > +
+> > > +       case V4L2_SEL_TGT_CROP_DEFAULT:
+> > > +       case V4L2_SEL_TGT_CROP_BOUNDS:
+> > > +               sel->r.top = OV64A40_PIXEL_ARRAY_TOP;
+> > > +               sel->r.left = OV64A40_PIXEL_ARRAY_LEFT;
+> > > +               sel->r.width = OV64A40_PIXEL_ARRAY_WIDTH;
+> > > +               sel->r.height = OV64A40_PIXEL_ARRAY_HEIGHT;
+> > > +
+> > > +               return 0;
+> > > +       }
+> > > +
+> > > +       return -EINVAL;
+> > > +}
+> > > +
+> > > +static int ov64a40_set_format(struct v4l2_subdev *sd,
+> > > +                             struct v4l2_subdev_state *state,
+> > > +                             struct v4l2_subdev_format *fmt)
+> > > +{
+> > > +       struct ov64a40 *ov64a40 = sd_to_ov64a40(sd);
+> > > +       struct v4l2_mbus_framefmt *format;
+> > > +       struct ov64a40_mode *mode;
+> > > +
+> > > +       mode = v4l2_find_nearest_size(ov64a40_modes,
+> > > +                                     ARRAY_SIZE(ov64a40_modes),
+> > > +                                     width, height,
+> > > +                                     fmt->format.width, fmt->format.height);
+> > > +
+> > > +       ov64a40_update_pad_fmt(ov64a40, mode, &fmt->format);
+> > > +
+> > > +       format = v4l2_subdev_state_get_format(state, 0);
+> > > +       if (ov64a40->mode == mode && format->code == fmt->format.code)
+> > > +               return 0;
+> > > +
+> > > +       if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+> > > +               const struct ov64a40_timings *timings;
+> > > +               int vblank_max, vblank_def;
+> > > +               int hblank_val;
+> > > +               int exp_max;
+> > > +
+> > > +               ov64a40->mode = mode;
+> > > +               *v4l2_subdev_state_get_crop(state, 0) = mode->analogue_crop;
+> > > +
+> > > +               /* Update control limits according to the new mode. */
+> > > +               timings = ov64a40_get_timings(ov64a40,
+> > > +                                             ov64a40->link_freq->cur.val);
+> > > +               vblank_max = OV64A40_VTS_MAX - mode->height;
+> > > +               vblank_def = timings->vts - mode->height;
+> > > +               __v4l2_ctrl_modify_range(ov64a40->vblank, OV64A40_VBLANK_MIN,
+> > > +                                        vblank_max, 1, vblank_def);
+> > > +               __v4l2_ctrl_s_ctrl(ov64a40->vblank, vblank_def);
+> > > +
+> > > +               exp_max = timings->vts - OV64A40_EXPOSURE_MARGIN;
+> > > +               __v4l2_ctrl_modify_range(ov64a40->exposure,
+> > > +                                        OV64A40_EXPOSURE_MIN, exp_max,
+> > > +                                        1, OV64A40_EXPOSURE_MIN);
+> > > +
+> > > +               hblank_val = timings->ppl * 4 - mode->width;
+> > > +               __v4l2_ctrl_modify_range(ov64a40->hblank,
+> > > +                                        hblank_val, hblank_val, 1, hblank_val);
+> > > +       }
+> > > +
+> > > +       *format = fmt->format;
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static const struct v4l2_subdev_pad_ops ov64a40_pad_ops = {
+> > > +       .init_cfg = ov64a40_init_cfg,
+> > > +       .enum_mbus_code = ov64a40_enum_mbus_code,
+> > > +       .enum_frame_size = ov64a40_enum_frame_size,
+> > > +       .get_fmt = v4l2_subdev_get_fmt,
+> > > +       .set_fmt = ov64a40_set_format,
+> > > +       .get_selection = ov64a40_get_selection,
+> > > +};
+> > > +
+> > > +static const struct v4l2_subdev_core_ops ov64a40_core_ops = {
+> > > +       .subscribe_event = v4l2_ctrl_subdev_subscribe_event,
+> > > +       .unsubscribe_event = v4l2_event_subdev_unsubscribe,
+> > > +};
+> > > +
+> > > +static const struct v4l2_subdev_ops ov64a40_subdev_ops = {
+> > > +       .core = &ov64a40_core_ops,
+> > > +       .video = &ov64a40_video_ops,
+> > > +       .pad = &ov64a40_pad_ops,
+> > > +};
+> > > +
+> > > +static int ov64a40_power_on(struct device *dev)
+> > > +{
+> > > +       struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> > > +       struct ov64a40 *ov64a40 = sd_to_ov64a40(sd);
+> > > +       int ret;
+> > > +
+> > > +       ret = clk_prepare_enable(ov64a40->xclk);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       ret = regulator_bulk_enable(ARRAY_SIZE(ov64a40_supply_names),
+> > > +                                   ov64a40->supplies);
+> > > +       if (ret) {
+> > > +               clk_disable_unprepare(ov64a40->xclk);
+> > > +               dev_err(dev, "Failed to enable regulators: %d\n", ret);
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       gpiod_set_value_cansleep(ov64a40->reset_gpio, 0);
+> > > +
+> > > +       fsleep(5000);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int ov64a40_power_off(struct device *dev)
+> > > +{
+> > > +       struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> > > +       struct ov64a40 *ov64a40 = sd_to_ov64a40(sd);
+> > > +
+> > > +       gpiod_set_value_cansleep(ov64a40->reset_gpio, 1);
+> > > +       regulator_bulk_disable(ARRAY_SIZE(ov64a40_supply_names),
+> > > +                              ov64a40->supplies);
+> > > +       clk_disable_unprepare(ov64a40->xclk);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int ov64a40_link_freq_config(struct ov64a40 *ov64a40, int link_freq_id)
+> > > +{
+> > > +       s64 link_frequency;
+> > > +       int ret = 0;
+> > > +
+> > > +       /* Default 456MHz with 24MHz input clock. */
+> > > +       cci_multi_reg_write(ov64a40->cci, ov64a40_pll_config,
+> > > +                           ARRAY_SIZE(ov64a40_pll_config), &ret);
+> > > +
+> > > +       /* Decrease the PLL1 multiplier to obtain 360MHz mipi link frequency. */
+> > > +       link_frequency = ov64a40->link_frequencies[link_freq_id];
+> > > +       if (link_frequency == OV64A40_LINK_FREQ_360M)
+> > > +               cci_write(ov64a40->cci, OV64A40_PLL1_MULTIPLIER, 0x0078, &ret);
+> > > +
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static int ov64a40_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > +{
+> > > +       struct ov64a40 *ov64a40 = container_of(ctrl->handler, struct ov64a40,
+> > > +                                              ctrl_handler);
+> > > +       int pm_status;
+> > > +       int ret = 0;
+> > > +
+> > > +       if (ctrl->id == V4L2_CID_VBLANK) {
+> > > +               int exp_max = ov64a40->mode->height + ctrl->val
+> > > +                           - OV64A40_EXPOSURE_MARGIN;
+> > > +               int exp_val = min(ov64a40->exposure->cur.val, exp_max);
+> > > +
+> > > +               __v4l2_ctrl_modify_range(ov64a40->exposure,
+> > > +                                        ov64a40->exposure->minimum,
+> > > +                                        exp_max, 1, exp_val);
+> > > +       }
+> > > +
+> > > +       pm_status = pm_runtime_get_if_active(ov64a40->dev, true);
+> > > +       if (!pm_status)
+> > > +               return 0;
+> > > +
+> > > +       switch (ctrl->id) {
+> > > +       case V4L2_CID_EXPOSURE:
+> > > +               ret = cci_write(ov64a40->cci, OV64A40_REG_MEC_LONG_EXPO,
+> > > +                               ctrl->val, NULL);
+> > > +               break;
+> > > +       case V4L2_CID_ANALOGUE_GAIN:
+> > > +               ret = cci_write(ov64a40->cci, OV64A40_REG_MEC_LONG_GAIN,
+> > > +                               ctrl->val << 1, NULL);
+> > > +               break;
+> > > +       case V4L2_CID_VBLANK: {
+> > > +               int vts = ctrl->val + ov64a40->mode->height;
+> > > +
+> > > +               cci_write(ov64a40->cci, OV64A40_REG_TIMINGS_VTS_LOW, vts, &ret);
+> > > +               cci_write(ov64a40->cci, OV64A40_REG_TIMINGS_VTS_MID,
+> > > +                         (vts >> 8), &ret);
+> > > +               cci_write(ov64a40->cci, OV64A40_REG_TIMINGS_VTS_HIGH,
+> > > +                         (vts >> 16), &ret);
+> > > +               break;
+> > > +       }
+> > > +       case V4L2_CID_VFLIP:
+> > > +               ret = cci_update_bits(ov64a40->cci, OV64A40_REG_TIMING_CTRL_20,
+> > > +                                     OV64A40_TIMING_CTRL_20_VFLIP,
+> > > +                                     ctrl->val << 2,
+> > > +                                     NULL);
+> > > +               break;
+> > > +       case V4L2_CID_HFLIP:
+> > > +               ret = cci_update_bits(ov64a40->cci, OV64A40_REG_TIMING_CTRL_21,
+> > > +                                     OV64A40_TIMING_CTRL_21_HFLIP,
+> > > +                                     ctrl->val ? 0
+> > > +                                               : OV64A40_TIMING_CTRL_21_HFLIP,
+> > > +                                     NULL);
+> > > +               break;
+> > > +       case V4L2_CID_TEST_PATTERN:
+> > > +               ret = cci_write(ov64a40->cci, OV64A40_REG_TEST_PATTERN,
+> > > +                               ov64a40_test_pattern_val[ctrl->val], NULL);
+> > > +               break;
+> > > +       case V4L2_CID_LINK_FREQ:
+> > > +               ret = ov64a40_link_freq_config(ov64a40, ctrl->val);
+> > > +               break;
+> > > +       default:
+> > > +               dev_err(ov64a40->dev, "Unhandled control: %#x\n", ctrl->id);
+> > > +               ret = -EINVAL;
+> > > +               break;
+> > > +       }
+> > > +
+> > > +       if (pm_status > 0) {
+> > > +               pm_runtime_mark_last_busy(ov64a40->dev);
+> > > +               pm_runtime_put_autosuspend(ov64a40->dev);
+> > > +       }
+> > > +
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static const struct v4l2_ctrl_ops ov64a40_ctrl_ops = {
+> > > +       .s_ctrl = ov64a40_set_ctrl,
+> > > +};
+> > > +
+> > > +static int ov64a40_init_controls(struct ov64a40 *ov64a40)
+> > > +{
+> > > +       int exp_max, hblank_val, vblank_max, vblank_def;
+> > > +       struct v4l2_ctrl_handler *hdlr = &ov64a40->ctrl_handler;
+> > > +       struct v4l2_fwnode_device_properties props;
+> > > +       const struct ov64a40_timings *timings;
+> > > +       int ret;
+> > > +
+> > > +       ret = v4l2_ctrl_handler_init(hdlr, 11);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       v4l2_ctrl_new_std(hdlr, &ov64a40_ctrl_ops, V4L2_CID_PIXEL_RATE,
+> > > +                         OV64A40_PIXEL_RATE, OV64A40_PIXEL_RATE,  1,
+> > > +                         OV64A40_PIXEL_RATE);
+> > > +
+> > > +       ov64a40->link_freq =
+> > > +               v4l2_ctrl_new_int_menu(hdlr, &ov64a40_ctrl_ops,
+> > > +                                      V4L2_CID_LINK_FREQ,
+> > > +                                      ov64a40->num_link_frequencies - 1,
+> > > +                                      0, ov64a40->link_frequencies);
+> > > +
+> > > +       v4l2_ctrl_new_std_menu_items(hdlr, &ov64a40_ctrl_ops,
+> > > +                                    V4L2_CID_TEST_PATTERN,
+> > > +                                    ARRAY_SIZE(ov64a40_test_pattern_menu) - 1,
+> > > +                                    0, 0, ov64a40_test_pattern_menu);
+> > > +
+> > > +       timings = ov64a40_get_timings(ov64a40, 0);
+> > > +       exp_max = timings->vts - OV64A40_EXPOSURE_MARGIN;
+> > > +       ov64a40->exposure = v4l2_ctrl_new_std(hdlr, &ov64a40_ctrl_ops,
+> > > +                                             V4L2_CID_EXPOSURE,
+> > > +                                             OV64A40_EXPOSURE_MIN, exp_max, 1,
+> > > +                                             OV64A40_EXPOSURE_MIN);
+> > > +
+> > > +       hblank_val = timings->ppl * 4 - ov64a40->mode->width;
+> > > +       ov64a40->hblank = v4l2_ctrl_new_std(hdlr, &ov64a40_ctrl_ops,
+> > > +                                           V4L2_CID_HBLANK, hblank_val,
+> > > +                                           hblank_val, 1, hblank_val);
+> > > +       if (ov64a40->hblank)
+> > > +               ov64a40->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> > > +
+> > > +       vblank_def = timings->vts - ov64a40->mode->height;
+> > > +       vblank_max = OV64A40_VTS_MAX - ov64a40->mode->height;
+> > > +       ov64a40->vblank = v4l2_ctrl_new_std(hdlr, &ov64a40_ctrl_ops,
+> > > +                                           V4L2_CID_VBLANK, OV64A40_VBLANK_MIN,
+> > > +                                           vblank_max, 1, vblank_def);
+> > > +
+> > > +       v4l2_ctrl_new_std(hdlr, &ov64a40_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+> > > +                         OV64A40_ANA_GAIN_MIN, OV64A40_ANA_GAIN_MAX, 1,
+> > > +                         OV64A40_ANA_GAIN_DEFAULT);
+> > > +
+> > > +       ov64a40->hflip = v4l2_ctrl_new_std(hdlr, &ov64a40_ctrl_ops,
+> > > +                                          V4L2_CID_HFLIP, 0, 1, 1, 0);
+> > > +       if (ov64a40->hflip)
+> > > +               ov64a40->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+> > > +
+> > > +       ov64a40->vflip = v4l2_ctrl_new_std(hdlr, &ov64a40_ctrl_ops,
+> > > +                                          V4L2_CID_VFLIP, 0, 1, 1, 0);
+> > > +       if (ov64a40->vflip)
+> > > +               ov64a40->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+> > > +
+> > > +       if (hdlr->error) {
+> > > +               ret = hdlr->error;
+> > > +               dev_err(ov64a40->dev, "control init failed: %d\n", ret);
+> > > +               goto error_free_hdlr;
+> > > +       }
+> > > +
+> > > +       ret = v4l2_fwnode_device_parse(ov64a40->dev, &props);
+> > > +       if (ret)
+> > > +               goto error_free_hdlr;
+> > > +
+> > > +       ret = v4l2_ctrl_new_fwnode_properties(hdlr, &ov64a40_ctrl_ops,
+> > > +                                             &props);
+> > > +       if (ret)
+> > > +               goto error_free_hdlr;
+> > > +
+> > > +       ov64a40->sd.ctrl_handler = hdlr;
+> > > +
+> > > +       return 0;
+> > > +
+> > > +error_free_hdlr:
+> > > +       v4l2_ctrl_handler_free(hdlr);
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static int ov64a40_identify(struct ov64a40 *ov64a40)
+> > > +{
+> > > +       int ret;
+> > > +       u64 id;
+> > > +
+> > > +       ret = cci_read(ov64a40->cci, OV64A40_REG_CHIP_ID, &id, NULL);
+> > > +       if (ret) {
+> > > +               dev_err(ov64a40->dev, "Failed to read chip id: %d\n", ret);
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       if (id != OV64A40_CHIP_ID) {
+> > > +               dev_err(ov64a40->dev, "chip id mismatch: %#llx\n", id);
+> > > +               return -ENODEV;
+> > > +       }
+> > > +
+> > > +       dev_dbg(ov64a40->dev, "OV64A40 chip identified: %#llx\n", id);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int ov64a40_parse_dt(struct ov64a40 *ov64a40)
+> > > +{
+> > > +       struct v4l2_fwnode_endpoint v4l2_fwnode = {
+> > > +               .bus_type = V4L2_MBUS_CSI2_DPHY
+> > > +       };
+> > > +       struct fwnode_handle *endpoint;
+> > > +       unsigned int i;
+> > > +       int ret;
+> > > +
+> > > +       endpoint = fwnode_graph_get_next_endpoint(dev_fwnode(ov64a40->dev),
+> > > +                                                 NULL);
+> > > +       if (!endpoint) {
+> > > +               dev_err(ov64a40->dev, "Failed to find endpoint\n");
+> > > +               return -EINVAL;
+> > > +       }
+> > > +
+> > > +       ret = v4l2_fwnode_endpoint_alloc_parse(endpoint, &v4l2_fwnode);
+> > > +       fwnode_handle_put(endpoint);
+> > > +       if (ret) {
+> > > +               dev_err(ov64a40->dev, "Failed to parse endpoint\n");
+> > > +               return ret;
+> > > +       }
+> > > +
+> > > +       if (v4l2_fwnode.bus.mipi_csi2.num_data_lanes != 2) {
+> > > +               dev_err(ov64a40->dev, "Unsupported number of data lanes: %u\n",
+> > > +                       v4l2_fwnode.bus.mipi_csi2.num_data_lanes);
+> > > +               v4l2_fwnode_endpoint_free(&v4l2_fwnode);
+> > > +               return -EINVAL;
+> > > +       }
+> > > +
+> > > +       if (!v4l2_fwnode.nr_of_link_frequencies) {
+> > > +               dev_warn(ov64a40->dev, "no link frequencies defined\n");
+> > > +               v4l2_fwnode_endpoint_free(&v4l2_fwnode);
+> > > +               return -EINVAL;
+> > > +       }
+> > > +
+> > > +       if (v4l2_fwnode.nr_of_link_frequencies > 2) {
+> > > +               dev_warn(ov64a40->dev,
+> > > +                        "Unsupported number of link frequencies\n");
+> > > +               v4l2_fwnode_endpoint_free(&v4l2_fwnode);
+> > > +               return -EINVAL;
+> > > +       }
+> > > +
+> > > +       ov64a40->link_frequencies =
+> > > +               devm_kcalloc(ov64a40->dev, v4l2_fwnode.nr_of_link_frequencies,
+> > > +                            sizeof(v4l2_fwnode.link_frequencies[0]),
+> > > +                            GFP_KERNEL);
+> > > +       if (!ov64a40->link_frequencies)  {
+> > > +               v4l2_fwnode_endpoint_free(&v4l2_fwnode);
+> > > +               return -ENOMEM;
+> > > +       }
+> > > +       ov64a40->num_link_frequencies = v4l2_fwnode.nr_of_link_frequencies;
+> > > +
+> > > +       for (i = 0; i < v4l2_fwnode.nr_of_link_frequencies; ++i) {
+> > > +               if (v4l2_fwnode.link_frequencies[i] != OV64A40_LINK_FREQ_360M &&
+> > > +                   v4l2_fwnode.link_frequencies[i] != OV64A40_LINK_FREQ_456M) {
+> > > +                       dev_err(ov64a40->dev,
+> > > +                               "Unsupported link frequency %lld\n",
+> > > +                               v4l2_fwnode.link_frequencies[i]);
+> > > +                       v4l2_fwnode_endpoint_free(&v4l2_fwnode);
+> > > +                       return -EINVAL;
+> > > +               }
+> > > +
+> > > +               ov64a40->link_frequencies[i] = v4l2_fwnode.link_frequencies[i];
+> > > +       }
+> > > +
+> > > +       v4l2_fwnode_endpoint_free(&v4l2_fwnode);
+> > > +
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +static int ov64a40_get_regulators(struct ov64a40 *ov64a40)
+> > > +{
+> > > +       struct i2c_client *client = v4l2_get_subdevdata(&ov64a40->sd);
+> > > +       unsigned int i;
+> > > +
+> > > +       for (i = 0; i < ARRAY_SIZE(ov64a40_supply_names); i++)
+> > > +               ov64a40->supplies[i].supply = ov64a40_supply_names[i];
+> > > +
+> > > +       return devm_regulator_bulk_get(&client->dev,
+> > > +                                      ARRAY_SIZE(ov64a40_supply_names),
+> > > +                                      ov64a40->supplies);
+> > > +}
+> > > +
+> > > +static int ov64a40_probe(struct i2c_client *client)
+> > > +{
+> > > +       struct ov64a40 *ov64a40;
+> > > +       u32 xclk_freq;
+> > > +       int ret;
+> > > +
+> > > +       ov64a40 = devm_kzalloc(&client->dev, sizeof(*ov64a40), GFP_KERNEL);
+> > > +       if (!ov64a40)
+> > > +               return -ENOMEM;
+> > > +
+> > > +       ov64a40->dev = &client->dev;
+> > > +       v4l2_i2c_subdev_init(&ov64a40->sd, client, &ov64a40_subdev_ops);
+> > > +
+> > > +       ov64a40->cci = devm_cci_regmap_init_i2c(client, 16);
+> > > +       if (IS_ERR(ov64a40->cci)) {
+> > > +               dev_err(&client->dev, "Failed to initialize CCI\n");
+> > > +               return PTR_ERR(ov64a40->cci);
+> > > +       }
+> > > +
+> > > +       ov64a40->xclk = devm_clk_get(&client->dev, NULL);
+> > > +       if (IS_ERR(ov64a40->xclk))
+> > > +               return dev_err_probe(&client->dev, PTR_ERR(ov64a40->xclk),
+> > > +                                    "Failed to get clock\n");
+> > > +
+> > > +       xclk_freq = clk_get_rate(ov64a40->xclk);
+> > > +       if (xclk_freq != OV64A40_XCLK_FREQ) {
+> > > +               dev_err(&client->dev, "Unsupported xclk frequency %u\n",
+> > > +                       xclk_freq);
+> > > +               return -EINVAL;
+> > > +       }
+> > > +
+> > > +       ret = ov64a40_get_regulators(ov64a40);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       ov64a40->reset_gpio = devm_gpiod_get_optional(&client->dev, "reset",
+> > > +                                                     GPIOD_OUT_LOW);
+> > > +       if (IS_ERR(ov64a40->reset_gpio))
+> > > +               return dev_err_probe(&client->dev, PTR_ERR(ov64a40->reset_gpio),
+> > > +                                    "Failed to get reset gpio\n");
+> > > +
+> > > +       ret = ov64a40_parse_dt(ov64a40);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       ret = ov64a40_power_on(&client->dev);
+> > > +       if (ret)
+> > > +               return ret;
+> > > +
+> > > +       ret = ov64a40_identify(ov64a40);
+> > > +       if (ret)
+> > > +               goto error_poweroff;
+> > > +
+> > > +       ov64a40->mode = &ov64a40_modes[0];
+> > > +
+> > > +       pm_runtime_set_active(&client->dev);
+> > > +       pm_runtime_get_noresume(&client->dev);
+> > > +       pm_runtime_enable(&client->dev);
+> > > +       pm_runtime_set_autosuspend_delay(&client->dev, 1000);
+> > > +       pm_runtime_use_autosuspend(&client->dev);
+> > > +
+> > > +       ret = ov64a40_init_controls(ov64a40);
+> > > +       if (ret)
+> > > +               goto error_poweroff;
+> > > +
+> > > +       /* Initialize subdev */
+> > > +       ov64a40->sd.flags = V4L2_SUBDEV_FL_HAS_DEVNODE
+> > > +                         | V4L2_SUBDEV_FL_HAS_EVENTS;
+> > > +       ov64a40->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> > > +
+> > > +       ov64a40->pad.flags = MEDIA_PAD_FL_SOURCE;
+> > > +       ret = media_entity_pads_init(&ov64a40->sd.entity, 1, &ov64a40->pad);
+> > > +       if (ret) {
+> > > +               dev_err(&client->dev, "failed to init entity pads: %d\n", ret);
+> > > +               goto error_handler_free;
+> > > +       }
+> > > +
+> > > +       ov64a40->sd.state_lock = ov64a40->ctrl_handler.lock;
+> > > +       ret = v4l2_subdev_init_finalize(&ov64a40->sd);
+> > > +       if (ret < 0) {
+> > > +               dev_err(&client->dev, "subdev init error: %d\n", ret);
+> > > +               goto error_media_entity;
+> > > +       }
+> > > +
+> > > +       ret = v4l2_async_register_subdev_sensor(&ov64a40->sd);
+> > > +       if (ret < 0) {
+> > > +               dev_err(&client->dev,
+> > > +                       "failed to register sensor sub-device: %d\n", ret);
+> > > +               goto error_subdev_cleanup;
+> > > +       }
+> > > +
+> > > +       pm_runtime_mark_last_busy(&client->dev);
+> > > +       pm_runtime_put_autosuspend(&client->dev);
+> > > +
+> > > +       return 0;
+> > > +
+> > > +error_subdev_cleanup:
+> > > +       v4l2_subdev_cleanup(&ov64a40->sd);
+> > > +error_media_entity:
+> > > +       media_entity_cleanup(&ov64a40->sd.entity);
+> > > +error_handler_free:
+> > > +       v4l2_ctrl_handler_free(ov64a40->sd.ctrl_handler);
+> > > +error_poweroff:
+> > > +       ov64a40_power_off(&client->dev);
+> > > +       pm_runtime_set_suspended(&client->dev);
+> > > +
+> > > +       return ret;
+> > > +}
+> > > +
+> > > +static void ov64a40_remove(struct i2c_client *client)
+> > > +{
+> > > +       struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> > > +
+> > > +       v4l2_async_unregister_subdev(sd);
+> > > +       v4l2_subdev_cleanup(sd);
+> > > +       media_entity_cleanup(&sd->entity);
+> > > +       v4l2_ctrl_handler_free(sd->ctrl_handler);
+> > > +
+> > > +       pm_runtime_disable(&client->dev);
+> > > +       if (!pm_runtime_status_suspended(&client->dev))
+> > > +               ov64a40_power_off(&client->dev);
+> > > +       pm_runtime_set_suspended(&client->dev);
+> > > +}
+> > > +
+> > > +static const struct of_device_id ov64a40_of_ids[] = {
+> > > +       { .compatible = "ovti,ov64a40" },
+> > > +       { /* sentinel */ }
+> > > +};
+> > > +MODULE_DEVICE_TABLE(of, ov64a40_of_ids);
+> > > +
+> > > +static const struct dev_pm_ops ov64a40_pm_ops = {
+> > > +       SET_RUNTIME_PM_OPS(ov64a40_power_off, ov64a40_power_on, NULL)
+> > > +};
+> > > +
+> > > +static struct i2c_driver ov64a40_i2c_driver = {
+> > > +       .driver = {
+> > > +               .name = "ov64a40",
+> > > +               .of_match_table = ov64a40_of_ids,
+> > > +               .pm = &ov64a40_pm_ops,
+> > > +       },
+> > > +       .probe  = ov64a40_probe,
+> > > +       .remove = ov64a40_remove,
+> > > +};
+> > > +
+> > > +module_i2c_driver(ov64a40_i2c_driver);
+> > > +
+> > > +MODULE_AUTHOR("Jacopo Mondi <jacopo.mondi@ideasonboard.com>");
+> > > +MODULE_DESCRIPTION("OmniVision OV64A40 sensor driver");
+> > > +MODULE_LICENSE("GPL");
+> > > --
+> > > 2.41.0
+> > >
 
