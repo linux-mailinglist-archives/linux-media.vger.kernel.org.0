@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-1872-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1873-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E69C4808C7E
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 16:51:13 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2246D808C82
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 16:51:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A27A22817C7
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 15:51:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52A231C20AEA
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 15:51:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C32EB481B1;
-	Thu,  7 Dec 2023 15:50:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBDE7481B6;
+	Thu,  7 Dec 2023 15:50:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oKJ/17OH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vB+GyYU5"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E80146451;
-	Thu,  7 Dec 2023 15:50:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 82DA0C43391;
-	Thu,  7 Dec 2023 15:50:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34A2045978;
+	Thu,  7 Dec 2023 15:50:32 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A7038C433C9;
+	Thu,  7 Dec 2023 15:50:31 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701964228;
-	bh=Yu+T4WCmV/LVjhCEdfQlyO9Lu7gGgQ3FuKEzvGbxZvM=;
+	s=k20201202; t=1701964232;
+	bh=9I0REbcpKSt1MVBIkF5lrOnJOl7fX+Traw8aZNWXX1Y=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=oKJ/17OH7rkdjG5BcoE3FN0c4+7ifO9mEQA/PIWcbyRUy8EtPGChywtg2Rrv4J7px
-	 NphVWN2KA9yNaEF8H/GbBarDvSm5XW8F62KhbWFVJmR2yDym31OdBELHKE76WyaVTl
-	 p/bd80ybmzk91L7QMAxzaLxY4/28VmRt2VBWkfmj+X371RZ3b0Bxa4qY14IrJkWIpi
-	 TN5Dtb1hLPd5EgKJbyKCxkfvkluQjL5m4izltLOdtsilS9IgUpTTZIAZGhH2PFLSnw
-	 UtLlZuh++epwCphjoaSAtCE0PJ33AcvQh5gFbb34bLLYDKXCJtQFjCrmYy3I6C7aM0
-	 doj3/hwVcZXqA==
+	b=vB+GyYU5mse7AtiZ/yY3mJSBiYHSiXWFofbmUg7iIRLN3Xcd8f+RQPoNqF2DXUsz8
+	 J0N36pUgRTSYzFT9P6iaygAVEFMPAjLpbuEM6LA4kmsQ+3cmbzyVyR4MAwyqKwtdgH
+	 Lv3f5Jv9d037lOwyY3HqFiH+pNy5rohnWrXWCMuM5P/9gbxaBzxikQbnYA2E3pnJv1
+	 OgkWg6BDBD+t+izMswLPQEND9Karpa/2JQHhhWaCPcLQu3axMlPj2RQbDNFXdLFWoQ
+	 MvHns/qsd1M3iv5tD2/gMb52SwLOcXT9VUU4R3oo7RTj3YHgaKXdpaj6tSwIV9lcR9
+	 00qAfzKImvuOQ==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 07 Dec 2023 16:49:43 +0100
-Subject: [PATCH v5 20/44] drm/vc4: tests: Remove vc4_dummy_plane structure
+Date: Thu, 07 Dec 2023 16:49:44 +0100
+Subject: [PATCH v5 21/44] drm/vc4: tests: Convert to plane creation helper
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -43,7 +43,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231207-kms-hdmi-connector-state-v5-20-6538e19d634d@kernel.org>
+Message-Id: <20231207-kms-hdmi-connector-state-v5-21-6538e19d634d@kernel.org>
 References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
 In-Reply-To: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -59,103 +59,78 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org,
  linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3334; i=mripard@kernel.org;
- h=from:subject:message-id; bh=Yu+T4WCmV/LVjhCEdfQlyO9Lu7gGgQ3FuKEzvGbxZvM=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmFL1vXTxf+qn/jzY6W1WeO37hUOI+hXfzl8yPfnr/47
- KQifGbN5I5SFgYxLgZZMUWWGGHzJXGnZr3uZOObBzOHlQlkCAMXpwBM5HQow/+KxRM2vq5vktI6
- tM2vk6/5yEXfD4vmrM04qvZuK/MyfwdNRoYFKqETIjljJb6V5Etkvjblb0qRKOn7k9LkyfFxrfw
- he34A
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2025; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=9I0REbcpKSt1MVBIkF5lrOnJOl7fX+Traw8aZNWXX1Y=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmFL1sTs8I2b+rjzJO31T8WXmr7++zHJQ8bbFb2J2y1e
+ JHWLZjVUcrCIMbFICumyBIjbL4k7tSs151sfPNg5rAygQxh4OIUgInkRzL8rzLgE3Ju2vegqezr
+ x6vdqZsOZBd+DK32Fyjc2aV/6lWMAyND6/cNsWyNPx+3B7FP7LzxkXlnub+O6JPWosN9C/96afh
+ yAwA=
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The vc4_dummy_plane structure is an exact equivalent to vc4_plane, so we
-don't need it.
+Now that we have a plane create helper for kunit mocked drivers, let's
+convert to it in vc4.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/vc4/tests/vc4_mock.c       |  6 ++----
- drivers/gpu/drm/vc4/tests/vc4_mock.h       |  9 ++-------
- drivers/gpu/drm/vc4/tests/vc4_mock_plane.c | 14 +++++---------
- 3 files changed, 9 insertions(+), 20 deletions(-)
+ drivers/gpu/drm/vc4/tests/vc4_mock_plane.c | 34 +++++++-----------------------
+ 1 file changed, 8 insertions(+), 26 deletions(-)
 
-diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock.c b/drivers/gpu/drm/vc4/tests/vc4_mock.c
-index 63ca46f4cb35..1c1be39141ba 100644
---- a/drivers/gpu/drm/vc4/tests/vc4_mock.c
-+++ b/drivers/gpu/drm/vc4/tests/vc4_mock.c
-@@ -109,16 +109,14 @@ static const struct vc4_mock_desc vc5_mock =
- static int __build_one_pipe(struct kunit *test, struct drm_device *drm,
- 			    const struct vc4_mock_pipe_desc *pipe)
- {
--	struct vc4_dummy_plane *dummy_plane;
- 	struct drm_plane *plane;
- 	struct vc4_dummy_crtc *dummy_crtc;
- 	struct drm_crtc *crtc;
- 	unsigned int i;
- 
--	dummy_plane = vc4_dummy_plane(test, drm, DRM_PLANE_TYPE_PRIMARY);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy_plane);
-+	plane = vc4_dummy_plane(test, drm, DRM_PLANE_TYPE_PRIMARY);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane);
- 
--	plane = &dummy_plane->plane.base;
- 	dummy_crtc = vc4_mock_pv(test, drm, plane, pipe->data);
- 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy_crtc);
- 
-diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock.h b/drivers/gpu/drm/vc4/tests/vc4_mock.h
-index 2d0b339bd9f3..002b6218960c 100644
---- a/drivers/gpu/drm/vc4/tests/vc4_mock.h
-+++ b/drivers/gpu/drm/vc4/tests/vc4_mock.h
-@@ -21,13 +21,8 @@ struct drm_crtc *vc4_find_crtc_for_encoder(struct kunit *test,
- 	return NULL;
- }
- 
--struct vc4_dummy_plane {
--	struct vc4_plane plane;
--};
--
--struct vc4_dummy_plane *vc4_dummy_plane(struct kunit *test,
--					struct drm_device *drm,
--					enum drm_plane_type type);
-+struct drm_plane *vc4_dummy_plane(struct kunit *test, struct drm_device *drm,
-+				  enum drm_plane_type type);
- 
- struct vc4_dummy_crtc {
- 	struct vc4_crtc crtc;
 diff --git a/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c b/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
-index 62b18f5f41db..973f5f929097 100644
+index 973f5f929097..14357db82238 100644
 --- a/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
 +++ b/drivers/gpu/drm/vc4/tests/vc4_mock_plane.c
-@@ -22,15 +22,12 @@ static const uint32_t vc4_dummy_plane_formats[] = {
- 	DRM_FORMAT_XRGB8888,
- };
+@@ -1,43 +1,25 @@
+ // SPDX-License-Identifier: GPL-2.0
  
--struct vc4_dummy_plane *vc4_dummy_plane(struct kunit *test,
--					struct drm_device *drm,
--					enum drm_plane_type type)
-+struct drm_plane *vc4_dummy_plane(struct kunit *test, struct drm_device *drm,
-+				  enum drm_plane_type type)
+-#include <drm/drm_atomic_state_helper.h>
+-#include <drm/drm_fourcc.h>
+-#include <drm/drm_modeset_helper_vtables.h>
++#include <drm/drm_kunit_helpers.h>
+ #include <drm/drm_plane.h>
+ 
+ #include <kunit/test.h>
+ 
+ #include "vc4_mock.h"
+ 
+-static const struct drm_plane_helper_funcs vc4_dummy_plane_helper_funcs = {
+-};
+-
+-static const struct drm_plane_funcs vc4_dummy_plane_funcs = {
+-	.atomic_destroy_state	= drm_atomic_helper_plane_destroy_state,
+-	.atomic_duplicate_state	= drm_atomic_helper_plane_duplicate_state,
+-	.reset			= drm_atomic_helper_plane_reset,
+-};
+-
+-static const uint32_t vc4_dummy_plane_formats[] = {
+-	DRM_FORMAT_XRGB8888,
+-};
+-
+ struct drm_plane *vc4_dummy_plane(struct kunit *test, struct drm_device *drm,
+ 				  enum drm_plane_type type)
  {
--	struct vc4_dummy_plane *dummy_plane;
  	struct drm_plane *plane;
  
--	dummy_plane = drmm_universal_plane_alloc(drm,
--						 struct vc4_dummy_plane, plane.base,
-+	plane = __drmm_universal_plane_alloc(drm, sizeof(struct drm_plane), 0,
- 						 0,
- 						 &vc4_dummy_plane_funcs,
- 						 vc4_dummy_plane_formats,
-@@ -38,10 +35,9 @@ struct vc4_dummy_plane *vc4_dummy_plane(struct kunit *test,
- 						 NULL,
- 						 DRM_PLANE_TYPE_PRIMARY,
- 						 NULL);
--	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy_plane);
-+	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane);
+-	plane = __drmm_universal_plane_alloc(drm, sizeof(struct drm_plane), 0,
+-						 0,
+-						 &vc4_dummy_plane_funcs,
+-						 vc4_dummy_plane_formats,
+-						 ARRAY_SIZE(vc4_dummy_plane_formats),
+-						 NULL,
+-						 DRM_PLANE_TYPE_PRIMARY,
+-						 NULL);
++	KUNIT_ASSERT_EQ(test, type, DRM_PLANE_TYPE_PRIMARY);
++
++	plane = drm_kunit_helper_create_primary_plane(test, drm,
++						      NULL,
++						      NULL,
++						      NULL, 0,
++						      NULL);
+ 	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, plane);
  
--	plane = &dummy_plane->plane.base;
- 	drm_plane_helper_add(plane, &vc4_dummy_plane_helper_funcs);
- 
--	return dummy_plane;
-+	return plane;
+-	drm_plane_helper_add(plane, &vc4_dummy_plane_helper_funcs);
+-
+ 	return plane;
  }
 
 -- 
