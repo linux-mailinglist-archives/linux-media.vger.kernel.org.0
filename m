@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-1848-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1849-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2A4808A88
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 15:28:50 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AD5F808AD9
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 15:42:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78D7928131D
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 14:28:49 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DA8D8B215B0
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 14:42:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E15F44367;
-	Thu,  7 Dec 2023 14:28:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 307763D0D4;
+	Thu,  7 Dec 2023 14:42:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u4/ibhOQ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SwCJCfOR"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A07F1987
-	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 06:28:41 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97834FA;
+	Thu,  7 Dec 2023 06:42:06 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9DB43669;
-	Thu,  7 Dec 2023 15:27:57 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0E0DB669;
+	Thu,  7 Dec 2023 15:41:22 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701959277;
-	bh=dcX7bDQC/6RCpMGhY3KxDjeXROtIYAW9NdwtD+MMjR4=;
+	s=mail; t=1701960083;
+	bh=oqYzC0d84cVaTRAlruVMVWSCZEKZ2kE5XcA+BUxZl7U=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u4/ibhOQhCt6MFao+N0/PRVCtAuPwsYIx9TuWVO0yBTnyU4GY7+HmVQZHrrn1M/QF
-	 cO56IQjl6sBzWmL7/BcjLU68Pe8G4h5NKg53To3iPNrkGP/7qgBOhL5jxkzRqCz1ZU
-	 LorKCoHGIv1Si/A2BiH8ofxs4Nx/4T1Ne9uGC4Mo=
-Date: Thu, 7 Dec 2023 16:28:45 +0200
+	b=SwCJCfORVcentryBcSckPtg8b/RXbRVFLvkA2AlDqc504HhDgXnytdpNS6y2aPKGs
+	 prQTHuebFcf4ErDU9P882Kk/rHHV5b9sfwCcP/A8SqKyJQ7s45x90xbImYCCpuyzMk
+	 0yua0I3ffFDTSWPKEqEnty4316GOe/MFArXHNqRE=
+Date: Thu, 7 Dec 2023 16:42:10 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Alexander Stein <alexander.stein@ew.tq-group.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 1/1] media: nxp: imx8-isi-debug: Add missing 36-Bit
- DMA registers to debugfs output
-Message-ID: <20231207142845.GB15521@pendragon.ideasonboard.com>
-References: <20231207110918.1338524-1-alexander.stein@ew.tq-group.com>
- <20231207135539.GJ9675@pendragon.ideasonboard.com>
- <10383921.nUPlyArG6x@steina-w>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Alexander Stein <alexander.stein@ew.tq-group.com>,
+	kieran.bingham@ideasonboard.com, umang.jain@ideasonboard.com,
+	aford173@gmail.com, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/4] media: rkisp1: Store IRQ lines
+Message-ID: <20231207144210.GE15521@pendragon.ideasonboard.com>
+References: <20231207-rkisp-irq-fix-v3-0-358a2c871a3c@ideasonboard.com>
+ <20231207-rkisp-irq-fix-v3-3-358a2c871a3c@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,120 +52,126 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <10383921.nUPlyArG6x@steina-w>
+In-Reply-To: <20231207-rkisp-irq-fix-v3-3-358a2c871a3c@ideasonboard.com>
 
-Hi Alexander,
+Hi Tomi,
 
-On Thu, Dec 07, 2023 at 03:15:10PM +0100, Alexander Stein wrote:
-> Am Donnerstag, 7. Dezember 2023, 14:55:39 CET schrieb Laurent Pinchart:
-> > On Thu, Dec 07, 2023 at 12:09:18PM +0100, Alexander Stein wrote:
-> > > The extended address registers are missing in the debug output register
-> > > list. These are only available on 36-Bit DMA platforms. Due to the
-> > > prolonged name, the output width has to be adjusted as well.
-> > > 
-> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > ---
-> > > Changes in v2:
-> > > * Split register set into regular and 36-Bit DMA only
-> > > * Adjust output width to address longer register names
-> > > 
-> > > Currently only tested on TQMa8MPxL (imx8mp-tqma8mpql-mba8mpxl.dts)
-> > > 
-> > >  .../platform/nxp/imx8-isi/imx8-isi-debug.c    | 28 +++++++++++++++++--
-> > >  1 file changed, 25 insertions(+), 3 deletions(-)
-> > > 
-> > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
-> > > b/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c index
-> > > 6709ab7ea1f3..398864b5e506 100644
-> > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
-> > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
-> > > @@ -22,10 +22,11 @@ static inline u32 mxc_isi_read(struct mxc_isi_pipe
-> > > *pipe, u32 reg)> 
-> > >  static int mxc_isi_debug_dump_regs_show(struct seq_file *m, void *p)
-> > >  {
-> > >  #define MXC_ISI_DEBUG_REG(name)		{ name, #name }
-> > > 
-> > > -	static const struct {
-> > > +	struct debug_regs {
-> > > 
-> > >  		u32 offset;
-> > >  		const char * const name;
-> > > 
-> > > -	} registers[] = {
-> > > +	};
-> > > +	static const struct debug_regs registers[] = {
-> > > 
-> > >  		MXC_ISI_DEBUG_REG(CHNL_CTRL),
-> > >  		MXC_ISI_DEBUG_REG(CHNL_IMG_CTRL),
-> > >  		MXC_ISI_DEBUG_REG(CHNL_OUT_BUF_CTRL),
-> > > 
-> > > @@ -67,6 +68,16 @@ static int mxc_isi_debug_dump_regs_show(struct seq_file
-> > > *m, void *p)> 
-> > >  		MXC_ISI_DEBUG_REG(CHNL_SCL_IMG_CFG),
-> > >  		MXC_ISI_DEBUG_REG(CHNL_FLOW_CTRL),
-> > >  	
-> > >  	};
-> > > 
-> > > +	/* There registers contain the upper 4Bits of 36-Bit DMA addresses */
-> > 
-> > s/There/These/
-> > 
-> > > +	static const struct debug_regs registers_36bit_dma[] = {
-> > > +		MXC_ISI_DEBUG_REG(CHNL_Y_BUF1_XTND_ADDR),
-> > > +		MXC_ISI_DEBUG_REG(CHNL_U_BUF1_XTND_ADDR),
-> > > +		MXC_ISI_DEBUG_REG(CHNL_V_BUF1_XTND_ADDR),
-> > > +		MXC_ISI_DEBUG_REG(CHNL_Y_BUF2_XTND_ADDR),
-> > > +		MXC_ISI_DEBUG_REG(CHNL_U_BUF2_XTND_ADDR),
-> > > +		MXC_ISI_DEBUG_REG(CHNL_V_BUF2_XTND_ADDR),
-> > > +		MXC_ISI_DEBUG_REG(CHNL_IN_BUF_XTND_ADDR),
-> > > +	};
-> > > 
-> > >  	struct mxc_isi_pipe *pipe = m->private;
-> > >  	unsigned int i;
-> > > 
-> > > @@ -77,10 +88,21 @@ static int mxc_isi_debug_dump_regs_show(struct
-> > > seq_file *m, void *p)> 
-> > >  	seq_printf(m, "--- ISI pipe %u registers ---\n", pipe->id);
-> > >  	
-> > >  	for (i = 0; i < ARRAY_SIZE(registers); ++i)
-> > > 
-> > > -		seq_printf(m, "%20s[0x%02x]: 0x%08x\n",
-> > > +		seq_printf(m, "%21s[0x%02x]: 0x%08x\n",
-> > > 
-> > >  			   registers[i].name, registers[i].offset,
-> > >  			   mxc_isi_read(pipe, registers[i].offset));
-> > > 
-> > > +	if (pipe->isi->pdata->has_36bit_dma) {
-> > > +		for (i = 0; i < ARRAY_SIZE(registers_36bit_dma); ++i) {
-> > > +			const struct debug_regs *reg = aregisters_36bit_dma[i];
-> > > +
-> > > +			seq_printf(m, "%21s[0x%02x]: 0x%08x\n",
-> > > +				reg->name,
-> > > +				reg->offset,
-> > > +				mxc_isi_read(pipe, reg->offset));
-> > 
-> > Lines should be aligned under the "m" of the first line.
-> > 
-> > I'll fix these small issues when applying, no need to send a v3.
-> > 
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Thank you for the patch.
+
+On Thu, Dec 07, 2023 at 09:57:47AM +0200, Tomi Valkeinen wrote:
+> Store the IRQ lines used by the driver for easy access. These are needed
+> in future patches which fix IRQ race issues.
 > 
-> For the records: Also tested on TQMa8MxNL (imx8mn-tqma8mqnl-mba8mx.dts). As 
-> expected it prints only the same registers as before.
+> Tested-by: Adam Ford <aford173@gmail.com>  #imx8mp-beacon
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Thank you. Can I add
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-    Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com> # on imx8mn
-
-?
-
-> > > +		}
-> > > +	}
-> > > +
-> > > 
-> > >  	pm_runtime_put(pipe->isi->dev);
-> > >  	
-> > >  	return 0;
+> ---
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-common.h | 11 ++++++++++-
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c    | 17 +++++++++++++----
+>  2 files changed, 23 insertions(+), 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index 1e7cea1bea5e..2d7f06281c39 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -61,6 +61,14 @@ struct dentry;
+>  						 RKISP1_CIF_ISP_EXP_END |	\
+>  						 RKISP1_CIF_ISP_HIST_MEASURE_RDY)
+>  
+> +/* IRQ lines */
+> +enum rkisp1_irq_line {
+> +	RKISP1_IRQ_ISP = 0,
+> +	RKISP1_IRQ_MI,
+> +	RKISP1_IRQ_MIPI,
+> +	RKISP1_NUM_IRQS,
+> +};
+> +
+>  /* enum for the resizer pads */
+>  enum rkisp1_rsz_pad {
+>  	RKISP1_RSZ_PAD_SINK,
+> @@ -423,7 +431,6 @@ struct rkisp1_debug {
+>   * struct rkisp1_device - ISP platform device
+>   *
+>   * @base_addr:	   base register address
+> - * @irq:	   the irq number
+>   * @dev:	   a pointer to the struct device
+>   * @clk_size:	   number of clocks
+>   * @clks:	   array of clocks
+> @@ -441,6 +448,7 @@ struct rkisp1_debug {
+>   * @stream_lock:   serializes {start/stop}_streaming callbacks between the capture devices.
+>   * @debug:	   debug params to be exposed on debugfs
+>   * @info:	   version-specific ISP information
+> + * @irqs:          IRQ line numbers
+>   */
+>  struct rkisp1_device {
+>  	void __iomem *base_addr;
+> @@ -461,6 +469,7 @@ struct rkisp1_device {
+>  	struct mutex stream_lock; /* serialize {start/stop}_streaming cb between capture devices */
+>  	struct rkisp1_debug debug;
+>  	const struct rkisp1_info *info;
+> +	int irqs[RKISP1_NUM_IRQS];
+>  };
+>  
+>  /*
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index 22b2ae0e89c4..c3fa40976140 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -114,6 +114,7 @@
+>  struct rkisp1_isr_data {
+>  	const char *name;
+>  	irqreturn_t (*isr)(int irq, void *ctx);
+> +	u32 line_mask;
+>  };
+>  
+>  /* ----------------------------------------------------------------------------
+> @@ -471,9 +472,9 @@ static const char * const px30_isp_clks[] = {
+>  };
+>  
+>  static const struct rkisp1_isr_data px30_isp_isrs[] = {
+> -	{ "isp", rkisp1_isp_isr },
+> -	{ "mi", rkisp1_capture_isr },
+> -	{ "mipi", rkisp1_csi_isr },
+> +	{ "isp", rkisp1_isp_isr, BIT(RKISP1_IRQ_ISP) },
+> +	{ "mi", rkisp1_capture_isr, BIT(RKISP1_IRQ_MI) },
+> +	{ "mipi", rkisp1_csi_isr, BIT(RKISP1_IRQ_MIPI) },
+>  };
+>  
+>  static const struct rkisp1_info px30_isp_info = {
+> @@ -492,7 +493,7 @@ static const char * const rk3399_isp_clks[] = {
+>  };
+>  
+>  static const struct rkisp1_isr_data rk3399_isp_isrs[] = {
+> -	{ NULL, rkisp1_isr },
+> +	{ NULL, rkisp1_isr, BIT(RKISP1_IRQ_ISP) | BIT(RKISP1_IRQ_MI) | BIT(RKISP1_IRQ_MIPI) },
+>  };
+>  
+>  static const struct rkisp1_info rk3399_isp_info = {
+> @@ -543,6 +544,9 @@ static int rkisp1_probe(struct platform_device *pdev)
+>  	if (IS_ERR(rkisp1->base_addr))
+>  		return PTR_ERR(rkisp1->base_addr);
+>  
+> +	for (unsigned int il = 0; il < ARRAY_SIZE(rkisp1->irqs); ++il)
+> +		rkisp1->irqs[il] = -1;
+> +
+>  	for (i = 0; i < info->isr_size; i++) {
+>  		irq = info->isrs[i].name
+>  		    ? platform_get_irq_byname(pdev, info->isrs[i].name)
+> @@ -550,6 +554,11 @@ static int rkisp1_probe(struct platform_device *pdev)
+>  		if (irq < 0)
+>  			return irq;
+>  
+> +		for (unsigned int il = 0; il < ARRAY_SIZE(rkisp1->irqs); ++il) {
+> +			if (info->isrs[i].line_mask & BIT(il))
+> +				rkisp1->irqs[il] = irq;
+> +		}
+> +
+>  		ret = devm_request_irq(dev, irq, info->isrs[i].isr, 0,
+>  				       dev_driver_string(dev), dev);
+>  		if (ret) {
+> 
 
 -- 
 Regards,
