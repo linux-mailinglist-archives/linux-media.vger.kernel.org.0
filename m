@@ -1,252 +1,127 @@
-Return-Path: <linux-media+bounces-1785-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1787-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 309A9808018
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 06:21:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61B7480822B
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 08:53:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 52BA31C20AA0
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 05:21:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 196D1283172
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 07:53:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47DA810A19;
-	Thu,  7 Dec 2023 05:21:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 23FA01B29C;
+	Thu,  7 Dec 2023 07:52:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="LCNdqvkk"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="HKNJkA5W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7C50D10E7;
-	Wed,  6 Dec 2023 21:21:13 -0800 (PST)
-X-UUID: 6d141b4694c011eea5db2bebc7c28f94-20231207
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=utKiulZ4UeB0jjmnBABZ5jIy2pn3SDZWABNtpqnuktQ=;
-	b=LCNdqvkkAPdH9gjJYCAvZM/nAYQLo0q4m9buV3fb7bhV0wzr79awWbRVbtz55Wji/13jlQRJ8CUtwpiJy+jQ1Tjx3KFpJ9drhvRzREc8CyCDO8mdiRqtRrFPwrnKKt/90wqbOZ87lfMKbiEWE5jH5G2njG4/N7mYgT7mS2AI2Ek=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:62cdf3ca-9a7b-414c-b4c0-50526e7dad57,IP:0,U
-	RL:25,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTI
-	ON:release,TS:0
-X-CID-META: VersionHash:5d391d7,CLOUDID:978662fd-4a48-46e2-b946-12f04f20af8c,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:11|1,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:
-	NO,DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULN
-X-UUID: 6d141b4694c011eea5db2bebc7c28f94-20231207
-Received: from mtkmbs13n1.mediatek.inc [(172.21.101.193)] by mailgw01.mediatek.com
-	(envelope-from <zhi.mao@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 576576200; Thu, 07 Dec 2023 13:21:07 +0800
-Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
- MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Thu, 7 Dec 2023 13:21:05 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Thu, 7 Dec 2023 13:21:04 +0800
-From: Zhi Mao <zhi.mao@mediatek.com>
-To: <mchehab@kernel.org>, <robh+dt@kernel.org>,
-	<krzysztof.kozlowski+dt@linaro.org>
-CC: <shengnan.wang@mediatek.com>, <yaya.chang@mediatek.com>,
-	<10572168@qq.com>, <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	<yunkec@chromium.org>, <conor+dt@kernel.org>, <matthias.bgg@gmail.com>,
-	<angelogioacchino.delregno@collabora.com>, <jacopo.mondi@ideasonboard.com>,
-	<sakari.ailus@linux.intel.com>, <zhi.mao@mediatek.com>,
-	<hverkuil-cisco@xs4all.nl>, <heiko@sntech.de>, <jernej.skrabec@gmail.com>,
-	<macromorgan@hotmail.com>, <linus.walleij@linaro.org>,
-	<laurent.pinchart@ideasonboard.com>, <hdegoede@redhat.com>,
-	<tomi.valkeinen@ideasonboard.com>, <gerald.loacker@wolfvision.net>,
-	<andy.shevchenko@gmail.com>, <bingbu.cao@intel.com>,
-	<dan.scally@ideasonboard.com>, <linux-media@vger.kernel.org>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
-Subject: [PATCH 2/2] media: dt-bindings: media: i2c: Document GC08A3 bindings
-Date: Thu, 7 Dec 2023 13:20:16 +0800
-Message-ID: <20231207052016.25954-3-zhi.mao@mediatek.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231207052016.25954-1-zhi.mao@mediatek.com>
-References: <20231207052016.25954-1-zhi.mao@mediatek.com>
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B15B910D
+	for <linux-media@vger.kernel.org>; Wed,  6 Dec 2023 23:52:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1701935569; x=1733471569;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=f31uN/cfkUuhzjvOO+O23XrcYtmYO16DzDRUNfWkZPU=;
+  b=HKNJkA5WaPEm3s/xgUSM+JFNeq0mNzXSWqP8rBmDV/42Ml3LD6AnFPLX
+   dras447pcnmkkCzx5YNuv1OU0N/qpsH7GQt4t3//e9DA8V0bsGv1cKu4f
+   6gI+QaZ3fUWI/72GkS6tUMAWcgfaGyoew31NtWMgaJmKyuWagRwNB0tK3
+   Im0ifOp9n43lqxupTGee+ew0cMP2ROtYUy/FfBejLiKK6/TSo5hfhmpCE
+   d/W0ksF9cWwbpxN02eHzBOdQ/UxoYPhobh3Jj1epQ4ubIR20W1EzTVfbz
+   JaXYsMXKabJVZsjYRmsQPSpsoDLpiyxCzQtQ4/KKWdXhePpd1A9+zL1vA
+   A==;
+X-IronPort-AV: E=Sophos;i="6.04,256,1695679200"; 
+   d="scan'208";a="34374249"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 07 Dec 2023 08:52:47 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id D2D5F280075;
+	Thu,  7 Dec 2023 08:52:46 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH 1/1] media: nxp: imx8-isi-debug: Add missing registers to debugfs output
+Date: Thu, 07 Dec 2023 08:52:46 +0100
+Message-ID: <2915417.e9J7NaK4W3@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <20231206223636.GE29417@pendragon.ideasonboard.com>
+References: <20231206094401.491100-1-alexander.stein@ew.tq-group.com> <20231206223636.GE29417@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-AS-Result: No-10--5.435300-8.000000
-X-TMASE-MatchedRID: XAa2d/45j8SuhCBFl/b63gPZZctd3P4B9l9p8mNlkgk1LB46LFAAkkd0
-	Rzx07LDV96TYN1fO8g6y9AsAxk+TJQAwGIAo3Shb71Wx2uUbPLdbAoaK+wS4jee+ZCR6qEmPGAg
-	eo2y7APLoZcBNClQRIQGZLfTlpw3f9GlJz+74uGzr/EBmiNuXt/ZCh7IN8a4Ai093rJhkH8B0Ly
-	3sNBQaM6F8BNmSAz+6Zd7aQCHVPPQfE8yM4pjsDxZ4ylU2GwzAxEHRux+uk8jHUU+U0ACZwA/YF
-	L0mDf+MJZNBa6CeO+zb0JcacqI9akktgCd2BrHinqg/VrSZEiM=
-X-TM-AS-User-Approved-Sender: No
-X-TM-AS-User-Blocked-Sender: No
-X-TMASE-Result: 10--5.435300-8.000000
-X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
-X-TM-SNTS-SMTP:
-	47693002D59BB255A4E63C0C116B38D62A591E8EDE2CB8672FDBAF65BCD97B702000:8
-X-MTK: N
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-Add YAML device tree binding for GC08A3 CMOS image sensor,
-and the relevant MAINTAINERS entries.
+Hi Laurent,
 
-Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
----
- .../bindings/media/i2c/galaxycore,gc08a3.yaml | 127 ++++++++++++++++++
- .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
- 2 files changed, 129 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
+Am Mittwoch, 6. Dezember 2023, 23:36:36 CET schrieb Laurent Pinchart:
+> Hi Alexander,
+>=20
+> On Wed, Dec 06, 2023 at 10:44:01AM +0100, Alexander Stein wrote:
+> > The extended address registers are missing in the debug output register
+> > list. Add them.
+> >=20
+> > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > ---
+> >=20
+> >  drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c | 7 +++++++
+> >  1 file changed, 7 insertions(+)
+> >=20
+> > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
+> > b/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c index
+> > 6709ab7ea1f3..3ac5685d6cc1 100644
+> > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
+> > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
+> > @@ -66,6 +66,13 @@ static int mxc_isi_debug_dump_regs_show(struct seq_f=
+ile
+> > *m, void *p)>=20
+> >  		MXC_ISI_DEBUG_REG(CHNL_OUT_BUF2_ADDR_V),
+> >  		MXC_ISI_DEBUG_REG(CHNL_SCL_IMG_CFG),
+> >  		MXC_ISI_DEBUG_REG(CHNL_FLOW_CTRL),
+> >=20
+> > +		MXC_ISI_DEBUG_REG(CHNL_Y_BUF1_XTND_ADDR),
+> > +		MXC_ISI_DEBUG_REG(CHNL_U_BUF1_XTND_ADDR),
+> > +		MXC_ISI_DEBUG_REG(CHNL_V_BUF1_XTND_ADDR),
+> > +		MXC_ISI_DEBUG_REG(CHNL_Y_BUF2_XTND_ADDR),
+> > +		MXC_ISI_DEBUG_REG(CHNL_U_BUF2_XTND_ADDR),
+> > +		MXC_ISI_DEBUG_REG(CHNL_V_BUF2_XTND_ADDR),
+> > +		MXC_ISI_DEBUG_REG(CHNL_IN_BUF_XTND_ADDR),
+>=20
+> Those registers only exist in the i.MX8MP. The i.MX8MN referenece manual
+> lists them as reserved and indicates they read as 0's, so it should be
+> safe.  The i.MX93 reference manual, however, doesn't list those
+> registers at all, so accessing them may lead to issues.
+>=20
+> How what platform(s) have you tested this patch ?
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
-new file mode 100644
-index 000000000000..1802ff1c8a12
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
-@@ -0,0 +1,127 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+# Copyright (c) 2020 MediaTek Inc.
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/galaxycore,gc08a3.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: GalaxyCore gc08a3 1/4" 8M Pixel MIPI CSI-2 sensor
-+
-+maintainers:
-+  - Zhi Mao <zhi.mao@mediatek.com>
-+
-+description:
-+  The gc08a3 is a raw image sensor with an MIPI CSI-2 image data
-+  interface and CCI (I2C compatible) control bus. The output format
-+  is raw Bayer.
-+
-+properties:
-+  compatible:
-+    const: galaxycore,gc08a3
-+
-+  reg:
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  clock-names:
-+    description:
-+      External clock for the sensor.
-+    maxItems: 1
-+
-+  clock-frequency:
-+    description:
-+      Frequency of the clock in Hz.
-+
-+  dovdd-supply: true
-+
-+  avdd-supply: true
-+
-+  dvdd-supply: true
-+
-+  enable-gpios:
-+    description: Reference to the GPIO connected to the RESETB pin. Active low.
-+    maxItems: 1
-+
-+  port:
-+    $ref: /schemas/graph.yaml#/$defs/port-base
-+    additionalProperties: false
-+    description:
-+      Output port node, single endpoint describing the CSI-2 transmitter.
-+
-+    properties:
-+      endpoint:
-+        $ref: /schemas/media/video-interfaces.yaml#
-+        unevaluatedProperties: false
-+
-+        properties:
-+          data-lanes:
-+            oneOf:
-+              - items:
-+                  - const: 1
-+                  - const: 2
-+                  - const: 3
-+                  - const: 4
-+              - items:
-+                  - const: 1
-+                  - const: 2
-+
-+          link-frequencies: true
-+
-+        required:
-+          - data-lanes
-+          - link-frequencies
-+
-+    required:
-+      - endpoint
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - clock-names
-+  - clock-frequency
-+  - dovdd-supply
-+  - avdd-supply
-+  - dvdd-supply
-+  - enable-gpios
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        sensor0@31 {
-+            status = "okay";
-+            compatible = "galaxycore,gc08a3";
-+            reg = <0x31>;
-+
-+            clocks = <&gc08a3_clk>;
-+            clock-names = "xvclk";
-+            clock-frequency = <24000000>;
-+
-+            enable-gpios = <&pio 19 GPIO_ACTIVE_HIGH>;
-+
-+            avdd-supply = <&gc08a3_avdd>;
-+            dovdd-supply = <&ogc08a3_dovdd>;
-+            dvdd-supply = <&gc08a3_dvdd>;
-+
-+            port {
-+                sensor0_out_2: endpoint {
-+                    data-lanes = <1 2 3 4>;
-+                    link-frequencies = /bits/ 64 <336000000 207000000>;
-+                    remote-endpoint = <&seninf_csi_port_0_in_2>;
-+                };
-+            };
-+        };
-+
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-index b752f8902367..1a16a94fb202 100644
---- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-+++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-@@ -502,6 +502,8 @@ patternProperties:
-     description: Fujitsu Ltd.
-   "^fxtec,.*":
-     description: FX Technology Ltd.
-+  "^galaxycore,.*":
-+    description: GalaxyCore Inc.
-   "^gardena,.*":
-     description: GARDENA GmbH
-   "^gateway,.*":
--- 
-2.25.1
+Ah, you are right. That's something I didn't take into account. Up until no=
+w I=20
+only tested this on i.MX8MP. I hope I can test this on i.MX8MN and i.MX93=20
+soon.
+Otherwise dumping these registers can depend on pdata->has_36bit_dma just t=
+o=20
+be safe.
+
+Best regards,
+Alexander
+
+> >  	};
+> >  =09
+> >  	struct mxc_isi_pipe *pipe =3D m->private;
+
+
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
+
 
 
