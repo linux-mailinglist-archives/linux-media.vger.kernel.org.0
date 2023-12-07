@@ -1,250 +1,220 @@
-Return-Path: <linux-media+bounces-1807-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1808-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80AF80855E
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 11:25:14 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8306E8085A5
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 11:35:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E881A1C2191C
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 10:25:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 39C5B284137
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 10:35:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E263937D01;
-	Thu,  7 Dec 2023 10:25:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2764F374E7;
+	Thu,  7 Dec 2023 10:35:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vWpXT8Us"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cnVK0qDz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5C53713D;
-	Thu,  7 Dec 2023 02:25:01 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6DC2669;
-	Thu,  7 Dec 2023 11:24:17 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1701944658;
-	bh=oGMWlxxRV6p3mFDaJ3TGXPEn3FbTBvg3/evgd3+y/Ko=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vWpXT8UsiteCEzkEtzoX10adYyeEX6urlEu+KOlHBcjaDk5VGq8rGJ8BqOCE/3GBR
-	 A8ORGLRJ/bnMcvNEsZdXBOoYvMgtiooFJn7bMpCObyZkhv/ebpeCSvmxaifFjDBH3O
-	 ksV/e2TPK5L34V/sT/OPysbbUrbkgsDWyMhAGZVk=
-Date: Thu, 7 Dec 2023 12:25:05 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Conor Dooley <conor@kernel.org>
-Cc: Zhi Mao <zhi.mao@mediatek.com>, mchehab@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, shengnan.wang@mediatek.com,
-	yaya.chang@mediatek.com, 10572168@qq.com,
-	Project_Global_Chrome_Upstream_Group@mediatek.com,
-	yunkec@chromium.org, conor+dt@kernel.org, matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	jacopo.mondi@ideasonboard.com, sakari.ailus@linux.intel.com,
-	hverkuil-cisco@xs4all.nl, heiko@sntech.de, jernej.skrabec@gmail.com,
-	macromorgan@hotmail.com, linus.walleij@linaro.org,
-	hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com,
-	gerald.loacker@wolfvision.net, andy.shevchenko@gmail.com,
-	bingbu.cao@intel.com, dan.scally@ideasonboard.com,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org
-Subject: Re: [PATCH 1/2] media: dt-bindings: media: i2c: Document GC08A3
- bindings
-Message-ID: <20231207102505.GI29417@pendragon.ideasonboard.com>
-References: <20231123115104.32094-1-zhi.mao@mediatek.com>
- <20231123115104.32094-2-zhi.mao@mediatek.com>
- <20231123-magical-rupture-83251807e995@spud>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EDCEAA;
+	Thu,  7 Dec 2023 02:35:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1701945309; x=1733481309;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tusDsZJtvdZ6iZF8v1gIwDPpIUvG7xVnQQQ7/Dbuzmk=;
+  b=cnVK0qDz6PFjntrN7z06dQss1+yrtkZwmkJmVsz8hU1Wd+xfITm2b6oh
+   +1BjliPrk3OQAoEorJjcwTT3EzWLmorlYqRmddBAEnCmaACwFvhxIQ7gq
+   5jduncXiBngqtB0SfE7yH83h4Zo6btmAHlsZREzSeTElsE5ZT9X33q6yS
+   ah8HqoN2gXLTbdvEOwWNNh3KY8Dx1q/excnk1OpL5mb8vmrZAAiUIphkn
+   rvOXIVRB+gYwRLmwrvBdXUz5DV9/7GQcmQAkWtHjD9Ksan2Fy98kNiU5E
+   wvOoICsPvGVyg4QM5u4RtEo+ceiGKIKo9E/RE+v/wCi5mEK96Io6TNJhU
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10916"; a="1078102"
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="1078102"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 02:35:09 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,256,1695711600"; 
+   d="scan'208";a="19665012"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Dec 2023 02:35:06 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 2ACC611FB50;
+	Thu,  7 Dec 2023 12:35:03 +0200 (EET)
+Date: Thu, 7 Dec 2023 10:35:03 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	devicetree@vger.kernel.org, Lee Jackson <lee.jackson@arducam.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: Re: [PATCH v5 1/2] media: dt-bindings: Add OmniVision OV64A40
+Message-ID: <ZXGf1-2_oM_OEtvB@kekkonen.localdomain>
+References: <20231206155900.123904-1-jacopo.mondi@ideasonboard.com>
+ <20231206155900.123904-2-jacopo.mondi@ideasonboard.com>
+ <ZXGW8iyoQpIXUa1E@kekkonen.localdomain>
+ <ecrdq6a2y6uymnzp63vfo7kxnft6eonqgmbkgew3z4iaucfbjg@hu2ws54mqwea>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231123-magical-rupture-83251807e995@spud>
+In-Reply-To: <ecrdq6a2y6uymnzp63vfo7kxnft6eonqgmbkgew3z4iaucfbjg@hu2ws54mqwea>
 
-On Thu, Nov 23, 2023 at 05:31:35PM +0000, Conor Dooley wrote:
-> On Thu, Nov 23, 2023 at 07:51:03PM +0800, Zhi Mao wrote:
-> > Add YAML device tree binding for GC08A3 CMOS image sensor, 
-> > and the relevant MAINTAINERS entries.
-> > 
-> > Signed-off-by: Zhi Mao <zhi.mao@mediatek.com>
-> 
-> Please test your bindings.
-> 
-> > ---
-> >  .../bindings/media/i2c/galaxycore,gc08a3.yaml | 128 ++++++++++++++++++
-> >  .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
-> >  2 files changed, 130 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
-> > 
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
-> > new file mode 100644
-> > index 000000000000..089ea321da91
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/galaxycore,gc08a3.yaml
-> > @@ -0,0 +1,128 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/galaxycore,gc08a3.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: GalaxyCore gc08a3 1/4" 8M Pixel MIPI CSI-2 sensor
-> > +
-> > +maintainers:
-> > +  - Zhi Mao <zhi.mao@mediatek.com>
-> > +
-> > +description: |-
-> 
-> The |- is not needed, you have no formatting to preserve.
-> 
-> > +  The gc08a3 is a raw image sensor with an MIPI CSI-2 image data
-> > +  interface and CCI (I2C compatible) control bus. The output format
-> > +  is raw Bayer.
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: GalaxyCore,gc08a3
-> 
-> Please remove the capitals.
-> 
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Reference to the mclk clock.
-> 
-> Pointless, just use maxItems: 1.
-> 
-> > +
-> > +  assigned-clocks:
-> > +    maxItems: 1
-> > +
-> > +  assigned-clock-rates:
-> > +    maxItems: 1
-> > +
-> > +  enable-gpios:
-> > +    description: Reference to the GPIO connected to the RESETB pin. Active low.
-> > +    maxItems: 1
-> > +
+Hi Jacopo,
 
-If that's the RESETB pin, it should be reset-gpios.
+On Thu, Dec 07, 2023 at 11:13:21AM +0100, Jacopo Mondi wrote:
+> Hi Sakari
+> 
+> On Thu, Dec 07, 2023 at 09:57:06AM +0000, Sakari Ailus wrote:
+> > Hi Jacopo,
+> >
+> > On Wed, Dec 06, 2023 at 04:58:59PM +0100, Jacopo Mondi wrote:
+> > > Add bindings for OmniVision OV64A40.
+> > >
+> > > Co-developed-by: Lee Jackson <lee.jackson@arducam.com>
+> > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > Acked-by: Conor Dooley <conor.dooley@microchip.com>
+> > > ---
+> > >  .../bindings/media/i2c/ovti,ov64a40.yaml      | 97 +++++++++++++++++++
+> > >  1 file changed, 97 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
+> > > new file mode 100644
+> > > index 000000000000..e6c9d540a2dd
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
+> > > @@ -0,0 +1,97 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov64a40.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: OmniVision OV64A40 Image Sensor
+> > > +
+> > > +maintainers:
+> > > +  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > > +
+> > > +allOf:
+> > > +  - $ref: /schemas/media/video-interface-devices.yaml#
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: ovti,ov64a40
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 1
+> > > +
+> > > +  avdd-supply:
+> > > +    description: Analog voltage supply, 2.8 volts
+> > > +
+> > > +  dvdd-supply:
+> > > +    description: Digital core voltage supply, 1.1 volts
+> > > +
+> > > +  dovdd-supply:
+> > > +    description: Digital I/O voltage supply, 1.8 volts
+> > > +
+> > > +  powerdown-gpios:
+> > > +    maxItems: 1
+> > > +
+> > > +  reset-gpios:
+> > > +    maxItems: 1
+> > > +
+> > > +  port:
+> > > +    $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +    additionalProperties: false
+> > > +
+> > > +    properties:
+> > > +      endpoint:
+> > > +        $ref: /schemas/media/video-interfaces.yaml#
+> > > +        additionalProperties: false
+> > > +
+> > > +        properties:
+> > > +          bus-type:
+> > > +            enum:
+> > > +              - 1 # MIPI CSI-2 C-PHY
+> > > +              - 4 # MIPI CSI-2 D-PHY
+> > > +          data-lanes: true
+> > > +          link-frequencies: true
+> > > +          clock-noncontinuous: true
+> > > +          remote-endpoint: true
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - clocks
+> > > +  - port
+> > > +
+> > > +unevaluatedProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +      #include <dt-bindings/gpio/gpio.h>
+> > > +
+> > > +      i2c {
+> > > +          #address-cells = <1>;
+> > > +          #size-cells = <0>;
+> > > +
+> > > +          camera@36 {
+> > > +              compatible = "ovti,ov64a40";
+> > > +              reg = <0x36>;
+> > > +              clocks = <&camera_clk>;
+> > > +              dovdd-supply = <&vgen4_reg>;
+> > > +              avdd-supply = <&vgen3_reg>;
+> > > +              dvdd-supply = <&vgen2_reg>;
+> > > +              powerdown-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
+> > > +              reset-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
+> > > +              rotation = <180>;
+> > > +              orientation = <2>;
+> > > +
+> > > +              port {
+> > > +                  endpoint {
+> > > +                      remote-endpoint = <&mipi_csi2_in>;
+> > > +                      bus-type = <4>;
+> > > +                      data-lanes = <1 2 3 4>;
+> >
+> > This is missing link-frequencies.
+> >
+> 
+> I was not sure about this, in facts.
+> 
+> Bindings are about HW while link-frequencies is only about restricting
+> how the driver configures the sensor. Thus, I've not listed it as
+> mandatory however the driver mandates its presence.
+> 
+> Should I make it mandatory in bindings ?
 
-> > +  vddio-supply:
-> > +    description: Definition of the regulator used for the VDDIO power supply.
-> > +
-> > +  vdda-supply:
-> > +    description: Definition of the regulator used for the VDDA power supply.
-> > +
-> > +  vddd-supply:
-> > +    description: Definition of the regulator used for the VDDD power supply.
+See
+<URL:https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html#handling-clocks>.
+
+IOW it's about the driver, too, but only secondarily.
+
 > 
-> These descriptions can all be replaced with "foo-supply: true" IMO.
-> 
-> > +  port:
-> > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > +    unevaluatedProperties: false
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        $ref: /schemas/media/video-interfaces.yaml#
-> > +        unevaluatedProperties: false
-> > +
-> > +        properties:
-> > +          data-lanes:
-> > +            oneOf:
-> > +              - items:
-> > +                  - const: 1
-> > +                  - const: 2
-> > +                  - const: 3
-> > +                  - const: 4
-> > +              - items:
-> > +                  - const: 1
-> > +                  - const: 2
-> > +
-> > +          link-frequencies: true
-> > +
-> > +        required:
-> > +          - data-lanes
-> > +          - link-frequencies
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - clocks
-> 
-> > +  - assigned-clocks
-> > +  - assigned-clock-rates
-> 
-> Why are these required?
-> 
-> > +  - vddio-supply
-> > +  - vdda-supply
-> > +  - vddd-supply
-> > +  - port
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +
-> > +    i2c {
-> > +        #address-cells = <1>;
-> > +        #size-cells = <0>;
-> > +
-> > +        sensor0@2 {
-> > +            status = "okay";
-> > +            compatible = "GalaxyCore,gc08a3";
-> > +            reg = <0x31>;
-> > +
-> > +            clocks = <&topckgen CLK_TOP_CAMTG>,
-> > +                <&topckgen CLK_TOP_UNIVPLL_192M_D8>;
-> > +            clock-names = "xvclk", "freq_mux";
-> > +            clock-frequency = <24000000>;
-> > +
-> > +            assigned-clocks = <&topckgen CLK_TOP_CAMTG>,
-> > +                    <&topckgen CLK_TOP_UNIVPLL_192M_D8>;
-> > +            assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_192M_D8>;
-> > +            assigned-clock-rates = <0>, <24000000>;
-> > +
-> > +            enable-gpios = <&pio 19 GPIO_ACTIVE_HIGH>;
-> > +
-> > +            pinctrl-names = "default";
-> > +            pinctrl-0 = <&camera_pins_cam0>;
-> > +
-> > +            avdd-supply = <&mt6359_vfe28_ldo_reg>;
-> > +
-> > +            port {
-> > +                sensor0_out_2: endpoint {
-> > +                    data-lanes = <1 2 3 4>;
-> > +                    link-frequencies = /bits/ 64 <336000000 207000000>;
-> > +                    remote-endpoint = <&seninf_csi_port_0_in_2>;
-> > +                };
-> > +            };
-> > +        };
-> > +
-> > +    };
-> > +
-> > +...
-> > diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> > index 309b94c328c8..a0bbec0bfee2 100644
-> > --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> > +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
-> > @@ -502,6 +502,8 @@ patternProperties:
-> >      description: Fujitsu Ltd.
-> >    "^fxtec,.*":
-> >      description: FX Technology Ltd.
-> > +  "^GalaxyCore,.*":
-> > +    description: GalaxyCore Inc.
-> >    "^gardena,.*":
-> >      description: GARDENA GmbH
-> >    "^gateway,.*":
+> > > +                  };
+> > > +              };
+> > > +          };
+> > > +      };
+> > > +
+> > > +...
+> >
 
 -- 
 Regards,
 
-Laurent Pinchart
+Sakari Ailus
 
