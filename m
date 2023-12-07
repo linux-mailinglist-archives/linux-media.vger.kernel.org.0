@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-1874-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1875-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37661808C85
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 16:51:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59C91808C88
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 16:51:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A157B1F2110D
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 15:51:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0E79E1F2123A
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 15:51:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CCC3A481BC;
-	Thu,  7 Dec 2023 15:50:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 876A546B86;
+	Thu,  7 Dec 2023 15:50:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wz0uoplm"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p94VRaGN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C1EA46B82;
-	Thu,  7 Dec 2023 15:50:35 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E025C43397;
-	Thu,  7 Dec 2023 15:50:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1A991D54E;
+	Thu,  7 Dec 2023 15:50:37 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42D07C433A9;
+	Thu,  7 Dec 2023 15:50:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1701964234;
-	bh=phzceb8B70mg3i7At8pe2/ZP5A/7gxdjK+zKoU+Xok8=;
+	s=k20201202; t=1701964237;
+	bh=qEltwP+y50CqAvCEezgIfPwElQw9C5nTiBDKdZ2XbTs=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Wz0uoplm0ouPBUuYOQ9eku7KQkOLFTDQDIA/jZ1EhlhVYnLOBE0gCd6VAmEJj0jAf
-	 32ee70xMrIS3CcBnneZlCws+ZRjZt+Maia7xxmOc9SBcjypv59j8JjzunT2Dd0lMTD
-	 GOU63t3vZGAgL8aJd8LYdJ3/z5L9qIKAelWbUjcvbuq5b1v5i7wpTir8YlLP2HQGnu
-	 jcp9uIOvA/JtB3+/kMQRpn9Sg0Re/e054ItrB2TUnmqtYPZgpnhHXwETFMalUa0gth
-	 gsPtacypWUkuSYMg/UNr3dqWrAQtN54BAxApNVsQpDpWKg68X94bPeEs6rY+9uJHlg
-	 f1Au9kyViC6ZA==
+	b=p94VRaGNcYwy6roSQORNGHAXlnya0CpUKy4zJoOg9ydUY3Zr+Uzv+ql8/rrE1Hbvg
+	 NRbkQh3nncyQpr11KzDFAvWYeoO3jr7bbSN4LVNNM3VHInk2wzCgocfohi2Z1WBag7
+	 /8QaRNdXzLL9vGbzFZuxlLk0Frbj78ur4nElqWLciwTGukxHW92vORpKUG8v3fYegO
+	 az4OyXvxd+oVry6IRhox7RechWOrW0rFkNwYdKVI/L1Kp7BUYoMhl6hplPts99FAIy
+	 9tcubsmGdmbpOQ4szfPEst5BUaea2B9z0c6mNML+N5izNgZztCYqqs8X10v7YCpogN
+	 g2iu+w5aw1p2g==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Thu, 07 Dec 2023 16:49:45 +0100
-Subject: [PATCH v5 22/44] drm/rockchip: inno_hdmi: Remove useless
- mode_fixup
+Date: Thu, 07 Dec 2023 16:49:46 +0100
+Subject: [PATCH v5 23/44] drm/rockchip: inno_hdmi: Remove useless copy of
+ drm_display_mode
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -44,7 +44,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20231207-kms-hdmi-connector-state-v5-22-6538e19d634d@kernel.org>
+Message-Id: <20231207-kms-hdmi-connector-state-v5-23-6538e19d634d@kernel.org>
 References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
 In-Reply-To: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -60,49 +60,45 @@ Cc: Hans Verkuil <hverkuil@xs4all.nl>, dri-devel@lists.freedesktop.org,
  linux-rockchip@lists.infradead.org, linux-sunxi@lists.linux.dev, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.12.3
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1301; i=mripard@kernel.org;
- h=from:subject:message-id; bh=phzceb8B70mg3i7At8pe2/ZP5A/7gxdjK+zKoU+Xok8=;
- b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmFL9vYRKNNtlyR2N85ee8iWwfRf7wWpQ9KGlJTgg48l
- l95p6Kuo5SFQYyLQVZMkSVG2HxJ3KlZrzvZ+ObBzGFlAhnCwMUpABMJXsbwmzVwk2rbfrNYrXkW
- l76tmjdBjquhq0VCrkaKU+777Vvhggz/E7epWriYBb980y926m5kxe73e3lWTO+ztam/bvncWjK
- IFQA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1075; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=qEltwP+y50CqAvCEezgIfPwElQw9C5nTiBDKdZ2XbTs=;
+ b=owGbwMvMwCX2+D1vfrpE4FHG02pJDKmFL9tcpFkvyvP/muwz8XEhg8FhOZFL/w5r2pyYpnbng
+ qdl9JMfHaUsDGJcDLJiiiwxwuZL4k7Net3JxjcPZg4rE8gQBi5OAZjIvokM/0svBt88lPrnym9m
+ TVubycYh24O4z2Uc3naC8eLxb3mVl2wZ/nt2lFzbYO3yOefNTS3lrrfT5mpc4k97rJpcuY/3nO2
+ 0WHYA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-The mode_fixup implementation doesn't do anything, so we can simply
-remove it.
+The driver maintains a copy of the adjusted mode but doesn't use it
+anywhere. Remove it.
 
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- drivers/gpu/drm/rockchip/inno_hdmi.c | 8 --------
- 1 file changed, 8 deletions(-)
+ drivers/gpu/drm/rockchip/inno_hdmi.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
 diff --git a/drivers/gpu/drm/rockchip/inno_hdmi.c b/drivers/gpu/drm/rockchip/inno_hdmi.c
-index 6e5b922a121e..cc48cbf85f31 100644
+index cc48cbf85f31..4f5844fc115a 100644
 --- a/drivers/gpu/drm/rockchip/inno_hdmi.c
 +++ b/drivers/gpu/drm/rockchip/inno_hdmi.c
-@@ -517,13 +517,6 @@ static void inno_hdmi_encoder_disable(struct drm_encoder *encoder)
- 	inno_hdmi_set_pwr_mode(hdmi, LOWER_PWR);
+@@ -62,7 +62,6 @@ struct inno_hdmi {
+ 	unsigned int tmds_rate;
+ 
+ 	struct hdmi_data_info	hdmi_data;
+-	struct drm_display_mode previous_mode;
+ };
+ 
+ static struct inno_hdmi *encoder_to_inno_hdmi(struct drm_encoder *encoder)
+@@ -498,9 +497,6 @@ static void inno_hdmi_encoder_mode_set(struct drm_encoder *encoder,
+ 	struct inno_hdmi *hdmi = encoder_to_inno_hdmi(encoder);
+ 
+ 	inno_hdmi_setup(hdmi, adj_mode);
+-
+-	/* Store the display mode for plugin/DPMS poweron events */
+-	drm_mode_copy(&hdmi->previous_mode, adj_mode);
  }
  
--static bool inno_hdmi_encoder_mode_fixup(struct drm_encoder *encoder,
--					 const struct drm_display_mode *mode,
--					 struct drm_display_mode *adj_mode)
--{
--	return true;
--}
--
- static int
- inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- 			       struct drm_crtc_state *crtc_state,
-@@ -540,7 +533,6 @@ inno_hdmi_encoder_atomic_check(struct drm_encoder *encoder,
- static struct drm_encoder_helper_funcs inno_hdmi_encoder_helper_funcs = {
- 	.enable     = inno_hdmi_encoder_enable,
- 	.disable    = inno_hdmi_encoder_disable,
--	.mode_fixup = inno_hdmi_encoder_mode_fixup,
- 	.mode_set   = inno_hdmi_encoder_mode_set,
- 	.atomic_check = inno_hdmi_encoder_atomic_check,
- };
+ static void inno_hdmi_encoder_enable(struct drm_encoder *encoder)
 
 -- 
 2.43.0
