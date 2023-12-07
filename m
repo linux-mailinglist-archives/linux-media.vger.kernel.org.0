@@ -1,134 +1,123 @@
-Return-Path: <linux-media+bounces-1815-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1816-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C2A808664
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 12:10:05 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B056680867F
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 12:15:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 213132814F4
-	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 11:10:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EA9851C20C88
+	for <lists+linux-media@lfdr.de>; Thu,  7 Dec 2023 11:15:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0770F37D15;
-	Thu,  7 Dec 2023 11:10:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F3ED37D1E;
+	Thu,  7 Dec 2023 11:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="FpeqAfRy"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="LiqpIqGo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A0FBE9
-	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 03:09:55 -0800 (PST)
+Received: from mail-vk1-xa2c.google.com (mail-vk1-xa2c.google.com [IPv6:2607:f8b0:4864:20::a2c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0EE611F
+	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 03:15:10 -0800 (PST)
+Received: by mail-vk1-xa2c.google.com with SMTP id 71dfb90a1353d-4affeacaff9so159756e0c.3
+        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 03:15:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1701947395; x=1733483395;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=QOhb5G2GcwS7djpDTCaIRKb88TJ9zbH94YYmNY6THIw=;
-  b=FpeqAfRyBKhViJMLrsHguC2WaghngXaPJCWxKZhkdvj++JwLcDcAKydD
-   qHp+JDc4aUzlogV4GYw8ZIu0NrJVdivw4VL8qKpcvXGl57bENTFqbHDzU
-   xs+74gK4MUPj1RE3HNmxXYsW33TUOXnighIYK5apqks1mBk4eINl0Bpqi
-   2Uu/ggjR+UYuwvIRI5GMPQzBktBKkazVLfc615n8iE9fBdcGUqD26mY41
-   IPHMX7nQlYaLKVMEMDibHHmqPz/i9qX1gqk+FaXD9ukB0XklOHKaN083O
-   +xdhPEGQkTSmvcEGSkXiIcrAnnDSRyMFDpf3dWt+etPBD+gFqClghGegs
-   A==;
-X-IronPort-AV: E=Sophos;i="6.04,256,1695679200"; 
-   d="scan'208";a="34381314"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 07 Dec 2023 12:09:53 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id BC8E6280075;
-	Thu,  7 Dec 2023 12:09:53 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, Pengutronix Kernel Team <kernel@pengutronix.de>, NXP Linux Team <linux-imx@nxp.com>, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH 1/1] media: nxp: imx8-isi-debug: Add missing registers to debugfs output
-Date: Thu, 07 Dec 2023 12:09:53 +0100
-Message-ID: <3272819.44csPzL39Z@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <20231207101400.GB3681@pendragon.ideasonboard.com>
-References: <20231206094401.491100-1-alexander.stein@ew.tq-group.com> <2915417.e9J7NaK4W3@steina-w> <20231207101400.GB3681@pendragon.ideasonboard.com>
+        d=chromium.org; s=google; t=1701947710; x=1702552510; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+1zKx8JGuByRmZeIzOLjwU47rnrPjKnk2Jj1ReloFCE=;
+        b=LiqpIqGoPHLht1zreHLYUuoufdWUf12Bkds0m506mnWpjzhmlYV6gJkEw/FqJxwa4F
+         zgV0dhlwBiOdBQ6+gMAyjGIhG65oMaYnsQFgGCeKQ4WPEsP7x0eRtuTynPbKbxE+yQY3
+         FzfoZh8jDW+0DDh5VeM/J6KGeWX1iKupHNP0A=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701947710; x=1702552510;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+1zKx8JGuByRmZeIzOLjwU47rnrPjKnk2Jj1ReloFCE=;
+        b=T3KdlhG7OeaYqnaLKAwlH0trz+KSq9QrATS6fH/1cE7vTL1Nrz74mixKht2kplPcLR
+         +ESLFY5yXKIOWrHHfKajcmegFY/JMJvMPmNM8wyjZoCG9ARCxczvh8c8QCK+6AVvZ87q
+         Qzhzwkllk6y+rvTgHmjonP/DCvBoM6Lqi2N1exM7mTq8+2vUbEeBKvPD5I8PKesY2H1y
+         p9K3oFNDL1IVpbZ7ae1t8Kmd3CPyJL2fd36kUCDGTnAcLG/VYzLM4O7zAZ8jP6dmqO8J
+         1RWW/bwf8t2G+jmZn9rUkl3o/IBbv+Zq/tDlOvNo+OXPrqC5cK1l4D9lMcQvpeb+AquT
+         K8Mg==
+X-Gm-Message-State: AOJu0Ywttmhw20Lmch6bmfcXonQa4ydmvYtuADIaFGEPJlRb/5BLxQry
+	wQ26jlPmJ7AAxWeWP5lfZl2MAMCF52WQhbfB9EA=
+X-Google-Smtp-Source: AGHT+IG+YntWIW0P9mjAwM/4MhpO3Pca8H1KpVaF60D8FQwCNsQtqKRWneYZou9sAT2OsIbG7kYd2w==
+X-Received: by 2002:a1f:5a06:0:b0:4b2:e5f0:31cb with SMTP id o6-20020a1f5a06000000b004b2e5f031cbmr2254513vkb.30.1701947709841;
+        Thu, 07 Dec 2023 03:15:09 -0800 (PST)
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com. [209.85.222.51])
+        by smtp.gmail.com with ESMTPSA id ef17-20020a056122481100b0049d1de0fa44sm52340vkb.28.2023.12.07.03.15.08
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Dec 2023 03:15:08 -0800 (PST)
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-7c5cb5eeab1so198078241.3
+        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 03:15:08 -0800 (PST)
+X-Received: by 2002:a05:6122:30a2:b0:49a:6dc0:5a89 with SMTP id
+ cd34-20020a05612230a200b0049a6dc05a89mr2860131vkb.5.1701947707983; Thu, 07
+ Dec 2023 03:15:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20231113123049.4117280-1-fshao@chromium.org> <20231113123049.4117280-3-fshao@chromium.org>
+ <3528639f-85a3-4756-b04b-c233f6c84276@collabora.com>
+In-Reply-To: <3528639f-85a3-4756-b04b-c233f6c84276@collabora.com>
+From: Fei Shao <fshao@chromium.org>
+Date: Thu, 7 Dec 2023 19:14:31 +0800
+X-Gmail-Original-Message-ID: <CAC=S1nibsNfo7Ans2J0aiXqJSz5-iTPh2NwTEuUL8-HUM0AJdw@mail.gmail.com>
+Message-ID: <CAC=S1nibsNfo7Ans2J0aiXqJSz5-iTPh2NwTEuUL8-HUM0AJdw@mail.gmail.com>
+Subject: Re: [PATCH 2/4] media: mediatek: vcodec: Drop unnecessary variable
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
+	Matthias Brugger <matthias.bgg@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	=?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
+	Tiffany Lin <tiffany.lin@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
 
-Hi Laurent,
+Hi Angelo,
 
-Am Donnerstag, 7. Dezember 2023, 11:14:00 CET schrieb Laurent Pinchart:
-> Hi Alexander,
->=20
-> On Thu, Dec 07, 2023 at 08:52:46AM +0100, Alexander Stein wrote:
-> > Am Mittwoch, 6. Dezember 2023, 23:36:36 CET schrieb Laurent Pinchart:
-> > > On Wed, Dec 06, 2023 at 10:44:01AM +0100, Alexander Stein wrote:
-> > > > The extended address registers are missing in the debug output
-> > > > register
-> > > > list. Add them.
-> > > >=20
-> > > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
-> > > > ---
-> > > >=20
-> > > >  drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c | 7 +++++++
-> > > >  1 file changed, 7 insertions(+)
-> > > >=20
-> > > > diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
-> > > > b/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c index
-> > > > 6709ab7ea1f3..3ac5685d6cc1 100644
-> > > > --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
-> > > > +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-debug.c
-> > > > @@ -66,6 +66,13 @@ static int mxc_isi_debug_dump_regs_show(struct
-> > > > seq_file *m, void *p)> > >=20
-> > > >  		MXC_ISI_DEBUG_REG(CHNL_OUT_BUF2_ADDR_V),
-> > > >  		MXC_ISI_DEBUG_REG(CHNL_SCL_IMG_CFG),
-> > > >  		MXC_ISI_DEBUG_REG(CHNL_FLOW_CTRL),
-> > > >=20
-> > > > +		MXC_ISI_DEBUG_REG(CHNL_Y_BUF1_XTND_ADDR),
-> > > > +		MXC_ISI_DEBUG_REG(CHNL_U_BUF1_XTND_ADDR),
-> > > > +		MXC_ISI_DEBUG_REG(CHNL_V_BUF1_XTND_ADDR),
-> > > > +		MXC_ISI_DEBUG_REG(CHNL_Y_BUF2_XTND_ADDR),
-> > > > +		MXC_ISI_DEBUG_REG(CHNL_U_BUF2_XTND_ADDR),
-> > > > +		MXC_ISI_DEBUG_REG(CHNL_V_BUF2_XTND_ADDR),
-> > > > +		MXC_ISI_DEBUG_REG(CHNL_IN_BUF_XTND_ADDR),
-> > >=20
-> > > Those registers only exist in the i.MX8MP. The i.MX8MN referenece man=
-ual
-> > > lists them as reserved and indicates they read as 0's, so it should be
-> > > safe.  The i.MX93 reference manual, however, doesn't list those
-> > > registers at all, so accessing them may lead to issues.
-> > >=20
-> > > How what platform(s) have you tested this patch ?
-> >=20
-> > Ah, you are right. That's something I didn't take into account. Up until
-> > now I only tested this on i.MX8MP. I hope I can test this on i.MX8MN and
-> > i.MX93 soon.
-> > Otherwise dumping these registers can depend on pdata->has_36bit_dma ju=
-st
-> > to be safe.
->=20
-> That sounds like a good solution to me. Will you do so in a v2 ?
+On Wed, Dec 6, 2023 at 6:19=E2=80=AFPM AngeloGioacchino Del Regno
+<angelogioacchino.delregno@collabora.com> wrote:
+>
+> Il 13/11/23 13:26, Fei Shao ha scritto:
+> > It's unclear why only mem->size has local copies without particular
+> > usage in mtk_vcodec_mem_alloc() and mtk_vcodec_mem_free(), and they
+> > seem removable.
+> >
+> > Drop them to make the code visually consistent, and update printk forma=
+t
+> > identifier accordingly.
+> >
+> > Signed-off-by: Fei Shao <fshao@chromium.org>
+>
+> That's probably just about personal preferences, as mem->size is not expe=
+cted
+> to change during the flow of those functions.
+>
+> That said, as much as you, I prefer not having this local copy as it's us=
+ing
+> (a very small amount of) memory for no real reason anyway, so:
 
-Yep, yep just sent it.
+Yes, and I think I should have mentioned this in the commit message...
+I'll revise that in the next version.
 
-Best regards
-Alexander
-
->=20
-> > > >  	};
-> > > >  =09
-> > > >  	struct mxc_isi_pipe *pipe =3D m->private;
+Thanks,
+Fei
 
 
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
 
 
+
+>
+> Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collab=
+ora.com>
+>
+>
 
