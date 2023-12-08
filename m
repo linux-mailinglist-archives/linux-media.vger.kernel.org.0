@@ -1,33 +1,33 @@
-Return-Path: <linux-media+bounces-1969-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1970-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F73380A69E
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:08:19 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62B8480A6A2
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:08:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EFD99281B03
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:08:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D4E981F21421
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:08:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D00CF210F0;
-	Fri,  8 Dec 2023 15:08:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 675AE224E2;
+	Fri,  8 Dec 2023 15:08:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WC41vrzO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Zk+f3UPu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2398D122;
-	Fri,  8 Dec 2023 07:08:09 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 577A6FB;
+	Fri,  8 Dec 2023 07:08:10 -0800 (PST)
 Received: from umang.jain (unknown [103.251.226.108])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id AB971552;
-	Fri,  8 Dec 2023 16:07:21 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CFAD3E45;
+	Fri,  8 Dec 2023 16:07:25 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702048045;
-	bh=z/kiy682Dt+Hkip6mn8zt4qO+eGw8bGSkyh8qcwql68=;
+	s=mail; t=1702048047;
+	bh=vdBDEHa63Ev7PN0hPwHFfzuEjM8qmpReQEme7VFbTz4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WC41vrzOekFmPhEHVuCnAekMz/ew9e1H4kqHTWnFNX//zNFF6JetybSXsIe75nvoL
-	 7ceVRK4Ex8ic5o5I70b4qbKziezV/bI7blVhlgNFOphlruN/Ur4sDl89jEjp53GLTj
-	 PuRmewmFl8TQyCYNzRb1gNlEYCXudePy/rqt1W9o=
+	b=Zk+f3UPuBgfDy79s3C1zWtBxpXESjbPYw/nLJhxzEWjBrA7lKaPJOtRHBf3gE1fyK
+	 8VAxrcxZcUbBLDKf+WyaQDUGQusk905FJ77giJ8mZ2b5rPK4GqTsjphyuiINkbo9FG
+	 tecrhzha1Akabksa+exbINzq8gcDdvpQv8agAKik=
 From: Umang Jain <umang.jain@ideasonboard.com>
 To: devicetree@vger.kernel.org,
 	linux-media@vger.kernel.org
@@ -36,25 +36,10 @@ Cc: "Paul J . Murphy" <paul.j.murphy@intel.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Marco Felsch <m.felsch@pengutronix.de>,
-	Conor Dooley <conor.dooley@microchip.com>,
-	Rob Herring <robh+dt@kernel.org>,
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	NXP Linux Team <linux-imx@nxp.com>,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-	Sebastian Reichel <sebastian.reichel@collabora.com>,
-	Mark Brown <broonie@kernel.org>,
-	linux-arm-kernel@lists.infradead.org (moderated list:ARM/FREESCALE IMX / MXC ARM ARCHITECTURE),
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 1/8] media: dt-bindings: media: imx335: Add supply bindings
-Date: Fri,  8 Dec 2023 20:37:47 +0530
-Message-ID: <20231208150756.124720-2-umang.jain@ideasonboard.com>
+Subject: [PATCH v3 2/8] media: i2c: imx335: Fix logging line endings
+Date: Fri,  8 Dec 2023 20:37:48 +0530
+Message-ID: <20231208150756.124720-3-umang.jain@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
 In-Reply-To: <20231208150756.124720-1-umang.jain@ideasonboard.com>
 References: <20231208150756.124720-1-umang.jain@ideasonboard.com>
@@ -68,47 +53,208 @@ Content-Transfer-Encoding: 8bit
 
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-Add the bindings for the supply references used on the IMX335.
+The use of \n as a line ending throughout the driver is inconsistent.
 
-Reviewed-by: Umang Jain <umang.jain@ideasonboard.com>
-Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
+While it is possible for logging messages to automatically have newlines
+added by the kernel printk mechanisms, this is specifically to support
+continued lines with PR_CONT and the lack of a new line character
+indicates that the text is a fragment of a continuation line.
+
+As each of these lines are whole and not fragments, explicitly define the
+newline for consistency.
+
 Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Acked-by: Conor Dooley <conor.dooley@microchip.com>
 ---
- .../devicetree/bindings/media/i2c/sony,imx335.yaml  | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/media/i2c/imx335.c | 42 +++++++++++++++++++-------------------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-index a167dcdb3a32..106c36ee966d 100644
---- a/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/sony,imx335.yaml
-@@ -32,6 +32,15 @@ properties:
-     description: Clock frequency from 6 to 27 MHz, 37.125MHz, 74.25MHz
-     maxItems: 1
+diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
+index ec729126274b..cbabef968e21 100644
+--- a/drivers/media/i2c/imx335.c
++++ b/drivers/media/i2c/imx335.c
+@@ -396,7 +396,7 @@ static int imx335_update_exp_gain(struct imx335 *imx335, u32 exposure, u32 gain)
+ 	lpfr = imx335->vblank + imx335->cur_mode->height;
+ 	shutter = lpfr - exposure;
  
-+  avdd-supply:
-+    description: Analog power supply (2.9V)
-+
-+  ovdd-supply:
-+    description: Interface power supply (1.8V)
-+
-+  dvdd-supply:
-+    description: Digital power supply (1.2V)
-+
-   reset-gpios:
-     description: Reference to the GPIO connected to the XCLR pin, if any.
-     maxItems: 1
-@@ -79,6 +88,10 @@ examples:
-             assigned-clock-parents = <&imx335_clk_parent>;
-             assigned-clock-rates = <24000000>;
+-	dev_dbg(imx335->dev, "Set exp %u, analog gain %u, shutter %u, lpfr %u",
++	dev_dbg(imx335->dev, "Set exp %u, analog gain %u, shutter %u, lpfr %u\n",
+ 		exposure, gain, shutter, lpfr);
  
-+            avdd-supply = <&camera_vdda_2v9>;
-+            ovdd-supply = <&camera_vddo_1v8>;
-+            dvdd-supply = <&camera_vddd_1v2>;
-+
-             port {
-                 imx335: endpoint {
-                     remote-endpoint = <&cam>;
+ 	ret = imx335_write_reg(imx335, IMX335_REG_HOLD, 1, 1);
+@@ -443,7 +443,7 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_VBLANK:
+ 		imx335->vblank = imx335->vblank_ctrl->val;
+ 
+-		dev_dbg(imx335->dev, "Received vblank %u, new lpfr %u",
++		dev_dbg(imx335->dev, "Received vblank %u, new lpfr %u\n",
+ 			imx335->vblank,
+ 			imx335->vblank + imx335->cur_mode->height);
+ 
+@@ -462,7 +462,7 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		exposure = ctrl->val;
+ 		analog_gain = imx335->again_ctrl->val;
+ 
+-		dev_dbg(imx335->dev, "Received exp %u, analog gain %u",
++		dev_dbg(imx335->dev, "Received exp %u, analog gain %u\n",
+ 			exposure, analog_gain);
+ 
+ 		ret = imx335_update_exp_gain(imx335, exposure, analog_gain);
+@@ -471,7 +471,7 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
+ 
+ 		break;
+ 	default:
+-		dev_err(imx335->dev, "Invalid control %d", ctrl->id);
++		dev_err(imx335->dev, "Invalid control %d\n", ctrl->id);
+ 		ret = -EINVAL;
+ 	}
+ 
+@@ -652,14 +652,14 @@ static int imx335_start_streaming(struct imx335 *imx335)
+ 	ret = imx335_write_regs(imx335, reg_list->regs,
+ 				reg_list->num_of_regs);
+ 	if (ret) {
+-		dev_err(imx335->dev, "fail to write initial registers");
++		dev_err(imx335->dev, "fail to write initial registers\n");
+ 		return ret;
+ 	}
+ 
+ 	/* Setup handler will write actual exposure and gain */
+ 	ret =  __v4l2_ctrl_handler_setup(imx335->sd.ctrl_handler);
+ 	if (ret) {
+-		dev_err(imx335->dev, "fail to setup handler");
++		dev_err(imx335->dev, "fail to setup handler\n");
+ 		return ret;
+ 	}
+ 
+@@ -667,7 +667,7 @@ static int imx335_start_streaming(struct imx335 *imx335)
+ 	ret = imx335_write_reg(imx335, IMX335_REG_MODE_SELECT,
+ 			       1, IMX335_MODE_STREAMING);
+ 	if (ret) {
+-		dev_err(imx335->dev, "fail to start streaming");
++		dev_err(imx335->dev, "fail to start streaming\n");
+ 		return ret;
+ 	}
+ 
+@@ -744,7 +744,7 @@ static int imx335_detect(struct imx335 *imx335)
+ 		return ret;
+ 
+ 	if (val != IMX335_ID) {
+-		dev_err(imx335->dev, "chip id mismatch: %x!=%x",
++		dev_err(imx335->dev, "chip id mismatch: %x!=%x\n",
+ 			IMX335_ID, val);
+ 		return -ENXIO;
+ 	}
+@@ -776,7 +776,7 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
+ 	imx335->reset_gpio = devm_gpiod_get_optional(imx335->dev, "reset",
+ 						     GPIOD_OUT_LOW);
+ 	if (IS_ERR(imx335->reset_gpio)) {
+-		dev_err(imx335->dev, "failed to get reset gpio %ld",
++		dev_err(imx335->dev, "failed to get reset gpio %ld\n",
+ 			PTR_ERR(imx335->reset_gpio));
+ 		return PTR_ERR(imx335->reset_gpio);
+ 	}
+@@ -784,13 +784,13 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
+ 	/* Get sensor input clock */
+ 	imx335->inclk = devm_clk_get(imx335->dev, NULL);
+ 	if (IS_ERR(imx335->inclk)) {
+-		dev_err(imx335->dev, "could not get inclk");
++		dev_err(imx335->dev, "could not get inclk\n");
+ 		return PTR_ERR(imx335->inclk);
+ 	}
+ 
+ 	rate = clk_get_rate(imx335->inclk);
+ 	if (rate != IMX335_INCLK_RATE) {
+-		dev_err(imx335->dev, "inclk frequency mismatch");
++		dev_err(imx335->dev, "inclk frequency mismatch\n");
+ 		return -EINVAL;
+ 	}
+ 
+@@ -805,14 +805,14 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
+ 
+ 	if (bus_cfg.bus.mipi_csi2.num_data_lanes != IMX335_NUM_DATA_LANES) {
+ 		dev_err(imx335->dev,
+-			"number of CSI2 data lanes %d is not supported",
++			"number of CSI2 data lanes %d is not supported\n",
+ 			bus_cfg.bus.mipi_csi2.num_data_lanes);
+ 		ret = -EINVAL;
+ 		goto done_endpoint_free;
+ 	}
+ 
+ 	if (!bus_cfg.nr_of_link_frequencies) {
+-		dev_err(imx335->dev, "no link frequencies defined");
++		dev_err(imx335->dev, "no link frequencies defined\n");
+ 		ret = -EINVAL;
+ 		goto done_endpoint_free;
+ 	}
+@@ -863,7 +863,7 @@ static int imx335_power_on(struct device *dev)
+ 
+ 	ret = clk_prepare_enable(imx335->inclk);
+ 	if (ret) {
+-		dev_err(imx335->dev, "fail to enable inclk");
++		dev_err(imx335->dev, "fail to enable inclk\n");
+ 		goto error_reset;
+ 	}
+ 
+@@ -969,7 +969,7 @@ static int imx335_init_controls(struct imx335 *imx335)
+ 		imx335->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+ 
+ 	if (ctrl_hdlr->error) {
+-		dev_err(imx335->dev, "control init failed: %d",
++		dev_err(imx335->dev, "control init failed: %d\n",
+ 			ctrl_hdlr->error);
+ 		v4l2_ctrl_handler_free(ctrl_hdlr);
+ 		return ctrl_hdlr->error;
+@@ -1002,7 +1002,7 @@ static int imx335_probe(struct i2c_client *client)
+ 
+ 	ret = imx335_parse_hw_config(imx335);
+ 	if (ret) {
+-		dev_err(imx335->dev, "HW configuration is not supported");
++		dev_err(imx335->dev, "HW configuration is not supported\n");
+ 		return ret;
+ 	}
+ 
+@@ -1010,14 +1010,14 @@ static int imx335_probe(struct i2c_client *client)
+ 
+ 	ret = imx335_power_on(imx335->dev);
+ 	if (ret) {
+-		dev_err(imx335->dev, "failed to power-on the sensor");
++		dev_err(imx335->dev, "failed to power-on the sensor\n");
+ 		goto error_mutex_destroy;
+ 	}
+ 
+ 	/* Check module identity */
+ 	ret = imx335_detect(imx335);
+ 	if (ret) {
+-		dev_err(imx335->dev, "failed to find sensor: %d", ret);
++		dev_err(imx335->dev, "failed to find sensor: %d\n", ret);
+ 		goto error_power_off;
+ 	}
+ 
+@@ -1027,7 +1027,7 @@ static int imx335_probe(struct i2c_client *client)
+ 
+ 	ret = imx335_init_controls(imx335);
+ 	if (ret) {
+-		dev_err(imx335->dev, "failed to init controls: %d", ret);
++		dev_err(imx335->dev, "failed to init controls: %d\n", ret);
+ 		goto error_power_off;
+ 	}
+ 
+@@ -1039,14 +1039,14 @@ static int imx335_probe(struct i2c_client *client)
+ 	imx335->pad.flags = MEDIA_PAD_FL_SOURCE;
+ 	ret = media_entity_pads_init(&imx335->sd.entity, 1, &imx335->pad);
+ 	if (ret) {
+-		dev_err(imx335->dev, "failed to init entity pads: %d", ret);
++		dev_err(imx335->dev, "failed to init entity pads: %d\n", ret);
+ 		goto error_handler_free;
+ 	}
+ 
+ 	ret = v4l2_async_register_subdev_sensor(&imx335->sd);
+ 	if (ret < 0) {
+ 		dev_err(imx335->dev,
+-			"failed to register async subdev: %d", ret);
++			"failed to register async subdev: %d\n", ret);
+ 		goto error_media_entity;
+ 	}
+ 
 -- 
 2.41.0
 
