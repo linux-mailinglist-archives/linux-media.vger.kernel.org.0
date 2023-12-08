@@ -1,157 +1,166 @@
-Return-Path: <linux-media+bounces-1938-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1940-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80EC980A007
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 10:54:36 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 077AA80A14C
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 11:39:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B16D91C20B34
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 09:54:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BCE31C20D18
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 10:39:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E483C12E41;
-	Fri,  8 Dec 2023 09:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3573E199A2;
+	Fri,  8 Dec 2023 10:39:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cSAFltPc"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Kyb7xPg/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30D211724;
-	Fri,  8 Dec 2023 01:54:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702029263; x=1733565263;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=FEzV6DVjh/Ga3HaHooYTXKaezfC0C7UbGiGx01741DE=;
-  b=cSAFltPc2dnI3ZBwEBThccKs0yNEScJTTwPeUtgYakmmanb4/u6/cUwc
-   iiIFNIRuUkjwxMcP+WTsp02ra3K+TINOXDxYmTyFrmgObBtzd6COTYyrl
-   UCUnpwhlEqnqp/5M+GMwehmNt5KgyeWlwUSBVJCXFLOFO2ZXD8MgGo6Ln
-   oD1wLnOpX7YnqI/dKNh82+r20pu8nvqGA4xVRwKNVH2FU3rXzeyBSFc56
-   nqAGRv2UQWs2BAl/R30rQEJqYAuVAidDwI3Lvqj6vHZcsGD2f33StEkzc
-   PK85xSa2SrVTBFLy+sshclDgWgqW3plG7z1oEccQl2iNhgmsKJeFEsvxU
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="393252575"
-X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
-   d="scan'208";a="393252575"
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 01:54:22 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="806353117"
-X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
-   d="scan'208";a="806353117"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 01:54:14 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id C7C0011F995;
-	Fri,  8 Dec 2023 11:54:11 +0200 (EET)
-Date: Fri, 8 Dec 2023 09:54:11 +0000
-From: "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>
-To: Zhi Mao =?utf-8?B?KOavm+aZuik=?= <zhi.mao@mediatek.com>
-Cc: "conor@kernel.org" <conor@kernel.org>,
-	"krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-	"heiko@sntech.de" <heiko@sntech.de>,
-	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>,
-	"robh+dt@kernel.org" <robh+dt@kernel.org>,
-	"yunkec@chromium.org" <yunkec@chromium.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"dan.scally@ideasonboard.com" <dan.scally@ideasonboard.com>,
-	"gerald.loacker@wolfvision.net" <gerald.loacker@wolfvision.net>,
-	Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= <shengnan.wang@mediatek.com>,
-	"hdegoede@redhat.com" <hdegoede@redhat.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"linus.walleij@linaro.org" <linus.walleij@linaro.org>,
-	"andy.shevchenko@gmail.com" <andy.shevchenko@gmail.com>,
-	Yaya Chang =?utf-8?B?KOW8tembhea4hSk=?= <Yaya.Chang@mediatek.com>,
-	"mchehab@kernel.org" <mchehab@kernel.org>,
-	"jacopo.mondi@ideasonboard.com" <jacopo.mondi@ideasonboard.com>,
-	"jernej.skrabec@gmail.com" <jernej.skrabec@gmail.com>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	"bingbu.cao@intel.com" <bingbu.cao@intel.com>,
-	Project_Global_Chrome_Upstream_Group <Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	"10572168@qq.com" <10572168@qq.com>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-	"krzysztof.kozlowski+dt@linaro.org" <krzysztof.kozlowski+dt@linaro.org>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"laurent.pinchart@ideasonboard.com" <laurent.pinchart@ideasonboard.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"angelogioacchino.delregno@collabora.com" <angelogioacchino.delregno@collabora.com>,
-	"macromorgan@hotmail.com" <macromorgan@hotmail.com>
-Subject: Re: [PATCH 1/2] media: i2c: Add GC08A3 image sensor driver
-Message-ID: <ZXLnwzeD_DSuIyil@kekkonen.localdomain>
-References: <20231207052016.25954-1-zhi.mao@mediatek.com>
- <20231207052016.25954-2-zhi.mao@mediatek.com>
- <ZXGtqwjYruBQVaUr@kekkonen.localdomain>
- <129e3a8b-5e91-424a-8ff8-b015d5175f1a@linaro.org>
- <20231207-outcome-acclaim-d179c8c07fff@spud>
- <0580bc5be77c5e293770f42b661a41c80e1986dd.camel@mediatek.com>
+Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6DED519A9;
+	Fri,  8 Dec 2023 02:39:17 -0800 (PST)
+Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id 308A1660170E;
+	Fri,  8 Dec 2023 10:39:15 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702031955;
+	bh=/HlrmDWE7PgpG+Mpc/V054SdaDxD747feCcT27pEL7o=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Kyb7xPg/eeb0Qwe9Mld8Fk5qftd5TD2uB+44x5RcI/CzM8IiYwKzsG5XnyAWc8Ogn
+	 6L2tuoBm7hEwBMXuM1rI+S1kK8QNMcdLFIBTKskG3xQsu5KugImfVjH2/RztmMvH9t
+	 O0wPXHCPPHKVshAuF2ktObltrmYJY7ahxbJwJayY40kAaoN/iRjMEGA0E5xqeJeq7M
+	 7OUoxgpaMo/RuGxPZGExyBNfwVjOG6SeCTFoiG+jA7aWPUIhG+2ltywIONCgbrIoPf
+	 BpbjAIxxe5UPMfN15O6n1Z4+A1PPaCHf3767jhT15ysXZCMv631hqcnJqrunRrZFnX
+	 hCtE7ZAhNSLJg==
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org,
+	tfiga@chromium.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-staging@lists.linux.dev,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v4 0/2] Clean up min_buffers_needed misusages
+Date: Fri,  8 Dec 2023 11:39:06 +0100
+Message-Id: <20231208103908.85874-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <0580bc5be77c5e293770f42b661a41c80e1986dd.camel@mediatek.com>
 
-Hi Zhi,
+This series implement Hans's RFC: https://www.spinics.net/lists/linux-media/msg244455.html
 
-On Fri, Dec 08, 2023 at 02:07:36AM +0000, Zhi Mao (毛智) wrote:
-> On Thu, 2023-12-07 at 17:44 +0000, Conor Dooley wrote:
-> > On Thu, Dec 07, 2023 at 01:30:35PM +0100, Krzysztof Kozlowski wrote:
-> > > On 07/12/2023 12:34, Sakari Ailus wrote:
-> > > > > +	ret = gc08a3_parse_fwnode(dev);
-> > > > > +	if (ret)
-> > > > > +		return ret;
-> > > > > +
-> > > > > +	gc08a3 = devm_kzalloc(dev, sizeof(*gc08a3),
-> > > > > GFP_KERNEL);
-> > > > > +	if (!gc08a3)
-> > > > > +		return -ENOMEM;
-> > > > > +
-> > > > > +	gc08a3->dev = dev;
-> > > > > +
-> > > > > +	gc08a3->xclk = devm_clk_get(dev, NULL);
-> > > > > +	if (IS_ERR(gc08a3->xclk))
-> > > > > +		return dev_err_probe(dev, PTR_ERR(gc08a3-
-> > > > > >xclk),
-> > > > > +					 "failed to get
-> > > > > xclk\n");
-> > > > > +
-> > > > > +	ret = clk_set_rate(gc08a3->xclk,
-> > > > > GC08A3_DEFAULT_CLK_FREQ);
-> > > > 
-> > > > Please see:
-> > > > <URL:
-> > > > https://hverkuil.home.xs4all.nl/spec/driver-api/camera-sensor.html#devicetree>
-> > > > ;.
-> > > 
-> > > 
-> > > Oh, that's cool it was documented!
-> > > 
-> > > The canonical link would be:
-> > > 
-> https://www.kernel.org/doc/html/latest/driver-api/media/camera-sensor.html#devicetree
-> > 
-> > I believe this is that answer to the "why are these needed" that I
-> > asked
-> > on the previous version and never got a response to. Instead, they
-> > were
-> > just removed from the binding etc.
-> 
-> About "assigned-clocks" & "assigned-clock-rates" in v1 patch, as they
-> are not used in sensor driver, I have removed them in sensor dts-
-> bindind file. And "clock-names" & "clock-frequency" are also the same,
-> they will be removed in next version.
+To summarize Hans's proposal it is needed to distinguish two cases:
+- the minimal number of buffers to be allocated when calling
+  VIDIOC_REQBUFS.
+- the minimale number of queued buffers before start streaming.
+Until now drivers use vb2_queue min_buffers_needed field in the both
+cases but before introduce delete buffers we need to clarify for which
+usage each of them use min_buffers_needed field.
 
-Ack. You should only need "clocks" there, indeed.
+The branch with all patches is here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/clean_min_need_buffers_v4
+
+I have tested with this command line, I haven't notice issues:
+./test-media -kmemleak mc
+
+changes in version 4:
+- restore removed lines in zoran and vdec drivers.
+
+changes in version 3:
+- Just rename min_buffers_needed into min_queued_buffers everywhere
+  without trying to fix the drivers.
+- Introduce min_reqbufs_allocation field to be used when calling VIDIOC_REQBUFS.
+
+changes in version 2:
+- change min_buffers_needed into min_queues_buffers instead of min_dma_buffers_needed
+- patches order
+- only one patch to rename min_buffers_needed into min_queues_buffers.
+
+
+Benjamin Gaignard (2):
+  videobuf2: core: Rename min_buffers_needed field to vb2_queue
+  videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
+
+ drivers/input/touchscreen/atmel_mxt_ts.c      |  2 +-
+ drivers/input/touchscreen/sur40.c             |  2 +-
+ drivers/media/common/saa7146/saa7146_fops.c   |  2 +-
+ .../media/common/videobuf2/videobuf2-core.c   | 23 ++++++++++---------
+ drivers/media/dvb-core/dvb_vb2.c              |  2 +-
+ drivers/media/i2c/video-i2c.c                 |  2 +-
+ drivers/media/pci/bt8xx/bttv-driver.c         |  2 +-
+ drivers/media/pci/cobalt/cobalt-v4l2.c        |  2 +-
+ drivers/media/pci/cx18/cx18-streams.c         |  2 +-
+ drivers/media/pci/cx23885/cx23885-417.c       |  2 +-
+ drivers/media/pci/cx23885/cx23885-dvb.c       |  2 +-
+ drivers/media/pci/cx23885/cx23885-video.c     |  4 ++--
+ drivers/media/pci/cx25821/cx25821-video.c     |  2 +-
+ drivers/media/pci/cx88/cx88-blackbird.c       |  2 +-
+ drivers/media/pci/cx88/cx88-dvb.c             |  2 +-
+ drivers/media/pci/cx88/cx88-video.c           |  4 ++--
+ drivers/media/pci/dt3155/dt3155.c             |  2 +-
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c      |  2 +-
+ drivers/media/pci/mgb4/mgb4_vin.c             |  2 +-
+ drivers/media/pci/mgb4/mgb4_vout.c            |  2 +-
+ drivers/media/pci/tw5864/tw5864-video.c       |  2 +-
+ drivers/media/pci/tw68/tw68-video.c           |  2 +-
+ drivers/media/pci/tw686x/tw686x-video.c       |  2 +-
+ drivers/media/pci/zoran/zoran_driver.c        |  6 ++---
+ drivers/media/platform/amphion/vpu_v4l2.c     |  4 ++--
+ drivers/media/platform/aspeed/aspeed-video.c  |  2 +-
+ drivers/media/platform/atmel/atmel-isi.c      |  2 +-
+ .../platform/chips-media/coda/coda-common.c   |  2 +-
+ .../platform/microchip/microchip-isc-base.c   |  2 +-
+ drivers/media/platform/nuvoton/npcm-video.c   |  2 +-
+ drivers/media/platform/nxp/imx7-media-csi.c   |  2 +-
+ .../platform/nxp/imx8-isi/imx8-isi-video.c    |  2 +-
+ drivers/media/platform/qcom/venus/vdec.c      |  4 ++--
+ drivers/media/platform/qcom/venus/venc.c      |  4 ++--
+ .../platform/renesas/rcar-vin/rcar-dma.c      |  2 +-
+ drivers/media/platform/renesas/renesas-ceu.c  |  2 +-
+ .../platform/renesas/rzg2l-cru/rzg2l-video.c  |  2 +-
+ drivers/media/platform/renesas/sh_vou.c       |  2 +-
+ .../platform/rockchip/rkisp1/rkisp1-capture.c |  2 +-
+ drivers/media/platform/st/sti/hva/hva-v4l2.c  |  4 ++--
+ drivers/media/platform/st/stm32/stm32-dcmi.c  |  2 +-
+ .../st/stm32/stm32-dcmipp/dcmipp-bytecap.c    |  4 ++--
+ .../platform/sunxi/sun4i-csi/sun4i_dma.c      |  2 +-
+ .../sunxi/sun6i-csi/sun6i_csi_capture.c       |  2 +-
+ .../media/platform/sunxi/sun8i-di/sun8i-di.c  |  4 ++--
+ .../sunxi/sun8i-rotate/sun8i_rotate.c         |  4 ++--
+ .../media/platform/ti/am437x/am437x-vpfe.c    |  2 +-
+ drivers/media/platform/ti/cal/cal-video.c     |  2 +-
+ .../media/platform/ti/davinci/vpif_capture.c  |  2 +-
+ .../media/platform/ti/davinci/vpif_display.c  |  2 +-
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   |  2 +-
+ drivers/media/platform/ti/omap/omap_vout.c    |  2 +-
+ .../media/test-drivers/vimc/vimc-capture.c    |  2 +-
+ drivers/media/test-drivers/vivid/vivid-core.c |  2 +-
+ drivers/media/usb/cx231xx/cx231xx-417.c       |  2 +-
+ drivers/media/usb/cx231xx/cx231xx-video.c     |  4 ++--
+ drivers/media/usb/dvb-usb/cxusb-analog.c      |  2 +-
+ drivers/media/usb/gspca/gspca.c               |  6 ++---
+ .../media/deprecated/atmel/atmel-isc-base.c   |  2 +-
+ drivers/staging/media/imx/imx-media-capture.c |  2 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c        |  2 +-
+ drivers/staging/media/meson/vdec/vdec.c       |  6 ++---
+ .../staging/media/starfive/camss/stf-video.c  |  2 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c |  2 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c  |  2 +-
+ drivers/staging/media/tegra-video/vi.c        |  2 +-
+ include/media/videobuf2-core.h                | 10 ++++++--
+ samples/v4l/v4l2-pci-skeleton.c               |  2 +-
+ 68 files changed, 102 insertions(+), 95 deletions(-)
 
 -- 
-Regards,
+2.39.2
 
-Sakari Ailus
 
