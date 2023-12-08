@@ -1,131 +1,166 @@
-Return-Path: <linux-media+bounces-2002-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2003-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95E8F80AA83
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 18:18:30 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC7F80AA94
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 18:21:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40C571F21221
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 17:18:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 749D11F210CF
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 17:21:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22FB439842;
-	Fri,  8 Dec 2023 17:18:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XTN1OraN"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD02B39855;
+	Fri,  8 Dec 2023 17:21:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D668374D0;
-	Fri,  8 Dec 2023 17:18:22 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D8CC433C8;
-	Fri,  8 Dec 2023 17:18:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702055902;
-	bh=Kc7uelFawHwlMJKzZxh7jjyeuIEBs1vkMVBFyYyPMiQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XTN1OraNA7eSPCEyq1kLdSWN6SSMUuz2HbLoSN/5gSzGCcpiyxaNiaikhaZoOXRUd
-	 afShQB43Gc+YqQGwigycAMXDnqFtQzufpmXuImT0e7LFRmuo7qS2B43KN/y8dV4D/o
-	 Ebi/n3VH3aCSYoF8lyoGJBrBYJxJuenWXV2zhTKoc9AeTldliLol5BwNC4BZsmkfj7
-	 jYbLaPOdBvkLGpr+Ver2Bht9HLZh3ZTNUPPhm15x5Q0J039GPTspwxSKTZ8zlUKCcT
-	 lmmL1ecqGAH9FqVDEsUKOoKmi11o457R4XwdiFJ+iQ0EYQbzFG110IoEY6Ft1+S00Y
-	 B0iWlVM3yb8ZQ==
-Message-ID: <d2e4e887-5b82-40de-aef9-f5f6a228fbd3@kernel.org>
-Date: Fri, 8 Dec 2023 18:18:20 +0100
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90E54212A
+	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 09:20:48 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rBeWo-0000mC-64; Fri, 08 Dec 2023 18:20:42 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rBeWm-00ESz6-Dt; Fri, 08 Dec 2023 18:20:40 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rBeWm-00GWT3-4b; Fri, 08 Dec 2023 18:20:40 +0100
+Date: Fri, 8 Dec 2023 18:20:40 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Sean Young <sean@mess.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>, linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 3/4] pwm: bcm2835: allow pwm driver to be used in
+ atomic context
+Message-ID: <20231208172040.mgw7aicmwlw6yjyb@pengutronix.de>
+References: <cover.1701248996.git.sean@mess.org>
+ <179dc1ce85702a8b64b43c0e0df656b0c5e3ce30.1701248996.git.sean@mess.org>
+ <ZXNC3JYy7CTfYsyC@orome.fritz.box>
+ <ZXNL5upeUPc4gC1R@gofer.mess.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/4] media: i2c: add MAX96714 driver
-Content-Language: en-US
-To: Julien Massot <julien.massot@collabora.com>, devicetree@vger.kernel.org,
- linux-media@vger.kernel.org
-Cc: kernel@collabora.com
-References: <20231208143359.469049-1-julien.massot@collabora.com>
- <20231208143359.469049-4-julien.massot@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20231208143359.469049-4-julien.massot@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 08/12/2023 15:33, Julien Massot wrote:
-> This driver handle the MAX96714 deserializer in tunnel mode.
-> The CSI output will replicate all the CSI traffic capture by
-> the remote serializer.
-> 
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-
-...
-
-> +static int max96714_get_hw_resources(struct max96714_priv *priv)
-> +{
-> +	struct device *dev = &priv->client->dev;
-> +
-> +	priv->regmap = devm_regmap_init_i2c(priv->client,
-> +					    &max96714_regmap_config);
-> +	if (IS_ERR(priv->regmap))
-> +		return PTR_ERR(priv->regmap);
-> +
-> +	priv->gpiod_pwdn = devm_gpiod_get_optional(&priv->client->dev, "enable",
-> +						   GPIOD_OUT_HIGH);
-> +	if (IS_ERR(priv->gpiod_pwdn))
-> +		return dev_err_probe(dev, PTR_ERR(priv->gpiod_pwdn),
-
-A powerdown GPIO is not an enable GPIO. Please use correct name - see
-gpio-consumers-common.yaml
-
-The same applies to other patch and potentially all others...
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="ct5bcsf4uq5e5wn5"
+Content-Disposition: inline
+In-Reply-To: <ZXNL5upeUPc4gC1R@gofer.mess.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
 
-Best regards,
-Krzysztof
+--ct5bcsf4uq5e5wn5
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Dec 08, 2023 at 05:01:26PM +0000, Sean Young wrote:
+> On Fri, Dec 08, 2023 at 05:22:52PM +0100, Thierry Reding wrote:
+> > On Wed, Nov 29, 2023 at 09:13:36AM +0000, Sean Young wrote:
+> > > clk_get_rate() may do a mutex lock. Fetch the clock rate once, and pr=
+event
+> > > rate changes using clk_rate_exclusive_get().
+> > >=20
+> > > Signed-off-by: Sean Young <sean@mess.org>
+> > > ---
+> > >  drivers/pwm/pwm-bcm2835.c | 31 +++++++++++++++++++++----------
+> > >  1 file changed, 21 insertions(+), 10 deletions(-)
+> >=20
+> > s/pwm/PWM/ in the subject. Although, I guess you could just drop the
+> > "PWM" altogether because the subject prefix implies that this is for
+> > PWM.
+>=20
+> $ git log --no-merges --oneline drivers/pwm/ | sed -r 's/^\w* ([^:]+): .*=
+/\1/' | sort | uniq -c
+>    1197 pwm
+>       1 PWM
+>   ...
+>=20
+> The vast majority of the commits use pwm: as a prefix, only one uses PWM:=
+=2E=20
+> In fact if you look across the tree almost everywhere lower case is used
+> for the prefix.
+
+Thierry doesn't want you to change the subject prefix, but only the
+second "pwm" to make it read:
+
+	pwm: bcm2835: allow PWM driver to be used in atomic context
+
+While I understand Thierry here, I'm fine with a lowercase pwm here,
+too. In my book a PWM in all uppercase is the type of hardware and pwm
+in all lowercase is the framework's name. If you use "PWM driver" or
+"pwm driver" then doesn't matter much.
+
+=09
+>=20
+> I'm just trying to follow convention.
+>=20
+> Having said that, I think the prefix is totally redundant, it is clear fr=
+om
+> the commit files what they are affecting. I am not sure what it really ad=
+ds.
+>=20
+> > Also, please capitalize after the subject prefix.
+>=20
+> $ git log --no-merges --oneline drivers/pwm/ | grep -E '^\w* ([^:]+): [A-=
+Z]' | wc -l
+> 217
+> $ git log --no-merges --oneline drivers/pwm/ | grep -E '^\w* ([^:]+): [a-=
+z]' | wc -l
+> 1069
+
+Your matching things like:
+
+	pwm: pwm-tiehrpwm: Add support for configuring polarity of PWM
+
+with the second command. These are perfectly fine as pwm-tiehrpwm is the
+driver name and so shouldn't be capitalized. With a bit more care here,
+we get:
+
+	$ git log --no-merges --oneline drivers/pwm/ | grep -E '^.+: [a-z][^:]*$' =
+| wc -l
+	114
+	$ git log --no-merges --oneline drivers/pwm/ | grep -E '^.+: [A-Z][^:]*$' =
+| wc -l
+	1167
+
+And the newest of the 114 with a small letter is from 2013.
+
+Best regards
+Uwe
+
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+
+--ct5bcsf4uq5e5wn5
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmVzUGcACgkQj4D7WH0S
+/k6tQQf/bona8Fvzxu0QxMsufyqPimaBLCRvs+l5rduG1l4p1h3vBMvs+rbPrQ1o
+PLKdltnHbhtp6Apn0v5IFZmRPk7wvVDya9TsGLXK/YXe8WT9/k0knB/00jVxvrh4
+mYycPSvlTZNICuEMrsy+Wmeh3GXP8jLWFK/qwZzgPUa7RkUSl5AKiiPHSjpB/eaG
+NEiXFDDIxn12GuEqO8CxUoOCGit1LeTNCNWwA7ZJeu15KpUfLh9O6KfiEiNV2+50
+gpdzR68mRKh9g36Egru+mSQKm42ybuZBDGUnRoUsH/ZXli+LYzHBIStuAzhg8031
+LbR+ApCpUJvPQApRmYToKH2UmPWUxQ==
+=s4Zz
+-----END PGP SIGNATURE-----
+
+--ct5bcsf4uq5e5wn5--
 
