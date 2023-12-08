@@ -1,100 +1,207 @@
-Return-Path: <linux-media+bounces-1986-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1987-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1510E80A76E
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:30:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF14880A7AE
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:41:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B4B9F1F2142A
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:30:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A0851F21116
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:41:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05EA331A8B;
-	Fri,  8 Dec 2023 15:30:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0CB232C89;
+	Fri,  8 Dec 2023 15:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ViMybE+a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F66210F9;
-	Fri,  8 Dec 2023 07:30:03 -0800 (PST)
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-59093f6c94aso228813eaf.0;
-        Fri, 08 Dec 2023 07:30:03 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702049403; x=1702654203;
-        h=date:subject:message-id:references:in-reply-to:cc:to:from
-         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=1qWUtRlRgWAGpwyicQtlpc3A9ZxmD2xdBC2WwR+TAd8=;
-        b=Aj2B6j41lKZpWppUOI+yVlscBGWmfKpizbwXg+N25s4AYOaYPQ8AasoK+HhgZMkcCe
-         wMkjn5DnP5cbPNRf6TTNeL1PY993ae+u7GUY07td482ie7CXq8fVuBpePrzVtwnhbjrL
-         XzwnI3x1pYnt5OlgN7NAOWz5XBlGxy+ojzTg0uuKaM2Bfd8AFZeoe2zeTaW1Hm18lTYt
-         X5BKQha8PXtCCjxwEGAf6WtZgvrhTInRvJCpA2eVaA4XlBSM7dpLDx4YlrOROIpbPtQQ
-         o2gHXSLUCqeLeBcl6fAajVyBmUXDH+y44B79nP9JzeabihDPH8LN3WNr9a89EvNZ9+kn
-         CVLA==
-X-Gm-Message-State: AOJu0Yz3+IFQFj7ghX+noaZNY6EUPRBQB7iosxpzmn7HV3qZLyGZ1PKS
-	ndHden1UZXANFjag/Qf+XA==
-X-Google-Smtp-Source: AGHT+IGcubsNbEux5qoTIjzJHasyn0SN0y3Zf1CAg/j2i3QWSYSA0ZXIOiE20uCOeizDRfsN8hbTww==
-X-Received: by 2002:a4a:5143:0:b0:58d:8f17:6606 with SMTP id s64-20020a4a5143000000b0058d8f176606mr118049ooa.4.1702049402248;
-        Fri, 08 Dec 2023 07:30:02 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id x8-20020a4a6208000000b0057b6ac3922esm332866ooc.18.2023.12.08.07.29.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 07:30:00 -0800 (PST)
-Received: (nullmailer pid 1382038 invoked by uid 1000);
-	Fri, 08 Dec 2023 15:29:57 -0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4ABEB198E;
+	Fri,  8 Dec 2023 07:41:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702050065; x=1733586065;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=kuKy0uSZ2sgf2WUnRwww3AtGWNiQbLKjTQKgA9l/IGM=;
+  b=ViMybE+aNvDVaqbxcDI855jc7fdeR+7WXi7c0ZIh3KVABmLVp2PBauIh
+   8MGqC2J3whVjUD86OT8K/BUgG0zTptSoYbFLKy7u0DMK2iLO2Bmr+bW3V
+   wAx23PSQj1PN7kr5S5Q6rXyKeuKIegU43Z+rBEQZ/esZLQR7VyTUaklTB
+   5ONUADL1SbgL2IMR+i/qK4bT6J95pYBR6BZoRz0kH7SZUE9kx+F/02MI2
+   90vTC/QqrWiwUXnofC6aH3ITnrELBpQwHxMR4+ZG752KPlhVlTMRk6YWK
+   pWlIHs+6ICWWxbvMb8nsHgbFROtKkh/F+dtJJLHhx220+xF+8lM4F7/5c
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="1276368"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="1276368"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 07:41:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="20136875"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 08 Dec 2023 07:40:59 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBcyG-000DuV-07;
+	Fri, 08 Dec 2023 15:40:56 +0000
+Date: Fri, 8 Dec 2023 23:40:13 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mina Almasry <almasrymina@google.com>,
+	Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	bpf@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Mina Almasry <almasrymina@google.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+	David Ahern <dsahern@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Shakeel Butt <shakeelb@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
+Message-ID: <202312082303.bCpeCR0q-lkp@intel.com>
+References: <20231208005250.2910004-7-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Rob Herring <robh@kernel.org>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: kernel@collabora.com, devicetree@vger.kernel.org, linux-media@vger.kernel.org
-In-Reply-To: <20231208143359.469049-3-julien.massot@collabora.com>
-References: <20231208143359.469049-1-julien.massot@collabora.com>
- <20231208143359.469049-3-julien.massot@collabora.com>
-Message-Id: <170204939775.1382016.1723055237849206834.robh@kernel.org>
-Subject: Re: [PATCH v2 2/4] dt-bindings: media: add Maxim MAX96717F GMSL2
- Serializer
-Date: Fri, 08 Dec 2023 09:29:57 -0600
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231208005250.2910004-7-almasrymina@google.com>
+
+Hi Mina,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on net-next/main]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Mina-Almasry/net-page_pool-factor-out-releasing-DMA-from-releasing-the-page/20231208-085531
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231208005250.2910004-7-almasrymina%40google.com
+patch subject: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
+config: m68k-randconfig-r071-20231208 (https://download.01.org/0day-ci/archive/20231208/202312082303.bCpeCR0q-lkp@intel.com/config)
+compiler: m68k-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312082303.bCpeCR0q-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312082303.bCpeCR0q-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   In file included from include/asm-generic/bug.h:22,
+                    from arch/m68k/include/asm/bug.h:32,
+                    from include/linux/bug.h:5,
+                    from include/linux/thread_info.h:13,
+                    from include/asm-generic/preempt.h:5,
+                    from ./arch/m68k/include/generated/asm/preempt.h:1,
+                    from include/linux/preempt.h:79,
+                    from arch/m68k/include/asm/irqflags.h:6,
+                    from include/linux/irqflags.h:17,
+                    from arch/m68k/include/asm/atomic.h:6,
+                    from include/linux/atomic.h:7,
+                    from include/linux/rcupdate.h:25,
+                    from include/linux/rculist.h:11,
+                    from include/linux/pid.h:5,
+                    from include/linux/sched.h:14,
+                    from include/linux/uaccess.h:8,
+                    from net/core/dev.c:71:
+   net/core/dev.c: In function '__netdev_dmabuf_binding_free':
+>> net/core/dev.c:2071:34: warning: format '%lu' expects argument of type 'long unsigned int', but argument 2 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2072 |                   size, avail))
+         |                   ~~~~            
+         |                   |
+         |                   size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                 ^~~~~~
+   include/asm-generic/bug.h:176:9: note: in expansion of macro 'no_printk'
+     176 |         no_printk(format);                                              \
+         |         ^~~~~~~~~
+   net/core/dev.c:2071:14: note: in expansion of macro 'WARN'
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |              ^~~~
+   net/core/dev.c:2071:65: note: format string is defined here
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |                                                               ~~^
+         |                                                                 |
+         |                                                                 long unsigned int
+         |                                                               %u
+   net/core/dev.c:2071:34: warning: format '%lu' expects argument of type 'long unsigned int', but argument 3 has type 'size_t' {aka 'unsigned int'} [-Wformat=]
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    2072 |                   size, avail))
+         |                         ~~~~~     
+         |                         |
+         |                         size_t {aka unsigned int}
+   include/linux/printk.h:427:25: note: in definition of macro 'printk_index_wrap'
+     427 |                 _p_func(_fmt, ##__VA_ARGS__);                           \
+         |                         ^~~~
+   include/linux/printk.h:129:17: note: in expansion of macro 'printk'
+     129 |                 printk(fmt, ##__VA_ARGS__);             \
+         |                 ^~~~~~
+   include/asm-generic/bug.h:176:9: note: in expansion of macro 'no_printk'
+     176 |         no_printk(format);                                              \
+         |         ^~~~~~~~~
+   net/core/dev.c:2071:14: note: in expansion of macro 'WARN'
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |              ^~~~
+   net/core/dev.c:2071:76: note: format string is defined here
+    2071 |         if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+         |                                                                          ~~^
+         |                                                                            |
+         |                                                                            long unsigned int
+         |                                                                          %u
 
 
-On Fri, 08 Dec 2023 15:33:57 +0100, Julien Massot wrote:
-> Add DT bindings for Maxim MAX96717F GMSL2 Serializer.
-> 
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> ---
->  .../bindings/media/i2c/maxim,max96717f.yaml   | 144 ++++++++++++++++++
->  1 file changed, 144 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96717f.yaml
-> 
+vim +2071 net/core/dev.c
 
-My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
-on your patch (DT_CHECKER_FLAGS is new in v5.13):
+  2060	
+  2061	void __netdev_dmabuf_binding_free(struct netdev_dmabuf_binding *binding)
+  2062	{
+  2063		size_t size, avail;
+  2064	
+  2065		gen_pool_for_each_chunk(binding->chunk_pool,
+  2066					netdev_dmabuf_free_chunk_owner, NULL);
+  2067	
+  2068		size = gen_pool_size(binding->chunk_pool);
+  2069		avail = gen_pool_avail(binding->chunk_pool);
+  2070	
+> 2071		if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+  2072			  size, avail))
+  2073			gen_pool_destroy(binding->chunk_pool);
+  2074	
+  2075		dma_buf_unmap_attachment(binding->attachment, binding->sgt,
+  2076					 DMA_BIDIRECTIONAL);
+  2077		dma_buf_detach(binding->dmabuf, binding->attachment);
+  2078		dma_buf_put(binding->dmabuf);
+  2079		xa_destroy(&binding->bound_rxq_list);
+  2080		kfree(binding);
+  2081	}
+  2082	
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max96717f.example.dtb: vd5661@10: port:endpoint:data-lanes:0: [1, 2] is too short
-	from schema $id: http://devicetree.org/schemas/media/i2c/st,st-vgxy61.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231208143359.469049-3-julien.massot@collabora.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
