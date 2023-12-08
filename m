@@ -1,211 +1,179 @@
-Return-Path: <linux-media+bounces-1929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0075E809AF3
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 05:23:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 98F96809BEB
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 06:49:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 2CCFEB20EC0
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 04:23:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C6AC282011
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 05:49:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A8485242;
-	Fri,  8 Dec 2023 04:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="XtWDFCWb"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE3B36D1B;
+	Fri,  8 Dec 2023 05:49:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-x931.google.com (mail-ua1-x931.google.com [IPv6:2607:f8b0:4864:20::931])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 48A25171C
-	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 20:23:03 -0800 (PST)
-Received: by mail-ua1-x931.google.com with SMTP id a1e0cc1a2514c-7c45fa55391so395821241.2
-        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 20:23:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1702009382; x=1702614182; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CDZS0haLyzX2rMNjByhL90PK2pxpUuZrfSW8MqJOxn0=;
-        b=XtWDFCWbQg0pUopTWDb4SoMrtPlILpOvJMIq1lNgBIx0eBEWTfwU7Gm+fXRKJJVo0l
-         zujCcdAl2kImPGqM9EAwtgz04Amk7wiKA5Ydy40WsYdzaHx8695VEzfjJ6ZO9u+ewB4G
-         imMKiGL3uIpZHHwS6+vjohj/gEHRdqawJ3/HI=
+Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAADA171D
+	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 21:49:30 -0800 (PST)
+Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-3b9eeb0e179so2368b6e.3
+        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 21:49:30 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702009382; x=1702614182;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CDZS0haLyzX2rMNjByhL90PK2pxpUuZrfSW8MqJOxn0=;
-        b=PDH7mo/8Kv/YdYax3+YeVWg/Vu+es9vprE4LRo7e8RVdJP6evDs4Rqkq9p8lp1EM16
-         VoyUlwmzxpsx0KmY95pSZw4xloQkltewZUV2EGtTm1NsOkUt5WwWxCqNY8bDnL3+nIh3
-         236zLdzUsZCOGj6J2CI82/NZpTOYKH44vHp3bm0dcJugdPF6+JNtI8/mPJWI6EaNF0EK
-         IvtgrKU4ENjvHpvptEoJSRumJ0QaXFamOgFGDAHxDJSDMssU6y2Vbu7BIMn+h7Ou1I94
-         +vhh8KeEwDkLdj7vTMruAPdAjUtsp02h3X2Np3a7c6mtAVZYtQA67AxV/vus1eCOFLSe
-         uJ0w==
-X-Gm-Message-State: AOJu0YzKdstcYjrp7pDy0bdgsaDNRyfQbevZ4zOj1PY2p8R90rxkZaBv
-	YMmj9O/6XXy5QfA1IPVfY5ToQa0IIpCg/bFfytg=
-X-Google-Smtp-Source: AGHT+IFbH/i8eKhNX9/wUa+7OtNJ3JNZs4izVCCJjbkiMs2p2dDqUquCvODsBP0LdnsWcKSLoK3YLA==
-X-Received: by 2002:a05:6102:dc7:b0:464:3a91:3fbd with SMTP id e7-20020a0561020dc700b004643a913fbdmr4599307vst.6.1702009382124;
-        Thu, 07 Dec 2023 20:23:02 -0800 (PST)
-Received: from mail-ua1-f54.google.com (mail-ua1-f54.google.com. [209.85.222.54])
-        by smtp.gmail.com with ESMTPSA id ft10-20020a0561301a0a00b007c5ecf24314sm80585uab.29.2023.12.07.20.23.01
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 07 Dec 2023 20:23:01 -0800 (PST)
-Received: by mail-ua1-f54.google.com with SMTP id a1e0cc1a2514c-7bb3e55c120so403073241.0
-        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 20:23:01 -0800 (PST)
-X-Received: by 2002:a67:e893:0:b0:464:7c8c:e17d with SMTP id
- x19-20020a67e893000000b004647c8ce17dmr3179679vsn.9.1702009381069; Thu, 07 Dec
- 2023 20:23:01 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702014570; x=1702619370;
+        h=content-transfer-encoding:to:from:subject:message-id:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=EBETvfzqD613YhTilF3AjV0DFOJ1h9L9RHJVTqPEc4I=;
+        b=NFEEMEGv1hauVlGEQZXFKP7/NwpbE1N5covc1vKyZ5h3JlG5yighFfS/TZOxo1lVII
+         08F8rOWSI4+0N2OevDlqxszaMeVxvXbeBRSdo5riNBArM7UmCYs4LBq/XxiCuu/1qHrs
+         tYzEF8IY+tkpRLAPhuyLdUMmHadAnB41pNFZv/C0RTS1OL7QGpPm88xS/GcTJxGICFye
+         qmSRh/0uBN9Qg1KKukoh4eYw0cO//TyPPyXbLfjAUWNP4d5b+QNddWMmviX5hfunUhsC
+         omyIEtvspUFT77/Mc/eaxWDHvDZNVCXCDEYbl4wByuqadj1dr6/TaBHFbViwm3De6BYD
+         Ob/w==
+X-Gm-Message-State: AOJu0YzSQ86XtNVUeP6e8qqy1PAFAgiz2N3b2adM1zeL6xm0WavlbetP
+	D4lZa+tL4iznwXpHZc7wRgSR55RLNBe1fVYVMgIqut3Mo/5Q
+X-Google-Smtp-Source: AGHT+IGTXQuNC7u7vqdQYM+6O11D5RpwL6kUUVMO4/Cp2Zrs3PRDYQt67c7BML2ZNrm8Ywr/ErSf0Z3/6BFiJxf71Ij3tT3TspNB
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231113123049.4117280-1-fshao@chromium.org> <20231113123049.4117280-4-fshao@chromium.org>
- <6c693161-0e89-4f9d-9a92-18f3783eefd2@collabora.com> <CAC=S1nhp3HoKGQr1UgKtZJ9SLMqvm-G_YZi9dEWWF3tj2d=OFQ@mail.gmail.com>
- <6046a40b-800c-4bf8-ab45-d7f1015b2d9c@collabora.com>
-In-Reply-To: <6046a40b-800c-4bf8-ab45-d7f1015b2d9c@collabora.com>
-From: Fei Shao <fshao@chromium.org>
-Date: Fri, 8 Dec 2023 12:22:24 +0800
-X-Gmail-Original-Message-ID: <CAC=S1niMVxoryzg6X+vFcDpMRuO6YCzUFj4A+2yex+mfOBALRg@mail.gmail.com>
-Message-ID: <CAC=S1niMVxoryzg6X+vFcDpMRuO6YCzUFj4A+2yex+mfOBALRg@mail.gmail.com>
-Subject: Re: [PATCH 3/4] media: mediatek: vcodec: Fix mtk_vcodec_mem_free()
- error log criteria
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: Yunfei Dong <yunfei.dong@mediatek.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>, 
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
-	=?UTF-8?B?TsOtY29sYXMgRi4gUi4gQS4gUHJhZG8=?= <nfraprado@collabora.com>, 
-	Tiffany Lin <tiffany.lin@mediatek.com>, linux-arm-kernel@lists.infradead.org, 
+X-Received: by 2002:a05:6808:1481:b0:3b9:e51b:d2b5 with SMTP id
+ e1-20020a056808148100b003b9e51bd2b5mr1503281oiw.11.1702014570091; Thu, 07 Dec
+ 2023 21:49:30 -0800 (PST)
+Date: Thu, 07 Dec 2023 21:49:30 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000da5a60060bf925f0@google.com>
+Subject: [syzbot] [dri?] WARNING in drm_gem_prime_fd_to_handle
+From: syzbot <syzbot+268d319a7bfd92f4ae01@syzkaller.appspotmail.com>
+To: airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
 	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-mediatek@lists.infradead.org
+	maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
+	sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Spam-Level: **
 
-On Thu, Dec 7, 2023 at 8:55=E2=80=AFPM AngeloGioacchino Del Regno
-<angelogioacchino.delregno@collabora.com> wrote:
->
-> Il 07/12/23 12:17, Fei Shao ha scritto:
-> > Hi Angelo,
-> >
-> > On Wed, Dec 6, 2023 at 6:19=E2=80=AFPM AngeloGioacchino Del Regno
-> > <angelogioacchino.delregno@collabora.com> wrote:
-> >>
-> >> Il 13/11/23 13:26, Fei Shao ha scritto:
-> >>> mtk_vcodec_mem_free() shouldn't print error if the target DMA buffer =
-has
-> >>> never been allocated or was freed properly in the previous call. That
-> >>> makes log confusing.
-> >>>
-> >>> Update the error path to print log only when the caller attempts to f=
-ree
-> >>> nonzero-size buffer with VA being NULL, which indicates something ind=
-eed
-> >>> went wrong.
-> >>>
-> >>> This brings another benefit that the callers no more need to check
-> >>> mem->va explicitly to avoid the error, which can make the code more
-> >>> compact and neat.
-> >>>
-> >>> Signed-off-by: Fei Shao <fshao@chromium.org>
-> >>
-> >> I think that this error is supposed to catch two issues in one:
-> >>    - We're called to free no memory (something that does make no sense=
-),
-> >>      this may happen for example when calling xxx_free() twice, and it
-> >>      is a mistake that *must* be fixed;
-> > When I made the change, I was thinking of kfree() that doesn't warn
-> > against a NULL pointer.
-> > I imagine mtk_vcodec_mem_free() calls with NULL VA and mem size 0
-> > probably have the similar nuance (if the buffer exists, free it; never
-> > mind otherwise), but I could have missed some important differences
-> > specific to the MTK vcodec driver.
-> >
-> > Looking at the mtk_vcodec_mem_free() usages, almost every one of those
-> > checks VA beforehand, but nothing else - they don't warn or do
-> > anything special when they encounter a NULL VA, and they should if
-> > that's a concern.
-> > Some even don't check at all (and I think that's why I ended up seeing
-> > the errors mentioned in the cover letter). As for that, I think
-> > there's nothing else we can fix except prepending "if (mem->va)".
-> > So from all this, I feel perhaps we don't need to worry much about
-> > those NULL VA, and we can further remove the checks (or at least move
-> > it into mtk_vcodec_mem_free()) to trim the lines in the driver. That's
-> > the reason for patch [4/4].
-> >
-> > Not sure if that makes sense to you.
->
-> What you say does make sense - and a lot - but still, I think that freein=
-g
-> a NULL VA (=3D freeing nothing) is something that shouldn't happen...
->
-> >
-> >>    - We're failing to free memory for real (which you covered)
-> >>
-> >> ....that said, I think that if you want to clarify the error messages
-> >> in this function, it should look something like this:
-> >>
-> >> if (!mem->va) {
-> >>          mtk_v4l2_err(plat_dev, "%s: Tried to free a NULL VA", __func_=
-_);
-> >>          if (mem->size)
-> >>                  mtk_v4l2_err(plat_dev, "Failed to free %lu bytes", me=
-m->size);
-> >>          return;
-> >> }
-> > Sure, I can revise the patch with this, but I also want to make sure
-> > if the NULL VA print needs to be an error.
-> > If you still think it should, I guess I'll drop the current patch
-> > [4/4] and instead add the check before every mtk_vcodec_mem_free()
-> > calls. This should also work for the issue I want to address in the
-> > first place.
-> >
->
-> ... because if you notice, some of the calls to mtk_vcodec_mem_free() are=
- not
-> checked with `if (something->va)` beforehand, so I think that those are c=
-ases
-> in which freeing with a NULL VA would actually be an indication of someth=
-ing
-> going wrong and/or not as expected anyway (checking beforehand =3D error =
-won't
-> get printed from mtk_vcodec_mem_free(), not checking =3D print error if v=
-a=3D=3DNULL)
->
-> It's an easy check:
-> cd drivers/media/platform/mediatek/vcodec
-> grep -rb1 mtk_vcodec_mem_free
->
-> P.S.: h264_if, av1_req_lat :-)
-Yes, these are exactly what I wanted to imply in ">> Some even don't
-check at all", and I should have pointed them out to avoid
-ambiguity...
-And I understand your concern. Presuming the NULL VA case is and will
-always be safe to ignore can be too assertive, and getting explicit
-error logs is always better than lurking bugs.
+Hello,
 
->
-> That's why I think that you should drop your [4/4] - unless MediaTek come=
-s in
-> stating that the missed checks are something unintended, and that every i=
-nstance
-> of VA=3D=3DNULL should print an error.
->
-> I honestly wouldn't be surprised if they did so, because anyway this occu=
-rs only
-> in two decoders...
-Agree, it would be nice if Yunfei can share some thoughts here, or I
-can reach out to him through other channels for alignment first, and
-adjust this series based on the response.
-The h264_if part was written a while ago (2016) and the av1_req_lat
-part is relatively new (mid 2023), I hope it won't be too hard to
-reach a conclusion for those.
+syzbot found the following issue on:
 
-Regards,
-Fei
+HEAD commit:    33cc938e65a9 Linux 6.7-rc4
+git tree:       upstream
+console+strace: https://syzkaller.appspot.com/x/log.txt?x=3D1348e51ce80000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=3Db50bd31249191be=
+8
+dashboard link: https://syzkaller.appspot.com/bug?extid=3D268d319a7bfd92f4a=
+e01
+compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Deb=
+ian) 2.40
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D1552cce4e8000=
+0
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D1065c954e80000
 
->
-> Regards,
-> Angelo
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/ecc4a2a6bd50/disk-=
+33cc938e.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/1be71f7cd7b2/vmlinux-=
+33cc938e.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/54de78eb11a7/bzI=
+mage-33cc938e.xz
+
+The issue was bisected to:
+
+commit 85e26dd5100a182bf8448050427539c0a66ab793
+Author: Christian K=C3=B6nig <christian.koenig@amd.com>
+Date:   Thu Jan 26 09:24:26 2023 +0000
+
+    drm/client: fix circular reference counting issue
+
+bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D12624b4ae800=
+00
+final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D11624b4ae800=
+00
+console output: https://syzkaller.appspot.com/x/log.txt?x=3D16624b4ae80000
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit=
+:
+Reported-by: syzbot+268d319a7bfd92f4ae01@syzkaller.appspotmail.com
+Fixes: 85e26dd5100a ("drm/client: fix circular reference counting issue")
+
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 5069 at drivers/gpu/drm/drm_prime.c:326 drm_gem_prime_=
+fd_to_handle+0x4be/0x550 drivers/gpu/drm/drm_prime.c:326
+Modules linked in:
+CPU: 1 PID: 5069 Comm: syz-executor183 Not tainted 6.7.0-rc4-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Goo=
+gle 11/10/2023
+RIP: 0010:drm_gem_prime_fd_to_handle+0x4be/0x550 drivers/gpu/drm/drm_prime.=
+c:326
+Code: 00 00 48 89 df e8 72 71 6e ff e9 e9 fd ff ff e8 38 01 94 fc 4c 89 ff =
+41 89 dc e8 5d cd 8e 05 e9 b8 fe ff ff e8 23 01 94 fc 90 <0f> 0b 90 e9 47 f=
+d ff ff e8 85 a7 ea fc e9 16 fc ff ff e8 7b a7 ea
+RSP: 0018:ffffc90003d07c48 EFLAGS: 00010293
+RAX: 0000000000000000 RBX: ffff888146686800 RCX: ffffffff84f3861b
+RDX: ffff88807a279dc0 RSI: ffffffff84f3891d RDI: ffff888146686928
+RBP: ffff88801f379c00 R08: 0000000000000007 R09: fffffffffffff000
+R10: ffff888146686800 R11: 0000000000000001 R12: ffff88801f378800
+R13: ffff888143b66000 R14: ffffc90003d07e10 R15: ffff88801cbd8c10
+FS:  00007f772497c6c0(0000) GS:ffff8880b9900000(0000) knlGS:000000000000000=
+0
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00000000005fdeb8 CR3: 000000007d240000 CR4: 00000000003506f0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ <TASK>
+ drm_prime_fd_to_handle_ioctl+0xcf/0x100 drivers/gpu/drm/drm_prime.c:375
+ drm_ioctl_kernel+0x28c/0x4d0 drivers/gpu/drm/drm_ioctl.c:792
+ drm_ioctl+0x5cb/0xbf0 drivers/gpu/drm/drm_ioctl.c:895
+ vfs_ioctl fs/ioctl.c:51 [inline]
+ __do_sys_ioctl fs/ioctl.c:871 [inline]
+ __se_sys_ioctl fs/ioctl.c:857 [inline]
+ __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:857
+ do_syscall_x64 arch/x86/entry/common.c:51 [inline]
+ do_syscall_64+0x40/0x110 arch/x86/entry/common.c:82
+ entry_SYSCALL_64_after_hwframe+0x63/0x6b
+RIP: 0033:0x7f77249bd1b9
+Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 c1 17 00 00 90 48 89 f8 48 89 f7 =
+48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff f=
+f 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
+RSP: 002b:00007f772497c218 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+RAX: ffffffffffffffda RBX: 00007f7724a45408 RCX: 00007f77249bd1b9
+RDX: 0000000020000180 RSI: 00000000c00c642e RDI: 0000000000000004
+RBP: 00007f7724a45400 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 00007f7724a4540c
+R13: 00007f7724a12018 R14: 0023647261632f69 R15: 6972642f7665642f
+ </TASK>
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+For information about bisection process see: https://goo.gl/tpsmEJ#bisectio=
+n
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want syzbot to run the reproducer, reply with:
+#syz test: git://repo/address.git branch-or-commit-hash
+If you attach or paste a git patch, syzbot will apply it before testing.
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
