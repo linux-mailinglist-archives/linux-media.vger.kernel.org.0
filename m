@@ -1,97 +1,74 @@
-Return-Path: <linux-media+bounces-1932-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1933-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614D6809CA9
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 07:59:18 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD32D809D27
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 08:31:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E53901F212D6
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 06:59:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 32E9DB20A9B
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 07:31:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71389CA4D;
-	Fri,  8 Dec 2023 06:59:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E551101ED;
+	Fri,  8 Dec 2023 07:31:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="bQcBUocD";
-	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="fqFODcOV"
+	dkim=pass (1024-bit key) header.d=nxp.com header.i=@nxp.com header.b="Pwx/QtPT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C459210CF;
-	Thu,  7 Dec 2023 22:59:07 -0800 (PST)
-Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.17.1.19/8.17.1.19) with ESMTP id 3B86sSiX025917;
-	Fri, 8 Dec 2023 06:58:24 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=message-id : date :
- subject : to : cc : references : from : in-reply-to : content-type :
- content-transfer-encoding : mime-version; s=corp-2023-11-20;
- bh=NjQF7MXdZjTExHqp/ZgNnorF+AQNF32ZumzNBeCTWEs=;
- b=bQcBUocDnklVxhNCkrqN2SHx1p0rDgUabRokEgqXwqKojE7Pn1fU8qqArb8lTemaRuxU
- Tow43a9lyym1uIpCk4KJXbQBThkO9TnIG8ZZEDGjFA3F12LM5ONX+MmVG4ydFFuCrkhF
- mMOrr05nqXNpvN+4zhwdLaEJtUwjOPDfsz8byYnx/QX9VMwK5An1U1x9ayfTEiBr4bky
- 5BsOQ7xaD7KufC0OX0R59IUphgB+tj9Xx/t1JOKBvSQ+Ro7YaQVKf+4oud3DJnSy/A7j
- umnHT5J2XuZSCaJtNzPRGw7+k92uPDXz7/Iqe7nJHUQhWJbiUn6uJ5GJCur3+E3MIzfx fw== 
-Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 3utdrvnj2d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 08 Dec 2023 06:58:24 +0000
-Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.17.1.19/8.17.1.19) with ESMTP id 3B84MCuE016851;
-	Fri, 8 Dec 2023 06:58:23 GMT
-Received: from nam02-bn1-obe.outbound.protection.outlook.com (mail-bn1nam02lp2041.outbound.protection.outlook.com [104.47.51.41])
-	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 3utan78uct-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 08 Dec 2023 06:58:23 +0000
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2041.outbound.protection.outlook.com [40.107.20.41])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B52AE1BCA;
+	Thu,  7 Dec 2023 23:31:28 -0800 (PST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=jNUgQRtgqOQ+ypCpJVzN0laeYfCPaN+Hh4n4dOQv6fGWZBDlsYR2UHPAVa/mLHeK1SkxMCpgGjJlwEEpAsQ9VIK6FkGSA5JfhApJ8MdvUMkFwQvUJzD+xr+02iJU05cJZThi6oTl9oQYAdOUF1ipAtVDITAlLmNEZInXsOcCZjrGpQUfcozrWVPq4hzHFEhLPB/XuqO23PTt60t3Gw70txAem44QGUWdVq3to/dA0yvaWkP8jivZF2HGQ0XxvBca8nM+8MJsfRLkjeHXesr765KmsD6IWD3NbB483qUar+wo/LJMsA9swv6ChSKkYZNSxFZ8HfeGVh2VjrD4oH4KPg==
+ b=fEhWvyjPoVj1qwbHSPfdr+wS3nQJuukN7NeLP4xWfKeDWRLRAtGJuXl6yT5uJcINtRH4bijaFtsptCC/tm08SAbnvESnK+F0XZzBNZZkOkXH6VnWRPv/PhfMhp4wviU9NTJpH6rWmz1WkMUOwq0riNy0INzLZHtbYrgwbZDfx7Q+zFW1Bvxl1s3lpfLyLVac6QIQAU9JdOpIHF9WoVQAsV3eEOx1u6j7iAJuloceFs2BLsFmCbpCiunLvRTFQzy+8Yv2uTDZOvVNXFjJ1L6N7RnhJpHLEQ0ZRzyVKLRX2daqt4fFtFGo22UQPCULNoQ4hYnNgWHdQMoMj5NdfKPXHw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=NjQF7MXdZjTExHqp/ZgNnorF+AQNF32ZumzNBeCTWEs=;
- b=jjraEyMjO3kAALARIMIN3XQQGYEECcRGLtA1Yy/B0jqZZjnfiRcPZCO59Ue7u6XqnnDygYfNAChgba/JRswiSnphzaE2QAV/0Xv9EDvxVo3cHBxI18fBnNTS4ae/BKofRdnLqnXZcx4P6aKVFtGPpjLrzfThbMIk07g7+msU26c1SVHehcQywQFGqBAny1tc/W0HcFdANTFXiF7O/E7wfK0Ce+GPz6VP4Kgh6I2P6DRT/8AW6zGG/zcNPneSgZrA0iIzXkxJFqeogDdNXYUCEL2YxkG3niZy+iyDZTeaQyjOtFGRcM+ODZnzkb5tUnGC+B4kkumMEtefOnlZYvo9/Q==
+ bh=lOHHVNN+vRC9ZXQvOH3ZJgA7AhhfrN9rJIIhMiTUaEk=;
+ b=c2ztd18fwYpZkKR7Vfm5sa2HkpVXdGoIz5Fr6n1H5Hlkkk7tl7NakhsUgDnWmlC/FCrKztxwotAoBftm+pYeLKmBwJS9ere9ej6aKeiuxbq7FNJ6NK4RtmsA0TIl/hc3BmnUfo094kfVAT6dLKmM293DwxVCMh4408cn/aAXs8YzU4hIOGudOCIpw+IStl2YxuSMnPHEm3HlD+xLze18VPB4HuGkS5MS+P4KX64jag28nqDVbJtN34kzYIdAb6nTh/nzqStMk7xvv6XjqRs0suuqm6c1vB0YHr2jVMzBRaBirMzyMosc0SwOnGqN1aE4LsYzuyjPdV2tbAw8f202TA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
- dkim=pass header.d=oracle.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=NjQF7MXdZjTExHqp/ZgNnorF+AQNF32ZumzNBeCTWEs=;
- b=fqFODcOVouZCP10FBUsu/tH85ommcoRGsPJ9Za9yyY1qz75ss+jfB0JRkUCyBS5BhqpGRIVUqHaeMurvsF0Y8m+2Y1dNW9S/eO4I3e/+zSpAuxTy1cH43Wmzk9bEpw+lnLdGWfkwXAxfA/clgciRUbUVrREGv55fzVuRgoDzuEI=
-Received: from PH8PR10MB6290.namprd10.prod.outlook.com (2603:10b6:510:1c1::7)
- by PH7PR10MB6986.namprd10.prod.outlook.com (2603:10b6:510:27e::15) with
+ bh=lOHHVNN+vRC9ZXQvOH3ZJgA7AhhfrN9rJIIhMiTUaEk=;
+ b=Pwx/QtPTUsLUmf63Gjn6/qGhMDd8NOIrfnYYG75da+XP06EVS3XwQXrdMIkM5XqxraQhTbxAEive3EGi50Bk9zcp5Ol0hLYpRp70avLgctWoP1TiVqp9HEzOLtB1WpnE0Zpty6PRZx73fGEtMAT29DyTfnrEsE/YSMtc/025fjw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com (2603:10a6:20b:d8::14)
+ by AM7PR04MB7061.eurprd04.prod.outlook.com (2603:10a6:20b:114::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.27; Fri, 8 Dec
- 2023 06:58:11 +0000
-Received: from PH8PR10MB6290.namprd10.prod.outlook.com
- ([fe80::b7a9:b552:a623:84a4]) by PH8PR10MB6290.namprd10.prod.outlook.com
- ([fe80::b7a9:b552:a623:84a4%4]) with mapi id 15.20.7068.028; Fri, 8 Dec 2023
- 06:58:11 +0000
-Message-ID: <5b12e656-65c4-4340-a714-9a4bc2980ebb@oracle.com>
-Date: Fri, 8 Dec 2023 12:27:58 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] drm/crtc: Fix uninit-value bug in drm_mode_setcrtc
-Content-Language: en-US
-To: Ziqi Zhao <astrajoan@yahoo.com>, airlied@gmail.com, daniel@ffwll.ch,
-        dri-devel@lists.freedesktop.org, ivan.orlov0322@gmail.com,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        skhan@linuxfoundation.org, tzimmermann@suse.de
-Cc: syzkaller-bugs@googlegroups.com, linux-kernel@vger.kernel.org,
-        christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
-        glider@google.com,
-        syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
-        Dan Carpenter <dan.carpenter@linaro.org>,
-        Vegard Nossum <vegard.nossum@oracle.com>,
-        Darren Kenny <darren.kenny@oracle.com>
-References: <20230716043411.4950-1-astrajoan@yahoo.com>
- <20230721161446.8602-1-astrajoan@yahoo.com>
-From: Harshit Mogalapalli <harshit.m.mogalapalli@oracle.com>
-In-Reply-To: <20230721161446.8602-1-astrajoan@yahoo.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SI2PR02CA0030.apcprd02.prod.outlook.com
- (2603:1096:4:195::17) To PH8PR10MB6290.namprd10.prod.outlook.com
- (2603:10b6:510:1c1::7)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.28; Fri, 8 Dec
+ 2023 07:31:24 +0000
+Received: from AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::3e09:3606:82b:c7fb]) by AM6PR04MB6341.eurprd04.prod.outlook.com
+ ([fe80::3e09:3606:82b:c7fb%6]) with mapi id 15.20.7068.028; Fri, 8 Dec 2023
+ 07:31:24 +0000
+From: Ming Qian <ming.qian@nxp.com>
+To: mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl
+Cc: xiaolei.wang@windriver.com,
+	shawnguo@kernel.org,
+	robh+dt@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	linux-imx@nxp.com,
+	xiahong.bao@nxp.com,
+	eagle.zhou@nxp.com,
+	tao.jiang_2@nxp.com,
+	ming.qian@oss.nxp.com,
+	linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH] media: amphion: remove mutext lock in condition of wait_event
+Date: Fri,  8 Dec 2023 15:33:42 +0800
+Message-Id: <20231208073342.276143-1-ming.qian@nxp.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0005.apcprd02.prod.outlook.com
+ (2603:1096:4:194::6) To AM6PR04MB6341.eurprd04.prod.outlook.com
+ (2603:10a6:20b:d8::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,240 +76,203 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH8PR10MB6290:EE_|PH7PR10MB6986:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8501ef6e-9d44-47e9-f4ed-08dbf7bb0a50
+X-MS-TrafficTypeDiagnostic: AM6PR04MB6341:EE_|AM7PR04MB7061:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0675a8d2-3cf3-4b78-2764-08dbf7bfae81
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 
-	Kb8NjkNbmVlKGjZetpbwTlZavUy6NY/F0qzUEJjzcnFPFkJSvxMP7mZsKsS6vLvcho5W1fkUVfZXqqlDv9yASbYDOm1NPq3cYDdXCyju+Fregs/AGxKZq2AcR5cPMM2dcAKxdnJNmxl0Qa19xcZfC+civ7Q3iJ/S4Hd4i3YMvNSCHCX56HuGDN7ibzxkHIy+1dCKkXT5P0AIpsZto1aSfDtPjQziQoqKibqM5SoAb/oI+zB8YL+2P8jWrp717vOJtwpkuzbysL1lOhWBD3amr88XuKTYLZ5jD4qQpipO+Kl1jcjhoV0VGNwUlkvHYwyhnEes4Rz9QkKNNsI4q87gO+x9+vNB9ECUJemZId5NuBYIS/mIQt0HcY9guWlSOlaNk+uowN9pyyGKF+uoiHPRfIrCNQPmJGeFgh5YY1vm0fGH+cSEZqbBd1GtPIHC283Ec8WMBkbGBycnx9htlVLfLCsn2C7RvKTQudQRcUz0pPMC5oIIo70uWFe1QAJiAbwD3Is6QWxiiyXZJlb8h7WnOc6PPyljev8Pcqc8joh96n2wbJn8DKtj0aKH9nu+zfnMr7YZOtj28F24zl8bgHh+8aIxkmxSq/gTrJVK+4LZnpuU6ABLDP/29OH/dSjqlkimprDMjMRweshfhWgJbsYTGA==
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR10MB6290.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(39860400002)(136003)(376002)(366004)(396003)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(31686004)(26005)(2616005)(6666004)(6512007)(6506007)(107886003)(38100700002)(86362001)(31696002)(36756003)(66476007)(4326008)(41300700001)(8676002)(8936002)(83380400001)(53546011)(54906003)(5660300002)(7416002)(316002)(66556008)(66946007)(2906002)(478600001)(6486002)(45980500001)(43740500002);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info:
+	ny6FbaM6bScA1NafoGLzCQgUAelJ9IYzg9y7tR9miJp3rMF+kPYldjTeIsstA9x24KhsirFplitdt7tVPTbeMFKziAuW9wglu4bsGdkLk3ZQKr7FjKr57vGMP8FHlTXDM1uoRmrNhybbdmDtaBhoQRvUQfkGa6T2BsfpEoIPZeBmnI03X/gakFMQsl8aL0x2YneUA/rk3FXl5BAG68lfifZYWv/DIgSH7DLN++uZVVXxLrZ4q3S/XnFZqPFxND4rVhPVg+4SE6bUg/gAnm608jOk4wBt9neb647kBdDbd/LTkLDZ+simrh6cW7p17z2dKkhyOlh2lrj96wvJq2A5xsHImatCh+/iZqaRsKeSMAg6BJZwpDB9z7Rdpx0RICJHeTFujBAp/Ef63ymjN1haecijqxEbVelCA6yHjkX9nwUbWH7gRIm2mgI7gOZNsRb3tsmxI3xuzK6JfeTIgTqPs33XkA3AD8MJ/cgeIZKVBB6PC80r8hCP28hxqoUZgUQcvzxM4rgVkFFvqDb7duJ94xxnbnArQOj7ehd2HYg03cRVCUpH0+oRAiR1tEAT7FFBos/DnhBI5QnvznyVq37i6SJ0tN8Ql9pCRbTW6NOWzjVsP68GgsCHrbCKh9/JSs2yx/29trQxuVPR0CQ5NEfk1IS536j3V7FbY1vcN1TysEQ=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6PR04MB6341.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(376002)(346002)(366004)(136003)(396003)(39860400002)(230173577357003)(230273577357003)(230922051799003)(64100799003)(451199024)(186009)(1800799012)(8936002)(1076003)(26005)(83380400001)(2616005)(52116002)(6506007)(6512007)(5660300002)(6666004)(44832011)(41300700001)(4326008)(2906002)(7416002)(6486002)(478600001)(316002)(66946007)(66476007)(66556008)(8676002)(86362001)(36756003)(38100700002)(38350700005);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?UHVpdWlEL1gzaXZVbXFHQ1dsT0VEYi8wdWQrT25iNzBhMnVjTUx2TlBUa0hy?=
- =?utf-8?B?Q0NCZnRNOGdJSGd1MVdrSFpicHJjeWNMQVBlM2dkMktENUJaWUpTVXF4cTNo?=
- =?utf-8?B?T1hZWDRhRFhMem9BZzUxdHhQSGJOQk8wRkNEcWlFRVBZUW9NR1U1YStQQlNX?=
- =?utf-8?B?eFdXa08rWm96d2xzTVRITkc1WDM3bUZyL21ieTFGSHlmWUdJTjg3YTZ1cHFm?=
- =?utf-8?B?aWptWVNkcjZ3SUVJbEZUdWw1NzVzbWx5WW1iTWZPOE5meDhpeWlRM1RuNk00?=
- =?utf-8?B?aHh0MERZSEUvOERzdWpBMkZIZHRnZG5QREdxa0xXK29uL1hzclhYZzVjRm9S?=
- =?utf-8?B?c2dydHl5c2JXT1hiSWgxY0FNSzgxR1VBL21IN0JkWXU5eTE4Wm9GQ3ErRXRx?=
- =?utf-8?B?a05GWjVmVFNQdnNQZ0xiRGRnNWpjODFEbTFiTlk2QzZ2M1B4UlRWK1JUeXBr?=
- =?utf-8?B?NUQ1MjdZSi9LYThMOUNnSkx1SGxsNG9rZExkalZVdktXT2lwcldzaTZBMndj?=
- =?utf-8?B?SmtpTEVsdGpFVzVEdlpJTEV3ak5aQkpoR2hFL0FVMmovVFdISVF0SUxYSExI?=
- =?utf-8?B?ZHVWQURGelVaZklEVHdqZngzWDZwRzNZQmlpRE42dHVDZHRSbmlqaHlPd3Rv?=
- =?utf-8?B?eWFERWYzcVBFL3JCckxTVndNaEFlbDZlWnhURTlPaVJiY05VMG9uQjZ5bncr?=
- =?utf-8?B?V0pvTVJOTmJCeERFL0JBMUh1cTc1WUNDU3JzeDlQMTlxQ2N4cnpZbllxNzNj?=
- =?utf-8?B?T2d5VmZkQXg3c1EwY2t3anQrSUlobmNOcU15cUhMMVBFOGUxeU1SZ0MwcUFF?=
- =?utf-8?B?aEhvSmkwYXFXSWhnaE02cGxUTFZQNHZEaVo5cURWWS93dUMvc1FjQUZXamxW?=
- =?utf-8?B?eXlpWUdmTGJseHZ3SFFRdkt5YTYwY1c0NUsrcnVwWWwwSktVQTl2UkZIZ01H?=
- =?utf-8?B?c0JuQW1Od01OVzNTeThGQWN2a0RLekVRVXE1Tm02elhoUDNpMENNK0dQRUgr?=
- =?utf-8?B?ZnBjTFEzUitWUWY2UUU1Nzl5WUsxbFdzRitINVNVK3JDRXBjZFY1N2Y0Wit6?=
- =?utf-8?B?OWN4NE9ESzFWMXhSUStmLy9FNENtMnY3V1c1Mkg1Qk9SZTdpSCtIQlFoZFpj?=
- =?utf-8?B?U2xoMWg2c2dlT1Y3WitlejZ2R3VHNXlvdzAvaHB6dDZTc1ZBM0lneEtJcnVo?=
- =?utf-8?B?WWFOdU92eCtoVEwvQUx4L04veldZM015MUx0NFlZamV2NXFyREcvbGd3MXlJ?=
- =?utf-8?B?bEhWVEFGWS91ZTNUczY5L25PQ3ZVOUI1aksyNzJhSTFxa0Y0UytubVVMSDYw?=
- =?utf-8?B?SldPbjd3WmFDQzFXL0VxY1djOFpWa2dORXFEeXdtSFFxbUljbVlnY1pHcUs0?=
- =?utf-8?B?UkZhYWU1SVVpYkEwNjVUODFSWnFzalBWM08wSWp3b0wvNTlSY1UvcjFVVjJr?=
- =?utf-8?B?M2hZTFVXenNQNUdqWm1TVHpXMmJ4K1lQdFdkb2NKbllPMTJjcWVhTUsvbzZT?=
- =?utf-8?B?N0wrZi9ZbHppd3lsUURuZUxlTkY2aVptT25tWGJyWnNWTElBN0dwdkpCTUVt?=
- =?utf-8?B?M1ZYdkNtL0xTb3REQ3pKeXJxWVBtRTEyVWNMMXAwSUdwN3dXcXJ6NGp1V2hj?=
- =?utf-8?B?QktKaFdwd1lMQ2IydmlUM0QyT29NZVJsNU9wTWdqV2RIRU4zdnRSZFc3K2Fa?=
- =?utf-8?B?a0pneWtRdHM5SnlhTlBNQXUwTFJzMkM0R3ZCUHIvL1RpS2xJalMvYU41SXhn?=
- =?utf-8?B?aFVzbmx2TVlYY2hNdDhKSXdNZFk2blMzTTZBT3haaWo1bWM4bVljaklSTksx?=
- =?utf-8?B?VE9KaXRFL3J0djVobEJldnpzZ2xVWlA4MGtRaWVUdFRac0l3RnJxRWJlcE5p?=
- =?utf-8?B?M0FzNDlnamF3bjYzZWJQaWM5Vy9WdVhvRmNWZTcyekE4TU1oTHExSE55ejlL?=
- =?utf-8?B?TG1LMjMzcm04QmJ5alRpV0dQSWRSRVNVT1JvRFV2aDB0eCtzRlhsdkp4bmg3?=
- =?utf-8?B?R1YraSswbEhVQUQxcTlRK1lNOU9TMm8zVnpCTFhCSlVWU3F1ODQ5Q1ZMUEJz?=
- =?utf-8?B?MWNDTmJhZTB6Q2tyV3pHeXFOTVlXdVg2VkliUXNyMmc0RmZueHpXbU8xUXEy?=
- =?utf-8?B?dzlsemM4czcvaG5PdlJ5S2JjcnNXRUZxUFpoNWcxS0VkVHVidi9VQkM1cGNx?=
- =?utf-8?Q?ScO2FHDo0+SHnxNgLnZX1dI=3D?=
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	=?utf-8?B?WjBoc0tNWWVjSjRyWCttcmJQWkp2ZVZMQ1dnbzJ2T1hUdVBMSHFuL2ZPV2Jl?=
- =?utf-8?B?RjAyeUNzcDkrSUxncFBmNEFDR0p4KzYrS1NSVXk1UmE3ckZNMDlhQnROU2h2?=
- =?utf-8?B?WTNab1gwckhybXQ0Q2c0dW5FNURCS0F1aEg0ZTRwZmw3RmhUMEN2aExSNXV5?=
- =?utf-8?B?ZnBTR09BZDZEOHRjZXZ2ZGJtVzF1MCtHTEt1QkdhTlBHYUt2cGYzZ0JNNm05?=
- =?utf-8?B?TkZYL1k5N2pjS0lMTmJHWDVEUTFtb0FoOG1tYkYybG8yeWltWlFyc3Bwcm9q?=
- =?utf-8?B?NnZWcFhRd2pId3ErOUZqdVdXZ0NDa2Ztakc1Q29NNkwxSDhGQVBOUmt0RDdJ?=
- =?utf-8?B?TDM3STdYZko3Q3h0b3c1ZlhiVDUrR0JHWE5oWjNQSkU0OUFCdlJoYi9pMlBP?=
- =?utf-8?B?ZXR4ZkdwWGd5N3F5ZFcvR2dZQWdIaEhpRVB2SEJFRlNCY3o0d0V5bVJPY0I1?=
- =?utf-8?B?L0NaSUYxd3NRbm1kVW5nbHBNY0pKZWpnSzZtamh0Y0pmT2FTL09aSElQc3hS?=
- =?utf-8?B?L2daVEVEcE9EcTVVTUJ1MklMQTdBc2dkZlN3cmJISHBTR0I4TXp5M1hGUXdu?=
- =?utf-8?B?ZFkvNUpEZkdNZTYvY0FrK1FZNHRNRExVUERHaTR2TDQ5b0JtWEkxQzVDWGc4?=
- =?utf-8?B?bjJQUEsxQTg0TUNqYkZzclFRRFN5UTcrTDJ5OUMzb2RMWWhDQi9HRENvUnha?=
- =?utf-8?B?K1l4dUpadllnaEZOdmFjb0dvZUU0enpTTFQ1b1lKdlBhOGpJZjBlOVhlNitz?=
- =?utf-8?B?T0RnK3NEbS9kRXdxYVpuNVIvdHNHQyt2bm1CWnNEdFUzemE5ZUkwZjlVYy8y?=
- =?utf-8?B?R1dtQXQ4ZkFuRmEzai9LTnd3U045T3g3LzkxazVEUTFZbEdrTnlKK0NIbHV5?=
- =?utf-8?B?YkJmVWw2OFg0eEEzK0p1UVNyemhYYk91OFk3cmF0RWQyYTBhNmtNUTVhazV4?=
- =?utf-8?B?Rzhyd2FZcHpMUnVEQlppK0VqcWhzMXBwU1pFa3RNcWhZVEYrdmxGWW0rdE1y?=
- =?utf-8?B?cWdOeEF0bnNvZ0RFRXRnWGx4TDJYMjNmcmtFV3RZMWxWNW9hZzZhdlRLMHNp?=
- =?utf-8?B?S2VPYTMrd2FCMTRCcC9QeE9FRzU4NVpmQ2hwYWxtN1NRaHd4TEhEbEFaY1lj?=
- =?utf-8?B?OFNwOFVsSks1cnRBeDZlSmpxMDdaWFVFU3dnait6Wk9HRUMwK0NEcmU2VUVN?=
- =?utf-8?B?QzRjUU9oSkdOT2dtQkpsdTkyaUk0UHkvT01TT0FyTzhHZFlGMFdZWHJiV0F0?=
- =?utf-8?B?T0wzakQwbmRITXMwZXVZTnNKQkYxY2dkNDU2Zll6Q0pidVkyUUxIekpPamJk?=
- =?utf-8?B?aVkwWjQ1bWViRlMwakJyclpQRlpwYy9qWHI2b3AzaVJSYXpZTEF3Nk1lWUdC?=
- =?utf-8?B?d1FSTktEUFBWSDV4TXlIb2dZOU1Zc25GT0dsTjlEaCszbjlEZkFSb2ZqUi9n?=
- =?utf-8?B?a2gzc2RLRWV2bGJaT3Z3VkhMdmFOeVhJNTI1OXcvK05TSktHaWRtNk9CVEJm?=
- =?utf-8?B?dTdJQlkzUGIyOS9mVDE0YTA3WWZ0MXBXRStGNmZ3RDl4cUNUOTN5OWhiNDZZ?=
- =?utf-8?B?V1ZCdnNua3pCbDBOZU81SEh6TXZTK3dSRmRGUkRkRVBSOFJPOHB5RWppQWpV?=
- =?utf-8?B?YU8rSUFsNWtCK0lwZGNJdjMzNUFtc2tFR0licHdVRDE5TXIzcFA1WTlZVG1P?=
- =?utf-8?B?ejRFdGRxTWU3TXppLzZHU0hQUUgxQ0ZmbUU1Z1k3ZHcrZjZYRlBKajFRPT0=?=
-X-OriginatorOrg: oracle.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8501ef6e-9d44-47e9-f4ed-08dbf7bb0a50
-X-MS-Exchange-CrossTenant-AuthSource: PH8PR10MB6290.namprd10.prod.outlook.com
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?2DbMIqTmuBZkwZ0ijGyiu85EzpQ7q05nna/n8ximafDt9u+09CUKdFz9Ty3I?=
+ =?us-ascii?Q?KCibNKS3zlP5qbXU4U+r7wtbk63jgzgzBIGyEihGvPWwxunEBOP+brh9F4IZ?=
+ =?us-ascii?Q?jaEMh67gpwLDS8vIYHSvFVSmht7EU1anSevEtX+BfuKkZi7xTYDcLv+4kjdu?=
+ =?us-ascii?Q?4mTfZzDgcyt7rkAqbZaToq+NSzveEnuhOkgjBmt3rs42+QY5djU9rv0pO1m1?=
+ =?us-ascii?Q?ap01M9vwS5yLTmZpXzHBpKx2uL/mv3rbRCePJ7kKNyJcQ+x4iPNFnDS6Ngco?=
+ =?us-ascii?Q?DMwKWxGCxzgjI6xFqLVIyZzyZRXm9mj4HZ3x6U+UJO8CYPyOiefAJcJIXRIo?=
+ =?us-ascii?Q?bhygUOQxCqbBB66B/WT/CpVL9aPYNQoaHnDvJ40JnRVvxmjd0/yH0gqqlnw1?=
+ =?us-ascii?Q?TMe5xwjzrfOjDax1yV2W8WPZC5HgeuxabhCsEvYxQ7mwszeUWV9GtyVNcQmL?=
+ =?us-ascii?Q?6n94BVEIZzqOIlUXKCCa6ubDWrt/iJ42xT6aTyGV3/a+lA8ZQcXqwOJi+gEs?=
+ =?us-ascii?Q?ps6lTFwgodI60KmDEVCYLFKguDafNj+PKovl8xmv4S1Pe3FRukT1d73zQMGb?=
+ =?us-ascii?Q?x887ZPvp7/06OctZu21HM5BMWXorsmHDg6UND2oy1Pt4ykdJYTG7dQxu2GFA?=
+ =?us-ascii?Q?Ztx+VJJNLepaP9RqtYsIn7k8YzZ8znDXPKAKR3hLkZyUbOUth+g76os5ZP4H?=
+ =?us-ascii?Q?GzGi2wW02JHEgw61EaJcSoXqDFvcv+RlXW4XC9LQxNgOyyrzLQLJzOPtZPo/?=
+ =?us-ascii?Q?JxIU/9aYWJmxAWWOyrC5xg1DzxZVwbIWozbZbKlDMcvwKNjrtw0PblwSGWqU?=
+ =?us-ascii?Q?6ml61iljWsZwuTI3FuUVpQNIkq5m2lSl48wzTSuFnr/WA3/m2eBU64zdcaH+?=
+ =?us-ascii?Q?sEyE8d7ORaCZWIQd//7XWPluc2PdO6o+ASznbJeF+xj2k5RFlD6rjNAakAxf?=
+ =?us-ascii?Q?7BTquqxPSDqO5AeK0izzRPGmSsUJ2O5ZUZQZOgADajt6RAgpVTnWtiXA92Zi?=
+ =?us-ascii?Q?9bh0z1czb5X3HJ8YTxiFAErowxwgjB8wbx2qW9qFUX+iGTRocV6lfiRziy7G?=
+ =?us-ascii?Q?faiw+RXd9I674eWMcnyBPuAo3zJjM+z0Zx9q06NRpWjgzyZChMjk8povQhrT?=
+ =?us-ascii?Q?vfcg2FJK+HybrXt3rrKtFWM/1KfMY+DJN76Oz2KfetCk053lLTMaiKeRAk1p?=
+ =?us-ascii?Q?jrDeiSj8DUbJq2sLiJtKW6fqeLDZW3NGpCxgueMm8cDgjwOKyYXiVIFgueQt?=
+ =?us-ascii?Q?3buoafBPPhqjpTUBIRLt4wLDFHX8yA97anjU7vi7dgMgsKS0glw8Qh1fzjc9?=
+ =?us-ascii?Q?xXgGL9oVuwME4y/Uk7R0C1Jgh3N23PIdiO9a6K2+jYAwKINat3W4e7YxtA2E?=
+ =?us-ascii?Q?01Mzk+mBWpxFDLB5f7ywnPHzuyS9Tb+emUBVU4UyHnYQvgiHvNbD1f89EpJx?=
+ =?us-ascii?Q?taAqSjMDop5Jr2qZ0H5Z0LanwCvaWJSVs6lyimr9Y++80UnatHzoOExRqha2?=
+ =?us-ascii?Q?661tFmvw7bv9nYdP9D6gKyp1D2lKritx9qW6MJV6ZqbfXbzj863OsMZdX/LP?=
+ =?us-ascii?Q?J3oNB+8QjFuVcsNCb1WlpOZwaR8dVRrpzG4eep/0?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0675a8d2-3cf3-4b78-2764-08dbf7bfae81
+X-MS-Exchange-CrossTenant-AuthSource: AM6PR04MB6341.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2023 06:58:11.0314
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2023 07:31:24.6386
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: PYEV0b4fDQmk9fqtwTZ2hkYe5Q18v2CjfvcuDDycOiViUUteMPDHTf5MwFhss98TchdsQt+8Qv/hKOuEXKbI8DnTsmkoR51GZV5V0Iqnd3FFXxEgA8vwbJHnx4btt4cl
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR10MB6986
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-08_02,2023-12-07_01,2023-05-22_02
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0 phishscore=0
- bulkscore=0 adultscore=0 mlxscore=0 mlxlogscore=999 suspectscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2311290000
- definitions=main-2312080055
-X-Proofpoint-GUID: bVGtuSk-hFcrU1MBYjupcVVD03tx_gfR
-X-Proofpoint-ORIG-GUID: bVGtuSk-hFcrU1MBYjupcVVD03tx_gfR
+X-MS-Exchange-CrossTenant-UserPrincipalName: PY3fjltHnP+o2rHDQfJTmfyX8jCwreFjUuSLUxhAT+yxP/X+fVeu8dSzcEdVkThwK1mGnkVAeDPyovRW83OsAg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR04MB7061
 
-Hello,
+mutext_lock should not be called in condition of wait_event, otherwise,
+when CONFIG_DEBUG_ATOMIC_SLEEP is enabled, we may meet the following
+warning:
+do not call blocking ops when !TASK_RUNNING; state=2
+WARNING: CPU: 5 PID: 741 at kernel/sched/core.c:9859
+__might_sleep+0x80/0xa4
+Hardware name: Freescale i.MX8QM MEK (DT)
+pstate: 60000005 (nZCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)  pc :
+__might_sleep+0x80/0xa4  lr : __might_sleep+0x80/0xa4  sp : ffffffc0123738a0
+x29: ffffffc0123738a0 x28: ffffffc009194c48 x27: ffffffc00bbc1050
+x26: ffffff8814b282f0 x25: ffffff8814b280d0 x24: ffffff8814b28080
+x23: 0000000000000001 x22: 0000000000000032 x21: ffffffc00bbc1000
+x20: 000000000000011b x19: ffffffc009324670 x18: 00000000fffffffd
+x17: 30303c5b20746120 x16: 74657320323d6574 x15: 617473203b474e49
+x14: 00058b5b8b9aa1f1 x13: ffffffc00903cda0 x12: 00000000d744fcc9
+x11: 000000000000001c x10: 00000000000009a0 x9 : ffffffc0090201f4
+x8 : ffffff8828245000 x7 : 0000000000000001 x6 : 0000000000000001
+x5 : 00000000410fd080 x4 : 0000000000000002 x3 : ffffff8815aab4c8
+x2 : 0000000000000000 x1 : 0000000000000000 x0 : ffffff8828244600
+Call trace:
+ __might_sleep+0x80/0xa4
+ mutex_lock+0x2c/0x80
+ sync_session_response+0x110/0x310
+ vpu_session_send_cmd+0x18c/0x244
+ vpu_session_start+0x38/0x70
+ vdec_start_session+0x1b4/0x3e0
+ vpu_vb2_start_streaming+0xa0/0x1c4
+ vb2_start_streaming+0x74/0x160
+ vb2_core_qbuf+0x488/0x650
+ vb2_qbuf+0x9c/0x100
+ v4l2_m2m_qbuf+0x7c/0x224
+ v4l2_m2m_ioctl_qbuf+0x20/0x2c
+ v4l_qbuf+0x50/0x6c
+ __video_do_ioctl+0x174/0x3f0
+ video_usercopy+0x210/0x7cc
+ video_ioctl2+0x20/0x30
+ v4l2_ioctl+0x48/0x6c
 
-On 21/07/23 9:44 pm, Ziqi Zhao wrote:
-> The connector_set contains uninitialized values when allocated with
-> kmalloc_array. However, in the "out" branch, the logic assumes that any
-> element in connector_set would be equal to NULL if failed to
-> initialize, which causes the bug reported by Syzbot. The fix is to use
-> an extra variable to keep track of how many connectors are initialized
-> indeed, and use that variable to decrease any refcounts in the "out"
-> branch.
-> 
+we need to refine check_is_responsed() to remove the mutext_lock, each
+cmd has a monotonically increasing id, and cmds are executed
+sequentially, so we can check the id of the last reponsed cmd, then
+determine whether a command has been responded or not.
 
-This bug is reproducible on 6.7-rc3 on KASAN enabled kernel as wild 
-memory access.
+Signed-off-by: Ming Qian <ming.qian@nxp.com>
+CC: Xiaolei Wang <xiaolei.wang@windriver.com>
+---
+ drivers/media/platform/amphion/vpu.h      |  3 ++-
+ drivers/media/platform/amphion/vpu_cmds.c | 28 ++++++++---------------
+ drivers/media/platform/amphion/vpu_v4l2.c |  1 +
+ 3 files changed, 12 insertions(+), 20 deletions(-)
 
-[  424.699429] general protection fault, probably for non-canonical 
-address 0xfbf7c8b63d84d2a6: 0000 [#1] PREEMPT SMP KASAN PTI
-[  424.727952] KASAN: maybe wild-memory-access in range 
-[0xdfbe65b1ec269530-0xdfbe65b1ec269537]
-[  424.743794] CPU: 3 PID: 9040 Comm: r Not tainted 6.7.0-rc3+ #1
-[  424.758855] Hardware name: QEMU Standard PC (i440FX + PIIX, 1996), 
-BIOS 1.11.0-2.el7 04/01/2014
-[  424.774845] RIP: 0010:drm_mode_object_put+0x27/0x50
-[  424.782854] Code: 90 90 90 f3 0f 1e fa 0f 1f 44 00 00 55 48 89 fd e8 
-ae 92 0b fd 48 8d 7d 18 48 b8 00 00 00 00 00 fc ff df 48 89 fa 48 c1 ea 
-03 <80> 3c 02 00 75 1a 48 83 7d 18 00 74 0d e8 87 92 0b fd 48 89 ef e8
-[  424.816805] RSP: 0018:ffff8881199b7ad0 EFLAGS: 00010a06
-[  424.830847] RAX: dffffc0000000000 RBX: ffffed1023336fc3 RCX: 
-0000000000000000
-[  424.844180] RDX: 1bf7ccb63d84d2a6 RSI: 0000000000000000 RDI: 
-dfbe65b1ec269530
-[  424.854860] RBP: dfbe65b1ec269518 R08: 0000000000000000 R09: 
-0000000000000000
-[  424.870833] R10: 0000000000000000 R11: 0000000000000000 R12: 
-dfbe65b1ec2694d8
-[  424.886846] R13: dffffc0000000000 R14: ffff8881060731c0 R15: 
-0000000000000001
-[  424.901889] FS:  00007fecfc1ec740(0000) GS:ffff8881f3f80000(0000) 
-knlGS:0000000000000000
-[  424.910833] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[  424.918929] CR2: 0000000000000000 CR3: 0000000117e7c000 CR4: 
-00000000000006f0
-[  424.936058] Call Trace:
-[  424.936058]  <TASK>
-[  424.936058]  ? show_regs+0x9b/0xb0
-[  424.950853]  ? die_addr+0x55/0xe0
-[  424.950853]  ? exc_general_protection+0x1a4/0x320
-[  424.965905]  ? asm_exc_general_protection+0x26/0x30
-[  424.974878]  ? drm_mode_object_put+0x27/0x50
-[  424.982866]  drm_mode_setcrtc+0x7ec/0x1630
-[  424.990875]  ? __pfx_drm_mode_setcrtc+0x10/0x10
-[  424.998877]  ? ww_mutex_lock+0x9a/0x1c0
-[  425.006852]  ? __pfx_ww_mutex_lock+0x10/0x10
-[  425.014875]  ? __drm_dev_dbg+0xbd/0x1a0
-[  425.014875]  ? __pfx___drm_dev_dbg+0x10/0x10
-[  425.030321]  ? drm_lease_owner+0x44/0x60
-[  425.030981]  drm_ioctl_kernel+0x2a0/0x500
-[  425.040058]  ? __pfx_drm_mode_setcrtc+0x10/0x10
-[  425.048128]  ? __pfx_drm_ioctl_kernel+0x10/0x10
-[  425.055809]  drm_ioctl+0x58a/0xb60
-[  425.062876]  ? __pfx_drm_mode_setcrtc+0x10/0x10
-[  425.070875]  ? __pfx_drm_ioctl+0x10/0x10
-[  425.078875]  ? __pfx_do_sys_openat2+0x10/0x10
-[  425.086875]  ? selinux_file_ioctl+0x184/0x270
-[  425.099093]  ? selinux_file_ioctl+0xba/0x270
-[  425.102865]  ? __pfx_drm_ioctl+0x10/0x10
-[  425.111092]  __x64_sys_ioctl+0x1b1/0x220
-[  425.119055]  do_syscall_64+0x45/0x100
-[  425.127106]  entry_SYSCALL_64_after_hwframe+0x6e/0x76
-[  425.135102] RIP: 0033:0x7fecfb6f8289
-
-
-After applying this patch, the bug is not reproducible.
-
-
-Thanks,
-Harshit
-
-
-
-
-> Reported-by: syzbot+4fad2e57beb6397ab2fc@syzkaller.appspotmail.com
-> Signed-off-by: Ziqi Zhao <astrajoan@yahoo.com>
-> ---
->   drivers/gpu/drm/drm_crtc.c | 9 +++++----
->   1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_crtc.c b/drivers/gpu/drm/drm_crtc.c
-> index df9bf3c9206e..d718c17ab1e9 100644
-> --- a/drivers/gpu/drm/drm_crtc.c
-> +++ b/drivers/gpu/drm/drm_crtc.c
-> @@ -715,8 +715,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
->   	struct drm_mode_set set;
->   	uint32_t __user *set_connectors_ptr;
->   	struct drm_modeset_acquire_ctx ctx;
-> -	int ret;
-> -	int i;
-> +	int ret, i, num_connectors;
->   
->   	if (!drm_core_check_feature(dev, DRIVER_MODESET))
->   		return -EOPNOTSUPP;
-> @@ -851,6 +850,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
->   			goto out;
->   		}
->   
-> +		num_connectors = 0;
->   		for (i = 0; i < crtc_req->count_connectors; i++) {
->   			connector_set[i] = NULL;
->   			set_connectors_ptr = (uint32_t __user *)(unsigned long)crtc_req->set_connectors_ptr;
-> @@ -871,6 +871,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
->   					connector->name);
->   
->   			connector_set[i] = connector;
-> +			num_connectors++;
->   		}
->   	}
->   
-> @@ -879,7 +880,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
->   	set.y = crtc_req->y;
->   	set.mode = mode;
->   	set.connectors = connector_set;
-> -	set.num_connectors = crtc_req->count_connectors;
-> +	set.num_connectors = num_connectors;
->   	set.fb = fb;
->   
->   	if (drm_drv_uses_atomic_modeset(dev))
-> @@ -892,7 +893,7 @@ int drm_mode_setcrtc(struct drm_device *dev, void *data,
->   		drm_framebuffer_put(fb);
->   
->   	if (connector_set) {
-> -		for (i = 0; i < crtc_req->count_connectors; i++) {
-> +		for (i = 0; i < num_connectors; i++) {
->   			if (connector_set[i])
->   				drm_connector_put(connector_set[i]);
->   		}
+diff --git a/drivers/media/platform/amphion/vpu.h b/drivers/media/platform/amphion/vpu.h
+index 5a701f64289e..0246cf0ac3a8 100644
+--- a/drivers/media/platform/amphion/vpu.h
++++ b/drivers/media/platform/amphion/vpu.h
+@@ -154,7 +154,6 @@ struct vpu_core {
+ 	struct vpu_mbox tx_type;
+ 	struct vpu_mbox tx_data;
+ 	struct vpu_mbox rx;
+-	unsigned long cmd_seq;
+ 
+ 	wait_queue_head_t ack_wq;
+ 	struct completion cmp;
+@@ -253,6 +252,8 @@ struct vpu_inst {
+ 
+ 	struct list_head cmd_q;
+ 	void *pending;
++	unsigned long cmd_seq;
++	atomic_long_t last_response_cmd;
+ 
+ 	struct vpu_inst_ops *ops;
+ 	const struct vpu_format *formats;
+diff --git a/drivers/media/platform/amphion/vpu_cmds.c b/drivers/media/platform/amphion/vpu_cmds.c
+index c2337812573e..5695f5c1cb3e 100644
+--- a/drivers/media/platform/amphion/vpu_cmds.c
++++ b/drivers/media/platform/amphion/vpu_cmds.c
+@@ -32,6 +32,7 @@ struct vpu_cmd_t {
+ 	struct vpu_cmd_request *request;
+ 	struct vpu_rpc_event *pkt;
+ 	unsigned long key;
++	atomic_long_t *last_response_cmd;
+ };
+ 
+ static struct vpu_cmd_request vpu_cmd_requests[] = {
+@@ -115,6 +116,8 @@ static void vpu_free_cmd(struct vpu_cmd_t *cmd)
+ {
+ 	if (!cmd)
+ 		return;
++	if (cmd->last_response_cmd)
++		atomic_long_set(cmd->last_response_cmd, cmd->key);
+ 	vfree(cmd->pkt);
+ 	vfree(cmd);
+ }
+@@ -172,7 +175,8 @@ static int vpu_request_cmd(struct vpu_inst *inst, u32 id, void *data,
+ 		return -ENOMEM;
+ 
+ 	mutex_lock(&core->cmd_lock);
+-	cmd->key = core->cmd_seq++;
++	cmd->key = ++inst->cmd_seq;
++	cmd->last_response_cmd = &inst->last_response_cmd;
+ 	if (key)
+ 		*key = cmd->key;
+ 	if (sync)
+@@ -246,26 +250,12 @@ void vpu_clear_request(struct vpu_inst *inst)
+ 
+ static bool check_is_responsed(struct vpu_inst *inst, unsigned long key)
+ {
+-	struct vpu_core *core = inst->core;
+-	struct vpu_cmd_t *cmd;
+-	bool flag = true;
++	unsigned long last_response = atomic_long_read(&inst->last_response_cmd);
+ 
+-	mutex_lock(&core->cmd_lock);
+-	cmd = inst->pending;
+-	if (cmd && key == cmd->key) {
+-		flag = false;
+-		goto exit;
+-	}
+-	list_for_each_entry(cmd, &inst->cmd_q, list) {
+-		if (key == cmd->key) {
+-			flag = false;
+-			break;
+-		}
+-	}
+-exit:
+-	mutex_unlock(&core->cmd_lock);
++	if (key <= last_response && (last_response - key) < (ULONG_MAX >> 1))
++		return true;
+ 
+-	return flag;
++	return false;
+ }
+ 
+ static int sync_session_response(struct vpu_inst *inst, unsigned long key, long timeout, int try)
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index 0f6e4c666440..d7e0de49b3dc 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -716,6 +716,7 @@ int vpu_v4l2_open(struct file *file, struct vpu_inst *inst)
+ 		func = &vpu->decoder;
+ 
+ 	atomic_set(&inst->ref_count, 0);
++	atomic_long_set(&inst->last_response_cmd, 0);
+ 	vpu_inst_get(inst);
+ 	inst->vpu = vpu;
+ 	inst->core = vpu_request_core(vpu, inst->type);
+-- 
+2.43.0-rc1
 
 
