@@ -1,184 +1,168 @@
-Return-Path: <linux-media+bounces-1991-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1992-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4B280A808
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 17:01:01 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C2480A819
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 17:03:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8E94F1C208DB
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:01:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28EE52817C3
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:03:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 785C434CEC;
-	Fri,  8 Dec 2023 16:00:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39DDD3714F;
+	Fri,  8 Dec 2023 16:03:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="QF6fMyyd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="d9A6iOXr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2044E1738
-	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 08:00:51 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E71DBEBA;
-	Fri,  8 Dec 2023 17:00:06 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702051207;
-	bh=gOoKG8+/P5DAQ84Ncv/QEJSAONpFgg1xuZJlBqSBbtw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=QF6fMyydsnG1RV4L/dz3TIJOsM4ZZp3bVO0qYLtI9WjYwWf3kb++oH6TTNqYETBz8
-	 nEJRyZdoCEpZYW92k2URguPfqPEzXtMmhSuiEUastwvDLf/r+Ki9n5wT/khVfiO9hS
-	 2Yvezbx1k0h3bHV3Lsi8qdoeTVMdsnyqRjGrxOmE=
-Date: Fri, 8 Dec 2023 18:00:55 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Yunke Cao <yunkec@google.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v14 11/11] media: uvcvideo: document UVC v1.5 ROI
-Message-ID: <20231208160055.GL25616@pendragon.ideasonboard.com>
-References: <20231201071907.3080126-1-yunkec@google.com>
- <20231201071907.3080126-12-yunkec@google.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.43])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FEF9172A;
+	Fri,  8 Dec 2023 08:03:06 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702051386; x=1733587386;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C19RbT0mHCppC4S0KT3rye9ymMmBfM2p8ZzqvKfQjpY=;
+  b=d9A6iOXrIzHMGNXJxAqm3QbNwomTO2hXjiso+3/EEoGm3wcyPVRz/MFg
+   /BSiluV4IVbujQ/4dqiT0AhdJ2/kXxR/Jw0KQ6ofGSSDOVqsQOZBDYsQV
+   s+ZEhfpRD38+ZRGFebrPVkUbdllNNRujHNZuiGHgmQ+NFXtofF1USPkHE
+   Maw5Yu4PRo8Pk2UBl/AZa4uWA+7gJSHm5V4OrRXnprjNO2TIbTMtjlYuV
+   bnHQ7kEdwiuAyv/0zcbJxPvZm0UAuObERaqSusvJTIP7Qm+LvgDOeZv4J
+   XS2kyd96EOsUxmAxASGmWWACyB+LMNKqmzpdSVW5ffR6JwcS2Turnz01D
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="480618620"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="480618620"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 08:03:05 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="890167082"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="890167082"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 08 Dec 2023 08:02:59 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBdJZ-000Dx2-0n;
+	Fri, 08 Dec 2023 16:02:57 +0000
+Date: Sat, 9 Dec 2023 00:02:21 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mina Almasry <almasrymina@google.com>,
+	Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	bpf@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org
+Cc: oe-kbuild-all@lists.linux.dev, Mina Almasry <almasrymina@google.com>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>, Jonathan Corbet <corbet@lwn.net>,
+	David Ahern <dsahern@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Eric Dumazet <edumazet@google.com>,
+	Shakeel Butt <shakeelb@google.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Shuah Khan <skhan@linuxfoundation.org>
+Subject: Re: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
+Message-ID: <202312082305.DMh51QVo-lkp@intel.com>
+References: <20231208005250.2910004-7-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231201071907.3080126-12-yunkec@google.com>
+In-Reply-To: <20231208005250.2910004-7-almasrymina@google.com>
 
-Hi Yunke,
+Hi Mina,
 
-Thank you for the patch.
+kernel test robot noticed the following build warnings:
 
-On Fri, Dec 01, 2023 at 04:19:02PM +0900, Yunke Cao wrote:
-> Added documentation of V4L2_CID_UVC_REGION_OF_INTEREST_RECT and
-> V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
+[auto build test WARNING on net-next/main]
 
-It would be useful to point here to the userspace code that uses those
-controls. A link to the appropriate Chrome OS git tree would be useful,
-to showcase a real user.
+url:    https://github.com/intel-lab-lkp/linux/commits/Mina-Almasry/net-page_pool-factor-out-releasing-DMA-from-releasing-the-page/20231208-085531
+base:   net-next/main
+patch link:    https://lore.kernel.org/r/20231208005250.2910004-7-almasrymina%40google.com
+patch subject: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
+config: i386-randconfig-141-20231208 (https://download.01.org/0day-ci/archive/20231208/202312082305.DMh51QVo-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231208/202312082305.DMh51QVo-lkp@intel.com/reproduce)
 
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> Signed-off-by: Yunke Cao <yunkec@google.com>
-> ---
-> Changelog since v11:
-> - No change.
-> Changelog since v10:
-> - Added Reviewed-by from Sergey.
-> Changelog since v9:
-> - No change.
-> Changelog since v8:
-> - No change.
-> Changelog since v7:
-> - Fix documentation for automatic exposure based on comment in v7.
-> 
->  .../userspace-api/media/drivers/uvcvideo.rst  | 62 +++++++++++++++++++
->  1 file changed, 62 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> index aab4304e6bb5..3dc062221f8b 100644
-> --- a/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> +++ b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> @@ -181,6 +181,7 @@ Argument: struct uvc_xu_control_mapping
->  	UVC_CTRL_DATA_TYPE_BOOLEAN	Boolean
->  	UVC_CTRL_DATA_TYPE_ENUM		Enumeration
->  	UVC_CTRL_DATA_TYPE_BITMASK	Bitmask
-> +	UVC_CTRL_DATA_TYPE_RECT		Rectangular area
->  
->  
->  UVCIOC_CTRL_QUERY - Query a UVC XU control
-> @@ -255,3 +256,64 @@ Argument: struct uvc_xu_control_query
->  	__u8	query		Request code to send to the device
->  	__u16	size		Control data size (in bytes)
->  	__u8	*data		Control value
-> +
-> +
-> +Driver-specific V4L2 controls
-> +-----------------------------
-> +
-> +The uvcvideo driver implements the following UVC-specific controls:
-> +
-> +``V4L2_CID_UVC_REGION_OF_INTEREST_RECT (struct)``
-> +	This control determines the region of interest (ROI). ROI is a
-> +	rectangular area represented by a struct :c:type:`v4l2_rect`. The
-> +	rectangle is in global sensor coordinates and pixel units. It is
-> +	independent of the field of view, not impacted by any cropping or
-> +	scaling.
-> +
-> +	Use ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` to query
-> +	the range of rectangle sizes. The left/top coordinates of a minimum or
-> +	maximum rectangle are always 0. For example, a device can have a minimum
-> +	ROI rectangle of 1x1@0x0 and a maximum of 640x480@0x0.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312082305.DMh51QVo-lkp@intel.com/
 
-Is that actually true ? The UVC 1.5 specification states
+All warnings (new ones prefixed by >>):
 
-    GET_MAX shall return the current Window as specified by
-    CT_DIGITAL_WINDOW_CONTROL.
+>> net/core/dev.c:2072:5: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+                     size, avail))
+                     ^~~~
+   include/asm-generic/bug.h:134:29: note: expanded from macro 'WARN'
+                   __WARN_printf(TAINT_WARN, format);                      \
+                                             ^~~~~~
+   include/asm-generic/bug.h:106:17: note: expanded from macro '__WARN_printf'
+                   __warn_printk(arg);                                     \
+                                 ^~~
+   net/core/dev.c:2072:11: warning: format specifies type 'unsigned long' but the argument has type 'size_t' (aka 'unsigned int') [-Wformat]
+                     size, avail))
+                           ^~~~~
+   include/asm-generic/bug.h:134:29: note: expanded from macro 'WARN'
+                   __WARN_printf(TAINT_WARN, format);                      \
+                                             ^~~~~~
+   include/asm-generic/bug.h:106:17: note: expanded from macro '__WARN_printf'
+                   __warn_printk(arg);                                     \
+                                 ^~~
+   net/core/dev.c:4356:1: warning: unused function 'sch_handle_ingress' [-Wunused-function]
+   sch_handle_ingress(struct sk_buff *skb, struct packet_type **pt_prev, int *ret,
+   ^
+   net/core/dev.c:4363:1: warning: unused function 'sch_handle_egress' [-Wunused-function]
+   sch_handle_egress(struct sk_buff *skb, int *ret, struct net_device *dev)
+   ^
+   net/core/dev.c:5573:19: warning: unused function 'nf_ingress' [-Wunused-function]
+   static inline int nf_ingress(struct sk_buff *skb, struct packet_type **pt_prev,
+                     ^
+   5 warnings generated.
 
-And the window can have non-zero left and right coordinates.
 
-> +
-> +	Setting a ROI allows the camera to optimize the capture for the region.
-> +	The value of ``V4L2_CID_REGION_OF_INTEREST_AUTO`` control determines
-> +	the detailed behavior.
-> +
-> +
-> +``V4L2_CID_UVC_REGION_OF_INTEREST_AUTO (bitmask)``
-> +	This determines which, if any, on board features should track to the
+vim +2072 net/core/dev.c
 
-s/on board/on-board/
-
-> +	Region of Interest specified by the current value of
-> +	``V4L2_CID_UVD__REGION_OF_INTEREST_RECT``.
-> +
-> +	Max value is a mask indicating all supported Auto Controls.
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_EXPOSURE``
-> +      - Setting this to true causes automatic exposure to track the region of
-
-Maybe "Setting this bit causes..." as those values are bit flags, not
-booleans. Same below.
-
-> +	interest instead of the whole image.
-> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_IRIS``
-> +      - Setting this to true causes automatic iris to track the region of
-> +	interest instead of the whole image.
-> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_WHITE_BALANCE``
-> +      - Setting this to true causes automatic white balance to track the region
-> +	of interest instead of the whole image.
-> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_FOCUS``
-> +      - Setting this to true causes automatic focus adjustment to track the
-> +	region of interest instead of the whole image.
-> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_FACE_DETECT``
-> +      - Setting this to true causes automatic face detection to track the
-> +	region of interest instead of the whole image.
-> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK``
-> +      - Setting this to true enables automatic face detection and tracking. The
-> +	current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
-> +	the driver.
-> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION``
-> +      - Setting this to true enables automatic image stabilization. The
-> +	current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
-> +	the driver.
-> +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY``
-> +      - Setting this to true enables automatically capture the specified region
-
-I wonder what this means, the UVC 1.5 specification doesn't document
-this bit clearly :-(
-
-> +	with higher quality if possible.
+  2060	
+  2061	void __netdev_dmabuf_binding_free(struct netdev_dmabuf_binding *binding)
+  2062	{
+  2063		size_t size, avail;
+  2064	
+  2065		gen_pool_for_each_chunk(binding->chunk_pool,
+  2066					netdev_dmabuf_free_chunk_owner, NULL);
+  2067	
+  2068		size = gen_pool_size(binding->chunk_pool);
+  2069		avail = gen_pool_avail(binding->chunk_pool);
+  2070	
+  2071		if (!WARN(size != avail, "can't destroy genpool. size=%lu, avail=%lu",
+> 2072			  size, avail))
+  2073			gen_pool_destroy(binding->chunk_pool);
+  2074	
+  2075		dma_buf_unmap_attachment(binding->attachment, binding->sgt,
+  2076					 DMA_BIDIRECTIONAL);
+  2077		dma_buf_detach(binding->dmabuf, binding->attachment);
+  2078		dma_buf_put(binding->dmabuf);
+  2079		xa_destroy(&binding->bound_rxq_list);
+  2080		kfree(binding);
+  2081	}
+  2082	
 
 -- 
-Regards,
-
-Laurent Pinchart
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
