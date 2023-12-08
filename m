@@ -1,179 +1,114 @@
-Return-Path: <linux-media+bounces-1930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1931-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98F96809BEB
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 06:49:41 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 57A95809C92
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 07:47:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4C6AC282011
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 05:49:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E852CB20E5E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 06:47:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE3B36D1B;
-	Fri,  8 Dec 2023 05:49:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A96C6D38;
+	Fri,  8 Dec 2023 06:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QHJcxllf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f197.google.com (mail-oi1-f197.google.com [209.85.167.197])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BAADA171D
-	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 21:49:30 -0800 (PST)
-Received: by mail-oi1-f197.google.com with SMTP id 5614622812f47-3b9eeb0e179so2368b6e.3
-        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 21:49:30 -0800 (PST)
+Received: from mail-ej1-x62d.google.com (mail-ej1-x62d.google.com [IPv6:2a00:1450:4864:20::62d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94A621723
+	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 22:47:03 -0800 (PST)
+Received: by mail-ej1-x62d.google.com with SMTP id a640c23a62f3a-a1ec87a7631so148424166b.0
+        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 22:47:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1702018021; x=1702622821; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=bhp7niZixNUyC1WRXnTrthFp9hlVK/ThVcRbBT5lIeU=;
+        b=QHJcxllfTYTQmxmNsYx257FwhE0aDgnY8DoRrvd0WLTBfZd4IXPyhvtePaHYNfm6bT
+         L9upz9rE1hToGNqNPLof97nLqw2x8+5q8DgZsUFJKZUQvPUHKxkBIN9zUmGgYInGQBWF
+         OUu7ZMi07/J3YiD960ugramtjQWc/vkyO5xnk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702014570; x=1702619370;
-        h=content-transfer-encoding:to:from:subject:message-id:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=EBETvfzqD613YhTilF3AjV0DFOJ1h9L9RHJVTqPEc4I=;
-        b=NFEEMEGv1hauVlGEQZXFKP7/NwpbE1N5covc1vKyZ5h3JlG5yighFfS/TZOxo1lVII
-         08F8rOWSI4+0N2OevDlqxszaMeVxvXbeBRSdo5riNBArM7UmCYs4LBq/XxiCuu/1qHrs
-         tYzEF8IY+tkpRLAPhuyLdUMmHadAnB41pNFZv/C0RTS1OL7QGpPm88xS/GcTJxGICFye
-         qmSRh/0uBN9Qg1KKukoh4eYw0cO//TyPPyXbLfjAUWNP4d5b+QNddWMmviX5hfunUhsC
-         omyIEtvspUFT77/Mc/eaxWDHvDZNVCXCDEYbl4wByuqadj1dr6/TaBHFbViwm3De6BYD
-         Ob/w==
-X-Gm-Message-State: AOJu0YzSQ86XtNVUeP6e8qqy1PAFAgiz2N3b2adM1zeL6xm0WavlbetP
-	D4lZa+tL4iznwXpHZc7wRgSR55RLNBe1fVYVMgIqut3Mo/5Q
-X-Google-Smtp-Source: AGHT+IGTXQuNC7u7vqdQYM+6O11D5RpwL6kUUVMO4/Cp2Zrs3PRDYQt67c7BML2ZNrm8Ywr/ErSf0Z3/6BFiJxf71Ij3tT3TspNB
+        d=1e100.net; s=20230601; t=1702018021; x=1702622821;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=bhp7niZixNUyC1WRXnTrthFp9hlVK/ThVcRbBT5lIeU=;
+        b=hIaDQkaTjYIOig3fsqkXbK9fglei5Aur8K96yUVVfI69MZR7r+76n/1RYyRZhTGEtw
+         qyseiplm5raixECgPViM/bskq7guVrwXuX2krV8gzD3h9nZZWnUGwxQst5QKMLF8sOJ2
+         zUGgCXsBXPdDUJ3bS0G3ZtkFJoDjXuKvkkrFD1dM8AakNIzN7yoaTapfYKNRDLRMzYP8
+         09au4fHLufEPjFx1Vg/MOIh78KpQwxeBf3l6CaWcTpJCk98ajFVc/sionkCYCJ74APVV
+         7GnV8u0BERgDRCH4GGeBnsYI96t9QfTpbmTtduYn4HxpJTOVeXpwXnFzhvvmi6VGlY/J
+         jkhw==
+X-Gm-Message-State: AOJu0YyRS5gebaN25V8FR7L7jj6wR0CI5LhFbbEAL2pBVHdcAF01jRC9
+	cOvfSmn6q2vHOjgsWRMUOv14ZtkSC2G/EbXv+1o=
+X-Google-Smtp-Source: AGHT+IFuVP+JquKsbtHCbU/0DJWmzEsx1a7bUbG3ZtyTm5NggCiilqOxLewTAc16JEypP3STNhmhpg==
+X-Received: by 2002:a17:906:2cb:b0:a16:3da0:dd36 with SMTP id 11-20020a17090602cb00b00a163da0dd36mr2496831ejk.48.1702018020921;
+        Thu, 07 Dec 2023 22:47:00 -0800 (PST)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com. [209.85.128.54])
+        by smtp.gmail.com with ESMTPSA id rg9-20020a1709076b8900b00a1db175d37csm627809ejc.177.2023.12.07.22.46.59
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 07 Dec 2023 22:47:00 -0800 (PST)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-40c2db0ca48so25825e9.1
+        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 22:46:59 -0800 (PST)
+X-Received: by 2002:a05:600c:3b20:b0:40c:1e46:508e with SMTP id
+ m32-20020a05600c3b2000b0040c1e46508emr27895wms.0.1702018019494; Thu, 07 Dec
+ 2023 22:46:59 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1481:b0:3b9:e51b:d2b5 with SMTP id
- e1-20020a056808148100b003b9e51bd2b5mr1503281oiw.11.1702014570091; Thu, 07 Dec
- 2023 21:49:30 -0800 (PST)
-Date: Thu, 07 Dec 2023 21:49:30 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000da5a60060bf925f0@google.com>
-Subject: [syzbot] [dri?] WARNING in drm_gem_prime_fd_to_handle
-From: syzbot <syzbot+268d319a7bfd92f4ae01@syzkaller.appspotmail.com>
-To: airlied@gmail.com, christian.koenig@amd.com, daniel@ffwll.ch, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org, 
-	sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com, tzimmermann@suse.de
+From: Alexandre Courbot <acourbot@chromium.org>
+Date: Fri, 8 Dec 2023 15:46:47 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MUB9GTEOCCkvVK9+ukjuYr9x6X8Kv-XSHT1tNd_=ZCCfA@mail.gmail.com>
+Message-ID: <CAPBb6MUB9GTEOCCkvVK9+ukjuYr9x6X8Kv-XSHT1tNd_=ZCCfA@mail.gmail.com>
+Subject: [FYI] virtio-media published
+To: virtio-dev@lists.oasis-open.org, Keiichi Watanabe <keiichiw@chromium.org>, 
+	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>, 
+	Enrico Granata <egranata@google.com>, Gustavo Padovan <gustavo.padovan@collabora.com>, 
+	Peter Griffin <peter.griffin@linaro.org>, Hans Verkuil <hverkuil@xs4all.nl>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Albert Esteve <aesteve@redhat.com>, 
+	Enric Balletbo i Serra <eballetb@redhat.com>, Daniel Almeida <daniel.almeida@collabora.com>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Spam-Level: **
 
-Hello,
+Hello everyone,
 
-syzbot found the following issue on:
+This is just a heads-up to announce the initial publication of virtio-media:
 
-HEAD commit:    33cc938e65a9 Linux 6.7-rc4
-git tree:       upstream
-console+strace: https://syzkaller.appspot.com/x/log.txt?x=3D1348e51ce80000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=3Db50bd31249191be=
-8
-dashboard link: https://syzkaller.appspot.com/bug?extid=3D268d319a7bfd92f4a=
-e01
-compiler:       gcc (Debian 12.2.0-14) 12.2.0, GNU ld (GNU Binutils for Deb=
-ian) 2.40
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=3D1552cce4e8000=
-0
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=3D1065c954e80000
+https://github.com/Gnurou/virtio-media
 
-Downloadable assets:
-disk image: https://storage.googleapis.com/syzbot-assets/ecc4a2a6bd50/disk-=
-33cc938e.raw.xz
-vmlinux: https://storage.googleapis.com/syzbot-assets/1be71f7cd7b2/vmlinux-=
-33cc938e.xz
-kernel image: https://storage.googleapis.com/syzbot-assets/54de78eb11a7/bzI=
-mage-33cc938e.xz
+The name has changed slightly, but this project is essentially the
+refinement and continuation of my virtio-v4l2 proposal. The reason for
+moving forward with this is, to be candid, the unclear direction and
+lack of progress regarding the future of virtio-video, and the
+non-consensual way in which its development has been, let's say
+"redirected".
 
-The issue was bisected to:
+The repo above contains the specification in the README file
+(presented in a more informal way than the virtio specification), as
+well as a guest V4L2 driver able to pass v4l2-compliance when proxying
+the vivid/vicodec virtual devices or an actual UVC camera using the
+crosvm V4L2 proxy device [1]. As of now it is basically
+feature-complete and offers everything that virtio-video is supposed
+to eventually do. I am considering adding support for multiple devices
+and requests to allow more complex camera setups.
 
-commit 85e26dd5100a182bf8448050427539c0a66ab793
-Author: Christian K=C3=B6nig <christian.koenig@amd.com>
-Date:   Thu Jan 26 09:24:26 2023 +0000
+Since the initial proposal has been rejected I have no intent to push
+this forward for merging in the virtio specification, so this will
+live out of the official spec. However, it is likely that we will soon
+switch to this solution for video support in ChromeOS and possibly
+other Google projects with a similar need for a stable virtualization
+solution for media devices.
 
-    drm/client: fix circular reference counting issue
+Anyone who is interested in using this for their project, or with
+specific requests, is welcome to contact me or open issues on the
+Github project.
 
-bisection log:  https://syzkaller.appspot.com/x/bisect.txt?x=3D12624b4ae800=
-00
-final oops:     https://syzkaller.appspot.com/x/report.txt?x=3D11624b4ae800=
-00
-console output: https://syzkaller.appspot.com/x/log.txt?x=3D16624b4ae80000
+Cheers,
+Alex.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit=
-:
-Reported-by: syzbot+268d319a7bfd92f4ae01@syzkaller.appspotmail.com
-Fixes: 85e26dd5100a ("drm/client: fix circular reference counting issue")
-
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 5069 at drivers/gpu/drm/drm_prime.c:326 drm_gem_prime_=
-fd_to_handle+0x4be/0x550 drivers/gpu/drm/drm_prime.c:326
-Modules linked in:
-CPU: 1 PID: 5069 Comm: syz-executor183 Not tainted 6.7.0-rc4-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Goo=
-gle 11/10/2023
-RIP: 0010:drm_gem_prime_fd_to_handle+0x4be/0x550 drivers/gpu/drm/drm_prime.=
-c:326
-Code: 00 00 48 89 df e8 72 71 6e ff e9 e9 fd ff ff e8 38 01 94 fc 4c 89 ff =
-41 89 dc e8 5d cd 8e 05 e9 b8 fe ff ff e8 23 01 94 fc 90 <0f> 0b 90 e9 47 f=
-d ff ff e8 85 a7 ea fc e9 16 fc ff ff e8 7b a7 ea
-RSP: 0018:ffffc90003d07c48 EFLAGS: 00010293
-RAX: 0000000000000000 RBX: ffff888146686800 RCX: ffffffff84f3861b
-RDX: ffff88807a279dc0 RSI: ffffffff84f3891d RDI: ffff888146686928
-RBP: ffff88801f379c00 R08: 0000000000000007 R09: fffffffffffff000
-R10: ffff888146686800 R11: 0000000000000001 R12: ffff88801f378800
-R13: ffff888143b66000 R14: ffffc90003d07e10 R15: ffff88801cbd8c10
-FS:  00007f772497c6c0(0000) GS:ffff8880b9900000(0000) knlGS:000000000000000=
-0
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00000000005fdeb8 CR3: 000000007d240000 CR4: 00000000003506f0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- <TASK>
- drm_prime_fd_to_handle_ioctl+0xcf/0x100 drivers/gpu/drm/drm_prime.c:375
- drm_ioctl_kernel+0x28c/0x4d0 drivers/gpu/drm/drm_ioctl.c:792
- drm_ioctl+0x5cb/0xbf0 drivers/gpu/drm/drm_ioctl.c:895
- vfs_ioctl fs/ioctl.c:51 [inline]
- __do_sys_ioctl fs/ioctl.c:871 [inline]
- __se_sys_ioctl fs/ioctl.c:857 [inline]
- __x64_sys_ioctl+0x18f/0x210 fs/ioctl.c:857
- do_syscall_x64 arch/x86/entry/common.c:51 [inline]
- do_syscall_64+0x40/0x110 arch/x86/entry/common.c:82
- entry_SYSCALL_64_after_hwframe+0x63/0x6b
-RIP: 0033:0x7f77249bd1b9
-Code: 28 00 00 00 75 05 48 83 c4 28 c3 e8 c1 17 00 00 90 48 89 f8 48 89 f7 =
-48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff f=
-f 73 01 c3 48 c7 c1 b0 ff ff ff f7 d8 64 89 01 48
-RSP: 002b:00007f772497c218 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-RAX: ffffffffffffffda RBX: 00007f7724a45408 RCX: 00007f77249bd1b9
-RDX: 0000000020000180 RSI: 00000000c00c642e RDI: 0000000000000004
-RBP: 00007f7724a45400 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 00007f7724a4540c
-R13: 00007f7724a12018 R14: 0023647261632f69 R15: 6972642f7665642f
- </TASK>
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
-For information about bisection process see: https://goo.gl/tpsmEJ#bisectio=
-n
-
-If the report is already addressed, let syzbot know by replying with:
-#syz fix: exact-commit-title
-
-If you want syzbot to run the reproducer, reply with:
-#syz test: git://repo/address.git branch-or-commit-hash
-If you attach or paste a git patch, syzbot will apply it before testing.
-
-If you want to overwrite report's subsystems, reply with:
-#syz set subsystems: new-subsystem
-(See the list of subsystem names on the web dashboard)
-
-If the report is a duplicate of another one, reply with:
-#syz dup: exact-subject-of-another-report
-
-If you want to undo deduplication, reply with:
-#syz undup
+[1] https://chromium-review.googlesource.com/c/crosvm/crosvm/+/5065329
 
