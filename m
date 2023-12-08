@@ -1,264 +1,99 @@
-Return-Path: <linux-media+bounces-1984-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1985-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 061AA80A74C
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:26:26 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 734BE80A76C
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:30:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0F9028159C
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:26:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E9141F2139A
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:30:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2AFDB30340;
-	Fri,  8 Dec 2023 15:26:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="H+KptyXU"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FAFF31583;
+	Fri,  8 Dec 2023 15:30:04 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 12182FB
-	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 07:26:15 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 951E1512;
-	Fri,  8 Dec 2023 16:25:31 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702049131;
-	bh=3rBadglg6jke8KYa4FSssJ8I2QNcKrXEQM8ydeIikXE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=H+KptyXUV4JeSvRK4/MsJkGEL7px5JAW/gqhisgYJdihielJRRfY2TQ5pKCweECkH
-	 gvNjpYTHj7+DlGFDjhuxtQEVlRoXQxdU4IsywRJODX0YoWdUZDoTVvHFE9xa4MxGsz
-	 H825hqopI40tv9Hg6mtlc41wv7go7eS0gTtXwXaQ=
-Date: Fri, 8 Dec 2023 17:26:20 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Yunke Cao <yunkec@google.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v14 08/11] media: uvcvideo: support
- V4L2_CTRL_WHICH_MIN/MAX_VAL
-Message-ID: <20231208152620.GI25616@pendragon.ideasonboard.com>
-References: <20231201071907.3080126-1-yunkec@google.com>
- <20231201071907.3080126-9-yunkec@google.com>
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2904010EB;
+	Fri,  8 Dec 2023 07:30:00 -0800 (PST)
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6d9e0f0cba9so958093a34.1;
+        Fri, 08 Dec 2023 07:30:00 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702049399; x=1702654199;
+        h=date:subject:message-id:references:in-reply-to:cc:to:from
+         :mime-version:content-transfer-encoding:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OogF34khlLnZV8L6Y2PLhfIGtr27dXzcAj4zxw0jNhs=;
+        b=voSFnySl8NRDaAmVPK25KHXxPJCHxtmTAwWzdQY1VeHCHJ4J0IqtZ+LGzMo16N3YBC
+         eyJHpEhzeUhgnWHMc9jjkdk7OUAAfk2ENJP2+Jp/s2p3zVi3B6l39QY7X9TdugyPAtb7
+         +CbYitHj5z9UiKbR5CR7qu6roElD/AAe2hbUCXhXFULIMF0Hs4IxWREFqV3QQfiPerPz
+         PiNWDJkok/t0chXq0kmaexMlgBNGoh4YpYBloE/a3Y6fzZi4pgUjWi9tf+bf3DwSuNqd
+         7/QOoCDBKKxiPmtuMADEQsxHw3FgeT+M8oxSahxbNq0ZYCbSbxUHLLgnMe+GrCxGjjxA
+         BQuQ==
+X-Gm-Message-State: AOJu0Yzl1ixjdpGz7e7mZ4MrPa+lKbHno0MIvL/Mo/+Eg9RPMxOOjSfi
+	kkAMmEnhesZnsVspmJbK80xqIYJJCQ==
+X-Google-Smtp-Source: AGHT+IHlU+zhymvBCO7GYBa4opGg5l2gkBYu9nFQXgSbEwJrxGRifoqiHIMty7njHi2XOSBmfTVfEg==
+X-Received: by 2002:a9d:7359:0:b0:6d9:f27c:f540 with SMTP id l25-20020a9d7359000000b006d9f27cf540mr195407otk.63.1702049399339;
+        Fri, 08 Dec 2023 07:29:59 -0800 (PST)
+Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
+        by smtp.gmail.com with ESMTPSA id o8-20020a9d6d08000000b006d8017dcda9sm325779otp.75.2023.12.08.07.29.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Dec 2023 07:29:58 -0800 (PST)
+Received: (nullmailer pid 1382035 invoked by uid 1000);
+	Fri, 08 Dec 2023 15:29:57 -0000
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231201071907.3080126-9-yunkec@google.com>
+From: Rob Herring <robh@kernel.org>
+To: Julien Massot <julien.massot@collabora.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, kernel@collabora.com
+In-Reply-To: <20231208143359.469049-2-julien.massot@collabora.com>
+References: <20231208143359.469049-1-julien.massot@collabora.com>
+ <20231208143359.469049-2-julien.massot@collabora.com>
+Message-Id: <170204939708.1381969.6269812995556290381.robh@kernel.org>
+Subject: Re: [PATCH v2 1/4] dt-bindings: media: add Maxim MAX96714F GMSL2
+ Deserializer
+Date: Fri, 08 Dec 2023 09:29:57 -0600
 
-Hi Yunke,
 
-Thank you for the patch.
-
-On Fri, Dec 01, 2023 at 04:18:59PM +0900, Yunke Cao wrote:
-> Add support for V4L2_CTRL_WHICH_MIN/MAX_VAL in uvc driver.
-> It is useful for the V4L2_CID_UVC_REGION_OF_INTEREST_RECT control.
+On Fri, 08 Dec 2023 15:33:56 +0100, Julien Massot wrote:
+> Add DT bindings for Maxim MAX96714F GMSL2 Deserializer.
 > 
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> Signed-off-by: Yunke Cao <yunkec@google.com>
+> Signed-off-by: Julien Massot <julien.massot@collabora.com>
 > ---
-> Changelog since v11:
-> - No change.
-> Changelog since v10:
-> - Added Reviewed-by from Sergey.
-> Changelog since v9:
-> - Revert a change in v7 that causes v4l2-compliance failure:
-> - In uvc_ioctl_g_ext_ctrls(), when v4l2_which is not V4L2_CTRL_WHICH_*_VAL,
-> - treat it the same as cur instead of returning EINVAL. This is the existing
-> - behavior.
-> - The change in v7 of returning EINVAL fails the check in
-> - v4l2-compliance/v4l2-test-controls.cpp#L834.
-> Changelog since v8:
-> - No change.
-> Changelog since v7:
-> - Address some comments.
+>  .../bindings/media/i2c/maxim,max96714f.yaml   | 163 ++++++++++++++++++
+>  1 file changed, 163 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96714f.yaml
 > 
->  drivers/media/usb/uvc/uvc_ctrl.c | 64 +++++++++++++++++++++++++++-----
->  drivers/media/usb/uvc/uvc_v4l2.c |  7 +++-
->  drivers/media/usb/uvc/uvcvideo.h |  3 +-
->  3 files changed, 61 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index aae2480496b7..c073c2a02102 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1247,11 +1247,18 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
->  	if (!ctrl)
->  		return -EINVAL;
->  
-> -	if (!(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) && read)
-> -		return -EACCES;
-> -
-> -	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR) && !read)
-> -		return -EACCES;
-> +	if (read) {
-> +		if (ctrls->which == V4L2_CTRL_WHICH_MIN_VAL ||
-> +		    ctrls->which == V4L2_CTRL_WHICH_MAX_VAL) {
-> +			if (!(ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN) ||
-> +			    !(ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX))
-> +				return -EINVAL;
 
-Shouldn't this be
+My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
+on your patch (DT_CHECKER_FLAGS is new in v5.13):
 
-		if (ctrls->which == V4L2_CTRL_WHICH_MIN_VAL &&
-		    !(ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN))
-			return -EINVAL;
+yamllint warnings/errors:
 
-		if (ctrls->which == V4L2_CTRL_WHICH_MAX_VAL &&
-		    !(ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX))
-			return -EINVAL;
+dtschema/dtc warnings/errors:
+Documentation/devicetree/bindings/media/i2c/maxim,max96714f.example.dtb: /example-0/main_i2c2/gmsl-deserializer@28/i2c-gate/gmsl-serializer@40: failed to match any schema with compatible: ['maxim,max96717f']
 
-> +		} else if (!(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
-> +			return -EACCES;
+doc reference errors (make refcheckdocs):
 
-		if (ctrls->which == V4L2_CTRL_WHICH_CUR_VAL &&
-		    !(ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
-			return -EACCES;
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231208143359.469049-2-julien.massot@collabora.com
 
-> +	} else {
-> +		if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
-> +			return -EACCES;
-> +	}
->  
->  	if (ioctl != VIDIOC_S_EXT_CTRLS || !mapping->master_id)
->  		return 0;
-> @@ -1332,6 +1339,9 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->  		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_WRITE_ONLY;
->  	if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR))
->  		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +	if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX) &&
-> +	    (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN))
-> +		v4l2_ctrl->flags |= V4L2_CTRL_FLAG_HAS_WHICH_MIN_MAX;
->  
->  	if (mapping->master_id)
->  		__uvc_find_control(ctrl->entity, mapping->master_id,
-> @@ -1981,6 +1991,7 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
->  static int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
->  				       struct uvc_control *ctrl,
->  				       struct uvc_control_mapping *mapping,
-> +				       u32 v4l2_which,
->  				       struct v4l2_ext_control *xctrl)
->  {
->  	struct v4l2_queryctrl qc = { .id = xctrl->id };
-> @@ -1990,28 +2001,59 @@ static int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
->  	if (ret < 0)
->  		return ret;
->  
-> -	xctrl->value = qc.default_value;
-> +	switch (v4l2_which) {
-> +	case V4L2_CTRL_WHICH_DEF_VAL:
-> +		xctrl->value = qc.default_value;
-> +		break;
-> +	case V4L2_CTRL_WHICH_MIN_VAL:
-> +		xctrl->value = qc.minimum;
-> +		break;
-> +	case V4L2_CTRL_WHICH_MAX_VAL:
-> +		xctrl->value = qc.maximum;
-> +		break;
-> +	}
-> +
->  	return 0;
->  }
->  
->  static int __uvc_ctrl_get_boundary_compound(struct uvc_video_chain *chain,
->  					    struct uvc_control *ctrl,
->  					    struct uvc_control_mapping *mapping,
-> +					    u32 v4l2_which,
->  					    struct v4l2_ext_control *xctrl)
->  {
-> +	u32 flag, id;
->  	int ret;
->  
-> +	switch (v4l2_which) {
-> +	case V4L2_CTRL_WHICH_DEF_VAL:
-> +		flag = UVC_CTRL_FLAG_GET_DEF;
-> +		id = UVC_CTRL_DATA_DEF;
-> +		break;
-> +	case V4L2_CTRL_WHICH_MIN_VAL:
-> +		flag = UVC_CTRL_FLAG_GET_MIN;
-> +		id = UVC_CTRL_DATA_MIN;
-> +		break;
-> +	case V4L2_CTRL_WHICH_MAX_VAL:
-> +		flag = UVC_CTRL_FLAG_GET_MAX;
-> +		id = UVC_CTRL_DATA_MAX;
-> +		break;
-> +	}
-> +
-> +	if (!(ctrl->info.flags & flag) && flag != UVC_CTRL_FLAG_GET_DEF)
-> +		return -EINVAL;
-> +
->  	if (!ctrl->cached) {
->  		ret = uvc_ctrl_populate_cache(chain, ctrl);
->  		if (ret < 0)
->  			return ret;
->  	}
->  
-> -	return __uvc_ctrl_get_compound(mapping, ctrl, UVC_CTRL_DATA_DEF, xctrl);
-> +	return __uvc_ctrl_get_compound(mapping, ctrl, id, xctrl);
->  }
->  
->  int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
-> -			  struct v4l2_ext_control *xctrl)
-> +			  struct v4l2_ext_control *xctrl, u32 v4l2_which)
->  {
->  	struct uvc_control *ctrl;
->  	struct uvc_control_mapping *mapping;
-> @@ -2028,9 +2070,11 @@ int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
->  
->  	if (uvc_ctrl_mapping_is_compound(mapping))
->  		ret = __uvc_ctrl_get_boundary_compound(chain, ctrl, mapping,
-> -						       xctrl);
-> +						       v4l2_which, xctrl);
->  	else
-> -		ret = __uvc_ctrl_get_boundary_std(chain, ctrl, mapping, xctrl);
-> +		ret = __uvc_ctrl_get_boundary_std(chain, ctrl, mapping,
-> +						  v4l2_which, xctrl);
-> +
->  
->  done:
->  	mutex_unlock(&chain->ctrl_mutex);
-> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-> index ff72caf7bc9e..352f62ef02f2 100644
-> --- a/drivers/media/usb/uvc/uvc_v4l2.c
-> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
-> @@ -1094,9 +1094,12 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
->  	if (ret < 0)
->  		return ret;
->  
-> -	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL) {
-> +	switch (ctrls->which) {
-> +	case V4L2_CTRL_WHICH_DEF_VAL:
-> +	case V4L2_CTRL_WHICH_MIN_VAL:
-> +	case V4L2_CTRL_WHICH_MAX_VAL:
->  		for (i = 0; i < ctrls->count; ++ctrl, ++i) {
-> -			ret = uvc_ctrl_get_boundary(chain, ctrl);
-> +			ret = uvc_ctrl_get_boundary(chain, ctrl, ctrls->which);
->  			if (ret < 0) {
->  				ctrls->error_idx = i;
->  				return ret;
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 11805b729c22..6fda40919e7f 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -790,7 +790,8 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
->  
->  int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
->  int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
-> -			  struct v4l2_ext_control *xctrl);
-> +			  struct v4l2_ext_control *xctrl,
-> +			  u32 v4l2_which);
->  int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
->  int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
->  			   const struct v4l2_ext_controls *ctrls,
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
--- 
-Regards,
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-Laurent Pinchart
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
