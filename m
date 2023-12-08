@@ -1,45 +1,45 @@
-Return-Path: <linux-media+bounces-1985-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1986-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734BE80A76C
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:30:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1510E80A76E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:30:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1E9141F2139A
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:30:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B4B9F1F2142A
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:30:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FAFF31583;
-	Fri,  8 Dec 2023 15:30:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05EA331A8B;
+	Fri,  8 Dec 2023 15:30:08 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2904010EB;
-	Fri,  8 Dec 2023 07:30:00 -0800 (PST)
-Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-6d9e0f0cba9so958093a34.1;
-        Fri, 08 Dec 2023 07:30:00 -0800 (PST)
+Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F66210F9;
+	Fri,  8 Dec 2023 07:30:03 -0800 (PST)
+Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-59093f6c94aso228813eaf.0;
+        Fri, 08 Dec 2023 07:30:03 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702049399; x=1702654199;
+        d=1e100.net; s=20230601; t=1702049403; x=1702654203;
         h=date:subject:message-id:references:in-reply-to:cc:to:from
          :mime-version:content-transfer-encoding:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=OogF34khlLnZV8L6Y2PLhfIGtr27dXzcAj4zxw0jNhs=;
-        b=voSFnySl8NRDaAmVPK25KHXxPJCHxtmTAwWzdQY1VeHCHJ4J0IqtZ+LGzMo16N3YBC
-         eyJHpEhzeUhgnWHMc9jjkdk7OUAAfk2ENJP2+Jp/s2p3zVi3B6l39QY7X9TdugyPAtb7
-         +CbYitHj5z9UiKbR5CR7qu6roElD/AAe2hbUCXhXFULIMF0Hs4IxWREFqV3QQfiPerPz
-         PiNWDJkok/t0chXq0kmaexMlgBNGoh4YpYBloE/a3Y6fzZi4pgUjWi9tf+bf3DwSuNqd
-         7/QOoCDBKKxiPmtuMADEQsxHw3FgeT+M8oxSahxbNq0ZYCbSbxUHLLgnMe+GrCxGjjxA
-         BQuQ==
-X-Gm-Message-State: AOJu0Yzl1ixjdpGz7e7mZ4MrPa+lKbHno0MIvL/Mo/+Eg9RPMxOOjSfi
-	kkAMmEnhesZnsVspmJbK80xqIYJJCQ==
-X-Google-Smtp-Source: AGHT+IHlU+zhymvBCO7GYBa4opGg5l2gkBYu9nFQXgSbEwJrxGRifoqiHIMty7njHi2XOSBmfTVfEg==
-X-Received: by 2002:a9d:7359:0:b0:6d9:f27c:f540 with SMTP id l25-20020a9d7359000000b006d9f27cf540mr195407otk.63.1702049399339;
-        Fri, 08 Dec 2023 07:29:59 -0800 (PST)
+        bh=1qWUtRlRgWAGpwyicQtlpc3A9ZxmD2xdBC2WwR+TAd8=;
+        b=Aj2B6j41lKZpWppUOI+yVlscBGWmfKpizbwXg+N25s4AYOaYPQ8AasoK+HhgZMkcCe
+         wMkjn5DnP5cbPNRf6TTNeL1PY993ae+u7GUY07td482ie7CXq8fVuBpePrzVtwnhbjrL
+         XzwnI3x1pYnt5OlgN7NAOWz5XBlGxy+ojzTg0uuKaM2Bfd8AFZeoe2zeTaW1Hm18lTYt
+         X5BKQha8PXtCCjxwEGAf6WtZgvrhTInRvJCpA2eVaA4XlBSM7dpLDx4YlrOROIpbPtQQ
+         o2gHXSLUCqeLeBcl6fAajVyBmUXDH+y44B79nP9JzeabihDPH8LN3WNr9a89EvNZ9+kn
+         CVLA==
+X-Gm-Message-State: AOJu0Yz3+IFQFj7ghX+noaZNY6EUPRBQB7iosxpzmn7HV3qZLyGZ1PKS
+	ndHden1UZXANFjag/Qf+XA==
+X-Google-Smtp-Source: AGHT+IGcubsNbEux5qoTIjzJHasyn0SN0y3Zf1CAg/j2i3QWSYSA0ZXIOiE20uCOeizDRfsN8hbTww==
+X-Received: by 2002:a4a:5143:0:b0:58d:8f17:6606 with SMTP id s64-20020a4a5143000000b0058d8f176606mr118049ooa.4.1702049402248;
+        Fri, 08 Dec 2023 07:30:02 -0800 (PST)
 Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id o8-20020a9d6d08000000b006d8017dcda9sm325779otp.75.2023.12.08.07.29.58
+        by smtp.gmail.com with ESMTPSA id x8-20020a4a6208000000b0057b6ac3922esm332866ooc.18.2023.12.08.07.29.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 07:29:58 -0800 (PST)
-Received: (nullmailer pid 1382035 invoked by uid 1000);
+        Fri, 08 Dec 2023 07:30:00 -0800 (PST)
+Received: (nullmailer pid 1382038 invoked by uid 1000);
 	Fri, 08 Dec 2023 15:29:57 -0000
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
@@ -51,24 +51,24 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 From: Rob Herring <robh@kernel.org>
 To: Julien Massot <julien.massot@collabora.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, kernel@collabora.com
-In-Reply-To: <20231208143359.469049-2-julien.massot@collabora.com>
+Cc: kernel@collabora.com, devicetree@vger.kernel.org, linux-media@vger.kernel.org
+In-Reply-To: <20231208143359.469049-3-julien.massot@collabora.com>
 References: <20231208143359.469049-1-julien.massot@collabora.com>
- <20231208143359.469049-2-julien.massot@collabora.com>
-Message-Id: <170204939708.1381969.6269812995556290381.robh@kernel.org>
-Subject: Re: [PATCH v2 1/4] dt-bindings: media: add Maxim MAX96714F GMSL2
- Deserializer
+ <20231208143359.469049-3-julien.massot@collabora.com>
+Message-Id: <170204939775.1382016.1723055237849206834.robh@kernel.org>
+Subject: Re: [PATCH v2 2/4] dt-bindings: media: add Maxim MAX96717F GMSL2
+ Serializer
 Date: Fri, 08 Dec 2023 09:29:57 -0600
 
 
-On Fri, 08 Dec 2023 15:33:56 +0100, Julien Massot wrote:
-> Add DT bindings for Maxim MAX96714F GMSL2 Deserializer.
+On Fri, 08 Dec 2023 15:33:57 +0100, Julien Massot wrote:
+> Add DT bindings for Maxim MAX96717F GMSL2 Serializer.
 > 
 > Signed-off-by: Julien Massot <julien.massot@collabora.com>
 > ---
->  .../bindings/media/i2c/maxim,max96714f.yaml   | 163 ++++++++++++++++++
->  1 file changed, 163 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96714f.yaml
+>  .../bindings/media/i2c/maxim,max96717f.yaml   | 144 ++++++++++++++++++
+>  1 file changed, 144 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96717f.yaml
 > 
 
 My bot found errors running 'make DT_CHECKER_FLAGS=-m dt_binding_check'
@@ -77,11 +77,12 @@ on your patch (DT_CHECKER_FLAGS is new in v5.13):
 yamllint warnings/errors:
 
 dtschema/dtc warnings/errors:
-Documentation/devicetree/bindings/media/i2c/maxim,max96714f.example.dtb: /example-0/main_i2c2/gmsl-deserializer@28/i2c-gate/gmsl-serializer@40: failed to match any schema with compatible: ['maxim,max96717f']
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/media/i2c/maxim,max96717f.example.dtb: vd5661@10: port:endpoint:data-lanes:0: [1, 2] is too short
+	from schema $id: http://devicetree.org/schemas/media/i2c/st,st-vgxy61.yaml#
 
 doc reference errors (make refcheckdocs):
 
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231208143359.469049-2-julien.massot@collabora.com
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20231208143359.469049-3-julien.massot@collabora.com
 
 The base for the series is generally the latest rc1. A different dependency
 should be noted in *this* patch.
