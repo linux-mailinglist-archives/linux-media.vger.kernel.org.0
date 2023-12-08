@@ -1,92 +1,150 @@
-Return-Path: <linux-media+bounces-2007-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2008-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8D5C80AB78
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 18:58:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A70580AB9E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 19:07:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A373A281882
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 17:58:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32F6328188E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 18:07:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F5D841C9E;
-	Fri,  8 Dec 2023 17:57:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8887846B99;
+	Fri,  8 Dec 2023 18:07:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IrhW+No2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YdRQYyHI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4392539AF3;
-	Fri,  8 Dec 2023 17:57:49 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D37FC433C8;
-	Fri,  8 Dec 2023 17:57:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702058269;
-	bh=MZC8OXd/xhYpQFY9QXSMpIHOKQcKILf1nuFEeLx1Z1k=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=IrhW+No2LIvscdmhlUWqrjJiqbzeddYeZMlOvgrxLv9Pp/gv65XNGK+d/kQvyt9F8
-	 eWeHCO3AAqSqLgKmc7Ik62hbdVifPyu/Z9BpeaTSYwEumWm4CM5RdsEVq3wTqAc8Yt
-	 0Mtxfy6ckCdT2CkRx53DyJYDR5tIlMzrGiRqLFkqVd6vRp5p0uaNNgnc/icx60AhME
-	 T4jAdjX/YdISDa0zROBRF880qcvvvYg4KCcH3HTEvBilmN+djnGudGA6yjwLQu61zC
-	 QQA9Js/3CQoJWElJJO/mXVHwonG1Z2FbVz8Cwm/aqWQC4pxhlM1WCn1Hu4n/x0J3l+
-	 Hql17ZKbnZbkA==
-Message-ID: <3fea9ae9-e9e6-4ba5-812b-2775a6ed9e6a@kernel.org>
-Date: Fri, 8 Dec 2023 10:57:47 -0700
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.88])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1DF11198D;
+	Fri,  8 Dec 2023 10:07:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702058836; x=1733594836;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=k3i428SfmhgbbGxwTnZmXhIRi1dfQ6MQmf1eOjd45OQ=;
+  b=YdRQYyHII0f4qsc4Bq9gdrptLdduA0Jx2+ocksGQ6SB19zcGTdUs6edi
+   w8a7Js4TZuyXuBTMyPRN1HAG9o49CxVKEPEBRG+pcrpkJfvt4yYkWF3iR
+   Yak5YlixWAbeJ27Omclp5qOwTiNCfqHKir64NWHVGgOpTmefbWijDwbYf
+   ZERMO+eAWu5+EpByVWWMqr5ts5eele+UENASl1uniroejUY9DdFQYZ01Z
+   f7XMivQ37dbb7SBUS0Tdzr7yIi4aiU/XKpZLIXvTs7KnAW3zRHvvfFXFu
+   gRBJx8oc15BXBv7/EX8++aia1zkIfDhDCfILM3MCHUUHFPEcCDHD03Y94
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="425575369"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="425575369"
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 10:07:15 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="801182284"
+X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
+   d="scan'208";a="801182284"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 10:07:12 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 06CC811F995;
+	Fri,  8 Dec 2023 20:07:10 +0200 (EET)
+Date: Fri, 8 Dec 2023 18:07:09 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Maxime Ripard <mripard@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: dt-bindings: ov8856: decouple lanes and link
+ frequency from driver
+Message-ID: <ZXNbTUg3QrCwKBpp@kekkonen.localdomain>
+References: <20231207142356.100453-1-krzysztof.kozlowski@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next v1 00/16] Device Memory TCP
-Content-Language: en-US
-To: Mina Almasry <almasrymina@google.com>,
- Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann
- <arnd@arndb.de>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeelb@google.com>
-References: <20231208005250.2910004-1-almasrymina@google.com>
-From: David Ahern <dsahern@kernel.org>
-In-Reply-To: <20231208005250.2910004-1-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231207142356.100453-1-krzysztof.kozlowski@linaro.org>
 
-On 12/7/23 5:52 PM, Mina Almasry wrote:
-> Major changes in v1:
-> --------------
-> 
-> 1. Implemented MVP queue API ndos to remove the userspace-visible
->    driver reset.
-> 
-> 2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
-> 
-> 3. Removed RFC tag.
-> 
-> Many smaller addressed comments across all the patches (patches have
-> individual change log).
-> 
-> Full tree including the rest of the GVE driver changes:
-> https://github.com/mina/linux/commits/tcpdevmem-v1
-> 
+Hi Krzysztof,
 
-Still a lot of DEVMEM references (e.g., socket API). Any reason not to
-move those to DMABUF?
+Thanks for the update.
 
+On Thu, Dec 07, 2023 at 03:23:56PM +0100, Krzysztof Kozlowski wrote:
+> The data lanes and link frequency were set to match exiting Linux driver
+> limitations, however bindings should be independent of chosen Linux
+> driver support.
+> 
+> Decouple these properties from the driver to match what is actually
+> supported by the hardware.
+> 
+> This also fixes DTS example:
+> 
+>   ov8856.example.dtb: camera@10: port:endpoint:link-frequencies:0: [360000000] is too short
+> 
+> Fixes: 066a94e28a23 ("media: dt-bindings: media: Use graph and video-interfaces schemas")
+> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+> 
+> ---
+> 
+> Changes in v2:
+> 1. Rework approach: decouple bindings from driver instead of fixing
+>    DTS example (Sakari)
+> ---
+>  .../devicetree/bindings/media/i2c/ov8856.yaml | 21 +++++++++++--------
+>  1 file changed, 12 insertions(+), 9 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> index 57f5e48fd8e0..71102a71cf81 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+> @@ -67,19 +67,22 @@ properties:
+>  
+>          properties:
+>            data-lanes:
+> -            description: |-
+> -              The driver only supports four-lane operation.
+> -            items:
+> -              - const: 1
+> -              - const: 2
+> -              - const: 3
+> -              - const: 4
+> +            oneOf:
+> +              - items:
+> +                  - const: 1
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +              - items:
+> +                  - const: 1
+> +                  - const: 2
+> +                  - const: 3
+> +                  - const: 4
+>  
+>            link-frequencies:
+>              description: Frequencies listed are driver, not h/w limitations.
+
+This should be dropped, too.
+
+> -            maxItems: 2
+>              items:
+> -              enum: [ 360000000, 180000000 ]
+> +              enum: [ 1440000000, 720000000, 360000000, 180000000 ]
+
+These frequencies are listed in the datasheet but they're just an
+example---the sensor hardware isn't limited to these, the resulting
+frequency on the CSI-2 bus is simply up to the external clock frequency and
+PLL configuration. I'd remove the values here altogether.
+
+>  
+>          required:
+>            - link-frequencies
+
+-- 
+Regards,
+
+Sakari Ailus
 
