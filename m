@@ -1,112 +1,120 @@
-Return-Path: <linux-media+bounces-1939-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1942-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5066E80A14B
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 11:39:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 76E1680A1CB
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 12:06:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C3DA281A33
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 10:39:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 30D182819E0
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 11:06:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BDAC18E38;
-	Fri,  8 Dec 2023 10:39:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFF8619BCC;
+	Fri,  8 Dec 2023 11:06:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="QNChLG3C"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T+dxdd3p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madras.collabora.co.uk (madras.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e5ab])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F2FE1728;
-	Fri,  8 Dec 2023 02:39:18 -0800 (PST)
-Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id 8F57366022D2;
-	Fri,  8 Dec 2023 10:39:16 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702031957;
-	bh=FTU8KzPND5ID0Hx3E+vk2e0gEDIDzN1LiyjU+EkE4jI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QNChLG3Cd7dmkazS0LpWTdD/h0zPVtHSVak2JH6E9IfHxMxkOq/bHBxUwqAmAUKi0
-	 L3oWB7YIP3p73uKSlAhjz/0elhDsgrCmDyBuQnVyEDm5iI7zt4j2srjFoRqLncentA
-	 BtSYj2uX9gbKFN0WcKW3vehsgbbD2kS5fOJtRZIdF1AOc1WxG1+zTJEqfeSSrurE7r
-	 f4i1YvMQCdAkS07dHKIjTc4dIZos+UTh8gmRFfT7i+NtNIDk20NXLPNcwhmoN6OhP2
-	 SapJYYoeaKX+3z+Sa6Ublgv8HP9DTi6UhH1jlMikNME3BI3fx3WBbZ3+8ypuBBuFC0
-	 iRpsFglLQF2pg==
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: hverkuil@xs4all.nl,
-	mchehab@kernel.org,
-	tfiga@chromium.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v4 2/2] videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
-Date: Fri,  8 Dec 2023 11:39:08 +0100
-Message-Id: <20231208103908.85874-3-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231208103908.85874-1-benjamin.gaignard@collabora.com>
-References: <20231208103908.85874-1-benjamin.gaignard@collabora.com>
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5CEF172E
+	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 03:06:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702033576; x=1733569576;
+  h=subject:to:references:from:message-id:date:mime-version:
+   in-reply-to:content-transfer-encoding;
+  bh=yo/7y2aKw7SJF3STgLacmtHUzZvFhmA3yv1509/yvsE=;
+  b=T+dxdd3pnWF0o8d5a3IhV8ZVuDL6EoV+9mmGUGCtDdzkaXaD9S2C68i8
+   IBqiIMOGTnqp7uN3bkKp/IE0H9qz9E/tzqB3gXKYZyYSmKgN51kmlkp4b
+   Bl7GkdeflPBSmo9nutfG/CxhIzP1fQ06MJSe0Q0m+MUru+kAwF8ImBOCf
+   5hQuiEc/go1BmJWXPDA979+tXT/SLlXKj5nwhA0uFRplaYpm3XJg0CDTs
+   Rq0GTLzhZi2vPVPISRVfUCnRlHhqK2W4wqIB6lpbyoSKw5nOL/30BY65t
+   8oeEwg5jRhY06pUncXqR7iPm/tsO8dWeDB/auXRehUjNX4tIxWqNd60DS
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="1456026"
+X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
+   d="scan'208";a="1456026"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 03:06:16 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10917"; a="838096734"
+X-IronPort-AV: E=Sophos;i="6.04,260,1695711600"; 
+   d="scan'208";a="838096734"
+Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
+  by fmsmga008.fm.intel.com with ESMTP; 08 Dec 2023 03:06:13 -0800
+Subject: Re: [PATCH] yavta: add support for 12-bit packed and 14-bit
+ unpacked/packed bayer formats
+To: bingbu.cao@intel.com, linux-media@vger.kernel.org,
+ laurent.pinchart@ideasonboard.com, sakari.ailus@linux.intel.com
+References: <20231012085216.3346754-1-bingbu.cao@intel.com>
+From: Bingbu Cao <bingbu.cao@linux.intel.com>
+Message-ID: <db881a47-4224-816a-e556-76d6fcb26444@linux.intel.com>
+Date: Fri, 8 Dec 2023 19:01:56 +0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20231012085216.3346754-1-bingbu.cao@intel.com>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 
-Add 'min_reqbufs_allocation' field in vb2_queue structure so drivers
-can specificy the minimum number of buffers to allocate when calling
-VIDIOC_REQBUFS.
-If used this minimum should be higher than the minimum number of
-queued buffers needed to start streaming.
+Laurent and Sakari,
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
----
- drivers/media/common/videobuf2/videobuf2-core.c | 1 +
- include/media/videobuf2-core.h                  | 6 ++++++
- 2 files changed, 7 insertions(+)
+Do you have any chance to review this? :)
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 7b6d89641e66..3bc30d107308 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -866,6 +866,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
- 	 * Make sure the requested values and current defaults are sane.
- 	 */
- 	num_buffers = max_t(unsigned int, *count, q->min_queued_buffers);
-+	num_buffers = max_t(unsigned int, num_buffers, q->min_reqbufs_allocation);
- 	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
- 	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
- 	/*
-diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-index 6d11cb724e95..252d34cc47d3 100644
---- a/include/media/videobuf2-core.h
-+++ b/include/media/videobuf2-core.h
-@@ -550,6 +550,11 @@ struct vb2_buf_ops {
-  *		@start_streaming can be called. Used when a DMA engine
-  *		cannot be started unless at least this number of buffers
-  *		have been queued into the driver.
-+ * @min_reqbufs_allocation: the minimum number of buffers allocated when
-+ *		calling VIDIOC_REQBUFS. Used when drivers need a to
-+ *		specify a minimum buffers allocation before setup a queue.
-+ *		If min_queued_buffers < min_queued_buffers then min_queued_buffers
-+ *		is the minimum.
-  */
- /*
-  * Private elements (won't appear at the uAPI book):
-@@ -615,6 +620,7 @@ struct vb2_queue {
- 	u32				timestamp_flags;
- 	gfp_t				gfp_flags;
- 	u32				min_queued_buffers;
-+	u32				min_reqbufs_allocation;
- 
- 	struct device			*alloc_devs[VB2_MAX_PLANES];
- 
+On 10/12/23 4:52 PM, bingbu.cao@intel.com wrote:
+> From: Bingbu Cao <bingbu.cao@intel.com>
+> 
+> Add bayer formats:
+> V4L2_PIX_FMT_SBGGR12P
+> V4L2_PIX_FMT_SGBRG12P
+> V4L2_PIX_FMT_SGRBG12P
+> V4L2_PIX_FMT_SRGGB12P
+> V4L2_PIX_FMT_SBGGR14
+> V4L2_PIX_FMT_SGBRG14
+> V4L2_PIX_FMT_SGRBG14
+> V4L2_PIX_FMT_SRGGB14
+> V4L2_PIX_FMT_SBGGR14P
+> V4L2_PIX_FMT_SGBRG14P
+> V4L2_PIX_FMT_SGRBG14P
+> V4L2_PIX_FMT_SRGGB14P
+> 
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> ---
+>  yavta.c | 12 ++++++++++++
+>  1 file changed, 12 insertions(+)
+> 
+> diff --git a/yavta.c b/yavta.c
+> index d5628632c1f8..7d10fa39f6f7 100644
+> --- a/yavta.c
+> +++ b/yavta.c
+> @@ -348,6 +348,18 @@ static struct v4l2_format_info {
+>  	{ "SGBRG12", V4L2_PIX_FMT_SGBRG12, 1 },
+>  	{ "SGRBG12", V4L2_PIX_FMT_SGRBG12, 1 },
+>  	{ "SRGGB12", V4L2_PIX_FMT_SRGGB12, 1 },
+> +	{ "SBGGR12P", V4L2_PIX_FMT_SBGGR12P, 1 },
+> +	{ "SGBRG12P", V4L2_PIX_FMT_SGBRG12P, 1 },
+> +	{ "SGRBG12P", V4L2_PIX_FMT_SGRBG12P, 1 },
+> +	{ "SRGGB12P", V4L2_PIX_FMT_SRGGB12P, 1 },
+> +	{ "SBGGR14", V4L2_PIX_FMT_SBGGR14, 1 },
+> +	{ "SGBRG14", V4L2_PIX_FMT_SGBRG14, 1 },
+> +	{ "SGRBG14", V4L2_PIX_FMT_SGRBG14, 1 },
+> +	{ "SRGGB14", V4L2_PIX_FMT_SRGGB14, 1 },
+> +	{ "SBGGR14P", V4L2_PIX_FMT_SBGGR14P, 1 },
+> +	{ "SGBRG14P", V4L2_PIX_FMT_SGBRG14P, 1 },
+> +	{ "SGRBG14P", V4L2_PIX_FMT_SGRBG14P, 1 },
+> +	{ "SRGGB14P", V4L2_PIX_FMT_SRGGB14P, 1 },
+>  	{ "SBGGR16", V4L2_PIX_FMT_SBGGR16, 1 },
+>  	{ "SGBRG16", V4L2_PIX_FMT_SGBRG16, 1 },
+>  	{ "SGRBG16", V4L2_PIX_FMT_SGRBG16, 1 },
+> 
+
 -- 
-2.39.2
-
+Best regards,
+Bingbu Cao
 
