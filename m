@@ -1,259 +1,199 @@
-Return-Path: <linux-media+bounces-1976-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1977-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A58D80A6B2
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:08:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6656980A6FD
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:13:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9E733B20CE0
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:08:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CAD51F2148F
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:13:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCCE230337;
-	Fri,  8 Dec 2023 15:08:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 990DF23769;
+	Fri,  8 Dec 2023 15:12:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EHxZ3Xqw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XlnpxSrN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 61358199D;
-	Fri,  8 Dec 2023 07:08:22 -0800 (PST)
-Received: from umang.jain (unknown [103.251.226.108])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CDFA1552;
-	Fri,  8 Dec 2023 16:07:37 +0100 (CET)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1951219BB
+	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 07:12:50 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84D00512;
+	Fri,  8 Dec 2023 16:12:06 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702048059;
-	bh=++pJ6xBSDGmfMWD1Z0+shMY0/qfwngayfbMUOZTJ3Qk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=EHxZ3XqwFkWdOzIR92TaKBGQBbRhMtUzARlXvGyyieAbIuoif2i0pfc0bnOlOFuyh
-	 hkWN4q51O5w4YeQkofPZ5hxz1kH/4ynidnpryuw7JSqrSCCMI3z36rDydZYCRbQ27f
-	 yEkZMv3n9XZsJt6iNa5qaHaYLD+ttI70h+PS16mc=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org
-Cc: "Paul J . Murphy" <paul.j.murphy@intel.com>,
-	Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v3 8/8] media: i2c: imx335: Support multiple link frequency
-Date: Fri,  8 Dec 2023 20:37:54 +0530
-Message-ID: <20231208150756.124720-9-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231208150756.124720-1-umang.jain@ideasonboard.com>
-References: <20231208150756.124720-1-umang.jain@ideasonboard.com>
+	s=mail; t=1702048326;
+	bh=fFWdG19voDBRxZ1iLuayJ8WWh7J+bGXlhLuYpeFjJyI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XlnpxSrNRCMUc7d+ZUi6/jnEQLdeTayJimFm1HHKCbE6no4dTCTcoSlRyL0MYEVcH
+	 b1SfMFOp5uG8dnHHBADk7itk/p1eYwqGdWG0xMQM/AFgB7qyboNljQNPHMUlfXlcnN
+	 qp2p/TKQTrfDDWBzvsRhzUBcgXxtCBQ/4WdHZ7sQ=
+Date: Fri, 8 Dec 2023 17:12:55 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Yunke Cao <yunkec@google.com>
+Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Daniel Scally <dan.scally@ideasonboard.com>,
+	Tomasz Figa <tfiga@chromium.org>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v14 03/11] media: uvcvideo: introduce __uvc_ctrl_get_std()
+Message-ID: <20231208151255.GD12450@pendragon.ideasonboard.com>
+References: <20231201071907.3080126-1-yunkec@google.com>
+ <20231201071907.3080126-4-yunkec@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20231201071907.3080126-4-yunkec@google.com>
 
-Support link frequency of 445MHz in addition to 594MHz.
+Hi Yunke,
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
- drivers/media/i2c/imx335.c | 89 +++++++++++++++++++++++++++++---------
- 1 file changed, 68 insertions(+), 21 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index 76a05624ca94..1d6dc38e3e6b 100644
---- a/drivers/media/i2c/imx335.c
-+++ b/drivers/media/i2c/imx335.c
-@@ -49,7 +49,8 @@
- #define IMX335_INCLK_RATE	24000000
- 
- /* CSI2 HW configuration */
--#define IMX335_LINK_FREQ	594000000
-+#define IMX335_LINK_FREQ_594MHz	594000000
-+#define IMX335_LINK_FREQ_445MHz	445500000
- #define IMX335_NUM_DATA_LANES	4
- 
- #define IMX335_REG_MIN		0x00
-@@ -99,7 +100,6 @@ static const char * const imx335_supply_name[] = {
-  * @vblank_min: Minimum vertical blanking in lines
-  * @vblank_max: Maximum vertical blanking in lines
-  * @pclk: Sensor pixel clock
-- * @link_freq_idx: Link frequency index
-  * @reg_list: Register list for sensor mode
-  */
- struct imx335_mode {
-@@ -111,7 +111,6 @@ struct imx335_mode {
- 	u32 vblank_min;
- 	u32 vblank_max;
- 	u64 pclk;
--	u32 link_freq_idx;
- 	struct imx335_reg_list reg_list;
- };
- 
-@@ -133,6 +132,7 @@ struct imx335_mode {
-  * @again_ctrl: Pointer to analog gain control
-  * @vblank: Vertical blanking in lines
-  * @cur_mode: Pointer to current selected sensor mode
-+ * @link_freq_idx: Selected link frequency index
-  * @mutex: Mutex for serializing sensor controls
-  */
- struct imx335 {
-@@ -155,20 +155,16 @@ struct imx335 {
- 	};
- 	u32 vblank;
- 	const struct imx335_mode *cur_mode;
-+	u32 link_freq_idx;
- 	struct mutex mutex;
- 	u32 cur_mbus_code;
- };
- 
--static const s64 link_freq[] = {
--	IMX335_LINK_FREQ,
--};
- 
- /* Sensor mode registers */
- static const struct imx335_reg mode_2592x1940_regs[] = {
- 	{0x3000, 0x01},
- 	{0x3002, 0x00},
--	{0x300c, 0x3b},
--	{0x300d, 0x2a},
- 	{0x3018, 0x04},
- 	{0x302c, 0x3c},
- 	{0x302e, 0x20},
-@@ -176,10 +172,6 @@ static const struct imx335_reg mode_2592x1940_regs[] = {
- 	{0x3074, 0xc8},
- 	{0x3076, 0x28},
- 	{0x304c, 0x00},
--	{0x314c, 0xc6},
--	{0x315a, 0x02},
--	{0x3168, 0xa0},
--	{0x316a, 0x7e},
- 	{0x31a1, 0x00},
- 	{0x3288, 0x21},
- 	{0x328a, 0x02},
-@@ -265,6 +257,46 @@ static const struct imx335_reg raw12_framefmt_regs[] = {
- 	{0x341d, 0x00},
- };
- 
-+static const struct imx335_reg mipi_data_rate_1188Mbps[] = {
-+	{0x300c, 0x3b},
-+	{0x300d, 0x2a},
-+	{0x314c, 0xc6},
-+	{0x314d, 0x00},
-+	{0x315a, 0x02},
-+	{0x3168, 0xa0},
-+	{0x316a, 0x7e},
-+	{0x319e, 0x01},
-+};
-+
-+static const struct imx335_reg mipi_data_rate_891Mbps[] = {
-+	{0x300c, 0x3b},
-+	{0x300d, 0x2a},
-+	{0x314c, 0x29},
-+	{0x314d, 0x01},
-+	{0x315a, 0x06},
-+	{0x3168, 0xa0},
-+	{0x316a, 0x7e},
-+	{0x319e, 0x02},
-+};
-+
-+static const s64 link_freq[] = {
-+	/* Corresponds to 1188Mbps data lane rate */
-+	IMX335_LINK_FREQ_594MHz,
-+	/* Corresponds to 891Mbps data lane rate */
-+	IMX335_LINK_FREQ_445MHz,
-+};
-+
-+static const struct imx335_reg_list link_freq_reglist[] = {
-+	{
-+		.num_of_regs = ARRAY_SIZE(mipi_data_rate_1188Mbps),
-+		.regs = mipi_data_rate_1188Mbps,
-+	},
-+	{
-+		.num_of_regs = ARRAY_SIZE(mipi_data_rate_891Mbps),
-+		.regs = mipi_data_rate_891Mbps,
-+	},
-+};
-+
- static const u32 imx335_mbus_codes[] = {
- 	MEDIA_BUS_FMT_SRGGB12_1X12,
- 	MEDIA_BUS_FMT_SRGGB10_1X10,
-@@ -279,7 +311,6 @@ static const struct imx335_mode supported_mode = {
- 	.vblank_min = 2560,
- 	.vblank_max = 133060,
- 	.pclk = 396000000,
--	.link_freq_idx = 0,
- 	.reg_list = {
- 		.num_of_regs = ARRAY_SIZE(mode_2592x1940_regs),
- 		.regs = mode_2592x1940_regs,
-@@ -404,7 +435,7 @@ static int imx335_update_controls(struct imx335 *imx335,
- {
- 	int ret;
- 
--	ret = __v4l2_ctrl_s_ctrl(imx335->link_freq_ctrl, mode->link_freq_idx);
-+	ret = __v4l2_ctrl_s_ctrl(imx335->link_freq_ctrl, imx335->link_freq_idx);
- 	if (ret)
- 		return ret;
- 
-@@ -754,6 +785,14 @@ static int imx335_start_streaming(struct imx335 *imx335)
- 	const struct imx335_reg_list *reg_list;
- 	int ret;
- 
-+	/* Setup PLL */
-+	reg_list = &link_freq_reglist[imx335->link_freq_idx];
-+	ret = imx335_write_regs(imx335, reg_list->regs, reg_list->num_of_regs);
-+	if (ret) {
-+		dev_err(imx335->dev, "%s failed to set plls\n", __func__);
-+		return ret;
-+	}
-+
- 	/* Write sensor mode registers */
- 	reg_list = &imx335->cur_mode->reg_list;
- 	ret = imx335_write_regs(imx335, reg_list->regs,
-@@ -880,7 +919,7 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
- 	};
- 	struct fwnode_handle *ep;
- 	unsigned long rate;
--	unsigned int i;
-+	unsigned int i, j;
- 	int ret;
- 
- 	if (!fwnode)
-@@ -944,13 +983,21 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
- 		goto done_endpoint_free;
- 	}
- 
--	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++)
--		if (bus_cfg.link_frequencies[i] == IMX335_LINK_FREQ)
--			goto done_endpoint_free;
- 
--	dev_err(imx335->dev, "no compatible link frequencies found\n");
-+	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-+		for (j = 0; j < ARRAY_SIZE(link_freq); j++) {
-+			if (bus_cfg.link_frequencies[i] == link_freq[j]) {
-+				imx335->link_freq_idx = j;
-+				break;
-+			}
-+		}
- 
--	ret = -EINVAL;
-+		if (j == ARRAY_SIZE(link_freq)) {
-+			ret = dev_err_probe(imx335->dev, -EINVAL,
-+					    "no supported link freq found\n");
-+			goto done_endpoint_free;
-+		}
-+	}
- 
- done_endpoint_free:
- 	v4l2_fwnode_endpoint_free(&bus_cfg);
-@@ -1097,7 +1144,7 @@ static int imx335_init_controls(struct imx335 *imx335)
- 							V4L2_CID_LINK_FREQ,
- 							ARRAY_SIZE(link_freq) -
- 							1,
--							mode->link_freq_idx,
-+							imx335->link_freq_idx,
- 							link_freq);
- 	if (imx335->link_freq_ctrl)
- 		imx335->link_freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+On Fri, Dec 01, 2023 at 04:18:54PM +0900, Yunke Cao wrote:
+> Refactor uvc_ctrl to make adding compound control easier.
+> 
+> Currently __uvc_ctrl_get() only work for non-compound controls.
+> Move the logic into __uvc_ctrl_std(), return error for compound
+> controls.
+> 
+> Make __uvc_ctrl_get() call __uvc_ctrl_std() inside. Also modify some of the
+> callers of __uvc_ctrl_get() to call __uvc_ctrl_get_std() instead.
+> 
+> Signed-off-by: Yunke Cao <yunkec@google.com>
+> ---
+> Changelog since v12:
+> - No change.
+> Changelog since v11:
+> - Minor change to avoid negative if statement.
+> Changelog since v10:
+> - Better commit message.
+> Changelog since v9:
+> - No change.
+> Changelog since v8:
+> - No change.
+> Changelog since v7:
+> - Newly added patch. Split the refactoring of uvc_ctrl_get from v7 3/7.
+> 
+>  drivers/media/usb/uvc/uvc_ctrl.c | 42 +++++++++++++++++++++-----------
+>  1 file changed, 28 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index 8d8333786333..4a685532f7eb 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -1081,15 +1081,15 @@ static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
+>  	return ret;
+>  }
+>  
+> -static int __uvc_ctrl_get(struct uvc_video_chain *chain,
+> -			  struct uvc_control *ctrl,
+> -			  struct uvc_control_mapping *mapping,
+> -			  s32 *value)
+> +static int __uvc_ctrl_get_std(struct uvc_video_chain *chain,
+> +			      struct uvc_control *ctrl,
+> +			      struct uvc_control_mapping *mapping,
+> +			      s32 *value)
+>  {
+>  	int ret;
+>  
+> -	if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
+> -		return -EACCES;
+> +	if (uvc_ctrl_mapping_is_compound(mapping))
+> +		return -EINVAL;
+
+This duplicates the check that you have added in multiple callers. With
+the whole series applied, this function is called without a compound
+check from uvc_ctrl_is_accessible() only. I think it would be better to
+explicitly handle compound controls there. Even better possible, you
+could check at driver initialization time that V4L2 master controls are
+never compound controls.
+
+>  
+>  	ret = __uvc_ctrl_load_cur(chain, ctrl);
+>  	if (ret < 0)
+> @@ -1199,7 +1199,7 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+>  	if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
+>  		return 0;
+>  
+> -	ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> +	ret = __uvc_ctrl_get_std(chain, master_ctrl, master_map, &val);
+>  	if (ret >= 0 && val != mapping->master_manual)
+>  		return -EACCES;
+>  
+> @@ -1264,8 +1264,13 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
+>  		__uvc_find_control(ctrl->entity, mapping->master_id,
+>  				   &master_map, &master_ctrl, 0);
+>  	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
+> -		s32 val;
+> -		int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
+> +		s32 val = 0;
+> +		int ret;
+> +
+> +		if (uvc_ctrl_mapping_is_compound(master_map))
+> +			return -EINVAL;
+> +
+> +		ret = __uvc_ctrl_get_std(chain, master_ctrl, master_map, &val);
+>  		if (ret < 0)
+>  			return ret;
+>  
+> @@ -1532,7 +1537,8 @@ static void uvc_ctrl_send_slave_event(struct uvc_video_chain *chain,
+>  	if (ctrl == NULL)
+>  		return;
+>  
+> -	if (__uvc_ctrl_get(chain, ctrl, mapping, &val) == 0)
+> +	if (uvc_ctrl_mapping_is_compound(mapping) ||
+> +	    __uvc_ctrl_get_std(chain, ctrl, mapping, &val) == 0)
+>  		changes |= V4L2_EVENT_CTRL_CH_VALUE;
+>  
+>  	uvc_ctrl_send_event(chain, handle, ctrl, mapping, val, changes);
+> @@ -1703,7 +1709,8 @@ static int uvc_ctrl_add_event(struct v4l2_subscribed_event *sev, unsigned elems)
+>  		u32 changes = V4L2_EVENT_CTRL_CH_FLAGS;
+>  		s32 val = 0;
+>  
+> -		if (__uvc_ctrl_get(handle->chain, ctrl, mapping, &val) == 0)
+> +		if (uvc_ctrl_mapping_is_compound(mapping) ||
+> +		    __uvc_ctrl_get_std(handle->chain, ctrl, mapping, &val) == 0)
+>  			changes |= V4L2_EVENT_CTRL_CH_VALUE;
+>  
+>  		uvc_ctrl_fill_event(handle->chain, &ev, ctrl, mapping, val,
+> @@ -1883,7 +1890,10 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
+>  	if (ctrl == NULL)
+>  		return -EINVAL;
+>  
+> -	return __uvc_ctrl_get(chain, ctrl, mapping, &xctrl->value);
+> +	if (uvc_ctrl_mapping_is_compound(mapping))
+> +		return -EINVAL;
+> +	else
+> +		return __uvc_ctrl_get_std(chain, ctrl, mapping, &xctrl->value);
+>  }
+>  
+>  static int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
+> @@ -2042,8 +2052,12 @@ int uvc_ctrl_set(struct uvc_fh *handle,
+>  		       ctrl->info.size);
+>  	}
+>  
+> -	mapping->set(mapping, value,
+> -		uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
+> +	if (uvc_ctrl_mapping_is_compound(mapping))
+> +		return -EINVAL;
+> +	else
+> +		mapping->set(mapping, value,
+> +			     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
+
+This seems unrelated to the commit message.
+
+> +
+>  
+>  	if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
+>  		ctrl->handle = handle;
+
 -- 
-2.41.0
+Regards,
 
+Laurent Pinchart
 
