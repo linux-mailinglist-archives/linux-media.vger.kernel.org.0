@@ -1,39 +1,39 @@
-Return-Path: <linux-media+bounces-2001-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2002-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95C0A80AA5D
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 18:17:13 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95E8F80AA83
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 18:18:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7DB0F1C20863
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 17:17:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40C571F21221
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 17:18:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 076EB38FBB;
-	Fri,  8 Dec 2023 17:17:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22FB439842;
+	Fri,  8 Dec 2023 17:18:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pBI1BlIC"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XTN1OraN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F953374D0;
-	Fri,  8 Dec 2023 17:17:05 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C482C433C7;
-	Fri,  8 Dec 2023 17:17:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D668374D0;
+	Fri,  8 Dec 2023 17:18:22 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4D8CC433C8;
+	Fri,  8 Dec 2023 17:18:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702055825;
-	bh=Xi+dyk/2TBD0iYTqhe+XDeIOCiUG68mvZ3E1luiHVaA=;
+	s=k20201202; t=1702055902;
+	bh=Kc7uelFawHwlMJKzZxh7jjyeuIEBs1vkMVBFyYyPMiQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pBI1BlICnGJnLRIEhzWrKuPgnrMoGYccNx0SPleoAkXyCNrtvzW2j2+nv2+l2glJL
-	 t5LeDcQPppOZx7PIsYZb2T+k0vVhTXdT50qiI+kL68GkLmd3pHiOY0tZTlQCRR9IuY
-	 5tm+MtESfWszq8zMm5el+zU5jQAyoxLovi4mHQrQ32J2tX7fCAHT1idtweXxG75MWJ
-	 SAarzwEKcMRJ6qr9vzzW8bNzwl42z9lkxGLzSo1coIJ3STJXbbgyQZsfYxqW+0euNv
-	 8SHmS182nliBJMXS0atTDK1DWNWEeGMTxn0bJtzfkYRloSpaOAa7xlNvvFppEL1DWB
-	 MuOvAbWsa0fMg==
-Message-ID: <34b498ad-0b2c-464e-9805-b5907df665ea@kernel.org>
-Date: Fri, 8 Dec 2023 18:17:03 +0100
+	b=XTN1OraNA7eSPCEyq1kLdSWN6SSMUuz2HbLoSN/5gSzGCcpiyxaNiaikhaZoOXRUd
+	 afShQB43Gc+YqQGwigycAMXDnqFtQzufpmXuImT0e7LFRmuo7qS2B43KN/y8dV4D/o
+	 Ebi/n3VH3aCSYoF8lyoGJBrBYJxJuenWXV2zhTKoc9AeTldliLol5BwNC4BZsmkfj7
+	 jYbLaPOdBvkLGpr+Ver2Bht9HLZh3ZTNUPPhm15x5Q0J039GPTspwxSKTZ8zlUKCcT
+	 lmmL1ecqGAH9FqVDEsUKOoKmi11o457R4XwdiFJ+iQ0EYQbzFG110IoEY6Ft1+S00Y
+	 B0iWlVM3yb8ZQ==
+Message-ID: <d2e4e887-5b82-40de-aef9-f5f6a228fbd3@kernel.org>
+Date: Fri, 8 Dec 2023 18:18:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -41,14 +41,13 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/4] dt-bindings: media: add Maxim MAX96717F GMSL2
- Serializer
+Subject: Re: [PATCH v2 3/4] media: i2c: add MAX96714 driver
 Content-Language: en-US
 To: Julien Massot <julien.massot@collabora.com>, devicetree@vger.kernel.org,
  linux-media@vger.kernel.org
 Cc: kernel@collabora.com
 References: <20231208143359.469049-1-julien.massot@collabora.com>
- <20231208143359.469049-3-julien.massot@collabora.com>
+ <20231208143359.469049-4-julien.massot@collabora.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -93,43 +92,37 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <20231208143359.469049-3-julien.massot@collabora.com>
+In-Reply-To: <20231208143359.469049-4-julien.massot@collabora.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 08/12/2023 15:33, Julien Massot wrote:
-> Add DT bindings for Maxim MAX96717F GMSL2 Serializer.
+> This driver handle the MAX96714 deserializer in tunnel mode.
+> The CSI output will replicate all the CSI traffic capture by
+> the remote serializer.
 > 
 > Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> ---
->  .../bindings/media/i2c/maxim,max96717f.yaml   | 144 ++++++++++++++++++
->  1 file changed, 144 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/maxim,max96717f.yaml
-> 
 
 ...
 
+> +static int max96714_get_hw_resources(struct max96714_priv *priv)
+> +{
+> +	struct device *dev = &priv->client->dev;
 > +
-> +  reg:
-> +    description: I2C device address
-
-drop description
-
-> +    maxItems: 1
+> +	priv->regmap = devm_regmap_init_i2c(priv->client,
+> +					    &max96714_regmap_config);
+> +	if (IS_ERR(priv->regmap))
+> +		return PTR_ERR(priv->regmap);
 > +
+> +	priv->gpiod_pwdn = devm_gpiod_get_optional(&priv->client->dev, "enable",
+> +						   GPIOD_OUT_HIGH);
+> +	if (IS_ERR(priv->gpiod_pwdn))
+> +		return dev_err_probe(dev, PTR_ERR(priv->gpiod_pwdn),
 
-...
+A powerdown GPIO is not an enable GPIO. Please use correct name - see
+gpio-consumers-common.yaml
 
-> +
-> +            i2c-gate {
-> +                #address-cells = <1>;
-> +                #size-cells = <0>;
-> +                vd5661@10 {
-
-Node names should be generic. See also an explanation and list of
-examples (not exhaustive) in DT specification:
-https://devicetree-specification.readthedocs.io/en/latest/chapter2-devicetree-basics.html#generic-names-recommendation
-
+The same applies to other patch and potentially all others...
 
 
 Best regards,
