@@ -1,160 +1,145 @@
-Return-Path: <linux-media+bounces-2024-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2025-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7152380AD58
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 20:48:11 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AB9280AD5B
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 20:53:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A117F1C20C84
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 19:48:10 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BA5BEB20A13
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 19:53:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D7F15026C;
-	Fri,  8 Dec 2023 19:48:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F34015027D;
+	Fri,  8 Dec 2023 19:53:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RJA2R3Wa"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q28ZqfaE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B0EE1729;
-	Fri,  8 Dec 2023 11:48:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702064880; x=1733600880;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yRbHQ00il7PGLZKlUCjgwKSdfXhQB8Ozw+ap9tZaQOQ=;
-  b=RJA2R3WaMPCaSCanvoA+qMDWUVHzGe9L4lNPJVuXpLdwLvjM9e3ljc/O
-   oBX02dGRhpSn3COWnM2j+n9+5zmkUHO080BgC2rIHyaKAk+QHOFgMlsSq
-   zePEewT64FA4oQnmeDQ3HrE7BJUpmbnRI+GPd5Ricg8dbJ5w5Mz0Z+YEr
-   ryOMBW2bNCmtmaBy93GmkAL51u9529VQdNI86oRmSAB0J3WNdShoEJuEi
-   J3nBpXjBoCFH4t/iQeR83GeYy9IgjAGy9w7QHfTXsHa8ZKlcNycMX9pVL
-   4AzcWAZGcaZSs9pY2NDKFVaQpS9boyw/3dbB+u9wAbz4OG8gdgJAcB3rt
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="393320789"
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="393320789"
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 11:47:59 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="890244949"
-X-IronPort-AV: E=Sophos;i="6.04,261,1695711600"; 
-   d="scan'208";a="890244949"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 11:47:57 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 7DE3011F995;
-	Fri,  8 Dec 2023 21:47:54 +0200 (EET)
-Date: Fri, 8 Dec 2023 19:47:54 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+Received: from mail-ej1-x62e.google.com (mail-ej1-x62e.google.com [IPv6:2a00:1450:4864:20::62e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34EFA1732
+	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 11:52:59 -0800 (PST)
+Received: by mail-ej1-x62e.google.com with SMTP id a640c23a62f3a-a1f47f91fc0so247582366b.0
+        for <linux-media@vger.kernel.org>; Fri, 08 Dec 2023 11:52:59 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702065177; x=1702669977; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AQL2QzATtB7HD48YvHn7NcHvaYuNjHniWUH7CLZRyog=;
+        b=q28ZqfaEwMhMnkIACRBvhMKYc7sq9t129BEObLiuPPtKE3Y6d1ulb+oBKs1EO1jEFL
+         daKqChtF42XGLxSHB36hVQm8XCDDxFAPF8wHphZyF/RSMtBLGWUfgvXRcTdL3OP22rCl
+         2EGoVSWYShNkjAvv2T84WgHp1aK4CHX2dUC+kgsszqUm0TbOlL+pmJfkKK00pdJEbhBX
+         DB5Rjga7WjgB4pxYCVBwKA6UdXoPfj9SBIfqqvHzkPH3DggCIvoIH7SjhsY2cNqDvLOE
+         u8vIVEJTFFaqidzBtvpNN3eQ3L2RdiHYLB9ZqPWgtL1YBweLf2ljw1qKXreebDW9/28e
+         q8yQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702065177; x=1702669977;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AQL2QzATtB7HD48YvHn7NcHvaYuNjHniWUH7CLZRyog=;
+        b=Wt86D3dHK6jsxrZUAEthSsBOD4CvtzojgUYeKrArlisRm07bjpO+ri4anVJ2rFpPuj
+         ucQjwWyn0l/AfG2Rhe0CTK589wbiUu8qNlhx+ZPYZ25WRS8Hl2y2cZKFV2HoKNiXAj9r
+         P2PUbyb9mpqSzSlgJacdz/oE8UU9BAmBGCB39q3Ci7SJNIm0MmkmRRVqF0L+7OPpjUpH
+         kj2cLz8qihqV3w+HfBcH77Cm2CL1vl3zt7eh9kpN6D14ixFx/xxz4+27J5rrsAkMKd+I
+         /RLof0HjvdemaxfTj0W2hdBLIcmJFc0eG2mw95Om4EEyXw6JZ+XCSkyoLb7n4XIG04Y7
+         lXeQ==
+X-Gm-Message-State: AOJu0YzBGd+k+djsjhYgV2NhY7Y0I6iciqB48mmhjn53Iul3xk13ZHyK
+	j9/ExEPNrkuhAlzGMeMs6xtqBQ==
+X-Google-Smtp-Source: AGHT+IF8UxKogiHQOCSLgyU2Q+4VTW/vNSAnLHzakwQyvd9TFf30yQ25fUjFYq7YQAinGnNjCOiKyQ==
+X-Received: by 2002:a17:906:3289:b0:9c4:54c6:8030 with SMTP id 9-20020a170906328900b009c454c68030mr246504ejw.6.1702065177641;
+        Fri, 08 Dec 2023 11:52:57 -0800 (PST)
+Received: from krzk-bin.. ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id vu6-20020a170907a64600b00a1d61183006sm1339333ejc.83.2023.12.08.11.52.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 08 Dec 2023 11:52:57 -0800 (PST)
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh+dt@kernel.org>,
 	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Maxime Ripard <mripard@kernel.org>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: dt-bindings: ov8856: decouple lanes and link
- frequency from driver
-Message-ID: <ZXNy6iGhgP6HZqKJ@kekkonen.localdomain>
-References: <20231207142356.100453-1-krzysztof.kozlowski@linaro.org>
- <ZXNbTUg3QrCwKBpp@kekkonen.localdomain>
- <ce8a7040-2667-4046-8542-f698bd8a9af1@linaro.org>
+	Maxime Ripard <mripard@kernel.org>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v3] media: dt-bindings: ov8856: decouple lanes and link frequency from driver
+Date: Fri,  8 Dec 2023 20:52:53 +0100
+Message-Id: <20231208195253.130470-1-krzysztof.kozlowski@linaro.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ce8a7040-2667-4046-8542-f698bd8a9af1@linaro.org>
+Content-Transfer-Encoding: 8bit
 
-On Fri, Dec 08, 2023 at 08:37:10PM +0100, Krzysztof Kozlowski wrote:
-> On 08/12/2023 19:07, Sakari Ailus wrote:
-> > Hi Krzysztof,
-> > 
-> > Thanks for the update.
-> > 
-> > On Thu, Dec 07, 2023 at 03:23:56PM +0100, Krzysztof Kozlowski wrote:
-> >> The data lanes and link frequency were set to match exiting Linux driver
-> >> limitations, however bindings should be independent of chosen Linux
-> >> driver support.
-> >>
-> >> Decouple these properties from the driver to match what is actually
-> >> supported by the hardware.
-> >>
-> >> This also fixes DTS example:
-> >>
-> >>   ov8856.example.dtb: camera@10: port:endpoint:link-frequencies:0: [360000000] is too short
-> >>
-> >> Fixes: 066a94e28a23 ("media: dt-bindings: media: Use graph and video-interfaces schemas")
-> >> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> >>
-> >> ---
-> >>
-> >> Changes in v2:
-> >> 1. Rework approach: decouple bindings from driver instead of fixing
-> >>    DTS example (Sakari)
-> >> ---
-> >>  .../devicetree/bindings/media/i2c/ov8856.yaml | 21 +++++++++++--------
-> >>  1 file changed, 12 insertions(+), 9 deletions(-)
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> >> index 57f5e48fd8e0..71102a71cf81 100644
-> >> --- a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> >> +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
-> >> @@ -67,19 +67,22 @@ properties:
-> >>  
-> >>          properties:
-> >>            data-lanes:
-> >> -            description: |-
-> >> -              The driver only supports four-lane operation.
-> >> -            items:
-> >> -              - const: 1
-> >> -              - const: 2
-> >> -              - const: 3
-> >> -              - const: 4
-> >> +            oneOf:
-> >> +              - items:
-> >> +                  - const: 1
-> >> +              - items:
-> >> +                  - const: 1
-> >> +                  - const: 2
-> >> +              - items:
-> >> +                  - const: 1
-> >> +                  - const: 2
-> >> +                  - const: 3
-> >> +                  - const: 4
-> >>  
-> >>            link-frequencies:
-> >>              description: Frequencies listed are driver, not h/w limitations.
-> > 
-> > This should be dropped, too.
-> 
-> Ack, I forgot.
-> 
-> > 
-> >> -            maxItems: 2
-> >>              items:
-> >> -              enum: [ 360000000, 180000000 ]
-> >> +              enum: [ 1440000000, 720000000, 360000000, 180000000 ]
-> > 
-> > These frequencies are listed in the datasheet but they're just an
-> > example---the sensor hardware isn't limited to these, the resulting
-> > frequency on the CSI-2 bus is simply up to the external clock frequency and
-> > PLL configuration. I'd remove the values here altogether.
-> 
-> Hm, are you sure? Isn't it quite difficult to program device to any
-> frequency? But if that's not the case here, I can drop it.
+The data lanes and link frequency were set to match existing Linux driver
+limitations, however bindings should be independent of chosen Linux
+driver support.
 
-The driver doesn't currently do that, no, but that doesn't mean the
-hardware wouldn't support that. There are a few sensor drivers that
-calculate the PLL configuration, such as ccs and ov5640.
+Decouple these properties from the driver to match what is actually
+supported by the hardware.
 
-I'd drop it as it's indeed a driver, not a device limitation.
+This also fixes DTS example:
 
+  ov8856.example.dtb: camera@10: port:endpoint:link-frequencies:0: [360000000] is too short
+
+Fixes: 066a94e28a23 ("media: dt-bindings: media: Use graph and video-interfaces schemas")
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
+Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+---
+
+Changes in v3:
+1. Drop link-frequencies entirely (Sakari)
+2. Add Conor's ack
+
+Changes in v2:
+1. Rework approach: decouple bindings from driver instead of fixing
+   DTS example (Sakari)
+---
+ .../devicetree/bindings/media/i2c/ov8856.yaml | 24 +++++++++----------
+ 1 file changed, 11 insertions(+), 13 deletions(-)
+
+diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+index 57f5e48fd8e0..816dac9c6f60 100644
+--- a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+@@ -67,19 +67,17 @@ properties:
+ 
+         properties:
+           data-lanes:
+-            description: |-
+-              The driver only supports four-lane operation.
+-            items:
+-              - const: 1
+-              - const: 2
+-              - const: 3
+-              - const: 4
+-
+-          link-frequencies:
+-            description: Frequencies listed are driver, not h/w limitations.
+-            maxItems: 2
+-            items:
+-              enum: [ 360000000, 180000000 ]
++            oneOf:
++              - items:
++                  - const: 1
++              - items:
++                  - const: 1
++                  - const: 2
++              - items:
++                  - const: 1
++                  - const: 2
++                  - const: 3
++                  - const: 4
+ 
+         required:
+           - link-frequencies
 -- 
-Sakari Ailus
+2.34.1
+
 
