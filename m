@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-1977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1978-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6656980A6FD
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:13:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D27F80A705
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:13:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CAD51F2148F
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:13:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 190AB1F21457
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:13:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 990DF23769;
-	Fri,  8 Dec 2023 15:12:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2217C241EF;
+	Fri,  8 Dec 2023 15:13:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="XlnpxSrN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="flQk3TJ1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1951219BB
-	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 07:12:50 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8767E2114
+	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 07:13:33 -0800 (PST)
 Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 84D00512;
-	Fri,  8 Dec 2023 16:12:06 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 49244512;
+	Fri,  8 Dec 2023 16:12:50 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702048326;
-	bh=fFWdG19voDBRxZ1iLuayJ8WWh7J+bGXlhLuYpeFjJyI=;
+	s=mail; t=1702048370;
+	bh=8R0a2UuqpESXTtdfvmqmU/ucjMUO42qfXTbp1GwXsVE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XlnpxSrNRCMUc7d+ZUi6/jnEQLdeTayJimFm1HHKCbE6no4dTCTcoSlRyL0MYEVcH
-	 b1SfMFOp5uG8dnHHBADk7itk/p1eYwqGdWG0xMQM/AFgB7qyboNljQNPHMUlfXlcnN
-	 qp2p/TKQTrfDDWBzvsRhzUBcgXxtCBQ/4WdHZ7sQ=
-Date: Fri, 8 Dec 2023 17:12:55 +0200
+	b=flQk3TJ1t2xF/F8eAiTVXYpCVvgGgYCWjSA81Sqjde1qGKDXYdo1FUP8bZBf58UU5
+	 jkpT77tHXeiB/IUtH2ZTVnJ0DQiUXeC3eqwfSTxYEgjqAcLPhzscWfbYwWTR1WxBIP
+	 De59P3rHTWoAgK1PWBiqTULr/6SVgvekydHBsbj0=
+Date: Fri, 8 Dec 2023 17:13:39 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Yunke Cao <yunkec@google.com>
 Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
@@ -36,10 +36,11 @@ Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
 	Tomasz Figa <tfiga@chromium.org>,
 	Sergey Senozhatsky <senozhatsky@chromium.org>,
 	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v14 03/11] media: uvcvideo: introduce __uvc_ctrl_get_std()
-Message-ID: <20231208151255.GD12450@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v14 02/11] media: uvcvideo: add uvc_ctrl_get_boundary for
+ getting default value
+Message-ID: <20231208151339.GH25616@pendragon.ideasonboard.com>
 References: <20231201071907.3080126-1-yunkec@google.com>
- <20231201071907.3080126-4-yunkec@google.com>
+ <20231201071907.3080126-3-yunkec@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -48,149 +49,156 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20231201071907.3080126-4-yunkec@google.com>
+In-Reply-To: <20231201071907.3080126-3-yunkec@google.com>
 
 Hi Yunke,
 
 Thank you for the patch.
 
-On Fri, Dec 01, 2023 at 04:18:54PM +0900, Yunke Cao wrote:
-> Refactor uvc_ctrl to make adding compound control easier.
+On Fri, Dec 01, 2023 at 04:18:53PM +0900, Yunke Cao wrote:
+> Introduce uvc_ctrl_get_boundary(), making it easier to extend to
+> support compound controls and V4L2_CTRL_WHICH_MIN/MAX_VAL in the
+> following patches.
 > 
-> Currently __uvc_ctrl_get() only work for non-compound controls.
-> Move the logic into __uvc_ctrl_std(), return error for compound
-> controls.
+> For now, it simply returns EINVAL for compound controls and calls
+> __query_v4l2_ctrl() for non-compound controls.
 > 
-> Make __uvc_ctrl_get() call __uvc_ctrl_std() inside. Also modify some of the
-> callers of __uvc_ctrl_get() to call __uvc_ctrl_get_std() instead.
-> 
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
 > Signed-off-by: Yunke Cao <yunkec@google.com>
 > ---
-> Changelog since v12:
-> - No change.
+> An alternative name is uvc_ctrl_get_static(). Let me know if that's better.
+
+The name of the new function is weird in this patch, as it returns the
+default value for the control. How about calling it
+uvc_ctrl_get_default() here, and renaming it later when you extend it
+with an additional argument in patch 08/11 ? All users of the function
+are modified in that patch, so renaming the function there won't add
+much churn.
+
 > Changelog since v11:
-> - Minor change to avoid negative if statement.
+> - No change.
 > Changelog since v10:
-> - Better commit message.
+> - Fix __uvc_ctrl_get_boundary_std() typo causing build error.
+> - Added Reviewed-by from Sergey.
 > Changelog since v9:
-> - No change.
+> - Make __uvc_ctrl_get_boundary_std() static.
 > Changelog since v8:
-> - No change.
+> - No Change.
 > Changelog since v7:
-> - Newly added patch. Split the refactoring of uvc_ctrl_get from v7 3/7.
+> - Rename uvc_ctrl_get_fixed() to uvc_ctrl_get_boundary().
+> - Move refactor (introduce  __uvc_ctrl_get_boundary_std()) in this patch
+>   instead of in the patch where we implement compound control.
+> - Fix locking. uvc_ctrl_get_boundary() now acquires ctrl_mutex.
+>   __uvc_ctrl_get_boundary_std() calls __uvc_query_v4l2_ctrl() while
+>   holding the mutex.
+> - Define a uvc_ctrl_mapping_is_compound() for readability.
 > 
->  drivers/media/usb/uvc/uvc_ctrl.c | 42 +++++++++++++++++++++-----------
->  1 file changed, 28 insertions(+), 14 deletions(-)
+>  drivers/media/usb/uvc/uvc_ctrl.c | 48 ++++++++++++++++++++++++++++++++
+>  drivers/media/usb/uvc/uvc_v4l2.c |  6 +---
+>  drivers/media/usb/uvc/uvcvideo.h |  2 ++
+>  3 files changed, 51 insertions(+), 5 deletions(-)
 > 
 > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 8d8333786333..4a685532f7eb 100644
+> index e59a463c2761..8d8333786333 100644
 > --- a/drivers/media/usb/uvc/uvc_ctrl.c
 > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -1081,15 +1081,15 @@ static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
->  	return ret;
->  }
->  
-> -static int __uvc_ctrl_get(struct uvc_video_chain *chain,
-> -			  struct uvc_control *ctrl,
-> -			  struct uvc_control_mapping *mapping,
-> -			  s32 *value)
-> +static int __uvc_ctrl_get_std(struct uvc_video_chain *chain,
-> +			      struct uvc_control *ctrl,
-> +			      struct uvc_control_mapping *mapping,
-> +			      s32 *value)
->  {
->  	int ret;
->  
-> -	if ((ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR) == 0)
-> -		return -EACCES;
-> +	if (uvc_ctrl_mapping_is_compound(mapping))
-> +		return -EINVAL;
-
-This duplicates the check that you have added in multiple callers. With
-the whole series applied, this function is called without a compound
-check from uvc_ctrl_is_accessible() only. I think it would be better to
-explicitly handle compound controls there. Even better possible, you
-could check at driver initialization time that V4L2 master controls are
-never compound controls.
-
->  
->  	ret = __uvc_ctrl_load_cur(chain, ctrl);
->  	if (ret < 0)
-> @@ -1199,7 +1199,7 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
->  	if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR))
->  		return 0;
->  
-> -	ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-> +	ret = __uvc_ctrl_get_std(chain, master_ctrl, master_map, &val);
->  	if (ret >= 0 && val != mapping->master_manual)
->  		return -EACCES;
->  
-> @@ -1264,8 +1264,13 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video_chain *chain,
->  		__uvc_find_control(ctrl->entity, mapping->master_id,
->  				   &master_map, &master_ctrl, 0);
->  	if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_CUR)) {
-> -		s32 val;
-> -		int ret = __uvc_ctrl_get(chain, master_ctrl, master_map, &val);
-> +		s32 val = 0;
-> +		int ret;
-> +
-> +		if (uvc_ctrl_mapping_is_compound(master_map))
-> +			return -EINVAL;
-> +
-> +		ret = __uvc_ctrl_get_std(chain, master_ctrl, master_map, &val);
->  		if (ret < 0)
->  			return ret;
->  
-> @@ -1532,7 +1537,8 @@ static void uvc_ctrl_send_slave_event(struct uvc_video_chain *chain,
->  	if (ctrl == NULL)
->  		return;
->  
-> -	if (__uvc_ctrl_get(chain, ctrl, mapping, &val) == 0)
-> +	if (uvc_ctrl_mapping_is_compound(mapping) ||
-> +	    __uvc_ctrl_get_std(chain, ctrl, mapping, &val) == 0)
->  		changes |= V4L2_EVENT_CTRL_CH_VALUE;
->  
->  	uvc_ctrl_send_event(chain, handle, ctrl, mapping, val, changes);
-> @@ -1703,7 +1709,8 @@ static int uvc_ctrl_add_event(struct v4l2_subscribed_event *sev, unsigned elems)
->  		u32 changes = V4L2_EVENT_CTRL_CH_FLAGS;
->  		s32 val = 0;
->  
-> -		if (__uvc_ctrl_get(handle->chain, ctrl, mapping, &val) == 0)
-> +		if (uvc_ctrl_mapping_is_compound(mapping) ||
-> +		    __uvc_ctrl_get_std(handle->chain, ctrl, mapping, &val) == 0)
->  			changes |= V4L2_EVENT_CTRL_CH_VALUE;
->  
->  		uvc_ctrl_fill_event(handle->chain, &ev, ctrl, mapping, val,
-> @@ -1883,7 +1890,10 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
->  	if (ctrl == NULL)
->  		return -EINVAL;
->  
-> -	return __uvc_ctrl_get(chain, ctrl, mapping, &xctrl->value);
-> +	if (uvc_ctrl_mapping_is_compound(mapping))
-> +		return -EINVAL;
-> +	else
-> +		return __uvc_ctrl_get_std(chain, ctrl, mapping, &xctrl->value);
->  }
->  
->  static int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
-> @@ -2042,8 +2052,12 @@ int uvc_ctrl_set(struct uvc_fh *handle,
->  		       ctrl->info.size);
+> @@ -884,6 +884,12 @@ static void uvc_set_le_value(struct uvc_control_mapping *mapping,
 >  	}
+>  }
 >  
-> -	mapping->set(mapping, value,
-> -		uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-> +	if (uvc_ctrl_mapping_is_compound(mapping))
-> +		return -EINVAL;
-> +	else
-> +		mapping->set(mapping, value,
-> +			     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-
-This seems unrelated to the commit message.
-
+> +static bool
+> +uvc_ctrl_mapping_is_compound(const struct uvc_control_mapping *mapping)
+> +{
+> +	return mapping->v4l2_type >= V4L2_CTRL_COMPOUND_TYPES;
+> +}
 > +
+>  /* ------------------------------------------------------------------------
+>   * Terminal and unit management
+>   */
+> @@ -1880,6 +1886,48 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
+>  	return __uvc_ctrl_get(chain, ctrl, mapping, &xctrl->value);
+>  }
 >  
->  	if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
->  		ctrl->handle = handle;
+> +static int __uvc_ctrl_get_boundary_std(struct uvc_video_chain *chain,
+> +				       struct uvc_control *ctrl,
+> +				       struct uvc_control_mapping *mapping,
+> +				       struct v4l2_ext_control *xctrl)
+> +{
+> +	struct v4l2_queryctrl qc = { .id = xctrl->id };
+> +
+> +	int ret = __uvc_query_v4l2_ctrl(chain, ctrl, mapping, &qc);
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	xctrl->value = qc.default_value;
+> +	return 0;
+> +}
+> +
+> +int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
+> +			  struct v4l2_ext_control *xctrl)
+> +{
+> +	struct uvc_control *ctrl;
+> +	struct uvc_control_mapping *mapping;
+> +	int ret;
+> +
+> +	if (mutex_lock_interruptible(&chain->ctrl_mutex))
+> +		return -ERESTARTSYS;
+> +
+> +	ctrl = uvc_find_control(chain, xctrl->id, &mapping);
+> +	if (!ctrl) {
+> +		ret = -EINVAL;
+> +		goto done;
+> +	}
+> +
+> +	if (uvc_ctrl_mapping_is_compound(mapping))
+> +		ret = -EINVAL;
+> +	else
+> +		ret = __uvc_ctrl_get_boundary_std(chain, ctrl, mapping, xctrl);
+> +
+> +done:
+> +	mutex_unlock(&chain->ctrl_mutex);
+> +	return ret;
+> +}
+> +
+>  int uvc_ctrl_set(struct uvc_fh *handle,
+>  	struct v4l2_ext_control *xctrl)
+>  {
+> diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
+> index f4988f03640a..5a88847bfbfe 100644
+> --- a/drivers/media/usb/uvc/uvc_v4l2.c
+> +++ b/drivers/media/usb/uvc/uvc_v4l2.c
+> @@ -1096,15 +1096,11 @@ static int uvc_ioctl_g_ext_ctrls(struct file *file, void *fh,
+>  
+>  	if (ctrls->which == V4L2_CTRL_WHICH_DEF_VAL) {
+>  		for (i = 0; i < ctrls->count; ++ctrl, ++i) {
+> -			struct v4l2_queryctrl qc = { .id = ctrl->id };
+> -
+> -			ret = uvc_query_v4l2_ctrl(chain, &qc);
+> +			ret = uvc_ctrl_get_boundary(chain, ctrl);
+>  			if (ret < 0) {
+>  				ctrls->error_idx = i;
+>  				return ret;
+>  			}
+> -
+> -			ctrl->value = qc.default_value;
+>  		}
+>  
+>  		return 0;
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 6fb0a78b1b00..5091085fcfb0 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -781,6 +781,8 @@ static inline int uvc_ctrl_rollback(struct uvc_fh *handle)
+>  }
+>  
+>  int uvc_ctrl_get(struct uvc_video_chain *chain, struct v4l2_ext_control *xctrl);
+> +int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
+> +			  struct v4l2_ext_control *xctrl);
+>  int uvc_ctrl_set(struct uvc_fh *handle, struct v4l2_ext_control *xctrl);
+>  int uvc_ctrl_is_accessible(struct uvc_video_chain *chain, u32 v4l2_id,
+>  			   const struct v4l2_ext_controls *ctrls,
 
 -- 
 Regards,
