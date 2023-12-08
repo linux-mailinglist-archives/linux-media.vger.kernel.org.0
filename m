@@ -1,280 +1,401 @@
-Return-Path: <linux-media+bounces-1907-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1908-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A09FA8096DE
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 01:03:46 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 592678097B0
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 01:53:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 53BE7282179
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 00:03:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D788282196
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 00:53:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6313371;
-	Fri,  8 Dec 2023 00:03:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CB444A5F;
+	Fri,  8 Dec 2023 00:53:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sensoray.com header.i=@sensoray.com header.b="DeJxlAO6"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1yRvIryS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from omta039.useast.a.cloudfilter.net (omta039.useast.a.cloudfilter.net [44.202.169.38])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 225131713
-	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 16:03:33 -0800 (PST)
-Received: from eig-obgw-5007a.ext.cloudfilter.net ([10.0.29.141])
-	by cmsmtp with ESMTPS
-	id BMpSrLAjT6nOZBOL7rZfgK; Fri, 08 Dec 2023 00:03:33 +0000
-Received: from gator3086.hostgator.com ([50.87.144.121])
-	by cmsmtp with ESMTPS
-	id BOL5r1TFiqkaTBOL6rvjIC; Fri, 08 Dec 2023 00:03:32 +0000
-X-Authority-Analysis: v=2.4 cv=bY547cDB c=1 sm=1 tr=0 ts=65725d54
- a=qMXOcmIMY6YlrKEg1GzxDg==:117 a=QsTHvn2EeHXCImuSLmd++Q==:17
- a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
- a=kj9zAlcOel0A:10 a=e2cXIFwxEfEA:10 a=6kiSLZGAxYIA:10 a=wXneSEFuAAAA:8
- a=FnjLlJzlEcOYaycGDHYA:9 a=CjuIK1q_8ugA:10 a=YVKGGmaMxpnpCiYzuRtG:22
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=sensoray.com; s=default; h=Content-Transfer-Encoding:Content-Type:
-	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=hKeDHJQzB5CjG2U534F4I6vilf1ulPTrpgUcrYnLSN4=; b=DeJxlAO6gNoLdUQcvItb/X2Otc
-	UomIboV15eeWbd7IPCPitqOPDKwPcBOyC/vOCw7MuzE2WhYngieYKEHwYhXbYObEP2YHoEZYFq05f
-	nVTVMIeQuv+lf2RO7r7MYffbaftc/eUlywnDQ55tWH43w2Bz5BjuGuDwW+6P428uxavw=;
-Received: from gator3086.hostgator.com ([50.87.144.121]:28536)
-	by gator3086.hostgator.com with esmtpa (Exim 4.95)
-	(envelope-from <dean@sensoray.com>)
-	id 1rBOL5-001LvI-LJ;
-	Thu, 07 Dec 2023 18:03:31 -0600
-Received: from mail.thomaswright.com ([50.126.89.90])
- by www.sensoray.com
- with HTTP (HTTP/1.1 POST); Thu, 07 Dec 2023 18:03:31 -0600
+Received: from mail-yb1-xb49.google.com (mail-yb1-xb49.google.com [IPv6:2607:f8b0:4864:20::b49])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 788E7171F
+	for <linux-media@vger.kernel.org>; Thu,  7 Dec 2023 16:52:55 -0800 (PST)
+Received: by mail-yb1-xb49.google.com with SMTP id 3f1490d57ef6-da04776a869so1723657276.0
+        for <linux-media@vger.kernel.org>; Thu, 07 Dec 2023 16:52:55 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1701996774; x=1702601574; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=oEC4/5l5n2T/qYCGKqOGy0FALO1z9p8+l3xS5q5p7gQ=;
+        b=1yRvIryS++LOF7rZgQjLmhWhBdq+ZVoZiX1AEsXDl6r/d6bKOY5h4CTDFTDV8b5S0W
+         AtYzriitQ/xJ87bwOcBynN/f8TP1No5i6UcAOaXtPwoTiYzn4C9rcJDh1PTPZCFjtGiq
+         7hpyV9SbXVZtpZpsGeDrt8DaczFGkE03yFHlMMn5AiUE99jagXrUDd9DzIuqlAB3GLye
+         X0qD/TxAKM+fIiy6gy6RYm88A09pfS4TQDLJyGD1IiGPoEDwqg14nqDIElX8eNQjXQ4I
+         CTT/Zv9GxG70eS/dZwmz8/lVVKKy0kE3aAMOt4hm5atLzCk2nAeB+x+IyU5UfzZ84gX0
+         IXeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1701996774; x=1702601574;
+        h=content-transfer-encoding:cc:to:from:subject:message-id
+         :mime-version:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=oEC4/5l5n2T/qYCGKqOGy0FALO1z9p8+l3xS5q5p7gQ=;
+        b=olDFoR7KNEJ2fFx9sNBGmOnnPN1EZDfkn3y25q7dtWcnE/b5rpUcLfZWYYbvaDhhPB
+         9RhLnKR/Hph+wC+QX0NyE/1k10NEcfBn6SDTsIokQoV2q3rf7nE0+6ROP6Odzy4619xx
+         J/SQJ4SUQOBoyjLa/oOk598BJDmuJ3uw1Rn8wi4VA+kyeid2h/07khU7EWRramcNU9d3
+         xZyhBGmMl5+ILDLc/L9haeqrDnGjXUWRogUAENlNiBv3sqquswIHuo3JUYWsI0zLUvES
+         kr8icEJB6gd1S7iFE5Jyjxzs+vMjqMVJQ+ukKcvKEF85Mp1ABNg2j4eqkpA6vSvqumR8
+         knCA==
+X-Gm-Message-State: AOJu0Yx4tojmmiKoFbkysITMVFMG/M5YZTVKE/zwG3IkD7knePRnXOR9
+	Vc+oeyXCigbjWMUG2ahyhiBU8sHkGISOu0FJfA==
+X-Google-Smtp-Source: AGHT+IHYY0Ghq58S/RpY3ORPjaG8n8Br1tdy1AIbfHpQKaWiIsvY0prGLnPYkvrfw7nIyRm1+GyE8RVLx8dfKnoykA==
+X-Received: from almasrymina.svl.corp.google.com ([2620:15c:2c4:200:f1cf:c733:235b:9fff])
+ (user=almasrymina job=sendgmr) by 2002:a25:e688:0:b0:dbc:1b8a:ea84 with SMTP
+ id d130-20020a25e688000000b00dbc1b8aea84mr37055ybh.7.1701996774666; Thu, 07
+ Dec 2023 16:52:54 -0800 (PST)
+Date: Thu,  7 Dec 2023 16:52:31 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Date: Thu, 07 Dec 2023 18:03:31 -0600
-From: dean@sensoray.com
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: usb: s2255: device-id custom V4L2_CID
-In-Reply-To: <479c1d97-6df6-4a97-9542-c8819bd03d27@xs4all.nl>
-References: <20231122194838.13285-1-dean@sensoray.com>
- <479c1d97-6df6-4a97-9542-c8819bd03d27@xs4all.nl>
-User-Agent: Roundcube Webmail/1.4.12
-Message-ID: <22f5d529d3f25b61b3bce7611140469a@sensoray.com>
-X-Sender: dean@sensoray.com
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - gator3086.hostgator.com
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - sensoray.com
-X-BWhitelist: no
-X-Source-IP: 50.87.144.121
-X-Source-L: Yes
-X-Exim-ID: 1rBOL5-001LvI-LJ
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
-X-Source-Sender: gator3086.hostgator.com [50.87.144.121]:28536
-X-Source-Auth: dean@sensoray.com
-X-Email-Count: 1
-X-Org: HG=hgshared;ORG=hostgator;
-X-Source-Cap: c2Vuc29yYXk7c2Vuc29yYXk7Z2F0b3IzMDg2Lmhvc3RnYXRvci5jb20=
-X-Local-Domain: yes
-X-CMAE-Envelope: MS4xfNgXN7DTrt3bKJsNZ1ngFvWJaIImNa6qBt5dikSMk1ZS6LuMig09Wi93KfYpUTsR2EV5WladR/dTcKJifmDFM1sQgQtJbsbdqYqPOuqDGjmZJ1o5WG0R
- SqD7uwK6w0n9bTp5B8woIzfxL79r4wDB48AAX3d9qzWFDxkQeZ+f5lBgea2nP7bqKQIfoRKZAdLHe1tOjW5I9CYNyx+t56rZ428=
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.43.0.472.g3155946c3a-goog
+Message-ID: <20231208005250.2910004-1-almasrymina@google.com>
+Subject: [net-next v1 00/16] Device Memory TCP
+From: Mina Almasry <almasrymina@google.com>
+To: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org
+Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	"=?UTF-8?q?Christian=20K=C3=B6nig?=" <christian.koenig@amd.com>, Yunsheng Lin <linyunsheng@huawei.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Hans,
+Major changes in v1:
+--------------
 
->> +static struct v4l2_ctrl_config v4l2_ctrl_deviceid = {
->> +	.ops = &s2255_ctrl_ops,
->> +	.name = "Device ID",
->> +	.id = V4L2_CID_S2255_DEVICEID,
->> +	.type = V4L2_CTRL_TYPE_INTEGER,
-> 
-> Please note that TYPE_INTEGER is a signed integer.
-> 
-> If you need an unsigned integer, then use TYPE_U32.
+1. Implemented MVP queue API ndos to remove the userspace-visible
+   driver reset.
 
+2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
 
-It is unsigned, but it doesn't need to be. The max value should not run 
-into a signed value. I can change the maximum value from 0xffffffff to 
-0x7fffffff.
+3. Removed RFC tag.
 
-Is it acceptable to not use TYPE_U32 in order to simplify the user space 
-calls?
+Many smaller addressed comments across all the patches (patches have
+individual change log).
 
-TYPE_U32 is a compound type. My understanding is VIDIOC_G_CTRL will not 
-work with compound types and some V4L user programs may not implement 
-the compound type queries.
+Full tree including the rest of the GVE driver changes:
+https://github.com/mina/linux/commits/tcpdevmem-v1
 
-Best regards,
+Cc: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: Shailend Chand <shailend@google.com>
+Cc: Harshitha Ramamurthy <hramamurthy@google.com>
 
-Dean
+Changes in RFC v3:
+------------------
 
+1. Pulled in the memory-provider dependency from Jakub's RFC[1] to make the
+   series reviewable and mergable.
 
+2. Implemented multi-rx-queue binding which was a todo in v2.
 
+3. Fix to cmsg handling.
 
-On 2023-12-06 03:43, Hans Verkuil wrote:
-> Hi Dean,
-> 
-> Some comments below:
-> 
-> On 22/11/2023 20:48, Dean Anderson wrote:
->> Adding V4L2 read-only control id for device id as hardware
->> does not support embedding the device-id in the USB device 
->> descriptors.
->> 
->> base-commit: 3e238417254bfdcc23fe207780b59cbb08656762
-> 
-> Just drop this line, it doesn't belong in a commit message.
-> 
->> 
->> Signed-off-by: Dean Anderson <dean@sensoray.com>
->> 
->> ---
->>  drivers/media/usb/s2255/s2255drv.c | 49 
->> +++++++++++++++++++++++++++++-
->>  1 file changed, 48 insertions(+), 1 deletion(-)
->> 
->> diff --git a/drivers/media/usb/s2255/s2255drv.c 
->> b/drivers/media/usb/s2255/s2255drv.c
->> index 3c2627712fe9..c2248bbc7840 100644
->> --- a/drivers/media/usb/s2255/s2255drv.c
->> +++ b/drivers/media/usb/s2255/s2255drv.c
->> @@ -40,7 +40,7 @@
->>  #include <media/v4l2-ctrls.h>
->>  #include <media/v4l2-event.h>
->> 
->> -#define S2255_VERSION		"1.25.1"
->> +#define S2255_VERSION		"1.26.1"
->>  #define FIRMWARE_FILE_NAME "f2255usb.bin"
->> 
->>  /* default JPEG quality */
->> @@ -60,6 +60,7 @@
->>  #define S2255_MIN_BUFS          2
->>  #define S2255_SETMODE_TIMEOUT   500
->>  #define S2255_VIDSTATUS_TIMEOUT 350
->> +#define S2255_MARKER_FIRMWARE	cpu_to_le32(0xDDCCBBAAL)
->>  #define S2255_MARKER_FRAME	cpu_to_le32(0x2255DA4AL)
->>  #define S2255_MARKER_RESPONSE	cpu_to_le32(0x2255ACACL)
->>  #define S2255_RESPONSE_SETMODE  cpu_to_le32(0x01)
->> @@ -323,6 +324,7 @@ struct s2255_buffer {
->>  #define S2255_V4L2_YC_ON  1
->>  #define S2255_V4L2_YC_OFF 0
->>  #define V4L2_CID_S2255_COLORFILTER (V4L2_CID_USER_S2255_BASE + 0)
->> +#define V4L2_CID_S2255_DEVICEID (V4L2_CID_USER_S2255_BASE + 1)
->> 
->>  /* frame prefix size (sent once every frame) */
->>  #define PREFIX_SIZE		512
->> @@ -1232,6 +1234,37 @@ static int s2255_s_ctrl(struct v4l2_ctrl *ctrl)
->>  	return 0;
->>  }
->> 
->> +/* deviceid/serial number is not used in usb device descriptors.
->> + * returns device-id/serial number from device, 0 if none found.
-> 
-> Please put the '/*' on a line by itself, that's consistent with the
-> coding style for multi-line comments.
-> 
-> Also run the patch through 'checkpatch.pl --strict'. I get several
-> warnings.
-> 
-> returns -> Returns
-> 
-> One question about this comment: is the Device ID the same as a serial
-> number? "Device ID" can mean either the ID of a device model, or a 
-> unique
-> ID for each device. If it is the latter, should it perhaps be called
-> "Device S/N" or just "Serial Number"?
-> 
->> + */
->> +#define S2255_DEVICEID_NONE 0
->> +static int s2255_g_deviceid(struct s2255_dev *dev)
->> +{
->> +	u8 *outbuf;
->> +	int rc;
->> +	int deviceid = S2255_DEVICEID_NONE;
->> +#define S2255_I2C_SIZE     16
->> +	outbuf = kzalloc(S2255_I2C_SIZE * sizeof(u8), GFP_KERNEL);
-> 
-> Drop the "* sizeof(u8)", it serves no purpose.
-> 
->> +	if (outbuf == NULL)
->> +		return deviceid;
->> +#define S2255_I2C_SNDEV    0xa2
->> +#define S2255_I2C_SNOFFSET 0x1ff0
->> +#define S2255_USBVENDOR_READREG 0x22
->> +	rc = s2255_vendor_req(dev, S2255_USBVENDOR_READREG, 
->> S2255_I2C_SNOFFSET,
->> +			S2255_I2C_SNDEV >> 1, outbuf, S2255_I2C_SIZE, 0);
->> +	if (rc < 0)
->> +		goto exit_g_deviceid;
->> +
->> +	/* verify marker code */
->> +	if (*(__le32 *)outbuf != S2255_MARKER_FIRMWARE)
->> +		goto exit_g_deviceid;
->> +
->> +	deviceid = (outbuf[12] << 24) + (outbuf[13] << 16) + (outbuf[14] << 
->> 8) + outbuf[15];
->> +exit_g_deviceid:
->> +	kfree(outbuf);
->> +	return deviceid;
-> 
-> This is overly complicated. How about this:
-> 
-> 	/* verify marker code */
-> 	if (*(__le32 *)outbuf == S2255_MARKER_FIRMWARE)
-> 		deviceid = (outbuf[12] << 24) + (outbuf[13] << 16) + (outbuf[14] <<
-> 8) + outbuf[15];
-> 	kfree(outbuf);
-> 	return deviceid;
-> 
->> +}
->> +
->>  static int vidioc_g_jpegcomp(struct file *file, void *priv,
->>  			 struct v4l2_jpegcompression *jc)
->>  {
->> @@ -1581,6 +1614,17 @@ static const struct v4l2_ctrl_config 
->> color_filter_ctrl = {
->>  	.def = 1,
->>  };
->> 
->> +static struct v4l2_ctrl_config v4l2_ctrl_deviceid = {
->> +	.ops = &s2255_ctrl_ops,
->> +	.name = "Device ID",
->> +	.id = V4L2_CID_S2255_DEVICEID,
->> +	.type = V4L2_CTRL_TYPE_INTEGER,
-> 
-> Please note that TYPE_INTEGER is a signed integer.
-> 
-> If you need an unsigned integer, then use TYPE_U32.
-> 
->> +	.max = 0xffffffff,
->> +	.min = 0,
->> +	.step = 1,
->> +	.flags = V4L2_CTRL_FLAG_READ_ONLY,
->> +};
->> +
->>  static int s2255_probe_v4l(struct s2255_dev *dev)
->>  {
->>  	int ret;
->> @@ -1615,6 +1659,9 @@ static int s2255_probe_v4l(struct s2255_dev 
->> *dev)
->>  		    (dev->pid != 0x2257 || vc->idx <= 1))
->>  			v4l2_ctrl_new_custom(&vc->hdl, &color_filter_ctrl,
->>  					     NULL);
->> +		v4l2_ctrl_deviceid.def = s2255_g_deviceid(dev);
->> +		v4l2_ctrl_new_custom(&vc->hdl, &v4l2_ctrl_deviceid,
->> +					NULL);
->>  		if (vc->hdl.error) {
->>  			ret = vc->hdl.error;
->>  			v4l2_ctrl_handler_free(&vc->hdl);
-> 
-> Regards,
-> 
-> 	Hans
+The sticking point in RFC v2[2] was the device reset required to refill
+the device rx-queues after the dmabuf bind/unbind. The solution
+suggested as I understand is a subset of the per-queue management ops
+Jakub suggested or similar:
+
+https://lore.kernel.org/netdev/20230815171638.4c057dcd@kernel.org/
+
+This is not addressed in this revision, because:
+
+1. This point was discussed at netconf & netdev and there is openness to
+   using the current approach of requiring a device reset.
+
+2. Implementing individual queue resetting seems to be difficult for my
+   test bed with GVE. My prototype to test this ran into issues with the
+   rx-queues not coming back up properly if reset individually. At the
+   moment I'm unsure if it's a mistake in the POC or a genuine issue in
+   the virtualization stack behind GVE, which currently doesn't test
+   individual rx-queue restart.
+
+3. Our usecases are not bothered by requiring a device reset to refill
+   the buffer queues, and we'd like to support NICs that run into this
+   limitation with resetting individual queues.
+
+My thought is that drivers that have trouble with per-queue configs can
+use the support in this series, while drivers that support new netdev
+ops to reset individual queues can automatically reset the queue as
+part of the dma-buf bind/unbind.
+
+The same approach with device resets is presented again for consideration
+with other sticking points addressed.
+
+This proposal includes the rx devmem path only proposed for merge. For a
+snapshot of my entire tree which includes the GVE POC page pool support &
+device memory support:
+
+https://github.com/torvalds/linux/compare/master...mina:linux:tcpdevmem-v3
+
+[1] https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@red=
+hat.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izOVJGJH5WF68OsRWFKJid1_huzzUK+hpKb=
+LcL4pSOD1Jw@mail.gmail.com/T/
+
+Cc: Shakeel Butt <shakeelb@google.com>
+Cc: Jeroen de Borst <jeroendb@google.com>
+Cc: Praveen Kaligineedi <pkaligineedi@google.com>
+
+Changes in RFC v2:
+------------------
+
+The sticking point in RFC v1[1] was the dma-buf pages approach we used to
+deliver the device memory to the TCP stack. RFC v2 is a proof-of-concept
+that attempts to resolve this by implementing scatterlist support in the
+networking stack, such that we can import the dma-buf scatterlist
+directly. This is the approach proposed at a high level here[2].
+
+Detailed changes:
+1. Replaced dma-buf pages approach with importing scatterlist into the
+   page pool.
+2. Replace the dma-buf pages centric API with a netlink API.
+3. Removed the TX path implementation - there is no issue with
+   implementing the TX path with scatterlist approach, but leaving
+   out the TX path makes it easier to review.
+4. Functionality is tested with this proposal, but I have not conducted
+   perf testing yet. I'm not sure there are regressions, but I removed
+   perf claims from the cover letter until they can be re-confirmed.
+5. Added Signed-off-by: contributors to the implementation.
+6. Fixed some bugs with the RX path since RFC v1.
+
+Any feedback welcome, but specifically the biggest pending questions
+needing feedback IMO are:
+
+1. Feedback on the scatterlist-based approach in general.
+2. Netlink API (Patch 1 & 2).
+3. Approach to handle all the drivers that expect to receive pages from
+   the page pool (Patch 6).
+
+[1] https://lore.kernel.org/netdev/dfe4bae7-13a0-3c5d-d671-f61b375cb0b4@gma=
+il.com/T/
+[2] https://lore.kernel.org/netdev/CAHS8izPm6XRS54LdCDZVd0C75tA1zHSu6jLVO8n=
+zTLXCc=3DH7Nw@mail.gmail.com/
+
+----------------------
+
+* TL;DR:
+
+Device memory TCP (devmem TCP) is a proposal for transferring data to and/o=
+r
+from device memory efficiently, without bouncing the data to a host memory
+buffer.
+
+* Problem:
+
+A large amount of data transfers have device memory as the source and/or
+destination. Accelerators drastically increased the volume of such transfer=
+s.
+Some examples include:
+- ML accelerators transferring large amounts of training data from storage =
+into
+  GPU/TPU memory. In some cases ML training setup time can be as long as 50=
+% of
+  TPU compute time, improving data transfer throughput & efficiency can hel=
+p
+  improving GPU/TPU utilization.
+
+- Distributed training, where ML accelerators, such as GPUs on different ho=
+sts,
+  exchange data among them.
+
+- Distributed raw block storage applications transfer large amounts of data=
+ with
+  remote SSDs, much of this data does not require host processing.
+
+Today, the majority of the Device-to-Device data transfers the network are
+implemented as the following low level operations: Device-to-Host copy,
+Host-to-Host network transfer, and Host-to-Device copy.
+
+The implementation is suboptimal, especially for bulk data transfers, and c=
+an
+put significant strains on system resources, such as host memory bandwidth,
+PCIe bandwidth, etc. One important reason behind the current state is the
+kernel=E2=80=99s lack of semantics to express device to network transfers.
+
+* Proposal:
+
+In this patch series we attempt to optimize this use case by implementing
+socket APIs that enable the user to:
+
+1. send device memory across the network directly, and
+2. receive incoming network packets directly into device memory.
+
+Packet _payloads_ go directly from the NIC to device memory for receive and=
+ from
+device memory to NIC for transmit.
+Packet _headers_ go to/from host memory and are processed by the TCP/IP sta=
+ck
+normally. The NIC _must_ support header split to achieve this.
+
+Advantages:
+
+- Alleviate host memory bandwidth pressure, compared to existing
+ network-transfer + device-copy semantics.
+
+- Alleviate PCIe BW pressure, by limiting data transfer to the lowest level
+  of the PCIe tree, compared to traditional path which sends data through t=
+he
+  root complex.
+
+* Patch overview:
+
+** Part 1: netlink API
+
+Gives user ability to bind dma-buf to an RX queue.
+
+** Part 2: scatterlist support
+
+Currently the standard for device memory sharing is DMABUF, which doesn't
+generate struct pages. On the other hand, networking stack (skbs, drivers, =
+and
+page pool) operate on pages. We have 2 options:
+
+1. Generate struct pages for dmabuf device memory, or,
+2. Modify the networking stack to process scatterlist.
+
+Approach #1 was attempted in RFC v1. RFC v2 implements approach #2.
+
+** part 3: page pool support
+
+We piggy back on page pool memory providers proposal:
+https://github.com/kuba-moo/linux/tree/pp-providers
+
+It allows the page pool to define a memory provider that provides the
+page allocation and freeing. It helps abstract most of the device memory
+TCP changes from the driver.
+
+** part 4: support for unreadable skb frags
+
+Page pool iovs are not accessible by the host; we implement changes
+throughput the networking stack to correctly handle skbs with unreadable
+frags.
+
+** Part 5: recvmsg() APIs
+
+We define user APIs for the user to send and receive device memory.
+
+Not included with this RFC is the GVE devmem TCP support, just to
+simplify the review. Code available here if desired:
+https://github.com/mina/linux/tree/tcpdevmem
+
+This RFC is built on top of net-next with Jakub's pp-providers changes
+cherry-picked.
+
+* NIC dependencies:
+
+1. (strict) Devmem TCP require the NIC to support header split, i.e. the
+   capability to split incoming packets into a header + payload and to put
+   each into a separate buffer. Devmem TCP works by using device memory
+   for the packet payload, and host memory for the packet headers.
+
+2. (optional) Devmem TCP works better with flow steering support & RSS supp=
+ort,
+   i.e. the NIC's ability to steer flows into certain rx queues. This allow=
+s the
+   sysadmin to enable devmem TCP on a subset of the rx queues, and steer
+   devmem TCP traffic onto these queues and non devmem TCP elsewhere.
+
+The NIC I have access to with these properties is the GVE with DQO support
+running in Google Cloud, but any NIC that supports these features would suf=
+fice.
+I may be able to help reviewers bring up devmem TCP on their NICs.
+
+* Testing:
+
+The series includes a udmabuf kselftest that show a simple use case of
+devmem TCP and validates the entire data path end to end without
+a dependency on a specific dmabuf provider.
+
+** Test Setup
+
+Kernel: net-next with this RFC and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Jakub Kicinski (2):
+  net: page_pool: factor out releasing DMA from releasing the page
+  net: page_pool: create hooks for custom page providers
+
+Mina Almasry (14):
+  queue_api: define queue api
+  gve: implement queue api
+  net: netdev netlink api to bind dma-buf to a net device
+  netdev: support binding dma-buf to netdevice
+  netdev: netdevice devmem allocator
+  memory-provider: dmabuf devmem memory provider
+  page_pool: device memory support
+  page_pool: don't release iov on elevanted refcount
+  net: support non paged skb frags
+  net: add support for skbs with unreadable frags
+  tcp: RX path for devmem TCP
+  net: add SO_DEVMEM_DONTNEED setsockopt to release RX frags
+  net: add devmem TCP documentation
+  selftests: add ncdevmem, netcat for devmem TCP
+
+ Documentation/netlink/specs/netdev.yaml      |  52 ++
+ Documentation/networking/devmem.rst          | 270 ++++++++++
+ drivers/net/ethernet/google/gve/gve_adminq.c |   6 +-
+ drivers/net/ethernet/google/gve/gve_adminq.h |   3 +
+ drivers/net/ethernet/google/gve/gve_dqo.h    |   2 +
+ drivers/net/ethernet/google/gve/gve_main.c   | 286 +++++++++++
+ drivers/net/ethernet/google/gve/gve_rx_dqo.c |   5 +-
+ include/linux/netdevice.h                    |  24 +
+ include/linux/skbuff.h                       |  56 ++-
+ include/linux/socket.h                       |   1 +
+ include/net/devmem.h                         | 109 +++++
+ include/net/netdev_rx_queue.h                |   1 +
+ include/net/page_pool/helpers.h              | 162 +++++-
+ include/net/page_pool/types.h                |  48 ++
+ include/net/sock.h                           |   2 +
+ include/net/tcp.h                            |   5 +-
+ include/uapi/asm-generic/socket.h            |   6 +
+ include/uapi/linux/netdev.h                  |  19 +
+ include/uapi/linux/uio.h                     |  14 +
+ net/core/datagram.c                          |   6 +
+ net/core/dev.c                               | 314 +++++++++++-
+ net/core/gro.c                               |   7 +-
+ net/core/netdev-genl-gen.c                   |  19 +
+ net/core/netdev-genl-gen.h                   |   2 +
+ net/core/netdev-genl.c                       | 124 +++++
+ net/core/page_pool.c                         | 239 +++++++--
+ net/core/skbuff.c                            | 108 +++-
+ net/core/sock.c                              |  38 ++
+ net/ipv4/tcp.c                               | 196 +++++++-
+ net/ipv4/tcp_input.c                         |  13 +-
+ net/ipv4/tcp_ipv4.c                          |   8 +
+ net/ipv4/tcp_output.c                        |   5 +-
+ net/packet/af_packet.c                       |   4 +-
+ tools/include/uapi/linux/netdev.h            |  19 +
+ tools/testing/selftests/net/.gitignore       |   1 +
+ tools/testing/selftests/net/Makefile         |   5 +
+ tools/testing/selftests/net/ncdevmem.c       | 489 +++++++++++++++++++
+ 37 files changed, 2585 insertions(+), 83 deletions(-)
+ create mode 100644 Documentation/networking/devmem.rst
+ create mode 100644 include/net/devmem.h
+ create mode 100644 tools/testing/selftests/net/ncdevmem.c
+
+--=20
+2.43.0.472.g3155946c3a-goog
+
 
