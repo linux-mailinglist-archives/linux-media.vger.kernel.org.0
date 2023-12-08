@@ -1,128 +1,209 @@
-Return-Path: <linux-media+bounces-2022-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2023-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 729D580AD16
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 20:31:35 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A43380AD2E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 20:37:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A295B1C20CD9
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 19:31:34 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DE494B20C1D
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 19:37:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9CA54F8A4;
-	Fri,  8 Dec 2023 19:31:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 774B44E1C5;
+	Fri,  8 Dec 2023 19:37:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="AA19aOJz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="nx5QLKoS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-x92d.google.com (mail-ua1-x92d.google.com [IPv6:2607:f8b0:4864:20::92d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 696CA173F
-	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 11:31:16 -0800 (PST)
-Received: by mail-ua1-x92d.google.com with SMTP id a1e0cc1a2514c-7c45acb3662so487830241.0
-        for <linux-media@vger.kernel.org>; Fri, 08 Dec 2023 11:31:16 -0800 (PST)
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3755A173B
+	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 11:37:15 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id ffacd0b85a97d-3332fc9b9b2so2271324f8f.1
+        for <linux-media@vger.kernel.org>; Fri, 08 Dec 2023 11:37:15 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702063875; x=1702668675; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=kWu+J+wzMOcih150vf6YNmhjcZNaZMBMCrHoJTVq0Uw=;
-        b=AA19aOJzqgtW3RV80AFQwVMChqnhyx3dotQVTb0hrBmAlbNUmsuBTJtMrljDDTaPE4
-         UT2XZXwwEhyL6RvaC5iWygV0PrrojOamdQDwSsldkfSAMM7VJCtSIzBuUePJhJzEMdpX
-         CPGh4gECrlJoIIISE5H4oez9KZbbP2rZerJwxtlHukbw8x1DHD6xfCD40QWJNSF2TTZv
-         jyd/PaV6H4EEWDsI8Bemrygg75E84QrYgetKO+iTPy9VQtZwScDXn3sfczLGri9aGHpp
-         7vil7CrYcYmsqEFV7IMvKlG6rg+3CTnia8RBmcwiGoSy+xuGXcA38kRCZHFSMQWuS23S
-         tl7Q==
+        d=linaro.org; s=google; t=1702064233; x=1702669033; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=S/wYLxzvaIWrvwXXlhk8RVTXkUjgKIJV8Rq7ARVCREI=;
+        b=nx5QLKoSF3K/0JzHTJH6Jpz2yiFO6vj+BMq30vB+1PIXUWnRmP8uB6rv7Qj3jM782v
+         qKccfLVGBtV12zxsIdsjxVylEQzazD+f9GkfA0mo0/HjMOcjlOuaQ8y8SPK9h9pg784z
+         Z114SjCwvDemmReF3InMhvu3XYNb5Ba+GjkfCFKbIBQXjy1Xk0wWSYdPNMOBIOR1H7ly
+         2Lixur5io4aY3aVytFdECAN6/cwYO0cw3qzkpWX+KU767Dz440J4wARr1hcm0V/XOnxx
+         aMQ8P877lnOiz5fvSou/2IHl0BpeZM5XbXw2m/vt0BRx1ch1LuJQbpRJVhll8E+JZ4hW
+         crjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702063875; x=1702668675;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=kWu+J+wzMOcih150vf6YNmhjcZNaZMBMCrHoJTVq0Uw=;
-        b=HduZai1TsVBbl1FR1Gkl2rFgpXuWpZB8efjfc9PZJnE1gGGQ/SNrMiKHSAf93/G6sE
-         ZzjVZFwEBFwaTlekFpODPg1d0mkqY4RHY09yGtVtqUHUdL1nGqh7dYCPHCxEa80R5ZoW
-         +s4+37T2gyvJUwMUe91iRO0onZVN8CIUad0Bb/NCp1qUPVyE9BsqUUMIzmGZZbHfP0Jh
-         H6lACGMmYah+blVTf2jQd2l+eXeAEUStUyuYVReaO9ZdzzB/eVazmiPw51xMuUKnNRiO
-         oN59+i5g+3ZnABr1Lm3tdiTvheHey5acjXFqS0moa730Pdv4YVHpJsO/tgRUxqv87Nrw
-         y4CA==
-X-Gm-Message-State: AOJu0YxnE7DXseyatKxCzu+EV445tNnJjujLrTExvoZt9UvCUrXqUreZ
-	9dfo43NL5VD24Idx/7BUNtudNephRYD75A6rooP+RQ==
-X-Google-Smtp-Source: AGHT+IEWy2ZoASGB97Xf4UzepNASdfhsiRufEtATUoKuaLdGqOq89E4y/cKAIuTMSGCSkffzh0Lc4oz7kiKBOoq4yro=
-X-Received: by 2002:a05:6102:3ec4:b0:464:40b2:e59f with SMTP id
- n4-20020a0561023ec400b0046440b2e59fmr628329vsv.32.1702063875124; Fri, 08 Dec
- 2023 11:31:15 -0800 (PST)
+        d=1e100.net; s=20230601; t=1702064233; x=1702669033;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=S/wYLxzvaIWrvwXXlhk8RVTXkUjgKIJV8Rq7ARVCREI=;
+        b=fZvfltg/8I5OtfPF+ORDZg2g+YyYRPvjH2+z6szwKC43FqQDbns0rkRn/TRRAQUCrQ
+         1Wew9S5qgqf7E37zf9ULn7RrmshjJExDzW6nemISFkGqkKm3CM7gAOJt3p6lwciBVBbY
+         ncnFaGY+h1bV4iO2/B9W0HgR/ViNqmzNvADzJT0vyOH4hNZgQgkQM0kXsmSa03BJNC2U
+         bY/HjKesfCBoE/7PeW0U2+gc5ASEpk2Xvl1TykYW+EnAv7OIPiuBI38GPAsBqkpHIQyo
+         2VjfKrIiHJT+K9ZbcS/eygfObTB1x4s6ItdVXbipFFJ2QHb95khhOU0bi4M4ScMkLuW1
+         LpWA==
+X-Gm-Message-State: AOJu0YxV4MNrvlApuyowEVKzC9ejrQGIywsZZb9fRkBY7QnKg73bPB3P
+	VB+WE+prKIo3thigVzB9zuyLw1O+g7guXWpVg5U=
+X-Google-Smtp-Source: AGHT+IHUIrQp8Rbx+yUpeu6a7wLaCy2uVwr7ShS4VFCMjALg2WZda5UaY/g5di89zubm8Lt48KyA+Q==
+X-Received: by 2002:a7b:ce89:0:b0:40c:373a:a10 with SMTP id q9-20020a7bce89000000b0040c373a0a10mr134809wmj.145.1702064233357;
+        Fri, 08 Dec 2023 11:37:13 -0800 (PST)
+Received: from [192.168.1.20] ([178.197.218.27])
+        by smtp.gmail.com with ESMTPSA id g9-20020a05600c310900b0040c3953cda5sm707897wmo.45.2023.12.08.11.37.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 08 Dec 2023 11:37:12 -0800 (PST)
+Message-ID: <ce8a7040-2667-4046-8542-f698bd8a9af1@linaro.org>
+Date: Fri, 8 Dec 2023 20:37:10 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com> <3fea9ae9-e9e6-4ba5-812b-2775a6ed9e6a@kernel.org>
-In-Reply-To: <3fea9ae9-e9e6-4ba5-812b-2775a6ed9e6a@kernel.org>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 8 Dec 2023 11:31:01 -0800
-Message-ID: <CAHS8izOc05jQEhU+s6FZtBN4fynUwVPrKsXBtjYo-X8fHQXOjg@mail.gmail.com>
-Subject: Re: [net-next v1 00/16] Device Memory TCP
-To: David Ahern <dsahern@kernel.org>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>, Shuah Khan <shuah@kernel.org>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeelb@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: dt-bindings: ov8856: decouple lanes and link
+ frequency from driver
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Maxime Ripard <mripard@kernel.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20231207142356.100453-1-krzysztof.kozlowski@linaro.org>
+ <ZXNbTUg3QrCwKBpp@kekkonen.localdomain>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Autocrypt: addr=krzysztof.kozlowski@linaro.org; keydata=
+ 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
+ D2GYIS41Kv4Isx2dEFh+/Q==
+In-Reply-To: <ZXNbTUg3QrCwKBpp@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Fri, Dec 8, 2023 at 9:57=E2=80=AFAM David Ahern <dsahern@kernel.org> wro=
-te:
->
-> On 12/7/23 5:52 PM, Mina Almasry wrote:
-> > Major changes in v1:
-> > --------------
-> >
-> > 1. Implemented MVP queue API ndos to remove the userspace-visible
-> >    driver reset.
-> >
-> > 2. Fixed issues in the napi_pp_put_page() devmem frag unref path.
-> >
-> > 3. Removed RFC tag.
-> >
-> > Many smaller addressed comments across all the patches (patches have
-> > individual change log).
-> >
-> > Full tree including the rest of the GVE driver changes:
-> > https://github.com/mina/linux/commits/tcpdevmem-v1
-> >
->
-> Still a lot of DEVMEM references (e.g., socket API). Any reason not to
-> move those to DMABUF?
->
+On 08/12/2023 19:07, Sakari Ailus wrote:
+> Hi Krzysztof,
+> 
+> Thanks for the update.
+> 
+> On Thu, Dec 07, 2023 at 03:23:56PM +0100, Krzysztof Kozlowski wrote:
+>> The data lanes and link frequency were set to match exiting Linux driver
+>> limitations, however bindings should be independent of chosen Linux
+>> driver support.
+>>
+>> Decouple these properties from the driver to match what is actually
+>> supported by the hardware.
+>>
+>> This also fixes DTS example:
+>>
+>>   ov8856.example.dtb: camera@10: port:endpoint:link-frequencies:0: [360000000] is too short
+>>
+>> Fixes: 066a94e28a23 ("media: dt-bindings: media: Use graph and video-interfaces schemas")
+>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>
+>> ---
+>>
+>> Changes in v2:
+>> 1. Rework approach: decouple bindings from driver instead of fixing
+>>    DTS example (Sakari)
+>> ---
+>>  .../devicetree/bindings/media/i2c/ov8856.yaml | 21 +++++++++++--------
+>>  1 file changed, 12 insertions(+), 9 deletions(-)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+>> index 57f5e48fd8e0..71102a71cf81 100644
+>> --- a/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+>> +++ b/Documentation/devicetree/bindings/media/i2c/ov8856.yaml
+>> @@ -67,19 +67,22 @@ properties:
+>>  
+>>          properties:
+>>            data-lanes:
+>> -            description: |-
+>> -              The driver only supports four-lane operation.
+>> -            items:
+>> -              - const: 1
+>> -              - const: 2
+>> -              - const: 3
+>> -              - const: 4
+>> +            oneOf:
+>> +              - items:
+>> +                  - const: 1
+>> +              - items:
+>> +                  - const: 1
+>> +                  - const: 2
+>> +              - items:
+>> +                  - const: 1
+>> +                  - const: 2
+>> +                  - const: 3
+>> +                  - const: 4
+>>  
+>>            link-frequencies:
+>>              description: Frequencies listed are driver, not h/w limitations.
+> 
+> This should be dropped, too.
 
-In my mind the naming (maybe too silly/complicated, feel free to correct) i=
-s:
+Ack, I forgot.
 
-The feature is devmem TCP because we really care about TCPing into
-device memory. So the uapi/feature name retains devmem.
+> 
+>> -            maxItems: 2
+>>              items:
+>> -              enum: [ 360000000, 180000000 ]
+>> +              enum: [ 1440000000, 720000000, 360000000, 180000000 ]
+> 
+> These frequencies are listed in the datasheet but they're just an
+> example---the sensor hardware isn't limited to these, the resulting
+> frequency on the CSI-2 bus is simply up to the external clock frequency and
+> PLL configuration. I'd remove the values here altogether.
 
-dmabuf is the abstraction for devmem that we use. In theory someone
-can come up with a driver that doesn't like dmabuf and uses something
-else instead, and the devmem TCP support can be extended to support
-that something else. Functions that handle specifically dmabuf and are
-not generic to support general devmem are named accordingly
-(netdev_alloc_dmabuf/netdev_free_dmabuf)
-
-page_pool_iov is a generic type to support generic non-paged memory,
-functions that are supposed to handle any generic non-paged memory and
-named accordingly (page_pool_iov_get_many).
+Hm, are you sure? Isn't it quite difficult to program device to any
+frequency? But if that's not the case here, I can drop it.
 
 
---=20
-Thanks,
-Mina
+Best regards,
+Krzysztof
+
 
