@@ -1,298 +1,104 @@
-Return-Path: <linux-media+bounces-1998-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1999-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A179B80A904
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 17:33:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AC2A80A9F3
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 18:01:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D8921F2121A
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:33:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 414861F21179
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 17:01:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1253A374FF;
-	Fri,  8 Dec 2023 16:33:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F9B1381A0;
+	Fri,  8 Dec 2023 17:01:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kz5g9Ta0"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="epC/ZO2u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D26E0173F;
-	Fri,  8 Dec 2023 08:33:16 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 69A63291;
-	Fri,  8 Dec 2023 17:32:33 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702053153;
-	bh=rLh/2q4AJ1YxvzU0Zsf1S+FZAJTXfTvKKL/PGIj5nBw=;
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF767D54;
+	Fri,  8 Dec 2023 09:01:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1702054886; bh=0qFeptaVkBsmj5kyQRxzgnQQfozxB3P91OikGk9d6cE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Kz5g9Ta0nKsBnkrm43Ao95w/y0fyAV0BeDjDuMUUclxvhSDUadhv4DDliQxoa+3nH
-	 Ys3xVaGGzNU55HB44fflPAN+jfk4ergwsUo75xt4Vll9G89EdHJPu/LxB1pBVUAJvp
-	 bG8IC1KYTIzj5iVCOinK6Nfla+shGJ43ooSsmixI=
-Date: Fri, 8 Dec 2023 18:33:22 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: v4l: subdev: Move out subdev state lock macros
- outside CONFIG_MEDIA_CONTROLLER
-Message-ID: <20231208163322.GM25616@pendragon.ideasonboard.com>
-References: <20231208-v4l2-state-mc-fix-v1-1-a0c8162557c6@ideasonboard.com>
+	b=epC/ZO2uTJ4Zn/UcJOhtNv/kkrvpLb8GaMOQxaP/LYWGBRGqVpVS3v014yYA98UV8
+	 MYvvYpaX6sQ1KgXK9ujvYCYF/cKElPsf3SMv3UNz6YEfpPhsDJbCLDN8sXtUAburNn
+	 piT2eVnZFFdm0+7GmL2FYH8JyfGSm5LmTowobSA/svH10Zd6jvaLK2zr//Clf9i88C
+	 Hf7pKQK+kH6T/Gxmh9hPcY3NnfUPbbGX0iNrEpMcUgIFa6cEQsUhDbHZEaGRKhE/yY
+	 ibu2Sbqosc+ncAf4kpC6j8xW+1W+q80DsMwDVZEYXZqQ7nXCAbFWYGYLxN83D1urBN
+	 23VVLFxFlmwUw==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 83520100091; Fri,  8 Dec 2023 17:01:26 +0000 (GMT)
+Date: Fri, 8 Dec 2023 17:01:26 +0000
+From: Sean Young <sean@mess.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 3/4] pwm: bcm2835: allow pwm driver to be used in
+ atomic context
+Message-ID: <ZXNL5upeUPc4gC1R@gofer.mess.org>
+References: <cover.1701248996.git.sean@mess.org>
+ <179dc1ce85702a8b64b43c0e0df656b0c5e3ce30.1701248996.git.sean@mess.org>
+ <ZXNC3JYy7CTfYsyC@orome.fritz.box>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231208-v4l2-state-mc-fix-v1-1-a0c8162557c6@ideasonboard.com>
+In-Reply-To: <ZXNC3JYy7CTfYsyC@orome.fritz.box>
 
-Hi Tomi,
+On Fri, Dec 08, 2023 at 05:22:52PM +0100, Thierry Reding wrote:
+> On Wed, Nov 29, 2023 at 09:13:36AM +0000, Sean Young wrote:
+> > clk_get_rate() may do a mutex lock. Fetch the clock rate once, and prevent
+> > rate changes using clk_rate_exclusive_get().
+> > 
+> > Signed-off-by: Sean Young <sean@mess.org>
+> > ---
+> >  drivers/pwm/pwm-bcm2835.c | 31 +++++++++++++++++++++----------
+> >  1 file changed, 21 insertions(+), 10 deletions(-)
+> 
+> s/pwm/PWM/ in the subject. Although, I guess you could just drop the
+> "PWM" altogether because the subject prefix implies that this is for
+> PWM.
 
-Thank you for the patch.
+$ git log --no-merges --oneline drivers/pwm/ | sed -r 's/^\w* ([^:]+): .*/\1/' | sort | uniq -c
+   1197 pwm
+      1 PWM
+  ...
 
-On Fri, Dec 08, 2023 at 06:15:15PM +0200, Tomi Valkeinen wrote:
-> The subdev state locking macros and macros to get the active state are
-> currently behind CONFIG_MEDIA_CONTROLLER. This makes sense, as there can
-> be no subdev state without MC.
-> 
-> However, we have code paths common to MC and non-MC cases which call
-> subdev operations that have subdev state as a parameter. In the non-MC
-> case the state parameter would always be NULL.
-> 
-> Thus it makes sense to allow, e.g.:
-> 
-> v4l2_subdev_call_state_active(sd, pad, get_fmt, fmt)
-> 
-> which for non-MC case would call the subdev passing NULL as the state.
-> 
-> This currently fails:
-> https://lore.kernel.org/oe-kbuild-all/202312061101.PLrz5NnJ-lkp@intel.com/
-> 
-> Fix the issue by moving the related macros to be outside
-> CONFIG_MEDIA_CONTROLLER. The v4l2_subdev_lock_state() and
-> v4l2_subdev_unlock_state() macros will crash if given NULL as the state,
-> but the other macros behave correctly even when there's no active state,
-> and they will only call the lock/unlock macros if there is a state.
-> 
-> An alternative fix would be to make another version of
-> v4l2_subdev_call_state_try() with ifdefs, which would not use any state
-> macros and would always pass NULL as the state. But having two version
-> of a macro/function is always more confusing than having just one, so I
-> went this way.
-> 
-> So, this fixes the v4l2_subdev_call_state_active() macro. But we also
-> have v4l2_subdev_call_state_try(). It would be possible to fix that
-> macro by additionally creating "no-op" variants of the state alloc and
-> free functions. However, v4l2_subdev_call_state_try() is only used by a
-> single driver (stm32-dcmi), which selects MC, and the macro is supposed
-> to be removed as soon as the users have been converted away from the
-> macro. Thus I have not touched the state alloc/free functions, and I
-> think it makes sense to keep alloc/free functions available only if
-> there's actually something that can be allocated or freed.
+The vast majority of the commits use pwm: as a prefix, only one uses PWM:. 
+In fact if you look across the tree almost everywhere lower case is used
+for the prefix.
 
-Agreed.
+I'm just trying to follow convention.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Having said that, I think the prefix is totally redundant, it is clear from
+the commit files what they are affecting. I am not sure what it really adds.
 
-> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> ---
->  include/media/v4l2-subdev.h | 166 ++++++++++++++++++++++----------------------
->  1 file changed, 83 insertions(+), 83 deletions(-)
-> 
-> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
-> index 8b08f6640dee..61024a74ce38 100644
-> --- a/include/media/v4l2-subdev.h
-> +++ b/include/media/v4l2-subdev.h
-> @@ -1311,89 +1311,6 @@ int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
->   */
->  void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
->  
-> -/**
-> - * v4l2_subdev_lock_state() - Locks the subdev state
-> - * @state: The subdevice state
-> - *
-> - * Locks the given subdev state.
-> - *
-> - * The state must be unlocked with v4l2_subdev_unlock_state() after use.
-> - */
-> -static inline void v4l2_subdev_lock_state(struct v4l2_subdev_state *state)
-> -{
-> -	mutex_lock(state->lock);
-> -}
-> -
-> -/**
-> - * v4l2_subdev_unlock_state() - Unlocks the subdev state
-> - * @state: The subdevice state
-> - *
-> - * Unlocks the given subdev state.
-> - */
-> -static inline void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
-> -{
-> -	mutex_unlock(state->lock);
-> -}
-> -
-> -/**
-> - * v4l2_subdev_get_unlocked_active_state() - Checks that the active subdev state
-> - *					     is unlocked and returns it
-> - * @sd: The subdevice
-> - *
-> - * Returns the active state for the subdevice, or NULL if the subdev does not
-> - * support active state. If the state is not NULL, calls
-> - * lockdep_assert_not_held() to issue a warning if the state is locked.
-> - *
-> - * This function is to be used e.g. when getting the active state for the sole
-> - * purpose of passing it forward, without accessing the state fields.
-> - */
-> -static inline struct v4l2_subdev_state *
-> -v4l2_subdev_get_unlocked_active_state(struct v4l2_subdev *sd)
-> -{
-> -	if (sd->active_state)
-> -		lockdep_assert_not_held(sd->active_state->lock);
-> -	return sd->active_state;
-> -}
-> -
-> -/**
-> - * v4l2_subdev_get_locked_active_state() - Checks that the active subdev state
-> - *					   is locked and returns it
-> - *
-> - * @sd: The subdevice
-> - *
-> - * Returns the active state for the subdevice, or NULL if the subdev does not
-> - * support active state. If the state is not NULL, calls lockdep_assert_held()
-> - * to issue a warning if the state is not locked.
-> - *
-> - * This function is to be used when the caller knows that the active state is
-> - * already locked.
-> - */
-> -static inline struct v4l2_subdev_state *
-> -v4l2_subdev_get_locked_active_state(struct v4l2_subdev *sd)
-> -{
-> -	if (sd->active_state)
-> -		lockdep_assert_held(sd->active_state->lock);
-> -	return sd->active_state;
-> -}
-> -
-> -/**
-> - * v4l2_subdev_lock_and_get_active_state() - Locks and returns the active subdev
-> - *					     state for the subdevice
-> - * @sd: The subdevice
-> - *
-> - * Returns the locked active state for the subdevice, or NULL if the subdev
-> - * does not support active state.
-> - *
-> - * The state must be unlocked with v4l2_subdev_unlock_state() after use.
-> - */
-> -static inline struct v4l2_subdev_state *
-> -v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
-> -{
-> -	if (sd->active_state)
-> -		v4l2_subdev_lock_state(sd->active_state);
-> -	return sd->active_state;
-> -}
-> -
->  /*
->   * A macro to generate the macro or function name for sub-devices state access
->   * wrapper macros below.
-> @@ -1738,6 +1655,89 @@ int v4l2_subdev_s_stream_helper(struct v4l2_subdev *sd, int enable);
->  
->  #endif /* CONFIG_MEDIA_CONTROLLER */
->  
-> +/**
-> + * v4l2_subdev_lock_state() - Locks the subdev state
-> + * @state: The subdevice state
-> + *
-> + * Locks the given subdev state.
-> + *
-> + * The state must be unlocked with v4l2_subdev_unlock_state() after use.
-> + */
-> +static inline void v4l2_subdev_lock_state(struct v4l2_subdev_state *state)
-> +{
-> +	mutex_lock(state->lock);
-> +}
-> +
-> +/**
-> + * v4l2_subdev_unlock_state() - Unlocks the subdev state
-> + * @state: The subdevice state
-> + *
-> + * Unlocks the given subdev state.
-> + */
-> +static inline void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
-> +{
-> +	mutex_unlock(state->lock);
-> +}
-> +
-> +/**
-> + * v4l2_subdev_get_unlocked_active_state() - Checks that the active subdev state
-> + *					     is unlocked and returns it
-> + * @sd: The subdevice
-> + *
-> + * Returns the active state for the subdevice, or NULL if the subdev does not
-> + * support active state. If the state is not NULL, calls
-> + * lockdep_assert_not_held() to issue a warning if the state is locked.
-> + *
-> + * This function is to be used e.g. when getting the active state for the sole
-> + * purpose of passing it forward, without accessing the state fields.
-> + */
-> +static inline struct v4l2_subdev_state *
-> +v4l2_subdev_get_unlocked_active_state(struct v4l2_subdev *sd)
-> +{
-> +	if (sd->active_state)
-> +		lockdep_assert_not_held(sd->active_state->lock);
-> +	return sd->active_state;
-> +}
-> +
-> +/**
-> + * v4l2_subdev_get_locked_active_state() - Checks that the active subdev state
-> + *					   is locked and returns it
-> + *
-> + * @sd: The subdevice
-> + *
-> + * Returns the active state for the subdevice, or NULL if the subdev does not
-> + * support active state. If the state is not NULL, calls lockdep_assert_held()
-> + * to issue a warning if the state is not locked.
-> + *
-> + * This function is to be used when the caller knows that the active state is
-> + * already locked.
-> + */
-> +static inline struct v4l2_subdev_state *
-> +v4l2_subdev_get_locked_active_state(struct v4l2_subdev *sd)
-> +{
-> +	if (sd->active_state)
-> +		lockdep_assert_held(sd->active_state->lock);
-> +	return sd->active_state;
-> +}
-> +
-> +/**
-> + * v4l2_subdev_lock_and_get_active_state() - Locks and returns the active subdev
-> + *					     state for the subdevice
-> + * @sd: The subdevice
-> + *
-> + * Returns the locked active state for the subdevice, or NULL if the subdev
-> + * does not support active state.
-> + *
-> + * The state must be unlocked with v4l2_subdev_unlock_state() after use.
-> + */
-> +static inline struct v4l2_subdev_state *
-> +v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
-> +{
-> +	if (sd->active_state)
-> +		v4l2_subdev_lock_state(sd->active_state);
-> +	return sd->active_state;
-> +}
-> +
->  /**
->   * v4l2_subdev_init - initializes the sub-device struct
->   *
-> 
-> ---
-> base-commit: e55a9482888da73eeadde5f13ef8bafce68a38ed
-> change-id: 20231208-v4l2-state-mc-fix-b4f0ebfbb2bf
+> Also, please capitalize after the subject prefix.
 
--- 
-Regards,
+$ git log --no-merges --oneline drivers/pwm/ | grep -E '^\w* ([^:]+): [A-Z]' | wc -l
+217
+$ git log --no-merges --oneline drivers/pwm/ | grep -E '^\w* ([^:]+): [a-z]' | wc -l
+1069
 
-Laurent Pinchart
+Although not as clear, convention seems to be lower case for commits. The
+first line of a commit is not really a sentence, there is no trailing
+period.
+
+I am happy to oblige, just wanted to point this out. Sorry if this starts
+a bikeshed discussion.
+
+Thanks,
+
+Sean
 
