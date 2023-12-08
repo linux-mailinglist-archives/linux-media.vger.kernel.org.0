@@ -1,336 +1,116 @@
-Return-Path: <linux-media+bounces-2017-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2018-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D182080ABE3
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 19:17:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A50C80ACC4
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 20:15:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E8031F2117B
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 18:17:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 30FC11F2132E
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 19:15:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB1BB4CB27;
-	Fri,  8 Dec 2023 18:17:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 270D54A980;
+	Fri,  8 Dec 2023 19:15:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d4W1S/Ps"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PxP1WoZX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B1B90
-	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 10:16:56 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 38F652B3A;
-	Fri,  8 Dec 2023 19:16:09 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702059369;
-	bh=1xjqHpmRqykMK4RmICtjr0smAKwZaiBW6TVZbC1mk1E=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=d4W1S/Ps9/mnxpUzoC4ZKKAd7Q9j1yd9YlyFDsx7nXqCyomOYIeE+UId3HjqDIWZi
-	 /AwGHDmmXdl6wg+5WOM9hAZt4V9uly21bqK2bMxONIEVU2zY5cbHxDsUghJACwpsoc
-	 g+HpW1fF7jlx4i+GoKyKj700/yTG6p+M6kkoJGaA=
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v4 8/8] media: i2c: thp7312: Store frame interval in subdev state
-Date: Fri,  8 Dec 2023 20:16:48 +0200
-Message-ID: <20231208181648.13568-8-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.41.0
-In-Reply-To: <20231208181442.13356-1-laurent.pinchart@ideasonboard.com>
-References: <20231208181442.13356-1-laurent.pinchart@ideasonboard.com>
+Received: from mail-yb1-xb2d.google.com (mail-yb1-xb2d.google.com [IPv6:2607:f8b0:4864:20::b2d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 60B7910E7
+	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 11:15:32 -0800 (PST)
+Received: by mail-yb1-xb2d.google.com with SMTP id 3f1490d57ef6-db548cd1c45so2407360276.2
+        for <linux-media@vger.kernel.org>; Fri, 08 Dec 2023 11:15:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702062931; x=1702667731; darn=vger.kernel.org;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=HRz7IsCbz6/1gHw/96agdraBnMYiN3V+EnTOm9Z29tg=;
+        b=PxP1WoZXlbxCoRCpZELmNs+T74qv6P0sD+MmtqmAjw7ZzOx2HOPaej11xvThq21Hee
+         T8W8VtGUiQAFdiVvCsxppiRGlhk1syKT6IvG2ESIY1lToPspIrPyKlfbLoGp70E/jHz3
+         ZZP6ZGgiT1Zqn1k7RMYU9ESDPHMYfsnxsksM6V5Q1sv8r1bhxF5hlvTMmWsDQ3r2IDyW
+         Hcqm6fa7dxNtqGoAQ/kJa6WJc4JXyFpVwMEWMysERn0XixDZUjyq3BeJwEb6k6mRmR05
+         /xEgxPXSAPW2JYe+s/j4c89sFza2bnqiBWKFKQzjwYEfkm8OVPLzOxQ+5Le9cpHqKuEV
+         u8FA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702062931; x=1702667731;
+        h=to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HRz7IsCbz6/1gHw/96agdraBnMYiN3V+EnTOm9Z29tg=;
+        b=m/WvtzsYGqgIuc2ZXJzS9FpVGsBB1o2Bvpjq3GdEFykgZLvucR6caUfHl+j8ZSxiUc
+         DylUvRj+ryZi5gQtY4yRfquy4fzw2c2R+COFHUE1xgTW9qhJkJ4LSLJPVtQol7hYVU9Y
+         VbKAFd3oV6k4TmE5jvC7c9Hf6YPDw3IzhIn92g7sMgUh/rK0dAcP+c+iWrbozidhb8Vx
+         wtWXHZiHnUieRV+htOz+htZo35K3AoZSdIzDYLlLQG1RxH5N26yLGCll+q2hvSARgZ3C
+         ZhBAUt6+T/EB/58tDLhalJzuHbCB1Bpu6ZtJNG1HRVFUBPZSKhmkkj7CoPxaInmZOj6w
+         qhAQ==
+X-Gm-Message-State: AOJu0YyJB0aOnhZLuVuNypPk8TJ+EOBi6b182IFiJqgqVJvOoMYf3x6D
+	AJNLyVG/yek/u8sz2C8qML38gUrIwRopzVHYB6N9rm2Rip0=
+X-Google-Smtp-Source: AGHT+IHHhMaCZIVRNMPdrsGuMMSEXxW/C7CvUxAqYCPF92M/zHeyLNysQhaOixln5xwdBzURzvG1PUHwthg4SxT4s14=
+X-Received: by 2002:a25:ab86:0:b0:db7:2cad:4b0f with SMTP id
+ v6-20020a25ab86000000b00db72cad4b0fmr423879ybi.52.1702062931514; Fri, 08 Dec
+ 2023 11:15:31 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: Jelte Veldstra <jelte.veldstra@gmail.com>
+Date: Fri, 8 Dec 2023 20:15:23 +0100
+Message-ID: <CAB5oYK+uyNnHRF3MdFWPm0N=xUxR-b_NZHAEwRPy5VeQV_s-Yg@mail.gmail.com>
+Subject: Anysee E30 Combo Plus USB DVB-C adapter stopped working on kernel >6.1.38-4
+To: linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Use the newly added storage for frame interval in the subdev state to
-simplify the driver.
+Hi, I'm running Debian Bookworm. On kernel package 6.1.0-11-amd64
+(6.1.38-4) my Anysee E30 Combo Plus USB DVB-C tuners are working fine
+and /dev/dvb/adapterX device files are created.
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
- drivers/media/i2c/thp7312.c | 150 +++++++++++++++++++-----------------
- 1 file changed, 81 insertions(+), 69 deletions(-)
+After upgrading to kernel package 6.1.0-13-amd64 (6.1.55-1) the
+adapters are not recognized anymore:
+[ 1530.507446] usb 3-3: new high-speed USB device number 8 using xhci_hcd
+[ 1531.211672] usb 3-3: Device not responding to setup address.
+[ 1531.419562] usb 3-3: Device not responding to setup address.
+[ 1531.627456] usb 3-3: device not accepting address 8, error -71
+[ 1531.963481] usb 3-3: new high-speed USB device number 9 using xhci_hcd
+[ 1533.191946] usb 3-3: config 1 interface 0 altsetting 0 bulk
+endpoint 0x1 has invalid maxpacket 64
+[ 1533.191959] usb 3-3: config 1 interface 0 altsetting 0 bulk
+endpoint 0x81 has invalid maxpacket 64
+[ 1533.191966] usb 3-3: config 1 interface 0 altsetting 1 bulk
+endpoint 0x1 has invalid maxpacket 64
+[ 1533.191972] usb 3-3: config 1 interface 0 altsetting 1 bulk
+endpoint 0x81 has invalid maxpacket 64
+[ 1533.192402] usb 3-3: New USB device found, idVendor=1c73,
+idProduct=861f, bcdDevice= 1.00
+[ 1533.192414] usb 3-3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[ 1533.192420] usb 3-3: Product: anysee-FA(LP)
+[ 1533.192425] usb 3-3: Manufacturer: AMT.CO.KR
+[ 1533.194910] usb 3-3: dvb_usb_v2: found a 'Anysee' in warm state
+[ 1533.199872] usb 3-3: dvb_usb_anysee: firmware version 1.2 hardware id 15
+[ 1533.199933] usb 3-3: dvb_usb_v2: will pass the complete MPEG2
+transport stream to the software demuxer
+[ 1533.199945] dvbdev: DVB: registering new adapter (Anysee)
+[ 1533.199948] usb 3-3: media controller created
+[ 1533.200284] dvbdev: dvb_create_media_entity: media entity
+'dvb-demux' registered.
+[ 1533.207678] DVB: TDA10023(-1): tda10023_readreg: readreg error (reg
+== 0x1a, ret == -95)
+[ 1533.207714] usb 3-3: dvb_usb_anysee: Unsupported Anysee version.
+Please report to <linux-media@vger.kernel.org>.
 
-diff --git a/drivers/media/i2c/thp7312.c b/drivers/media/i2c/thp7312.c
-index 49eda07f1c96..2806887514dc 100644
---- a/drivers/media/i2c/thp7312.c
-+++ b/drivers/media/i2c/thp7312.c
-@@ -266,9 +266,6 @@ struct thp7312_device {
- 	struct v4l2_ctrl_handler ctrl_handler;
- 	bool ctrls_applied;
- 
--	/* These are protected by v4l2 active state */
--	const struct thp7312_mode_info *current_mode;
--	const struct thp7312_frame_rate *current_rate;
- 	s64 link_freq;
- 
- 	struct {
-@@ -310,6 +307,47 @@ static inline struct thp7312_device *to_thp7312_dev(struct v4l2_subdev *sd)
- 	return container_of(sd, struct thp7312_device, sd);
- }
- 
-+static const struct thp7312_mode_info *
-+thp7312_find_mode(unsigned int width, unsigned int height, bool nearest)
-+{
-+	const struct thp7312_mode_info *mode;
-+
-+	mode = v4l2_find_nearest_size(thp7312_mode_info_data,
-+				      ARRAY_SIZE(thp7312_mode_info_data),
-+				      width, height, width, height);
-+
-+	if (!nearest && (mode->width != width || mode->height != height))
-+		return NULL;
-+
-+	return mode;
-+}
-+
-+static const struct thp7312_frame_rate *
-+thp7312_find_rate(const struct thp7312_mode_info *mode, unsigned int fps,
-+		  bool nearest)
-+{
-+	const struct thp7312_frame_rate *best_rate = NULL;
-+	const struct thp7312_frame_rate *rate;
-+	unsigned int best_delta = UINT_MAX;
-+
-+	if (!mode)
-+		return NULL;
-+
-+	for (rate = mode->rates; rate->fps && best_delta; ++rate) {
-+		unsigned int delta = abs(rate->fps - fps);
-+
-+		if (delta <= best_delta) {
-+			best_delta = delta;
-+			best_rate = rate;
-+		}
-+	}
-+
-+	if (!nearest && best_delta)
-+		return NULL;
-+
-+	return best_rate;
-+}
-+
- /* -----------------------------------------------------------------------------
-  * Device Access & Configuration
-  */
-@@ -442,17 +480,30 @@ static int thp7312_set_framefmt(struct thp7312_device *thp7312,
- static int thp7312_init_mode(struct thp7312_device *thp7312,
- 			     struct v4l2_subdev_state *sd_state)
- {
-+	const struct thp7312_mode_info *mode;
-+	const struct thp7312_frame_rate *rate;
- 	struct v4l2_mbus_framefmt *fmt;
-+	struct v4l2_fract *interval;
- 	int ret;
- 
-+	/*
-+	 * TODO: The mode and rate should be cached in the subdev state, once
-+	 * support for extending states will be available.
-+	 */
- 	fmt = v4l2_subdev_state_get_format(sd_state, 0);
-+	interval = v4l2_subdev_state_get_interval(sd_state, 0);
-+
-+	mode = thp7312_find_mode(fmt->width, fmt->height, false);
-+	rate = thp7312_find_rate(mode, interval->denominator, false);
-+
-+	if (WARN_ON(!mode || !rate))
-+		return -EINVAL;
- 
- 	ret = thp7312_set_framefmt(thp7312, fmt);
- 	if (ret)
- 		return ret;
- 
--	return thp7312_change_mode(thp7312, thp7312->current_mode,
--				   thp7312->current_rate);
-+	return thp7312_change_mode(thp7312, mode, rate);
- }
- 
- static int thp7312_stream_enable(struct thp7312_device *thp7312, bool enable)
-@@ -621,28 +672,6 @@ static bool thp7312_find_bus_code(u32 code)
- 	return false;
- }
- 
--static const struct thp7312_mode_info *
--thp7312_find_mode(unsigned int width, unsigned int height, bool nearest)
--{
--	const struct thp7312_mode_info *mode;
--
--	mode = v4l2_find_nearest_size(thp7312_mode_info_data,
--				      ARRAY_SIZE(thp7312_mode_info_data),
--				      width, height, width, height);
--
--	if (!nearest && (mode->width != width || mode->height != height))
--		return NULL;
--
--	return mode;
--}
--
--static void thp7312_set_frame_rate(struct thp7312_device *thp7312,
--				   const struct thp7312_frame_rate *rate)
--{
--	thp7312->link_freq = rate->link_freq;
--	thp7312->current_rate = rate;
--}
--
- static int thp7312_enum_mbus_code(struct v4l2_subdev *sd,
- 				  struct v4l2_subdev_state *sd_state,
- 				  struct v4l2_subdev_mbus_code_enum *code)
-@@ -707,6 +736,7 @@ static int thp7312_set_fmt(struct v4l2_subdev *sd,
- 	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
- 	struct v4l2_mbus_framefmt *mbus_fmt = &format->format;
- 	struct v4l2_mbus_framefmt *fmt;
-+	struct v4l2_fract *interval;
- 	const struct thp7312_mode_info *mode;
- 
- 	if (!thp7312_find_bus_code(mbus_fmt->code))
-@@ -726,25 +756,12 @@ static int thp7312_set_fmt(struct v4l2_subdev *sd,
- 
- 	*mbus_fmt = *fmt;
- 
--	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
--		thp7312->current_mode = mode;
--		thp7312_set_frame_rate(thp7312, &mode->rates[0]);
--	}
-+	interval = v4l2_subdev_state_get_interval(sd_state, 0);
-+	interval->numerator = 1;
-+	interval->denominator = mode->rates[0].fps;
- 
--	return 0;
--}
--
--static int thp7312_get_frame_interval(struct v4l2_subdev *sd,
--				      struct v4l2_subdev_state *sd_state,
--				      struct v4l2_subdev_frame_interval *fi)
--{
--	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
--
--	if (fi->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
--
--	fi->interval.numerator = 1;
--	fi->interval.denominator = thp7312->current_rate->fps;
-+	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-+		thp7312->link_freq = mode->rates[0].link_freq;
- 
- 	return 0;
- }
-@@ -755,34 +772,28 @@ static int thp7312_set_frame_interval(struct v4l2_subdev *sd,
- {
- 	struct thp7312_device *thp7312 = to_thp7312_dev(sd);
- 	const struct thp7312_mode_info *mode;
--	const struct thp7312_frame_rate *best_rate = NULL;
- 	const struct thp7312_frame_rate *rate;
--	unsigned int best_delta = UINT_MAX;
-+	const struct v4l2_mbus_framefmt *fmt;
-+	struct v4l2_fract *interval;
- 	unsigned int fps;
- 
--	if (fi->which != V4L2_SUBDEV_FORMAT_ACTIVE)
--		return -EINVAL;
--
- 	/* Avoid divisions by 0, pick the highest frame if the interval is 0. */
- 	fps = fi->interval.numerator
- 	    ? DIV_ROUND_CLOSEST(fi->interval.denominator, fi->interval.numerator)
- 	    : UINT_MAX;
- 
--	mode = thp7312->current_mode;
-+	fmt = v4l2_subdev_state_get_format(sd_state, 0);
-+	mode = thp7312_find_mode(fmt->width, fmt->height, false);
-+	rate = thp7312_find_rate(mode, fps, true);
- 
--	for (rate = mode->rates; rate->fps && best_delta; ++rate) {
--		unsigned int delta = abs(rate->fps - fps);
-+	interval = v4l2_subdev_state_get_interval(sd_state, 0);
-+	interval->numerator = 1;
-+	interval->denominator = rate->fps;
- 
--		if (delta <= best_delta) {
--			best_delta = delta;
--			best_rate = rate;
--		}
--	}
-+	if (fi->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-+		thp7312->link_freq = rate->link_freq;
- 
--	thp7312_set_frame_rate(thp7312, best_rate);
--
--	fi->interval.numerator = 1;
--	fi->interval.denominator = best_rate->fps;
-+	fi->interval = *interval;
- 
- 	return 0;
- }
-@@ -842,8 +853,10 @@ static int thp7312_init_state(struct v4l2_subdev *sd,
- {
- 	const struct thp7312_mode_info *default_mode = &thp7312_mode_info_data[0];
- 	struct v4l2_mbus_framefmt *fmt;
-+	struct v4l2_fract *interval;
- 
- 	fmt = v4l2_subdev_state_get_format(sd_state, 0);
-+	interval = v4l2_subdev_state_get_interval(sd_state, 0);
- 
- 	/*
- 	 * default init sequence initialize thp7312 to
-@@ -858,6 +871,9 @@ static int thp7312_init_state(struct v4l2_subdev *sd,
- 	fmt->height = default_mode->height;
- 	fmt->field = V4L2_FIELD_NONE;
- 
-+	interval->numerator = 1;
-+	interval->denominator = default_mode->rates[0].fps;
-+
- 	return 0;
- }
- 
-@@ -875,7 +891,7 @@ static const struct v4l2_subdev_pad_ops thp7312_pad_ops = {
- 	.enum_mbus_code = thp7312_enum_mbus_code,
- 	.get_fmt = v4l2_subdev_get_fmt,
- 	.set_fmt = thp7312_set_fmt,
--	.get_frame_interval = thp7312_get_frame_interval,
-+	.get_frame_interval = v4l2_subdev_get_frame_interval,
- 	.set_frame_interval = thp7312_set_frame_interval,
- 	.enum_frame_size = thp7312_enum_frame_size,
- 	.enum_frame_interval = thp7312_enum_frame_interval,
-@@ -1303,6 +1319,8 @@ static int thp7312_init_controls(struct thp7312_device *thp7312)
- 			       V4L2_CID_POWER_LINE_FREQUENCY_60HZ, 0,
- 			       V4L2_CID_POWER_LINE_FREQUENCY_50HZ);
- 
-+	thp7312->link_freq = thp7312_mode_info_data[0].rates[0].link_freq;
-+
- 	link_freq = v4l2_ctrl_new_int_menu(hdl, &thp7312_ctrl_ops,
- 					   V4L2_CID_LINK_FREQ, 0, 0,
- 					   &thp7312->link_freq);
-@@ -2072,7 +2090,6 @@ static int thp7312_parse_dt(struct thp7312_device *thp7312)
- static int thp7312_probe(struct i2c_client *client)
- {
- 	struct device *dev = &client->dev;
--	struct v4l2_subdev_state *sd_state;
- 	struct thp7312_device *thp7312;
- 	int ret;
- 
-@@ -2148,11 +2165,6 @@ static int thp7312_probe(struct i2c_client *client)
- 		goto err_free_ctrls;
- 	}
- 
--	sd_state = v4l2_subdev_lock_and_get_active_state(&thp7312->sd);
--	thp7312->current_mode = &thp7312_mode_info_data[0];
--	thp7312_set_frame_rate(thp7312, &thp7312->current_mode->rates[0]);
--	v4l2_subdev_unlock_state(sd_state);
--
- 	/*
- 	 * Enable runtime PM with autosuspend. As the device has been powered
- 	 * manually, mark it as active, and increase the usage count without
--- 
+As a result /dev/dvb is missing also.
+
+I reverted to kernel package 6.1.0-11-amd64 (6.1.38-4) after reading
+of other DVB users that had issues with their tuners cards and got it
+working when reverting to 6.1.0-11-amd64. I did not try 6.1.0-12 as
+other user experiences suggested that 6.1.0-11-amd64 was the last
+working version for them.
+
+The error message suggests reporting it here. If you could get it
+supported again, then that would be great.
+
 Regards,
 
-Laurent Pinchart
 
+Jelte
 
