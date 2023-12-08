@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-1963-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1964-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D89D80A59F
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:35:01 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E452880A5A1
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 15:35:07 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 249ED281BEA
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 14:35:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 13E541C20D7A
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 14:35:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8568F1E53C;
-	Fri,  8 Dec 2023 14:34:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C0A620323;
+	Fri,  8 Dec 2023 14:34:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="B6NuktCb"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="a8bVXRab"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madras.collabora.co.uk (madras.collabora.co.uk [46.235.227.172])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B07CA1994;
-	Fri,  8 Dec 2023 06:34:36 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 917B58E;
+	Fri,  8 Dec 2023 06:34:37 -0800 (PST)
 Received: from stla-brain-8255-1.home (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: jmassot)
-	by madras.collabora.co.uk (Postfix) with ESMTPSA id EE50166073C1;
-	Fri,  8 Dec 2023 14:34:34 +0000 (GMT)
+	by madras.collabora.co.uk (Postfix) with ESMTPSA id C6FC066073C2;
+	Fri,  8 Dec 2023 14:34:35 +0000 (GMT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702046075;
-	bh=ImQAqLmt7gBpmLXI+Z65HjQB6N+l9JyKQVsnfWgqHlY=;
+	s=mail; t=1702046076;
+	bh=qTgIN2hi/5JG88Uo9HOO8R33J8vMowN2sxE3q52KHZU=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=B6NuktCb8KD2PB9WlBs3nzfuF7Rwax+Ueqro+HOgpPCZ0W+LrayyI8HH3TsvkR5ng
-	 +Ac3+uSETGh95PcKeyIR2uU6p+WVpVW7ixXnQ15LgjlnIJaRMJ/FQVfkaJunROEXoo
-	 X4BoBRFO8p7l39m3/TXdHcQ4yo1vjHrjTcMlLEYhrFbB/fH/O1tsVWQeWGwB2W2AKf
-	 XO/JKMzZRDNhenuYp2sHuFLxaoa9eEUeIZl2BJDYwSSAEivLcXh5hj4UEo/yl7WWcQ
-	 qt0wyXETsCFPFSsIF3fOA5E6bv4FV+kE0QUaMaM1lIQRr49WU+OXhL6qW9iiXtw3P2
-	 Mi+62CVtgvGow==
+	b=a8bVXRabqOgamckMXeDZNRg+hcAzZHorrn+ISjx3Xca/rR+hknDMBy/+h+G7iPwRg
+	 uDNIYr2uPzsILwHax9HwxsyWPAFMZZpZzNeGb5XtmBRPLYETgc+7nsWdzFGuxhOCrq
+	 NfIkpk8EO+t3JF0gI0RjuuHnn610ACxxgCILMz1J5t/622K/JJhXj0gojK/MVE4pyE
+	 ynjjnCPWA9wAD0OBV0XzVK3D3KRDWPOIGH863S+KMf15WZzcmLhuA/RFVDFfIqvN0n
+	 wW07X/EeFVZQ5JkNrpg7bLKhZvgM7LYm8fGD+UW67vcqMnRqlBuRdj4PA3Xn66iehi
+	 4wcH1dxHOxcGw==
 From: Julien Massot <julien.massot@collabora.com>
 To: devicetree@vger.kernel.org,
 	linux-media@vger.kernel.org
 Cc: kernel@collabora.com,
 	Julien Massot <julien.massot@collabora.com>
-Subject: [PATCH v2 3/4] media: i2c: add MAX96714 driver
-Date: Fri,  8 Dec 2023 15:33:58 +0100
-Message-ID: <20231208143359.469049-4-julien.massot@collabora.com>
+Subject: [PATCH v2 4/4] media: i2c: add MAX96717 driver
+Date: Fri,  8 Dec 2023 15:33:59 +0100
+Message-ID: <20231208143359.469049-5-julien.massot@collabora.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20231208143359.469049-1-julien.massot@collabora.com>
 References: <20231208143359.469049-1-julien.massot@collabora.com>
@@ -54,47 +54,47 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This driver handle the MAX96714 deserializer in tunnel mode.
-The CSI output will replicate all the CSI traffic capture by
-the remote serializer.
+This driver handle the MAX96717 serializer in tunnel mode.
+All incoming CSI traffic will be tunneled through the GMSL2
+link.
 
 Signed-off-by: Julien Massot <julien.massot@collabora.com>
 ---
- MAINTAINERS                  |   6 +
- drivers/media/i2c/Kconfig    |  13 +
- drivers/media/i2c/Makefile   |   1 +
- drivers/media/i2c/max96714.c | 945 +++++++++++++++++++++++++++++++++++
- 4 files changed, 965 insertions(+)
- create mode 100644 drivers/media/i2c/max96714.c
+ MAINTAINERS                  |    6 +
+ drivers/media/i2c/Kconfig    |   13 +
+ drivers/media/i2c/Makefile   |    1 +
+ drivers/media/i2c/max96717.c | 1003 ++++++++++++++++++++++++++++++++++
+ 4 files changed, 1023 insertions(+)
+ create mode 100644 drivers/media/i2c/max96717.c
 
 diff --git a/MAINTAINERS b/MAINTAINERS
-index 10a981abd6ec..1010e7db32f2 100644
+index 1010e7db32f2..232f74998b57 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -13016,6 +13016,12 @@ L:	linux-media@vger.kernel.org
+@@ -13022,6 +13022,12 @@ L:	linux-media@vger.kernel.org
  S:	Maintained
- F:	drivers/staging/media/max96712/max96712.c
+ F:	drivers/media/i2c/max96714.c
  
-+MAX96714 GMSL2 DESERIALIZER DRIVER
++MAX96717 GMSL2 SERIALIZER DRIVER
 +M:	Julien Massot <julien.massot@collabora.com>
 +L:	linux-media@vger.kernel.org
 +S:	Maintained
-+F:	drivers/media/i2c/max96714.c
++F:	drivers/media/i2c/max96717.c
 +
  MAX9860 MONO AUDIO VOICE CODEC DRIVER
  M:	Peter Rosin <peda@axentia.se>
  L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
 diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 59ee0ca2c978..6e2819a9ba96 100644
+index 6e2819a9ba96..87858169c39a 100644
 --- a/drivers/media/i2c/Kconfig
 +++ b/drivers/media/i2c/Kconfig
-@@ -1498,6 +1498,19 @@ config VIDEO_DS90UB960
- 	  Device driver for the Texas Instruments DS90UB960
- 	  FPD-Link III Deserializer and DS90UB9702 FPD-Link IV Deserializer.
+@@ -1511,6 +1511,19 @@ config VIDEO_MAX96714
+ 	  Device driver for the Maxim MAX96714
+ 	  GMSL2 Deserializer.
  
-+config VIDEO_MAX96714
-+	tristate "Maxim MAX96714 GMSL2 deserializer"
-+	depends on OF && I2C && VIDEO_DEV
++config VIDEO_MAX96717
++	tristate "Maxim MAX96717 GMSL2 Serializer support"
++	depends on OF && I2C && VIDEO_DEV && COMMON_CLK
 +	select I2C_MUX
 +	select MEDIA_CONTROLLER
 +	select GPIOLIB
@@ -102,126 +102,158 @@ index 59ee0ca2c978..6e2819a9ba96 100644
 +	select V4L2_FWNODE
 +	select VIDEO_V4L2_SUBDEV_API
 +	help
-+	  Device driver for the Maxim MAX96714
-+	  GMSL2 Deserializer.
++	  Device driver for the Maxim MAX96717
++	  GMSL2 Serializer.
 +
  endmenu
  
  endif # VIDEO_DEV
 diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index f5010f80a21f..c6e23d3fdc22 100644
+index c6e23d3fdc22..4362b905edfd 100644
 --- a/drivers/media/i2c/Makefile
 +++ b/drivers/media/i2c/Makefile
-@@ -61,6 +61,7 @@ obj-$(CONFIG_VIDEO_LM3646) += lm3646.o
- obj-$(CONFIG_VIDEO_M52790) += m52790.o
+@@ -62,6 +62,7 @@ obj-$(CONFIG_VIDEO_M52790) += m52790.o
  obj-$(CONFIG_VIDEO_MAX9271_LIB) += max9271.o
  obj-$(CONFIG_VIDEO_MAX9286) += max9286.o
-+obj-$(CONFIG_VIDEO_MAX96714) += max96714.o
+ obj-$(CONFIG_VIDEO_MAX96714) += max96714.o
++obj-$(CONFIG_VIDEO_MAX96717) += max96717.o
  obj-$(CONFIG_VIDEO_ML86V7667) += ml86v7667.o
  obj-$(CONFIG_VIDEO_MSP3400) += msp3400.o
  obj-$(CONFIG_VIDEO_MT9M001) += mt9m001.o
-diff --git a/drivers/media/i2c/max96714.c b/drivers/media/i2c/max96714.c
+diff --git a/drivers/media/i2c/max96717.c b/drivers/media/i2c/max96717.c
 new file mode 100644
-index 000000000000..a65f18991a2a
+index 000000000000..13c70fbe42cc
 --- /dev/null
-+++ b/drivers/media/i2c/max96714.c
-@@ -0,0 +1,945 @@
++++ b/drivers/media/i2c/max96717.c
+@@ -0,0 +1,1003 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
-+ * Maxim GMSL2 Deserializer Driver
++ * Maxim GMSL2 Serializer Driver
 + *
 + * Copyright (C) 2023 Collabora Ltd.
 + */
 +
-+#include <linux/bitops.h>
++#include <linux/clk.h>
++#include <linux/clk-provider.h>
++#include <linux/delay.h>
 +#include <linux/fwnode.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
++#include <linux/gpio/driver.h>
 +#include <linux/i2c-mux.h>
-+#include <linux/module.h>
++#include <linux/i2c.h>
 +#include <linux/regmap.h>
-+#include <linux/regulator/consumer.h>
 +
-+#include <media/v4l2-ctrls.h>
++#include <media/mipi-csi2.h>
 +#include <media/v4l2-fwnode.h>
 +#include <media/v4l2-subdev.h>
 +
-+#define MAX96714F_DEVICE_ID 0xca
-+#define MAX96714_NPORTS     2
-+#define MAX96714_PAD_SINK   0
-+#define MAX96714_PAD_SOURCE 1
++#define MAX96717F_DEVICE_ID 0xc8
++#define MAX96717_PORTS      2
++#define MAX96717_PAD_SINK   0
++#define MAX96717_PAD_SOURCE 1
++
++#define MAX96717_DEFAULT_CLKOUT_RATE	24000000UL
 +
 +/* DEV */
-+#define MAX96714_REG13         0x0d
-+#define MAX96714_DEV_REV       0x0e
-+#define MAX96714_DEV_REV_MASK  GENMASK(3, 0)
-+#define MAX96714_LINK_LOCK     0x13
-+#define MAX96714_LINK_LOCK_BIT BIT(3)
++#define REG3 0x3
++#define MAX96717_RCLKSEL GENMASK(1, 0)
++#define RCLKSEL_REF_PLL 0x3
++#define MAX96717_REG6 0x6
++#define RCLKEN BIT(5)
++#define MAX96717_DEV_ID 0xd
++#define MAX96717_DEV_REV 0xe
++#define MAX96717_DEV_REV_MASK GENMASK(3, 0)
 +
-+/* VID_RX */
-+#define MAX96714_VIDEO_RX8 0x11a
-+#define MAX96714_VID_LOCK  BIT(6)
++/* VID_TX Z */
++#define MAX96717_VIDEO_TX2 0x112
++#define MAX96717_VIDEO_PCLKDET BIT(7)
 +
-+/* BACKTOP */
-+#define MAX96714_BACKTOP25 0x320
-+#define CSI_DPLL_FREQ_MASK GENMASK(4, 0)
++/* GPIO */
++#define MAX96717_GPIO_BASE        0x2be
++#define MAX96717_NUM_GPIO         11
++#define MAX96717_GPIO_REG_A(gpio) (MAX96717_GPIO_BASE + gpio * 3)
++#define MAX96717_GPIO_OUT         BIT(4)
++#define MAX96717_GPIO_IN          BIT(3)
++#define MAX96717_GPIO_RX_EN       BIT(2)
++#define MAX96717_GPIO_TX_EN       BIT(1)
++#define MAX96717_GPIO_OUT_DIS     BIT(0)
 +
-+/* MIPI_PHY */
-+#define MAX96714_MIPI_STDBY_N    0x332
-+#define MAX96714_MIPI_STDBY_MASK GENMASK(5, 4)
-+#define MAX96714_MIPI_LANE_MAP   0x333
-+#define MAX96714_MIPI_POLARITY   0x335
-+#define MAX96714_MIPI_POLARITY_MASK GENMASK(5, 0)
++/* FRONTTOP */
++/* MAX96717 only have CSI port 'B' */
++#define MAX96717_FRONTOP0 0x308
++#define MAX96717_START_PORT_B BIT(5)
 +
-+/* MIPI_TX */
-+#define MAX96714_MIPI_LANE_CNT 0x44a
-+#define MAX96714_CSI2_LANE_CNT_MASK GENMASK(7, 6)
-+#define MAX96714_MIPI_TX52 0x474
-+#define MAX96714_TUN_EN BIT(0)
++/* MIPI_RX */
++#define MAX96717_MIPI_RX1 0x331
++#define MAX96717_MIPI_LANES_CNT GENMASK(5, 4)
++#define MAX96717_MIPI_RX2 0x332 /* phy1 Lanes map */
++#define MAX96717_PHY2_LANES_MAP GENMASK(7, 4)
++#define MAX96717_MIPI_RX3 0x333 /* phy2 Lanes map */
++#define MAX96717_PHY1_LANES_MAP GENMASK(3, 0)
++#define MAX96717_MIPI_RX4 0x334 /* phy1 lane polarities */
++#define MAX96717_PHY1_LANES_POL GENMASK(6, 4)
++#define MAX96717_MIPI_RX5 0x335 /* phy2 lane polarities */
++#define MAX96717_PHY2_LANES_POL GENMASK(2, 0)
 +
-+#define MHZ(v) ((u32)((v)  * 1000000U))
++/* MIPI_RX_EXT */
++#define MAX96717_MIPI_RX_EXT11 0x383
++#define MAX96717_TUN_MODE BIT(7)
 +
-+struct max96714_rxport {
-+	struct {
-+		struct v4l2_subdev   *sd;
-+		u16 pad;
-+		struct fwnode_handle *ep_fwnode;
-+	} source;
-+	struct regulator	     *poc;
++/* REF_VTG */
++#define REF_VTG0 0x3f0
++#define REFGEN_PREDEF_EN BIT(6)
++#define REFGEN_PREDEF_FREQ_MASK GENMASK(5, 4)
++#define REFGEN_PREDEF_FREQ_ALT BIT(3)
++#define REFGEN_RST BIT(1)
++#define REFGEN_EN BIT(0)
++
++/* MISC */
++#define PIO_SLEW_1 0x570
++
++struct max96717_hw_data {
++	const char *model;
++	u8 device_id;
 +};
 +
-+struct max96714_txport {
-+	struct v4l2_fwnode_endpoint vep;
++static const struct max96717_hw_data max96717f_data = {
++	.model = "max96717f",
++	.device_id = MAX96717F_DEVICE_ID,
 +};
 +
-+struct max96714_priv {
-+	struct i2c_client *client;
-+	struct regmap     *regmap;
-+	struct gpio_desc  *gpiod_pwdn;
-+	struct max96714_rxport rxport;
-+	struct i2c_mux_core *mux;
-+	u64 enabled_source_streams;
-+	struct v4l2_subdev	sd;
-+	struct media_pad	pads[MAX96714_NPORTS];
-+	struct v4l2_fwnode_endpoint vep;
-+	struct v4l2_ctrl_handler   ctrl_handler;
-+	struct v4l2_async_notifier notifier;
-+	s64 tx_link_freq;
++struct max96717_priv {
++	const struct max96717_hw_data *data;
++	struct i2c_client             *client;
++	struct regmap                 *regmap;
++	struct i2c_mux_core           *mux;
++	struct v4l2_fwnode_endpoint   vep;
++	struct v4l2_subdev            sd;
++	struct media_pad              pads[MAX96717_PORTS];
++	struct v4l2_async_notifier    notifier;
++	struct v4l2_subdev            *source_sd;
++	u16                           source_sd_pad;
++	u64			      enabled_source_streams;
++	u8                            pll_predef_index;
++	struct clk_hw                 clk_hw;
++	struct gpio_chip              gpio_chip;
 +};
 +
-+static struct regmap_config max96714_regmap_config = {
-+	.name = "max96714",
++static struct regmap_config max96717_regmap_config = {
++	.name = "max96717",
 +	.reg_bits = 16,
 +	.val_bits = 8,
 +	.max_register = 0xFFFF,
 +};
 +
-+static inline struct max96714_priv *sd_to_max96714(struct v4l2_subdev *sd)
++static inline struct max96717_priv *sd_to_max96717(struct v4l2_subdev *sd)
 +{
-+	return container_of(sd, struct max96714_priv, sd);
++	return container_of(sd, struct max96717_priv, sd);
 +}
 +
-+static int max96714_read(struct max96714_priv *priv, u16 reg, u8 *val)
++static inline struct max96717_priv *clk_hw_to_max96717(struct clk_hw *hw)
++{
++	return container_of(hw, struct max96717_priv, clk_hw);
++}
++
++static int max96717_read(struct max96717_priv *priv, u16 reg, u8 *val)
 +{
 +	struct device *dev = &priv->client->dev;
 +	unsigned int v;
@@ -238,7 +270,7 @@ index 000000000000..a65f18991a2a
 +	return ret;
 +}
 +
-+static int max96714_write(struct max96714_priv *priv, u16 reg, u8 val)
++static int max96717_write(struct max96717_priv *priv, u16 reg, u8 val)
 +{
 +	struct device *dev = &priv->client->dev;
 +	int ret;
@@ -251,7 +283,7 @@ index 000000000000..a65f18991a2a
 +	return ret;
 +}
 +
-+static int max96714_update_bits(struct max96714_priv *priv, u16 reg, u8 mask,
++static int max96717_update_bits(struct max96717_priv *priv, u16 reg, u8 mask,
 +				u8 val)
 +{
 +	struct device *dev = &priv->client->dev;
@@ -265,148 +297,134 @@ index 000000000000..a65f18991a2a
 +	return ret;
 +}
 +
-+static int max96714_enable_tx_port(struct max96714_priv *priv)
++static int max96717_i2c_mux_select(struct i2c_mux_core *mux, u32 chan)
 +{
-+	return max96714_update_bits(priv, MAX96714_MIPI_STDBY_N,
-+				    MAX96714_MIPI_STDBY_MASK,
-+				    MAX96714_MIPI_STDBY_MASK);
++	return 0;
 +}
 +
-+static void max96714_disable_tx_port(struct max96714_priv *priv)
++static int max96717_i2c_mux_init(struct max96717_priv *priv)
 +{
-+	max96714_update_bits(priv, MAX96714_MIPI_STDBY_N,
-+			     MAX96714_MIPI_STDBY_MASK, 0);
++	priv->mux = i2c_mux_alloc(priv->client->adapter, &priv->client->dev,
++				  1, 0, I2C_MUX_LOCKED | I2C_MUX_GATE,
++				  max96717_i2c_mux_select, NULL);
++	if (!priv->mux)
++		return -ENOMEM;
++
++	return i2c_mux_add_adapter(priv->mux, 0, 0, 0);
 +}
 +
-+static bool max96714_tx_port_enabled(struct max96714_priv *priv)
++static inline int max96717_start_csi(struct max96717_priv *priv, bool start)
 +{
++	return max96717_update_bits(priv, MAX96717_FRONTOP0,
++				    MAX96717_START_PORT_B,
++				    start ? MAX96717_START_PORT_B : 0);
++}
++
++static int max96717_gpiochip_get(struct gpio_chip *gpiochip,
++				 unsigned int offset)
++{
++	struct max96717_priv *priv = gpiochip_get_data(gpiochip);
 +	u8 val;
-+
-+	max96714_read(priv, MAX96714_MIPI_STDBY_N, &val);
-+
-+	return val & MAX96714_MIPI_STDBY_MASK;
-+}
-+
-+static int max96714_enable_streams(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *state,
-+				   u32 source_pad, u64 streams_mask)
-+{
-+	struct max96714_priv *priv = sd_to_max96714(sd);
-+	u64 sink_streams;
 +	int ret;
 +
-+	if (!priv->enabled_source_streams)
-+		max96714_enable_tx_port(priv);
-+
-+	sink_streams = v4l2_subdev_state_xlate_streams(state,
-+						       MAX96714_PAD_SOURCE,
-+						       MAX96714_PAD_SINK,
-+						       &streams_mask);
-+
-+	ret = v4l2_subdev_enable_streams(priv->rxport.source.sd,
-+					 priv->rxport.source.pad,
-+					 sink_streams);
++	ret = max96717_read(priv, MAX96717_GPIO_REG_A(offset), &val);
 +	if (ret)
 +		return ret;
 +
-+	priv->enabled_source_streams |= streams_mask;
-+
-+
-+	return ret;
-+}
-+
-+static int max96714_disable_streams(struct v4l2_subdev *sd,
-+				    struct v4l2_subdev_state *state,
-+				    u32 source_pad, u64 streams_mask)
-+{
-+	struct max96714_priv *priv = sd_to_max96714(sd);
-+	u64 sink_streams;
-+	int ret;
-+
-+	sink_streams = v4l2_subdev_state_xlate_streams(state,
-+						       MAX96714_PAD_SOURCE,
-+						       MAX96714_PAD_SINK,
-+						       &streams_mask);
-+
-+	ret = v4l2_subdev_disable_streams(priv->rxport.source.sd,
-+					  priv->rxport.source.pad,
-+					  sink_streams);
-+	if (ret)
-+		return ret;
-+
-+	priv->enabled_source_streams &= ~streams_mask;
-+
-+	if (!priv->enabled_source_streams)
-+		max96714_disable_tx_port(priv);
-+
-+	return 0;
-+}
-+
-+static int max96714_s_stream(struct v4l2_subdev *subdev, int enable)
-+{
-+	int ret;
-+	u64 streams_mask = BIT(0);
-+
-+	if (enable)
-+		ret = v4l2_subdev_enable_streams(subdev, MAX96714_PAD_SOURCE,
-+						 streams_mask);
++	if (val & MAX96717_GPIO_OUT_DIS)
++		return !!(val & MAX96717_GPIO_IN);
 +	else
-+		ret = v4l2_subdev_disable_streams(subdev, MAX96714_PAD_SOURCE,
-+						  streams_mask);
-+	return ret;
++		return !!(val & MAX96717_GPIO_OUT);
 +}
 +
-+static int max96714_set_fmt(struct v4l2_subdev *sd,
-+			    struct v4l2_subdev_state *state,
-+			    struct v4l2_subdev_format *format)
++static void max96717_gpiochip_set(struct gpio_chip *gpiochip,
++				  unsigned int offset, int value)
 +{
-+	struct max96714_priv *priv = sd_to_max96714(sd);
-+	struct v4l2_mbus_framefmt *fmt;
++	struct max96717_priv *priv = gpiochip_get_data(gpiochip);
 +
-+	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE &&
-+	    priv->enabled_source_streams)
-+		return -EBUSY;
++	max96717_update_bits(priv, MAX96717_GPIO_REG_A(offset),
++			     MAX96717_GPIO_OUT, MAX96717_GPIO_OUT);
++}
 +
-+	/* No transcoding, source and sink formats must match. */
-+	if (format->pad == MAX96714_PAD_SOURCE)
-+		return v4l2_subdev_get_fmt(sd, state, format);
++static int max96717_gpio_get_direction(struct gpio_chip *gpiochip,
++				       unsigned int offset)
++{
++	struct max96717_priv *priv = gpiochip_get_data(gpiochip);
++	u8 val;
++	int ret;
 +
-+	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
-+	if (!fmt)
-+		return -EINVAL;
++	ret = max96717_read(priv, MAX96717_GPIO_REG_A(offset), &val);
++	if (ret < 0)
++		return ret;
 +
-+	*fmt = format->format;
++	return !!(val & MAX96717_GPIO_OUT_DIS);
++}
 +
-+	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
-+							   format->stream);
-+	if (!fmt)
-+		return -EINVAL;
++static int max96717_gpio_direction_out(struct gpio_chip *gpiochip,
++				       unsigned int offset, int value)
++{
++	struct max96717_priv *priv = gpiochip_get_data(gpiochip);
 +
-+	*fmt = format->format;
++	return max96717_update_bits(priv, MAX96717_GPIO_REG_A(offset),
++				    MAX96717_GPIO_OUT_DIS | MAX96717_GPIO_OUT,
++				    value ? MAX96717_GPIO_OUT : 0);
++}
++
++static int max96717_gpio_direction_in(struct gpio_chip *gpiochip,
++				      unsigned int offset)
++{
++	struct max96717_priv *priv = gpiochip_get_data(gpiochip);
++
++	return max96717_update_bits(priv, MAX96717_GPIO_REG_A(offset),
++				    MAX96717_GPIO_OUT_DIS,
++				    MAX96717_GPIO_OUT_DIS);
++}
++
++static int max96717_gpiochip_probe(struct max96717_priv *priv)
++{
++	struct device *dev = &priv->client->dev;
++	struct gpio_chip *gc = &priv->gpio_chip;
++	int ret, i;
++
++	gc->label = dev_name(dev);
++	gc->parent = dev;
++	gc->owner = THIS_MODULE;
++	gc->ngpio = MAX96717_NUM_GPIO;
++	gc->base = -1;
++	gc->can_sleep = true;
++	gc->get_direction = max96717_gpio_get_direction;
++	gc->direction_input = max96717_gpio_direction_in;
++	gc->direction_output = max96717_gpio_direction_out;
++	gc->set = max96717_gpiochip_set;
++	gc->get = max96717_gpiochip_get;
++	gc->of_gpio_n_cells = 2;
++
++	/* Disable GPIO forwarding */
++	for (i = 0; i < gc->ngpio; i++)
++		max96717_update_bits(priv, MAX96717_GPIO_REG_A(i),
++				     MAX96717_GPIO_RX_EN | MAX96717_GPIO_TX_EN,
++				     0);
++
++	ret = devm_gpiochip_add_data(dev, gc, priv);
++	if (ret) {
++		dev_err(dev, "Unable to create gpio_chip\n");
++		return ret;
++	}
 +
 +	return 0;
 +}
 +
-+static int _max96714_set_routing(struct v4l2_subdev *sd,
++static int _max96717_set_routing(struct v4l2_subdev *sd,
 +				 struct v4l2_subdev_state *state,
-+				 enum v4l2_subdev_format_whence which,
 +				 struct v4l2_subdev_krouting *routing)
 +{
-+	int ret;
-+
 +	static const struct v4l2_mbus_framefmt format = {
 +		.width = 1280,
 +		.height = 1080,
 +		.code = MEDIA_BUS_FMT_Y8_1X8,
 +		.field = V4L2_FIELD_NONE,
 +	};
-+
-+	/*
-+	 * Note: we can only support up to V4L2_FRAME_DESC_ENTRY_MAX, until
-+	 * frame desc is made dynamically allocated.
-+	 */
-+	if (routing->num_routes > V4L2_FRAME_DESC_ENTRY_MAX)
-+		return -EINVAL;
++	int ret;
 +
 +	ret = v4l2_subdev_routing_validate(sd, routing,
 +					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
@@ -420,31 +438,68 @@ index 000000000000..a65f18991a2a
 +	return 0;
 +}
 +
-+static int max96714_set_routing(struct v4l2_subdev *sd,
++static int max96717_set_routing(struct v4l2_subdev *sd,
 +				struct v4l2_subdev_state *state,
 +				enum v4l2_subdev_format_whence which,
 +				struct v4l2_subdev_krouting *routing)
 +{
-+	struct max96714_priv *priv = sd_to_max96714(sd);
-+
++	struct max96717_priv *priv = sd_to_max96717(sd);
 +
 +	if (which == V4L2_SUBDEV_FORMAT_ACTIVE && priv->enabled_source_streams)
 +		return -EBUSY;
 +
-+	return _max96714_set_routing(sd, state, which, routing);
++	return _max96717_set_routing(sd, state, routing);
 +}
 +
-+static int max96714_init_cfg(struct v4l2_subdev *sd,
++static int max96717_set_fmt(struct v4l2_subdev *sd,
++			    struct v4l2_subdev_state *state,
++			    struct v4l2_subdev_format *format)
++{
++	struct max96717_priv *priv = sd_to_max96717(sd);
++	struct v4l2_mbus_framefmt *fmt;
++	int ret;
++	u64 stream_source_mask;
++
++	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE &&
++	    priv->enabled_source_streams)
++		return -EBUSY;
++
++	/* No transcoding, source and sink formats must match. */
++	if (format->pad == MAX96717_PAD_SOURCE)
++		return v4l2_subdev_get_fmt(sd, state, format);
++
++	/* Set sink format */
++	fmt = v4l2_subdev_state_get_format(state, format->pad, format->stream);
++	if (!fmt)
++		return -EINVAL;
++
++	*fmt = format->format;
++
++	/* Propagate to source format */
++	fmt = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
++							   format->stream);
++	if (!fmt)
++		return -EINVAL;
++	*fmt = format->format;
++
++	stream_source_mask = BIT(format->stream);
++	ret = v4l2_subdev_state_xlate_streams(state, MAX96717_PAD_SOURCE,
++					      MAX96717_PAD_SINK,
++					      &stream_source_mask);
++	return 0;
++}
++
++static int max96717_init_cfg(struct v4l2_subdev *sd,
 +			     struct v4l2_subdev_state *state)
 +{
 +	struct v4l2_subdev_route routes[] = {
 +		{
-+			.sink_pad = MAX96714_PAD_SINK,
++			.sink_pad = MAX96717_PAD_SINK,
 +			.sink_stream = 0,
-+			.source_pad = MAX96714_PAD_SOURCE,
++			.source_pad = MAX96717_PAD_SOURCE,
 +			.source_stream = 0,
 +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-+		}
++		},
 +	};
 +
 +	struct v4l2_subdev_krouting routing = {
@@ -452,154 +507,179 @@ index 000000000000..a65f18991a2a
 +		.routes = routes,
 +	};
 +
-+	return _max96714_set_routing(sd, state, V4L2_SUBDEV_FORMAT_ACTIVE,
-+				     &routing);
++	return _max96717_set_routing(sd, state, &routing);
 +}
 +
-+static const struct v4l2_subdev_pad_ops max96714_pad_ops = {
-+	.enable_streams = max96714_enable_streams,
-+	.disable_streams = max96714_disable_streams,
-+
-+	.set_routing = max96714_set_routing,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = max96714_set_fmt,
-+
-+	.init_cfg = max96714_init_cfg,
-+};
-+
-+static bool max96714_link_locked(struct max96714_priv *priv)
++static bool max96717_pipe_pclkdet(struct max96717_priv *priv)
 +{
 +	u8 val;
 +
-+	max96714_read(priv, MAX96714_LINK_LOCK, &val);
++	max96717_read(priv, MAX96717_VIDEO_TX2, &val);
 +
-+	return val & MAX96714_LINK_LOCK_BIT;
++	return val & MAX96717_VIDEO_PCLKDET;
 +}
 +
-+static void max96714_link_status(struct max96714_priv *priv)
++static int max96717_log_status(struct v4l2_subdev *sd)
 +{
++	struct max96717_priv *priv = sd_to_max96717(sd);
 +	struct device *dev = &priv->client->dev;
 +
-+	dev_info(dev, "Link locked:%d\n", max96714_link_locked(priv));
-+}
-+
-+static bool max96714_pipe_locked(struct max96714_priv *priv)
-+{
-+	u8 val;
-+
-+	max96714_read(priv, MAX96714_VIDEO_RX8, &val);
-+
-+	return val & MAX96714_VID_LOCK;
-+}
-+
-+static void max96714_pipe_status(struct max96714_priv *priv)
-+{
-+	struct device *dev = &priv->client->dev;
-+
-+	dev_info(dev, "Pipe vidlock:%d\n", max96714_pipe_locked(priv));
-+}
-+
-+static void max96714_csi_status(struct max96714_priv *priv)
-+{
-+	struct device *dev = &priv->client->dev;
-+	u8 freq;
-+
-+	max96714_read(priv, MAX96714_BACKTOP25, &freq);
-+	freq = FIELD_GET(CSI_DPLL_FREQ_MASK, freq);
-+
-+	dev_info(dev, "CSI controller DPLL freq:%u00MHz CSIPHY enabled:%d\n",
-+		 freq, max96714_tx_port_enabled(priv));
-+}
-+
-+static int max96714_log_status(struct v4l2_subdev *sd)
-+{
-+	struct max96714_priv *priv = sd_to_max96714(sd);
-+	struct device *dev = &priv->client->dev;
-+
-+	dev_info(dev, "Deserializer: max96714\n");
-+
-+	max96714_link_status(priv);
-+	max96714_pipe_status(priv);
-+	max96714_csi_status(priv);
++	dev_info(dev, "Serializer: %s\n", priv->data->model);
++	dev_info(dev, "Pipe: pclkdet:%d\n", max96717_pipe_pclkdet(priv));
 +
 +	return 0;
 +}
 +
-+static const struct v4l2_subdev_core_ops max96714_subdev_core_ops = {
-+	.log_status = max96714_log_status,
++static int max96717_enable_streams(struct v4l2_subdev *sd,
++				   struct v4l2_subdev_state *state, u32 pad,
++				   u64 streams_mask)
++{
++	struct max96717_priv *priv = sd_to_max96717(sd);
++	struct device *dev = &priv->client->dev;
++	u64 sink_streams;
++	int ret;
++
++	sink_streams = v4l2_subdev_state_xlate_streams(state,
++						       MAX96717_PAD_SOURCE,
++						       MAX96717_PAD_SINK,
++						       &streams_mask);
++
++	if (!priv->enabled_source_streams)
++		max96717_start_csi(priv, true);
++
++	ret = v4l2_subdev_enable_streams(priv->source_sd, priv->source_sd_pad,
++					 sink_streams);
++	if (ret) {
++		dev_err(dev, "Fail to start streams:%llu on remote subdev\n",
++			sink_streams);
++		goto stop_csi;
++	}
++
++	priv->enabled_source_streams |= streams_mask;
++
++	return 0;
++
++stop_csi:
++	if (!priv->enabled_source_streams)
++		max96717_start_csi(priv, false);
++	return ret;
++
++}
++
++static int max96717_disable_streams(struct v4l2_subdev *sd,
++				    struct v4l2_subdev_state *state, u32 pad,
++				    u64 streams_mask)
++{
++	struct max96717_priv *priv = sd_to_max96717(sd);
++	u64 sink_streams;
++	int ret;
++
++	sink_streams = v4l2_subdev_state_xlate_streams(state,
++						       MAX96717_PAD_SOURCE,
++						       MAX96717_PAD_SINK,
++						       &streams_mask);
++
++	ret = v4l2_subdev_disable_streams(priv->source_sd, priv->source_sd_pad,
++					  sink_streams);
++	if (ret)
++		return ret;
++
++	priv->enabled_source_streams &= ~streams_mask;
++
++	if (!priv->enabled_source_streams)
++		max96717_start_csi(priv, false);
++
++	return 0;
++}
++
++static const struct v4l2_subdev_pad_ops max96717_pad_ops = {
++	.enable_streams = max96717_enable_streams,
++	.disable_streams = max96717_disable_streams,
++	.set_routing = max96717_set_routing,
++	.get_fmt = v4l2_subdev_get_fmt,
++	.set_fmt = max96717_set_fmt,
++	.init_cfg = max96717_init_cfg,
 +};
 +
-+static const struct v4l2_subdev_video_ops max96714_video_ops = {
-+	.s_stream	= max96714_s_stream,
++static const struct v4l2_subdev_core_ops max96717_subdev_core_ops = {
++	.log_status = max96717_log_status,
 +};
 +
-+static const struct v4l2_subdev_ops max96714_subdev_ops = {
-+	.video = &max96714_video_ops,
-+	.core = &max96714_subdev_core_ops,
-+	.pad = &max96714_pad_ops,
++static const struct v4l2_subdev_ops max96717_subdev_ops = {
++	.core = &max96717_subdev_core_ops,
++	.pad = &max96717_pad_ops,
 +};
 +
-+static const struct media_entity_operations max96714_entity_ops = {
++static const struct media_entity_operations max96717_entity_ops = {
 +	.link_validate = v4l2_subdev_link_validate,
 +};
 +
-+static int max96714_notify_bound(struct v4l2_async_notifier *notifier,
-+				 struct v4l2_subdev *subdev,
++static int max96717_notify_bound(struct v4l2_async_notifier *notifier,
++				 struct v4l2_subdev *source_subdev,
 +				 struct v4l2_async_connection *asd)
 +{
-+	struct max96714_priv *priv = sd_to_max96714(notifier->sd);
++	struct max96717_priv *priv = sd_to_max96717(notifier->sd);
 +	struct device *dev = &priv->client->dev;
 +	int ret;
 +
-+	ret = media_entity_get_fwnode_pad(&subdev->entity,
-+					  priv->rxport.source.ep_fwnode,
++	ret = media_entity_get_fwnode_pad(&source_subdev->entity,
++					  source_subdev->fwnode,
 +					  MEDIA_PAD_FL_SOURCE);
 +	if (ret < 0) {
-+		dev_err(dev, "Failed to find pad for %s\n", subdev->name);
++		dev_err(dev, "Failed to find pad for %s\n",
++			source_subdev->name);
 +		return ret;
 +	}
 +
-+	priv->rxport.source.sd = subdev;
-+	priv->rxport.source.pad = ret;
++	priv->source_sd = source_subdev;
++	priv->source_sd_pad = ret;
 +
-+	ret = media_create_pad_link(&priv->rxport.source.sd->entity,
-+				    priv->rxport.source.pad, &priv->sd.entity,
-+				    MAX96714_PAD_SINK,
++	ret = media_create_pad_link(&source_subdev->entity, priv->source_sd_pad,
++				    &priv->sd.entity, 0,
 +				    MEDIA_LNK_FL_ENABLED |
 +				    MEDIA_LNK_FL_IMMUTABLE);
 +	if (ret) {
-+		dev_err(dev, "Unable to link %s:%u -> %s:%u\n",
-+			priv->rxport.source.sd->name, priv->rxport.source.pad,
-+			priv->sd.name, MAX96714_PAD_SINK);
++		dev_err(dev, "Unable to link %s:%u -> %s:0\n",
++			source_subdev->name, priv->source_sd_pad,
++			priv->sd.name);
 +		return ret;
 +	}
 +
 +	return 0;
 +}
 +
-+static const struct v4l2_async_notifier_operations max96714_notify_ops = {
-+	.bound = max96714_notify_bound,
++static const struct v4l2_async_notifier_operations max96717_notify_ops = {
++	.bound = max96717_notify_bound,
 +};
 +
-+static int max96714_v4l2_notifier_register(struct max96714_priv *priv)
++static int max96717_v4l2_notifier_register(struct max96717_priv *priv)
 +{
 +	struct device *dev = &priv->client->dev;
-+	struct max96714_rxport *rxport = &priv->rxport;
 +	struct v4l2_async_connection *asd;
++	struct fwnode_handle *ep_fwnode;
 +	int ret;
++
++	ep_fwnode = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
++						    MAX96717_PAD_SINK, 0, 0);
++	if (!ep_fwnode) {
++		dev_err(dev, "No graph endpoint\n");
++		return -ENODEV;
++	}
 +
 +	v4l2_async_subdev_nf_init(&priv->notifier, &priv->sd);
 +
-+	asd = v4l2_async_nf_add_fwnode(&priv->notifier,
-+				       rxport->source.ep_fwnode,
-+				       struct v4l2_async_connection);
++	asd = v4l2_async_nf_add_fwnode_remote(&priv->notifier, ep_fwnode,
++					      struct v4l2_async_connection);
++
++	fwnode_handle_put(ep_fwnode);
++
 +	if (IS_ERR(asd)) {
-+		dev_err(dev, "Failed to add subdev: %pe", asd);
++		dev_err(dev, "Failed to add subdev: %ld", PTR_ERR(asd));
 +		v4l2_async_nf_cleanup(&priv->notifier);
 +		return PTR_ERR(asd);
 +	}
 +
-+	priv->notifier.ops = &max96714_notify_ops;
++	priv->notifier.ops = &max96717_notify_ops;
 +
 +	ret = v4l2_async_nf_register(&priv->notifier);
 +	if (ret) {
@@ -611,146 +691,267 @@ index 000000000000..a65f18991a2a
 +	return 0;
 +}
 +
-+static void max96714_v4l2_notifier_unregister(struct max96714_priv *priv)
++static void max96717_v4l2_notifier_unregister(struct max96717_priv *priv)
 +{
 +	v4l2_async_nf_unregister(&priv->notifier);
 +	v4l2_async_nf_cleanup(&priv->notifier);
 +}
 +
-+static int max96714_create_subdev(struct max96714_priv *priv)
++static int max96717_subdev_init(struct max96717_priv *priv)
 +{
 +	struct device *dev = &priv->client->dev;
 +	int ret;
 +
-+	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max96714_subdev_ops);
-+
-+	v4l2_ctrl_handler_init(&priv->ctrl_handler, 1);
-+	priv->sd.ctrl_handler = &priv->ctrl_handler;
-+
-+	priv->tx_link_freq = priv->vep.link_frequencies[0];
-+	if (priv->tx_link_freq < 0)
-+		return priv->tx_link_freq;
-+
-+	v4l2_ctrl_new_int_menu(&priv->ctrl_handler, NULL, V4L2_CID_LINK_FREQ,
-+			       0, 0, &priv->tx_link_freq);
-+	if (priv->ctrl_handler.error) {
-+		ret = priv->ctrl_handler.error;
-+		goto err_free_ctrl;
-+	}
++	v4l2_i2c_subdev_init(&priv->sd, priv->client, &max96717_subdev_ops);
 +
 +	priv->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
 +	priv->sd.entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-+	priv->sd.entity.ops = &max96714_entity_ops;
++	priv->sd.entity.ops = &max96717_entity_ops;
 +
-+	priv->pads[MAX96714_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-+	priv->pads[MAX96714_PAD_SOURCE].flags = MEDIA_PAD_FL_SOURCE;
++	priv->pads[0].flags = MEDIA_PAD_FL_SINK;
++	priv->pads[1].flags = MEDIA_PAD_FL_SOURCE;
 +
-+	ret = media_entity_pads_init(&priv->sd.entity,
-+				     MAX96714_NPORTS,
-+				     priv->pads);
++	ret = media_entity_pads_init(&priv->sd.entity, 2, priv->pads);
 +	if (ret)
-+		goto err_free_ctrl;
-+
-+	priv->sd.state_lock = priv->sd.ctrl_handler->lock;
++		return dev_err_probe(dev, ret, "Failed to init pads\n");
 +
 +	ret = v4l2_subdev_init_finalize(&priv->sd);
-+	if (ret)
-+		goto err_entity_cleanup;
-+
-+	ret = max96714_v4l2_notifier_register(priv);
 +	if (ret) {
-+		dev_err(dev, "v4l2 subdev notifier register failed: %d\n", ret);
-+		goto err_subdev_cleanup;
++		dev_err_probe(dev, ret,
++			      "v4l2 subdev init finalized failed\n");
++		goto err_fwnode_put;
++	}
++	ret = max96717_v4l2_notifier_register(priv);
++	if (ret) {
++		dev_err_probe(dev, ret,
++			      "v4l2 subdev notifier register failed\n");
++		goto err_free_state;
 +	}
 +
 +	ret = v4l2_async_register_subdev(&priv->sd);
 +	if (ret) {
-+		dev_err(dev, "v4l2_async_register_subdev error: %d\n", ret);
++		dev_err_probe(dev, ret, "v4l2_async_register_subdev error\n");
 +		goto err_unreg_notif;
 +	}
 +
 +	return 0;
 +
 +err_unreg_notif:
-+	max96714_v4l2_notifier_unregister(priv);
-+err_subdev_cleanup:
++	max96717_v4l2_notifier_unregister(priv);
++err_free_state:
 +	v4l2_subdev_cleanup(&priv->sd);
-+err_entity_cleanup:
++err_fwnode_put:
++	fwnode_handle_put(priv->sd.fwnode);
 +	media_entity_cleanup(&priv->sd.entity);
-+err_free_ctrl:
-+	v4l2_ctrl_handler_free(&priv->ctrl_handler);
 +
 +	return ret;
-+
-+};
-+
-+static void max96714_destroy_subdev(struct max96714_priv *priv)
-+{
-+	max96714_v4l2_notifier_unregister(priv);
-+	v4l2_async_unregister_subdev(&priv->sd);
-+
-+	v4l2_subdev_cleanup(&priv->sd);
-+
-+	media_entity_cleanup(&priv->sd.entity);
-+	v4l2_ctrl_handler_free(&priv->ctrl_handler);
 +}
 +
-+static int max96714_i2c_mux_select(struct i2c_mux_core *mux, u32 chan)
++static void max96717_subdev_uninit(struct max96717_priv *priv)
 +{
++	v4l2_async_unregister_subdev(&priv->sd);
++	max96717_v4l2_notifier_unregister(priv);
++	v4l2_subdev_cleanup(&priv->sd);
++	fwnode_handle_put(priv->sd.fwnode);
++	media_entity_cleanup(&priv->sd.entity);
++}
++
++struct max96717_pll_predef_freq {
++	unsigned long freq;
++	bool is_alt;
++	u8 val;
++};
++
++static const struct max96717_pll_predef_freq max96717_predef_freqs[] = {
++	{ 13500000, true,  0 }, { 19200000, false, 0 },
++	{ 24000000, true,  1 }, { 27000000, false, 1 },
++	{ 37125000, false, 2 }, { 74250000, false, 3 },
++};
++
++static unsigned long
++max96717_clk_recalc_rate(struct clk_hw *hw, unsigned long parent_rate)
++{
++	struct max96717_priv *priv = clk_hw_to_max96717(hw);
++
++	return max96717_predef_freqs[priv->pll_predef_index].freq;
++}
++
++static unsigned int max96717_clk_find_best_index(struct max96717_priv *priv,
++						 unsigned long rate)
++{
++	u8 i, idx;
++	unsigned long diff_new, diff_old;
++
++	diff_old = U32_MAX;
++	idx = 0;
++
++	for (i = 0; i < ARRAY_SIZE(max96717_predef_freqs); i++) {
++		diff_new = abs(rate - max96717_predef_freqs[i].freq);
++		if (diff_new < diff_old) {
++			diff_old = diff_new;
++			idx = i;
++		}
++	}
++
++	return idx;
++}
++
++static long max96717_clk_round_rate(struct clk_hw *hw, unsigned long rate,
++				    unsigned long *parent_rate)
++{
++	struct max96717_priv *priv = clk_hw_to_max96717(hw);
++	struct device *dev = &priv->client->dev;
++	u8 idx;
++
++	idx = max96717_clk_find_best_index(priv, rate);
++
++	if (rate != max96717_predef_freqs[idx].freq) {
++		dev_warn(dev, "Request CLK freq:%lu, found CLK freq:%lu\n",
++			 rate, max96717_predef_freqs[idx].freq);
++	}
++
++	return max96717_predef_freqs[idx].freq;
++}
++
++static int max96717_clk_set_rate(struct clk_hw *hw, unsigned long rate,
++				 unsigned long parent_rate)
++{
++	struct max96717_priv *priv = clk_hw_to_max96717(hw);
++	int ret;
++	u8 val, idx;
++
++	idx = max96717_clk_find_best_index(priv, rate);
++
++	val = FIELD_PREP(REFGEN_PREDEF_FREQ_MASK,
++			 max96717_predef_freqs[idx].val);
++
++	if (max96717_predef_freqs[idx].is_alt)
++		val |= REFGEN_PREDEF_FREQ_ALT;
++
++	val |= REFGEN_RST | REFGEN_PREDEF_EN;
++
++	ret = max96717_write(priv, REF_VTG0, val);
++	if (ret)
++		return ret;
++
++	ret = max96717_update_bits(priv, REF_VTG0,
++				   REFGEN_RST | REFGEN_EN, REFGEN_EN);
++	if (ret)
++		return ret;
++
++	priv->pll_predef_index = idx;
++
 +	return 0;
 +}
 +
-+static int max96714_i2c_mux_init(struct max96714_priv *priv)
++static int max96717_clk_prepare(struct clk_hw *hw)
 +{
-+	priv->mux = i2c_mux_alloc(priv->client->adapter, &priv->client->dev,
-+				  1, 0, I2C_MUX_LOCKED | I2C_MUX_GATE,
-+				  max96714_i2c_mux_select, NULL);
-+	if (!priv->mux)
-+		return -ENOMEM;
++	struct max96717_priv *priv = clk_hw_to_max96717(hw);
 +
-+	return i2c_mux_add_adapter(priv->mux, 0, 0, 0);
++	return max96717_update_bits(priv, MAX96717_REG6, RCLKEN, RCLKEN);
 +}
 +
-+static void max96714_init_tx_port(struct max96714_priv *priv)
++static void max96717_clk_unprepare(struct clk_hw *hw)
 +{
-+	struct v4l2_mbus_config_mipi_csi2 *mipi;
++	struct max96717_priv *priv = clk_hw_to_max96717(hw);
++
++	max96717_update_bits(priv, MAX96717_REG6, RCLKEN, 0);
++}
++
++static const struct clk_ops max96717_clk_ops = {
++	.prepare     = max96717_clk_prepare,
++	.unprepare   = max96717_clk_unprepare,
++	.set_rate    = max96717_clk_set_rate,
++	.recalc_rate = max96717_clk_recalc_rate,
++	.round_rate  = max96717_clk_round_rate,
++};
++
++static int max96717_register_clkout(struct max96717_priv *priv)
++{
++	struct device *dev = &priv->client->dev;
++	int ret;
++
++	const struct clk_init_data init = {
++		.name = kasprintf(GFP_KERNEL, "%s.%s.clk_out",
++				  priv->data->model,
++				  dev_name(dev)),
++		.ops = &max96717_clk_ops,
++	};
++
++	if (!init.name)
++		return -ENOMEM;
++
++	/* RCLKSEL Reference PLL output */
++	ret = regmap_update_bits(priv->regmap, REG3, MAX96717_RCLKSEL,
++				 RCLKSEL_REF_PLL);
++	if (ret)
++		goto free_init_name;
++
++	/* MFP4 fastest slew rate */
++	ret = regmap_update_bits(priv->regmap, PIO_SLEW_1, BIT(5) | BIT(4), 0);
++	if (ret)
++		goto free_init_name;
++
++	priv->clk_hw.init = &init;
++
++	/* Initialize to 24 MHz */
++	ret = max96717_clk_set_rate(&priv->clk_hw,
++				    MAX96717_DEFAULT_CLKOUT_RATE, 0);
++	if (ret < 0)
++		goto free_init_name;
++
++	ret = devm_clk_hw_register(dev, &priv->clk_hw);
++	kfree(init.name);
++	if (ret)
++		return dev_err_probe(dev, ret, "Cannot register clock HW\n");
++
++	ret = devm_of_clk_add_hw_provider(dev, of_clk_hw_simple_get,
++					  &priv->clk_hw);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "Cannot add OF clock provider\n");
++
++	return 0;
++
++free_init_name:
++	kfree(init.name);
++	return ret;
++}
++
++static int max96717_init_csi_lanes(struct max96717_priv *priv)
++{
++	struct v4l2_mbus_config_mipi_csi2 *mipi = &priv->vep.bus.mipi_csi2;
 +	unsigned long lanes_used = 0;
-+	u8 val, lane;
++	u8 nlanes, lane, val = 0;
++	int ret;
 +
-+	max96714_disable_tx_port(priv);
++	nlanes = mipi->num_data_lanes;
 +
-+	mipi = &priv->vep.bus.mipi_csi2;
-+	val = *priv->vep.link_frequencies * 2 / MHZ(100);
++	max96717_update_bits(priv, MAX96717_MIPI_RX1, MAX96717_MIPI_LANES_CNT,
++			     FIELD_PREP(MAX96717_MIPI_LANES_CNT, nlanes - 1));
++	if (ret)
++		return ret;
 +
-+	max96714_update_bits(priv, MAX96714_BACKTOP25,
-+			     CSI_DPLL_FREQ_MASK, val);
-+
-+	val = FIELD_PREP(MAX96714_CSI2_LANE_CNT_MASK, mipi->num_data_lanes - 1);
-+	max96714_update_bits(priv, MAX96714_MIPI_LANE_CNT,
-+			     MAX96714_CSI2_LANE_CNT_MASK, val);
-+
-+	/* lanes polarity */
-+	val = 0;
-+	for (lane = 0; lane < mipi->num_data_lanes + 1; lane++) {
++	for (lane = 0; lane < nlanes + 1; lane++) {
 +		if (!mipi->lane_polarities[lane])
 +			continue;
++		/* Clock lane */
 +		if (lane == 0)
-+			/* clock lane */
-+			val |= BIT(5);
++			val |= BIT(2);
 +		else if (lane < 3)
-+			/* Lane D0 and D1 */
 +			val |= BIT(lane - 1);
 +		else
-+			/* D2 and D3 */
 +			val |= BIT(lane);
 +	}
 +
-+	max96714_update_bits(priv, MAX96714_MIPI_POLARITY,
-+			     MAX96714_MIPI_POLARITY_MASK, val);
++	max96717_update_bits(priv, MAX96717_MIPI_RX5, MAX96717_PHY2_LANES_POL,
++			     FIELD_PREP(MAX96717_PHY2_LANES_POL, val));
 +
-+	/* lanes mapping */
++	max96717_update_bits(priv, MAX96717_MIPI_RX4, MAX96717_PHY1_LANES_POL,
++			     FIELD_PREP(MAX96717_PHY1_LANES_POL, val >> 3));
++
 +	val = 0;
-+	for (lane = 0; lane < mipi->num_data_lanes; lane++) {
++	for (lane = 0; lane < nlanes; lane++) {
 +		val |= (mipi->data_lanes[lane] - 1) << (lane*2);
 +		lanes_used |= BIT(mipi->data_lanes[lane] - 1);
 +	}
@@ -761,231 +962,90 @@ index 000000000000..a65f18991a2a
 +	for (; lane < 4; lane++) {
 +		unsigned int idx = find_first_zero_bit(&lanes_used, 4);
 +
-+		val |= idx << (lane * 2);
++		val |= idx << (lane*2);
 +		lanes_used |= BIT(idx);
 +	}
 +
-+	max96714_write(priv, MAX96714_MIPI_LANE_MAP, val);
-+}
++	max96717_update_bits(priv, MAX96717_MIPI_RX3,
++			     MAX96717_PHY1_LANES_MAP,
++			     FIELD_PREP(MAX96717_PHY1_LANES_MAP, val));
 +
-+static int max96714_rxport_enable_poc(struct max96714_priv *priv)
-+{
-+	struct max96714_rxport *rxport = &priv->rxport;
-+
-+	if (!rxport->poc)
-+		return 0;
-+
-+	return regulator_enable(rxport->poc);
-+}
-+
-+static void max96714_rxport_disable_poc(struct max96714_priv *priv)
-+{
-+	struct max96714_rxport *rxport = &priv->rxport;
-+
-+	if (rxport->poc)
-+		regulator_disable(rxport->poc);
-+}
-+
-+static int max96714_parse_dt_txport(struct max96714_priv *priv)
-+{
-+	struct device *dev = &priv->client->dev;
-+	struct fwnode_handle *ep_fwnode;
-+	u32 num_data_lanes;
-+	s64 dpll_freq;
-+	int ret;
-+
-+	ep_fwnode = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
-+						    MAX96714_PAD_SOURCE, 0, 0);
-+	if (!ep_fwnode)
-+		return -EINVAL;
-+
-+	priv->vep.bus_type = V4L2_MBUS_UNKNOWN;
-+
-+	ret = v4l2_fwnode_endpoint_alloc_parse(ep_fwnode, &priv->vep);
-+	fwnode_handle_put(ep_fwnode);
-+	if (ret) {
-+		dev_err(dev, "tx: failed to parse endpoint data\n");
-+		return -EINVAL;
-+	}
-+
-+	if (priv->vep.bus_type != V4L2_MBUS_CSI2_DPHY) {
-+		dev_err(&priv->client->dev, "Unsupported bus-type %u\n",
-+			priv->vep.bus_type);
-+		return -EINVAL;
-+	}
-+
-+	if (priv->vep.nr_of_link_frequencies != 1) {
-+		ret = -EINVAL;
-+		goto err_free_vep;
-+	}
-+
-+	/* DPLL freq is twice the link frequency */
-+	dpll_freq = priv->vep.link_frequencies[0] * 2;
-+
-+	/* 100Mbps step, Min 100Mbps, Max 2500Mbps */
-+	if (dpll_freq % MHZ(100) || dpll_freq < MHZ(100) ||
-+	    dpll_freq > MHZ(2500)) {
-+		dev_err(dev, "tx: invalid link frequency\n");
-+		ret = -EINVAL;
-+		goto err_free_vep;
-+	}
-+
-+	num_data_lanes = priv->vep.bus.mipi_csi2.num_data_lanes;
-+	if (num_data_lanes < 1 || num_data_lanes > 4) {
-+		dev_err(dev,
-+			"tx: invalid number of data lanes should be 1 to 4\n");
-+		ret = -EINVAL;
-+		goto err_free_vep;
-+	}
++	max96717_update_bits(priv, MAX96717_MIPI_RX2,
++			     MAX96717_PHY2_LANES_MAP,
++			     FIELD_PREP(MAX96717_PHY2_LANES_MAP, val >> 4));
 +
 +	return 0;
-+
-+err_free_vep:
-+	v4l2_fwnode_endpoint_free(&priv->vep);
-+
-+	return ret;
-+};
-+
-+static int max96714_parse_dt_rxport(struct max96714_priv *priv)
-+{
-+	static const char *poc_name = "port0-poc";
-+	struct max96714_rxport *rxport = &priv->rxport;
-+	struct device *dev = &priv->client->dev;
-+	struct fwnode_handle *ep_fwnode;
-+	int ret;
-+
-+	ep_fwnode = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
-+						    MAX96714_PAD_SINK,
-+						    0, 0);
-+	if (!ep_fwnode)
-+		return -ENOENT;
-+
-+	rxport->source.ep_fwnode = fwnode_graph_get_remote_endpoint(ep_fwnode);
-+	fwnode_handle_put(ep_fwnode);
-+
-+	if (!rxport->source.ep_fwnode) {
-+		dev_err(dev, "rx: no remote endpoint\n");
-+		return -EINVAL;
-+	}
-+
-+	rxport->poc = devm_regulator_get_optional(dev, poc_name);
-+	if (IS_ERR(rxport->poc)) {
-+		ret = PTR_ERR(rxport->poc);
-+		if (ret == -ENODEV) {
-+			rxport->poc = NULL;
-+		} else {
-+			dev_err(dev, "rx: failed to get POC supply: %d\n", ret);
-+			goto err_put_source_ep_fwnode;
-+		}
-+	}
-+
-+	return 0;
-+
-+err_put_source_ep_fwnode:
-+	fwnode_handle_put(rxport->source.ep_fwnode);
-+	return ret;
 +}
 +
-+static int max96714_parse_dt(struct max96714_priv *priv)
-+{
-+	int ret;
-+
-+	ret = max96714_parse_dt_rxport(priv);
-+	if (ret)
-+		return ret;
-+
-+	ret = max96714_parse_dt_txport(priv);
-+	if (ret)
-+		goto err_put_fwnode;
-+
-+	return 0;
-+
-+err_put_fwnode:
-+	fwnode_handle_put(priv->rxport.source.ep_fwnode);
-+
-+	return ret;
-+}
-+
-+static int max96714_enable_core_hw(struct max96714_priv *priv)
++static int max96717_hw_init(struct max96717_priv *priv)
 +{
 +	struct device *dev = &priv->client->dev;
 +	u8 val;
 +	int ret;
 +
-+	if (priv->gpiod_pwdn) {
-+		/* wait min 2 ms for reset to complete */
-+		gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-+		fsleep(2000);
-+		gpiod_set_value_cansleep(priv->gpiod_pwdn, 1);
-+		/* wait min 2 ms for power up to finish */
-+		fsleep(2000);
-+	}
-+
-+	ret = max96714_read(priv, MAX96714_REG13, &val);
-+	if (ret) {
-+		dev_err_probe(dev, ret, "Cannot read first register, abort\n");
-+		goto err_pd_gpio;
-+	}
-+
-+	if (val != MAX96714F_DEVICE_ID) {
-+		dev_err(dev, "Unsupported device id expected %x got %x\n",
-+			MAX96714F_DEVICE_ID, val);
-+		ret = -EOPNOTSUPP;
-+		goto err_pd_gpio;
-+	}
-+
-+	ret = max96714_read(priv, MAX96714_DEV_REV, &val);
++	ret = max96717_read(priv, MAX96717_DEV_ID, &val);
 +	if (ret)
-+		goto err_pd_gpio;
++		return dev_err_probe(dev, ret,
++				     "Fail to read the device id\n");
 +
-+	dev_dbg(dev, "Found %x (rev %lx)\n", MAX96714F_DEVICE_ID,
-+		val & MAX96714_DEV_REV_MASK);
++	if (val != priv->data->device_id)
++		return dev_err_probe(dev, -EOPNOTSUPP,
++				     "Unsupported device id expected %x got %x\n",
++				     priv->data->device_id, val);
 +
-+	ret = max96714_read(priv, MAX96714_MIPI_TX52, &val);
++	ret = max96717_read(priv, MAX96717_DEV_REV, &val);
 +	if (ret)
-+		goto err_pd_gpio;
++		return dev_err_probe(dev, ret,
++				     "Fail to read device revision");
 +
-+	if (!(val & MAX96714_TUN_EN)) {
-+		dev_err(dev, "Only supporting tunnel mode");
-+		ret = -EOPNOTSUPP;
-+		goto err_pd_gpio;
-+	}
++	dev_dbg(dev, "Found %x (rev %lx)\n", priv->data->device_id,
++		val & MAX96717_DEV_REV_MASK);
 +
-+	return 0;
++	ret = max96717_read(priv, MAX96717_MIPI_RX_EXT11, &val);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "Fail to read mipi rx extension");
 +
-+err_pd_gpio:
-+	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-+	return ret;
++	if (!(val & MAX96717_TUN_MODE))
++		return dev_err_probe(dev, -EOPNOTSUPP,
++				     "Only supporting tunnel mode");
++
++	return max96717_init_csi_lanes(priv);
 +}
 +
-+static void max96714_disable_core_hw(struct max96714_priv *priv)
-+{
-+	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
-+}
-+
-+static int max96714_get_hw_resources(struct max96714_priv *priv)
++static int max96717_parse_dt(struct max96717_priv *priv)
 +{
 +	struct device *dev = &priv->client->dev;
++	struct fwnode_handle *ep_fwnode;
++	unsigned char num_data_lanes;
++	int ret;
 +
-+	priv->regmap = devm_regmap_init_i2c(priv->client,
-+					    &max96714_regmap_config);
-+	if (IS_ERR(priv->regmap))
-+		return PTR_ERR(priv->regmap);
++	priv->vep.bus_type = V4L2_MBUS_CSI2_DPHY;
 +
-+	priv->gpiod_pwdn = devm_gpiod_get_optional(&priv->client->dev, "enable",
-+						   GPIOD_OUT_HIGH);
-+	if (IS_ERR(priv->gpiod_pwdn))
-+		return dev_err_probe(dev, PTR_ERR(priv->gpiod_pwdn),
-+				     "Cannot get enable GPIO\n");
-+	gpiod_set_consumer_name(priv->gpiod_pwdn, "maxgmsl2-pwdn");
++	ep_fwnode = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev),
++						    MAX96717_PAD_SINK, 0, 0);
++	if (!ep_fwnode)
++		return dev_err_probe(dev, -ENOENT, "no endpoint found\n");
++
++	ret = v4l2_fwnode_endpoint_parse(ep_fwnode, &priv->vep);
++
++	fwnode_handle_put(ep_fwnode);
++
++	if (ret < 0)
++		return dev_err_probe(dev, ret, "Failed to parse sink endpoint");
++
++	num_data_lanes = priv->vep.bus.mipi_csi2.num_data_lanes;
++	if (num_data_lanes < 1 || num_data_lanes > 4)
++		return dev_err_probe(dev, -EINVAL,
++				     "Invalid data lanes should be 1 to 4\n");
 +
 +	return 0;
 +}
 +
-+static int max96714_probe(struct i2c_client *client)
++static int max96717_probe(struct i2c_client *client)
 +{
 +	struct device *dev = &client->dev;
-+	struct max96714_priv *priv;
++	struct max96717_priv *priv;
 +	int ret;
 +
 +	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
@@ -993,84 +1053,82 @@ index 000000000000..a65f18991a2a
 +		return -ENOMEM;
 +
 +	priv->client = client;
-+	priv->regmap = devm_regmap_init_i2c(priv->client,
-+					    &max96714_regmap_config);
 +
-+	ret = max96714_get_hw_resources(priv);
++	priv->data = of_device_get_match_data(&client->dev);
++
++	i2c_set_clientdata(client, priv);
++
++	priv->regmap = devm_regmap_init_i2c(client, &max96717_regmap_config);
++	if (IS_ERR(priv->regmap)) {
++		ret = PTR_ERR(priv->regmap);
++		return dev_err_probe(dev, ret, "Failed to init regmap\n");
++	}
++
++	ret = max96717_parse_dt(priv);
 +	if (ret)
++		return dev_err_probe(dev, ret, "Failed to parse the dt\n");
++
++	ret = max96717_hw_init(priv);
++	if (ret)
++		return dev_err_probe(dev, ret,
++				     "Failed to initialize the hardware\n");
++
++	ret = max96717_gpiochip_probe(priv);
++	if (ret) {
++		dev_err(&client->dev, "Failed to init gpiochip\n");
 +		return ret;
++	}
 +
-+	ret = max96714_enable_core_hw(priv);
++	ret = max96717_register_clkout(priv);
 +	if (ret)
-+		return ret;
++		return dev_err_probe(dev, ret, "Failed to register clkout\n");
 +
-+	ret = max96714_parse_dt(priv);
++	ret = max96717_subdev_init(priv);
 +	if (ret)
-+		goto err_disable_core_hw;
++		return dev_err_probe(dev, ret,
++				     "Failed to initialize v4l2 subdev\n");
 +
-+	max96714_init_tx_port(priv);
-+
-+	ret = max96714_rxport_enable_poc(priv);
-+	if (ret)
-+		goto err_free_ports;
-+
-+	ret = max96714_i2c_mux_init(priv);
-+	if (ret)
-+		goto err_disable_poc;
-+
-+	ret = max96714_create_subdev(priv);
-+	if (ret)
-+		goto err_del_mux;
++	ret = max96717_i2c_mux_init(priv);
++	if (ret) {
++		dev_err_probe(dev, ret, "failed to add remote i2c adapter\n");
++		goto err_subdev_uninit;
++	}
 +
 +	return 0;
 +
-+err_del_mux:
-+	i2c_mux_del_adapters(priv->mux);
-+err_disable_poc:
-+	max96714_rxport_disable_poc(priv);
-+err_free_ports:
-+	fwnode_handle_put(priv->rxport.source.ep_fwnode);
-+	v4l2_fwnode_endpoint_free(&priv->vep);
-+err_disable_core_hw:
-+	max96714_disable_core_hw(priv);
-+
++err_subdev_uninit:
++	max96717_subdev_uninit(priv);
 +	return ret;
 +}
 +
-+static void max96714_remove(struct i2c_client *client)
++static void max96717_remove(struct i2c_client *client)
 +{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct max96714_priv *priv = sd_to_max96714(sd);
++	struct max96717_priv *priv = i2c_get_clientdata(client);
 +
-+	max96714_destroy_subdev(priv);
++	max96717_subdev_uninit(priv);
 +	i2c_mux_del_adapters(priv->mux);
-+	max96714_rxport_disable_poc(priv);
-+	fwnode_handle_put(priv->rxport.source.ep_fwnode);
-+	v4l2_fwnode_endpoint_free(&priv->vep);
-+	max96714_disable_core_hw(priv);
-+	gpiod_set_value_cansleep(priv->gpiod_pwdn, 0);
 +}
 +
-+static const struct of_device_id max96714_of_ids[] = {
-+	{ .compatible = "maxim,max96714f" },
++static const struct of_device_id max96717_of_ids[] = {
++	{ .compatible = "maxim,max96717f", .data = &max96717f_data },
 +	{ }
 +};
-+MODULE_DEVICE_TABLE(of, max96714_of_ids);
++MODULE_DEVICE_TABLE(of, max96717_of_ids);
 +
-+static struct i2c_driver max96714_i2c_driver = {
++static struct i2c_driver max96717_i2c_driver = {
 +	.driver	= {
-+		.name		= "max96714",
-+		.of_match_table	= max96714_of_ids,
++		.name		= "max96717",
++		.of_match_table	= max96717_of_ids,
 +	},
-+	.probe		= max96714_probe,
-+	.remove		= max96714_remove,
++	.probe		= max96717_probe,
++	.remove		= max96717_remove,
 +};
 +
-+module_i2c_driver(max96714_i2c_driver);
++module_i2c_driver(max96717_i2c_driver);
 +
-+MODULE_LICENSE("GPL");
-+MODULE_DESCRIPTION("Maxim Integrated GMSL2 Deserializers Driver");
++MODULE_DESCRIPTION("Maxim GMSL2 MAX96717 Serializer Driver");
 +MODULE_AUTHOR("Julien Massot <julien.massot@collabora.com>");
++MODULE_LICENSE("GPL");
 -- 
 2.43.0
 
