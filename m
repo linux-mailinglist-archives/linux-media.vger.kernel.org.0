@@ -1,244 +1,298 @@
-Return-Path: <linux-media+bounces-1997-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-1998-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E62EA80A8F1
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 17:30:09 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A179B80A904
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 17:33:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9B8A7281806
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:30:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1D8921F2121A
+	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 16:33:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A18BD37D16;
-	Fri,  8 Dec 2023 16:30:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1253A374FF;
+	Fri,  8 Dec 2023 16:33:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lPMDMsjN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Kz5g9Ta0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CADE199D;
-	Fri,  8 Dec 2023 08:29:59 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id a640c23a62f3a-a1e7971db2aso257360566b.3;
-        Fri, 08 Dec 2023 08:29:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702052997; x=1702657797; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RiBsF6D5ZYEUJwOeHckOEGR0L5lUF+YuBZzP+zur5mg=;
-        b=lPMDMsjNcTSdeIGtAER/fJm4b0PF/8S+ZE0jlHOR+60Fds/WynQlx2FYpqD/LU0CCC
-         HkRVTTiX3n+o4cI0UrrqlEYp/q2pxxwoFidzL9/Omr2HMymtrwzBaVjEnQcCymsgDspz
-         1uDSRR/BpcSbGsHx6TqTFJU/7JtXBxL0/B3SVyjI0kT/5t+t57wxv2OZ3+zG1FIi+a2p
-         ST3kX2o6OK8FEfajNZa9j2HD0CbDLDO0PW+qF/RaIOQPE9AjrSYmxJfw8zeSZknKUnE/
-         zhU6vfFVViL9WueJgqX4inOSZswN0+NZApMa2O4+WGEYM3ovJzuYbfsF2Z6HGf61qEwP
-         6npA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702052997; x=1702657797;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=RiBsF6D5ZYEUJwOeHckOEGR0L5lUF+YuBZzP+zur5mg=;
-        b=PfYZtWQIJ31JLBa8o4XBOFb9YNO4BST4R+uyr+W0YEineWuDnzUEshmuYuCuUwpy1B
-         Wh3NWOGDdtKvi1rK2As9GeCV0zW3R3Ys2nwEHd5pfX1YdprFqsOEJzyU1MNXDQ7IJp9T
-         kY1EJ3b5co2nrADDewCif5+dQcysBEyIxG4R7T/OoC0PaUgUct89Vcw2rFONrUs6yAE9
-         kQ+JJM/0WJi6s3m+L2ZoEqOrWK1VYYqiVqHmiNh6VzosU33IPXS54wj1azGOneJONLkK
-         MWF8sgjIdxAUihiNHVf9RqjJy+y1gGDKWwdSvNBrXe3N26P6xGtfQGLZ8Ppzg08z4y+z
-         SaUw==
-X-Gm-Message-State: AOJu0Yyv2l6ScosUps+rDWlhs7v0ANNrr46FARlSmwRnakOqKxeimpb8
-	xPPzAWoBsS4wBArC7bn6RT8=
-X-Google-Smtp-Source: AGHT+IE+njVM1fF9X7EOT+apf46J2+vGmRje/1dygbwe7z0iC14XcXfA48VWpabUKLdviP1zXhn8Og==
-X-Received: by 2002:a17:906:7484:b0:9d4:2080:61dc with SMTP id e4-20020a170906748400b009d4208061dcmr97639ejl.22.1702052997275;
-        Fri, 08 Dec 2023 08:29:57 -0800 (PST)
-Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id tm6-20020a170907c38600b00a1ca6f5f189sm1191269ejc.179.2023.12.08.08.29.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 08 Dec 2023 08:29:56 -0800 (PST)
-Date: Fri, 8 Dec 2023 17:29:55 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 4/4] media: pwm-ir-tx: trigger edges from hrtimer
- interrupt context
-Message-ID: <ZXNEg3ax4MChSJ5A@orome.fritz.box>
-References: <cover.1701248996.git.sean@mess.org>
- <88fdb3a200989458c6f95c26fa9bb84c1e864798.1701248996.git.sean@mess.org>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D26E0173F;
+	Fri,  8 Dec 2023 08:33:16 -0800 (PST)
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 69A63291;
+	Fri,  8 Dec 2023 17:32:33 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1702053153;
+	bh=rLh/2q4AJ1YxvzU0Zsf1S+FZAJTXfTvKKL/PGIj5nBw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Kz5g9Ta0nKsBnkrm43Ao95w/y0fyAV0BeDjDuMUUclxvhSDUadhv4DDliQxoa+3nH
+	 Ys3xVaGGzNU55HB44fflPAN+jfk4ergwsUo75xt4Vll9G89EdHJPu/LxB1pBVUAJvp
+	 bG8IC1KYTIzj5iVCOinK6Nfla+shGJ43ooSsmixI=
+Date: Fri, 8 Dec 2023 18:33:22 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: v4l: subdev: Move out subdev state lock macros
+ outside CONFIG_MEDIA_CONTROLLER
+Message-ID: <20231208163322.GM25616@pendragon.ideasonboard.com>
+References: <20231208-v4l2-state-mc-fix-v1-1-a0c8162557c6@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Yblp1b8ERDinDWmD"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <88fdb3a200989458c6f95c26fa9bb84c1e864798.1701248996.git.sean@mess.org>
-User-Agent: Mutt/2.2.12 (2023-09-09)
+In-Reply-To: <20231208-v4l2-state-mc-fix-v1-1-a0c8162557c6@ideasonboard.com>
 
+Hi Tomi,
 
---Yblp1b8ERDinDWmD
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch.
 
-On Wed, Nov 29, 2023 at 09:13:37AM +0000, Sean Young wrote:
-> This makes the generated IR much more precise. Before this change, the
-> driver is unreliable and many users opted to use gpio-ir-tx instead.
->=20
-> Signed-off-by: Sean Young <sean@mess.org>
+On Fri, Dec 08, 2023 at 06:15:15PM +0200, Tomi Valkeinen wrote:
+> The subdev state locking macros and macros to get the active state are
+> currently behind CONFIG_MEDIA_CONTROLLER. This makes sense, as there can
+> be no subdev state without MC.
+> 
+> However, we have code paths common to MC and non-MC cases which call
+> subdev operations that have subdev state as a parameter. In the non-MC
+> case the state parameter would always be NULL.
+> 
+> Thus it makes sense to allow, e.g.:
+> 
+> v4l2_subdev_call_state_active(sd, pad, get_fmt, fmt)
+> 
+> which for non-MC case would call the subdev passing NULL as the state.
+> 
+> This currently fails:
+> https://lore.kernel.org/oe-kbuild-all/202312061101.PLrz5NnJ-lkp@intel.com/
+> 
+> Fix the issue by moving the related macros to be outside
+> CONFIG_MEDIA_CONTROLLER. The v4l2_subdev_lock_state() and
+> v4l2_subdev_unlock_state() macros will crash if given NULL as the state,
+> but the other macros behave correctly even when there's no active state,
+> and they will only call the lock/unlock macros if there is a state.
+> 
+> An alternative fix would be to make another version of
+> v4l2_subdev_call_state_try() with ifdefs, which would not use any state
+> macros and would always pass NULL as the state. But having two version
+> of a macro/function is always more confusing than having just one, so I
+> went this way.
+> 
+> So, this fixes the v4l2_subdev_call_state_active() macro. But we also
+> have v4l2_subdev_call_state_try(). It would be possible to fix that
+> macro by additionally creating "no-op" variants of the state alloc and
+> free functions. However, v4l2_subdev_call_state_try() is only used by a
+> single driver (stm32-dcmi), which selects MC, and the macro is supposed
+> to be removed as soon as the users have been converted away from the
+> macro. Thus I have not touched the state alloc/free functions, and I
+> think it makes sense to keep alloc/free functions available only if
+> there's actually something that can be allocated or freed.
+
+Agreed.
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > ---
->  drivers/media/rc/pwm-ir-tx.c | 79 ++++++++++++++++++++++++++++++++++--
->  1 file changed, 76 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/media/rc/pwm-ir-tx.c b/drivers/media/rc/pwm-ir-tx.c
-> index cf51e2760975..8575c4596d7b 100644
-> --- a/drivers/media/rc/pwm-ir-tx.c
-> +++ b/drivers/media/rc/pwm-ir-tx.c
-> @@ -10,6 +10,8 @@
->  #include <linux/slab.h>
->  #include <linux/of.h>
->  #include <linux/platform_device.h>
-> +#include <linux/hrtimer.h>
-> +#include <linux/completion.h>
->  #include <media/rc-core.h>
-> =20
->  #define DRIVER_NAME	"pwm-ir-tx"
-> @@ -17,8 +19,14 @@
-> =20
->  struct pwm_ir {
->  	struct pwm_device *pwm;
-> -	unsigned int carrier;
-> -	unsigned int duty_cycle;
-> +	struct hrtimer timer;
-> +	struct completion tx_done;
-> +	struct pwm_state *state;
-> +	u32 carrier;
-> +	u32 duty_cycle;
-> +	uint *txbuf;
-
-Maybe mark this as const to signal that it's not going to get modified?
-
-> +	uint txbuf_len;
-> +	uint txbuf_index;
-
-uint is rather rare. Or so I thought. There seem to be quite a few
-occurrences throughout the kernel. I'd still prefer unsigned int over
-this abbreviated form, but ultimately up to you and Mauro to decide.
-
->  };
-> =20
->  static const struct of_device_id pwm_ir_of_match[] =3D {
-> @@ -82,6 +90,62 @@ static int pwm_ir_tx(struct rc_dev *dev, unsigned int =
-*txbuf,
->  	return count;
->  }
-> =20
-> +static int pwm_ir_tx_atomic(struct rc_dev *dev, unsigned int *txbuf,
-> +			    unsigned int count)
+>  include/media/v4l2-subdev.h | 166 ++++++++++++++++++++++----------------------
+>  1 file changed, 83 insertions(+), 83 deletions(-)
+> 
+> diff --git a/include/media/v4l2-subdev.h b/include/media/v4l2-subdev.h
+> index 8b08f6640dee..61024a74ce38 100644
+> --- a/include/media/v4l2-subdev.h
+> +++ b/include/media/v4l2-subdev.h
+> @@ -1311,89 +1311,6 @@ int __v4l2_subdev_init_finalize(struct v4l2_subdev *sd, const char *name,
+>   */
+>  void v4l2_subdev_cleanup(struct v4l2_subdev *sd);
+>  
+> -/**
+> - * v4l2_subdev_lock_state() - Locks the subdev state
+> - * @state: The subdevice state
+> - *
+> - * Locks the given subdev state.
+> - *
+> - * The state must be unlocked with v4l2_subdev_unlock_state() after use.
+> - */
+> -static inline void v4l2_subdev_lock_state(struct v4l2_subdev_state *state)
+> -{
+> -	mutex_lock(state->lock);
+> -}
+> -
+> -/**
+> - * v4l2_subdev_unlock_state() - Unlocks the subdev state
+> - * @state: The subdevice state
+> - *
+> - * Unlocks the given subdev state.
+> - */
+> -static inline void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
+> -{
+> -	mutex_unlock(state->lock);
+> -}
+> -
+> -/**
+> - * v4l2_subdev_get_unlocked_active_state() - Checks that the active subdev state
+> - *					     is unlocked and returns it
+> - * @sd: The subdevice
+> - *
+> - * Returns the active state for the subdevice, or NULL if the subdev does not
+> - * support active state. If the state is not NULL, calls
+> - * lockdep_assert_not_held() to issue a warning if the state is locked.
+> - *
+> - * This function is to be used e.g. when getting the active state for the sole
+> - * purpose of passing it forward, without accessing the state fields.
+> - */
+> -static inline struct v4l2_subdev_state *
+> -v4l2_subdev_get_unlocked_active_state(struct v4l2_subdev *sd)
+> -{
+> -	if (sd->active_state)
+> -		lockdep_assert_not_held(sd->active_state->lock);
+> -	return sd->active_state;
+> -}
+> -
+> -/**
+> - * v4l2_subdev_get_locked_active_state() - Checks that the active subdev state
+> - *					   is locked and returns it
+> - *
+> - * @sd: The subdevice
+> - *
+> - * Returns the active state for the subdevice, or NULL if the subdev does not
+> - * support active state. If the state is not NULL, calls lockdep_assert_held()
+> - * to issue a warning if the state is not locked.
+> - *
+> - * This function is to be used when the caller knows that the active state is
+> - * already locked.
+> - */
+> -static inline struct v4l2_subdev_state *
+> -v4l2_subdev_get_locked_active_state(struct v4l2_subdev *sd)
+> -{
+> -	if (sd->active_state)
+> -		lockdep_assert_held(sd->active_state->lock);
+> -	return sd->active_state;
+> -}
+> -
+> -/**
+> - * v4l2_subdev_lock_and_get_active_state() - Locks and returns the active subdev
+> - *					     state for the subdevice
+> - * @sd: The subdevice
+> - *
+> - * Returns the locked active state for the subdevice, or NULL if the subdev
+> - * does not support active state.
+> - *
+> - * The state must be unlocked with v4l2_subdev_unlock_state() after use.
+> - */
+> -static inline struct v4l2_subdev_state *
+> -v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
+> -{
+> -	if (sd->active_state)
+> -		v4l2_subdev_lock_state(sd->active_state);
+> -	return sd->active_state;
+> -}
+> -
+>  /*
+>   * A macro to generate the macro or function name for sub-devices state access
+>   * wrapper macros below.
+> @@ -1738,6 +1655,89 @@ int v4l2_subdev_s_stream_helper(struct v4l2_subdev *sd, int enable);
+>  
+>  #endif /* CONFIG_MEDIA_CONTROLLER */
+>  
+> +/**
+> + * v4l2_subdev_lock_state() - Locks the subdev state
+> + * @state: The subdevice state
+> + *
+> + * Locks the given subdev state.
+> + *
+> + * The state must be unlocked with v4l2_subdev_unlock_state() after use.
+> + */
+> +static inline void v4l2_subdev_lock_state(struct v4l2_subdev_state *state)
 > +{
-> +	struct pwm_ir *pwm_ir =3D dev->priv;
-> +	struct pwm_device *pwm =3D pwm_ir->pwm;
-> +	struct pwm_state state;
-> +
-> +	pwm_init_state(pwm, &state);
-> +
-> +	state.period =3D DIV_ROUND_CLOSEST(NSEC_PER_SEC, pwm_ir->carrier);
-> +	pwm_set_relative_duty_cycle(&state, pwm_ir->duty_cycle, 100);
-> +
-> +	pwm_ir->txbuf =3D txbuf;
-> +	pwm_ir->txbuf_len =3D count;
-> +	pwm_ir->txbuf_index =3D 0;
-> +	pwm_ir->state =3D &state;
-> +
-> +	hrtimer_start(&pwm_ir->timer, 0, HRTIMER_MODE_REL);
-> +
-> +	wait_for_completion(&pwm_ir->tx_done);
-> +
-> +	return count;
+> +	mutex_lock(state->lock);
 > +}
 > +
-> +static enum hrtimer_restart pwm_ir_timer(struct hrtimer *timer)
+> +/**
+> + * v4l2_subdev_unlock_state() - Unlocks the subdev state
+> + * @state: The subdevice state
+> + *
+> + * Unlocks the given subdev state.
+> + */
+> +static inline void v4l2_subdev_unlock_state(struct v4l2_subdev_state *state)
 > +{
-> +	struct pwm_ir *pwm_ir =3D container_of(timer, struct pwm_ir, timer);
-> +	ktime_t now;
-> +
-> +	/*
-> +	 * If we happen to hit an odd latency spike, loop through the
-> +	 * pulses until we catch up.
-> +	 */
-> +	do {
-> +		u64 ns;
-> +
-> +		pwm_ir->state->enabled =3D !(pwm_ir->txbuf_index % 2);
-> +		pwm_apply_atomic(pwm_ir->pwm, pwm_ir->state);
-> +
-> +		if (pwm_ir->txbuf_index >=3D pwm_ir->txbuf_len) {
-> +			complete(&pwm_ir->tx_done);
-> +
-> +			return HRTIMER_NORESTART;
-> +		}
-> +
-> +		ns =3D US_TO_NS(pwm_ir->txbuf[pwm_ir->txbuf_index]);
-> +		hrtimer_add_expires_ns(timer, ns);
-> +
-> +		pwm_ir->txbuf_index++;
-> +
-> +		now =3D timer->base->get_time();
-> +	} while (hrtimer_get_expires_tv64(timer) < now);
-> +
-> +	return HRTIMER_RESTART;
+> +	mutex_unlock(state->lock);
 > +}
 > +
->  static int pwm_ir_probe(struct platform_device *pdev)
->  {
->  	struct pwm_ir *pwm_ir;
-> @@ -103,10 +167,19 @@ static int pwm_ir_probe(struct platform_device *pde=
-v)
->  	if (!rcdev)
->  		return -ENOMEM;
-> =20
-> +	if (pwm_is_atomic(pwm_ir->pwm)) {
-> +		init_completion(&pwm_ir->tx_done);
-> +		hrtimer_init(&pwm_ir->timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-> +		pwm_ir->timer.function =3D pwm_ir_timer;
-> +		rcdev->tx_ir =3D pwm_ir_tx_atomic;
-> +	} else {
-> +		dev_info(&pdev->dev, "tx will not be accurate as pwm device does not s=
-upport atomic mode");
+> +/**
+> + * v4l2_subdev_get_unlocked_active_state() - Checks that the active subdev state
+> + *					     is unlocked and returns it
+> + * @sd: The subdevice
+> + *
+> + * Returns the active state for the subdevice, or NULL if the subdev does not
+> + * support active state. If the state is not NULL, calls
+> + * lockdep_assert_not_held() to issue a warning if the state is locked.
+> + *
+> + * This function is to be used e.g. when getting the active state for the sole
+> + * purpose of passing it forward, without accessing the state fields.
+> + */
+> +static inline struct v4l2_subdev_state *
+> +v4l2_subdev_get_unlocked_active_state(struct v4l2_subdev *sd)
+> +{
+> +	if (sd->active_state)
+> +		lockdep_assert_not_held(sd->active_state->lock);
+> +	return sd->active_state;
+> +}
+> +
+> +/**
+> + * v4l2_subdev_get_locked_active_state() - Checks that the active subdev state
+> + *					   is locked and returns it
+> + *
+> + * @sd: The subdevice
+> + *
+> + * Returns the active state for the subdevice, or NULL if the subdev does not
+> + * support active state. If the state is not NULL, calls lockdep_assert_held()
+> + * to issue a warning if the state is not locked.
+> + *
+> + * This function is to be used when the caller knows that the active state is
+> + * already locked.
+> + */
+> +static inline struct v4l2_subdev_state *
+> +v4l2_subdev_get_locked_active_state(struct v4l2_subdev *sd)
+> +{
+> +	if (sd->active_state)
+> +		lockdep_assert_held(sd->active_state->lock);
+> +	return sd->active_state;
+> +}
+> +
+> +/**
+> + * v4l2_subdev_lock_and_get_active_state() - Locks and returns the active subdev
+> + *					     state for the subdevice
+> + * @sd: The subdevice
+> + *
+> + * Returns the locked active state for the subdevice, or NULL if the subdev
+> + * does not support active state.
+> + *
+> + * The state must be unlocked with v4l2_subdev_unlock_state() after use.
+> + */
+> +static inline struct v4l2_subdev_state *
+> +v4l2_subdev_lock_and_get_active_state(struct v4l2_subdev *sd)
+> +{
+> +	if (sd->active_state)
+> +		v4l2_subdev_lock_state(sd->active_state);
+> +	return sd->active_state;
+> +}
+> +
+>  /**
+>   * v4l2_subdev_init - initializes the sub-device struct
+>   *
+> 
+> ---
+> base-commit: e55a9482888da73eeadde5f13ef8bafce68a38ed
+> change-id: 20231208-v4l2-state-mc-fix-b4f0ebfbb2bf
 
-s/tx/TX and s/pwm/PWM/? Also, I'm a bit unhappy about "atomic mode" here
-because the term is overloaded in PWM. If you call pwm_appy_*() then by
-definition it's going to be "atomic" in the "atomic state" sense. So
-maybe switch to something like:
+-- 
+Regards,
 
-	"TX will not be accurate as PWM device might sleep"
-
-?
-
-Thierry
-
---Yblp1b8ERDinDWmD
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmVzRIMACgkQ3SOs138+
-s6Hm9A//Xk/Ax5Tr6GG4g93ovKwf9aILijyg9sraVXVqaJD55fZ0ObhBlY7xSvMv
-t0+DWflHIYFCgFIlsxtScqG0PrpGkoQI4valJzuyR+dKn3TSD8tCrLeVAP5pOTLL
-X88YQXo7Qu/J4F58/mSE5YPB5ut9cBtC2ViDpoNB3rPnfpvl1CQ5QnTKdr8iRnYB
-GiJCRKQkG8v0c69a0nNftVF9ujE0fMhysW+ULc8d7U8iSU7CMcQrr8nPKj+K2UR8
-3qvyLxd/0Irzkvn5Fu8ziWW2aFEsldfWZ9bYyBYGbpDJ2h4a6tRs4s7YJGWIOBM1
-+DkOzkY5ZJnBjIUMHBQ6zyD31PklKxDAVNcvD1rpruRXooHDpWWh/wavvK7JInxa
-/bTcvjKl88+dQFrXzGM6Yt5cdB/iuvZ/QvN1dc1oyZEOPK2k0SaEX5S1X8QsrK4+
-f4q2BrkDViyK2PP6q/wCZTTQAOtNVwN/3nWRDEKd/FeJ7KzU75f5qzOFJTMHBio3
-v26mVcr4cx2woBxfW7pBL6wM+Vt86uRWvdGhQf6vQQcZw3G2DQLOg/QZM13bR41f
-gNH6FMeDKV4gPSMMLybID/60mGUC6movGKjaiHUfUDUiUlzHi7o7nJByiIw+GEQh
-t+DDJ3KmHMXJJFjxbJB6rqW4L9sj2ie+QuO3cyiJ294Hdbpu87c=
-=UtpU
------END PGP SIGNATURE-----
-
---Yblp1b8ERDinDWmD--
+Laurent Pinchart
 
