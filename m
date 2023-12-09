@@ -1,137 +1,213 @@
-Return-Path: <linux-media+bounces-2049-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2050-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56A5580B4A5
-	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 14:58:39 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FA2280B503
+	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 16:16:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2999281110
-	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 13:58:37 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CABD8B20C35
+	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 15:16:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5329F14F86;
-	Sat,  9 Dec 2023 13:58:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 421AA16422;
+	Sat,  9 Dec 2023 15:16:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="YP+b9LrM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4190AFC
-	for <linux-media@vger.kernel.org>; Sat,  9 Dec 2023 05:58:29 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBxpy-0001ft-6E; Sat, 09 Dec 2023 14:57:46 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBxpu-00Eecd-U0; Sat, 09 Dec 2023 14:57:42 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rBxpu-00H5EP-JG; Sat, 09 Dec 2023 14:57:42 +0100
-Date: Sat, 9 Dec 2023 14:57:42 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?utf-8?B?SsOkcnZpbmVu?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v6 1/4] pwm: rename pwm_apply_state() to
- pwm_apply_might_sleep()
-Message-ID: <20231209135742.3ieusuq3h3xlvjfn@pengutronix.de>
-References: <cover.1701248996.git.sean@mess.org>
- <37090c1d8d8f42f1e12fa84942027d995189a99e.1701248996.git.sean@mess.org>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9913210DA
+	for <linux-media@vger.kernel.org>; Sat,  9 Dec 2023 07:16:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702135002; x=1733671002;
+  h=date:from:to:cc:subject:message-id;
+  bh=NJYXk4q7lutzhtJjKZIjVC4KkiXGbpITyAmqMSkv7pQ=;
+  b=YP+b9LrMtxJXGagemwFyOGiyJuNllk2vE+lSuthFTJ7f43jtMo3linlm
+   8ir01O0tFRw+9fMsfeahzDmUgtC70HaQR0VwfeUtZvAQNdw9J9FAC4hwo
+   1HfdWf7vsMl9T9M9tJs6ATSv8hhIc0cQ/cXTl6FyqLVY2olMfp+QRj6SS
+   +/B0/NLY9/NqQDGhP8HrN6QmpcriRXrHG8UJtSOp/O61vVqy3aRTrQxg8
+   Hh01WQJx3s1hUadigbTbXdmSQHAz7s4r4H3cs+F3Cli7d5eZfvehRi5Fc
+   7yVzcv9UZTxLA0UX4sEXMbeugb9AyxBZsmoB36cHVTi0ANCmERXW4zcIJ
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="397307206"
+X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
+   d="scan'208";a="397307206"
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 07:16:41 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="890502807"
+X-IronPort-AV: E=Sophos;i="6.04,263,1695711600"; 
+   d="scan'208";a="890502807"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga002.fm.intel.com with ESMTP; 09 Dec 2023 07:16:39 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBz4H-000FU5-2i;
+	Sat, 09 Dec 2023 15:16:37 +0000
+Date: Sat, 09 Dec 2023 23:15:54 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata] BUILD SUCCESS
+ 4540874b569e8e71a60ae80bbd7598eda45b5dee
+Message-ID: <202312092352.uNyzCHqP-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="6j77aatd2k4sm7sp"
-Content-Disposition: inline
-In-Reply-To: <37090c1d8d8f42f1e12fa84942027d995189a99e.1701248996.git.sean@mess.org>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
+tree/branch: git://linuxtv.org/sailus/media_tree.git metadata
+branch HEAD: 4540874b569e8e71a60ae80bbd7598eda45b5dee  media: ov2740: Add support for embedded data
 
---6j77aatd2k4sm7sp
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+elapsed time: 1499m
 
-On Wed, Nov 29, 2023 at 09:13:34AM +0000, Sean Young wrote:
-> In order to introduce a pwm api which can be used from atomic context,
-> we will need two functions for applying pwm changes:
->=20
-> 	int pwm_apply_might_sleep(struct pwm *, struct pwm_state *);
-> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
->=20
-> This commit just deals with renaming pwm_apply_state(), a following
-> commit will introduce the pwm_apply_atomic() function.
->=20
-> Acked-by: Hans de Goede <hdegoede@redhat.com>
-> Acked-by: Jani Nikula <jani.nikula@intel.com>
-> Acked-by: Lee Jones <lee@kernel.org>
-> Signed-off-by: Sean Young <sean@mess.org>
+configs tested: 135
+configs skipped: 2
 
-Not a in-detail-review, but I just noticed again, that we have
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-	K:      pwm_(config|apply_state|ops)
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              alldefconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                   randconfig-001-20231209   gcc  
+arc                   randconfig-002-20231209   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                                 defconfig   clang
+arm                            dove_defconfig   clang
+arm                        keystone_defconfig   gcc  
+arm                   milbeaut_m10v_defconfig   clang
+arm                         orion5x_defconfig   clang
+arm                   randconfig-001-20231209   gcc  
+arm                   randconfig-002-20231209   gcc  
+arm                   randconfig-003-20231209   gcc  
+arm                   randconfig-004-20231209   gcc  
+arm                         s5pv210_defconfig   clang
+arm                         socfpga_defconfig   clang
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231209   gcc  
+arm64                 randconfig-002-20231209   gcc  
+arm64                 randconfig-003-20231209   gcc  
+arm64                 randconfig-004-20231209   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231209   gcc  
+csky                  randconfig-002-20231209   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231209   clang
+hexagon               randconfig-002-20231209   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231209   gcc  
+i386         buildonly-randconfig-002-20231209   gcc  
+i386         buildonly-randconfig-003-20231209   gcc  
+i386         buildonly-randconfig-004-20231209   gcc  
+i386         buildonly-randconfig-005-20231209   gcc  
+i386         buildonly-randconfig-006-20231209   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231209   gcc  
+i386                  randconfig-002-20231209   gcc  
+i386                  randconfig-003-20231209   gcc  
+i386                  randconfig-004-20231209   gcc  
+i386                  randconfig-005-20231209   gcc  
+i386                  randconfig-006-20231209   gcc  
+i386                  randconfig-011-20231209   clang
+i386                  randconfig-012-20231209   clang
+i386                  randconfig-013-20231209   clang
+i386                  randconfig-014-20231209   clang
+i386                  randconfig-015-20231209   clang
+i386                  randconfig-016-20231209   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231209   gcc  
+loongarch             randconfig-002-20231209   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+m68k                       m5275evb_defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+mips                      bmips_stb_defconfig   clang
+mips                  cavium_octeon_defconfig   clang
+mips                     decstation_defconfig   gcc  
+mips                      malta_kvm_defconfig   clang
+mips                        qi_lb60_defconfig   clang
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231209   gcc  
+nios2                 randconfig-002-20231209   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231209   gcc  
+parisc                randconfig-002-20231209   gcc  
+parisc64                            defconfig   gcc  
+powerpc                           allnoconfig   gcc  
+powerpc                      chrp32_defconfig   gcc  
+powerpc                      pcm030_defconfig   gcc  
+powerpc               randconfig-001-20231209   gcc  
+powerpc               randconfig-002-20231209   gcc  
+powerpc               randconfig-003-20231209   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                            allyesconfig   gcc  
+riscv                               defconfig   gcc  
+riscv                    nommu_k210_defconfig   gcc  
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                        edosk7760_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
 
-in MAINTAINERS. That one needs adaption, too.
-
-Best regards
-Uwe
-
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
-
---6j77aatd2k4sm7sp
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV0clUACgkQj4D7WH0S
-/k4sEAgArnTQxpu4ZXIskkdh9oxeabDQRo0TziQM0oZ+wnyobvwrkERaAWwUdg1V
-BTu5gKnbpp4QbALgpLCjFiCxxODMDE0zFXfZYpvHhZINc9zUPmHu3VvJmAh36php
-d+svsxVry/mTbk8WqHHdXLWRsgfuMTup2IcSecthS4EheqiiIB1/3J6zlV0hBEvt
-6MR1GepDyknFpPqf5O01Ya8gFZ2lcjJhXLINaH6vtZe+SF9f2ENGsiwPScjzPhY7
-Nkojtd82SQdG1VgWLyGe/JHV9MoZQh60GN3/DIsdSRdcDdAVKOvl9ATY87+CM4Le
-/qSreDunw+R0VYm9mVeyI7sETi446w==
-=Wzva
------END PGP SIGNATURE-----
-
---6j77aatd2k4sm7sp--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
