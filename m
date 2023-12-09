@@ -1,130 +1,159 @@
-Return-Path: <linux-media+bounces-2045-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2046-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF0F580B371
-	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 10:34:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68D1D80B37A
+	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 10:50:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C3AA2810DA
-	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 09:34:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 862F21C20B20
+	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 09:50:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBDE511188;
-	Sat,  9 Dec 2023 09:33:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95B1811730;
+	Sat,  9 Dec 2023 09:49:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.net header.i=wahrenst@gmx.net header.b="Xtplaw2D"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="I1ET6nwY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D0451A1
-	for <linux-media@vger.kernel.org>; Sat,  9 Dec 2023 01:33:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=s31663417; t=1702114402; x=1702719202; i=wahrenst@gmx.net;
-	bh=XMs3lW0NBWXqZmdKm4s2jgBdjD6wAB7lt+5QuwBbU/c=;
-	h=X-UI-Sender-Class:Date:Subject:To:Cc:References:From:
-	 In-Reply-To;
-	b=Xtplaw2DRn1eb43UgmBs0bhxUI1SgpFdclDAOE4nZjCUBLIHDM61pC/ZCG0uSUoH
-	 7OMF/+CiV47U/JDYCkNdhRirK8H7HUKvJaNCvWXhtghqH5NMfVwErnp3GMU7Vp1Ux
-	 qzPKkhUBAh6FU9NnSKe6KYpfAoThb3X40e8P3cyDII6jxmwO4ocsi/SzyHjrhN76O
-	 uaZljErwH/CqaiqQR3xgtrIUYJsys0Bd5dpB+w7YzajiFtbFhtP+KsqIR2+Dm5l9W
-	 tnUFXk+Bd5Iy9pvX+hIYNrGuLsCif79b0ManTLYwHytaSIWXq6qwb9Stczgc2PngI
-	 Nj2f4aOI9tNaftiDyg==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.1.130] ([37.4.248.43]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MBUqL-1r4zoj2pQd-00D1tC; Sat, 09
- Dec 2023 10:33:22 +0100
-Message-ID: <1adbbd28-bdd0-4c65-bc59-fc0b8d6d034a@gmx.net>
-Date: Sat, 9 Dec 2023 10:33:21 +0100
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E38B810C4;
+	Sat,  9 Dec 2023 01:49:53 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1702115391; bh=K4v35Dp8Lp3NPnkhtZ9R6FJpo7oiN2Hzlx29IfU2Lq0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I1ET6nwYmIPj1dDOlJ36cuv6adMCSee+/l3bvMCLtEZVJ3gsKIvTkgWpvUyf4/ydw
+	 CGstHQFag5r1HK6Ftg6STvHYYVV2iTxngtTBcs5UDam5c9d53JE4Z5TzmbLJ5pyyA3
+	 mariSQplhWY+wSwgFCLalvfeRztZooSqtT2s5r0altoeoNl8tTgXkQ09atOVR7mLsm
+	 nZYM0UNi0mHCJ4iNfZBqMg0bpb67Qn22K0ZJJ4W09VbwU3fDZid9ynlvX2K6rPGB8A
+	 5yqzXwpbcGepDvmlvCc/F1FCV6G/xfzG8oGHxmesi7f6GKT4sekIMzJjC2kufb4kXw
+	 dCEcayhOICYsg==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id 9697B100091; Sat,  9 Dec 2023 09:49:51 +0000 (GMT)
+Date: Sat, 9 Dec 2023 09:49:51 +0000
+From: Sean Young <sean@mess.org>
+To: Thierry Reding <thierry.reding@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 2/4] pwm: make it possible to apply pwm changes in
+ atomic context
+Message-ID: <ZXQ4P39_sq10XD9u@gofer.mess.org>
+References: <cover.1701248996.git.sean@mess.org>
+ <734c9985a6f54d34d9ef20203ba7f962b572cb45.1701248996.git.sean@mess.org>
+ <ZXNCKFZcjFznko89@orome.fritz.box>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 3/4] staging: vc04_services: Drop vchiq_log_trace() in
- favour of dev_dbg
-Content-Language: en-US
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Umang Jain <umang.jain@ideasonboard.com>, linux-staging@lists.linux.dev,
- linux-rpi-kernel@lists.infradead.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, Stefan Wahren
- <stefan.wahren@i2se.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Dan Carpenter <error27@gmail.com>,
- Kieran Bingham <kieran.bingham@ideasonboard.com>,
- "Ricardo B . Marliere" <ricardo@marliere.net>
-References: <20231205084157.73819-1-umang.jain@ideasonboard.com>
- <20231205084157.73819-4-umang.jain@ideasonboard.com>
- <46e42bbf-e99b-4e61-a207-35e150fe4fd2@gmx.net>
- <1883402c-edad-48b7-9081-32ec3538667b@suswa.mountain>
-From: Stefan Wahren <wahrenst@gmx.net>
-In-Reply-To: <1883402c-edad-48b7-9081-32ec3538667b@suswa.mountain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:qb0a7K/bwRDQ65WdB1fw1eptivNDGViaAwPZR1DbMOSjXe7liUG
- rAMAGZab7AQl7CafTFUhBjSLCYFdv+2Kz+AB/Zs+vi2dDMS8WvtfT6EyPhyPF9isvVLzqLZ
- /j+vyhuToQOStJTzIwFg1gAnLM3HfEAQNeNvig1Vf4QAdEzhKBtqvQzNvK2HAk38I+XGstH
- fwnupBduSOhD44sBa6C0A==
-UI-OutboundReport: notjunk:1;M01:P0:R6bXRr6+8CI=;AFPboodsA6U5QZ7dNAdJ/u1i3qB
- 5i0VSbmw5fl9m0rPemFqPedFHBt7hHcrqpb2tUzrMeKzcrWvVykJ+wdlGtF95lDeMxJmDbuty
- OZsiX9hbYeFQtG+tW1S7hV1dlwFh9jwqKLQ+m60zqakMpGQGeduHxXilxvWbN9Q/i1WcKfAsa
- CRoSzbb3bQfRkVNo66LS7FKKPvwma5BsAN0L48Qm5XU8GSiij7caYs7xZuJR2QTO/UXTATc3V
- ZobXaBO66z0OYyHj14/3zcNLAiVd/cGSIhv2d6DNxyYM8dTGayFVUtNOX2iONK1ELh+pSQXDh
- ImEZxtycEPmdp0SaxudN/8vjwZqahRTT8WVLbZF9bB+Q/fpFYG9S7SKmAboUhrZzDQH7hjwr0
- sQGkYg5zlDiPVcie9VsuuHS74Va17cByZ1ZeP8oe7PjhH3PRM4Wd8qaGJ8Udi7k4l4WFjSZ2u
- qMtXrlPaF+5qDSmoEhTvubw5NvCMNzFM4IHCsTJLEUGIclXK+XxRCO7nuVgx3Uj0d2NZfh6pD
- 2IYbMbGwZNSEynvBblJ1dxDKQGiOO3YAPmxA5VHYzmAotgdBWTTyixZd2LsU/gyAB4EmFxW+6
- e6akmBxeK1Og6wAzXfg7m/t+Z35aR/5gq5MamY8AFXBfl347eSEJqKGtskqHoSG0cK+DV9HUZ
- hySgttu3BNTmegalByhKaeVO/b5b+vsL8Lp5bH/hE+FDXSDN9yFOq11bcYjNiGX/I956d6oHt
- RMn+Wd4zV/O+7N8U7AVoy7AG6crELzxwnqLYUpKUCrwv6EULTi+8CBCdRKoRl2dZiWwyGMUOL
- 4mqNKlJKiLFYBPD87Zyq4AiRH5CtePN6RvYv4Tq02l51znR3PRYsnm0SQ7xFGiULHN6z5KPZo
- OVrJ1PbOcjnTm85bKEb69hC1jmuANmNCdc8G8Cwy8GGwSjgqk/BJdqeh1vBTm4obJrGOM9r1M
- +OwHGGHZLAiPzTysEQ6KxRVrfVo=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZXNCKFZcjFznko89@orome.fritz.box>
 
-Hi Dan,
+Hi Thierry,
 
-Am 09.12.23 um 07:27 schrieb Dan Carpenter:
-> On Fri, Dec 08, 2023 at 01:08:04PM +0100, Stefan Wahren wrote:
->>> @@ -1425,7 +1416,7 @@ vchiq_use_internal(struct vchiq_state *state, st=
-ruct vchiq_service *service,
->>>    	}
->>>
->>>    out:
->>> -	vchiq_log_trace(state->dev, VCHIQ_SUSPEND, "%s exit %d", __func__, r=
-et);
->>> +	dev_dbg(state->dev, "suspend: exit %d\n", ret);
->> In case we want to keep this kind of debug messages, i prefer to have a
->> common format:
->>
->> returning %d vs exit %d
-> Someone was trying to make ftrace track return values...  Whatever
-> happened with that work?
-this feature has been merged, but it doesn't seem to be available for arm:
 
-find -name Kconfig | xargs grep HAVE_FUNCTION_GRAPH_RETVAL
-./kernel/trace/Kconfig:config HAVE_FUNCTION_GRAPH_RETVAL
-./kernel/trace/Kconfig:=C2=A0=C2=A0=C2=A0 depends on HAVE_FUNCTION_GRAPH_R=
-ETVAL
-./arch/x86/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL=C2=
-=A0=C2=A0=C2=A0 if
-HAVE_FUNCTION_GRAPH_TRACER
-./arch/arm64/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL =
-if
-HAVE_FUNCTION_GRAPH_TRACER
-./arch/s390/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL
-./arch/riscv/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RETVAL =
-if
-HAVE_FUNCTION_GRAPH_TRACER
-./arch/loongarch/Kconfig:=C2=A0=C2=A0=C2=A0 select HAVE_FUNCTION_GRAPH_RET=
-VAL if
-HAVE_FUNCTION_GRAPH_TRACER
+On Fri, Dec 08, 2023 at 05:19:52PM +0100, Thierry Reding wrote:
+> On Wed, Nov 29, 2023 at 09:13:35AM +0000, Sean Young wrote:
+> > Some pwm devices require sleeping, for example if the pwm device is
+> > connected over i2c. However, many pwm devices could be used from atomic
+> > context, e.g. memmory mapped pwm. This is useful for, for example, the
+> > pwm-ir-tx driver which requires precise timing. Sleeping causes havoc
+> > with the generated IR signal.
+> > 
+> > Since not all pmw devices can support atomic context, we also add a
+> > pwm_is_atomic() function to check if it is supported.
+> 
+> s/i2c/I2C/ and s/pwm/PWM/ in the above. Also, s/memmory/memory/
 
-These debug messages are only in the error path, so i'm not sure if
-someone what to hunt bugs by searching all that return values without
-knowing which function is possibly affected.
->
-> regards,
-> dan carpenter
->
+Thanks for your detailed review. I agree with all your points, they are
+all nice improvements. Just a question at the bottom:
 
+> 
+> > 
+> > Signed-off-by: Sean Young <sean@mess.org>
+> > ---
+> >  Documentation/driver-api/pwm.rst |  9 +++++
+> >  drivers/pwm/core.c               | 63 ++++++++++++++++++++++++++------
+> >  drivers/pwm/pwm-renesas-tpu.c    |  1 -
+> >  include/linux/pwm.h              | 29 ++++++++++++++-
+> >  4 files changed, 87 insertions(+), 15 deletions(-)
+> > 
+> > diff --git a/Documentation/driver-api/pwm.rst b/Documentation/driver-api/pwm.rst
+> > index f1d8197c8c43..1d4536fdf47c 100644
+> > --- a/Documentation/driver-api/pwm.rst
+> > +++ b/Documentation/driver-api/pwm.rst
+> > @@ -43,6 +43,15 @@ After being requested, a PWM has to be configured using::
+> >  
+> >  	int pwm_apply_might_sleep(struct pwm_device *pwm, struct pwm_state *state);
+> >  
+> > +Some PWM devices can be used from atomic context. You can check if this is
+> > +supported with::
+> > +
+> > +        bool pwm_is_atomic(struct pwm_device *pwm);
+> 
+> This is now going to look a bit odd. I think it'd be best to change this
+> to pwm_might_sleep() for consistency with the pwm_apply_might_sleep()
+> function. Fine to keep the actual member variable as atomic, though, so
+> we don't have to change the default for all drivers.
+
+Agreed, I was struggling with finding good name and yours is much better,
+thanks.
+
+ > +{
+> > +	return pwm->chip->atomic;
+> > +}
+> > +
+> >  /* PWM provider APIs */
+> >  int pwm_capture(struct pwm_device *pwm, struct pwm_capture *result,
+> >  		unsigned long timeout);
+> > @@ -406,16 +420,27 @@ struct pwm_device *devm_fwnode_pwm_get(struct device *dev,
+> >  				       struct fwnode_handle *fwnode,
+> >  				       const char *con_id);
+> >  #else
+> > +static inline bool pwm_is_atomic(struct pwm_device *pwm)
+> > +{
+> > +	return false;
+> > +}
+> > +
+> >  static inline int pwm_apply_might_sleep(struct pwm_device *pwm,
+> >  					const struct pwm_state *state)
+> >  {
+> >  	might_sleep();
+> > -	return -ENOTSUPP;
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> > +static inline int pwm_apply_atomic(struct pwm_device *pwm,
+> > +				   const struct pwm_state *state)
+> > +{
+> > +	return -EOPNOTSUPP;
+> >  }
+> >  
+> >  static inline int pwm_adjust_config(struct pwm_device *pwm)
+> >  {
+> > -	return -ENOTSUPP;
+> > +	return -EOPNOTSUPP;
+> >  }
+> 
+> What's wrong with ENOTSUPP?
+
+This was found by checkpatch, see
+
+https://github.com/torvalds/linux/blob/master/scripts/checkpatch.pl#L4891-L4892
+
+# ENOTSUPP is not a standard error code and should be avoided in new patches.
+# Folks usually mean EOPNOTSUPP (also called ENOTSUP), when they type ENOTSUPP.
+
+ENOTSUPP is not really widely used in the tree.
+
+So it was really done to keep checkpatch happy, please let me know what you
+would like me to do here.
+
+Thanks,
+
+Sean
 
