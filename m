@@ -1,255 +1,153 @@
-Return-Path: <linux-media+bounces-2034-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2035-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE7F280B08B
-	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 00:25:27 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E187B80B114
+	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 01:50:57 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4162D1F2145D
-	for <lists+linux-media@lfdr.de>; Fri,  8 Dec 2023 23:25:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 78D421F213D7
+	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 00:50:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3D8C5ABB0;
-	Fri,  8 Dec 2023 23:25:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A94F811;
+	Sat,  9 Dec 2023 00:50:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rMZfsgNf"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FpG2UwM8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vs1-xe34.google.com (mail-vs1-xe34.google.com [IPv6:2607:f8b0:4864:20::e34])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A52F91720
-	for <linux-media@vger.kernel.org>; Fri,  8 Dec 2023 15:25:14 -0800 (PST)
-Received: by mail-vs1-xe34.google.com with SMTP id ada2fe7eead31-466006f9fa5so450342137.3
-        for <linux-media@vger.kernel.org>; Fri, 08 Dec 2023 15:25:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702077914; x=1702682714; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Q3tzRei4DqUvL1gHDjLu5ZyN+XyR0fbOVm4A1dgKAmU=;
-        b=rMZfsgNfIBlVfmM5BMuu6izhjLw8tf7OSVrlq0XQSrKAUbMtEZwkGdm7NJcvUIjkhO
-         MfpUNlwFIx72pvw2FXHUJpoB6FAlp2euk5EegmEwpR2XJxbQpf4lj5bozkprsajrDVle
-         xZLduQ/F9vZaZhiIPXIUMAJxIMjaReoTuotPoKPcKLKaXxQktW0iuRymQ/TNsNNQCW5X
-         mWboT2jI90M3URdy+mwzZcYMTCRt++z3e9zdn3P1TAbqiwREVutMY7Ate6kU2Iq4G4SR
-         R7lgPkuJW+rgGlXIrKNlOAegF/GyvJVbKWH4A570ClOYyRscr/vX5LNs/bUtGInjdlro
-         Cthg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702077914; x=1702682714;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Q3tzRei4DqUvL1gHDjLu5ZyN+XyR0fbOVm4A1dgKAmU=;
-        b=EGQndXjZ19XhVDlUByv1F7SUF5n9cGdS8wb8bYYskRKEYnGnIw0loQesJ4G+z1pFPW
-         kWoe0nbj/7Ga6ASD3t897vCmxiXvBAcDBXj1W/TPDUPll+QsPUt81VE463tAEduK+dcA
-         qp5paBqQ2igPp8DidPbQrRvPAATUI/MTE433Z0Qa9t2e7/jIbyYsnaRoBxYOUBCEMmaa
-         ZBGN42bIHD3WSuJsES+XBBNXuIAyjHJsCBq5yCXlNhhCcdIWc+b1/cBkKKKoy+2HSa/B
-         49KafsXsvfZLZCU+VA5cp/w2yo2wtb+6DP07fjW53M51e/kb1vi4zywBUkJaaDvzyvjx
-         tIYQ==
-X-Gm-Message-State: AOJu0YxqbehgT4dRrqc3KwKdiwJ0+cOBs2WXjzoVe2mvCjsVinZDHWNy
-	UWgDfOZU18IICitcvJ6TXWu2KmZ7Nq3Nljc2MX7XUg==
-X-Google-Smtp-Source: AGHT+IEFKUc5exoP0JWsRvhqP/54jx/lwOw3AZl/60NefSo43kRLaVvc1XrXulWzYoWwJeZdst7FzfPYeaWKAp2Juns=
-X-Received: by 2002:a05:6102:3f0a:b0:464:5036:fb69 with SMTP id
- k10-20020a0561023f0a00b004645036fb69mr858666vsv.30.1702077913540; Fri, 08 Dec
- 2023 15:25:13 -0800 (PST)
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.24])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1AD511716;
+	Fri,  8 Dec 2023 16:50:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702083044; x=1733619044;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=i9QEEQKqddCQ+SjwoKUw1jGw26KPrfv+qyu4RfjOEkM=;
+  b=FpG2UwM8GzwWE7EzumEkSHg2I+uowGOcAZiuyB2dvHhhHZAzUAIclciz
+   FfAtOyCNTVDEUZHNKzikTE37uNLZFlFugvt6qG0tYIbujZM/2kMkJ1ujv
+   eWauEylIsfEy/2C+rFapggzomm6tXqDCuEXFl7U6M8F6SyNl9NFM15HcY
+   E29ft3UkpoO77GFrw7Sj3kWoZxs0oivoqS+mM4XccUp8QqBPWg17ROBaY
+   EENigCLzMyqeTINehqazNrZN2LVmiLlp/G84Dt5TvKM5x/OaMsQvw2Yvk
+   D0gD3skVZWky/dvxKZuGVg2jOj6tA9u1jG0YDLitSEYRG/kz1p/MqxHvR
+   w==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="397276169"
+X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
+   d="scan'208";a="397276169"
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2023 16:50:43 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10918"; a="916136533"
+X-IronPort-AV: E=Sophos;i="6.04,262,1695711600"; 
+   d="scan'208";a="916136533"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga001.fm.intel.com with ESMTP; 08 Dec 2023 16:50:40 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rBlYE-000EbZ-2Y;
+	Sat, 09 Dec 2023 00:50:38 +0000
+Date: Sat, 9 Dec 2023 08:50:36 +0800
+From: kernel test robot <lkp@intel.com>
+To: Umang Jain <umang.jain@ideasonboard.com>, devicetree@vger.kernel.org,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev,
+	"Paul J . Murphy" <paul.j.murphy@intel.com>,
+	Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 7/8] media: i2c: imx335: Support 2592x1940 10-bit mode
+Message-ID: <202312090803.2jM0Kj0d-lkp@intel.com>
+References: <20231208150756.124720-8-umang.jain@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-9-almasrymina@google.com> <b07a4eca-0c3d-4620-9f97-b1d2c76642c2@gmail.com>
-In-Reply-To: <b07a4eca-0c3d-4620-9f97-b1d2c76642c2@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 8 Dec 2023 15:25:00 -0800
-Message-ID: <CAHS8izNVFx6oHoo7y86P8Di9VCVe8A_n_9UZFkg5Wnt=A=YcNQ@mail.gmail.com>
-Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231208150756.124720-8-umang.jain@ideasonboard.com>
 
-On Fri, Dec 8, 2023 at 2:56=E2=80=AFPM Pavel Begunkov <asml.silence@gmail.c=
-om> wrote:
->
-> On 12/8/23 00:52, Mina Almasry wrote:
-...
-> > +     if (pool->p.queue)
-> > +             binding =3D READ_ONCE(pool->p.queue->binding);
-> > +
-> > +     if (binding) {
-> > +             pool->mp_ops =3D &dmabuf_devmem_ops;
-> > +             pool->mp_priv =3D binding;
-> > +     }
->
-> Hmm, I don't understand why would we replace a nice transparent
-> api with page pool relying on a queue having devmem specific
-> pointer? It seemed more flexible and cleaner in the last RFC.
->
+Hi Umang,
 
-Jakub requested this change and may chime in, but I suspect it's to
-further abstract the devmem changes from driver. In this iteration,
-the driver grabs the netdev_rx_queue and passes it to the page_pool,
-and any future configurations between the net stack and page_pool can
-be passed this way with the driver unbothered.
+kernel test robot noticed the following build warnings:
 
-> > +
-> >       if (pool->mp_ops) {
-> >               err =3D pool->mp_ops->init(pool);
-> >               if (err) {
-> > @@ -1020,3 +1033,77 @@ void page_pool_update_nid(struct page_pool *pool=
-, int new_nid)
-> >       }
-> >   }
-> >   EXPORT_SYMBOL(page_pool_update_nid);
-> > +
-> > +void __page_pool_iov_free(struct page_pool_iov *ppiov)
-> > +{
-> > +     if (WARN_ON(ppiov->pp->mp_ops !=3D &dmabuf_devmem_ops))
-> > +             return;
-> > +
-> > +     netdev_free_dmabuf(ppiov);
-> > +}
-> > +EXPORT_SYMBOL_GPL(__page_pool_iov_free);
->
-> I didn't look too deep but I don't think I immediately follow
-> the pp refcounting. It increments pages_state_hold_cnt on
-> allocation, but IIUC doesn't mark skbs for recycle? Then, they all
-> will be put down via page_pool_iov_put_many() bypassing
-> page_pool_return_page() and friends. That will call
-> netdev_free_dmabuf(), which doesn't bump pages_state_release_cnt.
->
-> At least I couldn't make it work with io_uring, and for my purposes,
-> I forced all puts to go through page_pool_return_page(), which calls
-> the ->release_page callback. The callback will put the reference and
-> ask its page pool to account release_cnt. It also gets rid of
-> __page_pool_iov_free(), as we'd need to add a hook there for
-> customization otherwise.
->
-> I didn't care about overhead because the hot path for me is getting
-> buffers from a ring, which is somewhat analogous to sock_devmem_dontneed(=
-),
-> but done on pp allocations under napi, and it's done separately.
->
-> Completely untested with TCP devmem:
->
-> https://github.com/isilence/linux/commit/14bd56605183dc80b540999e8058c79a=
-c92ae2d8
->
+[auto build test WARNING on v6.7-rc4]
+[also build test WARNING on linus/master next-20231208]
+[cannot apply to media-tree/master linuxtv-media-stage/master sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-This was a mistake in the last RFC, which should be fixed in v1. In
-the RFC I was not marking the skbs as skb_mark_for_recycle(), so the
-unreffing path wasn't as expected.
+url:    https://github.com/intel-lab-lkp/linux/commits/Umang-Jain/media-dt-bindings-media-imx335-Add-supply-bindings/20231208-230953
+base:   v6.7-rc4
+patch link:    https://lore.kernel.org/r/20231208150756.124720-8-umang.jain%40ideasonboard.com
+patch subject: [PATCH v3 7/8] media: i2c: imx335: Support 2592x1940 10-bit mode
+config: loongarch-allyesconfig (https://download.01.org/0day-ci/archive/20231209/202312090803.2jM0Kj0d-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 13.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231209/202312090803.2jM0Kj0d-lkp@intel.com/reproduce)
 
-In this iteration, that should be completely fixed. I suspect since I
-just posted this you're actually referring to the issue tested on the
-last RFC? Correct me if wrong.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312090803.2jM0Kj0d-lkp@intel.com/
 
-In this iteration, the reffing story:
+All warnings (new ones prefixed by >>):
 
-- memory provider allocs ppiov and returns it to the page pool with
-ppiov->refcount =3D=3D 1.
-- The page_pool gives the page to the driver. The driver may
-obtain/release references with page_pool_page_[get|put]_many(), but
-the driver is likely not doing that unless it's doing its own page
-recycling.
-- The net stack obtains references via skb_frag_ref() ->
-page_pool_page_get_many()
-- The net stack drops references via skb_frag_unref() ->
-napi_pp_put_page() -> page_pool_return_page() and friends.
-
-Thus, the issue where the unref path was skipping
-page_pool_return_page() and friends should be resolved in this
-iteration, let me know if you think otherwise, but I think this was an
-issue limited to the last RFC.
-
-> > +
-> > +/*** "Dmabuf devmem memory provider" ***/
-> > +
-> > +static int mp_dmabuf_devmem_init(struct page_pool *pool)
-> > +{
-> > +     struct netdev_dmabuf_binding *binding =3D pool->mp_priv;
-> > +
-> > +     if (!binding)
-> > +             return -EINVAL;
-> > +
-> > +     if (!(pool->p.flags & PP_FLAG_DMA_MAP))
-> > +             return -EOPNOTSUPP;
-> > +
-> > +     if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
-> > +             return -EOPNOTSUPP;
-> > +
-> > +     netdev_dmabuf_binding_get(binding);
-> > +     return 0;
-> > +}
-> > +
-> > +static struct page *mp_dmabuf_devmem_alloc_pages(struct page_pool *poo=
-l,
-> > +                                              gfp_t gfp)
-> > +{
-> > +     struct netdev_dmabuf_binding *binding =3D pool->mp_priv;
-> > +     struct page_pool_iov *ppiov;
-> > +
-> > +     ppiov =3D netdev_alloc_dmabuf(binding);
-> > +     if (!ppiov)
-> > +             return NULL;
-> > +
-> > +     ppiov->pp =3D pool;
-> > +     pool->pages_state_hold_cnt++;
-> > +     trace_page_pool_state_hold(pool, (struct page *)ppiov,
-> > +                                pool->pages_state_hold_cnt);
-> > +     return (struct page *)((unsigned long)ppiov | PP_IOV);
-> > +}
-> > +
-> > +static void mp_dmabuf_devmem_destroy(struct page_pool *pool)
-> > +{
-> > +     struct netdev_dmabuf_binding *binding =3D pool->mp_priv;
-> > +
-> > +     netdev_dmabuf_binding_put(binding);
-> > +}
-> > +
-> > +static bool mp_dmabuf_devmem_release_page(struct page_pool *pool,
-> > +                                       struct page *page)
-> > +{
-> > +     struct page_pool_iov *ppiov;
-> > +
-> > +     if (WARN_ON_ONCE(!page_is_page_pool_iov(page)))
-> > +             return false;
-> > +
-> > +     ppiov =3D page_to_page_pool_iov(page);
-> > +     page_pool_iov_put_many(ppiov, 1);
-> > +     /* We don't want the page pool put_page()ing our page_pool_iovs. =
-*/
-> > +     return false;
-> > +}
-> > +
-> > +const struct memory_provider_ops dmabuf_devmem_ops =3D {
-> > +     .init                   =3D mp_dmabuf_devmem_init,
-> > +     .destroy                =3D mp_dmabuf_devmem_destroy,
-> > +     .alloc_pages            =3D mp_dmabuf_devmem_alloc_pages,
-> > +     .release_page           =3D mp_dmabuf_devmem_release_page,
-> > +};
-> > +EXPORT_SYMBOL(dmabuf_devmem_ops);
->
-> --
-> Pavel Begunkov
+>> drivers/media/i2c/imx335.c:160: warning: Function parameter or member 'cur_mbus_code' not described in 'imx335'
 
 
+vim +160 drivers/media/i2c/imx335.c
 
---=20
-Thanks,
-Mina
+45d19b5fb9aeab Martina Krasteva 2021-05-27  117  
+45d19b5fb9aeab Martina Krasteva 2021-05-27  118  /**
+45d19b5fb9aeab Martina Krasteva 2021-05-27  119   * struct imx335 - imx335 sensor device structure
+45d19b5fb9aeab Martina Krasteva 2021-05-27  120   * @dev: Pointer to generic device
+45d19b5fb9aeab Martina Krasteva 2021-05-27  121   * @client: Pointer to i2c client
+45d19b5fb9aeab Martina Krasteva 2021-05-27  122   * @sd: V4L2 sub-device
+45d19b5fb9aeab Martina Krasteva 2021-05-27  123   * @pad: Media pad. Only one pad supported
+45d19b5fb9aeab Martina Krasteva 2021-05-27  124   * @reset_gpio: Sensor reset gpio
+84a97de1949593 Kieran Bingham   2023-12-08  125   * @supplies: Regulator supplies to handle power control
+45d19b5fb9aeab Martina Krasteva 2021-05-27  126   * @inclk: Sensor input clock
+45d19b5fb9aeab Martina Krasteva 2021-05-27  127   * @ctrl_handler: V4L2 control handler
+45d19b5fb9aeab Martina Krasteva 2021-05-27  128   * @link_freq_ctrl: Pointer to link frequency control
+45d19b5fb9aeab Martina Krasteva 2021-05-27  129   * @pclk_ctrl: Pointer to pixel clock control
+45d19b5fb9aeab Martina Krasteva 2021-05-27  130   * @hblank_ctrl: Pointer to horizontal blanking control
+45d19b5fb9aeab Martina Krasteva 2021-05-27  131   * @vblank_ctrl: Pointer to vertical blanking control
+45d19b5fb9aeab Martina Krasteva 2021-05-27  132   * @exp_ctrl: Pointer to exposure control
+45d19b5fb9aeab Martina Krasteva 2021-05-27  133   * @again_ctrl: Pointer to analog gain control
+45d19b5fb9aeab Martina Krasteva 2021-05-27  134   * @vblank: Vertical blanking in lines
+45d19b5fb9aeab Martina Krasteva 2021-05-27  135   * @cur_mode: Pointer to current selected sensor mode
+45d19b5fb9aeab Martina Krasteva 2021-05-27  136   * @mutex: Mutex for serializing sensor controls
+45d19b5fb9aeab Martina Krasteva 2021-05-27  137   */
+45d19b5fb9aeab Martina Krasteva 2021-05-27  138  struct imx335 {
+45d19b5fb9aeab Martina Krasteva 2021-05-27  139  	struct device *dev;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  140  	struct i2c_client *client;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  141  	struct v4l2_subdev sd;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  142  	struct media_pad pad;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  143  	struct gpio_desc *reset_gpio;
+84a97de1949593 Kieran Bingham   2023-12-08  144  	struct regulator_bulk_data supplies[ARRAY_SIZE(imx335_supply_name)];
+84a97de1949593 Kieran Bingham   2023-12-08  145  
+45d19b5fb9aeab Martina Krasteva 2021-05-27  146  	struct clk *inclk;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  147  	struct v4l2_ctrl_handler ctrl_handler;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  148  	struct v4l2_ctrl *link_freq_ctrl;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  149  	struct v4l2_ctrl *pclk_ctrl;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  150  	struct v4l2_ctrl *hblank_ctrl;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  151  	struct v4l2_ctrl *vblank_ctrl;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  152  	struct {
+45d19b5fb9aeab Martina Krasteva 2021-05-27  153  		struct v4l2_ctrl *exp_ctrl;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  154  		struct v4l2_ctrl *again_ctrl;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  155  	};
+45d19b5fb9aeab Martina Krasteva 2021-05-27  156  	u32 vblank;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  157  	const struct imx335_mode *cur_mode;
+45d19b5fb9aeab Martina Krasteva 2021-05-27  158  	struct mutex mutex;
+b843d1b4daf24e Umang Jain       2023-12-08  159  	u32 cur_mbus_code;
+45d19b5fb9aeab Martina Krasteva 2021-05-27 @160  };
+45d19b5fb9aeab Martina Krasteva 2021-05-27  161  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
