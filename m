@@ -1,211 +1,149 @@
-Return-Path: <linux-media+bounces-2053-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2054-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A11D380B799
-	for <lists+linux-media@lfdr.de>; Sun, 10 Dec 2023 00:29:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 010CD80B82F
+	for <lists+linux-media@lfdr.de>; Sun, 10 Dec 2023 01:00:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E97C1C20864
-	for <lists+linux-media@lfdr.de>; Sat,  9 Dec 2023 23:29:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B1F2A280F3E
+	for <lists+linux-media@lfdr.de>; Sun, 10 Dec 2023 00:00:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 446B01F95F;
-	Sat,  9 Dec 2023 23:29:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52C622031D;
+	Sun, 10 Dec 2023 00:00:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b6Hyp1OB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iJ0iweTF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 645C379C6;
-	Sat,  9 Dec 2023 23:29:12 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DB64C433C8;
-	Sat,  9 Dec 2023 23:29:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702164551;
-	bh=c9kOjfPZi63X+asNNxhMNmUxQDfFEzKNIVa3FVoqTpU=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b6Hyp1OBNvus/wYWvXxgvsrIZmxWDbJmG7M94TiargWR0ivsB/QtcAV15++RbJpw4
-	 0aBA5M26kNQea5FdiS2dxZto+AGylSMARPzNHWPxVoeLKiA0l6cIpNgoAMvW7REZqh
-	 c2PQK/kmpYgy9PugIfR9kwNsrZdY4LqqihHztRYSxkc0KCU4dNqt/0Wv0kcB+cWFox
-	 YUDbgRYcK7BMoi+NkWVzj/MJSIR5RKcu5gsSTeGkzfQCwahZHG3Vhh7dbv3fYM7C0m
-	 IQsB2hHL6ZcSA5LR7vaDJi4nu1TqHUL4AZvEpnYmBrscOL9JKv+KMYpX68+ufgKMLS
-	 bL2ldjH3T1UQA==
-Message-ID: <279a2999-3c0a-4839-aa2e-602864197410@kernel.org>
-Date: Sat, 9 Dec 2023 16:29:09 -0700
+Received: from mail-pj1-x102c.google.com (mail-pj1-x102c.google.com [IPv6:2607:f8b0:4864:20::102c])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D68DE126;
+	Sat,  9 Dec 2023 15:59:56 -0800 (PST)
+Received: by mail-pj1-x102c.google.com with SMTP id 98e67ed59e1d1-28659b38bc7so3232713a91.0;
+        Sat, 09 Dec 2023 15:59:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702166396; x=1702771196; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n7u/6Kwg7oxrjY82trCXpaLTJNUXXfWY7g8riBVNbTo=;
+        b=iJ0iweTFyOFHwPCQPEvaQvzbzYO8WWpxpMRy6ed6A2Wc+HWstxTynJkqhmzWw5X1mR
+         gNQESuWzYDkCl5PjGOTXWNU+nbvsm4SO9V8xUI6bNXqNNVLLGchysIp8uk7F5fi4gwR7
+         ItYN6CbvHEuJVrjLvEdQdlIPR7zWTppQy5FfFYgofugVJDgFXDsKWSXK52c4PG6GdYlQ
+         SwEvvfG+wAjchUTcGsjHqRBWCWZPZ97XeZ5NWifpHedJtUO8H4sFeaEwopKcSdwYwzjz
+         ic4OHrzrw/z3DhVt4Lao3VSrSF2U9U8DyF7tFwSfkpDze4wlILnCFlJSP+71NFXpxBDS
+         yY3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702166396; x=1702771196;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=n7u/6Kwg7oxrjY82trCXpaLTJNUXXfWY7g8riBVNbTo=;
+        b=aJFUIL7MYgjdJAhI46OhcyEXjLKZwEFLz3OA4uOVVFXh9C9J3AosRwuj4ptm+EA/Mv
+         lbWO7Nn86ber9yg7a0zVEl8Bby6E1LSvbYK7VvTXqE2ECSLCk2PFVq6E4hKfTEug6A6E
+         G+KHslKXZ7Zo99B2DxDGRiRC9mYQ1OEfObtTxVWfk+ygdo3AxyTGE1jjHhhXjDhEiAJu
+         ZQJ4eA0jNZ6UIrIFDC4/TL3tg/hurlNwMZDu9BBOiN9yLDsR8lLsiVytRbrfpA6J7LZY
+         a8WCNQBvsEoZVZOh5Qt/F12l3xYWns8Xo3hxecIYJBGZe/wnsRxwHLsn1C8NUUD+Fwro
+         w0RQ==
+X-Gm-Message-State: AOJu0YxNEwPZHeSkyPonACeu7SBi2sZnxSkUOEc8BekDhbRGVb+vT/hp
+	kKmcY8jQY8ntUCiR0BFeSxrspYpNwQNh/DxtjKv6cJzZOV4=
+X-Google-Smtp-Source: AGHT+IFsamNcb3DC4qLzGDXYQB1aroJmpC4Bc/B7GM7eJDGJgncM5//HfAAKB4ZMUMMoIFjSyuJ10ZuAnhBAHf+c0Fw=
+X-Received: by 2002:a17:90a:9c15:b0:286:9d14:65c with SMTP id
+ h21-20020a17090a9c1500b002869d14065cmr1639230pjp.63.1702166395915; Sat, 09
+ Dec 2023 15:59:55 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next v1 06/16] netdev: support binding dma-buf to netdevice
-Content-Language: en-US
-To: Mina Almasry <almasrymina@google.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann
- <arnd@arndb.de>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-7-almasrymina@google.com>
- <5752508c-f7bc-44ac-8778-c807b2ee5831@kernel.org>
- <CAHS8izPsQ2XoJy-vYWkn051Yc=D_kSprtQcG4mmPutf1G3+-aw@mail.gmail.com>
-From: David Ahern <dsahern@kernel.org>
-In-Reply-To: <CAHS8izPsQ2XoJy-vYWkn051Yc=D_kSprtQcG4mmPutf1G3+-aw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20231129092759.242641-1-paul.elder@ideasonboard.com>
+ <CAHCN7xLgypy8YMhxM1g27DWU7hY3nwAYLYRSMMDtODeGdd_CQg@mail.gmail.com> <ZWhZzNQ6VWcfvWZy@pyrite.rasen.tech>
+In-Reply-To: <ZWhZzNQ6VWcfvWZy@pyrite.rasen.tech>
+From: Adam Ford <aford173@gmail.com>
+Date: Sat, 9 Dec 2023 17:59:44 -0600
+Message-ID: <CAHCN7x+_pow1_3yODH4BMCrUfCQDhrZK4AQMtt6df_7PC92kPg@mail.gmail.com>
+Subject: Re: [PATCH v4 00/11] media: rkisp1: Add support for i.MX8MP
+To: Paul Elder <paul.elder@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	devicetree@vger.kernel.org, kieran.bingham@ideasonboard.com, 
+	tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/8/23 12:22 PM, Mina Almasry wrote:
-> On Fri, Dec 8, 2023 at 9:48 AM David Ahern <dsahern@kernel.org> wrote:
->>
->> On 12/7/23 5:52 PM, Mina Almasry wrote:
-> ...
->>> +
->>> +     xa_for_each(&binding->bound_rxq_list, xa_idx, rxq) {
->>> +             if (rxq->binding == binding) {
->>> +                     /* We hold the rtnl_lock while binding/unbinding
->>> +                      * dma-buf, so we can't race with another thread that
->>> +                      * is also modifying this value. However, the driver
->>> +                      * may read this config while it's creating its
->>> +                      * rx-queues. WRITE_ONCE() here to match the
->>> +                      * READ_ONCE() in the driver.
->>> +                      */
->>> +                     WRITE_ONCE(rxq->binding, NULL);
->>> +
->>> +                     rxq_idx = get_netdev_rx_queue_index(rxq);
->>> +
->>> +                     netdev_restart_rx_queue(binding->dev, rxq_idx);
->>
->> Blindly restarting a queue when a dmabuf is heavy handed. If the dmabuf
->> has no outstanding references (ie., no references in the RxQ), then no
->> restart is needed.
->>
-> 
-> I think I need to stop the queue while binding to a dmabuf for the
-> sake of concurrency, no? I.e. the softirq thread may be delivering a
-> packet, and in parallel a separate thread holds rtnl_lock and tries to
-> bind the dma-buf. At that point the page_pool recreation will race
-> with the driver doing page_pool_alloc_page(). I don't think I can
-> insert a lock to handle this into the rx fast path, no?
+On Thu, Nov 30, 2023 at 3:45=E2=80=AFAM Paul Elder <paul.elder@ideasonboard=
+.com> wrote:
+>
+> On Wed, Nov 29, 2023 at 05:36:25AM -0600, Adam Ford wrote:
+> > On Wed, Nov 29, 2023 at 3:28=E2=80=AFAM Paul Elder <paul.elder@ideasonb=
+oard.com> wrote:
+> > >
+> > > This series extends the rkisp1 driver to support the ISP found in the
+> > > NXP i.MX8MP SoC.
+> > >
+> > > The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1"=
+)
+> > > and in the NXP i.MX8MP have the same origin, and have slightly diverg=
+ed
+> > > over time as they are now independently developed (afaik) by Rockchip
+> > > and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
+> > > and is close enough to the RK3399 ISP that it can easily be supported=
+ by
+> > > the same driver.
+> > >
+> > > The last two patches add support for UYVY output format, which can be
+> > > implemented on the ISP version in the i.MX8MP but not in the one in t=
+he
+> > > RK3399.
+> > >
+> > > This version of the series specifically has been tested on a Polyhex
+> > > Debix model A with an imx219 (Raspberry Pi cam v2).
+> >
+> > I have tested previous versions with a imx219 camera running in 4-lane
+> > mode with great success.  Should I apply this series against
+> > linux-next, or do I need to apply it against something in the media
+> > tree to test?  I hope to test it tonight or tomorrow.
+>
+> I have it applied on 6.7-rc1.
+>
 
-I think it depends on the details of how entries are added and removed
-from the pool. I am behind on the pp details at this point, so I do need
-to do some homework.
+For the series,
 
-> 
-> Also, this sounds like it requires (lots of) more changes. The
-> page_pool + driver need to report how many pending references there
-> are (with locking so we don't race with incoming packets), and have
-> them reported via an ndo so that we can skip restarting the queue.
-> Implementing the changes in to a huge issue but handling the
-> concurrency may be a genuine blocker. Not sure it's worth the upside
-> of not restarting the single rx queue?
+Tested-by:  Adam Ford <aford173@gmail.com> #imx8mp-beacon
 
-It has to do with the usability of this overall solution. As I mentioned
-most ML use cases can (and will want to) use many memory allocations for
-receiving packets - e.g., allocations per message and receiving multiple
-messages per socket connection.
-
-> 
->>> +             }
->>> +     }
->>> +
->>> +     xa_erase(&netdev_dmabuf_bindings, binding->id);
->>> +
->>> +     netdev_dmabuf_binding_put(binding);
->>> +}
->>> +
->>> +int netdev_bind_dmabuf_to_queue(struct net_device *dev, u32 rxq_idx,
->>> +                             struct netdev_dmabuf_binding *binding)
->>> +{
->>> +     struct netdev_rx_queue *rxq;
->>> +     u32 xa_idx;
->>> +     int err;
->>> +
->>> +     rxq = __netif_get_rx_queue(dev, rxq_idx);
->>> +
->>> +     if (rxq->binding)
->>> +             return -EEXIST;
->>> +
->>> +     err = xa_alloc(&binding->bound_rxq_list, &xa_idx, rxq, xa_limit_32b,
->>> +                    GFP_KERNEL);
->>> +     if (err)
->>> +             return err;
->>> +
->>> +     /* We hold the rtnl_lock while binding/unbinding dma-buf, so we can't
->>> +      * race with another thread that is also modifying this value. However,
->>> +      * the driver may read this config while it's creating its * rx-queues.
->>> +      * WRITE_ONCE() here to match the READ_ONCE() in the driver.
->>> +      */
->>> +     WRITE_ONCE(rxq->binding, binding);
->>> +
->>> +     err = netdev_restart_rx_queue(dev, rxq_idx);
->>
->> Similarly, here binding a dmabuf to a queue. I was expecting the dmabuf
->> binding to add entries to the page pool for the queue.
-> 
-> To be honest, I think maybe there's a slight disconnect between how
-> you think the page_pool works, and my primitive understanding of how
-> it works. Today, I see a 1:1 mapping between rx-queue and page_pool in
-> the code. I don't see 1:many or many:1 mappings.
-
-I am not referring to 1:N or N:1 for page pool and queues. I am
-referring to entries within a single page pool for a single Rx queue.
-
-
-> 
-> In theory mapping 1 rx-queue to n page_pools is trivial: the driver
-> can call page_pool_create() multiple times to generate n queues and
-> decide for incoming packets which one to use.
-> 
-> However, mapping n rx-queues to 1 page_pool seems like a can of worms.
-> I see code in the page_pool that looks to me (and Willem) like it's
-> safe only because the page_pool is used from the same napi context.
-> with a n rx-queueue: 1 page_pool mapping, that is no longer true, no?
-> There is a tail end of issues to resolve to be able to map 1 page_pool
-> to n queues as I understand and even if resolved I'm not sure the
-> maintainers are interested in taking the code.
-> 
-> So, per my humble understanding there is no such thing as "add entries
-> to the page pool for the (specific) queue", the page_pool is always
-> used by 1 queue.
-> 
-> Note that even though this limitation exists, we still support binding
-> 1 dma-buf to multiple queues, because multiple page pools can use the
-> same netdev_dmabuf_binding. I should add that to the docs.
-> 
->> If the pool was
->> previously empty, then maybe the queue needs to be "started" in the
->> sense of creating with h/w or just pushing buffers into the queue and
->> moving the pidx.
->>
->>
-> 
-> I don't think it's enough to add buffers to the page_pool, no? The
-> existing buffers in the page_pool (host mem) must be purged. I think
-> maybe the queue needs to be stopped as well so that we don't race with
-> incoming packets and end up with skbs with devmem and non-devmem frags
-> (unless you're thinking it becomes a requirement to support that, I
-> think things are complicated as-is and it's a good simplification).
-> When we already purge the existing buffers & restart the queue, it's
-> little effort to migrate this to become in line with Jakub's queue-api
-> that he also wants to use for per-queue configuration & ndo_stop/open.
-> 
-
+>
+> Thanks,
+>
+> Paul
+>
+> > >
+> > > Laurent Pinchart (2):
+> > >   media: rkisp1: Add and use rkisp1_has_feature() macro
+> > >   media: rkisp1: Configure gasket on i.MX8MP
+> > >
+> > > Paul Elder (9):
+> > >   media: rkisp1: Support setting memory stride for main path
+> > >   media: rkisp1: Support devices lacking self path
+> > >   media: rkisp1: Support devices lacking dual crop
+> > >   media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
+> > >   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
+> > >   media: rkisp1: Add match data for i.MX8MP ISP
+> > >   media: rkisp1: Shift DMA buffer addresses on i.MX8MP
+> > >   media: rkisp1: Add YC swap capability
+> > >   media: rkisp1: Add UYVY as an output format
+> > >
+> > >  .../bindings/media/rockchip-isp1.yaml         |  37 ++++-
+> > >  .../platform/rockchip/rkisp1/rkisp1-capture.c | 128 ++++++++++++----=
+-
+> > >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  35 ++++-
+> > >  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  66 +++++++--
+> > >  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 131 ++++++++++++++++=
++-
+> > >  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  32 +++++
+> > >  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  27 ++--
+> > >  include/uapi/linux/rkisp1-config.h            |   2 +
+> > >  8 files changed, 398 insertions(+), 60 deletions(-)
+> > >
+> > > --
+> > > 2.39.2
+> > >
 
