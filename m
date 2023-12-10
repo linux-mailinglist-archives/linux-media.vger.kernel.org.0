@@ -1,116 +1,228 @@
-Return-Path: <linux-media+bounces-2061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2062-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE58980B8B4
-	for <lists+linux-media@lfdr.de>; Sun, 10 Dec 2023 04:59:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1809280B9B7
+	for <lists+linux-media@lfdr.de>; Sun, 10 Dec 2023 08:45:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43752280DFA
-	for <lists+linux-media@lfdr.de>; Sun, 10 Dec 2023 03:59:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9991D1F20FFC
+	for <lists+linux-media@lfdr.de>; Sun, 10 Dec 2023 07:45:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B8511FB6;
-	Sun, 10 Dec 2023 03:59:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 995135384;
+	Sun, 10 Dec 2023 07:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dpqe82ix"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="DDhOVoGm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-x133.google.com (mail-il1-x133.google.com [IPv6:2607:f8b0:4864:20::133])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BB29A9;
-	Sat,  9 Dec 2023 19:59:32 -0800 (PST)
-Received: by mail-il1-x133.google.com with SMTP id e9e14a558f8ab-35d725ac060so14996775ab.2;
-        Sat, 09 Dec 2023 19:59:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702180771; x=1702785571; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=84cInsubYIer0iSHh7fFONzX0zWNfmSdIBRyKoPJTkI=;
-        b=Dpqe82ixxSSlYbhIzV4rNaEDkOnIiiRPf7jpFsAcHgDwxCr4Ms2JSc0eRfQ7dXDu5d
-         bw32ai1gAryHH0ZG+d3fEp6CNoR9WwQArNNtkv3qTKMLFDTvXm0z6Hn7EihQrdKE/jR4
-         NU8b+Akh0wOOqzkT3vvftHIbvllFqQc7jOtGd2V1WhEtrZzQKJbHPuWXKN0srVrSHdaw
-         HcDjyMUHzmcTibFYvWtEVVKZVd+kGzfx7rmx6EwuqQdRBYywPXrlG/aXFsVfJGMLlfRL
-         Z2byYxb9H1kaz53izhAZv1INArcTOb00Or6jAwxWbGqt1+52pMsrLUjgD1if6kXGB/22
-         PYcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702180771; x=1702785571;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=84cInsubYIer0iSHh7fFONzX0zWNfmSdIBRyKoPJTkI=;
-        b=CE9U9prywbf4ws35fDREq5qeTXLrYc/s58IqiqRPRtnBiftMULtEsaNTUdlT9IN0mi
-         p0eTaV64nNpTjeqjXvH+yVy5/zJB+RX9A87P10wxmKDVSdye0iVzJviL0BG8RlnBZx8u
-         GSstTGkHFS3W3kWSW0qULyul9DcXxuSey7Q8J1kIe6h6wmvRRHm3MwgdfA8MFtHd0Cjl
-         Ix5bav6GfWwhX/ajw2JTcL/eqweW+CPyrvXbF77LCWLTZla1eXENbnyPWfbr4Mr87DWX
-         Izx/T5TKk2QBJLHc1O6CmCKZpFkSsvCMmdR1V63UXHevATWRVpDLw0fRLN0VCFvsm0OV
-         5m2g==
-X-Gm-Message-State: AOJu0YxYMWa48ePM9hNZJCYCfEbni4S4bOF/UBHa1fCesRuAlQIKO9YJ
-	sFa0JgRKtpKPXxtbJO15jbu6t3PAA2A=
-X-Google-Smtp-Source: AGHT+IH9F5XvBInEJBWDJV2re58BWPH91w8i++zb8S4UYFPdHM7W/4ZmjNF8Wa+XCmRN3R3hwoJNSg==
-X-Received: by 2002:a05:6e02:1845:b0:35d:5667:c42e with SMTP id b5-20020a056e02184500b0035d5667c42emr4576271ilv.2.1702180771158;
-        Sat, 09 Dec 2023 19:59:31 -0800 (PST)
-Received: from google.com ([2620:15c:9d:2:9082:8aa4:377c:de99])
-        by smtp.gmail.com with ESMTPSA id b6-20020a170902ed0600b001d060bb0582sm4129422pld.165.2023.12.09.19.59.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 09 Dec 2023 19:59:30 -0800 (PST)
-Date: Sat, 9 Dec 2023 19:59:26 -0800
-From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>, Helge Deller <deller@gmx.de>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v6 1/4] pwm: rename pwm_apply_state() to
- pwm_apply_might_sleep()
-Message-ID: <ZXU3nsNoQxXKUF4F@google.com>
-References: <cover.1701248996.git.sean@mess.org>
- <37090c1d8d8f42f1e12fa84942027d995189a99e.1701248996.git.sean@mess.org>
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C9757E9
+	for <linux-media@vger.kernel.org>; Sat,  9 Dec 2023 23:45:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702194336; x=1733730336;
+  h=date:from:to:cc:subject:message-id;
+  bh=VxE3VT5EoKIX/VAQ4VAeqfc1t+Db4rTKj67jGkwF+Hw=;
+  b=DDhOVoGmQDa71qzHq7PteSdBOmEsuYk9JKz3X6EuMWtQlk1/ukfKEW+b
+   VCu+3x5qTfeV/12lWGvhGNPC7UoTXoxLL2HyVUBpgQEyMZiari3YdC2Tm
+   YbLoNz30rzvAQEMne8u4ts+PKAUfngUykrDskBlQH8c6Eu7qgixjPy30P
+   sLwKI/+mqnyMYBpvXmGu+0l5A9hT6O1uRWTXr+7Riu9nQLG18tSWAQxtg
+   V0F8pJqmjPTs7nIoOZMj/54426uYAtKgbUsJimnxsVLojLmvplfxRGtZK
+   2mGdZWrV3Dh6yhzS7pa+yc8/8DNZaC+xTer4DvDfUmGvnJ8mxN8yXyGsY
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="394278665"
+X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
+   d="scan'208";a="394278665"
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Dec 2023 23:45:35 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10919"; a="1019822997"
+X-IronPort-AV: E=Sophos;i="6.04,265,1695711600"; 
+   d="scan'208";a="1019822997"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga006.fm.intel.com with ESMTP; 09 Dec 2023 23:45:34 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rCEVI-000GYt-2T;
+	Sun, 10 Dec 2023 07:45:32 +0000
+Date: Sun, 10 Dec 2023 15:45:29 +0800
+From: kernel test robot <lkp@intel.com>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Subject: [linuxtv-media-stage:master] BUILD SUCCESS
+ efa28efd9cba015f8c3d88123527c3c3cfcd13d0
+Message-ID: <202312101526.DqVBkITA-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <37090c1d8d8f42f1e12fa84942027d995189a99e.1701248996.git.sean@mess.org>
 
-On Wed, Nov 29, 2023 at 09:13:34AM +0000, Sean Young wrote:
->  drivers/input/misc/da7280.c                   |  4 +--
->  drivers/input/misc/pwm-beeper.c               |  4 +--
->  drivers/input/misc/pwm-vibra.c                |  8 +++---
+tree/branch: https://git.linuxtv.org/media_stage.git master
+branch HEAD: efa28efd9cba015f8c3d88123527c3c3cfcd13d0  media: rkisp1: resizer: Stop manual allocation of v4l2_subdev_state
 
-Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> # for input
+elapsed time: 1475m
 
-Thanks.
+configs tested: 150
+configs skipped: 2
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+tested configs:
+alpha                             allnoconfig   gcc  
+alpha                            allyesconfig   gcc  
+alpha                               defconfig   gcc  
+arc                              allmodconfig   gcc  
+arc                               allnoconfig   gcc  
+arc                              allyesconfig   gcc  
+arc                                 defconfig   gcc  
+arc                            hsdk_defconfig   gcc  
+arc                   randconfig-001-20231210   gcc  
+arc                   randconfig-002-20231210   gcc  
+arm                              allmodconfig   gcc  
+arm                               allnoconfig   gcc  
+arm                              allyesconfig   gcc  
+arm                         at91_dt_defconfig   gcc  
+arm                                 defconfig   clang
+arm                            dove_defconfig   clang
+arm                   randconfig-001-20231210   gcc  
+arm                   randconfig-002-20231210   gcc  
+arm                   randconfig-003-20231210   gcc  
+arm                   randconfig-004-20231210   gcc  
+arm                         vf610m4_defconfig   gcc  
+arm64                            allmodconfig   clang
+arm64                             allnoconfig   gcc  
+arm64                               defconfig   gcc  
+arm64                 randconfig-001-20231210   gcc  
+arm64                 randconfig-002-20231210   gcc  
+arm64                 randconfig-003-20231210   gcc  
+arm64                 randconfig-004-20231210   gcc  
+csky                             allmodconfig   gcc  
+csky                              allnoconfig   gcc  
+csky                             allyesconfig   gcc  
+csky                                defconfig   gcc  
+csky                  randconfig-001-20231210   gcc  
+csky                  randconfig-002-20231210   gcc  
+hexagon                          allmodconfig   clang
+hexagon                           allnoconfig   clang
+hexagon                          allyesconfig   clang
+hexagon                             defconfig   clang
+hexagon               randconfig-001-20231210   clang
+hexagon               randconfig-002-20231210   clang
+i386                             allmodconfig   clang
+i386                              allnoconfig   clang
+i386                             allyesconfig   clang
+i386         buildonly-randconfig-001-20231209   gcc  
+i386         buildonly-randconfig-002-20231209   gcc  
+i386         buildonly-randconfig-003-20231209   gcc  
+i386         buildonly-randconfig-004-20231209   gcc  
+i386         buildonly-randconfig-005-20231209   gcc  
+i386         buildonly-randconfig-006-20231209   gcc  
+i386                                defconfig   gcc  
+i386                  randconfig-001-20231209   gcc  
+i386                  randconfig-002-20231209   gcc  
+i386                  randconfig-003-20231209   gcc  
+i386                  randconfig-004-20231209   gcc  
+i386                  randconfig-005-20231209   gcc  
+i386                  randconfig-006-20231209   gcc  
+i386                  randconfig-011-20231209   clang
+i386                  randconfig-012-20231209   clang
+i386                  randconfig-013-20231209   clang
+i386                  randconfig-014-20231209   clang
+i386                  randconfig-015-20231209   clang
+i386                  randconfig-016-20231209   clang
+loongarch                        allmodconfig   gcc  
+loongarch                         allnoconfig   gcc  
+loongarch                           defconfig   gcc  
+loongarch             randconfig-001-20231210   gcc  
+loongarch             randconfig-002-20231210   gcc  
+m68k                             alldefconfig   gcc  
+m68k                             allmodconfig   gcc  
+m68k                              allnoconfig   gcc  
+m68k                             allyesconfig   gcc  
+m68k                                defconfig   gcc  
+microblaze                       allmodconfig   gcc  
+microblaze                        allnoconfig   gcc  
+microblaze                       allyesconfig   gcc  
+microblaze                          defconfig   gcc  
+microblaze                      mmu_defconfig   gcc  
+mips                              allnoconfig   clang
+mips                             allyesconfig   gcc  
+nios2                            allmodconfig   gcc  
+nios2                             allnoconfig   gcc  
+nios2                            allyesconfig   gcc  
+nios2                               defconfig   gcc  
+nios2                 randconfig-001-20231210   gcc  
+nios2                 randconfig-002-20231210   gcc  
+openrisc                          allnoconfig   gcc  
+openrisc                         allyesconfig   gcc  
+openrisc                            defconfig   gcc  
+parisc                           allmodconfig   gcc  
+parisc                            allnoconfig   gcc  
+parisc                           allyesconfig   gcc  
+parisc                              defconfig   gcc  
+parisc                randconfig-001-20231210   gcc  
+parisc                randconfig-002-20231210   gcc  
+parisc64                            defconfig   gcc  
+powerpc                          allmodconfig   clang
+powerpc                           allnoconfig   gcc  
+powerpc                          allyesconfig   clang
+powerpc                      bamboo_defconfig   gcc  
+powerpc                       eiger_defconfig   gcc  
+powerpc                     mpc83xx_defconfig   gcc  
+powerpc                  mpc885_ads_defconfig   clang
+powerpc               randconfig-001-20231210   gcc  
+powerpc               randconfig-002-20231210   gcc  
+powerpc               randconfig-003-20231210   gcc  
+powerpc64             randconfig-001-20231210   gcc  
+powerpc64             randconfig-002-20231210   gcc  
+powerpc64             randconfig-003-20231210   gcc  
+riscv                            allmodconfig   gcc  
+riscv                             allnoconfig   clang
+riscv                               defconfig   gcc  
+riscv             nommu_k210_sdcard_defconfig   gcc  
+riscv                 randconfig-001-20231210   gcc  
+riscv                 randconfig-002-20231210   gcc  
+riscv                          rv32_defconfig   clang
+s390                             allmodconfig   gcc  
+s390                              allnoconfig   gcc  
+s390                             allyesconfig   gcc  
+s390                                defconfig   gcc  
+s390                  randconfig-001-20231210   clang
+s390                  randconfig-002-20231210   clang
+sh                               allmodconfig   gcc  
+sh                                allnoconfig   gcc  
+sh                               allyesconfig   gcc  
+sh                                  defconfig   gcc  
+sh                               j2_defconfig   gcc  
+sh                          kfr2r09_defconfig   gcc  
+sh                    randconfig-001-20231210   gcc  
+sh                    randconfig-002-20231210   gcc  
+sh                           se7206_defconfig   gcc  
+sh                           se7619_defconfig   gcc  
+sparc                            allmodconfig   gcc  
+sparc64                          allmodconfig   gcc  
+sparc64                          allyesconfig   gcc  
+sparc64                             defconfig   gcc  
+sparc64               randconfig-001-20231210   gcc  
+sparc64               randconfig-002-20231210   gcc  
+um                               allmodconfig   clang
+um                                allnoconfig   clang
+um                               allyesconfig   clang
+um                                  defconfig   gcc  
+um                             i386_defconfig   gcc  
+um                    randconfig-001-20231210   gcc  
+um                    randconfig-002-20231210   gcc  
+um                           x86_64_defconfig   gcc  
+x86_64                            allnoconfig   gcc  
+x86_64                           allyesconfig   clang
+x86_64                              defconfig   gcc  
+x86_64                          rhel-8.3-rust   clang
+xtensa                            allnoconfig   gcc  
 
 -- 
-Dmitry
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
