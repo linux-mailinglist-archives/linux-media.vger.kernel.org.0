@@ -1,65 +1,66 @@
-Return-Path: <linux-media+bounces-2059-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2060-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16A1880B89E
-	for <lists+linux-media@lfdr.de>; Sun, 10 Dec 2023 04:48:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37B3780B8A4
+	for <lists+linux-media@lfdr.de>; Sun, 10 Dec 2023 04:49:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B03701F21101
-	for <lists+linux-media@lfdr.de>; Sun, 10 Dec 2023 03:48:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D6A411F2100B
+	for <lists+linux-media@lfdr.de>; Sun, 10 Dec 2023 03:49:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C76A15B2;
-	Sun, 10 Dec 2023 03:48:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADCAA17F7;
+	Sun, 10 Dec 2023 03:49:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="YrPzBP0E"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MVA3ncTv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-x54a.google.com (mail-pg1-x54a.google.com [IPv6:2607:f8b0:4864:20::54a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EEEA123
-	for <linux-media@vger.kernel.org>; Sat,  9 Dec 2023 19:48:10 -0800 (PST)
-Received: by mail-pg1-x54a.google.com with SMTP id 41be03b00d2f7-5c6a04d3a8bso1823593a12.2
-        for <linux-media@vger.kernel.org>; Sat, 09 Dec 2023 19:48:10 -0800 (PST)
+Received: from mail-pg1-x549.google.com (mail-pg1-x549.google.com [IPv6:2607:f8b0:4864:20::549])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2492FE
+	for <linux-media@vger.kernel.org>; Sat,  9 Dec 2023 19:49:30 -0800 (PST)
+Received: by mail-pg1-x549.google.com with SMTP id 41be03b00d2f7-5c1f17f0198so1440982a12.1
+        for <linux-media@vger.kernel.org>; Sat, 09 Dec 2023 19:49:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702180090; x=1702784890; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1702180170; x=1702784970; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=jTjMvUzMQM9T6vvixVNHYaRMSP0ZcmvH/bM1JLogYsw=;
-        b=YrPzBP0EnDIP+0ooeVbdXpE56iFddkdZtq0c2Q76nSfCz77q3zwZ5mz8nvvYdgLL8n
-         3O4kxbbBr6uytnOZ5AnOhSRtjc849E7puGEdIizTdnMZ19HFnp7lUz+N6kOAA2kLIJk+
-         EkHViUdFCdL/Lch8wHsIFPOKUO/u0us6dfnT4U7aVjoNytVliR8vbVky+cCOgPWIfXzc
-         aCEH0gXvuTacfaY7RyuMiLxoJrJ0kvde83uAwWoLj5gnae4W3QH9xG47kDDhy+z1MTTB
-         vhyyyQJaZhHEYBm5+iY21/YSESMrnnhxmWSSmB/x6dpTIZaOrcWZjYUNGhNEgbwoYJM0
-         irWQ==
+        bh=MW0tH0tCLOPnmE9TK7jB709vE7J7udoTWRcjSJbRbzw=;
+        b=MVA3ncTv2ztH8VVDR196PceGHb1j2OlSZrlL9Lw2Z9wX6UV2E/Z7XDjt5ZD7SDGkQY
+         tlWHdq4lxTiyvBUAkbTmLAnlnhSqqlhFoLb51b5SdgrG3NTW42ditNtt2dquiK22e2xx
+         Nw689Lh4It2U5heO9IEQmZwv3c3mM3nARmOuJMgEG3Fs+Rwa45tEbyggTQPX1s+IcwtO
+         u3Wiqqvto7KipLkZsC4PQE1A8RgR5sT+O1xaA8N2w+wHjPG1xRdP1x6zOnuCs9mKTdFv
+         04hbe0IOyZyj/hqPtSfyu4DtiDdktMxlvPL5bH+Fgu9pBBtlLtruM13bGr+El8lT1Frm
+         WP6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702180090; x=1702784890;
+        d=1e100.net; s=20230601; t=1702180170; x=1702784970;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jTjMvUzMQM9T6vvixVNHYaRMSP0ZcmvH/bM1JLogYsw=;
-        b=acYGN5WJ1c0MSRYlBawmf6MQ8URhlNw6bEy9afhfFvNizk41tC1+NQ07xACVh91hIb
-         Gggl2TLhgDr4FbKww21knLIckynfhnhbBTtgvQhVVIQXV/b2qWg2L7vBSsothxC1S4cr
-         xUvA4FJkLIP3wi6gnvF6SUvNP7dmMnqU+s9a2fVmrb4DrayHb4HCgE4G8Id4DjFqZ70f
-         arcwVPgFxqsJu7HZZV60yN2joB/2ZHkdKLulJ/8dt2534WY5/zjHqraKPZMrUKb4ZSxC
-         NNvfam6J4poRdr+pLrxxcYYar6KZT4hFv5gPSwpeSGVZF3OIKkN65jmFLgpAEBpCX4S9
-         skTw==
-X-Gm-Message-State: AOJu0YyZnyTwI+afVBX+k/a8uvG1R8TMYCOjfZVxzJXz613AIRs+1rK1
-	PyucrNCYQTBvggRJraFM1zHslpt1mBeZVA==
-X-Google-Smtp-Source: AGHT+IEuVYUkbdK82q9MQX/+KKZwtIfK+d+dsTME32So5XP7njZIF7u7LEU9iLCbfAno9hDEov5qyerx5QbU2Q==
+        bh=MW0tH0tCLOPnmE9TK7jB709vE7J7udoTWRcjSJbRbzw=;
+        b=eru9PUGmcvM3JMdJ8RQQ2SwhaWX8TRtuY5aIRbAiT8eumUos6mefWzUrQeYFKB8IDB
+         8oxn/9y+fLV7K/CXoh4yGwdi43yEsnhp4wo/0zyQNU07r5XAVIgCIu7ioCQEaDVTzyW2
+         9J747hKcfelnf/od7LYFy9nwMr+GKgnZvPcjaHeXyUWSdS2/grZtOD2AaQ0Y93bzZ3hN
+         032nX8LwfCehN1K5xNakojlXp4UqSQsNpPUbVdzEX3ejrL5OxoJRbecvQvos4zUZESjy
+         3PGuCw3Yif+FmJitzsZ/VVDzRPRI4ol8G6wxxAUSREHNGjobzanVkAgMV2UTIDsEjAYb
+         Lr3A==
+X-Gm-Message-State: AOJu0YwetClr3dwU7uBlo95rBQzJMQtZJeQzT7Sb1w6CnxUvm6l4hy+9
+	ekul/FXZB1G+ZUv6eF28/xzGUk2Sbn8ZGQ==
+X-Google-Smtp-Source: AGHT+IHLBajZsz0VxcL0CaCLjiP+JcpZ3Z6iSNDh4oLOCNKWTm9OPBX9RXcqYsgny9cLWKIkHF4CYYDwWcNIvw==
 X-Received: from shakeelb.c.googlers.com ([fda3:e722:ac3:cc00:7f:e700:c0a8:262e])
- (user=shakeelb job=sendgmr) by 2002:a63:9854:0:b0:5bd:bbb4:5275 with SMTP id
- l20-20020a639854000000b005bdbbb45275mr16828pgo.10.1702180089637; Sat, 09 Dec
- 2023 19:48:09 -0800 (PST)
-Date: Sun, 10 Dec 2023 03:48:07 +0000
-In-Reply-To: <20231208005250.2910004-1-almasrymina@google.com>
+ (user=shakeelb job=sendgmr) by 2002:a63:7317:0:b0:5b8:fe99:152d with SMTP id
+ o23-20020a637317000000b005b8fe99152dmr15385pgc.7.1702180170422; Sat, 09 Dec
+ 2023 19:49:30 -0800 (PST)
+Date: Sun, 10 Dec 2023 03:49:28 +0000
+In-Reply-To: <20231208005250.2910004-2-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
-Message-ID: <20231210034807.kqspmykhxpkdtoiy@google.com>
-Subject: Re: [net-next v1 00/16] Device Memory TCP
+References: <20231208005250.2910004-1-almasrymina@google.com> <20231208005250.2910004-2-almasrymina@google.com>
+Message-ID: <20231210034928.mk4ufxqis2w3wesg@google.com>
+Subject: Re: [net-next v1 01/16] net: page_pool: factor out releasing DMA from
+ releasing the page
 From: Shakeel Butt <shakeelb@google.com>
 To: Mina Almasry <almasrymina@google.com>
 Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
@@ -77,47 +78,16 @@ Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
 	Harshitha Ramamurthy <hramamurthy@google.com>
 Content-Type: text/plain; charset="us-ascii"
 
-On Thu, Dec 07, 2023 at 04:52:31PM -0800, Mina Almasry wrote:
-[...]
+On Thu, Dec 07, 2023 at 04:52:32PM -0800, Mina Almasry wrote:
+> From: Jakub Kicinski <kuba@kernel.org>
 > 
-> Today, the majority of the Device-to-Device data transfers the network are
+> Releasing the DMA mapping will be useful for other types
+> of pages, so factor it out. Make sure compiler inlines it,
+> to avoid any regressions.
+> 
+> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> 
 
-'the network' in above can be removed.
-
-> implemented as the following low level operations: Device-to-Host copy,
-> Host-to-Host network transfer, and Host-to-Device copy.
-> 
-
-[...]
-
-> 
-> ** Part 5: recvmsg() APIs
-> 
-> We define user APIs for the user to send and receive device memory.
-> 
-> Not included with this RFC is the GVE devmem TCP support, just to
-
-no more RFC
-
-> simplify the review. Code available here if desired:
-> https://github.com/mina/linux/tree/tcpdevmem
-> 
-> This RFC is built on top of net-next with Jakub's pp-providers changes
-
-no more RFC
-
-[...]
-> 
-> ** Test Setup
-> 
-> Kernel: net-next with this RFC and memory provider API cherry-picked
-
-no more RFC
-
-> locally.
-> 
-> Hardware: Google Cloud A3 VMs.
-> 
-> NIC: GVE with header split & RSS & flow steering support.
-> 
+Reviewed-by: Shakeel Butt <shakeelb@google.com>
 
