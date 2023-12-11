@@ -1,280 +1,185 @@
-Return-Path: <linux-media+bounces-2162-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2163-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D98E80DBBA
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 21:37:38 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF01A80DBBC
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 21:37:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F56F1F21C02
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 20:37:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95B4D1F21BDC
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 20:37:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2215554668;
-	Mon, 11 Dec 2023 20:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F8805465E;
+	Mon, 11 Dec 2023 20:37:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6q1zdkV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GaAu6R5M"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7DBDD6;
-	Mon, 11 Dec 2023 12:37:18 -0800 (PST)
-Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3332e351670so4516544f8f.0;
-        Mon, 11 Dec 2023 12:37:18 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702327037; x=1702931837; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5mREG4zmhlrjDE364pycILMuHT3yybZyzypq/2nes4o=;
-        b=V6q1zdkV+wxIKXpM7DWq66B2NPzZBUPK4hr3WRtG+MTVSfExKywo7PK4Bt3nluEqDT
-         MkYrCuuDgvHFyqtkeTL5EVEmHFlAqoCG4wzA1E0AOVgzV7GgxwkQ9vs2R6aGYX15ri2/
-         sp1/AuQvVGRbOCriyt32YoOicKW7+0NZ50d5dTXoKn41lk//umXIHVlwVFUrW8yo+vYp
-         lrn9Cd0RaMPdIaG8HHIVCsPOhnrT3YGAomYLF9MeJLVuBcHmmXArVou5P2kL/Ae82RHR
-         ZnSLIq6BPwppSyaCaayBA0PoehLyk2aJOEhKI7Uz3FPmnyjCKCcFU5bviWtGyL9hN/ou
-         07XA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702327037; x=1702931837;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5mREG4zmhlrjDE364pycILMuHT3yybZyzypq/2nes4o=;
-        b=XUGOs0D1C5EKC/b3Z0mxu1ogVHxrWSHJxBA65PBIYaZiH9yi8GafUYjsyV8T4DwD50
-         iI/eYdSCMb2iXzA3PXMw5XKi5yiYfZAet5sASmkxXIgBAHe7dc7e+81MnVu4zONtwbgJ
-         e9xqoQTLS1VsUyMbW8DnbrP/FQ/3S73ZrSodhoH31n3CPmfICPsRdUav5uIZ0y+l2p2f
-         BseSMW0UlBock5k7uzKK3pN9UsOmxf/FSvZP268P+JIQRei1jaSBheA1/uU9tAhth7Dp
-         fvX9tXjqjGZbrnAh1rP5Lge2WvBvNqA5x/tTQ4UEppdSvJroTP+V//2x/hUYGgTp/CUf
-         WKGg==
-X-Gm-Message-State: AOJu0YxI/1+RqepqcdtaXs8ZPwTXd9Ha46KBp8URvAL6Hv6fQJGeJM1S
-	HOj5ktQZ5YXRgkSxBIL4Nfo=
-X-Google-Smtp-Source: AGHT+IEzTCISh0ruDu6vYmjO9E9rylweqKZzQOVwuAulm2hyYEqdn+X3sTHJGxJeaYXMVcOHEARlYA==
-X-Received: by 2002:adf:a198:0:b0:333:38eb:8947 with SMTP id u24-20020adfa198000000b0033338eb8947mr1043696wru.275.1702327036762;
-        Mon, 11 Dec 2023 12:37:16 -0800 (PST)
-Received: from [192.168.8.100] ([85.255.234.108])
-        by smtp.gmail.com with ESMTPSA id o4-20020a5d58c4000000b0033333bee379sm9328312wrf.107.2023.12.11.12.37.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 11 Dec 2023 12:37:16 -0800 (PST)
-Message-ID: <661c1bae-d7d3-457e-b545-5f67b9ef4197@gmail.com>
-Date: Mon, 11 Dec 2023 20:35:54 +0000
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5730310B
+	for <linux-media@vger.kernel.org>; Mon, 11 Dec 2023 12:37:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702327058; x=1733863058;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2kZgK+Azl0i+jQycTVfutPvf19qddGVf1z6teDm6mjs=;
+  b=GaAu6R5Mh/vSf86hdyNcuuQu3tfO4ReyJb8T7+JetR0CWMabV2UilkB4
+   WM2mpEoajrq6HH2rpFPQ2kQEOe8K5gEVHlyjZSWrb8+A/JHdyUwtN1LuI
+   aoO6VCBaEwEbtOJDOU4bkXR3O8cVFfdGA8DSul4AEWmwZSD+Cr8kXzbc/
+   1Ww6otvDAcEWDUTaoHz4vTUQs/jBbG1ZrGqn7LnLaN0re6sDdPCInB+hj
+   XShdDVDj2GXXnqhKccpRZPmkfpbZH5vBhq/ON1ylWIPWrEhKEX9YUZuJn
+   onkv+a1cKyy8UNT4IgJPhTM1P6F33oweFrvZRsCtBrl8bNRSZaD6KbiLI
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1576472"
+X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
+   d="scan'208";a="1576472"
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 12:37:38 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="946469699"
+X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
+   d="scan'208";a="946469699"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 11 Dec 2023 12:37:35 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rCn1w-000ISi-2u;
+	Mon, 11 Dec 2023 20:37:32 +0000
+Date: Tue, 12 Dec 2023 04:37:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	laurent.pinchart@ideasonboard.com, jacopo.mondi@ideasonboard.com,
+	Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH 2/4] media: imx334: Use v4l2_link_frequencies_to_bitmap
+ helper
+Message-ID: <202312120434.56RvVcwQ-lkp@intel.com>
+References: <20231211140658.366268-3-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory
- provider
-To: Mina Almasry <almasrymina@google.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann
- <arnd@arndb.de>, David Ahern <dsahern@kernel.org>,
- Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-9-almasrymina@google.com>
- <b07a4eca-0c3d-4620-9f97-b1d2c76642c2@gmail.com>
- <CAHS8izNVFx6oHoo7y86P8Di9VCVe8A_n_9UZFkg5Wnt=A=YcNQ@mail.gmail.com>
- <b1aea7bc-9627-499a-9bee-d2cc07856978@gmail.com>
- <CAHS8izPry13h49v+PqrmWSREZKZjYpPesxUTyPQy7AGyFwzo4g@mail.gmail.com>
-Content-Language: en-US
-From: Pavel Begunkov <asml.silence@gmail.com>
-In-Reply-To: <CAHS8izPry13h49v+PqrmWSREZKZjYpPesxUTyPQy7AGyFwzo4g@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231211140658.366268-3-sakari.ailus@linux.intel.com>
 
-On 12/11/23 02:30, Mina Almasry wrote:
-> On Sat, Dec 9, 2023 at 7:05 PM Pavel Begunkov <asml.silence@gmail.com> wrote:
->>
->> On 12/8/23 23:25, Mina Almasry wrote:
->>> On Fri, Dec 8, 2023 at 2:56 PM Pavel Begunkov <asml.silence@gmail.com> wrote:
->>>>
->>>> On 12/8/23 00:52, Mina Almasry wrote:
->>> ...
->>>>> +     if (pool->p.queue)
->>>>> +             binding = READ_ONCE(pool->p.queue->binding);
->>>>> +
->>>>> +     if (binding) {
->>>>> +             pool->mp_ops = &dmabuf_devmem_ops;
->>>>> +             pool->mp_priv = binding;
->>>>> +     }
->>>>
->>>> Hmm, I don't understand why would we replace a nice transparent
->>>> api with page pool relying on a queue having devmem specific
->>>> pointer? It seemed more flexible and cleaner in the last RFC.
->>>>
->>>
->>> Jakub requested this change and may chime in, but I suspect it's to
->>> further abstract the devmem changes from driver. In this iteration,
->>> the driver grabs the netdev_rx_queue and passes it to the page_pool,
->>> and any future configurations between the net stack and page_pool can
->>> be passed this way with the driver unbothered.
->>
->> Ok, that makes sense, but even if passed via an rx queue I'd
->> at least hope it keeping abstract provider parameters, e.g.
->> ops, but not hard coded with devmem specific code.
->>
->> It might even be better done with a helper like
->> create_page_pool_from_queue(), unless there is some deeper
->> interaction b/w pp and rx queues is predicted.
->>
-> 
-> Off hand I don't see the need for a new create_page_pool_from_queue().
-> page_pool_create() already takes in a param arg that lets us pass in
-> the queue as well as any other params.
-> 
->>>>> +
->>>>>         if (pool->mp_ops) {
->>>>>                 err = pool->mp_ops->init(pool);
->>>>>                 if (err) {
->>>>> @@ -1020,3 +1033,77 @@ void page_pool_update_nid(struct page_pool *pool, int new_nid)
->>>>>         }
->>>>>     }
->>>>>     EXPORT_SYMBOL(page_pool_update_nid);
->>>>> +
->>>>> +void __page_pool_iov_free(struct page_pool_iov *ppiov)
->>>>> +{
->>>>> +     if (WARN_ON(ppiov->pp->mp_ops != &dmabuf_devmem_ops))
->>>>> +             return;
->>>>> +
->>>>> +     netdev_free_dmabuf(ppiov);
->>>>> +}
->>>>> +EXPORT_SYMBOL_GPL(__page_pool_iov_free);
->>>>
->>>> I didn't look too deep but I don't think I immediately follow
->>>> the pp refcounting. It increments pages_state_hold_cnt on
->>>> allocation, but IIUC doesn't mark skbs for recycle? Then, they all
->>>> will be put down via page_pool_iov_put_many() bypassing
->>>> page_pool_return_page() and friends. That will call
->>>> netdev_free_dmabuf(), which doesn't bump pages_state_release_cnt.
->>>>
->>>> At least I couldn't make it work with io_uring, and for my purposes,
->>>> I forced all puts to go through page_pool_return_page(), which calls
->>>> the ->release_page callback. The callback will put the reference and
->>>> ask its page pool to account release_cnt. It also gets rid of
->>>> __page_pool_iov_free(), as we'd need to add a hook there for
->>>> customization otherwise.
->>>>
->>>> I didn't care about overhead because the hot path for me is getting
->>>> buffers from a ring, which is somewhat analogous to sock_devmem_dontneed(),
->>>> but done on pp allocations under napi, and it's done separately.
->>>>
->>>> Completely untested with TCP devmem:
->>>>
->>>> https://github.com/isilence/linux/commit/14bd56605183dc80b540999e8058c79ac92ae2d8
->>>>
->>>
->>> This was a mistake in the last RFC, which should be fixed in v1. In
->>> the RFC I was not marking the skbs as skb_mark_for_recycle(), so the
->>> unreffing path wasn't as expected.
->>>
->>> In this iteration, that should be completely fixed. I suspect since I
->>> just posted this you're actually referring to the issue tested on the
->>> last RFC? Correct me if wrong.
->>
->> Right, it was with RFCv3
->>
->>> In this iteration, the reffing story:
->>>
->>> - memory provider allocs ppiov and returns it to the page pool with
->>> ppiov->refcount == 1.
->>> - The page_pool gives the page to the driver. The driver may
->>> obtain/release references with page_pool_page_[get|put]_many(), but
->>> the driver is likely not doing that unless it's doing its own page
->>> recycling.
->>> - The net stack obtains references via skb_frag_ref() ->
->>> page_pool_page_get_many()
->>> - The net stack drops references via skb_frag_unref() ->
->>> napi_pp_put_page() -> page_pool_return_page() and friends.
->>>
->>> Thus, the issue where the unref path was skipping
->>> page_pool_return_page() and friends should be resolved in this
->>> iteration, let me know if you think otherwise, but I think this was an
->>> issue limited to the last RFC.
->>
->> Then page_pool_iov_put_many() should and supposedly would never be
->> called by non devmap code because all puts must circle back into
->> ->release_page. Why adding it to into page_pool_page_put_many()?
->>
->> @@ -731,6 +731,29 @@ __page_pool_put_page(struct page_pool *pool, struct page *page,
->> +       if (page_is_page_pool_iov(page)) {
->> ...
->> +               page_pool_page_put_many(page, 1);
->> +               return NULL;
->> +       }
->>
->> Well, I'm looking at this new branch from Patch 10, it can put
->> the buffer, but what if we race at it's actually the final put?
->> Looks like nobody is going to to bump up pages_state_release_cnt
->>
-> 
-> Good catch, I think indeed the release_cnt would be incorrect in this
-> case. I think the race is benign in the sense that the ppiov will be
-> freed correctly and available for allocation when the page_pool next
-> needs it; the issue is with the stats AFAICT.
+Hi Sakari,
 
-hold_cnt + release_cnt serves is used for refcounting. In this case
-it'll leak the pool when you try to destroy it.
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linuxtv-media-stage/master linus/master v6.7-rc5 next-20231211]
+[cannot apply to sailus-media-tree/streams]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-Add-a-helper-for-setting-up-link-frequencies-control/20231211-220844
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20231211140658.366268-3-sakari.ailus%40linux.intel.com
+patch subject: [PATCH 2/4] media: imx334: Use v4l2_link_frequencies_to_bitmap helper
+config: x86_64-allyesconfig (https://download.01.org/0day-ci/archive/20231212/202312120434.56RvVcwQ-lkp@intel.com/config)
+compiler: clang version 16.0.4 (https://github.com/llvm/llvm-project.git ae42196bc493ffe877a7e3dff8be32035dea4d07)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20231212/202312120434.56RvVcwQ-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312120434.56RvVcwQ-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+>> drivers/media/i2c/imx334.c:1115:15: warning: unused variable 'i' [-Wunused-variable]
+           unsigned int i, j;
+                        ^
+>> drivers/media/i2c/imx334.c:1115:18: warning: unused variable 'j' [-Wunused-variable]
+           unsigned int i, j;
+                           ^
+   2 warnings generated.
 
 
->> If you remove the branch, let it fall into ->release and rely
->> on refcounting there, then the callback could also fix up
->> release_cnt or ask pp to do it, like in the patch I linked above
->>
-> 
-> Sadly I don't think this is possible due to the reasons I mention in
-> the commit message of that patch. Prematurely releasing ppiov and not
-> having them be candidates for recycling shows me a 4-5x degradation in
-> performance.
+vim +/i +1115 drivers/media/i2c/imx334.c
 
-I don't think I follow. The concept is to only recycle a buffer (i.e.
-make it available for allocation) when its refs drop to zero, which is
-IMHO the only way it can work, and IIUC what this patchset is doing.
-
-That's also I suggest to do, but through a slightly different path.
-Let's say at some moment there are 2 refs (e.g. 1 for an skb and
-1 for userspace/xarray).
-
-Say it first puts the skb:
-
-napi_pp_put_page()
-   -> page_pool_return_page()
-     -> mp_ops->release_page()
-        -> need_to_free = put_buf()
-           // not last ref, need_to_free==false,
-           // don't recycle, don't increase release_cnt
-
-Then you put the last ref:
-
-page_pool_iov_put_many()
-   -> page_pool_return_page()
-     -> mp_ops->release_page()
-        -> need_to_free = put_buf()
-           // last ref, need_to_free==true,
-           // recycle and release_cnt++
-
-And that last put can even be recycled right into the
-pp / ptr_ring, in which case it doesn't need to touch
-release_cnt. Does it make sense? I don't see where
-4-5x degradation would come from
-
-
-> What I could do here is detect that the refcount was dropped to 0 and
-> fix up the stats in that case.
+9746b11715c394 Martina Krasteva 2021-02-03  1100  
+9746b11715c394 Martina Krasteva 2021-02-03  1101  /**
+9746b11715c394 Martina Krasteva 2021-02-03  1102   * imx334_parse_hw_config() - Parse HW configuration and check if supported
+9746b11715c394 Martina Krasteva 2021-02-03  1103   * @imx334: pointer to imx334 device
+9746b11715c394 Martina Krasteva 2021-02-03  1104   *
+9746b11715c394 Martina Krasteva 2021-02-03  1105   * Return: 0 if successful, error code otherwise.
+9746b11715c394 Martina Krasteva 2021-02-03  1106   */
+9746b11715c394 Martina Krasteva 2021-02-03  1107  static int imx334_parse_hw_config(struct imx334 *imx334)
+9746b11715c394 Martina Krasteva 2021-02-03  1108  {
+9746b11715c394 Martina Krasteva 2021-02-03  1109  	struct fwnode_handle *fwnode = dev_fwnode(imx334->dev);
+9746b11715c394 Martina Krasteva 2021-02-03  1110  	struct v4l2_fwnode_endpoint bus_cfg = {
+9746b11715c394 Martina Krasteva 2021-02-03  1111  		.bus_type = V4L2_MBUS_CSI2_DPHY
+9746b11715c394 Martina Krasteva 2021-02-03  1112  	};
+9746b11715c394 Martina Krasteva 2021-02-03  1113  	struct fwnode_handle *ep;
+9746b11715c394 Martina Krasteva 2021-02-03  1114  	unsigned long rate;
+e3269ea5148d39 Shravan Chippa   2023-04-14 @1115  	unsigned int i, j;
+9746b11715c394 Martina Krasteva 2021-02-03  1116  	int ret;
+9746b11715c394 Martina Krasteva 2021-02-03  1117  
+9746b11715c394 Martina Krasteva 2021-02-03  1118  	if (!fwnode)
+9746b11715c394 Martina Krasteva 2021-02-03  1119  		return -ENXIO;
+9746b11715c394 Martina Krasteva 2021-02-03  1120  
+9746b11715c394 Martina Krasteva 2021-02-03  1121  	/* Request optional reset pin */
+9746b11715c394 Martina Krasteva 2021-02-03  1122  	imx334->reset_gpio = devm_gpiod_get_optional(imx334->dev, "reset",
+9746b11715c394 Martina Krasteva 2021-02-03  1123  						     GPIOD_OUT_LOW);
+9746b11715c394 Martina Krasteva 2021-02-03  1124  	if (IS_ERR(imx334->reset_gpio)) {
+c702e2f70275db Hans Verkuil     2021-02-08  1125  		dev_err(imx334->dev, "failed to get reset gpio %ld",
+c702e2f70275db Hans Verkuil     2021-02-08  1126  			PTR_ERR(imx334->reset_gpio));
+9746b11715c394 Martina Krasteva 2021-02-03  1127  		return PTR_ERR(imx334->reset_gpio);
+9746b11715c394 Martina Krasteva 2021-02-03  1128  	}
+9746b11715c394 Martina Krasteva 2021-02-03  1129  
+9746b11715c394 Martina Krasteva 2021-02-03  1130  	/* Get sensor input clock */
+9746b11715c394 Martina Krasteva 2021-02-03  1131  	imx334->inclk = devm_clk_get(imx334->dev, NULL);
+9746b11715c394 Martina Krasteva 2021-02-03  1132  	if (IS_ERR(imx334->inclk)) {
+9746b11715c394 Martina Krasteva 2021-02-03  1133  		dev_err(imx334->dev, "could not get inclk");
+9746b11715c394 Martina Krasteva 2021-02-03  1134  		return PTR_ERR(imx334->inclk);
+9746b11715c394 Martina Krasteva 2021-02-03  1135  	}
+9746b11715c394 Martina Krasteva 2021-02-03  1136  
+9746b11715c394 Martina Krasteva 2021-02-03  1137  	rate = clk_get_rate(imx334->inclk);
+9746b11715c394 Martina Krasteva 2021-02-03  1138  	if (rate != IMX334_INCLK_RATE) {
+9746b11715c394 Martina Krasteva 2021-02-03  1139  		dev_err(imx334->dev, "inclk frequency mismatch");
+9746b11715c394 Martina Krasteva 2021-02-03  1140  		return -EINVAL;
+9746b11715c394 Martina Krasteva 2021-02-03  1141  	}
+9746b11715c394 Martina Krasteva 2021-02-03  1142  
+9746b11715c394 Martina Krasteva 2021-02-03  1143  	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+9746b11715c394 Martina Krasteva 2021-02-03  1144  	if (!ep)
+9746b11715c394 Martina Krasteva 2021-02-03  1145  		return -ENXIO;
+9746b11715c394 Martina Krasteva 2021-02-03  1146  
+9746b11715c394 Martina Krasteva 2021-02-03  1147  	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+9746b11715c394 Martina Krasteva 2021-02-03  1148  	fwnode_handle_put(ep);
+9746b11715c394 Martina Krasteva 2021-02-03  1149  	if (ret)
+9746b11715c394 Martina Krasteva 2021-02-03  1150  		return ret;
+9746b11715c394 Martina Krasteva 2021-02-03  1151  
+9746b11715c394 Martina Krasteva 2021-02-03  1152  	if (bus_cfg.bus.mipi_csi2.num_data_lanes != IMX334_NUM_DATA_LANES) {
+9746b11715c394 Martina Krasteva 2021-02-03  1153  		dev_err(imx334->dev,
+9746b11715c394 Martina Krasteva 2021-02-03  1154  			"number of CSI2 data lanes %d is not supported",
+9746b11715c394 Martina Krasteva 2021-02-03  1155  			bus_cfg.bus.mipi_csi2.num_data_lanes);
+9746b11715c394 Martina Krasteva 2021-02-03  1156  		ret = -EINVAL;
+9746b11715c394 Martina Krasteva 2021-02-03  1157  		goto done_endpoint_free;
+9746b11715c394 Martina Krasteva 2021-02-03  1158  	}
+9746b11715c394 Martina Krasteva 2021-02-03  1159  
+4b895656c4c2b2 Sakari Ailus     2023-12-11  1160  	ret = v4l2_link_frequencies_to_bitmap(imx334->dev,
+4b895656c4c2b2 Sakari Ailus     2023-12-11  1161  					      bus_cfg.link_frequencies,
+4b895656c4c2b2 Sakari Ailus     2023-12-11  1162  					      bus_cfg.nr_of_link_frequencies,
+4b895656c4c2b2 Sakari Ailus     2023-12-11  1163  					      link_freq, ARRAY_SIZE(link_freq),
+4b895656c4c2b2 Sakari Ailus     2023-12-11  1164  					      &imx334->link_freq_bitmap);
+9746b11715c394 Martina Krasteva 2021-02-03  1165  
+9746b11715c394 Martina Krasteva 2021-02-03  1166  done_endpoint_free:
+9746b11715c394 Martina Krasteva 2021-02-03  1167  	v4l2_fwnode_endpoint_free(&bus_cfg);
+9746b11715c394 Martina Krasteva 2021-02-03  1168  
+9746b11715c394 Martina Krasteva 2021-02-03  1169  	return ret;
+9746b11715c394 Martina Krasteva 2021-02-03  1170  }
+9746b11715c394 Martina Krasteva 2021-02-03  1171  
 
 -- 
-Pavel Begunkov
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
