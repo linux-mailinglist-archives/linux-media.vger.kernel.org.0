@@ -1,143 +1,98 @@
-Return-Path: <linux-media+bounces-2170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2171-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD0D180DE0E
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 23:15:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6700E80DF11
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 00:00:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 688D0281E8F
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 22:15:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 991721C21569
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 23:00:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C16A5578F;
-	Mon, 11 Dec 2023 22:15:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A03F456456;
+	Mon, 11 Dec 2023 23:00:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZnwJeb83"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UflgYqaT"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 74585B5;
-	Mon, 11 Dec 2023 14:15:28 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7559B922;
-	Mon, 11 Dec 2023 23:14:42 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702332882;
-	bh=GL+uqkZRlZtM9CqFWDpU/O4mleiVeJYVJuE+4HaNbzg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZnwJeb83+6Ilj6joGWv51eFMSpMn62AY9aSTlBqg7ZxxfjJ0mILeTUdaKPN9NQ9kK
-	 wd+toMzn1IDUSbI+VH0gWvsf0twsOZpV50GxOm7SyvZjYc2ufw6lTvgUPDbdKdPv0r
-	 pueVyHqiUSJZs/2uKwsk47KX0mSwsgWD7MdB4HgY=
-Date: Tue, 12 Dec 2023 00:15:33 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 12/19] media: i2c: ov4689: Implement digital gain control
-Message-ID: <20231211221533.GK27535@pendragon.ideasonboard.com>
-References: <20231211175023.1680247-1-mike.rudenko@gmail.com>
- <20231211175023.1680247-13-mike.rudenko@gmail.com>
+Received: from mail-wm1-x330.google.com (mail-wm1-x330.google.com [IPv6:2a00:1450:4864:20::330])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34640A9
+	for <linux-media@vger.kernel.org>; Mon, 11 Dec 2023 15:00:20 -0800 (PST)
+Received: by mail-wm1-x330.google.com with SMTP id 5b1f17b1804b1-40c41df5577so19971565e9.0
+        for <linux-media@vger.kernel.org>; Mon, 11 Dec 2023 15:00:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702335618; x=1702940418; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=JrNhKSqb42tMOx1MThru7oK9ChKPAdONc9BqrF8L5VU=;
+        b=UflgYqaTjAJaYvCtP1y93Kl/k6IgjpsIMFBSo9tI8gBbFfnhvAMCgN5Mfr9mNmK4De
+         bM2z+qHeGNZeqKilYHTewTOLelNiydzZ1s21FrFJlZvGkiDUke2AJebnLEbZcMwpv1Sv
+         rZ/18yzoOuIlgsZ7XtcVjD4O14zhvvOqmOLlGlzbdxzaCVNtRSgwNXi0weGP9m17VJ5w
+         fYTHkFpkfll37QUXqwk4qfeYzI5ELiC02UBzJN4eYN88H+oK93v3S7m0oSxVWcwi1B2b
+         YM/LBuMRgPlNoIExjrA1RiHKct0qAqQqAjDk1beKRam7mWeyd912qiMKz591s7dLtwUo
+         /EPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702335618; x=1702940418;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=JrNhKSqb42tMOx1MThru7oK9ChKPAdONc9BqrF8L5VU=;
+        b=bzbZlkGKo7kAuDwyzTKnfKhnQ/sRC0bwdCSlHJRyVbpOhtueFQoYWQT9/oWQqIPAWc
+         f4sLD/EuHP7fdTwzMMPpErFuLF+X/PydwkSy9GRgZWbuNs12uG5MztwiXJp+M3Y/ynr7
+         pSR/NUheKmDx4xA3bWdlmGCiNv/7bvPYkCXl9JPXZ9U1w8hEE48xNrSCCtzxqBNMaVdA
+         eulDNe+/qFpYHi5lQwSLwQeMu8VZzDUacEgQtXcPQfgRj8gWK44qAN7KyUTNYyWyb70R
+         LiHXqClVXwuKwLTM0wKQjpy5d9+qPPqsQ0vUqkXhBCLpd0sCR/fMK9DsMH/EybcActRK
+         WHEA==
+X-Gm-Message-State: AOJu0Yw836e8/2PUMe3VmUstL9TuxerbMIjdfP0r1SWVIpDksq97m0mn
+	9+qbaglN/sv1/s7pcTQlCZGk2WNnG9Y=
+X-Google-Smtp-Source: AGHT+IGPtTztZ2AwUQ/kzifPEvRCSn57rmHqDk3e/5wpGJGLZGNPe5CzgzghwGA6KPDf8QkRb2wA6Q==
+X-Received: by 2002:a1c:7212:0:b0:40c:246d:1ec0 with SMTP id n18-20020a1c7212000000b0040c246d1ec0mr1167956wmc.208.1702335618440;
+        Mon, 11 Dec 2023 15:00:18 -0800 (PST)
+Received: from aero-laptop.. (78-154-11-58.ip.btc-net.bg. [78.154.11.58])
+        by smtp.gmail.com with ESMTPSA id ps1-20020a170906bf4100b00a1de8f69dabsm5385527ejb.5.2023.12.11.15.00.17
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 15:00:18 -0800 (PST)
+From: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL FOR v6.8] Venus updates
+Date: Tue, 12 Dec 2023 01:00:13 +0200
+Message-Id: <20231211230013.269230-1-stanimir.k.varbanov@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231211175023.1680247-13-mike.rudenko@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Mikhail,
+The pull request includes:
+ - Setup secure memory regions for SC7280.
 
-Thank you for the patch.
+Please, pull.
 
-On Mon, Dec 11, 2023 at 08:50:15PM +0300, Mikhail Rudenko wrote:
-> The OV4689 sensor supports digital gain up to 16x. Implement
-> corresponding control in the driver. Default digital gain value is not
-> modified by this patch.
-> 
-> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
-> ---
->  drivers/media/i2c/ov4689.c | 16 ++++++++++++++--
->  1 file changed, 14 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
-> index 62aeae43d749..ed0ce1b9e55b 100644
-> --- a/drivers/media/i2c/ov4689.c
-> +++ b/drivers/media/i2c/ov4689.c
-> @@ -35,6 +35,12 @@
->  #define OV4689_GAIN_STEP		1
->  #define OV4689_GAIN_DEFAULT		0x80
->  
-> +#define OV4689_REG_DIG_GAIN		CCI_REG16(0x352A)
+regards,
+Stan
 
-Lowercase for hex constatns please.
+The following changes since commit a00b3f296eac3d43328615c3113e1a74143fc67a:
 
-> +#define OV4689_DIG_GAIN_MIN		1
-> +#define OV4689_DIG_GAIN_MAX		0x7fff
-> +#define OV4689_DIG_GAIN_STEP		1
-> +#define OV4689_DIG_GAIN_DEFAULT		0x800
-> +
->  #define OV4689_REG_TEST_PATTERN		CCI_REG8(0x5040)
->  #define OV4689_TEST_PATTERN_ENABLE	0x80
->  #define OV4689_TEST_PATTERN_DISABLE	0x0
-> @@ -131,7 +137,6 @@ static const struct cci_reg_sequence ov4689_2688x1520_regs[] = {
->  
->  	/* AEC PK */
->  	{CCI_REG8(0x3503), 0x04}, /* AEC_MANUAL gain_input_as_sensor_gain_format = 1 */
-> -	{CCI_REG8(0x352a), 0x08}, /* DIG_GAIN_FRAC_LONG dig_gain_long[14:8] = 0x08 (2x) */
+  media: mediatek: vcodec: Set the supported vp9 profile for each platform (2023-11-23 19:26:22 +0100)
 
-Is the default value really x2 ? That's not very nice :-S
+are available in the Git repository at:
 
-It would be much nicer if the default value of the control mapped to x1,
-otherwise it's impossible for userspace to interpret the scale of the
-digital gain value in a generic way. I suppose that could break existing
-applications though, which isn't great.
+  git://linuxtv.org/svarbanov/media_tree.git tags/tag-venus-for-v6.8
 
-Out of curiosity, can you tell what SoC(s) you're using this sensor with
-?
+for you to fetch changes up to 1dbc33acdd757329d92072ef29c8359bcad125c0:
 
->  
->  	/* ADC and analog control*/
->  	{CCI_REG8(0x3603), 0x40},
-> @@ -622,6 +627,9 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
->  				OV4689_TIMING_FLIP_MASK,
->  				val ? 0 : OV4689_TIMING_FLIP_BOTH, &ret);
->  		break;
-> +	case V4L2_CID_DIGITAL_GAIN:
-> +		cci_write(regmap, OV4689_REG_DIG_GAIN, val, &ret);
-> +		break;
->  	default:
->  		dev_warn(dev, "%s Unhandled id:0x%x, val:0x%x\n",
->  			 __func__, ctrl->id, val);
-> @@ -650,7 +658,7 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
->  
->  	handler = &ov4689->ctrl_handler;
->  	mode = ov4689->cur_mode;
-> -	ret = v4l2_ctrl_handler_init(handler, 13);
-> +	ret = v4l2_ctrl_handler_init(handler, 14);
->  	if (ret)
->  		return ret;
->  
-> @@ -693,6 +701,10 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
->  	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
->  	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
->  
-> +	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
-> +			  OV4689_DIG_GAIN_MIN, OV4689_DIG_GAIN_MAX,
-> +			  OV4689_DIG_GAIN_STEP, OV4689_DIG_GAIN_DEFAULT);
-> +
->  	if (handler->error) {
->  		ret = handler->error;
->  		dev_err(ov4689->dev, "Failed to init controls(%d)\n", ret);
+  media: venus: core: Set up secure memory ranges for SC7280 (2023-12-11 17:28:30 +0200)
 
--- 
-Regards,
+----------------------------------------------------------------
+Venus updates for v6.8
 
-Laurent Pinchart
+----------------------------------------------------------------
+Luca Weiss (1):
+      media: venus: core: Set up secure memory ranges for SC7280
+
+ drivers/media/platform/qcom/venus/core.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
