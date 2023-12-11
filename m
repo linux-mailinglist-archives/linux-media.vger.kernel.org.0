@@ -1,209 +1,160 @@
-Return-Path: <linux-media+bounces-2105-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2107-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF3E80CD02
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 15:07:30 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 155F080CE1D
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 15:17:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F0E5B1C202C9
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 14:07:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C41E7281BAD
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 14:17:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0436C4879D;
-	Mon, 11 Dec 2023 14:07:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BBECE4879A;
+	Mon, 11 Dec 2023 14:17:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E+bawBZh"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FR6iqYo4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D45F29029
-	for <linux-media@vger.kernel.org>; Mon, 11 Dec 2023 06:07:13 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702303633; x=1733839633;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=Y7u1589u3IzL8cNUP1vBOOFbqMbJ+mg7XP6yO7oiRYk=;
-  b=E+bawBZhtowPPdq5zvkxIMZxrycmqpfeSdGzTQG2ZtjDrq676Q8zUo/G
-   pLzWlHhxWWfkPAeX90dPJB/ee1Or58YSz9x5QGrraB7O3X/XatyhiikDA
-   utIdPvy0irLxwXGC7NBDZ9q0SZEo+WQTRDAwj7KFHU6zB7wwxicfgut2L
-   1Tsnav27GgcX4enItfbaGPqCG+ViaaqXPoRYWYgObM8qzwr/hQaGeRJwr
-   B21k+g1GoK24Y+gGpDekaE9K6B7wPI/TDp+igz/R2ku2A2pLFCnd/835e
-   IzQmo7zmTl3ArzZlS9p6ZOJD1yVgGwcc3G0o3nLCDFQXAPqvb6enTcVkW
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="393523864"
-X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="393523864"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 06:07:07 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="863795259"
-X-IronPort-AV: E=Sophos;i="6.04,268,1695711600"; 
-   d="scan'208";a="863795259"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2023 06:07:05 -0800
-Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id CB6E9120619;
-	Mon, 11 Dec 2023 16:07:02 +0200 (EET)
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: linux-media@vger.kernel.org
-Cc: laurent.pinchart@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 4/4] media: imx355: Use v4l2_link_frequencies_to_bitmap helper
-Date: Mon, 11 Dec 2023 16:06:58 +0200
-Message-Id: <20231211140658.366268-5-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.39.2
-In-Reply-To: <20231211140658.366268-1-sakari.ailus@linux.intel.com>
-References: <20231211140658.366268-1-sakari.ailus@linux.intel.com>
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 57FEC5B89;
+	Mon, 11 Dec 2023 06:17:32 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id a640c23a62f3a-a1d93da3eb7so525087666b.0;
+        Mon, 11 Dec 2023 06:17:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702304251; x=1702909051; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xjgDoH5wpFTvBtjku8JEMjQ8hKrrQC8Hfkdc8NZQjks=;
+        b=FR6iqYo4r0ATlem3wbq4NcI62K62L4+Oom6+PvSCOn+jPjJnY+vUwt9cgQFu0EETQ5
+         57EqkROIKrr7aE9TOWQ6CmTZBEJiwdJoCUhsXfkK2xsJLM53cp+66859nrloFABybCza
+         osKVUfQ2ZGfbv4pgu9ZXiGmq7yaBnEaOKmuE8z1vsbxoz+7j4DpL5kR0swHGpfeTpANX
+         zhSJ5FhI/L5vPbHY243UGG3ehksjlxUGADF+G+4gm+a5FqXevtjc2njkf0dNbiiPkOHN
+         NqTdQjrA7T3IpBm6pRPa8jDHvM1VrUPfYNc3UZVYjGKtWVB1DS54PC6h3SB1f8AFf6Kc
+         5DbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702304251; x=1702909051;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xjgDoH5wpFTvBtjku8JEMjQ8hKrrQC8Hfkdc8NZQjks=;
+        b=PY380t9i3U4aglAXgA65ICNJoaFvP8sMYEyKJao9vBQuodToSpsSO06oP++sB1pZpQ
+         YXI8KpJ9ouc0pwu75p7qpSo1xmnbZPTJY0PqPdTXxrGzEfmAq78bA7nvM8vrtHhusk/A
+         1F/MgfdKhrF6pAvh9YBSU+JdIxnKVV8xyyn8FPVKeSlCLUR3O8RCeFN3jq0RlxqeRh6X
+         utx3a7EGkTzwUsQVv4pouyrNfgE2pUPsEVVELhvWxrnh7CTNfS5gQvjS5i3VIpq2omJa
+         cSR7GNtfl13b5F7Ddv0mqu6cisIlhrZjrwpMu1fQjezcBqitfalB8/wC3wrVXqJTFKnE
+         jl1Q==
+X-Gm-Message-State: AOJu0Ywf3MjpRodt/m7L78bAJuu+ZwhUelUhAOzVEKYjKYr7RuhVdh/W
+	xfidIJ0/hTOWra1sjVnp0X0=
+X-Google-Smtp-Source: AGHT+IGvtRp1DsOkZJ5XmsG/dnogTspAPXgW486VHcUzxU/sxVwTq6S7cWTfJRA7TFXSMcwnZYFJ4w==
+X-Received: by 2002:a17:906:512:b0:a19:a1ba:8cb6 with SMTP id j18-20020a170906051200b00a19a1ba8cb6mr2088159eja.84.1702304250718;
+        Mon, 11 Dec 2023 06:17:30 -0800 (PST)
+Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id vc11-20020a170907d08b00b00a1ce58e9fc7sm4849982ejc.64.2023.12.11.06.17.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 06:17:30 -0800 (PST)
+Date: Mon, 11 Dec 2023 15:17:28 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 3/4] pwm: bcm2835: allow pwm driver to be used in
+ atomic context
+Message-ID: <ZXcZ-D2Bc58ydsIn@orome.fritz.box>
+References: <cover.1701248996.git.sean@mess.org>
+ <179dc1ce85702a8b64b43c0e0df656b0c5e3ce30.1701248996.git.sean@mess.org>
+ <ZXNC3JYy7CTfYsyC@orome.fritz.box>
+ <ZXNL5upeUPc4gC1R@gofer.mess.org>
+ <20231208172040.mgw7aicmwlw6yjyb@pengutronix.de>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="gN2yPszgClY7v+2k"
+Content-Disposition: inline
+In-Reply-To: <20231208172040.mgw7aicmwlw6yjyb@pengutronix.de>
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-Use the v4l2_link_frequencies_to_bitmap() helper to figure out which
-driver-supported link frequencies can be used on a given system.
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- drivers/media/i2c/imx355.c | 53 ++++++++++----------------------------
- 1 file changed, 14 insertions(+), 39 deletions(-)
+--gN2yPszgClY7v+2k
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/i2c/imx355.c b/drivers/media/i2c/imx355.c
-index 8c995c58743a..51e3f3ae53da 100644
---- a/drivers/media/i2c/imx355.c
-+++ b/drivers/media/i2c/imx355.c
-@@ -56,7 +56,7 @@
- #define IMX355_REG_ORIENTATION		0x0101
- 
- /* default link frequency and external clock */
--#define IMX355_LINK_FREQ_DEFAULT	360000000
-+#define IMX355_LINK_FREQ_DEFAULT	360000000LL
- #define IMX355_EXT_CLK			19200000
- #define IMX355_LINK_FREQ_INDEX		0
- 
-@@ -93,8 +93,7 @@ struct imx355_mode {
- 
- struct imx355_hwcfg {
- 	u32 ext_clk;			/* sensor external clk */
--	s64 *link_freqs;		/* CSI-2 link frequencies */
--	unsigned int nr_of_link_freqs;
-+	unsigned long link_freq_bitmap;
- };
- 
- struct imx355 {
-@@ -115,7 +114,6 @@ struct imx355 {
- 	const struct imx355_mode *cur_mode;
- 
- 	struct imx355_hwcfg *hwcfg;
--	s64 link_def_freq;	/* CSI-2 link default frequency */
- 
- 	/*
- 	 * Mutex for serialized access:
-@@ -879,7 +877,10 @@ static const char * const imx355_test_pattern_menu[] = {
- 	"Pseudorandom Sequence (PN9)",
- };
- 
--/* supported link frequencies */
-+/*
-+ * When adding more than the one below, make sure the disallowed ones will
-+ * actually be disabled in the LINK_FREQ control.
-+ */
- static const s64 link_freq_menu_items[] = {
- 	IMX355_LINK_FREQ_DEFAULT,
- };
-@@ -1356,7 +1357,7 @@ imx355_set_pad_format(struct v4l2_subdev *sd,
- 		*framefmt = fmt->format;
- 	} else {
- 		imx355->cur_mode = mode;
--		pixel_rate = imx355->link_def_freq * 2 * 4;
-+		pixel_rate = IMX355_LINK_FREQ_DEFAULT * 2 * 4;
- 		do_div(pixel_rate, 10);
- 		__v4l2_ctrl_s_ctrl_int64(imx355->pixel_rate, pixel_rate);
- 		/* Update limits and set FPS to default */
-@@ -1543,7 +1544,7 @@ static int imx355_init_controls(struct imx355 *imx355)
- 		imx355->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
- 	/* pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample */
--	pixel_rate = imx355->link_def_freq * 2 * 4;
-+	pixel_rate = IMX355_LINK_FREQ_DEFAULT * 2 * 4;
- 	do_div(pixel_rate, 10);
- 	/* By default, PIXEL_RATE is read only */
- 	imx355->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &imx355_ctrl_ops,
-@@ -1620,7 +1621,6 @@ static struct imx355_hwcfg *imx355_get_hwcfg(struct device *dev)
- 	};
- 	struct fwnode_handle *ep;
- 	struct fwnode_handle *fwnode = dev_fwnode(dev);
--	unsigned int i;
- 	int ret;
- 
- 	if (!fwnode)
-@@ -1652,24 +1652,14 @@ static struct imx355_hwcfg *imx355_get_hwcfg(struct device *dev)
- 		goto out_err;
- 	}
- 
--	dev_dbg(dev, "num of link freqs: %d", bus_cfg.nr_of_link_frequencies);
--	if (!bus_cfg.nr_of_link_frequencies) {
--		dev_warn(dev, "no link frequencies defined");
--		goto out_err;
--	}
--
--	cfg->nr_of_link_freqs = bus_cfg.nr_of_link_frequencies;
--	cfg->link_freqs = devm_kcalloc(dev,
--				       bus_cfg.nr_of_link_frequencies + 1,
--				       sizeof(*cfg->link_freqs), GFP_KERNEL);
--	if (!cfg->link_freqs)
-+	ret = v4l2_link_frequencies_to_bitmap(dev, bus_cfg.link_frequencies,
-+					      bus_cfg.nr_of_link_frequencies,
-+					      link_freq_menu_items,
-+					      ARRAY_SIZE(link_freq_menu_items),
-+					      &cfg->link_freq_bitmap);
-+	if (ret)
- 		goto out_err;
- 
--	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
--		cfg->link_freqs[i] = bus_cfg.link_frequencies[i];
--		dev_dbg(dev, "link_freq[%d] = %lld", i, cfg->link_freqs[i]);
--	}
--
- 	v4l2_fwnode_endpoint_free(&bus_cfg);
- 	fwnode_handle_put(ep);
- 	return cfg;
-@@ -1684,7 +1674,6 @@ static int imx355_probe(struct i2c_client *client)
- {
- 	struct imx355 *imx355;
- 	int ret;
--	u32 i;
- 
- 	imx355 = devm_kzalloc(&client->dev, sizeof(*imx355), GFP_KERNEL);
- 	if (!imx355)
-@@ -1709,20 +1698,6 @@ static int imx355_probe(struct i2c_client *client)
- 		goto error_probe;
- 	}
- 
--	imx355->link_def_freq = link_freq_menu_items[IMX355_LINK_FREQ_INDEX];
--	for (i = 0; i < imx355->hwcfg->nr_of_link_freqs; i++) {
--		if (imx355->hwcfg->link_freqs[i] == imx355->link_def_freq) {
--			dev_dbg(&client->dev, "link freq index %d matched", i);
--			break;
--		}
--	}
--
--	if (i == imx355->hwcfg->nr_of_link_freqs) {
--		dev_err(&client->dev, "no link frequency supported");
--		ret = -EINVAL;
--		goto error_probe;
--	}
--
- 	/* Set default mode to max resolution */
- 	imx355->cur_mode = &supported_modes[0];
- 
--- 
-2.39.2
+On Fri, Dec 08, 2023 at 06:20:40PM +0100, Uwe Kleine-K=C3=B6nig wrote:
+> On Fri, Dec 08, 2023 at 05:01:26PM +0000, Sean Young wrote:
+> > On Fri, Dec 08, 2023 at 05:22:52PM +0100, Thierry Reding wrote:
+> > > On Wed, Nov 29, 2023 at 09:13:36AM +0000, Sean Young wrote:
+> > > > clk_get_rate() may do a mutex lock. Fetch the clock rate once, and =
+prevent
+> > > > rate changes using clk_rate_exclusive_get().
+> > > >=20
+> > > > Signed-off-by: Sean Young <sean@mess.org>
+> > > > ---
+> > > >  drivers/pwm/pwm-bcm2835.c | 31 +++++++++++++++++++++----------
+> > > >  1 file changed, 21 insertions(+), 10 deletions(-)
+> > >=20
+> > > s/pwm/PWM/ in the subject. Although, I guess you could just drop the
+> > > "PWM" altogether because the subject prefix implies that this is for
+> > > PWM.
+> >=20
+> > $ git log --no-merges --oneline drivers/pwm/ | sed -r 's/^\w* ([^:]+): =
+=2E*/\1/' | sort | uniq -c
+> >    1197 pwm
+> >       1 PWM
+> >   ...
+> >=20
+> > The vast majority of the commits use pwm: as a prefix, only one uses PW=
+M:.=20
+> > In fact if you look across the tree almost everywhere lower case is used
+> > for the prefix.
+>=20
+> Thierry doesn't want you to change the subject prefix, but only the
+> second "pwm" to make it read:
+>=20
+> 	pwm: bcm2835: allow PWM driver to be used in atomic context
+>=20
+> While I understand Thierry here, I'm fine with a lowercase pwm here,
+> too. In my book a PWM in all uppercase is the type of hardware and pwm
+> in all lowercase is the framework's name. If you use "PWM driver" or
+> "pwm driver" then doesn't matter much.
 
+I'm not fine with a lowercase "pwm" in what is clearly text. Text should
+be grammatically correct and PWM being an abbreviation it should be all
+caps. The framework name is also PWM, not pwm. We use the lowercase pwm
+as prefix because it represents the directory where the subsystem lives
+and we usually don't use capitalization in file and directory names.
+
+Thierry
+
+--gN2yPszgClY7v+2k
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmV3GfgACgkQ3SOs138+
+s6G4gQ/+JdOurEDhll7cImaJ6eu6WXI6EmxsPcFtvXqydrGyPaoLvSaw1eKq9cYU
+QUWpM6rdBZW3kQTlx+6766tmW5GMa4hK9LZiRUpH5wQfJrq+TMTyp+sOqq2pIw9C
+voiT2ShRE8Z5uYu4lRr+mp08Ws9RcL44wvIYOLXm6V+xNe4IS5kup9N3ObX+HvK6
+OIlbZKPgCLt4zmlDyYDOy0A5v7uAmaaejjx1jeVmBeDc9pIspK7CrNBZSmKS5jVY
+SNJydpNNmoDcGmkPhkTjzB3nyolXuo/UyqdaDGfd7YkCO7sIBhYoxIcXxyF7/6mQ
+1lPy5QM0WxhAjeU2ScfKoHXoPH9YATPYj2Mf2ZQp8ltchmmXnZGLX64WfPcgp8f2
+bJs19PfF24c52n5HvdHkVMVM0loWpbNp+ozY0o/wcKDna6UksuLNkEf2PJ8bS9gD
+vUoBH/uTVRFXtl7QXSRk1Vnbn20dwPoORFmLdBSGQI44K7hcEaUkQtS3/t5PXpBW
+bIOkYwMB5jyARmUgbnFld2wT/6t5FV7hNseEyRHszZc1CFn1gSiPz9j4TRkCAoE8
+CvlZ5QG/6BzU1haNEplHPn9wfsYKOdJ3k/GNfgYAEfWpB7Pi1gkgameq57TuUxSA
+B+Z7nhZCd3hWoNF+oRlqe1e0zH7CuTRIgQ3yBxjX9nNjeclKo5c=
+=FV2f
+-----END PGP SIGNATURE-----
+
+--gN2yPszgClY7v+2k--
 
