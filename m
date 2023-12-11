@@ -1,123 +1,179 @@
-Return-Path: <linux-media+bounces-2083-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2084-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 577F980C6F6
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 11:46:05 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADEC780C70F
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 11:47:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87CB21C209A0
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 10:46:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 612612814F4
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 10:47:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1F2525752;
-	Mon, 11 Dec 2023 10:45:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 611B825576;
+	Mon, 11 Dec 2023 10:47:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OcAZUhr1"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="m0MgJvP/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DC2FCF;
-	Mon, 11 Dec 2023 02:45:51 -0800 (PST)
-Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-54d0ae6cf20so6028131a12.0;
-        Mon, 11 Dec 2023 02:45:50 -0800 (PST)
+Received: from mail-wr1-x429.google.com (mail-wr1-x429.google.com [IPv6:2a00:1450:4864:20::429])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C7FBA9;
+	Mon, 11 Dec 2023 02:47:11 -0800 (PST)
+Received: by mail-wr1-x429.google.com with SMTP id ffacd0b85a97d-336210c34ebso852256f8f.1;
+        Mon, 11 Dec 2023 02:47:11 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702291549; x=1702896349; darn=vger.kernel.org;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=v1N2/J6JuqJLhRuV4xjOtAP39+2raieKGXxMe/+IOvM=;
-        b=OcAZUhr1jVaK5oqiULRZaTRKlM8LNN4quKAIaKRdhOPprZBp43Lh67it/Djp5d/LfD
-         OH7VzOcXmbswULIxj3GIwC9LA0szwe+xe6GDOldZNkU5yFIIZI/eLWl45tbd3/D4udYs
-         Ghp+HZtCWGE137mbR2kP9A8Ga8O1D3k+8x7yR94OE2dev+Z42PlcYzMix2x1HWaF5mnM
-         dVqq/AxQdzkh32WnInLLYaaijwo1RXitC4SOqEvC7PFhQ9ELJHWWgPfLnDStiQe9c5Om
-         Hi1AGefiGrd0HGwFkXEesf8a2E2i2PIiLk0gnvDkmkNg8JE2va7WehwJB+H0KVsPFQlJ
-         3upg==
+        d=gmail.com; s=20230601; t=1702291630; x=1702896430; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ce0zbxA04eGm5L5oadZ3wbq0BpUtWOBHwT553G24fMY=;
+        b=m0MgJvP/1MFI7x77buBlfctY0/RzYMLilDEMElwG+4B5cvBnJ0jet+pjpRwGuv+kIO
+         L6u//eZ7VwXUphq+f5RU/i4DYHAks0E49jbkK2UlpWiZCCBlJYvRzIsgax7kZIaMnbDg
+         ccLErGVG2n6VsuINibBxBWzK7kQvbeegCOywzR37/ffQLzDoQ8TE37hMssFc3WnVLGdd
+         4A7gIkGIo/p8C7nApEDIQfn8bK76imvOLlmuMzQvtC++/x5uWmO0UmykV9Ilhu6dulUr
+         8sEkheAzwtcrUKsRxKU1+1eF0R4EKNN5EEvxTGdfmrTri5O5XnRcwKbj57qBT+3a8z+b
+         yzYw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702291549; x=1702896349;
-        h=user-agent:in-reply-to:content-disposition:mime-version:references
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=v1N2/J6JuqJLhRuV4xjOtAP39+2raieKGXxMe/+IOvM=;
-        b=fIc/Ez8F3XiKiTY54RSAPYsqN8e9uoALcdWCKakl67yENHNCT94zjpUvbKfvRYN65F
-         bOkzMrHvpErm6Y2iFY2+OhnZTQVHW0VPUihreax+INy8P9iPtsnB2iLl/CNjh6ESl5It
-         BPyWeVPKXk3gBdQyeNajyTremCA/DMylr0lcDkMUILWSxwDccu0Ukai3Jnc8HX6ZfeAx
-         BweuMSewhyycg4mJRPX5HwNzq3iYcFJx5qhkjfrWsLAzMOUN6ccm1bFgwEVl92CQSlad
-         GMi+ZJEKpPLqF73TLSzZRZpTYvDuhkW9oPPiyZC8amzy+pz33Y+InAYjKcS51EAusbsp
-         RiXA==
-X-Gm-Message-State: AOJu0Yw2/zPEWcMC0VuYOp002LVSGfD0+dyCiqLD0ADDrOmtZ6P9t/oc
-	lEwnq9uBbQ6t5HTexPmrbf0=
-X-Google-Smtp-Source: AGHT+IGAcrvccN5W82VKMxYQhM31//DyH+tulrFa7mhx1Ada8kbo3zayltrYfBMK8JlyxsnWMhxZSQ==
-X-Received: by 2002:a50:8d18:0:b0:54c:8f76:cdb9 with SMTP id s24-20020a508d18000000b0054c8f76cdb9mr2717863eds.32.1702291549278;
-        Mon, 11 Dec 2023 02:45:49 -0800 (PST)
-Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
-        by smtp.gmail.com with ESMTPSA id 27-20020a50875b000000b0054cac2a0715sm3634695edv.93.2023.12.11.02.45.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 11 Dec 2023 02:45:48 -0800 (PST)
-Date: Mon, 11 Dec 2023 11:45:47 +0100
-From: Thierry Reding <thierry.reding@gmail.com>
-To: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 4/4] media: pwm-ir-tx: Trigger edges from hrtimer
- interrupt context
-Message-ID: <ZXboW5ufZ4v4uoXh@orome.fritz.box>
-References: <cover.1702282806.git.sean@mess.org>
- <b3c2f84c54219234eec96f165cd0bf1147a7ee80.1702282807.git.sean@mess.org>
+        d=1e100.net; s=20230601; t=1702291630; x=1702896430;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ce0zbxA04eGm5L5oadZ3wbq0BpUtWOBHwT553G24fMY=;
+        b=cbP2QW8C2nRhI5/x4AK+F4mRnMj8TDMu0eSBXc5LRM4P5uvLUPBlHbEn4QJwqNdIn5
+         cvf0sPrdmEVUq8qAdy/06KwTmsXtURvhWqjmXdU4j3j5cDpTp2kRMuMsxQKrsVpefR6E
+         WeBt3F1hOQ9KBIIN8BGHvJfXkj7Vgrv0PK+pfnaGK/WWe7FLeghxR/dGzZYWyG6HQTs4
+         c8we1ul2OMHQsOahS0ucGPD0E6Ss8XmmYQ277tVV8jEK2Jnlv/Y+hqEfbzS/rwdTLHmA
+         bgZ9R4SfYXM16s/fpyvynAsfSWzCwsA+VzhDicTDwTkHe6xB0X6YInPudiibyYCWrwSk
+         22CA==
+X-Gm-Message-State: AOJu0YwXt0GmYW72BXuhKgNAvK2K9FXvQd3zoIorIbxawZVlUrmqmRN0
+	jaTk+zFuMEurmBMOT0jpi+c=
+X-Google-Smtp-Source: AGHT+IFDLSWtwRz+Mep0P2wHU03mEf8uT1tA4CK01mVy2soy6G7lwo395lYfptDQ0/ItbXxPbv0GHA==
+X-Received: by 2002:a05:600c:4195:b0:40c:243f:c36a with SMTP id p21-20020a05600c419500b0040c243fc36amr1555228wmh.206.1702291629926;
+        Mon, 11 Dec 2023 02:47:09 -0800 (PST)
+Received: from [10.254.108.81] (munvpn.amd.com. [165.204.72.6])
+        by smtp.gmail.com with ESMTPSA id q14-20020a05600c46ce00b0040c4c9c52a3sm888618wmo.12.2023.12.11.02.47.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Dec 2023 02:47:09 -0800 (PST)
+Message-ID: <9637309c-af25-4117-be4f-b8cbdc087d60@gmail.com>
+Date: Mon, 11 Dec 2023 11:47:06 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="wnx2BPmIukpQ7gdk"
-Content-Disposition: inline
-In-Reply-To: <b3c2f84c54219234eec96f165cd0bf1147a7ee80.1702282807.git.sean@mess.org>
-User-Agent: Mutt/2.2.12 (2023-09-09)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [Linaro-mm-sig] [PATCH] drm/scheduler: Unwrap job dependencies
+Content-Language: en-US
+To: Rob Clark <robdclark@gmail.com>, dri-devel@lists.freedesktop.org
+Cc: linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Rob Clark <robdclark@chromium.org>, Luben Tuikov <ltuikov89@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Daniel Vetter <daniel@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_?:buf|fence|resvb"
+ <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_?:buf|fence|resvb"
+ <linaro-mm-sig@lists.linaro.org>
+References: <20231205190234.371322-1-robdclark@gmail.com>
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>
+In-Reply-To: <20231205190234.371322-1-robdclark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
+Am 05.12.23 um 20:02 schrieb Rob Clark:
+> From: Rob Clark <robdclark@chromium.org>
+>
+> Container fences have burner contexts, which makes the trick to store at
+> most one fence per context somewhat useless if we don't unwrap array or
+> chain fences.
+>
+> Signed-off-by: Rob Clark <robdclark@chromium.org>
 
---wnx2BPmIukpQ7gdk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-On Mon, Dec 11, 2023 at 08:24:55AM +0000, Sean Young wrote:
-> This makes the generated IR much more precise. Before this change, the
-> driver is unreliable and many users opted to use gpio-ir-tx instead.
->=20
-> Signed-off-by: Sean Young <sean@mess.org>
 > ---
->  drivers/media/rc/pwm-ir-tx.c | 79 ++++++++++++++++++++++++++++++++++--
->  1 file changed, 76 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/scheduler/sched_main.c | 47 ++++++++++++++++++--------
+>   1 file changed, 32 insertions(+), 15 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
+> index 9762464e3f99..16b550949c57 100644
+> --- a/drivers/gpu/drm/scheduler/sched_main.c
+> +++ b/drivers/gpu/drm/scheduler/sched_main.c
+> @@ -52,6 +52,7 @@
+>   #include <linux/wait.h>
+>   #include <linux/sched.h>
+>   #include <linux/completion.h>
+> +#include <linux/dma-fence-unwrap.h>
+>   #include <linux/dma-resv.h>
+>   #include <uapi/linux/sched/types.h>
+>   
+> @@ -684,27 +685,14 @@ void drm_sched_job_arm(struct drm_sched_job *job)
+>   }
+>   EXPORT_SYMBOL(drm_sched_job_arm);
+>   
+> -/**
+> - * drm_sched_job_add_dependency - adds the fence as a job dependency
+> - * @job: scheduler job to add the dependencies to
+> - * @fence: the dma_fence to add to the list of dependencies.
+> - *
+> - * Note that @fence is consumed in both the success and error cases.
+> - *
+> - * Returns:
+> - * 0 on success, or an error on failing to expand the array.
+> - */
+> -int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> -				 struct dma_fence *fence)
+> +static int drm_sched_job_add_single_dependency(struct drm_sched_job *job,
+> +					       struct dma_fence *fence)
+>   {
+>   	struct dma_fence *entry;
+>   	unsigned long index;
+>   	u32 id = 0;
+>   	int ret;
+>   
+> -	if (!fence)
+> -		return 0;
+> -
+>   	/* Deduplicate if we already depend on a fence from the same context.
+>   	 * This lets the size of the array of deps scale with the number of
+>   	 * engines involved, rather than the number of BOs.
+> @@ -728,6 +716,35 @@ int drm_sched_job_add_dependency(struct drm_sched_job *job,
+>   
+>   	return ret;
+>   }
+> +
+> +/**
+> + * drm_sched_job_add_dependency - adds the fence as a job dependency
+> + * @job: scheduler job to add the dependencies to
+> + * @fence: the dma_fence to add to the list of dependencies.
+> + *
+> + * Note that @fence is consumed in both the success and error cases.
+> + *
+> + * Returns:
+> + * 0 on success, or an error on failing to expand the array.
+> + */
+> +int drm_sched_job_add_dependency(struct drm_sched_job *job,
+> +				 struct dma_fence *fence)
+> +{
+> +	struct dma_fence_unwrap iter;
+> +	struct dma_fence *f;
+> +	int ret = 0;
+> +
+> +	dma_fence_unwrap_for_each (f, &iter, fence) {
+> +		dma_fence_get(f);
+> +		ret = drm_sched_job_add_single_dependency(job, f);
+> +		if (ret)
+> +			break;
+> +	}
+> +
+> +	dma_fence_put(fence);
+> +
+> +	return ret;
+> +}
+>   EXPORT_SYMBOL(drm_sched_job_add_dependency);
+>   
+>   /**
 
-Hi Mauro,
-
-are you okay with me picking this up into the PWM tree?
-
-Thanks,
-Thierry
-
---wnx2BPmIukpQ7gdk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmV26FsACgkQ3SOs138+
-s6Gviw//S5072+tyJHmRBfl7AN5P4HsSoGIPclGlqO+yRuXSqPz0/wLI3qOaqfMf
-3WJkt03MRP15oHf7N126YyvtKbc6bRo4KN+DJdtxK/VBKdfy0HxopCpz++16OEjU
-4xNCN1iC27hQKHKVzccgQSKgMePa/Hk5smL9/J9Oq4BuFpJis3KSjShF8QmaJZyu
-muDAcEmjD+DVcWPKw4SrKMVDEPuMzMn5DSzcI30giO1B84conBlO2Jm4l4tLMdKE
-Br/0cnDZ2z2y9+sIqZmDj0BT3sQQYl5zcJPahN4+cUhwjsx08ZLHghN6pJ/n5FCf
-aBzGEk2tOku/OTpozz1W7zXHMd1AsBj5V2elY1a8MtbQ4ICVr9Rcu10KOMDsOjgu
-kD5qvPx54tuqLt/sj6Ii2bFj2qCG8AdWzO/JjtKS5GBN3A1ZC/Bq3vqEf3KQ8xoY
-je+QzRcfa9/5ZKpUpDt+YQ2HFBrT1aZj4GQpIoDLtjtSJ3w5RE9zeiq7nb3TDcds
-7qjn4LrtI4Ehtt6qn+I6ClYwu5zJPPgmqiW+lKlb0bOzVq9QK6H9fUkNQ5s37u5+
-qjqBCeaYxNp9DqekP078AhNKV04VLqsQwdI+nYLqoPdsASE1+yNLo5SdwmsUbXNO
-d/COSj9apojs5kXbdGa5umOQXZ93y9EapKRX17zQgu6ddT9bUpo=
-=+Xoo
------END PGP SIGNATURE-----
-
---wnx2BPmIukpQ7gdk--
 
