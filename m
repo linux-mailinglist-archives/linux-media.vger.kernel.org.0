@@ -1,52 +1,60 @@
-Return-Path: <linux-media+bounces-2161-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2162-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE3C180D8E6
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 19:49:43 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D98E80DBBA
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 21:37:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A7921F21B0F
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 18:49:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1F56F1F21C02
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 20:37:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B9A77524C1;
-	Mon, 11 Dec 2023 18:49:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2215554668;
+	Mon, 11 Dec 2023 20:37:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="NU6LdAur"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6q1zdkV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AC59AB4;
-	Mon, 11 Dec 2023 10:49:19 -0800 (PST)
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3BBBp5DM026654;
-	Mon, 11 Dec 2023 19:48:12 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	selector1; bh=y0BmSNYVc0wIoHagTE06vyC2a0PPdmZEKhzR/LzDmMc=; b=NU
-	6LdAuryyO6Ga1iwo5fQKJ4qt9KbKn770wj6T3gOQHQH8X5YbAp1+UV3/jhMHhLrs
-	cf5mSXZ+UTzH0IXqI3h/LIIq5QIYYW0JPDmAqjQUc1aPNF0Ma3JyG/rrVmHw4NIS
-	i641bFyjuG8jMIKmysY4F/IOKWvTkxue2uVsKSDu9/se3G4zEsNkFwInrwuVGRTj
-	cwRV24hHks2klsL1XGlPPhAQIeOHuwrnpM9F9zvKVUUCKQjmj+FFHa1Y5jCuEL1K
-	15E0I2+Dq2va+7kSS2LAGto2F1rUuEr4bHq8oJ+8C739i5sAghX5YEM2SwfrphHm
-	4ltMRuMz9SbyWhuVmt6A==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3uvgf1g1sr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Mon, 11 Dec 2023 19:48:12 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 70B9010005C;
-	Mon, 11 Dec 2023 19:48:09 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 34D44252238;
-	Mon, 11 Dec 2023 19:48:09 +0100 (CET)
-Received: from [10.252.9.5] (10.252.9.5) by SHFDAG1NODE1.st.com (10.75.129.69)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Mon, 11 Dec
- 2023 19:48:07 +0100
-Message-ID: <719399bd-273d-40b5-b512-59a2e09ddbf8@foss.st.com>
-Date: Mon, 11 Dec 2023 19:48:02 +0100
+Received: from mail-wr1-x436.google.com (mail-wr1-x436.google.com [IPv6:2a00:1450:4864:20::436])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7DBDD6;
+	Mon, 11 Dec 2023 12:37:18 -0800 (PST)
+Received: by mail-wr1-x436.google.com with SMTP id ffacd0b85a97d-3332e351670so4516544f8f.0;
+        Mon, 11 Dec 2023 12:37:18 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702327037; x=1702931837; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=5mREG4zmhlrjDE364pycILMuHT3yybZyzypq/2nes4o=;
+        b=V6q1zdkV+wxIKXpM7DWq66B2NPzZBUPK4hr3WRtG+MTVSfExKywo7PK4Bt3nluEqDT
+         MkYrCuuDgvHFyqtkeTL5EVEmHFlAqoCG4wzA1E0AOVgzV7GgxwkQ9vs2R6aGYX15ri2/
+         sp1/AuQvVGRbOCriyt32YoOicKW7+0NZ50d5dTXoKn41lk//umXIHVlwVFUrW8yo+vYp
+         lrn9Cd0RaMPdIaG8HHIVCsPOhnrT3YGAomYLF9MeJLVuBcHmmXArVou5P2kL/Ae82RHR
+         ZnSLIq6BPwppSyaCaayBA0PoehLyk2aJOEhKI7Uz3FPmnyjCKCcFU5bviWtGyL9hN/ou
+         07XA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702327037; x=1702931837;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=5mREG4zmhlrjDE364pycILMuHT3yybZyzypq/2nes4o=;
+        b=XUGOs0D1C5EKC/b3Z0mxu1ogVHxrWSHJxBA65PBIYaZiH9yi8GafUYjsyV8T4DwD50
+         iI/eYdSCMb2iXzA3PXMw5XKi5yiYfZAet5sASmkxXIgBAHe7dc7e+81MnVu4zONtwbgJ
+         e9xqoQTLS1VsUyMbW8DnbrP/FQ/3S73ZrSodhoH31n3CPmfICPsRdUav5uIZ0y+l2p2f
+         BseSMW0UlBock5k7uzKK3pN9UsOmxf/FSvZP268P+JIQRei1jaSBheA1/uU9tAhth7Dp
+         fvX9tXjqjGZbrnAh1rP5Lge2WvBvNqA5x/tTQ4UEppdSvJroTP+V//2x/hUYGgTp/CUf
+         WKGg==
+X-Gm-Message-State: AOJu0YxI/1+RqepqcdtaXs8ZPwTXd9Ha46KBp8URvAL6Hv6fQJGeJM1S
+	HOj5ktQZ5YXRgkSxBIL4Nfo=
+X-Google-Smtp-Source: AGHT+IEzTCISh0ruDu6vYmjO9E9rylweqKZzQOVwuAulm2hyYEqdn+X3sTHJGxJeaYXMVcOHEARlYA==
+X-Received: by 2002:adf:a198:0:b0:333:38eb:8947 with SMTP id u24-20020adfa198000000b0033338eb8947mr1043696wru.275.1702327036762;
+        Mon, 11 Dec 2023 12:37:16 -0800 (PST)
+Received: from [192.168.8.100] ([85.255.234.108])
+        by smtp.gmail.com with ESMTPSA id o4-20020a5d58c4000000b0033333bee379sm9328312wrf.107.2023.12.11.12.37.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Dec 2023 12:37:16 -0800 (PST)
+Message-ID: <661c1bae-d7d3-457e-b545-5f67b9ef4197@gmail.com>
+Date: Mon, 11 Dec 2023 20:35:54 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -54,271 +62,219 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 00/13] Introduce STM32 Firewall framework
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory
+ provider
+To: Mina Almasry <almasrymina@google.com>
+Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Praveen Kaligineedi <pkaligineedi@google.com>,
+ Jesper Dangaard Brouer <hawk@kernel.org>,
+ Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann
+ <arnd@arndb.de>, David Ahern <dsahern@kernel.org>,
+ Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+ Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Yunsheng Lin <linyunsheng@huawei.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-9-almasrymina@google.com>
+ <b07a4eca-0c3d-4620-9f97-b1d2c76642c2@gmail.com>
+ <CAHS8izNVFx6oHoo7y86P8Di9VCVe8A_n_9UZFkg5Wnt=A=YcNQ@mail.gmail.com>
+ <b1aea7bc-9627-499a-9bee-d2cc07856978@gmail.com>
+ <CAHS8izPry13h49v+PqrmWSREZKZjYpPesxUTyPQy7AGyFwzo4g@mail.gmail.com>
 Content-Language: en-US
-To: <Oleksii_Moisieiev@epam.com>, <gregkh@linuxfoundation.org>,
-        <herbert@gondor.apana.org.au>, <davem@davemloft.net>,
-        <robh+dt@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
-        <conor+dt@kernel.org>, <alexandre.torgue@foss.st.com>,
-        <vkoul@kernel.org>, <jic23@kernel.org>, <olivier.moysan@foss.st.com>,
-        <arnaud.pouliquen@foss.st.com>, <mchehab@kernel.org>,
-        <fabrice.gasnier@foss.st.com>, <andi.shyti@kernel.org>,
-        <ulf.hansson@linaro.org>, <edumazet@google.com>, <kuba@kernel.org>,
-        <pabeni@redhat.com>, <hugues.fruchet@foss.st.com>, <lee@kernel.org>,
-        <will@kernel.org>, <catalin.marinas@arm.com>, <arnd@kernel.org>,
-        <richardcochran@gmail.com>, Frank Rowand <frowand.list@gmail.com>,
-        <peng.fan@oss.nxp.com>, <lars@metafoo.de>, <rcsekar@samsung.com>,
-        <wg@grandegger.com>, <mkl@pengutronix.de>
-CC: <linux-crypto@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <dmaengine@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>, <alsa-devel@alsa-project.org>,
-        <linux-media@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <linux-phy@lists.infradead.org>,
-        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>
-References: <20231211183044.808204-1-gatien.chevallier@foss.st.com>
-From: Gatien CHEVALLIER <gatien.chevallier@foss.st.com>
-In-Reply-To: <20231211183044.808204-1-gatien.chevallier@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-11_08,2023-12-07_01,2023-05-22_02
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izPry13h49v+PqrmWSREZKZjYpPesxUTyPQy7AGyFwzo4g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi,
+On 12/11/23 02:30, Mina Almasry wrote:
+> On Sat, Dec 9, 2023 at 7:05 PM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>
+>> On 12/8/23 23:25, Mina Almasry wrote:
+>>> On Fri, Dec 8, 2023 at 2:56 PM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>>>
+>>>> On 12/8/23 00:52, Mina Almasry wrote:
+>>> ...
+>>>>> +     if (pool->p.queue)
+>>>>> +             binding = READ_ONCE(pool->p.queue->binding);
+>>>>> +
+>>>>> +     if (binding) {
+>>>>> +             pool->mp_ops = &dmabuf_devmem_ops;
+>>>>> +             pool->mp_priv = binding;
+>>>>> +     }
+>>>>
+>>>> Hmm, I don't understand why would we replace a nice transparent
+>>>> api with page pool relying on a queue having devmem specific
+>>>> pointer? It seemed more flexible and cleaner in the last RFC.
+>>>>
+>>>
+>>> Jakub requested this change and may chime in, but I suspect it's to
+>>> further abstract the devmem changes from driver. In this iteration,
+>>> the driver grabs the netdev_rx_queue and passes it to the page_pool,
+>>> and any future configurations between the net stack and page_pool can
+>>> be passed this way with the driver unbothered.
+>>
+>> Ok, that makes sense, but even if passed via an rx queue I'd
+>> at least hope it keeping abstract provider parameters, e.g.
+>> ops, but not hard coded with devmem specific code.
+>>
+>> It might even be better done with a helper like
+>> create_page_pool_from_queue(), unless there is some deeper
+>> interaction b/w pp and rx queues is predicted.
+>>
+> 
+> Off hand I don't see the need for a new create_page_pool_from_queue().
+> page_pool_create() already takes in a param arg that lets us pass in
+> the queue as well as any other params.
+> 
+>>>>> +
+>>>>>         if (pool->mp_ops) {
+>>>>>                 err = pool->mp_ops->init(pool);
+>>>>>                 if (err) {
+>>>>> @@ -1020,3 +1033,77 @@ void page_pool_update_nid(struct page_pool *pool, int new_nid)
+>>>>>         }
+>>>>>     }
+>>>>>     EXPORT_SYMBOL(page_pool_update_nid);
+>>>>> +
+>>>>> +void __page_pool_iov_free(struct page_pool_iov *ppiov)
+>>>>> +{
+>>>>> +     if (WARN_ON(ppiov->pp->mp_ops != &dmabuf_devmem_ops))
+>>>>> +             return;
+>>>>> +
+>>>>> +     netdev_free_dmabuf(ppiov);
+>>>>> +}
+>>>>> +EXPORT_SYMBOL_GPL(__page_pool_iov_free);
+>>>>
+>>>> I didn't look too deep but I don't think I immediately follow
+>>>> the pp refcounting. It increments pages_state_hold_cnt on
+>>>> allocation, but IIUC doesn't mark skbs for recycle? Then, they all
+>>>> will be put down via page_pool_iov_put_many() bypassing
+>>>> page_pool_return_page() and friends. That will call
+>>>> netdev_free_dmabuf(), which doesn't bump pages_state_release_cnt.
+>>>>
+>>>> At least I couldn't make it work with io_uring, and for my purposes,
+>>>> I forced all puts to go through page_pool_return_page(), which calls
+>>>> the ->release_page callback. The callback will put the reference and
+>>>> ask its page pool to account release_cnt. It also gets rid of
+>>>> __page_pool_iov_free(), as we'd need to add a hook there for
+>>>> customization otherwise.
+>>>>
+>>>> I didn't care about overhead because the hot path for me is getting
+>>>> buffers from a ring, which is somewhat analogous to sock_devmem_dontneed(),
+>>>> but done on pp allocations under napi, and it's done separately.
+>>>>
+>>>> Completely untested with TCP devmem:
+>>>>
+>>>> https://github.com/isilence/linux/commit/14bd56605183dc80b540999e8058c79ac92ae2d8
+>>>>
+>>>
+>>> This was a mistake in the last RFC, which should be fixed in v1. In
+>>> the RFC I was not marking the skbs as skb_mark_for_recycle(), so the
+>>> unreffing path wasn't as expected.
+>>>
+>>> In this iteration, that should be completely fixed. I suspect since I
+>>> just posted this you're actually referring to the issue tested on the
+>>> last RFC? Correct me if wrong.
+>>
+>> Right, it was with RFCv3
+>>
+>>> In this iteration, the reffing story:
+>>>
+>>> - memory provider allocs ppiov and returns it to the page pool with
+>>> ppiov->refcount == 1.
+>>> - The page_pool gives the page to the driver. The driver may
+>>> obtain/release references with page_pool_page_[get|put]_many(), but
+>>> the driver is likely not doing that unless it's doing its own page
+>>> recycling.
+>>> - The net stack obtains references via skb_frag_ref() ->
+>>> page_pool_page_get_many()
+>>> - The net stack drops references via skb_frag_unref() ->
+>>> napi_pp_put_page() -> page_pool_return_page() and friends.
+>>>
+>>> Thus, the issue where the unref path was skipping
+>>> page_pool_return_page() and friends should be resolved in this
+>>> iteration, let me know if you think otherwise, but I think this was an
+>>> issue limited to the last RFC.
+>>
+>> Then page_pool_iov_put_many() should and supposedly would never be
+>> called by non devmap code because all puts must circle back into
+>> ->release_page. Why adding it to into page_pool_page_put_many()?
+>>
+>> @@ -731,6 +731,29 @@ __page_pool_put_page(struct page_pool *pool, struct page *page,
+>> +       if (page_is_page_pool_iov(page)) {
+>> ...
+>> +               page_pool_page_put_many(page, 1);
+>> +               return NULL;
+>> +       }
+>>
+>> Well, I'm looking at this new branch from Patch 10, it can put
+>> the buffer, but what if we race at it's actually the final put?
+>> Looks like nobody is going to to bump up pages_state_release_cnt
+>>
+> 
+> Good catch, I think indeed the release_cnt would be incorrect in this
+> case. I think the race is benign in the sense that the ppiov will be
+> freed correctly and available for allocation when the page_pool next
+> needs it; the issue is with the stats AFAICT.
 
-I messed up when squashing.
+hold_cnt + release_cnt serves is used for refcounting. In this case
+it'll leak the pool when you try to destroy it.
 
-I did not restore the ETZPC/RIFSC "simple-bus" compatible for stm32mp15
-and stm32mp25 SoC device trees.
 
-I apologize for this inconvenience and will resend the patchset with
-this compatible correctly restored.
+>> If you remove the branch, let it fall into ->release and rely
+>> on refcounting there, then the callback could also fix up
+>> release_cnt or ask pp to do it, like in the patch I linked above
+>>
+> 
+> Sadly I don't think this is possible due to the reasons I mention in
+> the commit message of that patch. Prematurely releasing ppiov and not
+> having them be candidates for recycling shows me a 4-5x degradation in
+> performance.
 
-Best regards,
-Gatien
+I don't think I follow. The concept is to only recycle a buffer (i.e.
+make it available for allocation) when its refs drop to zero, which is
+IMHO the only way it can work, and IIUC what this patchset is doing.
 
-On 12/11/23 19:30, Gatien Chevallier wrote:
-> Introduce STM32 Firewall framework for STM32MP1x and STM32MP2x
-> platforms. STM32MP1x(ETZPC) and STM32MP2x(RIFSC) Firewall controllers
-> register to the framework to offer firewall services such as access
-> granting.
-> 
-> This series of patches is a new approach on the previous STM32 system
-> bus, history is available here:
-> https://lore.kernel.org/lkml/20230127164040.1047583/
-> 
-> The need for such framework arises from the fact that there are now
-> multiple hardware firewalls implemented across multiple products.
-> Drivers are shared between different products, using the same code.
-> When it comes to firewalls, the purpose mostly stays the same: Protect
-> hardware resources. But the implementation differs, and there are
-> multiple types of firewalls: peripheral, memory, ...
-> 
-> Some hardware firewall controllers such as the RIFSC implemented on
-> STM32MP2x platforms may require to take ownership of a resource before
-> being able to use it, hence the requirement for firewall services to
-> take/release the ownership of such resources.
-> 
-> On the other hand, hardware firewall configurations are becoming
-> more and more complex. These mecanisms prevent platform crashes
-> or other firewall-related incoveniences by denying access to some
-> resources.
-> 
-> The stm32 firewall framework offers an API that is defined in
-> firewall controllers drivers to best fit the specificity of each
-> firewall.
-> 
-> For every peripherals protected by either the ETZPC or the RIFSC, the
-> firewall framework checks the firewall controlelr registers to see if
-> the peripheral's access is granted to the Linux kernel. If not, the
-> peripheral is configured as secure, the node is marked populated,
-> so that the driver is not probed for that device.
-> 
-> The firewall framework relies on the access-controller device tree
-> binding. It is used by peripherals to reference a domain access
-> controller. In this case a firewall controller. The bus uses the ID
-> referenced by the access-controller property to know where to look
-> in the firewall to get the security configuration for the peripheral.
-> This allows a device tree description rather than a hardcoded peripheral
-> table in the bus driver.
-> 
-> The STM32 ETZPC device is responsible for filtering accesses based on
-> security level, or co-processor isolation for any resource connected
-> to it.
-> 
-> The RIFSC is responsible for filtering accesses based on Compartment
-> ID / security level / privilege level for any resource connected to
-> it.
-> 
-> STM32MP13/15/25 SoC device tree files are updated in this series to
-> implement this mecanism.
-> 
-> Changes in V7:
-> 	- Separate indentation changes from access-controllers changes
-> 	  in the device tree file commits
-> 	- Select OF_DYNAMIC when STM32_FIREWALL is set in order to use
-> 	  of_detach_node() in the firewall framework
-> 	- Handle previously non-present RNG and HASH nodes in the
-> 	  STM32MP13 device tree file
-> 
-> Changes in V6:
-> 	- Rename access-controller to access-controllers
-> 	- Remove access-controller-provider
-> 	- Update device trees and other bindings accordingly
-> 	- Rework ETZPC/RIFSC bindings to define what access-controllers
-> 	  cells contain inside #access-controller-cells
-> 	- Some other minor fixes
-> 
-> Changes in V5:
-> 	- Integrate and rework the "feature-domains" binding patch in
-> 	  this patchset. The binding is renamed to "access-controller"
-> 	- Rename every feature-domain* reference to access-control*
-> 	  ones
-> 	- Correct loop bug and missing select STM32_FIREWALL in 32-bit
-> 	  platform Kconfig
-> 	
-> 
-> Changes in V4:
-> 	- Fix typo in commit message and YAML check errors in
-> 	  "dt-bindings: Document common device controller bindings"
-> 	  Note: This patch should be ignored as stated in the cover
-> 	  letter. I've done this to avoid errors on this series of
-> 	  patch
-> 	- Correct code syntax/style issues reported by Simon Horman
-> 	- Added Jonathan's tag for IIO on the treewide patch
-> 
-> Changes in V3:
-> 
-> 	Change incorrect ordering for bindings commits leading
-> 	to an error while running
-> 	"make DT_CHECKER_FLAGS=-m dt_binding_check"
-> 
-> Changes in V2:
-> 
-> 	generic:
-> 		- Add fw_devlink dependency for "feature-domains"
-> 		  property.
-> 
-> 	bindings:
-> 		- Corrected YAMLS errors highlighted by Rob's robot
-> 		- Firewall controllers YAMLs no longer define the
-> 		  maxItems for the "feature-domains" property
-> 		- Renamed st,stm32-rifsc.yaml to
-> 		  st,stm32mp25-rifsc.yaml
-> 		- Fix examples in YAML files
-> 		- Change feature-domains maxItems to 2 in firewall
-> 		  consumer files as there should not be more than
-> 		  2 entries for now
-> 		- Declare "feature-domain-names" as an optional
-> 		  property for firewall controllers child nodes.
-> 		- Add missing "feature-domains" property declaration
-> 		  in bosch,m_can.yaml and st,stm32-cryp.yaml files
-> 
-> 	firewall framework:
-> 		- Support multiple entries for "feature-domains"
-> 		  property
-> 		- Better handle the device-tree parsing using
-> 		  phandle+args APIs
-> 		- Remove "resource firewall" type
-> 		- Add a field for the name of the firewall entry
-> 		- Fix licenses
-> 	
-> 	RIFSC:
-> 		- Add controller name
-> 		- Driver is now a module_platform_driver
-> 		- Fix license
-> 
-> 	ETZPC:
-> 		- Add controller name
-> 		- Driver is now a module_platform_driver
-> 		- Fix license
-> 
-> 	Device trees:
-> 		- Fix rifsc node name
-> 		- Move the "ranges" property under the
-> 		  "feature-domains" one
-> 
-> Gatien Chevallier (12):
->    dt-bindings: treewide: add access-controllers description
->    dt-bindings: bus: document RIFSC
->    dt-bindings: bus: document ETZPC
->    firewall: introduce stm32_firewall framework
->    of: property: fw_devlink: Add support for "access-controller"
->    bus: rifsc: introduce RIFSC firewall controller driver
->    arm64: dts: st: add RIFSC as an access controller for STM32MP25x
->      boards
->    bus: etzpc: introduce ETZPC firewall controller driver
->    ARM: dts: stm32: add ETZPC as a system bus for STM32MP15x boards
->    ARM: dts: stm32: put ETZPC as an access controller for STM32MP15x
->      boards
->    ARM: dts: stm32: add ETZPC as a system bus for STM32MP13x boards
->    ARM: dts: stm32: put ETZPC as an access controller for STM32MP13x
->      boards
-> 
-> Oleksii Moisieiev (1):
->    dt-bindings: document generic access controllers
-> 
->   .../access-controllers.yaml                   |   84 +
->   .../bindings/bus/st,stm32-etzpc.yaml          |   87 +
->   .../bindings/bus/st,stm32mp25-rifsc.yaml      |   96 +
->   .../bindings/crypto/st,stm32-cryp.yaml        |    4 +
->   .../bindings/crypto/st,stm32-hash.yaml        |    4 +
->   .../devicetree/bindings/dma/st,stm32-dma.yaml |    4 +
->   .../bindings/dma/st,stm32-dmamux.yaml         |    4 +
->   .../devicetree/bindings/i2c/st,stm32-i2c.yaml |    4 +
->   .../bindings/iio/adc/st,stm32-adc.yaml        |    4 +
->   .../bindings/iio/adc/st,stm32-dfsdm-adc.yaml  |    4 +
->   .../bindings/iio/dac/st,stm32-dac.yaml        |    4 +
->   .../bindings/media/cec/st,stm32-cec.yaml      |    4 +
->   .../bindings/media/st,stm32-dcmi.yaml         |    4 +
->   .../memory-controllers/st,stm32-fmc2-ebi.yaml |    4 +
->   .../bindings/mfd/st,stm32-lptimer.yaml        |    4 +
->   .../bindings/mfd/st,stm32-timers.yaml         |    4 +
->   .../devicetree/bindings/mmc/arm,pl18x.yaml    |    4 +
->   .../bindings/net/can/bosch,m_can.yaml         |    4 +
->   .../devicetree/bindings/net/stm32-dwmac.yaml  |    4 +
->   .../bindings/phy/phy-stm32-usbphyc.yaml       |    4 +
->   .../bindings/regulator/st,stm32-vrefbuf.yaml  |    4 +
->   .../devicetree/bindings/rng/st,stm32-rng.yaml |    4 +
->   .../bindings/serial/st,stm32-uart.yaml        |    4 +
->   .../bindings/sound/st,stm32-i2s.yaml          |    4 +
->   .../bindings/sound/st,stm32-sai.yaml          |    4 +
->   .../bindings/sound/st,stm32-spdifrx.yaml      |    4 +
->   .../bindings/spi/st,stm32-qspi.yaml           |    4 +
->   .../devicetree/bindings/spi/st,stm32-spi.yaml |    4 +
->   .../devicetree/bindings/usb/dwc2.yaml         |    4 +
->   MAINTAINERS                                   |    7 +
->   arch/arm/boot/dts/st/stm32mp131.dtsi          | 1063 ++++---
->   arch/arm/boot/dts/st/stm32mp133.dtsi          |   51 +-
->   arch/arm/boot/dts/st/stm32mp13xc.dtsi         |   19 +-
->   arch/arm/boot/dts/st/stm32mp13xf.dtsi         |   19 +-
->   arch/arm/boot/dts/st/stm32mp151.dtsi          | 2756 +++++++++--------
->   arch/arm/boot/dts/st/stm32mp153.dtsi          |   52 +-
->   arch/arm/boot/dts/st/stm32mp15xc.dtsi         |   19 +-
->   arch/arm/mach-stm32/Kconfig                   |    1 +
->   arch/arm64/Kconfig.platforms                  |    1 +
->   arch/arm64/boot/dts/st/stm32mp251.dtsi        |    6 +-
->   drivers/bus/Kconfig                           |   10 +
->   drivers/bus/Makefile                          |    1 +
->   drivers/bus/stm32_etzpc.c                     |  141 +
->   drivers/bus/stm32_firewall.c                  |  294 ++
->   drivers/bus/stm32_firewall.h                  |   83 +
->   drivers/bus/stm32_rifsc.c                     |  252 ++
->   drivers/of/property.c                         |    2 +
->   include/linux/bus/stm32_firewall_device.h     |  141 +
->   48 files changed, 3351 insertions(+), 1938 deletions(-)
->   create mode 100644 Documentation/devicetree/bindings/access-controllers/access-controllers.yaml
->   create mode 100644 Documentation/devicetree/bindings/bus/st,stm32-etzpc.yaml
->   create mode 100644 Documentation/devicetree/bindings/bus/st,stm32mp25-rifsc.yaml
->   create mode 100644 drivers/bus/stm32_etzpc.c
->   create mode 100644 drivers/bus/stm32_firewall.c
->   create mode 100644 drivers/bus/stm32_firewall.h
->   create mode 100644 drivers/bus/stm32_rifsc.c
->   create mode 100644 include/linux/bus/stm32_firewall_device.h
-> 
+That's also I suggest to do, but through a slightly different path.
+Let's say at some moment there are 2 refs (e.g. 1 for an skb and
+1 for userspace/xarray).
+
+Say it first puts the skb:
+
+napi_pp_put_page()
+   -> page_pool_return_page()
+     -> mp_ops->release_page()
+        -> need_to_free = put_buf()
+           // not last ref, need_to_free==false,
+           // don't recycle, don't increase release_cnt
+
+Then you put the last ref:
+
+page_pool_iov_put_many()
+   -> page_pool_return_page()
+     -> mp_ops->release_page()
+        -> need_to_free = put_buf()
+           // last ref, need_to_free==true,
+           // recycle and release_cnt++
+
+And that last put can even be recycled right into the
+pp / ptr_ring, in which case it doesn't need to touch
+release_cnt. Does it make sense? I don't see where
+4-5x degradation would come from
+
+
+> What I could do here is detect that the refcount was dropped to 0 and
+> fix up the stats in that case.
+
+-- 
+Pavel Begunkov
 
