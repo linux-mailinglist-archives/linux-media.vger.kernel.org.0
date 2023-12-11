@@ -1,133 +1,126 @@
-Return-Path: <linux-media+bounces-2069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EF1880C25D
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 08:49:51 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 93F5780C2D1
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 09:12:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC02D1F20FB2
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 07:49:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4E3F9280D2C
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 08:12:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B22D20B02;
-	Mon, 11 Dec 2023 07:49:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DB7220B3F;
+	Mon, 11 Dec 2023 08:12:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="Mp5ZAgZF"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="IWzoCn5Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05654FD;
-	Sun, 10 Dec 2023 23:49:38 -0800 (PST)
+Received: from mail-ed1-x531.google.com (mail-ed1-x531.google.com [IPv6:2a00:1450:4864:20::531])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A800FF
+	for <linux-media@vger.kernel.org>; Mon, 11 Dec 2023 00:12:24 -0800 (PST)
+Received: by mail-ed1-x531.google.com with SMTP id 4fb4d7f45d1cf-550dd0e3304so2328939a12.1
+        for <linux-media@vger.kernel.org>; Mon, 11 Dec 2023 00:12:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1702280979; x=1733816979;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=nfzaV3vxtQAyCNR+jzMcM2jLOcbWTkwcukLDVw5CIyg=;
-  b=Mp5ZAgZFQ/8wEASqX3LMiyEOC3Cn7R+/943BHWWRZN2W8J7T6D1BGvy8
-   Ei0HULTG6vphONKW29Pqgs+1RIchC7Ojq4ETs91HELZdkr6trPKFf7Mm7
-   iPC1HiYUFzjdHElITLdVJu/v59fQMKhrYbWj1gX5EExo1UdVQRYWyMX2F
-   JthsrMjR24vsoKlEn5NdECC2Gs/PDeMjQm+ynScTevY/hIlAXKx2USTgF
-   WkS9gZuMnkKbY5kwxK5na41gAHF08VhDDPYiQeJawvW4a9DmmleZgwMY5
-   OSYLoX6lhXthmNZDGnSLHGA/lGQ+uY+hEneJQv+4XCk6M4FHYmoER1chM
-   w==;
-X-IronPort-AV: E=Sophos;i="6.04,267,1695679200"; 
-   d="scan'208";a="34423846"
-Received: from vtuxmail01.tq-net.de ([10.115.0.20])
-  by mx1.tq-group.com with ESMTP; 11 Dec 2023 08:49:36 +0100
-Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 88432280075;
-	Mon, 11 Dec 2023 08:49:36 +0100 (CET)
-From: Alexander Stein <alexander.stein@ew.tq-group.com>
-To: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, Paul Elder <paul.elder@ideasonboard.com>
-Cc: kieran.bingham@ideasonboard.com, tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com, aford173@gmail.com, Paul Elder <paul.elder@ideasonboard.com>
-Subject: Re: [PATCH v4 00/11] media: rkisp1: Add support for i.MX8MP
-Date: Mon, 11 Dec 2023 08:49:37 +0100
-Message-ID: <5998504.lOV4Wx5bFT@steina-w>
-Organization: TQ-Systems GmbH
-In-Reply-To: <5184188.e9J7NaK4W3@steina-w>
-References: <20231129092759.242641-1-paul.elder@ideasonboard.com> <5184188.e9J7NaK4W3@steina-w>
+        d=fairphone.com; s=fair; t=1702282342; x=1702887142; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=i2VetfWENefg3NNH186dWhmbJJvG28uTk+9EusPe8Vs=;
+        b=IWzoCn5QVb3w1w2lMSzZnMBn5t9TP5Aqik7RyQP14t/Wwf+c9Bs7mVgGR9UVhKFqLt
+         metGWAbyRoK0ZwDTWwypTUttdtS8dRgGc87bqYfqc3aGdvjOX2oa3Ue77XQS86kMhtg8
+         aX5OSVGUANn9JaA/rWKiLVAgTDPYTWzS1TwdLAM1f0LHMLioLoqeH+1NHJNno0IYKrzT
+         m8siL/3r6XHkbPwJIrJGB4oE6QgSyLFj48fVAtsNaVBehXRwbJQBw8uNJ+znoFVZLMGo
+         8OKVEHs4seK2wT7egtr2R+9qcgvNaWiv4eIEUQ2r/Ub2ThsxMDQ3t2ZWr4akCNGebAuv
+         DMuQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702282342; x=1702887142;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=i2VetfWENefg3NNH186dWhmbJJvG28uTk+9EusPe8Vs=;
+        b=RuuyfWkxA687ttyGtpaIyFrDs6/uVtDGuVSK8ygwOotVBOAaXHpA6bmTkVC99enNC9
+         63wc/Tt/b2qf1KX5V4OzKc++p6qnwPMA/Xnon1ZyQNaHfI8SMmyZ+HZKoNzNQ6HJEiQV
+         dW1zqDy16owTOHvcF56bnoXPO2KBDo30UD9N5I+apz4hY/Ix1+Z591k/iReGERy53sMr
+         Xxj5dh+nMMiJpJrz8kD4r6PcB4kKF9R0DdTeDHef4nhbAjEXFQhTlo96+2Uu8urxNHo8
+         MJNZvKIY197fk1Mqerf4v7C2Qu+2QydyqSATfnReya7VSkN0zoymFkC4/UD/lsBuaC7/
+         PtvQ==
+X-Gm-Message-State: AOJu0YxftqlkG1ly1GJUppLEMhfw22UPPvgRbDDTRIt+oBuxauzUMhXq
+	r+GyM/Ti2hWl5w3BQshNrFDfVQ==
+X-Google-Smtp-Source: AGHT+IG4I/qnppSWLttR4KLdZdwYth/8ysJQzdDaMQv6IkPfpXivrhMdOVuG36BLT3aWZ2Qa9tUkeA==
+X-Received: by 2002:a50:ab5a:0:b0:54c:4837:8b72 with SMTP id t26-20020a50ab5a000000b0054c48378b72mr2555831edc.64.1702282342593;
+        Mon, 11 Dec 2023 00:12:22 -0800 (PST)
+Received: from localhost (dhcp-089-099-055-216.chello.nl. [89.99.55.216])
+        by smtp.gmail.com with ESMTPSA id m27-20020a50d7db000000b0054c0264a7fasm3502968edj.64.2023.12.11.00.12.21
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 11 Dec 2023 00:12:22 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 11 Dec 2023 09:12:21 +0100
+Message-Id: <CXLCQ7VTPXN3.3SX0FHWBB1MQK@fairphone.com>
+Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: Re: [PATCH v3 1/3] media: venus: core: Set up secure memory ranges
+ for SC7280
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Luca Weiss" <luca.weiss@fairphone.com>, "Stanimir Varbanov"
+ <stanimir.k.varbanov@gmail.com>, "Vikash Garodia"
+ <quic_vgarodia@quicinc.com>, "Bryan O'Donoghue"
+ <bryan.odonoghue@linaro.org>, "Andy Gross" <agross@kernel.org>, "Bjorn
+ Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konrad.dybcio@linaro.org>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ <cros-qcom-dts-watchers@chromium.org>, "Rob Herring" <robh+dt@kernel.org>,
+ "Krzysztof Kozlowski" <krzysztof.kozlowski+dt@linaro.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+X-Mailer: aerc 0.15.2
+References: <20231201-sc7280-venus-pas-v3-0-bc132dc5fc30@fairphone.com>
+ <20231201-sc7280-venus-pas-v3-1-bc132dc5fc30@fairphone.com>
+In-Reply-To: <20231201-sc7280-venus-pas-v3-1-bc132dc5fc30@fairphone.com>
 
-Hi,
+On Fri Dec 1, 2023 at 10:33 AM CET, Luca Weiss wrote:
+> Not all SC7280 devices ship with ChromeOS firmware. Other devices need
+> PAS for image authentication. That requires the predefined virtual
+> address ranges to be passed via scm calls. Define them to enable Venus
+> on non-CrOS SC7280 devices.
+>
+> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+> ---
+>  drivers/media/platform/qcom/venus/core.c | 4 ++++
+>  1 file changed, 4 insertions(+)
 
-Am Mittwoch, 29. November 2023, 11:58:39 CET schrieb Alexander Stein:
-> Hi Paul,
->=20
-> thanks for the series.
->=20
-> Am Mittwoch, 29. November 2023, 10:27:48 CET schrieb Paul Elder:
-> > This series extends the rkisp1 driver to support the ISP found in the
-> > NXP i.MX8MP SoC.
-> >=20
-> > The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
-> > and in the NXP i.MX8MP have the same origin, and have slightly diverged
-> > over time as they are now independently developed (afaik) by Rockchip
-> > and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
-> > and is close enough to the RK3399 ISP that it can easily be supported by
-> > the same driver.
-> >=20
-> > The last two patches add support for UYVY output format, which can be
-> > implemented on the ISP version in the i.MX8MP but not in the one in the
-> > RK3399.
-> >=20
-> > This version of the series specifically has been tested on a Polyhex
-> > Debix model A with an imx219 (Raspberry Pi cam v2).
->=20
-> I've created a setup on TQMa8MPxL/MBa8MPxL and a Sony IMX327 sensor for a
-> while now. I can stream 1080p video at 45 FPS to HDMI output without any
-> special configuration.
+Hi Hans,
 
-Just for the records. the 45 FPS limit is introduced by (HDMI) output. Usin=
-g a=20
-gstreamer testsink "outpu", I can run at 60 FPS.
+Is there anything missing for this to be applied or could you pick this
+up for v6.8?
 
-Best regards,
-Alexander
+Regards
+Luca
 
-> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
->=20
-> > Laurent Pinchart (2):
-> >   media: rkisp1: Add and use rkisp1_has_feature() macro
-> >   media: rkisp1: Configure gasket on i.MX8MP
-> >=20
-> > Paul Elder (9):
-> >   media: rkisp1: Support setting memory stride for main path
-> >   media: rkisp1: Support devices lacking self path
-> >   media: rkisp1: Support devices lacking dual crop
-> >   media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
-> >   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
-> >   media: rkisp1: Add match data for i.MX8MP ISP
-> >   media: rkisp1: Shift DMA buffer addresses on i.MX8MP
-> >   media: rkisp1: Add YC swap capability
-> >   media: rkisp1: Add UYVY as an output format
-> > =20
-> >  .../bindings/media/rockchip-isp1.yaml         |  37 ++++-
-> >  .../platform/rockchip/rkisp1/rkisp1-capture.c | 128 ++++++++++++-----
-> >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  35 ++++-
-> >  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  66 +++++++--
-> >  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 131 +++++++++++++++++-
-> >  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  32 +++++
-> >  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  27 ++--
-> >  include/uapi/linux/rkisp1-config.h            |   2 +
-> >  8 files changed, 398 insertions(+), 60 deletions(-)
-
-
-=2D-=20
-TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
-Amtsgericht M=FCnchen, HRB 105018
-Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
-http://www.tq-group.com/
-
+>
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/pla=
+tform/qcom/venus/core.c
+> index 9cffe975581b..a712dd4f02a5 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -881,6 +881,10 @@ static const struct venus_resources sc7280_res =3D {
+>  	.vmem_size =3D 0,
+>  	.vmem_addr =3D 0,
+>  	.dma_mask =3D 0xe0000000 - 1,
+> +	.cp_start =3D 0,
+> +	.cp_size =3D 0x25800000,
+> +	.cp_nonpixel_start =3D 0x1000000,
+> +	.cp_nonpixel_size =3D 0x24800000,
+>  	.fwname =3D "qcom/vpu-2.0/venus.mbn",
+>  };
+> =20
 
 
