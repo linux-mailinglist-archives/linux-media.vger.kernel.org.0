@@ -1,262 +1,145 @@
-Return-Path: <linux-media+bounces-2086-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2085-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C983E80C927
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 13:12:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13C7380C888
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 12:54:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 48CB11F218B5
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 12:12:36 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9773C1F20F9E
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 11:54:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16F373A280;
-	Mon, 11 Dec 2023 12:12:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E2E938DF8;
+	Mon, 11 Dec 2023 11:53:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bxo5TExb"
 X-Original-To: linux-media@vger.kernel.org
-X-Greylist: delayed 1228 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 11 Dec 2023 04:12:16 PST
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E0B4F2;
-	Mon, 11 Dec 2023 04:12:16 -0800 (PST)
-Received: from mail.maildlp.com (unknown [172.19.163.17])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4Spg7z2kdDz1vnkK;
-	Mon, 11 Dec 2023 19:51:43 +0800 (CST)
-Received: from dggpemm500005.china.huawei.com (unknown [7.185.36.74])
-	by mail.maildlp.com (Postfix) with ESMTPS id 759501A016F;
-	Mon, 11 Dec 2023 19:51:46 +0800 (CST)
-Received: from [10.69.30.204] (10.69.30.204) by dggpemm500005.china.huawei.com
- (7.185.36.74) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.35; Mon, 11 Dec
- 2023 19:51:46 +0800
-Subject: Re: [net-next v1 09/16] page_pool: device memory support
-To: Mina Almasry <almasrymina@google.com>
-CC: Shailend Chand <shailend@google.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-arch@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<bpf@vger.kernel.org>, <linux-media@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst
-	<jeroendb@google.com>, Praveen Kaligineedi <pkaligineedi@google.com>, Jesper
- Dangaard Brouer <hawk@kernel.org>, Ilias Apalodimas
-	<ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, David Ahern
-	<dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
-	=?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>, Harshitha
- Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-10-almasrymina@google.com>
- <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
- <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
- <92e30bd9-6df4-b72f-7bcd-f4fe5670eba2@huawei.com>
- <CAHS8izPEFsqw50qgM+sPot6XVvOExpd+DrwrmPSR3zsWGLysRw@mail.gmail.com>
- <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
-From: Yunsheng Lin <linyunsheng@huawei.com>
-Message-ID: <59e07233-24cb-7fb2-1aee-e1cf7eb72fa9@huawei.com>
-Date: Mon, 11 Dec 2023 19:51:45 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:52.0) Gecko/20100101
- Thunderbird/52.2.0
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 901822577A;
+	Mon, 11 Dec 2023 11:53:53 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2B18C433C9;
+	Mon, 11 Dec 2023 11:53:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702295633;
+	bh=XqaBIsIYBpPvUIR1rV+AfgxddOYr7SxFjU5/iAVRPk8=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Bxo5TExbvAei4A2M+RDvbWPckfOImFAOUrf0pVz+bAsFYj5Xr6KU0+O9vfUkXnNEN
+	 F2In/DTm+6bLCNiQnLkVt5Du/rvcz1J8BbWuODbjhPbz6U9NMuhpwc49s+sCcogwgA
+	 dWvR2QlSSWGYbpJ2VgCifd70xwG+iwnVTk8c1KxOi4pd5+87gjFKMuiZvr5X7i4krF
+	 +ULFdTKLHVwtXkVuObTe2UlulxhlydEmFhpVNi7qZ06sCWY/4ryShzFeYBKDTpPtDb
+	 sYtwp1xbZSaKLzSnJ30dUhC1+r6yo4V3hZJVDbbF+aFsXBy5bZ+AEgBoX8cM762sJX
+	 BYbIebIeD4Gog==
+Date: Mon, 11 Dec 2023 12:53:43 +0100
+From: Mauro Carvalho Chehab <mchehab@kernel.org>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org, Akinobu Mita <akinobu.mita@gmail.com>, Andrzej
+ Hajda <andrzej.hajda@intel.com>, Daniel Scally <djrscally@gmail.com>, Hans
+ de Goede <hansg@kernel.org>, Jacopo Mondi <jacopo+renesas@jmondi.org>,
+ Jonathan Hunter <jonathanh@nvidia.com>, Kieran Bingham
+ <kieran.bingham+renesas@ideasonboard.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Leon Luo <leonl@leopardimaging.com>, Luca Ceresoli
+ <luca.ceresoli@bootlin.com>, Niklas =?UTF-8?B?U8O2ZGVybHVuZA==?=
+ <niklas.soderlund+renesas@ragnatech.se>, Paul Elder
+ <paul.elder@ideasonboard.com>, Pavel Machek <pavel@ucw.cz>, Philipp Zabel
+ <p.zabel@pengutronix.de>, Ricardo Ribalda <ribalda@kernel.org>, Rui Miguel
+ Silva <rmfrfs@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>, Steve Longerbeam
+ <slongerbeam@gmail.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v4 3/8] media: v4l2-subdev: Add which field to struct
+ v4l2_subdev_frame_interval
+Message-ID: <20231211125343.25e6e543@coco.lan>
+In-Reply-To: <2a656afd-0ea8-4db2-a7bf-68c3a0300988@xs4all.nl>
+References: <20231208181442.13356-1-laurent.pinchart@ideasonboard.com>
+	<20231208181648.13568-3-laurent.pinchart@ideasonboard.com>
+	<20231209065501.3e989d9a@coco.lan>
+	<20231209111153.GB13421@pendragon.ideasonboard.com>
+	<2a656afd-0ea8-4db2-a7bf-68c3a0300988@xs4all.nl>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemm500005.china.huawei.com (7.185.36.74)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On 2023/12/11 12:04, Mina Almasry wrote:
-> On Sun, Dec 10, 2023 at 6:26 PM Mina Almasry <almasrymina@google.com> wrote:
->>
->> On Sun, Dec 10, 2023 at 6:04 PM Yunsheng Lin <linyunsheng@huawei.com> wrote:
->>>
->>> On 2023/12/9 0:05, Mina Almasry wrote:
->>>> On Fri, Dec 8, 2023 at 1:30 AM Yunsheng Lin <linyunsheng@huawei.com> wrote:
->>>>>
->>>>>
->>>>> As mentioned before, it seems we need to have the above checking every
->>>>> time we need to do some per-page handling in page_pool core, is there
->>>>> a plan in your mind how to remove those kind of checking in the future?
->>>>>
->>>>
->>>> I see 2 ways to remove the checking, both infeasible:
->>>>
->>>> 1. Allocate a wrapper struct that pulls out all the fields the page pool needs:
->>>>
->>>> struct netmem {
->>>>         /* common fields */
->>>>         refcount_t refcount;
->>>>         bool is_pfmemalloc;
->>>>         int nid;
->>>>         ...
->>>>         union {
->>>>                 struct dmabuf_genpool_chunk_owner *owner;
->>>>                 struct page * page;
->>>>         };
->>>> };
->>>>
->>>> The page pool can then not care if the underlying memory is iov or
->>>> page. However this introduces significant memory bloat as this struct
->>>> needs to be allocated for each page or ppiov, which I imagine is not
->>>> acceptable for the upside of removing a few static_branch'd if
->>>> statements with no performance cost.
->>>>
->>>> 2. Create a unified struct for page and dmabuf memory, which the mm
->>>> folks have repeatedly nacked, and I imagine will repeatedly nack in
->>>> the future.
->>>>
->>>> So I imagine the special handling of ppiov in some form is critical
->>>> and the checking may not be removable.
->>>
->>> If the above is true, perhaps devmem is not really supposed to be intergated
->>> into page_pool.
->>>
->>> Adding a checking for every per-page handling in page_pool core is just too
->>> hacky to be really considerred a longterm solution.
->>>
->>
->> The only other option is to implement another page_pool for ppiov and
->> have the driver create page_pool or ppiov_pool depending on the state
->> of the netdev_rx_queue (or some helper in the net stack to do that for
->> the driver). This introduces some code duplication. The ppiov_pool &
->> page_pool would look similar in implementation.
+Em Mon, 11 Dec 2023 09:59:25 +0100
+Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
 
-I think there is a design pattern already to deal with this kind of problem,
-refactoring common code used by both page_pool and ppiov into a library to
-aovid code duplication if most of them have similar implementation.
+> On 09/12/2023 12:11, Laurent Pinchart wrote:
+> > On Sat, Dec 09, 2023 at 06:55:01AM +0100, Mauro Carvalho Chehab wrote:  
+> >> Em Fri,  8 Dec 2023 20:16:43 +0200
+> >> Laurent Pinchart <laurent.pinchart@ideasonboard.com> escreveu:
+> >>  
+> >>> Due to a historical mishap, the v4l2_subdev_frame_interval structure
+> >>> is the only part of the V4L2 subdev userspace API that doesn't contain a
+> >>> 'which' field. This prevents trying frame intervals using the subdev
+> >>> 'TRY' state mechanism.
+> >>>
+> >>> Adding a 'which' field is simple as the structure has 8 reserved fields.
+> >>> This would however break userspace as the field is currently set to 0,
+> >>> corresponding to V4L2_SUBDEV_FORMAT_TRY, while the corresponding ioctls
+> >>> currently operate on the 'ACTIVE' state. We thus need to add a new
+> >>> subdev client cap, V4L2_SUBDEV_CLIENT_CAP_WHICH_INTERVAL, to indicate
+> >>> that userspace is aware of this new field.
+> >>>
+> >>> All drivers that implement the subdev .get_frame_interval() and
+> >>> .set_frame_interval() operations are updated to return -EINVAL when
+> >>> operating on the TRY state, preserving the current behaviour.
+> >>>
+> >>> While at it, fix a bad copy&paste in the documentation of the struct
+> >>> v4l2_subdev_frame_interval_enum 'which' field.  
+> >>
+> >> The uAPI change looks ok to me. However, having to add an special
+> >> logic on every client using (get/set)_time_interval seems risky,
+> >> as it will require an extra check before accepting new subdev
+> >> drivers.
+> >>
+> >> Please move such check to drivers/media/v4l2-core/v4l2-subdev.c:
+> >>
+> >> 	if (fi->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> >> 		return -EINVAL;  
+> > 
+> > But then no new driver will be able to use this API. Look at patch 8/8
+> > in this series, the whole point of this exercise is to support
+> > V4L2_SUBDEV_FORMAT_TRY in drivers. The added checks in existing drivers
+> > is because they don't support V4L2_SUBDEV_FORMAT_TRY. Moving forward,
+> > the drivers that are still maintained should be converted eventually.
 
->>
->> But this was all discussed in detail in RFC v2 and the last response I
->> heard from Jesper was in favor if this approach, if I understand
->> correctly:
->>
->> https://lore.kernel.org/netdev/7aedc5d5-0daf-63be-21bc-3b724cc1cab9@redhat.com/
->>
->> Would love to have the maintainer weigh in here.
->>
+Then please add a FIXME note there warning that the logic there
+exists just because the driver doesn't yet support V4L2_SUBDEV_FORMAT_TRY.
+
+With that, feel free to add: 
+
+Reviewed-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+
+> > All new drivers should use the V4L2 subdev active state API and support
+> > V4L2_SUBDEV_FORMAT_TRY right away.  
+
+OK.
+
+> I agree with Laurent here. Note that the logic isn't 'special', it is standard
+> handling of the 'which' field. It was never there for g/s_frame_interval
+> because that was the only one that didn't have a 'which' field, but now that
+> it does, the drivers need to be adapted to handle this new field.
 > 
-> I should note we may be able to remove some of the checking, but maybe not all.
-> 
-> - Checks that disable page fragging for ppiov can be removed once
-> ppiov has frag support (in this series or follow up).
-> 
-> - If we use page->pp_frag_count (or page->pp_ref_count) for
-> refcounting ppiov, we can remove the if checking in the refcounting.
-> 
-> - We may be able to store the dma_addr of the ppiov in page->dma_addr,
-> but I'm unsure if that actually works, because the dma_buf dmaddr is
-> dma_addr_t (u32 or u64), but page->dma_addr is unsigned long (4 bytes
-> I think). But if it works for pages I may be able to make it work for
-> ppiov as well.
-> 
-> - Checks that obtain the page->pp can work with ppiov if we align the
-> offset of page->pp and ppiov->pp.
-> 
-> - Checks around page->pp_magic can be removed if we also have offset
-> aligned ppiov->pp_magic.
-> 
-> Sadly I don't see us removing the checking for these other cases:
-> 
-> - page_is_pfmemalloc(): I'm not allowed to pass a non-struct page into
-> that helper.
+> It shouldn't be hidden in some core code, that would only confuse matters.
 
-We can do similar trick like above as bit 1 of page->pp_magic is used to
-indicate that if it is a pfmemalloc page.
+If the idea is to move forward without implementing support for such
+features at the existing drivers, we should at least have something
+annotated at the drivers that this is something that will require
+further changes in the future to support the current behavior.
 
-> 
-> - page_to_nid(): I'm not allowed to pass a non-struct page into that helper.
+I also expect that the API compliance tool to produce warnings
+on drivers using the old behavior.
 
-Yes, this one need special case.
-
-> 
-> - page_pool_free_va(): ppiov have no va.
-
-Doesn't the skb_frags_readable() checking will protect the page_pool_free_va()
-from being called on devmem?
-
-> 
-> - page_pool_sync_for_dev/page_pool_dma_map: ppiov backed by dma-buf
-> fundamentally can't get mapped again.
-
-Can we just fail the page_pool creation with PP_FLAG_DMA_MAP and
-DMA_ATTR_SKIP_CPU_SYNC flags for devmem provider?
-
-> 
-> Are the removal (or future removal) of these checks enough to resolve this?
-
-Yes, that is somewhat similar to my proposal, the biggest objection seems to
-be that we need to have a safe type checking for it to work correctly.
-
-> 
->>> It is somewhat ironical that devmem is using static_branch to alliviate the
->>> performance impact for normal memory at the possible cost of performance
->>> degradation for devmem, does it not defeat some purpose of intergating devmem
->>> to page_pool?
->>>
->>
->> I don't see the issue. The static branch sets the non-ppiov path as
->> default if no memory providers are in use, and flips it when they are,
->> making the default branch prediction ideal in both cases.
-
-You are assuming the we are not using page pool for both normal memory and
-devmem at the same. But a generic solution should not have that assumption
-as my understanding.
-
->>
->>>>
->>>>> Even though a static_branch check is added in page_is_page_pool_iov(), it
->>>>> does not make much sense that a core has tow different 'struct' for its
->>>>> most basic data.
->>>>>
->>>>> IMHO, the ppiov for dmabuf is forced fitting into page_pool without much
->>>>> design consideration at this point.
->>>>>
->>>> ...
->>>>>
->>>>> For now, the above may work for the the rx part as it seems that you are
->>>>> only enabling rx for dmabuf for now.
->>>>>
->>>>> What is the plan to enable tx for dmabuf? If it is also intergrated into
->>>>> page_pool? There was a attempt to enable page_pool for tx, Eric seemed to
->>>>> have some comment about this:
->>>>> https://lkml.kernel.org/netdev/2cf4b672-d7dc-db3d-ce90-15b4e91c4005@huawei.com/T/#mb6ab62dc22f38ec621d516259c56dd66353e24a2
->>>>>
->>>>> If tx is not intergrated into page_pool, do we need to create a new layer for
->>>>> the tx dmabuf?
->>>>>
->>>>
->>>> I imagine the TX path will reuse page_pool_iov, page_pool_iov_*()
->>>> helpers, and page_pool_page_*() helpers, but will not need any core
->>>> page_pool changes. This is because the TX path will have to piggyback
->>>
->>> We may need another bit/flags checking to demux between page_pool owned
->>> devmem and non-page_pool owned devmem.
->>>
->>
->> The way I'm imagining the support, I don't see the need for such
->> flags. We'd be re-using generic helpers like
->> page_pool_iov_get_dma_address() and what not that don't need that
->> checking.
->>
->>> Also calling page_pool_*() on non-page_pool owned devmem is confusing
->>> enough that we may need a thin layer handling non-page_pool owned devmem
->>> in the end.
->>>
->>
->> The page_pool_page* & page_pool_iov* functions can be renamed if
->> confusing. I would think that's no issue (note that the page_pool_*
-
-When you rename those functions, you will have a thin layer automatically.
-
->> functions need not be called for TX path).
->>
->>>> on MSG_ZEROCOPY (devmem is not copyable), so no memory allocation from
->>>> the page_pool (or otherwise) is needed or possible. RFCv1 had a TX
->>>> implementation based on dmabuf pages without page_pool involvement, I
->>>> imagine I'll do something similar.
->>> It would be good to have a tx implementation for the next version, so
->>> that we can have a whole picture of devmem.
+Thanks,
+Mauro
 
