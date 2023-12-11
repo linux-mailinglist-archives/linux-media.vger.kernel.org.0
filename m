@@ -1,282 +1,133 @@
-Return-Path: <linux-media+bounces-2068-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2069-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F4B280C038
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 05:05:11 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF1880C25D
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 08:49:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 61BB01C20952
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 04:05:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BC02D1F20FB2
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 07:49:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F132318B01;
-	Mon, 11 Dec 2023 04:04:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B22D20B02;
+	Mon, 11 Dec 2023 07:49:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VaDRWRM1"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="Mp5ZAgZF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-xa2a.google.com (mail-vk1-xa2a.google.com [IPv6:2607:f8b0:4864:20::a2a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1618FF5
-	for <linux-media@vger.kernel.org>; Sun, 10 Dec 2023 20:04:50 -0800 (PST)
-Received: by mail-vk1-xa2a.google.com with SMTP id 71dfb90a1353d-4b2f3539089so2262441e0c.0
-        for <linux-media@vger.kernel.org>; Sun, 10 Dec 2023 20:04:50 -0800 (PST)
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05654FD;
+	Sun, 10 Dec 2023 23:49:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702267490; x=1702872290; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=VRqbtjk8rq4zydD2Xsjk5a3+pHw9ItIcSF2MB1yehQo=;
-        b=VaDRWRM1KRnktwFxZ92SGWHc1wbhGhcnjpbwvr7zS/PYf7hQmZDMYJBrBxhQ4eVjnA
-         Q+c2MzggIH/mQZjlACA44bUtyaF2Fd2UijObUiaGn0cfrabnnsoeH7776n8Xgitmi1yY
-         yjxFOAmF5tRy3PfE+F2GcW7IlBjeQdWuhMuwuIp3C33DpBBBGJiiYMoQ6zPce2JeeAaB
-         trzubaUeLVF7btf1C6JnWpEiFKOGS9XLFm+btbsaj6YpJ0LgWiubuabKMyNLHJXnPux4
-         vx0wSYQPT9j+ECQZ/fRwvyVnjJKc8Dhw82g/lYSA61ce8PUrx2nAlKy5Czg24W3W5u4b
-         GQpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702267490; x=1702872290;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=VRqbtjk8rq4zydD2Xsjk5a3+pHw9ItIcSF2MB1yehQo=;
-        b=i+wFSy1qUyT8XiFef7csJkau6IcvIY5NQXSxKVH320CcvapZ0KVLkylAXPRc3NoZda
-         WrOZwjFsZwAsMTf6dU7dhU9Qx8fOizV44IcC8wjYbmEJCKvIposdvQQpKG89zA64/phY
-         B7Zj0SFp4Dm7Jlx9r92vMkHSyaM5M5VD7OodonTxo3PmlvWH0ZzXLH6Y5N3ucfWn+j4e
-         H9J+oyaozchR6vurjUQCJ6Za5OuyjWm2JRpSLwlT3fIXyUCfmmbMwt+UWcxwdpIfYaiE
-         2UFMjxk7t9gBz/g08fzSOGPEzgrZSKfXiDCPk3tQSEv3vJLuDBP927FpIP/aKkB/YZSL
-         tQwA==
-X-Gm-Message-State: AOJu0YzqbxCNN0v9WJUlrOYqC7ZYo1vBdaeuqab+agPqSfonXc/TfDin
-	XWH8EbWFKtSduWxOu0+vrldDtgSHUkJOuMmP+bUKhQ==
-X-Google-Smtp-Source: AGHT+IGAfd74P9yx0nc2KiABSnElGYTnepENJsYtWliZ+g0y9LWw0IHdbTNPBs473It21Lgw8vWq6UsEAVUukNqm/hI=
-X-Received: by 2002:a05:6122:18aa:b0:496:80b6:2fd1 with SMTP id
- bi42-20020a05612218aa00b0049680b62fd1mr2519624vkb.5.1702267489809; Sun, 10
- Dec 2023 20:04:49 -0800 (PST)
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1702280979; x=1733816979;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=nfzaV3vxtQAyCNR+jzMcM2jLOcbWTkwcukLDVw5CIyg=;
+  b=Mp5ZAgZFQ/8wEASqX3LMiyEOC3Cn7R+/943BHWWRZN2W8J7T6D1BGvy8
+   Ei0HULTG6vphONKW29Pqgs+1RIchC7Ojq4ETs91HELZdkr6trPKFf7Mm7
+   iPC1HiYUFzjdHElITLdVJu/v59fQMKhrYbWj1gX5EExo1UdVQRYWyMX2F
+   JthsrMjR24vsoKlEn5NdECC2Gs/PDeMjQm+ynScTevY/hIlAXKx2USTgF
+   WkS9gZuMnkKbY5kwxK5na41gAHF08VhDDPYiQeJawvW4a9DmmleZgwMY5
+   OSYLoX6lhXthmNZDGnSLHGA/lGQ+uY+hEneJQv+4XCk6M4FHYmoER1chM
+   w==;
+X-IronPort-AV: E=Sophos;i="6.04,267,1695679200"; 
+   d="scan'208";a="34423846"
+Received: from vtuxmail01.tq-net.de ([10.115.0.20])
+  by mx1.tq-group.com with ESMTP; 11 Dec 2023 08:49:36 +0100
+Received: from steina-w.localnet (steina-w.tq-net.de [10.123.53.18])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by vtuxmail01.tq-net.de (Postfix) with ESMTPSA id 88432280075;
+	Mon, 11 Dec 2023 08:49:36 +0100 (CET)
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org, Paul Elder <paul.elder@ideasonboard.com>
+Cc: kieran.bingham@ideasonboard.com, tomi.valkeinen@ideasonboard.com, umang.jain@ideasonboard.com, aford173@gmail.com, Paul Elder <paul.elder@ideasonboard.com>
+Subject: Re: [PATCH v4 00/11] media: rkisp1: Add support for i.MX8MP
+Date: Mon, 11 Dec 2023 08:49:37 +0100
+Message-ID: <5998504.lOV4Wx5bFT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <5184188.e9J7NaK4W3@steina-w>
+References: <20231129092759.242641-1-paul.elder@ideasonboard.com> <5184188.e9J7NaK4W3@steina-w>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-10-almasrymina@google.com> <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
- <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
- <92e30bd9-6df4-b72f-7bcd-f4fe5670eba2@huawei.com> <CAHS8izPEFsqw50qgM+sPot6XVvOExpd+DrwrmPSR3zsWGLysRw@mail.gmail.com>
-In-Reply-To: <CAHS8izPEFsqw50qgM+sPot6XVvOExpd+DrwrmPSR3zsWGLysRw@mail.gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Sun, 10 Dec 2023 20:04:36 -0800
-Message-ID: <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
-Subject: Re: [net-next v1 09/16] page_pool: device memory support
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>
-Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 
-On Sun, Dec 10, 2023 at 6:26=E2=80=AFPM Mina Almasry <almasrymina@google.co=
-m> wrote:
->
-> On Sun, Dec 10, 2023 at 6:04=E2=80=AFPM Yunsheng Lin <linyunsheng@huawei.=
-com> wrote:
-> >
-> > On 2023/12/9 0:05, Mina Almasry wrote:
-> > > On Fri, Dec 8, 2023 at 1:30=E2=80=AFAM Yunsheng Lin <linyunsheng@huaw=
-ei.com> wrote:
-> > >>
-> > >>
-> > >> As mentioned before, it seems we need to have the above checking eve=
-ry
-> > >> time we need to do some per-page handling in page_pool core, is ther=
-e
-> > >> a plan in your mind how to remove those kind of checking in the futu=
-re?
-> > >>
-> > >
-> > > I see 2 ways to remove the checking, both infeasible:
-> > >
-> > > 1. Allocate a wrapper struct that pulls out all the fields the page p=
-ool needs:
-> > >
-> > > struct netmem {
-> > >         /* common fields */
-> > >         refcount_t refcount;
-> > >         bool is_pfmemalloc;
-> > >         int nid;
-> > >         ...
-> > >         union {
-> > >                 struct dmabuf_genpool_chunk_owner *owner;
-> > >                 struct page * page;
-> > >         };
-> > > };
-> > >
-> > > The page pool can then not care if the underlying memory is iov or
-> > > page. However this introduces significant memory bloat as this struct
-> > > needs to be allocated for each page or ppiov, which I imagine is not
-> > > acceptable for the upside of removing a few static_branch'd if
-> > > statements with no performance cost.
-> > >
-> > > 2. Create a unified struct for page and dmabuf memory, which the mm
-> > > folks have repeatedly nacked, and I imagine will repeatedly nack in
-> > > the future.
-> > >
-> > > So I imagine the special handling of ppiov in some form is critical
-> > > and the checking may not be removable.
-> >
-> > If the above is true, perhaps devmem is not really supposed to be inter=
-gated
-> > into page_pool.
-> >
-> > Adding a checking for every per-page handling in page_pool core is just=
- too
-> > hacky to be really considerred a longterm solution.
-> >
->
-> The only other option is to implement another page_pool for ppiov and
-> have the driver create page_pool or ppiov_pool depending on the state
-> of the netdev_rx_queue (or some helper in the net stack to do that for
-> the driver). This introduces some code duplication. The ppiov_pool &
-> page_pool would look similar in implementation.
->
-> But this was all discussed in detail in RFC v2 and the last response I
-> heard from Jesper was in favor if this approach, if I understand
-> correctly:
->
-> https://lore.kernel.org/netdev/7aedc5d5-0daf-63be-21bc-3b724cc1cab9@redha=
-t.com/
->
-> Would love to have the maintainer weigh in here.
->
+Hi,
 
-I should note we may be able to remove some of the checking, but maybe not =
-all.
+Am Mittwoch, 29. November 2023, 11:58:39 CET schrieb Alexander Stein:
+> Hi Paul,
+>=20
+> thanks for the series.
+>=20
+> Am Mittwoch, 29. November 2023, 10:27:48 CET schrieb Paul Elder:
+> > This series extends the rkisp1 driver to support the ISP found in the
+> > NXP i.MX8MP SoC.
+> >=20
+> > The ISP IP cores in the Rockchip RK3399 (known as the "Rockchip ISP1")
+> > and in the NXP i.MX8MP have the same origin, and have slightly diverged
+> > over time as they are now independently developed (afaik) by Rockchip
+> > and VeriSilicon. The latter is marketed under the name "ISP8000Nano",
+> > and is close enough to the RK3399 ISP that it can easily be supported by
+> > the same driver.
+> >=20
+> > The last two patches add support for UYVY output format, which can be
+> > implemented on the ISP version in the i.MX8MP but not in the one in the
+> > RK3399.
+> >=20
+> > This version of the series specifically has been tested on a Polyhex
+> > Debix model A with an imx219 (Raspberry Pi cam v2).
+>=20
+> I've created a setup on TQMa8MPxL/MBa8MPxL and a Sony IMX327 sensor for a
+> while now. I can stream 1080p video at 45 FPS to HDMI output without any
+> special configuration.
 
-- Checks that disable page fragging for ppiov can be removed once
-ppiov has frag support (in this series or follow up).
+Just for the records. the 45 FPS limit is introduced by (HDMI) output. Usin=
+g a=20
+gstreamer testsink "outpu", I can run at 60 FPS.
 
-- If we use page->pp_frag_count (or page->pp_ref_count) for
-refcounting ppiov, we can remove the if checking in the refcounting.
+Best regards,
+Alexander
 
-- We may be able to store the dma_addr of the ppiov in page->dma_addr,
-but I'm unsure if that actually works, because the dma_buf dmaddr is
-dma_addr_t (u32 or u64), but page->dma_addr is unsigned long (4 bytes
-I think). But if it works for pages I may be able to make it work for
-ppiov as well.
-
-- Checks that obtain the page->pp can work with ppiov if we align the
-offset of page->pp and ppiov->pp.
-
-- Checks around page->pp_magic can be removed if we also have offset
-aligned ppiov->pp_magic.
-
-Sadly I don't see us removing the checking for these other cases:
-
-- page_is_pfmemalloc(): I'm not allowed to pass a non-struct page into
-that helper.
-
-- page_to_nid(): I'm not allowed to pass a non-struct page into that helper=
-.
-
-- page_pool_free_va(): ppiov have no va.
-
-- page_pool_sync_for_dev/page_pool_dma_map: ppiov backed by dma-buf
-fundamentally can't get mapped again.
-
-Are the removal (or future removal) of these checks enough to resolve this?
-
-> > It is somewhat ironical that devmem is using static_branch to alliviate=
- the
-> > performance impact for normal memory at the possible cost of performanc=
-e
-> > degradation for devmem, does it not defeat some purpose of intergating =
-devmem
-> > to page_pool?
-> >
->
-> I don't see the issue. The static branch sets the non-ppiov path as
-> default if no memory providers are in use, and flips it when they are,
-> making the default branch prediction ideal in both cases.
->
-> > >
-> > >> Even though a static_branch check is added in page_is_page_pool_iov(=
-), it
-> > >> does not make much sense that a core has tow different 'struct' for =
-its
-> > >> most basic data.
-> > >>
-> > >> IMHO, the ppiov for dmabuf is forced fitting into page_pool without =
-much
-> > >> design consideration at this point.
-> > >>
-> > > ...
-> > >>
-> > >> For now, the above may work for the the rx part as it seems that you=
- are
-> > >> only enabling rx for dmabuf for now.
-> > >>
-> > >> What is the plan to enable tx for dmabuf? If it is also intergrated =
-into
-> > >> page_pool? There was a attempt to enable page_pool for tx, Eric seem=
-ed to
-> > >> have some comment about this:
-> > >> https://lkml.kernel.org/netdev/2cf4b672-d7dc-db3d-ce90-15b4e91c4005@=
-huawei.com/T/#mb6ab62dc22f38ec621d516259c56dd66353e24a2
-> > >>
-> > >> If tx is not intergrated into page_pool, do we need to create a new =
-layer for
-> > >> the tx dmabuf?
-> > >>
-> > >
-> > > I imagine the TX path will reuse page_pool_iov, page_pool_iov_*()
-> > > helpers, and page_pool_page_*() helpers, but will not need any core
-> > > page_pool changes. This is because the TX path will have to piggyback
-> >
-> > We may need another bit/flags checking to demux between page_pool owned
-> > devmem and non-page_pool owned devmem.
-> >
->
-> The way I'm imagining the support, I don't see the need for such
-> flags. We'd be re-using generic helpers like
-> page_pool_iov_get_dma_address() and what not that don't need that
-> checking.
->
-> > Also calling page_pool_*() on non-page_pool owned devmem is confusing
-> > enough that we may need a thin layer handling non-page_pool owned devme=
-m
-> > in the end.
-> >
->
-> The page_pool_page* & page_pool_iov* functions can be renamed if
-> confusing. I would think that's no issue (note that the page_pool_*
-> functions need not be called for TX path).
->
-> > > on MSG_ZEROCOPY (devmem is not copyable), so no memory allocation fro=
-m
-> > > the page_pool (or otherwise) is needed or possible. RFCv1 had a TX
-> > > implementation based on dmabuf pages without page_pool involvement, I
-> > > imagine I'll do something similar.
-> > It would be good to have a tx implementation for the next version, so
-> > that we can have a whole picture of devmem.
-> >
-> > >
->
->
->
-> --
-> Thanks,
-> Mina
+> Tested-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+>=20
+> > Laurent Pinchart (2):
+> >   media: rkisp1: Add and use rkisp1_has_feature() macro
+> >   media: rkisp1: Configure gasket on i.MX8MP
+> >=20
+> > Paul Elder (9):
+> >   media: rkisp1: Support setting memory stride for main path
+> >   media: rkisp1: Support devices lacking self path
+> >   media: rkisp1: Support devices lacking dual crop
+> >   media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
+> >   dt-bindings: media: rkisp1: Add i.MX8MP ISP to compatible
+> >   media: rkisp1: Add match data for i.MX8MP ISP
+> >   media: rkisp1: Shift DMA buffer addresses on i.MX8MP
+> >   media: rkisp1: Add YC swap capability
+> >   media: rkisp1: Add UYVY as an output format
+> > =20
+> >  .../bindings/media/rockchip-isp1.yaml         |  37 ++++-
+> >  .../platform/rockchip/rkisp1/rkisp1-capture.c | 128 ++++++++++++-----
+> >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  35 ++++-
+> >  .../platform/rockchip/rkisp1/rkisp1-dev.c     |  66 +++++++--
+> >  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 131 +++++++++++++++++-
+> >  .../platform/rockchip/rkisp1/rkisp1-regs.h    |  32 +++++
+> >  .../platform/rockchip/rkisp1/rkisp1-resizer.c |  27 ++--
+> >  include/uapi/linux/rkisp1-config.h            |   2 +
+> >  8 files changed, 398 insertions(+), 60 deletions(-)
 
 
+=2D-=20
+TQ-Systems GmbH | M=FChlstra=DFe 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht M=FCnchen, HRB 105018
+Gesch=E4ftsf=FChrer: Detlef Schneider, R=FCdiger Stahl, Stefan Schneider
+http://www.tq-group.com/
 
---
-Thanks,
-Mina
+
 
