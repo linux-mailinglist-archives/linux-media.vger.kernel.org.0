@@ -1,89 +1,97 @@
-Return-Path: <linux-media+bounces-2080-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2081-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B035880C4E6
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 10:40:40 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 031A580C4F8
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 10:43:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 66ADE1F212C2
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 09:40:40 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7C31CB20F6E
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 09:43:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A4BA2137E;
-	Mon, 11 Dec 2023 09:40:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9FB032137F;
+	Mon, 11 Dec 2023 09:43:35 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oi1-f199.google.com (mail-oi1-f199.google.com [209.85.167.199])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EF92911F
-	for <linux-media@vger.kernel.org>; Mon, 11 Dec 2023 01:40:29 -0800 (PST)
-Received: by mail-oi1-f199.google.com with SMTP id 5614622812f47-3b9f7c18b6eso3251973b6e.1
-        for <linux-media@vger.kernel.org>; Mon, 11 Dec 2023 01:40:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702287629; x=1702892429;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EccgEjMBjBE7B9EViuDmTEoQNXgOuKYiZh/NkWw0kGc=;
-        b=ph/1aYI+/tgeD8khYxkYsE5Z05dziRGWvjAXE3D1j+ucje958VYckohXvh6/efF9Lb
-         lJSgQWapNmVfIT1cAPXmwV4z76N22gZB9rDO9GPQhzY/N/CJbx4rRx2uTIwjD4MVADUc
-         fjjuTXW9siKxojH0P2A3EQeIc44QeuwpZK+Pg/bqexzYAcfrIO0gfHQg8PtP22MyNU8N
-         M9FICWZgONUD9IOGloeyX9pPTkNmAQiOdpmCTlwnX9j6VW1B5jaahfhOMZYBdtGbb3tN
-         D5XlK0Ve0YQX+p7+TY0tyFZR7WP/d8lAkU4PC33VBBEpuE+u8QSh74hpNqNZwDM+migO
-         Ticg==
-X-Gm-Message-State: AOJu0YwyW79g8BZJHxqH/AEefZ4WyVwFZrJnCXUi6hc1XTdBrTcdrEua
-	QNa8ZVxtX4iqC7zho9BKjoVU7KTDbYNHSGVlD8Wv5GCzWHAJ
-X-Google-Smtp-Source: AGHT+IHffK5n2s92gRhs0JP+0ab4wRrajmQFN/E2aXeMV6fDzb8JrKO0DWaM2Np7cM4pLMEy7CXSu/LYdIo/zhrSsgsrxW+LHc1E
+Received: from fd01.gateway.ufhost.com (fd01.gateway.ufhost.com [61.152.239.71])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 102ABD1;
+	Mon, 11 Dec 2023 01:43:32 -0800 (PST)
+Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
+	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
+	by fd01.gateway.ufhost.com (Postfix) with ESMTP id C4AA624DC33;
+	Mon, 11 Dec 2023 17:43:30 +0800 (CST)
+Received: from EXMBX062.cuchost.com (172.16.6.62) by EXMBX165.cuchost.com
+ (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 11 Dec
+ 2023 17:43:30 +0800
+Received: from ubuntu.localdomain (183.27.97.57) by EXMBX062.cuchost.com
+ (172.16.6.62) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Mon, 11 Dec
+ 2023 17:43:29 +0800
+From: Changhuang Liang <changhuang.liang@starfivetech.com>
+To: Maxime Ripard <mripard@kernel.org>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: Jack Zhu <jack.zhu@starfivetech.com>, Changhuang Liang
+	<changhuang.liang@starfivetech.com>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>
+Subject: [PATCH v1] media: cadence: csi2rx: Add enum_mbus_code pad ops
+Date: Mon, 11 Dec 2023 01:43:29 -0800
+Message-ID: <20231211094329.9090-1-changhuang.liang@starfivetech.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6808:1924:b0:3b9:e580:c219 with SMTP id
- bf36-20020a056808192400b003b9e580c219mr4362783oib.1.1702287629151; Mon, 11
- Dec 2023 01:40:29 -0800 (PST)
-Date: Mon, 11 Dec 2023 01:40:29 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <00000000000070f486060c38b945@google.com>
-Subject: [syzbot] Monthly media report (Dec 2023)
-From: syzbot <syzbot+lista3b35c7994edb57abf6b@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-ClientProxiedBy: EXCAS066.cuchost.com (172.16.6.26) To EXMBX062.cuchost.com
+ (172.16.6.62)
+X-YovoleRuleAgent: yovoleflag
+Content-Transfer-Encoding: quoted-printable
 
-Hello media maintainers/developers,
+Add enum_mbus_code ioctl so that user space can know what
+formats are supported to csi2rx.
 
-This is a 31-day syzbot report for the media subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/media
-
-During the period, 0 new issues were detected and 0 were fixed.
-In total, 14 issues are still open and 85 have been fixed so far.
-
-Some of the still happening issues:
-
-Ref Crashes Repro Title
-<1> 825     Yes   general protection fault in ir_raw_event_store_with_filter
-                  https://syzkaller.appspot.com/bug?extid=34008406ee9a31b13c73
-<2> 97      Yes   WARNING in media_create_pad_link
-                  https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
-<3> 83      Yes   WARNING in smsusb_start_streaming/usb_submit_urb
-                  https://syzkaller.appspot.com/bug?extid=12002a39b8c60510f8fb
-<4> 74      Yes   inconsistent lock state in sync_timeline_debug_remove
-                  https://syzkaller.appspot.com/bug?extid=7dcd254b8987a29f6450
-<5> 54      Yes   KASAN: use-after-free Read in send_packet
-                  https://syzkaller.appspot.com/bug?extid=f1a69784f6efe748c3bf
-
+Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
 ---
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
+ drivers/media/platform/cadence/cdns-csi2rx.c | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
+diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media=
+/platform/cadence/cdns-csi2rx.c
+index 889f4fbbafb3..7788ce0e3171 100644
+--- a/drivers/media/platform/cadence/cdns-csi2rx.c
++++ b/drivers/media/platform/cadence/cdns-csi2rx.c
+@@ -389,6 +389,18 @@ static int csi2rx_s_stream(struct v4l2_subdev *subde=
+v, int enable)
+ 	return ret;
+ }
+=20
++static int csi2rx_enum_mbus_code(struct v4l2_subdev *subdev,
++				 struct v4l2_subdev_state *state,
++				 struct v4l2_subdev_mbus_code_enum *code_enum)
++{
++	if (code_enum->index >=3D ARRAY_SIZE(formats))
++		return -EINVAL;
++
++	code_enum->code =3D formats[code_enum->index].code;
++
++	return 0;
++}
++
+ static int csi2rx_set_fmt(struct v4l2_subdev *subdev,
+ 			  struct v4l2_subdev_state *state,
+ 			  struct v4l2_subdev_format *format)
+@@ -439,6 +451,7 @@ static int csi2rx_init_cfg(struct v4l2_subdev *subdev=
+,
+ }
+=20
+ static const struct v4l2_subdev_pad_ops csi2rx_pad_ops =3D {
++	.enum_mbus_code	=3D csi2rx_enum_mbus_code,
+ 	.get_fmt	=3D v4l2_subdev_get_fmt,
+ 	.set_fmt	=3D csi2rx_set_fmt,
+ 	.init_cfg	=3D csi2rx_init_cfg,
+--=20
+2.25.1
 
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
 
