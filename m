@@ -1,44 +1,52 @@
-Return-Path: <linux-media+bounces-2114-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2115-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87BAD80D0F2
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 17:16:34 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 935E980D0F3
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 17:16:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 808E7B217D4
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 16:16:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C4D911C21581
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 16:16:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A97454CB24;
-	Mon, 11 Dec 2023 16:16:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA72C4C624;
+	Mon, 11 Dec 2023 16:16:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="IMWu9kbX"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PgGsrP7Z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84B0819E
-	for <linux-media@vger.kernel.org>; Mon, 11 Dec 2023 08:16:17 -0800 (PST)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B904A10A;
+	Mon, 11 Dec 2023 08:16:19 -0800 (PST)
 Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 86EBC922;
-	Mon, 11 Dec 2023 17:15:31 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 10EA9C58;
+	Mon, 11 Dec 2023 17:15:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702311331;
-	bh=mWciq+R5IHu2PY7EVyKNd1fkDxsULVmER0xPJc7jKiE=;
-	h=From:To:Cc:Subject:Date:From;
-	b=IMWu9kbXb8NiimKqgUxEF2EqRbl9yYgDYTGZ/jVWp4O1Sj66kUGghr7THngxVA9Dv
-	 GuMVqbw7JsfjPjajAG58e0ApcwN4N3Yvcv1KMGgaOmXMWnMTUBDyBwnLJ/29m9cdqs
-	 7m8h1uF+Knzra79PgMefx3sFihDz7JIkxJoiBXJ0=
+	s=mail; t=1702311332;
+	bh=rOpcjX3AkytQEmoVxgtaf0suJRVXCs4uEXxd2+tGuWU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=PgGsrP7ZTiZFcWODuJMPvo83CAvLvPXbFgcfiR2WEGpW7EOIUxMZGeE2peRPzUhec
+	 Y1azIQInY0Khazw+LQtBLsaO9suWqxlVM3QdpYgcw2XvM+eJu2Dxwaat0Wq4B78zqE
+	 GOmNR15Rc9FrXK9aC56SMPU21DyKMFLNeAgPcsz8=
 From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>
 Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	linux-media@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH v6 0/2] media: i2c: Add driver for OmniVision OV64A40
-Date: Mon, 11 Dec 2023 17:16:03 +0100
-Message-ID: <20231211161605.52601-1-jacopo.mondi@ideasonboard.com>
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	devicetree@vger.kernel.org,
+	Lee Jackson <lee.jackson@arducam.com>,
+	Conor Dooley <conor.dooley@microchip.com>
+Subject: [PATCH v6 1/2] media: dt-bindings: Add OmniVision OV64A40
+Date: Mon, 11 Dec 2023 17:16:04 +0100
+Message-ID: <20231211161605.52601-2-jacopo.mondi@ideasonboard.com>
 X-Mailer: git-send-email 2.41.0
+In-Reply-To: <20231211161605.52601-1-jacopo.mondi@ideasonboard.com>
+References: <20231211161605.52601-1-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -47,114 +55,128 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add a v4l2 sensor driver for OmniVision OV64A40
+Add bindings for OmniVision OV64A40.
 
------------------ V4L2 Compliance ---------------------------------------------
-./utils/v4l2-compliance/v4l2-compliance -d /dev/v4l-subdev0
-v4l2-compliance 1.25.0-5100, 32 bits, 32-bit time_t
-v4l2-compliance SHA: 8bf6cba8c0ef 2023-10-10 12:50:46
-Total for device /dev/v4l-subdev0: 44, Succeeded: 44, Failed: 0, Warnings: 0
+Co-developed-by: Lee Jackson <lee.jackson@arducam.com>
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Acked-by: Conor Dooley <conor.dooley@microchip.com>
 
------------------ Build scripts -----------------------------------------------
-date:                   Wed Dec  6 14:52:17 CET 2023
-media-tree git repo:    git://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git
-media-tree git branch:  jmondi/ov64a40/mainline-v5
-media-tree git hash:    e7196a51fae1cbf69ca9891711019ddc20ed0a8a
-v4l-utils git hash:     4a6a3725dd192759c2998311b00440b84c60df57
-edid-decode git hash:   5f723267e04deb3aa9610483514a02bcee10d9c2
-gcc version:            i686-linux-gcc (GCC) 13.1.0
-ccache version:         ccache version 4.7.5
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:         v0.5.0-8526-gd4827317
-sparse version:         v0.5.0-8526-gd4827317
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 745fc7cf5ba1a1a841374c61e8470852232584c1
-host hardware:          x86_64
-host os:                6.1.0-10-amd64
-
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm.config: OK
-no-pm-sleep.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: WARNINGS:
-
-drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/i2c/ov64a40.c:3562 ov64a40_probe() warn: passing zero to 'PTR_ERR'
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-spec-git: OK
-kerneldoc: OK
--------------------------------------------------------------------------------
-
-The smatch() warning reported here above:
-drivers/media/i2c/ov64a40.c:3562 ov64a40_probe() warn: passing zero to 'PTR_ERR'
-has been fixed.
-
+---
 v5->v6:
-- Defined analogue_crop width and height as proper width/heights and subtract 1
-  when writing X_END/Y_END to registers
-- Make the DTS property link-frequencies required in bindings
+- Make link-frequencies mandatory as requested by Sakari
+---
 
-v4->v5:
-* Fix review comments received on RPi pull request (thanks Dave for review)
-  https://github.com/raspberrypi/linux/pull/5708
-* Handle runtime_pm in s_ctrl like it's done in CCS
-* Add support for test patterns
-* Add 8000x6000 mode
-* Use decimal numbers in modes definitions
-
-v3->v4:
-* Fix a few additional warnings reported by kernel test robot (which arrived a
-  few minutes after sending v3 out :(
-
-v2->v3:
-* Restore max size of 9248x6944
-* Select V4L2_CCI_I2C in Kconfig
-* Fix unused variable warning
-* Fix a few minor checkpatch warnings
-
-v1->v2:
-* rebased on sailus master
-  * Use new subdev state helpers
-* link frequency support (456MHz, 360MHz)
-* invert vflip bit setting
-* remove 1280x720 mode as it was broken
-* expanded VTS range to 24 bits
-* Reduce max resolution output to 9152x6944. Using full output resolution causes
-  green frames to be produced by the ISP (the raw frames are however correct)
-* reduce max analogue gain to 16x
-
-
-*** BLURB HERE ***
-
-Jacopo Mondi (2):
-  media: dt-bindings: Add OmniVision OV64A40
-  media: i2c: Add driver for OmniVision OV64A40
-
- .../bindings/media/i2c/ovti,ov64a40.yaml      |  101 +
- MAINTAINERS                                   |    8 +
- drivers/media/i2c/Kconfig                     |   11 +
- drivers/media/i2c/Makefile                    |    1 +
- drivers/media/i2c/ov64a40.c                   | 3686 +++++++++++++++++
- 5 files changed, 3807 insertions(+)
+ .../bindings/media/i2c/ovti,ov64a40.yaml      | 101 ++++++++++++++++++
+ 1 file changed, 101 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
- create mode 100644 drivers/media/i2c/ov64a40.c
 
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
+new file mode 100644
+index 000000000000..659c41a2ce7c
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
+@@ -0,0 +1,101 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/ovti,ov64a40.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: OmniVision OV64A40 Image Sensor
++
++maintainers:
++  - Jacopo Mondi <jacopo.mondi@ideasonboard.com>
++
++allOf:
++  - $ref: /schemas/media/video-interface-devices.yaml#
++
++properties:
++  compatible:
++    const: ovti,ov64a40
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    maxItems: 1
++
++  avdd-supply:
++    description: Analog voltage supply, 2.8 volts
++
++  dvdd-supply:
++    description: Digital core voltage supply, 1.1 volts
++
++  dovdd-supply:
++    description: Digital I/O voltage supply, 1.8 volts
++
++  powerdown-gpios:
++    maxItems: 1
++
++  reset-gpios:
++    maxItems: 1
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        additionalProperties: false
++
++        properties:
++          bus-type:
++            enum:
++              - 1 # MIPI CSI-2 C-PHY
++              - 4 # MIPI CSI-2 D-PHY
++          data-lanes: true
++          link-frequencies: true
++          clock-noncontinuous: true
++          remote-endpoint: true
++
++        required:
++          - link-frequencies
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++      #include <dt-bindings/gpio/gpio.h>
++
++      i2c {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          camera@36 {
++              compatible = "ovti,ov64a40";
++              reg = <0x36>;
++              clocks = <&camera_clk>;
++              dovdd-supply = <&vgen4_reg>;
++              avdd-supply = <&vgen3_reg>;
++              dvdd-supply = <&vgen2_reg>;
++              powerdown-gpios = <&gpio1 9 GPIO_ACTIVE_HIGH>;
++              reset-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
++              rotation = <180>;
++              orientation = <2>;
++
++              port {
++                  endpoint {
++                      remote-endpoint = <&mipi_csi2_in>;
++                      bus-type = <4>;
++                      data-lanes = <1 2 3 4>;
++                      link-frequencies = /bits/ 64 <456000000>;
++                  };
++              };
++          };
++      };
++
++...
 --
 2.41.0
 
