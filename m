@@ -1,109 +1,351 @@
-Return-Path: <linux-media+bounces-2142-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2143-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDBFE80D505
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 19:11:57 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id F325B80D510
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 19:14:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9829728189C
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 18:11:56 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DCA41F21A49
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 18:14:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E73604F5FB;
-	Mon, 11 Dec 2023 18:11:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 32D4651019;
+	Mon, 11 Dec 2023 18:14:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="isKlb227"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2ZR9oew+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A43FC95;
-	Mon, 11 Dec 2023 10:11:48 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2964AC58;
-	Mon, 11 Dec 2023 19:11:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702318263;
-	bh=iyuo6d2Ac26yQfhw96gW7KS6Y5R6Sy0Mk/XyqYwpjkY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=isKlb227rd7Xhnd9dr7S8UmV4whYM5BqcCv/PCHFyaDRkrqKy+Ob4kMKQpbbvmNjE
-	 JBWxpq4lwWnb3XKmRXgfbMKtCRTv3Jpa8Z1Cbvv7GVls4MoI37YYHf30/6dA+Ayoge
-	 vGMeZHdX/yL0KrCUzRqbKOqonhToUNMiGA0B4yI0=
-Date: Mon, 11 Dec 2023 20:11:54 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Tommaso Merciai <tommaso.merciai@amarulasolutions.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 06/19] media: i2c: ov4689: Set gain in one 16 bit write
-Message-ID: <20231211181154.GE27535@pendragon.ideasonboard.com>
-References: <20231211175023.1680247-1-mike.rudenko@gmail.com>
- <20231211175023.1680247-7-mike.rudenko@gmail.com>
+Received: from mail-oi1-x22b.google.com (mail-oi1-x22b.google.com [IPv6:2607:f8b0:4864:20::22b])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40DC7C7
+	for <linux-media@vger.kernel.org>; Mon, 11 Dec 2023 10:14:17 -0800 (PST)
+Received: by mail-oi1-x22b.google.com with SMTP id 5614622812f47-3b9d23c8bf7so3036574b6e.0
+        for <linux-media@vger.kernel.org>; Mon, 11 Dec 2023 10:14:17 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702318456; x=1702923256; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zbiqO7RxhSXNHZRSCjwyZy4HmqVXPvY1sANPCgpMBIA=;
+        b=2ZR9oew+tVsgkdbtVJPAIjNlqjQeakbUN08vwSybi21pD7JMCR0VjzZNIAL4Ql+O9C
+         7+xRmtnoHMGO7vGqublUTMIoEUpQyMp5C/Q15mq28NKrqJo84IPm+I27gcHRRz1QvPk9
+         3Bt0ieiBUMQ0b50x1yG5uZKdQu7gk0sJiVHr4pFlWY1CWFkqiCt1k94Yr+K2ec94ewBv
+         sGZGHVvgxwJoJpWq6xDMFSAIbxsm7+NGgyHh/5zNQOFLdwzCn7Q68XHR3R3Iw0Y85XfS
+         0z1l8SQXvz9P1h9Rve0ew1xgE2nb8v3ipP5ZhXKhMFwu497xQ+GX8qKpLGznUFXJdDtR
+         VuLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702318456; x=1702923256;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zbiqO7RxhSXNHZRSCjwyZy4HmqVXPvY1sANPCgpMBIA=;
+        b=V6A+awvzzTCzuIxeyvHIokNVu7QoVtH1jHiSUxnZXetUw8rE9NqHxTWHuiCuSHjkmP
+         I5RftnZ+SX3e2O+kXOMJI3ezn7HemWlqjkhSQ6r4a5hXO7W482mtS3EaJQ1eu26lsb1a
+         gMZ0wbVxIuRVO9cjju3MA9dqvSHlcUeMHnvElhH4OsTl0kGa6JziIif6AKdcEt9td+w4
+         WAy8tiObTUC5a7KhO+EVc0OHs0jnvUeWlP2BqxAgGzePnj4IQA6/pLptTgthYB94/UXV
+         5mZaPUhClU1rsYammk7Lh1sUlIHnyU0lCD2GGGUk1CPUZkB0Kw4hWA3geIDh/UI2LFMQ
+         4UTw==
+X-Gm-Message-State: AOJu0YzL2P1KW7ziUFybMXFjwnOCfeBdO/RkkV5ZPY+7WAlZR0IUv/C6
+	EmEK1X/VL5Z0zKxMudO8HUWaHzfmN18YJVaH7IoV5A==
+X-Google-Smtp-Source: AGHT+IE8095BrfyI+kTIXDm8hNguhYybzjvVGensk2JElZVZdZ4bLJQ+s/d+dDYVGThzdPiv+aq1lB4rQf1PXQGNIdE=
+X-Received: by 2002:a05:6830:164a:b0:6d9:d902:44f0 with SMTP id
+ h10-20020a056830164a00b006d9d90244f0mr4280561otr.50.1702318456301; Mon, 11
+ Dec 2023 10:14:16 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231211175023.1680247-7-mike.rudenko@gmail.com>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-10-almasrymina@google.com> <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
+ <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
+ <92e30bd9-6df4-b72f-7bcd-f4fe5670eba2@huawei.com> <CAHS8izPEFsqw50qgM+sPot6XVvOExpd+DrwrmPSR3zsWGLysRw@mail.gmail.com>
+ <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com> <59e07233-24cb-7fb2-1aee-e1cf7eb72fa9@huawei.com>
+In-Reply-To: <59e07233-24cb-7fb2-1aee-e1cf7eb72fa9@huawei.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Mon, 11 Dec 2023 10:14:05 -0800
+Message-ID: <CAHS8izMdpo0D7GYzMkOtg1ueCODAVNxtwSP_qPseSYXNMhPGCw@mail.gmail.com>
+Subject: Re: [net-next v1 09/16] page_pool: device memory support
+To: Yunsheng Lin <linyunsheng@huawei.com>
+Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Dec 11, 2023 at 08:50:09PM +0300, Mikhail Rudenko wrote:
-> According to the datasheet, bits 0-7 of the AEC LONG GAIN
-> register (0x3508) map to bits 8-15 of the gain value and no masking is
-> required. Thus set analogue gain in a single 16-bit write instead of
-> two 8-bit writes.
-> 
-> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+On Mon, Dec 11, 2023 at 3:51=E2=80=AFAM Yunsheng Lin <linyunsheng@huawei.co=
+m> wrote:
+>
+> On 2023/12/11 12:04, Mina Almasry wrote:
+> > On Sun, Dec 10, 2023 at 6:26=E2=80=AFPM Mina Almasry <almasrymina@googl=
+e.com> wrote:
+> >>
+> >> On Sun, Dec 10, 2023 at 6:04=E2=80=AFPM Yunsheng Lin <linyunsheng@huaw=
+ei.com> wrote:
+> >>>
+> >>> On 2023/12/9 0:05, Mina Almasry wrote:
+> >>>> On Fri, Dec 8, 2023 at 1:30=E2=80=AFAM Yunsheng Lin <linyunsheng@hua=
+wei.com> wrote:
+> >>>>>
+> >>>>>
+> >>>>> As mentioned before, it seems we need to have the above checking ev=
+ery
+> >>>>> time we need to do some per-page handling in page_pool core, is the=
+re
+> >>>>> a plan in your mind how to remove those kind of checking in the fut=
+ure?
+> >>>>>
+> >>>>
+> >>>> I see 2 ways to remove the checking, both infeasible:
+> >>>>
+> >>>> 1. Allocate a wrapper struct that pulls out all the fields the page =
+pool needs:
+> >>>>
+> >>>> struct netmem {
+> >>>>         /* common fields */
+> >>>>         refcount_t refcount;
+> >>>>         bool is_pfmemalloc;
+> >>>>         int nid;
+> >>>>         ...
+> >>>>         union {
+> >>>>                 struct dmabuf_genpool_chunk_owner *owner;
+> >>>>                 struct page * page;
+> >>>>         };
+> >>>> };
+> >>>>
+> >>>> The page pool can then not care if the underlying memory is iov or
+> >>>> page. However this introduces significant memory bloat as this struc=
+t
+> >>>> needs to be allocated for each page or ppiov, which I imagine is not
+> >>>> acceptable for the upside of removing a few static_branch'd if
+> >>>> statements with no performance cost.
+> >>>>
+> >>>> 2. Create a unified struct for page and dmabuf memory, which the mm
+> >>>> folks have repeatedly nacked, and I imagine will repeatedly nack in
+> >>>> the future.
+> >>>>
+> >>>> So I imagine the special handling of ppiov in some form is critical
+> >>>> and the checking may not be removable.
+> >>>
+> >>> If the above is true, perhaps devmem is not really supposed to be int=
+ergated
+> >>> into page_pool.
+> >>>
+> >>> Adding a checking for every per-page handling in page_pool core is ju=
+st too
+> >>> hacky to be really considerred a longterm solution.
+> >>>
+> >>
+> >> The only other option is to implement another page_pool for ppiov and
+> >> have the driver create page_pool or ppiov_pool depending on the state
+> >> of the netdev_rx_queue (or some helper in the net stack to do that for
+> >> the driver). This introduces some code duplication. The ppiov_pool &
+> >> page_pool would look similar in implementation.
+>
+> I think there is a design pattern already to deal with this kind of probl=
+em,
+> refactoring common code used by both page_pool and ppiov into a library t=
+o
+> aovid code duplication if most of them have similar implementation.
+>
 
-You could squash it with patch 03/19.
+Code can be refactored if it's identical, not if it is similar. I
+suspect the page_pools will be only similar, and if you're not willing
+to take devmem handling into the page pool then refactoring page_pool
+code into helpers that do devmem handling may also not be an option.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> >>
+> >> But this was all discussed in detail in RFC v2 and the last response I
+> >> heard from Jesper was in favor if this approach, if I understand
+> >> correctly:
+> >>
+> >> https://lore.kernel.org/netdev/7aedc5d5-0daf-63be-21bc-3b724cc1cab9@re=
+dhat.com/
+> >>
+> >> Would love to have the maintainer weigh in here.
+> >>
+> >
+> > I should note we may be able to remove some of the checking, but maybe =
+not all.
+> >
+> > - Checks that disable page fragging for ppiov can be removed once
+> > ppiov has frag support (in this series or follow up).
+> >
+> > - If we use page->pp_frag_count (or page->pp_ref_count) for
+> > refcounting ppiov, we can remove the if checking in the refcounting.
+> >
 
-> ---
->  drivers/media/i2c/ov4689.c | 15 ++-------------
->  1 file changed, 2 insertions(+), 13 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
-> index 42700ecfbe0e..5392f650960c 100644
-> --- a/drivers/media/i2c/ov4689.c
-> +++ b/drivers/media/i2c/ov4689.c
-> @@ -32,11 +32,7 @@
->  #define OV4689_EXPOSURE_STEP		1
->  #define OV4689_VTS_MAX			0x7fff
->  
-> -#define OV4689_REG_GAIN_H		CCI_REG8(0x3508)
-> -#define OV4689_REG_GAIN_L		CCI_REG8(0x3509)
-> -#define OV4689_GAIN_H_MASK		0x07
-> -#define OV4689_GAIN_H_SHIFT		8
-> -#define OV4689_GAIN_L_MASK		0xff
-> +#define OV4689_REG_GAIN			CCI_REG16(0x3508)
->  #define OV4689_GAIN_STEP		1
->  #define OV4689_GAIN_DEFAULT		0x80
->  
-> @@ -613,14 +609,7 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
->  		break;
->  	case V4L2_CID_ANALOGUE_GAIN:
->  		ret = ov4689_map_gain(ov4689, val, &sensor_gain);
-> -
-> -		cci_write(regmap, OV4689_REG_GAIN_H,
-> -			  (sensor_gain >> OV4689_GAIN_H_SHIFT) &
-> -			  OV4689_GAIN_H_MASK, &ret);
-> -
-> -		cci_write(regmap, OV4689_REG_GAIN_L,
-> -			  sensor_gain & OV4689_GAIN_L_MASK,
-> -			  &ret);
-> +		cci_write(regmap, OV4689_REG_GAIN, sensor_gain, &ret);
->  		break;
->  	case V4L2_CID_VBLANK:
->  		cci_write(regmap, OV4689_REG_VTS,
+I'm not sure this is actually possible in the short term. The
+page_pool uses both page->_refcount and page->pp_frag_count for
+refcounting, and I will not be able to remove the special handling
+around page->_refcount as i'm not allowed to call page_ref_*() APIs on
+a non-struct page.
 
--- 
-Regards,
+> > - We may be able to store the dma_addr of the ppiov in page->dma_addr,
+> > but I'm unsure if that actually works, because the dma_buf dmaddr is
+> > dma_addr_t (u32 or u64), but page->dma_addr is unsigned long (4 bytes
+> > I think). But if it works for pages I may be able to make it work for
+> > ppiov as well.
+> >
+> > - Checks that obtain the page->pp can work with ppiov if we align the
+> > offset of page->pp and ppiov->pp.
+> >
+> > - Checks around page->pp_magic can be removed if we also have offset
+> > aligned ppiov->pp_magic.
+> >
+> > Sadly I don't see us removing the checking for these other cases:
+> >
+> > - page_is_pfmemalloc(): I'm not allowed to pass a non-struct page into
+> > that helper.
+>
+> We can do similar trick like above as bit 1 of page->pp_magic is used to
+> indicate that if it is a pfmemalloc page.
+>
 
-Laurent Pinchart
+Likely yes.
+
+> >
+> > - page_to_nid(): I'm not allowed to pass a non-struct page into that he=
+lper.
+>
+> Yes, this one need special case.
+>
+> >
+> > - page_pool_free_va(): ppiov have no va.
+>
+> Doesn't the skb_frags_readable() checking will protect the page_pool_free=
+_va()
+> from being called on devmem?
+>
+
+This function seems to be only called from veth which doesn't support
+devmem. I can remove the handling there.
+
+> >
+> > - page_pool_sync_for_dev/page_pool_dma_map: ppiov backed by dma-buf
+> > fundamentally can't get mapped again.
+>
+> Can we just fail the page_pool creation with PP_FLAG_DMA_MAP and
+> DMA_ATTR_SKIP_CPU_SYNC flags for devmem provider?
+>
+
+Jakub says PP_FLAG_DMA_MAP must be enabled for devmem, such that the
+page_pool handles the dma mapping of the devmem and the driver doesn't
+use it on its own.
+
+We may fail creating the page pool on  PP_FLAG_DMA_SYNC_DEV maybe, and
+remove the checking from page_pool_sync_for_dev(), I think.
+
+> >
+> > Are the removal (or future removal) of these checks enough to resolve t=
+his?
+>
+> Yes, that is somewhat similar to my proposal, the biggest objection seems=
+ to
+> be that we need to have a safe type checking for it to work correctly.
+>
+> >
+> >>> It is somewhat ironical that devmem is using static_branch to allivia=
+te the
+> >>> performance impact for normal memory at the possible cost of performa=
+nce
+> >>> degradation for devmem, does it not defeat some purpose of intergatin=
+g devmem
+> >>> to page_pool?
+> >>>
+> >>
+> >> I don't see the issue. The static branch sets the non-ppiov path as
+> >> default if no memory providers are in use, and flips it when they are,
+> >> making the default branch prediction ideal in both cases.
+>
+> You are assuming the we are not using page pool for both normal memory an=
+d
+> devmem at the same. But a generic solution should not have that assumptio=
+n
+> as my understanding.
+>
+> >>
+> >>>>
+> >>>>> Even though a static_branch check is added in page_is_page_pool_iov=
+(), it
+> >>>>> does not make much sense that a core has tow different 'struct' for=
+ its
+> >>>>> most basic data.
+> >>>>>
+> >>>>> IMHO, the ppiov for dmabuf is forced fitting into page_pool without=
+ much
+> >>>>> design consideration at this point.
+> >>>>>
+> >>>> ...
+> >>>>>
+> >>>>> For now, the above may work for the the rx part as it seems that yo=
+u are
+> >>>>> only enabling rx for dmabuf for now.
+> >>>>>
+> >>>>> What is the plan to enable tx for dmabuf? If it is also intergrated=
+ into
+> >>>>> page_pool? There was a attempt to enable page_pool for tx, Eric see=
+med to
+> >>>>> have some comment about this:
+> >>>>> https://lkml.kernel.org/netdev/2cf4b672-d7dc-db3d-ce90-15b4e91c4005=
+@huawei.com/T/#mb6ab62dc22f38ec621d516259c56dd66353e24a2
+> >>>>>
+> >>>>> If tx is not intergrated into page_pool, do we need to create a new=
+ layer for
+> >>>>> the tx dmabuf?
+> >>>>>
+> >>>>
+> >>>> I imagine the TX path will reuse page_pool_iov, page_pool_iov_*()
+> >>>> helpers, and page_pool_page_*() helpers, but will not need any core
+> >>>> page_pool changes. This is because the TX path will have to piggybac=
+k
+> >>>
+> >>> We may need another bit/flags checking to demux between page_pool own=
+ed
+> >>> devmem and non-page_pool owned devmem.
+> >>>
+> >>
+> >> The way I'm imagining the support, I don't see the need for such
+> >> flags. We'd be re-using generic helpers like
+> >> page_pool_iov_get_dma_address() and what not that don't need that
+> >> checking.
+> >>
+> >>> Also calling page_pool_*() on non-page_pool owned devmem is confusing
+> >>> enough that we may need a thin layer handling non-page_pool owned dev=
+mem
+> >>> in the end.
+> >>>
+> >>
+> >> The page_pool_page* & page_pool_iov* functions can be renamed if
+> >> confusing. I would think that's no issue (note that the page_pool_*
+>
+> When you rename those functions, you will have a thin layer automatically=
+.
+>
+> >> functions need not be called for TX path).
+> >>
+> >>>> on MSG_ZEROCOPY (devmem is not copyable), so no memory allocation fr=
+om
+> >>>> the page_pool (or otherwise) is needed or possible. RFCv1 had a TX
+> >>>> implementation based on dmabuf pages without page_pool involvement, =
+I
+> >>>> imagine I'll do something similar.
+> >>> It would be good to have a tx implementation for the next version, so
+> >>> that we can have a whole picture of devmem.
+
+
+
+--=20
+Thanks,
+Mina
 
