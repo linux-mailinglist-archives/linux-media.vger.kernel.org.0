@@ -1,203 +1,123 @@
-Return-Path: <linux-media+bounces-2082-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2083-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B29EC80C61A
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 11:11:38 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 577F980C6F6
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 11:46:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66FE7280721
-	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 10:11:37 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 87CB21C209A0
+	for <lists+linux-media@lfdr.de>; Mon, 11 Dec 2023 10:46:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F6AA249EE;
-	Mon, 11 Dec 2023 10:11:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1F2525752;
+	Mon, 11 Dec 2023 10:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OcAZUhr1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B804B224C0;
-	Mon, 11 Dec 2023 10:11:02 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04C8DC433C8;
-	Mon, 11 Dec 2023 10:11:00 +0000 (UTC)
-Message-ID: <45fbd63f-068a-433d-9950-e6c645a6068b@xs4all.nl>
-Date: Mon, 11 Dec 2023 11:10:58 +0100
+Received: from mail-ed1-x52d.google.com (mail-ed1-x52d.google.com [IPv6:2a00:1450:4864:20::52d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0DC2FCF;
+	Mon, 11 Dec 2023 02:45:51 -0800 (PST)
+Received: by mail-ed1-x52d.google.com with SMTP id 4fb4d7f45d1cf-54d0ae6cf20so6028131a12.0;
+        Mon, 11 Dec 2023 02:45:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702291549; x=1702896349; darn=vger.kernel.org;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v1N2/J6JuqJLhRuV4xjOtAP39+2raieKGXxMe/+IOvM=;
+        b=OcAZUhr1jVaK5oqiULRZaTRKlM8LNN4quKAIaKRdhOPprZBp43Lh67it/Djp5d/LfD
+         OH7VzOcXmbswULIxj3GIwC9LA0szwe+xe6GDOldZNkU5yFIIZI/eLWl45tbd3/D4udYs
+         Ghp+HZtCWGE137mbR2kP9A8Ga8O1D3k+8x7yR94OE2dev+Z42PlcYzMix2x1HWaF5mnM
+         dVqq/AxQdzkh32WnInLLYaaijwo1RXitC4SOqEvC7PFhQ9ELJHWWgPfLnDStiQe9c5Om
+         Hi1AGefiGrd0HGwFkXEesf8a2E2i2PIiLk0gnvDkmkNg8JE2va7WehwJB+H0KVsPFQlJ
+         3upg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702291549; x=1702896349;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=v1N2/J6JuqJLhRuV4xjOtAP39+2raieKGXxMe/+IOvM=;
+        b=fIc/Ez8F3XiKiTY54RSAPYsqN8e9uoALcdWCKakl67yENHNCT94zjpUvbKfvRYN65F
+         bOkzMrHvpErm6Y2iFY2+OhnZTQVHW0VPUihreax+INy8P9iPtsnB2iLl/CNjh6ESl5It
+         BPyWeVPKXk3gBdQyeNajyTremCA/DMylr0lcDkMUILWSxwDccu0Ukai3Jnc8HX6ZfeAx
+         BweuMSewhyycg4mJRPX5HwNzq3iYcFJx5qhkjfrWsLAzMOUN6ccm1bFgwEVl92CQSlad
+         GMi+ZJEKpPLqF73TLSzZRZpTYvDuhkW9oPPiyZC8amzy+pz33Y+InAYjKcS51EAusbsp
+         RiXA==
+X-Gm-Message-State: AOJu0Yw2/zPEWcMC0VuYOp002LVSGfD0+dyCiqLD0ADDrOmtZ6P9t/oc
+	lEwnq9uBbQ6t5HTexPmrbf0=
+X-Google-Smtp-Source: AGHT+IGAcrvccN5W82VKMxYQhM31//DyH+tulrFa7mhx1Ada8kbo3zayltrYfBMK8JlyxsnWMhxZSQ==
+X-Received: by 2002:a50:8d18:0:b0:54c:8f76:cdb9 with SMTP id s24-20020a508d18000000b0054c8f76cdb9mr2717863eds.32.1702291549278;
+        Mon, 11 Dec 2023 02:45:49 -0800 (PST)
+Received: from orome.fritz.box (p200300e41f0fa600f22f74fffe1f3a53.dip0.t-ipconnect.de. [2003:e4:1f0f:a600:f22f:74ff:fe1f:3a53])
+        by smtp.gmail.com with ESMTPSA id 27-20020a50875b000000b0054cac2a0715sm3634695edv.93.2023.12.11.02.45.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 11 Dec 2023 02:45:48 -0800 (PST)
+Date: Mon, 11 Dec 2023 11:45:47 +0100
+From: Thierry Reding <thierry.reding@gmail.com>
+To: Sean Young <sean@mess.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 4/4] media: pwm-ir-tx: Trigger edges from hrtimer
+ interrupt context
+Message-ID: <ZXboW5ufZ4v4uoXh@orome.fritz.box>
+References: <cover.1702282806.git.sean@mess.org>
+ <b3c2f84c54219234eec96f165cd0bf1147a7ee80.1702282807.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] videobuf2: Add min_reqbufs_allocation field to
- vb2_queue structure
-Content-Language: en-US, nl
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
- tfiga@chromium.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20231208103908.85874-1-benjamin.gaignard@collabora.com>
- <20231208103908.85874-3-benjamin.gaignard@collabora.com>
-From: Hans Verkuil <hverkuil@xs4all.nl>
-Autocrypt: addr=hverkuil@xs4all.nl; keydata=
- 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
-In-Reply-To: <20231208103908.85874-3-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="wnx2BPmIukpQ7gdk"
+Content-Disposition: inline
+In-Reply-To: <b3c2f84c54219234eec96f165cd0bf1147a7ee80.1702282807.git.sean@mess.org>
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-Hi Benjamin,
 
-On 08/12/2023 11:39, Benjamin Gaignard wrote:
-> Add 'min_reqbufs_allocation' field in vb2_queue structure so drivers
-> can specificy the minimum number of buffers to allocate when calling
-> VIDIOC_REQBUFS.
-> If used this minimum should be higher than the minimum number of
-> queued buffers needed to start streaming.
-> 
-> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+--wnx2BPmIukpQ7gdk
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Dec 11, 2023 at 08:24:55AM +0000, Sean Young wrote:
+> This makes the generated IR much more precise. Before this change, the
+> driver is unreliable and many users opted to use gpio-ir-tx instead.
+>=20
+> Signed-off-by: Sean Young <sean@mess.org>
 > ---
->  drivers/media/common/videobuf2/videobuf2-core.c | 1 +
->  include/media/videobuf2-core.h                  | 6 ++++++
->  2 files changed, 7 insertions(+)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 7b6d89641e66..3bc30d107308 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -866,6 +866,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->  	 * Make sure the requested values and current defaults are sane.
->  	 */
->  	num_buffers = max_t(unsigned int, *count, q->min_queued_buffers);
+>  drivers/media/rc/pwm-ir-tx.c | 79 ++++++++++++++++++++++++++++++++++--
+>  1 file changed, 76 insertions(+), 3 deletions(-)
 
-This should be changed to 'q->min_queued_buffers + 1'.
+Hi Mauro,
 
-Without the '+ 1' you wouldn't have a buffer available to return to userspace.
+are you okay with me picking this up into the PWM tree?
 
-> +	num_buffers = max_t(unsigned int, num_buffers, q->min_reqbufs_allocation);
->  	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
->  	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
->  	/*
+Thanks,
+Thierry
 
-I'm missing a WARN_ON in vb2_core_queue_init verifying that min_reqbufs_allocation
-<= max_num_buffers. Also, min_reqbufs_allocation must be > min_queued_buffers + 1.
+--wnx2BPmIukpQ7gdk
+Content-Type: application/pgp-signature; name="signature.asc"
 
-I also think it might be a good idea to add this to vb2_core_queue_init():
+-----BEGIN PGP SIGNATURE-----
 
-	if (!q->min_reqbufs_allocation)
-		q->min_reqbufs_allocation = q->min_queued_buffers + 1;
+iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAmV26FsACgkQ3SOs138+
+s6Gviw//S5072+tyJHmRBfl7AN5P4HsSoGIPclGlqO+yRuXSqPz0/wLI3qOaqfMf
+3WJkt03MRP15oHf7N126YyvtKbc6bRo4KN+DJdtxK/VBKdfy0HxopCpz++16OEjU
+4xNCN1iC27hQKHKVzccgQSKgMePa/Hk5smL9/J9Oq4BuFpJis3KSjShF8QmaJZyu
+muDAcEmjD+DVcWPKw4SrKMVDEPuMzMn5DSzcI30giO1B84conBlO2Jm4l4tLMdKE
+Br/0cnDZ2z2y9+sIqZmDj0BT3sQQYl5zcJPahN4+cUhwjsx08ZLHghN6pJ/n5FCf
+aBzGEk2tOku/OTpozz1W7zXHMd1AsBj5V2elY1a8MtbQ4ICVr9Rcu10KOMDsOjgu
+kD5qvPx54tuqLt/sj6Ii2bFj2qCG8AdWzO/JjtKS5GBN3A1ZC/Bq3vqEf3KQ8xoY
+je+QzRcfa9/5ZKpUpDt+YQ2HFBrT1aZj4GQpIoDLtjtSJ3w5RE9zeiq7nb3TDcds
+7qjn4LrtI4Ehtt6qn+I6ClYwu5zJPPgmqiW+lKlb0bOzVq9QK6H9fUkNQ5s37u5+
+qjqBCeaYxNp9DqekP078AhNKV04VLqsQwdI+nYLqoPdsASE1+yNLo5SdwmsUbXNO
+d/COSj9apojs5kXbdGa5umOQXZ93y9EapKRX17zQgu6ddT9bUpo=
+=+Xoo
+-----END PGP SIGNATURE-----
 
-Now we can just use q->min_reqbufs_allocation everywhere in vb2. And with
-that change you can probably simplify the code, e.g. there is no more need
-to check q->min_queued_buffers + 1 in the code above.
-
-> diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
-> index 6d11cb724e95..252d34cc47d3 100644
-> --- a/include/media/videobuf2-core.h
-> +++ b/include/media/videobuf2-core.h
-> @@ -550,6 +550,11 @@ struct vb2_buf_ops {
->   *		@start_streaming can be called. Used when a DMA engine
->   *		cannot be started unless at least this number of buffers
->   *		have been queued into the driver.
-
-This needs to be expanded:
-
- *		VIDIOC_REQBUFS will ensure at least @min_queued_buffers + 1
- *		buffers will be allocated. Note that VIDIOC_CREATE_BUFS will not
- *		modify the requested buffer count.
-
-> + * @min_reqbufs_allocation: the minimum number of buffers allocated when
-> + *		calling VIDIOC_REQBUFS. Used when drivers need a to
-> + *		specify a minimum buffers allocation before setup a queue.
-> + *		If min_queued_buffers < min_queued_buffers then min_queued_buffers
-> + *		is the minimum.
-
-I'd rephrase this:
-
- * @min_reqbufs_allocation: the minimum number of buffers to be allocated when
- *		calling VIDIOC_REQBUFS. Drivers can set this if there has to
- *		be a certain number of buffers available for the hardware to
- *		work effectively. If set, then @min_reqbufs_allocation must be
- *		larger than @min_queued_buffers + 1.
- *
- *		This field is only used by VIDIOC_REQBUFS. This allows calling
- *		that ioctl with a buffer count of 1 and it will be automatically
- *		adjusted to a workable buffer count. VIDIOC_CREATE_BUFS will not
- *		modify the requested buffer count.
- *
- *		If this field is > 3, then it is highly recommended that the
- *		driver implements the V4L2_CID_MIN_BUFFERS_FOR_CAPTURE/OUTPUT
- *		control.
-
-Feel free to modify these texts, they are just suggestions.
-
->   */
->  /*
->   * Private elements (won't appear at the uAPI book):
-> @@ -615,6 +620,7 @@ struct vb2_queue {
->  	u32				timestamp_flags;
->  	gfp_t				gfp_flags;
->  	u32				min_queued_buffers;
-> +	u32				min_reqbufs_allocation;
->  
->  	struct device			*alloc_devs[VB2_MAX_PLANES];
->  
-
-Looking through videobuf2-core.c I see one more min_queued_buffers-related issue:
-
-In vb2_core_reqbufs() there is this code:
-
-        if (allocated_buffers < q->min_buffers_needed)
-                ret = -ENOMEM;
-
-That should be '< q->min_reqbufs_allocation'.
-
-Finally, add a patch updating the test-drivers as per "[PATCH v2 17/36] media:
-test-drivers: Fix misuse of min_buffers_needed field" + my reply to that.
-
-At least the test drivers should use these fields correctly.
-
-Regards,
-
-	Hans
+--wnx2BPmIukpQ7gdk--
 
