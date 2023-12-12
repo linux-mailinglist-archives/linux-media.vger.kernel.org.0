@@ -1,57 +1,57 @@
-Return-Path: <linux-media+bounces-2239-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2242-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AAFE80EC92
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:52:40 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E72BE80ED0D
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 14:16:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 557DD281433
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:52:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9D0B4281581
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:16:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68DE360ECF;
-	Tue, 12 Dec 2023 12:52:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03E4A6167F;
+	Tue, 12 Dec 2023 13:16:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="N9mw2gbx"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BUZ3zaUu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-x12e.google.com (mail-lf1-x12e.google.com [IPv6:2a00:1450:4864:20::12e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AE95C94;
-	Tue, 12 Dec 2023 04:52:31 -0800 (PST)
-Received: by mail-lf1-x12e.google.com with SMTP id 2adb3069b0e04-50bffb64178so6647586e87.2;
-        Tue, 12 Dec 2023 04:52:31 -0800 (PST)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7EBD106;
+	Tue, 12 Dec 2023 05:16:00 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50c02628291so5951822e87.0;
+        Tue, 12 Dec 2023 05:16:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702385550; x=1702990350; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1702386959; x=1702991759; darn=vger.kernel.org;
         h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
          :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=EZImJ5NJjRfBoNfU+X+bVEpeupm2kDE/0IXPJJmjz3c=;
-        b=N9mw2gbxXxWjuCRnGGUsgkNLZB/0jnnAPNwRSsq1NXPD8MrDnof1Vcqbll0CxTQJA8
-         XMqqMVnazbvwkdlymNgK23ZckTAGl50IqdCrLtZOJ/NcA9aCzhyjL+VOfEdWeWEbjzHL
-         Ou8Zm6C5brl0IkMcOW77mDLvI6L2BmA3ZeiKoPwDXIPTXLzlHtihK/ODG6RrUvyBFT8M
-         yOt2O4Qww6MpxPTyIRKmQgwldCiwhMI9qogOi3+wHt9uHQl4IJfCmXpLo3WgXij2cYqO
-         GtrnhwcsRv3h3TxZR8fTjF7ADXvVLhS6Jj3UUVDsIHHPuUHd6XPo5O87BhftbWhovzgM
-         rgoA==
+        bh=5SExUZ1QCBZQ3tm36o/3GyTyzDGvf+wP6hTem1Psbdw=;
+        b=BUZ3zaUuVmM07v1oTE3ic1bmo9k62PPO4GygWUJ/HfM9oDhdL2uhldlR6soEpnzJHi
+         uJWj5FWfBbENLUxuR4hvk7t3dsmwHSF2RL69iClVXgMCeS49M5sj0FZYc0rrNQsN3AQa
+         SOMRtfIVs1KmeMsASsnjbkFGg/t2LAGmcTInZfgs+OYNY4AXyOQKUciz1X8xkR0P58S+
+         TI3mAOoDk8LzOmZjlQDh5CpBKazQlM07sNCkw29wFckjqsqs5A8eueq6tsM9680SKGaZ
+         8nJ7MClveVo7AUL95/jfH30r/QqX+xBb/jlgZf6qD1eIbDbr7iXPyB+1gmAUIp5y4oly
+         kUbg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702385550; x=1702990350;
+        d=1e100.net; s=20230601; t=1702386959; x=1702991759;
         h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
          :user-agent:references:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=EZImJ5NJjRfBoNfU+X+bVEpeupm2kDE/0IXPJJmjz3c=;
-        b=CUq8Iwbp7dydFUO7iv5KM4HcPiXEnxjnLZg+DRLdyIM2V2wloqwwWqtQ2MnJB2fZWM
-         8fTPLAjeRfHGURv9IdbvVI0FVGjhtxZa+cegSPzRm/rLrOVNPKFwaKJti4uN7wlbJ941
-         Ucg7smR8HuptGMJn8q+dPHyOb4uZ1ouuaSmq56A/JcjuzNIjEk3giC0B1/FjE1VbT1Uv
-         8Kv6Z91JD49tE4zZkuN+RS6/Kd5zpTrAUU33MU9GIZn4NfNa3Gcm4PzxW/pzONPj+FUn
-         4clp2WV4oOwZdqq+c1DL7vYmWojGJ1TNKf4Hy2k3x3+CSpUV4N/Vm5xmKrb6WiXG6aKa
-         1LMQ==
-X-Gm-Message-State: AOJu0YwvLguQkqHDtVwIxawi6d0nYXY0LVZmlVu27F8gs9MdMT7qitI3
-	qnARL1wj3nd1YVHZMHezL04=
-X-Google-Smtp-Source: AGHT+IFCcR6UrSYRiNaX3Ndo3RD/i0D1UnymgBq7Oh+uDdut1aKCcOfzD5joe1ohLEtN8k7sqNWDvQ==
-X-Received: by 2002:a05:6512:1089:b0:50d:1a0e:b0e4 with SMTP id j9-20020a056512108900b0050d1a0eb0e4mr3515376lfg.28.1702385549759;
-        Tue, 12 Dec 2023 04:52:29 -0800 (PST)
+        bh=5SExUZ1QCBZQ3tm36o/3GyTyzDGvf+wP6hTem1Psbdw=;
+        b=Wxp+/8rejg8Jkbcwfv/Xq2JWCU2hSq2/+6ZYbErVRLqgdiGCUww+adOhUmZJ1cHOT1
+         XPX4ss65Y5GGLeQQIRSf7U3EIRtvtJJiTKOzqA10w/jpuomdM02evId5K/pcOdmFCdUa
+         C4YSbxAbiBGYU2gOfOgqeU0Tm6B4zNQAO3TeyCCLwOANTKPxYRrH8SAGT88HVQdJtdMB
+         yB24AY0uKZiv2Sw6sn7TZns5WpT4uyJiBSS1MMSXFZv0MSincRJ97MvCXLxwuOH223K9
+         Z9+dEJYYwSn4UITcfknWE4tN+UqldlIb74A3i/59q4JX6t8wDkfE2WknKkojjHfSGb6D
+         8SkA==
+X-Gm-Message-State: AOJu0YwUOKvDrZoiRipPCyW5mp6ZV/KRnWk8MJejo2bghA1xHjesSnOT
+	GDQCOyk91qaUHNT3PGhjfM0=
+X-Google-Smtp-Source: AGHT+IGMyD687rbSN0pzHb6uoCK2EOmuOzvytHxPJHGVIzfQzHroPWZ3HHvzYGwqn1esZxRZ4Sc7VQ==
+X-Received: by 2002:a05:6512:523:b0:50b:fd8e:28f7 with SMTP id o3-20020a056512052300b0050bfd8e28f7mr2777732lfc.94.1702386958775;
+        Tue, 12 Dec 2023 05:15:58 -0800 (PST)
 Received: from razdolb (95-24-145-153.broadband.corbina.ru. [95.24.145.153])
-        by smtp.gmail.com with ESMTPSA id a4-20020a194f44000000b0050bef1c5a50sm1385233lfk.267.2023.12.12.04.52.28
+        by smtp.gmail.com with ESMTPSA id y9-20020ac255a9000000b0050be6252444sm1340577lfg.133.2023.12.12.05.15.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 04:52:29 -0800 (PST)
+        Tue, 12 Dec 2023 05:15:58 -0800 (PST)
 References: <20231211175023.1680247-1-mike.rudenko@gmail.com>
  <20231211175023.1680247-13-mike.rudenko@gmail.com>
  <20231211221533.GK27535@pendragon.ideasonboard.com>
@@ -64,9 +64,9 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Sakari Ailus
  <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
  <mchehab@kernel.org>
 Subject: Re: [PATCH 12/19] media: i2c: ov4689: Implement digital gain control
-Date: Tue, 12 Dec 2023 15:52:19 +0300
+Date: Tue, 12 Dec 2023 15:52:48 +0300
 In-reply-to: <20231211221533.GK27535@pendragon.ideasonboard.com>
-Message-ID: <87cyvbpoqb.fsf@gmail.com>
+Message-ID: <875y13pnn6.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -103,7 +103,10 @@ On 2023-12-12 at 00:15 +02, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 >> +#define OV4689_REG_DIG_GAIN		CCI_REG16(0x352A)
 >
 > Lowercase for hex constatns please.
->
+
+Ah, missed it somehow. Is this convention kernel-wide or media specific?
+I think checkpatch could have detetected this..
+
 >> +#define OV4689_DIG_GAIN_MIN		1
 >> +#define OV4689_DIG_GAIN_MAX		0x7fff
 >> +#define OV4689_DIG_GAIN_STEP		1
@@ -124,9 +127,27 @@ On 2023-12-12 at 00:15 +02, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > otherwise it's impossible for userspace to interpret the scale of the
 > digital gain value in a generic way. I suppose that could break existing
 > applications though, which isn't great.
->
+
+The datasheet does not explicitly say how register values are mapped to
+the actual gain. 0x8 comes from the original register tables, and can
+also be found in a few other drivers for this sensor, although they do
+not implement digital gain control.
+
+OTOH, the power-on value of this register, and default value as found in
+the datasheet, is 0x4. This was the motivation behind that "(2x)"
+annotation.
+
+So, I'm afraid that we cannot interpret the absolute scale of the
+digital gain in any case, unless we have more documentation. I tend to
+keep the default value of 0x8 for the reasons of not (possibly) breaking
+userspace.
+
 > Out of curiosity, can you tell what SoC(s) you're using this sensor with
 > ?
+
+It's Rockchip 3399. I run most of my tests with AGC and AWB off, to be
+sure they do not hide some important details.
+
 >
 >>
 >>  	/* ADC and analog control*/
