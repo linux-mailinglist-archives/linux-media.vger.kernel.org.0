@@ -1,185 +1,198 @@
-Return-Path: <linux-media+bounces-2251-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2252-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39FFC80EFB0
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 16:08:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE1F80F009
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 16:22:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E467D281BC2
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 15:08:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE24C281C12
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 15:22:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BA6F75410;
-	Tue, 12 Dec 2023 15:08:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B94F75438;
+	Tue, 12 Dec 2023 15:22:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="UEV5KMyZ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BDHsEI/O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2082.outbound.protection.outlook.com [40.107.212.82])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2449AEA;
-	Tue, 12 Dec 2023 07:08:41 -0800 (PST)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WI8TKw2ciedZLjG78hJpvoywrx7yF/KQZbvFRSS9vDMa0Z4BGvyRUoynYh3Odo129+/WwX2GT0nMks7/RgimHMq/ZAeH2ai6LBgdg2jbfl5EsCgpYPHYnI7pLqLZGSIj9MUPc+BeRCAbaC7V8jXQBx+EVDBnsdqLMTiaPDTZ3LwU1JO4GD2HoWHWIRO6NgFH6EqN3QSuvWwXu4p+cj011p7M7S6BY28Ntps2Zpi+ZvbKpizB86py9rWIMZMI1WXcOd97+pl/zFFBm0n6q/6Eh7+YQ5X6MFAt1wUow8lUF11vM+faTQH3+l5BCiVioq+XM9L57r24u1jIGf/IBrPv0A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YByBA4oxfQwXTXAXysbLeGABlNGSnZnlorup2IUTvZk=;
- b=NQsaC3VP3r3cv7iHUrwaUt8BsSgKiZxx+J5r3AHiJLYE6kwXBdBa636T2Rhj5LKc33UNnKs37otHzN9PdsS/jK50dr2RoSaLKDO4Qp9wZ20AXSpZ+YkE28XNCnjxkGCEKjDu3OKCbDAq9ek5Gfci4e0A9iZKdRWxD43Qb1apq2gc+STR7cGwtGIdKEGtEvQv6+kA+zal3K/hoiIzkpZ65Nurtun6kwuxfT3+WuRVvaGmwaubttDh1mDdydAWAyNb98i6D89jl7kzJdA18dxRqfkNGs7OrtNHUqSP7mAFob+T5E0JdxZy8UUTgIOhA5CBEuz+E/CxQXGwFcNgbPontQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YByBA4oxfQwXTXAXysbLeGABlNGSnZnlorup2IUTvZk=;
- b=UEV5KMyZUZDzHJakZFGZ1NcaXmSZ0R1aav3/4wLMbkB68DbXuNsX4YuWf37OPGs9r7XqsrHnXevaOyc/uXb9RGRey5LAPNF1zsmjz6vsyrNr5FAnutNdCcHYc5NAXD9krX/9lNVilc/T+iVzb4be1M1kYP845zMiUuVkQzNh+Kkrk1czEiIkjdVHeTfNf9ajPC4WpSBVLPYQuiqyDQrhuIQH6JC46jiUqJP/IjuYPyx+x/yI7+1BIy0QTU81BFoLSXYf3enO1vcUuuv/xXuz6M6e83HReeijNuP1ou4B6zMAF6JjuTLLpWoOhzQ5+xqBtWPlshjjGT1fcgrpYF1CHA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com (2603:10b6:408:176::16)
- by DM4PR12MB5722.namprd12.prod.outlook.com (2603:10b6:8:5d::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7068.33; Tue, 12 Dec
- 2023 15:08:35 +0000
-Received: from LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93]) by LV2PR12MB5869.namprd12.prod.outlook.com
- ([fe80::60d4:c1e3:e1aa:8f93%4]) with mapi id 15.20.7091.022; Tue, 12 Dec 2023
- 15:08:35 +0000
-Date: Tue, 12 Dec 2023 11:08:34 -0400
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	bpf@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>, David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Shakeel Butt <shakeelb@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>,
-	Christoph Hellwig <hch@infradead.org>
-Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory
- provider
-Message-ID: <20231212150834.GI3014157@nvidia.com>
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-9-almasrymina@google.com>
- <20231212122535.GA3029808@nvidia.com>
- <CAHS8izMVMx0fpT=dWsnD7piqs1g7Fam8Xf5dK3iOFNxeOQD9vQ@mail.gmail.com>
- <20231212143942.GF3014157@nvidia.com>
- <CAHS8izNHtemjjkMf43grCHP1RZ=2UFiMtgea0M6+PaAgC=DDMQ@mail.gmail.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHS8izNHtemjjkMf43grCHP1RZ=2UFiMtgea0M6+PaAgC=DDMQ@mail.gmail.com>
-X-ClientProxiedBy: MN2PR05CA0015.namprd05.prod.outlook.com
- (2603:10b6:208:c0::28) To LV2PR12MB5869.namprd12.prod.outlook.com
- (2603:10b6:408:176::16)
+Received: from mail-oi1-x234.google.com (mail-oi1-x234.google.com [IPv6:2607:f8b0:4864:20::234])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9384683;
+	Tue, 12 Dec 2023 07:22:24 -0800 (PST)
+Received: by mail-oi1-x234.google.com with SMTP id 5614622812f47-3b9dbbaa9a9so4770904b6e.2;
+        Tue, 12 Dec 2023 07:22:24 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702394544; x=1702999344; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=75Rm+5xBDQKmd+48f6tczEiVYrcFon2o4idJL/p3O7M=;
+        b=BDHsEI/OVfZflTp+T/anCwxYO25+WBHMwkJ+H4kMJVtnWaNWG7Ay7DyvL4Goa5lZoJ
+         UQCSCziGeBIVgUnavqgXKiWH3XjPYhDicltiglZmm2NKV+GqGJII7/NLkRnbsvAfSllV
+         0qnvx2+Esbcn0MyL5Lf9kqCVolUN6cvfRPBTbpgWrZWdNhcYo4K3GuWy2Kika4g+NHfe
+         yrFwvz/iRtZJMAEIT2lXIEBaZVkuPNDqtJwcMxIwgvKxO9ZU98zm1cBvNbWqoafVeUbX
+         8pQVsdi2li7uaI0xjnNM+IWezeP9IrkUEqOVLG8ayEQkWLRf1MJgrDfz1PDcv1vfPwO7
+         p6cg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702394544; x=1702999344;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
+         :to:content-language:subject:user-agent:mime-version:date:message-id
+         :sender:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=75Rm+5xBDQKmd+48f6tczEiVYrcFon2o4idJL/p3O7M=;
+        b=Wd8XAy9prmMpd1J2kjIPIoZWXZGHEdaLWu0jkTAlGVeTE3ql2u+qPY/hG2qIXUaQr9
+         aiePNfgSzE/nx9JYWCUsLmLK4LnTi7U3YhnPO5Jc69yrCph2r1IHw4zTJxxJS6+XGUDI
+         7APHPHAWtL2O07+Doe+WaxpdU5y/B5JH18tzgR00rwWjguCzAp+eIdSR49wCaDHvJwo2
+         esvtXJMD74R01Rh3+7yaWtciC5eXjiE/083PMqbaUtpPNr5ux6dHwnymr3oJMxF5N6Gq
+         ibrjKaiskCiA2Nw0QNmVgSm8rF7Zf5duUPz6Cp8B/FxqB4Inb9sdFsjlXsC8OuvoMMgH
+         ibzQ==
+X-Gm-Message-State: AOJu0Yzjx9KEj9EJMGdsfNERxvVfdt/yDyDTFZPfnrrk5Y8v07NLz3jk
+	UjkPK7hqKzpnUw/BG3rpFeU=
+X-Google-Smtp-Source: AGHT+IHZ4pvntu/TwpQ+WJl0z4EXkuFPrI/3FnIMC3Z64SrFUnbiRb6pzz8yVWJ0MKShxAPcgZaE0A==
+X-Received: by 2002:a05:6808:158e:b0:3b9:e801:7aae with SMTP id t14-20020a056808158e00b003b9e8017aaemr8926120oiw.54.1702394543815;
+        Tue, 12 Dec 2023 07:22:23 -0800 (PST)
+Received: from ?IPV6:2600:1700:e321:62f0:329c:23ff:fee3:9d7c? ([2600:1700:e321:62f0:329c:23ff:fee3:9d7c])
+        by smtp.gmail.com with ESMTPSA id ck20-20020a056808251400b003b9f057de84sm806103oib.58.2023.12.12.07.22.19
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 12 Dec 2023 07:22:22 -0800 (PST)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <f7be8d89-25ae-4d83-9577-12fcac41d0ab@roeck-us.net>
+Date: Tue, 12 Dec 2023 07:22:18 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV2PR12MB5869:EE_|DM4PR12MB5722:EE_
-X-MS-Office365-Filtering-Correlation-Id: f7e77963-7a4e-47b7-5674-08dbfb24365a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info:
-	GUfRm4Cu/wM1W78LaY01CcMxPpZ86o8WxOrzGItsyyOzMMz1i49I5c0fGcBeBjstddiBLrNnRwOlXS8M4VvWEinYizo0Fbh7+YkEBSHRsOmsgd7bhL4/19vdbVMbGVoqXvc7S3vEoiX5aTzCducWmrlIL4C/inqtVCmUQI2YbzImqjB5dD5qiYpQoKvfCOjz1rRgxxLgDtIHRcidZTcYI/B00L0913okY8ZKbOWGc/T+ZtmIAYVg2Wkac8yDr+nsP1sz4TUboGnQIPKTeP4G/vdZ/Q8zNxSoi86tZsvX726fL5ij0VL8KD1jY8JqA4h4ioil7+Ej49SNaPMgqIG9mefoZ6dCyc1xKnXKvb1Tzisc+jNmGNshxMIbr3RodaQbQNqpQeofSHIQZGvdiuVhBbQRsNXqUeUN2ioI9OzH0IQ0dV5YBU8rMamMl8IMEV2NUOxIxHIgGszTIaO6/mqB2rNzvS10/g2hUCdrObR8vxToc5BTGCssXPIBbeIyFdH0wNvRkZRhIINSsjRri1Jg5172xiVleWA/ZjBWXNNLvR/Jg3QZmc5+Wkx402KBzgRbVJfpoNxfTOT5cUmIcjYXWo7aJ4llciuz1IQwbPg1jhk=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV2PR12MB5869.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(346002)(376002)(396003)(366004)(136003)(39860400002)(230922051799003)(451199024)(64100799003)(186009)(1800799012)(54906003)(66556008)(66946007)(66476007)(41300700001)(6506007)(1076003)(6512007)(2616005)(26005)(36756003)(86362001)(38100700002)(33656002)(966005)(478600001)(6486002)(8936002)(8676002)(4326008)(2906002)(7416002)(7406005)(5660300002)(6916009)(316002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?mrEyRSkTR3gUgnuY1J2tdZGe/P6rs8W4YBEfEQXcPcFgl07D/PbU8F41j7N/?=
- =?us-ascii?Q?FGywTcY5ZQUsUmzEFgMSJtM8gFs1aiOcVWhSg+GPrGsaSnaLBqN2KeV5DzDL?=
- =?us-ascii?Q?41IyPeJ9TgVJLscS90sRseRwgskTN713sA9QSLX4445rje2qUzCYwPIuG+lv?=
- =?us-ascii?Q?8UZL5CNYr0w64Zj1aswGb8v9fmHI7L3GlUHynBaZQvZymNIWWc09bW4XrbMX?=
- =?us-ascii?Q?xwzXU8yzekOMtuaQk/gF1kowRA5gx7zRJCZs6+gS3a7smAwHZOZfDaK+Tj5Q?=
- =?us-ascii?Q?Mxm0TMV/2U0QFLzgPYs4TjNe8zeSAzulLpGhN6ZoYDqrmR/C18wipHE59MxW?=
- =?us-ascii?Q?k8iFIsN6sCwWPbWQytdPRk8yP0dbuH7LsBA/R5eNM7kR0g29ZoXGAgjZsrIF?=
- =?us-ascii?Q?VSNCBJReQtRfHhfyv5UgVmBVE47zC7x/RuJizrxICxvt1t7J/N8U203NFhpA?=
- =?us-ascii?Q?Y1Q4IT2fGGMD1oXOXExekl3D9QyseQ4Ao1BbHG8qy0H8VDS+WAo/hz2llkfa?=
- =?us-ascii?Q?VN7QKS6GiU7FXMg6iktyewheQLX0261Vac2TjLTfGnMRBIccWyRI3gIUJbKm?=
- =?us-ascii?Q?Xe2OXoFuV7ny7rMgJbg77gfCxroqRODDEUj/ZATk5qW6MsyxMCIh7VvhaONa?=
- =?us-ascii?Q?b3ivJAG33hUA5LLpLksPjAQRRK4WwWeMqAaPUz5hg6HfhSN+PpkfWCtIY03g?=
- =?us-ascii?Q?jE4ZrY88iTzBMCsiJRp+w/jh1gUG7c0BFlnJeF6TALqsvZgF02A6N+aicIIx?=
- =?us-ascii?Q?dxfnTRNXxBJgOoGBvLZdrhpPVPVsnFDDqtCb751rQhJ5OfmkF15PZATAjJJp?=
- =?us-ascii?Q?nYnEDPWKGqPfTV2Wba4DODihvuUgbOHa5yHuGSJWCry+QY1UUeAN6enWk2IB?=
- =?us-ascii?Q?CLCmHZomsquft7dIDVuQYiNlOgR4++Bv59LphBhMG+xb8DVOQGSMvPj1vhET?=
- =?us-ascii?Q?VS0ZdNgN45O9vLYkkveSqCrbRFDTA1p4emQFHdchHfJ4iEYvnUSkplNBVOew?=
- =?us-ascii?Q?bHtAwKCTWABaGz1t6fVu7RA5QQqHWoJcR8S9/MCp9WFruHRXi85OUHErgKnh?=
- =?us-ascii?Q?Mr/JU4qYTEuEw8W4J9NQUW7wxNEbmHQ+/b0kO2ypB5qr8JfqlYvCLu3P0V7M?=
- =?us-ascii?Q?7AIUrHHQjetxDmzGtp+LONn4KnC4EmUHRkOniZJpGWPgAFyrWmsn3Ajrx9Ey?=
- =?us-ascii?Q?lkbzq5l1Fe1iDWyXsxIMKAZZLnXp10HzTalqJ7TcGHFIV1gtWB9JjLTGYU4f?=
- =?us-ascii?Q?SQN+DJOyrqcKRv1GhD0EBo21R08lGVdLVLtQ4tFpbDMA4erUotcGVL/t76cs?=
- =?us-ascii?Q?jk1scj27LnjchzJFChyyynn+2QhlX8beSWCe2J6CuQFRRca9NxPLuYCaxF2o?=
- =?us-ascii?Q?pZ1mf/OTeAhkLljGT1YDtpQEBH+F0RbvOzgdbVp7as6fTx2k8frB9IDkfCxS?=
- =?us-ascii?Q?xoQNMEp6BL5o+Ul2WAYtQoaCTrysScjvCoGTBDB599FhLGO4YAfG5SxxVg+R?=
- =?us-ascii?Q?L1DPU5oEMm7Te3tguCLYmdENqRk8w/wuGEF2iZajLXxCvzw06nlPvNK3HBxf?=
- =?us-ascii?Q?dzyMvzDiKKDe3XdHmO59yQYeaZX77P8phcd8FfT9?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: f7e77963-7a4e-47b7-5674-08dbfb24365a
-X-MS-Exchange-CrossTenant-AuthSource: LV2PR12MB5869.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Dec 2023 15:08:35.3779
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JWLKQFKjSNhxNlo+bcKSshFN7zqiaPkLLotEj/GU512i4fMIL6yPfhGNEQwhFm54
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5722
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/6] pwm: Rename pwm_apply_state() to
+ pwm_apply_might_sleep()
+Content-Language: en-US
+To: =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
+ Sean Young <sean@mess.org>, Jean Delvare <jdelvare@suse.com>,
+ Javier Martinez Canillas <javierm@redhat.com>,
+ Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Helge Deller <deller@gmx.de>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+ Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+ Thierry Reding <thierry.reding@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Jani Nikula <jani.nikula@linux.intel.com>,
+ Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
+ David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Support Opensource <support.opensource@diasemi.com>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>, Pavel Machek <pavel@ucw.cz>,
+ Lee Jones <lee@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Mark Gross <markgross@kernel.org>,
+ Daniel Thompson <daniel.thompson@linaro.org>,
+ Jingoo Han <jingoohan1@gmail.com>, Jani Nikula <jani.nikula@intel.com>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-leds@vger.kernel.org, platform-driver-x86@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
+References: <cover.1702369869.git.sean@mess.org>
+ <9af7ba748fd2eb7e04208b6b183185f1daf78016.1702369869.git.sean@mess.org>
+ <20231212114100.sn7nzntousql2ays@pengutronix.de>
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ xsFNBE6H1WcBEACu6jIcw5kZ5dGeJ7E7B2uweQR/4FGxH10/H1O1+ApmcQ9i87XdZQiB9cpN
+ RYHA7RCEK2dh6dDccykQk3bC90xXMPg+O3R+C/SkwcnUak1UZaeK/SwQbq/t0tkMzYDRxfJ7
+ nyFiKxUehbNF3r9qlJgPqONwX5vJy4/GvDHdddSCxV41P/ejsZ8PykxyJs98UWhF54tGRWFl
+ 7i1xvaDB9lN5WTLRKSO7wICuLiSz5WZHXMkyF4d+/O5ll7yz/o/JxK5vO/sduYDIlFTvBZDh
+ gzaEtNf5tQjsjG4io8E0Yq0ViobLkS2RTNZT8ICq/Jmvl0SpbHRvYwa2DhNsK0YjHFQBB0FX
+ IdhdUEzNefcNcYvqigJpdICoP2e4yJSyflHFO4dr0OrdnGLe1Zi/8Xo/2+M1dSSEt196rXaC
+ kwu2KgIgmkRBb3cp2vIBBIIowU8W3qC1+w+RdMUrZxKGWJ3juwcgveJlzMpMZNyM1jobSXZ0
+ VHGMNJ3MwXlrEFPXaYJgibcg6brM6wGfX/LBvc/haWw4yO24lT5eitm4UBdIy9pKkKmHHh7s
+ jfZJkB5fWKVdoCv/omy6UyH6ykLOPFugl+hVL2Prf8xrXuZe1CMS7ID9Lc8FaL1ROIN/W8Vk
+ BIsJMaWOhks//7d92Uf3EArDlDShwR2+D+AMon8NULuLBHiEUQARAQABzTJHdWVudGVyIFJv
+ ZWNrIChMaW51eCBhY2NvdW50KSA8bGludXhAcm9lY2stdXMubmV0PsLBgQQTAQIAKwIbAwYL
+ CQgHAwIGFQgCCQoLBBYCAwECHgECF4ACGQEFAlVcphcFCRmg06EACgkQyx8mb86fmYFg0RAA
+ nzXJzuPkLJaOmSIzPAqqnutACchT/meCOgMEpS5oLf6xn5ySZkl23OxuhpMZTVX+49c9pvBx
+ hpvl5bCWFu5qC1jC2eWRYU+aZZE4sxMaAGeWenQJsiG9lP8wkfCJP3ockNu0ZXXAXwIbY1O1
+ c+l11zQkZw89zNgWgKobKzrDMBFOYtAh0pAInZ9TSn7oA4Ctejouo5wUugmk8MrDtUVXmEA9
+ 7f9fgKYSwl/H7dfKKsS1bDOpyJlqhEAH94BHJdK/b1tzwJCFAXFhMlmlbYEk8kWjcxQgDWMu
+ GAthQzSuAyhqyZwFcOlMCNbAcTSQawSo3B9yM9mHJne5RrAbVz4TWLnEaX8gA5xK3uCNCeyI
+ sqYuzA4OzcMwnnTASvzsGZoYHTFP3DQwf2nzxD6yBGCfwNGIYfS0i8YN8XcBgEcDFMWpOQhT
+ Pu3HeztMnF3HXrc0t7e5rDW9zCh3k2PA6D2NV4fews9KDFhLlTfCVzf0PS1dRVVWM+4jVl6l
+ HRIAgWp+2/f8dx5vPc4Ycp4IsZN0l1h9uT7qm1KTwz+sSl1zOqKD/BpfGNZfLRRxrXthvvY8
+ BltcuZ4+PGFTcRkMytUbMDFMF9Cjd2W9dXD35PEtvj8wnEyzIos8bbgtLrGTv/SYhmPpahJA
+ l8hPhYvmAvpOmusUUyB30StsHIU2LLccUPPOwU0ETofVZwEQALlLbQeBDTDbwQYrj0gbx3bq
+ 7kpKABxN2MqeuqGr02DpS9883d/t7ontxasXoEz2GTioevvRmllJlPQERVxM8gQoNg22twF7
+ pB/zsrIjxkE9heE4wYfN1AyzT+AxgYN6f8hVQ7Nrc9XgZZe+8IkuW/Nf64KzNJXnSH4u6nJM
+ J2+Dt274YoFcXR1nG76Q259mKwzbCukKbd6piL+VsT/qBrLhZe9Ivbjq5WMdkQKnP7gYKCAi
+ pNVJC4enWfivZsYupMd9qn7Uv/oCZDYoBTdMSBUblaLMwlcjnPpOYK5rfHvC4opxl+P/Vzyz
+ 6WC2TLkPtKvYvXmdsI6rnEI4Uucg0Au/Ulg7aqqKhzGPIbVaL+U0Wk82nz6hz+WP2ggTrY1w
+ ZlPlRt8WM9w6WfLf2j+PuGklj37m+KvaOEfLsF1v464dSpy1tQVHhhp8LFTxh/6RWkRIR2uF
+ I4v3Xu/k5D0LhaZHpQ4C+xKsQxpTGuYh2tnRaRL14YMW1dlI3HfeB2gj7Yc8XdHh9vkpPyuT
+ nY/ZsFbnvBtiw7GchKKri2gDhRb2QNNDyBnQn5mRFw7CyuFclAksOdV/sdpQnYlYcRQWOUGY
+ HhQ5eqTRZjm9z+qQe/T0HQpmiPTqQcIaG/edgKVTUjITfA7AJMKLQHgp04Vylb+G6jocnQQX
+ JqvvP09whbqrABEBAAHCwWUEGAECAA8CGwwFAlVcpi8FCRmg08MACgkQyx8mb86fmYHNRQ/+
+ J0OZsBYP4leJvQF8lx9zif+v4ZY/6C9tTcUv/KNAE5leyrD4IKbnV4PnbrVhjq861it/zRQW
+ cFpWQszZyWRwNPWUUz7ejmm9lAwPbr8xWT4qMSA43VKQ7ZCeTQJ4TC8kjqtcbw41SjkjrcTG
+ wF52zFO4bOWyovVAPncvV9eGA/vtnd3xEZXQiSt91kBSqK28yjxAqK/c3G6i7IX2rg6pzgqh
+ hiH3/1qM2M/LSuqAv0Rwrt/k+pZXE+B4Ud42hwmMr0TfhNxG+X7YKvjKC+SjPjqp0CaztQ0H
+ nsDLSLElVROxCd9m8CAUuHplgmR3seYCOrT4jriMFBtKNPtj2EE4DNV4s7k0Zy+6iRQ8G8ng
+ QjsSqYJx8iAR8JRB7Gm2rQOMv8lSRdjva++GT0VLXtHULdlzg8VjDnFZ3lfz5PWEOeIMk7Rj
+ trjv82EZtrhLuLjHRCaG50OOm0hwPSk1J64R8O3HjSLdertmw7eyAYOo4RuWJguYMg5DRnBk
+ WkRwrSuCn7UG+qVWZeKEsFKFOkynOs3pVbcbq1pxbhk3TRWCGRU5JolI4ohy/7JV1TVbjiDI
+ HP/aVnm6NC8of26P40Pg8EdAhajZnHHjA7FrJXsy3cyIGqvg9os4rNkUWmrCfLLsZDHD8FnU
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20231212114100.sn7nzntousql2ays@pengutronix.de>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Tue, Dec 12, 2023 at 06:58:17AM -0800, Mina Almasry wrote:
-
-> Jason, we set the LSB on page_pool_iov pointers before casting it to
-> struct page pointers. The resulting pointers are not useable as page
-> pointers at all.
-
-I understand that, the second ask is about maintainability of the mm
-by using correct types.
-
-> > Perhaps you can simply avoid this by arranging for this driver to also
-> > exclusively use some special type to indicate the dual nature of the
-> > pointer and leave the other drivers as using the struct page version.
+On 12/12/23 03:41, Uwe Kleine-König wrote:
+> On Tue, Dec 12, 2023 at 08:34:00AM +0000, Sean Young wrote:
+>> In order to introduce a pwm api which can be used from atomic context,
+>> we will need two functions for applying pwm changes:
+>>
+>> 	int pwm_apply_might_sleep(struct pwm *, struct pwm_state *);
+>> 	int pwm_apply_atomic(struct pwm *, struct pwm_state *);
+>>
+>> This commit just deals with renaming pwm_apply_state(), a following
+>> commit will introduce the pwm_apply_atomic() function.
+>>
+>> Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com> # for input
+>> Acked-by: Hans de Goede <hdegoede@redhat.com>
+>> Acked-by: Jani Nikula <jani.nikula@intel.com>
+>> Acked-by: Lee Jones <lee@kernel.org>
+>> Signed-off-by: Sean Young <sean@mess.org>
 > 
-> This is certainly possible, but it requires us to rename all the page
-> pointers in the page_pool to the new type, and requires the driver
-> adding devmem TCP support to rename all the page* pointer instances to
-> the new type. It's possible but it introduces lots of code churn. Is
-> the LSB + cast not a reasonable compromise here? I feel like the trick
-> of setting the least significant bit on a pointer to indicate it's
-> something else has a fair amount of precedent in the kernel.
+> Acked-by: Uwe Kleine-König <u.kleine-koenig@pengutronix.de>
+> 
+> Several affected maintainers already acked, so I guess it's fine to take
+> this via the pwm tree. An Ack from the remaining maintainers would be
+> very welcome, an alternative would be to split the patch.
+> 
+> Missing Acks so far:
+> 
+>   - Jean Delvare / Guenter Roeck for drivers/hwmon/pwm-fan.c
+>   - Javier Martinez Canillas for drivers/gpu/drm/solomon/ssd130x.c
+>   - Liam Girdwood / Mark Brown for drivers/regulator/pwm-regulator.c
+>   - Helge Deller for drivers/video/fbdev/ssd1307fb.c
+> 
+> Best regards
+> Uwe
+> 
 
-Linus himself has complained about exactly this before, and written a cleanup:
 
-https://lore.kernel.org/linux-mm/20221108194139.57604-1-torvalds@linux-foundation.org/
+Personally I find the change unnecessary and pointless, which is why I
+didn't ack it. Even if function names were deemed important enough, keeping
+pwm_apply_state() for the time being and just adding pwm_apply_might_sleep()
+as duplicate would have done it, all the changes could have gone in long
+ago, and per-subsystem cleanup could have been orthogonal.
 
-If you mangle a pointer *so it is no longer a pointer* then give it a
-proper opaque type so the compiler can check everything statically and
-require that the necessary converters are called in all cases.
+I refrained from commenting because it might be considered bike shedding,
+but I don't want to ack something I deem unnecessary and pointless without
+comment. But then don't want to keep arguing either, so
 
-You call it churn, I call it future maintainability. :(
+Acked-by: Guenter Roeck <linux@roeck-us.net>
 
-No objection to using the LSB, just properly type a LSB mangled
-pointer so everyone knows what is going on and don't call it MM's
-struct page *.
+Guenter
 
-I would say this is important here because it is a large driver facing
-API surface.
-
-Jason
 
