@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-2249-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2250-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1876E80EFA1
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 16:07:12 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C92880EFA4
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 16:07:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 68635B20E28
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 15:07:09 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 56F4E281490
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 15:07:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43E42745FE;
-	Tue, 12 Dec 2023 15:07:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 33E42745FF;
+	Tue, 12 Dec 2023 15:07:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="M54V/x/6"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="qq/6QFBI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fllv0015.ext.ti.com (fllv0015.ext.ti.com [198.47.19.141])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 738D8E8;
-	Tue, 12 Dec 2023 07:06:57 -0800 (PST)
-Received: from fllv0035.itg.ti.com ([10.64.41.0])
-	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3BCF6YPH107768;
-	Tue, 12 Dec 2023 09:06:34 -0600
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAECAEA;
+	Tue, 12 Dec 2023 07:07:07 -0800 (PST)
+Received: from lelv0265.itg.ti.com ([10.180.67.224])
+	by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 3BCF6qhH107908;
+	Tue, 12 Dec 2023 09:06:52 -0600
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1702393594;
-	bh=Fs5RaAnS2wvnZwD9IHWpksznjB8waKCTXyO3Fxt+6RM=;
+	s=ti-com-17Q1; t=1702393612;
+	bh=Me9oORsxMQopPTecPbF4yvuVAtNhCNVx6k/ba0DvjgI=;
 	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=M54V/x/6cvtsOPCEvDIQdi7Xs3DIEHoPmEVXlBbkAiuGv6xU7Jiow2gWJZX5QJbqB
-	 psfVFap7oPAZwZyV2qTsdaOondWv54HNi46YNaQ+88tb5MVqjmLCKBCDj6C6lnxBXr
-	 heRHfVwBaGc0WND29dpbNq0PZkf+6nF0Q2h8lxEw=
-Received: from DFLE110.ent.ti.com (dfle110.ent.ti.com [10.64.6.31])
-	by fllv0035.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3BCF6YI4075470
+	b=qq/6QFBIIqtHVx9grsfxeHMz8di6Q3bi/lyF8yrp/GLz5BlB7vGkbVwmz1FQt300G
+	 qLLta5lEa9z6rtjsLsXfdDdeEmpRO2+hki8PZHdyoH6SC9zZiWi7zsJdct+asX2Zkb
+	 UpUAdzWZFRBZG6DwTy89A18VVF/WNsMTipzVunGs=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+	by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 3BCF6qs0011032
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 12 Dec 2023 09:06:34 -0600
-Received: from DFLE102.ent.ti.com (10.64.6.23) by DFLE110.ent.ti.com
- (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
+	Tue, 12 Dec 2023 09:06:52 -0600
+Received: from DFLE110.ent.ti.com (10.64.6.31) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 12
- Dec 2023 09:06:34 -0600
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE102.ent.ti.com
- (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ Dec 2023 09:06:52 -0600
+Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE110.ent.ti.com
+ (10.64.6.31) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 12 Dec 2023 09:06:34 -0600
+ Frontend Transport; Tue, 12 Dec 2023 09:06:52 -0600
 Received: from localhost (uda0133052.dhcp.ti.com [128.247.81.232])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3BCF6YcN021290;
-	Tue, 12 Dec 2023 09:06:34 -0600
-Date: Tue, 12 Dec 2023 09:06:34 -0600
+	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 3BCF6qWV103574;
+	Tue, 12 Dec 2023 09:06:52 -0600
+Date: Tue, 12 Dec 2023 09:06:52 -0600
 From: Nishanth Menon <nm@ti.com>
 To: Brandon Brnich <b-brnich@ti.com>
 CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
@@ -66,11 +66,10 @@ CC: <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
         Geert Uytterhoeven
 	<geert@linux-m68k.org>,
         Darren Etheridge <detheridge@ti.com>
-Subject: Re: [PATCH v3 1/2] dt-bindings: media: Remove K3 Family Prefix from
- Compatible
-Message-ID: <20231212150634.7235jjsusngzta3z@tingly>
+Subject: Re: [PATCH v3 2/2] media: chips-media: wave5: Remove K3 References
+Message-ID: <20231212150652.54exlr52x2odqxr5@false>
 References: <20231211205920.698939-1-b-brnich@ti.com>
- <20231211205920.698939-2-b-brnich@ti.com>
+ <20231211205920.698939-3-b-brnich@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,56 +78,38 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20231211205920.698939-2-b-brnich@ti.com>
+In-Reply-To: <20231211205920.698939-3-b-brnich@ti.com>
 X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 
 On 14:59-20231211, Brandon Brnich wrote:
-> K3 family prefix is not included in other TI compatible strings. Remove
-> this prefix to keep naming convention consistent.
+> Change compatible string to match dt bindings for TI devices. K3 family
+> prefix should not be included as it deviates from naming convention.
 > 
-> Fixes: de4b9f7e371a ("dt-bindings: media: wave5: add yaml devicetree bindings")
+> Fixes: 9707a6254a8a ("media: chips-media: wave5: Add the v4l2 layer")
 > Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
 > Closes: https://lore.kernel.org/all/CAMuHMdUYOq=q1j=d+Eac28hthOUAaNUkuvxmRu-mUN1pLKq69g@mail.gmail.com/
 > Signed-off-by: Brandon Brnich <b-brnich@ti.com>
 > ---
->  V2 -> V3: Update compatible in example
+>  drivers/media/platform/chips-media/wave5/wave5-vpu.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
->  Bindings currently reside in linux-next, meaning that the ABI will not be
->  broken with the removal of K3 prefix. Important to get this merged in
->  prior to being moved to master so that K3 prefix does not need to be
->  permanately included.
-> 
->  Documentation/devicetree/bindings/media/cnm,wave521c.yaml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/cnm,wave521c.yaml b/Documentation/devicetree/bindings/media/cnm,wave521c.yaml
-> index 6d5569e77b7a..6a11c1d11fb5 100644
-> --- a/Documentation/devicetree/bindings/media/cnm,wave521c.yaml
-> +++ b/Documentation/devicetree/bindings/media/cnm,wave521c.yaml
-> @@ -17,7 +17,7 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -          - ti,k3-j721s2-wave521c
-> +          - ti,j721s2-wave521c
->        - const: cnm,wave521c
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> index bfe4caa79cc9..0d90b5820bef 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+> @@ -272,7 +272,7 @@ static const struct wave5_match_data ti_wave521c_data = {
+>  };
 >  
->    reg:
-> @@ -53,7 +53,7 @@ additionalProperties: false
->  examples:
->    - |
->      vpu: video-codec@12345678 {
-> -        compatible = "ti,k3-j721s2-wave521c", "cnm,wave521c";
-> +        compatible = "ti,j721s2-wave521c", "cnm,wave521c";
->          reg = <0x12345678 0x1000>;
->          clocks = <&clks 42>;
->          interrupts = <42>;
+>  static const struct of_device_id wave5_dt_ids[] = {
+> -	{ .compatible = "ti,k3-j721s2-wave521c", .data = &ti_wave521c_data },
+> +	{ .compatible = "ti,j721s2-wave521c", .data = &ti_wave521c_data },
+>  	{ /* sentinel */ }
+>  };
+>  MODULE_DEVICE_TABLE(of, wave5_dt_ids);
 > -- 
 > 2.34.1
 > 
-
 Reviewed-by: Nishanth Menon <nm@ti.com>
-
 -- 
 Regards,
 Nishanth Menon
