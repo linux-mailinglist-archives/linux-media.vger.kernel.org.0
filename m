@@ -1,285 +1,81 @@
-Return-Path: <linux-media+bounces-2280-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2281-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC7B980F705
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 20:41:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5437280F803
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 21:40:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 62355281393
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 19:41:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 08ED01F217B3
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 20:40:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67F216356D;
-	Tue, 12 Dec 2023 19:41:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D5A964133;
+	Tue, 12 Dec 2023 20:40:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Wbwehby7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vx5xe6FO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E21099A;
-	Tue, 12 Dec 2023 11:41:01 -0800 (PST)
-Received: from umang.jain (unknown [103.86.18.142])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6BFA9480;
-	Tue, 12 Dec 2023 20:40:13 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702410015;
-	bh=fLvoy9Vtgdt4I74X/yGgtQus14ewjnV/vqJoRnQ6bMQ=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Wbwehby7qXiNIanBlO4l8S8G6L1upakOOvtY4KhRUxU6BJLYwAnhSX0o0McDwkNc1
-	 ZIfGAEvL9WO1xUAbqDcMtnrzdgJYq2dj9Qk+WXVG3CSeSV0z6cTFA8iJaMAl2MOrEm
-	 znET6iLTuKskxJ/e3Z0hSSPxaLNSg8Uy1GDd430A=
-From: Umang Jain <umang.jain@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: "Paul J . Murphy" <paul.j.murphy@intel.com>,
-	Daniele Alessandrelli <daniele.alessandrelli@intel.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1857CD
+	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 12:40:00 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702413600; x=1733949600;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=89nCA9al8z8ZwVpol+WkV26BQHHdGXN/l49oF/lim+Y=;
+  b=Vx5xe6FOXcWbrk9HcgdqgKI6Z9J9uOTiWEsj4GWY7xrFfPu6k8N+4p6s
+   +Q7+GVx1dLQaotxInwK5PxaxWi4ZG2Kyy35wMa42+uOiWZUul67zkXLf9
+   xmcZQKq7F3Ofigpfi/Sg7o6RZZqWEQFwsaRCF8OGSr+SsyFvaYFrOZ+1M
+   2lIpoKynFcQMoZJyhgMv6uF9iuQgGDBhPmtIG2vc6Nh4YUMmfOycxeBqd
+   Dul1asFdKaqvW4ltvas8aVtlgXpy08OHaYJ/T8YcAKj62vBi5mC4rzUBG
+   utXVZxmLF3oco8pvWJ58/oA9uiIZ/MYXDOd6mEzxKezsNem+ixXP84TWz
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="393739728"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="393739728"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 12:40:00 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="807905759"
+X-IronPort-AV: E=Sophos;i="6.04,271,1695711600"; 
+   d="scan'208";a="807905759"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 12:39:58 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 59AF611F816;
+	Tue, 12 Dec 2023 22:32:15 +0200 (EET)
+Date: Tue, 12 Dec 2023 20:32:15 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	linux-media@vger.kernel.org,
 	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v2] media: i2c: imx335: Support multiple link frequency
-Date: Wed, 13 Dec 2023 01:10:52 +0530
-Message-ID: <20231212194052.458361-1-umang.jain@ideasonboard.com>
-X-Mailer: git-send-email 2.41.0
+	Lee Jackson <lee.jackson@arducam.com>
+Subject: Re: [PATCH v7 2/2] media: i2c: Add driver for OmniVision OV64A40
+Message-ID: <ZXjDTyitj5APSv6s@kekkonen.localdomain>
+References: <20231212191117.133868-1-jacopo.mondi@ideasonboard.com>
+ <20231212191117.133868-3-jacopo.mondi@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231212191117.133868-3-jacopo.mondi@ideasonboard.com>
 
-Support link frequency of 445MHz in addition to 594MHz.
-Break out the register set specific to each data lane rate
-and add the general timing register set corresponding to
-each data lane rate configuration.
+Hi Jacopo,
 
-Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
----
-Changes in v2:
-- Split out from [PATCH v3 0/8] media: Sony IMX335 improvements
-  where original patch was introduced.
-- Add general timing registers to each data lane rate configuration
-- Reword commit message. 
----
- drivers/media/i2c/imx335.c | 108 +++++++++++++++++++++++++++++--------
- 1 file changed, 87 insertions(+), 21 deletions(-)
+On Tue, Dec 12, 2023 at 08:11:17PM +0100, Jacopo Mondi wrote:
+> +static const struct v4l2_subdev_pad_ops ov64a40_pad_ops = {
+> +	.init_cfg = ov64a40_init_cfg,
 
-diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index 7a37eb327ff4..030c4b3dab02 100644
---- a/drivers/media/i2c/imx335.c
-+++ b/drivers/media/i2c/imx335.c
-@@ -49,7 +49,8 @@
- #define IMX335_INCLK_RATE	24000000
- 
- /* CSI2 HW configuration */
--#define IMX335_LINK_FREQ	594000000
-+#define IMX335_LINK_FREQ_594MHz	594000000
-+#define IMX335_LINK_FREQ_445MHz	445500000
- #define IMX335_NUM_DATA_LANES	4
- 
- #define IMX335_REG_MIN		0x00
-@@ -99,7 +100,6 @@ static const char * const imx335_supply_name[] = {
-  * @vblank_min: Minimum vertical blanking in lines
-  * @vblank_max: Maximum vertical blanking in lines
-  * @pclk: Sensor pixel clock
-- * @link_freq_idx: Link frequency index
-  * @reg_list: Register list for sensor mode
-  */
- struct imx335_mode {
-@@ -111,7 +111,6 @@ struct imx335_mode {
- 	u32 vblank_min;
- 	u32 vblank_max;
- 	u64 pclk;
--	u32 link_freq_idx;
- 	struct imx335_reg_list reg_list;
- };
- 
-@@ -133,6 +132,7 @@ struct imx335_mode {
-  * @again_ctrl: Pointer to analog gain control
-  * @vblank: Vertical blanking in lines
-  * @cur_mode: Pointer to current selected sensor mode
-+ * @link_freq_idx: Selected link frequency index
-  * @mutex: Mutex for serializing sensor controls
-  * @cur_mbus_code: Currently selected media bus format code
-  */
-@@ -156,20 +156,16 @@ struct imx335 {
- 	};
- 	u32 vblank;
- 	const struct imx335_mode *cur_mode;
-+	u32 link_freq_idx;
- 	struct mutex mutex;
- 	u32 cur_mbus_code;
- };
- 
--static const s64 link_freq[] = {
--	IMX335_LINK_FREQ,
--};
- 
- /* Sensor mode registers */
- static const struct imx335_reg mode_2592x1940_regs[] = {
- 	{0x3000, 0x01},
- 	{0x3002, 0x00},
--	{0x300c, 0x3b},
--	{0x300d, 0x2a},
- 	{0x3018, 0x04},
- 	{0x302c, 0x3c},
- 	{0x302e, 0x20},
-@@ -177,10 +173,6 @@ static const struct imx335_reg mode_2592x1940_regs[] = {
- 	{0x3074, 0xc8},
- 	{0x3076, 0x28},
- 	{0x304c, 0x00},
--	{0x314c, 0xc6},
--	{0x315a, 0x02},
--	{0x3168, 0xa0},
--	{0x316a, 0x7e},
- 	{0x31a1, 0x00},
- 	{0x3288, 0x21},
- 	{0x328a, 0x02},
-@@ -266,6 +258,65 @@ static const struct imx335_reg raw12_framefmt_regs[] = {
- 	{0x341d, 0x00},
- };
- 
-+static const struct imx335_reg mipi_data_rate_1188Mbps[] = {
-+        {0x300c, 0x3b},
-+        {0x300d, 0x2a},
-+        {0x314c, 0xc6},
-+        {0x314d, 0x00},
-+        {0x315a, 0x02},
-+        {0x3168, 0xa0},
-+        {0x316a, 0x7e},
-+        {0x319e, 0x01},
-+        {0x3a18, 0x8f},
-+        {0x3a1a, 0x4f},
-+        {0x3a1c, 0x47},
-+        {0x3a1e, 0x37},
-+        {0x3a1f, 0x01},
-+        {0x3a20, 0x4f},
-+        {0x3a22, 0x87},
-+        {0x3a24, 0x4f},
-+        {0x3a26, 0x7f},
-+        {0x3a28, 0x3f},
-+};
-+
-+static const struct imx335_reg mipi_data_rate_891Mbps[] = {
-+        {0x300c, 0x3b},
-+        {0x300d, 0x2a},
-+        {0x314c, 0x29},
-+        {0x314d, 0x01},
-+        {0x315a, 0x06},
-+        {0x3168, 0xa0},
-+        {0x316a, 0x7e},
-+        {0x319e, 0x02},
-+        {0x3a18, 0x7f},
-+        {0x3a1a, 0x37},
-+        {0x3a1c, 0x37},
-+        {0x3a1e, 0xf7},
-+        {0x3a20, 0x3f},
-+        {0x3a22, 0x6f},
-+        {0x3a24, 0x3f},
-+        {0x3a26, 0x5f},
-+        {0x3a28, 0x2f},
-+};
-+
-+static const s64 link_freq[] = {
-+	/* Corresponds to 1188Mbps data lane rate */
-+	IMX335_LINK_FREQ_594MHz,
-+	/* Corresponds to 891Mbps data lane rate */
-+	IMX335_LINK_FREQ_445MHz,
-+};
-+
-+static const struct imx335_reg_list link_freq_reglist[] = {
-+	{
-+		.num_of_regs = ARRAY_SIZE(mipi_data_rate_1188Mbps),
-+		.regs = mipi_data_rate_1188Mbps,
-+	},
-+	{
-+		.num_of_regs = ARRAY_SIZE(mipi_data_rate_891Mbps),
-+		.regs = mipi_data_rate_891Mbps,
-+	},
-+};
-+
- static const u32 imx335_mbus_codes[] = {
- 	MEDIA_BUS_FMT_SRGGB12_1X12,
- 	MEDIA_BUS_FMT_SRGGB10_1X10,
-@@ -280,7 +331,6 @@ static const struct imx335_mode supported_mode = {
- 	.vblank_min = 2560,
- 	.vblank_max = 133060,
- 	.pclk = 396000000,
--	.link_freq_idx = 0,
- 	.reg_list = {
- 		.num_of_regs = ARRAY_SIZE(mode_2592x1940_regs),
- 		.regs = mode_2592x1940_regs,
-@@ -405,7 +455,7 @@ static int imx335_update_controls(struct imx335 *imx335,
- {
- 	int ret;
- 
--	ret = __v4l2_ctrl_s_ctrl(imx335->link_freq_ctrl, mode->link_freq_idx);
-+	ret = __v4l2_ctrl_s_ctrl(imx335->link_freq_ctrl, imx335->link_freq_idx);
- 	if (ret)
- 		return ret;
- 
-@@ -755,6 +805,14 @@ static int imx335_start_streaming(struct imx335 *imx335)
- 	const struct imx335_reg_list *reg_list;
- 	int ret;
- 
-+	/* Setup PLL */
-+	reg_list = &link_freq_reglist[imx335->link_freq_idx];
-+	ret = imx335_write_regs(imx335, reg_list->regs, reg_list->num_of_regs);
-+	if (ret) {
-+		dev_err(imx335->dev, "%s failed to set plls\n", __func__);
-+		return ret;
-+	}
-+
- 	/* Write sensor mode registers */
- 	reg_list = &imx335->cur_mode->reg_list;
- 	ret = imx335_write_regs(imx335, reg_list->regs,
-@@ -881,7 +939,7 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
- 	};
- 	struct fwnode_handle *ep;
- 	unsigned long rate;
--	unsigned int i;
-+	unsigned int i, j;
- 	int ret;
- 
- 	if (!fwnode)
-@@ -945,13 +1003,21 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
- 		goto done_endpoint_free;
- 	}
- 
--	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++)
--		if (bus_cfg.link_frequencies[i] == IMX335_LINK_FREQ)
--			goto done_endpoint_free;
- 
--	dev_err(imx335->dev, "no compatible link frequencies found\n");
-+	for (i = 0; i < bus_cfg.nr_of_link_frequencies; i++) {
-+		for (j = 0; j < ARRAY_SIZE(link_freq); j++) {
-+			if (bus_cfg.link_frequencies[i] == link_freq[j]) {
-+				imx335->link_freq_idx = j;
-+				break;
-+			}
-+		}
- 
--	ret = -EINVAL;
-+		if (j == ARRAY_SIZE(link_freq)) {
-+			ret = dev_err_probe(imx335->dev, -EINVAL,
-+					    "no supported link freq found\n");
-+			goto done_endpoint_free;
-+		}
-+	}
- 
- done_endpoint_free:
- 	v4l2_fwnode_endpoint_free(&bus_cfg);
-@@ -1101,7 +1167,7 @@ static int imx335_init_controls(struct imx335 *imx335)
- 							V4L2_CID_LINK_FREQ,
- 							ARRAY_SIZE(link_freq) -
- 							1,
--							mode->link_freq_idx,
-+							imx335->link_freq_idx,
- 							link_freq);
- 	if (imx335->link_freq_ctrl)
- 		imx335->link_freq_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+The init_cfg pad op is gone --- it has been replaced by init_state internal
+op.
+
 -- 
-2.41.0
-
+Sakari Ailus
 
