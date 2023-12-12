@@ -1,143 +1,162 @@
-Return-Path: <linux-media+bounces-2275-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2276-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C1980F60E
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 20:08:30 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id B423080F62B
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 20:11:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 395F51F2183F
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 19:08:30 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0E777B20E6D
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 19:11:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D65CE81E24;
-	Tue, 12 Dec 2023 19:08:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A46580059;
+	Tue, 12 Dec 2023 19:11:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Au4hC/1g"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PuqhG47G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F1980047;
-	Tue, 12 Dec 2023 19:08:14 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D54B9C433C8;
-	Tue, 12 Dec 2023 19:08:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702408094;
-	bh=jhISTjjXnV6IhH0cY8Vge/0tePQdfehvyIi305w0McY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Au4hC/1gn8GAGqeNMIHMx+pf9H5e6cZx6if1YTAQ6myI1fcVcXp5E5HE2JZd7l5Ox
-	 z67YTPNEYCNjnSuydNuYjf11+fIKfzPgHgAvXDJMesthEcR7qviRft/QV/5zK2IHqc
-	 ruHQ42BTGcBdnaq77FMuM0r1fOHC9LqNVWjgGTPuAoXZTpwGA7dF5WXD028QLwM5fU
-	 83R8uUGoHmwAgKnoHD0ERZyXGTjjQTXsSeJdhkJcoe/E2jvGdjrJ/mAO3N0OzKkaja
-	 5wgu6LG6g2ra++dYX1DnvaNKyc0fxe1LJrSA1Kpyox0qvKLpHzYMqlHmzVyMur9vKu
-	 ehmZCE5A0RUew==
-Date: Tue, 12 Dec 2023 19:08:06 +0000
-From: Simon Horman <horms@kernel.org>
-To: Mina Almasry <almasrymina@google.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	bpf@vger.kernel.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jeroen de Borst <jeroendb@google.com>,
-	Praveen Kaligineedi <pkaligineedi@google.com>,
-	Jesper Dangaard Brouer <hawk@kernel.org>,
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
-	Arnd Bergmann <arnd@arndb.de>, David Ahern <dsahern@kernel.org>,
-	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	Yunsheng Lin <linyunsheng@huawei.com>,
-	Harshitha Ramamurthy <hramamurthy@google.com>,
-	Shakeel Butt <shakeelb@google.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Subject: Re: [net-next v1 14/16] net: add SO_DEVMEM_DONTNEED setsockopt to
- release RX frags
-Message-ID: <20231212190806.GB5817@kernel.org>
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-15-almasrymina@google.com>
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EBB091
+	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 11:11:32 -0800 (PST)
+Received: from localhost.localdomain (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B49D510A;
+	Tue, 12 Dec 2023 20:10:45 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1702408246;
+	bh=IeJe5ZsBwezanPNtkzn9/IcDQZb1sIOwEAZbW9U7rrE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PuqhG47G4Q+tujTBBj7wSrtzCs5R81du/XRhhyxmldxQF81JPCjR6lBQK3J94lhTo
+	 qwFkagEewIRHqT/2rYvLKF1jZMyKeApRQ8zatB5EOt1AK68rSy9RF2+JiIibClAjDX
+	 VygvWEeb4Y0qpW9Aq5++5S82CICKgZySbpy/wIS0=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Subject: [PATCH v7 0/2] media: i2c: Add driver for OmniVision OV64A40
+Date: Tue, 12 Dec 2023 20:11:15 +0100
+Message-ID: <20231212191117.133868-1-jacopo.mondi@ideasonboard.com>
+X-Mailer: git-send-email 2.41.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231208005250.2910004-15-almasrymina@google.com>
+Content-Transfer-Encoding: 8bit
 
-On Thu, Dec 07, 2023 at 04:52:45PM -0800, Mina Almasry wrote:
-> Add an interface for the user to notify the kernel that it is done
-> reading the devmem dmabuf frags returned as cmsg. The kernel will
-> drop the reference on the frags to make them available for re-use.
-> 
-> Signed-off-by: Willem de Bruijn <willemb@google.com>
-> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+Add a v4l2 sensor driver for OmniVision OV64A40
 
-...
+----------------- V4L2 Compliance ---------------------------------------------
+./utils/v4l2-compliance/v4l2-compliance -d /dev/v4l-subdev0
+v4l2-compliance 1.25.0-5100, 32 bits, 32-bit time_t
+v4l2-compliance SHA: 8bf6cba8c0ef 2023-10-10 12:50:46
+Total for device /dev/v4l-subdev0: 44, Succeeded: 44, Failed: 0, Warnings: 0
 
-> diff --git a/net/core/sock.c b/net/core/sock.c
-> index fef349dd72fa..521bdc4ff260 100644
-> --- a/net/core/sock.c
-> +++ b/net/core/sock.c
-> @@ -1051,6 +1051,41 @@ static int sock_reserve_memory(struct sock *sk, int bytes)
->  	return 0;
->  }
->  
-> +static noinline_for_stack int
-> +sock_devmem_dontneed(struct sock *sk, sockptr_t optval, unsigned int optlen)
-> +{
-> +	struct dmabuf_token tokens[128];
+----------------- Build scripts -----------------------------------------------
+date:                   Wed Dec  6 14:52:17 CET 2023
+media-tree git repo:    git://git.kernel.org/pub/scm/linux/kernel/git/jmondi/linux.git
+media-tree git branch:  jmondi/ov64a40/mainline-v5
+media-tree git hash:    e7196a51fae1cbf69ca9891711019ddc20ed0a8a
+v4l-utils git hash:     4a6a3725dd192759c2998311b00440b84c60df57
+edid-decode git hash:   5f723267e04deb3aa9610483514a02bcee10d9c2
+gcc version:            i686-linux-gcc (GCC) 13.1.0
+ccache version:         ccache version 4.7.5
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:         v0.5.0-8526-gd4827317
+sparse version:         v0.5.0-8526-gd4827317
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 745fc7cf5ba1a1a841374c61e8470852232584c1
+host hardware:          x86_64
+host os:                6.1.0-10-amd64
 
-Hi Mina,
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
 
-I am guessing it is mostly due to the line above,
-but on x86 32bit builds I see:
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
 
-	warning: the frame size of 1048 bytes is larger than 1024 bytes [-Wframe-larger-than
+smatch: WARNINGS:
 
-> +	unsigned int num_tokens, i, j;
-> +	int ret;
-> +
-> +	if (sk->sk_type != SOCK_STREAM || sk->sk_protocol != IPPROTO_TCP)
-> +		return -EBADF;
-> +
-> +	if (optlen % sizeof(struct dmabuf_token) || optlen > sizeof(tokens))
-> +		return -EINVAL;
-> +
-> +	num_tokens = optlen / sizeof(struct dmabuf_token);
-> +	if (copy_from_sockptr(tokens, optval, optlen))
-> +		return -EFAULT;
-> +
-> +	ret = 0;
-> +	for (i = 0; i < num_tokens; i++) {
-> +		for (j = 0; j < tokens[i].token_count; j++) {
-> +			struct page *page = xa_erase(&sk->sk_user_pages,
-> +						     tokens[i].token_start + j);
-> +
-> +			if (page) {
-> +				if (WARN_ON_ONCE(!napi_pp_put_page(page,
-> +								   false)))
-> +					page_pool_page_put_many(page, 1);
-> +				ret++;
-> +			}
-> +		}
-> +	}
-> +
-> +	return ret;
-> +}
-> +
->  void sockopt_lock_sock(struct sock *sk)
->  {
->  	/* When current->bpf_ctx is set, the setsockopt is called from
+drivers/media/i2c/adv7180.c:1514 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1514.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/i2c/ov64a40.c:3562 ov64a40_probe() warn: passing zero to 'PTR_ERR'
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
 
-...
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+spec-git: OK
+kerneldoc: OK
+-------------------------------------------------------------------------------
+
+The smatch() warning reported here above:
+drivers/media/i2c/ov64a40.c:3562 ov64a40_probe() warn: passing zero to 'PTR_ERR'
+has been fixed.
+
+v6->v7:
+- Make also bus-type and data-lanes mandatory in bindings
+- Add Lee's signoff
+
+v5->v6:
+- Defined analogue_crop width and height as proper width/heights and subtract 1
+  when writing X_END/Y_END to registers
+- Make the DTS property link-frequencies required in bindings
+
+v4->v5:
+* Fix review comments received on RPi pull request (thanks Dave for review)
+  https://github.com/raspberrypi/linux/pull/5708
+* Handle runtime_pm in s_ctrl like it's done in CCS
+* Add support for test patterns
+* Add 8000x6000 mode
+* Use decimal numbers in modes definitions
+
+v3->v4:
+* Fix a few additional warnings reported by kernel test robot (which arrived a
+  few minutes after sending v3 out :(
+
+v2->v3:
+* Restore max size of 9248x6944
+* Select V4L2_CCI_I2C in Kconfig
+* Fix unused variable warning
+* Fix a few minor checkpatch warnings
+
+v1->v2:
+* rebased on sailus master
+  * Use new subdev state helpers
+* link frequency support (456MHz, 360MHz)
+* invert vflip bit setting
+* remove 1280x720 mode as it was broken
+* expanded VTS range to 24 bits
+* Reduce max resolution output to 9152x6944. Using full output resolution causes
+  green frames to be produced by the ISP (the raw frames are however correct)
+* reduce max analogue gain to 16x
+
+Jacopo Mondi (2):
+  media: dt-bindings: Add OmniVision OV64A40
+  media: i2c: Add driver for OmniVision OV64A40
+
+ .../bindings/media/i2c/ovti,ov64a40.yaml      |  103 +
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |   11 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ov64a40.c                   | 3686 +++++++++++++++++
+ 5 files changed, 3809 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
+ create mode 100644 drivers/media/i2c/ov64a40.c
+
+--
+2.41.0
+
 
