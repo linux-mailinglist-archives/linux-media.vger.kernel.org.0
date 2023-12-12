@@ -1,183 +1,117 @@
-Return-Path: <linux-media+bounces-2238-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2237-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5005A80EC89
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:51:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB5C880EC64
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:46:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AFF82B20CF4
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:51:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3F26AB20D1D
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:46:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0B8F60EC9;
-	Tue, 12 Dec 2023 12:50:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 673735FF17;
+	Tue, 12 Dec 2023 12:46:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AwYil9U7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T5+M+PHN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-x12f.google.com (mail-lf1-x12f.google.com [IPv6:2a00:1450:4864:20::12f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07E7F94;
-	Tue, 12 Dec 2023 04:50:54 -0800 (PST)
-Received: by mail-lf1-x12f.google.com with SMTP id 2adb3069b0e04-50bf32c0140so6386871e87.1;
-        Tue, 12 Dec 2023 04:50:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702385452; x=1702990252; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=9O9+yTVA6hQq2rcJvcn4x64WB1ElORifLYtvzXGaqVY=;
-        b=AwYil9U7r6cxuMRDqfUqwRpH8IeDv0jJjxZni/xewgljBZHJzTbqp559JtI/+Qy2uZ
-         5IGDgrd+oSIWyCWAmZp7cNUKf/jL7jzxYFo05CyFba++gSlL+9p7X2G6uwPtNeHieVRl
-         eB/b8RQIWfKw7JzDLDysrLzjos45OkTuOy9Pz+jPa6mUuftXgPC0zRqYFUiOZqFkXzj9
-         965lmXlRVZDtKNK8sE5Cztn2bFttZ2hlha8xf+Rsm4GggcP6FeGlQMM+rWyI8t5w3exj
-         AA19xSzAezcJ9FCX8aD9Pz9nlAWrmZJ26laKdyzxTTYKvGrv3ZrTjuMWDczqp+qtOFLe
-         wTIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702385452; x=1702990252;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9O9+yTVA6hQq2rcJvcn4x64WB1ElORifLYtvzXGaqVY=;
-        b=jttaU4mnXXRNrkJIbZt4bp0p9XkwU2vUyH+iR0Leajbl1k4UMlPwsKuN3i256t3xdH
-         3RiKo8bTmVDpXUJgFJdk/Oh4Bu+5HC8oHs5yypjg7XUJLuqRpQ4/1F6xWNjtOimYgaPm
-         C8JG66i9I8bo0gUhqbeO+yoMk4PudsQgtqvbLNz5DTrwiJFycW+KXUMavb92LxJ3oLRC
-         fVJtwu4LKR136WCBsy38d4HYsdDmvYqC78rAK0cnKgWi4YjIlWiX0R44j0xXfl1z9M/K
-         AqZX7OvAru1Mf1P6oL2EzyU5Qp1zxxzdrKTTtu5jIt1BgfT8wJytOl0gS/GjLghNgh3w
-         ImiA==
-X-Gm-Message-State: AOJu0YzfnmA3QYZqFy+WL/k84Z+RSdFnyT0f+itUaAilwVilbQ6HCCYK
-	QvseCHGyQ0TjFSxWIXIRkPhZQ4m5CYr0767/
-X-Google-Smtp-Source: AGHT+IEKDaiT/w0B+X05kJ/kfLYSSO2LmO5DZBcfBONpe7d5tkawfjqXIRWmQd5KfM74VwlPiRCCmQ==
-X-Received: by 2002:ac2:597a:0:b0:50c:125:c6c3 with SMTP id h26-20020ac2597a000000b0050c0125c6c3mr2692290lfp.128.1702385452084;
-        Tue, 12 Dec 2023 04:50:52 -0800 (PST)
-Received: from razdolb (95-24-145-153.broadband.corbina.ru. [95.24.145.153])
-        by smtp.gmail.com with ESMTPSA id b25-20020a0565120b9900b0050d1a13366esm1058584lfv.298.2023.12.12.04.50.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 04:50:51 -0800 (PST)
-References: <20231211175023.1680247-1-mike.rudenko@gmail.com>
- <20231211175023.1680247-12-mike.rudenko@gmail.com>
- <20231211221059.GJ27535@pendragon.ideasonboard.com>
-User-agent: mu4e 1.10.7; emacs 29.1
-From: Mikhail Rudenko <mike.rudenko@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Jacopo Mondi <jacopo@jmondi.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Subject: Re: [PATCH 11/19] media: i2c: ov4689: Implement vflip/hflip controls
-Date: Tue, 12 Dec 2023 15:42:13 +0300
-In-reply-to: <20231211221059.GJ27535@pendragon.ideasonboard.com>
-Message-ID: <87h6knpot0.fsf@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.20])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A7A4AC
+	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 04:46:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702385171; x=1733921171;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JKRSg/WDJg0PsU1UnwdUZvGAF7mD5CG4APRHbwifx80=;
+  b=T5+M+PHNUjObeZWNznpM2y6r9HI8MdtxrLcr7I5vQmKKNfKy4LyfmNZO
+   jViqbRHpMhr0qWSlEKDSxAXRCXXLWmdaRZeYC3ibGycTwvRbnS7F2bK5Y
+   PWfeoSXQNScHqVnvSn0nbQhm/6+nDoVXNK/TZJPbUC6gw+WAy19NF+I6x
+   CGS6IvcNP7ghS4kGGnB7wJjiAc+vN8++a4qkda4tKkvBundGdt90bBVp/
+   6B0PL2UwSeCJOx27FjsTgcxW0frwFxqUAx52Aw3Buvurg9wzuSKiqkMCj
+   xiIU+40FrQ4XBDYQj8z5DuXiSMec459+7UQ+jUEvW+12ZMTPPvnblqJla
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="385210246"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="385210246"
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 04:46:10 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="839423430"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="839423430"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 04:46:01 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E90F211F7E4;
+	Tue, 12 Dec 2023 14:45:58 +0200 (EET)
+Date: Tue, 12 Dec 2023 12:45:58 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Alexander Stein <alexander.stein@ew.tq-group.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Michael Riesch <michael.riesch@wolfvision.net>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Gerald Loacker <gerald.loacker@wolfvision.net>,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/3] media: i2c: imx415: Add more clock configurations
+Message-ID: <ZXhWBswzk88EAojU@kekkonen.localdomain>
+References: <20231205090557.298680-1-alexander.stein@ew.tq-group.com>
+ <20231205090557.298680-3-alexander.stein@ew.tq-group.com>
+ <ZXhGAR2fhEOjHXcJ@kekkonen.localdomain>
+ <2167674.irdbgypaU6@steina-w>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2167674.irdbgypaU6@steina-w>
 
+Hi Alexander,
 
-On 2023-12-12 at 00:10 +02, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+On Tue, Dec 12, 2023 at 01:18:18PM +0100, Alexander Stein wrote:
+> Hi Sakari,
+> 
+> Am Dienstag, 12. Dezember 2023, 12:37:37 CET schrieb Sakari Ailus:
+> > Hi Alexander,
+> > 
+> > On Tue, Dec 05, 2023 at 10:05:56AM +0100, Alexander Stein wrote:
+> > > Complete the list from "INCK Setting" section in IMX415-AAQR-C
+> > > (Rev. E19504, 2019/05/21)
+> > > 
+> > > Signed-off-by: Alexander Stein <alexander.stein@ew.tq-group.com>
+> > 
+> > Could you address these smatch warnings, and run
+> > 
+> > 	./scripts/checkpatch.pl --strict --max-line-length=80
+> > 
+> > on the patches?
+> > 
+> > drivers/media/i2c/imx415.c:402:30: warning: decimal constant 2376000000 is
+> > between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers
+> > are very likely to produce unsigned long (and a
+> > warning) here
+> > drivers/media/i2c/imx415.c:417:30: warning: decimal constant 2376000000 is
+> > between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers
+> > are very likely to produce unsigned long (and a
+> > warning) here
+> > drivers/media/i2c/imx415.c:432:30: warning: decimal constant 2376000000 is
+> > between LONG_MAX and ULONG_MAX. For C99 that means long long, C90 compilers
+> > are very likely to produce unsigned long (and a
+> > warning) here
+> 
+> Interesting, I don't have these warnings here. Is this some more recent 
+> checkpath.pl not in next?
 
-> Hi Mikhail,
->
-> Thank you for the patch.
->
-> On Mon, Dec 11, 2023 at 08:50:14PM +0300, Mikhail Rudenko wrote:
->> The OV4689 sensor supports horizontal and vertical flipping. Add
->> appropriate controls to the driver. Toggling both array flip and
->> digital flip bits allows to achieve flipping while maintaining output
->> Bayer order. Note that the default value of hflip control corresponds
->> to both bits set, as it was before this patch.
->
-> What happens if only hlip or vflip is set, does the bayer pattern change
-> ?
+Not checkpatch.pl but smatch <URL:https://github.com/error27/smatch>.
 
-If one changes both digital and analog flip bits (and this is what this
-driver does), bayer pattern stay the same for all possible vflip/hflip
-combinations. Unfortunately, the datasheet does not say much about these
-bits, but I have a hypothesis that the on-sensor ISP can somehow reorder
-pixels to keep the same bayer battern when asked.
+> I've addressed this and some 80 char length warnings as well. As I've
+> sent out v2 this morning already, I'm waiting a bit more bevore v3.
 
+Ack.
 
-> Sakari, I think this patch could use your attention.
->
->> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
->> ---
->>  drivers/media/i2c/ov4689.c | 24 ++++++++++++++++++++++--
->>  1 file changed, 22 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
->> index 67d4004bdcfb..62aeae43d749 100644
->> --- a/drivers/media/i2c/ov4689.c
->> +++ b/drivers/media/i2c/ov4689.c
->> @@ -46,6 +46,14 @@
->>  #define OV4689_HTS_DIVIDER		4
->>  #define OV4689_HTS_MAX			0x7fff
->>
->> +#define OV4689_REG_TIMING_FORMAT1	CCI_REG8(0x3820)
->> +#define OV4689_REG_TIMING_FORMAT2	CCI_REG8(0x3821)
->> +#define OV4689_TIMING_FLIP_MASK		GENMASK(2, 1)
->> +#define OV4689_TIMING_FLIP_ARRAY	BIT(1)
->> +#define OV4689_TIMING_FLIP_DIGITAL	BIT(2)
->> +#define OV4689_TIMING_FLIP_BOTH		(OV4689_TIMING_FLIP_ARRAY |\
->> +					 OV4689_TIMING_FLIP_DIGITAL)
->> +
->>  #define OV4689_LANES			4
->>  #define OV4689_XVCLK_FREQ		24000000
->>
->> @@ -183,7 +191,6 @@ static const struct cci_reg_sequence ov4689_2688x1520_regs[] = {
->>  	{CCI_REG8(0x3811), 0x08}, /* H_WIN_OFF_L h_win_off[7:0] = 0x08*/
->>  	{CCI_REG8(0x3813), 0x04}, /* V_WIN_OFF_L v_win_off[7:0] = 0x04 */
->>  	{CCI_REG8(0x3819), 0x01}, /* VSYNC_END_L vsync_end_point[7:0] = 0x01 */
->> -	{CCI_REG8(0x3821), 0x06}, /* TIMING_FORMAT2 array_h_mirror = 1, digital_h_mirror = 1 */
->>
->>  	/* OTP control */
->>  	{CCI_REG8(0x3d85), 0x36}, /* OTP_REG85 OTP_power_up_load_setting_enable = 1,
->> @@ -605,6 +612,16 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
->>  			  (val + ov4689->cur_mode->width) /
->>  			  OV4689_HTS_DIVIDER, &ret);
->>  		break;
->> +	case V4L2_CID_VFLIP:
->> +		cci_update_bits(regmap, OV4689_REG_TIMING_FORMAT1,
->> +				OV4689_TIMING_FLIP_MASK,
->> +				val ? OV4689_TIMING_FLIP_BOTH : 0, &ret);
->> +		break;
->> +	case V4L2_CID_HFLIP:
->> +		cci_update_bits(regmap, OV4689_REG_TIMING_FORMAT2,
->> +				OV4689_TIMING_FLIP_MASK,
->> +				val ? 0 : OV4689_TIMING_FLIP_BOTH, &ret);
->> +		break;
->>  	default:
->>  		dev_warn(dev, "%s Unhandled id:0x%x, val:0x%x\n",
->>  			 __func__, ctrl->id, val);
->> @@ -633,7 +650,7 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
->>
->>  	handler = &ov4689->ctrl_handler;
->>  	mode = ov4689->cur_mode;
->> -	ret = v4l2_ctrl_handler_init(handler, 11);
->> +	ret = v4l2_ctrl_handler_init(handler, 13);
->
-> This should be 12 if my comment on 10/19 is correct. Further patches in
-> the series may need to be adjusted too.
-
-Ack, will fix in v2.
-
->>  	if (ret)
->>  		return ret;
->>
->> @@ -673,6 +690,9 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
->>  				     ARRAY_SIZE(ov4689_test_pattern_menu) - 1,
->>  				     0, 0, ov4689_test_pattern_menu);
->>
->> +	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
->> +	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
->> +
->>  	if (handler->error) {
->>  		ret = handler->error;
->>  		dev_err(ov4689->dev, "Failed to init controls(%d)\n", ret);
-
-
---
-Best regards,
-Mikhail Rudenko
+-- 
+Sakari Ailus
 
