@@ -1,60 +1,60 @@
-Return-Path: <linux-media+bounces-2230-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2232-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E70F80EBA6
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:24:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBC6880EBBE
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:26:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AD9E91C20AEA
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:24:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C5EC91C20AF9
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:26:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 356A15EE68;
-	Tue, 12 Dec 2023 12:24:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B89B5EE74;
+	Tue, 12 Dec 2023 12:26:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iYsi7mxA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AaoCNquI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11878C3;
-	Tue, 12 Dec 2023 04:24:18 -0800 (PST)
-Received: by mail-lj1-x229.google.com with SMTP id 38308e7fff4ca-2ca2573d132so70921021fa.0;
-        Tue, 12 Dec 2023 04:24:17 -0800 (PST)
+Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5E8ED0;
+	Tue, 12 Dec 2023 04:26:16 -0800 (PST)
+Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50c02628291so5895860e87.0;
+        Tue, 12 Dec 2023 04:26:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702383856; x=1702988656; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1702383975; x=1702988775; darn=vger.kernel.org;
         h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
          :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=1ZVZWM9e8YBZqep1rmFbMgHvWIEA71KL+wfFhrMdLLQ=;
-        b=iYsi7mxAYpMuFS6LwkpXhkQYZc9bfir6/3TtemB5Xa+TyFoSyogFVmqx3bG0aN/fGB
-         w68ST4aTAjBJ0Nsn7GfM/V0El5N7WS1pp2gEigMI+2GOXZjw+GZgnQJPKz+MKfz0w9yC
-         qXfd/Y6F/ZMPEbSuwCOTZQgJWp98FqTDw8GI/r0bIbFY/Ta+8TQZ8HI+TuyoXzBTgeUb
-         P95fLS0QVQ3IE0dkHJcoKwtusy239BdM60NotG/tcaKGSTOSMnS5sGKWiP5+ye9gVnlW
-         2I9fNZTdd+9taJ1wl/ezGCkENFPzjPo9dBh5rTXsAh9EeVSRrWBGz2iOG8F9oBVzAeb7
-         foeQ==
+        bh=jDXYMaw1sbntLAVDHeEmPBhzTFML5db/VpzOyY7cHic=;
+        b=AaoCNquIixiVz/sNvhnKBOvmdT69RI3CDVjSimb7j8OKAdNU5ydkk/0ergVkjGuSNy
+         Bt1nsaN6q7glhbq+m5Ukgbs/fxBDiB1EZUPrVyReFdulpG/zzI9uZhroAHOEfv6Zcd/f
+         dm50uiVqdAQrdqFNFu8svE382SlFKKFS5zuQGQSk2hIN/BZX3XnkFw2cRSYkrVMKLfuc
+         KfmxCIX9Rc4XTZsZkQ45Mcvfr/sbgNSYsa89TETlcOqK6YbVd25kpTUnmQ2DmKLMSHer
+         LsPJjExl0VBpZWALtNT5W24WjYII17KSrU5QF7tKWHgqs0gsq/2wkiSPK67s7Id2Ykk7
+         VuAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702383856; x=1702988656;
+        d=1e100.net; s=20230601; t=1702383975; x=1702988775;
         h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
          :user-agent:references:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1ZVZWM9e8YBZqep1rmFbMgHvWIEA71KL+wfFhrMdLLQ=;
-        b=wa9zJIzMPU7EdZuZThAlZ1qLaw47SiBniaJP3NPVuOiuc7qx+80v9i30E2uPaeKbQ4
-         ZRT0eK1j8Ralm5VLhTWzO7A3JVAMSM4eipAsY1AA69a3fMtZNLDuRZttG1WZBIjmOaX2
-         D5tll4P+artJeSe/2O8iChUC1JxFMbKG3yKtqE3gqQnar9o38jRpwquwEe/fydVfDGzy
-         PF2D89F7CW4oglkZ/jWxkqQhUS2A/Arjjrx7W2jMXaSxmUZrgA0g9FRihvj6W43j+qQq
-         KqQToKoGQoWfqnZKaCGutU0KVfGyV/ah14hh4x1vdGpgPQa5bVVZgvN8x7DTeOQi7U0u
-         KWVQ==
-X-Gm-Message-State: AOJu0YwaaAqaHSs5NN6DTB70fCVRGfUQJKG3zZ+38XR0JjsrBa25TpsE
-	LbodeQHyG+Q5o3CmUtiayZ2Rz/XDVoCemyM+
-X-Google-Smtp-Source: AGHT+IF9coVJbPpQSGt+xDlllVc9s8rwTIhi+78jH5wFIHS9b7GMbwahf6Y07+lJ+5xF0sVe/0eGgw==
-X-Received: by 2002:ac2:4a7c:0:b0:50b:f07f:5308 with SMTP id q28-20020ac24a7c000000b0050bf07f5308mr3008857lfp.122.1702383855944;
-        Tue, 12 Dec 2023 04:24:15 -0800 (PST)
+        bh=jDXYMaw1sbntLAVDHeEmPBhzTFML5db/VpzOyY7cHic=;
+        b=qNZ+buYnjSKgp6EKdSODG09uvKuYw4tl4WlSX++ZeEfFX2MNH2rlOUMZ6TsEYAH6sk
+         sDB0tnpVB8XPk/mBlV5ZYL6Gr+1k7f/ykKZmIp9wykPgmXVdcWVXbJc+MdlQJ/9aPGAA
+         e/Vel6Tc3spUnLW2yrhivtmOX5cvdkIktYKNOJ9E84AC1jT0Plp3Q6eSwTituHfFB6q2
+         rx/AZi2sNJc3Rm0IDaK8k415MJZ1RVKPo3aAPWbEQqNJ6GgaSNvhAoRSQyMtrdN0M2n6
+         VRLS0mwtxd3GNfY0OzEEeLVz+kV2OV85XAPGv68Tljj0m7FEo6CzyNFWJ9Bdnviu8DYt
+         8N6Q==
+X-Gm-Message-State: AOJu0Yz7ldfXSgE8VsQosgpFFD3Ra/D9EhMzdVxmkj4cbOI8r4mVfIcz
+	yGbluxSblxm/KReuwr0Gin8=
+X-Google-Smtp-Source: AGHT+IG+wKzm5+bzSB/GcsQVOOmtuyN5ujoI9rs9Fi0kUEnxctzEKSBCI1fsFkUHAXH2ku79m60ahw==
+X-Received: by 2002:ac2:5466:0:b0:50b:eedd:edc6 with SMTP id e6-20020ac25466000000b0050beeddedc6mr2897740lfn.42.1702383974760;
+        Tue, 12 Dec 2023 04:26:14 -0800 (PST)
 Received: from razdolb (95-24-149-38.broadband.corbina.ru. [95.24.149.38])
-        by smtp.gmail.com with ESMTPSA id v25-20020ac25939000000b0050bef1c5b39sm1355454lfi.61.2023.12.12.04.24.15
+        by smtp.gmail.com with ESMTPSA id t17-20020a056512069100b0050bf1e8950esm1333018lfe.10.2023.12.12.04.26.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 04:24:15 -0800 (PST)
+        Tue, 12 Dec 2023 04:26:14 -0800 (PST)
 References: <20231211175023.1680247-1-mike.rudenko@gmail.com>
- <20231211175023.1680247-3-mike.rudenko@gmail.com>
- <20231211180142.GA27535@pendragon.ideasonboard.com>
+ <20231211175023.1680247-6-mike.rudenko@gmail.com>
+ <20231211181106.GD27535@pendragon.ideasonboard.com>
 User-agent: mu4e 1.10.7; emacs 29.1
 From: Mikhail Rudenko <mike.rudenko@gmail.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -63,10 +63,10 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Sakari Ailus
  Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Dave Stevenson
  <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
  <mchehab@kernel.org>
-Subject: Re: [PATCH 02/19] media: i2c: ov4689: Fix typo in a comment
-Date: Tue, 12 Dec 2023 15:22:40 +0300
-In-reply-to: <20231211180142.GA27535@pendragon.ideasonboard.com>
-Message-ID: <8734w7r4lt.fsf@gmail.com>
+Subject: Re: [PATCH 05/19] media: i2c: ov4689: Refactor ov4689_set_ctrl
+Date: Tue, 12 Dec 2023 15:25:27 +0300
+In-reply-to: <20231211181106.GD27535@pendragon.ideasonboard.com>
+Message-ID: <87y1dzppy2.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,39 +76,101 @@ MIME-Version: 1.0
 Content-Type: text/plain
 
 
-On 2023-12-11 at 20:01 +02, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+On 2023-12-11 at 20:11 +02, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-> On Mon, Dec 11, 2023 at 08:50:05PM +0300, Mikhail Rudenko wrote:
->> Fix a spelling error in a comment.
+> Hi Mikhail,
+>
+> Thank you for the patch.
+>
+> On Mon, Dec 11, 2023 at 08:50:08PM +0300, Mikhail Rudenko wrote:
+>> Introduces local variables for regmap and the control value within the
+>> ov4689_set_ctrl function. This adjustment eliminates repetition within
+>> the function.
 >>
 >> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
->
-> Starting with the easy one,
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->
-
-Hi Laurent,
-
-and thanks for the review!
-
 >> ---
->>  drivers/media/i2c/ov4689.c | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
+>>  drivers/media/i2c/ov4689.c | 22 +++++++++++-----------
+>>  1 file changed, 11 insertions(+), 11 deletions(-)
 >>
 >> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
->> index ff5213862974..53dcfc8685d4 100644
+>> index 8c120d7f7830..42700ecfbe0e 100644
 >> --- a/drivers/media/i2c/ov4689.c
 >> +++ b/drivers/media/i2c/ov4689.c
->> @@ -692,7 +692,7 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
->>
+>> @@ -584,7 +584,9 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
+>>  {
+>>  	struct ov4689 *ov4689 =
+>>  		container_of(ctrl->handler, struct ov4689, ctrl_handler);
+>> +	struct regmap *regmap = ov4689->regmap;
+>>  	struct device *dev = ov4689->dev;
+>> +	s32 val = ctrl->val;
+>
+> For ctrl->val, I think the code is clearer without this change. When
+> reading the function, seeing "val", I need to look up what it is, while
+> seeing "ctrl->val" gives me more context and makes (in my opinion) the
+> code more readable.
+
+Agreed, will revert to ctrl->val in v2.
+
+>>  	int sensor_gain;
+>>  	s64 max_expo;
+>>  	int ret;
+>> @@ -593,7 +595,7 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
+>>  	switch (ctrl->id) {
+>>  	case V4L2_CID_VBLANK:
+>>  		/* Update max exposure while meeting expected vblanking */
+>> -		max_expo = ov4689->cur_mode->height + ctrl->val - 4;
+>> +		max_expo = ov4689->cur_mode->height + val - 4;
+>>  		__v4l2_ctrl_modify_range(ov4689->exposure,
+>>  					 ov4689->exposure->minimum, max_expo,
+>>  					 ov4689->exposure->step,
+>> @@ -607,36 +609,34 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
 >>  	switch (ctrl->id) {
 >>  	case V4L2_CID_EXPOSURE:
->> -		/* 4 least significant bits of expsoure are fractional part */
->> +		/* 4 least significant bits of exposure are fractional part */
->>  		ret = ov4689_write_reg(ov4689->client, OV4689_REG_EXPOSURE,
->>  				       OV4689_REG_VALUE_24BIT, ctrl->val << 4);
+>>  		/* 4 least significant bits of exposure are fractional part */
+>> -		ret = cci_write(ov4689->regmap, OV4689_REG_EXPOSURE,
+>> -				ctrl->val << 4, NULL);
+>> +		cci_write(regmap, OV4689_REG_EXPOSURE, val << 4, &ret);
 >>  		break;
+>>  	case V4L2_CID_ANALOGUE_GAIN:
+>> -		ret = ov4689_map_gain(ov4689, ctrl->val, &sensor_gain);
+>> +		ret = ov4689_map_gain(ov4689, val, &sensor_gain);
+>>
+>> -		cci_write(ov4689->regmap, OV4689_REG_GAIN_H,
+>> +		cci_write(regmap, OV4689_REG_GAIN_H,
+>>  			  (sensor_gain >> OV4689_GAIN_H_SHIFT) &
+>>  			  OV4689_GAIN_H_MASK, &ret);
+>>
+>> -		cci_write(ov4689->regmap, OV4689_REG_GAIN_L,
+>> +		cci_write(regmap, OV4689_REG_GAIN_L,
+>>  			  sensor_gain & OV4689_GAIN_L_MASK,
+>>  			  &ret);
+>>  		break;
+>>  	case V4L2_CID_VBLANK:
+>> -		ret = cci_write(ov4689->regmap, OV4689_REG_VTS,
+>> -				ctrl->val + ov4689->cur_mode->height, NULL);
+>> +		cci_write(regmap, OV4689_REG_VTS,
+>> +			  val + ov4689->cur_mode->height, &ret);
+>>  		break;
+>>  	case V4L2_CID_TEST_PATTERN:
+>> -		ret = ov4689_enable_test_pattern(ov4689, ctrl->val);
+>> +		ret = ov4689_enable_test_pattern(ov4689, val);
+>>  		break;
+>>  	default:
+>>  		dev_warn(dev, "%s Unhandled id:0x%x, val:0x%x\n",
+>> -			 __func__, ctrl->id, ctrl->val);
+>> +			 __func__, ctrl->id, val);
+>>  		ret = -EINVAL;
+>>  		break;
+>>  	}
+>>
+>>  	pm_runtime_put(dev);
+>> -
+>>  	return ret;
+>>  }
+>>
+>> --
+>> 2.43.0
+>>
 
 
 --
