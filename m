@@ -1,111 +1,143 @@
-Return-Path: <linux-media+bounces-2274-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2275-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5BE3A80F54E
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 19:15:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C1980F60E
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 20:08:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8BFCD1C20D5F
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 18:14:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 395F51F2183F
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 19:08:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CDB27E77E;
-	Tue, 12 Dec 2023 18:14:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D65CE81E24;
+	Tue, 12 Dec 2023 19:08:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Au4hC/1g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 996029B
-	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 10:14:52 -0800 (PST)
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD7HK-00040L-KK; Tue, 12 Dec 2023 19:14:46 +0100
-Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD7HI-00FOxL-SC; Tue, 12 Dec 2023 19:14:44 +0100
-Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
-	(envelope-from <ukl@pengutronix.de>)
-	id 1rD7HI-001p8f-I9; Tue, 12 Dec 2023 19:14:44 +0100
-Date: Tue, 12 Dec 2023 19:14:44 +0100
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-To: Sean Young <sean@mess.org>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 5/6] pwm: bcm2835: Allow PWM driver to be used in
- atomic context
-Message-ID: <20231212181444.mw5kxff5ijz676qh@pengutronix.de>
-References: <cover.1702369869.git.sean@mess.org>
- <e9e32c9789da3c90b5a2aa7d5a093120b76421fb.1702369869.git.sean@mess.org>
- <20231212160838.k4z4csy455a7qnje@pengutronix.de>
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0F1980047;
+	Tue, 12 Dec 2023 19:08:14 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D54B9C433C8;
+	Tue, 12 Dec 2023 19:08:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702408094;
+	bh=jhISTjjXnV6IhH0cY8Vge/0tePQdfehvyIi305w0McY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Au4hC/1gn8GAGqeNMIHMx+pf9H5e6cZx6if1YTAQ6myI1fcVcXp5E5HE2JZd7l5Ox
+	 z67YTPNEYCNjnSuydNuYjf11+fIKfzPgHgAvXDJMesthEcR7qviRft/QV/5zK2IHqc
+	 ruHQ42BTGcBdnaq77FMuM0r1fOHC9LqNVWjgGTPuAoXZTpwGA7dF5WXD028QLwM5fU
+	 83R8uUGoHmwAgKnoHD0ERZyXGTjjQTXsSeJdhkJcoe/E2jvGdjrJ/mAO3N0OzKkaja
+	 5wgu6LG6g2ra++dYX1DnvaNKyc0fxe1LJrSA1Kpyox0qvKLpHzYMqlHmzVyMur9vKu
+	 ehmZCE5A0RUew==
+Date: Tue, 12 Dec 2023 19:08:06 +0000
+From: Simon Horman <horms@kernel.org>
+To: Mina Almasry <almasrymina@google.com>
+Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	bpf@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>, David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeelb@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Subject: Re: [net-next v1 14/16] net: add SO_DEVMEM_DONTNEED setsockopt to
+ release RX frags
+Message-ID: <20231212190806.GB5817@kernel.org>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-15-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="llbhn5mnvxkhmahv"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231212160838.k4z4csy455a7qnje@pengutronix.de>
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ukl@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+In-Reply-To: <20231208005250.2910004-15-almasrymina@google.com>
 
+On Thu, Dec 07, 2023 at 04:52:45PM -0800, Mina Almasry wrote:
+> Add an interface for the user to notify the kernel that it is done
+> reading the devmem dmabuf frags returned as cmsg. The kernel will
+> drop the reference on the frags to make them available for re-use.
+> 
+> Signed-off-by: Willem de Bruijn <willemb@google.com>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
 
---llbhn5mnvxkhmahv
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+...
 
-Hello Sean,
+> diff --git a/net/core/sock.c b/net/core/sock.c
+> index fef349dd72fa..521bdc4ff260 100644
+> --- a/net/core/sock.c
+> +++ b/net/core/sock.c
+> @@ -1051,6 +1051,41 @@ static int sock_reserve_memory(struct sock *sk, int bytes)
+>  	return 0;
+>  }
+>  
+> +static noinline_for_stack int
+> +sock_devmem_dontneed(struct sock *sk, sockptr_t optval, unsigned int optlen)
+> +{
+> +	struct dmabuf_token tokens[128];
 
-On Tue, Dec 12, 2023 at 05:08:38PM +0100, Uwe Kleine-K=F6nig wrote:
-> On Tue, Dec 12, 2023 at 08:34:04AM +0000, Sean Young wrote:
-> > @@ -169,6 +179,7 @@ static int bcm2835_pwm_suspend(struct device *dev)
-> >  {
-> >  	struct bcm2835_pwm *pc =3D dev_get_drvdata(dev);
-> > =20
-> > +	clk_rate_exclusive_put(pc->clk);
-> >  	clk_disable_unprepare(pc->clk);
->=20
-> I thought this was the remove function, but that's suspend. Adding
-> clk_rate_exclusive_put() there is wrong.
+Hi Mina,
 
-https://lore.kernel.org/linux-clk/744a6371f94fe96f527eea6e52a600914e6fb6b5.=
-1702403904.git.u.kleine-koenig@pengutronix.de/
-might be useful to fix this.
+I am guessing it is mostly due to the line above,
+but on x86 32bit builds I see:
 
-Best regards
-Uwe
+	warning: the frame size of 1048 bytes is larger than 1024 bytes [-Wframe-larger-than
 
---=20
-Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
-Industrial Linux Solutions                 | https://www.pengutronix.de/ |
+> +	unsigned int num_tokens, i, j;
+> +	int ret;
+> +
+> +	if (sk->sk_type != SOCK_STREAM || sk->sk_protocol != IPPROTO_TCP)
+> +		return -EBADF;
+> +
+> +	if (optlen % sizeof(struct dmabuf_token) || optlen > sizeof(tokens))
+> +		return -EINVAL;
+> +
+> +	num_tokens = optlen / sizeof(struct dmabuf_token);
+> +	if (copy_from_sockptr(tokens, optval, optlen))
+> +		return -EFAULT;
+> +
+> +	ret = 0;
+> +	for (i = 0; i < num_tokens; i++) {
+> +		for (j = 0; j < tokens[i].token_count; j++) {
+> +			struct page *page = xa_erase(&sk->sk_user_pages,
+> +						     tokens[i].token_start + j);
+> +
+> +			if (page) {
+> +				if (WARN_ON_ONCE(!napi_pp_put_page(page,
+> +								   false)))
+> +					page_pool_page_put_many(page, 1);
+> +				ret++;
+> +			}
+> +		}
+> +	}
+> +
+> +	return ret;
+> +}
+> +
+>  void sockopt_lock_sock(struct sock *sk)
+>  {
+>  	/* When current->bpf_ctx is set, the setsockopt is called from
 
---llbhn5mnvxkhmahv
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4oxMACgkQj4D7WH0S
-/k4mdAgAn2zEXY7AwmY1SR/n2nlH95E9ZMWuZsWEE5YGkmiMVuu3Vxndi5GvL9Dh
-dd1KzI3rvGRWEOh7sNhr8gdfyRFVBwFE8N0IMRWH5SOOL6uMiDV5qB8gcQF4cHJf
-sVZp1wxCIrv8QVmdNVhafSAIz7ojkYJpls9Hp18MfZWAJ40kwuUQSRqx3zu565rr
-fAujilnhb2J/JgM+SBmkERoG5p7RPdJ7Txck7nT2/poL7wwwhxBK5uBAHsIzLbiq
-iiM1wU/uYHSSEln0EYdz74u47W65H8hiKG6e/CdhThnLh6p29h+R9UtQpNSktAe6
-nfXqhhqc2AWJJk1y3kL2nDV/gkykzg==
-=ZifV
------END PGP SIGNATURE-----
-
---llbhn5mnvxkhmahv--
+...
 
