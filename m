@@ -1,138 +1,133 @@
-Return-Path: <linux-media+bounces-2235-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2234-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DEDF80EBF2
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:36:49 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 207FB80EBE8
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:35:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA2E3281399
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:36:47 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4980B20D66
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:35:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C32DC5EE97;
-	Tue, 12 Dec 2023 12:36:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6427C5A112;
+	Tue, 12 Dec 2023 12:35:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WY2T7F/A"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MFtjG3Rz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-x235.google.com (mail-lj1-x235.google.com [IPv6:2a00:1450:4864:20::235])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EE7794;
-	Tue, 12 Dec 2023 04:36:40 -0800 (PST)
-Received: by mail-lj1-x235.google.com with SMTP id 38308e7fff4ca-2c9c18e7990so77614791fa.2;
-        Tue, 12 Dec 2023 04:36:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702384598; x=1702989398; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=y0U8C03jENiQyug4wgXGlQLyI17m/495KhTqWQqHckw=;
-        b=WY2T7F/Af31Rr/oMCGCEJiXucHIIJ6sbZ/+TEHQ1GiDfPlJH3fDyAWcjBOluG1D8+s
-         7rZJ8/PTHtMniLXkn0j9XInQHrZlNym4CmosjAkDj1JGygTAVdhWe1rLN/ieiVKQj5ZN
-         LqrEl+l295qZzI3gLpEHjD/+Hc6Kh+Jt362A3ZsSdvm9sxg/qzv3CNUaDnSMfjj7QFpj
-         rS+CyVZWaLdG67ZXzJ1Z7W8AEEiaS6t7lzQpB+Xsjxl+oAeNWyu4xjw5RgwZrEhY2Btt
-         Ds5RcarBftFwwMm8SS806vK9yaYJ7m4ARx8K9VchvSSlctKnQMXM1hUXt1s8ZJ0sRw+l
-         QQ8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702384598; x=1702989398;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=y0U8C03jENiQyug4wgXGlQLyI17m/495KhTqWQqHckw=;
-        b=BAFuU2K48gJvOte+B3++uwwzo5ggm40i4MWjq6m94qksHNCsQwRr692Xvywuo7UyP/
-         B/8VRNDoosMYKIMHVKCCHiMWQzUmIDPdxFt1l80amiJz2SLSxS3gFNK4X+Vw/6BFUg91
-         4mH930Z+Tq9CLcdEtSEQkhDtzrcfJKHia73AGu+S07+MliC0ZYgtQ0GwbK06cDb2FTbi
-         7bpzo/XQ3pU0JKqGZbjoQe1L5YDu4OBbu6E0BJOPUxFhH92Kb7W9umEEZ64LJVnaAd/7
-         bdTps6n9bkAJ17da4iKi7bkzZCTINKZAdHQfnEU01ydJbnuBy0GYLa+C2zksalXswdZh
-         qLYw==
-X-Gm-Message-State: AOJu0YyckohB5htIEdo5ARma81u3xH3SxvG2aaXAmqHpAlpAgl2EiRCm
-	JxXLsbdwIr63S6An+ASi0Bw=
-X-Google-Smtp-Source: AGHT+IH3JJecfYt4Cf1zcoOxxLx4u6YaWopcQ/hN9uWzz8MiNeGJgswKjX0exxoVI2z0dXoX5VM+ew==
-X-Received: by 2002:a2e:8648:0:b0:2ca:dc7:658e with SMTP id i8-20020a2e8648000000b002ca0dc7658emr2550358ljj.49.1702384598267;
-        Tue, 12 Dec 2023 04:36:38 -0800 (PST)
-Received: from razdolb (95-24-149-38.broadband.corbina.ru. [95.24.149.38])
-        by smtp.gmail.com with ESMTPSA id g8-20020a2eb5c8000000b002cc2141ca86sm661424ljn.93.2023.12.12.04.36.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 04:36:37 -0800 (PST)
-References: <20231211175023.1680247-1-mike.rudenko@gmail.com>
- <20231211175023.1680247-9-mike.rudenko@gmail.com>
- <20231211181935.GG27535@pendragon.ideasonboard.com>
-User-agent: mu4e 1.10.7; emacs 29.1
-From: Mikhail Rudenko <mike.rudenko@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Jacopo Mondi <jacopo@jmondi.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Subject: Re: [PATCH 08/19] media: i2c: ov4689: Enable runtime PM before
- registering sub-device
-Date: Tue, 12 Dec 2023 15:32:31 +0300
-In-reply-to: <20231211181935.GG27535@pendragon.ideasonboard.com>
-Message-ID: <87plzbppgq.fsf@gmail.com>
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA46394;
+	Tue, 12 Dec 2023 04:34:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702384499; x=1733920499;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=1t4WPBB2iV6mGz2IjxnelPLPuKPitQiGr3DtbVpwRDE=;
+  b=MFtjG3Rz4EdHyJ0cuYXccAnB/E9yqRaZ2D0IxWnhlcFv7XCPcm3UO/1M
+   VVzKiP7urUBvHAV8FjNLMtSuTaW+hUZPt7F2hT3JCTM5Ny1/zpDc0moK+
+   i0r/ses+hj3nbAflDTLdWlspLWFq4j4Wt12g7kQsYW6iKF1m6BW6+WdzC
+   C0XhYd4elvl0j9pVLN5Aa4vItLZRayv7g/tJd0Guoqr8r4tfuUyUr9IbH
+   Sm3eiq/D8nLv2WrtLtlJb+yRGAnOI5iWQwYFa2ZxIs3x0iu2X+FalohPB
+   r1yy0HueLrLL0Oqwx5NoYZTYet/fNh8Jtgfa99EeVWrtvngS91fs7zr6N
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1951097"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="1951097"
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 04:34:58 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="896909252"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="896909252"
+Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 04:34:52 -0800
+Received: from kekkonen.localdomain (localhost [127.0.0.1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id BA8FD11F7E4;
+	Tue, 12 Dec 2023 14:34:49 +0200 (EET)
+Date: Tue, 12 Dec 2023 12:34:49 +0000
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Tommaso Merciai <tomm.merciai@gmail.com>
+Cc: laurent.pinchart@ideasonboard.com, martin.hecht@avnet.eu,
+	michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
+	mhecht73@gmail.com, christophe.jaillet@wanadoo.fr,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Gerald Loacker <gerald.loacker@wolfvision.net>,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Nicholas Roth <nicholas@rothemail.net>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v15 3/3] media: i2c: Add support for alvium camera
+Message-ID: <ZXhTaaXZf2WMkAgr@kekkonen.localdomain>
+References: <20231204094719.190334-1-tomm.merciai@gmail.com>
+ <20231204094719.190334-4-tomm.merciai@gmail.com>
+ <ZXhGQuqTZogWTJ42@kekkonen.localdomain>
+ <ZXhHrhNQfn0uJMjk@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <ZXhIaB_NTDtSJmj5@kekkonen.localdomain>
+ <ZXhPabGpUDJNSgiZ@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ZXhPabGpUDJNSgiZ@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
 
+Hi Tommaso,
 
-On 2023-12-11 at 20:19 +02, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
+On Tue, Dec 12, 2023 at 01:17:45PM +0100, Tommaso Merciai wrote:
+> Hi Sakari,
+> Just a clarification about the following warnings:
+> 
+> Fixed on my side with:
+> 
+> CHECK: Assignment operator '=' should be on the previous line
+> 
+> -       alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8_LEG]
+> -                                 = avail_fmt->yuv420_8_leg;
+> +       alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8_LEG] =
+> +                                 avail_fmt->yuv420_8_leg;
 
-> Hi Mikhail,
->
-> Thank you for the patch.
->
-> On Mon, Dec 11, 2023 at 08:50:11PM +0300, Mikhail Rudenko wrote:
->> As the sensor may be accessible right after its async sub-device is
->> registered, enable runtime PM before doing so.
->
-> While at it, could you also switch to runtime PM autosuspend, possibly
-> in a separate patch ? See for instance the imx290 driver.
+This one seems good.
 
-I actually had a plan to do this in this series, but it had grown a
-little bigger then expected and I had to drop a few non-essential
-patches, including PM autosuspend. But if you suggest, I'll bring in
-back in v2.
+> 
+> CHECK: line length of 81 exceeds 80 columns
+> #1085: FILE: drivers/media/i2c/alvium-csi2.c:1085:
+> +		if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
+> 
+> CHECK: line length of 81 exceeds 80 columns
+> #1102: FILE: drivers/media/i2c/alvium-csi2.c:1102:
+> +		if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
+> 
+> 
+> Fixed on my side with:
+> 
+>         /* Create the alvium_csi2 fmt array from formats available */
+>         for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
+> -               if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
+> +               if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt]
+> +                               .fmt_av_bit])
 
->> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
->> ---
->>  drivers/media/i2c/ov4689.c | 8 ++++----
->>  1 file changed, 4 insertions(+), 4 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
->> index 2eef64cd0070..ba33b0ced532 100644
->> --- a/drivers/media/i2c/ov4689.c
->> +++ b/drivers/media/i2c/ov4689.c
->> @@ -874,16 +874,16 @@ static int ov4689_probe(struct i2c_client *client)
->>  		goto err_clean_entity;
->>  	}
->>
->> +	pm_runtime_set_active(dev);
->> +	pm_runtime_enable(dev);
->> +	pm_runtime_idle(dev);
->> +
->>  	ret = v4l2_async_register_subdev_sensor(sd);
->>  	if (ret) {
->>  		dev_err(dev, "v4l2 async register subdev failed\n");
->>  		goto err_clean_subdev;
->
-> Don't you need to disable runtime PM in the error path ?
+I wouldn't introduce a line break in these two cases.
 
-Ack, will improve error in v2.
+>                         continue;
+> 
+> Can be ok for you?
+> If yes I'm going to prepare the patch on top of your media_tree/master
+> branch.
 
->>  	}
->>
->> -	pm_runtime_set_active(dev);
->> -	pm_runtime_enable(dev);
->> -	pm_runtime_idle(dev);
->> -
->>  	return 0;
->>
->>  err_clean_subdev:
+Ack.
 
-
---
-Best regards,
-Mikhail Rudenko
+-- 
+Sakari Ailus
 
