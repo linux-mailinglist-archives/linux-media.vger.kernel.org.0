@@ -1,141 +1,100 @@
-Return-Path: <linux-media+bounces-2265-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2270-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32C4D80F0E6
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 16:30:26 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 574AE80F1E5
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 17:08:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB53B1F20F0B
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 15:30:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A6882817C1
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 16:08:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4A557D8A2;
-	Tue, 12 Dec 2023 15:27:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 107DD77656;
+	Tue, 12 Dec 2023 16:08:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XZE/1j13"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BCm1mo8W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 008BD76DDF;
-	Tue, 12 Dec 2023 15:27:46 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C6CDC433CB;
-	Tue, 12 Dec 2023 15:27:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702394866;
-	bh=DWg3sQ9qxo14q4VzdIjndy7b2Wyci4KHHq5fC3tFwHw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XZE/1j13EWy8z8pFkXqNRn6HYJzjFYN/10G8iu8cAoafoyKUIycSHgfsSyvCG2Teo
-	 WIYd8P+3bQWl5nIbbFYJJT9TxFvKa61BuG3l1DafVw0ekfJDR8qSKIxXKDzCInlZYV
-	 raUWL9oNnYA4SBKtgOH4ful8G+RZ+T/71QpgbHLJGeR0sVbnohOUMP3PCXgg3SfKK2
-	 I9ufZ93he66i2gRzet1ebLl1wH5amInfBW6CfiulcjcH7V2WDx4RmZaQ5GFC1P65zR
-	 XRdJhdv/ySQONhdGuJFe03izK1d+T/JtjpbEhiwAqjmZ4pejzLDtj95C/Gi2y5/LVG
-	 RVsC/UmRz27YA==
-Date: Tue, 12 Dec 2023 15:27:35 +0000
-From: Mark Brown <broonie@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>,
-	Sean Young <sean@mess.org>, Jean Delvare <jdelvare@suse.com>,
-	Javier Martinez Canillas <javierm@redhat.com>,
-	Liam Girdwood <lgirdwood@gmail.com>, Helge Deller <deller@gmx.de>,
-	linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
-	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Support Opensource <support.opensource@diasemi.com>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Pavel Machek <pavel@ucw.cz>, Lee Jones <lee@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Mark Gross <markgross@kernel.org>,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Jani Nikula <jani.nikula@intel.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	platform-driver-x86@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-fbdev@vger.kernel.org
-Subject: Re: [PATCH v8 1/6] pwm: Rename pwm_apply_state() to
- pwm_apply_might_sleep()
-Message-ID: <7594ea09-a6f3-4dac-acb3-d5f899f9cf84@sirena.org.uk>
-References: <cover.1702369869.git.sean@mess.org>
- <9af7ba748fd2eb7e04208b6b183185f1daf78016.1702369869.git.sean@mess.org>
- <20231212114100.sn7nzntousql2ays@pengutronix.de>
- <f7be8d89-25ae-4d83-9577-12fcac41d0ab@roeck-us.net>
+Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED6111D
+	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 08:08:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1702397283; x=1733933283;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=cFBdoTZ5fhsZheQJNeg0clfOcDH5a1bwW/O5K1uAiS8=;
+  b=BCm1mo8WKTHzfbozale/2BhFjxUa47at/2U5UB6nB7tVKHJVQlbeVgro
+   E6whGAV7FfXXbX2u9P15lGGsDGt3O3sJni8jUdc8igZ2tBXTiuv0opUlV
+   FJeVMVUcFmwrK2rH+wh3IU2RWhtBDA2wTNkGBskoYxkktXorjsDz3HfTs
+   16RP6JIHm2UX2HPOZyTzGRGtzAVuXRXjhAitFP+bNGKksYwk72/A3MZ7G
+   VGDcHPkvxj6twlRoqC+z2PDKUf2b3Lgxno+89RpYdkwubMtAEkSLvCEI7
+   edC5BRbc47FfZ4hb1h64b9pGLC0k47n+uCAgYuR4xFEP+QHE4LrdU5uB7
+   g==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="379824183"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="379824183"
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 08:08:03 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="843967766"
+X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
+   d="scan'208";a="843967766"
+Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
+  by fmsmga004.fm.intel.com with ESMTP; 12 Dec 2023 08:07:56 -0800
+Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1rD5IW-000JOF-2k;
+	Tue, 12 Dec 2023 16:07:52 +0000
+Date: Wed, 13 Dec 2023 00:07:41 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, laurent.pinchart@ideasonboard.com,
+	jacopo.mondi@ideasonboard.com, Bingbu Cao <bingbu.cao@intel.com>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH 1/4] media: v4l: Add a helper for setting up
+ link-frequencies control
+Message-ID: <202312122344.1l0j6bV6-lkp@intel.com>
+References: <20231211140658.366268-2-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="iRFgPhdLTHQFhazT"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f7be8d89-25ae-4d83-9577-12fcac41d0ab@roeck-us.net>
-X-Cookie: If rash develops, discontinue use.
+In-Reply-To: <20231211140658.366268-2-sakari.ailus@linux.intel.com>
 
+Hi Sakari,
 
---iRFgPhdLTHQFhazT
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+kernel test robot noticed the following build warnings:
 
-On Tue, Dec 12, 2023 at 07:22:18AM -0800, Guenter Roeck wrote:
-> On 12/12/23 03:41, Uwe Kleine-K=F6nig wrote:
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on linuxtv-media-stage/master sailus-media-tree/streams linus/master v6.7-rc5 next-20231212]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-> > Several affected maintainers already acked, so I guess it's fine to take
-> > this via the pwm tree. An Ack from the remaining maintainers would be
-> > very welcome, an alternative would be to split the patch.
+url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-Add-a-helper-for-setting-up-link-frequencies-control/20231211-220844
+base:   git://linuxtv.org/media_tree.git master
+patch link:    https://lore.kernel.org/r/20231211140658.366268-2-sakari.ailus%40linux.intel.com
+patch subject: [PATCH 1/4] media: v4l: Add a helper for setting up link-frequencies control
+reproduce: (https://download.01.org/0day-ci/archive/20231212/202312122344.1l0j6bV6-lkp@intel.com/reproduce)
 
-> > Missing Acks so far:
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202312122344.1l0j6bV6-lkp@intel.com/
 
-> >   - Jean Delvare / Guenter Roeck for drivers/hwmon/pwm-fan.c
-> >   - Javier Martinez Canillas for drivers/gpu/drm/solomon/ssd130x.c
-> >   - Liam Girdwood / Mark Brown for drivers/regulator/pwm-regulator.c
-> >   - Helge Deller for drivers/video/fbdev/ssd1307fb.c
+All warnings (new ones prefixed by >>):
 
-> Personally I find the change unnecessary and pointless, which is why I
-> didn't ack it. Even if function names were deemed important enough, keepi=
-ng
-> pwm_apply_state() for the time being and just adding pwm_apply_might_slee=
-p()
-> as duplicate would have done it, all the changes could have gone in long
-> ago, and per-subsystem cleanup could have been orthogonal.
+>> Documentation/driver-api/media/v4l2-common:6: ./include/media/v4l2-common.h:567: WARNING: Unexpected indentation.
+>> Documentation/driver-api/media/v4l2-common:6: ./include/media/v4l2-common.h:568: WARNING: Block quote ends without a blank line; unexpected unindent.
 
-> I refrained from commenting because it might be considered bike shedding,
-> but I don't want to ack something I deem unnecessary and pointless without
-> comment. But then don't want to keep arguing either, so
-
-I haven't been reading this series because I couldn't tell why I was
-copied on it, it's only chance that made me open Guenter's mail here...
-
-Acked-by: Mark Brown <broonie@kernel.org>
-
---iRFgPhdLTHQFhazT
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmV4e+YACgkQJNaLcl1U
-h9Aqewf/UALlUMgqzHC9oYZI+Kcf9eGgd7QO/+pxhbI5hMnT5tFRH9lkihV8NhkZ
-moY0GH6PcO8YFj0y+Hs89vmJCd3MRAJ7tZ3eEg5/Q7BJejmk7kB24R5TlqUHUcg7
-DcHugsUrGAmvt3afuF03VqA53HlJ6D43J0cIv5j5X8x18v9Z4s0/4z+/zuMEJ8qi
-05gpioqCsqqPxlKMuWv9qPxn6PDVO3JMk7OUodLi1Tdzfio/b7/81nRQX6DgpHm4
-odCEdmvJwIAukE1TlXxfpb7GZuHEe0z04rKSLfvDj6s90hRM9uHdJb3L7kp1Xf0n
-nsm4Twh4PnRdMJRKACafo9HyC8RvJw==
-=Wkx1
------END PGP SIGNATURE-----
-
---iRFgPhdLTHQFhazT--
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
