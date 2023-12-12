@@ -1,100 +1,105 @@
-Return-Path: <linux-media+bounces-2270-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2271-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 574AE80F1E5
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 17:08:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9755F80F1EB
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 17:08:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A6882817C1
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 16:08:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 535542818A0
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 16:08:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 107DD77656;
-	Tue, 12 Dec 2023 16:08:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BCm1mo8W"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2403577659;
+	Tue, 12 Dec 2023 16:08:50 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [134.134.136.126])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9ED6111D
-	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 08:08:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702397283; x=1733933283;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=cFBdoTZ5fhsZheQJNeg0clfOcDH5a1bwW/O5K1uAiS8=;
-  b=BCm1mo8WKTHzfbozale/2BhFjxUa47at/2U5UB6nB7tVKHJVQlbeVgro
-   E6whGAV7FfXXbX2u9P15lGGsDGt3O3sJni8jUdc8igZ2tBXTiuv0opUlV
-   FJeVMVUcFmwrK2rH+wh3IU2RWhtBDA2wTNkGBskoYxkktXorjsDz3HfTs
-   16RP6JIHm2UX2HPOZyTzGRGtzAVuXRXjhAitFP+bNGKksYwk72/A3MZ7G
-   VGDcHPkvxj6twlRoqC+z2PDKUf2b3Lgxno+89RpYdkwubMtAEkSLvCEI7
-   edC5BRbc47FfZ4hb1h64b9pGLC0k47n+uCAgYuR4xFEP+QHE4LrdU5uB7
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="379824183"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="379824183"
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 08:08:03 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="843967766"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="843967766"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga004.fm.intel.com with ESMTP; 12 Dec 2023 08:07:56 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rD5IW-000JOF-2k;
-	Tue, 12 Dec 2023 16:07:52 +0000
-Date: Wed, 13 Dec 2023 00:07:41 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, laurent.pinchart@ideasonboard.com,
-	jacopo.mondi@ideasonboard.com, Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH 1/4] media: v4l: Add a helper for setting up
- link-frequencies control
-Message-ID: <202312122344.1l0j6bV6-lkp@intel.com>
-References: <20231211140658.366268-2-sakari.ailus@linux.intel.com>
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [IPv6:2a0a:edc0:2:b01:1d::104])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 51865E9
+	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 08:08:46 -0800 (PST)
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD5JH-0004jR-QV; Tue, 12 Dec 2023 17:08:39 +0100
+Received: from [2a0a:edc0:0:900:1d::77] (helo=ptz.office.stw.pengutronix.de)
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD5JH-00FNhj-2l; Tue, 12 Dec 2023 17:08:39 +0100
+Received: from ukl by ptz.office.stw.pengutronix.de with local (Exim 4.94.2)
+	(envelope-from <ukl@pengutronix.de>)
+	id 1rD5JG-001kiF-PY; Tue, 12 Dec 2023 17:08:38 +0100
+Date: Tue, 12 Dec 2023 17:08:38 +0100
+From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+To: Sean Young <sean@mess.org>
+Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 5/6] pwm: bcm2835: Allow PWM driver to be used in
+ atomic context
+Message-ID: <20231212160838.k4z4csy455a7qnje@pengutronix.de>
+References: <cover.1702369869.git.sean@mess.org>
+ <e9e32c9789da3c90b5a2aa7d5a093120b76421fb.1702369869.git.sean@mess.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="wlqgufhnyonivmrn"
 Content-Disposition: inline
-In-Reply-To: <20231211140658.366268-2-sakari.ailus@linux.intel.com>
+In-Reply-To: <e9e32c9789da3c90b5a2aa7d5a093120b76421fb.1702369869.git.sean@mess.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ukl@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-Hi Sakari,
 
-kernel test robot noticed the following build warnings:
+--wlqgufhnyonivmrn
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on linuxtv-media-stage/master sailus-media-tree/streams linus/master v6.7-rc5 next-20231212]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Hello Sean,
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Sakari-Ailus/media-v4l-Add-a-helper-for-setting-up-link-frequencies-control/20231211-220844
-base:   git://linuxtv.org/media_tree.git master
-patch link:    https://lore.kernel.org/r/20231211140658.366268-2-sakari.ailus%40linux.intel.com
-patch subject: [PATCH 1/4] media: v4l: Add a helper for setting up link-frequencies control
-reproduce: (https://download.01.org/0day-ci/archive/20231212/202312122344.1l0j6bV6-lkp@intel.com/reproduce)
+On Tue, Dec 12, 2023 at 08:34:04AM +0000, Sean Young wrote:
+> @@ -169,6 +179,7 @@ static int bcm2835_pwm_suspend(struct device *dev)
+>  {
+>  	struct bcm2835_pwm *pc =3D dev_get_drvdata(dev);
+> =20
+> +	clk_rate_exclusive_put(pc->clk);
+>  	clk_disable_unprepare(pc->clk);
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202312122344.1l0j6bV6-lkp@intel.com/
+I thought this was the remove function, but that's suspend. Adding
+clk_rate_exclusive_put() there is wrong.
 
-All warnings (new ones prefixed by >>):
+Best regards
+Uwe
 
->> Documentation/driver-api/media/v4l2-common:6: ./include/media/v4l2-common.h:567: WARNING: Unexpected indentation.
->> Documentation/driver-api/media/v4l2-common:6: ./include/media/v4l2-common.h:568: WARNING: Block quote ends without a blank line; unexpected unindent.
+--=20
+Pengutronix e.K.                           | Uwe Kleine-K=F6nig            |
+Industrial Linux Solutions                 | https://www.pengutronix.de/ |
 
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+--wlqgufhnyonivmrn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmV4hYUACgkQj4D7WH0S
+/k7CGwf8CNDJo8J8DGsUCNsNPFcJnPGhEI5nHgeeIHjn5tWVeMMh4VTcS5OPtH2b
+lVGGS2AKxudNdoodSJ/x50nT0o/PdjrcXmWX2V6WVx2P3kmHrPk7lvExuQlaWmhd
+LmdKyjfjUXEJ3Cr+TEZ2MwmVxyvrqhvEqqKHKE88hxeb+WU6pz3Jc9bivEEoQttV
+PbLO5ghpdc5JjT4TR/q0Tfm/bOfQpLx7fIodBvZ7pzqLWO7/ExmK9ektbG60oJXq
+sVSjGYJta2hqOzGxcfXZgBpBDtXvGB0fl5O/c7vyG59aLZkwcSQpp2y9L8NXe54r
+C/R7Dp4x1L/tF2BExdxbEZ7sXvOJWA==
+=Shxu
+-----END PGP SIGNATURE-----
+
+--wlqgufhnyonivmrn--
 
