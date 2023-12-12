@@ -1,325 +1,96 @@
-Return-Path: <linux-media+bounces-2240-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2241-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7556580EC94
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:53:33 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D98B80ECD3
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 14:07:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A689E1C209DA
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:53:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ED782281827
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:07:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BCB960ED0;
-	Tue, 12 Dec 2023 12:53:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DCD261676;
+	Tue, 12 Dec 2023 13:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dLF645+C"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="fKv4tslN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-x42c.google.com (mail-wr1-x42c.google.com [IPv6:2a00:1450:4864:20::42c])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 487A394;
-	Tue, 12 Dec 2023 04:53:23 -0800 (PST)
-Received: by mail-wr1-x42c.google.com with SMTP id ffacd0b85a97d-3333fbbeab9so4945491f8f.2;
-        Tue, 12 Dec 2023 04:53:23 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702385602; x=1702990402; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QE+VFdcKlT0mTVTVsgugSqDCQ3ICiwFx807Qg0S53+I=;
-        b=dLF645+ClmU5FFO8aUErTx7+PR9n2phBG1XXN8ORdpxVyMUl8dKyQcx5kfL0P9oV96
-         6suEcyA+C44q8R1w4U7tiTM+/+NoSW0JFz+xQGB3U68k16s26pvxPF6ypThdMRh3n38n
-         w1I+0Q3hBX4bCz7HNzFo71SqzL5Fo76PSHB0wtI8JMg+qW+5BKoUS/nhwwuTEXxe62q5
-         Q5i63f3s6ZOZ9Cp8AM0yjSTZxzRZBJzA7y+aUoBNSE3+GuvBeXVSXZXjl2smEky0AMsL
-         RtnEqr/dI1/Vb2uteppABDORSxGRjeuTZ899XQ+bWYW0Ga8dfSXiEAATV1FTxyGlyFcI
-         9PBA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702385602; x=1702990402;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QE+VFdcKlT0mTVTVsgugSqDCQ3ICiwFx807Qg0S53+I=;
-        b=wRU4cnOQl1MMAgHOiAO8025dktc7Zw8iaFzrxV5PtrErTuAb9UziX8EVXlmYylnaz/
-         iO19n6Ou4Bhxg+WsvVCw8nl6iVyLrfelUeZLBDyYeYDdsbssmbGhJFBArByGH8D/U4SS
-         EwDmficmDWJzk10EvEzVuQOIU8frLvw04K7ZZ6NyuBXSEXb5Vm+A/qFM3gnL+YpTNxcE
-         qbGwfKkSOjTD8zk7wiHsKR0RAJxsvspOhZ1S9LasPJKyTSpRjGwlbVxrgdmrRYg2f2RB
-         jhlptbCzWagazbLp0AwCXOU8BxrAz0jWgY29X4PFrxF0g8bLrMhCSm1TEH9CLm/BtWuG
-         c7Pw==
-X-Gm-Message-State: AOJu0YxEOzwfb5dEA1JMHqRG4ffXhzjYBMIm04nx5eT5Zgp7AW0go+2s
-	GItAy3/LwtlN8dm0XxyPwiY=
-X-Google-Smtp-Source: AGHT+IGWynIXhAv65hVHQ/6H7/dNDctHxAa6q49iej4FmkAoC4iqt4MmbS9KVDyizBU0LaTIvHVVnw==
-X-Received: by 2002:a05:600c:2247:b0:40c:19ab:99b1 with SMTP id a7-20020a05600c224700b0040c19ab99b1mr3044259wmm.137.1702385601632;
-        Tue, 12 Dec 2023 04:53:21 -0800 (PST)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation.station (net-188-217-59-229.cust.vodafonedsl.it. [188.217.59.229])
-        by smtp.gmail.com with ESMTPSA id bd19-20020a05600c1f1300b0040839fcb217sm16658633wmb.8.2023.12.12.04.53.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 12 Dec 2023 04:53:21 -0800 (PST)
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: 
-Cc: linuxfancy@googlegroups.com,
-	sakari.ailus@linux.intel.com,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Martin Hecht <martin.hecht@avnet.eu>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: i2c: alvium-csi2: adjust code style for alvium driver
-Date: Tue, 12 Dec 2023 13:53:19 +0100
-Message-Id: <20231212125319.732390-1-tomm.merciai@gmail.com>
-X-Mailer: git-send-email 2.34.1
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0EFB3A8;
+	Tue, 12 Dec 2023 05:07:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=Xbzg90/bq4JsbK+dNE7Eb/swVSGtySgf43OD8igrkzw=; b=fKv4tslN6ob6fVBvqGgRBleUK3
+	ixwy1JJ4P+Dc6t/nAbUZeYdRQy05gz2GKaQOhGEI3/K7k80k40bsrIwIHldZt5RwiCD+XcSaBlfrX
+	fU361clZ1RiKJY7+55mDsoc4Lb41E9t0PDs7z254jvFOegx2oAjVMr6IKS6JEXsisdpFxiqntc2S+
+	5L+fZtwVp3sfL+Rkzsk8oP7uf40+jvMr1+kIHrDUu5f4BbCx1E8oP0jtA43OTru5hy9rWJR5dZeep
+	1lsXlmqM7P8///m8p0g2ZcYJy6A+nF7smgZ0dkmFvIGG4x6rDFKrtZIE4ji20a5Q8zEqoDvz8g3Kf
+	+5KRU6OA==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.96 #2 (Red Hat Linux))
+	id 1rD2U2-00Bkt3-0U;
+	Tue, 12 Dec 2023 13:07:34 +0000
+Date: Tue, 12 Dec 2023 05:07:34 -0800
+From: Christoph Hellwig <hch@infradead.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Mina Almasry <almasrymina@google.com>,
+	Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	bpf@vger.kernel.org, linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jeroen de Borst <jeroendb@google.com>,
+	Praveen Kaligineedi <pkaligineedi@google.com>,
+	Jesper Dangaard Brouer <hawk@kernel.org>,
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>,
+	Arnd Bergmann <arnd@arndb.de>, David Ahern <dsahern@kernel.org>,
+	Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Yunsheng Lin <linyunsheng@huawei.com>,
+	Harshitha Ramamurthy <hramamurthy@google.com>,
+	Shakeel Butt <shakeelb@google.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Kaiyuan Zhang <kaiyuanz@google.com>,
+	Christoph Hellwig <hch@infradead.org>
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory
+ provider
+Message-ID: <ZXhbFi42YClOVhQ7@infradead.org>
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-9-almasrymina@google.com>
+ <20231212122535.GA3029808@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231212122535.GA3029808@nvidia.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-Make some formatting changes to fix issues generated by
-checkpatch.pl script
+On Tue, Dec 12, 2023 at 08:25:35AM -0400, Jason Gunthorpe wrote:
+> > +static inline struct page_pool_iov *page_to_page_pool_iov(struct page *page)
+> > +{
+> > +	if (page_is_page_pool_iov(page))
+> > +		return (struct page_pool_iov *)((unsigned long)page & ~PP_IOV);
+> > +
+> > +	DEBUG_NET_WARN_ON_ONCE(true);
+> > +	return NULL;
+> > +}
+> 
+> We already asked not to do this, please do not allocate weird things
+> can call them 'struct page' when they are not. It undermines the
+> maintainability of the mm to have things mis-typed like
+> this. Introduce a new type for your thing so the compiler can check it
+> properly.
 
-cmd:
- - ./scripts/checkpatch.pl --strict --max-line-length=80
-
-Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
----
- drivers/media/i2c/alvium-csi2.c | 143 ++++++++++++++++++--------------
- 1 file changed, 80 insertions(+), 63 deletions(-)
-
-diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
-index cff2b67247a7..95da5c3287b4 100644
---- a/drivers/media/i2c/alvium-csi2.c
-+++ b/drivers/media/i2c/alvium-csi2.c
-@@ -356,7 +356,8 @@ static int alvium_write_hshake(struct alvium_dev *alvium, u32 reg, u64 val)
- 	read_poll_timeout(alvium_read, hshake_bit,
- 			  ((hshake_bit & BCRM_HANDSHAKE_W_DONE_EN_BIT) == 1),
- 			  15000, 45000, true,
--			  alvium, REG_BCRM_WRITE_HANDSHAKE_RW, &hshake_bit, &ret);
-+			  alvium, REG_BCRM_WRITE_HANDSHAKE_RW,
-+			  &hshake_bit, &ret);
- 	if (ret) {
- 		dev_err(dev, "poll bit[0] = 1, hshake reg fail\n");
- 		return ret;
-@@ -373,7 +374,8 @@ static int alvium_write_hshake(struct alvium_dev *alvium, u32 reg, u64 val)
- 	read_poll_timeout(alvium_read, hshake_bit,
- 			  ((hshake_bit & BCRM_HANDSHAKE_W_DONE_EN_BIT) == 0),
- 			  15000, 45000, true,
--			  alvium, REG_BCRM_WRITE_HANDSHAKE_RW, &hshake_bit, &ret);
-+			  alvium, REG_BCRM_WRITE_HANDSHAKE_RW,
-+			  &hshake_bit, &ret);
- 	if (ret) {
- 		dev_err(dev, "poll bit[0] = 0, hshake reg fail\n");
- 		return ret;
-@@ -404,10 +406,14 @@ static int alvium_get_fw_version(struct alvium_dev *alvium)
- 	u64 spec, maj, min, pat;
- 	int ret = 0;
- 
--	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_SPEC_VERSION_R, &spec, &ret);
--	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MAJOR_VERSION_R, &maj, &ret);
--	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MINOR_VERSION_R, &min, &ret);
--	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_PATCH_VERSION_R, &pat, &ret);
-+	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_SPEC_VERSION_R,
-+			  &spec, &ret);
-+	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MAJOR_VERSION_R,
-+			  &maj, &ret);
-+	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_MINOR_VERSION_R,
-+			  &min, &ret);
-+	ret = alvium_read(alvium, REG_BCRM_DEVICE_FW_PATCH_VERSION_R,
-+			  &pat, &ret);
- 	if (ret)
- 		return ret;
- 
-@@ -509,7 +515,8 @@ static void alvium_print_avail_feat(struct alvium_dev *alvium)
- 	dev_dbg(dev, "feature acq_abort: %u\n", alvium->avail_ft.acq_abort);
- 	dev_dbg(dev, "feature acq_fr: %u\n", alvium->avail_ft.acq_fr);
- 	dev_dbg(dev, "feature fr_trigger: %u\n", alvium->avail_ft.fr_trigger);
--	dev_dbg(dev, "feature exp_acq_line: %u\n", alvium->avail_ft.exp_acq_line);
-+	dev_dbg(dev, "feature exp_acq_line: %u\n",
-+		alvium->avail_ft.exp_acq_line);
- }
- 
- static void alvium_print_avail_bayer(struct alvium_dev *alvium)
-@@ -627,12 +634,13 @@ static int alvium_set_csi_clk(struct alvium_dev *alvium)
- 	u64 csi_clk;
- 	int ret;
- 
--	csi_clk = clamp(alvium->ep.link_frequencies[0], (u64)alvium->min_csi_clk,
--			(u64)alvium->max_csi_clk);
-+	csi_clk = clamp(alvium->ep.link_frequencies[0],
-+			(u64)alvium->min_csi_clk, (u64)alvium->max_csi_clk);
- 
- 	if (alvium->ep.link_frequencies[0] != (u64)csi_clk) {
--		dev_warn(dev, "requested csi clock (%llu MHz) out of range [%u, %u]"
--			 "Adjusted to %llu\n", alvium->ep.link_frequencies[0],
-+		dev_warn(dev,
-+			 "requested csi clock (%llu MHz) out of range [%u, %u] Adjusted to %llu\n",
-+			 alvium->ep.link_frequencies[0],
- 			 alvium->min_csi_clk, alvium->max_csi_clk, csi_clk);
- 	}
- 
-@@ -1023,44 +1031,44 @@ static int alvium_get_avail_mipi_data_format(struct alvium_dev *alvium)
- 
- 	avail_fmt = (struct alvium_avail_mipi_fmt *)&val;
- 
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8_LEG]
--				  = avail_fmt->yuv420_8_leg;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8]
--				  = avail_fmt->yuv420_8;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_10]
--				  = avail_fmt->yuv420_10;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8_CSPS]
--				  = avail_fmt->yuv420_8_csps;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_10_CSPS]
--				  = avail_fmt->yuv420_10_csps;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV422_8]
--				  = avail_fmt->yuv422_8;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV422_10]
--				  = avail_fmt->yuv422_10;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB888]
--				  = avail_fmt->rgb888;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB666]
--				  = avail_fmt->rgb666;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB565]
--				  = avail_fmt->rgb565;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB555]
--				  = avail_fmt->rgb555;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB444]
--				  = avail_fmt->rgb444;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW6]
--				  = avail_fmt->raw6;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW7]
--				  = avail_fmt->raw7;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW8]
--				  = avail_fmt->raw8;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW10]
--				  = avail_fmt->raw10;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW12]
--				  = avail_fmt->raw12;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW14]
--				  = avail_fmt->raw14;
--	alvium->is_mipi_fmt_avail[ALVIUM_BIT_JPEG]
--				  = avail_fmt->jpeg;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8_LEG] =
-+				  avail_fmt->yuv420_8_leg;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8] =
-+				  avail_fmt->yuv420_8;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_10] =
-+				  avail_fmt->yuv420_10;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8_CSPS] =
-+				  avail_fmt->yuv420_8_csps;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_10_CSPS] =
-+				  avail_fmt->yuv420_10_csps;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV422_8] =
-+				  avail_fmt->yuv422_8;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV422_10] =
-+				  avail_fmt->yuv422_10;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB888] =
-+				  avail_fmt->rgb888;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB666] =
-+				  avail_fmt->rgb666;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB565] =
-+				  avail_fmt->rgb565;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB555] =
-+				  avail_fmt->rgb555;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RGB444] =
-+				  avail_fmt->rgb444;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW6] =
-+				  avail_fmt->raw6;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW7] =
-+				  avail_fmt->raw7;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW8] =
-+				  avail_fmt->raw8;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW10] =
-+				  avail_fmt->raw10;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW12] =
-+				  avail_fmt->raw12;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_RAW14] =
-+				  avail_fmt->raw14;
-+	alvium->is_mipi_fmt_avail[ALVIUM_BIT_JPEG] =
-+				  avail_fmt->jpeg;
- 
- 	alvium_print_avail_mipi_fmt(alvium);
- 
-@@ -1078,8 +1086,8 @@ static int alvium_setup_mipi_fmt(struct alvium_dev *alvium)
- 		if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
- 			continue;
- 
--		if ((!alvium_csi2_fmts[fmt].is_raw) ||
--		    (alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]))
-+		if (!alvium_csi2_fmts[fmt].is_raw ||
-+		    alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit])
- 			sz++;
- 	}
- 
-@@ -1095,9 +1103,10 @@ static int alvium_setup_mipi_fmt(struct alvium_dev *alvium)
- 		if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
- 			continue;
- 
--		if ((!alvium_csi2_fmts[fmt].is_raw) ||
--		    (alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit])) {
--			alvium->alvium_csi2_fmt[avail_fmt_cnt] = alvium_csi2_fmts[fmt];
-+		if (!alvium_csi2_fmts[fmt].is_raw ||
-+		    alvium->is_bay_avail[alvium_csi2_fmts[fmt].bay_av_bit]) {
-+			alvium->alvium_csi2_fmt[avail_fmt_cnt] =
-+				alvium_csi2_fmts[fmt];
- 			avail_fmt_cnt++;
- 		}
- 	}
-@@ -1300,7 +1309,8 @@ static int alvium_set_ctrl_exposure(struct alvium_dev *alvium, int exposure_ns)
- 	return 0;
- }
- 
--static int alvium_set_ctrl_blue_balance_ratio(struct alvium_dev *alvium, int blue)
-+static int alvium_set_ctrl_blue_balance_ratio(struct alvium_dev *alvium,
-+					      int blue)
- {
- 	struct device *dev = &alvium->i2c_client->dev;
- 	int ret;
-@@ -1667,8 +1677,10 @@ static int alvium_set_frame_interval(struct alvium_dev *alvium,
- 	min_fr = alvium->min_fr;
- 	max_fr = alvium->max_fr;
- 
--	dev_dbg(dev, "fi->interval.numerator = %d\n", fi->interval.numerator);
--	dev_dbg(dev, "fi->interval.denominator = %d\n", fi->interval.denominator);
-+	dev_dbg(dev, "fi->interval.numerator = %d\n",
-+		fi->interval.numerator);
-+	dev_dbg(dev, "fi->interval.denominator = %d\n",
-+		fi->interval.denominator);
- 
- 	req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
- 		       fi->interval.numerator);
-@@ -2114,10 +2126,11 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
- 
- 	/* Auto/manual exposure */
- 	if (alvium->avail_ft.auto_exp) {
--		ctrls->auto_exp = v4l2_ctrl_new_std_menu(hdl, ops,
--							 V4L2_CID_EXPOSURE_AUTO,
--							 V4L2_EXPOSURE_MANUAL, 0,
--							 V4L2_EXPOSURE_AUTO);
-+		ctrls->auto_exp =
-+			v4l2_ctrl_new_std_menu(hdl, ops,
-+					       V4L2_CID_EXPOSURE_AUTO,
-+					       V4L2_EXPOSURE_MANUAL, 0,
-+					       V4L2_EXPOSURE_AUTO);
- 		v4l2_ctrl_auto_cluster(2, &ctrls->auto_exp, 1, true);
- 	}
- 
-@@ -2188,10 +2201,14 @@ static int alvium_ctrl_init(struct alvium_dev *alvium)
- 						     alvium->dft_sharp);
- 
- 	if (alvium->avail_ft.rev_x)
--		ctrls->hflip = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
-+		ctrls->hflip = v4l2_ctrl_new_std(hdl, ops,
-+						 V4L2_CID_HFLIP,
-+						 0, 1, 1, 0);
- 
- 	if (alvium->avail_ft.rev_y)
--		ctrls->vflip = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
-+		ctrls->vflip = v4l2_ctrl_new_std(hdl, ops,
-+						 V4L2_CID_VFLIP,
-+						 0, 1, 1, 0);
- 
- 	if (hdl->error) {
- 		ret = hdl->error;
--- 
-2.34.1
-
+Yes.  Or even better avoid this mess entirely..
 
