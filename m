@@ -1,161 +1,212 @@
-Return-Path: <linux-media+bounces-2204-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2205-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E06280E59A
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 09:12:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4707880E5AC
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 09:16:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 73D961C21262
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 08:12:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7FD461C2097D
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 08:16:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 644A418AEB;
-	Tue, 12 Dec 2023 08:12:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC98118AE5;
+	Tue, 12 Dec 2023 08:16:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZDvzT+jQ"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="WHO3z54a"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-x136.google.com (mail-lf1-x136.google.com [IPv6:2a00:1450:4864:20::136])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D9E6CD
-	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 00:12:28 -0800 (PST)
-Received: by mail-lf1-x136.google.com with SMTP id 2adb3069b0e04-50bf1e32571so6320916e87.2
-        for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 00:12:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702368747; x=1702973547; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=cLK67MZ2cMXqVULAwpdm/zZK5C57DrnMrrkfs3M5C2A=;
-        b=ZDvzT+jQKYRl5fjH8/Y0Y/bXhW56+dGYsw+jbmNhgafCApf1iQWv0jnCo607aHTjhW
-         p15FRq7frwgqnkSvUe+9uD8Y2B9Q3Sf+d8EMgtdqc6AuH1uqNwbtzNtiH1lAM6HVHorH
-         ZBssx+/OeaVdHbt+MjpML7Wp1ZCqavgUHnOSC+c1uP3CIret40TWknIPa0fQqxRgJ7pC
-         QGCY+gpPQukFXzkipUOqMf+yxOuryg/uJnYPTOGvlmB15hn/ySakbx9uY5HBqRyheRUY
-         ZpMOGZbda7Z3+va/r6JeUC3BaLBlZaeR0dCDTThdI3VkNY64qhSeJNLykTSHZRwJbVB1
-         6PtA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702368747; x=1702973547;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cLK67MZ2cMXqVULAwpdm/zZK5C57DrnMrrkfs3M5C2A=;
-        b=UxXVXyGui+B1fZhl62tLDvyu5YWHci6tFj3epViGYEFVvkvUoej2krrXywIfCLzaMw
-         I1LSR9DieBs48Hur93G5M3Jskj1MP7DCWt3yvUzYP1H7K7eOM5/y3nBmBtrSzI1tH5PI
-         A2dV6QgDTKzImKkViHxrsrtrpIc60EcIJkbBkNJPFxRsDbbPmTNptbaFgeW6VfOafCnL
-         aO5fvNUMEEC+n3Afn+CqRRty0Kq1Xms769QR6bIx6UIQSYOHWSMoGLTYGcxIKP0k3qr4
-         KYmL1nb3fGwssDVU5ho2wO7hZ0B9FrxKjIWwKSsZHX5sDYC7x71tXmnKX8t32ZlqDCrM
-         iBIg==
-X-Gm-Message-State: AOJu0YxfKtuZJMjGXpBnTGja+BM7ZEHA+QXuR0WmzmrcHnc92/mE/AOi
-	1u5by9pzCJr4L1HkiIamRkvbg0+5yfsJtniQRDTIS5/dKFA5Fk/EbA/28A==
-X-Google-Smtp-Source: AGHT+IE/4NCAGrcWlk83IyW9mzgbqR3p3HmgUFXHYCCu/8mM+LfWDqVB4qdieN1J9FLWy4acb9y4oFfWbA7pp1ExuZI=
-X-Received: by 2002:a05:6512:2312:b0:50b:f6d2:8569 with SMTP id
- o18-20020a056512231200b0050bf6d28569mr2921097lfu.129.1702368746841; Tue, 12
- Dec 2023 00:12:26 -0800 (PST)
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F631B8
+	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 00:16:32 -0800 (PST)
+Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4SqBK95pRGzyQf
+	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 10:16:29 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1702368989;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zr3rOXc/2zG9B28EygOCbmy3GwwPR0VoAuEh8F0kV6I=;
+	b=WHO3z54aWLfKHKeGARZEXwSOtFdPiOCXeSQAbx3TUFg4JBO4rIa6GmuBF74PpSv6lkAsFt
+	ctdBVjcYJdE1PAnp0kQIxfsmBkxThg549rDCG3l0gtcDbpNCAzUEf1EqMJuuXXi85ld5rD
+	XlOrBPb+jHfT13KFfStMXO9o7RBriSk=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1702368989;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zr3rOXc/2zG9B28EygOCbmy3GwwPR0VoAuEh8F0kV6I=;
+	b=wjlq3DizRR9drYTvHMVljyeJduesXSCuYXFnBA4UIgjo8eBEUuYIJDpxjWNbzbd4aapFKG
+	So5vcRQUKPd39vrzMld2DldlYWlkxPrucosmY6EmsX7mJHwYj5EB1hDPC+gp6sogGjqZMr
+	yrkaUsi12neo45zrvUkqORk8Fp1g6cU=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1702368989; a=rsa-sha256; cv=none;
+	b=fou4gKly+BW6NXw5GRh1nOA0Lq3CwX5v+zEc85TinrOW3WVJsU5aeGlZOSmAmQtJOTlWeR
+	5NlpP+vdknGs7kwp4oO8uTHqAbD+BrYLzZmPaLTzxJQ4fdbVVMM9LoS/rOhW5/bwHZxNuM
+	OboxoGRxGcGsHkxVwz++T9PnnVD30JI=
+Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 12B04634C93
+	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 10:16:28 +0200 (EET)
+Date: Tue, 12 Dec 2023 08:16:27 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Subject: [GIT PULL FOR 6.8] Some fixes and new drivers, too
+Message-ID: <ZXgW25b9tV_YE7Mq@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com> <20231208005250.2910004-2-almasrymina@google.com>
-In-Reply-To: <20231208005250.2910004-2-almasrymina@google.com>
-From: Ilias Apalodimas <ilias.apalodimas@linaro.org>
-Date: Tue, 12 Dec 2023 10:11:50 +0200
-Message-ID: <CAC_iWjLfc_2cEzRQDRvG1abMYH6dPhc2-c0-skUD1tjdKVFcKw@mail.gmail.com>
-Subject: Re: [net-next v1 01/16] net: page_pool: factor out releasing DMA from
- releasing the page
-To: Mina Almasry <almasrymina@google.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeelb@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 
-On Fri, 8 Dec 2023 at 02:52, Mina Almasry <almasrymina@google.com> wrote:
->
-> From: Jakub Kicinski <kuba@kernel.org>
->
-> Releasing the DMA mapping will be useful for other types
-> of pages, so factor it out. Make sure compiler inlines it,
-> to avoid any regressions.
->
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
->
-> ---
->
-> This is implemented by Jakub in his RFC:
->
-> https://lore.kernel.org/netdev/f8270765-a27b-6ccf-33ea-cda097168d79@redhat.com/T/
->
-> I take no credit for the idea or implementation. This is a critical
-> dependency of device memory TCP and thus I'm pulling it into this series
-> to make it revewable and mergable.
->
-> ---
->  net/core/page_pool.c | 25 ++++++++++++++++---------
->  1 file changed, 16 insertions(+), 9 deletions(-)
->
-> diff --git a/net/core/page_pool.c b/net/core/page_pool.c
-> index c2e7c9a6efbe..ca1b3b65c9b5 100644
-> --- a/net/core/page_pool.c
-> +++ b/net/core/page_pool.c
-> @@ -548,21 +548,16 @@ s32 page_pool_inflight(const struct page_pool *pool, bool strict)
->         return inflight;
->  }
->
-> -/* Disconnects a page (from a page_pool).  API users can have a need
-> - * to disconnect a page (from a page_pool), to allow it to be used as
-> - * a regular page (that will eventually be returned to the normal
-> - * page-allocator via put_page).
-> - */
-> -static void page_pool_return_page(struct page_pool *pool, struct page *page)
-> +static __always_inline
-> +void __page_pool_release_page_dma(struct page_pool *pool, struct page *page)
->  {
->         dma_addr_t dma;
-> -       int count;
->
->         if (!(pool->p.flags & PP_FLAG_DMA_MAP))
->                 /* Always account for inflight pages, even if we didn't
->                  * map them
->                  */
-> -               goto skip_dma_unmap;
-> +               return;
->
->         dma = page_pool_get_dma_addr(page);
->
-> @@ -571,7 +566,19 @@ static void page_pool_return_page(struct page_pool *pool, struct page *page)
->                              PAGE_SIZE << pool->p.order, pool->p.dma_dir,
->                              DMA_ATTR_SKIP_CPU_SYNC | DMA_ATTR_WEAK_ORDERING);
->         page_pool_set_dma_addr(page, 0);
-> -skip_dma_unmap:
-> +}
-> +
-> +/* Disconnects a page (from a page_pool).  API users can have a need
-> + * to disconnect a page (from a page_pool), to allow it to be used as
-> + * a regular page (that will eventually be returned to the normal
-> + * page-allocator via put_page).
-> + */
-> +void page_pool_return_page(struct page_pool *pool, struct page *page)
-> +{
-> +       int count;
-> +
-> +       __page_pool_release_page_dma(pool, page);
-> +
->         page_pool_clear_pp_info(page);
->
->         /* This may be the last page returned, releasing the pool, so
-> --
-> 2.43.0.472.g3155946c3a-goog
->
+Hi Hans, Mauro,
 
-Reviewed-by: Ilias Apalodimas <ilias.apalodimas@linaro.org>
+Here's a nice set of some fixes as well as new drivers that some of which,
+in turn, depend on the fixes. In particular, there are a few sensors
+(imx290 in particular) that have little endian registers, either just some
+or all, and this was missed in V4L2 CCI conversion earlier on. Another
+driver also needs these CCI_*LE() macros later in the set.
+
+There are new drivers for Galaxycore gc0308, Omnivision ov64a30 camera
+sensor as well as Avnet Alvium camera modules.
+
+Miscellaneous fixes exist for imx335, imx214, imx415, ov2740 as well as the
+IPU bridge.
+
+Documentation improvements for camera sensors are included, too.
+
+Please pull.
+
+
+The following changes since commit efa28efd9cba015f8c3d88123527c3c3cfcd13d0:
+
+  media: rkisp1: resizer: Stop manual allocation of v4l2_subdev_state (2023-12-09 07:47:10 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.8-7.1-signed
+
+for you to fetch changes up to f1986ff84b37d2c7d5fa3bfbac84cc29fdf8248f:
+
+  media: i2c: imx415: Add more supported modes (2023-12-12 09:14:53 +0200)
+
+----------------------------------------------------------------
+V4L2 patches for 6.8
+
+----------------------------------------------------------------
+Alexander Stein (5):
+      media: v4l2-cci: Add support for little-endian encoded registers
+      media: i2c: imx290: Properly encode registers as little-endian
+      media: i2c: imx415: Convert to new CCI register access helpers
+      media: i2c: imx415: Add more clock configurations
+      media: i2c: imx415: Add more supported modes
+
+André Apitzsch (4):
+      media: i2c: imx214: Explain some magic numbers
+      media: i2c: imx214: Move controls init to separate function
+      media: i2c: imx214: Read orientation and rotation from system firmware
+      media: i2c: imx214: Add sensor's pixel matrix size
+
+Hans de Goede (9):
+      media: ov2740: Add support for reset GPIO
+      media: ov2740: Add support for external clock
+      media: ov2740: Move fwnode_graph_get_next_endpoint() call up
+      media: ov2740: Improve ov2740_check_hwcfg() error reporting
+      media: ov2740: Fix hts value
+      media: ov2740: Check hwcfg after allocating the ov2740 struct
+      media: ov2740: Add support for 180 MHz link frequency
+      media: ov2740: Add a sleep after resetting the sensor
+      media: ipu-bridge: Change ov2740 link-frequency to 180 MHz
+
+Jacopo Mondi (2):
+      media: dt-bindings: Add OmniVision OV64A40
+      media: i2c: Add driver for OmniVision OV64A40
+
+Kieran Bingham (6):
+      media: dt-bindings: media: imx335: Add supply bindings
+      media: i2c: imx335: Fix logging line endings
+      media: i2c: imx335: Improve configuration error reporting
+      media: i2c: imx335: Enable regulator supplies
+      media: i2c: imx335: Implement get selection API
+      media: i2c: imx335: Fix hblank min/max values
+
+Krzysztof Kozlowski (1):
+      media: dt-bindings: ov8856: decouple lanes and link frequency from driver
+
+Laurent Pinchart (1):
+      media: atmel-isi: Fix crash due to missing subdev in state
+
+Sakari Ailus (3):
+      media: v4l: Safely to call v4l2_subdev_cleanup on an uninitialised subdev
+      media: Documentation: BT.601 is not a bus
+      media: Documentation: LP-11 and LP-111 are states, not modes
+
+Sebastian Reichel (3):
+      media: dt-bindings: gc0308: add binding
+      media: MAINTAINERS: Add GalaxyCore in camera sensor section
+      media: i2c: gc0308: new driver
+
+Tommaso Merciai (3):
+      dt-bindings: vendor-prefixes: Add prefix alliedvision
+      media: dt-bindings: alvium: add document YAML binding
+      media: i2c: Add support for alvium camera
+
+Umang Jain (1):
+      media: i2c: imx335: Support 2592x1940 10-bit mode
+
+Vincent Knecht (3):
+      media: i2c: ak7375: Prepare for supporting another chip
+      media: dt-bindings: ak7375: Add ak7345 support
+      media: i2c: ak7375: Add support for ak7345
+
+ .../media/i2c/alliedvision,alvium-csi2.yaml        |   81 +
+ .../bindings/media/i2c/asahi-kasei,ak7375.yaml     |    4 +-
+ .../bindings/media/i2c/galaxycore,gc0308.yaml      |  108 +
+ .../devicetree/bindings/media/i2c/ov8856.yaml      |   24 +-
+ .../bindings/media/i2c/ovti,ov64a40.yaml           |  103 +
+ .../devicetree/bindings/media/i2c/sony,imx335.yaml |   13 +
+ .../devicetree/bindings/vendor-prefixes.yaml       |    2 +
+ Documentation/driver-api/media/camera-sensor.rst   |    4 +-
+ Documentation/driver-api/media/tx-rx.rst           |   25 +-
+ MAINTAINERS                                        |   25 +
+ drivers/media/i2c/Kconfig                          |   33 +
+ drivers/media/i2c/Makefile                         |    3 +
+ drivers/media/i2c/ak7375.c                         |  132 +-
+ drivers/media/i2c/alvium-csi2.c                    | 2530 ++++++++++++++
+ drivers/media/i2c/alvium-csi2.h                    |  475 +++
+ drivers/media/i2c/gc0308.c                         | 1451 ++++++++
+ drivers/media/i2c/imx214.c                         |  175 +-
+ drivers/media/i2c/imx290.c                         |   42 +-
+ drivers/media/i2c/imx335.c                         |  211 +-
+ drivers/media/i2c/imx415.c                         | 1013 ++++--
+ drivers/media/i2c/ov2740.c                         |  384 +-
+ drivers/media/i2c/ov64a40.c                        | 3690 ++++++++++++++++++++
+ drivers/media/pci/intel/ipu-bridge.c               |    2 +-
+ drivers/media/platform/atmel/atmel-isi.c           |    1 +
+ drivers/media/v4l2-core/v4l2-cci.c                 |   44 +-
+ drivers/media/v4l2-core/v4l2-subdev.c              |    3 +-
+ include/media/v4l2-cci.h                           |    5 +
+ 27 files changed, 10101 insertions(+), 482 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/galaxycore,gc0308.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov64a40.yaml
+ create mode 100644 drivers/media/i2c/alvium-csi2.c
+ create mode 100644 drivers/media/i2c/alvium-csi2.h
+ create mode 100644 drivers/media/i2c/gc0308.c
+ create mode 100644 drivers/media/i2c/ov64a40.c
+
+-- 
+Sakari Ailus
 
