@@ -1,110 +1,126 @@
-Return-Path: <linux-media+bounces-2221-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2222-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2D2580EA88
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:39:00 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CFB280EA92
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:40:52 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 893041C20C8E
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 11:38:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5AA61F21D5E
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 11:40:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 747335D4BB;
-	Tue, 12 Dec 2023 11:38:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 562FB5D4BF;
+	Tue, 12 Dec 2023 11:40:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Tre39UJv"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="ADzG07U8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.115])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF71DCD;
-	Tue, 12 Dec 2023 03:38:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702381132; x=1733917132;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=xq+1mQYTVGfv+QGVue4J7mfgzIK0WKvHLpOtJreygG8=;
-  b=Tre39UJv/eOs7UxknITNZSQU3aTX47bGCeaOS058tF1kk0OXrrzKoBNQ
-   TOBljpt61ssUfdsQv4L3z1EC73DZHovU7vAt/8pzsaNhGibUdhpyENk8D
-   KaD3zZoTTeQV3tnwgVxpDFttfcRTvRp6p0pxtASYez6yhiCoGfrwC800k
-   mJOIs23ogVHP0Ponu2HtTt1Fl+DVeGHljqeOG8XtIbYdt8Ey/md3pjqYi
-   U0FE5Sb7/MGaGH+SrOwa7HdyVaiKHH/9kA5zSZ2pxC7a6/LNY74wosD2N
-   G7D797ZQgSFAGN1/JZMQg0j+5gcgguGV5SG9swMA311XCx5tONlg5j8Pz
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="394541866"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="394541866"
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 03:38:50 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="864179518"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="864179518"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 03:38:45 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id B04BF11F7E4;
-	Tue, 12 Dec 2023 13:38:42 +0200 (EET)
-Date: Tue, 12 Dec 2023 11:38:42 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: laurent.pinchart@ideasonboard.com, martin.hecht@avnet.eu,
-	michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
-	mhecht73@gmail.com, christophe.jaillet@wanadoo.fr,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v15 3/3] media: i2c: Add support for alvium camera
-Message-ID: <ZXhGQuqTZogWTJ42@kekkonen.localdomain>
-References: <20231204094719.190334-1-tomm.merciai@gmail.com>
- <20231204094719.190334-4-tomm.merciai@gmail.com>
+Received: from mail-yb1-xb2e.google.com (mail-yb1-xb2e.google.com [IPv6:2607:f8b0:4864:20::b2e])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCCE1D9
+	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 03:40:42 -0800 (PST)
+Received: by mail-yb1-xb2e.google.com with SMTP id 3f1490d57ef6-d9b9adaf291so4138042276.1
+        for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 03:40:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1702381242; x=1702986042; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=0iUPBvo8eOmT//4vl8DQjGC5UmJmCx85Al5r4t/jUw0=;
+        b=ADzG07U8MZzVm7biIm5aHAbXumTWnvHUl+oNS/+GIup3vnxEqT+ndCr41WZRAKQHHL
+         ScGjPd0F//kXvvuN09xkgQ46CSKKxCcSTkyjNjjc/gbjFXel0YTWYvRL0AXJyZNH+EWj
+         VJOLlU93T6a1pBTV3BngOZ/0jhoEfJLsqvMzRUC6+W+44Qi7X3Zb9WbuQji45MkMJfOu
+         EoVS6oWEpNtc/MfXa/OfBQ0HnS7gO2BEP+098XWhJWkCpI3eKhTbzA7Fxdkitj7osKJi
+         //BNLT1cZ4oly25Zk+wjbZ7raBvIiOwCgW6MQIyTvdo+mg2qgLbp4xYAd5PPoTs3yMq9
+         dfYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702381242; x=1702986042;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0iUPBvo8eOmT//4vl8DQjGC5UmJmCx85Al5r4t/jUw0=;
+        b=Xzi0EIHmapgD//PlvhmxAXS7FpsDbt06gzhoyHAjEsohP4QCzU09G83Hohh4OIX1xN
+         JLYFpxivvePlaQhnF0jPQg0FvPzcIMn9SfDNOGiwKdiaoQ88jxsgqwjIef4FZKET379m
+         XRXAkDvchQ/Mpv75zrStlX7kLp9ZAmiGUQcVrp1r+KVPYG/osHTTZVozDGTpJC/WjLBW
+         moQfQMHJrijKX1BTfWJPIEZ5dflqIkdjAeE5Jalm1jcnzu7vw+gjkwKgNeBHTGY5p9sJ
+         6iLdhPLSJqzjiLiul1IiuaU1zmOSztO5pD2lxJNEWoPIr9nMqVpfOQTbdeKSqF3xdqQ2
+         96hA==
+X-Gm-Message-State: AOJu0Yxb3+R0N4f+eFk4f1Vv4ohg/Fb0nqeKh9186d2+NwszDWGzSnlf
+	9EEerKhaTs4ovHfz/AICpY8F/H01V2KvLkMnCbztYA==
+X-Google-Smtp-Source: AGHT+IGkFxJXB+75F7npYS3Sl7fcGotb27eRrk6u5Q+tryG0nLGLjgw4n/C3z2I9FmEbcpAIdKRvpPS2VqJqFmY8cyo=
+X-Received: by 2002:a25:ce8a:0:b0:db5:47ee:47c4 with SMTP id
+ x132-20020a25ce8a000000b00db547ee47c4mr2442389ybe.53.1702381242014; Tue, 12
+ Dec 2023 03:40:42 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231204094719.190334-4-tomm.merciai@gmail.com>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org> <20231207-kms-hdmi-connector-state-v5-18-6538e19d634d@kernel.org>
+In-Reply-To: <20231207-kms-hdmi-connector-state-v5-18-6538e19d634d@kernel.org>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Tue, 12 Dec 2023 11:40:26 +0000
+Message-ID: <CAPY8ntBe9RfSjdnd5Smx23La5gQaR9WqY8ehXQyp=4D_11N55Q@mail.gmail.com>
+Subject: Re: [PATCH v5 18/44] drm/vc4: hdmi: Create destroy state implementation
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Tommaso,
+On Thu, 7 Dec 2023 at 15:50, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> Even though we were rolling our own custom state for the vc4 HDMI
+> controller driver, we were still using the generic helper to destroy
+> that state.
+>
+> It was mostly working since the underlying state is the first member of
+> our state so the pointers are probably equal in all relevant cases, but
+> it's still fragile so let's fix this properly.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-On Mon, Dec 04, 2023 at 10:47:16AM +0100, Tommaso Merciai wrote:
-> The Alvium camera is shipped with sensor + isp in the same housing.
-> The camera can be equipped with one out of various sensor and abstract
-> the user from this. Camera is connected via MIPI CSI-2.
-> 
-> Most of the camera module features are supported, with the main exception
-> being fw update.
-> 
-> The driver provides all mandatory, optional and recommended V4L2 controls
-> for maximum compatibility with libcamera
-> 
-> References:
->  - https://www.alliedvision.com/en/products/embedded-vision-solutions
-> 
-> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-Could you run
-
-	./scripts/checkpatch.pl --strict --max-line-length=80
-
-and address the issues in a patch on top of this set?
-
-Thanks.
-
--- 
-Sakari Ailus
+> ---
+>  drivers/gpu/drm/vc4/vc4_hdmi.c | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> index 25c9c71256d3..f05e2c95a60d 100644
+> --- a/drivers/gpu/drm/vc4/vc4_hdmi.c
+> +++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+> @@ -672,11 +672,21 @@ vc4_hdmi_connector_duplicate_state(struct drm_connector *connector)
+>         return &new_state->base;
+>  }
+>
+> +static void vc4_hdmi_connector_destroy_state(struct drm_connector *connector,
+> +                                            struct drm_connector_state *state)
+> +{
+> +       struct vc4_hdmi_connector_state *vc4_state =
+> +               conn_state_to_vc4_hdmi_conn_state(state);
+> +
+> +       __drm_atomic_helper_connector_destroy_state(state);
+> +       kfree(vc4_state);
+> +}
+> +
+>  static const struct drm_connector_funcs vc4_hdmi_connector_funcs = {
+>         .fill_modes = drm_helper_probe_single_connector_modes,
+>         .reset = vc4_hdmi_connector_reset,
+>         .atomic_duplicate_state = vc4_hdmi_connector_duplicate_state,
+> -       .atomic_destroy_state = drm_atomic_helper_connector_destroy_state,
+> +       .atomic_destroy_state = vc4_hdmi_connector_destroy_state,
+>         .atomic_get_property = vc4_hdmi_connector_get_property,
+>         .atomic_set_property = vc4_hdmi_connector_set_property,
+>  };
+>
+> --
+> 2.43.0
+>
 
