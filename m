@@ -1,133 +1,227 @@
-Return-Path: <linux-media+bounces-2234-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2236-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207FB80EBE8
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:35:08 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09DF980EC32
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 13:41:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A4980B20D66
-	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:35:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B577E1F21434
+	for <lists+linux-media@lfdr.de>; Tue, 12 Dec 2023 12:41:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6427C5A112;
-	Tue, 12 Dec 2023 12:35:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C4FC5FEE7;
+	Tue, 12 Dec 2023 12:41:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MFtjG3Rz"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bmxoRcNq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA46394;
-	Tue, 12 Dec 2023 04:34:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702384499; x=1733920499;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=1t4WPBB2iV6mGz2IjxnelPLPuKPitQiGr3DtbVpwRDE=;
-  b=MFtjG3Rz4EdHyJ0cuYXccAnB/E9yqRaZ2D0IxWnhlcFv7XCPcm3UO/1M
-   VVzKiP7urUBvHAV8FjNLMtSuTaW+hUZPt7F2hT3JCTM5Ny1/zpDc0moK+
-   i0r/ses+hj3nbAflDTLdWlspLWFq4j4Wt12g7kQsYW6iKF1m6BW6+WdzC
-   C0XhYd4elvl0j9pVLN5Aa4vItLZRayv7g/tJd0Guoqr8r4tfuUyUr9IbH
-   Sm3eiq/D8nLv2WrtLtlJb+yRGAnOI5iWQwYFa2ZxIs3x0iu2X+FalohPB
-   r1yy0HueLrLL0Oqwx5NoYZTYet/fNh8Jtgfa99EeVWrtvngS91fs7zr6N
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="1951097"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="1951097"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 04:34:58 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10921"; a="896909252"
-X-IronPort-AV: E=Sophos;i="6.04,270,1695711600"; 
-   d="scan'208";a="896909252"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Dec 2023 04:34:52 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id BA8FD11F7E4;
-	Tue, 12 Dec 2023 14:34:49 +0200 (EET)
-Date: Tue, 12 Dec 2023 12:34:49 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Tommaso Merciai <tomm.merciai@gmail.com>
-Cc: laurent.pinchart@ideasonboard.com, martin.hecht@avnet.eu,
-	michael.roeder@avnet.eu, linuxfancy@googlegroups.com,
-	mhecht73@gmail.com, christophe.jaillet@wanadoo.fr,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Alain Volmat <alain.volmat@foss.st.com>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Gerald Loacker <gerald.loacker@wolfvision.net>,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v15 3/3] media: i2c: Add support for alvium camera
-Message-ID: <ZXhTaaXZf2WMkAgr@kekkonen.localdomain>
-References: <20231204094719.190334-1-tomm.merciai@gmail.com>
- <20231204094719.190334-4-tomm.merciai@gmail.com>
- <ZXhGQuqTZogWTJ42@kekkonen.localdomain>
- <ZXhHrhNQfn0uJMjk@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <ZXhIaB_NTDtSJmj5@kekkonen.localdomain>
- <ZXhPabGpUDJNSgiZ@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A57C113;
+	Tue, 12 Dec 2023 04:41:03 -0800 (PST)
+Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2c9c18e7990so77685671fa.2;
+        Tue, 12 Dec 2023 04:41:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702384861; x=1702989661; darn=vger.kernel.org;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
+        bh=LZLYXgJmy3Na8SQ7en3Vt6jMaVtat/pMgo2BiBt/Yq8=;
+        b=bmxoRcNqH8Fj1oqciglimgkNoYxiGSEXhFzgHOjQ2HABRvSvUOu5q3crD+4vaYfCgg
+         hMClZTOtmjCbAxpTiMy/QasMVziWsQ/FdGTGY1oOSBfmiMGKq24PcJqYdLFq10sXVbEW
+         peoVMKiFt9eySkeoMCBdbtUbiXzuORa5j9SRdmhTkHk4ARvye/JeaNAuzj/TGpwjv4aS
+         /4gDujvPqGrnreVlERc71kjM12auCkR7i3i9xDKavefrMsyvdWDz3yzycl67j98d+oi8
+         VbeWdTepzmOdwEQmzneB6O/M35Y+t9CMoadhVU4+7Mp0cRNfrZgR/1KbA5TqmRBSn2O7
+         imDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702384861; x=1702989661;
+        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
+         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=LZLYXgJmy3Na8SQ7en3Vt6jMaVtat/pMgo2BiBt/Yq8=;
+        b=TjFekVSxE1XWpQnmYBOaJeZ0ULJvVPYyKZ2wdCVhsQhXPKkOztrdf9nHc6aTwJ5RnW
+         wcpLFeRmk9+ZmU1gT+DPitcFHLsg0KPRIEVahgA3PMz0wfMA2O3yNe63bgFFAf2qFyEq
+         bJb8LQ+sKYLMlKZStTAVzlnOP+/974anuhjpE4RbLckR8EGAVgzxbGYDpnzBepny+b1Z
+         bxLoHF8tBpJU8vRMKDJN1XVzdyxa0HOa+JUzERA2FOkhPwilYv/9iTQCmi5TS84TJZQS
+         6OKttldpOEIej7oyJUWovIuucibq4A5OhFHBfpAS+qYMaSsiNIbTE4Wnx0ptLriQRNcm
+         635A==
+X-Gm-Message-State: AOJu0Yyog8Xo/bjz/DKH/WwnhxTwwYqIeO6jGA/RI8Utu4O2Ecc2nWdH
+	Ayzf3veUbMs69OntdtTM/XY=
+X-Google-Smtp-Source: AGHT+IHilubY78PRbRUKcmiHxyO3UsqJydZE1dN/NVHCqXaLNU6HRJ7rPIYPs+kR4FSZT0TkJTQ9KQ==
+X-Received: by 2002:a05:651c:d4:b0:2ca:2426:3f44 with SMTP id 20-20020a05651c00d400b002ca24263f44mr2303347ljr.14.1702384861274;
+        Tue, 12 Dec 2023 04:41:01 -0800 (PST)
+Received: from razdolb (95-24-149-38.broadband.corbina.ru. [95.24.149.38])
+        by smtp.gmail.com with ESMTPSA id b4-20020a05651c032400b002ca044c17d0sm1478661ljp.62.2023.12.12.04.41.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 12 Dec 2023 04:41:01 -0800 (PST)
+References: <20231211175023.1680247-1-mike.rudenko@gmail.com>
+ <20231211175023.1680247-11-mike.rudenko@gmail.com>
+ <20231211220813.GI27535@pendragon.ideasonboard.com>
+User-agent: mu4e 1.10.7; emacs 29.1
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Sakari Ailus
+ <sakari.ailus@linux.intel.com>, Jacopo Mondi <jacopo@jmondi.org>,
+ Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Dave Stevenson
+ <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>
+Subject: Re: [PATCH 10/19] media: i2c: ov4689: Make horizontal blanking
+ configurable
+Date: Tue, 12 Dec 2023 15:37:32 +0300
+In-reply-to: <20231211220813.GI27535@pendragon.ideasonboard.com>
+Message-ID: <87le9zpp9f.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ZXhPabGpUDJNSgiZ@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+Content-Type: text/plain
 
-Hi Tommaso,
 
-On Tue, Dec 12, 2023 at 01:17:45PM +0100, Tommaso Merciai wrote:
-> Hi Sakari,
-> Just a clarification about the following warnings:
-> 
-> Fixed on my side with:
-> 
-> CHECK: Assignment operator '=' should be on the previous line
-> 
-> -       alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8_LEG]
-> -                                 = avail_fmt->yuv420_8_leg;
-> +       alvium->is_mipi_fmt_avail[ALVIUM_BIT_YUV420_8_LEG] =
-> +                                 avail_fmt->yuv420_8_leg;
+On 2023-12-12 at 00:08 +02, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-This one seems good.
+> Hi Mikhail,
+>
+> Thank you for the patch.
+>
+> On Mon, Dec 11, 2023 at 08:50:13PM +0300, Mikhail Rudenko wrote:
+>> Make horizontal blanking configurable. To do so, set HTS register
+>> according to the requested horizontal blanking in ov4689_set_ctrl
+>> instead of the register table. Default HTS value is not changed by
+>> this patch. Minimal HTS value is found experimentally and corresponds
+>> to 90 fps framerate at minimum vertical blanking. Real HTS value is
+>> the register value multiplied by 4.
+>>
+>> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
+>> ---
+>>  drivers/media/i2c/ov4689.c | 33 +++++++++++++++++++++------------
+>>  1 file changed, 21 insertions(+), 12 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
+>> index 9fa06941a0e5..67d4004bdcfb 100644
+>> --- a/drivers/media/i2c/ov4689.c
+>> +++ b/drivers/media/i2c/ov4689.c
+>> @@ -30,7 +30,6 @@
+>>  #define OV4689_REG_EXPOSURE		CCI_REG24(0x3500)
+>>  #define OV4689_EXPOSURE_MIN		4
+>>  #define OV4689_EXPOSURE_STEP		1
+>> -#define OV4689_VTS_MAX			0x7fff
+>>
+>>  #define OV4689_REG_GAIN			CCI_REG16(0x3508)
+>>  #define OV4689_GAIN_STEP		1
+>> @@ -41,6 +40,11 @@
+>>  #define OV4689_TEST_PATTERN_DISABLE	0x0
+>>
+>>  #define OV4689_REG_VTS			CCI_REG16(0x380e)
+>> +#define OV4689_VTS_MAX			0x7fff
+>> +
+>> +#define OV4689_REG_HTS			CCI_REG16(0x380c)
+>> +#define OV4689_HTS_DIVIDER		4
+>> +#define OV4689_HTS_MAX			0x7fff
+>
+> Could you move this just before REG_VTS to keep registers sorted by
+> address ?
 
-> 
-> CHECK: line length of 81 exceeds 80 columns
-> #1085: FILE: drivers/media/i2c/alvium-csi2.c:1085:
-> +		if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
-> 
-> CHECK: line length of 81 exceeds 80 columns
-> #1102: FILE: drivers/media/i2c/alvium-csi2.c:1102:
-> +		if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
-> 
-> 
-> Fixed on my side with:
-> 
->         /* Create the alvium_csi2 fmt array from formats available */
->         for (fmt = 0; fmt < ALVIUM_NUM_SUPP_MIPI_DATA_FMT; fmt++) {
-> -               if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt].fmt_av_bit])
-> +               if (!alvium->is_mipi_fmt_avail[alvium_csi2_fmts[fmt]
-> +                               .fmt_av_bit])
+Ack, will fix in v2.
 
-I wouldn't introduce a line break in these two cases.
+>>
+>>  #define OV4689_LANES			4
+>>  #define OV4689_XVCLK_FREQ		24000000
+>> @@ -61,6 +65,7 @@ struct ov4689_mode {
+>>  	u32 width;
+>>  	u32 height;
+>>  	u32 hts_def;
+>> +	u32 hts_min;
+>>  	u32 vts_def;
+>>  	u32 exp_def;
+>>  	u32 pixel_rate;
+>> @@ -104,7 +109,7 @@ struct ov4689_gain_range {
+>>
+>>  /*
+>>   * Xclk 24Mhz
+>> - * max_framerate 30fps
+>> + * max_framerate 90fps
+>>   * mipi_datarate per lane 1008Mbps
+>>   */
+>>  static const struct cci_reg_sequence ov4689_2688x1520_regs[] = {
+>> @@ -175,8 +180,6 @@ static const struct cci_reg_sequence ov4689_2688x1520_regs[] = {
+>>  	/* Timing control */
+>>  	{CCI_REG8(0x3801), 0x08}, /* H_CROP_START_L h_crop_start[7:0] = 0x08 */
+>>  	{CCI_REG8(0x3805), 0x97}, /* H_CROP_END_L h_crop_end[7:0] = 0x97 */
+>> -	{CCI_REG8(0x380c), 0x0a}, /* TIMING_HTS_H hts[14:8] = 0x0a */
+>> -	{CCI_REG8(0x380d), 0x0e}, /* TIMING_HTS_L hts[7:0] = 0x0e */
+>>  	{CCI_REG8(0x3811), 0x08}, /* H_WIN_OFF_L h_win_off[7:0] = 0x08*/
+>>  	{CCI_REG8(0x3813), 0x04}, /* V_WIN_OFF_L v_win_off[7:0] = 0x04 */
+>>  	{CCI_REG8(0x3819), 0x01}, /* VSYNC_END_L vsync_end_point[7:0] = 0x01 */
+>> @@ -237,7 +240,8 @@ static const struct ov4689_mode supported_modes[] = {
+>>  		.crop_top = 8,
+>>  		.crop_left = 16,
+>>  		.exp_def = 1536,
+>> -		.hts_def = 4 * 2574,
+>> +		.hts_def = 10296,
+>> +		.hts_min = 3432,
+>>  		.vts_def = 1554,
+>>  		.pixel_rate = 480000000,
+>>  		.reg_list = ov4689_2688x1520_regs,
+>> @@ -596,6 +600,11 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
+>>  	case V4L2_CID_TEST_PATTERN:
+>>  		ret = ov4689_enable_test_pattern(ov4689, val);
+>>  		break;
+>> +	case V4L2_CID_HBLANK:
+>> +		cci_write(regmap, OV4689_REG_HTS,
+>> +			  (val + ov4689->cur_mode->width) /
+>> +			  OV4689_HTS_DIVIDER, &ret);
+>> +		break;
+>>  	default:
+>>  		dev_warn(dev, "%s Unhandled id:0x%x, val:0x%x\n",
+>>  			 __func__, ctrl->id, val);
+>> @@ -618,13 +627,13 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
+>>  	struct v4l2_ctrl_handler *handler;
+>>  	const struct ov4689_mode *mode;
+>>  	s64 exposure_max, vblank_def;
+>> +	s64 hblank_def, hblank_min;
+>>  	struct v4l2_ctrl *ctrl;
+>> -	s64 h_blank_def;
+>>  	int ret;
+>>
+>>  	handler = &ov4689->ctrl_handler;
+>>  	mode = ov4689->cur_mode;
+>> -	ret = v4l2_ctrl_handler_init(handler, 10);
+>> +	ret = v4l2_ctrl_handler_init(handler, 11);
+>
+> The HBLANK control already exists, you're only changing how it is
+> initialized. I see 8 controls being created by the driver directly,
+> plus 2 created by v4l2_ctrl_new_fwnode_properties(), so I think 10 is a
+> correct value here.
 
->                         continue;
-> 
-> Can be ok for you?
-> If yes I'm going to prepare the patch on top of your media_tree/master
-> branch.
+Yes, will adjust here and in the further patches.
 
-Ack.
+> With these small issues addressed,
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+>>  	if (ret)
+>>  		return ret;
+>>
+>> @@ -636,11 +645,11 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
+>>  	v4l2_ctrl_new_std(handler, NULL, V4L2_CID_PIXEL_RATE, 0,
+>>  			  mode->pixel_rate, 1, mode->pixel_rate);
+>>
+>> -	h_blank_def = mode->hts_def - mode->width;
+>> -	ctrl = v4l2_ctrl_new_std(handler, NULL, V4L2_CID_HBLANK, h_blank_def,
+>> -				 h_blank_def, 1, h_blank_def);
+>> -	if (ctrl)
+>> -		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>> +	hblank_def = mode->hts_def - mode->width;
+>> +	hblank_min = mode->hts_min - mode->width;
+>> +	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_HBLANK,
+>> +			  hblank_min, OV4689_HTS_MAX - mode->width,
+>> +			  OV4689_HTS_DIVIDER, hblank_def);
+>>
+>>  	vblank_def = mode->vts_def - mode->height;
+>>  	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_VBLANK,
 
--- 
-Sakari Ailus
+
+--
+Best regards,
+Mikhail Rudenko
 
