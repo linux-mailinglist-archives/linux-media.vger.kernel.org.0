@@ -1,40 +1,40 @@
-Return-Path: <linux-media+bounces-2341-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2342-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1E968110F9
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 13:20:56 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4ADC68110FA
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 13:21:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA62A1C20EF5
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 12:20:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E17A7B21050
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 12:21:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F68029402;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93C2628E0C;
 	Wed, 13 Dec 2023 12:20:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="B6E0U3xh"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="JS2mVMjI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [IPv6:2a00:1098:ed:100::25])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 780D2D5;
-	Wed, 13 Dec 2023 04:20:33 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A8FC1E4;
+	Wed, 13 Dec 2023 04:20:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702470031;
-	bh=sq6cDRiywOxX1Qe7Bu9qDWkMwmr+XoroGDsSXtkS8x4=;
+	s=mail; t=1702470032;
+	bh=BYmcEgaBo5I1IXZr2Bp32/w8YdhWfM9/oRB+PHkjY7g=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=B6E0U3xhmac1cySPgjPJpgD7OF7qxWWrKXkZ1vUr//tIhlx8v3Djz//RDPdwxozHi
-	 8lIu7XybvfbJsuZvLhNbR9ASK+wWJyCQMPhr1L/F17gXSCioEBOh1VDOJn6DyLW3iM
-	 9w/5gimvYx3Wa3oSnZMd0lccJuCoOugSBWUu9hJRCJrMrniaaaznsL397C/j4TDk+8
-	 muzyOFPbUAjGDsV2njWhTcnzp980zt3HX2farmT7dTzKD++SALZZFV2OOX3eEAe87m
-	 8jVE5U72HpD+bhinr63DHNsT04AezYbd2tG2QfUO+idS/tRgV+xyvD6q1L6BxB8WGM
-	 rCLN0OTT8whgw==
+	b=JS2mVMjISMIkLCwLDBK+frDTRB6utKwa+Cz7KGcUHrevMT1OIAO1bimOhP3kAa/Z0
+	 J4kYwPCiOy6V/xClOuS3wtnjLSEW/Y+liR3MecZhpsoXm5nXRvYOv6buyq+f0tNYDE
+	 bSvZeoqf//eX9EQWfhwGXv0FA+gHddeqgBQ0wYSWrVsIGVcphglJkFsr8xkN7/UA9i
+	 +sAsblsELT4GxZhUNniDZQ8VKN74hWP46gtpXTy3KVEniKIoav2vHt0n+kAKfnmLKX
+	 SR+XPbXDCqpM+k1FEtD+MGvD31J+ZTha+jvSKVfUHO/YsqN3a1R4S5gYjWnOZatFgQ
+	 ElRalFyb5YGMw==
 Received: from eugen-station.. (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: ehristev)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 32A253781486;
-	Wed, 13 Dec 2023 12:20:30 +0000 (UTC)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 396543781488;
+	Wed, 13 Dec 2023 12:20:31 +0000 (UTC)
 From: Eugen Hristev <eugen.hristev@collabora.com>
 To: linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org,
@@ -46,10 +46,13 @@ Cc: linux-kernel@vger.kernel.org,
 	eugen.hristev@collabora.com,
 	tiffany.lin@mediatek.com,
 	andrew-ct.chen@mediatek.com,
-	matthias.bgg@gmail.com
-Subject: [PATCH 3/4] arm64: dts: mediatek: mt8186: fix VENC power domain clocks
-Date: Wed, 13 Dec 2023 14:20:16 +0200
-Message-Id: <20231213122017.102100-3-eugen.hristev@collabora.com>
+	matthias.bgg@gmail.com,
+	Kyrie Wu <kyrie.wu@mediatek.com>,
+	Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
+	Hsin-Yi Wang <hsinyi@chromium.org>
+Subject: [PATCH 4/4] arm64: dts: mediatek: mt8186: Add venc node
+Date: Wed, 13 Dec 2023 14:20:17 +0200
+Message-Id: <20231213122017.102100-4-eugen.hristev@collabora.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20231213122017.102100-1-eugen.hristev@collabora.com>
 References: <20231213122017.102100-1-eugen.hristev@collabora.com>
@@ -61,28 +64,54 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The larb clock is in fact a subsys clock, so it must be prefixed by
-'subsys-' to be correctly identified in the driver.
+From: Kyrie Wu <kyrie.wu@mediatek.com>
 
-Fixes: d9e43c1e7a38 ("arm64: dts: mt8186: Add power domains controller")
+Add video encoder node.
+
+Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
+Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
+[eugen.hristev@collabora.com: minor cleanup]
 Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
 ---
- arch/arm64/boot/dts/mediatek/mt8186.dtsi | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ arch/arm64/boot/dts/mediatek/mt8186.dtsi | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
 
 diff --git a/arch/arm64/boot/dts/mediatek/mt8186.dtsi b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-index df0c04f2ba1d..66ead3f23336 100644
+index 66ead3f23336..8535ff2b44e9 100644
 --- a/arch/arm64/boot/dts/mediatek/mt8186.dtsi
 +++ b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
-@@ -1061,7 +1061,7 @@ power-domain@MT8186_POWER_DOMAIN_VENC {
- 						reg = <MT8186_POWER_DOMAIN_VENC>;
- 						clocks = <&topckgen CLK_TOP_VENC>,
- 							 <&vencsys CLK_VENC_CKE1_VENC>;
--						clock-names = "venc0", "larb";
-+						clock-names = "venc0", "subsys-larb";
- 						mediatek,infracfg = <&infracfg_ao>;
- 						#power-domain-cells = <0>;
- 					};
+@@ -1993,6 +1993,30 @@ larb7: smi@17010000 {
+ 			power-domains = <&spm MT8186_POWER_DOMAIN_VENC>;
+ 		};
+ 
++		venc: venc@17020000 {
++			compatible = "mediatek,mt8183-vcodec-enc";
++			#address-cells = <2>;
++			#size-cells = <2>;
++			reg = <0 0x17020000 0 0x2000>;
++			interrupts = <GIC_SPI 243 IRQ_TYPE_LEVEL_HIGH 0>;
++			iommus = <&iommu_mm IOMMU_PORT_L7_VENC_RCPU>,
++				 <&iommu_mm IOMMU_PORT_L7_VENC_REC>,
++				 <&iommu_mm IOMMU_PORT_L7_VENC_BSDMA>,
++				 <&iommu_mm IOMMU_PORT_L7_VENC_SV_COMV>,
++				 <&iommu_mm IOMMU_PORT_L7_VENC_RD_COMV>,
++				 <&iommu_mm IOMMU_PORT_L7_VENC_CUR_LUMA>,
++				 <&iommu_mm IOMMU_PORT_L7_VENC_CUR_CHROMA>,
++				 <&iommu_mm IOMMU_PORT_L7_VENC_REF_LUMA>,
++				 <&iommu_mm IOMMU_PORT_L7_VENC_REF_CHROMA>;
++			dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
++			mediatek,scp = <&scp>;
++			clocks = <&vencsys CLK_VENC_CKE1_VENC>;
++			clock-names = "MT_CG_VENC";
++			assigned-clocks = <&topckgen CLK_TOP_VENC>;
++			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D3>;
++			power-domains = <&spm MT8186_POWER_DOMAIN_VENC>;
++		};
++
+ 		camsys: clock-controller@1a000000 {
+ 			compatible = "mediatek,mt8186-camsys";
+ 			reg = <0 0x1a000000 0 0x1000>;
 -- 
 2.34.1
 
