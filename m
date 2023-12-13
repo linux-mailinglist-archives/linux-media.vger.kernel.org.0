@@ -1,315 +1,278 @@
-Return-Path: <linux-media+bounces-2291-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2293-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0C7D810BE6
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 08:53:10 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89C9F810BFF
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 09:07:31 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 43C561F21264
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 07:53:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1715A1F21130
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 08:07:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F5911CFA9;
-	Wed, 13 Dec 2023 07:52:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54B0D1CAAD;
+	Wed, 13 Dec 2023 08:07:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="sp6Pj7hK"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ox1EE1ju"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-x334.google.com (mail-wm1-x334.google.com [IPv6:2a00:1450:4864:20::334])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D39F3101
-	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 23:52:50 -0800 (PST)
-Received: by mail-wm1-x334.google.com with SMTP id 5b1f17b1804b1-40c25973988so67856765e9.2
-        for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 23:52:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702453969; x=1703058769; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=M39btmxp5CMOvqAic+iM2gRDFVus/hb+Dtb73l5YcRQ=;
-        b=sp6Pj7hKu+lK93QwTGNytyOkZEVL5VJgYXC/Te9Dly9QURdrnkTE7T8YZ6bsdqAmQJ
-         YNuMF9yHWUEu2W3LBADG6YUzvWsZGt39sDhQuKWWVG4sc1USFv24IPAGOaSz/SLgFQb5
-         PqtSfIq8je9pE68QSc5Coq2hulrEIpM2Iqd70uE4xjLzGnO0022NwWhazV67NqZXgmt7
-         AZsOKcCA5SE+4R2ujHMyc+3DSpK2MKGXNOaov+lJR2UGDf4q1SU1t9PPlRWKLELweOWP
-         O5N+2azhs26gSyE9CpsxsXo7NHxabfaEr4pxhoGvHMJKcE+9fEaS3Ybhq64n7P99YUb0
-         /Kpg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702453969; x=1703058769;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=M39btmxp5CMOvqAic+iM2gRDFVus/hb+Dtb73l5YcRQ=;
-        b=VXiuJhp89PYKtVjW9fjvhZkG0NUL3+e7i4mQlrpsj6cn7Eemm8ORO11ufRoCHsO1Oc
-         cH3SJqJLIhRDvbZhQHOHCvSdBycKKyHCt0aLRyCSNktQn36ujrz9IU7fgtDaaXlfCY4I
-         7xauyqdLOdqGoH0W7JdUXER4aia7M+hBcy0y1n8Eyo3hrd9NnikVrwqp2wstoYOB1VPE
-         z3DwhLKkLt/+ybRx8fIwGJ60nBfQntSIU6a1akxIy6jTQHaRTlWm43NDLYqb3TzglD38
-         EYnVChbL/HL3z6PyrZFaRdeCMT+14d/egbKjLDcvgFYOJXvYU90VaW5U7AvY37oW4Lvx
-         jfTA==
-X-Gm-Message-State: AOJu0YxkdgV5r+YGHSHAVsGGWJo0z14wowUsT24GgX2T8a+3ISGAFJSa
-	e23FBUMsHoRPz261g555s49cgfcMp5vACPrYMHLvUw==
-X-Google-Smtp-Source: AGHT+IF8GsUa/W3RJdThooSHp8WYWcUSc4eP6rXO8ssH3BcKraug5UQYXMvk50EClsQDU3QAMz82hldzzEvDsMEPiCw=
-X-Received: by 2002:a05:600c:11ce:b0:40c:377c:4b62 with SMTP id
- b14-20020a05600c11ce00b0040c377c4b62mr3749772wmi.50.1702453969020; Tue, 12
- Dec 2023 23:52:49 -0800 (PST)
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 913CCE4
+	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 00:07:14 -0800 (PST)
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20231213080710epoutp0260c8eccc07885f37c7db587509153460~gVaXoYzQW1093510935epoutp02Q
+	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 08:07:10 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20231213080710epoutp0260c8eccc07885f37c7db587509153460~gVaXoYzQW1093510935epoutp02Q
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1702454830;
+	bh=AfAJaSfQnEOXWcUP4kLMVd1XUT4Tt8OQIoNwHuvmudU=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=ox1EE1juQcPoZQZBQ1+Z7GJiGdCqmK9ofTswmRVsqySi7h2wp+nvhkb290Oe4l6/U
+	 5xNAWkIZZvOWGN/GV14PIYnYBJuiLD5U6Cf3y2366zd//m0l0ZdeZqsBuLT2kRzX4Y
+	 nkLGAqyQCB9JslvEVMCd+Y4ufjCMwMkOhz507bkQ=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
+	20231213080709epcas5p396e461d45554d24f489a515cb96e7135~gVaW83GRi1050110501epcas5p3x;
+	Wed, 13 Dec 2023 08:07:09 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.181]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4Sqp3w0c6Vz4x9Q1; Wed, 13 Dec
+	2023 08:07:08 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	99.47.10009.B2669756; Wed, 13 Dec 2023 17:07:07 +0900 (KST)
+Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20231213075816epcas5p4c35196cf7fc191a4c1d25d4c8408efeb~gVSmvt0-C1712417124epcas5p4D;
+	Wed, 13 Dec 2023 07:58:16 +0000 (GMT)
+Received: from epsmgms1p1new.samsung.com (unknown [182.195.42.41]) by
+	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
+	20231213075816epsmtrp2747f61231760972d6642a88be99be978~gVSmubvdO1376113761epsmtrp2O;
+	Wed, 13 Dec 2023 07:58:16 +0000 (GMT)
+X-AuditID: b6c32a4a-261fd70000002719-35-6579662beee4
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	6C.5A.08755.81469756; Wed, 13 Dec 2023 16:58:16 +0900 (KST)
+Received: from FDSFTE308 (unknown [107.122.81.79]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20231213075812epsmtip23b19dc074e0248789afcff897f5a1c44~gVSjD5Vs40794807948epsmtip2-;
+	Wed, 13 Dec 2023 07:58:12 +0000 (GMT)
+From: "Aakarsh Jain" <aakarsh.jain@samsung.com>
+To: "'Hans Verkuil'" <hverkuil-cisco@xs4all.nl>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>
+Cc: <m.szyprowski@samsung.com>, <andrzej.hajda@intel.com>,
+	<mchehab@kernel.org>, <krzysztof.kozlowski+dt@linaro.org>,
+	<robh+dt@kernel.org>, <conor+dt@kernel.org>,
+	<linux-samsung-soc@vger.kernel.org>, <andi@etezian.org>,
+	<gost.dev@samsung.com>, <alim.akhtar@samsung.com>,
+	<aswani.reddy@samsung.com>, <pankaj.dubey@samsung.com>,
+	<ajaykumar.rs@samsung.com>
+In-Reply-To: <d00fa740-bcf8-47af-b70a-cabbb7237d99@xs4all.nl>
+Subject: RE: [Patch v5 00/11] Add MFC V12 support
+Date: Wed, 13 Dec 2023 13:28:11 +0530
+Message-ID: <108d01da2d9a$20eda670$62c8f350$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-10-almasrymina@google.com> <32211cbf-3a4e-8a86-6214-4304ddb18a98@huawei.com>
- <CAHS8izOQcuLPwvDff96fuNB7r6EU9OWt3ShueQp=u7wat3L5LA@mail.gmail.com>
- <92e30bd9-6df4-b72f-7bcd-f4fe5670eba2@huawei.com> <CAHS8izPEFsqw50qgM+sPot6XVvOExpd+DrwrmPSR3zsWGLysRw@mail.gmail.com>
- <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
-In-Reply-To: <CAHS8izN6Cbjy0FCYhJyNsP396XfgJ_nTFXWuHb5QWNct=PifAg@mail.gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 12 Dec 2023 23:52:34 -0800
-Message-ID: <CAHS8izODNXtmhBoPk6z=wuj8tvbndcHHHxcZmH64hY57znT-Mg@mail.gmail.com>
-Subject: Re: [net-next v1 09/16] page_pool: device memory support
-To: Yunsheng Lin <linyunsheng@huawei.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Shakeel Butt <shakeelb@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Sun, Dec 10, 2023 at 8:04=E2=80=AFPM Mina Almasry <almasrymina@google.co=
-m> wrote:
->
-> On Sun, Dec 10, 2023 at 6:26=E2=80=AFPM Mina Almasry <almasrymina@google.=
-com> wrote:
-> >
-> > On Sun, Dec 10, 2023 at 6:04=E2=80=AFPM Yunsheng Lin <linyunsheng@huawe=
-i.com> wrote:
-> > >
-> > > On 2023/12/9 0:05, Mina Almasry wrote:
-> > > > On Fri, Dec 8, 2023 at 1:30=E2=80=AFAM Yunsheng Lin <linyunsheng@hu=
-awei.com> wrote:
-> > > >>
-> > > >>
-> > > >> As mentioned before, it seems we need to have the above checking e=
-very
-> > > >> time we need to do some per-page handling in page_pool core, is th=
-ere
-> > > >> a plan in your mind how to remove those kind of checking in the fu=
-ture?
-> > > >>
-> > > >
-> > > > I see 2 ways to remove the checking, both infeasible:
-> > > >
-> > > > 1. Allocate a wrapper struct that pulls out all the fields the page=
- pool needs:
-> > > >
-> > > > struct netmem {
-> > > >         /* common fields */
-> > > >         refcount_t refcount;
-> > > >         bool is_pfmemalloc;
-> > > >         int nid;
-> > > >         ...
-> > > >         union {
-> > > >                 struct dmabuf_genpool_chunk_owner *owner;
-> > > >                 struct page * page;
-> > > >         };
-> > > > };
-> > > >
-> > > > The page pool can then not care if the underlying memory is iov or
-> > > > page. However this introduces significant memory bloat as this stru=
-ct
-> > > > needs to be allocated for each page or ppiov, which I imagine is no=
-t
-> > > > acceptable for the upside of removing a few static_branch'd if
-> > > > statements with no performance cost.
-> > > >
-> > > > 2. Create a unified struct for page and dmabuf memory, which the mm
-> > > > folks have repeatedly nacked, and I imagine will repeatedly nack in
-> > > > the future.
-> > > >
-> > > > So I imagine the special handling of ppiov in some form is critical
-> > > > and the checking may not be removable.
-> > >
-> > > If the above is true, perhaps devmem is not really supposed to be int=
-ergated
-> > > into page_pool.
-> > >
-> > > Adding a checking for every per-page handling in page_pool core is ju=
-st too
-> > > hacky to be really considerred a longterm solution.
-> > >
-> >
-> > The only other option is to implement another page_pool for ppiov and
-> > have the driver create page_pool or ppiov_pool depending on the state
-> > of the netdev_rx_queue (or some helper in the net stack to do that for
-> > the driver). This introduces some code duplication. The ppiov_pool &
-> > page_pool would look similar in implementation.
-> >
-> > But this was all discussed in detail in RFC v2 and the last response I
-> > heard from Jesper was in favor if this approach, if I understand
-> > correctly:
-> >
-> > https://lore.kernel.org/netdev/7aedc5d5-0daf-63be-21bc-3b724cc1cab9@red=
-hat.com/
-> >
-> > Would love to have the maintainer weigh in here.
-> >
->
-> I should note we may be able to remove some of the checking, but maybe no=
-t all.
->
-> - Checks that disable page fragging for ppiov can be removed once
-> ppiov has frag support (in this series or follow up).
->
-> - If we use page->pp_frag_count (or page->pp_ref_count) for
-> refcounting ppiov, we can remove the if checking in the refcounting.
->
-> - We may be able to store the dma_addr of the ppiov in page->dma_addr,
-> but I'm unsure if that actually works, because the dma_buf dmaddr is
-> dma_addr_t (u32 or u64), but page->dma_addr is unsigned long (4 bytes
-> I think). But if it works for pages I may be able to make it work for
-> ppiov as well.
->
-> - Checks that obtain the page->pp can work with ppiov if we align the
-> offset of page->pp and ppiov->pp.
->
-> - Checks around page->pp_magic can be removed if we also have offset
-> aligned ppiov->pp_magic.
->
-> Sadly I don't see us removing the checking for these other cases:
->
-> - page_is_pfmemalloc(): I'm not allowed to pass a non-struct page into
-> that helper.
->
-> - page_to_nid(): I'm not allowed to pass a non-struct page into that help=
-er.
->
-> - page_pool_free_va(): ppiov have no va.
->
-> - page_pool_sync_for_dev/page_pool_dma_map: ppiov backed by dma-buf
-> fundamentally can't get mapped again.
->
-> Are the removal (or future removal) of these checks enough to resolve thi=
-s?
->
-
-I took a deeper look here, and with some effort I'm able to remove
-almost all the custom checks for ppiov. The only remaining checks for
-devmem are the checks around these mm calls:
-
-page_is_pfmemalloc()
-page_to_nid()
-page_ref_count()
-compound_head()
-
-page_is_pfmemalloc() checks can be removed by using a bit
-page->pp_magic potentially to indicate pfmemalloc().
-
-The other 3, I'm not sure I can remove. They rely on the page flags or
-other fields not specific to page_pool pages. The next version should
-come with the most minimal amount of devmem checks for the page_pool.
-
-> > > It is somewhat ironical that devmem is using static_branch to allivia=
-te the
-> > > performance impact for normal memory at the possible cost of performa=
-nce
-> > > degradation for devmem, does it not defeat some purpose of intergatin=
-g devmem
-> > > to page_pool?
-> > >
-> >
-> > I don't see the issue. The static branch sets the non-ppiov path as
-> > default if no memory providers are in use, and flips it when they are,
-> > making the default branch prediction ideal in both cases.
-> >
-> > > >
-> > > >> Even though a static_branch check is added in page_is_page_pool_io=
-v(), it
-> > > >> does not make much sense that a core has tow different 'struct' fo=
-r its
-> > > >> most basic data.
-> > > >>
-> > > >> IMHO, the ppiov for dmabuf is forced fitting into page_pool withou=
-t much
-> > > >> design consideration at this point.
-> > > >>
-> > > > ...
-> > > >>
-> > > >> For now, the above may work for the the rx part as it seems that y=
-ou are
-> > > >> only enabling rx for dmabuf for now.
-> > > >>
-> > > >> What is the plan to enable tx for dmabuf? If it is also intergrate=
-d into
-> > > >> page_pool? There was a attempt to enable page_pool for tx, Eric se=
-emed to
-> > > >> have some comment about this:
-> > > >> https://lkml.kernel.org/netdev/2cf4b672-d7dc-db3d-ce90-15b4e91c400=
-5@huawei.com/T/#mb6ab62dc22f38ec621d516259c56dd66353e24a2
-> > > >>
-> > > >> If tx is not intergrated into page_pool, do we need to create a ne=
-w layer for
-> > > >> the tx dmabuf?
-> > > >>
-> > > >
-> > > > I imagine the TX path will reuse page_pool_iov, page_pool_iov_*()
-> > > > helpers, and page_pool_page_*() helpers, but will not need any core
-> > > > page_pool changes. This is because the TX path will have to piggyba=
-ck
-> > >
-> > > We may need another bit/flags checking to demux between page_pool own=
-ed
-> > > devmem and non-page_pool owned devmem.
-> > >
-> >
-> > The way I'm imagining the support, I don't see the need for such
-> > flags. We'd be re-using generic helpers like
-> > page_pool_iov_get_dma_address() and what not that don't need that
-> > checking.
-> >
-> > > Also calling page_pool_*() on non-page_pool owned devmem is confusing
-> > > enough that we may need a thin layer handling non-page_pool owned dev=
-mem
-> > > in the end.
-> > >
-> >
-> > The page_pool_page* & page_pool_iov* functions can be renamed if
-> > confusing. I would think that's no issue (note that the page_pool_*
-> > functions need not be called for TX path).
-> >
-> > > > on MSG_ZEROCOPY (devmem is not copyable), so no memory allocation f=
-rom
-> > > > the page_pool (or otherwise) is needed or possible. RFCv1 had a TX
-> > > > implementation based on dmabuf pages without page_pool involvement,=
- I
-> > > > imagine I'll do something similar.
-> > > It would be good to have a tx implementation for the next version, so
-> > > that we can have a whole picture of devmem.
-> > >
-> > > >
-> >
-> >
-> >
-> > --
-> > Thanks,
-> > Mina
->
->
->
-> --
-> Thanks,
-> Mina
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQJl1+V1XR3+CIvjnElNbj3OPe0yngGxC9E1Absheu2vdCK6EA==
+Content-Language: en-in
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Tf1DTZRzHfb7f/fjOmvdtrnycFbtv+YN1/Bht+EBglJ7sKGzZnXbWRYs9
+	Do79ahsK/mEcHGQTEUs4WIAgaB2aCMpYBEJjC8ULUxAOj19LOkRjcCAcZHfF+GLx3+v9eT4/
+	7v15nociRSM8CZVqtGGLUaNneGs5zo7g4JDXDmbi8M6iGNQ+9TMHjVY4eah6YZxAI9WzHOS+
+	0shHF1u7CXTG081FA+0/Euh26RAHFTzwkajhfh8X9TSX8VD+5UYuKrl1jUA/eIb46HzD3wQ6
+	2/iYj3JbPfw4kaq/ZoZUVbdMEKqG2q94qsG+Fp7qSs0XqoKrtUA12/Cyqmtulq+mDqTFpGCN
+	Fluk2Jhs0qYadbHMOx8k7UxSRobLQ+RRaDsjNWoMOJbZ9a46ZHeqfskLIz2k0acvhdQaq5UJ
+	2xFjMaXbsDTFZLXFMtis1ZsV5lCrxmBNN+pCjdgWLQ8Pj1AuJX6alvL45AXC3BmWcWpgRxYo
+	22oHAgrSCujK9gI7WEuJ6J8AtI/3kayYAfBWXi+fFfMA+tvuceyAWi7Js+vZeCuAub0zPFaM
+	A9h6JyAEFI8OgyNd+dzAgZh2AVjl+5UICJKeJGDVxRFeoJWAjoW+LF2gYD0th67BO0SAOfRm
+	2JPt4wZYSEfBr+89IVh+Dt4oHeMEmKSDYNNkGcmakMLFP85zAy3F9Nuwc0rGpmyA3sX8ZTuQ
+	zhHAwuFzHDZ/F+xvGyFYXg8fdl7lsyyBs/5WHsvJ8P7ZiZX+eljXcnql9k3Y3lu2vAmSDoZ1
+	zWFs+CVY1HWJYOeugyeejK20F0JXxVPeAssGF7gsvwg7LpwDhYBxrHLmWOXMscqC4/9plYBT
+	CzZis9Wgw1alOcKID/9338kmQwNYfumyBBfwjU6HugFBATeAFMmIhTdch7FIqNVkHsEWU5Il
+	XY+tbqBcWvcpUvJ8smnpqxhtSXJFVLgiMjJSEfV6pJzZIHyUW64V0TqNDadhbMaWp3UEJZBk
+	EQ7GKxwr9Rum7TCTq+8VTGt10qY38Csl264x60YTj048AMcWEz93qJHE4c1LfPb74A7L/u6b
+	sjZFqqGKKPdMGRJux43ZfLK7a+566o4XtNi/o3rii7fs/aw42un0Nx+o3/9LvB8zA3+Wx1UU
+	N3up+orZYqc7/cyk7iGKL8modDz6vXOb1tX0vij60lxaf9umb7cPDyS81dWVfTBmn+qTnTBx
+	fit3z0dBkirbC6P2tjiXeqz2WOPpOcWX+7RFQczG487KuoUTvf3XnwltL6w8+tfHOX0y8ZGh
+	HPGafzYlHvptd4e3Xnl5r/o9reWbxf7hmsoPo21Bm+ev06/elOyJyNAzHGuKRi4jLVbNv1Ak
+	rkpyBAAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrOIsWRmVeSWpSXmKPExsWy7bCSvK5ESmWqwa05MhYH3h9ksXgwbxub
+	xeIfz5ks7i/+zGJxaPNWdos1e88xWcw/co7V4uaBnUwWF2feZbHoe/GQ2WLT42usFpd3zWGz
+	6NmwldVixvl9TBZrj9xlt1i26Q+TxaKtX9gtWvceYXcQ8ri+5BOzx+I9L5k8Nq3qZPO4c20P
+	m8fmJfUefVtWMXp83iTncerrZ/YAjigum5TUnMyy1CJ9uwSujC/9q5kKjutXTLxp18A4R72L
+	kYNDQsBEoq0rp4uRi0NIYDejxP7DR5i7GDmB4jIS/9uOsUPYwhIr/z1nhyh6yijx4f1nsCI2
+	AX2J+6d6WEESIgJ7GCWO7l4DVsUs8JNJYvOV5SwQLQcYJQ62vGMD2ccpYCvxsCEdpFtYwFBi
+	x51LTCA2i4CqxOWmh6wgNq+ApcSkW7+ZIGxBiZMzn7CA2MwC2hK9D1sZIWx5ie1v50CdqiDx
+	8+kyVpDxIgJOEsffa0GUiEsc/dnDPIFReBaSSbOQTJqFZNIsJC0LGFlWMUqmFhTnpucWGxYY
+	5qWW6xUn5haX5qXrJefnbmIEx7WW5g7G7as+6B1iZOJgPMQowcGsJMJ7ckd5qhBvSmJlVWpR
+	fnxRaU5q8SFGaQ4WJXFe8Re9KUIC6YklqdmpqQWpRTBZJg5OqQamxgdv/8x9Ny/5Uk+3zxXL
+	BBOBFfmVEXnsiW4hzY17Pv/Mbvh38wN7Xsunz8Xbm7sfnP79ZckixY39GROOpfQ8zYiSV9oy
+	e25dd98BFSu15/GthWH5HNu25YrOkfn7LOCgYPSSxSLf7q5bYXvFqEHu+v91/K3RpqoTo+cF
+	3/LNWPHjyKvvUxkmv1j62C606k7vv7K8BcrPjb7XbnnPJuI6U/tquk8SwxSz6d8kbx66tUqJ
+	u4Pj32PxB+YfGI/Kry7T+FCSuPRWQNCZabvTuRLS/FKbnzh5p3lp3/hm4HBc/vSH8skOotbO
+	9k+f/+vQnTbd/gjfjs8TzXvTOyuSxY86Oufsck8ukXtUqvOpI8dEiaU4I9FQi7moOBEA87/T
+	Q1oDAAA=
+X-CMS-MailID: 20231213075816epcas5p4c35196cf7fc191a4c1d25d4c8408efeb
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231206063105epcas5p3034f89af2be6922ab04771de099a124a
+References: <CGME20231206063105epcas5p3034f89af2be6922ab04771de099a124a@epcas5p3.samsung.com>
+	<20231206063045.97234-1-aakarsh.jain@samsung.com>
+	<d00fa740-bcf8-47af-b70a-cabbb7237d99@xs4all.nl>
 
 
 
---=20
-Thanks,
-Mina
+> -----Original Message-----
+> From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Sent: 06 December 2023 18:29
+> To: Aakarsh Jain <aakarsh.jain@samsung.com>; linux-arm-
+> kernel@lists.infradead.org; linux-media@vger.kernel.org; linux-
+> kernel@vger.kernel.org; devicetree@vger.kernel.org
+> Cc: m.szyprowski@samsung.com; andrzej.hajda@intel.com;
+> mchehab@kernel.org; krzysztof.kozlowski+dt@linaro.org;
+> robh+dt@kernel.org; conor+dt@kernel.org; linux-samsung-
+> soc@vger.kernel.org; andi@etezian.org; gost.dev@samsung.com;
+> alim.akhtar@samsung.com; aswani.reddy@samsung.com;
+> pankaj.dubey@samsung.com; ajaykumar.rs@samsung.com
+> Subject: Re: [Patch v5 00/11] Add MFC V12 support
+> 
+> On 06/12/2023 07:30, Aakarsh Jain wrote:
+> > This patch series adds MFC v12 support. MFC v12 is used in Tesla FSD SoC.
+> >
+> > This adds support for following:
+> >
+> > -Add support for YV12 and I420 format (3-plane) -Add support for Rate
+> > Control, UHD and DMABUF for encoder -Add support for DPB buffers
+> > allocation based on MFC requirement
+> 
+> I'm getting one smatch warning:
+> 
+> drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c:2453
+> s5p_mfc_queue_setup() error: we previously assumed 'ctx->src_fmt' could
+> be null (see line 2441)
+> 
+> And a few kerneldoc warnings:
+> 
+> drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h:729:
+> warning: Function parameter or member 'chroma_size_1' not described in
+> 's5p_mfc_ctx'
+> drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h:729:
+> warning: Function parameter or member 'is_10bit' not described in
+> 's5p_mfc_ctx'
+> drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h:729:
+> warning: Function parameter or member 'is_422' not described in
+> 's5p_mfc_ctx'
+> drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h:729:
+> warning: Function parameter or member 'stride' not described in
+> 's5p_mfc_ctx'
+> 
+> Something for v6.
+> 
+
+Sure. Will fix in v6.
+
+Thanks for review!
+
+> Regards,
+> 
+> 	Hans
+> 
+> >
+> > Changes since v4:
+> > -Addressed review comments by Krzysztof Kozlowski.
+> > As per discussion included iommus property in dt-schema.
+> > -Addressed review comments by Hans Verkuil.
+> > Fixed checkpatch warnings with --strict flag enabled.
+> > Upstreamed s5p-mfc-v12.fw to linux-firmware.
+> > Added comment in the patch 9 regarding loading mfc firmware v12
+> > sequentially.
+> > -Addressed review comments by Nicolas Dufresne Made use of v4l2-
+> common
+> > library to get number of planes needed for particular format in patch
+> > 4.
+> > v4
+> > link:https://patchwork.kernel.org/project/linux-media/patch/2023102510
+> > 2216.50480-2-aakarsh.jain@samsung.com/
+> >
+> > Changes since v3:
+> > -Removed vp9 codec support for now and just keeping MFC v12 base
+> > patches with necessary hardware controls, decoder, encoder and
+> > structural changes. Also covers luma dbp, chroma dpb and mv sizes for
+> > each codec as per the UM for MFCv12, along with appropriate alignment.
+> > v3 link:
+> > https://patchwork.kernel.org/project/linux-media/cover/20221011122516.
+> > 32135-1-aakarsh.jain@samsung.com/
+> >
+> > Changes since v2:
+> > -Addressed review comments by Rob Herring.
+> > This was regarding the errors found by Rob bot in yaml file. File
+> > 'samsung,s5p-mfc.yaml' is already converted into json schema and is
+> > merged.
+> >
+> > -Addressed review comments by Krzysztof Kozlowski.
+> > This was regarding depricated properties mentioned in s5p-mfc.txt file.
+> > Review comment was addressed and 'samsung,s5p-mfc.yaml' is already
+> > merged now.
+> >
+> > -Addressed review comments by Andi Shyti.
+> > This was regarding addition of 'MFC_V10PLUS_BITS' macro in
+> > 's5p_mfc_common.h file.
+> > v2 link:
+> > https://patchwork.kernel.org/project/linux-media/cover/20220907064715.
+> > 55778-1-smitha.t@samsung.com/
+> >
+> > Changes since v1:
+> > -Addressed review comments by Krzysztof Kozlowski.
+> > Separated bug fixes patches, resent again with fix tag and those are
+> > merged now.
+> > -Added SoC based compatible string.
+> >
+> > -Addressed review comments by Andrzej Hajda Assigned width64 and
+> > height32 variable with ALIGN(ctx->img_..) used in the code in
+> > 's5p_mfc_opr_v6.c' file.
+> > v1 link:
+> > https://patchwork.kernel.org/project/linux-media/patch/20220517125548.
+> > 14746-2-smitha.t@samsung.com/
+> >
+> > Aakarsh Jain (11):
+> >   dt-bindings: media: s5p-mfc: Add mfcv12 variant
+> >   media: s5p-mfc: Rename IS_MFCV10 macro
+> >   media: s5p-mfc: Add initial support for MFCv12
+> >   media: s5p-mfc: Add YV12 and I420 multiplanar format support
+> >   media: s5p-mfc: Add support for rate controls in MFCv12
+> >   media: s5p-mfc: Add support for UHD encoding.
+> >   media: s5p-mfc: Add support for DMABUF for encoder
+> >   media: s5p-mfc: Set context for valid case before calling try_run
+> >   media: s5p-mfc: Load firmware for each run in MFCv12.
+> >   media: s5p-mfc: DPB Count Independent of VIDIOC_REQBUF
+> >   arm64: dts: fsd: Add MFC related DT enteries
+> >
+> >  .../bindings/media/samsung,s5p-mfc.yaml       |  18 ++
+> >  arch/arm64/boot/dts/tesla/fsd.dtsi            |  21 ++
+> >  .../platform/samsung/s5p-mfc/regs-mfc-v12.h   |  52 +++
+> >  .../platform/samsung/s5p-mfc/regs-mfc-v7.h    |   1 +
+> >  .../platform/samsung/s5p-mfc/regs-mfc-v8.h    |   3 +
+> >  .../media/platform/samsung/s5p-mfc/s5p_mfc.c  |  36 ++-
+> > .../platform/samsung/s5p-mfc/s5p_mfc_common.h |  29 +-
+> >  .../platform/samsung/s5p-mfc/s5p_mfc_ctrl.c   |  10 +-
+> >  .../platform/samsung/s5p-mfc/s5p_mfc_dec.c    |  60 +++-
+> >  .../platform/samsung/s5p-mfc/s5p_mfc_enc.c    | 149 ++++++---
+> >  .../platform/samsung/s5p-mfc/s5p_mfc_opr.h    |  14 +-
+> >  .../platform/samsung/s5p-mfc/s5p_mfc_opr_v5.c |  12 +-
+> > .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c | 300 ++++++++++++++-
+> ---
+> >  .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h |   7 +-
+> >  14 files changed, 563 insertions(+), 149 deletions(-)  create mode
+> > 100644 drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h
+> >
+
+
 
