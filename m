@@ -1,295 +1,171 @@
-Return-Path: <linux-media+bounces-2357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2358-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 447AE81146A
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 15:16:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0C71811528
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 15:46:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F2C2A282800
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 14:16:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9AD14282286
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 14:46:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97B942E84B;
-	Wed, 13 Dec 2023 14:16:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Of5AJp6b"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D12D32EB05;
+	Wed, 13 Dec 2023 14:46:25 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-x22e.google.com (mail-lj1-x22e.google.com [IPv6:2a00:1450:4864:20::22e])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FC5ECD;
-	Wed, 13 Dec 2023 06:16:29 -0800 (PST)
-Received: by mail-lj1-x22e.google.com with SMTP id 38308e7fff4ca-2cc3647bf06so9271431fa.2;
-        Wed, 13 Dec 2023 06:16:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702476987; x=1703081787; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=HnmrUE6uA1UjU0DGZJd+ywoyYgk2RFZ2Qv8HjSJNWug=;
-        b=Of5AJp6bdXvCv2dQPxWxzM4N3Ydqv8zxYzcF2wYJpG/mdixAb+VHeWFcbL+M+ad+Z/
-         hDpgse5EYpJZM133HUySbjj6KnRuM2u6+pn31Pxzy/s/QJzT0qYkGfGKlNnf73zX2LIU
-         SZ4O6Xb8un5uYKHwO2+XcGHjvWwiFtZ8A31Eg23dFaN8K4T6aT9wnMv0QVhM3em703tH
-         jx+6ZpBnsQSzPAVIRdN7p+MlH3qum9STy2Ds+WQX2wwgTTTmathLiJwC6vY8D4SZuziZ
-         9dDomh8SRqHmZiVxremKcSIo2+prNIYS29lE9INekka3qwF0RzscWFg5n46rjj4Y4iDf
-         5WxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702476987; x=1703081787;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HnmrUE6uA1UjU0DGZJd+ywoyYgk2RFZ2Qv8HjSJNWug=;
-        b=AX4baAVc1mDjsMgQcdp8c90bCjqpqBEeaBjhWjf8lxTUMZlnVIuD333hGLcLrjPnUm
-         BzhjoY5z4jU9FJxToW684NX7Mhqtc1s8umL7DhSKoRYYSt6sUEvgpj5Pj+nimJPxcwEh
-         ZN2Mdu/fqKhCfgbK4bVD5PtTxRQpUrwz/YlXHOiE3or03utD6OBFQH4d8rl+46dUTeR8
-         A4DX+yeQJp6fZnb+2o/RrbVSNjY5AxOGQfTOUuT5F++5u1wITlsV3E3y0ImXAfX0uizQ
-         O+1Iqd1vUSjOPLCDS7Q9zrJFFRn26n/V3Pl2ytLBId68ySK4aJFw1uX0/SspBE7T9V/Z
-         wPTg==
-X-Gm-Message-State: AOJu0YzxEgdP4edV4EflC13s2JZl5TBrQHcCraBpnEV/rpS6lO9Y510p
-	6mnKXOo6Q9UaixPb0vxle/c=
-X-Google-Smtp-Source: AGHT+IHMEFbwY2jxx7Eqytsu4ONvN/Lw6aO1DvwW9XsiwGhW/Welyye/FmxGvgN+8ji2wLeKZxibCA==
-X-Received: by 2002:a2e:9b03:0:b0:2ca:34cd:77ea with SMTP id u3-20020a2e9b03000000b002ca34cd77eamr2472316lji.44.1702476987175;
-        Wed, 13 Dec 2023 06:16:27 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id 20-20020a2eb954000000b002c9f62145f8sm1868126ljs.82.2023.12.13.06.16.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 06:16:26 -0800 (PST)
-Date: Wed, 13 Dec 2023 16:16:14 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Joakim Bech <joakim.bech@linaro.org>
-Cc: Simon Ser <contact@emersion.fr>, Yong Wu <yong.wu@mediatek.com>, Rob
- Herring <robh+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- christian.koenig@amd.com, Matthias Brugger <matthias.bgg@gmail.com>,
- dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Jeffrey Kardatzke
- <jkardatzke@google.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Vijayanand Jitta
- <quic_vjitta@quicinc.com>, Nicolas Dufresne <nicolas@ndufresne.ca>,
- jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
- linux-mediatek@lists.infradead.org, tjmercier@google.com,
- linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, kuohong.wang@mediatek.com,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] dma-buf: heaps: Add secure heap
-Message-ID: <20231213161614.43e5bca8@eldfell>
-In-Reply-To: <20231213132229.q3uxdhtdsxuzw3w6@pop-os.localdomain>
-References: <20231212024607.3681-1-yong.wu@mediatek.com>
-	<DPBmATfmfvSP8Cwjz99kj_JvCEiAqRfuMFJZEBF2aIgl8NZqWFR66eyPTX1E8bHyOlimBihEE3E80p9bfOJ-0SNu8pwoIzL9gD2Xae6r97g=@emersion.fr>
-	<20231213110517.6ce36aca@eldfell>
-	<20231213101549.lioqfzjxcvmqxqu3@pop-os.localdomain>
-	<20231213133825.0a329864@eldfell>
-	<20231213132229.q3uxdhtdsxuzw3w6@pop-os.localdomain>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72E532E85D
+	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 14:46:25 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFB86C433C7;
+	Wed, 13 Dec 2023 14:46:22 +0000 (UTC)
+Message-ID: <18742e30-2c4f-4266-ad19-81323d15d9c1@xs4all.nl>
+Date: Wed, 13 Dec 2023 15:46:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/m_y9/L720k3.YUUEknjTd2h";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 0/8] media: v4l2-subdev: Improve frame interval
+ handling
+Content-Language: en-US, nl
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+References: <20231213140450.21359-1-laurent.pinchart@ideasonboard.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+In-Reply-To: <20231213140450.21359-1-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
---Sig_/m_y9/L720k3.YUUEknjTd2h
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+Hi Laurent,
 
-On Wed, 13 Dec 2023 14:22:29 +0100
-Joakim Bech <joakim.bech@linaro.org> wrote:
+Unfortunately this series now clashes with the just-merged alvium sensor driver,
+so it has to be rebased.
 
-> On Wed, Dec 13, 2023 at 01:38:25PM +0200, Pekka Paalanen wrote:
-> > On Wed, 13 Dec 2023 11:15:49 +0100
-> > Joakim Bech <joakim.bech@linaro.org> wrote:
-> >  =20
-> > > On Wed, Dec 13, 2023 at 11:05:17AM +0200, Pekka Paalanen wrote: =20
-> > > > On Tue, 12 Dec 2023 16:36:35 +0000
-> > > > Simon Ser <contact@emersion.fr> wrote:
-> > > >    =20
-> > > > > Is there a chance to pick a better name than "secure" here?
-> > > > >=20
-> > > > > "Secure" is super overloaded, it's not clear at all what it means=
- from
-> > > > > just the name. Something like "restricted" would be an improvemen=
-t.
-> > > > >    =20
-> > > >=20
-> > > > My thoughts exactly. Every time I see "secure" used for something t=
-hat
-> > > > either gives you garbage, refuses to work, or crashes your whole ma=
-chine
-> > > > *intentionally* when you try to do normal usual things to it in
-> > > > userspace (like use it for GL texturing, or try to use KMS writebac=
-k), I
-> > > > get an unscratchable itch.
-> > > >=20
-> > > > There is nothing "secure" from security perspective there for end u=
-sers
-> > > > and developers. It's just inaccessible buffers.
-> > > >=20
-> > > > I've been biting my lip until now, thinking it's too late.
-> > > >    =20
-> > > The characteristics we're looking for here is a buffer where the cont=
-ent
-> > > is inaccessible to the normal OS and user space, i.e., Non-secure EL0=
- to
-> > > EL2. I.e, the content of the buffer is meant to be used and accessible
-> > > primarily by the secure side and other devices that has been granted =
-=20
-> >=20
-> > s/secure side/proprietary side/
-> >  =20
-> I'm using the nomenclature as written by Arm (other architectures have
-> other names for their secure execution states).
->=20
-> > I presume nothing of the other side can ever be in any way open?
-> >  =20
-> I'm sure there are lots of examples of things running on the secure side
-> that are open. The OP-TEE project where I'm a maintainer has been fully
-> open source since 2014, to give one example that I'm familiar with
-> myself.
+Regards,
 
-Oh, I didn't realise there were FOSS implementations of the other side
-that tie in with this secure/restricted heap here. Sorry.
+	Hans
 
-I think the patch series cover letter should point to those to give a
-view of the other side to the reviewers, just like DRM requires
-userspace to be open for new UAPI.
+On 13/12/2023 15:04, Laurent Pinchart wrote:
+> Hello,
+> 
+> This patch series improves frame interval handling in the V4L2 subdev
+> in-kernel and userspace APIs.
+> 
+> Frame interval are exposed to userspace on pads and streams, but the
+> frame interval handling is currently implemented through a v4l2_subdev
+> video operation, without involving the subdev state. This makes frame
+> intervals a second class citizen compared to formats and selection
+> rectangles.
+> 
+> Patch 1/8 is a preparatory fix that Tomi posted today, and on which this
+> series depends. I've included here for completeness.
+> 
+> Patch 2/8 then starts the work by addressing the first issue, namely the
+> frame interval operations being video ops. This requires touching all
+> the drivers using frame intervals.
+> 
+> Patch 3/8 adds a 'which' field to the subdev frame interval userspace
+> API, allowing frame intervals to be tried the same way formats and
+> selection rectangles can. Again, the same drivers need to be touched to
+> preserve their current behaviour.
+> 
+> Patch 4/8 adds support for storing the frame interval in the subdev
+> state, alongside the formats and selection rectangles, with similar
+> accessors and helper functions.
+> 
+> Patches 5/8 to 7/8 address small issues in the subdev uAPI documentation
+> that were raised during review of v2 or discovered when working on v3.
+> 
+> Finally, patch 8/8 demonstrates how this is used in drivers, with the
+> thp7312 driver serving as an example.
+> 
+> Compared to v4, review comments have been taken into account for patch
+> 3/8, Reviewed-by tags added, and the series rebased on the latest stage
+> master branch.
+> 
+> I have limited the recipients on this version to avoid spamming all
+> drivers maintainers, as they have had a chance to review patches 2/8 and
+> 3/8, and I understand v5 will be final and get before the end of this
+> week.
+> 
+> Laurent Pinchart (7):
+>   media: v4l2-subdev: Turn .[gs]_frame_interval into pad operations
+>   media: v4l2-subdev: Add which field to struct
+>     v4l2_subdev_frame_interval
+>   media: v4l2-subdev: Store frame interval in subdev state
+>   media: docs: uAPI: Clarify error documentation for invalid 'which'
+>     value
+>   media: docs: uAPI: Expand error documentation for invalid 'which'
+>     value
+>   media: docs: uAPI: Fix documentation of 'which' field for routing
+>     ioctls
+>   media: i2c: thp7312: Store frame interval in subdev state
+> 
+> Tomi Valkeinen (1):
+>   media: v4l: subdev: Move out subdev state lock macros outside
+>     CONFIG_MEDIA_CONTROLLER
+> 
+>  .../v4l/vidioc-subdev-enum-frame-interval.rst |   9 +-
+>  .../v4l/vidioc-subdev-enum-frame-size.rst     |   7 +-
+>  .../v4l/vidioc-subdev-enum-mbus-code.rst      |   7 +-
+>  .../media/v4l/vidioc-subdev-g-client-cap.rst  |   5 +
+>  .../media/v4l/vidioc-subdev-g-crop.rst        |   7 +-
+>  .../media/v4l/vidioc-subdev-g-fmt.rst         |   5 +-
+>  .../v4l/vidioc-subdev-g-frame-interval.rst    |  20 +-
+>  .../media/v4l/vidioc-subdev-g-routing.rst     |   7 +-
+>  .../media/v4l/vidioc-subdev-g-selection.rst   |   7 +-
+>  drivers/media/i2c/adv7180.c                   |  14 +-
+>  drivers/media/i2c/et8ek8/et8ek8_driver.c      |  20 +-
+>  drivers/media/i2c/imx214.c                    |  16 +-
+>  drivers/media/i2c/imx274.c                    |  62 +++--
+>  drivers/media/i2c/max9286.c                   |  28 ++-
+>  drivers/media/i2c/mt9m111.c                   |  28 ++-
+>  drivers/media/i2c/mt9m114.c                   |  28 ++-
+>  drivers/media/i2c/mt9v011.c                   |  32 ++-
+>  drivers/media/i2c/mt9v111.c                   |  30 ++-
+>  drivers/media/i2c/ov2680.c                    |  14 +-
+>  drivers/media/i2c/ov5640.c                    |  30 ++-
+>  drivers/media/i2c/ov5648.c                    |  66 ++---
+>  drivers/media/i2c/ov5693.c                    |  14 +-
+>  drivers/media/i2c/ov6650.c                    |  30 ++-
+>  drivers/media/i2c/ov7251.c                    |  20 +-
+>  drivers/media/i2c/ov7670.c                    |  30 ++-
+>  drivers/media/i2c/ov772x.c                    |  28 ++-
+>  drivers/media/i2c/ov7740.c                    |  40 ++-
+>  drivers/media/i2c/ov8865.c                    |  58 +++--
+>  drivers/media/i2c/ov9650.c                    |  28 ++-
+>  drivers/media/i2c/s5c73m3/s5c73m3-core.c      |  28 ++-
+>  drivers/media/i2c/s5k5baf.c                   |  34 ++-
+>  drivers/media/i2c/thp7312.c                   | 160 ++++++------
+>  drivers/media/i2c/tvp514x.c                   |  41 ++--
+>  drivers/media/usb/em28xx/em28xx-video.c       |   6 +-
+>  drivers/media/v4l2-core/v4l2-common.c         |   8 +-
+>  drivers/media/v4l2-core/v4l2-subdev.c         | 130 +++++++---
+>  .../media/atomisp/i2c/atomisp-gc0310.c        |  14 +-
+>  .../media/atomisp/i2c/atomisp-gc2235.c        |  14 +-
+>  .../media/atomisp/i2c/atomisp-mt9m114.c       |  14 +-
+>  .../media/atomisp/i2c/atomisp-ov2722.c        |  14 +-
+>  .../staging/media/atomisp/pci/atomisp_cmd.c   |   4 +-
+>  .../staging/media/atomisp/pci/atomisp_ioctl.c |   4 +-
+>  drivers/staging/media/imx/imx-ic-prp.c        |  28 ++-
+>  drivers/staging/media/imx/imx-ic-prpencvf.c   |  28 ++-
+>  drivers/staging/media/imx/imx-media-capture.c |   6 +-
+>  drivers/staging/media/imx/imx-media-csi.c     |  28 ++-
+>  drivers/staging/media/imx/imx-media-vdic.c    |  28 ++-
+>  drivers/staging/media/tegra-video/csi.c       |  16 +-
+>  include/media/v4l2-common.h                   |   4 +-
+>  include/media/v4l2-subdev.h                   | 231 +++++++++++-------
+>  include/uapi/linux/v4l2-subdev.h              |  15 +-
+>  51 files changed, 1019 insertions(+), 526 deletions(-)
+> 
+> 
+> base-commit: 09b4195021be69af1e1936cca995712a6d0f2562
 
-> > Maybe the other side is even less secure than the FOSS side...
-> >  =20
-> > > access to it (for example decoders, display controllers if we're talk=
-ing
-> > > about video use cases). However, since the use cases for this exercis=
-es
-> > > the whole stack, from non-secure user space (EL0) all the way to secu=
-re
-> > > user space (S-EL0), with various devices needing access to the buffer=
- at
-> > > various times, it makes sense to let Linux manage the buffers, althou=
-gh
-> > > it still cannot access the content. That's the overall context. =20
-> >=20
-> > Yes, we know all this (except for the exact meaning of EL0 etc.).
-> >  =20
-> Great!
->=20
-> > > As for the name, it's always difficult to find a name suitable precis=
-ely
-> > > describing what it is. "Secure" is perhaps vague, but it might still a
-> > > good choice, if you carefully describe what secure means for this
-> > > particular heap (in the source code and the documentation for it). Fo=
-r =20
-> >=20
-> > Carefully describe, as in, re-define.
-> >  =20
-> > > example, the definition of "secure" for a secure heap as here could m=
-ean
-> > > that buffer content is inaccessible to the host OS and user space
-> > > running in normal world (using Arm nomenclature). I wouldn't have any
-> > > problems with calling it secure if, as said it's defined what we mean=
- by
-> > > saying so. But I'm all ears for other suggestions as well.
-> > >=20
-> > > Safe, protected, shielded, unreachable, isolated, inaccessible,
-> > > unaccessible, fortified, ... would any of these make more sense? =20
-> >=20
-> > "Restricted" sounds like a good compromise to me. The buffers' usage is
-> > severely restricted.
-> >  =20
-> Yes, restricted isn't a bad choice. We would still need to describe what
-> we mean by saying it's restricted, i.e., what is it restricted from,
-> since I'd guess that "restricted" by itself also could be a bit open
-> ended for a lot of people.
-
-Yes, but "restricted" also does not give out an immediate wrong
-impression. Label something as "secure", and it immediately raises the
-questions of what kind of attacks it prevents and how can I make use of
-it.
-
-Is there any use of restricted buffers outside of Digital Rights
-Management though? Could a private person somehow make use of it to
-protect their own contents? Like a photographer sending drafts to a
-customer while not wanting give out any digital copies?
-
-If not, then restricted buffers are something people would generally
-like to avoid, not embrace. "Secure" gives a positive impression,
-"restricted" a negative impression.
-
-> > It is the opposite of "safe", because accessing the contents the wrong
-> > way can return garbage or intentionally crash the whole system,
-> > depending on the hardware implementation. One example is attempting to
-> > put such a buffer on a KMS plane while the connector HDCP state is not
-> > high enough, or a writeback connector is connected to the CRTC. It is
-> > really fragile. (Do KMS drivers fail an atomic commit that would
-> > violate the heap rules? Somehow I doubt that, who'd even know what the
-> > rules are.)
-> >  =20
-> I believe one of the goals with reviewing the patches is to highlight
-> issues like this and try to figure out how to avoid ending up in
-> situations like what you described by suggesting alternative solutions
-> and ideas.
->=20
-> > It is protected/shielded/fortified from all the kernel and userspace,
-> > but a more familiar word to describe that is inaccessible.
-> > "Inaccessible buffer" per se OTOH sounds like a useless concept.
-> >=20
-> > It is not secure, because it does not involve security in any way. In
-> > fact, given it's so fragile, I'd classify it as mildly opposite of
-> > secure, as e.g. clients of a Wayland compositor can potentially DoS the
-> > compositor with it by simply sending such a dmabuf. Or DoS the whole
-> > system.
-> >  =20
-> I hear what you are saying and DoS is a known problem and attack vector,
-> but regardless, we have use cases where we don't want to expose
-> information in the clear and where we also would like to have some
-> guarantees about correctness. That is where various secure elements and
-> more generally security is needed.
->=20
-> So, it sounds like we have two things here, the first is the naming and
-> the meaning behind it. I'm pretty sure the people following and
-> contributing to this thread can agree on a name that makes sense. Would
-> you personally be OK with "restricted" as the name? It sounds like that.
-
-I would. I'm also just a by-stander, not a maintainer of kernel
-anything. I have no power to accept nor reject anything here.
-
-> The other thing is the feature and functionality itself offered by this
-> patch series. My impression from reading your replies is that you think
-> this is the wrong approach. If my impression is correct, what would you
-> suggest as an alternative approach?
-
-I just generally dislike locking people out of what their systems hold,
-but I also understand why extremely big companies want this Digital
-Rights Management technology for their business model. If Linux does
-not support that business model, they and the whole broadcast industry
-might use something else. At least it pays for kernel developers who
-can hopefully do some genuinely useful work on the side as well,
-benefiting the community.
-
-Let's just be honest about what is what.
-
-
-Thanks,
-pq
-
---Sig_/m_y9/L720k3.YUUEknjTd2h
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmV5vK4ACgkQI1/ltBGq
-qqeSrxAAsVMu1uwUAEiHOmIbdZ3IMpYONvvX9PjrsowXIzc4xZ+sohcdjwWsN9LM
-ZwyXBLhxVmbSKy55b8fNI2UR51yIDO8E6lZLQieSxAulEzya2aMjmJEHoXdBo/sS
-A3aGLk4Wu7hh4kSbyeOSoLf2Xf+Fg85puarR12WrxHwXn2JvFteRe1NX2v5+QJSn
-lzGOqYb4bFIIC7oL7qBVH3VBT/st+RdqvUGnsJlvngSO/YEZz8Q2AZTt8sE1R/mT
-6eZ9cidJoUdKqF9vKAxiKpTJyiVLpYqvhm9cvGQinbsYz3QKoUICKcSIGCGZlQti
-2GShGtnPL1qpZfo95xzcu+fw/9g9DC3BRbG/+dV84txlxzn8y1pD6kGka9HjPhi1
-ZuPC1MVNFvSOpv7tIvRRI/lD4ZRKdRJnvW4DDFntEhVfjGq0I5ezVjqBBHcic4QE
-tWWjkepYco492avLdzrJFuVbzj9VwzCRt+M/mlIyons/QfvX/SoRGDya2pk1DNvF
-NBK3Rf4qvOsooioZRNe8PnR/aBXw0MRFMN8htEKcuUHZnOCeIih+PV7VJwGMLMC2
-vjYC7/yXalMFutcYjBJeMyqQylgXUsoJY2WB4d4alazZvlMFrQ/v6+t9y2aOHdpZ
-+XGDbbjlVimKW1utrZlaHsi8w8Dbk9OH3I3tOZZQYfBgAFj6Nco=
-=IiKA
------END PGP SIGNATURE-----
-
---Sig_/m_y9/L720k3.YUUEknjTd2h--
 
