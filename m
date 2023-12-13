@@ -1,110 +1,108 @@
-Return-Path: <linux-media+bounces-2373-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2374-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4651B8120AC
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 22:24:03 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49A3C8120DC
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 22:44:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EBF161F2194D
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 21:24:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C5E01C21163
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 21:44:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A170E7F54B;
-	Wed, 13 Dec 2023 21:23:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF6677FBAA;
+	Wed, 13 Dec 2023 21:44:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="Kop+H157"
+	dkim=pass (2048-bit key) header.d=gmx.net header.i=ps.report@gmx.net header.b="uFLvdARc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [IPv6:2a0b:5c81:1c1::37])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9DCCFE0
-	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 13:23:54 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (80-248-247-191.cust.suomicom.net [80.248.247.191])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4Sr7lC0p2Nz49Q1g;
-	Wed, 13 Dec 2023 23:23:50 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1702502632;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=LLawdjV8CGThPi/B2Z5Q0PLfSGbrnYf3cGiqZcuKW64=;
-	b=Kop+H157N71pA92WmjiGK2wzyes9jwhkIyqB+2mnQkK9Lg1Qg05e/DOMV5BrEjKJirkeZG
-	W6tty3EElVYnm1/2Mi97Tco7qRxl6tpS0FmL3lU4O0vL4XL5ALStjRk/CL1pdFZsxKYDiW
-	zUW2qexmsCKoeie0nygHDQGmu4gMzzg4SsP77gedTFpwjuoPgeAclo2ucAjt3ouRzv1lwX
-	dTAlY2YHmcjW1dvdAmVq4BplX55HCoZhCJN8OegXAZQ8Vy4woEMQh0fj9sK7By/chihYxL
-	gDpQ1CxOH0oHQDEB3RQLiWvFexhdw6ljAesm0OjtFNj2HAq2wCm3DP6ZUj6OdA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1702502632;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=LLawdjV8CGThPi/B2Z5Q0PLfSGbrnYf3cGiqZcuKW64=;
-	b=MhUhQz+i0vv8f0v1V3YGulsvHxzcn/kxl8+GzdjKFFH8PgkdOeTs3z0NClc0qTTjcvQfpT
-	Vh7PgLkc5bzHe6UC/Nhk8XjZm01+M2cIXFpIi07ui0QsxhtIG9XIfFKap9Rb+TQHjNcjpn
-	Fzpsz12YAuSJujj6GCqBizaXPGW/GOv6KYT3ipYN4moRmf7YFsje5rve+nwzoEK/CAH7bp
-	06Hw0f/VDfwdqNAj5UsTHWmfN5sKuhOEaHLPjK9Yc2VtRuYaAsSPDcBOqZQyso1lzfkRyL
-	5zRMSVkP7qE5CUXHff0kAQSl11JIqsWkiPk9gyisqCgGWfNGxwXwZuGBX+A4uw==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1702502632; a=rsa-sha256;
-	cv=none;
-	b=iE8BSgYhs+d7493kpjLNn7QgPZtYD8UgbvAIbZgEwr33wZ9wucKL7vG4QJf0cFAO++Ph44
-	jj8TiwvQY6difGxoYFjey7b8dc2IW4PZyTHIZEB3583KJ4Pnc4UHa9QZKETBg7uWjXGGQU
-	Fhrlebf8BcOZPrQw7sIMLNdu2RuxNU71Hx1+yhW3wxNWGa00U1rgGy3bVWMCmOhc3SQEWV
-	FBtYEH1UqxIUChkBhia9yFe6lX+U4XcRx5zAhhFjeTcaXReASdXgs8BkdZHvqQ1WIfaOUD
-	ISS8dGvtBqiGZftzLuW7Sh1fYZhAsjHTB3t6Ms+CFQm2vwoxQYZSkgQXzBnOvg==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id BF04F634C93;
-	Wed, 13 Dec 2023 23:23:49 +0200 (EET)
-Date: Wed, 13 Dec 2023 21:23:49 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Cc: hverkuil@xs4all.nl
-Subject: [GIT PULL FOR 6.8] mt9m114 fix
-Message-ID: <ZXog5dtCzWeQ4Jbb@valkosipuli.retiisi.eu>
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 46E99DB
+	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 13:44:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=s31663417; t=1702503832; x=1703108632; i=ps.report@gmx.net;
+	bh=eq++nPzRhQAY72CKYdT7xMTIOm0oaK8ZrRP3G26ozDE=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:
+	 References;
+	b=uFLvdARcgN5k+TsHqXzzVUW4a5d0zhZZKguTpvZtNsVQ2QawOFgWBLE/YghE6AmI
+	 x6L6lpp4ox7quc3bbmi/tavNlEaDQl6BkY1byPyLywPvg/9gKZ/XTExQFc9d0Snvf
+	 AH3UZlXnaJvf/GxhjRGZ4b82qb7uB4IISHbnG/ILuavRpfYnHq0R/Leuug8D0quit
+	 gG87j8mVrUlCvt0QMJsWstuRceYEMdQiHQzZzkODXqz+5kmmL18dJyjO4gClTOkF2
+	 b/It4xW/0EddLNmK78Enw9nDnVM1llOSxj+Fc4JNk3SHL78evkssM4QYz9hRGC4IE
+	 AFNkdQ3W5DForGBGkQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from localhost ([62.216.208.181]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1N0oFz-1rSK6v29BN-00wjBn; Wed, 13
+ Dec 2023 22:43:52 +0100
+Date: Wed, 13 Dec 2023 22:43:51 +0100
+From: Peter Seiderer <ps.report@gmx.net>
+To: James Le Cuirot <chewi@gentoo.org>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/2] meson: Fix building with -Dv4l-utils=false
+Message-ID: <20231213224351.3f31b5fa@gmx.net>
+In-Reply-To: <20231212152418.20584-1-chewi@gentoo.org>
+References: <20231212152418.20584-1-chewi@gentoo.org>
+X-Mailer: Claws Mail 4.2.0 (GTK 3.24.39; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Zx32Y5NviSTEaiTaxN0EmsNEUU2Gkx1sBojoVhKdsPBaKPxKqtE
+ /MVXQpA6x/W1ghgH9i1XjBJOwznsAOBjK5kgvs9MiZTWhgQUjyTSaf9CrqUbK5gf1whfbco
+ yEWU1VjUqv11VLdAcZOVypeFtdHIEp7aQHGHp4i8sw0I+N92mnmPF4kKclB7uLMkiB05obJ
+ bm7+Jx7ov3K0+qQDQDzgw==
+UI-OutboundReport: notjunk:1;M01:P0:ec4l/D638fo=;Ap8nhtb76jGuGzGtHs2vM/p3Udv
+ RHCcwc9pOjKSuuNCt8kJ05Sp9IRITa4ZcS5SiQ+mHTAmWGEbOch63XUNuVnyfhXlm14QwgYA4
+ BMM1bAVJcpLanmxQ0K4meWVif34lhb4YI9ZH3woCCFBuInb2l75QiRIhWwTs+3KsYhO3LciCv
+ sLb0EarMJIrdj8AxzdrYinuJ8QkDAE/I4MsDily5euFzcU3i1etVOZfvwoIigTFuPImwbDyGV
+ t9Gqc3aGMyeVKtIMMWZGXc7ZMWmzWBe92EUBwK3UHKl6U/Gh8/ds/XYra6AF62x2U2se6nzhn
+ xUnl8jIeSwbOxejgMgz5Y3hdIX0VeVhTAaZGiTU4H5eXkZPgM3QBIdWdiMk2SMUqS6B8TEcUc
+ /B6XFbsINMcqryXV7LWRIdeb8ylAHNcncTw0kqsHPmQ+NcS8zHXTCoTcdVStDNgF3UKnUWWrD
+ k8EdA81IziU1FGK3tTS9DZdp/IdFaats1R5F6DqUuRUJKsSU8Ibab94hrzOnHoDfSyk/saJOL
+ kT9SVJXqZNk44VFVpSuaMTeWG7HuUPGOcj+WGGSZsrl66YJDWujbZZZycLBLejY3iGlLkkgey
+ kJrl+YRloXahLaKymdJx2X2HasG8Y4nCGIxhMLzqR1roBEy6vKfLIztT0NNJ0mDkAeLULESZ4
+ BaLDBQjydYvaX2+s6hVO/6gbNLoSDH5X5EBcCBHskd75/2Q2jH+t1uqqST4bw3eMvGRJlkrKQ
+ sxSqVZ8LdRVPbDlcTKgYl4yrQZzrZgxzkxoqCq8QgiuzO7gL9chnoviiXw3fzG5bkMl5Ufb2O
+ cqVqpuQWjtobm7+r3u5eEuv8aUk+8W6aMOAzi8P9QyQVDeJK7MYC/VPYM8xocs5AZq4eR/0/+
+ 4858Wa+EUYLk2tXCeCY8B0ob4j6FuDtx1SQa2bs2rv2zYZpj0Pl/IRrmVzr+/nZECk8kWV4yr
+ ny6reA==
 
-Hi Hans, Mauro,
+On Tue, 12 Dec 2023 15:24:05 +0000, James Le Cuirot <chewi@gentoo.org> wro=
+te:
 
-Here's a compile fix from Arnd for the mt9m114 driver.
+> ir_bpf_enabled was referenced without being defined.
+> ---
+>  meson.build | 2 ++
+>  1 file changed, 2 insertions(+)
+>
+> diff --git a/meson.build b/meson.build
+> index 03508bc8..d9689d35 100644
+> --- a/meson.build
+> +++ b/meson.build
+> @@ -382,6 +382,8 @@ subdir('lib')
+>  if get_option('v4l-utils')
+>      subdir('utils')
+>      subdir('contrib')
+> +else
+> +    ir_bpf_enabled =3D false
+>  endif
+>
+>  subdir('doc')
 
-Please pull.
+Can confirm the following error/failure without the patch (using
+buildroot where v4l-utils is known as libv4l package)
 
+  .../libv4l-1.26.0/meson.build:406:32: ERROR: Unknown variable "ir_bpf_en=
+abled".
 
-The following changes since commit c2a8653c197d67f8ad563f5417f2e9bcaad913f3:
+and no error with the patch applied, so you can add my
 
-  media: venus: core: Set up secure memory ranges for SC7280 (2023-12-12 08:54:54 +0100)
+Tested-by: Peter Seiderer <ps.report@gmx.net>
 
-are available in the Git repository at:
+Regards,
+Peter
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.8-8-signed
-
-for you to fetch changes up to 4db96cc909c35791d04b5c7d6ca5d580087081a7:
-
-  media: i2c: mt9m114: use fsleep() in place of udelay() (2023-12-13 13:49:40 +0200)
-
-----------------------------------------------------------------
-mt9m114 fix for 6.8
-
-----------------------------------------------------------------
-Arnd Bergmann (1):
-      media: i2c: mt9m114: use fsleep() in place of udelay()
-
- drivers/media/i2c/mt9m114.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
--- 
-Sakari Ailus
 
