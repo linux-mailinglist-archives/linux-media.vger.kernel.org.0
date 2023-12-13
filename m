@@ -1,215 +1,137 @@
-Return-Path: <linux-media+bounces-2329-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2306-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F1F6810F47
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 12:02:22 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5768810CF4
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 10:05:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9376B1F211F1
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 11:02:21 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 50DFEB209F1
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 09:05:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6575223748;
-	Wed, 13 Dec 2023 11:02:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 342851EB54;
+	Wed, 13 Dec 2023 09:05:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="gMsfmIur"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MGi+uK8f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout1.samsung.com (mailout1.samsung.com [203.254.224.24])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1A7B2188
-	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 03:02:09 -0800 (PST)
-Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
-	by mailout1.samsung.com (KnoxPortal) with ESMTP id 20231213110208epoutp0136049a0fe92446cd8d561fc1863d1d2d~gXzI5b9Sh1451114511epoutp01r
-	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 11:02:08 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20231213110208epoutp0136049a0fe92446cd8d561fc1863d1d2d~gXzI5b9Sh1451114511epoutp01r
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1702465328;
-	bh=2lm3qEVBSJdxq4/4EUzCWV6QE445bHlIbiCqwVyw6Ns=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gMsfmIur42JVQIOh6hVFVeTsKPidfcITtpLzmTSmUG9u2JohfF2TgWAaE5eJsswD+
-	 iLns5YPln/481vK90lnZUFmBsMh+VUJCxQY4yQyaoziPpzr0zooJ2eVT5zQl8Aj3Nc
-	 YMoEsEb6f/FW3Ao/0uorv2uLy+/PuNZLbFzvCLzg=
-Received: from epsnrtp2.localdomain (unknown [182.195.42.163]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTP id
-	20231213110207epcas5p3e33afff16ddcd8364be6b5fa84972da2~gXzIaq4C70873008730epcas5p3b;
-	Wed, 13 Dec 2023 11:02:07 +0000 (GMT)
-Received: from epsmges5p3new.samsung.com (unknown [182.195.38.181]) by
-	epsnrtp2.localdomain (Postfix) with ESMTP id 4Sqsxp2cn5z4x9Pt; Wed, 13 Dec
-	2023 11:02:06 +0000 (GMT)
-Received: from epcas5p2.samsung.com ( [182.195.41.40]) by
-	epsmges5p3new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	7D.09.09672.E2F89756; Wed, 13 Dec 2023 20:02:06 +0900 (KST)
-Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
-	epcas5p2.samsung.com (KnoxPortal) with ESMTPA id
-	20231213081148epcas5p215061f6452b43e00dd20e5db6b50bbb9~gVea1QCbK1902219022epcas5p2t;
-	Wed, 13 Dec 2023 08:11:48 +0000 (GMT)
-Received: from epsmgmc1p1new.samsung.com (unknown [182.195.42.40]) by
-	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
-	20231213081148epsmtrp1ad214c600c06faf6999d54905457e3e5~gVeatpkwc2335123351epsmtrp1n;
-	Wed, 13 Dec 2023 08:11:48 +0000 (GMT)
-X-AuditID: b6c32a4b-60bfd700000025c8-55-65798f2ec816
-Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
-	epsmgmc1p1new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	20.35.07368.44769756; Wed, 13 Dec 2023 17:11:48 +0900 (KST)
-Received: from cheetah.sa.corp.samsungelectronics.net (unknown
-	[107.109.115.53]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
-	20231213081143epsmtip2b7286351edc2ff3bd11978342dc54eab~gVeWYOpzH1538715387epsmtip2P;
-	Wed, 13 Dec 2023 08:11:43 +0000 (GMT)
-From: Aakarsh Jain <aakarsh.jain@samsung.com>
-To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org,
-	robh+dt@kernel.org, conor+dt@kernel.org, linux-samsung-soc@vger.kernel.org,
-	andi@etezian.org, gost.dev@samsung.com, alim.akhtar@samsung.com,
-	aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
-	ajaykumar.rs@samsung.com, aakarsh.jain@samsung.com, linux-fsd@tesla.com,
-	Smitha T Murthy <smithatmurthy@gmail.com>
-Subject: [Patch v6 10/10] media: s5p-mfc: DPB Count Independent of
- VIDIOC_REQBUF
-Date: Wed, 13 Dec 2023 13:41:05 +0530
-Message-Id: <20231213081105.25817-11-aakarsh.jain@samsung.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20231213081105.25817-1-aakarsh.jain@samsung.com>
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrLJsWRmVeSWpSXmKPExsWy7bCmhq5ef2WqwZsrAhZPd8xktTjw/iCL
-	xYN529gsFv94zmRxf/FnFotDm7eyW6zZe47JYv6Rc6wWNw/sZLK4OPMui0Xfi4fMFpseX2O1
-	ePgq3OLyrjlsFj0btrJazDi/j8li7ZG77BbLNv1hsli09Qu7ReveI+wWLY1LWB1EPa4v+cTs
-	sXPWXXaPxXteMnlsWtXJ5nHn2h42j81L6j36tqxi9PjXNJfd4/MmOY9TXz+zB3BFZdtkpCam
-	pBYppOYl56dk5qXbKnkHxzvHm5oZGOoaWlqYKynkJeam2iq5+AToumXmAP2opFCWmFMKFApI
-	LC5W0rezKcovLUlVyMgvLrFVSi1IySkwKdArTswtLs1L18tLLbEyNDAwMgUqTMjO+HJbreC4
-	dMXK+b+YGhj/inUxcnJICJhITH44nb2LkYtDSGA3o8TC7RdZIJxPjBKn2w8xQjjfGCU+vPrF
-	CtOyqGs5E0RiL6PEs67/rBBOK5PEsROHgfo5ONgEdCXObs8BaRARaGSUeNxRAlLDLHCcWWLB
-	hJksIAlhgSCJz99usYHYLAKqEu83dILZvAJ2Ek+PH2aC2CYvsXrDAWYQmxMo/q5pP9hJEgI3
-	OCT+P+1nhihykfh1aQ/UecISr45vYYewpSRe9rdB2ckSjxe9hKrPkVi/ZwoLhG0vceDKHLCj
-	mQU0Jdbv0ocIy0pMPbUO7AZmAT6J3t9PoO7hldgxD8ZWk5hz5wfUWhmJw6uXMkLYHhIti7uY
-	IYEykVFi5cHPzBMY5WYhrFjAyLiKUTK1oDg3PbXYtMA4L7UcHmvJ+bmbGMHpWMt7B+OjBx/0
-	DjEycTAeYpTgYFYS4T25ozxViDclsbIqtSg/vqg0J7X4EKMpMAAnMkuJJucDM0JeSbyhiaWB
-	iZmZmYmlsZmhkjjv69a5KUIC6YklqdmpqQWpRTB9TBycUg1MfFM42xr5qmw+3JCfLP3gx4XJ
-	i/csutOQts61K2blmvsB0ftW7/L3yLb9dKNllxfzgo23Foat5Ve7c2+HrM2P3P2KUyWmcL31
-	P+vtoNb4lb/1pm4OT+z89i8qrzRUCmcfeOa5fS7H1Md1N7i8z0dJP1NVrzFemS4w1fSCpfE9
-	i5VMO2aEbjvtbeXx8VBX7Z6NdZsFk47mLz05dyrv/Px5t+7d5v8psPvoYdtjx1POH8v66nFk
-	lxbfkXc3j+29ynPofPnSCt0Yu9vT6qQ1e+/7Xd0XOSu2+NbSDclFS+39zXVU30xjEulsmrHj
-	oN6SpYHL75q2i72N+OLsYquupVHVs6pkmtDtSr6Jf5Ue7Xl2ca4SS3FGoqEWc1FxIgCGKHVp
-	UAQAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFvrCLMWRmVeSWpSXmKPExsWy7bCSvK5LemWqwaRLQhZPd8xktTjw/iCL
-	xYN529gsFv94zmRxf/FnFotDm7eyW6zZe47JYv6Rc6wWNw/sZLK4OPMui0Xfi4fMFpseX2O1
-	ePgq3OLyrjlsFj0btrJazDi/j8li7ZG77BbLNv1hsli09Qu7ReveI+wWLY1LWB1EPa4v+cTs
-	sXPWXXaPxXteMnlsWtXJ5nHn2h42j81L6j36tqxi9PjXNJfd4/MmOY9TXz+zB3BFcdmkpOZk
-	lqUW6dslcGV8ua1WcFy6YuX8X0wNjH/Fuhg5OSQETCQWdS1n6mLk4hAS2M0oceVMFwtEQkbi
-	f9sxdghbWGLlv+fsEEXNTBILjywBcjg42AR0Jc5uzwGJiwi0MkpcX9kJNolZ4DazxKYJD8G6
-	hQUCJFbMeccMYrMIqEq839DJBmLzCthJPD1+mAlig7zE6g0HwGo4geLvmvYzgthCArYSy3ff
-	Zp7AyLeAkWEVo2RqQXFuem6yYYFhXmq5XnFibnFpXrpecn7uJkZwxGhp7GC8N/+f3iFGJg7G
-	Q4wSHMxKIrwnd5SnCvGmJFZWpRblxxeV5qQWH2KU5mBREuc1nDE7RUggPbEkNTs1tSC1CCbL
-	xMEp1cAk7njujs9Ktm1HDd9GhJ1tPDj7gX4wg/nZo5mqjO/cDpnYz5m34V/sy9l7PntHrHzg
-	Vbb0aOH2fzHSwdNOrjl7IdZzqfv9eYyrXpo/Ws67q2LrlgOSUR6f/+868Hz34sc7xJZPOpV3
-	d/HP4gmveKfEat/e3fzs6kn3lV+us8gs+trnWsc9q86UUcrw7us1j7RYP3q8v5vW1V1rd9DP
-	jXWKf5Xo9X/sOqvlI7ucwspi+/1PGnHILzkveP35PpN3jm9e94TmVdmrXpn60zDmi/aXbcsj
-	slZELFnZytdzbY3Zsy1Km22Ujp0/O185Ys0/uSsRf4Rvls7L+//BrmZm45vcrnrXyXuSo256
-	bzAQzsm6eEiJpTgj0VCLuag4EQCl7SCPBwMAAA==
-X-CMS-MailID: 20231213081148epcas5p215061f6452b43e00dd20e5db6b50bbb9
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-Sendblock-Type: REQ_APPROVE
-CMS-TYPE: 105P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20231213081148epcas5p215061f6452b43e00dd20e5db6b50bbb9
-References: <20231213081105.25817-1-aakarsh.jain@samsung.com>
-	<CGME20231213081148epcas5p215061f6452b43e00dd20e5db6b50bbb9@epcas5p2.samsung.com>
+Received: from mail-lj1-x22d.google.com (mail-lj1-x22d.google.com [IPv6:2a00:1450:4864:20::22d])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07033F3;
+	Wed, 13 Dec 2023 01:05:30 -0800 (PST)
+Received: by mail-lj1-x22d.google.com with SMTP id 38308e7fff4ca-2ca0715f0faso92367461fa.0;
+        Wed, 13 Dec 2023 01:05:30 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702458329; x=1703063129; darn=vger.kernel.org;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=uPVstSGHW2mJYYKDhOcbHVvFc6FCpsaEprPwYoO2QrU=;
+        b=MGi+uK8fNUmM0nhxy/iOse+UgOChkXpP3nyVErQc/+LI5+qhOuntIIHrgrEzY7EjIh
+         7RfkbwccMukM43/8rRjOIlmo8EPwzazbrK+ylS3Cwkjl8cva0qhM6JUgdUOtReByzEe1
+         cAhIPHLJ9MUpFThviTFoAzJJ8MXVJ0uGkQQRNgAhItdfJJZTkikyhX+kJXJPeHol95SI
+         /15h/nP244D+ak5DxfpZyJpTxrw+iwOUMMqY4m0HK4eqwQ0xLbwP7R2ztcxoujGiSPZh
+         H25CHVogBLxLF7Ph76klLrOViQuC7J4bQfYd8szgeN7mfGELRR7i3FZGqm2fJdJ43Tvc
+         BuBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702458329; x=1703063129;
+        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uPVstSGHW2mJYYKDhOcbHVvFc6FCpsaEprPwYoO2QrU=;
+        b=jNnCZTpJ5NStUFu+h/rdsydrP3b72bNeeWvnoL/HhTVIikNpe0m8VftCZUYXpaBlXf
+         x3Y2oBGl6u8sdcoEuT38x/2I8dFAjBGuLepqzwABtDDpxoq+CnhoPJAI8r6EUnSSZ4tZ
+         A8i7Xu0Fo0W9+2LyGELCobRQSA8xDRKUxayCAEWiNuFjF+fuIol9hEOrQegCzfarcaWA
+         SJkwCDVTfXflg8PKm1Ps2u+5tBYndnu5dBUMDKmgLCKs+tHW9/g2gwcCBHdj3oJJVAPM
+         YSb8hjPZZ5I6hjyLtExGQEhCrRexRRCG2xHz5CGEw4xLQaXCmCFdjwysMCOZwou10HwE
+         bpkA==
+X-Gm-Message-State: AOJu0YxrDsfm8vD+6M6ALUnQF2R7OmymhSatT+q8Lfqd1m9GmJEdsJwz
+	IywiUnS0iIA0jAeWLjjnhR4=
+X-Google-Smtp-Source: AGHT+IGWpeNIT+ctXpc3/nJZFateSOhCrGMOM+zwxTvVL6e43wnzc3r3OJ2tC/PYR81yyP2zfmy63A==
+X-Received: by 2002:a05:6512:38cf:b0:50c:5aa:83b4 with SMTP id p15-20020a05651238cf00b0050c05aa83b4mr2890212lft.114.1702458328719;
+        Wed, 13 Dec 2023 01:05:28 -0800 (PST)
+Received: from eldfell ([194.136.85.206])
+        by smtp.gmail.com with ESMTPSA id y18-20020a199152000000b0050be6326f2asm1597596lfj.64.2023.12.13.01.05.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 13 Dec 2023 01:05:28 -0800 (PST)
+Date: Wed, 13 Dec 2023 11:05:17 +0200
+From: Pekka Paalanen <ppaalanen@gmail.com>
+To: Simon Ser <contact@emersion.fr>
+Cc: Yong Wu <yong.wu@mediatek.com>, Rob Herring <robh+dt@kernel.org>, Sumit
+ Semwal <sumit.semwal@linaro.org>, christian.koenig@amd.com, Matthias
+ Brugger <matthias.bgg@gmail.com>, dri-devel@lists.freedesktop.org, John
+ Stultz <jstultz@google.com>, Krzysztof Kozlowski
+ <krzysztof.kozlowski+dt@linaro.org>, Jeffrey Kardatzke
+ <jkardatzke@google.com>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Vijayanand Jitta
+ <quic_vjitta@quicinc.com>, Nicolas Dufresne <nicolas@ndufresne.ca>,
+ jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
+ ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
+ linux-mediatek@lists.infradead.org, Joakim Bech <joakim.bech@linaro.org>,
+ tjmercier@google.com, linux-arm-kernel@lists.infradead.org,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ kuohong.wang@mediatek.com, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/7] dma-buf: heaps: Add secure heap
+Message-ID: <20231213110517.6ce36aca@eldfell>
+In-Reply-To: <DPBmATfmfvSP8Cwjz99kj_JvCEiAqRfuMFJZEBF2aIgl8NZqWFR66eyPTX1E8bHyOlimBihEE3E80p9bfOJ-0SNu8pwoIzL9gD2Xae6r97g=@emersion.fr>
+References: <20231212024607.3681-1-yong.wu@mediatek.com>
+	<DPBmATfmfvSP8Cwjz99kj_JvCEiAqRfuMFJZEBF2aIgl8NZqWFR66eyPTX1E8bHyOlimBihEE3E80p9bfOJ-0SNu8pwoIzL9gD2Xae6r97g=@emersion.fr>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; boundary="Sig_/DaWmOigQ7D9ggi2.WnkRpp3";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-Add allocation of DPB buffers based on MFC requirement so,
-codec buffers allocations has been moved after state
-MFCINST_HEAD_PRODUCED. It is taken care that codec buffer allocation
-is performed in process context from userspace IOCTL call.
+--Sig_/DaWmOigQ7D9ggi2.WnkRpp3
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Cc: linux-fsd@tesla.com
-Signed-off-by: Smitha T Murthy <smithatmurthy@gmail.com>
-Signed-off-by: Aakarsh Jain <aakarsh.jain@samsung.com>
----
- .../platform/samsung/s5p-mfc/s5p_mfc_enc.c     | 18 ++----------------
- .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c  |  7 +++++++
- 2 files changed, 9 insertions(+), 16 deletions(-)
+On Tue, 12 Dec 2023 16:36:35 +0000
+Simon Ser <contact@emersion.fr> wrote:
 
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-index ae3764969473..ef8bb40b9712 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c
-@@ -1164,7 +1164,6 @@ static int enc_post_seq_start(struct s5p_mfc_ctx *ctx)
- 	struct s5p_mfc_dev *dev = ctx->dev;
- 	struct s5p_mfc_enc_params *p = &ctx->enc_params;
- 	struct s5p_mfc_buf *dst_mb;
--	unsigned int enc_pb_count;
- 
- 	if (p->seq_hdr_mode == V4L2_MPEG_VIDEO_HEADER_MODE_SEPARATE) {
- 		if (!list_empty(&ctx->dst_queue)) {
-@@ -1186,10 +1185,7 @@ static int enc_post_seq_start(struct s5p_mfc_ctx *ctx)
- 			set_work_bit_irqsave(ctx);
- 		s5p_mfc_hw_call(dev->mfc_ops, try_run, dev);
- 	} else {
--		enc_pb_count = s5p_mfc_hw_call(dev->mfc_ops,
--				get_enc_dpb_count, dev);
--		if (ctx->pb_count < enc_pb_count)
--			ctx->pb_count = enc_pb_count;
-+		ctx->pb_count = s5p_mfc_hw_call(dev->mfc_ops, get_enc_dpb_count, dev);
- 		if (FW_HAS_E_MIN_SCRATCH_BUF(dev)) {
- 			ctx->scratch_buf_size = s5p_mfc_hw_call(dev->mfc_ops,
- 					get_e_min_scratch_buf_size, dev);
-@@ -1564,14 +1560,6 @@ static int vidioc_reqbufs(struct file *file, void *priv,
- 		}
- 		ctx->capture_state = QUEUE_BUFS_REQUESTED;
- 
--		ret = s5p_mfc_hw_call(ctx->dev->mfc_ops,
--				alloc_codec_buffers, ctx);
--		if (ret) {
--			mfc_err("Failed to allocate encoding buffers\n");
--			reqbufs->count = 0;
--			ret = vb2_reqbufs(&ctx->vq_dst, reqbufs);
--			return -ENOMEM;
--		}
- 	} else if (reqbufs->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
- 		if (reqbufs->count == 0) {
- 			mfc_debug(2, "Freeing buffers\n");
-@@ -1587,15 +1575,13 @@ static int vidioc_reqbufs(struct file *file, void *priv,
- 			return -EINVAL;
- 		}
- 
--		if (IS_MFCV6_PLUS(dev)) {
-+		if (IS_MFCV6_PLUS(dev) && (!IS_MFCV12(dev))) {
- 			/* Check for min encoder buffers */
- 			if (ctx->pb_count &&
- 				(reqbufs->count < ctx->pb_count)) {
- 				reqbufs->count = ctx->pb_count;
- 				mfc_debug(2, "Minimum %d output buffers needed\n",
- 						ctx->pb_count);
--			} else {
--				ctx->pb_count = reqbufs->count;
- 			}
- 		}
- 
-diff --git a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-index 572293f3b190..fd945211d28e 100644
---- a/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-+++ b/drivers/media/platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c
-@@ -2110,6 +2110,13 @@ static inline int s5p_mfc_run_init_enc_buffers(struct s5p_mfc_ctx *ctx)
- 	struct s5p_mfc_dev *dev = ctx->dev;
- 	int ret;
- 
-+	ret = s5p_mfc_hw_call(ctx->dev->mfc_ops, alloc_codec_buffers, ctx);
-+	if (ret) {
-+		mfc_err("Failed to allocate encoding buffers\n");
-+		return -ENOMEM;
-+	}
-+	mfc_debug(2, "Allocated Internal Encoding Buffers\n");
-+
- 	dev->curr_ctx = ctx->num;
- 	ret = s5p_mfc_set_enc_ref_buffer_v6(ctx);
- 	if (ret) {
--- 
-2.17.1
+> Is there a chance to pick a better name than "secure" here?
+>=20
+> "Secure" is super overloaded, it's not clear at all what it means from
+> just the name. Something like "restricted" would be an improvement.
+>=20
 
+My thoughts exactly. Every time I see "secure" used for something that
+either gives you garbage, refuses to work, or crashes your whole machine
+*intentionally* when you try to do normal usual things to it in
+userspace (like use it for GL texturing, or try to use KMS writeback), I
+get an unscratchable itch.
+
+There is nothing "secure" from security perspective there for end users
+and developers. It's just inaccessible buffers.
+
+I've been biting my lip until now, thinking it's too late.
+
+
+Thanks,
+pq
+
+--Sig_/DaWmOigQ7D9ggi2.WnkRpp3
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmV5c80ACgkQI1/ltBGq
+qqdqdg/8DMTwQfWf/EfE0E0FOjM0IPMnzZreMPcRlHBqMJqgQA5miVL9CVE+novh
+ohRbfFYLwut7eqtK6Dzn+6hOIVFRMpGPkWe8qHfT+CJ8Wr3hD8Q23PKEveH/FENO
+G+XUbPzsnlDTDs5MB2Bb1TAiWQLS8Y1/nstMZ49l8mmW6Iim0Z+/xhyqUyLaHfpm
+zB7JRM7CSN8gyPhoqoAAITy+ZL4+yD7D28izgQA4YZD4JzkE1fYOUFzNb4QRA/T7
+GxPSExZlU7+CdIL5zAJvhqpHh9nxMdOUvaP3aQBzShcTKDVoet/TZ+0QuEOuD1QJ
+gHG05Hcp5gREsbjn9oytS2km0LcL7ZmR98NOrf9idl4jZDjVTEMQvV/FrSSwiyGv
+5whtFHkkDVy1nXjyYmgiGO7dvIptO+dNGgRtACt3xe0tdvu5ndP2+hG21ADVWebc
+fd2T4mnUoANro1gOjWATV5+0fzlOK5hFff70pvE9U2ATvqXo7i2I+kzW/EJFPilA
+4EqR7cIyLCaVRb7q/dC4CdWUu0NIxCp7+u22Z/B8pHFw2MnQZa0twIKV3GJokfrR
+A4PfZLAvpbSkfr7SalrN6eYFHhJOpcCJPHXCiQSnRT7DU5u6NhUr35IZgq/YuANC
+YrU/v7fiWv2v6I0I2FN8fBaH1baL6/SWpA5q43OECPVewbA/Uwg=
+=DQfN
+-----END PGP SIGNATURE-----
+
+--Sig_/DaWmOigQ7D9ggi2.WnkRpp3--
 
