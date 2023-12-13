@@ -1,257 +1,217 @@
-Return-Path: <linux-media+bounces-2305-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2319-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC16C810CCD
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 09:52:50 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69832810F09
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 11:57:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EDA041C2098E
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 08:52:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E036B1F2116A
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 10:57:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D46EE1EB47;
-	Wed, 13 Dec 2023 08:52:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A2BD22F02;
+	Wed, 13 Dec 2023 10:57:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cc5VVtUZ"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="VdIeJ0Vo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F4A0F3
-	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 00:52:40 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702457560; x=1733993560;
-  h=date:from:to:cc:subject:message-id;
-  bh=t2NMC23jUcKu7j2gw/lZfy+QDa+O962SyL3rni1F300=;
-  b=Cc5VVtUZRf/80GszZ7QNU2ZPzE6JZuz8xZkZiEFDVx5DSR/4wxKRpIWd
-   /9SZ75bincTQxWbgBR/gT8EV1mM877TTGOltZ5iuifACN36NQpviFp2nL
-   A8wRdQqCQO7euK958JgjdRlJhjD0Ah44VqWps9yNcwHSj7zDEFxCYRoLU
-   Ennuz9OXi92ssUnS0g9XFxOe7GGiVQCqG5lmFmBi9dZ+S8XYUhsd3FS5y
-   mgC5oLoN54BsmM+YLts4OhrYX3BXTyusWBphqHsCPXcEfrrlm1GUjy3UK
-   qM4nW0lRmnfW5HnJmGqcA5l6xxEdrqCHOyUzxRm2x8/2rsAfhF2cWclq3
-   g==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="8295375"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="8295375"
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Dec 2023 00:52:40 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10922"; a="839781973"
-X-IronPort-AV: E=Sophos;i="6.04,272,1695711600"; 
-   d="scan'208";a="839781973"
-Received: from lkp-server02.sh.intel.com (HELO b07ab15da5fe) ([10.239.97.151])
-  by fmsmga008.fm.intel.com with ESMTP; 13 Dec 2023 00:52:38 -0800
-Received: from kbuild by b07ab15da5fe with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1rDKyq-000KIg-0X;
-	Wed, 13 Dec 2023 08:52:36 +0000
-Date: Wed, 13 Dec 2023 16:52:29 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-stage:master] BUILD SUCCESS
- c2a8653c197d67f8ad563f5417f2e9bcaad913f3
-Message-ID: <202312131627.J2BcEoO8-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 16559B0
+	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 02:57:32 -0800 (PST)
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20231213105730epoutp03cf62e93ed80d2bde2757887cae741f92~gXvF0hq4L3070730707epoutp03I
+	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 10:57:30 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20231213105730epoutp03cf62e93ed80d2bde2757887cae741f92~gXvF0hq4L3070730707epoutp03I
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1702465050;
+	bh=BqiRaJ0NsfpiJ2sM4INLMQsVpV+uA7WmGveruRmpB48=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=VdIeJ0VoIlR/Nwd87Iw1QUx+QDQBv0Na4IrUbBhhVGHwj2rBgv+lDDry2D3MrdYlb
+	 hVRadufiBJniQxgenIebafDoM6dSxoSBoqYAuyilIWb0k91kR2/JqYrsVcjirR+Fka
+	 HoCXRp+/HWmdHn4q87lmDxUvE+Y1EC72Ks0EL6Ao=
+Received: from epsnrtp4.localdomain (unknown [182.195.42.165]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTP id
+	20231213105729epcas5p145680c4dc6bb8eaefbff59b6f32158c0~gXvFQlk-B2144021440epcas5p12;
+	Wed, 13 Dec 2023 10:57:29 +0000 (GMT)
+Received: from epsmges5p2new.samsung.com (unknown [182.195.38.176]) by
+	epsnrtp4.localdomain (Postfix) with ESMTP id 4SqsrS2cY1z4x9Pq; Wed, 13 Dec
+	2023 10:57:28 +0000 (GMT)
+Received: from epcas5p3.samsung.com ( [182.195.41.41]) by
+	epsmges5p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	C8.C4.10009.81E89756; Wed, 13 Dec 2023 19:57:28 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20231213081112epcas5p171f1b69376bc4b1e8ced03f8b56efe35~gVd491gOh0249502495epcas5p1r;
+	Wed, 13 Dec 2023 08:11:12 +0000 (GMT)
+Received: from epsmgms1p2new.samsung.com (unknown [182.195.42.42]) by
+	epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+	20231213081112epsmtrp10d31838d8f8b9870c9df96bf65b25882~gVd48784f2318723187epsmtrp1n;
+	Wed, 13 Dec 2023 08:11:12 +0000 (GMT)
+X-AuditID: b6c32a4a-261fd70000002719-6d-65798e182176
+Received: from epsmtip2.samsung.com ( [182.195.34.31]) by
+	epsmgms1p2new.samsung.com (Symantec Messaging Gateway) with SMTP id
+	25.E2.08817.F1769756; Wed, 13 Dec 2023 17:11:12 +0900 (KST)
+Received: from cheetah.sa.corp.samsungelectronics.net (unknown
+	[107.109.115.53]) by epsmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20231213081109epsmtip2f885480c8110cbba87fd0625514a47c8~gVd2a24WA1539415394epsmtip2i;
+	Wed, 13 Dec 2023 08:11:09 +0000 (GMT)
+From: Aakarsh Jain <aakarsh.jain@samsung.com>
+To: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
+Cc: m.szyprowski@samsung.com, andrzej.hajda@intel.com, mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl, krzysztof.kozlowski+dt@linaro.org,
+	robh+dt@kernel.org, conor+dt@kernel.org, linux-samsung-soc@vger.kernel.org,
+	andi@etezian.org, gost.dev@samsung.com, alim.akhtar@samsung.com,
+	aswani.reddy@samsung.com, pankaj.dubey@samsung.com,
+	ajaykumar.rs@samsung.com, aakarsh.jain@samsung.com
+Subject: [Patch v6 00/10] Add MFC v12 support
+Date: Wed, 13 Dec 2023 13:40:55 +0530
+Message-Id: <20231213081105.25817-1-aakarsh.jain@samsung.com>
+X-Mailer: git-send-email 2.17.1
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFprDJsWRmVeSWpSXmKPExsWy7bCmpq5EX2WqwaHFAhZPd8xktTjw/iCL
+	xYN529gsFv94zmRxf/FnFotDm7eyW6zZe47JYv6Rc6wWNw/sZLK4OPMui0Xfi4fMFpseX2O1
+	uLxrDptFz4atrBYzzu9jslh75C67xbJNf5gsFm39wm7RuvcIu4Owx/Uln5g9Fu95yeSxaVUn
+	m8eda3vYPDYvqffo27KK0ePzJjmPU18/swdwRGXbZKQmpqQWKaTmJeenZOal2yp5B8c7x5ua
+	GRjqGlpamCsp5CXmptoqufgE6Lpl5gA9pKRQlphTChQKSCwuVtK3synKLy1JVcjILy6xVUot
+	SMkpMCnQK07MLS7NS9fLSy2xMjQwMDIFKkzIzjjZNJe54IByReP6/YwNjJ1yXYycHBICJhKf
+	Zl1g62Lk4hAS2M0o0XVmCxOE84lR4tzOvYwQzjdGidPNG1lgWnq3PYJK7GWU2DnjJ1R/K5PE
+	tbmbmbsYOTjYBHQlzm7PAWkQEWhklHjcUQJSwyzQyizRMuUdI0hCGKjm493tYDaLgKrEjJtN
+	bCA2r4CtxO8JZ1khtslLrN5wgBmkWUJgIYfEqTmnoBIuEh+3HGGGsIUlXh3fwg5hS0m87G+D
+	spMlHi96CVWTI7F+zxSoF+wlDlyZwwJyKLOApsT6XfoQYVmJqafWMYHYzAJ8Er2/nzBBxHkl
+	dsyDsdUk5tz5AXWCjMTh1UsZQcZICHhI3NqdDGIKCcRKrN9mOYFRdhbC/AWMjKsYJVMLinPT
+	U4tNC4zyUsvh8ZScn7uJEZxMtbx2MD588EHvECMTB+MhRgkOZiUR3pM7ylOFeFMSK6tSi/Lj
+	i0pzUosPMZoCQ2wis5Rocj4wneeVxBuaWBqYmJmZmVgamxkqifO+bp2bIiSQnliSmp2aWpBa
+	BNPHxMEp1cDkscv0mmTTrWeCzNnyTb9qWmStTk5LP5hy0+xYeIbly3kiL56JXYiueV6d0uE3
+	8ffJOjH7BskVLI9je1qPXj7cskGpdCO7XIb6rv512VMlr5jtL26x9em2CfkgsP/ZPNF9qmci
+	NOUfL/LWnfSb9Y7d8wPPpudvTCvoLGf+wexwqmX38cUbQm8K939fxnxPpmLzT9fVWWnp/422
+	Oj3aN1lcWFZ3xrVylbN7Du2yTm7JmpX48KvPXpNMlgPnlnOsF3h3hKHt4ir7t0kvCmrO/3u8
+	7WR0xu5L8T4FhmWPd7Y/060tXK4tvetslTDHG8VjFldvsJ2M485SOGmxu/eKzbTgw41Lo3IO
+	lHTu4P5ve/+9EktxRqKhFnNRcSIAmSFQGi8EAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrFLMWRmVeSWpSXmKPExsWy7bCSvK5CemWqwZ8HjBZPd8xktTjw/iCL
+	xYN529gsFv94zmRxf/FnFotDm7eyW6zZe47JYv6Rc6wWNw/sZLK4OPMui0Xfi4fMFpseX2O1
+	uLxrDptFz4atrBYzzu9jslh75C67xbJNf5gsFm39wm7RuvcIu4Owx/Uln5g9Fu95yeSxaVUn
+	m8eda3vYPDYvqffo27KK0ePzJjmPU18/swdwRHHZpKTmZJalFunbJXBlnGyay1xwQLmicf1+
+	xgbGTrkuRk4OCQETid5tjxi7GLk4hAR2M0rs/36VFSIhI/G/7Rg7hC0ssfLfc3aIomYmiRVf
+	9wJ1cHCwCehKnN2eAxIXEWhllLi+spMJxGEWmM4s8fVlLwtItzBQ0ce72xlBbBYBVYkZN5vY
+	QGxeAVuJ3xPOQm2Tl1i94QDzBEaeBYwMqxglUwuKc9Nziw0LjPJSy/WKE3OLS/PS9ZLzczcx
+	goNbS2sH455VH/QOMTJxMB5ilOBgVhLhPbmjPFWINyWxsiq1KD++qDQntfgQozQHi5I477fX
+	vSlCAumJJanZqakFqUUwWSYOTqkGpqU/O+acnhylfeviXWaHdI690brx0qu8J8ws/Wpp8plh
+	5cp3bbWHLzO2J63Y2bSZSW+W44qVJXeEKsWOzg//etfzo9uKRylymtyX8r/+Y1n1edaWpkO/
+	L61bbTazsnFSksQdtW2Pd1zeKfrU77pok3tjh26KhYNm5PYzF9e/6ffgUF8dvyX4NXfjCobK
+	q3cPxQT9OL/qcP3hzqU3J3Da3F3uEHpwv8tWkT21R289nWZr+pM9tTT/BH9f/PrM/1OOOopb
+	+yYsdZld+vRdz+/Sa/WVFlcvz7Vcu/jg+YRPAT4+b/cuPLfioOVP9RkpvJ0bPDfVHlcpcFl9
+	anF/VXCUzOYQw1iBJcHWVQ28Foui/lxXYinOSDTUYi4qTgQAzAA1P90CAAA=
+X-CMS-MailID: 20231213081112epcas5p171f1b69376bc4b1e8ced03f8b56efe35
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-Sendblock-Type: REQ_APPROVE
+CMS-TYPE: 105P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20231213081112epcas5p171f1b69376bc4b1e8ced03f8b56efe35
+References: <CGME20231213081112epcas5p171f1b69376bc4b1e8ced03f8b56efe35@epcas5p1.samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 
-tree/branch: https://git.linuxtv.org/media_stage.git master
-branch HEAD: c2a8653c197d67f8ad563f5417f2e9bcaad913f3  media: venus: core: Set up secure memory ranges for SC7280
+This patch series adds MFC v12 support. MFC v12 is used in Tesla FSD SoC.
 
-elapsed time: 1465m
+This adds support for following:
 
-configs tested: 179
-configs skipped: 2
+-Add support for YV12 and I420 format (3-plane)
+-Add support for Rate Control, UHD and DMABUF for encoder
+-Add support for DPB buffers allocation based on MFC requirement
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+changes since v5:
+-As per Krzysztof, he will take MFC dt-entries patch via Samsung SoC
+once dt-bindings patch gets accepted. Therefore, excluded MFC dt-entries
+patch from v6.
+-Addressed review comments by Hans Verkuil.
+Resolved smatch warning from 'drivers/media/platform/samsung/s5p-mfc/s5p_mfc_enc.c'.
+Resolved kernel doc warnings from 'drivers/media/platform/samsung/s5p-mfc/s5p_mfc_common.h'.
+Added explanation in the patch 9 as comment on why mfc v12 firmware loading is
+needed for each run.
+v5 link: https://patchwork.kernel.org/project/linux-media/cover/20231206063045.97234-1-aakarsh.jain@samsung.com/
 
-tested configs:
-alpha                             allnoconfig   gcc  
-alpha                            allyesconfig   gcc  
-alpha                               defconfig   gcc  
-arc                              allmodconfig   gcc  
-arc                               allnoconfig   gcc  
-arc                              allyesconfig   gcc  
-arc                                 defconfig   gcc  
-arc                   randconfig-001-20231212   gcc  
-arc                   randconfig-002-20231212   gcc  
-arm                              allmodconfig   gcc  
-arm                               allnoconfig   gcc  
-arm                              allyesconfig   gcc  
-arm                                 defconfig   clang
-arm                          gemini_defconfig   gcc  
-arm                       imx_v6_v7_defconfig   gcc  
-arm                       multi_v4t_defconfig   gcc  
-arm                        neponset_defconfig   clang
-arm                   randconfig-001-20231212   gcc  
-arm                   randconfig-002-20231212   gcc  
-arm                   randconfig-003-20231212   gcc  
-arm                   randconfig-004-20231212   gcc  
-arm64                            allmodconfig   clang
-arm64                             allnoconfig   gcc  
-arm64                               defconfig   gcc  
-arm64                 randconfig-001-20231212   gcc  
-arm64                 randconfig-002-20231212   gcc  
-arm64                 randconfig-003-20231212   gcc  
-arm64                 randconfig-004-20231212   gcc  
-csky                             allmodconfig   gcc  
-csky                              allnoconfig   gcc  
-csky                             allyesconfig   gcc  
-csky                                defconfig   gcc  
-csky                  randconfig-001-20231212   gcc  
-csky                  randconfig-002-20231212   gcc  
-hexagon                          allmodconfig   clang
-hexagon                           allnoconfig   clang
-hexagon                          allyesconfig   clang
-hexagon                             defconfig   clang
-hexagon               randconfig-001-20231212   clang
-hexagon               randconfig-002-20231212   clang
-i386                             allmodconfig   clang
-i386                              allnoconfig   clang
-i386                             allyesconfig   clang
-i386         buildonly-randconfig-001-20231212   gcc  
-i386         buildonly-randconfig-002-20231212   gcc  
-i386         buildonly-randconfig-003-20231212   gcc  
-i386         buildonly-randconfig-004-20231212   gcc  
-i386         buildonly-randconfig-005-20231212   gcc  
-i386         buildonly-randconfig-006-20231212   gcc  
-i386                                defconfig   gcc  
-i386                  randconfig-001-20231212   gcc  
-i386                  randconfig-002-20231212   gcc  
-i386                  randconfig-003-20231212   gcc  
-i386                  randconfig-004-20231212   gcc  
-i386                  randconfig-005-20231212   gcc  
-i386                  randconfig-006-20231212   gcc  
-i386                  randconfig-011-20231212   clang
-i386                  randconfig-012-20231212   clang
-i386                  randconfig-013-20231212   clang
-i386                  randconfig-014-20231212   clang
-i386                  randconfig-015-20231212   clang
-i386                  randconfig-016-20231212   clang
-loongarch                        alldefconfig   gcc  
-loongarch                        allmodconfig   gcc  
-loongarch                         allnoconfig   gcc  
-loongarch                           defconfig   gcc  
-loongarch             randconfig-001-20231212   gcc  
-loongarch             randconfig-002-20231212   gcc  
-m68k                             allmodconfig   gcc  
-m68k                              allnoconfig   gcc  
-m68k                             allyesconfig   gcc  
-m68k                                defconfig   gcc  
-m68k                       m5475evb_defconfig   gcc  
-microblaze                       allmodconfig   gcc  
-microblaze                        allnoconfig   gcc  
-microblaze                       allyesconfig   gcc  
-microblaze                          defconfig   gcc  
-mips                              allnoconfig   clang
-mips                             allyesconfig   gcc  
-mips                         bigsur_defconfig   gcc  
-mips                     cu1000-neo_defconfig   clang
-mips                      maltaaprp_defconfig   clang
-nios2                         3c120_defconfig   gcc  
-nios2                            allmodconfig   gcc  
-nios2                             allnoconfig   gcc  
-nios2                            allyesconfig   gcc  
-nios2                               defconfig   gcc  
-nios2                 randconfig-001-20231212   gcc  
-nios2                 randconfig-002-20231212   gcc  
-openrisc                          allnoconfig   gcc  
-openrisc                         allyesconfig   gcc  
-openrisc                            defconfig   gcc  
-parisc                           allmodconfig   gcc  
-parisc                            allnoconfig   gcc  
-parisc                           allyesconfig   gcc  
-parisc                              defconfig   gcc  
-parisc                randconfig-001-20231212   gcc  
-parisc                randconfig-002-20231212   gcc  
-parisc64                            defconfig   gcc  
-powerpc                          allmodconfig   clang
-powerpc                           allnoconfig   gcc  
-powerpc                          allyesconfig   clang
-powerpc                       ebony_defconfig   clang
-powerpc                     ksi8560_defconfig   clang
-powerpc                 mpc8313_rdb_defconfig   clang
-powerpc               randconfig-001-20231212   gcc  
-powerpc               randconfig-002-20231212   gcc  
-powerpc               randconfig-003-20231212   gcc  
-powerpc                     tqm5200_defconfig   clang
-powerpc64             randconfig-001-20231212   gcc  
-powerpc64             randconfig-002-20231212   gcc  
-powerpc64             randconfig-003-20231212   gcc  
-riscv                            allmodconfig   gcc  
-riscv                             allnoconfig   clang
-riscv                            allyesconfig   gcc  
-riscv                               defconfig   gcc  
-riscv                 randconfig-001-20231212   gcc  
-riscv                 randconfig-002-20231212   gcc  
-riscv                          rv32_defconfig   clang
-s390                             allmodconfig   gcc  
-s390                              allnoconfig   gcc  
-s390                             allyesconfig   gcc  
-s390                                defconfig   gcc  
-s390                  randconfig-001-20231212   clang
-s390                  randconfig-002-20231212   clang
-sh                               allmodconfig   gcc  
-sh                                allnoconfig   gcc  
-sh                               allyesconfig   gcc  
-sh                         apsh4a3a_defconfig   gcc  
-sh                                  defconfig   gcc  
-sh                    randconfig-001-20231212   gcc  
-sh                    randconfig-002-20231212   gcc  
-sh                   sh7770_generic_defconfig   gcc  
-sh                              ul2_defconfig   gcc  
-sparc                            allmodconfig   gcc  
-sparc64                          allmodconfig   gcc  
-sparc64                          allyesconfig   gcc  
-sparc64                             defconfig   gcc  
-sparc64               randconfig-001-20231212   gcc  
-sparc64               randconfig-002-20231212   gcc  
-um                               allmodconfig   clang
-um                                allnoconfig   clang
-um                               allyesconfig   clang
-um                                  defconfig   gcc  
-um                             i386_defconfig   gcc  
-um                    randconfig-001-20231212   gcc  
-um                    randconfig-002-20231212   gcc  
-um                           x86_64_defconfig   gcc  
-x86_64                            allnoconfig   gcc  
-x86_64                           allyesconfig   clang
-x86_64       buildonly-randconfig-001-20231212   gcc  
-x86_64       buildonly-randconfig-002-20231212   gcc  
-x86_64       buildonly-randconfig-003-20231212   gcc  
-x86_64       buildonly-randconfig-004-20231212   gcc  
-x86_64       buildonly-randconfig-005-20231212   gcc  
-x86_64       buildonly-randconfig-006-20231212   gcc  
-x86_64                              defconfig   gcc  
-x86_64                randconfig-001-20231212   clang
-x86_64                randconfig-002-20231212   clang
-x86_64                randconfig-003-20231212   clang
-x86_64                randconfig-004-20231212   clang
-x86_64                randconfig-005-20231212   clang
-x86_64                randconfig-006-20231212   clang
-x86_64                randconfig-011-20231212   gcc  
-x86_64                randconfig-012-20231212   gcc  
-x86_64                randconfig-013-20231212   gcc  
-x86_64                randconfig-014-20231212   gcc  
-x86_64                randconfig-015-20231212   gcc  
-x86_64                randconfig-016-20231212   gcc  
-x86_64                randconfig-071-20231212   gcc  
-x86_64                randconfig-072-20231212   gcc  
-x86_64                randconfig-073-20231212   gcc  
-x86_64                randconfig-074-20231212   gcc  
-x86_64                randconfig-075-20231212   gcc  
-x86_64                randconfig-076-20231212   gcc  
-x86_64                          rhel-8.3-rust   clang
-xtensa                            allnoconfig   gcc  
-xtensa                randconfig-001-20231212   gcc  
-xtensa                randconfig-002-20231212   gcc  
+Changes since v4:
+-Addressed review comments by Krzysztof Kozlowski.
+As per discussion included iommus property in dt-schema.
+-Addressed review comments by Hans Verkuil.
+Fixed checkpatch warnings with --strict flag enabled.
+Upstreamed s5p-mfc-v12.fw to linux-firmware.
+Added comment in the patch 9 regarding loading mfc firmware v12
+sequentially.
+-Addressed review comments by Nicolas Dufresne
+Made use of v4l2-common library to get number of planes needed for
+particular format in patch 4.
+v4 link:https://patchwork.kernel.org/project/linux-media/patch/20231025102216.50480-2-aakarsh.jain@samsung.com/
+
+Changes since v3:
+-Removed vp9 codec support for now and just keeping MFC v12 base
+patches with necessary hardware controls, decoder, encoder and
+structural changes. Also covers luma dbp, chroma dpb and mv sizes
+for each codec as per the UM for MFCv12, along with appropriate
+alignment.
+v3 link: https://patchwork.kernel.org/project/linux-media/cover/20221011122516.32135-1-aakarsh.jain@samsung.com/
+
+Changes since v2:
+-Addressed review comments by Rob Herring.
+This was regarding the errors found by Rob bot in yaml file. File
+'samsung,s5p-mfc.yaml' is already converted into json schema and is
+merged.
+
+-Addressed review comments by Krzysztof Kozlowski.
+This was regarding depricated properties mentioned in s5p-mfc.txt file.
+Review comment was addressed and 'samsung,s5p-mfc.yaml' is already
+merged now.
+
+-Addressed review comments by Andi Shyti.
+This was regarding addition of 'MFC_V10PLUS_BITS' macro in
+'s5p_mfc_common.h file.
+v2 link: https://patchwork.kernel.org/project/linux-media/cover/20220907064715.55778-1-smitha.t@samsung.com/
+
+Changes since v1:
+-Addressed review comments by Krzysztof Kozlowski.
+Separated bug fixes patches, resent again with fix tag
+and those are merged now.
+-Added SoC based compatible string.
+
+-Addressed review comments by Andrzej Hajda
+Assigned width64 and height32 variable with ALIGN(ctx->img_..)
+used in the code in 's5p_mfc_opr_v6.c' file.
+v1 link: https://patchwork.kernel.org/project/linux-media/patch/20220517125548.14746-2-smitha.t@samsung.com/
+
+Aakarsh Jain (10):
+  dt-bindings: media: s5p-mfc: Add mfcv12 variant
+  media: s5p-mfc: Rename IS_MFCV10 macro
+  media: s5p-mfc: Add initial support for MFCv12
+  media: s5p-mfc: Add YV12 and I420 multiplanar format support
+  media: s5p-mfc: Add support for rate controls in MFCv12
+  media: s5p-mfc: Add support for UHD encoding.
+  media: s5p-mfc: Add support for DMABUF for encoder
+  media: s5p-mfc: Set context for valid case before calling try_run
+  media: s5p-mfc: Load firmware for each run in MFCv12.
+  media: s5p-mfc: DPB Count Independent of VIDIOC_REQBUF
+
+ .../bindings/media/samsung,s5p-mfc.yaml       |  18 ++
+ .../platform/samsung/s5p-mfc/regs-mfc-v12.h   |  52 +++
+ .../platform/samsung/s5p-mfc/regs-mfc-v7.h    |   1 +
+ .../platform/samsung/s5p-mfc/regs-mfc-v8.h    |   3 +
+ .../media/platform/samsung/s5p-mfc/s5p_mfc.c  |  36 ++-
+ .../platform/samsung/s5p-mfc/s5p_mfc_common.h |  33 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_ctrl.c   |  15 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_dec.c    |  60 +++-
+ .../platform/samsung/s5p-mfc/s5p_mfc_enc.c    | 149 ++++++---
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr.h    |  14 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr_v5.c |  12 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.c | 299 ++++++++++++++----
+ .../platform/samsung/s5p-mfc/s5p_mfc_opr_v6.h |   7 +-
+ 13 files changed, 550 insertions(+), 149 deletions(-)
+ create mode 100644 drivers/media/platform/samsung/s5p-mfc/regs-mfc-v12.h
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.17.1
+
 
