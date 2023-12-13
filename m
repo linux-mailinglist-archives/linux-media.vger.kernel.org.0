@@ -1,104 +1,133 @@
-Return-Path: <linux-media+bounces-2371-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2372-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8140681197C
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 17:30:44 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95DA68119AF
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 17:39:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0868B1F219F6
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 16:30:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B5E821C2103A
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 16:39:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6163A39FC5;
-	Wed, 13 Dec 2023 16:30:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gO+f/cqG"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F99A364B3;
+	Wed, 13 Dec 2023 16:39:11 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F8C225CC;
-	Wed, 13 Dec 2023 16:30:23 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35723C433C8;
-	Wed, 13 Dec 2023 16:30:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702485023;
-	bh=HRBRVfRwW6fBHYqFd8htivjXQBwnnBiOHlRPk7NDL7Y=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gO+f/cqGxjSkA8AiQnDKxIMJHJSwp55yP81+AE7TivkWR4YKMO1pvRsR0LlMGSzCp
-	 0VsSID4kfeqPRSA7EGypu5YeFMZeP35UmOgLcXz0Yc94MNiMCloEYqP3/hN+xTmaEr
-	 q/cAOtDgz2sYdM35+W161wGQ0DidI9nV9PwzKLWy2wTHBrQW2Mce9B3a21LOyxkygs
-	 4lTPAdiqkMYypN0tUlhMmqtoQX4+wKDZfyGJqUh1WiKgUgM+IN/WaR+BlYv/pPafXD
-	 9v6utNMdgjtoeOlS/pC4s7T/D5OMiC47SwooA36qFEv5sLEABeWxjDw5BV6UB5HRq2
-	 2KCstDSVQQ+Hg==
-Date: Wed, 13 Dec 2023 16:30:18 +0000
-From: Conor Dooley <conor@kernel.org>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: benjamin.mugnier@foss.st.com, sylvain.petinot@foss.st.com,
-	mchehab@kernel.org, robh+dt@kernel.org,
-	krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org,
-	kernel@collabora.com, devicetree@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: dt-bindings: st-vgxy61: relax data-lanes
- restriction
-Message-ID: <20231213-chest-turf-8e9c4fb0a3db@spud>
-References: <20231213071737.1070162-1-julien.massot@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C83FD35F10;
+	Wed, 13 Dec 2023 16:39:10 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A428BC433C8;
+	Wed, 13 Dec 2023 16:39:07 +0000 (UTC)
+Message-ID: <839535af-acba-4240-b9c6-d592d898dc4c@xs4all.nl>
+Date: Wed, 13 Dec 2023 17:39:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="gDFLM+tbaHAK4Q43"
-Content-Disposition: inline
-In-Reply-To: <20231213071737.1070162-1-julien.massot@collabora.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/3] videobuf2: core: Rename min_buffers_needed field
+ to vb2_queue
+Content-Language: en-US, nl
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, mchehab@kernel.org,
+ tfiga@chromium.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20231211133251.150999-1-benjamin.gaignard@collabora.com>
+ <20231211133251.150999-2-benjamin.gaignard@collabora.com>
+From: Hans Verkuil <hverkuil@xs4all.nl>
+Autocrypt: addr=hverkuil@xs4all.nl; keydata=
+ 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
+In-Reply-To: <20231211133251.150999-2-benjamin.gaignard@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Benjamin,
 
---gDFLM+tbaHAK4Q43
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On 11/12/2023 14:32, Benjamin Gaignard wrote:
+> Rename min_buffers_needed into min_queued_buffers and update
+> the documentation about it.
 
-On Wed, Dec 13, 2023 at 08:17:37AM +0100, Julien Massot wrote:
-> The ST VGXY61 sensors support multiple lane number, as
-> well as lane mapping.
->=20
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> ---
->  .../devicetree/bindings/media/i2c/st,st-vgxy61.yaml        | 7 ++-----
->  1 file changed, 2 insertions(+), 5 deletions(-)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yam=
-l b/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
-> index 8c28848b226a..733fac85a20f 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/st,st-vgxy61.yaml
-> @@ -67,11 +67,8 @@ properties:
->            data-lanes:
->              description:
->                CSI lanes to use
-> -            items:
-> -              - const: 1
-> -              - const: 2
-> -              - const: 3
-> -              - const: 4
-> +            minItems: 1
-> +            maxItems: 4
+I merged this patch, but not the others. I also dropped one functional
+change:
 
-So, it is now valid to have "data-lanes =3D <6 7 8>;" now?
+<snip>
 
---gDFLM+tbaHAK4Q43
-Content-Type: application/pgp-signature; name="signature.asc"
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 40d89f29fa33..8912dff5bde3 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -865,7 +865,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>  	/*
+>  	 * Make sure the requested values and current defaults are sane.
+>  	 */
+> -	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
+> +	num_buffers = max_t(unsigned int, *count, q->min_queued_buffers + 1);
+>  	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
+>  	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+>  	/*
 
------BEGIN PGP SIGNATURE-----
+That "+ 1" didn't really belong here, since everything else was just renaming a
+field. Such a patch shouldn't make any other changes.
 
-iHUEABYIAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCZXncGgAKCRB4tDGHoIJi
-0velAQC3EX1f+VCEzQgsU05Jb23yeS6pOYuiFfgVCVBIPG+k4AD+PAaWgQom7G3B
-bPYcDubG+5galoD1l+QKMWYPxJPOKAY=
-=51/2
------END PGP SIGNATURE-----
+There were also three more occurrences of min_buffers_needed (one in a comment,
+two in a vivid function argument), and I renamed those as well.
 
---gDFLM+tbaHAK4Q43--
+'git grep min_buffers_needed' now no longer shows any hits.
+
+I decided not to take the other patches, I think it is best if you rebase
+and repost the series on top of staging and in the new year we'll continue with
+it. I did not feel that I had enough time to really review the remaining patches.
+
+However, it is nice to have this large rename patch merged. It touches on a lot
+of files, so it is annoying to have to carry that around. And now was a good
+moment to merge it.
+
+Regards,
+
+	Hans
 
