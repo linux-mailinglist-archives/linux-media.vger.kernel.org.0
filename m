@@ -1,106 +1,107 @@
-Return-Path: <linux-media+bounces-2285-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2286-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4570E810818
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 03:19:25 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F6F0810865
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 03:49:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 010C0282300
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 02:19:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1B5B5B20FFC
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 02:49:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C6792115;
-	Wed, 13 Dec 2023 02:19:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DyCeS9Gm"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A9EC1C06;
+	Wed, 13 Dec 2023 02:49:47 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61FAB1C01;
-	Wed, 13 Dec 2023 02:19:11 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CBD23C433C8;
-	Wed, 13 Dec 2023 02:19:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702433950;
-	bh=DQPF3GcanIRKcaZKx1G5ZSV6kAy0I6t5QN8G9OuMZdM=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DyCeS9GmtbFGFSsFn5YSGcJgY03zFug1iziwTrwVmg/ZlNI8m4c58IveouykxEdqa
-	 EMnEhzuZ63StLiesj5cSjbJf4TmG4ZBa1yJ7JCzsdawYg44TMs0dyNRoLJ1GELn1tz
-	 mZ0ttW2DALNof274ibmywvx6VjyQmwZ21hJje2+EzxdBAhAbf2HCJYKHiiZ+1qP7MN
-	 awBRzsmBQJpRFMscNENawsc7TC/PSZAjpMEzMokycEPjSXZZ9oUEEmo+Oekfpv6dsz
-	 Lulob+ZQQMb5SPxcQHqSMtRg1Oa5btnY+jl5DG0GR/t04qzTQhWGqHRNhfn4l51+iE
-	 FdNU7DP2aIKOg==
-Message-ID: <cd464bae-af47-42f1-ac9f-9620137ede89@kernel.org>
-Date: Tue, 12 Dec 2023 18:19:09 -0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A9CF417F4
+	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 02:49:46 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC6B0C433C8
+	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 02:49:45 +0000 (UTC)
+Date: Wed, 13 Dec 2023 03:49:43 +0100
+Message-ID: <700e125d3955ac47eff3d0d42574bbe3.hverkuil@xs4all.nl>
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory
- provider
-Content-Language: en-US
-To: Mina Almasry <almasrymina@google.com>, Jason Gunthorpe <jgg@nvidia.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
- Jeroen de Borst <jeroendb@google.com>,
- Praveen Kaligineedi <pkaligineedi@google.com>,
- Jesper Dangaard Brouer <hawk@kernel.org>,
- Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann
- <arnd@arndb.de>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
- Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- Yunsheng Lin <linyunsheng@huawei.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>, Christoph Hellwig <hch@infradead.org>
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-9-almasrymina@google.com>
- <20231212122535.GA3029808@nvidia.com>
- <CAHS8izMVMx0fpT=dWsnD7piqs1g7Fam8Xf5dK3iOFNxeOQD9vQ@mail.gmail.com>
- <20231212143942.GF3014157@nvidia.com>
- <CAHS8izNHtemjjkMf43grCHP1RZ=2UFiMtgea0M6+PaAgC=DDMQ@mail.gmail.com>
- <20231212150834.GI3014157@nvidia.com>
- <CAHS8izMdKYyjE9bdcFDWWPWECwVZL7XQjtjOFoTq5_bEEJvN6w@mail.gmail.com>
-From: David Ahern <dsahern@kernel.org>
-In-Reply-To: <CAHS8izMdKYyjE9bdcFDWWPWECwVZL7XQjtjOFoTq5_bEEJvN6w@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 12/12/23 6:09 PM, Mina Almasry wrote:
-> OK, I imagine this is not that hard to implement - it's really whether
-> the change is acceptable to reviewers.
-> 
-> I figure I can start by implementing a no-op abstraction to page*:
-> 
-> typedef struct page netmem_t
-> 
-> and replace the page* in the following places with netmem_t*:
-> 
-> 1. page_pool API (not internals)
-> 2. drivers using the page_pool.
-> 3. skb_frag_t.
-> 
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-accessors to skb_frag_t field are now consolidated to
-include/linux/skbuff.h (the one IB driver was fixed in Sept by
-4ececeb83986), so changing skb_frag_t from bio_vec to something like:
+Results of the daily build of media_tree:
 
-typedef struct skb_frag {
-	void *addr;
-	unsigned int length;
-	unsigned int offset;
-};
+date:			Wed Dec 13 03:00:13 CET 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	c2a8653c197d67f8ad563f5417f2e9bcaad913f3
+v4l-utils git hash:	7823e3dc0dcf88f114514b42b945941cc4d0729d
+edid-decode git hash:	1e99fe84c08d2cea5d86668ac6948e382ef545e3
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8526-gd4827317
+sparse version:		v0.5.0-8526-gd4827317
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 7f2b6a17d7e96bd3784acdf5a85be8574a31b358
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
-is trivial. From there, addr can default to `struct page *`. If LSB is
-set, strip it and return `struct page_pool_iov *` or `struct buffer_pool *`
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm.config: OK
+no-pm-sleep.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/i2c/adv7180.c:1518 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1518.
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Wed Dec 13 03:19:43 CET 2023
+virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 5
+virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 3
+
+date:			Wed Dec 13 03:48:32 CET 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Wednesday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
