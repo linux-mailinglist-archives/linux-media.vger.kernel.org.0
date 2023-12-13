@@ -1,205 +1,179 @@
-Return-Path: <linux-media+bounces-2333-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2334-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3548381104C
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 12:38:53 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5CE60811061
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 12:43:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C9B70B20F38
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 11:38:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 127BF1F212D5
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 11:43:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42A4024218;
-	Wed, 13 Dec 2023 11:38:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7EE7928DA6;
+	Wed, 13 Dec 2023 11:42:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nhwUp3kw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="d+0hS6fY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-x22a.google.com (mail-lj1-x22a.google.com [IPv6:2a00:1450:4864:20::22a])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4DC4AA5;
-	Wed, 13 Dec 2023 03:38:39 -0800 (PST)
-Received: by mail-lj1-x22a.google.com with SMTP id 38308e7fff4ca-2c9f7fe6623so86032871fa.3;
-        Wed, 13 Dec 2023 03:38:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702467517; x=1703072317; darn=vger.kernel.org;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=erM8V8RgO6KRLO/yh7jID1/baZLh+uPtPuh+atBa3V8=;
-        b=nhwUp3kwWdijRB46PbhVx0WQfR69/iV7strFztaFgKqOZ06Ok3IFKHeLOgvUIqm0Fg
-         YdDF/uOGsJzL/SocLsI/78wLKhNMAQrLjxa4sW6rbFapEhRbKJ9MVROSzhPmB5Dvd/Cl
-         YGs/AHfGIRcoaGyAT75K0yXxVcL7ovj3z7WXwQqR7wsir9GnHFH3smfMhrYsAgKQ00mH
-         II7rCOZHJ9lwYNI8VSVmcU1L2TfhhO40Yl6gEUkLiU8PIhaH58LiQeAcqdJ4Xr9nvNrl
-         s9+FxNjPGkLllRmh6WU51sL3GAbXYW2lxkh928fxUAPbWZFPGZ028cR1FTuVS5Cgmvhm
-         jp/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702467517; x=1703072317;
-        h=mime-version:references:in-reply-to:message-id:subject:cc:to:from
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=erM8V8RgO6KRLO/yh7jID1/baZLh+uPtPuh+atBa3V8=;
-        b=N333lWZ4bUkQGK5MU16ZmMDPkA2XqI23RhXlwimSlbJqe9zbX6gpGkuAFr3l4jXBJ6
-         H2eSlX3aYRGDACKTtNqTkjYOunaSdk3/Lf8WT9lNN8oSJNzbCRsDqXkNrN/Hyi36aLiy
-         8PKH20LAa0eoS6mOhigjJlKU2YC3mpc/0ZEj9eGbiMq9/By1wiBI/4mk3j7FfvwdEaTl
-         DBXdY8F80I9sw3zM9WJIl6UoHooIv20J7Ux47VERU+oAdiP6op8uieX8pEAxY7SlXvvu
-         tgT2hYAprUKWs3Nr8tOMW8W1dqVQG48zBFkSBlLJ8d/Bn2u+XWH+qwPhAVAwRBgCPn0a
-         72fA==
-X-Gm-Message-State: AOJu0YxGaeIhjHdr11xMFOfVKyTJI8LbOV9r6sc7jvl5X5kyAhmIFV05
-	ymki4tbODHRCMfXKO4Ve2FY=
-X-Google-Smtp-Source: AGHT+IGrw7mppJSoNS7Dsgtj7c74Wvr4sERgMIvNl5Jx450IZ2/p127Sh3s8TK2qiUjKMuJrmp211w==
-X-Received: by 2002:a2e:330e:0:b0:2ca:226:423b with SMTP id d14-20020a2e330e000000b002ca0226423bmr2342385ljc.48.1702467517050;
-        Wed, 13 Dec 2023 03:38:37 -0800 (PST)
-Received: from eldfell ([194.136.85.206])
-        by smtp.gmail.com with ESMTPSA id q6-20020a2e2a06000000b002c9e9c29670sm1767204ljq.47.2023.12.13.03.38.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 13 Dec 2023 03:38:36 -0800 (PST)
-Date: Wed, 13 Dec 2023 13:38:25 +0200
-From: Pekka Paalanen <ppaalanen@gmail.com>
-To: Joakim Bech <joakim.bech@linaro.org>
-Cc: Simon Ser <contact@emersion.fr>, Yong Wu <yong.wu@mediatek.com>, Rob
- Herring <robh+dt@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- christian.koenig@amd.com, Matthias Brugger <matthias.bgg@gmail.com>,
- dri-devel@lists.freedesktop.org, John Stultz <jstultz@google.com>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Jeffrey Kardatzke
- <jkardatzke@google.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Vijayanand Jitta
- <quic_vjitta@quicinc.com>, Nicolas Dufresne <nicolas@ndufresne.ca>,
- jianjiao.zeng@mediatek.com, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
- ckoenig.leichtzumerken@gmail.com, linaro-mm-sig@lists.linaro.org,
- linux-mediatek@lists.infradead.org, tjmercier@google.com,
- linux-arm-kernel@lists.infradead.org, AngeloGioacchino Del Regno
- <angelogioacchino.delregno@collabora.com>, kuohong.wang@mediatek.com,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 0/7] dma-buf: heaps: Add secure heap
-Message-ID: <20231213133825.0a329864@eldfell>
-In-Reply-To: <20231213101549.lioqfzjxcvmqxqu3@pop-os.localdomain>
-References: <20231212024607.3681-1-yong.wu@mediatek.com>
-	<DPBmATfmfvSP8Cwjz99kj_JvCEiAqRfuMFJZEBF2aIgl8NZqWFR66eyPTX1E8bHyOlimBihEE3E80p9bfOJ-0SNu8pwoIzL9gD2Xae6r97g=@emersion.fr>
-	<20231213110517.6ce36aca@eldfell>
-	<20231213101549.lioqfzjxcvmqxqu3@pop-os.localdomain>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 867DD2102;
+	Wed, 13 Dec 2023 03:41:01 -0800 (PST)
+Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE02C4A9;
+	Wed, 13 Dec 2023 12:40:12 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1702467613;
+	bh=U5Sl/8akVgGXSTqWebMp2cKRgygGupARWXiB7pAgeeo=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=d+0hS6fY0MTEvG+gySOD9j9U3sMllHEK1cGUPxx920bwpLyqXb3bWz8idwTOaZqMf
+	 ZiYEM5NMkrKur/lzsobmXjsQCwsym8P49t8eMlxIIYNqZdBKJQ10xMVoe+/VvO0WsW
+	 4GAzF9fpIMd4DFy8WESJ6BdvAafY34/5cd96m4Js=
+Message-ID: <5c5647d5-b389-4d71-9062-3a9921212079@ideasonboard.com>
+Date: Wed, 13 Dec 2023 13:40:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/xTcL2+m+K.KNDg_qGM9LG9u";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] [v2] media: i2c: mt9m114: use fsleep() in place of
+ udelay()
+Content-Language: en-US
+To: Arnd Bergmann <arnd@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Nathan Chancellor <nathan@kernel.org>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc: Arnd Bergmann <arnd@arndb.de>, Nick Desaulniers
+ <ndesaulniers@google.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Shuah Khan
+ <skhan@linuxfoundation.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, llvm@lists.linux.dev
+References: <20231213112322.1655236-1-arnd@kernel.org>
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
+ 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
+In-Reply-To: <20231213112322.1655236-1-arnd@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---Sig_/xTcL2+m+K.KNDg_qGM9LG9u
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On 13/12/2023 13:23, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> With clang-16, building without COMMON_CLK triggers a range check on
+> udelay() because of a constant division-by-zero calculation:
+> 
+> ld.lld: error: undefined symbol: __bad_udelay
+>>>> referenced by mt9m114.c
+>>>>                drivers/media/i2c/mt9m114.o:(mt9m114_power_on) in archive vmlinux.a
+> 
+> In this configuration, the driver already fails to probe, before
+> this function gets called, so it's enough to suppress the assertion.
+> 
+> Do this by using fsleep(), which turns long delays into sleep() calls
+> in place of the link failure.
+> 
+> This is probably a good idea regardless to avoid overly long dynamic
+> udelay() calls on a slow clock.
+> 
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Fixes: 24d756e914fc ("media: i2c: Add driver for onsemi MT9M114 camera sensor")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>   drivers/media/i2c/mt9m114.c | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/mt9m114.c b/drivers/media/i2c/mt9m114.c
+> index 0a22f328981d..68adaecaf481 100644
+> --- a/drivers/media/i2c/mt9m114.c
+> +++ b/drivers/media/i2c/mt9m114.c
+> @@ -2116,7 +2116,7 @@ static int mt9m114_power_on(struct mt9m114 *sensor)
+>   		duration = DIV_ROUND_UP(2 * 50 * 1000000, freq);
+>   
+>   		gpiod_set_value(sensor->reset, 1);
+> -		udelay(duration);
+> +		fsleep(duration);
+>   		gpiod_set_value(sensor->reset, 0);
+>   	} else {
+>   		/*
 
-On Wed, 13 Dec 2023 11:15:49 +0100
-Joakim Bech <joakim.bech@linaro.org> wrote:
+I think this is fine, so:
 
-> On Wed, Dec 13, 2023 at 11:05:17AM +0200, Pekka Paalanen wrote:
-> > On Tue, 12 Dec 2023 16:36:35 +0000
-> > Simon Ser <contact@emersion.fr> wrote:
-> >  =20
-> > > Is there a chance to pick a better name than "secure" here?
-> > >=20
-> > > "Secure" is super overloaded, it's not clear at all what it means from
-> > > just the name. Something like "restricted" would be an improvement.
-> > >  =20
-> >=20
-> > My thoughts exactly. Every time I see "secure" used for something that
-> > either gives you garbage, refuses to work, or crashes your whole machine
-> > *intentionally* when you try to do normal usual things to it in
-> > userspace (like use it for GL texturing, or try to use KMS writeback), I
-> > get an unscratchable itch.
-> >=20
-> > There is nothing "secure" from security perspective there for end users
-> > and developers. It's just inaccessible buffers.
-> >=20
-> > I've been biting my lip until now, thinking it's too late.
-> >  =20
-> The characteristics we're looking for here is a buffer where the content
-> is inaccessible to the normal OS and user space, i.e., Non-secure EL0 to
-> EL2. I.e, the content of the buffer is meant to be used and accessible
-> primarily by the secure side and other devices that has been granted
+Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-s/secure side/proprietary side/
+But: If we don't have COMMON_CLK (or rather, I think, HAVE_CLK), the 
+freq will be zero at compile time. So won't the compiler give a warning 
+for the DIV_ROUND_UP() call?
 
-I presume nothing of the other side can ever be in any way open?
+Interestingly, for me, this doesn't give a div-by-zero warning:
 
-Maybe the other side is even less secure than the FOSS side...
+	int x;
+	int y = 0;
+	x = DIV_ROUND_UP(10, y);
 
-> access to it (for example decoders, display controllers if we're talking
-> about video use cases). However, since the use cases for this exercises
-> the whole stack, from non-secure user space (EL0) all the way to secure
-> user space (S-EL0), with various devices needing access to the buffer at
-> various times, it makes sense to let Linux manage the buffers, although
-> it still cannot access the content. That's the overall context.
+but this does:
 
-Yes, we know all this (except for the exact meaning of EL0 etc.).
+	int x;
+	const int y = 0;
+	x = DIV_ROUND_UP(10, y);
 
-> As for the name, it's always difficult to find a name suitable precisely
-> describing what it is. "Secure" is perhaps vague, but it might still a
-> good choice, if you carefully describe what secure means for this
-> particular heap (in the source code and the documentation for it). For
+And looks like this gives the warning too:
 
-Carefully describe, as in, re-define.
+	int x;
+	const int y = 0;
+	if (y)
+		x = DIV_ROUND_UP(10, y);
 
-> example, the definition of "secure" for a secure heap as here could mean
-> that buffer content is inaccessible to the host OS and user space
-> running in normal world (using Arm nomenclature). I wouldn't have any
-> problems with calling it secure if, as said it's defined what we mean by
-> saying so. But I'm all ears for other suggestions as well.
->=20
-> Safe, protected, shielded, unreachable, isolated, inaccessible,
-> unaccessible, fortified, ... would any of these make more sense?
+So, I think, the code in the driver could fail to compile at some later 
+point, if the compiler warnings are improved (?), or if someone adds a 
+'const' in front of 'long freq = clk_get_rate(sensor->clk);' line.
 
-"Restricted" sounds like a good compromise to me. The buffers' usage is
-severely restricted.
+Maybe worry about that if it actually happens =).
 
-It is the opposite of "safe", because accessing the contents the wrong
-way can return garbage or intentionally crash the whole system,
-depending on the hardware implementation. One example is attempting to
-put such a buffer on a KMS plane while the connector HDCP state is not
-high enough, or a writeback connector is connected to the CRTC. It is
-really fragile. (Do KMS drivers fail an atomic commit that would
-violate the heap rules? Somehow I doubt that, who'd even know what the
-rules are.)
+  Tomi
 
-It is protected/shielded/fortified from all the kernel and userspace,
-but a more familiar word to describe that is inaccessible.
-"Inaccessible buffer" per se OTOH sounds like a useless concept.
-
-It is not secure, because it does not involve security in any way. In
-fact, given it's so fragile, I'd classify it as mildly opposite of
-secure, as e.g. clients of a Wayland compositor can potentially DoS the
-compositor with it by simply sending such a dmabuf. Or DoS the whole
-system.
-
-"Poisonous heap" would be fitting but politically inappropriate I
-guess. After all, "poison" is data that is not meant to be read by
-anything normal.
-
-
-Thanks,
-pq
-
---Sig_/xTcL2+m+K.KNDg_qGM9LG9u
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmV5l7EACgkQI1/ltBGq
-qqd21w/7B5AOlcm0BJvZ+kXMgngEgshf4OR5HVOLoGtC3uQwgQJLmIotDzGjaXnM
-YNpvxE7i3jgF/MvfUynt58CspSm4fcgJzP5fjqD5zTAQ7BH2PFxnyl8Ko1AemP1A
-yauV0Fco65ZDgsZRGCxZeCI60vtceCYPECULnQSC67w2ToHsdQsgaSH2DnTmNPgZ
-TSqV553NtqYEc4U1XcfN0kwwwG7l3B5k7Fv57eEcLbpYjHhVHDc2Lbr138SWn7fx
-APC3vIZGlAKGPSDwHCApb/xA9SiCprT1nxKtqsPnYON3OWeivPqd8w3ehdaHGI93
-d5F6GM6c7XyTxSpde5H9UueQROreZB1JOrF81Pw4u3dJ0NMYjludA64BBnbDx4u7
-HDPQDMMtpq2Gvg+FosmzYa3Pf1laWztXyqcjhrvr9W7FPvzDOvnA8Jt05jgRYHBO
-Fi+ghVDeIkuiv3Yk5Ien7FStcO6OKjSeRErZvR3Cqu1ZdTZOd7+Pg7eZe+bdNtsN
-lEaSLNF8x9hRQjBE3hsP9El2dcOIZbvxElDhczpHy+mEfHyf4wp6slc8be+dFiwq
-b/kHVXxALVcRSBoa7E26WS0zcXgE0CyHkFAoMI/E6S2Ijxxf1UIGwTQyVzaUQ/V4
-5FZEBlGLow3ax7wAl+aXTOAubzc4cm+LI17q6TbeRqcL9y0EBcU=
-=P1qu
------END PGP SIGNATURE-----
-
---Sig_/xTcL2+m+K.KNDg_qGM9LG9u--
 
