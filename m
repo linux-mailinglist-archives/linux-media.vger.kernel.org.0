@@ -1,573 +1,188 @@
-Return-Path: <linux-media+bounces-2289-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2290-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7734C810B9E
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 08:39:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D86F8810BC6
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 08:49:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DF0CCB213C9
-	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 07:39:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8FFCD281643
+	for <lists+linux-media@lfdr.de>; Wed, 13 Dec 2023 07:49:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF28C199A7;
-	Wed, 13 Dec 2023 07:38:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1CDD1CA90;
+	Wed, 13 Dec 2023 07:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="evABdSB7"
+	dkim=pass (1024-bit key) header.d=corigine.onmicrosoft.com header.i=@corigine.onmicrosoft.com header.b="IfxPMc5e"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-x32f.google.com (mail-wm1-x32f.google.com [IPv6:2a00:1450:4864:20::32f])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEACDBD
-	for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 23:38:53 -0800 (PST)
-Received: by mail-wm1-x32f.google.com with SMTP id 5b1f17b1804b1-40c3963f9fcso26625e9.1
-        for <linux-media@vger.kernel.org>; Tue, 12 Dec 2023 23:38:53 -0800 (PST)
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2127.outbound.protection.outlook.com [40.107.243.127])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E44B0D0;
+	Tue, 12 Dec 2023 23:49:22 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=kZYczsKMA1jYFryT7K3AJHeoVjCpI//g8z+Ae71F3uLxUhXxjGvVnUPCieV05nAZ1zugmiRX3WpKphim2+6EYRasDffyHw1bXCo8U7k64SpqK/BTkQeXfrSIy6Bd6VDrT1rmqdcefJP87Rn1gRAw3fBX7bJvegWPK2daaZAwuyoMhpokWT2AbeBv4rS6qBwJzQFjIbJJgl8J/uGemJ1jxLM5x2SXn5POcJnZtVExCMgUbAqjN/0uhrGp/GqW91igODF8EJSwfRUDo4IeoQSQyg4TF0wy+VF29N6nJtOZ2I8aly9ywdpqXbmHlrKyyyX+jb/wuQJ7Ms1YzVzzMdDm5A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=x4EN4hxm4yC3+hbu01w6YOLOueOVafh1vFMtbiyyAlM=;
+ b=XwHbI8/5VNECi9s3utDIDNvISeexz71FHyjPtxflvhTN8ooGAHZqTuifSjTjQnetx4EvfJ1ZIzej/UWpXvAL3SG+bBjlvqriRYQkA3sxTKnMHNI323bHJWzaNzlAn6gURRU9bbRlbEfoX7IDbMOCcrjSeB5n0d3BtipHTbx/ctmVwHUF6offz7oPA932czMzrjoGINtmc1MDjPpxyxqy+zSBO5BkshgyTyGKNMzdJLh8QDNQM+g+bjHFghTNMvZOKZkTc7nQLrUsUQEhobRDPBqCH+A3SZ6Wl1lAXWSSg/DUaNZojGVqXjdhildCGbtdiWOzhjQCM3wmfTiJZGSveA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=corigine.com; dmarc=pass action=none header.from=corigine.com;
+ dkim=pass header.d=corigine.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702453132; x=1703057932; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nLWJ1nJJMwbwhtoKkhTWoCIMLBpFKkGiZcm1cGNRmTY=;
-        b=evABdSB7tFAFc8NX29Klitt61qvUdwnTo9FBI6ASdxR/4+d0JJpqBrFS+rGNSROJbP
-         KhjnSd7VQIsthOyxNl1cZTBzpI9NXn9KiQkBfWmIbSNdSiYi3+AzmfyQBEP+Al+zPe7V
-         tc9W4CLYtuuFI4JW2LoBS4arRW/RBy/IxBai5IsCuEXNO83SovRN1H2hjvP7MUhKBpV4
-         +64Zl/kz0iV2/0WaaDMEI34/tJ2I8g9ecgRFvf0bZX/HYRy0nBwOCL2JwNGzA5uKUbES
-         oJDX3IgrZuikq6hz61R9dhmGMLFJIY31CaQRs5ehh+lPlEIt/EmUnLTioVOLlYMH8LFi
-         ny6A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702453132; x=1703057932;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nLWJ1nJJMwbwhtoKkhTWoCIMLBpFKkGiZcm1cGNRmTY=;
-        b=LPGwj1saVyDKqL1PXDpkGcj5d33ogf0ak1a8C/69p6cPFsGza3dzWGPAO/7GKRiRKY
-         7gUQZmN4KNz2bWSSyizkyB4Lcj7dE6RFJai6bEYtCLanhhnECIN4w7NGpyX2/OfHPgZh
-         PJBgL5QI8gQqeVmyikFrhZSVTNp9fVBaBj/SlTig32yCp64JdGZpUZ4BbhLoQA4ri6T4
-         OOP0xGPzr9ZR8OmBcaIUVOpG4q0hsF/vuGnLt78kHeCyfRg01M3qX41rUDWv9QYlpMjL
-         nfmiN7L4L0stCDdvAA4zNDVVI1YeJPmSmluKCM4lbZAK/N5/Koqw4pd7qcDHQOT6RVSo
-         +qRQ==
-X-Gm-Message-State: AOJu0YzVKpirlDmiBipG8140e5cnNi8hptq3WojpgnvflCjaOZ6ceKxm
-	cKJRKaOrBMGUUvU3SeETICFUIapRUUbRCAZ4PNWHjg==
-X-Google-Smtp-Source: AGHT+IFxC9E6JjPH5SHnU9ewmgq+zFgtQ3bKu5lh/zTi6m9kLcyj9oKG60F5TKwc7lU78hxLmolWFPATDWZmpFXwwbA=
-X-Received: by 2002:a05:600c:3648:b0:3f7:3e85:36a with SMTP id
- y8-20020a05600c364800b003f73e85036amr374246wmq.7.1702453131929; Tue, 12 Dec
- 2023 23:38:51 -0800 (PST)
+ d=corigine.onmicrosoft.com; s=selector2-corigine-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=x4EN4hxm4yC3+hbu01w6YOLOueOVafh1vFMtbiyyAlM=;
+ b=IfxPMc5emAfGqmYt9nWbJROAM7j4IecpWQ868AJsW6xu/BNRUOzkyAjZGo2UP53jTDwshQLZEkEPYiRw6JTAz9ll50JtB7aoWSfYB168qIdBmUL0P+UiJPgOHEVtb7fex+zFqGTcYnRqDAZF6zNYcDBr9/oPKeJHkqR4ji5XUfs=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=corigine.com;
+Received: from DM6PR13MB3705.namprd13.prod.outlook.com (2603:10b6:5:24c::16)
+ by MN2PR13MB3911.namprd13.prod.outlook.com (2603:10b6:208:268::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.26; Wed, 13 Dec
+ 2023 07:49:18 +0000
+Received: from DM6PR13MB3705.namprd13.prod.outlook.com
+ ([fe80::91e8:b139:26e3:f374]) by DM6PR13MB3705.namprd13.prod.outlook.com
+ ([fe80::91e8:b139:26e3:f374%3]) with mapi id 15.20.7091.022; Wed, 13 Dec 2023
+ 07:49:18 +0000
+From: Yinjun Zhang <yinjun.zhang@corigine.com>
+To: almasrymina@google.com
+Cc: arnd@arndb.de,
+	bpf@vger.kernel.org,
+	christian.koenig@amd.com,
+	corbet@lwn.net,
+	davem@davemloft.net,
+	dri-devel@lists.freedesktop.org,
+	dsahern@kernel.org,
+	edumazet@google.com,
+	hawk@kernel.org,
+	hramamurthy@google.com,
+	ilias.apalodimas@linaro.org,
+	jeroendb@google.com,
+	kaiyuanz@google.com,
+	kuba@kernel.org,
+	linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linyunsheng@huawei.com,
+	netdev@vger.kernel.org,
+	pabeni@redhat.com,
+	pkaligineedi@google.com,
+	shailend@google.com,
+	shakeelb@google.com,
+	shuah@kernel.org,
+	sumit.semwal@linaro.org,
+	willemb@google.com,
+	willemdebruijn.kernel@gmail.com
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
+Date: Wed, 13 Dec 2023 15:49:12 +0800
+Message-Id: <20231213074912.1275130-1-yinjun.zhang@corigine.com>
+X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20231208005250.2910004-9-almasrymina@google.com>
+References: <20231208005250.2910004-9-almasrymina@google.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0038.apcprd02.prod.outlook.com
+ (2603:1096:4:196::22) To DM6PR13MB3705.namprd13.prod.outlook.com
+ (2603:10b6:5:24c::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231201071907.3080126-1-yunkec@google.com> <20231201071907.3080126-6-yunkec@google.com>
- <20231208150713.GB22113@pendragon.ideasonboard.com>
-In-Reply-To: <20231208150713.GB22113@pendragon.ideasonboard.com>
-From: Yunke Cao <yunkec@google.com>
-Date: Wed, 13 Dec 2023 16:38:40 +0900
-Message-ID: <CANqU6Fd1W-jcRGEM4ObkGqxNYhuX2KCb-LE1QGuaN_EjsCwFdw@mail.gmail.com>
-Subject: Re: [PATCH v14 05/11] media: uvcvideo: Add support for compound controls
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Daniel Scally <dan.scally@ideasonboard.com>, 
-	Tomasz Figa <tfiga@chromium.org>, Sergey Senozhatsky <senozhatsky@chromium.org>, 
-	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR13MB3705:EE_|MN2PR13MB3911:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8ffd81d8-5acf-4e69-b4fb-08dbfbb00298
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info:
+	u/TFxhMaUPlO9CrG39J2/Pl6caQYn7popi3+XThmNNeawNdL0CA0v6K8IbQrveg5QO2OttFrpymBQ3EAGpFCPya2TUUC+ilE/GRlRL8YWhsFn/Q/OyRAD9VmgVLPWPRq1Rubvxnvep1n8MN9bok1dZr+VLEmmEXIshlHECTefN5W9kmfRycjAiObNWHL9FPbKAQl4xfrI+aceIF7+HTcgUuwu7a2yWd082rQuQGw7/VtKVQpsL3OJ/ZbArJmR3ravSpzeM/Hjnl9bKeJqt9LQFrkxpjqLHva9Obz0eR1wzPCTcY9Y9lI7M9RsPlYrMCXXF7pJUQd5B80dz/ez/lV/Qp9vVbLCkBFosisF6A5y1swNgB+Pgl6Dk9SCwjf4aWxdUQYiHb2QfuSkpHxNDJzuf7qEhVgUqCPiN8XWfD0M0AKJHz5HuncfwDuB1QOR1uuy3Pk/O3cLNKnFd+it8PObbPEzv4x0ntKKd2VA2VEklvoARLs10REkLL0ROboFTTQ4XncgEs11ZLw1W2m5m2t1up3sHnDLNe9/xFVKR44tbM5T+JIf9I9PapZWrjQzCiDsHi3YCEc3tJ7f2wf7LuXkBN3s+tbSYFM6Ixgkeuk2eL/gWenjN5DTWOeCfc65n3eD0Y/+JeWvg20zNSyYugE0rvXzs994jHLmiheHsZOjiM=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR13MB3705.namprd13.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(39830400003)(346002)(396003)(376002)(136003)(366004)(230922051799003)(186009)(451199024)(1800799012)(64100799003)(38350700005)(66476007)(66946007)(66556008)(38100700002)(36756003)(86362001)(26005)(83380400001)(1076003)(52116002)(6512007)(6506007)(2616005)(2906002)(7416002)(7406005)(6486002)(6916009)(316002)(478600001)(6666004)(5660300002)(8936002)(8676002)(4326008)(44832011)(41300700001);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?GJH1GrK/kcD+ggAEBKftEI72XHFTrDvAHUiUqPb43B9V6IB/iob6DX4nTInO?=
+ =?us-ascii?Q?H/6eMN1QFQIIL/0Z41eCxtR+S2vlsUVJbHV4avP/VFLsD5o8V0XuaXTa5Aq7?=
+ =?us-ascii?Q?QSDblKvK+8vrJpoaa0ko3bnJ+C8gdNX5QtbBYClusaAUVPVgeWXLCXL8K/R6?=
+ =?us-ascii?Q?wXdDvkb99euwpbUw2aQruCIWl/GrkkwCGpXAzht8bCTpuYVhrm7yNqfL6nl5?=
+ =?us-ascii?Q?PPGPO9fzRddEzAqGfSfn7mm4waheg57pWWtP6NjUiTv0NZXSbRWIw+b31Cgj?=
+ =?us-ascii?Q?n0EvN5mNOHAy4YeMtkmgRHAsWMu0MsvD1ug3Wu7yUm8awPsyA93/sAUHzGwS?=
+ =?us-ascii?Q?zhTjZiY11kI7/FXx5mYnzeq9rjAeXJwSjZ9A8isWhq8MCuxocKyXqJw/FKM9?=
+ =?us-ascii?Q?O861Sd7MliRlGb0Yhq0jPMDy4biJXpHroPJSkpgwz6GaeRj5cYwbZtAJp0/n?=
+ =?us-ascii?Q?rX8uy20r/sFd1Qj89HwvgigZY5n6QEvSPMb6JHHUVV+pwIUXINEmWXGeeyBw?=
+ =?us-ascii?Q?QFGfYE/+2HHR7KQt7tQ9cElQAk5giAO1HPLyA7uto/pOImapiVKKzbycGBhi?=
+ =?us-ascii?Q?ZXlS0JDNmnzy/CtNqWoC9vj764qlr16ByUYTVZ8a+joIEVZOJBwE5i4/xXLd?=
+ =?us-ascii?Q?DJ77Y2jq+eEO5ZZ3p3nAG569NN/+zJ+UgFYwVPZLz5pDoSEh7gduv7U8uy6r?=
+ =?us-ascii?Q?Tmx4uc4I7aShhbf4TSVnjLYiZvsnA5B2ybayjxggI7WNFG5JJmV4SDbGuTXU?=
+ =?us-ascii?Q?SCvmzYqja6wefPr7I9Atc1OvDDbbiGFny2quETHPfKgsKuA5NG0dXtZdTL9d?=
+ =?us-ascii?Q?Wm8AixU07Sz3NqAeI6tZXOuaO358QPSqlGUlzjwmkALXrqAjSKuFSViYaLRH?=
+ =?us-ascii?Q?hOeBTnB6entC2EFxHRhlQGvhnwZ+mkyzbQsyXlC6cmCKj4ElWlM/dmko6mtI?=
+ =?us-ascii?Q?NT08b0JpObax7s956MM5Jj7eku0vdxj3OG/s3YG9iaMDmlbqFq5uA+Z/xNIw?=
+ =?us-ascii?Q?nPpH3akwGPfNtrZCYDMbEs08U2hfxlg1YleHmb8Z8hVwghXTcyOlVkSIbd6h?=
+ =?us-ascii?Q?6Ol2eMfA7gdjSwUUQ8QPlx5HztwCThIHxO3gl5z/EMOI+HcLzf5khXu+d6ZD?=
+ =?us-ascii?Q?a6ZY1xyOS6NLtgu4tgsDfEswxvA+uPzkJj3bFlxBm5n8nNBobya6jURi8DA+?=
+ =?us-ascii?Q?hObg27au4MDBgQt33AU3HzkPiwM2EEbOzxTpZ7hJOAuZ6Ampzh4wrEMH/wsk?=
+ =?us-ascii?Q?rlGEhaccSyeAH+PvXQxCLJsNO3Tlz3SBrqf21wIgUrjSvcJi8zs3/NDfbss1?=
+ =?us-ascii?Q?xCvC9qMlW6xVeMhaULQ+uetM89CBfJ22M2NyO8fMkBMmhQuV1fYsOLZaowOb?=
+ =?us-ascii?Q?c66aQ15RM3P8mgHUSNQXoIunhY3Y/HJ2rxEvhfCCURad+YCrJA/PRcbmMOoB?=
+ =?us-ascii?Q?/b5VFGqU2v42Ie4PGFce5iBH9SqNApjzPBMuEzN6t77aAwNulddI9Nr2Ctoa?=
+ =?us-ascii?Q?HPyKh9fJIT5T0t9wT/VyVIL3b/unQU4zz/pIJOfsj8O9fgQIiUZd/J1Fd4X/?=
+ =?us-ascii?Q?nEtfa2esrgKAlVjmmx0u6sZnUJW8+T89bFq/FswaTJrpI7731PhLBTKwyDO7?=
+ =?us-ascii?Q?Nw=3D=3D?=
+X-OriginatorOrg: corigine.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ffd81d8-5acf-4e69-b4fb-08dbfbb00298
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR13MB3705.namprd13.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 Dec 2023 07:49:18.4956
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: fe128f2c-073b-4c20-818e-7246a585940c
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VJGSBc4CBjl7hFKShRgkL1Xzv/9yW4v4oPFloOwak53LJsK0BMCy1D4Ste8jp4L7nt3qYEm2fgNWgJusDeJGu8VB1BavXe1OIAF4jiqyo+I=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR13MB3911
 
-Hi Laurent,
+On Thu,  7 Dec 2023 16:52:39 -0800, Mina Almasry wrote:
+<...>
+> +static int mp_dmabuf_devmem_init(struct page_pool *pool)
+> +{
+> +	struct netdev_dmabuf_binding *binding = pool->mp_priv;
+> +
+> +	if (!binding)
+> +		return -EINVAL;
+> +
+> +	if (!(pool->p.flags & PP_FLAG_DMA_MAP))
+> +		return -EOPNOTSUPP;
+> +
+> +	if (pool->p.flags & PP_FLAG_DMA_SYNC_DEV)
+> +		return -EOPNOTSUPP;
+> +
+> +	netdev_dmabuf_binding_get(binding);
+> +	return 0;
+> +}
+> +
+> +static struct page *mp_dmabuf_devmem_alloc_pages(struct page_pool *pool,
+> +						 gfp_t gfp)
+> +{
+> +	struct netdev_dmabuf_binding *binding = pool->mp_priv;
+> +	struct page_pool_iov *ppiov;
+> +
+> +	ppiov = netdev_alloc_dmabuf(binding);
 
-Thank you for the review!
+Since it only supports one-page allocation, we'd better add a check in
+`ops->init()` that `pool->p.order` must be 0.
 
-On Sat, Dec 9, 2023 at 12:07=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Yunke,
->
-> Thank you for the patch.
->
-> On Fri, Dec 01, 2023 at 04:18:56PM +0900, Yunke Cao wrote:
-> > Supports getting/setting current value.
-> > Supports getting default value.
-> > Handles V4L2_CTRL_FLAG_NEXT_COMPOUND.
->
-> Please write a better commit message.
->
-> > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> > Signed-off-by: Yunke Cao <yunkec@google.com>
-> > ---
-> > Changelog since v11:
-> > - No change.
-> > Changelog since v10:
-> > - Rewrite some logic in __uvc_find_control().
-> > - Remove a duplicate check in __uvc_ctrl_get_compound_cur().
-> > - Thanks, Daniel!
-> > Changelog since v9:
-> > - Make __uvc_ctrl_set_compound() static.
-> > Changelog since v8:
-> > - No change.
-> > Changelog since v7:
-> > - Fixed comments styles, indentation and a few other style issues.
-> > - Renamed uvc_g/set_array() to uvc_g/set_compound().
-> > - Moved size check to __uvc_ctrl_add_mapping().
-> > - After setting a new value, copy it back to user.
-> > - In __uvc_ctrl_set_compound(), check size before allocating.
-> >
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 179 +++++++++++++++++++++++++++----
-> >  drivers/media/usb/uvc/uvcvideo.h |   4 +
-> >  2 files changed, 164 insertions(+), 19 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/u=
-vc_ctrl.c
-> > index 98254b93eb46..aae2480496b7 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -884,6 +884,28 @@ static void uvc_set_le_value(struct uvc_control_ma=
-pping *mapping,
-> >       }
-> >  }
-> >
-> > +/*
-> > + * Extract the byte array specified by mapping->offset and mapping->da=
-ta_size
-> > + * stored at 'data' to the output array 'data_out'.
-> > + */
-> > +static int uvc_get_compound(struct uvc_control_mapping *mapping, const=
- u8 *data,
-> > +                         u8 *data_out)
-> > +{
-> > +     memcpy(data_out, data + mapping->offset / 8, mapping->data_size /=
- 8);
-> > +     return 0;
-> > +}
-> > +
-> > +/*
-> > + * Copy the byte array 'data_in' to the destination specified by mappi=
-ng->offset
-> > + * and mapping->data_size stored at 'data'.
-> > + */
-> > +static int uvc_set_compound(struct uvc_control_mapping *mapping,
-> > +                         const u8 *data_in, u8 *data)
-> > +{
-> > +     memcpy(data + mapping->offset / 8, data_in, mapping->data_size / =
-8);
-> > +     return 0;
-> > +}
-> > +
->
-> I may be missing something, but isn't this essentially dead code ? This
-> series adds support for a single compound control, with custom get/set
-> handlers, so these two default handlers will never be called.
->
-> I don't think it makes sense to have default handlers for compound
-> controls, I don't foresee any use case where a simple mempcy() will do
-> the right thing.
->
+> +	if (!ppiov)
+> +		return NULL;
+> +
+> +	ppiov->pp = pool;
+> +	pool->pages_state_hold_cnt++;
+> +	trace_page_pool_state_hold(pool, (struct page *)ppiov,
+> +				   pool->pages_state_hold_cnt);
+> +	return (struct page *)((unsigned long)ppiov | PP_IOV);
+> +}
+<...>
 
-Yes, they are dead code. I thought they would be useful for some
-controls. I will remove them in v15.
-
-> >  static bool
-> >  uvc_ctrl_mapping_is_compound(const struct uvc_control_mapping *mapping=
-)
-> >  {
-> > @@ -906,7 +928,7 @@ static int uvc_entity_match_guid(const struct uvc_e=
-ntity *entity,
-> >
-> >  static void __uvc_find_control(struct uvc_entity *entity, u32 v4l2_id,
-> >       struct uvc_control_mapping **mapping, struct uvc_control **contro=
-l,
-> > -     int next)
-> > +     int next, int next_compound)
-> >  {
-> >       struct uvc_control *ctrl;
-> >       struct uvc_control_mapping *map;
-> > @@ -921,14 +943,16 @@ static void __uvc_find_control(struct uvc_entity =
-*entity, u32 v4l2_id,
-> >                       continue;
-> >
-> >               list_for_each_entry(map, &ctrl->info.mappings, list) {
-> > -                     if ((map->id =3D=3D v4l2_id) && !next) {
-> > +                     if (map->id =3D=3D v4l2_id && !next && !next_comp=
-ound) {
-> >                               *control =3D ctrl;
-> >                               *mapping =3D map;
-> >                               return;
-> >                       }
-> >
-> >                       if ((*mapping =3D=3D NULL || (*mapping)->id > map=
-->id) &&
-> > -                         (map->id > v4l2_id) && next) {
-> > +                         (map->id > v4l2_id) &&
-> > +                         (uvc_ctrl_mapping_is_compound(map) ?
-> > +                          next_compound : next)) {
-> >                               *control =3D ctrl;
-> >                               *mapping =3D map;
-> >                       }
-> > @@ -942,6 +966,7 @@ static struct uvc_control *uvc_find_control(struct =
-uvc_video_chain *chain,
-> >       struct uvc_control *ctrl =3D NULL;
-> >       struct uvc_entity *entity;
-> >       int next =3D v4l2_id & V4L2_CTRL_FLAG_NEXT_CTRL;
-> > +     int next_compound =3D v4l2_id & V4L2_CTRL_FLAG_NEXT_COMPOUND;
-> >
-> >       *mapping =3D NULL;
-> >
-> > @@ -950,12 +975,13 @@ static struct uvc_control *uvc_find_control(struc=
-t uvc_video_chain *chain,
-> >
-> >       /* Find the control. */
-> >       list_for_each_entry(entity, &chain->entities, chain) {
-> > -             __uvc_find_control(entity, v4l2_id, mapping, &ctrl, next)=
-;
-> > -             if (ctrl && !next)
-> > +             __uvc_find_control(entity, v4l2_id, mapping, &ctrl, next,
-> > +                                next_compound);
-> > +             if (ctrl && !next && !next_compound)
-> >                       return ctrl;
-> >       }
-> >
-> > -     if (ctrl =3D=3D NULL && !next)
-> > +     if (!ctrl && !next && !next_compound)
-> >               uvc_dbg(chain->dev, CONTROL, "Control 0x%08x not found\n"=
-,
-> >                       v4l2_id);
-> >
-> > @@ -1101,12 +1127,59 @@ static int __uvc_ctrl_get_std(struct uvc_video_=
-chain *chain,
-> >       return 0;
-> >  }
-> >
-> > +static int __uvc_ctrl_get_compound(struct uvc_control_mapping *mapping=
-,
-> > +                                struct uvc_control *ctrl,
-> > +                                int id,
-> > +                                struct v4l2_ext_control *xctrl)
-> > +{
-> > +     u8 size;
-> > +     u8 *data;
-> > +     int ret;
-> > +
-> > +     size =3D mapping->v4l2_size / 8;
-> > +     if (xctrl->size < size) {
-> > +             xctrl->size =3D size;
-> > +             return -ENOSPC;
-> > +     }
-> > +
-> > +     data =3D kmalloc(size, GFP_KERNEL);
-> > +     if (!data)
-> > +             return -ENOMEM;
-> > +
-> > +     ret =3D mapping->get_compound(mapping, uvc_ctrl_data(ctrl, id), d=
-ata);
-> > +     if (ret < 0)
-> > +             goto out;
-> > +
-> > +     ret =3D copy_to_user(xctrl->ptr, data, size) ? -EFAULT : 0;
-> > +
-> > +out:
-> > +     kfree(data);
-> > +     return ret;
-> > +}
-> > +
-> > +static int __uvc_ctrl_get_compound_cur(struct uvc_video_chain *chain,
-> > +                                    struct uvc_control *ctrl,
-> > +                                    struct uvc_control_mapping *mappin=
-g,
-> > +                                    struct v4l2_ext_control *xctrl)
-> > +{
-> > +     int ret;
-> > +
-> > +     ret =3D __uvc_ctrl_load_cur(chain, ctrl);
-> > +     if (ret < 0)
-> > +             return ret;
-> > +
-> > +     return __uvc_ctrl_get_compound(mapping, ctrl, UVC_CTRL_DATA_CURRE=
-NT,
-> > +                                    xctrl);
-> > +}
-> > +
-> >  static int __uvc_query_v4l2_class(struct uvc_video_chain *chain, u32 r=
-eq_id,
-> >                                 u32 found_id)
-> >  {
-> > -     bool find_next =3D req_id & V4L2_CTRL_FLAG_NEXT_CTRL;
-> >       unsigned int i;
-> >
-> > +     bool find_next =3D req_id &
-> > +             (V4L2_CTRL_FLAG_NEXT_CTRL | V4L2_CTRL_FLAG_NEXT_COMPOUND)=
-;
-> > +
-> >       req_id &=3D V4L2_CTRL_ID_MASK;
-> >
-> >       for (i =3D 0; i < ARRAY_SIZE(uvc_control_classes); i++) {
-> > @@ -1194,7 +1267,7 @@ int uvc_ctrl_is_accessible(struct uvc_video_chain=
- *chain, u32 v4l2_id,
-> >       }
-> >
-> >       __uvc_find_control(ctrl->entity, mapping->master_id, &master_map,
-> > -                        &master_ctrl, 0);
-> > +                        &master_ctrl, 0, 0);
-> >
-> >       if (!master_ctrl || !(master_ctrl->info.flags & UVC_CTRL_FLAG_GET=
-_CUR))
-> >               return 0;
-> > @@ -1262,7 +1335,7 @@ static int __uvc_query_v4l2_ctrl(struct uvc_video=
-_chain *chain,
-> >
-> >       if (mapping->master_id)
-> >               __uvc_find_control(ctrl->entity, mapping->master_id,
-> > -                                &master_map, &master_ctrl, 0);
-> > +                                &master_map, &master_ctrl, 0, 0);
-> >       if (master_ctrl && (master_ctrl->info.flags & UVC_CTRL_FLAG_GET_C=
-UR)) {
-> >               s32 val =3D 0;
-> >               int ret;
-> > @@ -1278,6 +1351,15 @@ static int __uvc_query_v4l2_ctrl(struct uvc_vide=
-o_chain *chain,
-> >                               v4l2_ctrl->flags |=3D V4L2_CTRL_FLAG_INAC=
-TIVE;
-> >       }
-> >
-> > +     if (v4l2_ctrl->type >=3D V4L2_CTRL_COMPOUND_TYPES) {
-> > +             v4l2_ctrl->flags |=3D V4L2_CTRL_FLAG_HAS_PAYLOAD;
-> > +             v4l2_ctrl->default_value =3D 0;
-> > +             v4l2_ctrl->minimum =3D 0;
-> > +             v4l2_ctrl->maximum =3D 0;
-> > +             v4l2_ctrl->step =3D 0;
-> > +             return 0;
-> > +     }
-> > +
-> >       if (!ctrl->cached) {
-> >               int ret =3D uvc_ctrl_populate_cache(chain, ctrl);
-> >               if (ret < 0)
-> > @@ -1533,7 +1615,7 @@ static void uvc_ctrl_send_slave_event(struct uvc_=
-video_chain *chain,
-> >       u32 changes =3D V4L2_EVENT_CTRL_CH_FLAGS;
-> >       s32 val =3D 0;
-> >
-> > -     __uvc_find_control(master->entity, slave_id, &mapping, &ctrl, 0);
-> > +     __uvc_find_control(master->entity, slave_id, &mapping, &ctrl, 0, =
-0);
-> >       if (ctrl =3D=3D NULL)
-> >               return;
-> >
-> > @@ -1843,7 +1925,7 @@ static int uvc_ctrl_find_ctrl_idx(struct uvc_enti=
-ty *entity,
-> >
-> >       for (i =3D 0; i < ctrls->count; i++) {
-> >               __uvc_find_control(entity, ctrls->controls[i].id, &mappin=
-g,
-> > -                                &ctrl_found, 0);
-> > +                                &ctrl_found, 0, 0);
-> >               if (uvc_control =3D=3D ctrl_found)
-> >                       return i;
-> >       }
-> > @@ -1891,7 +1973,7 @@ int uvc_ctrl_get(struct uvc_video_chain *chain,
-> >               return -EINVAL;
-> >
-> >       if (uvc_ctrl_mapping_is_compound(mapping))
-> > -             return -EINVAL;
-> > +             return __uvc_ctrl_get_compound_cur(chain, ctrl, mapping, =
-xctrl);
-> >       else
-> >               return __uvc_ctrl_get_std(chain, ctrl, mapping, &xctrl->v=
-alue);
-> >  }
-> > @@ -1912,6 +1994,22 @@ static int __uvc_ctrl_get_boundary_std(struct uv=
-c_video_chain *chain,
-> >       return 0;
-> >  }
-> >
-> > +static int __uvc_ctrl_get_boundary_compound(struct uvc_video_chain *ch=
-ain,
-> > +                                         struct uvc_control *ctrl,
-> > +                                         struct uvc_control_mapping *m=
-apping,
-> > +                                         struct v4l2_ext_control *xctr=
-l)
-> > +{
-> > +     int ret;
-> > +
-> > +     if (!ctrl->cached) {
-> > +             ret =3D uvc_ctrl_populate_cache(chain, ctrl);
-> > +             if (ret < 0)
-> > +                     return ret;
-> > +     }
-> > +
-> > +     return __uvc_ctrl_get_compound(mapping, ctrl, UVC_CTRL_DATA_DEF, =
-xctrl);
-> > +}
-> > +
-> >  int uvc_ctrl_get_boundary(struct uvc_video_chain *chain,
-> >                         struct v4l2_ext_control *xctrl)
-> >  {
-> > @@ -1929,7 +2027,8 @@ int uvc_ctrl_get_boundary(struct uvc_video_chain =
-*chain,
-> >       }
-> >
-> >       if (uvc_ctrl_mapping_is_compound(mapping))
-> > -             ret =3D -EINVAL;
-> > +             ret =3D __uvc_ctrl_get_boundary_compound(chain, ctrl, map=
-ping,
-> > +                                                    xctrl);
-> >       else
-> >               ret =3D __uvc_ctrl_get_boundary_std(chain, ctrl, mapping,=
- xctrl);
-> >
-> > @@ -1938,6 +2037,34 @@ int uvc_ctrl_get_boundary(struct uvc_video_chain=
- *chain,
-> >       return ret;
-> >  }
-> >
-> > +static int __uvc_ctrl_set_compound(struct uvc_control_mapping *mapping=
-,
-> > +                                struct v4l2_ext_control *xctrl,
-> > +                                struct uvc_control *ctrl)
-> > +{
-> > +     u8 *data;
-> > +     int ret;
-> > +
-> > +     if (xctrl->size !=3D mapping->v4l2_size / 8)
-> > +             return -EINVAL;
-> > +
-> > +     data =3D kmalloc(xctrl->size, GFP_KERNEL);
-> > +     if (!data)
-> > +             return -ENOMEM;
-> > +
-> > +     ret =3D copy_from_user(data, xctrl->ptr, xctrl->size);
-> > +     if (ret < 0)
-> > +             goto out;
-> > +
-> > +     ret =3D mapping->set_compound(mapping, data,
-> > +                     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
-> > +
-> > +     __uvc_ctrl_get_compound(mapping, ctrl, UVC_CTRL_DATA_CURRENT, xct=
-rl);
->
-> Why do you need to call __uvc_ctrl_get_compound() here ?
->
-
-I was trying to copy the clamped control value back to the user.
-I guess we should do it in uvc_ctrl_set() after the refactor.
-
-> > +
-> > +out:
-> > +     kfree(data);
-> > +     return ret;
-> > +}
-> > +
-> >  int uvc_ctrl_set(struct uvc_fh *handle,
-> >       struct v4l2_ext_control *xctrl)
-> >  {
-> > @@ -2052,13 +2179,14 @@ int uvc_ctrl_set(struct uvc_fh *handle,
-> >                      ctrl->info.size);
-> >       }
-> >
-> > -     if (uvc_ctrl_mapping_is_compound(mapping))
-> > -             return -EINVAL;
-> > -     else
-> > +     if (uvc_ctrl_mapping_is_compound(mapping)) {
-> > +             ret =3D __uvc_ctrl_set_compound(mapping, xctrl, ctrl);
-> > +             if (ret < 0)
-> > +                     return ret;
-> > +     } else
-> >               mapping->set(mapping, value,
-> >                            uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT));
->
-> I really don't like how handling of compound controls is scattered
-> everywhere :-( That makes the code difficult to read, and thus more
-> error-prone.
->
-> Could this be refactored to simplify the implementation ? In particular,
-> I'm thinking about
->
-> - Moving the copy_from_user() and copy_to_user() towards the top of the
->   call stack, directly in uvc_ctrl_get(), uvc_ctrl_get_boundary() and
->   uvc_ctrl_set()
->
-
-Sorry, I'm not sure I understand it.
-For the uvc_ctrl_get() case, do you mean we should get rid of
-__uvc_ctrl_get_compound_cur()
-and call __uvc_ctrl_load_cur(), mapping->get() and copy_to_user()
-directly in uvc_ctrl_get()?
-
-Best,
-Yunke
-
-
-> - Merging the .[gs]et() and .[gs]et_compound() functions (see below)
->
-> - Moving the value clamping from uvc_set_compound_rect() to
->   uvc_ctrl_set(), with the rest of the clamping code
->
-> >
-> > -
-> >       if (ctrl->info.flags & UVC_CTRL_FLAG_ASYNCHRONOUS)
-> >               ctrl->handle =3D handle;
-> >
-> > @@ -2468,10 +2596,23 @@ static int __uvc_ctrl_add_mapping(struct uvc_vi=
-deo_chain *chain,
-> >                       goto err_nomem;
-> >       }
-> >
-> > -     if (map->get =3D=3D NULL)
-> > +     if (uvc_ctrl_mapping_is_compound(map)) {
-> > +             if (map->data_size !=3D map->v4l2_size)
-> > +                     return -EINVAL;
->
-> If the two values have to be the same, why do we have two fields ?
->
-> > +
-> > +             /* Only supports byte-aligned data. */
-> > +             if (WARN_ON(map->offset % 8 || map->data_size % 8))
-> > +                     return -EINVAL;
-> > +     }
-> > +
-> > +     if (!map->get && !uvc_ctrl_mapping_is_compound(map))
-> >               map->get =3D uvc_get_le_value;
-> > -     if (map->set =3D=3D NULL)
-> > +     if (!map->set && !uvc_ctrl_mapping_is_compound(map))
-> >               map->set =3D uvc_set_le_value;
-> > +     if (!map->get_compound && uvc_ctrl_mapping_is_compound(map))
-> > +             map->get_compound =3D uvc_get_compound;
-> > +     if (!map->set_compound && uvc_ctrl_mapping_is_compound(map))
-> > +             map->set_compound =3D uvc_set_compound;
-> >
-> >       for (i =3D 0; i < ARRAY_SIZE(uvc_control_classes); i++) {
-> >               if (V4L2_CTRL_ID2WHICH(uvc_control_classes[i]) =3D=3D
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/u=
-vcvideo.h
-> > index 7bc41270ed94..11805b729c22 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -129,8 +129,12 @@ struct uvc_control_mapping {
-> >
-> >       s32 (*get)(struct uvc_control_mapping *mapping, u8 query,
-> >                  const u8 *data);
-> > +     int (*get_compound)(struct uvc_control_mapping *mapping, const u8=
- *data,
-> > +                         u8 *data_out);
-> >       void (*set)(struct uvc_control_mapping *mapping, s32 value,
-> >                   u8 *data);
-> > +     int (*set_compound)(struct uvc_control_mapping *mapping, const u8=
- *data_in,
-> > +                         u8 *data);
->
-> Instead of adding new functions, I think we could modify the existing
-> .get() and .set() handlers to be usable for compound controls.
->
->         int (*get)(struct uvc_control_mapping *mapping, u8 query,
->                    const u8 *data_in, void *data_out);
->         void (*set)(struct uvc_control_mapping *mapping, const void *data=
-_in,
->                     u8 *data_out);
->
-> For additional safety, you could pass the size of the void * buffer to
-> the functions.
->
-> >  };
-> >
-> >  struct uvc_control {
->
-> --
-> Regards,
->
-> Laurent Pinchart
 
