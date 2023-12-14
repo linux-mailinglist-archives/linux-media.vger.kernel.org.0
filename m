@@ -1,148 +1,104 @@
-Return-Path: <linux-media+bounces-2391-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2392-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8220681288E
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 07:51:24 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 678D8812891
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 07:52:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 92E861C214BA
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 06:51:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 09EEEB211EB
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 06:52:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89FCB12E52;
-	Thu, 14 Dec 2023 06:50:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54AFED52A;
+	Thu, 14 Dec 2023 06:52:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="QmlWytzq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ex01.ufhost.com (ex01.ufhost.com [61.152.239.75])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28AEDE8;
-	Wed, 13 Dec 2023 22:50:52 -0800 (PST)
-Received: from EXMBX165.cuchost.com (unknown [175.102.18.54])
-	(using TLSv1 with cipher DHE-RSA-AES256-SHA (256/256 bits))
-	(Client CN "EXMBX165", Issuer "EXMBX165" (not verified))
-	by ex01.ufhost.com (Postfix) with ESMTP id BE20A24E303;
-	Thu, 14 Dec 2023 14:50:50 +0800 (CST)
-Received: from EXMBX062.cuchost.com (172.16.6.62) by EXMBX165.cuchost.com
- (172.16.6.75) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 14 Dec
- 2023 14:50:50 +0800
-Received: from ubuntu.mshome.net (113.72.145.168) by EXMBX062.cuchost.com
- (172.16.6.62) with Microsoft SMTP Server (TLS) id 15.0.1497.42; Thu, 14 Dec
- 2023 14:50:49 +0800
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	"Marvin Lin" <milkfafa@gmail.com>, Bryan O'Donoghue
-	<bryan.odonoghue@linaro.org>, "Ming Qian" <ming.qian@nxp.com>, Laurent
- Pinchart <laurent.pinchart@ideasonboard.com>, Nicolas Dufresne
-	<nicolas.dufresne@collabora.com>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Tomi Valkeinen
-	<tomi.valkeinen+renesas@ideasonboard.com>, Mingjia Zhang
-	<mingjia.zhang@mediatek.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Dan Carpenter
-	<dan.carpenter@linaro.org>
-CC: Jack Zhu <jack.zhu@starfivetech.com>, Changhuang Liang
-	<changhuang.liang@starfivetech.com>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>
-Subject: [PATCH v1 9/9] admin-guide: media: Update documents for StarFive Camera Subsystem
-Date: Wed, 13 Dec 2023 22:50:27 -0800
-Message-ID: <20231214065027.28564-10-changhuang.liang@starfivetech.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20231214065027.28564-1-changhuang.liang@starfivetech.com>
-References: <20231214065027.28564-1-changhuang.liang@starfivetech.com>
+Received: from mail-ed1-x536.google.com (mail-ed1-x536.google.com [IPv6:2a00:1450:4864:20::536])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A79F5D5F
+	for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 22:51:42 -0800 (PST)
+Received: by mail-ed1-x536.google.com with SMTP id 4fb4d7f45d1cf-551ee7d5214so559492a12.0
+        for <linux-media@vger.kernel.org>; Wed, 13 Dec 2023 22:51:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702536700; x=1703141500; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wHsxzvl396B9TsbSvTEJt3J2hBdAgjNAT8bOMCH4v2w=;
+        b=QmlWytzqVq06JId4vvsAOd+KdSEMS5c/WnxMvozmd9Zc/rUYhH8nxf4/SprTqo/PAa
+         FMril3eTCi3P/YNopFkbvrEvvzTmEVc/LTb3Flt3HTnYp4rAMqQZpdWE8/41UgnH91RF
+         X/P0hv+qANB63ijvGrWatEI9eOLQvo1NcYunqeaaTHFkm5Cj7IXU0tdS/RKS+TnHNT+j
+         92ATNsZ4ep7rG4CifKFxkThBmoou2WoJA6OQ8U8VntHiRJd5RoFUvOkFIluDSiREftNY
+         k2/pMlonAvWFk2Y+ADnAA4unKBQ9qZuuns4eDTaOGv17odY/u+Of9a7H+hVaZtA0EKgU
+         Wd0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702536700; x=1703141500;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wHsxzvl396B9TsbSvTEJt3J2hBdAgjNAT8bOMCH4v2w=;
+        b=EhhaJJk0MXwKB9m254KrvJwCwMv9JH5b1UsQWOM9REpbdls8eX10mj51VYQX4p0F/y
+         92+aRHMQZKsaJ40p6QQ+hbdpeEg/tYrDRS2OILPF8dycUOji4zX25t0S/qMuJNxZi7h2
+         CLmefvb8aHLRNl+wJ2gz260n4HUqs/+hL2qjMnvSgM+qSv1OprdhvJ5yVfTRjE4WD5Xl
+         Y4WXxvcNcT4c5t3/Tr3HfYOpFA3F9+HgGD5TS9hC8HXJOzECG2sdz4HZ5EnStnx0kb10
+         5FSvt4cOyV8r2+gXAUP5cO6Ho3n8Bpm3dzqrp6X7zy/2mkHy6+v49qNo1+692QGqyfDN
+         kMPQ==
+X-Gm-Message-State: AOJu0YynZNli9V1wD1RnY09s0fFWysEssrEOWfkv2pkTd0JgEKTu4n46
+	efR/W8qkfBOls1J1YwAkreyH+PuaxsnMp0QYer0+PQ==
+X-Google-Smtp-Source: AGHT+IFhKjoYARnFGO13ApN7eSk09nSCJTSeKyT66yoX39zQ2bSsEmHScKXeMW+UKEwtUalYt70IEOQCcn29bH3NZ24=
+X-Received: by 2002:a17:906:5197:b0:9ee:295:5693 with SMTP id
+ y23-20020a170906519700b009ee02955693mr8600960ejk.7.1702536700141; Wed, 13 Dec
+ 2023 22:51:40 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-ClientProxiedBy: EXCAS061.cuchost.com (172.16.6.21) To EXMBX062.cuchost.com
- (172.16.6.62)
-X-YovoleRuleAgent: yovoleflag
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <170253482786.28524.10625748175644260187.git-patchwork-notify@kernel.org> <ZXqlWT2JYg0sa7IF@infradead.org>
+In-Reply-To: <ZXqlWT2JYg0sa7IF@infradead.org>
+From: Mina Almasry <almasrymina@google.com>
+Date: Wed, 13 Dec 2023 22:51:25 -0800
+Message-ID: <CAHS8izNCvxuTsKV73oTu3xS7ZVr0riBdYGbKnsHptVe_e-t5MQ@mail.gmail.com>
+Subject: Re: [net-next v1 00/16] Device Memory TCP
+To: Christoph Hellwig <hch@infradead.org>
+Cc: patchwork-bot+netdevbpf@kernel.org, shailend@google.com, 
+	netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-arch@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, bpf@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	corbet@lwn.net, jeroendb@google.com, pkaligineedi@google.com, hawk@kernel.org, 
+	ilias.apalodimas@linaro.org, arnd@arndb.de, dsahern@kernel.org, 
+	willemdebruijn.kernel@gmail.com, shuah@kernel.org, sumit.semwal@linaro.org, 
+	christian.koenig@amd.com, linyunsheng@huawei.com, hramamurthy@google.com, 
+	shakeelb@google.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Add ISP 3A statistisc collection data video device for documents.
+On Wed, Dec 13, 2023 at 10:49=E2=80=AFPM Christoph Hellwig <hch@infradead.o=
+rg> wrote:
+>
+> On Thu, Dec 14, 2023 at 06:20:27AM +0000, patchwork-bot+netdevbpf@kernel.=
+org wrote:
+> > Hello:
+> >
+> > This series was applied to netdev/net-next.git (main)
+> > by Jakub Kicinski <kuba@kernel.org>:
+>
+> Umm, this is still very broken in intraction with other subsystems.
+> Please don't push ahead so quickly.
+>
 
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
----
- .../admin-guide/media/starfive_camss.rst      |  9 ++++++---
- .../media/starfive_camss_graph.dot            | 20 ++++++++++---------
- 2 files changed, 17 insertions(+), 12 deletions(-)
+The bot is just a bit optimistic. Only this first patch was applied.
+It does not interact with other subsystems.
 
-diff --git a/Documentation/admin-guide/media/starfive_camss.rst b/Documen=
-tation/admin-guide/media/starfive_camss.rst
-index ca42e9447c47..970ae20140d1 100644
---- a/Documentation/admin-guide/media/starfive_camss.rst
-+++ b/Documentation/admin-guide/media/starfive_camss.rst
-@@ -58,15 +58,18 @@ The media controller pipeline graph is as follows:
-     :alt:   starfive_camss_graph.dot
-     :align: center
-=20
--The driver has 2 video devices:
-+The driver has 3 video devices:
-=20
- - capture_raw: The capture device, capturing image data directly from a =
-sensor.
- - capture_yuv: The capture device, capturing YUV frame data processed by=
- the
--  ISP module
-+  ISP module.
-+- capture_scd: The meta capture device, capturing 3A statistics collecti=
-on data
-+  processed by the ISP module.
-=20
- The driver has 3 subdevices:
-=20
--- stf_isp: is responsible for all the isp operations, outputs YUV frames=
-.
-+- stf_isp: is responsible for all the isp operations, outputs YUV frames
-+  and 3A statistics collection data.
- - cdns_csi2rx: a CSI-2 bridge supporting up to 4 CSI lanes in input, and=
- 4
-   different pixel streams in output.
- - imx219: an image sensor, image data is sent through MIPI CSI-2.
-diff --git a/Documentation/admin-guide/media/starfive_camss_graph.dot b/D=
-ocumentation/admin-guide/media/starfive_camss_graph.dot
-index 8eff1f161ac7..3fd42e3cc0f6 100644
---- a/Documentation/admin-guide/media/starfive_camss_graph.dot
-+++ b/Documentation/admin-guide/media/starfive_camss_graph.dot
-@@ -1,12 +1,14 @@
- digraph board {
- 	rankdir=3DTB
--	n00000001 [label=3D"{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1>=
- 1}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
--	n00000001:port1 -> n00000008 [style=3Ddashed]
--	n00000004 [label=3D"capture_raw\n/dev/video0", shape=3Dbox, style=3Dfil=
-led, fillcolor=3Dyellow]
--	n00000008 [label=3D"capture_yuv\n/dev/video1", shape=3Dbox, style=3Dfil=
-led, fillcolor=3Dyellow]
--	n0000000e [label=3D"{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n | =
-{<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=3DMrecord, style=
-=3Dfilled, fillcolor=3Dgreen]
--	n0000000e:port1 -> n00000001:port0 [style=3Ddashed]
--	n0000000e:port1 -> n00000004 [style=3Ddashed]
--	n00000018 [label=3D"{{} | imx219 6-0010\n/dev/v4l-subdev1 | {<port0> 0}=
-}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
--	n00000018:port0 -> n0000000e:port0 [style=3Dbold]
-+	n00000001 [label=3D"{{<port0> 0} | stf_isp\n/dev/v4l-subdev0 | {<port1>=
- 1 | <port2> 2}}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
-+	n00000001:port1 -> n00000009 [style=3Ddashed]
-+	n00000001:port2 -> n0000000d [style=3Ddashed]
-+	n00000005 [label=3D"capture_raw\n/dev/video0", shape=3Dbox, style=3Dfil=
-led, fillcolor=3Dyellow]
-+	n00000009 [label=3D"capture_yuv\n/dev/video1", shape=3Dbox, style=3Dfil=
-led, fillcolor=3Dyellow]
-+	n0000000d [label=3D"capture_scd\n/dev/video2", shape=3Dbox, style=3Dfil=
-led, fillcolor=3Dyellow]
-+	n00000015 [label=3D"{{<port0> 0} | cdns_csi2rx.19800000.csi-bridge\n/de=
-v/v4l-subdev1 | {<port1> 1 | <port2> 2 | <port3> 3 | <port4> 4}}", shape=3D=
-Mrecord, style=3Dfilled, fillcolor=3Dgreen]
-+	n00000015:port1 -> n00000001:port0 [style=3Ddashed]
-+	n00000015:port1 -> n00000005 [style=3Ddashed]
-+	n0000001f [label=3D"{{} | imx219 6-0010\n/dev/v4l-subdev2 | {<port0> 0}=
-}", shape=3DMrecord, style=3Dfilled, fillcolor=3Dgreen]
-+	n0000001f:port0 -> n00000015:port0 [style=3Dbold]
- }
+  - [net-next,v1,01/16] net: page_pool: factor out releasing DMA from
+releasing the page
+
 --=20
-2.25.1
-
+Thanks,
+Mina
 
