@@ -1,191 +1,339 @@
-Return-Path: <linux-media+bounces-2413-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2414-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F7BF812FE7
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 13:19:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 37047813359
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 15:40:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7C5451C218A8
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 12:19:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 596811C214FC
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 14:40:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4BAD41777;
-	Thu, 14 Dec 2023 12:19:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DABC5ABB1;
+	Thu, 14 Dec 2023 14:40:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GfoOR2Nt"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="e89WRZiq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0D0CBD;
-	Thu, 14 Dec 2023 04:19:42 -0800 (PST)
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E1C5F4A9;
-	Thu, 14 Dec 2023 13:18:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702556335;
-	bh=YiTF6JHTIBaYstNwMrE+QdjSiz7s49VYWh8YMsvV9Ds=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GfoOR2NtgGHS+ihYhAAIWAG/jedCD6LOU4Gt7x45cgWD06wzRgmednBtbUQaIXXSa
-	 K3KSkv5lHg0ru+ptfrVtmXhWrv7cJjKB9FruXklyXPh+HMKMkLih5GQXo05qSZYYqD
-	 qdBRddludmHkUg/lWPIL3hx9vAwu8GUjPkxaEn6k=
-Date: Thu, 14 Dec 2023 14:19:48 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Marvin Lin <milkfafa@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Ming Qian <ming.qian@nxp.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mingjia Zhang <mingjia.zhang@mediatek.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v1 8/9] staging: media: starfive: Add frame sync event
- for video capture device
-Message-ID: <20231214121948.GC21146@pendragon.ideasonboard.com>
-References: <20231214065027.28564-1-changhuang.liang@starfivetech.com>
- <20231214065027.28564-9-changhuang.liang@starfivetech.com>
+Received: from mail-yb1-xb35.google.com (mail-yb1-xb35.google.com [IPv6:2607:f8b0:4864:20::b35])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9CA5510F
+	for <linux-media@vger.kernel.org>; Thu, 14 Dec 2023 06:40:08 -0800 (PST)
+Received: by mail-yb1-xb35.google.com with SMTP id 3f1490d57ef6-db4422fff15so6909309276.1
+        for <linux-media@vger.kernel.org>; Thu, 14 Dec 2023 06:40:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google; t=1702564808; x=1703169608; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=CVbbR720mxFQWZWSF5/+frzTWN+zosuo0CwTK2ojkMc=;
+        b=e89WRZiqS/mxnnSFPbD1PbJq+rKp5JIFJEtgfw2p3Mgne+dA8Pxk8up9WpX/ESAczr
+         kjOnObY0FYsI/ws7inCt+/wBO+07+hzG4gY+XgbYup/ctlY9Fz2JfnkiygvNkE4VuSss
+         dTCQQ/zYpZ3vpj1ijBYyRuVbEjBXeusZkMBaB/NJHKRGGqDCqo8XCPX1thkRS/owESzx
+         hqMcVN0BqBKIr9WfezWyYrr9zFN/7maPA+mtYQZtFfO+9mQPTouwPjUazoQw8JmgCcmj
+         AQX31tu7XGhgf2JKQcKGsOqS823yOPwULq/Yb/Ba5PX4/YsykgTIFJhcFatr2Ubm4Zr2
+         LpBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702564808; x=1703169608;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CVbbR720mxFQWZWSF5/+frzTWN+zosuo0CwTK2ojkMc=;
+        b=W+8vFrYCBPzx+bjOizC0nwTODQIPypGE+wW5y1Xdl3B6LkpL2vu1eCdF532auYuJ+Y
+         IpuAMcOyuiMlmnZQLSjv+X8NVwP23wnacrDQ9YKeoCzeq/+3fUHH7AfgRXSjJ86S1oyS
+         jZvoL8VcQV0qXb4pCdyyXSnLMbg9X7myOR9N3aULdiDJBykaILZrM36RwosuRqciL06C
+         1M+q2jG2U6649+NMR31ZZcZErMifHx7fBapLqkI48KJobPqQHhjX/qDX7SL/WTuetjtL
+         EixxumPZ4BaS0CrJKO3rZhNIDOC2kQ44N2AlQnavP/96WF8AUexo81Yqpc3G0JZXuKZ5
+         Fgbw==
+X-Gm-Message-State: AOJu0YyQxQkstTEY86fj8mdYP8I4KKeUCnrqM0/p5AIlpuj7PFKqmvxF
+	NgFWzzAAWmVObqaXsC+3+2Jg1Cs7fEfjTMB0OR1twA==
+X-Google-Smtp-Source: AGHT+IE2fGQgctDfqw+SdyQcQrVtSDwfkDhdhufA57h07Dfv7cH935CDl5idwK5f/LKOwnfwTJf5aUvfXaezh/MpzdQ=
+X-Received: by 2002:a05:6902:cc2:b0:da3:b466:1f73 with SMTP id
+ cq2-20020a0569020cc200b00da3b4661f73mr7064045ybb.24.1702564807819; Thu, 14
+ Dec 2023 06:40:07 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20231214065027.28564-9-changhuang.liang@starfivetech.com>
+References: <20231207-kms-hdmi-connector-state-v5-0-6538e19d634d@kernel.org> <20231207-kms-hdmi-connector-state-v5-6-6538e19d634d@kernel.org>
+In-Reply-To: <20231207-kms-hdmi-connector-state-v5-6-6538e19d634d@kernel.org>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Thu, 14 Dec 2023 14:39:51 +0000
+Message-ID: <CAPY8ntCzdxJ5zyk4eeWV8D+WBdfri61ttoNxVtJUZSAKHoMpGQ@mail.gmail.com>
+Subject: Re: [PATCH v5 06/44] drm/connector: Introduce an HDMI connector
+ initialization function
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>, 
+	Emma Anholt <emma@anholt.net>, Jonathan Corbet <corbet@lwn.net>, Sandy Huang <hjc@rock-chips.com>, 
+	=?UTF-8?Q?Heiko_St=C3=BCbner?= <heiko@sntech.de>, 
+	Chen-Yu Tsai <wens@csie.org>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Samuel Holland <samuel@sholland.org>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-rockchip@lists.infradead.org, 
+	linux-sunxi@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
+	linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Changhuang,
+Hi Maxime
 
-Thank you for the patch.
+As requested, I'm just going through patches 6-16.
+I will say that I've been less thorough in checking the kunit test
+code in this series than the core code changes, and I'm trusting that
+all the unit tests pass.
 
-On Wed, Dec 13, 2023 at 10:50:26PM -0800, Changhuang Liang wrote:
-> Add frame sync event for video capture device.
+I get a build failure on the complete series for arm64 with the
+standard defconfig
+depmod: ERROR: Cycle detected: drm_display_helper -> drm_kms_helper ->
+drm_display_helper
+depmod: ERROR: Cycle detected: drm
+depmod: ERROR: Found 2 modules in dependency cycles!
 
-Here too the commit message needs to explain why.
+I haven't followed it through as to the reason, but obviously that
+will need to be addressed.
 
-> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+  Dave
+
+On Thu, 7 Dec 2023 at 15:49, Maxime Ripard <mripard@kernel.org> wrote:
+>
+> A lot of the various HDMI drivers duplicate some logic that depends on
+> the HDMI spec itself and not really a particular hardware
+> implementation.
+>
+> Output BPC or format selection, infoframe generation are good examples
+> of such areas.
+>
+> This creates a lot of boilerplate, with a lot of variations, which makes
+> it hard for userspace to rely on, and makes it difficult to get it right
+> for drivers.
+>
+> In the next patches, we'll add a lot of infrastructure around the
+> drm_connector and drm_connector_state structures, which will allow to
+> abstract away the duplicated logic. This infrastructure comes with a few
+> requirements though, and thus we need a new initialization function.
+>
+> Hopefully, this will make drivers simpler to handle, and their behaviour
+> more consistent.
+>
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+
 > ---
->  .../staging/media/starfive/camss/stf-capture.c    |  9 +++++++++
->  drivers/staging/media/starfive/camss/stf-video.c  | 15 +++++++++++++++
->  2 files changed, 24 insertions(+)
-> 
-> diff --git a/drivers/staging/media/starfive/camss/stf-capture.c b/drivers/staging/media/starfive/camss/stf-capture.c
-> index 6a137a273c8a..d0be769da11b 100644
-> --- a/drivers/staging/media/starfive/camss/stf-capture.c
-> +++ b/drivers/staging/media/starfive/camss/stf-capture.c
-> @@ -7,6 +7,7 @@
->   * Copyright (C) 2021-2023 StarFive Technology Co., Ltd.
->   */
->  
-> +#include <media/v4l2-event.h>
->  #include "stf-camss.h"
->  
->  static const char * const stf_cap_names[] = {
-> @@ -430,10 +431,15 @@ static void stf_buf_flush(struct stf_v_buf *output, enum vb2_buffer_state state)
->  
->  static void stf_buf_done(struct stf_v_buf *output)
->  {
-> +	struct stf_capture *cap = container_of(output, struct stf_capture,
-> +					       buffers);
-
-This looks like it belongs to a previous patch, because ...
-
->  	struct stfcamss_buffer *ready_buf;
->  	struct stfcamss *stfcamss = cap->video.stfcamss;
-
-... cap is already used there.
-
-Please compile each commit, not just the end result. Compilation must
-not break at any point in the middle of the series, or it would make git
-bisection impossible.
-
->  	u64 ts = ktime_get_ns();
->  	unsigned long flags;
-> +	struct v4l2_event event = {
-> +		.type = V4L2_EVENT_FRAME_SYNC,
-> +	};
->  
->  	if (output->state == STF_OUTPUT_OFF ||
->  	    output->state == STF_OUTPUT_RESERVED)
-> @@ -445,6 +451,9 @@ static void stf_buf_done(struct stf_v_buf *output)
->  		if (cap->type == STF_CAPTURE_SCD)
->  			stf_isp_fill_yhist(stfcamss, ready_buf->vaddr_sc);
->  
-> +		event.u.frame_sync.frame_sequence = output->sequence;
-> +		v4l2_event_queue(&cap->video.vdev, &event);
-
-This doesn't like to be the right place to generate the
-V4L2_EVENT_FRAME_SYNC event. V4L2_EVENT_FRAME_SYNC is defined as
-
-      - Triggered immediately when the reception of a frame has begun.
-        This event has a struct
-        :c:type:`v4l2_event_frame_sync`
-        associated with it.
-
-It would be best to generate V4L2_EVENT_FRAME_SYNC in response to a
-CSI-2 RX interrupt that signals the beginning of the frame, if the
-hardware provides that. If not, an ISP interrupt that signals the
-beginning of the frame would work too.
-
-> +
->  		ready_buf->vb.vb2_buf.timestamp = ts;
->  		ready_buf->vb.sequence = output->sequence++;
->  
-> diff --git a/drivers/staging/media/starfive/camss/stf-video.c b/drivers/staging/media/starfive/camss/stf-video.c
-> index 54d855ba0b57..32381e9ad049 100644
-> --- a/drivers/staging/media/starfive/camss/stf-video.c
-> +++ b/drivers/staging/media/starfive/camss/stf-video.c
-> @@ -507,6 +507,17 @@ static int video_try_fmt(struct file *file, void *fh, struct v4l2_format *f)
->  	return __video_try_fmt(video, f);
+>  drivers/gpu/drm/drm_connector.c            |  39 +++++++++
+>  drivers/gpu/drm/tests/drm_connector_test.c | 123 +++++++++++++++++++++++++++++
+>  include/drm/drm_connector.h                |   5 ++
+>  3 files changed, 167 insertions(+)
+>
+> diff --git a/drivers/gpu/drm/drm_connector.c b/drivers/gpu/drm/drm_connector.c
+> index b0516505f7ae..d9961cce8245 100644
+> --- a/drivers/gpu/drm/drm_connector.c
+> +++ b/drivers/gpu/drm/drm_connector.c
+> @@ -452,6 +452,45 @@ int drmm_connector_init(struct drm_device *dev,
 >  }
->  
-> +static int video_subscribe_event(struct v4l2_fh *fh,
-> +				 const struct v4l2_event_subscription *sub)
+>  EXPORT_SYMBOL(drmm_connector_init);
+>
+> +/**
+> + * drmm_connector_hdmi_init - Init a preallocated HDMI connector
+> + * @dev: DRM device
+> + * @connector: A pointer to the HDMI connector to init
+> + * @funcs: callbacks for this connector
+> + * @connector_type: user visible type of the connector
+> + * @ddc: optional pointer to the associated ddc adapter
+> + *
+> + * Initialises a preallocated HDMI connector. Connectors can be
+> + * subclassed as part of driver connector objects.
+> + *
+> + * Cleanup is automatically handled with a call to
+> + * drm_connector_cleanup() in a DRM-managed action.
+> + *
+> + * The connector structure should be allocated with drmm_kzalloc().
+> + *
+> + * Returns:
+> + * Zero on success, error code on failure.
+> + */
+> +int drmm_connector_hdmi_init(struct drm_device *dev,
+> +                            struct drm_connector *connector,
+> +                            const struct drm_connector_funcs *funcs,
+> +                            int connector_type,
+> +                            struct i2c_adapter *ddc)
 > +{
-> +	switch (sub->type) {
-> +	case V4L2_EVENT_FRAME_SYNC:
-> +		return v4l2_event_subscribe(fh, sub, 0, NULL);
-> +	default:
-> +		return -EINVAL;
-> +	}
+> +       int ret;
+> +
+> +       if (!(connector_type == DRM_MODE_CONNECTOR_HDMIA ||
+> +             connector_type == DRM_MODE_CONNECTOR_HDMIB))
+> +               return -EINVAL;
+> +
+> +       ret = drmm_connector_init(dev, connector, funcs, connector_type, ddc);
+> +       if (ret)
+> +               return ret;
+> +
+> +       return 0;
+> +}
+> +EXPORT_SYMBOL(drmm_connector_hdmi_init);
+> +
+>  /**
+>   * drm_connector_attach_edid_property - attach edid property.
+>   * @connector: the connector
+> diff --git a/drivers/gpu/drm/tests/drm_connector_test.c b/drivers/gpu/drm/tests/drm_connector_test.c
+> index a268847be8d1..8f070cacab3b 100644
+> --- a/drivers/gpu/drm/tests/drm_connector_test.c
+> +++ b/drivers/gpu/drm/tests/drm_connector_test.c
+> @@ -172,6 +172,128 @@ static struct kunit_suite drmm_connector_init_test_suite = {
+>         .test_cases = drmm_connector_init_tests,
+>  };
+>
+> +/*
+> + * Test that the registration of a bog standard connector works as
+> + * expected and doesn't report any error.
+> + */
+> +static void drm_test_connector_hdmi_init_valid(struct kunit *test)
+> +{
+> +       struct drm_connector_init_priv *priv = test->priv;
+> +       int ret;
+> +
+> +       ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
+> +                                      &dummy_funcs,
+> +                                      DRM_MODE_CONNECTOR_HDMIA,
+> +                                      &priv->ddc);
+> +       KUNIT_EXPECT_EQ(test, ret, 0);
 > +}
 > +
->  static const struct v4l2_ioctl_ops stf_vid_ioctl_ops = {
->  	.vidioc_querycap                = video_querycap,
->  	.vidioc_enum_fmt_vid_cap        = video_enum_fmt,
-> @@ -523,6 +534,8 @@ static const struct v4l2_ioctl_ops stf_vid_ioctl_ops = {
->  	.vidioc_prepare_buf             = vb2_ioctl_prepare_buf,
->  	.vidioc_streamon                = vb2_ioctl_streamon,
->  	.vidioc_streamoff               = vb2_ioctl_streamoff,
-> +	.vidioc_subscribe_event         = video_subscribe_event,
-> +	.vidioc_unsubscribe_event       = v4l2_event_unsubscribe,
-
-Don't implement the event on the video device, implement it on the CSI-2
-RX or ISP subdev, depending on whether you get it from the CSI-2 RX or
-the ISP.
-
+> +/*
+> + * Test that the registration of a connector without a DDC adapter
+> + * doesn't report any error.
+> + */
+> +static void drm_test_connector_hdmi_init_null_ddc(struct kunit *test)
+> +{
+> +       struct drm_connector_init_priv *priv = test->priv;
+> +       int ret;
+> +
+> +       ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
+> +                                      &dummy_funcs,
+> +                                      DRM_MODE_CONNECTOR_HDMIA,
+> +                                      NULL);
+> +       KUNIT_EXPECT_EQ(test, ret, 0);
+> +}
+> +
+> +/*
+> + * Test that the registration of an HDMI connector with an HDMI
+> + * connector type succeeds.
+> + */
+> +static void drm_test_connector_hdmi_init_type_valid(struct kunit *test)
+> +{
+> +       struct drm_connector_init_priv *priv = test->priv;
+> +       unsigned int connector_type = *(unsigned int *)test->param_value;
+> +       int ret;
+> +
+> +       ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
+> +                                      &dummy_funcs,
+> +                                      connector_type,
+> +                                      &priv->ddc);
+> +       KUNIT_EXPECT_EQ(test, ret, 0);
+> +}
+> +
+> +static const unsigned int drm_connector_hdmi_init_type_valid_tests[] = {
+> +       DRM_MODE_CONNECTOR_HDMIA,
+> +       DRM_MODE_CONNECTOR_HDMIB,
+> +};
+> +
+> +static void drm_connector_hdmi_init_type_desc(const unsigned int *type, char *desc)
+> +{
+> +       sprintf(desc, "%s", drm_get_connector_type_name(*type));
+> +}
+> +
+> +KUNIT_ARRAY_PARAM(drm_connector_hdmi_init_type_valid,
+> +                 drm_connector_hdmi_init_type_valid_tests,
+> +                 drm_connector_hdmi_init_type_desc);
+> +
+> +/*
+> + * Test that the registration of an HDMI connector with an !HDMI
+> + * connector type fails.
+> + */
+> +static void drm_test_connector_hdmi_init_type_invalid(struct kunit *test)
+> +{
+> +       struct drm_connector_init_priv *priv = test->priv;
+> +       unsigned int connector_type = *(unsigned int *)test->param_value;
+> +       int ret;
+> +
+> +       ret = drmm_connector_hdmi_init(&priv->drm, &priv->connector,
+> +                                      &dummy_funcs,
+> +                                      connector_type,
+> +                                      &priv->ddc);
+> +       KUNIT_EXPECT_LT(test, ret, 0);
+> +}
+> +
+> +static const unsigned int drm_connector_hdmi_init_type_invalid_tests[] = {
+> +       DRM_MODE_CONNECTOR_Unknown,
+> +       DRM_MODE_CONNECTOR_VGA,
+> +       DRM_MODE_CONNECTOR_DVII,
+> +       DRM_MODE_CONNECTOR_DVID,
+> +       DRM_MODE_CONNECTOR_DVIA,
+> +       DRM_MODE_CONNECTOR_Composite,
+> +       DRM_MODE_CONNECTOR_SVIDEO,
+> +       DRM_MODE_CONNECTOR_LVDS,
+> +       DRM_MODE_CONNECTOR_Component,
+> +       DRM_MODE_CONNECTOR_9PinDIN,
+> +       DRM_MODE_CONNECTOR_DisplayPort,
+> +       DRM_MODE_CONNECTOR_TV,
+> +       DRM_MODE_CONNECTOR_eDP,
+> +       DRM_MODE_CONNECTOR_VIRTUAL,
+> +       DRM_MODE_CONNECTOR_DSI,
+> +       DRM_MODE_CONNECTOR_DPI,
+> +       DRM_MODE_CONNECTOR_WRITEBACK,
+> +       DRM_MODE_CONNECTOR_SPI,
+> +       DRM_MODE_CONNECTOR_USB,
+> +};
+> +
+> +KUNIT_ARRAY_PARAM(drm_connector_hdmi_init_type_invalid,
+> +                 drm_connector_hdmi_init_type_invalid_tests,
+> +                 drm_connector_hdmi_init_type_desc);
+> +
+> +static struct kunit_case drmm_connector_hdmi_init_tests[] = {
+> +       KUNIT_CASE(drm_test_connector_hdmi_init_valid),
+> +       KUNIT_CASE(drm_test_connector_hdmi_init_null_ddc),
+> +       KUNIT_CASE_PARAM(drm_test_connector_hdmi_init_type_valid,
+> +                        drm_connector_hdmi_init_type_valid_gen_params),
+> +       KUNIT_CASE_PARAM(drm_test_connector_hdmi_init_type_invalid,
+> +                        drm_connector_hdmi_init_type_invalid_gen_params),
+> +       { }
+> +};
+> +
+> +static struct kunit_suite drmm_connector_hdmi_init_test_suite = {
+> +       .name = "drmm_connector_hdmi_init",
+> +       .init = drm_test_connector_init,
+> +       .test_cases = drmm_connector_hdmi_init_tests,
+> +};
+> +
+>  struct drm_get_tv_mode_from_name_test {
+>         const char *name;
+>         enum drm_connector_tv_mode expected_mode;
+> @@ -236,6 +358,7 @@ static struct kunit_suite drm_get_tv_mode_from_name_test_suite = {
 >  };
->  
->  static int video_scd_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
-> @@ -554,6 +567,8 @@ static const struct v4l2_ioctl_ops stf_vid_scd_ioctl_ops = {
->  	.vidioc_prepare_buf             = vb2_ioctl_prepare_buf,
->  	.vidioc_streamon                = vb2_ioctl_streamon,
->  	.vidioc_streamoff               = vb2_ioctl_streamoff,
-> +	.vidioc_subscribe_event         = video_subscribe_event,
-> +	.vidioc_unsubscribe_event       = v4l2_event_unsubscribe,
->  };
->  
->  /* -----------------------------------------------------------------------------
-
--- 
-Regards,
-
-Laurent Pinchart
+>
+>  kunit_test_suites(
+> +       &drmm_connector_hdmi_init_test_suite,
+>         &drmm_connector_init_test_suite,
+>         &drm_get_tv_mode_from_name_test_suite
+>  );
+> diff --git a/include/drm/drm_connector.h b/include/drm/drm_connector.h
+> index fe88d7fc6b8f..4491c4c2fb6e 100644
+> --- a/include/drm/drm_connector.h
+> +++ b/include/drm/drm_connector.h
+> @@ -1904,6 +1904,11 @@ int drmm_connector_init(struct drm_device *dev,
+>                         const struct drm_connector_funcs *funcs,
+>                         int connector_type,
+>                         struct i2c_adapter *ddc);
+> +int drmm_connector_hdmi_init(struct drm_device *dev,
+> +                            struct drm_connector *connector,
+> +                            const struct drm_connector_funcs *funcs,
+> +                            int connector_type,
+> +                            struct i2c_adapter *ddc);
+>  void drm_connector_attach_edid_property(struct drm_connector *connector);
+>  int drm_connector_register(struct drm_connector *connector);
+>  void drm_connector_unregister(struct drm_connector *connector);
+>
+> --
+> 2.43.0
+>
 
