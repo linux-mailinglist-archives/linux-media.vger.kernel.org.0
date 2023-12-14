@@ -1,161 +1,180 @@
-Return-Path: <linux-media+bounces-2430-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2431-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4A2813B1F
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 20:56:50 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C90BC813B35
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 21:03:44 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AE67D1C21A7C
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 19:56:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5BDA828153D
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 20:03:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E31EF6A01C;
-	Thu, 14 Dec 2023 19:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 368B46A321;
+	Thu, 14 Dec 2023 20:03:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DcctqYnl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com [209.85.161.43])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C4F16A351;
-	Thu, 14 Dec 2023 19:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-5916c6b2e0fso1038952eaf.3;
-        Thu, 14 Dec 2023 11:56:03 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A556A015
+	for <linux-media@vger.kernel.org>; Thu, 14 Dec 2023 20:03:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-336447100e9so1428765f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 14 Dec 2023 12:03:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1702584207; x=1703189007; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=3t3FbK18GrHFwKE4zIkpGcLL7FiHaNow8xNq3R4/QdI=;
+        b=DcctqYnloBXyzr6/icFJ5nrbeI/fwc45lTK7zT/zDqs/kq2mNANjqfq2WI1CPbOIkl
+         3zpygJURz7qkPfte+tjx80A6gdM+O1FTYI2VvL7SuLYcjzd7H6DpQfdwmDLV9+nXMrPb
+         7dTw0mVB00N20UiuwNWRNzFDHCuBoP+J6TIeAJfZc3sS1MAXMzL9Z0GoRoatm7TLOu8j
+         8ZZNvlX+vs9HJuG2Y82vknoMM3anREwfsFsat4CTGetqMhnBOOAiPMlJfT5NqSfpdkqn
+         3Qd8clBnVZm39r28lU0UGMK8yIuIf8HPnzkmKCt9BujWkP4WutaWkmQdw0Vrw4Oq2nII
+         J76Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702583762; x=1703188562;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=RMu3qe8RJmgyyVOaKPy6rEHFml1se+sCmssOaEi90U4=;
-        b=J6neRkjSAF2s33M727L7sVSFcqFmhzm5ikzmjF5Tf24yI6NGJL+ciaygOkiPMln2Jn
-         d8XHwezwMoxNytIv89WoZ4EGX4Jlu8RPqDyUjvXFiWbHXJizRY/Zn9XRvxnMKiKj1JwV
-         37icwWrsbEWFE7jX5CT6IXGsQXkttrXVk0lvu57bs4eQyaphQU8e65yO6JVxmfnJvMQk
-         pAfSDcWFU0WdIIpuQaLLKsscMupq4172vmlYNZmNfBpOyZC6eJD2MhO0khLkeGgHcSDj
-         TiD7wLSeVuMt9XYKT+lgzUCG1f+Wpbu6h/x/6n4eMSXin5c6iV3FbSGnBRu3Wg/KYNFn
-         OXfA==
-X-Gm-Message-State: AOJu0YxmCbQF+eQZVSIo7c9jVD+LzA2n8CijBx9Mha7jRRewH+VSZoo1
-	AdxrrFrXY+4cTVRfWX7Iqg==
-X-Google-Smtp-Source: AGHT+IFGmBpwDdWphaWjGbg0/DrlAiemTYd8eL3ibXknjLg7pN3G6/8VDLCUqsRK18wPEMgvMTHWNw==
-X-Received: by 2002:a4a:af02:0:b0:58d:8b93:ec8 with SMTP id w2-20020a4aaf02000000b0058d8b930ec8mr7429120oon.2.1702583762494;
-        Thu, 14 Dec 2023 11:56:02 -0800 (PST)
-Received: from herring.priv (66-90-144-107.dyn.grandenetworks.net. [66.90.144.107])
-        by smtp.gmail.com with ESMTPSA id en12-20020a056830488c00b006d9fcb44e00sm2836039otb.32.2023.12.14.11.56.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 14 Dec 2023 11:56:01 -0800 (PST)
-Received: (nullmailer pid 863088 invoked by uid 1000);
-	Thu, 14 Dec 2023 19:56:00 -0000
-From: Rob Herring <robh@kernel.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, Aakarsh Jain <aakarsh.jain@samsung.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: dt-bindings: samsung,s5p-mfc: Fix iommu properties schemas
-Date: Thu, 14 Dec 2023 13:55:52 -0600
-Message-ID: <20231214195553.862920-1-robh@kernel.org>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1702584207; x=1703189007;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3t3FbK18GrHFwKE4zIkpGcLL7FiHaNow8xNq3R4/QdI=;
+        b=YJYgURvY7r0vN1wSnmiiLJ4257K0qyHywFLO+kaMcqFC+YBfZX8mGjIMgQnLsLO3fm
+         psDKy/G0WDRPRXd4kebcYQV6U3YR4h6neznzzbd6eB6ufpI4FEutG8YsKFSDp60V/Weu
+         JVITlROOqaVCGE8M+mavhGn984GBPD7o2yAi9zE2J3w5fcocJPPvxx05rghpcZSF/La9
+         DPi9n1HssQ73daOIWkhhRnBgBAC7dbEij15/ARE80HvJLKtEggxw79zVEo6BqHD23U4i
+         B3wNrTwqvjB6gLitdUh+TX1+pN4XsvLtp5r+TITgyb7Wdrw4LBVBby2bn0LrGo5etvMf
+         C83Q==
+X-Gm-Message-State: AOJu0Yxqqe3hOk2IpjdyyG+V/EskhQ0i+e3dsSXlDHOrbLf8tnNV0o1o
+	r4jYTavLE70t2cw9Jnl7Akr9ImZP/x5Oo/kGw2AMIQ==
+X-Google-Smtp-Source: AGHT+IFJxGuMnKvxp55N7GC1tz5/h738b4XoM+FeA8fRtBht8xQJ/kBDFL2qAi3ZYkZt7idruFgudyPvdRKWDedOoVg=
+X-Received: by 2002:a05:600c:2313:b0:40c:3e43:4183 with SMTP id
+ 19-20020a05600c231300b0040c3e434183mr4682976wmo.5.1702584207011; Thu, 14 Dec
+ 2023 12:03:27 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20231208005250.2910004-1-almasrymina@google.com>
+ <20231208005250.2910004-9-almasrymina@google.com> <b07a4eca-0c3d-4620-9f97-b1d2c76642c2@gmail.com>
+ <CAHS8izNVFx6oHoo7y86P8Di9VCVe8A_n_9UZFkg5Wnt=A=YcNQ@mail.gmail.com>
+ <b1aea7bc-9627-499a-9bee-d2cc07856978@gmail.com> <CAHS8izPry13h49v+PqrmWSREZKZjYpPesxUTyPQy7AGyFwzo4g@mail.gmail.com>
+ <661c1bae-d7d3-457e-b545-5f67b9ef4197@gmail.com>
+In-Reply-To: <661c1bae-d7d3-457e-b545-5f67b9ef4197@gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Thu, 14 Dec 2023 12:03:15 -0800
+Message-ID: <CAHS8izOY9xm=LBEN8sYwEa3aFB4GWDvJVacom3o4mHZPdHzTUg@mail.gmail.com>
+Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
+To: Pavel Begunkov <asml.silence@gmail.com>
+Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
+	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
+	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
+	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
+	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>, 
+	Kaiyuan Zhang <kaiyuanz@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The iommus and iommu-names property schemas have several issues. First,
-'iommus-names' in the if/then schemas is the wrong name. As all the names
-are the same, they can be defined at the top level instead. Then the
-if/then schemas just need to define how many entries. The iommus if/then
-schemas are also redundant. Best I can tell, the desire was to require 2
-entries for "samsung,exynos5433-mfc", "samsung,mfc-v5", "samsung,mfc-v6",
-and "samsung,mfc-v8".
+On Mon, Dec 11, 2023 at 12:37=E2=80=AFPM Pavel Begunkov <asml.silence@gmail=
+.com> wrote:
+...
+> >> If you remove the branch, let it fall into ->release and rely
+> >> on refcounting there, then the callback could also fix up
+> >> release_cnt or ask pp to do it, like in the patch I linked above
+> >>
+> >
+> > Sadly I don't think this is possible due to the reasons I mention in
+> > the commit message of that patch. Prematurely releasing ppiov and not
+> > having them be candidates for recycling shows me a 4-5x degradation in
+> > performance.
+>
+> I don't think I follow. The concept is to only recycle a buffer (i.e.
+> make it available for allocation) when its refs drop to zero, which is
+> IMHO the only way it can work, and IIUC what this patchset is doing.
+>
+> That's also I suggest to do, but through a slightly different path.
+> Let's say at some moment there are 2 refs (e.g. 1 for an skb and
+> 1 for userspace/xarray).
+>
+> Say it first puts the skb:
+>
+> napi_pp_put_page()
+>    -> page_pool_return_page()
+>      -> mp_ops->release_page()
+>         -> need_to_free =3D put_buf()
+>            // not last ref, need_to_free=3D=3Dfalse,
+>            // don't recycle, don't increase release_cnt
+>
+> Then you put the last ref:
+>
+> page_pool_iov_put_many()
+>    -> page_pool_return_page()
+>      -> mp_ops->release_page()
+>         -> need_to_free =3D put_buf()
+>            // last ref, need_to_free=3D=3Dtrue,
+>            // recycle and release_cnt++
+>
+> And that last put can even be recycled right into the
+> pp / ptr_ring, in which case it doesn't need to touch
+> release_cnt. Does it make sense? I don't see where
+> 4-5x degradation would come from
+>
+>
 
-Signed-off-by: Rob Herring <robh@kernel.org>
----
-v2:
- - Fix some more cases of iommus-names
----
- .../bindings/media/samsung,s5p-mfc.yaml       | 33 ++++++++-----------
- 1 file changed, 13 insertions(+), 20 deletions(-)
+Sorry for the late reply, I have been working on this locally.
 
-diff --git a/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
-index 084b44582a43..4c3250985ac3 100644
---- a/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
-+++ b/Documentation/devicetree/bindings/media/samsung,s5p-mfc.yaml
-@@ -49,7 +49,9 @@ properties:
- 
-   iommu-names:
-     minItems: 1
--    maxItems: 2
-+    items:
-+      - const: left
-+      - const: right
- 
-   power-domains:
-     maxItems: 1
-@@ -84,7 +86,7 @@ allOf:
-             - const: sclk_mfc
-         iommus:
-           maxItems: 1
--        iommus-names: false
-+        iommu-names: false
- 
-   - if:
-       properties:
-@@ -102,11 +104,9 @@ allOf:
-             - const: aclk
-             - const: aclk_xiu
-         iommus:
--          maxItems: 2
--        iommus-names:
--          items:
--            - const: left
--            - const: right
-+          minItems: 2
-+        iommu-names:
-+          minItems: 2
- 
-   - if:
-       properties:
-@@ -123,11 +123,9 @@ allOf:
-             - const: mfc
-             - const: sclk_mfc
-         iommus:
--          maxItems: 2
--        iommus-names:
--          items:
--            - const: left
--            - const: right
-+          minItems: 2
-+        iommu-names:
-+          minItems: 2
- 
-   - if:
-       properties:
-@@ -144,11 +142,9 @@ allOf:
-           items:
-             - const: mfc
-         iommus:
--          maxItems: 2
--        iommus-names:
--          items:
--            - const: left
--            - const: right
-+          minItems: 2
-+        iommu-names:
-+          minItems: 2
- 
-   - if:
-       properties:
-@@ -161,9 +157,6 @@ allOf:
-         clocks:
-           minItems: 1
-           maxItems: 2
--        iommus:
--          minItems: 1
--          maxItems: 2
- 
- examples:
-   - |
--- 
-2.43.0
+What you're saying makes sense, and I'm no longer sure why I was
+seeing a perf degradation without '[net-next v1 10/16] page_pool:
+don't release iov on elevanted refcount'. However, even though what
+you're saying is technically correct, AFAIU it's actually semantically
+wrong. When a page is released by the page_pool, we should call
+page_pool_clear_pp_info() and completely disconnect the page from the
+pool. If we call release_page() on a page and then the page pool sees
+it again in page_pool_return_page(), I think that is considered a bug.
+In fact I think what you're proposing is as a result of a bug because
+we don't call a page_pool_clear_pp_info() equivalent on releasing
+ppiov.
 
+However, I'm reasonably confident I figured out the right thing to do
+here. The page_pool uses page->pp_frag_count for its refcounting.
+pp_frag_count is a misnomer, it's being renamed to pp_ref_count in
+Liang's series[1]). In this series I used a get_page/put_page
+equivalent for refcounting. Once I transitioned to using
+pp_[frag|ref]_count for refcounting inside the page_pool, the issue
+went away, and I no longer need the patch 'page_pool: don't release
+iov on elevanted refcount'.
+
+There is an additional upside, since pages and ppiovs are both being
+refcounted using pp_[frag|ref]_count, we get some unified handling for
+ppiov and we reduce the checks around ppiov. This should be fixed
+properly in the next series.
+
+I still need to do some work (~1 week) before I upload the next
+version as there is a new requirement from MM that we transition to a
+new type and not re-use page*, but I uploaded my changes github with
+the refcounting issues resolved in case they're useful to you. Sorry
+for the churn:
+
+https://github.com/mina/linux/commits/tcpdevmem-v1.5/
+
+[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=3D809049&st=
+ate=3D*
+
+--=20
+Thanks,
+Mina
 
