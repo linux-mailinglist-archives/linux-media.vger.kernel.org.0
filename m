@@ -1,42 +1,42 @@
-Return-Path: <linux-media+bounces-2424-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2425-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FD368134CD
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 16:30:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F8F813509
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 16:42:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A229D1C20AEC
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 15:30:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6714C1C20B25
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 15:42:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19A365D49A;
-	Thu, 14 Dec 2023 15:30:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C3315D8F3;
+	Thu, 14 Dec 2023 15:41:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Arxh6yRb"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DATtQ2jW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB1FF10F;
-	Thu, 14 Dec 2023 07:30:41 -0800 (PST)
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C758D111;
+	Thu, 14 Dec 2023 07:41:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702567840;
-	bh=L6OpDbiNLcyPXuRO6mFK0GaJHqzS5h9be+Rfj9yM16w=;
+	s=mail; t=1702568512;
+	bh=AwBqTH3jxYY2SxYvwm4RiTxswXu1qwwNdGeqdtO0ynw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Arxh6yRblL+S+abOSng3LoCgobcTIFL1Sfj70f2rPJ2F8ICmR6jzWjb79Q+QzuR+l
-	 L7E4IYpViuGzezjARvfu0F/lwHVzCkK/m5lr2evtA44lae7kTzMJp+GziWwtAC4MvC
-	 uvILG76Uxa18u6cffX+b5hb25Xq8Y74P0yIyQ/CKt6tbnulkQ0OeY6g1+gD5a3uy0p
-	 swgdvEcQIxsN4SnGd4/hFT9C0SaBUj1lHYCNU6dQMDhYN2bjVb5olLum/2gO7gNeLM
-	 PVPW9TMDkBEEJPCgFGRLc0G+2qfKv2z6eB0yMPXZTxryzE4VU7tD7JiMZqZWU4VDxY
-	 2U64vXmMe6KMA==
-Received: from [100.90.194.27] (cola.collaboradmins.com [195.201.22.229])
+	b=DATtQ2jW6I9h/uNNbShGq4bU04cLoI87NzvIJUU4Lx04d5wDrvFigL3GNhYuLk4NL
+	 e/ikmviXtmHaS2xBzjYCYW29jx5altAcA4X1P98I89Z0KWMgu73Rt9A6f2Lx87Z/h+
+	 PTy2M0tU+i4flGj0s2sJwO9FkfO6yJTbnRy5i2daXtMRdwJnS3uwc1DGkcgL7paKzp
+	 6gRJ+kSDA6TjK3shglv4+NlqBz1tRshV0xj9YaGCVgJ26X66eKgWN73cgLk42bT5K+
+	 9k+XZ2sT9YeMoGyeCdD8La9D9E8yjuiXqh4Lzp/h9BF9aOY+8QMHuSB4uasVTk+DLO
+	 5iB9QttJB4f2Q==
+Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: ehristev)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2B81A3781485;
-	Thu, 14 Dec 2023 15:30:39 +0000 (UTC)
-Message-ID: <18406191-1b7c-490a-852b-eed3db23a3c1@collabora.com>
-Date: Thu, 14 Dec 2023 17:30:38 +0200
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2C1A13781485;
+	Thu, 14 Dec 2023 15:41:52 +0000 (UTC)
+Message-ID: <0e64b778-e4ff-4b2f-9864-b5d58f642e0e@collabora.com>
+Date: Thu, 14 Dec 2023 16:41:51 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -44,104 +44,70 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] arm64: dts: mediatek: mt8186: Add venc node
+Subject: Re: [PATCH v5 1/3] videobuf2: core: Rename min_buffers_needed field
+ to vb2_queue
+To: Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org, tfiga@chromium.org
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, kernel@collabora.com
+References: <20231211133251.150999-1-benjamin.gaignard@collabora.com>
+ <20231211133251.150999-2-benjamin.gaignard@collabora.com>
+ <839535af-acba-4240-b9c6-d592d898dc4c@xs4all.nl>
 Content-Language: en-US
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-mediatek@lists.infradead.org
-Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com, tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
- matthias.bgg@gmail.com, Kyrie Wu <kyrie.wu@mediatek.com>,
- Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
- Hsin-Yi Wang <hsinyi@chromium.org>
-References: <20231213122017.102100-1-eugen.hristev@collabora.com>
- <20231213122017.102100-4-eugen.hristev@collabora.com>
- <d20c35e2-cc40-436d-90ca-4cab555874ca@collabora.com>
-From: Eugen Hristev <eugen.hristev@collabora.com>
-In-Reply-To: <d20c35e2-cc40-436d-90ca-4cab555874ca@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-On 12/14/23 12:44, AngeloGioacchino Del Regno wrote:
-> Il 13/12/23 13:20, Eugen Hristev ha scritto:
->> From: Kyrie Wu <kyrie.wu@mediatek.com>
->>
->> Add video encoder node.
->>
->> Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
->> Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
->> Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
->> [eugen.hristev@collabora.com: minor cleanup]
->> Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
->> ---
->>   arch/arm64/boot/dts/mediatek/mt8186.dtsi | 24 ++++++++++++++++++++++++
->>   1 file changed, 24 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/mediatek/mt8186.dtsi b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
->> index 66ead3f23336..8535ff2b44e9 100644
->> --- a/arch/arm64/boot/dts/mediatek/mt8186.dtsi
->> +++ b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
->> @@ -1993,6 +1993,30 @@ larb7: smi@17010000 {
->>   			power-domains = <&spm MT8186_POWER_DOMAIN_VENC>;
->>   		};
->>   
->> +		venc: venc@17020000 {
->> +			compatible = "mediatek,mt8183-vcodec-enc";
->> +			#address-cells = <2>;
->> +			#size-cells = <2>;
->> +			reg = <0 0x17020000 0 0x2000>;
->> +			interrupts = <GIC_SPI 243 IRQ_TYPE_LEVEL_HIGH 0>;
->> +			iommus = <&iommu_mm IOMMU_PORT_L7_VENC_RCPU>,
->> +				 <&iommu_mm IOMMU_PORT_L7_VENC_REC>,
->> +				 <&iommu_mm IOMMU_PORT_L7_VENC_BSDMA>,
->> +				 <&iommu_mm IOMMU_PORT_L7_VENC_SV_COMV>,
->> +				 <&iommu_mm IOMMU_PORT_L7_VENC_RD_COMV>,
->> +				 <&iommu_mm IOMMU_PORT_L7_VENC_CUR_LUMA>,
->> +				 <&iommu_mm IOMMU_PORT_L7_VENC_CUR_CHROMA>,
->> +				 <&iommu_mm IOMMU_PORT_L7_VENC_REF_LUMA>,
->> +				 <&iommu_mm IOMMU_PORT_L7_VENC_REF_CHROMA>;
->> +			dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
->> +			mediatek,scp = <&scp>;
->> +			clocks = <&vencsys CLK_VENC_CKE1_VENC>;
->> +			clock-names = "MT_CG_VENC";
-> 
-> clock-names = "venc"; (please no underscores and please lower case)
-
-The clock name must be `venc_sel` (*with* underscores) and it's ABI as defined in
-Documentation/devicetree/bindings/media/mediatek,vcodec-encoder.yaml
-
-so I will it change to that.
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+In-Reply-To: <839535af-acba-4240-b9c6-d592d898dc4c@xs4all.nl>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
 
-> 
->> +			assigned-clocks = <&topckgen CLK_TOP_VENC>;
->> +			assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D3>;
->> +			power-domains = <&spm MT8186_POWER_DOMAIN_VENC>;
->> +		};
-> 
-> 
-> ....also:
-> 
-> The following order of properties in device nodes is preferred:
-> 
-> 1. "compatible"
-> 2. "reg"
-> 3. "ranges"
-> 4. Standard/common properties (defined by common bindings, e.g. without
->     vendor-prefixes)
-> 5. Vendor-specific properties
-> 6. "status" (if applicable)
-> 7. Child nodes, where each node is preceded with a blank line
-> 
-> Documentation/devicetree/bindings/dts-coding-style.rst
-> 
-> Please reorder as per the DTS coding style document, and also please rename the
-> venc node to use a generic name, such as "video-encoder@xxxx"
-> 
-> Cheers,
-> Angelo
-> _______________________________________________
-> Kernel mailing list -- kernel@mailman.collabora.com
-> To unsubscribe send an email to kernel-leave@mailman.collabora.com
+Le 13/12/2023 à 17:39, Hans Verkuil a écrit :
+> Hi Benjamin,
+>
+> On 11/12/2023 14:32, Benjamin Gaignard wrote:
+>> Rename min_buffers_needed into min_queued_buffers and update
+>> the documentation about it.
+> I merged this patch, but not the others. I also dropped one functional
+> change:
+>
+> <snip>
+>
+>> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+>> index 40d89f29fa33..8912dff5bde3 100644
+>> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+>> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+>> @@ -865,7 +865,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
+>>   	/*
+>>   	 * Make sure the requested values and current defaults are sane.
+>>   	 */
+>> -	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
+>> +	num_buffers = max_t(unsigned int, *count, q->min_queued_buffers + 1);
+>>   	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
+>>   	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
+>>   	/*
+> That "+ 1" didn't really belong here, since everything else was just renaming a
+> field. Such a patch shouldn't make any other changes.
+>
+> There were also three more occurrences of min_buffers_needed (one in a comment,
+> two in a vivid function argument), and I renamed those as well.
+>
+> 'git grep min_buffers_needed' now no longer shows any hits.
+>
+> I decided not to take the other patches, I think it is best if you rebase
+> and repost the series on top of staging and in the new year we'll continue with
+> it. I did not feel that I had enough time to really review the remaining patches.
 
+Do you want me to re-post only the two missing patches or should I add the patches for
+delete buffers feature since it is the ultimate goal of this ?
+
+Regards,
+Benjamin
+
+>
+> However, it is nice to have this large rename patch merged. It touches on a lot
+> of files, so it is annoying to have to carry that around. And now was a good
+> moment to merge it.
+>
+> Regards,
+>
+> 	Hans
+>
 
