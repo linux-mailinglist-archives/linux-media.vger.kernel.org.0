@@ -1,179 +1,142 @@
-Return-Path: <linux-media+bounces-2406-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2407-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB3EC812D54
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 11:49:32 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4C2B812D5F
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 11:50:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5C4131F219DD
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 10:49:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 717AD282902
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 10:50:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F30113D98D;
-	Thu, 14 Dec 2023 10:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B81A13C689;
+	Thu, 14 Dec 2023 10:50:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="siQwFQbr"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="a7sZySPb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3572A115
-	for <linux-media@vger.kernel.org>; Thu, 14 Dec 2023 02:49:10 -0800 (PST)
-Received: from hillosipuli.retiisi.eu (2a00-1190-d1dd-0-c641-1eff-feae-163c.v6.cust.suomicom.net [IPv6:2a00:1190:d1dd:0:c641:1eff:feae:163c])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [IPv6:2a00:1098:ed:100::25])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F17EC114;
+	Thu, 14 Dec 2023 02:50:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702551047;
+	bh=KQPPWQ7ff7K6RVCr76kqdYlu1bxc+1vJ5J89gJwofFw=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=a7sZySPblmTeMFftL/9ixGNcikvNBMVPwpY94ey3QDN8xp3HwZybSYjESrfS+Clws
+	 gKC2PU3t30NXOSSJGAQ5DIqKacg7UnSxFuJr9dnOe0H6PVtbIdBOYmvYrw/vtk2HBe
+	 OgrYq1DrQMk0RteGZEZTlHcwGVuECjh5ymX9mwFOUEKYIzMUEkrhHfqxEzwrtmp6Nb
+	 i0JTZP8x44boidCbpYz+BRDQ58irrtLeHEuIRCXJX8d5Ow4jt4A30m9n+zZ8EzuKGO
+	 4dpd+YS+m+3nI6nOAyvcnr6WMllxjKHcys84GxXtC2s1QiTHmlhiodYqayhoUxjxSp
+	 A0FAyEJLjVTvg==
+Received: from [100.113.186.2] (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4SrTcM3867z49PwQ;
-	Thu, 14 Dec 2023 12:49:07 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1702550947;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=oO4Xk4XFwtrlDsqjZ3o47reuCCE5WoxxVoMKRi55mpY=;
-	b=siQwFQbrGRu18EqDzIGoC6gdWj7deWNsDO45+O+Sje4QFB+PA02gV07Sg4GMfbN+2BUH9S
-	xeoOHC9kEXYquW+QCWfxeEUmzuWdyOtCULsWEY+WDPLAWzlfKRtKAFhD3F2wvdWXGRTiG7
-	bHDKrikOiojDYcqKscquUfX/COTpxGLbY3vwXDqvkZ277vzHRc5wzXIljuZFDKedFY/N+m
-	T/QqOJVQzZStQ/B3NFLJNSWB/RkbdwsYKeLn9xWVnJ+WI2jlPp1zh/Y84/ttNQpATCLovL
-	PB4U6ArhVaTjIdAJomUVqhOQiiZRWkhJF8yvGIUkRMopZxvS2YAS0Pfj0O8VZA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1702550947;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=oO4Xk4XFwtrlDsqjZ3o47reuCCE5WoxxVoMKRi55mpY=;
-	b=wM7tWFDSfz3oETD7qnrtexVBpEy1TVuTCzNu1zOcmR268n4OjPu8R5wx6wKtMLwEoQqS+P
-	cw0lpvbbOS0Ze2G5l/pjJYG5uJGM8tLVilBZ2GKyRaqz28cj3o/+UFskngnTZXHbMpim0x
-	3gIxzVEZtMTIUzNiexrqhjV/Za4yaE8RAj3otiL1ZYO3kl9730DtxXUW/lisyZ0Yvcj4K7
-	whEXnAjfTZjvutV3hGSy+uA6mrFxjwzeVJ10hRkPO6lqG4Lh0holal9p2Gm/1EGrAUeC7O
-	HnqaRCT6IqUePVM43pDyJBpBV8bKrEriI1vu3zuh2yxclPxVVQIUi+sd0Th2RQ==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1702550947; a=rsa-sha256;
-	cv=none;
-	b=ezfUrql7pcKrjGualmrb0RAS8z+d13jXlrZgu1sQwtwGSZsIoLZ6q1QkhRivzSFA1bxDG2
-	awv2+rXWeELw046Qwck8Xku5nudy7I06iGvviO8L2kSw8Ezj7kj4omnPlzf9yR85BdKFJH
-	MQ7Y11uGGtHu0+pX7mkWjbMInOzv4AW2Z3eRnC96svI97pzPQ0cK8N9JWd2yhOZMaAigDL
-	7tE3aFRKMqQbvbCuns7q/rXluwYybCzN157oR7cNTGpr3CXfcPd0PnpXWL8/SqsAy4Aocc
-	kbrvzOS1uleLEJmT4Nd7Av/cG4uxbhpHVv2iKbQ5GhCwmDRtxFlaFFLzlw2MCA==
-Received: from valkosipuli.retiisi.eu (valkosipuli.localdomain [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5BD64634C94;
-	Thu, 14 Dec 2023 12:49:05 +0200 (EET)
-Date: Thu, 14 Dec 2023 10:49:05 +0000
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: hverkuil@xs4all.nl, mchehab@kernel.org
-Cc: linux-media@vger.kernel.org
-Subject: New PGP key
-Message-ID: <ZXrdoRb2Y3ODUDRM@valkosipuli.retiisi.eu>
+	(Authenticated sender: kholk11)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id D487F378000B;
+	Thu, 14 Dec 2023 10:50:46 +0000 (UTC)
+Message-ID: <ff4f8365-d329-422c-ae04-d39a26f27552@collabora.com>
+Date: Thu, 14 Dec 2023 11:50:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="Yco0Ayw8seRdqRjO"
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 4/4] arm64: dts: mediatek: mt8186: Add venc node
+Content-Language: en-US
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+To: Eugen Hristev <eugen.hristev@collabora.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-mediatek@lists.infradead.org
+Cc: linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com, tiffany.lin@mediatek.com, andrew-ct.chen@mediatek.com,
+ matthias.bgg@gmail.com, Kyrie Wu <kyrie.wu@mediatek.com>,
+ Allen-KH Cheng <allen-kh.cheng@mediatek.com>,
+ Hsin-Yi Wang <hsinyi@chromium.org>
+References: <20231213122017.102100-1-eugen.hristev@collabora.com>
+ <20231213122017.102100-4-eugen.hristev@collabora.com>
+ <d20c35e2-cc40-436d-90ca-4cab555874ca@collabora.com>
+In-Reply-To: <d20c35e2-cc40-436d-90ca-4cab555874ca@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+
+Il 14/12/23 11:44, AngeloGioacchino Del Regno ha scritto:
+> Il 13/12/23 13:20, Eugen Hristev ha scritto:
+>> From: Kyrie Wu <kyrie.wu@mediatek.com>
+>>
+>> Add video encoder node.
+>>
+>> Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
+>> Signed-off-by: Allen-KH Cheng <allen-kh.cheng@mediatek.com>
+>> Reviewed-by: Hsin-Yi Wang <hsinyi@chromium.org>
+>> [eugen.hristev@collabora.com: minor cleanup]
+>> Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
+>> ---
+>>   arch/arm64/boot/dts/mediatek/mt8186.dtsi | 24 ++++++++++++++++++++++++
+>>   1 file changed, 24 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/mediatek/mt8186.dtsi 
+>> b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
+>> index 66ead3f23336..8535ff2b44e9 100644
+>> --- a/arch/arm64/boot/dts/mediatek/mt8186.dtsi
+>> +++ b/arch/arm64/boot/dts/mediatek/mt8186.dtsi
+>> @@ -1993,6 +1993,30 @@ larb7: smi@17010000 {
+>>               power-domains = <&spm MT8186_POWER_DOMAIN_VENC>;
+>>           };
+>> +        venc: venc@17020000 {
+>> +            compatible = "mediatek,mt8183-vcodec-enc";
+
+Sorry for the double email;
+
+I've just noticed: where's mediatek,mt8186-vcodec-enc? :-)
+
+>> +            #address-cells = <2>;
+>> +            #size-cells = <2>;
+>> +            reg = <0 0x17020000 0 0x2000>;
+>> +            interrupts = <GIC_SPI 243 IRQ_TYPE_LEVEL_HIGH 0>;
+>> +            iommus = <&iommu_mm IOMMU_PORT_L7_VENC_RCPU>,
+>> +                 <&iommu_mm IOMMU_PORT_L7_VENC_REC>,
+>> +                 <&iommu_mm IOMMU_PORT_L7_VENC_BSDMA>,
+>> +                 <&iommu_mm IOMMU_PORT_L7_VENC_SV_COMV>,
+>> +                 <&iommu_mm IOMMU_PORT_L7_VENC_RD_COMV>,
+>> +                 <&iommu_mm IOMMU_PORT_L7_VENC_CUR_LUMA>,
+>> +                 <&iommu_mm IOMMU_PORT_L7_VENC_CUR_CHROMA>,
+>> +                 <&iommu_mm IOMMU_PORT_L7_VENC_REF_LUMA>,
+>> +                 <&iommu_mm IOMMU_PORT_L7_VENC_REF_CHROMA>;
+>> +            dma-ranges = <0x1 0x0 0x1 0x0 0x1 0x0>;
+>> +            mediatek,scp = <&scp>;
+>> +            clocks = <&vencsys CLK_VENC_CKE1_VENC>;
+>> +            clock-names = "MT_CG_VENC";
+> 
+> clock-names = "venc"; (please no underscores and please lower case)
+> 
+>> +            assigned-clocks = <&topckgen CLK_TOP_VENC>;
+>> +            assigned-clock-parents = <&topckgen CLK_TOP_UNIVPLL_D3>;
+>> +            power-domains = <&spm MT8186_POWER_DOMAIN_VENC>;
+>> +        };
+> 
+> 
+> ....also:
+> 
+> The following order of properties in device nodes is preferred:
+> 
+> 1. "compatible"
+> 2. "reg"
+> 3. "ranges"
+> 4. Standard/common properties (defined by common bindings, e.g. without
+>     vendor-prefixes)
+> 5. Vendor-specific properties
+> 6. "status" (if applicable)
+> 7. Child nodes, where each node is preceded with a blank line
+> 
+> Documentation/devicetree/bindings/dts-coding-style.rst
+> 
+> Please reorder as per the DTS coding style document, and also please rename the
+> venc node to use a generic name, such as "video-encoder@xxxx"
+> 
+> Cheers,
+> Angelo
 
 
---Yco0Ayw8seRdqRjO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-Hi folks,
-
-I created a new OpenPGP which I intend to use for signing tags going
-forward. I've attached the key which so far has been signed by Laurent and
-Tomi (as well as by my own old key).
-
-Can the current scripts handle this or does it need manual changes?
-
--- 
-Regards,
-
-Sakari Ailus
-
---Yco0Ayw8seRdqRjO
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: attachment; filename="sailus.asc"
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-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
-p5/4xSiMy4C3QAsTHeRvK3EK
-=LX9n
------END PGP PUBLIC KEY BLOCK-----
-
---Yco0Ayw8seRdqRjO--
 
