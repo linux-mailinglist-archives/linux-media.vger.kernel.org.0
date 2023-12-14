@@ -1,180 +1,271 @@
-Return-Path: <linux-media+bounces-2431-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2432-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C90BC813B35
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 21:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 583E7813D3B
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 23:24:26 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5BDA828153D
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 20:03:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D4AC28370D
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 22:24:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 368B46A321;
-	Thu, 14 Dec 2023 20:03:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69BEF2C695;
+	Thu, 14 Dec 2023 22:24:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DcctqYnl"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=sensoray.com header.i=@sensoray.com header.b="BHyoHg/f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from omta035.useast.a.cloudfilter.net (omta035.useast.a.cloudfilter.net [44.202.169.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3A556A015
-	for <linux-media@vger.kernel.org>; Thu, 14 Dec 2023 20:03:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-336447100e9so1428765f8f.1
-        for <linux-media@vger.kernel.org>; Thu, 14 Dec 2023 12:03:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1702584207; x=1703189007; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3t3FbK18GrHFwKE4zIkpGcLL7FiHaNow8xNq3R4/QdI=;
-        b=DcctqYnloBXyzr6/icFJ5nrbeI/fwc45lTK7zT/zDqs/kq2mNANjqfq2WI1CPbOIkl
-         3zpygJURz7qkPfte+tjx80A6gdM+O1FTYI2VvL7SuLYcjzd7H6DpQfdwmDLV9+nXMrPb
-         7dTw0mVB00N20UiuwNWRNzFDHCuBoP+J6TIeAJfZc3sS1MAXMzL9Z0GoRoatm7TLOu8j
-         8ZZNvlX+vs9HJuG2Y82vknoMM3anREwfsFsat4CTGetqMhnBOOAiPMlJfT5NqSfpdkqn
-         3Qd8clBnVZm39r28lU0UGMK8yIuIf8HPnzkmKCt9BujWkP4WutaWkmQdw0Vrw4Oq2nII
-         J76Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702584207; x=1703189007;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3t3FbK18GrHFwKE4zIkpGcLL7FiHaNow8xNq3R4/QdI=;
-        b=YJYgURvY7r0vN1wSnmiiLJ4257K0qyHywFLO+kaMcqFC+YBfZX8mGjIMgQnLsLO3fm
-         psDKy/G0WDRPRXd4kebcYQV6U3YR4h6neznzzbd6eB6ufpI4FEutG8YsKFSDp60V/Weu
-         JVITlROOqaVCGE8M+mavhGn984GBPD7o2yAi9zE2J3w5fcocJPPvxx05rghpcZSF/La9
-         DPi9n1HssQ73daOIWkhhRnBgBAC7dbEij15/ARE80HvJLKtEggxw79zVEo6BqHD23U4i
-         B3wNrTwqvjB6gLitdUh+TX1+pN4XsvLtp5r+TITgyb7Wdrw4LBVBby2bn0LrGo5etvMf
-         C83Q==
-X-Gm-Message-State: AOJu0Yxqqe3hOk2IpjdyyG+V/EskhQ0i+e3dsSXlDHOrbLf8tnNV0o1o
-	r4jYTavLE70t2cw9Jnl7Akr9ImZP/x5Oo/kGw2AMIQ==
-X-Google-Smtp-Source: AGHT+IFJxGuMnKvxp55N7GC1tz5/h738b4XoM+FeA8fRtBht8xQJ/kBDFL2qAi3ZYkZt7idruFgudyPvdRKWDedOoVg=
-X-Received: by 2002:a05:600c:2313:b0:40c:3e43:4183 with SMTP id
- 19-20020a05600c231300b0040c3e434183mr4682976wmo.5.1702584207011; Thu, 14 Dec
- 2023 12:03:27 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BEAE2C6A0
+	for <linux-media@vger.kernel.org>; Thu, 14 Dec 2023 22:23:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sensoray.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sensoray.com
+Received: from eig-obgw-6004a.ext.cloudfilter.net ([10.0.30.197])
+	by cmsmtp with ESMTPS
+	id Dq0CrGds2gpyEDu5Qror1Y; Thu, 14 Dec 2023 22:21:44 +0000
+Received: from gator3086.hostgator.com ([50.87.144.121])
+	by cmsmtp with ESMTPS
+	id Du5PrQ5kLRGmSDu5Prna9F; Thu, 14 Dec 2023 22:21:43 +0000
+X-Authority-Analysis: v=2.4 cv=efcuwpIH c=1 sm=1 tr=0 ts=657b7ff7
+ a=qMXOcmIMY6YlrKEg1GzxDg==:117 a=QsTHvn2EeHXCImuSLmd++Q==:17
+ a=OWjo9vPv0XrRhIrVQ50Ab3nP57M=:19 a=dLZJa+xiwSxG16/P+YVxDGlgEgI=:19
+ a=kj9zAlcOel0A:10 a=e2cXIFwxEfEA:10 a=6kiSLZGAxYIA:10 a=wXneSEFuAAAA:8
+ a=FnjLlJzlEcOYaycGDHYA:9 a=CjuIK1q_8ugA:10 a=YVKGGmaMxpnpCiYzuRtG:22
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=sensoray.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+	Message-ID:References:In-Reply-To:Subject:Cc:To:From:Date:MIME-Version:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=gkI0lHWduau2geKhPB7egGmBn7VdNk2wOdKaGYHCA/E=; b=BHyoHg/fAaHOt1rRhzrvCNdk96
+	Eb/bjvlCKCHs+hI6koCrKFN/DWcOQ4KeJQZILXSOKMhqA9KMLcny67k2EOVIuKdWeEHIqC2v/xFvG
+	4Q6uYuwEhMTlQw2kdT9bWlcasUdo6i5bjvPxUQwwh9cv2ZmbUotm63YR7ONQHLdKKB7c=;
+Received: from gator3086.hostgator.com ([50.87.144.121]:30044)
+	by gator3086.hostgator.com with esmtpa (Exim 4.95)
+	(envelope-from <dean@sensoray.com>)
+	id 1rDu5P-0039CP-7J;
+	Thu, 14 Dec 2023 16:21:43 -0600
+Received: from mail.thomaswright.com ([50.126.89.90])
+ by www.sensoray.com
+ with HTTP (HTTP/1.1 POST); Thu, 14 Dec 2023 16:21:42 -0600
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20231208005250.2910004-1-almasrymina@google.com>
- <20231208005250.2910004-9-almasrymina@google.com> <b07a4eca-0c3d-4620-9f97-b1d2c76642c2@gmail.com>
- <CAHS8izNVFx6oHoo7y86P8Di9VCVe8A_n_9UZFkg5Wnt=A=YcNQ@mail.gmail.com>
- <b1aea7bc-9627-499a-9bee-d2cc07856978@gmail.com> <CAHS8izPry13h49v+PqrmWSREZKZjYpPesxUTyPQy7AGyFwzo4g@mail.gmail.com>
- <661c1bae-d7d3-457e-b545-5f67b9ef4197@gmail.com>
-In-Reply-To: <661c1bae-d7d3-457e-b545-5f67b9ef4197@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Thu, 14 Dec 2023 12:03:15 -0800
-Message-ID: <CAHS8izOY9xm=LBEN8sYwEa3aFB4GWDvJVacom3o4mHZPdHzTUg@mail.gmail.com>
-Subject: Re: [net-next v1 08/16] memory-provider: dmabuf devmem memory provider
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: Shailend Chand <shailend@google.com>, netdev@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-arch@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Jeroen de Borst <jeroendb@google.com>, 
-	Praveen Kaligineedi <pkaligineedi@google.com>, Jesper Dangaard Brouer <hawk@kernel.org>, 
-	Ilias Apalodimas <ilias.apalodimas@linaro.org>, Arnd Bergmann <arnd@arndb.de>, 
-	David Ahern <dsahern@kernel.org>, Willem de Bruijn <willemdebruijn.kernel@gmail.com>, 
-	Shuah Khan <shuah@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Yunsheng Lin <linyunsheng@huawei.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Shakeel Butt <shakeelb@google.com>, Willem de Bruijn <willemb@google.com>, 
-	Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Date: Thu, 14 Dec 2023 16:21:42 -0600
+From: dean@sensoray.com
+To: Hans Verkuil <hverkuil@xs4all.nl>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: usb: s2255: add serial number V4L2_CID
+In-Reply-To: <917c4e00-28bd-416f-9be7-b87717b3cf2f@xs4all.nl>
+References: <20231208223815.130450-1-dean@sensoray.com>
+ <917c4e00-28bd-416f-9be7-b87717b3cf2f@xs4all.nl>
+User-Agent: Roundcube Webmail/1.4.12
+Message-ID: <fc12067f6de4efe01dcfc419bc3b9efd@sensoray.com>
+X-Sender: dean@sensoray.com
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - gator3086.hostgator.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - sensoray.com
+X-BWhitelist: no
+X-Source-IP: 50.87.144.121
+X-Source-L: Yes
+X-Exim-ID: 1rDu5P-0039CP-7J
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
+X-Source-Sender: gator3086.hostgator.com [50.87.144.121]:30044
+X-Source-Auth: dean@sensoray.com
+X-Email-Count: 1
+X-Org: HG=hgshared;ORG=hostgator;
+X-Source-Cap: c2Vuc29yYXk7c2Vuc29yYXk7Z2F0b3IzMDg2Lmhvc3RnYXRvci5jb20=
+X-Local-Domain: yes
+X-CMAE-Envelope: MS4xfDA4lipuk6Q3eR7hW/5LYjas715/HXuEse3xvARnFIWBaVppBvr7j0las0fhsP4MJeISbuqek0tyDc5RJ10/dtFfiDuNEb44pkx5CWZaRGU9h7VaTBGF
+ Mu3xdTIiPkzI7xQXwdMPC6P5Tp2Sai2JyHEzbP6jV72natT6zxKds5hXt+PQxzRLcWMWA5GF4ZwCOSdbiRYAkcIEvESIYR4a7NM=
 
-On Mon, Dec 11, 2023 at 12:37=E2=80=AFPM Pavel Begunkov <asml.silence@gmail=
-.com> wrote:
-...
-> >> If you remove the branch, let it fall into ->release and rely
-> >> on refcounting there, then the callback could also fix up
-> >> release_cnt or ask pp to do it, like in the patch I linked above
-> >>
-> >
-> > Sadly I don't think this is possible due to the reasons I mention in
-> > the commit message of that patch. Prematurely releasing ppiov and not
-> > having them be candidates for recycling shows me a 4-5x degradation in
-> > performance.
->
-> I don't think I follow. The concept is to only recycle a buffer (i.e.
-> make it available for allocation) when its refs drop to zero, which is
-> IMHO the only way it can work, and IIUC what this patchset is doing.
->
-> That's also I suggest to do, but through a slightly different path.
-> Let's say at some moment there are 2 refs (e.g. 1 for an skb and
-> 1 for userspace/xarray).
->
-> Say it first puts the skb:
->
-> napi_pp_put_page()
->    -> page_pool_return_page()
->      -> mp_ops->release_page()
->         -> need_to_free =3D put_buf()
->            // not last ref, need_to_free=3D=3Dfalse,
->            // don't recycle, don't increase release_cnt
->
-> Then you put the last ref:
->
-> page_pool_iov_put_many()
->    -> page_pool_return_page()
->      -> mp_ops->release_page()
->         -> need_to_free =3D put_buf()
->            // last ref, need_to_free=3D=3Dtrue,
->            // recycle and release_cnt++
->
-> And that last put can even be recycled right into the
-> pp / ptr_ring, in which case it doesn't need to touch
-> release_cnt. Does it make sense? I don't see where
-> 4-5x degradation would come from
->
->
+On 2023-12-13 04:03, Hans Verkuil wrote:
+> Hi Dean,
+> 
+> A few more comments below.
+> 
+> BTW, when you post an new version of a patch, it is good practice to
+> show that in the Subject line. So the next version should say: 
+> '[PATCHv3]'.
+> 
+> That helps keeping track of versions.
+> 
+> On 08/12/2023 23:38, Dean Anderson wrote:
+>> Adding V4L2 read-only control id for serial number as hardware
+>> does not support embedding the serial number in the USB device 
+>> descriptors.
+>> 
+>> Signed-off-by: Dean Anderson <dean@sensoray.com>
+>> 
+>> ---
+>>  drivers/media/usb/s2255/s2255drv.c | 46 
+>> ++++++++++++++++++++++++++++--
+>>  1 file changed, 44 insertions(+), 2 deletions(-)
+>> 
+>> diff --git a/drivers/media/usb/s2255/s2255drv.c 
+>> b/drivers/media/usb/s2255/s2255drv.c
+>> index 3c2627712fe9..5fdf12a6c47a 100644
+>> --- a/drivers/media/usb/s2255/s2255drv.c
+>> +++ b/drivers/media/usb/s2255/s2255drv.c
+>> @@ -40,7 +40,7 @@
+>>  #include <media/v4l2-ctrls.h>
+>>  #include <media/v4l2-event.h>
+>> 
+>> -#define S2255_VERSION		"1.25.1"
+>> +#define S2255_VERSION		"1.26.1"
+> 
+> Something for a separate patch: it is discouraged to have a driver 
+> specific
+> version number.
+> 
+> The version number as returned by VIDIOC_QUERYCAP is just filled with 
+> the
+> kernel version, which is really what you need.
+> 
+> In practice driver versions are rarely updated, and generally useless.
+> 
+>>  #define FIRMWARE_FILE_NAME "f2255usb.bin"
+>> 
+>>  /* default JPEG quality */
+>> @@ -60,6 +60,7 @@
+>>  #define S2255_MIN_BUFS          2
+>>  #define S2255_SETMODE_TIMEOUT   500
+>>  #define S2255_VIDSTATUS_TIMEOUT 350
+>> +#define S2255_MARKER_FIRMWARE	cpu_to_le32(0xDDCCBBAAL)
+>>  #define S2255_MARKER_FRAME	cpu_to_le32(0x2255DA4AL)
+>>  #define S2255_MARKER_RESPONSE	cpu_to_le32(0x2255ACACL)
+>>  #define S2255_RESPONSE_SETMODE  cpu_to_le32(0x01)
+>> @@ -323,6 +324,7 @@ struct s2255_buffer {
+>>  #define S2255_V4L2_YC_ON  1
+>>  #define S2255_V4L2_YC_OFF 0
+>>  #define V4L2_CID_S2255_COLORFILTER (V4L2_CID_USER_S2255_BASE + 0)
+>> +#define V4L2_CID_S2255_SERIALNUM (V4L2_CID_USER_S2255_BASE + 1)
+>> 
+>>  /* frame prefix size (sent once every frame) */
+>>  #define PREFIX_SIZE		512
+>> @@ -1232,6 +1234,32 @@ static int s2255_s_ctrl(struct v4l2_ctrl *ctrl)
+>>  	return 0;
+>>  }
+>> 
+>> +/*
+>> + * serial number is not used in usb device descriptors.
+>> + * returns serial number from device, 0 if none found.
+>> + */
+>> +#define S2255_SERIALNUM_NONE 0
+>> +static int s2255_g_serialnum(struct s2255_dev *dev)
+>> +{
+>> +	u8 *buf;
+>> +	int serialnum = S2255_SERIALNUM_NONE;
+>> +#define S2255_I2C_SIZE     16
+>> +	buf = kzalloc(S2255_I2C_SIZE, GFP_KERNEL);
+>> +	if (!buf)
+>> +		return serialnum;
+>> +#define S2255_I2C_SERIALNUM 0xa2
+>> +#define S2255_I2C_SERIALNUM_OFFSET 0x1ff0
+>> +#define S2255_VENDOR_READREG 0x22
+> 
+> Having these defines mixed in with the code is rather distracting.
+> 
+> Just collect them and have them at the beginning of the function,
+> right after the opening {.
+> 
+>> +	s2255_vendor_req(dev, S2255_VENDOR_READREG, 
+>> S2255_I2C_SERIALNUM_OFFSET,
+>> +			 S2255_I2C_SERIALNUM >> 1, buf, S2255_I2C_SIZE, 0);
+>> +
+>> +	/* verify marker code */
+>> +	if (*(__le32 *)buf == S2255_MARKER_FIRMWARE)
+>> +		serialnum = (buf[12] << 24) + (buf[13] << 16) + (buf[14] << 8) + 
+>> buf[15];
+>> +	kfree(buf);
+>> +	return serialnum;
+>> +}
+>> +
+>>  static int vidioc_g_jpegcomp(struct file *file, void *priv,
+>>  			 struct v4l2_jpegcompression *jc)
+>>  {
+>> @@ -1581,6 +1609,17 @@ static const struct v4l2_ctrl_config 
+>> color_filter_ctrl = {
+>>  	.def = 1,
+>>  };
+>> 
+>> +static struct v4l2_ctrl_config v4l2_ctrl_serialnum = {
+> 
+> This should be 'const'.
+> 
+>> +	.ops = &s2255_ctrl_ops,
+>> +	.name = "Serial Number",
+>> +	.id = V4L2_CID_S2255_SERIALNUM,
+>> +	.type = V4L2_CTRL_TYPE_INTEGER,
+>> +	.max = 0x7fffffff,
+>> +	.min = 0,
+>> +	.step = 1,
+>> +	.flags = V4L2_CTRL_FLAG_READ_ONLY,
+>> +};
+>> +
+>>  static int s2255_probe_v4l(struct s2255_dev *dev)
+>>  {
+>>  	int ret;
+>> @@ -1598,7 +1637,7 @@ static int s2255_probe_v4l(struct s2255_dev 
+>> *dev)
+>>  		vc = &dev->vc[i];
+>>  		INIT_LIST_HEAD(&vc->buf_list);
+>> 
+>> -		v4l2_ctrl_handler_init(&vc->hdl, 6);
+>> +		v4l2_ctrl_handler_init(&vc->hdl, 7);
+>>  		v4l2_ctrl_new_std(&vc->hdl, &s2255_ctrl_ops,
+>>  				V4L2_CID_BRIGHTNESS, -127, 127, 1, DEF_BRIGHT);
+>>  		v4l2_ctrl_new_std(&vc->hdl, &s2255_ctrl_ops,
+>> @@ -1615,6 +1654,9 @@ static int s2255_probe_v4l(struct s2255_dev 
+>> *dev)
+>>  		    (dev->pid != 0x2257 || vc->idx <= 1))
+>>  			v4l2_ctrl_new_custom(&vc->hdl, &color_filter_ctrl,
+>>  					     NULL);
+>> +		v4l2_ctrl_serialnum.def = s2255_g_serialnum(dev);
+> 
+> You can't do this, this could cause problems if you have multiple S2255
+> devices connected.
+> 
 
-Sorry for the late reply, I have been working on this locally.
+v4l2_ctrl_new_custom copies out the default before calling 
+v4l2_ctrl_fill, but I agree about the scope. It also must be changed 
+with const added.
 
-What you're saying makes sense, and I'm no longer sure why I was
-seeing a perf degradation without '[net-next v1 10/16] page_pool:
-don't release iov on elevanted refcount'. However, even though what
-you're saying is technically correct, AFAIU it's actually semantically
-wrong. When a page is released by the page_pool, we should call
-page_pool_clear_pp_info() and completely disconnect the page from the
-pool. If we call release_page() on a page and then the page pool sees
-it again in page_pool_return_page(), I think that is considered a bug.
-In fact I think what you're proposing is as a result of a bug because
-we don't call a page_pool_clear_pp_info() equivalent on releasing
-ppiov.
+> Easiest is to do something like this:
+> 
+> 	struct v4l2_ctrl_config tmp = v4l2_ctrl_serialnum;
+> 
+> 	tmp.def = s2255_g_serialnum(dev);
+> 
+> and then pass &tmp to v4l2_ctrl_new_custom below.
+> 
+>> +		v4l2_ctrl_new_custom(&vc->hdl, &v4l2_ctrl_serialnum,
+>> +				     NULL);
+>>  		if (vc->hdl.error) {
+>>  			ret = vc->hdl.error;
+>>  			v4l2_ctrl_handler_free(&vc->hdl);
 
-However, I'm reasonably confident I figured out the right thing to do
-here. The page_pool uses page->pp_frag_count for its refcounting.
-pp_frag_count is a misnomer, it's being renamed to pp_ref_count in
-Liang's series[1]). In this series I used a get_page/put_page
-equivalent for refcounting. Once I transitioned to using
-pp_[frag|ref]_count for refcounting inside the page_pool, the issue
-went away, and I no longer need the patch 'page_pool: don't release
-iov on elevanted refcount'.
-
-There is an additional upside, since pages and ppiovs are both being
-refcounted using pp_[frag|ref]_count, we get some unified handling for
-ppiov and we reduce the checks around ppiov. This should be fixed
-properly in the next series.
-
-I still need to do some work (~1 week) before I upload the next
-version as there is a new requirement from MM that we transition to a
-new type and not re-use page*, but I uploaded my changes github with
-the refcounting issues resolved in case they're useful to you. Sorry
-for the churn:
-
-https://github.com/mina/linux/commits/tcpdevmem-v1.5/
-
-[1] https://patchwork.kernel.org/project/netdevbpf/list/?series=3D809049&st=
-ate=3D*
-
---=20
-Thanks,
-Mina
+> 
+> I never noticed this before, but there is a call to
+> v4l2_ctrl_handler_setup() missing
+> in this driver! That call ensures that s2255_s_ctrl() is called with
+> the initial control
+> values.
+> It's probably something that should be added.
+> 
+> Regards,
+> 
+> 	Hans
 
