@@ -1,42 +1,39 @@
-Return-Path: <linux-media+bounces-2425-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2426-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F8F813509
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 16:42:03 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 331DE8136AD
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 17:46:51 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6714C1C20B25
-	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 15:42:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD01B1F22167
+	for <lists+linux-media@lfdr.de>; Thu, 14 Dec 2023 16:46:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6C3315D8F3;
-	Thu, 14 Dec 2023 15:41:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 746FB60BB3;
+	Thu, 14 Dec 2023 16:46:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DATtQ2jW"
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="IM9/nSfD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C758D111;
-	Thu, 14 Dec 2023 07:41:53 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702568512;
-	bh=AwBqTH3jxYY2SxYvwm4RiTxswXu1qwwNdGeqdtO0ynw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=DATtQ2jW6I9h/uNNbShGq4bU04cLoI87NzvIJUU4Lx04d5wDrvFigL3GNhYuLk4NL
-	 e/ikmviXtmHaS2xBzjYCYW29jx5altAcA4X1P98I89Z0KWMgu73Rt9A6f2Lx87Z/h+
-	 PTy2M0tU+i4flGj0s2sJwO9FkfO6yJTbnRy5i2daXtMRdwJnS3uwc1DGkcgL7paKzp
-	 6gRJ+kSDA6TjK3shglv4+NlqBz1tRshV0xj9YaGCVgJ26X66eKgWN73cgLk42bT5K+
-	 9k+XZ2sT9YeMoGyeCdD8La9D9E8yjuiXqh4Lzp/h9BF9aOY+8QMHuSB4uasVTk+DLO
-	 5iB9QttJB4f2Q==
-Received: from [100.93.89.217] (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2C1A13781485;
-	Thu, 14 Dec 2023 15:41:52 +0000 (UTC)
-Message-ID: <0e64b778-e4ff-4b2f-9864-b5d58f642e0e@collabora.com>
-Date: Thu, 14 Dec 2023 16:41:51 +0100
+Received: from bombadil.infradead.org (bombadil.infradead.org [IPv6:2607:7c80:54:3::133])
+	by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF6D2129;
+	Thu, 14 Dec 2023 08:46:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	Content-Type:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:
+	Message-ID:Sender:Reply-To:Content-ID:Content-Description;
+	bh=KFQntNityiHH+/UdbCUVWZRw9YvJLMgmVI5Az93hmjQ=; b=IM9/nSfD9of+z7g3I48W0bxn06
+	2iFUJmsUNAYOJKrCeRWhcRjuTIkhF8HjZIicADH8iVFnf615BMznsGdXc6dyy0PdXV6kOMhmzByVD
+	lLOlI849SQNZD5xFS5dd7EnLmh3ilNNe/a3zRf7P2eqQnXIJvfg7jraXiAVnwBVNMkyhAyZVqhCu3
+	SmsIFcJuTDpRkZBdi5dzlnz13dLu7u9eqQbHhxVjqHCSMNH6RCbov8qUJ7NHWYW/PvEkkmgTFGd5R
+	fad9PUD9rCwAbHDtfTmrEg7oCbWTpVB224z6jGLu2ECwXJejnSjvx/KCcojOjE15T5RCdrjk2JcPT
+	g/JzVjfA==;
+Received: from [50.53.46.231] (helo=[192.168.254.15])
+	by bombadil.infradead.org with esmtpsa (Exim 4.96 #2 (Red Hat Linux))
+	id 1rDoqv-000qQy-3D;
+	Thu, 14 Dec 2023 16:46:26 +0000
+Message-ID: <f3a196d0-d15b-4929-857d-18ef77f693a3@infradead.org>
+Date: Thu, 14 Dec 2023 08:46:21 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -44,70 +41,56 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/3] videobuf2: core: Rename min_buffers_needed field
- to vb2_queue
-To: Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org, tfiga@chromium.org
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-staging@lists.linux.dev, kernel@collabora.com
-References: <20231211133251.150999-1-benjamin.gaignard@collabora.com>
- <20231211133251.150999-2-benjamin.gaignard@collabora.com>
- <839535af-acba-4240-b9c6-d592d898dc4c@xs4all.nl>
+Subject: Re: [PATCH] media: platform: xilinx: Fix Kconfig indentation
+To: Michal Simek <michal.simek@amd.com>, linux-kernel@vger.kernel.org,
+ monstr@monstr.eu, michal.simek@xilinx.com, git@xilinx.com
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <72c40d216769a97973cac9a347e826b943f71d7f.1702543638.git.michal.simek@amd.com>
 Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <839535af-acba-4240-b9c6-d592d898dc4c@xs4all.nl>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <72c40d216769a97973cac9a347e826b943f71d7f.1702543638.git.michal.simek@amd.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi,
 
-Le 13/12/2023 à 17:39, Hans Verkuil a écrit :
-> Hi Benjamin,
->
-> On 11/12/2023 14:32, Benjamin Gaignard wrote:
->> Rename min_buffers_needed into min_queued_buffers and update
->> the documentation about it.
-> I merged this patch, but not the others. I also dropped one functional
-> change:
->
-> <snip>
->
->> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
->> index 40d89f29fa33..8912dff5bde3 100644
->> --- a/drivers/media/common/videobuf2/videobuf2-core.c
->> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
->> @@ -865,7 +865,7 @@ int vb2_core_reqbufs(struct vb2_queue *q, enum vb2_memory memory,
->>   	/*
->>   	 * Make sure the requested values and current defaults are sane.
->>   	 */
->> -	num_buffers = max_t(unsigned int, *count, q->min_buffers_needed);
->> +	num_buffers = max_t(unsigned int, *count, q->min_queued_buffers + 1);
->>   	num_buffers = min_t(unsigned int, num_buffers, q->max_num_buffers);
->>   	memset(q->alloc_devs, 0, sizeof(q->alloc_devs));
->>   	/*
-> That "+ 1" didn't really belong here, since everything else was just renaming a
-> field. Such a patch shouldn't make any other changes.
->
-> There were also three more occurrences of min_buffers_needed (one in a comment,
-> two in a vivid function argument), and I renamed those as well.
->
-> 'git grep min_buffers_needed' now no longer shows any hits.
->
-> I decided not to take the other patches, I think it is best if you rebase
-> and repost the series on top of staging and in the new year we'll continue with
-> it. I did not feel that I had enough time to really review the remaining patches.
+On 12/14/23 00:47, Michal Simek wrote:
+> Use proper indentation for Kconfig fragments - help part.
+> 
+> Signed-off-by: Michal Simek <michal.simek@amd.com>
 
-Do you want me to re-post only the two missing patches or should I add the patches for
-delete buffers feature since it is the ultimate goal of this ?
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
 
-Regards,
-Benjamin
+Thanks.
 
->
-> However, it is nice to have this large rename patch merged. It touches on a lot
-> of files, so it is annoying to have to carry that around. And now was a good
-> moment to merge it.
->
-> Regards,
->
-> 	Hans
->
+> ---
+> 
+>  drivers/media/platform/xilinx/Kconfig | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/platform/xilinx/Kconfig b/drivers/media/platform/xilinx/Kconfig
+> index 93ef78bf62e6..601edd9acd5b 100644
+> --- a/drivers/media/platform/xilinx/Kconfig
+> +++ b/drivers/media/platform/xilinx/Kconfig
+> @@ -26,10 +26,10 @@ config VIDEO_XILINX_TPG
+>  	depends on VIDEO_XILINX
+>  	select VIDEO_XILINX_VTC
+>  	help
+> -	   Driver for the Xilinx Video Test Pattern Generator
+> +	  Driver for the Xilinx Video Test Pattern Generator
+>  
+>  config VIDEO_XILINX_VTC
+>  	tristate "Xilinx Video Timing Controller"
+>  	depends on VIDEO_XILINX
+>  	help
+> -	   Driver for the Xilinx Video Timing Controller
+> +	  Driver for the Xilinx Video Timing Controller
+
+-- 
+#Randy
+https://people.kernel.org/tglx/notes-about-netiquette
+https://subspace.kernel.org/etiquette.html
 
