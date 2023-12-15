@@ -1,170 +1,73 @@
-Return-Path: <linux-media+bounces-2455-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2458-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 730A5814438
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 10:10:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CB468144BA
+	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 10:39:32 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3893E2848A4
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 09:10:23 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE31328476A
+	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 09:39:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7BA518C29;
-	Fri, 15 Dec 2023 09:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="fJilEULT"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C9A5182CA;
+	Fri, 15 Dec 2023 09:38:32 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BF0119BBB;
-	Fri, 15 Dec 2023 09:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1702631307;
-	bh=Owgv3MGnciJE3AJrHwwJMtLoYVIvILqW+O5qMGJletY=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=fJilEULTyRcFnN5w+fx2+COwsN9RW0Im4yLWFBHq/tBbDeqaNSbJZZXQtdujaSU3y
-	 cqq8pJ375fP2lpmRabtKgkW3q5VjANwpJCvX7XcUmwkEkHQSaO6ozPGE7mQQK3bn4C
-	 Hcpk+g1eaCCrna2lLOHSl45wg1qPCJk0FLIqiXViEczXcdHz6Ug1Rrgc1i6epFkmvT
-	 zrgWjld3GTFb0kZ/GZeIgDI3fIz3AXvQSukQ6o34XmKMwFLOgvNNU2rfTUDCTdlvZB
-	 I5RMZogdSI+iZrJptgR7PlLk2ibTjHDDkGZAZFvYj7+Nd897VpaxVBysL6ZC2txTTm
-	 xQ6mAEZYfbaIA==
-Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: benjamin.gaignard)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id AC57B3781FDE;
-	Fri, 15 Dec 2023 09:08:26 +0000 (UTC)
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-To: hverkuil@xs4all.nl,
-	mchehab@kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	kernel@collabora.com,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>
-Subject: [PATCH v16 8/8] media: test-drivers: Use helper for DELETE_BUFS ioctl
-Date: Fri, 15 Dec 2023 10:08:13 +0100
-Message-Id: <20231215090813.15610-9-benjamin.gaignard@collabora.com>
-X-Mailer: git-send-email 2.40.1
-In-Reply-To: <20231215090813.15610-1-benjamin.gaignard@collabora.com>
-References: <20231215090813.15610-1-benjamin.gaignard@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D466C18041
+	for <linux-media@vger.kernel.org>; Fri, 15 Dec 2023 09:38:31 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 050D6C433C7
+	for <linux-media@vger.kernel.org>; Fri, 15 Dec 2023 09:38:30 +0000 (UTC)
+Message-ID: <2cebc841-98a7-4aef-ab4d-c4c99c821197@xs4all.nl>
+Date: Fri, 15 Dec 2023 10:38:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] media: vidioc-subdev-g-client-cap.rst: document struct
+ v4l2_subdev_client_capability
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Allow test drivers to use DELETE_BUFS by adding vb2_ioctl_delete_bufs() helper.
+The struct v4l2_subdev_client_capability was never actually documented, only
+the capability flags were documented.
 
-Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Add this.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/test-drivers/vicodec/vicodec-core.c |  2 ++
- drivers/media/test-drivers/vimc/vimc-capture.c    |  2 ++
- drivers/media/test-drivers/visl/visl-video.c      |  2 ++
- drivers/media/test-drivers/vivid/vivid-core.c     | 13 ++++++++++---
- 4 files changed, 16 insertions(+), 3 deletions(-)
+diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+index 810b6a859dc8..da4a358ce762 100644
+--- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
++++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
+@@ -61,6 +61,21 @@ been accepted. A common case for the kernel not accepting a capability is that
+ the kernel is older than the headers the userspace uses, and thus the capability
+ is unknown to the kernel.
 
-diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-index e13f5452b927..12956d807e05 100644
---- a/drivers/media/test-drivers/vicodec/vicodec-core.c
-+++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-@@ -1345,6 +1345,7 @@ static const struct v4l2_ioctl_ops vicodec_ioctl_ops = {
- 	.vidioc_prepare_buf	= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs	= v4l2_m2m_ioctl_create_bufs,
- 	.vidioc_expbuf		= v4l2_m2m_ioctl_expbuf,
-+	.vidioc_delete_bufs	= v4l2_m2m_ioctl_delete_bufs,
- 
- 	.vidioc_streamon	= v4l2_m2m_ioctl_streamon,
- 	.vidioc_streamoff	= v4l2_m2m_ioctl_streamoff,
-@@ -1731,6 +1732,7 @@ static int queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = src_vq->lock;
-+	dst_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
- }
-diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-index 97693561f1e4..a2078d9c2721 100644
---- a/drivers/media/test-drivers/vimc/vimc-capture.c
-+++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-@@ -221,6 +221,7 @@ static const struct v4l2_ioctl_ops vimc_capture_ioctl_ops = {
- 	.vidioc_expbuf = vb2_ioctl_expbuf,
- 	.vidioc_streamon = vb2_ioctl_streamon,
- 	.vidioc_streamoff = vb2_ioctl_streamoff,
-+	.vidioc_delete_bufs = vb2_ioctl_delete_bufs,
- };
- 
- static void vimc_capture_return_all_buffers(struct vimc_capture_device *vcapture,
-@@ -435,6 +436,7 @@ static struct vimc_ent_device *vimc_capture_add(struct vimc_device *vimc,
- 	q->min_reqbufs_allocation = 2;
- 	q->lock = &vcapture->lock;
- 	q->dev = v4l2_dev->dev;
-+	q->supports_delete_bufs = true;
- 
- 	ret = vb2_queue_init(q);
- 	if (ret) {
-diff --git a/drivers/media/test-drivers/visl/visl-video.c b/drivers/media/test-drivers/visl/visl-video.c
-index b9a4b44bd0ed..939c14107700 100644
---- a/drivers/media/test-drivers/visl/visl-video.c
-+++ b/drivers/media/test-drivers/visl/visl-video.c
-@@ -539,6 +539,7 @@ const struct v4l2_ioctl_ops visl_ioctl_ops = {
- 	.vidioc_prepare_buf		= v4l2_m2m_ioctl_prepare_buf,
- 	.vidioc_create_bufs		= v4l2_m2m_ioctl_create_bufs,
- 	.vidioc_expbuf			= v4l2_m2m_ioctl_expbuf,
-+	.vidioc_delete_bufs		= v4l2_m2m_ioctl_delete_bufs,
- 
- 	.vidioc_streamon		= v4l2_m2m_ioctl_streamon,
- 	.vidioc_streamoff		= v4l2_m2m_ioctl_streamoff,
-@@ -749,6 +750,7 @@ int visl_queue_init(void *priv, struct vb2_queue *src_vq,
- 	dst_vq->mem_ops = &vb2_vmalloc_memops;
- 	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
- 	dst_vq->lock = &ctx->vb_mutex;
-+	dst_vq->supports_delete_bufs = true;
- 
- 	return vb2_queue_init(dst_vq);
- }
-diff --git a/drivers/media/test-drivers/vivid/vivid-core.c b/drivers/media/test-drivers/vivid/vivid-core.c
-index 11b8520d9f57..ad37babb54a2 100644
---- a/drivers/media/test-drivers/vivid/vivid-core.c
-+++ b/drivers/media/test-drivers/vivid/vivid-core.c
-@@ -769,6 +769,7 @@ static const struct v4l2_ioctl_ops vivid_ioctl_ops = {
- 	.vidioc_expbuf			= vb2_ioctl_expbuf,
- 	.vidioc_streamon		= vb2_ioctl_streamon,
- 	.vidioc_streamoff		= vb2_ioctl_streamoff,
-+	.vidioc_delete_bufs		= vb2_ioctl_delete_bufs,
- 
- 	.vidioc_enum_input		= vivid_enum_input,
- 	.vidioc_g_input			= vivid_g_input,
-@@ -883,12 +884,18 @@ static int vivid_create_queue(struct vivid_dev *dev,
- 	 * PAGE_SHIFT > 12, but then max_num_buffers will be clamped by
- 	 * videobuf2-core.c to MAX_BUFFER_INDEX.
- 	 */
--	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
-+	if (buf_type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
- 		q->max_num_buffers = 64;
--	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE)
-+		q->supports_delete_bufs = true;
-+	}
-+	if (buf_type == V4L2_BUF_TYPE_SDR_CAPTURE) {
- 		q->max_num_buffers = 1024;
--	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE)
-+		q->supports_delete_bufs = true;
-+	}
-+	if (buf_type == V4L2_BUF_TYPE_VBI_CAPTURE) {
- 		q->max_num_buffers = 32768;
-+		q->supports_delete_bufs = true;
-+	}
- 
- 	if (allocators[dev->inst] != 1)
- 		q->io_modes |= VB2_USERPTR;
--- 
-2.40.1
++.. tabularcolumns:: |p{1.5cm}|p{2.9cm}|p{12.9cm}|
++
++.. c:type:: v4l2_subdev_client_capability
++
++.. flat-table:: struct v4l2_subdev_client_capability
++    :header-rows:  0
++    :stub-columns: 0
++    :widths:       3 4 20
++
++    * - __u64
++      - ``capabilities``
++      - Sub-device client capabilities of the opened device.
++
++.. tabularcolumns:: |p{6.8cm}|p{2.4cm}|p{8.1cm}|
++
+ .. flat-table:: Client Capabilities
+     :header-rows:  1
 
 
