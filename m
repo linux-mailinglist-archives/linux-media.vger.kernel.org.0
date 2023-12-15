@@ -1,115 +1,136 @@
-Return-Path: <linux-media+bounces-2448-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2449-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB948143C5
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 09:38:48 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id D2BC381442C
+	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 10:08:49 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE0ADB221E7
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 08:38:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9008E2846EA
+	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 09:08:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07EE314F93;
-	Fri, 15 Dec 2023 08:38:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5586917996;
+	Fri, 15 Dec 2023 09:08:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="RnQalmDh"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="n364d2to"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6511C12E58;
-	Fri, 15 Dec 2023 08:38:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3BF0WxGm017503;
-	Fri, 15 Dec 2023 09:37:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	message-id:date:mime-version:subject:to:cc:references:from
-	:in-reply-to:content-type:content-transfer-encoding; s=
-	selector1; bh=foVGm1JHcXFuc8EJ3+zkhcqA896idI7R38EPjajihAA=; b=Rn
-	QalmDhMGlLt6seKKSVLmENFevzmlPdE3V4tdHTYwcUBXyacEdQiceuZyPWq1cTCQ
-	5FOzMLhPrMw6jhk8t8BuOAWxqF4g3zQg2205rzr3YHTlZl8Hf5s3uuUAfqnOWS1P
-	6Np8DWuNj3c6/kCJmEOlfTA+fIalJRx32y03HYRxGQY0lJrv/UgtGoQMrWXBWLG0
-	TUp4NoclQw76OIv76qrr3lErMXODfU7G61VAHvcziLBZ2ip7yJi2nlWBv47HDzhM
-	Tm/m3v4umF1MvcFkzIM+R8UC/m7DzvO7avpKDRmraekXf62hSoZ/lo0Ynkjcq7lM
-	ddkc0AEXVhVWDGnx4AGg==
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3v0cbtsft7-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 15 Dec 2023 09:37:58 +0100 (CET)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A164F100058;
-	Fri, 15 Dec 2023 09:37:57 +0100 (CET)
-Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8CC68209BB2;
-	Fri, 15 Dec 2023 09:37:57 +0100 (CET)
-Received: from [10.201.21.122] (10.201.21.122) by SHFDAG1NODE1.st.com
- (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 15 Dec
- 2023 09:37:56 +0100
-Message-ID: <afc15b94-ae98-4dc7-b522-2e69d7b6bb03@foss.st.com>
-Date: Fri, 15 Dec 2023 09:37:55 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5643918C1D;
+	Fri, 15 Dec 2023 09:08:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702631302;
+	bh=t5c8Yp0R+c2ZKXr8l56iXkxZRPmCr8rL28xDgq+jsdk=;
+	h=From:To:Cc:Subject:Date:From;
+	b=n364d2to0Cy4X4PP5s0nMfdgWFxyA681JVRytxCl7ql4wgvyCR57r4WKLOJ+2NZc3
+	 AzRB5PcUBrwoOTTFbBS5yKZujNO6HeinCmS7z1jGVo/SBV/ozBMCzoFUBGYfuGYsaV
+	 EJR3AULVG1EBGg7NdLdaBbh48MMxsPg+U2WEJdJFnasmUEY1sWBUas8gvuhxaQTnc4
+	 SL/3DNSF/Dx8X1SEAUo1q3fiZkstBI54BIEdY/3pOTvZEufnjSK+RZrR8Q76dE355c
+	 E/dIVTMHHHIKSwt7WqxhvW2rZ3YyQ5K+kSTm/swmJ7O00yKpSWZifaNB8z9ho6s+HG
+	 lK9mOqLwN78Ug==
+Received: from benjamin-XPS-13-9310.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 2230437813DA;
+	Fri, 15 Dec 2023 09:08:22 +0000 (UTC)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: hverkuil@xs4all.nl,
+	mchehab@kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	kernel@collabora.com,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v16 0/8] Add DELETE_BUF ioctl
+Date: Fri, 15 Dec 2023 10:08:05 +0100
+Message-Id: <20231215090813.15610-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.40.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 0/5] Add support for DCMIPP camera interface of
- STMicroelectronics STM32 SoC series
-Content-Language: en-US
-To: Alain Volmat <alain.volmat@foss.st.com>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Krzysztof Kozlowski
-	<krzysztof.kozlowski+dt@linaro.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Russell King
-	<linux@armlinux.org.uk>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart
-	<laurent.pinchart@ideasonboard.com>,
-        Dan Scally
-	<dan.scally@ideasonboard.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
-References: <20231127170828.1426117-1-alain.volmat@foss.st.com>
-From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
-In-Reply-To: <20231127170828.1426117-1-alain.volmat@foss.st.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
- (10.75.129.69)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
- definitions=2023-12-15_04,2023-12-14_01,2023-05-22_02
+Content-Transfer-Encoding: 8bit
 
-Hi Alain
+Unlike when resolution change on keyframes, dynamic resolution change
+on inter frames doesn't allow to do a stream off/on sequence because
+it is need to keep all previous references alive to decode inter frames.
+This constraint have two main problems:
+- more memory consumption.
+- more buffers in use.
+To solve these issue this series introduce DELETE_BUFS ioctl and remove
+the 32 buffers limit per queue.
 
-On 11/27/23 18:08, Alain Volmat wrote:
-> This patchset introduces support for Digital Camera Memory Interface
-> Pixel Processor (DCMIPP) of STMicroelectronics STM32 SoC series.
-> 
-> This initial support implements a single capture pipe
-> allowing RGB565, YUV, Y, RAW8 and JPEG capture with
-> frame skipping, prescaling and cropping.
-> 
-> DCMIPP is exposed through 3 subdevices:
-> - dcmipp_dump_parallel: parallel interface handling
-> - dcmipp_dump_postproc: frame skipping, prescaling and cropping control
-> - dcmipp_dump_capture: video device capture node
-> 
+VP9 conformance tests using fluster give a score of 210/305.
+The 23 of the 24 resize inter tests (vp90-2-21-resize_inter_* files) are ok
+but require to use postprocessor.
 
+Kernel branch is available here:
+https://gitlab.collabora.com/benjamin.gaignard/for-upstream/-/commits/remove_vb2_queue_limit_v16
 
-Patches [4] & [5] applied on stm32-next.
+GStreamer branch to use DELETE_BUF ioctl and testing dynamic resolution
+change is here:
+https://gitlab.freedesktop.org/benjamin.gaignard1/gstreamer/-/commits/VP9_drc
 
-Thanks
-Alex
+changes in version 16:
+- The 50 patches related to add helpers for queue num_bufefrs have already been merged.
+- 'min_queued_buffers' patch has been merged too.
+- Add 'min_reqbufs_allocation' field in vb2_queue structure.
+- Take care of 'min_queued_buffers' when deleting buffers
+- Add more check about buffers range limit when deleting buffers.
+
+changes in version 15:
+- Check that PLANE_INDEX_BITS value match with VIDEO_MAX_PLANES.
+- Add a check on vb->vb2_queue in vb2_queue_add_buffer()
+- Fix the remarks done by Hans, Thomasz and Andrzej. Thanks for the time
+  they spend (again) on the review.
+
+changes in version 14:
+- Add max_num_buffers fields in v4l2_create_buffers32 structure and copy
+  it from/to user data.
+- Fix patch 44 commit header.
+- Fix v4l_print_create_buffers() log.
+
+Benjamin Gaignard (8):
+  videobuf2: Add min_reqbufs_allocation field to vb2_queue structure
+  media: test-drivers: Set REQBUFS minimum number of buffers
+  media: core: Rework how create_buf index returned value is computed
+  media: core: Add bitmap manage bufs array entries
+  media: core: Free range of buffers
+  media: v4l2: Add DELETE_BUFS ioctl
+  media: v4l2: Add mem2mem helpers for DELETE_BUFS ioctl
+  media: test-drivers: Use helper for DELETE_BUFS ioctl
+
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../media/v4l/vidioc-delete-bufs.rst          |  79 ++++++++
+ .../media/v4l/vidioc-reqbufs.rst              |   1 +
+ .../media/common/videobuf2/videobuf2-core.c   | 171 +++++++++++++-----
+ .../media/common/videobuf2/videobuf2-v4l2.c   |  40 +++-
+ .../media/platform/verisilicon/hantro_drv.c   |   1 +
+ .../media/platform/verisilicon/hantro_v4l2.c  |   1 +
+ .../media/test-drivers/vicodec/vicodec-core.c |   2 +
+ drivers/media/test-drivers/vim2m.c            |   2 +
+ .../media/test-drivers/vimc/vimc-capture.c    |   4 +-
+ drivers/media/test-drivers/visl/visl-video.c  |   2 +
+ drivers/media/test-drivers/vivid/vivid-core.c |  17 +-
+ drivers/media/v4l2-core/v4l2-dev.c            |   1 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |  19 ++
+ drivers/media/v4l2-core/v4l2-mem2mem.c        |  20 ++
+ include/media/v4l2-ioctl.h                    |   4 +
+ include/media/v4l2-mem2mem.h                  |  12 ++
+ include/media/videobuf2-core.h                |  47 ++++-
+ include/media/videobuf2-v4l2.h                |  13 ++
+ include/uapi/linux/videodev2.h                |  17 ++
+ 20 files changed, 386 insertions(+), 68 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/vidioc-delete-bufs.rst
+
+-- 
+2.40.1
+
 
