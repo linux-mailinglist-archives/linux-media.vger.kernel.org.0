@@ -1,107 +1,143 @@
-Return-Path: <linux-media+bounces-2459-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2460-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05ED981457F
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 11:24:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D45D8145E3
+	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 11:46:19 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD6E61F23D08
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 10:24:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D000E285696
+	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 10:46:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 612CD1A729;
-	Fri, 15 Dec 2023 10:24:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 863001C292;
+	Fri, 15 Dec 2023 10:46:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qy+klrRS"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="pb8PJbqp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09E6199D7;
-	Fri, 15 Dec 2023 10:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B98259A8;
-	Fri, 15 Dec 2023 11:23:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702635823;
-	bh=wlGP+LQUU4uXxRIbuQWhogr+FvSQEySgnF5tFYQLuXU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qy+klrRSPCyZ3M3ErwsGy3PRbzPKFDzA3twhfUZ2EB4FEHqHqI5rBaxdW3u/WTZ5G
-	 45bzSNd+Lg2EW/kCEHP+6mb1/8JDdn+w+2c5N7xgVR5NjUe1Iw03bx7/0vV0EbBsxI
-	 /5t0KkKV1QuSIURXnfliwNPjvEoTaTnwOIg0vjD4=
-Date: Fri, 15 Dec 2023 12:24:38 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Changhuang Liang <changhuang.liang@starfivetech.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Marvin Lin <milkfafa@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Ming Qian <ming.qian@nxp.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
-	Mingjia Zhang <mingjia.zhang@mediatek.com>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v1 1/9] media: v4l2-ctrls: Add user controls for StarFive
- JH7110 ISP
-Message-ID: <20231215102438.GH21146@pendragon.ideasonboard.com>
-References: <20231214065027.28564-1-changhuang.liang@starfivetech.com>
- <20231214065027.28564-2-changhuang.liang@starfivetech.com>
- <20231214113955.GK12450@pendragon.ideasonboard.com>
- <e6059181-a1bb-438b-8490-108c64316171@starfivetech.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6350C1A70D;
+	Fri, 15 Dec 2023 10:46:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702637164;
+	bh=vBgnugLtJ2ksG5oto5YXrGX8SezSV/Kyn/381DDZeYc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=pb8PJbqphVWYId84ZtJMvFx1CSLEHxwibQFvmpAV6BPTT5zPu4AEd59vDh7i6d1By
+	 y53CNsHbMrgc2CEi94oADY0uGtBCNQpWRRCyDBK/Zc0BcZ891quCtKhe6q+6gcLx+j
+	 L2UJkfxoaFXO69OGz+62j0dy0CsX1J8KsDhd6ZBEAokxqtSSZU+rJvmefOEwkb9D7W
+	 FS6I+6ZMMAuNnWIMGFxtMOw+IKwTr/On/GaIMWe2x+10JqnFqyfnqnqtitpUjs3b8L
+	 xbvoEaKKSxY7c9Q9sonGldx3Bg0Gs+GfsA6nhU9zxm2IwMAbsSe9imTTo99Ty3Q72y
+	 K0Hq1FGidKiCA==
+Received: from eugen-station.. (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: ehristev)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id B3207378107D;
+	Fri, 15 Dec 2023 10:46:03 +0000 (UTC)
+From: Eugen Hristev <eugen.hristev@collabora.com>
+To: linux-mediatek@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	angelogioacchino.delregno@collabora.com,
+	matthias.bgg@gmail.com,
+	linux-media@vger.kernel.org,
+	tiffany.lin@mediatek.com,
+	andrew-ct.chen@mediatek.com,
+	Eugen Hristev <eugen.hristev@collabora.com>
+Subject: [PATCH v2 1/7] media: mediatek: vcodec: fix possible unbalanced PM counter
+Date: Fri, 15 Dec 2023 12:45:45 +0200
+Message-Id: <20231215104551.233679-1-eugen.hristev@collabora.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e6059181-a1bb-438b-8490-108c64316171@starfivetech.com>
 
-Hi Changhuang,
+It is possible that mtk_vcodec_enc_pw_on fails, and in that scenario
+the PM counter is not incremented, and subsequent call to
+mtk_vcodec_enc_pw_off decrements the counter, leading to a PM imbalance.
+Fix by bailing out of venc_if_encode in the case when mtk_vcodec_enc_pw_on
+fails.
 
-On Fri, Dec 15, 2023 at 01:55:09PM +0800, Changhuang Liang wrote:
-> On 2023/12/14 19:39, Laurent Pinchart wrote:
-> > On Wed, Dec 13, 2023 at 10:50:19PM -0800, Changhuang Liang wrote:
-> >> Add a control base for StarFive JH7110 ISP driver controls, and reserve
-> >> 32 controls，also add some controls for StarFive JH7110 ISP.
-> > 
-> > ISP parameters should be passed through parameters buffers, not V4L2
-> > control. See for instance the V4L2_META_FMT_RK_ISP1_PARAMS format in the
-> > mainline kernel, it describes how to store ISP parameters in a buffer.
-> > The rkisp1 driver is an example of how this can be implemented.
-> 
-> That means I need to add a video output device before ISP subdev? And 
-> use queue/dequeue buffer to get the ISP paremeters?
+Fixes: 4e855a6efa54 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Encoder Driver")
+Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+---
+Changes in v2:
+- collect R-b
 
-Yes, that is correct.
+ .../platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c     | 4 +++-
+ .../platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.h     | 2 +-
+ drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.c | 5 ++++-
+ 3 files changed, 8 insertions(+), 3 deletions(-)
 
-> > Please note that the ISP parameters need to be documented precisely,
-> > regardless of how they're passed by userspace to the kernel. Even with
-> > V4L2 controls, documentation would be needed. Please see below for
-> > additional comments.
-> 
-> I will add annotations for this file next version.
-> 
-> >> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
-> >> ---
-> >>  MAINTAINERS                        |   1 +
-> >>  include/uapi/linux/jh7110-isp.h    | 342 +++++++++++++++++++++++++++++
-> >>  include/uapi/linux/v4l2-controls.h |   6 +
-> [...]
-
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c
+index a22b7dfc656e..1a2b14a3e219 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.c
+@@ -58,13 +58,15 @@ int mtk_vcodec_init_enc_clk(struct mtk_vcodec_enc_dev *mtkdev)
+ 	return 0;
+ }
+ 
+-void mtk_vcodec_enc_pw_on(struct mtk_vcodec_pm *pm)
++int mtk_vcodec_enc_pw_on(struct mtk_vcodec_pm *pm)
+ {
+ 	int ret;
+ 
+ 	ret = pm_runtime_resume_and_get(pm->dev);
+ 	if (ret)
+ 		dev_err(pm->dev, "pm_runtime_resume_and_get fail: %d", ret);
++
++	return ret;
+ }
+ 
+ void mtk_vcodec_enc_pw_off(struct mtk_vcodec_pm *pm)
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.h b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.h
+index 157ea08ba9e3..2e28f25e36cc 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.h
++++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_pm.h
+@@ -10,7 +10,7 @@
+ #include "mtk_vcodec_enc_drv.h"
+ 
+ int mtk_vcodec_init_enc_clk(struct mtk_vcodec_enc_dev *dev);
+-void mtk_vcodec_enc_pw_on(struct mtk_vcodec_pm *pm);
++int mtk_vcodec_enc_pw_on(struct mtk_vcodec_pm *pm);
+ void mtk_vcodec_enc_pw_off(struct mtk_vcodec_pm *pm);
+ void mtk_vcodec_enc_clock_on(struct mtk_vcodec_pm *pm);
+ void mtk_vcodec_enc_clock_off(struct mtk_vcodec_pm *pm);
+diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.c
+index c402a686f3cb..e83747b8d69a 100644
+--- a/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.c
++++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_drv_if.c
+@@ -64,7 +64,9 @@ int venc_if_encode(struct mtk_vcodec_enc_ctx *ctx,
+ 	ctx->dev->curr_ctx = ctx;
+ 	spin_unlock_irqrestore(&ctx->dev->irqlock, flags);
+ 
+-	mtk_vcodec_enc_pw_on(&ctx->dev->pm);
++	ret = mtk_vcodec_enc_pw_on(&ctx->dev->pm);
++	if (ret)
++		goto venc_if_encode_pw_on_err;
+ 	mtk_vcodec_enc_clock_on(&ctx->dev->pm);
+ 	ret = ctx->enc_if->encode(ctx->drv_handle, opt, frm_buf,
+ 				  bs_buf, result);
+@@ -75,6 +77,7 @@ int venc_if_encode(struct mtk_vcodec_enc_ctx *ctx,
+ 	ctx->dev->curr_ctx = NULL;
+ 	spin_unlock_irqrestore(&ctx->dev->irqlock, flags);
+ 
++venc_if_encode_pw_on_err:
+ 	mtk_venc_unlock(ctx);
+ 	return ret;
+ }
 -- 
-Regards,
+2.34.1
 
-Laurent Pinchart
 
