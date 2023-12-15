@@ -1,235 +1,115 @@
-Return-Path: <linux-media+bounces-2447-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2448-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE959814396
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 09:28:29 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB948143C5
+	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 09:38:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 060C21C225D5
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 08:28:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AE0ADB221E7
+	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 08:38:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A150134AB;
-	Fri, 15 Dec 2023 08:28:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07EE314F93;
+	Fri, 15 Dec 2023 08:38:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iOstoCbP"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="RnQalmDh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EE2712E40;
-	Fri, 15 Dec 2023 08:28:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-50bf2d9b3fdso420875e87.3;
-        Fri, 15 Dec 2023 00:28:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702628898; x=1703233698; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=stTvSHZLb5CqsEOyVRIAudsm7pck73dfys1JaIqoEL8=;
-        b=iOstoCbPjK+VP50rENwFjVGIasDx8Q+LHP7/Yynf7iP0WxEiYOBQSZ69pfD2KkwpZe
-         w5Vgo64lwX3D+gBP5eFgzgrFK3aE7rRJkx6lXt8OroORK08O5x5yyCtlziVsM7y39ZVr
-         5TT0Vryf4cWjTyLJxqDjguv+/5IwrMXFonkpbCME+c55HDWZO/Y5S1IDENLfrdsbLQHo
-         zjAYrHZpRv29KRLPPmTk+HdrRfScRzZ4LZQ0NzKJewwfsqUn9sGi+6+TK0fZUyXVBNfk
-         IACzTwbtHt2b0XfNvvu74zaHEVCJQEYhaE5lYiBDQxSdJaFVDCFcqsH0AzEKk2BJ/lZs
-         fbZA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702628898; x=1703233698;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=stTvSHZLb5CqsEOyVRIAudsm7pck73dfys1JaIqoEL8=;
-        b=mjmg+IgofS+IRTyivtbufJoOIzXuGWdIehy5XPcKq7w6M9Km3xRndWPZGWQF2YFDHc
-         5S+2PVYIXX9OVMET6Ms2nDz/k4R7qO58sK4qTTgc2uKYQ3bVaknA43E4aw9yylQcBQte
-         6vdXVO4nuZ9oVTPORYcUeh9kPdB1Hu0T/d89gLqshZO8QUd+OGq/ms7wfkquV2snaAyj
-         wZJjTrJi2D8lkgmDcOZFzb/hf3KIVoRAgryJ0B1COa5mt5G76K45jkiMsNHjh7pH6yiF
-         Vo67HyPUAkLJAGKHJNmy0Rhpzfog8eOk1yP4E3EOsoA/+sqvk8mqZWU1T00zgd+nZ+PE
-         AO7w==
-X-Gm-Message-State: AOJu0YwktNDgIzpAx1VBzpoGhh3Y36ywiHz6E/5sbkLWIn4s9OF82EM7
-	/nntyMrkedEGiswqNUbgng8=
-X-Google-Smtp-Source: AGHT+IE3gMo5yhvXli3epF1ZD1Y8aQjJ8qr8RuhjCwUQeEvoBNFjxc1W3qHZlTZRP3Hj46JTVb8xdw==
-X-Received: by 2002:a05:6512:ba8:b0:50c:d30:3a05 with SMTP id b40-20020a0565120ba800b0050c0d303a05mr7232947lfv.25.1702628898225;
-        Fri, 15 Dec 2023 00:28:18 -0800 (PST)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-229.cust.vodafonedsl.it. [188.217.59.229])
-        by smtp.gmail.com with ESMTPSA id vi8-20020a170907d40800b00a1c7b20e9e6sm10433472ejc.32.2023.12.15.00.28.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 15 Dec 2023 00:28:17 -0800 (PST)
-Date: Fri, 15 Dec 2023 09:28:15 +0100
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: linuxfancy@googlegroups.com, sakari.ailus@linux.intel.com,
-	laurent.pinchart@ideasonboard.com,
-	Martin Hecht <martin.hecht@avnet.eu>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/3] media: i2c: alvium: removal of dft_fr, min_fr and
- max_fr
-Message-ID: <ZXwOH08B2A0JeNWI@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20231215082136.1720379-1-tomm.merciai@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6511C12E58;
+	Fri, 15 Dec 2023 08:38:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+Received: from pps.filterd (m0241204.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.17.1.22/8.17.1.22) with ESMTP id 3BF0WxGm017503;
+	Fri, 15 Dec 2023 09:37:58 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	selector1; bh=foVGm1JHcXFuc8EJ3+zkhcqA896idI7R38EPjajihAA=; b=Rn
+	QalmDhMGlLt6seKKSVLmENFevzmlPdE3V4tdHTYwcUBXyacEdQiceuZyPWq1cTCQ
+	5FOzMLhPrMw6jhk8t8BuOAWxqF4g3zQg2205rzr3YHTlZl8Hf5s3uuUAfqnOWS1P
+	6Np8DWuNj3c6/kCJmEOlfTA+fIalJRx32y03HYRxGQY0lJrv/UgtGoQMrWXBWLG0
+	TUp4NoclQw76OIv76qrr3lErMXODfU7G61VAHvcziLBZ2ip7yJi2nlWBv47HDzhM
+	Tm/m3v4umF1MvcFkzIM+R8UC/m7DzvO7avpKDRmraekXf62hSoZ/lo0Ynkjcq7lM
+	ddkc0AEXVhVWDGnx4AGg==
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 3v0cbtsft7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 15 Dec 2023 09:37:58 +0100 (CET)
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+	by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A164F100058;
+	Fri, 15 Dec 2023 09:37:57 +0100 (CET)
+Received: from Webmail-eu.st.com (shfdag1node1.st.com [10.75.129.69])
+	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 8CC68209BB2;
+	Fri, 15 Dec 2023 09:37:57 +0100 (CET)
+Received: from [10.201.21.122] (10.201.21.122) by SHFDAG1NODE1.st.com
+ (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.27; Fri, 15 Dec
+ 2023 09:37:56 +0100
+Message-ID: <afc15b94-ae98-4dc7-b522-2e69d7b6bb03@foss.st.com>
+Date: Fri, 15 Dec 2023 09:37:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231215082136.1720379-1-tomm.merciai@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 0/5] Add support for DCMIPP camera interface of
+ STMicroelectronics STM32 SoC series
+Content-Language: en-US
+To: Alain Volmat <alain.volmat@foss.st.com>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Krzysztof Kozlowski
+	<krzysztof.kozlowski+dt@linaro.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Russell King
+	<linux@armlinux.org.uk>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Laurent Pinchart
+	<laurent.pinchart@ideasonboard.com>,
+        Dan Scally
+	<dan.scally@ideasonboard.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>
+References: <20231127170828.1426117-1-alain.volmat@foss.st.com>
+From: Alexandre TORGUE <alexandre.torgue@foss.st.com>
+In-Reply-To: <20231127170828.1426117-1-alain.volmat@foss.st.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SHFDAG1NODE1.st.com
+ (10.75.129.69)
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-15_04,2023-12-14_01,2023-05-22_02
 
-Hi,
-Wrong git send-email, sorry.
-Drop this, is in the series below.
+Hi Alain
 
-Thanks & Regards,
-Tommaso
+On 11/27/23 18:08, Alain Volmat wrote:
+> This patchset introduces support for Digital Camera Memory Interface
+> Pixel Processor (DCMIPP) of STMicroelectronics STM32 SoC series.
+> 
+> This initial support implements a single capture pipe
+> allowing RGB565, YUV, Y, RAW8 and JPEG capture with
+> frame skipping, prescaling and cropping.
+> 
+> DCMIPP is exposed through 3 subdevices:
+> - dcmipp_dump_parallel: parallel interface handling
+> - dcmipp_dump_postproc: frame skipping, prescaling and cropping control
+> - dcmipp_dump_capture: video device capture node
+> 
 
-On Fri, Dec 15, 2023 at 09:21:36AM +0100, Tommaso Merciai wrote:
-> Remove driver private data dft_fr, min_fr and max_fr.
-> Those are used only in alvium_set_frame_interval function.
-> Use local ones instead.
-> 
-> Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> ---
->  drivers/media/i2c/alvium-csi2.c | 45 +++++++++++++++------------------
->  drivers/media/i2c/alvium-csi2.h |  3 ---
->  2 files changed, 21 insertions(+), 27 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
-> index 34ff7fad3877..c4b7851045a1 100644
-> --- a/drivers/media/i2c/alvium-csi2.c
-> +++ b/drivers/media/i2c/alvium-csi2.c
-> @@ -1170,40 +1170,36 @@ static int alvium_set_bayer_pattern(struct alvium_dev *alvium,
->  	return 0;
->  }
->  
-> -static int alvium_get_frame_interval(struct alvium_dev *alvium)
-> +static int alvium_get_frame_interval(struct alvium_dev *alvium,
-> +				     u64 *dft_fr, u64 *min_fr, u64 *max_fr)
->  {
-> -	u64 dft_fr, min_fr, max_fr;
->  	int ret = 0;
->  
->  	alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_RW,
-> -		    &dft_fr, &ret);
-> +		    dft_fr, &ret);
->  	alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_MIN_R,
-> -		    &min_fr, &ret);
-> +		    min_fr, &ret);
->  	alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_MAX_R,
-> -		    &max_fr, &ret);
-> +		    max_fr, &ret);
->  	if (ret)
->  		return ret;
->  
-> -	alvium->dft_fr = dft_fr;
-> -	alvium->min_fr = min_fr;
-> -	alvium->max_fr = max_fr;
-> -
->  	return 0;
->  }
->  
-> -static int alvium_set_frame_rate(struct alvium_dev *alvium)
-> +static int alvium_set_frame_rate(struct alvium_dev *alvium, u64 fr)
->  {
->  	struct device *dev = &alvium->i2c_client->dev;
->  	int ret;
->  
->  	ret = alvium_write_hshake(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_RW,
-> -				  alvium->fr);
-> +				  fr);
->  	if (ret) {
->  		dev_err(dev, "Fail to set frame rate lanes reg\n");
->  		return ret;
->  	}
->  
-> -	dev_dbg(dev, "set frame rate: %llu us\n", alvium->fr);
-> +	dev_dbg(dev, "set frame rate: %llu us\n", fr);
->  
->  	return 0;
->  }
-> @@ -1667,36 +1663,36 @@ static int alvium_g_frame_interval(struct v4l2_subdev *sd,
->  }
->  
->  static int alvium_set_frame_interval(struct alvium_dev *alvium,
-> -				     struct v4l2_subdev_frame_interval *fi)
-> +				     struct v4l2_subdev *sd,
-> +				     struct v4l2_subdev_state *sd_state,
-> +				     struct v4l2_subdev_frame_interval *fi,
-> +				     u64 *req_fr)
->  {
->  	struct device *dev = &alvium->i2c_client->dev;
-> -	u64 req_fr, min_fr, max_fr;
-> +	u64 dft_fr, min_fr, max_fr;
->  	int ret;
->  
->  	if (fi->interval.denominator == 0)
->  		return -EINVAL;
->  
-> -	ret = alvium_get_frame_interval(alvium);
-> +	ret = alvium_get_frame_interval(alvium, &dft_fr, &min_fr, &max_fr);
->  	if (ret) {
->  		dev_err(dev, "Fail to get frame interval\n");
->  		return ret;
->  	}
->  
-> -	min_fr = alvium->min_fr;
-> -	max_fr = alvium->max_fr;
-> -
->  	dev_dbg(dev, "fi->interval.numerator = %d\n",
->  		fi->interval.numerator);
->  	dev_dbg(dev, "fi->interval.denominator = %d\n",
->  		fi->interval.denominator);
->  
-> -	req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
-> +	*req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
->  		       fi->interval.numerator);
->  
-> -	if (req_fr >= max_fr && req_fr <= min_fr)
-> -		req_fr = alvium->dft_fr;
-> +	if (*req_fr >= max_fr && *req_fr <= min_fr)
-> +		*req_fr = dft_fr;
->  
-> -	alvium->fr = req_fr;
-> +	alvium->fr = *req_fr;
->  	alvium->frame_interval.numerator = fi->interval.numerator;
->  	alvium->frame_interval.denominator = fi->interval.denominator;
->  
-> @@ -1708,6 +1704,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
->  				   struct v4l2_subdev_frame_interval *fi)
->  {
->  	struct alvium_dev *alvium = sd_to_alvium(sd);
-> +	u64 req_fr;
->  	int ret;
->  
->  	/*
-> @@ -1720,9 +1717,9 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
->  	if (alvium->streaming)
->  		return -EBUSY;
->  
-> -	ret = alvium_set_frame_interval(alvium, fi);
-> +	ret = alvium_set_frame_interval(alvium, sd, sd_state, fi, &req_fr);
->  	if (!ret)
-> -		ret = alvium_set_frame_rate(alvium);
-> +		ret = alvium_set_frame_rate(alvium, req_fr);
->  
->  	return ret;
->  }
-> diff --git a/drivers/media/i2c/alvium-csi2.h b/drivers/media/i2c/alvium-csi2.h
-> index 8b554bffdc39..a6529b28e7dd 100644
-> --- a/drivers/media/i2c/alvium-csi2.h
-> +++ b/drivers/media/i2c/alvium-csi2.h
-> @@ -443,9 +443,6 @@ struct alvium_dev {
->  
->  	struct alvium_mode mode;
->  	struct v4l2_fract frame_interval;
-> -	u64 dft_fr;
-> -	u64 min_fr;
-> -	u64 max_fr;
->  	u64 fr;
->  
->  	u8 h_sup_csi_lanes;
-> -- 
-> 2.34.1
-> 
+
+Patches [4] & [5] applied on stm32-next.
+
+Thanks
+Alex
 
