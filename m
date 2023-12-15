@@ -1,73 +1,107 @@
-Return-Path: <linux-media+bounces-2458-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2459-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CB468144BA
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 10:39:32 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05ED981457F
+	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 11:24:58 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE31328476A
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 09:39:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AD6E61F23D08
+	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 10:24:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C9A5182CA;
-	Fri, 15 Dec 2023 09:38:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 612CD1A729;
+	Fri, 15 Dec 2023 10:24:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qy+klrRS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D466C18041
-	for <linux-media@vger.kernel.org>; Fri, 15 Dec 2023 09:38:31 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 050D6C433C7
-	for <linux-media@vger.kernel.org>; Fri, 15 Dec 2023 09:38:30 +0000 (UTC)
-Message-ID: <2cebc841-98a7-4aef-ab4d-c4c99c821197@xs4all.nl>
-Date: Fri, 15 Dec 2023 10:38:29 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D09E6199D7;
+	Fri, 15 Dec 2023 10:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B98259A8;
+	Fri, 15 Dec 2023 11:23:43 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1702635823;
+	bh=wlGP+LQUU4uXxRIbuQWhogr+FvSQEySgnF5tFYQLuXU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qy+klrRSPCyZ3M3ErwsGy3PRbzPKFDzA3twhfUZ2EB4FEHqHqI5rBaxdW3u/WTZ5G
+	 45bzSNd+Lg2EW/kCEHP+6mb1/8JDdn+w+2c5N7xgVR5NjUe1Iw03bx7/0vV0EbBsxI
+	 /5t0KkKV1QuSIURXnfliwNPjvEoTaTnwOIg0vjD4=
+Date: Fri, 15 Dec 2023 12:24:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Changhuang Liang <changhuang.liang@starfivetech.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	Marvin Lin <milkfafa@gmail.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Ming Qian <ming.qian@nxp.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Tomi Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>,
+	Mingjia Zhang <mingjia.zhang@mediatek.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	Jack Zhu <jack.zhu@starfivetech.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 1/9] media: v4l2-ctrls: Add user controls for StarFive
+ JH7110 ISP
+Message-ID: <20231215102438.GH21146@pendragon.ideasonboard.com>
+References: <20231214065027.28564-1-changhuang.liang@starfivetech.com>
+ <20231214065027.28564-2-changhuang.liang@starfivetech.com>
+ <20231214113955.GK12450@pendragon.ideasonboard.com>
+ <e6059181-a1bb-438b-8490-108c64316171@starfivetech.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Content-Language: en-US, nl
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH] media: vidioc-subdev-g-client-cap.rst: document struct
- v4l2_subdev_client_capability
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <e6059181-a1bb-438b-8490-108c64316171@starfivetech.com>
 
-The struct v4l2_subdev_client_capability was never actually documented, only
-the capability flags were documented.
+Hi Changhuang,
 
-Add this.
+On Fri, Dec 15, 2023 at 01:55:09PM +0800, Changhuang Liang wrote:
+> On 2023/12/14 19:39, Laurent Pinchart wrote:
+> > On Wed, Dec 13, 2023 at 10:50:19PM -0800, Changhuang Liang wrote:
+> >> Add a control base for StarFive JH7110 ISP driver controls, and reserve
+> >> 32 controls，also add some controls for StarFive JH7110 ISP.
+> > 
+> > ISP parameters should be passed through parameters buffers, not V4L2
+> > control. See for instance the V4L2_META_FMT_RK_ISP1_PARAMS format in the
+> > mainline kernel, it describes how to store ISP parameters in a buffer.
+> > The rkisp1 driver is an example of how this can be implemented.
+> 
+> That means I need to add a video output device before ISP subdev? And 
+> use queue/dequeue buffer to get the ISP paremeters?
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
-index 810b6a859dc8..da4a358ce762 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-client-cap.rst
-@@ -61,6 +61,21 @@ been accepted. A common case for the kernel not accepting a capability is that
- the kernel is older than the headers the userspace uses, and thus the capability
- is unknown to the kernel.
+Yes, that is correct.
 
-+.. tabularcolumns:: |p{1.5cm}|p{2.9cm}|p{12.9cm}|
-+
-+.. c:type:: v4l2_subdev_client_capability
-+
-+.. flat-table:: struct v4l2_subdev_client_capability
-+    :header-rows:  0
-+    :stub-columns: 0
-+    :widths:       3 4 20
-+
-+    * - __u64
-+      - ``capabilities``
-+      - Sub-device client capabilities of the opened device.
-+
-+.. tabularcolumns:: |p{6.8cm}|p{2.4cm}|p{8.1cm}|
-+
- .. flat-table:: Client Capabilities
-     :header-rows:  1
+> > Please note that the ISP parameters need to be documented precisely,
+> > regardless of how they're passed by userspace to the kernel. Even with
+> > V4L2 controls, documentation would be needed. Please see below for
+> > additional comments.
+> 
+> I will add annotations for this file next version.
+> 
+> >> Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+> >> ---
+> >>  MAINTAINERS                        |   1 +
+> >>  include/uapi/linux/jh7110-isp.h    | 342 +++++++++++++++++++++++++++++
+> >>  include/uapi/linux/v4l2-controls.h |   6 +
+> [...]
 
+-- 
+Regards,
+
+Laurent Pinchart
 
