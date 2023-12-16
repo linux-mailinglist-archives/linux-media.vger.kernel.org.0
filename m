@@ -1,71 +1,107 @@
-Return-Path: <linux-media+bounces-2477-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2478-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0561D8150DB
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 21:09:36 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C00D381568C
+	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 03:52:03 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AECC91F280BA
-	for <lists+linux-media@lfdr.de>; Fri, 15 Dec 2023 20:09:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D85E2854C8
+	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 02:52:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 57C3747F76;
-	Fri, 15 Dec 2023 20:03:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="adIVa2ji"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFF6E4406;
+	Sat, 16 Dec 2023 02:50:19 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1D1146445;
-	Fri, 15 Dec 2023 20:03:29 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C32ADC433C8;
-	Fri, 15 Dec 2023 20:03:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702670609;
-	bh=c3AVRVEy1u8nl7MxlBgA51P8YXTjWZByYGvp3E/El8U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=adIVa2jiA+F6CC5GfdAFYQ3mtjewwauLcGfiV/kJtmd4m46kgSYZZcuhDlbJ+S/5b
-	 dfdxOtfgP06fqwKgkSfccJEvT90+cEYefpmUcGWRoomXqWW2ORiWHDY+Z0Dj+khufP
-	 KKTRIprUkD1IT7hrKlaWwXhpSZXiWKyNrHQAFgD7obEVviiCrPiBUhOMENAU/xUt5z
-	 uDljQMMA9lgDZh0I31Fete5pc7alKmX1YShIks8WpowYlWlwkyMpShkwxxHgkh3buf
-	 s12dO00McnklcoJPtlNHbBcrN9HAbER4sHFripKsLk15bGbBQON659sreCVk38pGkP
-	 rBMFR141eMQ5A==
-Received: (nullmailer pid 304252 invoked by uid 1000);
-	Fri, 15 Dec 2023 20:03:25 -0000
-Date: Fri, 15 Dec 2023 14:03:25 -0600
-From: Rob Herring <robh@kernel.org>
-To: Eugen Hristev <eugen.hristev@collabora.com>
-Cc: linux-mediatek@lists.infradead.org, devicetree@vger.kernel.org, linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, angelogioacchino.delregno@collabora.com, andrew-ct.chen@mediatek.com, tiffany.lin@mediatek.com, matthias.bgg@gmail.com
-Subject: Re: [PATCH v2 5/7] dt-bindings: media: mtk-vcodec-encoder: add
- compatible for mt8186
-Message-ID: <170267060230.304140.8670744494776319731.robh@kernel.org>
-References: <20231215104551.233679-1-eugen.hristev@collabora.com>
- <20231215104551.233679-5-eugen.hristev@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D9510A1B
+	for <linux-media@vger.kernel.org>; Sat, 16 Dec 2023 02:50:19 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5EAEC433C8
+	for <linux-media@vger.kernel.org>; Sat, 16 Dec 2023 02:50:18 +0000 (UTC)
+Date: Sat, 16 Dec 2023 03:50:16 +0100
+Message-ID: <5dc499212b0618c18a3243caddc014c0.hverkuil@xs4all.nl>
+From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
+To: linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231215104551.233679-5-eugen.hristev@collabora.com>
 
+This message is generated daily by a cron job that builds media_tree for
+the architectures in the list below.
 
-On Fri, 15 Dec 2023 12:45:49 +0200, Eugen Hristev wrote:
-> Add compatible for the mt8186 encoder which currently works in the same
-> way as mt8183.
-> 
-> Signed-off-by: Eugen Hristev <eugen.hristev@collabora.com>
-> ---
-> Changes in v2:
-> - new patch.
->  .../media/mediatek,vcodec-encoder.yaml        | 20 +++++++++++--------
->  1 file changed, 12 insertions(+), 8 deletions(-)
-> 
+Results of the daily build of media_tree:
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+date:			Sat Dec 16 03:00:08 CET 2023
+media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
+media-tree git branch:	media_stage/master
+media-tree git hash:	02d4e62ae2452c83e4a3e279b8e4cb4dcbad4b31
+v4l-utils git hash:	2b2ba7e0e86c4e33f485bfda931245e26bc04549
+edid-decode git hash:	1e99fe84c08d2cea5d86668ac6948e382ef545e3
+gcc version:		i686-linux-gcc (GCC) 13.2.0
+ccache version:		ccache version 4.8.3
+smatch/sparse repo:     git://repo.or.cz/smatch.git
+smatch version:		v0.5.0-8526-gd4827317
+sparse version:		v0.5.0-8526-gd4827317
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 984d07544ad3abbb1ea6b06f44ae531858c1c047
+host hardware:		x86_64
+host os:		6.1.55-cobaltpc1
 
+linux-git-powerpc64: OK
+linux-git-arm: OK
+linux-git-arm64: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+no-acpi.config: OK
+no-of.config: OK
+no-pm-sleep.config: OK
+no-pm.config: OK
+no-debug-fs.config: OK
+sparse: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+
+smatch: WARNINGS:
+
+drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
+drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
+drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
+
+COMPILE_TEST: OK
+strcpy/strncpy/strlcpy: OK
+abi-compliance: ABI OK
+pahole: ABI OK
+utils: OK
+spec-git: OK
+kerneldoc: OK
+
+date:			Sat Dec 16 03:20:29 CET 2023
+virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 2
+
+date:			Sat Dec 16 03:49:02 CET 2023
+
+Detailed results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
+https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
+
+Full logs are available here:
+
+https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+https://hverkuil.home.xs4all.nl/spec/index.html
 
