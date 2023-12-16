@@ -1,130 +1,193 @@
-Return-Path: <linux-media+bounces-2479-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2480-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEE2481578B
-	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 05:42:21 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 25D2E815815
+	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 07:47:23 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 76D53B22EAF
-	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 04:42:19 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 57446B244B9
+	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 06:47:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67DBE10A1C;
-	Sat, 16 Dec 2023 04:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 270DE134BA;
+	Sat, 16 Dec 2023 06:47:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="sNmMiW8k"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PJX9meyu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
+Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF7911CA1;
-	Sat, 16 Dec 2023 04:42:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1702701720;
-	bh=wdNndgGeLlcNwK9hbEpoW5H6j3meU+l8uskTtib8Uhs=;
-	h=From:To:Cc:Subject:Date;
-	b=sNmMiW8kuBVigciMYuNFvyf1VoYyZ/+fgaGxok8hYA5gCbl1NWd532p5jLYLrzaAf
-	 qIxHfeFs27leyWsYtr4ZadvXvkgnxuZKJ8lUpp5JoY++QrNmkilby++zVG0Zk47nbW
-	 RmCGN3Wwdx9TcxK3XSQ7JOMRPjZ0qYt/ah2ykiTs=
-Received: from localhost.localdomain ([118.112.114.229])
-	by newxmesmtplogicsvrszc5-1.qq.com (NewEsmtp) with SMTP
-	id 4A409021; Sat, 16 Dec 2023 12:18:36 +0800
-X-QQ-mid: xmsmtpt1702700316tp6eo8v02
-Message-ID: <tencent_4AE0AD70494AB08166266B6493F4C507CE08@qq.com>
-X-QQ-XMAILINFO: OZZSS56D9fAjyoRLlB1WdJJ7RuUl5TjiHz/6ppILou0ypj6soqQ2oZ5NyubAhc
-	 DN24kzTe67KAiTHnoBVxvZvHlA42BS40WYljtQDeSEbTIFZo+Lac5P1MzPAkUrayDmiGGed4IPWI
-	 pCzclg7f6F50xLoPl+EFNUjNlJxSOD+7jjmW4589o+VYwvvAgOjxbj3PzwxLSsCj4M21MogIKcVg
-	 tbx/rSLdhnknTRmW+RT9/wvJyN1IIg6JhqPUwYwjlNrEkWbXF0NlGSduz83ULwVM0/VIvIERNzZF
-	 zcpUYw9LwtJFK2hktBmNBj4VWDRyNwCjiPZ0adw/WEm5F+aekXYkYhfyHF+19Bv+hB3MsU9B/BW+
-	 ldmwMut55Qe3eT9+w7TXKG92Fzh3iCvZIbywl2VAIDtG0X0QEnlHJpDXAv9cJo8R5QZEE6mMEdCE
-	 x5ODcDy/lH0Q3Ze78LRa+NpKyiy4Uti/RnoEFfL+YLNabr7bDbCqAJrjLLZNaxYqzW+2v6NW+cld
-	 RwbIcJF8F3kqL4dTCKfsmFAB0X/eoHyqvVoArUPbLzC97GA0TWuxOl/dUXeHa2BQBurS1N5K+PnB
-	 viok+f9dI+j/cDxxAf3QZZ66LNelTjUetQmmMX7ewRXZLXzXK5ICCdqzVY24/yIu75UE0oRI1YnZ
-	 siRITp27/PuuFblHyLyFa8zkWd9RLUBNCrPGNh4hvuiXpatTNadLSGiBssIMD6YlBqF4OiKfVZ69
-	 DiP5q2qXbputQQ7QfoPif+yBtNlUMBgQzP0ks2vmWcf3ArYxaWHI5h6CsIP9cf1C/hX9Ggqz0hxl
-	 nwf4M6LdVEVcNM/mM4zRcxw3M2/AReVS6vY5UEnEcHLmDm/G1Acy/V6yYc9swWGZNo3KcMIZG413
-	 K3gpWMlcF7U1c9voc9GHdE9mR6KXCrd8vBpY0iQClINVEINSwwEfOQfKVs2LO6+DymO60sMPLdCV
-	 bdTrTM82dPD+lkcrC9FODEPaYU9AsxDk98wYfTBV0OcZYn0oFOlouT0fGLshVNgZbVC36V/Ww=
-X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
-From: renjun wang <renjunw0@foxmail.com>
-To: ezequiel@vanguardiasur.com.ar,
-	p.zabel@pengutronix.de,
-	mchehab@kernel.org,
-	heiko@sntech.de
-Cc: linux-media@vger.kernel.org,
-	linux-rockchip@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBBEB12B85;
+	Sat, 16 Dec 2023 06:47:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1702709225;
+	bh=hOlNrL4DGi2cD4PMnB8p+gC4Zp2KSXfuHJBo1h8i+7A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PJX9meyu2VD03BC4Dc5OJ/5zEYAj9IOgeMpuTCD5RDkHWNLb1rMyZzkg0K7AQXFi5
+	 JgWOb/Rknet9LBLDIfXbfPWpIssrOs1Q1wBeyG+sGxqqYkAdIy0F8G5oW2etoZlxgR
+	 jhJyRnFDhb4JYD5j8lAvl4doP6vZd1wjwm5WQwJKucQL2O2d/UyjOKavOoN4FHcAj2
+	 mDx6qUufGKQAGFsrFRMIhimxh5F9kW7iLxXb/kvDhHLViHkzhRUfFYfmzpaiflMdnt
+	 vEZ5ttFUZHFLUNGa00n+sOqdFl5SW6Edrmrd299MPSAI++S7fGhD76TkGRHSgmMYLy
+	 q9UyTU5QWCngg==
+Received: from localhost (cola.collaboradmins.com [195.201.22.229])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sebastianfricke)
+	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 3488637811D2;
+	Sat, 16 Dec 2023 06:47:05 +0000 (UTC)
+Date: Sat, 16 Dec 2023 07:47:03 +0100
+From: Sebastian Fricke <sebastian.fricke@collabora.com>
+To: Moudy Ho <moudy.ho@mediatek.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	renjun wang <renjunw0@foxmail.com>
-Subject: [PATCH] media: verisilicon: Fix some typos
-Date: Sat, 16 Dec 2023 12:18:05 +0800
-X-OQ-MSGID: <20231216041805.12936-1-renjunw0@foxmail.com>
-X-Mailer: git-send-email 2.39.2
+	linux-mediatek@lists.infradead.org
+Subject: Re: [PATCH v8 00/12] add support MDP3 on MT8195 platform
+Message-ID: <20231216064703.tb7vf3m2ohrbz6px@basti-XPS-13-9310>
+References: <20231030100626.12564-1-moudy.ho@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20231030100626.12564-1-moudy.ho@mediatek.com>
 
-Function hantro_g1_h264_dec_prepare_table() does not exist,
-should be replaced with hantro_h264_dec_init().
+Hey Moudy Ho,
 
-The register name av1_ulticore_tile_col confused sometimes,
-although not be used corrently. The correct name should be
-av1_multicore_tile_col.
+just as a quick note, as this series is based on linux-next, we will
+wait for the patches, that this series is depending on, to be merged into
+the media_stage repository (https://git.linuxtv.org/media_stage.git/),
+before we merge this series into the media subsystem.
 
-Signed-off-by: renjun wang <renjunw0@foxmail.com>
----
- drivers/media/platform/verisilicon/hantro_g1_h264_dec.c        | 2 +-
- drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c | 2 +-
- drivers/media/platform/verisilicon/rockchip_vpu981_regs.h      | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+Greetings,
+Sebastian
 
-diff --git a/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c b/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c
-index 9de7f05eff2a..ad5c1a6634f5 100644
---- a/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c
-+++ b/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c
-@@ -243,7 +243,7 @@ static void set_buffers(struct hantro_ctx *ctx, struct vb2_v4l2_buffer *src_buf)
- 		vdpu_write_relaxed(vpu, dst_dma + offset, G1_REG_ADDR_DIR_MV);
- 	}
- 
--	/* Auxiliary buffer prepared in hantro_g1_h264_dec_prepare_table(). */
-+	/* Auxiliary buffer prepared in hantro_h264_dec_init(). */
- 	vdpu_write_relaxed(vpu, ctx->h264_dec.priv.dma, G1_REG_ADDR_QTABLE);
- }
- 
-diff --git a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c
-index 46c1a83bcc4e..6da87f5184bc 100644
---- a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c
-+++ b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c
-@@ -460,7 +460,7 @@ static void set_buffers(struct hantro_ctx *ctx, struct vb2_v4l2_buffer *src_buf)
- 		vdpu_write_relaxed(vpu, dst_dma + offset, VDPU_REG_DIR_MV_BASE);
- 	}
- 
--	/* Auxiliary buffer prepared in hantro_g1_h264_dec_prepare_table(). */
-+	/* Auxiliary buffer prepared in hantro_h264_dec_init(). */
- 	vdpu_write_relaxed(vpu, ctx->h264_dec.priv.dma, VDPU_REG_QTABLE_BASE);
- }
- 
-diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h b/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
-index 182e6c830ff6..850ff0f84424 100644
---- a/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
-+++ b/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
-@@ -118,7 +118,7 @@
- #define av1_mcomp_filt_type		AV1_DEC_REG(11, 8, 0x7)
- #define av1_multicore_expect_context_update	AV1_DEC_REG(11, 11, 0x1)
- #define av1_multicore_sbx_offset	AV1_DEC_REG(11, 12, 0x7f)
--#define av1_ulticore_tile_col		AV1_DEC_REG(11, 19, 0x7f)
-+#define av1_multicore_tile_col		AV1_DEC_REG(11, 19, 0x7f)
- #define av1_transform_mode		AV1_DEC_REG(11, 27, 0x7)
- #define av1_dec_tile_size_mag		AV1_DEC_REG(11, 30, 0x3)
- 
--- 
-2.39.2
-
+On 30.10.2023 18:06, Moudy Ho wrote:
+>Changes since v7:
+>- Rebase on linux-next.
+>- Dependent dtsi files:
+>  https://patchwork.kernel.org/project/linux-mediatek/list/?series=797543
+>- Dependent bindings:
+>  https://patchwork.kernel.org/project/linux-mediatek/list/?series=797555
+>- Patch [9/12] has made corresponding adjustments in response to the changes in
+>  the compatible name of the PAD component in DTSI and binding.
+>- Adding WROT compatible name in the MDP driver's of_match_table in [9/12] to
+>  avoid deactivating 'pm_runtime_*' functions.
+>
+>Changes since v6:
+>- Rebase on v6.6-rc5.
+>- Dependent dtsi files:
+>  https://patchwork.kernel.org/project/linux-mediatek/list/?series=792079
+>- Dependent bindings:
+>  https://patchwork.kernel.org/project/linux-mediatek/list/?series=792477
+>- Move the patch that fixes compile warnings from this series and
+>  create a separate standalone patch.
+>
+>Changes since v5:
+>- Rebase on v6.6-rc2.
+>- Dependent dtsi files:
+>  https://patchwork.kernel.org/project/linux-mediatek/list/?series=786511
+>- Dependent bindings:
+>  https://patchwork.kernel.org/project/linux-mediatek/list/?series=786520
+>- Integrate MMSY/MUTEX structure in "mdp_probe".
+>- Fix the build warnings that were detected by the linux-media
+>  build scripts tool.
+>
+>Changes since v4:
+>- Rebase on v6.6-rc1
+>- Remove any unnecessary DTS settings.
+>- Adjust the usage of MOD and clock in blending components.
+>
+>Changes since v3:
+>- Depend on :
+>  [1] https://patchwork.kernel.org/project/linux-media/list/?series=719841
+>- Suggested by Krzysztof, integrating all newly added bindings for
+>  the mt8195 MDP3 into the file "mediatek,mt8195-mdp3.yaml".
+>- Revise MDP3 nodes with generic names.
+>
+>Changes since v2:
+>- Depend on :
+>  [1] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711592
+>  [2] MDP3: https://patchwork.kernel.org/project/linux-mediatek/list/?series=711618
+>- Suggested by Rob to revise MDP3 bindings to pass dtbs check
+>- Add parallel paths feature.
+>- Add blended components settings.
+>
+>Changes since v1:
+>- Depend on :
+>  [1] MDP3 : https://patchwork.kernel.org/project/linux-mediatek/list/?series=698872
+>  [2] MMSYS/MUTEX: https://patchwork.kernel.org/project/linux-mediatek/list/?series=684959
+>- Fix compilation failure due to use of undeclared identifier in file "mtk-mdp3-cmdq.c"
+>
+>Hello,
+>
+>This patch is used to add support for MDP3 on the MT8195 platform that
+>contains more picture quality components, and can arrange more pipelines
+>through two sets of MMSYS and MUTEX respectively.
+>
+>Moudy Ho (12):
+>  media: platform: mtk-mdp3: add support second sets of MMSYS
+>  media: platform: mtk-mdp3: add support second sets of MUTEX
+>  media: platform: mtk-mdp3: introduce more pipelines from MT8195
+>  media: platform: mtk-mdp3: introduce more MDP3 components
+>  media: platform: mtk-mdp3: add checks for dummy components
+>  media: platform: mtk-mdp3: avoid multiple driver registrations
+>  media: platform: mtk-mdp3: extend GCE event waiting in RDMA and WROT
+>  media: platform: mtk-mdp3: add support for blending multiple
+>    components
+>  media: platform: mtk-mdp3: add mt8195 platform configuration
+>  media: platform: mtk-mdp3: add mt8195 shared memory configurations
+>  media: platform: mtk-mdp3: add mt8195 MDP3 component settings
+>  media: platform: mtk-mdp3: add support for parallel pipe to improve
+>    FPS
+>
+> .../platform/mediatek/mdp3/mdp_cfg_data.c     | 729 +++++++++++++-
+> .../platform/mediatek/mdp3/mdp_reg_aal.h      |  25 +
+> .../platform/mediatek/mdp3/mdp_reg_color.h    |  31 +
+> .../media/platform/mediatek/mdp3/mdp_reg_fg.h |  23 +
+> .../platform/mediatek/mdp3/mdp_reg_hdr.h      |  31 +
+> .../platform/mediatek/mdp3/mdp_reg_merge.h    |  25 +
+> .../platform/mediatek/mdp3/mdp_reg_ovl.h      |  25 +
+> .../platform/mediatek/mdp3/mdp_reg_pad.h      |  21 +
+> .../platform/mediatek/mdp3/mdp_reg_rdma.h     |  24 +
+> .../platform/mediatek/mdp3/mdp_reg_rsz.h      |   2 +
+> .../platform/mediatek/mdp3/mdp_reg_tdshp.h    |  34 +
+> .../platform/mediatek/mdp3/mdp_reg_wrot.h     |   8 +
+> .../platform/mediatek/mdp3/mdp_sm_mt8195.h    | 283 ++++++
+> .../platform/mediatek/mdp3/mtk-img-ipi.h      |   4 +
+> .../platform/mediatek/mdp3/mtk-mdp3-cfg.h     |   2 +
+> .../platform/mediatek/mdp3/mtk-mdp3-cmdq.c    | 440 +++++++--
+> .../platform/mediatek/mdp3/mtk-mdp3-cmdq.h    |   1 +
+> .../platform/mediatek/mdp3/mtk-mdp3-comp.c    | 895 +++++++++++++++++-
+> .../platform/mediatek/mdp3/mtk-mdp3-comp.h    |  93 +-
+> .../platform/mediatek/mdp3/mtk-mdp3-core.c    | 139 ++-
+> .../platform/mediatek/mdp3/mtk-mdp3-core.h    |  50 +-
+> .../platform/mediatek/mdp3/mtk-mdp3-m2m.c     |  15 +
+> .../platform/mediatek/mdp3/mtk-mdp3-regs.c    |  18 +
+> .../platform/mediatek/mdp3/mtk-mdp3-regs.h    |   1 +
+> .../platform/mediatek/mdp3/mtk-mdp3-vpu.c     |   3 +-
+> 25 files changed, 2744 insertions(+), 178 deletions(-)
+> create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_aal.h
+> create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_color.h
+> create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_fg.h
+> create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_hdr.h
+> create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_merge.h
+> create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_ovl.h
+> create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_pad.h
+> create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_reg_tdshp.h
+> create mode 100644 drivers/media/platform/mediatek/mdp3/mdp_sm_mt8195.h
+>
+>-- 
+>2.18.0
+>
 
