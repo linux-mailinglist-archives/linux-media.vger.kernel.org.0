@@ -1,109 +1,97 @@
-Return-Path: <linux-media+bounces-2485-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2486-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9291E815955
-	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 14:35:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9217E815966
+	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 14:42:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4F09B28557E
-	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 13:35:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B7E31F233D6
+	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 13:42:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63F453066C;
-	Sat, 16 Dec 2023 13:34:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 495672D797;
+	Sat, 16 Dec 2023 13:41:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c7NxgO6j"
+	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="FD7PIG/G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f53.google.com (mail-ed1-f53.google.com [209.85.208.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A5E72D7A7;
-	Sat, 16 Dec 2023 13:34:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-552d39ac3ccso2430496a12.0;
-        Sat, 16 Dec 2023 05:34:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702733671; x=1703338471; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nTmoBalM2UZzwSsqBtYN4pTcgAH6LuJG4x51tAzCQyI=;
-        b=c7NxgO6jDFPu0MX3vH1RvG41gJy5KAPIp3RjeKaXd6kG82RcYsrh68GKJllWNkgwjJ
-         hRaKDzdf6JfEn5zZbOOWVagVzchT/SfOaR8SMsjdEEbXWPRVv3NOHN2L4US9awNZZBQd
-         31VxPToNoHMlEzJe28fRcyDLMdD7GSyiijggpy3yjJyuwE4YCaPtu8MIV0IYWk/i2MIy
-         qJ1KbZ/rJEEpayF+J1NZ8EGfVAquvn2f2I3hlg1oO5+o1Nr9q5OsdpjYAlChr0r65+Ee
-         vDGC+7Nyrqxi/dWkKTPO4Az9PJ/m4bArIgLiknfGxW7HENiQObCCSsCmDeu1Rxrjvmam
-         03lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702733671; x=1703338471;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nTmoBalM2UZzwSsqBtYN4pTcgAH6LuJG4x51tAzCQyI=;
-        b=SJxpDwhL8BBazr6uRy+/rDTIU+/ULCj2OHm7que8WxahxEe46jL2N9lzU5VMuajGkB
-         xgtVglYV6G3EuFotvxqOJNqj0Ytj7q2cC1oJUbVFd8ztm/hZ9ipOCExXhMKrewVQ1uAj
-         PTCWDBRyqOnjCxAEnIXshA4iH7iuiOKtXHyUGrjlSV/6S8bJdoGkihn17gEgGW4Ecuv4
-         NJXSSiK9IsYenmga6wN/TzXVukh1BjrGW5/eIF31kN/7lZi/KD6UZFIm04xa9TxYm/yx
-         w9ZIN5Dd91gsvzhk5A1dRYekQO9OnHaYDBQ2j6C6QTvV7d4+mlpXvat8D1T3AJ8P0UVd
-         w3fQ==
-X-Gm-Message-State: AOJu0YwgTUvEMfCNiUYJRb1vzFrFOOytHPa5pBdyu3Apu5fFqfoJDEJm
-	MrurZt8kY0UzSHJu9PdBvWQ=
-X-Google-Smtp-Source: AGHT+IH3b10j+8jyAKAtdvCEywyWlISzpZTeWRwzu6lMvYyzMBeGp+kGNS8nahX92FU1+f2A18l15Q==
-X-Received: by 2002:a17:906:6d4f:b0:a23:31e9:71e4 with SMTP id a15-20020a1709066d4f00b00a2331e971e4mr344349ejt.71.1702733670581;
-        Sat, 16 Dec 2023 05:34:30 -0800 (PST)
-Received: from localhost.localdomain (82-149-12-148.dynamic.telemach.net. [82.149.12.148])
-        by smtp.gmail.com with ESMTPSA id l16-20020a170906415000b00a232bf6045csm423629ejk.63.2023.12.16.05.34.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 16 Dec 2023 05:34:30 -0800 (PST)
-From: Jernej Skrabec <jernej.skrabec@gmail.com>
-To: wens@csie.org,
-	samuel@sholland.org
-Cc: mchehab@kernel.org,
-	hverkuil-cisco@xs4all.nl,
-	linux-media@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-sunxi@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	Jernej Skrabec <jernej.skrabec@gmail.com>
-Subject: [PATCH 3/3] media: sun8i-di: Fix chroma difference threshold
-Date: Sat, 16 Dec 2023 14:34:22 +0100
-Message-ID: <20231216133422.2534674-4-jernej.skrabec@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20231216133422.2534674-1-jernej.skrabec@gmail.com>
-References: <20231216133422.2534674-1-jernej.skrabec@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 622EB2C689;
+	Sat, 16 Dec 2023 13:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
+	id 4A2C31C006F; Sat, 16 Dec 2023 14:41:52 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
+	t=1702734112;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=BgMsN1biGu/uFmRdF0ibs4TygbgTZcD1Mneah8GaJec=;
+	b=FD7PIG/GMmrr6sEEx68BXNBbU5WwLV1sXNuNvGW5W2fZ37Bl55cTOJhzkmjdTbP9b/U/2P
+	c9sj+tgynD7Z2E/bgoGXNCMd9rpetG9tCKIkC5X8eDD12hRa/u9YSezuUoOialK5J+yY3P
+	P+83awOu1uCyR4sHWvqoqWm24ydJnYw=
+Date: Sat, 16 Dec 2023 14:41:51 +0100
+From: Pavel Machek <pavel@ucw.cz>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 3/3] media: i2c: gc2145: Galaxy Core GC2145 sensor
+ support
+Message-ID: <ZX2pH0x9F54H4dZC@duo.ucw.cz>
+References: <20231107081345.3172392-1-alain.volmat@foss.st.com>
+ <20231107081345.3172392-4-alain.volmat@foss.st.com>
+ <ZU/UX9Jjk288ELUx@duo.ucw.cz>
+ <20231117090206.GB523678@gnbcxd0016.gnb.st.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha1;
+	protocol="application/pgp-signature"; boundary="3H7R7gYAsvJeThcu"
+Content-Disposition: inline
+In-Reply-To: <20231117090206.GB523678@gnbcxd0016.gnb.st.com>
 
-While there is no good explanation what this value does, vendor driver
-uses value 31 for it. Align driver with it.
 
-Fixes: a4260ea49547 ("media: sun4i: Add H3 deinterlace driver")
-Signed-off-by: Jernej Skrabec <jernej.skrabec@gmail.com>
----
- drivers/media/platform/sunxi/sun8i-di/sun8i-di.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--3H7R7gYAsvJeThcu
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-index f253a40cc04f..f7ff0937828c 100644
---- a/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-+++ b/drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-@@ -304,7 +304,7 @@ static void deinterlace_init(struct deinterlace_dev *dev)
- 
- 	deinterlace_clr_set_bits(dev, DEINTERLACE_CHROMA_DIFF,
- 				 DEINTERLACE_CHROMA_DIFF_TH_MSK,
--				 DEINTERLACE_CHROMA_DIFF_TH(5));
-+				 DEINTERLACE_CHROMA_DIFF_TH(31));
- }
- 
- static inline struct deinterlace_ctx *deinterlace_file2ctx(struct file *file)
--- 
-2.43.0
+Hi!
 
+> > So ... the hardware can do 10bit ADC, but we don't actually have a
+> > mode exposing that?
+>=20
+> We don't have YET (in the driver).  Choice is to have this first serie
+> with only non-RAW modes.  RAW8/10 will be added later on.
+
+Thanks for all the fixes and all the work you are putting to this.
+
+Best regards,
+								Pavel
+--=20
+People of Russia, stop Putin before his war on Ukraine escalates.
+
+--3H7R7gYAsvJeThcu
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCZX2pHwAKCRAw5/Bqldv6
+8tJQAKCqtUiE9H4+otD7/eLG8mlz2lGzyACgrlmfpH89ogEtxPilRGFAvO/NwwY=
+=1V8U
+-----END PGP SIGNATURE-----
+
+--3H7R7gYAsvJeThcu--
 
