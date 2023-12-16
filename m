@@ -1,107 +1,130 @@
-Return-Path: <linux-media+bounces-2478-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2479-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C00D381568C
-	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 03:52:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEE2481578B
+	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 05:42:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D85E2854C8
-	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 02:52:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 76D53B22EAF
+	for <lists+linux-media@lfdr.de>; Sat, 16 Dec 2023 04:42:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CFF6E4406;
-	Sat, 16 Dec 2023 02:50:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67DBE10A1C;
+	Sat, 16 Dec 2023 04:42:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=foxmail.com header.i=@foxmail.com header.b="sNmMiW8k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out203-205-221-202.mail.qq.com (out203-205-221-202.mail.qq.com [203.205.221.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 81D9510A1B
-	for <linux-media@vger.kernel.org>; Sat, 16 Dec 2023 02:50:19 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B5EAEC433C8
-	for <linux-media@vger.kernel.org>; Sat, 16 Dec 2023 02:50:18 +0000 (UTC)
-Date: Sat, 16 Dec 2023 03:50:16 +0100
-Message-ID: <5dc499212b0618c18a3243caddc014c0.hverkuil@xs4all.nl>
-From: "Hans Verkuil" <hverkuil-cisco@xs4all.nl>
-To: linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AF7911CA1;
+	Sat, 16 Dec 2023 04:42:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foxmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foxmail.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1702701720;
+	bh=wdNndgGeLlcNwK9hbEpoW5H6j3meU+l8uskTtib8Uhs=;
+	h=From:To:Cc:Subject:Date;
+	b=sNmMiW8kuBVigciMYuNFvyf1VoYyZ/+fgaGxok8hYA5gCbl1NWd532p5jLYLrzaAf
+	 qIxHfeFs27leyWsYtr4ZadvXvkgnxuZKJ8lUpp5JoY++QrNmkilby++zVG0Zk47nbW
+	 RmCGN3Wwdx9TcxK3XSQ7JOMRPjZ0qYt/ah2ykiTs=
+Received: from localhost.localdomain ([118.112.114.229])
+	by newxmesmtplogicsvrszc5-1.qq.com (NewEsmtp) with SMTP
+	id 4A409021; Sat, 16 Dec 2023 12:18:36 +0800
+X-QQ-mid: xmsmtpt1702700316tp6eo8v02
+Message-ID: <tencent_4AE0AD70494AB08166266B6493F4C507CE08@qq.com>
+X-QQ-XMAILINFO: OZZSS56D9fAjyoRLlB1WdJJ7RuUl5TjiHz/6ppILou0ypj6soqQ2oZ5NyubAhc
+	 DN24kzTe67KAiTHnoBVxvZvHlA42BS40WYljtQDeSEbTIFZo+Lac5P1MzPAkUrayDmiGGed4IPWI
+	 pCzclg7f6F50xLoPl+EFNUjNlJxSOD+7jjmW4589o+VYwvvAgOjxbj3PzwxLSsCj4M21MogIKcVg
+	 tbx/rSLdhnknTRmW+RT9/wvJyN1IIg6JhqPUwYwjlNrEkWbXF0NlGSduz83ULwVM0/VIvIERNzZF
+	 zcpUYw9LwtJFK2hktBmNBj4VWDRyNwCjiPZ0adw/WEm5F+aekXYkYhfyHF+19Bv+hB3MsU9B/BW+
+	 ldmwMut55Qe3eT9+w7TXKG92Fzh3iCvZIbywl2VAIDtG0X0QEnlHJpDXAv9cJo8R5QZEE6mMEdCE
+	 x5ODcDy/lH0Q3Ze78LRa+NpKyiy4Uti/RnoEFfL+YLNabr7bDbCqAJrjLLZNaxYqzW+2v6NW+cld
+	 RwbIcJF8F3kqL4dTCKfsmFAB0X/eoHyqvVoArUPbLzC97GA0TWuxOl/dUXeHa2BQBurS1N5K+PnB
+	 viok+f9dI+j/cDxxAf3QZZ66LNelTjUetQmmMX7ewRXZLXzXK5ICCdqzVY24/yIu75UE0oRI1YnZ
+	 siRITp27/PuuFblHyLyFa8zkWd9RLUBNCrPGNh4hvuiXpatTNadLSGiBssIMD6YlBqF4OiKfVZ69
+	 DiP5q2qXbputQQ7QfoPif+yBtNlUMBgQzP0ks2vmWcf3ArYxaWHI5h6CsIP9cf1C/hX9Ggqz0hxl
+	 nwf4M6LdVEVcNM/mM4zRcxw3M2/AReVS6vY5UEnEcHLmDm/G1Acy/V6yYc9swWGZNo3KcMIZG413
+	 K3gpWMlcF7U1c9voc9GHdE9mR6KXCrd8vBpY0iQClINVEINSwwEfOQfKVs2LO6+DymO60sMPLdCV
+	 bdTrTM82dPD+lkcrC9FODEPaYU9AsxDk98wYfTBV0OcZYn0oFOlouT0fGLshVNgZbVC36V/Ww=
+X-QQ-XMRINFO: MPJ6Tf5t3I/ycC2BItcBVIA=
+From: renjun wang <renjunw0@foxmail.com>
+To: ezequiel@vanguardiasur.com.ar,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org,
+	heiko@sntech.de
+Cc: linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	renjun wang <renjunw0@foxmail.com>
+Subject: [PATCH] media: verisilicon: Fix some typos
+Date: Sat, 16 Dec 2023 12:18:05 +0800
+X-OQ-MSGID: <20231216041805.12936-1-renjunw0@foxmail.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-This message is generated daily by a cron job that builds media_tree for
-the architectures in the list below.
+Function hantro_g1_h264_dec_prepare_table() does not exist,
+should be replaced with hantro_h264_dec_init().
 
-Results of the daily build of media_tree:
+The register name av1_ulticore_tile_col confused sometimes,
+although not be used corrently. The correct name should be
+av1_multicore_tile_col.
 
-date:			Sat Dec 16 03:00:08 CET 2023
-media-tree git repo:	git://linuxtv.org/hverkuil/media_tree.git
-media-tree git branch:	media_stage/master
-media-tree git hash:	02d4e62ae2452c83e4a3e279b8e4cb4dcbad4b31
-v4l-utils git hash:	2b2ba7e0e86c4e33f485bfda931245e26bc04549
-edid-decode git hash:	1e99fe84c08d2cea5d86668ac6948e382ef545e3
-gcc version:		i686-linux-gcc (GCC) 13.2.0
-ccache version:		ccache version 4.8.3
-smatch/sparse repo:     git://repo.or.cz/smatch.git
-smatch version:		v0.5.0-8526-gd4827317
-sparse version:		v0.5.0-8526-gd4827317
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 984d07544ad3abbb1ea6b06f44ae531858c1c047
-host hardware:		x86_64
-host os:		6.1.55-cobaltpc1
+Signed-off-by: renjun wang <renjunw0@foxmail.com>
+---
+ drivers/media/platform/verisilicon/hantro_g1_h264_dec.c        | 2 +-
+ drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c | 2 +-
+ drivers/media/platform/verisilicon/rockchip_vpu981_regs.h      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-linux-git-powerpc64: OK
-linux-git-arm: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-no-acpi.config: OK
-no-of.config: OK
-no-pm-sleep.config: OK
-no-pm.config: OK
-no-debug-fs.config: OK
-sparse: WARNINGS:
+diff --git a/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c b/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c
+index 9de7f05eff2a..ad5c1a6634f5 100644
+--- a/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c
++++ b/drivers/media/platform/verisilicon/hantro_g1_h264_dec.c
+@@ -243,7 +243,7 @@ static void set_buffers(struct hantro_ctx *ctx, struct vb2_v4l2_buffer *src_buf)
+ 		vdpu_write_relaxed(vpu, dst_dma + offset, G1_REG_ADDR_DIR_MV);
+ 	}
+ 
+-	/* Auxiliary buffer prepared in hantro_g1_h264_dec_prepare_table(). */
++	/* Auxiliary buffer prepared in hantro_h264_dec_init(). */
+ 	vdpu_write_relaxed(vpu, ctx->h264_dec.priv.dma, G1_REG_ADDR_QTABLE);
+ }
+ 
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c
+index 46c1a83bcc4e..6da87f5184bc 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c
++++ b/drivers/media/platform/verisilicon/rockchip_vpu2_hw_h264_dec.c
+@@ -460,7 +460,7 @@ static void set_buffers(struct hantro_ctx *ctx, struct vb2_v4l2_buffer *src_buf)
+ 		vdpu_write_relaxed(vpu, dst_dma + offset, VDPU_REG_DIR_MV_BASE);
+ 	}
+ 
+-	/* Auxiliary buffer prepared in hantro_g1_h264_dec_prepare_table(). */
++	/* Auxiliary buffer prepared in hantro_h264_dec_init(). */
+ 	vdpu_write_relaxed(vpu, ctx->h264_dec.priv.dma, VDPU_REG_QTABLE_BASE);
+ }
+ 
+diff --git a/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h b/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
+index 182e6c830ff6..850ff0f84424 100644
+--- a/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
++++ b/drivers/media/platform/verisilicon/rockchip_vpu981_regs.h
+@@ -118,7 +118,7 @@
+ #define av1_mcomp_filt_type		AV1_DEC_REG(11, 8, 0x7)
+ #define av1_multicore_expect_context_update	AV1_DEC_REG(11, 11, 0x1)
+ #define av1_multicore_sbx_offset	AV1_DEC_REG(11, 12, 0x7f)
+-#define av1_ulticore_tile_col		AV1_DEC_REG(11, 19, 0x7f)
++#define av1_multicore_tile_col		AV1_DEC_REG(11, 19, 0x7f)
+ #define av1_transform_mode		AV1_DEC_REG(11, 27, 0x7)
+ #define av1_dec_tile_size_mag		AV1_DEC_REG(11, 30, 0x3)
+ 
+-- 
+2.39.2
 
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-
-smatch: WARNINGS:
-
-drivers/media/usb/siano/smsusb.c:53:38: warning: array of flexible structures
-drivers/media/i2c/adv7180.c:1526 adv7180_probe() warn: 'client->irq' from request_threaded_irq() not released on lines: 1526.
-drivers/media/platform/st/sti/hva/hva-hw.c:412 hva_hw_probe() warn: 'hva->clk' from clk_prepare() not released on lines: 412.
-
-COMPILE_TEST: OK
-strcpy/strncpy/strlcpy: OK
-abi-compliance: ABI OK
-pahole: ABI OK
-utils: OK
-spec-git: OK
-kerneldoc: OK
-
-date:			Sat Dec 16 03:20:29 CET 2023
-virtme-64: WARNINGS: Final Summary: 3284, Succeeded: 3284, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 3412, Succeeded: 3412, Failed: 0, Warnings: 2
-
-date:			Sat Dec 16 03:49:02 CET 2023
-
-Detailed results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-64-dmesg.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32.log
-https://hverkuil.home.xs4all.nl/logs/Saturday-test-media-32-dmesg.log
-
-Full logs are available here:
-
-https://hverkuil.home.xs4all.nl/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-https://hverkuil.home.xs4all.nl/spec/index.html
 
