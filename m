@@ -1,101 +1,101 @@
-Return-Path: <linux-media+bounces-2492-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2493-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B80D1816162
-	for <lists+linux-media@lfdr.de>; Sun, 17 Dec 2023 18:46:36 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 058F58161CC
+	for <lists+linux-media@lfdr.de>; Sun, 17 Dec 2023 20:34:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C2097B21188
-	for <lists+linux-media@lfdr.de>; Sun, 17 Dec 2023 17:46:33 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8BD86B21DBD
+	for <lists+linux-media@lfdr.de>; Sun, 17 Dec 2023 19:34:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4141346B8E;
-	Sun, 17 Dec 2023 17:46:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D813F481AB;
+	Sun, 17 Dec 2023 19:34:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="r/3XyNUe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bkxPBSPu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98A1B1DFE9;
-	Sun, 17 Dec 2023 17:46:21 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E22E9C433C7;
-	Sun, 17 Dec 2023 17:46:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702835181;
-	bh=S/2wAk1uCnOrAZbHHoeWhyhqfRpMSGqjU1MgyCkHfn0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=r/3XyNUemtrxcr04kVm14K9CEPkkW/5XjD5/StgY3JCuljo8SyOcBsS8iWdd4O45G
-	 JeF59Dyw1wGTefssDgrkIYcSz36xWIXYTPvXAhFdYUHmCBd7K2cVDofv4JaFZba9g8
-	 EZO/lItWezlk1xHdvHBeTG2DjATeEdXGGkx23pHFhXkdAESgdzVO/QDXZp/oNuf7/M
-	 ePLwkqrW6fgWdlLl3Hh8/kIV03rQtkoJFOLS1mlQipqBV2PGLblE5AQfPWx8bauqdy
-	 RFoPRlbnO82XT8ET61ZBhKQ5G0kP2BVpoHKGJFNtXL41ZMLc6Exll6iZE/RD1QDnC2
-	 6/jdP0nwH/wjg==
-Date: Sun, 17 Dec 2023 11:46:17 -0600
-From: Bjorn Andersson <andersson@kernel.org>
-To: Luca Weiss <luca.weiss@fairphone.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Stanimir Varbanov <stanimir.k.varbanov@gmail.com>, 
-	Vikash Garodia <quic_vgarodia@quicinc.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Andy Gross <agross@kernel.org>, Konrad Dybcio <konrad.dybcio@linaro.org>, 
-	cros-qcom-dts-watchers@chromium.org, Rob Herring <robh+dt@kernel.org>, 
-	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley <conor+dt@kernel.org>, 
-	~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v3 1/3] media: venus: core: Set up secure memory ranges
- for SC7280
-Message-ID: <cfdrv7mf24lm7tfcnlqkjeu3zyzzdphdgvvob2uhysiyofckn4@dz6q3xvydboc>
-References: <20231201-sc7280-venus-pas-v3-0-bc132dc5fc30@fairphone.com>
- <20231201-sc7280-venus-pas-v3-1-bc132dc5fc30@fairphone.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEA6345014
+	for <linux-media@vger.kernel.org>; Sun, 17 Dec 2023 19:34:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-50e297d0692so1063659e87.1
+        for <linux-media@vger.kernel.org>; Sun, 17 Dec 2023 11:34:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702841651; x=1703446451; darn=vger.kernel.org;
+        h=mime-version:message-id:date:subject:cc:to:from:user-agent:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=eAxmo44ECM3ZgKBDrRz+lCutrd39bPkYyMjr2DR9Sfc=;
+        b=bkxPBSPuf8KesnoZFljWzUUc5VG+v7qJL+uBDltsxWy7Ch2zqObnBnHziDKRePunSt
+         Ao1LjB1SgGMX2UyTgiTVYO6pAG2GmjQtw8oCL/REow5C/g+o3sSZx8Bk6XzeHEuiLEou
+         UZ0ztAov3vbGrV95nNjkUW5QR+JtYZO2oEnIW5DCkP61nI1bHR8sSYwNo6N4+tRGa8D6
+         YSFt0wDO8xD3hzTBBo4N7ggfx+MJaNH55qvvK+46UP1o8PIoO9GWU96BPcvc2Fjq3eYa
+         rRgNKMw/egruhIr5jNQHZsYnnJuvq5li3lpMW7HepSq52p3Bi8yZoBMdQEiuzsvy7yux
+         6ktQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702841651; x=1703446451;
+        h=mime-version:message-id:date:subject:cc:to:from:user-agent
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eAxmo44ECM3ZgKBDrRz+lCutrd39bPkYyMjr2DR9Sfc=;
+        b=i0lVMDOVkt4J23hu6V71EJNCyCsxbcnC2275sPfvLJqwTjC269PfNg7H27I1rgQazr
+         DkD63pcYPg0xfVLlEVqwiGF/2NvT0/T3yhgNeT5VnbNGzw7KKaf92yu535qepiQZ6Kax
+         ikNHARdoo2D0VAeEoSsI4He9iw6atdDh4V5vBrHqqtEBb3KDbRUx/UXH9uTNApZh8tSQ
+         MPrMVAWmzNhYsBOzctIsgJjYAkw5D6Vr7AF+yQ8c/nYxtowlf0vOpevYdosGLCBQ9gTF
+         +ACiIgL0+0oszN4rLpPvYyy8oz8R5OHM1RXZMZ2afnNe6cK8BHD4IVKliChMEC33QaQw
+         njPA==
+X-Gm-Message-State: AOJu0Yx0pQ6VjEWMrd8D8GlWosRL0ZS+cLtdqaJPzeCRLTC3v+WiTNwD
+	iLIZsRXvvF5D09PqFy4J47Q=
+X-Google-Smtp-Source: AGHT+IF+eVGunWBW6syBJ/0GBLT/2ZmAMukLR5RA5l8tufju6ujkC8tsnJ4Solpa7uYMPXnbPzRSaA==
+X-Received: by 2002:a05:6512:398f:b0:50e:15de:9931 with SMTP id j15-20020a056512398f00b0050e15de9931mr4541024lfu.24.1702841650571;
+        Sun, 17 Dec 2023 11:34:10 -0800 (PST)
+Received: from razdolb (95-24-145-153.broadband.corbina.ru. [95.24.145.153])
+        by smtp.gmail.com with ESMTPSA id f3-20020a193803000000b0050e36ba7a52sm175108lfa.67.2023.12.17.11.34.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 17 Dec 2023 11:34:10 -0800 (PST)
+User-agent: mu4e 1.10.7; emacs 29.1
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+    Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+    Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Linux Media Mailing List <linux-media@vger.kernel.org>,
+    Linux-rockchip <linux-rockchip-bounces@lists.infradead.org>,
+    linux-kernel <linux-kernel@vger.kernel.or>
+Subject: [bug?] 85d2a31fe4d9 ("media: rkisp1: Drop IRQF_SHARED") breaks ISP1
+ on RK3399
+Date: Sun, 17 Dec 2023 22:14:34 +0300
+Message-ID: <87o7eo8vym.fsf@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231201-sc7280-venus-pas-v3-1-bc132dc5fc30@fairphone.com>
+Content-Type: text/plain
 
-On Fri, Dec 01, 2023 at 10:33:18AM +0100, Luca Weiss wrote:
-> Not all SC7280 devices ship with ChromeOS firmware. Other devices need
-> PAS for image authentication. That requires the predefined virtual
-> address ranges to be passed via scm calls. Define them to enable Venus
-> on non-CrOS SC7280 devices.
-> 
-> Reviewed-by: Konrad Dybcio <konrad.dybcio@linaro.org>
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
+Hi!
 
-Mauro, this series looks ready to be picked up. Can you please merge
-this driver patch, so I can pick the two dts changes?
+Rockchip ISP1 is broken for me on a custom rk3399-based board in the
+latest media_stage. Relevant dmesg fragment:
 
-Thanks,
-Bjorn
+    rkisp1 ff910000.isp0: Adding to iommu group 2
+    genirq: Flags mismatch irq 42. 00000004 (rkisp1) vs. 00000084 (ff914000.iommu)
+    rkisp1 ff910000.isp0: request irq failed: -16
+    rkisp1: probe of ff910000.isp0 failed with error -16
+    rkisp1 ff920000.isp1: Adding to iommu group 3
+    genirq: Flags mismatch irq 43. 00000004 (rkisp1) vs. 00000084 (ff924000.iommu)
+    rkisp1 ff920000.isp1: request irq failed: -16
+    rkisp1: probe of ff920000.isp1 failed with error -16
 
-> ---
->  drivers/media/platform/qcom/venus/core.c | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
-> index 9cffe975581b..a712dd4f02a5 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -881,6 +881,10 @@ static const struct venus_resources sc7280_res = {
->  	.vmem_size = 0,
->  	.vmem_addr = 0,
->  	.dma_mask = 0xe0000000 - 1,
-> +	.cp_start = 0,
-> +	.cp_size = 0x25800000,
-> +	.cp_nonpixel_start = 0x1000000,
-> +	.cp_nonpixel_size = 0x24800000,
->  	.fwname = "qcom/vpu-2.0/venus.mbn",
->  };
->  
-> 
-> -- 
-> 2.43.0
-> 
+According to rk3399.dtsi, isp interrupts are shared with correponding
+mmu interrupts (isp0 with isp0_mmu, isp1 with isp1_mmu), so the subject
+commit breaks devm_request_irq. Reverting it fixes the issue for me.
+
+If I'm just missing something, sorry for the noise.
+
+--
+Best regards,
+Mikhail Rudenko
 
