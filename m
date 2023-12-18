@@ -1,214 +1,103 @@
-Return-Path: <linux-media+bounces-2516-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2517-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF6AA816573
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 04:44:17 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AE628167C5
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 08:54:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73882282650
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 03:44:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1B9BBB2101A
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 07:54:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 063A9525A;
-	Mon, 18 Dec 2023 03:44:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22ED9F9F6;
+	Mon, 18 Dec 2023 07:54:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DQ/jt97N"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ndco3uE/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D8E440A
-	for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 03:44:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0135963AA;
+	Mon, 18 Dec 2023 07:54:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 53EE957E;
-	Mon, 18 Dec 2023 04:43:18 +0100 (CET)
+Received: from [127.0.1.1] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CBFED57E;
+	Mon, 18 Dec 2023 08:53:40 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702870998;
-	bh=9RBgmuFeVJqWVVOykD3QwJhJq1tU06mLpNWtA6sOwks=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DQ/jt97Nk2x/8XTEXwEIRzwcCF3PptF8YvRP0pHOVhJZ9V4Th1oVUcz9+IiOKEuYp
-	 bC0M+FyKCUAG6LufbKFfT2Cq3gJPJywiIWjwTGWhTXIcdO/tPS/P2w0V4iW88+km9g
-	 3ODQryD2zScZuiDM8kcTwXOw4FiO+cIMBu6Q7gbQ=
-Date: Mon, 18 Dec 2023 05:44:13 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Yunke Cao <yunkec@google.com>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-	Daniel Scally <dan.scally@ideasonboard.com>,
-	Tomasz Figa <tfiga@chromium.org>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH v14 11/11] media: uvcvideo: document UVC v1.5 ROI
-Message-ID: <20231218034413.GN5290@pendragon.ideasonboard.com>
-References: <20231201071907.3080126-1-yunkec@google.com>
- <20231201071907.3080126-12-yunkec@google.com>
- <20231208160055.GL25616@pendragon.ideasonboard.com>
- <CANqU6FfFadXUnU8DveoQgL5TuYv1ok3Z3ZkATmZsL4JSRV0a=Q@mail.gmail.com>
+	s=mail; t=1702886021;
+	bh=cql4h96dv06hH9CykfpuGnZfzJq+KMy0qwgU5DQIW/g=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Ndco3uE/vI4r0yJX8AAZ75uRyxCrfM5MPyP/kQ/yL3qZuGoxmtJcDRwPiD8/UMQTJ
+	 dQalEThfJAIKR5p27XBxvbbenv3zO/cnR8yI2UpcivAR/jOYUsqM1ReXFyle/QLRt8
+	 1CZqxHmp1/KKaMUDInStANY7NDLEvCehMwHOMf2I=
+From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: [PATCH 0/2] media: rkisp1: Fix shared interrupt handling
+Date: Mon, 18 Dec 2023 09:53:59 +0200
+Message-Id: <20231218-rkisp-shirq-fix-v1-0-173007628248@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CANqU6FfFadXUnU8DveoQgL5TuYv1ok3Z3ZkATmZsL4JSRV0a=Q@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJf6f2UC/x2M0QpAQBAAf+XaZ1vuDuFX5IGz2BRnt6Tk310eZ
+ 2rmASVhUmjNA0IXKx97ApsZCOuwL4Q8JQaXO2+drVE21oi6spw4841VaGjyY+HqsoRURaGk/2P
+ Xv+8H6loVzWEAAAA=
+To: Dafna Hirschfeld <dafna@fastmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Mikhail Rudenko <mike.rudenko@gmail.com>
+Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, 
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+X-Mailer: b4 0.12.4
+X-Developer-Signature: v=1; a=openpgp-sha256; l=901;
+ i=tomi.valkeinen@ideasonboard.com; h=from:subject:message-id;
+ bh=cql4h96dv06hH9CykfpuGnZfzJq+KMy0qwgU5DQIW/g=;
+ b=owEBbQKS/ZANAwAIAfo9qoy8lh71AcsmYgBlf/qxIB9lMmj1ncHt1yEst2NSWVcnLKBfqBBcY
+ DKGLj2np2iJAjMEAAEIAB0WIQTEOAw+ll79gQef86f6PaqMvJYe9QUCZX/6sQAKCRD6PaqMvJYe
+ 9c02EACm9p0tAvZkK0CDtj1+iQWKoGDOaeWaWXi5OGj4pvT+xVUqhvtgfjgC0XU8cZBqJAfUJmF
+ 0d5HB4wmBLXye/70Szw4S9PR7yYkArKvaeePxd2Y3Wh2JLasbWsZww9tTL1MKsE/H+sn6I4PvlK
+ VIXPqU3yIfkZj0RkOowLYmuHaBOjLBLZt0R9n/9UG7H3WRmpKL7PGAQOGOgomT1h09TE3m8gLER
+ I7lWzG/Wvs9I8HKyNeIcuVaVoKMCz7/Q3IoluAtokc9kRL8IowQ8N684zZpfNUJ2fMwZJibVbGj
+ ppP1nGCmC13zymOWkEcU09SdE3hSP2xntcgS20i4g/YE9MAHP+AtEpC/U6cYr1j8z62Im9JSDii
+ qvwi5PtdujD1YJWyHwFqwzz4n3NGc6I1o0LkKt5pmwrxK9Ud/FNiXkZoXWn1hiVEfVRWCkI9wZF
+ Dc9NMB+G4xvzbms5bxTBTUkoxFbAKDHYpfrSd7g1fF9rxdTThitwgnRS1hA/lYDgKO1OIGgYUqd
+ /FdUcB3V8g0X1Ka3EeNoH5C8vus3HRdloOTokQvz5eoVdqQ1R914b7+9qoDedYdNvX7MZR7PBJO
+ lGz8eI9cemHUDRGMnPTKrfPxIO5cQcQSGazTHGclRnKKWnSinVXFHnRUIam2BPitJc/5rhAOHvX
+ v6rJz05+4OK8QBQ==
+X-Developer-Key: i=tomi.valkeinen@ideasonboard.com; a=openpgp;
+ fpr=C4380C3E965EFD81079FF3A7FA3DAA8CBC961EF5
 
-Hi Yunke,
+First revert the commit that dropped IRQF_SHARED, as it is required
+after all. Then fix the driver to handle shared irqs.
 
-On Tue, Dec 12, 2023 at 01:45:00PM +0900, Yunke Cao wrote:
-> On Sat, Dec 9, 2023 at 1:00 AM Laurent Pinchart wrote:
-> > On Fri, Dec 01, 2023 at 04:19:02PM +0900, Yunke Cao wrote:
-> > > Added documentation of V4L2_CID_UVC_REGION_OF_INTEREST_RECT and
-> > > V4L2_CID_UVC_REGION_OF_INTEREST_AUTO.
-> >
-> > It would be useful to point here to the userspace code that uses those
-> > controls. A link to the appropriate Chrome OS git tree would be useful,
-> > to showcase a real user.
-> 
-> Does https://source.chromium.org/chromiumos/chromiumos/codesearch/+/main:src/platform2/camera/hal/usb/
-> work?
+ Tomi
 
-I would pin it to a branch, as it may disappear from the main branch
-later:
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+---
+Tomi Valkeinen (2):
+      Revert "media: rkisp1: Drop IRQF_SHARED"
+      media: rkisp1: Fix IRQ handling due to shared interrupts
 
-https://chromium.googlesource.com/chromiumos/platform2/+/refs/heads/release-R121-15699.B/camera/hal/usb/
+ .../platform/rockchip/rkisp1/rkisp1-capture.c      |  3 +++
+ .../media/platform/rockchip/rkisp1/rkisp1-common.h |  2 ++
+ .../media/platform/rockchip/rkisp1/rkisp1-csi.c    |  3 +++
+ .../media/platform/rockchip/rkisp1/rkisp1-dev.c    | 24 +++++++++++++++++++++-
+ .../media/platform/rockchip/rkisp1/rkisp1-isp.c    |  3 +++
+ 5 files changed, 34 insertions(+), 1 deletion(-)
+---
+base-commit: 02d4e62ae2452c83e4a3e279b8e4cb4dcbad4b31
+change-id: 20231218-rkisp-shirq-fix-6c9ed3b42855
 
-> Do you think we need the link in both the commit message and this .rst file?
-
-Sounds good to me.
-
-> > > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > Reviewed-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> > > Signed-off-by: Yunke Cao <yunkec@google.com>
-> > > ---
-> > > Changelog since v11:
-> > > - No change.
-> > > Changelog since v10:
-> > > - Added Reviewed-by from Sergey.
-> > > Changelog since v9:
-> > > - No change.
-> > > Changelog since v8:
-> > > - No change.
-> > > Changelog since v7:
-> > > - Fix documentation for automatic exposure based on comment in v7.
-> > >
-> > >  .../userspace-api/media/drivers/uvcvideo.rst  | 62 +++++++++++++++++++
-> > >  1 file changed, 62 insertions(+)
-> > >
-> > > diff --git a/Documentation/userspace-api/media/drivers/uvcvideo.rst b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> > > index aab4304e6bb5..3dc062221f8b 100644
-> > > --- a/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> > > +++ b/Documentation/userspace-api/media/drivers/uvcvideo.rst
-> > > @@ -181,6 +181,7 @@ Argument: struct uvc_xu_control_mapping
-> > >       UVC_CTRL_DATA_TYPE_BOOLEAN      Boolean
-> > >       UVC_CTRL_DATA_TYPE_ENUM         Enumeration
-> > >       UVC_CTRL_DATA_TYPE_BITMASK      Bitmask
-> > > +     UVC_CTRL_DATA_TYPE_RECT         Rectangular area
-> > >
-> > >
-> > >  UVCIOC_CTRL_QUERY - Query a UVC XU control
-> > > @@ -255,3 +256,64 @@ Argument: struct uvc_xu_control_query
-> > >       __u8    query           Request code to send to the device
-> > >       __u16   size            Control data size (in bytes)
-> > >       __u8    *data           Control value
-> > > +
-> > > +
-> > > +Driver-specific V4L2 controls
-> > > +-----------------------------
-> > > +
-> > > +The uvcvideo driver implements the following UVC-specific controls:
-> > > +
-> > > +``V4L2_CID_UVC_REGION_OF_INTEREST_RECT (struct)``
-> > > +     This control determines the region of interest (ROI). ROI is a
-> > > +     rectangular area represented by a struct :c:type:`v4l2_rect`. The
-> > > +     rectangle is in global sensor coordinates and pixel units. It is
-> > > +     independent of the field of view, not impacted by any cropping or
-> > > +     scaling.
-> > > +
-> > > +     Use ``V4L2_CTRL_WHICH_MIN_VAL`` and ``V4L2_CTRL_WHICH_MAX_VAL`` to query
-> > > +     the range of rectangle sizes. The left/top coordinates of a minimum or
-> > > +     maximum rectangle are always 0. For example, a device can have a minimum
-> > > +     ROI rectangle of 1x1@0x0 and a maximum of 640x480@0x0.
-> >
-> > Is that actually true ? The UVC 1.5 specification states
-> >
-> >     GET_MAX shall return the current Window as specified by
-> >     CT_DIGITAL_WINDOW_CONTROL.
-> >
-> > And the window can have non-zero left and right coordinates.
-> 
-> Ah, you are right. I think I will just remove "The left/top
-> coordinates of a minimum or maximum rectangle are always 0."
-
-The rectangle would still be relative to CT_DIGITAL_WINDOW_CONTROL,
-which isn't exposed by the driver to userspace. Isn't that a problem ?
-
-> > > +
-> > > +     Setting a ROI allows the camera to optimize the capture for the region.
-> > > +     The value of ``V4L2_CID_REGION_OF_INTEREST_AUTO`` control determines
-> > > +     the detailed behavior.
-> > > +
-> > > +
-> > > +``V4L2_CID_UVC_REGION_OF_INTEREST_AUTO (bitmask)``
-> > > +     This determines which, if any, on board features should track to the
-> >
-> > s/on board/on-board/
-> >
-> > > +     Region of Interest specified by the current value of
-> > > +     ``V4L2_CID_UVD__REGION_OF_INTEREST_RECT``.
-> > > +
-> > > +     Max value is a mask indicating all supported Auto Controls.
-> > > +
-> > > +.. flat-table::
-> > > +    :header-rows:  0
-> > > +    :stub-columns: 0
-> > > +
-> > > +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_EXPOSURE``
-> > > +      - Setting this to true causes automatic exposure to track the region of
-> >
-> > Maybe "Setting this bit causes..." as those values are bit flags, not
-> > booleans. Same below.
-> 
-> Sounds good.
-> 
-> > > +     interest instead of the whole image.
-> > > +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_IRIS``
-> > > +      - Setting this to true causes automatic iris to track the region of
-> > > +     interest instead of the whole image.
-> > > +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_WHITE_BALANCE``
-> > > +      - Setting this to true causes automatic white balance to track the region
-> > > +     of interest instead of the whole image.
-> > > +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_FOCUS``
-> > > +      - Setting this to true causes automatic focus adjustment to track the
-> > > +     region of interest instead of the whole image.
-> > > +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_FACE_DETECT``
-> > > +      - Setting this to true causes automatic face detection to track the
-> > > +     region of interest instead of the whole image.
-> > > +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_DETECT_AND_TRACK``
-> > > +      - Setting this to true enables automatic face detection and tracking. The
-> > > +     current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
-> > > +     the driver.
-> > > +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_IMAGE_STABILIZATION``
-> > > +      - Setting this to true enables automatic image stabilization. The
-> > > +     current value of ``V4L2_CID_REGION_OF_INTEREST_RECT`` may be updated by
-> > > +     the driver.
-> > > +    * - ``V4L2_UVC_REGION_OF_INTEREST_AUTO_HIGHER_QUALITY``
-> > > +      - Setting this to true enables automatically capture the specified region
-> >
-> > I wonder what this means, the UVC 1.5 specification doesn't document
-> > this bit clearly :-(
-> 
-> I have no idea :-( . I haven't seen any camera module in Chrome OS
-> attempt to implement this bit, either.
-> 
-> > > +     with higher quality if possible.
-
+Best regards,
 -- 
-Regards,
+Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 
-Laurent Pinchart
 
