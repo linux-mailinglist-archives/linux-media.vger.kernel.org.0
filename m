@@ -1,117 +1,155 @@
-Return-Path: <linux-media+bounces-2526-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2527-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34180816925
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 10:04:00 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7D7181693E
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 10:07:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C593DB20EB2
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 09:03:57 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9C8F1C225EB
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 09:07:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6903411C92;
-	Mon, 18 Dec 2023 09:03:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2C991111B9;
+	Mon, 18 Dec 2023 09:07:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="jehA85YU"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="dqaxpQQ2";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="JtP+FSJX"
 X-Original-To: linux-media@vger.kernel.org
 Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74C70111AA;
-	Mon, 18 Dec 2023 09:03:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46AC12B6C;
+	Mon, 18 Dec 2023 09:07:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
-	t=1702890208; bh=gXF4zwPtrzbsMvzl/OG/KlHSiLQN4XqG8q1rytTusLw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jehA85YU9WcbUoRVBvQQxScipzxMzPY/w9KZfL8dL0jEdc4grQY/dzJ9r6pzDBhaP
-	 T/u++SErVxB09yqNG+QldWap8LSCGZCbualEWsuuFpGrn/6e6Nea+N2aJi5T5iX04o
-	 6htm44WrCVg4cICcuuXCx6Y8i4TiC5JpAcjrLAX4FpYCnji60vittpFlXz6JgV5Owr
-	 kkK3gCWFlr3Ehyt/KTrJ/0f5kfEueBriNTjLCv+RPD05UcMxHoINLL+dPfPVQjyWzs
-	 BY9O6chbSue2t/O7PcPPwvZO4JQuFy7wI0aL8QFnDNyCS6fHfJO3Bd4JvMXIENXXY2
-	 PNjmIQVMKUruQ==
-Received: by gofer.mess.org (Postfix, from userid 1000)
-	id A984110029E; Mon, 18 Dec 2023 09:03:28 +0000 (GMT)
-Date: Mon, 18 Dec 2023 09:03:28 +0000
+	t=1702890420; bh=FkCr51kULAa8YJGMPXtjxuQF6A5OKu9CA6R1NbTOiZU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=dqaxpQQ2MD5u0A5cqhdg7X1HpPU6umNIi3EWzfxrV/rLyQC6mWgr2otapf/CDm9Bv
+	 j9kDMhZq8QBuVZLZ/2gWrCx06tJIwKQ5Js+A8lPDMxpGNv3E94M5PU/7uEwwF10ToO
+	 fFCb4k9ozbfuXDOUsRjgWOGliI9bm9C3w49iSBgiWlaYr7+G3dorSsshFgHcDP+ebn
+	 Gwb6tYC3nvg450udoo4goaF7yRjwcGmjZn8RuxNi2u9h/Op0EEn8aOhYhbC31ngRes
+	 RWhiPrsK1zFBecZzneusiwROJEbsgRXAHjluGNWTmLajfh+7Gq4ekuYzUIes/2j9b2
+	 zeLqXKUVcB8vw==
+Received: by gofer.mess.org (Postfix, from userid 501)
+	id 3AA231009FE; Mon, 18 Dec 2023 09:07:00 +0000 (GMT)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1702890418; bh=FkCr51kULAa8YJGMPXtjxuQF6A5OKu9CA6R1NbTOiZU=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JtP+FSJXa+kj2Y6U63zJphy5+N16GUt1JqAQOjNcfFB9ygWULSAffrKviEh1jPDUM
+	 PzqiLGdB+r5f7B0BZW1RQ8pFBR9YznHffbuZUcjKcm4AugbkZDVtGCPrA1VOSVkJ9r
+	 dSbLUqmfZKaYuNvepMPUUPoIt5Abe6p2YFpaD/XhbHaORSU3k2iiVhaqcjGoEvav54
+	 33kSU13hAf74WJAIpd4tKdYT476/4pzFpR4I8fJCmrOPp324+s04x8mnWFZ6CQEEss
+	 5MlZ2CYZyO/TFrQcXZQ+2v3BDfnOvD+Na9wL+lRtD7WwPyoA6M/+vy4hxUdBiW7cFg
+	 f26bbUuOfMf5A==
+Received: from localhost.localdomain (bigcore-79.local [IPv6:2a02:8011:d000:212:ca7f:54ff:fe51:14d6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gofer.mess.org (Postfix) with ESMTPSA id 588981000CC;
+	Mon, 18 Dec 2023 09:06:58 +0000 (GMT)
 From: Sean Young <sean@mess.org>
-To: Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@pengutronix.de>
-Cc: linux-media@vger.kernel.org, linux-pwm@vger.kernel.org,
+To: linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
 	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
 	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 4/6] pwm: Make it possible to apply PWM changes in
- atomic context
-Message-ID: <ZYAK4HaWsChgJE12@gofer.mess.org>
-References: <cover.1702369869.git.sean@mess.org>
- <57f48330eb606356e86be17f85253f0e3d6ab104.1702369869.git.sean@mess.org>
- <20231212114812.afzgjiunzc6druov@pengutronix.de>
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Sean Young <sean@mess.org>
+Subject: [PATCH v9 0/6] Improve pwm-ir-tx precision
+Date: Mon, 18 Dec 2023 09:06:41 +0000
+Message-ID: <cover.1702890244.git.sean@mess.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20231212114812.afzgjiunzc6druov@pengutronix.de>
 
-Hello Uwe,
+The pwm-ir-tx driver has to turn the pwm signal on and off, and suffers
+from delays as this is done in process context. Make this work in atomic
+context.
 
-On Tue, Dec 12, 2023 at 12:48:12PM +0100, Uwe Kleine-K�nig wrote:
-> On Tue, Dec 12, 2023 at 08:34:03AM +0000, Sean Young wrote:
-> > +/**
-> > + * pwm_apply_might_sleep() - atomically apply a new state to a PWM device
-> > + * Cannot be used in atomic context.
-> > + * @pwm: PWM device
-> > + * @state: new state to apply
-> > + */
-> > +int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
-> > +{
-> > +	int err;
-> > +
-> > +	/*
-> > +	 * Some lowlevel driver's implementations of .apply() make use of
-> > +	 * mutexes, also with some drivers only returning when the new
-> > +	 * configuration is active calling pwm_apply_might_sleep() from atomic context
-> > +	 * is a bad idea. So make it explicit that calling this function might
-> > +	 * sleep.
-> > +	 */
-> > +	might_sleep();
-> > +
-> > +	if (IS_ENABLED(CONFIG_PWM_DEBUG) && pwm->chip->atomic) {
-> > +		/*
-> > +		 * Catch any drivers that have been marked as atomic but
-> > +		 * that will sleep anyway.
-> > +		 */
-> > +		non_block_start();
-> > +		err = pwm_apply_unchecked(pwm, state);
-> > +		non_block_end();
-> > +	} else {
-> > +		err = pwm_apply_unchecked(pwm, state);
-> > +	}
-> > +
-> >  	/*
-> >  	 * only do this after pwm->state was applied as some
-> >  	 * implementations of .get_state depend on this
-> >  	 */
-> > -	pwm_apply_debug(pwm, state);
-> > +	if (!err)
-> > +		pwm_apply_debug(pwm, state);
-> 
-> It's easier to keep that in pwm_apply_unchecked(), isn't it? Then
-> pwm_apply_atomic() also benefits from the checks.
+changes:
 
-Good point.
+v9:
+ - Uwe Kleine-König review comments/fixes
 
-> I'm not so happy with the function name of pwm_apply_unchecked(), but I
-> don't have a good suggestion either. Probably I'd have chosen
-> __pam_apply(), but that's probably subjective.
+v8:
+ - Uwe Kleine-König review comments
+ - Minor cleanups
 
-That is more consistent, fixed in v9.
+v7:
+ - Thierry Reding review comments
+ - Minor cleanups
+ - rebase
+
+v6:
+ - Rename pwm_apply_cansleep() to pwm_apply_might_sleep()
+ - rebase
+
+v5:
+ - Use dev_err_probe() as Uwe suggested
+ - rebase
+
+v4:
+ - Split out the pwm_apply_state() rename into seperate commit
+ - Atomic pwm function is called pwm_apply_atomic() and sleeping
+   counterpart pwm_apply_cansleep()
+ - Fix commit messages
+
+v3:
+ - Renamed pwm_apply_state() to pwm_apply_cansleep()
+ - Moved pwm atomic to struct pwm_chip
+ - Fixed pwm docs
+ - Other minor code review comments
+
+v2:
+ - Simplified the pwm ir tx based on Ivaylo Dimitrov suggestions
+ - Renamed pwm_can_sleep() to pwm_is_atomic
+ - Fix sleeping issue in pwm-bcm2835 (clk_get_rate() can sleep)
+ - use non_block_start() in pwm to check atomic-ness
 
 
-Sean
+Sean Young (6):
+  pwm: Rename pwm_apply_state() to pwm_apply_might_sleep()
+  pwm: Replace ENOTSUPP with EOPNOTSUPP
+  pwm: renesas: Remove unused include
+  pwm: Make it possible to apply PWM changes in atomic context
+  pwm: bcm2835: Allow PWM driver to be used in atomic context
+  media: pwm-ir-tx: Trigger edges from hrtimer interrupt context
+
+ Documentation/driver-api/pwm.rst              | 17 +++-
+ MAINTAINERS                                   |  2 +-
+ .../gpu/drm/i915/display/intel_backlight.c    |  6 +-
+ drivers/gpu/drm/solomon/ssd130x.c             |  2 +-
+ drivers/hwmon/pwm-fan.c                       |  8 +-
+ drivers/input/misc/da7280.c                   |  4 +-
+ drivers/input/misc/pwm-beeper.c               |  4 +-
+ drivers/input/misc/pwm-vibra.c                |  8 +-
+ drivers/leds/leds-pwm.c                       |  2 +-
+ drivers/leds/rgb/leds-pwm-multicolor.c        |  4 +-
+ drivers/media/rc/pwm-ir-tx.c                  | 87 +++++++++++++++++--
+ drivers/platform/x86/lenovo-yogabook.c        |  2 +-
+ drivers/pwm/core.c                            | 74 ++++++++++++----
+ drivers/pwm/pwm-bcm2835.c                     | 40 ++++++---
+ drivers/pwm/pwm-renesas-tpu.c                 |  1 -
+ drivers/pwm/pwm-twl-led.c                     |  2 +-
+ drivers/pwm/pwm-vt8500.c                      |  2 +-
+ drivers/pwm/sysfs.c                           | 10 +--
+ drivers/regulator/pwm-regulator.c             |  4 +-
+ drivers/video/backlight/lm3630a_bl.c          |  2 +-
+ drivers/video/backlight/lp855x_bl.c           |  2 +-
+ drivers/video/backlight/pwm_bl.c              | 12 +--
+ drivers/video/fbdev/ssd1307fb.c               |  2 +-
+ include/linux/pwm.h                           | 57 ++++++++----
+ 24 files changed, 260 insertions(+), 94 deletions(-)
+
+-- 
+2.43.0
+
 
