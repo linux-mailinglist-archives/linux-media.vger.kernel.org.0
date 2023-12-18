@@ -1,228 +1,129 @@
-Return-Path: <linux-media+bounces-2597-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2598-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55E408176F9
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 17:09:18 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6754181770A
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 17:11:24 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 192641C25A15
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 16:09:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC71E2853AB
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 16:11:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 93A215BFA5;
-	Mon, 18 Dec 2023 16:07:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D29CA4989D;
+	Mon, 18 Dec 2023 16:10:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZU7JzT8v"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LrYJtaVx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133735BF99;
-	Mon, 18 Dec 2023 16:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-2cc7087c6c4so14265051fa.2;
-        Mon, 18 Dec 2023 08:07:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702915648; x=1703520448; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=20Ku4vARATLk3XHYnn5Pc7ocJY6ElVgfqjAQYqXv2Rc=;
-        b=ZU7JzT8vEzxpG9DHKb032Uf7GSrDfCtb2jObzFuB90bydU/reHe5rCt7wPMic1jzPc
-         EehOqXIQSHGY8iuncrfBP/z6sROlbfeoh54SVwq6x0/uR4fHOdi4UBugFuBUhs3JehnP
-         XO5DGPkct7SCynYbiUgRX5R1PPwNOIERp3Qo3P39jmplRh8rf3gIx42h2OlWYvjaL2VS
-         bkZHcUljPLA/XAasxo2b05ppvFWjdNfzTdY7HXRtjUOGJ2X4awAlCIdtqzpsOSAF2PIy
-         XeOCrDEvQUH8DWmzgx8WeHRxB7nqyp2Anpeo/NAeEiolsGUUbNfEVRUh5zR6jlxJU2Ye
-         uy3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702915648; x=1703520448;
-        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=20Ku4vARATLk3XHYnn5Pc7ocJY6ElVgfqjAQYqXv2Rc=;
-        b=VxBCSfqtV8ZamLkvBSXqdxP7bsDA/vu3UFMITivErrS7stE2lFXt+hHzsWB3GXiFBZ
-         kiP04eaAeURO9uJW4EZeKe2xLu795RNrEgve8pjEShALbRkpyIdKg2lPymPFgnmz39o9
-         W5kaVqR28T416MZDImA6+/kCb6W7O8lCdFqKa0SaJhuyKo1l/Al8uluF6SvqOTucrtmT
-         DScMbAx3Y85iQygtTydO3J3NSbYxB7rs3rRH6eaaMXIUwJ8Z4PyHl8+WgvOfvNneLM+T
-         5V0eH8gTxOawPP2UTNYsLJAuaOX2fVwJHbScORQTrhe/R6lZk3xDXe+x7M59hDjBGY4U
-         QITA==
-X-Gm-Message-State: AOJu0Yy4zn8LhbsyVq1kfWwD9i3sH34pFtqryAJlCcrJGDib+RCI3fMe
-	ZNj8YbqMnX760PgEXlG/Fna/cfPjMQNl9U0f5Cg=
-X-Google-Smtp-Source: AGHT+IHJ+x+QyBTbV9J8pAukoZDU13vn3Tstg3dtyqgpF6Gsnqfuxjo9JqNXfK41fX6EjCdJTnhy+zz6ieFO7a0heYo=
-X-Received: by 2002:a2e:9cc7:0:b0:2cc:6210:1dce with SMTP id
- g7-20020a2e9cc7000000b002cc62101dcemr1642098ljj.4.1702915642804; Mon, 18 Dec
- 2023 08:07:22 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3473D57F;
+	Mon, 18 Dec 2023 16:10:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 179F4C433C8;
+	Mon, 18 Dec 2023 16:10:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1702915845;
+	bh=RyOpylSYH9NQruYbziThNE1gfBpDP2Ghh1KJd/KJVNY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=LrYJtaVxeC9DSa/ig3EOb585fdd2cdMj9ADBkQiR62Q8T5nCFEJFy4oCJ5xYsf+pR
+	 pRKLLDONQnJEYHvb+Lbac0NFCoX+YhnFaHHHrOVCBiwswTV/ifceh2K5mgPkl1+lXJ
+	 WmX7EkNX7toPGx7g5rn1003gy5gE6J+K8GSPiEyRRhC5/2jFlSk1C52j8/JDaU35WJ
+	 BLNNmWTOjxHp/qa2oFGhEdzhEnm4Vjm44SZZ72PQ+un42q4+BzN/mj8faJfJvDp4Dv
+	 ePzQVC2oydQ7nYX1yRiFI0vPrmonamwrLOzUjxrtYLgbe9+VGNxLTQPhWHbmyRHHcJ
+	 tsovCrCgI1pkQ==
+Message-ID: <c0f76b35-1ac3-47e4-9a88-57f4738bd8f0@kernel.org>
+Date: Mon, 18 Dec 2023 17:10:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: Xilin Wu <wuxilin123@gmail.com>
-Date: Tue, 19 Dec 2023 00:07:09 +0800
-Message-ID: <CAEPPPKvTzfVVWzmH9EmCKDP8TGi2Mm3Y1_mRXy8B-6wJxdH8Lg@mail.gmail.com>
-Subject: Re: [PATCH v2 00/34] Qualcomm video encoder and decoder driver
-To: quic_dikshita@quicinc.com
-Cc: Andy Gross <agross@kernel.org>, Bjorn Andersson <andersson@kernel.org>, bryan.odonoghue@linaro.org, 
-	Konrad Dybcio <konrad.dybcio@linaro.org>, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, mchehab@kernel.org, 
-	quic_abhinavk@quicinc.com, quic_vgarodia@quicinc.com, 
-	stanimir.k.varbanov@gmail.com
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 04/34] dt-bindings: media: Add sm8550 dt schema
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
+ andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
+ bryan.odonoghue@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com
+References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
+ <1702899149-21321-5-git-send-email-quic_dikshita@quicinc.com>
+Content-Language: en-US
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 fv0=
+In-Reply-To: <1702899149-21321-5-git-send-email-quic_dikshita@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi, I tested the patches on qcs8550 (which should be the same as
-sm8550) and I seemed to get different
-results with v4l2-compliance sometimes. Also, ffmpeg never seemed to work.
+On 18/12/2023 12:31, Dikshita Agarwal wrote:
+> Add a schema description for the iris video encoder/decoder
+> on sm8550.
+> 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>  .../bindings/media/qcom,sm8550-iris.yaml           | 177 +++++++++++++++++++++
+>  1 file changed, 177 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
 
-ffmpeg cmdline: sudo ffmpeg -loglevel debug -c:v h264_v4l2m2m -i
-rickroll.mp4 -f null /dev/null
-Partial output:
+NAK, I don't understand why we need to repeat it some many times.
 
-[h264_v4l2m2m @ 0xaaaabf7a22b0] probing device /dev/video0
-[h264_v4l2m2m @ 0xaaaabf7a22b0] driver 'iris_driver' on card
-'iris_decoder' in mplane mode
-[h264_v4l2m2m @ 0xaaaabf7a22b0] Using device /dev/video0
-[h264_v4l2m2m @ 0xaaaabf7a22b0] driver 'iris_driver' on card
-'iris_decoder' in mplane mode
-[h264_v4l2m2m @ 0xaaaabf7a22b0] requesting formats: output=H264/none
-capture=Q08C/yuv420p
-[h264_v4l2m2m @ 0xaaaabf7a22b0] output buffer[0] initialization
-(Cannot allocate memory)
-[h264_v4l2m2m @ 0xaaaabf7a22b0] output unmap plane (Invalid argument))
-[h264_v4l2m2m @ 0xaaaabf7a22b0] no v4l2 output context's buffers
-[h264_v4l2m2m @ 0xaaaabf7a22b0] can't configure decoder
-[vist#0:0/h264 @ 0xaaaabf741e70] Error while opening decoder: Cannot
-allocate memory
-[vost#0:0/wrapped_avframe @ 0xaaaabf760570] Error initializing a
-simple filtergraph
-Error opening output file /dev/null.
-Error opening output files: Cannot allocate memory
-[AVIOContext @ 0xaaaabf742c30] Statistics: 1703936 bytes read, 44 seeks
+Please use scripts/get_maintainers.pl to get a list of necessary people
+and lists to CC. It might happen, that command when run on an older
+kernel, gives you outdated entries. Therefore please be sure you base
+your patches on recent Linux kernel.
 
-After trying several times, it just fails:
+You missed at least devicetree list (maybe more), so this won't be
+tested by automated tooling. Performing review on untested code might be
+a waste of time, thus I will skip this patch entirely till you follow
+the process allowing the patch to be tested.
 
-[h264_v4l2m2m @ 0xaaaaf7f852b0] probing device /dev/video0
-[h264_v4l2m2m @ 0xaaaaf7f852b0] probing device /dev/video1
-[h264_v4l2m2m @ 0xaaaaf7f852b0] Could not find a valid device
-[h264_v4l2m2m @ 0xaaaaf7f852b0] can't configure decoder
-[vist#0:0/h264 @ 0xaaaaf7f24e70] Error while opening decoder: Invalid argument
-[vost#0:0/wrapped_avframe @ 0xaaaaf7f43570] Error initializing a
-simple filtergraph
-Error opening output file /dev/null.
-Error opening output files: Invalid argument
+Please kindly resend and include all necessary To/Cc entries.
 
+Best regards,
+Krzysztof
 
-v4l2-compliance output:
-
-[alarm@ayn-odin2 ~]$ sudo v4l2-compliance -d /dev/video0
-v4l2-compliance 1.26.0, 64 bits, 64-bit time_t
-
-Compliance test for iris_driver device /dev/video0:
-
-Driver Info:
-        Driver name      : iris_driver
-        Card type        : iris_decoder
-        Bus info         : platform:iris_bus
-        Driver version   : 6.7.0
-        Capabilities     : 0x84204000
-                Video Memory-to-Memory Multiplanar
-                Streaming
-                Extended Pix Format
-                Device Capabilities
-        Device Caps      : 0x04204000
-                Video Memory-to-Memory Multiplanar
-                Streaming
-                Extended Pix Format
-        Detected Stateful Decoder
-
-Required ioctls:
-        test VIDIOC_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/video0 open: OK
-        test VIDIOC_QUERYCAP: OK
-        test VIDIOC_G/S_PRIORITY: OK
-                fail: v4l2-compliance.cpp(763): !ok
-        test for unlimited opens: FAIL
-
-Debug ioctls:
-        test VIDIOC_DBG_G/S_REGISTER: OK
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-        test VIDIOC_QUERYCTRL: OK
-        test VIDIOC_G/S_CTRL: OK
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 48 Private Controls: 0
-
-Format ioctls:
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-        test VIDIOC_G/S_PARM: OK (Not Supported)
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK
-        test VIDIOC_TRY_FMT: OK
-        test VIDIOC_S_FMT: OK
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK
-        test Composing: OK
-        test Scaling: OK (Not Supported)
-
-Codec ioctls:
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK
-
-Buffer ioctls:
-                fail: v4l2-test-buffers.cpp(553): ret != EINVAL (got 9)
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
-        test CREATE_BUFS maximum buffers: OK
-                fail: v4l2-test-buffers.cpp(814): VIDIOC_EXPBUF is
-supported, but the V4L2_MEMORY_MMAP support is missing or
-malfunctioning.
-                fail: v4l2-test-buffers.cpp(815): VIDIOC_EXPBUF is
-supported, but the V4L2_MEMORY_MMAP support is missing, probably due
-to earlier failing format tests.
-        test VIDIOC_EXPBUF: OK (Not Supported)
-failed to stat file
-                fail: v4l2-test-buffers.cpp(2140): ret != EINVAL &&
-ret != EBADR && ret != ENOTTY (got 9)
-        test Requests: FAIL
-
-Total for iris_driver device /dev/video0: 46, Succeeded: 43, Failed:
-3, Warnings: 0
-[alarm@ayn-odin2 ~]$ sudo v4l2-compliance -d /dev/video1
-v4l2-compliance 1.26.0, 64 bits, 64-bit time_t
-
-Failed to open /dev/video1: Invalid argument
-[alarm@ayn-odin2 ~]$ sudo v4l2-compliance -d /dev/video0
-v4l2-compliance 1.26.0, 64 bits, 64-bit time_t
-
-Failed to open /dev/video0: Invalid argument
 
