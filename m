@@ -1,212 +1,112 @@
-Return-Path: <linux-media+bounces-2630-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2631-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id B43C7817C2C
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 21:47:53 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AA49817CA8
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 22:33:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 31FFFB2227B
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 20:47:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 74B2DB23AAE
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 21:33:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EC9B74084;
-	Mon, 18 Dec 2023 20:47:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBCA974E00;
+	Mon, 18 Dec 2023 21:33:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JpykLe7i"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ZDgE19eU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f172.google.com (mail-lj1-f172.google.com [209.85.208.172])
+Received: from mail-lj1-f176.google.com (mail-lj1-f176.google.com [209.85.208.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19F537348F;
-	Mon, 18 Dec 2023 20:47:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f172.google.com with SMTP id 38308e7fff4ca-2cc5ee69960so25946331fa.0;
-        Mon, 18 Dec 2023 12:47:02 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADA6740A5
+	for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 21:33:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lj1-f176.google.com with SMTP id 38308e7fff4ca-2cb21afa6c1so51094701fa.0
+        for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 13:33:30 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702932421; x=1703537221; darn=vger.kernel.org;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:from:to:cc:subject:date:message-id:reply-to;
-        bh=3SIXDp75ZHCEs87qRhLFCCPIElvpLyVBzTpsncQ+3Og=;
-        b=JpykLe7iTr1G9owPwP1BnL7J1DdbfO96nHmFj3/+YVXX4HujYyfibgg7JwfTy0/1ks
-         Q22R2g7zaFjK69o8PUQEF2Va06OHpwXnoMVqOxj863/n7c0Hok9X99UNV2OCzWvdWQBq
-         j1TJ3IEFoAyZyYL3QjqSNk+e7P+/PFtzcx+A0hTeJXNysxcbNCJTU5KV+J4eKc4ooL3W
-         r3r08k1eG4IrvLmur0SvOzzFX4t/lSAQXVy7jwgX2NaW7RfP5mNN7Ry0qh1kB6RHrScv
-         n1VsYmL6dl3SG6MPrbxlw7iMOBwiJtbgkjHn5jOkk6M7dRrmtpk5piquMTTLwTGChEDn
-         JW2g==
+        d=linaro.org; s=google; t=1702935209; x=1703540009; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=HhtQ4/swFAAhvY0/S4bZ35rOfbKjnZrhXJFZl40TyLU=;
+        b=ZDgE19eU8CqmZVjWgC/QBw73f1L8Jpi/dEfSbtqu+IN6e6H1A/3IYtITucU5l8aPSt
+         hqjrPaKTYOIexFkdth8dCaActayFVn0nuQt+Bbqp7/I/wvcM3Rzq8m1jLuzCepeWAkZc
+         vvF3gwhR00u/ndJIA3Xx4poWUfNw2IWrxmzr4kYP6RzkD0xwEnR/C2TE/A/7rm65dPzt
+         zh0FQEx2rMDURb5v1LO2JtDAS1fSp6ZVOhV9ixk1b5GO3e7e33Cp+4GZLej+7yU8nToO
+         gtNJM5f/WrbbCGnZ7LdbALbd4P4z4nQRNuNZM9ftpFI6DwRMauk2mpDycgllmcc6EnKC
+         K3dg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702932421; x=1703537221;
-        h=mime-version:message-id:in-reply-to:date:subject:cc:to:from
-         :user-agent:references:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3SIXDp75ZHCEs87qRhLFCCPIElvpLyVBzTpsncQ+3Og=;
-        b=PmLuDRaEc1Aq9l1TA0wX0uVy1hO1X2MJdMAOQM7kPz/rozuUhhGCuBGDCy8XYyNPgA
-         9s8NAan6gpEx0ahAijveuwoBHII5k0k/GD2vbvx+M0EyA6XhmkoAvc+ocHtIoIoE4mM9
-         oExRWEqUR+koNUdtSLfceWvB7/1K5ZBXvNhxEzS/uK6Z44im8VxNJUECEzIcT7NnuIYy
-         evlO3BZ+r9QfsFgQJ+YZvPIDs2W6WXCEfLgSh5sOyvEufX4kNeaIYtOaBuzZbT/a8cKl
-         nwN22MQetHzMfPdqYSpxThx5LS1mP5TxxEnVWO/2q3cLIpXHfsBcwEMeq4itLMjqgVMB
-         LFhw==
-X-Gm-Message-State: AOJu0Yyh92WL4sisGjZN0D5KD0dVzc4QYMDoGhT8C1He3NtEt65K4Ua9
-	rUJr8LBGnokKeVCniGkawdU=
-X-Google-Smtp-Source: AGHT+IFXCrMN7zl1aUbx1ydt1lz0r879IoYa36r//tRk/ToNNlqSKcI/ZWDk5XvAOFB8ElmnsCyPQw==
-X-Received: by 2002:a2e:90da:0:b0:2cc:6ebd:fad8 with SMTP id o26-20020a2e90da000000b002cc6ebdfad8mr870450ljg.19.1702932420809;
-        Mon, 18 Dec 2023 12:47:00 -0800 (PST)
-Received: from razdolb (95-24-145-153.broadband.corbina.ru. [95.24.145.153])
-        by smtp.gmail.com with ESMTPSA id x9-20020a2e9dc9000000b002cc7d567dffsm30090ljj.103.2023.12.18.12.46.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 12:47:00 -0800 (PST)
-References: <20231211175023.1680247-1-mike.rudenko@gmail.com>
- <20231211175023.1680247-13-mike.rudenko@gmail.com>
- <20231211221533.GK27535@pendragon.ideasonboard.com>
- <875y13pnn6.fsf@gmail.com>
- <20231218180459.GS5290@pendragon.ideasonboard.com>
-User-agent: mu4e 1.10.7; emacs 29.1
-From: Mikhail Rudenko <mike.rudenko@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Jacopo Mondi <jacopo@jmondi.org>,
- Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Dave Stevenson
- <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Subject: Re: [PATCH 12/19] media: i2c: ov4689: Implement digital gain control
-Date: Mon, 18 Dec 2023 23:10:25 +0300
-In-reply-to: <20231218180459.GS5290@pendragon.ideasonboard.com>
-Message-ID: <87msu7p7b0.fsf@gmail.com>
+        d=1e100.net; s=20230601; t=1702935209; x=1703540009;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=HhtQ4/swFAAhvY0/S4bZ35rOfbKjnZrhXJFZl40TyLU=;
+        b=m35BCM6ntkousfMyg/AFrwlDTzqydotxRwLSt1AQsgeFzrcWu6qPmhTf5Y265X0Igw
+         DNshrmNx7NSiZEDrmG1hQTeuOUBvbkFyotIZxvqtIg/iW/5l255YCFGJCfs+MX/c36+E
+         JQRZsw97weuBlvFC3AxOfzC1fVE9mLd7FiEQvDctWoPNdGP9HASA3Fp+ooOlRE+oTd8H
+         UdCtORTMI/m9ljX2AgwoY5nxMiv7MRjcARefT6FlN5a1Xm77FulS3qQ8o8BhK6e3LhiP
+         TCjgI4hJw+dlt7gEMcKExzqgo0RTNAiTs0wYUyW5G6CZSczf/jYqSEN5piMiY7odc3gy
+         886g==
+X-Gm-Message-State: AOJu0Yw9uzq/G5xuWP5ilZf/Wisc5ZuJLs09DAFKzqDZj2esnP84YA37
+	e66IAr8YZUZDJYQIFM9JajMIZw==
+X-Google-Smtp-Source: AGHT+IHzDhaGl5qdWTrWBYnsWxMtQwCMHQDcexz4NcamhE1koD41N+tENsnkeiqpZ5wa4nyRDz2PLg==
+X-Received: by 2002:a2e:a54f:0:b0:2cc:2fcc:c589 with SMTP id e15-20020a2ea54f000000b002cc2fccc589mr6267824ljn.34.1702935208834;
+        Mon, 18 Dec 2023 13:33:28 -0800 (PST)
+Received: from [172.30.205.119] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
+        by smtp.gmail.com with ESMTPSA id w22-20020a2e9bd6000000b002cc710614besm507393ljj.0.2023.12.18.13.33.27
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Dec 2023 13:33:28 -0800 (PST)
+Message-ID: <7b3674ce-e372-44e4-adda-8af78e2a9053@linaro.org>
+Date: Mon, 18 Dec 2023 22:33:27 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 09/34] media: iris: initialize shared queues for host
+ and firmware communication
+Content-Language: en-US
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
+ andersson@kernel.org, mchehab@kernel.org, bryan.odonoghue@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com
+References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
+ <1702899149-21321-10-git-send-email-quic_dikshita@quicinc.com>
+From: Konrad Dybcio <konrad.dybcio@linaro.org>
+In-Reply-To: <1702899149-21321-10-git-send-email-quic_dikshita@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
 
-On 2023-12-18 at 20:04 +02, Laurent Pinchart <laurent.pinchart@ideasonboard.com> wrote:
 
-> Hi Mikhail,
->
-> On Tue, Dec 12, 2023 at 03:52:48PM +0300, Mikhail Rudenko wrote:
->> On 2023-12-12 at 00:15 +02, Laurent Pinchart wrote:
->> > On Mon, Dec 11, 2023 at 08:50:15PM +0300, Mikhail Rudenko wrote:
->> >> The OV4689 sensor supports digital gain up to 16x. Implement
->> >> corresponding control in the driver. Default digital gain value is not
->> >> modified by this patch.
->> >>
->> >> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
->> >> ---
->> >>  drivers/media/i2c/ov4689.c | 16 ++++++++++++++--
->> >>  1 file changed, 14 insertions(+), 2 deletions(-)
->> >>
->> >> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
->> >> index 62aeae43d749..ed0ce1b9e55b 100644
->> >> --- a/drivers/media/i2c/ov4689.c
->> >> +++ b/drivers/media/i2c/ov4689.c
->> >> @@ -35,6 +35,12 @@
->> >>  #define OV4689_GAIN_STEP		1
->> >>  #define OV4689_GAIN_DEFAULT		0x80
->> >>
->> >> +#define OV4689_REG_DIG_GAIN		CCI_REG16(0x352A)
->> >
->> > Lowercase for hex constatns please.
->>
->> Ah, missed it somehow. Is this convention kernel-wide or media specific?
->> I think checkpatch could have detetected this..
->
-> It's media-wide :-) Lower-case hex constants are the majority through
-> the kernel, but there's no tree-wide ban on upper-case.
->
->> >> +#define OV4689_DIG_GAIN_MIN		1
->> >> +#define OV4689_DIG_GAIN_MAX		0x7fff
->> >> +#define OV4689_DIG_GAIN_STEP		1
->> >> +#define OV4689_DIG_GAIN_DEFAULT		0x800
->> >> +
->> >>  #define OV4689_REG_TEST_PATTERN		CCI_REG8(0x5040)
->> >>  #define OV4689_TEST_PATTERN_ENABLE	0x80
->> >>  #define OV4689_TEST_PATTERN_DISABLE	0x0
->> >> @@ -131,7 +137,6 @@ static const struct cci_reg_sequence ov4689_2688x1520_regs[] = {
->> >>
->> >>  	/* AEC PK */
->> >>  	{CCI_REG8(0x3503), 0x04}, /* AEC_MANUAL gain_input_as_sensor_gain_format = 1 */
->> >> -	{CCI_REG8(0x352a), 0x08}, /* DIG_GAIN_FRAC_LONG dig_gain_long[14:8] = 0x08 (2x) */
->> >
->> > Is the default value really x2 ? That's not very nice :-S
->> >
->> > It would be much nicer if the default value of the control mapped to x1,
->> > otherwise it's impossible for userspace to interpret the scale of the
->> > digital gain value in a generic way. I suppose that could break existing
->> > applications though, which isn't great.
->>
->> The datasheet does not explicitly say how register values are mapped to
->> the actual gain. 0x8 comes from the original register tables, and can
->> also be found in a few other drivers for this sensor, although they do
->> not implement digital gain control.
->>
->> OTOH, the power-on value of this register, and default value as found in
->> the datasheet, is 0x4. This was the motivation behind that "(2x)"
->> annotation.
->
-> I wonder if the chip has a TPG that would be located before the digital
-> gain. It would be a nice way to test the digital gain scale.
+On 12/18/23 12:32, Dikshita Agarwal wrote:
+> Shared queues are used for communication between driver and firmware.
+> There are 3 types of queues:
+> Command queue - driver to write any command to firmware.
+> Message queue - firmware to send any response to driver.
+> Debug queue - firmware to write debug message.
+> 
+> Above queues are initialized and configured to firmware during probe.
+> 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+[...]
 
-Thanks for the suggestion, just tested that. Unfortunately, all the
-supported test patterns are not affected by digital gain at all :(
+> +	ret = hfi_queue_init(core->dev, &core->iface_q_table, &core->sfr,
+> +			     &core->command_queue, &core->message_queue,
+> +			     &core->debug_queue, core);
+> +	if (ret) {
+> +		dev_err_probe(core->dev, ret,
+> +			      "%s: interface queues init failed\n", __func__);
+> +		goto err_vdev_unreg;
+> +	}
+> +
+>   	return ret;
+Like before, you're suppose to return dev_err_probe
 
-But what if we set the digital gain control's default value in
-v4l2_ctrl_new_std to 0x400 (power-on default), right after that set
-ctrl->cur.val to 0x800 (default value before this series), and explain
-the situation in a comment? Thus we could keep the effective default
-value, and make it clear that it is 2x at the same time.
-
-What do you think?
-
->> So, I'm afraid that we cannot interpret the absolute scale of the
->> digital gain in any case, unless we have more documentation. I tend to
->> keep the default value of 0x8 for the reasons of not (possibly) breaking
->> userspace.
->>
->> > Out of curiosity, can you tell what SoC(s) you're using this sensor with
->> > ?
->>
->> It's Rockchip 3399. I run most of my tests with AGC and AWB off, to be
->> sure they do not hide some important details.
->>
->> >>
->> >>  	/* ADC and analog control*/
->> >>  	{CCI_REG8(0x3603), 0x40},
->> >> @@ -622,6 +627,9 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
->> >>  				OV4689_TIMING_FLIP_MASK,
->> >>  				val ? 0 : OV4689_TIMING_FLIP_BOTH, &ret);
->> >>  		break;
->> >> +	case V4L2_CID_DIGITAL_GAIN:
->> >> +		cci_write(regmap, OV4689_REG_DIG_GAIN, val, &ret);
->> >> +		break;
->> >>  	default:
->> >>  		dev_warn(dev, "%s Unhandled id:0x%x, val:0x%x\n",
->> >>  			 __func__, ctrl->id, val);
->> >> @@ -650,7 +658,7 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
->> >>
->> >>  	handler = &ov4689->ctrl_handler;
->> >>  	mode = ov4689->cur_mode;
->> >> -	ret = v4l2_ctrl_handler_init(handler, 13);
->> >> +	ret = v4l2_ctrl_handler_init(handler, 14);
->> >>  	if (ret)
->> >>  		return ret;
->> >>
->> >> @@ -693,6 +701,10 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
->> >>  	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
->> >>  	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
->> >>
->> >> +	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
->> >> +			  OV4689_DIG_GAIN_MIN, OV4689_DIG_GAIN_MAX,
->> >> +			  OV4689_DIG_GAIN_STEP, OV4689_DIG_GAIN_DEFAULT);
->> >> +
->> >>  	if (handler->error) {
->> >>  		ret = handler->error;
->> >>  		dev_err(ov4689->dev, "Failed to init controls(%d)\n", ret);
-
-
---
-Best regards,
-Mikhail Rudenko
+Konrad
 
