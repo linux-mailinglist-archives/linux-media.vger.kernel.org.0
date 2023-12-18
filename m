@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-2625-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2626-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 547818179BA
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 19:32:46 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09A2E8179D0
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 19:38:16 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 05B60287A49
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 18:32:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F2141F23013
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 18:38:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B69B11DDFC;
-	Mon, 18 Dec 2023 18:32:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C1661D130;
+	Mon, 18 Dec 2023 18:38:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="msVUk6JY"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Td4x0LFW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52418830
-	for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 18:32:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 765DA8830
+	for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 18:38:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-2ca02def690so41071921fa.3
-        for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 10:32:33 -0800 (PST)
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-2ca0715f0faso43517461fa.0
+        for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 10:38:03 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702924352; x=1703529152; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1702924681; x=1703529481; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=sBaV3AXeJOymc9t+1N2XlHFO0lXgihuumdhbVjf3J4M=;
-        b=msVUk6JYx3mPu8bsyAwmpGsCgi2c4iPghPRjVGiWz3BbDf3fP7zZIRhp3BbglRrbGP
-         cDYzivhWBhUAVYQYZXswAM4P5PBIPx3YQQp/9Hn22nl6rkflczp8aF/hU01a9iYPbUWf
-         DHdYq3d34e3XHRCcY75+ZuwaKgBlMEqkivz6gevvOlaYFWF3SJ63dG0+t/Nil6nK6u5q
-         RW2gzz9DksrDfZv+8LHnvXSB9tsnK7qEUjD8dR6qXUBTEN0M4erilAzRu4Fit1rrdTy+
-         bwWYAt+2j9OmhJ7FqfLPthMEpedKr/X4Nptn2C4+y0Qe0Wz9RD3CHV8UcMJA4DBzfXhU
-         AzGg==
+        bh=cVV8Yso9ulcK6cSiDWYUSPxFHZkIAYrUPE6BqAqLq00=;
+        b=Td4x0LFWckF7HvgWk6LSPyyYASNkkCvXCOJ+Qkp1qXGwT2hEFXiI0yWv1VuaCPqzry
+         jMzxoeoaZM0I8/islwq764zLEh2n/0xk9uWmBi4Fo4MS7staCcofgY3/kOQDNq9Jvpo6
+         ebQpeVZlWOO7wn9Ckhx0Ghp0dtdCzSFffNNxJWAToPjBubCaMV5Ay5O+lfoZaL2+ycY+
+         XqBaDr8vEEwz9fVoCJCayf0yLeLD3pefBP6fjODNpp9uctpnwUbSqfJjLyXBIHbG3///
+         PahSYF6NgG9TqvOTSmECxnYDdKidP5l0nVBcajol5Mg+mKnDWNXCqvnCwLZGKxJTusUg
+         oqlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702924352; x=1703529152;
+        d=1e100.net; s=20230601; t=1702924681; x=1703529481;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=sBaV3AXeJOymc9t+1N2XlHFO0lXgihuumdhbVjf3J4M=;
-        b=lRn4eKF/W3bud/1ghzygqHlN9+R5jIzslpuChwFqpCSnC/nD4RifPef6BsKQHJ0os4
-         tslrWSnCm1aKqH4tZJPTxsO/SqxF7aC0RueKEyDxHk9VL8xNVOzUEouQ51v491pqFG/A
-         +GYdqKxEHaM6YM63S9g5bnY9VkJr2ZyXSUov8dGLlvqooCxaRYAkpEwFT5Pd692pOykg
-         692zgONCRt+FSgzQ2NKyxP3HO07DOTlC479z8A8trOI6ZtY9zpApawRuNudGwi+3NtMm
-         5ka3V9cNMmjiuQ1Ne2Zl5fiRFYv3Go68FldKYvw6HIma3Ob/bcFqGPrfzu+bdgj243bm
-         NUCQ==
-X-Gm-Message-State: AOJu0Yw2toHYKIcE5zWCj3iXExS1X56LkVh4jIPM0F3Lx3ARe915h57k
-	S2LfVt4jK3r9sBCao1dBfIkRNg==
-X-Google-Smtp-Source: AGHT+IFLUSVOMAEBfuFP90ErmhMWEyqsoIbApIx3YQmpNihtrctMN21wZSzNNNzpAzGS6f1WL4z54A==
-X-Received: by 2002:a2e:be2c:0:b0:2cb:2b1f:a351 with SMTP id z44-20020a2ebe2c000000b002cb2b1fa351mr7145992ljq.5.1702924343675;
-        Mon, 18 Dec 2023 10:32:23 -0800 (PST)
+        bh=cVV8Yso9ulcK6cSiDWYUSPxFHZkIAYrUPE6BqAqLq00=;
+        b=Un0qjPddqtfHjZM1IpwUMULDUKAmbhOMfrfb8NdtxV/9xWsjHfHm1vABrka35eHKmg
+         ABdfn5qpWCrrmjzi/Du9jO7mJB28dIeWkwffdnkRdYMTTanQMLpAsFQaSSHlaQzc88V5
+         +usP6hQpkN3KCojzevsL6KeXoVXTxHC2zm9vOZLCodz8HCrdq7ErBkdYZzcCbPZ06CdN
+         7OTVwe660401Y19rvRwX+lLn4qGpmxfTulKQKTiQ+CORuqcEJIAm5vtFeT8xuLNmwIkE
+         OKHPMs1Tb9mepzweW3jFPJ9gqs5aEiEt9voZUraB+k9MeZV0VgPGIb8QV8D5DI3cPyNL
+         GDRQ==
+X-Gm-Message-State: AOJu0YzgTDIh9lWrsJTsb2hziD5MsHN06IZdsbNW8f1fzl2MMMJAys8m
+	Xmn+zzJaZq4Syi+F2kSTjRSzDw==
+X-Google-Smtp-Source: AGHT+IGuS7xe4Q3hlnto11Xw477IA2yaiXpd14w1q9C0+2pITLHD6U3yWY4h/fklRGMswOwtyaJxqA==
+X-Received: by 2002:a05:6512:b14:b0:50e:c7e:4bf2 with SMTP id w20-20020a0565120b1400b0050e0c7e4bf2mr7122215lfu.133.1702924681554;
+        Mon, 18 Dec 2023 10:38:01 -0800 (PST)
 Received: from ?IPV6:2001:14ba:a0db:1f00::227? (dzdqv0yyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::227])
-        by smtp.gmail.com with ESMTPSA id bz9-20020a05651c0c8900b002c9bb53ee68sm3613612ljb.136.2023.12.18.10.32.23
+        by smtp.gmail.com with ESMTPSA id f8-20020a19ae08000000b0050e378689f5sm415841lfc.236.2023.12.18.10.38.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Dec 2023 10:32:23 -0800 (PST)
-Message-ID: <92fb416b-89f2-4fb6-81a9-0f8d7f654c89@linaro.org>
-Date: Mon, 18 Dec 2023 20:32:22 +0200
+        Mon, 18 Dec 2023 10:38:01 -0800 (PST)
+Message-ID: <a033dfc5-dcf1-4969-ad4d-1836ff9ff0a3@linaro.org>
+Date: Mon, 18 Dec 2023 20:38:00 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,8 +66,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 03/34] media: introduce common helpers for buffer size
- calculation
+Subject: Re: [PATCH v2 00/34] Qualcomm video encoder and decoder driver
 Content-Language: en-GB
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -76,522 +75,510 @@ To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  bryan.odonoghue@linaro.org
 Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com
 References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
- <1702899149-21321-4-git-send-email-quic_dikshita@quicinc.com>
 From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-In-Reply-To: <1702899149-21321-4-git-send-email-quic_dikshita@quicinc.com>
+In-Reply-To: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 On 18/12/2023 13:31, Dikshita Agarwal wrote:
-> Introduce helper to calculate size of pixel buffer and
-> use in venus driver.
+> This patch series introduces support for Qualcomm new video acceleration
+> hardware architecture, used for video stream decoding/encoding. This driver
+> is based on new communication protocol between video hardware and application
+> processor.
+
+This doesn't answer one important point, you have been asked for v1. 
+What is the actual change point between Venus and Iris? What has been 
+changed so much that it demands a separate driver. This is the main 
+question for the cover letter, which has not been answered so far.
+
+ From what I see from you bindings, the hardware is pretty close to what 
+we see in the latest venus generations. I asssme that there was a change 
+in the vcodec inteface to the firmware and other similar changes. Could 
+you please point out, which parts of Venus driver do no longer work or 
+are not applicable for sm8550?
+
+> This driver comes with below capabilities:
+> - V4L2 complaint video driver with M2M and STREAMING capability.
+> - Supports H264, H265, VP9 decoders.
+> - Supports H264, H265 encoders.
+> This driver comes with below features:
+> - Centralized resource and memory management.
+> - Centralized management of core and instance states.
+> - Defines platform specific capabilities and features. As a results, it provides
+>    a single point of control to enable/disable a given feature depending on
+>    specific platform capabilities.
+> - Handles hardware interdependent configurations. For a given configuration from
+>    client, the driver checks for hardware dependent configuration/s and updates
+>    the same.
+> - Handles multiple complex video scenarios involving state transitions - DRC,
+>    Drain, Seek, back to back DRC, DRC during Drain sequence, DRC during Seek
+>    sequence.
+> - Introduces a flexible way for driver to subscribe for any property with
+>    hardware. Hardware would inform driver with those subscribed property with any
+>    change in value.
+> - Introduces performance (clock and bus) model based on new hardware
+>    architecture.
+> - Introduces multi thread safe design to handle communication between client and
+>    hardware.
+> - Adapts encoder quality improvements available in new hardware architecture.
+> - Implements asynchronous communication with hardware to achieve better
+>    experience in low latency usecases.
+> - Supports multi stage hardware architecture for encode/decode.
+> - Output and capture planes are controlled independently. Thereby providing a
+>    way to reconfigure individual plane.
+> - Hardware packetization layer supports synchronization between configuration
+>    packet and data packet.
+> - Introduces a flexibility to receive a hardware response for a given command
+>    packet.
+> - Native hardware support of LAST flag which is mandatory to align with port
+>    reconfiguration and DRAIN sequence as per V4L guidelines.
+> - Native hardware support for drain sequence.
 > 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
->   drivers/media/platform/qcom/vcodec/buffers.c       | 103 ++++++++++++
->   drivers/media/platform/qcom/vcodec/buffers.h       |  15 ++
->   drivers/media/platform/qcom/vcodec/venus/Makefile  |   4 +-
->   drivers/media/platform/qcom/vcodec/venus/helpers.c | 172 ++++-----------------
->   drivers/media/platform/qcom/vcodec/venus/helpers.h |   2 +-
->   .../platform/qcom/vcodec/venus/hfi_plat_bufs.h     |   4 +-
->   .../platform/qcom/vcodec/venus/hfi_plat_bufs_v6.c  |  10 +-
->   drivers/media/platform/qcom/vcodec/venus/vdec.c    |   5 +-
->   8 files changed, 157 insertions(+), 158 deletions(-)
+> Changes done since v1[1]:
+> - Patches are created as logical split instead of file by file.
+> - Extracted common functionality between venus and iris driver and placed them
+>    under common folder vcodec.
+> - Flattened directory structure.
+> - Restructured the code in a simplified layer architecture.
+> - Implemented runtime PM, and dropped explicit power collapse thread in driver.
+> - Moved to standard kernel log print api.
+> - Simplified the bus and clock calculation logic.
+> - Removed debug features like dma tracker, frame stats, debugfs.
+> - Merged v4l2 and vidc layer as vidc in driver.
+> - Removed separate probe for context bank.
+> - Use of_device_get_match_data to get platform data.
+> - Replaced complex macros with inline functions.
+> - Migrated venus to iris names.
+> - Addressed many other comments received on [1].
+> 
+> [1]: https://patchwork.kernel.org/project/linux-media/list/?series=770581
+> 
+> Patch 1, adds dt binding for iris driver.
+> 
+> Patches 2-4, are introducing vcodec folder and moving common APIs like fw
+> load/unload, buffer size calcualtions, read/write to shared queues to common
+> files which are being used by both venus and iris drivers.
+> This also moves the venus driver folder to vcodec folder.
+> 
+> Patch 5, adds the maintainers for iris driver.
+> 
+> Patch 6-29, adds core iris driver and enable decoder.
+> 
+> Patch 30-34, enable encoder functionality in iris driver.
+> 
+> Static tools like checkpatch, smatch, dt_binding_check, sparse and Coccinelle
+> run successfully with this driver.
+> 
+>   The output of v4l2-compliance test looks like:
+> 
+> v4l2-compliance SHA: not available, 64 bits
+>   
+> Cannot open device /dev/vido0, exiting.
+> root@qemuarm64:/usr/bin# ./v4l2-compliance -d /dev/video0
+> v4l2-compliance SHA: not available, 64 bits
+>   
+> Compliance test for iris_driver device /dev/video0:
+>   
+> Driver Info:
+>          Driver name      : iris_driver
+>          Card type        : iris_decoder
+>          Bus info         : platform:iris_bus
+>          Driver version   : 6.6.0
+>          Capabilities     : 0x84204000
+>                  Video Memory-to-Memory Multiplanar
+>                  Streaming
+>                  Extended Pix Format
+>                  Device Capabilities
+>          Device Caps      : 0x04204000
+>                  Video Memory-to-Memory Multiplanar
+>                  Streaming
+>                  Extended Pix Format
+>   
+> Required ioctls:
+>          test VIDIOC_QUERYCAP: OK
+>   
+> Allow for multiple opens:
+>          test second /dev/video0 open: OK
+>          test VIDIOC_QUERYCAP: OK
+>          test VIDIOC_G/S_PRIORITY: OK
+>                  fail: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-compliance.cpp(724): !ok
+>          test for unlimited opens: FAIL
+>   
+> Debug ioctls:
+>          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>          test VIDIOC_LOG_STATUS: OK (Not Supported)
+>   
+> Input ioctls:
+>          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>          test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>          test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>          test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>          Inputs: 0 Audio Inputs: 0 Tuners: 0
+>   
+> Output ioctls:
+>          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>          Outputs: 0 Audio Outputs: 0 Modulators: 0
+>   
+> Input/Output configuration ioctls:
+>          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>          test VIDIOC_G/S_EDID: OK (Not Supported)
+>   
+> Control ioctls:
+>          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>          test VIDIOC_QUERYCTRL: OK
+>          test VIDIOC_G/S_CTRL: OK
+>          test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>          Standard Controls: 48 Private Controls: 0
+>   
+> Format ioctls:
+>          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>          test VIDIOC_G/S_PARM: OK (Not Supported)
+>          test VIDIOC_G_FBUF: OK (Not Supported)
+>          test VIDIOC_G_FMT: OK
+>          test VIDIOC_TRY_FMT: OK
+>          test VIDIOC_S_FMT: OK
+>          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>          test Cropping: OK
+>          test Composing: OK
+>          test Scaling: OK
+>   
+> Codec ioctls:
+>          test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>          test VIDIOC_(TRY_)DECODER_CMD: OK
+>   
+> Buffer ioctls:
+>          testVIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>          test VIDIOC_EXPBUF: OK (Not Supported)
+>          test Requests: OK (Not Supported)
+>   
+> Total for iris_driver device /dev/video0: 44, Succeeded: 43, Failed: 1, Warnings: 0
+>   
+> Compliance test for iris_driver device /dev/video1:
+>   
+> Driver Info:
+>          Driver name      : iris_driver
+>          Card type        : iris_encoder
+>          Bus info         : platform:iris_bus
+>          Driver version   : 6.6.0
+>          Capabilities     : 0x84204000
+>                  Video Memory-to-Memory Multiplanar
+>                  Streaming
+>                  Extended Pix Format
+>                  Device Capabilities
+>          Device Caps      : 0x04204000
+>                  Video Memory-to-Memory Multiplanar
+>                  Streaming
+>                  Extended Pix Format
+>   
+> Required ioctls:
+>          test VIDIOC_QUERYCAP: OK
+>   
+> Allow for multiple opens:
+>          test second /dev/video1 open: OK
+>          test VIDIOC_QUERYCAP: OK
+>          test VIDIOC_G/S_PRIORITY: OK
+>                  fail: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-compliance.cpp(724): !ok
+>          test for unlimited opens: FAIL
+>   
+> Debug ioctls:
+>          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>          test VIDIOC_LOG_STATUS: OK (Not Supported)
+>   
+> Input ioctls:
+>          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>          test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>          test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>          test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>          Inputs: 0 Audio Inputs: 0 Tuners: 0
+>   
+> Output ioctls:
+>          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>          Outputs: 0 Audio Outputs: 0 Modulators: 0
+>   
+> Input/Output configuration ioctls:
+>          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>          test VIDIOC_G/S_EDID: OK (Not Supported)
+>   
+> Control ioctls:
+>          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>          test VIDIOC_QUERYCTRL: OK
+>          test VIDIOC_G/S_CTRL: OK
+>          test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>          Standard Controls: 48 Private Controls: 0
+>   
+> Format ioctls:
+>          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>          test VIDIOC_G/S_PARM: OK
+>          test VIDIOC_G_FBUF: OK (Not Supported)
+>          test VIDIOC_G_FMT: OK
+>          test VIDIOC_TRY_FMT: OK
+>          test VIDIOC_S_FMT: OK
+>          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>          test Cropping: OK
+>          test Composing: OK
+>          test Scaling: OK (Not Supported)
+>   
+> Codec ioctls:
+>          test VIDIOC_(TRY_)ENCODER_CMD: OK
+>          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+>   
+> Buffer ioctls:
+>          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>          test VIDIOC_EXPBUF: OK (Not Supported)
+>          test Requests: OK (Not Supported)
+>   
+> Total for iris_driver device /dev/video1: 44, Succeeded: 43, Failed: 1, Warnings: 0
+> 
+> Dikshita Agarwal (27):
+>    media: introduce common helpers for video firmware handling
+>    media: introduce common helpers for queues handling
+>    media: introduce common helpers for buffer size calculation
+>    dt-bindings: media: Add sm8550 dt schema
+>    media: MAINTAINERS: Add Qualcomm Iris video accelerator driver
+>    media: iris: register video device to platform driver
+>    media: iris: initialize power resources
+>    media: iris: introduce state machine for iris core
+>    media: iris: initialize shared queues for host and firmware
+>      communication
+>    media: iris: add PIL functionality for video firmware
+>    media: iris: introduce packetization layer for creating HFI packets
+>    media: iris: add video processing unit(VPU) specific register handling
+>    media: iris: introduce platform specific capabilities for core and
+>      instance
+>    media: iris: add handling for interrupt service routine(ISR) invoked
+>      by hardware
+>    media: iris: implement iris v4l2_ctrl_ops and prepare capabilities
+>    media: iris: implement vb2_ops queue setup
+>    media: iris: implement HFI to queue and release buffers
+>    media: iris: add video hardware internal buffer count and size
+>      calculation
+>    media: iris: implement internal buffer management
+>    media: iris: introduce instance states
+>    media: iris: implement vb2 streaming ops on capture and output planes
+>    media: iris: implement vb2 ops for buf_queue and firmware response
+>    media: iris: register video encoder device to platform driver
+>    media: iris: add platform specific instance capabilities for encoder
+>    media: iris: implement iris v4l2 ioctl ops supported by encoder
+>    media: iris: add vb2 streaming and buffer ops for encoder
+>    media: iris: add power management for encoder
+> 
+> Vikash Garodia (7):
+>    media: iris: implement iris v4l2 file ops
+>    media: iris: introduce and implement iris vb2 mem ops
+>    media: iris: implement iris v4l2 ioctl ops supported by decoder
+>    media: iris: subscribe input and output properties to firmware
+>    media: iris: subscribe src change and handle firmware responses
+>    media: iris: add instance sub states and implement DRC and Drain
+>      sequence
+>    media: iris: implement power management
+> 
+>   .../bindings/media/qcom,sm8550-iris.yaml           |  177 ++
+>   MAINTAINERS                                        |   11 +
+>   drivers/media/platform/qcom/Kconfig                |    3 +-
+>   drivers/media/platform/qcom/Makefile               |    3 +-
+>   drivers/media/platform/qcom/vcodec/buffers.c       |  103 ++
+>   drivers/media/platform/qcom/vcodec/buffers.h       |   15 +
+>   drivers/media/platform/qcom/vcodec/firmware.c      |  147 ++
+>   drivers/media/platform/qcom/vcodec/firmware.h      |   21 +
+>   drivers/media/platform/qcom/vcodec/hfi_queue.c     |  258 +++
+>   drivers/media/platform/qcom/vcodec/hfi_queue.h     |  129 ++
+>   drivers/media/platform/qcom/vcodec/iris/Kconfig    |   13 +
+>   drivers/media/platform/qcom/vcodec/iris/Makefile   |   26 +
+>   .../media/platform/qcom/vcodec/iris/hfi_defines.h  |  386 +++++
+>   .../media/platform/qcom/vcodec/iris/iris_buffer.c  |  833 +++++++++
+>   .../media/platform/qcom/vcodec/iris/iris_buffer.h  |   65 +
+>   .../media/platform/qcom/vcodec/iris/iris_common.h  |  147 ++
+>   .../media/platform/qcom/vcodec/iris/iris_core.c    |  110 ++
+>   .../media/platform/qcom/vcodec/iris/iris_core.h    |  121 ++
+>   .../media/platform/qcom/vcodec/iris/iris_ctrls.c   | 1782 ++++++++++++++++++++
+>   .../media/platform/qcom/vcodec/iris/iris_ctrls.h   |   71 +
+>   .../media/platform/qcom/vcodec/iris/iris_helpers.c | 1099 ++++++++++++
+>   .../media/platform/qcom/vcodec/iris/iris_helpers.h |   68 +
+>   drivers/media/platform/qcom/vcodec/iris/iris_hfi.c |  917 ++++++++++
+>   drivers/media/platform/qcom/vcodec/iris/iris_hfi.h |   47 +
+>   .../platform/qcom/vcodec/iris/iris_hfi_packet.c    |  729 ++++++++
+>   .../platform/qcom/vcodec/iris/iris_hfi_packet.h    |  118 ++
+>   .../platform/qcom/vcodec/iris/iris_hfi_response.c  | 1097 ++++++++++++
+>   .../platform/qcom/vcodec/iris/iris_hfi_response.h  |   20 +
+>   .../platform/qcom/vcodec/iris/iris_instance.h      |  106 ++
+>   .../media/platform/qcom/vcodec/iris/iris_power.c   |  178 ++
+>   .../media/platform/qcom/vcodec/iris/iris_power.h   |   15 +
+>   .../media/platform/qcom/vcodec/iris/iris_probe.c   |  357 ++++
+>   .../media/platform/qcom/vcodec/iris/iris_state.c   |  453 +++++
+>   .../media/platform/qcom/vcodec/iris/iris_state.h   |   78 +
+>   drivers/media/platform/qcom/vcodec/iris/iris_vb2.c |  457 +++++
+>   drivers/media/platform/qcom/vcodec/iris/iris_vb2.h |   28 +
+>   .../media/platform/qcom/vcodec/iris/iris_vdec.c    | 1211 +++++++++++++
+>   .../media/platform/qcom/vcodec/iris/iris_vdec.h    |   25 +
+>   .../media/platform/qcom/vcodec/iris/iris_venc.c    |  948 +++++++++++
+>   .../media/platform/qcom/vcodec/iris/iris_venc.h    |   27 +
+>   .../media/platform/qcom/vcodec/iris/iris_vidc.c    | 1419 ++++++++++++++++
+>   .../media/platform/qcom/vcodec/iris/iris_vidc.h    |   15 +
+>   .../platform/qcom/vcodec/iris/platform_common.c    |   29 +
+>   .../platform/qcom/vcodec/iris/platform_common.h    |  323 ++++
+>   .../platform/qcom/vcodec/iris/platform_sm8550.c    | 1190 +++++++++++++
+>   .../media/platform/qcom/vcodec/iris/resources.c    |  506 ++++++
+>   .../media/platform/qcom/vcodec/iris/resources.h    |   44 +
+>   .../media/platform/qcom/vcodec/iris/vpu_common.c   |  158 ++
+>   .../media/platform/qcom/vcodec/iris/vpu_common.h   |   52 +
+>   .../media/platform/qcom/vcodec/iris/vpu_iris3.c    |  568 +++++++
+>   .../media/platform/qcom/vcodec/iris/vpu_iris3.h    |   13 +
+>   .../platform/qcom/vcodec/iris/vpu_iris3_buffer.c   |  395 +++++
+>   .../platform/qcom/vcodec/iris/vpu_iris3_buffer.h   | 1469 ++++++++++++++++
+>   .../platform/qcom/vcodec/iris/vpu_iris3_power.c    |  148 ++
+>   .../platform/qcom/vcodec/iris/vpu_iris3_power.h    |   13 +
+>   .../media/platform/qcom/{ => vcodec}/venus/Kconfig |    0
+>   .../platform/qcom/{ => vcodec}/venus/Makefile      |    5 +-
+>   .../media/platform/qcom/{ => vcodec}/venus/core.c  |  102 +-
+>   .../media/platform/qcom/{ => vcodec}/venus/core.h  |    0
+>   .../media/platform/qcom/{ => vcodec}/venus/dbgfs.c |    0
+>   .../media/platform/qcom/{ => vcodec}/venus/dbgfs.h |    0
+>   .../platform/qcom/vcodec/venus/firmware_no_tz.c    |  194 +++
+>   .../platform/qcom/vcodec/venus/firmware_no_tz.h    |   19 +
+>   .../platform/qcom/{ => vcodec}/venus/helpers.c     |  172 +-
+>   .../platform/qcom/{ => vcodec}/venus/helpers.h     |    2 +-
+>   .../media/platform/qcom/{ => vcodec}/venus/hfi.c   |    0
+>   .../media/platform/qcom/{ => vcodec}/venus/hfi.h   |    0
+>   .../platform/qcom/{ => vcodec}/venus/hfi_cmds.c    |    0
+>   .../platform/qcom/{ => vcodec}/venus/hfi_cmds.h    |    0
+>   .../platform/qcom/{ => vcodec}/venus/hfi_helper.h  |    0
+>   .../platform/qcom/{ => vcodec}/venus/hfi_msgs.c    |    0
+>   .../platform/qcom/{ => vcodec}/venus/hfi_msgs.h    |    0
+>   .../platform/qcom/{ => vcodec}/venus/hfi_parser.c  |    0
+>   .../platform/qcom/{ => vcodec}/venus/hfi_parser.h  |    0
+>   .../qcom/{ => vcodec}/venus/hfi_plat_bufs.h        |    4 +-
+>   .../qcom/{ => vcodec}/venus/hfi_plat_bufs_v6.c     |   10 +-
+>   .../qcom/{ => vcodec}/venus/hfi_platform.c         |    0
+>   .../qcom/{ => vcodec}/venus/hfi_platform.h         |    0
+>   .../qcom/{ => vcodec}/venus/hfi_platform_v4.c      |    0
+>   .../qcom/{ => vcodec}/venus/hfi_platform_v6.c      |    0
+>   .../platform/qcom/{ => vcodec}/venus/hfi_venus.c   |  521 +-----
+>   .../platform/qcom/{ => vcodec}/venus/hfi_venus.h   |    0
+>   .../qcom/{ => vcodec}/venus/hfi_venus_io.h         |    0
+>   .../platform/qcom/{ => vcodec}/venus/pm_helpers.c  |    0
+>   .../platform/qcom/{ => vcodec}/venus/pm_helpers.h  |    0
+>   .../media/platform/qcom/{ => vcodec}/venus/vdec.c  |    5 +-
+>   .../media/platform/qcom/{ => vcodec}/venus/vdec.h  |    0
+>   .../platform/qcom/{ => vcodec}/venus/vdec_ctrls.c  |    0
+>   .../media/platform/qcom/{ => vcodec}/venus/venc.c  |    0
+>   .../media/platform/qcom/{ => vcodec}/venus/venc.h  |    0
+>   .../platform/qcom/{ => vcodec}/venus/venc_ctrls.c  |    0
+>   drivers/media/platform/qcom/venus/firmware.c       |  363 ----
+>   drivers/media/platform/qcom/venus/firmware.h       |   26 -
+>   93 files changed, 19175 insertions(+), 989 deletions(-)
+>   create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
 >   create mode 100644 drivers/media/platform/qcom/vcodec/buffers.c
 >   create mode 100644 drivers/media/platform/qcom/vcodec/buffers.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/firmware.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/firmware.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/hfi_queue.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/hfi_queue.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/Kconfig
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/Makefile
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/hfi_defines.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_buffer.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_buffer.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_common.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_core.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_core.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_ctrls.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_ctrls.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_helpers.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_helpers.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi_packet.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi_packet.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi_response.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi_response.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_instance.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_power.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_power.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_probe.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_state.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_state.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vb2.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vb2.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vdec.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vdec.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_venc.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_venc.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vidc.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vidc.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/platform_common.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/platform_common.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/platform_sm8550.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/resources.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/resources.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_common.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_common.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3_buffer.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3_buffer.h
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3_power.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3_power.h
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/Kconfig (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/Makefile (75%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/core.c (91%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/core.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/dbgfs.c (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/dbgfs.h (100%)
+>   create mode 100644 drivers/media/platform/qcom/vcodec/venus/firmware_no_tz.c
+>   create mode 100644 drivers/media/platform/qcom/vcodec/venus/firmware_no_tz.h
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/helpers.c (90%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/helpers.h (98%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi.c (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_cmds.c (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_cmds.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_helper.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_msgs.c (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_msgs.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_parser.c (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_parser.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_plat_bufs.h (94%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_plat_bufs_v6.c (99%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform.c (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform_v4.c (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform_v6.c (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_venus.c (73%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_venus.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_venus_io.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/pm_helpers.c (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/pm_helpers.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/vdec.c (99%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/vdec.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/vdec_ctrls.c (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/venc.c (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/venc.h (100%)
+>   rename drivers/media/platform/qcom/{ => vcodec}/venus/venc_ctrls.c (100%)
+>   delete mode 100644 drivers/media/platform/qcom/venus/firmware.c
+>   delete mode 100644 drivers/media/platform/qcom/venus/firmware.h
 > 
-> diff --git a/drivers/media/platform/qcom/vcodec/buffers.c b/drivers/media/platform/qcom/vcodec/buffers.c
-> new file mode 100644
-> index 0000000..58ab3b0
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/vcodec/buffers.c
-> @@ -0,0 +1,103 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/*
-> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +#include <linux/videodev2.h>
-> +
-> +#include "buffers.h"
-> +
-> +u32 video_raw_buffer_size(u32 colorformat,
-
-Usual drill, non-prefixed name.
-
-> +			  u32 pix_width,
-> +			  u32 pix_height)
-
-My gut tells me that this is misaligned.
-
-> +{
-> +	u32 size = 0;
-> +	u32 y_plane, uv_plane, y_stride,
-> +	uv_stride, y_sclines, uv_sclines;
-> +	u32 y_ubwc_plane = 0, uv_ubwc_plane = 0;
-> +	u32 y_meta_stride = 0, y_meta_scanlines = 0;
-> +	u32 uv_meta_stride = 0, uv_meta_scanlines = 0;
-> +	u32 y_meta_plane = 0, uv_meta_plane = 0;
-> +
-> +	if (!pix_width || !pix_height)
-> +		goto invalid_input;
-> +
-> +	switch (colorformat) {
-> +	case V4L2_PIX_FMT_NV12:
-> +	case V4L2_PIX_FMT_NV21:
-> +		y_stride = ALIGN(pix_width, 128);
-> +		uv_stride = ALIGN(pix_width, 128);
-> +		y_sclines = ALIGN(pix_height, 32);
-> +		uv_sclines = ALIGN((pix_height + 1) >> 1, 16);
-> +		y_plane = y_stride * y_sclines;
-> +		uv_plane = uv_stride * uv_sclines;
-> +		size = y_plane + uv_plane;
-> +		break;
-> +	case V4L2_PIX_FMT_QC08C:
-> +		y_stride = ALIGN(pix_width, 128);
-> +		uv_stride = ALIGN(pix_width, 128);
-> +		y_sclines = ALIGN(pix_height, 32);
-> +		uv_sclines = ALIGN((pix_height + 1) >> 1, 32);
-> +		y_meta_stride = ALIGN(DIV_ROUND_UP(pix_width, 32), 64);
-> +		uv_meta_stride = ALIGN(DIV_ROUND_UP((pix_width + 1) >> 1, 16), 64);
-> +		y_ubwc_plane =
-> +			ALIGN(y_stride * y_sclines, 4096);
-> +		uv_ubwc_plane =
-> +			ALIGN(uv_stride * uv_sclines, 4096);
-> +		y_meta_scanlines =
-> +			ALIGN(DIV_ROUND_UP(pix_height, 8), 16);
-> +		y_meta_plane =
-> +			ALIGN(y_meta_stride * y_meta_scanlines, 4096);
-> +		uv_meta_scanlines =
-> +			ALIGN(DIV_ROUND_UP((pix_height + 1) >> 1, 8), 16);
-> +		uv_meta_plane =
-> +			ALIGN(uv_meta_stride * uv_meta_scanlines, 4096);
-> +		size = (y_ubwc_plane + uv_ubwc_plane + y_meta_plane +
-> +			uv_meta_plane);
-> +		break;
-> +	case V4L2_PIX_FMT_QC10C:
-> +		y_stride =
-> +			ALIGN(ALIGN(pix_width, 192) * 4 / 3, 256);
-> +		uv_stride =
-> +			ALIGN(ALIGN(pix_width, 192) * 4 / 3, 256);
-> +		y_sclines =
-> +			ALIGN(pix_height, 16);
-> +		uv_sclines =
-> +			ALIGN((pix_height + 1) >> 1, 16);
-> +		y_ubwc_plane =
-> +			ALIGN(y_stride * y_sclines, 4096);
-> +		uv_ubwc_plane =
-> +			ALIGN(uv_stride * uv_sclines, 4096);
-> +		y_meta_stride =
-> +			ALIGN(DIV_ROUND_UP(pix_width, 48), 64);
-> +		y_meta_scanlines =
-> +			ALIGN(DIV_ROUND_UP(pix_height, 4), 16);
-> +		y_meta_plane =
-> +			ALIGN(y_meta_stride * y_meta_scanlines, 4096);
-> +		uv_meta_stride =
-> +			ALIGN(DIV_ROUND_UP((pix_width + 1) >> 1, 24), 64);
-> +		uv_meta_scanlines =
-> +			ALIGN(DIV_ROUND_UP((pix_height + 1) >> 1, 4), 16);
-> +		uv_meta_plane =
-> +			ALIGN(uv_meta_stride * uv_meta_scanlines, 4096);
-> +
-> +		size = y_ubwc_plane + uv_ubwc_plane + y_meta_plane +
-> +			uv_meta_plane;
-> +		break;
-> +	case V4L2_PIX_FMT_P010:
-> +		y_stride = ALIGN(pix_width * 2, 128);
-> +		uv_stride = ALIGN(pix_width * 2, 128);
-> +		y_sclines = ALIGN(pix_height, 32);
-> +		uv_sclines = ALIGN((pix_height + 1) >> 1, 16);
-> +		y_plane = y_stride * y_sclines;
-> +		uv_plane = uv_stride * uv_sclines;
-> +
-> +		size = y_plane + uv_plane;
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +
-> +invalid_input:
-> +
-> +	return ALIGN(size, 4096);
-> +}
-> diff --git a/drivers/media/platform/qcom/vcodec/buffers.h b/drivers/media/platform/qcom/vcodec/buffers.h
-> new file mode 100644
-> index 0000000..ac1d052
-> --- /dev/null
-> +++ b/drivers/media/platform/qcom/vcodec/buffers.h
-> @@ -0,0 +1,15 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights reserved.
-> + */
-> +
-> +#ifndef _BUFFERS_H_
-> +#define _BUFFERS_H_
-> +
-> +#include <linux/types.h>
-> +
-> +u32 video_raw_buffer_size(u32 colorformat,
-> +			  u32 pix_width,
-> +			  u32 pix_height);
-> +
-> +#endif
-> diff --git a/drivers/media/platform/qcom/vcodec/venus/Makefile b/drivers/media/platform/qcom/vcodec/venus/Makefile
-> index 1941ef4..6abd54a 100644
-> --- a/drivers/media/platform/qcom/vcodec/venus/Makefile
-> +++ b/drivers/media/platform/qcom/vcodec/venus/Makefile
-> @@ -1,8 +1,7 @@
->   # SPDX-License-Identifier: GPL-2.0
->   # Makefile for Qualcomm Venus driver
->   
-> -venus-core-objs += ../firmware.o \
-> -		   ../hfi_queue.o
-> +venus-core-objs += ../firmware.o ../hfi_queue.o ../buffers.o
-
-Ugh. I missed that in the previous patches. This is not how the helpers 
-are done. Add normal kernel module instead.
-
->   
->   venus-core-objs += core.o helpers.o firmware_no_tz.o \
->   		   hfi_venus.o hfi_msgs.o hfi_cmds.o hfi.o \
-> @@ -10,6 +9,7 @@ venus-core-objs += core.o helpers.o firmware_no_tz.o \
->   		   hfi_platform.o hfi_platform_v4.o \
->   		   hfi_platform_v6.o hfi_plat_bufs_v6.o \
->   
-> +venus-dec-objs += ../buffers.o
-
-I really wonder, why doesn't this end up with 'symbol defined multiple 
-times' error.
-
->   venus-dec-objs += vdec.o vdec_ctrls.o
->   venus-enc-objs += venc.o venc_ctrls.o
->   
-> diff --git a/drivers/media/platform/qcom/vcodec/venus/helpers.c b/drivers/media/platform/qcom/vcodec/venus/helpers.c
-> index 8295542..95e4424 100644
-> --- a/drivers/media/platform/qcom/vcodec/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/vcodec/venus/helpers.c
-> @@ -12,6 +12,7 @@
->   #include <media/v4l2-mem2mem.h>
->   #include <asm/div64.h>
->   
-> +#include "../buffers.h"
->   #include "core.h"
->   #include "helpers.h"
->   #include "hfi_helper.h"
-> @@ -616,6 +617,27 @@ static u32 to_hfi_raw_fmt(u32 v4l2_fmt)
->   	return 0;
->   }
->   
-> +u32 to_v4l2_raw_fmt(u32 hfi_color_fmt)
-> +{
-> +	switch (hfi_color_fmt) {
-> +	case HFI_COLOR_FORMAT_NV12:
-> +		return V4L2_PIX_FMT_NV12;
-> +	case HFI_COLOR_FORMAT_NV21:
-> +		return V4L2_PIX_FMT_NV21;
-> +	case HFI_COLOR_FORMAT_NV12_UBWC:
-> +		return V4L2_PIX_FMT_QC08C;
-> +	case HFI_COLOR_FORMAT_YUV420_TP10_UBWC:
-> +		return V4L2_PIX_FMT_QC10C;
-> +	case HFI_COLOR_FORMAT_P010:
-> +		return V4L2_PIX_FMT_P010;
-> +	default:
-> +		break;
-> +	}
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(to_v4l2_raw_fmt);
-> +
->   static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
->   			       struct hfi_buffer_requirements *req)
->   {
-> @@ -639,20 +661,20 @@ static int platform_get_bufreq(struct venus_inst *inst, u32 buftype,
->   		params.out_width = inst->out_width;
->   		params.out_height = inst->out_height;
->   		params.codec = inst->fmt_out->pixfmt;
-> -		params.hfi_color_fmt = to_hfi_raw_fmt(inst->fmt_cap->pixfmt);
-> +		params.color_fmt = inst->fmt_cap->pixfmt;
->   		params.dec.max_mbs_per_frame = mbs_per_frame_max(inst);
->   		params.dec.buffer_size_limit = 0;
->   		params.dec.is_secondary_output =
->   			inst->opb_buftype == HFI_BUFFER_OUTPUT2;
->   		if (params.dec.is_secondary_output)
-> -			params.hfi_dpb_color_fmt = inst->dpb_fmt;
-> +			params.dpb_color_fmt = to_v4l2_raw_fmt(inst->dpb_fmt);
->   		params.dec.is_interlaced =
->   			inst->pic_struct != HFI_INTERLACE_FRAME_PROGRESSIVE;
->   	} else {
->   		params.width = inst->out_width;
->   		params.height = inst->out_height;
->   		params.codec = inst->fmt_cap->pixfmt;
-> -		params.hfi_color_fmt = to_hfi_raw_fmt(inst->fmt_out->pixfmt);
-> +		params.color_fmt = inst->fmt_out->pixfmt;
->   		params.enc.work_mode = VIDC_WORK_MODE_2;
->   		params.enc.rc_type = HFI_RATE_CONTROL_OFF;
->   		if (enc_ctr->bitrate_mode == V4L2_MPEG_VIDEO_BITRATE_MODE_CQ)
-> @@ -942,146 +964,10 @@ int venus_helper_set_profile_level(struct venus_inst *inst, u32 profile, u32 lev
->   }
->   EXPORT_SYMBOL_GPL(venus_helper_set_profile_level);
->   
-> -static u32 get_framesize_raw_nv12(u32 width, u32 height)
-> -{
-> -	u32 y_stride, uv_stride, y_plane;
-> -	u32 y_sclines, uv_sclines, uv_plane;
-> -	u32 size;
-> -
-> -	y_stride = ALIGN(width, 128);
-> -	uv_stride = ALIGN(width, 128);
-> -	y_sclines = ALIGN(height, 32);
-> -	uv_sclines = ALIGN(((height + 1) >> 1), 16);
-> -
-> -	y_plane = y_stride * y_sclines;
-> -	uv_plane = uv_stride * uv_sclines + SZ_4K;
-> -	size = y_plane + uv_plane + SZ_8K;
-> -
-> -	return ALIGN(size, SZ_4K);
-> -}
-> -
-> -static u32 get_framesize_raw_nv12_ubwc(u32 width, u32 height)
-> -{
-> -	u32 y_meta_stride, y_meta_plane;
-> -	u32 y_stride, y_plane;
-> -	u32 uv_meta_stride, uv_meta_plane;
-> -	u32 uv_stride, uv_plane;
-> -	u32 extradata = SZ_16K;
-> -
-> -	y_meta_stride = ALIGN(DIV_ROUND_UP(width, 32), 64);
-> -	y_meta_plane = y_meta_stride * ALIGN(DIV_ROUND_UP(height, 8), 16);
-> -	y_meta_plane = ALIGN(y_meta_plane, SZ_4K);
-> -
-> -	y_stride = ALIGN(width, 128);
-> -	y_plane = ALIGN(y_stride * ALIGN(height, 32), SZ_4K);
-> -
-> -	uv_meta_stride = ALIGN(DIV_ROUND_UP(width / 2, 16), 64);
-> -	uv_meta_plane = uv_meta_stride * ALIGN(DIV_ROUND_UP(height / 2, 8), 16);
-> -	uv_meta_plane = ALIGN(uv_meta_plane, SZ_4K);
-> -
-> -	uv_stride = ALIGN(width, 128);
-> -	uv_plane = ALIGN(uv_stride * ALIGN(height / 2, 32), SZ_4K);
-> -
-> -	return ALIGN(y_meta_plane + y_plane + uv_meta_plane + uv_plane +
-> -		     max(extradata, y_stride * 48), SZ_4K);
-> -}
-> -
-> -static u32 get_framesize_raw_p010(u32 width, u32 height)
-> -{
-> -	u32 y_plane, uv_plane, y_stride, uv_stride, y_sclines, uv_sclines;
-> -
-> -	y_stride = ALIGN(width * 2, 128);
-> -	uv_stride = ALIGN(width * 2, 128);
-> -	y_sclines = ALIGN(height, 32);
-> -	uv_sclines = ALIGN((height + 1) >> 1, 16);
-> -	y_plane = y_stride * y_sclines;
-> -	uv_plane = uv_stride * uv_sclines;
-> -
-> -	return ALIGN((y_plane + uv_plane), SZ_4K);
-> -}
-> -
-> -static u32 get_framesize_raw_p010_ubwc(u32 width, u32 height)
-> -{
-> -	u32 y_stride, uv_stride, y_sclines, uv_sclines;
-> -	u32 y_ubwc_plane, uv_ubwc_plane;
-> -	u32 y_meta_stride, y_meta_scanlines;
-> -	u32 uv_meta_stride, uv_meta_scanlines;
-> -	u32 y_meta_plane, uv_meta_plane;
-> -	u32 size;
-> -
-> -	y_stride = ALIGN(width * 2, 256);
-> -	uv_stride = ALIGN(width * 2, 256);
-> -	y_sclines = ALIGN(height, 16);
-> -	uv_sclines = ALIGN((height + 1) >> 1, 16);
-> -
-> -	y_ubwc_plane = ALIGN(y_stride * y_sclines, SZ_4K);
-> -	uv_ubwc_plane = ALIGN(uv_stride * uv_sclines, SZ_4K);
-> -	y_meta_stride = ALIGN(DIV_ROUND_UP(width, 32), 64);
-> -	y_meta_scanlines = ALIGN(DIV_ROUND_UP(height, 4), 16);
-> -	y_meta_plane = ALIGN(y_meta_stride * y_meta_scanlines, SZ_4K);
-> -	uv_meta_stride = ALIGN(DIV_ROUND_UP((width + 1) >> 1, 16), 64);
-> -	uv_meta_scanlines = ALIGN(DIV_ROUND_UP((height + 1) >> 1, 4), 16);
-> -	uv_meta_plane = ALIGN(uv_meta_stride * uv_meta_scanlines, SZ_4K);
-> -
-> -	size = y_ubwc_plane + uv_ubwc_plane + y_meta_plane + uv_meta_plane;
-> -
-> -	return ALIGN(size, SZ_4K);
-> -}
-> -
-> -static u32 get_framesize_raw_yuv420_tp10_ubwc(u32 width, u32 height)
-> -{
-> -	u32 y_stride, uv_stride, y_sclines, uv_sclines;
-> -	u32 y_ubwc_plane, uv_ubwc_plane;
-> -	u32 y_meta_stride, y_meta_scanlines;
-> -	u32 uv_meta_stride, uv_meta_scanlines;
-> -	u32 y_meta_plane, uv_meta_plane;
-> -	u32 extradata = SZ_16K;
-> -	u32 size;
-> -
-> -	y_stride = ALIGN(width * 4 / 3, 256);
-> -	uv_stride = ALIGN(width * 4 / 3, 256);
-> -	y_sclines = ALIGN(height, 16);
-> -	uv_sclines = ALIGN((height + 1) >> 1, 16);
-> -
-> -	y_ubwc_plane = ALIGN(y_stride * y_sclines, SZ_4K);
-> -	uv_ubwc_plane = ALIGN(uv_stride * uv_sclines, SZ_4K);
-> -	y_meta_stride = ALIGN(DIV_ROUND_UP(width, 48), 64);
-> -	y_meta_scanlines = ALIGN(DIV_ROUND_UP(height, 4), 16);
-> -	y_meta_plane = ALIGN(y_meta_stride * y_meta_scanlines, SZ_4K);
-> -	uv_meta_stride = ALIGN(DIV_ROUND_UP((width + 1) >> 1, 24), 64);
-> -	uv_meta_scanlines = ALIGN(DIV_ROUND_UP((height + 1) >> 1, 4), 16);
-> -	uv_meta_plane = ALIGN(uv_meta_stride * uv_meta_scanlines, SZ_4K);
-> -
-> -	size = y_ubwc_plane + uv_ubwc_plane + y_meta_plane + uv_meta_plane;
-> -	size += max(extradata + SZ_8K, y_stride * 48);
-> -
-> -	return ALIGN(size, SZ_4K);
-> -}
-> -
-> -u32 venus_helper_get_framesz_raw(u32 hfi_fmt, u32 width, u32 height)
-> -{
-> -	switch (hfi_fmt) {
-> -	case HFI_COLOR_FORMAT_NV12:
-> -	case HFI_COLOR_FORMAT_NV21:
-> -		return get_framesize_raw_nv12(width, height);
-> -	case HFI_COLOR_FORMAT_NV12_UBWC:
-> -		return get_framesize_raw_nv12_ubwc(width, height);
-> -	case HFI_COLOR_FORMAT_P010:
-> -		return get_framesize_raw_p010(width, height);
-> -	case HFI_COLOR_FORMAT_P010_UBWC:
-> -		return get_framesize_raw_p010_ubwc(width, height);
-> -	case HFI_COLOR_FORMAT_YUV420_TP10_UBWC:
-> -		return get_framesize_raw_yuv420_tp10_ubwc(width, height);
-> -	default:
-> -		return 0;
-> -	}
-> -}
-> -EXPORT_SYMBOL_GPL(venus_helper_get_framesz_raw);
-> -
->   u32 venus_helper_get_framesz(u32 v4l2_fmt, u32 width, u32 height)
->   {
-> -	u32 hfi_fmt, sz;
->   	bool compressed;
-> +	u32 sz;
->   
->   	switch (v4l2_fmt) {
->   	case V4L2_PIX_FMT_MPEG:
-> @@ -1112,11 +998,7 @@ u32 venus_helper_get_framesz(u32 v4l2_fmt, u32 width, u32 height)
->   		return ALIGN(sz, SZ_4K);
->   	}
->   
-> -	hfi_fmt = to_hfi_raw_fmt(v4l2_fmt);
-> -	if (!hfi_fmt)
-> -		return 0;
-> -
-> -	return venus_helper_get_framesz_raw(hfi_fmt, width, height);
-> +	return video_raw_buffer_size(v4l2_fmt, width, height);
->   }
->   EXPORT_SYMBOL_GPL(venus_helper_get_framesz);
->   
-> diff --git a/drivers/media/platform/qcom/vcodec/venus/helpers.h b/drivers/media/platform/qcom/vcodec/venus/helpers.h
-> index 358e4f3..9b72d18 100644
-> --- a/drivers/media/platform/qcom/vcodec/venus/helpers.h
-> +++ b/drivers/media/platform/qcom/vcodec/venus/helpers.h
-> @@ -11,6 +11,7 @@
->   struct venus_inst;
->   struct venus_core;
->   
-> +u32 to_v4l2_raw_fmt(u32 hfi_color_fmt);
->   bool venus_helper_check_codec(struct venus_inst *inst, u32 v4l2_pixfmt);
->   struct vb2_v4l2_buffer *venus_helper_find_buf(struct venus_inst *inst,
->   					      unsigned int type, u32 idx);
-> @@ -29,7 +30,6 @@ void venus_helper_m2m_device_run(void *priv);
->   void venus_helper_m2m_job_abort(void *priv);
->   int venus_helper_get_bufreq(struct venus_inst *inst, u32 type,
->   			    struct hfi_buffer_requirements *req);
-> -u32 venus_helper_get_framesz_raw(u32 hfi_fmt, u32 width, u32 height);
->   u32 venus_helper_get_framesz(u32 v4l2_fmt, u32 width, u32 height);
->   int venus_helper_set_input_resolution(struct venus_inst *inst,
->   				      unsigned int width, unsigned int height);
-> diff --git a/drivers/media/platform/qcom/vcodec/venus/hfi_plat_bufs.h b/drivers/media/platform/qcom/vcodec/venus/hfi_plat_bufs.h
-> index 25e6074..20f684e 100644
-> --- a/drivers/media/platform/qcom/vcodec/venus/hfi_plat_bufs.h
-> +++ b/drivers/media/platform/qcom/vcodec/venus/hfi_plat_bufs.h
-> @@ -15,8 +15,8 @@ struct hfi_plat_buffers_params {
->   	u32 out_width;
->   	u32 out_height;
->   	u32 codec;
-> -	u32 hfi_color_fmt;
-> -	u32 hfi_dpb_color_fmt;
-> +	u32 color_fmt;
-> +	u32 dpb_color_fmt;
-
-As usual. This is not a helper introduction. This is field rename. Could 
-you please split that.
-
->   	enum hfi_version version;
->   	u32 num_vpp_pipes;
->   	union {
-> diff --git a/drivers/media/platform/qcom/vcodec/venus/hfi_plat_bufs_v6.c b/drivers/media/platform/qcom/vcodec/venus/hfi_plat_bufs_v6.c
-> index f5a6559..3e06516 100644
-> --- a/drivers/media/platform/qcom/vcodec/venus/hfi_plat_bufs_v6.c
-> +++ b/drivers/media/platform/qcom/vcodec/venus/hfi_plat_bufs_v6.c
-> @@ -6,6 +6,7 @@
->   #include <linux/sizes.h>
->   #include <linux/videodev2.h>
->   
-> +#include "../buffers.h"
->   #include "hfi.h"
->   #include "hfi_plat_bufs.h"
->   #include "helpers.h"
-> @@ -1233,13 +1234,11 @@ static int bufreq_dec(struct hfi_plat_buffers_params *params, u32 buftype,
->   						       buffer_size_limit);
->   	} else if (buftype == HFI_BUFFER_OUTPUT || buftype == HFI_BUFFER_OUTPUT2) {
->   		hfi_bufreq_set_count_min(bufreq, version, out_min_count);
-> -		bufreq->size =
-> -			venus_helper_get_framesz_raw(params->hfi_color_fmt,
-> +		bufreq->size = video_raw_buffer_size(params->color_fmt,
->   						     out_width, out_height);
->   		if (buftype == HFI_BUFFER_OUTPUT &&
->   		    params->dec.is_secondary_output)
-> -			bufreq->size =
-> -				venus_helper_get_framesz_raw(params->hfi_dpb_color_fmt,
-> +			bufreq->size = video_raw_buffer_size(params->dpb_color_fmt,
->   							     out_width, out_height);
->   	} else if (buftype == HFI_BUFFER_INTERNAL_SCRATCH(version)) {
->   		bufreq->size = dec_ops->scratch(width, height, is_interlaced);
-> @@ -1297,8 +1296,7 @@ static int bufreq_enc(struct hfi_plat_buffers_params *params, u32 buftype,
->   
->   	if (buftype == HFI_BUFFER_INPUT) {
->   		hfi_bufreq_set_count_min(bufreq, version, MIN_INPUT_BUFFERS);
-> -		bufreq->size =
-> -			venus_helper_get_framesz_raw(params->hfi_color_fmt,
-> +		bufreq->size = video_raw_buffer_size(params->color_fmt,
->   						     width, height);
->   	} else if (buftype == HFI_BUFFER_OUTPUT ||
->   		   buftype == HFI_BUFFER_OUTPUT2) {
-> diff --git a/drivers/media/platform/qcom/vcodec/venus/vdec.c b/drivers/media/platform/qcom/vcodec/venus/vdec.c
-> index dbf305c..e6316be 100644
-> --- a/drivers/media/platform/qcom/vcodec/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/vcodec/venus/vdec.c
-> @@ -15,6 +15,7 @@
->   #include <media/v4l2-mem2mem.h>
->   #include <media/videobuf2-dma-contig.h>
->   
-> +#include "../buffers.h"
->   #include "hfi_venus_io.h"
->   #include "hfi_parser.h"
->   #include "core.h"
-> @@ -777,9 +778,9 @@ static int vdec_output_conf(struct venus_inst *inst)
->   		return ret;
->   
->   	inst->output_buf_size =
-> -			venus_helper_get_framesz_raw(out_fmt, width, height);
-> +			video_raw_buffer_size(to_v4l2_raw_fmt(out_fmt), width, height);
->   	inst->output2_buf_size =
-> -			venus_helper_get_framesz_raw(out2_fmt, width, height);
-> +			video_raw_buffer_size(to_v4l2_raw_fmt(out2_fmt), width, height);
->   
->   	if (is_ubwc_fmt(out_fmt)) {
->   		inst->opb_buftype = HFI_BUFFER_OUTPUT2;
 
 -- 
 With best wishes
