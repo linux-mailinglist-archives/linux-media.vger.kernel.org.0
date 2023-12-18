@@ -1,64 +1,76 @@
-Return-Path: <linux-media+bounces-2548-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2549-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B2D5816BFB
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 12:10:07 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A6F8816C13
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 12:19:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1E29FB2329F
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 11:10:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0869C283E9E
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 11:19:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56DCB1944E;
-	Mon, 18 Dec 2023 11:09:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C031919459;
+	Mon, 18 Dec 2023 11:19:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dXrmI7zE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JQr5Yf7l"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.55.52.120])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B5ED1B270
-	for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 11:09:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1702897782; x=1734433782;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ubmW14FlDYuP1NCNtEtFU/ShQizfIEcGZYccitS3rV0=;
-  b=dXrmI7zEWbvFnmQs2vmaN7T55xB/XA3ezOMJAp4Au3s0En1GoEz9Xs/J
-   YAcwezYoTCUsJEO2hTlWmgiCGm2ALoV81Mr7+gBqSDetaBfotXRwEvmwE
-   xZQL77rK9Af12s0K5MGhB6jUB9Y1xkoavh25bp8zusLnmCo1ibOxHjxbN
-   +EYJREK8YbBHIDDcvD+ltaENxV6J3bambweyo2z2NHhvR+AuPlzviAuOw
-   SFj2hnhhZJNEdPF8fMIFzcb5rUzaCZvG5mBBxrwU2057cwdhdc6/tmG5/
-   5JIOabvOHByfd33vfdjXxY1ONaNEnKf0BEorKx47y9/R3RYtCvN9cW+AI
-   A==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="394364709"
-X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
-   d="scan'208";a="394364709"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 03:09:41 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10927"; a="898929495"
-X-IronPort-AV: E=Sophos;i="6.04,285,1695711600"; 
-   d="scan'208";a="898929495"
-Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Dec 2023 03:09:39 -0800
-Received: from kekkonen.localdomain (localhost [127.0.0.1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 02C8E11F7E4;
-	Mon, 18 Dec 2023 13:09:36 +0200 (EET)
-Date: Mon, 18 Dec 2023 11:09:36 +0000
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Julien Massot <julien.massot@collabora.com>
-Cc: j-luthra@ti.com, mchehab@kernel.org, mripard@kernel.org,
-	kernel@collabora.com, linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 1/5] media: cadence: csi2rx: use match fwnode for
- media link
-Message-ID: <ZYAocHzVwMrLDFI2@kekkonen.localdomain>
-References: <20231218095604.1950737-1-julien.massot@collabora.com>
- <20231218095604.1950737-2-julien.massot@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A0D619BD8;
+	Mon, 18 Dec 2023 11:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-553729ee917so389171a12.1;
+        Mon, 18 Dec 2023 03:19:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702898379; x=1703503179; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=t8kHNFe/eGO0I6G9ZddI076fRWeZyLjc7sbCR2/u9Pw=;
+        b=JQr5Yf7l8NQ2SmONhmoIvSATzhD5QPnuTK9hM/+05lPXoO4BzZ/n4z6toX0lKOPBbQ
+         1edZ6MRgv39+I8H0Bx/pt0wyC1kpZwMCyT7wDNMArDfZwttEvJs23PSphIJH5eyxKBLS
+         g3HnSjQUQnI8AvDPoaNyprOa4sazBEcHqbJoAyNu4mxUMjUoiVPOzvD1tDuHbxsqfQLi
+         5yu7nS3wuO6LDAqe8Law1q0/6OsQyYZ4NjNiQdUzjMO5ANGlqgtL2nvZh5TpuawsvXDL
+         BIM735tubovi/lWSCvV6t9QJuw7q/a/zgvC28/cv4KAaO3zBjHpO9lNH4bTRRVKYWfTq
+         QlUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702898379; x=1703503179;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t8kHNFe/eGO0I6G9ZddI076fRWeZyLjc7sbCR2/u9Pw=;
+        b=XJYqILUxo9WfdArYKuaoIH5jVp5dNUyN0fL08D4J2lvCHyhvzFW5ggVURrryp9jTuy
+         FomXqrPShyfWbQVkblvLwT1LFzXAQpEBqgQ/1ysrixowiPX6tdMbMoAASmObJwrkm4TI
+         X4/lZxRAwUWIdfkrFlOo4bLhG3Y+ovHHvdwmrTIRBxe1d/Q9u0xNldFafKRGDzhgYqxE
+         xbvw62A3x2hPORUmDpkHhxgMUvQn/8CgHybA1XBqLMLdG5giy4RlM/RqD3+SzUJOf3Pe
+         csiyG/iwmX3tRxPH6EigK9LXl3vqHTryuTjltRa5f3PQeUfrUt2lG4BBn1wyJxt0xMXy
+         nQzA==
+X-Gm-Message-State: AOJu0YxOnGliS79+vPg3ik6C40iO2IDybSaGdHZCwvJTP9pIbsFhOFSm
+	Klw79xvSuJiwcfQS6LHCEnANPlqcmp4=
+X-Google-Smtp-Source: AGHT+IHga7BpTpH5bnvqOJQAMbkyQFWJOfpoHO3arczMLt9WQNaoBA4EvT7nCoRTVmA6wh7af9dE/Q==
+X-Received: by 2002:a50:a69e:0:b0:54c:c9a4:83df with SMTP id e30-20020a50a69e000000b0054cc9a483dfmr10140643edc.26.1702898378705;
+        Mon, 18 Dec 2023 03:19:38 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-229.cust.vodafonedsl.it. [188.217.59.229])
+        by smtp.gmail.com with ESMTPSA id k13-20020a50cb8d000000b0054cc7a4dc4csm10211082edi.13.2023.12.18.03.19.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 03:19:38 -0800 (PST)
+Date: Mon, 18 Dec 2023 12:19:36 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linuxfancy@googlegroups.com, sakari.ailus@linux.intel.com,
+	Martin Hecht <martin.hecht@avnet.eu>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 3/3] media: i2c: alvium: store frame interval in subdev
+ state
+Message-ID: <ZYAqyOEfKp/oiqs9@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231215082452.1720481-1-tomm.merciai@gmail.com>
+ <20231215082452.1720481-4-tomm.merciai@gmail.com>
+ <20231218025905.GJ5290@pendragon.ideasonboard.com>
+ <ZYAfThT/mHdzGdAh@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <20231218110331.GQ5290@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,54 +79,172 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231218095604.1950737-2-julien.massot@collabora.com>
+In-Reply-To: <20231218110331.GQ5290@pendragon.ideasonboard.com>
 
-Hi Julien,
+Hi Laurent,
+Thanks for your quick reply.
 
-Thanks for the patch.
-
-On Mon, Dec 18, 2023 at 10:56:00AM +0100, Julien Massot wrote:
-> On some subdev the fwnode is the device node and not the endpoint node.
-> Using the subdev fwnode doesn't allow to fetch the subdev
-> pad we are connected to when the remote subdev has multiple
-> output pads.
-
-I'd change the commit message, endpoint-to-endpoint matching used to be the
-preferred way to do things not long ago.
-
+On Mon, Dec 18, 2023 at 01:03:31PM +0200, Laurent Pinchart wrote:
+> On Mon, Dec 18, 2023 at 11:30:38AM +0100, Tommaso Merciai wrote:
+> > Hi Laurent,
+> > 
+> > On Mon, Dec 18, 2023 at 04:59:05AM +0200, Laurent Pinchart wrote:
+> > > Hi Tommaso,
+> > > 
+> > > Thank you for the patch.
+> > > 
+> > > On Fri, Dec 15, 2023 at 09:24:52AM +0100, Tommaso Merciai wrote:
+> > > > Use the newly added storage for frame interval in the subdev state to
+> > > > simplify the driver.
+> > > > 
+> > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > > > ---
+> > > >  drivers/media/i2c/alvium-csi2.c | 40 ++++++++++-----------------------
+> > > >  drivers/media/i2c/alvium-csi2.h |  2 --
+> > > >  2 files changed, 12 insertions(+), 30 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+> > > > index fde456357be1..81f683b3c849 100644
+> > > > --- a/drivers/media/i2c/alvium-csi2.c
+> > > > +++ b/drivers/media/i2c/alvium-csi2.c
+> > > > @@ -1643,25 +1643,6 @@ static int alvium_hw_init(struct alvium_dev *alvium)
+> > > >  }
+> > > >  
+> > > >  /* --------------- Subdev Operations --------------- */
+> > > > -
+> > > > -static int alvium_g_frame_interval(struct v4l2_subdev *sd,
+> > > > -				   struct v4l2_subdev_state *sd_state,
+> > > > -				   struct v4l2_subdev_frame_interval *fi)
+> > > > -{
+> > > > -	struct alvium_dev *alvium = sd_to_alvium(sd);
+> > > > -
+> > > > -	/*
+> > > > -	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
+> > > > -	 * subdev active state API.
+> > > > -	 */
+> > > > -	if (fi->which != V4L2_SUBDEV_FORMAT_ACTIVE)
+> > > > -		return -EINVAL;
+> > > > -
+> > > > -	fi->interval = alvium->frame_interval;
+> > > > -
+> > > > -	return 0;
+> > > > -}
+> > > > -
+> > > >  static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> > > >  				   struct v4l2_subdev_state *sd_state,
+> > > >  				   struct v4l2_subdev_frame_interval *fi)
+> > > > @@ -1669,6 +1650,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> > > >  	struct alvium_dev *alvium = sd_to_alvium(sd);
+> > > >  	struct device *dev = &alvium->i2c_client->dev;
+> > > >  	u64 req_fr, dft_fr, min_fr, max_fr;
+> > > > +	struct v4l2_fract *interval;
+> > > >  	int ret;
+> > > >  
+> > > >  	/*
+> > > 
+> > > You should drop the FIXME comment here and the ACTIVE check...
+> > 
+> > Oks, thanks.
+> > 
+> > > 
+> > > > @@ -1701,9 +1683,10 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> > > >  	if (req_fr >= max_fr && req_fr <= min_fr)
+> > > >  		req_fr = dft_fr;
+> > > >  
+> > > > -	alvium->fr = req_fr;
+> > > > -	alvium->frame_interval.numerator = fi->interval.numerator;
+> > > > -	alvium->frame_interval.denominator = fi->interval.denominator;
+> > > > +	interval = v4l2_subdev_state_get_interval(sd_state, 0);
+> > > > +
+> > > > +	interval->numerator = fi->interval.numerator;
+> > > > +	interval->denominator = fi->interval.denominator;
+> > > >  
+> > > 
+> > > ... and here only call alvium_set_frame_rate() for the ACTIVE frame
+> > > interval.
+> > 
+> > I don't completely got this comment, can you give me more details about
+> > please. Thanks in advance!
 > 
-> Fixes: 1fc3b37f34f69 ("media: v4l: cadence: Add Cadence MIPI-CSI2 RX driver")
+> alvium_s_frame_interval() can be called both for the TRY and ACTIVE
+> status. The hardware registers should be written only for the ACTIVE
+> state.
 
-I think the driver was originally fine but I missed making the below change
-when changing async matching. Instead I think you should have here:
+Do you think could be sufficient an if check like this?
 
-Fixes: 1029939b3782 ("media: v4l: async: Simplify async sub-device fwnode matching")
+-	return alvium_set_frame_rate(alvium, req_fr);
++	if (fi->which == V4L2_SUBDEV_FORMAT_ACTIVE)
++		return alvium_set_frame_rate(alvium, req_fr);
++
++	return ret;
+ }
 
-IOW applying your patch without 1029939b3782 will also break cdns-csi2rx
-driver.
+Thanks & Regards,
+Tommaso
 
-> Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> Reviewed-by: Jai Luthra <j-luthra@ti.com>
-> ---
->  drivers/media/platform/cadence/cdns-csi2rx.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> > > > @@ -1853,6 +1836,7 @@ static int alvium_init_state(struct v4l2_subdev *sd,
+> > > >  {
+> > > >  	struct alvium_dev *alvium = sd_to_alvium(sd);
+> > > >  	struct alvium_mode *mode = &alvium->mode;
+> > > > +	struct v4l2_fract *interval;
+> > > >  	struct v4l2_subdev_format sd_fmt = {
+> > > >  		.which = V4L2_SUBDEV_FORMAT_TRY,
+> > > >  		.format = alvium_csi2_default_fmt,
+> > > > @@ -1870,6 +1854,11 @@ static int alvium_init_state(struct v4l2_subdev *sd,
+> > > >  	*v4l2_subdev_state_get_crop(state, 0) = sd_crop.rect;
+> > > >  	*v4l2_subdev_state_get_format(state, 0) = sd_fmt.format;
+> > > >  
+> > > > +	/* Setup initial frame interval*/
+> > > > +	interval = v4l2_subdev_state_get_interval(state, 0);
+> > > > +	interval->numerator = 1;
+> > > > +	interval->denominator = ALVIUM_DEFAULT_FR_HZ;
+> > > > +
+> > > >  	return 0;
+> > > >  }
+> > > >  
+> > > > @@ -2239,7 +2228,7 @@ static const struct v4l2_subdev_pad_ops alvium_pad_ops = {
+> > > >  	.set_fmt = alvium_set_fmt,
+> > > >  	.get_selection = alvium_get_selection,
+> > > >  	.set_selection = alvium_set_selection,
+> > > > -	.get_frame_interval = alvium_g_frame_interval,
+> > > > +	.get_frame_interval = v4l2_subdev_get_frame_interval,
+> > > >  	.set_frame_interval = alvium_s_frame_interval,
+> > > >  };
+> > > >  
+> > > > @@ -2260,11 +2249,6 @@ static int alvium_subdev_init(struct alvium_dev *alvium)
+> > > >  	struct v4l2_subdev *sd = &alvium->sd;
+> > > >  	int ret;
+> > > >  
+> > > > -	/* Setup initial frame interval*/
+> > > > -	alvium->frame_interval.numerator = 1;
+> > > > -	alvium->frame_interval.denominator = ALVIUM_DEFAULT_FR_HZ;
+> > > > -	alvium->fr = ALVIUM_DEFAULT_FR_HZ;
+> > > > -
+> > > >  	/* Setup the initial mode */
+> > > >  	alvium->mode.fmt = alvium_csi2_default_fmt;
+> > > >  	alvium->mode.width = alvium_csi2_default_fmt.width;
+> > > > diff --git a/drivers/media/i2c/alvium-csi2.h b/drivers/media/i2c/alvium-csi2.h
+> > > > index a6529b28e7dd..f5e26257b042 100644
+> > > > --- a/drivers/media/i2c/alvium-csi2.h
+> > > > +++ b/drivers/media/i2c/alvium-csi2.h
+> > > > @@ -442,8 +442,6 @@ struct alvium_dev {
+> > > >  	s32 inc_sharp;
+> > > >  
+> > > >  	struct alvium_mode mode;
+> > > > -	struct v4l2_fract frame_interval;
+> > > > -	u64 fr;
+> > > 
+> > > The fr field should have been removed by a previous patch (the one that
+> > > will go between 1/3 an 2/3, see my review of 1/3) as shown by the fact
+> > > that this patch only removes two locations where the field is set but
+> > > none where it's read.
+> > > 
+> > > >  
+> > > >  	u8 h_sup_csi_lanes;
+> > > >  	u64 link_freq;
 > 
-> diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-> index 91ef22e9109a..e83b877c48da 100644
-> --- a/drivers/media/platform/cadence/cdns-csi2rx.c
-> +++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-> @@ -467,7 +467,7 @@ static int csi2rx_async_bound(struct v4l2_async_notifier *notifier,
->  	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
->  
->  	csi2rx->source_pad = media_entity_get_fwnode_pad(&s_subdev->entity,
-> -							 s_subdev->fwnode,
-> +							 asd->match.fwnode,
->  							 MEDIA_PAD_FL_SOURCE);
->  	if (csi2rx->source_pad < 0) {
->  		dev_err(csi2rx->dev, "Couldn't find output pad for subdev %s\n",
-
--- 
-Regards,
-
-Sakari Ailus
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
