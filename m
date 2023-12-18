@@ -1,140 +1,119 @@
-Return-Path: <linux-media+bounces-2520-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2521-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 777B58167CB
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 08:55:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DE74816823
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 09:36:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3128B28277F
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 07:55:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B557280D98
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 08:36:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BFCD6F9CD;
-	Mon, 18 Dec 2023 07:55:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 38B0F107BC;
+	Mon, 18 Dec 2023 08:36:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="D2w9xzhf"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="K1I45V9r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25B011703
-	for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 07:55:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-149-209.elisa-laajakaista.fi [91.158.149.209])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A87D557E;
-	Mon, 18 Dec 2023 08:54:57 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702886098;
-	bh=rk3ay/hI1x8KPhaLNViE8/MYJx2MAr+lub8BnYbziZg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=D2w9xzhfdIYreNamSU+ayRX2NX5QCLniHVEJ/n7qwomfD3AU6xRI37D2MXSobZyBZ
-	 GRKuRpzZUJx3hD+esm4KG98GRnZMT2sWrbEDRuc0h7mfmqm2TXsKQKdMO37QR59tAk
-	 f80owe5AYuOsZEGzCVrPC1wQPOqfSyrUiz4UzGcs=
-Message-ID: <421c3593-225d-46a4-b431-87012e0952d8@ideasonboard.com>
-Date: Mon, 18 Dec 2023 09:55:42 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F241101E8;
+	Mon, 18 Dec 2023 08:36:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 8f6380249d8011eea5db2bebc7c28f94-20231218
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=RN8uPOB4PQETpivCJ+p4IT7QHrFP25bbFcqUaZN5iAg=;
+	b=K1I45V9rCMNp+O6PLon9PJ5LcgdACAlOcJU9HqyAthptJuENF2roJIAz2+ASLywDDQfau3nAS8Jxgtz1Qby3sdY7bE5tVmmoiSn5Fk5hbA7+E5TEmz6aInlIhXhegC7/TcOj3dYZDHQHNgXvM+RyQdRltJWSkENwmhGgIb8yXXs=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.35,REQID:5911d87e-c21f-4519-b310-e17f79b96462,IP:0,U
+	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:0
+X-CID-META: VersionHash:5d391d7,CLOUDID:a7ee4cbd-2ac7-4da2-9f94-677a477649d9,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
+	RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
+	DKR:0,DKP:0,BRR:0,BRE:0
+X-CID-BVR: 0,NGT
+X-CID-BAS: 0,NGT,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 8f6380249d8011eea5db2bebc7c28f94-20231218
+Received: from mtkmbs11n1.mediatek.inc [(172.21.101.185)] by mailgw01.mediatek.com
+	(envelope-from <jason-jh.lin@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1302869408; Mon, 18 Dec 2023 16:36:38 +0800
+Received: from mtkmbs13n1.mediatek.inc (172.21.101.193) by
+ MTKMBS14N1.mediatek.inc (172.21.101.75) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1118.26; Mon, 18 Dec 2023 16:36:05 +0800
+Received: from mtksdccf07.mediatek.inc (172.21.84.99) by
+ mtkmbs13n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1118.26 via Frontend Transport; Mon, 18 Dec 2023 16:36:05 +0800
+From: Jason-JH.Lin <jason-jh.lin@mediatek.com>
+To: Jassi Brar <jassisinghbrar@gmail.com>, Rob Herring <robh+dt@kernel.org>,
+	Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Matthias Brugger
+	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Chun-Kuang Hu
+	<chunkuang.hu@kernel.org>
+CC: Conor Dooley <conor+dt@kernel.org>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, <linux-kernel@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>,
+	Jason-ch Chen <jason-ch.chen@mediatek.com>, Johnson Wang
+	<johnson.wang@mediatek.com>, "Jason-JH . Lin" <jason-jh.lin@mediatek.com>,
+	Singo Chang <singo.chang@mediatek.com>, Nancy Lin <nancy.lin@mediatek.com>,
+	Shawn Sung <shawn.sung@mediatek.com>,
+	<Project_Global_Chrome_Upstream_Group@mediatek.com>, Jason-jh Lin
+	<jason-jh.lin@mediatek.corp-partner.google.com>
+Subject: [PATCH 0/3] Add mediatek,gce-events definition to mediatek,gce-mailbox bindings
+Date: Mon, 18 Dec 2023 16:36:01 +0800
+Message-ID: <20231218083604.7327-1-jason-jh.lin@mediatek.com>
+X-Mailer: git-send-email 2.18.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [bug?] 85d2a31fe4d9 ("media: rkisp1: Drop IRQF_SHARED") breaks
- ISP1 on RK3399
-Content-Language: en-US
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Linux Media Mailing List <linux-media@vger.kernel.org>,
- Linux-rockchip <linux-rockchip-bounces@lists.infradead.org>,
- linux-kernel <linux-kernel@vger.kernel.or>
-References: <87o7eo8vym.fsf@gmail.com>
- <20231218015345.GE5290@pendragon.ideasonboard.com>
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20231218015345.GE5290@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
+X-TM-AS-Product-Ver: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-AS-Result: No-10--4.736100-8.000000
+X-TMASE-MatchedRID: REQh4LCxv5DHof55kx23ffyAR9DgC/hHecvjbu/xDjoY0A95tjAn+7h0
+	OUlkSqv9tYR/uNxnStGIJs0Up7vkWEkjllSXrjtQFEUknJ/kEl7dB/CxWTRRuwihQpoXbuXFU0N
+	mgjpLwWgpK7FYyXJ7dzWXzuuIBy9l39CfFEXKCCLIp7X/GY6TRDQ+x7OL/d9Ga95GWOWghV7vUj
+	22LskS7tuMe3AJpm3nF0aD5ljt43pMcHZD6gqu7wxMjfifIXfowkvVoA11TwqeqD9WtJkSIw==
+X-TM-AS-User-Approved-Sender: No
+X-TM-AS-User-Blocked-Sender: No
+X-TMASE-Result: 10--4.736100-8.000000
+X-TMASE-Version: SMEX-14.0.0.3152-9.1.1006-23728.005
+X-TM-SNTS-SMTP:
+	4835C8790B1F7367BF5849827331B2C30F006B62E79F41485C34A86A534115FA2000:8
+X-MTK: N
 
-Hi Mikhail,
+From: Jason-jh Lin <jason-jh.lin@mediatek.corp-partner.google.com>
 
-On 18/12/2023 03:53, Laurent Pinchart wrote:
-> Hi Mikhail,
-> 
-> On Sun, Dec 17, 2023 at 10:14:34PM +0300, Mikhail Rudenko wrote:
->> Hi!
->>
->> Rockchip ISP1 is broken for me on a custom rk3399-based board in the
->> latest media_stage. Relevant dmesg fragment:
->>
->>      rkisp1 ff910000.isp0: Adding to iommu group 2
->>      genirq: Flags mismatch irq 42. 00000004 (rkisp1) vs. 00000084 (ff914000.iommu)
->>      rkisp1 ff910000.isp0: request irq failed: -16
->>      rkisp1: probe of ff910000.isp0 failed with error -16
->>      rkisp1 ff920000.isp1: Adding to iommu group 3
->>      genirq: Flags mismatch irq 43. 00000004 (rkisp1) vs. 00000084 (ff924000.iommu)
->>      rkisp1 ff920000.isp1: request irq failed: -16
->>      rkisp1: probe of ff920000.isp1 failed with error -16
->>
->> According to rk3399.dtsi, isp interrupts are shared with correponding
->> mmu interrupts (isp0 with isp0_mmu, isp1 with isp1_mmu), so the subject
->> commit breaks devm_request_irq. Reverting it fixes the issue for me.
->>
->> If I'm just missing something, sorry for the noise.
-> 
-> You seem to be right. I don't know how I managed to miss that.
-> 
-> Tomi, would a revert of the offending commit be enough, or are there
-> other issues introduced by the other changes in the rkisp1 driver on top
-> of the shared IRQ drop that will need to be handled too ?
+Since mediatek,gce-events property is a HW event signal from GCE,
+it should be defined in mediatek,gce-mailbox.yaml.
 
-Thanks for reporting this. I have sent a revert, and a fix for the 
-shared irq handling.
+Change the description of mediatek,gce-events property existed in
+other bindings to reference mediatek,gce-mailbox.yaml.
 
-  Tomi
+Jason-JH.Lin (3):
+  dt-bindings: mailbox: mediatek,gce-mailbox: Add mediatek,gce-events
+    definition
+  dt-bindings: media: mediatek-mdp: Change the description of gce-events
+  dt-bindings: soc: mediatek: Change the description of gce-events
+
+ .../devicetree/bindings/mailbox/mediatek,gce-mailbox.yaml  | 7 +++++++
+ .../devicetree/bindings/media/mediatek,mdp3-rdma.yaml      | 5 +----
+ .../devicetree/bindings/media/mediatek,mdp3-rsz.yaml       | 5 +----
+ .../devicetree/bindings/media/mediatek,mdp3-wrot.yaml      | 5 +----
+ .../devicetree/bindings/soc/mediatek/mediatek,ccorr.yaml   | 5 +----
+ .../devicetree/bindings/soc/mediatek/mediatek,mutex.yaml   | 5 +----
+ .../devicetree/bindings/soc/mediatek/mediatek,wdma.yaml    | 5 +----
+ 7 files changed, 13 insertions(+), 24 deletions(-)
+
+-- 
+2.18.0
 
 
