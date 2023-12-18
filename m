@@ -1,180 +1,142 @@
-Return-Path: <linux-media+bounces-2599-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2600-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E181E817747
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 17:19:54 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26B158178EC
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 18:41:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCFB41C23CBD
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 16:19:53 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 85952B214BA
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 17:41:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73EC449895;
-	Mon, 18 Dec 2023 16:19:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A39171451;
+	Mon, 18 Dec 2023 17:41:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aWMo8n03"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Vme5jySB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB58742379;
-	Mon, 18 Dec 2023 16:19:43 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFBEBC433C7;
-	Mon, 18 Dec 2023 16:19:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702916383;
-	bh=YVe24+VIIvFgLdvWefXeeEKbQLshLdaWuzwzX/7lIYQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aWMo8n03zMskv+hccddZyoSa9i0wkcHSE2ZwS55PWUrvP/YUq6NzZuGRpwU1OpscC
-	 TUhkh46qs53hsAWTCqd1HmVxgsZFvEWrODz6aO6k5MfSKm4S2/0cShQUpLBywktD3c
-	 vhyC6Bl7JzjNZVWhcNpurvumYl8DARRFuDjgPJJ751uWJCBuCcV92cud+OnUI21iLH
-	 inAVf2JngFE2xJ01Cc0e+Xy2jkqHgXr9HXG2GbQqXdOgtcRLXltlUg5uFc6y//p51O
-	 qascUJ4OzVrqq4WnLKNAuVpMfJmPoSADaUJScHR3Wk2pHZnN3qyHsqS+LMJXCPQ1wB
-	 rC+ehPcL5zCLQ==
-Message-ID: <f9c841f0-9839-47b7-b026-d0cd2138af11@kernel.org>
-Date: Mon, 18 Dec 2023 17:19:36 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 792D27144F;
+	Mon, 18 Dec 2023 17:40:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-2cc6a52231cso17845621fa.3;
+        Mon, 18 Dec 2023 09:40:58 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1702921256; x=1703526056; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=D+9SpyD/fjsy+bPfqtgZB0EVZfRFSaxY+QuQ8+JRb/4=;
+        b=Vme5jySB1jn0Q1cr2R5F2UUfqW5WOBwKJ4f1hU8Z5+J4TjWKC8hZekuYJFAudyrsF4
+         mwL4HTN9mLJwjmVZLho5wq/k1mHti/ihEHEckWWlOvBhxtxEAyM4LVDvClrnJaffrwiX
+         3PEQOMFWd9ar6LivWECQSHOCicDIiuA1PdEFK7tLqW6ZgTIx8IkLXN4AF1yin7tpvc9q
+         MSBQC4ghM3IBHF8lJPcxWMuxsOk0EZot0k3ZROjq+RgLricuea5zQE2iMOY7//0H4rse
+         G13Hr3MyDLIYZACRATFqIcUd1zSGqXUhqWHA/nRd41FCipPMO1mEPE+vYBZNnrDBbusm
+         T0zg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702921256; x=1703526056;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=D+9SpyD/fjsy+bPfqtgZB0EVZfRFSaxY+QuQ8+JRb/4=;
+        b=tP/zytH4Hk2QXDPnMBubKfBi7Jl8TKgiKogjUNJM9H03cZvfnblH3guFzQ6qOLIiDU
+         qthCe50UN+TALeDdDufEOtICyN054FGbIAoYImO2SuygETXXB7JtzaRJAsCuZXPKup8Y
+         fpGOLrwz663Pbn138pUuMgxx8Giswsl0nd68xzjn/fbZlkdGYM+DoiRehSXVQ3kfruDy
+         AC3NvYWw21E5yTvbJL2Zen/6l1rHA7+HgJtaDLSzqsSQTepqYAjZskcOUOT4GiuVfA70
+         bkrllMfAwRLhzBVbM6D4gfjE8HvVPP5Cl3zqLwE+bsDePbnTfi5GIs77Yuu0mZlqFHSm
+         tjKg==
+X-Gm-Message-State: AOJu0YzOajVxZ7d5j0ccuRah3pKCvfYRegNgKBBCuD4a/sGdljbZSrKG
+	hPGZ1dgFvpmt7urHdoVeFSjB86fGHzVpyw==
+X-Google-Smtp-Source: AGHT+IFY919Ltb7YSUsNq9BC1SMWXVTcbysuOEwVOOOcMXGYigEykttVh03NIOo5t+gye0XHzrYvlQ==
+X-Received: by 2002:a2e:9604:0:b0:2cc:5e72:17f4 with SMTP id v4-20020a2e9604000000b002cc5e7217f4mr1571163ljh.47.1702921255975;
+        Mon, 18 Dec 2023 09:40:55 -0800 (PST)
+Received: from localhost ([83.149.246.185])
+        by smtp.gmail.com with ESMTPSA id e15-20020a05651c150f00b002cc6b5ab63asm682172ljf.119.2023.12.18.09.40.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 18 Dec 2023 09:40:55 -0800 (PST)
+From: Mikhail Rudenko <mike.rudenko@gmail.com>
+To: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mikhail Rudenko <mike.rudenko@gmail.com>
+Subject: [PATCH v2 00/20] Omnivision OV4689 refactoring and improvements
+Date: Mon, 18 Dec 2023 20:40:21 +0300
+Message-ID: <20231218174042.794012-1-mike.rudenko@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/34] media: iris: add video processing unit(VPU)
- specific register handling
-Content-Language: en-US
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
- bryan.odonoghue@linaro.org
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com
-References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
- <1702899149-21321-13-git-send-email-quic_dikshita@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <1702899149-21321-13-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 18/12/2023 12:32, Dikshita Agarwal wrote:
-> Registers are defined differently for different VPUs.
-> Define ops for VPU specific handling to accommodate
-> different VPUs. Implement boot sequence of firmware and interrupt
-> programming.
-> 
+Hi,
 
-...
+This series contains refactoring and new features implementation for
+the Omnivision OV4689 sensor driver. Specifically, patches 1, 2, 3, 5,
+6, 10, 15, 16, 18, and 19 are refactorings, and are not supposed to
+introduce any functional change. Patches 4 and 7 perform migration to
+CCI helpers and subdevice active state respectively, and should not
+introduce any hardware- and/or user-visible change either. Patch 8
+fixes a possible race condition due to v4l2_async_register_subdev_sensor
+being called too early in ov4689_probe, and patch 9 migrates power
+management to PM autosuspend.
 
-> +
-> +int write_register(struct iris_core *core, u32 reg, u32 value)
-> +{
-> +	void __iomem *base_addr;
-> +	int ret;
-> +
-> +	ret = check_core_lock(core);
-> +	if (ret)
-> +		return ret;
-> +
-> +	base_addr = core->reg_base;
-> +	base_addr += reg;
-> +	writel_relaxed(value, base_addr);
-> +
-> +	/* Make sure value is written into the register */
-> +	wmb();
+Patches 11-14 expose more sensor controls to the userspace, such as
+(read-write) HBLANK, VFLIP/HFLIP, digital gain, and color
+balance. Patch 17 implements configurable analogue crop rectangle via
+.set_selection callback. And finally, patch 20 enables 2x2 binning
+option. It should be noted that publicly available sensor
+documentation is lacking description of many registers and their value
+ranges, so a lot of values had to be found by experimentation.
 
-Just don't use relaxed method. The same applies to other places like that.
+Changes in v2:
+- collect Laurent's r-b's
+- squash together "CCI conversion" and "Set gain in one 16 bit write"
+- use ctrl->val in ov4689_set_ctrl
+- rename try_fmt to fmt in ov4689_init_cfg and drop corresponding comment
+- rebase on top of media-stage and rename init_cfg->init_state
+- sort register definitions by address throughout the whole series
+- fix number of controls hint in v4l2_ctrl_handler_init
+- make all hexadecimal constants lowercase
+- disable runtime pm in probe error path
+- implement pm autosuspend
 
-> +
-> +	return ret;
-> +}
-> +
-> +int read_register(struct iris_core *core, u32 reg, u32 *value)
-> +{
-> +	void __iomem *base_addr;
-> +
-> +	base_addr = core->reg_base;
-> +
-> +	*value = readl_relaxed(base_addr + reg);
-> +
-> +	/* Make sure value is read correctly from the register */
-> +	rmb();
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct compat_handle compat_handle[] = {
-> +	{
-> +		.compat                  = "qcom,sm8550-iris",
-> +		.init                    = init_iris3,
+Mikhail Rudenko (20):
+  media: i2c: ov4689: Clean up and annotate the register table
+  media: i2c: ov4689: Sort register definitions by address
+  media: i2c: ov4689: Fix typo in a comment
+  media: i2c: ov4689: CCI conversion
+  media: i2c: ov4689: Remove i2c_client from ov4689 struct
+  media: i2c: ov4689: Refactor ov4689_set_ctrl
+  media: i2c: ov4689: Use sub-device active state
+  media: i2c: ov4689: Enable runtime PM before registering sub-device
+  media: i2c: ov4689: Use runtime PM autosuspend
+  media: i2c: ov4689: Remove max_fps field from struct ov4689_mode
+  media: i2c: ov4689: Make horizontal blanking configurable
+  media: i2c: ov4689: Implement vflip/hflip controls
+  media: i2c: ov4689: Implement digital gain control
+  media: i2c: ov4689: Implement manual color balance controls
+  media: i2c: ov4689: Move pixel array size out of struct ov4689_mode
+  media: i2c: ov4689: Set timing registers programmatically
+  media: i2c: ov4689: Configurable analogue crop
+  media: i2c: ov4689: Eliminate struct ov4689_mode
+  media: i2c: ov4689: Refactor ov4689_s_stream
+  media: i2c: ov4689: Implement 2x2 binning
 
-Uh...
+ drivers/media/i2c/Kconfig  |   1 +
+ drivers/media/i2c/ov4689.c | 964 +++++++++++++++++++++++--------------
+ 2 files changed, 592 insertions(+), 373 deletions(-)
 
-> +	},
-> +};
-> +
-> +int init_vpu(struct iris_core *core)
-> +{
-> +	struct device *dev = NULL;
-> +	int i, ret = 0;
-> +
-> +	dev = core->dev;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(compat_handle); i++) {
-> +		if (of_device_is_compatible(dev->of_node, compat_handle[i].compat)) {
-> +			ret = compat_handle[i].init(core);
-
-
-This does not look good. Use flags, quirks, type, pointer ops in
-structures. Just look at existing code in Linux kernel. Do not
-reimplement driver match data.
-
-
-
-Best regards,
-Krzysztof
-
+--
+2.43.0
 
