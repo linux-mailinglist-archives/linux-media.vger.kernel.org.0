@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-2634-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2635-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8ED7817D10
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 23:00:58 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C5F6817D1D
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 23:08:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8EF6828638E
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 22:00:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C92FF284741
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 22:08:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 897D574E0E;
-	Mon, 18 Dec 2023 22:00:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0C25740A3;
+	Mon, 18 Dec 2023 22:08:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GAsXBk5G"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z0wNal1V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f180.google.com (mail-lj1-f180.google.com [209.85.208.180])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C896740B8
-	for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 22:00:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D826873460
+	for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 22:08:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f180.google.com with SMTP id 38308e7fff4ca-2cc259392a6so43814071fa.2
-        for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 14:00:45 -0800 (PST)
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50e297d0692so2553793e87.1
+        for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 14:08:28 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702936844; x=1703541644; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1702937307; x=1703542107; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=TV48NwoeEh8UyYxN5vIg56/uoKj764R1rkRKJ4M5O9c=;
-        b=GAsXBk5GTsqXmGaT/ujOZxvBNZodAuLQaaSCRh8hVE2uu9LdjCZqMynpnGW9owOZRg
-         41ylmrwaVhqID7GM9dMKWFsOqXS82Oks88/ffqVWZC6lFQIkLr8WZ3sB5zmQmkpV2Fbi
-         qJl3j5Qsl3me5QJJP0DQtiZV7iOexdgVPyzyA3glIiLMoJfq21SKTGw/I6b+K6EFgk6P
-         k+QHx0vlxfQdQ7/WtNwcbFYgxuYDro3OUP/BByAhtdHW/m6dm1C6WzFpY0h4Y6IMYW7V
-         qnwgC9kboRXpBFufkyeCO330uot5yr4kUWs5xq3TdKNVxWo76U/NE4x4CQ0aksOJWyVg
-         w2sw==
+        bh=wsJa9VdYDRrbXCF+P/wnlKDM0XN+e4MY7opB/mrRfg8=;
+        b=Z0wNal1VQ7Kdy/7b8yGl7s+thny0Aqm1eWmiURw2eSY/YQcsRYa479ySRHP+nkrU5d
+         75fT0L+dyz9VNlWGQCsryiGrCuQvjtnQLzyxhHY7fY5MdF4VOIeSD5TzJaW3c/WrZt6F
+         VD6RNtW4h3jRNzeMveulAdbVxj/0Y1BzoJqdevAGrBJsjZGst6vy+Iumn192oU6eXZSa
+         otL5OOZ+SILo9zzhksHcmDTBe89I7BeGYpc+TIkxpt/iRt+dAKGCBxyi5PwR41vPOJ/3
+         RPmPM52d+TA3MT/RuElliEO3GY1222T/WljQVPhia3FBtg2u9qf0ZAejNCaviBKdfaIx
+         1HLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702936844; x=1703541644;
+        d=1e100.net; s=20230601; t=1702937307; x=1703542107;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=TV48NwoeEh8UyYxN5vIg56/uoKj764R1rkRKJ4M5O9c=;
-        b=RGNSXp8sYEcYv6wkL0wkpn7co8jLlTHSKK+TsIbZaxZxq4h0wFqMiWelpqTmrc379k
-         tUwhOGMGZKIzbxsyXTak97o3t6KtOPC6uPYy6U7GRHpLmb3Uj2vC2EcKD+9lEY4uWFoT
-         XRcYLZLGoSX0JWICajIEFATNz/DmoPkVuMIzVQTqU6+C+Asgd2dTVCH9TGIcKEsJ9xp+
-         uU4Pq0Ldi8jM+tUFW92jh7n0GoN1Os3L9f8MMBtU9zMP4jv1GtkSltkT2UA5PQcSKuZ7
-         NLdJoSo7it4/TWp/zDPeCcbV5nbBVp2ILJEJdc/cN6u6+zb6CdQy86V+2ov3F1emSRt9
-         +Rog==
-X-Gm-Message-State: AOJu0YweFtwzl4GRlcbSpdqVSZ8c6exD+GYkdUgLt3a2Kl6uTlZifA2y
-	54NEiaE7aHVqRFEQk2AqOKSdAhvXIq2SgPNH5q3hkw==
-X-Google-Smtp-Source: AGHT+IGgpueoqA0Mb4wMMixhS8get+RvHeTmm+QK66446Ad7qRIcLU28/r5llZGNaDxrIxhcBdKRtQ==
-X-Received: by 2002:a2e:9d05:0:b0:2cc:6910:a7e9 with SMTP id t5-20020a2e9d05000000b002cc6910a7e9mr1385081lji.55.1702936844187;
-        Mon, 18 Dec 2023 14:00:44 -0800 (PST)
+        bh=wsJa9VdYDRrbXCF+P/wnlKDM0XN+e4MY7opB/mrRfg8=;
+        b=PQEMz5sIHKJfmE1hkgljNjlv3mcqoPNiIsjtHswX+3pe6tmQ4vlDZXb5Uu3FPTJ/Cg
+         FFmO7ntenoOpK/DinC231oBcC72keCp7O4sqmvEtA7KPCUbXeJM20an4Z8nbRNYAPOK8
+         gYwQq/SqfufxHB7w9xlUuML7/H9r7wQFMj+o59t9ISWxv6F5ZYIUXWlkGeZfVYRFQkek
+         NuyF7BgHfbsWi+yQwb2km9Nowg1bgwT4L8oKX2p16O0oplXdoMCB9VuBKotXw60BuWeH
+         3PBSb4uiwhxhVkc898Fm0XOBZMxNORq/ru824ZFvzqEO63dMuZiKQwgQWdeONh7PTArK
+         EkaA==
+X-Gm-Message-State: AOJu0YwRwu5qGG+0xwfOmcVgDtm/JYGIN2MoN276/AD+zHJOe4GAVGWq
+	hs3bOtSQgmy1tfnDF4V5x/tmvFCyPCIrBg==
+X-Google-Smtp-Source: AGHT+IEdfj+yQB03trrUmdxVJSj7D983Xg4QmP/J8O1XsOxdm8nbN0BEDhzbXyO11tY5JZQGk3Z7zw==
+X-Received: by 2002:a05:6512:33d4:b0:50e:3007:620f with SMTP id d20-20020a05651233d400b0050e3007620fmr42489lfg.7.1702937306906;
+        Mon, 18 Dec 2023 14:08:26 -0800 (PST)
 Received: from [172.30.205.119] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id i2-20020a2e8082000000b002cc5c149dd3sm980758ljg.120.2023.12.18.14.00.43
+        by smtp.gmail.com with ESMTPSA id c16-20020a197610000000b0050bf30083b2sm2998297lff.142.2023.12.18.14.08.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Dec 2023 14:00:43 -0800 (PST)
-Message-ID: <c265c494-6256-40e4-b88d-3285a52a205b@linaro.org>
-Date: Mon, 18 Dec 2023 23:00:42 +0100
+        Mon, 18 Dec 2023 14:08:26 -0800 (PST)
+Message-ID: <8e587947-4ae1-49c0-9d54-b95f9d539a7c@linaro.org>
+Date: Mon, 18 Dec 2023 23:08:25 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,8 +66,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/34] media: iris: add video processing unit(VPU)
- specific register handling
+Subject: Re: [PATCH v2 13/34] media: iris: introduce platform specific
+ capabilities for core and instance
 Content-Language: en-US
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -75,245 +75,138 @@ To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  andersson@kernel.org, mchehab@kernel.org, bryan.odonoghue@linaro.org
 Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com
 References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
- <1702899149-21321-13-git-send-email-quic_dikshita@quicinc.com>
+ <1702899149-21321-14-git-send-email-quic_dikshita@quicinc.com>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <1702899149-21321-13-git-send-email-quic_dikshita@quicinc.com>
+In-Reply-To: <1702899149-21321-14-git-send-email-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 12/18/23 12:32, Dikshita Agarwal wrote:
-> Registers are defined differently for different VPUs.
-> Define ops for VPU specific handling to accommodate
-> different VPUs. Implement boot sequence of firmware and interrupt
-> programming.
+> Capabilities are set of video specifications and features supported
+> by a specific platform(SOC). Each capability is defined with
+> min, max, range, default value and corresponding HFI.
+> 
+> Also, platform data defines different resource details for
+> a specific platform(SOC). This change defines resource tables
+> for sm8550 platform data and use for initializing these resources.
 > 
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > ---
 [...]
+[...]
 
-> +int write_register(struct iris_core *core, u32 reg, u32 value)
-> +{
-> +	void __iomem *base_addr;
-> +	int ret;
-> +
-> +	ret = check_core_lock(core);
-> +	if (ret)
-> +		return ret;
-> +
-> +	base_addr = core->reg_base;
-> +	base_addr += reg;
-> +	writel_relaxed(value, base_addr);> +
-> +	/* Make sure value is written into the register */
-IIUC barriers only ensure the prior writes need to be submitted
-before the next ones, they don't actually guarantee the value
-arrives at the destination. You would probably want to read the
-register back here to guarantee that.
+> -	ret = protect_secure_region(CP_START, CP_SIZE, CP_NONPIXEL_START,
+> -				    CP_NONPIXEL_SIZE, IRIS_PAS_ID);
+> +	cp_start = core->cap[CP_START].value;
+> +	cp_size = core->cap[CP_SIZE].value;
+> +	cp_nonpixel_start = core->cap[CP_NONPIXEL_START].value;
+> +	cp_nonpixel_size = core->cap[CP_NONPIXEL_SIZE].value;
+but you just hardcoded these a couple patches ago.. are they
+variable after all?
 
-> +	wmb();
-> +
-> +	return ret;
-> +}
-> +
-> +int read_register(struct iris_core *core, u32 reg, u32 *value)
-> +{
-> +	void __iomem *base_addr;
-> +
-> +	base_addr = core->reg_base;
-> +
-> +	*value = readl_relaxed(base_addr + reg);
-> +
-> +	/* Make sure value is read correctly from the register */
-> +	rmb();
-You can drop _relaxed for that and simply use readl() instead of
-this entire wrapper..
+[...]
 
-> +
-> +	return 0;
-> +}
-> +
-> +static const struct compat_handle compat_handle[] = {
-> +	{
-> +		.compat                  = "qcom,sm8550-iris",
-> +		.init                    = init_iris3,
-> +	},
+> +	{DEC_CODECS, H264 | HEVC | VP9},
+> +	{MAX_SESSION_COUNT, 16},
+> +	{MAX_MBPF, 278528}, /* ((8192x4352)/256) * 2 */
+> +	{MAX_MBPS, 7833600}, /* max_load 7680x4320@60fps */
+> +	{NUM_VPP_PIPE, 4},
+> +	{HW_RESPONSE_TIMEOUT, HW_RESPONSE_TIMEOUT_VALUE},
+> +	{DMA_MASK, GENMASK(31, 29) - 1},
+> +	{CP_START, 0},
+> +	{CP_SIZE, 0x25800000},
+> +	{CP_NONPIXEL_START, 0x01000000},
+> +	{CP_NONPIXEL_SIZE, 0x24800000},
+Why this and not an array of enum-indexed u32s?
+
 > +};
 > +
-> +int init_vpu(struct iris_core *core)
-> +{
-> +	struct device *dev = NULL;
-> +	int i, ret = 0;
-> +
-> +	dev = core->dev;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(compat_handle); i++) {
-> +		if (of_device_is_compatible(dev->of_node, compat_handle[i].compat)) {
-> +			ret = compat_handle[i].init(core);
-> +			if (ret)
-> +				return ret;
-> +			break;
-> +		}
-> +	}
-> +
-> +	if (i == ARRAY_SIZE(compat_handle))
-> +		return -EINVAL;
-> +
-> +	return ret;
-> +}
-what's wrong with of_match_data?
+> +static struct plat_inst_cap instance_cap_data_sm8550[] = {
+you know all of the possible members here as well, you can just
+create a struct of actual configurations instead of turning them
+into generic capabilities that you have to parse either way at
+some point
 
 [...]
 
 > +
-> +#define call_vpu_op(d, op, ...)			\
-> +	(((d) && (d)->vpu_ops && (d)->vpu_ops->op) ? \
-> +	((d)->vpu_ops->op(__VA_ARGS__)) : 0)
-> +
-> +struct compat_handle {
-> +	const char *compat;
-> +	int (*init)(struct iris_core *core);
+> +static const struct bus_info sm8550_bus_table[] = {
+> +	{ NULL, "iris-cnoc", 1000, 1000     },
+> +	{ NULL, "iris-ddr",  1000, 15000000 },
+This is a copy of the common data from the previous patches that you're
+now dropping (why was it there in the first place then?). Is it specific
+to this platform, or can it be reused?
 > +};
 > +
-> +struct vpu_ops {
-> +	int (*boot_firmware)(struct iris_core *core);
-> +	int (*raise_interrupt)(struct iris_core *core);
+> +static const struct clock_info sm8550_clk_table[] = {
+> +	{ NULL, "gcc_video_axi0", GCC_VIDEO_AXI0_CLK, 0 },
+> +	{ NULL, "core_clk",       VIDEO_CC_MVS0C_CLK, 0 },
+> +	{ NULL, "vcodec_core",    VIDEO_CC_MVS0_CLK,  1 },
 > +};
-or you can simply create functions like
-
-boot_firmware(...)
-raise_interrupt(...)
-
-that call other functions as needed (unless there's no need if e.g.
-the cores are so similar)
-
-and drop this sugar (well, bitter sugar at least to my taste) syntax
-[...]
-
-> +	int ret;
-> +	u32 value;
-reverse-Christmas-tree, please
-(Christmas is in a week, get festive! :D)
+Are these the input pad names?
 
 > +
-> +	value = (u32)core->iface_q_table.device_addr;
-> +	ret = write_register(core, UC_REGION_ADDR_IRIS3, value);
-> +	if (ret)
-> +		return ret;
-> +
-> +	value = SHARED_QSIZE;
-> +	ret = write_register(core, UC_REGION_SIZE_IRIS3, value);
-> +	if (ret)
-> +		return ret;
-> +
-> +	value = (u32)core->iface_q_table.device_addr;
-> +	ret = write_register(core, QTBL_ADDR_IRIS3, value);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = write_register(core, QTBL_INFO_IRIS3, 0x01);
-> +	if (ret)
-> +		return ret;
-> +
-> +	value = (u32)((u64)core->iface_q_table.kernel_vaddr);
-lower_32_bits()
-
-> +	ret = write_register(core, CPU_CS_VCICMDARG0_IRIS3, value);
-> +	if (ret)
-> +		return ret;
-> +
-> +	value = (u32)((u64)core->iface_q_table.kernel_vaddr >> 32);
-upper_32_bits()
-
-> +	ret = write_register(core, CPU_CS_VCICMDARG1_IRIS3, value);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if (core->sfr.device_addr) {
-> +		value = (u32)core->sfr.device_addr + VIDEO_ARCH_LX;
-> +		ret = write_register(core, SFR_ADDR_IRIS3, value);
-> +		if (ret)
-> +			return ret;
-you're returning ret 3 lines below anyway
-
-> +	}
-> +
-> +	return ret;
-> +}
-> +
-> +static int boot_firmware_iris3(struct iris_core *core)
-> +{
-> +	u32 ctrl_init = 0, ctrl_status = 0, count = 0, max_tries = 1000;
-> +	int ret;
-> +
-> +	ret = setup_ucregion_memory_map_iris3(core);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ctrl_init = BIT(0);
-this should be a named #define used inline
+> +static const char * const sm8550_clk_reset_table[] = { "video_axi_reset", NULL };
+Ditto
 
 > +
-> +	ret = write_register(core, CTRL_INIT_IRIS3, ctrl_init);
-> +	if (ret)
-> +		return ret;
-> +
-> +	while (!ctrl_status && count < max_tries) {
-if you take the previous feedback into account, this can become
-readl_poll_timeout()
-
-> +		ret = read_register(core, CTRL_STATUS_IRIS3, &ctrl_status);
-> +		if (ret)
-> +			return ret;
-> +
-> +		if ((ctrl_status & CTRL_ERROR_STATUS__M_IRIS3) == 0x4) {
-> +			dev_err(core->dev, "invalid setting for UC_REGION\n");
-> +			break;
-> +		}
-> +
-> +		usleep_range(50, 100);
-> +		count++;
-> +	}
-> +
-> +	if (count >= max_tries) {
-> +		dev_err(core->dev, "Error booting up vidc firmware\n");
-> +		return -ETIME;
-> +	}
+> +static const char * const sm8550_pd_table[] = { "iris-ctl", "vcodec", NULL };
+Ditto
 
 > +
-> +	ret = write_register(core, CPU_CS_H2XSOFTINTEN_IRIS3, 0x1);
-0x1? BIT(0)? probably a named BIT(0) that deserves its own #define?
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = write_register(core, CPU_CS_X2RPMH_IRIS3, 0x0);
-similarly here
-
-btw you can just return this
+> +static const char * const sm8550_opp_pd_table[] = { "mxc", "mmcx", NULL };
+Ditto
 
 > +
-> +	return ret;
-> +}
-> +
-> +static int raise_interrupt_iris3(struct iris_core *core)
-> +{
-> +	return write_register(core, CPU_IC_SOFTINT_IRIS3, 1 << CPU_IC_SOFTINT_H2A_SHFT_IRIS3);
-FIELD_PREP/GET, please
-
-> +}
-> +
-> +static const struct vpu_ops iris3_ops = {
-> +	.boot_firmware = boot_firmware_iris3,
-> +	.raise_interrupt = raise_interrupt_iris3,
+> +static const struct bw_info sm8550_bw_table_dec[] = {
+> +	{ 2073600, 1608000, 2742000 },	/* 4096x2160@60 */
+> +	{ 1036800,  826000, 1393000 },	/* 4096x2160@30 */
+> +	{  489600,  567000,  723000 },	/* 1920x1080@60 */
+> +	{  244800,  294000,  372000 },	/* 1920x1080@30 */
 > +};
 > +
-> +int init_iris3(struct iris_core *core)
-> +{
-> +	core->vpu_ops = &iris3_ops;
+> +static const struct reg_preset_info sm8550_reg_preset_table[] = {
+> +	{ 0xB0088, 0x0, 0x11 },
+lowercase hex for non-defines, please
+> +};
 > +
-> +	return 0;
-> +}
-what is this dead function for?
+> +static struct ubwc_config_data ubwc_config_sm8550[] = {
+> +	UBWC_CONFIG(8, 32, 16, 0, 1, 1, 1),
+I think it would be far more telling to drop this #define and fill
+in the values inline
+
+> +};
+> +
+> +struct platform_data sm8550_data = {
+> +	.bus_tbl = sm8550_bus_table,
+> +	.bus_tbl_size = ARRAY_SIZE(sm8550_bus_table),
+> +	.clk_tbl = sm8550_clk_table,
+> +	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
+> +	.clk_rst_tbl = sm8550_clk_reset_table,
+> +	.clk_rst_tbl_size = ARRAY_SIZE(sm8550_clk_reset_table),
+> +
+> +	.bw_tbl_dec = sm8550_bw_table_dec,
+> +	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
+> +
+> +	.pd_tbl = sm8550_pd_table,
+> +	.pd_tbl_size = ARRAY_SIZE(sm8550_pd_table),
+> +	.opp_pd_tbl = sm8550_opp_pd_table,
+> +	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
+> +
+> +	.reg_prst_tbl = sm8550_reg_preset_table,
+> +	.reg_prst_tbl_size = ARRAY_SIZE(sm8550_reg_preset_table),
+> +	.fwname = "vpu30_4v.mbn",
+> +	.pas_id = 9,
+> +
+> +	.core_data = core_data_sm8550,
+> +	.core_data_size = ARRAY_SIZE(core_data_sm8550),
+> +	.inst_cap_data = instance_cap_data_sm8550,
+> +	.inst_cap_data_size = ARRAY_SIZE(instance_cap_data_sm8550),
+> +	.ubwc_config = ubwc_config_sm8550,
+Unless any of these are going to be reused, please inline all of the
+values here..
 
 Konrad
 
