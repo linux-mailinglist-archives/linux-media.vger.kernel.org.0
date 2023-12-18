@@ -1,174 +1,305 @@
-Return-Path: <linux-media+bounces-2621-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2622-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF26581795F
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 19:05:09 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8DAD817976
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 19:17:29 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 41DE2B22366
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 18:05:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1C2A0286CE7
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 18:17:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 062B95D735;
-	Mon, 18 Dec 2023 18:04:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F2F15D75A;
+	Mon, 18 Dec 2023 18:17:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L8jJ5DBx"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y6qX55G3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 096995BFB5;
-	Mon, 18 Dec 2023 18:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 818F856D;
-	Mon, 18 Dec 2023 19:04:03 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1702922643;
-	bh=2G5GZYZ2ILPD00J2WA5+Mik9rZH8b2nzLo3y3FT055E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=L8jJ5DBxTYu1RrOWvq64ZXjcjviewadYvLSY5LBIzw6i3ooldGacfu0TnacCxdEP5
-	 RoZ03bKl0ddPFuUEr0cgyRLcRwH8RNQqd2dmmUMGT7KQlDf2V2ZNnS4uhIXhemZhSt
-	 qtYM/xblp9t2+Blpood121l7II8ydibZbDVz/RC0=
-Date: Mon, 18 Dec 2023 20:04:59 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Mikhail Rudenko <mike.rudenko@gmail.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH 12/19] media: i2c: ov4689: Implement digital gain control
-Message-ID: <20231218180459.GS5290@pendragon.ideasonboard.com>
-References: <20231211175023.1680247-1-mike.rudenko@gmail.com>
- <20231211175023.1680247-13-mike.rudenko@gmail.com>
- <20231211221533.GK27535@pendragon.ideasonboard.com>
- <875y13pnn6.fsf@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D9A5BF8A
+	for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 18:17:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50e270639d9so3020696e87.3
+        for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 10:17:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1702923429; x=1703528229; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=rVcChtr4GmV1ghqK0C1H3Zam/dO8O1ORAV4aMaIixWE=;
+        b=y6qX55G3I7DoJ6AAiWLKhTJIRldgHmvqJDygECJt4ems/IHjKwpBOu0qp7DZZicQfE
+         yhK+0/dUFllN7gM1Q0b5WRyhi69BQiVZAW/7ePVJaimeBCwKQWQGq6gG8w2X3BRIjV0M
+         nTEuQrMNspJI7h9U3PEXXksyLPxJ9dUG11nI6+bB1RpvzOyrDEajozwQ4etuFD+dr+EX
+         e4iWIzmOYUxUBkOJNywZpTayhxLQk96jBpmOOh++KhfI+OFheqvRyxRTPZdlpOKLUHbQ
+         oMmB30GCxjMpqg1vDI12elVemZcQdRLKl5W9rXrc8eqzn8U8aP6+5W9ddlHrOA+M5G/7
+         I2XQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1702923429; x=1703528229;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=rVcChtr4GmV1ghqK0C1H3Zam/dO8O1ORAV4aMaIixWE=;
+        b=CehTqAUg1Y1KalmZq4bkECjSHgEJNj5N4xoTg4wgR7Qz9+JpN6TZjRuQbIyeZYPEuT
+         QjOTVcTqcWi6OchNmhN4muY6tXTV0aM/OF6ZCVl1Fw6wk6jEFjda0mRcypMJS2AYDIpn
+         7GlesMw6ilmVLfkFOlY5rZMQ1k5BOZL9yWMnHD1irEMQBTNCbpA/mNxz3Qa6qs8sG+Qu
+         Ms5mk3ROKoPBeMnyvGhBNpdt/B2w11ZDR98wjpI1d2o8N6dSfD41cuwaVT7TLlHCX1tG
+         fKpOhcEzkShcAQdu/p3XA9G9Fki/GhYaqB/ETz6a2fbBvWKKQkWLL0o+3/U9kMGGhnnO
+         mpHw==
+X-Gm-Message-State: AOJu0Yx/60GUNCo9/I1qwCBq4Zs53Gv6HhEu1kys9kGAZbiZAR6UzXb/
+	Sx6j0xeS7P3flV4f4xS1oLP8Eg==
+X-Google-Smtp-Source: AGHT+IGFlr2UecUvB6IEKpUirzdTJ1xhFK/Z0+eVgcMsk4MFiqhCk5nIQ5Cgil1y4UOL2HgStlW7eA==
+X-Received: by 2002:a19:5505:0:b0:50e:29c1:34 with SMTP id n5-20020a195505000000b0050e29c10034mr1593044lfe.36.1702923429133;
+        Mon, 18 Dec 2023 10:17:09 -0800 (PST)
+Received: from ?IPV6:2001:14ba:a0db:1f00::227? (dzdqv0yyyyyyyyyyyykxt-3.rev.dnainternet.fi. [2001:14ba:a0db:1f00::227])
+        by smtp.gmail.com with ESMTPSA id b17-20020a056512305100b0050c001f2d79sm2976740lfb.153.2023.12.18.10.17.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 18 Dec 2023 10:17:08 -0800 (PST)
+Message-ID: <056fa2cf-777c-4278-a03d-5d818bbf1cb5@linaro.org>
+Date: Mon, 18 Dec 2023 20:17:07 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <875y13pnn6.fsf@gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 04/34] dt-bindings: media: Add sm8550 dt schema
+Content-Language: en-GB
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
+ andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
+ bryan.odonoghue@linaro.org
+Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com
+References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
+ <1702899149-21321-5-git-send-email-quic_dikshita@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+In-Reply-To: <1702899149-21321-5-git-send-email-quic_dikshita@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Mikhail,
+On 18/12/2023 13:31, Dikshita Agarwal wrote:
+> Add a schema description for the iris video encoder/decoder
+> on sm8550.
+> 
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>   .../bindings/media/qcom,sm8550-iris.yaml           | 177 +++++++++++++++++++++
+>   1 file changed, 177 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> new file mode 100644
+> index 0000000..a3d9233
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> @@ -0,0 +1,177 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,sm8550-iris.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm IRIS video encode and decode accelerators
+> +
+> +maintainers:
+> +  - Vikash Garodia <quic_vgarodia@quicinc.com>
+> +  - Dikshita Agarwal <quic_dikshita@quicinc.com>
+> +
+> +description:
+> +  The Iris video processing unit is a video encode and decode accelerator
+> +  present on Qualcomm platforms.
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - enum:
+> +          - qcom,sm8550-iris
+> +
+> +  reg:
+> +    maxItems: 2
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    minItems: 2
+> +    maxItems: 4
+> +
+> +  power-domain-names:
+> +    oneOf:
+> +      - items: > +          - const: iris-ctl
 
-On Tue, Dec 12, 2023 at 03:52:48PM +0300, Mikhail Rudenko wrote:
-> On 2023-12-12 at 00:15 +02, Laurent Pinchart wrote:
-> > On Mon, Dec 11, 2023 at 08:50:15PM +0300, Mikhail Rudenko wrote:
-> >> The OV4689 sensor supports digital gain up to 16x. Implement
-> >> corresponding control in the driver. Default digital gain value is not
-> >> modified by this patch.
-> >>
-> >> Signed-off-by: Mikhail Rudenko <mike.rudenko@gmail.com>
-> >> ---
-> >>  drivers/media/i2c/ov4689.c | 16 ++++++++++++++--
-> >>  1 file changed, 14 insertions(+), 2 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/ov4689.c b/drivers/media/i2c/ov4689.c
-> >> index 62aeae43d749..ed0ce1b9e55b 100644
-> >> --- a/drivers/media/i2c/ov4689.c
-> >> +++ b/drivers/media/i2c/ov4689.c
-> >> @@ -35,6 +35,12 @@
-> >>  #define OV4689_GAIN_STEP		1
-> >>  #define OV4689_GAIN_DEFAULT		0x80
-> >>
-> >> +#define OV4689_REG_DIG_GAIN		CCI_REG16(0x352A)
-> >
-> > Lowercase for hex constatns please.
-> 
-> Ah, missed it somehow. Is this convention kernel-wide or media specific?
-> I think checkpatch could have detetected this..
+"iris" or even "venus"
 
-It's media-wide :-) Lower-case hex constants are the majority through
-the kernel, but there's no tree-wide ban on upper-case.
+> +          - const: vcodec
 
-> >> +#define OV4689_DIG_GAIN_MIN		1
-> >> +#define OV4689_DIG_GAIN_MAX		0x7fff
-> >> +#define OV4689_DIG_GAIN_STEP		1
-> >> +#define OV4689_DIG_GAIN_DEFAULT		0x800
-> >> +
-> >>  #define OV4689_REG_TEST_PATTERN		CCI_REG8(0x5040)
-> >>  #define OV4689_TEST_PATTERN_ENABLE	0x80
-> >>  #define OV4689_TEST_PATTERN_DISABLE	0x0
-> >> @@ -131,7 +137,6 @@ static const struct cci_reg_sequence ov4689_2688x1520_regs[] = {
-> >>
-> >>  	/* AEC PK */
-> >>  	{CCI_REG8(0x3503), 0x04}, /* AEC_MANUAL gain_input_as_sensor_gain_format = 1 */
-> >> -	{CCI_REG8(0x352a), 0x08}, /* DIG_GAIN_FRAC_LONG dig_gain_long[14:8] = 0x08 (2x) */
-> >
-> > Is the default value really x2 ? That's not very nice :-S
-> >
-> > It would be much nicer if the default value of the control mapped to x1,
-> > otherwise it's impossible for userspace to interpret the scale of the
-> > digital gain value in a generic way. I suppose that could break existing
-> > applications though, which isn't great.
-> 
-> The datasheet does not explicitly say how register values are mapped to
-> the actual gain. 0x8 comes from the original register tables, and can
-> also be found in a few other drivers for this sensor, although they do
-> not implement digital gain control.
-> 
-> OTOH, the power-on value of this register, and default value as found in
-> the datasheet, is 0x4. This was the motivation behind that "(2x)"
-> annotation.
+"vcodec0"
 
-I wonder if the chip has a TPG that would be located before the digital
-gain. It would be a nice way to test the digital gain scale.
+> +          - const: mxc
+> +          - const: mmcx
+> +
+> +  operating-points-v2: true
+> +
+> +  clocks:
+> +    maxItems: 3
+> +
+> +  clock-names:
+> +    items:
+> +      - const: gcc_video_axi0
 
-> So, I'm afraid that we cannot interpret the absolute scale of the
-> digital gain in any case, unless we have more documentation. I tend to
-> keep the default value of 0x8 for the reasons of not (possibly) breaking
-> userspace.
-> 
-> > Out of curiosity, can you tell what SoC(s) you're using this sensor with
-> > ?
-> 
-> It's Rockchip 3399. I run most of my tests with AGC and AWB off, to be
-> sure they do not hide some important details.
-> 
-> >>
-> >>  	/* ADC and analog control*/
-> >>  	{CCI_REG8(0x3603), 0x40},
-> >> @@ -622,6 +627,9 @@ static int ov4689_set_ctrl(struct v4l2_ctrl *ctrl)
-> >>  				OV4689_TIMING_FLIP_MASK,
-> >>  				val ? 0 : OV4689_TIMING_FLIP_BOTH, &ret);
-> >>  		break;
-> >> +	case V4L2_CID_DIGITAL_GAIN:
-> >> +		cci_write(regmap, OV4689_REG_DIG_GAIN, val, &ret);
-> >> +		break;
-> >>  	default:
-> >>  		dev_warn(dev, "%s Unhandled id:0x%x, val:0x%x\n",
-> >>  			 __func__, ctrl->id, val);
-> >> @@ -650,7 +658,7 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
-> >>
-> >>  	handler = &ov4689->ctrl_handler;
-> >>  	mode = ov4689->cur_mode;
-> >> -	ret = v4l2_ctrl_handler_init(handler, 13);
-> >> +	ret = v4l2_ctrl_handler_init(handler, 14);
-> >>  	if (ret)
-> >>  		return ret;
-> >>
-> >> @@ -693,6 +701,10 @@ static int ov4689_initialize_controls(struct ov4689 *ov4689)
-> >>  	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
-> >>  	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
-> >>
-> >> +	v4l2_ctrl_new_std(handler, &ov4689_ctrl_ops, V4L2_CID_DIGITAL_GAIN,
-> >> +			  OV4689_DIG_GAIN_MIN, OV4689_DIG_GAIN_MAX,
-> >> +			  OV4689_DIG_GAIN_STEP, OV4689_DIG_GAIN_DEFAULT);
-> >> +
-> >>  	if (handler->error) {
-> >>  		ret = handler->error;
-> >>  		dev_err(ov4689->dev, "Failed to init controls(%d)\n", ret);
+"iface"
+
+> +      - const: core_clk
+
+Drop the _clk
+
+> +      - const: vcodec_core
+
+"vcodec0_core' will be more Venus-compatible
+
+> +
+> +  interconnects:
+> +    maxItems: 2
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: iris-cnoc
+
+"cpu-cfg"
+
+> +      - const: iris-ddr
+
+"video-mem" to be closer to Venus
+
+> +
+> +  memory-region:
+> +    maxItems: 1
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  reset-names:
+> +    items:
+> +      - const: video_axi_reset
+
+Just 'bus'
+
+> +
+> +  iommus:
+> +    maxItems: 2
+> +
+> +  dma-coherent: true
+> +
+> +  opp-table:
+> +    type: object
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - power-domains
+> +  - power-domain-names
+> +  - clocks
+> +  - clock-names
+> +  - interconnects
+> +  - interconnect-names
+> +  - memory-region
+> +  - resets
+> +  - reset-names
+> +  - iommus
+> +  - dma-coherent
+> +  - opp-table
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/qcom,rpmh.h>
+> +    #include <dt-bindings/clock/qcom,sm8550-gcc.h>
+> +    #include <dt-bindings/clock/qcom,sm8450-videocc.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interconnect/qcom,icc.h>
+> +    #include <dt-bindings/interconnect/qcom,sm8550-rpmh.h>
+> +    #include <dt-bindings/power/qcom-rpmpd.h>
+> +
+> +    iris: video-codec@aa00000 {
+> +        compatible = "qcom,sm8550-iris";
+> +
+> +        reg = <0 0x0aa00000 0 0xf0000>;
+> +        interrupts = <GIC_SPI 174 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +        power-domains = <&videocc VIDEO_CC_MVS0C_GDSC>,
+> +                        <&videocc VIDEO_CC_MVS0_GDSC>,
+> +                        <&rpmhpd SM8550_MXC>,
+> +                        <&rpmhpd SM8550_MMCX>;
+> +        power-domain-names = "iris-ctl", "vcodec", "mxc", "mmcx";
+> +        operating-points-v2 = <&iris_opp_table>;
+> +
+> +        clocks = <&gcc GCC_VIDEO_AXI0_CLK>,
+> +                 <&videocc VIDEO_CC_MVS0C_CLK>,
+> +                 <&videocc VIDEO_CC_MVS0_CLK>;
+> +        clock-names = "gcc_video_axi0", "core_clk", "vcodec_core";
+> +
+> +        interconnects = <&gem_noc MASTER_APPSS_PROC QCOM_ICC_TAG_ALWAYS
+> +                         &config_noc SLAVE_VENUS_CFG QCOM_ICC_TAG_ALWAYS>,
+> +                        <&mmss_noc MASTER_VIDEO QCOM_ICC_TAG_ALWAYS
+> +                         &mc_virt SLAVE_EBI1 QCOM_ICC_TAG_ALWAYS>;
+> +        interconnect-names = "iris-cnoc", "iris-ddr";
+> +
+> +        /* FW load region */
+> +        memory-region = <&video_mem>;
+> +
+> +        resets = <&gcc GCC_VIDEO_AXI0_CLK_ARES>;
+> +        reset-names = "video_axi_reset";
+> +
+> +        iommus = <&apps_smmu 0x1940 0x0000>,
+> +                 <&apps_smmu 0x1947 0x0000>;
+> +        dma-coherent;
+> +
+> +        status = "disabled";
+> +
+> +        iris_opp_table: opp-table {
+> +            compatible = "operating-points-v2";
+> +
+> +            opp-240000000 {
+> +                opp-hz = /bits/ 64 <240000000>;
+> +                required-opps = <&rpmhpd_opp_svs>,
+> +                                <&rpmhpd_opp_low_svs>;
+> +           };
+> +
+> +           opp-338000000 {
+> +               opp-hz = /bits/ 64 <338000000>;
+> +               required-opps = <&rpmhpd_opp_svs>,
+> +                               <&rpmhpd_opp_svs>;
+> +           };
+> +
+> +           opp-366000000 {
+> +               opp-hz = /bits/ 64 <366000000>;
+> +               required-opps = <&rpmhpd_opp_svs_l1>,
+> +                               <&rpmhpd_opp_svs_l1>;
+> +           };
+> +
+> +           opp-444000000 {
+> +               opp-hz = /bits/ 64 <444000000>;
+> +               required-opps = <&rpmhpd_opp_turbo>,
+> +                               <&rpmhpd_opp_turbo>;
+> +           };
+> +
+> +           opp-533333334 {
+> +               opp-hz = /bits/ 64 <533333334>;
+> +               required-opps = <&rpmhpd_opp_turbo_l1>,
+> +                               <&rpmhpd_opp_turbo_l1>;
+> +           };
+> +       };
+> +    };
+> +...
 
 -- 
-Regards,
+With best wishes
+Dmitry
 
-Laurent Pinchart
 
