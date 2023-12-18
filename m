@@ -1,39 +1,39 @@
-Return-Path: <linux-media+bounces-2598-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2599-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6754181770A
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 17:11:24 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E181E817747
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 17:19:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC71E2853AB
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 16:11:22 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCFB41C23CBD
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 16:19:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D29CA4989D;
-	Mon, 18 Dec 2023 16:10:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73EC449895;
+	Mon, 18 Dec 2023 16:19:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LrYJtaVx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aWMo8n03"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F3473D57F;
-	Mon, 18 Dec 2023 16:10:45 +0000 (UTC)
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 179F4C433C8;
-	Mon, 18 Dec 2023 16:10:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB58742379;
+	Mon, 18 Dec 2023 16:19:43 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFBEBC433C7;
+	Mon, 18 Dec 2023 16:19:39 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1702915845;
-	bh=RyOpylSYH9NQruYbziThNE1gfBpDP2Ghh1KJd/KJVNY=;
+	s=k20201202; t=1702916383;
+	bh=YVe24+VIIvFgLdvWefXeeEKbQLshLdaWuzwzX/7lIYQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=LrYJtaVxeC9DSa/ig3EOb585fdd2cdMj9ADBkQiR62Q8T5nCFEJFy4oCJ5xYsf+pR
-	 pRKLLDONQnJEYHvb+Lbac0NFCoX+YhnFaHHHrOVCBiwswTV/ifceh2K5mgPkl1+lXJ
-	 WmX7EkNX7toPGx7g5rn1003gy5gE6J+K8GSPiEyRRhC5/2jFlSk1C52j8/JDaU35WJ
-	 BLNNmWTOjxHp/qa2oFGhEdzhEnm4Vjm44SZZ72PQ+un42q4+BzN/mj8faJfJvDp4Dv
-	 ePzQVC2oydQ7nYX1yRiFI0vPrmonamwrLOzUjxrtYLgbe9+VGNxLTQPhWHbmyRHHcJ
-	 tsovCrCgI1pkQ==
-Message-ID: <c0f76b35-1ac3-47e4-9a88-57f4738bd8f0@kernel.org>
-Date: Mon, 18 Dec 2023 17:10:40 +0100
+	b=aWMo8n03zMskv+hccddZyoSa9i0wkcHSE2ZwS55PWUrvP/YUq6NzZuGRpwU1OpscC
+	 TUhkh46qs53hsAWTCqd1HmVxgsZFvEWrODz6aO6k5MfSKm4S2/0cShQUpLBywktD3c
+	 vhyC6Bl7JzjNZVWhcNpurvumYl8DARRFuDjgPJJ751uWJCBuCcV92cud+OnUI21iLH
+	 inAVf2JngFE2xJ01Cc0e+Xy2jkqHgXr9HXG2GbQqXdOgtcRLXltlUg5uFc6y//p51O
+	 qascUJ4OzVrqq4WnLKNAuVpMfJmPoSADaUJScHR3Wk2pHZnN3qyHsqS+LMJXCPQ1wB
+	 rC+ehPcL5zCLQ==
+Message-ID: <f9c841f0-9839-47b7-b026-d0cd2138af11@kernel.org>
+Date: Mon, 18 Dec 2023 17:19:36 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -41,7 +41,9 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/34] dt-bindings: media: Add sm8550 dt schema
+Subject: Re: [PATCH v2 12/34] media: iris: add video processing unit(VPU)
+ specific register handling
+Content-Language: en-US
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
@@ -49,8 +51,7 @@ To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  bryan.odonoghue@linaro.org
 Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com
 References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
- <1702899149-21321-5-git-send-email-quic_dikshita@quicinc.com>
-Content-Language: en-US
+ <1702899149-21321-13-git-send-email-quic_dikshita@quicinc.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -95,33 +96,83 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  uZwJCLykjad45hsWcOGk3OcaAGQS6NDlfhM6O9aYNwGL6tGt/6BkRikNOs7VDEa4/HlbaSJo
  7FgndGw1kWmkeL6oQh7wBvYll2buKod4qYntmNKEicoHGU+x91Gcan8mCoqhJkbqrL7+nXG2
  5Q/GS5M9RFWS+nYyJh+c3OcfKqVcZQNANItt7+ULzdNJuhvTRRdC3g9hmCEuNSr+CLMdnRBY fv0=
-In-Reply-To: <1702899149-21321-5-git-send-email-quic_dikshita@quicinc.com>
+In-Reply-To: <1702899149-21321-13-git-send-email-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 18/12/2023 12:31, Dikshita Agarwal wrote:
-> Add a schema description for the iris video encoder/decoder
-> on sm8550.
+On 18/12/2023 12:32, Dikshita Agarwal wrote:
+> Registers are defined differently for different VPUs.
+> Define ops for VPU specific handling to accommodate
+> different VPUs. Implement boot sequence of firmware and interrupt
+> programming.
 > 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
->  .../bindings/media/qcom,sm8550-iris.yaml           | 177 +++++++++++++++++++++
->  1 file changed, 177 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
 
-NAK, I don't understand why we need to repeat it some many times.
+...
 
-Please use scripts/get_maintainers.pl to get a list of necessary people
-and lists to CC. It might happen, that command when run on an older
-kernel, gives you outdated entries. Therefore please be sure you base
-your patches on recent Linux kernel.
+> +
+> +int write_register(struct iris_core *core, u32 reg, u32 value)
+> +{
+> +	void __iomem *base_addr;
+> +	int ret;
+> +
+> +	ret = check_core_lock(core);
+> +	if (ret)
+> +		return ret;
+> +
+> +	base_addr = core->reg_base;
+> +	base_addr += reg;
+> +	writel_relaxed(value, base_addr);
+> +
+> +	/* Make sure value is written into the register */
+> +	wmb();
 
-You missed at least devicetree list (maybe more), so this won't be
-tested by automated tooling. Performing review on untested code might be
-a waste of time, thus I will skip this patch entirely till you follow
-the process allowing the patch to be tested.
+Just don't use relaxed method. The same applies to other places like that.
 
-Please kindly resend and include all necessary To/Cc entries.
+> +
+> +	return ret;
+> +}
+> +
+> +int read_register(struct iris_core *core, u32 reg, u32 *value)
+> +{
+> +	void __iomem *base_addr;
+> +
+> +	base_addr = core->reg_base;
+> +
+> +	*value = readl_relaxed(base_addr + reg);
+> +
+> +	/* Make sure value is read correctly from the register */
+> +	rmb();
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct compat_handle compat_handle[] = {
+> +	{
+> +		.compat                  = "qcom,sm8550-iris",
+> +		.init                    = init_iris3,
+
+Uh...
+
+> +	},
+> +};
+> +
+> +int init_vpu(struct iris_core *core)
+> +{
+> +	struct device *dev = NULL;
+> +	int i, ret = 0;
+> +
+> +	dev = core->dev;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(compat_handle); i++) {
+> +		if (of_device_is_compatible(dev->of_node, compat_handle[i].compat)) {
+> +			ret = compat_handle[i].init(core);
+
+
+This does not look good. Use flags, quirks, type, pointer ops in
+structures. Just look at existing code in Linux kernel. Do not
+reimplement driver match data.
+
+
 
 Best regards,
 Krzysztof
