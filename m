@@ -1,114 +1,157 @@
-Return-Path: <linux-media+bounces-2595-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2596-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E90817542
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 16:32:56 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 334EA81764F
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 16:51:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 24E20B229F1
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 15:32:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D0AF61C23D39
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 15:51:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C40449883;
-	Mon, 18 Dec 2023 15:32:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D55553D57B;
+	Mon, 18 Dec 2023 15:48:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="khIxFo52"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="E+eaknYD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37C353D54D;
-	Mon, 18 Dec 2023 15:32:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-1d3ce28ace2so3898465ad.3;
-        Mon, 18 Dec 2023 07:32:16 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702913535; x=1703518335; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=LPnry4ABNCRoEF7YlhZVOqsWCrakY3lvjh/I9JX4fyE=;
-        b=khIxFo52nFLDsg9e7NPJGj7qqjAEjS31tXc1gM3kKosMjoalT02iIvEpxoo2QLa7L7
-         bSNc+LE9EoHkh4AkHPefc9gGRl2+U3u9M5r6jrOAB5TqY10Eb1L4aly8sgQ4zUYcscKP
-         UijztDrgAIwSoDpQbh3Awyq1FDnBzhxJN7DZOpAmAt0y/G0UPWDR5dVBCEmEekFZ4sEE
-         QXGJJmVG4EY95wFi/sOm8NaLSCa9WYVr/P6JlvoVNKFAZkuZpQNJ/veUsts29pDQg0Aq
-         a4GGEt0yfCMkyF7ndnTYL663bg0mvCd9IrDRywjstTEXjW+RVmGO4ndROYIgS1nZGVEt
-         Yqkw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702913535; x=1703518335;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=LPnry4ABNCRoEF7YlhZVOqsWCrakY3lvjh/I9JX4fyE=;
-        b=qycwEww9xiFus2uAijKI3a2LUWXukF3i7EWxEDOYg0fnu6xWC1p7XPtqWRKDcODADw
-         /VtZTqC8ueext5Bj/xzeTOlcndJoNnnS3pTM9Ua45LD9G+7SgN3UUuryODl4HcqZ7kvX
-         Vi6pEuKmmzoIt+oi59GB1Tej31O97MrcP7Eg3OsmU6pydepOPAcy+aoGJW0xrUtes/dE
-         gaE6uQT9TAHYU4q6D++8MogwTwP/BEmRmYDwkezzxdT2qytHRV2URDZdNPRbFJQmsLiR
-         KG/eG5wbKsdLDjHkaA7JE1+eB0XsZNcfhYDIPmrXbcnBY2MMYYeTwz0gjJOBG3AE2Xig
-         wOJg==
-X-Gm-Message-State: AOJu0Yy3XV0dkkjoMTk9PI8Xfh388gs5HP1cT4ht6bDcUtEaaKINHZyJ
-	31j4FSo/RvADyjYCmOwUjWc=
-X-Google-Smtp-Source: AGHT+IGR6fcR7dY6sUS+4s0yRsbTxaaJhn99EhB3+ag/KdKrhMD/ddYr9LLElMWyaO+iubF7GhPEWA==
-X-Received: by 2002:a17:903:2b0e:b0:1d3:6b17:5eb with SMTP id mc14-20020a1709032b0e00b001d36b1705ebmr10352773plb.49.1702913535439;
-        Mon, 18 Dec 2023 07:32:15 -0800 (PST)
-Received: from ubuntu.. ([110.44.116.44])
-        by smtp.gmail.com with ESMTPSA id g3-20020a170902740300b001d39d4fa323sm4358415pll.55.2023.12.18.07.32.12
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 07:32:15 -0800 (PST)
-From: Dipendra Khadka <kdipendra88@gmail.com>
-To: hdegoede@redhat.com,
-	mchehab@kernel.org,
-	sakari.ailus@linux.intel.com,
-	gregkh@linuxfoundation.org
-Cc: Dipendra Khadka <kdipendra88@gmail.com>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev,
-	linux-kernel@vger.kernel.org,
-	linux-kernel-mentees@lists.linuxfoundation.org
-Subject: [PATCH] drivers: staging: media: atomisp: pci: Fixes a spelling mistake in sh_css_defs.h
-Date: Mon, 18 Dec 2023 15:32:00 +0000
-Message-Id: <20231218153200.450148-1-kdipendra88@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57D313D545;
+	Mon, 18 Dec 2023 15:48:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 24B6757E;
+	Mon, 18 Dec 2023 16:47:42 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1702914462;
+	bh=2sOFBL109jjVIul3F+6t0mZTRAhvxnQtgcLNIu0TqOM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=E+eaknYD0yp0U7kSb+ri0GDGITk+JMNKvwxxoCzsQAkn7n4k+JrNDZD/+k7PVajqC
+	 k5db1V+5k6xL1Ipe5FjVJiLg5ATaQKbOsLwI6FXl9lsn8/DZE0oWP1SnPS0Uy+Wa31
+	 hVVGSh2gpgbr7y2Bk+YrSYDri/Wb60eNOrXKZplk=
+Date: Mon, 18 Dec 2023 17:48:38 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Cc: Paul Elder <paul.elder@ideasonboard.com>, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org, devicetree@vger.kernel.org,
+	kieran.bingham@ideasonboard.com, umang.jain@ideasonboard.com,
+	aford173@gmail.com, Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	"moderated list:ARM/Rockchip SoC support" <linux-arm-kernel@lists.infradead.org>,
+	open list <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 05/11] media: rkisp1: Fix RSZ_CTRL bits for i.MX8MP
+Message-ID: <20231218154838.GR5290@pendragon.ideasonboard.com>
+References: <20231129092759.242641-1-paul.elder@ideasonboard.com>
+ <20231129092759.242641-6-paul.elder@ideasonboard.com>
+ <03b98b67-e88c-4bb0-a01d-5a90f78e04a3@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <03b98b67-e88c-4bb0-a01d-5a90f78e04a3@ideasonboard.com>
 
-The script checkpatch.pl reported a spelling error
-in sh_css_defs.h as below:
+On Mon, Dec 18, 2023 at 05:31:18PM +0200, Tomi Valkeinen wrote:
+> Hi Paul,
+> 
+> On 29/11/2023 11:27, Paul Elder wrote:
+> > The ISP8000Nano, found in the i.MX8MP, has a different architecture to
+> > crop at the resizer input. Instead of the "dual crop" block between the
+> > ISP and the resizers found in the RK3399, cropping has been moved to the
+> > input of the resizer blocks. As a result, the resizer CFG_UPD and
+> > CFG_UPD_AUTO bits have been moved to make space for a new CROP_ENABLE
+> > bit.
+> > 
+> > Fix the resizer shadow update accordingly, using the DUAL_CROP feature
+> > to infer whether or not the resizer implements cropping. Support for
+> > resizer cropping itself will be added in a subsequent commit.
+> > 
+> > Signed-off-by: Paul Elder <paul.elder@ideasonboard.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> I don't think this one is correct.
+> 
+> The above is perhaps true for ISP8000, but ISP8000Nano does not have 
+> CROP_ENABLE bit, and the CFG_UPD and CFG_UPD_AUTO are at the same 
+> locations as on RK3399.
+> 
+> I don't have documentation to prove this, but experimentation shows that 
+> this is the case.
 
-'''
-WARNING: 'upto' may be misspelled - perhaps 'up to'?
-/* The FPGA system (vec_nelems == 16) only supports upto 5MP */
-                                                    ^^^^
-'''
+I agree with you. The missing CROP_ENABLE bit matches the missing
+resizer input crop capability in the i.MX8MP. I don't know if that's
+specific to the i.MX8MP, specific to the ISP8000Nano, or common to all
+ISP8000 versions when the instance is synthesized with a single path
+(which may be what ISP8000Nano is).
 
-This patch corrects a spelling error,
-changing "upto" to "up to".
+> > ---
+> > Changes since v3:
+> > 
+> > - Condition on RKISP1_FEATURE_DUAL_CROP feature
+> > - Update commit message
+> > 
+> > Changes since v2:
+> > 
+> > - Condition on RKISP1_FEATURE_RSZ_CROP feature
+> > - Rename bits
+> > - Use the rkisp1_has_feature() macro
+> > 
+> >   .../media/platform/rockchip/rkisp1/rkisp1-regs.h  |  5 +++++
+> >   .../platform/rockchip/rkisp1/rkisp1-resizer.c     | 15 +++++++++++----
+> >   2 files changed, 16 insertions(+), 4 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> > index 3b19c8411360..95646b45f28b 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
+> > @@ -168,6 +168,11 @@
+> >   #define RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO		BIT(9)
+> >   #define RKISP1_CIF_RSZ_SCALER_FACTOR			BIT(16)
+> >   
+> > +/* For resizer instances that support cropping */
+> > +#define RKISP1_CIF_RSZ_CTRL_CROP_ENABLE			BIT(8)
+> > +#define RKISP1_CIF_RSZ_CTRL_CROP_CFG_UPD		BIT(9)
+> > +#define RKISP1_CIF_RSZ_CTRL_CROP_CFG_UPD_AUTO		BIT(10)
+> > +
+> >   /* MI_IMSC - MI_MIS - MI_RIS - MI_ICR - MI_ISR */
+> >   #define RKISP1_CIF_MI_FRAME(stream)			BIT((stream)->id)
+> >   #define RKISP1_CIF_MI_MBLK_LINE				BIT(2)
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> > index c1aaeed58acc..6d6ebc53c6e5 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-resizer.c
+> > @@ -178,10 +178,17 @@ static void rkisp1_rsz_update_shadow(struct rkisp1_resizer *rsz,
+> >   {
+> >   	u32 ctrl_cfg = rkisp1_rsz_read(rsz, RKISP1_CIF_RSZ_CTRL);
+> >   
+> > -	if (when == RKISP1_SHADOW_REGS_ASYNC)
+> > -		ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO;
+> > -	else
+> > -		ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD;
+> > +	if (when == RKISP1_SHADOW_REGS_ASYNC) {
+> > +		if (rkisp1_has_feature(rsz->rkisp1, DUAL_CROP))
+> > +			ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD_AUTO;
+> > +		else
+> > +			ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CROP_CFG_UPD_AUTO;
+> > +	} else {
+> > +		if (rkisp1_has_feature(rsz->rkisp1, DUAL_CROP))
+> > +			ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CFG_UPD;
+> > +		else
+> > +			ctrl_cfg |= RKISP1_CIF_RSZ_CTRL_CROP_CFG_UPD;
+> > +	}
+> >   
+> >   	rkisp1_rsz_write(rsz, RKISP1_CIF_RSZ_CTRL, ctrl_cfg);
+> >   }
 
-Signed-off-by: Dipendra Khadka <kdipendra88@gmail.com>
----
- drivers/staging/media/atomisp/pci/sh_css_defs.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css_defs.h b/drivers/staging/media/atomisp/pci/sh_css_defs.h
-index 7eb10b226f0a..2afde974e75d 100644
---- a/drivers/staging/media/atomisp/pci/sh_css_defs.h
-+++ b/drivers/staging/media/atomisp/pci/sh_css_defs.h
-@@ -131,7 +131,7 @@ RGB[0,8191],coef[-8192,8191] -> RGB[0,8191]
-  * invalid rows/columns that result from filter initialization are skipped. */
- #define SH_CSS_MIN_DVS_ENVELOPE           12U
- 
--/* The FPGA system (vec_nelems == 16) only supports upto 5MP */
-+/* The FPGA system (vec_nelems == 16) only supports up to 5MP */
- #define SH_CSS_MAX_SENSOR_WIDTH           4608
- #define SH_CSS_MAX_SENSOR_HEIGHT          3450
- 
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
 
