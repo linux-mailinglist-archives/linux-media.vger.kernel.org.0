@@ -1,272 +1,597 @@
-Return-Path: <linux-media+bounces-2588-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2589-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92DFD816D44
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 13:02:51 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 81C15816DAC
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 13:13:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0E5F828450A
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 12:02:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 93F7B1C23BD6
+	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 12:13:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91A7B1C29D;
-	Mon, 18 Dec 2023 11:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB66B4E61F;
+	Mon, 18 Dec 2023 12:10:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XRd15BuX"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="cIHOXOrO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D27461C68C;
-	Mon, 18 Dec 2023 11:58:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a234139b725so146717766b.3;
-        Mon, 18 Dec 2023 03:58:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702900701; x=1703505501; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=IgjCOqoU0LFb/prwwe/1yg1v3/KdI4fSVHRhtXMtDkA=;
-        b=XRd15BuXnbvJxtvbn0XtZtStezhgLm0HQHhP8hyv2CGzzoMAEDPuumej2a05usFEld
-         TSlCCwidEqnsagZKQmmFTy6R29n8LURDoByMO3Js8hTEraLg+DPfInN0YdALrk7qJXgj
-         +2p8IaS3ebwCVft1Y7Pukzz7GFlYRwUpxmGbhFqGwPj5dEzZ1t+niCT5y7tZ7FZYg76e
-         ETulhZtPK9UyrR8INUpyxB33e/D31tWvyZVzZ8J+Jv0pMrVQxk2MatV7KUEaf34Lfe16
-         j1nXQzxWWC1LGTEGKPj3rUIJc2ioTu+Xn4VIo86inTCNLrhyx0BLkw8WszGAeanv8zqQ
-         F+gw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702900701; x=1703505501;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IgjCOqoU0LFb/prwwe/1yg1v3/KdI4fSVHRhtXMtDkA=;
-        b=Gi/RmBbVvSTGB5YPpQ3iQ+AdF3cGy+z9G+8QcYjvOnFFTMcKy8zq58SfeVXzkJ9c/a
-         QnC739od8lFLjNeu3/7BZVVHFli4/kQaYfGqHyKCGtLTUhv/8XZekbQ06C7eeqvvDDbb
-         j4f++gwAXz7w344rzX6pUoxh7mLGCLzf9YMes3CFpDGsZ+vaB5C/DXZDA2iI6IUqZ1Go
-         u++wYouKmk3CNxKWBKNOIU7D5HyluVjZdirvjwpcWVDpQwXJMWyOcGCKIG558z8Widz6
-         hVynst5DaB+LftQHavTHef/RpnYDQzeDOr20vsTfbBsCWC4dRg+jLpJFsKpIkYjiYGAv
-         fbtQ==
-X-Gm-Message-State: AOJu0YwYX/cfCvzn+0mjplZDo9f3GhpB1zeG17UW7KhnX7sYcXf5Jg1J
-	zyoTe4q30smz/vaQDuFBFKjF2osG/z8=
-X-Google-Smtp-Source: AGHT+IHKdBeID/fM+rP2w9wfMbhixsK0M38ImtpBvtD/IXPXClCL96R2xQDJu2mTNnIKGvlsd8MlpA==
-X-Received: by 2002:a17:906:8b:b0:a1f:821b:1d9c with SMTP id 11-20020a170906008b00b00a1f821b1d9cmr4130333ejc.288.1702900700724;
-        Mon, 18 Dec 2023 03:58:20 -0800 (PST)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-229.cust.vodafonedsl.it. [188.217.59.229])
-        by smtp.gmail.com with ESMTPSA id uv6-20020a170907cf4600b00a1e443bc037sm14188476ejc.147.2023.12.18.03.58.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 18 Dec 2023 03:58:20 -0800 (PST)
-Date: Mon, 18 Dec 2023 12:58:18 +0100
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linuxfancy@googlegroups.com, sakari.ailus@linux.intel.com,
-	Martin Hecht <martin.hecht@avnet.eu>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 3/3] media: i2c: alvium: store frame interval in subdev
- state
-Message-ID: <ZYAz2uXQeGgUT5eZ@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20231215082452.1720481-1-tomm.merciai@gmail.com>
- <20231215082452.1720481-4-tomm.merciai@gmail.com>
- <20231218025905.GJ5290@pendragon.ideasonboard.com>
- <ZYAfThT/mHdzGdAh@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20231218110331.GQ5290@pendragon.ideasonboard.com>
- <ZYAqyOEfKp/oiqs9@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20231218113618.GA21105@pendragon.ideasonboard.com>
- <ZYAvifztnTGoQB51@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20231218114437.GB21105@pendragon.ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A7EB59B53;
+	Mon, 18 Dec 2023 12:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BIAsAN6013994;
+	Mon, 18 Dec 2023 12:09:50 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=YNHZbggYM1kxWxhJ5NiTVKj+VuHq75rdtXe13V5X9LE=; b=cI
+	HOXOrOvfjwKNgQJQTD3uI4HDqbCE/zUNhq+hyBUwGhM5yySNI3MAFBggEx+12RJ6
+	o59LgHGuS3ezvu4CkIxumfnqYbxkzmQC7iuxMOeN5f3mrbRjvv77Mbrz7fktxr47
+	30iIyqdQkcHm8/Ypiir/HkCMQLXgWRiyshxmp9zXGLa/2UG/ZPzpfhg6icyybFHX
+	fTFeD+mqHKuQqQLuCkXbYDbP8Ts8aD1uz3m5QbzjMpAWMlTR+A4s8191AWhwNW5G
+	AJi9sX4vvRH5PNdGWfrs4MV4CPLYt1721RH47SkSe7lYjhwfj7ZMgTEe1u2L3pcY
+	YwFIlJvHJ72hPsi4iUsA==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v2jx0gduk-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Dec 2023 12:09:50 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BIC9nY1001077
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 18 Dec 2023 12:09:49 GMT
+Received: from [10.216.62.193] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Mon, 18 Dec
+ 2023 04:09:45 -0800
+Message-ID: <b2b3cff9-f7ea-fade-7e0b-23ba500c4b02@quicinc.com>
+Date: Mon, 18 Dec 2023 17:39:36 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231218114437.GB21105@pendragon.ideasonboard.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 00/34] Qualcomm video encoder and decoder driver
+To: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <stanimir.k.varbanov@gmail.com>, <quic_vgarodia@quicinc.com>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <mchehab@kernel.org>,
+        <bryan.odonoghue@linaro.org>
+CC: <linux-arm-msm@vger.kernel.org>, <quic_abhinavk@quicinc.com>
+References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
+Content-Language: en-US
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+In-Reply-To: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: _Ma2LGzh2zkSZxU09D_Bs_Uf40f9qwAT
+X-Proofpoint-GUID: _Ma2LGzh2zkSZxU09D_Bs_Uf40f9qwAT
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 clxscore=1015
+ phishscore=0 priorityscore=1501 suspectscore=0 impostorscore=0
+ lowpriorityscore=0 adultscore=0 mlxscore=0 malwarescore=0 spamscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312180087
 
-On Mon, Dec 18, 2023 at 01:44:37PM +0200, Laurent Pinchart wrote:
-> On Mon, Dec 18, 2023 at 12:39:53PM +0100, Tommaso Merciai wrote:
-> > On Mon, Dec 18, 2023 at 01:36:18PM +0200, Laurent Pinchart wrote:
-> > > On Mon, Dec 18, 2023 at 12:19:36PM +0100, Tommaso Merciai wrote:
-> > > > On Mon, Dec 18, 2023 at 01:03:31PM +0200, Laurent Pinchart wrote:
-> > > > > On Mon, Dec 18, 2023 at 11:30:38AM +0100, Tommaso Merciai wrote:
-> > > > > > On Mon, Dec 18, 2023 at 04:59:05AM +0200, Laurent Pinchart wrote:
-> > > > > > > On Fri, Dec 15, 2023 at 09:24:52AM +0100, Tommaso Merciai wrote:
-> > > > > > > > Use the newly added storage for frame interval in the subdev state to
-> > > > > > > > simplify the driver.
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > > > > > > > ---
-> > > > > > > >  drivers/media/i2c/alvium-csi2.c | 40 ++++++++++-----------------------
-> > > > > > > >  drivers/media/i2c/alvium-csi2.h |  2 --
-> > > > > > > >  2 files changed, 12 insertions(+), 30 deletions(-)
-> > > > > > > > 
-> > > > > > > > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
-> > > > > > > > index fde456357be1..81f683b3c849 100644
-> > > > > > > > --- a/drivers/media/i2c/alvium-csi2.c
-> > > > > > > > +++ b/drivers/media/i2c/alvium-csi2.c
-> > > > > > > > @@ -1643,25 +1643,6 @@ static int alvium_hw_init(struct alvium_dev *alvium)
-> > > > > > > >  }
-> > > > > > > >  
-> > > > > > > >  /* --------------- Subdev Operations --------------- */
-> > > > > > > > -
-> > > > > > > > -static int alvium_g_frame_interval(struct v4l2_subdev *sd,
-> > > > > > > > -				   struct v4l2_subdev_state *sd_state,
-> > > > > > > > -				   struct v4l2_subdev_frame_interval *fi)
-> > > > > > > > -{
-> > > > > > > > -	struct alvium_dev *alvium = sd_to_alvium(sd);
-> > > > > > > > -
-> > > > > > > > -	/*
-> > > > > > > > -	 * FIXME: Implement support for V4L2_SUBDEV_FORMAT_TRY, using the V4L2
-> > > > > > > > -	 * subdev active state API.
-> > > > > > > > -	 */
-> > > > > > > > -	if (fi->which != V4L2_SUBDEV_FORMAT_ACTIVE)
-> > > > > > > > -		return -EINVAL;
-> > > > > > > > -
-> > > > > > > > -	fi->interval = alvium->frame_interval;
-> > > > > > > > -
-> > > > > > > > -	return 0;
-> > > > > > > > -}
-> > > > > > > > -
-> > > > > > > >  static int alvium_s_frame_interval(struct v4l2_subdev *sd,
-> > > > > > > >  				   struct v4l2_subdev_state *sd_state,
-> > > > > > > >  				   struct v4l2_subdev_frame_interval *fi)
-> > > > > > > > @@ -1669,6 +1650,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
-> > > > > > > >  	struct alvium_dev *alvium = sd_to_alvium(sd);
-> > > > > > > >  	struct device *dev = &alvium->i2c_client->dev;
-> > > > > > > >  	u64 req_fr, dft_fr, min_fr, max_fr;
-> > > > > > > > +	struct v4l2_fract *interval;
-> > > > > > > >  	int ret;
-> > > > > > > >  
-> > > > > > > >  	/*
-> > > > > > > 
-> > > > > > > You should drop the FIXME comment here and the ACTIVE check...
-> > > > > > 
-> > > > > > Oks, thanks.
-> > > > > > 
-> > > > > > > > @@ -1701,9 +1683,10 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
-> > > > > > > >  	if (req_fr >= max_fr && req_fr <= min_fr)
-> > > > > > > >  		req_fr = dft_fr;
-> > > > > > > >  
-> > > > > > > > -	alvium->fr = req_fr;
-> > > > > > > > -	alvium->frame_interval.numerator = fi->interval.numerator;
-> > > > > > > > -	alvium->frame_interval.denominator = fi->interval.denominator;
-> > > > > > > > +	interval = v4l2_subdev_state_get_interval(sd_state, 0);
-> > > > > > > > +
-> > > > > > > > +	interval->numerator = fi->interval.numerator;
-> > > > > > > > +	interval->denominator = fi->interval.denominator;
-> > > > > > > >  
-> > > > > > > 
-> > > > > > > ... and here only call alvium_set_frame_rate() for the ACTIVE frame
-> > > > > > > interval.
-> > > > > > 
-> > > > > > I don't completely got this comment, can you give me more details about
-> > > > > > please. Thanks in advance!
-> > > > > 
-> > > > > alvium_s_frame_interval() can be called both for the TRY and ACTIVE
-> > > > > status. The hardware registers should be written only for the ACTIVE
-> > > > > state.
-> > > > 
-> > > > Do you think could be sufficient an if check like this?
-> > > > 
-> > > > -	return alvium_set_frame_rate(alvium, req_fr);
-> > > > +	if (fi->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> > > > +		return alvium_set_frame_rate(alvium, req_fr);
-> > > > +
-> > > > +	return ret;
-> > > 
-> > > That's the idea, yes. The "return ret" can become "return 0". Or you
-> > > could write
-> > > 
-> > > 	if (fi->which != V4L2_SUBDEV_FORMAT_ACTIVE)
-> > > 		return 0;
-> > > 
-> > > 	return alvium_set_frame_rate(alvium, req_fr);
-> > > 
-> > > >  }
-> > 
-> > (This is my personal idea eh :) )
-> > 
-> > Maybe better:
-> > 
-> > 	if (fi->which == V4L2_SUBDEV_FORMAT_ACTIVE)
-> > 		ret = alvium_set_frame_rate(alvium, req_fr);
-> > 
-> > 	return ret;
-> 
-> Works fine too (assuming ret gets initialized properly).
 
-Arg... good catch, thanks. :)
-I will take your proposal then into v2.
 
-Thanks again! :),
-Tommaso
+On 12/18/2023 5:01 PM, Dikshita Agarwal wrote:
+> This patch series introduces support for Qualcomm new video acceleration
+> hardware architecture, used for video stream decoding/encoding. This driver
+> is based on new communication protocol between video hardware and application
+> processor.
+> This driver comes with below capabilities:
+> - V4L2 complaint video driver with M2M and STREAMING capability.
+> - Supports H264, H265, VP9 decoders.
+> - Supports H264, H265 encoders.
+> This driver comes with below features:
+> - Centralized resource and memory management.
+> - Centralized management of core and instance states.
+> - Defines platform specific capabilities and features. As a results, it provides
+>   a single point of control to enable/disable a given feature depending on 
+>   specific platform capabilities.
+> - Handles hardware interdependent configurations. For a given configuration from
+>   client, the driver checks for hardware dependent configuration/s and updates
+>   the same.
+> - Handles multiple complex video scenarios involving state transitions - DRC,
+>   Drain, Seek, back to back DRC, DRC during Drain sequence, DRC during Seek
+>   sequence.
+> - Introduces a flexible way for driver to subscribe for any property with
+>   hardware. Hardware would inform driver with those subscribed property with any
+>   change in value.
+> - Introduces performance (clock and bus) model based on new hardware
+>   architecture.
+> - Introduces multi thread safe design to handle communication between client and
+>   hardware.
+> - Adapts encoder quality improvements available in new hardware architecture.
+> - Implements asynchronous communication with hardware to achieve better
+>   experience in low latency usecases.
+> - Supports multi stage hardware architecture for encode/decode.
+> - Output and capture planes are controlled independently. Thereby providing a
+>   way to reconfigure individual plane.
+> - Hardware packetization layer supports synchronization between configuration
+>   packet and data packet.
+> - Introduces a flexibility to receive a hardware response for a given command
+>   packet.
+> - Native hardware support of LAST flag which is mandatory to align with port
+>   reconfiguration and DRAIN sequence as per V4L guidelines.
+> - Native hardware support for drain sequence.
+> 
+> Changes done since v1[1]:
+> - Patches are created as logical split instead of file by file.
+> - Extracted common functionality between venus and iris driver and placed them
+>   under common folder vcodec.
+> - Flattened directory structure.
+> - Restructured the code in a simplified layer architecture.
+> - Implemented runtime PM, and dropped explicit power collapse thread in driver.
+> - Moved to standard kernel log print api.
+> - Simplified the bus and clock calculation logic.
+> - Removed debug features like dma tracker, frame stats, debugfs.
+> - Merged v4l2 and vidc layer as vidc in driver.
+> - Removed separate probe for context bank.
+> - Use of_device_get_match_data to get platform data.
+> - Replaced complex macros with inline functions.
+> - Migrated venus to iris names.
+> - Addressed many other comments received on [1].
+> 
+> [1]: https://patchwork.kernel.org/project/linux-media/list/?series=770581 
+> 
+> Patch 1, adds dt binding for iris driver.
+> 
+> Patches 2-4, are introducing vcodec folder and moving common APIs like fw
+> load/unload, buffer size calcualtions, read/write to shared queues to common
+> files which are being used by both venus and iris drivers.
+> This also moves the venus driver folder to vcodec folder.
+> 
+> Patch 5, adds the maintainers for iris driver.
+> 
+> Patch 6-29, adds core iris driver and enable decoder.
+> 
+> Patch 30-34, enable encoder functionality in iris driver.
+> 
 
+Made a mistake while explaining the patches.
+Please find the correct order below:
+
+Patches 1-3, are introducing vcodec folder and moving common APIs like fw
+load/unload, buffer size calcualtions, read/write to shared queues to
+common files which are being used by both venus and iris drivers.
+This also moves the venus driver folder to vcodec folder.
+
+Patch 4, adds dt binding for iris driver.
+
+Patch 5, adds the maintainers for iris driver.
+
+Patch 6-29, adds core iris driver and enable decoder.
+
+Patch 30-34, enable encoder functionality in iris driver.
+
+Thanks,
+Dikshita
+
+> Static tools like checkpatch, smatch, dt_binding_check, sparse and Coccinelle 
+> run successfully with this driver. 
 > 
-> > > > > > > > @@ -1853,6 +1836,7 @@ static int alvium_init_state(struct v4l2_subdev *sd,
-> > > > > > > >  {
-> > > > > > > >  	struct alvium_dev *alvium = sd_to_alvium(sd);
-> > > > > > > >  	struct alvium_mode *mode = &alvium->mode;
-> > > > > > > > +	struct v4l2_fract *interval;
-> > > > > > > >  	struct v4l2_subdev_format sd_fmt = {
-> > > > > > > >  		.which = V4L2_SUBDEV_FORMAT_TRY,
-> > > > > > > >  		.format = alvium_csi2_default_fmt,
-> > > > > > > > @@ -1870,6 +1854,11 @@ static int alvium_init_state(struct v4l2_subdev *sd,
-> > > > > > > >  	*v4l2_subdev_state_get_crop(state, 0) = sd_crop.rect;
-> > > > > > > >  	*v4l2_subdev_state_get_format(state, 0) = sd_fmt.format;
-> > > > > > > >  
-> > > > > > > > +	/* Setup initial frame interval*/
-> > > > > > > > +	interval = v4l2_subdev_state_get_interval(state, 0);
-> > > > > > > > +	interval->numerator = 1;
-> > > > > > > > +	interval->denominator = ALVIUM_DEFAULT_FR_HZ;
-> > > > > > > > +
-> > > > > > > >  	return 0;
-> > > > > > > >  }
-> > > > > > > >  
-> > > > > > > > @@ -2239,7 +2228,7 @@ static const struct v4l2_subdev_pad_ops alvium_pad_ops = {
-> > > > > > > >  	.set_fmt = alvium_set_fmt,
-> > > > > > > >  	.get_selection = alvium_get_selection,
-> > > > > > > >  	.set_selection = alvium_set_selection,
-> > > > > > > > -	.get_frame_interval = alvium_g_frame_interval,
-> > > > > > > > +	.get_frame_interval = v4l2_subdev_get_frame_interval,
-> > > > > > > >  	.set_frame_interval = alvium_s_frame_interval,
-> > > > > > > >  };
-> > > > > > > >  
-> > > > > > > > @@ -2260,11 +2249,6 @@ static int alvium_subdev_init(struct alvium_dev *alvium)
-> > > > > > > >  	struct v4l2_subdev *sd = &alvium->sd;
-> > > > > > > >  	int ret;
-> > > > > > > >  
-> > > > > > > > -	/* Setup initial frame interval*/
-> > > > > > > > -	alvium->frame_interval.numerator = 1;
-> > > > > > > > -	alvium->frame_interval.denominator = ALVIUM_DEFAULT_FR_HZ;
-> > > > > > > > -	alvium->fr = ALVIUM_DEFAULT_FR_HZ;
-> > > > > > > > -
-> > > > > > > >  	/* Setup the initial mode */
-> > > > > > > >  	alvium->mode.fmt = alvium_csi2_default_fmt;
-> > > > > > > >  	alvium->mode.width = alvium_csi2_default_fmt.width;
-> > > > > > > > diff --git a/drivers/media/i2c/alvium-csi2.h b/drivers/media/i2c/alvium-csi2.h
-> > > > > > > > index a6529b28e7dd..f5e26257b042 100644
-> > > > > > > > --- a/drivers/media/i2c/alvium-csi2.h
-> > > > > > > > +++ b/drivers/media/i2c/alvium-csi2.h
-> > > > > > > > @@ -442,8 +442,6 @@ struct alvium_dev {
-> > > > > > > >  	s32 inc_sharp;
-> > > > > > > >  
-> > > > > > > >  	struct alvium_mode mode;
-> > > > > > > > -	struct v4l2_fract frame_interval;
-> > > > > > > > -	u64 fr;
-> > > > > > > 
-> > > > > > > The fr field should have been removed by a previous patch (the one that
-> > > > > > > will go between 1/3 an 2/3, see my review of 1/3) as shown by the fact
-> > > > > > > that this patch only removes two locations where the field is set but
-> > > > > > > none where it's read.
-> > > > > > > 
-> > > > > > > >  
-> > > > > > > >  	u8 h_sup_csi_lanes;
-> > > > > > > >  	u64 link_freq;
+>  The output of v4l2-compliance test looks like: 
 > 
-> -- 
-> Regards,
+> v4l2-compliance SHA: not available, 64 bits
+>  
+> Cannot open device /dev/vido0, exiting.
+> root@qemuarm64:/usr/bin# ./v4l2-compliance -d /dev/video0
+> v4l2-compliance SHA: not available, 64 bits
+>  
+> Compliance test for iris_driver device /dev/video0:
+>  
+> Driver Info:
+>         Driver name      : iris_driver
+>         Card type        : iris_decoder
+>         Bus info         : platform:iris_bus
+>         Driver version   : 6.6.0
+>         Capabilities     : 0x84204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>  
+> Required ioctls:
+>         test VIDIOC_QUERYCAP: OK
+>  
+> Allow for multiple opens:
+>         test second /dev/video0 open: OK
+>         test VIDIOC_QUERYCAP: OK
+>         test VIDIOC_G/S_PRIORITY: OK
+>                 fail: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-compliance.cpp(724): !ok
+>         test for unlimited opens: FAIL
+>  
+> Debug ioctls:
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+>  
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+>  
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+>  
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+>  
+> Control ioctls:
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>         test VIDIOC_QUERYCTRL: OK
+>         test VIDIOC_G/S_CTRL: OK
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 48 Private Controls: 0
+>  
+> Format ioctls:
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>         test VIDIOC_G/S_PARM: OK (Not Supported)
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK
+>         test VIDIOC_TRY_FMT: OK
+>         test VIDIOC_S_FMT: OK
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK
+>         test Composing: OK
+>         test Scaling: OK
+>  
+> Codec ioctls:
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK
+>  
+> Buffer ioctls:
+>         testVIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test VIDIOC_EXPBUF: OK (Not Supported)
+>         test Requests: OK (Not Supported)
+>  
+> Total for iris_driver device /dev/video0: 44, Succeeded: 43, Failed: 1, Warnings: 0
+>  
+> Compliance test for iris_driver device /dev/video1:
+>  
+> Driver Info:
+>         Driver name      : iris_driver
+>         Card type        : iris_encoder
+>         Bus info         : platform:iris_bus
+>         Driver version   : 6.6.0
+>         Capabilities     : 0x84204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>                 Device Capabilities
+>         Device Caps      : 0x04204000
+>                 Video Memory-to-Memory Multiplanar
+>                 Streaming
+>                 Extended Pix Format
+>  
+> Required ioctls:
+>         test VIDIOC_QUERYCAP: OK
+>  
+> Allow for multiple opens:
+>         test second /dev/video1 open: OK
+>         test VIDIOC_QUERYCAP: OK
+>         test VIDIOC_G/S_PRIORITY: OK
+>                 fail: ../../../v4l-utils-1.18.1/utils/v4l2-compliance/v4l2-compliance.cpp(724): !ok
+>         test for unlimited opens: FAIL
+>  
+> Debug ioctls:
+>         test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>         test VIDIOC_LOG_STATUS: OK (Not Supported)
+>  
+> Input ioctls:
+>         test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>         test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>         Inputs: 0 Audio Inputs: 0 Tuners: 0
+>  
+> Output ioctls:
+>         test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>         test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>         test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>         test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>         test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>         Outputs: 0 Audio Outputs: 0 Modulators: 0
+>  
+> Input/Output configuration ioctls:
+>         test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>         test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>         test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>         test VIDIOC_G/S_EDID: OK (Not Supported)
+>  
+> Control ioctls:
+>         test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>         test VIDIOC_QUERYCTRL: OK
+>         test VIDIOC_G/S_CTRL: OK
+>         test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>         test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>         test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>         Standard Controls: 48 Private Controls: 0
+>  
+> Format ioctls:
+>         test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>         test VIDIOC_G/S_PARM: OK
+>         test VIDIOC_G_FBUF: OK (Not Supported)
+>         test VIDIOC_G_FMT: OK
+>         test VIDIOC_TRY_FMT: OK
+>         test VIDIOC_S_FMT: OK
+>         test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>         test Cropping: OK
+>         test Composing: OK
+>         test Scaling: OK (Not Supported)
+>  
+> Codec ioctls:
+>         test VIDIOC_(TRY_)ENCODER_CMD: OK
+>         test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>         test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+>  
+> Buffer ioctls:
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test VIDIOC_EXPBUF: OK (Not Supported)
+>         test Requests: OK (Not Supported)
+>  
+> Total for iris_driver device /dev/video1: 44, Succeeded: 43, Failed: 1, Warnings: 0
 > 
-> Laurent Pinchart
+> Dikshita Agarwal (27):
+>   media: introduce common helpers for video firmware handling
+>   media: introduce common helpers for queues handling
+>   media: introduce common helpers for buffer size calculation
+>   dt-bindings: media: Add sm8550 dt schema
+>   media: MAINTAINERS: Add Qualcomm Iris video accelerator driver
+>   media: iris: register video device to platform driver
+>   media: iris: initialize power resources
+>   media: iris: introduce state machine for iris core
+>   media: iris: initialize shared queues for host and firmware
+>     communication
+>   media: iris: add PIL functionality for video firmware
+>   media: iris: introduce packetization layer for creating HFI packets
+>   media: iris: add video processing unit(VPU) specific register handling
+>   media: iris: introduce platform specific capabilities for core and
+>     instance
+>   media: iris: add handling for interrupt service routine(ISR) invoked
+>     by hardware
+>   media: iris: implement iris v4l2_ctrl_ops and prepare capabilities
+>   media: iris: implement vb2_ops queue setup
+>   media: iris: implement HFI to queue and release buffers
+>   media: iris: add video hardware internal buffer count and size
+>     calculation
+>   media: iris: implement internal buffer management
+>   media: iris: introduce instance states
+>   media: iris: implement vb2 streaming ops on capture and output planes
+>   media: iris: implement vb2 ops for buf_queue and firmware response
+>   media: iris: register video encoder device to platform driver
+>   media: iris: add platform specific instance capabilities for encoder
+>   media: iris: implement iris v4l2 ioctl ops supported by encoder
+>   media: iris: add vb2 streaming and buffer ops for encoder
+>   media: iris: add power management for encoder
+> 
+> Vikash Garodia (7):
+>   media: iris: implement iris v4l2 file ops
+>   media: iris: introduce and implement iris vb2 mem ops
+>   media: iris: implement iris v4l2 ioctl ops supported by decoder
+>   media: iris: subscribe input and output properties to firmware
+>   media: iris: subscribe src change and handle firmware responses
+>   media: iris: add instance sub states and implement DRC and Drain
+>     sequence
+>   media: iris: implement power management
+> 
+>  .../bindings/media/qcom,sm8550-iris.yaml           |  177 ++
+>  MAINTAINERS                                        |   11 +
+>  drivers/media/platform/qcom/Kconfig                |    3 +-
+>  drivers/media/platform/qcom/Makefile               |    3 +-
+>  drivers/media/platform/qcom/vcodec/buffers.c       |  103 ++
+>  drivers/media/platform/qcom/vcodec/buffers.h       |   15 +
+>  drivers/media/platform/qcom/vcodec/firmware.c      |  147 ++
+>  drivers/media/platform/qcom/vcodec/firmware.h      |   21 +
+>  drivers/media/platform/qcom/vcodec/hfi_queue.c     |  258 +++
+>  drivers/media/platform/qcom/vcodec/hfi_queue.h     |  129 ++
+>  drivers/media/platform/qcom/vcodec/iris/Kconfig    |   13 +
+>  drivers/media/platform/qcom/vcodec/iris/Makefile   |   26 +
+>  .../media/platform/qcom/vcodec/iris/hfi_defines.h  |  386 +++++
+>  .../media/platform/qcom/vcodec/iris/iris_buffer.c  |  833 +++++++++
+>  .../media/platform/qcom/vcodec/iris/iris_buffer.h  |   65 +
+>  .../media/platform/qcom/vcodec/iris/iris_common.h  |  147 ++
+>  .../media/platform/qcom/vcodec/iris/iris_core.c    |  110 ++
+>  .../media/platform/qcom/vcodec/iris/iris_core.h    |  121 ++
+>  .../media/platform/qcom/vcodec/iris/iris_ctrls.c   | 1782 ++++++++++++++++++++
+>  .../media/platform/qcom/vcodec/iris/iris_ctrls.h   |   71 +
+>  .../media/platform/qcom/vcodec/iris/iris_helpers.c | 1099 ++++++++++++
+>  .../media/platform/qcom/vcodec/iris/iris_helpers.h |   68 +
+>  drivers/media/platform/qcom/vcodec/iris/iris_hfi.c |  917 ++++++++++
+>  drivers/media/platform/qcom/vcodec/iris/iris_hfi.h |   47 +
+>  .../platform/qcom/vcodec/iris/iris_hfi_packet.c    |  729 ++++++++
+>  .../platform/qcom/vcodec/iris/iris_hfi_packet.h    |  118 ++
+>  .../platform/qcom/vcodec/iris/iris_hfi_response.c  | 1097 ++++++++++++
+>  .../platform/qcom/vcodec/iris/iris_hfi_response.h  |   20 +
+>  .../platform/qcom/vcodec/iris/iris_instance.h      |  106 ++
+>  .../media/platform/qcom/vcodec/iris/iris_power.c   |  178 ++
+>  .../media/platform/qcom/vcodec/iris/iris_power.h   |   15 +
+>  .../media/platform/qcom/vcodec/iris/iris_probe.c   |  357 ++++
+>  .../media/platform/qcom/vcodec/iris/iris_state.c   |  453 +++++
+>  .../media/platform/qcom/vcodec/iris/iris_state.h   |   78 +
+>  drivers/media/platform/qcom/vcodec/iris/iris_vb2.c |  457 +++++
+>  drivers/media/platform/qcom/vcodec/iris/iris_vb2.h |   28 +
+>  .../media/platform/qcom/vcodec/iris/iris_vdec.c    | 1211 +++++++++++++
+>  .../media/platform/qcom/vcodec/iris/iris_vdec.h    |   25 +
+>  .../media/platform/qcom/vcodec/iris/iris_venc.c    |  948 +++++++++++
+>  .../media/platform/qcom/vcodec/iris/iris_venc.h    |   27 +
+>  .../media/platform/qcom/vcodec/iris/iris_vidc.c    | 1419 ++++++++++++++++
+>  .../media/platform/qcom/vcodec/iris/iris_vidc.h    |   15 +
+>  .../platform/qcom/vcodec/iris/platform_common.c    |   29 +
+>  .../platform/qcom/vcodec/iris/platform_common.h    |  323 ++++
+>  .../platform/qcom/vcodec/iris/platform_sm8550.c    | 1190 +++++++++++++
+>  .../media/platform/qcom/vcodec/iris/resources.c    |  506 ++++++
+>  .../media/platform/qcom/vcodec/iris/resources.h    |   44 +
+>  .../media/platform/qcom/vcodec/iris/vpu_common.c   |  158 ++
+>  .../media/platform/qcom/vcodec/iris/vpu_common.h   |   52 +
+>  .../media/platform/qcom/vcodec/iris/vpu_iris3.c    |  568 +++++++
+>  .../media/platform/qcom/vcodec/iris/vpu_iris3.h    |   13 +
+>  .../platform/qcom/vcodec/iris/vpu_iris3_buffer.c   |  395 +++++
+>  .../platform/qcom/vcodec/iris/vpu_iris3_buffer.h   | 1469 ++++++++++++++++
+>  .../platform/qcom/vcodec/iris/vpu_iris3_power.c    |  148 ++
+>  .../platform/qcom/vcodec/iris/vpu_iris3_power.h    |   13 +
+>  .../media/platform/qcom/{ => vcodec}/venus/Kconfig |    0
+>  .../platform/qcom/{ => vcodec}/venus/Makefile      |    5 +-
+>  .../media/platform/qcom/{ => vcodec}/venus/core.c  |  102 +-
+>  .../media/platform/qcom/{ => vcodec}/venus/core.h  |    0
+>  .../media/platform/qcom/{ => vcodec}/venus/dbgfs.c |    0
+>  .../media/platform/qcom/{ => vcodec}/venus/dbgfs.h |    0
+>  .../platform/qcom/vcodec/venus/firmware_no_tz.c    |  194 +++
+>  .../platform/qcom/vcodec/venus/firmware_no_tz.h    |   19 +
+>  .../platform/qcom/{ => vcodec}/venus/helpers.c     |  172 +-
+>  .../platform/qcom/{ => vcodec}/venus/helpers.h     |    2 +-
+>  .../media/platform/qcom/{ => vcodec}/venus/hfi.c   |    0
+>  .../media/platform/qcom/{ => vcodec}/venus/hfi.h   |    0
+>  .../platform/qcom/{ => vcodec}/venus/hfi_cmds.c    |    0
+>  .../platform/qcom/{ => vcodec}/venus/hfi_cmds.h    |    0
+>  .../platform/qcom/{ => vcodec}/venus/hfi_helper.h  |    0
+>  .../platform/qcom/{ => vcodec}/venus/hfi_msgs.c    |    0
+>  .../platform/qcom/{ => vcodec}/venus/hfi_msgs.h    |    0
+>  .../platform/qcom/{ => vcodec}/venus/hfi_parser.c  |    0
+>  .../platform/qcom/{ => vcodec}/venus/hfi_parser.h  |    0
+>  .../qcom/{ => vcodec}/venus/hfi_plat_bufs.h        |    4 +-
+>  .../qcom/{ => vcodec}/venus/hfi_plat_bufs_v6.c     |   10 +-
+>  .../qcom/{ => vcodec}/venus/hfi_platform.c         |    0
+>  .../qcom/{ => vcodec}/venus/hfi_platform.h         |    0
+>  .../qcom/{ => vcodec}/venus/hfi_platform_v4.c      |    0
+>  .../qcom/{ => vcodec}/venus/hfi_platform_v6.c      |    0
+>  .../platform/qcom/{ => vcodec}/venus/hfi_venus.c   |  521 +-----
+>  .../platform/qcom/{ => vcodec}/venus/hfi_venus.h   |    0
+>  .../qcom/{ => vcodec}/venus/hfi_venus_io.h         |    0
+>  .../platform/qcom/{ => vcodec}/venus/pm_helpers.c  |    0
+>  .../platform/qcom/{ => vcodec}/venus/pm_helpers.h  |    0
+>  .../media/platform/qcom/{ => vcodec}/venus/vdec.c  |    5 +-
+>  .../media/platform/qcom/{ => vcodec}/venus/vdec.h  |    0
+>  .../platform/qcom/{ => vcodec}/venus/vdec_ctrls.c  |    0
+>  .../media/platform/qcom/{ => vcodec}/venus/venc.c  |    0
+>  .../media/platform/qcom/{ => vcodec}/venus/venc.h  |    0
+>  .../platform/qcom/{ => vcodec}/venus/venc_ctrls.c  |    0
+>  drivers/media/platform/qcom/venus/firmware.c       |  363 ----
+>  drivers/media/platform/qcom/venus/firmware.h       |   26 -
+>  93 files changed, 19175 insertions(+), 989 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+>  create mode 100644 drivers/media/platform/qcom/vcodec/buffers.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/buffers.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/firmware.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/firmware.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/hfi_queue.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/hfi_queue.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/Kconfig
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/Makefile
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/hfi_defines.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_buffer.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_buffer.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_common.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_core.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_core.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_ctrls.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_ctrls.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_helpers.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_helpers.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi_packet.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi_packet.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi_response.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_hfi_response.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_instance.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_power.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_power.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_probe.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_state.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_state.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vb2.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vb2.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vdec.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vdec.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_venc.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_venc.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vidc.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/iris_vidc.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/platform_common.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/platform_common.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/platform_sm8550.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/resources.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/resources.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_common.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_common.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3_buffer.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3_buffer.h
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3_power.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/iris/vpu_iris3_power.h
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/Kconfig (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/Makefile (75%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/core.c (91%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/core.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/dbgfs.c (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/dbgfs.h (100%)
+>  create mode 100644 drivers/media/platform/qcom/vcodec/venus/firmware_no_tz.c
+>  create mode 100644 drivers/media/platform/qcom/vcodec/venus/firmware_no_tz.h
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/helpers.c (90%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/helpers.h (98%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi.c (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_cmds.c (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_cmds.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_helper.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_msgs.c (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_msgs.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_parser.c (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_parser.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_plat_bufs.h (94%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_plat_bufs_v6.c (99%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform.c (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform_v4.c (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform_v6.c (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_venus.c (73%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_venus.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_venus_io.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/pm_helpers.c (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/pm_helpers.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/vdec.c (99%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/vdec.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/vdec_ctrls.c (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/venc.c (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/venc.h (100%)
+>  rename drivers/media/platform/qcom/{ => vcodec}/venus/venc_ctrls.c (100%)
+>  delete mode 100644 drivers/media/platform/qcom/venus/firmware.c
+>  delete mode 100644 drivers/media/platform/qcom/venus/firmware.h
+> 
 
