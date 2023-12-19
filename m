@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-2641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 931A08186A7
-	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 12:50:56 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A939E8186BC
+	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 12:57:22 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 229092844E9
-	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 11:50:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 33FA21F245DC
+	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 11:57:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3690715E95;
-	Tue, 19 Dec 2023 11:50:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD69615EA3;
+	Tue, 19 Dec 2023 11:57:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VY0QB7A7"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Fj4jtHZx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46549171CA
-	for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 11:50:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D65C9199DF
+	for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 11:57:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-40c517d0de5so47985165e9.0
-        for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 03:50:38 -0800 (PST)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-55361b7f38eso2664615a12.0
+        for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 03:57:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702986636; x=1703591436; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1702987020; x=1703591820; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=B4a4teJHwZUJyBTzwWesDJ9PWyu4xpIdJ7qFNO5rTNc=;
-        b=VY0QB7A7ldBEXgRKTH2YnRmkwlnr1RV0QOPvwR+7uZgiHUFu1fQdUR3Gs+nKaOlWbt
-         m0mJISDrqWk8COkBz9lMlS94WbFz+M3H5M/21kJ9ivflJb2zKM6lhM4ky96xNhpMlpLZ
-         rRkYUsegofGXWaY+Xjv1oQEokxTR8T2Wo3hQS1kdib12l7SIbi48f+mSp1GjTkXarExA
-         lfqXwQZLx43HP64KxbdULBBUQhpR1ClWUY2+6+lYvbn7bXmC3QeZBZ5fwMGrKBUT/RHx
-         twY/ffeex0q0elDESRsNUhqkfDWBD7tJ14nUjrkmjcJjg5SCflgQGbECVZr1k0FTgA6K
-         Cl9w==
+        bh=ybdWg0p5ieAxtL6thx9FlqVpkKiWZwVkAS/JvS6cgMc=;
+        b=Fj4jtHZxA7wMv+c9GAvWzMgNPt7fmryevnzjAnQxLzFVD6BjgckUqHAh/EMfROSksY
+         I2o+f79qFH9Xl78z74ewMqvKCIKXv5K87WrF1L1gy/JcVl69ar5LmfkULP1N5yXsOPcz
+         JMJn9Dk4LUWlJcXH52NAk39pxjiZFU5qGQ0IBSNoTqrj8NxYRXGEpblfzFhI82x0y50G
+         LW/IJs2A92Cu04Tqujn2n+G1z8LwHx019van5ST6rDSU80mE9PgJnZbAeIejYFksIxuX
+         FRy1GhCSEDKDP/D+kFnKsMA5AbJj5gOoluFyRaSVJSKRo0HE7OQN9q9fRb73aOzURP95
+         G6sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702986636; x=1703591436;
+        d=1e100.net; s=20230601; t=1702987020; x=1703591820;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B4a4teJHwZUJyBTzwWesDJ9PWyu4xpIdJ7qFNO5rTNc=;
-        b=LcSXWqEdmPheLnn8mbWEJMsIGsa5tbBrzpJ1dFB9DKDDbKS7lYm7WOxRZpTJOmHocN
-         76oTUMYM8Yq3j1wg4ldsZtIAFcdIGKRPJ+XkW4aLNLfgFdGPxrSZGrnp/p/vFLPnvqd5
-         GnQ09Sq3slWPa/YaXXmJ0zFrgr/1PBajBd8g/tk+YeS1dvAFNNRu+ldJ4Hq5Kkibi/r3
-         Ii5ftpmKeeZ926jwKdlMU/6VjMy1HJlRePvF0BqXY42pxxEopghOv3qLDfR0/KZiQlDy
-         8kArNwtQdoVAwz66HlQXBlZmpCHV7pZnotWA1iT+FEGci5OV6T1Fqr7cc9rOFRplFda/
-         Rn9Q==
-X-Gm-Message-State: AOJu0YwFMEvYx0TRJYdyZNgS9u/1Xcb9Z81FeoQTMWkELeKRjnoOU7Pk
-	R2QI5W5Mo6i1FNO8ih1x4S83QA==
-X-Google-Smtp-Source: AGHT+IF4RYZBU0bIpMbIEP0f2+iigHpU5ygsAxD5kB8kDDyDkIYRkoy3zMNnLp5dntiiCPGDCpM4+A==
-X-Received: by 2002:a05:600c:4d0f:b0:40c:3e43:417f with SMTP id u15-20020a05600c4d0f00b0040c3e43417fmr8925830wmp.58.1702986636513;
-        Tue, 19 Dec 2023 03:50:36 -0800 (PST)
+        bh=ybdWg0p5ieAxtL6thx9FlqVpkKiWZwVkAS/JvS6cgMc=;
+        b=v+NOPf1bc9MJ69nuTDdDwuIofZAWmCV3Gsp5qbUvzCS1W3mHHhBIAYfJmwyRt4/EKO
+         9gwOXZFYqefcePDMt9SFyB9/ofHWnRV/+nzHclxXp7jG3dzSJeZIuaUiqgShASbszaDd
+         1VWVMZ1OG/15xHAdsHn3Y3w5CxfK+CbIat4GQc57N6xbHiSJFl705+RnLCfTtQ9tN+xC
+         yHwqJ6lmMUxHpwYXtzsw1mhloQKYiPOGiB9WLvAJIartopSxeVXJVghJACLnGstq82qS
+         hIv7zzltMJYGwS86GOrgd85U2JHtnUwS+CKW+f1NpkzPAFc8QhyaFRIFbWGcw4gvoxyq
+         brKw==
+X-Gm-Message-State: AOJu0YwC8sXVsJ3DnXItmNoLJ3SQkLxPMam4QkkAjPelm1DndAkPLZ5T
+	3zZ1HhmAiobstFdCLPycLVyShA==
+X-Google-Smtp-Source: AGHT+IFr/VSXFaGrMriE3FvKF1pNiIXNzuKVUdZZ1ydYQaWnE16tajT3EdnNVw5gCcv8KtDH1tcfXw==
+X-Received: by 2002:a17:907:8688:b0:a23:682b:519b with SMTP id qa8-20020a170907868800b00a23682b519bmr994903ejc.152.1702987020005;
+        Tue, 19 Dec 2023 03:57:00 -0800 (PST)
 Received: from [192.168.199.59] (178235179206.dynamic-4-waw-k-1-3-0.vectranet.pl. [178.235.179.206])
-        by smtp.gmail.com with ESMTPSA id ah2-20020a1709069ac200b00a23577b265csm2507243ejc.173.2023.12.19.03.50.34
+        by smtp.gmail.com with ESMTPSA id x24-20020a170906135800b00a25501f4160sm458297ejb.1.2023.12.19.03.56.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Dec 2023 03:50:35 -0800 (PST)
-Message-ID: <05796d3a-3046-427b-8a0f-0895026e7da3@linaro.org>
-Date: Tue, 19 Dec 2023 12:50:33 +0100
+        Tue, 19 Dec 2023 03:56:59 -0800 (PST)
+Message-ID: <cb2a921c-5c8e-44c8-af1d-78d877977b62@linaro.org>
+Date: Tue, 19 Dec 2023 12:56:57 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,8 +66,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 16/34] media: iris: implement iris v4l2_ctrl_ops and
- prepare capabilities
+Subject: Re: [PATCH v2 17/34] media: iris: implement vb2_ops queue setup
 Content-Language: en-US
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -75,7 +74,7 @@ To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  andersson@kernel.org, mchehab@kernel.org, bryan.odonoghue@linaro.org
 Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com
 References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
- <1702899149-21321-17-git-send-email-quic_dikshita@quicinc.com>
+ <1702899149-21321-18-git-send-email-quic_dikshita@quicinc.com>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -112,38 +111,101 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <1702899149-21321-17-git-send-email-quic_dikshita@quicinc.com>
+In-Reply-To: <1702899149-21321-18-git-send-email-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 18.12.2023 12:32, Dikshita Agarwal wrote:
-> Implement iris v4l2_ctrl_ops - s_ctrl and g_volatile_ctrl.
-> 
-> Core capability structure has all the supported capabilities
-> for all supported codecs. Initializes instance capability
-> from core capability based on the codec type.
-> 
-> Add following to each capability:
-> Children: define dependencies for a specific capability.
-> Adjust: define function to adjust the value of capability
->         based on client configuration or dependency with
-> 	other capability.
-> Set: define function to set the adjusted value to firmware.
-> 
-> Prepare dependency graph for all inter-dependent capabilities.
-> This is used to adjust the value of capabilities and set the
-> same to firmware.
+> Implement queue_setup vb2_ops.
+> Calculate the buffer count and buffer size as par video
+> hardware requirement and updates to client.
+> Also, allocate the video driver buffers for output and
+> capture plane.
 > 
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > ---
 [...]
 
-> +static inline bool are_all_childrens_visited(struct plat_inst_cap *cap,
-> +					     bool lookup[INST_CAP_MAX])
-he's making a list, he's checking it twice..
+> +static int input_min_count(struct iris_inst *inst)
+> +{
+> +	return MIN_BUFFERS;
+> +}
+Why is this a function?
 
-I still think moving to a predefined config struct instead would
-be a good idea
+> +
+> +static int output_min_count(struct iris_inst *inst)
+> +{
+> +	int output_min_count;
+> +
+> +	switch (inst->codec) {
+> +	case H264:
+> +	case HEVC:
+> +		output_min_count = 4;
+> +		break;
+> +	case VP9:
+> +		output_min_count = 9;
+> +		break;
+> +	default:
+> +		output_min_count = 4;
+> +		break;
+> +	}
+
+switch (inst->codec) {
+case VP9:
+	return 9;
+case H264:
+case HEVC:
+default:
+	return 4;
+}
+
+> +
+> +	return output_min_count;
+> +}
+> +
+> +int iris_get_buf_min_count(struct iris_inst *inst,
+> +			   enum iris_buffer_type buffer_type)
+> +{
+> +	switch (buffer_type) {
+> +	case BUF_INPUT:
+> +		return input_min_count(inst);
+> +	case BUF_OUTPUT:
+> +		return output_min_count(inst);
+> +	default:
+> +		return 0;
+> +	}
+> +}
+> +
+> +static u32 input_buffer_size(struct iris_inst *inst)
+> +{
+> +	u32 base_res_mbs = NUM_MBS_4k;
+> +	u32 frame_size, num_mbs;
+> +	struct v4l2_format *f;
+> +	u32 div_factor = 1;
+> +	u32 codec;
+> +
+> +	f = inst->fmt_src;
+> +	codec = f->fmt.pix_mp.pixelformat;
+> +
+> +	num_mbs = get_mbpf(inst);
+> +	if (num_mbs > NUM_MBS_4k) {
+> +		div_factor = 4;
+> +		base_res_mbs = inst->cap[MBPF].value;
+> +	} else {
+> +		base_res_mbs = NUM_MBS_4k;
+> +		if (codec == V4L2_PIX_FMT_VP9)
+> +			div_factor = 1;
+> +		else
+> +			div_factor = 2;
+> +	}
+> +
+> +	frame_size = base_res_mbs * MB_IN_PIXEL * 3 / 2 / div_factor;
+that's a bit magic..
+
+> +
+> +	 /* multiply by 10/8 (1.25) to get size for 10 bit case */
+misaligned
+
 
 Konrad
 
