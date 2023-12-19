@@ -1,199 +1,158 @@
-Return-Path: <linux-media+bounces-2654-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2655-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F041818A37
-	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 15:40:11 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B78E818C3F
+	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 17:31:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 348BE28BD2D
-	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 14:40:10 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 710861C240CF
+	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 16:31:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78C3F1C282;
-	Tue, 19 Dec 2023 14:39:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 361511BDFE;
+	Tue, 19 Dec 2023 16:31:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ePdiI+G7"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="Ud803sgk";
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="ReHiDNTR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF32B1B288;
-	Tue, 19 Dec 2023 14:39:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-40d05ebe642so16194875e9.0;
-        Tue, 19 Dec 2023 06:39:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1702996771; x=1703601571; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=nx2SKSg4StH2xypt44SaUQkkd1sbC97S0Nlq+vY2bSY=;
-        b=ePdiI+G7wzNB+cZgmOPfu5SBCYZxJP5ymr/H6Ewcpb84D/VT9wHQ2O2kRdetbaZ+M8
-         xKq2CjZbz7FK+2hEI1yxSmG2dNvU4hWxcpQEJ42Ke9SE1Yye93wZU3UdvA6ccwVFcNL8
-         56qQ/UHfGs6w8d6TMdrkWtXmvphfnKgz++Xv7HNW/kEePSt8js6RTxy51gP0+ZOdIegw
-         lRf/Ps4FIKxSwV0sQ7HabTNXJsVzPlUhZUoOZBDZfvfJnZ4mE5pq2pGheqpJuM/Tb4yL
-         l0sSjasDcAifeQRDHEYbLKPNGYHmXrRuAM+clMSXLD5hWgpSTsLg7c4BWSMjIGMmCd10
-         SWbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702996771; x=1703601571;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=nx2SKSg4StH2xypt44SaUQkkd1sbC97S0Nlq+vY2bSY=;
-        b=bzts9Hijyq1dbORZ3IWEoxu/eNSLTT4yiZxOkDXqaE1fHs0beh6w9+TuCL/CwLf/f8
-         RvoDYKoTyOZtH62pRVzivPrjiwFTMBbKNfyq3p1P8yHkbmKL/qLb57ONEpovYx5R8RHn
-         4bSpPM3k/Chc8ruc+Pj/k2G4ZIOOIrewOtET6dZrXmqBNYCz2T9VV0FSg5p57RvY98DX
-         Iut0PGe1eETXT/5IUKLgx5CfGgVG+40omY5o1BptPbmMKVl2KCEgoDJlF53JIJETXey8
-         PIO6hORd40m1qOtOxTnBBwTxcmIajPHdLsPE29yuIg5AIyw11LGtriE9d2ptuPEuoaPo
-         5IVQ==
-X-Gm-Message-State: AOJu0YyhnjUj9tnWFW8WWWcBiAWo1lYZQ4UgkkyTKRHnTcnKVw1FSABi
-	meAFPNZv5VgCRlS4WSgd8D1pqHpt4mX3jA==
-X-Google-Smtp-Source: AGHT+IHCS4aIMnRNzSW0KQB552BVr+rnmPjXguatBBsBOxpsJevOlQQIsoPsVlfACnz4yy2pQqMfTA==
-X-Received: by 2002:a05:600c:6a81:b0:40c:6d5f:7b89 with SMTP id jl1-20020a05600c6a8100b0040c6d5f7b89mr468847wmb.73.1702996770850;
-        Tue, 19 Dec 2023 06:39:30 -0800 (PST)
-Received: from localhost (cpc154979-craw9-2-0-cust193.16-3.cable.virginm.net. [80.193.200.194])
-        by smtp.gmail.com with ESMTPSA id n4-20020a5d6b84000000b003365e9fea3esm9354226wrx.31.2023.12.19.06.39.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 19 Dec 2023 06:39:30 -0800 (PST)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] media: atomisp: remove redundant assignments to variables
-Date: Tue, 19 Dec 2023 14:39:29 +0000
-Message-Id: <20231219143929.367929-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.39.2
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 313B4171D8;
+	Tue, 19 Dec 2023 16:30:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1703003448; bh=fOWuvxGGsnWIrUNGcwxEGN7UpLks/52oxfAvQTJwFQE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Ud803sgkFLxmpbS0P5igkXKJiTKaVYTMbOzUGOE4Wg/ylYpoQzD6UAMx5z3XUGA9/
+	 iy4WjMOgLW/JKe/u45Q5aXUSch834oK6i7faKmn384NbOcVLXqYDWjfC8KpN+34hr+
+	 +J+dI5wgik1qFtWY2Uz5JTr2bEkSNLSlyYmZuUS2IZaXK8MYkOLb6faEGnSlLGj6qw
+	 X9ZmY4BJz0WEC8l8CTLFYCqoUTnfstdGzLCrQGEm/t2DlCDxdXztJSNiB2+QUvZVzS
+	 FHfiMDTC0wV8LpPdvFki5Z+UHfqRzrcEhJ36dZWsJlRhukLr57qrjTslOTNHuVrCzb
+	 URtD+Ars2xvsQ==
+Received: by gofer.mess.org (Postfix, from userid 501)
+	id C4B891009FE; Tue, 19 Dec 2023 16:30:48 +0000 (GMT)
+X-Spam-Level: 
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1703003446; bh=fOWuvxGGsnWIrUNGcwxEGN7UpLks/52oxfAvQTJwFQE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ReHiDNTRtvQEIa091mcj1QrwngGSl5CbIW2j9Ye+Ac5s+4TN03ONR2GWFs2ZSAFQ/
+	 nx9L86MBHDAoSWZ7PjldQXEwVIyNtD2JE5eipptuMXMSstRF93yX5/fZ+3E/kyoimR
+	 h8//MBZ5e/K1I5kJYH+knMEyr0Uo/rwBQwsnmxgiTQHRXhSt2/Dh4/WoEn+aKo0/sN
+	 PHboelYE3c6xmNC5a2XYct9G4rAnM2I/txSbRbHIcOX8aTQ6WS3c8aUzwYJxiq8dH3
+	 t7kFw+WqkoNocUGnbqJjPVJg2dbYeBL7I/l84IhGsooAqkV1PBCccKOCSa6Mn+XBbX
+	 XYrLbfuIdpBKg==
+Received: from localhost.localdomain (bigcore.local [IPv6:2a02:8011:d000:212:ca7f:54ff:fe51:14d6])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gofer.mess.org (Postfix) with ESMTPSA id E0CF91000CC;
+	Tue, 19 Dec 2023 16:30:46 +0000 (GMT)
+From: Sean Young <sean@mess.org>
+To: linux-media@vger.kernel.org,
+	linux-pwm@vger.kernel.org,
+	Ivaylo Dimitrov <ivo.g.dimitrov.75@gmail.com>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
+Cc: Sean Young <sean@mess.org>
+Subject: [PATCH v10 0/6] Improve pwm-ir-tx precision
+Date: Tue, 19 Dec 2023 16:30:23 +0000
+Message-ID: <cover.1703003288.git.sean@mess.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-There are several variables that are being initialized with values
-that are never read, the assignment are redundant and can be removed.
-Cleans up cppcheck unreadVariable warnings.
+The pwm-ir-tx driver has to turn the pwm signal on and off, and suffers
+from delays as this is done in process context. Make this work in atomic
+context.
 
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- .../atomisp/pci/base/circbuf/src/circbuf.c     |  2 +-
- .../pci/runtime/pipeline/src/pipeline.c        |  4 +---
- .../atomisp/pci/runtime/queue/src/queue.c      | 18 +++++++++---------
- 3 files changed, 11 insertions(+), 13 deletions(-)
+changes:
 
-diff --git a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-index d9f7c143794d..06f039236abc 100644
---- a/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-+++ b/drivers/staging/media/atomisp/pci/base/circbuf/src/circbuf.c
-@@ -207,7 +207,7 @@ bool ia_css_circbuf_increase_size(
- {
- 	u8 curr_size;
- 	u8 curr_end;
--	unsigned int i = 0;
-+	unsigned int i;
- 
- 	if (!cb || sz_delta == 0)
- 		return false;
-diff --git a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
-index 3d8741e7d5ca..966cb47b95d9 100644
---- a/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/pipeline/src/pipeline.c
-@@ -693,7 +691,7 @@ static void pipeline_init_defaults(
- static void ia_css_pipeline_set_zoom_stage(struct ia_css_pipeline *pipeline)
- {
- 	struct ia_css_pipeline_stage *stage = NULL;
--	int err = 0;
-+	int err;
- 
- 	assert(pipeline);
- 	if (pipeline->pipe_id == IA_CSS_PIPE_ID_PREVIEW) {
-diff --git a/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c b/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
-index 2f1c2df59f71..c4d4062206a2 100644
---- a/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
-@@ -81,7 +81,7 @@ int ia_css_queue_uninit(ia_css_queue_t *qhandle)
- 
- int ia_css_queue_enqueue(ia_css_queue_t *qhandle, uint32_t item)
- {
--	int error = 0;
-+	int error;
- 
- 	if (!qhandle)
- 		return -EINVAL;
-@@ -138,7 +138,7 @@ int ia_css_queue_enqueue(ia_css_queue_t *qhandle, uint32_t item)
- 
- int ia_css_queue_dequeue(ia_css_queue_t *qhandle, uint32_t *item)
- {
--	int error = 0;
-+	int error;
- 
- 	if (!qhandle || NULL == item)
- 		return -EINVAL;
-@@ -193,7 +193,7 @@ int ia_css_queue_dequeue(ia_css_queue_t *qhandle, uint32_t *item)
- 
- int ia_css_queue_is_full(ia_css_queue_t *qhandle, bool *is_full)
- {
--	int error = 0;
-+	int error;
- 
- 	if ((!qhandle) || (!is_full))
- 		return -EINVAL;
-@@ -225,7 +225,7 @@ int ia_css_queue_is_full(ia_css_queue_t *qhandle, bool *is_full)
- 
- int ia_css_queue_get_free_space(ia_css_queue_t *qhandle, uint32_t *size)
- {
--	int error = 0;
-+	int error;
- 
- 	if ((!qhandle) || (!size))
- 		return -EINVAL;
-@@ -257,7 +257,7 @@ int ia_css_queue_get_free_space(ia_css_queue_t *qhandle, uint32_t *size)
- 
- int ia_css_queue_get_used_space(ia_css_queue_t *qhandle, uint32_t *size)
- {
--	int error = 0;
-+	int error;
- 
- 	if ((!qhandle) || (!size))
- 		return -EINVAL;
-@@ -289,8 +289,8 @@ int ia_css_queue_get_used_space(ia_css_queue_t *qhandle, uint32_t *size)
- 
- int ia_css_queue_peek(ia_css_queue_t *qhandle, u32 offset, uint32_t *element)
- {
--	u32 num_elems = 0;
--	int error = 0;
-+	u32 num_elems;
-+	int error;
- 
- 	if ((!qhandle) || (!element))
- 		return -EINVAL;
-@@ -338,7 +338,7 @@ int ia_css_queue_peek(ia_css_queue_t *qhandle, u32 offset, uint32_t *element)
- 
- int ia_css_queue_is_empty(ia_css_queue_t *qhandle, bool *is_empty)
- {
--	int error = 0;
-+	int error;
- 
- 	if ((!qhandle) || (!is_empty))
- 		return -EINVAL;
-@@ -370,7 +370,7 @@ int ia_css_queue_is_empty(ia_css_queue_t *qhandle, bool *is_empty)
- 
- int ia_css_queue_get_size(ia_css_queue_t *qhandle, uint32_t *size)
- {
--	int error = 0;
-+	int error;
- 
- 	if ((!qhandle) || (!size))
- 		return -EINVAL;
+v10:
+ - Uwe Kleine-König review comments/fixes
+
+v9:
+ - Uwe Kleine-König review comments/fixes
+
+v8:
+ - Uwe Kleine-König review comments
+ - Minor cleanups
+
+v7:
+ - Thierry Reding review comments
+ - Minor cleanups
+ - rebase
+
+v6:
+ - Rename pwm_apply_cansleep() to pwm_apply_might_sleep()
+ - rebase
+
+v5:
+ - Use dev_err_probe() as Uwe suggested
+ - rebase
+
+v4:
+ - Split out the pwm_apply_state() rename into seperate commit
+ - Atomic pwm function is called pwm_apply_atomic() and sleeping
+   counterpart pwm_apply_cansleep()
+ - Fix commit messages
+
+v3:
+ - Renamed pwm_apply_state() to pwm_apply_cansleep()
+ - Moved pwm atomic to struct pwm_chip
+ - Fixed pwm docs
+ - Other minor code review comments
+
+v2:
+ - Simplified the pwm ir tx based on Ivaylo Dimitrov suggestions
+ - Renamed pwm_can_sleep() to pwm_is_atomic
+ - Fix sleeping issue in pwm-bcm2835 (clk_get_rate() can sleep)
+ - use non_block_start() in pwm to check atomic-ness
+
+
+Sean Young (6):
+  pwm: Rename pwm_apply_state() to pwm_apply_might_sleep()
+  pwm: Replace ENOTSUPP with EOPNOTSUPP
+  pwm: renesas: Remove unused include
+  pwm: Make it possible to apply PWM changes in atomic context
+  pwm: bcm2835: Allow PWM driver to be used in atomic context
+  media: pwm-ir-tx: Trigger edges from hrtimer interrupt context
+
+ Documentation/driver-api/pwm.rst              | 17 +++-
+ MAINTAINERS                                   |  2 +-
+ .../gpu/drm/i915/display/intel_backlight.c    |  6 +-
+ drivers/gpu/drm/solomon/ssd130x.c             |  2 +-
+ drivers/hwmon/pwm-fan.c                       |  8 +-
+ drivers/input/misc/da7280.c                   |  4 +-
+ drivers/input/misc/pwm-beeper.c               |  4 +-
+ drivers/input/misc/pwm-vibra.c                |  8 +-
+ drivers/leds/leds-pwm.c                       |  2 +-
+ drivers/leds/rgb/leds-pwm-multicolor.c        |  4 +-
+ drivers/media/rc/pwm-ir-tx.c                  | 87 +++++++++++++++++--
+ drivers/platform/x86/lenovo-yogabook.c        |  2 +-
+ drivers/pwm/core.c                            | 74 ++++++++++++----
+ drivers/pwm/pwm-bcm2835.c                     | 34 ++++++--
+ drivers/pwm/pwm-renesas-tpu.c                 |  1 -
+ drivers/pwm/pwm-twl-led.c                     |  2 +-
+ drivers/pwm/pwm-vt8500.c                      |  2 +-
+ drivers/pwm/sysfs.c                           | 10 +--
+ drivers/regulator/pwm-regulator.c             |  4 +-
+ drivers/video/backlight/lm3630a_bl.c          |  2 +-
+ drivers/video/backlight/lp855x_bl.c           |  2 +-
+ drivers/video/backlight/pwm_bl.c              | 12 +--
+ drivers/video/fbdev/ssd1307fb.c               |  2 +-
+ include/linux/pwm.h                           | 57 ++++++++----
+ 24 files changed, 255 insertions(+), 93 deletions(-)
+
 -- 
-2.39.2
+2.43.0
 
 
