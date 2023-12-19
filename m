@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-2647-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2648-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CEEF818750
-	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 13:22:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41E06818766
+	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 13:25:05 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE43B1F248B5
-	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 12:22:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFC4B1F24AC6
+	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 12:25:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D07ED17757;
-	Tue, 19 Dec 2023 12:21:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3826E179AB;
+	Tue, 19 Dec 2023 12:24:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="sNw+3yVw"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OdTvuASG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95D0218622
-	for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 12:21:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3378D18627
+	for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 12:24:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-a2339262835so323894666b.3
-        for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 04:21:57 -0800 (PST)
+Received: by mail-ed1-f44.google.com with SMTP id 4fb4d7f45d1cf-55361b7f38eso2706917a12.0
+        for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 04:24:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702988516; x=1703593316; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1702988690; x=1703593490; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=0CEiJgT5P0e8etc9AWKXXwUi/gsPPz45OiynIwkEEKA=;
-        b=sNw+3yVwgzNdaI30nFtwMSE3JTWxugn49mhgfsnq2CB+A4VgD1QaSZTWIWZ8Zx9x2w
-         EYjU4g7kDnrTrR/MSwAsldE3nTav70jrh7ZtLXHUci3UqcZuyszSVYQ+6QI/wn4yq07+
-         cd+EwJc2xF/nU9foka9S1j2e0soh9N9a5y2gvRS2BV8aP/MmyrR9b7PHE7DFpR5CWaIy
-         crnoB3w8EDBTSuZoIhATXma6E9u7b0g41Xu5LsdxFSweY6YJs1omcxls7LoRVAslKx9k
-         DGy2hEEpI5dgPWdqqMJc1lw6mfncHY46nQEu5sQUUt5tpifRgkjesYCotgrVq2uW7Zcz
-         a5zw==
+        bh=rvLCqo7bdZdnfP7p/4dwIXgu4AQj05T2b8CjjUUC3mA=;
+        b=OdTvuASG5mPBCXjLknCpSC+fINiRQzWaPItEz2pHM0JJW5f2ofWn83YCGlFoSu53q7
+         9Aci9gvgxBSr1gayWTW5Wd1xgBL7uzd8duDO4PeuBGGBc6M33tSMqJU79Yn0szkKgk0D
+         auXhBG0mQs1Evzl2XQ4Vl6jKrCrctVRZdb/OC3Khd96vaxNHkH/JOZDoN5U6KXhoblUW
+         wdMDiyazRwDZWH3O2XBCref7a5GSI3pHvedGU5ME/UTF2pdGOpttz0NQwjl1M2wspWNm
+         oxu/srIjICrLBOYzCpz8h7BK+XU/Fewy8IlwWNSyqFZjUkNWb1lqlepgq7ZDgULWB5Ls
+         j5HQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702988516; x=1703593316;
+        d=1e100.net; s=20230601; t=1702988690; x=1703593490;
         h=content-transfer-encoding:in-reply-to:autocrypt:from:references:cc
          :to:content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0CEiJgT5P0e8etc9AWKXXwUi/gsPPz45OiynIwkEEKA=;
-        b=XhA9IruDj+jseBgqGdmfWxRZBrpH2zor53I9KqBWqTfoiO7lEyJ4+efLzFuSK0JNH5
-         T0eUk1Ui4DY+WdCZ9TVhMk3fZMpjlBBS5r7fHBCgIMApIKBC0uV8RHXTGLicmaqPlUwp
-         SAfwokmbG3MyxE5x6Lo09HcvuHXmenZcMzZWCPX10JYgQNvOUwAUSwb1OQZTrfuG+dX6
-         0LrhnZl0LHAeevy1W7+EqqlLwCYbIt4YqTB+4U0jntTKnP5IturpcUD9Xr0tGjMIcDxh
-         jNtL0InIdugH+XNAk35akxp5BlzHkLvea8DosC0XEmTe1bM7fYxE/YAE5010JvsRq8mN
-         mIvg==
-X-Gm-Message-State: AOJu0YxhnqjIm7WnfePzMsftajA9MUIj0l1m3oH/VwXJDBdaevU+0DNF
-	GZK6Wcm1bwwuRVzqquXXT2F4GA==
-X-Google-Smtp-Source: AGHT+IGwjMZX13mWqLSLi0GCb/GG41J8ap0XmRV+xreXW8Qy5BnoLfgVRE2b0x08Ttphc9Y5AUgEvA==
-X-Received: by 2002:a17:906:5307:b0:a25:c27:11c6 with SMTP id h7-20020a170906530700b00a250c2711c6mr429255ejo.131.1702988515896;
-        Tue, 19 Dec 2023 04:21:55 -0800 (PST)
+        bh=rvLCqo7bdZdnfP7p/4dwIXgu4AQj05T2b8CjjUUC3mA=;
+        b=iYPQxx9DfEJv6fp6qZUlnUm/zN1w9VsMG8y8r4L87W9qyjg8m2FE4CnrJIcsAI+HwZ
+         d4YmS9ftd+kqDobycSDGXdhzMAeqwuqzw8Rcz1l+IL7u9Q4HiFdqTmYkycMEx6UlB7mK
+         7STRLiluAHJp83adjlcfz/9FxipvBVGwsojfZ/ZG2d1LHCbuE3yfR+XQmAo/7+iyMUWk
+         sXZMI0BCyrk9jMSDqmO2ksFXmaY3C0F/r9lDjFE22gCdHUT9FELxaLXwJKnVmLrhzm8W
+         5dAlLWpt/oSYk8AYyrnWu1h1pQy8t7HOxogorSpstQ0w2BBNbK5PQLDnMOgMXz0pP1g2
+         qhdA==
+X-Gm-Message-State: AOJu0YyPlNhWyXDXWxOO85FbH+s+ury49s+OBfYATHZ9/1yJ713UYZF9
+	Y9RrKF8b79FgW81cLo81cEpiww==
+X-Google-Smtp-Source: AGHT+IGU5VSHX4FU8WK0/RNr2P8msvvwytwe5oxzI0QLcR75dc8GJfOHw/VXjjgzA5TWz4fzHJExYA==
+X-Received: by 2002:a50:9f21:0:b0:553:828d:3f21 with SMTP id b30-20020a509f21000000b00553828d3f21mr576374edf.35.1702988690551;
+        Tue, 19 Dec 2023 04:24:50 -0800 (PST)
 Received: from [192.168.199.59] (178235179206.dynamic-4-waw-k-1-3-0.vectranet.pl. [178.235.179.206])
-        by smtp.gmail.com with ESMTPSA id se13-20020a170907a38d00b00a1fa6a70b92sm11602034ejc.111.2023.12.19.04.21.54
+        by smtp.gmail.com with ESMTPSA id er25-20020a056402449900b005536476bd56sm1654226edb.83.2023.12.19.04.24.48
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Dec 2023 04:21:55 -0800 (PST)
-Message-ID: <10f7180f-0241-4b69-b331-9d82da15e0c5@linaro.org>
-Date: Tue, 19 Dec 2023 13:21:53 +0100
+        Tue, 19 Dec 2023 04:24:49 -0800 (PST)
+Message-ID: <20690d50-5f76-4371-97e6-dcee717ba935@linaro.org>
+Date: Tue, 19 Dec 2023 13:24:47 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,8 +66,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 27/34] media: iris: implement vb2 ops for buf_queue and
- firmware response
+Subject: Re: [PATCH v2 29/34] media: iris: implement power management
 Content-Language: en-US
 To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
@@ -75,7 +74,7 @@ To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
  andersson@kernel.org, mchehab@kernel.org, bryan.odonoghue@linaro.org
 Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com
 References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
- <1702899149-21321-28-git-send-email-quic_dikshita@quicinc.com>
+ <1702899149-21321-30-git-send-email-quic_dikshita@quicinc.com>
 From: Konrad Dybcio <konrad.dybcio@linaro.org>
 Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  xsFNBF9ALYUBEADWAhxdTBWrwAgDQQzc1O/bJ5O7b6cXYxwbBd9xKP7MICh5YA0DcCjJSOum
@@ -112,48 +111,50 @@ Autocrypt: addr=konrad.dybcio@linaro.org; keydata=
  bGqMHex48FVZhexNPYOd58EY9/7mL5u0sJmo+jTeb4JBgIbFPJCFyng4HwbniWgQJZ1WqaUC
  nas9J77uICis2WH7N8Bs9jy0wQYezNzqS+FxoNXmDQg2jetX8en4bO2Di7Pmx0jXA4TOb9TM
  izWDgYvmBE8=
-In-Reply-To: <1702899149-21321-28-git-send-email-quic_dikshita@quicinc.com>
+In-Reply-To: <1702899149-21321-30-git-send-email-quic_dikshita@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 18.12.2023 12:32, Dikshita Agarwal wrote:
-> Implement vb2 ops for buf queue. Below are the different
-> buffer attributes:
-> BUF_ATTR_DEFERRED - buffer queued by client but not submitted
-> to firmware.
-> BUF_ATTR_READ_ONLY - processed buffer received from firmware
-> as read only. These buffers are held in firmware as reference
-> for future frame processing.
-> BUF_ATTR_PENDING_RELEASE - buffers requested to be released
-> from firmware.
-> BUF_ATTR_QUEUED - buffers submitted to firmware.
-> BUF_ATTR_DEQUEUED - buffers received from firmware.
-> BUF_ATTR_BUFFER_DONE - buffers sent back to vb2.
+> From: Vikash Garodia <quic_vgarodia@quicinc.com>
 > 
-> Buffers are submitted and received via HFI_CMD_BUFFER.
-> Firmware associates below flags during buffer response:
-> HFI_BUF_FW_FLAG_RELEASE_DONE - buffer released in firmware.
-> HFI_BUF_FW_FLAG_READONLY - buffer used as reference in firmware.
+> Hardware specific power sequence include programming specific
+> sequence of registers. Implements this sequence for iris3.
 > 
-> Input buffers dequeued from firmware are sent directly to vb2.
+> Introduce video device suspend and resume using runtime PM.
 > 
-> Output buffers if read only, are sent to vb2 and also maintained
-> in read only list. If the same read only buffer is received form
-> client, HFI_BUF_HOST_FLAG_READONLY is attached to the buffer and
-> submitted to firmware. Once the buffer is received from firmware
-> as non read only, it is removed from read only list.
+> Also, implement iris3 specific calculation for clock and
+> bus bandwidth which depends on hardware configuration,
+> codec format, resolution and frame rate.
 > 
+> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 > Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
 > ---
 [...]
 
->  
-> +enum iris_buffer_flags {
-> +	BUF_FLAG_KEYFRAME	= 0x00000008,
-> +	BUF_FLAG_PFRAME		= 0x00000010,
-> +	BUF_FLAG_BFRAME		= 0x00000020,
-> +	BUF_FLAG_ERROR		= 0x00000040,
-BIT(3), 4, 5, 6?
+> @@ -97,6 +103,7 @@ static int iris_probe(struct platform_device *pdev)
+return dev_err_probe, drop __func__
+
+[...]
+
+> +	ret = readl_relaxed_poll_timeout(base_addr + reg, val, ((val & mask) == exp_val),
+> +					 sleep_us, timeout_us);
+> +	/*
+> +	 * Memory barrier to make sure value is read correctly from the
+> +	 * register.
+> +	 */
+> +	rmb();
+just drop _relaxed and return directly
+
+> +
+> +	return ret;
+> +}
+[...]
+
+> +	ret = read_register_with_poll_timeout(core, AON_WRAPPER_MVP_NOC_RESET_ACK,
+> +					      0x3, 0x3, 200, 2000);
+that looks like a lot of bits/bitfields that deserve #defining in this
+and some other functions
 
 Konrad
 
