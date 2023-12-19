@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-2645-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2646-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7EE3818705
-	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 13:07:06 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44C8F81871A
+	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 13:11:13 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 602E4286FEE
-	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 12:07:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6B32C1C23469
+	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 12:11:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1CC4171A2;
-	Tue, 19 Dec 2023 12:06:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B1A2171CA;
+	Tue, 19 Dec 2023 12:11:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iWaSXOj8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="P9xweFFZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A53F18629
-	for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 12:06:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1956C168C0
+	for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 12:11:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-33662243274so1354116f8f.1
-        for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 04:06:51 -0800 (PST)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-40c39ef63d9so48974455e9.3
+        for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 04:11:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702987610; x=1703592410; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1702987859; x=1703592659; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=QX0/am4IjBACVtJR4SW9C9khWxbgbpT1N87hAG7O6Og=;
-        b=iWaSXOj8ZxeKTjuWY9iYRCPBfwGDILkaMEHeG8ba6e2MgV6Mh7I3Ed0dNcynCCU4h5
-         2inOync0si6oLnwjlBeCxv7eYMmUOe9VZRpz7vxkWilYsu3uNv6/OqVLKNemA8p6kSw0
-         3ocFVkq1FFuv7JUhFa4V4Jm7GFlaV3mT8VQlspLnEWIymWgcyd/Lf7zQn/A/9trtGV1W
-         e4zsTuw1AI+ft8qod85ZWmGa6gHOlsU77LHdUvyoaaCC5KjAJBI4nZ4G5FYIKo+x7WHb
-         SCF/lzVn3TqKJ85s3H5Kwc3d9xrnNDl9qSq2LlLeQk7WyapIM+ly3dcy8kEqZ3D0VhKE
-         bnKA==
+        bh=WhDKhnFRhX62KT56W/f1f4kBUI7xMaH12X5JnpsUR/o=;
+        b=P9xweFFZ6U377+2c/gr1H1oikQ6XPS8J/BAtj6bpReJLCDtgV0zKe0yq1d4HcwXlZb
+         yHnzWEjIVmE7pBmElKHj3WkgkQJjZKEFE19tNO7KkccpIqqb3rJ61naxWmv5qUsy9xJU
+         6rwD3Ex5JJXoEX/NLgnMtRzeaWD0nf49eJ+g13WfpcNxYHY2xWBKHKvImXHOHKxajOBI
+         n6aTvgdRo//fbE0g7FjE7wtRs1nS3xNzzsnBeoBErOSqPKjH3uJTy32jdqiCLIMwQGs7
+         qxnQpsevJu3Uq5Db75NXzBl/eGyVioQQyfJ/+OTwTw4JdHHTBxXoSndjdc1aEV7qjKVs
+         6LUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702987610; x=1703592410;
+        d=1e100.net; s=20230601; t=1702987859; x=1703592659;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QX0/am4IjBACVtJR4SW9C9khWxbgbpT1N87hAG7O6Og=;
-        b=GbdIXis9bNLnGZeDN6avm6aWVXcwCTtXMehW+v/YGSU5e+THY3MX9VZvDo6rvFTDvy
-         9QU+rgkjjDetmv9Fj5CPALBb4W2+fETYfKm6z+q8nZSQk3aM7cAW2ugBD81oEfkurntu
-         i8G8NdcPt7yd84zB4EmnN2fUvGErsnompXLJNSXuhHAYasu/YuTmb01ybO2bkCMUoRi1
-         v15Qxqrixt+jYWG4Ba9Dt4qXoseyC2ZGyyeJO5c5tLmNU+3Vn6EVPpiswNqAw6B/ozlY
-         CJSHOpWhZO7UD4s5NiYM3zGzEPyf+7Uj/6/UH5c5dSS09d+Oe+j+iPg1tge23D7PuN01
-         6PiQ==
-X-Gm-Message-State: AOJu0Yw4V/UMmdF+US+oeNlmzObLTf2MEBiFu3ApwBK9KdnhnoQXXvNQ
-	4b9RxbYFZjpXJ/2GtV2RBBgjlihfWfSbww==
-X-Google-Smtp-Source: AGHT+IGSAIihGvqaHjcpOebdWipkh9SAM5JtqPaEB0yEvTNaj3ZFMVRnPkWiy0/0hyFf/q9cZmnaIw==
-X-Received: by 2002:a05:600c:5119:b0:40c:6e48:a5f8 with SMTP id o25-20020a05600c511900b0040c6e48a5f8mr480826wms.17.1702987609862;
-        Tue, 19 Dec 2023 04:06:49 -0800 (PST)
+        bh=WhDKhnFRhX62KT56W/f1f4kBUI7xMaH12X5JnpsUR/o=;
+        b=wui0o+xW6j6t+r2+bp8tRxJWQ2wDwJhO6yZ5GEyXKTZuEbwuX7nZv4BLEBvyKHOjSD
+         LWtucGQFcTZDHmSouRc61d7HNxe/6SFMLs2EKhz7T/UZBvWKxeOX/0D/VYunJUuvy1Eo
+         dqymH7tB9FbgzicPCBYkMPHrDTzZ3eTp3V0oMt7Yhoid6P1lmtSvJVR4sRl2lMsZv2Ph
+         +l1AVllSYNGxvYo+iMND1xAKI1K5rA8JLjTkI7eDTY/eA2+QUmKkfP8XbayKVGhAJnYS
+         H79rIV0GC1iQpju0m7X3wxLz6FwTBHgChSv0atH9i7E8H4iD5Wg1r/4JMKIh7JQgCkUB
+         6fdA==
+X-Gm-Message-State: AOJu0YwhTWh/Y7HlhpWANcaB77vxNEQVNmAPVngD8M5USuF4uqPdLshs
+	QiGEKQR6XQnc91dHRRnPBg0+OQ==
+X-Google-Smtp-Source: AGHT+IGnJJlN6vxrV2VPiXvkBYeZ/k2kli8H+SAI8GUaR+Dw7LaOITWIPfTrmXNqqB+TXDqBfl1sQA==
+X-Received: by 2002:a05:600c:4e50:b0:40d:2376:73cd with SMTP id e16-20020a05600c4e5000b0040d237673cdmr599148wmq.94.1702987859240;
+        Tue, 19 Dec 2023 04:10:59 -0800 (PST)
 Received: from [192.168.100.86] ([37.228.218.3])
-        by smtp.gmail.com with ESMTPSA id c6-20020a5d4cc6000000b0033662c2820bsm7241359wrt.117.2023.12.19.04.06.48
+        by smtp.gmail.com with ESMTPSA id w15-20020adfec4f000000b003366cc543casm3724499wrn.102.2023.12.19.04.10.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 19 Dec 2023 04:06:49 -0800 (PST)
-Message-ID: <cc2da776-9aed-476e-9654-8ad75496db8b@linaro.org>
-Date: Tue, 19 Dec 2023 12:06:48 +0000
+        Tue, 19 Dec 2023 04:10:58 -0800 (PST)
+Message-ID: <50eb1dd6-f7b8-478a-8ddb-1c7d9bdbe413@linaro.org>
+Date: Tue, 19 Dec 2023 12:10:57 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -66,52 +66,53 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 20/34] media: iris: add video hardware internal buffer
- count and size calculation
+Subject: Re: [PATCH v2 00/34] Qualcomm video encoder and decoder driver
 Content-Language: en-US
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
- andersson@kernel.org, konrad.dybcio@linaro.org, mchehab@kernel.org,
- bryan.odonoghue@linaro.org
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org, stanimir.k.varbanov@gmail.com,
+ quic_vgarodia@quicinc.com, agross@kernel.org, andersson@kernel.org,
+ konrad.dybcio@linaro.org, mchehab@kernel.org, bryan.odonoghue@linaro.org
 Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com
 References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
- <1702899149-21321-21-git-send-email-quic_dikshita@quicinc.com>
+ <a033dfc5-dcf1-4969-ad4d-1836ff9ff0a3@linaro.org>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-In-Reply-To: <1702899149-21321-21-git-send-email-quic_dikshita@quicinc.com>
+In-Reply-To: <a033dfc5-dcf1-4969-ad4d-1836ff9ff0a3@linaro.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 18/12/2023 11:32, Dikshita Agarwal wrote:
-> drivers/media/platform/qcom/vcodec/iris/Makefile | 1 + 
-> .../media/platform/qcom/vcodec/iris/iris_buffer.c | 48 ++ 
-> .../media/platform/qcom/vcodec/iris/iris_common.h | 1 + 
-> .../media/platform/qcom/vcodec/iris/iris_core.h | 2 + 
-> .../media/platform/qcom/vcodec/iris/iris_helpers.c | 13 + 
-> .../media/platform/qcom/vcodec/iris/iris_helpers.h | 4 + 
-> .../platform/qcom/vcodec/iris/iris_instance.h | 2 + 
-> .../media/platform/qcom/vcodec/iris/iris_vdec.c | 1 + 
-> .../media/platform/qcom/vcodec/iris/vpu_common.h | 8 + 
-> .../media/platform/qcom/vcodec/iris/vpu_iris3.c | 6 + 
-> .../platform/qcom/vcodec/iris/vpu_iris3_buffer.c | 201 +++++ 
-> .../platform/qcom/vcodec/iris/vpu_iris3_buffer.h | 845 +++++++++++++++++++++
+On 18/12/2023 18:38, Dmitry Baryshkov wrote:
+> On 18/12/2023 13:31, Dikshita Agarwal wrote:
+>> This patch series introduces support for Qualcomm new video acceleration
+>> hardware architecture, used for video stream decoding/encoding. This 
+>> driver
+>> is based on new communication protocol between video hardware and 
+>> application
+>> processor.
+> 
+> This doesn't answer one important point, you have been asked for v1. 
+> What is the actual change point between Venus and Iris? What has been 
+> changed so much that it demands a separate driver. This is the main 
+> question for the cover letter, which has not been answered so far.
+> 
+>  From what I see from you bindings, the hardware is pretty close to what 
+> we see in the latest venus generations. I asssme that there was a change 
+> in the vcodec inteface to the firmware and other similar changes. Could 
+> you please point out, which parts of Venus driver do no longer work or 
+> are not applicable for sm8550?
 
-So, unless the code you are adding effects existing upstream venus, I 
-think it would be a bit easier to review if you squashed down changes 
-that pertain to Iris only.
+I'd like to hear this detail too.
 
-For example this patch seems to relate to Iris only, so why is it a 
-progressive change within your series.
+Grazing on some of the patches here I saw were we adding vb2 buffer ops, 
+which is already supported by venus.
 
-Similar comment for "add vb2 streaming and buffer ops" and other "add 
-feature x" patches in this series.
+Similar question on booting cores and doing a busy/wait instead of a 
+rendezvous based on an IRQ.
 
-If the change is contained to your own codebase, then progressive 
-changes are more noise than content.
-
-Please try to squash down changes - to reduce the number of patches and 
-the total LOC being proposed here.
+I feel there's a version of this series that can probably unify the 
+codebases but, am open to being told how that is incorrect.
 
 ---
 bod
+
 
