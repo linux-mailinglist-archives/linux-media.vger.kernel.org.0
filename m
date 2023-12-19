@@ -1,212 +1,96 @@
-Return-Path: <linux-media+bounces-2635-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2636-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C5F6817D1D
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 23:08:45 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0046A817EC6
+	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 01:25:00 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C92FF284741
-	for <lists+linux-media@lfdr.de>; Mon, 18 Dec 2023 22:08:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E756B1C21616
+	for <lists+linux-media@lfdr.de>; Tue, 19 Dec 2023 00:24:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0C25740A3;
-	Mon, 18 Dec 2023 22:08:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 19CEA7EC;
+	Tue, 19 Dec 2023 00:24:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Z0wNal1V"
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="bOxFJSUD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D826873460
-	for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 22:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-50e297d0692so2553793e87.1
-        for <linux-media@vger.kernel.org>; Mon, 18 Dec 2023 14:08:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1702937307; x=1703542107; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=wsJa9VdYDRrbXCF+P/wnlKDM0XN+e4MY7opB/mrRfg8=;
-        b=Z0wNal1VQ7Kdy/7b8yGl7s+thny0Aqm1eWmiURw2eSY/YQcsRYa479ySRHP+nkrU5d
-         75fT0L+dyz9VNlWGQCsryiGrCuQvjtnQLzyxhHY7fY5MdF4VOIeSD5TzJaW3c/WrZt6F
-         VD6RNtW4h3jRNzeMveulAdbVxj/0Y1BzoJqdevAGrBJsjZGst6vy+Iumn192oU6eXZSa
-         otL5OOZ+SILo9zzhksHcmDTBe89I7BeGYpc+TIkxpt/iRt+dAKGCBxyi5PwR41vPOJ/3
-         RPmPM52d+TA3MT/RuElliEO3GY1222T/WljQVPhia3FBtg2u9qf0ZAejNCaviBKdfaIx
-         1HLw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1702937307; x=1703542107;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=wsJa9VdYDRrbXCF+P/wnlKDM0XN+e4MY7opB/mrRfg8=;
-        b=PQEMz5sIHKJfmE1hkgljNjlv3mcqoPNiIsjtHswX+3pe6tmQ4vlDZXb5Uu3FPTJ/Cg
-         FFmO7ntenoOpK/DinC231oBcC72keCp7O4sqmvEtA7KPCUbXeJM20an4Z8nbRNYAPOK8
-         gYwQq/SqfufxHB7w9xlUuML7/H9r7wQFMj+o59t9ISWxv6F5ZYIUXWlkGeZfVYRFQkek
-         NuyF7BgHfbsWi+yQwb2km9Nowg1bgwT4L8oKX2p16O0oplXdoMCB9VuBKotXw60BuWeH
-         3PBSb4uiwhxhVkc898Fm0XOBZMxNORq/ru824ZFvzqEO63dMuZiKQwgQWdeONh7PTArK
-         EkaA==
-X-Gm-Message-State: AOJu0YwRwu5qGG+0xwfOmcVgDtm/JYGIN2MoN276/AD+zHJOe4GAVGWq
-	hs3bOtSQgmy1tfnDF4V5x/tmvFCyPCIrBg==
-X-Google-Smtp-Source: AGHT+IEdfj+yQB03trrUmdxVJSj7D983Xg4QmP/J8O1XsOxdm8nbN0BEDhzbXyO11tY5JZQGk3Z7zw==
-X-Received: by 2002:a05:6512:33d4:b0:50e:3007:620f with SMTP id d20-20020a05651233d400b0050e3007620fmr42489lfg.7.1702937306906;
-        Mon, 18 Dec 2023 14:08:26 -0800 (PST)
-Received: from [172.30.205.119] (UNUSED.212-182-62-129.lubman.net.pl. [212.182.62.129])
-        by smtp.gmail.com with ESMTPSA id c16-20020a197610000000b0050bf30083b2sm2998297lff.142.2023.12.18.14.08.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 18 Dec 2023 14:08:26 -0800 (PST)
-Message-ID: <8e587947-4ae1-49c0-9d54-b95f9d539a7c@linaro.org>
-Date: Mon, 18 Dec 2023 23:08:25 +0100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13015188;
+	Tue, 19 Dec 2023 00:24:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Received: from localhost (unknown [IPv6:2601:280:5e00:7e19::646])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4E9072E5;
+	Tue, 19 Dec 2023 00:24:49 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4E9072E5
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1702945489; bh=OPQg0XnkdGeiUBJEXEk03nVNNZ30jQedGCx11zjRDkA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bOxFJSUDuEy0zuyJUSORclt99KuLOOaeyATE8MzYMh6+KVEgSwALI2YwI7iywxrI4
+	 lEbK8iTNWGv2xv7NlxTpRZlC0GT2cQsiV7GE9fPn2NJeKGsm0ZMhd3TBlXX8m+mF03
+	 bDMcrdknHJpzazl/8Bhaydtv17gLPM2NNygkfA8btehhBEj50WivRZ9X9JrJ9qe4q0
+	 y3DZvNexPcNOjlkqIvd1a0jsxdZN2XVRoCJEB3PevJFZEaGFXdWWl4k+1pFuRenQy6
+	 YUeaCgHoPdNMpM8D98LVQhVgaZVOEiSzk+pUAYWL8ioJciTyLbrED4yvYbXXVGaTY7
+	 c1igDQFDrlK2A==
+From: Jonathan Corbet <corbet@lwn.net>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman
+ <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/3] staging: media: ipu3: Remove some excess struct member
+ documentation
+Date: Mon, 18 Dec 2023 17:24:48 -0700
+Message-ID: <87h6kfjay7.fsf@meer.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 13/34] media: iris: introduce platform specific
- capabilities for core and instance
-Content-Language: en-US
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- stanimir.k.varbanov@gmail.com, quic_vgarodia@quicinc.com, agross@kernel.org,
- andersson@kernel.org, mchehab@kernel.org, bryan.odonoghue@linaro.org
-Cc: linux-arm-msm@vger.kernel.org, quic_abhinavk@quicinc.com
-References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
- <1702899149-21321-14-git-send-email-quic_dikshita@quicinc.com>
-From: Konrad Dybcio <konrad.dybcio@linaro.org>
-In-Reply-To: <1702899149-21321-14-git-send-email-quic_dikshita@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
+Remove kerneldoc entries for struct members that do not exist, fixing these
+warnings:
 
+  ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved1' description in 'ipu3_uapi_acc_param'
+  ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2522: warning: Excess struct member 'reserved2' description in 'ipu3_uapi_acc_param'
+  ./drivers/staging/media/ipu3/include/uapi/intel-ipu3.h:2778: warning: Excess struct member '__acc_osys' description in 'ipu3_uapi_flags'
 
-On 12/18/23 12:32, Dikshita Agarwal wrote:
-> Capabilities are set of video specifications and features supported
-> by a specific platform(SOC). Each capability is defined with
-> min, max, range, default value and corresponding HFI.
-> 
-> Also, platform data defines different resource details for
-> a specific platform(SOC). This change defines resource tables
-> for sm8550 platform data and use for initializing these resources.
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
-[...]
-[...]
+Signed-off-by: Jonathan Corbet <corbet@lwn.net>
+---
+ drivers/staging/media/ipu3/include/uapi/intel-ipu3.h | 3 ---
+ 1 file changed, 3 deletions(-)
 
-> -	ret = protect_secure_region(CP_START, CP_SIZE, CP_NONPIXEL_START,
-> -				    CP_NONPIXEL_SIZE, IRIS_PAS_ID);
-> +	cp_start = core->cap[CP_START].value;
-> +	cp_size = core->cap[CP_SIZE].value;
-> +	cp_nonpixel_start = core->cap[CP_NONPIXEL_START].value;
-> +	cp_nonpixel_size = core->cap[CP_NONPIXEL_SIZE].value;
-but you just hardcoded these a couple patches ago.. are they
-variable after all?
+diff --git a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+index caa358e0bae4..4aa2797f5e3c 100644
+--- a/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
++++ b/drivers/staging/media/ipu3/include/uapi/intel-ipu3.h
+@@ -2485,11 +2485,9 @@ struct ipu3_uapi_anr_config {
+  *		&ipu3_uapi_yuvp1_y_ee_nr_config
+  * @yds:	y down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @chnr:	chroma noise reduction config. See &ipu3_uapi_yuvp1_chnr_config
+- * @reserved1: reserved
+  * @yds2:	y channel down scaler config. See &ipu3_uapi_yuvp1_yds_config
+  * @tcc:	total color correction config as defined in struct
+  *		&ipu3_uapi_yuvp2_tcc_static_config
+- * @reserved2: reserved
+  * @anr:	advanced noise reduction config.See &ipu3_uapi_anr_config
+  * @awb_fr:	AWB filter response config. See ipu3_uapi_awb_fr_config
+  * @ae:	auto exposure config  As specified by &ipu3_uapi_ae_config
+@@ -2724,7 +2722,6 @@ struct ipu3_uapi_obgrid_param {
+  * @acc_ae: 0 = no update, 1 = update.
+  * @acc_af: 0 = no update, 1 = update.
+  * @acc_awb: 0 = no update, 1 = update.
+- * @__acc_osys: 0 = no update, 1 = update.
+  * @reserved3: Not used.
+  * @lin_vmem_params: 0 = no update, 1 = update.
+  * @tnr3_vmem_params: 0 = no update, 1 = update.
+-- 
+2.43.0
 
-[...]
-
-> +	{DEC_CODECS, H264 | HEVC | VP9},
-> +	{MAX_SESSION_COUNT, 16},
-> +	{MAX_MBPF, 278528}, /* ((8192x4352)/256) * 2 */
-> +	{MAX_MBPS, 7833600}, /* max_load 7680x4320@60fps */
-> +	{NUM_VPP_PIPE, 4},
-> +	{HW_RESPONSE_TIMEOUT, HW_RESPONSE_TIMEOUT_VALUE},
-> +	{DMA_MASK, GENMASK(31, 29) - 1},
-> +	{CP_START, 0},
-> +	{CP_SIZE, 0x25800000},
-> +	{CP_NONPIXEL_START, 0x01000000},
-> +	{CP_NONPIXEL_SIZE, 0x24800000},
-Why this and not an array of enum-indexed u32s?
-
-> +};
-> +
-> +static struct plat_inst_cap instance_cap_data_sm8550[] = {
-you know all of the possible members here as well, you can just
-create a struct of actual configurations instead of turning them
-into generic capabilities that you have to parse either way at
-some point
-
-[...]
-
-> +
-> +static const struct bus_info sm8550_bus_table[] = {
-> +	{ NULL, "iris-cnoc", 1000, 1000     },
-> +	{ NULL, "iris-ddr",  1000, 15000000 },
-This is a copy of the common data from the previous patches that you're
-now dropping (why was it there in the first place then?). Is it specific
-to this platform, or can it be reused?
-> +};
-> +
-> +static const struct clock_info sm8550_clk_table[] = {
-> +	{ NULL, "gcc_video_axi0", GCC_VIDEO_AXI0_CLK, 0 },
-> +	{ NULL, "core_clk",       VIDEO_CC_MVS0C_CLK, 0 },
-> +	{ NULL, "vcodec_core",    VIDEO_CC_MVS0_CLK,  1 },
-> +};
-Are these the input pad names?
-
-> +
-> +static const char * const sm8550_clk_reset_table[] = { "video_axi_reset", NULL };
-Ditto
-
-> +
-> +static const char * const sm8550_pd_table[] = { "iris-ctl", "vcodec", NULL };
-Ditto
-
-> +
-> +static const char * const sm8550_opp_pd_table[] = { "mxc", "mmcx", NULL };
-Ditto
-
-> +
-> +static const struct bw_info sm8550_bw_table_dec[] = {
-> +	{ 2073600, 1608000, 2742000 },	/* 4096x2160@60 */
-> +	{ 1036800,  826000, 1393000 },	/* 4096x2160@30 */
-> +	{  489600,  567000,  723000 },	/* 1920x1080@60 */
-> +	{  244800,  294000,  372000 },	/* 1920x1080@30 */
-> +};
-> +
-> +static const struct reg_preset_info sm8550_reg_preset_table[] = {
-> +	{ 0xB0088, 0x0, 0x11 },
-lowercase hex for non-defines, please
-> +};
-> +
-> +static struct ubwc_config_data ubwc_config_sm8550[] = {
-> +	UBWC_CONFIG(8, 32, 16, 0, 1, 1, 1),
-I think it would be far more telling to drop this #define and fill
-in the values inline
-
-> +};
-> +
-> +struct platform_data sm8550_data = {
-> +	.bus_tbl = sm8550_bus_table,
-> +	.bus_tbl_size = ARRAY_SIZE(sm8550_bus_table),
-> +	.clk_tbl = sm8550_clk_table,
-> +	.clk_tbl_size = ARRAY_SIZE(sm8550_clk_table),
-> +	.clk_rst_tbl = sm8550_clk_reset_table,
-> +	.clk_rst_tbl_size = ARRAY_SIZE(sm8550_clk_reset_table),
-> +
-> +	.bw_tbl_dec = sm8550_bw_table_dec,
-> +	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
-> +
-> +	.pd_tbl = sm8550_pd_table,
-> +	.pd_tbl_size = ARRAY_SIZE(sm8550_pd_table),
-> +	.opp_pd_tbl = sm8550_opp_pd_table,
-> +	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
-> +
-> +	.reg_prst_tbl = sm8550_reg_preset_table,
-> +	.reg_prst_tbl_size = ARRAY_SIZE(sm8550_reg_preset_table),
-> +	.fwname = "vpu30_4v.mbn",
-> +	.pas_id = 9,
-> +
-> +	.core_data = core_data_sm8550,
-> +	.core_data_size = ARRAY_SIZE(core_data_sm8550),
-> +	.inst_cap_data = instance_cap_data_sm8550,
-> +	.inst_cap_data_size = ARRAY_SIZE(instance_cap_data_sm8550),
-> +	.ubwc_config = ubwc_config_sm8550,
-Unless any of these are going to be reused, please inline all of the
-values here..
-
-Konrad
 
