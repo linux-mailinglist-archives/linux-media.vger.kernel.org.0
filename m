@@ -1,201 +1,245 @@
-Return-Path: <linux-media+bounces-2726-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2727-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D37C1819BC1
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 10:53:25 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDDFD819BF5
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 11:03:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 03EB21C22382
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 09:53:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 561EC1F26663
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 10:03:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDCF9200AA;
-	Wed, 20 Dec 2023 09:52:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A4CD2031D;
+	Wed, 20 Dec 2023 10:02:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IPvbDhcs"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lCM7rQ73"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD1B6200C9
-	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 09:52:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-5cece20f006so47116497b3.3
-        for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 01:52:50 -0800 (PST)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC7C920300;
+	Wed, 20 Dec 2023 10:02:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-553338313a0so4326507a12.2;
+        Wed, 20 Dec 2023 02:02:55 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1703065970; x=1703670770; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=hogvja0xVIkkpg3N+6iU77v6ti9BPz5LqsXbI7QDFuQ=;
-        b=IPvbDhcsHFGMrR+miBhc5XqYqZ/YQUo19qKUfbV1EAYvC/Nn1qMv8KI4myGjLt80Aq
-         JB0Rj1MXaWv0KF9B0Yqs8jO+lwtavzPnOTR6wWhfFZR5KjvYlx11DTH/sh4OcQMTMyoF
-         6BIBdlmoKGH4oiLwQZYdC29w2Vg6yTAyFqfDY3x8TeZIuc3XCKnAN6eYIRQVnGhviy4G
-         muWexjKgFVMA5LOtDVbqdITWDcj0C2vJhFiHj1oXZDWForPM9fX3eTnVqfVcKrDxwvqW
-         7ZRUBHpWF4pE8t0r8P1OF81BhR6/W24miMieZrvdOpZbeTmHqe/QfQPTBKETziANxoVz
-         CNTw==
+        d=gmail.com; s=20230601; t=1703066574; x=1703671374; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=kfu0M4uWTXFwTI3vwajeh5o3Zd+yxSRhcHBR++GaThc=;
+        b=lCM7rQ73Dvf+Ml0bIsWoZDkFskt6ucHV6sOOY3G4sdCo/CENNLM/a1GWUbFT5Hq7dV
+         Pa8Hq/ruK5b2sxVoyNIjRBnbR6/9CJSNaxWX+B75xvEyakEyKIVCvG6EZTKTWsBzVBi2
+         SGuVpIsn7INKKlP0PEmcdzSKjTdtDxwzOcYbgJZVBaY/0YQRpKFPnh2jlbOkj1SIs7QF
+         o7k2CypYEG/pRqYtnzrRD0RH239Ny6WAds5/26Or6XImMt5890n1scrm/q4qnpi71vNW
+         ICOhzmESuQ9qk9qsD35BT8XaJhJ5E1oe6UoxxpKTmM/psBsVDu7YpPU4ok0oaGICTks+
+         y3Gg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703065970; x=1703670770;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=hogvja0xVIkkpg3N+6iU77v6ti9BPz5LqsXbI7QDFuQ=;
-        b=EL1rSFo4+XOo2iqvIhqTAgJc9VVYzfwStNWaqO2hK6fKG+YMeoKSiHBxQJSs4duetd
-         02cbqZf7f5t+x/F75XKFgUFY4/3X0sUB476D6VO2M7OmpAqdRl7s1C6O5kMFM/Wfyg+l
-         QuqiNQUTvj67i3lpVlaBOse1LaXomqWIRNRtwjueuC1VZ5QqQ0jk7fQGY0dK1R8sr1q4
-         ZGKrKzZMw1xN/RX3vTq+H0XYmYQnAzQN6qKQ2YLppCx9/T8tWCaQ/d9DWNdDq1NCRA7c
-         njVO9AXhP51+2CnLBRVobwj8pZTU1bdP3lga0U0+z8MaKGh727wAj9LMjxKiSw3KPK0+
-         XN2Q==
-X-Gm-Message-State: AOJu0YwIwcf8YtJVCrgLd+VHP89cjAHb9mpawwxrZMAdGAv9gT04jdBO
-	h4lFfq5HSWQBd8J7o771HKY0CcebPYS0ZeXL+S+pvg==
-X-Google-Smtp-Source: AGHT+IHa9abAxBqfvgu2VEATjTXP7RsILfCHv1QAK1a136nQqIhAC3OMNah3ueuDGBDBTH9DAWreJ+FsKm4O3eoCxVA=
-X-Received: by 2002:a81:6e42:0:b0:5e7:6f2d:aa90 with SMTP id
- j63-20020a816e42000000b005e76f2daa90mr2340336ywc.3.1703065969854; Wed, 20 Dec
- 2023 01:52:49 -0800 (PST)
+        d=1e100.net; s=20230601; t=1703066574; x=1703671374;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kfu0M4uWTXFwTI3vwajeh5o3Zd+yxSRhcHBR++GaThc=;
+        b=aXkm9uPFMWZM8FgI4s/RUtIOmhNmxzVrxiV8Wp8RBpCx1P7JLOWANdp7cRU/gBZm7U
+         oh0u/zs7JKf70WZOO2YGtwuCxuCrCv7RnaqnD17Vk45Cvt6wgXXnDr8wj6AgcjyGLqfA
+         AnEwXledI410AGYXDPq+Ejvc6HaPwWBZDkgh+LcI46xqKw3fxWKFp4Lqswt4CKrkELm7
+         aOLJy1hvxWHBxGhLgYtrzc8eCy3e/egsZ6uqoemfW5px+7micJ/vk3vAfY6VNGpMSUb8
+         pRGmbhvav1cgrXgvB2L+KuwQPlHX9HlXTRIhJa+/tiHf/ZuSpE1X6M8tlnozmjyxMvTe
+         wwbw==
+X-Gm-Message-State: AOJu0YxCV9vk7YMeUpgFypLrV+PHo3pWNJ4ZJx69bfugRJ/p/8HdsWnx
+	o19s+u+GGsqgK8py55lzT2eS2/176H0=
+X-Google-Smtp-Source: AGHT+IFF3B7AIruRKJwSxlwY7IYqV04Xf8hAr0rl9q0r+FbP+wZb6Aj0YIkYfEccPOnPYu+ArX6wKg==
+X-Received: by 2002:a50:bb44:0:b0:553:2b04:14a2 with SMTP id y62-20020a50bb44000000b005532b0414a2mr3316554ede.14.1703066573994;
+        Wed, 20 Dec 2023 02:02:53 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-229.cust.vodafonedsl.it. [188.217.59.229])
+        by smtp.gmail.com with ESMTPSA id m11-20020a50cc0b000000b0054cb316499dsm12420971edi.10.2023.12.20.02.02.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Dec 2023 02:02:53 -0800 (PST)
+Date: Wed, 20 Dec 2023 11:02:51 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linuxfancy@googlegroups.com, martin.hecht@avnet.eu,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] media: i2c: alvium: removal of fr field
+Message-ID: <ZYK7y/jaEZ2JHsnH@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231220085609.2595732-1-tomm.merciai@gmail.com>
+ <20231220085609.2595732-3-tomm.merciai@gmail.com>
+ <20231220091309.GG29638@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
- <a033dfc5-dcf1-4969-ad4d-1836ff9ff0a3@linaro.org> <d0ea23ae-8fba-d229-b0f6-dc522f285233@quicinc.com>
- <CAA8EJpouBOLJ_1Pz_YauuOX+97ud9RkLYRaui4GM6ZFJUKYJMw@mail.gmail.com>
- <9d94317c-5da9-5494-26a2-12007761a1e5@quicinc.com> <CAA8EJpoCGRT=eETab8mF2MZZ04RmCkNnFKaRBFoUYk5qqDAPhg@mail.gmail.com>
- <eb288a33-a8c3-9dea-ffc1-e97a69be9a4c@quicinc.com>
-In-Reply-To: <eb288a33-a8c3-9dea-ffc1-e97a69be9a4c@quicinc.com>
-From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
-Date: Wed, 20 Dec 2023 11:52:38 +0200
-Message-ID: <CAA8EJprZ1TK7UwfhSh2PtwuNJLUMace7MWnzQkrUMqV5R+WgOA@mail.gmail.com>
-Subject: Re: [PATCH v2 00/34] Qualcomm video encoder and decoder driver
-To: Vikash Garodia <quic_vgarodia@quicinc.com>
-Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stanimir.k.varbanov@gmail.com, 
-	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org, 
-	mchehab@kernel.org, bryan.odonoghue@linaro.org, linux-arm-msm@vger.kernel.org, 
-	quic_abhinavk@quicinc.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231220091309.GG29638@pendragon.ideasonboard.com>
 
-On Wed, 20 Dec 2023 at 10:53, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
->
-> On 12/20/2023 2:09 PM, Dmitry Baryshkov wrote:
-> > On Wed, 20 Dec 2023 at 10:14, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
-> >>
-> >> Hi,
-> >>
-> >> On 12/20/2023 1:07 PM, Dmitry Baryshkov wrote:
-> >>> On Wed, 20 Dec 2023 at 08:32, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
-> >>>>
-> >>>> Hi Dmitry,
-> >>>>
-> >>>> On 12/19/2023 12:08 AM, Dmitry Baryshkov wrote:
-> >>>>> On 18/12/2023 13:31, Dikshita Agarwal wrote:
-> >>>>>> This patch series introduces support for Qualcomm new video acceleration
-> >>>>>> hardware architecture, used for video stream decoding/encoding. This driver
-> >>>>>> is based on new communication protocol between video hardware and application
-> >>>>>> processor.
-> >>>>>
-> >>>>> This doesn't answer one important point, you have been asked for v1. What is the
-> >>>>> actual change point between Venus and Iris? What has been changed so much that
-> >>>>> it demands a separate driver. This is the main question for the cover letter,
-> >>>>> which has not been answered so far.
-> >>>>>
-> >>>>> From what I see from you bindings, the hardware is pretty close to what we see
-> >>>>> in the latest venus generations. I asssme that there was a change in the vcodec
-> >>>>> inteface to the firmware and other similar changes. Could you please point out,
-> >>>>> which parts of Venus driver do no longer work or are not applicable for sm8550
-> >>>>
-> >>>> The motivation behind having a separate IRIS driver was discussed earlier in [1]
-> >>>> In the same discussion, it was ellaborated on how the impact would be with
-> >>>> change in the new firmware interface and other video layers in the driver. I can
-> >>>> add this in cover letter in the next revision.
-> >>>
-> >>> Ok. So the changes cover the HFI interface. Is that correct?
-> >> Change wise, yes.
-> >>
-> >>>> We see some duplication of code and to handle the same, the series brings in a
-> >>>> common code reusability between iris and venus. Aligning the common peices of
-> >>>> venus and iris will be a work in progress, once we land the base driver for iris.
-> >>>
-> >>> This is not how it usually works. Especially not with the patches you
-> >>> have posted.
-> >>>
-> >>> I have the following suggestion how this story can continue:
-> >>> You can _start_ by reworking venus driver, separating the HFI /
-> >>> firmware / etc interface to an internal interface in the driver. Then
-> >>> implement Iris as a plug in for that interface. I might be mistaken
-> >>> here, but I think this is the way how this can be beneficial for both
-> >>> the video en/decoding on both old and new platforms.
-> >>
-> >> HFI/firmware interface is already confined to HFI layer in the existing venus
-> >> driver. We explained in the previous discussion [1], on how the HFI change
-> >> impacts the other layers by taking example of a DRC usecase. Please have a look
-> >> considering the usecase and the impact it brings to other layers in the driver.
-> >
-> > I have looked at it. And I still see huge change in the interface
-> > side, but it doesn't tell me about the hardware changes.
->
-> I hope you noticed how the common layers like decoder, response, state layers
-> are impacted in handling one of usecase. Now add that to all the different
-> scenarios like seek, drain, DRC during seek, DRC during drain, etc.
+Hi Laurent,
+Thanks for your review.
 
-Yes, for sure.
+On Wed, Dec 20, 2023 at 11:13:09AM +0200, Laurent Pinchart wrote:
+> Hi Tommaso,
+> 
+> Thank you for the patch.
+> 
+> Use the imperative in the subject line:
+> 
+> media: i2c: alvium: Remove the fr field of the alvium_dev structure
+> 
+> On Wed, Dec 20, 2023 at 09:56:07AM +0100, Tommaso Merciai wrote:
+> > The fr (frame rate) field of the alvium_dev structure is
+> > only used to pass result from alvium_set_frame_interval() to
+> > alvium_set_frame_rate() that writes this info into the hw reg.
+> > Replace them with function parameter.
+> 
+> Replace it with a function parameter.
 
->
-> > Have you evaluated the other opportunity?
-> >
-> > To have a common platform interface and firmware-specific backend?
-> >
-> > You have already done a part of it, but from a different perspective.
-> > You have tried to move common code out of the driver. Instead we are
-> > asking you to do a different thing. Move non-common code within the
-> > driver. Then add your code on top of that.
->
-> For common platform - yes, we are bringing in common stuff like PIL.
-> Other than that, abstraction to firmware interface is not that confined to one
-> layer. It spreads over decoder/encoder/common layers. Now when majority of the
-> layers/code is different, we planned to make it in parallel to venus and have a
-> common layer having common things to both iris and venus.
+Thanks I'll fix this in v3.
 
-My suggestion still holds. Start with this common platform code.
-Rather than arguing back and forth, could you please perform an
-experiment on the current venus driver and move firmware interface to
-subdirs, leaving just the platform / PIL / formats / etc in place?
-This will at least allow us to determine whether it is a feasible
-concept or not.
+> 
+> > 
+> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > ---
+> >  drivers/media/i2c/alvium-csi2.c | 24 ++++++++++++------------
+> >  drivers/media/i2c/alvium-csi2.h |  1 -
+> >  2 files changed, 12 insertions(+), 13 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+> > index 0dcd69bf9f92..a9ff6cc97cff 100644
+> > --- a/drivers/media/i2c/alvium-csi2.c
+> > +++ b/drivers/media/i2c/alvium-csi2.c
+> > @@ -1185,19 +1185,19 @@ static int alvium_get_frame_interval(struct alvium_dev *alvium,
+> >  	return ret;
+> >  }
+> >  
+> > -static int alvium_set_frame_rate(struct alvium_dev *alvium)
+> > +static int alvium_set_frame_rate(struct alvium_dev *alvium, u64 fr)
+> >  {
+> >  	struct device *dev = &alvium->i2c_client->dev;
+> >  	int ret;
+> >  
+> >  	ret = alvium_write_hshake(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_RW,
+> > -				  alvium->fr);
+> > +				  fr);
+> >  	if (ret) {
+> >  		dev_err(dev, "Fail to set frame rate lanes reg\n");
+> >  		return ret;
+> >  	}
+> >  
+> > -	dev_dbg(dev, "set frame rate: %llu us\n", alvium->fr);
+> > +	dev_dbg(dev, "set frame rate: %llu us\n", fr);
+> >  
+> >  	return 0;
+> >  }
+> > @@ -1661,10 +1661,11 @@ static int alvium_g_frame_interval(struct v4l2_subdev *sd,
+> >  }
+> >  
+> >  static int alvium_set_frame_interval(struct alvium_dev *alvium,
+> > -				     struct v4l2_subdev_frame_interval *fi)
+> > +				     struct v4l2_subdev_frame_interval *fi,
+> > +				     u64 *req_fr)
+> >  {
+> >  	struct device *dev = &alvium->i2c_client->dev;
+> > -	u64 req_fr, dft_fr, min_fr, max_fr;
+> > +	u64 dft_fr, min_fr, max_fr;
+> >  	int ret;
+> >  
+> >  	if (fi->interval.denominator == 0)
+> > @@ -1681,13 +1682,12 @@ static int alvium_set_frame_interval(struct alvium_dev *alvium,
+> >  	dev_dbg(dev, "fi->interval.denominator = %d\n",
+> >  		fi->interval.denominator);
+> >  
+> > -	req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
+> > +	*req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
+> >  		       fi->interval.numerator);
+> >  
+> > -	if (req_fr >= max_fr && req_fr <= min_fr)
+> > -		req_fr = dft_fr;
+> > +	if (*req_fr >= max_fr && *req_fr <= min_fr)
+> > +		*req_fr = dft_fr;
+> 
+> Shouldn't we clamp the value to [min, max] instead of using the default
+> if it's out of range ? Something like
+> 
+> 	*req_fr = clamp(*req_fr, min_fr, max_fr)
+> 
+> This makes me realize that the current code is wrong, req_fr can't be >=
+> max and <= min at the same time. You probably meant || instead of &&.
+> 
+> This should be fixed in a separate patch.
 
->
-> >>
-> >> [1] https://lore.kernel.org/lkml/8c97d866-1cab-0106-4ab3-3ca070945ef7@quicinc.com/
-> >>> Short rationale:
-> >>> The venus driver has a history of supported platforms. There is
-> >>> already some kind of buffer management in place. Both developers and
-> >>> testers have spent their effort on finding issues there. Sending new
-> >>> driver means that we have to spend the same amount of efforts on this.
-> >>> Moreover, even from the porter point of view. You are creating new
-> >>> bindings for the new hardware. Which do not follow the
-> >>> venus-common.yaml. And they do not follow the defined bindings for the
-> >>> recent venus platforms. Which means that as a developer I have to care
-> >>> about two different ways to describe nearly the same hardware.>> Again qualcomm video team does not have a plan to support sm8550/x1e80100 on
-> >>>> venus as the changes are too interleaved to absorb in venus driver. And there is
-> >>>> significant interest in community to start validating video driver on sm8550 or
-> >>>> x1e80100.
-> >>>>
-> >>>> [1] https://lore.kernel.org/lkml/8c97d866-1cab-0106-4ab3-3ca070945ef7@quicinc.com/
-> >>>>
-> >>>> Regards,
-> >>>> Vikash
-> >>>
-> >>>
-> >>>
-> >
-> >
-> >
+If this is ok for you, after this series I can put a patch with || fix
+instead of clamping, because if we clamp dft_fr is not used any more.
+After if you agree I will work on clamping.
+Thanks for the catch! :)
+
+> 
+> >  
+> > -	alvium->fr = req_fr;
+> >  	alvium->frame_interval.numerator = fi->interval.numerator;
+> >  	alvium->frame_interval.denominator = fi->interval.denominator;
+> >  
+> > @@ -1699,6 +1699,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> >  				   struct v4l2_subdev_frame_interval *fi)
+> >  {
+> >  	struct alvium_dev *alvium = sd_to_alvium(sd);
+> > +	u64 req_fr = ALVIUM_DEFAULT_FR_HZ;
+> 
+> Do you need to initialize the variable ? It doesn't seem to be required.
+
+Really not, it's just to maintain the logic of alvium->fr. I will drop
+this in v3, thanks!
+
+Regards,
+Tommaso
 
 
-
--- 
-With best wishes
-Dmitry
+> 
+> With these small issues fixed,
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> >  	int ret;
+> >  
+> >  	/*
+> > @@ -1711,9 +1712,9 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> >  	if (alvium->streaming)
+> >  		return -EBUSY;
+> >  
+> > -	ret = alvium_set_frame_interval(alvium, fi);
+> > +	ret = alvium_set_frame_interval(alvium, fi, &req_fr);
+> >  	if (!ret)
+> > -		ret = alvium_set_frame_rate(alvium);
+> > +		ret = alvium_set_frame_rate(alvium, req_fr);
+> >  
+> >  	return ret;
+> >  }
+> > @@ -2273,7 +2274,6 @@ static int alvium_subdev_init(struct alvium_dev *alvium)
+> >  	/* Setup initial frame interval*/
+> >  	alvium->frame_interval.numerator = 1;
+> >  	alvium->frame_interval.denominator = ALVIUM_DEFAULT_FR_HZ;
+> > -	alvium->fr = ALVIUM_DEFAULT_FR_HZ;
+> >  
+> >  	/* Setup the initial mode */
+> >  	alvium->mode.fmt = alvium_csi2_default_fmt;
+> > diff --git a/drivers/media/i2c/alvium-csi2.h b/drivers/media/i2c/alvium-csi2.h
+> > index 17f0bbbd1839..80066ac25047 100644
+> > --- a/drivers/media/i2c/alvium-csi2.h
+> > +++ b/drivers/media/i2c/alvium-csi2.h
+> > @@ -443,7 +443,6 @@ struct alvium_dev {
+> >  
+> >  	struct alvium_mode mode;
+> >  	struct v4l2_fract frame_interval;
+> > -	u64 fr;
+> >  
+> >  	u8 h_sup_csi_lanes;
+> >  	u64 link_freq;
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
