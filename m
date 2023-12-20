@@ -1,216 +1,145 @@
-Return-Path: <linux-media+bounces-2685-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2686-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95D6B8199A2
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 08:37:05 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E19D8199A8
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 08:38:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4EDA528672D
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 07:37:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C32F41F257AF
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 07:38:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9917179BF;
-	Wed, 20 Dec 2023 07:36:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39CC716434;
+	Wed, 20 Dec 2023 07:37:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="P7++SjMr";
-	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="Rv/AZ9EE"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MvhJHkJR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62E4E1775F;
-	Wed, 20 Dec 2023 07:36:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 8228b7e09f0a11eea5db2bebc7c28f94-20231220
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=WtYjAXFT0eXBVhrZ1wmxOv0sZVtsLm28htNzWpMoA20=;
-	b=P7++SjMrqvF2uC9fgJ7qFuRDyH/DBZUK2kBZ8bCI1Glzox3L4s3k1FZ6e/zEFJtgMrRjjdwjsD/qSUyLqrnlWKarDTz48zaTQI1Himxxn1Dsxrxyi6bBMTEjRNvzkPDLDUmFM4JBmgr0Zljpj1yZhbS5hbTcBJ58XWKGtCUNxwE=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.1.35,REQID:f1d531d1-9d84-4055-9165-cce80743a5d7,IP:0,U
-	RL:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:0
-X-CID-META: VersionHash:5d391d7,CLOUDID:8ecdf881-8d4f-477b-89d2-1e3bdbef96d1,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0,EDM:-3,IP:nil,U
-	RL:0,File:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,
-	DKR:0,DKP:0,BRR:0,BRE:0
-X-CID-BVR: 0
-X-CID-BAS: 0,_,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-UUID: 8228b7e09f0a11eea5db2bebc7c28f94-20231220
-Received: from mtkmbs14n1.mediatek.inc [(172.21.101.75)] by mailgw01.mediatek.com
-	(envelope-from <jason-jh.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1382449833; Wed, 20 Dec 2023 15:36:37 +0800
-Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
- mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1118.26; Wed, 20 Dec 2023 15:36:36 +0800
-Received: from APC01-PSA-obe.outbound.protection.outlook.com (172.21.101.237)
- by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
- 15.2.1118.26 via Frontend Transport; Wed, 20 Dec 2023 15:36:36 +0800
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=MOLBPKfpJIUgCl7faIzyThsR8oiRvTaMQGNWUA8RstgJRPJ0RK0v75Xwy3sVgOj/u8bWbvmjIYwaCXp65U56Le/gTTEKByhfsNpSceo7F/eaWc5efOeNbpRegWWdVs7aE5igx4S7UbP63nsvoDSpHqqw12zTkppmML3Ka4ANmu+sRZ4C5GVGEVqXpe7QMPQWe8/I6OWzGmU1D2YWmskF+DxKc6KNlsSr77e8sClPr1idSnkEuhICxDjDUp4x+Dm8dzH+QUNLrs9qQD6HiYYPXqfmuyaJ91G9FakZsBz8anRh9nddawDBbUlJax2gIZGdka6b+LWOmM9fPkv9iXzaVg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WtYjAXFT0eXBVhrZ1wmxOv0sZVtsLm28htNzWpMoA20=;
- b=QY2Pgmwj9Rlvu9EEtcAnNYZ3+uJkPFsK4AtYONiV89a8LYXH4yauhyKpZo8NjFB/JKykDAqexUKCSt92Lg/JF2bOrvyGbdgMKfLoLz1ORsLKC8RB6NktsrkS8bGFTOugBoMwd1YW33Ad8KsJXguqRFde4CVTJBatEC8L8sYC1hzA97dUIL09DeB35syHT85tTz7O9Uc5Xk+H+24+m48MpcShUG//U3HHS7EmJHwXlVpSDuWf6th5v6ntYnh8m9CfF4E1EzMSaYGkADdMryO8nfzEDYneKfshf8A2HTWIpd0srzoPojitet30wdOKqM5nx5R3M9yt2nH3LqlE11wYVw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
- dkim=pass header.d=mediatek.com; arc=none
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2535B1D52B
+	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 07:37:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-5e734251f48so3987297b3.1
+        for <linux-media@vger.kernel.org>; Tue, 19 Dec 2023 23:37:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WtYjAXFT0eXBVhrZ1wmxOv0sZVtsLm28htNzWpMoA20=;
- b=Rv/AZ9EEKXSpp3laB+hqpgfJB07srjSVQaVKnp8LoXUeVOu3WVXELEe6bipqp7Qhhp1A/8nTo9217wVRSupjS3NBalIVqucfFFxNG00EyA4bvfL8JxWgtvCuhT2b9ddPEwYRIp793UbeX32+Btj1EsOa4K7ivm26mB+qq8k7ky8=
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com (2603:1096:101:149::11)
- by SEYPR03MB7434.apcprd03.prod.outlook.com (2603:1096:101:13e::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.7091.38; Wed, 20 Dec
- 2023 07:33:31 +0000
-Received: from SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::ebb9:e872:cb84:4a88]) by SEYPR03MB7682.apcprd03.prod.outlook.com
- ([fe80::ebb9:e872:cb84:4a88%5]) with mapi id 15.20.7113.016; Wed, 20 Dec 2023
- 07:33:31 +0000
-From: =?utf-8?B?SmFzb24tSkggTGluICjmnpfnnb/npaUp?= <Jason-JH.Lin@mediatek.com>
-To: "jassisinghbrar@gmail.com" <jassisinghbrar@gmail.com>,
-	"matthias.bgg@gmail.com" <matthias.bgg@gmail.com>,
-	"krzysztof.kozlowski@linaro.org" <krzysztof.kozlowski@linaro.org>,
-	"angelogioacchino.delregno@collabora.com"
-	<angelogioacchino.delregno@collabora.com>, "robh+dt@kernel.org"
-	<robh+dt@kernel.org>, "krzysztof.kozlowski+dt@linaro.org"
-	<krzysztof.kozlowski+dt@linaro.org>, "chunkuang.hu@kernel.org"
-	<chunkuang.hu@kernel.org>
-CC: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
-	=?utf-8?B?U2luZ28gQ2hhbmcgKOW8teiIiOWciyk=?= <Singo.Chang@mediatek.com>,
-	=?utf-8?B?Sm9obnNvbiBXYW5nICjnjovogZbpkasp?= <Johnson.Wang@mediatek.com>,
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	=?utf-8?B?SmFzb24tY2ggQ2hlbiAo6Zmz5bu66LGqKQ==?=
-	<Jason-ch.Chen@mediatek.com>, =?utf-8?B?U2hhd24gU3VuZyAo5a6L5a2d6KyZKQ==?=
-	<Shawn.Sung@mediatek.com>, "mchehab@kernel.org" <mchehab@kernel.org>,
-	=?utf-8?B?TmFuY3kgTGluICjmnpfmrKPonqIp?= <Nancy.Lin@mediatek.com>,
-	"conor+dt@kernel.org" <conor+dt@kernel.org>,
-	Project_Global_Chrome_Upstream_Group
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
-Subject: Re: [PATCH 1/3] dt-bindings: mailbox: mediatek,gce-mailbox: Add
- mediatek,gce-events definition
-Thread-Topic: [PATCH 1/3] dt-bindings: mailbox: mediatek,gce-mailbox: Add
- mediatek,gce-events definition
-Thread-Index: AQHaMY15yDyroEGuI0u0q/zk1UgcpbCxw0yAgAAHQQA=
-Date: Wed, 20 Dec 2023 07:33:31 +0000
-Message-ID: <c74f9c3418fa89eec6e5925573e3f846163c346f.camel@mediatek.com>
-References: <20231218083604.7327-1-jason-jh.lin@mediatek.com>
-	 <20231218083604.7327-2-jason-jh.lin@mediatek.com>
-	 <cafae4ec-337a-4134-8545-d86c4c61c858@linaro.org>
-In-Reply-To: <cafae4ec-337a-4134-8545-d86c4c61c858@linaro.org>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=mediatek.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SEYPR03MB7682:EE_|SEYPR03MB7434:EE_
-x-ms-office365-filtering-correlation-id: fb9ffe79-21af-4a19-bba5-08dc012df762
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: X2hvNrWIlROdgIDNO82oLMOi0+a7hOZnw1bEpfAim/LOT7Kr21BI7wcFRw/KiamMsTiXfUpuLUOR15UnQW3O6UnLIFfMcWJQ0AFNVd5rDfUhzWWG1Q/zB8YBOkHEQtHIdLDeb8udhuhCQlhjnkpqvcDyXN7h6GxTrgga4U0F0I2r+8Jk4hba0yrsRhOL67NIiE6QsndrbNIFwE2nKCkQN0uUIsQCjRsMSISFzyiEhgnw4Ux4aK/vY5vggJzK43VBJjZ6MLuntaSlrg995sR9dquMwzGDM98cQtCAaQXg2v2RNhyKdv5QDH2FPFmngHbBD1of7RWC4UIEwfdV8o0+SOC5rZtbYQVc79UDNXRM2VQbYD/83D2UsoR9f1X6zENLEcND0mPvXvIqF3MyKln32O4ZWM+7tSi3JnVGbeI9Am+NVm90taYMRnIXey2GhszQVRHLfZeDUw3XW/l7ykj7lECT0OoIqOHgobjNSwjyMH0wPvydSFeA0XTC74V6cpVrYV+/uZBo5DeIpkqoVX721DhOt4TFGwBRe90dxNqjvv05oHjOE/f7+8HEHE2o9gMQHUKBsV6LjwDRy2wWrQpVuTQnq902KO3ReWLVQkCpgYCQWlLtVb4yNdeEtxl1JmxkpMmp8gj6ytdF46+AtOwVZ3YDquJIZV4D2p55RzkxP7Bl0o/16FG4VxPIkmbNmKEmgrUXQbwUAK9q2MbKlMKRfw==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SEYPR03MB7682.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230031)(366004)(396003)(136003)(346002)(376002)(39860400002)(230173577357003)(230922051799003)(230273577357003)(186009)(64100799003)(1800799012)(451199024)(76116006)(110136005)(8676002)(91956017)(36756003)(85182001)(54906003)(66556008)(38070700009)(8936002)(64756008)(66946007)(6486002)(71200400001)(86362001)(478600001)(6506007)(4326008)(5660300002)(2616005)(6512007)(7416002)(53546011)(66446008)(66476007)(316002)(2906002)(4001150100001)(15650500001)(26005)(83380400001)(38100700002)(122000001)(41300700001);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Rk55SGdXb3MwOFpIOEx1TGFGeEdxMlprZHVzYjNKeWZESDlTaWVvQytOZ0M0?=
- =?utf-8?B?eWx6bEJEbS9aQlZBbk9GK2p4ZkNKTWtuY0NuV0VMY1dlRHJJSDNOdlgvSks3?=
- =?utf-8?B?ZHFyY056bjFxQUVialBrUnd3elVrd0NQbVY5eG1LaTNhQUdjYktOMUZDWTI3?=
- =?utf-8?B?NzRDYVJQd1NhL0ZXVUcvR0U5ZUxMbGNnY0djMSswc1J0Nk1FeGlETS9PNWwr?=
- =?utf-8?B?b2xxd1BoZlROVkV3WkYvOTlDQW43Mm5nTExoV2xxTTZxMU1SaGNObXhIbkhv?=
- =?utf-8?B?S29VTzEvSUp6bURERzlCZ1hsR1F3Qk5DV01WTWFxdE1jUjB6RjJNV29jRG5z?=
- =?utf-8?B?aGREUEFTSEhyZFBsZzExWUlUVFVpRkE1WlpuRjUrRytIMmRBajZlK1llM0ps?=
- =?utf-8?B?WjNNWmRhbWU5aHVhWjNWUVBLZzF3RnN2YmswL0J3ODAxQjJubnc0Vk1pQmRL?=
- =?utf-8?B?K1BrK3FPUklCWW5taVd5L3d5RnNacWdOaWZWclU0QjFVaEk4NjI5WStKL1lK?=
- =?utf-8?B?Nm9vdzBKVktzVlNzOThINkNpMHVVSXNrMXYrRlpveE0wdjl5RFg4cWJ6a3dq?=
- =?utf-8?B?dGNpWTZpdG1XRmlqNWhKZU9nYkFVQTF3M0drRWdacDQ0by93N3YxRWJHS213?=
- =?utf-8?B?RjlWYU5WQzhCMGx4RC9zZ1R3aytPVnM2V2tuRG9PamRWbmFCWDZQd05aYlZ4?=
- =?utf-8?B?SFRSeVYrY1BOUnRnU3JkZHhwMUZHdlBSeWtRaDU0bnVRcGMxSDFhaWRGYjVT?=
- =?utf-8?B?VUd6YXpyN015L0l6K2FxVXZUd0NWQU05eUo0U3NVeWRKdktRUVlDN3VvRFRR?=
- =?utf-8?B?VHp6cUFoTHA5SnJDQnhpVDdNWXJ1SXlkVGJ0STZzdHhMTWJCMDMzeFBoN2Vn?=
- =?utf-8?B?QU5KMGorZmhlcXkzSVJONzdiaFdkY2xIbTQ4WmQ1VDIxcjhmdTRkWU5Va0k1?=
- =?utf-8?B?VHpITmFSa1pFSVoyNVVqS2lYL0E5Y2V6U2duNHM3ekh0UHo4Q1F2WFE1cUN2?=
- =?utf-8?B?S1lBbnBMeXRuMHRGdHFiNDA2UlJVVnFreDZNUWF5VWtJdzAwUzFxeTFNTG9k?=
- =?utf-8?B?bldFV0VVUFc0TU00Zi9zU1FMVjl3Y3JjbFIrWk81RG9OZ2lsQkFuQUhFbjdk?=
- =?utf-8?B?WHBKU2pXYi8xVkNYbWRieTJWa1hweXR6N0dFeHVyU2tpK1dySVBOKzZ2QnA1?=
- =?utf-8?B?QlVMQldUTTE3QlRWS0NqWUFxRjVwZGdQWlUrTWZ2N1BkYXFUejlQS2lqVnVs?=
- =?utf-8?B?ZzF6aDBLdGZNb2JPaDAwNXJ0eWZiNGdIdzB0WWcvOHRxejR4QUdTdHVaL3lE?=
- =?utf-8?B?cXM0d3FqYlNZbkEwVlY2VkJWV1dhWFYwZWFlSlB3VlREamt4ZlVkNS9XRXcx?=
- =?utf-8?B?OGcremR6c1pMUmtRZEpsMzJrR0FmcGhXRFpxM01TNlNUSUZ6bnVkUVZUMHJx?=
- =?utf-8?B?N3NENXZKZWk1VWh5UGR5MzU2RWJ3TXJFWE9aMUVQb3d1UXk5VnJjbjIwUjkw?=
- =?utf-8?B?UE1za0ErYzk0bFlGWjVkZWViTGRiRThGakpaQjY1d242UW1EOHIzZjZGOXdx?=
- =?utf-8?B?czV1d29nZzNKc25VdFJ5WnhFY0JhS09zS2VBb1pGS1htTXk3bnZ2Z0VEVi9U?=
- =?utf-8?B?dElpd1BhQWpvQ29zVDAyRHJsZGxiRDN2b2NxK1V4QWlPbjdUNGVFTFZkS0Nw?=
- =?utf-8?B?SFhTLzk1ajkyT01qQU1JRmxFcDRSOWNNVWlTQUhGV0I3VVhSemFpT0Q1OFV4?=
- =?utf-8?B?V2E4VU1EM3NiaGJpd3FGSVRFeFBwc3VwdWZZMmFTUndKSWhkcnZtUml0UWZG?=
- =?utf-8?B?UWlXcjdoTW9MdThCMVJ4WFlHcWhIM3JYTUxHQ3RnQVg5NnJkWFdKbkVDTFFl?=
- =?utf-8?B?b2xDM1hWa0I2U3RDNHNNZnMzTC85T1F1NmZoVGJMN3M1WGJEVVpMd1owYmlm?=
- =?utf-8?B?Rk1QenF5dVJPcmVURjh0eCtFYWdzK08yZlovcVdZTGNmSVIyalJ6WmgxempI?=
- =?utf-8?B?K3JvQzIyTlRDN0FFck5xQXgwaENNNURvQURoNGdGUzJKeTd4bUZlRDdjdkd0?=
- =?utf-8?B?UEh2UnV0dTNzTlFENFVQL0ZtY3BxbUxOVjlrTHRQb1ZkcVZtNnR3RUdPV3ND?=
- =?utf-8?B?RXorNnpObFlnL1BLN3lITWhzbCtsVEpMNDMxc2t5d2M1S3Rjc0k0VnZCaXg3?=
- =?utf-8?B?akE9PQ==?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <2B779149D564A64EAD510DD313E138D7@apcprd03.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        d=linaro.org; s=google; t=1703057869; x=1703662669; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4wEy7aKZB6aXhf/1YBwq1yRA/BeCIlX1y23vgvuPgWw=;
+        b=MvhJHkJRIeAKqOOgWypXF708UzfH1UEx39lOtK8Reae7w4ca7T76EcXCOH3cdCMJEk
+         txEgJCavscXcmsuLB0VbJGIu4NMJJGnxrefMCP202YgBYULmVfWAGI2J/QLNGUVGRfHV
+         yUKLVj8ak1Tns7HWnqsoCuoF3MJ+pmMI8i4T2cN+1nR3mitpSi8VpLnK57FMzxJ2acOR
+         TT3xSP5HFX1G0FNw/3Nhc46uo6WSpL02VIQU2Zyi+Xf5Y4QOd2ZBvgduKtPxiH1z0U+X
+         IzWtvb5DENMCcTRmbkUguwmCwtZWUZvrYSJh39XVoeSrKb+3fKACN7AxZ2YkUor2uZeO
+         ekYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703057869; x=1703662669;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4wEy7aKZB6aXhf/1YBwq1yRA/BeCIlX1y23vgvuPgWw=;
+        b=sfO6bi3uBoOB1LgYx4ik/ywFT7H3Swhn6q12kSc/VIuphDZ0n4jLyuvflA49XRsGUG
+         i3h59xO/GotjS5cF9FEfaDWuKjI92zTlwXxfRbCkMcDrUNBRdBe2d4+LvukPJv1oFVMf
+         xWu3yeugNEN2U6hyzP8faePuW1rrySRk3EgtACkVWFtXSsDMS40C3H3pKFOQtIXiuF2m
+         9LA2apf1P5bO0iy4WMYv/bHFIS+AIXNfETgeKpODDQRdZNXZwiBarQrlS7OFHqOgWlwW
+         C/39is5Dgca9psDG6cyF3HQJw+VYT/vLlYtNDA9Hrb62c9bD4Sd3iMZ4OX+I3l7Afard
+         qQhA==
+X-Gm-Message-State: AOJu0YzX0q4kfLRLNWwOxEcv8D320n2omW1xK9UpzO3LFcJw+FP1g5CI
+	dmHdfVvFsfadOEGrPqzcz5ny19zRb3dUPfcdZQ049Q==
+X-Google-Smtp-Source: AGHT+IGR7yLin4e6j26Ca0diNkMq+UpXkjGay37wddrKam/6iQT1PLWaB6BjjU606OEKywmSjK8vjFHclLMr6S1uNB8=
+X-Received: by 2002:a81:4ed6:0:b0:5e4:e8e4:4aa6 with SMTP id
+ c205-20020a814ed6000000b005e4e8e44aa6mr1494439ywb.44.1703057869130; Tue, 19
+ Dec 2023 23:37:49 -0800 (PST)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SEYPR03MB7682.apcprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb9ffe79-21af-4a19-bba5-08dc012df762
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Dec 2023 07:33:31.5074
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 8oD1STE7zLtqPrbuFek5Rph0i9oe7MyT6VTjDZSu26o+oqSskm3UzHSGXZO+ZHG4Q71K1h4fBBMdOGZ+4JFO/F4eQkuPLaK8kAvZ98pGp40=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEYPR03MB7434
+References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
+ <a033dfc5-dcf1-4969-ad4d-1836ff9ff0a3@linaro.org> <d0ea23ae-8fba-d229-b0f6-dc522f285233@quicinc.com>
+In-Reply-To: <d0ea23ae-8fba-d229-b0f6-dc522f285233@quicinc.com>
+From: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>
+Date: Wed, 20 Dec 2023 09:37:38 +0200
+Message-ID: <CAA8EJpouBOLJ_1Pz_YauuOX+97ud9RkLYRaui4GM6ZFJUKYJMw@mail.gmail.com>
+Subject: Re: [PATCH v2 00/34] Qualcomm video encoder and decoder driver
+To: Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stanimir.k.varbanov@gmail.com, 
+	agross@kernel.org, andersson@kernel.org, konrad.dybcio@linaro.org, 
+	mchehab@kernel.org, bryan.odonoghue@linaro.org, linux-arm-msm@vger.kernel.org, 
+	quic_abhinavk@quicinc.com
+Content-Type: text/plain; charset="UTF-8"
 
-SGkgS3J6eXN6dG9mLA0KDQpUaGFua3MgZm9yIHRoZSByZXZpZXdzLg0KDQpPbiBXZWQsIDIwMjMt
-MTItMjAgYXQgMDg6MDcgKzAxMDAsIEtyenlzenRvZiBLb3psb3dza2kgd3JvdGU6DQo+ICAJIA0K
-PiBFeHRlcm5hbCBlbWFpbCA6IFBsZWFzZSBkbyBub3QgY2xpY2sgbGlua3Mgb3Igb3BlbiBhdHRh
-Y2htZW50cyB1bnRpbA0KPiB5b3UgaGF2ZSB2ZXJpZmllZCB0aGUgc2VuZGVyIG9yIHRoZSBjb250
-ZW50Lg0KPiAgT24gMTgvMTIvMjAyMyAwOTozNiwgSmFzb24tSkguTGluIHdyb3RlOg0KPiA+IFNp
-bmNlIG1lZGlhdGVrLGdjZS1ldmVudHMgcHJvcGVydHkgaXMgYSBIVyBldmVudCBzaWduYWwgZnJv
-bSBHQ0UsDQo+ID4gaXQgc2hvdWxkIGJlIGRlZmluZWQgaW4gbWVkaWF0ZWssZ2NlLW1haWxib3gu
-eWFtbCBhbmQgY2hhbmdlIHRoZQ0KPiANCj4gV2h5PyBOb25lIG9mIHRoZSBiaW5kaW5ncyByZWZl
-cmVuY2UgaXQuIERpZCB5b3UganVzdCBtb3ZlIHByb3BlcnR5DQo+IGZyb20NCj4gb25lIGRldmlj
-ZSB0byBjb21wbGV0ZWx5IGRpZmZlcmVudCBvbmU/DQo+IA0KPiA+IGRlc2NyaXB0aW9uIG9mIG1l
-ZGlhdGVrLGdjZS1ldmVudHMgcHJvcGVydHkgaW4gb3RoZXIgYmluZGluZ3MgdG8NCj4gPiByZWZl
-cmVuY2UgbWVkaWF0ZWssZ2NlLW1haWxib3gueWFtbC4NCj4gPiANCj4gPiBTaWduZWQtb2ZmLWJ5
-OiBKYXNvbi1KSC5MaW4gPGphc29uLWpoLmxpbkBtZWRpYXRlay5jb20+DQo+ID4gLS0tDQo+ID4g
-IC4uLi9kZXZpY2V0cmVlL2JpbmRpbmdzL21haWxib3gvbWVkaWF0ZWssZ2NlLW1haWxib3gueWFt
-bCAgfCA3DQo+ICsrKysrKysNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDcgaW5zZXJ0aW9ucygrKQ0K
-PiA+IA0KPiA+IGRpZmYgLS1naXQNCj4gYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGlu
-Z3MvbWFpbGJveC9tZWRpYXRlayxnY2UtbWFpbGJveC55YW1sIA0KPiBiL0RvY3VtZW50YXRpb24v
-ZGV2aWNldHJlZS9iaW5kaW5ncy9tYWlsYm94L21lZGlhdGVrLGdjZS1tYWlsYm94LnlhbWwNCj4g
-PiBpbmRleCBjZWY5ZDc2MDEzOTguLmU0ZGEwYTU4Yzk0MyAxMDA2NDQNCj4gPiAtLS0gYS9Eb2N1
-bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWFpbGJveC9tZWRpYXRlayxnY2UtDQo+IG1h
-aWxib3gueWFtbA0KPiA+ICsrKyBiL0RvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9t
-YWlsYm94L21lZGlhdGVrLGdjZS0NCj4gbWFpbGJveC55YW1sDQo+ID4gQEAgLTQ5LDYgKzQ5LDEz
-IEBAIHByb3BlcnRpZXM6DQo+ID4gICAgICBpdGVtczoNCj4gPiAgICAgICAgLSBjb25zdDogZ2Nl
-DQo+ID4gIA0KPiA+ICsgIG1lZGlhdGVrLGdjZS1ldmVudHM6DQo+ID4gKyAgICBkZXNjcmlwdGlv
-bjoNCj4gPiArICAgICAgVGhlIGV2ZW50IGlkIHdoaWNoIGlzIG1hcHBpbmcgdG8gdGhlIHNwZWNp
-ZmljIGhhcmR3YXJlIGV2ZW50DQo+IHNpZ25hbA0KPiA+ICsgICAgICB0byBnY2UuIFRoZSBldmVu
-dCBpZCBpcyBkZWZpbmVkIGluIHRoZSBnY2UgaGVhZGVyDQo+ID4gKyAgICAgIGluY2x1ZGUvZHQt
-YmluZGluZ3MvZ2NlLzxjaGlwPi1nY2UuaCBvZiBlYWNoIGNoaXBzLg0KPiA+ICsgICAgJHJlZjog
-L3NjaGVtYXMvdHlwZXMueWFtbCMvZGVmaW5pdGlvbnMvdWludDMyLWFycmF5DQo+IA0KPiBXaGVy
-ZSBhcmUgdGhlIGNvbnN0cmFpbnRzPw0KPiANClNpbmNlIHRoZSBHQ0UgSFcgZXZlbnQgaWQgcmFn
-ZSBpcyAwfjEwMjMsDQpJIHdvdWxkIGFkZCBtaW5JdGVtczogMSBhbmQgbWF4SXRlbXM6IDEwMjQg
-aGVyZS4NCg0KUmVnYXJkcw0KSmFzb24tSkguTGluDQoNCj4gQmVzdCByZWdhcmRzLA0KPiBLcnp5
-c3p0b2YNCj4gDQo=
+On Wed, 20 Dec 2023 at 08:32, Vikash Garodia <quic_vgarodia@quicinc.com> wrote:
+>
+> Hi Dmitry,
+>
+> On 12/19/2023 12:08 AM, Dmitry Baryshkov wrote:
+> > On 18/12/2023 13:31, Dikshita Agarwal wrote:
+> >> This patch series introduces support for Qualcomm new video acceleration
+> >> hardware architecture, used for video stream decoding/encoding. This driver
+> >> is based on new communication protocol between video hardware and application
+> >> processor.
+> >
+> > This doesn't answer one important point, you have been asked for v1. What is the
+> > actual change point between Venus and Iris? What has been changed so much that
+> > it demands a separate driver. This is the main question for the cover letter,
+> > which has not been answered so far.
+> >
+> > From what I see from you bindings, the hardware is pretty close to what we see
+> > in the latest venus generations. I asssme that there was a change in the vcodec
+> > inteface to the firmware and other similar changes. Could you please point out,
+> > which parts of Venus driver do no longer work or are not applicable for sm8550
+>
+> The motivation behind having a separate IRIS driver was discussed earlier in [1]
+> In the same discussion, it was ellaborated on how the impact would be with
+> change in the new firmware interface and other video layers in the driver. I can
+> add this in cover letter in the next revision.
+
+Ok. So the changes cover the HFI interface. Is that correct?
+
+> We see some duplication of code and to handle the same, the series brings in a
+> common code reusability between iris and venus. Aligning the common peices of
+> venus and iris will be a work in progress, once we land the base driver for iris.
+
+This is not how it usually works. Especially not with the patches you
+have posted.
+
+I have the following suggestion how this story can continue:
+You can _start_ by reworking venus driver, separating the HFI /
+firmware / etc interface to an internal interface in the driver. Then
+implement Iris as a plug in for that interface. I might be mistaken
+here, but I think this is the way how this can be beneficial for both
+the video en/decoding on both old and new platforms.
+
+Short rationale:
+The venus driver has a history of supported platforms. There is
+already some kind of buffer management in place. Both developers and
+testers have spent their effort on finding issues there. Sending new
+driver means that we have to spend the same amount of efforts on this.
+Moreover, even from the porter point of view. You are creating new
+bindings for the new hardware. Which do not follow the
+venus-common.yaml. And they do not follow the defined bindings for the
+recent venus platforms. Which means that as a developer I have to care
+about two different ways to describe nearly the same hardware.
+
+> Again qualcomm video team does not have a plan to support sm8550/x1e80100 on
+> venus as the changes are too interleaved to absorb in venus driver. And there is
+> significant interest in community to start validating video driver on sm8550 or
+> x1e80100.
+>
+> [1] https://lore.kernel.org/lkml/8c97d866-1cab-0106-4ab3-3ca070945ef7@quicinc.com/
+>
+> Regards,
+> Vikash
+
+
+
+-- 
+With best wishes
+Dmitry
 
