@@ -1,264 +1,547 @@
-Return-Path: <linux-media+bounces-2822-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2823-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2E5E81A580
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 17:42:12 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59F6E81A607
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 18:11:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 58F1A1F23643
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 16:42:12 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC14FB21242
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 17:11:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FC1946548;
-	Wed, 20 Dec 2023 16:41:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68C6047A42;
+	Wed, 20 Dec 2023 17:11:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="RAO8EVIQ"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="XFcrGh3B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F59041A92;
-	Wed, 20 Dec 2023 16:41:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1703090497;
-	bh=OPgFFUmvOS1WxLHlKLqNxmw0nfzw6SxQQ/Mk7uYku+k=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=RAO8EVIQauCFnWuSaXG7gl1s3vdBBXlvWskWInuxxXRTJTZjJ4wTSvshNSSer9rhw
-	 cisOSI3trk6VNvUqWHPRciOWMtewJonydRfHUP0CtuCFAl2Vje87w5f/PdnUCmHt2n
-	 syTZJtz9ItX/cKJ77IR4Y0Axcq+Lyk33dLqeER64QYXL9Sf/KO32gPunOeZyKe6bpw
-	 k7eocz3Cd0pVsa+pQE9DDc6reK0qffw5zq+XxtDcDvBX9bp3cRVu6I5Oi/BW/9PygN
-	 TvKi3ZgXsIOQHv1+iTqww0aQ3wpyYBLUDtRhASO1obkxT346qrJUxurw1PTAB5BBuj
-	 PzhEYxdehBilQ==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id E36FD37814A9;
-	Wed, 20 Dec 2023 16:41:33 +0000 (UTC)
-Message-ID: <8661158082baf37cfd6bac7004c695b805233bd5.camel@collabora.com>
-Subject: Re: [PATCH v4 3/5] media: hantro: add support for STM32MP25 VENC
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hugues Fruchet <hugues.fruchet@foss.st.com>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Benjamin Mugnier
- <benjamin.mugnier@foss.st.com>,  Heiko Stuebner <heiko@sntech.de>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-media@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- linux-stm32@st-md-mailman.stormreply.com, Rob Herring <robh+dt@kernel.org>,
-  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-rockchip@lists.infradead.org
-Cc: Marco Felsch <m.felsch@pengutronix.de>, Adam Ford <aford173@gmail.com>
-Date: Wed, 20 Dec 2023 11:41:30 -0500
-In-Reply-To: <20231220152732.2138260-4-hugues.fruchet@foss.st.com>
-References: <20231220152732.2138260-1-hugues.fruchet@foss.st.com>
-	 <20231220152732.2138260-4-hugues.fruchet@foss.st.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 (3.50.2-1.fc39) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF0AB47798;
+	Wed, 20 Dec 2023 17:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BKGt1fn005241;
+	Wed, 20 Dec 2023 17:10:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=ww4QdLdOt2SV9WInNvNQHvn9X2RPVN6dl00VmBz7/40=; b=XF
+	crGh3Bkx3tRrHgqvxxG9c4jawA4lE1uaFo5Ejr6wSTLYMrg6ww4/WFZeOQ57Nps+
+	7MMHysSyACCDF0ujTtKDgS1wX4ElJ3shuwZevP94mbLkqwNr325qZD6Lw/NCqIjP
+	m088W/P98HohgMi4PvZoh4J0JCGfovR/BLkYw7/f0h0jko3dVS1gHpCMmVMBA/SP
+	2Gdrglo6CTt01qaLD2y6eDa6GWdh2PkCsXpLGh5sfbWbveRIY6HGKEWb+7Yfiiea
+	Qw2mcojnhaCTLD+z5kDlxUrutxc+wNJu5cYw0hvHyx3Wl4NLfOKnbQr5LNp8IA+I
+	PwJVUBQRVXK2r4VDEVtA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v3wr11727-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Dec 2023 17:10:52 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA05.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BKHAp1h029132
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Dec 2023 17:10:51 GMT
+Received: from [10.110.55.244] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Wed, 20 Dec
+ 2023 09:10:50 -0800
+Message-ID: <5ea6f599-cdeb-46e7-14a8-5fceb331cdb3@quicinc.com>
+Date: Wed, 20 Dec 2023 09:10:49 -0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.11.0
+Subject: Re: [PATCH v2 01/34] media: introduce common helpers for video
+ firmware handling
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>
+CC: <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <stanimir.k.varbanov@gmail.com>, <quic_vgarodia@quicinc.com>,
+        <agross@kernel.org>, <andersson@kernel.org>,
+        <konrad.dybcio@linaro.org>, <mchehab@kernel.org>,
+        <bryan.odonoghue@linaro.org>, <linux-arm-msm@vger.kernel.org>
+References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
+ <1702899149-21321-2-git-send-email-quic_dikshita@quicinc.com>
+ <f0682d53-a2f1-4b68-abe1-90a35c9a0641@linaro.org>
+ <87fea0ec-b0c4-1c68-d5b0-86deac8a25d8@quicinc.com>
+ <CAA8EJpqFAEHRa+=ohSC-ucgSkg5CRUpWgGzG4BLbRFnZvqgmtg@mail.gmail.com>
+From: Abhinav Kumar <quic_abhinavk@quicinc.com>
+In-Reply-To: <CAA8EJpqFAEHRa+=ohSC-ucgSkg5CRUpWgGzG4BLbRFnZvqgmtg@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: ArNxfXFdVhOARft_Eh1B9Yrv8ZcIomrL
+X-Proofpoint-GUID: ArNxfXFdVhOARft_Eh1B9Yrv8ZcIomrL
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_01,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
+ phishscore=0 priorityscore=1501 impostorscore=0 mlxscore=0 adultscore=0
+ spamscore=0 mlxlogscore=999 bulkscore=0 clxscore=1011 malwarescore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312200121
 
-Le mercredi 20 d=C3=A9cembre 2023 =C3=A0 16:27 +0100, Hugues Fruchet a =C3=
-=A9crit=C2=A0:
-> Add support for STM32MP25 VENC video hardware encoder.
-> Support of JPEG encoding.
-> VENC has its own reset/clock/irq.
->=20
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+Hi Dmitry
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+On 12/20/2023 12:12 AM, Dmitry Baryshkov wrote:
+> On Wed, 20 Dec 2023 at 10:01, Dikshita Agarwal
+> <quic_dikshita@quicinc.com> wrote:
+>>
+>>
+>>
+>> On 12/18/2023 11:54 PM, Dmitry Baryshkov wrote:
+>>> On 18/12/2023 13:31, Dikshita Agarwal wrote:
+>>>> Re-organize the video driver code by introducing a new folder
+>>>> 'vcodec' and placing 'venus' driver code inside that.
+>>>>
+>>>> Introduce common helpers for trustzone based firmware
+>>>> load/unload etc. which are placed in common folder
+>>>> i.e. 'vcodec'.
+>>>> Use these helpers in 'venus' driver. These helpers will be
+>>>> used by 'iris' driver as well which is introduced later
+>>>> in this patch series.
+>>>
+>>> But why do you need to move the venus driver to subdir?
+>>
+>> Currently venus driver is present in drivers/media/platform/qcom folder
+>> which also has camss folder. We introduced vcodec to keep common code and
+>> moved venus inside that, to indicate that the common code is for vcodec
+>> drivers i.e venus and iris. Keeping this in qcom folder would mean, common
+>> code will be used for camss only which is not the case here.
+> 
+> you can have .../platform/qcom/camss, .../platform/qcom/vcodec-common,
+> .../platform/qcom/venus and .../platform/qcom/iris.
+> 
+> If you were to use build helpers in a proper kernel module, this would
+> be more obvious.
+> 
 
-> ---
->  drivers/media/platform/verisilicon/Makefile   |   3 +-
->  .../media/platform/verisilicon/hantro_drv.c   |   1 +
->  .../media/platform/verisilicon/hantro_hw.h    |   1 +
->  .../platform/verisilicon/stm32mp25_venc_hw.c  | 115 ++++++++++++++++++
->  4 files changed, 119 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/media/platform/verisilicon/stm32mp25_venc_hw.=
-c
->=20
-> diff --git a/drivers/media/platform/verisilicon/Makefile b/drivers/media/=
-platform/verisilicon/Makefile
-> index 5854e0f0dd32..3bf43fdbedc1 100644
-> --- a/drivers/media/platform/verisilicon/Makefile
-> +++ b/drivers/media/platform/verisilicon/Makefile
-> @@ -41,4 +41,5 @@ hantro-vpu-$(CONFIG_VIDEO_HANTRO_SUNXI) +=3D \
->  		sunxi_vpu_hw.o
-> =20
->  hantro-vpu-$(CONFIG_VIDEO_HANTRO_STM32MP25) +=3D \
-> -		stm32mp25_vdec_hw.o
-> +		stm32mp25_vdec_hw.o \
-> +		stm32mp25_venc_hw.o
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
-dia/platform/verisilicon/hantro_drv.c
-> index 2db27c333924..4d97a8ac03de 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -736,6 +736,7 @@ static const struct of_device_id of_hantro_match[] =
-=3D {
->  #endif
->  #ifdef CONFIG_VIDEO_HANTRO_STM32MP25
->  	{ .compatible =3D "st,stm32mp25-vdec", .data =3D &stm32mp25_vdec_varian=
-t, },
-> +	{ .compatible =3D "st,stm32mp25-venc", .data =3D &stm32mp25_venc_varian=
-t, },
->  #endif
->  	{ /* sentinel */ }
->  };
-> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/med=
-ia/platform/verisilicon/hantro_hw.h
-> index b7eccc1a96fc..70c72e9d11d5 100644
-> --- a/drivers/media/platform/verisilicon/hantro_hw.h
-> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
-> @@ -407,6 +407,7 @@ extern const struct hantro_variant rk3588_vpu981_vari=
-ant;
->  extern const struct hantro_variant sama5d4_vdec_variant;
->  extern const struct hantro_variant sunxi_vpu_variant;
->  extern const struct hantro_variant stm32mp25_vdec_variant;
-> +extern const struct hantro_variant stm32mp25_venc_variant;
-> =20
->  extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
->  extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
-> diff --git a/drivers/media/platform/verisilicon/stm32mp25_venc_hw.c b/dri=
-vers/media/platform/verisilicon/stm32mp25_venc_hw.c
-> new file mode 100644
-> index 000000000000..0ff0f073b922
-> --- /dev/null
-> +++ b/drivers/media/platform/verisilicon/stm32mp25_venc_hw.c
-> @@ -0,0 +1,115 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * STM32MP25 VENC video encoder driver
-> + *
-> + * Copyright (C) STMicroelectronics SA 2022
-> + * Authors: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> + *          for STMicroelectronics.
-> + *
-> + */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/delay.h>
-> +#include <linux/reset.h>
-> +
-> +#include "hantro.h"
-> +#include "hantro_jpeg.h"
-> +#include "hantro_h1_regs.h"
-> +
-> +/*
-> + * Supported formats.
-> + */
-> +
-> +static const struct hantro_fmt stm32mp25_venc_fmts[] =3D {
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_YUV420M,
-> +		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.enc_fmt =3D ROCKCHIP_VPU_ENC_FMT_YUV420P,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_NV12M,
-> +		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.enc_fmt =3D ROCKCHIP_VPU_ENC_FMT_YUV420SP,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_YUYV,
-> +		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.enc_fmt =3D ROCKCHIP_VPU_ENC_FMT_YUYV422,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_UYVY,
-> +		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.enc_fmt =3D ROCKCHIP_VPU_ENC_FMT_UYVY422,
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_JPEG,
-> +		.codec_mode =3D HANTRO_MODE_JPEG_ENC,
-> +		.max_depth =3D 2,
-> +		.header_size =3D JPEG_HEADER_SIZE,
-> +		.frmsize =3D {
-> +			.min_width =3D 96,
-> +			.max_width =3D FMT_4K_WIDTH,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D 96,
-> +			.max_height =3D FMT_4K_HEIGHT,
-> +			.step_height =3D MB_DIM,
-> +		},
-> +	},
-> +};
-> +
-> +static irqreturn_t stm32mp25_venc_irq(int irq, void *dev_id)
-> +{
-> +	struct hantro_dev *vpu =3D dev_id;
-> +	enum vb2_buffer_state state;
-> +	u32 status;
-> +
-> +	status =3D vepu_read(vpu, H1_REG_INTERRUPT);
-> +	state =3D (status & H1_REG_INTERRUPT_FRAME_RDY) ?
-> +		VB2_BUF_STATE_DONE : VB2_BUF_STATE_ERROR;
-> +
-> +	vepu_write(vpu, H1_REG_INTERRUPT_BIT, H1_REG_INTERRUPT);
-> +
-> +	hantro_irq_done(vpu, state);
-> +
-> +	return IRQ_HANDLED;
-> +}
-> +
-> +static void stm32mp25_venc_reset(struct hantro_ctx *ctx)
-> +{
-> +}
-> +
-> +/*
-> + * Supported codec ops.
-> + */
-> +
-> +static const struct hantro_codec_ops stm32mp25_venc_codec_ops[] =3D {
-> +	[HANTRO_MODE_JPEG_ENC] =3D {
-> +		.run =3D hantro_h1_jpeg_enc_run,
-> +		.reset =3D stm32mp25_venc_reset,
-> +		.done =3D hantro_h1_jpeg_enc_done,
-> +	},
-> +};
-> +
-> +/*
-> + * Variants.
-> + */
-> +
-> +static const struct hantro_irq stm32mp25_venc_irqs[] =3D {
-> +	{ "venc", stm32mp25_venc_irq },
-> +};
-> +
-> +static const char * const stm32mp25_venc_clk_names[] =3D {
-> +	"venc-clk"
-> +};
-> +
-> +const struct hantro_variant stm32mp25_venc_variant =3D {
-> +	.enc_fmts =3D stm32mp25_venc_fmts,
-> +	.num_enc_fmts =3D ARRAY_SIZE(stm32mp25_venc_fmts),
-> +	.codec =3D HANTRO_JPEG_ENCODER,
-> +	.codec_ops =3D stm32mp25_venc_codec_ops,
-> +	.irqs =3D stm32mp25_venc_irqs,
-> +	.num_irqs =3D ARRAY_SIZE(stm32mp25_venc_irqs),
-> +	.clk_names =3D stm32mp25_venc_clk_names,
-> +	.num_clocks =3D ARRAY_SIZE(stm32mp25_venc_clk_names)
-> +};
-> +
+Although your suggestion is good in terms of avoiding moving venus, I 
+think the location of venus was wrong to begin with. There should have 
+always been a vcodec (or similar) folder for venus/iris as that will 
+establish the boundaries of camss and video sub-system in a cleaner way
 
+I like the mediatek separation that way as it makes the boundaries clear:
+
+drivers/media/platform/mediatek$ ls
+jpeg  Kconfig  Makefile  mdp  mdp3  vcodec  vpu
+
+So I think that this re-org of venus into a vcodec had to happen at some 
+point. Its just that it aligned with iris addition.
+
+>>>
+>>>>
+>>>> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+>>>> ---
+>>>>    drivers/media/platform/qcom/Kconfig                |   2 +-
+>>>>    drivers/media/platform/qcom/Makefile               |   2 +-
+>>>>    drivers/media/platform/qcom/vcodec/firmware.c      | 147 +++++++++
+>>>>    drivers/media/platform/qcom/vcodec/firmware.h      |  21 ++
+>>>>    .../media/platform/qcom/{ => vcodec}/venus/Kconfig |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/Makefile      |   4 +-
+>>>>    .../media/platform/qcom/{ => vcodec}/venus/core.c  | 102 +++++-
+>>>>    .../media/platform/qcom/{ => vcodec}/venus/core.h  |   0
+>>>>    .../media/platform/qcom/{ => vcodec}/venus/dbgfs.c |   0
+>>>>    .../media/platform/qcom/{ => vcodec}/venus/dbgfs.h |   0
+>>>>    .../platform/qcom/vcodec/venus/firmware_no_tz.c    | 194 +++++++++++
+>>>>    .../platform/qcom/vcodec/venus/firmware_no_tz.h    |  19 ++
+>>>>    .../platform/qcom/{ => vcodec}/venus/helpers.c     |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/helpers.h     |   0
+>>>>    .../media/platform/qcom/{ => vcodec}/venus/hfi.c   |   0
+>>>>    .../media/platform/qcom/{ => vcodec}/venus/hfi.h   |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/hfi_cmds.c    |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/hfi_cmds.h    |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/hfi_helper.h  |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/hfi_msgs.c    |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/hfi_msgs.h    |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/hfi_parser.c  |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/hfi_parser.h  |   0
+>>>>    .../qcom/{ => vcodec}/venus/hfi_plat_bufs.h        |   0
+>>>>    .../qcom/{ => vcodec}/venus/hfi_plat_bufs_v6.c     |   0
+>>>>    .../qcom/{ => vcodec}/venus/hfi_platform.c         |   0
+>>>>    .../qcom/{ => vcodec}/venus/hfi_platform.h         |   0
+>>>>    .../qcom/{ => vcodec}/venus/hfi_platform_v4.c      |   0
+>>>>    .../qcom/{ => vcodec}/venus/hfi_platform_v6.c      |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/hfi_venus.c   |  21 +-
+>>>>    .../platform/qcom/{ => vcodec}/venus/hfi_venus.h   |   0
+>>>>    .../qcom/{ => vcodec}/venus/hfi_venus_io.h         |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/pm_helpers.c  |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/pm_helpers.h  |   0
+>>>>    .../media/platform/qcom/{ => vcodec}/venus/vdec.c  |   0
+>>>>    .../media/platform/qcom/{ => vcodec}/venus/vdec.h  |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/vdec_ctrls.c  |   0
+>>>>    .../media/platform/qcom/{ => vcodec}/venus/venc.c  |   0
+>>>>    .../media/platform/qcom/{ => vcodec}/venus/venc.h  |   0
+>>>>    .../platform/qcom/{ => vcodec}/venus/venc_ctrls.c  |   0
+>>>>    drivers/media/platform/qcom/venus/firmware.c       | 363
+>>>> ---------------------
+>>>>    drivers/media/platform/qcom/venus/firmware.h       |  26 --
+>>>>    42 files changed, 492 insertions(+), 409 deletions(-)
+>>>>    create mode 100644 drivers/media/platform/qcom/vcodec/firmware.c
+>>>>    create mode 100644 drivers/media/platform/qcom/vcodec/firmware.h
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/Kconfig (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/Makefile (83%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/core.c (91%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/core.h (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/dbgfs.c (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/dbgfs.h (100%)
+>>>>    create mode 100644
+>>>> drivers/media/platform/qcom/vcodec/venus/firmware_no_tz.c
+>>>>    create mode 100644
+>>>> drivers/media/platform/qcom/vcodec/venus/firmware_no_tz.h
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/helpers.c (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/helpers.h (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi.c (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi.h (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_cmds.c (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_cmds.h (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_helper.h (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_msgs.c (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_msgs.h (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_parser.c (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_parser.h (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_plat_bufs.h
+>>>> (100%)
+>>>>    rename drivers/media/platform/qcom/{ =>
+>>>> vcodec}/venus/hfi_plat_bufs_v6.c (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform.c
+>>>> (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform.h
+>>>> (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform_v4.c
+>>>> (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_platform_v6.c
+>>>> (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_venus.c (99%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_venus.h (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/hfi_venus_io.h
+>>>> (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/pm_helpers.c (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/pm_helpers.h (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/vdec.c (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/vdec.h (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/vdec_ctrls.c (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/venc.c (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/venc.h (100%)
+>>>>    rename drivers/media/platform/qcom/{ => vcodec}/venus/venc_ctrls.c (100%)
+>>>>    delete mode 100644 drivers/media/platform/qcom/venus/firmware.c
+>>>>    delete mode 100644 drivers/media/platform/qcom/venus/firmware.h
+>>>>
+>>>> diff --git a/drivers/media/platform/qcom/Kconfig
+>>>> b/drivers/media/platform/qcom/Kconfig
+>>>> index cc5799b..e94142f 100644
+>>>> --- a/drivers/media/platform/qcom/Kconfig
+>>>> +++ b/drivers/media/platform/qcom/Kconfig
+>>>> @@ -3,4 +3,4 @@
+>>>>    comment "Qualcomm media platform drivers"
+>>>>      source "drivers/media/platform/qcom/camss/Kconfig"
+>>>> -source "drivers/media/platform/qcom/venus/Kconfig"
+>>>> +source "drivers/media/platform/qcom/vcodec/venus/Kconfig"
+>>>> diff --git a/drivers/media/platform/qcom/Makefile
+>>>> b/drivers/media/platform/qcom/Makefile
+>>>> index 4f055c3..3d2d82b 100644
+>>>> --- a/drivers/media/platform/qcom/Makefile
+>>>> +++ b/drivers/media/platform/qcom/Makefile
+>>>> @@ -1,3 +1,3 @@
+>>>>    # SPDX-License-Identifier: GPL-2.0-only
+>>>>    obj-y += camss/
+>>>> -obj-y += venus/
+>>>> +obj-y += vcodec/venus/
+>>>> diff --git a/drivers/media/platform/qcom/vcodec/firmware.c
+>>>> b/drivers/media/platform/qcom/vcodec/firmware.c
+>>>> new file mode 100644
+>>>> index 0000000..dbc220a
+>>>> --- /dev/null
+>>>> +++ b/drivers/media/platform/qcom/vcodec/firmware.c
+>>>> @@ -0,0 +1,147 @@
+>>>> +// SPDX-License-Identifier: GPL-2.0-only
+>>>> +/*
+>>>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights
+>>>> reserved.
+>>>> + */
+>>>> +
+>>>> +#include <linux/device.h>
+>>>> +#include <linux/dma-mapping.h>
+>>>> +#include <linux/firmware.h>
+>>>> +#include <linux/kernel.h>
+>>>> +#include <linux/iommu.h>
+>>>> +#include <linux/of_device.h>
+>>>> +#include <linux/firmware/qcom/qcom_scm.h>
+>>>> +#include <linux/of_reserved_mem.h>
+>>>> +#include <linux/platform_device.h>
+>>>> +#include <linux/soc/qcom/mdt_loader.h>
+>>>> +
+>>>> +#include "firmware.h"
+>>>> +
+>>>> +bool use_tz(struct device *core_dev)
+>>>
+>>> All these functions must get some sane prefix. Otherwise a generic 'use_tz'
+>>> function is too polluting for the global namespace.
+>>>
+>> I understand, will check and do the needful.
+>>>> +{
+>>>> +    struct device_node *np;
+>>>> +
+>>>> +    np = of_get_child_by_name(core_dev->of_node, "video-firmware");
+>>>> +    if (!np)
+>>>> +        return true;
+>>>> +
+>>>> +    return false;
+>>>> +}
+>>>> +
+>>>> +int protect_secure_region(u32 cp_start, u32 cp_size, u32 cp_nonpixel_start,
+>>>> +              u32 cp_nonpixel_size, u32 pas_id)
+>>>> +{
+>>>> +    int ret;
+>>>> +    /*
+>>>> +     * Clues for porting using downstream data:
+>>>> +     * cp_start = 0
+>>>> +     * cp_size = venus_ns/virtual-addr-pool[0] - yes, address and not size!
+>>>> +     *   This works, as the non-secure context bank is placed
+>>>> +     *   contiguously right after the Content Protection region.
+>>>> +     *
+>>>> +     * cp_nonpixel_start = venus_sec_non_pixel/virtual-addr-pool[0]
+>>>> +     * cp_nonpixel_size = venus_sec_non_pixel/virtual-addr-pool[1]
+>>>> +     */
+>>>> +    ret = qcom_scm_mem_protect_video_var(cp_start,
+>>>> +                         cp_size,
+>>>> +                         cp_nonpixel_start,
+>>>> +                         cp_nonpixel_size);
+>>>> +    if (ret)
+>>>> +        qcom_scm_pas_shutdown(pas_id);
+>>>> +
+>>>> +    return ret;
+>>>> +}
+>>>> +
+>>>> +int load_fw(struct device *dev, const char *fw_name, phys_addr_t *mem_phys,
+>>>> +        size_t *mem_size, u32 pas_id, bool use_tz)
+>>>> +{
+>>>> +    const struct firmware *firmware = NULL;
+>>>> +    struct reserved_mem *rmem;
+>>>> +    struct device_node *node;
+>>>> +    void *mem_virt = NULL;
+>>>> +    ssize_t fw_size = 0;
+>>>> +    int ret;
+>>>> +
+>>>> +    if (!IS_ENABLED(CONFIG_QCOM_MDT_LOADER) ||
+>>>
+>>> Why? Can you just depend on it?
+>>>
+>> Sure, Will check this and get back.
+>>>> +        (use_tz && !qcom_scm_is_available()))
+>>>> +        return -EPROBE_DEFER;
+>>>> +
+>>>> +    if (!fw_name || !(*fw_name))
+>>>> +        return -EINVAL;
+>>>> +
+>>>> +    *mem_phys = 0;
+>>>> +    *mem_size = 0;
+>>>> +
+>>>> +    node = of_parse_phandle(dev->of_node, "memory-region", 0);
+>>>> +    if (!node) {
+>>>> +        dev_err(dev, "no memory-region specified\n");
+>>>> +        return -EINVAL;
+>>>> +    }
+>>>> +
+>>>> +    rmem = of_reserved_mem_lookup(node);
+>>>> +    of_node_put(node);
+>>>> +    if (!rmem) {
+>>>> +        dev_err(dev, "failed to lookup reserved memory-region\n");
+>>>> +        return -EINVAL;
+>>>> +    }
+>>>> +
+>>>> +    ret = request_firmware(&firmware, fw_name, dev);
+>>>> +    if (ret) {
+>>>> +        dev_err(dev, "%s: failed to request fw \"%s\", error %d\n",
+>>>> +            __func__, fw_name, ret);
+>>>> +        return ret;
+>>>> +    }
+>>>> +
+>>>> +    fw_size = qcom_mdt_get_size(firmware);
+>>>> +    if (fw_size < 0) {
+>>>> +        ret = fw_size;
+>>>> +        dev_err(dev, "%s: out of bound fw image fw size: %ld\n",
+>>>> +            __func__, fw_size);
+>>>> +        goto err_release_fw;
+>>>> +    }
+>>>> +
+>>>> +    *mem_phys = rmem->base;
+>>>> +    *mem_size = rmem->size;
+>>>> +
+>>>> +    if (*mem_size < fw_size) {
+>>>> +        ret = -EINVAL;
+>>>> +        goto err_release_fw;
+>>>> +    }
+>>>> +
+>>>> +    mem_virt = memremap(*mem_phys, *mem_size, MEMREMAP_WC);
+>>>> +    if (!mem_virt) {
+>>>> +        dev_err(dev, "unable to remap fw memory region %pa size %#zx\n",
+>>>> +            mem_phys, *mem_size);
+>>>> +        goto err_release_fw;
+>>>> +    }
+>>>> +
+>>>> +    if (use_tz)
+>>>> +        ret = qcom_mdt_load(dev, firmware, fw_name, pas_id, mem_virt,
+>>>> +                    *mem_phys, *mem_size, NULL);
+>>>> +    else
+>>>> +        ret = qcom_mdt_load_no_init(dev, firmware, fw_name, pas_id,
+>>>> mem_virt,
+>>>> +                        *mem_phys, *mem_size, NULL);
+>>>> +    if (ret) {
+>>>> +        dev_err(dev, "%s: error %d loading fw \"%s\"\n",
+>>>> +            __func__, ret, fw_name);
+>>>> +    }
+>>>> +
+>>>> +    memunmap(mem_virt);
+>>>> +err_release_fw:
+>>>> +    release_firmware(firmware);
+>>>> +    return ret;
+>>>> +}
+>>>> +
+>>>> +int auth_reset_fw(u32 pas_id)
+>>>> +{
+>>>> +    return qcom_scm_pas_auth_and_reset(pas_id);
+>>>> +}
+>>>> +
+>>>> +void unload_fw(u32 pas_id)
+>>>> +{
+>>>> +    qcom_scm_pas_shutdown(pas_id);
+>>>> +}
+>>>> +
+>>>> +int set_hw_state(bool resume)
+>>>> +{
+>>>> +    return qcom_scm_set_remote_state(resume, 0);
+>>>> +}
+>>>> diff --git a/drivers/media/platform/qcom/vcodec/firmware.h
+>>>> b/drivers/media/platform/qcom/vcodec/firmware.h
+>>>> new file mode 100644
+>>>> index 0000000..7d410a8
+>>>> --- /dev/null
+>>>> +++ b/drivers/media/platform/qcom/vcodec/firmware.h
+>>>> @@ -0,0 +1,21 @@
+>>>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>>>> +/*
+>>>> + * Copyright (c) 2022-2023 Qualcomm Innovation Center, Inc. All rights
+>>>> reserved.
+>>>> + */
+>>>> +
+>>>> +#ifndef _FIRMWARE_H_
+>>>> +#define _FIRMWARE_H_
+>>>> +
+>>>> +#include <linux/device.h>
+>>>> +#include <linux/types.h>
+>>>> +
+>>>> +bool use_tz(struct device *core_dev);
+>>>> +int load_fw(struct device *dev, const char *fw_name, phys_addr_t *mem_phys,
+>>>> +        size_t *mem_size, u32 pas_id, bool use_tz);
+>>>> +int auth_reset_fw(u32 pas_id);
+>>>> +int protect_secure_region(u32 cp_start, u32 cp_size, u32 cp_nonpixel_start,
+>>>> +              u32 cp_nonpixel_size, u32 pas_id);
+>>>> +void unload_fw(u32 pas_id);
+>>>> +int set_hw_state(bool resume);
+>>>> +
+>>>> +#endif
+>>>> diff --git a/drivers/media/platform/qcom/venus/Kconfig
+>>>> b/drivers/media/platform/qcom/vcodec/venus/Kconfig
+>>>> similarity index 100%
+>>>> rename from drivers/media/platform/qcom/venus/Kconfig
+>>>> rename to drivers/media/platform/qcom/vcodec/venus/Kconfig
+>>>> diff --git a/drivers/media/platform/qcom/venus/Makefile
+>>>> b/drivers/media/platform/qcom/vcodec/venus/Makefile
+>>>> similarity index 83%
+>>>> rename from drivers/media/platform/qcom/venus/Makefile
+>>>> rename to drivers/media/platform/qcom/vcodec/venus/Makefile
+>>>> index 91ee6be..f6f3a88 100644
+>>>> --- a/drivers/media/platform/qcom/venus/Makefile
+>>>> +++ b/drivers/media/platform/qcom/vcodec/venus/Makefile
+>>>> @@ -1,7 +1,9 @@
+>>>>    # SPDX-License-Identifier: GPL-2.0
+>>>>    # Makefile for Qualcomm Venus driver
+>>>>    -venus-core-objs += core.o helpers.o firmware.o \
+>>>> +venus-core-objs += ../firmware.o
+>>>> +
+>>>> +venus-core-objs += core.o helpers.o firmware_no_tz.o \
+>>>>               hfi_venus.o hfi_msgs.o hfi_cmds.o hfi.o \
+>>>>               hfi_parser.o pm_helpers.o dbgfs.o \
+>>>>               hfi_platform.o hfi_platform_v4.o \
+>>>> diff --git a/drivers/media/platform/qcom/venus/core.c
+>>>> b/drivers/media/platform/qcom/vcodec/venus/core.c
+>>>> similarity index 91%
+>>>> rename from drivers/media/platform/qcom/venus/core.c
+>>>> rename to drivers/media/platform/qcom/vcodec/venus/core.c
+>>>> index 9cffe97..56d9a53 100644
+>>>> --- a/drivers/media/platform/qcom/venus/core.c
+>>>> +++ b/drivers/media/platform/qcom/vcodec/venus/core.c
+>>>> @@ -22,7 +22,8 @@
+>>>>    #include <media/v4l2-ioctl.h>
+>>>>      #include "core.h"
+>>>> -#include "firmware.h"
+>>>> +#include "../firmware.h"
+>>>> +#include "firmware_no_tz.h"
+>>>>    #include "pm_helpers.h"
+>>>>    #include "hfi_venus_io.h"
+>>>>    @@ -86,6 +87,8 @@ static void venus_sys_error_handler(struct
+>>>> work_struct *work)
+>>>>        struct venus_core *core =
+>>>>                container_of(work, struct venus_core, work.work);
+>>>>        int ret, i, max_attempts = RPM_WAIT_FOR_IDLE_MAX_ATTEMPTS;
+>>>> +    const struct venus_resources *res = core->res;
+>>>> +    const char *fwpath = NULL;
+>>>>        const char *err_msg = "";
+>>>>        bool failed = false;
+>>>>    @@ -107,7 +110,10 @@ static void venus_sys_error_handler(struct
+>>>> work_struct *work)
+>>>>          mutex_lock(&core->lock);
+>>>>    -    venus_shutdown(core);
+>>>> +    if (core->use_tz)
+>>>> +        unload_fw(VENUS_PAS_ID);
+>>>> +    else
+>>>> +        unload_fw_no_tz(core);
+>>>
+>>> This is more than introducing helpers.
+>>>
+>> The new helpers are written to make the code generic for video drivers.
+>> which requires changes in the calling function also.
+>>>>          venus_coredump(core);
+>>>>    @@ -127,12 +133,39 @@ static void venus_sys_error_handler(struct
+>>>> work_struct *work)
+>>>>            failed = true;
+>>>>        }
+>>>>    -    ret = venus_boot(core);
+>>>> +    ret = of_property_read_string_index(core->dev->of_node,
+>>>> "firmware-name", 0,
+>>>> +                        &fwpath);
+>>>> +    if (ret)
+>>>> +        fwpath = core->res->fwname;
+>>>> +
+>>>> +    ret = load_fw(core->dev, fwpath, &core->fw.mem_phys,
+>>>> &core->fw.mem_size,
+>>>> +              VENUS_PAS_ID, core->use_tz);
+>>>
+>>> So, we had a nice local 'venus_boot'. Instead we now have a pile of code
+>>> with non-generic prefixes, etc. If you are introducing helpers, please
+>>> refrain from inlining of calling functions, etc. Just move the code to your
+>>> helpers.
+>>>
+>> As mentioned in above comment, the common helpers are written to make the
+>> code generic. I Will try to make it more clear, working on the same.
+> 
+> First, you move the code, then you make it generic. Or vice versa.
+> First you split the code, then you move it. Don't do both in the same
+> patch.
+> 
+>>> NAK for the rest of the patch.
+> 
+> 
 
