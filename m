@@ -1,234 +1,308 @@
-Return-Path: <linux-media+bounces-2791-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2792-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3115819D61
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 11:52:36 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C78CA819DD7
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 12:19:39 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9C51D289086
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 10:52:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 554881F2249F
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 11:19:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C15220B2E;
-	Wed, 20 Dec 2023 10:52:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4688E21360;
+	Wed, 20 Dec 2023 11:19:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="q90jg7p/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mXvlXXqV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F40820DC3
-	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 10:52:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (213-243-189-158.bb.dnainternet.fi [213.243.189.158])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E6E8833;
-	Wed, 20 Dec 2023 11:51:36 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1703069496;
-	bh=WshXH402MBDsxV23iygLGr6A/shYm50EU+jKMqK0pLM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q90jg7p/j+iPw2DMA4iJr4GYT+25hUuqp2Z6OW/iwjrxAr1eMTa+N9Vu4l1uxEyxa
-	 0t8EP7FMOsEUBNAi+cFAvvHyvqIO1kq3srpSNLIWLi5hkVu4NEKZhuZn38sGlojd4K
-	 cBwdpt2oaTQttoW/H5QSoKZ+Vrj1ADm21qsV8dOY=
-Date: Wed, 20 Dec 2023 12:52:32 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: Re: [PATCH v2 00/29] Media device lifetime management
-Message-ID: <20231220105232.GK29638@pendragon.ideasonboard.com>
-References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1212021345;
+	Wed, 20 Dec 2023 11:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-54c7744a93fso6909816a12.2;
+        Wed, 20 Dec 2023 03:19:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703071166; x=1703675966; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=53ALlqpQQBiJfMHSAH0XUy1XX9K4mSw/bFk5aEE1Ong=;
+        b=mXvlXXqVKwH0k89OILyeM3LdObiCayuWQBYPeFyDAlj1bEg91FdZXcvyQe1AKCNNDu
+         SyB1C4ZhpBscCU5wvx2UEP9QAtBMFDQ3Zcfnq3iUc37sjq+TL8KM0M1QS0PuE4+fi9go
+         6xZyS4oPFrfIONpFxmk/J9TyEWakjByj/yAJZkyN9vflKcaluhMGdZV5x9e4YMwNdIoX
+         3FOlA87xWcZV1gkw/HxcMJ/n3NMBFFAxaxBIbT/jLAo52Q4Whmu7i3HQQ6yM3dznLmD5
+         0Aa+OZsZcRj/ssFQjEySMXWZFNM8TuGz53VJyfZvL/iTzxBHX4bjdVQUbm2dPHl8xfqJ
+         /QpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703071166; x=1703675966;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=53ALlqpQQBiJfMHSAH0XUy1XX9K4mSw/bFk5aEE1Ong=;
+        b=ICyTng621Q4RKnA5PFTxfEGWrpproZfWEFW2/siknK5uK9TT+692kx+H56g4a39AKO
+         C5TeEp0PAjolSvHYEpjAHanKTzMIQTIT89dzRLxyq0yEUuqSPe0iuuR6t1u9tvvGW7E8
+         zMncAeOy4S8ENCS1B0KDbtJwoLGcZxlg5ndpKKSS4SfuIygqGDww2Swoef19YA3y0Ybe
+         rZMeR51LStxewyQYD13pEq3pAFdUeawHlem4HEEKKQ2IVlF2XvzSC1eXFHyFFRL+o9Cg
+         KRcwqv5ZBOeLlhR/cEGSd0e6QRg1KgIVcPhHuWozzL5Wlwmhg2mSnuWHCvlSRHV2kBVI
+         H6DQ==
+X-Gm-Message-State: AOJu0YzC+6b+b4hrMz+yicOfIMddd6j0VcY73ELpcm8TZhNizl3M8WJZ
+	tcpUl0X+hhqUvS6db0hrv+s=
+X-Google-Smtp-Source: AGHT+IEO9tjxM7UBMuqtKeASifmELeWwumI2TaDQVK5BwBjvkk3AyHRkAGNSkpwu0mOrPkTWfv1GUw==
+X-Received: by 2002:a50:85cb:0:b0:551:9405:46a9 with SMTP id q11-20020a5085cb000000b00551940546a9mr6715587edh.30.1703071166078;
+        Wed, 20 Dec 2023 03:19:26 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-229.cust.vodafonedsl.it. [188.217.59.229])
+        by smtp.gmail.com with ESMTPSA id r14-20020aa7cb8e000000b00552f2607d2asm4725986edt.96.2023.12.20.03.19.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Dec 2023 03:19:25 -0800 (PST)
+Date: Wed, 20 Dec 2023 12:19:23 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linuxfancy@googlegroups.com, martin.hecht@avnet.eu,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/4] media: i2c: alvium: removal of fr field
+Message-ID: <ZYLNuw1/IJg7jrEa@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231220085609.2595732-1-tomm.merciai@gmail.com>
+ <20231220085609.2595732-3-tomm.merciai@gmail.com>
+ <20231220091309.GG29638@pendragon.ideasonboard.com>
+ <ZYK7y/jaEZ2JHsnH@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+ <20231220100643.GJ29638@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <20231220100643.GJ29638@pendragon.ideasonboard.com>
 
-On Wed, Dec 20, 2023 at 12:36:44PM +0200, Sakari Ailus wrote:
-> Hi folks,
-> 
-> This is a refresh of my 2016 RFC patchset to start addressing object
-> lifetime issues in Media controller. It further allows continuing work to
-> address lifetime management of media entities.
+Hi Laurent,
+Thanks for your comment.
 
-I think you win the prize of the refresh for the oldest patch series.
-Thanks for not dropping the ball. One day we'll make the media subsystem
-healthy :-)
+On Wed, Dec 20, 2023 at 12:06:43PM +0200, Laurent Pinchart wrote:
+> On Wed, Dec 20, 2023 at 11:02:51AM +0100, Tommaso Merciai wrote:
+> > Hi Laurent,
+> > Thanks for your review.
+> > 
+> > On Wed, Dec 20, 2023 at 11:13:09AM +0200, Laurent Pinchart wrote:
+> > > Hi Tommaso,
+> > > 
+> > > Thank you for the patch.
+> > > 
+> > > Use the imperative in the subject line:
+> > > 
+> > > media: i2c: alvium: Remove the fr field of the alvium_dev structure
+> > > 
+> > > On Wed, Dec 20, 2023 at 09:56:07AM +0100, Tommaso Merciai wrote:
+> > > > The fr (frame rate) field of the alvium_dev structure is
+> > > > only used to pass result from alvium_set_frame_interval() to
+> > > > alvium_set_frame_rate() that writes this info into the hw reg.
+> > > > Replace them with function parameter.
+> > > 
+> > > Replace it with a function parameter.
+> > 
+> > Thanks I'll fix this in v3.
+> > 
+> > > 
+> > > > 
+> > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> > > > ---
+> > > >  drivers/media/i2c/alvium-csi2.c | 24 ++++++++++++------------
+> > > >  drivers/media/i2c/alvium-csi2.h |  1 -
+> > > >  2 files changed, 12 insertions(+), 13 deletions(-)
+> > > > 
+> > > > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+> > > > index 0dcd69bf9f92..a9ff6cc97cff 100644
+> > > > --- a/drivers/media/i2c/alvium-csi2.c
+> > > > +++ b/drivers/media/i2c/alvium-csi2.c
+> > > > @@ -1185,19 +1185,19 @@ static int alvium_get_frame_interval(struct alvium_dev *alvium,
+> > > >  	return ret;
+> > > >  }
+> > > >  
+> > > > -static int alvium_set_frame_rate(struct alvium_dev *alvium)
+> > > > +static int alvium_set_frame_rate(struct alvium_dev *alvium, u64 fr)
+> > > >  {
+> > > >  	struct device *dev = &alvium->i2c_client->dev;
+> > > >  	int ret;
+> > > >  
+> > > >  	ret = alvium_write_hshake(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_RW,
+> > > > -				  alvium->fr);
+> > > > +				  fr);
+> > > >  	if (ret) {
+> > > >  		dev_err(dev, "Fail to set frame rate lanes reg\n");
+> > > >  		return ret;
+> > > >  	}
+> > > >  
+> > > > -	dev_dbg(dev, "set frame rate: %llu us\n", alvium->fr);
+> > > > +	dev_dbg(dev, "set frame rate: %llu us\n", fr);
+> > > >  
+> > > >  	return 0;
+> > > >  }
+> > > > @@ -1661,10 +1661,11 @@ static int alvium_g_frame_interval(struct v4l2_subdev *sd,
+> > > >  }
+> > > >  
+> > > >  static int alvium_set_frame_interval(struct alvium_dev *alvium,
+> > > > -				     struct v4l2_subdev_frame_interval *fi)
+> > > > +				     struct v4l2_subdev_frame_interval *fi,
+> > > > +				     u64 *req_fr)
+> > > >  {
+> > > >  	struct device *dev = &alvium->i2c_client->dev;
+> > > > -	u64 req_fr, dft_fr, min_fr, max_fr;
+> > > > +	u64 dft_fr, min_fr, max_fr;
+> > > >  	int ret;
+> > > >  
+> > > >  	if (fi->interval.denominator == 0)
+> > > > @@ -1681,13 +1682,12 @@ static int alvium_set_frame_interval(struct alvium_dev *alvium,
+> > > >  	dev_dbg(dev, "fi->interval.denominator = %d\n",
+> > > >  		fi->interval.denominator);
+> > > >  
+> > > > -	req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
+> > > > +	*req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
+> > > >  		       fi->interval.numerator);
+> > > >  
+> > > > -	if (req_fr >= max_fr && req_fr <= min_fr)
+> > > > -		req_fr = dft_fr;
+> > > > +	if (*req_fr >= max_fr && *req_fr <= min_fr)
+> > > > +		*req_fr = dft_fr;
+> > > 
+> > > Shouldn't we clamp the value to [min, max] instead of using the default
+> > > if it's out of range ? Something like
+> > > 
+> > > 	*req_fr = clamp(*req_fr, min_fr, max_fr)
+> > > 
+> > > This makes me realize that the current code is wrong, req_fr can't be >=
+> > > max and <= min at the same time. You probably meant || instead of &&.
+> > > 
+> > > This should be fixed in a separate patch.
+> > 
+> > If this is ok for you, after this series I can put a patch with || fix
+> > instead of clamping, because if we clamp dft_fr is not used any more.
+> > After if you agree I will work on clamping.
+> > Thanks for the catch! :)
+> 
+> It's fine to fix this on top of the series, but I don't see why you
+> would need to first use ||. You can call clamp() and remove dft_fr.
 
-> The underlying problem is described in detail in v4 of the previous RFC:
-> <URL:https://lore.kernel.org/linux-media/20161108135438.GO3217@valkosipuli.retiisi.org.uk/>.
-> In brief, there is currently no connection between releasing media device
-> (and related) memory and IOCTL calls, meaning that there is a time window
-> during which released kernel memory can be accessed, and that access can be
-> triggered from the user space. The only reason why this is not a grave
-> security issue is that it is not triggerable by the user alone but requires
-> unbinding a device. That is still not an excuse for not fixing it.
-> 
-> This set differs from the earlier RFC to address the issue in the
-> following respects:
-> 
-> - Make changes for ipu3-cio2 driver, too.
-> 
-> - Continue to provide best effort attempt to keep the window between device
->   removal and user space being able to access released memory as small as
->   possible. This means the problem won't become worse for drivers for which
->   Media device lifetime management has not been implemented.
-> 
-> The latter is achieved by adding a new object, Media devnode compat
-> reference, which is allocated, refcounted and eventually released by the
-> Media controller framework itself, and where the information on registration
-> and open filehandles is maintained. This is only done if the driver does not
-> manage the lifetime of the media device itself, i.e. its release operation
-> is NULL.
+I'm just thinking out loud eh :)
 
-Interesting. I'll check that when reviewing the patches.
+Maybe in the future we need to expose fr infos to the user to play with
+that. But we are writing for now, then we can replan to readd dft_fr
+read later.
 
-> Due to this, Media device file handles will also be introduced by this
-> patchset. I thought the first user of this would be Media device events but
-> it seems we already need them here.
+I think this is what your are suggesting:
 
-Nice, it will become a useful feature.
++++ b/drivers/media/i2c/alvium-csi2.c
+@@ -1171,12 +1171,10 @@ static int alvium_set_bayer_pattern(struct alvium_dev *alvium,
+ }
 
-> Both ipu3-cio2 and omap3isp drivers are relieved of devm_request_irq() use,
-> as device_release() releases the resources before calling the driver's
-> remove function.
+ static int alvium_get_frame_interval(struct alvium_dev *alvium,
+-                                    u64 *dft_fr, u64 *min_fr, u64 *max_fr)
++                                    u64 *min_fr, u64 *max_fr)
+ {
+        int ret = 0;
 
-Are you sure about that ? device_release() is the .release() function
-for device_ktype, which means it's called when the last reference to a
-struct device disappears. That should be way after .remove().
+-       alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_RW,
+-                   dft_fr, &ret);
+        alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_MIN_R,
+                    min_fr, &ret);
+        alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_MAX_R,
+@@ -1647,7 +1645,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+ {
+        struct alvium_dev *alvium = sd_to_alvium(sd);
+        struct device *dev = &alvium->i2c_client->dev;
+-       u64 req_fr, dft_fr, min_fr, max_fr;
++       u64 req_fr, min_fr, max_fr;
+        struct v4l2_fract *interval;
+        int ret;
 
-> While further work will be required also on these drivers
-> to safely stop he hardware at unbind time, I don't see a reason not to merge
-> these patches now.
-> 
-> Some patches are temporarily reverted in order to make reworks easier, then
-> applied later on.
-> 
-> I've tested this on ipu3-cio2 with and without the refcounting patch (media:
-> ipu3-cio2: Release the cio2 device context by media device callback),
-> including failures in a few parts of the driver initialisation process in
-> the MC framework.
-> 
-> Questions and comments are welcome.
-> 
-> since v1:
-> 
-> - Align subject prefixes with current media tree practices.
-> 
-> - Make release changes to the vimc driver (last patch of the set). This
->   was actually easy as vimc already centralised resource release to struct
->   v4l2_device, so it was just moved to the media device.
-> 
-> - Move cdev field to struct media_devnode_compat_ref and add dev field to
->   the struct, these are needed during device release. This now includes
->   also the character device which is accessed by __fput(). I've now tested
->   ipu3-cio2 and vimc with KASAN. As a by-product the kref in struct
->   media_devnode_compat_ref becomes redundant and is removed. Both devices
->   are registered in case of best effort memory safety support and used for
->   refcounting.
-> 
-> - Drop omap3isp driver patch moving away from devm_request_irq().
-> 
-> - Add a patch to warn of drivers not releasing media device safely (i.e.
->   relying on the best effort memory safety mechanism without refcounting).
-> 
-> - Add a patch to document how the best effort memory release safety helper
->   works.
-> 
-> - Add a note on releasing driver's context with the media device, not the
->   V4L2 device, in MC documentation.
-> 
-> - Check media device is registered before accessing its fops in
->   media_read(), media_write(), media_ioctl and media_compat_ioctl().
-> 
-> - Document best effort media device lifetime management (new patch).
-> 
-> - Use media_devnode_free_minor() in unallocating device node minor number
->   in media_devnode_register().
-> 
-> - Continue to rely on devm_register_irq() in ipu3-cio2 driver but register
->   the IRQ later on (compared to v1).
-> 
-> - Drop the patch to move away from devm_request_irq() in omap3isp.
-> 
-> - Fix putting references to media device and V4L2 device in 
->   v4l2_device_release().
-> 
-> - Add missing media_device_get() (in v1) for M2M devices in
->   video_register_media_controller().
-> 
-> - Unconditionally set the media devnode release function in
->   media_device_init(). There's no harm doing so and the caller of
->   media_device_init() may set the ops after calling the function.
-> 
-> Daniel Axtens (1):
->   media: uvcvideo: Refactor teardown of uvc on USB disconnect
-> 
-> Laurent Pinchart (1):
->   media: mc: Add per-file-handle data support
-> 
-> Logan Gunthorpe (1):
->   media: mc: utilize new cdev_device_add helper function
-> 
-> Sakari Ailus (26):
->   Revert "[media] media: fix media devnode ioctl/syscall and unregister
->     race"
->   Revert "media: utilize new cdev_device_add helper function"
->   Revert "[media] media: fix use-after-free in cdev_put() when app exits
->     after driver unbind"
->   Revert "media: uvcvideo: Refactor teardown of uvc on USB disconnect"
->   Revert "[media] media-device: dynamically allocate struct
->     media_devnode"
->   media: mc: Drop nop release callback
->   media: mc: Do not call cdev_device_del() if cdev_device_add() fails
->   media: mc: Delete character device early
->   media: mc: Split initialising and adding media devnode
->   media: mc: Shuffle functions around
->   media: mc: Initialise media devnode in media_device_init()
->   media: mc: Refactor media devnode minor clearing
->   media: mc: Unassign minor only if it has been assigned
->   media: mc: Refcount the media device
->   media: v4l: Acquire a reference to the media device for every video
->     device
->   media: mc: Postpone graph object removal until free
->   media: omap3isp: Release the isp device struct by media device
->     callback
->   media: ipu3-cio2: Call v4l2_device_unregister() earlier
->   media: ipu3-cio2: Request IRQ earlier
->   media: ipu3-cio2: Release the cio2 device context by media device
->     callback
->   media: vimc: Release resources on media device release
->   media: Documentation: Document how Media device resources are released
->   media: mc: Maintain a list of open file handles in a media device
->   media: mc: Implement best effort media device removal safety sans
->     refcount
->   media: mc: Warn about drivers not releasing media device safely
->   media: Documentation: Document media device memory safety helper
-> 
->  Documentation/driver-api/media/mc-core.rst  |  18 +-
->  drivers/media/cec/core/cec-core.c           |   2 +-
->  drivers/media/mc/mc-device.c                | 260 ++++++++++++--------
->  drivers/media/mc/mc-devnode.c               | 230 +++++++++++------
->  drivers/media/pci/intel/ipu3/ipu3-cio2.c    |  70 ++++--
->  drivers/media/platform/ti/omap3isp/isp.c    |  24 +-
->  drivers/media/test-drivers/vimc/vimc-core.c |  15 +-
->  drivers/media/usb/au0828/au0828-core.c      |   4 +-
->  drivers/media/usb/uvc/uvc_driver.c          |   2 +-
->  drivers/media/v4l2-core/v4l2-dev.c          |  65 +++--
->  drivers/staging/media/sunxi/cedrus/cedrus.c |   2 +-
->  include/media/media-device.h                |  46 +++-
->  include/media/media-devnode.h               | 136 +++++++---
->  include/media/media-fh.h                    |  32 +++
->  14 files changed, 632 insertions(+), 274 deletions(-)
->  create mode 100644 include/media/media-fh.h
+@@ -1657,7 +1655,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+        if (fi->interval.denominator == 0)
+                return -EINVAL;
 
--- 
+-       ret = alvium_get_frame_interval(alvium, &dft_fr, &min_fr, &max_fr);
++       ret = alvium_get_frame_interval(alvium, &min_fr, &max_fr);
+        if (ret) {
+                dev_err(dev, "Fail to get frame interval\n");
+                return ret;
+@@ -1670,9 +1668,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+
+        req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
+                       fi->interval.numerator);
+-
+-       if (req_fr >= max_fr && req_fr <= min_fr)
+-               req_fr = dft_fr;
++       req_fr = clamp(req_fr, min_fr, max_fr);
+
+        interval = v4l2_subdev_state_get_interval(sd_state, 0);
+
+right?
+Thanks again.
+
 Regards,
+Tommaso
 
-Laurent Pinchart
+> 
+> > > >  
+> > > > -	alvium->fr = req_fr;
+> > > >  	alvium->frame_interval.numerator = fi->interval.numerator;
+> > > >  	alvium->frame_interval.denominator = fi->interval.denominator;
+> > > >  
+> > > > @@ -1699,6 +1699,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> > > >  				   struct v4l2_subdev_frame_interval *fi)
+> > > >  {
+> > > >  	struct alvium_dev *alvium = sd_to_alvium(sd);
+> > > > +	u64 req_fr = ALVIUM_DEFAULT_FR_HZ;
+> > > 
+> > > Do you need to initialize the variable ? It doesn't seem to be required.
+> > 
+> > Really not, it's just to maintain the logic of alvium->fr. I will drop
+> > this in v3, thanks!
+> > 
+> > > With these small issues fixed,
+> > > 
+> > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > 
+> > > >  	int ret;
+> > > >  
+> > > >  	/*
+> > > > @@ -1711,9 +1712,9 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> > > >  	if (alvium->streaming)
+> > > >  		return -EBUSY;
+> > > >  
+> > > > -	ret = alvium_set_frame_interval(alvium, fi);
+> > > > +	ret = alvium_set_frame_interval(alvium, fi, &req_fr);
+> > > >  	if (!ret)
+> > > > -		ret = alvium_set_frame_rate(alvium);
+> > > > +		ret = alvium_set_frame_rate(alvium, req_fr);
+> > > >  
+> > > >  	return ret;
+> > > >  }
+> > > > @@ -2273,7 +2274,6 @@ static int alvium_subdev_init(struct alvium_dev *alvium)
+> > > >  	/* Setup initial frame interval*/
+> > > >  	alvium->frame_interval.numerator = 1;
+> > > >  	alvium->frame_interval.denominator = ALVIUM_DEFAULT_FR_HZ;
+> > > > -	alvium->fr = ALVIUM_DEFAULT_FR_HZ;
+> > > >  
+> > > >  	/* Setup the initial mode */
+> > > >  	alvium->mode.fmt = alvium_csi2_default_fmt;
+> > > > diff --git a/drivers/media/i2c/alvium-csi2.h b/drivers/media/i2c/alvium-csi2.h
+> > > > index 17f0bbbd1839..80066ac25047 100644
+> > > > --- a/drivers/media/i2c/alvium-csi2.h
+> > > > +++ b/drivers/media/i2c/alvium-csi2.h
+> > > > @@ -443,7 +443,6 @@ struct alvium_dev {
+> > > >  
+> > > >  	struct alvium_mode mode;
+> > > >  	struct v4l2_fract frame_interval;
+> > > > -	u64 fr;
+> > > >  
+> > > >  	u8 h_sup_csi_lanes;
+> > > >  	u64 link_freq;
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
