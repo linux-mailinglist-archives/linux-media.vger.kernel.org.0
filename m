@@ -1,284 +1,176 @@
-Return-Path: <linux-media+bounces-2807-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2808-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3146881A02D
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 14:47:47 +0100 (CET)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6106981A04B
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 14:53:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFE771F26823
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 13:47:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 940CD1C22657
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 13:53:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 683493529C;
-	Wed, 20 Dec 2023 13:47:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 11EAA36B1F;
+	Wed, 20 Dec 2023 13:53:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="z5dzxmq3"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QdezTDQP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from madrid.collaboradmins.com (madrid.collaboradmins.com [46.235.227.194])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F1C2358A4;
-	Wed, 20 Dec 2023 13:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1703080052;
-	bh=NQl0a41Gc1ldcX14E0vlnoPZ/1bs8DbZ9Gz925Y9mZg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=z5dzxmq34u8+LyyevT81zwdq3QcZrrjrC5G9TDceeRkK3/AHfQ0dwBQuK7LI0l2uq
-	 9gfcF5sRzo3ndyUDhm5l76mzad7tfZUdM6y7gNm/epfKsKc6x7wnPj64ktTocqUlBM
-	 C5VV4tM+FWiVJ5OmOLTBMbmsnQmuwbm4E2O4PsCrVzmCHgV/ycQB62eBKktWmGCOeO
-	 ornWKVbzM3xV2n1N/DU2y60qCgoUGwWIVX//Q7lVuZOESka1gl7EjxPUhRFZSKTy6a
-	 tnju79xDNgWZ7yu1m3SLIcIun6HT8817sPYZX5xM4nB8IuFAwZYJw/7dS/uBpf2VkP
-	 1z633xnGcnULw==
-Received: from nicolas-tpx395.localdomain (cola.collaboradmins.com [195.201.22.229])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by madrid.collaboradmins.com (Postfix) with ESMTPSA id 0B01A3781F8C;
-	Wed, 20 Dec 2023 13:47:28 +0000 (UTC)
-Message-ID: <174478b773ab2f5db8708c29b025332f75b24fe7.camel@collabora.com>
-Subject: Re: [PATCH v3 2/5] media: hantro: add support for STM32MP25 VDEC
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hugues Fruchet <hugues.fruchet@foss.st.com>, Ezequiel Garcia
- <ezequiel@vanguardiasur.com.ar>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Andrzej Pietrasiewicz <andrzej.p@collabora.com>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Daniel Almeida
- <daniel.almeida@collabora.com>, Benjamin Mugnier
- <benjamin.mugnier@foss.st.com>,  Heiko Stuebner <heiko@sntech.de>, Mauro
- Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
- linux-media@vger.kernel.org, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>, 
- linux-stm32@st-md-mailman.stormreply.com, Rob Herring <robh+dt@kernel.org>,
-  Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Conor Dooley
- <conor+dt@kernel.org>, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
- linux-rockchip@lists.infradead.org
-Cc: Marco Felsch <m.felsch@pengutronix.de>, Adam Ford <aford173@gmail.com>
-Date: Wed, 20 Dec 2023 08:47:25 -0500
-In-Reply-To: <20231220084641.2076428-3-hugues.fruchet@foss.st.com>
-References: <20231220084641.2076428-1-hugues.fruchet@foss.st.com>
-	 <20231220084641.2076428-3-hugues.fruchet@foss.st.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.2 (3.50.2-1.fc39) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E4438F82;
+	Wed, 20 Dec 2023 13:52:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-553729ee917so3997970a12.1;
+        Wed, 20 Dec 2023 05:52:57 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1703080376; x=1703685176; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=7/yVFAelzLfm7RlheZ3fXLWmaMLPV54FlFv3c5NkxDE=;
+        b=QdezTDQP6D5ZADksxQW9/TgfkUu0cwvrgK2lx9T8b33R6/nQsaUpWJ1bwG+O81lkwc
+         LqucHQU7TeINFKKXHztSpRqrafgxqJNboE0PzocPXnhe/o9GXiu2it/L6fYTEu5cKerG
+         3toxRs4fxOfNIzEdv9kZbfF3rZDhS0cXmr7QygGDxOLy+5adJRc6L6SJN+Eo1QHhfVo+
+         3Z7xWuapbj8yFHdJhAPXMXINu1QL4ST3U9MgCDPZ1Zutbm9hITJfvYXqXKBbzKmfn+AK
+         vRhHwynd2mc9V8bqyeAznaehSggoy/uK3FhK4T/ovMEqQHtG+T3OdEhuGYg2eFD7os2g
+         eH2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1703080376; x=1703685176;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7/yVFAelzLfm7RlheZ3fXLWmaMLPV54FlFv3c5NkxDE=;
+        b=o8JPLiwKQwqHzKYKQz+jjgDfwQCi3E3PsvNQtaj955OUeHcEqTq5lG5zSoUQn29Ew7
+         sOyzebfMrUls0nv5zg0M04hZMPDnhYsbK95zKJD8XJA8qEfaUQV+eavOew6SL+zlBWGg
+         EUUItK86KOLUC3nXxaujpKLZZ2D0JSD/yFcMRCcuweakXyO1Mqxobc/pF+Fmm+RERGE3
+         luxhMujqoP22AxBG8cJ2NZ5e2Ncvpve+iUWsUdUpCCt5W+JFi1Mt+1qOr18+hqXaHsNT
+         DY0Vu/UdY8MPgtbM0sEElaxK4Mcg0D5fgzd3w+S/X2PBWXb0cX+fykbVCwq5kONyhzHK
+         KQHA==
+X-Gm-Message-State: AOJu0YwOYi44i9fXY6MOCGnakRsL2y9k7ILHfDmQRmHfzVRBtt/awyDS
+	EYLLt5XwhtvMsfp8fTBrFK4xtaWOd3A=
+X-Google-Smtp-Source: AGHT+IGahSSvrBEeGsMspXvnwHfHPMXEz8TIyRGbyKW4rKC0TQ984ORU9BUwOVC2gqU3ccebSmwcww==
+X-Received: by 2002:a50:9313:0:b0:553:31d5:a19 with SMTP id m19-20020a509313000000b0055331d50a19mr3210370eda.51.1703080376072;
+        Wed, 20 Dec 2023 05:52:56 -0800 (PST)
+Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-229.cust.vodafonedsl.it. [188.217.59.229])
+        by smtp.gmail.com with ESMTPSA id o11-20020a056402444b00b00552840ba274sm6252579edb.89.2023.12.20.05.52.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 20 Dec 2023 05:52:55 -0800 (PST)
+Date: Wed, 20 Dec 2023 14:52:53 +0100
+From: Tommaso Merciai <tomm.merciai@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linuxfancy@googlegroups.com, sakari.ailus@linux.intel.com,
+	martin.hecht@avnet.eu, Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 5/5] media: i2c: alvium: fix req_fr check into
+ alvium_s_frame_interval()
+Message-ID: <ZYLxtTRQF0sWJLiu@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
+References: <20231220124023.2801417-1-tomm.merciai@gmail.com>
+ <20231220124023.2801417-6-tomm.merciai@gmail.com>
+ <20231220130236.GN29638@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20231220130236.GN29638@pendragon.ideasonboard.com>
 
-Le mercredi 20 d=C3=A9cembre 2023 =C3=A0 09:46 +0100, Hugues Fruchet a =C3=
-=A9crit=C2=A0:
-> Add support for STM32MP25 VDEC video hardware decoder.
-> H264/VP8 decoding up to 4080x4080.
-> No post-processor support.
-> VDEC has its own reset/clock/irq.
->=20
-> Signed-off-by: Hugues Fruchet <hugues.fruchet@foss.st.com>
+Hi Laurent,
 
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+On Wed, Dec 20, 2023 at 03:02:36PM +0200, Laurent Pinchart wrote:
+> Hi Tommaso,
+> 
+> Thank you for the patch.
+> 
+> On Wed, Dec 20, 2023 at 01:40:23PM +0100, Tommaso Merciai wrote:
+> > Actually req_fr check into alvium_s_frame_interval() is wrong.
+> > In particular req_fr can't be >=max and <= min at the same time.
+> > Fix this using clamp and remove dft_fr parameter from
+> > alvium_get_frame_interval() not more used.
+> 
+> The commit message should have explained why clamping is better than
+> picking a default value, as that's a functional change. If you propose
+> an updated commit message in a reply, I think Sakari can update the
+> patch when applying the series to his tree, there's no need for a v4.
 
-> ---
->  drivers/media/platform/verisilicon/Kconfig    | 14 ++-
->  drivers/media/platform/verisilicon/Makefile   |  3 +
->  .../media/platform/verisilicon/hantro_drv.c   |  3 +
->  .../media/platform/verisilicon/hantro_hw.h    |  1 +
->  .../platform/verisilicon/stm32mp25_vdec_hw.c  | 92 +++++++++++++++++++
->  5 files changed, 110 insertions(+), 3 deletions(-)
->  create mode 100644 drivers/media/platform/verisilicon/stm32mp25_vdec_hw.=
-c
->=20
-> diff --git a/drivers/media/platform/verisilicon/Kconfig b/drivers/media/p=
-latform/verisilicon/Kconfig
-> index e65b836b9d78..7642ff9cf96c 100644
-> --- a/drivers/media/platform/verisilicon/Kconfig
-> +++ b/drivers/media/platform/verisilicon/Kconfig
-> @@ -4,7 +4,7 @@ comment "Verisilicon media platform drivers"
-> =20
->  config VIDEO_HANTRO
->  	tristate "Hantro VPU driver"
-> -	depends on ARCH_MXC || ARCH_ROCKCHIP || ARCH_AT91 || ARCH_SUNXI || COMP=
-ILE_TEST
-> +	depends on ARCH_MXC || ARCH_ROCKCHIP || ARCH_AT91 || ARCH_SUNXI || ARCH=
-_STM32 || COMPILE_TEST
->  	depends on V4L_MEM2MEM_DRIVERS
->  	depends on VIDEO_DEV
->  	select MEDIA_CONTROLLER
-> @@ -16,8 +16,8 @@ config VIDEO_HANTRO
->  	select V4L2_VP9
->  	help
->  	  Support for the Hantro IP based Video Processing Units present on
-> -	  Rockchip and NXP i.MX8M SoCs, which accelerate video and image
-> -	  encoding and decoding.
-> +	  Rockchip, NXP i.MX8M and STM32MP25 SoCs, which accelerate video
-> +	  and image encoding and decoding.
->  	  To compile this driver as a module, choose M here: the module
->  	  will be called hantro-vpu.
-> =20
-> @@ -52,3 +52,11 @@ config VIDEO_HANTRO_SUNXI
->  	default y
->  	help
->  	  Enable support for H6 SoC.
-> +
-> +config VIDEO_HANTRO_STM32MP25
-> +	bool "Hantro STM32MP25 support"
-> +	depends on VIDEO_HANTRO
-> +	depends on ARCH_STM32 || COMPILE_TEST
-> +	default y
-> +	help
-> +	  Enable support for STM32MP25 SoCs.
-> diff --git a/drivers/media/platform/verisilicon/Makefile b/drivers/media/=
-platform/verisilicon/Makefile
-> index 6ad2ef885920..5854e0f0dd32 100644
-> --- a/drivers/media/platform/verisilicon/Makefile
-> +++ b/drivers/media/platform/verisilicon/Makefile
-> @@ -39,3 +39,6 @@ hantro-vpu-$(CONFIG_VIDEO_HANTRO_ROCKCHIP) +=3D \
-> =20
->  hantro-vpu-$(CONFIG_VIDEO_HANTRO_SUNXI) +=3D \
->  		sunxi_vpu_hw.o
-> +
-> +hantro-vpu-$(CONFIG_VIDEO_HANTRO_STM32MP25) +=3D \
-> +		stm32mp25_vdec_hw.o
-> diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/me=
-dia/platform/verisilicon/hantro_drv.c
-> index a9fa05ac56a9..2db27c333924 100644
-> --- a/drivers/media/platform/verisilicon/hantro_drv.c
-> +++ b/drivers/media/platform/verisilicon/hantro_drv.c
-> @@ -733,6 +733,9 @@ static const struct of_device_id of_hantro_match[] =
-=3D {
->  #endif
->  #ifdef CONFIG_VIDEO_HANTRO_SUNXI
->  	{ .compatible =3D "allwinner,sun50i-h6-vpu-g2", .data =3D &sunxi_vpu_va=
-riant, },
-> +#endif
-> +#ifdef CONFIG_VIDEO_HANTRO_STM32MP25
-> +	{ .compatible =3D "st,stm32mp25-vdec", .data =3D &stm32mp25_vdec_varian=
-t, },
->  #endif
->  	{ /* sentinel */ }
->  };
-> diff --git a/drivers/media/platform/verisilicon/hantro_hw.h b/drivers/med=
-ia/platform/verisilicon/hantro_hw.h
-> index 7f33f7b07ce4..b7eccc1a96fc 100644
-> --- a/drivers/media/platform/verisilicon/hantro_hw.h
-> +++ b/drivers/media/platform/verisilicon/hantro_hw.h
-> @@ -406,6 +406,7 @@ extern const struct hantro_variant rk3568_vpu_variant=
-;
->  extern const struct hantro_variant rk3588_vpu981_variant;
->  extern const struct hantro_variant sama5d4_vdec_variant;
->  extern const struct hantro_variant sunxi_vpu_variant;
-> +extern const struct hantro_variant stm32mp25_vdec_variant;
-> =20
->  extern const struct hantro_postproc_ops hantro_g1_postproc_ops;
->  extern const struct hantro_postproc_ops hantro_g2_postproc_ops;
-> diff --git a/drivers/media/platform/verisilicon/stm32mp25_vdec_hw.c b/dri=
-vers/media/platform/verisilicon/stm32mp25_vdec_hw.c
-> new file mode 100644
-> index 000000000000..aa8b0f751390
-> --- /dev/null
-> +++ b/drivers/media/platform/verisilicon/stm32mp25_vdec_hw.c
-> @@ -0,0 +1,92 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * STM32MP25 VDEC video decoder driver
-> + *
-> + * Copyright (C) STMicroelectronics SA 2022
-> + * Authors: Hugues Fruchet <hugues.fruchet@foss.st.com>
-> + *          for STMicroelectronics.
-> + *
-> + */
-> +
-> +#include "hantro.h"
-> +
-> +/*
-> + * Supported formats.
-> + */
-> +
-> +static const struct hantro_fmt stm32mp25_vdec_fmts[] =3D {
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_NV12,
-> +		.codec_mode =3D HANTRO_MODE_NONE,
-> +		.frmsize =3D {
-> +			.min_width =3D FMT_MIN_WIDTH,
-> +			.max_width =3D FMT_FHD_WIDTH,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D FMT_MIN_HEIGHT,
-> +			.max_height =3D FMT_FHD_HEIGHT,
-> +			.step_height =3D MB_DIM,
-> +		},
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_VP8_FRAME,
-> +		.codec_mode =3D HANTRO_MODE_VP8_DEC,
-> +		.max_depth =3D 2,
-> +		.frmsize =3D {
-> +			.min_width =3D FMT_MIN_WIDTH,
-> +			.max_width =3D FMT_FHD_WIDTH,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D FMT_MIN_HEIGHT,
-> +			.max_height =3D FMT_FHD_HEIGHT,
-> +			.step_height =3D MB_DIM,
-> +		},
-> +	},
-> +	{
-> +		.fourcc =3D V4L2_PIX_FMT_H264_SLICE,
-> +		.codec_mode =3D HANTRO_MODE_H264_DEC,
-> +		.max_depth =3D 2,
-> +		.frmsize =3D {
-> +			.min_width =3D FMT_MIN_WIDTH,
-> +			.max_width =3D FMT_FHD_WIDTH,
-> +			.step_width =3D MB_DIM,
-> +			.min_height =3D FMT_MIN_HEIGHT,
-> +			.max_height =3D FMT_FHD_HEIGHT,
-> +			.step_height =3D MB_DIM,
-> +		},
-> +	},
-> +};
-> +
-> +/*
-> + * Supported codec ops.
-> + */
-> +
-> +static const struct hantro_codec_ops stm32mp25_vdec_codec_ops[] =3D {
-> +	[HANTRO_MODE_VP8_DEC] =3D {
-> +		.run =3D hantro_g1_vp8_dec_run,
-> +		.reset =3D hantro_g1_reset,
-> +		.init =3D hantro_vp8_dec_init,
-> +		.exit =3D hantro_vp8_dec_exit,
-> +	},
-> +	[HANTRO_MODE_H264_DEC] =3D {
-> +		.run =3D hantro_g1_h264_dec_run,
-> +		.reset =3D hantro_g1_reset,
-> +		.init =3D hantro_h264_dec_init,
-> +		.exit =3D hantro_h264_dec_exit,
-> +	},
-> +};
-> +
-> +static const struct hantro_irq stm32mp25_irqs[] =3D {
-> +	{ "vdec", hantro_g1_irq },
-> +};
-> +
-> +static const char * const stm32mp25_clk_names[] =3D { "vdec-clk" };
-> +
-> +const struct hantro_variant stm32mp25_vdec_variant =3D {
-> +	.dec_fmts =3D stm32mp25_vdec_fmts,
-> +	.num_dec_fmts =3D ARRAY_SIZE(stm32mp25_vdec_fmts),
-> +	.codec =3D HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
-> +	.codec_ops =3D stm32mp25_vdec_codec_ops,
-> +	.irqs =3D stm32mp25_irqs,
-> +	.num_irqs =3D ARRAY_SIZE(stm32mp25_irqs),
-> +	.clk_names =3D stm32mp25_clk_names,
-> +	.num_clocks =3D ARRAY_SIZE(stm32mp25_clk_names),
-> +};
+What about:
 
+Actually req_fr check into alvium_s_frame_interval() is wrong.
+In particular req_fr can't be >=max and <= min at the same time.
+Fix this using clamp and remove dft_fr parameter from
+alvium_get_frame_interval() not more used.
+
+Clamp function make sure that if the setted value exceeds the limits is
+replaced with min_fr/max_fr instead of setting the value readed back
+from the hw.
+
+What do you think?
+
+Thanks & Regards,
+Tommaso
+
+> 
+> > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> > ---
+> >  drivers/media/i2c/alvium-csi2.c | 12 ++++--------
+> >  1 file changed, 4 insertions(+), 8 deletions(-)
+> > 
+> > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
+> > index 240bf991105e..01111a00902d 100644
+> > --- a/drivers/media/i2c/alvium-csi2.c
+> > +++ b/drivers/media/i2c/alvium-csi2.c
+> > @@ -1171,12 +1171,10 @@ static int alvium_set_bayer_pattern(struct alvium_dev *alvium,
+> >  }
+> >  
+> >  static int alvium_get_frame_interval(struct alvium_dev *alvium,
+> > -				     u64 *dft_fr, u64 *min_fr, u64 *max_fr)
+> > +				     u64 *min_fr, u64 *max_fr)
+> >  {
+> >  	int ret = 0;
+> >  
+> > -	alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_RW,
+> > -		    dft_fr, &ret);
+> >  	alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_MIN_R,
+> >  		    min_fr, &ret);
+> >  	alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_MAX_R,
+> > @@ -1647,7 +1645,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> >  {
+> >  	struct alvium_dev *alvium = sd_to_alvium(sd);
+> >  	struct device *dev = &alvium->i2c_client->dev;
+> > -	u64 req_fr, dft_fr, min_fr, max_fr;
+> > +	u64 req_fr, min_fr, max_fr;
+> >  	struct v4l2_fract *interval;
+> >  	int ret;
+> >  
+> > @@ -1657,7 +1655,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> >  	if (fi->interval.denominator == 0)
+> >  		return -EINVAL;
+> >  
+> > -	ret = alvium_get_frame_interval(alvium, &dft_fr, &min_fr, &max_fr);
+> > +	ret = alvium_get_frame_interval(alvium, &min_fr, &max_fr);
+> >  	if (ret) {
+> >  		dev_err(dev, "Fail to get frame interval\n");
+> >  		return ret;
+> > @@ -1670,9 +1668,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
+> >  
+> >  	req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
+> >  		       fi->interval.numerator);
+> > -
+> > -	if (req_fr >= max_fr && req_fr <= min_fr)
+> > -		req_fr = dft_fr;
+> > +	req_fr = clamp(req_fr, min_fr, max_fr);
+> >  
+> >  	interval = v4l2_subdev_state_get_interval(sd_state, 0);
+> >  
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
 
