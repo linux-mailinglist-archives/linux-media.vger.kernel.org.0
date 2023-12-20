@@ -1,136 +1,128 @@
-Return-Path: <linux-media+bounces-2678-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2679-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CC6819741
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 04:47:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F31AB8198A3
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 07:33:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F387B1F26923
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 03:47:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9E322882FF
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 06:33:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BDE28F41;
-	Wed, 20 Dec 2023 03:47:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67D7B14F65;
+	Wed, 20 Dec 2023 06:33:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="edD8N4o1"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RFXgY9h+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61F1A1A582
-	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 03:46:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703044018; x=1734580018;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=Dvy1dgcBizUtMce5mbPm25F0EyoK1a3NkkWdHrNugLc=;
-  b=edD8N4o1v8eZW+7FQsI7C3+xhZqhP+d2Rp3CqGhiWCEAsvvZrrjeSDx9
-   YY6mM85mi07q8xMSEumb3BvfFX+TK9w3i5YS0P+EwXjTiQy2JTapNtZJr
-   KyIaLMvPdCkuo8nS7BGr7VBMNsmujB0rBv8Xnc1o44Of/ghM0ULFFPZ7k
-   ind7n/MRky4qbAPKFxxCyF8ywn8nbqgs16ujCi9Uxy5z1L/nsxPTE5XD7
-   u/LeLJfES2dfysxDZxpLRlvl1CVr79yCFygvyRR6qRQKr8xJtCqpQ548S
-   iCV7aBhfiSLCuD5gKGP691ITTZbF91VAHaF/wq6a4fCbglDPD87vpLrwv
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="2611321"
-X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
-   d="scan'208";a="2611321"
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Dec 2023 19:46:57 -0800
-X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="949394117"
-X-IronPort-AV: E=Sophos;i="6.04,290,1695711600"; 
-   d="scan'208";a="949394117"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.232.136]) ([10.238.232.136])
-  by orsmga005.jf.intel.com with ESMTP; 19 Dec 2023 19:46:53 -0800
-Subject: Re: [PATCH 11/15] media: intel/ipu6: input system video capture nodes
-To: bingbu.cao@intel.com, sakari.ailus@linux.intel.com,
- laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org
-Cc: ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
- senozhatsky@chromium.org, andriy.shevchenko@linux.intel.com,
- hdegoede@redhat.com, tomi.valkeinen@ideasonboard.com, tian.shu.qiu@intel.com
-References: <20230727071558.1148653-1-bingbu.cao@intel.com>
- <20230727071558.1148653-12-bingbu.cao@intel.com>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <7ed5642c-cb3e-a931-dc83-ed9c6241aa69@linux.intel.com>
-Date: Wed, 20 Dec 2023 11:42:47 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A250414AA6;
+	Wed, 20 Dec 2023 06:32:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.17.1.24/8.17.1.24) with ESMTP id 3BK5LJki030251;
+	Wed, 20 Dec 2023 06:32:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	message-id:date:mime-version:subject:to:cc:references:from
+	:in-reply-to:content-type:content-transfer-encoding; s=
+	qcppdkim1; bh=H+yzUCisvEbkPUEHym0QjsjP6XAzDoMfyOVXQ9S3PqE=; b=RF
+	XgY9h+49royOk+metHq3zw+9NBGoCXAODQHgoV++KnJx+n/6Tvph1tyvi8QPifa4
+	Rl9LXw+tP2IE/5+oC4/aG9y5mPB96AdZcSlF0/5ssLL2lWhstG51CO/bsIzj6DMM
+	dnb4Mt7FmooTINFDWs6Do+/rXFPaal+fRLcZgSX7YA6EsOn9KHccYBF3yfjQKBNF
+	UwmoYr1CiMpQ/QLsoov68VAhkCgb9dn2YpBFZD2yGzpDfb++gLPe2mp062sdwG78
+	82L58PieXarbVGzloeUFulci4n9YWPgK8MauOe6W5WT6QGLFDm7cVMeLJ0MnyXWU
+	OSTnsgXMFKjRL9f+yxgQ==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 3v37vxtp8m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Dec 2023 06:32:53 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA02.qualcomm.com (8.17.1.5/8.17.1.5) with ESMTPS id 3BK6WrWE024537
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 20 Dec 2023 06:32:53 GMT
+Received: from [10.216.20.45] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1118.40; Tue, 19 Dec
+ 2023 22:32:49 -0800
+Message-ID: <d0ea23ae-8fba-d229-b0f6-dc522f285233@quicinc.com>
+Date: Wed, 20 Dec 2023 12:02:45 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20230727071558.1148653-12-bingbu.cao@intel.com>
-Content-Type: text/plain; charset=windows-1252
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v2 00/34] Qualcomm video encoder and decoder driver
 Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@linaro.org>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>,
+        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <stanimir.k.varbanov@gmail.com>, <agross@kernel.org>,
+        <andersson@kernel.org>, <konrad.dybcio@linaro.org>,
+        <mchehab@kernel.org>, <bryan.odonoghue@linaro.org>
+CC: <linux-arm-msm@vger.kernel.org>, <quic_abhinavk@quicinc.com>
+References: <1702899149-21321-1-git-send-email-quic_dikshita@quicinc.com>
+ <a033dfc5-dcf1-4969-ad4d-1836ff9ff0a3@linaro.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <a033dfc5-dcf1-4969-ad4d-1836ff9ff0a3@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: quYc5HixXbRvfkGHmsyyua48rxpl76PE
+X-Proofpoint-GUID: quYc5HixXbRvfkGHmsyyua48rxpl76PE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.272,Aquarius:18.0.997,Hydra:6.0.619,FMLib:17.11.176.26
+ definitions=2023-12-09_02,2023-12-07_01,2023-05-22_02
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 mlxlogscore=485
+ suspectscore=0 impostorscore=0 lowpriorityscore=0 malwarescore=0
+ bulkscore=0 phishscore=0 spamscore=0 clxscore=1011 mlxscore=0 adultscore=0
+ priorityscore=1501 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2311290000 definitions=main-2312200042
 
+Hi Dmitry,
 
-Sakari and Laurent,
-
-
-On 7/27/23 3:15 PM, bingbu.cao@intel.com wrote:
-> From: Bingbu Cao <bingbu.cao@intel.com>
+On 12/19/2023 12:08 AM, Dmitry Baryshkov wrote:
+> On 18/12/2023 13:31, Dikshita Agarwal wrote:
+>> This patch series introduces support for Qualcomm new video acceleration
+>> hardware architecture, used for video stream decoding/encoding. This driver
+>> is based on new communication protocol between video hardware and application
+>> processor.
 > 
-> Register v4l2 video device and setup the vb2 queue to
-> support basic video capture. Video streaming callback
-> will trigger the input system driver to construct a
-> input system stream configuration for firmware based on
-> data type and stream ID and then queue buffers to firmware
-> to do capture.
+> This doesn't answer one important point, you have been asked for v1. What is the
+> actual change point between Venus and Iris? What has been changed so much that
+> it demands a separate driver. This is the main question for the cover letter,
+> which has not been answered so far.
 > 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> ---
->  .../media/pci/intel/ipu6/ipu6-isys-queue.c    |  864 ++++++++++++
->  .../media/pci/intel/ipu6/ipu6-isys-queue.h    |   97 ++
->  .../media/pci/intel/ipu6/ipu6-isys-video.c    | 1237 +++++++++++++++++
->  .../media/pci/intel/ipu6/ipu6-isys-video.h    |  133 ++
->  4 files changed, 2331 insertions(+)
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-queue.h
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-video.c
->  create mode 100644 drivers/media/pci/intel/ipu6/ipu6-isys-video.h
-> 
-> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c b/drivers/media/pci/intel/ipu6/ipu6-isys-queue.c
-> new file mode 100644
-> index 000000000000..c683a1b7c91f
---snip--
+> From what I see from you bindings, the hardware is pretty close to what we see
+> in the latest venus generations. I asssme that there was a change in the vcodec
+> inteface to the firmware and other similar changes. Could you please point out,
+> which parts of Venus driver do no longer work or are not applicable for sm8550
 
-> +static const struct vb2_ops ipu6_isys_queue_ops = {
-> +	.queue_setup = queue_setup,
-> +	.wait_prepare = vb2_ops_wait_prepare,
-> +	.wait_finish = vb2_ops_wait_finish,
-> +	.buf_prepare = buf_prepare,
-> +	.start_streaming = start_streaming,
-> +	.stop_streaming = stop_streaming,
-> +	.buf_queue = buf_queue,
-> +};
-> +
-> +int ipu6_isys_queue_init(struct ipu6_isys_queue *aq)
-> +{
-> +	struct ipu6_isys *isys = ipu6_isys_queue_to_video(aq)->isys;
-> +	struct ipu6_isys_video *av = ipu6_isys_queue_to_video(aq);
-> +	int ret;
-> +
-> +	/* no support for userptr */
-> +	if (!aq->vbq.io_modes)
-> +		aq->vbq.io_modes = VB2_MMAP | VB2_DMABUF;
+The motivation behind having a separate IRIS driver was discussed earlier in [1]
+In the same discussion, it was ellaborated on how the impact would be with
+change in the new firmware interface and other video layers in the driver. I can
+add this in cover letter in the next revision.
 
+We see some duplication of code and to handle the same, the series brings in a
+common code reusability between iris and venus. Aligning the common peices of
+venus and iris will be a work in progress, once we land the base driver for iris.
 
-There are some improvement and bug fixing in vb2 USERPTR in the past
-months, I remember someone told me the userptr is buggy, I remove the
-USERPTR support from current IPU6 ISYS driver. However, there is some
-userspace application still need the USERPTR, so I am not sure whether
-I should add it back. Do you have any suggestion?
+Again qualcomm video team does not have a plan to support sm8550/x1e80100 on
+venus as the changes are too interleaved to absorb in venus driver. And there is
+significant interest in community to start validating video driver on sm8550 or
+x1e80100.
 
+[1] https://lore.kernel.org/lkml/8c97d866-1cab-0106-4ab3-3ca070945ef7@quicinc.com/
 
---snip--
--- 
-Best regards,
-Bingbu Cao
+Regards,
+Vikash
 
