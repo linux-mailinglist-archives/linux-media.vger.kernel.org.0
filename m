@@ -1,317 +1,267 @@
-Return-Path: <linux-media+bounces-2804-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2805-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AFBD819F43
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 13:43:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 53CED819F59
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 13:53:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 537D1288A08
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 12:43:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0B131284D97
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 12:53:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72F5C2577F;
-	Wed, 20 Dec 2023 12:42:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72BBE25544;
+	Wed, 20 Dec 2023 12:53:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="EgRn/M4p"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WJzKXwO9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1814125768;
-	Wed, 20 Dec 2023 12:42:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 246D0250E7
+	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 12:53:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-a269a271b5bso28910966b.1;
-        Wed, 20 Dec 2023 04:42:06 -0800 (PST)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-50e3c6f1c10so4295495e87.1
+        for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 04:53:31 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1703076125; x=1703680925; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=c+OYySgHHNTfvrGPve6K5XaLtto4C7fZ8C40m6cGKqQ=;
-        b=EgRn/M4p2XvyrRqE7AahaZm8Hxwf+lCyrLnil1pYsDS7G4JqpyYz8Ha969ViKXDiWi
-         r2c7Wou4OsFAaOSRp5h+Go5aOHOrENn/ec43uACZ3YyyexdWVZu+6PzZx0jAS/O29rlU
-         N1Co608gc6syCyuf8uj53HsewyxX8xuPj1etuDKCVMn58MfcE0h63DX3Cdviv1A4D307
-         EfCnSMpaKCjgv3TtanHDDKVd7sEV/ti3XPmjVq7DkK16Y7ryqCAgRPywB5xE47IpJwEY
-         lLjN5WAOX6X/86MuUMxYqKc3vWBuJLdJmLaC2OtUZlFVPPp5av5yf3mpRxpNtRt5gVfu
-         ybCA==
+        d=gmail.com; s=20230601; t=1703076810; x=1703681610; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=QZ3IIkdSmYC2Go4m9T4Dq2tsXHplBAd7I16P8WLpMc4=;
+        b=WJzKXwO9GBLhh0LRSmOJw++MFC3dWAYp96tcPSoOaH8S48AL6udfZklAI7OUMs/7nE
+         KVHsYpF/PR7aPDfiCIeCGZJfnoSJWzaKrEbcFU6Qcd+Bphh9T2MRmN0rjGnK4KFtXMdX
+         E5k7IEPypvfFsKi9aIJo68E1GK7ZqjmdGG4sELo4OLy2DtFbmLjIg8Vpth1JxOCuy571
+         cczUZBCbstYDB+8TET/8N6TtwJ1QX9iCA+hUKHBdhQ8vxOQt2zFU0EuqXqD0/VGWneng
+         DK2BTgvmL13FiKlulepX/23i0ogjaCG3/CTYMUzdDOZmdyNO+zDLjz51XMBZS+MW69T/
+         LD/g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1703076125; x=1703680925;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=c+OYySgHHNTfvrGPve6K5XaLtto4C7fZ8C40m6cGKqQ=;
-        b=e6vXw41ebt8DZYH1OY8GG/PJzC9NnBhUkADNEecTym55SpG/vi144p+QUWx0MtU8mt
-         8fpJjOPRVqMMlUL08kxF4Yz4+dItGB3EKoyt8V5iJQKi+XHQ5AOeAI1c9Zj7DouoKsp9
-         OiTumsoCv+stOaLjdJfb26zrSRm3+a2vGarJT9fis8XMeKe1rLylKqIZ7dNokr6jQDAg
-         OKM7uLgngCGLxEr3K37y86niq+L/mB5BwRH7zO15INe/K5txEALsXN2Sxrd9jGzK+KC4
-         UDyd5jl3oaUqhooMb1dy4kff4D65iTcEPVFl/BHV1Y4CrIcxhaYjBZd+T7hdQ+IG7kqw
-         gbyg==
-X-Gm-Message-State: AOJu0YwY6+mr0OqRHnUe3reGKThtKedkIt8ekuXvbyNFe+4HXQKPyvat
-	fM2SgW+EnhUJ1Xp8H4L19GxhX7MXTaQ=
-X-Google-Smtp-Source: AGHT+IHvugUFVYkk01amjd/zSYSFsKIIG+w/DrNxvz0EjKrdNTSKbMj6urF22EEVpibk71HXjzr59A==
-X-Received: by 2002:a17:906:188:b0:a19:a1ba:da45 with SMTP id 8-20020a170906018800b00a19a1bada45mr8553632ejb.108.1703076125132;
-        Wed, 20 Dec 2023 04:42:05 -0800 (PST)
-Received: from tom-HP-ZBook-Fury-15-G7-Mobile-Workstation (net-188-217-59-229.cust.vodafonedsl.it. [188.217.59.229])
-        by smtp.gmail.com with ESMTPSA id y22-20020a170906071600b00a2686db1e81sm1381358ejb.26.2023.12.20.04.42.04
+        d=1e100.net; s=20230601; t=1703076810; x=1703681610;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=QZ3IIkdSmYC2Go4m9T4Dq2tsXHplBAd7I16P8WLpMc4=;
+        b=s9sQCr+A4hbjWpdXaWc5Qn32CbvAMxyV6p7+rhLpc5CiN8AIg9pzwNOGH+uU3XhpYc
+         WEB/rFGAFibAS4b55fBpWhk+qlmENxNktBJMp908gqpRTNxEEILvV3VDc9JKzfG8AUnb
+         zKciQzF8rYR87oxx+cP2xeDsHSoowVBahNab5a+J1hQcAzhO2C+6gCyh4e6X+BiGcUFs
+         Q9uNDWlPkbxFqGdR23uE3cGZ4arCFeDiTLVfVPpMF4PSCcqcdifWMnPYErrw+S070rja
+         HpJURaUZJ70QMNqQ7kY/dZ8ulQyM2lA8K6vYSkeMKA6Q/uNbR65XeWaNOepn9lLbT173
+         HwIQ==
+X-Gm-Message-State: AOJu0Ywa7M9eWgf4KdAF7tKnWC6nsS2WSdP0BGxisRe5tQPOudCq28yu
+	oPHsalyT7K/GvEj6rrtMTWM=
+X-Google-Smtp-Source: AGHT+IEu2raiXBCp1dpACjgESqgYPMdRJRxrt4YMMqXfltExUpFjRfGIVCDQk7j/XTvLo2LHmdHt5A==
+X-Received: by 2002:ac2:420a:0:b0:50e:530a:22a6 with SMTP id y10-20020ac2420a000000b0050e530a22a6mr228861lfh.55.1703076809697;
+        Wed, 20 Dec 2023 04:53:29 -0800 (PST)
+Received: from [10.9.136.59] ([87.62.83.1])
+        by smtp.gmail.com with ESMTPSA id bq6-20020a170906d0c600b00a268ee9017fsm825373ejb.157.2023.12.20.04.53.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Dec 2023 04:42:04 -0800 (PST)
-Date: Wed, 20 Dec 2023 13:42:02 +0100
-From: Tommaso Merciai <tomm.merciai@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linuxfancy@googlegroups.com, martin.hecht@avnet.eu,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 2/4] media: i2c: alvium: removal of fr field
-Message-ID: <ZYLhGqOKvoXOuaSK@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
-References: <20231220085609.2595732-1-tomm.merciai@gmail.com>
- <20231220085609.2595732-3-tomm.merciai@gmail.com>
- <20231220091309.GG29638@pendragon.ideasonboard.com>
- <ZYK7y/jaEZ2JHsnH@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20231220100643.GJ29638@pendragon.ideasonboard.com>
- <ZYLNuw1/IJg7jrEa@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20231220112902.GE25366@pendragon.ideasonboard.com>
- <ZYLYAMrEtCoQ940z@tom-HP-ZBook-Fury-15-G7-Mobile-Workstation>
- <20231220121944.GM29638@pendragon.ideasonboard.com>
+        Wed, 20 Dec 2023 04:53:29 -0800 (PST)
+Message-ID: <e136389011517dbc65b30f6bf0b1a9c49ab4e599.camel@gmail.com>
+Subject: RFC: Intel IPU4 driver proof of concept
+From: Andreas Helbech Kleist <andreaskleist@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>, Bingbu Cao
+ <bingbu.cao@linux.intel.com>,  bingbu.cao@intel.com,
+ linux-media@vger.kernel.org, sakari.ailus@linux.intel.com, 
+ laurent.pinchart@ideasonboard.com, Ricardo Ribalda <ribalda@chromium.org>, 
+ claus.stovgaard@gmail.com
+Cc: ilpo.jarvinen@linux.intel.com, tfiga@chromium.org,
+ senozhatsky@chromium.org,  andriy.shevchenko@linux.intel.com,
+ tomi.valkeinen@ideasonboard.com,  tian.shu.qiu@intel.com,
+ hongju.wang@intel.com
+Date: Wed, 20 Dec 2023 13:53:27 +0100
+In-Reply-To: <83426573-8c4b-ec20-6916-2917aa06954f@redhat.com>
+References: <20230727071558.1148653-1-bingbu.cao@intel.com>
+	 <20230727071558.1148653-11-bingbu.cao@intel.com>
+	 <1ce2242844b3e1348d7343b84b15dd87e0f66e6a.camel@gmail.com>
+	 <ea3cc241-4074-2b53-359f-360ca45a7b1f@linux.intel.com>
+	 <900a1efcbf29aa238f2ace788dc739e9c6ad3c26.camel@gmail.com>
+	 <9d5d0bd8-41d1-4879-fccf-54e56aaa5073@redhat.com>
+	 <e0cc94736e4142f2d661a8bbb0c800b709349377.camel@gmail.com>
+	 <83426573-8c4b-ec20-6916-2917aa06954f@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.44.4-0ubuntu2 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20231220121944.GM29638@pendragon.ideasonboard.com>
 
-On Wed, Dec 20, 2023 at 02:19:44PM +0200, Laurent Pinchart wrote:
-> On Wed, Dec 20, 2023 at 01:03:12PM +0100, Tommaso Merciai wrote:
-> > On Wed, Dec 20, 2023 at 01:29:02PM +0200, Laurent Pinchart wrote:
-> > > On Wed, Dec 20, 2023 at 12:19:23PM +0100, Tommaso Merciai wrote:
-> > > > On Wed, Dec 20, 2023 at 12:06:43PM +0200, Laurent Pinchart wrote:
-> > > > > On Wed, Dec 20, 2023 at 11:02:51AM +0100, Tommaso Merciai wrote:
-> > > > > > On Wed, Dec 20, 2023 at 11:13:09AM +0200, Laurent Pinchart wrote:
-> > > > > > > Hi Tommaso,
-> > > > > > > 
-> > > > > > > Thank you for the patch.
-> > > > > > > 
-> > > > > > > Use the imperative in the subject line:
-> > > > > > > 
-> > > > > > > media: i2c: alvium: Remove the fr field of the alvium_dev structure
-> > > > > > > 
-> > > > > > > On Wed, Dec 20, 2023 at 09:56:07AM +0100, Tommaso Merciai wrote:
-> > > > > > > > The fr (frame rate) field of the alvium_dev structure is
-> > > > > > > > only used to pass result from alvium_set_frame_interval() to
-> > > > > > > > alvium_set_frame_rate() that writes this info into the hw reg.
-> > > > > > > > Replace them with function parameter.
-> > > > > > > 
-> > > > > > > Replace it with a function parameter.
-> > > > > > 
-> > > > > > Thanks I'll fix this in v3.
-> > > > > > 
-> > > > > > > > 
-> > > > > > > > Signed-off-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> > > > > > > > ---
-> > > > > > > >  drivers/media/i2c/alvium-csi2.c | 24 ++++++++++++------------
-> > > > > > > >  drivers/media/i2c/alvium-csi2.h |  1 -
-> > > > > > > >  2 files changed, 12 insertions(+), 13 deletions(-)
-> > > > > > > > 
-> > > > > > > > diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
-> > > > > > > > index 0dcd69bf9f92..a9ff6cc97cff 100644
-> > > > > > > > --- a/drivers/media/i2c/alvium-csi2.c
-> > > > > > > > +++ b/drivers/media/i2c/alvium-csi2.c
-> > > > > > > > @@ -1185,19 +1185,19 @@ static int alvium_get_frame_interval(struct alvium_dev *alvium,
-> > > > > > > >  	return ret;
-> > > > > > > >  }
-> > > > > > > >  
-> > > > > > > > -static int alvium_set_frame_rate(struct alvium_dev *alvium)
-> > > > > > > > +static int alvium_set_frame_rate(struct alvium_dev *alvium, u64 fr)
-> > > > > > > >  {
-> > > > > > > >  	struct device *dev = &alvium->i2c_client->dev;
-> > > > > > > >  	int ret;
-> > > > > > > >  
-> > > > > > > >  	ret = alvium_write_hshake(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_RW,
-> > > > > > > > -				  alvium->fr);
-> > > > > > > > +				  fr);
-> > > > > > > >  	if (ret) {
-> > > > > > > >  		dev_err(dev, "Fail to set frame rate lanes reg\n");
-> > > > > > > >  		return ret;
-> > > > > > > >  	}
-> > > > > > > >  
-> > > > > > > > -	dev_dbg(dev, "set frame rate: %llu us\n", alvium->fr);
-> > > > > > > > +	dev_dbg(dev, "set frame rate: %llu us\n", fr);
-> > > > > > > >  
-> > > > > > > >  	return 0;
-> > > > > > > >  }
-> > > > > > > > @@ -1661,10 +1661,11 @@ static int alvium_g_frame_interval(struct v4l2_subdev *sd,
-> > > > > > > >  }
-> > > > > > > >  
-> > > > > > > >  static int alvium_set_frame_interval(struct alvium_dev *alvium,
-> > > > > > > > -				     struct v4l2_subdev_frame_interval *fi)
-> > > > > > > > +				     struct v4l2_subdev_frame_interval *fi,
-> > > > > > > > +				     u64 *req_fr)
-> > > > > > > >  {
-> > > > > > > >  	struct device *dev = &alvium->i2c_client->dev;
-> > > > > > > > -	u64 req_fr, dft_fr, min_fr, max_fr;
-> > > > > > > > +	u64 dft_fr, min_fr, max_fr;
-> > > > > > > >  	int ret;
-> > > > > > > >  
-> > > > > > > >  	if (fi->interval.denominator == 0)
-> > > > > > > > @@ -1681,13 +1682,12 @@ static int alvium_set_frame_interval(struct alvium_dev *alvium,
-> > > > > > > >  	dev_dbg(dev, "fi->interval.denominator = %d\n",
-> > > > > > > >  		fi->interval.denominator);
-> > > > > > > >  
-> > > > > > > > -	req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
-> > > > > > > > +	*req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
-> > > > > > > >  		       fi->interval.numerator);
-> > > > > > > >  
-> > > > > > > > -	if (req_fr >= max_fr && req_fr <= min_fr)
-> > > > > > > > -		req_fr = dft_fr;
-> > > > > > > > +	if (*req_fr >= max_fr && *req_fr <= min_fr)
-> > > > > > > > +		*req_fr = dft_fr;
-> > > > > > > 
-> > > > > > > Shouldn't we clamp the value to [min, max] instead of using the default
-> > > > > > > if it's out of range ? Something like
-> > > > > > > 
-> > > > > > > 	*req_fr = clamp(*req_fr, min_fr, max_fr)
-> > > > > > > 
-> > > > > > > This makes me realize that the current code is wrong, req_fr can't be >=
-> > > > > > > max and <= min at the same time. You probably meant || instead of &&.
-> > > > > > > 
-> > > > > > > This should be fixed in a separate patch.
-> > > > > > 
-> > > > > > If this is ok for you, after this series I can put a patch with || fix
-> > > > > > instead of clamping, because if we clamp dft_fr is not used any more.
-> > > > > > After if you agree I will work on clamping.
-> > > > > > Thanks for the catch! :)
-> > > > > 
-> > > > > It's fine to fix this on top of the series, but I don't see why you
-> > > > > would need to first use ||. You can call clamp() and remove dft_fr.
-> > > > 
-> > > > I'm just thinking out loud eh :)
-> > > > 
-> > > > Maybe in the future we need to expose fr infos to the user to play with
-> > > > that. But we are writing for now, then we can replan to readd dft_fr
-> > > > read later.
-> > > > 
-> > > > I think this is what your are suggesting:
-> > > > 
-> > > > +++ b/drivers/media/i2c/alvium-csi2.c
-> > > > @@ -1171,12 +1171,10 @@ static int alvium_set_bayer_pattern(struct alvium_dev *alvium,
-> > > >  }
-> > > > 
-> > > >  static int alvium_get_frame_interval(struct alvium_dev *alvium,
-> > > > -                                    u64 *dft_fr, u64 *min_fr, u64 *max_fr)
-> > > > +                                    u64 *min_fr, u64 *max_fr)
-> > > >  {
-> > > >         int ret = 0;
-> > > > 
-> > > > -       alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_RW,
-> > > > -                   dft_fr, &ret);
-> > > >         alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_MIN_R,
-> > > >                     min_fr, &ret);
-> > > >         alvium_read(alvium, REG_BCRM_ACQUISITION_FRAME_RATE_MAX_R,
-> > > > @@ -1647,7 +1645,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
-> > > >  {
-> > > >         struct alvium_dev *alvium = sd_to_alvium(sd);
-> > > >         struct device *dev = &alvium->i2c_client->dev;
-> > > > -       u64 req_fr, dft_fr, min_fr, max_fr;
-> > > > +       u64 req_fr, min_fr, max_fr;
-> > > >         struct v4l2_fract *interval;
-> > > >         int ret;
-> > > > 
-> > > > @@ -1657,7 +1655,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
-> > > >         if (fi->interval.denominator == 0)
-> > > >                 return -EINVAL;
-> > > > 
-> > > > -       ret = alvium_get_frame_interval(alvium, &dft_fr, &min_fr, &max_fr);
-> > > > +       ret = alvium_get_frame_interval(alvium, &min_fr, &max_fr);
-> > > >         if (ret) {
-> > > >                 dev_err(dev, "Fail to get frame interval\n");
-> > > >                 return ret;
-> > > > @@ -1670,9 +1668,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
-> > > > 
-> > > >         req_fr = (u64)((fi->interval.denominator * USEC_PER_SEC) /
-> > > >                        fi->interval.numerator);
-> > > > -
-> > > > -       if (req_fr >= max_fr && req_fr <= min_fr)
-> > > > -               req_fr = dft_fr;
-> > > > +       req_fr = clamp(req_fr, min_fr, max_fr);
-> > > > 
-> > > >         interval = v4l2_subdev_state_get_interval(sd_state, 0);
-> > > > 
-> > > > right?
-> > > 
-> > > Yes this looks good to me.
-> > 
-> > Just an info.
-> > Can I proceed to send v3 of this series and then the fix or better to
-> > wait?
-> 
-> For me you can send v3. Bonus points if you include the above fix in v3
-> as a patch at the end :-) I think we would then be ready to merge the
-> whole series.
+Hi,
 
-Perfect, thanks :)
+As mentioned previously in Bingbu's IPU6 patch series, I'm working on
+porting the driver to IPU4. I've now got a hole through so I think it
+makes sense sense to share the code.
 
-> 
-> > > > > > > >  
-> > > > > > > > -	alvium->fr = req_fr;
-> > > > > > > >  	alvium->frame_interval.numerator = fi->interval.numerator;
-> > > > > > > >  	alvium->frame_interval.denominator = fi->interval.denominator;
-> > > > > > > >  
-> > > > > > > > @@ -1699,6 +1699,7 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
-> > > > > > > >  				   struct v4l2_subdev_frame_interval *fi)
-> > > > > > > >  {
-> > > > > > > >  	struct alvium_dev *alvium = sd_to_alvium(sd);
-> > > > > > > > +	u64 req_fr = ALVIUM_DEFAULT_FR_HZ;
-> > > > > > > 
-> > > > > > > Do you need to initialize the variable ? It doesn't seem to be required.
-> > > > > > 
-> > > > > > Really not, it's just to maintain the logic of alvium->fr. I will drop
-> > > > > > this in v3, thanks!
-> > > > > > 
-> > > > > > > With these small issues fixed,
-> > > > > > > 
-> > > > > > > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > > > > > 
-> > > > > > > >  	int ret;
-> > > > > > > >  
-> > > > > > > >  	/*
-> > > > > > > > @@ -1711,9 +1712,9 @@ static int alvium_s_frame_interval(struct v4l2_subdev *sd,
-> > > > > > > >  	if (alvium->streaming)
-> > > > > > > >  		return -EBUSY;
-> > > > > > > >  
-> > > > > > > > -	ret = alvium_set_frame_interval(alvium, fi);
-> > > > > > > > +	ret = alvium_set_frame_interval(alvium, fi, &req_fr);
-> > > > > > > >  	if (!ret)
-> > > > > > > > -		ret = alvium_set_frame_rate(alvium);
-> > > > > > > > +		ret = alvium_set_frame_rate(alvium, req_fr);
-> > > > > > > >  
-> > > > > > > >  	return ret;
-> > > > > > > >  }
-> > > > > > > > @@ -2273,7 +2274,6 @@ static int alvium_subdev_init(struct alvium_dev *alvium)
-> > > > > > > >  	/* Setup initial frame interval*/
-> > > > > > > >  	alvium->frame_interval.numerator = 1;
-> > > > > > > >  	alvium->frame_interval.denominator = ALVIUM_DEFAULT_FR_HZ;
-> > > > > > > > -	alvium->fr = ALVIUM_DEFAULT_FR_HZ;
-> > > > > > > >  
-> > > > > > > >  	/* Setup the initial mode */
-> > > > > > > >  	alvium->mode.fmt = alvium_csi2_default_fmt;
-> > > > > > > > diff --git a/drivers/media/i2c/alvium-csi2.h b/drivers/media/i2c/alvium-csi2.h
-> > > > > > > > index 17f0bbbd1839..80066ac25047 100644
-> > > > > > > > --- a/drivers/media/i2c/alvium-csi2.h
-> > > > > > > > +++ b/drivers/media/i2c/alvium-csi2.h
-> > > > > > > > @@ -443,7 +443,6 @@ struct alvium_dev {
-> > > > > > > >  
-> > > > > > > >  	struct alvium_mode mode;
-> > > > > > > >  	struct v4l2_fract frame_interval;
-> > > > > > > > -	u64 fr;
-> > > > > > > >  
-> > > > > > > >  	u8 h_sup_csi_lanes;
-> > > > > > > >  	u64 link_freq;
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
+I'm able to capture frames with yavta with the current code, but there
+are several issues that needs to be fixed for it to be complete.
+
+# How it is tested
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The hardware is a custom x86 PC-like embedded device with the following
+video pipeline:
+Endoscope -> FPGA -> tc358748 -> IPU4 (E3950/Apollo Lake)
+
+See my colleague Claus' description[2] for more info.
+
+There is currently no V4L2 subdevice for the FPGA, so we have a custom
+ambu-tc358748.c driver which pretends to be an image sensor.
+
+$ media-ctl -v \
+  -V "\
+    \"tc358748 0-000e\"    :0 [fmt:RGB888_1X24/800x800],\
+    \"Intel IPU4 CSI2 0\"  :0 [fmt:RGB888_1X24/800x800],\
+    \"Intel IPU4 CSI2 0\"  :1 [fmt:RGB888_1X24/800x800]\
+    "\
+  -l "\
+    \"tc358748 0-000e\"    :0 -> \"Intel IPU4 CSI2 0\" :0 [1],\
+    \"Intel IPU4 CSI2 0\"  :1 -> \"Intel IPU4 ISYS Capture 12\" :0 [5]\
+  "
+
+$ yavta --data-prefix -c2 -n2 -I -s 800x800 --file=3D/tmp/frame-#.bin \
+        -f XBGR32 /dev/video12
+
+This produces frame-*.bin files containing 800x800x4 bytes of valid
+"BGR0" data.
+
+# The code
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+The code is available at the tag
+https://github.com/Kleist/linux/tree/kleist-v6.6-ipu4-hacks-1
+(15245fe26e07)
+
+
+Note that I haven't renamed the files to ipu4, to make it clear what
+the changes are compared to the IPU6 driver.
+
+It is based on v6.6 with the IPU6 v2 patches[1] on top, and then my
+hacks to make the IPU4 work. This is not meant for upstreaming as it
+is. The commits are a cleaned up version of the chronological order I
+made the port in. It is not yet in a state where I think an RFC PATCH
+series makes sense yet, but I wanted to share it anyway.
+
+## Changes compared to IPU6
+diff --stat of the changes in ../ipu6/ compared to the IPU6 v2 patches:
+
+ drivers/media/pci/intel/ipu6/Kconfig               |  12 +-
+ drivers/media/pci/intel/ipu6/Makefile              |  13 +-
+ drivers/media/pci/intel/ipu6/ipu6-bus.c            |   2 +-
+ drivers/media/pci/intel/ipu6/ipu6-bus.h            |   6 +-
+ drivers/media/pci/intel/ipu6/ipu6-buttress.c       |  71 ++-
+ drivers/media/pci/intel/ipu6/ipu6-buttress.h       |   8 +-
+ drivers/media/pci/intel/ipu6/ipu6-fw-com.c         |  45 +-
+ drivers/media/pci/intel/ipu6/ipu6-fw-com.h         |   2 +-
+ drivers/media/pci/intel/ipu6/ipu6-fw-isys.c        | 171 ++++---
+ drivers/media/pci/intel/ipu6/ipu6-fw-isys.h        | 237 ++++++----
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c      | 219 +++++----
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.h      |  11 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.c     |  33 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-queue.h     |   8 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.c     | 212 +++------
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.h     |   4 -
+ drivers/media/pci/intel/ipu6/ipu6-isys.c           | 435 +++----------
+-----
+ drivers/media/pci/intel/ipu6/ipu6-isys.h           |  18 +-
+ drivers/media/pci/intel/ipu6/ipu6-mmu.c            | 130 +++++-
+ .../pci/intel/ipu6/ipu6-platform-buttress-regs.h   |  98 +---
+ .../pci/intel/ipu6/ipu6-platform-isys-csi2-reg.h   | 226 ++-------
+ drivers/media/pci/intel/ipu6/ipu6-platform-regs.h  | 172 ++-----
+ drivers/media/pci/intel/ipu6/ipu6.c                | 511 ++++++++-----
+--------
+ drivers/media/pci/intel/ipu6/ipu6.h                |  37 +-
+ 24 files changed, 1032 insertions(+), 1649 deletions(-)
+
+Note that most of the deleted lines are removed because they are not
+used in IPU4. E.g. the watermark handling, which I haven't seen an
+equivalent for in the old IPU4 driver.
+
+## Ambu-specific tweaks
+Note that I'm using a hacked ipu-bridge (AMBU_IPU_BRIDGE) to setup the
+fwnode graph for our hardware. You don't want if you're testing this,
+so revert at least the "ambu: Add AMBU_IPU_BRIDGE" commit.
+
+I'm not sure the right approach for handling this would be going
+forward. Of course the ambu-ipu-bridge shouldn't be upstreamed, so I'm
+wondering how we can achieve something similar? The ACPI tables from
+our BIOS unfortunately don't contain any info about the Toshiba Bridge
+(tc358748), so we can't derive the information from there. Maybe some
+kind of platform driver could be created which tweaks the ACPI info
+before the ipu-bridge driver reads it?
+
+What do you typically do when you have some proprietary hardware that
+does not provide proper ACPI information? We could carry the ambu-ipu-
+bridge patches in our internal kernel tree, but that is not desirable
+in the long term.
+
+# Inspiration for the IPU4 port
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+We are currently using a Intel LTS 4.19.217 based kernel[3], which
+contains the old IPU4 driver. The port was basically made by comparing
+mmiotrace's between the old IPU4 driver and the new driver.
+
+We're using the IPU4 FW ipu4_cpd_b0.bin extracted from a ClearLinux
+package[4].
+
+# Known issues
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+## Doesn't yet work with gstreamer for unknown reasons
+I get "Unexpected buffer address:" errors from
+ipu6_isys_queue_buf_ready, and don't get an image through.
+
+## 64 byte chunks of wrong data
+We occasionally get 64 byte aligned 64 byte wrong data (all 0xCC) in
+the captured frame*.bin files. This could be a cache invalidation
+issue, we haven't looked into this yet. The code currently doesn't use
+zlw_invalidate, even though it was ported from the old driver. We
+haven't yet tested if enabling this fixes the issue.
+
+# Upstreaming
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+We would like to upstream this driver, probably after the IPU6 driver
+has been merged. We're definitely not ready yet (either), but I already
+have a couple of questions, that it would be nice to get some input on
+from the community.
+
+##=C2=A0How to share code between IPU4 and IPU6
+Big parts of the code (approximately 6k out of 7k lines) does not need
+to be changed compared to the IPU6 driver, so there is clearly a big
+overlap in what the two drivers need to do. I'm not sure how the best
+approach would be for sharing this functionality. I see a few options:
+1. Shared driver that supports both IPU's (still split in PCI driver
+and -isys driver)
+2. Shared PCI driver that supports both IPU's, but device-specific
+intel-ipu4-isys/intel-ipu6-isys drivers
+3. Separate drivers that use a shared "library module" (for lack of a
+better term)
+
+My gut feeling is that 2. is the right choice, especially if we moved
+the shared code in to the PCI driver and the more version-specific code
+was moved into the specific drivers.
+
+The answer to this could also be input to Bingbu's IPU6 series, maybe
+it would make sense to place some files differently if they eventually
+will be used in both IPU4 and IPU6 drivers?
+
+## How to implement our platform specific fwnode graph?
+As mentioned above, we currently have a hacked ambu-ipu-bridge driver,
+which is clearly not upstreamable. What would you typically do if you
+need to make a v4l setup where the ACPI table information about
+sensors/bridges is missing?
+
+/Andreas
+
+[1]https://lore.kernel.org/all/20231024112924.3934228-1-bingbu.cao@intel.co=
+m/
+[2]
+https://lore.kernel.org/all/471df7ffdf34b73d186c429a366cfee62963015f.camel@=
+gmail.com/
+[3]
+https://github.com/intel/linux-intel-lts/tree/lts-v4.19.217-base-211118T072=
+627Z
+[4]
+https://download.clearlinux.org/releases/32370/clear/source/SRPMS/linux-fir=
+mware-ipu-19ww39-104.src.rpm
 
