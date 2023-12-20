@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-2786-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2787-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD09C819D01
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 11:39:03 +0100 (CET)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1F37819D02
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 11:39:06 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 101DFB21FE4
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 10:39:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 722B7B216DE
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 10:39:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B87C622305;
-	Wed, 20 Dec 2023 10:37:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7A39F22323;
+	Wed, 20 Dec 2023 10:37:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ITN0I0zm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZPs1opUt"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D2EFE22095
-	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 10:37:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E6F2208C9
+	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 10:37:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1703068654; x=1734604654;
+  t=1703068655; x=1734604655;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Efa1tkqAq4Bbb7bmvP72snA5g2Goxea4SG3ZSO1mFaI=;
-  b=ITN0I0zmylsQjHMWJRkzxIO8NTynR5Fw4HF7a0Xw1rNNIlFDgkcKV2NR
-   oEFnLhJ1FLsFhW+8+bMQRWuQxtBXX+jlI+Qz/5sDmdIhxTAulvAwRSBV3
-   6geyCb/XB9f4Mc0jPbN2OJRqhL0aaIwC+f/n11jheN/Y8iC5r/gIbMGay
-   9nN4oyeyFAj+hCnTrxcEbvqsjul8wjKSkcvLrNR0KhwWLdU6BqIPAGUKZ
-   MaY4znYS5j5VoSuT4VeKrm3Z/6GMTzX8HIKd9N/05GoiKDDDX9T8HgdmP
-   isCNBqrK6rUsY0WBG0BnoInUkW2qX3bn9L9xduuANqzOCHVQMfUBkM9Bh
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="9174403"
+  bh=na+12loNNkFs8gMbbIPJRpDsi4oBG8NL0QQSFhxlflY=;
+  b=ZPs1opUtbqi7YdQ9QR/4oFFGfciBK9JQcnVtNKBXhPhkD7B90jq8zxHu
+   6pPaTTHgO1ArESP9L5r44CRMYevKrjSW0WtLzlvmi4hlQrFeZginyREp2
+   /ELvcqQG4Nd9YOpPQSZLUSOTIsdmbelRKDy0BMq9r+UMuOohNT2xpAga6
+   fn/r/xH3AGzfAP6AP5GHS2stLhfAYybud4AO2haAAKDpIrRJGW2GG4jwq
+   dfkYgwcS0iAM29w89bmh/loPI0GqBei3bY7Zq5JNbD1wHm3LKpeRhPcfM
+   XFtWQ0Gfw7aPni4H0uxAsSaO0AL2rfq168MkSdGHXtjoq49Q5niOgGs/+
+   Q==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="9174408"
 X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; 
-   d="scan'208";a="9174403"
+   d="scan'208";a="9174408"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
   by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 02:37:34 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="769544276"
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="769544278"
 X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; 
-   d="scan'208";a="769544276"
+   d="scan'208";a="769544278"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 02:37:32 -0800
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 02:37:33 -0800
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 0CF6812068E;
-	Wed, 20 Dec 2023 12:37:29 +0200 (EET)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 9721B120706;
+	Wed, 20 Dec 2023 12:37:30 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v2 25/29] media: mc: Add per-file-handle data support
-Date: Wed, 20 Dec 2023 12:37:09 +0200
-Message-Id: <20231220103713.113386-26-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 26/29] media: mc: Maintain a list of open file handles in a media device
+Date: Wed, 20 Dec 2023 12:37:10 +0200
+Message-Id: <20231220103713.113386-27-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
 References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
@@ -67,223 +67,126 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-The media devnode core associates devnodes with files by storing the
-devnode pointer in the file structure private_data field. In order to
-allow tracking of per-file-handle data introduce a new media devnode
-file handle structure that stores the devnode pointer, and store a
-pointer to that structure in the file private_data field.
-
-Users of the media devnode code (the only existing user being
-media_device) are responsible for managing their own subclass of the
-media_devnode_fh structure.
-
-Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
-Prepare struct media_device_fh to be used for maintaining file handle list
-to avoid shuffling things here and there right after.
+The list of file handles is needed to deliver media events as well as for
+other purposes in the future.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/mc/mc-device.c  | 14 +++++++++++++-
- drivers/media/mc/mc-devnode.c | 20 +++++++++-----------
- include/media/media-device.h  |  7 +++++++
- include/media/media-devnode.h | 18 +++++++++++++++++-
- include/media/media-fh.h      | 32 ++++++++++++++++++++++++++++++++
- 5 files changed, 78 insertions(+), 13 deletions(-)
- create mode 100644 include/media/media-fh.h
+ drivers/media/mc/mc-device.c  | 23 ++++++++++++++++++++++-
+ drivers/media/mc/mc-devnode.c |  2 +-
+ include/media/media-devnode.h |  4 +++-
+ 3 files changed, 26 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-index 10426c2796b6..67a39cb63f89 100644
+index 67a39cb63f89..9cc055deeec9 100644
 --- a/drivers/media/mc/mc-device.c
 +++ b/drivers/media/mc/mc-device.c
-@@ -22,6 +22,7 @@
- #include <media/media-device.h>
- #include <media/media-devnode.h>
- #include <media/media-entity.h>
-+#include <media/media-fh.h>
- #include <media/media-request.h>
+@@ -45,9 +45,11 @@ static inline void __user *media_get_uptr(__u64 arg)
+ 	return (void __user *)(uintptr_t)arg;
+ }
  
- #ifdef CONFIG_MEDIA_CONTROLLER
-@@ -35,7 +36,6 @@
- #define MEDIA_ENT_SUBTYPE_MASK			0x0000ffff
- #define MEDIA_ENT_T_DEVNODE_UNKNOWN		(MEDIA_ENT_F_OLD_BASE | \
- 						 MEDIA_ENT_SUBTYPE_MASK)
--
- /* -----------------------------------------------------------------------------
-  * Userspace API
-  */
-@@ -47,11 +47,23 @@ static inline void __user *media_get_uptr(__u64 arg)
- 
- static int media_device_open(struct file *filp)
+-static int media_device_open(struct file *filp)
++static int media_device_open(struct media_devnode *devnode, struct file *filp)
  {
-+	struct media_device_fh *fh;
-+
-+	fh = kzalloc(sizeof(*fh), GFP_KERNEL);
-+	if (!fh)
-+		return -ENOMEM;
-+
-+	filp->private_data = &fh->fh;
++	struct media_device *mdev = to_media_device(devnode);
+ 	struct media_device_fh *fh;
++	unsigned long flags;
+ 
+ 	fh = kzalloc(sizeof(*fh), GFP_KERNEL);
+ 	if (!fh)
+@@ -55,12 +57,23 @@ static int media_device_open(struct file *filp)
+ 
+ 	filp->private_data = &fh->fh;
+ 
++	spin_lock_irqsave(&mdev->fh_list_lock, flags);
++	list_add(&fh->mdev_list, &mdev->fh_list);
++	spin_unlock_irqrestore(&mdev->fh_list_lock, flags);
 +
  	return 0;
  }
  
  static int media_device_close(struct file *filp)
  {
-+	struct media_device_fh *fh = media_device_fh(filp);
++	struct media_devnode *devnode = media_devnode_data(filp);
++	struct media_device *mdev = to_media_device(devnode);
+ 	struct media_device_fh *fh = media_device_fh(filp);
++	unsigned long flags;
 +
-+	kfree(fh);
-+
- 	return 0;
- }
++	spin_lock_irqsave(&mdev->fh_list_lock, flags);
++	list_del(&fh->mdev_list);
++	spin_unlock_irqrestore(&mdev->fh_list_lock, flags);
  
+ 	kfree(fh);
+ 
+@@ -769,11 +782,13 @@ void media_device_init(struct media_device *mdev)
+ 	INIT_LIST_HEAD(&mdev->pads);
+ 	INIT_LIST_HEAD(&mdev->links);
+ 	INIT_LIST_HEAD(&mdev->entity_notify);
++	INIT_LIST_HEAD(&mdev->fh_list);
+ 
+ 	mutex_init(&mdev->req_queue_mutex);
+ 	mutex_init(&mdev->graph_mutex);
+ 	ida_init(&mdev->entity_internal_idx);
+ 	atomic_set(&mdev->request_id, 0);
++	spin_lock_init(&mdev->fh_list_lock);
+ 
+ 	mdev->devnode.release = media_device_release;
+ 	media_devnode_init(&mdev->devnode);
+@@ -824,6 +839,8 @@ EXPORT_SYMBOL_GPL(__media_device_register);
+ 
+ void media_device_unregister(struct media_device *mdev)
+ {
++	unsigned long flags;
++
+ 	if (mdev == NULL)
+ 		return;
+ 
+@@ -834,6 +851,10 @@ void media_device_unregister(struct media_device *mdev)
+ 	}
+ 	mutex_unlock(&mdev->graph_mutex);
+ 
++	spin_lock_irqsave(&mdev->fh_list_lock, flags);
++	list_del_init(&mdev->fh_list);
++	spin_unlock_irqrestore(&mdev->fh_list_lock, flags);
++
+ 	device_remove_file(&mdev->devnode.dev, &dev_attr_model);
+ 	dev_dbg(mdev->dev, "Media device unregistering\n");
+ 	media_devnode_unregister(&mdev->devnode);
 diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
-index 4ea05e42dafb..04d376015526 100644
+index 04d376015526..0b5c24828e24 100644
 --- a/drivers/media/mc/mc-devnode.c
 +++ b/drivers/media/mc/mc-devnode.c
-@@ -150,6 +150,7 @@ static long media_compat_ioctl(struct file *filp, unsigned int cmd,
- static int media_open(struct inode *inode, struct file *filp)
- {
- 	struct media_devnode *devnode;
-+	struct media_devnode_fh *fh;
- 	int ret;
- 
- 	/* Check if the media device is available. This needs to be done with
-@@ -170,17 +171,15 @@ static int media_open(struct inode *inode, struct file *filp)
+@@ -171,7 +171,7 @@ static int media_open(struct inode *inode, struct file *filp)
  	get_device(&devnode->dev);
  	mutex_unlock(&media_devnode_lock);
  
--	filp->private_data = devnode;
--
--	if (devnode->fops->open) {
--		ret = devnode->fops->open(filp);
--		if (ret) {
--			put_device(&devnode->dev);
--			filp->private_data = NULL;
--			return ret;
--		}
-+	ret = devnode->fops->open(filp);
-+	if (ret) {
-+		put_device(&devnode->dev);
-+		return ret;
- 	}
- 
-+	fh = filp->private_data;
-+	fh->devnode = devnode;
-+
- 	return 0;
- }
- 
-@@ -189,8 +188,7 @@ static int media_release(struct inode *inode, struct file *filp)
- {
- 	struct media_devnode *devnode = media_devnode_data(filp);
- 
--	if (devnode->fops->release)
--		devnode->fops->release(filp);
-+	devnode->fops->release(filp);
- 
- 	filp->private_data = NULL;
- 
-diff --git a/include/media/media-device.h b/include/media/media-device.h
-index 98e1892f1b51..83b8ea44463d 100644
---- a/include/media/media-device.h
-+++ b/include/media/media-device.h
-@@ -110,6 +110,10 @@ struct media_device_ops {
-  *		     other operations that stop or start streaming.
-  * @request_id: Used to generate unique request IDs
-  *
-+ * @fh_list:	List of file handles in the media device
-+ *		(struct media_device_fh.mdev_list).
-+ * @fh_list_lock: Serialise access to fh_list list.
-+ *
-  * This structure represents an abstract high-level media device. It allows easy
-  * access to entities and provides basic media device-level support. The
-  * structure can be allocated directly or embedded in a larger structure.
-@@ -182,6 +186,9 @@ struct media_device {
- 
- 	struct mutex req_queue_mutex;
- 	atomic_t request_id;
-+
-+	struct list_head fh_list;
-+	spinlock_t fh_list_lock;
- };
- 
- /* We don't need to include usb.h here */
+-	ret = devnode->fops->open(filp);
++	ret = devnode->fops->open(devnode, filp);
+ 	if (ret) {
+ 		put_device(&devnode->dev);
+ 		return ret;
 diff --git a/include/media/media-devnode.h b/include/media/media-devnode.h
-index d050f54f252a..b0efdde4ffd8 100644
+index b0efdde4ffd8..840f7ae852d3 100644
 --- a/include/media/media-devnode.h
 +++ b/include/media/media-devnode.h
-@@ -53,6 +53,20 @@ struct media_file_operations {
+@@ -21,6 +21,8 @@
+ #include <linux/device.h>
+ #include <linux/cdev.h>
+ 
++struct media_devnode;
++
+ /*
+  * Flag to mark the media_devnode struct as registered. Drivers must not touch
+  * this flag directly, it will be set and cleared by media_devnode_register and
+@@ -49,7 +51,7 @@ struct media_file_operations {
+ 	__poll_t (*poll) (struct file *, struct poll_table_struct *);
+ 	long (*ioctl) (struct file *, unsigned int, unsigned long);
+ 	long (*compat_ioctl) (struct file *, unsigned int, unsigned long);
+-	int (*open) (struct file *);
++	int (*open) (struct media_devnode *, struct file *);
  	int (*release) (struct file *);
  };
  
-+/**
-+ * struct media_devnode_fh - Media device node file handle
-+ * @devnode:	pointer to the media device node
-+ *
-+ * This structure serves as a base for per-file-handle data storage. Media
-+ * device node users embed media_devnode_fh in their custom file handle data
-+ * structures and store the media_devnode_fh in the file private_data in order
-+ * to let the media device node core locate the media_devnode corresponding to a
-+ * file handle.
-+ */
-+struct media_devnode_fh {
-+	struct media_devnode *devnode;
-+};
-+
- /**
-  * struct media_devnode - Media device node
-  * @media_dev:	pointer to struct &media_device
-@@ -137,7 +151,9 @@ void media_devnode_unregister(struct media_devnode *devnode);
-  */
- static inline struct media_devnode *media_devnode_data(struct file *filp)
- {
--	return filp->private_data;
-+	struct media_devnode_fh *fh = filp->private_data;
-+
-+	return fh->devnode;
- }
- 
- /**
-diff --git a/include/media/media-fh.h b/include/media/media-fh.h
-new file mode 100644
-index 000000000000..6f00744b81d6
---- /dev/null
-+++ b/include/media/media-fh.h
-@@ -0,0 +1,32 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Media device file handle
-+ *
-+ * Copyright (C) 2019--2023 Intel Corporation
-+ */
-+
-+#ifndef MEDIA_FH_H
-+#define MEDIA_FH_H
-+
-+#include <linux/list.h>
-+#include <linux/file.h>
-+
-+#include <media/media-devnode.h>
-+
-+/**
-+ * struct media_device_fh - File handle specific information on MC
-+ *
-+ * @fh: The media device file handle
-+ * @mdev_list: This file handle in media device's list of file handles
-+ */
-+struct media_device_fh {
-+	struct media_devnode_fh fh;
-+	struct list_head mdev_list;
-+};
-+
-+static inline struct media_device_fh *media_device_fh(struct file *filp)
-+{
-+	return container_of(filp->private_data, struct media_device_fh, fh);
-+}
-+
-+#endif /* MEDIA_FH_H */
 -- 
 2.39.2
 
