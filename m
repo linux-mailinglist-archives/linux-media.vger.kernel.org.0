@@ -1,25 +1,25 @@
-Return-Path: <linux-media+bounces-2774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-2775-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03C3E819CF5
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 11:38:17 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04560819CF6
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 11:38:21 +0100 (CET)
 Received: from smtp.subspace.kernel.org (wormhole.subspace.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5406288781
-	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 10:38:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B4DC128859D
+	for <lists+linux-media@lfdr.de>; Wed, 20 Dec 2023 10:38:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8232A21353;
-	Wed, 20 Dec 2023 10:37:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03A9621363;
+	Wed, 20 Dec 2023 10:37:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HUc6LTY5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IW2QOBPH"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B71FE21105
-	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 10:37:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4580821116
+	for <linux-media@vger.kernel.org>; Wed, 20 Dec 2023 10:37:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -27,35 +27,35 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1703068648; x=1734604648;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=3eYoyL85RZ0NXQdOXP/zvPjuOHNqncO7h8P3i0dE8HU=;
-  b=HUc6LTY50IdfLBdpzAurs1iiFC05wG9u0FHN987XyG6OhbhSoiEzQyq3
-   a4Ev3taZBxMb+ogmc0X5tcKwdqwqYy+fbhq1x3vvgaeL2WJit+MpkZhsK
-   FPElFrxgeBWDmVyvY6QAzp/qc3GltzxofKva1h/0hvE/WC76kW9EtkFGq
-   cgM+FsH5E9vjjxLflbFqRmfEx3yjkbN1lXM8jt7mhNpD1LrTxakj4/gst
-   vHDvF21IynWn+nSIp5N/y3lg1BJ+64+4b4C6tMtUqoVIvQaz00hOUL4PI
-   l2CcNy2kN7Ckk/BFF8GAGWth6BKUcCmpL5aN3A4EjPUFAlRLOUJ2RiB/b
-   w==;
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="9174345"
+  bh=f4QZYuk5GOjZevZxAHm7nfSqVvf3WIo8y/0km/Uo4k4=;
+  b=IW2QOBPHRqEHrMVCxHvxvj8SWiwG+GQekwKlwAeKSjOIl8IPPB3GyOfF
+   VQH0MMU7SDurNOO3QJhoagcbjVCkKhGX/OSZ18qYMnbFpOX1QY/8OdI4+
+   5kk9hKpJVyoPm+FdXO6QwLQgOohKkM1ddPQbKKBLrSNmVDpBv+Vuirysx
+   AgFi/X/HWu6hsHVmwtfDlGzarek+qFtguhoMxGXAkECAspebIi//u4oAm
+   GPvZL+N/Cq0W/bsDh1SXYVz804/DnsHiOm3n3LUdUwAE30vCjJRdL+NES
+   47MFmHQTUj6dDyyvIY0rI3imId+54CcO3w/2ccV2AKj9jQ7D8MyaTPvwz
+   A==;
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="9174351"
 X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; 
-   d="scan'208";a="9174345"
+   d="scan'208";a="9174351"
 Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 02:37:26 -0800
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 02:37:27 -0800
 X-ExtLoop1: 1
-X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="769544256"
+X-IronPort-AV: E=McAfee;i="6600,9927,10929"; a="769544257"
 X-IronPort-AV: E=Sophos;i="6.04,291,1695711600"; 
-   d="scan'208";a="769544256"
+   d="scan'208";a="769544257"
 Received: from turnipsi.fi.intel.com (HELO kekkonen.fi.intel.com) ([10.237.72.44])
   by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Dec 2023 02:37:25 -0800
 Received: from svinhufvud.ger.corp.intel.com (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 63128120788;
-	Wed, 20 Dec 2023 12:37:22 +0200 (EET)
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2E6AD11FB5E;
+	Wed, 20 Dec 2023 12:37:23 +0200 (EET)
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: linux-media@vger.kernel.org
 Cc: laurent.pinchart@ideasonboard.com,
 	Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v2 13/29] media: mc: Initialise media devnode in media_device_init()
-Date: Wed, 20 Dec 2023 12:36:57 +0200
-Message-Id: <20231220103713.113386-14-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 14/29] media: mc: Refactor media devnode minor clearing
+Date: Wed, 20 Dec 2023 12:36:58 +0200
+Message-Id: <20231220103713.113386-15-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.39.2
 In-Reply-To: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
 References: <20231220103713.113386-1-sakari.ailus@linux.intel.com>
@@ -67,78 +67,58 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Call media_devnode_init() from media_device_init(). This has the effect of
-creating a struct device for the media_devnode before it is registered,
-making it possible to obtain a reference to it for e.g. video devices.
+Refactor clearing media devnode minor bit in media devnode bitmap. Note
+that number is used instead of struct media_devnode as argument since the
+minor number will also be stored in a different structure soon.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/mc/mc-device.c | 21 +++++++--------------
- 1 file changed, 7 insertions(+), 14 deletions(-)
+ drivers/media/mc/mc-devnode.c | 19 +++++++++++--------
+ 1 file changed, 11 insertions(+), 8 deletions(-)
 
-diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-index 44685ab6a450..e6ac9b066524 100644
---- a/drivers/media/mc/mc-device.c
-+++ b/drivers/media/mc/mc-device.c
-@@ -711,8 +711,8 @@ void media_device_init(struct media_device *mdev)
- 	mutex_init(&mdev->req_queue_mutex);
- 	mutex_init(&mdev->graph_mutex);
- 	ida_init(&mdev->entity_internal_idx);
+diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
+index 7b17419050fb..717408791a7c 100644
+--- a/drivers/media/mc/mc-devnode.c
++++ b/drivers/media/mc/mc-devnode.c
+@@ -44,17 +44,22 @@ static dev_t media_dev_t;
+ static DEFINE_MUTEX(media_devnode_lock);
+ static DECLARE_BITMAP(media_devnode_nums, MEDIA_NUM_DEVICES);
+ 
+-/* Called when the last user of the media device exits. */
+-static void media_devnode_release(struct device *cd)
++static void media_devnode_free_minor(unsigned int minor)
+ {
+-	struct media_devnode *devnode = to_media_devnode(cd);
 -
- 	atomic_set(&mdev->request_id, 0);
-+	media_devnode_init(&mdev->devnode);
+ 	mutex_lock(&media_devnode_lock);
  
- 	if (!*mdev->bus_info)
- 		media_set_bus_info(mdev->bus_info, sizeof(mdev->bus_info),
-@@ -729,6 +729,7 @@ void media_device_cleanup(struct media_device *mdev)
- 	media_graph_walk_cleanup(&mdev->pm_count_walk);
- 	mutex_destroy(&mdev->graph_mutex);
- 	mutex_destroy(&mdev->req_queue_mutex);
-+	put_device(&mdev->devnode.dev);
- }
- EXPORT_SYMBOL_GPL(media_device_cleanup);
+ 	/* Mark device node number as free */
+-	clear_bit(devnode->minor, media_devnode_nums);
++	clear_bit(minor, media_devnode_nums);
  
-@@ -744,26 +745,19 @@ int __must_check __media_device_register(struct media_device *mdev,
- 	/* Set version 0 to indicate user-space that the graph is static */
- 	mdev->topology_version = 0;
+ 	mutex_unlock(&media_devnode_lock);
++}
++
++/* Called when the last user of the media device exits. */
++static void media_devnode_release(struct device *cd)
++{
++	struct media_devnode *devnode = to_media_devnode(cd);
++
++	media_devnode_free_minor(devnode->minor);
  
--	media_devnode_init(&mdev->devnode);
--
- 	ret = media_devnode_register(&mdev->devnode, owner);
- 	if (ret < 0)
--		goto out_put;
-+		return ret;
- 
- 	ret = device_create_file(&mdev->devnode.dev, &dev_attr_model);
--	if (ret < 0)
--		goto out_unregister;
-+	if (ret < 0) {
-+		media_devnode_unregister(&mdev->devnode);
-+		return ret;
-+	}
- 
- 	dev_dbg(mdev->dev, "Media device registered\n");
- 
+ 	/* Release media_devnode and perform other cleanups as needed. */
+ 	if (devnode->release)
+@@ -254,9 +259,7 @@ int __must_check media_devnode_register(struct media_devnode *devnode,
  	return 0;
--
--out_unregister:
--	media_devnode_unregister(&mdev->devnode);
--out_put:
--	put_device(&mdev->devnode.dev);
--
--	return ret;
- }
- EXPORT_SYMBOL_GPL(__media_device_register);
  
-@@ -810,7 +804,6 @@ void media_device_unregister(struct media_device *mdev)
- 	device_remove_file(&mdev->devnode.dev, &dev_attr_model);
- 	dev_dbg(mdev->dev, "Media device unregistering\n");
- 	media_devnode_unregister(&mdev->devnode);
--	put_device(&mdev->devnode.dev);
- }
- EXPORT_SYMBOL_GPL(media_device_unregister);
+ cdev_add_error:
+-	mutex_lock(&media_devnode_lock);
+-	clear_bit(devnode->minor, media_devnode_nums);
+-	mutex_unlock(&media_devnode_lock);
++	media_devnode_free_minor(devnode->minor);
  
+ 	return ret;
+ }
 -- 
 2.39.2
 
